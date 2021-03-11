@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 17:19:54
+ * @Last Modified time: 2021-03-12 01:26:44
  */
 import React from 'react'
 import { Icon } from '@components'
@@ -86,7 +86,7 @@ export default ob(IconRight)
 const styles = _.create({
   icon: {
     padding: _.sm,
-    paddingTop: _.sm + 1,
+    paddingTop: _.sm - 1,
     paddingLeft: _.xs,
     marginRight: IOS ? -_.sm : 0
   },

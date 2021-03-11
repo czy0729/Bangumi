@@ -3,14 +3,23 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-10 21:42:05
+ * @Last Modified time: 2021-03-12 01:36:17
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
 import { computed } from 'mobx'
-import { Flex, Text, Button, SegmentedControl, Iconfont } from '@components'
+import {
+  Flex,
+  Text,
+  Button,
+  // SegmentedControl,
+  Iconfont
+} from '@components'
 import Modal from '@components/@/ant-design/modal'
-import { IconTouchable, Popover } from '@screens/_'
+import {
+  // IconTouchable,
+  Popover
+} from '@screens/_'
 import { _, tinygrailStore } from '@stores'
 import {
   toFixed,
@@ -23,20 +32,23 @@ import {
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { IOS } from '@constants'
+import { calculateRate } from '../utils'
 import SearchInput from './search-input'
 import List from './list'
 import Item from './item'
 import ItemBottom from './item-bottom'
 
-const namespace = 'TinygrailCharactersModal'
-const starsdustDS = ['消耗圣殿', '消耗活股']
+const namespace = 'TinygrailCompCharactersModal'
+// const starsdustDS = ['消耗活股']
 
 export default
 @obc
 class CharactersModal extends React.Component {
   static defaultProps = {
     title: '',
-    visible: false
+    visible: false,
+    onClose: Function.prototype,
+    onSubmit: Function.prototype
   }
 
   state = {
@@ -50,7 +62,7 @@ class CharactersModal extends React.Component {
     loading: false,
     title: '',
     amount: 0,
-    isTemple: true,
+    isTemple: false,
     focus: false
   }
 
@@ -67,6 +79,7 @@ class CharactersModal extends React.Component {
       title: this.props.title
     })
     this.title = this.props.title
+    this.initFetch()
 
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
   }
@@ -77,9 +90,10 @@ class CharactersModal extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.title !== this.title) {
+      const { leftItem = null, rightItem = null } = nextProps
       this.setState({
-        leftItem: null,
-        rightItem: null,
+        leftItem,
+        rightItem,
         loading: false,
         title: nextProps.title
       })
@@ -92,10 +106,9 @@ class CharactersModal extends React.Component {
   }
 
   onBackAndroid = () => {
-    const { $ } = this.context
-    const { visible } = this.props
+    const { visible, onClose } = this.props
     if (visible) {
-      $.onCloseModal()
+      onClose()
       return true
     }
     return false
@@ -112,7 +125,7 @@ class CharactersModal extends React.Component {
       () => {
         // 自动计算补充数量
         const { leftItem, rightItem } = this.state
-        if (this.isStardust && leftItem && rightItem) {
+        if (this.isStarDust && leftItem && rightItem) {
           this.setState({
             amount: Math.min(assets(leftItem), charge(rightItem))
           })
@@ -132,7 +145,7 @@ class CharactersModal extends React.Component {
       () => {
         // 自动计算补充数量
         const { leftItem, rightItem } = this.state
-        if (this.isStardust && leftItem && rightItem) {
+        if (this.isStarDust && leftItem && rightItem) {
           this.setState({
             amount: Math.min(assets(leftItem), charge(rightItem))
           })
@@ -198,8 +211,8 @@ class CharactersModal extends React.Component {
   }
 
   onClose = () => {
-    const { $ } = this.context
-    $.onCloseModal()
+    const { onClose } = this.props
+    onClose()
     this.setState({
       loading: false
     })
@@ -247,12 +260,11 @@ class CharactersModal extends React.Component {
       return
     }
 
-    const { $ } = this.context
-    const { title } = this.props
+    const { title, onSubmit } = this.props
     this.setState({
       loading: true
     })
-    await $.doUse({
+    await onSubmit({
       title,
       monoId: leftItem.id,
       toMonoId: rightItem ? rightItem.id : 0,
@@ -263,9 +275,9 @@ class CharactersModal extends React.Component {
     this.setState({
       loading: false
     })
-    if (this.isStardust) {
+    if (this.isStarDust) {
       this.setState({
-        leftItem: null,
+        // leftItem: null,
         amount: 0
       })
     }
@@ -273,31 +285,134 @@ class CharactersModal extends React.Component {
 
   onAlert = () => Alert.alert('使用说明', this.alert)
 
+  // -------------------- fetch --------------------
+  initFetch = async () => {
+    const current = getTimestamp()
+    if (
+      !this.temple._loaded ||
+      (this.temple._loaded && current - this.temple._loaded > 120)
+    ) {
+      this.fetchTemple()
+    }
+
+    if (
+      !this.chara._loaded ||
+      (this.chara._loaded && current - this.chara._loaded > 120)
+    ) {
+      this.fetchMyCharaAssets()
+    }
+
+    if (
+      !this.msrc._loaded ||
+      (this.msrc._loaded && current - this.msrc._loaded > 120)
+    ) {
+      this.fetchMsrc()
+    }
+
+    if (
+      !this.star._loaded ||
+      (this.star._loaded && current - this.star._loaded > 120)
+    ) {
+      this.fetchStar()
+    }
+
+    if (
+      !this.fantasy._loaded ||
+      (this.fantasy._loaded && current - this.fantasy._loaded > 120)
+    ) {
+      this.fetchFantasy()
+    }
+  }
+
+  /**
+   * 我的圣殿
+   */
+  fetchTemple = () => tinygrailStore.fetchTemple()
+
+  /**
+   * 我的持仓
+   */
+  fetchMyCharaAssets = () => tinygrailStore.fetchMyCharaAssets()
+
+  /**
+   * 最高股息
+   */
+  fetchMsrc = () => tinygrailStore.fetchList('msrc')
+
+  /**
+   * 通天塔
+   */
+  fetchStar = () => tinygrailStore.fetchStar(1, 100)
+
+  /**
+   * 幻想乡
+   */
+  fetchFantasy = () => {
+    tinygrailStore.fetchFantasyList()
+  }
+
+  // -------------------- data --------------------
+  @computed get temple() {
+    return tinygrailStore.temple()
+  }
+
+  @computed get chara() {
+    const { chara } = tinygrailStore.myCharaAssets
+    return chara
+  }
+
+  @computed get msrc() {
+    return tinygrailStore.msrc
+  }
+
+  @computed get star() {
+    return tinygrailStore.star('1|100')
+  }
+
+  @computed get fantasy() {
+    return tinygrailStore.fantasy
+  }
+
+  // -------------------- type --------------------
   @computed get isChaos() {
     const { title } = this.props
     return title === '混沌魔方'
   }
 
-  @computed get isGuidepost() {
+  @computed get isGuidePost() {
     const { title } = this.props
     return title === '虚空道标'
   }
 
-  @computed get isStardust() {
+  @computed get isStarDust() {
     const { title } = this.props
     return title === '星光碎片'
   }
 
+  @computed get isStarBreak() {
+    const { title } = this.props
+    return title === '闪光结晶'
+  }
+
+  @computed get isFishEye() {
+    const { title } = this.props
+    return title === '鲤鱼之眼'
+  }
+
+  // -------------------- computed data --------------------
   @computed get left() {
-    const { $ } = this.context
     const { rightItem, leftValue, isTemple } = this.state
 
     // 虚空道标 (消耗我的圣殿)
-    if (this.isGuidepost) {
+    if (this.isGuidePost) {
       return {
-        ...$.temple,
-        list: $.temple.list
+        ...this.temple,
+        list: this.temple.list
           .filter(item => {
+            if (this.props.leftItem) {
+              return item.id === this.props.leftItem.id
+            }
+
             // 一次消耗100且成塔
             if (item.assets < 100 || item.sacrifices < 500) {
               return false
@@ -327,8 +442,8 @@ class CharactersModal extends React.Component {
      *  - 若消耗股等级 >= 目标股，每增加1点祭献值，消耗流通股或圣殿祭献值 1 股/点
      *  - [活股必须] 若消耗股等级 < 目标股，每增加1点祭献值，消耗流通股或圣殿祭献值 2^(n-1) 股/点，其中n为两者的等级差且最小为1
      */
-    if (this.isStardust) {
-      const data = isTemple ? $.temple : $.chara
+    if (this.isStarDust) {
+      const data = isTemple ? this.temple : this.chara
       return {
         ...data,
         list: data.list
@@ -347,13 +462,14 @@ class CharactersModal extends React.Component {
                   )
                 }
                 return (
-                  item.name.includes(leftValue) && assets(item) >= 2 ** -_lv
+                  item.name.includes(leftValue) &&
+                  assets(item) >= Math.min(32, 2 ** -(_lv + 1))
                 )
               }
 
               return isTemple
                 ? lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
-                : assets(item) >= 2 ** -_lv
+                : assets(item) >= Math.min(32, 2 ** -(_lv + 1))
             }
 
             if (leftValue) {
@@ -366,11 +482,15 @@ class CharactersModal extends React.Component {
       }
     }
 
-    // 混沌魔方 (消耗我的圣殿)
+    // 混沌魔方 (消耗我的圣殿) | 兼容星光碎片
     return {
-      ...$.temple,
-      list: $.temple.list
+      ...this.temple,
+      list: this.temple.list
         .filter(item => {
+          if (this.props.leftItem) {
+            return item.id === this.props.leftItem.id
+          }
+
           // 一次消耗10且成塔
           if (assets(item) < 250 || item.sacrifices < 500) {
             return false
@@ -386,114 +506,6 @@ class CharactersModal extends React.Component {
     }
   }
 
-  @computed get right() {
-    const { title } = this.props
-    if (!title || this.isChaos) {
-      return false
-    }
-
-    const { search, leftItem, rightValue, isTemple } = this.state
-    if (search) {
-      return {
-        list: search,
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
-        _loaded: getTimestamp()
-      }
-    }
-
-    const { $ } = this.context
-    if (this.isGuidepost) {
-      return {
-        ...$.msrc,
-        list: $.msrc.list
-          .filter(item => {
-            if (leftItem) {
-              if (rightValue) {
-                return (
-                  item.name.includes(rightValue) && lv(item) <= lv(leftItem)
-                )
-              }
-
-              return lv(item) <= lv(leftItem)
-            }
-
-            if (rightValue) {
-              return item.name.includes(rightValue)
-            }
-
-            return true
-          })
-          .sort((a, b) => lv(b) - lv(a))
-      }
-    }
-
-    if (this.isStardust) {
-      return {
-        ...$.temple,
-        list: $.temple.list
-          .filter(item => {
-            if (item.assets === item.sacrifices) {
-              return false
-            }
-
-            if (leftItem) {
-              if (rightValue) {
-                if (isTemple) {
-                  return (
-                    item.name.includes(rightValue) &&
-                    lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
-                  )
-                }
-                return item.name.includes(rightValue)
-              }
-
-              return isTemple
-                ? lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
-                : true
-            }
-
-            if (rightValue) {
-              return item.name.includes(rightValue)
-            }
-
-            return true
-          })
-          .sort((a, b) => lv(b) - lv(a))
-      }
-    }
-
-    return {
-      ...$.temple,
-      list: $.temple.list
-        .filter(item => {
-          if (item.assets === item.sacrifices) {
-            return false
-          }
-
-          if (leftItem) {
-            if (rightValue) {
-              return (
-                item.name.includes(rightValue) &&
-                lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
-              )
-            }
-
-            return lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
-          }
-
-          if (rightValue) {
-            return item.name.includes(rightValue)
-          }
-
-          return true
-        })
-        .sort((a, b) => lv(b) - lv(a))
-    }
-  }
-
   @computed get computedLeft() {
     const { leftFilter } = this.state
     if (!leftFilter || !this.left?.list?.length) {
@@ -504,91 +516,6 @@ class CharactersModal extends React.Component {
       ...this.left,
       list: this.left.list.filter(item => lv(item) == leftFilter)
     }
-  }
-
-  @computed get computedRight() {
-    const { rightFilter } = this.state
-    if (!rightFilter || !this.right?.list?.length) {
-      return this.right
-    }
-
-    return {
-      ...this.right,
-      list: this.right.list.filter(item => lv(item) == rightFilter)
-    }
-  }
-
-  @computed get leftChangeText() {
-    const { amount, isTemple } = this.state
-    if (this.isChaos) {
-      return '-10'
-    }
-
-    if (this.isGuidepost) {
-      return '-100'
-    }
-
-    if (this.isStardust) {
-      const { leftItem, rightItem } = this.state
-      if (!isTemple && leftItem && rightItem) {
-        const _lv = lv(leftItem) - lv(rightItem)
-        if (_lv < 0) {
-          return `每 -${2 ** -(_lv + 1)}`
-        }
-      }
-      return `-${amount || '?'}`
-    }
-
-    return ''
-  }
-
-  @computed get rightChangeText() {
-    const { amount, isTemple } = this.state
-    if (this.isChaos) {
-      return '+10-100'
-    }
-
-    if (this.isGuidepost) {
-      return '+10-100'
-    }
-
-    if (this.isStardust) {
-      const { leftItem, rightItem } = this.state
-      if (!isTemple && leftItem && rightItem) {
-        const _lv = lv(leftItem) - lv(rightItem)
-        if (_lv < 0) {
-          return '+1'
-        }
-      }
-      return `+${amount || '?'}`
-    }
-
-    return ''
-  }
-
-  @computed get canSubmit() {
-    const { leftItem, rightItem, amount } = this.state
-    if (this.isGuidepost) {
-      return !!(leftItem && rightItem)
-    }
-
-    if (this.isStardust) {
-      return !!(leftItem && rightItem && amount)
-    }
-
-    return !!leftItem
-  }
-
-  @computed get alert() {
-    if (this.isGuidepost) {
-      return '虚空道标：消耗100点塔值，抽取目标随机数量的股份，消耗目标的等级必须大于等于抽取目标等级。\n左侧数据基于自己的圣殿。\n右侧数据基于最高股息前面的角色，点击搜索可以查询远端所有角色。'
-    }
-
-    if (this.isStardust) {
-      return '星光碎片：消耗活股或塔值补充目标已损失塔值。\n消耗目标的等级必须大于等于补充目标等级，使用活股时消耗等级可以比目标等级少1级。\n塔值少于250时塔会找不到请自行查询远端数据。'
-    }
-
-    return '混沌魔方：消耗10点塔值，抽取随机目标10-100的股份。\n当前每天可使用3次。'
   }
 
   @computed get leftLevelMap() {
@@ -621,6 +548,177 @@ class CharactersModal extends React.Component {
     return leftDS
   }
 
+  @computed get leftChangeText() {
+    const { amount, isTemple } = this.state
+    if (this.isChaos) {
+      return '-10'
+    }
+
+    if (this.isGuidePost || this.isStarBreak || this.isFishEye) {
+      return '-100'
+    }
+
+    if (this.isStarDust) {
+      const { leftItem, rightItem } = this.state
+      if (!isTemple && leftItem && rightItem) {
+        const _lv = lv(leftItem) - lv(rightItem)
+        if (_lv < 0) {
+          return `每 -${Math.min(32, 2 ** -(_lv + 1))}`
+        }
+      }
+      return `-${amount || '?'}`
+    }
+
+    return ''
+  }
+
+  @computed get right() {
+    const { title } = this.props
+    if (!title || this.isChaos) {
+      return false
+    }
+
+    const { search, leftItem, rightValue, isTemple } = this.state
+    if (search) {
+      return {
+        list: search,
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    if (this.isGuidePost) {
+      return {
+        ...this.msrc,
+        list: this.msrc.list
+          .filter(item => {
+            if (leftItem) {
+              if (rightValue) {
+                return (
+                  item.name.includes(rightValue) && lv(item) <= lv(leftItem)
+                )
+              }
+
+              return lv(item) <= lv(leftItem)
+            }
+
+            if (rightValue) {
+              return item.name.includes(rightValue)
+            }
+
+            return true
+          })
+          .sort((a, b) => lv(b) - lv(a))
+      }
+    }
+
+    if (this.isStarDust) {
+      return {
+        ...this.temple,
+        list: this.temple.list
+          .filter(item => {
+            if (this.props.rightItem) {
+              return item.id === this.props.rightItem.id
+            }
+
+            if (item.assets === item.sacrifices) {
+              return false
+            }
+
+            if (leftItem) {
+              if (rightValue) {
+                if (isTemple) {
+                  return (
+                    item.name.includes(rightValue) &&
+                    lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+                  )
+                }
+                return item.name.includes(rightValue)
+              }
+
+              return isTemple
+                ? lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+                : true
+            }
+
+            if (rightValue) {
+              return item.name.includes(rightValue)
+            }
+
+            return true
+          })
+          .sort((a, b) => lv(b) - lv(a))
+      }
+    }
+
+    if (this.isStarBreak) {
+      return {
+        ...this.star,
+        list: this.star.list.filter(item => {
+          if (rightValue) {
+            return item.name.includes(rightValue)
+          }
+          return true
+        })
+      }
+    }
+
+    if (this.isFishEye) {
+      return {
+        ...this.fantasy,
+        list: this.fantasy.list.filter(item => {
+          if (rightValue) {
+            return item.name.includes(rightValue)
+          }
+          return true
+        })
+      }
+    }
+
+    return {
+      ...this.temple,
+      list: this.temple.list
+        .filter(item => {
+          if (item.assets === item.sacrifices) {
+            return false
+          }
+
+          if (leftItem) {
+            if (rightValue) {
+              return (
+                item.name.includes(rightValue) &&
+                lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+              )
+            }
+
+            return lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+          }
+
+          if (rightValue) {
+            return item.name.includes(rightValue)
+          }
+
+          return true
+        })
+        .sort((a, b) => lv(b) - lv(a))
+    }
+  }
+
+  @computed get computedRight() {
+    const { rightFilter } = this.state
+    if (!rightFilter || !this.right?.list?.length) {
+      return this.right
+    }
+
+    return {
+      ...this.right,
+      list: this.right.list.filter(item => lv(item) == rightFilter)
+    }
+  }
+
   @computed get rightLevelMap() {
     const { list } = this.right
     const data = {}
@@ -651,6 +749,53 @@ class CharactersModal extends React.Component {
     return rightDS
   }
 
+  @computed get rightChangeText() {
+    const { amount } = this.state
+    if (this.isChaos) {
+      return '+10-100'
+    }
+
+    if (this.isGuidePost) {
+      return '+10-100'
+    }
+
+    if (this.isStarDust || this.isFishEye) {
+      return `+${amount || '?'}`
+    }
+
+    if (this.isStarBreak) {
+      return '-20-200'
+    }
+
+    return ''
+  }
+
+  // -------------------- status --------------------
+  @computed get canSubmit() {
+    const { leftItem, rightItem, amount } = this.state
+    if (this.isGuidePost) {
+      return !!(leftItem && rightItem)
+    }
+
+    if (this.isStarDust) {
+      return !!(leftItem && rightItem && amount)
+    }
+
+    return !!leftItem
+  }
+
+  @computed get alert() {
+    if (this.isGuidePost) {
+      return '虚空道标：消耗100点塔值，抽取目标随机数量的股份，消耗目标的等级必须大于等于抽取目标等级。\n左侧数据基于自己的圣殿。\n右侧数据基于最高股息前面的角色，点击搜索可以查询远端所有角色。'
+    }
+
+    if (this.isStarDust) {
+      return '星光碎片：消耗活股或塔值补充目标已损失塔值。\n消耗目标的等级必须大于等于补充目标等级，使用活股时消耗等级可以比目标等级少1级。\n塔值少于250时塔会找不到请自行查询远端数据。'
+    }
+
+    return '混沌魔方：消耗10点塔值，抽取随机目标10-100的股份。\n当前每天可使用3次。'
+  }
+
   renderFilter(filter, data, map, onSelect) {
     return (
       <Popover
@@ -668,7 +813,7 @@ class CharactersModal extends React.Component {
           />
           <Text
             style={_.ml.xs}
-            size={11}
+            size={10}
             type={filter ? 'ask' : 'tinygrailText'}
           >
             {filter ? `lv${filter}` : '等级'}
@@ -683,7 +828,7 @@ class CharactersModal extends React.Component {
     const { leftValue, leftFilter } = this.state
     return (
       <>
-        <Flex>
+        <Flex style={_.ml.xs}>
           {this.renderFilter(leftFilter, this.leftDS, this.leftLevelMap, lv =>
             this.setState({
               leftFilter: lv
@@ -697,38 +842,50 @@ class CharactersModal extends React.Component {
             />
           </Flex.Item>
         </Flex>
-        <List data={this.computedLeft} renderItem={this.renderItemLeft} />
+        <List data={this.computedLeft} renderItem={this.renderLeftItem} />
       </>
     )
   }
 
-  renderItemLeft = ({ item }) => {
+  renderLeftItem = ({ item }) => {
     const { leftItem, isTemple } = this.state
-    const disabled = leftItem && leftItem.id !== item.id
-
-    let extra
-    if (!this.isStardust) {
-      extra = `${formatNumber(item.assets, 0)} / ${formatNumber(
-        item.sacrifices || item.state,
-        0
-      )} / +${toFixed(item.rate, 1)}`
+    const disabled = leftItem?.id !== item?.id
+    const extra = []
+    if (!this.isStarDust) {
+      if (item.assets !== (item.sacrifices || item.state)) {
+        extra.push(
+          `${formatNumber(item.assets, 0)} (${formatNumber(
+            item.sacrifices || item.state,
+            0
+          )})`
+        )
+      } else {
+        extra.push(formatNumber(item.sacrifices || item.state, 0))
+      }
     } else if (isTemple) {
-      extra = `${formatNumber(item.sacrifices || item.state, 0)} / +${toFixed(
-        item.rate,
-        1
-      )}`
+      extra.push(formatNumber(item.sacrifices || item.state, 0))
     } else {
-      extra = `${formatNumber(item.state, 0)}  / +${toFixed(item.rate, 1)}`
+      extra.push(formatNumber(item.state, 0))
     }
+    extra.push(
+      `+${toFixed(item.rate, 1)} (${calculateRate(
+        item.rate,
+        item.rank,
+        item.stars
+      )})`
+    )
     return (
       <Item
+        type='ask'
         id={item.id}
         src={cover(item)}
         level={lv(item)}
         name={item.name}
-        extra={extra}
+        rank={item.rank}
+        extra={extra.join(' / ')}
         disabled={disabled}
-        onPress={() => this.onSelectLeft(item)}
+        item={item}
+        onPress={this.onSelectLeft}
       />
     )
   }
@@ -766,36 +923,46 @@ class CharactersModal extends React.Component {
             />
           </Flex.Item>
         </Flex>
-        <List data={this.computedRight} renderItem={this.renderItemRight} />
+        <List data={this.computedRight} renderItem={this.renderRightItem} />
       </>
     )
   }
 
-  renderItemRight = ({ item }) => {
+  renderRightItem = ({ item }) => {
     const { rightItem } = this.state
-    const disabled = rightItem && rightItem.id !== item.id
-    let extra = ''
+    const disabled = rightItem?.id !== item?.id
+    const extra = []
+
     if (item.assets && item.assets !== item.sacrifices) {
-      extra += `${formatNumber(item.assets, 0)} / `
+      extra.push(
+        `${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices, 0)})`
+      )
+    } else if (item.sacrifices) {
+      extra.push(formatNumber(item.sacrifices, 0))
     }
-    if (item.sacrifices) {
-      extra += `${formatNumber(item.sacrifices, 0)} / `
-    }
-    if (item.current) {
-      extra += `₵${formatNumber(item.current, 0)} / `
-    }
+    if (item.current) extra.push(`₵${formatNumber(item.current, 0)}`)
+    if (item.userAmount) extra.push(formatNumber(item.userAmount, 0))
     if (item.rate) {
-      extra += `+${toFixed(item.rate, 1)}`
+      extra.push(
+        `+${toFixed(item.rate, 1)} (${toFixed(
+          calculateRate(item.rate, item.rank, item.stars),
+          1
+        )})`
+      )
     }
+
     return (
       <Item
+        type={this.isStarBreak ? 'ask' : 'bid'}
         id={item.id}
         src={cover(item)}
         level={lv(item)}
         name={item.name}
-        extra={extra}
+        extra={extra.join(' / ')}
+        rank={item.rank}
         disabled={disabled}
-        onPress={() => this.onSelectRight(item)}
+        item={item}
+        onPress={this.onSelectRight}
       />
     )
   }
@@ -811,13 +978,14 @@ class CharactersModal extends React.Component {
                 src={cover(leftItem)}
                 name={leftItem.name}
                 level={lv(leftItem)}
+                rank={leftItem.rank}
                 change={this.leftChangeText}
-                type='ask'
+                type={bottomTextType(this.leftChangeText)}
                 onPress={this.onCancelLeft}
               />
             ) : (
               <Text type='tinygrailText' size={10}>
-                - 请选择消耗 -
+                - 选择消耗 -
               </Text>
             )}
           </Flex.Item>
@@ -828,20 +996,21 @@ class CharactersModal extends React.Component {
                   src={cover(rightItem)}
                   name={rightItem.name}
                   level={lv(rightItem)}
+                  rank={rightItem.rank}
                   change={this.rightChangeText}
-                  type='bid'
+                  type={bottomTextType(this.rightChangeText)}
                   onPress={this.onCancelRight}
                 />
               ) : (
                 <Text type='tinygrailText' size={10}>
-                  - 请选择目标 -
+                  - 选择目标 -
                 </Text>
               )}
             </Flex.Item>
           )}
-          {!this.isStardust && this.renderSubmitBtn()}
+          {!this.isStarDust && this.renderSubmitBtn()}
         </Flex>
-        {this.isStardust && (
+        {this.isStarDust && (
           <Flex>
             {this.renderForm()}
             {this.renderSubmitBtn()}
@@ -868,14 +1037,20 @@ class CharactersModal extends React.Component {
   }
 
   renderForm() {
-    if (!this.isStardust) {
+    if (!this.isStarDust) {
       return null
     }
 
-    const { amount, isTemple } = this.state
+    const {
+      amount
+      // isTemple
+    } = this.state
     return (
       <>
-        <Flex.Item>
+        <Text type='tinygrailText' size={10}>
+          消耗股份
+        </Text>
+        <Flex.Item style={_.ml.sm}>
           <SearchInput
             keyboardType='numeric'
             placeholder='数量'
@@ -885,7 +1060,7 @@ class CharactersModal extends React.Component {
             onChangeText={this.onChangeNum}
           />
         </Flex.Item>
-        <Flex.Item style={_.ml.sm} flex={2}>
+        {/* <Flex.Item style={_.ml.sm} flex={2}>
           <SegmentedControl
             style={this.styles.segmented}
             styleExtra={this.styles.segmentedExtra}
@@ -900,7 +1075,7 @@ class CharactersModal extends React.Component {
             selectedIndex={isTemple ? 0 : 1}
             onValueChange={this.onToogleIsTemple}
           />
-        </Flex.Item>
+        </Flex.Item> */}
       </>
     )
   }
@@ -927,13 +1102,6 @@ class CharactersModal extends React.Component {
           <Flex.Item style={_.ml.md}>{this.renderRight()}</Flex.Item>
         </Flex>
         {this.renderBottom()}
-        <IconTouchable
-          style={this.styles.information}
-          size={20}
-          color={_.colorTinygrailText}
-          name='information'
-          onPress={this.onAlert}
-        />
       </Modal>
     )
   }
@@ -942,6 +1110,61 @@ class CharactersModal extends React.Component {
     return memoStyles()
   }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  modal: {
+    width: _.window.width - 2 * _.wind,
+    maxWidth: 400,
+    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorPlain__)
+  },
+  focus: {
+    marginTop: -parseInt(_.window.height * 0.56)
+  },
+  wrap: {
+    width: '100%',
+    maxWidth: _.window.maxWidth,
+    height: _.window.height * 0.64,
+    maxHeight: 664,
+    paddingBottom: _.sm,
+    marginTop: _.md
+  },
+  information: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    right: 0,
+    marginTop: -28,
+    marginRight: 8
+  },
+  bottom: {
+    height: 40,
+    marginBottom: _.sm,
+    marginLeft: 6
+  },
+  btn: {
+    width: 80,
+    height: 28,
+    marginLeft: _.sm,
+    borderRadius: 0
+  },
+  btnDisabled: {
+    width: 80,
+    height: 28,
+    marginLeft: _.sm,
+    opacity: 0.5,
+    borderRadius: 0
+  },
+  btnText: {
+    ..._.fontSize(11)
+  },
+  segmented: {
+    width: '100%',
+    height: 28
+  },
+  segmentedExtra: {
+    borderRadius: _.radiusXs
+  }
+}))
 
 /**
  * 取等级
@@ -975,54 +1198,10 @@ function charge(item) {
   return (item.sacrifices || 0) - (item.assets || 0)
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  modal: {
-    width: _.window.width - 2 * _.wind,
-    maxWidth: 400,
-    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorPlain__)
-  },
-  focus: {
-    marginTop: -parseInt(_.window.height * 0.56)
-  },
-  wrap: {
-    width: '100%',
-    maxWidth: _.window.maxWidth,
-    height: _.window.height * 0.64,
-    maxHeight: 664,
-    paddingBottom: _.sm,
-    marginTop: _.md
-  },
-  information: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    marginTop: -28,
-    marginRight: 8
-  },
-  bottom: {
-    height: 28,
-    marginVertical: _.sm
-  },
-  btn: {
-    width: 80,
-    height: 28,
-    marginLeft: _.sm
-  },
-  btnDisabled: {
-    width: 80,
-    height: 28,
-    marginLeft: _.sm,
-    opacity: 0.5
-  },
-  btnText: {
-    ..._.fontSize(10)
-  },
-  segmented: {
-    width: '100%',
-    height: 28
-  },
-  segmentedExtra: {
-    borderRadius: _.radiusXs
-  }
-}))
+/**
+ * 判断文字颜色
+ * @param {*} changeText
+ */
+function bottomTextType(changeText = '') {
+  return changeText.includes('+') ? 'bid' : 'ask'
+}

@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@components": ["src/components"],
-      "@screens/*": ["src/screens/*"]
+      "@screens/*": ["src/screens/*"],
+      "@constants/*": ["src/constants/*"]
     }
   },
   "exclude": ["node_modules", "dist", "android", "src/assets", "web"]

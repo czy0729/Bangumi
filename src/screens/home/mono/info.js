@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 16:25:04
+ * @Last Modified time: 2021-03-09 17:23:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -96,21 +96,23 @@ function Info(props, { $, navigation }) {
         )}
         {!!$.info && <RenderHtml style={styles.info} html={$.info} />}
         {!!$.detail && <RenderHtml style={_.mt.lg} html={$.detail} />}
-        <Flex style={_.mt.md} justify='end'>
-          <Touchable onPress={$.onMore}>
-            <Flex>
-              <Text size={13} type='sub'>
-                更多资料
-              </Text>
-              <Iconfont
-                style={_.rotate}
-                size={13}
-                color={_.colorSub}
-                name='arrow-left'
-              />
-            </Flex>
-          </Touchable>
-        </Flex>
+        {!!$.cn && (
+          <Flex style={_.mt.md} justify='end'>
+            <Touchable onPress={$.onMore}>
+              <Flex>
+                <Text size={13} type='sub'>
+                  更多资料
+                </Text>
+                <Iconfont
+                  style={_.rotate}
+                  size={13}
+                  color={_.colorSub}
+                  name='arrow-left'
+                />
+              </Flex>
+            </Touchable>
+          </Flex>
+        )}
       </View>
       <Divider />
       <Voice style={_.mt.md} />

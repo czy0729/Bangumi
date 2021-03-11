@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 19:58:30
+ * @Last Modified time: 2021-03-12 01:10:21
  */
 import { HOST } from './index'
 
@@ -375,6 +375,14 @@ export const API_TINYGRAIL_VALHALL_CHARA = monoId =>
  */
 export const API_TINYGRAIL_VALHALL_LIST = (page, limit = 20) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/chara/tinygrail/${page}/${limit}`
+
+/**
+ * 幻想乡
+ * @param {*} page
+ * @param {*} limit
+ */
+export const API_TINYGRAIL_FANTASY_LIST = (page = 1, limit = 100) =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/blueleaf/${page}/${limit}`
 
 /**
  * 上周拍卖结果

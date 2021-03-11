@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 16:32:38
+ * @Last Modified time: 2021-03-09 20:57:59
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -10,6 +10,7 @@ export const NAMESPACE = 'Tinygrail'
 
 export const INIT_CHARACTERS_ITEM = {
   // assets: 0, // 塔可用资产
+  // state: 0, // 活股
   amount: 0, // 英灵殿数量
   asks: 0, // 当前市场卖出数
   bids: 0, // 当前市场买入数

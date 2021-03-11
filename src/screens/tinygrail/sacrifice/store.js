@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 21:14:36
+ * @Last Modified time: 2021-03-11 20:45:49
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -41,6 +41,13 @@ const initLastSacrifice = {
   total: '',
   time: 0
 }
+const typeDS = {
+  混沌魔方: 'chaos',
+  虚空道标: 'guidepost',
+  星光碎片: 'stardust',
+  闪光结晶: 'starbreak',
+  鲤鱼之眼: 'fisheye'
+}
 
 export default class ScreenTinygrailSacrifice extends store {
   state = observable({
@@ -52,6 +59,7 @@ export default class ScreenTinygrailSacrifice extends store {
     showSacrifice: true, // 显示献祭模块
     showStarForces: true, // 显示星之力模块
     showAuction: true, // 显示竞拍模块
+    showItems: true, // 显示道具模块
 
     // 通天塔各分段排名需要的献祭数
     rankStarForces: {
@@ -509,6 +517,66 @@ export default class ScreenTinygrailSacrifice extends store {
     this.refresh()
   }
 
+  doUse = async ({ title, monoId, toMonoId, amount, isTemple }) => {
+    try {
+      const type = typeDS[title]
+      if (!type) {
+        return false
+      }
+
+      const data = {
+        monoId: monoId || this.monoId,
+        type
+      }
+      if (toMonoId) data.toMonoId = toMonoId
+      if (amount !== undefined) data.amount = amount
+      if (isTemple !== undefined) data.isTemple = isTemple
+
+      const { State, Value, Message } = await tinygrailStore.doMagic(data)
+      feedback()
+      t('资产重组.使用道具', {
+        type: title,
+        monoId: this.monoId,
+        toMonoId
+      })
+
+      if (State === 0) {
+        Alert.alert(
+          '小圣杯助手',
+          typeof Value === 'string'
+            ? Value
+            : `获得${Value.Name}x${Value.Amount}，当前价${toFixed(
+                Value.CurrentPrice,
+                2
+              )}，价值${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
+          [
+            {
+              text: '知道了'
+            }
+          ]
+        )
+
+        tinygrailStore.fetchUserLogs(monoId || this.monoId)
+        if (title === '星光碎片') {
+          tinygrailStore.batchUpdateTemplesByIds([
+            monoId || this.monoId,
+            toMonoId
+          ])
+        }
+
+        return tinygrailStore.batchUpdateMyCharaAssetsByIds(
+          [monoId || this.monoId, toMonoId].filter(item => !!item)
+        )
+      }
+
+      info(Message)
+      return false
+    } catch (error) {
+      info('操作失败，可能授权过期了')
+      return false
+    }
+  }
+
   // -------------------- page --------------------
   /**
    * 金额格式过滤
@@ -807,6 +875,17 @@ export default class ScreenTinygrailSacrifice extends store {
     const { showStarForces } = this.state
     this.setState({
       showStarForces: !showStarForces
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起道具模块
+   */
+  toggleItems = () => {
+    const { showItems } = this.state
+    this.setState({
+      showItems: !showItems
     })
     this.setStorage(undefined, undefined, namespace)
   }

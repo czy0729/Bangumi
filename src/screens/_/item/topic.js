@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:13:38
+ * @Last Modified time: 2021-03-09 17:56:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Avatar } from '../base'
 
-const avatarWidth = 32
+const avatarWidth = 34
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm

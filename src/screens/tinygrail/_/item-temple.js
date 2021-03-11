@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 02:19:17
+ * @Last Modified time: 2021-03-10 00:42:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -120,7 +120,7 @@ function ItemTemple(
             type='tinygrailPlain'
             size={11}
             bold
-            numberOfLines={2}
+            numberOfLines={1}
             onPress={() => {
               t(eventId, {
                 to: 'TinygrailSacrifice',
@@ -162,7 +162,7 @@ function ItemTemple(
           )}
           <Flex style={_.mt.xs}>
             <Rank value={rank} />
-            <Text type='tinygrailPlain' size={11} bold align='center'>
+            <Text type='tinygrailPlain' size={11} bold numberOfLines={1}>
               {_name}
             </Text>
           </Flex>

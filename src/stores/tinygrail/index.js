@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 16:39:29
+ * @Last Modified time: 2021-03-12 01:32:47
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate } from '@utils'
@@ -38,6 +38,7 @@ import {
   API_TINYGRAIL_CHARTS,
   API_TINYGRAIL_DAILY_COUNT,
   API_TINYGRAIL_DEPTH,
+  API_TINYGRAIL_FANTASY_LIST,
   API_TINYGRAIL_HASH,
   API_TINYGRAIL_INIT,
   API_TINYGRAIL_INITIAL,
@@ -365,6 +366,11 @@ class Tinygrail extends store {
      * 通天塔(α)记录
      */
     starLogs: LIST_EMPTY,
+
+    /**
+     * 幻想乡
+     */
+    fantasy: LIST_EMPTY,
 
     /**
      * iOS此刻是否显示WebView
@@ -793,6 +799,84 @@ class Tinygrail extends store {
         'stars',
         'state',
         'total'
+      ]
+      const iconsCache = {}
+      const characters = {}
+      const data = {
+        list: result.data.Value.Items.map(item => {
+          const character = toCharacter(item, keys)
+          const {
+            bonus,
+            current,
+            fluctuation,
+            icon,
+            id,
+            level,
+            rank,
+            rate,
+            sacrifices,
+            stars
+          } = character
+
+          if (icon) iconsCache[id] = icon
+          characters[id] = {
+            ...this.characters(id),
+            bonus,
+            current,
+            fluctuation,
+            icon,
+            id,
+            level,
+            rank,
+            rate,
+            sacrifices,
+            stars
+          }
+
+          return character
+        }),
+        pagination: paginationOnePage,
+        _loaded: getTimestamp()
+      }
+
+      this.updateCharacters(characters)
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+
+    return Promise.resolve(this.state[key])
+  }
+
+  /**
+   * 幻想乡 (逻辑同英灵殿)
+   */
+  fetchFantasyList = async () => {
+    const key = 'fantasy'
+    const result = await this.fetch(API_TINYGRAIL_FANTASY_LIST())
+    if (result.data.State === 0) {
+      const keys = [
+        'asks',
+        'bids',
+        'bonus',
+        'change',
+        'current',
+        'fluctuation',
+        'icon',
+        'id',
+        'lastOrder',
+        'level',
+        'marketValue',
+        'name',
+        'price',
+        'rank',
+        'rate',
+        'starForces',
+        'stars',
+        'state',
+        'total',
+        'userAmount'
       ]
       const iconsCache = {}
       const characters = {}

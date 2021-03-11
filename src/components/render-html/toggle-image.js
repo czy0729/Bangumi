@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 12:05:47
+ * @Last Modified time: 2021-03-09 19:49:46
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -33,10 +33,6 @@ class ToggleImage extends React.Component {
     this.setState({
       show: !show
     })
-  }
-
-  onProgress = ({ nativeEvent: { loaded, total } }) => {
-    console.log(loaded, total)
   }
 
   onLoadEnd = () =>
@@ -111,7 +107,6 @@ class ToggleImage extends React.Component {
       <Flex style={this.styles.image} justify='center'>
         <Image
           {...this.props}
-          onProgress={this.onProgress}
           onLoadEnd={this.onLoadEnd}
           onError={this.onLoadEnd}
         />

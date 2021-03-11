@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 16:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 16:30:49
+ * @Last Modified time: 2021-03-12 01:14:20
  */
 export const defaultKey = 'recent'
 export const defaultSort = '1/50'
@@ -29,6 +29,7 @@ export const storageKeys = [
   'collected',
   'cookie',
   'depth',
+  'fantasy',
   'hash',
   'iconsCache',
   'issuePrice',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 04:57:02
+ * @Last Modified time: 2021-03-10 11:48:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -124,12 +124,15 @@ class Temples extends React.Component {
       <View style={[styles.container, style]}>
         <Flex style={styles.info}>
           <Flex.Item>
-            <Text type='tinygrailPlain' size={13} lineHeight={16}>
-              固定资产{list.length || '-'}{' '}
-              {!!list.length &&
-                `(${this.levelMap[3]}+${this.levelMap[2]}+${this.levelMap[1]})`}{' '}
-              /{' '}
-              <Text type='warning' size={14} lineHeight={16}>
+            <Text type='tinygrailPlain' size={13}>
+              固定资产{' '}
+              <Text type='tinygrailText' size={11} lineHeight={13}>
+                {list.length || '-'}{' '}
+                {!!list.length &&
+                  `(${this.levelMap[3]}+${this.levelMap[2]}+${this.levelMap[1]})`}{' '}
+                /{' '}
+              </Text>
+              <Text type='warning' size={11} lineHeight={13}>
                 +{rate ? formatNumber(rate, 1) : '-'}(
                 {toFixed(calculateRate(rate, rank, stars), 1)})
               </Text>
@@ -191,6 +194,7 @@ const styles = _.create({
     minHeight: 120
   },
   temples: {
+    paddingTop: _.sm,
     paddingHorizontal: _.wind - _._wind
   },
   info: {
@@ -199,6 +203,6 @@ const styles = _.create({
     paddingRight: _.wind - _.sm
   },
   expand: {
-    paddingVertical: _.sm
+    paddingVertical: _.md
   }
 })
