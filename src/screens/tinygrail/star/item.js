@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:52:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-03 22:20:10
+ * @Last Modified time: 2021-03-12 14:01:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,11 +16,13 @@ const imageWidth = _.window.contentWidth * 0.2
 
 function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
   const styles = memoStyles()
+  const { label } = $.state
+  const isDisabled = label === '持仓' && !$.mergeListMap[id]
   return (
-    <View style={styles.container}>
+    <View>
       <Touchable withoutFeedback onPress={() => $.setHover(id)}>
         <Image
-          style={styles.avatar}
+          style={[styles.avatar, isDisabled && styles.disabled]}
           src={tinygrailOSS(icon, 120)}
           size={imageWidth}
           radius={0}
@@ -65,6 +67,9 @@ function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
 export default obc(Item)
 
 const memoStyles = _.memoStyles(_ => ({
+  disabled: {
+    opacity: 0.1
+  },
   hover: {
     position: 'absolute',
     zIndex: 1,

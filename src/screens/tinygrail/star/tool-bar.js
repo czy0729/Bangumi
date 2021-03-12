@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 17:57:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:50:48
+ * @Last Modified time: 2021-03-12 14:06:49
  */
 import React from 'react'
 import { Text } from '@components'
@@ -15,7 +15,7 @@ function ToolBar(props, { $ }) {
     <Btns>
       <Btns.Touchable onSelect={() => $.setPage(1, 100)}>
         <Text
-          type={page === 1 && limit === 100 ? 'main' : 'tinygrailText'}
+          type={page === 1 && limit === 100 ? 'main' : 'tinygrailPlain'}
           size={12}
           bold
         >
@@ -24,7 +24,7 @@ function ToolBar(props, { $ }) {
       </Btns.Touchable>
       <Btns.Touchable onSelect={() => $.setPage(2, 100)}>
         <Text
-          type={page === 2 && limit === 100 ? 'main' : 'tinygrailText'}
+          type={page === 2 && limit === 100 ? 'main' : 'tinygrailPlain'}
           size={12}
           bold
         >
@@ -33,7 +33,7 @@ function ToolBar(props, { $ }) {
       </Btns.Touchable>
       <Btns.Touchable onSelect={() => $.setPage(3, 100)}>
         <Text
-          type={page === 3 && limit === 100 ? 'main' : 'tinygrailText'}
+          type={page === 3 && limit === 100 ? 'main' : 'tinygrailPlain'}
           size={12}
           bold
         >
@@ -42,7 +42,7 @@ function ToolBar(props, { $ }) {
       </Btns.Touchable>
       <Btns.Touchable onSelect={() => $.setPage(4, 100)}>
         <Text
-          type={page === 4 && limit === 100 ? 'main' : 'tinygrailText'}
+          type={page === 4 && limit === 100 ? 'main' : 'tinygrailPlain'}
           size={12}
           bold
         >
@@ -51,7 +51,7 @@ function ToolBar(props, { $ }) {
       </Btns.Touchable>
       <Btns.Touchable onSelect={() => $.setPage(5, 100)}>
         <Text
-          type={page === 5 && limit === 100 ? 'main' : 'tinygrailText'}
+          type={page === 5 && limit === 100 ? 'main' : 'tinygrailPlain'}
           size={12}
           bold
         >

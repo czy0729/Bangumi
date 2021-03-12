@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-07 02:43:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 20:59:38
+ * @Last Modified time: 2021-03-12 11:01:00
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -52,7 +52,7 @@ function StarForces({ style }, { $ }) {
                   keyboardType='numeric'
                   value={String(parseInt(starForcesValue))}
                   clearButtonMode='never'
-                  onChangeText={$.changeAmount}
+                  onChangeText={$.changeStarForces}
                 />
                 <Text
                   style={styles.sacrifices}

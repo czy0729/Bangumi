@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-03 22:21:33
+ * @Last Modified time: 2021-03-12 14:11:44
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -36,7 +36,7 @@ export default obc(Btns)
 const memoStyles = _.memoStyles(_ => ({
   btns: {
     paddingTop: IOS ? 6 : 0,
-    paddingBottom: 10
+    paddingBottom: _.md
   },
   item: {
     paddingVertical: _.sm,

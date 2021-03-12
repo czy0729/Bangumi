@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:48:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 22:02:02
+ * @Last Modified time: 2021-03-12 13:58:00
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -17,6 +17,7 @@ export default class ScreenTinygrailStar extends store {
   state = observable({
     page: 1,
     limit: 100,
+    label: '全局',
     ...excludeState,
     _loaded: false
   })
@@ -49,6 +50,13 @@ export default class ScreenTinygrailStar extends store {
     return tinygrailStore.starLogs
   }
 
+  @computed get mergeListMap() {
+    const { list } = tinygrailStore.mergeList
+    const map = {}
+    list.forEach(item => (map[item.id] = item))
+    return map
+  }
+
   // -------------------- page --------------------
   setHover = id =>
     this.setState({
@@ -60,6 +68,13 @@ export default class ScreenTinygrailStar extends store {
     this.setState({
       page,
       limit
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  setLabel = label => {
+    this.setState({
+      label
     })
     this.setStorage(undefined, undefined, namespace)
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-11 20:45:49
+ * @Last Modified time: 2021-03-12 11:17:24
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -63,6 +63,10 @@ export default class ScreenTinygrailSacrifice extends store {
 
     // 通天塔各分段排名需要的献祭数
     rankStarForces: {
+      20: '',
+      40: '',
+      60: '',
+      80: '',
       100: '',
       200: '',
       300: '',
@@ -113,8 +117,7 @@ export default class ScreenTinygrailSacrifice extends store {
         () => tinygrailStore.fetchCharaTemple(this.monoId), // 所有人固定资产 (可以得到自己的可用资产)
         () => tinygrailStore.fetchAuctionStatus(this.monoId), // 当前拍卖状态
         () => tinygrailStore.fetchAuctionList(this.monoId), // 上周拍卖信息
-        () => tinygrailStore.fetchUsers(this.monoId), // 董事会
-        () => this.fetchStarForcesRankValues()
+        () => tinygrailStore.fetchUsers(this.monoId) // 董事会
       ])
     }
 
@@ -157,6 +160,15 @@ export default class ScreenTinygrailSacrifice extends store {
         })
         const { Value } = JSON.parse(_response)
         rankStarForces[i * 100] = Value[0].StarForces
+      }
+
+      for (let i = 1; i <= 4; i += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        const { _response } = await xhrCustom({
+          url: API_TINYGRAIL_STAR(i * 20, 1)
+        })
+        const { Value } = JSON.parse(_response)
+        rankStarForces[i * 20] = Value[0].StarForces
       }
     } catch (error) {
       // do nothing
@@ -272,8 +284,9 @@ export default class ScreenTinygrailSacrifice extends store {
       rate: toFixed(currentRate, 1),
       totalRate: (state + assets) * currentRate
     }
-    for (let i = 1; i <= 5; i += 1) {
-      const r = i * 100 || 1
+
+    const ranks = rank <= 100 ? [20, 40, 60, 80] : [100, 200, 300, 400, 500]
+    ranks.forEach(r => {
       if (
         max &&
         rank > r &&
@@ -285,7 +298,7 @@ export default class ScreenTinygrailSacrifice extends store {
         data.push({
           left: `${((rankStarForces[r] - starForces + 1) / max) * 100}%`,
           rank: r,
-          text: formatNumber(rankStarForces[r], 0),
+          text: decimal(rankStarForces[r]),
           distance, // 距离段位差多少星之力
           rate: toFixed(_rate, 1), // 打到段位可以提升多少生效股息
           totalRate: decimal(
@@ -293,7 +306,7 @@ export default class ScreenTinygrailSacrifice extends store {
           )
         })
       }
-    }
+    })
 
     data.push(current) // 当前
 

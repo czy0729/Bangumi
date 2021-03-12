@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 01:32:47
+ * @Last Modified time: 2021-03-12 11:56:33
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate } from '@utils'
@@ -392,6 +392,47 @@ class Tinygrail extends store {
   // -------------------- get --------------------
   list(key = defaultKey) {
     return computed(() => this.state[key]).get() || LIST_EMPTY
+  }
+
+  /**
+   * 人物和圣殿合并成总览列表
+   */
+  @computed get mergeList() {
+    const { chara } = this.myCharaAssets
+    const temple = this.temple()
+    const map = {}
+    chara.list.forEach(item => (map[item.id] = item))
+    temple.list.forEach(item => {
+      if (!map[item.id]) {
+        map[item.id] = {
+          ...this.characters(item.id),
+          id: item.id,
+          icon: item.cover,
+          level: item.level,
+          monoId: item.id,
+          name: item.name,
+          rank: item.rank,
+          rate: item.rate,
+          sacrifices: item.sacrifices,
+          assets: item.assets,
+          starForces: item.starForces,
+          stars: item.stars
+        }
+      } else {
+        map[item.id] = {
+          ...map[item.id],
+          rank: item.rank,
+          sacrifices: item.sacrifices,
+          assets: item.assets
+        }
+      }
+    })
+
+    return {
+      list: Object.values(map),
+      pagination: paginationOnePage,
+      _loaded: getTimestamp()
+    }
   }
 
   // -------------------- fetch --------------------

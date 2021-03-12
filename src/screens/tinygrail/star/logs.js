@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:50:39
+ * @Last Modified time: 2021-03-12 14:07:54
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { refreshControlProps } from '@tinygrail/styles'
+import Label from './label'
 import Log from './log'
 
 const width = 256
@@ -25,15 +26,18 @@ class Logs extends React.Component {
   }
 
   componentDidMount() {
-    const { navigation } = this.context
+    const { $, navigation } = this.context
     navigation.setParams({
       extra: (
-        <IconHeader
-          style={_.mr._xs}
-          color={_.colorTinygrailPlain}
-          name='list'
-          onPress={this.toggleShow}
-        />
+        <>
+          <Label $={$} />
+          <IconHeader
+            style={_.mr._xs}
+            color={_.colorTinygrailPlain}
+            name='list'
+            onPress={this.toggleShow}
+          />
+        </>
       )
     })
   }
@@ -151,5 +155,9 @@ const memoStyles = _.memoStyles(_ => ({
   contentContainerStyle: {
     paddingVertical: _.sm,
     paddingHorizontal: _.md
+  },
+  segment: {
+    width: 80,
+    height: 22
   }
 }))

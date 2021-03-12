@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 01:26:44
+ * @Last Modified time: 2021-03-12 11:51:53
  */
 import React from 'react'
 import { Icon } from '@components'
@@ -12,6 +12,7 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import IconGo from '@tinygrail/_/icon-go'
+import { tabs } from './ds'
 
 const data = ['批量献祭', '批量出售', '批量挂卖单', '批量分享']
 const dataICO = ['批量分享']
@@ -59,13 +60,14 @@ function IconRight({ $ }) {
     )
   }
 
+  const { title } = tabs[page]
   return (
     <>
       <IconGo $={$} />
-      {(page === 0 || page === 1) && (
+      {title !== '圣殿' && (
         <Popover
           style={styles.icon}
-          data={page === 1 ? dataICO : data}
+          data={title === 'ICO' ? dataICO : data}
           onSelect={key => {
             t('我的持仓.右上角菜单', {
               key
