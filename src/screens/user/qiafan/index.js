@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 14:56:31
+ * @Last Modified time: 2021-03-12 10:00:05
  */
 import React from 'react'
 import { ScrollView, Flex, Text, Image } from '@components'
 import { _ } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
+import { HOST_CDN } from '@constants/cdn'
 
 const title = '投食'
 
@@ -83,7 +84,7 @@ class Qiafan extends React.Component {
             size={240}
             height={274}
             mode='aspectFit'
-            src={require('@assets/images/qr/alipay.png')}
+            scr={`${HOST_CDN}/gh/czy0729/Bangumi-Static@master/data/qr/alipay.png`}
           />
         </Flex>
         <Text
@@ -113,8 +114,8 @@ class Qiafan extends React.Component {
         >
           <Image
             size={240}
-            height={296}
-            src={require('@assets/images/qr/wx.png')}
+            height={240}
+            scr={`${HOST_CDN}/gh/czy0729/Bangumi-Static@master/data/qr/wechat.png`}
           />
         </Flex>
       </ScrollView>

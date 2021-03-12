@@ -3,7 +3,14 @@
     "baseUrl": ".",
     "paths": {
       "@components": ["src/components"],
+      "@components/*": ["src/components/*"],
+      "@screens": ["src/screens"],
       "@screens/*": ["src/screens/*"],
+      "@stores": ["src/stores"],
+      "@stores/*": ["src/stores/*"],
+      "@utils": ["src/utils"],
+      "@utils/*": ["src/utils/*"],
+      "@constants": ["src/constants"],
       "@constants/*": ["src/constants/*"]
     }
   },

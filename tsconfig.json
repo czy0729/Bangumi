@@ -1,5 +1,18 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["src/components"],
+      "@components/*": ["src/components/*"],
+      "@screens": ["src/screens"],
+      "@screens/*": ["src/screens/*"],
+      "@stores": ["src/stores"],
+      "@stores/*": ["src/stores/*"],
+      "@utils": ["src/utils"],
+      "@utils/*": ["src/utils/*"],
+      "@constants": ["src/constants"],
+      "@constants/*": ["src/constants/*"]
+    },
     "jsx": "react-native",
     "target": "esnext",
     "lib": ["esnext"],
@@ -9,12 +22,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "@components": ["src/components"],
-      "@screens/*": ["src/screens/*"]
-    }
+    "moduleResolution": "node"
   },
   "exclude": ["node_modules", "dist", "android", "src/assets", "web"]
 }
