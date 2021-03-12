@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 17:56:12
+ * @Last Modified time: 2021-03-12 19:36:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,7 @@ export const Avatar = ob(
     userId,
     name,
     src,
-    size = 34,
+    size = 40,
     borderColor = _.colorBorder,
     borderWidth,
     event = {},

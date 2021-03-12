@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 14:03:19
+ * @Last Modified time: 2021-03-12 20:08:21
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -15,7 +15,7 @@ import { ob } from '@utils/decorators'
 import { HOST, HOST_NAME, EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import { Avatar, Cover, Stars, Name } from '../base'
 
-const avatarWidth = 32
+const avatarWidth = 40
 const avatarCoverWidth = 40
 
 export const ItemTimeline = ob(
@@ -77,7 +77,7 @@ export const ItemTimeline = ob(
             <Katakana
               key={item || index}
               type={isSubject ? 'main' : 'title'}
-              lineHeight={14}
+              lineHeight={16}
               bold={isSubject}
               onPress={() =>
                 this.appNavigate(
@@ -93,7 +93,7 @@ export const ItemTimeline = ob(
             >
               {isSubject ? findSubjectCn(item, subjectId) : item}
             </Katakana>,
-            <Text key={`${item}.`} lineHeight={14} type='sub'>
+            <Text key={`${item}.`} lineHeight={16} type='sub'>
               、
             </Text>
           )
@@ -110,7 +110,7 @@ export const ItemTimeline = ob(
         $p3 = (
           <Katakana
             type={isSubject ? 'main' : 'title'}
-            lineHeight={14}
+            lineHeight={16}
             bold={isSubject}
             onPress={() =>
               this.appNavigate(
@@ -144,12 +144,12 @@ export const ItemTimeline = ob(
       }
 
       return (
-        <Text lineHeight={14}>
+        <Text lineHeight={16}>
           {!!p1.text && (
             <Name
               userId={this.userId}
               type='title'
-              lineHeight={14}
+              lineHeight={16}
               bold
               onPress={() =>
                 this.appNavigate(p1.url, {
@@ -161,12 +161,12 @@ export const ItemTimeline = ob(
               {p1.text}{' '}
             </Name>
           )}
-          <Text type='sub' lineHeight={14}>
+          <Text type='sub' lineHeight={16}>
             {p2.text}{' '}
           </Text>
           {this.renderP3()}
           {!!p4.text && (
-            <Text type='sub' lineHeight={14}>
+            <Text type='sub' lineHeight={16}>
               {' '}
               {p4.text}
             </Text>
@@ -283,7 +283,7 @@ export const ItemTimeline = ob(
     renderAvatar() {
       const { navigation, avatar, p1, event } = this.props
       return (
-        <View style={this.styles.image}>
+        <View style={this.styles.avatar}>
           {!!avatar.src && (
             <Avatar
               navigation={navigation}
@@ -427,9 +427,9 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.sm,
     paddingBottom: _.md
   },
-  image: {
+  avatar: {
     width: avatarWidth,
-    marginTop: _.md,
+    marginTop: 18,
     marginLeft: _.wind
   },
   content: {

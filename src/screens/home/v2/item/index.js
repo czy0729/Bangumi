@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-17 04:33:21
+ * @Last Modified time: 2021-03-12 20:35:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { DEV, IOS } from '@constants'
+import { DEV } from '@constants'
 import Cover from './cover'
 import Title from './title'
 import OnAir from './onair'
@@ -84,14 +84,14 @@ export default obc(Item, {
 const memoStyles = _.memoStyles(_ => ({
   lazy: {
     height: 150,
-    backgroundColor: IOS ? _.colorPlain : 'transparent',
+    backgroundColor: _.colorPlain,
     borderBottomWidth: 8,
     borderBottomColor: _.colorBg
   },
   item: {
     paddingVertical: itemPadding,
     paddingLeft: itemPadding,
-    backgroundColor: IOS ? _.colorPlain : 'transparent',
+    backgroundColor: _.colorPlain,
     borderBottomWidth: 8,
     borderBottomColor: _.colorBg
   },
@@ -99,7 +99,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: itemPadding,
     paddingBottom: itemPadding + 4,
     paddingLeft: itemPadding,
-    backgroundColor: IOS ? _.colorPlain : 'transparent',
+    backgroundColor: _.colorPlain,
     borderBottomWidth: 8,
     borderBottomColor: _.colorBg
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 00:58:51
+ * @Last Modified time: 2021-03-12 20:53:08
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -10,18 +10,19 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_SETTING_HOME_LAYOUT, MODEL_SUBJECT_TYPE } from '@constants/model'
+import Filter from './filter'
 import Grid from './grid'
 import Item from './item'
-import { H_TABBAR, tabsWithGame as tabs } from './store'
+import { OFFSET_LISTVIEW, tabsWithGame as tabs } from './store'
 
 const contentInset = IOS
   ? {
-      top: _.headerHeight + H_TABBAR
+      top: OFFSET_LISTVIEW
     }
   : undefined
 const contentOffset = IOS
   ? {
-      y: -(_.headerHeight + H_TABBAR)
+      y: -OFFSET_LISTVIEW
     }
   : undefined
 const footerEmptyDataTextMap = {
@@ -42,6 +43,7 @@ function List({ title }, { $ }) {
     return <Grid title={title} />
   }
 
+  const styles = memoStyles()
   const { page, isFocused } = $.state
   const index = $.tabs.findIndex(item => item.title === title)
   return (
@@ -56,6 +58,7 @@ function List({ title }, { $ }) {
       contentInset={contentInset}
       contentOffset={contentOffset}
       scrollToTop={isFocused && tabs[page].title === title}
+      ListHeaderComponent={<Filter />}
       renderItem={renderItem}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
@@ -67,14 +70,15 @@ export default obc(List, {
   title: '全部'
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(_ => ({
   androidWrap: {
-    marginBottom: _.tabBarHeight - 1
+    marginBottom: _.tabBarHeight - 1,
+    backgroundColor: _.colorBg
   },
   contentContainerStyle: {
     paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
   }
-})
+}))
 
 function keyExtractor(item) {
   return String(item.subject_id || item.id)

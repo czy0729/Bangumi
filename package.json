@@ -36,6 +36,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "file:sdk-39.0.3.tar.gz",
+    "react-native-android-keyboard-adjust": "1.2.0",
     "react-native-exception-handler": "2.10.8",
     "react-native-expo-image-cache": "4.0.8",
     "react-native-gesture-handler": "1.7.0",

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-17 04:32:22
+ * @Last Modified time: 2021-03-12 20:54:09
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -30,6 +30,7 @@ import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { feedback } from '@utils/ui'
 import { find } from '@utils/anime'
+import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import { IOS, DEV, SITES_DS } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
@@ -68,7 +69,10 @@ export const tabsWithGame = [
     title: '游戏'
   }
 ]
+
 export const H_TABBAR = 48
+export const H_FILTER = 36 + 2 * _.md
+export const OFFSET_LISTVIEW = IOS ? _.headerHeight + H_TABBAR : 0
 
 const namespace = 'ScreenHomeV2'
 const colorDark = {
@@ -88,10 +92,12 @@ const excludeState = {
     subject: {},
     ep_status: ''
   },
+  filter: '',
   isFocused: true,
   _mounted: false
 }
 const day = new Date().getDay()
+const pinYinFirstCharacter = {}
 
 export default class ScreenHomeV2 extends store {
   state = observable({
@@ -263,13 +269,51 @@ export default class ScreenHomeV2 extends store {
    * 用户收藏
    */
   @computed get userCollection() {
-    const { userCollection } = userStore
+    const { filter } = this.state
+    const _filter = filter.toUpperCase()
+
+    const userCollection = {
+      ...userStore.userCollection,
+      list: userStore.userCollection.list.filter(item => {
+        if (!filter.length) {
+          return true
+        }
+
+        const cn = (
+          item?.subject?.name_cn ||
+          item.name ||
+          item?.subject?.name ||
+          ''
+        ).toUpperCase()
+        if (cn.includes(_filter)) {
+          return true
+        }
+
+        // 支持每个字符首拼音筛选
+        if (/^[a-zA-Z]+$/.test(_filter) && cn) {
+          if (!pinYinFirstCharacter[cn]) {
+            pinYinFirstCharacter[cn] = getPinYinFirstCharacter(
+              cn,
+              cn.length
+            ).replace(/ /g, '')
+          }
+
+          if (pinYinFirstCharacter[cn].includes(_filter)) {
+            return true
+          }
+        }
+
+        return false
+      })
+    }
+
     if (userStore.isLimit) {
       return {
         ...userCollection,
         list: userCollection.list.filter(item => !x18(item.subject_id))
       }
     }
+
     return userCollection
   }
 
@@ -294,12 +338,14 @@ export default class ScreenHomeV2 extends store {
       const userCollection = {
         ...this.userCollection
       }
+
       const type = MODEL_SUBJECT_TYPE.getValue(title)
       if (type) {
         userCollection.list = userCollection.list.filter(
           item => item?.subject?.type == type
         )
       }
+
       userCollection.list = this.sortList(userCollection.list)
       return userCollection
     }).get()
@@ -749,7 +795,18 @@ export default class ScreenHomeV2 extends store {
    */
   scrollToIndex = {}
   connectRef = (ref, index) => {
-    this.scrollToIndex[index] = ref?.scrollToIndex
+    if (!this.scrollToIndex[index] && ref?.scrollToIndex) {
+      this.scrollToIndex[index] = ref?.scrollToIndex
+      try {
+        this.scrollToIndex[index]({
+          animated: false,
+          index: 0,
+          viewOffset: -H_FILTER
+        })
+      } catch (error) {
+        // do nothing
+      }
+    }
   }
 
   onRefreshThenScrollTop = () => {
@@ -892,6 +949,12 @@ export default class ScreenHomeV2 extends store {
       })
       navigation.navigate(this.initialPage)
     }, 0)
+  }
+
+  onFilterChange = filter => {
+    this.setState({
+      filter: filter.trim()
+    })
   }
 
   // -------------------- action --------------------

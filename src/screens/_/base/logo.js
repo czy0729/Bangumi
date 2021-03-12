@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:01:00
+ * @Last Modified time: 2021-03-12 20:55:53
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont } from '@components'
@@ -19,7 +19,7 @@ export const Logo = ob(({ forceUpdate }) => (
         isDark: !_.isDark
       })
 
-      info('主题切换中')
+      info('主题切换中', 1.2)
       setTimeout(() => {
         _.toggleMode()
         if (forceUpdate) {

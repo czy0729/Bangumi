@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 11:23:47
+ * @Last Modified time: 2021-03-13 02:12:03
  */
 import { Alert, Vibration } from 'react-native'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
-import { DEV } from '@constants'
+import { DEV, IOS } from '@constants'
 import { getSystemStoreAsync } from './async'
 
 function getSetting() {
@@ -122,4 +122,16 @@ export function showImageViewer(imageUrls = [], index = 0) {
     })),
     index
   )
+}
+
+/**
+ * 调整键盘模式
+ * https://github.com/zubricky/react-native-android-keyboard-adjust
+ * @param {*} fn 函数名
+ */
+export function androidKeyboardAdjust(fn) {
+  if (IOS) return
+
+  const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
+  AndroidKeyboardAdjust[fn]()
 }

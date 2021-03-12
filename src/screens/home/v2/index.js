@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 17:26:52
+ * @Last Modified time: 2021-03-13 02:16:23
  */
 import React from 'react'
+import { NavigationEvents } from 'react-navigation'
 import { UM } from '@components'
 import {
   StatusBarEvents,
@@ -18,6 +19,7 @@ import { runAfter } from '@utils'
 import { navigationReference } from '@utils/app'
 import { inject, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
+import { androidKeyboardAdjust } from '@utils/ui'
 import { IOS } from '@constants'
 import CheckLogin from './check-login'
 import Header from './header'
@@ -63,6 +65,14 @@ class Home extends React.Component {
     })
   }
 
+  onDidFocus = () => {
+    androidKeyboardAdjust('setAdjustPan')
+  }
+
+  onDidBlur = () => {
+    androidKeyboardAdjust('setAdjustResize')
+  }
+
   render() {
     const { $ } = this.context
     const { isFocused, _loaded } = $.state
@@ -80,6 +90,7 @@ class Home extends React.Component {
             {isFocused && (
               <IconPortal index={2} onPress={$.onRefreshThenScrollTop} />
             )}
+            <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
             <Heatmaps />
           </>
         )}

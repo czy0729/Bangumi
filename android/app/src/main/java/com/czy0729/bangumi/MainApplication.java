@@ -33,6 +33,8 @@ import com.umeng.commonsdk.UMConfigure;
 import com.czy0729.bangumi.umeng.DplusReactPackage;
 import com.czy0729.bangumi.umeng.RNUMConfigure;
 
+import com.czy0729.bangumi.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
+
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
     new BasePackageList().getPackageList()
@@ -49,6 +51,7 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
       packages.add(new DplusReactPackage());
+      packages.add(new AndroidKeyboardAdjustPackage());
       return packages;
     }
 
