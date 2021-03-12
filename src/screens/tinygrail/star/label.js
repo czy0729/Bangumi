@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 14:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:05:30
+ * @Last Modified time: 2021-03-12 14:19:30
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -18,7 +18,7 @@ function Label({ $ }) {
       style={styles.segment}
       type='tinygrailPlain'
       tintColor={_.colorTinygrailContainer}
-      backgroundColor={_.colorTinygrailBg}
+      backgroundColor={_.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)}
       size={11}
       values={labelDS}
       selectedIndex={labelDS.findIndex(item => item === label)}

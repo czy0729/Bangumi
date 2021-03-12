@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 20:08:02
+ * @Last Modified time: 2021-03-12 14:41:37
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -11,12 +11,7 @@ import { toFixed } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
-
-const typeDS = {
-  混沌魔方: 'chaos',
-  虚空道标: 'guidepost',
-  星光碎片: 'stardust'
-}
+import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 
 export default class ScreenTinygrailItems extends store {
   state = observable({
@@ -25,12 +20,7 @@ export default class ScreenTinygrailItems extends store {
     _loaded: false
   })
 
-  init = async () => {
-    await this.fetchItems()
-    await this.fetchTemple()
-    await this.fetchMsrc()
-    return this.fetchMyCharaAssets()
-  }
+  init = () => this.fetchItems()
 
   // -------------------- fetch --------------------
   /**
@@ -38,38 +28,9 @@ export default class ScreenTinygrailItems extends store {
    */
   fetchItems = () => tinygrailStore.fetchItems()
 
-  /**
-   * 我的圣殿
-   */
-  fetchTemple = () => tinygrailStore.fetchTemple()
-
-  /**
-   * 最高股息
-   */
-  fetchMsrc = () => tinygrailStore.fetchList('msrc')
-
-  /**
-   * 我的资产
-   */
-  fetchMyCharaAssets = () => tinygrailStore.fetchMyCharaAssets()
-
   // -------------------- get --------------------
   @computed get items() {
     return tinygrailStore.items
-  }
-
-  @computed get temple() {
-    return tinygrailStore.temple()
-  }
-
-  @computed get msrc() {
-    const { msrc } = tinygrailStore
-    return msrc
-  }
-
-  @computed get chara() {
-    const { chara } = tinygrailStore.myCharaAssets
-    return chara
   }
 
   // -------------------- page --------------------
@@ -85,10 +46,9 @@ export default class ScreenTinygrailItems extends store {
     })
 
   // -------------------- action --------------------
-  doUse = async ({ monoId, toMonoId, amount, isTemple }) => {
+  doUse = async ({ title, monoId, toMonoId, amount, isTemple }) => {
     try {
-      const { title } = this.state
-      const type = typeDS[title]
+      const type = ITEMS_TYPE[title]
       if (!type) {
         return false
       }
@@ -103,7 +63,7 @@ export default class ScreenTinygrailItems extends store {
 
       const { State, Value, Message } = await tinygrailStore.doMagic(data)
       feedback()
-      t('我的道具.使用', {
+      t('我的道具.使用道具', {
         type: title,
         monoId,
         toMonoId
@@ -114,9 +74,10 @@ export default class ScreenTinygrailItems extends store {
           '小圣杯助手',
           typeof Value === 'string'
             ? Value
-            : `获得${Value.Name}x${Value.Amount}，当前价${
-                Value.CurrentPrice
-              }，价值${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
+            : `获得${Value.Name}x${Value.Amount}，当前价${toFixed(
+                Value.CurrentPrice,
+                2
+              )}，价值${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
           [
             {
               text: '知道了'
@@ -124,9 +85,11 @@ export default class ScreenTinygrailItems extends store {
           ]
         )
 
+        tinygrailStore.fetchUserLogs(monoId)
         if (title === '星光碎片') {
           tinygrailStore.batchUpdateTemplesByIds([monoId, toMonoId])
         }
+
         return tinygrailStore.batchUpdateMyCharaAssetsByIds(
           [monoId, toMonoId].filter(item => !!item)
         )

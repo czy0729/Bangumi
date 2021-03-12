@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-11 20:22:38
+ * @Last Modified time: 2021-03-12 14:48:56
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
@@ -92,6 +92,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   rank: {
-    minWidth: 16
+    minWidth: 16,
+    paddingHorizontal: 2
   }
 }))

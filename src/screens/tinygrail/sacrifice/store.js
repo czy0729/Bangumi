@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 11:17:24
+ * @Last Modified time: 2021-03-12 14:36:14
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -20,6 +20,7 @@ import { info, feedback } from '@utils/ui'
 import { API_TINYGRAIL_STAR } from '@constants/api'
 import XSBRelationData from '@constants/json/xsb-relation'
 import { decimal, calculateRate } from '@tinygrail/_/utils'
+import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 
 const namespace = 'ScreenTinygrailSacrifice'
 const excludeState = {
@@ -40,13 +41,6 @@ const initLastSacrifice = {
   amount: '',
   total: '',
   time: 0
-}
-const typeDS = {
-  混沌魔方: 'chaos',
-  虚空道标: 'guidepost',
-  星光碎片: 'stardust',
-  闪光结晶: 'starbreak',
-  鲤鱼之眼: 'fisheye'
 }
 
 export default class ScreenTinygrailSacrifice extends store {
@@ -532,7 +526,7 @@ export default class ScreenTinygrailSacrifice extends store {
 
   doUse = async ({ title, monoId, toMonoId, amount, isTemple }) => {
     try {
-      const type = typeDS[title]
+      const type = ITEMS_TYPE[title]
       if (!type) {
         return false
       }

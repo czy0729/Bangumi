@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:16:36
+ * @Last Modified time: 2021-03-12 14:38:00
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,17 +10,12 @@ import { Touchable, Flex, Image, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
-import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
-import CharactersModal from './characters-modal'
+import { withHeaderParams } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
+import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import Store from './store'
 
 const title = '我的道具'
-const canUseItems = {
-  混沌魔方: 100,
-  虚空道标: 90,
-  星光碎片: 80
-}
 
 export default
 @inject(Store)
@@ -54,11 +49,9 @@ class TinygrailItems extends React.Component {
         contentContainerStyle={_.container.bottom}
       >
         {list
-          .sort(
-            (a, b) => (canUseItems[b.name] || 0) - (canUseItems[a.name] || 0)
-          )
+          .sort((a, b) => (ITEMS_USED[b.name] || 0) - (ITEMS_USED[a.name] || 0))
           .map((item, index) => {
-            if (canUseItems[item.name]) {
+            if (ITEMS_USED[item.name]) {
               return (
                 <Touchable
                   key={item.id}
@@ -135,7 +128,14 @@ class TinygrailItems extends React.Component {
   renderModal() {
     const { $ } = this.context
     const { title, visible } = $.state
-    return <CharactersModal visible={visible} title={title} />
+    return (
+      <CharactersModal
+        visible={visible}
+        title={title}
+        onClose={$.onCloseModal}
+        onSubmit={$.doUse}
+      />
+    )
   }
 
   render() {

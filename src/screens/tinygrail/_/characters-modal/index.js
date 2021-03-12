@@ -3,23 +3,14 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 01:36:17
+ * @Last Modified time: 2021-03-12 14:46:02
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
 import { computed } from 'mobx'
-import {
-  Flex,
-  Text,
-  Button,
-  // SegmentedControl,
-  Iconfont
-} from '@components'
+import { Flex, Text, Button, Iconfont } from '@components'
 import Modal from '@components/@/ant-design/modal'
-import {
-  // IconTouchable,
-  Popover
-} from '@screens/_'
+import { Popover } from '@screens/_'
 import { _, tinygrailStore } from '@stores'
 import {
   toFixed,
@@ -38,8 +29,23 @@ import List from './list'
 import Item from './item'
 import ItemBottom from './item-bottom'
 
+export const ITEMS_TYPE = {
+  混沌魔方: 'chaos',
+  虚空道标: 'guidepost',
+  星光碎片: 'stardust',
+  闪光结晶: 'starbreak',
+  鲤鱼之眼: 'fisheye'
+}
+
+export const ITEMS_USED = {
+  混沌魔方: 100,
+  虚空道标: 90,
+  星光碎片: 80,
+  闪光结晶: 70,
+  鲤鱼之眼: 60
+}
+
 const namespace = 'TinygrailCompCharactersModal'
-// const starsdustDS = ['消耗活股']
 
 export default
 @obc
@@ -277,7 +283,6 @@ class CharactersModal extends React.Component {
     })
     if (this.isStarDust) {
       this.setState({
-        // leftItem: null,
         amount: 0
       })
     }
@@ -868,10 +873,9 @@ class CharactersModal extends React.Component {
       extra.push(formatNumber(item.state, 0))
     }
     extra.push(
-      `+${toFixed(item.rate, 1)} (${calculateRate(
-        item.rate,
-        item.rank,
-        item.stars
+      `+${toFixed(item.rate, 1)} (${toFixed(
+        calculateRate(item.rate, item.rank, item.stars),
+        1
       )})`
     )
     return (
@@ -1041,10 +1045,7 @@ class CharactersModal extends React.Component {
       return null
     }
 
-    const {
-      amount
-      // isTemple
-    } = this.state
+    const { amount } = this.state
     return (
       <>
         <Text type='tinygrailText' size={10}>
@@ -1060,22 +1061,6 @@ class CharactersModal extends React.Component {
             onChangeText={this.onChangeNum}
           />
         </Flex.Item>
-        {/* <Flex.Item style={_.ml.sm} flex={2}>
-          <SegmentedControl
-            style={this.styles.segmented}
-            styleExtra={this.styles.segmentedExtra}
-            tintColor={_.tSelect(_.colorTinygrailPlain, _.__colorPlain__)}
-            backgroundColor={_.tSelect(
-              _.colorTinygrailContainer,
-              _.__colorBg__
-            )}
-            type='tinygrailText'
-            size={10}
-            values={starsdustDS}
-            selectedIndex={isTemple ? 0 : 1}
-            onValueChange={this.onToogleIsTemple}
-          />
-        </Flex.Item> */}
       </>
     )
   }
