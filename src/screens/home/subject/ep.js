@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:06:03
+ * @Last Modified time: 2021-03-13 14:42:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -85,6 +85,7 @@ function Ep({ style }, { $, navigation }) {
           </View>
           <Button
             style={styles.btn}
+            styleText={_.fontSize11}
             type='ghostPrimary'
             onPress={$.doUpdateSubjectEp}
           >
@@ -112,7 +113,7 @@ const styles = _.create({
   inputRaw: {
     height: 28,
     paddingVertical: 0,
-    ..._.fontSize(12)
+    ..._.fontSize12
   },
   total: {
     position: 'absolute',

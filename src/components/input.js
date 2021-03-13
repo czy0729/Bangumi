@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 16:15:04
+ * @Last Modified time: 2021-03-13 05:36:54
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -138,6 +138,7 @@ export const Input = observer(
             clearButtonMode='while-editing'
             placeholderTextColor={placeholderTextColor || _.colorDisabled}
             selectionColor={_.colorMain}
+            cursorColor={_.colorMain}
             {...other}
             onChange={this.onChange}
           />

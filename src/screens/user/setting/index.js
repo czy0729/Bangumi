@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 16:18:03
+ * @Last Modified time: 2021-03-13 14:35:43
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -937,6 +937,7 @@ class Setting extends React.Component {
     const {
       homeSorting,
       homeLayout,
+      homeFilter,
       homeOrigin,
       showGame
     } = systemStore.setting
@@ -987,7 +988,31 @@ class Setting extends React.Component {
           />
         </ItemSetting>
         <ItemSetting
-          hd='显示搜索源头按钮'
+          hd='列表搜索框'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={homeFilter}
+              onSyncPress={() => {
+                t('设置.切换', {
+                  title: '显示列表搜索框',
+                  checked: !homeFilter
+                })
+
+                systemStore.switchSetting('homeFilter')
+              }}
+            />
+          }
+        >
+          <Heatmap
+            id='设置.切换'
+            data={{
+              title: '显示列表搜索框'
+            }}
+          />
+        </ItemSetting>
+        <ItemSetting
+          hd='搜索源头按钮'
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -1006,7 +1031,7 @@ class Setting extends React.Component {
           <Heatmap
             id='设置.切换'
             data={{
-              title: '显示游戏'
+              title: '显示搜索源头按钮'
             }}
           />
         </ItemSetting>

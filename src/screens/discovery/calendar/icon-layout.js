@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 18:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 01:50:25
+ * @Last Modified time: 2021-03-13 15:02:39
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,8 +13,9 @@ import { ob } from '@utils/decorators'
 function IconLayout({ $ }) {
   return (
     <IconTouchable
+      style={_.mr._right}
       name={$.isList ? 'order' : 'list'}
-      size={$.isList ? 18 : 20}
+      size={19}
       color={_.colorTitle}
       onPress={$.switchLayout}
     >

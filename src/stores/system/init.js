@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:35:05
+ * @Last Modified time: 2021-03-13 14:34:45
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -39,6 +39,7 @@ export const INIT_SETTING = {
   showGame: false, // 首页显示游戏分类
   xsbShort: true, // 小圣杯缩短资金数字显示
   source: false, // 回复是否显示来源
+  homeFilter: true, // 首页列表搜索框
   homeOrigin: false, // 首页条目显示搜索源头
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序

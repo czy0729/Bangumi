@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 20:54:09
+ * @Last Modified time: 2021-03-13 14:38:23
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -797,15 +797,6 @@ export default class ScreenHomeV2 extends store {
   connectRef = (ref, index) => {
     if (!this.scrollToIndex[index] && ref?.scrollToIndex) {
       this.scrollToIndex[index] = ref?.scrollToIndex
-      try {
-        this.scrollToIndex[index]({
-          animated: false,
-          index: 0,
-          viewOffset: -H_FILTER
-        })
-      } catch (error) {
-        // do nothing
-      }
     }
   }
 

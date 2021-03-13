@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-17 02:47:18
+ * @Last Modified time: 2021-03-13 15:04:45
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
@@ -21,6 +21,7 @@ const namespace = 'ScreenCalendar'
 export default class ScreenCalendar extends store {
   state = observable({
     layout: 'list', // list | grid
+    type: 'all', // all | collect
     _loaded: false
   })
 
@@ -111,6 +112,14 @@ export default class ScreenCalendar extends store {
 
     this.setState({
       layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  toggleType = () => {
+    const { type } = this.state
+    this.setState({
+      type: type === 'all' ? 'collect' : 'all'
     })
     this.setStorage(undefined, undefined, namespace)
   }

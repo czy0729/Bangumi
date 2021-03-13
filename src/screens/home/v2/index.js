@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 02:16:23
+ * @Last Modified time: 2021-03-13 04:47:07
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -56,6 +56,8 @@ class Home extends React.Component {
         hm(`?id=${id}`, 'Home')
       }, 6400)
     })
+
+    this.onDidFocus()
   }
 
   componentWillReceiveProps({ isFocused }) {

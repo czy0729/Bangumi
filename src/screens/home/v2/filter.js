@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 01:21:23
+ * @Last Modified time: 2021-03-13 14:36:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Iconfont } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { H_FILTER } from './store'
 
@@ -26,7 +26,16 @@ class Filter extends React.Component {
       focus: false
     })
 
+  get show() {
+    const { setting } = systemStore
+    return setting.homeFilter
+  }
+
   render() {
+    if (!this.show) {
+      return null
+    }
+
     const { $ } = this.context
     const { filter } = $.state
     const { focus } = this.state

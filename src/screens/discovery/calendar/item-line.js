@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:44:46
+ * @Last Modified time: 2021-03-13 15:06:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,9 +18,14 @@ function ItemLine(
   { subjectId, images = {}, name, air, timeCN, score },
   { $, navigation }
 ) {
-  const showScore = !systemStore.setting.hideScore && !!score
+  const { type } = $.state
   const collection = $.userCollectionsMap[subjectId]
+  if (type === 'collect' && !collection) {
+    return null
+  }
+
   const indent = collection ? '　 　 ' : ''
+  const showScore = !systemStore.setting.hideScore && !!score
   return (
     <Touchable
       style={styles.item}

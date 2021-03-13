@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 21:28:59
+ * @Last Modified time: 2021-03-13 14:47:05
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -661,7 +661,7 @@ export default class ScreenSubject extends store {
   @computed get release() {
     return (
       this.info.match(
-        /<li><span>(放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
+        /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
       )?.[2] || ''
     )
   }

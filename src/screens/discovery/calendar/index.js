@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 01:51:08
+ * @Last Modified time: 2021-03-13 14:55:35
  */
 import React from 'react'
 import { Loading } from '@components'
 import { _ } from '@stores'
-import { open } from '@utils'
+// import { open } from '@utils'
 import { inject, withHeader, obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { HTML_CALENDAR } from '@constants/html'
+// import { t } from '@utils/fetch'
+// import { HTML_CALENDAR } from '@constants/html'
+import Type from './type'
 import IconLayout from './icon-layout'
 import List from './list'
 import Store from './store'
@@ -34,24 +35,29 @@ class Calendar extends React.Component {
     $.init()
 
     navigation.setParams({
-      extra: <IconLayout $={$} />,
-      heatmap: '每日放送.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('每日放送.右上角菜单', {
-            key
-          })
+      extra: (
+        <>
+          <Type $={$} />
+          <IconLayout $={$} />
+        </>
+      )
+      // heatmap: '每日放送.右上角菜单'
+      // popover: {
+      //   data: ['浏览器查看'],
+      //   onSelect: key => {
+      //     t('每日放送.右上角菜单', {
+      //       key
+      //     })
 
-          switch (key) {
-            case '浏览器查看':
-              open(HTML_CALENDAR())
-              break
-            default:
-              break
-          }
-        }
-      }
+      //     switch (key) {
+      //       case '浏览器查看':
+      //         open(HTML_CALENDAR())
+      //         break
+      //       default:
+      //         break
+      //     }
+      //   }
+      // }
     })
   }
 
