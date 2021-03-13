@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:07:18
+ * @Last Modified time: 2021-03-14 02:07:32
  */
 import React from 'react'
 import { Progress } from '@ant-design/react-native'
@@ -52,7 +52,7 @@ export const ItemFriends = ob(
         }}
       >
         <Flex>
-          <Avatar style={styles.image} size={36} name={userName} src={avatar} />
+          <Avatar style={styles.image} name={userName} src={avatar} />
           <Flex.Item style={styles.item}>
             <Flex>
               <Flex.Item>
@@ -94,7 +94,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   image: {
-    marginTop: _.xs,
+    marginTop: 2,
     marginLeft: _.wind
   },
   item: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:03:21
+ * @Last Modified time: 2021-03-13 19:04:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Tag, Cover, Stars } from '../base'
+import { Tag, Cover, Stars, Rank } from '../base'
 
 export const ItemCollectionsGrid = ob(
   ({
@@ -28,6 +28,7 @@ export const ItemCollectionsGrid = ob(
     collection,
     typeCn,
     num = 3,
+    rank,
     aid,
     wid,
     mid
@@ -79,12 +80,20 @@ export const ItemCollectionsGrid = ob(
         />
         {!!_collection && <Tag style={styles.collection} value={_collection} />}
         <Touchable withoutFeedback onPress={onPress}>
-          <Text style={_.mt.sm} size={11} numberOfLines={3} bold align='center'>
+          <Text
+            style={_.mt.sm}
+            size={11}
+            lineHeight={13}
+            numberOfLines={3}
+            bold
+            align='center'
+          >
             {HTMLDecode(nameCn || name)}
           </Text>
           {!!score && (
             <Flex style={_.mt.xs} justify='center'>
-              <Stars value={score} color='warning' size={10} />
+              <Rank style={_.mr.xs} value={rank} size={9} />
+              <Stars value={score} color='warning' size={9} />
             </Flex>
           )}
         </Touchable>

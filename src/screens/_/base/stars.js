@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:15:18
+ * @Last Modified time: 2021-03-13 19:09:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,8 +22,8 @@ export const Stars = ob(
       return (
         <Flex style={style}>
           <Iconfont name='star-full' size={size} color={_.colorWarning} />
-          <Text style={_.ml.xs} type={type} size={size} bold>
-            {value}{' '}
+          <Text style={_.ml.xxs} type={type} size={size} bold>
+            {value}
           </Text>
         </Flex>
       )
@@ -66,8 +66,8 @@ export const Stars = ob(
             />
           )
         })}
-        <Text style={_.ml.xs} type={type} size={size} lineHeight={size} bold>
-          {value}{' '}
+        <Text style={_.ml.xxs} type={type} size={size} lineHeight={size} bold>
+          {value}
         </Text>
       </Flex>
     )

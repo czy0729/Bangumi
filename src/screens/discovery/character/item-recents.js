@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 14:05:20
+ * @Last Modified time: 2021-03-14 02:11:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -108,7 +108,7 @@ function ItemRecents(
               <Flex key={item.id} style={[styles.actors, _.mt.md]}>
                 <Cover
                   src={item.avatar}
-                  size={36}
+                  size={40}
                   radius
                   shadow
                   onPress={() => {

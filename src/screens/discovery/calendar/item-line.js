@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 15:06:20
+ * @Last Modified time: 2021-03-14 01:46:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -122,7 +122,7 @@ const styles = _.create({
   collection: {
     position: 'absolute',
     zIndex: 1,
-    top: 4,
+    top: 4.5,
     left: 0
   }
 })

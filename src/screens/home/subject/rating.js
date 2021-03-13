@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:21:54
+ * @Last Modified time: 2021-03-14 02:15:10
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle, Rank } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { open, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
@@ -65,9 +65,7 @@ class Ranting extends React.Component {
             >
               <Flex>
                 {this.showScore && (
-                  <Text type='sub' bold>
-                    #{rank}{' '}
-                  </Text>
+                  <Rank style={_.mr.sm} value={rank} size={13} />
                 )}
                 <Text type='sub'>趋势</Text>
                 <Iconfont name='right' size={16} />

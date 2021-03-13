@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 11:57:47
+ * @Last Modified time: 2021-03-14 02:19:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -80,6 +80,7 @@ function Item(
         navigation={navigation}
         userId={userId}
         name={userName}
+        size={36}
         src={avatar}
         event={event}
       />

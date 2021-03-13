@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:53:55
+ * @Last Modified time: 2021-03-13 15:19:49
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -22,6 +22,7 @@ function CompText(
     align,
     bold = false,
     selectable = false,
+    shadow,
     children,
     ...other
   },
@@ -51,6 +52,7 @@ function CompText(
     _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
   }
   if (bold) _style.push(styles.bold)
+  if (shadow) _style.push(styles.shadow)
   if (style) _style.push(style)
   return (
     <RNText
@@ -93,6 +95,14 @@ const memoStyles = _.memoStyles(_ => ({
   },
   bold: {
     fontWeight: 'bold'
+  },
+  shadow: {
+    textShadowOffset: {
+      width: 1,
+      hegith: 1
+    },
+    textShadowRadius: 1,
+    textShadowColor: 'rgba(0, 0, 0, 0.48)'
   },
 
   // theme

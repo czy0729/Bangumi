@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-23 19:47:28
+ * @Last Modified time: 2021-03-14 02:19:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -98,6 +98,7 @@ function ItemSub(
         userId={userId}
         name={userName}
         src={avatar}
+        size={36}
         event={event}
       />
       <Flex.Item style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}>
@@ -166,7 +167,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorMainLight
   },
   itemJump: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: _.colorWarning
   },
   border: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:00:49
+ * @Last Modified time: 2021-03-14 02:12:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -127,7 +127,7 @@ export const ItemCatalog = obc(
                   key={avatar}
                   style={_.mr.sm}
                   navigation={navigation}
-                  size={20}
+                  size={28}
                   userId={userId}
                   name={name}
                   src={avatar}

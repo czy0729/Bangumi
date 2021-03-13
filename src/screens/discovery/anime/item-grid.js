@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-24 20:59:49
+ * @Last Modified time: 2021-03-13 19:08:33
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
@@ -14,7 +14,7 @@ const event = {
 }
 
 function ItemGrid({ pickIndex }, { $, navigation }) {
-  const { id, ageId, image, cn, jp, score } = pick(pickIndex)
+  const { id, ageId, image, cn, jp, score, rank } = pick(pickIndex)
   if (!id) {
     return null
   }
@@ -31,6 +31,7 @@ function ItemGrid({ pickIndex }, { $, navigation }) {
       name={jp}
       nameCn={cn}
       score={score}
+      rank={rank}
       isCollection={collection}
     />
   )

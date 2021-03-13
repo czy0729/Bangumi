@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 14:42:55
+ * @Last Modified time: 2021-03-14 01:59:57
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import { Portal } from '@ant-design/react-native'
@@ -529,7 +529,7 @@ export function t(desc, eventData) {
  * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
  * @param {*} fetchs
  */
-export async function queue(fetchs, num = 2) {
+export async function queue(fetchs = [], num = 2) {
   if (!fetchs.length) return false
 
   await Promise.all(

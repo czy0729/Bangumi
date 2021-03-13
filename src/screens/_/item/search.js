@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:11:13
+ * @Last Modified time: 2021-03-13 18:58:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { HTMLDecode } from '@utils/html'
 import { ob } from '@utils/decorators'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { Tag, Cover, Stars } from '../base'
+import { Tag, Cover, Stars, Rank } from '../base'
 
 export const ItemSearch = ob(
   ({
@@ -44,8 +44,8 @@ export const ItemSearch = ob(
     const isFirst = index === 0
     const _collection = collection || (collected ? '已收藏' : '')
 
-    // {collection} = 2个全角 + 1个半角, 已收藏 = 3个全角
-    const indent = _collection ? (collection ? '　　 ' : '　　　') : ''
+    // eslint-disable-next-line no-irregular-whitespace
+    // const indent = _collection ? (collection ? '　　 ' : '　　　') : '' // {collection} = 2个全角 + 1个半角, 已收藏 = 3个全角
     return (
       <Touchable
         style={[styles.container, style]}
@@ -86,14 +86,11 @@ export const ItemSearch = ob(
               align='start'
             >
               <Flex align='start' style={{ width: '100%' }}>
-                {!!_collection && (
-                  <Tag style={styles.collection} value={_collection} />
-                )}
                 <Flex.Item>
                   {!!(nameCn || name) && (
                     <Katakana.Provider size={15} numberOfLines={2}>
                       <Katakana size={15} bold>
-                        {indent}
+                        {/* {indent} */}
                         {HTMLDecode(nameCn || name)}
                       </Katakana>
                       {!!comments && (
@@ -116,6 +113,7 @@ export const ItemSearch = ob(
                   )}
                 </Flex.Item>
                 <Flex style={_.mt.xxs}>
+                  {!!_collection && <Tag style={_.ml.sm} value={_collection} />}
                   {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
                   {!!type && (
                     <Tag
@@ -138,15 +136,11 @@ export const ItemSearch = ob(
                 </Flex>
               )}
               <Flex style={_.mt.md}>
-                <Stars style={_.mr.xs} value={score} color='warning' />
-                <Text style={_.mr.sm} type='sub' size={11}>
+                <Rank value={rank} />
+                <Stars value={score} color='warning' />
+                <Text type='sub' size={11}>
                   {total.replace('人评分', '')}
                 </Text>
-                {!!rank && (
-                  <Text type='primary' size={11} bold>
-                    #{rank}{' '}
-                  </Text>
-                )}
               </Flex>
             </Flex>
           </Flex.Item>
@@ -174,11 +168,5 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     height: IMG_HEIGHT
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: 0
   }
 }))

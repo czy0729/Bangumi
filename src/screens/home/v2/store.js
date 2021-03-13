@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 14:38:23
+ * @Last Modified time: 2021-03-13 18:41:59
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -318,12 +318,44 @@ export default class ScreenHomeV2 extends store {
   }
 
   @computed get games() {
+    const { filter } = this.state
+    const _filter = filter.toUpperCase()
+
     const { username } = this.usersInfo
-    return collectionStore.userCollections(
+    const userCollections = collectionStore.userCollections(
       username || this.userId,
       MODEL_SUBJECT_TYPE.getLabel('游戏'),
       MODEL_COLLECTION_STATUS.getValue('在看')
     )
+    return {
+      ...userCollections,
+      list: userCollections.list.filter(item => {
+        if (!filter.length) {
+          return true
+        }
+
+        const cn = (item.nameCn || item.name || '').toUpperCase()
+        if (cn.includes(_filter)) {
+          return true
+        }
+
+        // 支持每个字符首拼音筛选
+        if (/^[a-zA-Z]+$/.test(_filter) && cn) {
+          if (!pinYinFirstCharacter[cn]) {
+            pinYinFirstCharacter[cn] = getPinYinFirstCharacter(
+              cn,
+              cn.length
+            ).replace(/ /g, '')
+          }
+
+          if (pinYinFirstCharacter[cn].includes(_filter)) {
+            return true
+          }
+        }
+
+        return false
+      })
+    }
   }
 
   /**

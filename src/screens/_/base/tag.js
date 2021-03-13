@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:17:54
+ * @Last Modified time: 2021-03-13 18:50:48
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -82,6 +82,9 @@ export const Tag = ob(({ style, type, value, size = 10 }) => {
       <Text
         type={isActive ? _.select('plain', 'title') : _.select('sub', _type)}
         size={size}
+        shadow={isActive}
+        bold
+        align='center'
       >
         {value}
       </Text>
@@ -91,8 +94,9 @@ export const Tag = ob(({ style, type, value, size = 10 }) => {
 
 const memoStyles = _.memoStyles(_ => ({
   tag: {
-    paddingVertical: 1,
+    minWidth: 30,
     paddingHorizontal: _.xs,
+    paddingVertical: 1,
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs
   },

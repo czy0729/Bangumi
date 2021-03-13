@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:26:49
+ * @Last Modified time: 2021-03-13 15:13:48
  */
 export * from './app-common'
 export * from './avatar'
@@ -23,6 +23,7 @@ export * from './navigation-bar-events'
 export * from './optimize-tabbar-transition'
 export * from './pagination'
 export * from './popover'
+export * from './rank'
 export * from './safe-area-view'
 export * from './score-tag'
 export * from './section-header'

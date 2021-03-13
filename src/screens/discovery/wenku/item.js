@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 01:49:12
+ * @Last Modified time: 2021-03-14 01:35:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
-import { Tag, Cover, Stars } from '@screens/_'
+import { Tag, Cover, Stars, Rank } from '@screens/_'
 import { obc } from '@utils/decorators'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/wenku'
@@ -110,18 +110,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
               {tip}
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
+              <Rank value={rank} />
               <Stars style={_.mr.sm} value={score} simple />
-              {!!rank && (
-                <Text
-                  style={_.mr.sm}
-                  type='primary'
-                  size={11}
-                  lineHeight={12}
-                  bold
-                >
-                  #{rank}
-                </Text>
-              )}
               {!!anime && <Tag value='动画化' />}
             </Flex>
           </Flex>

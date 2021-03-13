@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-24 21:00:04
+ * @Last Modified time: 2021-03-14 01:30:51
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
-import { Tag, Cover, Stars } from '@screens/_'
+import { Tag, Cover, Stars, Rank } from '@screens/_'
 import { obc } from '@utils/decorators'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/anime'
@@ -48,7 +48,6 @@ function Item({ index, pickIndex }, { $, navigation }) {
     .filter(item => !!item)
     .join(' / ')
   const collection = $.userCollectionsMap[id]
-  const indent = collection ? '　　 ' : ''
   return (
     <Touchable
       style={styles.container}
@@ -87,13 +86,9 @@ function Item({ index, pickIndex }, { $, navigation }) {
             align='start'
           >
             <Flex align='start' style={styles.body}>
-              {!!collection && (
-                <Tag style={styles.collection} value={collection} />
-              )}
               <Flex.Item>
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
-                    {indent}
                     {cn}
                   </Text>
                   {/* <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
@@ -103,6 +98,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 </Text>
               </Flex.Item>
               <Flex style={_.mt.xxs}>
+                {!!collection && <Tag style={_.ml.sm} value={collection} />}
                 {x18(id) && <Tag style={_.ml.sm} value='H' />}
               </Flex>
             </Flex>
@@ -110,18 +106,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
               {tip}
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
+              <Rank value={rank} />
               <Stars style={_.mr.sm} value={score} simple />
-              {!!rank && (
-                <Text
-                  style={_.mr.sm}
-                  type='primary'
-                  size={11}
-                  lineHeight={12}
-                  bold
-                >
-                  #{rank}
-                </Text>
-              )}
               <Flex.Item>
                 <Flex>
                   {_tags.map(item => (
@@ -160,11 +146,5 @@ const memoStyles = _.memoStyles(_ => ({
   },
   body: {
     width: '100%'
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: 0
   }
 }))

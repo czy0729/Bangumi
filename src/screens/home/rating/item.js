@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:55:18
+ * @Last Modified time: 2021-03-14 02:16:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,6 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }) {
           navigation={navigation}
           event={event}
           userId={id}
-          size={32}
           src={avatar}
           border
           radius
@@ -43,8 +42,8 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }) {
         </Flex.Item>
       </Flex>
       {!!comment && (
-        <Flex>
-          <Text style={styles.comment} size={13} lineHeight={16}>
+        <Flex style={_.mt.xs}>
+          <Text style={styles.comment} size={12} lineHeight={15}>
             {comment}
           </Text>
         </Flex>
