@@ -168,4 +168,4 @@ react-native run-android // [android] 真机 usb 调试
 
 觉得 APP 好用的
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/qr/alipay.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/qr/wechat.png" width="188" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" />
