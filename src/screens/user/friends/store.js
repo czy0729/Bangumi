@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 14:24:08
+ * @Last Modified time: 2021-03-14 17:25:42
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
@@ -10,12 +10,18 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 import { info } from '@utils/ui'
+import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 
 const namespace = 'ScreenFriends'
+const excludeState = {
+  filter: ''
+}
+const pinYinFirstCharacter = {}
 
 export default class ScreenFriends extends store {
   state = observable({
     sort: '',
+    ...excludeState,
     _loaded: false
   })
 
@@ -23,6 +29,7 @@ export default class ScreenFriends extends store {
     const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
+      ...excludeState,
       _loaded: true
     })
 
@@ -68,23 +75,47 @@ export default class ScreenFriends extends store {
   @computed get friends() {
     const { userId } = this.params
     const friends = usersStore.friends(userId)
-    const { sort } = this.state
+    const { filter, sort } = this.state
+    const _filter = filter.toUpperCase()
 
-    let list
+    let list = friends.list
+    if (_filter.length) {
+      list = list.filter(item => {
+        const { userName } = item
+        if (userName.includes(_filter)) {
+          return true
+        }
+
+        // 支持每个字符首拼音筛选
+        if (/^[a-zA-Z]+$/.test(_filter) && userName) {
+          if (!pinYinFirstCharacter[userName]) {
+            pinYinFirstCharacter[userName] = getPinYinFirstCharacter(
+              userName,
+              userName.length
+            ).replace(/ /g, '')
+          }
+
+          if (pinYinFirstCharacter[userName].includes(_filter)) {
+            return true
+          }
+        }
+
+        return false
+      })
+    }
+
     if (sort === 'percent') {
-      list = friends.list.sort((a, b) => {
+      list = list.sort((a, b) => {
         const { percent: percentA } = this.users(a.userId)
         const { percent: percentB } = this.users(b.userId)
         return percentB - percentA
       })
     } else if (sort === 'recent') {
-      list = friends.list.sort((a, b) => {
+      list = list.sort((a, b) => {
         const { recent: recentA } = this.users(a.userId)
         const { recent: recentB } = this.users(b.userId)
         return sortByRecent(recentA, recentB)
       })
-    } else {
-      list = friends.list
     }
 
     return {
@@ -114,6 +145,12 @@ export default class ScreenFriends extends store {
       sort
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  onFilterChange = filter => {
+    this.setState({
+      filter: filter.trim()
+    })
   }
 }
 

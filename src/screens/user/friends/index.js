@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 14:23:43
+ * @Last Modified time: 2021-03-14 02:32:57
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import Sort from './sort'
+import Filter from './filter'
 import Store from './store'
 
 const title = '好友'
@@ -63,6 +64,7 @@ class Friends extends React.Component {
           data={$.friends}
           keyExtractor={keyExtractor}
           scrollToTop
+          ListHeaderComponent={<Filter />}
           renderItem={this.renderItem}
           onHeaderRefresh={$.refresh}
         />

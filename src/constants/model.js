@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 17:28:22
+ * @Last Modified time: 2021-03-14 02:27:35
  */
 class Model {
   constructor(data) {
@@ -636,20 +636,28 @@ export const MODEL_RANK_GAME_FILTER = new Model([
     value: 'pc'
   },
   {
-    label: 'PS4',
-    value: 'ps4'
-  },
-  {
     label: 'NS',
     value: 'ns'
   },
   {
-    label: 'Xbox One',
-    value: 'xbox_one'
+    label: 'PS5',
+    value: 'ps5'
+  },
+  {
+    label: 'PS4',
+    value: 'ps4'
   },
   {
     label: 'PSV',
     value: 'psv'
+  },
+  {
+    label: 'Xbox Series X/S',
+    value: 'xbox_series_xs'
+  },
+  {
+    label: 'Xbox One',
+    value: 'xbox_one'
   },
   {
     label: 'Wii U',

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:07:32
+ * @Last Modified time: 2021-03-14 17:24:00
  */
 import React from 'react'
 import { Progress } from '@ant-design/react-native'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Icon } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
@@ -60,17 +60,77 @@ export const ItemFriends = ob(
                   {userName}
                 </Text>
               </Flex.Item>
-              <Text style={_.ml.sm} size={12}>
+              <Text style={_.ml.sm} size={13}>
                 {recent}
               </Text>
             </Flex>
-            <Text style={[_.mt.sm, _.mb.xs]} size={11} type='sub'>
-              {!!doing && `${doing}在看`}
-              {!!collect && `${doing ? ' · ' : ''}${collect}看过`}
-              {!!wish && ` · ${wish}想看`}
-              {!!onHold && ` · ${onHold}搁置`}
-              {!!dropped && ` · ${dropped}抛弃`}
-            </Text>
+            <Flex style={styles.count}>
+              {!!collect && (
+                <>
+                  <Icon
+                    style={_.mr.xs}
+                    name='ios-checkmark'
+                    size={20}
+                    color={_.colorSub}
+                  />
+                  <Text style={_.mr.sm} size={11} type='sub'>
+                    {collect}
+                  </Text>
+                </>
+              )}
+              {!!wish && (
+                <>
+                  <Icon
+                    style={_.mr.xs}
+                    name='ios-heart'
+                    size={11}
+                    color={_.colorSub}
+                  />
+                  <Text style={_.mr.sm} size={11} type='sub'>
+                    {wish}
+                  </Text>
+                </>
+              )}
+              {!!doing && (
+                <>
+                  <Icon
+                    style={_.mr.xs}
+                    name='ios-eye'
+                    size={13}
+                    color={_.colorSub}
+                  />
+                  <Text style={_.mr.sm} size={11} type='sub'>
+                    {doing}
+                  </Text>
+                </>
+              )}
+              {!!onHold && (
+                <>
+                  <Icon
+                    style={_.mr.xs}
+                    name='ios-eye-off'
+                    size={13}
+                    color={_.colorSub}
+                  />
+                  <Text style={_.mr.sm} size={11} type='sub'>
+                    {onHold}
+                  </Text>
+                </>
+              )}
+              {!!dropped && (
+                <>
+                  <Icon
+                    style={_.mr.xs}
+                    name='ios-close'
+                    size={20}
+                    color={_.colorSub}
+                  />
+                  <Text style={_.mr.sm} size={11} type='sub'>
+                    {dropped}
+                  </Text>
+                </>
+              )}
+            </Flex>
             <Progress
               style={styles.progress}
               barStyle={styles.bar}
@@ -78,7 +138,7 @@ export const ItemFriends = ob(
               percent={percent}
             />
           </Flex.Item>
-          <Text style={styles.hobby} size={11} type='sub'>
+          <Text style={styles.hobby} size={12} type='sub'>
             {hobby || '-'} / {percent || '-'}%
           </Text>
         </Flex>
@@ -105,10 +165,12 @@ const memoStyles = _.memoStyles(_ => ({
   },
   progress: {
     position: 'absolute',
-    right: '24%',
+    right: '32%',
     bottom: 0,
     left: 0,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
+    borderRadius: 8,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    overflow: 'hidden'
   },
   bar: {
     backgroundColor: 'transparent',
@@ -123,5 +185,9 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.sm,
     marginBottom: -4,
     backgroundColor: _.colorPlain
+  },
+  count: {
+    marginTop: _.xs,
+    marginBottom: -_.xs
   }
 }))
