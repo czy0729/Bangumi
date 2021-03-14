@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:05:06
+ * @Last Modified time: 2021-03-14 19:09:46
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -45,6 +45,12 @@ function Menus({ navigation }) {
         title='献祭推荐'
         pathname='TinygrailAdvanceSacrifice'
         icon='app'
+      />
+      <MenuItem
+        navigation={navigation}
+        title='低股价'
+        pathname='TinygrailAdvanceState'
+        icon='ico'
       />
       <MenuItem
         navigation={navigation}

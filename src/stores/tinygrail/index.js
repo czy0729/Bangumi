@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 11:56:33
+ * @Last Modified time: 2021-03-14 18:43:45
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate } from '@utils'
@@ -346,6 +346,11 @@ class Tinygrail extends store {
      * 献祭推荐
      */
     advanceSacrificeList: LIST_EMPTY,
+
+    /**
+     * 低价股
+     */
+    advanceState: LIST_EMPTY,
 
     /**
      * 角色本地收藏
@@ -2168,6 +2173,63 @@ class Tinygrail extends store {
     // })
     // this.setStorage(key, undefined, NAMESPACE)
     // return Promise.resolve(data)
+  }
+
+  /**
+   * 低价股
+   * 从市场查找
+   */
+  fetchAdvanceState = async () => {
+    const key = 'advanceState'
+    await this.fetchValhallList()
+
+    const list = this.valhallList.list.filter(item => item.current <= 15)
+    if (list.length) {
+      try {
+        // 循环请求获取第一卖单价
+        await queue(
+          list.map(item => () => {
+            throttleInfo(
+              `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
+            )
+            return this.fetchDepth(item.id)
+          })
+        )
+
+        // 合并数据并计算分数
+        const data = {
+          list: list
+            .map(item => {
+              const { asks } = this.depth(item.id)
+
+              // 列表有时有卖单数, 但是实际又没有人卖, 过滤冰山价格
+              if (!asks.length || asks[0].price === 0) {
+                return null
+              }
+
+              return {
+                ...item,
+                firstAsks: asks[0].price,
+                firstAmount: asks[0].amount
+              }
+            })
+            .filter(item => !!item)
+            .sort((a, b) => a.firstAsks - b.firstAsks),
+          pagination: paginationOnePage,
+          _loaded: getTimestamp()
+        }
+        info('分析完毕')
+
+        this.setState({
+          [key]: data
+        })
+        this.setStorage(key, undefined, NAMESPACE)
+      } catch (error) {
+        warn(NAMESPACE, 'fetchAdvanceState', error)
+      }
+    }
+
+    return Promise.resolve(this.state[key])
   }
 
   /**

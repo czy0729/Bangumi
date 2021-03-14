@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 21:17:59
+ * @Last Modified time: 2021-03-14 20:36:20
  */
 
 /**
@@ -333,6 +333,7 @@ export default {
   '时间胶囊.标签页点击': 'Timeline.tabsPress',
   '时间胶囊.标签页切换': 'Timeline.tabsChange',
   '时间胶囊.切换类型': 'Timeline.onSelectScope',
+  '时间胶囊.隐藏': 'Timeline.onHidden',
   '时间胶囊.删除时间线': 'Timeline.doDelete',
 
   // 吐槽
@@ -356,6 +357,8 @@ export default {
   '竞拍推荐.提示': 'TAdvanceAuction.alert',
   '献祭推荐.跳转': 'TAdvanceSacrifice.to',
   '献祭推荐.提示': 'TAdvanceSacrifice.alert',
+  '低价股.跳转': 'TAdvanceState.to',
+  '低价股.提示': 'TAdvanceState.alert',
 
   // 我的委托
   '我的委托.跳转': 'TBid.to',

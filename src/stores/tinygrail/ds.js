@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 16:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 01:14:20
+ * @Last Modified time: 2021-03-14 18:15:16
  */
 export const defaultKey = 'recent'
 export const defaultSort = '1/50'
@@ -17,6 +17,7 @@ export const storageKeys = [
   'advanceBidList',
   'advanceList',
   'advanceSacrificeList',
+  'advanceState',
   'asks',
   'assets',
   'auction',

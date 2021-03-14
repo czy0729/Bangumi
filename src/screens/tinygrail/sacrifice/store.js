@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:36:14
+ * @Last Modified time: 2021-03-14 17:53:01
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -30,7 +30,8 @@ const excludeState = {
   auctionLoading: false,
   auctionAmount: 0,
   auctionPrice: 0,
-  starForcesValue: 0
+  starForcesValue: 0,
+  loading: false
 }
 const initLastAuction = {
   price: '',
@@ -69,7 +70,6 @@ export default class ScreenTinygrailSacrifice extends store {
       _loaded: 0
     },
     ...excludeState,
-    loading: false,
 
     // 角色独立
     lastAuction: initLastAuction,

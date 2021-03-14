@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:18:48
+ * @Last Modified time: 2021-03-14 19:06:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,6 +14,7 @@ import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
+import Rank from '@tinygrail/_/rank'
 
 function Item(props, { navigation }) {
   const styles = memoStyles()
@@ -33,6 +34,7 @@ function Item(props, { navigation }) {
     firstBids,
     firstAmount,
     mark,
+    rank,
     isAuctioning
   } = props
   const { id: eventId, data: eventData } = event
@@ -44,7 +46,6 @@ function Item(props, { navigation }) {
       <Avatar
         style={styles.avatar}
         src={tinygrailOSS(icon)}
-        size={36}
         name={name}
         borderColor='transparent'
         onPress={() => {
@@ -91,41 +92,46 @@ function Item(props, { navigation }) {
         >
           <Flex>
             <Flex.Item>
-              <Text
-                type='tinygrailPlain'
-                size={name.length > 16 ? 12 : name.length > 13 ? 12 : 15}
-                lineHeight={15}
-                bold
-              >
-                {index + 1}.{name}
-                {!!bonus && (
-                  <Text size={12} lineHeight={15} type='warning'>
-                    {' '}
-                    x{bonus}
+              <Flex>
+                <Rank value={rank} />
+                <Flex.Item>
+                  <Text
+                    type='tinygrailPlain'
+                    size={name.length > 16 ? 13 : name.length > 13 ? 14 : 15}
+                    lineHeight={15}
+                    bold
+                  >
+                    {index + 1}. {name}
+                    {!!bonus && (
+                      <Text size={12} lineHeight={15} type='warning'>
+                        {' '}
+                        x{bonus}
+                      </Text>
+                    )}
+                    {parseInt(level) > 1 && (
+                      <Text type='ask' size={12} lineHeight={15}>
+                        {' '}
+                        lv{level}
+                      </Text>
+                    )}
                   </Text>
-                )}
-                {parseInt(level) > 1 && (
-                  <Text type='ask' size={12} lineHeight={15}>
-                    {' '}
-                    lv{level}
-                  </Text>
-                )}
-              </Text>
-              <Text style={_.mt.xs} type='tinygrailText' size={11}>
+                </Flex.Item>
+              </Flex>
+              <Text style={_.mt.xs} type='tinygrailText' size={12}>
                 {!!amount && (
-                  <Text type='warning' size={11}>
+                  <Text type='warning' size={12} bold>
                     {amount}股
                   </Text>
                 )}
                 {!!amount && ' / '}
                 {!!firstAmount && (
-                  <Text type={isBids ? 'bid' : 'ask'} size={11}>
+                  <Text type={isBids ? 'bid' : 'ask'} size={12} bold>
                     {isBids && '收'}
                     {firstAmount}股
                   </Text>
                 )}
                 {assets && (
-                  <Text type='bid' size={11}>
+                  <Text type='bid' size={12}>
                     {assets.state || '-'} ({assets.sacrifices || '-'})
                   </Text>
                 )}

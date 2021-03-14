@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 21:03:27
+ * @Last Modified time: 2021-03-14 20:39:51
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -171,6 +171,25 @@ export default class ScreenTimeline extends store {
     } catch (error) {
       warn('Timeline', 'onRefreshThenScrollTop', error)
     }
+  }
+
+  onHidden = (title, userId) => {
+    let day
+    if (title === '1天不看TA') {
+      day = 1
+    } else if (title === '3天不看TA') {
+      day = 3
+    } else if (title === '7天不看TA') {
+      day = 7
+    } else {
+      day = 0
+    }
+
+    timelineStore.updateHidden(userId, day)
+    t('时间胶囊.隐藏', {
+      userId,
+      day
+    })
   }
 
   // -------------------- action --------------------

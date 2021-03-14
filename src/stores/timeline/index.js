@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-22 14:44:35
+ * @Last Modified time: 2021-03-14 20:12:42
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -52,10 +52,15 @@ class Timeline extends store {
     /**
      * 吐槽表单授权码
      */
-    formhash: ''
+    formhash: '',
+
+    /**
+     * 隐藏TA
+     */
+    hidden: {}
   })
 
-  init = () => this.readStorage(['timeline', 'say'], NAMESPACE)
+  init = () => this.readStorage(['timeline', 'say', 'hidden'], NAMESPACE)
 
   // -------------------- fetch --------------------
   /**
@@ -168,6 +173,34 @@ class Timeline extends store {
     })
 
     return formhash
+  }
+
+  // -------------------- page --------------------
+  /**
+   * 更新隐藏某人动态的截止时间
+   * @param {*} hash
+   * @param {*} day
+   */
+  updateHidden = (hash, day = 1) => {
+    if (!hash) {
+      return false
+    }
+
+    const key = 'hidden'
+    const data = this.state[key]
+    if (day) {
+      this.setState({
+        [key]: {
+          ...data,
+          [hash]: getTimestamp() + day * 24 * 60 * 60
+        }
+      })
+    } else {
+      this.clearState(key, {})
+    }
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return true
   }
 
   // -------------------- action --------------------

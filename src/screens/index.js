@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-28 14:16:13
+ * @Last Modified time: 2021-03-14 18:10:55
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -87,6 +87,7 @@ export { default as TinygrailAdvanceAuction } from './tinygrail/advance-auction'
 export { default as TinygrailAdvanceAuction2 } from './tinygrail/advance-auction2'
 export { default as TinygrailAdvanceBid } from './tinygrail/advance-bid'
 export { default as TinygrailAdvanceSacrifice } from './tinygrail/advance-sacrifice'
+export { default as TinygrailAdvanceState } from './tinygrail/advance-state'
 export { default as TinygrailBid } from './tinygrail/bid'
 export { default as TinygrailCharaAssets } from './tinygrail/chara-assets'
 export { default as TinygrailClipboard } from './tinygrail/clipboard'

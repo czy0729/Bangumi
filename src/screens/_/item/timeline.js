@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 20:08:21
+ * @Last Modified time: 2021-03-14 20:23:03
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
 import { Flex, Katakana, Text, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, timelineStore } from '@stores'
+import { getTimestamp } from '@utils'
 import { appNavigate, findSubjectCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { HOST, HOST_NAME, EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
-import { Avatar, Cover, Stars, Name } from '../base'
+import { Avatar, Cover, Stars, Name, Popover } from '../base'
 
 const avatarWidth = 40
 const avatarCoverWidth = 40
+const hiddenDS = ['1天不看TA', '3天不看TA', '7天不看TA', '重置']
 
 export const ItemTimeline = ob(
   class extends React.Component {
@@ -34,7 +36,8 @@ export const ItemTimeline = ob(
       image: [],
       clearHref: '',
       event: EVENT,
-      onDelete: Function.prototype
+      onDelete: Function.prototype,
+      onHidden: Function.prototype
     }
 
     appNavigate = (url, passParams) => {
@@ -308,7 +311,8 @@ export const ItemTimeline = ob(
         comment,
         time,
         image,
-        clearHref
+        clearHref,
+        onHidden
       } = this.props
       const _image = !!image.length && image[0]
       const bodyStyle =
@@ -379,10 +383,18 @@ export const ItemTimeline = ob(
                   />
                 </View>
               )}
-              {!!clearHref && (
+              {clearHref ? (
                 <Touchable style={_.ml.sm} onPress={this.onClear}>
-                  <Iconfont style={this.styles.del} name='close' size={13} />
+                  <Iconfont style={this.styles.extra} name='close' size={13} />
                 </Touchable>
+              ) : (
+                <Popover
+                  style={_.ml.sm}
+                  data={hiddenDS}
+                  onSelect={title => onHidden(title, this.userId)}
+                >
+                  <Iconfont style={this.styles.extra} name='extra' size={15} />
+                </Popover>
               )}
             </Flex>
           </Flex>
@@ -391,6 +403,12 @@ export const ItemTimeline = ob(
     }
 
     render() {
+      if (this.userId in timelineStore.hidden) {
+        if (getTimestamp() < timelineStore.hidden[this.userId]) {
+          return null
+        }
+      }
+
       const { style, avatar, children } = this.props
       return (
         <Flex
@@ -448,10 +466,11 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
   },
-  del: {
+  extra: {
     padding: _.sm,
-    marginTop: -_.sm,
-    marginRight: -_.sm,
+    marginTop: -3,
+    marginRight: -12,
+    marginLeft: -4,
     width: 12 + _.sm * 2,
     height: 12 + _.sm * 2
   }

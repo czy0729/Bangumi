@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:30:42
+ * @Last Modified time: 2021-03-14 20:23:27
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -61,6 +61,7 @@ class List extends React.Component {
         title
       }
     }
+
     return (
       <ItemTimeline
         style={_.container._item}
@@ -69,6 +70,7 @@ class List extends React.Component {
         {...item}
         event={event}
         onDelete={$.doDelete}
+        onHidden={$.onHidden}
       >
         <ItemHeatmaps index={index} />
       </ItemTimeline>
