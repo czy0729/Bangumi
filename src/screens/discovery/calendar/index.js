@@ -2,15 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 14:55:35
+ * @Last Modified time: 2021-03-15 12:12:00
  */
 import React from 'react'
 import { Loading } from '@components'
 import { _ } from '@stores'
-// import { open } from '@utils'
 import { inject, withHeader, obc } from '@utils/decorators'
-// import { t } from '@utils/fetch'
-// import { HTML_CALENDAR } from '@constants/html'
 import Type from './type'
 import IconLayout from './icon-layout'
 import List from './list'
@@ -41,23 +38,6 @@ class Calendar extends React.Component {
           <IconLayout $={$} />
         </>
       )
-      // heatmap: '每日放送.右上角菜单'
-      // popover: {
-      //   data: ['浏览器查看'],
-      //   onSelect: key => {
-      //     t('每日放送.右上角菜单', {
-      //       key
-      //     })
-
-      //     switch (key) {
-      //       case '浏览器查看':
-      //         open(HTML_CALENDAR())
-      //         break
-      //       default:
-      //         break
-      //     }
-      //   }
-      // }
     })
   }
 

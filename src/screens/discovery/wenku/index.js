@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 01:48:41
+ * @Last Modified time: 2021-03-15 12:08:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,6 @@ import { Flex, Loading, Heatmap } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
 import IconLayout from './icon-layout'
 import List from './list'
 import Store from './store'
@@ -35,7 +34,7 @@ class Wenku extends React.Component {
 
     navigation.setParams({
       extra: (
-        <Flex style={styles.right}>
+        <Flex style={_.mr._right}>
           <IconLayout $={$} />
           <IconHeader
             style={styles.top}
@@ -48,8 +47,6 @@ class Wenku extends React.Component {
         </Flex>
       )
     })
-
-    hm('discovery/wenku', 'Wenku')
   }
 
   componentWillUnmount() {
@@ -67,9 +64,6 @@ class Wenku extends React.Component {
 }
 
 const styles = _.create({
-  right: {
-    marginRight: -8
-  },
   top: {
     marginLeft: -2,
     transform: [

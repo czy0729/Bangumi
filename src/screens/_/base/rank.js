@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 01:42:18
+ * @Last Modified time: 2021-03-14 21:37:46
  */
 import React from 'react'
 import { Text } from '@components'
@@ -24,7 +24,7 @@ export const Rank = ob(({ style, size = 10, value }) => {
 
 const memoStyles = _.memoStyles(_ => ({
   rank: {
-    minWidth: 16,
+    minWidth: 20,
     paddingHorizontal: _.xs,
     marginRight: 6,
     color: _.__colorPlain__,

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-22 11:36:51
+ * @Last Modified time: 2021-03-15 00:34:17
  */
 import React from 'react'
 import { View } from 'react-native'
+import { NavigationEvents } from 'react-navigation'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { open, copy, runAfter } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, androidKeyboardAdjust } from '@utils/ui'
 import { DEV, TITLE } from '@constants'
 import HeaderTitle from './header-title'
 import Bg from './bg'
@@ -85,6 +86,14 @@ class Subject extends React.Component {
     })
   }
 
+  onDidFocus = () => {
+    androidKeyboardAdjust('setAdjustPan')
+  }
+
+  onDidBlur = () => {
+    androidKeyboardAdjust('setAdjustResize')
+  }
+
   /**
    * - 滚动判断是否显示头部毛玻璃背景
    * - 滚动过马上设置成能渲染底部块
@@ -135,6 +144,10 @@ class Subject extends React.Component {
         <List rendered={rendered} onScroll={this.onScroll} />
         {rendered && (
           <>
+            <NavigationEvents
+              onDidFocus={this.onDidFocus}
+              onDidBlur={this.onDidBlur}
+            />
             <Modal />
             <Heatmap id={title} screen='Subject' />
           </>

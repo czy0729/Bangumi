@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 15:04:45
+ * @Last Modified time: 2021-03-15 14:48:23
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
@@ -15,6 +15,7 @@ const percent = _.isPad ? 0.22 : 0.3
 export const imageWidth = (_.window.width - _.wind * 2) * percent
 export const imageHeight = imageWidth * 1.4
 export const marginLeft = (_.window.contentWidth - num * imageWidth) / (num + 1)
+export const showPrevDay = new Date().getHours() < 12
 
 const namespace = 'ScreenCalendar'
 
@@ -75,14 +76,13 @@ export default class ScreenCalendar extends store {
 
   @computed get sections() {
     let day = new Date().getDay()
-    if (day === 0) {
-      day = 7
-    }
+    if (day === 0) day = 7
 
     const { list } = this.calendar
+    const shift = day - (showPrevDay ? 2 : 1)
     return list
-      .slice(day - 1)
-      .concat(list.slice(0, day - 1))
+      .slice(shift)
+      .concat(list.slice(0, shift))
       .map((item, index) => ({
         title: item.weekday.cn,
         index,

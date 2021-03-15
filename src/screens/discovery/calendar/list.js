@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 01:52:34
+ * @Last Modified time: 2021-03-15 13:50:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import Item from './item'
 import ItemLine from './item-line'
-import { marginLeft } from './store'
+import { marginLeft, showPrevDay } from './store'
 
 let day = new Date().getDay()
 if (day === 0) {
@@ -77,12 +77,10 @@ function List(props, { $ }) {
               }
 
               if ($.isList) {
+                const linePosition = section.index === (showPrevDay ? 1 : 0)
+
                 // 当前时间在番组播放之前
-                if (
-                  section.index === 0 &&
-                  !renderLine &&
-                  parseInt(timeCN) > current
-                ) {
+                if (linePosition && !renderLine && parseInt(timeCN) > current) {
                   renderLine = true
                   return (
                     <View key={i.id} style={styles.row}>
@@ -93,11 +91,7 @@ function List(props, { $ }) {
                 }
 
                 // 当前时间之后已没有未播放番组
-                if (
-                  section.index === 0 &&
-                  !renderLine &&
-                  idx === items.length - 1
-                ) {
+                if (linePosition && !renderLine && idx === items.length - 1) {
                   return (
                     <View key={i.id} style={styles.row}>
                       <ItemLine {...itemProps} />

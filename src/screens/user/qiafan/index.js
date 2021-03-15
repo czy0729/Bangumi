@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 10:00:05
+ * @Last Modified time: 2021-03-15 00:52:20
  */
 import React from 'react'
 import { ScrollView, Flex, Text, Image } from '@components'
@@ -84,7 +84,7 @@ class Qiafan extends React.Component {
             size={240}
             height={274}
             mode='aspectFit'
-            scr={`${HOST_CDN}/gh/czy0729/Bangumi-Static@master/data/qr/alipay.png`}
+            src={`${HOST_CDN}/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png`}
           />
         </Flex>
         <Text
@@ -115,7 +115,7 @@ class Qiafan extends React.Component {
           <Image
             size={240}
             height={240}
-            scr={`${HOST_CDN}/gh/czy0729/Bangumi-Static@master/data/qr/wechat.png`}
+            src={`${HOST_CDN}/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png`}
           />
         </Flex>
       </ScrollView>

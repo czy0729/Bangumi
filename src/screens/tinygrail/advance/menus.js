@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 19:09:46
+ * @Last Modified time: 2021-03-14 21:20:00
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -48,7 +48,7 @@ function Menus({ navigation }) {
       />
       <MenuItem
         navigation={navigation}
-        title='低股价'
+        title='低价股'
         pathname='TinygrailAdvanceState'
         icon='ico'
       />
