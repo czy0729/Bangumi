@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:52:36
+ * @Last Modified time: 2021-03-15 15:45:45
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -401,6 +401,11 @@ export const HTML_SUBJECT_CHARACTERS = subjectId =>
  */
 export const HTML_SUBJECT_PERSONS = subjectId =>
   `${HOST}/subject/${subjectId}/persons`
+
+/**
+ * 维基人
+ */
+export const HTML_WIKI = () => `${HOST}/wiki`
 
 // -------------------- action --------------------
 /**

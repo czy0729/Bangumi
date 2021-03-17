@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 17:23:04
+ * @Last Modified time: 2021-03-17 15:27:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -100,6 +100,11 @@ const menus = [
     login: true
   },
   {
+    title: '维基人',
+    icon: 'wiki',
+    path: 'Wiki'
+  },
+  {
     title: 'Anitama',
     icon: 'anitama',
     path: 'Anitama'
@@ -118,13 +123,13 @@ const menus = [
     path: 'Catalogs',
     login: true
   },
-  {
-    title: '我的日志',
-    icon: 'list',
-    iconList: 'ri-zhi',
-    path: 'Blogs',
-    login: true
-  },
+  // {
+  //   title: '我的日志',
+  //   icon: 'list',
+  //   iconList: 'ri-zhi',
+  //   path: 'Blogs',
+  //   login: true
+  // },
   {
     title: '收起',
     icon: 'arrow-left',
@@ -210,6 +215,10 @@ function Menu(props, { $, navigation }) {
                         quality={false}
                         fadeDuration={0}
                       />
+                    ) : item.icon === 'wiki' ? (
+                      <Text type='__plain__' size={12} bold>
+                        Wiki
+                      </Text>
                     ) : (
                       <>
                         <Iconfont

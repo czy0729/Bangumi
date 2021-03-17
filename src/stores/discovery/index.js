@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 14:02:25
+ * @Last Modified time: 2021-03-16 19:43:29
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -16,7 +16,8 @@ import {
   HTML_CATALOG,
   HTML_CATALOG_DETAIL,
   HTML_BLOG_LIST,
-  HTML_CHANNEL
+  HTML_CHANNEL,
+  HTML_WIKI
 } from '@constants/html'
 import {
   NAMESPACE,
@@ -33,7 +34,8 @@ import {
   analysisCatalog,
   analysisCatalogDetail,
   cheerioBlog,
-  cheerioChannel
+  cheerioChannel,
+  cheerioWiki
 } from './common'
 
 class Discovery extends store {
@@ -118,7 +120,36 @@ class Discovery extends store {
       real: INIT_CHANNEL
     },
 
-    online: 0
+    /**
+     * 在线人数
+     */
+    online: 0,
+
+    /**
+     * 维基人
+     */
+    wiki: {
+      counts: [],
+      timeline: {
+        all: [],
+        lock: [],
+        merge: [],
+        crt: [],
+        prsn: [],
+        ep: [],
+        relation: [],
+        subjectPerson: [],
+        subjectCrt: []
+      },
+      last: {
+        all: [],
+        anime: [],
+        book: [],
+        music: [],
+        game: [],
+        real: []
+      }
+    }
   })
 
   init = () =>
@@ -131,7 +162,8 @@ class Discovery extends store {
         'blog',
         'blogReaded',
         'channel',
-        'online'
+        'online',
+        'wiki'
       ],
       NAMESPACE
     )
@@ -485,6 +517,9 @@ class Discovery extends store {
     return this.channel(type)
   }
 
+  /**
+   * 在线人数
+   */
   fetchOnline = async () => {
     const key = 'online'
     const html = await fetchHTML({
@@ -500,6 +535,27 @@ class Discovery extends store {
     }
 
     return this.online
+  }
+
+  /**
+   * 维基人
+   */
+  fetchWiki = async () => {
+    const key = 'wiki'
+    const html = await fetchHTML({
+      url: HTML_WIKI()
+    })
+
+    const data = cheerioWiki(html)
+    this.setState({
+      [key]: {
+        ...data,
+        lastCounts: this[key].counts
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return this[key]
   }
 
   // -------------------- page --------------------

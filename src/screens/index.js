@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 18:10:55
+ * @Last Modified time: 2021-03-15 15:39:53
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -31,6 +31,7 @@ export { default as Rank } from './discovery/rank'
 export { default as Search } from './discovery/search'
 export { default as Tags } from './discovery/tags'
 export { default as Wenku } from './discovery/wenku'
+export { default as Wiki } from './discovery/wiki'
 
 // Reader
 export { default as Comic } from './reader/comic'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 16:00:39
+ * @Last Modified time: 2021-03-17 15:23:00
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
@@ -283,5 +283,61 @@ export function cheerioChannel(HTML) {
           })
         })
         .get() || []
+  }
+}
+
+/**
+ * 分析维基人
+ * @param {*} HTML
+ */
+export function cheerioWiki(HTML) {
+  const $ = cheerio(HTML)
+  const getList = selector =>
+    (
+      $(selector)
+        .map((index, element) => {
+          const $li = $(element)
+          const $a = $li.find('> a')
+          const $small = $li.find('small')
+          const $user = $small.find('> a')
+          const userId = $user.attr('href')?.replace('/user/', '') || ''
+          const userName = HTMLDecode($user.text().trim())
+          return {
+            id: $a.attr('href') || '',
+            name: HTMLDecode($a.text().trim()),
+            userId,
+            userName: userId === userName ? '' : userName,
+            detail: HTMLDecode($small.text().trim().split('by ')[0])
+              .trim()
+              .replace(/^\(|\)$/g, '')
+          }
+        })
+        .get() || []
+    ).filter((item, index) => index < 50)
+
+  return {
+    counts:
+      $('.wikiStats .num')
+        .map((index, element) => $(element).text())
+        .get() || [],
+    timeline: {
+      all: getList('#wiki_wiki-all li'),
+      lock: getList('#wiki_wiki-lock li'),
+      merge: getList('#wiki_wiki-merge li'),
+      crt: getList('#wiki_wiki-crt li'),
+      prsn: getList('#wiki_wiki-prsn li'),
+      ep: getList('#wiki_wiki-ep li', 'ep'),
+      relation: getList('#wiki_wiki-subject-relation li'),
+      subjectPerson: getList('#wiki_wiki-subject-person li'),
+      subjectCrt: getList('#wiki_wiki-subject-crt li')
+    },
+    last: {
+      all: getList('#latest_all li'),
+      anime: getList('#latest_2 li'),
+      book: getList('#latest_1 li'),
+      music: getList('#latest_3 li'),
+      game: getList('#latest_4 li'),
+      real: getList('#latest_6 li')
+    }
   }
 }
