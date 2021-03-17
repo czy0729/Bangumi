@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 20:23:03
+ * @Last Modified time: 2021-03-17 15:39:15
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -60,8 +60,8 @@ export const ItemTimeline = ob(
     }
 
     get userId() {
-      const { avatar } = this.props
-      return matchUserId(String(avatar?.url).replace(HOST, ''))
+      const { avatar, p1 } = this.props
+      return matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
     }
 
     renderP3() {
@@ -385,7 +385,9 @@ export const ItemTimeline = ob(
               )}
               {clearHref ? (
                 <Touchable style={_.ml.sm} onPress={this.onClear}>
-                  <Iconfont style={this.styles.extra} name='close' size={13} />
+                  <Flex style={this.styles.extra} justify='center'>
+                    <Iconfont name='close' size={13} />
+                  </Flex>
                 </Touchable>
               ) : (
                 <Popover
@@ -393,7 +395,9 @@ export const ItemTimeline = ob(
                   data={hiddenDS}
                   onSelect={title => onHidden(title, this.userId)}
                 >
-                  <Iconfont style={this.styles.extra} name='extra' size={15} />
+                  <Flex style={this.styles.extra} justify='center'>
+                    <Iconfont name='extra' size={15} />
+                  </Flex>
                 </Popover>
               )}
             </Flex>
@@ -467,12 +471,11 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopWidth: _.hairlineWidth
   },
   extra: {
-    padding: _.sm,
+    width: 12 + _.sm * 2,
+    height: 12 + _.sm * 2,
     marginTop: -3,
     marginRight: -12,
-    marginLeft: -4,
-    width: 12 + _.sm * 2,
-    height: 12 + _.sm * 2
+    marginLeft: -4
   }
 }))
 
