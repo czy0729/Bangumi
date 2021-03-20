@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-14 18:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 18:01:24
+ * @Last Modified time: 2021-03-20 09:47:10
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -39,7 +39,7 @@ function List(props, { $ }) {
       data={$.computedList}
       scrollToTop
       renderItem={renderItem}
-      onHeaderRefresh={$.fetchAdvanceList}
+      onHeaderRefresh={() => $.fetchAdvanceState(true)}
     />
   )
 }

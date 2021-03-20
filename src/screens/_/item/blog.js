@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:59:24
+ * @Last Modified time: 2021-03-18 11:49:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,9 +68,11 @@ export const ItemBlog = obc(
           <Flex.Item>
             <Text size={15} numberOfLines={2} bold>
               {title}{' '}
-              <Text size={12} type='main' lineHeight={15}>
-                {replies}
-              </Text>
+              {replies !== '+0' && (
+                <Text size={12} type='main' lineHeight={15} bold>
+                  {replies}
+                </Text>
+              )}
             </Text>
             {!!line.length && (
               <View style={_.mt.xs}>

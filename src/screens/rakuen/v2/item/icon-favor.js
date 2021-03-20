@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:41:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 19:43:46
+ * @Last Modified time: 2021-03-18 23:18:45
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -18,7 +18,7 @@ function IconFavor({ topicId }, { $ }) {
     <Iconfont
       style={styles.icon}
       size={15}
-      name='star-full'
+      name='md-star'
       color={_.colorYellow}
     />
   )
@@ -30,6 +30,6 @@ const styles = _.create({
   icon: {
     position: 'absolute',
     right: 12,
-    bottom: 20
+    bottom: 21
   }
 })

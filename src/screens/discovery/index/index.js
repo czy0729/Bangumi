@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:32:38
+ * @Last Modified time: 2021-03-20 11:43:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -79,7 +79,7 @@ const styles = _.create({
 })
 
 function tabBarIcon({ tintColor }) {
-  return <IconTabBar name='home' color={tintColor} />
+  return <IconTabBar name='home' size={19} color={tintColor} />
 }
 
 function keyExtractor(item) {

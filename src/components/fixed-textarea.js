@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:14:21
+ * @Last Modified time: 2021-03-18 23:51:41
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -474,8 +474,8 @@ export const FixedTextarea = observer(
           <Touchable onPress={this.toggleSource}>
             <Flex>
               <Iconfont
-                name={showSource ? 'check-circle' : 'radio'}
-                size={11}
+                name={showSource ? 'md-check-circle' : 'md-radio-button-unchecked'}
+                size={14}
                 color={showSource ? _.colorMain : _.colorSub}
               />
               <Text style={_.ml.xs} type='sub' size={11}>
@@ -510,7 +510,8 @@ export const FixedTextarea = observer(
             </Flex.Item>
             <Touchable style={this.styles.send} onPress={this.onSubmit}>
               <Iconfont
-                name='navigation'
+                name='md-send'
+                size={18}
                 color={canSend ? _.colorMain : _.colorIcon}
               />
             </Touchable>
@@ -686,7 +687,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   send: {
     padding: _.sm,
-    marginTop: 3,
+    marginTop: 4,
     marginRight: -8
   },
   source: {

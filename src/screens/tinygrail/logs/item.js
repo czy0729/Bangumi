@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:18:02
+ * @Last Modified time: 2021-03-20 09:32:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -137,12 +137,7 @@ function Item(
               </Text>
             )}
             {!!onPress && (
-              <Iconfont
-                style={_.ml.sm}
-                size={14}
-                name='right'
-                color={_.colorTinygrailText}
-              />
+              <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
             )}
           </Flex>
         </Flex>

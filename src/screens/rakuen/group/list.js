@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:03:32
+ * @Last Modified time: 2021-03-18 20:33:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -117,7 +117,8 @@ export default obc(List)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    paddingLeft: _.wind - _._wind + _.md
+    paddingLeft: _.wind - _._wind + _.md,
+    marginBottom: _.xs
   },
   wrap: {
     paddingVertical: _.md,

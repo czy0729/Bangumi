@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:34:39
+ * @Last Modified time: 2021-03-20 15:43:54
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -206,13 +206,13 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont name='list' color={_.__colorPlain__} />
+          <Iconfont name='md-menu' color={_.__colorPlain__} />
           <Heatmap right={-40} id='我的.右上角菜单' />
         </Popover>
       </View>
       <IconHeader
         style={styles.timeline}
-        name='time'
+        name='md-timeline'
         color={_.__colorPlain__}
         onPress={() => {
           t('我的.跳转', {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:40:03
+ * @Last Modified time: 2021-03-19 17:48:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ class TinygrailTopWeek extends React.Component {
       extra: (
         <IconHeader
           style={_.mr._sm}
-          name='refresh'
+          name='md-refresh'
           color={_.colorTinygrailPlain}
           onPress={async () => {
             t('每周萌王.刷新')

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 19:38:17
+ * @Last Modified time: 2021-03-20 15:53:27
  */
 import React from 'react'
 import { Heatmap, Iconfont } from '@components'
@@ -51,12 +51,7 @@ function BtnPopover(
         )
       }
     >
-      <Iconfont
-        style={styles.popover}
-        name='extra'
-        size={17}
-        color={_.colorSub}
-      />
+      <Iconfont style={styles.popover} name='md-more-vert' size={18} />
       {index === 1 && (
         <>
           <Heatmap bottom={34} id='超展开.小组菜单点击' />
@@ -77,7 +72,7 @@ const styles = _.create({
   popover: {
     width: 44,
     height: 64,
-    paddingTop: 16,
+    paddingTop: 17,
     paddingHorizontal: _._wind
   }
 })

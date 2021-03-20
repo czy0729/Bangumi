@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:14:30
+ * @Last Modified time: 2021-03-18 17:24:44
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -19,14 +19,7 @@ export const SectionTitle = ob(({ style, right, children, icon, onPress }) => (
               <Text type='title' size={18} bold>
                 {children}
               </Text>
-              {!!icon && (
-                <Iconfont
-                  style={_.ml.sm}
-                  name={icon}
-                  size={16}
-                  color={_.colorIcon}
-                />
-              )}
+              {!!icon && <Iconfont name={icon} color={_.colorIcon} />}
             </Flex>
           </Touchable>
         ) : (

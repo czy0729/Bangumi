@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:28:20
+ * @Last Modified time: 2021-03-20 15:15:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -128,7 +128,7 @@ function Item({
           )}
           <Text
             type='tinygrailPlain'
-            size={parseInt(11 * ratio)}
+            size={Math.min(parseInt(11 * ratio), 15)}
             numberOfLines={1}
             bold
             selectable={false}
@@ -140,11 +140,15 @@ function Item({
               marginTop: parseInt(3 * ratio)
             }}
             type='tinygrailText'
-            size={textSize}
+            size={Math.min(textSize, 14)}
             numberOfLines={1}
             selectable={false}
           >
-            <Text type={textColor} size={textSize} selectable={false}>
+            <Text
+              type={textColor}
+              size={Math.min(textSize, 14)}
+              selectable={false}
+            >
               {extra}
               {left}
               {priceText}
@@ -166,7 +170,7 @@ export default ob(Item, {
 const memoStyles = _.memoStyles(_ => ({
   item: {
     position: 'absolute',
-    borderWidth: _.hairlineWidth,
+    borderWidth: _.tSelect(1, _.hairlineWidth),
     borderColor: _.colorTinygrailBorder,
     overflow: 'hidden'
   },

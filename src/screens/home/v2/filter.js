@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 14:36:57
+ * @Last Modified time: 2021-03-18 19:39:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,7 +51,7 @@ class Filter extends React.Component {
         />
         {!focus && !filter && (
           <Flex style={this.styles.icon} justify='center' pointerEvents='none'>
-            <Iconfont name='search' size={18} />
+            <Iconfont name='md-search' size={18} />
           </Flex>
         )}
       </View>

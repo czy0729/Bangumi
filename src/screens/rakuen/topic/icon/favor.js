@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 19:30:40
+ * @Last Modified time: 2021-03-18 20:41:44
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,7 +14,7 @@ function IconFavor({ $ }) {
   return (
     <IconHeader
       style={styles.icon}
-      name={$.isFavor ? 'star-full' : 'star'}
+      name={$.isFavor ? 'md-star' : 'md-star-outline'}
       color={$.isFavor ? _.colorYellow : _.colorDesc}
       onPress={$.setFavor}
     >

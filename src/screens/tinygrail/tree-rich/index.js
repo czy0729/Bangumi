@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:28:52
+ * @Last Modified time: 2021-03-20 15:16:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,9 @@ class TinygrailTree extends React.Component {
       title,
       extra: (
         <IconHeader
-          name='refresh'
+          style={_.mr._right}
+          name='md-refresh'
+          size={22}
           color={_.colorTinygrailPlain}
           onPress={() => {
             t('前百首富.刷新')

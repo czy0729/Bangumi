@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 20:55:34
+ * @Last Modified time: 2021-03-20 15:12:30
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont } from '@components'
@@ -42,8 +42,8 @@ function Logo({ forceUpdate }) {
       <Flex style={styles.logo} justify='center'>
         <Iconfont
           style={IOS && styles.ios}
-          size={IOS ? 22 : 28}
-          name={IOS ? 'bgm' : 'bangumi'}
+          size={22}
+          name='bgm'
           color={_.select(_.colorTitle, _.colorDesc)}
         />
       </Flex>

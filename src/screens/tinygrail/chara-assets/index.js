@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 18:15:36
+ * @Last Modified time: 2021-03-19 15:22:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,13 +83,10 @@ class TinygrailCharaAssets extends React.Component {
         <Touchable onPress={$.increaseBatchSelect}>
           <Flex style={styles.check}>
             <Iconfont
-              name='check-simple'
-              size={13}
+              name='md-done-all'
+              size={16}
               color={_.colorTinygrailText}
             />
-            <Text style={_.ml.xs} size={13} type='tinygrailText'>
-              多选
-            </Text>
           </Flex>
         </Touchable>
       )
@@ -152,7 +149,7 @@ const styles = _.create({
   check: {
     paddingHorizontal: 8,
     height: 44,
-    marginTop: -3
+    marginTop: -2
   },
   labelText: {
     width: '100%'

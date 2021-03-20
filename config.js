@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:14:15
+ * @Last Modified time: 2021-03-20 14:25:40
  */
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const initialRouteName = 'Home'
@@ -10,7 +10,7 @@ export const initialRouteName = 'Home'
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets TinygrailSacrifice
   initialRouteParams: {
-    // subjectId: 284157 // anime: 262940, music: 302514, book: 267358, game: 137458
+    // subjectId: 277554 // anime: 262940, music: 302514, book: 267358, game: 137458
     // topicId: 'group/354698' // group/360353, ep/938136
     // userId: 'ekibun' // 456208, 419012
     // monoId: 'character/6782' // 20391 character/70323 person/5745
@@ -27,7 +27,7 @@ export default {
     // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #70900「神原骏河」36股',
     // name: '成神之日'
     // tag: '水树奈奈'
-    // type: 'asks' // 'anime'
+    // type: 'anime' // 'anime'
     // uri: 'https://bgm.tv/award/2019',
   }
 }

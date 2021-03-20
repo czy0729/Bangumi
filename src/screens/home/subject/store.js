@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 14:47:05
+ * @Last Modified time: 2021-03-17 15:58:16
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -142,7 +142,8 @@ export default class ScreenSubject extends store {
 
     // bangumi-data数据扩展
     const item = bangumiData.find(
-      item => item.j === HTMLDecode(data.name) || item.c === HTMLDecode(data.name)
+      item =>
+        item.j === HTMLDecode(data.name) || item.c === HTMLDecode(data.name)
     )
     if (item) {
       const _item = unzipBangumiData(item)
@@ -759,10 +760,11 @@ export default class ScreenSubject extends store {
   }
 
   @computed get tags() {
-    if (this.subjectFormHTML._loaded) {
-      return this.subjectFormHTML.tags || []
-    }
-    return this.subjectFormCDN.tags || []
+    const data =
+      (this.subjectFormHTML._loaded
+        ? this.subjectFormHTML.tags
+        : this.subjectFormCDN.tags) || []
+    return data.filter(item => !!item.name).filter((item, index) => index < 20)
   }
 
   @computed get info() {

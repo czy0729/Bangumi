@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-07 01:21:20
+ * @Last Modified time: 2021-03-18 23:50:45
  */
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -187,8 +187,7 @@ class AntmModal extends React.Component {
                 ]}
               >
                 <Touchable onPress={onClose}>
-                  {/* <Text style={[styles.close]}>×</Text> */}
-                  <Iconfont name='close' size={18} color={_.colorIcon} />
+                  <Iconfont name='md-close' color={_.colorIcon} />
                 </Touchable>
               </View>
             ) : null

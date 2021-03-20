@@ -32,7 +32,7 @@ function Catalog({ style }, { $, navigation }) {
       <SectionTitle
         style={_.container.wind}
         right={showCatalog && <IconCatalog />}
-        icon={!showCatalog && 'right'}
+        icon={!showCatalog && 'md-navigate-next'}
         onPress={() => $.switchBlock('showCatalog')}
       >
         目录

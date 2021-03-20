@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:11:11
+ * @Last Modified time: 2021-03-20 15:25:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,22 +39,17 @@ class TinygrailClipboard extends React.Component {
       extra: (
         <>
           <IconHeader
-            name='refresh'
+            name='md-refresh'
             color={_.colorTinygrailPlain}
+            size={22}
             onPress={() => {
               t('粘贴板.刷新')
               $.init()
             }}
           />
           <IconHeader
-            style={{
-              transform: [
-                {
-                  rotate: '-90deg'
-                }
-              ]
-            }}
-            name='logout'
+            style={_.mr._right}
+            name='md-ios-share'
             color={_.colorTinygrailPlain}
             onPress={() => {
               t('粘贴板.分享')

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:03:05
+ * @Last Modified time: 2021-03-18 23:56:53
  */
 import React from 'react'
 import { UM } from '@components'
@@ -32,7 +32,7 @@ class Rakuen extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon: ({ tintColor }) => (
-      <IconTabBar name='planet' color={tintColor} />
+      <IconTabBar name='md-chat-bubble-outline' size={19} color={tintColor} />
     ),
     tabBarLabel: title
   }

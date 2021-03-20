@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:39:15
+ * @Last Modified time: 2021-03-18 23:26:47
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -386,7 +386,7 @@ export const ItemTimeline = ob(
               {clearHref ? (
                 <Touchable style={_.ml.sm} onPress={this.onClear}>
                   <Flex style={this.styles.extra} justify='center'>
-                    <Iconfont name='close' size={13} />
+                    <Iconfont name='md-close' size={18} />
                   </Flex>
                 </Touchable>
               ) : (
@@ -396,7 +396,7 @@ export const ItemTimeline = ob(
                   onSelect={title => onHidden(title, this.userId)}
                 >
                   <Flex style={this.styles.extra} justify='center'>
-                    <Iconfont name='extra' size={15} />
+                    <Iconfont name='md-more-vert' size={18} />
                   </Flex>
                 </Popover>
               )}
@@ -473,7 +473,7 @@ const memoStyles = _.memoStyles(_ => ({
   extra: {
     width: 12 + _.sm * 2,
     height: 12 + _.sm * 2,
-    marginTop: -3,
+    marginTop: -4,
     marginRight: -12,
     marginLeft: -4
   }

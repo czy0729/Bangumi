@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 05:36:54
+ * @Last Modified time: 2021-03-18 23:50:22
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -77,7 +77,7 @@ export const Input = observer(
       const { colorClear } = this.props
       return (
         <Touchable style={this.styles.close} onPress={this.clear}>
-          <Iconfont name='close' size={12} color={colorClear} />
+          <Iconfont name='md-close' size={16} color={colorClear} />
         </Touchable>
       )
     }

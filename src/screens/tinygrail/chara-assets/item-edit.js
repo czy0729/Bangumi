@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 15:06:49
+ * @Last Modified time: 2021-03-19 16:49:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function ItemEdit({ index, item, type, users, event }, { $ }) {
         {!!editing && (
           <View style={[styles.icon, _.mr.sm]}>
             <Iconfont
-              name={isActive ? 'radio-select' : 'radio'}
+              name={isActive ? 'md-radio-button-on' : 'md-radio-button-off'}
               color={isActive ? _.colorBid : _.colorTinygrailText}
             />
           </View>

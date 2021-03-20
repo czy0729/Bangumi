@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:15:10
+ * @Last Modified time: 2021-03-18 19:18:54
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -54,6 +54,7 @@ class Ranting extends React.Component {
         right={
           showRating && (
             <Touchable
+              style={_.mr._sm}
               onPress={() => {
                 t('条目.跳转', {
                   to: 'Netabare',
@@ -64,11 +65,11 @@ class Ranting extends React.Component {
               }}
             >
               <Flex>
-                {this.showScore && (
-                  <Rank style={_.mr.sm} value={rank} size={13} />
-                )}
-                <Text type='sub'>趋势</Text>
-                <Iconfont name='right' size={16} />
+                {this.showScore && <Rank value={rank} size={13} />}
+                <Text style={_.ml.sm} type='sub'>
+                  趋势
+                </Text>
+                <Iconfont name='md-navigate-next' />
               </Flex>
               <Heatmap
                 id='条目.跳转'
@@ -79,7 +80,7 @@ class Ranting extends React.Component {
             </Touchable>
           )
         }
-        icon={!showRating && 'right'}
+        icon={!showRating && 'md-navigate-next'}
         onPress={() => $.switchBlock('showRating')}
       >
         评分{' '}
@@ -163,15 +164,15 @@ class Ranting extends React.Component {
                       {friend.score}{' '}
                     </Text>
                     <Text size={12} lineHeight={12} type='sub'>
-                      ({friend.total}){' '}
+                      ({friend.total})
                     </Text>
                   </Text>
                 ) : (
                   <Text size={12} lineHeight={12} type='sub'>
-                    用户评分{' '}
+                    用户评分
                   </Text>
                 )}
-                <Iconfont name='right' size={12} />
+                <Iconfont name='md-navigate-next' />
               </Flex>
               <Heatmap
                 id='条目.跳转'
@@ -182,6 +183,7 @@ class Ranting extends React.Component {
             </Touchable>
           </Flex.Item>
           <Touchable
+            style={_.mr._xs}
             name='right'
             size={14}
             onPress={() =>
@@ -202,7 +204,7 @@ class Ranting extends React.Component {
               <Text size={12} lineHeight={12} type='sub'>
                 {getDispute(this.deviation)}{' '}
               </Text>
-              <Iconfont name='information' size={14} />
+              <Iconfont name='md-info-outline' size={16} />
             </Flex>
           </Touchable>
         </Flex>

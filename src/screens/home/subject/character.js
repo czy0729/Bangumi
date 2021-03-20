@@ -28,7 +28,7 @@ function Character({ style }, { $, navigation }) {
       <SectionTitle
         style={_.container.wind}
         right={<IconCharacter />}
-        icon={!showCharacter && 'right'}
+        icon={!showCharacter && 'md-navigate-next'}
         onPress={() => $.switchBlock('showCharacter')}
       >
         角色

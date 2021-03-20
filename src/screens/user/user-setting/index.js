@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 22:43:01
+ * @Last Modified time: 2021-03-18 23:45:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -159,8 +159,7 @@ class UserSetting extends React.Component {
           </Flex.Item>
           <IconTouchable
             style={_.ml.xs}
-            name='information'
-            size={20}
+            name='md-info-outline'
             onPress={() =>
               confirm(
                 '此头像非网页版头像，仅在APP内时光机和个人空间中显示。需要输入图片网络地址，是否前往免费图床？',
@@ -184,8 +183,7 @@ class UserSetting extends React.Component {
           </Flex.Item>
           <IconTouchable
             style={_.ml.xs}
-            name='information'
-            size={20}
+            name='md-info-outline'
             onPress={() =>
               confirm(
                 '网页版没有背景概念，仅在APP内时光机和个人空间中显示。需要输入图片网络地址，是否前往免费图床？',

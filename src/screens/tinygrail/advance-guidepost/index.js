@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:07:44
+ * @Last Modified time: 2021-03-20 15:31:31
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -37,7 +37,8 @@ class TinygrailAdvanceAsk extends React.Component {
     navigation.setParams({
       extra: (
         <IconHeader
-          name='information'
+          style={_.mr._right}
+          name='md-info-outline'
           color={_.colorTinygrailPlain}
           onPress={() => {
             t('卖一推荐.提示')

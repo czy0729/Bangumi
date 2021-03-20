@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 21:38:44
+ * @Last Modified time: 2021-03-20 10:02:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -97,12 +97,7 @@ function Info(props, { $, navigation }) {
                 lv{level}
               </Text>
             </Text>
-            <Iconfont
-              style={_.ml.xs}
-              name='right'
-              size={14}
-              color={_.colorTinygrailText}
-            />
+            <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
           </Flex>
         </Touchable>
       </Flex>
@@ -154,16 +149,15 @@ function Info(props, { $, navigation }) {
                 })
               }
             >
-              <Text type='tinygrailText' size={13}>
-                [关联角色]
-              </Text>
+              <Iconfont name='md-compare-arrows' color={_.colorTinygrailPlain} />
             </Touchable>
           </>
         )}
         <Touchable onPress={$.toggleCover}>
-          <Text type='tinygrailText' size={13}>
-            [{showCover ? '隐藏' : '显示'}封面]
-          </Text>
+          <Iconfont
+            name={showCover ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
+            color={_.colorTinygrailText}
+          />
         </Touchable>
       </Flex>
     </View>

@@ -9,7 +9,7 @@ import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { obc } from '@utils/decorators'
-import ItemAdvance from '../_/item-advance'
+import ItemAdvance from '@tinygrail/_/item-advance'
 
 function List(props, { $ }) {
   const { _loaded } = $.computedList

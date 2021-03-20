@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:39:18
+ * @Last Modified time: 2021-03-18 14:52:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,9 +49,11 @@ function Discuss(props, { $, navigation }) {
                 <Flex.Item>
                   <Text size={15} bold>
                     {item.title}{' '}
-                    <Text type='main' size={12} lineHeight={14}>
-                      {item.replies}
-                    </Text>
+                    {item.replies !== '+0' && (
+                      <Text type='main' size={12} lineHeight={14} bold>
+                        {item.replies}
+                      </Text>
+                    )}
                   </Text>
                   <Katakana.Provider
                     style={_.mt.sm}

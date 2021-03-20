@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-15 06:02:32
+ * @Last Modified time: 2021-03-18 14:58:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,10 +38,8 @@ class Guess extends React.Component {
         <>
           <Type $={$} />
           <IconHeader
-            style={{
-              marginRight: -_.xs
-            }}
-            name='refresh'
+            style={_.mr._right}
+            name='md-refresh'
             onPress={() => {
               t('推荐.刷新')
               $.getList()

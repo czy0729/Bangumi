@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 10:30:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-11 00:16:13
+ * @Last Modified time: 2021-03-19 13:44:58
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Input } from '@components'
@@ -34,7 +34,7 @@ function SearchInput({
         <Touchable onPress={onSubmitEditing}>
           <Iconfont
             style={styles.search}
-            name='search'
+            name='md-search'
             size={14}
             color={_.colorTinygrailText}
           />

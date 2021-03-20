@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 17:23:05
+ * @Last Modified time: 2021-03-18 16:30:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,8 +55,8 @@ function Info(props, { $, navigation }) {
           {!!collectUrl && (
             <Touchable style={_.ml.sm} onPress={$.doCollect}>
               <Flex>
-                <Iconfont size={14} name='like' color={_.colorMain} />
-                <Text style={_.ml.xs} lineHeight={22} type='sub'>
+                <Iconfont size={18} name='md-favorite-outline' />
+                <Text style={_.ml.sm} lineHeight={22} type='sub'>
                   收藏
                 </Text>
               </Flex>
@@ -67,8 +67,8 @@ function Info(props, { $, navigation }) {
           {!!eraseCollectUrl && (
             <Touchable style={_.ml.sm} onPress={$.doEraseCollect}>
               <Flex>
-                <Iconfont size={14} name='like-full' color={_.colorDanger} />
-                <Text style={_.ml.xs} type='danger'>
+                <Iconfont size={18} name='md-favorite' color={_.colorMain} />
+                <Text style={_.ml.sm} type='main'>
                   已收藏
                 </Text>
               </Flex>
@@ -97,18 +97,13 @@ function Info(props, { $, navigation }) {
         {!!$.info && <RenderHtml style={styles.info} html={$.info} />}
         {!!$.detail && <RenderHtml style={_.mt.lg} html={$.detail} />}
         {!!$.cn && (
-          <Flex style={_.mt.md} justify='end'>
+          <Flex style={_.mt.lg} justify='end'>
             <Touchable onPress={$.onMore}>
               <Flex>
-                <Text size={13} type='sub'>
+                <Iconfont name='md-read-more' color={_.colorSub} />
+                <Text style={_.ml.sm} type='sub'>
                   更多资料
                 </Text>
-                <Iconfont
-                  style={_.rotate}
-                  size={13}
-                  color={_.colorSub}
-                  name='arrow-left'
-                />
               </Flex>
             </Touchable>
           </Flex>
@@ -122,6 +117,7 @@ function Info(props, { $, navigation }) {
         style={styles.title}
         right={
           <Touchable
+            style={_.mr._sm}
             onPress={() => {
               t('人物.跳转', {
                 to: 'Topic',
@@ -137,7 +133,7 @@ function Info(props, { $, navigation }) {
           >
             <Flex>
               <Text type='sub'>去吐槽</Text>
-              <Iconfont name='right' size={16} />
+              <Iconfont name='md-navigate-next' />
             </Flex>
             <Heatmap
               id='人物.跳转'

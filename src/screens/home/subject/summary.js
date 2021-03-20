@@ -33,7 +33,7 @@ function Summary({ style }, { $ }) {
     >
       <SectionTitle
         right={<IconTranslate />}
-        icon={!showSummary && 'right'}
+        icon={!showSummary && 'md-navigate-next'}
         onPress={() => $.switchBlock('showSummary')}
       >
         简介

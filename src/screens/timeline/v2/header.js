@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:24:38
+ * @Last Modified time: 2021-03-18 23:24:07
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -25,7 +25,7 @@ function Header(props, { $, navigation }) {
       <Flex style={styles.icons} justify='end'>
         <IconTabsHeader
           style={styles.icon}
-          name='add'
+          name='md-add'
           onPress={() => {
             if (!$.isWebLogin) {
               info('请先登录')

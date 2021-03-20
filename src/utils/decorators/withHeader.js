@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 12:13:19
+ * @Last Modified time: 2021-03-18 11:42:36
  */
 import React from 'react'
 import {
@@ -46,7 +46,7 @@ const withHeader = ({
         })
         const element = navigation.getParam(
           'element',
-          <Iconfont size={24} name='more' color={_.colorTitle} />
+          <Iconfont name='md-more-horiz' color={_.colorTitle} />
         )
         const heatmap = navigation.getParam('heatmap')
         const extra = navigation.getParam('extra')

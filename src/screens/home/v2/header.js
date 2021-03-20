@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:10:22
+ * @Last Modified time: 2021-03-18 19:38:18
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -49,7 +49,7 @@ function Header(props, { navigation }) {
         />
         <IconTabsHeader
           style={styles.icon}
-          name='search'
+          name='md-search'
           onPress={() => {
             t('首页.跳转', {
               to: 'Search'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:52:22
+ * @Last Modified time: 2021-03-20 11:47:27
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -34,8 +34,8 @@ function Extra({ $, navigation }) {
         }
       >
         <Flex style={_.mr.sm}>
-          <IconHeader name='trophy' />
-          <Text size={12}>启动ICO</Text>
+          <IconHeader name='trophy' size={19} />
+          <Text size={13}>启动ICO</Text>
         </Flex>
       </Touchable>
     )
@@ -44,6 +44,7 @@ function Extra({ $, navigation }) {
   return (
     <IconHeader
       name='trophy'
+      size={19}
       onPress={() => {
         const path = $.chara.users ? 'TinygrailICODeal' : 'TinygrailDeal'
         t('人物.跳转', {

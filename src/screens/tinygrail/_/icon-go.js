@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 11:15:15
+ * @Last Modified time: 2021-03-20 09:10:29
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -18,8 +18,8 @@ function IconGo({ $ }) {
   return (
     <Popover style={styles.icon} data={data} onSelect={$.onSelectGo}>
       <Flex>
-        <Iconfont name='right' size={12} color={_.colorTinygrailText} />
-        <Text style={_.ml.xs} type='tinygrailText'>
+        <Iconfont name='md-read-more' size={24} color={_.colorTinygrailPlain} />
+        <Text style={_.ml.xs} type='tinygrailPlain' size={13} bold>
           {go}
         </Text>
       </Flex>

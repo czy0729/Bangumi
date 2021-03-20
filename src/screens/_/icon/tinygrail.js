@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-07 15:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:54:00
+ * @Last Modified time: 2021-03-20 15:43:03
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -21,6 +21,7 @@ export const IconTinygrail = ob(
         <IconTabsHeader
           style={style}
           name='trophy'
+          size={19}
           color={_.colorDesc}
           onPress={() => {
             const { id, data } = event
@@ -47,7 +48,8 @@ export const IconTinygrail = ob(
     return (
       <IconTabsHeader
         style={style}
-        name='calendar'
+        name='md-calendar-today'
+        size={18}
         color={color}
         onPress={() => {
           const { id, data } = event

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 04:41:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 02:19:25
+ * @Last Modified time: 2021-03-18 11:55:17
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,8 +13,8 @@ import { ob } from '@utils/decorators'
 function IconLayout({ $ }) {
   return (
     <IconTouchable
-      name={$.isList ? 'order' : 'list'}
-      size={$.isList ? 18 : 20}
+      style={_.mr._xs}
+      name={$.isList ? 'md-grid-view' : 'md-menu'}
       color={_.colorTitle}
       onPress={$.switchLayout}
     >

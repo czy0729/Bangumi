@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 17:26:52
+ * @Last Modified time: 2021-03-20 10:03:18
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { Avatar, IconBack } from '@screens/_'
+import { Avatar, IconBack, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
@@ -74,7 +74,7 @@ function Header(props, { $, navigation }) {
                 <Rank value={rank} />
                 <Text
                   type='tinygrailPlain'
-                  size={name.length > 12 ? 10 : name.length > 8 ? 12 : 13}
+                  size={name.length > 12 ? 11 : name.length > 8 ? 13 : 14}
                   numberOfLines={1}
                   lineHeight={13}
                   bold
@@ -87,7 +87,7 @@ function Header(props, { $, navigation }) {
                 <Text
                   style={_.ml.xs}
                   type={color}
-                  size={11}
+                  size={12}
                   lineHeight={13}
                   align='center'
                   bold
@@ -95,7 +95,7 @@ function Header(props, { $, navigation }) {
                   {fluctuationText}
                 </Text>
               </Flex>
-              <Text type='tinygrailText' size={11} lineHeight={14}>
+              <Text style={_.mt.xs} type='tinygrailText' size={12}>
                 #{$.monoId} / +{toFixed(rate, 1)} (
                 {Number(toFixed(calculateRate(rate, rank, stars), 1))})
               </Text>
@@ -103,9 +103,9 @@ function Header(props, { $, navigation }) {
           </Flex>
         </Flex.Item>
         <Flex>
-          <Text
-            type='tinygrailText'
-            size={12}
+          <IconTouchable
+            name='md-workspaces-outline'
+            color={_.colorTinygrailPlain}
             onPress={() => {
               t('交易.跳转', {
                 to: 'TinygrailSacrifice',
@@ -123,13 +123,11 @@ function Header(props, { $, navigation }) {
                 form: 'deal'
               })
             }}
-          >
-            [资产重组]
-          </Text>
-          <Text
-            style={_.ml.xs}
-            type='tinygrailText'
-            size={12}
+          />
+          <IconTouchable
+            style={_.ml._xs}
+            name='md-waterfall-chart'
+            color={_.colorTinygrailPlain}
             onPress={() => {
               t('交易.跳转', {
                 to: 'TinygrailTrade',
@@ -147,23 +145,19 @@ function Header(props, { $, navigation }) {
                 form: 'deal'
               })
             }}
-          >
-            [K线]
-          </Text>
+          />
           {!!subject && (
-            <Text
-              style={_.ml.xs}
-              type='tinygrailText'
-              size={12}
+            <IconTouchable
+              style={_.ml._xs}
+              name='md-compare-arrows'
+              color={_.colorTinygrailPlain}
               onPress={() => {
                 navigation.push('TinygrailRelation', {
                   ids: r,
                   name: `${subject} (${r.length})`
                 })
               }}
-            >
-              [关联]
-            </Text>
+            />
           )}
         </Flex>
       </Flex>
@@ -175,7 +169,7 @@ export default obc(Header)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingVertical: _.space,
+    paddingVertical: _.sm,
     paddingLeft: _.wind,
     paddingRight: _.isPad ? _.wind - _._wind : 8
   },
@@ -189,7 +183,6 @@ const memoStyles = _.memoStyles(_ => ({
     left: _._wind
   },
   avatar: {
-    marginLeft: -_.sm,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

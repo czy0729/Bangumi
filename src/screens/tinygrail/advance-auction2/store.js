@@ -9,7 +9,7 @@ import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
-import { levelList, sortList, SORT_GF } from '../_/utils'
+import { levelList, sortList, SORT_GF } from '@tinygrail/_/utils'
 
 export const sortDS = [SORT_GF]
 const namespace = 'ScreenTinygrailAdvanceAuction2'

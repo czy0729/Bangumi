@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:14:14
+ * @Last Modified time: 2021-03-19 17:47:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,12 +61,7 @@ function Info(props, { $, navigation }) {
           <Text type='tinygrailPlain' size={15} bold>
             #{id} - {name}
           </Text>
-          <Iconfont
-            style={_.ml.sm}
-            name='right'
-            size={15}
-            color={_.colorTinygrailText}
-          />
+          <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
         </Flex>
       </Touchable>
       <Flex style={_.mt.sm} justify='center'>

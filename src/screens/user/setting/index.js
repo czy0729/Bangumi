@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 14:35:43
+ * @Last Modified time: 2021-03-20 15:13:29
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -1307,7 +1307,7 @@ class Setting extends React.Component {
             style={{
               opacity: 0
             }}
-            name='more'
+            name='md-more-horiz'
             onPress={() => navigation.push('DEV')}
           />
         </Flex>

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-10 11:48:39
+ * @Last Modified time: 2021-03-19 17:41:42
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
@@ -167,13 +167,14 @@ class Temples extends React.Component {
           </Flex>
         )}
         <Flex style={_.mt.md} justify='center'>
-          <Text
-            style={styles.expand}
-            type='tinygrailText'
-            onPress={$.toggleTemples}
-          >
-            [{showTemples ? '隐藏' : '显示'}圣殿]
-          </Text>
+          <Touchable style={styles.expand} onPress={$.toggleTemples}>
+            <Iconfont
+              name={
+                showTemples ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'
+              }
+              color={_.colorTinygrailText}
+            />
+          </Touchable>
           {showTemples && list.length > 6 && (
             <Text
               style={[styles.expand, _.ml.md]}

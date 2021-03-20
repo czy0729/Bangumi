@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 01:03:06
+ * @Last Modified time: 2021-03-18 19:25:51
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -19,7 +19,7 @@ function ToolBar(props, { $ }) {
     <CompToolBar style={!list && _.mb.sm}>
       <CompToolBar.Popover
         data={orderData}
-        icon='sort'
+        icon='md-sort'
         iconColor={order ? _.colorMain : _.colorSub}
         text={order ? MODEL_TAG_ORDERBY.getLabel(order) : '名称'}
         type={order ? 'main' : 'sub'}
@@ -46,14 +46,14 @@ function ToolBar(props, { $ }) {
       >
         <Iconfont
           style={_.mr.xs}
-          name='list'
-          size={14}
+          name='md-grid-view'
+          size={15}
           color={list ? _.colorMain : _.colorDesc}
         />
         <Iconfont
-          style={_.ml.sm}
-          name='order'
-          size={13}
+          style={_.ml.xs}
+          name='md-menu'
+          size={16}
           color={!list ? _.colorMain : _.colorDesc}
         />
       </CompToolBar.Touchable>

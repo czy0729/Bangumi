@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 /*
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 04:47:07
+ * @Last Modified time: 2021-03-18 23:30:45
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -36,7 +37,9 @@ export default
 class Home extends React.Component {
   static navigationOptions = {
     header: null,
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
+    tabBarIcon: ({ tintColor }) => (
+      <IconTabBar name='md-star-outline' size={24} color={tintColor} />
+    ),
     tabBarLabel: '进度'
   }
 
@@ -89,10 +92,13 @@ class Home extends React.Component {
             <Header />
             <Tab length={$.tabs.length} />
             <Modal />
-            {isFocused && (
+            {/* {isFocused && (
               <IconPortal index={2} onPress={$.onRefreshThenScrollTop} />
-            )}
-            <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
+            )} */}
+            <NavigationEvents
+              onDidFocus={this.onDidFocus}
+              onDidBlur={this.onDidBlur}
+            />
             <Heatmaps />
           </>
         )}

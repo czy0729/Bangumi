@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:33:17
+ * @Last Modified time: 2021-03-18 15:47:53
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
@@ -30,7 +30,7 @@ function SectionTitle({ title, type }, { navigation }) {
         >
           <Flex>
             <Text>频道</Text>
-            <Iconfont style={_.ml.xs} name='right' color={_.colorTitle} />
+            <Iconfont name='md-navigate-next' color={_.colorTitle} />
           </Flex>
         </Touchable>
       }
@@ -44,7 +44,7 @@ export default obc(SectionTitle)
 
 const styles = _.create({
   section: {
-    marginTop: _.space,
+    marginTop: 24,
     marginHorizontal: _.wind
   }
 })

@@ -17,7 +17,7 @@ import {
   MODEL_TINYGRAIL_CACULATE_TYPE
 } from '@constants/model'
 import _ from '@styles'
-import { VALHALL_PRICE } from '../_/ds'
+import { VALHALL_PRICE } from '@tinygrail/_/ds'
 
 const TINYGRAIL_VALHALL_ID = 'valhalla@tinygrail.com'
 const H_TOOL_BAR = 44

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:35:22
+ * @Last Modified time: 2021-03-18 23:38:02
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
@@ -32,8 +32,8 @@ function ToolBar(props, { $ }) {
       >
         <Flex style={styles.item} justify='center'>
           <Iconfont
-            name='sort'
-            size={13}
+            name='md-sort'
+            size={16}
             color={order ? _.colorMain : undefined}
           />
           <Text
@@ -51,8 +51,8 @@ function ToolBar(props, { $ }) {
       <Popover data={filterData} onSelect={$.onFilterSelect}>
         <Flex style={styles.item} justify='center'>
           <Iconfont
-            name='filter'
-            size={13}
+            name='md-bookmark-outline'
+            size={16}
             color={tag ? _.colorMain : undefined}
           />
           <Text
@@ -71,14 +71,14 @@ function ToolBar(props, { $ }) {
         <Flex style={styles.item} justify='center'>
           <Iconfont
             style={_.mr.xs}
-            name='list'
-            size={14}
+            name='md-menu'
+            size={16}
             color={list ? _.colorMain : undefined}
           />
           <Iconfont
-            style={_.ml.sm}
-            name='order'
-            size={13}
+            style={_.ml.xs}
+            name='md-grid-view'
+            size={15}
             color={!list ? _.colorMain : undefined}
           />
         </Flex>
@@ -96,7 +96,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   item: {
-    paddingVertical: _.sm,
+    height: 30,
     paddingHorizontal: _.md,
     marginHorizontal: _.xs,
     backgroundColor: _.select(

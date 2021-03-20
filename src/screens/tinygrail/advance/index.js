@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:04:49
+ * @Last Modified time: 2021-03-20 09:44:07
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -10,8 +10,8 @@ import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
+import { withHeaderParams } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Menus from './menus'
 
 const title = '高级分析'
@@ -33,7 +33,8 @@ class TinygrailAdvance extends React.Component {
     navigation.setParams({
       extra: (
         <IconHeader
-          name='information'
+          style={_.colorMain._right}
+          name='md-info-outline'
           color={_.colorTinygrailPlain}
           onPress={() => {
             t('高级分析.提示')

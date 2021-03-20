@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:15:06
+ * @Last Modified time: 2021-03-19 18:23:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,8 +38,8 @@ function Auth(props, { $, navigation }) {
           <Avatar
             key={tinygrailOSS(avatar && avatar.large)}
             style={styles.avatar}
-            size={32}
             src={tinygrailOSS(avatar && avatar.large)}
+            size={36}
             name={nickname}
             borderColor='transparent'
           />
@@ -62,8 +62,8 @@ function Auth(props, { $, navigation }) {
                 )}
               </Touchable>
               <IconTouchable
-                name={_.tSelect('night', 'sun')}
-                color={_.colorTinygrailText}
+                name={_.tSelect('md-brightness-2', 'md-brightness-5')}
+                color={_.colorTinygrailIcon}
                 size={18}
                 onPress={_.toggleTinygrailThemeMode}
               />
@@ -93,7 +93,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: _._wind
   },
   avatar: {
-    marginLeft: -4,
+    marginLeft: _.xs,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

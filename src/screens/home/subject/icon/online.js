@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 00:57:22
+ * @Last Modified time: 2021-03-18 19:57:53
  */
 import React from 'react'
 import { Heatmap, Iconfont } from '@components'
@@ -17,7 +17,7 @@ function IconOnline(props, { $ }) {
 
   return (
     <Popover data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
-      <Iconfont style={styles.icon} name='xin-fan' size={16} />
+      <Iconfont style={styles.icon} name='md-airplay' size={18} />
       <Heatmap right={55} bottom={-7} id='条目.搜索源' />
     </Popover>
   )

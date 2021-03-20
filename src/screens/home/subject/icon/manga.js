@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:31:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 19:19:36
+ * @Last Modified time: 2021-03-18 18:00:17
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
@@ -17,8 +17,8 @@ function IconManga(props, { $ }) {
   return (
     <Touchable style={styles.icon} onPress={$.toManhuadb}>
       <Flex>
-        <Iconfont name='discovery' size={16} />
-        <Text style={_.ml.xs} size={12} type='sub'>
+        <Iconfont name='md-visibility' />
+        <Text style={_.ml.xs} size={13} type='sub'>
           漫画
         </Text>
       </Flex>

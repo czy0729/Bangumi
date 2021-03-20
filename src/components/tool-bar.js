@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 12:02:36
+ * @Last Modified time: 2021-03-18 12:02:18
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -27,10 +27,12 @@ const ToolBar = observer(({ style, children, ...other }) => {
 ToolBar.Icon = function ToolBarItem({ icon, iconStyle, iconColor, onSelect }) {
   const styles = memoStyles()
   return (
-    <Touchable style={styles.item} onPress={onSelect}>
-      {!!icon && (
-        <Iconfont style={iconStyle} name={icon} size={15} color={iconColor} />
-      )}
+    <Touchable onPress={onSelect}>
+      <Flex style={styles.item}>
+        {!!icon && (
+          <Iconfont style={iconStyle} name={icon} size={16} color={iconColor} />
+        )}
+      </Flex>
     </Touchable>
   )
 }
@@ -61,7 +63,7 @@ ToolBar.Popover = function ToolBarPopover({
     <Popover data={data} onSelect={onSelect}>
       <Flex style={styles.item} justify='center'>
         {!!icon && (
-          <Iconfont style={_.mr.xs} name={icon} size={12} color={iconColor} />
+          <Iconfont style={_.mr.xs} name={icon} size={16} color={iconColor} />
         )}
         <Text size={11} type={type} bold>
           {text}
@@ -80,7 +82,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: 10
   },
   item: {
-    paddingVertical: _.sm,
+    height: 30,
     paddingHorizontal: _.md,
     marginHorizontal: _.xs,
     backgroundColor: _.select(

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 13:50:02
+ * @Last Modified time: 2021-03-18 14:10:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,7 @@ function Line() {
   return (
     <Flex>
       <Flex.Item style={styles.line} />
-      <Iconfont name='time' color={_.colorMain} size={13} />
+      <Iconfont name='md-access-time' color={_.colorMain} size={16} />
       <Text style={_.ml.xs} type='main' size={12} bold>
         {date('H:i', getTimestamp())}
       </Text>

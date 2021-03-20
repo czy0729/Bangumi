@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 14:54:17
+ * @Last Modified time: 2021-03-18 20:29:23
  */
 import React from 'react'
 import { Heatmap, Iconfont } from '@components'
@@ -26,7 +26,7 @@ function BtnOrigin({ subjectId, subject }, { $ }) {
       data={$.onlineOrigins(subjectId)}
       onSelect={label => $.onlinePlaySelected(label, subjectId)}
     >
-      <Iconfont style={styles.icon} name='xin-fan' size={18} />
+      <Iconfont style={styles.icon} name='md-airplay' size={17} />
       <Heatmap right={55} bottom={-7} id='首页.搜索源' />
     </Popover>
   )
@@ -37,7 +37,7 @@ export default obc(BtnOrigin)
 const styles = _.create({
   btn: {
     paddingLeft: _.sm,
-    paddingRight: _.sm + 2
+    paddingRight: _.sm + 4
   },
   icon: {
     marginBottom: -1

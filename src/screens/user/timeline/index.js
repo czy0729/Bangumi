@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 22:32:04
+ * @Last Modified time: 2021-03-18 23:44:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,11 +39,8 @@ class UserTimeline extends React.Component {
         title: `${userName}的${title}`,
         extra: (
           <IconTouchable
-            style={{
-              marginRight: -_.sm
-            }}
-            name='information'
-            size={20}
+            style={_.mr._right}
+            name='md-info-outline'
             onPress={this.onInformation}
           />
         )
@@ -52,11 +49,8 @@ class UserTimeline extends React.Component {
       navigation.setParams({
         extra: (
           <IconTouchable
-            style={{
-              marginRight: -_.sm
-            }}
-            name='information'
-            size={20}
+            style={_.mr._right}
+            name='md-info-outline'
             onPress={this.onInformation}
           />
         )

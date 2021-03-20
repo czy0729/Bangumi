@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:47:17
+ * @Last Modified time: 2021-03-19 18:14:40
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -17,24 +17,33 @@ function Menus(props, { $ }) {
   const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
     <Flex style={styles.section} wrap='wrap'>
-      <MenuItem title='热门榜单' pathname='TinygrailOverview' icon='bang-dan' />
-      <MenuItem title='新番榜单' pathname='TinygrailNew' icon='xin-fan' />
-      <MenuItem title='ICO榜单' pathname='TinygrailICO' icon='ico' />
-      <MenuItem title='番市首富' pathname='TinygrailRich' icon='shou-fu' />
-      <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='app' />
-      <MenuItem title='最新圣殿' pathname='TinygrailTemples' icon='break' />
-      <MenuItem title='每周萌王' pathname='TinygrailTopWeek' icon='like' />
       <MenuItem
-        iconStyle={{
-          transform: [
-            {
-              rotate: '-90deg'
-            }
-          ]
-        }}
+        title='热门榜单'
+        pathname='TinygrailOverview'
+        icon='md-whatshot'
+      />
+      <MenuItem title='新番榜单' pathname='TinygrailNew' icon='md-local-play' />
+      <MenuItem
+        title='ICO榜单'
+        pathname='TinygrailICO'
+        icon='md-attach-money'
+      />
+      <MenuItem title='番市首富' pathname='TinygrailRich' icon='md-money' />
+      <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='md-looks' />
+      <MenuItem
+        title='最新圣殿'
+        pathname='TinygrailTemples'
+        icon='md-image-aspect-ratio'
+      />
+      <MenuItem
+        title='每周萌王'
+        pathname='TinygrailTopWeek'
+        icon='md-favorite-outline'
+      />
+      <MenuItem
         title='通天塔(α)'
         pathname='TinygrailStar'
-        icon='navigation'
+        icon='md-change-history'
       />
       <Assets />
       <MenuItem
@@ -54,7 +63,7 @@ function Menus(props, { $ }) {
         config={{
           type: 'bid'
         }}
-        icon='bid'
+        icon='md-add-circle-outline'
       />
       <MenuItem
         style={{
@@ -73,7 +82,7 @@ function Menus(props, { $ }) {
         config={{
           type: 'asks'
         }}
-        icon='ask'
+        icon='md-remove-circle-outline'
       />
       <MenuItem
         title={
@@ -89,24 +98,32 @@ function Menus(props, { $ }) {
         config={{
           type: 'auction'
         }}
-        icon='auction'
+        icon='md-gavel'
       />
       <MenuItem
         title='我的持仓'
         pathname='TinygrailCharaAssets'
-        icon='package'
+        icon='md-inbox'
       />
-      <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />
-      <MenuItem title='人物查询' pathname='TinygrailSearch' icon='search' />
+      <MenuItem
+        title='资金日志'
+        pathname='TinygrailLogs'
+        icon='md-insert-chart-outlined'
+      />
+      <MenuItem title='人物查询' pathname='TinygrailSearch' icon='md-search' />
       <MenuItem
         style={{
           backgroundColor: _.colorTinygrailActive
         }}
         title='高级功能'
         pathname='TinygrailAdvance'
-        icon='meeting'
+        icon='md-card-membership'
       />
-      <MenuItem title='我的道具' pathname='TinygrailItems' icon='order' />
+      <MenuItem
+        title='我的道具'
+        pathname='TinygrailItems'
+        icon='md-workspaces-outline'
+      />
     </Flex>
   )
 }

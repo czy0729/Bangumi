@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:58:39
+ * @Last Modified time: 2021-03-20 11:56:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,9 @@ export default
 class Auth extends React.Component {
   static navigationOptions = {
     header: null,
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
+    tabBarIcon: ({ tintColor }) => (
+      <IconTabBar name='md-star-outline' color={tintColor} />
+    ),
     tabBarLabel: '进度'
   }
 
@@ -46,15 +48,17 @@ class Auth extends React.Component {
           <Flex style={styles.toolbar}>
             <Flex.Item>
               <IconTouchable
+                style={{
+                  marginTop: -2
+                }}
                 name='setting'
-                size={20}
                 color={_.colorDesc}
+                size={19}
                 onPress={() => navigation.push('Setting')}
               />
             </Flex.Item>
             <IconTouchable
-              name='search'
-              size={20}
+              name='md-search'
               color={_.colorDesc}
               onPress={() => navigation.push('Search')}
             />

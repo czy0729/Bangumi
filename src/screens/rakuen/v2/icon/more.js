@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-11 20:51:00
+ * @Last Modified time: 2021-03-18 23:16:09
  */
 import React from 'react'
 import { Iconfont, Heatmap } from '@components'
@@ -49,7 +49,7 @@ function IconMore({ style }, { $, navigation }) {
         }
       }}
     >
-      <Iconfont name='more' color={_.colorTitle} />
+      <Iconfont name='md-more-horiz' color={_.colorTitle} />
       <Heatmap id='超展开.右上角菜单' />
       <Heatmap right={57} bottom={-32} id='超展开.取消预读取' />
       <Heatmap bottom={-32} id='超展开.预读取' />

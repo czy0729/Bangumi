@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:22:01
+ * @Last Modified time: 2021-03-20 09:33:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,10 +37,10 @@ function History({ style }, { $, navigation }) {
               </Text>
             </Flex.Item>
             <Touchable
-              style={[styles.close, _.ml.md]}
+              style={styles.close}
               onPress={() => $.deleteHistory(item)}
             >
-              <Iconfont name='close' size={12} color={_.colorTinygrailIcon} />
+              <Iconfont name='md-close' color={_.colorTinygrailPlain} />
             </Touchable>
           </Flex>
         </View>
@@ -56,11 +56,11 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.wind
   },
   content: {
-    paddingVertical: _.sm,
-    borderBottomWidth: _.hairlineWidth,
-    borderBottomColor: _.colorTinygrailBorder
+    paddingVertical: _.sm
   },
   close: {
-    padding: _.sm
+    padding: _.sm,
+    marginRight: -_.sm,
+    marginLeft: _.md
   }
 }))

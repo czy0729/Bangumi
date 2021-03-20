@@ -26,7 +26,7 @@ function Like({ style }, { $, navigation }) {
     <View style={[style, !showLike && _.short]}>
       <SectionTitle
         style={_.container.wind}
-        icon={!showLike && 'right'}
+        icon={!showLike && 'md-navigate-next'}
         onPress={() => $.switchBlock('showLike')}
       >
         猜你喜欢

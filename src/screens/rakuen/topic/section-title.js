@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:00:34
+ * @Last Modified time: 2021-03-18 20:43:40
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -57,6 +57,7 @@ const styles = _.create({
     marginBottom: _.md
   },
   sort: {
-    marginLeft: _.xs
+    marginLeft: _.xs,
+    marginRight: -4
   }
 })

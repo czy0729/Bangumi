@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 13:59:29
+ * @Last Modified time: 2021-03-18 17:54:51
  */
 import React from 'react'
-import { Flex, Text, Touchable, Heatmap } from '@components'
+import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { Cover as CompCover, IconTouchable } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -25,7 +25,7 @@ function Series({ size }, { $, navigation }) {
         <Flex.Item>
           {showRelation && (
             <Flex>
-              <Text size={13}>⤷</Text>
+              <Iconfont name='md-subdirectory-arrow-right' size={18} />
               {!!$.subjectPrev && (
                 <Touchable
                   style={_.ml.sm}
@@ -150,8 +150,8 @@ function Series({ size }, { $, navigation }) {
         </Flex.Item>
         <IconTouchable
           style={styles.icon}
-          name={showRelation ? 'down' : 'right'}
-          size={16}
+          name={showRelation ? 'md-keyboard-arrow-down' : 'md-navigate-next'}
+          size={24}
           onPress={() => systemStore.switchSetting('showRelation')}
         />
       </Flex>

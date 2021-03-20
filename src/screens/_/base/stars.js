@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 19:09:39
+ * @Last Modified time: 2021-03-18 14:37:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ export const Stars = ob(
     if (simple) {
       return (
         <Flex style={style}>
-          <Iconfont name='star-full' size={size} color={_.colorWarning} />
+          <Iconfont name='md-star' size={size} color={_.colorWarning} />
           <Text style={_.ml.xxs} type={type} size={size} bold>
             {value}
           </Text>
@@ -36,7 +36,7 @@ export const Stars = ob(
             return (
               <Iconfont
                 key={item}
-                name='star-full'
+                name='md-star'
                 size={size}
                 color={_.colorWarning}
               />
@@ -46,10 +46,10 @@ export const Stars = ob(
           if (value / 2 >= item - 0.5) {
             return (
               <View key={item}>
-                <Iconfont name='star-full' size={size} color={_.colorBorder} />
+                <Iconfont name='md-star' size={size} color={_.colorBorder} />
                 <Iconfont
                   style={styles.half}
-                  name='star-half'
+                  name='md-star-half'
                   size={size}
                   color={_.colorWarning}
                 />
@@ -60,7 +60,7 @@ export const Stars = ob(
           return (
             <Iconfont
               key={item}
-              name='star-full'
+              name='md-star'
               size={size}
               color={_.colorBorder}
             />

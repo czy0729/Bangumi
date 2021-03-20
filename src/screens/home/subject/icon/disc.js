@@ -2,16 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:05:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 20:08:06
+ * @Last Modified time: 2021-03-18 19:17:59
  */
 import React from 'react'
 import { Heatmap } from '@components'
+import { _ } from '@stores'
 import { IconTouchable } from '@screens/_'
 import { obc } from '@utils/decorators'
 
 function IconDisc(props, { $ }) {
   return (
-    <IconTouchable name='translate' size={16} onPress={$.doDiscTranslate}>
+    <IconTouchable
+      style={_.mr._sm}
+      name='md-g-translate'
+      size={18}
+      onPress={$.doDiscTranslate}
+    >
       <Heatmap id='条目.翻译曲目' />
     </IconTouchable>
   )

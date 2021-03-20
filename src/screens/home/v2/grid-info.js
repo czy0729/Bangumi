@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:24:53
+ * @Last Modified time: 2021-03-20 11:51:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,7 +83,11 @@ class GridInfo extends React.Component {
     return (
       <Touchable style={styles.touchable} onPress={this.onCheckPress}>
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='check' size={18} />
+          <Iconfont
+            style={styles.icon}
+            name='md-check-circle-outline'
+            size={18}
+          />
           <View style={[styles.placeholder, _.ml.sm]}>
             <Text type='sub'>{sort}</Text>
           </View>
@@ -100,7 +104,7 @@ class GridInfo extends React.Component {
           style={[styles.touchable, _.ml.sm]}
           onPress={this.onStarPress}
         >
-          <Iconfont name='star' size={18} />
+          <Iconfont name='md-star-outline' size={19} />
         </Touchable>
       </Flex>
     )
@@ -141,7 +145,7 @@ class GridInfo extends React.Component {
     return (
       <Text type='primary' size={20}>
         {epStatus || 1}
-        <Text type='sub' size={12} lineHeight={20}>
+        <Text type='sub' lineHeight={20}>
           {' '}
           / {subject.eps_count || '?'}
         </Text>
@@ -158,7 +162,11 @@ class GridInfo extends React.Component {
         onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
       >
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='check' size={18} />
+          <Iconfont
+            style={styles.icon}
+            name='md-check-circle-outline'
+            size={18}
+          />
         </Flex>
       </Touchable>
     )
@@ -183,11 +191,11 @@ class GridInfo extends React.Component {
             onPress={this.onPress}
           />
           {isToday ? (
-            <Text style={_.mt.sm} type='success' align='center'>
+            <Text style={_.mt.sm} type='success' align='center' size={12} bold>
               {time.slice(0, 2)}:{time.slice(2, 4)}
             </Text>
           ) : isNextDay ? (
-            <Text style={_.mt.sm} type='sub' align='center'>
+            <Text style={_.mt.sm} type='sub' align='center' size={12} bold>
               明天{time.slice(0, 2)}:{time.slice(2, 4)}
             </Text>
           ) : null}
@@ -202,7 +210,7 @@ class GridInfo extends React.Component {
               </Flex.Item>
             </Flex>
           </Touchable>
-          <Flex>
+          <Flex style={_.mt.xs}>
             <Flex.Item>{this.renderCount()}</Flex.Item>
             {this.renderToolBar()}
           </Flex>

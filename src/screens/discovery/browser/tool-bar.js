@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 00:20:28
+ * @Last Modified time: 2021-03-18 11:59:21
  */
 import React from 'react'
 import { ToolBar as CompToolBar } from '@components'
@@ -20,14 +20,14 @@ function ToolBar(props, { $ }) {
     <CompToolBar style={!$.isList && _.mb.sm}>
       <CompToolBar.Popover
         data={typeData}
-        icon='filter'
+        icon='md-filter-list'
         iconColor={_.colorMain}
         text={typeCn}
         type='main'
         heatmap='索引.类型选择'
         onSelect={$.onTypeSelect}
       />
-      <CompToolBar.Icon icon='arrow-left' onSelect={$.onAirdatePrev} />
+      <CompToolBar.Icon icon='md-arrow-back' onSelect={$.onAirdatePrev} />
       <CompToolBar.Popover
         data={DATA_BROWSER_AIRTIME}
         text={`${airtime}年` || '年'}
@@ -40,11 +40,7 @@ function ToolBar(props, { $ }) {
         heatmap='索引.月选择'
         onSelect={$.onMonthSelect}
       />
-      <CompToolBar.Icon
-        iconStyle={_.rotate}
-        icon='arrow-left'
-        onSelect={$.onAirdateNext}
-      />
+      <CompToolBar.Icon icon='md-arrow-forward' onSelect={$.onAirdateNext} />
     </CompToolBar>
   )
 }

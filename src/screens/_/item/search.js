@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 18:58:56
+ * @Last Modified time: 2021-03-18 12:05:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -138,7 +138,7 @@ export const ItemSearch = ob(
               <Flex style={_.mt.md}>
                 <Rank value={rank} />
                 <Stars value={score} color='warning' />
-                <Text type='sub' size={11}>
+                <Text style={_.ml.xxs} type='sub' size={11}>
                   {total.replace('人评分', '')}
                 </Text>
               </Flex>

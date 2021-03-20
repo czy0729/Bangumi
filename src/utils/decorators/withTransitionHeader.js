@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 12:13:46
+ * @Last Modified time: 2021-03-18 19:20:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -88,7 +88,7 @@ const withTransitionHeader = ({
                 placement='bottom'
                 {...popoverProps}
               >
-                <Iconfont size={24} name='more' color={headerTintColor} />
+                <Iconfont name='md-more-horiz' color={headerTintColor} />
                 {!!heatmap && <Heatmap id={heatmap} />}
               </Popover>
             </Flex>
@@ -103,7 +103,7 @@ const withTransitionHeader = ({
                   marginRight: -_.sm
                 }}
               >
-                <Iconfont size={24} name='more' color={headerTintColor} />
+                <Iconfont name='md-more-horiz' color={headerTintColor} />
               </View>
             </Flex>
           )

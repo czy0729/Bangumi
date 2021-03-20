@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:07:54
+ * @Last Modified time: 2021-03-20 09:16:05
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -32,9 +32,10 @@ class Logs extends React.Component {
         <>
           <Label $={$} />
           <IconHeader
-            style={_.mr._xs}
+            style={_.mr._right}
+            size={24}
             color={_.colorTinygrailPlain}
-            name='list'
+            name='md-menu-open'
             onPress={this.toggleShow}
           />
         </>

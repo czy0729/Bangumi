@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:35:09
+ * @Last Modified time: 2021-03-18 17:44:57
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Expand, Flex, Text, Touchable, Heatmap } from '@components'
+import { Flex, Text, Touchable, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -29,56 +29,52 @@ function Tags({ style }, { $, navigation }) {
     >
       <SectionTitle
         right={<IconPS />}
-        icon={!showTags && 'right'}
+        icon={!showTags && 'md-navigate-next'}
         onPress={() => $.switchBlock('showTags')}
       >
         标签
       </SectionTitle>
       {showTags && !!$.tags.length && (
         <View style={_.mt.sm}>
-          <Expand moreStyle={styles.moreStyle}>
-            <Flex wrap='wrap'>
-              {$.tags
-                .filter(item => !!item.name)
-                .map(({ name, count }, index) => {
-                  const isSelected = tag.includes(name)
-                  return (
-                    <Touchable
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={index}
-                      style={[styles.item, isSelected && styles.selected]}
-                      onPress={() => {
-                        t('条目.跳转', {
-                          to: 'Tag',
-                          from: '标签',
-                          subjectId: $.subjectId
-                        })
-                        navigation.push('Tag', {
-                          type: MODEL_SUBJECT_TYPE.getLabel($.subjectType),
-                          tag: name
-                        })
-                      }}
+          <Flex wrap='wrap'>
+            {$.tags.map(({ name, count }, index) => {
+              const isSelected = tag.includes(name)
+              return (
+                <Touchable
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
+                  style={[styles.item, isSelected && styles.selected]}
+                  onPress={() => {
+                    t('条目.跳转', {
+                      to: 'Tag',
+                      from: '标签',
+                      subjectId: $.subjectId
+                    })
+                    navigation.push('Tag', {
+                      type: MODEL_SUBJECT_TYPE.getLabel($.subjectType),
+                      tag: name
+                    })
+                  }}
+                >
+                  <Flex>
+                    <Text
+                      type={_.select('desc', isSelected ? 'main' : 'desc')}
+                      size={12}
                     >
-                      <Flex>
-                        <Text
-                          type={_.select('desc', isSelected ? 'main' : 'desc')}
-                          size={12}
-                        >
-                          {name}
-                        </Text>
-                        <Text
-                          style={_.ml.xs}
-                          type={_.select('sub', isSelected ? 'main' : 'desc')}
-                          size={12}
-                        >
-                          {count}
-                        </Text>
-                      </Flex>
-                    </Touchable>
-                  )
-                })}
-            </Flex>
-          </Expand>
+                      {name}
+                    </Text>
+                    <Text
+                      style={_.ml.xs}
+                      type={_.select('sub', isSelected ? 'main' : 'desc')}
+                      size={12}
+                    >
+                      {count}
+                    </Text>
+                  </Flex>
+                </Touchable>
+              )
+            })}
+          </Flex>
           <Heatmap
             id='条目.跳转'
             data={{
@@ -113,8 +109,5 @@ const memoStyles = _.memoStyles(_ => ({
   selected: {
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
-  },
-  moreStyle: {
-    marginRight: _.md
   }
 }))

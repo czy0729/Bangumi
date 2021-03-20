@@ -9,7 +9,7 @@ import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
-import { levelList } from '../_/utils'
+import { levelList } from '@tinygrail/_/utils'
 
 export default class ScreenTinygrailAdvanceBid extends store {
   state = observable({

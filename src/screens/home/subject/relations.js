@@ -26,7 +26,7 @@ function Relations({ style }, { $, navigation }) {
     <View style={[style, !showRelations && _.short]}>
       <SectionTitle
         style={_.container.wind}
-        icon={!showRelations && 'right'}
+        icon={!showRelations && 'md-navigate-next'}
         onPress={() => $.switchBlock('showRelations')}
       >
         关联

@@ -27,7 +27,7 @@ function Recent({ style }, { $, navigation }) {
     <View style={[style, !showRecent && _.short]}>
       <SectionTitle
         style={_.container.wind}
-        icon={!showRecent && 'right'}
+        icon={!showRecent && 'md-navigate-next'}
         onPress={() => $.switchBlock('showRecent')}
       >
         动态

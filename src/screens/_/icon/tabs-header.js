@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:50:15
+ * @Last Modified time: 2021-03-18 23:12:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ export const IconTabsHeader = ob(
   ({
     style,
     name,
-    size = 20,
+    size,
     color = _.colorTitle,
     position = 'left',
     children,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:29:06
+ * @Last Modified time: 2021-03-20 15:15:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -141,7 +141,7 @@ export default ob(Item, {
 const memoStyles = _.memoStyles(_ => ({
   item: {
     position: 'absolute',
-    borderWidth: _.hairlineWidth,
+    borderWidth: _.tSelect(1, _.hairlineWidth),
     borderColor: _.colorTinygrailBorder,
     overflow: 'hidden'
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 03:21:23
+ * @Last Modified time: 2021-03-18 20:35:12
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -63,11 +63,11 @@ function Item(
                 style={[
                   styles.favor,
                   {
-                    marginTop: 2
+                    marginTop: 1
                   }
                 ]}
                 size={16}
-                name='star-full'
+                name='md-star'
                 color={_.colorYellow}
               />
             )}

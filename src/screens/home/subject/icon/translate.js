@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:29:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:31:22
+ * @Last Modified time: 2021-03-18 19:17:52
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -19,9 +19,9 @@ function IconTranslate(props, { $ }) {
 
   return (
     <IconTouchable
-      style={styles.icon}
-      name='translate'
-      size={16}
+      style={_.mr._sm}
+      name='md-g-translate'
+      size={18}
       onPress={$.doTranslate}
     >
       <Heatmap id='条目.翻译简介' />
@@ -30,9 +30,3 @@ function IconTranslate(props, { $ }) {
 }
 
 export default obc(IconTranslate)
-
-const styles = _.create({
-  icon: {
-    marginRight: -_.sm
-  }
-})

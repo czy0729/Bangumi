@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:08:24
+ * @Last Modified time: 2021-03-18 17:49:11
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ export const Expand = ({
             />
             <Touchable style={[styles.more, moreStyle]} onPress={onExpand}>
               <Flex justify='center'>
-                <Iconfont name='down' size={16} />
+                <Iconfont name='md-keyboard-arrow-down' size={24} />
               </Flex>
             </Touchable>
           </>

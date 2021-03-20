@@ -2,24 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:06:39
+ * @Last Modified time: 2021-03-20 09:09:50
  */
 import React from 'react'
-import { View, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Flex, Touchable, Text, Iconfont } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 
 function ToolBar({
-  data,
+  data = [],
   sort,
   level,
-  levelMap,
+  levelMap = {},
   direction,
   renderLeft,
-  onSortPress,
-  onLevelSelect
+  onSortPress = Function.prototype,
+  onLevelSelect = Function.prototype
 }) {
   const styles = memoStyles()
   const sum = Object.keys(levelMap).reduce(
@@ -40,10 +40,10 @@ function ToolBar({
           onLevelSelect(lv === '全部' ? '' : lv.replace('lv', ''))
         }}
       >
-        <Flex style={styles.popover} justify='center'>
+        <Flex style={styles.item} justify='center'>
           <Iconfont
-            name='filter'
-            size={13}
+            name='md-filter-list'
+            size={16}
             color={level ? _.colorAsk : _.colorTinygrailText}
           />
           <Text
@@ -58,16 +58,16 @@ function ToolBar({
       </Popover>
       {!!data.length && (
         <ScrollView
-          style={_.container.flex}
+          contentContainerStyle={styles.contentContainerStyle}
           horizontal
+          alwaysBounceVertical={false}
           showsHorizontalScrollIndicator={false}
         >
-          {data.map((item, index) => {
+          {data.map(item => {
             const isActive = sort === item.value
             return (
               <Touchable
                 key={item.label}
-                style={index === 0 && _.ml.sm}
                 withoutFeedback
                 onPress={() => onSortPress(item.value)}
               >
@@ -79,11 +79,13 @@ function ToolBar({
                   >
                     {item.label}
                   </Text>
-                  <View style={styles.angle}>
-                    {isActive && !!direction && (
-                      <View style={styles[direction]} />
-                    )}
-                  </View>
+                  {isActive && !!direction && (
+                    <Iconfont
+                      style={_.ml._xs}
+                      name={`md-arrow-drop-${direction}`}
+                      color={_.colorWarning}
+                    />
+                  )}
                 </Flex>
               </Touchable>
             )
@@ -94,14 +96,7 @@ function ToolBar({
   )
 }
 
-ToolBar.defaultProps = {
-  data: [],
-  levelMap: {},
-  onSortPress: Function.prototype,
-  onLevelSelect: Function.prototype
-}
-
-export default observer(ToolBar)
+export default ob(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
@@ -110,46 +105,13 @@ const memoStyles = _.memoStyles(_ => ({
     borderBottomWidth: _.hairlineWidth,
     borderBottomColor: _.colorTinygrailBorder
   },
-  tips: {
-    width: 4,
-    height: 4,
-    marginTop: -1,
-    marginLeft: 8,
-    borderWidth: 4,
-    borderColor: 'transparent',
-    borderBottomColor: _.colorTinygrailText,
-    transform: [
-      {
-        rotate: '90deg'
-      }
-    ]
-  },
-  popover: {
-    paddingHorizontal: 4,
-    height: 46
+  contentContainerStyle: {
+    height: 44,
+    paddingLeft: _.xs,
+    paddingRight: _._wind
   },
   item: {
-    paddingHorizontal: 4
-  },
-  angle: {
-    width: 4,
-    marginLeft: 2,
-    marginRight: 6
-  },
-  down: {
-    width: 4,
-    height: 4,
-    marginTop: 4,
-    borderWidth: 4,
-    borderColor: 'transparent',
-    borderTopColor: _.colorWarning
-  },
-  up: {
-    width: 4,
-    height: 4,
-    marginBottom: 4,
-    borderWidth: 4,
-    borderColor: 'transparent',
-    borderBottomColor: _.colorWarning
+    height: 44,
+    paddingHorizontal: 6
   }
 }))

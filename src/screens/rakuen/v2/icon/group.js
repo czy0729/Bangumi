@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 19:57:42
+ * @Last Modified time: 2021-03-18 23:12:14
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -16,7 +16,8 @@ function IconGroup(props, { $, navigation }) {
   return (
     <IconTabsHeader
       style={styles.icon}
-      name='app'
+      name='md-filter-none'
+      size={18}
       onPress={() => {
         if (!$.isWebLogin) {
           info('请先登录')

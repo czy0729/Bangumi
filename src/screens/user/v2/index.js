@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:34:23
+ * @Last Modified time: 2021-03-18 23:32:53
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -29,7 +29,9 @@ export default
 class User extends React.Component {
   static navigationOptions = {
     header: null,
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='me' color={tintColor} />,
+    tabBarIcon: ({ tintColor }) => (
+      <IconTabBar name='md-person-outline' size={24} color={tintColor} />
+    ),
     tabBarLabel: title
   }
 

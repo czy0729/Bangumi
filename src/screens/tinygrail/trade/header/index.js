@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:25:55
+ * @Last Modified time: 2021-03-20 10:04:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { Avatar, IconHeader } from '@screens/_'
+import { Avatar, IconHeader, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
@@ -38,17 +38,14 @@ function Header({ goBack }, { $, navigation }) {
         <Flex.Item>
           <Flex>
             <IconHeader
-              style={{
-                marginLeft: -8
-              }}
-              name='left'
+              style={_.ml._sm}
+              name='md-arrow-back'
               color={_.colorTinygrailPlain}
               onPress={goBack}
             />
             <Avatar
               style={styles.avatar}
               src={tinygrailOSS(icon)}
-              size={32}
               borderColor='transparent'
               name={name}
               onPress={() => {
@@ -64,7 +61,7 @@ function Header({ goBack }, { $, navigation }) {
               }}
             />
             <Text
-              style={_.ml.sm}
+              style={_.ml.md}
               type='tinygrailPlain'
               size={16}
               bold
@@ -78,15 +75,9 @@ function Header({ goBack }, { $, navigation }) {
                 </Text>
               )}
             </Text>
-            <Text
-              style={[
-                {
-                  paddingVertical: _.sm
-                },
-                _.ml.sm
-              ]}
-              type='tinygrailText'
-              size={15}
+            <IconTouchable
+              name='md-workspaces-outline'
+              color={_.colorTinygrailPlain}
               onPress={() => {
                 t('K线.跳转', {
                   to: 'TinygrailSacrifice',
@@ -104,9 +95,7 @@ function Header({ goBack }, { $, navigation }) {
                   form: 'kline'
                 })
               }}
-            >
-              [资产重组]
-            </Text>
+            />
           </Flex>
           <Flex style={_.mt.md}>
             <Text type='tinygrailPlain' size={24}>

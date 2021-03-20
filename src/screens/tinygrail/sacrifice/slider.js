@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 20:12:13
+ * @Last Modified time: 2021-03-19 17:05:14
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -38,18 +38,24 @@ function Slider({ style }, { $ }) {
           </Text>
         </Flex.Item>
         {showSacrifice && (
-          <Switch style={_.ml.sm} checked={isSale} onChange={$.switchIsSale} />
+          <Switch
+            style={styles.switch}
+            checked={isSale}
+            onChange={$.switchIsSale}
+          />
         )}
         <IconTouchable
-          style={[_.ml.sm, _.mr._sm]}
-          name={showSacrifice ? 'down' : 'up'}
+          style={_.mr._sm}
+          name={
+            showSacrifice ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'
+          }
           color={_.colorTinygrailText}
           onPress={$.toggleSacrifice}
         />
       </Flex>
       {showSacrifice && (
         <>
-          <Flex style={_.mt.md}>
+          <Flex style={_.mt.sm}>
             <Flex.Item>
               <View style={styles.inputWrap}>
                 <Input
@@ -219,5 +225,13 @@ const memoStyles = _.memoStyles(_ => ({
   },
   btnSubmit: {
     width: 72
+  },
+  switch: {
+    marginRight: -8,
+    transform: [
+      {
+        scale: 0.64
+      }
+    ]
   }
 }))

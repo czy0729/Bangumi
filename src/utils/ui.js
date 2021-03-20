@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 04:46:21
+ * @Last Modified time: 2021-03-17 23:10:36
  */
 import { Alert, Vibration } from 'react-native'
 import Toast from '@components/@/ant-design/toast'

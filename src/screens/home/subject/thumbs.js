@@ -59,7 +59,7 @@ class Thumbs extends React.Component {
       <View style={[styles.container, style, !showThumbs && _.short]}>
         <SectionTitle
           style={_.container.wind}
-          icon={!showThumbs && 'right'}
+          icon={!showThumbs && 'md-navigate-next'}
           onPress={() => $.switchBlock('showThumbs')}
         >
           预览

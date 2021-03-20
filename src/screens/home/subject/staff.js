@@ -28,7 +28,7 @@ function Staff({ style }, { $, navigation }) {
       <SectionTitle
         style={_.container.wind}
         right={<IconStaff />}
-        icon={!showStaff && 'right'}
+        icon={!showStaff && 'md-navigate-next'}
         onPress={() => $.switchBlock('showStaff')}
       >
         制作人员

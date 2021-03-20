@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:28:14
+ * @Last Modified time: 2021-03-20 11:00:01
  */
 import React from 'react'
 import { Text, Touchable, Iconfont, Flex } from '@components'
@@ -79,11 +79,11 @@ export const StarGroup = ob(
             {[1, 2, 3, 4, 5].map(item => {
               let type
               if (value / 2 >= item) {
-                type = 'star-full'
+                type = 'md-star'
               } else if (value / 2 >= item - 0.5) {
-                type = 'star-half'
+                type = 'md-star-half'
               } else {
-                type = 'star'
+                type = 'md-star-outline'
               }
               return (
                 <Touchable
@@ -94,7 +94,9 @@ export const StarGroup = ob(
                   <Iconfont
                     name={type}
                     size={36}
-                    color={type === 'star' ? _.colorIcon : _.colorWarning}
+                    color={
+                      type === 'md-star-outline' ? _.colorIcon : _.colorWarning
+                    }
                   />
                 </Touchable>
               )

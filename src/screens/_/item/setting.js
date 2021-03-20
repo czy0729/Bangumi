@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:11:50
+ * @Last Modified time: 2021-03-18 23:43:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,13 +49,13 @@ export const ItemSetting = ob(
                     ])
                   }
                 >
-                  <Iconfont name='information' />
+                  <Iconfont name='md-info-outline' size={16} />
                 </Touchable>
               )}
             </Flex>
           </Flex.Item>
           {typeof ft === 'string' ? <Text type='sub'>{ft}</Text> : ft}
-          {arrow && <Iconfont style={_.ml.xs} size={14} name='right' />}
+          {arrow && <Iconfont style={_.ml.xs} name='md-navigate-next' />}
         </Flex>
         <Flex>
           {information && (

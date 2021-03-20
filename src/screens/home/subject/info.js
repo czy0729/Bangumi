@@ -25,7 +25,7 @@ function Info({ style }, { $, navigation }) {
     <View style={[showInfo && styles.container, style, !showInfo && _.short]}>
       <SectionTitle
         style={_.container.wind}
-        icon={!showInfo && 'right'}
+        icon={!showInfo && 'md-navigate-next'}
         onPress={() => $.switchBlock('showInfo')}
       >
         详情

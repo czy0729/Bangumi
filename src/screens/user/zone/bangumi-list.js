@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 22:51:05
+ * @Last Modified time: 2021-03-20 15:52:00
  */
 import React from 'react'
 import {
@@ -42,9 +42,12 @@ class List extends React.Component {
           size={15}
           right={
             <Iconfont
-              name={expand[title] ? 'down' : 'up'}
-              color={_.colorIcon}
-              size={16}
+              style={_.mr._sm}
+              name={
+                expand[title]
+                  ? 'md-keyboard-arrow-down'
+                  : 'md-keyboard-arrow-up'
+              }
             />
           }
         >
@@ -152,6 +155,7 @@ class List extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind,
+    paddingBottom: _.bottom,
     minHeight: _.window.height + H_BG - _.tabBarHeight
   },
   sectionHeader: {

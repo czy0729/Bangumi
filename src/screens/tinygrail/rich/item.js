@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 14:54:09
+ * @Last Modified time: 2021-03-19 16:53:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -147,9 +147,7 @@ function Item(
                     {right}
                   </Text>
                   <Iconfont
-                    style={_.ml.xs}
-                    size={14}
-                    name='right'
+                    name='md-navigate-next'
                     color={_.colorTinygrailText}
                   />
                 </Flex>

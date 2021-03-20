@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 13:48:33
+ * @Last Modified time: 2021-03-20 15:07:11
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -644,8 +644,16 @@ class User extends store {
    * @param {*} accessToken
    */
   updateAccessToken = (accessToken = INIT_ACCESS_TOKEN) => {
+    this.clearState('accessToken', {})
     this.setState({
-      accessToken
+      accessToken: {
+        access_token: accessToken.access_token,
+        expires_in: accessToken.expires_in,
+        token_type: accessToken.token_type,
+        scope: accessToken.scope,
+        user_id: accessToken.user_id,
+        refresh_token: accessToken.refresh_token
+      }
     })
     this.setStorage('accessToken', undefined, NAMESPACE)
   }

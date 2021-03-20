@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 17:24:00
+ * @Last Modified time: 2021-03-20 10:44:29
  */
 import React from 'react'
 import { Progress } from '@ant-design/react-native'
-import { Flex, Text, Touchable, Icon } from '@components'
+import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
@@ -67,10 +67,10 @@ export const ItemFriends = ob(
             <Flex style={styles.count}>
               {!!collect && (
                 <>
-                  <Icon
+                  <Iconfont
                     style={_.mr.xs}
-                    name='ios-checkmark'
-                    size={20}
+                    name='md-check'
+                    size={14}
                     color={_.colorSub}
                   />
                   <Text style={_.mr.sm} size={11} type='sub'>
@@ -80,10 +80,10 @@ export const ItemFriends = ob(
               )}
               {!!wish && (
                 <>
-                  <Icon
+                  <Iconfont
                     style={_.mr.xs}
-                    name='ios-heart'
-                    size={11}
+                    name='md-favorite'
+                    size={12}
                     color={_.colorSub}
                   />
                   <Text style={_.mr.sm} size={11} type='sub'>
@@ -93,10 +93,10 @@ export const ItemFriends = ob(
               )}
               {!!doing && (
                 <>
-                  <Icon
+                  <Iconfont
                     style={_.mr.xs}
-                    name='ios-eye'
-                    size={13}
+                    name='md-remove-red-eye'
+                    size={14}
                     color={_.colorSub}
                   />
                   <Text style={_.mr.sm} size={11} type='sub'>
@@ -106,9 +106,9 @@ export const ItemFriends = ob(
               )}
               {!!onHold && (
                 <>
-                  <Icon
+                  <Iconfont
                     style={_.mr.xs}
-                    name='ios-eye-off'
+                    name='md-do-not-disturb-alt'
                     size={13}
                     color={_.colorSub}
                   />
@@ -119,13 +119,13 @@ export const ItemFriends = ob(
               )}
               {!!dropped && (
                 <>
-                  <Icon
+                  <Iconfont
                     style={_.mr.xs}
-                    name='ios-close'
-                    size={20}
+                    name='md-delete-outline'
+                    size={14}
                     color={_.colorSub}
                   />
-                  <Text style={_.mr.sm} size={11} type='sub'>
+                  <Text size={11} type='sub'>
                     {dropped}
                   </Text>
                 </>
@@ -187,7 +187,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   count: {
-    marginTop: _.xs,
-    marginBottom: -_.xs
+    marginTop: _.sm,
+    marginBottom: _.xs
   }
 }))

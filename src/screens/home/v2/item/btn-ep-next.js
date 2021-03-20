@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 14:46:45
+ * @Last Modified time: 2021-03-20 08:37:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,11 @@ function BtnEpNext({ index, subjectId }, { $ }) {
       onPress={() => $.doWatchedNextEp(subjectId)}
     >
       <Flex justify='center'>
-        <Iconfont style={styles.icon} name='check' size={18} />
+        <Iconfont
+          style={styles.icon}
+          name='md-check-circle-outline'
+          size={19}
+        />
         <View style={styles.placeholder}>
           <Text type='sub'>{sort}</Text>
         </View>
@@ -44,10 +48,10 @@ const styles = _.create({
     paddingRight: 2
   },
   icon: {
-    marginBottom: -1
+    marginTop: 2
   },
   placeholder: {
-    marginBottom: -1.5,
-    marginLeft: _.sm
+    marginBottom: -2,
+    marginLeft: _.xs
   }
 })

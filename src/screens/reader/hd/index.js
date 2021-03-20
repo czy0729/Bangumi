@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:44:40
+ * @Last Modified time: 2021-03-18 23:21:01
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -39,7 +39,8 @@ class HD extends React.Component {
     navigation.setParams({
       extra: (
         <IconHeader
-          name='information'
+          style={_.mr._right}
+          name='md-info-outline'
           onPress={() => {
             t('HD.提示')
 

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 20:01:26
+ * @Last Modified time: 2021-03-18 17:30:44
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
@@ -15,6 +15,7 @@ function IconCharacter(props, { $, navigation }) {
   if (!showCharacter) return null
   return (
     <Touchable
+      style={_.mr._sm}
       onPress={() => {
         t('条目.跳转', {
           to: 'Characters',
@@ -30,7 +31,7 @@ function IconCharacter(props, { $, navigation }) {
     >
       <Flex>
         <Text type='sub'>更多</Text>
-        <Iconfont name='right' size={16} />
+        <Iconfont name='md-navigate-next' />
       </Flex>
     </Touchable>
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-02 22:57:52
+ * @Last Modified time: 2021-03-19 18:23:21
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -115,12 +115,7 @@ function Btns(props, { $, navigation }) {
           }, 400)
         }}
       >
-        <Button
-          style={styles.btn}
-          styleText={styles.text}
-          size='sm'
-          // loading={loading}
-        >
+        <Button style={styles.btn} styleText={styles.text} size='sm'>
           更多
         </Button>
       </Popover>
@@ -132,12 +127,14 @@ export default obc(Btns)
 
 const memoStyles = _.memoStyles(_ => ({
   btn: {
-    width: 60,
-    marginLeft: _.sm,
+    width: 64,
+    height: 36,
+    marginLeft: 12,
     backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
     borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
   },
   text: {
-    color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain)
+    color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain),
+    ..._.fontSize13
   }
 }))

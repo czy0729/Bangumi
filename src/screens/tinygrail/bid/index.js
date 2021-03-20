@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:58:14
+ * @Last Modified time: 2021-03-20 09:16:38
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import { Touchable, Flex, Text } from '@components'
+import { Flex, Text } from '@components'
+import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -39,7 +40,10 @@ class TinygrailBid extends React.Component {
     const { type = 'bid' } = $.params
     navigation.setParams({
       extra: (
-        <Touchable
+        <IconTouchable
+          style={_.mr._right}
+          name='md-cancel-presentation'
+          color={_.colorTinygrailPlain}
           onPress={() =>
             Alert.alert(
               '小圣杯助手',
@@ -56,11 +60,7 @@ class TinygrailBid extends React.Component {
               ]
             )
           }
-        >
-          <Text style={styles.batch} type='tinygrailText'>
-            [一键取消]
-          </Text>
-        </Touchable>
+        />
       )
     })
 
@@ -134,8 +134,5 @@ class TinygrailBid extends React.Component {
 const styles = _.create({
   labelText: {
     width: '100%'
-  },
-  batch: {
-    paddingVertical: _.sm
   }
 })

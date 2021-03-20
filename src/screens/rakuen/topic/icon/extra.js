@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-23 19:48:35
+ * @Last Modified time: 2021-03-18 20:44:06
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -53,7 +53,7 @@ function IconExtra(
       }}
     >
       <Flex style={styles.icon}>
-        <Iconfont name='extra' color={_.colorSub} size={14} />
+        <Iconfont name='md-more-vert' size={16} />
       </Flex>
     </Popover>
   )

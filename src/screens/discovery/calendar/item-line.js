@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 01:46:07
+ * @Last Modified time: 2021-03-18 14:10:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function ItemLine(
     return null
   }
 
-  const indent = collection ? '　 　 ' : ''
+  const indent = collection ? '　 　  ' : ''
   const showScore = !systemStore.setting.hideScore && !!score
   return (
     <Touchable

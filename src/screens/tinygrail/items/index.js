@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:38:00
+ * @Last Modified time: 2021-03-20 15:24:00
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -81,9 +81,7 @@ class TinygrailItems extends React.Component {
                     <Flex style={_.ml.sm}>
                       <Text type='warning'>x{item.amount}</Text>
                       <Iconfont
-                        style={_.ml.xs}
-                        name='right'
-                        size={15}
+                        name='md-navigate-next'
                         color={_.colorTinygrailText}
                       />
                     </Flex>

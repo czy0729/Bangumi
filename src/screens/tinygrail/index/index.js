@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:15:40
+ * @Last Modified time: 2021-03-20 16:03:55
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -16,7 +16,8 @@ import {
   VERSION_TINYGRAIL_PLUGIN,
   TINYGRAIL_UPDATES_LOGS_URL
 } from '@constants'
-import StatusBarEvents from '../_/status-bar-events'
+import { refreshControlProps } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Auth from './auth'
 import Menus from './menus'
 import BonusModal from './bonus-modal'
@@ -105,6 +106,7 @@ class Tinygrail extends React.Component {
           contentContainerStyle={this.styles.contentContainerStyle}
           refreshControl={
             <RefreshControl
+              {...refreshControlProps}
               refreshing={refreshing}
               onRefresh={this.onRefresh}
             />

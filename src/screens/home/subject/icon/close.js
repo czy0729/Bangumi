@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:14:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 13:36:21
+ * @Last Modified time: 2021-03-18 17:35:36
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -18,9 +18,8 @@ function IconClose(props, { $ }) {
   const showErase = status.name !== '未收藏' && !!formhash
   return (
     <IconTouchable
-      style={styles.icon}
-      name='close'
-      size={16}
+      style={_.mr._sm}
+      name='md-close'
       color={_.colorIcon}
       onPress={() => {
         if (!showErase) {
@@ -46,9 +45,3 @@ function IconClose(props, { $ }) {
 }
 
 export default obc(IconClose)
-
-const styles = _.create({
-  icon: {
-    marginRight: -_.sm
-  }
-})

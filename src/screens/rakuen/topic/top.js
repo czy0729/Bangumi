@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:37:22
+ * @Last Modified time: 2021-03-18 20:45:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
 import { findSubjectCn, appNavigate } from '@utils/app'
+import { HTMLDecode } from '@utils/html'
 import { HOST, IOS } from '@constants'
 import Content from './content'
 import SectionTitle from './section-title'
@@ -54,10 +55,10 @@ function Top(props, { $, navigation }) {
     <>
       {!IOS && <HeaderPlaceholder />}
       <View style={_.container.inner}>
-        <Text type='title' size={22} bold>
+        <Text type='title' size={20} bold>
           {$.title}
           {!!_replies && (
-            <Text type='main' size={12} lineHeight={26}>
+            <Text type='main' size={12} lineHeight={26} bold>
               {' '}
               {_replies}
             </Text>
@@ -71,7 +72,7 @@ function Top(props, { $, navigation }) {
               numberOfLines={1}
               onPress={groupPress}
             >
-              {findSubjectCn($.group)}
+              {HTMLDecode(findSubjectCn($.group))}
             </Katakana>
             {!!$.time && (
               <>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 12:09:49
+ * @Last Modified time: 2021-03-20 10:57:11
  */
 import React from 'react'
 import { ActivityIndicator, Animated, Text, View } from 'react-native'
@@ -112,8 +112,8 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
           } else {
             iconDom = (
               <Icon
-                name={iconType[type]}
                 style={styles.image}
+                name={iconType[type]}
                 color='white'
                 size={36}
               />

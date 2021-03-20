@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 04:57:23
+ * @Last Modified time: 2021-03-19 17:42:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, UserStatus } from '@components'
+import { Flex, Text, UserStatus, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, toFixed, getTimestamp } from '@utils'
@@ -83,14 +83,12 @@ function Users({ style }, { $, navigation }) {
         </Flex>
       )}
       <Flex style={_.mt.md} justify='center'>
-        <Text
-          style={styles.expand}
-          type='tinygrailText'
-          size={14}
-          onPress={$.toggleUsers}
-        >
-          [{showUsers ? '隐藏' : '显示'}董事会]
-        </Text>
+        <Touchable style={styles.expand} onPress={$.toggleUsers}>
+          <Iconfont
+            name={showUsers ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
+            color={_.colorTinygrailText}
+          />
+        </Touchable>
       </Flex>
     </View>
   )

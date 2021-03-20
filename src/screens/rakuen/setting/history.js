@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:43:05
+ * @Last Modified time: 2021-03-18 20:39:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ function History({ style, data, onDelete }) {
               style={[styles.close, _.ml.md]}
               onPress={() => onDelete(item)}
             >
-              <Iconfont name='close' />
+              <Iconfont name='md-close' />
             </Touchable>
           </Flex>
         </View>

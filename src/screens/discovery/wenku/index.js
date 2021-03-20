@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 12:08:42
+ * @Last Modified time: 2021-03-18 11:46:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,12 +36,7 @@ class Wenku extends React.Component {
       extra: (
         <Flex style={_.mr._right}>
           <IconLayout $={$} />
-          <IconHeader
-            style={styles.top}
-            size={22}
-            name='arrow-left'
-            onPress={$.scrollToTop}
-          >
+          <IconHeader name='md-vertical-align-top' onPress={$.scrollToTop}>
             <Heatmap id='文库.到顶' />
           </IconHeader>
         </Flex>
@@ -62,14 +57,3 @@ class Wenku extends React.Component {
     )
   }
 }
-
-const styles = _.create({
-  top: {
-    marginLeft: -2,
-    transform: [
-      {
-        rotate: '90deg'
-      }
-    ]
-  }
-})

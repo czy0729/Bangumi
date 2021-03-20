@@ -32,7 +32,7 @@ function Topic({ style }, { $, navigation }) {
     <View style={[style, !showTopic && _.short]}>
       <SectionTitle
         style={{ paddingLeft: _.wind }}
-        icon={!showTopic && 'right'}
+        icon={!showTopic && 'md-navigate-next'}
         onPress={() => $.switchBlock('showTopic')}
       >
         帖子

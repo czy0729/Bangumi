@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:36:34
+ * @Last Modified time: 2021-03-18 14:15:04
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 function IconFavor({ $ }) {
   return (
     <IconHeader
-      name={$.isCollect ? 'star-full' : 'star'}
+      name={$.isCollect ? 'md-star' : 'md-star-border'}
       color={$.isCollect ? _.colorYellow : _.colorDesc}
       onPress={$.toggleCollect}
     >

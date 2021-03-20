@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 12:04:25
+ * @Last Modified time: 2021-03-18 11:43:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,12 +37,7 @@ class Anime extends React.Component {
       extra: (
         <Flex style={_.mr._right}>
           <IconLayout $={$} />
-          <IconHeader
-            style={styles.top}
-            size={22}
-            name='arrow-left'
-            onPress={$.scrollToTop}
-          >
+          <IconHeader name='md-vertical-align-top' onPress={$.scrollToTop}>
             <Heatmap id='Anime.到顶' />
           </IconHeader>
         </Flex>
@@ -63,14 +58,3 @@ class Anime extends React.Component {
     )
   }
 }
-
-const styles = _.create({
-  top: {
-    marginLeft: -2,
-    transform: [
-      {
-        rotate: '90deg'
-      }
-    ]
-  }
-})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 19:19:40
+ * @Last Modified time: 2021-03-18 18:00:48
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
@@ -32,8 +32,8 @@ function IconSearch(props, { $, navigation }) {
       }}
     >
       <Flex>
-        <Iconfont name='search' size={14} />
-        <Text style={_.ml.xs} size={12} type='sub'>
+        <Iconfont name='md-search' />
+        <Text style={_.ml.xs} size={13} type='sub'>
           源头
         </Text>
       </Flex>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:46:02
+ * @Last Modified time: 2021-03-19 12:16:08
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -812,8 +812,8 @@ class CharactersModal extends React.Component {
       >
         <Flex justify='center'>
           <Iconfont
-            name='filter'
-            size={11}
+            name='md-filter-list'
+            size={14}
             color={filter ? _.colorAsk : _.colorTinygrailText}
           />
           <Text

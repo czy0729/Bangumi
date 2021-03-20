@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:21:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:36:30
+ * @Last Modified time: 2021-03-18 19:58:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,16 +13,15 @@ import { obc } from '@utils/decorators'
 
 function IconEpFilter(props, { $ }) {
   const { filterEps } = $.state
-  const showFilter = $.eps.length > 160 // 32 * 5 = 160
+  const showFilter = $.eps.length >= 160 // 32 * 5 = 160
   return (
-    <View style={_.mr.xs}>
+    <View>
       {showFilter && (
         <Popover data={$.filterEpsData} onSelect={$.updateFilterEps}>
           <Iconfont
             style={styles.icon}
-            name='filter'
+            name='md-filter-list'
             color={filterEps ? _.colorMain : _.colorIcon}
-            size={16}
           />
         </Popover>
       )}

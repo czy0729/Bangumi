@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 00:59:27
+ * @Last Modified time: 2021-03-18 17:40:38
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,8 +14,7 @@ function IconEp(props, { $, navigation }) {
   const { epsThumbs, epsThumbsHeader } = $.state
   return (
     <IconTouchable
-      name='list'
-      size={17}
+      name='md-menu'
       onPress={() => {
         t('条目.跳转', {
           to: 'Episodes',

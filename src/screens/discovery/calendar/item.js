@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 14:39:24
+ * @Last Modified time: 2021-03-17 22:12:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,12 @@ function Item(
   { style, subjectId, images = {}, name, score },
   { $, navigation }
 ) {
+  const { type } = $.state
+  const collection = $.userCollectionsMap[subjectId]
+  if (type === 'collect' && !collection) {
+    return null
+  }
+
   const { air, timeCN } = $.onAir[subjectId] || {}
   const onPress = () => {
     t('每日放送.跳转', {
@@ -33,7 +39,6 @@ function Item(
   }
 
   const showScore = !systemStore.setting.hideScore && !!score
-  const collection = $.userCollectionsMap[subjectId]
   const indent = collection ? '　　　' : ''
   return (
     <View style={[styles.item, style]}>

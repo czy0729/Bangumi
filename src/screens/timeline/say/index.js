@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 14:00:50
+ * @Last Modified time: 2021-03-18 23:22:10
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -169,7 +169,7 @@ class Say extends React.Component {
             <Text style={_.ml.sm} size={12} bold>
               {$.users.length}人参与
             </Text>
-            <Iconfont name='extra' />
+            <Iconfont name='md-more-vert' />
           </Flex>
         </ScrollView>
       </Touchable>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:56:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 15:00:13
+ * @Last Modified time: 2021-03-20 08:36:06
  */
 import React from 'react'
 import { Heatmap, Iconfont, Touchable } from '@components'
@@ -20,7 +20,7 @@ function BtnFavor({ index, subjectId, subject }, { $ }) {
         })
       }
     >
-      <Iconfont name='star' size={18} />
+      <Iconfont name='md-star-outline' size={19.5} />
       {index === 1 && <Heatmap id='首页.显示收藏管理' />}
     </Touchable>
   )
@@ -30,8 +30,9 @@ export default obc(BtnFavor)
 
 const styles = _.create({
   btn: {
-    paddingLeft: _.sm,
+    paddingTop: 2,
     paddingRight: _.sm + 2,
+    paddingLeft: _.sm,
     marginLeft: _.sm
   }
 })

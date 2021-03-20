@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:39:22
+ * @Last Modified time: 2021-03-18 20:37:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ function History({ style }, { $ }) {
               style={styles.close}
               onPress={() => $.deleteHistory(item)}
             >
-              <Iconfont name='close' size={16} />
+              <Iconfont name='md-close' />
             </Touchable>
           </Flex>
         </View>
@@ -57,6 +57,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   close: {
     padding: _.sm,
-    marginLeft: _.md
+    marginLeft: _.md,
+    marginRight: -_.sm
   }
 }))

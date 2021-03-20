@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 21:47:52
+ * @Last Modified time: 2021-03-20 10:02:35
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
-import { ScrollView, Text } from '@components'
+import { ScrollView, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
@@ -47,12 +47,10 @@ class TinygrailSacrifice extends React.Component {
     navigation.setParams({
       extra: (
         <>
-          <Text
+          <Touchable
             style={{
               paddingVertical: _.sm
             }}
-            type='tinygrailText'
-            size={15}
             onPress={() => {
               const { form, monoId } = $.params
               t('资产重组.跳转', {
@@ -71,17 +69,15 @@ class TinygrailSacrifice extends React.Component {
               })
             }}
           >
-            [交易]
-          </Text>
-          <Text
+            <Iconfont name='md-attach-money' color={_.colorTinygrailPlain} />
+          </Touchable>
+          <Touchable
             style={[
               {
                 paddingVertical: _.sm
               },
               _.ml.sm
             ]}
-            type='tinygrailText'
-            size={15}
             onPress={() => {
               const { form, monoId } = $.params
               t('资产重组.跳转', {
@@ -100,8 +96,8 @@ class TinygrailSacrifice extends React.Component {
               })
             }}
           >
-            [K线]
-          </Text>
+            <Iconfont name='md-waterfall-chart' color={_.colorTinygrailPlain} />
+          </Touchable>
         </>
       )
     })

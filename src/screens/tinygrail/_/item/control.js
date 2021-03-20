@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 16:43:37
+ * @Last Modified time: 2021-03-20 09:24:21
  */
 import React from 'react'
 import { Alert } from 'react-native'
-import { Text, Touchable } from '@components'
+import { IconTouchable } from '@screens/_'
 import { tinygrailStore, _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Popover from '../popover'
@@ -42,8 +42,11 @@ function Control(props) {
   return (
     <>
       {isAuction && auctioning && (
-        <Touchable
+        <IconTouchable
           style={styles.auctionCancel}
+          name='md-close'
+          color={_.colorTinygrailPlain}
+          size={18}
           withoutFeedback={withoutFeedback}
           onPress={() =>
             Alert.alert('警告', '周六取消需要收取手续费, 确定取消?', [
@@ -57,9 +60,7 @@ function Control(props) {
               }
             ])
           }
-        >
-          <Text type='tinygrailText'>[取消]</Text>
-        </Touchable>
+        />
       )}
       {!isAuction && (
         <StockPreview {...props} style={styles.stockPreview} _loaded />
@@ -83,7 +84,8 @@ export default obc(Control)
 const styles = _.create({
   auctionCancel: {
     paddingVertical: _.md,
-    paddingLeft: _.md
+    paddingLeft: _.sm,
+    marginTop: 1.5
   },
   stockPreview: {
     marginTop: -0.5,

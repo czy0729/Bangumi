@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:13:09
+ * @Last Modified time: 2021-03-20 15:30:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,7 @@ function Logs({ style }, { $ }) {
               style={[styles.cancel, _.ml.sm]}
               onPress={() => $.doCancelAll('bid')}
             >
-              <Iconfont name='close' size={12} color={_.colorTinygrailIcon} />
+              <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
             </Touchable>
           )}
         </Flex>
@@ -62,8 +62,8 @@ function Logs({ style }, { $ }) {
                   onPress={() => $.doCancel('bid', item.id)}
                 >
                   <Iconfont
-                    name='close'
-                    size={12}
+                    name='md-close'
+                    size={14}
                     color={_.colorTinygrailIcon}
                   />
                 </Touchable>
@@ -83,7 +83,7 @@ function Logs({ style }, { $ }) {
               style={[styles.cancel, _.ml.sm]}
               onPress={() => $.doCancelAll('ask')}
             >
-              <Iconfont name='close' size={12} color={_.colorTinygrailIcon} />
+              <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
             </Touchable>
           )}
         </Flex>
@@ -113,8 +113,8 @@ function Logs({ style }, { $ }) {
                   onPress={() => $.doCancel('ask', item.id)}
                 >
                   <Iconfont
-                    name='close'
-                    size={12}
+                    name='md-close'
+                    size={14}
                     color={_.colorTinygrailIcon}
                   />
                 </Touchable>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 11:51:00
+ * @Last Modified time: 2021-03-19 12:10:15
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -123,7 +123,7 @@ function Popover(
     >
       <Iconfont
         style={styles.extra}
-        name='extra'
+        name='md-more-vert'
         size={16}
         color={_.colorTinygrailText}
       />
@@ -143,7 +143,7 @@ const styles = _.create({
   },
   extra: {
     height: 48,
-    paddingTop: 19,
+    paddingTop: 18.5,
     paddingRight: IOS ? _.sm + 5 : _.sm,
     paddingLeft: 8
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:10:40
+ * @Last Modified time: 2021-03-18 11:51:58
  */
 import React from 'react'
 import { Touchable, Flex, Input, Heatmap, Iconfont } from '@components'
@@ -25,7 +25,11 @@ export const Pagination = ob(
         <Flex.Item>
           <Touchable onPress={onPrev}>
             <Flex style={styles.pagination} justify='center'>
-              <Iconfont name='arrow-left' size={18} color={_.colorDesc} />
+              <Iconfont
+                name='md-navigate-before'
+                size={22}
+                color={_.colorDesc}
+              />
             </Flex>
             {!!heatmaps.prev && <Heatmap id={heatmaps.prev} />}
           </Touchable>
@@ -46,12 +50,7 @@ export const Pagination = ob(
         <Flex.Item style={_.ml.sm}>
           <Touchable onPress={onNext}>
             <Flex style={styles.pagination} justify='center'>
-              <Iconfont
-                style={styles.right}
-                name='arrow-left'
-                size={18}
-                color={_.colorDesc}
-              />
+              <Iconfont name='md-navigate-next' size={22} color={_.colorDesc} />
             </Flex>
             {!!heatmaps.next && <Heatmap id={heatmaps.next} />}
           </Touchable>
@@ -70,16 +69,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   input: {
     height: 30,
-    ..._.fontSize(13),
+    ..._.fontSize14,
     textAlign: 'center',
     backgroundColor: 'transparent',
     borderWidth: 0
-  },
-  right: {
-    transform: [
-      {
-        rotate: '180deg'
-      }
-    ]
   }
 }))

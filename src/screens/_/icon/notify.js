@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:50:19
+ * @Last Modified time: 2021-03-18 19:37:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ export const IconNotify = ob(
           {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} />}
           <IconTabsHeader
             style={style}
-            name='mail'
+            name='md-mail-outline'
             onPress={() => {
               if (userStore.isWebLogin) {
                 const { id, data } = event

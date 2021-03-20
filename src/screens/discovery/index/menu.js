@@ -2,67 +2,66 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:27:42
+ * @Last Modified time: 2021-03-20 15:49:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Text, Iconfont, Image, Heatmap } from '@components'
+import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import ImageAnitama from '@assets/images/anitama.jpg'
 
 const menus = [
   {
     title: '排行榜',
-    icon: 'shou-fu',
+    icon: 'md-equalizer',
     path: 'Rank'
   },
   {
     title: '番剧',
-    icon: 'xin-fan',
+    icon: 'md-live-tv',
     path: 'Anime'
   },
   {
     title: '漫画',
-    icon: 'bang-dan',
+    icon: 'md-chrome-reader-mode',
     path: 'Manga'
   },
   {
     title: '文库',
-    icon: 'menu',
+    icon: 'md-notes',
     path: 'Wenku'
   },
   {
     title: '每日放送',
-    icon: 'calendar',
+    icon: 'md-calendar-today',
     path: 'Calendar'
   },
   {
     title: '索引',
-    icon: 'list',
+    icon: 'md-data-usage',
     path: 'Browser'
   },
   {
     title: '目录',
-    icon: 'bag',
+    icon: 'md-folder-open',
     path: 'Catalog'
   },
   {
     title: '更多',
-    icon: 'more',
+    icon: 'md-more-horiz',
     path: 'open'
   },
   {
     title: '日志',
-    icon: 'ri-zhi',
+    icon: 'md-edit',
     path: 'DiscoveryBlog'
   },
   {
     title: '搜索',
-    icon: 'search',
+    icon: 'md-search',
     path: 'Search'
   },
   {
@@ -72,30 +71,30 @@ const menus = [
   },
   {
     title: '推荐',
-    icon: 'like',
+    icon: 'md-favorite-outline',
     path: 'Guess',
     login: true
   },
   {
     title: '趋势',
-    icon: 'fen-xi',
+    icon: 'md-trending-up',
     path: 'netabare',
     login: true
   },
   {
     title: '标签',
-    icon: 'paihang',
+    icon: 'md-bookmark-outline',
     path: 'Tags'
   },
   {
     title: '时间线',
-    icon: 'time',
+    icon: 'md-timeline',
     path: 'UserTimeline',
     login: true
   },
   {
     title: '好友',
-    icon: 'friends',
+    icon: 'md-face',
     path: 'Friends',
     login: true
   },
@@ -106,33 +105,24 @@ const menus = [
   },
   {
     title: 'Anitama',
-    icon: 'anitama',
+    icon: 'md-text-format',
     path: 'Anitama'
   },
   {
     title: '我的人物',
-    icon: 'list',
-    iconList: 'like',
+    icon: 'md-folder-shared',
     path: 'Character',
     login: true
   },
   {
     title: '我的目录',
-    icon: 'list',
-    iconList: 'bag',
+    icon: 'md-folder-special',
     path: 'Catalogs',
     login: true
   },
-  // {
-  //   title: '我的日志',
-  //   icon: 'list',
-  //   iconList: 'ri-zhi',
-  //   path: 'Blogs',
-  //   login: true
-  // },
   {
     title: '收起',
-    icon: 'arrow-left',
+    icon: 'md-expand',
     path: 'close'
   }
 ]
@@ -206,32 +196,22 @@ function Menu(props, { $, navigation }) {
                 <View style={styles.iconWrap}>
                   <View style={styles.border} />
                   <Flex style={styles.icon} justify='center'>
-                    {item.icon === 'anitama' ? (
-                      <Image
-                        src={ImageAnitama}
-                        size={26}
-                        radius={13}
-                        placeholder={false}
-                        quality={false}
-                        fadeDuration={0}
-                      />
-                    ) : item.icon === 'wiki' ? (
-                      <Text type='__plain__' size={12} bold>
+                    {item.icon === 'wiki' ? (
+                      <Text type='__plain__' size={13} bold>
                         Wiki
                       </Text>
                     ) : (
                       <>
                         <Iconfont
-                          style={item.path === 'close' && styles.rotate}
                           name={item.icon}
-                          size={26}
+                          size={24}
                           color={_.__colorPlain__}
                         />
                         {!!item.iconList && (
                           <Flex style={styles.iconList} justify='center'>
                             <Iconfont
                               name={item.iconList}
-                              size={item.iconList === 'ri-zhi' ? 14 : 15}
+                              size={item.iconList === 'md-folder' ? 14 : 16}
                               color={_.__colorPlain__}
                             />
                           </Flex>

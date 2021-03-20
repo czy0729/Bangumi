@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 14:55:04
+ * @Last Modified time: 2021-03-20 09:14:51
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -36,21 +36,21 @@ class TinygrailRich extends React.Component {
     const { $, navigation } = this.context
     $.init()
 
-    const onPress = () => {
-      t('番市首富.跳转', {
-        to: 'TinygrailTreeRich'
-      })
-
-      navigation.push('TinygrailTreeRich')
-    }
     navigation.setParams({
       title,
       extra: (
-        <Flex>
-          <Text type='tinygrailPlain' onPress={onPress}>
-            [分析]
-          </Text>
-        </Flex>
+        <IconTouchable
+          style={_.mr._right}
+          name='md-insert-chart-outlined'
+          color={_.colorTinygrailPlain}
+          onPress={() => {
+            t('番市首富.跳转', {
+              to: 'TinygrailTreeRich'
+            })
+
+            navigation.push('TinygrailTreeRich')
+          }}
+        />
       )
     })
   }

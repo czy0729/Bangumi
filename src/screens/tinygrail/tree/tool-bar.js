@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:28:30
+ * @Last Modified time: 2021-03-20 09:52:22
  */
 import React from 'react'
 import { Flex, Text, Iconfont } from '@components'
@@ -100,8 +100,8 @@ function ToolBar(props, { $ }) {
                   ? _.colorWarning
                   : _.colorTinygrailText
               }}
-              name='filter'
-              size={14}
+              name='md-filter-list'
+              size={16}
             />
             <Text
               style={_.ml.sm}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:39:55
+ * @Last Modified time: 2021-03-18 14:51:42
  */
 import React from 'react'
 import { ScrollView, Iconfont, Loading } from '@components'
@@ -40,7 +40,7 @@ class Channel extends React.Component {
     $.init()
 
     navigation.setParams({
-      element: <Iconfont size={24} name='list' color={_.colorTitle} />,
+      element: <Iconfont name='md-menu' color={_.colorTitle} />,
       heatmap: '频道.右上角菜单',
       popover: {
         data: [

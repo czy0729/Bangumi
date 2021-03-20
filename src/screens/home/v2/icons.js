@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:28:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:17:16
+ * @Last Modified time: 2021-03-20 11:52:03
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -33,7 +33,7 @@ function Icons(props, { navigation }) {
       ) : (
         <IconTabsHeader
           style={styles.icon}
-          name='search'
+          name='md-search'
           onPress={() => {
             t('首页.跳转', {
               to: 'Search'

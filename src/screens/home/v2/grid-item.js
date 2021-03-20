@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:16:12
+ * @Last Modified time: 2021-03-18 19:53:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select('transparent', _._colorDarkModeLevel1)
   },
   bar: {
-    borderBottomWidth: 4,
+    borderBottomWidth: 6,
     borderRadius: _.radiusXs,
     borderColor: _.colorWarning
   }

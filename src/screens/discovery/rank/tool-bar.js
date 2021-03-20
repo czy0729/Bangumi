@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-28 01:12:24
+ * @Last Modified time: 2021-03-18 16:02:57
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -42,7 +42,7 @@ function ToolBar(props, { $ }) {
     <CompToolBar>
       <CompToolBar.Popover
         data={typeData}
-        icon='filter'
+        icon='md-filter-list'
         iconColor={_.colorMain}
         text={typeCn}
         type='main'
@@ -75,14 +75,14 @@ function ToolBar(props, { $ }) {
       <CompToolBar.Touchable heatmap='排行榜.切换布局' onSelect={$.toggleList}>
         <Iconfont
           style={_.mr.xs}
-          name='list'
-          size={14}
+          name='md-grid-view'
+          size={15}
           color={list ? _.colorMain : _.colorDesc}
         />
         <Iconfont
-          style={_.ml.sm}
-          name='order'
-          size={13}
+          style={_.ml.xs}
+          name='md-menu'
+          size={16}
           color={!list ? _.colorMain : _.colorDesc}
         />
       </CompToolBar.Touchable>

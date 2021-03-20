@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:34:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 19:19:47
+ * @Last Modified time: 2021-03-18 19:12:48
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
@@ -17,8 +17,8 @@ function IconWenku(props, { $ }) {
   return (
     <Touchable style={styles.icon} onPress={$.toWenku8}>
       <Flex>
-        <Iconfont name='discovery' size={16} />
-        <Text style={_.ml.xs} size={12} type='sub'>
+        <Iconfont name='md-visibility' />
+        <Text style={_.ml.xs} size={13} type='sub'>
           小说
         </Text>
       </Flex>

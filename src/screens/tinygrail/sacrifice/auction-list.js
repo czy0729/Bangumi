@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 02:09:50
+ * @Last Modified time: 2021-03-19 17:38:27
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
@@ -95,9 +95,12 @@ function AuctionList({ style }, { $ }) {
       {!!list.length && (
         <Touchable onPress={$.toggleLogs}>
           <Flex style={styles.notice} justify='center'>
-            <Text style={_.mt.md} type='tinygrailText'>
-              [{showLogs ? '隐藏' : '显示'}记录]
-            </Text>
+            <Iconfont
+              name={
+                showLogs ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'
+              }
+              color={_.colorTinygrailText}
+            />
           </Flex>
         </Touchable>
       )}

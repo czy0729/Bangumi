@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:35:02
+ * @Last Modified time: 2021-03-18 20:47:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,7 @@ function Content(props, { $, navigation }) {
             {$.isEp && (
               <IconTouchable
                 style={styles.iconTranslate}
-                name='translate'
+                name='md-g-translate'
                 size={18}
                 onPress={$.doTranslate}
               >
@@ -126,7 +126,7 @@ const styles = _.create({
   iconTranslate: {
     position: 'absolute',
     zIndex: 1,
-    top: 0,
-    right: 0
+    top: -4,
+    right: -4
   }
 })

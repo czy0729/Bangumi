@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:54:52
+ * @Last Modified time: 2021-03-20 09:22:29
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
@@ -10,10 +10,23 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 export const IconTouchable = ob(
-  ({ style, name, size = 16, color, count = 0, children, onPress }) => {
+  ({
+    style,
+    name,
+    size,
+    color,
+    count = 0,
+    withoutFeedback,
+    children,
+    onPress
+  }) => {
     if (count) {
       return (
-        <Touchable style={[styles.icon, style]} onPress={onPress}>
+        <Touchable
+          style={[styles.icon, style]}
+          withoutFeedback={withoutFeedback}
+          onPress={onPress}
+        >
           <Flex align='end'>
             <Iconfont name={name} size={size} color={color} />
             <Text style={_.ml.xs} type='sub' size={10}>
@@ -26,7 +39,11 @@ export const IconTouchable = ob(
     }
 
     return (
-      <Touchable style={[styles.icon, style]} onPress={onPress}>
+      <Touchable
+        style={[styles.icon, style]}
+        withoutFeedback={withoutFeedback}
+        onPress={onPress}
+      >
         <Iconfont name={name} size={size} color={color} />
         {children}
       </Touchable>

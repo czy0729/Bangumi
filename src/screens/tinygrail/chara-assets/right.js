@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 11:51:53
+ * @Last Modified time: 2021-03-20 09:31:47
  */
 import React from 'react'
-import { Icon } from '@components'
+import { Iconfont } from '@components'
 import { Popover, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
 import IconGo from '@tinygrail/_/icon-go'
 import { tabs } from './ds'
 
@@ -23,15 +22,13 @@ function IconRight({ $ }) {
     return (
       <>
         <IconTouchable
-          name='close'
-          size={20}
+          name='md-close'
           color={_.colorTinygrailPlain}
           onPress={$.toggleBatchEdit}
         />
         <IconTouchable
-          style={styles.check}
-          name='check-simple'
-          size={20}
+          style={_.mr._right}
+          name='md-check'
           color={_.colorTinygrailPlain}
           onPress={() => {
             switch (batchAction) {
@@ -76,7 +73,10 @@ function IconRight({ $ }) {
             $.toggleBatchEdit(key)
           }}
         >
-          <Icon name='ios-list' size={24} color={_.colorTinygrailPlain} />
+          <Iconfont
+            name='md-menu-open'
+            color={_.colorTinygrailPlain}
+          />
         </Popover>
       )}
     </>
@@ -88,12 +88,8 @@ export default ob(IconRight)
 const styles = _.create({
   icon: {
     padding: _.sm,
-    paddingTop: _.sm - 1,
+    paddingTop: _.sm,
     paddingLeft: _.xs,
-    marginRight: IOS ? -_.sm : 0
-  },
-  check: {
-    marginRight: IOS ? -_.sm : 0,
-    marginLeft: _.xs
+    marginRight: -_.xs
   }
 })

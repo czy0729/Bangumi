@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:32:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:34:53
+ * @Last Modified time: 2021-03-20 15:43:16
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -16,7 +16,12 @@ function IconPS(props, { $ }) {
   }
 
   return (
-    <IconTouchable style={styles.icon} name='trophy' onPress={$.toPSNINE}>
+    <IconTouchable
+      style={styles.icon}
+      name='trophy'
+      size={19}
+      onPress={$.toPSNINE}
+    >
       <Heatmap id='条目.查看奖杯' />
     </IconTouchable>
   )

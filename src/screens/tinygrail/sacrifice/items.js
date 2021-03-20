@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 21:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 01:39:33
+ * @Last Modified time: 2021-03-19 17:01:00
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -85,7 +85,7 @@ class Items extends React.Component {
         </Flex.Item>
         <IconTouchable
           style={[_.ml.sm, _.mr._sm]}
-          name={showItems ? 'down' : 'up'}
+          name={showItems ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
           color={_.colorTinygrailText}
           onPress={$.toggleItems}
         />

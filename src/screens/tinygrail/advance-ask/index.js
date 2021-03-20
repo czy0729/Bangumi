@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:05:20
+ * @Last Modified time: 2021-03-20 09:42:16
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -10,9 +10,9 @@ import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
-import ToolBar from '../_/tool-bar'
+import { withHeaderParams } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
+import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
 
@@ -38,7 +38,8 @@ class TinygrailAdvanceAsk extends React.Component {
     navigation.setParams({
       extra: (
         <IconHeader
-          name='information'
+          style={_.mr._right}
+          name='md-info-outline'
           color={_.colorTinygrailPlain}
           onPress={() => {
             t('卖一推荐.提示')

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:01:16
+ * @Last Modified time: 2021-03-20 15:51:23
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -138,7 +138,11 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           <Head style={styles.head} />
         </Animated.View>
       </View>
-      <IconBack style={[_.header.left, styles.btn]} navigation={navigation} />
+      <IconBack
+        style={[_.header.left, styles.btn]}
+        navigation={navigation}
+        color={_.__colorPlain__}
+      />
       <View
         style={[
           _.header.right,
@@ -207,7 +211,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont name='list' color={_.__colorPlain__} />
+          <Iconfont name='md-menu' color={_.__colorPlain__} />
           <Heatmap id='空间.右上角菜单' />
           <Heatmap right={62} id='空间.添加好友' transparent />
           <Heatmap right={113} id='空间.解除好友' transparent />

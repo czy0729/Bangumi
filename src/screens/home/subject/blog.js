@@ -33,7 +33,7 @@ function Blog({ style }, { $, navigation }) {
     <View style={[style, !showBlog && _.short]}>
       <SectionTitle
         style={styles.left}
-        icon={!showBlog && 'right'}
+        icon={!showBlog && 'md-navigate-next'}
         onPress={() => $.switchBlock('showBlog')}
       >
         日志
