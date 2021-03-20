@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-22 17:50:41
+ * @Last Modified time: 2021-03-20 15:09:41
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -19,11 +19,18 @@ import {
 } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore, usersStore, rakuenStore } from '@stores'
-import { getTimestamp, setStorage, getStorage, open } from '@utils'
+import {
+  getTimestamp,
+  setStorage,
+  getStorage,
+  open,
+  urlStringify
+} from '@utils'
 import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
-import { IOS, HOST_2, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
+import axios from '@utils/thirdParty/axios'
+import { IOS, HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
@@ -39,7 +46,7 @@ class LoginV2 extends React.Component {
   }
 
   state = {
-    host: HOST_2,
+    host: HOST,
     clicked: false,
     email: '',
     password: '',
@@ -54,12 +61,9 @@ class LoginV2 extends React.Component {
   userAgent = ''
   formhash = ''
   lastCaptcha = ''
-  cookie = {
-    chiiSid: '',
-    chiiAuth: ''
-  }
+  cookie = {}
   code = ''
-  accessToken = ''
+  accessToken = {}
   retryCount = 0
 
   codeRef
@@ -94,9 +98,6 @@ class LoginV2 extends React.Component {
       info('正在从github获取游客cookie...')
 
       const { _response } = await xhrCustom({
-        // url: IOS
-        //   ? 'https://czy0729.github.io/Bangumi/web/tourist.ios.json'
-        //   : 'https://czy0729.github.io/Bangumi/web/tourist.json'
         url: IOS
           ? `https://gitee.com/a296377710/bangumi/raw/master/tourist.ios.json?t=${getTimestamp()}`
           : `https://gitee.com/a296377710/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
@@ -132,83 +133,6 @@ class LoginV2 extends React.Component {
     })
 
   /**
-   * 随机生成一个UserAgent
-   */
-  getUA = async () => {
-    const { isCommonUA } = this.state
-    if (isCommonUA) {
-      // 与ekibun的bangumi一样的ua
-      const ua =
-        'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
-      this.userAgent = ua
-      return ua
-    }
-
-    const res = Constants.getWebViewUserAgentAsync()
-    const UA = await res
-    this.userAgent = `${UA} ${getTimestamp()}`
-
-    return res
-  }
-
-  /**
-   * 获取表单hash
-   */
-  getFormHash = async () => {
-    const { host } = this.state
-    const res = xhrCustom({
-      url: `${host}/login`,
-      headers: {
-        // Cookie: '; chii_cookietime=2592000;',
-        'User-Agent': this.userAgent
-      }
-    })
-
-    const { responseHeaders, _response } = await res
-    if (responseHeaders['Set-Cookie']) {
-      const match = responseHeaders['Set-Cookie'].match(/chii_sid=(.+?);/)
-      if (match) {
-        this.cookie.chiiSid = match[1]
-      }
-    }
-
-    const match = _response.match(
-      /<input type="hidden" name="formhash" value="(.+?)">/
-    )
-    if (match) {
-      this.formhash = match[1]
-    }
-
-    return res
-  }
-
-  /**
-   * 获取验证码
-   */
-  getCaptcha = async () => {
-    this.setState({
-      base64: ''
-    })
-
-    const { host } = this.state
-    const res = xhrCustom({
-      url: `${host}/signup/captcha`,
-      headers: {
-        Cookie: `; chii_sid=${this.cookie.chiiSid};`,
-        'User-Agent': this.userAgent
-      },
-      responseType: 'arraybuffer'
-    })
-
-    const { _response } = await res
-    this.setState({
-      base64: `data:image/gif;base64,${_response}`
-    })
-
-    return res
-  }
-
-  /**
    * 登陆最终失败
    */
   loginFail = async info => {
@@ -238,8 +162,9 @@ class LoginV2 extends React.Component {
         setStorage(`${namespace}|email`, email)
 
         await this.login()
-        if (!this.cookie.chiiAuth) {
-          this.loginFail('验证码或密码错误，重试或前往旧版授权登陆 →')
+
+        if (!this.cookie.chii_auth) {
+          this.loginFail('验证码或密码错误，稍会再重试或前往授权登陆 →')
           return
         }
 
@@ -255,9 +180,8 @@ class LoginV2 extends React.Component {
         this.retryCount += 1
       }
 
-      const { _response } = await this.getAccessToken()
-      const accessToken = JSON.parse(_response)
-      userStore.updateAccessToken(accessToken)
+      await this.getAccessToken()
+
       setStorage(`${namespace}|password`, password)
       this.inStore()
     } catch (ex) {
@@ -274,6 +198,79 @@ class LoginV2 extends React.Component {
   }
 
   /**
+   * 随机生成一个UserAgent
+   */
+  getUA = async () => {
+    const { isCommonUA } = this.state
+    if (isCommonUA) {
+      // 与ekibun的bangumi一样的ua
+      const ua =
+        'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
+      this.userAgent = ua
+      return ua
+    }
+
+    const res = Constants.getWebViewUserAgentAsync()
+    const UA = await res
+    this.userAgent = `${UA} ${getTimestamp()}`
+
+    return res
+  }
+
+  /**
+   * 获取表单hash
+   */
+  getFormHash = async () => {
+    const { host } = this.state
+
+    axios.defaults.withCredentials = false
+    const { data, headers } = await axios({
+      method: 'get',
+      url: `${host}/login`,
+      headers: {
+        'User-Agent': this.userAgent
+      }
+    })
+    this.updateCookie(headers?.['set-cookie']?.[0])
+
+    const match = data.match(
+      /<input type="hidden" name="formhash" value="(.+?)">/
+    )
+    if (match) this.formhash = match[1]
+
+    return true
+  }
+
+  /**
+   * 获取验证码
+   */
+  getCaptcha = async () => {
+    this.setState({
+      base64: ''
+    })
+
+    const { host } = this.state
+
+    axios.defaults.withCredentials = false
+    const { request } = await axios({
+      method: 'get',
+      url: `${host}/signup/captcha?${getTimestamp()}`,
+      headers: {
+        Cookie: this.cookieString,
+        'User-Agent': this.userAgent
+      },
+      responseType: 'arraybuffer'
+    })
+
+    this.setState({
+      base64: `data:image/gif;base64,${request._response}`,
+      captcha: ''
+    })
+
+    return true
+  }
+
+  /**
    * 密码登陆
    */
   login = async () => {
@@ -283,15 +280,17 @@ class LoginV2 extends React.Component {
     })
 
     const { host, email, password, captcha } = this.state
-    const res = xhrCustom({
-      method: 'POST',
+
+    axios.defaults.withCredentials = false
+    const { data, headers } = await axios({
+      method: 'post',
       url: `${host}/FollowTheRabbit`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: `; chii_sid=${this.cookie.chiiSid};`,
+        Cookie: this.cookieString,
         'User-Agent': this.userAgent
       },
-      data: {
+      data: urlStringify({
         formhash: this.formhash,
         referer: '',
         dreferer: '',
@@ -299,23 +298,17 @@ class LoginV2 extends React.Component {
         password,
         captcha_challenge_field: captcha,
         loginsubmit: '登陆'
-      }
+      })
     })
+    this.updateCookie(headers?.['set-cookie']?.[0])
 
-    const data = await res
-    const { _response, responseHeaders } = data
-    if (_response.includes('分钟内您将不能登录本站。')) {
+    if (data.includes('分钟内您将不能登录本站')) {
       info('累计 5 次错误尝试，15 分钟内您将不能登录本站。')
+    } else {
+      this.updateCookie(headers?.['set-cookie']?.[0])
     }
 
-    if (responseHeaders['Set-Cookie']) {
-      const match = responseHeaders['Set-Cookie'].match(/chii_auth=(.+?);/)
-      if (match) {
-        this.cookie.chiiAuth = match[1]
-      }
-    }
-
-    return res
+    return true
   }
 
   /**
@@ -327,20 +320,20 @@ class LoginV2 extends React.Component {
     })
 
     const { host } = this.state
-    const res = xhrCustom({
+
+    axios.defaults.withCredentials = false
+    const { data } = await axios({
+      method: 'get',
       url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
       headers: {
-        Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
-        'User-Agent': this.userAgent
+        'User-Agent': this.userAgent,
+        Cookie: this.cookieString
       }
     })
 
-    const { _response } = await res
-    this.formhash = cheerio
-      .load(_response)('input[name=formhash]')
-      .attr('value')
+    this.formhash = cheerio.load(data)('input[name=formhash]').attr('value')
 
-    return res
+    return true
   }
 
   /**
@@ -352,51 +345,87 @@ class LoginV2 extends React.Component {
     })
 
     const { host } = this.state
-    const res = xhrCustom({
-      method: 'POST',
+
+    axios.defaults.withCredentials = false
+    const { request } = await axios({
+      method: 'post',
+      maxRedirects: 0,
+      validateStatus: null,
       url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
-        'User-Agent': this.userAgent
+        'User-Agent': this.userAgent,
+        Cookie: this.cookieString
       },
-      data: {
+      data: urlStringify({
         formhash: this.formhash,
         redirect_uri: '',
         client_id: APP_ID,
         submit: '授权'
-      }
+      })
     })
 
-    const { responseURL } = await res
-    this.code = responseURL.split('=').slice(1).join('=')
+    this.code = request?.responseURL?.split('=').slice(1).join('=')
 
-    return res
+    return true
   }
 
   /**
    * code获取access_token
    */
-  getAccessToken = () => {
+  getAccessToken = async () => {
     this.setState({
       info: '授权成功, 获取token中...(4/5)'
     })
 
     const { host } = this.state
-    return xhrCustom({
-      method: 'POST',
+
+    axios.defaults.withCredentials = false
+    const { status, data } = await axios({
+      method: 'post',
+      maxRedirects: 0,
+      validateStatus: null,
       url: `${host}/oauth/access_token`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': this.userAgent
       },
-      data: {
+      data: urlStringify({
         grant_type: 'authorization_code',
         client_id: APP_ID,
         client_secret: APP_SECRET,
         code: this.code,
         redirect_uri: URL_OAUTH_REDIRECT,
         state: getTimestamp()
+      })
+    })
+
+    if (status !== 200) {
+      throw new TypeError(status)
+    }
+
+    this.accessToken = data
+    return true
+  }
+
+  /**
+   * 更新responseHeader的set-cookie
+   * @param {*} setCookie
+   */
+  updateCookie = (setCookie = '') => {
+    const setCookieKeys = [
+      '__cfduid',
+      'chii_sid',
+      'chii_sec_id',
+      'chii_cookietime',
+      'chii_auth'
+    ]
+
+    setCookieKeys.forEach(item => {
+      const reg = new RegExp(`${item}=(.+?);`)
+      const match = setCookie.match(reg)
+      if (match) {
+        this.cookie[item] = match[1]
       }
     })
   }
@@ -411,10 +440,11 @@ class LoginV2 extends React.Component {
 
     const { navigation } = this.props
     userStore.updateUserCookie({
-      cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
+      cookie: this.cookieString,
       userAgent: this.userAgent,
       v: 0
     })
+    userStore.updateAccessToken(this.accessToken)
     feedback()
     navigation.popToTop()
     t('登陆.成功')
@@ -430,7 +460,11 @@ class LoginV2 extends React.Component {
     )
   }
 
+  /**
+   *
+   */
   reset = async () => {
+    this.cookie = {}
     this.setState({
       base64: ''
     })
@@ -495,6 +529,12 @@ class LoginV2 extends React.Component {
     })
 
     this.reset()
+  }
+
+  get cookieString() {
+    return Object.keys(this.cookie)
+      .map(item => `${item}=${this.cookie[item]}`)
+      .join('; ')
   }
 
   renderPreview() {

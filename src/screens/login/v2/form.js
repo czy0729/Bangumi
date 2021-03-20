@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:59:20
+ * @Last Modified time: 2021-03-18 20:27:21
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -183,7 +183,7 @@ class Form extends React.Component {
             <Text type='sub' size={12}>
               登陆配置
             </Text>
-            <Iconfont style={_.ml.sm} name='right' size={12} />
+            <Iconfont name='md-navigate-next' />
           </Flex>
           <Heatmap id='登陆.切换域名' />
           <Heatmap bottom={-32} id='登陆.配置提示' transparent />
@@ -200,14 +200,14 @@ class Form extends React.Component {
                 <Text type='sub' size={12}>
                   使用 {host} 进行登陆
                 </Text>
-                <Iconfont style={_.ml.xs} name='down' size={12} />
+                <Iconfont name='md-keyboard-arrow-down' />
               </Flex>
             </Flex.Item>
             <Touchable
               style={[this.styles.touch, _.ml.md]}
               onPress={this.onNoticeHost}
             >
-              <Iconfont name='information' type='sub' size={15} />
+              <Iconfont name='md-info-outline' type='sub' size={18} />
             </Touchable>
           </Flex>
         </Popover>
@@ -216,9 +216,11 @@ class Form extends React.Component {
             <Touchable onPress={onUAChange}>
               <Flex style={this.styles.touch}>
                 <Iconfont
-                  name={isCommonUA ? 'radio-select' : 'radio'}
+                  name={
+                    isCommonUA ? 'md-radio-button-on' : 'md-radio-button-off'
+                  }
                   color={isCommonUA ? _.colorMain : _.colorSub}
-                  size={12}
+                  size={18}
                 />
                 <Text style={_.ml.xs} type='sub' size={12}>
                   使用固定UA登陆 (频繁掉线请勾选)
@@ -230,7 +232,7 @@ class Form extends React.Component {
             style={[this.styles.touch, _.ml.md]}
             onPress={this.onNoticeUA}
           >
-            <Iconfont name='information' type='sub' size={15} />
+            <Iconfont name='md-info-outline' type='sub' size={18} />
           </Touchable>
         </Flex>
       </>
