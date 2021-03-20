@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 17:41:42
+ * @Last Modified time: 2021-03-20 23:54:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -170,7 +170,7 @@ class Temples extends React.Component {
           <Touchable style={styles.expand} onPress={$.toggleTemples}>
             <Iconfont
               name={
-                showTemples ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'
+                showTemples ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'
               }
               color={_.colorTinygrailText}
             />

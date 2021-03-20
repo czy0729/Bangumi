@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-07 02:43:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 17:01:04
+ * @Last Modified time: 2021-03-20 23:54:22
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -38,7 +38,7 @@ function StarForces({ style }, { $ }) {
         <IconTouchable
           style={[_.ml.sm, _.mr._sm]}
           name={
-            showStarForces ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'
+            showStarForces ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'
           }
           color={_.colorTinygrailText}
           onPress={$.toggleStarForces}

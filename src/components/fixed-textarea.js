@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:51:41
+ * @Last Modified time: 2021-03-21 00:25:48
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -474,7 +474,7 @@ export const FixedTextarea = observer(
           <Touchable onPress={this.toggleSource}>
             <Flex>
               <Iconfont
-                name={showSource ? 'md-check-circle' : 'md-radio-button-unchecked'}
+                name={showSource ? 'md-check-circle' : 'md-radio-button-off'}
                 size={14}
                 color={showSource ? _.colorMain : _.colorSub}
               />

@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 08:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 11:36:14
+ * @Last Modified time: 2021-03-20 18:07:22
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import ExpoIcon from '@expo/vector-icons/Ionicons'
+import ExpoIcon from '@components/@/vector-icons/Ionicons'
 import { _ } from '@stores'
 
 export const Icon = observer(

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 10:02:11
+ * @Last Modified time: 2021-03-20 23:53:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -155,7 +155,7 @@ function Info(props, { $, navigation }) {
         )}
         <Touchable onPress={$.toggleCover}>
           <Iconfont
-            name={showCover ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
+            name={showCover ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
             color={_.colorTinygrailText}
           />
         </Touchable>

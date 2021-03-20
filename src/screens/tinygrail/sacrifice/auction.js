@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 17:01:49
+ * @Last Modified time: 2021-03-20 23:53:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ function Auction({ style }, { $ }) {
         )}
         <IconTouchable
           style={[_.ml.sm, _.mr._sm]}
-          name={showAuction ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
+          name={showAuction ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
           color={_.colorTinygrailText}
           onPress={$.toggleAuction}
         />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 17:38:27
+ * @Last Modified time: 2021-03-20 23:53:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -97,7 +97,7 @@ function AuctionList({ style }, { $ }) {
           <Flex style={styles.notice} justify='center'>
             <Iconfont
               name={
-                showLogs ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'
+                showLogs ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'
               }
               color={_.colorTinygrailText}
             />

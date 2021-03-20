@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 17:05:14
+ * @Last Modified time: 2021-03-20 23:54:14
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -47,7 +47,7 @@ function Slider({ style }, { $ }) {
         <IconTouchable
           style={_.mr._sm}
           name={
-            showSacrifice ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'
+            showSacrifice ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'
           }
           color={_.colorTinygrailText}
           onPress={$.toggleSacrifice}

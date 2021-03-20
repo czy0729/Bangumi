@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 17:42:44
+ * @Last Modified time: 2021-03-20 23:54:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -85,7 +85,7 @@ function Users({ style }, { $, navigation }) {
       <Flex style={_.mt.md} justify='center'>
         <Touchable style={styles.expand} onPress={$.toggleUsers}>
           <Iconfont
-            name={showUsers ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
+            name={showUsers ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
             color={_.colorTinygrailText}
           />
         </Touchable>
