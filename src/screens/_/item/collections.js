@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:04:29
+ * @Last Modified time: 2021-03-21 02:31:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ export const ItemCollections = ob(
     comments,
     type,
     collection,
+    showLabel = true,
     isCollect,
     isCatalog,
     isDo,
@@ -134,7 +135,7 @@ export const ItemCollections = ob(
                 </Flex.Item>
                 <Flex style={_.mt.xxs}>
                   {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
-                  {!!type && <Tag style={_.ml.sm} value={type} />}
+                  {showLabel && !!type && <Tag style={_.ml.sm} value={type} />}
                 </Flex>
               </Flex>
               {hasTip && (
@@ -146,7 +147,7 @@ export const ItemCollections = ob(
                 {hasScore && (
                   <Stars style={_.mr.xs} value={score} color='warning' />
                 )}
-                <Text style={_.mr.sm} type='sub' size={12} numberOfLines={1}>
+                <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>
                   {hasScore && !!info.length && '/ '}
                   {info.join(' / ')}
                 </Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 18:23:40
+ * @Last Modified time: 2021-03-21 16:00:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ function Auth(props, { $, navigation }) {
               </Touchable>
               <IconTouchable
                 name={_.tSelect('md-brightness-2', 'md-brightness-5')}
-                color={_.colorTinygrailIcon}
+                color={_.colorTinygrailPlain}
                 size={18}
                 onPress={_.toggleTinygrailThemeMode}
               />

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:14:57
+ * @Last Modified time: 2021-03-21 15:59:45
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
+import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
@@ -83,33 +84,34 @@ function Assets(props, { $ }) {
     <Flex style={styles.container}>
       <Flex.Item>
         <Touchable onPress={$.toogleShort}>
-          <Text type='tinygrailPlain' size={13}>
+          <Text type='tinygrailPlain' size={13} bold>
             {_balance}
             {balanceChangeText && (
-              <Text type={balanceTextColor} size={10} lineHeight={13}>
+              <Text type={balanceTextColor} size={10} lineHeight={13} bold>
                 {' '}
                 {balanceChangeText}
               </Text>
             )}{' '}
             / {_total}{' '}
             {totalChangeText && (
-              <Text type={totalTextColor} size={10} lineHeight={13}>
+              <Text type={totalTextColor} size={10} lineHeight={13} bold>
                 {totalChangeText}{' '}
               </Text>
             )}
             {!!lastIndex && `/ #${lastIndex}`}
-            <Text type='tinygrailPlain' size={13}>
+            <Text type='tinygrailPlain' size={13} bold>
               {' '}
               {$.short ? '[-]' : '[+]'}
             </Text>
           </Text>
         </Touchable>
       </Flex.Item>
-      <Touchable style={_.ml.xs} onPress={$.doTest}>
-        <Text type='tinygrailText' size={13}>
-          [股息预测]
-        </Text>
-      </Touchable>
+      <IconTouchable
+        style={_.mr._sm}
+        name='md-calculate'
+        color={_.colorTinygrailPlain}
+        onPress={$.doTest}
+      />
     </Flex>
   )
 }
@@ -119,7 +121,6 @@ export default obc(Assets)
 const styles = _.create({
   container: {
     width: '100%',
-    paddingVertical: _.sm,
     paddingRight: _.wind
   }
 })

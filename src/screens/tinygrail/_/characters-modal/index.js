@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 12:16:08
+ * @Last Modified time: 2021-03-21 16:13:29
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -425,11 +425,8 @@ class CharactersModal extends React.Component {
 
             if (rightItem) {
               if (leftValue) {
-                return (
-                  item.name.includes(leftValue) && lv(item) >= lv(rightItem)
-                )
+                return item.name.includes(leftValue)
               }
-              return lv(item) >= lv(rightItem)
             }
 
             if (leftValue) {
@@ -602,12 +599,8 @@ class CharactersModal extends React.Component {
           .filter(item => {
             if (leftItem) {
               if (rightValue) {
-                return (
-                  item.name.includes(rightValue) && lv(item) <= lv(leftItem)
-                )
+                return item.name.includes(rightValue)
               }
-
-              return lv(item) <= lv(leftItem)
             }
 
             if (rightValue) {

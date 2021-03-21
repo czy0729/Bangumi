@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 10:44:29
+ * @Last Modified time: 2021-03-21 01:05:09
  */
 import React from 'react'
 import { Progress } from '@ant-design/react-native'
@@ -95,7 +95,7 @@ export const ItemFriends = ob(
                 <>
                   <Iconfont
                     style={_.mr.xs}
-                    name='md-remove-red-eye'
+                    name='md-visibility'
                     size={14}
                     color={_.colorSub}
                   />
@@ -108,7 +108,7 @@ export const ItemFriends = ob(
                 <>
                   <Iconfont
                     style={_.mr.xs}
-                    name='md-do-not-disturb-alt'
+                    name='md-visibility-off'
                     size={13}
                     color={_.colorSub}
                   />

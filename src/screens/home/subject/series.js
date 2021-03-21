@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 17:54:51
+ * @Last Modified time: 2021-03-21 16:29:41
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -25,7 +25,7 @@ function Series({ size }, { $, navigation }) {
         <Flex.Item>
           {showRelation && (
             <Flex>
-              <Iconfont name='md-subdirectory-arrow-right' size={18} />
+              <Iconfont name='md-subdirectory-arrow-right' size={16} />
               {!!$.subjectPrev && (
                 <Touchable
                   style={_.ml.sm}

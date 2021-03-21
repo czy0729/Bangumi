@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:24:00
+ * @Last Modified time: 2021-03-21 16:08:47
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,6 +13,7 @@ import { tinygrailOSS } from '@utils/app'
 import { withHeaderParams } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
+import { ITEMS_DESC } from '@tinygrail/_/ds'
 import Store from './store'
 
 const title = '我的道具'
@@ -63,6 +64,7 @@ class TinygrailItems extends React.Component {
                       this.styles.wrap,
                       index !== 0 && !_.flat && this.styles.border
                     ]}
+                    align='start'
                   >
                     <Image
                       style={this.styles.image}
@@ -75,12 +77,13 @@ class TinygrailItems extends React.Component {
                         {item.name}
                       </Text>
                       <Text style={_.mt.xs} type='tinygrailText' size={10}>
-                        {item.line}
+                        {ITEMS_DESC[item.name] || item.line}
                       </Text>
                     </Flex.Item>
                     <Flex style={_.ml.sm}>
                       <Text type='warning'>x{item.amount}</Text>
                       <Iconfont
+                        style={_.mr._sm}
                         name='md-navigate-next'
                         color={_.colorTinygrailText}
                       />
@@ -97,6 +100,7 @@ class TinygrailItems extends React.Component {
                     this.styles.wrap,
                     index !== 0 && !_.flat && this.styles.border
                   ]}
+                  align='start'
                 >
                   <Image
                     style={this.styles.image}
@@ -109,7 +113,7 @@ class TinygrailItems extends React.Component {
                       {item.name}
                     </Text>
                     <Text style={_.mt.xs} type='tinygrailText' size={10}>
-                      {item.line}
+                      {ITEMS_DESC[item.name] || item.line}
                     </Text>
                   </Flex.Item>
                   <Text style={_.ml.sm} type='warning'>

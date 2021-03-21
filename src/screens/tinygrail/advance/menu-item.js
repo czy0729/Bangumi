@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 18:19:35
+ * @Last Modified time: 2021-03-21 16:14:53
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -58,6 +58,6 @@ const memoStyles = _.memoStyles(_ => ({
     right: -10,
     marginTop: -24,
     color: _.colorTinygrailIcon,
-    opacity: 0.16
+    opacity: 0.24
   }
 }))

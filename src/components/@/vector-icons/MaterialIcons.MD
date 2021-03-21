@@ -4,6 +4,8 @@ add
 add-circle-outline
 airplay
 arrow-back
+arrow-drop-down
+arrow-drop-up
 arrow-forward
 attach-money
 bookmark-outline
@@ -31,6 +33,7 @@ face
 favorite
 favorite-outline
 filter-list
+filter-none
 folder
 folder-open
 folder-shared
@@ -83,4 +86,4 @@ whatshot
 workspaces-outline
 
 // Fontmin
-
+

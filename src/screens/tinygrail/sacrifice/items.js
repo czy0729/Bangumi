@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 21:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 23:54:05
+ * @Last Modified time: 2021-03-21 16:06:59
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -15,6 +15,7 @@ import { obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 import { info } from '@utils/ui'
 import CharactersModal from '@tinygrail/_/characters-modal'
+import { ITEMS_DESC } from '@tinygrail/_/ds'
 
 const OSS = 'https://tinygrail.oss-cn-hangzhou.aliyuncs.com/image'
 
@@ -134,8 +135,7 @@ class Items extends React.Component {
                 混沌魔方
               </Text>
               <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                消耗10点「固定资产」获取随机角色20-200股，需要有一座塔才能使用,
-                每天3次
+                {ITEMS_DESC['混沌魔方']}
               </Text>
             </Flex.Item>
           </Flex>
@@ -157,8 +157,7 @@ class Items extends React.Component {
                 虚空道标
               </Text>
               <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                消耗100点「固定资产」获取指定角色20-100股，需当前角色等级大于等于目标等级,
-                每天3次
+                {ITEMS_DESC['虚空道标']}
               </Text>
             </Flex.Item>
           </Flex>
@@ -180,7 +179,7 @@ class Items extends React.Component {
                 星光碎片
               </Text>
               <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                消耗当前角色「活股」补充目标「固定资产」，受等级差倍率影响，最高为32倍
+                {ITEMS_DESC['星光碎片']}
               </Text>
             </Flex.Item>
           </Flex>
@@ -202,7 +201,7 @@ class Items extends React.Component {
                 闪光结晶
               </Text>
               <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                消耗当前角色100点「固定资产」，对目标「星之力」造成20-200股随机伤害，受等级差倍率影响
+                {ITEMS_DESC['闪光结晶']}
               </Text>
             </Flex.Item>
           </Flex>
@@ -224,7 +223,7 @@ class Items extends React.Component {
                 鲤鱼之眼
               </Text>
               <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                消耗当前角色100点「固定资产」，将「幻想乡」中100-300股转移到「英灵殿」，可能会让（33%-50%）目标股份转化为「星之力」
+                {ITEMS_DESC['鲤鱼之眼']}
               </Text>
             </Flex.Item>
           </Flex>

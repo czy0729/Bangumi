@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:26:47
+ * @Last Modified time: 2021-03-21 01:10:22
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -473,7 +473,7 @@ const memoStyles = _.memoStyles(_ => ({
   extra: {
     width: 12 + _.sm * 2,
     height: 12 + _.sm * 2,
-    marginTop: -4,
+    marginTop: -3,
     marginRight: -12,
     marginLeft: -4
   }

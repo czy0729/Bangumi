@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:45:54
+ * @Last Modified time: 2021-03-21 02:27:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -121,13 +121,12 @@ function Top(props, { $, navigation }) {
               <Flex.Item style={_.ml.sm}>
                 <Text numberOfLines={1} bold>
                   {$.userName}
-                  <Text type='sub'> @{$.userId}</Text>
                 </Text>
-                {!!$.userSign && (
-                  <Text style={_.mt.xs} type='sub' size={12}>
-                    {$.userSign.slice(1, $.userSign.length - 1)}
-                  </Text>
-                )}
+                <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
+                  @{$.userId}
+                  {!!$.userSign &&
+                    ` (${$.userSign.slice(1, $.userSign.length - 1)})`}
+                </Text>
               </Flex.Item>
             )}
             <Heatmap

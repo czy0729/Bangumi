@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:43:54
+ * @Last Modified time: 2021-03-21 02:28:57
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -83,10 +83,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             styles.parallaxMask,
             parallaxStyle,
             {
-              backgroundColor: _.select(
-                'rgba(0, 0, 0, 0.48)',
-                'rgba(0, 0, 0, 0.64)'
-              ),
+              backgroundColor: 'rgba(0, 0, 0, 0.48)',
               opacity: scrollY.interpolate({
                 inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])

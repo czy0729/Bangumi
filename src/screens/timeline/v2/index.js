@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 11:45:20
+ * @Last Modified time: 2021-03-21 01:07:39
  */
 import React from 'react'
 import { UM } from '@components'
@@ -32,7 +32,7 @@ class Timeline extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon: ({ tintColor }) => (
-      <IconTabBar color={tintColor} size={19.5} name='md-access-time' />
+      <IconTabBar color={tintColor} name='md-access-time' />
     ),
     tabBarLabel: title
   }

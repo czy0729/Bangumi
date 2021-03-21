@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:25:20
+ * @Last Modified time: 2021-03-21 01:24:50
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -49,6 +49,8 @@ export default class ScreenTinygrail extends store {
   errorCount = 0
 
   init = async () => {
+    tinygrailStore.fetchAdvance()
+
     // 初始化state
     const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({

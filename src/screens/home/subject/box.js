@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 16:33:15
+ * @Last Modified time: 2021-03-21 19:15:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,11 +48,11 @@ function Box({ style }, { $, navigation }) {
                 {[1, 2, 3, 4, 5].map(item => {
                   let type
                   if (rating / 2 >= item) {
-                    type = 'md-star'
+                    type = 'ios-star'
                   } else if (rating / 2 >= item - 0.5) {
-                    type = 'md-star-half'
+                    type = 'ios-star-half'
                   } else {
-                    type = 'md-star-outline'
+                    type = 'ios-star-outline'
                   }
                   return (
                     <Icon

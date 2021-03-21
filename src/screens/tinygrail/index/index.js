@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 16:03:55
+ * @Last Modified time: 2021-03-21 02:19:22
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -117,7 +117,7 @@ class Tinygrail extends React.Component {
           <StatusBarPlaceholder />
           <Auth />
           <Menus />
-          <Flex style={_.mt.sm} justify='center'>
+          <Flex style={_.mt.xs} justify='center'>
             <Text type='tinygrailText' size={12} onPress={this.alertUpdates}>
               {VERSION_TINYGRAIL_PLUGIN} 更新内容
             </Text>

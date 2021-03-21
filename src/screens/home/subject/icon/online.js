@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:57:53
+ * @Last Modified time: 2021-03-21 16:21:51
  */
 import React from 'react'
 import { Heatmap, Iconfont } from '@components'
@@ -27,6 +27,6 @@ export default obc(IconOnline)
 
 const styles = _.create({
   icon: {
-    paddingHorizontal: _.sm
+    paddingHorizontal: _.sm + 2
   }
 })

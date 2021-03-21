@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 14:34:45
+ * @Last Modified time: 2021-03-21 16:31:19
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -18,7 +18,7 @@ export const NAMESPACE = 'System'
 // -------------------- init --------------------
 export const INIT_SETTING = {
   simple: true, // 设置页面显示最基本的设置
-  avatarRound: true, // 头像是否圆形
+  avatarRound: false, // 头像是否圆形
   cdn: true, // CDN加速
   cnFirst: true, // 是否中文优先
   filter18x: false, // 屏蔽18x条目

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:13:02
+ * @Last Modified time: 2021-03-21 02:04:28
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
@@ -23,7 +23,7 @@ export const labelDS = [
 export const topDS = ['编辑', '关联', '入库']
 export const typeDS = ['条目', '锁定', '合并', '角色', '人物', '章节']
 export const relationDS = ['条目关联', '人物关联', '角色关联']
-export const lastDS = ['全部', '书籍', '动画', '音乐', '游戏', '三次元']
+export const lastDS = ['全部', '动画', '书籍', '音乐', '游戏', '三次元']
 
 const namespace = 'ScreenWiki'
 const keys = {

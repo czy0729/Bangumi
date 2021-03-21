@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:23:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 11:44:44
+ * @Last Modified time: 2021-03-21 01:09:35
  */
 import React from 'react'
 import { Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
+import { IOS } from '@constants'
 import ob from '../observer-props'
 
 function IconBack({ style, navigation, color }) {
@@ -23,6 +24,7 @@ export default ob(IconBack, {
 
 const styles = _.create({
   container: {
-    padding: _.sm
+    padding: _.sm,
+    paddingLeft: IOS ? _.sm : _.sm + 4
   }
 })

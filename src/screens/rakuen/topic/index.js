@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 13:28:01
+ * @Last Modified time: 2021-03-21 02:21:54
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -340,9 +340,9 @@ class Topic extends React.Component {
           data={$.comments}
           scrollEventThrottle={16}
           removeClippedSubviews={false}
-          initialNumToRender={96}
-          maxToRenderPerBatch={96}
-          updateCellsBatchingPeriod={96}
+          initialNumToRender={120}
+          maxToRenderPerBatch={120}
+          updateCellsBatchingPeriod={120}
           scrollToTop
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}

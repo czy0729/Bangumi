@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.9.0" src="https://img.shields.io/badge/Version-4.9.0-0366d6" />
+  <img alt="Version: 4.9.2" src="https://img.shields.io/badge/Version-4.9.2-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -45,6 +45,22 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 - [小圣杯](https://bgm.tv/dev/app/1143) (角色交易空气游戏, App 独立设计 UI 和交互)
 
 ## Update
+
+v4.9.2 - 2021/03/21
+
+—— 新增 ——
+
+- [x] [发现] 菜单新增维基人, 只进行数据展示
+
+—— 优化 ——
+
+- [x] [每日放送] 现在每天中午 19 点前, 会把上一日的数据放最顶
+- [x] [登陆] 重写了代码, 应该不会再碰到验证码失败
+- [x] 换了一套图标
+
+—— 小圣杯 4.2 ——
+
+- [x] [道具] 虚空道标支持跨级
 
 v4.9.0 - 2021/03/14
 
