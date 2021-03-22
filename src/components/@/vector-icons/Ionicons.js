@@ -1,10 +1,10 @@
 /*
- * 精简过的 vector-icons@12.0.4 Ionicons
+ * 精简过的 vector-icons@10.0.0 Ionicons
  * @Doc: https://icons.expo.fyi
  * @Author: czy0729
  * @Date: 2021-03-20 18:03:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 18:05:42
+ * @Last Modified time: 2021-03-22 14:16:04
  */
 import createIconSet from '@expo/vector-icons/createIconSet'
 import font from './vendor/react-native-vector-icons/Fonts/Ionicons.ttf'

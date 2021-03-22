@@ -2,12 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 14:11:21
+ * @Last Modified time: 2021-03-22 14:12:13
  */
 import React from 'react'
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { ScrollView, Text, Switch, Touchable, Button } from '@components'
+import {
+  ScrollView,
+  Text,
+  Switch,
+  Touchable,
+  Button,
+  Iconfont
+} from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, systemStore, userStore } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
@@ -68,6 +75,22 @@ class DEV extends React.Component {
     )
   }
 
+  renderIcons() {
+    return (
+      <Text style={[this.styles.code, _.mt.md]} selectable>
+        {[
+          'ios-star',
+          'ios-star-outline',
+          'ios-star-half',
+          'ios-moon',
+          'ios-sunny'
+        ].map(item => (
+          <Iconfont key={item} name={item} />
+        ))}
+      </Text>
+    )
+  }
+
   renderView(title, content) {
     return (
       <Text
@@ -94,6 +117,7 @@ class DEV extends React.Component {
         scrollToTop
       >
         {this.rederOptions()}
+        {this.renderIcons()}
         {this.renderView('CDN', [ota])}
         {this.renderView('设备视窗', [_.window])}
         {this.renderView('登陆信息', [
