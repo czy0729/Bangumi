@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:07:11
+ * @Last Modified time: 2021-03-23 19:47:55
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -44,6 +44,7 @@ import {
   HTML_PM_PARAMS,
   HTML_USER_SETTING
 } from '@constants/html'
+import { getOTA } from '@constants/cdn'
 import RakuenStore from '../rakuen'
 import {
   NAMESPACE,
@@ -263,7 +264,16 @@ class User extends store {
    * 限制内容展示
    */
   @computed get isLimit() {
-    if (!IOS) {
+    if (!VERSION_GOOGLE) {
+      return false
+    }
+
+    if (IOS || !VERSION_GOOGLE) {
+      return false
+    }
+
+    const { GOOGLE_AUTH } = getOTA()
+    if (!GOOGLE_AUTH) {
       return false
     }
 

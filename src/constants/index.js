@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-23 10:40:26
+ * @Last Modified time: 2021-03-23 19:17:02
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -19,6 +19,7 @@ export const VERSION_GITHUB_RELEASE = appJson.expo.version // 版本号
 export const VERSION_TINYGRAIL_PLUGIN = appJson.expo.description.split(
   'tinygrail plugin '
 )[1] // 小圣杯助手版本
+export const VERSION_GOOGLE = appJson.expo.description.includes('google play')
 export const BARE = true // 裸工作流 (已稳定脱离, 待废弃)
 
 /* ==================== BASE ==================== */
@@ -43,10 +44,10 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd' // client_secret
 export const APP_ID_SAY_DEVELOP = '23045125' // 功能留言板入口 2020年: 19945783
 export const APP_ID_SAY_TINYGRAIL = '19820034' // 小圣杯意见反馈入口
 export const APP_ID_BAIDU = '20200130000378695' // 百度翻译
-// export const APP_USERID_TOURIST = 476179 // 6907***59@qq.com (安卓游客)
-// export const APP_USERID_IOS_AUTH = 474489 // 2963***10@qq.com (iOS审核)
-export const APP_USERID_TOURIST = 542389 // say***02@163.com (iOS游客)
-export const APP_USERID_IOS_AUTH = 542389 // say***02@163.com (iOS审核)
+
+// [476179]6907***59@qq.com | [474489]2963***10@qq.com | [542389]say***02@163.com
+export const APP_USERID_TOURIST = 474489 // 游客
+export const APP_USERID_IOS_AUTH = 474489 // 审核
 
 // ENV
 export const IOS = Platform.OS === 'ios' // 是否iOS

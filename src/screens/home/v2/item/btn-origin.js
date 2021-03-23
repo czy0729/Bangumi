@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:29:23
+ * @Last Modified time: 2021-03-23 19:39:13
  */
 import React from 'react'
 import { Heatmap, Iconfont } from '@components'
 import { Popover } from '@screens/_'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { obc } from '@utils/decorators'
 
 function BtnOrigin({ subjectId, subject }, { $ }) {
-  if (!$.homeOrigin) {
+  if (!$.homeOrigin || userStore.isLimit) {
     return null
   }
 

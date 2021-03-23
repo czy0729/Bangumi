@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:13:29
+ * @Last Modified time: 2021-03-23 19:45:05
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -1012,6 +1012,7 @@ class Setting extends React.Component {
           />
         </ItemSetting>
         <ItemSetting
+          show={!userStore.isLimit}
           hd='搜索源头按钮'
           ft={
             <SwitchPro
@@ -1161,8 +1162,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              show={!userStore.isLimit}
-              hd='投食🍚'
+              hd={userStore.isLimit ? '关于' : '投食🍚'}
               arrow
               highlight
               information={advance && '已收到巨款，您已成为高级会员，感谢支持'}

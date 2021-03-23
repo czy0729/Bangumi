@@ -2,10 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:01:03
+ * @Last Modified time: 2021-03-23 19:54:49
  */
 import React from 'react'
-import { InteractionManager, Alert, StyleSheet, View } from 'react-native'
+import {
+  InteractionManager,
+  // Alert,
+  StyleSheet,
+  View
+} from 'react-native'
 import { ListView, FixedTextarea } from '@components'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
@@ -13,7 +18,10 @@ import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { TITLE, HOST } from '@constants'
+import {
+  // TITLE,
+  HOST
+} from '@constants'
 import HeaderTitle from './header-title'
 import Top from './top'
 import Item from './item'
@@ -40,37 +48,37 @@ class Blog extends React.Component {
   componentDidMount() {
     InteractionManager.runAfterInteractions(async () => {
       const { $, navigation } = this.context
-      if (!$.isUGCAgree) {
-        /**
-         * @issue 这里注意在iOS上面, 一定要延迟,
-         * 不然首页点击讨论跳进来popover + alert直接就不能操作了
-         */
-        setTimeout(() => {
-          t('帖子.UCG')
+      // if (!$.isUGCAgree) {
+      //   /**
+      //    * @issue 这里注意在iOS上面, 一定要延迟,
+      //    * 不然首页点击讨论跳进来popover + alert直接就不能操作了
+      //    */
+      //   setTimeout(() => {
+      //     t('帖子.UCG')
 
-          Alert.alert(
-            '社区指导原则',
-            `${TITLE} 是一个纯粹的ACG网络, 请查看社区指导原则并且同意后才能继续操作`,
-            [
-              {
-                text: '取消',
-                style: 'cancel',
-                onPress: () => navigation.goBack()
-              },
-              {
-                text: '查看',
-                onPress: () => {
-                  navigation.goBack()
-                  navigation.push('UGCAgree', {
-                    blogId: $.blogId
-                  })
-                }
-              }
-            ]
-          )
-        }, 800)
-        return
-      }
+      //     Alert.alert(
+      //       '社区指导原则',
+      //       `${TITLE} 是一个纯粹的ACG网络, 请查看社区指导原则并且同意后才能继续操作`,
+      //       [
+      //         {
+      //           text: '取消',
+      //           style: 'cancel',
+      //           onPress: () => navigation.goBack()
+      //         },
+      //         {
+      //           text: '查看',
+      //           onPress: () => {
+      //             navigation.goBack()
+      //             navigation.push('UGCAgree', {
+      //               blogId: $.blogId
+      //             })
+      //           }
+      //         }
+      //       ]
+      //     )
+      //   }, 800)
+      //   return
+      // }
 
       const url = navigation.getParam('_url') || `${HOST}/blog/${$.blogId}`
       navigation.setParams({

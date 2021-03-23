@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:44:06
+ * @Last Modified time: 2021-03-23 19:37:32
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -17,7 +17,7 @@ function IconExtra(
   { $ }
 ) {
   const data = []
-  if (replySub) data.push('回复')
+  if (replySub && !$.isLimit) data.push('回复')
   if (erase) data.push('删除')
   data.push('屏蔽用户')
   return (

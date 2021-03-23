@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:00:37
+ * @Last Modified time: 2021-03-23 19:34:14
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -97,7 +97,8 @@ export function x18s(str) {
     '兵',
     '肉',
     '伪',
-    'ntr'
+    'ntr',
+    '黄油'
   ].some(item => _str.includes(item))
 }
 

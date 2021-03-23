@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-18 22:20:54
+ * @Last Modified time: 2021-03-23 19:54:04
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -120,10 +120,7 @@ class System extends store {
 
   // -------------------- get --------------------
   @computed get isUGCAgree() {
-    if (!IOS) {
-      return true
-    }
-    return this.state.iosUGCAgree
+    return true
   }
 
   // -------------------- fetch --------------------

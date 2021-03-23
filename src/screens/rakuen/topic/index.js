@@ -2,10 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 02:21:54
+ * @Last Modified time: 2021-03-23 19:48:55
  */
 import React from 'react'
-import { InteractionManager, Alert, View } from 'react-native'
+import {
+  InteractionManager,
+  // Alert,
+  View
+} from 'react-native'
 import { ListView, FixedTextarea, Flex, Text } from '@components'
 import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
@@ -14,7 +18,11 @@ import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { keyExtractor, appNavigate } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { TITLE, HOST, IOS } from '@constants'
+import {
+  // TITLE,
+  HOST,
+  IOS
+} from '@constants'
 import HeaderTitle from './header-title'
 import Top from './top'
 import Item from './item'
@@ -53,37 +61,37 @@ class Topic extends React.Component {
 
       // 不上架暂时屏蔽UCG协议
       // eslint-disable-next-line no-constant-condition
-      if (false && !$.isUGCAgree) {
-        /**
-         * @issue 这里注意在iOS上面, 一定要延迟,
-         * 不然首页点击讨论跳进来popover + alert直接就不能操作了
-         */
-        setTimeout(() => {
-          t('帖子.UCG')
+      // if (!$.isUGCAgree) {
+      //   /**
+      //    * @issue 这里注意在iOS上面, 一定要延迟,
+      //    * 不然首页点击讨论跳进来popover + alert直接就不能操作了
+      //    */
+      //   setTimeout(() => {
+      //     t('帖子.UCG')
 
-          Alert.alert(
-            '社区指导原则',
-            `${TITLE} 是一个纯粹的ACG网络, 请查看社区指导原则并且同意后才能继续操作`,
-            [
-              {
-                text: '取消',
-                style: 'cancel',
-                onPress: () => navigation.goBack()
-              },
-              {
-                text: '查看',
-                onPress: () => {
-                  navigation.goBack()
-                  navigation.push('UGCAgree', {
-                    topicId: $.topicId
-                  })
-                }
-              }
-            ]
-          )
-        }, 800)
-        return
-      }
+      //     Alert.alert(
+      //       '社区指导原则',
+      //       `${TITLE} 是一个纯粹的ACG网络, 请查看社区指导原则并且同意后才能继续操作`,
+      //       [
+      //         {
+      //           text: '取消',
+      //           style: 'cancel',
+      //           onPress: () => navigation.goBack()
+      //         },
+      //         {
+      //           text: '查看',
+      //           onPress: () => {
+      //             navigation.goBack()
+      //             navigation.push('UGCAgree', {
+      //               topicId: $.topicId
+      //             })
+      //           }
+      //         }
+      //       ]
+      //     )
+      //   }, 800)
+      //   return
+      // }
 
       const url =
         navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
@@ -310,7 +318,7 @@ class Topic extends React.Component {
       )
     }
 
-    if (!$.isWebLogin) {
+    if (!$.isWebLogin || $.isLimit) {
       return null
     }
 
