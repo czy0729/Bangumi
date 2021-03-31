@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:47:55
+ * @Last Modified time: 2021-03-23 22:53:42
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -14,15 +14,16 @@ import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import { confirm } from '@utils/ui'
 import {
-  DEV,
-  IOS,
-  HOST,
   APP_ID,
   APP_SECRET,
-  URL_OAUTH_REDIRECT,
-  LIST_EMPTY,
+  APP_USERID_IOS_AUTH,
   APP_USERID_TOURIST,
-  APP_USERID_IOS_AUTH
+  DEV,
+  HOST,
+  IOS,
+  LIST_EMPTY,
+  URL_OAUTH_REDIRECT,
+  VERSION_GOOGLE
 } from '@constants'
 import {
   API_ACCESS_TOKEN,
