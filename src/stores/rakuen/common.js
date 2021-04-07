@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:49:18
+ * @Last Modified time: 2021-04-07 10:16:46
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -567,4 +567,28 @@ export function cheerioMine(HTML) {
         })
         .get() || []
   }
+}
+
+/**
+ * 分析条目讨论版
+ * @param {*} HTML
+ */
+export function cheerioBoard(HTML) {
+  return (
+    cheerio(HTML)('.topic_list tr')
+      .map((index, element) => {
+        const $tr = cheerio(element)
+        const $title = $tr.find('.subject > a')
+        const $user = $tr.find('td').eq(1).find('a')
+        return {
+          href: $title.attr('href'),
+          title: $title.attr('title'),
+          userId: $user.attr('href').replace('/user/', ''),
+          userName: HTMLDecode($user.text().trim()),
+          replies: $tr.find('td').eq(2).text().trim(),
+          time: $tr.find('td').eq(3).text().trim()
+        }
+      })
+      .get() || []
+  )
 }

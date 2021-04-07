@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 15:56:55
+ * @Last Modified time: 2021-04-06 20:14:25
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -54,6 +54,7 @@ export { default as Works } from './home/works'
 
 // Rakuen
 export { default as Blog } from './rakuen/blog'
+export { default as Board } from './rakuen/board'
 export { default as Group } from './rakuen/group'
 export { default as Notify } from './rakuen/notify'
 export { default as Mine } from './rakuen/mine'

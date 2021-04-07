@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 20:23:27
+ * @Last Modified time: 2021-04-07 10:56:54
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -100,7 +100,7 @@ class List extends React.Component {
     return (
       <ListView
         ref={ref => $.connectRef(ref, index)}
-        style={styles.androidWrap}
+        style={!IOS && styles.androidWrap}
         contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={timeline}

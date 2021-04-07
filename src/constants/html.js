@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 15:45:45
+ * @Last Modified time: 2021-04-06 20:24:57
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -463,3 +463,9 @@ export const HTML_ACTION_ERASE_COLLECTION = (subjectId, formhash) =>
  */
 export const HTML_ACTION_SUBJECT_SET_WATCHED = subjectId =>
   `${HOST}/subject/set/watched/${subjectId}`
+
+/**
+ * 条目讨论版
+ * @param {*} subjectid
+ */
+export const HTML_BOARD = subjectid => `${HOST}/subject/${subjectid}/board`

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-11 20:35:19
+ * @Last Modified time: 2021-04-07 10:10:59
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,7 +20,8 @@ import {
   HTML_GROUP_INFO,
   HTML_GROUP_MINE,
   HTML_NOTIFY,
-  HTML_TOPIC
+  HTML_TOPIC,
+  HTML_BOARD
 } from '@constants/html'
 import { CDN_RAKUEN, CDN_RAKUEN_USER_TOPICS } from '@constants/cdn'
 import store from '@utils/store'
@@ -42,6 +43,7 @@ import {
   cheerioNotify,
   cheerioMine,
   cheerioTopic,
+  cheerioBoard,
   fetchRakuen
 } from './common'
 
@@ -167,6 +169,13 @@ class Rakuen extends store {
      * 用户的超展开
      */
     userTopicsFormCDN: {
+      0: LIST_EMPTY
+    },
+
+    /**
+     * 条目讨论版
+     */
+    board: {
       0: LIST_EMPTY
     }
   })
@@ -458,6 +467,28 @@ class Rakuen extends store {
     })
 
     return Promise.resolve(group)
+  }
+
+  /**
+   * 小组帖子列表
+   */
+  fetchBoard = async ({ subjectId }) => {
+    const key = 'board'
+    const html = await fetchHTML({
+      url: HTML_BOARD(subjectId)
+    })
+
+    const data = cheerioBoard(html)
+    this.setState({
+      [key]: {
+        [subjectId]: {
+          list: data || [],
+          _loaded: getTimestamp()
+        }
+      }
+    })
+
+    return this.board(subjectId)
   }
 
   /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:19:10
+ * @Last Modified time: 2021-04-07 10:58:50
  */
 import React from 'react'
 import { Text } from '@components'
@@ -33,10 +33,12 @@ function Title({ topicId, title, replyCount, isReaded, isGroup }, { $ }) {
   return (
     <Text size={15} bold>
       {title}
-      <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={15} bold>
-        {' '}
-        {replyText}
-      </Text>
+      {!!replyCount && (
+        <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={15} bold>
+          {' '}
+          {replyText}
+        </Text>
+      )}
       {!!replyAdd && (
         <Text type='main' size={11} lineHeight={15} bold>
           {' '}

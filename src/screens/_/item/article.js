@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:57:32
+ * @Last Modified time: 2021-04-07 10:38:04
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -61,7 +61,8 @@ export const ItemArticle = ob(
                 {HTMLDecode(nickname)}
               </Name>
               <Text type='sub' style={_.ml.xs} size={12}>
-                / {time} / {replies} 回复
+                / {time}
+                {replies ? ` / +${replies}` : ''}
               </Text>
             </Flex>
             {!!summary && (

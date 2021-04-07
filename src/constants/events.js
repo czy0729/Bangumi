@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 20:36:20
+ * @Last Modified time: 2021-04-07 10:27:05
  */
 
 /**
@@ -314,6 +314,9 @@ export default {
   '帖子搜索.选择历史': 'RakuenSearch.selectHistory',
   '帖子搜索.删除历史': 'RakuenSearch.deleteHistory',
   '帖子搜索.搜索': 'RakuenSearch.doSearch',
+
+  // 讨论版
+  '讨论版.跳转': 'Board.to',
 
   /* ==================== reader ==================== */
   // - [x] 漫画

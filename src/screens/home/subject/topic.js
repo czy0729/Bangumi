@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:35:55
+ * @Last Modified time: 2021-04-06 19:42:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle, ItemArticle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
+import IconTopic from './icon/topic'
 
 function Topic({ style }, { $, navigation }) {
   const { topic } = $.subject
@@ -31,8 +32,9 @@ function Topic({ style }, { $, navigation }) {
   return (
     <View style={[style, !showTopic && _.short]}>
       <SectionTitle
-        style={{ paddingLeft: _.wind }}
+        style={{ paddingHorizontal: _.wind }}
         icon={!showTopic && 'md-navigate-next'}
+        right={<IconTopic />}
         onPress={() => $.switchBlock('showTopic')}
       >
         帖子
