@@ -5,11 +5,11 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-22 17:47:22
+ * @Last Modified time: 2021-04-07 11:26:20
  */
 import { observable, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
-import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
+import { HTMLTrim, HTMLDecode, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -251,7 +251,7 @@ class Collection extends store {
           nameCn,
           tip,
           tags,
-          comments,
+          comments: HTMLDecode(comments),
           score,
           time
         }
