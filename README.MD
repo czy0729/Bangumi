@@ -180,8 +180,20 @@ npm start // [iOS] 之后点击在浏览器打开的Expo Developer Tools, 点击
 react-native run-android // [android] 真机 usb 调试
 ```
 
+## 常见错误
+
+最近购入了M1，尝试实用新环境，iOS expo 运行一路顺风，但是打包 apk 遇到很多问题，总结如下：
+
+1. 一定要使用 JAVA jdk 8, 不是 jre! [[jdk 8 下载地址]](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)，善用 java -version 和 /usr/libexec/java_home -V 命令查看正在使用的是不是 jdk1.8.0_281.jdk (类似)
+
+2. 打包前一定要安装 watchman，不然会遇到监听文件过多错误
+
+3. 打包遇到失败，请进入 android 目录下执行 ./gradlew clean 后再重新打包
+
+4. 打包失败，看见错误提示上面有 node_modules 包的名字，请尝试把这个包下载补全
+
 ## 投食
 
 觉得 APP 好用的
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" />
