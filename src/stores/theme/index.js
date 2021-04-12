@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 01:05:27
+ * @Last Modified time: 2021-04-12 22:18:35
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -73,6 +73,7 @@ function getMemoStylesId() {
     _mode: '',
     _tMode: '',
     _flat: '',
+    _deepDark: '',
     _styles: ''
   }
 }
@@ -152,6 +153,11 @@ class Theme extends store {
     return flat
   }
 
+  @computed get deepDark() {
+    const { deepDark } = systemStore.setting
+    return deepDark
+  }
+
   @computed get colorMain() {
     return this.state.colorMain
   }
@@ -226,6 +232,54 @@ class Theme extends store {
 
   @computed get colorIcon() {
     return this.state.colorIcon
+  }
+
+  @computed get _colorDarkModeLevel1() {
+    return this.deepDark
+      ? _._colorThemeDeepDark.colorDarkModeLevel1
+      : _._colorDarkModeLevel1
+  }
+
+  @computed get _colorDarkModeLevel1Hex() {
+    return this.deepDark
+      ? _._colorThemeDeepDark.colorDarkModeLevel1Hex
+      : _._colorDarkModeLevel1Hex
+  }
+
+  @computed get _colorDarkModeLevel2() {
+    return this.deepDark
+      ? _._colorThemeDeepDark.colorDarkModeLevel2
+      : _._colorDarkModeLevel2
+  }
+
+  @computed get _colorPlain() {
+    return this.deepDark ? _._colorThemeDeepDark.colorPlain : _._colorPlain
+  }
+
+  @computed get _colorPlainHex() {
+    return this.deepDark
+      ? _._colorThemeDeepDark.colorPlainHex
+      : _._colorPlainHex
+  }
+
+  @computed get _colorWait() {
+    return this.deepDark ? _._colorThemeDeepDark.colorWait : _._colorWait
+  }
+
+  @computed get _colorBg() {
+    return this.deepDark ? _._colorThemeDeepDark.colorBg : _._colorBg
+  }
+
+  @computed get _colorDarkModeLevel1Raw() {
+    return this.deepDark
+      ? _._colorThemeDeepDark.colorDarkModeLevel1Raw
+      : _._colorDarkModeLevel1Raw
+  }
+
+  @computed get _colorPlainRaw() {
+    return this.deepDark
+      ? _._colorThemeDeepDark.colorPlainRaw
+      : _._colorPlainRaw
   }
 
   // -------------------- tinygrail --------------------
@@ -565,14 +619,30 @@ class Theme extends store {
         ...lightStyles
       })
     } else if (mode === 'dark') {
-      this.setState({
-        [key]: 'dark',
-        ...darkStyles
-      })
+      this.setState(
+        this.deepDark
+          ? {
+              [key]: 'dark',
+              ...darkStyles,
+              ..._._colorThemeDeepDark
+            }
+          : {
+              [key]: 'dark',
+              ...darkStyles
+            }
+      )
     } else {
       this.setState({
         [key]: this.select('dark', 'light'),
-        ...this.select(darkStyles, lightStyles)
+        ...this.select(
+          this.deepDark
+            ? {
+                ...darkStyles,
+                ..._._colorThemeDeepDark
+              }
+            : darkStyles,
+          lightStyles
+        )
       })
     }
 
@@ -670,11 +740,13 @@ class Theme extends store {
         !memoId._styles ||
         memoId._mode !== this.mode ||
         memoId._tMode !== this.tinygrailThemeMode ||
-        memoId._flat !== this.flat
+        memoId._flat !== this.flat ||
+        memoId._deepDark !== this.deepDark
       ) {
         memoId._mode = this.mode
         memoId._tMode = this.tinygrailThemeMode
         memoId._flat = this.flat
+        memoId._deepDark = this.deepDark
 
         const computedStyles = styles(this)
         if (computedStyles.current) {

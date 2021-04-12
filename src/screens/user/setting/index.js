@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:35:15
+ * @Last Modified time: 2021-04-12 22:25:14
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -21,7 +21,7 @@ import {
   IconTouchable,
   NavigationBarEvents
 } from '@screens/_'
-import Stores, { _, userStore, systemStore } from '@stores'
+import Stores, { _, userStore, systemStore, themeStore } from '@stores'
 import { toFixed, setStorage } from '@utils'
 import { withHeader, ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
@@ -294,7 +294,13 @@ class Setting extends React.Component {
 
   renderModule() {
     const { module: _module } = this.state
-    const { cdn, tinygrail, katakana, autoColorScheme } = systemStore.setting
+    const {
+      cdn,
+      deepDark,
+      tinygrail,
+      katakana,
+      autoColorScheme
+    } = systemStore.setting
     return (
       <>
         {this.renderSection('特色', 'module')}
@@ -325,6 +331,35 @@ class Setting extends React.Component {
                 id='设置.切换'
                 data={{
                   title: '黑暗模式'
+                }}
+              />
+            </ItemSetting>
+            <ItemSetting
+              show={_.isDark && !this.simple}
+              hd='纯黑'
+              ft={
+                <SwitchPro
+                  style={this.styles.switch}
+                  value={deepDark}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '纯黑',
+                      checked: !deepDark
+                    })
+
+                    systemStore.switchSetting('deepDark')
+                    themeStore.toggleMode('dark')
+                    setTimeout(() => {
+                      this.setParams()
+                    }, 0)
+                  }}
+                />
+              }
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '纯黑'
                 }}
               />
             </ItemSetting>
@@ -449,6 +484,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
+              show={!this.simple}
               hd='片假名终结者'
               ft={
                 <SwitchPro

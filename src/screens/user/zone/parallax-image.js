@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:51:23
+ * @Last Modified time: 2021-04-12 21:08:51
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -60,7 +60,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
 
   let uri = avatar.large
   if (_image) {
-    if (_image.indexOf('http') === 0) {
+    if (_image?.indexOf('http') === 0) {
       uri = _image
     } else {
       uri = `https:${_image}`

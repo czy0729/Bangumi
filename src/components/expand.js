@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 17:49:11
+ * @Last Modified time: 2021-04-12 22:02:55
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -34,6 +34,7 @@ export const Expand = ({
       expand: true
     })
   }, [state])
+
   return useObserver(() =>
     state.layouted ? (
       <View

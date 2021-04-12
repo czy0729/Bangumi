@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 20:52:42
+ * @Last Modified time: 2021-04-12 21:07:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar, Name } from '@screens/_'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { getTimestamp, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { s2t } from '@utils/thirdParty/cn-char'
 import { HOST, EVENT } from '@constants'
 import UserLabel from '../user-label'
 import FloorText from '../floor-text'
@@ -55,8 +54,6 @@ function Item(
   }
 
   const styles = memoStyles()
-  const { s2t: _s2t } = systemStore.setting
-  if (_s2t) msg = s2t(msg)
 
   // 遗留问题, 给宣传语增加一点高度
   msg = msg.replace(

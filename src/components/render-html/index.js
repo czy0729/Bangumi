@@ -4,14 +4,16 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 12:06:21
+ * @Last Modified time: 2021-04-12 21:07:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { _, userStore } from '@stores'
+import { _, userStore, systemStore } from '@stores'
 import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
+import decoder from '@utils/thirdParty/html-entities-decoder'
+import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
 import HTML from '../@/react-native-render-html'
 import { BgmText, bgmMap } from '../bgm-text'
@@ -324,6 +326,9 @@ export const RenderHtml = observer(
          * 去除图片之间的br
          */
         _html = _html.replace(/<br><img/g, '<img')
+
+        const { s2t: _s2t } = systemStore.setting
+        if (_s2t) _html = s2t(decoder(_html))
 
         return HTMLDecode(_html)
       } catch (error) {

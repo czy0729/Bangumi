@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 16:41:29
+ * @Last Modified time: 2021-04-12 21:00:13
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -67,8 +67,8 @@ function Head({ style }, { $ }) {
                     info(`已复制 ${$.jp}`)
                   }}
                 >
-                  {!!$.titleLabel && `${$.titleLabel} · `}
                   {$.jp}
+                  {!!$.titleLabel && ` · ${$.titleLabel}`}
                 </Katakana>
               </Katakana.Provider>
             )}

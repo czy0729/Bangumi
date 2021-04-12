@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 16:45:32
+ * @Last Modified time: 2021-04-12 22:07:33
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -107,6 +107,18 @@ export const _colorIcon = 'rgba(255, 255, 255, 0.38)'
 export const _colorDarkModeLevel1Raw = _colorDarkModeLevel1.match(regColor)
 export const _colorPlainRaw = _colorPlain.match(regColor)
 export const _colorTitleRaw = [255, 255, 255]
+
+export const _colorThemeDeepDark = {
+  colorDarkModeLevel1: 'rgb(32, 32, 32)',
+  colorDarkModeLevel1Raw: 'rgb(32, 32, 32)'.match(regColor),
+  colorDarkModeLevel1Hex: '#202020',
+  colorDarkModeLevel2: 'rgb(48, 48, 48)',
+  colorPlain: 'rgb(0, 0, 0)',
+  colorPlainRaw: 'rgb(0, 0, 0)'.match(regColor),
+  colorPlainHex: '#000000',
+  colorWait: 'rgb(64, 64, 64)',
+  colorBg: 'rgb(24, 24, 24)'
+}
 
 // -------------------- 小圣杯 --------------------
 export const colorBid = 'rgb(0, 173, 146)'
