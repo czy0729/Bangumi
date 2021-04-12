@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 01:17:03
+ * @Last Modified time: 2021-04-12 17:30:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,18 +19,12 @@ const title = '作品'
 export default
 @inject(Store)
 @withHeader({
+  title: ({ name }) => `${name}的${title}`,
   screen: title,
   hm: ['works', 'Works']
 })
 @obc
 class Works extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { name } = navigation.state.params
-    return {
-      title: `${name}的作品`
-    }
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

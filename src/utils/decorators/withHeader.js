@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 11:42:36
+ * @Last Modified time: 2021-04-12 17:22:59
  */
 import React from 'react'
 import {
@@ -14,8 +14,10 @@ import {
   UM,
   Heatmap
 } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
+import { s2t } from '@utils/thirdParty/cn-char'
 import { hm as utilsHM } from '@utils/fetch'
+import { s2tAsync } from '@utils/async'
 import { IOS, BARE } from '@constants'
 import IconBack from './cycles/back'
 import ob from './observer-props'
@@ -27,6 +29,7 @@ if (!IOS && BARE) {
 }
 
 const withHeader = ({
+  title,
   screen,
   alias,
   headerStyle,
@@ -130,10 +133,17 @@ const withHeader = ({
               })
             : ComposedComponent.navigationOptions)
         }
-        const title = navigation.getParam('title')
-        if (title) {
-          params.title = title
+
+        const _title = navigation.getParam('title')
+        if (_title || screen || typeof title === 'function') {
+          const { s2t: _s2t } = systemStore.setting
+          const str =
+            _title ||
+            (typeof title === 'function' && title(navigation.state.params)) ||
+            screen
+          params.title = _s2t ? s2t(str) : str
         }
+
         return params
       }
 
@@ -178,5 +188,7 @@ const withHeader = ({
       }
     }
   )
+
+withHeader.s2t = s2tAsync
 
 export default withHeader

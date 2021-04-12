@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:51:43
+ * @Last Modified time: 2021-04-12 17:38:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,10 +27,6 @@ export default
 })
 @obc
 class TinygrailLogs extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

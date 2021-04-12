@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 02:26:53
+ * @Last Modified time: 2021-04-12 17:11:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,6 @@ export default
 })
 @obc
 class Browser extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:49:27
+ * @Last Modified time: 2021-04-12 17:39:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,10 +26,6 @@ export default
 })
 @obc
 class TinygrailStar extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $ } = this.context
     $.init()

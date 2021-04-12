@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 14:06:26
+ * @Last Modified time: 2021-04-12 17:34:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,10 +22,6 @@ export default
 })
 @obc
 class Catelogs extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $ } = this.context
     $.init()

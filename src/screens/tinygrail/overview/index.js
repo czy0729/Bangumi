@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 10:30:54
+ * @Last Modified time: 2021-04-12 17:38:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,10 +28,6 @@ export default
 })
 @obc
 class TinygrailOverview extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

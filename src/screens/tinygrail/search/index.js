@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:22:02
+ * @Last Modified time: 2021-04-12 17:39:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,10 +27,6 @@ export default
 })
 @obc
 class TinygrailSearch extends React.Component {
-  static navigationOptions = {
-    title: '人物查询'
-  }
-
   componentDidMount() {
     const { $ } = this.context
     $.init()

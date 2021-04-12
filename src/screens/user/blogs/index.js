@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 14:05:41
+ * @Last Modified time: 2021-04-12 17:34:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,10 +26,6 @@ export default
 })
 @obc
 class Blogs extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   async componentDidMount() {
     const { $ } = this.context
     $.init()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:48:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:19:30
+ * @Last Modified time: 2021-04-12 17:39:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,23 +20,13 @@ const title = '关联角色'
 export default
 @inject(Store)
 @withHeader({
+  title: ({ name }) => name || title,
   screen: title,
   hm: ['tinygrail/relation', 'TinygrailRelation'],
   withHeaderParams
 })
 @obc
 class TinygrailRelation extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
-  static navigationOptions = ({ navigation }) => {
-    const { name } = navigation.state.params
-    return {
-      title: name || title
-    }
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

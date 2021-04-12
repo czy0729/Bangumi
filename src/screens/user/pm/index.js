@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:57:06
+ * @Last Modified time: 2021-04-12 17:34:51
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -23,10 +23,6 @@ export default
 })
 @obc
 class PM extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   scrollView
   fixedTextarea
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 14:53:04
+ * @Last Modified time: 2021-04-12 16:41:29
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'

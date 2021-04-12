@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 04:08:08
+ * @Last Modified time: 2021-04-12 17:32:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,10 +24,6 @@ export default
 })
 @obc
 class Search extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $ } = this.context
     $.init()

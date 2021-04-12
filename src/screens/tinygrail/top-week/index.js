@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 17:48:25
+ * @Last Modified time: 2021-04-12 17:39:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,10 +30,6 @@ export default
 })
 @obc
 class TinygrailTopWeek extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:32:57
+ * @Last Modified time: 2021-04-12 17:34:45
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
@@ -26,10 +26,6 @@ export default
 })
 @obc
 class Friends extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   async componentDidMount() {
     const { $, navigation } = this.context
     await $.init()

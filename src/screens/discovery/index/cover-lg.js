@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:20:53
+ * @Last Modified time: 2021-04-12 16:04:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Text } from '@components'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
@@ -60,7 +61,7 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
           bold
           numberOfLines={2}
         >
-          {cn}
+          {HTMLDecode(cn)}
         </Text>
       </View>
     </View>

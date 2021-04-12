@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:43:21
+ * @Last Modified time: 2021-04-12 17:32:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,10 +32,6 @@ export default
 })
 @ob
 class RakuenSetting extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   renderSection(text) {
     return (
       <Flex style={this.styles.section}>

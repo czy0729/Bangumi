@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 17:06:44
+ * @Last Modified time: 2021-04-12 17:38:00
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -27,10 +27,6 @@ export default
 })
 @obc
 class TinygrailICODeal extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   state = {
     refreshing: false
   }

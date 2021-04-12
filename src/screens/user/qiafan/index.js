@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:43:56
+ * @Last Modified time: 2021-04-12 17:34:57
  */
 import React from 'react'
 import { ScrollView, Flex, Text, Image } from '@components'
@@ -20,10 +20,6 @@ export default
 })
 @ob
 class Qiafan extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   render() {
     return (
       <ScrollView

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-11 20:33:34
+ * @Last Modified time: 2021-04-12 17:32:25
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -18,15 +18,12 @@ const title = '本地帖子'
 export default
 @inject(Store)
 @withHeader({
+  title: () => '收藏',
   screen: title,
   hm: ['rakuen/history', 'RakuenHistory']
 })
 @obc
 class RakuenHistory extends React.Component {
-  static navigationOptions = {
-    title: '收藏'
-  }
-
   async componentDidMount() {
     const { $, navigation } = this.context
     await $.init()

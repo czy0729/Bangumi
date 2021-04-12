@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 09:44:07
+ * @Last Modified time: 2021-04-12 17:36:06
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -24,10 +24,6 @@ export default
 })
 @ob
 class TinygrailAdvance extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { navigation } = this.props
     navigation.setParams({

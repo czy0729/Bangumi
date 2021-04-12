@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:20:48
+ * @Last Modified time: 2021-04-12 16:27:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,8 +17,9 @@ import {
   UM,
   Heatmap
 } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { gradientColor } from '@utils'
+import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS, BARE } from '@constants'
 import IconBack from './cycles/back'
 import ob from './observer-props'
@@ -110,7 +111,9 @@ const withTransitionHeader = ({
         }
 
         const options = {
-          title: navigation.getParam('title'),
+          title: this._s2t
+            ? s2t(navigation.getParam('title'))
+            : navigation.getParam('title'),
           headerTransparent: true,
           headerStyle: {
             ...defaultHeaderStyle,
@@ -189,7 +192,7 @@ const withTransitionHeader = ({
         // 透明模式
         if (transparent) {
           navigation.setParams({
-            title,
+            title: this._s2t ? s2t(title) : title,
             headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
             headerStyle: {
               ...defaultHeaderStyle,
@@ -207,7 +210,7 @@ const withTransitionHeader = ({
           }
 
           navigation.setParams({
-            title,
+            title: this._s2t ? s2t(title) : title,
             headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
             headerStyle: {
               ...defaultHeaderStyle,
@@ -228,6 +231,11 @@ const withTransitionHeader = ({
           _.select(colorEnd, colorStart || _.colorTitleRaw),
           101
         )
+      }
+
+      @computed get _s2t() {
+        const { s2t: _s2t } = systemStore.setting
+        return _s2t
       }
 
       render() {
@@ -254,10 +262,12 @@ const withTransitionHeader = ({
     }
   )
 
-withTransitionHeader.setTitle = (navigation, title) =>
-  navigation.setParams({
-    headerTransitionTitle: title
+withTransitionHeader.setTitle = (navigation, title) => {
+  const { s2t: _s2t } = systemStore.setting
+  return navigation.setParams({
+    headerTransitionTitle: _s2t ? s2t(title) : title
   })
+}
 
 withTransitionHeader.listViewProps = IOS
   ? {

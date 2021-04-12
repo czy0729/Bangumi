@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:45:05
+ * @Last Modified time: 2021-04-12 17:35:15
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -66,10 +66,6 @@ export default
 })
 @ob
 class Setting extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   state = {
     storageSize: '',
     module: true,
@@ -486,6 +482,7 @@ class Setting extends React.Component {
   renderBasic() {
     const { basic } = this.state
     const {
+      s2t,
       heatMap,
       filterDefault,
       hideScore,
@@ -498,6 +495,30 @@ class Setting extends React.Component {
         {this.renderSection('定制', 'basic')}
         {basic && (
           <>
+            <ItemSetting
+              hd='繁体'
+              ft={
+                <SwitchPro
+                  style={this.styles.switch}
+                  value={s2t}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '繁体',
+                      checked: !s2t
+                    })
+
+                    systemStore.switchSetting('s2t')
+                  }}
+                />
+              }
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '繁体'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='隐藏评分'
               ft={

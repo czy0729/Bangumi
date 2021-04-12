@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:47:34
+ * @Last Modified time: 2021-04-12 17:29:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,18 +20,11 @@ const title = '用户标签'
 export default
 @inject(Store)
 @withHeader({
+  title: ({ type, tag }) => `${MODEL_SUBJECT_TYPE.getTitle(type)}标签 ${tag}`,
   screen: title
 })
 @obc
 class Tag extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { type, tag } = navigation.state.params
-    const _type = MODEL_SUBJECT_TYPE.getTitle(type)
-    return {
-      title: `${_type}标签 ${tag}`
-    }
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-28 01:25:24
+ * @Last Modified time: 2021-04-12 17:11:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,10 +31,6 @@ export default
 })
 @obc
 class Catalog extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

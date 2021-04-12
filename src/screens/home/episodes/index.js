@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:30:22
+ * @Last Modified time: 2021-04-12 17:27:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,18 +22,12 @@ const title = '章节'
 export default
 @inject(Store)
 @withHeader({
+  title: ({ name }) => (name ? `${name}的${title}` : title),
   screen: title,
   hm: ['episodes', 'Episodes']
 })
 @obc
 class Episodes extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { name } = navigation.state.params
-    return {
-      title: name ? `${name}的${title}` : title
-    }
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

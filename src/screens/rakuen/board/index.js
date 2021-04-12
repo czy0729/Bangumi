@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 10:49:05
+ * @Last Modified time: 2021-04-12 17:31:51
  */
 import React from 'react'
 import { Loading, ScrollView } from '@components'
@@ -17,17 +17,11 @@ const title = '讨论版'
 export default
 @inject(Store)
 @withHeader({
+  title: ({ name }) => (name ? `${name}的${title}` : title),
   screen: title
 })
 @obc
 class Board extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { name } = navigation.state.params
-    return {
-      title: name ? `${name}的${title}` : title
-    }
-  }
-
   async componentDidMount() {
     const { $ } = this.context
     await $.init()

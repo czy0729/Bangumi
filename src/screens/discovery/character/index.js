@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 13:59:19
+ * @Last Modified time: 2021-04-12 17:24:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { HOST } from '@constants'
 import Tabs from './tabs'
 import Store from './store'
 
-const title = '收藏的人物'
+const title = '用户人物'
 
 export default
 @inject(Store)
@@ -25,10 +25,6 @@ export default
 })
 @obc
 class Character extends React.Component {
-  static navigationOptions = {
-    title: '用户人物'
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

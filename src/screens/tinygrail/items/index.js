@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 16:08:47
+ * @Last Modified time: 2021-04-12 17:38:11
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -27,10 +27,6 @@ export default
 })
 @obc
 class TinygrailItems extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $ } = this.context
     $.init()

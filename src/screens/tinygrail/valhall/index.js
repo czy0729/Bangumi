@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:55:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:05:25
+ * @Last Modified time: 2021-04-12 17:39:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,10 +27,6 @@ export default
 })
 @obc
 class TinygrailValhall extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 16:31:19
+ * @Last Modified time: 2021-04-12 16:12:31
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -17,6 +17,7 @@ export const NAMESPACE = 'System'
 
 // -------------------- init --------------------
 export const INIT_SETTING = {
+  s2t: false, // 简体转繁体
   simple: true, // 设置页面显示最基本的设置
   avatarRound: false, // 头像是否圆形
   cdn: true, // CDN加速

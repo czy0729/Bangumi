@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:20:51
+ * @Last Modified time: 2021-04-12 16:04:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Flex, Text } from '@components'
 import { Cover, Avatar } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
 const imageWidth = _.window.width * 0.34 * 0.5625
@@ -61,7 +62,7 @@ function CoverXs({ title, avatar, data }, { navigation }) {
           bold
           pointerEvents='none'
         >
-          {data.name}
+          {HTMLDecode(data.name)}
         </Text>
       </View>
       {!!avatar && (

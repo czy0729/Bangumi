@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 15:53:45
+ * @Last Modified time: 2021-04-12 17:24:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,10 +24,6 @@ export default
 })
 @obc
 class Rank extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

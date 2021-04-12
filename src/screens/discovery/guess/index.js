@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 14:58:06
+ * @Last Modified time: 2021-04-12 17:24:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,6 @@ export default
 })
 @obc
 class Guess extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

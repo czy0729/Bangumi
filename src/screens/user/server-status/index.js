@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:57:47
+ * @Last Modified time: 2021-04-12 17:35:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -184,10 +184,6 @@ export default
 })
 @ob
 class ServerStatus extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   state = {
     list: JSON.parse(JSON.stringify(initList)),
     pinging: false

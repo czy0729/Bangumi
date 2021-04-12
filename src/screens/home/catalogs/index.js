@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:27:00
+ * @Last Modified time: 2021-04-12 17:25:57
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -22,17 +22,11 @@ const event = {
 export default
 @inject(Store)
 @withHeader({
+  title: ({ name }) => (name ? `包含${name}的目录` : title),
   screen: title
 })
 @obc
 class SubjectCatalogs extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { name } = navigation.state.params
-    return {
-      title: name ? `包含${name}的目录` : title
-    }
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

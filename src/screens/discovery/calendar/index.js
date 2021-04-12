@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 12:12:00
+ * @Last Modified time: 2021-04-12 17:11:47
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -23,10 +23,6 @@ export default
 })
 @obc
 class Calendar extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:45:52
+ * @Last Modified time: 2021-04-12 17:35:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,10 +41,6 @@ export default
 })
 @obc
 class UserSetting extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   async componentDidMount() {
     const { $, navigation } = this.context
     $.init()

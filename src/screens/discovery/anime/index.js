@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 11:43:36
+ * @Last Modified time: 2021-04-12 17:04:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,6 @@ export default
 })
 @obc
 class Anime extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

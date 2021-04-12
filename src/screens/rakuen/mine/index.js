@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:04:35
+ * @Last Modified time: 2021-04-12 17:32:32
  */
 import React from 'react'
 import { ScrollView, Flex } from '@components'
@@ -23,10 +23,6 @@ export default
 })
 @obc
 class Mine extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

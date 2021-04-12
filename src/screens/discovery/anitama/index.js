@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-28 01:18:50
+ * @Last Modified time: 2021-04-12 17:05:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,10 +31,6 @@ export default
 })
 @obc
 class Anitama extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

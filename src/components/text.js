@@ -3,14 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 15:19:49
+ * @Last Modified time: 2021-04-12 16:46:44
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 
 function CompText(
   {
@@ -54,6 +55,8 @@ function CompText(
   if (bold) _style.push(styles.bold)
   if (shadow) _style.push(styles.shadow)
   if (style) _style.push(style)
+
+  const { s2t: _s2t } = systemStore.setting
   return (
     <RNText
       style={_style}
@@ -64,7 +67,7 @@ function CompText(
       textBreakStrategy='simple'
       android_hyphenationFrequency='none'
     >
-      {children}
+      {_s2t ? format(children) : children}
     </RNText>
   )
 }
@@ -163,3 +166,15 @@ const memoStyles = _.memoStyles(_ => ({
     color: _.colorTinygrailIcon
   }
 }))
+
+function format(children) {
+  if (typeof children === 'string') {
+    return s2t(children)
+  }
+
+  if (Array.isArray(children)) {
+    return children.map(item => format(item))
+  }
+
+  return children
+}

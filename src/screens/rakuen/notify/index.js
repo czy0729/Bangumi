@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 04:05:37
+ * @Last Modified time: 2021-04-12 17:32:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,6 @@ export default
 })
 @obc
 class Notify extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   async componentDidMount() {
     const { $, navigation } = this.context
     navigation.setParams({

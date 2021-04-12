@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:43:57
+ * @Last Modified time: 2021-04-12 17:32:59
  */
 import React from 'react'
 import { ScrollView, RenderHtml, Flex, Button } from '@components'
@@ -23,10 +23,6 @@ export default
 })
 @ob
 class UGCAgree extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   updateUGCAgree = value => {
     const { navigation } = this.props
     systemStore.updateUGCAgree(value)

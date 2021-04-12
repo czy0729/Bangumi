@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:31:54
+ * @Last Modified time: 2021-04-12 16:03:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Text } from '@components'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
 const imageWidth = _.window.width * 0.34
@@ -64,7 +65,7 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
           numberOfLines={2}
           bold
         >
-          {cn}
+          {HTMLDecode(cn)}
         </Text>
       </View>
     </View>

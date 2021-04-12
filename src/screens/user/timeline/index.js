@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:44:50
+ * @Last Modified time: 2021-04-12 17:35:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,6 @@ export default
 })
 @obc
 class UserTimeline extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

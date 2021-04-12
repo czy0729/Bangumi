@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 09:14:51
+ * @Last Modified time: 2021-04-12 17:39:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,10 +28,6 @@ export default
 })
 @obc
 class TinygrailRich extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

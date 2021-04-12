@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:23:04
+ * @Last Modified time: 2021-04-12 17:25:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,6 @@ export default
 })
 @obc
 class Tags extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

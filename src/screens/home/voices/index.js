@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 01:03:58
+ * @Last Modified time: 2021-04-12 17:30:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,18 +19,12 @@ const title = '角色'
 export default
 @inject(Store)
 @withHeader({
+  title: ({ name }) => `${name}的${title}`,
   screen: title,
   hm: ['voices', 'Voices']
 })
 @obc
 class Voices extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { name } = navigation.state.params
-    return {
-      title: `${name}的角色`
-    }
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

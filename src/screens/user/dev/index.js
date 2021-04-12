@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-22 14:12:13
+ * @Last Modified time: 2021-04-12 17:34:39
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -28,10 +28,6 @@ export default
 })
 @ob
 class DEV extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   state = {
     showDetail: false
   }

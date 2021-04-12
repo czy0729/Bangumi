@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:21:01
+ * @Last Modified time: 2021-04-12 17:34:04
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -23,16 +23,13 @@ const marginLeft = (_.window.contentWidth - num * imageWidth) / (num + 1)
 export default
 @inject(Store)
 @withHeader({
+  title: ({ cn }) => cn,
   screen: title,
   alias: 'HD',
   hm: ['hd', 'HD']
 })
 @obc
 class HD extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('cn')
-  })
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 17:47:56
+ * @Last Modified time: 2021-04-12 17:30:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,10 +36,6 @@ export default
 })
 @ob
 class LoginAssist extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   state = {
     result: '',
     loading: false,
@@ -108,7 +104,8 @@ class LoginAssist extends React.Component {
       }
 
       if (cookie) {
-        const matchSid = cookie.match(/chii_sid=(.+?);/) || cookie.match(/chii_sid=(.+?)$/)
+        const matchSid =
+          cookie.match(/chii_sid=(.+?);/) || cookie.match(/chii_sid=(.+?)$/)
         if (matchSid) {
           this.cookie.chiiSid = matchSid[1]
         } else {
@@ -119,7 +116,8 @@ class LoginAssist extends React.Component {
           return
         }
 
-        const matchAuth = cookie.match(/chii_auth=(.+?);/) || cookie.match(/chii_auth=(.+?)$/)
+        const matchAuth =
+          cookie.match(/chii_auth=(.+?);/) || cookie.match(/chii_auth=(.+?)$/)
         if (matchAuth) {
           this.cookie.chiiAuth = matchAuth[1]
         } else {

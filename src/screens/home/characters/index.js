@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:27:19
+ * @Last Modified time: 2021-04-12 17:26:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,18 +18,12 @@ const title = '更多角色'
 export default
 @inject(Store)
 @withHeader({
+  title: ({ name }) => `${name}的角色`,
   screen: title,
   hm: ['characters', 'Characters']
 })
 @obc
 class Characters extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { name } = navigation.state.params
-    return {
-      title: `${name}的角色`
-    }
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

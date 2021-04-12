@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:14:01
+ * @Last Modified time: 2021-04-12 17:25:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,10 +24,6 @@ export default
 })
 @obc
 class Wiki extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $ } = this.context
     $.init()

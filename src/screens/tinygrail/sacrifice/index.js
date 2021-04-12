@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 10:02:35
+ * @Last Modified time: 2021-04-12 17:39:13
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -32,10 +32,6 @@ export default
 })
 @obc
 class TinygrailSacrifice extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   state = {
     refreshing: false
   }

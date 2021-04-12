@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-01-15 09:55:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 20:43:59
+ * @Last Modified time: 2021-04-12 16:15:38
  */
 import React from 'react'
 import {
@@ -15,7 +15,8 @@ import {
 } from 'react-native'
 import { observer } from 'mobx-react'
 import { SafeAreaView } from '@react-navigation/native'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
+import { s2t } from '@utils/thirdParty/cn-char'
 import CrossFadeIcon from './CrossFadeIcon'
 import withDimensions from './utils/withDimensions'
 
@@ -100,6 +101,7 @@ class TabBarBottom extends React.Component {
      */
     const tintColor = focused ? _.colorMain : _.colorDesc
     const label = this.props.getLabelText({ route })
+    const { s2t: _s2t } = systemStore.setting
     if (typeof label === 'string') {
       return (
         <Animated.Text
@@ -116,7 +118,7 @@ class TabBarBottom extends React.Component {
           ]}
           allowFontScaling={allowFontScaling}
         >
-          {label}
+          {_s2t ? s2t(label) : label}
         </Animated.Text>
       )
     }

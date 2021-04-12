@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 15:22:46
+ * @Last Modified time: 2021-04-12 17:37:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,25 +23,13 @@ const title = '我的持仓'
 export default
 @inject(Store)
 @withHeader({
+  title: ({ userName }) => (userName ? `${userName}的持仓` : title),
   screen: title,
   hm: ['tinygrail/chara/assets', 'TinygrailCharaAssets'],
   withHeaderParams
 })
 @obc
 class TinygrailCharaAssets extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state
-    const { userName } = params
-    if (userName) {
-      return {
-        title: `${userName}的持仓`
-      }
-    }
-    return {
-      title
-    }
-  }
-
   async componentDidMount() {
     const { $, navigation } = this.context
     const { form } = $.params

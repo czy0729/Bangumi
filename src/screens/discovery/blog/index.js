@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:02:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 00:27:46
+ * @Last Modified time: 2021-04-12 17:06:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,6 @@ export default
 })
 @obc
 class DiscoveryBlog extends React.Component {
-  static navigationOptions = {
-    title
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()
