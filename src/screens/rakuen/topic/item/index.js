@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:19:14
+ * @Last Modified time: 2021-04-12 20:52:42
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar, Name } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { getTimestamp, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import decoder from '@utils/thirdParty/html-entities-decoder'
+import { s2t } from '@utils/thirdParty/cn-char'
 import { HOST, EVENT } from '@constants'
 import UserLabel from '../user-label'
 import FloorText from '../floor-text'
@@ -48,12 +49,21 @@ function Item(
     return null
   }
 
-  const msg = decoder(message)
+  let msg = decoder(message)
   if ($.filterDelete && msg.includes('内容已被用户删除')) {
     return null
   }
 
   const styles = memoStyles()
+  const { s2t: _s2t } = systemStore.setting
+  if (_s2t) msg = s2t(msg)
+
+  // 遗留问题, 给宣传语增加一点高度
+  msg = msg.replace(
+    '<span style="font-size:10px; line-height:10px;">[來自Bangumi for',
+    '<span style="font-size:10px; line-height:20px;">[來自Bangumi for'
+  )
+
   const { expands } = $.state
   const isExpand =
     sub.length <= expandNum || (sub.length > expandNum && expands.includes(id))
@@ -119,7 +129,7 @@ function Item(
           style={_.mt.sm}
           baseFontStyle={_.baseFontStyle.md}
           imagesMaxWidth={imagesMaxWidth}
-          html={message}
+          html={msg}
           onLinkPress={href => appNavigate(href, navigation, {}, event)}
           onImageFallback={() => open(`${url}#post_${id}`)}
         />

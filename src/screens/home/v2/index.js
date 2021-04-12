@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:30:45
+ * @Last Modified time: 2021-04-12 20:32:11
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -72,6 +72,13 @@ class Home extends React.Component {
 
   onDidFocus = () => {
     androidKeyboardAdjust('setAdjustPan')
+
+    const { $, navigation } = this.context
+    setTimeout(() => {
+      if (!$.isLogin) {
+        navigation.navigate('Auth')
+      }
+    }, 1600)
   }
 
   onDidBlur = () => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 17:05:43
+ * @Last Modified time: 2021-04-12 20:31:33
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -17,7 +17,7 @@ function CheckLogin(props, { $, navigation }) {
           if (!$.isLogin) {
             navigation.navigate('Auth')
           }
-        }, 160)
+        }, 800)
 
         const { _loaded } = $.state
         if (!_loaded) {
