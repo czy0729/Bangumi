@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:52:47
+ * @Last Modified time: 2021-04-13 20:44:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -121,7 +121,10 @@ const memoStyles = _.memoStyles(_ => ({
     flex: 1,
     paddingTop: IOS ? _.tabsHeaderHeight : 0,
     paddingBottom: IOS ? _.tabBarHeight : 0,
-    backgroundColor: _.select(_.colorPlain, _.colorBg)
+    backgroundColor: _.select(
+      _.colorPlain,
+      _.deepDark ? _.colorPlain : _.colorBg
+    )
   },
   game: {
     width: '100%',
