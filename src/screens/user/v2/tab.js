@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:35:13
+ * @Last Modified time: 2021-04-13 20:59:38
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -155,7 +155,10 @@ const memoStyles = _.memoStyles(_ => ({
   },
   tabBar: {
     paddingLeft: W_TAB_BAR_LEFT,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    backgroundColor: _.select(
+      _.colorPlain,
+      _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+    ),
     borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     shadowOpacity: 0,

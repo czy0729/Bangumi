@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:06:02
+ * @Last Modified time: 2021-04-13 21:42:22
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -42,8 +42,8 @@ import {
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SETTING_HOME_LAYOUT,
-  MODEL_SETTING_HOME_SORTING,
-  MODEL_SETTING_SYNC
+  MODEL_SETTING_HOME_SORTING
+  // MODEL_SETTING_SYNC
 } from '@constants/model'
 import Type from './type'
 
@@ -1316,7 +1316,7 @@ class Setting extends React.Component {
                 }}
               />
             </ItemSetting>
-            <ItemSetting
+            {/* <ItemSetting
               hd='同步设置'
               ft={
                 <Popover
@@ -1332,7 +1332,7 @@ class Setting extends React.Component {
               highlight
             >
               <Heatmap id='设置.恢复默认设置' />
-            </ItemSetting>
+            </ItemSetting> */}
           </>
         )}
       </>
