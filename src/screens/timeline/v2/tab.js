@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:26:11
+ * @Last Modified time: 2021-04-13 20:17:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -106,7 +106,10 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: W_TAB_BAR_LEFT,
     backgroundColor: IOS
       ? 'transparent'
-      : _.select('transparent', _._colorDarkModeLevel1),
+      : _.select(
+          'transparent',
+          _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+        ),
     borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     elevation: 0

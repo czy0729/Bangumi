@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:38:00
+ * @Last Modified time: 2021-04-13 19:29:43
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -63,6 +63,7 @@ class TinygrailICODeal extends React.Component {
         refreshControl={
           <RefreshControl
             {...refreshControlProps}
+            colors={[_.colorMain]}
             refreshing={refreshing}
             onRefresh={this.onRefresh}
           />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:39:13
+ * @Last Modified time: 2021-04-13 19:29:50
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -128,6 +128,7 @@ class TinygrailSacrifice extends React.Component {
         refreshControl={
           <RefreshControl
             {...refreshControlProps}
+            colors={[_.colorMain]}
             refreshing={refreshing}
             onRefresh={this.onRefresh}
           />

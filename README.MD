@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.9.2" src="https://img.shields.io/badge/Version-4.9.2-0366d6" />
+  <img alt="Version: 4.10.0" src="https://img.shields.io/badge/Version-4.10.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,43 +46,16 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.9.2 - 2021/03/21
+v4.10.0 - 2021/04/13
 
 —— 新增 ——
 
-- [x] [发现] 菜单新增维基人, 只进行数据展示
+- [x] [设置] 支持繁体
+- [x] [设置] 黑暗模式主题色支持纯黑
 
 —— 优化 ——
 
-- [x] [每日放送] 现在每天中午 19 点前, 会把上一日的数据放最顶
-- [x] [登陆] 重写了代码, 应该不会再碰到验证码失败
-- [x] 换了一套图标
-
-—— 小圣杯 4.2 ——
-
-- [x] [道具] 虚空道标支持跨级
-
-v4.9.0 - 2021/03/14
-
-—— 新增 ——
-
-- [x] [首页收藏] 支持标题模糊查找和首字母查找
-- [x] [每日放送] 支持只看已收藏的条目
-- [x] [时间胶囊] 支持暂时屏蔽某个用户的动态, 1/3/7 天 (只在 APP 内生效)
-- [x] [好友] 增加数目显示, 用户名模糊查找和首字母
-
-—— 优化 ——
-
-- [x] 游戏类型加上 PS5 和 XBOX SERIES
-- [x] 打开外部浏览器, 保留浏览器进程
-- [x] 优化安卓键盘弹出时页面的表现
-
-—— 小圣杯 4.1 ——
-
-- [x] [ICO] 修复了注资失效的问题
-- [x] [道具] 迭代「星光碎片」, 现只允许消耗活股, 实装「闪光结晶」「鲤鱼之眼」
-- [x] [资产重组] 页面新增各道具使用, 功能表现与网页版一致
-- [x] [高级功能] 新增卖一低价股功能
+- [x] 更新2021年4月番基础数据
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
@@ -182,7 +155,7 @@ react-native run-android // [android] 真机 usb 调试
 
 ## 常见错误
 
-最近购入了M1，尝试实用新环境，iOS expo 运行一路顺风，但是打包 apk 遇到很多问题，总结如下：
+最近购入了 M1，尝试实用新环境，iOS expo 运行一路顺风，但是打包 apk 遇到很多问题，总结如下：
 
 1. 一定要使用 JAVA jdk 8, 不是 jre! [[jdk 8 下载地址]](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)，善用 java -version 和 /usr/libexec/java_home -V 命令查看正在使用的是不是 jdk1.8.0_281.jdk (类似)
 

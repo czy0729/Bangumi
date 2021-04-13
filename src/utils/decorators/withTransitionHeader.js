@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 16:27:59
+ * @Last Modified time: 2021-04-13 19:24:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -216,7 +216,7 @@ const withTransitionHeader = ({
               ...defaultHeaderStyle,
               backgroundColor: `rgba(${_.select(
                 _.colorPlainRaw,
-                _._colorDarkModeLevel1Raw
+                _.deepDark ? _._colorPlainRaw : _._colorDarkModeLevel1Raw
               ).join()}, ${opacity})`,
               ...shadowStyle
             }

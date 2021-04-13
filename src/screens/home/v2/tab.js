@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 20:27:23
+ * @Last Modified time: 2021-04-13 20:15:20
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
@@ -72,7 +72,10 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: _.headerHeight - (IOS ? 18 : 24),
     backgroundColor: IOS
       ? 'transparent'
-      : _.select(_.colorPlain, _._colorDarkModeLevel1),
+      : _.select(
+          _.colorPlain,
+          _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+        ),
     borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     elevation: 0

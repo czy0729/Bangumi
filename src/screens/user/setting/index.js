@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 22:25:14
+ * @Last Modified time: 2021-04-13 20:06:02
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -335,7 +335,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              show={_.isDark && !this.simple}
+              show={_.isDark}
               hd='纯黑'
               ft={
                 <SwitchPro
@@ -355,6 +355,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
+              information='AMOLED屏幕纯黑更省电'
             >
               <Heatmap
                 id='设置.切换'

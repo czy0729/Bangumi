@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-10 03:47:40
+ * @Last Modified time: 2021-04-13 20:18:13
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -129,7 +129,10 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: W_TAB_BAR_LEFT,
     backgroundColor: IOS
       ? 'transparent'
-      : _.select('transparent', _._colorDarkModeLevel1),
+      : _.select(
+          'transparent',
+          _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+        ),
     borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     elevation: 0

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 15:28:41
+ * @Last Modified time: 2021-04-13 19:29:39
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -70,6 +70,7 @@ class TinygrailDeal extends React.Component {
           style={[_.container.flex, this.styles.dark]}
           refreshControl={
             <RefreshControl
+              colors={[_.colorMain]}
               refreshing={refreshing}
               onRefresh={this.onRefresh}
             />

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:42:58
+ * @Last Modified time: 2021-04-13 19:28:32
  */
 import React from 'react'
 import {
@@ -41,6 +41,7 @@ const RefreshState = {
   Failure: 4,
   EmptyData: 5
 }
+const refreshControlColors = [_.colorMain]
 
 export const ListView = observer(
   class extends React.Component {
@@ -356,6 +357,7 @@ export const ListView = observer(
               ? `上次刷新时间: ${simpleTime(date(data._loaded))}`
               : undefined
           }
+          colors={refreshControlColors}
           titleColor={_.colorSub}
           tintColor={_.colorSub}
           progressViewOffset={progressViewOffset}

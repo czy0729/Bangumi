@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 22:18:35
+ * @Last Modified time: 2021-04-13 17:48:11
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -396,7 +396,7 @@ class Theme extends store {
         flex: 1,
         backgroundColor: IOS
           ? this.colorBg
-          : this.select('transparent', _._colorBg)
+          : this.select('transparent', this._colorBg)
       },
       plain: {
         flex: 1,
@@ -406,7 +406,7 @@ class Theme extends store {
         flex: 1,
         backgroundColor: IOS
           ? this.colorPlain
-          : this.select('transparent', _._colorPlain)
+          : this.select('transparent', this._colorPlain)
       },
       item: {
         backgroundColor: this.colorPlain
@@ -696,7 +696,12 @@ class Theme extends store {
     try {
       InteractionManager.runAfterInteractions(() => {
         changeNavigationBarColor(
-          this.select(_.colorPlainHex, _._colorDarkModeLevel1Hex),
+          this.select(
+            _.colorPlainHex,
+            this.deepDark
+              ? _._colorThemeDeepDark.colorPlainHex
+              : _._colorDarkModeLevel1Hex
+          ),
           !this.isDark
         )
       })
