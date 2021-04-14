@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:20:39
+ * @Last Modified time: 2021-04-14 22:02:53
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -10,6 +10,7 @@ import { ItemComment } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
+import { LIST_EMPTY } from '@constants'
 import Header from './header'
 
 const refreshControlProps = {
@@ -21,11 +22,6 @@ export default
 @obc
 class List extends React.Component {
   renderItem = ({ item, index }) => {
-    const { rendered } = this.props
-    if (!rendered) {
-      return null
-    }
-
     const { $, navigation } = this.context
     return (
       <ItemComment
@@ -56,7 +52,7 @@ class List extends React.Component {
         style={_.container.flex}
         contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}
-        data={$.subjectComments}
+        data={rendered ? $.subjectComments : LIST_EMPTY}
         removeClippedSubviews={false}
         scrollEventThrottle={16}
         scrollToTop

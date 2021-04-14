@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-11 01:34:48
+ * @Last Modified time: 2021-04-14 22:04:28
  */
 import { Platform, Easing, Animated } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
@@ -42,7 +42,7 @@ const config = {
 
 if (!IOS) {
   const transitionSpec = {
-    duration: 400,
+    duration: 448,
     // easing: Easing.out(Easing.poly(3)),
     easing: Easing.bezier(0.35, 0.45, 0, 1),
     timing: Animated.timing,
