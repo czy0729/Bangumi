@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:37:32
+ * @Last Modified time: 2021-04-13 22:55:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ const title = '我的持仓'
 export default
 @inject(Store)
 @withHeader({
-  title: ({ userName }) => (userName ? `${userName}的持仓` : title),
+  title: ({ userName } = {}) => (userName ? `${userName}的持仓` : title),
   screen: title,
   hm: ['tinygrail/chara/assets', 'TinygrailCharaAssets'],
   withHeaderParams

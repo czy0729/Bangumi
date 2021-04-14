@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:30:32
+ * @Last Modified time: 2021-04-13 22:54:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ const title = '作品'
 export default
 @inject(Store)
 @withHeader({
-  title: ({ name }) => `${name}的${title}`,
+  title: ({ name } = {}) => `${name}的${title}`,
   screen: title,
   hm: ['works', 'Works']
 })

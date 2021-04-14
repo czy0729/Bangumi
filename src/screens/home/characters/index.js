@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:26:56
+ * @Last Modified time: 2021-04-13 22:54:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ const title = '更多角色'
 export default
 @inject(Store)
 @withHeader({
-  title: ({ name }) => `${name}的角色`,
+  title: ({ name } = {}) => `${name}的角色`,
   screen: title,
   hm: ['characters', 'Characters']
 })

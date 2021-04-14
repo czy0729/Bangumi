@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:34:04
+ * @Last Modified time: 2021-04-13 22:55:03
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -23,7 +23,7 @@ const marginLeft = (_.window.contentWidth - num * imageWidth) / (num + 1)
 export default
 @inject(Store)
 @withHeader({
-  title: ({ cn }) => cn,
+  title: ({ cn } = {}) => cn,
   screen: title,
   alias: 'HD',
   hm: ['hd', 'HD']

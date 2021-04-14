@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:48:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:39:02
+ * @Last Modified time: 2021-04-13 22:55:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ const title = '关联角色'
 export default
 @inject(Store)
 @withHeader({
-  title: ({ name }) => name || title,
+  title: ({ name } = {}) => name || title,
   screen: title,
   hm: ['tinygrail/relation', 'TinygrailRelation'],
   withHeaderParams

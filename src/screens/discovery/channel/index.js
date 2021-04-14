@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:22:05
+ * @Last Modified time: 2021-04-13 22:54:29
  */
 import React from 'react'
 import { ScrollView, Iconfont, Loading } from '@components'
@@ -23,7 +23,7 @@ const title = '频道'
 export default
 @inject(Store)
 @withHeader({
-  title: ({ type }) => `${MODEL_SUBJECT_TYPE.getTitle(type)}频道`,
+  title: ({ type } = {}) => `${MODEL_SUBJECT_TYPE.getTitle(type)}频道`,
   screen: title,
   hm: ['channel', 'Channel']
 })

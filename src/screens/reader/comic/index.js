@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:33:43
+ * @Last Modified time: 2021-04-13 22:55:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ const title = ''
 export default
 @inject(Store)
 @withHeader({
-  title: ({ cn }) => cn,
+  title: ({ cn } = {}) => cn,
   screen: title,
   alias: '漫画',
   hm: ['comic', 'Comic']

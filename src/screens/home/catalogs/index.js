@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:25:57
+ * @Last Modified time: 2021-04-13 22:54:32
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -22,7 +22,7 @@ const event = {
 export default
 @inject(Store)
 @withHeader({
-  title: ({ name }) => (name ? `包含${name}的目录` : title),
+  title: ({ name } = {}) => (name ? `包含${name}的目录` : title),
   screen: title
 })
 @obc
