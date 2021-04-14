@@ -3,7 +3,7 @@
     "38": "mv ./node_modules ../SDK && mv ../SDK/38/node_modules ./ && mv ../SDK/node_modules ../SDK/39",
     "39": "mv ./node_modules ../SDK && mv ../SDK/39/node_modules ./ && mv ../SDK/node_modules ../SDK/38",
     "start": "expo start",
-    "android": "react-native run-android",
+    "android": "react-native run-android --no-jetifier",
     "build": "cd android && ./gradlew assembleRelease",
     "build:ios": "expo build:ios -c",
     "open": "open ./android/app/build/outputs/apk/release/",
