@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 00:34:17
+ * @Last Modified time: 2021-04-14 22:02:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { open, copy, runAfter } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info, androidKeyboardAdjust } from '@utils/ui'
-import { DEV, TITLE } from '@constants'
+import { TITLE } from '@constants'
 import HeaderTitle from './header-title'
 import Bg from './bg'
 import List from './list'
@@ -34,13 +34,15 @@ export default
 class Subject extends React.Component {
   state = {
     showBlurView: true,
-    rendered: DEV
+    rendered: false
   }
 
   componentDidMount() {
     runAfter(async () => {
       requestAnimationFrame(() => {
-        this.rendered()
+        setTimeout(() => {
+          this.rendered()
+        }, 160)
       })
 
       const { $ } = this.context

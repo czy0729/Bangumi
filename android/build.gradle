@@ -33,6 +33,8 @@ allprojects {
 
         google()
         jcenter()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://www.jitpack.io' }
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }

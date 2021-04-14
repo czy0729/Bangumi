@@ -55,7 +55,7 @@ v4.10.0 - 2021/04/13
 
 —— 优化 ——
 
-- [x] 更新2021年4月番基础数据
+- [x] 更新 2021 年 4 月番基础数据
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
@@ -109,6 +109,8 @@ v4.10.0 - 2021/04/13
 - 本项目承诺不保存任何第三方用户信息
 - 本项目代码仅供学习交流，不得用于商业用途，若侵权请联系
 
+---
+
 ## 本地开发
 
 ** 提示 **
@@ -151,22 +153,35 @@ npm start // [iOS] 之后点击在浏览器打开的Expo Developer Tools, 点击
 // or
 
 react-native run-android // [android] 真机 usb 调试
+
 ```
 
-## 常见错误
+** 安卓真机 usb 调试遇到的问题 **
+
+- 不能安装请尝试在命令前添加 sudo
+
+- 安卓系统请打开开发者调试模式, 需要至少进行一次打开 Android Studio 的同时连接 usb 允许添加调试
+
+- 调试请保证给应用安装权限, 允许悬浮窗权限
+
+- 遇到 spawnSync adb ENOENT, 参考 [stackoverflow](https://stackoverflow.com/questions/38835931/react-native-adb-reverse-enoent)
+
+** 补充常见错误, 已在 mac M1 上调试成功 **
 
 最近购入了 M1，尝试实用新环境，iOS expo 运行一路顺风，但是打包 apk 遇到很多问题，总结如下：
 
-1. 一定要使用 JAVA jdk 8, 不是 jre! [[jdk 8 下载地址]](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)，善用 java -version 和 /usr/libexec/java_home -V 命令查看正在使用的是不是 jdk1.8.0_281.jdk (类似)
+- 一定要使用 JAVA jdk 8, 不是 jre! [[jdk 8 下载地址]](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)，善用 java -version 和 /usr/libexec/java_home -V 命令查看正在使用的是不是 jdk1.8.0_281.jdk (类似)
 
-2. 打包前一定要安装 watchman，不然会遇到监听文件过多错误
+- 打包前一定要安装 watchman，不然会遇到监听文件过多错误
 
-3. 打包遇到失败，请进入 android 目录下执行 ./gradlew clean 后再重新打包
+- 打包遇到失败，请进入 android 目录下执行 ./gradlew clean 后再重新打包
 
-4. 打包失败，看见错误提示上面有 node_modules 包的名字，请尝试把这个包下载补全
+- 打包失败，看见错误提示上面有 node_modules 包的名字，请尝试把这个包下载补全
+
+---
 
 ## 投食
 
 觉得 APP 好用的
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" style="vertical-align: top" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" style="vertical-align: top" />
