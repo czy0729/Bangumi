@@ -2,13 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 17:48:11
+ * @Last Modified time: 2021-04-15 01:00:40
  */
-import { StyleSheet, InteractionManager, Appearance } from 'react-native'
+import {
+  StyleSheet,
+  NativeModules,
+  InteractionManager,
+  Appearance
+} from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
-import { DEV, IOS, IS_BEFORE_ANDROID_10 } from '@constants'
+import {
+  DEV,
+  IOS
+  // IS_BEFORE_ANDROID_10
+} from '@constants'
 import _ from '@styles'
 import { initialDevDark } from '@/config'
 import systemStore from '../system'
@@ -100,13 +109,13 @@ class Theme extends store {
     const mode = await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
 
     // 遗漏问题, 版本前有部分用户安卓9启用了跟随系统设置, 需要排除掉
-    if (!IS_BEFORE_ANDROID_10 && this.autoColorScheme) {
+    if (this.autoColorScheme) {
       // 主题是否跟随系统
       const sysMode = Appearance.getColorScheme()
       if (sysMode !== mode) {
         this.toggleMode(sysMode)
       }
-    } else if (mode !== DEFAULT_MODE) {
+    } else {
       // 默认是白天模式, 若初始化不是白天切换主题
       this.toggleMode(mode)
     }
@@ -648,6 +657,7 @@ class Theme extends store {
 
     this.setStorage(key, undefined, NAMESPACE)
     this.changeNavigationBarColor()
+    NativeModules.DayNight.setDarkMode(this.isDark ? 2 : 1)
   }
 
   /**

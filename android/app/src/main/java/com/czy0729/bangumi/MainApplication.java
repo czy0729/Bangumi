@@ -34,6 +34,7 @@ import com.czy0729.bangumi.umeng.DplusReactPackage;
 import com.czy0729.bangumi.umeng.RNUMConfigure;
 
 import com.czy0729.bangumi.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
+import com.czy0729.bangumi.daynight.DayNightPackage;
 
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
@@ -52,6 +53,7 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
       packages.add(new DplusReactPackage());
       new AndroidKeyboardAdjustPackage();
+      packages.add(new DayNightPackage());
       return packages;
     }
 
