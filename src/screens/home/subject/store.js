@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:58:16
+ * @Last Modified time: 2021-04-15 16:33:58
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -65,6 +65,7 @@ const initRating = {
 const excludeState = {
   visible: false, // 是否显示管理模态框
   showHeaderTitle: false,
+  rendered: false,
 
   chap: '', // 书籍章
   vol: '', // 卷
@@ -1199,6 +1200,19 @@ export default class ScreenSubject extends store {
     })
 
     systemStore.switchSetting(key)
+  }
+
+  /**
+   * 用于延迟底部块渲染
+   * 优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题
+   */
+  rendered = () => {
+    const { rendered } = this.state
+    if (!rendered) {
+      this.setState({
+        rendered: true
+      })
+    }
   }
 
   // -------------------- action --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:19:42
+ * @Last Modified time: 2021-04-15 17:32:32
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -47,6 +47,7 @@ function List(props, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={_list}
+      lazy={12}
       scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchValhallList}

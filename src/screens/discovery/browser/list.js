@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 12:16:01
+ * @Last Modified time: 2021-04-15 17:16:23
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -81,6 +81,7 @@ class List extends React.Component {
         keyExtractor={keyExtractor}
         numColumns={$.isList ? undefined : 3}
         data={$.browser}
+        lazy={9}
         renderItem={this.renderItem}
         scrollToTop
         onHeaderRefresh={$.onHeaderRefresh}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:48:55
+ * @Last Modified time: 2021-04-15 17:30:01
  */
 import React from 'react'
 import {
@@ -346,6 +346,7 @@ class Topic extends React.Component {
           contentContainerStyle={this.styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={$.comments}
+          lazy={$.postId ? undefined : 4}
           scrollEventThrottle={16}
           removeClippedSubviews={false}
           initialNumToRender={120}

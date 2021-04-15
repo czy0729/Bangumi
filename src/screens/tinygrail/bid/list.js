@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 16:09:04
+ * @Last Modified time: 2021-04-15 17:32:06
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -36,6 +36,7 @@ function List({ id }, { $ }) {
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={list}
+      lazy={12}
       scrollToTop={tabs[page].key === id}
       renderItem={({ item, index }) => (
         <Item

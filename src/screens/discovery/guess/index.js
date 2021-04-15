@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:24:32
+ * @Last Modified time: 2021-04-15 17:21:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Loading } from '@components'
 import { IconHeader, Pagination } from '@screens/_'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 import { inject, obc, withHeader } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Type from './type'
@@ -25,6 +26,10 @@ export default
 })
 @obc
 class Guess extends React.Component {
+  state = {
+    rendered: false
+  }
+
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()
@@ -44,6 +49,26 @@ class Guess extends React.Component {
         </>
       )
     })
+
+    runAfter(() => {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          this.setState({
+            rendered: true
+          })
+        }, 160)
+      })
+    })
+  }
+
+  get list() {
+    const { $ } = this.context
+    const { rendered } = this.state
+    if (!rendered) {
+      return $.list.slice(0, 2)
+    }
+
+    return $.list
   }
 
   render() {
@@ -54,7 +79,7 @@ class Guess extends React.Component {
         {show ? (
           <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
             <View style={styles.container}>
-              {$.list.map(item => (
+              {this.list.map(item => (
                 <Item key={item.id} {...item} />
               ))}
             </View>

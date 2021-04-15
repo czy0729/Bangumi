@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 19:28:32
+ * @Last Modified time: 2021-04-15 17:15:23
  */
 import React from 'react'
 import {
@@ -17,7 +17,7 @@ import {
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { _, systemStore } from '@stores'
-import { sleep, date, simpleTime } from '@utils'
+import { runAfter, sleep, date, simpleTime } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import {
   TEXT_REFRESHING,
@@ -63,17 +63,34 @@ export const ListView = observer(
       showFooter: true,
       showMesume: true,
       scrollToTop: false, // 自动在顶部补充一区域, 点击列表返回到顶, 安卓用
+      lazy: 0, // 当有值, 初始化时当数组长度超过此长度, 会先渲染这个条数的数据, 再正常渲染
       onHeaderRefresh: undefined,
       onFooterRefresh: undefined
     }
 
     state = {
-      refreshState: RefreshState.Idle
+      refreshState: RefreshState.Idle,
+      rendered: false
     }
 
     componentDidMount() {
-      const { data } = this.props
+      const { data, lazy } = this.props
       this.updateRefreshState(data)
+
+      if (lazy) {
+        runAfter(async () => {
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              const { rendered } = this.state
+              if (!rendered) {
+                this.setState({
+                  rendered: true
+                })
+              }
+            }, 160)
+          })
+        })
+      }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -106,8 +123,14 @@ export const ListView = observer(
     scrollToItem = Function.prototype
     scrollToOffset = Function.prototype
 
+    // eslint-disable-next-line consistent-return
     onHeaderRefresh = async () => {
-      const { onHeaderRefresh } = this.props
+      const { lazy, onHeaderRefresh } = this.props
+      const { rendered } = this.state
+      if (lazy && !rendered) {
+        return undefined
+      }
+
       if (onHeaderRefresh) {
         this.setState({
           refreshState: RefreshState.HeaderRefreshing
@@ -117,8 +140,14 @@ export const ListView = observer(
       }
     }
 
+    // eslint-disable-next-line consistent-return
     onFooterRefresh = async () => {
-      const { onFooterRefresh } = this.props
+      const { lazy, onFooterRefresh } = this.props
+      const { rendered } = this.state
+      if (lazy && !rendered) {
+        return undefined
+      }
+
       if (onFooterRefresh) {
         this.setState({
           refreshState: RefreshState.FooterRefreshing
@@ -165,8 +194,14 @@ export const ListView = observer(
     }
 
     get commonProps() {
-      const { optimize, showFooter, ListFooterComponent = null } = this.props
-      const { refreshState } = this.state
+      const {
+        optimize,
+        showFooter,
+        ListFooterComponent = null,
+        showsVerticalScrollIndicator,
+        lazy
+      } = this.props
+      const { refreshState, rendered } = this.state
       return {
         ref: this.connectRef,
         style: this.style,
@@ -187,15 +222,19 @@ export const ListView = observer(
         initialNumToRender: 48,
         windowSize: optimize ? 12 : undefined,
         maxToRenderPerBatch: optimize ? 48 : undefined,
-        updateCellsBatchingPeriod: optimize ? 48 : undefined
+        updateCellsBatchingPeriod: optimize ? 48 : undefined,
+        showsVerticalScrollIndicator:
+          lazy && !rendered ? false : showsVerticalScrollIndicator
       }
     }
 
     get section() {
-      const { data, sectionKey, sections } = this.props
+      const { data, sectionKey, sections, lazy } = this.props
+      const { rendered } = this.state
       let _sections = []
       if (sections) {
-        _sections = sections.slice()
+        _sections =
+          lazy && !rendered ? sections.slice(0, lazy) : sections.slice()
       } else {
         const sectionsMap = {}
         data.list.slice().forEach(item => {
@@ -215,7 +254,12 @@ export const ListView = observer(
     }
 
     get data() {
-      const { data } = this.props
+      const { data, lazy } = this.props
+      const { rendered } = this.state
+      if (lazy && !rendered) {
+        return data.list.slice(0, lazy)
+      }
+
       return Array.isArray(data.list) ? data.list : data.list.slice()
     }
 
@@ -223,6 +267,7 @@ export const ListView = observer(
       let footer = null
       const {
         data,
+        lazy,
         footerRefreshingText,
         footerFailureText,
         // footerNoMoreDataText,
@@ -236,6 +281,11 @@ export const ListView = observer(
         onHeaderRefresh,
         onFooterRefresh
       } = this.props
+      const { rendered } = this.state
+      if (lazy && !rendered) {
+        return footer
+      }
+
       switch (refreshState) {
         case RefreshState.Idle:
           footer = <View style={this.styles.footerContainer} />
@@ -394,6 +444,8 @@ export const ListView = observer(
         showFooter,
         animated,
         scrollToTop,
+        showsVerticalScrollIndicator,
+        lazy,
         ...other
       } = this.props
       let $list

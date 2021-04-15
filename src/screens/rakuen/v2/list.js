@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:03:36
+ * @Last Modified time: 2021-04-15 17:25:36
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -38,6 +38,7 @@ function List({ index }, { $ }) {
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       data={rakuen}
+      lazy={12}
       contentInset={contentInset}
       contentOffset={contentOffset}
       renderItem={renderItem}

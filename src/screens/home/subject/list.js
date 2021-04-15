@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-14 22:02:53
+ * @Last Modified time: 2021-04-15 16:31:07
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -10,7 +10,6 @@ import { ItemComment } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
-import { LIST_EMPTY } from '@constants'
 import Header from './header'
 
 const refreshControlProps = {
@@ -46,22 +45,23 @@ class List extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { rendered, onScroll } = this.props
+    const { onScroll } = this.props
     return (
       <ListView
         style={_.container.flex}
         contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}
-        data={rendered ? $.subjectComments : LIST_EMPTY}
+        data={$.subjectComments}
+        lazy={1}
         removeClippedSubviews={false}
         scrollEventThrottle={16}
         scrollToTop
         refreshControlProps={refreshControlProps}
-        ListHeaderComponent={<Header rendered={rendered} />}
+        ListHeaderComponent={<Header />}
         renderItem={this.renderItem}
         onScroll={onScroll}
-        onHeaderRefresh={rendered ? $.onHeaderRefresh : undefined}
-        onFooterRefresh={rendered ? $.fetchSubjectComments : undefined}
+        onHeaderRefresh={$.onHeaderRefresh}
+        onFooterRefresh={$.fetchSubjectComments}
       />
     )
   }

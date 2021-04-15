@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 19:51:55
+ * @Last Modified time: 2021-04-15 17:05:46
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -12,6 +12,7 @@ import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
 const namespace = 'ScreenManga'
+let _loaded = false
 
 export default class ScreenManga extends store {
   state = observable({
@@ -30,20 +31,22 @@ export default class ScreenManga extends store {
   })
 
   init = async () => {
-    const { _loaded } = this.state
     const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
       ...state,
-      _loaded: false
+      _loaded
     })
 
     if (!_loaded) {
       await init()
     }
+
+    _loaded = true
     this.setState({
       _loaded: true
     })
+
     this.search()
     return res
   }

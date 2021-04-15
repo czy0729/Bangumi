@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 14:10:50
+ * @Last Modified time: 2021-04-15 17:14:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,8 @@ function List(props, { $ }) {
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       sections={$.sections}
-      numColumns={$.isList ? undefined : 4}
+      lazy={2}
+      numColumns={$.isList ? undefined : 3}
       scrollToTop
       renderSectionHeader={renderSectionHeader}
       renderItem={({ item, title, section = {} }) => {

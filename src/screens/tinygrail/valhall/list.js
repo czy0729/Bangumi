@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:05:52
+ * @Last Modified time: 2021-04-15 17:32:45
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -30,6 +30,7 @@ function List(props, { $ }) {
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={$.computedList}
+      lazy={12}
       scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchValhallList}

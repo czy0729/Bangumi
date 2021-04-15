@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:56:13
+ * @Last Modified time: 2021-04-15 17:32:20
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -88,6 +88,7 @@ function List({ title }, { $ }) {
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={data}
+      lazy={12}
       scrollToTop={tabs[page].title === title}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchBalance()}

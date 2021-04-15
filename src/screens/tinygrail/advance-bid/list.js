@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:17:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:07:34
+ * @Last Modified time: 2021-04-15 17:31:52
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -37,6 +37,7 @@ function List(props, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={$.computedList}
+      lazy={12}
       scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchAdvanceBidList}

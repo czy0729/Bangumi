@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-14 22:02:14
+ * @Last Modified time: 2021-04-15 16:34:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,19 +33,18 @@ export default
 @obc
 class Subject extends React.Component {
   state = {
-    showBlurView: true,
-    rendered: false
+    showBlurView: true
   }
 
   componentDidMount() {
     runAfter(async () => {
+      const { $ } = this.context
       requestAnimationFrame(() => {
         setTimeout(() => {
-          this.rendered()
+          $.rendered()
         }, 160)
       })
 
-      const { $ } = this.context
       const res = $.init()
       this.updateNavigation()
       hm(`subject/${$.params.subjectId}`, 'Subject')
@@ -104,7 +103,7 @@ class Subject extends React.Component {
     const { $ } = this.context
     const { onScroll } = this.props
     onScroll(e)
-    this.rendered()
+    $.rendered()
 
     const { nativeEvent } = e
     const { y } = nativeEvent.contentOffset
@@ -125,35 +124,18 @@ class Subject extends React.Component {
     }
   }
 
-  /**
-   * 用于延迟底部块渲染
-   * 优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题
-   */
-  rendered = () => {
-    const { rendered } = this.state
-    if (!rendered) {
-      this.setState({
-        rendered: true
-      })
-    }
-  }
-
   render() {
-    const { showBlurView, rendered = [] } = this.state
+    const { showBlurView } = this.state
     return (
       <View style={_.container.plain}>
         <Bg show={showBlurView} />
-        <List rendered={rendered} onScroll={this.onScroll} />
-        {rendered && (
-          <>
-            <NavigationEvents
-              onDidFocus={this.onDidFocus}
-              onDidBlur={this.onDidBlur}
-            />
-            <Modal />
-            <Heatmap id={title} screen='Subject' />
-          </>
-        )}
+        <List onScroll={this.onScroll} />
+        <NavigationEvents
+          onDidFocus={this.onDidFocus}
+          onDidBlur={this.onDidBlur}
+        />
+        <Modal />
+        <Heatmap id={title} screen='Subject' />
       </View>
     )
   }

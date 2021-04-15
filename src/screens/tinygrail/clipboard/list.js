@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:11:24
+ * @Last Modified time: 2021-04-15 17:32:13
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -27,6 +27,7 @@ function List(props, { $ }) {
       footerTextType='tinygrailText'
       footerEmptyDataText='您可以复制带有bgm人物链接或id的文字, 进入本页面后会自动获取所有角色id, 获取角色数据并生成列表'
       data={$.list}
+      lazy={12}
       scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchValhallList}

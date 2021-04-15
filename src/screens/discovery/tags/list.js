@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:22:52
+ * @Last Modified time: 2021-04-15 17:23:46
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -49,6 +49,7 @@ class List extends React.Component {
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={list}
+        lazy={32}
         numColumns={4}
         scrollToTop={tabs[page].key === id}
         renderItem={this.renderItem}

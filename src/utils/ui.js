@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 23:10:36
+ * @Last Modified time: 2021-04-15 15:57:25
  */
-import { Alert, Vibration } from 'react-native'
+import { NativeModules, Alert, Vibration } from 'react-native'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
 import { DEV, IOS } from '@constants'
@@ -134,4 +134,14 @@ export function androidKeyboardAdjust(fn) {
 
   const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
   AndroidKeyboardAdjust[fn]()
+}
+
+/**
+ * 安卓原生切换白天黑夜标志, 用于动态改变原生弹窗主题颜色
+ * @param {*} isDark
+ */
+export function androidDayNightToggle(isDark) {
+  if (IOS) return
+
+  NativeModules.DayNight.setDarkMode(isDark ? 2 : 1)
 }

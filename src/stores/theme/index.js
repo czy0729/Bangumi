@@ -2,17 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 01:00:40
+ * @Last Modified time: 2021-04-15 16:03:20
  */
-import {
-  StyleSheet,
-  NativeModules,
-  InteractionManager,
-  Appearance
-} from 'react-native'
+import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
+import { androidDayNightToggle } from '@utils/ui'
 import {
   DEV,
   IOS
@@ -90,6 +86,7 @@ function getMemoStylesId() {
 class Theme extends store {
   constructor() {
     super()
+
     Object.keys(_).forEach(key => {
       if (!(key in this)) {
         this[key] = _[key]
@@ -657,7 +654,7 @@ class Theme extends store {
 
     this.setStorage(key, undefined, NAMESPACE)
     this.changeNavigationBarColor()
-    NativeModules.DayNight.setDarkMode(this.isDark ? 2 : 1)
+    androidDayNightToggle(this.isDark)
   }
 
   /**
@@ -714,6 +711,7 @@ class Theme extends store {
           ),
           !this.isDark
         )
+        androidDayNightToggle(this.isDark)
       })
     } catch (error) {
       console.warn('[ThemeStore] changeNavigationBarColor', error)
@@ -734,6 +732,7 @@ class Theme extends store {
           this.colorTinygrailContainerHex,
           !this.isTinygrailDark
         )
+        androidDayNightToggle(this.isTinygrailDark)
       })
     } catch (error) {
       console.warn('[ThemeStore] changeNavigationBarColorTinygrail', error)

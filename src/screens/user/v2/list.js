@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 02:30:50
+ * @Last Modified time: 2021-04-15 17:26:38
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -123,6 +123,7 @@ class List extends React.Component {
         style={!IOS && styles.androidWrap}
         contentContainerStyle={styles.contentContainerStyle}
         data={userCollections}
+        lazy={12}
         numColumns={numColumns}
         renderItem={this.renderItem}
         animated

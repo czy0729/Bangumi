@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 01:49:26
+ * @Last Modified time: 2021-04-15 17:08:11
  */
 import React from 'react'
-import { ListView } from '@components'
+import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Filter from './filter'
@@ -36,7 +36,16 @@ class List extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { layout, data } = $.state
+    const { _loaded, layout, data } = $.state
+    if (!_loaded && !data._loaded) {
+      return (
+        <>
+          <Filter />
+          <Loading />
+        </>
+      )
+    }
+
     return (
       <ListView
         key={layout}

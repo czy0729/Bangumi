@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 02:24:40
+ * @Last Modified time: 2021-04-15 16:46:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import {
   FilterText
 } from '@screens/_'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -39,6 +40,33 @@ const heatmaps = {
 export default
 @obc
 class List extends React.Component {
+  state = {
+    rendered: false
+  }
+
+  componentDidMount() {
+    runAfter(() => {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          this.setState({
+            rendered: true
+          })
+        }, 160)
+      })
+    })
+  }
+
+  get list() {
+    const { $ } = this.context
+    const { list } = $.rank
+    const { rendered } = this.state
+    if (!rendered) {
+      return list.slice(0, 9)
+    }
+
+    return list
+  }
+
   renderPagination() {
     const { $ } = this.context
     const { type, ipt } = $.state
@@ -57,27 +85,30 @@ class List extends React.Component {
   renderList() {
     const { $, navigation } = this.context
     const { type } = $.state
-    const { list, _filter } = $.rank
+    const { _filter } = $.rank
     return (
       <>
         <View style={this.styles.list}>
-          {list.length ? (
-            list.map((item, index) => (
-              <ItemSearch
-                key={item.id}
-                style={_.container.item}
-                navigation={navigation}
-                index={index}
-                collection={
-                  $.userCollectionsMap[String(item.id).replace('/subject/', '')]
-                }
-                event={eventList}
-                typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
-                {...item}
-              >
-                {index === 1 && <Heatmap id='排行榜.跳转' />}
-              </ItemSearch>
-            ))
+          {this.list.length ? (
+            this.list
+              .map((item, index) => (
+                <ItemSearch
+                  key={item.id}
+                  style={_.container.item}
+                  navigation={navigation}
+                  index={index}
+                  collection={
+                    $.userCollectionsMap[
+                      String(item.id).replace('/subject/', '')
+                    ]
+                  }
+                  event={eventList}
+                  typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
+                  {...item}
+                >
+                  {index === 1 && <Heatmap id='排行榜.跳转' />}
+                </ItemSearch>
+              ))
           ) : (
             <Empty />
           )}
@@ -90,12 +121,12 @@ class List extends React.Component {
 
   renderGrid() {
     const { $, navigation } = this.context
-    const { list, _filter } = $.rank
+    const { _filter } = $.rank
     return (
       <>
         <Flex style={this.styles.grid} wrap='wrap' align='start'>
-          {list.length ? (
-            list.map((item, index) => {
+          {this.list.length ? (
+            this.list.map((item, index) => {
               const id = String(item.id).replace('/subject/', '')
               return (
                 <ItemCollectionsGrid

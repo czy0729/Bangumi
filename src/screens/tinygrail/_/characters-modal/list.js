@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 10:24:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-10 23:58:04
+ * @Last Modified time: 2021-04-15 17:31:36
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -22,6 +22,7 @@ function List({ data, renderItem }) {
       keyExtractor={keyExtractor}
       refreshControlProps={refreshControlProps}
       data={data}
+      lazy={12}
       showMesume={false}
       footerTextType='tinygrailText'
       footerEmptyDataText='没有符合的结果'

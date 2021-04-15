@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-14 21:58:51
+ * @Last Modified time: 2021-04-15 16:31:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,8 +31,9 @@ import Topic from './topic'
 import RateSegement from './rate-segment'
 import IconComment from './icon/comment'
 
-function Header({ rendered }, { $ }) {
+function Header(props, { $ }) {
   const styles = memoStyles()
+  const { rendered } = $.state
   const {
     pagination: { pageTotal = 0 },
     _loaded
