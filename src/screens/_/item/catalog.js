@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:12:45
+ * @Last Modified time: 2021-04-15 20:06:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,7 @@ export const ItemCatalog = obc(
       game,
       real,
       isUser,
+      hideScore = false,
       children
     },
     { $, navigation }
@@ -56,7 +57,8 @@ export const ItemCatalog = obc(
           })
 
           navigation.push('CatalogDetail', {
-            catalogId: id
+            catalogId: id,
+            _hideScore: hideScore
           })
         }}
       >

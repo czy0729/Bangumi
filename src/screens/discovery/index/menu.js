@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:49:41
+ * @Last Modified time: 2021-04-15 20:01:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,6 +58,11 @@ const menus = [
     title: '日志',
     icon: 'md-edit',
     path: 'DiscoveryBlog'
+  },
+  {
+    title: '档期',
+    icon: 'md-local-play',
+    path: 'Staff'
   },
   {
     title: '搜索',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-23 10:41:11
+ * @Last Modified time: 2021-04-15 20:07:52
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
@@ -78,6 +78,7 @@ class CatalogDetail extends React.Component {
         score={item.score}
         isCatalog
         isCollect={item.isCollect}
+        hideScore={$.hideScore}
         collection={$.userCollectionsMap[id]}
       >
         {!index && <Heatmap id='目录详情.跳转' />}

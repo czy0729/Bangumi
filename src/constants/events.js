@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 10:27:05
+ * @Last Modified time: 2021-04-15 20:11:00
  */
 
 /**
@@ -122,6 +122,9 @@ export default {
   // 推荐
   '推荐.跳转': 'Guess.to',
   '推荐.刷新': 'Guess.refresh',
+
+  // 新番档期
+  '新番档期.跳转': 'Staff.to',
 
   /* ==================== home ==================== */
   // 首页

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 02:31:42
+ * @Last Modified time: 2021-04-15 20:08:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,7 @@ export const ItemCollections = ob(
     type,
     collection,
     showLabel = true,
+    hideScore = false,
     isCollect,
     isCatalog,
     isDo,
@@ -144,7 +145,7 @@ export const ItemCollections = ob(
                 </Text>
               )}
               <Flex style={_.mt.sm} align='start'>
-                {hasScore && (
+                {!hideScore && hasScore && (
                   <Stars style={_.mr.xs} value={score} color='warning' />
                 )}
                 <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>

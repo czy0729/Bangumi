@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 23:12:29
+ * @Last Modified time: 2021-04-15 20:07:35
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, collectionStore, subjectStore } from '@stores'
@@ -72,6 +72,11 @@ export default class ScreenCatalogDetail extends store {
 
   @computed get userCollectionsMap() {
     return collectionStore.userCollectionsMap
+  }
+
+  @computed get hideScore() {
+    const { _hideScore } = this.params
+    return _hideScore
   }
 
   // -------------------- page --------------------
