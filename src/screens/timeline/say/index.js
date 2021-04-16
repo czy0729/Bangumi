@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
-import { ActivityIndicator } from '@ant-design/react-native'
+import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import {
   FixedTextarea,
   Flex,

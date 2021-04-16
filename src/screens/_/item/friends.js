@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 01:05:09
+ * @Last Modified time: 2021-04-16 14:09:31
  */
 import React from 'react'
-import { Progress } from '@ant-design/react-native'
+import Progress from '@ant-design/react-native/lib/progress'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'

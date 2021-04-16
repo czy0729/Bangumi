@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ActivityIndicator } from '@ant-design/react-native'
+import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { ScrollView, Flex, Empty, Heatmap } from '@components'
 import {
   Pagination,

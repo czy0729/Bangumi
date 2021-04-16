@@ -15,7 +15,7 @@ import {
   Animated
 } from 'react-native'
 import { observer } from 'mobx-react'
-import { ActivityIndicator } from '@ant-design/react-native'
+import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _, systemStore } from '@stores'
 import { runAfter, sleep, date, simpleTime } from '@utils'
 import { LIST_EMPTY } from '@constants'

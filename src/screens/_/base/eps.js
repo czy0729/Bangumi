@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:27:41
+ * @Last Modified time: 2021-04-16 14:09:06
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Carousel } from '@ant-design/react-native'
+import Carousel from '@ant-design/react-native/lib/carousel'
 import { Flex, Popover, Menu, Button, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { arrGroup } from '@utils'

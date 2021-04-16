@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-12-23 21:30:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:51:18
+ * @Last Modified time: 2021-04-16 14:09:21
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Portal } from '@ant-design/react-native'
+import Portal from '@ant-design/react-native/lib/portal'
 import { SafeAreaView } from 'react-navigation'
 import { Touchable } from '@components'
 import { _, systemStore } from '@stores'

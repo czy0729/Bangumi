@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-01-21 16:01:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 16:09:22
+ * @Last Modified time: 2021-04-16 14:10:29
  */
 import React from 'react'
-import { Progress as CompProgress } from '@ant-design/react-native'
+import CompProgress from '@ant-design/react-native/lib/progress'
 import { ob } from '@utils/decorators'
 import { _ } from '@stores'
 import { wrapWidth } from './ds'

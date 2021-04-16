@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-15 06:08:37
+ * @Last Modified time: 2021-04-16 14:09:47
  */
 import { observable, computed } from 'mobx'
-import { Portal } from '@ant-design/react-native'
+import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import { collectionStore } from '@stores'
 import store from '@utils/store'

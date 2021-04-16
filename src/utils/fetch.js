@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 01:59:57
+ * @Last Modified time: 2021-04-16 14:10:47
  */
 import { NativeModules, InteractionManager } from 'react-native'
-import { Portal } from '@ant-design/react-native'
+import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import {
   APP_ID,

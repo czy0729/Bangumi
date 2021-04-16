@@ -4,13 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:50:11
+ * @Last Modified time: 2021-04-16 14:05:38
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
 import RNImageViewer from 'react-native-image-zoom-viewer'
 import { observer } from 'mobx-react'
-import { ActivityIndicator } from '@ant-design/react-native'
+import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { showActionSheet } from '@utils/ui'

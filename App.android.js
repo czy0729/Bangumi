@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 17:15:34
+ * @Last Modified time: 2021-04-16 14:20:40
  */
 import React, { useEffect } from 'react'
 import { Alert, View } from 'react-native'
@@ -13,7 +13,7 @@ import {
 } from 'react-native-exception-handler'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
-import { Provider } from '@ant-design/react-native'
+import Provider from '@ant-design/react-native/lib/provider'
 import { DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@screens/_'
 import Stores, { _ } from '@stores'

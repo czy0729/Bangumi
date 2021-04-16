@@ -7,7 +7,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
-import { ActivityIndicator } from '@ant-design/react-native'
+import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { Flex } from '../flex'

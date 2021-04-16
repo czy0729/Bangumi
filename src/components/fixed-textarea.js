@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 00:25:48
+ * @Last Modified time: 2021-04-16 14:07:52
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { TextareaItem } from '@ant-design/react-native'
+import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { getStorage, setStorage, open } from '@utils'
 import { IOS } from '@constants'

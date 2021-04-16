@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
-import { ActivityIndicator } from '@ant-design/react-native'
+import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Button, Flex, Input, Text, Touchable } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'

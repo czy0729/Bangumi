@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:42:14
+ * @Last Modified time: 2021-04-16 14:08:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Portal } from '@ant-design/react-native'
+import Portal from '@ant-design/react-native/lib/portal'
 import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
 import { Touchable } from './touchable'

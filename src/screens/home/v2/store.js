@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 18:41:59
+ * @Last Modified time: 2021-04-16 14:10:12
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
-import { Modal } from '@ant-design/react-native'
+import Modal from '@ant-design/react-native/lib/modal'
 import { Text } from '@components'
 import { Eps } from '@screens/_'
 import {

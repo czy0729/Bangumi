@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:24:09
+ * @Last Modified time: 2021-04-16 14:20:32
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
-import { Provider } from '@ant-design/react-native'
+import Provider from '@ant-design/react-native/lib/provider'
 import { DeepLink } from '@components'
 import { AppCommon } from '@screens/_'
 import Stores, { _ } from '@stores'

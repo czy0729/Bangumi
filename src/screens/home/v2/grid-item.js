@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:53:42
+ * @Last Modified time: 2021-04-16 14:09:59
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Progress } from '@ant-design/react-native'
+import Progress from '@ant-design/react-native/lib/progress'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
