@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 21:07:08
+ * @Last Modified time: 2021-04-20 17:33:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -326,6 +326,11 @@ export const RenderHtml = observer(
          * 去除图片之间的br
          */
         _html = _html.replace(/<br><img/g, '<img')
+
+        /**
+         * 去除暂时无法支持的html
+         */
+        _html = _html.replace(/<ruby>(.+?)<\/ruby>/g, '')
 
         const { s2t: _s2t } = systemStore.setting
         if (_s2t) _html = s2t(decoder(_html))
