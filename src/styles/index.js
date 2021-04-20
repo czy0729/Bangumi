@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 20:28:33
+ * @Last Modified time: 2021-04-20 19:22:09
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -245,6 +245,10 @@ export const container = StyleSheet.create({
   },
   sm: {
     padding: sm
+  },
+  touch: {
+    borderRadius: radiusMd,
+    overflow: 'hidden'
   }
 })
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 16:04:21
+ * @Last Modified time: 2021-04-20 19:29:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
   return (
     <View style={styles.item}>
       <Cover
+        style={_.container.touch}
         src={src}
         size={imageWidth}
         height={imageHeight}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:38:18
+ * @Last Modified time: 2021-04-20 17:57:25
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -98,6 +98,8 @@ const styles = _.create({
     width: 80
   },
   icon: {
-    marginBottom: 0
+    marginBottom: 0,
+    borderRadius: 40,
+    overflow: 'hidden'
   }
 })

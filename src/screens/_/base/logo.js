@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 20:55:53
+ * @Last Modified time: 2021-04-20 17:59:24
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont } from '@components'
@@ -14,6 +14,7 @@ import { ob } from '@utils/decorators'
 
 export const Logo = ob(({ forceUpdate }) => (
   <Touchable
+    style={styles.radius}
     onPress={() => {
       t('其他.切换主题', {
         isDark: !_.isDark
@@ -49,6 +50,10 @@ export const Logo = ob(({ forceUpdate }) => (
 ))
 
 const styles = _.create({
+  radius: {
+    borderRadius: _.radiusLg,
+    overflow: 'hidden'
+  },
   logo: {
     width: 132,
     height: 32

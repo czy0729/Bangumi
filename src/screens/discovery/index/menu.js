@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 20:01:54
+ * @Last Modified time: 2021-04-20 19:21:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -149,6 +149,7 @@ function Menu(props, { $, navigation }) {
         .map(item => (
           <Touchable
             key={item.path}
+            style={_.container.touch}
             onPress={() => {
               if (item.login && !username && !id) {
                 info('请先登陆')
@@ -247,11 +248,12 @@ export default obc(Menu)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.wind,
+    marginTop: _.sm
   },
   wrap: {
     width: (_.window.width - 2 * _.wind) * 0.249,
-    marginTop: _.md + 2
+    paddingVertical: _.sm
   },
   item: {
     width: itemWidth

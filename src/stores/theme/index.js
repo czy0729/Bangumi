@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 16:03:20
+ * @Last Modified time: 2021-04-20 19:21:45
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -472,6 +472,10 @@ class Theme extends store {
       },
       sm: {
         padding: _.sm
+      },
+      touch: {
+        borderRadius: _.radiusMd,
+        overflow: 'hidden'
       }
     })
   }
