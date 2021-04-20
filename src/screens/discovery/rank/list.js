@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 16:46:39
+ * @Last Modified time: 2021-04-20 22:00:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,6 +72,7 @@ class List extends React.Component {
     const { type, ipt } = $.state
     return (
       <Pagination
+        style={_.mt.md}
         input={ipt[type]}
         heatmaps={heatmaps}
         onPrev={$.prev}
@@ -90,25 +91,22 @@ class List extends React.Component {
       <>
         <View style={this.styles.list}>
           {this.list.length ? (
-            this.list
-              .map((item, index) => (
-                <ItemSearch
-                  key={item.id}
-                  style={_.container.item}
-                  navigation={navigation}
-                  index={index}
-                  collection={
-                    $.userCollectionsMap[
-                      String(item.id).replace('/subject/', '')
-                    ]
-                  }
-                  event={eventList}
-                  typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
-                  {...item}
-                >
-                  {index === 1 && <Heatmap id='排行榜.跳转' />}
-                </ItemSearch>
-              ))
+            this.list.map((item, index) => (
+              <ItemSearch
+                key={item.id}
+                style={_.container.item}
+                navigation={navigation}
+                index={index}
+                collection={
+                  $.userCollectionsMap[String(item.id).replace('/subject/', '')]
+                }
+                event={eventList}
+                typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
+                {...item}
+              >
+                {index === 1 && <Heatmap id='排行榜.跳转' />}
+              </ItemSearch>
+            ))
           ) : (
             <Empty />
           )}

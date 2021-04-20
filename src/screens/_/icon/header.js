@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 04:34:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-15 11:24:25
+ * @Last Modified time: 2021-04-20 22:08:43
  */
 import React from 'react'
 import { Touchable, Iconfont } from '@components'
@@ -20,6 +20,8 @@ export const IconHeader = ob(
 
 const styles = _.create({
   icon: {
-    padding: _.sm
+    padding: _.sm,
+    borderRadius: 20,
+    overflow: 'hidden'
   }
 })

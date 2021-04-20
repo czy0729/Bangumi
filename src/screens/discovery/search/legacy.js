@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 17:30:12
+ * @Last Modified time: 2021-04-21 00:22:57
  */
 import React from 'react'
 import { Button, Heatmap } from '@components'
@@ -21,7 +21,7 @@ function Legacy(props, { $ }) {
 
   const styles = memoStyles()
   return (
-    <Popover data={data} onSelect={$.onLegacySelect}>
+    <Popover style={styles.touch} data={data} onSelect={$.onLegacySelect}>
       <Button
         style={styles.btn}
         styleText={styles.text}
@@ -38,6 +38,11 @@ function Legacy(props, { $ }) {
 export default obc(Legacy)
 
 const memoStyles = _.memoStyles(_ => ({
+  touch: {
+    borderTopRightRadius: 34,
+    borderBottomRightRadius: 34,
+    overflow: 'hidden'
+  },
   btn: {
     width: 68,
     height: 34,

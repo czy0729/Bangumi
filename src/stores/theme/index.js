@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 19:21:45
+ * @Last Modified time: 2021-04-20 21:24:52
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -35,6 +35,7 @@ const lightStyles = {
   colorWait: _.colorWait,
   colorBg: _.colorBg,
   colorBorder: _.colorBorder,
+  colorHighLight: _.colorHighLight,
 
   // text
   colorTitleRaw: _.colorTitleRaw,
@@ -57,6 +58,7 @@ const darkStyles = {
   colorWait: _._colorWait,
   colorBg: _._colorBg,
   colorBorder: _._colorBorder,
+  colorHighLight: _._colorHighLight,
 
   // text
   colorTitleRaw: _._colorTitleRaw,
@@ -238,6 +240,10 @@ class Theme extends store {
 
   @computed get colorIcon() {
     return this.state.colorIcon
+  }
+
+  @computed get colorHighLight() {
+    return this.state.colorHighLight
   }
 
   @computed get _colorDarkModeLevel1() {

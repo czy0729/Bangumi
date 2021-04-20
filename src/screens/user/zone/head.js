@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 19:16:12
+ * @Last Modified time: 2021-04-20 21:12:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import User from './user'
 
 function Head({ style }, { $, navigation }) {
   const { _id, _name } = $.params
@@ -149,7 +150,7 @@ function Head({ style }, { $, navigation }) {
           </Text>
         )}
       </Text>
-      <User style={styles.r0} />{/* #gitignore */}
+      <User style={styles.r0} />
     </Flex>
   )
 }

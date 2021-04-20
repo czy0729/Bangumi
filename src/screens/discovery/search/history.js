@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 16:09:38
+ * @Last Modified time: 2021-04-21 00:22:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,6 +57,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   close: {
     padding: _.sm,
-    marginLeft: _.md
+    marginLeft: _.md,
+    borderRadius: 20,
+    overflow: 'hidden'
   }
 }))

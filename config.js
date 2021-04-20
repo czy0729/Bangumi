@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 20:13:52
+ * @Last Modified time: 2021-04-20 22:03:59
  */
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const initialRouteName = 'Home'
 
 export default {
-  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets TinygrailSacrifice
+  initialRouteName: 'Discovery', // HomeTab TinygrailCharaAssets TinygrailSacrifice
   initialRouteParams: {
     // subjectId: 277554 // anime: 262940, music: 302514, book: 267358, game: 137458
     // topicId: 'group/354698' // group/360353, ep/938136

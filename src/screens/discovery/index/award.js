@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 15:40:19
+ * @Last Modified time: 2021-04-20 21:17:05
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Touchable, Image, Text, Flex } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -28,7 +28,6 @@ function Award(props, { navigation }) {
     >
       <Touchable
         style={styles.item2020}
-        withoutFeedback
         onPress={() => {
           t('发现.跳转', {
             to: 'Award',
@@ -50,7 +49,6 @@ function Award(props, { navigation }) {
       </Touchable>
       <Touchable
         style={styles.item2019}
-        withoutFeedback
         onPress={() => {
           t('发现.跳转', {
             to: 'Award',
@@ -72,7 +70,6 @@ function Award(props, { navigation }) {
       </Touchable>
       <Touchable
         style={styles.item2018}
-        withoutFeedback
         onPress={() => {
           t('发现.跳转', {
             to: 'Award',
@@ -94,8 +91,7 @@ function Award(props, { navigation }) {
       {years.map(item => (
         <Touchable
           key={item}
-          style={_.ml.md}
-          withoutFeedback
+          style={[_.container.touch, _.ml.md]}
           onPress={() => {
             t('发现.跳转', {
               to: 'Award',
@@ -107,7 +103,6 @@ function Award(props, { navigation }) {
             })
           }}
         >
-          <View style={styles.border} />
           <Flex style={styles.item} justify='center' direction='column'>
             <Text size={18} type={_.select('plain', 'title')} bold>
               {item}

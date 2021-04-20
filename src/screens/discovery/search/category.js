@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:44:54
+ * @Last Modified time: 2021-04-21 00:21:18
  */
 import React from 'react'
 import { Button, Heatmap } from '@components'
@@ -16,7 +16,7 @@ const data = MODEL_SEARCH_CAT.data.map(item => item.label)
 function Category(props, { $ }) {
   const { cat } = $.state
   return (
-    <Popover data={data} onSelect={$.onSelect}>
+    <Popover style={styles.touch} data={data} onSelect={$.onSelect}>
       <Button
         style={styles.btn}
         styleText={styles.text}
@@ -33,6 +33,11 @@ function Category(props, { $ }) {
 export default obc(Category)
 
 const styles = _.create({
+  touch: {
+    borderTopLeftRadius: 34,
+    borderBottomLeftRadius: 34,
+    overflow: 'hidden'
+  },
   btn: {
     width: 68,
     height: 34,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-24 20:58:59
+ * @Last Modified time: 2021-04-20 22:10:08
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -256,11 +256,12 @@ const memoStyles = _.memoStyles(_ => ({
   },
   item: {
     paddingVertical: vertical,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    overflow: 'hidden'
   },
   itemActive: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: 12
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   how: {
     position: 'absolute',

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:23:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 01:09:35
+ * @Last Modified time: 2021-04-20 21:49:15
  */
 import React from 'react'
-import { Touchable, Iconfont } from '@components'
+import { Touchable, Iconfont, Flex } from '@components'
 import { _ } from '@stores'
-import { IOS } from '@constants'
 import ob from '../observer-props'
 
 function IconBack({ style, navigation, color }) {
   return (
-    <Touchable style={[styles.container, style]} onPress={navigation.goBack}>
-      <Iconfont name='md-arrow-back' color={color} />
+    <Touchable style={[styles.touch, style]} onPress={navigation.goBack}>
+      <Flex style={styles.container} justify='center'>
+        <Iconfont name='md-arrow-back' color={color} />
+      </Flex>
     </Touchable>
   )
 }
@@ -23,8 +24,13 @@ export default ob(IconBack, {
 })
 
 const styles = _.create({
+  touch: {
+    marginLeft: _.xs,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   container: {
-    padding: _.sm,
-    paddingLeft: IOS ? _.sm : _.sm + 4
+    width: 40,
+    height: 40
   }
 })

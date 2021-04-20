@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 19:24:09
+ * @Last Modified time: 2021-04-20 22:21:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -81,14 +81,7 @@ const withTransitionHeader = ({
           headerRight = (
             <Flex>
               {extra}
-              <Popover
-                style={{
-                  padding: _.sm,
-                  marginRight: -_.sm
-                }}
-                placement='bottom'
-                {...popoverProps}
-              >
+              <Popover style={styles.icon} placement='bottom' {...popoverProps}>
                 <Iconfont name='md-more-horiz' color={headerTintColor} />
                 {!!heatmap && <Heatmap id={heatmap} />}
               </Popover>
@@ -283,3 +276,11 @@ withTransitionHeader.listViewProps = IOS
     }
 
 export default withTransitionHeader
+
+const styles = _.create({
+  icon: {
+    padding: _.sm,
+    borderRadius: 20,
+    overflow: 'hidden'
+  }
+})

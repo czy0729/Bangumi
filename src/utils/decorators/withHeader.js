@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:22:59
+ * @Last Modified time: 2021-04-20 21:48:30
  */
 import React from 'react'
 import {
@@ -72,10 +72,7 @@ const withHeader = ({
             <Flex>
               {extra}
               <Popover
-                style={{
-                  padding: _.sm,
-                  marginRight: -_.sm
-                }}
+                style={styles.popover}
                 placement='bottom'
                 {...popoverProps}
               >
@@ -192,3 +189,12 @@ const withHeader = ({
 withHeader.s2t = s2tAsync
 
 export default withHeader
+
+const styles = _.create({
+  popover: {
+    padding: _.sm,
+    marginRight: -_.sm,
+    borderRadius: 20,
+    overflow: 'hidden'
+  }
+})

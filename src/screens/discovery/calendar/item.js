@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 22:12:39
+ * @Last Modified time: 2021-04-20 22:19:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,6 +44,7 @@ function Item(
     <View style={[styles.item, style]}>
       <View>
         <Cover
+          style={styles.cover}
           width={imageWidth}
           height={imageHeight}
           src={images.medium}
@@ -104,5 +105,9 @@ const styles = _.create({
     zIndex: 1,
     top: 0,
     left: 0
+  },
+  cover: {
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 })

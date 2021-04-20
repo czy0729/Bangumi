@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 09:22:29
+ * @Last Modified time: 2021-04-20 22:20:15
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
@@ -53,6 +53,8 @@ export const IconTouchable = ob(
 
 const styles = _.create({
   icon: {
-    padding: _.sm
+    padding: _.sm,
+    borderRadius: 20,
+    overflow: 'hidden'
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 11:51:58
+ * @Last Modified time: 2021-04-20 21:59:24
  */
 import React from 'react'
 import { Touchable, Flex, Input, Heatmap, Iconfont } from '@components'
@@ -23,7 +23,7 @@ export const Pagination = ob(
     return (
       <Flex style={[styles.container, style]}>
         <Flex.Item>
-          <Touchable onPress={onPrev}>
+          <Touchable style={styles.touch} onPress={onPrev}>
             <Flex style={styles.pagination} justify='center'>
               <Iconfont
                 name='md-navigate-before'
@@ -48,7 +48,7 @@ export const Pagination = ob(
           {!!heatmaps.search && <Heatmap id={heatmaps.search} />}
         </Flex.Item>
         <Flex.Item style={_.ml.sm}>
-          <Touchable onPress={onNext}>
+          <Touchable style={styles.touch} onPress={onNext}>
             <Flex style={styles.pagination} justify='center'>
               <Iconfont name='md-navigate-next' size={22} color={_.colorDesc} />
             </Flex>
@@ -65,7 +65,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginHorizontal: _.wind
   },
   pagination: {
-    height: 30
+    height: 36
   },
   input: {
     height: 30,
@@ -73,5 +73,9 @@ const memoStyles = _.memoStyles(_ => ({
     textAlign: 'center',
     backgroundColor: 'transparent',
     borderWidth: 0
+  },
+  touch: {
+    borderRadius: 18,
+    overflow: 'hidden'
   }
 }))

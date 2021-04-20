@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 15:47:53
+ * @Last Modified time: 2021-04-20 21:14:26
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
@@ -17,6 +17,7 @@ function SectionTitle({ title, type }, { navigation }) {
       style={styles.section}
       right={
         <Touchable
+          style={styles.touch}
           onPress={() => {
             t('发现.跳转', {
               to: 'Channel',
@@ -46,5 +47,11 @@ const styles = _.create({
   section: {
     marginTop: 24,
     marginHorizontal: _.wind
+  },
+  touch: {
+    paddingVertical: _.xs,
+    paddingLeft: _.md,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

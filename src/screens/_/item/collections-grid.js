@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 19:04:00
+ * @Last Modified time: 2021-04-20 22:01:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,6 +70,7 @@ export const ItemCollectionsGrid = ob(
         ]}
       >
         <Cover
+          style={styles.cover}
           size={imageWidth}
           height={imageHeight}
           src={cover}
@@ -103,6 +104,10 @@ export const ItemCollectionsGrid = ob(
 )
 
 const styles = _.create({
+  cover: {
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
+  },
   collection: {
     position: 'absolute',
     zIndex: 1,
