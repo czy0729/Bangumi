@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 22:02:55
+ * @Last Modified time: 2021-04-21 17:39:35
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -117,6 +117,8 @@ const styles = _.create({
     right: 0,
     bottom: 0,
     left: 0,
-    padding: _.md
+    padding: _.md,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

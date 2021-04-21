@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 15:47:24
+ * @Last Modified time: 2021-04-21 17:40:34
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -77,7 +77,7 @@ class Thumbs extends React.Component {
               .filter((item, index) => index < 12)
               .map((item, index) => (
                 <Image
-                  style={!!index && _.ml.sm}
+                  style={[styles.image, !!index && _.ml.sm]}
                   key={item}
                   src={item}
                   size={124}
@@ -88,7 +88,7 @@ class Thumbs extends React.Component {
                     t('条目.预览', {
                       subjectId: $.subjectId
                     })
-console.log(epsThumbsHeader)
+
                     showImageViewer(
                       thumbs.filter((item, index) => index < 12),
                       index
@@ -110,5 +110,8 @@ const styles = _.create({
   },
   icon: {
     marginRight: -_.sm
+  },
+  image: {
+    overflow: 'hidden'
   }
 })

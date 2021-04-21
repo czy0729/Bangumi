@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 16:30:11
+ * @Last Modified time: 2021-04-21 18:23:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,10 +53,10 @@ function Info(props, { $, navigation }) {
             </Flex>
           </Flex.Item>
           {!!collectUrl && (
-            <Touchable style={_.ml.sm} onPress={$.doCollect}>
+            <Touchable style={styles.touch} onPress={$.doCollect}>
               <Flex>
                 <Iconfont size={18} name='md-favorite-outline' />
-                <Text style={_.ml.sm} lineHeight={22} type='sub'>
+                <Text style={_.ml.xs} lineHeight={22} type='sub'>
                   收藏
                 </Text>
               </Flex>
@@ -65,10 +65,10 @@ function Info(props, { $, navigation }) {
             </Touchable>
           )}
           {!!eraseCollectUrl && (
-            <Touchable style={_.ml.sm} onPress={$.doEraseCollect}>
+            <Touchable style={styles.touch} onPress={$.doEraseCollect}>
               <Flex>
                 <Iconfont size={18} name='md-favorite' color={_.colorMain} />
-                <Text style={_.ml.sm} type='main'>
+                <Text style={_.ml.xs} lineHeight={22} type='main'>
                   已收藏
                 </Text>
               </Flex>
@@ -98,7 +98,7 @@ function Info(props, { $, navigation }) {
         {!!$.detail && <RenderHtml style={_.mt.lg} html={$.detail} />}
         {!!$.cn && (
           <Flex style={_.mt.lg} justify='end'>
-            <Touchable onPress={$.onMore}>
+            <Touchable style={styles.touch} onPress={$.onMore}>
               <Flex>
                 <Iconfont name='md-read-more' color={_.colorSub} />
                 <Text style={_.ml.sm} type='sub'>
@@ -117,7 +117,7 @@ function Info(props, { $, navigation }) {
         style={styles.title}
         right={
           <Touchable
-            style={_.mr._sm}
+            style={styles.touchTopic}
             onPress={() => {
               t('人物.跳转', {
                 to: 'Topic',
@@ -177,5 +177,17 @@ const styles = _.create({
     paddingHorizontal: _.wind,
     marginTop: _.lg,
     marginBottom: _.md
+  },
+  touch: {
+    paddingHorizontal: _.xs,
+    marginRight: -_.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  touchTopic: {
+    paddingLeft: _.xs,
+    marginRight: -_.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

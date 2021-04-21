@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:29:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:57:10
+ * @Last Modified time: 2021-04-21 17:11:30
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -12,10 +12,10 @@ import { obc } from '@utils/decorators'
 function BtnBookNext({ subjectId, epStatus, volStatus }, { $ }) {
   return (
     <Touchable
-      style={styles.btn}
+      style={styles.touch}
       onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
     >
-      <Flex justify='center'>
+      <Flex style={styles.btn} justify='center'>
         <Iconfont
           style={styles.icon}
           name='md-check-circle-outline'
@@ -29,9 +29,14 @@ function BtnBookNext({ subjectId, epStatus, volStatus }, { $ }) {
 export default obc(BtnBookNext)
 
 const styles = _.create({
+  touch: {
+    marginLeft: 2,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   btn: {
-    paddingLeft: _.xs,
-    paddingRight: _.sm + 2
+    width: 34,
+    height: 34
   },
   icon: {
     marginBottom: -1

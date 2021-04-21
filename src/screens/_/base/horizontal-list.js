@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 21:11:24
+ * @Last Modified time: 2021-04-21 17:58:54
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -100,6 +100,7 @@ export const HorizontalList = ob(
                 ]}
               >
                 <Cover
+                  style={styles.cover}
                   size={width}
                   height={height}
                   src={item.image}
@@ -143,5 +144,9 @@ const styles = _.create({
   contentContainerStyle: {
     paddingVertical: 4,
     paddingHorizontal: _.wind
+  },
+  cover: {
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 })

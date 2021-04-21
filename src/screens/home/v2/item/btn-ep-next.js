@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 08:37:57
+ * @Last Modified time: 2021-04-21 17:06:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,16 +18,17 @@ function BtnEpNext({ index, subjectId }, { $ }) {
 
   return (
     <Touchable
-      style={$.homeOrigin ? styles.next : styles.btn}
+      // style={$.homeOrigin ? styles.next : styles.btn}
+      style={styles.touch}
       onPress={() => $.doWatchedNextEp(subjectId)}
     >
-      <Flex justify='center'>
+      <Flex style={styles.btn} justify='center'>
         <Iconfont
           style={styles.icon}
           name='md-check-circle-outline'
           size={19}
         />
-        <View style={styles.placeholder}>
+        <View style={styles.text}>
           <Text type='sub'>{sort}</Text>
         </View>
       </Flex>
@@ -39,9 +40,13 @@ function BtnEpNext({ index, subjectId }, { $ }) {
 export default obc(BtnEpNext)
 
 const styles = _.create({
+  touch: {
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   btn: {
-    paddingLeft: _.sm,
-    paddingRight: _.sm + 2
+    height: 34,
+    paddingHorizontal: _.sm
   },
   next: {
     paddingLeft: _.sm,
@@ -50,7 +55,7 @@ const styles = _.create({
   icon: {
     marginTop: 2
   },
-  placeholder: {
+  text: {
     marginBottom: -2,
     marginLeft: _.xs
   }

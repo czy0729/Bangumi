@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 21:28:36
+ * @Last Modified time: 2021-04-21 17:28:46
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -173,7 +173,7 @@ export const shadow = {
   },
   shadowOpacity: 0.12,
   shadowRadius: 6,
-  elevation: 10
+  elevation: 16
 }
 export const scale = {
   transform: [

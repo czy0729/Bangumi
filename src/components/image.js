@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 19:49:52
+ * @Last Modified time: 2021-04-21 18:03:15
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -313,13 +313,15 @@ export const Image = observer(
       if (radius) {
         if (typeof radius === 'boolean') {
           const style = {
-            borderRadius: _.radiusXs
+            borderRadius: _.radiusXs,
+            overflow: 'hidden'
           }
           container.push(style)
           image.push(style)
         } else {
           const style = {
-            borderRadius: radius
+            borderRadius: radius,
+            overflow: 'hidden'
           }
           container.push(style)
           image.push(style)

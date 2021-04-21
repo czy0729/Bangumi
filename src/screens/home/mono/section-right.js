@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 19:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 16:29:20
+ * @Last Modified time: 2021-04-21 18:25:54
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -13,7 +13,7 @@ import { t } from '@utils/fetch'
 function SectionRight({ event, text, to }, { $, navigation }) {
   return (
     <Touchable
-      style={_.mr.sm}
+      style={styles.touch}
       onPress={() => {
         t(event.id, {
           ...event.data,
@@ -36,3 +36,12 @@ function SectionRight({ event, text, to }, { $, navigation }) {
 }
 
 export default obc(SectionRight)
+
+const styles = _.create({
+  touch: {
+    paddingLeft: _.xs,
+    marginRight: _.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  }
+})

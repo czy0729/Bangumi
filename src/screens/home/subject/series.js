@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 16:29:41
+ * @Last Modified time: 2021-04-21 18:10:42
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -28,7 +28,7 @@ function Series({ size }, { $, navigation }) {
               <Iconfont name='md-subdirectory-arrow-right' size={16} />
               {!!$.subjectPrev && (
                 <Touchable
-                  style={_.ml.sm}
+                  style={styles.touch}
                   onPress={() => {
                     t('条目.跳转', {
                       to: 'Subject',
@@ -67,7 +67,7 @@ function Series({ size }, { $, navigation }) {
               )}
               {!!$.subjectAfter && (
                 <Touchable
-                  style={_.ml.sm}
+                  style={styles.touch}
                   onPress={() => {
                     t('条目.跳转', {
                       to: 'Subject',
@@ -107,7 +107,7 @@ function Series({ size }, { $, navigation }) {
               )}
               {!!$.subjectAnime && (
                 <Touchable
-                  style={_.ml.sm}
+                  style={styles.touch}
                   onPress={() => {
                     t('条目.跳转', {
                       to: 'Subject',
@@ -217,9 +217,17 @@ const memoStyles = _.memoStyles(_ => ({
     width: 180,
     paddingLeft: 2,
     paddingRight: _.sm,
-    marginVertical: _.sm + 2
+    marginVertical: _.sm + 2,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   },
   icon: {
     marginRight: -_.sm
+  },
+  touch: {
+    paddingRight: _.sm,
+    marginLeft: _.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:11:32
+ * @Last Modified time: 2021-04-21 16:28:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,7 @@ function Item({ avatar, name, id }, { navigation }) {
   return (
     <View style={styles.item}>
       <Image
+        style={styles.avatar}
         size={styles.item.width}
         src={avatar}
         radius
@@ -55,6 +56,10 @@ const memoStyles = _.memoStyles(_ => {
       width: imageWidth,
       marginTop: _.space,
       marginLeft
+    },
+    avatar: {
+      borderRadius: _.radiusSm,
+      overflow: 'hidden'
     }
   }
 })

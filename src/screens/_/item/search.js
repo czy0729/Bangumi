@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 12:05:06
+ * @Last Modified time: 2021-04-21 17:33:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -167,6 +167,6 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    height: IMG_HEIGHT
+    minHeight: IMG_HEIGHT
   }
 }))

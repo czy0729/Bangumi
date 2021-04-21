@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 17:29:41
+ * @Last Modified time: 2021-04-21 18:00:00
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 function IconCatalog(props, { $, navigation }) {
   return (
     <Touchable
-      style={_.mr._sm}
+      style={styles.touch}
       onPress={() => {
         t('条目.跳转', {
           to: 'SubjectCatalogs',
@@ -43,3 +43,12 @@ function IconCatalog(props, { $, navigation }) {
 }
 
 export default obc(IconCatalog)
+
+const styles = _.create({
+  touch: {
+    paddingLeft: _.xs,
+    marginRight: -_.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  }
+})

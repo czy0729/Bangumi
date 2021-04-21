@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:39:13
+ * @Last Modified time: 2021-04-21 17:08:22
  */
 import React from 'react'
-import { Heatmap, Iconfont } from '@components'
+import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@screens/_'
 import { _, userStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -22,11 +22,13 @@ function BtnOrigin({ subjectId, subject }, { $ }) {
 
   return (
     <Popover
-      style={styles.btn}
+      style={styles.touch}
       data={$.onlineOrigins(subjectId)}
       onSelect={label => $.onlinePlaySelected(label, subjectId)}
     >
-      <Iconfont style={styles.icon} name='md-airplay' size={17} />
+      <Flex style={styles.btn} justify='center'>
+        <Iconfont style={styles.icon} name='md-airplay' size={17} />
+      </Flex>
       <Heatmap right={55} bottom={-7} id='首页.搜索源' />
     </Popover>
   )
@@ -35,9 +37,14 @@ function BtnOrigin({ subjectId, subject }, { $ }) {
 export default obc(BtnOrigin)
 
 const styles = _.create({
+  touch: {
+    marginRight: 2,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   btn: {
-    paddingLeft: _.sm,
-    paddingRight: _.sm + 4
+    width: 34,
+    height: 34
   },
   icon: {
     marginBottom: -1

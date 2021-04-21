@@ -2,22 +2,29 @@
  * @Author: czy0729
  * @Date: 2019-05-13 20:33:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 17:38:00
+ * @Last Modified time: 2021-04-21 17:23:47
  */
 import React from 'react'
-import { Touchable, Iconfont } from '@components'
+import { Flex, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 export const IconReverse = ob(({ style, color, size, children, onPress }) => (
-  <Touchable style={[styles.container, style]} onPress={onPress}>
-    <Iconfont name='md-sort' size={size} color={color} />
+  <Touchable style={[styles.touch, style]} onPress={onPress}>
+    <Flex style={styles.btn} justify='center'>
+      <Iconfont name='md-sort' size={size} color={color} />
+    </Flex>
     {children}
   </Touchable>
 ))
 
 const styles = _.create({
-  container: {
-    padding: _.sm
+  touch: {
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  btn: {
+    width: 38,
+    height: 38
   }
 })

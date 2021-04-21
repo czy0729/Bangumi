@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 19:58:28
+ * @Last Modified time: 2021-04-21 18:00:29
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -114,6 +114,8 @@ const styles = _.create({
   },
   item: {
     width: 120,
-    marginRight: _.sm
+    marginRight: _.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

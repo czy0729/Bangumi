@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:18:54
+ * @Last Modified time: 2021-04-21 17:46:49
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -54,7 +54,7 @@ class Ranting extends React.Component {
         right={
           showRating && (
             <Touchable
-              style={_.mr._sm}
+              style={this.styles.touchRate}
               onPress={() => {
                 t('条目.跳转', {
                   to: 'Netabare',
@@ -154,7 +154,10 @@ class Ranting extends React.Component {
         </Flex>
         <Flex style={_.mt.md}>
           <Flex.Item>
-            <Touchable onPress={() => $.toRating(navigation, '评分分布')}>
+            <Touchable
+              style={this.styles.touchFriend}
+              onPress={() => $.toRating(navigation, '评分分布')}
+            >
               <Flex>
                 {friend.score ? (
                   <Text size={12} type='sub'>
@@ -183,7 +186,7 @@ class Ranting extends React.Component {
             </Touchable>
           </Flex.Item>
           <Touchable
-            style={_.mr._xs}
+            style={this.styles.touchDeviation}
             name='right'
             size={14}
             onPress={() =>
@@ -266,6 +269,24 @@ const memoStyles = _.memoStyles(_ => ({
   },
   hideScore: {
     height: 144
+  },
+  touchRate: {
+    paddingLeft: _.xs,
+    marginRight: -_.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  touchFriend: {
+    paddingLeft: _.xs,
+    marginLeft: -_.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  touchDeviation: {
+    paddingLeft: _.xs,
+    marginRight: -_.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-04-06 19:39:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-06 19:40:49
+ * @Last Modified time: 2021-04-21 18:04:59
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -18,7 +18,7 @@ function IconTopic(props, { $, navigation }) {
 
   return (
     <Touchable
-      style={_.mr._sm}
+      style={styles.touch}
       onPress={() => {
         t('条目.跳转', {
           to: 'Board',
@@ -41,3 +41,12 @@ function IconTopic(props, { $, navigation }) {
 }
 
 export default obc(IconTopic)
+
+const styles = _.create({
+  touch: {
+    paddingLeft: _.xs,
+    marginRight: -_.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  }
+})

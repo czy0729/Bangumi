@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 22:21:45
+ * @Last Modified time: 2021-04-21 16:33:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -280,6 +280,7 @@ export default withTransitionHeader
 const styles = _.create({
   icon: {
     padding: _.sm,
+    marginRight: -_.sm,
     borderRadius: 20,
     overflow: 'hidden'
   }

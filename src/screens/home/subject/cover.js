@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:44:58
+ * @Last Modified time: 2021-04-21 17:15:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,6 +37,7 @@ class Cover extends React.Component {
       <View style={[this.styles.container, onLoad && this.styles.shadow]}>
         {!!image && (
           <CompCover
+            style={this.styles.cover}
             src={CDN_OSS_SUBJECT(getCoverMedium(image)) || IMG_DEFAULT}
             size={imageWidth}
             height={imageHeight}
@@ -82,6 +83,10 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     top: _.space + 2,
     left: _.wind
+  },
+  cover: {
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   },
   placeholder: {
     position: 'absolute',

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:01:51
+ * @Last Modified time: 2021-04-21 18:07:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -214,6 +214,7 @@ const memoStyles = _.memoStyles(_ => ({
     elevation: 8
   },
   radius: {
-    borderRadius: _.radiusXs
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 }))

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:21:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:58:19
+ * @Last Modified time: 2021-04-21 17:34:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Heatmap, Iconfont } from '@components'
+import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -17,12 +17,18 @@ function IconEpFilter(props, { $ }) {
   return (
     <View>
       {showFilter && (
-        <Popover data={$.filterEpsData} onSelect={$.updateFilterEps}>
-          <Iconfont
-            style={styles.icon}
-            name='md-filter-list'
-            color={filterEps ? _.colorMain : _.colorIcon}
-          />
+        <Popover
+          style={styles.touch}
+          data={$.filterEpsData}
+          onSelect={$.updateFilterEps}
+        >
+          <Flex style={styles.btn} justify='center'>
+            <Iconfont
+              style={styles.icon}
+              name='md-filter-list'
+              color={filterEps ? _.colorMain : _.colorIcon}
+            />
+          </Flex>
         </Popover>
       )}
       <Heatmap right={-6} bottom={18} id='条目.设置章节筛选' />
@@ -33,7 +39,12 @@ function IconEpFilter(props, { $ }) {
 export default obc(IconEpFilter)
 
 const styles = _.create({
-  icon: {
-    paddingHorizontal: _.sm
+  touch: {
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  btn: {
+    width: 38,
+    height: 38
   }
 })

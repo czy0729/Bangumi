@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 18:00:48
+ * @Last Modified time: 2021-04-21 18:06:48
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
@@ -53,6 +53,8 @@ const styles = _.create({
   icon: {
     padding: _.sm,
     marginRight: -_.sm,
-    marginLeft: _.xs
+    marginLeft: _.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

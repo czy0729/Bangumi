@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 17:46:41
+ * @Last Modified time: 2021-04-21 18:12:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -133,7 +133,7 @@ const styles = _.create({
     height: 120
   },
   label: {
-    width: 40
+    width: 48
   },
   input: {
     width: 120,

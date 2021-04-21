@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:01:59
+ * @Last Modified time: 2021-04-21 18:15:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,7 +72,7 @@ export const ItemCharacter = obc(
             )}
           </View>
           <Flex.Item style={_.ml.wind}>
-            <Touchable onPress={onPress}>
+            <Touchable style={styles.touch} onPress={onPress}>
               <Flex direction='column' justify='between' align='start'>
                 <View>
                   <Flex align='start' style={{ width: '100%' }}>
@@ -105,7 +105,7 @@ export const ItemCharacter = obc(
             </Touchable>
             {!!actorId && (
               <Touchable
-                style={_.mt.md}
+                style={styles.touchActor}
                 onPress={() => {
                   const monoId = String(actorId).includes('person')
                     ? actorId
@@ -127,7 +127,7 @@ export const ItemCharacter = obc(
                       {actor}
                     </Text>
                     {!!actorCn && actorCn !== actor && (
-                      <Text size={12} type='sub' numberOfLines={1}>
+                      <Text size={11} type='sub' numberOfLines={1}>
                         {actorCn}
                       </Text>
                     )}
@@ -158,5 +158,16 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  touch: {
+    paddingLeft: _.xs,
+    marginLeft: -_.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  touchActor: {
+    marginTop: _.md,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))

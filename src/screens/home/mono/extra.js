@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 11:47:27
+ * @Last Modified time: 2021-04-21 18:18:46
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -20,6 +20,7 @@ function Extra({ $, navigation }) {
   if ($.canICO) {
     return (
       <Touchable
+        style={_.container.touch}
         onPress={() =>
           Alert.alert('提示', '花费10000cc启动ICO?', [
             {

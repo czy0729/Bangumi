@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 20:12:52
+ * @Last Modified time: 2021-04-21 16:48:23
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -15,7 +15,7 @@ export default
 @obc
 class List extends React.Component {
   renderItem = ({ item }) => (
-    <ItemCatalog {...item} isUser hideScore event={this.event} />
+    <ItemCatalog {...item} isUser event={this.event} />
   )
 
   get event() {

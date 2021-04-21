@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 17:30:44
+ * @Last Modified time: 2021-04-21 17:56:36
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -15,7 +15,7 @@ function IconCharacter(props, { $, navigation }) {
   if (!showCharacter) return null
   return (
     <Touchable
-      style={_.mr._sm}
+      style={styles.touch}
       onPress={() => {
         t('条目.跳转', {
           to: 'Characters',
@@ -38,3 +38,12 @@ function IconCharacter(props, { $, navigation }) {
 }
 
 export default obc(IconCharacter)
+
+const styles = _.create({
+  touch: {
+    paddingLeft: _.xs,
+    marginRight: -_.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  }
+})

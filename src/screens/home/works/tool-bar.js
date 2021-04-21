@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:07:49
+ * @Last Modified time: 2021-04-21 18:27:08
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -46,13 +46,13 @@ function ToolBar(props, { $ }) {
       <CompToolBar.Touchable heatmap='作品.切换布局' onSelect={$.toggleList}>
         <Iconfont
           style={_.mr.xs}
-          name='md-grid-view'
+          name='md-menu'
           size={15}
           color={list ? _.colorMain : _.colorDesc}
         />
         <Iconfont
           style={_.ml.xs}
-          name='md-menu'
+          name='md-grid-view'
           size={16}
           color={!list ? _.colorMain : _.colorDesc}
         />

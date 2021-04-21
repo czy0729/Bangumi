@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:56:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 08:36:06
+ * @Last Modified time: 2021-04-21 17:08:12
  */
 import React from 'react'
-import { Heatmap, Iconfont, Touchable } from '@components'
+import { Flex, Heatmap, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 function BtnFavor({ index, subjectId, subject }, { $ }) {
   return (
     <Touchable
-      style={styles.btn}
+      style={styles.touch}
       onPress={() =>
         $.showManageModal(subjectId, {
           title: subject.name_cn || subject.name,
@@ -20,7 +20,9 @@ function BtnFavor({ index, subjectId, subject }, { $ }) {
         })
       }
     >
-      <Iconfont name='md-star-outline' size={19.5} />
+      <Flex style={styles.btn} justify='center'>
+        <Iconfont name='md-star-outline' size={19.5} />
+      </Flex>
       {index === 1 && <Heatmap id='首页.显示收藏管理' />}
     </Touchable>
   )
@@ -29,10 +31,13 @@ function BtnFavor({ index, subjectId, subject }, { $ }) {
 export default obc(BtnFavor)
 
 const styles = _.create({
+  touch: {
+    marginRight: 2,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   btn: {
-    paddingTop: 2,
-    paddingRight: _.sm + 2,
-    paddingLeft: _.sm,
-    marginLeft: _.sm
+    width: 34,
+    height: 34
   }
 })
