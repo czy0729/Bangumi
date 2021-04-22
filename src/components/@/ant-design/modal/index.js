@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:50:45
+ * @Last Modified time: 2021-04-22 16:24:07
  */
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -21,7 +21,7 @@ import RCModal from '@ant-design/react-native/lib/modal/ModalView'
 import operation from '@ant-design/react-native/lib/modal/operation'
 import prompt from '@ant-design/react-native/lib/modal/prompt'
 import modalStyles from '@ant-design/react-native/lib/modal/style/index'
-import { Touchable, Iconfont } from '@components'
+import { Flex, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { IOS } from '@constants'
 
@@ -182,12 +182,30 @@ class AntmModal extends React.Component {
                 style={[
                   styles.closeWrap,
                   {
-                    zIndex: 1
+                    zIndex: 1,
+                    width: 36,
+                    height: 36,
+                    marginTop: -10,
+                    marginLeft: -4
                   }
                 ]}
               >
-                <Touchable onPress={onClose}>
-                  <Iconfont name='md-close' color={_.colorIcon} />
+                <Touchable
+                  style={{
+                    borderRadius: 20,
+                    overflow: 'hidden'
+                  }}
+                  onPress={onClose}
+                >
+                  <Flex
+                    style={{
+                      width: 36,
+                      height: 36
+                    }}
+                    justify='center'
+                  >
+                    <Iconfont name='md-close' color={_.colorIcon} />
+                  </Flex>
                 </Touchable>
               </View>
             ) : null

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:43:40
+ * @Last Modified time: 2021-04-22 20:33:27
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -31,6 +31,7 @@ function SectionTitle(props, { $ }) {
           <IconReverse
             style={styles.sort}
             color={reverse ? _.colorMain : _.colorIcon}
+            size={18}
             onPress={$.toggleReverseComments}
           >
             <Heatmap right={10} bottom={29} id='帖子.吐槽倒序' />
@@ -57,7 +58,6 @@ const styles = _.create({
     marginBottom: _.md
   },
   sort: {
-    marginLeft: _.xs,
-    marginRight: -4
+    marginLeft: _.xs
   }
 })

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:39:32
+ * @Last Modified time: 2021-04-22 20:23:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Iconfont } from '@components'
+import { Flex, Touchable, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
-function History({ style, data, onDelete }) {
+function History({ style, data = [], onDelete = Function.prototype }) {
   const styles = memoStyles()
   if (!data.length) {
     return (
@@ -37,10 +37,12 @@ function History({ style, data, onDelete }) {
               </Text>
             </Flex.Item>
             <Touchable
-              style={[styles.close, _.ml.md]}
+              style={[styles.touch, _.ml.md]}
               onPress={() => onDelete(item)}
             >
-              <Iconfont name='md-close' />
+              <Flex style={styles.icon} justify='center'>
+                <Iconfont name='md-close' />
+              </Flex>
             </Touchable>
           </Flex>
         </View>
@@ -49,10 +51,7 @@ function History({ style, data, onDelete }) {
   )
 }
 
-export default ob(History, {
-  data: [],
-  onDelete: Function.prototype
-})
+export default ob(History)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
@@ -65,7 +64,12 @@ const memoStyles = _.memoStyles(_ => ({
   content: {
     paddingVertical: _.sm
   },
-  close: {
-    padding: _.sm
+  touch: {
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  icon: {
+    width: 36,
+    height: 36
   }
 }))

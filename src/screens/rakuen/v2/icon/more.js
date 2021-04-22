@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:16:09
+ * @Last Modified time: 2021-04-22 17:10:30
  */
 import React from 'react'
-import { Iconfont, Heatmap } from '@components'
+import { Flex, Iconfont, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -18,7 +18,7 @@ const data = ['收藏', '设置', '新讨论', '预读取帖子']
 function IconMore({ style }, { $, navigation }) {
   return (
     <Popover
-      style={[styles.icon, style]}
+      style={[styles.touch, style]}
       data={data}
       onSelect={key => {
         t('超展开.右上角菜单', {
@@ -49,7 +49,9 @@ function IconMore({ style }, { $, navigation }) {
         }
       }}
     >
-      <Iconfont name='md-more-horiz' color={_.colorTitle} />
+      <Flex style={styles.icon} justify='center'>
+        <Iconfont name='md-more-horiz' color={_.colorTitle} />
+      </Flex>
       <Heatmap id='超展开.右上角菜单' />
       <Heatmap right={57} bottom={-32} id='超展开.取消预读取' />
       <Heatmap bottom={-32} id='超展开.预读取' />
@@ -60,7 +62,12 @@ function IconMore({ style }, { $, navigation }) {
 export default obc(IconMore)
 
 const styles = _.create({
+  touch: {
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   icon: {
-    padding: _.sm
+    width: 36,
+    height: 36
   }
 })

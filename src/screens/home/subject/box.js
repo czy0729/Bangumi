@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:16:44
+ * @Last Modified time: 2021-04-22 16:09:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -108,7 +108,13 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: _.md,
     backgroundColor: _.colorPlain,
     borderRadius: _.radiusSm,
-    ..._.shadow,
+    shadowColor: _.colorShadow,
+    shadowOffset: {
+      height: 3
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
+    elevation: 3,
     overflow: 'hidden'
   },
   left: {

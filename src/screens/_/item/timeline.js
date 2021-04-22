@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 01:10:22
+ * @Last Modified time: 2021-04-22 21:01:04
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -384,14 +384,14 @@ export const ItemTimeline = ob(
                 </View>
               )}
               {clearHref ? (
-                <Touchable style={_.ml.sm} onPress={this.onClear}>
+                <Touchable style={this.styles.touch} onPress={this.onClear}>
                   <Flex style={this.styles.extra} justify='center'>
                     <Iconfont name='md-close' size={18} />
                   </Flex>
                 </Touchable>
               ) : (
                 <Popover
-                  style={_.ml.sm}
+                  style={this.styles.touch}
                   data={hiddenDS}
                   onSelect={title => onHidden(title, this.userId)}
                 >
@@ -456,7 +456,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     paddingTop: _.md,
-    paddingRight: _.wind,
+    paddingRight: _.wind - _._wind,
     paddingBottom: _.md
   },
   contentNoPaddingRight: {
@@ -470,12 +470,15 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
   },
+  touch: {
+    marginTop: -8,
+    marginHorizontal: _.xs,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   extra: {
-    width: 12 + _.sm * 2,
-    height: 12 + _.sm * 2,
-    marginTop: -3,
-    marginRight: -12,
-    marginLeft: -4
+    width: 36,
+    height: 36
   }
 }))
 

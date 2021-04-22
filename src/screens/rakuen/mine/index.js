@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:32:32
+ * @Last Modified time: 2021-04-22 17:01:28
  */
 import React from 'react'
 import { ScrollView, Flex } from '@components'
@@ -57,7 +57,12 @@ class Mine extends React.Component {
         contentContainerStyle={_.container.outer}
         scrollToTop
       >
-        <Flex wrap='wrap'>
+        <Flex
+          style={{
+            marginTop: -_.sm
+          }}
+          wrap='wrap'
+        >
           {list.map(item => (
             <Item key={item.id} {...item} />
           ))}

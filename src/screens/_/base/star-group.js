@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 11:00:01
+ * @Last Modified time: 2021-04-22 16:30:19
  */
 import React from 'react'
 import { Text, Touchable, Iconfont, Flex } from '@components'
@@ -67,7 +67,7 @@ export const StarGroup = ob(
                 <Text style={_.ml.sm} type='sub' size={16}>
                   /
                 </Text>
-                <Touchable style={_.ml.sm} onPress={this.clear}>
+                <Touchable style={styles.touchClear} onPress={this.clear}>
                   <Text type='sub' size={16}>
                     清除
                   </Text>
@@ -88,7 +88,7 @@ export const StarGroup = ob(
               return (
                 <Touchable
                   key={item}
-                  style={item > 1 && _.ml.sm}
+                  style={[styles.touchStar, item > 1 && _.ml.sm]}
                   onPress={() => this.change(item)}
                 >
                   <Iconfont
@@ -111,5 +111,15 @@ export const StarGroup = ob(
 const styles = _.create({
   desc: {
     height: 22
+  },
+  touchClear: {
+    paddingHorizontal: _.xs,
+    marginLeft: _.sm - _.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  touchStar: {
+    borderRadius: 20,
+    overflow: 'hidden'
   }
 })

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 01:11:04
+ * @Last Modified time: 2021-04-22 20:39:43
  */
 import React from 'react'
-import { Heatmap, Iconfont } from '@components'
+import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -35,6 +35,7 @@ function BtnPopover(
   }
   return (
     <Popover
+      style={styles.touch}
       data={popoverData}
       onSelect={title =>
         $.onExtraSelect(
@@ -51,7 +52,9 @@ function BtnPopover(
         )
       }
     >
-      <Iconfont style={styles.popover} name='md-more-vert' size={18} />
+      <Flex style={styles.icon} justify='center'>
+        <Iconfont name='md-more-vert' size={18} />
+      </Flex>
       {index === 1 && (
         <>
           <Heatmap bottom={34} id='超展开.小组菜单点击' />
@@ -66,13 +69,14 @@ function BtnPopover(
 export default obc(BtnPopover)
 
 const styles = _.create({
-  item: {
-    paddingVertical: _.md
+  touch: {
+    marginRight: 6,
+    marginTop: 8,
+    borderRadius: 20,
+    overflow: 'hidden'
   },
-  popover: {
-    width: 44,
-    height: 64,
-    paddingTop: 17,
-    paddingHorizontal: _._wind
+  icon: {
+    width: 36,
+    height: 36
   }
 })

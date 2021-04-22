@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-16 14:07:52
+ * @Last Modified time: 2021-04-22 16:54:55
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -471,7 +471,10 @@ export const FixedTextarea = observer(
               </Text>
             )}
           </Flex.Item>
-          <Touchable onPress={this.toggleSource}>
+          <Touchable
+            style={this.styles.touchSource}
+            onPress={this.toggleSource}
+          >
             <Flex>
               <Iconfont
                 name={showSource ? 'md-check-circle' : 'md-radio-button-off'}
@@ -508,12 +511,14 @@ export const FixedTextarea = observer(
                 onChange={this.onChange}
               />
             </Flex.Item>
-            <Touchable style={this.styles.send} onPress={this.onSubmit}>
-              <Iconfont
-                name='md-send'
-                size={18}
-                color={canSend ? _.colorMain : _.colorIcon}
-              />
+            <Touchable style={this.styles.touchSend} onPress={this.onSubmit}>
+              <Flex style={this.styles.send} justify='center'>
+                <Iconfont
+                  name='md-send'
+                  size={18}
+                  color={canSend ? _.colorMain : _.colorIcon}
+                />
+              </Flex>
             </Touchable>
             {this.renderSource()}
           </Flex>
@@ -659,7 +664,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   toolBarBtn: {
     paddingVertical: 8,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   },
   bgmContainer: {
     paddingVertical: _.sm
@@ -685,10 +692,21 @@ const memoStyles = _.memoStyles(_ => ({
     lineHeight: 22,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
+  touchSend: {
+    marginLeft: _.sm,
+    marginRight: -4,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   send: {
-    padding: _.sm,
-    marginTop: 4,
-    marginRight: -8
+    width: 36,
+    height: 36
+  },
+  touchSource: {
+    padding: _.xs,
+    marginRight: -_.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   },
   source: {
     position: 'absolute',

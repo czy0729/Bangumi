@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:19:10
+ * @Last Modified time: 2021-04-22 20:31:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -102,7 +102,7 @@ function ItemSub(
         event={event}
       />
       <Flex.Item style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}>
-        <Flex>
+        <Flex align='start'>
           <Flex.Item>
             <Name
               userId={userId}

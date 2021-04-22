@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:27:21
+ * @Last Modified time: 2021-04-22 16:06:53
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -154,7 +154,7 @@ class Form extends React.Component {
               onSubmitEditing={onLogin}
             />
           </Flex.Item>
-          <Touchable onPress={onGetCaptcha}>
+          <Touchable style={this.styles.touchCaptcha} onPress={onGetCaptcha}>
             <Flex style={this.styles.captchaContainer} justify='center'>
               {base64 ? (
                 <RNImage
@@ -178,8 +178,11 @@ class Form extends React.Component {
     const { config } = this.state
     if (!config) {
       return (
-        <Touchable style={_.mt.sm} onPress={this.showConfig}>
-          <Flex style={this.styles.touch}>
+        <Touchable
+          style={[this.styles.touch, _.mt.sm]}
+          onPress={this.showConfig}
+        >
+          <Flex style={this.styles.content}>
             <Text type='sub' size={12}>
               登陆配置
             </Text>
@@ -193,28 +196,27 @@ class Form extends React.Component {
 
     return (
       <>
-        <Popover style={_.mt.sm} data={data} onSelect={onSelect}>
-          <Flex style={this.styles.touch}>
-            <Flex.Item>
-              <Flex>
+        <Flex style={[this.styles.touch, _.mt.sm]}>
+          <Flex.Item>
+            <Popover style={this.styles.touch} data={data} onSelect={onSelect}>
+              <Flex style={this.styles.content}>
                 <Text type='sub' size={12}>
                   使用 {host} 进行登陆
                 </Text>
                 <Iconfont name='md-keyboard-arrow-down' />
               </Flex>
-            </Flex.Item>
-            <Touchable
-              style={[this.styles.touch, _.ml.md]}
-              onPress={this.onNoticeHost}
-            >
+            </Popover>
+          </Flex.Item>
+          <Touchable style={this.styles.touchIcon} onPress={this.onNoticeHost}>
+            <Flex style={this.styles.icon} justify='center'>
               <Iconfont name='md-info-outline' type='sub' size={18} />
-            </Touchable>
-          </Flex>
-        </Popover>
-        <Flex>
+            </Flex>
+          </Touchable>
+        </Flex>
+        <Flex style={this.styles.touch}>
           <Flex.Item>
-            <Touchable onPress={onUAChange}>
-              <Flex style={this.styles.touch}>
+            <Touchable style={this.styles.touch} onPress={onUAChange}>
+              <Flex style={this.styles.content}>
                 <Iconfont
                   name={
                     isCommonUA ? 'md-radio-button-on' : 'md-radio-button-off'
@@ -228,11 +230,10 @@ class Form extends React.Component {
               </Flex>
             </Touchable>
           </Flex.Item>
-          <Touchable
-            style={[this.styles.touch, _.ml.md]}
-            onPress={this.onNoticeUA}
-          >
-            <Iconfont name='md-info-outline' type='sub' size={18} />
+          <Touchable style={this.styles.touchIcon} onPress={this.onNoticeUA}>
+            <Flex style={this.styles.icon} justify='center'>
+              <Iconfont name='md-info-outline' type='sub' size={18} />
+            </Flex>
           </Touchable>
         </Flex>
       </>
@@ -312,18 +313,33 @@ const memoStyles = _.memoStyles(_ => ({
     height: 44,
     backgroundColor: _.colorBg
   },
-  captchaContainer: {
-    width: 118,
-    height: 44,
+  touchCaptcha: {
     marginLeft: _.sm,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  captchaContainer: {
+    width: 118,
+    height: 44
   },
   captcha: {
     width: 118,
     height: 44
   },
   touch: {
-    paddingVertical: 6
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  content: {
+    paddingVertical: 4
+  },
+  touchIcon: {
+    marginLeft: _.md,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  icon: {
+    width: 36,
+    height: 36
   }
 }))

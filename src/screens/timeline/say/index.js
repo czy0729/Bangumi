@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:34:14
+ * @Last Modified time: 2021-04-22 20:57:25
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -136,7 +136,7 @@ class Say extends React.Component {
     }
 
     return (
-      <>
+      <View style={_.container.flex}>
         <ScrollView
           ref={this.connectRefScrollView}
           style={_.container.screen}
@@ -147,35 +147,38 @@ class Say extends React.Component {
         </ScrollView>
         {this.renderUsers()}
         {this.renderTextarea()}
-      </>
+      </View>
     )
   }
 
   renderExpand() {
     const { $ } = this.context
     return (
-      <Touchable onPress={this.onExpand}>
-        <ScrollView
-          style={this.styles.expand}
-          contentContainerStyle={this.styles.contentContainerStyle}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        >
-          <Flex>
-            <Text style={_.ml.sm} size={12} bold>
-              {$.users.length}人参与
-            </Text>
-            <Iconfont name='md-more-vert' />
-          </Flex>
-        </ScrollView>
-      </Touchable>
+      <ScrollView
+        style={this.styles.expand}
+        contentContainerStyle={this.styles.contentContainerStyle}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
+        <Flex>
+          <Text style={_.ml.sm} size={12} bold>
+            {$.users.length}人参与
+          </Text>
+          <Touchable style={this.styles.touch} onPress={this.onExpand}>
+            <Flex style={this.styles.icon}>
+              <Iconfont name='md-more-vert' />
+            </Flex>
+          </Touchable>
+        </Flex>
+      </ScrollView>
     )
   }
 
   renderUsers() {
     const { expand } = this.state
     if (!expand) {
-      return this.renderExpand()
+      // return this.renderExpand()
+      return null
     }
 
     const { $, navigation } = this.context
@@ -262,7 +265,8 @@ const memoStyles = _.memoStyles(_ => ({
     height: 50,
     paddingVertical: _.sm,
     backgroundColor: _.colorPlain,
-    borderRadius: 28
+    borderRadius: 28,
+    overflow: 'hidden'
   },
   contentContainerStyle: {
     height: 34,
@@ -270,5 +274,13 @@ const memoStyles = _.memoStyles(_ => ({
   },
   list: {
     paddingBottom: _.bottom + _.lg
+  },
+  touch: {
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  icon: {
+    width: 24,
+    height: 24
   }
 }))

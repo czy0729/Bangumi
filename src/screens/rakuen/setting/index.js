@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:32:49
+ * @Last Modified time: 2021-04-22 20:23:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,7 +95,11 @@ class RakuenSetting extends React.Component {
   }
 
   renderList() {
-    const { filterDelete, isBlockDefaultUser, isMarkOldTopic } = rakuenStore.setting
+    const {
+      filterDelete,
+      isBlockDefaultUser,
+      isMarkOldTopic
+    } = rakuenStore.setting
     return (
       <>
         {this.renderSection('列表')}

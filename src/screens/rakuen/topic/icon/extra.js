@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:37:32
+ * @Last Modified time: 2021-04-22 20:32:03
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -22,6 +22,7 @@ function IconExtra(
   data.push('屏蔽用户')
   return (
     <Popover
+      style={styles.touch}
       data={data}
       onSelect={title => {
         if (title === '回复') {
@@ -52,7 +53,7 @@ function IconExtra(
         }
       }}
     >
-      <Flex style={styles.icon}>
+      <Flex style={styles.icon} justify='center'>
         <Iconfont name='md-more-vert' size={16} />
       </Flex>
     </Popover>
@@ -62,10 +63,13 @@ function IconExtra(
 export default obc(IconExtra)
 
 const styles = _.create({
+  touch: {
+    marginVertical: -8,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   icon: {
-    paddingVertical: 4,
-    paddingLeft: 16,
-    paddingRight: 6,
-    marginTop: -2
+    width: 36,
+    height: 36
   }
 })

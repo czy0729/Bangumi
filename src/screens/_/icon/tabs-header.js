@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:12:41
+ * @Last Modified time: 2021-04-22 17:08:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,13 @@ export const IconTabsHeader = ob(
 
     return (
       <Touchable
-        style={[styles.icon, styles[position], IOS && styles.ios, style]}
+        style={[
+          styles.icon,
+          styles.touch,
+          styles[position],
+          IOS && styles.ios,
+          style
+        ]}
         onPress={onPress}
       >
         <Iconfont size={size} name={name} color={color} />
@@ -51,5 +57,9 @@ const styles = _.create({
   },
   ios: {
     marginBottom: _.tabsHeight
+  },
+  touch: {
+    borderRadius: 20,
+    overflow: 'hidden'
   }
 })

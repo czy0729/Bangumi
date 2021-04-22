@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 21:07:04
+ * @Last Modified time: 2021-04-22 20:36:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,7 +94,7 @@ function Item(
       <Flex.Item
         style={[styles.content, index !== 0 && !_.flat && styles.border]}
       >
-        <Flex>
+        <Flex align='start'>
           <Flex.Item>
             <Name
               userId={userId}

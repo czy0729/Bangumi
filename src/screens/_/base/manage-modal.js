@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:29:26
+ * @Last Modified time: 2021-04-22 16:19:26
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -199,7 +199,7 @@ export const ManageModal = ob(
       const { showTags } = this.state
       if (!_loaded || !showTags) {
         return (
-          <Touchable style={_.ml.xs} onPress={this.fetchTags}>
+          <Touchable style={this.styles.touch} onPress={this.fetchTags}>
             <Text size={13} underline>
               点击获取大家的标注
             </Text>
@@ -214,8 +214,8 @@ export const ManageModal = ob(
             const isSelected = selected.indexOf(name) !== -1
             return (
               <Touchable
+                style={this.styles.touchTag}
                 key={name}
-                withoutFeedback
                 onPress={() => this.toggleTag(name)}
               >
                 <Flex
@@ -370,5 +370,14 @@ const memoStyles = _.memoStyles(_ => ({
   },
   btnEye: {
     width: 70
+  },
+  touch: {
+    padding: _.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  touchTag: {
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 }))

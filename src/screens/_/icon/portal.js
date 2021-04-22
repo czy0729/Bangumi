@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-23 21:30:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-16 14:09:21
+ * @Last Modified time: 2021-04-22 21:12:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,6 +46,8 @@ const styles = _.create({
     position: 'absolute',
     bottom: 0,
     width: _.window.width / 5,
-    height: _.tabBarHeight
+    height: _.tabBarHeight,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

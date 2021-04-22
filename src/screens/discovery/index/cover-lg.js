@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 21:11:00
+ * @Last Modified time: 2021-04-22 21:11:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
   return (
     <View style={styles.item}>
       <Cover
-        style={_.container.touch}
+        style={styles.touch}
         src={src}
         size={imageWidth}
         height={imageHeight}
@@ -98,5 +98,9 @@ const memoStyles = _.memoStyles(_ => ({
     bottom: _.space - 2,
     left: _._wind - 2,
     opacity: 0.92
+  },
+  touch: {
+    borderRadius: _.radiusMd,
+    overflow: 'hidden'
   }
 }))
