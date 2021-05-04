@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 21:12:16
+ * @Last Modified time: 2021-05-04 03:00:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -157,51 +157,39 @@ function Head({ style }, { $, navigation }) {
 
 export default obc(Head)
 
+const lStyle = (top, right) => ({
+  position: 'absolute',
+  zIndex: 1,
+  top: top - _.xs,
+  right: right - _.sm,
+  paddingVertical: _.xs,
+  paddingHorizontal: _.sm,
+  borderRadius: _.radiusSm,
+  overflow: 'hidden',
+  opacity: 0.8
+})
+
+const rStyle = (top, left) => ({
+  position: 'absolute',
+  zIndex: 1,
+  top: top - _.xs,
+  left: left - _.sm,
+  paddingVertical: _.xs,
+  paddingHorizontal: _.sm,
+  borderRadius: _.radiusSm,
+  overflow: 'hidden',
+  opacity: 0.8
+})
+
 const styles = _.create({
   avatar: {
     marginTop: 14,
     backgroundColor: _.__colorPlain__,
     overflow: 'hidden'
   },
-  l1: {
-    position: 'absolute',
-    top: 16,
-    right: 100,
-    opacity: 0.88
-  },
-  l2: {
-    position: 'absolute',
-    top: 52,
-    right: 116,
-    opacity: 0.88
-  },
-  l3: {
-    position: 'absolute',
-    top: 88,
-    right: 100,
-    opacity: 0.88
-  },
-  r1: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 16,
-    left: 100,
-    opacity: 0.88
-  },
-  r2: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 52,
-    left: 116,
-    opacity: 0.88
-  },
-  r3: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 88,
-    left: 100,
-    opacity: 0.88
-  },
+  l1: lStyle(16, 100),
+  l2: lStyle(52, 116),
+  l3: lStyle(88, 100),
   r0: {
     position: 'absolute',
     zIndex: 1,
@@ -209,6 +197,9 @@ const styles = _.create({
     right: _.wind,
     opacity: 0.88
   },
+  r1: rStyle(16, 100),
+  r2: rStyle(52, 116),
+  r3: rStyle(88, 100),
   friend: {
     opacity: 0.88
   }

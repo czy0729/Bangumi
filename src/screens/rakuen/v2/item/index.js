@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 17:54:18
+ * @Last Modified time: 2021-05-04 17:08:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -111,7 +111,7 @@ class Item extends React.Component {
   get contentStyle() {
     const { index } = this.props
     const isTop = index === 0
-    return [this.styles.wrap, !isTop && !_.flat && this.styles.border, _.ml.sm]
+    return [this.styles.wrap, !isTop && !_.flat && this.styles.border]
   }
 
   render() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 16:43:51
+ * @Last Modified time: 2021-05-04 17:11:42
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -98,7 +98,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   item: {
     paddingVertical: _.md,
-    paddingLeft: _.sm
+    paddingLeft: _.sm,
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   },
   border: {
     borderTopColor: _.colorTinygrailBorder,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 18:23:21
+ * @Last Modified time: 2021-05-04 16:19:45
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -35,6 +35,7 @@ function Btns(props, { $, navigation }) {
   return (
     <>
       <Popover
+        style={styles.touch}
         data={[
           '刮刮乐',
           `幻想乡刮刮乐(${price})`,
@@ -87,6 +88,7 @@ function Btns(props, { $, navigation }) {
         </Button>
       </Popover>
       <Popover
+        style={[styles.touch, _.ml.sm]}
         data={dataMore}
         onSelect={title => {
           setTimeout(() => {
@@ -126,10 +128,13 @@ function Btns(props, { $, navigation }) {
 export default obc(Btns)
 
 const memoStyles = _.memoStyles(_ => ({
+  touch: {
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
+  },
   btn: {
     width: 64,
     height: 36,
-    marginLeft: 12,
     backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
     borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
   },

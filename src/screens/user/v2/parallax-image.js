@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 02:28:57
+ * @Last Modified time: 2021-04-24 14:18:31
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -129,21 +129,6 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           ]}
         >
           <Head style={styles.head} />
-          {/* {isMe && (
-            <IconTouchable
-              style={styles.userSetting}
-              name='break'
-              color={_.__colorPlain__}
-              size={20}
-              onPress={() => {
-                t('我的.跳转', {
-                  to: 'UserSetting'
-                })
-
-                navigation.push('UserSetting')
-              }}
-            />
-          )} */}
         </Animated.View>
       </View>
       {!!$.params.userId && (
@@ -155,6 +140,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
       )}
       <View style={[isMe ? styles.menu : styles.more]}>
         <Popover
+          style={styles.touch}
           data={data}
           onSelect={key => {
             t('我的.右上角菜单', {
@@ -203,7 +189,9 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont name='md-menu' color={_.__colorPlain__} />
+          <Flex style={styles.icon} justify='center'>
+            <Iconfont name='md-menu' color={_.__colorPlain__} />
+          </Flex>
           <Heatmap right={-40} id='我的.右上角菜单' />
         </Popover>
       </View>
@@ -288,7 +276,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     left: '50%',
     width: 240,
-    bottom: _.sm + 1,
+    bottom: _.sm + 4,
     transform: [
       {
         translateX: -120
@@ -298,41 +286,41 @@ const memoStyles = _.memoStyles(_ => ({
   back: {
     ..._.header.left,
     zIndex: 1,
-    marginTop: -5
+    marginTop: -8
   },
   menu: {
     ..._.header.left,
     zIndex: 1,
     padding: _.sm,
-    marginTop: -5,
-    marginLeft: 2,
-    opacity: 0.64
+    marginTop: -16,
+    marginLeft: -4,
+    opacity: 0.8
   },
   more: {
     ..._.header.right,
     zIndex: 1,
-    padding: _.sm,
-    marginTop: -5,
-    opacity: 0.64
+    marginTop: -8,
+    opacity: 0.8
   },
   timeline: {
     ..._.header.right,
     zIndex: 1,
-    marginTop: -5,
-    marginRight: 34,
-    opacity: 0.64
+    marginTop: -8,
+    marginRight: 38,
+    opacity: 0.8
   },
   setting: {
     ..._.header.right,
     zIndex: 1,
-    marginTop: -5,
-    opacity: 0.64
+    marginTop: -8,
+    opacity: 0.8
   },
-  userSetting: {
-    ..._.header.right,
-    top: H_BG - 48,
-    zIndex: 1,
-    marginTop: -5,
-    opacity: 0.64
+  touch: {
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  icon: {
+    width: 36,
+    height: 36
   }
 }))

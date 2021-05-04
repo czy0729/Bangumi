@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 21:08:51
+ * @Last Modified time: 2021-05-04 03:05:36
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -143,15 +143,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
         navigation={navigation}
         color={_.__colorPlain__}
       />
-      <View
-        style={[
-          _.header.right,
-          styles.btn,
-          {
-            padding: _.sm
-          }
-        ]}
-      >
+      <View style={[_.header.right, styles.touch]}>
         <Popover
           data={data}
           onSelect={key => {
@@ -211,7 +203,9 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont name='md-menu' color={_.__colorPlain__} />
+          <Flex style={styles.icon} justify='center'>
+            <Iconfont name='md-menu' color={_.__colorPlain__} />
+          </Flex>
           <Heatmap id='空间.右上角菜单' />
           <Heatmap right={62} id='空间.添加好友' transparent />
           <Heatmap right={113} id='空间.解除好友' transparent />
@@ -270,15 +264,25 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     right: 0
   },
-  btn: {
-    zIndex: 1,
-    marginTop: -5
-  },
   collection: {
     ..._.header.right,
     zIndex: 1,
     marginTop: -5,
     marginRight: 34,
     opacity: 0.88
+  },
+  btn: {
+    zIndex: 1,
+    marginTop: -5
+  },
+  touch: {
+    zIndex: 1,
+    marginTop: -4,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  icon: {
+    width: 36,
+    height: 36
   }
 }))

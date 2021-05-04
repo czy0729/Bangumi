@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:02:33
+ * @Last Modified time: 2021-05-04 03:15:25
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
-import { Touchable, Text, Heatmap } from '@components'
+import { Touchable, Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
@@ -29,30 +29,32 @@ function Tinygrail(props, { $, navigation }) {
         </Text>
         <Text style={_.mt.sm}>{$.templeTotal}座圣殿</Text>
         <Text style={_.mt.sm}>{$.charaTotal}个人物</Text>
-        <Touchable
-          style={_.mt.lg}
-          onPress={() => {
-            t('空间.跳转', {
-              userId: $.userId,
-              to: 'TinygrailCharaAssets'
-            })
+        <Flex style={_.mt.lg} justify='center'>
+          <Touchable
+            style={styles.touch}
+            onPress={() => {
+              t('空间.跳转', {
+                userId: $.userId,
+                to: 'TinygrailCharaAssets'
+              })
 
-            navigation.push('TinygrailCharaAssets', {
-              userId: $.username,
-              userName: HTMLDecode(nickname),
-              from: 'tinygrail'
-            })
-          }}
-        >
-          <Text underline>查看TA的持仓</Text>
-          <Heatmap
-            id='空间.跳转'
-            data={{
-              to: 'TinygrailCharaAssets',
-              alias: '小圣杯持仓'
+              navigation.push('TinygrailCharaAssets', {
+                userId: $.username,
+                userName: HTMLDecode(nickname),
+                from: 'tinygrail'
+              })
             }}
-          />
-        </Touchable>
+          >
+            <Text>查看TA的持仓</Text>
+            <Heatmap
+              id='空间.跳转'
+              data={{
+                to: 'TinygrailCharaAssets',
+                alias: '小圣杯持仓'
+              }}
+            />
+          </Touchable>
+        </Flex>
       </View>
     </Animated.ScrollView>
   )
@@ -68,5 +70,11 @@ const styles = _.create({
   },
   page: {
     minHeight: _.window.height - H_BG
+  },
+  touch: {
+    paddingVertical: _.sm,
+    paddingHorizontal: _.md,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

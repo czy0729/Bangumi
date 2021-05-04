@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 16:53:26
+ * @Last Modified time: 2021-05-04 17:12:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -179,7 +179,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   item: {
     paddingVertical: _.md,
-    paddingHorizontal: _.sm
+    paddingHorizontal: _.sm,
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   },
   border: {
     borderTopColor: _.colorTinygrailBorder,

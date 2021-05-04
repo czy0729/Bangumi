@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:52:00
+ * @Last Modified time: 2021-05-04 03:15:22
  */
 import React from 'react'
 import {
@@ -62,25 +62,27 @@ class List extends React.Component {
   }
 
   ListFooterComponent = ($, navigation) => (
-    <Touchable
-      style={[_.mt.md, _.mb.md]}
-      onPress={() => {
-        t('空间.跳转', {
-          to: 'User'
-        })
+    <Flex style={_.mt.lg} justify='center'>
+      <Touchable
+        style={this.styles.touch}
+        onPress={() => {
+          t('空间.跳转', {
+            to: 'User'
+          })
 
-        $.toUser(navigation)
-      }}
-    >
-      <Text align='center'>查看TA的所有收藏</Text>
-      <Heatmap
-        id='空间.跳转'
-        data={{
-          to: 'User',
-          alias: '所有收藏'
+          $.toUser(navigation)
         }}
-      />
-    </Touchable>
+      >
+        <Text>查看TA的所有收藏</Text>
+        <Heatmap
+          id='空间.跳转'
+          data={{
+            to: 'User',
+            alias: '所有收藏'
+          }}
+        />
+      </Touchable>
+    </Flex>
   )
 
   render() {
@@ -164,5 +166,11 @@ const memoStyles = _.memoStyles(_ => ({
   },
   section: {
     backgroundColor: _.colorBg
+  },
+  touch: {
+    paddingVertical: _.sm,
+    paddingHorizontal: _.md,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))

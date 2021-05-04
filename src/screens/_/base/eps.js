@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:12:59
+ * @Last Modified time: 2021-05-04 02:53:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -166,9 +166,7 @@ export const Eps = ob(
           key={item.id}
           style={{
             marginRight: _.isPad ? margin : isSide ? 0 : margin,
-            marginBottom: margin + 4,
-            borderRadius: _.radiusXs,
-            overflow: 'hidden'
+            marginBottom: margin + 4
           }}
           onLongPress={() => onLongPress(item)}
           {...popoverProps}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 22:55:08
+ * @Last Modified time: 2021-04-24 14:33:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -129,54 +129,30 @@ function Head({ style }, { $, navigation }) {
 
 export default obc(Head)
 
+const rStyle = (top, left) => ({
+  position: 'absolute',
+  zIndex: 1,
+  top: top - _.xs,
+  left: left - _.sm,
+  paddingVertical: _.xs,
+  paddingHorizontal: _.sm,
+  borderRadius: _.radiusSm,
+  overflow: 'hidden',
+  opacity: 0.8
+})
+
 const styles = _.create({
   userSetting: {
     position: 'absolute',
     zIndex: 1,
     top: 16,
     right: 100,
-    opacity: 0.88
+    opacity: 0.8
   },
   avatar: {
     backgroundColor: _.__colorPlain__
   },
-  l1: {
-    position: 'absolute',
-    top: 16,
-    right: 100,
-    opacity: 0.88
-  },
-  l2: {
-    position: 'absolute',
-    top: 52,
-    right: 116,
-    opacity: 0.88
-  },
-  l3: {
-    position: 'absolute',
-    top: 88,
-    right: 100,
-    opacity: 0.88
-  },
-  r1: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 16,
-    left: 100,
-    opacity: 0.88
-  },
-  r2: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 52,
-    left: 116,
-    opacity: 0.88
-  },
-  r3: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 88,
-    left: 100,
-    opacity: 0.88
-  }
+  r1: rStyle(16, 100),
+  r2: rStyle(52, 116),
+  r3: rStyle(88, 100)
 })

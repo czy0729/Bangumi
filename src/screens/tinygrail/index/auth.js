@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 16:00:07
+ * @Last Modified time: 2021-05-04 16:16:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,9 +43,12 @@ function Auth(props, { $, navigation }) {
             name={nickname}
             borderColor='transparent'
           />
-          <Flex.Item style={_.ml.sm}>
+          <Flex.Item>
             <Flex>
-              <Touchable onPress={() => navigation.push('Qiafan')}>
+              <Touchable
+                style={styles.touch}
+                onPress={() => navigation.push('Qiafan')}
+              >
                 <Text type='tinygrailPlain' size={13} bold>
                   {nickname}
                 </Text>
@@ -62,6 +65,7 @@ function Auth(props, { $, navigation }) {
                 )}
               </Touchable>
               <IconTouchable
+                style={_.ml._xs}
                 name={_.tSelect('md-brightness-2', 'md-brightness-5')}
                 color={_.colorTinygrailPlain}
                 size={18}
@@ -95,5 +99,11 @@ const memoStyles = _.memoStyles(_ => ({
   avatar: {
     marginLeft: _.xs,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
+  },
+  touch: {
+    paddingVertical: _.xs,
+    paddingHorizontal: _.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))

@@ -1,12 +1,12 @@
+/* eslint-disable no-unreachable */
 /*
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:38:02
+ * @Last Modified time: 2021-04-24 14:44:49
  */
 import React from 'react'
-import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
-import { Popover } from '@screens/_'
+import { Iconfont, ToolBar as CompToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import {
@@ -24,67 +24,42 @@ function ToolBar(props, { $ }) {
   userCollectionsTags.forEach(item =>
     filterData.push(`${item.tag} (${item.count})`)
   )
+
   return (
-    <Flex style={[styles.container, !list && _.mb.md]} justify='center'>
-      <Popover
+    <CompToolBar style={[styles.container, !list && _.mb.md]}>
+      <CompToolBar.Popover
         data={MODEL_COLLECTIONS_ORDERBY.data.map(item => item.label)}
+        icon='md-sort'
+        iconColor={order ? _.colorMain : undefined}
+        text={order ? MODEL_COLLECTIONS_ORDERBY.getLabel(order) : '收藏时间'}
+        type={order ? 'main' : 'sub'}
+        heatmap='我的.筛选选择'
         onSelect={$.onOrderSelect}
-      >
-        <Flex style={styles.item} justify='center'>
-          <Iconfont
-            name='md-sort'
-            size={16}
-            color={order ? _.colorMain : undefined}
-          />
-          <Text
-            style={_.ml.xs}
-            size={11}
-            type={order ? 'main' : 'sub'}
-            bold
-            numberOfLines={1}
-          >
-            {order ? MODEL_COLLECTIONS_ORDERBY.getLabel(order) : '收藏时间'}
-          </Text>
-        </Flex>
-        <Heatmap id='我的.筛选选择' />
-      </Popover>
-      <Popover data={filterData} onSelect={$.onFilterSelect}>
-        <Flex style={styles.item} justify='center'>
-          <Iconfont
-            name='md-bookmark-outline'
-            size={16}
-            color={tag ? _.colorMain : undefined}
-          />
-          <Text
-            style={_.ml.xs}
-            size={11}
-            type={tag ? 'main' : 'sub'}
-            bold
-            numberOfLines={1}
-          >
-            {tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
-          </Text>
-        </Flex>
-        <Heatmap id='我的.排序选择' />
-      </Popover>
-      <Touchable onPress={$.toggleList}>
-        <Flex style={styles.item} justify='center'>
-          <Iconfont
-            style={_.mr.xs}
-            name='md-menu'
-            size={16}
-            color={list ? _.colorMain : undefined}
-          />
-          <Iconfont
-            style={_.ml.xs}
-            name='md-grid-view'
-            size={15}
-            color={!list ? _.colorMain : undefined}
-          />
-        </Flex>
-        <Heatmap id='我的.布局选择' />
-      </Touchable>
-    </Flex>
+      />
+      <CompToolBar.Popover
+        data={filterData}
+        icon='md-bookmark-outline'
+        iconColor={tag ? _.colorMain : undefined}
+        text={tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
+        type={tag ? 'main' : 'sub'}
+        heatmap='我的.排序选择'
+        onSelect={$.onFilterSelect}
+      />
+      <CompToolBar.Touchable heatmap='我的.布局选择' onSelect={$.toggleList}>
+        <Iconfont
+          style={_.mr.xs}
+          name='md-menu'
+          size={16}
+          color={list ? _.colorMain : undefined}
+        />
+        <Iconfont
+          style={_.ml.xs}
+          name='md-grid-view'
+          size={16}
+          color={!list ? _.colorMain : undefined}
+        />
+      </CompToolBar.Touchable>
+    </CompToolBar>
   )
 }
 
@@ -94,15 +69,5 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingTop: 12,
     backgroundColor: _.colorPlain
-  },
-  item: {
-    height: 30,
-    paddingHorizontal: _.md,
-    marginHorizontal: _.xs,
-    backgroundColor: _.select(
-      'rgba(238, 238, 238, 0.8)',
-      _._colorDarkModeLevel1
-    ),
-    borderRadius: 16
   }
 }))

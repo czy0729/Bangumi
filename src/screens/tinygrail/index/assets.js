@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 15:59:45
+ * @Last Modified time: 2021-05-04 16:22:54
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -83,7 +83,7 @@ function Assets(props, { $ }) {
   return (
     <Flex style={styles.container}>
       <Flex.Item>
-        <Touchable onPress={$.toogleShort}>
+        <Touchable style={styles.touch} onPress={$.toogleShort}>
           <Text type='tinygrailPlain' size={13} bold>
             {_balance}
             {balanceChangeText && (
@@ -120,7 +120,13 @@ export default obc(Assets)
 
 const styles = _.create({
   container: {
-    width: '100%',
     paddingRight: _.wind
+  },
+  touch: {
+    paddingVertical: _.xs,
+    paddingHorizontal: _.sm,
+    marginLeft: -_.sm,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

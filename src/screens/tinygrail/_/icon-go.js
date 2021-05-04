@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 09:10:29
+ * @Last Modified time: 2021-05-04 16:49:35
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover } from '@screens/_'
@@ -16,7 +15,7 @@ const data = ['资产重组', '买入', '卖出', 'K线']
 function IconGo({ $ }) {
   const { go } = $.state
   return (
-    <Popover style={styles.icon} data={data} onSelect={$.onSelectGo}>
+    <Popover style={styles.touch} data={data} onSelect={$.onSelectGo}>
       <Flex>
         <Iconfont name='md-read-more' size={24} color={_.colorTinygrailPlain} />
         <Text style={_.ml.xs} type='tinygrailPlain' size={13} bold>
@@ -29,9 +28,11 @@ function IconGo({ $ }) {
 
 export default observer(IconGo)
 
-const styles = StyleSheet.create({
-  icon: {
+const styles = _.create({
+  touch: {
     padding: _.sm,
-    marginRight: -_.xs
+    marginRight: -_.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

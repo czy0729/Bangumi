@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 16:46:38
+ * @Last Modified time: 2021-04-24 14:43:40
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -76,7 +76,7 @@ function ToolBar(props, { $ }) {
         <Iconfont
           style={_.mr.xs}
           name='md-menu'
-          size={15}
+          size={16}
           color={list ? _.colorMain : _.colorDesc}
         />
         <Iconfont

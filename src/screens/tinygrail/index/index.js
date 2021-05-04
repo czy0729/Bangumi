@@ -2,24 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 19:29:47
+ * @Last Modified time: 2021-05-04 16:34:35
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
-import { UM, Flex, Text } from '@components'
+import { UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import { hm, t } from '@utils/fetch'
-import { appNavigate } from '@utils/app'
-import {
-  VERSION_TINYGRAIL_PLUGIN,
-  TINYGRAIL_UPDATES_LOGS_URL
-} from '@constants'
+import { hm } from '@utils/fetch'
 import { refreshControlProps } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Auth from './auth'
 import Menus from './menus'
+import Footer from './footer'
 import BonusModal from './bonus-modal'
 import Store from './store'
 
@@ -61,40 +57,6 @@ class Tinygrail extends React.Component {
       }
     )
 
-  alertScience = () => {
-    t('小圣杯.跳转', {
-      to: 'Topic',
-      title: '游戏指南'
-    })
-
-    const { navigation } = this.context
-    navigation.push('Topic', {
-      topicId: 'group/358232'
-    })
-  }
-
-  alertUpdates = () => {
-    t('小圣杯.跳转', {
-      to: 'Topic',
-      title: '更新内容'
-    })
-
-    const { navigation } = this.context
-    appNavigate(TINYGRAIL_UPDATES_LOGS_URL, navigation)
-  }
-
-  toGroup = () => {
-    t('小圣杯.跳转', {
-      to: 'Group',
-      title: '小组讨论 '
-    })
-
-    const { navigation } = this.context
-    navigation.push('Group', {
-      groupId: 'tinygrail'
-    })
-  }
-
   render() {
     const { $ } = this.context
     const { visible } = $.state
@@ -118,44 +80,7 @@ class Tinygrail extends React.Component {
           <StatusBarPlaceholder />
           <Auth />
           <Menus />
-          <Flex style={_.mt.xs} justify='center'>
-            <Text type='tinygrailText' size={12} onPress={this.alertUpdates}>
-              {VERSION_TINYGRAIL_PLUGIN} 更新内容
-            </Text>
-            <Text style={_.ml.sm} type='tinygrailText'>
-              ·
-            </Text>
-            <Text
-              style={_.ml.sm}
-              type='tinygrailText'
-              size={12}
-              onPress={this.alertScience}
-            >
-              游戏wiki
-            </Text>
-            <Text style={_.ml.sm} type='tinygrailText'>
-              ·
-            </Text>
-            <Text
-              style={_.ml.sm}
-              type='tinygrailText'
-              size={12}
-              onPress={this.toGroup}
-            >
-              小组讨论
-            </Text>
-            <Text style={_.ml.sm} type='tinygrailText'>
-              ·
-            </Text>
-            <Text
-              style={_.ml.sm}
-              type='tinygrailText'
-              size={12}
-              onPress={$.doSend}
-            >
-              点我看看
-            </Text>
-          </Flex>
+          <Footer />
         </ScrollView>
         <BonusModal visible={visible} />
       </>

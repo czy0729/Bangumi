@@ -2,20 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 12:10:15
+ * @Last Modified time: 2021-05-04 17:05:26
  */
 import React from 'react'
-import { Iconfont } from '@components'
+import { Flex, Iconfont } from '@components'
 import { Popover as CompPopover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { EVENT, IOS } from '@constants'
+import { EVENT } from '@constants'
 
 const data = ['收藏', 'K线', '买入', '卖出', '资产重组']
 
 function Popover(
-  { id, relation, subject, subjectId, event, onCollect },
+  {
+    id,
+    relation = [],
+    subject,
+    subjectId,
+    event = EVENT,
+    onCollect = Function.prototype
+  },
   { navigation }
 ) {
   const { id: eventId, data: eventData } = event
@@ -28,6 +35,7 @@ function Popover(
   }
   return (
     <CompPopover
+      style={styles.touch}
       contentStyle={styles.content}
       data={_data}
       onSelect={title => {
@@ -121,30 +129,26 @@ function Popover(
         }
       }}
     >
-      <Iconfont
-        style={styles.extra}
-        name='md-more-vert'
-        size={16}
-        color={_.colorTinygrailText}
-      />
+      <Flex style={styles.icon} justify='center'>
+        <Iconfont name='md-more-vert' size={16} color={_.colorTinygrailText} />
+      </Flex>
     </CompPopover>
   )
 }
 
-export default obc(Popover, {
-  relation: [],
-  event: EVENT,
-  onCollect: Function.prototype
-})
+export default obc(Popover)
 
 const styles = _.create({
+  touch: {
+    marginTop: 8,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   content: {
     borderTopRightRadius: 0
   },
-  extra: {
-    height: 48,
-    paddingTop: 18.5,
-    paddingRight: IOS ? _.sm + 5 : _.sm,
-    paddingLeft: 8
+  icon: {
+    width: 36,
+    height: 36
   }
 })

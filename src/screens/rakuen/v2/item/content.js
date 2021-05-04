@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:55:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 19:29:39
+ * @Last Modified time: 2021-05-04 17:09:31
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -105,6 +105,9 @@ export default obc(Content)
 
 const styles = _.create({
   item: {
-    paddingVertical: _.md
+    paddingVertical: _.md,
+    paddingLeft: _.sm,
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 })

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:50:22
+ * @Last Modified time: 2021-05-04 03:23:52
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { IOS } from '@constants'
 import { Iconfont } from './iconfont'
 import { Touchable } from './touchable'
+import { Flex } from './flex'
 
 const initInputHeight = 18 // 一行的大概高度
 
@@ -77,7 +78,9 @@ export const Input = observer(
       const { colorClear } = this.props
       return (
         <Touchable style={this.styles.close} onPress={this.clear}>
-          <Iconfont name='md-close' size={16} color={colorClear} />
+          <Flex style={this.styles.icon} justify='center'>
+            <Iconfont name='md-close' size={16} color={colorClear} />
+          </Flex>
         </Touchable>
       )
     }
@@ -188,8 +191,12 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 10,
     top: '50%',
     right: 0,
-    paddingVertical: _.sm,
-    paddingHorizontal: _.wind,
-    marginTop: -(6 + _.sm)
+    marginTop: -16,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  icon: {
+    width: 32,
+    height: 32
   }
 }))

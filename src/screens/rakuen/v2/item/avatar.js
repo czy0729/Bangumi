@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:49:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 11:58:10
+ * @Last Modified time: 2021-05-04 17:07:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,6 @@ export default obc(Avatar)
 
 const styles = _.create({
   image: {
-    marginRight: _.xs,
     marginTop: _.md
   }
 })
