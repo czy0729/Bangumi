@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:20:37
+ * @Last Modified time: 2021-05-05 16:18:35
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -18,7 +18,7 @@ export const NAMESPACE = 'System'
 // -------------------- init --------------------
 export const INIT_SETTING = {
   s2t: false, // 简体转繁体
-  deepDark: false, // 黑暗模式是否纯黑
+  deepDark: true, // 黑暗模式是否纯黑
   simple: true, // 设置页面显示最基本的设置
   avatarRound: false, // 头像是否圆形
   cdn: true, // CDN加速
@@ -56,7 +56,8 @@ export const INIT_SETTING = {
   showTags: true, // 页面标签
   showSummary: true, // 简介
   showInfo: true, // 简介
-  showThumbs: true, // 页面展开预览图
+  showThumbs: true, // 预览图
+  showGameInfo: true, // 游戏条目游戏更多信息
   showRating: true, // 评分
   showCharacter: true, // 角色
   showStaff: true, // 制作人员

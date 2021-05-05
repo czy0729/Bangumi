@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 16:33:58
+ * @Last Modified time: 2021-05-05 04:28:10
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -33,6 +33,7 @@ import { feedback, info, showActionSheet } from '@utils/ui'
 import { find as findAnime } from '@utils/anime'
 import { find as findManga } from '@utils/manga'
 import { find as findWenku } from '@utils/wenku'
+import { find as findGame } from '@utils/game'
 import {
   HOST,
   HOST_NING_MOE,
@@ -561,6 +562,17 @@ export default class ScreenSubject extends store {
         this.info.includes('PS3') ||
         this.info.includes('PS5'))
     )
+  }
+
+  /**
+   * 游戏条目查找额外游戏信息
+   */
+  @computed get gameInfo() {
+    if (this.type !== '游戏') {
+      return null
+    }
+
+    return findGame(this.subjectId)
   }
 
   /**

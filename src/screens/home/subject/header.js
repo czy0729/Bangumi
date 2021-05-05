@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 16:31:41
+ * @Last Modified time: 2021-05-05 04:08:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import Ep from './ep'
 import Tags from './tags'
 import Summary from './summary'
 import Thumbs from './thumbs'
+import Game from './game'
 import Info from './info'
 import Rating from './rating'
 import Character from './character'
@@ -50,6 +51,7 @@ function Header(props, { $ }) {
           <>
             <Summary style={_.mt.lg} />
             <Thumbs style={_.mt.lg} />
+            <Game style={_.mt.lg} />
             <Info style={_.mt.lg} />
             <Rating style={_.mt.lg} />
             <Character style={_.mt.lg} />
