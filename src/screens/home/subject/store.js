@@ -1,10 +1,10 @@
 /*
  * 条目
- * @Params: { _ningMoeId, _jp, _cn, _image, _summary, _aid }
+ * @Params: { _ningMoeId, _jp, _cn, _image, _summary, _type, _aid }
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 04:28:10
+ * @Last Modified time: 2021-05-05 17:37:09
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -53,9 +53,6 @@ import {
   SITE_MANHUADB
 } from '@constants/site'
 // import { NINGMOE_ID } from '@constants/online'
-
-export const imageWidth = IMG_WIDTH * (_.isPad ? 1.64 : 1.4)
-export const imageHeight = IMG_HEIGHT * (_.isPad ? 1.64 : 1.4)
 
 const namespace = 'ScreenSubject'
 const initRating = {
@@ -477,8 +474,10 @@ export default class ScreenSubject extends store {
   @computed get type() {
     const { _loaded, type } = this.subject
     if (!_loaded) {
-      return ''
+      const { _type = '' } = this.params
+      return _type
     }
+
     return MODEL_SUBJECT_TYPE.getTitle(type)
   }
 
@@ -678,6 +677,24 @@ export default class ScreenSubject extends store {
         /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
       )?.[2] || ''
     )
+  }
+
+  /**
+   * 封面图宽度
+   * 音乐类型条目为正方形
+   */
+  @computed get imageWidth() {
+    const w = IMG_WIDTH * (_.isPad ? 1.64 : 1.4)
+    return this.type === '音乐' ? w * 1.2 : w
+  }
+
+  /**
+   * 封面图高度
+   */
+  @computed get imageHeight() {
+    return this.type === '音乐'
+      ? this.imageWidth
+      : IMG_HEIGHT * (_.isPad ? 1.64 : 1.4)
   }
 
   // -------------------- get: cdn fallback --------------------

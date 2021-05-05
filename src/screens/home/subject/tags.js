@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:11:04
+ * @Last Modified time: 2021-05-05 17:51:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import IconPS from './icon/ps'
 
 function Tags({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -28,7 +27,6 @@ function Tags({ style }, { $, navigation }) {
       ]}
     >
       <SectionTitle
-        right={<IconPS />}
         icon={!showTags && 'md-navigate-next'}
         onPress={() => $.switchBlock('showTags')}
       >

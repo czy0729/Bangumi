@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 21:00:13
+ * @Last Modified time: 2021-05-05 17:40:35
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -13,7 +13,6 @@ import { toFixed, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { x18 } from '@utils/app'
-import { imageWidth, imageHeight } from './store'
 import Cover from './cover'
 import Series from './series'
 
@@ -45,12 +44,34 @@ function Head({ style }, { $ }) {
     <View style={[styles.container, style]}>
       <Cover image={images.common} placeholder={$.coverPlaceholder} />
       {showRelease && (
-        <Text style={styles.release} type='__plain__' size={10} bold>
+        <Text
+          style={[
+            styles.release,
+            {
+              left: $.imageWidth + _.wind + 12
+            }
+          ]}
+          type='__plain__'
+          size={10}
+          bold
+        >
           {$.release}上映
         </Text>
       )}
-      <View style={styles.content}>
-        <View style={styles.title}>
+      <View
+        style={[
+          styles.content,
+          {
+            minHeight: $.imageHeight - 20,
+            paddingLeft: $.imageWidth + _.wind + 12
+          }
+        ]}
+      >
+        <View
+          style={{
+            minHeight: $.imageHeight - 68
+          }}
+        >
           <View>
             {!!$.jp && (
               <Katakana.Provider
@@ -116,9 +137,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: 48
   },
   content: {
-    minHeight: imageHeight - 20,
     paddingTop: 12,
-    paddingLeft: imageWidth + _.wind + 12,
     paddingRight: _.wind,
     backgroundColor: _.colorPlain,
     borderTopLeftRadius: _.radiusLg,
@@ -139,7 +158,6 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     zIndex: 1,
     top: 28,
-    left: imageWidth + _.wind + 12,
     opacity: 0.6
   }
 }))

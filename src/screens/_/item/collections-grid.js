@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 22:01:48
+ * @Last Modified time: 2021-05-05 17:38:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,8 @@ export const ItemCollectionsGrid = ob(
         _image: cover,
         _aid: aid,
         _wid: wid,
-        _mid: mid
+        _mid: mid,
+        _type: typeCn
       })
     }
 

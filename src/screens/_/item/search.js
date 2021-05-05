@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:33:03
+ * @Last Modified time: 2021-05-05 17:39:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,7 +56,8 @@ export const ItemSearch = ob(
             {
               _jp: name,
               _cn: nameCn,
-              _image: cover
+              _image: cover,
+              _type: typeCn
             },
             event
           )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:08:33
+ * @Last Modified time: 2021-05-05 17:45:04
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -35,7 +35,7 @@ function HeaderTitle({ navigation }) {
       <Flex style={styles.container}>
         <Cover
           src={CDN_OSS_SUBJECT(getCoverMedium(images.common))}
-          size={imgWidth}
+          size={$.type === '音乐' ? imgHeight : imgWidth}
           height={imgHeight}
           radius
           fadeDuration={0}

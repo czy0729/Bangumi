@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 16:44:20
+ * @Last Modified time: 2021-05-05 17:51:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -14,6 +14,7 @@ import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST_CDN, VERSION_GAME } from '@constants/cdn'
+import IconPS from './icon/ps'
 
 export default
 @obc
@@ -123,13 +124,13 @@ class Game extends React.Component {
         )}
         {!!vid && (
           <Text
-            style={_.mt.sm}
+            style={_.mt.xs}
             size={10}
-            type='sub'
+            type='icon'
             align='right'
             onPress={() => open(`https://www.vgtime.com/game/${vid}.jhtml`)}
           >
-            *以上信息来源自vgtime.com
+            *信息来源自vgtime.com
           </Text>
         )}
       </View>
@@ -138,7 +139,7 @@ class Game extends React.Component {
 
   render() {
     const { $ } = this.context
-    if (!$.gameInfo) {
+    if (!$.gameInfo || !$.gameInfo.id) {
       return null
     }
 
@@ -148,6 +149,7 @@ class Game extends React.Component {
       <View style={style}>
         <SectionTitle
           style={_.container.wind}
+          right={<IconPS />}
           icon={!showGameInfo && 'md-navigate-next'}
           onPress={() => $.switchBlock('showGameInfo')}
         >

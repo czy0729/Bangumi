@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 16:09:08
+ * @Last Modified time: 2021-05-05 16:48:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -122,6 +122,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderBottomRightRadius: 0
   },
   right: {
+    marginLeft: -_.hairlineWidth,
     borderLeftWidth: 0,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
