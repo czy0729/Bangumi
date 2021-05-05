@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 17:37:09
+ * @Last Modified time: 2021-05-05 22:18:38
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -756,8 +756,20 @@ export default class ScreenSubject extends store {
 
   @computed get eps() {
     if (this.subject._loaded) {
-      return this.subject.eps || []
+      // type = 1 SP的排后面
+      return (this.subject.eps || []).sort((a, b) => {
+        if (a.type === b.type) {
+          return true
+        }
+
+        if (a.type === 1) {
+          return false
+        }
+
+        return true
+      })
     }
+
     return this.subjectFormCDN.eps || []
   }
 
@@ -767,7 +779,7 @@ export default class ScreenSubject extends store {
   @computed get toEps() {
     const { epsReverse, filterEps } = this.state
     if (filterEps) {
-      const eps = this.eps.filter((item, index) => index >= filterEps)
+      const eps = this.eps.filter((item, index) => index > filterEps)
       return epsReverse ? eps.reverse() : eps
     }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-14 09:42:52
+ * @Last Modified time: 2021-05-05 22:24:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,9 +72,10 @@ class Episodes extends React.Component {
 
   renderThumb(index) {
     const { $ } = this.context
+    const { filterEps = 0 } = $.params
     const { epsThumbsHeader = {} } = $.params
     return (
-      !!this.epsThumbs[index] && (
+      !!this.epsThumbs[index + filterEps] && (
         <View style={_.ml.sm}>
           <Image
             src={this.epsThumbs[index]}

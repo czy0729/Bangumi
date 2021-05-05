@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 18:06:16
+ * @Last Modified time: 2021-05-05 22:27:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ const menus = [
     path: 'Rank'
   },
   {
-    title: '番剧',
+    title: '找番剧',
     icon: 'md-live-tv',
     path: 'Anime'
   },
@@ -30,24 +30,24 @@ const menus = [
     path: 'Browser'
   },
   {
-    title: '目录',
-    icon: 'md-folder-open',
-    path: 'Catalog'
+    title: '每日放送',
+    icon: 'md-calendar-today',
+    path: 'Calendar'
   },
   {
-    title: '漫画',
+    title: '找漫画',
     icon: 'md-chrome-reader-mode',
     path: 'Manga'
   },
   {
-    title: '文库',
+    title: '找文库',
     icon: 'md-notes',
     path: 'Wenku'
   },
   {
-    title: '每日放送',
-    icon: 'md-calendar-today',
-    path: 'Calendar'
+    title: '目录',
+    icon: 'md-folder-open',
+    path: 'Catalog'
   },
   {
     title: '更多',

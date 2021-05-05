@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.10.0" src="https://img.shields.io/badge/Version-4.10.0-0366d6" />
+  <img alt="Version: 4.11.0" src="https://img.shields.io/badge/Version-4.11.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,16 +46,29 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.10.0 - 2021/04/13
+v4.11.0 - 2021/05/05
+
+APP 发布 2 周年
 
 —— 新增 ——
 
-- [x] [设置] 支持繁体
-- [x] [设置] 黑暗模式主题色支持纯黑
+- [x] [条目] 游戏条目中预览也会尝试寻找游戏额外信息和截图
+- [x] [发现] 新增可以快捷查看每一季度版权新番的入口
+- [x] [条目] 帖子块右侧新增更多
 
 —— 优化 ——
 
-- [x] 更新 2021 年 4 月番基础数据
+- [x] 针对部分使用率高的页面优化切页动画
+- [x] 优化弹出框在黑暗模式下的背景颜色 @ekibun 提供的代码
+- [x] 优化点击响应时间、点击中样式、增大响应范围、水纹模式表现
+- [x] [条目] 音乐封面改成正方形
+- [x] [条目] 柯南 1000 集之后官方 API 没有返回数据，暂时推荐通过输入框更改进度，优化了通过进入章节列表页面，超大章节数据的展示
+
+—— 修复 ——
+
+- [x] [进度] 修复了看过的集数把 SP 也算进去的问题
+- [x] [进度] 修复了某些情况没有看任何一集也显示 1/? 的问题
+- [x] [帖子] 修复了某些情况 (如 Vivy 第 4 集)渲染 HTML 导致闪退的问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 

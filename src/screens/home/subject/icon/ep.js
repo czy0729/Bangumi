@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 17:40:38
+ * @Last Modified time: 2021-05-05 22:22:42
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,7 +11,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function IconEp(props, { $, navigation }) {
-  const { epsThumbs, epsThumbsHeader } = $.state
+  const { epsThumbs, epsThumbsHeader, filterEps } = $.state
   return (
     <IconTouchable
       name='md-menu'
@@ -26,7 +26,8 @@ function IconEp(props, { $, navigation }) {
           subjectId: $.subjectId,
           name: $.cn || $.jp,
           epsThumbs,
-          epsThumbsHeader
+          epsThumbsHeader,
+          filterEps
         })
       }}
     >

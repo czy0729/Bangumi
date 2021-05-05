@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:22:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 21:36:02
+ * @Last Modified time: 2021-05-05 22:20:20
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -16,7 +16,7 @@ function Count({ epStatus, subjectId, subject }, { $ }) {
 
   const epsMap = {}
   $.eps(subjectId).forEach(item => {
-    if (item.type === 0) epsMap[item.id] = true // 排除SP
+    if (item.type !== 1) epsMap[item.id] = true // 排除SP
   })
 
   let count = 0
