@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 17:51:16
+ * @Last Modified time: 2021-05-05 20:15:55
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -122,7 +122,7 @@ class Game extends React.Component {
             发行商：{publish.join('、')}
           </Text>
         )}
-        {!!vid && (
+        {this.data.length > 1 && !!vid && (
           <Text
             style={_.mt.xs}
             size={10}

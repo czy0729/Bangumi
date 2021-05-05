@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 20:35:16
+ * @Last Modified time: 2021-05-05 20:26:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { DEV } from '@constants'
 import Cover from './cover'
 import Title from './title'
 import OnAir from './onair'
@@ -24,7 +23,7 @@ const LIMIT_HEAVY_RENDER = _.isPad ? 16 : 8
 function Item({ index, subjectId, subject, epStatus }, { $, navigation }) {
   const styles = memoStyles()
   const { top, _mounted } = $.state
-  if (index >= LIMIT_HEAVY_RENDER && (!_mounted || DEV)) {
+  if (index >= LIMIT_HEAVY_RENDER && !_mounted) {
     return <View style={styles.lazy} />
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 19:21:21
+ * @Last Modified time: 2021-05-05 18:06:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,16 @@ const menus = [
     path: 'Anime'
   },
   {
+    title: '索引',
+    icon: 'md-data-usage',
+    path: 'Browser'
+  },
+  {
+    title: '目录',
+    icon: 'md-folder-open',
+    path: 'Catalog'
+  },
+  {
     title: '漫画',
     icon: 'md-chrome-reader-mode',
     path: 'Manga'
@@ -38,16 +48,6 @@ const menus = [
     title: '每日放送',
     icon: 'md-calendar-today',
     path: 'Calendar'
-  },
-  {
-    title: '索引',
-    icon: 'md-data-usage',
-    path: 'Browser'
-  },
-  {
-    title: '目录',
-    icon: 'md-folder-open',
-    path: 'Catalog'
   },
   {
     title: '更多',

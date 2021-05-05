@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 16:18:35
+ * @Last Modified time: 2021-05-05 20:29:39
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -44,7 +44,7 @@ export const INIT_SETTING = {
   homeFilter: true, // 首页列表搜索框
   homeOrigin: false, // 首页条目显示搜索源头
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
-  homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
+  homeSorting: MODEL_SETTING_HOME_SORTING.getValue('网页'), // 首页收藏排序
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   transition: MODEL_SETTING_TRANSITION.getValue('水平'), // 切页动画
