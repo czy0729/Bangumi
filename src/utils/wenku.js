@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 20:33:27
+ * @Last Modified time: 2021-05-09 13:58:07
  */
 // import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 // import wenkuData from '@constants/json/wenku.min.json'
+import { DATA_ALPHABET } from '@constants'
 import {
   getTimestamp
   // getStorage, setStorage
@@ -14,34 +15,7 @@ import {
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
 import { SORT } from './anime'
 
-export const WENKU_FIRST = [
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z'
-]
+export const WENKU_FIRST = DATA_ALPHABET
 export const WENKU_YEAR = [
   2021,
   2020,

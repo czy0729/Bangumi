@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 13:19:40
+ * @Last Modified time: 2021-05-09 21:34:46
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,50 +10,50 @@ import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import {
-  WENKU_FIRST,
-  WENKU_YEAR,
-  WENKU_STATUS,
-  WENKU_ANIME,
-  WENKU_CATE,
-  WENKU_AUTHOR,
-  WENKU_SORT
-} from '@utils/wenku'
+  GAME_FIRST,
+  GAME_YEAR,
+  GAME_PLATFORM,
+  GAME_CATE,
+  GAME_DEV,
+  GAME_PUB,
+  GAME_SORT
+} from '@utils/game'
 
 const filterDS = [
   {
     title: '首字　',
     type: 'first',
-    data: WENKU_FIRST
+    data: GAME_FIRST
   },
   {
     title: '发行　',
     type: 'year',
-    data: WENKU_YEAR
+    data: GAME_YEAR
   },
   {
-    title: '状态　',
-    type: 'status',
-    data: WENKU_STATUS
+    title: '平台　',
+    type: 'platform',
+    data: GAME_PLATFORM
   },
   {
-    title: '动画化',
-    type: 'anime',
-    data: WENKU_ANIME
-  },
-  {
-    title: '出版　',
+    title: '类型　',
     type: 'cate',
-    data: WENKU_CATE
+    data: GAME_CATE
   },
   {
-    title: '作者　',
-    type: 'author',
-    data: WENKU_AUTHOR
+    title: '开发商',
+    type: 'dev',
+    data: GAME_DEV
+  },
+  {
+    title: '发行商',
+    type: 'pub',
+    data: GAME_PUB
   },
   {
     title: '排序　',
     type: 'sort',
-    data: WENKU_SORT
+    data: GAME_SORT
   }
 ]
 

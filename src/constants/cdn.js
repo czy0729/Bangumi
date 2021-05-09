@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 03:27:45
+ * @Last Modified time: 2021-05-09 21:24:45
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -285,3 +285,8 @@ export const CDN_HD_OBJECT = (subjectId, vol) => {
   const ota = getOTA()
   return `${HOST_CDN}/${ota.SITE_HD}/${subjectId}/${vol}/cover.jpg`
 }
+
+export const CDN_GAME = (subjectId, index) =>
+  `${HOST_CDN}/gh/czy0729/Bangumi-Game@${VERSION_GAME}/preview/${parseInt(
+    parseInt(subjectId) / 100
+  )}/${subjectId}/${index}.jpg`

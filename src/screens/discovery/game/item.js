@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 13:23:58
+ * @Last Modified time: 2021-05-10 01:11:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,40 +11,38 @@ import { _ } from '@stores'
 import { Tag, Cover, Stars, Rank } from '@screens/_'
 import { obc } from '@utils/decorators'
 import { x18 } from '@utils/app'
-import { pick } from '@utils/wenku'
+import { pick } from '@utils/game'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
   const styles = memoStyles()
   const isFirst = index === 0
   const {
     id,
-    wenkuId,
-    image,
-    cn,
-    jp,
-    ep,
-    status,
-    begin,
+    title,
+    sub,
+    cover,
+    tag,
+    dev,
+    publish,
+    platform,
+    time,
+    timeCn,
     score,
-    rank,
-    cate,
-    author,
-    len,
-    anime
+    rank
   } = pick(pickIndex)
-  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const tip = [
-    String(ep).replace(/\(完结\)|第/g, ''),
-    status ? '连载' : '完结',
-    begin,
-    cate,
-    author,
-    len ? `${len}万字` : ''
+    platform.join('、'),
+    time,
+    timeCn && timeCn !== time ? `中文 ${timeCn}` : '',
+    `${dev.join('、')} 开发`,
+    `${publish.join('、')} 发行`,
+    tag.join('、')
   ]
     .filter(item => !!item)
     .join(' / ')
+
   const collection = $.userCollectionsMap[id]
   const indent = collection ? '　　 ' : ''
   return (
@@ -53,10 +51,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,
-          _jp: jp,
-          _cn: cn,
-          _image: cover,
-          _wid: wenkuId
+          _image: cover
         })
 
         t('游戏.跳转', {
@@ -76,7 +71,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
             height={IMG_HEIGHT}
             radius
             shadow
-            type='书籍'
+            type='游戏'
           />
         </View>
         <Flex.Item style={_.ml.wind}>
@@ -94,12 +89,19 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
                     {indent}
-                    {$.cnFirst ? cn || jp : jp}
+                    {title}
                   </Text>
-                  <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
-                    {' '}
-                    {$.cnFirst ? jp : cn || jp}
-                  </Text>
+                  {!!sub && (
+                    <Text
+                      type='sub'
+                      size={11}
+                      lineHeight={15}
+                      numberOfLines={1}
+                    >
+                      {' '}
+                      {sub}
+                    </Text>
+                  )}
                 </Text>
               </Flex.Item>
               <Flex style={_.mt.xxs}>
@@ -112,7 +114,6 @@ function Item({ index, pickIndex }, { $, navigation }) {
             <Flex style={_.mt.md} wrap='wrap'>
               <Rank value={rank} />
               <Stars style={_.mr.sm} value={score} simple />
-              {!!anime && <Tag value='动画化' />}
             </Flex>
           </Flex>
         </Flex.Item>

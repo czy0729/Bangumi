@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-15 06:16:47
+ * @Last Modified time: 2021-05-09 21:15:10
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
+import { DATA_ALPHABET } from '@constants'
 import {
   getTimestamp
   // getStorage, setStorage
@@ -64,34 +65,7 @@ export async function init() {
 
 export const ANIME_AREA = ['日本', '中国']
 export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB']
-export const ANIME_FIRST = [
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z'
-]
+export const ANIME_FIRST = DATA_ALPHABET
 export const ANIME_YEAR = [
   2021,
   2020,
@@ -291,29 +265,34 @@ export const ANIME_SORT = ['排名', '上映时间', '随机', '名称']
 
 export const SORT = {
   // 上映时间
-  begin(a = {}, b = {}) {
-    return String(b.b || '').localeCompare(String(a.b || ''))
+  begin(a = {}, b = {}, key = 'b') {
+    return String(b[key] || '').localeCompare(String(a[key] || ''))
   },
 
   // 名称
-  name(a = {}, b = {}) {
-    return getPinYinFirstCharacter(a.c || '').localeCompare(
-      getPinYinFirstCharacter(b.c || '')
+  name(a = {}, b = {}, key = 'c') {
+    return getPinYinFirstCharacter(a[key] || '').localeCompare(
+      getPinYinFirstCharacter(b[key] || '')
     )
   },
 
   // 评分或排名
-  rating(a = {}, b = {}) {
-    const sA = a.s || 0
-    const sB = b.s || 0
-    const rA = a.r === undefined ? -10000 : 10000 - a.r
-    const rB = b.r === undefined ? -10000 : 10000 - b.r
+  rating(a = {}, b = {}, keyScore = 's', keyRank = 'r') {
+    const sA = a[keyScore] || 0
+    const sB = b[keyScore] || 0
+    const rA = a[keyRank] === undefined ? -10000 : 10000 - a[keyRank]
+    const rB = b[keyRank] === undefined ? -10000 : 10000 - b[keyRank]
     return sB + rB - (sA + rA)
   },
 
   // 随机
   random() {
     return 0.5 - Math.random()
+  },
+
+  // 分数, 也可用于数值比较
+  score(a = {}, b = {}, key = 's') {
+    return Number(b[key] || 0) - Number(a[key] || 0)
   }
 }
 

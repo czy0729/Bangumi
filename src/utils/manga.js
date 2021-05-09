@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 19:59:49
+ * @Last Modified time: 2021-05-09 13:57:54
  */
 import { DATA_ALPHABET } from '@constants'
 import { getOTA } from '@constants/cdn'

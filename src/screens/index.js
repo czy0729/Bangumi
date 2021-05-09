@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 19:54:46
+ * @Last Modified time: 2021-05-09 13:27:17
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -23,6 +23,7 @@ export { default as Channel } from './discovery/channel'
 export { default as Character } from './discovery/character'
 export { default as Discovery } from './discovery/index'
 export { default as DiscoveryBlog } from './discovery/blog'
+export { default as Game } from './discovery/game'
 export { default as Guess } from './discovery/guess'
 export { default as Manga } from './discovery/manga'
 export { default as Rank } from './discovery/rank'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 20:15:55
+ * @Last Modified time: 2021-05-09 21:25:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,7 +13,7 @@ import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { HOST_CDN, VERSION_GAME } from '@constants/cdn'
+import { CDN_GAME } from '@constants/cdn'
 import IconPS from './icon/ps'
 
 export default
@@ -41,12 +41,7 @@ class Game extends React.Component {
 
     return new Array(length)
       .fill()
-      .map(
-        (item, index) =>
-          `${HOST_CDN}/gh/czy0729/Bangumi-Game@${VERSION_GAME}/preview/${parseInt(
-            parseInt($.subjectId) / 100
-          )}/${$.subjectId}/${index}.jpg`
-      )
+      .map((item, index) => CDN_GAME($.subjectId, index))
   }
 
   renderThumbs() {
