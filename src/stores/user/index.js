@@ -5,14 +5,14 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 22:53:42
+ * @Last Modified time: 2021-05-26 00:18:49
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
-import { confirm } from '@utils/ui'
+// import { confirm } from '@utils/ui'
 import {
   APP_ID,
   APP_SECRET,
@@ -733,13 +733,14 @@ class User extends store {
     const res = RakuenStore.fetchNotify()
     const { setCookie = '', html } = await res
     if (html.includes('抱歉，当前操作需要您') && !DEV) {
-      confirm(
-        '检测到登陆状态好像过期了, 是否登出? 注意若使用了科学上网, 请保证App在使用过程中始终保持在同一网段, 否则很容易触发源站登出逻辑, 可尝试把软件加入白名单',
-        () => {
-          this.updateUserCookie()
-        }
-      )
-      return res
+      // confirm(
+      //   '检测到登陆状态好像过期了, 是否登出? 注意若使用了科学上网, 请保证App在使用过程中始终保持在同一网段, 否则很容易触发源站登出逻辑, 可尝试把软件加入白名单',
+      //   () => {
+      //     this.updateUserCookie()
+      //   }
+      // )
+      // return res
+      this.updateUserCookie()
     }
 
     const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
