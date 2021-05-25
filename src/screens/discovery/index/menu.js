@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 21:13:54
+ * @Last Modified time: 2021-05-25 22:35:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,16 +50,15 @@ const menus = [
     path: 'Manga'
   },
   {
-    title: '文库',
-    icon: 'md-notes',
-    path: 'Wenku'
-  },
-  {
     title: '更多',
     icon: 'md-more-horiz',
     path: 'open'
   },
-
+  {
+    title: '文库',
+    icon: 'md-notes',
+    path: 'Wenku'
+  },
   {
     title: '搜索',
     icon: 'md-search',

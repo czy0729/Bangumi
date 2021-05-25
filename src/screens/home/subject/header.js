@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 04:08:13
+ * @Last Modified time: 2021-05-25 22:27:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,9 +49,9 @@ function Header(props, { $ }) {
         <Tags style={_.mt.lg} />
         {rendered && (
           <>
+            <Game style={_.mt.lg} />
             <Summary style={_.mt.lg} />
             <Thumbs style={_.mt.lg} />
-            <Game style={_.mt.lg} />
             <Info style={_.mt.lg} />
             <Rating style={_.mt.lg} />
             <Character style={_.mt.lg} />

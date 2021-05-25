@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-16 14:05:38
+ * @Last Modified time: 2021-05-25 22:37:23
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -80,7 +80,12 @@ export const ImageViewer = observer(
       }
 
       return (
-        <Text style={styles.indicator} align='center' pointerEvents='none'>
+        <Text
+          style={styles.indicator}
+          type='__plain__'
+          align='center'
+          pointerEvents='none'
+        >
           {currentIndex} / {allSize}
         </Text>
       )
