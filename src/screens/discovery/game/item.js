@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-10 01:11:50
+ * @Last Modified time: 2021-05-23 02:05:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { obc } from '@utils/decorators'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/game'
 import { t } from '@utils/fetch'
+import { HTMLDecode } from '@utils/html'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
@@ -89,7 +90,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
                     {indent}
-                    {title}
+                    {HTMLDecode(title)}
                   </Text>
                   {!!sub && (
                     <Text
@@ -99,7 +100,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
                       numberOfLines={1}
                     >
                       {' '}
-                      {sub}
+                      {HTMLDecode(sub)}
                     </Text>
                   )}
                 </Text>

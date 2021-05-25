@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:00:29
+ * @Last Modified time: 2021-05-23 02:12:44
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle, Cover } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { HTMLDecode } from '@utils/html'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import IconCatalog from './icon/catalog'
 
@@ -72,7 +73,7 @@ function Catalog({ style }, { $, navigation }) {
                     />
                     <Flex.Item style={_.ml.md}>
                       <Text size={12} bold numberOfLines={2}>
-                        {item.title}
+                        {HTMLDecode(item.title)}
                         <Text
                           style={_.mt.xs}
                           size={10}

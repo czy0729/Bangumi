@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 21:25:16
+ * @Last Modified time: 2021-05-23 18:41:22
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -42,6 +42,12 @@ class Game extends React.Component {
     return new Array(length)
       .fill()
       .map((item, index) => CDN_GAME($.subjectId, index))
+  }
+
+  get isADV() {
+    const { $ } = this.context
+    const { tag } = $.gameInfo
+    return tag.includes('ADV')
   }
 
   renderThumbs() {
@@ -92,7 +98,7 @@ class Game extends React.Component {
             类型：{tag.join('、')}
           </Text>
         )}
-        {!!platform.length && (
+        {!!platform.length && !this.isADV && (
           <Text lineHeight={22} selectable>
             平台：{platform.join('、')}
           </Text>
@@ -102,22 +108,22 @@ class Game extends React.Component {
             最早发售：{time}
           </Text>
         )}
-        {!!timeCn && (
+        {!!timeCn && !this.isADV && (
           <Text lineHeight={22} selectable>
             中文发售：{timeCn}
           </Text>
         )}
-        {!!dev.length && (
+        {!!dev.length && !this.isADV && (
           <Text lineHeight={22} selectable>
             开发商：{dev.join('、')}
           </Text>
         )}
-        {!!publish.length && (
+        {!!publish.length && !this.isADV && (
           <Text lineHeight={22} selectable>
             发行商：{publish.join('、')}
           </Text>
         )}
-        {this.data.length > 1 && !!vid && (
+        {this.data.length > 1 && !!vid && !this.isADV && (
           <Text
             style={_.mt.xs}
             size={10}
@@ -126,6 +132,21 @@ class Game extends React.Component {
             onPress={() => open(`https://www.vgtime.com/game/${vid}.jhtml`)}
           >
             *信息来源自vgtime.com
+          </Text>
+        )}
+        {this.isADV && (
+          <Text
+            type='main'
+            lineHeight={22}
+            onPress={() =>
+              open(
+                `https://search.bilibili.com/all?keyword=${encodeURIComponent(
+                  $.jp || $.cn
+                )}%20OP&order=totalrank&duration=1&tids_1=4`
+              )
+            }
+          >
+            点击查找OP
           </Text>
         )}
       </View>
@@ -144,7 +165,7 @@ class Game extends React.Component {
       <View style={style}>
         <SectionTitle
           style={_.container.wind}
-          right={<IconPS />}
+          right={!this.isADV && <IconPS />}
           icon={!showGameInfo && 'md-navigate-next'}
           onPress={() => $.switchBlock('showGameInfo')}
         >

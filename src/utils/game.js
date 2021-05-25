@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-10 01:10:10
+ * @Last Modified time: 2021-05-23 01:38:54
  */
 import { DATA_ALPHABET } from '@constants'
 import { getTimestamp } from './index'
@@ -70,6 +70,7 @@ export const GAME_PLATFORM = [
   'Arcade'
 ]
 export const GAME_CATE = [
+  'ADV',
   '动作',
   '角色扮演',
   '冒险',
