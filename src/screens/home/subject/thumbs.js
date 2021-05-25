@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:40:34
+ * @Last Modified time: 2021-05-25 17:01:00
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -80,8 +80,8 @@ class Thumbs extends React.Component {
                   style={[styles.image, !!index && _.ml.sm]}
                   key={item}
                   src={item}
-                  size={124}
-                  height={78}
+                  size={160}
+                  height={100}
                   radius
                   headers={epsThumbsHeader}
                   onPress={() => {

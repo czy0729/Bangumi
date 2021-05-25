@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 16:07:45
+ * @Last Modified time: 2021-05-25 16:25:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { titleCase } from '@utils'
+import { IOS } from '@constants'
 import { _ } from '@stores'
 import { Activity } from './activity'
 import { Flex } from './flex'
@@ -215,6 +216,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   radius: {
     borderRadius: _.radiusXs,
-    overflow: 'hidden'
+    overflow: IOS ? undefined : 'hidden'
   }
 }))

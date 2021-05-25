@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-23 02:05:56
+ * @Last Modified time: 2021-05-25 16:51:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,16 +33,18 @@ function Item({ index, pickIndex }, { $, navigation }) {
     score,
     rank
   } = pick(pickIndex)
-  const tip = [
+  let tip = [
     platform.join('、'),
     time,
-    timeCn && timeCn !== time ? `中文 ${timeCn}` : '',
-    `${dev.join('、')} 开发`,
-    `${publish.join('、')} 发行`,
-    tag.join('、')
+    timeCn && timeCn !== time ? `中文 ${timeCn}` : ''
   ]
-    .filter(item => !!item)
-    .join(' / ')
+  if (dev.join('、') === publish.join('、')) {
+    tip.push(`${dev.join('、')} 开发&发行`)
+  } else {
+    tip.push(`${dev.join('、')} 开发`, `${publish.join('、')} 发行`)
+  }
+  tip.push(tag.join('、'))
+  tip = tip.filter(item => !!item).join(' / ')
 
   const collection = $.userCollectionsMap[id]
   const indent = collection ? '　　 ' : ''

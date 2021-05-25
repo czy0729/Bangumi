@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 22:27:06
+ * @Last Modified time: 2021-05-25 16:36:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,6 +35,11 @@ const menus = [
     path: 'Calendar'
   },
   {
+    title: '找游戏',
+    icon: 'md-chrome-reader-mode',
+    path: 'Game'
+  },
+  {
     title: '找漫画',
     icon: 'md-chrome-reader-mode',
     path: 'Manga'
@@ -45,14 +50,14 @@ const menus = [
     path: 'Wenku'
   },
   {
-    title: '目录',
-    icon: 'md-folder-open',
-    path: 'Catalog'
-  },
-  {
     title: '更多',
     icon: 'md-more-horiz',
     path: 'open'
+  },
+  {
+    title: '目录',
+    icon: 'md-folder-open',
+    path: 'Catalog'
   },
   {
     title: '日志',

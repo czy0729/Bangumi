@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 16:48:58
+ * @Last Modified time: 2021-05-25 16:53:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
 import { obc } from '@utils/decorators'
+import { IOS } from '@constants'
 import IconClose from './icon/close'
 
 function Box({ style }, { $, navigation }) {
@@ -115,7 +116,7 @@ const memoStyles = _.memoStyles(_ => ({
     shadowOpacity: 0.16,
     shadowRadius: 3,
     elevation: 3,
-    overflow: 'hidden'
+    overflow: IOS ? undefined : 'hidden'
   },
   left: {
     borderTopRightRadius: 0,
