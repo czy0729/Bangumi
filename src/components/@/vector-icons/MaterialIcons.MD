@@ -79,6 +79,7 @@ text-format
 timeline
 trending-up
 vertical-align-top
+videogame-asset
 visibility
 visibility-off
 waterfall-chart
@@ -86,4 +87,4 @@ whatshot
 workspaces-outline
 
 // Fontmin
-
+

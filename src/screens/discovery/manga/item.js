@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 11:38:03
+ * @Last Modified time: 2021-05-25 22:06:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,6 @@ function Item({ index, pickIndex }, { $, navigation }) {
     .filter(item => !!item)
     .join(' / ')
   const collection = $.userCollectionsMap[id]
-  const indent = collection ? '　　 ' : ''
   return (
     <Touchable
       style={styles.container}
@@ -87,13 +86,9 @@ function Item({ index, pickIndex }, { $, navigation }) {
             align='start'
           >
             <Flex align='start' style={styles.body}>
-              {!!collection && (
-                <Tag style={styles.collection} value={collection} />
-              )}
               <Flex.Item>
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
-                    {indent}
                     {$.cnFirst ? cn : jp}
                   </Text>
                   <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
@@ -103,6 +98,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 </Text>
               </Flex.Item>
               <Flex style={_.mt.xxs}>
+                {!!collection && <Tag style={_.ml.sm} value={collection} />}
                 {x18(id) && <Tag style={_.ml.sm} value='H' />}
               </Flex>
             </Flex>

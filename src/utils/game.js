@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-23 01:38:54
+ * @Last Modified time: 2021-05-25 19:23:35
  */
 import { DATA_ALPHABET } from '@constants'
 import { getTimestamp } from './index'
@@ -167,6 +167,28 @@ export const GAME_DEV = [
   'Bungie',
   '2K'
 ]
+export const GAME_DEV_ADV = [
+  '戯画',
+  'ALICESOFT',
+  'minori',
+  'あかべぇそふとすりぃ',
+  'SMEE',
+  'Campus',
+  'Key',
+  'ぱれっと',
+  'アトリエかぐや',
+  'あざらしそふと',
+  'Front Wing',
+  'Liar-soft',
+  'PULLTOP',
+  'あかべぇそふとつぅ',
+  'Innocent Grey',
+  'FAVORITE',
+  'Circus',
+  'NEKO WORKs',
+  'シルキーズプラス',
+  'ensemble'
+]
 export const GAME_PUB = [
   'Nintendo',
   'Bandai Namco',
@@ -192,6 +214,7 @@ export const GAME_SORT = [
   '随机',
   '名称'
 ]
+export const GAME_SORT_ADV = ['发行', '排名', '随机', '名称']
 
 /**
  * 初始化游戏数据

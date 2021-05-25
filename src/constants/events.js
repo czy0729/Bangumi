@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 20:11:00
+ * @Last Modified time: 2021-05-25 22:23:02
  */
 
 /**
@@ -119,6 +119,12 @@ export default {
   'Manga.到顶': 'Manga.scrollToTop',
   'Manga.切换布局': 'Manga.switchLayout',
 
+  // 游戏
+  '游戏.跳转': 'Game.to',
+  '游戏.选择': 'Game.onSelect',
+  '游戏.到顶': 'Game.scrollToTop',
+  '游戏.切换布局': 'Game.switchLayout',
+
   // 推荐
   '推荐.跳转': 'Guess.to',
   '推荐.刷新': 'Guess.refresh',
@@ -166,7 +172,6 @@ export default {
   '条目.更新书籍章节': 'Subject.doUpdateBookEp',
   '条目.输入框更新章节': 'Subject.doUpdateSubjectEp',
   '条目.章节按钮长按': 'Subject.doEpsLongPress',
-  // '条目.跳到条目': 'Subject.toSubject',
   '条目.封面图查看': 'Subject.imageView',
   '条目.右上角菜单': 'Subject.topRightMenu',
   '条目.删除收藏': 'Subject.doEraseCollection',
@@ -178,6 +183,7 @@ export default {
   '条目.阅读轻小说': 'Subject.readNoval',
   '条目.阅读漫画': 'Subject.readManga',
   '条目.预览': 'Subject.viewThumbs',
+  '条目.游戏截图': 'Subject.viewGameThumbs',
   '条目.筛选分数': 'Subject.filterScores',
   '条目.复制标题': 'Subject.copyTitle',
   '条目.展开收起功能块': 'Subject.switchBlock',

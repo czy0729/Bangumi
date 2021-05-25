@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:07:53
+ * @Last Modified time: 2021-05-25 22:07:26
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -48,6 +48,7 @@ export default class ScreenWenku extends store {
     })
 
     this.search()
+    collectionStore.fetchUserCollectionsQueue(false, '书籍')
     return res
   }
 

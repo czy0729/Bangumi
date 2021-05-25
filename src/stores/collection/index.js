@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 11:26:20
+ * @Last Modified time: 2021-05-25 22:02:07
  */
 import { observable, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -288,7 +288,7 @@ class Collection extends store {
    * 排队获取自己的所有动画收藏列表记录
    *  - 每种最多取10页240条数据
    */
-  fetchUserCollectionsQueue = async refresh => {
+  fetchUserCollectionsQueue = async (refresh, typeCn = '动画') => {
     try {
       const { username } = userStore.usersInfo(userStore.myUserId)
       const userId = username || userStore.myUserId
@@ -296,7 +296,7 @@ class Collection extends store {
         return false
       }
 
-      const subjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
+      const subjectType = MODEL_SUBJECT_TYPE.getLabel(typeCn)
       const now = getTimestamp()
       for (const item of MODEL_COLLECTION_STATUS.data) {
         const { _loaded } = this.userCollections(
@@ -317,7 +317,9 @@ class Collection extends store {
         }
       }
 
-      const userCollectionsMap = {}
+      const userCollectionsMap = {
+        ...this.state.userCollectionsMap
+      }
       for (const item of MODEL_COLLECTION_STATUS.data) {
         const data = this.userCollections(userId, subjectType, item.value)
         const { pagination } = data
@@ -336,7 +338,15 @@ class Collection extends store {
         }
 
         this.userCollections(userId, subjectType, item.value).list.forEach(
-          i => (userCollectionsMap[i.id] = item.label)
+          i => {
+            if (typeCn === '游戏') {
+              userCollectionsMap[i.id] = item.label.replace('看', '玩')
+            } else if (typeCn === '音乐') {
+              userCollectionsMap[i.id] = item.label.replace('看', '听')
+            } else {
+              userCollectionsMap[i.id] = item.label
+            }
+          }
         )
       }
 

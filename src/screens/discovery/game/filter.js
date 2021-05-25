@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 21:34:46
+ * @Last Modified time: 2021-05-25 19:23:56
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -15,8 +15,10 @@ import {
   GAME_PLATFORM,
   GAME_CATE,
   GAME_DEV,
+  GAME_DEV_ADV,
   GAME_PUB,
-  GAME_SORT
+  GAME_SORT,
+  GAME_SORT_ADV
 } from '@utils/game'
 
 const filterDS = [
@@ -56,13 +58,40 @@ const filterDS = [
     data: GAME_SORT
   }
 ]
+const advFilterDS = [
+  {
+    title: '首字　',
+    type: 'first',
+    data: GAME_FIRST
+  },
+  {
+    title: '发行　',
+    type: 'year',
+    data: GAME_YEAR
+  },
+  {
+    title: '类型　',
+    type: 'cate',
+    data: GAME_CATE
+  },
+  {
+    title: '开发商',
+    type: 'dev',
+    data: GAME_DEV_ADV
+  },
+  {
+    title: '排序　',
+    type: 'sort',
+    data: GAME_SORT_ADV
+  }
+]
 
 function Filter(props, { $ }) {
   const styles = memoStyles()
   const { query, data, layout } = $.state
   return (
     <View style={[styles.container, layout === 'grid' && _.mb.md]}>
-      {filterDS.map(item => {
+      {($.isADV ? advFilterDS : filterDS).map(item => {
         const state = query[item.type]
         const all = (
           <Touchable

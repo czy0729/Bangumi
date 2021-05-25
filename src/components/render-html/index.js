@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 17:33:34
+ * @Last Modified time: 2021-05-25 19:54:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,11 +55,14 @@ export const RenderHtml = observer(
     async componentDidMount() {
       const { katakana, html } = this.props
       if (katakana) {
-        const katakanaResult = await translateAll(html)
-        if (katakanaResult) {
-          this.setState({
-            katakanaResult
-          })
+        const { katakana: settingKatakana } = systemStore.setting
+        if (settingKatakana) {
+          const katakanaResult = await translateAll(html)
+          if (katakanaResult) {
+            this.setState({
+              katakanaResult
+            })
+          }
         }
       }
     }

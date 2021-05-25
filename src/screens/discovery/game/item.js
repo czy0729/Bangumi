@@ -2,11 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 16:51:14
+ * @Last Modified time: 2021-05-25 22:05:12
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Heatmap } from '@components'
+import {
+  Flex,
+  Text,
+  Touchable,
+  Heatmap,
+  HorizontalList,
+  Image
+} from '@components'
 import { _ } from '@stores'
 import { Tag, Cover, Stars, Rank } from '@screens/_'
 import { obc } from '@utils/decorators'
@@ -14,7 +21,9 @@ import { x18 } from '@utils/app'
 import { pick } from '@utils/game'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
+import { showImageViewer } from '@utils/ui'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { CDN_GAME } from '@constants/cdn'
 
 function Item({ index, pickIndex }, { $, navigation }) {
   const styles = memoStyles()
@@ -31,15 +40,17 @@ function Item({ index, pickIndex }, { $, navigation }) {
     time,
     timeCn,
     score,
-    rank
+    rank,
+    length
   } = pick(pickIndex)
+  const thumbs = getThumbs(id, length)
   let tip = [
     platform.join('、'),
     time,
     timeCn && timeCn !== time ? `中文 ${timeCn}` : ''
   ]
   if (dev.join('、') === publish.join('、')) {
-    tip.push(`${dev.join('、')} 开发&发行`)
+    tip.push(`${dev.join('、')}`)
   } else {
     tip.push(`${dev.join('、')} 开发`, `${publish.join('、')} 发行`)
   }
@@ -47,7 +58,6 @@ function Item({ index, pickIndex }, { $, navigation }) {
   tip = tip.filter(item => !!item).join(' / ')
 
   const collection = $.userCollectionsMap[id]
-  const indent = collection ? '　　 ' : ''
   return (
     <Touchable
       style={styles.container}
@@ -84,40 +94,66 @@ function Item({ index, pickIndex }, { $, navigation }) {
             justify='between'
             align='start'
           >
-            <Flex align='start' style={styles.body}>
-              {!!collection && (
-                <Tag style={styles.collection} value={collection} />
-              )}
-              <Flex.Item>
-                <Text size={15} numberOfLines={2}>
-                  <Text size={15} bold>
-                    {indent}
-                    {HTMLDecode(title)}
-                  </Text>
-                  {!!sub && (
-                    <Text
-                      type='sub'
-                      size={11}
-                      lineHeight={15}
-                      numberOfLines={1}
-                    >
-                      {' '}
-                      {HTMLDecode(sub)}
+            <View style={_.mr.wind}>
+              <Flex align='start' style={styles.body}>
+                <Flex.Item>
+                  <Text size={15} numberOfLines={2}>
+                    <Text size={15} bold>
+                      {HTMLDecode(title)}
                     </Text>
-                  )}
-                </Text>
-              </Flex.Item>
-              <Flex style={_.mt.xxs}>
-                {x18(id) && <Tag style={_.ml.sm} value='H' />}
+                    {!!sub && sub !== title && (
+                      <Text
+                        type='sub'
+                        size={11}
+                        lineHeight={15}
+                        numberOfLines={1}
+                      >
+                        {' '}
+                        {HTMLDecode(sub)}
+                      </Text>
+                    )}
+                  </Text>
+                </Flex.Item>
+                <Flex style={_.mt.xxs}>
+                  {!!collection && <Tag style={_.ml.sm} value={collection} />}
+                  {x18(id) && <Tag style={_.ml.sm} value='H' />}
+                </Flex>
               </Flex>
-            </Flex>
-            <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
-              {tip}
-            </Text>
-            <Flex style={_.mt.md} wrap='wrap'>
-              <Rank value={rank} />
-              <Stars style={_.mr.sm} value={score} simple />
-            </Flex>
+              <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
+                {tip}
+              </Text>
+              <Flex style={_.mt.md} wrap='wrap'>
+                <Rank value={rank} />
+                <Stars style={_.mr.sm} value={score} simple />
+              </Flex>
+            </View>
+            <View style={styles.thumbs}>
+              <HorizontalList
+                data={thumbs}
+                initialRenderNums={3}
+                renderItem={(item, index) => (
+                  <Image
+                    style={[
+                      !!index && _.ml.sm,
+                      index === thumbs.length - 1 && _.mr.md
+                    ]}
+                    key={item}
+                    src={item}
+                    size={96}
+                    height={64}
+                    radius
+                    onPress={() => {
+                      showImageViewer(
+                        thumbs.map(item => ({
+                          url: item
+                        })),
+                        index
+                      )
+                    }}
+                  />
+                )}
+              />
+            </View>
           </Flex>
         </Flex.Item>
       </Flex>
@@ -136,15 +172,14 @@ const memoStyles = _.memoStyles(_ => ({
     width: IMG_WIDTH
   },
   wrap: {
-    paddingVertical: _.space,
-    paddingRight: _.wind
+    paddingVertical: _.md + _.sm
   },
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    height: IMG_HEIGHT
+    minHeight: IMG_HEIGHT
   },
   body: {
     width: '100%'
@@ -154,5 +189,19 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     top: 1 * _.lineHeightRatio,
     left: 0
+  },
+  thumbs: {
+    marginTop: _.md,
+    height: 64
   }
 }))
+
+function getThumbs(subjectId, length) {
+  if (typeof length !== 'number') {
+    return []
+  }
+
+  return new Array(length)
+    .fill()
+    .map((item, index) => CDN_GAME(subjectId, index))
+}

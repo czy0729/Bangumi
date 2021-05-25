@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-23 18:41:22
+ * @Last Modified time: 2021-05-25 20:49:43
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -67,8 +67,8 @@ class Game extends React.Component {
             style={[styles.image, !!index && _.ml.sm]}
             key={item}
             src={item}
-            size={124}
-            height={78}
+            size={160}
+            height={100}
             radius
             onPress={() => {
               t('条目.游戏截图', {
@@ -90,37 +90,43 @@ class Game extends React.Component {
 
   renderDetails() {
     const { $ } = this.context
-    const { tag, platform, time, timeCn, dev, publish, vid } = $.gameInfo
+    const { title, sub, tag, platform, time, timeCn, dev, publish, vid } =
+      $.gameInfo
     return (
       <View style={[_.container.wind, _.mt.md]}>
+        {this.isADV && title !== sub && (
+          <Text lineHeight={22} selectable>
+            名称: {title}
+          </Text>
+        )}
         {!!tag.length && (
           <Text lineHeight={22} selectable>
-            类型：{tag.join('、')}
+            类型: {tag.join('、')}
           </Text>
         )}
         {!!platform.length && !this.isADV && (
           <Text lineHeight={22} selectable>
-            平台：{platform.join('、')}
+            平台: {platform.join('、')}
           </Text>
         )}
         {!!time && (
           <Text lineHeight={22} selectable>
-            最早发售：{time}
+            最早发售: {time}
           </Text>
         )}
         {!!timeCn && !this.isADV && (
           <Text lineHeight={22} selectable>
-            中文发售：{timeCn}
+            中文发售: {timeCn}
           </Text>
         )}
-        {!!dev.length && !this.isADV && (
+        {!!dev.length && (
           <Text lineHeight={22} selectable>
-            开发商：{dev.join('、')}
+            开发商: {dev.join('、')}
           </Text>
         )}
         {!!publish.length && !this.isADV && (
           <Text lineHeight={22} selectable>
-            发行商：{publish.join('、')}
+            发行商: {publish.join('、')}
           </Text>
         )}
         {this.data.length > 1 && !!vid && !this.isADV && (

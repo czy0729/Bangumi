@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 16:36:06
+ * @Last Modified time: 2021-05-25 21:13:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,14 +20,14 @@ const menus = [
     path: 'Rank'
   },
   {
-    title: '找番剧',
-    icon: 'md-live-tv',
-    path: 'Anime'
-  },
-  {
     title: '索引',
     icon: 'md-data-usage',
     path: 'Browser'
+  },
+  {
+    title: '目录',
+    icon: 'md-folder-open',
+    path: 'Catalog'
   },
   {
     title: '每日放送',
@@ -35,17 +35,22 @@ const menus = [
     path: 'Calendar'
   },
   {
-    title: '找游戏',
-    icon: 'md-chrome-reader-mode',
+    title: '番剧',
+    icon: 'md-live-tv',
+    path: 'Anime'
+  },
+  {
+    title: '游戏',
+    icon: 'md-videogame-asset',
     path: 'Game'
   },
   {
-    title: '找漫画',
+    title: '漫画',
     icon: 'md-chrome-reader-mode',
     path: 'Manga'
   },
   {
-    title: '找文库',
+    title: '文库',
     icon: 'md-notes',
     path: 'Wenku'
   },
@@ -54,15 +59,16 @@ const menus = [
     icon: 'md-more-horiz',
     path: 'open'
   },
+
   {
-    title: '目录',
-    icon: 'md-folder-open',
-    path: 'Catalog'
+    title: '搜索',
+    icon: 'md-search',
+    path: 'Search'
   },
   {
-    title: '日志',
-    icon: 'md-edit',
-    path: 'DiscoveryBlog'
+    title: '标签',
+    icon: 'md-bookmark-outline',
+    path: 'Tags'
   },
   {
     title: '档期',
@@ -70,9 +76,9 @@ const menus = [
     path: 'Staff'
   },
   {
-    title: '搜索',
-    icon: 'md-search',
-    path: 'Search'
+    title: '日志',
+    icon: 'md-edit',
+    path: 'DiscoveryBlog'
   },
   {
     title: '小圣杯',
@@ -92,15 +98,9 @@ const menus = [
     login: true
   },
   {
-    title: '标签',
-    icon: 'md-bookmark-outline',
-    path: 'Tags'
-  },
-  {
-    title: '时间线',
-    icon: 'md-timeline',
-    path: 'UserTimeline',
-    login: true
+    title: '维基人',
+    icon: 'wiki',
+    path: 'Wiki'
   },
   {
     title: '好友',
@@ -109,14 +109,10 @@ const menus = [
     login: true
   },
   {
-    title: '维基人',
-    icon: 'wiki',
-    path: 'Wiki'
-  },
-  {
-    title: 'Anitama',
-    icon: 'md-text-format',
-    path: 'Anitama'
+    title: '时间线',
+    icon: 'md-timeline',
+    path: 'UserTimeline',
+    login: true
   },
   {
     title: '我的人物',
@@ -129,6 +125,11 @@ const menus = [
     icon: 'md-folder-special',
     path: 'Catalogs',
     login: true
+  },
+  {
+    title: 'Anitama',
+    icon: 'md-text-format',
+    path: 'Anitama'
   },
   {
     title: '收起',

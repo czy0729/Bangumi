@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 21:16:30
+ * @Last Modified time: 2021-05-25 21:58:52
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -48,6 +48,7 @@ export default class ScreenGame extends store {
     })
 
     this.search()
+    collectionStore.fetchUserCollectionsQueue(false, '游戏')
     return res
   }
 
@@ -73,15 +74,36 @@ export default class ScreenGame extends store {
     return layout === 'list'
   }
 
+  @computed get isADV() {
+    const { query } = this.state
+    const { cate } = query
+    return cate === 'ADV'
+  }
+
   // -------------------- page --------------------
   onSelect = (type, value) => {
     const { query } = this.state
-    this.setState({
-      query: {
-        ...query,
-        [type]: value
-      }
-    })
+
+    if (type === 'cate' && value === 'ADV') {
+      this.setState({
+        query: {
+          first: '',
+          year: 2021,
+          platform: '',
+          cate: 'ADV',
+          dev: '',
+          pub: '',
+          sort: ''
+        }
+      })
+    } else {
+      this.setState({
+        query: {
+          ...query,
+          [type]: value
+        }
+      })
+    }
 
     setTimeout(() => {
       this.search()
