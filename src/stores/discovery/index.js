@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-16 19:43:29
+ * @Last Modified time: 2021-06-04 02:02:28
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, xhr } from '@utils/fetch'
 import { log } from '@utils/dev'
 import { HTMLDecode } from '@utils/html'
 import { HOST, LIST_EMPTY, HOST_NING_MOE, HOST_ANITAMA } from '@constants'
@@ -17,7 +17,9 @@ import {
   HTML_CATALOG_DETAIL,
   HTML_BLOG_LIST,
   HTML_CHANNEL,
-  HTML_WIKI
+  HTML_WIKI,
+  HTML_ACTION_CATALOG_ADD_RELATED,
+  HTML_ACTION_CATALOG_MODIFY_SUBJECT
 } from '@constants/html'
 import {
   NAMESPACE,
@@ -570,6 +572,55 @@ class Discovery extends store {
         [blogId]: true
       }
     })
+  }
+
+  // -------------------- action --------------------
+  /**
+   * 目录添加条目
+   */
+  doCatalogAddRelate = ({ catalogId, subjectId, formhash }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_CATALOG_ADD_RELATED(catalogId),
+        data: {
+          formhash,
+          cat: '0',
+          add_related: subjectId,
+          submit: '添加条目关联'
+        }
+      },
+      success
+    )
+  }
+
+  /**
+   * 目录移除条目
+   */
+  doCatalogDeleteRelate = ({ erase }, success) => {
+    xhr(
+      {
+        url: `${HOST}${erase}&ajax=1`
+      },
+      success
+    )
+  }
+
+  /**
+   * 目录修改条目
+   */
+  doCatalogModifySubject = ({ modify, formhash, content, order }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_CATALOG_MODIFY_SUBJECT(modify),
+        data: {
+          formhash,
+          content,
+          order,
+          submit: '提交'
+        }
+      },
+      success
+    )
   }
 }
 

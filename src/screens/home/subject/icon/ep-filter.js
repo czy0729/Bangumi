@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:21:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:34:56
+ * @Last Modified time: 2021-06-03 21:10:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,6 @@ function IconEpFilter(props, { $ }) {
         >
           <Flex style={styles.btn} justify='center'>
             <Iconfont
-              style={styles.icon}
               name='md-filter-list'
               color={filterEps ? _.colorMain : _.colorIcon}
             />

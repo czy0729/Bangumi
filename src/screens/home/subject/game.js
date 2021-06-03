@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 20:49:43
+ * @Last Modified time: 2021-05-27 10:36:51
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -109,7 +109,7 @@ class Game extends React.Component {
             平台: {platform.join('、')}
           </Text>
         )}
-        {!!time && (
+        {!!time && timeCn && timeCn !== time && (
           <Text lineHeight={22} selectable>
             最早发售: {time}
           </Text>
@@ -140,21 +140,21 @@ class Game extends React.Component {
             *信息来源自vgtime.com
           </Text>
         )}
-        {this.isADV && (
-          <Text
-            type='main'
-            lineHeight={22}
-            onPress={() =>
-              open(
-                `https://search.bilibili.com/all?keyword=${encodeURIComponent(
-                  $.jp || $.cn
-                )}%20OP&order=totalrank&duration=1&tids_1=4`
-              )
-            }
-          >
-            点击查找OP
-          </Text>
-        )}
+        <Text
+          type='main'
+          lineHeight={22}
+          onPress={() =>
+            open(
+              `https://search.bilibili.com/all?keyword=${encodeURIComponent(
+                $.jp || $.cn
+              )}%20${
+                this.isADV ? 'OP' : 'PV'
+              }&order=totalrank&duration=1&tids_1=4`
+            )
+          }
+        >
+          点击查找{this.isADV ? 'OP' : 'PV'}
+        </Text>
       </View>
     )
   }

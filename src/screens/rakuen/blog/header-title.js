@@ -12,7 +12,7 @@ import { urlStringify } from '@utils'
 import { ob } from '@utils/decorators'
 
 const routeName = 'Blog'
-const imgWidth = 24
+const imgWidth = 28
 
 function HeaderTitle({ navigation }) {
   const { state = {} } = navigation

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:23:00
+ * @Last Modified time: 2021-06-03 21:49:53
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
@@ -93,8 +93,13 @@ export function analysisCatalogDetail(HTML) {
         type = '三次元'
       }
 
+      // /update/137458?keepThis=false&TB_iframe=true&height=350&amp;width=500
+      const _id = ($a.attr('href') || '').replace('/subject/', '')
+      const _idTemp = _id.split('?')[0].split('/')
+      const id = _idTemp[_idTemp.length - 1]
+      const $modify = $li.find('.tb_idx_rlt')
       return safeObject({
-        id: ($a.attr('href') || '').replace('/subject/', ''),
+        id,
         image: $li.find('img.cover').attr('src'),
         title: ($a.text().trim() || '').replace('修改删除', ''),
         type,
@@ -102,7 +107,12 @@ export function analysisCatalogDetail(HTML) {
         comment: HTMLDecode(
           $li.find('div.text_main_even > div.text').text().trim()
         ),
-        isCollect: !!$li.find('p.collectModify').text().trim()
+        isCollect: !!$li.find('p.collectModify').text().trim(),
+
+        // 以下属性自己创建的目录才会存在
+        order: $modify.attr('order') || '0',
+        modify: $modify.attr('id')?.replace('modify_', '') || '',
+        erase: $li.find('.erase_idx_rlt').attr('href') || ''
       })
     })
     .get()

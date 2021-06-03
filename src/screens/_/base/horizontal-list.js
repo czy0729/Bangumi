@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:58:54
+ * @Last Modified time: 2021-05-27 10:18:22
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,8 +16,8 @@ export const HorizontalList = ob(
   class extends React.Component {
     static defaultProps = {
       data: [],
-      width: 52,
-      height: 52,
+      width: 56,
+      height: 56,
       quality: false,
       findCn: false,
       ellipsizeMode: 'tail',

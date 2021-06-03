@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 16:34:23
+ * @Last Modified time: 2021-05-27 17:52:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { Heatmap } from '@components'
+import { FolderManageModal } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy, runAfter } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
@@ -125,6 +126,7 @@ class Subject extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     const { showBlurView } = this.state
     return (
       <View style={_.container.plain}>
@@ -135,6 +137,7 @@ class Subject extends React.Component {
           onDidBlur={this.onDidBlur}
         />
         <Modal />
+        <FolderManageModal id={$.subjectId} />
         <Heatmap id={title} screen='Subject' />
       </View>
     )

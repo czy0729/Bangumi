@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-26 00:18:49
+ * @Last Modified time: 2021-05-28 03:29:33
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -178,6 +178,11 @@ class User extends store {
     logout: '',
 
     /**
+     * 表单提交唯一码
+     */
+    formhash: '',
+
+    /**
      * 个人设置
      */
     userSetting: INIT_USER_SETTING
@@ -187,6 +192,7 @@ class User extends store {
     await this.readStorage(
       [
         'accessToken',
+        'formhash',
         'pmDetail',
         'pmIn',
         'pmOut',
@@ -746,8 +752,10 @@ class User extends store {
     const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
     if (Array.isArray(matchLogout) && matchLogout[1]) {
       this.setState({
-        logout: `${HOST}/logout${matchLogout[1]}`
+        logout: `${HOST}/logout${matchLogout[1]}`,
+        formhash: matchLogout[1].replace('/', '')
       })
+      this.setStorage('formhash', undefined, NAMESPACE)
     }
 
     if (setCookie) {

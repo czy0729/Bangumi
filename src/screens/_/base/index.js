@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 15:13:48
+ * @Last Modified time: 2021-05-27 14:31:27
  */
 export * from './app-common'
 export * from './avatar'
@@ -11,6 +11,7 @@ export * from './characters'
 export * from './cover'
 export * from './eps'
 export * from './filter-text'
+export * from './folder-manage-modal'
 export * from './header'
 export * from './header-background'
 export * from './horizontal-list'

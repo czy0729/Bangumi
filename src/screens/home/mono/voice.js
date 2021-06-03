@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:54:09
+ * @Last Modified time: 2021-05-27 10:21:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -107,8 +107,8 @@ function Voice({ style }, { $, navigation }) {
                 </Flex.Item>
                 <Cover
                   style={_.ml.sm}
-                  size={48}
-                  height={62}
+                  size={64}
+                  height={82}
                   src={item.subjectCover}
                   radius
                   shadow

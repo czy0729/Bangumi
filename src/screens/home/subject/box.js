@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 16:53:57
+ * @Last Modified time: 2021-05-27 10:45:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
+import IconFolder from './icon/folder'
 import IconClose from './icon/close'
 
 function Box({ style }, { $, navigation }) {
@@ -32,7 +33,15 @@ function Box({ style }, { $, navigation }) {
   const statusSize = $.status[$.status.length - 1]?.text.length >= 6 ? 11 : 12
   return (
     <View style={[_.container.wind, styles.container, style]}>
-      <SectionTitle style={styles.sectionTitle} right={<IconClose />}>
+      <SectionTitle
+        style={styles.sectionTitle}
+        right={
+          <>
+            <IconFolder />
+            <IconClose />
+          </>
+        }
+      >
         收藏
       </SectionTitle>
       <Touchable style={styles.btn} onPress={onPress}>
