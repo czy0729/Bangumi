@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-04 02:02:28
+ * @Last Modified time: 2021-06-05 12:52:02
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -18,6 +18,7 @@ import {
   HTML_BLOG_LIST,
   HTML_CHANNEL,
   HTML_WIKI,
+  HTML_ACTION_CATALOG_CREATE,
   HTML_ACTION_CATALOG_ADD_RELATED,
   HTML_ACTION_CATALOG_MODIFY_SUBJECT
 } from '@constants/html'
@@ -575,6 +576,24 @@ class Discovery extends store {
   }
 
   // -------------------- action --------------------
+  /**
+   * 新建目录
+   */
+  doCatalogCreate = ({ formhash, title, desc }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_CATALOG_CREATE(),
+        data: {
+          formhash,
+          title,
+          desc,
+          submit: '创建目录'
+        }
+      },
+      success
+    )
+  }
+
   /**
    * 目录添加条目
    */

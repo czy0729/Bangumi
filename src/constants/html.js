@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-03 21:42:06
+ * @Last Modified time: 2021-06-05 11:40:58
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -463,6 +463,16 @@ export const HTML_ACTION_ERASE_COLLECTION = (subjectId, formhash) =>
  */
 export const HTML_ACTION_SUBJECT_SET_WATCHED = subjectId =>
   `${HOST}/subject/set/watched/${subjectId}`
+
+/**
+ * [POST] 创建目录
+ *
+ * formhash
+ * title: ''
+ * desc: ''
+ * submit: '创建目录'
+ */
+export const HTML_ACTION_CATALOG_CREATE = () => `${HOST}/index/create`
 
 /**
  * [POST] 目录添加条目

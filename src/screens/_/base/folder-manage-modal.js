@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-04 02:06:06
+ * @Last Modified time: 2021-06-06 05:49:34
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -23,10 +23,11 @@ import { IconTouchable } from '../icon/touchable'
 const width = parseInt(IMG_WIDTH / 1.6)
 const height = parseInt(IMG_HEIGHT / 1.6)
 const controlDS = {
-  single: ['修改', '删除'],
-  top: ['修改', '下移', '置底', '删除'],
-  middle: ['修改', '置顶', '上移', '下移', '置底', '删除'],
-  bottom: ['修改', '置顶', '上移', '删除']
+  root: ['修改', '删除'],
+  single: ['修改', '移出'],
+  top: ['修改', '下移', '置底', '移出'],
+  middle: ['修改', '置顶', '上移', '下移', '置底', '移出'],
+  bottom: ['修改', '置顶', '上移', '移出']
 }
 
 export const FolderManageModal = ob(
@@ -41,7 +42,7 @@ export const FolderManageModal = ob(
 
     state = {
       visible: true,
-      expand: 33497,
+      expand: ['33497'],
       edit: 0,
       content: '',
       order: '0'
@@ -59,6 +60,18 @@ export const FolderManageModal = ob(
       BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
     }
 
+    onBackAndroid = () => {
+      const { visible, onClose } = this.props
+      if (visible) {
+        onClose()
+        return true
+      }
+      return false
+    }
+
+    /**
+     * 请求目录列表
+     */
     fetchCatalogs = async (key, refresh) => {
       const res = usersStore.fetchCatalogs(
         {
@@ -73,6 +86,9 @@ export const FolderManageModal = ob(
       return res
     }
 
+    /**
+     * 请求目录详情
+     */
     fetchCatalogDetail = async (id, refresh) => {
       if (!refresh) {
         const data = discoveryStore.catalogDetail(id)
@@ -87,26 +103,25 @@ export const FolderManageModal = ob(
       })
     }
 
-    onBackAndroid = () => {
-      const { visible, onClose } = this.props
-      if (visible) {
-        onClose()
-        return true
-      }
-      return false
-    }
-
+    /**
+     * 目录展开
+     */
     onExpand = item => {
       const { expand } = this.state
       this.setState({
-        expand: expand == item.id ? 0 : item.id,
+        expand: expand.includes(item.id)
+          ? expand.filter(i => !(i == item.id))
+          : [...expand, item.id],
         edit: 0,
         content: '',
         order: '0'
       })
     }
 
-    onPress = (item, detail, isIn) => {
+    /**
+     * 添加/移出
+     */
+    onToggle = (item, detail, isIn) => {
       if (!isIn) {
         discoveryStore.doCatalogAddRelate(
           {
@@ -153,13 +168,94 @@ export const FolderManageModal = ob(
       ])
     }
 
-    onControl = (title, item, pItem) => {
+    /**
+     * 更多菜单
+     */
+    onControl = () => {}
+
+    /**
+     *
+     */
+
+    /**
+     * 条目更多菜单
+     */
+    onSubjectControl = (title, item, pItem) => {
+      const detail = this.catalogDetail(pItem.id)
+      const current = fixedOrder(item.order)
+      let order = 0
+      let temp
+      let flag
+
       switch (title) {
-        case '修改':
-          this.onEdit(item)
+        case '置顶':
+          temp = detail.list.sort((a, b) => Number(a.sort) - Number(b.sort))[0]
+          order = Number(temp.order)
+          if (Number.isNaN(order)) {
+            order = 0
+          } else {
+            order -= 10
+          }
+
+          this.onSort(item, order, pItem)
           break
 
-        case '删除':
+        case '上移':
+          if (current == 0) {
+            order = -10
+          } else {
+            temp = detail.list
+              .map(i => fixedOrder(i.order))
+              .sort((a, b) => b - a)
+            temp.forEach(i => {
+              if (!flag && current > i) {
+                order = i - 10
+                flag = true
+              }
+            })
+
+            if (!flag) {
+              order = (temp[temp.length - 1] || 0) - 10
+            }
+          }
+
+          this.onSort(item, order, pItem)
+          break
+
+        case '下移':
+          detail.list
+            .map(i => fixedOrder(i.order))
+            .sort((a, b) => a - b)
+            .forEach(i => {
+              if (!flag && current < i) {
+                order = i + 10
+                flag = true
+              }
+            })
+          if (!flag) {
+            order = current + 10
+          }
+
+          this.onSort(item, order, pItem)
+          break
+
+        case '置底':
+          temp = detail.list.sort((a, b) => Number(b.sort) - Number(a.sort))[0]
+          order = Number(temp.order)
+          if (Number.isNaN(order)) {
+            order = 10
+          } else {
+            order += 10
+          }
+
+          this.onSort(item, order, pItem)
+          break
+
+        case '修改':
+          this.onSubjectEdit(item)
+          break
+
+        case '移出':
           setTimeout(() => {
             Alert.alert('警告', '确定移出目录?', [
               {
@@ -190,7 +286,10 @@ export const FolderManageModal = ob(
       }
     }
 
-    onEdit = item => {
+    /**
+     * 编辑项
+     */
+    onSubjectEdit = item => {
       if (item) {
         this.setState({
           edit: item.id,
@@ -207,12 +306,18 @@ export const FolderManageModal = ob(
       })
     }
 
+    /**
+     * 改变评价
+     */
     onChange = content => {
       this.setState({
         content
       })
     }
 
+    /**
+     * 改变排序
+     */
     onOrder = order => {
       if (!order) {
         this.setState({
@@ -231,7 +336,35 @@ export const FolderManageModal = ob(
       })
     }
 
-    onSubmit = item => {
+    /**
+     * 直接提交顺序
+     */
+    onSort = (item, order, pItem) => {
+      const { modify, erase } = item
+      const formhash = erase?.split('?gh=')[1]
+      if (!formhash) {
+        info('目录信息有误, 暂不能修改条目, 请重新进入页面')
+        return
+      }
+
+      discoveryStore.doCatalogModifySubject(
+        {
+          modify,
+          formhash,
+          content: item.comment || '',
+          order: order || '0'
+        },
+        () => {
+          feedback()
+          this.fetchCatalogDetail(pItem.id, true)
+        }
+      )
+    }
+
+    /**
+     * 提交
+     */
+    onSubmit = (item, pItem) => {
       const { modify, erase } = item
       const { content, order } = this.state
       const formhash = erase?.split('?gh=')[1]
@@ -249,8 +382,8 @@ export const FolderManageModal = ob(
         },
         () => {
           feedback()
-          this.fetchCatalogDetail(item.id, true)
-          this.onEdit()
+          this.fetchCatalogDetail(pItem.id, true)
+          this.onSubjectEdit()
         }
       )
     }
@@ -278,7 +411,7 @@ export const FolderManageModal = ob(
                 </Text>
                 <Iconfont
                   name={
-                    expand == item.id
+                    expand.includes(item.id)
                       ? 'md-keyboard-arrow-down'
                       : 'md-navigate-next'
                   }
@@ -294,12 +427,22 @@ export const FolderManageModal = ob(
           <Flex style={this.styles.control} justify='end'>
             {!edit && (
               <IconTouchable
+                style={_.ml.sm}
                 name={isIn ? 'md-check-circle-outline' : 'md-radio-button-off'}
                 size={18}
                 color={isIn ? _.colorMain : _.colorSub}
-                onPress={() => this.onPress(item, detail, isIn)}
+                onPress={() => this.onToggle(item, detail, isIn)}
               />
             )}
+            <Popover
+              style={this.styles.touch}
+              data={controlDS.single}
+              onSelect={title => this.onItemControl(title, item)}
+            >
+              <Flex style={this.styles.more} justify='center'>
+                <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
+              </Flex>
+            </Popover>
           </Flex>
         </Flex>
       )
@@ -344,7 +487,7 @@ export const FolderManageModal = ob(
                     {i.title}
                   </Text>
                   <Text style={_.mt.xs} size={10} type='sub' numberOfLines={2}>
-                    {i.info}
+                    [{i.order}] {i.info}
                   </Text>
                   {!isEditing && !!i.comment && (
                     <Text style={this.styles.comment} size={10}>
@@ -367,7 +510,7 @@ export const FolderManageModal = ob(
                         style={[this.styles.textarea, _.mt.md]}
                         defaultValue={order == '0' ? '' : order}
                         keyboardType='number-pad'
-                        placeholder='输入排序'
+                        placeholder='输入排序 (越小越前)'
                         onChangeText={this.onOrder}
                       />
                     </>
@@ -380,14 +523,14 @@ export const FolderManageModal = ob(
                         name='md-close'
                         size={18}
                         color={_.colorSub}
-                        onPress={() => this.onEdit()}
+                        onPress={() => this.onSubjectEdit()}
                       />
                       <IconTouchable
                         style={this.styles.submit}
                         name='md-check'
                         size={18}
                         color={_.colorSub}
-                        onPress={() => this.onSubmit(i)}
+                        onPress={() => this.onSubmit(i, detail)}
                       />
                     </View>
                   )}
@@ -395,7 +538,7 @@ export const FolderManageModal = ob(
                     <Popover
                       style={this.styles.touch}
                       data={data}
-                      onSelect={title => this.onControl(title, i, item)}
+                      onSelect={title => this.onSubjectControl(title, i, item)}
                     >
                       <Flex style={this.styles.more} justify='center'>
                         <Iconfont
@@ -432,6 +575,13 @@ export const FolderManageModal = ob(
           closable
           onClose={onClose}
         >
+          <IconTouchable
+            style={this.styles.create}
+            name='md-add'
+            size={24}
+            color={_.colorSub}
+            onPress={this.on}
+          />
           <ScrollView
             style={this.styles.wrap}
             contentContainerStyle={this.styles.content}
@@ -448,7 +598,8 @@ export const FolderManageModal = ob(
                 return (
                   <View key={item.id}>
                     {this.renderItem(item, detail)}
-                    {expand == item.id && this.renderSubjects(item, detail)}
+                    {expand.includes(item.id) &&
+                      this.renderSubjects(item, detail)}
                   </View>
                 )
               })}
@@ -469,6 +620,12 @@ const memoStyles = _.memoStyles(_ => ({
     maxWidth: 400,
     backgroundColor: _.select(_.colorBg, _.colorBg)
   },
+  create: {
+    position: 'absolute',
+    zIndex: 1,
+    top: -31,
+    right: 12
+  },
   wrap: {
     height: _.window.height * 0.64,
     marginTop: _.md
@@ -482,7 +639,6 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: _.sm
   },
   control: {
-    width: 48,
     height: '100%'
   },
   btn: {
@@ -498,6 +654,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.sm
   },
   touch: {
+    marginLeft: _.sm,
     marginRight: -2,
     borderRadius: 20,
     overflow: 'hidden'
@@ -511,7 +668,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
-    borderColor: _.colorBorder,
+    borderColor: _.select(_.colorIcon, _.colorBorder),
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
@@ -521,9 +678,9 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: -4,
     color: _.colorDesc,
     ..._.fontSize10,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderWidth: 1,
-    borderColor: _.colorBorder,
+    borderColor: _.select(_.colorIcon, _.colorBorder),
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
@@ -537,3 +694,8 @@ const memoStyles = _.memoStyles(_ => ({
     bottom: -4
   }
 }))
+
+function fixedOrder(order) {
+  const _order = Number(order)
+  return Number.isNaN(_order) ? 10 : _order
+}
