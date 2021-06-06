@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-06 05:49:34
+ * @Last Modified time: 2021-06-06 11:58:08
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -43,9 +43,16 @@ export const FolderManageModal = ob(
     state = {
       visible: true,
       expand: ['33497'],
+
+      // 编辑
       edit: 0,
       content: '',
-      order: '0'
+      order: '0',
+
+      // 新建
+      create: false,
+      title: '',
+      desc: ''
     }
 
     componentDidMount() {
@@ -72,12 +79,12 @@ export const FolderManageModal = ob(
     /**
      * 请求目录列表
      */
-    fetchCatalogs = async (key, refresh) => {
+    fetchCatalogs = async () => {
       const res = usersStore.fetchCatalogs(
         {
-          isCollect: key === 'collect'
+          isCollect: false
         },
-        refresh
+        true
       )
 
       const { list } = await res
@@ -171,11 +178,64 @@ export const FolderManageModal = ob(
     /**
      * 更多菜单
      */
-    onControl = () => {}
+    onControl = title => {
+      switch (title) {
+        case '修改':
+          break
+
+        case '删除':
+          break
+
+        default:
+          break
+      }
+    }
 
     /**
-     *
+     * 创建目录
      */
+    onCreate = create => {
+      if (create) {
+        if (!userStore.formhash) {
+          info('授权信息有误, 请尝试重新登陆')
+          return
+        }
+
+        this.setState({
+          create
+        })
+      } else {
+        this.setState({
+          create,
+          title: '',
+          desc: ''
+        })
+      }
+    }
+
+    /**
+     * 提交创建目录
+     */
+    onSubmitCreate = () => {
+      const { title, desc } = this.state
+      if (!title.length) {
+        info('标题不能为空')
+        return
+      }
+
+      discoveryStore.doCatalogCreate(
+        {
+          formhash: userStore.formhash,
+          title: title || '',
+          desc: desc || ''
+        },
+        () => {
+          this.fetchCatalogs()
+          this.onCreate(false)
+          feedback()
+        }
+      )
+    }
 
     /**
      * 条目更多菜单
@@ -307,11 +367,11 @@ export const FolderManageModal = ob(
     }
 
     /**
-     * 改变评价
+     * 改变文字
      */
-    onChange = content => {
+    onChange = (value, key = 'content') => {
       this.setState({
-        content
+        [key]: value
       })
     }
 
@@ -396,6 +456,81 @@ export const FolderManageModal = ob(
       return computed(() => discoveryStore.catalogDetail(id)).get()
     }
 
+    renderCreate() {
+      const { create, title, desc } = this.state
+      if (!create) {
+        return null
+      }
+
+      return (
+        <View style={this.styles.create}>
+          <Text bold>新建目录</Text>
+          <Input
+            style={[this.styles.textarea, _.mt.md]}
+            defaultValue={title}
+            placeholder='输入标题'
+            clear
+            onChangeText={text => this.onChange(text, 'title')}
+          />
+          <TextareaItem
+            style={[this.styles.textarea, _.mt.md]}
+            value={desc}
+            placeholder='输入描述'
+            placeholderTextColor={_.colorDisabled}
+            rows={3}
+            selectionColor={_.colorMain}
+            clear
+            onChange={text => this.onChange(text, 'desc')}
+          />
+          <IconTouchable
+            style={this.styles.btnCreateCancel}
+            name='md-close'
+            size={22}
+            color={_.colorSub}
+            onPress={() => this.onCreate(false)}
+          />
+          <IconTouchable
+            style={this.styles.btnCreateSubmit}
+            name='md-check'
+            size={22}
+            color={_.colorSub}
+            onPress={this.onSubmitCreate}
+          />
+        </View>
+      )
+    }
+
+    renderList() {
+      const { create, expand } = this.state
+      const { list } = this.catalogs
+      return (
+        <ScrollView
+          style={this.styles.wrap}
+          contentContainerStyle={this.styles.content}
+        >
+          {create
+            ? this.renderCreate()
+            : list
+                .sort(a => {
+                  const { id } = this.props
+                  const detail = this.catalogDetail(a.id)
+                  const isIn = detail?.list?.some(i => i.id == id)
+                  return isIn ? -1 : 0
+                })
+                .map(item => {
+                  const detail = this.catalogDetail(item.id)
+                  return (
+                    <View key={item.id}>
+                      {this.renderItem(item, detail)}
+                      {expand.includes(item.id) &&
+                        this.renderSubjects(item, detail)}
+                    </View>
+                  )
+                })}
+        </ScrollView>
+      )
+    }
+
     renderItem(item, detail) {
       const { id } = this.props
       const { expand, edit } = this.state
@@ -428,16 +563,16 @@ export const FolderManageModal = ob(
             {!edit && (
               <IconTouchable
                 style={_.ml.sm}
-                name={isIn ? 'md-check-circle-outline' : 'md-radio-button-off'}
+                name={isIn ? 'md-star' : 'md-star-outline'}
                 size={18}
-                color={isIn ? _.colorMain : _.colorSub}
+                color={isIn ? _.colorWarning : _.colorSub}
                 onPress={() => this.onToggle(item, detail, isIn)}
               />
             )}
             <Popover
               style={this.styles.touch}
-              data={controlDS.single}
-              onSelect={title => this.onItemControl(title, item)}
+              data={controlDS.root}
+              onSelect={title => this.onControl(title, item)}
             >
               <Flex style={this.styles.more} justify='center'>
                 <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
@@ -480,7 +615,7 @@ export const FolderManageModal = ob(
                 <Flex.Item style={_.ml.sm}>
                   <Text
                     size={11}
-                    type={i.id == id ? 'main' : 'desc'}
+                    type={i.id == id ? 'warning' : 'desc'}
                     bold
                     numberOfLines={1}
                   >
@@ -559,8 +694,7 @@ export const FolderManageModal = ob(
 
     render() {
       const { title, onClose } = this.props
-      const { visible, expand } = this.state
-      const { list } = this.catalogs
+      const { visible, create } = this.state
       return (
         <Modal
           style={this.styles.modal}
@@ -575,35 +709,16 @@ export const FolderManageModal = ob(
           closable
           onClose={onClose}
         >
-          <IconTouchable
-            style={this.styles.create}
-            name='md-add'
-            size={24}
-            color={_.colorSub}
-            onPress={this.on}
-          />
-          <ScrollView
-            style={this.styles.wrap}
-            contentContainerStyle={this.styles.content}
-          >
-            {list
-              .sort(a => {
-                const { id } = this.props
-                const detail = this.catalogDetail(a.id)
-                const isIn = detail?.list?.some(i => i.id == id)
-                return isIn ? -1 : 0
-              })
-              .map(item => {
-                const detail = this.catalogDetail(item.id)
-                return (
-                  <View key={item.id}>
-                    {this.renderItem(item, detail)}
-                    {expand.includes(item.id) &&
-                      this.renderSubjects(item, detail)}
-                  </View>
-                )
-              })}
-          </ScrollView>
+          {!create && (
+            <IconTouchable
+              style={this.styles.btnCreate}
+              name='md-add'
+              size={24}
+              color={_.colorSub}
+              onPress={() => this.onCreate(true)}
+            />
+          )}
+          {this.renderList()}
         </Modal>
       )
     }
@@ -620,7 +735,7 @@ const memoStyles = _.memoStyles(_ => ({
     maxWidth: 400,
     backgroundColor: _.select(_.colorBg, _.colorBg)
   },
-  create: {
+  btnCreate: {
     position: 'absolute',
     zIndex: 1,
     top: -31,
@@ -691,6 +806,24 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     zIndex: 1,
     right: 0,
+    bottom: -4
+  },
+  create: {
+    paddingTop: _.sm,
+    paddingRight: 48,
+    paddingLeft: _.sm,
+    marginBottom: _.md
+  },
+  btnCreateCancel: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    right: -4
+  },
+  btnCreateSubmit: {
+    position: 'absolute',
+    zIndex: 1,
+    right: -4,
     bottom: -4
   }
 }))
