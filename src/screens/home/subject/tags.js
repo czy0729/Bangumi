@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 17:51:15
+ * @Last Modified time: 2021-06-07 04:30:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,6 +37,10 @@ function Tags({ style }, { $, navigation }) {
           <Flex wrap='wrap'>
             {$.tags.map(({ name, count }, index) => {
               const isSelected = tag.includes(name)
+              if (!isSelected && $.tags.length > 10 && count < 8) {
+                return null
+              }
+
               return (
                 <Touchable
                   // eslint-disable-next-line react/no-array-index-key

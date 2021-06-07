@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 22:18:38
+ * @Last Modified time: 2021-06-07 08:19:04
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -62,6 +62,7 @@ const initRating = {
 }
 const excludeState = {
   visible: false, // 是否显示管理模态框
+  folder: false, // 是否显示目录管理模态框
   showHeaderTitle: false,
   rendered: false,
 
@@ -983,6 +984,30 @@ export default class ScreenSubject extends store {
     return false
   }
 
+  /**
+   * 计算本条目存在在多少个自己创建的目录里面
+   */
+  @computed get catalogs() {
+    return usersStore.catalogs()
+  }
+
+  catalogDetail(id) {
+    return computed(() => discoveryStore.catalogDetail(id)).get()
+  }
+
+  @computed get catalogIncludes() {
+    const { list } = this.catalogs
+    let num = 0
+    list.forEach(item => {
+      const { list } = this.catalogDetail(item.id)
+      if (list.some(i => i.id == this.subjectId)) {
+        num += 1
+      }
+    })
+
+    return num
+  }
+
   // -------------------- page --------------------
   /**
    * 显示收藏管理
@@ -1252,6 +1277,27 @@ export default class ScreenSubject extends store {
     if (!rendered) {
       this.setState({
         rendered: true
+      })
+    }
+  }
+
+  /**
+   * 显示/关闭管理目录模态框
+   */
+  toggleFolder = () => {
+    if (!this.isLogin) {
+      info('请先登录')
+      return
+    }
+
+    const { folder } = this.state
+    this.setState({
+      folder: !folder
+    })
+
+    if (!folder) {
+      t('条目.管理目录', {
+        subjectId: this.subjectId
       })
     }
   }

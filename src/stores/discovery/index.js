@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-05 12:52:02
+ * @Last Modified time: 2021-06-07 02:27:25
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,7 +20,9 @@ import {
   HTML_WIKI,
   HTML_ACTION_CATALOG_CREATE,
   HTML_ACTION_CATALOG_ADD_RELATED,
-  HTML_ACTION_CATALOG_MODIFY_SUBJECT
+  HTML_ACTION_CATALOG_MODIFY_SUBJECT,
+  HTML_ACTION_CATALOG_DELETE,
+  HTML_ACTION_CATALOG_EDIT
 } from '@constants/html'
 import {
   NAMESPACE,
@@ -588,6 +590,40 @@ class Discovery extends store {
           title,
           desc,
           submit: '创建目录'
+        }
+      },
+      success
+    )
+  }
+
+  /**
+   * 删除目录
+   */
+  doCatalogDelete = ({ catalogId, formhash }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_CATALOG_DELETE(catalogId),
+        data: {
+          formhash,
+          submit: '我要删除这个目录'
+        }
+      },
+      success
+    )
+  }
+
+  /**
+   * 编辑目录
+   */
+  doCatalogEdit = ({ catalogId, formhash, title, desc }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_CATALOG_EDIT(catalogId),
+        data: {
+          formhash,
+          title,
+          desc,
+          submit: '保存修改'
         }
       },
       success

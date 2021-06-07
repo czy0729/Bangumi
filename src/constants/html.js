@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-05 11:40:58
+ * @Last Modified time: 2021-06-07 02:26:15
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -473,6 +473,26 @@ export const HTML_ACTION_SUBJECT_SET_WATCHED = subjectId =>
  * submit: '创建目录'
  */
 export const HTML_ACTION_CATALOG_CREATE = () => `${HOST}/index/create`
+
+/**
+ * [POST] 删除目录
+ *
+ * formhash
+ * submit: '我要删除这个目录'
+ */
+export const HTML_ACTION_CATALOG_DELETE = catalogId =>
+  `${HOST}/index/${catalogId}/erase`
+
+/**
+ * [POST] 修改目录
+ *
+ * formhash
+ * title: '',
+ * desc: '',
+ * submit: '保存修改'
+ */
+export const HTML_ACTION_CATALOG_EDIT = catalogId =>
+  `${HOST}/index/${catalogId}/edit`
 
 /**
  * [POST] 目录添加条目

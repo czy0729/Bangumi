@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:23:02
+ * @Last Modified time: 2021-06-07 07:49:03
  */
 
 /**
@@ -187,6 +187,7 @@ export default {
   '条目.筛选分数': 'Subject.filterScores',
   '条目.复制标题': 'Subject.copyTitle',
   '条目.展开收起功能块': 'Subject.switchBlock',
+  '条目.管理目录': 'Subject.manageFolder',
 
   // 章节
   '章节.跳转': 'Episodes.to',
@@ -566,5 +567,6 @@ export default {
   '其他.查看': 'Other.view',
   '其他.刷新到顶': 'Other.fetchToTop',
   '其他.Linking': 'Other.deeplink',
-  '其他.崩溃': 'Other.error'
+  '其他.崩溃': 'Other.error',
+  '其他.管理目录': 'Other.folderMange'
 }
