@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-27 10:36:51
+ * @Last Modified time: 2021-06-07 08:30:40
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -109,7 +109,7 @@ class Game extends React.Component {
             平台: {platform.join('、')}
           </Text>
         )}
-        {!!time && timeCn && timeCn !== time && (
+        {!!time && !!timeCn && timeCn !== time && (
           <Text lineHeight={22} selectable>
             最早发售: {time}
           </Text>

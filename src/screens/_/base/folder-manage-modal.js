@@ -2,22 +2,30 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 08:00:50
+ * @Last Modified time: 2021-06-07 23:09:09
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
 import { computed } from 'mobx'
-import { Touchable, Flex, Text, Iconfont, Input } from '@components'
+import { Touchable, Flex, Text, Iconfont, Input, Divider } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
-import { _, userStore, usersStore, discoveryStore } from '@stores'
+import {
+  _,
+  userStore,
+  usersStore,
+  discoveryStore,
+  collectionStore
+} from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { queue, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
+import { HTMLDecode } from '@utils/html'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { Cover } from './cover'
 import { Popover } from './popover'
+import { Tag } from './tag'
 import { IconTouchable } from '../icon/touchable'
 
 const storageKey = 'FolderManageModal|expand'
@@ -579,6 +587,10 @@ export const FolderManageModal = ob(
       )
     }
 
+    @computed get userCollectionsMap() {
+      return collectionStore.userCollectionsMap
+    }
+
     @computed get catalogs() {
       return usersStore.catalogs()
     }
@@ -649,10 +661,13 @@ export const FolderManageModal = ob(
     }
 
     renderList() {
-      const { create } = this.state
+      const { create, expand } = this.state
       const { list } = this.catalogs
       return (
-        <ScrollView style={this.styles.scrollView}>
+        <ScrollView
+          style={this.styles.scrollView}
+          showsVerticalScrollIndicator={false}
+        >
           {create === true
             ? this.renderCreate()
             : list
@@ -668,10 +683,12 @@ export const FolderManageModal = ob(
                 })
                 .map(item => {
                   const detail = this.catalogDetail(item.id)
+                  const showDivider = expand.includes(item.id)
                   return (
                     <View key={item.id}>
                       {this.renderCatalog(item, detail)}
                       {this.renderSubjects(item, detail)}
+                      {showDivider && <Divider style={_.mb.md} />}
                     </View>
                   )
                 })}
@@ -712,9 +729,13 @@ export const FolderManageModal = ob(
               <Touchable onPress={() => this.onExpand(item)}>
                 <Flex>
                   <Text bold>
-                    {item.title} ({detail.list.length})
+                    {item.title}{' '}
+                    <Text size={11} lineHeight={14} type='sub' bold>
+                      ({detail.list.length})
+                    </Text>
                   </Text>
                   <Iconfont
+                    style={_.ml.sm}
                     name={
                       expand.includes(item.id)
                         ? 'md-keyboard-arrow-down'
@@ -724,7 +745,7 @@ export const FolderManageModal = ob(
                     lineHeight={24}
                   />
                 </Flex>
-                <Text style={_.mt.xs} size={11} type='sub' numberOfLines={1}>
+                <Text style={_.mt.xs} size={11} type='sub' numberOfLines={2}>
                   {date} / {detail.content}
                 </Text>
               </Touchable>
@@ -802,6 +823,8 @@ export const FolderManageModal = ob(
             }
 
             const align = isEditing || i.comment ? 'start' : 'center'
+            const collection = this.userCollectionsMap[i.id]
+            const indent = collection ? '　　　' : ''
             return (
               <Flex style={this.styles.subject} align={align}>
                 <Cover
@@ -809,18 +832,31 @@ export const FolderManageModal = ob(
                   size={width}
                   height={height}
                   radius
-                  type={i.type}
+                  type={i.type === '音乐' ? i.type : undefined}
                 />
-                <Flex.Item style={_.ml.sm}>
+                <Flex.Item style={this.styles.subjectContent}>
+                  <View>
+                    {!!collection && (
+                      <Tag style={this.styles.collection} value={collection} />
+                    )}
+                    <Text
+                      size={11}
+                      lineHeight={13}
+                      type={i.id == id ? 'warning' : 'desc'}
+                      bold
+                      numberOfLines={1}
+                    >
+                      {indent}
+                      {HTMLDecode(i.title)}
+                    </Text>
+                  </View>
                   <Text
-                    size={11}
-                    type={i.id == id ? 'warning' : 'desc'}
-                    bold
-                    numberOfLines={1}
+                    style={_.mt.xs}
+                    size={10}
+                    lineHeight={12}
+                    type='sub'
+                    numberOfLines={2}
                   >
-                    {i.title}
-                  </Text>
-                  <Text style={_.mt.xs} size={10} type='sub' numberOfLines={2}>
                     [{i.order}] {i.info}
                   </Text>
                   {!isEditing && !!i.comment && (
@@ -844,7 +880,7 @@ export const FolderManageModal = ob(
                         style={[this.styles.textarea, _.mt.md]}
                         defaultValue={order == '0' ? '' : order}
                         keyboardType='number-pad'
-                        placeholder='输入排序 (越小越前)'
+                        placeholder='输入排序 (数字越小越前)'
                         onChangeText={this.onOrder}
                       />
                     </>
@@ -927,8 +963,9 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select(_.colorBg, _.colorBg)
   },
   scrollView: {
-    height: _.window.height * 0.64,
-    marginTop: _.md
+    height: _.window.height * 0.8,
+    marginTop: _.md,
+    marginBottom: _.sm
   },
   catalog: {
     padding: _.sm,
@@ -946,6 +983,15 @@ const memoStyles = _.memoStyles(_ => ({
   },
   subject: {
     paddingVertical: _.sm
+  },
+  subjectContent: {
+    paddingLeft: 12
+  },
+  collection: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    left: 0
   },
   comment: {
     padding: _.sm,
@@ -978,7 +1024,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: _.md
   },
   btnPopover: {
-    marginLeft: _.sm,
+    marginLeft: _.xs,
     marginRight: -2,
     borderRadius: 20,
     overflow: 'hidden'

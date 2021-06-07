@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 20:56:18
+ * @Last Modified time: 2021-06-07 23:05:49
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -94,7 +94,7 @@ export const Tag = ob(({ style, type, value, size = 10 }) => {
 
 const memoStyles = _.memoStyles(_ => ({
   tag: {
-    minWidth: 30,
+    minWidth: 28,
     paddingHorizontal: _.xs,
     paddingVertical: 1,
     borderWidth: _.hairlineWidth,
