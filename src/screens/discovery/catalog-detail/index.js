@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 20:07:52
+ * @Last Modified time: 2021-06-09 05:38:28
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
-import { ItemCollections } from '@screens/_'
+import { ItemCollections, FolderManageModal } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
@@ -80,6 +80,9 @@ class CatalogDetail extends React.Component {
         isCollect={item.isCollect}
         hideScore={$.hideScore}
         collection={$.userCollectionsMap[id]}
+        modify={item.modify}
+        isEditable={$.isSelf}
+        onEdit={$.onEdit}
       >
         {!index && <Heatmap id='目录详情.跳转' />}
       </ItemCollections>
@@ -88,22 +91,32 @@ class CatalogDetail extends React.Component {
 
   render() {
     const { $ } = this.context
+    const { visible, defaultEditItem } = $.state
     const { onScroll } = this.props
     return (
-      <ListView
-        style={_.container.plain}
-        contentContainerStyle={_.container.bottom}
-        keyExtractor={keyExtractor}
-        data={$.catalogDetail}
-        ListHeaderComponent={ListHeaderComponent}
-        renderItem={this.renderItem}
-        scrollEventThrottle={16}
-        scrollToTop
-        footerEmptyDataText={TEXT_18X}
-        onScroll={onScroll}
-        onHeaderRefresh={$.fetchCatalogDetail}
-        {...withTransitionHeader.listViewProps}
-      />
+      <>
+        <ListView
+          style={_.container.plain}
+          contentContainerStyle={_.container.bottom}
+          keyExtractor={keyExtractor}
+          data={$.catalogDetail}
+          ListHeaderComponent={ListHeaderComponent}
+          renderItem={this.renderItem}
+          scrollEventThrottle={16}
+          scrollToTop
+          footerEmptyDataText={TEXT_18X}
+          onScroll={onScroll}
+          onHeaderRefresh={$.fetchCatalogDetail}
+          {...withTransitionHeader.listViewProps}
+        />
+        <FolderManageModal
+          id={$.subjectId}
+          visible={visible}
+          defaultExpand={$.catalogId}
+          defaultEditItem={defaultEditItem}
+          onClose={$.onClose}
+        />
+      </>
     )
   }
 }

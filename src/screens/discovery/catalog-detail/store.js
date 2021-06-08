@@ -2,10 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 20:07:35
+ * @Last Modified time: 2021-06-09 06:07:40
  */
 import { observable, computed } from 'mobx'
-import { discoveryStore, collectionStore, subjectStore } from '@stores'
+import {
+  discoveryStore,
+  collectionStore,
+  subjectStore,
+  userStore
+} from '@stores'
 import store from '@utils/store'
 import { info, feedback } from '@utils/ui'
 import { t, fetchHTML } from '@utils/fetch'
@@ -13,10 +18,15 @@ import { HOST } from '@constants'
 import rateData from '@constants/json/rate.json'
 
 const namespace = 'ScreenCatalogDetail'
+const excludeState = {
+  visible: false,
+  defaultEditItem: null
+}
 
 export default class ScreenCatalogDetail extends store {
   state = observable({
     sort: 0,
+    ...excludeState,
     _loaded: false
   })
 
@@ -25,6 +35,7 @@ export default class ScreenCatalogDetail extends store {
     const state = await res
     this.setState({
       ...state,
+      ...excludeState,
       _loaded: true
     })
 
@@ -79,6 +90,14 @@ export default class ScreenCatalogDetail extends store {
     return _hideScore
   }
 
+  /**
+   * 是否自己创建的目录
+   */
+  @computed get isSelf() {
+    const { joinUrl, byeUrl } = this.catalogDetail
+    return userStore.isLogin && !joinUrl && !byeUrl
+  }
+
   // -------------------- page --------------------
   /**
    * 收藏或取消目录
@@ -103,6 +122,33 @@ export default class ScreenCatalogDetail extends store {
       sort
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  onEdit = modify => {
+    const { list } = this.catalogDetail
+    const item = list.find(i => i.modify == modify)
+    if (!item) {
+      info('目录不属于你或者登陆状态失效了')
+      return
+    }
+
+    t('目录详情.管理', {
+      id: this.catalogId
+    })
+
+    if (item) {
+      this.setState({
+        visible: true,
+        defaultEditItem: item
+      })
+    }
+  }
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+      defaultEditItem: null
+    })
   }
 
   // -------------------- action --------------------

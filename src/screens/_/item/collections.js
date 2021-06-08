@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 17:38:01
+ * @Last Modified time: 2021-06-09 05:32:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { x18 } from '@utils/app'
 import { ob } from '@utils/decorators'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { Tag, Stars, Cover } from '../base'
+import { IconTouchable } from '../icon/touchable'
 
 export const ItemCollections = ob(
   ({
@@ -35,10 +36,13 @@ export const ItemCollections = ob(
     hideScore = false,
     isCollect,
     isCatalog,
+    isEditable = false,
     isDo,
     isOnHold,
     isDropped,
     event = EVENT,
+    modify,
+    onEdit = Function.prototype,
     children
   }) => {
     const styles = memoStyles()
@@ -155,11 +159,22 @@ export const ItemCollections = ob(
                 </Text>
               </Flex>
             </Flex>
-            {hasComment && (
-              <Text style={[styles.comments, _.mt.md]} size={13}>
-                {comments}
-              </Text>
-            )}
+            <Flex>
+              <Flex.Item>
+                {hasComment && (
+                  <Text style={[styles.comments, _.mt.md]} size={13}>
+                    {comments}
+                  </Text>
+                )}
+              </Flex.Item>
+              {isEditable && (
+                <IconTouchable
+                  style={_.mt.sm}
+                  name='md-more-vert'
+                  onPress={() => onEdit(modify)}
+                />
+              )}
+            </Flex>
           </Flex.Item>
         </Flex>
         {children}

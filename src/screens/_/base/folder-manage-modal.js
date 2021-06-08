@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 23:09:09
+ * @Last Modified time: 2021-06-09 06:18:12
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -45,6 +45,8 @@ export const FolderManageModal = ob(
   class extends React.Component {
     static defaultProps = {
       id: 0,
+      defaultExpand: 0,
+      defaultEditItem: null,
       visible: false,
       title: '目录',
       onSubmit: Function.prototype,
@@ -67,6 +69,7 @@ export const FolderManageModal = ob(
     }
 
     formhash
+    textareaRef
 
     async componentDidMount() {
       const expand = await getStorage(storageKey)
@@ -81,13 +84,29 @@ export const FolderManageModal = ob(
 
     async UNSAFE_componentWillReceiveProps(nextProps) {
       const { visible } = nextProps
-      if (visible) {
-        this.fetchCatalogs()
-      }
-
       this.setState({
         visible
       })
+
+      if (!this.props.visible && nextProps.visible) {
+        this.fetchCatalogs()
+
+        setTimeout(() => {
+          const { defaultExpand, defaultEditItem } = nextProps
+          if (defaultExpand) {
+            this.setState({
+              expand: [String(defaultExpand)],
+              edit: 0,
+              content: '',
+              order: '0'
+            })
+          }
+
+          if (defaultEditItem) {
+            this.onSubjectEdit(defaultEditItem)
+          }
+        }, 80)
+      }
     }
 
     componentWillUnmount() {
@@ -110,18 +129,25 @@ export const FolderManageModal = ob(
      * 请求目录列表
      */
     fetchCatalogs = async () => {
-      const res = usersStore.fetchCatalogs(
+      const data = await usersStore.fetchCatalogs(
         {
           isCollect: false
         },
         true
       )
 
-      const { list } = await res
+      // 目录是有分页的比较麻烦, 暂时只判断是否存在第二页, 后面忽略
+      if (data.pagination.pageTotal > 1) {
+        await usersStore.fetchCatalogs({
+          isCollect: false
+        })
+      }
+
+      const { list } = this.catalogs
       queue(list.map(item => () => this.fetchCatalogDetail(item.id, !loaded)))
       loaded = true
 
-      return res
+      return true
     }
 
     /**
@@ -494,6 +520,12 @@ export const FolderManageModal = ob(
           content: item.comment || '',
           order: item.order || '0'
         })
+
+        setTimeout(() => {
+          if (this.textareaRef) {
+            this.textareaRef.textAreaRef.focus()
+          }
+        }, 160)
         return
       }
 
@@ -596,7 +628,10 @@ export const FolderManageModal = ob(
     }
 
     catalogDetail(id) {
-      return computed(() => discoveryStore.catalogDetail(id)).get()
+      return computed(() => ({
+        ...discoveryStore.catalogDetail(id),
+        id
+      })).get()
     }
 
     renderBtnCreate() {
@@ -672,7 +707,9 @@ export const FolderManageModal = ob(
             ? this.renderCreate()
             : list
                 .sort((a, b) => {
-                  const { id } = this.props
+                  const { id, defaultExpand } = this.props
+                  if (defaultExpand == a.id) return -1
+
                   const detailA = this.catalogDetail(a.id)
                   const detailB = this.catalogDetail(b.id)
                   const isInA = detailA?.list?.some(i => i.id == id)
@@ -754,13 +791,15 @@ export const FolderManageModal = ob(
           <Flex style={this.styles.control} justify='end'>
             {!edit && !create && (
               <>
-                <IconTouchable
-                  style={_.ml.sm}
-                  name={isIn ? 'md-star' : 'md-star-outline'}
-                  size={18}
-                  color={isIn ? _.colorWarning : _.colorSub}
-                  onPress={() => this.onToggle(item, detail, isIn)}
-                />
+                {!!id && (
+                  <IconTouchable
+                    style={_.ml.sm}
+                    name={isIn ? 'md-star' : 'md-star-outline'}
+                    size={18}
+                    color={isIn ? _.colorWarning : _.colorSub}
+                    onPress={() => this.onToggle(item, detail, isIn)}
+                  />
+                )}
                 <Popover
                   style={this.styles.btnPopover}
                   data={controlDS.root}
@@ -867,6 +906,7 @@ export const FolderManageModal = ob(
                   {isEditing && (
                     <>
                       <TextareaItem
+                        ref={ref => (this.textareaRef = ref)}
                         style={this.styles.textarea}
                         value={content}
                         placeholder='输入评价'
