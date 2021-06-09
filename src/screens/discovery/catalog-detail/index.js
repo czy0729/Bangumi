@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 05:38:28
+ * @Last Modified time: 2021-06-09 06:55:47
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { findSubjectCn, keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import { TEXT_18X } from '@constants/text'
+import IconCopy from './icon-copy'
 import IconFavor from './icon-favor'
 import Info from './info'
 import Store from './store'
@@ -38,7 +39,12 @@ class CatalogDetail extends React.Component {
     const { title, joinUrl, byeUrl } = $.catalogDetail
     navigation.setParams({
       heatmap: '目录详情.右上角菜单',
-      extra: !!(joinUrl || byeUrl) && <IconFavor $={$} />,
+      extra: (
+        <>
+          <IconCopy $={$} navigation={navigation} />
+          {!!(joinUrl || byeUrl) && <IconFavor $={$} />}
+        </>
+      ),
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {

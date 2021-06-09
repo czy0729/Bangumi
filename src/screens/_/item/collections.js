@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 05:32:12
+ * @Last Modified time: 2021-06-09 11:04:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -169,7 +169,7 @@ export const ItemCollections = ob(
               </Flex.Item>
               {isEditable && (
                 <IconTouchable
-                  style={_.mt.sm}
+                  style={styles.edit}
                   name='md-more-vert'
                   onPress={() => onEdit(modify)}
                 />
@@ -218,5 +218,9 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     top: 1 * _.lineHeightRatio,
     left: 0
+  },
+  edit: {
+    marginTop: _.sm,
+    marginRight: -_.xs
   }
 }))

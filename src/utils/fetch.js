@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-16 14:10:47
+ * @Last Modified time: 2021-06-09 11:06:11
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -250,21 +250,23 @@ export async function fetchHTML({
  * @param {*} fail
  */
 export function xhr(
-  { method = 'POST', url, data = {} } = {},
+  { method = 'POST', url, data = {}, noConsole } = {},
   success = Function.prototype,
   fail = Function.prototype
 ) {
   const userStore = getUserStoreAsync()
   const { cookie: userCookie, userAgent } = userStore.userCookie
-  const toastId = Toast.loading('Loading...', 0, () => {
-    if (toastId) Portal.remove(toastId)
-  })
+  const toastId = noConsole
+    ? 0
+    : Toast.loading('Loading...', 0, () => {
+        if (toastId) Portal.remove(toastId)
+      })
   const request = new XMLHttpRequest()
   request.onreadystatechange = () => {
     if (request.readyState !== 4) return
     if (toastId) Portal.remove(toastId)
     if (request.status === 200) {
-      success(request.responseText)
+      success(request.responseText, request)
     } else {
       console.warn('[utils/fetch] xhr', url, request)
       fail(request)

@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 06:07:40
+ * @Last Modified time: 2021-06-09 11:16:00
  */
+import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import {
   discoveryStore,
@@ -13,7 +14,8 @@ import {
 } from '@stores'
 import store from '@utils/store'
 import { info, feedback } from '@utils/ui'
-import { t, fetchHTML } from '@utils/fetch'
+import { t, fetchHTML, queue } from '@utils/fetch'
+import { removeHTMLTag } from '@utils/html'
 import { HOST } from '@constants'
 import rateData from '@constants/json/rate.json'
 
@@ -112,6 +114,9 @@ export default class ScreenCatalogDetail extends store {
     this.doCollect()
   }
 
+  /**
+   * 排序
+   */
   sort = title => {
     const sort = title === '评分' ? 2 : title === '时间' ? 1 : 0
     t('目录详情.排序', {
@@ -124,6 +129,9 @@ export default class ScreenCatalogDetail extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
+  /**
+   * 编辑自己的目录
+   */
   onEdit = modify => {
     const { list } = this.catalogDetail
     const item = list.find(i => i.modify == modify)
@@ -144,11 +152,40 @@ export default class ScreenCatalogDetail extends store {
     }
   }
 
+  /**
+   * 关闭编辑目录
+   */
   onClose = () => {
     this.setState({
       visible: false,
       defaultEditItem: null
     })
+  }
+
+  /**
+   * 复制他人的目录
+   */
+  onCopy = navigation => {
+    const { formhash } = userStore
+    if (!formhash) {
+      info('请先登陆')
+      return
+    }
+
+    Alert.alert(
+      '复制目录',
+      '复制当前目录成为自己的目录, 此操作会大量消耗服务器资源, 请勿滥用, 确定?',
+      [
+        {
+          text: '取消',
+          style: 'cancel'
+        },
+        {
+          text: '确定',
+          onPress: () => this.doCopy(navigation)
+        }
+      ]
+    )
   }
 
   // -------------------- action --------------------
@@ -196,5 +233,68 @@ export default class ScreenCatalogDetail extends store {
     info('已取消收藏')
 
     return this.fetchCatalogDetail()
+  }
+
+  /**
+   * 复制目录
+   */
+  doCopy = async navigation => {
+    const { formhash } = userStore
+    const { title, content } = this.catalogDetail
+
+    // 创建目录
+    discoveryStore.doCatalogCreate(
+      {
+        formhash,
+        title: title || '',
+        desc: removeHTMLTag(content || '')
+      },
+      (response, request) => {
+        if (request && request.responseURL) {
+          const match = request.responseURL.match(/\d+/g)
+          if (match && match[0]) {
+            info('创建成功, 开始复制数据...')
+
+            setTimeout(async () => {
+              const { list } = this.catalogDetail
+              const catalogId = match[0]
+
+              // 添加条目数据
+              await queue(
+                list.map(
+                  (item, index) => () =>
+                    new Promise(resolve => {
+                      info(`${index + 1} / ${list.length}`)
+                      discoveryStore.doCatalogAddRelate(
+                        {
+                          catalogId,
+                          subjectId: String(item.id).match(/\d+/)[0],
+                          formhash,
+                          noConsole: true
+                        },
+                        () => {
+                          resolve()
+                        }
+                      )
+                    })
+                ),
+                1
+              )
+
+              // 跳转到创建后的目录
+              navigation.push('CatalogDetail', {
+                catalogId
+              })
+              info('已完成')
+              t('目录详情.复制', {
+                from: catalogId
+              })
+            }, 400)
+          } else {
+            info('目录创建失败, 请检查登陆状态')
+          }
+        }
+      }
+    )
   }
 }

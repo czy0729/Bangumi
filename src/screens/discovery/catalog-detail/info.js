@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:38:37
+ * @Last Modified time: 2021-06-09 06:43:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,16 +27,8 @@ const sortDS = ['默认', '时间', '评分']
 
 function Info(props, { $, navigation }) {
   const { sort } = $.state
-  const {
-    title,
-    avatar,
-    content,
-    progress,
-    nickname,
-    userId,
-    time,
-    _loaded
-  } = $.catalogDetail
+  const { title, avatar, content, progress, nickname, userId, time, _loaded } =
+    $.catalogDetail
   return (
     <View style={styles.container}>
       {!IOS && <HeaderPlaceholder />}
@@ -95,7 +87,7 @@ function Info(props, { $, navigation }) {
           </Text>
         </Flex.Item>
         <Text type='sub' size={12}>
-          进度 {progress}
+          进度 {progress.replace('/', ' / ')}
         </Text>
       </Flex>
       <Flex style={_.mt.lg} justify='end'>

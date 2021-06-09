@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 02:27:25
+ * @Last Modified time: 2021-06-09 11:06:44
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -633,7 +633,10 @@ class Discovery extends store {
   /**
    * 目录添加条目
    */
-  doCatalogAddRelate = ({ catalogId, subjectId, formhash }, success) => {
+  doCatalogAddRelate = (
+    { catalogId, subjectId, formhash, noConsole },
+    success
+  ) => {
     xhr(
       {
         url: HTML_ACTION_CATALOG_ADD_RELATED(catalogId),
@@ -642,7 +645,8 @@ class Discovery extends store {
           cat: '0',
           add_related: subjectId,
           submit: '添加条目关联'
-        }
+        },
+        noConsole
       },
       success
     )
