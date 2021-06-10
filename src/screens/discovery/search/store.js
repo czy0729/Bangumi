@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:49:00
+ * @Last Modified time: 2021-06-10 14:18:02
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore } from '@stores'
@@ -37,6 +37,8 @@ export default class ScreenSearch extends store {
       ...excludeState,
       _loaded: true
     })
+
+    this.initState()
     return res
   }
 
@@ -60,6 +62,25 @@ export default class ScreenSearch extends store {
   }
 
   // -------------------- page --------------------
+  /**
+   * 处理初始参数
+   */
+  initState = () => {
+    const { _type, _value } = this.params
+    if (_type) {
+      this.onSelect(_type)
+    }
+
+    if (_value) {
+      this.onChange({
+        nativeEvent: {
+          text: String(_value)
+        }
+      })
+      this.doSearch()
+    }
+  }
+
   onSelect = label => {
     const { cat } = this.state
     const nextCat = MODEL_SEARCH_CAT.getValue(label)

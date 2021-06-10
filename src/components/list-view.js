@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:15:23
+ * @Last Modified time: 2021-06-11 01:33:30
  */
 import React from 'react'
 import {
@@ -57,7 +57,9 @@ export const ListView = observer(
       footerRefreshingText: TEXT_REFRESHING,
       footerFailureText: TEXT_FAIL,
       footerNoMoreDataText: TEXT_NO_MORE,
+      footerNoMoreDataComponent: undefined,
       footerEmptyDataText: TEXT_EMPTY,
+      footerEmptyDataComponent: undefined,
       footerTextType: 'sub',
       optimize: true, // 是否开启长列表优化
       showFooter: true,
@@ -309,6 +311,7 @@ export const ListView = observer(
                     style={this.styles.footerText}
                     type={footerTextType}
                     size={13}
+                    lineHeight={15}
                     align='center'
                   >
                     {footerFailureText}
@@ -338,6 +341,7 @@ export const ListView = observer(
                     style={[this.styles.footerText, _.mt.sm]}
                     type={footerTextType}
                     size={13}
+                    lineHeight={15}
                     align='center'
                   >
                     {footerEmptyDataText}
@@ -360,6 +364,7 @@ export const ListView = observer(
                 type={footerTextType}
                 align='center'
                 size={13}
+                lineHeight={15}
               >
                 {footerRefreshingText}
               </Text>
@@ -382,6 +387,7 @@ export const ListView = observer(
                     type={footerTextType}
                     align='center'
                     size={13}
+                    lineHeight={15}
                   >
                     {data._filter
                       ? `已过滤${data._filter}个敏感条目`

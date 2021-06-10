@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 20:39:08
+ * @Last Modified time: 2021-06-11 01:33:58
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -13,6 +13,7 @@ import { MODEL_SETTING_HOME_LAYOUT, MODEL_SUBJECT_TYPE } from '@constants/model'
 import Filter from './filter'
 import Grid from './grid'
 import Item from './item'
+import Empty from './empty'
 import { OFFSET_LISTVIEW, tabsWithGame as tabs } from './store'
 
 const contentInset = IOS
@@ -25,13 +26,6 @@ const contentOffset = IOS
       y: -OFFSET_LISTVIEW
     }
   : undefined
-const footerEmptyDataTextMap = {
-  全部: '当前没有可管理的条目哦，请先添加一个条目',
-  动画: '当前没有在追的番组哦',
-  书籍: '当前没有在读的书籍哦',
-  三次元: '当前没有在追的电视剧哦',
-  游戏: '当前没有在玩的游戏哦'
-}
 
 function List({ title }, { $ }) {
   if (!$.userCollection._loaded) {
@@ -46,15 +40,22 @@ function List({ title }, { $ }) {
   const styles = memoStyles()
   const { page, isFocused } = $.state
   const index = $.tabs.findIndex(item => item.title === title)
+  const data = $.currentUserCollection(title)
+  const { length } = data.list
   return (
     <ListView
       ref={ref => $.connectRef(ref, index)}
       style={!IOS && styles.androidWrap}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
-      data={$.currentUserCollection(title)}
+      data={data}
       footerNoMoreDataText=''
-      footerEmptyDataText={footerEmptyDataTextMap[title]}
+      footerEmptyDataComponent={
+        !length && <Empty title={title} length={length} />
+      }
+      footerNoMoreDataComponent={
+        length <= 3 && <Empty title={title} length={length} />
+      }
       contentInset={contentInset}
       contentOffset={contentOffset}
       scrollToTop={isFocused && tabs[page].title === title}
