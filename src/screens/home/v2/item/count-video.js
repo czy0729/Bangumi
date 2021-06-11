@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:22:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 22:20:20
+ * @Last Modified time: 2021-06-11 19:19:27
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -24,10 +24,13 @@ function Count({ epStatus, subjectId, subject }, { $ }) {
     if (epsMap[item]) count += 1
   })
 
+  // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
+  // epStatus=1的时候, 优先使用count
+  const countFixed = epStatus == 1 ? count || epStatus : epStatus || count
   return (
     <Flex style={styles.count}>
       <Text type='primary' size={20}>
-        {count || epStatus}
+        {countFixed}
         <Text type='sub' lineHeight={20}>
           {' '}
           / {subject.eps_count || '?'}{' '}
