@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 11:43:28
+ * @Last Modified time: 2021-06-11 17:42:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Header from './header'
 import List from './list'
+import LinkModal from './link-modal'
 import Store from './store'
 
 const title = '发现'
@@ -59,6 +60,7 @@ class Discovery extends React.Component {
           onHeaderRefresh={$.init}
           onFooterRefresh={$.fetchHome}
         />
+        <LinkModal />
         {isFocused && (
           <IconPortal index={0} onPress={$.onRefreshThenScrollTop} />
         )}

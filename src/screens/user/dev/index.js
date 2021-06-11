@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:34:39
+ * @Last Modified time: 2021-06-11 15:02:10
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -73,17 +73,24 @@ class DEV extends React.Component {
 
   renderIcons() {
     return (
-      <Text style={[this.styles.code, _.mt.md]} selectable>
-        {[
-          'ios-star',
-          'ios-star-outline',
-          'ios-star-half',
-          'ios-moon',
-          'ios-sunny'
-        ].map(item => (
-          <Iconfont key={item} name={item} />
-        ))}
-      </Text>
+      <>
+        <Text style={[this.styles.code, _.mt.md]} selectable>
+          {[
+            'ios-star',
+            'ios-star-outline',
+            'ios-star-half',
+            'ios-moon',
+            'ios-sunny'
+          ].map(item => (
+            <Iconfont key={item} name={item} />
+          ))}
+        </Text>
+        <Text style={[this.styles.code, _.mt.md]} selectable>
+          {['md-videogame-asset', 'md-link'].map(item => (
+            <Iconfont key={item} name={item} />
+          ))}
+        </Text>
+      </>
     )
   }
 

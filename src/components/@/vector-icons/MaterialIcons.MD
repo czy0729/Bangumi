@@ -50,6 +50,7 @@ ios-share
 keyboard-arrow-down
 keyboard-arrow-up
 live-tv
+link
 local-play
 looks
 mail-outline
@@ -87,4 +88,4 @@ whatshot
 workspaces-outline
 
 // Fontmin
-
+

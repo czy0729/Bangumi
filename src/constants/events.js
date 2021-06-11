@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-10 14:10:52
+ * @Last Modified time: 2021-06-11 18:32:50
  */
 
 /**
@@ -67,6 +67,7 @@ export default {
 
   // 发现
   '发现.跳转': 'Discovery.to',
+  '发现.剪贴板': 'Discovery.linkModal',
 
   // 随便看看
   '随便看看.跳转': 'Random.to',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 14:40:06
+ * @Last Modified time: 2021-06-11 18:33:29
  */
 import { observable, computed } from 'mobx'
 import {
@@ -16,6 +16,9 @@ import {
 import { getTimestamp } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
+import { matchBgmUrl } from '@utils/match'
+import { info } from '@utils/ui'
+import { appNavigate } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 export const sectionWidth = (_.window.width - _.wind * 3) / 2
@@ -41,7 +44,9 @@ export default class ScreenDiscovery extends store {
       },
       _loaded: getTimestamp()
     },
-    expand: false
+    expand: false,
+    visible: false,
+    link: ''
   })
 
   init = async () => {
@@ -85,10 +90,11 @@ export default class ScreenDiscovery extends store {
 
   fetchChannel = () => {
     queue(
-      MODEL_SUBJECT_TYPE.data.map(item => () =>
-        discoveryStore.fetchChannel({
-          type: item.label
-        })
+      MODEL_SUBJECT_TYPE.data.map(
+        item => () =>
+          discoveryStore.fetchChannel({
+            type: item.label
+          })
       ),
       1
     )
@@ -168,5 +174,47 @@ export default class ScreenDiscovery extends store {
     } catch (error) {
       warn('Discovery', 'onRefreshThenScrollTop', error)
     }
+  }
+
+  toggleLinkModal = () => {
+    const { visible } = this.state
+    this.setState({
+      visible: !visible
+    })
+  }
+
+  onChangeText = link => {
+    this.setState({
+      link
+    })
+  }
+
+  onLinkSubmit = navigation => {
+    let { link } = this.state
+    if (!link.length) {
+      info('请输入链接')
+      return
+    }
+
+    if (!(link.includes('http://') || link.includes('https://'))) {
+      link = `https://${link}`
+    }
+
+    const urls = matchBgmUrl(link, true) || []
+    const url = urls[0]
+    if (!url) {
+      info('链接不符合格式')
+      return
+    }
+
+    appNavigate(url, navigation)
+    this.setState({
+      visible: false,
+      link: ''
+    })
+
+    t('发现.剪贴板', {
+      link
+    })
   }
 }
