@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 16:59:31
+ * @Last Modified time: 2021-06-11 13:43:59
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -27,20 +27,22 @@ export function getOTA() {
   return getSystemStoreAsync().ota
 }
 
-export const VERSION_STATIC = '20210413'
-export const VERSION_RAKUEN = '20210406'
-export const VERSION_AVATAR = '20210410'
-export const VERSION_OSS = '20210218'
-export const VERSION_SUBJECT = '20210406'
+export const VERSION_STATIC = '20210611'
+export const VERSION_RAKUEN = '20210607'
+export const VERSION_AVATAR = '20210609'
+export const VERSION_OSS = '20210611'
+export const VERSION_SUBJECT = '20210607'
 export const VERSION_MONO = '20201216'
 export const VERSION_ANIME = '20201126'
 export const VERSION_WENKU = '20200927'
 export const VERSION_GAME = '20210525'
 export const VERSIONS_AVATAR = [
-  '20210218',
-  '20201213',
+  '20210609',
+  '20210410',
+  // '20210218',
+  // '20201213',
   '20201018',
-  '20200712',
+  // '20200712',
   '20200502',
   '1.0.2'
 ]
