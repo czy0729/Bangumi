@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 03:18:08
+ * @Last Modified time: 2021-06-11 20:04:29
  */
 import Constants from 'expo-constants'
 import { xhrCustom as xhr } from './fetch'
@@ -13,12 +13,15 @@ import Base64 from './thirdParty/base64'
 
 const oauthData = {
   grant_type: 'password',
-  username: '402731062@qq.com',
-  client_id: 'b44b7a05afb86b3885a620fd42aa759181476cbf63240da31ac5c255cfb2c84a',
+  username: '9157449+hjbgjuh555@user.noreply.gitee.com',
+  password: '123qweasdzxc',
+  client_id: '3f59c13289f7b2402732801970499fc3dc93938c66746bf4f85523862d880275',
+  client_secret: '40e0957e4f5d291b30e2cf2e3fd1352e93a6491256d2a92931cba7a847ad32cc',
   scope: 'projects user_info'
 }
+
 const repoData = {
-  owner: 'a402731062',
+  owner: 'hjbgjuh555',
   repo: 'bangumi-micro'
 }
 
@@ -45,6 +48,8 @@ export async function oauth() {
     },
     showLog: false
   })
+
+  log(res)
   const { access_token } = JSON.parse(res._response)
   accessToken = access_token
   log(`🗃  oauth ${access_token}`)
