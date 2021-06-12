@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 17:40:35
+ * @Last Modified time: 2021-06-13 05:19:32
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -12,7 +12,6 @@ import { _, systemStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { x18 } from '@utils/app'
 import Cover from './cover'
 import Series from './series'
 
@@ -119,9 +118,7 @@ function Head({ style }, { $ }) {
               {$.rating.score !== '' && (
                 <ScoreTag style={_.ml.sm} value={$.rating.score} />
               )}
-              {x18($.subjectId, $.cn || $.jp) && (
-                <Tag style={_.ml.sm} size={13} value='H' />
-              )}
+              {$.x18 && <Tag style={_.ml.sm} size={13} value='H' />}
             </>
           )}
         </Flex>

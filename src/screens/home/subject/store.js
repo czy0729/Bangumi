@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-13 02:52:46
+ * @Last Modified time: 2021-06-13 05:21:26
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -26,7 +26,8 @@ import {
   getBangumiUrl,
   getCoverMedium,
   cnjp,
-  unzipBangumiData
+  unzipBangumiData,
+  x18
 } from '@utils/app'
 import store from '@utils/store'
 import { feedback, info, showActionSheet } from '@utils/ui'
@@ -167,6 +168,11 @@ export default class ScreenSubject extends store {
       () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
       () => this.fetchEpsData() // 单集播放源
     ])
+
+    if ((!item && this.type === '动画') || this.type === '三次元') {
+      this.fetchEpsThumbsFromDouban(this.cn, this.jp)
+    }
+
     return res
   }
 
@@ -365,83 +371,106 @@ export default class ScreenSubject extends store {
       }
 
       // qq网站没有截屏, 不找
+
       // 尝试从douban找
       if (!this.state.epsThumbs.length) {
-        const q =
-          bangumiData?.titleTranslate?.['zh-Hans']?.[0] || bangumiData.title
-        if (q) {
-          // 搜索
-          const { _response } = await xhrCustom({
-            url: `https://www.douban.com/search?cat=1002&q=${q}`
-          })
-          let doubanId
-
-          const $ = cheerio(_response)
-          $('.result .content').each((index, element) => {
-            if (doubanId) return
-
-            const $row = cheerio(element)
-            const $a = $row.find('h3 a')
-            const cn = $a.text().trim()
-            if (similar(cn, q) < 0.8) {
-              const cast = $row.find('.subject-cast').text().trim()
-              if (!cast.includes('原名:')) return
-
-              const jp = cast.split(' / ')[0].replace('原名:', '')
-              if (similar(jp, bangumiData.title) < 0.8) return
-            }
-
-            const match = $a.attr('onclick').match(/sid: (\d+)/)
-            if (match && match[1]) {
-              doubanId = match[1]
-            }
-          })
-
-          if (doubanId) {
-            let _response
-
-            // 获取条目剧照
-            const data = await xhrCustom({
-              url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=0&sortby=time&size=a&subtype=o`
-            })
-            _response = data._response
-
-            // 判断是否有分页
-            const match = _response.match(
-              /<span class="count">\(共(\d+)张\)<\/span>/
-            )
-            const count = match ? Number(match[1]) : 0
-            const start =
-              count >= 100 ? count - 50 : count >= 30 ? count - 30 : 0
-
-            // 由于剧照是根据时间从新到旧排序的, 需要获取较后面的数据, 以免剧透
-            if (start) {
-              const data = await xhrCustom({
-                url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=${start}&sortby=time&size=a&subtype=o`
-              })
-              _response = data._response
-            }
-
-            const $ = cheerio(_response)
-            this.setState({
-              epsThumbs: (
-                $('.cover img')
-                  .map((index, element) => {
-                    const $row = cheerio(element)
-                    return $row.attr('src')
-                  })
-                  .get() || []
-              ).reverse(),
-              epsThumbsHeader: {
-                Referer: 'https://movie.douban.com/'
-              }
-            })
-            this.setStorage(undefined, undefined, this.namespace)
-          }
-        }
+        const cn = bangumiData?.titleTranslate?.['zh-Hans']?.[0]
+        const jp = bangumiData.title
+        this.fetchEpsThumbsFromDouban(cn, jp)
       }
     } catch (error) {
       warn('Subject', 'fetchEpsThumbs', error)
+    }
+  }
+
+  /**
+   * 从donban匹配条目, 并获取官方剧照信息
+   */
+  fetchEpsThumbsFromDouban = async (cn, jp) => {
+    if (this.x18 || this.state.epsThumbs.length) return
+
+    const q = cn || jp
+    if (q) {
+      let doubanId
+
+      // 搜索
+      const { _response } = await xhrCustom({
+        url: `https://www.douban.com/search?cat=1002&q=${q}`
+      })
+
+      const $ = cheerio(_response)
+      $('.result .content').each((index, element) => {
+        if (doubanId) return
+
+        const $row = cheerio(element)
+        const $a = $row.find('h3 a')
+        const _cn = $a.text().trim()
+        if (similar(_cn, q) < 0.8) {
+          const cast = $row.find('.subject-cast').text().trim()
+          if (!cast.includes('原名:')) return
+
+          const _jp = cast.split(' / ')[0].replace('原名:', '')
+          if (similar(_jp, jp || cn) < 0.8) return
+        }
+
+        const match = $a.attr('onclick').match(/sid: (\d+)/)
+        if (match && match[1]) {
+          doubanId = match[1]
+        }
+      })
+
+      if (doubanId) {
+        // type=o 官方剧照, type=a 剧照
+        let type = 'o'
+        let _response
+
+        // 获取条目剧照
+        const data = await xhrCustom({
+          url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=0&sortby=time&size=a&subtype=${type}`
+        })
+        _response = data._response
+
+        // 当官方剧照少于12张, 再次请求使用所有剧照
+        const { length } = cheerio(_response)('.cover img')
+        if (length > 0 && length < 12) {
+          type = 'a'
+          const data = await xhrCustom({
+            url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=0&sortby=time&size=a&subtype=${type}`
+          })
+          _response = data._response
+        }
+
+        // 判断是否有分页
+        const match = _response.match(
+          /<span class="count">\(共(\d+)张\)<\/span>/
+        )
+        const count = match ? Number(match[1]) : 0
+        const start = count >= 100 ? count - 50 : count >= 30 ? count - 30 : 0
+
+        // 由于剧照是根据时间从新到旧排序的, 需要获取较后面的数据, 以免剧透
+        if (start) {
+          const data = await xhrCustom({
+            url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=${start}&sortby=time&size=a&subtype=${type}`
+          })
+          _response = data._response
+        }
+
+        const $ = cheerio(_response)
+        this.setState({
+          epsThumbs: (
+            $('.cover img')
+              .map((index, element) => {
+                const $row = cheerio(element)
+                return $row.attr('src')
+              })
+              .get() || []
+          ).reverse(),
+          epsThumbsHeader: {
+            Referer: `https://movie.douban.com/subject/${doubanId}`
+          }
+        })
+        this.setStorage(undefined, undefined, this.namespace)
+      }
     }
   }
 
@@ -456,6 +485,10 @@ export default class ScreenSubject extends store {
    */
   @computed get namespace() {
     return `${namespace}|${this.subjectId}`
+  }
+
+  @computed get x18() {
+    return x18(this.subjectId, this.cn || this.jp)
   }
 
   @computed get filterDefault() {

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 17:01:00
+ * @Last Modified time: 2021-06-13 05:05:21
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Image, Heatmap } from '@components'
+import { Image, Text, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'
+import { open } from '@utils'
 import { t } from '@utils/fetch'
 
 const initialRenderNums = _.isPad
@@ -55,6 +56,10 @@ class Thumbs extends React.Component {
       url: item.split('@')[0], // 参数: bilibili为@, youku没有, iqiyi看不懂不作处理
       headers: epsThumbsHeader
     }))
+    const title = $.type === '三次元' ? '剧照' : '预览'
+    const reference = epsThumbsHeader?.Referer?.includes('movie.douban.com')
+      ? 'douban.com'
+      : ''
     return (
       <View style={[styles.container, style, !showThumbs && _.short]}>
         <SectionTitle
@@ -62,7 +67,7 @@ class Thumbs extends React.Component {
           icon={!showThumbs && 'md-navigate-next'}
           onPress={() => $.switchBlock('showThumbs')}
         >
-          预览
+          {title}
         </SectionTitle>
         {showThumbs && (
           <ScrollView
@@ -97,6 +102,18 @@ class Thumbs extends React.Component {
                 />
               ))}
           </ScrollView>
+        )}
+        {!!reference && (
+          <View style={[_.container.wind, _.mt.md]}>
+            <Text
+              size={10}
+              type='icon'
+              align='right'
+              onPress={() => open(epsThumbsHeader.Referer)}
+            >
+              *图片来源自{reference}
+            </Text>
+          </View>
         )}
         <Heatmap id='条目.预览' />
       </View>
