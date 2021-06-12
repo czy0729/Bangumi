@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-13 01:42:08
+ * @Last Modified time: 2021-06-13 02:52:46
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -147,6 +147,7 @@ export default class ScreenSubject extends store {
         item.j === HTMLDecode(data.name) ||
         item.c === HTMLDecode(data.name)
     )
+
     if (item) {
       const _item = unzipBangumiData(item)
       this.setState({
@@ -254,104 +255,116 @@ export default class ScreenSubject extends store {
   fetchEpsThumbs = async bangumiData => {
     try {
       // bilibili
-      if (this.bilibiliSite.id) {
-        const url = getBangumiUrl(this.bilibiliSite)
-        const { _response } = await xhrCustom({
-          url
-        })
-        const match = _response.match(/"season_id":(\d+)/)
-        if (match) {
-          const seasonId = match[1]
+      try {
+        if (this.bilibiliSite.id) {
+          const url = getBangumiUrl(this.bilibiliSite)
           const { _response } = await xhrCustom({
-            url: `https://api.bilibili.com/pgc/web/season/section?season_id=${seasonId}`
+            url
           })
-          const { message, result } = JSON.parse(_response)
-          if (message === 'success' && result?.main_section?.episodes) {
+          const match = _response.match(/"season_id":(\d+)/)
+          if (match) {
+            const seasonId = match[1]
+            const { _response } = await xhrCustom({
+              url: `https://api.bilibili.com/pgc/web/season/section?season_id=${seasonId}`
+            })
+            const { message, result } = JSON.parse(_response)
+            if (message === 'success' && result?.main_section?.episodes) {
+              this.setState({
+                epsThumbs: Array.from(
+                  new Set(
+                    result.main_section.episodes.map(
+                      item => `${item.cover}@192w_120h_1c.jpg`
+                    )
+                  )
+                ),
+                epsThumbsHeader: {
+                  Referer: 'https://www.bilibili.com/'
+                }
+              })
+              this.setStorage(undefined, undefined, this.namespace)
+            }
+          }
+        }
+      } catch (error) {
+        //
+      }
+
+      // 优酷
+      try {
+        if (!this.state.epsThumbs.length && this.youkuSite.id) {
+          const url = getBangumiUrl(this.youkuSite)
+          const { _response } = await xhrCustom({
+            url
+          })
+          const match = _response.match(/showid:"(\d+)"/)
+          if (match) {
+            const showid = match[1]
+            const { _response } = await xhrCustom({
+              url: `https://list.youku.com/show/module?id=${showid}&tab=point&callback=jQuery`
+            })
             this.setState({
               epsThumbs: Array.from(
                 new Set(
-                  result.main_section.episodes.map(
-                    item => `${item.cover}@192w_120h_1c.jpg`
+                  (
+                    decodeURIComponent(_response)
+                      .replace(/\\\/>/g, '/>')
+                      .replace(/(\\"|"\\)/g, '"')
+                      .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) ||
+                    []
                   )
+                    .map(item => {
+                      const match = item.match(/src="(.+?)"/)
+                      if (match) {
+                        return match[1].replace(/\\\//g, '/')
+                      }
+                      return ''
+                    })
+                    .filter(item => !!item)
                 )
               ),
               epsThumbsHeader: {
-                Referer: 'https://www.bilibili.com/'
+                Referer: 'https://list.youku.com/'
               }
             })
             this.setStorage(undefined, undefined, this.namespace)
           }
         }
-      }
-
-      // 优酷
-      if (!this.state.epsThumbs.length && this.youkuSite.id) {
-        const url = getBangumiUrl(this.youkuSite)
-        const { _response } = await xhrCustom({
-          url
-        })
-        const match = _response.match(/showid:"(\d+)"/)
-        if (match) {
-          const showid = match[1]
-          const { _response } = await xhrCustom({
-            url: `https://list.youku.com/show/module?id=${showid}&tab=point&callback=jQuery`
-          })
-          this.setState({
-            epsThumbs: Array.from(
-              new Set(
-                (
-                  decodeURIComponent(_response)
-                    .replace(/\\\/>/g, '/>')
-                    .replace(/(\\"|"\\)/g, '"')
-                    .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
-                )
-                  .map(item => {
-                    const match = item.match(/src="(.+?)"/)
-                    if (match) {
-                      return match[1].replace(/\\\//g, '/')
-                    }
-                    return ''
-                  })
-                  .filter(item => !!item)
-              )
-            ),
-            epsThumbsHeader: {
-              Referer: 'https://list.youku.com/'
-            }
-          })
-          this.setStorage(undefined, undefined, this.namespace)
-        }
+      } catch (error) {
+        //
       }
 
       // 爱奇艺
-      if (!this.state.epsThumbs.length && this.iqiyiSite.id) {
-        const url = getBangumiUrl(this.iqiyiSite)
-        const { _response } = await xhrCustom({
-          url
-        })
-
-        const match = HTMLTrim(_response, true).match(/data-jpg-img="(.+?)"/g)
-        if (match) {
-          this.setState({
-            epsThumbs: Array.from(
-              new Set(
-                match
-                  .map(
-                    item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`
-                  )
-                  .filter((item, index) => !!index)
-              )
-            ),
-            epsThumbsHeader: {
-              Referer: 'https://www.iqiyi.com/'
-            }
+      try {
+        if (!this.state.epsThumbs.length && this.iqiyiSite.id) {
+          const url = getBangumiUrl(this.iqiyiSite)
+          const { _response } = await xhrCustom({
+            url
           })
-          this.setStorage(undefined, undefined, this.namespace)
+
+          const match = HTMLTrim(_response, true).match(/data-jpg-img="(.+?)"/g)
+          if (match) {
+            this.setState({
+              epsThumbs: Array.from(
+                new Set(
+                  match
+                    .map(
+                      item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`
+                    )
+                    .filter((item, index) => !!index)
+                )
+              ),
+              epsThumbsHeader: {
+                Referer: 'https://www.iqiyi.com/'
+              }
+            })
+            this.setStorage(undefined, undefined, this.namespace)
+          }
         }
+      } catch (error) {
+        //
       }
 
       // qq网站没有截屏, 不找
-
       // 尝试从douban找
       if (!this.state.epsThumbs.length) {
         const q =
@@ -369,28 +382,61 @@ export default class ScreenSubject extends store {
 
             const $row = cheerio(element)
             const $a = $row.find('h3 a')
-            const title = $a.text().trim()
-            if (similar(title, q) > 0.8) {
-              const match = $a.attr('onclick').match(/sid: (\d+)/)
-              if (match && match[1]) {
-                doubanId = match[1]
-              }
+            const cn = $a.text().trim()
+            if (similar(cn, q) < 0.8) {
+              const cast = $row.find('.subject-cast').text().trim()
+              if (!cast.includes('原名:')) return
+
+              const jp = cast.split(' / ')[0].replace('原名:', '')
+              if (similar(jp, bangumiData.title) < 0.8) return
+            }
+
+            const match = $a.attr('onclick').match(/sid: (\d+)/)
+            if (match && match[1]) {
+              doubanId = match[1]
             }
           })
 
           if (doubanId) {
+            let _response
+
             // 获取条目剧照
-            const { _response } = await xhrCustom({
+            const data = await xhrCustom({
               url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=0&sortby=time&size=a&subtype=o`
             })
+            _response = data._response
+
+            // 判断是否有分页
             const match = _response.match(
               /<span class="count">\(共(\d+)张\)<\/span>/
             )
-            if (match) {
-              const count = Number(match[1])
+            const count = match ? Number(match[1]) : 0
+            const start =
+              count >= 100 ? count - 50 : count >= 30 ? count - 30 : 0
 
-              // 由于剧照是根据时间从新到旧排序的, 需要获取较后面的数据, 以免剧透
+            // 由于剧照是根据时间从新到旧排序的, 需要获取较后面的数据, 以免剧透
+            if (start) {
+              const data = await xhrCustom({
+                url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=${start}&sortby=time&size=a&subtype=o`
+              })
+              _response = data._response
             }
+
+            const $ = cheerio(_response)
+            this.setState({
+              epsThumbs: (
+                $('.cover img')
+                  .map((index, element) => {
+                    const $row = cheerio(element)
+                    return $row.attr('src')
+                  })
+                  .get() || []
+              ).reverse(),
+              epsThumbsHeader: {
+                Referer: 'https://movie.douban.com/'
+              }
+            })
+            this.setStorage(undefined, undefined, this.namespace)
           }
         }
       }
