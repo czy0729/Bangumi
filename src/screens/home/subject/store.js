@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 08:19:04
+ * @Last Modified time: 2021-06-13 01:42:08
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -17,8 +17,8 @@ import {
   userStore,
   usersStore
 } from '@stores'
-import { open, copy, getTimestamp } from '@utils'
-import { HTMLDecode, HTMLTrim } from '@utils/html'
+import { open, copy, getTimestamp, similar } from '@utils'
+import { HTMLDecode, HTMLTrim, cheerio } from '@utils/html'
 import { t, xhrCustom, queue, baiduTranslate } from '@utils/fetch'
 import {
   appNavigate,
@@ -127,11 +127,11 @@ export default class ScreenSubject extends store {
     }
   }
 
+  /**
+   * 访问私有cdn, 加速未缓存条目首屏数据渲染
+   */
   onHeaderRefresh = async () => {
-    /**
-     * 访问私有cdn, 加速未缓存条目首屏数据渲染
-     * 因为有cdn, 下面2个用户相关的接口可以提前
-     */
+    // 因为有cdn, 下面2个用户相关的接口可以提前
     this.fetchSubjectFormCDN()
     this.fetchCollection() // 用户每集收看进度
     userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
@@ -143,7 +143,9 @@ export default class ScreenSubject extends store {
     // bangumi-data数据扩展
     const item = bangumiData.find(
       item =>
-        item.j === HTMLDecode(data.name) || item.c === HTMLDecode(data.name)
+        item.id == this.subjectId ||
+        item.j === HTMLDecode(data.name) ||
+        item.c === HTMLDecode(data.name)
     )
     if (item) {
       const _item = unzipBangumiData(item)
@@ -155,7 +157,7 @@ export default class ScreenSubject extends store {
       })
 
       setTimeout(() => {
-        this.fetchEpsThumbs()
+        this.fetchEpsThumbs(_item)
       }, 0)
     }
 
@@ -249,8 +251,9 @@ export default class ScreenSubject extends store {
   /**
    * 获取章节的缩略图
    */
-  fetchEpsThumbs = async () => {
+  fetchEpsThumbs = async bangumiData => {
     try {
+      // bilibili
       if (this.bilibiliSite.id) {
         const url = getBangumiUrl(this.bilibiliSite)
         const { _response } = await xhrCustom({
@@ -281,6 +284,7 @@ export default class ScreenSubject extends store {
         }
       }
 
+      // 优酷
       if (!this.state.epsThumbs.length && this.youkuSite.id) {
         const url = getBangumiUrl(this.youkuSite)
         const { _response } = await xhrCustom({
@@ -319,6 +323,7 @@ export default class ScreenSubject extends store {
         }
       }
 
+      // 爱奇艺
       if (!this.state.epsThumbs.length && this.iqiyiSite.id) {
         const url = getBangumiUrl(this.iqiyiSite)
         const { _response } = await xhrCustom({
@@ -342,6 +347,51 @@ export default class ScreenSubject extends store {
             }
           })
           this.setStorage(undefined, undefined, this.namespace)
+        }
+      }
+
+      // qq网站没有截屏, 不找
+
+      // 尝试从douban找
+      if (!this.state.epsThumbs.length) {
+        const q =
+          bangumiData?.titleTranslate?.['zh-Hans']?.[0] || bangumiData.title
+        if (q) {
+          // 搜索
+          const { _response } = await xhrCustom({
+            url: `https://www.douban.com/search?cat=1002&q=${q}`
+          })
+          let doubanId
+
+          const $ = cheerio(_response)
+          $('.result .content').each((index, element) => {
+            if (doubanId) return
+
+            const $row = cheerio(element)
+            const $a = $row.find('h3 a')
+            const title = $a.text().trim()
+            if (similar(title, q) > 0.8) {
+              const match = $a.attr('onclick').match(/sid: (\d+)/)
+              if (match && match[1]) {
+                doubanId = match[1]
+              }
+            }
+          })
+
+          if (doubanId) {
+            // 获取条目剧照
+            const { _response } = await xhrCustom({
+              url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=0&sortby=time&size=a&subtype=o`
+            })
+            const match = _response.match(
+              /<span class="count">\(共(\d+)张\)<\/span>/
+            )
+            if (match) {
+              const count = Number(match[1])
+
+              // 由于剧照是根据时间从新到旧排序的, 需要获取较后面的数据, 以免剧透
+            }
+          }
         }
       }
     } catch (error) {

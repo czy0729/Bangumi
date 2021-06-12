@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 23:02:32
+ * @Last Modified time: 2021-06-12 22:30:27
  */
 import { InteractionManager, Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -663,4 +663,52 @@ export function lastDate(timestamp, overDaysToShowTime = 365, simple = true) {
  */
 export function cleanQ(str) {
   return String(str).replace(/['!"#$%&\\'()*+,./:;<=>?@[\\\]^`{|}~']/g, ' ')
+}
+
+/**
+ * 字符串相似度
+ * @param {*} s
+ * @param {*} t
+ * @param {*} f
+ */
+export function similar(s, t, f) {
+  if (!s || !t) return 0
+
+  const l = s.length > t.length ? s.length : t.length
+  const n = s.length
+  const m = t.length
+  const d = []
+
+  // eslint-disable-next-line no-param-reassign
+  f = f || 3
+  const min = (a, b, c) => (a < b ? (a < c ? a : c) : b < c ? b : c)
+
+  let i
+  let j
+  let si
+  let tj
+  let cost
+  if (n === 0) return m
+  if (m === 0) return n
+  for (i = 0; i <= n; i += 1) {
+    d[i] = []
+    d[i][0] = i
+  }
+  for (j = 0; j <= m; j += 1) {
+    d[0][j] = j
+  }
+  for (i = 1; i <= n; i += 1) {
+    si = s.charAt(i - 1)
+    for (j = 1; j <= m; j += 1) {
+      tj = t.charAt(j - 1)
+      if (si === tj) {
+        cost = 0
+      } else {
+        cost = 1
+      }
+      d[i][j] = min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost)
+    }
+  }
+  const res = 1 - d[n][m] / l
+  return res.toFixed(f)
 }
