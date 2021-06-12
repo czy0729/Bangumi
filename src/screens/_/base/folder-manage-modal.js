@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 06:18:12
+ * @Last Modified time: 2021-06-13 06:00:59
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -387,7 +387,7 @@ export const FolderManageModal = ob(
           desc: desc || ''
         },
         () => {
-          this.fetchCatalogDetail(create)
+          this.fetchCatalogDetail(create, true)
           this.onCreate(false)
           feedback()
           this.t('onSubmitCatalog:edit')
@@ -735,7 +735,7 @@ export const FolderManageModal = ob(
 
     renderCatalog(item, detail) {
       const { id } = this.props
-      const { expand, create, edit } = this.state
+      const { expand, create, edit, desc } = this.state
       const isIn = detail?.list?.some(i => i.id == id)
       const date = item.time?.split(' ')[0]?.replace('创建于:', '') || ''
       return (
@@ -753,7 +753,7 @@ export const FolderManageModal = ob(
                 />
                 <TextareaItem
                   style={[this.styles.textarea, _.mt.md]}
-                  value={detail.content}
+                  value={desc}
                   placeholder='输入介绍'
                   placeholderTextColor={_.colorDisabled}
                   rows={3}

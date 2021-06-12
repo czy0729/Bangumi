@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-27 10:18:22
+ * @Last Modified time: 2021-06-13 05:53:38
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,8 +16,8 @@ export const HorizontalList = ob(
   class extends React.Component {
     static defaultProps = {
       data: [],
-      width: 56,
-      height: 56,
+      width: 60,
+      height: 60,
       quality: false,
       findCn: false,
       ellipsizeMode: 'tail',
@@ -76,8 +76,8 @@ export const HorizontalList = ob(
             const desc = String(item.desc)
             let typeCn = ''
             if (
-              desc.includes('曲') ||
-              desc.includes('歌') ||
+              (!desc.includes('演出') && desc.includes('曲')) ||
+              (!desc.includes('演出') && desc.includes('歌')) ||
               desc.includes('声') ||
               desc.includes('广播')
             ) {
@@ -87,12 +87,14 @@ export const HorizontalList = ob(
             } else if (desc.includes('游戏')) {
               typeCn = '游戏'
             }
+
+            const size = typeCn === '音乐' ? width * 1.1 : width
             return (
               <View
                 key={item.id}
                 style={[
                   {
-                    width
+                    width: size
                   },
                   index !== 0 && {
                     marginLeft: typeCn === '音乐' ? 16 : 12
@@ -101,7 +103,7 @@ export const HorizontalList = ob(
               >
                 <Cover
                   style={styles.cover}
-                  size={width}
+                  size={size}
                   height={height}
                   src={item.image}
                   radius
