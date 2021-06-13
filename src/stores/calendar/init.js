@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:39:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-12 17:49:29
+ * @Last Modified time: 2021-06-14 06:56:16
  */
 export const NAMESPACE = 'Calendar'
 
@@ -17,7 +17,14 @@ export const INIT_HOME = {
 }
 
 export const INIT_ONAIR_ITEM = {
-  timeCN: '', // 中国放送时间
   weekDayCN: '', // 中国放送星期几
+  timeCN: '', // 中国放送时间
+  weekDayJP: '', //
+  timeJP: '', //
   air: 0 // 放送到多少集
+}
+
+export const INIT_USER_ONAIR_ITEM = {
+  weekDayCN: '',
+  timeCN: ''
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-13 05:05:21
+ * @Last Modified time: 2021-06-14 05:40:06
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -103,7 +103,7 @@ class Thumbs extends React.Component {
               ))}
           </ScrollView>
         )}
-        {!!reference && (
+        {showThumbs && !!reference && (
           <View style={[_.container.wind, _.mt.md]}>
             <Text
               size={10}

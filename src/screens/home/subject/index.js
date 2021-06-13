@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 02:55:09
+ * @Last Modified time: 2021-06-14 05:24:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -135,7 +135,6 @@ class Subject extends React.Component {
           onDidBlur={this.onDidBlur}
         />
         <Modal />
-        {/* <FolderManageModal id={$.subjectId} /> */}
         <Heatmap id={title} screen='Subject' />
       </View>
     )

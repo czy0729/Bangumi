@@ -4,13 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-13 05:21:26
+ * @Last Modified time: 2021-06-14 07:41:24
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import {
   _,
   collectionStore,
+  calendarStore,
   discoveryStore,
   subjectStore,
   systemStore,
@@ -489,6 +490,14 @@ export default class ScreenSubject extends store {
 
   @computed get x18() {
     return x18(this.subjectId, this.cn || this.jp)
+  }
+
+  @computed get onAir() {
+    return calendarStore.onAir[this.subjectId] || {}
+  }
+
+  @computed get onAirUser() {
+    return calendarStore.onAirUser(this.subjectId)
   }
 
   @computed get filterDefault() {
@@ -1429,6 +1438,23 @@ export default class ScreenSubject extends store {
         subjectId: this.subjectId
       })
     }
+  }
+
+  /**
+   * 自定义放送时间
+   */
+  onSelectOnAir = (key, value) => {
+    t('条目.自定义放送', {
+      subjectId: this.subjectId
+    })
+    calendarStore.updateOnAirUser(this.subjectId, key, value)
+  }
+
+  resetOnAirUser = () => {
+    t('条目.重置放送', {
+      subjectId: this.subjectId
+    })
+    calendarStore.resetOnAirUser(this.subjectId)
   }
 
   // -------------------- action --------------------

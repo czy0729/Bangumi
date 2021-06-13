@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 13:06:46
+ * @Last Modified time: 2021-06-14 07:37:29
  */
-import { observable } from 'mobx'
+import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
@@ -13,7 +13,7 @@ import store from '@utils/store'
 import { HOST, LIST_EMPTY } from '@constants'
 import { API_CALENDAR } from '@constants/api'
 import { CDN_ONAIR, CDN_DISCOVERY_HOME } from '@constants/cdn'
-import { NAMESPACE, INIT_HOME } from './init'
+import { NAMESPACE, INIT_HOME, INIT_USER_ONAIR_ITEM } from './init'
 import { cheerioToday } from './common'
 
 class Calendar extends store {
@@ -39,11 +39,43 @@ class Calendar extends store {
      */
     onAir: {
       // [subjectId]: INIT_ONAIR_ITEM
+    },
+
+    /**
+     * 用户自定义放送时间
+     * onAir读取数据时, 需要用本数据覆盖原数据
+     */
+    onAirUser: {
+      0: INIT_USER_ONAIR_ITEM
     }
   })
 
   init = () =>
-    this.readStorage(['calendar', 'home', 'homeFromCDN', 'onAir'], NAMESPACE)
+    this.readStorage(
+      ['calendar', 'home', 'homeFromCDN', 'onAir', 'onAirUser'],
+      NAMESPACE
+    )
+
+  @computed get onAir() {
+    const { onAir, onAirUser } = this.state
+    const keys = Object.keys(onAirUser)
+    if (keys.length < 1) return onAir
+
+    const _onAir = toJS(onAir)
+    Object.keys(onAirUser).forEach(subjectId => {
+      if (subjectId != 0) {
+        const target = _onAir[subjectId]
+        if (target) {
+          const user = this.onAirUser(subjectId)
+          target.weekDayCN = user.weekDayCN || target.weekDayCN
+          target.timeCN = user.timeCN || target.timeCN
+          target.weekDayJP = user.weekDayCN || target.weekDayJP
+          target.timeJP = user.timeCN || target.timeJP
+        }
+      }
+    })
+    return _onAir
+  }
 
   // -------------------- fetch --------------------
   /**
@@ -226,6 +258,38 @@ class Calendar extends store {
     } catch (error) {
       console.warn('[CalendarStore] fetchOnAir', error)
     }
+  }
+
+  /**
+   * 更新用户自定义放送时间
+   */
+  updateOnAirUser = (subjectId, k, v) => {
+    if (!subjectId) {
+      return
+    }
+
+    const key = 'onAirUser'
+    const item = this.onAirUser(subjectId)
+    this.setState({
+      [key]: {
+        [subjectId]: {
+          ...item,
+          [k]: v,
+          _loaded: 1
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  resetOnAirUser = subjectId => {
+    const { onAirUser } = this.state
+    const _onAirUser = toJS(onAirUser)
+    delete _onAirUser[subjectId]
+
+    const key = 'onAirUser'
+    this.clearState(key, _onAirUser)
+    this.setStorage(key, undefined, NAMESPACE)
   }
 }
 

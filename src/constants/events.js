@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 18:32:50
+ * @Last Modified time: 2021-06-14 07:39:21
  */
 
 /**
@@ -192,6 +192,8 @@ export default {
   '条目.复制标题': 'Subject.copyTitle',
   '条目.展开收起功能块': 'Subject.switchBlock',
   '条目.管理目录': 'Subject.manageFolder',
+  '条目.自定义放送': 'Subject.onSelectOnAir',
+  '条目.重置放送': 'Subject.resetOnAirUser',
 
   // 章节
   '章节.跳转': 'Episodes.to',
