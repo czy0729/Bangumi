@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-14 07:41:24
+ * @Last Modified time: 2021-06-15 05:20:47
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -681,12 +681,22 @@ export default class ScreenSubject extends store {
         .filter(item => SITES_DS.includes(item.site))
         .map(item => item.site)
     ]
+
     if (['动画'].includes(this.type)) {
-      data.push('AGE动漫', '迅播动漫')
+      if (systemStore?.ota?.X18 && this.isLogin) {
+        let flagX18
+        if (this.x18) flagX18 = true
+        if (!flagX18) {
+          const x18 = this.tags.some(item => item.name.includes('里番'))
+          if (x18) flagX18 = true
+        }
+        if (flagX18) data.push('Hanime1')
+      }
+
+      data.push('AGE动漫', '迅播动漫', '奇奇动漫')
     }
-    if (['三次元'].includes(this.type)) {
-      data.push('人人影视')
-    }
+
+    if (['三次元'].includes(this.type)) data.push('迅播动漫', '人人影视')
     return data
   }
 
@@ -1253,6 +1263,24 @@ export default class ScreenSubject extends store {
             this.cn || this.jp
           )}`
           break
+
+        case '奇奇动漫':
+          url = `https://www.qiqidongman.com/vod-search-wd-${encodeURIComponent(
+            this.cn || this.jp
+          )}.html`
+          break
+
+        case 'Hanime1':
+          url = `https://hanime1.me/search?query=${encodeURIComponent(
+            this.jp || this.cn
+          )}`
+          break
+
+        // case 'tadedy':
+        //   url = `http://www.tadedy.com/search.php?searchword=${encodeURIComponent(
+        //     this.cn || this.jp
+        //   )}`
+        //   break
 
         case '人人影视':
           url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
