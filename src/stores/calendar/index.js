@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 04:15:27
+ * @Last Modified time: 2021-06-15 05:43:48
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -70,9 +70,9 @@ class Calendar extends store {
         const target = _onAir[subjectId]
         if (target) {
           const user = this.onAirUser(subjectId)
-          target.weekDayCN = user.weekDayCN || target.weekDayCN
+          target.weekDayCN = user.weekDayCN
           target.timeCN = user.timeCN || target.timeCN
-          target.weekDayJP = user.weekDayCN || target.weekDayJP
+          target.weekDayJP = user.weekDayCN
           target.timeJP = user.timeCN || target.timeJP
         }
       }

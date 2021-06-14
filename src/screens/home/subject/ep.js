@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-14 07:39:46
+ * @Last Modified time: 2021-06-15 06:03:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -152,7 +152,7 @@ function Ep({ style }, { $, navigation }) {
             </Button>
           </Flex>
         </Flex.Item>
-        {!!weekDay && (
+        {weekDay !== undefined && weekDay !== '' && (
           <Flex>
             <Popover
               data={weekDayDS}

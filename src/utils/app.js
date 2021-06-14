@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:34:14
+ * @Last Modified time: 2021-06-15 06:03:25
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -67,11 +67,9 @@ export function cnjp(cn, jp) {
  * @param {*} item onAirItem
  */
 export function getWeekDay(item = {}) {
-  return (
-    (item?.weekDayCN == 0
-      ? item?.weekDayCN
-      : item?.weekDayCN || item?.weekDayJP) || ''
-  )
+  const weekDay =
+    item?.weekDayCN == 0 ? item?.weekDayCN : item?.weekDayCN || item?.weekDayJP
+  return weekDay === '' ? '' : weekDay
 }
 
 /**
