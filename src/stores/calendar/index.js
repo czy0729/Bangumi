@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-14 07:37:29
+ * @Last Modified time: 2021-06-15 04:15:27
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -56,6 +56,9 @@ class Calendar extends store {
       NAMESPACE
     )
 
+  /**
+   * 需要用户自定义放送时间覆盖原数据
+   */
   @computed get onAir() {
     const { onAir, onAirUser } = this.state
     const keys = Object.keys(onAirUser)
@@ -75,6 +78,70 @@ class Calendar extends store {
       }
     })
     return _onAir
+  }
+
+  /**
+   * 需要结合onAir和用户自定义放送时间覆盖原数据
+   */
+  @computed get calendar() {
+    const data = {
+      list: [
+        {
+          items: [],
+          weekday: { en: 'Mon', cn: '星期一', ja: '月耀日', id: 1 }
+        },
+        {
+          items: [],
+          weekday: { en: 'Tue', cn: '星期二', ja: '火耀日', id: 2 }
+        },
+        {
+          items: [],
+          weekday: { en: 'Wed', cn: '星期三', ja: '水耀日', id: 3 }
+        },
+        {
+          items: [],
+          weekday: { en: 'Thu', cn: '星期四', ja: '木耀日', id: 4 }
+        },
+        {
+          items: [],
+          weekday: { en: 'Fri', cn: '星期五', ja: '金耀日', id: 5 }
+        },
+        {
+          items: [],
+          weekday: { en: 'Sat', cn: '星期六', ja: '土耀日', id: 6 }
+        },
+        {
+          items: [],
+          weekday: { en: 'Sun', cn: '星期日', ja: '日耀日', id: 7 }
+        }
+      ],
+      pagination: {
+        page: 1,
+        pageTotal: 1
+      },
+      _loaded: getTimestamp()
+    }
+
+    const { calendar } = this.state
+    calendar.list.forEach((item, index) => {
+      const { items } = item
+      items.forEach(item => {
+        const onAir = this.onAir[item.id]
+        if (!onAir) {
+          data.list[index].items.push(item)
+          return
+        }
+
+        const { weekDayCN } = onAir
+        const air_weekday = weekDayCN == 0 ? 7 : weekDayCN
+        data.list[air_weekday - 1].items.push({
+          ...item,
+          air_weekday
+        })
+      })
+    })
+
+    return data
   }
 
   // -------------------- fetch --------------------
@@ -212,8 +279,8 @@ class Calendar extends store {
 
   /**
    * onAir数据
+   * 数据不会经常变化, 所以一个启动周期只请求一次
    */
-  // 数据不会经常变化, 所以一个启动周期只请求一次
   _fetchOnAir = false
   fetchOnAir = async () => {
     if (this._fetchOnAir) {

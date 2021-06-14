@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-16 14:10:12
+ * @Last Modified time: 2021-06-15 03:54:27
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -24,6 +24,7 @@ import {
   appNavigate,
   getCoverMedium,
   getBangumiUrl,
+  getWeekDay,
   unzipBangumiData
 } from '@utils/app'
 import store from '@utils/store'
@@ -510,17 +511,10 @@ export default class ScreenHomeV2 extends store {
    */
   isToday(subjectId) {
     return computed(() => {
-      // v1
-      // const eps = this.eps(subjectId)
-      // return eps.findIndex(item => item.status === 'Today') !== -1
-
-      // v2
       const item = this.onAir[subjectId]
-      if (!item) {
-        return false
-      }
-      // return item.weekDayJP === day || item.weekDayCN === day
-      return item.weekDayJP === day
+      if (!item) return false
+
+      return getWeekDay(item) === day
     }).get()
   }
 
@@ -530,13 +524,12 @@ export default class ScreenHomeV2 extends store {
   isNextDay(subjectId) {
     return computed(() => {
       const item = this.onAir[subjectId]
-      if (!item) {
-        return false
-      }
-      // return day === 6
-      //   ? item.weekDayJP === 0 || item.weekDayCN === 0
-      //   : item.weekDayJP === day + 1 || item.weekDayCN === day + 1
-      return day === 6 ? item.weekDayJP === 0 : item.weekDayJP === day + 1
+      if (!item) return false
+
+      const _day = getWeekDay(item)
+      if (_day === '') return false
+
+      return day === 6 ? _day === 0 : day === _day - 1
     }).get()
   }
 
@@ -627,17 +620,19 @@ export default class ScreenHomeV2 extends store {
       if (this.sortOnAir) {
         list.forEach(item => {
           const { subject_id: subjectId } = item
-          const weekDay = this.onAir[subjectId]?.weekDayJP
-          if (weekDay === undefined) {
+          const weekDay = getWeekDay(this.onAir[subjectId])
+          if (weekDay === '' || weekDay === undefined) {
             weightMap[subjectId] = 1
-          } else if (this.isNextDay(subjectId)) {
-            weightMap[subjectId] = 1001
           } else if (this.isToday(subjectId)) {
+            weightMap[subjectId] = 1001
+          } else if (this.isNextDay(subjectId)) {
             weightMap[subjectId] = 1000
-          } else if (day === 0 || weekDay <= day) {
-            weightMap[subjectId] = 100 + weekDay
+          } else if (day === 0) {
+            weightMap[subjectId] = 100 - weekDay
+          } else if (weekDay >= day) {
+            weightMap[subjectId] = 100 - weekDay
           } else {
-            weightMap[subjectId] = 10 + weekDay
+            weightMap[subjectId] = 10 - weekDay
           }
         })
 

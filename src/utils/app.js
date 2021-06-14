@@ -63,6 +63,18 @@ export function cnjp(cn, jp) {
 }
 
 /**
+ * 统一逻辑, 获取放送日函数
+ * @param {*} item onAirItem
+ */
+export function getWeekDay(item = {}) {
+  return (
+    (item?.weekDayCN == 0
+      ? item?.weekDayCN
+      : item?.weekDayCN || item?.weekDayJP) || ''
+  )
+}
+
+/**
  * 是否敏感条目
  * @param {*} subjectId
  * @param {*} title     辅助检测, 有关键字则都认为是18x

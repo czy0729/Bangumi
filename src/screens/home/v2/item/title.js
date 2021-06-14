@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-17 02:57:21
+ * @Last Modified time: 2021-06-15 03:20:40
  */
 import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
+import { getWeekDay } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const weekDayMap = {
@@ -27,7 +28,7 @@ function Title({ subject, subjectId }, { $ }) {
   const isBook = type === '书籍'
   const doing = isBook ? '读' : '看'
 
-  const weekDay = $.sortOnAir ? $.onAir[subjectId]?.weekDayJP : ''
+  const weekDay = $.sortOnAir ? getWeekDay($.onAir[subjectId]) : ''
   const weekDayText =
     weekDay === undefined || weekDay === '' ? '' : ` / 周${weekDayMap[weekDay]}`
   return (
