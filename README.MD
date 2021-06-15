@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.13.0" src="https://img.shields.io/badge/Version-4.13.0-0366d6" />
+  <img alt="Version: 4.13.3" src="https://img.shields.io/badge/Version-4.13.3-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,24 +46,21 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.13.0 - 2021/06/11
+v4.13.3 - 2021/06/15
 
 —— 新增 ——
 
-- [x] [条目] 新增目录管理模块, 支持新增、删除、修改、排序
-- [x] [目录详情] 支持管理 (简单公用了条目页面的管理模块)
-- [x] [目录详情] 支持复制别人的目录
-- [x] [发现] 新增剪贴板按钮, 点击后直接获取当前剪贴板链接前往对应页面
+- [x] [条目] 放送中的动画(未完结)允许自定义番剧播出时间
 
 —— 优化 ——
 
-- [x] [首页进度] 过滤选项较少时, 显示前往搜索按钮
-- [x] [设置] 恢复了设置云同步功能 (以前的设置已经丢失)
+- [x] [条目] 更多新番会寻找截图, 三次元也会尝试寻找剧照
+- [x] [条目] 增加了一些实用源头
+- [x] [每日放送] 优先使用国内的放送时间, 并可配合自定义番剧播出时间分组
 
 —— 修复 ——
 
-- [x] [首页进度] 修复了大章节动漫, 在某次更新后, 看过的集数计算错误的问题
-- [x] [空间] 修复了用户历史帖子失效的问题
+- [x] [条目] 修复了目录管理编辑时, 评价输入框无法编辑的问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 10:57:11
+ * @Last Modified time: 2021-06-15 14:29:23
  */
 import React from 'react'
-import { ActivityIndicator, Animated, Text, View } from 'react-native'
+import { ActivityIndicator, Animated, Text, View, TouchableOpacity } from 'react-native'
 import Icon, { IconNames } from '@ant-design/react-native/lib/icon'
 import { WithTheme, WithThemeStyles } from '@ant-design/react-native/lib/style'
 import ToastStyles, {
   ToastStyle
 } from '@ant-design/react-native/lib/toast/style/index'
 import { IOS } from '@constants'
-import { Touchable } from '../../../touchable'
 
 export interface ToastProps extends WithThemeStyles<ToastStyle> {
   content: string
@@ -125,8 +124,9 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
               style={[styles.container]}
               pointerEvents={mask ? undefined : 'box-none'}
             >
-              <Touchable
+              <TouchableOpacity
                 style={[styles.innerContainer]}
+                activeOpacity={1}
                 onPress={onAnimationEnd}
               >
                 <Animated.View style={{ opacity: this.state.fadeAnim }}>
@@ -151,7 +151,7 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
                     </Text>
                   </View>
                 </Animated.View>
-              </Touchable>
+              </TouchableOpacity>
             </View>
           )
         }}

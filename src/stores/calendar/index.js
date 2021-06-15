@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 05:43:48
+ * @Last Modified time: 2021-06-15 14:34:41
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -70,10 +70,15 @@ class Calendar extends store {
         const target = _onAir[subjectId]
         if (target) {
           const user = this.onAirUser(subjectId)
-          target.weekDayCN = user.weekDayCN
-          target.timeCN = user.timeCN || target.timeCN
-          target.weekDayJP = user.weekDayCN
-          target.timeJP = user.timeCN || target.timeJP
+          const weekDay =
+            user.weekDayCN === ''
+              ? target.weekDayCN || target.weekDayJP
+              : user.weekDayCN
+          const time = user.timeCN || target.timeCN || target.timeJP
+          target.weekDayCN = weekDay
+          target.weekDayJP = weekDay
+          target.timeCN = time
+          target.timeJP = time
         }
       }
     })

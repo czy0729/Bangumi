@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 13:56:52
+ * @Last Modified time: 2021-06-15 14:29:45
  */
 import React from 'react'
 import {
@@ -14,7 +14,7 @@ import {
   View
 } from 'react-native'
 import { observer } from 'mobx-react'
-import _ from '@styles'
+import { _ } from '@stores'
 import { getSystemStoreAsync } from '@utils/async'
 import { IOS } from '@constants'
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:35:10
+ * @Last Modified time: 2021-06-15 14:56:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,8 @@ import {
 } from '@constants/site'
 
 const title = '网络探针'
-const initList = [
+const pingCount = 4
+const initList = () => [
   {
     title: 'https://bgm.tv',
     desc: '主站 (必要)',
@@ -175,7 +176,6 @@ const initList = [
     loading: false
   }
 ]
-const pingCount = 4
 
 export default
 @withHeader({
@@ -185,7 +185,7 @@ export default
 @ob
 class ServerStatus extends React.Component {
   state = {
-    list: JSON.parse(JSON.stringify(initList)),
+    list: initList(),
     pinging: false
   }
 
@@ -235,7 +235,7 @@ class ServerStatus extends React.Component {
 
     this.setState(
       {
-        list: JSON.parse(JSON.stringify(initList)),
+        list: initList(),
         pinging: true
       },
       async () => {

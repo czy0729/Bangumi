@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:28:46
+ * @Last Modified time: 2021-06-15 14:30:41
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -51,7 +51,7 @@ export const colorDanger = 'rgb(232, 8, 13)'
 export const colorPlain = 'rgb(255, 255, 255)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorDark = 'rgb(0, 0, 0)'
-export const colorHighLight = 'rgb(0, 0, 0)'
+export const colorHighLight = 'rgba(0, 0, 0, 0.1)'
 export const colorShadow = 'rgb(0, 0, 0)'
 export const colorMask = 'rgba(0, 0, 0, 0.5)'
 
@@ -96,7 +96,7 @@ export const _colorPlainHex = '#242424'
 export const _colorWait = 'rgb(78, 78, 80)'
 export const _colorBg = 'rgb(24, 24, 24)' // 'rgb(34, 34, 36)'
 export const _colorBorder = 'rgba(255, 255, 255, 0.16)'
-export const _colorHighLight = 'rgb(255, 255, 255)'
+export const _colorHighLight = 'rgba(255, 255, 255, 0.1)'
 
 // 文字
 export const _colorTitle = 'rgba(255, 255, 255, 0.92)'
