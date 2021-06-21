@@ -11,19 +11,19 @@
 
 一个基于`React-Native`的 [Bangumi](https://bgm.tv) 第三方客户端
 
-安卓和 iOS 都做了兼容, 并最大限度保持一致
+安卓和 iOS 都做了兼容，并最大限度保持一致
 
-目前已开发不少于 70 个页面, 基于移动端重新设计布局, 几乎涵盖网站所有页面
+目前已开发不少于 70 个页面，基于移动端重新设计布局，几乎涵盖网站所有页面
 
-Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）, 发现和讨论番组
+Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG），发现和讨论番组
 
-本人并没有原生开发经验, 用于练手 RN, 希望通过这个平台数据去学习更多
+本人并没有原生开发经验，用于练手 RN，希望通过这个平台数据去学习更多
 
 ## Download
 
 [安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642) | [google play](https://play.google.com/store/apps/details?id=com.czy0729.bangumi)
 
-苹果开发者账号已过期, 期间没能过审, 有缘再送审
+苹果开发者账号已过期，期间没能过审，有缘再送审
 [IOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.io/@bgm-ios-test/bangumi-pro)
 
 ## Features
@@ -32,17 +32,17 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 - 番组进度管理
 - 条目、角色详情
-- 时间线 (用户动态)
-- 超展开 (帖吧)
-- 时光机 (个人中心) / 用户空间
-- 不限于搜索 / 排行榜 / 索引 / 目录 / 每日放送 / 年鉴 / 标签
+- 时间线（用户动态）
+- 超展开（帖吧）
+- 时光机（个人中心）、用户空间
+- 不限于搜索、排行榜、索引、目录、每日放送、年鉴、标签
 
 [特有功能]
 
-- 大部分资源覆盖到自维护 [CDN](https://github.com/czy0729/Bangumi-Subject), 访问高速化
-- 图片使用 [CDN](https://github.com/czy0729/Bangumi-OSS), 有后处理, 比源网站更快、质量更高、流量更小
-- 当季番剧精准到单集网络播放源 / 漫画源查询 / 找番剧 / 文库
-- [小圣杯](https://bgm.tv/dev/app/1143) (角色交易空气游戏, App 独立设计 UI 和交互)
+- 大部分资源覆盖到自维护 [CDN](https://github.com/czy0729/Bangumi-Subject)，访问高速化
+- 图片使用 [CDN](https://github.com/czy0729/Bangumi-OSS)，有后处理，比源网站更快、质量更高、流量更小
+- 当季番剧精准到单集网络播放源、漫画源查询、找番剧、文库
+- [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏, App 独立设计 UI 和交互）
 
 ## Update
 
@@ -57,12 +57,12 @@ v4.13.0 - 2021/06/11
 
 —— 优化 ——
 
-- [x] [首页进度] 过滤选项较少时, 显示前往搜索按钮
+- [x] [首页进度] 过滤选项较少时，显示前往搜索按钮
 - [x] [设置] 恢复了设置云同步功能 (以前的设置已经丢失)
 
 —— 修复 ——
 
-- [x] [首页进度] 修复了大章节动漫, 在某次更新后, 看过的集数计算错误的问题
+- [x] [首页进度] 修复了大章节动漫，在某次更新后，看过的集数计算错误的问题
 - [x] [空间] 修复了用户历史帖子失效的问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
@@ -93,23 +93,23 @@ v4.13.0 - 2021/06/11
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/1.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/2.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/3.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/3.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/4.png" width="100%" />
 
-#### 小圣杯 (角色模拟炒股) 模块
+#### 小圣杯（角色模拟炒股）模块
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/5.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/5.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/6.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/6.png" width="100%" />
 
-(被墙看不见图的可以复制 alt 打开)
+（被墙看不见图的可以复制 alt 打开）
 
 ## 后续迭代
 
-现版本基本用户需要的功能已齐全, 接下来会使用友盟收集到的埋点数据(匿名), 尝试学习数据分析, 根据结果计划后续版本迭代的方向
+现版本基本用户需要的功能已齐全，接下来会使用友盟收集到的埋点数据（匿名），尝试学习数据分析，根据结果计划后续版本迭代的方向
 
 [[bangumi-analysis]](https://github.com/czy0729/Bangumi-Analysis) 脱敏埋点数据
 
-目前进程, 根据本 APP 最核心的页面 (条目), 先进行整合数据并进行简单的可视化模块搭建, 以下根据最近 30 天埋点数据情况, 显示平均一天事件触发次数和百分比
+目前进程，根据本 APP 最核心的页面（条目），先进行整合数据并进行简单的可视化模块搭建，以下根据最近 30 天埋点数据情况，显示平均一天事件触发次数和百分比
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" width="188" />
 
-可以一眼了解到哪些功能需求强, 可以进行迭代, 也能明确哪些功能需求偏低, 适当进行隐藏或者移除, 发现存在 0 数据的事件, 可以考虑是不是埋点写法出了问题
+可以一眼了解到哪些功能需求强，可以进行迭代，也能明确哪些功能需求偏低，适当进行隐藏或者移除，发现存在 0 数据的事件，可以考虑是不是埋点写法出了问题
 
 ## 免责声明
 
@@ -123,40 +123,40 @@ v4.13.0 - 2021/06/11
 
 ** 提示 **
 
-本人一直在 mac 环境下开发, iOS 跑 expo 客户端调试, 安卓跑真机 usb 调试, window 用法不详, 遇到跑不起来, 不要太过折腾, window 和 mac 的环境差异还是比较大的, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档, 您可以选择同一局域网真机扫码调试, 需先下载 Expo App,
+本人一直在 mac 环境下开发，iOS 跑 expo 客户端调试，安卓跑真机 usb 调试，window 用法不详，遇到跑不起来，不要太过折腾，window 和 mac 的环境差异还是比较大的，可以查阅 [Expo](https://github.com/expo/expo) 官方文档，您可以选择同一局域网真机扫码调试，需先下载 Expo App
 
 ** 下载 **
 
-不要使用 taobao 源头, 可能会在跑环境时提示不允许代理
+不要使用 taobao 源头，可能会在跑环境时提示不允许代理
 
 ```bash
 npm config set registry https://registry.npmjs.org
 ```
 
-国内环境, 首次下载包有可能会异常地慢
+国内环境，首次下载包有可能会异常地慢
 
 ```bash
 git clone https://github.com/czy0729/Bangumi
 cd ./Bangumi
-npm install // 不推荐使用 yarn, 因为项目部分库较旧的原因, 无法使用最新的包, 会手动修改 node_modules, 每次使用 yarn 新安装包会被识别并还原
+npm install // 不推荐使用 yarn，因为项目部分库较旧的原因，无法使用最新的包，会手动修改 node_modules，每次使用 yarn 新安装包会被识别并还原
 ```
 
 ** iOS 安装包遇到 react-native 包找不到的问题 **
 
-最近项目使用的 Expo SDK 因官方问题, 现最新版本想在电脑上面跑起来需要手动修改包, 这个 `sdk-39.0.3.tar.gz` 的包我已经上传到 [蓝奏云](https://www.lanzous.com/iNFwLmfygvi), 下载后放在根目录再 install, 或者你可以尝试使用 0.63.x 的 rn 版本
+最近项目使用的 Expo SDK 因官方问题，现最新版本想在电脑上面跑起来需要手动修改包，这个 `sdk-39.0.3.tar.gz` 的包我已经上传到 [蓝奏云](https://www.lanzous.com/iNFwLmfygvi)，下载后放在根目录再 install，或者你可以尝试使用 0.63.x 的 rn 版本
 
 ** 前置操作, 否则 App 内图标均为问号 **
 
-自定义 Iconfont, 把 `assets/iconfont/` 下的目录 `vector-icons` 和 `node_modules/@expo/` 下的目录 `vector-icons` 合并 (注意是合并不是替换, 或者手动把文件夹下面的 2 个文件, 找到对应的地方替换), 原理其实就是用自己的字体文件把原有的 AntDesign 字体文件替换掉, 之后引用 Icon.AntDesign
+自定义 Iconfont，把 `assets/iconfont/` 下的目录 `vector-icons` 和 `node_modules/@expo/` 下的目录 `vector-icons` 合并（注意是合并不是替换，或者手动把文件夹下面的 2 个文件，找到对应的地方替换），原理其实就是用自己的字体文件把原有的 AntDesign 字体文件替换掉，之后引用 Icon.AntDesign
 
 ** 遇到 undefined is not an object (evaluating '\_this.view.\_component.measureInWindow') **
 
-部分包使用了旧库, 不想麻烦升级, 所以把 `components/@/react-native-safe-area-view/index.js` 替换掉 `node_modules/react-native-safe-area-view/index.js`
+部分包使用了旧库，不想麻烦升级，所以把 `components/@/react-native-safe-area-view/index.js` 替换掉 `node_modules/react-native-safe-area-view/index.js`
 
 ** 启动 **
 
 ```bash
-npm start // [iOS] 之后点击在浏览器打开的Expo Developer Tools, 点击 Run on iOS simulator
+npm start // [iOS] 之后点击在浏览器打开的Expo Developer Tools，点击 Run on iOS simulator
 
 // or
 
@@ -168,21 +168,21 @@ react-native run-android // [android] 真机 usb 调试
 
 - 不能安装请尝试在命令前添加 sudo
 
-- 安卓系统请打开开发者调试模式, 需要至少进行一次打开 Android Studio 的同时连接 usb 允许添加调试
+- 安卓系统请打开开发者调试模式，需要至少进行一次打开 Android Studio 的同时连接 usb 允许添加调试
 
-- 调试请保证给应用安装权限, 允许悬浮窗权限
+- 调试请保证给应用安装权限，允许悬浮窗权限
 
-- 遇到 spawnSync adb ENOENT, 参考 [stackoverflow](https://stackoverflow.com/questions/38835931/react-native-adb-reverse-enoent)
+- 遇到 spawnSync adb ENOENT，参考 [stackoverflow](https://stackoverflow.com/questions/38835931/react-native-adb-reverse-enoent)
 
-** 补充常见错误, 已在 mac M1 上调试成功 **
+** 补充常见错误，已在 mac M1 上调试成功 **
 
 最近购入了 M1，尝试实用新环境，iOS expo 运行一路顺风，但是打包 apk 遇到很多问题，总结如下：
 
-- 一定要使用 JAVA jdk 8, 不是 jre! [[jdk 8 下载地址]](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)，善用 java -version 和 /usr/libexec/java_home -V 命令查看正在使用的是不是 jdk1.8.0_281.jdk (类似)
+- 一定要使用 JAVA jdk 8，不是 jre！[[jdk 8 下载地址]](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)，善用 `java -version` 和 `/usr/libexec/java_home -V` 命令查看正在使用的是不是 jdk1.8.0_281.jdk（类似）
 
 - 打包前一定要安装 watchman，不然会遇到监听文件过多错误
 
-- 打包遇到失败，请进入 android 目录下执行 ./gradlew clean 后再重新打包
+- 打包遇到失败，请进入 android 目录下执行 `./gradlew clean` 后再重新打包
 
 - 打包失败，看见错误提示上面有 node_modules 包的名字，请尝试把这个包下载补全
 
