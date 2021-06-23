@@ -3,23 +3,25 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 03:00:41
+ * @Last Modified time: 2021-06-23 17:31:10
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Image, Text, Heatmap } from '@components'
+import { Touchable, Flex, Image, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import User from './user'
+// import User from './user'
 
 function Head({ style }, { $, navigation }) {
   const { _id, _name } = $.params
+  const { originUid } = $.state
   const { nickname, id, username } = $.usersInfo
   const { join, percent, disconnectUrl } = $.users
-  const isFriend = !!disconnectUrl
   const userId = id || _id
+  const isRename = username != userId
+  const isFriend = !!disconnectUrl
   const userName = HTMLDecode(nickname || _name)
   return (
     <Flex style={style} direction='column'>
@@ -133,24 +135,36 @@ function Head({ style }, { $, navigation }) {
           />
         </Touchable>
       </View>
-      <Text style={_.mt.md} type={_.select('plain', 'title')}>
-        {userName}
-        {!!(username || userId) && (
-          <Text type={_.select('plain', 'title')}> @{username || userId}</Text>
-        )}
-        {isFriend && (
-          <Text
-            style={styles.friend}
-            type={_.select('plain', 'title')}
-            size={12}
-            lineHeight={14}
-          >
-            {' '}
-            [好友]
+      <View style={_.mt.md}>
+        <Flex>
+          <Text type={_.select('plain', 'title')} bold>
+            {userName}
           </Text>
-        )}
-      </Text>
-      <User style={styles.r0} />
+          {!!(username || userId) && (
+            <Text style={_.ml.xs} type={_.select('plain', 'title')} bold>
+              @{originUid ? userId : username || userId}
+            </Text>
+          )}
+        </Flex>
+        <Flex style={styles.icons}>
+          {isRename && (
+            <Touchable style={styles.icon}>
+              <Iconfont
+                name='md-compare-arrows'
+                size={17}
+                color={_.__colorPlain__}
+                onPress={$.toggleOriginUid}
+              />
+            </Touchable>
+          )}
+          {isFriend && (
+            <Touchable style={styles.icon} onPress={$.logFriendStatus}>
+              <Iconfont name='md-face' size={14} color={_.__colorPlain__} />
+            </Touchable>
+          )}
+        </Flex>
+      </View>
+      {/* <User style={styles.r0} /> */}
     </Flex>
   )
 }
@@ -186,6 +200,18 @@ const styles = _.create({
     marginTop: 14,
     backgroundColor: _.__colorPlain__,
     overflow: 'hidden'
+  },
+  icons: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    right: -52,
+    width: 48,
+    height: 18
+  },
+  icon: {
+    paddingHorizontal: _.xs,
+    opacity: 0.64
   },
   l1: lStyle(16, 100),
   l2: lStyle(52, 116),

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 20:12:42
+ * @Last Modified time: 2021-06-23 17:23:28
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -96,7 +96,7 @@ class Timeline extends store {
     })
 
     this.setStorage(key, undefined, NAMESPACE)
-    return res
+    return data
   }
 
   /**

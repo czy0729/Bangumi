@@ -4,9 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 23:01:35
+ * @Last Modified time: 2021-06-23 17:47:50
  */
 import { observable, computed } from 'mobx'
+import Portal from '@ant-design/react-native/lib/portal'
+import Toast from '@components/@/ant-design/toast'
 import {
   _,
   userStore,
@@ -22,6 +24,7 @@ import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { info, feedback } from '@utils/ui'
 import { HOST, IOS } from '@constants'
+import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
 export const H_BG = Math.min(parseInt(_.window.width * 0.64), 288) // 整个背景高度
 export const H_HEADER = IOS ? 88 : 80 // fixed后带背景的头部高度
@@ -57,7 +60,8 @@ export const tabsWithTinygrail = [
 const namespace = 'ScreenZone'
 const excludeState = {
   visible: false,
-  timeout: false
+  timeout: false,
+  originUid: false
 }
 
 export default class ScreenZone extends store {
@@ -301,6 +305,50 @@ export default class ScreenZone extends store {
     this.setState({
       visible: false
     })
+  }
+
+  toggleOriginUid = () => {
+    const { originUid } = this.state
+    this.setState({
+      originUid: !originUid
+    })
+  }
+
+  /**
+   * 显示好友状态
+   *  - 在 timelineStore 查找添加好友的时间, 最多请求 3 页
+   */
+  logFriendStatus = async () => {
+    const { username } = this.usersInfo
+    const query = {
+      scope: MODEL_TIMELINE_SCOPE.getValue('自己'),
+      type: MODEL_TIMELINE_TYPE.getValue('好友')
+    }
+
+    let toastId
+    toastId = Toast.loading('查询好友信息中...', 0, () => {
+      if (toastId) Portal.remove(toastId)
+    })
+
+    let data = await timelineStore.fetchTimeline(query, true)
+    let find = data.list.find(item =>
+      item?.p3?.url?.[0]?.includes(`/user/${username}`)
+    )
+
+    if (!find) {
+      await timelineStore.fetchTimeline(query)
+      await timelineStore.fetchTimeline(query)
+      data = await timelineStore.fetchTimeline(query)
+    }
+    find = data.list.find(item =>
+      item?.p3?.url?.[0]?.includes(`/user/${username}`)
+    )
+
+    if (toastId) Portal.remove(toastId)
+    if (!find) return info('是你的好友')
+
+    const { time } = find
+    return info(`${time.split(' · ')[0]}加为了好友`)
   }
 
   // -------------------- action --------------------
