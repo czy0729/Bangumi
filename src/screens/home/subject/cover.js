@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 17:29:24
+ * @Last Modified time: 2021-06-23 16:20:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,14 +30,17 @@ class Cover extends React.Component {
 
   render() {
     const { $ } = this.context
+    const { _imageForce } = $.params
     const { image, placeholder } = this.props
     const { onLoad } = this.state
+    const src =
+      _imageForce || CDN_OSS_SUBJECT(getCoverMedium(image)) || IMG_DEFAULT
     return (
       <View style={[this.styles.container, onLoad && this.styles.shadow]}>
         {!!image && (
           <CompCover
             style={this.styles.cover}
-            src={CDN_OSS_SUBJECT(getCoverMedium(image)) || IMG_DEFAULT}
+            src={src}
             size={$.imageWidth}
             height={$.imageHeight}
             radius

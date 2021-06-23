@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:31:57
+ * @Last Modified time: 2021-06-23 16:03:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,11 +44,11 @@ function Summary({ style }, { $ }) {
             <View>
               {translateResult.map((item, index) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <View key={index}>
-                  <Text style={_.mt.md} type='sub' selectable>
+                <View key={index} style={_.mt.sm}>
+                  <Text style={_.mt.md} type='sub' size={12} selectable>
                     {item.src}
                   </Text>
-                  <Text style={_.mt.sm} size={16} selectable>
+                  <Text style={_.mt.sm} size={15} bold selectable>
                     {item.dst}
                   </Text>
                 </View>

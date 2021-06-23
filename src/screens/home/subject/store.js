@@ -1,10 +1,10 @@
 /*
  * 条目
- * @Params: { _ningMoeId, _jp, _cn, _image, _summary, _type, _aid }
+ * @Params: { _ningMoeId, _jp, _cn, _image, _imageForce, _summary, _type, _aid }
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 05:20:47
+ * @Last Modified time: 2021-06-23 15:57:16
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -848,9 +848,13 @@ export default class ScreenSubject extends store {
 
   // -------------------- get: cdn fallback --------------------
   @computed get coverPlaceholder() {
-    const { _image } = this.params
+    const { _image, _imageForce } = this.params
     return (
-      _image || this.subjectFormCDN.image || this.subject.images.medium || ''
+      _imageForce ||
+      _image ||
+      this.subjectFormCDN.image ||
+      this.subject.images.medium ||
+      ''
     )
   }
 

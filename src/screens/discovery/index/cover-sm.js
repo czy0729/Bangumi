@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 16:03:58
+ * @Last Modified time: 2021-06-23 15:52:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,8 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
             subjectId: data.subjectId,
             _jp: data.title,
             _cn: cn,
-            _image: src
+            _image: src,
+            _imageForce: src
           })
         }}
       />
