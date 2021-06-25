@@ -27,6 +27,7 @@ export default class ScreenGame extends store {
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid
+    expand: false,
     _loaded: false
   })
 
@@ -139,6 +140,14 @@ export default class ScreenGame extends store {
 
     this.setState({
       layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onExpand = () => {
+    const { expand } = this.state
+    this.setState({
+      expand: !expand
     })
     this.setStorage(undefined, undefined, namespace)
   }

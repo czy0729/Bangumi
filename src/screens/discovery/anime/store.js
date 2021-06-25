@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:07:01
+ * @Last Modified time: 2021-06-26 06:33:28
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -29,6 +29,7 @@ export default class ScreenAnime extends store {
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid
+    expand: false,
     _loaded: false
   })
 
@@ -147,6 +148,14 @@ export default class ScreenAnime extends store {
 
     this.setState({
       layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onExpand = () => {
+    const { expand } = this.state
+    this.setState({
+      expand: !expand
     })
     this.setStorage(undefined, undefined, namespace)
   }

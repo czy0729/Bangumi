@@ -2,15 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 14:29:23
+ * @Last Modified time: 2021-06-26 04:54:44
  */
 import React from 'react'
-import { ActivityIndicator, Animated, Text, View, TouchableOpacity } from 'react-native'
+import {
+  ActivityIndicator,
+  Animated,
+  Text,
+  View,
+  TouchableOpacity
+} from 'react-native'
 import Icon, { IconNames } from '@ant-design/react-native/lib/icon'
 import { WithTheme, WithThemeStyles } from '@ant-design/react-native/lib/style'
 import ToastStyles, {
   ToastStyle
 } from '@ant-design/react-native/lib/toast/style/index'
+import { getThemeStoreAsync } from '@utils/async'
 import { IOS } from '@constants'
 
 export interface ToastProps extends WithThemeStyles<ToastStyle> {
@@ -101,7 +108,7 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
             iconDom = (
               <ActivityIndicator
                 animating
-                style={[styles.centering]}
+                style={styles.centering}
                 color='white'
                 size='large'
               />
@@ -119,21 +126,29 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
             )
           }
 
+          const themeStore = getThemeStoreAsync()
           return (
             <View
-              style={[styles.container]}
+              style={styles.container}
               pointerEvents={mask ? undefined : 'box-none'}
             >
               <TouchableOpacity
-                style={[styles.innerContainer]}
+                style={styles.innerContainer}
                 activeOpacity={1}
                 onPress={onAnimationEnd}
               >
-                <Animated.View style={{ opacity: this.state.fadeAnim }}>
+                <Animated.View
+                  style={{
+                    opacity: this.state.fadeAnim
+                  }}
+                >
                   <View
                     style={[
                       styles.innerWrap,
-                      iconDom ? styles.iconToast : styles.textToast
+                      iconDom ? styles.iconToast : styles.textToast,
+                      themeStore.deepDark && {
+                        backgroundColor: themeStore._colorDarkModeLevel2
+                      }
                     ]}
                   >
                     {iconDom}

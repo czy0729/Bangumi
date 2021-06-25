@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:05:12
+ * @Last Modified time: 2021-06-26 06:56:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -139,8 +139,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
                     ]}
                     key={item}
                     src={item}
-                    size={96}
-                    height={64}
+                    size={114}
+                    height={76}
                     radius
                     onPress={() => {
                       showImageViewer(

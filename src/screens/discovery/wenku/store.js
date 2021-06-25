@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:07:26
+ * @Last Modified time: 2021-06-26 07:08:57
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -27,6 +27,7 @@ export default class ScreenWenku extends store {
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid
+    expand: false,
     _loaded: false
   })
 
@@ -118,6 +119,14 @@ export default class ScreenWenku extends store {
 
     this.setState({
       layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onExpand = () => {
+    const { expand } = this.state
+    this.setState({
+      expand: !expand
     })
     this.setStorage(undefined, undefined, namespace)
   }
