@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 21:15:10
+ * @Last Modified time: 2021-06-26 13:50:08
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
@@ -64,8 +64,11 @@ export async function init() {
 }
 
 export const ANIME_AREA = ['日本', '中国']
+
 export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB']
+
 export const ANIME_FIRST = DATA_ALPHABET
+
 export const ANIME_YEAR = [
   2021,
   2020,
@@ -90,8 +93,11 @@ export const ANIME_YEAR = [
   2001,
   '2000以前'
 ]
+
 export const ANIME_BEGIN = ['1月', '4月', '7月', '10月']
+
 export const ANIME_STATUS = ['连载', '完结', '未播放']
+
 export const ANIME_TAGS = [
   '后宫',
   '百合',
@@ -138,6 +144,7 @@ export const ANIME_TAGS = [
   '泡面番',
   '欢乐向'
 ]
+
 export const ANIME_OFFICIAL = [
   // 首屏
   'J.C.STAFF',
@@ -261,7 +268,105 @@ export const ANIME_OFFICIAL = [
   'Nexus',
   'Orange'
 ]
+
 export const ANIME_SORT = ['排名', '上映时间', '随机', '名称']
+
+// 人物
+export const ANIME_HENTAI_CHARA = [
+  '姐',
+  '妹',
+  '母',
+  '人妻',
+  '青梅竹马',
+  '处女',
+  '御姐',
+  '熟女'
+]
+
+// 职业
+export const ANIME_HENTAI_JOB = [
+  'JK',
+  '运动少女',
+  '大小姐',
+  '老师',
+  '女医护士',
+  '女僕',
+  '巫女',
+  '修女',
+  '偶像',
+  'OL',
+  '风俗娘',
+  '公主',
+  '女骑士',
+  '魔法少女',
+  '妖精',
+  '魔物娘',
+  '兽娘'
+]
+
+// 外貌
+export const ANIME_HENTAI_BODY = [
+  '巨乳',
+  '贫乳',
+  '黑皮肤',
+  '眼镜娘',
+  '泳装',
+  '围裙',
+  '黑丝袜',
+  '和服',
+  '兽耳',
+  '碧池',
+  '不良少女',
+  '傲娇',
+  '病娇',
+  '伪娘',
+  '扶他'
+]
+
+// 剧情
+export const ANIME_HENTAI_CONTENT = [
+  '自慰',
+  '口交',
+  '乳交',
+  '肛交',
+  '脚交',
+  '腋下',
+  '玩具',
+  '触手',
+  '内射',
+  '颜射',
+  '3P',
+  '群交',
+  '肉便器',
+  '后宫',
+  '公众场合',
+  '近亲',
+  '师生',
+  'NTR',
+  '怀孕',
+  '喷奶',
+  '放尿',
+  '精神控制',
+  '药物',
+  '痴汉',
+  '阿嘿颜',
+  '精神崩溃',
+  '鬼畜',
+  'BDSM',
+  '调教',
+  '强制',
+  '逆强制',
+  '痴女',
+  '女王样',
+  '百合',
+  '耽美',
+  '性转换',
+  '异世界',
+  '异种族',
+  '纯爱',
+  '恋爱喜剧',
+  '世界末日'
+]
 
 export const SORT = {
   // 上映时间
