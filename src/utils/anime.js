@@ -2,73 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 13:50:08
+ * @Last Modified time: 2021-06-29 07:17:35
  */
-// import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
-// import animeData from '@constants/json/anime.min.json'
+import { info } from '@utils/ui'
+import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 import { DATA_ALPHABET } from '@constants'
-import {
-  getTimestamp
-  // getStorage, setStorage
-} from './index'
-// import { xhrCustom } from './fetch'
+import { getTimestamp, getStorage, setStorage } from './index'
+import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
 
-/**
- * v4.0.0后从包抽离, 需对比版本号
- * 若版本比OTA.VERSION_ANIME的小, 请求OTA.VERSION_STATIC数据然后替换缓存
- * 否则直接读缓存
- */
-// const animeVersionKey = '@utils|anime|version'
-// const animeDataKey = '@utils|anime|data'
-let anime = []
-
-/**
- * 初始化番剧数据
- */
-export async function init() {
-  if (!anime.length) {
-    anime = require('@constants/json/thirdParty/anime.min.json')
-  }
-  return true
-
-  // // 版本没有OTA高需要重新请求数据
-  // const version = (await getStorage(animeVersionKey)) || VERSION_ANIME
-  // const ota = getOTA()
-
-  // const needUpdate = parseInt(ota.VERSION_ANIME) > parseInt(version)
-  // if (needUpdate) {
-  //   const { _response } = await xhrCustom({
-  //     url: CDN_STATIC_ANIME()
-  //   })
-  //   anime = JSON.parse(_response)
-  //   setStorage(animeVersionKey, version)
-  //   setStorage(animeDataKey, anime)
-  //   return
-  // }
-
-  // // 没缓存也要请求数据
-  // const data = (await getStorage(animeDataKey)) || []
-  // if (!data.length) {
-  //   const { _response } = await xhrCustom({
-  //     url: CDN_STATIC_ANIME()
-  //   })
-  //   anime = JSON.parse(_response)
-  //   setStorage(animeVersionKey, version)
-  //   setStorage(animeDataKey, anime)
-  //   return
-  // }
-
-  // // 有缓存直接返回
-  // anime = data
-}
-
 export const ANIME_AREA = ['日本', '中国']
-
 export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB']
-
 export const ANIME_FIRST = DATA_ALPHABET
-
 export const ANIME_YEAR = [
   2021,
   2020,
@@ -93,11 +38,8 @@ export const ANIME_YEAR = [
   2001,
   '2000以前'
 ]
-
 export const ANIME_BEGIN = ['1月', '4月', '7月', '10月']
-
 export const ANIME_STATUS = ['连载', '完结', '未播放']
-
 export const ANIME_TAGS = [
   '后宫',
   '百合',
@@ -144,7 +86,6 @@ export const ANIME_TAGS = [
   '泡面番',
   '欢乐向'
 ]
-
 export const ANIME_OFFICIAL = [
   // 首屏
   'J.C.STAFF',
@@ -268,11 +209,9 @@ export const ANIME_OFFICIAL = [
   'Nexus',
   'Orange'
 ]
-
 export const ANIME_SORT = ['排名', '上映时间', '随机', '名称']
-
-// 人物
 export const ANIME_HENTAI_CHARA = [
+  // 人物
   '姐',
   '妹',
   '母',
@@ -282,9 +221,8 @@ export const ANIME_HENTAI_CHARA = [
   '御姐',
   '熟女'
 ]
-
-// 职业
 export const ANIME_HENTAI_JOB = [
+  // 职业
   'JK',
   '运动少女',
   '大小姐',
@@ -303,9 +241,8 @@ export const ANIME_HENTAI_JOB = [
   '魔物娘',
   '兽娘'
 ]
-
-// 外貌
 export const ANIME_HENTAI_BODY = [
+  // 外貌
   '巨乳',
   '贫乳',
   '黑皮肤',
@@ -322,9 +259,8 @@ export const ANIME_HENTAI_BODY = [
   '伪娘',
   '扶他'
 ]
-
-// 剧情
 export const ANIME_HENTAI_CONTENT = [
+  // 剧情
   '自慰',
   '口交',
   '乳交',
@@ -367,6 +303,87 @@ export const ANIME_HENTAI_CONTENT = [
   '恋爱喜剧',
   '世界末日'
 ]
+
+/**
+ * v4.0.0 后从包抽离, 需对比版本号
+ * 若版本比 OTA.VERSION_ANIME 的小, 请求 OTA.VERSION_STATIC 数据然后替换缓存
+ * 否则直接读缓存
+ */
+const animeVersionKey = '@utils|anime|version|210629'
+const animeDataKey = '@utils|anime|data|210629'
+let anime = []
+let animeFallback = []
+let loaded = false
+
+function getData() {
+  if (!loaded) {
+    if (animeFallback.length) return animeFallback
+    return anime
+  }
+
+  if (loaded && anime.length) {
+    return anime
+  }
+
+  if (!animeFallback.length) {
+    animeFallback = require('@constants/json/thirdParty/anime.min.json')
+  }
+  return animeFallback
+}
+
+/**
+ * 初始化番剧数据
+ */
+export async function init() {
+  if (loaded) return
+
+  // 云版本
+  // 版本没有 OTA 高需要重新请求数据
+  const version = (await getStorage(animeVersionKey)) || VERSION_ANIME
+  const data = (await getStorage(animeDataKey)) || []
+
+  const ota = getOTA()
+  const needUpdate =
+    (!loaded && !data.length) || parseInt(ota.VERSION_ANIME) > parseInt(version)
+  if (needUpdate) {
+    info('正在从云端拉取最新数据...')
+
+    try {
+      loaded = true
+      const { _response } = await xhrCustom({
+        url: CDN_STATIC_ANIME()
+      })
+      anime = JSON.parse(_response)
+      setStorage(animeVersionKey, parseInt(ota.VERSION_ANIME))
+      setStorage(animeDataKey, anime)
+    } catch (error) {
+      // 404
+    }
+    return
+  }
+
+  // 没缓存也要请求数据
+  if (!data.length) {
+    info('正在从云端拉取最新数据...')
+
+    try {
+      loaded = true
+      const { _response } = await xhrCustom({
+        url: CDN_STATIC_ANIME()
+      })
+      anime = JSON.parse(_response)
+      setStorage(animeVersionKey, version)
+      setStorage(animeDataKey, anime)
+    } catch (error) {
+      // 404
+    }
+    return
+  }
+
+  // 有缓存直接返回
+  loaded = true
+  anime = data
+}
 
 export const SORT = {
   // 上映时间
@@ -447,7 +464,8 @@ export function search({
     yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
   }
 
-  anime.forEach((item, index) => {
+  const data = getData()
+  data.forEach((item, index) => {
     let match = true
 
     // area: 'jp'
@@ -484,16 +502,16 @@ export function search({
 
   switch (sort) {
     case '上映时间':
-      _list = _list.sort((a, b) => SORT.begin(anime[a], anime[b]))
+      _list = _list.sort((a, b) => SORT.begin(data[a], data[b]))
       break
 
     case '名称':
-      _list = _list.sort((a, b) => SORT.name(anime[a], anime[b]))
+      _list = _list.sort((a, b) => SORT.name(data[a], data[b]))
       break
 
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(anime[a], anime[b]))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b]))
       break
 
     case '随机':
@@ -520,12 +538,12 @@ export function search({
 
 export function pick(index) {
   init()
-  return unzip(anime[index])
+  return unzip(getData()[index])
 }
 
 export function find(id) {
   init()
-  return unzip(anime.find(item => item.id == id))
+  return unzip(getData().find(item => item.id == id))
 }
 
 /**
@@ -604,8 +622,9 @@ export function guess(
     }
   })
 
+  const data = getData()
   return (
-    anime
+    data
       .map((item, index) => {
         if (userCollectionsMap[item.id]) {
           return [index, reverse ? 100000 : 0]
@@ -638,7 +657,7 @@ export function guess(
       // .filter(item => !skipIds.includes(item.id))
       .filter((item, index) => index < 500)
       .map(item => ({
-        ...unzip(anime[item[0]]),
+        ...unzip(data[item[0]]),
         rate: item[1]
       }))
   )

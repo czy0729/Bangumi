@@ -103,15 +103,16 @@ export const WENKU_SORT = [
  * 若版本比 OTA.VERSION_WENKU 的小, 请求 OTA.VERSION_STATIC 数据然后替换缓存
  * 否则直接读缓存
  */
-const wenkuVersionKey = '@utils|wenku|version'
-const wenkuDataKey = '@utils|wenku|data'
+const wenkuVersionKey = '@utils|wenku|version|210629'
+const wenkuDataKey = '@utils|wenku|data|210629'
 let wenku = []
 let wenkuFallback = []
 let loaded = false
 
 function getData() {
   if (!loaded) {
-    return wenkuFallback
+    if (wenkuFallback.length) return wenkuFallback
+    return wenku
   }
 
   if (loaded && wenku.length) {

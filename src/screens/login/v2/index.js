@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:09:41
+ * @Last Modified time: 2021-06-29 07:32:40
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -30,7 +30,7 @@ import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
-import { IOS, HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
+import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
@@ -97,10 +97,13 @@ class LoginV2 extends React.Component {
     try {
       info('正在从github获取游客cookie...')
 
+      // const { _response } = await xhrCustom({
+      //   url: IOS
+      //     ? `https://gitee.com/a296377710/bangumi/raw/master/tourist.ios.json?t=${getTimestamp()}`
+      //     : `https://gitee.com/a296377710/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
+      // })
       const { _response } = await xhrCustom({
-        url: IOS
-          ? `https://gitee.com/a296377710/bangumi/raw/master/tourist.ios.json?t=${getTimestamp()}`
-          : `https://gitee.com/a296377710/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
+        url: `https://gitee.com/a296377710/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
       })
       const { accessToken, userCookie } = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)

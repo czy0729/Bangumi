@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-28 11:38:06
+ * @Last Modified time: 2021-06-29 06:57:08
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -244,7 +244,7 @@ export const CDN_STATIC_ANIME = () => {
       ? ota.VERSION_STATIC
       : VERSION_STATIC
 
-  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/agefans/anime.json`
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/agefans/anime.min.json`
 }
 
 /**
