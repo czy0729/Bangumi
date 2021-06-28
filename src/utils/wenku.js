@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-28 09:43:41
+ * @Last Modified time: 2021-06-28 13:04:23
  */
 import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 import { DATA_ALPHABET } from '@constants'
@@ -133,13 +133,16 @@ export async function init() {
   // 云版本
   // 版本没有 OTA 高需要重新请求数据
   const version = (await getStorage(wenkuVersionKey)) || VERSION_WENKU
+  const data = (await getStorage(wenkuDataKey)) || []
+
   const ota = getOTA()
-  const needUpdate = !loaded && parseInt(ota.VERSION_WENKU) > parseInt(version)
+  const needUpdate =
+    (!loaded && !data.length) || parseInt(ota.VERSION_WENKU) > parseInt(version)
   if (needUpdate) {
     info('正在从云端拉取最新数据...')
-    loaded = true
 
     try {
+      loaded = true
       const { _response } = await xhrCustom({
         url: CDN_STATIC_WENKU()
       })
@@ -153,9 +156,11 @@ export async function init() {
   }
 
   // 没缓存也要请求数据
-  const data = (await getStorage(wenkuDataKey)) || []
   if (!data.length) {
+    info('正在从云端拉取最新数据...')
+
     try {
+      loaded = true
       const { _response } = await xhrCustom({
         url: CDN_STATIC_WENKU()
       })
@@ -169,6 +174,7 @@ export async function init() {
   }
 
   // 有缓存直接返回
+  loaded = true
   wenku = data
 }
 
@@ -176,7 +182,7 @@ export async function init() {
  * 只返回下标数组对象
  */
 const searchCache = {}
-export async function search({
+export function search({
   sort,
   year,
   first,
@@ -291,7 +297,6 @@ export async function search({
   }
   searchCache[finger] = result
 
-  log(result)
   return result
 }
 
