@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 13:43:59
+ * @Last Modified time: 2021-06-28 08:52:04
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -259,7 +259,7 @@ export const CDN_STATIC_WENKU = () => {
       ? ota.VERSION_STATIC
       : VERSION_STATIC
 
-  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/wenku8/wenku.json`
+  return `${HOST_CDN}/gh/czy0729/Bangumi-St@${version}/data/wenku8/wenku.min.json`
 }
 
 /**

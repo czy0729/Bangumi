@@ -2,44 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 13:58:07
+ * @Last Modified time: 2021-06-28 09:43:41
  */
-// import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
-// import wenkuData from '@constants/json/wenku.min.json'
+import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 import { DATA_ALPHABET } from '@constants'
-import {
-  getTimestamp
-  // getStorage, setStorage
-} from './index'
-// import { xhrCustom } from './fetch'
+import { getTimestamp, getStorage, setStorage } from './index'
+import { xhrCustom } from './fetch'
+import { info } from './ui'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
-import { SORT } from './anime'
+import { ANIME_YEAR, SORT } from './anime'
 
 export const WENKU_FIRST = DATA_ALPHABET
-export const WENKU_YEAR = [
-  2021,
-  2020,
-  2019,
-  2018,
-  2017,
-  2016,
-  2015,
-  2014,
-  2013,
-  2012,
-  2011,
-  2010,
-  2009,
-  2008,
-  2007,
-  2006,
-  2005,
-  2004,
-  2003,
-  2002,
-  2001,
-  '2000以前'
-]
+export const WENKU_YEAR = ANIME_YEAR
 export const WENKU_STATUS = ['连载', '完结']
 export const WENKU_ANIME = ['是', '否']
 export const WENKU_CATE = [
@@ -125,58 +99,84 @@ export const WENKU_SORT = [
 ]
 
 /**
- * v4.0.0后从包抽离, 需对比版本号
- * 若版本比OTA.VERSION_WENKU的小, 请求OTA.VERSION_STATIC数据然后替换缓存
+ * v4.0.0 后从包抽离, 需对比版本号
+ * 若版本比 OTA.VERSION_WENKU 的小, 请求 OTA.VERSION_STATIC 数据然后替换缓存
  * 否则直接读缓存
  */
-// const wenkuVersionKey = '@utils|wenku|version'
-// const wenkuDataKey = '@utils|wenku|data'
+const wenkuVersionKey = '@utils|wenku|version'
+const wenkuDataKey = '@utils|wenku|data'
 let wenku = []
+let wenkuFallback = []
+let loaded = false
+
+function getData() {
+  if (!loaded) {
+    return wenkuFallback
+  }
+
+  if (loaded && wenku.length) {
+    return wenku
+  }
+
+  if (!wenkuFallback.length) {
+    wenkuFallback = require('@constants/json/thirdParty/wenku.min.json')
+  }
+  return wenkuFallback
+}
 
 /**
  * 初始化文库数据
  */
 export async function init() {
-  if (!wenku.length) {
-    wenku = require('@constants/json/thirdParty/wenku.min.json')
+  if (loaded) return
+
+  // 云版本
+  // 版本没有 OTA 高需要重新请求数据
+  const version = (await getStorage(wenkuVersionKey)) || VERSION_WENKU
+  const ota = getOTA()
+  const needUpdate = !loaded && parseInt(ota.VERSION_WENKU) > parseInt(version)
+  if (needUpdate) {
+    info('正在从云端拉取最新数据...')
+    loaded = true
+
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_STATIC_WENKU()
+      })
+      wenku = JSON.parse(_response)
+      setStorage(wenkuVersionKey, parseInt(ota.VERSION_WENKU))
+      setStorage(wenkuDataKey, wenku)
+    } catch (error) {
+      // 404
+    }
+    return
   }
-  return true
 
-  // // 版本没有OTA高需要重新请求数据
-  // const version = (await getStorage(wenkuVersionKey)) || VERSION_WENKU
-  // const ota = getOTA()
-  // const needUpdate = parseInt(ota.VERSION_WENKU) > parseInt(version)
-  // if (needUpdate) {
-  //   const { _response } = await xhrCustom({
-  //     url: CDN_STATIC_WENKU()
-  //   })
-  //   wenku = JSON.parse(_response)
-  //   setStorage(wenkuVersionKey, version)
-  //   setStorage(wenkuDataKey, wenku)
-  //   return
-  // }
+  // 没缓存也要请求数据
+  const data = (await getStorage(wenkuDataKey)) || []
+  if (!data.length) {
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_STATIC_WENKU()
+      })
+      wenku = JSON.parse(_response)
+      setStorage(wenkuVersionKey, version)
+      setStorage(wenkuDataKey, wenku)
+    } catch (error) {
+      // 404
+    }
+    return
+  }
 
-  // // 没缓存也要请求数据
-  // const data = (await getStorage(wenkuDataKey)) || []
-  // if (!data.length) {
-  //   const { _response } = await xhrCustom({
-  //     url: CDN_STATIC_WENKU()
-  //   })
-  //   wenku = JSON.parse(_response)
-  //   setStorage(wenkuVersionKey, version)
-  //   setStorage(wenkuDataKey, wenku)
-  //   return
-  // }
-
-  // // 有缓存直接返回
-  // wenku = data
+  // 有缓存直接返回
+  wenku = data
 }
 
 /**
  * 只返回下标数组对象
  */
 const searchCache = {}
-export function search({
+export async function search({
   sort,
   year,
   first,
@@ -198,9 +198,7 @@ export function search({
     author
   })
 
-  if (sort !== '随机' && searchCache[finger]) {
-    return searchCache[finger]
-  }
+  if (sort !== '随机' && searchCache[finger]) return searchCache[finger]
 
   let _list = []
   let yearReg
@@ -208,7 +206,8 @@ export function search({
     yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
   }
 
-  wenku.forEach((item, index) => {
+  const data = getData()
+  data.forEach((item, index) => {
     let match = true
 
     // cn: '云之彼端约定之地'
@@ -237,39 +236,39 @@ export function search({
 
   switch (sort) {
     case '发行':
-      _list = _list.sort((a, b) => SORT.begin(wenku[a], wenku[b]))
+      _list = _list.sort((a, b) => SORT.begin(data[a], data[b]))
       break
 
     case '更新':
       _list = _list.sort((a, b) =>
-        String(wenku[b].up).localeCompare(String(wenku[a].up))
+        String(data[b].up).localeCompare(String(data[a].up))
       )
       break
 
     case '名称':
-      _list = _list.sort((a, b) => SORT.name(wenku[a], wenku[b]))
+      _list = _list.sort((a, b) => SORT.name(data[a], data[b]))
       break
 
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(wenku[a], wenku[b]))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b]))
       break
 
     case '热度':
       _list = _list.sort((a, b) => {
-        if (wenku[a].h === wenku[b].h) {
-          return (wenku[b].s || 0) - (wenku[a].s || 0)
+        if (data[a].h === data[b].h) {
+          return (data[b].s || 0) - (data[a].s || 0)
         }
-        return wenku[b].h - wenku[a].h
+        return data[b].h - data[a].h
       })
       break
 
     case '趋势':
       _list = _list.sort((a, b) => {
-        if (wenku[a].u === wenku[b].u) {
-          return (wenku[b].s || 0) - (wenku[a].s || 0)
+        if (data[a].u === data[b].u) {
+          return (data[b].s || 0) - (data[a].s || 0)
         }
-        return wenku[b].u - wenku[a].u
+        return data[b].u - data[a].u
       })
       break
 
@@ -292,17 +291,18 @@ export function search({
   }
   searchCache[finger] = result
 
+  log(result)
   return result
 }
 
 export function pick(index) {
   init()
-  return unzip(wenku[index])
+  return unzip(getData()[index])
 }
 
 export function find(id) {
   init()
-  return unzip(wenku.find(item => item.id == id))
+  return unzip(getData().find(item => item.id == id))
 }
 
 /**
