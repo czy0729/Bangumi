@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-29 07:17:35
+ * @Last Modified time: 2021-06-30 06:30:13
  */
 import { info } from '@utils/ui'
-import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 import { DATA_ALPHABET } from '@constants'
+import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 import { getTimestamp, getStorage, setStorage } from './index'
 import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'

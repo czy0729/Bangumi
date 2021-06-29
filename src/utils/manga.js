@@ -2,50 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-09 13:57:54
+ * @Last Modified time: 2021-06-30 07:08:12
  */
+import { info } from '@utils/ui'
 import { DATA_ALPHABET } from '@constants'
-import { getOTA } from '@constants/cdn'
-import { getTimestamp } from './index'
+import { VERSION_MANGA, CDN_STATIC_MANGA, getOTA } from '@constants/cdn'
+import { getTimestamp, getStorage, setStorage } from './index'
+import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
-import { SORT } from './anime'
-
-let manga = []
-
-/**
- * 初始化番剧数据
- */
-export async function init() {
-  if (!manga.length) {
-    manga = require('@constants/json/thirdParty/manga.min.json')
-  }
-  return true
-}
+import { ANIME_YEAR, SORT } from './anime'
 
 export const MANGA_FIRST = DATA_ALPHABET
-export const MANGA_YEAR = [
-  2020,
-  2019,
-  2018,
-  2017,
-  2016,
-  2015,
-  2014,
-  2013,
-  2012,
-  2011,
-  2010,
-  2009,
-  2008,
-  2007,
-  2006,
-  2005,
-  2004,
-  2003,
-  2002,
-  2001,
-  '2000以前'
-]
+export const MANGA_YEAR = ANIME_YEAR
 export const MANGA_STATUS = ['连载', '完结']
 export const MANGA_TAGS = [
   // 热门
@@ -128,6 +96,87 @@ export const MANGA_HD = ['HD']
 export const MANGA_SORT = ['排名', '发行时间', '随机', '名称']
 
 /**
+ * v4.0.0 后从包抽离, 需对比版本号
+ * 若版本比 OTA.VERSION_MANGA 的小, 请求 OTA.VERSION_STATIC 数据然后替换缓存
+ * 否则直接读缓存
+ */
+const mangaVersionKey = '@utils|manga|version|210629'
+const mangaDataKey = '@utils|manga|data|210629'
+let manga = []
+let mangaFallback = []
+let loaded = false
+
+function getData() {
+  if (!loaded) {
+    if (mangaFallback.length) return mangaFallback
+    return manga
+  }
+
+  if (loaded && manga.length) {
+    return manga
+  }
+
+  if (!mangaFallback.length) {
+    mangaFallback = require('@constants/json/thirdParty/manga.min.json')
+  }
+  return mangaFallback
+}
+
+/**
+ * 初始化数据
+ */
+export async function init() {
+  if (loaded) return
+
+  // 云版本
+  // 版本没有 OTA 高需要重新请求数据
+  const version = (await getStorage(mangaVersionKey)) || VERSION_MANGA
+  const data = (await getStorage(mangaDataKey)) || []
+
+  const ota = getOTA()
+  const needUpdate =
+    (!loaded && !data.length) || parseInt(ota.VERSION_MANGA) > parseInt(version)
+  if (needUpdate) {
+    info('正在从云端拉取最新数据...')
+
+    try {
+      loaded = true
+      const { _response } = await xhrCustom({
+        url: CDN_STATIC_MANGA()
+      })
+      manga = JSON.parse(_response)
+      setStorage(mangaVersionKey, parseInt(ota.VERSION_MANGA))
+      setStorage(mangaDataKey, manga)
+    } catch (error) {
+      // 404
+    }
+    return
+  }
+
+  // 没缓存也要请求数据
+  if (!data.length) {
+    info('正在从云端拉取最新数据...')
+
+    try {
+      loaded = true
+      const { _response } = await xhrCustom({
+        url: CDN_STATIC_MANGA()
+      })
+      manga = JSON.parse(_response)
+      setStorage(mangaVersionKey, version)
+      setStorage(mangaDataKey, manga)
+    } catch (error) {
+      // 404
+    }
+    return
+  }
+
+  // 有缓存直接返回
+  loaded = true
+  manga = data
+}
+
+/**
  * 只返回下标数组对象
  */
 const searchCache = {}
@@ -163,7 +212,8 @@ export function search({
     yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
   }
 
-  manga.forEach((item, index) => {
+  const data = getData()
+  data.forEach((item, index) => {
     let match = true
 
     // cn: 'Code Geass 反叛的鲁路修 第二季'
@@ -192,16 +242,16 @@ export function search({
 
   switch (sort) {
     case '发行时间':
-      _list = _list.sort((a, b) => SORT.begin(manga[a], manga[b]))
+      _list = _list.sort((a, b) => SORT.begin(data[a], data[b]))
       break
 
     case '名称':
-      _list = _list.sort((a, b) => SORT.name(manga[a], manga[b]))
+      _list = _list.sort((a, b) => SORT.name(data[a], data[b]))
       break
 
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(manga[a], manga[b]))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b]))
       break
 
     case '随机':
@@ -228,12 +278,12 @@ export function search({
 
 export function pick(index) {
   init()
-  return unzip(manga[index])
+  return unzip(getData()[index])
 }
 
 export function find(id) {
   init()
-  return unzip(manga.find(item => item.id == id))
+  return unzip(getData().find(item => item.id == id))
 }
 
 /**

@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-29 19:13:03
+ * @Last Modified time: 2021-06-30 06:59:58
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -27,22 +27,20 @@ export function getOTA() {
   return getSystemStoreAsync().ota
 }
 
-export const VERSION_STATIC = '20210611'
+export const VERSION_STATIC = '20210627'
 export const VERSION_RAKUEN = '20210607'
 export const VERSION_AVATAR = '20210609'
 export const VERSION_OSS = '20210611'
 export const VERSION_SUBJECT = '20210607'
 export const VERSION_MONO = '20201216'
-export const VERSION_ANIME = '20201126'
-export const VERSION_WENKU = '20200927'
+export const VERSION_ANIME = '20210628'
+export const VERSION_WENKU = '20210627'
+export const VERSION_MANGA = '20210628'
 export const VERSION_GAME = '20210630'
 export const VERSIONS_AVATAR = [
   '20210609',
   '20210410',
-  // '20210218',
-  // '20201213',
   '20201018',
-  // '20200712',
   '20200502',
   '1.0.2'
 ]
@@ -240,9 +238,9 @@ export const CDN_DISCOVERY_HOME = () => {
 export const CDN_STATIC_ANIME = () => {
   const ota = getOTA()
   const version =
-    parseInt(ota.VERSION_STATIC) > parseInt(VERSION_STATIC)
-      ? ota.VERSION_STATIC
-      : VERSION_STATIC
+    parseInt(ota.VERSION_ANIME) > parseInt(VERSION_ANIME)
+      ? ota.VERSION_ANIME
+      : VERSION_ANIME
 
   return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/agefans/anime.min.json`
 }
@@ -255,11 +253,26 @@ export const CDN_STATIC_ANIME = () => {
 export const CDN_STATIC_WENKU = () => {
   const ota = getOTA()
   const version =
-    parseInt(ota.VERSION_STATIC) > parseInt(VERSION_STATIC)
-      ? ota.VERSION_STATIC
-      : VERSION_STATIC
+    parseInt(ota.VERSION_WENKU) > parseInt(VERSION_WENKU)
+      ? ota.VERSION_WENKU
+      : VERSION_WENKU
 
   return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/wenku8/wenku.min.json`
+}
+
+/**
+ * 找漫画数据
+ * @url https://github.com/czy0729/Bangumi-Static
+ * @param {*} version
+ */
+export const CDN_STATIC_MANGA = () => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_MANGA) > parseInt(VERSION_MANGA)
+      ? ota.VERSION_MANGA
+      : VERSION_MANGA
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/manhuadb/manga.min.json`
 }
 
 /**
