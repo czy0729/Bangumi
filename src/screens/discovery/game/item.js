@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 06:56:41
+ * @Last Modified time: 2021-06-29 18:30:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ import { pick } from '@utils/game'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { showImageViewer } from '@utils/ui'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 import { CDN_GAME } from '@constants/cdn'
 
 function Item({ index, pickIndex }, { $, navigation }) {
@@ -32,7 +32,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
     id,
     title,
     sub,
-    cover,
+    cover: image,
     tag,
     dev,
     publish,
@@ -44,6 +44,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
     length
   } = pick(pickIndex)
   const thumbs = getThumbs(id, length)
+  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   let tip = [
     platform.join('、'),
     time,
