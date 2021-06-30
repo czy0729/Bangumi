@@ -2,32 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-27 09:30:23
+ * @Last Modified time: 2021-06-30 11:43:29
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, search } from '@utils/subject/anime'
+import { init, search } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
-const cloudAddress =
-  'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210625/data/h/h.json'
 const namespace = 'ScreenHentai'
 let _loaded = false
 
 export default class ScreenHentai extends store {
   state = observable({
     query: {
-      area: '日本',
-      type: '',
       first: '',
-      year: 2020,
-      begin: '',
-      status: '',
-      tags: [], // 已支持多选, 不过暂时不开放
-      official: '',
-      sort: ''
+      year: 2021,
+      chara: '',
+      job: '',
+      body: '',
+      content: '',
+      sort: '上映时间'
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid
@@ -80,48 +76,21 @@ export default class ScreenHentai extends store {
   }
 
   // -------------------- page --------------------
-  onSelect = (type, value, multiple = false) => {
+  onSelect = (type, value) => {
     const { query } = this.state
-    if (type === 'tags') {
-      const { tags = [] } = query
-
-      if (multiple) {
-        // 标签支持多选
-        this.setState({
-          query: {
-            ...query,
-            tags:
-              value === ''
-                ? []
-                : tags.includes(value)
-                ? tags.filter(item => value !== item)
-                : [...tags, value]
-          }
-        })
-      } else {
-        this.setState({
-          query: {
-            ...query,
-            tags: value === '' ? [] : [value]
-          }
-        })
+    this.setState({
+      query: {
+        ...query,
+        [type]: value
       }
-    } else {
-      this.setState({
-        query: {
-          ...query,
-          [type]: value
-        }
-      })
-    }
+    })
 
     setTimeout(() => {
       this.search()
       this.setStorage(undefined, undefined, namespace)
-      t('Anime.选择', {
+      t('Hentai.选择', {
         type,
-        value,
-        multiple
+        value
       })
     }, 0)
   }
@@ -135,7 +104,7 @@ export default class ScreenHentai extends store {
         animated: true
       })
 
-      t('Anime.到顶')
+      t('Hentai.到顶')
     }
   }
 
@@ -144,7 +113,7 @@ export default class ScreenHentai extends store {
    */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
-    t('Anime.切换布局', {
+    t('Hentai.切换布局', {
       layout: _layout
     })
 

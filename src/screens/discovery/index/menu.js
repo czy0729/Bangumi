@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 18:33:54
+ * @Last Modified time: 2021-06-30 11:57:56
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -15,6 +15,11 @@ const menus = [
     title: '排行榜',
     icon: 'md-equalizer',
     path: 'Rank'
+  },
+  {
+    title: '找条目',
+    icon: 'md-live-tv',
+    path: 'Anime'
   },
   {
     title: '索引',
@@ -31,35 +36,20 @@ const menus = [
     icon: 'md-calendar-today',
     path: 'Calendar'
   },
+  // {
+  //   title: '游戏',
+  //   icon: 'md-videogame-asset',
+  //   path: 'Game'
+  // },
+  // {
+  //   title: '漫画',
+  //   icon: 'md-chrome-reader-mode',
+  //   path: 'Manga'
+  // },
   {
-    title: '番剧',
-    icon: 'md-live-tv',
-    path: 'Anime'
-  },
-  {
-    title: '游戏',
-    icon: 'md-videogame-asset',
-    path: 'Game'
-  },
-  {
-    title: '漫画',
-    icon: 'md-chrome-reader-mode',
-    path: 'Manga'
-  },
-  {
-    title: '更多',
-    icon: 'md-more-horiz',
-    path: 'open'
-  },
-  {
-    title: '文库',
-    icon: 'md-notes',
-    path: 'Wenku'
-  },
-  {
-    title: '搜索',
-    icon: 'md-search',
-    path: 'Search'
+    title: '日志',
+    icon: 'md-edit',
+    path: 'DiscoveryBlog'
   },
   {
     title: '标签',
@@ -67,14 +57,24 @@ const menus = [
     path: 'Tags'
   },
   {
+    title: '更多',
+    icon: 'md-more-horiz',
+    path: 'open'
+  },
+  // {
+  //   title: '文库',
+  //   icon: 'md-notes',
+  //   path: 'Wenku'
+  // },
+  {
     title: '档期',
     icon: 'md-local-play',
     path: 'Staff'
   },
   {
-    title: '日志',
-    icon: 'md-edit',
-    path: 'DiscoveryBlog'
+    title: '搜索',
+    icon: 'md-search',
+    path: 'Search'
   },
   {
     title: '小圣杯',
@@ -105,6 +105,11 @@ const menus = [
     login: true
   },
   {
+    title: 'Anitama',
+    icon: 'md-text-format',
+    path: 'Anitama'
+  },
+  {
     title: '时间线',
     icon: 'md-timeline',
     path: 'UserTimeline',
@@ -121,11 +126,6 @@ const menus = [
     icon: 'md-folder-special',
     path: 'Catalogs',
     login: true
-  },
-  {
-    title: 'Anitama',
-    icon: 'md-text-format',
-    path: 'Anitama'
   },
   {
     title: '剪贴板',

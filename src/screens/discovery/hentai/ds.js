@@ -2,54 +2,54 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-27 09:30:15
+ * @Last Modified time: 2021-06-30 10:23:14
  */
 import {
-  ANIME_FIRST,
-  ANIME_YEAR,
-  ANIME_HENTAI_CHARA,
-  ANIME_HENTAI_JOB,
-  ANIME_HENTAI_BODY,
-  ANIME_HENTAI_CONTENT,
-  ANIME_SORT
-} from '@utils/subject/anime'
+  HENTAI_FIRST,
+  HENTAI_YEAR,
+  HENTAI_CHARA,
+  HENTAI_JOB,
+  HENTAI_BODY,
+  HENTAI_CONTENT,
+  HENTAI_SORT
+} from '@utils/subject/hentai'
 
 export const filterDS = [
   {
     title: '首字',
     type: 'first',
-    data: ANIME_FIRST
+    data: HENTAI_FIRST
   },
   {
     title: '年份',
     type: 'year',
-    data: ANIME_YEAR,
+    data: HENTAI_YEAR,
     always: true
   },
   {
     title: '人物',
-    type: 'tags|chara',
-    data: ANIME_HENTAI_CHARA
+    type: 'chara',
+    data: HENTAI_CHARA
   },
   {
     title: '职业',
-    type: 'tags|job',
-    data: ANIME_HENTAI_JOB
+    type: 'job',
+    data: HENTAI_JOB
   },
   {
     title: '外貌',
-    type: 'tags|body',
-    data: ANIME_HENTAI_BODY
+    type: 'body',
+    data: HENTAI_BODY
   },
   {
     title: '剧情',
-    type: 'tags|content',
-    data: ANIME_HENTAI_CONTENT
+    type: 'content',
+    data: HENTAI_CONTENT
   },
   {
     title: '排序',
     type: 'sort',
-    data: ANIME_SORT,
+    data: HENTAI_SORT,
     always: true
   }
 ]

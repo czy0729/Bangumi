@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 07:50:41
+ * @Last Modified time: 2021-06-30 11:42:44
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -18,12 +18,12 @@ export default class ScreenWenku extends store {
   state = observable({
     query: {
       first: '',
-      year: 2020,
+      year: 2021,
       status: '',
       anime: '',
       cate: '',
       author: '',
-      sort: ''
+      sort: '发行'
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid

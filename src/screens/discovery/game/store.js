@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 08:34:26
+ * @Last Modified time: 2021-06-30 11:39:50
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -23,7 +23,7 @@ export default class ScreenGame extends store {
       cate: '',
       dev: '',
       pub: '',
-      sort: ''
+      sort: '发行时间'
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid

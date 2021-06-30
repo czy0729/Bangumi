@@ -13,7 +13,7 @@ import { ob } from '@utils/decorators'
 function IconLayout({ $ }) {
   return (
     <Icon style={_.mr._xs} list={$.isList} onPress={$.switchLayout}>
-      <Heatmap right={30} id='Anime.切换布局' />
+      <Heatmap right={30} id='Hentai.切换布局' />
     </Icon>
   )
 }

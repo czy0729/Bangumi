@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 17:52:43
+ * @Last Modified time: 2021-06-30 11:58:02
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
 import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
+import { getLastPath } from '@screens/_/base/filter-switch'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
@@ -32,6 +33,11 @@ function Btn({ item }, { $, navigation }) {
         t('发现.跳转', {
           to: path
         })
+
+        if (path === 'Anime') {
+          const path = await getLastPath()
+          return navigation.push(path)
+        }
 
         if (path === 'netabare') {
           return open('https://netaba.re/trending')

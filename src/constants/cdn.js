@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 08:14:21
+ * @Last Modified time: 2021-06-30 11:04:56
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -36,6 +36,7 @@ export const VERSION_MONO = '20201216'
 export const VERSION_ANIME = '20210628'
 export const VERSION_WENKU = '20210627'
 export const VERSION_MANGA = '20210628'
+export const VERSION_HENTAI = '20210630'
 export const VERSION_GAME = '20210630'
 
 export const VERSIONS_AVATAR = [
@@ -274,6 +275,21 @@ export const CDN_STATIC_MANGA = () => {
       : VERSION_MANGA
 
   return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/manhuadb/manga.min.json`
+}
+
+/**
+ * 找 Hentai 数据
+ * @url https://github.com/czy0729/Bangumi-Static
+ * @param {*} version
+ */
+export const CDN_STATIC_HENTAI = () => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_HENTAI) > parseInt(VERSION_HENTAI)
+      ? ota.VERSION_HENTAI
+      : VERSION_HENTAI
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/h/hentai.min.json`
 }
 
 /**

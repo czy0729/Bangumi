@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 09:04:37
+ * @Last Modified time: 2021-06-30 11:21:37
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/subject/anime'
+import { pick } from '@utils/subject/hentai'
 
 const event = {
-  id: 'Anime.跳转'
+  id: 'Hentai.跳转'
 }
 
 function ItemGrid({ pickIndex }, { $, navigation }) {
-  const { id, ageId, image, cn, jp, score, rank } = pick(pickIndex)
-  if (!id) {
-    return null
-  }
+  const { id, hId, image, cn, jp, score, rank } = pick(pickIndex)
+  if (!id) return null
 
   const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
   const collection = $.userCollectionsMap[id]
@@ -26,7 +24,7 @@ function ItemGrid({ pickIndex }, { $, navigation }) {
       navigation={navigation}
       event={event}
       id={id}
-      aid={ageId}
+      hid={hId}
       cover={cover}
       name={jp}
       nameCn={cn}

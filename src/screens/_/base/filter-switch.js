@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 09:03:43
+ * @Last Modified time: 2021-06-30 11:55:11
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { getStorage, setStorage } from '@utils'
 import { obc } from '@utils/decorators'
 
 export const filterSwitchDS = ['番剧', '漫画', '游戏', '文库', 'Hentai']
@@ -17,6 +18,12 @@ const pathDS = {
   游戏: 'Game',
   文库: 'Wenku',
   Hentai: 'Hentai'
+}
+
+const FilterSwitchLastPathKey = '@screens|base|FilterSwitch'
+export async function getLastPath() {
+  const path = await getStorage(FilterSwitchLastPathKey)
+  return path || pathDS[filterSwitchDS[0]]
 }
 
 export const FilterSwitch = obc(
@@ -35,15 +42,26 @@ export const FilterSwitch = obc(
             horizontal
             showsHorizontalScrollIndicator={false}
           >
-            {filterSwitchDS.map(item => (
-              <Touchable
-                key={item}
-                style={[styles.item, name === item && styles.itemActive]}
-                onPress={() => navigation.replace(pathDS[item])}
-              >
-                <Text size={11}>{item}</Text>
-              </Touchable>
-            ))}
+            {filterSwitchDS.map(item => {
+              const isActive = name === item
+              return (
+                <Touchable
+                  key={item}
+                  style={[styles.item, isActive && styles.itemActive]}
+                  onPress={
+                    isActive
+                      ? undefined
+                      : () => {
+                          setStorage(FilterSwitchLastPathKey, pathDS[item])
+                          console.log(FilterSwitchLastPathKey, pathDS[item])
+                          navigation.replace(pathDS[item])
+                        }
+                  }
+                >
+                  <Text size={11}>{item}</Text>
+                </Touchable>
+              )
+            })}
           </ScrollView>
         </Flex.Item>
       </Flex>

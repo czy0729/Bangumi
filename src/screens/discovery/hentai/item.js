@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 01:30:51
+ * @Last Modified time: 2021-06-30 11:18:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,43 +10,19 @@ import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { Tag, Cover, Stars, Rank } from '@screens/_'
 import { obc } from '@utils/decorators'
-import { x18 } from '@utils/app'
-import { pick } from '@utils/subject/anime'
+import { cnjp } from '@utils/app'
+import { HENTAI_TAGS, pick } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
-  const {
-    id,
-    ageId,
-    image,
-    cn,
-    ep,
-    type,
-    status,
-    begin,
-    tags,
-    official,
-    score,
-    rank
-  } = pick(pickIndex)
-  if (!id) {
-    return null
-  }
+  const { id, hId, image, cn, jp, ep, air, tags, score, rank } = pick(pickIndex)
+  if (!id) return null
 
   const styles = memoStyles()
   const isFirst = index === 0
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
-  const _tags = String(tags).split(' ')
-  const tip = [
-    type === 'TV' ? '' : type,
-    String(ep).replace(/\(完结\)|第/g, ''),
-    status,
-    begin,
-    official
-  ]
-    .filter(item => !!item)
-    .join(' / ')
+  const tip = [ep ? `${ep}话` : '', air].filter(item => !!item).join(' / ')
   const collection = $.userCollectionsMap[id]
   return (
     <Touchable
@@ -55,11 +31,12 @@ function Item({ index, pickIndex }, { $, navigation }) {
         navigation.push('Subject', {
           subjectId: id,
           _cn: cn,
+          _jp: jp,
           _image: cover,
-          _aid: ageId
+          _hid: hId
         })
 
-        t('Anime.跳转', {
+        t('Hentai.跳转', {
           subjectId: id
         })
       }}
@@ -80,7 +57,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
         </View>
         <Flex.Item style={_.ml.wind}>
           <Flex
-            style={styles.content}
+            style={tags.length ? styles.contentFlux : styles.content}
             direction='column'
             justify='between'
             align='start'
@@ -89,37 +66,37 @@ function Item({ index, pickIndex }, { $, navigation }) {
               <Flex.Item>
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
-                    {cn}
+                    {cnjp(cn, jp)}
                   </Text>
-                  {/* <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
-                    {' '}
-                    {$.cnFirst ? jp : cn}
-                  </Text> */}
                 </Text>
               </Flex.Item>
               <Flex style={_.mt.xxs}>
                 {!!collection && <Tag style={_.ml.sm} value={collection} />}
-                {x18(id) && <Tag style={_.ml.sm} value='H' />}
               </Flex>
             </Flex>
             <Text style={_.mt.sm} size={11} lineHeight={14}>
               {tip}
             </Text>
+            {!!tags.length && (
+              <Flex style={_.mt.sm} wrap='wrap'>
+                {tags.map(item => (
+                  <Tag
+                    key={item}
+                    style={styles.tag}
+                    type={getType($.state, item)}
+                    value={HENTAI_TAGS[item]}
+                  />
+                ))}
+              </Flex>
+            )}
             <Flex style={_.mt.md} wrap='wrap'>
               <Rank value={rank} />
               <Stars style={_.mr.sm} value={score} simple />
-              <Flex.Item>
-                <Flex>
-                  {_tags.map(item => (
-                    <Tag key={item} style={_.mr.sm} value={item} />
-                  ))}
-                </Flex>
-              </Flex.Item>
             </Flex>
           </Flex>
         </Flex.Item>
       </Flex>
-      {index === 0 && <Heatmap id='Anime.跳转' />}
+      {index === 0 && <Heatmap id='Hentai.跳转' />}
     </Touchable>
   )
 }
@@ -144,7 +121,22 @@ const memoStyles = _.memoStyles(_ => ({
   content: {
     height: IMG_HEIGHT
   },
+  contentFlux: {
+    minHeight: IMG_HEIGHT
+  },
   body: {
     width: '100%'
+  },
+  tag: {
+    marginTop: _.xs,
+    marginRight: _.sm
   }
 }))
+
+function getType(state = {}, index) {
+  const { chara, job, body, content } = state?.query
+  const value = HENTAI_TAGS[index]
+  return chara === value || job === value || body === value || content === value
+    ? 'main'
+    : undefined
+}

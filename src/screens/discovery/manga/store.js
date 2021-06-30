@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:07:20
+ * @Last Modified time: 2021-06-30 11:39:28
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -18,12 +18,12 @@ export default class ScreenManga extends store {
   state = observable({
     query: {
       first: '',
-      year: '',
+      year: 2020,
       begin: '',
       status: '',
       tags: [], // 已支持多选, 不过暂时不开放
       hd: '',
-      sort: ''
+      sort: '发行时间'
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid

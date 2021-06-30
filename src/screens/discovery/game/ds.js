@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 08:51:25
+ * @Last Modified time: 2021-06-30 11:41:13
  */
 import {
   GAME_FIRST,
@@ -59,29 +59,29 @@ export const filterDS = [
 
 export const advFilterDS = [
   {
-    title: '首字',
+    title: '首字　',
     type: 'first',
     data: GAME_FIRST
   },
   {
-    title: '发行',
+    title: '发行　',
     type: 'year',
     data: GAME_YEAR,
     always: true
   },
   {
-    title: '类型',
+    title: '类型　',
     type: 'cate',
     data: GAME_CATE,
     always: true
   },
   {
-    title: '开发',
+    title: '开发商',
     type: 'dev',
     data: GAME_DEV_ADV
   },
   {
-    title: '排序',
+    title: '排序　',
     type: 'sort',
     data: GAME_SORT_ADV,
     always: true

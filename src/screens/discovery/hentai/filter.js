@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 06:35:27
+ * @Last Modified time: 2021-06-30 10:25:40
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -18,7 +18,7 @@ function Filter(props, { $ }) {
   const { query, data, layout, expand } = $.state
   return (
     <View style={[styles.container, layout === 'grid' && _.mb.md]}>
-      <FilterSwitch />
+      <FilterSwitch name='Hentai' />
       {filterDS
         .filter(item => expand || item.always)
         .map(item => {
@@ -63,7 +63,7 @@ function Filter(props, { $ }) {
                 <Heatmap
                   right={-16}
                   bottom={8}
-                  id='Anime.选择'
+                  id='Hentai.选择'
                   data={{
                     type: item.type
                   }}
@@ -108,7 +108,7 @@ function Filter(props, { $ }) {
                               <Text size={11}>{tag}</Text>
                               <Heatmap
                                 right={-1}
-                                id='Anime.选择'
+                                id='Hentai.选择'
                                 data={{
                                   value: tag
                                 }}
@@ -136,7 +136,7 @@ function Filter(props, { $ }) {
                           <Text size={11}>{i}</Text>
                           <Heatmap
                             right={-1}
-                            id='Anime.选择'
+                            id='Hentai.选择'
                             data={{
                               value: i
                             }}
@@ -160,7 +160,6 @@ function Filter(props, { $ }) {
       </Touchable>
       <Text style={[styles.row, _.mt.md]} size={10} type='sub'>
         {data.list.length} 条记录
-        {!!query.tags.length && ` · ${query.tags.join(' · ')}`}
       </Text>
     </View>
   )

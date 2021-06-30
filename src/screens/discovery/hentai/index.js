@@ -34,7 +34,7 @@ class Anime extends React.Component {
         <Flex style={_.mr._right}>
           <IconLayout $={$} />
           <IconHeader name='md-vertical-align-top' onPress={$.scrollToTop}>
-            <Heatmap id='Anime.到顶' />
+            <Heatmap id='Hentai.到顶' />
           </IconHeader>
         </Flex>
       )

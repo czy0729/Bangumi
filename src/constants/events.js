@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-14 07:39:21
+ * @Last Modified time: 2021-06-30 11:28:52
  */
 
 /**
@@ -134,6 +134,12 @@ export default {
 
   // 新番档期
   '新番档期.跳转': 'Staff.to',
+
+  // Hentai
+  'Hentai.跳转': 'Hentai.to',
+  'Hentai.选择': 'Hentai.onSelect',
+  'Hentai.到顶': 'Hentai.scrollToTop',
+  'Hentai.切换布局': 'Hentai.switchLayout',
 
   /* ==================== home ==================== */
   // 首页
