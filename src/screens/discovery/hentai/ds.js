@@ -12,7 +12,7 @@ import {
   ANIME_HENTAI_BODY,
   ANIME_HENTAI_CONTENT,
   ANIME_SORT
-} from '@utils/anime'
+} from '@utils/subject/anime'
 
 export const filterDS = [
   {

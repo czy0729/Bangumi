@@ -7,7 +7,7 @@
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/game'
+import { pick } from '@utils/subject/game'
 
 const event = {
   id: '游戏.跳转'

@@ -2,40 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 19:23:35
+ * @Last Modified time: 2021-06-30 08:32:05
  */
 import { DATA_ALPHABET } from '@constants'
-import { getTimestamp } from './index'
-import { getPinYinFirstCharacter } from './thirdParty/pinyin'
-import { SORT } from './anime'
-
-let game = []
+import { VERSION_GAME, CDN_STATIC_GAME, getOTA } from '@constants/cdn'
+import { getTimestamp, getStorage, setStorage } from '../index'
+import { xhrCustom } from '../fetch'
+import { info } from '../ui'
+import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
+import { ANIME_YEAR, SORT } from './anime'
 
 export const GAME_FIRST = DATA_ALPHABET
-export const GAME_YEAR = [
-  2021,
-  2020,
-  2019,
-  2018,
-  2017,
-  2016,
-  2015,
-  2014,
-  2013,
-  2012,
-  2011,
-  2010,
-  2009,
-  2008,
-  2007,
-  2006,
-  2005,
-  2004,
-  2003,
-  2002,
-  2001,
-  '2000以前'
-]
+export const GAME_YEAR = ANIME_YEAR
 export const GAME_PLATFORM = [
   'PC',
   'PS4',
@@ -217,23 +195,94 @@ export const GAME_SORT = [
 export const GAME_SORT_ADV = ['发行', '排名', '随机', '名称']
 
 /**
- * 初始化游戏数据
+ * v5.0.0 后从包抽离, 需对比版本号
+ * 若版本比 OTA.VERSION_GAME 的小, 请求 OTA.VERSION_STATIC 数据然后替换缓存
+ * 否则直接读缓存
+ */
+const gameVersionKey = '@utils|game|version|210629'
+const gameDataKey = '@utils|game|data|210629'
+let game = []
+let gameFallback = []
+let loaded = false
+
+function getData() {
+  if (!loaded) {
+    if (gameFallback.length) return gameFallback
+    return game
+  }
+
+  if (loaded && game.length) {
+    return game
+  }
+
+  if (!gameFallback.length) {
+    gameFallback = require('@constants/json/thirdParty/game.min.json')
+  }
+  return gameFallback
+}
+
+/**
+ * 初始化数据
  */
 export async function init() {
-  if (!game.length) {
-    game = require('@constants/json/thirdParty/game.min.json')
+  if (loaded) return
+
+  // 云版本
+  // 版本没有 OTA 高需要重新请求数据
+  const version = (await getStorage(gameVersionKey)) || VERSION_GAME
+  const data = (await getStorage(gameDataKey)) || []
+
+  const ota = getOTA()
+  const needUpdate =
+    (!loaded && !data.length) || parseInt(ota.VERSION_GAME) > parseInt(version)
+  if (needUpdate) {
+    info('正在从云端拉取最新数据...')
+
+    try {
+      loaded = true
+      const { _response } = await xhrCustom({
+        url: CDN_STATIC_GAME()
+      })
+      game = JSON.parse(_response)
+      setStorage(gameVersionKey, parseInt(ota.VERSION_GAME))
+      setStorage(gameDataKey, game)
+    } catch (error) {
+      // 404
+    }
+    return
   }
-  return true
+
+  // 没缓存也要请求数据
+  if (!data.length) {
+    info('正在从云端拉取最新数据...')
+
+    try {
+      loaded = true
+      const { _response } = await xhrCustom({
+        url: CDN_STATIC_GAME()
+      })
+      game = JSON.parse(_response)
+      setStorage(gameVersionKey, version)
+      setStorage(gameDataKey, game)
+    } catch (error) {
+      // 404
+    }
+    return
+  }
+
+  // 有缓存直接返回
+  loaded = true
+  game = data
 }
 
 export function pick(index) {
   init()
-  return unzip(game[index])
+  return unzip(getData()[index])
 }
 
 export function find(id) {
   init()
-  return unzip(game.find(item => item.id == id))
+  return unzip(getData().find(item => item.id == id))
 }
 
 /**
@@ -257,7 +306,8 @@ export function search(query = {}) {
     yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
   }
 
-  game.forEach((item, index) => {
+  const data = getData()
+  data.forEach((item, index) => {
     let match = true
 
     // t: '碧蓝幻想Versus'
@@ -285,19 +335,19 @@ export function search(query = {}) {
 
   switch (sort) {
     case '发行':
-      _list = _list.sort((a, b) => SORT.begin(game[a], game[b], 'en'))
+      _list = _list.sort((a, b) => SORT.begin(data[a], data[b], 'en'))
       break
 
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(game[a], game[b], 'sc', 'r'))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 'sc', 'r'))
       break
 
     case '外网评分':
-      _list.sort((a, b) => SORT.score(game[a], game[b], 'vs'))
+      _list.sort((a, b) => SORT.score(data[a], data[b], 'vs'))
       break
 
     case '外网热度':
-      _list.sort((a, b) => SORT.score(game[a], game[b], 'vc'))
+      _list.sort((a, b) => SORT.score(data[a], data[b], 'vc'))
       break
 
     case '随机':
@@ -305,7 +355,7 @@ export function search(query = {}) {
       break
 
     case '名称':
-      _list = _list.sort((a, b) => SORT.name(game[a], game[b], 't'))
+      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 't'))
       break
 
     default:

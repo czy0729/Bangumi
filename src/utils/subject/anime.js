@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 06:30:13
+ * @Last Modified time: 2021-06-30 07:48:19
  */
-import { info } from '@utils/ui'
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
-import { getTimestamp, getStorage, setStorage } from './index'
-import { xhrCustom } from './fetch'
-import { getPinYinFirstCharacter } from './thirdParty/pinyin'
+import { getTimestamp, getStorage, setStorage } from '../index'
+import { xhrCustom } from '../fetch'
+import { info } from '../ui'
+import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 
 export const ANIME_AREA = ['日本', '中国']
 export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB']

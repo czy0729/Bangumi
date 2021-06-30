@@ -11,7 +11,7 @@ import { collectionStore } from '@stores'
 import store from '@utils/store'
 import { getBangumiUrl, unzipBangumiData } from '@utils/app'
 import { xhrCustom, HTMLTrim, queue } from '@utils/fetch'
-import { guess } from '@utils/anime'
+import { guess } from '@utils/subject/anime'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 
 const namespace = 'ScreenGuess'

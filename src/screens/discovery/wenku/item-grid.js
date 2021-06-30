@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 01:42:47
+ * @Last Modified time: 2021-06-30 08:35:48
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/wenku'
+import { pick } from '@utils/subject/wenku'
 
 const event = {
   id: '文库.跳转'

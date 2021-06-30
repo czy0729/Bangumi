@@ -12,7 +12,7 @@ import {
   WENKU_CATE,
   WENKU_AUTHOR,
   WENKU_SORT
-} from '@utils/wenku'
+} from '@utils/subject/wenku'
 
 export const filterDS = [
   {

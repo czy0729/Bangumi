@@ -30,7 +30,7 @@ import {
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { feedback } from '@utils/ui'
-import { find } from '@utils/anime'
+import { find } from '@utils/subject/anime'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import { IOS, DEV, SITES_DS } from '@constants'
 import {

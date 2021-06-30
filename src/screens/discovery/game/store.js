@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 21:58:52
+ * @Last Modified time: 2021-06-30 08:34:26
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, search } from '@utils/game'
+import { init, search } from '@utils/subject/game'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 

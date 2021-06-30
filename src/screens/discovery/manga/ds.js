@@ -11,7 +11,7 @@ import {
   MANGA_TAGS,
   MANGA_HD,
   MANGA_SORT
-} from '@utils/manga'
+} from '@utils/subject/manga'
 
 // 数组分组并弄好看
 const MANGA_TAGS_GROUP = []

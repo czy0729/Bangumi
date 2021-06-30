@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 19:08:33
+ * @Last Modified time: 2021-06-30 09:04:37
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/anime'
+import { pick } from '@utils/subject/anime'
 
 const event = {
   id: 'Anime.跳转'

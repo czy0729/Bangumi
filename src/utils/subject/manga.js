@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 07:08:12
+ * @Last Modified time: 2021-06-30 07:49:23
  */
-import { info } from '@utils/ui'
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_MANGA, CDN_STATIC_MANGA, getOTA } from '@constants/cdn'
-import { getTimestamp, getStorage, setStorage } from './index'
-import { xhrCustom } from './fetch'
-import { getPinYinFirstCharacter } from './thirdParty/pinyin'
+import { getTimestamp, getStorage, setStorage } from '../index'
+import { xhrCustom } from '../fetch'
+import { info } from '../ui'
+import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 import { ANIME_YEAR, SORT } from './anime'
 
 export const MANGA_FIRST = DATA_ALPHABET

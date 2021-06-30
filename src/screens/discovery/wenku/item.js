@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { Tag, Cover, Stars, Rank } from '@screens/_'
 import { obc } from '@utils/decorators'
 import { x18 } from '@utils/app'
-import { pick } from '@utils/wenku'
+import { pick } from '@utils/subject/wenku'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 

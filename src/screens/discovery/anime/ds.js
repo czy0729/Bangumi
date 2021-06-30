@@ -14,7 +14,7 @@ import {
   ANIME_TAGS,
   ANIME_OFFICIAL,
   ANIME_SORT
-} from '@utils/anime'
+} from '@utils/subject/anime'
 
 // 类型分组
 const ANIME_TAGS_GROUP = []

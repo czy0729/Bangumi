@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-29 18:00:45
+ * @Last Modified time: 2021-06-30 08:39:08
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -32,10 +32,10 @@ import {
 } from '@utils/app'
 import store from '@utils/store'
 import { feedback, info, showActionSheet } from '@utils/ui'
-import { find as findAnime } from '@utils/anime'
-import { find as findManga } from '@utils/manga'
-import { find as findWenku } from '@utils/wenku'
-import { find as findGame } from '@utils/game'
+import { find as findAnime } from '@utils/subject/anime'
+import { find as findManga } from '@utils/subject/manga'
+import { find as findWenku } from '@utils/subject/wenku'
+import { find as findGame } from '@utils/subject/game'
 import {
   HOST,
   HOST_NING_MOE,

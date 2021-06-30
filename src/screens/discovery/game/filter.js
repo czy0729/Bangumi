@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 06:52:01
+ * @Last Modified time: 2021-06-30 09:03:30
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -17,7 +17,7 @@ function Filter(props, { $ }) {
   const { query, data, layout, expand } = $.state
   return (
     <View style={[styles.container, layout === 'grid' && _.mb.md]}>
-      <FilterSwitch name='游戏' />
+      <FilterSwitch title="频道　" name='游戏' />
       {($.isADV ? advFilterDS : filterDS)
         .filter(item => expand || item.always)
         .map(item => {

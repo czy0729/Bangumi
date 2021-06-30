@@ -7,7 +7,7 @@
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/manga'
+import { pick } from '@utils/subject/manga'
 import { IMG_DEFAULT } from '@constants'
 
 const event = {

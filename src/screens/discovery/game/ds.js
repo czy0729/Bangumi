@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 06:52:43
+ * @Last Modified time: 2021-06-30 08:51:25
  */
 import {
   GAME_FIRST,
@@ -14,7 +14,7 @@ import {
   GAME_PUB,
   GAME_SORT,
   GAME_SORT_ADV
-} from '@utils/game'
+} from '@utils/subject/game'
 
 export const filterDS = [
   {

@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 06:59:58
+ * @Last Modified time: 2021-06-30 08:14:21
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -37,6 +37,7 @@ export const VERSION_ANIME = '20210628'
 export const VERSION_WENKU = '20210627'
 export const VERSION_MANGA = '20210628'
 export const VERSION_GAME = '20210630'
+
 export const VERSIONS_AVATAR = [
   '20210609',
   '20210410',
@@ -273,6 +274,21 @@ export const CDN_STATIC_MANGA = () => {
       : VERSION_MANGA
 
   return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/manhuadb/manga.min.json`
+}
+
+/**
+ * 找游戏数据
+ * @url https://github.com/czy0729/Bangumi-Game
+ * @param {*} version
+ */
+export const CDN_STATIC_GAME = () => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_GAME) > parseInt(VERSION_GAME)
+      ? ota.VERSION_GAME
+      : VERSION_GAME
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Game@${version}/data/game.min.json`
 }
 
 /**

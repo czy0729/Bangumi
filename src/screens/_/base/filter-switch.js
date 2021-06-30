@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-28 13:07:47
+ * @Last Modified time: 2021-06-30 09:03:43
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -20,13 +20,13 @@ const pathDS = {
 }
 
 export const FilterSwitch = obc(
-  ({ name = filterSwitchDS[0] }, { navigation }) => {
+  ({ title = '频道', name = filterSwitchDS[0] }, { navigation }) => {
     const styles = memoStyles()
     return (
       <Flex style={styles.row}>
         <View>
           <Text size={12} bold>
-            频道
+            {title}
           </Text>
         </View>
         <Flex.Item style={_.ml.md}>

@@ -7,7 +7,7 @@
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, search } from '@utils/manga'
+import { init, search } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 

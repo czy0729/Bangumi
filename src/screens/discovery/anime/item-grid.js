@@ -7,7 +7,7 @@
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/anime'
+import { pick } from '@utils/subject/anime'
 
 const event = {
   id: 'Anime.跳转'
