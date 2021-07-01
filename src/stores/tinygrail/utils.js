@@ -2,13 +2,28 @@
  * @Author: czy0729
  * @Date: 2021-03-06 16:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 16:32:55
+ * @Last Modified time: 2021-07-02 05:42:31
  */
 import { ToastAndroid } from 'react-native'
 import { getTimestamp, throttle, titleCase, toFixed } from '@utils'
 import { info } from '@utils/ui'
 import { IOS } from '@constants'
 import { INIT_CHARACTERS_ITEM } from './init'
+
+/**
+ * 计算角色当前股息
+ *  - version 2021/03/05
+ *
+ * @param {*} rate
+ * @param {*} rank
+ * @param {*} stars
+ */
+export function calculateRate(rate = 0, rank = 0, stars = 0) {
+  if (rank < 501 && rate > 0) {
+    return (601 - rank) * 0.005 * rate
+  }
+  return stars * 2
+}
 
 /**
  * 批量请求时用的提示

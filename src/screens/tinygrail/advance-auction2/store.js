@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:43:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 15:05:06
+ * @Last Modified time: 2021-07-02 06:53:58
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { DEV } from '@constants'
 import { levelList, sortList, SORT_GF } from '@tinygrail/_/utils'
 
 export const sortDS = [SORT_GF]
@@ -46,7 +47,7 @@ export default class ScreenTinygrailAdvanceAuction2 extends store {
       return true
     }
 
-    if (this.advance && getTimestamp() - _loaded < 60 * 1) {
+    if (!DEV && this.advance && getTimestamp() - _loaded < 60 * 1) {
       if (showInfo) {
         info('为避免服务器压力, 1分钟后再刷新吧')
       }

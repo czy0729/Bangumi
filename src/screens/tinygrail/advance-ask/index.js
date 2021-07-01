@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:36:11
+ * @Last Modified time: 2021-07-02 07:22:37
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -16,7 +16,7 @@ import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
 
-const title = '卖一推荐'
+const title = '买入推荐'
 
 export default
 @inject(Store)

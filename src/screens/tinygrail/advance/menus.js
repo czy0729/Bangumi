@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 18:18:24
+ * @Last Modified time: 2021-07-02 07:22:14
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -17,14 +17,14 @@ function Menus({ navigation }) {
       <MenuItem
         style={styles.bid}
         navigation={navigation}
-        title='卖一推荐'
+        title='买入推荐'
         pathname='TinygrailAdvanceAsk'
         icon='md-add-circle-outline'
       />
       <MenuItem
         style={styles.ask}
         navigation={navigation}
-        title='买一推荐'
+        title='卖出推荐'
         pathname='TinygrailAdvanceBid'
         icon='md-remove-circle-outline'
       />
@@ -36,16 +36,16 @@ function Menus({ navigation }) {
       />
       <MenuItem
         navigation={navigation}
-        title='拍卖推荐 (塔)'
+        title='拍卖推荐 B'
         pathname='TinygrailAdvanceAuction2'
         icon='md-gavel'
       />
-      <MenuItem
+      {/* <MenuItem
         navigation={navigation}
         title='献祭推荐'
         pathname='TinygrailAdvanceSacrifice'
         icon='md-workspaces-outline'
-      />
+      /> */}
       <MenuItem
         navigation={navigation}
         title='低价股'

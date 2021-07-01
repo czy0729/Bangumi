@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:20:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:28:09
+ * @Last Modified time: 2021-07-02 06:54:11
  */
 import { computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { DEV } from '@constants'
 
 export default class ScreenTinygrailAdvanceAuction extends store {
   init = () => {
@@ -32,7 +33,7 @@ export default class ScreenTinygrailAdvanceAuction extends store {
       return true
     }
 
-    if (this.advance && getTimestamp() - _loaded < 60 * 1) {
+    if (!DEV && this.advance && getTimestamp() - _loaded < 60 * 1) {
       if (showInfo) {
         info('为避免服务器压力, 1分钟后再刷新吧')
       }

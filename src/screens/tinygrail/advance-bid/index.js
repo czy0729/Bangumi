@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:16:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:36:27
+ * @Last Modified time: 2021-07-02 07:52:50
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -16,7 +16,7 @@ import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
 
-const title = '买一推荐'
+const title = '卖出推荐'
 
 export default
 @inject(Store)
@@ -42,7 +42,7 @@ class TinygrailAdvanceBid extends React.Component {
 
             Alert.alert(
               '当前计算方式',
-              '从持仓列表里面查找\n第一买单股数 > 0\n第一买单价 / Max(流动股息, 圣殿股息) = 分数',
+              '从持仓列表里面查找\n第一买单股数 > 0\n第一买单价 / Math.min(500, rank) 时的实际股息 = 分数',
               [
                 {
                   text: '知道了'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:36:21
+ * @Last Modified time: 2021-07-02 07:19:13
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -16,7 +16,7 @@ import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store, { sortDS } from './store'
 
-const title = '拍卖推荐 (按固定)'
+const title = '拍卖推荐 B'
 
 export default
 @inject(Store)
@@ -44,7 +44,7 @@ class TinygrailAdvanceAuction2 extends React.Component {
 
             Alert.alert(
               '当前计算方式',
-              '从英灵殿里面查找前2000条\n圣殿股息 > 2 且 数量 > 80\n圣殿股息 / 竞拍底价 * 10 = 分数',
+              '从英灵殿里面查找前 2000 条\n数量 > 80\n若当前 rank > 500 按 500 时的实际股息 / 竞拍底价 * 100 = 分数',
               [
                 {
                   text: '知道了'

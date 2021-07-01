@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 19:06:57
+ * @Last Modified time: 2021-07-02 06:35:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,6 +14,7 @@ import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
+import { calculateRate } from '@tinygrail/_/utils'
 import Rank from '@tinygrail/_/rank'
 
 function Item(props, { navigation }) {
@@ -26,15 +27,16 @@ function Item(props, { navigation }) {
     name,
     icon,
     bonus,
-    rate,
     level,
     amount,
     current,
     firstAsks,
     firstBids,
     firstAmount,
-    mark,
+    rate,
     rank,
+    stars,
+    mark,
     isAuctioning
   } = props
   const { id: eventId, data: eventData } = event
@@ -138,7 +140,8 @@ function Item(props, { navigation }) {
                 {assets && ' / '}
                 {!!firstAmount && ' / '}₵
                 {toFixed(firstAsks || firstBids || current, 2)} / +
-                {toFixed(rate, 2)} / +{toFixed(rate * (level + 1) * 0.3, 2)}
+                {toFixed(rate, 1)} (
+                {Number(toFixed(calculateRate(rate, rank, stars), 1))})
               </Text>
             </Flex.Item>
             {isAuctioning && (
