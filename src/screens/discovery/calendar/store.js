@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 04:18:44
+ * @Last Modified time: 2021-07-01 11:48:06
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
@@ -64,7 +64,7 @@ export default class ScreenCalendar extends store {
               timeCN: timeCN || timeJP || '2359'
             }
           })
-          .filter(item => item.timeCN !== '2359') // 暂时把没有放送具体时间的番剧隐藏
+          // .filter(item => item.timeCN !== '2359') // 暂时把没有放送具体时间的番剧隐藏
           .sort((a, b) => a.timeCN.localeCompare(b.timeCN))
       }))
     }

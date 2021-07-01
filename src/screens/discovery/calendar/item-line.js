@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 14:10:05
+ * @Last Modified time: 2021-07-01 11:48:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,9 @@ function ItemLine(
         <View style={styles.time}>
           {!!timeCN && (
             <Text align='center'>
-              {`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
+              {timeCN === '2359'
+                ? '待定'
+                : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
             </Text>
           )}
         </View>
