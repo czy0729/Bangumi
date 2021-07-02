@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:21:37
+ * @Last Modified time: 2021-07-02 08:43:04
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
@@ -30,6 +30,7 @@ function ItemGrid({ pickIndex }, { $, navigation }) {
       nameCn={cn}
       score={score}
       rank={rank}
+      textOnly={!$.isLogin}
       isCollection={collection}
     />
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:18:03
+ * @Last Modified time: 2021-07-02 08:57:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,11 +53,14 @@ function Item({ index, pickIndex }, { $, navigation }) {
             height={IMG_HEIGHT}
             radius
             shadow
+            textOnly={!$.isLogin}
           />
         </View>
         <Flex.Item style={_.ml.wind}>
           <Flex
-            style={tags.length ? styles.contentFlux : styles.content}
+            style={
+              $.isLogin && tags.length ? styles.contentFlux : styles.content
+            }
             direction='column'
             justify='between'
             align='start'
@@ -77,7 +80,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
             <Text style={_.mt.sm} size={11} lineHeight={14}>
               {tip}
             </Text>
-            {!!tags.length && (
+            {$.isLogin && !!tags.length && (
               <Flex style={_.mt.sm} wrap='wrap'>
                 {tags.map(item => (
                   <Tag

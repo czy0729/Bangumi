@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 08:39:08
+ * @Last Modified time: 2021-07-02 08:17:00
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -36,6 +36,7 @@ import { find as findAnime } from '@utils/subject/anime'
 import { find as findManga } from '@utils/subject/manga'
 import { find as findWenku } from '@utils/subject/wenku'
 import { find as findGame } from '@utils/subject/game'
+import { s2t } from '@utils/thirdParty/cn-char'
 import {
   HOST,
   HOST_NING_MOE,
@@ -693,7 +694,7 @@ export default class ScreenSubject extends store {
         if (flagX18) data.push('Hanime1')
       }
 
-      data.push('AGE动漫', '迅播动漫', '奇奇动漫')
+      data.push('AGE动漫', '迅播动漫', '奇奇动漫', 'Anime1')
     }
 
     if (['三次元'].includes(this.type)) data.push('迅播动漫', '人人影视')
@@ -1246,10 +1247,6 @@ export default class ScreenSubject extends store {
       let item
       let url
       switch (key) {
-        // case '柠萌瞬间':
-        //   url = `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
-        //   break
-
         case 'AGE动漫':
           if (_aid || findAnime(this.subjectId).ageId) {
             url = `${SITE_AGEFANS()}/detail/${
@@ -1260,6 +1257,12 @@ export default class ScreenSubject extends store {
               this.cn || this.jp
             )}&page=1`
           }
+          break
+
+        case 'Anime1':
+          url = `https://anime1.me/?s=${encodeURIComponent(
+            s2t(this.cn || this.jp)
+          )}`
           break
 
         case '迅播动漫':
@@ -1279,12 +1282,6 @@ export default class ScreenSubject extends store {
             this.jp || this.cn
           )}`
           break
-
-        // case 'tadedy':
-        //   url = `http://www.tadedy.com/search.php?searchword=${encodeURIComponent(
-        //     this.cn || this.jp
-        //   )}`
-        //   break
 
         case '人人影视':
           url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(

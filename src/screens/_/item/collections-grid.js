@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 17:38:18
+ * @Last Modified time: 2021-07-02 08:43:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ export const ItemCollectionsGrid = ob(
     isCollect,
     collection,
     typeCn,
+    textOnly,
     num = 3,
     rank,
     aid,
@@ -78,6 +79,7 @@ export const ItemCollectionsGrid = ob(
           radius
           shadow
           type={typeCn}
+          textOnly={textOnly}
           onPress={onPress}
         />
         {!!_collection && <Tag style={styles.collection} value={_collection} />}

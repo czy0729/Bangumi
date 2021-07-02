@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:43:29
+ * @Last Modified time: 2021-07-02 09:21:29
  */
 import { observable, computed } from 'mobx'
-import { systemStore, collectionStore } from '@stores'
+import { userStore, systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
@@ -62,6 +62,14 @@ export default class ScreenHentai extends store {
   }
 
   // -------------------- get --------------------
+  @computed get access() {
+    return !userStore.isLimit && systemStore?.ota?.HENTAI
+  }
+
+  @computed get isLogin() {
+    return userStore.isLogin
+  }
+
   @computed get cnFirst() {
     return systemStore.setting.cnFirst
   }

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 17:47:26
+ * @Last Modified time: 2021-07-02 08:40:30
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image } from '@components'
+import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { ob } from '@utils/decorators'
@@ -16,8 +16,29 @@ import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
 const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
 
 export const Cover = ob(
-  ({ style, src, size, height, noDefault, type, ...other }) => {
+  ({ style, src, size, height, noDefault, type, textOnly, ...other }) => {
     const styles = memoStyles()
+    if (textOnly) {
+      const w = other.width || size
+      const h = height || size
+      return (
+        <Flex
+          style={[
+            styles.textOnly,
+            {
+              width: w,
+              height: h
+            }
+          ]}
+          justify='center'
+        >
+          <Text type='sub' bold>
+            text-only
+          </Text>
+        </Flex>
+      )
+    }
+
     const { dev } = systemStore.state
     const { cdn, coverThings } = systemStore.setting
 
@@ -264,5 +285,10 @@ const memoStyles = _.memoStyles(_ => ({
     top: 4,
     bottom: 4,
     marginRight: -8
+  },
+  textOnly: {
+    borderRadius: _.radiusSm,
+    backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
+    overflow: 'hidden'
   }
 }))

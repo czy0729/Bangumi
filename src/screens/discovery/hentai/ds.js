@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 10:23:14
+ * @Last Modified time: 2021-07-02 08:50:06
  */
 import {
   HENTAI_FIRST,
@@ -29,22 +29,26 @@ export const filterDS = [
   {
     title: '人物',
     type: 'chara',
-    data: HENTAI_CHARA
+    data: HENTAI_CHARA,
+    login: true
   },
   {
     title: '职业',
     type: 'job',
-    data: HENTAI_JOB
+    data: HENTAI_JOB,
+    login: true
   },
   {
     title: '外貌',
     type: 'body',
-    data: HENTAI_BODY
+    data: HENTAI_BODY,
+    login: true
   },
   {
     title: '剧情',
     type: 'content',
-    data: HENTAI_CONTENT
+    data: HENTAI_CONTENT,
+    login: true
   },
   {
     title: '排序',

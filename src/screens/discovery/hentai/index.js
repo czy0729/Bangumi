@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:02:19
+ * @Last Modified time: 2021-07-02 09:19:04
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap } from '@components'
-import { IconHeader } from '@screens/_'
+import { Flex, Text, Heatmap } from '@components'
+import { FilterSwitch, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import IconLayout from './icon-layout'
@@ -47,9 +47,19 @@ class Anime extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     return (
       <View style={_.container.plain}>
-        <List />
+        {!$.access ? (
+          <>
+            <FilterSwitch name='Hentai' />
+            <Text style={_.mt.lg} align='center'>
+              此功能暂不开放
+            </Text>
+          </>
+        ) : (
+          <List />
+        )}
       </View>
     )
   }

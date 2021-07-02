@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 10:25:40
+ * @Last Modified time: 2021-07-02 08:57:10
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -122,28 +122,39 @@ function Filter(props, { $ }) {
                   ) : (
                     <>
                       {all}
-                      {item.data.map(i => (
-                        <Touchable
-                          key={i}
-                          style={[
-                            styles.item,
-                            (typeof state === 'object'
-                              ? state.includes(i)
-                              : state === i) && styles.itemActive
-                          ]}
-                          onPress={() => $.onSelect(item.type, i)}
+                      {item.login && !$.isLogin ? (
+                        <Text
+                          style={_.ml.sm}
+                          size={11}
+                          type='sub'
+                          lineHeight={16}
                         >
-                          <Text size={11}>{i}</Text>
-                          <Heatmap
-                            right={-1}
-                            id='Hentai.选择'
-                            data={{
-                              value: i
-                            }}
-                            mini
-                          />
-                        </Touchable>
-                      ))}
+                          登录后显示
+                        </Text>
+                      ) : (
+                        item.data.map(i => (
+                          <Touchable
+                            key={i}
+                            style={[
+                              styles.item,
+                              (typeof state === 'object'
+                                ? state.includes(i)
+                                : state === i) && styles.itemActive
+                            ]}
+                            onPress={() => $.onSelect(item.type, i)}
+                          >
+                            <Text size={11}>{i}</Text>
+                            <Heatmap
+                              right={-1}
+                              id='Hentai.选择'
+                              data={{
+                                value: i
+                              }}
+                              mini
+                            />
+                          </Touchable>
+                        ))
+                      )}
                     </>
                   )}
                 </ScrollView>
