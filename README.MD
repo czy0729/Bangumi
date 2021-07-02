@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.13.2" src="https://img.shields.io/badge/Version-4.13.2-0366d6" />
+  <img alt="Version: 4.14.0" src="https://img.shields.io/badge/Version-4.14.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,21 +46,21 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.13.2 - 2021/06/15
-
-—— 新增 ——
-
-- [x] [条目] 放送中的动画(未完结)允许自定义番剧播出时间
+v4.14.0 - 2021/07/02
 
 —— 优化 ——
 
-- [x] [首页进度] 过滤选项较少时，显示前往搜索按钮
-- [x] [设置] 恢复了设置云同步功能 (以前的设置已经丢失)
+- [x] [发现] 优化了发现大图进入条目, 封面从清晰变成模糊的问题
+- [x] [空间] 用户 id 显示支持切换成数字 id
+- [x] [发现] 合并所有找条目的相关页面, 重新整理了条目数据
 
 —— 修复 ——
 
-- [x] [首页进度] 修复了大章节动漫，在某次更新后，看过的集数计算错误的问题
-- [x] [空间] 修复了用户历史帖子失效的问题
+- [x] [每日放送] 修复无法获取数据的问题
+
+—— 小圣杯 ——
+
+- [x] [高级功能] 所有评分用当前版本股息来计算
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
