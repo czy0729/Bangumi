@@ -27,11 +27,8 @@ class List extends React.Component {
 
     const { $ } = this.context
     const { layout } = $.state
-    return layout === 'list' ? (
-      <Item pickIndex={item} index={index} />
-    ) : (
-      <ItemGrid pickIndex={item} />
-    )
+    if (layout === 'list') return <Item pickIndex={item} index={index} />
+    return <ItemGrid pickIndex={item} index={index} />
   }
 
   render() {

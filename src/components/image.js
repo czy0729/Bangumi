@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:03:15
+ * @Last Modified time: 2021-07-03 15:25:09
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -24,9 +24,11 @@ import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT } from '@constants'
+import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT, DEV } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import { Touchable } from './touchable'
+import { Flex } from './flex'
+import { Text } from './text'
 
 const defaultHeaders = {
   Referer: `${HOST}/`
@@ -54,6 +56,7 @@ export const Image = observer(
       delay: true,
       cache: true,
       headers: undefined,
+      textOnly: DEV,
       onPress: undefined,
       onLongPress: undefined,
       onError: undefined
@@ -70,7 +73,9 @@ export const Image = observer(
     timeoutId = null
 
     async componentDidMount() {
-      const { src, cache, autoSize } = this.props
+      const { src, cache, autoSize, textOnly } = this.props
+      if (textOnly) return
+
       if (!cache) {
         this.setState({
           uri: src
@@ -79,21 +84,17 @@ export const Image = observer(
       }
 
       await this.cache(src)
-      if (autoSize) {
-        this.getSize()
-      }
+      if (autoSize) this.getSize()
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-      if (nextProps.src !== this.props.src) {
-        this.cache(nextProps.src)
-      }
+      const { textOnly } = this.props
+      if (textOnly) return
+      if (nextProps.src !== this.props.src) this.cache(nextProps.src)
     }
 
     componentWillUnmount() {
-      if (this.timeoutId) {
-        clearTimeout(this.timeoutId)
-      }
+      if (this.timeoutId) clearTimeout(this.timeoutId)
     }
 
     /**
@@ -383,11 +384,28 @@ export const Image = observer(
         delay,
         cache,
         fadeDuration,
+        textOnly,
         onPress,
         onLongPress,
         onError,
         ...other
       } = this.props
+      if (textOnly) {
+        return (
+          <Flex style={this.computedStyle.image} justify='center'>
+            <Text
+              style={{
+                marginTop: -12
+              }}
+              type='sub'
+              bold
+            >
+              text-only
+            </Text>
+          </Flex>
+        )
+      }
+
       const { error, uri } = this.state
       const { imageTransition } = systemStore.setting
       if (error) {
@@ -545,5 +563,10 @@ const memoStyles = _.memoStyles(_ => ({
   },
   error: {
     padding: 4
+  },
+  textOnly: {
+    borderRadius: _.radiusSm,
+    backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
+    overflow: 'hidden'
   }
 }))

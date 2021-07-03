@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 18:33:29
+ * @Last Modified time: 2021-07-03 17:48:51
  */
 import { observable, computed } from 'mobx'
 import {
@@ -19,6 +19,7 @@ import store from '@utils/store'
 import { matchBgmUrl } from '@utils/match'
 import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
+import { DEV } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 export const sectionWidth = (_.window.width - _.wind * 3) / 2
@@ -63,7 +64,7 @@ export default class ScreenDiscovery extends store {
 
     setTimeout(() => {
       this.fetchOnline()
-      if (userStore.isWebLogin) {
+      if (!DEV && userStore.isWebLogin) {
         this.fetchChannel()
       }
     }, 800)

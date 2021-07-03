@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:41:43
+ * @Last Modified time: 2021-07-03 14:36:47
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -69,10 +69,7 @@ function Filter(props, { $ }) {
                       ]}
                       onPress={() => $.onSelect(item.type, i)}
                     >
-                      <Text
-                        size={11}
-                        type={i === 'ADV' ? 'main' : undefined}
-                      >
+                      <Text size={11} type={i === 'ADV' ? 'main' : undefined}>
                         {i}
                       </Text>
                       <Heatmap
@@ -112,7 +109,6 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.sm
   },
   row: {
-    paddingRight: _.wind - _._wind,
     paddingLeft: _.wind
   },
   multiple: {

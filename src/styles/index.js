@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 14:30:41
+ * @Last Modified time: 2021-07-03 13:56:11
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
-import { IOS } from '@constants'
+import { IOS, PAD } from '@constants'
 
 // -------------------- 设备 --------------------
 const { width, height } = Dimensions.get('window')
@@ -18,7 +18,7 @@ export const window = {
   height
 }
 export const logoWidth = 124 // logo宽度
-export const isPad = width > 616
+export const isPad = PAD
 export const statusBarHeight = Constants.statusBarHeight
 export const appBarHeight = IOS ? Constants.statusBarHeight : 56 //  单独头部高度, iOS 44
 export const headerHeight = appBarHeight + statusBarHeight // 整个头部高度
@@ -250,6 +250,12 @@ export const container = StyleSheet.create({
   touch: {
     borderRadius: radiusMd,
     overflow: 'hidden'
+  },
+  w100: {
+    width: '100%'
+  },
+  h100: {
+    height: '100%'
   }
 })
 

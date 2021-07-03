@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 08:43:00
+ * @Last Modified time: 2021-07-03 16:23:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,9 +34,9 @@ export const ItemCollectionsGrid = ob(
     wid,
     mid
   }) => {
-    const imageWidth = _.window.contentWidth * ((1 / num) * 0.84)
+    const imageWidth = _.window.contentWidth * ((1 / num) * 0.86)
     const imageHeight = imageWidth * 1.4
-    const marginLeft = (_.window.contentWidth - num * imageWidth) / (num + 1)
+    const marginLeft = (_.window.contentWidth - num * imageWidth) / num
     const onPress = () => {
       const { id: eventId, data: eventData } = event
       const subjectId = String(id).replace('/subject/', '')

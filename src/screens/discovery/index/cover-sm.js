@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-23 15:52:12
+ * @Last Modified time: 2021-07-03 12:05:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-const imageWidth = _.window.width * 0.34
+const imageWidth = _.device(_.window.width * 0.34, _.window.contentWidth * 0.4)
 const imageHeight = imageWidth * 1.38
 const linearColor = ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.8)']
 

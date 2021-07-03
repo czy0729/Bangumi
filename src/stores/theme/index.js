@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:18:12
+ * @Last Modified time: 2021-07-03 13:23:44
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -482,6 +482,12 @@ class Theme extends store {
       touch: {
         borderRadius: _.radiusSm,
         overflow: 'hidden'
+      },
+      w100: {
+        width: '100%'
+      },
+      h100: {
+        height: '100%'
       }
     })
   }
@@ -611,6 +617,11 @@ class Theme extends store {
   }
 
   // -------------------- page --------------------
+  /**
+   * 设备选择
+   */
+  device = (mobileValue, padValue) => (this.isPad ? padValue : mobileValue)
+
   /**
    * 主题选择
    * 黑暗模式使用第二个值

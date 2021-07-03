@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 03:54:27
+ * @Last Modified time: 2021-07-03 17:46:51
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -115,16 +115,15 @@ export default class ScreenHomeV2 extends store {
   })
 
   init = async () => {
-    let res
     if (this.isLogin) {
-      res = this.getStorage(undefined, namespace)
-      const state = await res
-      this.setState({
-        ...state,
-        ...excludeState,
-        _loaded: true
-      })
+      await this.initStore()
       this.initFetch()
+    } else if (DEV) {
+      // 开发模式下热更新的时候, 有时候会识别不到已登陆
+      setTimeout(async () => {
+        await this.initStore()
+        this.initFetch()
+      }, 240)
     }
 
     runAfter(() => {
@@ -139,7 +138,17 @@ export default class ScreenHomeV2 extends store {
       }, 80)
     })
 
-    return res
+    return true
+  }
+
+  initStore = async () => {
+    const state = await this.getStorage(undefined, namespace)
+    this.setState({
+      ...state,
+      ...excludeState,
+      _loaded: true
+    })
+    return state
   }
 
   initFetch = async refresh => {

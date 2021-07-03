@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 11:41:10
+ * @Last Modified time: 2021-07-03 13:47:56
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -19,8 +19,8 @@ export const Iconfont = observer(
         <MD
           style={style}
           name={name.replace('md-', '')}
-          size={size}
-          lineHeight={lineHeight}
+          size={size + _.fontSizeAdjust}
+          lineHeight={lineHeight + _.fontSizeAdjust}
           color={color}
           {...other}
         />
@@ -32,8 +32,8 @@ export const Iconfont = observer(
         <Icon
           style={style}
           name={name}
-          size={size}
-          lineHeight={lineHeight}
+          size={size + _.fontSizeAdjust}
+          lineHeight={lineHeight + _.fontSizeAdjust}
           color={color}
           {...other}
         />
@@ -44,13 +44,13 @@ export const Iconfont = observer(
       <Icons
         style={[
           {
-            height: size,
-            lineHeight: lineHeight || size
+            height: size + _.fontSizeAdjust,
+            lineHeight: (lineHeight || size) + _.fontSizeAdjust
           },
           style
         ]}
         name={`icon-${name}`}
-        size={size}
+        size={size + _.fontSizeAdjust}
         color={color || _.colorIcon}
         {...other}
       />

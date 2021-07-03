@@ -4,94 +4,153 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:17:02
+ * @Last Modified time: 2021-07-03 15:53:21
  */
-import { Platform } from 'react-native'
+import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
 
 const expoPackageJson = require('@/node_modules/expo/package.json')
 const appJson = require('@/app.json')
 
-export const DEV = global.__DEV__ // 是否开发模式
-export const SDK = parseInt(expoPackageJson.version.split('.')[0]) // 打包apk和bangumi-ios-test线上expo使用35, 打包ipa提审需至少使用37
-export const BUNDLE_IDENTIFIER = appJson.name // Expo线上预览唯一标识
-export const VERSION_GITHUB_RELEASE = appJson.expo.version // 版本号
-export const VERSION_TINYGRAIL_PLUGIN = appJson.expo.description.split(
-  'tinygrail plugin '
-)[1] // 小圣杯助手版本
-export const VERSION_GOOGLE = appJson.expo.description.includes('google play')
-export const BARE = true // 裸工作流 (已稳定脱离, 待废弃)
-
 /* ==================== BASE ==================== */
-// HOST
-export const HOST_NAME = 'bgm.tv' // 域名
+// 是否开发模式
+export const DEV = global.__DEV__
+
+// [待废弃] 打包 apk 和 bangumi-ios-test 线上 expo 使用35, 打包 ipa 提审需至少使用37
+export const SDK = parseInt(expoPackageJson.version.split('.')[0])
+
+// Expo 线上预览唯一标识
+export const BUNDLE_IDENTIFIER = appJson.name
+
+// 版本号
+export const VERSION_GITHUB_RELEASE = appJson.expo.version
+
+// 小圣杯助手版本
+export const VERSION_TINYGRAIL_PLUGIN =
+  appJson.expo.description.split('tinygrail plugin ')[1]
+
+// Google Play 版本
+export const VERSION_GOOGLE = appJson.expo.description.includes('google play')
+
+/* ==================== HOST ==================== */
+// 域名
+export const HOST_NAME = 'bgm.tv'
 export const HOST = `https://${HOST_NAME}`
-export const HOST_2 = 'https://bangumi.tv' // 备用域名
+
+// 备用域名
+export const HOST_2 = 'https://bangumi.tv'
 export const HOST_3 = 'https://chii.in'
+
+// 第三方域名
 export const HOST_NING_MOE = 'https://www.ningmoe.com' // 柠萌瞬间地址
 export const HOST_ANITAMA = 'https://app.anitama.net' // Anitama api地址
-export const HOST_MANGA = 'https://tinygrail.mange.cn/app' // https://a402731062.gitee.io/manga
+export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
 
-// URL
-export const URL_OAUTH = `${HOST}/oauth/authorize` // 登陆v1.0 oauth地址
-export const URL_OAUTH_REDIRECT = `${HOST}/dev/app` // 登陆v1.0 授权跳转地址
-export const URL_FEEDBACK = `${HOST}/group/topic/350677` // bgm项目帖子地址
+/* ==================== URL ==================== */
+// 登陆v1.0 oauth地址
+export const URL_OAUTH = `${HOST}/oauth/authorize`
+
+// 登陆v1.0 授权跳转地址
+export const URL_OAUTH_REDIRECT = `${HOST}/dev/app`
+
+// bgm项目帖子地址
+export const URL_FEEDBACK = `${HOST}/group/topic/350677`
+
+// 空头像地址
 export const URL_DEFAULT_AVATAR = '/icon.jpg'
 
-// APP
-export const APP_ID = 'bgm8885c4d524cd61fc' // client_id
-export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd' // client_secret
-export const APP_ID_SAY_DEVELOP = '23045125' // 功能留言板入口 2020年: 19945783
-export const APP_ID_SAY_TINYGRAIL = '19820034' // 小圣杯意见反馈入口
-export const APP_ID_BAIDU = '20200130000378695' // 百度翻译
+/* ==================== APP ==================== */
+// client_id
+export const APP_ID = 'bgm8885c4d524cd61fc'
 
-// [476179]6907***59@qq.com | [474489]2963***10@qq.com | [542389]say***02@163.com
+// client_secret
+export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
+
+// 功能留言板入口 2020年: 19945783
+export const APP_ID_SAY_DEVELOP = '23045125'
+
+// 小圣杯意见反馈入口
+export const APP_ID_SAY_TINYGRAIL = '19820034'
+
+// 百度翻译
+export const APP_ID_BAIDU = '20200130000378695'
+
+// APP 游客
+// [476179] 6907***59@qq.com | [474489] 2963***10@qq.com | [542389] say***02@163.com
 export const APP_USERID_TOURIST = 474489 // 游客
 export const APP_USERID_IOS_AUTH = 474489 // 审核
 
-// ENV
-export const IOS = Platform.OS === 'ios' // 是否iOS
-export const IS_BEFORE_ANDROID_10 = !IOS && Platform.Version < 29 // 安卓10之前
-export const TITLE = IOS ? 'bgm.tv' : 'Bangumi' // Bangumi字眼在App内的显示
+/* ==================== ENV ==================== */
+// 是否 iOS
+export const IOS = Platform.OS === 'ios'
 
-// TINYGRAIL
-export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec' // 小圣杯client_id
+// android 10之前
+export const IS_BEFORE_ANDROID_10 = !IOS && Platform.Version < 29
+
+// Bangumi 字眼在 App 内的显示
+export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'
+
+/* ==================== TINYGRAIL ==================== */
+// 小圣杯 client_id
+export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec'
+
+// 小圣杯授权跳转地址
 export const TINYGRAIL_URL_OAUTH_REDIRECT =
-  'https://tinygrail.com/api/account/callback' // 小圣杯授权跳转地址
-export const TINYGRAIL_UPDATES_LOGS_URL = `${HOST}/group/topic/354698` // 更新内容帖子
+  'https://tinygrail.com/api/account/callback'
 
-// GITHUB
-export const GITHUB_PROJECT = 'https://github.com/czy0729/Bangumi' // github项目地址
-export const GITHUB_PROJECT_GH = 'https://czy0729.github.io/Bangumi' // gh-pages
-export const GITHUB_RELEASE = `${GITHUB_PROJECT}/releases` // 版本析出地址
+// 更新内容帖子
+export const TINYGRAIL_UPDATES_LOGS_URL = `${HOST}/group/topic/354698`
+
+/* ==================== GITHUB ==================== */
+// repo
+export const GITHUB_PROJECT = 'https://github.com/czy0729/Bangumi'
+
+// gh-pages
+export const GITHUB_PROJECT_GH = 'https://czy0729.github.io/Bangumi'
+
+// release
+export const GITHUB_RELEASE = `${GITHUB_PROJECT}/releases`
+
+// release api
 export const GITHUB_RELEASE_REPOS =
-  'https://api.github.com/repos/czy0729/Bangumi/releases' // 版本析出api地址
-// export const GITHUB_DATA = `${GITHUB_PROJECT_GH}/web/data.json` // online数
-export const GITHUB_DATA =
-  'https://gitee.com/a296377710/bangumi/raw/master/data.json' // online数
-export const GITHUB_ADVANCE =
-  'https://gitee.com/a296377710/bangumi/raw/master/advance.json' // 高级会员
+  'https://api.github.com/repos/czy0729/Bangumi/releases'
 
-// 图片
+// ota url
+export const GITHUB_DATA =
+  'https://gitee.com/a296377710/bangumi/raw/master/data.json'
+
+// 高级会员 url
+export const GITHUB_ADVANCE =
+  'https://gitee.com/a296377710/bangumi/raw/master/advance.json'
+
+/* ==================== IMG ==================== */
+// 占位底图
 export const IMG_EMPTY = {
-  uri:
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQMAAAC6caSPAAAAA1BMVEX///+nxBvIAAAAKklEQVR42u3BgQAAAADDoPtTH2AK1QAAAAAAAAAAAAAAAAAAAAAAAACAOE+wAAFrRnPdAAAAAElFTkSuQmCC'
+  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQMAAAC6caSPAAAAA1BMVEX///+nxBvIAAAAKklEQVR42u3BgQAAAADDoPtTH2AK1QAAAAAAAAAAAAAAAAAAAAAAAACAOE+wAAFrRnPdAAAAAElFTkSuQmCC'
 }
+
+// 占位底图黑
 export const IMG_EMPTY_DARK = {
-  uri:
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQMAAAC6caSPAAAAA1BMVEU+PkC+lq+tAAAAKklEQVR42u3BgQAAAADDoPtTH2AK1QAAAAAAAAAAAAAAAAAAAAAAAACAOE+wAAFrRnPdAAAAAElFTkSuQmCC'
+  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQMAAAC6caSPAAAAA1BMVEU+PkC+lq+tAAAAKklEQVR42u3BgQAAAADDoPtTH2AK1QAAAAAAAAAAAAAAAAAAAAAAAACAOE+wAAFrRnPdAAAAAElFTkSuQmCC'
 }
+
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg' // 空头像
 export const IMG_DEFAULT = require('@assets/images/default.png') // 默认图
 export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png') // 图裂图
 
-export const IMG_WIDTH = 82
-export const IMG_HEIGHT = IMG_WIDTH * 1.4
-export const IMG_WIDTH_SM = 64
-export const IMG_HEIGHT_SM = IMG_WIDTH_SM * 1.4
-export const IMG_AVATAR_WIDTH = 32
+/* ==================== IMG SIZE ==================== */
+const { width } = Dimensions.get('window')
 
-// 全局统一列表数据结构
+export const PAD = width > 616
+export const RATIO = PAD ? 1.44 : 1
+export const IMG_WIDTH = parseInt(RATIO * 82)
+export const IMG_HEIGHT = parseInt(IMG_WIDTH * 1.4)
+export const IMG_WIDTH_SM = parseInt(RATIO * 64)
+export const IMG_HEIGHT_SM = parseInt(IMG_WIDTH_SM * 1.4)
+export const IMG_AVATAR_WIDTH = parseInt(RATIO * 32)
+
+/* ==================== DATA ==================== */
+// LIST 统一结构
 export const LIST_EMPTY = {
   list: [],
   pagination: {
@@ -102,13 +161,19 @@ export const LIST_EMPTY = {
   _loaded: false
 }
 
-// LIMIT
-export const LIMIT_LIST = 100 // 用于制造分页数据
-export const LIMIT_LIST_COMMENTS = 50 // 用于制造分页数据 (评论)
-export const LIMIT_TOPIC_PUSH = 500 // 对评论数多的帖子进行网页跳转
-export const LIMIT_HEAVY_RENDER = 10 // 部分首屏渲染任务非常重的页面设置的初始最大项显示值
+// 用于制造分页数据
+export const LIMIT_LIST = 100
 
-// EVENT
+// 用于制造分页数据 (评论)
+export const LIMIT_LIST_COMMENTS = 50
+
+// 对评论数多的帖子进行网页跳转
+export const LIMIT_TOPIC_PUSH = 500
+
+// 部分首屏渲染任务非常重的页面设置的初始最大项显示值
+export const LIMIT_HEAVY_RENDER = 10
+
+// EVENT 统一结构
 export const EVENT = {
   id: '',
   data: {}
@@ -160,6 +225,8 @@ export const DATA_AIRTIME = [
   '1981',
   '1980'
 ]
+
+// 月份
 export const DATA_MONTH = [
   '全部',
   '1',
@@ -176,7 +243,7 @@ export const DATA_MONTH = [
   '12'
 ]
 
-// 索引时间数组
+// 索引时间年
 export const DATA_BROWSER_AIRTIME = [
   '2024',
   '2023',
@@ -255,6 +322,8 @@ export const DATA_BROWSER_AIRTIME = [
   '1950',
   '1949'
 ]
+
+// 索引时间月
 export const DATA_BROWSER_MONTH = [
   '1',
   '2',
@@ -269,6 +338,8 @@ export const DATA_BROWSER_MONTH = [
   '11',
   '12'
 ]
+
+// 字母表
 export const DATA_ALPHABET = [
   'A',
   'B',

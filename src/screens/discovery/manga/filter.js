@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 06:42:02
+ * @Last Modified time: 2021-07-03 14:26:35
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -171,7 +171,6 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.sm
   },
   row: {
-    paddingRight: _.wind - _._wind,
     paddingLeft: _.wind
   },
   multiple: {

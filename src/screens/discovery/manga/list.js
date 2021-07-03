@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:06:43
+ * @Last Modified time: 2021-07-03 14:27:04
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -27,11 +27,8 @@ class List extends React.Component {
 
     const { $ } = this.context
     const { layout } = $.state
-    return layout === 'list' ? (
-      <Item pickIndex={item} index={index} />
-    ) : (
-      <ItemGrid pickIndex={item} />
-    )
+    if (layout === 'list') return <Item pickIndex={item} index={index} />
+    return <ItemGrid pickIndex={item} index={index} />
   }
 
   render() {

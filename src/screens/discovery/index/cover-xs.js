@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 16:04:53
+ * @Last Modified time: 2021-07-03 12:08:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,10 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-const imageWidth = _.window.width * 0.34 * 0.5625
+const imageWidth =
+  _.device(_.window.width * 0.34, _.window.contentWidth * 0.4) * 0.5625
 const imageHeight = imageWidth * 1.38
+const avatarSize = 24
 const linearColor = [
   'rgba(0, 0, 0, 0)',
   'rgba(0, 0, 0, 0.4)',
@@ -78,7 +80,7 @@ function CoverXs({ title, avatar, data }, { navigation }) {
           <Avatar
             style={styles.avatar}
             navigation={navigation}
-            size={24}
+            size={avatarSize}
             src={avatar}
             userId={data.userId}
             name={data.userName}
@@ -114,7 +116,7 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 2,
     right: 2,
     bottom: 4,
-    left: 26,
+    left: avatarSize + 2,
     opacity: 0.92
   },
   fixed: {

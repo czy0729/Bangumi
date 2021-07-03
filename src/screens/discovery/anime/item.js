@@ -30,9 +30,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
     score,
     rank
   } = pick(pickIndex)
-  if (!id) {
-    return null
-  }
+  if (!id) return null
 
   const styles = memoStyles()
   const isFirst = index === 0

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 21:09:55
+ * @Last Modified time: 2021-07-03 12:01:30
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -15,7 +15,7 @@ import { years } from './store'
 
 const cdn =
   'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210413/data/award/title'
-const itemWidth = 128
+const itemWidth = _.device(128, 160)
 const itemWidthLg = itemWidth * 2 + 16
 
 function Award(props, { navigation }) {

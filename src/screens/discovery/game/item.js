@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-29 18:30:54
+ * @Last Modified time: 2021-07-03 15:48:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,9 @@ import { HTMLDecode } from '@utils/html'
 import { showImageViewer } from '@utils/ui'
 import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 import { CDN_GAME } from '@constants/cdn'
+
+const thumbWidth = _.device(114, parseInt(_.window.contentWidth * 0.4))
+const thumbHeight = parseInt(thumbWidth * 0.56)
 
 function Item({ index, pickIndex }, { $, navigation }) {
   const styles = memoStyles()
@@ -77,57 +80,57 @@ function Item({ index, pickIndex }, { $, navigation }) {
         align='start'
         style={[styles.wrap, !isFirst && !_.flat && styles.border]}
       >
-        <View style={styles.imgContainer}>
-          <Cover
-            style={styles.image}
-            src={cover}
-            width={IMG_WIDTH}
-            height={IMG_HEIGHT}
-            radius
-            shadow
-            type='游戏'
-          />
-        </View>
-        <Flex.Item style={_.ml.wind}>
-          <Flex
-            style={styles.content}
-            direction='column'
-            justify='between'
-            align='start'
-          >
-            <View style={_.mr.wind}>
-              <Flex align='start' style={styles.body}>
-                <Flex.Item>
-                  <Text size={15} numberOfLines={2}>
-                    <Text size={15} bold>
-                      {HTMLDecode(title)}
-                    </Text>
-                    {!!sub && sub !== title && (
-                      <Text
-                        type='sub'
-                        size={11}
-                        lineHeight={15}
-                        numberOfLines={1}
-                      >
-                        {' '}
-                        {HTMLDecode(sub)}
-                      </Text>
-                    )}
+        <Cover
+          style={styles.image}
+          src={cover}
+          width={IMG_WIDTH}
+          height={IMG_HEIGHT}
+          radius
+          shadow
+          type='游戏'
+        />
+        <Flex
+          style={styles.content}
+          direction='column'
+          justify='between'
+          align='start'
+        >
+          <View style={styles.body}>
+            <Flex align='start' style={_.container.w100}>
+              <Flex.Item>
+                <Text size={15} numberOfLines={2}>
+                  <Text size={15} bold>
+                    {HTMLDecode(title)}
                   </Text>
-                </Flex.Item>
-                <Flex style={_.mt.xxs}>
-                  {!!collection && <Tag style={_.ml.sm} value={collection} />}
-                  {x18(id) && <Tag style={_.ml.sm} value='H' />}
-                </Flex>
+                  {!!sub && sub !== title && (
+                    <Text
+                      type='sub'
+                      size={11}
+                      lineHeight={15}
+                      numberOfLines={1}
+                    >
+                      {' '}
+                      {HTMLDecode(sub)}
+                    </Text>
+                  )}
+                </Text>
+              </Flex.Item>
+              <Flex style={_.mt.xxs}>
+                {!!collection && <Tag style={_.ml.sm} value={collection} />}
+                {x18(id) && <Tag style={_.ml.sm} value='H' />}
               </Flex>
-              <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
-                {tip}
-              </Text>
+            </Flex>
+            <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
+              {tip}
+            </Text>
+            {!!(rank || score) && (
               <Flex style={_.mt.md} wrap='wrap'>
                 <Rank value={rank} />
                 <Stars style={_.mr.sm} value={score} simple />
               </Flex>
-            </View>
+            )}
+          </View>
+          {!!thumbs.length && (
             <View style={styles.thumbs}>
               <HorizontalList
                 data={thumbs}
@@ -140,8 +143,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
                     ]}
                     key={item}
                     src={item}
-                    size={114}
-                    height={76}
+                    size={thumbWidth}
+                    height={thumbHeight}
                     radius
                     onPress={() => {
                       showImageViewer(
@@ -155,8 +158,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 )}
               />
             </View>
-          </Flex>
-        </Flex.Item>
+          )}
+        </Flex>
       </Flex>
       {index === 0 && <Heatmap id='游戏.跳转' />}
     </Touchable>
@@ -169,9 +172,6 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind
   },
-  imgContainer: {
-    width: IMG_WIDTH
-  },
   wrap: {
     paddingVertical: _.md + _.sm
   },
@@ -180,10 +180,12 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    minHeight: IMG_HEIGHT
+    flex: 1,
+    minHeight: IMG_HEIGHT,
+    marginLeft: _._wind
   },
   body: {
-    width: '100%'
+    marginRight: _.wind
   },
   collection: {
     position: 'absolute',
@@ -193,7 +195,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   thumbs: {
     marginTop: _.md,
-    height: 64
+    height: thumbHeight
   }
 }))
 

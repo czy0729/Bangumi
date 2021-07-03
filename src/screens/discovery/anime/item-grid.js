@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 19:08:33
+ * @Last Modified time: 2021-07-03 14:24:06
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { pick } from '@utils/subject/anime'
 
@@ -13,16 +14,15 @@ const event = {
   id: 'Anime.跳转'
 }
 
-function ItemGrid({ pickIndex }, { $, navigation }) {
+function ItemGrid({ pickIndex, index }, { $, navigation }) {
   const { id, ageId, image, cn, jp, score, rank } = pick(pickIndex)
-  if (!id) {
-    return null
-  }
+  if (!id) return null
 
   const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
   const collection = $.userCollectionsMap[id]
   return (
     <ItemCollectionsGrid
+      style={!(index % 3) && styles.left}
       navigation={navigation}
       event={event}
       id={id}
@@ -38,3 +38,9 @@ function ItemGrid({ pickIndex }, { $, navigation }) {
 }
 
 export default obc(ItemGrid)
+
+const styles = _.create({
+  left: {
+    marginLeft: _.wind
+  }
+})
