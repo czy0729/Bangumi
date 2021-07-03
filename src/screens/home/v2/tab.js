@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:15:20
+ * @Last Modified time: 2021-07-03 17:58:50
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'

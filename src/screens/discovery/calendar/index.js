@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:11:47
+ * @Last Modified time: 2021-07-04 05:18:55
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -43,6 +43,7 @@ class Calendar extends React.Component {
     if (!_loaded) {
       return <Loading style={_.container.plain} />
     }
+
     return <List />
   }
 }

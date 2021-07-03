@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:24:09
+ * @Last Modified time: 2021-07-04 05:28:50
  */
 import React from 'react'
 import { Touchable, Text, Flex, Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
 const width = _.window.contentWidth * 0.2
-const marginLeft = (_.window.contentWidth - 4 * width) / 5
+const marginLeft = (_.window.contentWidth - 4 * width) / 4
 
 function Item({ type, name, nums, index }, { navigation }) {
   const styles = memoStyles()

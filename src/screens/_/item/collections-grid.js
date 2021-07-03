@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 16:23:22
+ * @Last Modified time: 2021-07-04 06:54:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,9 +34,8 @@ export const ItemCollectionsGrid = ob(
     wid,
     mid
   }) => {
-    const imageWidth = _.window.contentWidth * ((1 / num) * 0.86)
-    const imageHeight = imageWidth * 1.4
-    const marginLeft = (_.window.contentWidth - num * imageWidth) / num
+    const gridStyles = _.grid(num)
+    const _collection = collection || (isCollect ? '已收藏' : '')
     const onPress = () => {
       const { id: eventId, data: eventData } = event
       const subjectId = String(id).replace('/subject/', '')
@@ -58,23 +57,21 @@ export const ItemCollectionsGrid = ob(
         _type: typeCn
       })
     }
-
-    const _collection = collection || (isCollect ? '已收藏' : '')
     return (
       <View
         style={[
           {
-            width: imageWidth,
-            marginBottom: marginLeft + _.xs,
-            marginLeft
+            width: gridStyles.width,
+            marginBottom: gridStyles.marginLeft + _.xs,
+            marginLeft: gridStyles.marginLeft
           },
           style
         ]}
       >
         <Cover
           style={styles.cover}
-          size={imageWidth}
-          height={imageHeight}
+          size={gridStyles.width}
+          height={gridStyles.height}
           src={cover}
           radius
           shadow

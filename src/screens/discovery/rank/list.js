@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 22:00:04
+ * @Last Modified time: 2021-07-04 07:28:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,7 @@ import { runAfter } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
+const num = 3
 const eventList = {
   id: '排行榜.跳转',
   data: {
@@ -60,10 +61,7 @@ class List extends React.Component {
     const { $ } = this.context
     const { list } = $.rank
     const { rendered } = this.state
-    if (!rendered) {
-      return list.slice(0, 9)
-    }
-
+    if (!rendered) return list.slice(0, 9)
     return list
   }
 
@@ -130,6 +128,8 @@ class List extends React.Component {
                 <ItemCollectionsGrid
                   key={item.id}
                   navigation={navigation}
+                  style={!(index % num) && this.styles.left}
+                  num={num}
                   index={index}
                   collection={$.userCollectionsMap[id]}
                   event={eventGrid}
@@ -152,11 +152,15 @@ class List extends React.Component {
     const { $ } = this.context
     const { show, list: _list } = $.state
     const { _loaded } = $.rank
-    return show && _loaded ? (
-      <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
-        {_list ? this.renderList() : this.renderGrid()}
-      </ScrollView>
-    ) : (
+    if (show && _loaded) {
+      return (
+        <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
+          {_list ? this.renderList() : this.renderGrid()}
+        </ScrollView>
+      )
+    }
+
+    return (
       <Flex style={this.styles.loading} justify='center'>
         <ActivityIndicator />
       </Flex>
@@ -173,13 +177,16 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: _.bottom
   },
   grid: {
-    paddingVertical: 12,
-    paddingHorizontal: _.wind - _._wind
+    paddingHorizontal: _.wind,
+    paddingVertical: 12
   },
   loading: {
     width: _.window.width,
     minHeight: 400,
     paddingTop: _.md,
     paddingVertical: _.wind
+  },
+  left: {
+    marginLeft: 0
   }
 }))

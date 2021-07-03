@@ -14,7 +14,7 @@ const event = {
   id: '文库.跳转'
 }
 
-function ItemGrid({ pickIndex, index }, { $, navigation }) {
+function ItemGrid({ pickIndex, index, num }, { $, navigation }) {
   const { id, wenkuId, image, cn, jp, score, rank } = pick(pickIndex)
   if (!id) return null
 
@@ -22,7 +22,7 @@ function ItemGrid({ pickIndex, index }, { $, navigation }) {
   const collection = $.userCollectionsMap[id]
   return (
     <ItemCollectionsGrid
-      style={!(index % 3) && styles.left}
+      style={_.isPad && !(index % num) && styles.left}
       navigation={navigation}
       event={event}
       id={id}

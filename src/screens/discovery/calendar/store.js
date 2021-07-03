@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-01 11:48:06
+ * @Last Modified time: 2021-07-04 06:44:58
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 
-const num = _.isPad ? 4 : 3
-const percent = _.isPad ? 0.22 : 0.3
-
-export const imageWidth = (_.window.width - _.wind * 2) * percent
+const num = _.device(3, 4)
+export const marginLeft = _.device(_._wind, _.md)
+export const imageWidth =
+  (_.window.contentWidth - marginLeft * _.device(num + 1, num - 1)) / num
 export const imageHeight = imageWidth * 1.4
-export const marginLeft = (_.window.contentWidth - num * imageWidth) / (num + 1)
 export const showPrevDay = new Date().getHours() < 19
 
 const namespace = 'ScreenCalendar'

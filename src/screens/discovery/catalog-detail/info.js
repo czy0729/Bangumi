@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 06:43:00
+ * @Last Modified time: 2021-07-04 05:12:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -117,8 +117,8 @@ const styles = _.create({
     minHeight: 248
   },
   segmentedControl: {
-    width: 144,
-    height: 22
+    width: 144 * _.ratio,
+    height: 22 * _.ratio
   },
   loading: {
     height: 120

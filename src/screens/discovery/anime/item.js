@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 01:30:51
+ * @Last Modified time: 2021-07-04 06:17:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -89,10 +89,6 @@ function Item({ index, pickIndex }, { $, navigation }) {
                   <Text size={15} bold>
                     {cn}
                   </Text>
-                  {/* <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
-                    {' '}
-                    {$.cnFirst ? jp : cn}
-                  </Text> */}
                 </Text>
               </Flex.Item>
               <Flex style={_.mt.xxs}>

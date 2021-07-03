@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-01 11:31:31
+ * @Last Modified time: 2021-07-04 05:20:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -104,7 +104,7 @@ function List(props, { $ }) {
                 return <ItemLine {...itemProps} />
               }
 
-              return <Item {...itemProps} />
+              return <Item index={idx} {...itemProps} />
             })}
           </Flex>
         )

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 13:56:11
+ * @Last Modified time: 2021-07-04 06:57:18
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
-import { IOS, PAD } from '@constants'
+import { IOS, PAD, RATIO } from '@constants'
 
 // -------------------- 设备 --------------------
 const { width, height } = Dimensions.get('window')
-const maxWidth = 544
+const maxWidth = 586 // 544
 export const window = {
   width,
   maxWidth,
@@ -19,9 +19,13 @@ export const window = {
 }
 export const logoWidth = 124 // logo宽度
 export const isPad = PAD
+export const ratio = RATIO
 export const statusBarHeight = Constants.statusBarHeight
 export const appBarHeight = IOS ? Constants.statusBarHeight : 56 //  单独头部高度, iOS 44
-export const headerHeight = appBarHeight + statusBarHeight // 整个头部高度
+
+// 整个头部高度
+const _headerHeight = appBarHeight + statusBarHeight
+export const headerHeight = PAD ? Math.max(_headerHeight, 80) : _headerHeight
 export const tabsHeight = 42 // 标签页的标签栏高度
 export const tabsHeaderHeight = headerHeight + tabsHeight // 带标签栏的头部高度
 export const tabBarHeight = 50 // 标签栏高度
@@ -32,7 +36,7 @@ export const xs = isPad ? 8 : 4
 export const sm = isPad ? 12 : 8
 export const md = isPad ? 24 : 16
 export const lg = isPad ? 48 : 32
-export const wind = isPad ? parseInt((width - maxWidth) / 2) : 16 // 两翼
+export const wind = isPad ? parseInt((width - window.contentWidth) / 2) : 16 // 两翼
 export const _wind = 16
 export const space = isPad ? 24 : 16 // 上下
 export const bottom = tabBarHeight + lg // 底部留空

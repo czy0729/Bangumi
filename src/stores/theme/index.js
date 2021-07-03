@@ -2,18 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 13:23:44
+ * @Last Modified time: 2021-07-04 06:43:26
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
-import {
-  DEV,
-  IOS
-  // IS_BEFORE_ANDROID_10
-} from '@constants'
+import { DEV, IOS } from '@constants'
 import _ from '@styles'
 import { initialDevDark } from '@/config'
 import systemStore from '../system'
@@ -483,6 +479,9 @@ class Theme extends store {
         borderRadius: _.radiusSm,
         overflow: 'hidden'
       },
+      left: {
+        marginLeft: _.wind
+      },
       w100: {
         width: '100%'
       },
@@ -621,6 +620,21 @@ class Theme extends store {
    * 设备选择
    */
   device = (mobileValue, padValue) => (this.isPad ? padValue : mobileValue)
+
+  /**
+   * 格子布局分拆工具函数
+   */
+  grid = (num = 3) => {
+    const marginLeft = this.device(this._wind, this.md)
+    const width =
+      (this.window.contentWidth - marginLeft * this.device(num + 1, num - 1)) / num
+    const height = width * 1.4
+    return {
+      marginLeft,
+      width,
+      height
+    }
+  }
 
   /**
    * 主题选择

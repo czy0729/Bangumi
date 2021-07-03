@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-13 14:59:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 15:49:04
+ * @Last Modified time: 2021-07-04 05:13:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,7 @@ export default ob(Type)
 
 const styles = _.create({
   segment: {
-    width: 80,
-    height: 22
+    width: 80 * _.ratio,
+    height: 22 * _.ratio
   }
 })

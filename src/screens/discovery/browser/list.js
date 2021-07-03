@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:16:23
+ * @Last Modified time: 2021-07-04 06:27:45
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -51,6 +51,7 @@ class List extends React.Component {
 
     return (
       <ItemCollectionsGrid
+        style={_.isPad && !(index % 3) && _.container.left}
         navigation={navigation}
         index={index}
         collection={
@@ -65,14 +66,10 @@ class List extends React.Component {
   render() {
     const { $ } = this.context
     const { show, layout } = $.state
-    if (!show) {
-      return null
-    }
+    if (!show) return null
 
     const { _loaded } = $.browser
-    if (!_loaded) {
-      return <Loading />
-    }
+    if (!_loaded) return <Loading />
 
     return (
       <ListView

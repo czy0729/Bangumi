@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 15:54:56
+ * @Last Modified time: 2021-07-04 07:42:43
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -11,6 +11,8 @@ import { obc } from '@utils/decorators'
 import Filter from './filter'
 import Item from './item'
 import ItemGrid from './item-grid'
+
+const num = 3
 
 export default
 @obc
@@ -28,7 +30,7 @@ class List extends React.Component {
     const { $ } = this.context
     const { layout } = $.state
     if (layout === 'list') return <Item pickIndex={item} index={index} />
-    return <ItemGrid pickIndex={item} index={index} />
+    return <ItemGrid pickIndex={item} index={index} num={num} />
   }
 
   render() {
@@ -49,7 +51,7 @@ class List extends React.Component {
         ref={this.connectRef}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
-        numColumns={$.isList ? undefined : 3}
+        numColumns={$.isList ? undefined : num}
         data={data}
         ListHeaderComponent={<Filter />}
         renderItem={this.renderItem}

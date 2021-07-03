@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 22:19:06
+ * @Last Modified time: 2021-07-04 06:51:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,8 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { imageWidth, imageHeight, marginLeft } from './store'
+
+const gridStyles = _.grid(_.device(3, 4))
 
 function Item(
   { style, subjectId, images = {}, name, score },
@@ -20,9 +21,7 @@ function Item(
 ) {
   const { type } = $.state
   const collection = $.userCollectionsMap[subjectId]
-  if (type === 'collect' && !collection) {
-    return null
-  }
+  if (type === 'collect' && !collection) return null
 
   const { air, timeCN } = $.onAir[subjectId] || {}
   const onPress = () => {
@@ -45,8 +44,8 @@ function Item(
       <View>
         <Cover
           style={styles.cover}
-          width={imageWidth}
-          height={imageHeight}
+          width={gridStyles.width}
+          height={gridStyles.height}
           src={images.medium}
           radius
           shadow
@@ -84,9 +83,9 @@ export default obc(Item)
 
 const styles = _.create({
   item: {
-    width: imageWidth,
-    marginBottom: _.space,
-    marginLeft
+    width: gridStyles.width,
+    marginLeft: gridStyles.marginLeft,
+    marginBottom: _.space
   },
   time: {
     position: 'absolute',

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 01:33:30
+ * @Last Modified time: 2021-07-04 06:15:47
  */
 import React from 'react'
 import {
@@ -66,6 +66,11 @@ export const ListView = observer(
       showMesume: true,
       scrollToTop: false, // 自动在顶部补充一区域, 点击列表返回到顶, 安卓用
       lazy: 0, // 当有值, 初始化时当数组长度超过此长度, 会先渲染这个条数的数据, 再正常渲染
+
+      // 此属性对于 iOS 需要有默认值, 否则会出现首次渲染滚动条位置不正确的问题
+      scrollIndicatorInsets: {
+        right: 1
+      },
       onHeaderRefresh: undefined,
       onFooterRefresh: undefined
     }

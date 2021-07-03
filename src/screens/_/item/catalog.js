@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 20:06:36
+ * @Last Modified time: 2021-07-04 05:10:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,9 @@ import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Cover, Avatar } from '../base'
 
-const width = 64
+const width = 64 * _.ratio
 const w = width * 2
+const widthAvatar = 28 * _.ratio
 
 export const ItemCatalog = obc(
   (
@@ -37,9 +38,7 @@ export const ItemCatalog = obc(
     },
     { $, navigation }
   ) => {
-    if (!isUser && !book && !anime && !music && !game && !real) {
-      return null
-    }
+    if (!isUser && !book && !anime && !music && !game && !real) return null
 
     const styles = memoStyles()
     const { list, collect, content, avatar, userId, time } = $.catalogDetail(id)
@@ -129,7 +128,7 @@ export const ItemCatalog = obc(
                   key={avatar}
                   style={_.mr.sm}
                   navigation={navigation}
-                  size={28}
+                  size={widthAvatar}
                   userId={userId}
                   name={name}
                   src={avatar}
@@ -163,7 +162,7 @@ const memoStyles = _.memoStyles(_ => ({
   content: {
     height: w,
     paddingVertical: _.sm,
-    paddingLeft: 24
+    paddingLeft: 24 * _.ratio
   },
   catalog: {
     width: w,

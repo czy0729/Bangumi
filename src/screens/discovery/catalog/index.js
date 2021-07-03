@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:11:56
+ * @Last Modified time: 2021-07-04 06:31:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,9 +59,7 @@ class Catalog extends React.Component {
   render() {
     const { $ } = this.context
     const { show, _loaded } = $.state
-    if (!_loaded) {
-      return <View style={_.container.plain} />
-    }
+    if (!_loaded) return <View style={_.container.plain} />
 
     return (
       <ScrollView

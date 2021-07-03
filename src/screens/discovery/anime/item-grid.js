@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 14:24:06
+ * @Last Modified time: 2021-07-04 07:36:11
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
@@ -14,7 +14,7 @@ const event = {
   id: 'Anime.跳转'
 }
 
-function ItemGrid({ pickIndex, index }, { $, navigation }) {
+function ItemGrid({ pickIndex, index, num }, { $, navigation }) {
   const { id, ageId, image, cn, jp, score, rank } = pick(pickIndex)
   if (!id) return null
 
@@ -22,7 +22,7 @@ function ItemGrid({ pickIndex, index }, { $, navigation }) {
   const collection = $.userCollectionsMap[id]
   return (
     <ItemCollectionsGrid
-      style={!(index % 3) && styles.left}
+      style={_.isPad && !(index % num) && styles.left}
       navigation={navigation}
       event={event}
       id={id}

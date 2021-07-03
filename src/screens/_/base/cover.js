@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 15:13:36
+ * @Last Modified time: 2021-07-04 06:30:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,10 @@ export const Cover = ob(
             {
               width: w,
               height: h
+            },
+            other.radius && {
+              borderRadius: 4,
+              overflow: 'hidden'
             }
           ]}
           justify='center'
@@ -287,8 +291,6 @@ const memoStyles = _.memoStyles(_ => ({
     marginRight: -8
   },
   textOnly: {
-    borderRadius: _.radiusSm,
-    backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
-    overflow: 'hidden'
+    backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
   }
 }))
