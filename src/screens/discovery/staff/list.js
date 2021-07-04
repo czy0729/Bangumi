@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 16:48:23
+ * @Last Modified time: 2021-07-04 08:09:45
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -21,7 +21,7 @@ class List extends React.Component {
   get event() {
     const { $ } = this.context
     return {
-      id: '新番档期.跳转',
+      id: '新番.跳转',
       data: {
         userId: $.userId
       }

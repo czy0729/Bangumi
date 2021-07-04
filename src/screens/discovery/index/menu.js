@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:57:56
+ * @Last Modified time: 2021-07-04 08:42:43
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -67,7 +67,7 @@ const menus = [
   //   path: 'Wenku'
   // },
   {
-    title: '档期',
+    title: '新番',
     icon: 'md-local-play',
     path: 'Staff'
   },
@@ -88,12 +88,6 @@ const menus = [
     login: true
   },
   {
-    title: '趋势',
-    icon: 'md-trending-up',
-    path: 'netabare',
-    login: true
-  },
-  {
     title: '维基人',
     icon: 'wiki',
     path: 'Wiki'
@@ -105,15 +99,20 @@ const menus = [
     login: true
   },
   {
-    title: 'Anitama',
-    icon: 'md-text-format',
-    path: 'Anitama'
-  },
-  {
     title: '时间线',
     icon: 'md-timeline',
     path: 'UserTimeline',
     login: true
+  },
+  {
+    title: 'anitama',
+    icon: 'md-text-format',
+    path: 'Anitama'
+  },
+  {
+    title: 'netaba.re',
+    icon: 'md-trending-up',
+    path: 'netabare'
   },
   {
     title: '我的人物',

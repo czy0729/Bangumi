@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:23:46
+ * @Last Modified time: 2021-07-04 08:07:30
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -10,6 +10,8 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Item from './item'
 import { tabs } from './store'
+
+const num = _.device(4, 5)
 
 export default
 @obc
@@ -20,7 +22,7 @@ class List extends React.Component {
 
   renderItem = ({ item, index }) => {
     const { id } = this.props
-    return <Item type={id} index={index} {...item} />
+    return <Item type={id} index={index} num={num} {...item} />
   }
 
   onHeaderRefresh = () => {
@@ -46,11 +48,10 @@ class List extends React.Component {
     const { page } = $.state
     return (
       <ListView
-        contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={list}
         lazy={32}
-        numColumns={4}
+        numColumns={num}
         scrollToTop={tabs[page].key === id}
         renderItem={this.renderItem}
         onHeaderRefresh={this.onHeaderRefresh}
@@ -58,17 +59,7 @@ class List extends React.Component {
       />
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
-
-const memoStyles = _.memoStyles(_ => ({
-  contentContainerStyle: {
-    paddingHorizontal: _.wind - _._wind
-  }
-}))
 
 function keyExtractor(item) {
   return `${item.title}|${item.nums}`

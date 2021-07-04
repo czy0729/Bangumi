@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:39:37
+ * @Last Modified time: 2021-07-04 09:44:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
 
-const itemWidth = (_.window.width - 2 * _.wind - _._wind) / 2
-const imgWidth = 56
+const imgWidth = 56 * _.ratio
 const imgHeight = imgWidth * 1.28
 
 function Friends(props, { $, navigation }) {
@@ -22,8 +21,8 @@ function Friends(props, { $, navigation }) {
   return (
     <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>好友最近关注</SectionTitle>
-      <Flex style={_.mt.sm} wrap='wrap'>
-        {friends.map(item => {
+      <Flex style={styles.container} wrap='wrap'>
+        {friends.map((item, index) => {
           const onPress = () => {
             t('频道.跳转', {
               to: 'Subject',
@@ -41,7 +40,7 @@ function Friends(props, { $, navigation }) {
           return (
             <Flex
               key={`${item.id}${item.userId}`}
-              style={styles.item}
+              style={[styles.item, index % 2 !== 0 && styles.itemMarginLeft]}
               align='start'
             >
               <View style={styles.image}>
@@ -95,10 +94,18 @@ function Friends(props, { $, navigation }) {
 export default obc(Friends)
 
 const styles = _.create({
+  container: {
+    width: '100%',
+    paddingHorizontal: _.wind,
+    marginTop: _.sm
+  },
   item: {
-    width: itemWidth,
-    marginLeft: _._wind,
-    marginBottom: _.space
+    width: '47.5%',
+    paddingVertical: _.sm,
+    marginBottom: 4
+  },
+  itemMarginLeft: {
+    marginLeft: '5%'
   },
   image: {
     width: imgWidth

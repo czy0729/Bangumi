@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:27:45
+ * @Last Modified time: 2021-07-04 07:48:29
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -12,6 +12,7 @@ import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
+const num = 3
 const eventList = {
   id: '索引.跳转',
   data: {
@@ -51,7 +52,7 @@ class List extends React.Component {
 
     return (
       <ItemCollectionsGrid
-        style={_.isPad && !(index % 3) && _.container.left}
+        style={_.isPad && !(index % num) && _.container.left}
         navigation={navigation}
         index={index}
         collection={
@@ -76,7 +77,7 @@ class List extends React.Component {
         key={layout}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
-        numColumns={$.isList ? undefined : 3}
+        numColumns={$.isList ? undefined : num}
         data={$.browser}
         lazy={9}
         renderItem={this.renderItem}

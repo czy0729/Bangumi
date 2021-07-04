@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 14:02:13
+ * @Last Modified time: 2021-07-04 09:25:21
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import Item from './item'
 import ItemRecents from './item-recents'
+
+export const num = _.device(5, 6)
 
 export default
 @obc
@@ -22,7 +25,7 @@ class List extends React.Component {
     if (this.isRecents) {
       return <ItemRecents index={index} {...item} />
     }
-    return <Item {...item} />
+    return <Item index={index} num={num} {...item} />
   }
 
   get isRecents() {
@@ -39,7 +42,7 @@ class List extends React.Component {
     }
 
     const { page } = $.state
-    const numColumns = this.isRecents ? undefined : 5
+    const numColumns = this.isRecents ? undefined : num
     return (
       <ListView
         key={String(numColumns)}

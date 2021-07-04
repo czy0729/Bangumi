@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-16 14:09:47
+ * @Last Modified time: 2021-07-04 08:29:29
  */
 import { observable, computed } from 'mobx'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -75,9 +75,7 @@ export default class ScreenGuess extends store {
 
   prev = () => {
     const { page } = this.state
-    if (page === 1) {
-      return
-    }
+    if (page === 1) return
 
     this.setState({
       show: false,
@@ -123,7 +121,10 @@ export default class ScreenGuess extends store {
 
   queueFetchEpsThumbs = () => {
     const { list } = this.state
-    queue(list.map(item => () => this.fetchEpsThumbs(item.id)))
+    queue(
+      list.map(item => () => this.fetchEpsThumbs(item.id)),
+      1
+    )
   }
 
   toggleLike = () => {

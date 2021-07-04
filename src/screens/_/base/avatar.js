@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 19:36:56
+ * @Last Modified time: 2021-07-04 08:56:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ export const Avatar = ob(
     const { dev } = systemStore.state
     const { cdn, avatarRound } = systemStore.setting
     const { avatar } = userStore.usersInfo()
+    const _size = size * _.ratio
 
     /**
      * 判断是否自己的头像, 若是不走CDN, 保证最新
@@ -65,7 +66,7 @@ export const Avatar = ob(
     }
 
     const _radius =
-      radius === undefined ? (round || avatarRound ? size / 2 : true) : radius
+      radius === undefined ? (round || avatarRound ? _size / 2 : true) : radius
     const _onPress = () => {
       if (onPress) {
         onPress()
@@ -98,21 +99,21 @@ export const Avatar = ob(
       const _style = [
         styles.avatar,
         {
-          width: size,
-          height: size,
+          width: _size,
+          height: _size,
           borderColor
         },
         style
       ]
       if (avatarRound) {
         _style.push({
-          borderRadius: size / 2
+          borderRadius: _size / 2
         })
       }
       return (
         <View style={_style}>
           <Image
-            size={size}
+            size={_size}
             src={_src}
             radius={_radius}
             quality={false}
@@ -134,7 +135,7 @@ export const Avatar = ob(
             _src.includes(HOST_CDN) &&
             styles.dev
         ]}
-        size={size}
+        size={_size}
         src={_src}
         radius={_radius}
         border={borderColor}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 16:28:55
+ * @Last Modified time: 2021-07-04 09:28:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,10 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-function Item({ avatar, name, id }, { navigation }) {
+const num = _.device(5, 6)
+const gridStyles = _.grid(num)
+
+function Item({ index, avatar, name, id }, { navigation }) {
   const styles = memoStyles()
   const onPress = () => {
     t('收藏的人物.跳转', {
@@ -26,7 +29,7 @@ function Item({ avatar, name, id }, { navigation }) {
   }
 
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, _.isPad && !(index % num) && _.container.left]}>
       <Image
         style={styles.avatar}
         size={styles.item.width}
@@ -48,18 +51,14 @@ function Item({ avatar, name, id }, { navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => {
-  const imageWidth = _.window.width * 0.16
-  const marginLeft = (_.window.width - 5 * imageWidth) / 6
-  return {
-    item: {
-      width: imageWidth,
-      marginTop: _.space,
-      marginLeft
-    },
-    avatar: {
-      borderRadius: _.radiusSm,
-      overflow: 'hidden'
-    }
+const memoStyles = _.memoStyles(_ => ({
+  item: {
+    width: gridStyles.width,
+    marginTop: _.space,
+    marginLeft: gridStyles.marginLeft
+  },
+  avatar: {
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:40:30
+ * @Last Modified time: 2021-07-04 09:32:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
-const imgWidthSm = 56
+const imgWidthSm = 56 * _.ratio
 const imgHeightSm = imgWidthSm * 1.28
 
 function Rank(props, { $, navigation }) {

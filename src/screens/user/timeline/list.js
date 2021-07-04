@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 22:28:35
+ * @Last Modified time: 2021-07-04 09:08:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,8 @@ import { findSubjectCn } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
-const width = parseInt(IMG_WIDTH / 1.4)
-const height = parseInt(IMG_HEIGHT / 1.4)
+const width = parseInt((IMG_WIDTH / 1.4) * _.ratio)
+const height = parseInt((IMG_HEIGHT / 1.4) * _.ratio)
 
 function List(props, { $, navigation }) {
   const styles = memoStyles()
@@ -194,7 +194,7 @@ export default obc(List)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: 32,
+    paddingLeft: 32 * _.ratio,
     marginHorizontal: _.wind - _._wind
   },
   line: {
@@ -203,11 +203,11 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     width: 1,
     height: '100%',
-    marginLeft: -12,
+    marginLeft: -12 * _.ratio,
     backgroundColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
     transform: [
       {
-        translateX: -0.5
+        translateX: -0.5 * _.ratio
       }
     ]
   },
@@ -218,11 +218,11 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     width: 1,
     height: '100%',
-    marginLeft: -12,
+    marginLeft: -12 * _.ratio,
     backgroundColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
     transform: [
       {
-        translateX: -0.5
+        translateX: -0.5 * _.ratio
       }
     ]
   },
@@ -231,51 +231,51 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 2,
     top: '50%',
     left: 0,
-    width: 4,
-    height: 4,
-    marginTop: -2,
-    marginLeft: -12,
+    width: 4 * _.ratio,
+    height: 4 * _.ratio,
+    marginTop: -2 * _.ratio,
+    marginLeft: -12 * _.ratio,
     backgroundColor: _.colorTitle,
-    borderRadius: 2,
+    borderRadius: parseInt(2 * _.ratio),
     transform: [
       {
-        translateX: -2
+        translateX: -2 * _.ratio
       }
     ]
   },
   nodeMonth: {
     position: 'absolute',
     zIndex: 2,
-    top: 22,
+    top: 22 * _.ratio,
     left: 0,
-    width: 8,
-    height: 8,
-    marginTop: -4,
-    marginLeft: -4,
+    width: 8 * _.ratio,
+    height: 8 * _.ratio,
+    marginTop: -4 * _.ratio,
+    marginLeft: -4 * _.ratio,
     backgroundColor: _.colorPlain,
     borderWidth: 1,
     borderColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
-    borderRadius: 4,
+    borderRadius: parseInt(4 * _.ratio),
     transform: [
       {
-        translateX: -12
+        translateX: -12 * _.ratio
       }
     ]
   },
   nodeDay: {
     position: 'absolute',
     zIndex: 3,
-    top: 8,
+    top: 8 * _.ratio,
     left: 0,
-    width: 6,
-    height: 6,
-    marginTop: -3,
-    marginLeft: -12,
+    width: 6 * _.ratio,
+    height: 6 * _.ratio,
+    marginTop: -3 * _.ratio,
+    marginLeft: -12 * _.ratio,
     backgroundColor: _.colorMain,
-    borderRadius: 3,
+    borderRadius: parseInt(3 * _.ratio),
     transform: [
       {
-        translateX: -3
+        translateX: -3 * _.ratio
       }
     ]
   },
@@ -290,7 +290,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: _.md
   },
   subjectHalf: {
-    maxWidth: 160,
+    maxWidth: 160 * _.ratio,
     marginRight: _.sm,
     marginBottom: _.md
   },

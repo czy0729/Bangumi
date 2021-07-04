@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:51:38
+ * @Last Modified time: 2021-07-04 08:00:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-const gridStyles = _.grid(_.device(3, 4))
+const gridStyles = _.grid()
 
 function Item(
   { style, subjectId, images = {}, name, score },

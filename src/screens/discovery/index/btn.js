@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:58:02
+ * @Last Modified time: 2021-07-04 08:44:27
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -76,9 +76,13 @@ function Btn({ item }, { $, navigation }) {
           <View style={styles.iconWrap}>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              {icon === 'wiki' ? (
-                <Text type='__plain__' size={13} bold>
+              {path === 'Wiki' ? (
+                <Text type='__plain__' bold>
                   Wiki
+                </Text>
+              ) : path === 'netabare' ? (
+                <Text type='__plain__' size={18} bold>
+                  N
                 </Text>
               ) : (
                 <>

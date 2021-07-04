@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:28:42
+ * @Last Modified time: 2021-07-04 08:16:03
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -395,7 +395,7 @@ export const Image = observer(
           <Flex style={this.computedStyle.image} justify='center'>
             <Text
               style={{
-                marginTop: -12
+                marginTop: -8
               }}
               type='sub'
               bold

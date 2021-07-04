@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-04-15 19:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 19:53:44
+ * @Last Modified time: 2021-07-04 08:09:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { inject, withHeader, obc } from '@utils/decorators'
 import List from './list'
 import Store from './store'
 
-const title = '新番档期'
+const title = '新番'
 
 export default
 @inject(Store)
@@ -33,7 +33,7 @@ class Staff extends React.Component {
     return (
       <View style={_.container.plain}>
         {!!_loaded && <List />}
-        <Heatmap bottom={_.bottom} id='新番档期' screen='Staff' />
+        <Heatmap bottom={_.bottom} id={title} screen='Staff' />
       </View>
     )
   }

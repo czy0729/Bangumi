@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-04 19:23:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 16:44:41
+ * @Last Modified time: 2021-07-04 08:33:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,6 +18,8 @@ import { IMG_DEFAULT } from '@constants'
 
 const imageWidth = _.window.width - _.wind * 2
 const imageHeight = imageWidth * 1.38
+const thumbWidth = _.device(96, 200)
+const thumbHeight = thumbWidth * 0.56
 const colors = [
   'rgba(0, 0, 0, 0)',
   'rgba(0, 0, 0, 0.24)',
@@ -26,7 +28,7 @@ const colors = [
 ]
 
 function Item(
-  { id, ageId, image, cn, jp, begin, ep, official },
+  { id, ageId, image, cn, jp, begin, ep, official, rate },
   { $, navigation }
 ) {
   const eps = $.state.eps[id]
@@ -74,7 +76,8 @@ function Item(
           bold
           onPress={onPress}
         >
-          {begin} · {official} [{String(ep).replace(/\(完结\)|第/g, '')}]
+          {begin} / {official} [{String(ep).replace(/\(完结\)|第/g, '')}] /
+          推荐分 {rate}
         </Text>
         {!!eps && (
           <HorizontalList
@@ -89,8 +92,8 @@ function Item(
                 ]}
                 key={item}
                 src={item}
-                size={96}
-                height={64}
+                size={thumbWidth}
+                height={thumbHeight}
                 radius
                 headers={eps.epsThumbsHeader}
                 onPress={() => {
