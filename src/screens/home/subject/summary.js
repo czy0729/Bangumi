@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-23 16:03:47
+ * @Last Modified time: 2021-07-04 12:44:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,9 +14,7 @@ import IconTranslate from './icon/translate'
 
 function Summary({ style }, { $ }) {
   const { _loaded } = $.subject
-  if (_loaded && !$.summary) {
-    return null
-  }
+  if (_loaded && !$.summary) return null
 
   const styles = memoStyles()
   const { showSummary } = systemStore.setting

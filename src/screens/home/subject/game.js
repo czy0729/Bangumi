@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 08:30:40
+ * @Last Modified time: 2021-07-04 12:05:14
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -15,6 +15,9 @@ import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { CDN_GAME } from '@constants/cdn'
 import IconPS from './icon/ps'
+
+const thumbWidth = 160 * _.ratio
+const thumbHeight = thumbWidth * 0.56
 
 export default
 @obc
@@ -67,8 +70,8 @@ class Game extends React.Component {
             style={[styles.image, !!index && _.ml.sm]}
             key={item}
             src={item}
-            size={160}
-            height={100}
+            size={thumbWidth}
+            height={thumbHeight}
             radius
             onPress={() => {
               t('条目.游戏截图', {

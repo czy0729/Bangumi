@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-23 02:12:44
+ * @Last Modified time: 2021-07-04 11:02:12
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -66,7 +66,7 @@ function Catalog({ style }, { $, navigation }) {
                   <Flex>
                     <Cover
                       src={item.avatar}
-                      size={40}
+                      size={40 * _.ratio}
                       radius
                       shadow
                       type='目录'
@@ -114,7 +114,7 @@ const styles = _.create({
     marginBottom: -_.md
   },
   item: {
-    width: 120,
+    width: 120 * _.ratio,
     marginRight: _.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'

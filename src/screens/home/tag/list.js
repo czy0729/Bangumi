@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-23 10:41:24
+ * @Last Modified time: 2021-07-04 13:12:00
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -12,6 +12,7 @@ import { obc } from '@utils/decorators'
 import { keyExtractor, x18s } from '@utils/app'
 import { TEXT_18X } from '@constants/text'
 
+const num = 3
 const event = {
   id: '用户标签.跳转'
 }
@@ -59,15 +60,10 @@ class List extends React.Component {
       )
     }
 
-    const needResetMarginLeft = _.isPad && index % 4 === 0
     return (
       <ItemCollectionsGrid
-        style={
-          needResetMarginLeft && {
-            marginLeft: _.wind + _._wind
-          }
-        }
         navigation={navigation}
+        style={_.isPad && !(index % num) && _.container.left}
         index={index}
         event={{
           ...event,
@@ -78,6 +74,7 @@ class List extends React.Component {
         collection={
           $.userCollectionsMap[String(item.id).replace('/subject/', '')]
         }
+        num={num}
         {...item}
       />
     )
@@ -86,17 +83,13 @@ class List extends React.Component {
   render() {
     const { $ } = this.context
     const { hide } = $.state
-    if (hide) {
-      return null
-    }
+    if (hide) return null
 
     const { _loaded } = $.tag
-    if (!_loaded) {
-      return <Loading />
-    }
+    if (!_loaded) return <Loading />
 
     const { list } = $.state
-    const numColumns = list ? undefined : 4
+    const numColumns = list ? undefined : num
     return (
       <ListView
         key={String(numColumns)}

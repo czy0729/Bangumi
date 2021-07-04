@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:52:45
+ * @Last Modified time: 2021-07-04 10:23:17
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -12,7 +12,7 @@ import { urlStringify } from '@utils'
 import { ob } from '@utils/decorators'
 
 const routeName = 'Mono'
-const imgWidth = 28
+const imgWidth = 28 * _.ratio
 
 function HeaderTitle({ navigation }) {
   const { state = {} } = navigation
@@ -22,9 +22,7 @@ function HeaderTitle({ navigation }) {
     monoId
   })}`
   const $ = Stores.get(screenKey)
-  if (!$) {
-    return null
-  }
+  if (!$) return null
 
   const { showHeaderTitle } = $.state
   return (
@@ -52,7 +50,7 @@ export default ob(HeaderTitle)
 
 const styles = _.create({
   container: {
-    marginLeft: -_.md,
+    marginLeft: _.device(-_.md, -_.sm),
     marginRight: _.md
   }
 })

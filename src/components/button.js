@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 16:25:02
+ * @Last Modified time: 2021-07-04 11:53:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -151,12 +151,12 @@ const memoStyles = _.memoStyles(_ => ({
 
   // size
   sm: {
-    width: 32,
-    height: 32
+    width: 32 * _.ratio,
+    height: 32 * _.ratio
   },
   md: {
     width: '100%',
-    height: 40
+    height: 40 * _.ratio
   },
 
   // text

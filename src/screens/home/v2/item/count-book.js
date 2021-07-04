@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:08:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 15:17:20
+ * @Last Modified time: 2021-07-04 13:39:02
  */
 import React from 'react'
 import { Flex, Heatmap, Text } from '@components'
@@ -28,7 +28,7 @@ function CountBook({ index, subjectId }, { $ }) {
         epStatus={epStatus + 1}
         volStatus={volStatus}
       />
-      <Text style={_.ml.sm} type='primary' size={20}>
+      <Text style={_.device(_.ml.sm, _.ml.md)} type='primary' size={20}>
         <Text type='primary' size={12} lineHeight={20}>
           Vol.{' '}
         </Text>

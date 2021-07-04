@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:10:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:13:14
+ * @Last Modified time: 2021-07-04 12:09:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,6 +36,6 @@ export default obc(RateSegement)
 
 const styles = _.create({
   segment: {
-    height: 22
+    height: 22 * _.ratio
   }
 })

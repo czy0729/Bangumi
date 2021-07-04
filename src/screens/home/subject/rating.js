@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:46:49
+ * @Last Modified time: 2021-07-04 12:11:33
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -31,9 +31,7 @@ class Ranting extends React.Component {
   get deviation() {
     const { $ } = this.context
     const { total, count, score } = $.rating
-    if (total == 0) {
-      return 0
-    }
+    if (total == 0) return 0
 
     const scores = Object.values(count).reverse()
     return calculateSD(scores, score, total)
@@ -245,17 +243,17 @@ class Ranting extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    height: 112,
+    height: 112 * _.ratio,
     paddingBottom: _.xs,
     marginTop: -_.md
   },
   itemFill: {
     position: 'absolute',
     left: '50%',
-    width: 6,
-    marginLeft: -3,
+    width: parseInt(6 * _.ratio),
+    marginLeft: -3 * _.ratio,
     backgroundColor: _.select(_.colorWait, _._colorSub),
-    borderRadius: 3
+    borderRadius: 3 * _.ratio
   },
   itemFillActive: {
     backgroundColor: _.colorWarning

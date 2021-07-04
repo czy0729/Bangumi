@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 08:26:08
+ * @Last Modified time: 2021-07-04 13:20:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -99,10 +99,10 @@ const memoStyles = _.memoStyles(_ => ({
     height: 96
   },
   item: {
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    marginRight: 8,
-    marginBottom: 8,
+    paddingVertical: 2 * _.ratio,
+    paddingHorizontal: 6 * _.ratio,
+    marginRight: 8 * _.ratio,
+    marginBottom: 8 * _.ratio,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),

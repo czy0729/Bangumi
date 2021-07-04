@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 08:17:00
+ * @Last Modified time: 2021-07-04 12:57:41
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -281,7 +281,11 @@ export default class ScreenSubject extends store {
                 epsThumbs: Array.from(
                   new Set(
                     result.main_section.episodes.map(
-                      item => `${item.cover}@192w_120h_1c.jpg`
+                      item =>
+                        `${item.cover.replace(
+                          'http://',
+                          'https://'
+                        )}@192w_120h_1c.jpg`
                     )
                   )
                 ),
@@ -323,7 +327,9 @@ export default class ScreenSubject extends store {
                     .map(item => {
                       const match = item.match(/src="(.+?)"/)
                       if (match) {
-                        return match[1].replace(/\\\//g, '/')
+                        return match[1]
+                          .replace(/\\\//g, '/')
+                          .replace('http://', 'https://')
                       }
                       return ''
                     })
@@ -463,7 +469,7 @@ export default class ScreenSubject extends store {
             $('.cover img')
               .map((index, element) => {
                 const $row = cheerio(element)
-                return $row.attr('src')
+                return $row.attr('src').replace('http://', 'https://')
               })
               .get() || []
           ).reverse(),

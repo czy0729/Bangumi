@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 16:19:26
+ * @Last Modified time: 2021-07-04 13:18:50
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -247,15 +247,8 @@ export const ManageModal = ob(
 
     render() {
       const { visible, title, desc, action, onClose } = this.props
-      const {
-        focus,
-        loading,
-        rating,
-        tags,
-        comment,
-        status,
-        privacy
-      } = this.state
+      const { focus, loading, rating, tags, comment, status, privacy } =
+        this.state
       const label = MODEL_PRIVATE.getLabel(privacy)
       return (
         <Modal
@@ -335,15 +328,17 @@ export const ManageModal = ob(
 
 const memoStyles = _.memoStyles(_ => ({
   modal: {
-    width: _.window.width - 2 * _.wind,
-    maxWidth: 400,
+    width: (_.window.width - 2 * _.wind) * _.ratio,
+    maxWidth: 408 * _.ratio,
+    paddingTop: _.device(0, 28),
+    paddingHorizontal: _.device(0, _.sm),
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   focus: {
     marginTop: -parseInt(_.window.height * 0.32)
   },
   wrap: {
-    height: 380
+    minHeight: _.device(380, 448)
   },
   content: {
     width: '100%',
@@ -352,7 +347,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   tags: {
     width: '100%',
-    height: 54,
+    height: 54 * _.ratio,
     paddingVertical: 12
   },
   tag: {
@@ -369,7 +364,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2)
   },
   btnEye: {
-    width: 70
+    width: 70 * _.ratio
   },
   touch: {
     padding: _.xs,

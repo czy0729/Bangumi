@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:24:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 14:25:18
+ * @Last Modified time: 2021-07-04 13:25:36
  */
 import { _ } from '@stores'
 import { IMG_WIDTH } from '@constants'

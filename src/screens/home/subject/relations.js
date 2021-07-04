@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-27 10:17:59
+ * @Last Modified time: 2021-07-04 13:08:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,14 +12,14 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
+const coverWidth = 80
+const coverHeight = coverWidth * 1.4
 const initialRenderNums = _.isPad
-  ? 0
-  : Math.floor(_.window.contentWidth / 80) + 1
+  ? 3
+  : Math.floor(_.window.contentWidth / coverWidth) + 1
 
 function Relations({ style }, { $, navigation }) {
-  if (!$.relations.length) {
-    return null
-  }
+  if (!$.relations.length) return null
 
   const { showRelations } = systemStore.setting
   return (
@@ -36,8 +36,8 @@ function Relations({ style }, { $, navigation }) {
           <HorizontalList
             style={_.mt.sm}
             data={$.relations}
-            width={80}
-            height={106}
+            width={coverWidth}
+            height={coverHeight}
             findCn
             initialRenderNums={initialRenderNums}
             onPress={({ id, name, image }) => {

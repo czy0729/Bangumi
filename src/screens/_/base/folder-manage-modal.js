@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-13 06:00:59
+ * @Last Modified time: 2021-07-04 13:41:54
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -29,8 +29,8 @@ import { Tag } from './tag'
 import { IconTouchable } from '../icon/touchable'
 
 const storageKey = 'FolderManageModal|expand'
-const width = parseInt(IMG_WIDTH / 1.6)
-const height = parseInt(IMG_HEIGHT / 1.6)
+const width = parseInt((IMG_WIDTH / 1.6) * _.ratio)
+const height = parseInt((IMG_HEIGHT / 1.6) * _.ratio)
 const controlDS = {
   root: ['修改', '删除'],
   single: ['修改', '移出'],
@@ -998,8 +998,8 @@ export const FolderManageModal = ob(
 
 const memoStyles = _.memoStyles(_ => ({
   modal: {
-    width: _.window.width - 2 * _.wind,
-    maxWidth: 400,
+    width: (_.window.width - 2 * _.wind) * _.ratio,
+    maxWidth: 408 * _.ratio,
     backgroundColor: _.select(_.colorBg, _.colorBg)
   },
   scrollView: {
@@ -1008,7 +1008,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: _.sm
   },
   catalog: {
-    padding: _.sm,
+    padding: _.device(_.sm, _.md),
     paddingRight: 0,
     marginBottom: _.sm
   },

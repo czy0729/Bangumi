@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-18 22:01:45
+ * @Last Modified time: 2021-07-04 11:02:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,13 +14,11 @@ import { t } from '@utils/fetch'
 import IconCharacter from './icon/character'
 
 const initialRenderNums = _.isPad
-  ? 0
+  ? 3
   : Math.floor(_.window.contentWidth / 56) + 1
 
 function Character({ style }, { $, navigation }) {
-  if (!$.crt.length) {
-    return null
-  }
+  if (!$.crt.length) return null
 
   const { showCharacter } = systemStore.setting
   return (

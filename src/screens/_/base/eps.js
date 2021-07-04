@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 02:53:29
+ * @Last Modified time: 2021-07-04 11:58:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ export const Eps = ob(
     get style() {
       if (_.isPad) {
         return {
-          width: 36,
+          width: 48,
           margin: _.sm
         }
       }

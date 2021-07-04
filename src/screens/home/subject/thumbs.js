@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-14 05:40:06
+ * @Last Modified time: 2021-07-04 13:08:45
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -14,9 +14,11 @@ import { showImageViewer } from '@utils/ui'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 
+const thumbWidth = 160 * _.ratio
+const thumbHeight = thumbWidth * 0.56
 const initialRenderNums = _.isPad
-  ? 0
-  : Math.floor(_.window.contentWidth / 124) + 1
+  ? 3
+  : Math.floor(_.window.contentWidth / thumbWidth) + 1
 
 export default
 @obc
@@ -45,13 +47,12 @@ class Thumbs extends React.Component {
   render() {
     const { $ } = this.context
     const { epsThumbs, epsThumbsHeader } = $.state
-    if (!epsThumbs.length) {
-      return null
-    }
+    if (!epsThumbs.length) return null
 
     const { style } = this.props
     const { scrolled } = this.state
     const { showThumbs } = systemStore.setting
+
     const thumbs = epsThumbs.map(item => ({
       url: item.split('@')[0], // 参数: bilibili为@, youku没有, iqiyi看不懂不作处理
       headers: epsThumbsHeader
@@ -82,11 +83,11 @@ class Thumbs extends React.Component {
               .filter((item, index) => index < 12)
               .map((item, index) => (
                 <Image
-                  style={[styles.image, !!index && _.ml.sm]}
                   key={item}
+                  style={[styles.image, !!index && _.ml.sm]}
                   src={item}
-                  size={160}
-                  height={100}
+                  size={thumbWidth}
+                  height={thumbHeight}
                   radius
                   headers={epsThumbsHeader}
                   onPress={() => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-27 10:20:58
+ * @Last Modified time: 2021-07-04 10:36:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,8 @@ import { obc } from '@utils/decorators'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
+export const coverWidth = 64 * _.ratio
+export const coverHeight = coverWidth * 1.28
 const event = {
   id: '人物.跳转',
   data: {
@@ -21,9 +23,7 @@ const event = {
 }
 
 function Jobs({ style }, { $, navigation }) {
-  if (!$.jobs.length) {
-    return null
-  }
+  if (!$.jobs.length) return null
 
   const styles = memoStyles()
   return (
@@ -48,8 +48,8 @@ function Jobs({ style }, { $, navigation }) {
               <Flex align='start'>
                 <View>
                   <Cover
-                    size={64}
-                    height={82}
+                    size={coverWidth}
+                    height={coverHeight}
                     src={item.cover}
                     radius
                     shadow
@@ -114,7 +114,7 @@ function Jobs({ style }, { $, navigation }) {
                 {!!item.castCover && (
                   <View style={_.ml.sm}>
                     <Image
-                      size={40}
+                      size={40 * _.ratio}
                       src={item.castCover}
                       radius
                       shadow
@@ -158,7 +158,7 @@ function Jobs({ style }, { $, navigation }) {
                   {!!item?.cast2?.castCover && (
                     <View style={_.ml.sm}>
                       <Image
-                        size={40}
+                        size={40 * _.ratio}
                         src={item?.cast2?.castCover}
                         radius
                         shadow

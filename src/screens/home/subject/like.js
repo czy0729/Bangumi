@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-27 10:17:59
+ * @Last Modified time: 2021-07-04 13:08:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,11 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
+const coverWidth = 80
+const coverHeight = coverWidth * 1.4
 const initialRenderNums = _.isPad
-  ? 0
-  : Math.floor(_.window.contentWidth / 80) + 1
+  ? 3
+  : Math.floor(_.window.contentWidth / coverWidth) + 1
 
 function Like({ style }, { $, navigation }) {
   if (!$.like.length) {
@@ -36,8 +38,8 @@ function Like({ style }, { $, navigation }) {
           <HorizontalList
             style={_.mt.sm}
             data={$.like}
-            width={80}
-            height={106}
+            width={coverWidth}
+            height={coverHeight}
             initialRenderNums={initialRenderNums}
             onPress={({ id, name, image }) => {
               t('条目.跳转', {

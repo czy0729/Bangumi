@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:23:33
+ * @Last Modified time: 2021-07-04 12:14:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -18,9 +18,7 @@ function Recent({ style }, { $, navigation }) {
   if ($.filterDefault || $.isLimit) {
     _who = _who.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
   }
-  if (!_who.length) {
-    return null
-  }
+  if (!_who.length) return null
 
   const { showRecent } = systemStore.setting
   return (

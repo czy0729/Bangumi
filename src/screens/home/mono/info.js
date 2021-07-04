@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:23:04
+ * @Last Modified time: 2021-07-04 10:19:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ import Voice from './voice'
 import Works from './works'
 import Jobs from './jobs'
 
-const maxSize = (_.window.width - 2 * _.wind) * 0.5
+const maxSize = _.window.contentWidth * 0.5 * _.ratio
 
 function Info(props, { $, navigation }) {
   const { collectUrl, eraseCollectUrl } = $.mono

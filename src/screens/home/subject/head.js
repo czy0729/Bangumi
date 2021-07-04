@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-13 05:19:32
+ * @Last Modified time: 2021-07-04 13:21:33
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -22,7 +22,9 @@ function Head({ style }, { $ }) {
   const hasRelation = !!($.subjectPrev || $.subjectAfter || $.subjectSeries)
 
   // 主标题大小
-  let size = $.cn.length > 24 ? 11 : $.cn.length > 16 ? 13 : 16
+  let size = parseInt(
+    ($.cn.length > 24 ? 11 : $.cn.length > 16 ? 13 : 16) * _.ratio
+  )
   if (showRelation && hasRelation) size = Math.max(11, size - 2)
 
   // 是否未上映
@@ -112,7 +114,7 @@ function Head({ style }, { $ }) {
         <Flex>
           {!$.hideScore && (
             <>
-              <Text type='main' size={20}>
+              <Text type='main' size={_.device(20, 24)}>
                 {$.rating.score === '' ? '-' : toFixed($.rating.score, 1)}{' '}
               </Text>
               {$.rating.score !== '' && (

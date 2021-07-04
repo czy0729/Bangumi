@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:15:46
+ * @Last Modified time: 2021-07-04 10:42:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Tag, Cover } from '../base'
 
-const imgWidth = 56
+const imgWidth = 56 * _.ratio
 
 export const ItemCharacter = obc(
   (
@@ -86,9 +86,9 @@ export const ItemCharacter = obc(
                           </Text>
                         )}
                         {!!replies && (
-                          <Text type='main' size={12} lineHeight={15}>
+                          <Text type='main' size={12} lineHeight={15} bold>
                             {' '}
-                            {replies}
+                            {replies.replace(/\(|\)/g, '')}
                           </Text>
                         )}
                       </Text>
@@ -121,7 +121,7 @@ export const ItemCharacter = obc(
                 }}
               >
                 <Flex>
-                  <Cover src={actorCover} size={32} radius shadow />
+                  <Cover src={actorCover} size={32 * _.ratio} radius shadow />
                   <Flex.Item style={_.ml.sm}>
                     <Text size={12} numberOfLines={1} bold lineHeight={13}>
                       {actor}

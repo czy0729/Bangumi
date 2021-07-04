@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:44:32
+ * @Last Modified time: 2021-07-04 13:47:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import GridItem from './grid-item'
 const listViewProps = IOS
   ? {
       contentOffset: {
-        y: -_.tabsHeaderHeight
+        y: -_.tabsHeaderHeight * _.ratio
       }
     }
   : {}
@@ -128,11 +128,11 @@ const memoStyles = _.memoStyles(_ => ({
   },
   game: {
     width: '100%',
-    height: 160
+    height: 160 * _.device(1, _.ratio + 0.2)
   },
   current: {
     width: '100%',
-    height: 212
+    height: 212 * _.device(1, _.ratio + 0.2)
   },
   noSelect: {
     width: '100%',

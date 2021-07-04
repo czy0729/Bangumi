@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 14:37:26
+ * @Last Modified time: 2021-07-04 13:23:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,15 +14,14 @@ const nums = [1, 2, 3, 4, 5]
 
 export const Stars = ob(
   ({ style, simple = false, value = 0, size = 11, type = 'sub' }) => {
-    if (systemStore.setting.hideScore || !value) {
-      return null
-    }
+    if (systemStore.setting.hideScore || !value) return null
 
+    const _size = parseInt(size * _.ratio)
     if (simple) {
       return (
         <Flex style={style}>
-          <Iconfont name='md-star' size={size} color={_.colorWarning} />
-          <Text style={_.ml.xxs} type={type} size={size} bold>
+          <Iconfont name='md-star' size={_size} color={_.colorWarning} />
+          <Text style={_.ml.xxs} type={type} size={_size} bold>
             {value}
           </Text>
         </Flex>
@@ -37,7 +36,7 @@ export const Stars = ob(
               <Iconfont
                 key={item}
                 name='md-star'
-                size={size}
+                size={_size}
                 color={_.colorWarning}
               />
             )
@@ -46,11 +45,11 @@ export const Stars = ob(
           if (value / 2 >= item - 0.5) {
             return (
               <View key={item}>
-                <Iconfont name='md-star' size={size} color={_.colorBorder} />
+                <Iconfont name='md-star' size={_size} color={_.colorBorder} />
                 <Iconfont
                   style={styles.half}
                   name='md-star-half'
-                  size={size}
+                  size={_size}
                   color={_.colorWarning}
                 />
               </View>
@@ -61,12 +60,12 @@ export const Stars = ob(
             <Iconfont
               key={item}
               name='md-star'
-              size={size}
+              size={_size}
               color={_.colorBorder}
             />
           )
         })}
-        <Text style={_.ml.xxs} type={type} size={size} lineHeight={size} bold>
+        <Text style={_.ml.xxs} type={type} size={_size} lineHeight={_size} bold>
           {value}
         </Text>
       </Flex>

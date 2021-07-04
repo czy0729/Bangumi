@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-27 10:19:27
+ * @Last Modified time: 2021-07-04 13:08:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,14 +12,14 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
+const coverWidth = 80
+const coverHeight = coverWidth * 1.4
 const initialRenderNums = _.isPad
-  ? 0
-  : Math.floor(_.window.contentWidth / 80) + 1
+  ? 3
+  : Math.floor(_.window.contentWidth / coverWidth) + 1
 
 function Comic({ style }, { $, navigation }) {
-  if (!$.comic.length) {
-    return null
-  }
+  if (!$.comic.length) return null
 
   return (
     <View style={style}>
@@ -27,8 +27,8 @@ function Comic({ style }, { $, navigation }) {
       <HorizontalList
         style={_.mt.sm}
         data={$.comic}
-        width={80}
-        height={106}
+        width={coverWidth}
+        height={coverHeight}
         ellipsizeMode='middle'
         initialRenderNums={initialRenderNums}
         onPress={({ id, name, image }) => {

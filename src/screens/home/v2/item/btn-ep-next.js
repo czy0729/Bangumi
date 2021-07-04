@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:06:45
+ * @Last Modified time: 2021-07-04 13:36:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,7 @@ const styles = _.create({
   },
   btn: {
     height: 34,
-    paddingHorizontal: _.sm
+    paddingHorizontal: _.device(_.sm, _.md)
   },
   next: {
     paddingLeft: _.sm,

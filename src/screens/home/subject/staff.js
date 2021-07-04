@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-18 22:02:10
+ * @Last Modified time: 2021-07-04 12:43:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,13 +14,11 @@ import { t } from '@utils/fetch'
 import IconStaff from './icon/staff'
 
 const initialRenderNums = _.isPad
-  ? 0
+  ? 3
   : Math.floor(_.window.contentWidth / 56) + 1
 
 function Staff({ style }, { $, navigation }) {
-  if (!$.staff.length) {
-    return null
-  }
+  if (!$.staff.length) return null
 
   const { showStaff } = systemStore.setting
   return (

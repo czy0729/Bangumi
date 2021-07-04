@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 22:24:58
+ * @Last Modified time: 2021-07-04 10:17:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,8 @@ import { showImageViewer } from '@utils/ui'
 import Store from './store'
 
 const title = '章节'
+const imageWidth = 104 * _.ratio
+const imageHeight = imageWidth * 0.56
 
 export default
 @inject(Store)
@@ -79,8 +81,8 @@ class Episodes extends React.Component {
         <View style={_.ml.sm}>
           <Image
             src={this.epsThumbs[index]}
-            size={104}
-            height={66}
+            size={imageWidth}
+            height={imageHeight}
             radius
             headers={epsThumbsHeader}
             onPress={() =>

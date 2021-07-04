@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 05:12:19
+ * @Last Modified time: 2021-07-04 09:58:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,7 +39,7 @@ function Info(props, { $, navigation }) {
         <Flex style={_.mt.md} justify='center'>
           <Image
             src={getCoverLarge(avatar)}
-            size={80}
+            size={80 * _.ratio}
             shadow
             placholder={false}
             imageViewer

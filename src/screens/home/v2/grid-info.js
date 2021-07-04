@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 11:51:09
+ * @Last Modified time: 2021-07-04 13:50:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const imageWidth = 88 * (_.isPad ? 1.2 : 1)
+const imageWidth = 88 * _.ratio
 const imageHeight = imageWidth * 1.4
 
 export default
@@ -200,7 +200,7 @@ class GridInfo extends React.Component {
             </Text>
           ) : null}
         </View>
-        <Flex.Item style={_.ml.wind}>
+        <Flex.Item style={_.device(_.ml.wind, _.ml.md)}>
           <Touchable onPress={this.onPress}>
             <Flex align='start'>
               <Flex.Item>
@@ -210,13 +210,13 @@ class GridInfo extends React.Component {
               </Flex.Item>
             </Flex>
           </Touchable>
-          <Flex style={_.mt.xs}>
+          <Flex style={_.device(_.mt.xs, _.mt.sm)}>
             <Flex.Item>{this.renderCount()}</Flex.Item>
             {this.renderToolBar()}
           </Flex>
           <Eps
-            style={_.mt.xs}
-            numbersOfLine={6}
+            style={_.device(_.mt.xs, _.mt.sm)}
+            numbersOfLine={_.device(6, 7)}
             lines={3}
             login={$.isLogin}
             subjectId={subjectId}
@@ -233,7 +233,7 @@ class GridInfo extends React.Component {
 
 const styles = _.create({
   item: {
-    paddingVertical: 16,
+    paddingVertical: _.device(16, 32),
     paddingHorizontal: _.wind
   },
   icon: {

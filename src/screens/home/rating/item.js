@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:16:17
+ * @Last Modified time: 2021-07-04 10:59:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,7 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }) {
       </Flex>
       {!!comment && (
         <Flex style={_.mt.xs}>
-          <Text style={styles.comment} size={12} lineHeight={15}>
+          <Text style={styles.comment} size={_.device(12, 14)} lineHeight={15}>
             {comment}
           </Text>
         </Flex>

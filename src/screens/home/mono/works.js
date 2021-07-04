@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-27 10:21:16
+ * @Last Modified time: 2021-07-04 10:38:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { obc } from '@utils/decorators'
 import { appNavigate, findSubjectCn } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import SectionRight from './section-right'
+import { coverWidth, coverHeight } from './jobs'
 
 const event = {
   id: '人物.跳转',
@@ -22,9 +23,7 @@ const event = {
 }
 
 function Works({ style }, { $, navigation }) {
-  if (!$.works.length) {
-    return null
-  }
+  if (!$.works.length) return null
 
   const styles = memoStyles()
   return (
@@ -54,8 +53,8 @@ function Works({ style }, { $, navigation }) {
             align='start'
           >
             <Cover
-              size={64}
-              height={82}
+              size={coverWidth}
+              height={coverHeight}
               src={item.cover}
               radius
               shadow

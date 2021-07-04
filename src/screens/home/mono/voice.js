@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-27 10:21:11
+ * @Last Modified time: 2021-07-04 10:39:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import SectionRight from './section-right'
+import { coverWidth, coverHeight } from './jobs'
 
 const event = {
   id: '人物.跳转',
@@ -21,9 +22,7 @@ const event = {
 }
 
 function Voice({ style }, { $, navigation }) {
-  if (!$.voices.length) {
-    return null
-  }
+  if (!$.voices.length) return null
 
   const styles = memoStyles()
   return (
@@ -55,7 +54,7 @@ function Voice({ style }, { $, navigation }) {
             <Flex.Item flex={2}>
               <Flex align='start'>
                 <Image
-                  size={40}
+                  size={40 * _.ratio}
                   src={item.cover}
                   radius
                   shadow
@@ -86,7 +85,7 @@ function Voice({ style }, { $, navigation }) {
             </Flex.Item>
             <Flex.Item style={_.ml.sm} flex={3.8}>
               <Flex align='start'>
-                <Flex.Item>
+                <Flex.Item style={_.mr.sm}>
                   <Text style={_.mt.xs} align='right' size={12}>
                     {item.subjectName}
                   </Text>
@@ -106,9 +105,8 @@ function Voice({ style }, { $, navigation }) {
                   </Flex>
                 </Flex.Item>
                 <Cover
-                  style={_.ml.sm}
-                  size={64}
-                  height={82}
+                  size={coverWidth}
+                  height={coverHeight}
                   src={item.subjectCover}
                   radius
                   shadow

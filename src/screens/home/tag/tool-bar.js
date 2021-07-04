@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:25:51
+ * @Last Modified time: 2021-07-04 13:09:55
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -46,14 +46,14 @@ function ToolBar(props, { $ }) {
       >
         <Iconfont
           style={_.mr.xs}
-          name='md-grid-view'
-          size={15}
+          name='md-menu'
+          size={16}
           color={list ? _.colorMain : _.colorDesc}
         />
         <Iconfont
           style={_.ml.xs}
-          name='md-menu'
-          size={16}
+          name='md-grid-view'
+          size={15}
           color={!list ? _.colorMain : _.colorDesc}
         />
       </CompToolBar.Touchable>

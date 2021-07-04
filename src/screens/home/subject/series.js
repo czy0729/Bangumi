@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:10:42
+ * @Last Modified time: 2021-07-04 12:15:18
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -11,6 +11,9 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
+
+const coverWidth = _.device(24, 32) * _.ratio
+const coverHeight = coverWidth * 1.4
 
 function Series({ size }, { $, navigation }) {
   if (!($.subjectPrev || $.subjectAfter || $.subjectSeries || $.subjectAnime)) {
@@ -46,8 +49,8 @@ function Series({ size }, { $, navigation }) {
                     <CompCover
                       style={styles.cover}
                       src={$.subjectPrev.image || IMG_DEFAULT}
-                      size={24}
-                      height={24 * 1.33}
+                      size={coverWidth}
+                      height={coverHeight}
                       radius
                       placeholder={false}
                       fadeDuration={0}
@@ -85,8 +88,8 @@ function Series({ size }, { $, navigation }) {
                     <CompCover
                       style={styles.cover}
                       src={$.subjectAfter.image || IMG_DEFAULT}
-                      size={24}
-                      height={24 * 1.33}
+                      size={coverWidth}
+                      height={coverHeight}
                       radius
                       placeholder={false}
                       fadeDuration={0}
@@ -125,8 +128,8 @@ function Series({ size }, { $, navigation }) {
                     <CompCover
                       style={styles.cover}
                       src={$.subjectAnime.image || IMG_DEFAULT}
-                      size={24}
-                      height={24 * 1.33}
+                      size={coverWidth}
+                      height={coverHeight}
                       radius
                       placeholder={false}
                       fadeDuration={0}
@@ -179,8 +182,8 @@ function Series({ size }, { $, navigation }) {
         <CompCover
           style={[styles.cover, _.ml.sm]}
           src={$.subjectSeries.image}
-          size={24}
-          height={24 * 1.33}
+          size={coverWidth}
+          height={coverHeight}
           radius
           placeholder={false}
           fadeDuration={0}
@@ -214,7 +217,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: _.sm + 4
   },
   series: {
-    width: 180,
+    width: 180 * _.ratio,
     paddingLeft: 2,
     paddingRight: _.sm,
     marginVertical: _.sm + 2,
