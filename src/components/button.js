@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 11:53:31
+ * @Last Modified time: 2021-07-05 00:39:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -164,7 +164,7 @@ const memoStyles = _.memoStyles(_ => ({
     fontSize: 14 + _.fontSizeAdjust
   },
   textSm: {
-    fontSize: 11 + _.fontSizeAdjust,
+    fontSize: 12 + _.fontSizeAdjust,
     fontWeight: 'bold'
   },
   textPlain: {

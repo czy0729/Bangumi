@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:57:18
+ * @Last Modified time: 2021-07-05 01:06:37
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
-import { IOS, PAD, RATIO } from '@constants'
+import { IOS, PAD, PAD_LEVEL_2, RATIO } from '@constants'
 
 // -------------------- 设备 --------------------
 const { width, height } = Dimensions.get('window')
-const maxWidth = 586 // 544
+const maxWidth = width >= PAD_LEVEL_2 ? 708 : 586
 export const window = {
   width,
   maxWidth,
@@ -18,7 +18,7 @@ export const window = {
   height
 }
 export const logoWidth = 124 // logo宽度
-export const isPad = PAD
+export const isPad = !!PAD
 export const ratio = RATIO
 export const statusBarHeight = Constants.statusBarHeight
 export const appBarHeight = IOS ? Constants.statusBarHeight : 56 //  单独头部高度, iOS 44

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 16:27:29
+ * @Last Modified time: 2021-07-05 02:00:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,7 +109,7 @@ function ItemRecents(
                 <Cover
                   style={styles.cover}
                   src={item.avatar}
-                  size={40}
+                  size={40 * _.ratio}
                   radius
                   shadow
                   onPress={() => {

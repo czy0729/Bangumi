@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:44:27
+ * @Last Modified time: 2021-07-05 01:19:22
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -21,7 +21,7 @@ const itemWidth = (_.window.width - 2 * _.wind) / 4
 function Btn({ item }, { $, navigation }) {
   const styles = memoStyles()
   const { username, id } = $.userInfo
-  const { path, login, icon, iconList, title } = item
+  const { path, login, icon, title } = item
   return (
     <Touchable
       style={_.container.touch}
@@ -77,26 +77,19 @@ function Btn({ item }, { $, navigation }) {
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
               {path === 'Wiki' ? (
-                <Text type='__plain__' bold>
+                <Text type='__plain__' size={12} bold>
                   Wiki
                 </Text>
               ) : path === 'netabare' ? (
-                <Text type='__plain__' size={18} bold>
+                <Text type='__plain__' size={16} bold>
                   N
                 </Text>
               ) : (
-                <>
-                  <Iconfont name={icon} size={24} color={_.__colorPlain__} />
-                  {!!iconList && (
-                    <Flex style={styles.iconList} justify='center'>
-                      <Iconfont
-                        name={iconList}
-                        size={iconList === 'md-folder' ? 14 : 16}
-                        color={_.__colorPlain__}
-                      />
-                    </Flex>
-                  )}
-                </>
+                <Iconfont
+                  name={icon}
+                  size={_.isPad && icon === 'trophy' ? 20 : 24}
+                  color={_.__colorPlain__}
+                />
               )}
             </Flex>
           </View>
@@ -118,30 +111,22 @@ function Btn({ item }, { $, navigation }) {
 
 export default obc(Btn)
 
+const size = parseInt(50 * _.ratio)
 const memoStyles = _.memoStyles(_ => ({
   wrap: {
-    width: (_.window.width - 2 * _.wind) * 0.249,
+    width: parseInt((_.window.width - 2 * _.wind) * 0.249),
     paddingVertical: _.sm
   },
   item: {
     width: itemWidth
   },
   iconWrap: {
-    width: 50
+    width: size
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: size,
+    height: size,
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: 50
-  },
-  iconList: {
-    position: 'absolute',
-    right: 8,
-    bottom: 11,
-    width: 18,
-    height: 18,
-    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    overflow: 'hidden'
+    borderRadius: size
   }
 }))

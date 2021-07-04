@@ -3,15 +3,17 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 16:46:44
+ * @Last Modified time: 2021-07-05 01:05:28
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { IOS } from '@constants'
+import { PAD, IOS } from '@constants'
 import { _, systemStore } from '@stores'
+
+const padIncrease = PAD === 2 ? 4 : 2
 
 function CompText(
   {
@@ -33,12 +35,15 @@ function CompText(
   const _style = [styles.text]
   if (type) _style.push(styles[type])
   if (underline) _style.push(styles.underline)
-  if (size) _style.push(_[`fontSize${size}`])
 
+  if (size) _style.push(_[`fontSize${size + (_.isPad ? padIncrease : 0)}`])
   const _lineHeightIncrease =
-    other.lineHeightIncrease === undefined
+    (other.lineHeightIncrease === undefined
       ? lineHeightIncrease
-      : other.lineHeightIncrease
+      : other.lineHeightIncrease) + _.isPad
+      ? padIncrease
+      : 0
+
   if (lineHeight !== undefined || _lineHeightIncrease) {
     const _lineHeight = Math.max(lineHeight || 14, size) + _lineHeightIncrease
     _style.push({

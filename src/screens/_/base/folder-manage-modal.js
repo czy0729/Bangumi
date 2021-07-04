@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:41:54
+ * @Last Modified time: 2021-07-05 01:28:15
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -29,8 +29,8 @@ import { Tag } from './tag'
 import { IconTouchable } from '../icon/touchable'
 
 const storageKey = 'FolderManageModal|expand'
-const width = parseInt((IMG_WIDTH / 1.6) * _.ratio)
-const height = parseInt((IMG_HEIGHT / 1.6) * _.ratio)
+const width = (IMG_WIDTH / 1.6) * _.ratio
+const height = (IMG_HEIGHT / 1.6) * _.ratio
 const controlDS = {
   root: ['修改', '删除'],
   single: ['修改', '移出'],

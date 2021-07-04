@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 19:41:55
+ * @Last Modified time: 2021-07-05 01:03:24
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -1408,14 +1408,14 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder
   },
   segmentedControl: {
-    height: 28,
-    width: 164
+    height: 28 * _.ratio,
+    width: 164 * _.ratio
   },
   switch: {
     marginRight: -4,
     transform: [
       {
-        scale: 0.8
+        scale: _.device(0.8, 1.12)
       }
     ]
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:21:33
+ * @Last Modified time: 2021-07-05 02:03:05
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { PAD } from '@constants'
 import Cover from './cover'
 import Series from './series'
 
@@ -22,9 +23,9 @@ function Head({ style }, { $ }) {
   const hasRelation = !!($.subjectPrev || $.subjectAfter || $.subjectSeries)
 
   // 主标题大小
-  let size = parseInt(
-    ($.cn.length > 24 ? 11 : $.cn.length > 16 ? 13 : 16) * _.ratio
-  )
+  let size =
+    ($.cn.length > 24 ? 11 : $.cn.length > 16 ? 13 : 16) + (PAD === 2 ? 4 : 2)
+
   if (showRelation && hasRelation) size = Math.max(11, size - 2)
 
   // 是否未上映

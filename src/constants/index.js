@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:44:43
+ * @Last Modified time: 2021-07-05 01:01:32
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -141,8 +141,11 @@ export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png') // 
 /* ==================== IMG SIZE ==================== */
 const { width } = Dimensions.get('window')
 
-export const PAD = width > 616
-export const RATIO = PAD ? 1.44 : 1
+export const PAD_LEVEL_1 = 616
+export const PAD_LEVEL_2 = 900
+export const PAD = width >= PAD_LEVEL_2 ? 2 : width >= PAD_LEVEL_1 ? 1 : 0
+export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1
+
 export const IMG_WIDTH = parseInt(RATIO * 82)
 export const IMG_HEIGHT = parseInt(IMG_WIDTH * 1.4)
 export const IMG_WIDTH_SM = parseInt(RATIO * 64)

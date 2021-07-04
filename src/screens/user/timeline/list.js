@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 09:08:36
+ * @Last Modified time: 2021-07-05 01:29:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,8 @@ import { findSubjectCn } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
-const width = parseInt((IMG_WIDTH / 1.4) * _.ratio)
-const height = parseInt((IMG_HEIGHT / 1.4) * _.ratio)
+const width = (IMG_WIDTH / 1.4) * _.ratio
+const height = (IMG_HEIGHT / 1.4) * _.ratio
 
 function List(props, { $, navigation }) {
   const styles = memoStyles()
@@ -236,7 +236,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: -2 * _.ratio,
     marginLeft: -12 * _.ratio,
     backgroundColor: _.colorTitle,
-    borderRadius: parseInt(2 * _.ratio),
+    borderRadius: 2 * _.ratio,
     transform: [
       {
         translateX: -2 * _.ratio
@@ -255,7 +255,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain,
     borderWidth: 1,
     borderColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
-    borderRadius: parseInt(4 * _.ratio),
+    borderRadius: 4 * _.ratio,
     transform: [
       {
         translateX: -12 * _.ratio
@@ -272,7 +272,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: -3 * _.ratio,
     marginLeft: -12 * _.ratio,
     backgroundColor: _.colorMain,
-    borderRadius: parseInt(3 * _.ratio),
+    borderRadius: 3 * _.ratio,
     transform: [
       {
         translateX: -3 * _.ratio

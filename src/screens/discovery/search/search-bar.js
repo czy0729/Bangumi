@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 17:40:01
+ * @Last Modified time: 2021-07-05 01:55:04
  */
 import React from 'react'
 import { Input } from '@components'
@@ -35,14 +35,14 @@ export default obc(SearchBar)
 
 const memoStyles = _.memoStyles(_ => ({
   searchIpt: {
-    height: 34,
+    height: 34 * _.ratio,
     paddingHorizontal: _._wind,
-    ..._.fontSize(12),
+    ..._.fontSize(_.device(12, 14)),
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderRadius: 0
   },
   radius: {
-    borderTopRightRadius: 34,
-    borderBottomRightRadius: 34
+    borderTopRightRadius: 34 * _.ratio,
+    borderBottomRightRadius: 34 * _.ratio
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 00:23:36
+ * @Last Modified time: 2021-07-05 01:54:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -113,9 +113,9 @@ const styles = _.create({
     paddingHorizontal: _.wind
   },
   btn: {
-    width: 68,
-    height: 34,
-    borderRadius: 34,
+    width: 68 * _.ratio,
+    height: 34 * _.ratio,
+    borderRadius: 34 * _.ratio,
     overflow: 'hidden'
   }
 })

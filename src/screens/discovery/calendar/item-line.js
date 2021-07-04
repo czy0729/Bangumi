@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-01 11:48:55
+ * @Last Modified time: 2021-07-05 01:52:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,7 +45,7 @@ function ItemLine(
       <Flex align='start'>
         <View style={styles.time}>
           {!!timeCN && (
-            <Text align='center'>
+            <Text align='center' bold>
               {timeCN === '2359'
                 ? '待定'
                 : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
@@ -106,7 +106,7 @@ const styles = _.create({
     paddingVertical: 12
   },
   time: {
-    width: 72,
+    width: 72 * _.ratio,
     marginTop: 3
   },
   image: {

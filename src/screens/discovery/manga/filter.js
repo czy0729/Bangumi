@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 14:26:35
+ * @Last Modified time: 2021-07-05 01:40:41
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +11,7 @@ import { FilterSwitch } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { memoStyles } from '../anime/filter'
 import { filterDS } from './ds'
 
 function Filter(props, { $ }) {
@@ -164,39 +165,3 @@ function Filter(props, { $ }) {
 }
 
 export default obc(Filter)
-
-const vertical = 4
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    paddingVertical: _.sm
-  },
-  row: {
-    paddingLeft: _.wind
-  },
-  multiple: {
-    marginVertical: -vertical
-  },
-  multipleTitle: {
-    marginTop: 8
-  },
-  contentContainerStyle: {
-    paddingVertical: vertical
-  },
-  item: {
-    paddingVertical: vertical,
-    paddingHorizontal: 12,
-    borderRadius: 12,
-    overflow: 'hidden'
-  },
-  itemActive: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
-  },
-  how: {
-    position: 'absolute',
-    zIndex: 1,
-    left: 0,
-    bottom: 0,
-    width: 34,
-    marginBottom: -30
-  }
-}))

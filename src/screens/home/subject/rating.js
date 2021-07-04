@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 12:11:33
+ * @Last Modified time: 2021-07-05 01:29:08
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -250,7 +250,7 @@ const memoStyles = _.memoStyles(_ => ({
   itemFill: {
     position: 'absolute',
     left: '50%',
-    width: parseInt(6 * _.ratio),
+    width: 6 * _.ratio,
     marginLeft: -3 * _.ratio,
     backgroundColor: _.select(_.colorWait, _._colorSub),
     borderRadius: 3 * _.ratio

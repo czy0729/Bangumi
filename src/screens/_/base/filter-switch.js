@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 14:16:27
+ * @Last Modified time: 2021-07-05 01:27:06
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -75,30 +75,16 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind - _._wind,
     paddingLeft: _.wind
   },
-  multiple: {
-    marginVertical: -vertical
-  },
-  multipleTitle: {
-    marginTop: 8
-  },
   contentContainerStyle: {
-    paddingVertical: vertical
+    paddingVertical: vertical * _.ratio
   },
   item: {
-    paddingVertical: vertical,
-    paddingHorizontal: 12,
-    borderRadius: 12,
+    paddingVertical: vertical * _.ratio,
+    paddingHorizontal: 12 * _.ratio,
+    borderRadius: 12 * _.ratio,
     overflow: 'hidden'
   },
   itemActive: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
-  },
-  how: {
-    position: 'absolute',
-    zIndex: 1,
-    left: 0,
-    bottom: 0,
-    width: 34,
-    marginBottom: -29
   }
 }))

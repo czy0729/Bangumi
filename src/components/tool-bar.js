@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 21:54:17
+ * @Last Modified time: 2021-07-05 01:28:07
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -78,21 +78,21 @@ export { ToolBar }
 
 const memoStyles = _.memoStyles(_ => ({
   toolBar: {
-    paddingTop: IOS ? 6 : 0,
-    paddingBottom: 10
+    paddingTop: IOS ? _.device(6, 10) : 0,
+    paddingBottom: _.device(10, 16)
   },
   touch: {
-    marginHorizontal: _.xs,
-    borderRadius: 16,
+    marginHorizontal: _.device(_.xs, _.sm),
+    borderRadius: 16 * _.ratio,
     overflow: 'hidden'
   },
   item: {
-    height: 30,
+    height: 30 * _.ratio,
     paddingHorizontal: _.md,
     backgroundColor: _.select(
       'rgba(238, 238, 238, 0.8)',
       _._colorDarkModeLevel1
     ),
-    borderRadius: 16
+    borderRadius: 16 * _.ratio
   }
 }))

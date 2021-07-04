@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 14:17:51
+ * @Last Modified time: 2021-07-05 01:38:45
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -169,26 +169,26 @@ function Filter(props, { $ }) {
 export default obc(Filter)
 
 const vertical = 4
-const memoStyles = _.memoStyles(_ => ({
+export const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingVertical: _.sm
+    paddingVertical: _.sm * _.ratio
   },
   row: {
     paddingLeft: _.wind
   },
   multiple: {
-    marginVertical: -vertical
+    marginVertical: -vertical * _.ratio
   },
   multipleTitle: {
-    marginTop: 8
+    marginTop: 8 * _.ratio
   },
   contentContainerStyle: {
-    paddingVertical: vertical
+    paddingVertical: vertical * _.ratio
   },
   item: {
     paddingVertical: vertical,
-    paddingHorizontal: 12,
-    borderRadius: 12,
+    paddingHorizontal: 12 * _.ratio,
+    borderRadius: 12 * _.ratio,
     overflow: 'hidden'
   },
   itemActive: {
@@ -199,7 +199,7 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     left: 0,
     bottom: 0,
-    width: 34,
-    marginBottom: -29
+    width: 34 * _.ratio,
+    marginBottom: -29 * _.ratio
   }
 }))

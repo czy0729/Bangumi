@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 04:33:06
+ * @Last Modified time: 2021-07-05 02:17:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,22 @@ import LineThroughtText from './line-throught-text'
 import HiddenText from './hidden-text'
 import Li from './li'
 import ToggleImage from './toggle-image'
+
+const padFontSizeIncrease = 2
+const padLineHeightIncrease = 4
+function fixedBaseFontStyle(baseFontStyle = {}) {
+  if (!_.isPad) return baseFontStyle
+
+  const _baseFontStyle = {
+    ...baseFontStyle
+  }
+  if (_baseFontStyle.fontSize) _baseFontStyle.fontSize += padFontSizeIncrease
+  if (_baseFontStyle.lineHeight) {
+    _baseFontStyle.lineHeight += padLineHeightIncrease
+  }
+
+  return _baseFontStyle
+}
 
 // 一些超展开内容文本样式的标记
 const spanMark = {
@@ -80,7 +96,7 @@ export const RenderHtml = observer(
       imagesMaxWidth: _.window.width,
       baseFontStyle: {
         ...this.defaultBaseFontStyle,
-        ...baseFontStyle
+        ...fixedBaseFontStyle(baseFontStyle)
       },
       tagsStyles: {
         a: {
@@ -129,14 +145,15 @@ export const RenderHtml = observer(
                       // 文字
                       text.push(item.data)
                     } else if (item.children) {
+                      const _baseFontStyle = fixedBaseFontStyle(baseFontStyle)
                       item.children.forEach((i, idx) => {
                         // 表情
                         text.push(
                           <BgmText
                             // eslint-disable-next-line react/no-array-index-key
                             key={`${index}-${idx}`}
-                            size={baseFontStyle.fontSize}
-                            lineHeight={baseFontStyle.lineHeight}
+                            size={_baseFontStyle.fontSize}
+                            lineHeight={_baseFontStyle.lineHeight}
                           >
                             {i.data}
                           </BgmText>
@@ -256,10 +273,12 @@ export const RenderHtml = observer(
             }
 
             if (bgmMap[index]) {
+              const _baseFontStyle = fixedBaseFontStyle(baseFontStyle)
               return `<span style="font-family:bgm;font-size:${
-                baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
+                _baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
               }px;line-height:${
-                baseFontStyle.lineHeight || this.defaultBaseFontStyle.lineHeight
+                _baseFontStyle.lineHeight ||
+                this.defaultBaseFontStyle.lineHeight
               }px;user-select:all">${bgmMap[index]}</span>`
             }
             return alt
@@ -355,8 +374,8 @@ export const RenderHtml = observer(
      */
     get defaultBaseFontStyle() {
       return {
-        fontSize: 15 + _.fontSizeAdjust,
-        lineHeight: 24,
+        fontSize: 15 + _.fontSizeAdjust + (_.isPad ? padFontSizeIncrease : 0),
+        lineHeight: 24 + (_.isPad ? padFontSizeIncrease : 0),
         color: _.colorTitle
       }
     }
@@ -377,16 +396,17 @@ export const RenderHtml = observer(
         return <Error />
       }
 
+      const _baseFontStyle = fixedBaseFontStyle(baseFontStyle)
       return (
         <View style={style}>
           <HTML
             html={this.formatHTML()}
             baseFontStyle={{
               ...this.defaultBaseFontStyle,
-              ...baseFontStyle
+              ..._baseFontStyle
             }}
             onLinkPress={this.onLinkPress}
-            {...this.generateConfig(imagesMaxWidth, baseFontStyle, linkStyle)}
+            {...this.generateConfig(imagesMaxWidth, _baseFontStyle, linkStyle)}
             {...other}
           />
         </View>

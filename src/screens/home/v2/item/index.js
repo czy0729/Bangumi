@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:33:42
+ * @Last Modified time: 2021-07-05 01:29:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -88,7 +88,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderBottomColor: _.colorBg
   },
   item: {
-    paddingVertical: parseInt(itemPadding * _.ratio),
+    paddingVertical: itemPadding * _.ratio,
     paddingRight: _.device(0, _.wind - _._wind),
     paddingLeft: _.device(itemPadding, _.wind),
     backgroundColor: _.colorPlain,
@@ -96,9 +96,9 @@ const memoStyles = _.memoStyles(_ => ({
     borderBottomColor: _.colorBg
   },
   itemWithHeatMap: {
-    paddingTop: parseInt(itemPadding * _.ratio),
+    paddingTop: itemPadding * _.ratio,
     paddingRight: _.device(0, _.wind - _._wind),
-    paddingBottom: parseInt((itemPadding + 4) * _.ratio),
+    paddingBottom: (itemPadding + 4) * _.ratio,
     paddingLeft: _.device(itemPadding, _.wind),
     backgroundColor: _.colorPlain,
     borderBottomWidth: 8,
@@ -111,16 +111,16 @@ const memoStyles = _.memoStyles(_ => ({
     marginLeft: itemPadding
   },
   title: {
-    minHeight: parseInt(60 * _.ratio)
+    minHeight: 60 * _.ratio
   },
   info: {
-    height: parseInt(40 * _.ratio)
+    height: 40 * _.ratio
   },
   dot: {
     position: 'absolute',
-    top: parseInt(6 * _.ratio),
-    right: parseInt(6 * _.ratio),
-    borderWidth: parseInt(8 * _.ratio),
+    top: 6 * _.ratio,
+    right: 6 * _.ratio,
+    borderWidth: 8 * _.ratio,
     borderTopColor: 'transparent',
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',

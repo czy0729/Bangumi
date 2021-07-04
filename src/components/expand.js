@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:39:35
+ * @Last Modified time: 2021-07-05 02:04:07
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { Touchable } from './touchable'
 import { Flex } from './flex'
 import { Iconfont } from './iconfont'
 
-const size = 216 // 1个比例的最大高度
+const size = 216 * _.ratio // 1个比例的最大高度
 
 export const Expand = ({
   style,

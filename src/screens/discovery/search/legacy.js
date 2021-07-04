@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 00:22:57
+ * @Last Modified time: 2021-07-05 01:54:50
  */
 import React from 'react'
 import { Button, Heatmap } from '@components'
@@ -39,23 +39,23 @@ export default obc(Legacy)
 
 const memoStyles = _.memoStyles(_ => ({
   touch: {
-    borderTopRightRadius: 34,
-    borderBottomRightRadius: 34,
+    borderTopRightRadius: 34 * _.ratio,
+    borderBottomRightRadius: 34 * _.ratio,
     overflow: 'hidden'
   },
   btn: {
-    width: 68,
-    height: 34,
-    paddingRight: 4,
+    width: 68 * _.ratio,
+    height: 34 * _.ratio,
+    paddingRight: 4 * _.ratio,
     borderWidth: _.select(_.hairlineWidth, 0),
     borderLeftWidth: 0,
     borderColor: _.colorBorder,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
-    borderTopRightRadius: 34,
-    borderBottomRightRadius: 34
+    borderTopRightRadius: 34 * _.ratio,
+    borderBottomRightRadius: 34 * _.ratio
   },
   text: {
-    width: 68
+    width: 68 * _.ratio
   }
 }))
