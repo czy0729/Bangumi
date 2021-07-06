@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:06:37
+ * @Last Modified time: 2021-07-06 06:30:07
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -17,7 +17,7 @@ export const window = {
   contentWidth: Math.min(width, maxWidth),
   height
 }
-export const logoWidth = 124 // logo宽度
+export const logoWidth = 124 * ratio // logo宽度
 export const isPad = !!PAD
 export const ratio = RATIO
 export const statusBarHeight = Constants.statusBarHeight

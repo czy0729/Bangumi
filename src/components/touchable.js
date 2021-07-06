@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 14:29:45
+ * @Last Modified time: 2021-07-06 07:27:56
  */
 import React from 'react'
 import {
@@ -17,6 +17,13 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { getSystemStoreAsync } from '@utils/async'
 import { IOS } from '@constants'
+
+const defaultHitSlop = {
+  top: _.device(-2, -4),
+  right: _.device(-2, -4),
+  bottom: _.device(-2, -4),
+  left: _.device(-2, -4)
+}
 
 /**
  * 防止瞬间多次点击
@@ -45,6 +52,7 @@ export const Touchable = observer(
     highlight = false,
     delay = true,
     children,
+    hitSlop = defaultHitSlop,
     onPress = Function.prototype,
     ...other
   }) => {
@@ -53,6 +61,7 @@ export const Touchable = observer(
         <TouchableOpacity
           style={style}
           activeOpacity={1}
+          hitSlop={hitSlop}
           {...other}
           onPress={delay ? () => callOnceInInterval(onPress) : onPress}
         >
@@ -70,6 +79,7 @@ export const Touchable = observer(
               style={styles.touchable}
               activeOpacity={1}
               underlayColor={_.colorHighLight}
+              hitSlop={hitSlop}
               {...other}
               onPress={delay ? () => callOnceInInterval(onPress) : onPress}
             >
@@ -85,6 +95,7 @@ export const Touchable = observer(
         <TouchableOpacity
           style={style}
           activeOpacity={0.64}
+          hitSlop={hitSlop}
           {...other}
           onPress={delay ? () => callOnceInInterval(onPress) : onPress}
         >
@@ -96,6 +107,7 @@ export const Touchable = observer(
     return (
       <View style={style}>
         <TouchableNativeFeedback
+          hitSlop={hitSlop}
           {...other}
           onPress={delay ? () => callOnceInInterval(onPress) : onPress}
         >

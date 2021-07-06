@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 16:14:53
+ * @Last Modified time: 2021-07-06 08:21:09
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -11,7 +11,7 @@ import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 2 - _._wind) / 2)
-const sectionHeight = Math.min(sectionWidth / 2.68, 88)
+const sectionHeight = Math.min(sectionWidth / 2.68, _.device(88, 112))
 
 function MenuItem({ navigation, style, pathname, config, title, icon }) {
   const styles = memoStyles()

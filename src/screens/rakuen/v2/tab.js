@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:18:13
+ * @Last Modified time: 2021-07-06 06:53:17
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -41,10 +41,10 @@ const renderScene = SceneMap(
                 style={{
                   position: 'absolute',
                   zIndex: 1,
-                  top: 0,
+                  top: _.device(0, -12),
                   left: -_.window.width * routes.length,
                   right: 0,
-                  height: _.headerHeight + H_TABBAR
+                  height: _.headerHeight + H_TABBAR + _.device(0, 12)
                 }}
               />
             )}
@@ -121,7 +121,7 @@ export default obc(Tab)
 
 const W_TAB_BAR_LEFT = 0
 const W_TAB = _.window.width / 5
-const W_INDICATOR = 16
+const W_INDICATOR = 16 * _.ratio
 const TOP_TAB_BAR = _.headerHeight - (IOS ? 18 : 24)
 const memoStyles = _.memoStyles(_ => ({
   tabBar: {
@@ -139,7 +139,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   tab: {
     width: W_TAB,
-    height: 48
+    height: 48 * _.ratio
   },
   label: {
     padding: 0
@@ -156,10 +156,5 @@ const memoStyles = _.memoStyles(_ => ({
   },
   sceneContainerStyle: {
     marginTop: IOS ? -_.headerHeight - H_TABBAR : 0
-  },
-  tabBarLeft: {
-    position: 'absolute',
-    top: TOP_TAB_BAR + 2,
-    left: 0
   }
 }))

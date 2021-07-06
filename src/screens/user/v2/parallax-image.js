@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-24 14:18:31
+ * @Last Modified time: 2021-07-06 07:44:31
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -306,7 +306,7 @@ const memoStyles = _.memoStyles(_ => ({
     ..._.header.right,
     zIndex: 1,
     marginTop: -8,
-    marginRight: 38,
+    marginRight: _.device(38, 52),
     opacity: 0.8
   },
   setting: {

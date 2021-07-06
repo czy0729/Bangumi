@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:37:43
+ * @Last Modified time: 2021-07-06 06:16:33
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -111,7 +111,7 @@ const memoStyles = _.memoStyles(_ => ({
     top: _.headerHeight,
     right: 0,
     bottom: 48,
-    width: 16,
+    width: 16 * _.ratio,
     backgroundColor: _.colorPlain
   },
   containerLeft: {
@@ -119,7 +119,7 @@ const memoStyles = _.memoStyles(_ => ({
     top: _.headerHeight,
     left: 0,
     bottom: 48,
-    width: 16,
+    width: 16 * _.ratio,
     backgroundColor: _.colorPlain
   },
   containerBottom: {
@@ -128,16 +128,16 @@ const memoStyles = _.memoStyles(_ => ({
     right: 0,
     bottom: 40,
     width: '100%',
-    height: 24,
+    height: 24 * _.ratio,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
   notLogin: {
     bottom: 0,
-    height: 32,
+    height: 32 * _.ratio,
     paddingBottom: 8
   },
   itemVertical: {
-    width: 16,
+    width: 16 * _.ratio,
     height: '100%'
   },
   itemHorizontal: {
@@ -148,7 +148,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select('rgba(254, 138, 149, 0.4)', 'rgb(59, 48, 51)')
   },
   itemText: {
-    minHeight: 24
+    minHeight: 24 * _.ratio
   },
   text: {
     width: '100%'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 17:58:50
+ * @Last Modified time: 2021-07-06 06:38:35
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
@@ -66,7 +66,7 @@ export default obc(Tab, {
   routes: []
 })
 
-const W_INDICATOR = 16
+const W_INDICATOR = 16 * _.ratio
 const memoStyles = _.memoStyles(_ => ({
   tabBar: {
     paddingTop: _.headerHeight - (IOS ? 18 : 24),
@@ -81,7 +81,7 @@ const memoStyles = _.memoStyles(_ => ({
     elevation: 0
   },
   tab: {
-    height: 48
+    height: 48 * _.ratio
   },
   label: {
     padding: 0

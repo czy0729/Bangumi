@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:12:43
+ * @Last Modified time: 2021-07-05 18:05:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,6 +49,7 @@ function BookEp({ style }, { $ }) {
                 </Text>
                 <View style={[styles.input, _.ml.sm]}>
                   <Input
+                    style={styles.inputRaw}
                     keyboardType='numeric'
                     value={chap}
                     placeholder={book.chap || '0'}
@@ -69,6 +70,7 @@ function BookEp({ style }, { $ }) {
                 </View>
                 <Button
                   style={[styles.btnPlus, _.ml.sm]}
+                  styleText={styles.btnText}
                   type='ghostPrimary'
                   onPress={() => $.doUpdateNext('chap')}
                 >
@@ -81,6 +83,7 @@ function BookEp({ style }, { $ }) {
                 </Text>
                 <View style={[styles.input, _.ml.sm]}>
                   <Input
+                    style={styles.inputRaw}
                     keyboardType='numeric'
                     value={vol}
                     placeholder={book.vol || '0'}
@@ -101,6 +104,7 @@ function BookEp({ style }, { $ }) {
                 </View>
                 <Button
                   style={[styles.btnPlus, _.ml.sm]}
+                  styleText={styles.btnText}
                   type='ghostPrimary'
                   onPress={() => $.doUpdateNext('vol')}
                 >
@@ -130,27 +134,38 @@ export default obc(BookEp)
 
 const styles = _.create({
   container: {
-    height: 120
+    height: 120 * _.ratio
   },
   label: {
-    width: 48
+    width: 48 * _.ratio
   },
   input: {
-    width: 120,
-    height: 34
+    width: 120 * _.ratio,
+    height: _.device(34, 48)
   },
-  btn: {
-    width: 80,
-    height: 34
-  },
-  btnPlus: {
-    width: 40,
-    height: 34
+  inputRaw: {
+    height: 28 * _.ratio,
+    paddingVertical: 0,
+    paddingHorizontal: _.device(_.xs, _.sm),
+    color: _.colorSub,
+    fontWeight: 'bold',
+    ..._.device(_.fontSize11, _.fontSize15)
   },
   total: {
     position: 'absolute',
     zIndex: 100,
-    top: 8,
-    right: 12
+    top: _.device(8, 10),
+    right: 12 * _.ratio
+  },
+  btn: {
+    width: 56 * _.ratio,
+    height: _.device(34, 48)
+  },
+  btnPlus: {
+    width: 40 * _.ratio,
+    height: _.device(34, 48)
+  },
+  btnText: {
+    ..._.device(_.fontSize11, _.fontSize18)
   }
 })

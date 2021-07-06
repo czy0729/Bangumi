@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 11:56:15
+ * @Last Modified time: 2021-07-05 18:29:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -89,7 +89,7 @@ const styles = _.create({
     padding: _.sm
   },
   btn: {
-    width: 160,
+    width: 160 * _.ratio,
     marginTop: _.md,
     marginBottom: 96
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:14:05
+ * @Last Modified time: 2021-07-06 08:16:22
  */
 import React from 'react'
 import { Flex, Text, Iconfont } from '@components'
@@ -97,7 +97,7 @@ export default obc(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    height: _.isPad ? 50 : 44,
+    height: 44 * _.ratio,
     backgroundColor: _.colorTinygrailContainer
   },
   item: {

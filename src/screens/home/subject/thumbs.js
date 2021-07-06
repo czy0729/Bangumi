@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:08:45
+ * @Last Modified time: 2021-07-05 15:56:15
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -17,7 +17,7 @@ import { t } from '@utils/fetch'
 const thumbWidth = 160 * _.ratio
 const thumbHeight = thumbWidth * 0.56
 const initialRenderNums = _.isPad
-  ? 3
+  ? 5
   : Math.floor(_.window.contentWidth / thumbWidth) + 1
 
 export default

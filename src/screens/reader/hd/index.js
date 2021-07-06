@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:55:03
+ * @Last Modified time: 2021-07-06 06:58:00
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -15,10 +15,8 @@ import { CDN_HD_OBJECT } from '@constants/cdn'
 import Store from './store'
 
 const title = 'HD'
-const num = 2
-const imageWidth = _.window.contentWidth * ((1 / num) * 0.84)
-const imageHeight = imageWidth * 1.4
-const marginLeft = (_.window.contentWidth - num * imageWidth) / (num + 1)
+const num = 3
+const gridStyles = _.grid(num)
 
 export default
 @inject(Store)
@@ -66,11 +64,17 @@ class HD extends React.Component {
         scrollToTop
       >
         <Flex wrap='wrap'>
-          {data.map(item => (
-            <View key={item.vol} style={this.styles.item}>
+          {data.map((item, index) => (
+            <View
+              key={item.vol}
+              style={[
+                this.styles.item,
+                _.isPad && !(index % num) && _.container.left
+              ]}
+            >
               <Cover
-                size={imageWidth}
-                height={imageHeight}
+                size={gridStyles.width}
+                height={gridStyles.height}
                 src={CDN_HD_OBJECT($.subjectId, item.vol)}
                 radius
                 shadow
@@ -101,8 +105,8 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: _.bottom
   },
   item: {
-    width: imageWidth,
-    marginBottom: marginLeft + _.xs,
-    marginLeft
+    width: gridStyles.width,
+    marginBottom: gridStyles.marginLeft,
+    marginLeft: gridStyles.marginLeft
   }
 }))

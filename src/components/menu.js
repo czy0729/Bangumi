@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:46:01
+ * @Last Modified time: 2021-07-05 18:27:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,18 +72,18 @@ export const Menu = observer(
 const memoStyles = _.memoStyles(_ => ({
   container: {
     width: parseInt(_.window.width * 0.48),
-    maxWidth: 240,
+    maxWidth: _.device(240, 280),
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
   },
   title: {
     width: '100%',
-    paddingVertical: 12,
-    paddingHorizontal: 24
+    paddingVertical: 12 * _.ratio,
+    paddingHorizontal: 24 * _.ratio
   },
   item: {
     width: '100%',
-    paddingVertical: 12,
-    paddingHorizontal: 24
+    paddingVertical: 12 * _.ratio,
+    paddingHorizontal: 24 * _.ratio
   },
   border: {
     borderTopWidth: _.hairlineWidth,

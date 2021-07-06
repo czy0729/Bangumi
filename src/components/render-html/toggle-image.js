@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:51:06
+ * @Last Modified time: 2021-07-06 06:17:44
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -153,7 +153,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   imagePlaceholder: {
     width: '100%',
-    height: 96,
+    height: 96 * _.ratio,
     borderWidth: 1,
     borderColor: _.colorBorder
   },

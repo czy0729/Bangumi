@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:29:08
+ * @Last Modified time: 2021-07-05 15:09:06
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -250,10 +250,10 @@ const memoStyles = _.memoStyles(_ => ({
   itemFill: {
     position: 'absolute',
     left: '50%',
-    width: 6 * _.ratio,
-    marginLeft: -3 * _.ratio,
+    width: _.device(6, 8),
+    marginLeft: _.device(-3, -4),
     backgroundColor: _.select(_.colorWait, _._colorSub),
-    borderRadius: 3 * _.ratio
+    borderRadius: _.device(6, 4)
   },
   itemFillActive: {
     backgroundColor: _.colorWarning
@@ -266,7 +266,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: 4
   },
   hideScore: {
-    height: 144
+    height: 144 * _.ratio
   },
   touchRate: {
     paddingLeft: _.xs,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:26:38
+ * @Last Modified time: 2021-07-06 07:19:19
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -136,7 +136,7 @@ class List extends React.Component {
   }
 }
 
-const H_TOOLBAR = 42
+const H_TOOLBAR = 42 * _.ratio
 const styles = _.create({
   androidWrap: {
     marginBottom: _.tabBarHeight - 1

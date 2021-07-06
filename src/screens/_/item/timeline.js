@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 21:01:04
+ * @Last Modified time: 2021-07-06 07:04:08
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -179,15 +179,8 @@ export const ItemTimeline = ob(
     }
 
     renderDesc() {
-      const {
-        navigation,
-        subject,
-        image,
-        subjectId,
-        comment,
-        reply,
-        event
-      } = this.props
+      const { navigation, subject, image, subjectId, comment, reply, event } =
+        this.props
       const { id, data = {} } = event
       return (
         <>
@@ -239,8 +232,8 @@ export const ItemTimeline = ob(
           <View key={item || index} style={type ? _.mr.md : _.mr.sm}>
             <Cover
               src={item}
-              size={isAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
-              height={isAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
+              size={isAvatar ? avatarCoverWidth * _.ratio : IMG_WIDTH_SM}
+              height={isAvatar ? avatarCoverWidth * _.ratio : IMG_HEIGHT_SM}
               radius
               shadow
               type={type}
@@ -366,9 +359,15 @@ export const ItemTimeline = ob(
                 <View style={_.ml.md}>
                   <Cover
                     src={_image}
-                    size={rightCoverIsAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
+                    size={
+                      rightCoverIsAvatar
+                        ? avatarCoverWidth * _.ratio
+                        : IMG_WIDTH_SM
+                    }
                     height={
-                      rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM
+                      rightCoverIsAvatar
+                        ? avatarCoverWidth * _.ratio
+                        : IMG_HEIGHT_SM
                     }
                     radius
                     shadow
@@ -450,7 +449,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: _.md
   },
   avatar: {
-    width: avatarWidth,
+    width: avatarWidth * _.ratio,
     marginTop: 18,
     marginLeft: _.wind
   },

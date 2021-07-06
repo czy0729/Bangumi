@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:17:43
+ * @Last Modified time: 2021-07-06 07:02:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -96,9 +96,10 @@ function Tab(props, { $ }) {
 
 export default obc(Tab)
 
-const W_TAB_BAR_LEFT = 68
-const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5
-const W_INDICATOR = 16
+const W_TAB_BAR_LEFT = 68 * _.ratio
+const TAB_LENTH = _.device(5, 7)
+const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / TAB_LENTH
+const W_INDICATOR = 16 * _.ratio
 const TOP_TAB_BAR = _.headerHeight - (IOS ? 18 : 24)
 const memoStyles = _.memoStyles(_ => ({
   tabBar: {
@@ -116,7 +117,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   tab: {
     width: W_TAB,
-    height: 48
+    height: 48 * _.ratio
   },
   label: {
     padding: 0

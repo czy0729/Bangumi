@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 16:06:53
+ * @Last Modified time: 2021-07-05 18:38:03
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -306,11 +306,13 @@ class Form extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   form: {
-    width: 300,
+    width: 300 * _.ratio,
     paddingBottom: 96
   },
   input: {
-    height: 44,
+    height: _.device(44, 38) * _.ratio,
+    paddingHorizontal: _.device(_.sm, _.md),
+    ..._.device(_.fontSize12, _.fontSize15),
     backgroundColor: _.colorBg
   },
   touchCaptcha: {
@@ -319,12 +321,12 @@ const memoStyles = _.memoStyles(_ => ({
     overflow: 'hidden'
   },
   captchaContainer: {
-    width: 118,
-    height: 44
+    width: 118 * _.ratio,
+    height: _.device(40, 36) * _.ratio
   },
   captcha: {
-    width: 118,
-    height: 44
+    width: 118 * _.ratio,
+    height: _.device(40, 36) * _.ratio
   },
   touch: {
     borderRadius: _.radiusSm,

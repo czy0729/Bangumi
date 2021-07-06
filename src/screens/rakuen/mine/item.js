@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 17:00:50
+ * @Last Modified time: 2021-07-06 06:08:53
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
-const imgHeight = 48
+const imgHeight = 48 * _.ratio
 
 function Item({ id, cover, name, num }, { navigation }) {
   const styles = memoStyles()

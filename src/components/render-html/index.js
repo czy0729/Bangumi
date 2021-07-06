@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 02:17:51
+ * @Last Modified time: 2021-07-06 06:23:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { IOS } from '@constants'
+import { IOS, PAD } from '@constants'
 import HTML from '../@/react-native-render-html'
 import { BgmText, bgmMap } from '../bgm-text'
 import { translateAll } from '../katakana'
@@ -26,8 +26,19 @@ import HiddenText from './hidden-text'
 import Li from './li'
 import ToggleImage from './toggle-image'
 
-const padFontSizeIncrease = 2
-const padLineHeightIncrease = 4
+const padFontSizeIncrease = PAD === 2 ? 3 : 2
+const padLineHeightIncrease = PAD === 2 ? 10 : 4
+
+function getIncreaseFontSize(fontSize) {
+  if (!fontSize || !_.isPad) return fontSize
+  return Number(fontSize) + padFontSizeIncrease
+}
+
+function getIncreaseLineHeight(lineHeight) {
+  if (!lineHeight || !_.isPad) return lineHeight
+  return Number(lineHeight) + padLineHeightIncrease
+}
+
 function fixedBaseFontStyle(baseFontStyle = {}) {
   if (!_.isPad) return baseFontStyle
 
@@ -296,7 +307,9 @@ export const RenderHtml = observer(
             const reg = new RegExp(jp, 'g')
             _html = _html.replace(
               reg,
-              `${jp}<span style="font-size: 10px"> (${katakanaResult[jp]}) </span>`
+              `${jp}<span style="font-size: ${getIncreaseFontSize(10)}px"> (${
+                katakanaResult[jp]
+              }) </span>`
             )
           })
         }
@@ -341,7 +354,9 @@ export const RenderHtml = observer(
          */
         _html = _html.replace(
           /<div class="quote"><q>/g,
-          '<div class="quote"><q style="font-size: 12px; line-height: 16px">'
+          `<div class="quote"><q style="font-size: ${getIncreaseFontSize(
+            12
+          )}px; line-height: ${getIncreaseLineHeight(16)}px">`
         )
 
         /**
@@ -375,7 +390,7 @@ export const RenderHtml = observer(
     get defaultBaseFontStyle() {
       return {
         fontSize: 15 + _.fontSizeAdjust + (_.isPad ? padFontSizeIncrease : 0),
-        lineHeight: 24 + (_.isPad ? padFontSizeIncrease : 0),
+        lineHeight: 24 + (_.isPad ? padLineHeightIncrease : 0),
         color: _.colorTitle
       }
     }

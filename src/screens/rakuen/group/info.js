@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:03:17
+ * @Last Modified time: 2021-07-06 06:06:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ function Info(props, { $ }) {
         <Flex style={_.mt.md} justify='center'>
           <Image
             src={$.groupThumb}
-            size={80}
+            size={80 * _.ratio}
             shadow
             placholder={false}
             imageViewer
@@ -50,7 +50,7 @@ function Info(props, { $ }) {
       {!!content && (
         <Expand style={_.mt.lg} ratio={0.64}>
           <RenderHtml
-            html={`${content}<p style="text-align:right;font-size:12px;line-height:16px;color:#999">${create}</p><br/>`}
+            html={`${content}<p style="text-align:right;color:#999">${create}</p><br/>`}
           />
         </Expand>
       )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 02:27:28
+ * @Last Modified time: 2021-07-06 06:11:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -105,18 +105,16 @@ function Top(props, { $, navigation }) {
         </Flex>
         {isGroup && (
           <Flex style={[styles.userWrap, _.mt.sm]}>
-            <View style={styles.userAvatarWrap}>
-              {!!$.avatar && (
-                <Avatar
-                  navigation={navigation}
-                  event={event}
-                  size={40}
-                  src={$.avatar}
-                  userId={$.userId}
-                  name={$.userName}
-                />
-              )}
-            </View>
+            {!!$.avatar && (
+              <Avatar
+                navigation={navigation}
+                event={event}
+                size={40}
+                src={$.avatar}
+                userId={$.userId}
+                name={$.userName}
+              />
+            )}
             {!!$.userId && (
               <Flex.Item style={_.ml.sm}>
                 <Text numberOfLines={1} bold>
@@ -151,18 +149,15 @@ export default obc(Top)
 
 const styles = _.create({
   groupWrap: {
-    height: 32
+    height: 32 * _.ratio
   },
   userWrap: {
-    height: 42
-  },
-  userAvatarWrap: {
-    width: 40
+    height: 42 * _.ratio
   },
   katakana: {
     marginTop: -12
   },
   loading: {
-    height: 240
+    height: 240 * _.ratio
   }
 })

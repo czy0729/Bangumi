@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 20:23:32
+ * @Last Modified time: 2021-07-06 06:10:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,11 +95,8 @@ class RakuenSetting extends React.Component {
   }
 
   renderList() {
-    const {
-      filterDelete,
-      isBlockDefaultUser,
-      isMarkOldTopic
-    } = rakuenStore.setting
+    const { filterDelete, isBlockDefaultUser, isMarkOldTopic } =
+      rakuenStore.setting
     return (
       <>
         {this.renderSection('列表')}
@@ -224,14 +221,14 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder
   },
   segmentedControl: {
-    height: 28,
-    width: 164
+    height: 28 * _.ratio,
+    width: 164 * _.ratio
   },
   switch: {
     marginRight: -4,
     transform: [
       {
-        scale: 0.8
+        scale: _.device(0.8, 1.12)
       }
     ]
   }

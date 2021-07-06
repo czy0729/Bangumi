@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:32:38
+ * @Last Modified time: 2021-07-06 08:19:24
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -15,7 +15,7 @@ import { refreshControlProps } from '@tinygrail/styles'
 import Label from './label'
 import Log from './log'
 
-const width = 256
+const width = 256 * _.ratio
 
 export default
 @obc
@@ -159,7 +159,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.md
   },
   segment: {
-    width: 80,
-    height: 22
+    width: 80 * _.ratio,
+    height: 22 * _.ratio
   }
 }))

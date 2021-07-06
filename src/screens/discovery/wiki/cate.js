@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:46:06
+ * @Last Modified time: 2021-07-05 14:14:00
  */
 import React from 'react'
 import { SegmentedControl } from '@components'

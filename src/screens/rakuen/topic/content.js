@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 20:34:34
+ * @Last Modified time: 2021-07-06 06:25:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -118,10 +118,10 @@ export default obc(Content)
 
 const styles = _.create({
   html: {
-    minHeight: 120
+    minHeight: 120 * _.ratio
   },
   loading: {
-    height: 120
+    height: 120 * _.ratio
   },
   iconTranslate: {
     position: 'absolute',

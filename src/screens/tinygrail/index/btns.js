@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 16:19:45
+ * @Last Modified time: 2021-07-06 08:04:09
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -133,8 +133,8 @@ const memoStyles = _.memoStyles(_ => ({
     overflow: 'hidden'
   },
   btn: {
-    width: 64,
-    height: 36,
+    width: 64 * _.ratio,
+    height: 36 * _.ratio,
     backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
     borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
   },

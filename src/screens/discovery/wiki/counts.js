@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-17 15:23:18
+ * @Last Modified time: 2021-07-05 14:13:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,10 +54,10 @@ const memoStyles = _.memoStyles(_ => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind,
     paddingLeft: _.wind - _.sm,
-    minHeight: 56
+    minHeight: 56 * _.ratio
   },
   count: {
-    padding: _.sm,
+    padding: _.device(_.sm, _.md),
     marginTop: _.sm,
     marginLeft: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),

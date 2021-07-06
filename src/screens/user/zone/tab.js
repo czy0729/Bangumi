@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:04:38
+ * @Last Modified time: 2021-07-06 07:46:42
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -139,7 +139,7 @@ class Tab extends React.Component {
 
 export default obc(Tab)
 
-const W_INDICATOR = 16
+const W_INDICATOR = 16 * _.ratio
 const W_TAB = _.window.width / tabs.length
 const commonStyle = {
   tabBarWrap: {
@@ -203,7 +203,7 @@ const memoStylesWithTinygrail = _.memoStyles(_ => ({
   },
   tab: {
     width: W_TAB_WITH_TINYGRAIL,
-    height: 48
+    height: 48 * _.ratio
   },
   indicator: {
     width: W_INDICATOR,

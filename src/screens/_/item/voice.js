@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:14:21
+ * @Last Modified time: 2021-07-05 18:24:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,10 @@ import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Cover, Tag } from '../base'
+
+const avatarSize = 40 * _.ratio
+const coverWidth = 48 * _.ratio
+const coverHeight = coverWidth * 1.4
 
 export const ItemVoice = ob(
   ({
@@ -36,7 +40,7 @@ export const ItemVoice = ob(
           <Flex.Item flex={2}>
             <Flex align='start'>
               <Image
-                size={40}
+                size={avatarSize}
                 src={cover}
                 radius
                 shadow
@@ -70,7 +74,7 @@ export const ItemVoice = ob(
           <Flex.Item style={_.ml.sm} flex={3.2}>
             {subject.map((item, idx) => (
               <Flex key={item.id} style={idx !== 0 && _.mt.md} align='start'>
-                <Flex.Item>
+                <Flex.Item style={_.mr.sm}>
                   <Text align='right' size={13}>
                     {item.name}
                   </Text>
@@ -90,9 +94,8 @@ export const ItemVoice = ob(
                   </Flex>
                 </Flex.Item>
                 <Cover
-                  style={_.ml.sm}
-                  size={48}
-                  height={62}
+                  size={coverWidth}
+                  height={coverHeight}
                   src={item.cover}
                   radius
                   shadow

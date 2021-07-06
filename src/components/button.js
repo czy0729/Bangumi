@@ -3,18 +3,20 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 00:39:55
+ * @Last Modified time: 2021-07-05 14:59:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { titleCase } from '@utils'
-import { IOS } from '@constants'
 import { _ } from '@stores'
+import { titleCase } from '@utils'
+import { IOS, PAD } from '@constants'
 import { Activity } from './activity'
 import { Flex } from './flex'
 import { Text } from './text'
 import { Touchable } from './touchable'
+
+const padIncrease = PAD === 2 ? 3 : 2
 
 export const Button = observer(
   ({
@@ -32,9 +34,7 @@ export const Button = observer(
     const styles = memoStyles(_.mode)
     const _wrap = [styles.button]
     const _text = [styles.text]
-    if (shadow && !_.isDark) {
-      _wrap.push(styles.shadow)
-    }
+    if (shadow && !_.isDark) _wrap.push(styles.shadow)
     if (type) {
       _wrap.push(styles[type])
       _text.push(styles[`text${titleCase(type)}`])
@@ -43,12 +43,8 @@ export const Button = observer(
       _wrap.push(styles[size])
       _text.push(styles[`text${titleCase(size)}`])
     }
-    if (radius) {
-      _wrap.push(styles.radius)
-    }
-    if (style) {
-      _wrap.push(style)
-    }
+    if (radius) _wrap.push(styles.radius)
+    if (style) _wrap.push(style)
 
     const content = (
       <Flex justify='center'>
@@ -151,20 +147,20 @@ const memoStyles = _.memoStyles(_ => ({
 
   // size
   sm: {
-    width: 32 * _.ratio,
-    height: 32 * _.ratio
+    width: _.device(32, 44),
+    height: _.device(32, 44)
   },
   md: {
     width: '100%',
-    height: 40 * _.ratio
+    height: _.device(40, 56)
   },
 
   // text
   text: {
-    fontSize: 14 + _.fontSizeAdjust
+    fontSize: 14 + _.fontSizeAdjust + padIncrease
   },
   textSm: {
-    fontSize: 12 + _.fontSizeAdjust,
+    fontSize: 12 + _.fontSizeAdjust + padIncrease,
     fontWeight: 'bold'
   },
   textPlain: {

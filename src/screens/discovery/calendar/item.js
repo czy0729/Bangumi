@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:00:41
+ * @Last Modified time: 2021-07-05 14:08:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { COLLECTION_INDENT } from '@constants'
 
 const gridStyles = _.grid()
 
@@ -38,7 +39,7 @@ function Item(
   }
 
   const showScore = !systemStore.setting.hideScore && !!score
-  const indent = collection ? '　　　' : ''
+  const indent = collection ? COLLECTION_INDENT : ''
   return (
     <View style={[styles.item, style]}>
       <View>
@@ -62,7 +63,7 @@ function Item(
       </View>
       <Touchable style={_.mt.sm} withoutFeedback onPress={onPress}>
         {!!collection && <Tag style={styles.collection} value={collection} />}
-        <Text size={12} bold lineHeight={13} numberOfLines={2}>
+        <Text size={12} bold lineHeight={_.device(13, 15)} numberOfLines={2}>
           {indent}
           {HTMLDecode(name)}
         </Text>

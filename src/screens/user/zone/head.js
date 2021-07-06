@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-23 17:31:10
+ * @Last Modified time: 2021-07-06 07:45:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,8 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 // import User from './user'
+
+const avatarSize = 88 * _.ratio
 
 function Head({ style }, { $, navigation }) {
   const { _id, _name } = $.params
@@ -28,8 +30,8 @@ function Head({ style }, { $, navigation }) {
       <View>
         <Image
           style={styles.avatar}
-          size={88}
-          radius={44}
+          size={avatarSize}
+          radius={avatarSize / 2}
           border={_.__colorPlain__}
           borderWidth={2}
           shadow
@@ -174,8 +176,8 @@ export default obc(Head)
 const lStyle = (top, right) => ({
   position: 'absolute',
   zIndex: 1,
-  top: top - _.xs,
-  right: right - _.sm,
+  top: (top - _.xs) * _.ratio,
+  right: (right - _.sm) * _.ratio,
   paddingVertical: _.xs,
   paddingHorizontal: _.sm,
   borderRadius: _.radiusSm,
@@ -186,8 +188,8 @@ const lStyle = (top, right) => ({
 const rStyle = (top, left) => ({
   position: 'absolute',
   zIndex: 1,
-  top: top - _.xs,
-  left: left - _.sm,
+  top: (top - _.xs) * _.ratio,
+  left: (left - _.sm) * _.ratio,
   paddingVertical: _.xs,
   paddingHorizontal: _.sm,
   borderRadius: _.radiusSm,

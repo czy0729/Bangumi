@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:01:32
+ * @Last Modified time: 2021-07-05 14:04:08
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -391,6 +391,8 @@ export const SITES_DS = [
   'nicovideo',
   'netflix'
 ]
+
+export const COLLECTION_INDENT = PAD ? '　　    ' : '　　 '
 
 export const contextTypes = {
   $: PropTypes.object,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 03:05:36
+ * @Last Modified time: 2021-07-06 07:53:27
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -16,7 +16,7 @@ import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { IOS, HOST } from '@constants'
 import Head from './head'
-import { H_BG, headerHeight } from './store'
+import { H_BG, H_HEADER } from './store'
 
 function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   const styles = memoStyles()
@@ -26,13 +26,8 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
     transform: [
       {
         translateY: scrollY.interpolate({
-          inputRange: [-H_BG, 0, H_BG - headerHeight, H_BG],
-          outputRange: [
-            H_BG / 2,
-            0,
-            -(H_BG - headerHeight),
-            -(H_BG - headerHeight)
-          ]
+          inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+          outputRange: [H_BG / 2, 0, -(H_BG - H_HEADER), -(H_BG - H_HEADER)]
         })
       }
     ]
@@ -92,7 +87,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
                 'rgba(0, 0, 0, 0.64)'
               ),
               opacity: scrollY.interpolate({
-                inputRange: [-H_BG, 0, H_BG - headerHeight, H_BG],
+                inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
               })
             }
@@ -104,7 +99,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             parallaxStyle,
             {
               opacity: scrollY.interpolate({
-                inputRange: [-H_BG, 0, H_BG - headerHeight, H_BG],
+                inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: [0, 0, 1, 1]
               })
             }
@@ -129,7 +124,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             parallaxStyle,
             {
               opacity: scrollY.interpolate({
-                inputRange: [-H_BG, 0, H_BG - headerHeight, H_BG],
+                inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: [1, 1, 0, 0]
               })
             }
@@ -235,7 +230,8 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0
   },
   parallaxImage: {
-    height: H_BG
+    marginTop: -8,
+    height: H_BG + 8
   },
   parallaxMask: {
     position: 'absolute',
@@ -251,7 +247,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     left: '50%',
     width: 240,
-    bottom: _.sm + (IOS ? 1 : 8),
+    bottom: _.sm + 4,
     transform: [
       {
         translateX: -120

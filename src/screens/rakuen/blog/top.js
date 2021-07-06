@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:02:04
+ * @Last Modified time: 2021-07-05 18:40:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,18 +39,16 @@ function Top(props, { $, navigation }) {
           )}
         </Text>
         <Flex style={[styles.userWrap, _.mt.md]}>
-          <View style={styles.userAvatarWrap}>
-            {!!$.avatar && (
-              <Avatar
-                navigation={navigation}
-                event={event}
-                size={40}
-                src={$.avatar}
-                userId={$.userId}
-                name={$.userName}
-              />
-            )}
-          </View>
+          {!!$.avatar && (
+            <Avatar
+              navigation={navigation}
+              event={event}
+              size={40}
+              src={$.avatar}
+              userId={$.userId}
+              name={$.userName}
+            />
+          )}
           {!!$.userId && (
             <Flex.Item style={_.ml.sm}>
               <Text numberOfLines={2}>
@@ -108,9 +106,6 @@ const styles = _.create({
   },
   userWrap: {
     height: 42
-  },
-  userAvatarWrap: {
-    width: 40
   },
   html: {
     minHeight: 120

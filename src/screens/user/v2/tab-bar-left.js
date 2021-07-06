@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:59:51
+ * @Last Modified time: 2021-07-06 07:11:55
  */
 import React from 'react'
 import { Flex, Button, Heatmap } from '@components'
@@ -33,17 +33,18 @@ export default obc(TabBarLeft)
 
 const memoStyles = _.memoStyles(_ => ({
   tabBarLeft: {
-    height: 42,
-    paddingLeft: _._wind,
+    height: 42 * _.ratio,
+    paddingLeft: _._wind * _.ratio,
     paddingRight: _.sm,
+    marginTop: _.device(0, 2),
     backgroundColor: _.select(
       'transparent',
       _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
     )
   },
   btn: {
-    width: 48,
-    height: 24,
-    borderRadius: 16
+    width: 48 * _.ratio,
+    height: 24 * _.ratio,
+    borderRadius: 16 * _.ratio
   }
 }))

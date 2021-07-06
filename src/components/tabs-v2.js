@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:46:30
+ * @Last Modified time: 2021-07-05 14:11:29
  */
 import React, { useMemo } from 'react'
 import { TabBar, SceneMap } from 'react-native-tab-view'
@@ -12,7 +12,7 @@ import { IOS } from '@constants'
 import { Flex } from './flex'
 import { Text } from './text'
 
-const W_INDICATOR = 16
+const W_INDICATOR = 16 * _.ratio
 
 export const TabsV2 = ({
   routes = [], // Array<{ key: string, title: string }>
@@ -136,7 +136,7 @@ const memoStyles = _.memoStyles(_ => ({
     elevation: 0
   },
   tab: {
-    height: 48
+    height: 48 * _.ratio
   },
   label: {
     padding: 0

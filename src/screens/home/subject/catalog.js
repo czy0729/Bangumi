@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 11:02:12
+ * @Last Modified time: 2021-07-05 15:11:38
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -23,9 +23,7 @@ function Catalog({ style }, { $, navigation }) {
       item => !item.avatar.includes(URL_DEFAULT_AVATAR)
     )
   }
-  if (!_catalog.length) {
-    return null
-  }
+  if (!_catalog.length) return null
 
   const { showCatalog } = systemStore.setting
   return (

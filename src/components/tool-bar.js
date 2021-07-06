@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:28:07
+ * @Last Modified time: 2021-07-05 15:26:58
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -82,12 +82,12 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: _.device(10, 16)
   },
   touch: {
-    marginHorizontal: _.device(_.xs, _.sm),
+    marginHorizontal: _.xs,
     borderRadius: 16 * _.ratio,
     overflow: 'hidden'
   },
   item: {
-    height: 30 * _.ratio,
+    height: _.device(30, 44),
     paddingHorizontal: _.md,
     backgroundColor: _.select(
       'rgba(238, 238, 238, 0.8)',

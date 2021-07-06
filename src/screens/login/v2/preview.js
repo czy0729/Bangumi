@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:00:03
+ * @Last Modified time: 2021-07-05 18:30:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ export default ob(Preview, {
 
 const styles = _.create({
   bottomContainer: {
-    width: 300,
+    width: 300 * _.ratio,
     height: 400
   }
 })

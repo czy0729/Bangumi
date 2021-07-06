@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 02:03:05
+ * @Last Modified time: 2021-07-05 18:20:31
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -42,6 +42,7 @@ function Head({ style }, { $ }) {
     showRelease = true
   }
 
+  const left = $.imageWidth + _.wind + _.device(12, 20)
   return (
     <View style={[styles.container, style]}>
       <Cover image={images.common} placeholder={$.coverPlaceholder} />
@@ -50,7 +51,7 @@ function Head({ style }, { $ }) {
           style={[
             styles.release,
             {
-              left: $.imageWidth + _.wind + 12
+              left
             }
           ]}
           type='__plain__'
@@ -65,7 +66,7 @@ function Head({ style }, { $ }) {
           styles.content,
           {
             minHeight: $.imageHeight - 20,
-            paddingLeft: $.imageWidth + _.wind + 12
+            paddingLeft: left
           }
         ]}
       >
@@ -134,10 +135,10 @@ export default obc(Head)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingTop: 48
+    paddingTop: 48 * _.ratio
   },
   content: {
-    paddingTop: 12,
+    paddingTop: 12 * _.ratio,
     paddingRight: _.wind,
     backgroundColor: _.colorPlain,
     borderTopLeftRadius: _.radiusLg,
@@ -157,7 +158,7 @@ const memoStyles = _.memoStyles(_ => ({
   release: {
     position: 'absolute',
     zIndex: 1,
-    top: 28,
+    top: 28 * _.ratio,
     opacity: 0.6
   }
 }))

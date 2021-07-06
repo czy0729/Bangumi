@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-24 14:33:49
+ * @Last Modified time: 2021-07-06 07:31:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,8 @@ import { Flex, Image, Text, Touchable, Heatmap } from '@components'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { _ } from '@stores'
+
+const avatarSize = 88 * _.ratio
 
 function Head({ style }, { $, navigation }) {
   const { avatar = {}, nickname, id, username } = $.usersInfo
@@ -23,8 +25,8 @@ function Head({ style }, { $, navigation }) {
           <Image
             style={styles.avatar}
             key={src}
-            size={88}
-            radius={44}
+            size={avatarSize}
+            radius={avatarSize / 2}
             border={_.__colorPlain__}
             borderWidth={2}
             shadow
@@ -132,8 +134,8 @@ export default obc(Head)
 const rStyle = (top, left) => ({
   position: 'absolute',
   zIndex: 1,
-  top: top - _.xs,
-  left: left - _.sm,
+  top: (top - _.xs) * _.ratio,
+  left: (left - _.sm) * _.ratio,
   paddingVertical: _.xs,
   paddingHorizontal: _.sm,
   borderRadius: _.radiusSm,

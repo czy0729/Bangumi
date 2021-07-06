@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-10 04:05:15
+ * @Last Modified time: 2021-07-06 06:08:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ export default ob(IconFavor)
 
 const styles = _.create({
   segment: {
-    width: 80,
-    height: 22
+    width: 80 * _.ratio,
+    height: 22 * _.ratio
   }
 })

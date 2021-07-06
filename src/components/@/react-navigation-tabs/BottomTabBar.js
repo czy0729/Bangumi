@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-01-15 09:55:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 21:26:41
+ * @Last Modified time: 2021-07-06 08:24:27
  */
 import React from 'react'
 import {
@@ -17,9 +17,11 @@ import { observer } from 'mobx-react'
 import { SafeAreaView } from '@react-navigation/native'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
+import { PAD } from '@constants'
 import CrossFadeIcon from './CrossFadeIcon'
 import withDimensions from './utils/withDimensions'
 
+const padIncrease = PAD === 2 ? 4 : 2
 const majorVersion = parseInt(Platform.Version, 10)
 const isIos = Platform.OS === 'ios'
 const isIOS11 = majorVersion >= 11 && isIos
@@ -113,7 +115,7 @@ class TabBarBottom extends React.Component {
               : styles.labelBeneath,
             {
               color: tintColor,
-              fontSize: 11 + _.fontSizeAdjust
+              fontSize: 11 + _.fontSizeAdjust + padIncrease
             }
           ]}
           allowFontScaling={allowFontScaling}

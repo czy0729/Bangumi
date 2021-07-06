@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 16:13:29
+ * @Last Modified time: 2021-07-06 08:21:51
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -1091,8 +1091,8 @@ class CharactersModal extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   modal: {
-    width: _.window.width - 2 * _.wind,
-    maxWidth: 400,
+    width: (_.window.width - 2 * _.wind) * _.ratio,
+    maxWidth: 400 * _.ratio,
     backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorPlain__)
   },
   focus: {

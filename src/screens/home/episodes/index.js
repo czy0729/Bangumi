@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 10:17:46
+ * @Last Modified time: 2021-07-05 14:31:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -172,7 +172,7 @@ const memoStyles = _.memoStyles(_ => ({
   status: {
     width: 6,
     height: 6,
-    marginTop: 6,
+    marginTop: 6 * _.ratio,
     marginRight: _.sm,
     backgroundColor: _.colorSub,
     borderRadius: 3

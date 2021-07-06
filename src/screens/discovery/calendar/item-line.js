@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:52:13
+ * @Last Modified time: 2021-07-05 14:07:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, COLLECTION_INDENT } from '@constants'
 
 function ItemLine(
   { subjectId, images = {}, name, air, timeCN, score },
@@ -24,7 +24,7 @@ function ItemLine(
     return null
   }
 
-  const indent = collection ? '　 　  ' : ''
+  const indent = collection ? COLLECTION_INDENT : ''
   const showScore = !systemStore.setting.hideScore && !!score
   return (
     <Touchable
@@ -124,7 +124,7 @@ const styles = _.create({
   collection: {
     position: 'absolute',
     zIndex: 1,
-    top: 4.5,
+    top: 4.5 * _.ratio,
     left: 0
   }
 })

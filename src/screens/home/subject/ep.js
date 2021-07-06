@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 22:53:45
+ * @Last Modified time: 2021-07-05 15:07:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -144,7 +144,7 @@ function Ep({ style }, { $, navigation }) {
             </View>
             <Button
               style={styles.btn}
-              styleText={styles.btnText}
+              size='sm'
               type='ghostPrimary'
               onPress={$.doUpdateSubjectEp}
             >
@@ -227,9 +227,10 @@ const memoStyles = _.memoStyles(_ => ({
   inputRaw: {
     height: 28 * _.ratio,
     paddingVertical: 0,
+    paddingHorizontal: _.device(_.xs, _.sm),
     color: _.colorSub,
     fontWeight: 'bold',
-    ..._.fontSize11
+    ..._.device(_.fontSize11, _.fontSize15)
   },
   total: {
     position: 'absolute',
@@ -244,14 +245,10 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
     overflow: 'hidden'
   },
-  btnText: {
-    fontWeight: 'bold',
-    ..._.fontSize11
-  },
   btnOnAir: {
     width: 44 * _.ratio,
     height: 28 * _.ratio,
-    marginLeft: 8,
+    marginLeft: 8 * _.ratio,
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2),
     borderWidth: _.select(_.hairlineWidth, 0),

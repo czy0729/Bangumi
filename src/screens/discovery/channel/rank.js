@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 09:32:51
+ * @Last Modified time: 2021-07-05 14:04:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, COLLECTION_INDENT } from '@constants'
 
 const imgWidthSm = 56 * _.ratio
 const imgHeightSm = imgWidthSm * 1.28
@@ -25,7 +25,7 @@ function Rank(props, { $, navigation }) {
       <View style={_.mt.sm}>
         {rankTop.map((item, index) => {
           const collection = $.userCollectionsMap[item.id]
-          const indent = collection ? '　　 ' : ''
+          const indent = collection ? COLLECTION_INDENT : ''
           return (
             <Touchable
               key={item.id}
@@ -61,8 +61,17 @@ function Rank(props, { $, navigation }) {
                       {!!collection && (
                         <Tag style={styles.collection} value={collection} />
                       )}
-                      <Katakana.Provider size={15} numberOfLines={2}>
-                        <Katakana size={15} bold numberOfLines={2}>
+                      <Katakana.Provider
+                        size={15}
+                        lineHeight={_.device(15, 18)}
+                        numberOfLines={2}
+                      >
+                        <Katakana
+                          size={15}
+                          lineHeight={_.device(15, 18)}
+                          bold
+                          numberOfLines={2}
+                        >
                           {indent}
                           {findSubjectCn(item.name, item.id)}
                         </Katakana>
@@ -77,7 +86,7 @@ function Rank(props, { $, navigation }) {
                       size={15}
                       bold
                     >
-                      {index + 1}{' '}
+                      {index + 1}
                     </Text>
                   </Flex>
                 </Flex.Item>
@@ -88,7 +97,7 @@ function Rank(props, { $, navigation }) {
         <Flex style={styles.container} wrap='wrap'>
           {rank.map((item, index) => {
             const collection = $.userCollectionsMap[item.id]
-            const indent = collection ? '　 　 ' : ''
+            const indent = collection ? COLLECTION_INDENT : ''
             return (
               <Touchable
                 key={item.id}
@@ -124,8 +133,17 @@ function Rank(props, { $, navigation }) {
                         {!!collection && (
                           <Tag style={styles.collection} value={collection} />
                         )}
-                        <Katakana.Provider size={13} numberOfLines={2}>
-                          <Katakana size={13} bold numberOfLines={2}>
+                        <Katakana.Provider
+                          size={13}
+                          lineHeight={_.device(13, 18)}
+                          numberOfLines={2}
+                        >
+                          <Katakana
+                            size={13}
+                            lineHeight={_.device(13, 18)}
+                            bold
+                            numberOfLines={2}
+                          >
                             {indent}
                             {findSubjectCn(item.name, item.id)}
                           </Katakana>

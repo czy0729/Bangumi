@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 18:16:39
+ * @Last Modified time: 2021-07-06 08:14:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -75,16 +75,8 @@ class StockPreview extends React.Component {
   }
 
   render() {
-    const {
-      style,
-      current,
-      fluctuation,
-      change,
-      bids,
-      asks,
-      users,
-      _loaded
-    } = this.props
+    const { style, current, fluctuation, change, bids, asks, users, _loaded } =
+      this.props
     if (!_loaded) {
       return null
     }
@@ -236,15 +228,15 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     height: '100%',
     paddingVertical: 17,
-    paddingHorizontal: _.sm
+    paddingHorizontal: _.sm * _.ratio
   },
   absolute: {
     position: 'absolute',
     zIndex: 1,
-    right: 64
+    right: 64 * _.ratio
   },
   fluctuation: {
-    minWidth: 56,
+    minWidth: 56 * _.ratio,
     paddingHorizontal: _.xs,
     paddingBottom: 0.5,
     borderRadius: 2,
@@ -260,10 +252,10 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorTinygrailIcon
   },
   floor: {
-    width: 64
+    width: 64 * _.ratio
   },
   floorShowDetail: {
-    width: 24
+    width: 24 * _.ratio
   },
   bids: {
     height: 2,
@@ -280,10 +272,10 @@ const memoStyles = _.memoStyles(_ => ({
   ico: {
     height: '100%',
     maxHeight: 68,
-    paddingRight: _.wind
+    paddingRight: _._wind
   },
   icoBar: {
-    width: 96,
+    width: 96 * _.ratio,
     height: 16,
     backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg),
     borderRadius: 8,

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:59:01
+ * @Last Modified time: 2021-07-05 18:33:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -330,11 +330,11 @@ class Login extends React.Component {
 
 const memoStyles = _.memoStyles(() => ({
   bottomContainer: {
-    width: 320,
+    width: 320 * _.ratio,
     height: 400
   },
   loading: {
-    width: 320,
+    width: 320 * _.ratio,
     height: 64
   }
 }))

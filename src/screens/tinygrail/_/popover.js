@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 17:05:26
+ * @Last Modified time: 2021-07-06 08:08:51
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -140,7 +140,7 @@ export default obc(Popover)
 
 const styles = _.create({
   touch: {
-    marginTop: 8,
+    marginTop: 8 * _.ratio,
     borderRadius: 20,
     overflow: 'hidden'
   },

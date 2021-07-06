@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 11:02:55
+ * @Last Modified time: 2021-07-05 14:33:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import IconCharacter from './icon/character'
 
 const initialRenderNums = _.isPad
-  ? 3
+  ? 8
   : Math.floor(_.window.contentWidth / 56) + 1
 
 function Character({ style }, { $, navigation }) {

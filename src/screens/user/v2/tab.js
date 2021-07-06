@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 20:59:38
+ * @Last Modified time: 2021-07-06 07:35:34
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -142,9 +142,9 @@ class Tab extends React.Component {
 
 export default obc(Tab)
 
-const W_TAB_BAR_LEFT = 68
+const W_TAB_BAR_LEFT = 68 * _.ratio
 const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5
-const W_INDICATOR = 16
+const W_INDICATOR = 16 * _.ratio
 const memoStyles = _.memoStyles(_ => ({
   tabBarWrap: {
     position: 'absolute',
@@ -166,7 +166,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   tab: {
     width: W_TAB,
-    height: 48
+    height: 48 * _.ratio
   },
   label: {
     padding: 0

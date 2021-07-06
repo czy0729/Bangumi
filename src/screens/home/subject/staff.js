@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import IconStaff from './icon/staff'
 
 const initialRenderNums = _.isPad
-  ? 3
+  ? 8
   : Math.floor(_.window.contentWidth / 56) + 1
 
 function Staff({ style }, { $, navigation }) {

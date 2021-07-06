@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:00:14
+ * @Last Modified time: 2021-07-06 06:13:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,7 @@ function Segement(props, { $ }) {
         style={[
           styles.segmentedControl,
           {
-            width: segmentedControlDS.length * 56
+            width: segmentedControlDS.length * 56 * _.ratio
           }
         ]}
         size={11}
@@ -74,6 +74,6 @@ export default obc(Segement)
 
 const styles = _.create({
   segmentedControl: {
-    height: 22
+    height: 22 * _.ratio
   }
 })

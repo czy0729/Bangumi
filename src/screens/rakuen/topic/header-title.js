@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:35:32
+ * @Last Modified time: 2021-07-06 06:16:23
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -22,9 +22,7 @@ function HeaderTitle({ navigation }) {
     topicId
   })}`
   const $ = Stores.get(screenKey)
-  if (!$) {
-    return null
-  }
+  if (!$) return null
 
   const { showHeaderTitle } = $.state
   return (
@@ -58,7 +56,7 @@ export default ob(HeaderTitle)
 
 const styles = _.create({
   container: {
-    marginLeft: -_.md,
+    marginLeft: _.device(-_.md, -_.sm),
     marginRight: _.md
   }
 })

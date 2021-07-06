@@ -13,9 +13,7 @@ import { IOS } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
 function Bg({ show }, { $ }) {
-  if (!show) {
-    return null
-  }
+  if (!show) return null
 
   const styles = memoStyles()
   const { images = {} } = $.subject

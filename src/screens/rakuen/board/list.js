@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 10:51:02
+ * @Last Modified time: 2021-07-05 18:44:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,15 +73,17 @@ function List({ style }, { $, navigation }) {
             <View style={[styles.wrap, !!index && !_.flat && styles.border]}>
               <Text size={15}>
                 {title}
-                <Text
-                  type={isReaded ? 'sub' : 'main'}
-                  size={12}
-                  lineHeight={15}
-                  bold
-                >
-                  {' '}
-                  {replyText}
-                </Text>
+                {replyText !== '+0' && (
+                  <Text
+                    type={isReaded ? 'sub' : 'main'}
+                    size={12}
+                    lineHeight={15}
+                    bold
+                  >
+                    {' '}
+                    {replyText}
+                  </Text>
+                )}
               </Text>
               <Text style={_.mt.sm} type='sub' size={12}>
                 {correctAgo(time)} /{' '}

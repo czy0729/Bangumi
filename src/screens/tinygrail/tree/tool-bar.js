@@ -120,7 +120,7 @@ export default obc(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    height: _.isPad ? 50 : 44,
+    height: 44 * _.ratio,
     backgroundColor: _.colorTinygrailContainer
   },
   item: {

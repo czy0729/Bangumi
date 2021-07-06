@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 15:02:10
+ * @Last Modified time: 2021-07-06 07:09:14
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -158,12 +158,12 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    paddingVertical: _.md,
-    paddingHorizontal: _.wind
+    padding: _.md
   },
   code: {
     paddingVertical: _.space,
-    paddingHorizontal: _.wind,
+    paddingHorizontal: _.md,
+    marginHorizontal: _.wind,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.colorBorder,

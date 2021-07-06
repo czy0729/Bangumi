@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:02:34
+ * @Last Modified time: 2021-07-06 07:54:33
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -192,27 +192,27 @@ class UsedModal extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   modal: {
-    width: _.window.width - 2 * _.wind,
-    maxWidth: 320,
+    width: (_.window.width - 2 * _.wind) * _.ratio,
+    maxWidth: 320 * _.ratio,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   content: {
     paddingHorizontal: _.sm
   },
   avatars: {
-    minHeight: 40,
+    minHeight: 40 * _.ratio,
     paddingVertical: _.sm,
     marginTop: _.sm
   },
   names: {
-    height: 240,
+    height: 240 * _.ratio,
     paddingVertical: _.sm
   },
   item: {
     paddingVertical: _.sm
   },
   date: {
-    width: 80
+    width: 80 * _.ratio
   },
   empty: {
     height: '100%'
