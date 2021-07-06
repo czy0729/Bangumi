@@ -66,17 +66,19 @@ v4.14.0 - 2021/07/02
 
 ## PowerBy
 
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) [[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) 条目快照
+[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) [[Bangumi-Subject]](https://github.com/czy0729/Bangumi-Subject) 条目快照
 
-[![](https://data.jsdelivr.com/v1/package/gh/ekibun/bangumi_onair/badge)](https://www.jsdelivr.com/package/gh/ekibun/bangumi_onair) [[bangumi-onair]](https://github.com/ekibun/bangumi_onair) [ekibun](https://github.com/ekibun) 的单集播放数据源
+[![](https://data.jsdelivr.com/v1/package/gh/ekibot/bangumi-onair/badge)](https://www.jsdelivr.com/package/gh/ekibot/bangumi-onair) [[Bangumi-OnAir]](https://github.com/ekibot/bangumi-onair) [ekibun](https://github.com/ekibun) 的单集播放数据源
 
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Mono/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Mono) [[bangumi-mono]](https://github.com/czy0729/Bangumi-Mono)人物快照
+[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Mono/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Mono) [[Bangumi-Mono]](https://github.com/czy0729/Bangumi-Mono)人物快照
 
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) [[bangumi-oss]](https://github.com/czy0729/Bangumi-OSS) 热门条目封面和活跃用户头像对象存储
+[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) [[Bangumi-OSS]](https://github.com/czy0729/Bangumi-OSS) 热门条目封面和活跃用户头像对象存储
 
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Rakuen/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Rakuen) [[bangumi-rakuen]](https://github.com/czy0729/Bangumi-Rakuen) 帖子快照
+[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Rakuen/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Rakuen) [[Bangumi-Rakuen]](https://github.com/czy0729/Bangumi-Rakuen) 帖子快照
 
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Static/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Static) [[bangumi-static]](https://github.com/czy0729/Bangumi-Static) 静态数据
+[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Static/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Static) [[Bangumi-Static]](https://github.com/czy0729/Bangumi-Static) 聚合静态数据
+
+[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Game/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Game) [[Bangumi-Game]](https://github.com/czy0729/Bangumi-Game) 游戏条目扩展数据
 
 [[bangumi-mosaic-tile]](https://github.com/weizhenye/bangumi-mosaic-tile) [weizhenye](https://github.com/weizhenye) 的用户统计瓷砖库
 
