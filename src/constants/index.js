@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 14:04:08
+ * @Last Modified time: 2021-07-07 08:56:24
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -12,9 +12,14 @@ import PropTypes from 'prop-types'
 const expoPackageJson = require('@/node_modules/expo/package.json')
 const appJson = require('@/app.json')
 
-/* ==================== BASE ==================== */
+/* ==================== CUSTOM ==================== */
 // 是否开发模式
 export const DEV = global.__DEV__
+
+// 日志级别 2 所有, 1 轻微, 0 只输出错误和警告
+export const LOG_LEVEL = 1
+
+/* ==================== BASE ==================== */
 
 // [待废弃] 打包 apk 和 bangumi-ios-test 线上 expo 使用35, 打包 ipa 提审需至少使用37
 export const SDK = parseInt(expoPackageJson.version.split('.')[0])

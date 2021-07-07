@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 07:43:07
+ * @Last Modified time: 2021-07-07 13:21:14
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
+import { Filter } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Filter from './filter'
 import Item from './item'
 import ItemGrid from './item-grid'
+import { filterDS } from './ds'
 
 const num = 3
 
@@ -33,13 +34,17 @@ class List extends React.Component {
     return <ItemGrid pickIndex={item} index={index} num={num} />
   }
 
+  renderFilter() {
+    return <Filter filterDS={filterDS} type='Hentai' />
+  }
+
   render() {
     const { $ } = this.context
     const { _loaded, layout, data } = $.state
     if (!_loaded && !data._loaded) {
       return (
         <>
-          <Filter />
+          {this.renderFilter()}
           <Loading />
         </>
       )
@@ -54,7 +59,7 @@ class List extends React.Component {
         numColumns={$.isList ? undefined : num}
         data={data}
         lazy={9}
-        ListHeaderComponent={<Filter />}
+        ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop
       />

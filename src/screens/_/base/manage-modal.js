@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:30:23
+ * @Last Modified time: 2021-07-07 09:44:00
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -330,7 +330,7 @@ const memoStyles = _.memoStyles(_ => ({
   modal: {
     width: (_.window.width - 2 * _.wind) * _.ratio,
     maxWidth: _.device(408, 560),
-    paddingTop: _.device(0, 28),
+    paddingTop: _.device(_.md, 28),
     paddingHorizontal: _.device(0, _.sm),
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },

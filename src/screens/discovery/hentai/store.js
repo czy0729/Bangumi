@@ -1,13 +1,14 @@
 /*
+ * @Params: { _tags: [] }
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 09:21:29
+ * @Last Modified time: 2021-07-07 11:24:28
  */
 import { observable, computed } from 'mobx'
 import { userStore, systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, search } from '@utils/subject/hentai'
+import { init, search, getTagType, HENTAI_TAGS } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
@@ -41,6 +42,11 @@ export default class ScreenHentai extends store {
 
     if (!_loaded) {
       await init()
+    }
+
+    const { _tags = [] } = this.params
+    if (_tags.length) {
+      this.initQuery(_tags)
     }
 
     _loaded = true
@@ -84,6 +90,22 @@ export default class ScreenHentai extends store {
   }
 
   // -------------------- page --------------------
+  initQuery = (tags = []) => {
+    this.setState({
+      expand: true
+    })
+
+    tags.forEach(item => {
+      const { query } = this.state
+      this.setState({
+        query: {
+          ...query,
+          [getTagType(item)]: HENTAI_TAGS[item]
+        }
+      })
+    })
+  }
+
   onSelect = (type, value) => {
     const { query } = this.state
     this.setState({

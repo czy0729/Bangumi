@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:20:58
+ * @Last Modified time: 2021-07-07 12:12:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,15 @@ import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { HENTAI_TAGS } from '@utils/subject/hentai'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function Tags({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { tag = [] } = $.collection
   const { showTags } = systemStore.setting
+
+  const hentaiTags = $.hentaiInfo?.tags || []
   return (
     <View
       style={[
@@ -76,6 +79,33 @@ function Tags({ style }, { $, navigation }) {
                 </Touchable>
               )
             })}
+            {!!hentaiTags.length && (
+              <>
+                <View style={styles.split} />
+                <Text style={_.mr.sm} size={12} type='sub'>
+                  内容
+                </Text>
+                {hentaiTags.map(item => (
+                  <Touchable
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={item}
+                    style={styles.item}
+                    onPress={() => {
+                      t('条目.跳转', {
+                        to: 'Hentai',
+                        from: '标签',
+                        subjectId: $.subjectId
+                      })
+                      navigation.push('Hentai', {
+                        _tags: [item]
+                      })
+                    }}
+                  >
+                    <Text size={12}>{HENTAI_TAGS[item]}</Text>
+                  </Touchable>
+                ))}
+              </>
+            )}
           </Flex>
           <Heatmap
             id='条目.跳转'
@@ -112,5 +142,14 @@ const memoStyles = _.memoStyles(_ => ({
   selected: {
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
+  },
+  split: {
+    height: 16,
+    width: 2,
+    marginLeft: 4 * _.ratio,
+    marginRight: 12 * _.ratio,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:38:45
+ * @Last Modified time: 2021-07-07 13:06:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,6 +12,24 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { filterDS } from './ds'
+
+export function scrollToX(scrollView, data, value, width = 50) {
+  if (scrollView && value) {
+    const index = data.findIndex(i => i == value)
+    if (index >= 4) {
+      setTimeout(() => {
+        scrollView.scrollTo(
+          {
+            x: (index - 2) * width,
+            y: 0,
+            animated: true
+          },
+          1
+        )
+      }, 80)
+    }
+  }
+}
 
 function Filter(props, { $ }) {
   const styles = memoStyles()

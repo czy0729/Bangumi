@@ -1,10 +1,11 @@
 /*
  * 条目
- * @Params: { _ningMoeId, _jp, _cn, _image, _imageForce, _summary, _type, _aid }
+ * @Params: { _ningMoeId, _jp, _cn, _image, _imageForce, _summary, _type,
+ *            _aid, _wid, _hid }
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 12:57:41
+ * @Last Modified time: 2021-07-07 09:38:12
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -36,6 +37,7 @@ import { find as findAnime } from '@utils/subject/anime'
 import { find as findManga } from '@utils/subject/manga'
 import { find as findWenku } from '@utils/subject/wenku'
 import { find as findGame } from '@utils/subject/game'
+import { find as findHentai } from '@utils/subject/hentai'
 import { s2t } from '@utils/thirdParty/cn-char'
 import {
   HOST,
@@ -700,7 +702,8 @@ export default class ScreenSubject extends store {
         if (flagX18) data.push('Hanime1')
       }
 
-      data.push('AGE动漫', '迅播动漫', '奇奇动漫', 'Anime1')
+      data.push('AGE动漫', '迅播动漫')
+      if (!this.x18) data.push('奇奇动漫', 'Anime1')
     }
 
     if (['三次元'].includes(this.type)) data.push('迅播动漫', '人人影视')
@@ -723,11 +726,18 @@ export default class ScreenSubject extends store {
    * 游戏条目查找额外游戏信息
    */
   @computed get gameInfo() {
-    if (this.type !== '游戏') {
-      return null
-    }
+    if (this.type !== '游戏') return null
 
     return findGame(this.subjectId)
+  }
+
+  /**
+   * Hentai条目查找额外信息
+   */
+  @computed get hentaiInfo() {
+    if (this.type !== '动画' && !this.x18) return null
+
+    return findHentai(this.subjectId)
   }
 
   /**
@@ -736,9 +746,7 @@ export default class ScreenSubject extends store {
   _manga = null
   _wenku = null
   @computed get source() {
-    if (this.type !== '书籍') {
-      return false
-    }
+    if (this.type !== '书籍') return false
 
     this._manga = findManga(this.subjectId)
     this._wenku = findWenku(this.subjectId)

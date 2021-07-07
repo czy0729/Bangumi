@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:09:59
+ * @Last Modified time: 2021-07-07 11:10:28
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_HENTAI, CDN_STATIC_HENTAI, getOTA } from '@constants/cdn'
@@ -114,6 +114,12 @@ export const HENTAI_TAGS = [
   ...HENTAI_BODY, // 25-39
   ...HENTAI_CONTENT // 40-80+
 ]
+export function getTagType(tag) {
+  if (tag >= 40) return 'content'
+  if (tag >= 25) return 'body'
+  if (tag >= 8) return 'job'
+  return 'chara'
+}
 
 /**
  * v5.0.0 后从包抽离, 需对比版本号
