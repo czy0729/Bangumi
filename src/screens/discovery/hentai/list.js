@@ -35,7 +35,7 @@ class List extends React.Component {
   }
 
   renderFilter() {
-    return <Filter filterDS={filterDS} type='Hentai' />
+    return <Filter filterDS={filterDS} name='Hentai' type='Hentai' />
   }
 
   render() {

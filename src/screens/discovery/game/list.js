@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 07:40:09
+ * @Last Modified time: 2021-07-07 13:49:37
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
+import { Filter } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Filter from './filter'
 import Item from './item'
 import ItemGrid from './item-grid'
+import { filterDS } from './ds'
 
 const num = 3
 
@@ -33,13 +34,17 @@ class List extends React.Component {
     return <ItemGrid pickIndex={item} index={index} num={num} />
   }
 
+  renderFilter() {
+    return <Filter filterDS={filterDS} title='频道　' name='游戏' type='游戏' />
+  }
+
   render() {
     const { $ } = this.context
     const { _loaded, layout, data } = $.state
     if (!_loaded && !data._loaded) {
       return (
         <>
-          <Filter />
+          {this.renderFilter()}
           <Loading />
         </>
       )
@@ -53,7 +58,7 @@ class List extends React.Component {
         keyExtractor={keyExtractor}
         numColumns={$.isList ? undefined : num}
         data={data}
-        ListHeaderComponent={<Filter />}
+        ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop
       />
