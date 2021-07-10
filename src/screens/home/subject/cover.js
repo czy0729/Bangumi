@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 18:21:24
+ * @Last Modified time: 2021-07-09 23:41:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,6 +56,7 @@ class Cover extends React.Component {
             }}
             noDefault
             onLoad={this.onLoad}
+            textOnly={false}
           />
         )}
         {!onLoad && (
@@ -67,6 +68,7 @@ class Cover extends React.Component {
             radius
             placeholder={false}
             noDefault
+            textOnly={false}
           />
         )}
         <Heatmap id='条目.封面图查看' />

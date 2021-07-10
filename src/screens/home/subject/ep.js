@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 15:07:49
+ * @Last Modified time: 2021-07-07 14:55:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -227,7 +227,7 @@ const memoStyles = _.memoStyles(_ => ({
   inputRaw: {
     height: 28 * _.ratio,
     paddingVertical: 0,
-    paddingHorizontal: _.device(_.xs, _.sm),
+    paddingHorizontal: _.sm,
     color: _.colorSub,
     fontWeight: 'bold',
     ..._.device(_.fontSize11, _.fontSize15)

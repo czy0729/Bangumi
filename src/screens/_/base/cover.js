@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:30:48
+ * @Last Modified time: 2021-07-09 23:42:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -81,6 +81,7 @@ export const Cover = ob(
               src={_src}
               size={w}
               border
+              textOnly={textOnly}
               {...other}
             />
           </View>
@@ -119,6 +120,7 @@ export const Cover = ob(
               size={w}
               height={h}
               border
+              textOnly={textOnly}
               {...other}
             />
             <View style={styles.bookLine} />
@@ -136,6 +138,7 @@ export const Cover = ob(
             <Image
               style={[imageStyle, styles.gameImage]}
               src={_src}
+              textOnly={textOnly}
               {...other}
               radius={4}
               size={w - 8}
@@ -182,6 +185,7 @@ export const Cover = ob(
               src={_src}
               size={w}
               border
+              textOnly={textOnly}
               {...other}
             />
           </View>
@@ -195,6 +199,7 @@ export const Cover = ob(
         src={_src}
         size={size}
         height={height}
+        textOnly={textOnly}
         {...other}
       />
     )

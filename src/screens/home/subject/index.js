@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-14 05:24:01
+ * @Last Modified time: 2021-07-10 00:02:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ import HeaderTitle from './header-title'
 import Bg from './bg'
 import List from './list'
 import Modal from './modal'
+import IconShare from './icon/share'
 import Store from './store'
 
 const title = '条目'
@@ -66,6 +67,7 @@ class Subject extends React.Component {
       headerTitle: <HeaderTitle />,
       routeName: 'Subject',
       heatmap: '条目.右上角菜单',
+      extra: <IconShare $={$} navigation={navigation} />,
       popover: {
         data: [TITLE, '复制链接'],
         onSelect: key => {

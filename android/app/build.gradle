@@ -224,6 +224,10 @@ dependencies {
     implementation 'com.umeng.umsdk:utdid:1.1.5.3'
     implementation 'com.umeng.umsdk:analytics:8.0.0' //统计
 
+    implementation project(':react-native-fs')
+    implementation project(':rn-fetch-blob')
+    implementation project(':@react-native-community_cameraroll')
+
     // // 如果你需要支持GIF动图
     // implementation "com.facebook.fresco:animated-gif:2.0.0"
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 12:15:18
+ * @Last Modified time: 2021-07-07 14:41:11
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -153,7 +153,7 @@ function Series({ size }, { $, navigation }) {
         </Flex.Item>
         <IconTouchable
           style={styles.icon}
-          name={showRelation ? 'md-keyboard-arrow-down' : 'md-navigate-next'}
+          name={showRelation ? 'md-keyboard-arrow-up' : 'md-navigate-next'}
           size={24}
           onPress={() => systemStore.switchSetting('showRelation')}
         />

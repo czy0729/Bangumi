@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-29 07:32:40
+ * @Last Modified time: 2021-07-09 23:52:56
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -97,11 +97,6 @@ class LoginV2 extends React.Component {
     try {
       info('正在从github获取游客cookie...')
 
-      // const { _response } = await xhrCustom({
-      //   url: IOS
-      //     ? `https://gitee.com/a296377710/bangumi/raw/master/tourist.ios.json?t=${getTimestamp()}`
-      //     : `https://gitee.com/a296377710/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
-      // })
       const { _response } = await xhrCustom({
         url: `https://gitee.com/a296377710/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
       })

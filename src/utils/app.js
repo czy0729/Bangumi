@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 06:03:25
+ * @Last Modified time: 2021-07-10 16:10:18
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
