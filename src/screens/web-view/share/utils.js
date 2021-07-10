@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:04:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 17:50:26
+ * @Last Modified time: 2021-07-10 20:09:22
  */
 export const html = `
 <!DOCTYPE html>
@@ -30,8 +30,8 @@ export const html = `
         position: absolute;
         top: 0;
         left: 0;
-        width: 200vw;
-        height: 200vh;
+        width: 300vw;
+        height: 300vh;
         filter: blur(60px);
         background-color: #fff;
         transform-origin: center;
@@ -46,30 +46,30 @@ export const html = `
       }
       .ratio {
         position: relative;
-        width: 200vw;
-        height: 200vh;
+        width: 300vw;
+        height: 300vh;
         background: linear-gradient(to right bottom,rgba(255,255,255,0.5),rgba(255,255,255,1));
         transform-origin: top left;
       }
       .container {
         position: relative;
         z-index: 1;
-        width: 200vw;
-        height: 200vh;
+        width: 300vw;
+        height: 300vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 8vw 16vw 48vw;
+        padding: 12vw 24vw 72vw;
       }
       .cover {
         position: relative;
         z-index: 1;
-        width: 120vw;
-        height: 170.4vw;
+        width: 180vw;
+        height: 255.6vw;
         margin: 0 auto;
-        border-radius: 4vw;
+        border-radius: 6vw;
         overflow: hidden;
-        box-shadow: 4vw 4vw 16vw rgba(0,0,0,0.12);
+        box-shadow: 6vw 6vw 24vw rgba(0,0,0,0.12);
       }
       .cover img {
         position: absolute;
@@ -80,15 +80,15 @@ export const html = `
         object-fit: cover;
       }
       .title {
-        margin-top: 16vw;
-        font-size: 10.8vw;
+        margin-top: 24vw;
+        font-size: 16.2vw;
         line-height: 1.5;
         text-align: center;
         font-weight: 400;
       }
       .content {
-        margin-top: 6.4vw;
-        font-size: 8vw;
+        margin-top: 9.6vw;
+        font-size: 12vw;
         line-height: 1.5;
         font-weight: 300;
         overflow: hidden;
@@ -99,8 +99,8 @@ export const html = `
         -webkit-box-orient: vertical;
       }
       .detail {
-        margin-top: 5.6vw;
-        font-size: 6.2vw;
+        margin-top: 8.4vw;
+        font-size: 9.3vw;
         line-height: 1.5;
         font-weight: 400;
         overflow: hidden;
@@ -120,29 +120,29 @@ export const html = `
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 28vw;
+        min-height: 42vw;
         background: rgba(255,255,255,0.5);
-        box-shadow: 0 2vw 2vw rgba(0,0,0,0.02);
+        box-shadow: 0 3vw 3vw rgba(0,0,0,0.02);
       }
       .footer .logo {
-        height: 10vw;
+        height: 15vw;
         opacity: 0.9;
       }
       .footer .qr {
         position: absolute;
         top: 50%;
-        right: 8vw;
+        right: 12vw;
         transform: translateY(-50%);
         opacity: 0.9;
       }
       .footer .qr #canvas {
-        width: 18vw !important;
-        height: 18vw !important;
+        width: 27vw !important;
+        height: 27vw !important;
       }
       body {
         position: relative;
-        width: 200vw;
-        height: 200vh;
+        width: 300vw;
+        height: 300vh;
         background: #fff;
       }
       body.captured {
@@ -200,6 +200,11 @@ export const html = `
                   document.querySelector(".bg").remove();
                   document.querySelector(".ratio").remove();
                   document.body.classList.add("captured");
+
+                  window.ReactNativeWebView.postMessage(JSON.stringify({
+                    type: 'captured',
+                    data: {}
+                  }))
 
                   // 长按保存图片
                   let timer = null;

@@ -58,9 +58,9 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new DplusReactPackage());
       new AndroidKeyboardAdjustPackage();
       packages.add(new DayNightPackage());
-      new RNFSPackage();
-      new RNFetchBlobPackage();
-      new CameraRollPackage();
+      packages.add(new RNFSPackage());
+      packages.add(new RNFetchBlobPackage());
+      packages.add(new CameraRollPackage());
       return packages;
     }
 

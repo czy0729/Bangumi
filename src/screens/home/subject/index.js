@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 00:02:17
+ * @Last Modified time: 2021-07-10 19:27:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,8 @@ export default
 @withTransitionHeader({
   screen: title,
   colorStart: _.colorPlainRaw,
-  HeaderTitle
+  HeaderTitle,
+  defaultExtra: <IconShare />
 })
 @obc
 class Subject extends React.Component {

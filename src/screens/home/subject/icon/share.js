@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 17:35:15
+ * @Last Modified time: 2021-07-10 19:29:29
  */
 import React from 'react'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -20,8 +20,10 @@ function IconShare({ $, navigation }) {
     <IconTouchable
       name='md-ios-share'
       color={_.__colorPlain__}
-      size={20}
+      size={19}
       onPress={async () => {
+        if (!navigation) return
+
         const { images = {} } = $.subject
         let src = CDN_OSS_SUBJECT(getCoverMedium(images.common))
         if (!src.includes(HOST_CDN)) src = getCoverLarge(images.common)

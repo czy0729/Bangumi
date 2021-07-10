@@ -2,9 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 17:30:34
+ * @Last Modified time: 2021-07-10 20:12:03
  */
 import React from 'react'
+import { View } from 'react-native'
+import Portal from '@ant-design/react-native/lib/portal'
+import Toast from '@components/@/ant-design/toast'
 import WebView from '@components/@/web-view'
 import { SafeAreaView } from '@screens/_'
 import { _ } from '@stores'
@@ -21,6 +24,19 @@ export default
 })
 @ob
 class WebViewShare extends React.Component {
+  state = {
+    captured: false
+  }
+
+  toastId = null
+  saved = false
+
+  componentDidMount() {
+    this.toastId = Toast.loading('生成中...', 0, () => {
+      if (this.toastId) Portal.remove(this.toastId)
+    })
+  }
+
   get source() {
     const { navigation } = this.props
     const { _url, _cover, _title, _content, _detail } = navigation.state.params
@@ -34,12 +50,19 @@ class WebViewShare extends React.Component {
     }
   }
 
-  saved = false
-
   onMessage = async event => {
     try {
       const { type, data } = JSON.parse(event.nativeEvent.data)
       switch (type) {
+        case 'captured':
+          setTimeout(() => {
+            this.setState({
+              captured: true
+            })
+            if (this.toastId) Portal.remove(this.toastId)
+          }, 640)
+          break
+
         case 'base64':
           if (IOS) return
 
@@ -50,6 +73,7 @@ class WebViewShare extends React.Component {
             }
           }
           break
+
         default:
           break
       }
@@ -59,6 +83,7 @@ class WebViewShare extends React.Component {
   }
 
   render() {
+    const { captured } = this.state
     return (
       <SafeAreaView style={_.container.flex}>
         <WebView
@@ -66,7 +91,20 @@ class WebViewShare extends React.Component {
           source={this.source}
           onMessage={this.onMessage}
         />
+        {!captured && <View style={styles.mask} />}
       </SafeAreaView>
     )
   }
 }
+
+const styles = _.create({
+  mask: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: '#fff'
+  }
+})

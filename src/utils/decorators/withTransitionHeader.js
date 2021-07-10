@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 12:53:33
+ * @Last Modified time: 2021-07-10 19:28:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,6 +43,7 @@ const withTransitionHeader =
     colorStart,
     colorEnd = _.colorTitleRaw, // 黑暗模式, end也是白色
     transparent = false,
+    defaultExtra,
     barStyle,
     hm
   } = {}) =>
@@ -82,7 +83,7 @@ const withTransitionHeader =
                 }
             headerRight = (
               <Flex>
-                {extra}
+                {extra || defaultExtra}
                 <Popover
                   style={styles.icon}
                   placement='bottom'
@@ -96,7 +97,7 @@ const withTransitionHeader =
           } else {
             headerRight = (
               <Flex>
-                {extra}
+                {extra || defaultExtra}
                 <View
                   style={{
                     padding: _.sm,
