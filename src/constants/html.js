@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 02:26:15
+ * @Last Modified time: 2021-07-12 10:19:50
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -523,3 +523,17 @@ export const HTML_ACTION_CATALOG_MODIFY_SUBJECT = itemId =>
  * @param {*} subjectid
  */
 export const HTML_BOARD = subjectid => `${HOST}/subject/${subjectid}/board`
+
+/**
+ * 条目修订历史
+ * @param {*} subjectid
+ */
+export const HTML_SUBJECT_WIKI_EDIT = subjectid =>
+  `${HOST}/subject/${subjectid}/edit`
+
+/**
+ * 条目封面修订历史
+ * @param {*} subjectid
+ */
+export const HTML_SUBJECT_WIKI_COVER = subjectid =>
+  `${HOST}/subject/${subjectid}/upload_img`

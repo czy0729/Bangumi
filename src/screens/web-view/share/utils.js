@@ -201,19 +201,21 @@ export const html = `
                   document.querySelector(".ratio").remove();
                   document.body.classList.add("captured");
 
-                  window.ReactNativeWebView.postMessage(JSON.stringify({
-                    type: 'captured',
-                    data: {}
-                  }))
+                  setTimeout(() => {
+                    window.ReactNativeWebView.postMessage(JSON.stringify({
+                      type: 'captured',
+                      data: {}
+                    }))
+                  }, 160);
 
                   // 长按保存图片
                   let timer = null;
                   let startTime = "";
                   let endTime = "";
-                  img.addEventListener("touchstart", function () {
+                  img.addEventListener("touchstart", () => {
                     startTime = +new Date();
                   });
-                  img.addEventListener("touchend", function () {
+                  img.addEventListener("touchend", () => {
                     endTime = +new Date();
                     if (endTime - startTime > 600) {
                       window.ReactNativeWebView.postMessage(JSON.stringify({

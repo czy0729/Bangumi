@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 20:12:03
+ * @Last Modified time: 2021-07-12 09:06:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,7 +60,7 @@ class WebViewShare extends React.Component {
               captured: true
             })
             if (this.toastId) Portal.remove(this.toastId)
-          }, 640)
+          }, 400)
           break
 
         case 'base64':

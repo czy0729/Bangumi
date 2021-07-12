@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 16:29:34
+ * @Last Modified time: 2021-07-12 11:23:34
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -487,13 +487,12 @@ export function cheerioMonoWorks(HTML) {
             total: $li.find('span.tip_j').text().trim(),
             rank: $li.find('span.rank').text().trim().replace('Rank ', ''),
             collected: !!$li.find('p.collectModify').text(),
-            type:
-              _type[
-                $li
-                  .find('span.ico_subject_type')
-                  .attr('class')
-                  .replace(/ico_subject_type subject_type_| ll/g, '')
-              ]
+            type: _type[
+              $li
+                .find('span.ico_subject_type')
+                .attr('class')
+                .replace(/ico_subject_type subject_type_| ll/g, '')
+            ]
           })
         })
         .get() || []
@@ -642,6 +641,48 @@ export function cheerioSubjectCatalogs(HTML) {
             userName: $user.text().trim(),
             avatar,
             time: $li.find('span.tip').text().trim()
+          })
+        })
+        .get() || []
+  }
+}
+
+export function cheerioWikiEdits(HTML) {
+  const $ = cheerio(HTML)
+  return {
+    list:
+      $('#pagehistory li')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $a = $li.find('a')
+          const $time = $a.eq(0)
+          const $user = $a.eq(1)
+          return safeObject({
+            id: index,
+            time: $time.text().trim(),
+            userId: $user.attr('href').replace('/user/', ''),
+            userName: $user.text().trim(),
+            comment: $li.find('.comment').text().trim().replace(/\(|\)/g, ''),
+            sub: $li.find('.alarm').text().trim().replace(/\(|\)/g, '')
+          })
+        })
+        .get() || []
+  }
+}
+
+export function cheerioWikiCovers(HTML) {
+  const $ = cheerio(HTML)
+  return {
+    list:
+      $('.photoList li')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $user = $li.find('.tip_j a.l')
+          return safeObject({
+            id: index,
+            cover: $li.find('img.grid').attr('src'),
+            userId: $user.attr('href').replace('/user/', ''),
+            userName: $user.text().trim()
           })
         })
         .get() || []

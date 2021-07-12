@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 15:09:11
+ * @Last Modified time: 2021-07-12 10:04:24
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
@@ -136,3 +136,8 @@ export const INIT_MONO_VOICES_SUBJECT_ITEM = {
 }
 
 export const INIT_MONO_COMMENTS_ITEM = {}
+
+export const INIT_SUBJECT_WIKI = {
+  edits: [],
+  covers: []
+}

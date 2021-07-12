@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 21:06:49
+ * @Last Modified time: 2021-07-12 13:38:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
+import IconWiki from './icon/wiki'
 
 function Info({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -25,6 +26,7 @@ function Info({ style }, { $, navigation }) {
     <View style={[showInfo && styles.container, style, !showInfo && _.short]}>
       <SectionTitle
         style={_.container.wind}
+        right={<IconWiki />}
         icon={!showInfo && 'md-navigate-next'}
         onPress={() => $.switchBlock('showInfo')}
       >

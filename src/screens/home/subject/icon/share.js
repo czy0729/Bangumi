@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 19:29:29
+ * @Last Modified time: 2021-07-12 09:51:19
  */
 import React from 'react'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -35,7 +35,7 @@ function IconShare({ $, navigation }) {
         axios.defaults.withCredentials = false
         const { request } = await axios({
           method: 'get',
-          url: src,
+          url: src.replace('http://', 'https://'),
           responseType: 'arraybuffer'
         })
         if (toastId) Portal.remove(toastId)

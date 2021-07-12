@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 16:10:24
+ * @Last Modified time: 2021-07-12 12:18:12
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -16,7 +16,9 @@ import {
   HTML_SUBJECT,
   HTML_SUBJECT_COMMENTS,
   HTML_SUBJECT_CATALOGS,
-  HTML_SUBJECT_RATING
+  HTML_SUBJECT_RATING,
+  HTML_SUBJECT_WIKI_EDIT,
+  HTML_SUBJECT_WIKI_COVER
 } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
@@ -29,7 +31,8 @@ import {
   INIT_SUBJECT_FROM_HTML_ITEM,
   INIT_SUBJECT_FROM_CDN_ITEM,
   INIT_MONO,
-  INIT_MONO_WORKS
+  INIT_MONO_WORKS,
+  INIT_SUBJECT_WIKI
 } from './init'
 import {
   fetchMono,
@@ -37,7 +40,9 @@ import {
   cheerioMonoWorks,
   cheerioMonoVoices,
   cheerioRating,
-  cheerioSubjectCatalogs
+  cheerioSubjectCatalogs,
+  cheerioWikiEdits,
+  cheerioWikiCovers
 } from './common'
 
 class Subject extends store {
@@ -158,6 +163,13 @@ class Subject extends store {
           dropped: 0
         }
       }
+    },
+
+    /**
+     * wiki修订历史
+     */
+    wiki: {
+      0: INIT_SUBJECT_WIKI
     }
   })
 
@@ -622,6 +634,33 @@ class Subject extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return this[key](subjectId, status, isFriend)
+  }
+
+  /**
+   * wiki修订历史
+   */
+  fetchWiki = async ({ subjectId }) => {
+    const key = 'wiki'
+    const htmlEdit = await fetchHTML({
+      url: HTML_SUBJECT_WIKI_EDIT(subjectId)
+    })
+    const { list: edits } = cheerioWikiEdits(htmlEdit)
+
+    const htmlCover = await fetchHTML({
+      url: HTML_SUBJECT_WIKI_COVER(subjectId)
+    })
+    const { list: covers } = cheerioWikiCovers(htmlCover)
+
+    this.setState({
+      [key]: {
+        [subjectId]: {
+          edits,
+          covers: covers.reverse(),
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    return this[key](subjectId)
   }
 }
 

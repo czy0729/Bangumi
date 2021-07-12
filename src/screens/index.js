@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-09 23:37:33
+ * @Last Modified time: 2021-07-12 09:56:19
  */
 // Dev
 // export { default as Auth } from './login/auth'
@@ -61,6 +61,7 @@ export { default as Persons } from './home/persons'
 export { default as Rating } from './home/rating'
 export { default as Subject } from './home/subject'
 export { default as SubjectCatalogs } from './home/catalogs'
+export { default as SubjectWiki } from './home/wiki'
 export { default as Tag } from './home/tag'
 export { default as Voices } from './home/voices'
 export { default as Works } from './home/works'
