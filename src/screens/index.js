@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 18:05:34
+ * @Last Modified time: 2021-07-15 20:35:30
  */
 // Dev
 // export { default as Auth } from './login/auth'
@@ -43,6 +43,7 @@ export { default as Staff } from './discovery/staff'
 export { default as Tags } from './discovery/tags'
 export { default as Wenku } from './discovery/wenku'
 export { default as Wiki } from './discovery/wiki'
+export { default as Yearbook } from './discovery/yearbook'
 
 // Reader
 export { default as Comic } from './reader/comic'

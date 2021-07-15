@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 19:32:18
+ * @Last Modified time: 2021-07-15 23:09:11
  */
 
 /**
@@ -27,6 +27,7 @@ export default {
 
   // - [x] 年鉴
   '年鉴.跳转': 'Award.to',
+  'Bangumi年鉴.跳转': 'Yearbook.to',
 
   // - [x] 索引
   '索引.跳转': 'Browser.to',
