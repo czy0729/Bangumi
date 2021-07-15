@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 14:04:48
+ * @Last Modified time: 2021-07-15 19:17:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle, ItemArticle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
+import IconBlog from './icon/blog'
 
 function Blog({ style }, { $, navigation }) {
   const { blog } = $.subject
@@ -27,13 +28,13 @@ function Blog({ style }, { $, navigation }) {
     return null
   }
 
-  const styles = memoStyles()
   const { showBlog } = systemStore.setting
   return (
     <View style={[style, !showBlog && _.short]}>
       <SectionTitle
-        style={styles.left}
+        style={{ paddingHorizontal: _.wind }}
         icon={!showBlog && 'md-navigate-next'}
+        right={<IconBlog />}
         onPress={() => $.switchBlock('showBlog')}
       >
         日志
@@ -44,7 +45,9 @@ function Blog({ style }, { $, navigation }) {
             {_blog.map((item, index) => (
               <ItemArticle
                 key={item.id}
-                style={styles.left}
+                style={{
+                  paddingLeft: _.wind
+                }}
                 navigation={navigation}
                 index={index}
                 avatar={item.user.avatar.small}
@@ -78,9 +81,3 @@ function Blog({ style }, { $, navigation }) {
 }
 
 export default obc(Blog)
-
-const memoStyles = _.memoStyles(_ => ({
-  left: {
-    paddingLeft: _.wind
-  }
-}))

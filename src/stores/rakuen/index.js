@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 10:10:59
+ * @Last Modified time: 2021-07-15 18:04:56
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -21,7 +21,8 @@ import {
   HTML_GROUP_MINE,
   HTML_NOTIFY,
   HTML_TOPIC,
-  HTML_BOARD
+  HTML_BOARD,
+  HTML_REVIEWS
 } from '@constants/html'
 import { CDN_RAKUEN, CDN_RAKUEN_USER_TOPICS } from '@constants/cdn'
 import store from '@utils/store'
@@ -44,6 +45,7 @@ import {
   cheerioMine,
   cheerioTopic,
   cheerioBoard,
+  cheerioReviews,
   fetchRakuen
 } from './common'
 
@@ -176,6 +178,13 @@ class Rakuen extends store {
      * 条目讨论版
      */
     board: {
+      0: LIST_EMPTY
+    },
+
+    /**
+     * 条目讨论版
+     */
+    reviews: {
       0: LIST_EMPTY
     }
   })
@@ -489,6 +498,28 @@ class Rakuen extends store {
     })
 
     return this.board(subjectId)
+  }
+
+  /**
+   * 条目影评列表 (日志)
+   */
+  fetchReviews = async ({ subjectId }) => {
+    const key = 'reviews'
+    const html = await fetchHTML({
+      url: HTML_REVIEWS(subjectId)
+    })
+
+    const data = cheerioReviews(html)
+    this.setState({
+      [key]: {
+        [subjectId]: {
+          list: data || [],
+          _loaded: getTimestamp()
+        }
+      }
+    })
+
+    return this.reviews(subjectId)
   }
 
   /**

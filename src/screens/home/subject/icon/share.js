@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-12 09:51:19
+ * @Last Modified time: 2021-07-15 18:43:20
  */
 import React from 'react'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -11,6 +11,7 @@ import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { getCoverMedium, getCoverLarge, cnjp } from '@utils/app'
+import { t } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import { HOST } from '@constants'
 import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
@@ -49,6 +50,10 @@ function IconShare({ $, navigation }) {
             .filter((item, index) => index <= 4)
             .map(item => item.name)
             .join(' · ')
+        })
+
+        t('条目.拼图分享', {
+          subjectId: $.subjectId
         })
       }}
     />

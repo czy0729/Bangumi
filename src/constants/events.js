@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:28:52
+ * @Last Modified time: 2021-07-15 19:32:18
  */
 
 /**
@@ -200,6 +200,8 @@ export default {
   '条目.管理目录': 'Subject.manageFolder',
   '条目.自定义放送': 'Subject.onSelectOnAir',
   '条目.重置放送': 'Subject.resetOnAirUser',
+  '条目.吐槽倒序': 'Subject.reverseComment',
+  '条目.拼图分享': 'Subject.sharePoster',
 
   // 章节
   '章节.跳转': 'Episodes.to',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 10:16:46
+ * @Last Modified time: 2021-07-15 18:38:27
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -587,6 +587,32 @@ export function cheerioBoard(HTML) {
           userName: HTMLDecode($user.text().trim()),
           replies: $tr.find('td').eq(2).text().trim(),
           time: $tr.find('td').eq(3).text().trim()
+        }
+      })
+      .get() || []
+  )
+}
+
+/**
+ * 分析条目影评
+ * @param {*} HTML
+ */
+export function cheerioReviews(HTML) {
+  return (
+    cheerio(HTML)('#entry_list .item')
+      .map((index, element) => {
+        const $tr = cheerio(element)
+        const $title = $tr.find('.title > a')
+        const $user = $tr.find('.tip_j a')
+        return {
+          id: $title.attr('href').replace('/blog/', ''),
+          title: $title.text().trim(),
+          avatar: $tr.find('img').attr('src').split('?')[0],
+          userId: $user.attr('href').replace('/user/', ''),
+          userName: HTMLDecode($user.text().trim()),
+          replies: $tr.find('.orange').text().trim().replace(/\(|\)/g, ''),
+          time: $tr.find('small.time').text().trim(),
+          content: $tr.find('.content').text().trim()
         }
       })
       .get() || []

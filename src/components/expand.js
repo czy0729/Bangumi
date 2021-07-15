@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 14:46:00
+ * @Last Modified time: 2021-07-15 19:29:04
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ const size = 216 * _.ratio // 1个比例的最大高度
 export const Expand = ({
   style,
   moreStyle,
-  ratio = 0.8, // 比例
+  ratio = 1, // 比例
   children
 }) => {
   const [state, setState] = useState({

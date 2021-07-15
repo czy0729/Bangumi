@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 08:28:29
+ * @Last Modified time: 2021-07-15 19:18:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,9 +60,9 @@ function Header(props, { $ }) {
             <Comic style={_.mt.lg} />
             <Catalog style={_.mt.lg} />
             <Like style={_.mt.lg} />
-            <Recent style={_.mt.lg} />
             <Blog style={_.mt.lg} />
             <Topic style={_.mt.lg} />
+            <Recent style={_.mt.lg} />
             <SectionTitle
               style={styles.title}
               right={

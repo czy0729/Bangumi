@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 19:27:11
+ * @Last Modified time: 2021-07-15 19:08:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,6 +76,7 @@ class Subject extends React.Component {
             subjectId: $.subjectId,
             key
           })
+
           switch (key) {
             case '复制链接':
               copy($.url)

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-12 10:19:50
+ * @Last Modified time: 2021-07-15 17:48:05
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -523,6 +523,12 @@ export const HTML_ACTION_CATALOG_MODIFY_SUBJECT = itemId =>
  * @param {*} subjectid
  */
 export const HTML_BOARD = subjectid => `${HOST}/subject/${subjectid}/board`
+
+/**
+ * 条目影评
+ * @param {*} subjectid
+ */
+export const HTML_REVIEWS = subjectid => `${HOST}/subject/${subjectid}/reviews`
 
 /**
  * 条目修订历史
