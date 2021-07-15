@@ -3,9 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 09:15:41
+ * @Last Modified time: 2021-07-15 14:18:44
  */
-import { DEV, LOG_LEVEL } from '@constants'
+import {
+  DEV
+  // LOG_LEVEL
+} from '@constants'
 import { pad } from './index'
 
 /**
@@ -18,9 +21,9 @@ import { pad } from './index'
  */
 export function log(type = '', key = '', value = '', ...other) {
   // if (LOG_LEVEL === 0) return
-  if (LOG_LEVEL < 2) {
-    if (type.includes('[prevent]')) return
-  }
+  // if (LOG_LEVEL < 2) {
+  //   if (type.includes('[prevent]')) return
+  // }
 
   const now = new Date()
   const h = now.getHours()

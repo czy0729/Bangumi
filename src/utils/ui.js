@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 15:57:25
+ * @Last Modified time: 2021-07-15 15:37:32
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import Toast from '@components/@/ant-design/toast'
@@ -40,10 +40,10 @@ export function feedback() {
 export function confirm(
   content,
   onPress,
-  title = '提示',
+  title = '警告',
   onCancelPress = Function.prototype
 ) {
-  return Alert.alert(title, content, [
+  const params = [
     {
       text: '取消',
       style: 'cancel',
@@ -53,7 +53,16 @@ export function confirm(
       text: '确定',
       onPress
     }
-  ])
+  ]
+
+  // iOS 有时候在 popover 里面询问, 会触发屏幕假死, 需要延迟一下让菜单消失了再执行
+  if (IOS) {
+    return setTimeout(() => {
+      Alert.alert(title, content, params)
+    }, 80)
+  }
+
+  return Alert.alert(title, content, params)
 }
 
 /**

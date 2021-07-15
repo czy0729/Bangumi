@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:03:24
+ * @Last Modified time: 2021-07-15 12:56:34
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -207,7 +207,7 @@ class Setting extends React.Component {
         setTimeout(() => {
           confirm('确定上传当前设置到云端?', async () => {
             const flag = await systemStore.uploadSetting()
-            info(flag ? '已上传' : '上传失败')
+            info(flag ? '已上传' : '上传失败, 请等待作者修复')
           })
         }, 160)
         return

@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 20:32:03
+ * @Last Modified time: 2021-07-15 15:37:41
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@screens/_'
 import { _, rakuenStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
+import { info, confirm } from '@utils/ui'
 
 function IconExtra(
   { replySub, erase, userId, userName, message, showFixedTextare },
@@ -32,24 +31,15 @@ function IconExtra(
         }
 
         if (title === '删除') {
-          setTimeout(() => {
-            Alert.alert('警告', '确定删除回复?', [
-              {
-                text: '取消',
-                style: 'cancel'
-              },
-              {
-                text: '确定',
-                onPress: () => $.doDeleteReply(erase)
-              }
-            ])
-          }, 80)
+          confirm('确定删除回复?', () => $.doDeleteReply(erase))
           return
         }
 
         if (title === '屏蔽用户') {
-          rakuenStore.addBlockUser(`${userName}@${userId}`)
-          info(`已屏蔽 ${userName}`)
+          confirm('确定屏蔽用户?', () => {
+            rakuenStore.addBlockUser(`${userName}@${userId}`)
+            info(`已屏蔽 ${userName}`)
+          })
         }
       }}
     >

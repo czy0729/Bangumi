@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-11 18:58:55
+ * @Last Modified time: 2021-07-15 15:56:26
  */
-import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
 import { runAfter } from '@utils'
-import { info } from '@utils/ui'
+import { info, confirm } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { URL_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 import {
@@ -292,23 +291,27 @@ export default class ScreenRakuen extends store {
       case '屏蔽小组':
       case '屏蔽条目':
       case '屏蔽人物':
-        t(eventId, {
-          title,
-          groupCn: values.groupCn
-        })
+        confirm(`确定${title}?`, () => {
+          t(eventId, {
+            title,
+            groupCn: values.groupCn
+          })
 
-        rakuenStore.addBlockGroup(values.groupCn)
-        info(`已屏蔽 ${values.groupCn}`)
+          rakuenStore.addBlockGroup(values.groupCn)
+          info(`已屏蔽 ${values.groupCn}`)
+        })
         break
 
       case '屏蔽用户':
-        t(eventId, {
-          title,
-          userName: values.userName
-        })
+        confirm(`确定${title}?`, () => {
+          t(eventId, {
+            title,
+            userName: values.userName
+          })
 
-        rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
-        info(`已屏蔽 ${values.userName}`)
+          rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
+          info(`已屏蔽 ${values.userName}`)
+        })
         break
 
       default:
@@ -356,19 +359,10 @@ export default class ScreenRakuen extends store {
       return
     }
 
-    Alert.alert(
-      '预读取未读帖子',
+    confirm(
       `当前 ${ids.length} 个未读帖子, 1次操作最多预读前 ${prefetchCount} 个, 建议在WIFI下进行, 确定?`,
-      [
-        {
-          text: '取消',
-          style: 'cancel'
-        },
-        {
-          text: '确定',
-          onPress: () => this.prefetch(ids)
-        }
-      ]
+      () => this.prefetch(ids),
+      '预读取未读帖子'
     )
   }
 
