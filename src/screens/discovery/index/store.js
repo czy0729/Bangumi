@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 17:48:51
+ * @Last Modified time: 2021-07-16 01:44:41
  */
 import { observable, computed } from 'mobx'
 import {
@@ -13,7 +13,7 @@ import {
   discoveryStore,
   usersStore
 } from '@stores'
-import { getTimestamp } from '@utils'
+import { date, getTimestamp } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
 import { matchBgmUrl } from '@utils/match'
@@ -66,6 +66,13 @@ export default class ScreenDiscovery extends store {
       this.fetchOnline()
       if (!DEV && userStore.isWebLogin) {
         this.fetchChannel()
+      }
+
+      if (!DEV) {
+        queue([
+          () => calendarStore.fetchOnAir(),
+          () => calendarStore.fetchCalendar()
+        ])
       }
     }, 800)
     return calendarStore.fetchHome()
@@ -133,6 +140,69 @@ export default class ScreenDiscovery extends store {
 
   friendsChannel(type) {
     return computed(() => discoveryStore.channel(type).friends).get()
+  }
+
+  @computed get onAir() {
+    return calendarStore.onAir
+  }
+
+  @computed get calendar() {
+    const { list } = calendarStore.calendar
+    const _list = list.map(item => ({
+      ...item,
+      items: item.items
+        .map(i => {
+          const { air = 0, timeCN, timeJP } = this.onAir[i.id] || {}
+          return {
+            ...i,
+            air,
+
+            /**
+             * @fixed 20210217 bangumi的每日放送是以日本放送日作为分组, 所以时间应以日本时间为主
+             * 避免刚好+1小时时差导致周几错误
+             */
+            timeCN: timeCN || timeJP || '2359'
+          }
+        })
+        .filter(item => item.timeCN !== '2359') // 暂时把没有放送具体时间的番剧隐藏
+        .sort((a, b) => a.timeCN.localeCompare(b.timeCN))
+    }))
+
+    const calendar = []
+    _list.forEach(item => {
+      item.items.forEach(i => {
+        calendar.push({
+          ...i,
+          weekday: item.weekday.id
+        })
+      })
+    })
+
+    return calendar.reverse()
+  }
+
+  @computed get todayBangumi() {
+    try {
+      const time = date('Hi', getTimestamp())
+      const current = parseInt(`${new Date().getDay() || 7}${time}`)
+
+      const index = this.calendar.findIndex(
+        item => current >= parseInt(`${item.weekday}${item.timeCN}`)
+      )
+      if (index === -1) return []
+
+      // 在前面和后面拼接多一组数据, 可以实现循环每周, 补全数据
+      const circle = [...this.calendar, ...this.calendar, ...this.calendar]
+      const data = circle
+        .slice(
+          index - 10 + this.calendar.length,
+          index + 2 + this.calendar.length
+        )
+        .reverse()
+      return data
+    } catch (error) {
+      return []
+    }
   }
 
   // -------------------- action --------------------

@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:32:09
+ * @Last Modified time: 2021-07-16 01:21:59
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Heatmap } from '@components'
+import {
+  Flex,
+  Text
+  // Heatmap
+} from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Award from './award'
+// import Award from './award'
+import Today from './today'
 import Menu from './menu'
 
 function Header(props, { $ }) {
@@ -19,7 +24,7 @@ function Header(props, { $ }) {
   return (
     <View style={styles.container}>
       <StatusBarPlaceholder />
-      <View>
+      {/* <View>
         <Award />
         <Heatmap
           id='发现.跳转'
@@ -27,7 +32,7 @@ function Header(props, { $ }) {
             to: 'Award'
           }}
         />
-      </View>
+      </View> */}
       <Menu />
       <Flex style={styles.wrap}>
         {!!$.online && (
@@ -41,6 +46,7 @@ function Header(props, { $ }) {
           </Text>
         </Flex.Item>
       </Flex>
+      <Today />
     </View>
   )
 }
@@ -52,7 +58,8 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: _.sm
   },
   wrap: {
-    ..._.container.wind,
-    ..._.mt.lg
+    paddingHorizontal: _.wind + 2,
+    marginTop: _.md + 8,
+    marginBottom: _.xs
   }
 }))

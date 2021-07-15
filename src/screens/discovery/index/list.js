@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-24 20:13:01
+ * @Last Modified time: 2021-07-16 00:17:38
  */
 import React from 'react'
 import { HorizontalList } from '@components'
@@ -20,7 +20,7 @@ const dataCache = {}
 const initialRenderNumsSm = _.isPad
   ? 0
   : Math.floor(_.window.contentWidth / 140) + 1
-const initialRenderNumsXs = _.isPad
+export const initialRenderNumsXs = _.isPad
   ? 0
   : Math.floor(_.window.contentWidth / 86) + 1
 

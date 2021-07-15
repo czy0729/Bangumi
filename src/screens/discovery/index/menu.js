@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:42:43
+ * @Last Modified time: 2021-07-16 01:36:57
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -82,6 +82,11 @@ const menus = [
     path: 'Tinygrail'
   },
   {
+    title: '年鉴',
+    icon: 'md-whatshot',
+    path: 'Yearbook'
+  },
+  {
     title: '推荐',
     icon: 'md-favorite-outline',
     path: 'Guess',
@@ -93,16 +98,15 @@ const menus = [
     path: 'Wiki'
   },
   {
-    title: '好友',
-    icon: 'md-face',
-    path: 'Friends',
-    login: true
-  },
-  {
     title: '时间线',
     icon: 'md-timeline',
     path: 'UserTimeline',
     login: true
+  },
+  {
+    title: 'netaba.re',
+    icon: 'md-trending-up',
+    path: 'netabare'
   },
   {
     title: 'anitama',
@@ -110,9 +114,10 @@ const menus = [
     path: 'Anitama'
   },
   {
-    title: 'netaba.re',
-    icon: 'md-trending-up',
-    path: 'netabare'
+    title: '好友',
+    icon: 'md-face',
+    path: 'Friends',
+    login: true
   },
   {
     title: '我的人物',
