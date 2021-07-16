@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:30:07
+ * @Last Modified time: 2021-07-16 14:45:49
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -32,13 +32,13 @@ export const tabBarHeight = 50 // 标签栏高度
 
 // -------------------- 统一布局单位 --------------------
 export const { hairlineWidth } = StyleSheet
-export const xs = isPad ? 8 : 4
-export const sm = isPad ? 12 : 8
-export const md = isPad ? 24 : 16
+export const xs = isPad ? 8 : 6
+export const sm = isPad ? 12 : 10
+export const md = isPad ? 24 : 18
 export const lg = isPad ? 48 : 32
-export const wind = isPad ? parseInt((width - window.contentWidth) / 2) : 16 // 两翼
-export const _wind = 16
-export const space = isPad ? 24 : 16 // 上下
+export const wind = isPad ? parseInt((width - window.contentWidth) / 2) : 18 // 两翼
+export const _wind = 18
+export const space = isPad ? 24 : 20 // 上下
 export const bottom = tabBarHeight + lg // 底部留空
 
 // -------------------- 主题色 --------------------

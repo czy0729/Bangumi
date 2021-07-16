@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 01:44:41
+ * @Last Modified time: 2021-07-16 14:20:41
  */
 import { observable, computed } from 'mobx'
 import {
@@ -68,12 +68,10 @@ export default class ScreenDiscovery extends store {
         this.fetchChannel()
       }
 
-      if (!DEV) {
-        queue([
-          () => calendarStore.fetchOnAir(),
-          () => calendarStore.fetchCalendar()
-        ])
-      }
+      queue([
+        () => calendarStore.fetchOnAir(),
+        () => calendarStore.fetchCalendar()
+      ])
     }, 800)
     return calendarStore.fetchHome()
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 11:04:19
+ * @Last Modified time: 2021-07-16 15:30:26
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -110,9 +110,12 @@ export const HorizontalList = ob(
                   shadow
                   quality={quality}
                   type={typeCn}
-                  onPress={() => onPress(item)}
+                  onPress={() => onPress(item, typeCn)}
                 />
-                <Touchable withoutFeedback onPress={() => onPress(item)}>
+                <Touchable
+                  withoutFeedback
+                  onPress={() => onPress(item, typeCn)}
+                >
                   <Text
                     style={_.mt.sm}
                     size={10}

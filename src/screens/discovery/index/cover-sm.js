@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 00:48:52
+ * @Last Modified time: 2021-07-16 14:21:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,14 +13,10 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { linearColor } from './ds'
 
 const imageWidth = _.device(_.window.width * 0.34, _.window.contentWidth * 0.4)
 const imageHeight = imageWidth * 1.38
-const linearColor = [
-  'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0.6',
-  'rgba(0, 0, 0, 0.9)'
-]
 
 function CoverSm({ title, src, cn, data }, { navigation }) {
   const styles = memoStyles()

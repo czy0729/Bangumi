@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:57:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 16:23:09
+ * @Last Modified time: 2021-07-16 16:08:47
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Text } from '@components'
+import { Touchable, Text, Divider } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { appNavigate, findSubjectCn } from '@utils/app'
@@ -47,6 +47,7 @@ function Item({ id, name, detail, userName, userId }, { navigation }) {
           </>
         )}
       </Text>
+      <Divider style={_.mt.sm} />
     </View>
   )
 }
@@ -55,7 +56,7 @@ export default obc(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    paddingVertical: _.md,
+    paddingVertical: _.sm,
     paddingHorizontal: _.wind
   },
   touch: {

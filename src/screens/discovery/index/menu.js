@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 01:36:57
+ * @Last Modified time: 2021-07-16 16:14:13
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -82,11 +82,6 @@ const menus = [
     path: 'Tinygrail'
   },
   {
-    title: '年鉴',
-    icon: 'md-whatshot',
-    path: 'Yearbook'
-  },
-  {
     title: '推荐',
     icon: 'md-favorite-outline',
     path: 'Guess',
@@ -96,6 +91,11 @@ const menus = [
     title: '维基人',
     icon: 'wiki',
     path: 'Wiki'
+  },
+  {
+    title: '年鉴',
+    icon: 'md-whatshot',
+    path: 'Yearbook'
   },
   {
     title: '时间线',
@@ -113,12 +113,12 @@ const menus = [
     icon: 'md-text-format',
     path: 'Anitama'
   },
-  {
-    title: '好友',
-    icon: 'md-face',
-    path: 'Friends',
-    login: true
-  },
+  // {
+  //   title: '好友',
+  //   icon: 'md-face',
+  //   path: 'Friends',
+  //   login: true
+  // },
   {
     title: '我的人物',
     icon: 'md-folder-shared',
@@ -165,6 +165,6 @@ export default obc(Menu)
 const styles = _.create({
   container: {
     paddingHorizontal: _.wind,
-    marginTop: _.sm
+    marginTop: _.md
   }
 })

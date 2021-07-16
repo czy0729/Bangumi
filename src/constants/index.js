@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 01:42:24
+ * @Last Modified time: 2021-07-16 15:26:16
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'

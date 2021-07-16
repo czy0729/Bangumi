@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 15:56:00
+ * @Last Modified time: 2021-07-16 15:31:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ function Comic({ style }, { $, navigation }) {
         height={coverHeight}
         ellipsizeMode='middle'
         initialRenderNums={initialRenderNums}
-        onPress={({ id, name, image }) => {
+        onPress={({ id, name, image }, type) => {
           t('条目.跳转', {
             to: 'Subject',
             from: '单行本',
@@ -40,7 +40,8 @@ function Comic({ style }, { $, navigation }) {
           navigation.push('Subject', {
             subjectId: id,
             _jp: name,
-            _image: image
+            _image: image,
+            _type: type
           })
         }}
       />

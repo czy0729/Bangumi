@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:19:22
+ * @Last Modified time: 2021-07-16 14:33:38
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -115,7 +115,7 @@ const size = parseInt(50 * _.ratio)
 const memoStyles = _.memoStyles(_ => ({
   wrap: {
     width: parseInt((_.window.width - 2 * _.wind) * 0.249),
-    paddingVertical: _.sm
+    paddingVertical: _.sm + 4
   },
   item: {
     width: itemWidth

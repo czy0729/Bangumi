@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 00:49:02
+ * @Last Modified time: 2021-07-16 14:21:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,14 +14,10 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
+import { linearColor } from './ds'
 
 const imageWidth = _.window.width - _.wind * 2
 const imageHeight = imageWidth * 1.38
-const linearColor = [
-  'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0.6',
-  'rgba(0, 0, 0, 0.9)'
-]
 
 function CoverLg({ title, src, cn, data }, { navigation }) {
   const styles = memoStyles()

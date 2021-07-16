@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 15:56:04
+ * @Last Modified time: 2021-07-16 15:31:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,7 @@ function Like({ style }, { $, navigation }) {
             width={coverWidth}
             height={coverHeight}
             initialRenderNums={initialRenderNums}
-            onPress={({ id, name, image }) => {
+            onPress={({ id, name, image }, type) => {
               t('条目.跳转', {
                 to: 'Subject',
                 from: '猜你喜欢',
@@ -50,7 +50,8 @@ function Like({ style }, { $, navigation }) {
               navigation.push('Subject', {
                 subjectId: id,
                 _jp: name,
-                _image: image
+                _image: image,
+                _type: type
               })
             }}
           />

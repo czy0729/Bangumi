@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-07-15 23:27:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 01:41:10
+ * @Last Modified time: 2021-07-16 15:33:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, HorizontalList, Iconfont } from '@components'
+import { Flex, HorizontalList, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { initialRenderNumsXs } from './list'
@@ -24,8 +24,17 @@ function Today(props, { $ }) {
           {index === 2 && (
             <Flex style={styles.split} direction='column' justify='center'>
               <View style={styles.line} />
-              <Iconfont name='md-access-time' color={_.colorIcon} size={16} />
-              <View style={styles.line} />
+              <Text size={10} type='sub'>
+                now
+              </Text>
+              <View
+                style={[
+                  styles.line,
+                  {
+                    marginTop: _.xs + 2
+                  }
+                ]}
+              />
             </Flex>
           )}
           <CoverToday key={item.id} data={item} />
@@ -44,14 +53,16 @@ const styles = _.create({
     paddingLeft: _.wind
   },
   split: {
-    marginRight: _._wind - _.xs,
-    marginLeft: -_.xs,
+    marginRight: _._wind - _.sm,
+    marginLeft: -_.sm,
     opacity: 0.8
   },
   line: {
-    width: 1,
-    height: _.md,
-    marginVertical: _.sm,
-    backgroundColor: _.colorIcon
+    width: 3,
+    height: 3,
+    marginVertical: _.xs,
+    backgroundColor: _.colorIcon,
+    borderRadius: 3,
+    overflow: 'hidden'
   }
 })
