@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-17 01:07:44
+ * @Last Modified time: 2021-07-19 01:44:08
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
@@ -376,6 +376,7 @@ export async function init() {
       setStorage(animeDataKey, anime)
     } catch (error) {
       // 404
+      loaded = true
     }
     return
   }

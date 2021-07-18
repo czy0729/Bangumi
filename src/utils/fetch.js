@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 08:54:31
+ * @Last Modified time: 2021-07-19 01:57:20
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -15,10 +15,10 @@ import {
   DEV,
   HOST,
   HOST_NAME,
+  HOST_CDN,
   IOS,
   VERSION_GITHUB_RELEASE
 } from '@constants'
-import { HOST_CDN } from '@constants/cdn'
 import events from '@constants/events'
 import { BAIDU_KEY } from '@constants/secret'
 import fetch from './thirdParty/fetch-polyfill'

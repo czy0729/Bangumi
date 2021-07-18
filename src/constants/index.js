@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 15:26:16
+ * @Last Modified time: 2021-07-19 01:57:59
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -50,6 +50,7 @@ export const HOST_3 = 'https://chii.in'
 export const HOST_NING_MOE = 'https://www.ningmoe.com' // 柠萌瞬间地址
 export const HOST_ANITAMA = 'https://app.anitama.net' // Anitama api地址
 export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
+export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
 /* ==================== URL ==================== */
 // 登陆v1.0 oauth地址

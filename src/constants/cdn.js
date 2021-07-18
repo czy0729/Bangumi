@@ -9,13 +9,14 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-01 11:12:57
+ * @Last Modified time: 2021-07-19 02:03:25
  */
-import { getTimestamp } from '@utils'
+import { getTimestamp, getStorage, setStorage } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
+import { xhrCustom } from '@utils/fetch'
 import _hash from '@utils/thirdParty/hash'
-import hashSubject from '@constants/json/hash/subject.json'
-import hashAvatar from '@constants/json/hash/avatar.json'
+import hashSubject from '@constants/json/hash/subject.min.json'
+import hashAvatar from '@constants/json/hash/avatar.min.json'
 import { SDK } from './index'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
@@ -179,18 +180,68 @@ export const CDN_OSS_AVATAR = src => {
 }
 
 /**
+ * 获取云端最新 hash 和合并本地 fallback hash
+ * @param {*} subjectId
+ */
+let cacheSubject = {}
+let hashSubjectOTA = hashSubject
+let hashSubjectLoaded = false
+const hashSubjectOTAVersionKey = '@cdn|oss-subject-hash|version|210719'
+const hashSubjectOTADataKey = '@cdn|oss-subject-hash|data|210719'
+const initHashSubjectOTA = async () => {
+  if (hashSubjectLoaded) return
+
+  // 云版本
+  // 版本没有 OTA 高需要重新请求数据
+  const version = (await getStorage(hashSubjectOTAVersionKey)) || VERSION_OSS
+  const data = (await getStorage(hashSubjectOTADataKey)) || []
+
+  const ota = getOTA()
+  const needUpdate =
+    (!hashSubjectLoaded && !Object.keys(data).length) ||
+    parseInt(ota.VERSION_OSS) > parseInt(version)
+
+  // 没缓存也要请求数据
+  if (needUpdate || !Object.keys(data).length) {
+    try {
+      hashSubjectLoaded = true
+
+      const version =
+        parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
+          ? ota.VERSION_OSS
+          : VERSION_OSS
+      const { _response } = await xhrCustom({
+        url: `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/hash/subject.json`
+      })
+
+      // 更新了数据需要重置cache
+      hashSubjectOTA = JSON.parse(_response)
+      cacheSubject = {}
+      setStorage(hashSubjectOTAVersionKey, version)
+      setStorage(hashSubjectOTADataKey, hashSubjectOTA)
+    } catch (error) {
+      // 404
+      hashSubjectLoaded = true
+    }
+    return
+  }
+
+  // 有缓存直接返回
+  hashSubjectLoaded = true
+  hashSubjectOTA = data
+  cacheSubject = {}
+}
+
+/**
  * 条目封面CDN
  * @url https://github.com/czy0729/Bangumi-OSS
  */
-const cacheSubject = {}
 export const CDN_OSS_SUBJECT = src => {
-  if (typeof src !== 'string') {
-    return src
-  }
+  initHashSubjectOTA()
 
-  if (cacheSubject[src]) {
-    return cacheSubject[src]
-  }
+  if (typeof src !== 'string') return src
+
+  if (cacheSubject[src]) return cacheSubject[src]
 
   // 修正图片地址
   let _src = src.split('?')[0]
@@ -200,7 +251,9 @@ export const CDN_OSS_SUBJECT = src => {
   _src = _src.replace('http://', 'https://')
 
   const _hash = hash(_src)
-  if (_hash in hashSubject) {
+
+  // console.log(Object.keys(hashSubjectOTA).length)
+  if (_hash in hashSubjectOTA) {
     const ota = getOTA()
     const version =
       parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
