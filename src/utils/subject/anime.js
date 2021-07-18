@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 07:48:19
+ * @Last Modified time: 2021-07-17 01:07:44
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
@@ -422,9 +422,9 @@ export const SORT = {
  * 只返回下标数组对象
  */
 const reg = {
-  '1月': /-(01|02|03)-/,
-  '4月': /-(04|05|06)-/,
-  '7月': /-(07|08|09)-/,
+  '1月': /-(01|02|03|1|2|3)-/,
+  '4月': /-(04|05|06|4|5|6)-/,
+  '7月': /-(07|08|09|7|8|9)-/,
   '10月': /-(10|11|12)-/
 }
 const searchCache = {}
@@ -483,7 +483,19 @@ export function search({
 
     // begin: '2008-04-06'
     if (match && year) match = yearReg.test(item.b)
-    if (match && begin) match = reg[begin]?.test(item.b)
+    if (match && begin) {
+      if (!item.b) {
+        match = false
+      } else {
+        const splits = item.b.split('-')
+
+        if (!splits[1]) {
+          match = false
+        } else {
+          match = reg[begin]?.test(`${splits[0]}-${splits[1]}-`)
+        }
+      }
+    }
 
     // status: '完结'
     if (match && status) match = (item.st || '完结') === status
