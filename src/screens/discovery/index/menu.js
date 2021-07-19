@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 16:14:13
+ * @Last Modified time: 2021-07-19 19:59:54
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -165,6 +165,6 @@ export default obc(Menu)
 const styles = _.create({
   container: {
     paddingHorizontal: _.wind,
-    marginTop: _.md
+    marginTop: _.lg - 8
   }
 })

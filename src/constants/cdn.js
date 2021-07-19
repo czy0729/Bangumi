@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 18:45:28
+ * @Last Modified time: 2021-07-19 23:13:36
  */
 import { getTimestamp, getStorage, setStorage } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -358,8 +358,8 @@ export const CDN_OSS_AVATAR = src => {
 let cacheSubject = {}
 let hashSubjectOTA = hashSubject
 let hashSubjectLoaded = false
-const hashSubjectOTAVersionKey = '@cdn|oss-subject-hash|version|210719'
-const hashSubjectOTADataKey = '@cdn|oss-subject-hash|data|210719'
+const hashSubjectOTAVersionKey = '@cdn|oss-subject-hash|version|210720'
+const hashSubjectOTADataKey = '@cdn|oss-subject-hash|data|210720'
 export const initHashSubjectOTA = async () => {
   if (hashSubjectLoaded) return
 
@@ -388,7 +388,7 @@ export const initHashSubjectOTA = async () => {
 
       // 更新了数据需要重置cache
       hashSubjectOTA = {
-        ...hashAvatarOTA,
+        ...hashSubjectOTA,
         ...JSON.parse(_response)
       }
       cacheSubject = {}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 23:27:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 15:33:52
+ * @Last Modified time: 2021-07-19 19:53:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,15 +54,14 @@ const styles = _.create({
   },
   split: {
     marginRight: _._wind - _.sm,
-    marginLeft: -_.sm,
-    opacity: 0.8
+    marginLeft: -_.sm
   },
   line: {
-    width: 3,
-    height: 3,
+    width: 2,
+    height: 2,
     marginVertical: _.xs,
     backgroundColor: _.colorIcon,
-    borderRadius: 3,
+    borderRadius: 2,
     overflow: 'hidden'
   }
 })

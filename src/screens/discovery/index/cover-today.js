@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 14:21:56
+ * @Last Modified time: 2021-07-19 19:39:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,7 @@ function CoverToday({ data }, { navigation }) {
           colors={linearColor}
           pointerEvents='none'
         />
-        <View style={styles.info}>
+        <View style={styles.info} pointerEvents='none'>
           <Text
             size={13}
             type={_.select('plain', 'title')}
