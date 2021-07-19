@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 02:03:25
+ * @Last Modified time: 2021-07-19 16:20:21
  */
 import { getTimestamp, getStorage, setStorage } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -39,6 +39,7 @@ export const VERSION_WENKU = '20210627'
 export const VERSION_MANGA = '20210628'
 export const VERSION_HENTAI = '20210630'
 export const VERSION_GAME = '20210630'
+export const VERSION_TINYGRAIL = '20210720'
 
 export const VERSIONS_AVATAR = [
   '20210609',
@@ -138,136 +139,6 @@ export const CDN_RAKUEN_USER_TOPICS = userId => {
   return `${HOST_CDN}/gh/czy0729/Bangumi-Rakuen@${version}/data/user/${String(
     userId
   ).slice(0, 1)}/${userId}.json`
-}
-
-/**
- * 头像CDN
- * @url https://github.com/czy0729/Bangumi-OSS
- */
-const cacheAvatar = {}
-export const CDN_OSS_AVATAR = src => {
-  if (typeof src !== 'string') {
-    return src
-  }
-
-  if (cacheAvatar[src]) {
-    return cacheAvatar[src]
-  }
-
-  // 修正图片地址
-  let _src = src.split('?')[0]
-  if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
-    _src = `https:${_src}`
-  }
-  _src = _src.replace('http://', 'https://')
-
-  const _hash = hash(_src)
-  if (_hash in hashAvatar) {
-    const ota = getOTA()
-    const version =
-      parseInt(ota.VERSION_AVATAR) > parseInt(VERSION_AVATAR)
-        ? ota.VERSION_AVATAR
-        : VERSION_AVATAR
-
-    const path = _hash.slice(0, 1).toLocaleLowerCase()
-    const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/avatar/m/${path}/${_hash}.jpg`
-    cacheAvatar[src] = cdnSrc
-    return cdnSrc
-  }
-
-  cacheAvatar[src] = src
-  return src
-}
-
-/**
- * 获取云端最新 hash 和合并本地 fallback hash
- * @param {*} subjectId
- */
-let cacheSubject = {}
-let hashSubjectOTA = hashSubject
-let hashSubjectLoaded = false
-const hashSubjectOTAVersionKey = '@cdn|oss-subject-hash|version|210719'
-const hashSubjectOTADataKey = '@cdn|oss-subject-hash|data|210719'
-const initHashSubjectOTA = async () => {
-  if (hashSubjectLoaded) return
-
-  // 云版本
-  // 版本没有 OTA 高需要重新请求数据
-  const version = (await getStorage(hashSubjectOTAVersionKey)) || VERSION_OSS
-  const data = (await getStorage(hashSubjectOTADataKey)) || []
-
-  const ota = getOTA()
-  const needUpdate =
-    (!hashSubjectLoaded && !Object.keys(data).length) ||
-    parseInt(ota.VERSION_OSS) > parseInt(version)
-
-  // 没缓存也要请求数据
-  if (needUpdate || !Object.keys(data).length) {
-    try {
-      hashSubjectLoaded = true
-
-      const version =
-        parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
-          ? ota.VERSION_OSS
-          : VERSION_OSS
-      const { _response } = await xhrCustom({
-        url: `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/hash/subject.json`
-      })
-
-      // 更新了数据需要重置cache
-      hashSubjectOTA = JSON.parse(_response)
-      cacheSubject = {}
-      setStorage(hashSubjectOTAVersionKey, version)
-      setStorage(hashSubjectOTADataKey, hashSubjectOTA)
-    } catch (error) {
-      // 404
-      hashSubjectLoaded = true
-    }
-    return
-  }
-
-  // 有缓存直接返回
-  hashSubjectLoaded = true
-  hashSubjectOTA = data
-  cacheSubject = {}
-}
-
-/**
- * 条目封面CDN
- * @url https://github.com/czy0729/Bangumi-OSS
- */
-export const CDN_OSS_SUBJECT = src => {
-  initHashSubjectOTA()
-
-  if (typeof src !== 'string') return src
-
-  if (cacheSubject[src]) return cacheSubject[src]
-
-  // 修正图片地址
-  let _src = src.split('?')[0]
-  if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
-    _src = `https:${_src}`
-  }
-  _src = _src.replace('http://', 'https://')
-
-  const _hash = hash(_src)
-
-  // console.log(Object.keys(hashSubjectOTA).length)
-  if (_hash in hashSubjectOTA) {
-    const ota = getOTA()
-    const version =
-      parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
-        ? ota.VERSION_OSS
-        : VERSION_OSS
-
-    const path = _hash.slice(0, 1).toLocaleLowerCase()
-    const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/subject/c/${path}/${_hash}.jpg`
-    cacheSubject[src] = cdnSrc
-    return cdnSrc
-  }
-
-  cacheSubject[src] = src
-  return src
 }
 
 /**
@@ -390,3 +261,237 @@ export const CDN_GAME = (subjectId, index) =>
   `${HOST_CDN}/gh/czy0729/Bangumi-Game@${VERSION_GAME}/preview/${parseInt(
     parseInt(subjectId) / 100
   )}/${subjectId}/${index}.jpg`
+
+/* ==================== 获取云端最新 avatar hash 和合并本地 fallback hash ==================== */
+let cacheAvatar = {}
+let hashAvatarOTA = hashAvatar
+let hashAvatarLoaded = false
+const hashAvatarOTAVersionKey = '@cdn|oss-avatar-hash|version|210719'
+const hashAvatarOTADataKey = '@cdn|oss-avatar-hash|data|210719'
+export const initHashAvatarOTA = async () => {
+  if (hashAvatarLoaded) return
+
+  // 云版本
+  // 版本没有 OTA 高需要重新请求数据
+  const version = (await getStorage(hashAvatarOTAVersionKey)) || VERSION_OSS
+  const data = (await getStorage(hashAvatarOTADataKey)) || []
+
+  const ota = getOTA()
+  const needUpdate =
+    (!hashAvatarLoaded && !Object.keys(data).length) ||
+    parseInt(ota.VERSION_OSS) > parseInt(version)
+
+  // 没缓存也要请求数据
+  if (needUpdate || !Object.keys(data).length) {
+    try {
+      hashAvatarLoaded = true
+
+      const version =
+        parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
+          ? ota.VERSION_OSS
+          : VERSION_OSS
+      const { _response } = await xhrCustom({
+        url: `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/hash/avatar.json`
+      })
+
+      // 更新了数据需要重置cache
+      hashAvatarOTA = JSON.parse(_response)
+      cacheAvatar = {}
+      setStorage(hashAvatarOTAVersionKey, version)
+      setStorage(hashAvatarOTADataKey, hashAvatarOTA)
+    } catch (error) {
+      // 404
+      hashAvatarLoaded = true
+    }
+    return
+  }
+
+  // 有缓存直接返回
+  hashAvatarLoaded = true
+  hashAvatarOTA = data
+  cacheAvatar = {}
+}
+
+export const getHashAvatarOTA = () => hashAvatarOTA
+
+/**
+ * 头像CDN
+ * @url https://github.com/czy0729/Bangumi-OSS
+ */
+export const CDN_OSS_AVATAR = src => {
+  initHashAvatarOTA()
+
+  if (typeof src !== 'string') return src
+
+  if (cacheAvatar[src]) return cacheAvatar[src]
+
+  // 修正图片地址
+  let _src = src.split('?')[0]
+  if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
+    _src = `https:${_src}`
+  }
+  _src = _src.replace('http://', 'https://')
+
+  const _hash = hash(_src)
+  if (_hash in hashAvatarOTA) {
+    const ota = getOTA()
+    const version =
+      parseInt(ota.VERSION_AVATAR) > parseInt(VERSION_AVATAR)
+        ? ota.VERSION_AVATAR
+        : VERSION_AVATAR
+
+    const path = _hash.slice(0, 1).toLocaleLowerCase()
+    const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/avatar/m/${path}/${_hash}.jpg`
+    cacheAvatar[src] = cdnSrc
+    return cdnSrc
+  }
+
+  cacheAvatar[src] = src
+  return src
+}
+
+/* ==================== 获取云端最新 subject hash 和合并本地 fallback hash ==================== */
+let cacheSubject = {}
+let hashSubjectOTA = hashSubject
+let hashSubjectLoaded = false
+const hashSubjectOTAVersionKey = '@cdn|oss-subject-hash|version|210719'
+const hashSubjectOTADataKey = '@cdn|oss-subject-hash|data|210719'
+export const initHashSubjectOTA = async () => {
+  if (hashSubjectLoaded) return
+
+  // 云版本
+  // 版本没有 OTA 高需要重新请求数据
+  const version = (await getStorage(hashSubjectOTAVersionKey)) || VERSION_OSS
+  const data = (await getStorage(hashSubjectOTADataKey)) || []
+
+  const ota = getOTA()
+  const needUpdate =
+    (!hashSubjectLoaded && !Object.keys(data).length) ||
+    parseInt(ota.VERSION_OSS) > parseInt(version)
+
+  // 没缓存也要请求数据
+  if (needUpdate || !Object.keys(data).length) {
+    try {
+      hashSubjectLoaded = true
+
+      const version =
+        parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
+          ? ota.VERSION_OSS
+          : VERSION_OSS
+      const { _response } = await xhrCustom({
+        url: `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/hash/subject.json`
+      })
+
+      // 更新了数据需要重置cache
+      hashSubjectOTA = JSON.parse(_response)
+      cacheSubject = {}
+      setStorage(hashSubjectOTAVersionKey, version)
+      setStorage(hashSubjectOTADataKey, hashSubjectOTA)
+    } catch (error) {
+      // 404
+      hashSubjectLoaded = true
+    }
+    return
+  }
+
+  // 有缓存直接返回
+  hashSubjectLoaded = true
+  hashSubjectOTA = data
+  cacheSubject = {}
+}
+
+export const getHashSubjectOTA = () => hashSubjectOTA
+
+/**
+ * 条目封面CDN
+ * @url https://github.com/czy0729/Bangumi-OSS
+ */
+export const CDN_OSS_SUBJECT = src => {
+  initHashSubjectOTA()
+
+  if (typeof src !== 'string') return src
+
+  if (cacheSubject[src]) return cacheSubject[src]
+
+  // 修正图片地址
+  let _src = src.split('?')[0]
+  if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
+    _src = `https:${_src}`
+  }
+  _src = _src.replace('http://', 'https://')
+
+  const _hash = hash(_src)
+
+  if (_hash in hashSubjectOTA) {
+    const ota = getOTA()
+    const version =
+      parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
+        ? ota.VERSION_OSS
+        : VERSION_OSS
+
+    const path = _hash.slice(0, 1).toLocaleLowerCase()
+    const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/subject/c/${path}/${_hash}.jpg`
+    cacheSubject[src] = cdnSrc
+    return cdnSrc
+  }
+
+  cacheSubject[src] = src
+  return src
+}
+
+/* ==================== tinygrail xsb relation ==================== */
+let xsbRelationOTA = {
+  name: {},
+  data: {},
+  relation: {}
+}
+let xsbRelationLoaded = false
+const xsbRelationOTAVersionKey = '@cdn|oss-xsb-relation|version|210719'
+const xsbRelationOTADataKey = '@cdn|oss-xsb-relation|data|210719'
+export const initXsbRelationOTA = async () => {
+  if (xsbRelationLoaded) return
+
+  // 云版本
+  // 版本没有 OTA 高需要重新请求数据
+  const version =
+    (await getStorage(xsbRelationOTAVersionKey)) || VERSION_TINYGRAIL
+  const data = (await getStorage(xsbRelationOTADataKey)) || {
+    name: {},
+    data: {},
+    relation: {}
+  }
+
+  const ota = getOTA()
+  const needUpdate =
+    (!xsbRelationLoaded && !Object.keys(xsbRelationOTA.data).length) ||
+    parseInt(ota.VERSION_TINYGRAIL) > parseInt(version)
+
+  // 没缓存也要请求数据
+  if (needUpdate || !Object.keys(data.data).length) {
+    try {
+      xsbRelationLoaded = true
+
+      const version =
+        parseInt(ota.VERSION_TINYGRAIL) > parseInt(VERSION_TINYGRAIL)
+          ? ota.VERSION_TINYGRAIL
+          : VERSION_TINYGRAIL
+      const { _response } = await xhrCustom({
+        url: `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/tinygrail/relation.min.json`
+      })
+
+      xsbRelationOTA = JSON.parse(_response)
+      setStorage(xsbRelationOTAVersionKey, version)
+      setStorage(xsbRelationOTADataKey, xsbRelationOTA)
+    } catch (error) {
+      // 404
+      xsbRelationLoaded = true
+    }
+    return
+  }
+
+  // 有缓存直接返回
+  xsbRelationLoaded = true
+  xsbRelationOTA = data
+}
+
+export const getXsbRelationOTA = () => xsbRelationOTA

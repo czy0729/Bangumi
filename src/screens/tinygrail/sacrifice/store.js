@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 17:53:01
+ * @Last Modified time: 2021-07-19 16:23:04
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -18,7 +18,7 @@ import store from '@utils/store'
 import { queue, t, xhrCustom } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { API_TINYGRAIL_STAR } from '@constants/api'
-import XSBRelationData from '@constants/json/xsb-relation'
+import { getXsbRelationOTA } from '@constants/cdn'
 import { decimal, calculateRate } from '@tinygrail/_/utils'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 
@@ -250,6 +250,7 @@ export default class ScreenTinygrailSacrifice extends store {
   }
 
   @computed get relation() {
+    const XSBRelationData = getXsbRelationOTA()
     const { s, r = [] } = XSBRelationData.data[this.monoId] || {}
     return {
       s,

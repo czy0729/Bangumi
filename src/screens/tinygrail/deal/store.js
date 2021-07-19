@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 19:49:54
+ * @Last Modified time: 2021-07-19 16:22:40
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
@@ -10,7 +10,7 @@ import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { info, confirm, feedback } from '@utils/ui'
-import XSBRelationData from '@constants/json/xsb-relation'
+import { getXsbRelationOTA } from '@constants/cdn'
 
 const namespace = 'ScreenTinygrailDeal'
 const defaultType = 'bid'
@@ -114,6 +114,7 @@ export default class ScreenTinygrailDeal extends store {
   }
 
   @computed get relation() {
+    const XSBRelationData = getXsbRelationOTA()
     const { s, r = [] } = XSBRelationData.data[this.monoId] || {}
     return {
       s,

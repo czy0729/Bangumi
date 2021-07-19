@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:09:14
+ * @Last Modified time: 2021-07-19 16:14:37
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -18,6 +18,14 @@ import {
 import { ItemSetting } from '@screens/_'
 import { _, systemStore, userStore } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
+import {
+  getHashSubjectOTA,
+  getHashAvatarOTA,
+  initXsbRelationOTA,
+  getXsbRelationOTA
+} from '@constants/cdn'
+import hashSubject from '@constants/json/hash/subject.min.json'
+import hashAvatar from '@constants/json/hash/avatar.min.json'
 
 const title = '开发菜单'
 
@@ -30,6 +38,10 @@ export default
 class DEV extends React.Component {
   state = {
     showDetail: false
+  }
+
+  componentDidMount() {
+    initXsbRelationOTA()
   }
 
   onShow = () => {
@@ -121,6 +133,15 @@ class DEV extends React.Component {
       >
         {this.rederOptions()}
         {this.renderIcons()}
+        {this.renderView('HASH-OTA', [
+          {
+            hashSubject: Object.keys(hashSubject).length,
+            hashSubjectOTA: Object.keys(getHashSubjectOTA()).length,
+            hashAvatar: Object.keys(hashAvatar).length,
+            hashAvatarOTA: Object.keys(getHashAvatarOTA()).length,
+            xsbRelationOTA: Object.keys(getXsbRelationOTA().data).length
+          }
+        ])}
         {this.renderView('CDN', [ota])}
         {this.renderView('设备视窗', [_.window])}
         {this.renderView('登陆信息', [
@@ -157,8 +178,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   container: {
     display: 'flex',
-    flexDirection: 'column',
-    padding: _.md
+    flexDirection: 'column'
   },
   code: {
     paddingVertical: _.space,

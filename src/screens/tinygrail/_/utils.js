@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 11:13:44
+ * @Last Modified time: 2021-07-19 16:22:17
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
 import { throttle, toFixed, formatNumber } from '@utils'
 import { info } from '@utils/ui'
 import { IOS, B, M } from '@constants'
-import XSBRelationData from '@constants/json/xsb-relation'
+import { getXsbRelationOTA } from '@constants/cdn'
 
 /**
  * 计算角色当前股息
@@ -187,6 +187,7 @@ export function levelList(level, list) {
  * @param {*} data
  */
 export function relation(data) {
+  const XSBRelationData = getXsbRelationOTA()
   return {
     ...data,
     list: data.list.map(item => {

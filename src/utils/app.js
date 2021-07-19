@@ -3,15 +3,17 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 16:10:18
+ * @Last Modified time: 2021-07-19 16:55:32
  */
 import * as WebBrowser from 'expo-web-browser'
-import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import * as ReactNativeScreens from 'react-native-screens'
+import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import { HTMLDecode } from '@utils/html'
 import { DEV, HOST, HOST_2 } from '@constants'
+import { initHashSubjectOTA, initHashAvatarOTA } from '@constants/cdn'
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
+import { runAfter } from './index'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
 import { globalLog, globalWarn } from './dev'
@@ -45,6 +47,11 @@ export function bootApp() {
       assert: Function.prototype
     }
   }
+
+  runAfter(() => {
+    initHashSubjectOTA()
+    initHashAvatarOTA()
+  })
 }
 
 /**
@@ -140,7 +147,7 @@ export function findSubjectCn(jp = '', subjectId) {
   }
 
   /**
-   * 若带id使用本地SUBJECT_CN加速查找
+   * [已废弃] 若带id使用本地SUBJECT_CN加速查找
    */
   if (subjectId) {
     const cn = cnData[subjectId]

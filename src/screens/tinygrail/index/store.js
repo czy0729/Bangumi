@@ -2,13 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 01:24:50
+ * @Last Modified time: 2021-07-19 16:25:22
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore, systemStore } from '@stores'
-import { urlStringify, getTimestamp, formatNumber, toFixed } from '@utils'
+import {
+  urlStringify,
+  getTimestamp,
+  formatNumber,
+  toFixed,
+  runAfter
+} from '@utils'
 import store from '@utils/store'
 import { info, feedback } from '@utils/ui'
 import { queue, t } from '@utils/fetch'
@@ -21,6 +27,7 @@ import {
   DEV
 } from '@constants'
 import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
+import { initXsbRelationOTA } from '@constants/cdn'
 
 const namespace = 'ScreenTinygrail'
 const errorStr = '/false'
@@ -76,6 +83,11 @@ export default class ScreenTinygrail extends store {
     this.caculateChange()
     this.fetchCount()
     this.checkCount()
+
+    runAfter(() => {
+      initXsbRelationOTA()
+    })
+
     return true
   }
 
