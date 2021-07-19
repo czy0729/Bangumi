@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 23:27:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 19:53:17
+ * @Last Modified time: 2021-07-20 01:35:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,7 @@ export default obc(Today)
 
 const styles = _.create({
   contentContainerStyle: {
-    paddingVertical: _.space + 4,
+    paddingTop: _.space + 4,
     paddingRight: _.wind - _._wind,
     paddingLeft: _.wind
   },

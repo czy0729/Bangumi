@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 19:39:16
+ * @Last Modified time: 2021-07-20 01:33:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { HTMLDecode } from '@utils/html'
 import { cnjp } from '@utils/app'
 import { linearColor } from './ds'
 
-const imageWidth = _.device(_.window.width * 0.34, _.window.contentWidth * 0.4)
+const imageWidth = _.device(_.window.width * 0.28, _.window.contentWidth * 0.4)
 const imageHeight = imageWidth * 1.38
 const weekdayCN = {
   0: '日',
