@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 16:55:32
+ * @Last Modified time: 2021-07-19 18:31:17
  */
 import * as WebBrowser from 'expo-web-browser'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -13,7 +13,6 @@ import { DEV, HOST, HOST_2 } from '@constants'
 import { initHashSubjectOTA, initHashAvatarOTA } from '@constants/cdn'
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
-import { runAfter } from './index'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
 import { globalLog, globalWarn } from './dev'
@@ -24,6 +23,9 @@ const HOST_IMAGE = '//lain.bgm.tv'
  * 启动
  */
 export function bootApp() {
+  initHashSubjectOTA()
+  initHashAvatarOTA()
+
   global.log = globalLog
   global.warn = globalWarn
 
@@ -47,11 +49,6 @@ export function bootApp() {
       assert: Function.prototype
     }
   }
-
-  runAfter(() => {
-    initHashSubjectOTA()
-    initHashAvatarOTA()
-  })
 }
 
 /**

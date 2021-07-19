@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 02:03:49
+ * @Last Modified time: 2021-07-19 19:31:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,7 @@ export const Cover = ob(
       )
     }
 
-    const { dev } = systemStore.state
+    const { hashSubjectOTALoaded, dev } = systemStore.state
     const { cdn, coverThings } = systemStore.setting
 
     // 有些情况图片地址分析错误, 排除掉
@@ -65,7 +65,7 @@ export const Cover = ob(
           height: w
         }
         return (
-          <View style={_style}>
+          <View key={hashSubjectOTALoaded} style={_style}>
             <View
               style={[
                 styles.disc,
@@ -98,6 +98,7 @@ export const Cover = ob(
         }
         return (
           <View
+            key={hashSubjectOTALoaded}
             style={[
               _style,
               {
@@ -133,7 +134,12 @@ export const Cover = ob(
         const w = other.width || size
         const h = height || size
         return (
-          <Flex style={styles.game} direction='column' justify='center'>
+          <Flex
+            key={hashSubjectOTALoaded}
+            style={styles.game}
+            direction='column'
+            justify='center'
+          >
             <View style={styles.gameHead} />
             <Image
               style={[imageStyle, styles.gameImage]}
@@ -159,7 +165,7 @@ export const Cover = ob(
           height: w
         }
         return (
-          <View style={_style}>
+          <View key={hashSubjectOTALoaded} style={_style}>
             <View
               style={[
                 styles.catalog,
@@ -195,6 +201,7 @@ export const Cover = ob(
 
     return (
       <Image
+        key={hashSubjectOTALoaded}
         style={imageStyle}
         src={_src}
         size={size}

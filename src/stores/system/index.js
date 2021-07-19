@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:54:04
+ * @Last Modified time: 2021-07-19 18:26:37
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -84,7 +84,12 @@ class System extends store {
     /**
      * 用于标记APP启动后是否进入静止期
      */
-    rendered: false
+    rendered: false,
+
+    /**
+     * 用于在bangumi-oss ota hash更新后, 强制刷新APP内所有封面
+     */
+    hashSubjectOTALoaded: 0
   })
 
   init = async () => {

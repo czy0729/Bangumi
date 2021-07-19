@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 05:20:10
+ * @Last Modified time: 2021-07-19 19:16:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,12 +50,12 @@ function List(props, { $ }) {
       numColumns={$.isList ? undefined : 3}
       scrollToTop
       renderSectionHeader={renderSectionHeader}
-      renderItem={({ item, title, section = {} }) => {
+      renderItem={({ item, section = {} }) => {
         const { items } = item
         let renderLine = false
         const current = parseInt(date('Hi', getTimestamp()))
         return (
-          <Flex key={title} wrap='wrap' align='start'>
+          <Flex wrap='wrap' align='start'>
             {items.map((i, idx) => {
               let { timeCN } = i
               if (idx > 0 && items[idx - 1].timeCN === timeCN) {

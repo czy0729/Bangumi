@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 14:07:31
+ * @Last Modified time: 2021-07-19 19:29:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,9 +18,9 @@ function ItemLine(
   { subjectId, images = {}, name, air, timeCN, score },
   { $, navigation }
 ) {
-  const { type } = $.state
+  const { type, expand } = $.state
   const collection = $.userCollectionsMap[subjectId]
-  if (type === 'collect' && !collection) {
+  if ((type === 'collect' && !collection) || (!expand && !timeCN)) {
     return null
   }
 
@@ -51,48 +51,59 @@ function ItemLine(
                 : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
             </Text>
           )}
+          {timeCN === '2359' && (
+            <Touchable style={_.mt.sm} onPress={$.toggleExpand}>
+              <Text type='sub' align='center'>
+                {expand ? '隐藏' : '展开'}
+              </Text>
+            </Touchable>
+          )}
         </View>
-        <View style={styles.image}>
-          <Cover
-            width={IMG_WIDTH}
-            height={IMG_HEIGHT}
-            src={images.medium}
-            radius
-            shadow
-          />
-        </View>
-        <Flex.Item style={_.ml.md}>
-          <Flex
-            style={styles.body}
-            direction='column'
-            justify='between'
-            align='start'
-          >
-            {!!collection && (
-              <Tag style={styles.collection} value={collection} />
-            )}
-            <Katakana.Provider
-              itemStyle={styles.katakanas}
-              size={13}
-              numberOfLines={2}
-            >
-              <Katakana type='desc' size={13} numberOfLines={2} bold>
-                {indent}
-                {HTMLDecode(name)}
-              </Katakana>
-            </Katakana.Provider>
-            <Flex>
-              {!!air && (
-                <Text style={_.mr.sm} type='main' size={13} bold>
-                  第{air}话
-                </Text>
-              )}
-              {showScore && (
-                <Stars simple value={score} type='desc' size={13} />
-              )}
-            </Flex>
-          </Flex>
-        </Flex.Item>
+        {(expand || (!expand && timeCN && timeCN !== '2359')) && (
+          <>
+            <View style={styles.image}>
+              <Cover
+                width={IMG_WIDTH}
+                height={IMG_HEIGHT}
+                src={images.medium}
+                radius
+                shadow
+              />
+            </View>
+            <Flex.Item style={_.ml.md}>
+              <Flex
+                style={styles.body}
+                direction='column'
+                justify='between'
+                align='start'
+              >
+                {!!collection && (
+                  <Tag style={styles.collection} value={collection} />
+                )}
+                <Katakana.Provider
+                  itemStyle={styles.katakanas}
+                  size={13}
+                  numberOfLines={2}
+                >
+                  <Katakana type='desc' size={13} numberOfLines={2} bold>
+                    {indent}
+                    {HTMLDecode(name)}
+                  </Katakana>
+                </Katakana.Provider>
+                <Flex>
+                  {!!air && (
+                    <Text style={_.mr.sm} type='main' size={13} bold>
+                      第{air}话
+                    </Text>
+                  )}
+                  {showScore && (
+                    <Stars simple value={score} type='desc' size={13} />
+                  )}
+                </Flex>
+              </Flex>
+            </Flex.Item>
+          </>
+        )}
       </Flex>
     </Touchable>
   )

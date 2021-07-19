@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:44:58
+ * @Last Modified time: 2021-07-19 19:19:27
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
@@ -22,6 +22,7 @@ export default class ScreenCalendar extends store {
   state = observable({
     layout: 'list', // list | grid
     type: 'all', // all | collect
+    expand: false,
     _loaded: false
   })
 
@@ -120,6 +121,14 @@ export default class ScreenCalendar extends store {
     const { type } = this.state
     this.setState({
       type: type === 'all' ? 'collect' : 'all'
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  toggleExpand = () => {
+    const { expand } = this.state
+    this.setState({
+      expand: !expand
     })
     this.setStorage(undefined, undefined, namespace)
   }

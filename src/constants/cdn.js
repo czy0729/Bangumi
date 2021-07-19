@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 16:20:21
+ * @Last Modified time: 2021-07-19 18:45:28
  */
 import { getTimestamp, getStorage, setStorage } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -274,7 +274,7 @@ export const initHashAvatarOTA = async () => {
   // 云版本
   // 版本没有 OTA 高需要重新请求数据
   const version = (await getStorage(hashAvatarOTAVersionKey)) || VERSION_OSS
-  const data = (await getStorage(hashAvatarOTADataKey)) || []
+  const data = (await getStorage(hashAvatarOTADataKey)) || {}
 
   const ota = getOTA()
   const needUpdate =
@@ -295,7 +295,10 @@ export const initHashAvatarOTA = async () => {
       })
 
       // 更新了数据需要重置cache
-      hashAvatarOTA = JSON.parse(_response)
+      hashAvatarOTA = {
+        ...hashAvatarOTA,
+        ...JSON.parse(_response)
+      }
       cacheAvatar = {}
       setStorage(hashAvatarOTAVersionKey, version)
       setStorage(hashAvatarOTADataKey, hashAvatarOTA)
@@ -308,7 +311,10 @@ export const initHashAvatarOTA = async () => {
 
   // 有缓存直接返回
   hashAvatarLoaded = true
-  hashAvatarOTA = data
+  hashAvatarOTA = {
+    ...hashAvatarOTA,
+    ...data
+  }
   cacheAvatar = {}
 }
 
@@ -319,8 +325,6 @@ export const getHashAvatarOTA = () => hashAvatarOTA
  * @url https://github.com/czy0729/Bangumi-OSS
  */
 export const CDN_OSS_AVATAR = src => {
-  initHashAvatarOTA()
-
   if (typeof src !== 'string') return src
 
   if (cacheAvatar[src]) return cacheAvatar[src]
@@ -342,11 +346,11 @@ export const CDN_OSS_AVATAR = src => {
 
     const path = _hash.slice(0, 1).toLocaleLowerCase()
     const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/avatar/m/${path}/${_hash}.jpg`
-    cacheAvatar[src] = cdnSrc
+    if (hashAvatarLoaded) cacheAvatar[src] = cdnSrc
     return cdnSrc
   }
 
-  cacheAvatar[src] = src
+  if (hashAvatarLoaded) cacheAvatar[src] = src
   return src
 }
 
@@ -362,7 +366,7 @@ export const initHashSubjectOTA = async () => {
   // 云版本
   // 版本没有 OTA 高需要重新请求数据
   const version = (await getStorage(hashSubjectOTAVersionKey)) || VERSION_OSS
-  const data = (await getStorage(hashSubjectOTADataKey)) || []
+  const data = (await getStorage(hashSubjectOTADataKey)) || {}
 
   const ota = getOTA()
   const needUpdate =
@@ -383,10 +387,18 @@ export const initHashSubjectOTA = async () => {
       })
 
       // 更新了数据需要重置cache
-      hashSubjectOTA = JSON.parse(_response)
+      hashSubjectOTA = {
+        ...hashAvatarOTA,
+        ...JSON.parse(_response)
+      }
       cacheSubject = {}
       setStorage(hashSubjectOTAVersionKey, version)
       setStorage(hashSubjectOTADataKey, hashSubjectOTA)
+
+      const systemStore = getSystemStoreAsync()
+      systemStore.setState({
+        hashSubjectOTALoaded: getTimestamp()
+      })
     } catch (error) {
       // 404
       hashSubjectLoaded = true
@@ -396,7 +408,10 @@ export const initHashSubjectOTA = async () => {
 
   // 有缓存直接返回
   hashSubjectLoaded = true
-  hashSubjectOTA = data
+  hashSubjectOTA = {
+    ...hashSubjectOTA,
+    ...data
+  }
   cacheSubject = {}
 }
 
@@ -407,8 +422,6 @@ export const getHashSubjectOTA = () => hashSubjectOTA
  * @url https://github.com/czy0729/Bangumi-OSS
  */
 export const CDN_OSS_SUBJECT = src => {
-  initHashSubjectOTA()
-
   if (typeof src !== 'string') return src
 
   if (cacheSubject[src]) return cacheSubject[src]
@@ -431,11 +444,11 @@ export const CDN_OSS_SUBJECT = src => {
 
     const path = _hash.slice(0, 1).toLocaleLowerCase()
     const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/subject/c/${path}/${_hash}.jpg`
-    cacheSubject[src] = cdnSrc
+    if (hashSubjectLoaded) cacheSubject[src] = cdnSrc
     return cdnSrc
   }
 
-  cacheSubject[src] = src
+  if (hashSubjectLoaded) cacheSubject[src] = src
   return src
 }
 
