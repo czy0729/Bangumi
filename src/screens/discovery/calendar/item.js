@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 14:08:41
+ * @Last Modified time: 2021-07-28 09:04:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,12 @@ import { t } from '@utils/fetch'
 import { COLLECTION_INDENT } from '@constants'
 
 const gridStyles = _.grid()
+const hitSlop = {
+  top: _.device(2, 4),
+  right: _.device(4, 4),
+  bottom: _.device(10, 4),
+  left: _.device(4, 4)
+}
 
 function Item(
   { style, subjectId, images = {}, name, score },
@@ -61,7 +67,12 @@ function Item(
           </View>
         )}
       </View>
-      <Touchable style={_.mt.sm} withoutFeedback onPress={onPress}>
+      <Touchable
+        style={_.mt.sm}
+        withoutFeedback
+        hitSlop={hitSlop}
+        onPress={onPress}
+      >
         {!!collection && <Tag style={styles.collection} value={collection} />}
         <Text size={12} bold lineHeight={_.device(13, 15)} numberOfLines={2}>
           {indent}

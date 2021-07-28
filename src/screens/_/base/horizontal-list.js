@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 15:30:26
+ * @Last Modified time: 2021-07-28 09:10:48
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +11,13 @@ import { _ } from '@stores'
 import { findSubjectCn } from '@utils/app'
 import { ob } from '@utils/decorators'
 import { Cover } from './cover'
+
+const hitSlop = {
+  top: _.device(3, 4),
+  right: _.device(4, 4),
+  bottom: _.device(4, 4),
+  left: _.device(4, 4)
+}
 
 export const HorizontalList = ob(
   class extends React.Component {
@@ -114,6 +121,7 @@ export const HorizontalList = ob(
                 />
                 <Touchable
                   withoutFeedback
+                  hitSlop={hitSlop}
                   onPress={() => onPress(item, typeCn)}
                 >
                   <Text

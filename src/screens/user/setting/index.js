@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 12:56:34
+ * @Last Modified time: 2021-07-28 09:27:12
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -58,6 +58,12 @@ const fontSizeAdjustDS = MODEL_SETTING_FONTSIZEADJUST.data.map(
 )
 const avatarDS = ['圆形', '方形']
 const transitionDS = MODEL_SETTING_TRANSITION.data.map(({ label }) => label)
+const hitSlop = {
+  top: 16,
+  right: 32,
+  bottom: 16,
+  left: 32
+}
 
 export default
 @withHeader({
@@ -685,6 +691,7 @@ class Setting extends React.Component {
                   data={MODEL_SETTING_INITIAL_PAGE.data.map(
                     ({ label }) => label
                   )}
+                  hitSlop={hitSlop}
                   onSelect={this.setInitialPage}
                 >
                   <Text type='sub' size={15}>
@@ -1311,6 +1318,7 @@ class Setting extends React.Component {
               ft={
                 <Popover
                   data={MODEL_SETTING_SYNC.data.map(({ label }) => label)}
+                  hitSlop={hitSlop}
                   onSelect={this.setSync}
                 >
                   <Text type='sub' size={15}>

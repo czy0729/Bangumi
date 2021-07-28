@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:21:51
+ * @Last Modified time: 2021-07-28 09:30:45
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -46,6 +46,12 @@ export const ITEMS_USED = {
 }
 
 const namespace = 'TinygrailCompCharactersModal'
+const hitSlop = {
+  top: 6,
+  right: 6,
+  bottom: 6,
+  left: 6
+}
 
 export default
 @obc
@@ -798,6 +804,7 @@ class CharactersModal extends React.Component {
     return (
       <Popover
         data={data}
+        hitSlop={hitSlop}
         onSelect={title => {
           const lv = title.split(' ')[0]
           onSelect(lv === '全部' ? '' : lv.replace('lv', ''))

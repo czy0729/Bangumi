@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 19:28:51
+ * @Last Modified time: 2021-07-28 09:35:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,12 @@ import { IOS } from '@constants'
 import IconBack from './cycles/back'
 import ob from './observer-props'
 
+const hitSlop = {
+  top: 4,
+  right: 4,
+  bottom: 4,
+  left: 4
+}
 const defaultHeaderStyle = {
   backgroundColor: 'transparent'
 }
@@ -87,6 +93,7 @@ const withTransitionHeader =
                 <Popover
                   style={styles.icon}
                   placement='bottom'
+                  hitSlop={hitSlop}
                   {...popoverProps}
                 >
                   <Iconfont name='md-more-horiz' color={headerTintColor} />

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:27:56
+ * @Last Modified time: 2021-07-28 09:09:09
  */
 import React from 'react'
 import {
@@ -19,10 +19,10 @@ import { getSystemStoreAsync } from '@utils/async'
 import { IOS } from '@constants'
 
 const defaultHitSlop = {
-  top: _.device(-2, -4),
-  right: _.device(-2, -4),
-  bottom: _.device(-2, -4),
-  left: _.device(-2, -4)
+  top: _.device(3, 4),
+  right: _.device(2, 4),
+  bottom: _.device(3, 4),
+  left: _.device(2, 4)
 }
 
 /**

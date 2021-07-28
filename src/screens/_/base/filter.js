@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 13:53:20
+ * @Last Modified time: 2021-07-27 19:53:39
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +11,13 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { FilterSwitch } from './filter-switch'
+
+const hitSlop = {
+  top: _.device(6, 4),
+  right: _.device(2, 4),
+  bottom: _.device(6, 4),
+  left: _.device(2, 4)
+}
 
 export const Filter = obc(
   ({ filterDS = [], title = '频道', name = '番剧', type = 'Anime' }, { $ }) => {
@@ -73,6 +80,7 @@ export const Filter = obc(
                           marginTop: 4 * _.ratio
                         }
                       ]}
+                      hitSlop={hitSlop}
                       onPress={() => $.onSelect(item.type, '')}
                     >
                       <Text size={11}>
@@ -108,6 +116,7 @@ export const Filter = obc(
                                       ? state.includes(tag)
                                       : state === tag) && styles.itemActive
                                   ]}
+                                  hitSlop={hitSlop}
                                   onPress={() => $.onSelect(item.type, tag)}
                                   onLongPress={
                                     multiSelect
@@ -150,6 +159,7 @@ export const Filter = obc(
                                     ? state.includes(i)
                                     : state === i) && styles.itemActive
                                 ]}
+                                hitSlop={hitSlop}
                                 onPress={() => $.onSelect(item.type, i)}
                               >
                                 <Text size={11}>{i}</Text>

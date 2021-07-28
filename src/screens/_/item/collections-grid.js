@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:54:25
+ * @Last Modified time: 2021-07-28 09:03:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,13 @@ import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Tag, Cover, Stars, Rank } from '../base'
+
+const hitSlop = {
+  top: _.device(2, 4),
+  right: _.device(4, 4),
+  bottom: _.device(10, 4),
+  left: _.device(4, 4)
+}
 
 export const ItemCollectionsGrid = ob(
   ({
@@ -80,7 +87,7 @@ export const ItemCollectionsGrid = ob(
           onPress={onPress}
         />
         {!!_collection && <Tag style={styles.collection} value={_collection} />}
-        <Touchable withoutFeedback onPress={onPress}>
+        <Touchable withoutFeedback hitSlop={hitSlop} onPress={onPress}>
           <Text
             style={_.mt.sm}
             size={11}

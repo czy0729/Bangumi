@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 02:53:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 11:58:17
+ * @Last Modified time: 2021-07-28 09:26:22
  */
 import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -13,13 +13,14 @@ import PopoverStyles from './style'
 
 export class PopoverItem extends React.PureComponent {
   render() {
-    const { value, disabled, children, onSelect, style } = this.props
+    const { value, disabled, children, onSelect, hitSlop, style } = this.props
     return (
       <WithTheme>
         {(_, theme) => (
           <TouchableOpacity
             activeOpacity={0.75}
             disabled={disabled}
+            hitSlop={hitSlop}
             onPress={() => {
               if (typeof onSelect === 'function') {
                 onSelect(value)
@@ -98,6 +99,7 @@ export default class Popover extends React.PureComponent {
       triggerStyle,
       styles,
       placement,
+      hitSlop,
       onLongPress // @add
     } = this.props
     return (
@@ -119,6 +121,7 @@ export default class Popover extends React.PureComponent {
                   style={triggerStyle}
                   disabled={disabled}
                   activeOpacity={0.75}
+                  hitSlop={hitSlop}
                 >
                   {children}
                 </TouchableOpacity>

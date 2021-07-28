@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:29:29
+ * @Last Modified time: 2021-07-27 18:16:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,12 @@ import Progress from './progress'
 import { itemPadding } from './ds'
 
 const LIMIT_HEAVY_RENDER = _.isPad ? 16 : 8
+const titleHitSlops = {
+  top: _.device(8, 4),
+  right: _.device(8, 4),
+  bottom: _.device(2, 4),
+  left: _.device(8, 4)
+}
 
 function Item({ index, subjectId, subject, epStatus }, { $, navigation }) {
   const styles = memoStyles()
@@ -37,6 +43,7 @@ function Item({ index, subjectId, subject, epStatus }, { $, navigation }) {
           <Touchable
             style={styles.title}
             withoutFeedback
+            hitSlop={titleHitSlops}
             onPress={() => $.onItemPress(navigation, subjectId, subject)}
           >
             <Flex align='start'>

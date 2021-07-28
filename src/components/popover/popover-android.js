@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 19:34:57
+ * @Last Modified time: 2021-07-28 09:21:39
  */
 import React from 'react'
 import { StyleSheet, UIManager, findNodeHandle, View } from 'react-native'
@@ -14,6 +14,7 @@ import { Touchable } from '../touchable'
 export default class Popover extends React.Component {
   static defaultProps = {
     data: [],
+    hitSlop: undefined,
     onSelect: Function.prototype,
     onLongPress: Function.prototype
   }
@@ -41,12 +42,13 @@ export default class Popover extends React.Component {
   }
 
   render() {
-    const { style, onLongPress, children } = this.props
+    const { style, hitSlop, onLongPress, children } = this.props
     return (
       <View>
         <View ref={ref => (this.ref = ref)} style={styles.overflowView} />
         <Touchable
           style={style}
+          hitSlop={hitSlop}
           onPress={this.showPopupAndroid}
           onLongPress={onLongPress}
         >
