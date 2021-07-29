@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 18:43:20
+ * @Last Modified time: 2021-07-29 13:57:29
  */
 import React from 'react'
-import Portal from '@ant-design/react-native/lib/portal'
-import Toast from '@components/@/ant-design/toast'
 import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { getCoverMedium, getCoverLarge, cnjp } from '@utils/app'
 import { t } from '@utils/fetch'
+import { loading } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { HOST } from '@constants'
 import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
@@ -29,9 +28,7 @@ function IconShare({ $, navigation }) {
         let src = CDN_OSS_SUBJECT(getCoverMedium(images.common))
         if (!src.includes(HOST_CDN)) src = getCoverLarge(images.common)
 
-        const toastId = Toast.loading('下载封面中...', 0, () => {
-          if (toastId) Portal.remove(toastId)
-        })
+        const hide = loading('下载封面中...')
 
         axios.defaults.withCredentials = false
         const { request } = await axios({
@@ -39,7 +36,7 @@ function IconShare({ $, navigation }) {
           url: src.replace('http://', 'https://'),
           responseType: 'arraybuffer'
         })
-        if (toastId) Portal.remove(toastId)
+        hide()
 
         navigation.push('Share', {
           _url: `${HOST}/subject/${$.subjectId}`,

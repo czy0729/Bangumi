@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 15:37:32
+ * @Last Modified time: 2021-07-29 14:01:26
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
+import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
 import { DEV, IOS } from '@constants'
@@ -12,6 +13,19 @@ import { getSystemStoreAsync } from './async'
 
 function getSetting() {
   return getSystemStoreAsync().setting
+}
+
+/**
+ * Loading
+ */
+export function loading(text = 'Loading...', time = 0) {
+  const toastId = Toast.loading(text, time, () => {
+    if (toastId) Portal.remove(toastId)
+  })
+
+  return () => {
+    if (toastId) Portal.remove(toastId)
+  }
 }
 
 /**

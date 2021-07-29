@@ -4,11 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 01:57:20
+ * @Last Modified time: 2021-07-29 14:02:19
  */
 import { NativeModules, InteractionManager } from 'react-native'
-import Portal from '@ant-design/react-native/lib/portal'
-import Toast from '@components/@/ant-design/toast'
 import {
   APP_ID,
   APP_ID_BAIDU,
@@ -25,7 +23,7 @@ import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
 import { urlStringify, sleep, getTimestamp, randomn, debounce } from './index'
 import { getUserStoreAsync, getThemeStoreAsync } from './async'
-import { info as UIInfo } from './ui'
+import { info as UIInfo, loading } from './ui'
 import { log } from './dev'
 
 const { UMAnalyticsModule } = NativeModules
@@ -73,7 +71,7 @@ export default async function fetchAPI({
   }
 
   let _url = url
-  let toastId
+  let hide
   if (isGet) {
     _config.method = 'GET'
 
@@ -85,17 +83,13 @@ export default async function fetchAPI({
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     _config.body = urlStringify(body)
 
-    if (!noConsole) {
-      toastId = Toast.loading('Loading...', 0, () => {
-        if (toastId) Portal.remove(toastId)
-      })
-    }
+    if (!noConsole) hide = loading()
   }
   if (SHOW_LOG) log(`🌐 ${info} ${_url}`)
 
   return fetch(_url, _config)
     .then(response => {
-      if (toastId) Portal.remove(toastId)
+      if (hide) hide()
       return response.json()
     })
     .then(json => {
@@ -119,7 +113,7 @@ export default async function fetchAPI({
       return Promise.resolve(safe(json))
     })
     .catch(async err => {
-      if (toastId) Portal.remove(toastId)
+      if (hide) hide()
 
       // @issue Bangumi提供的API频繁请求非常容易报错, 也就只能一直请求到成功为止了
       if (isGet && typeof retryCb === 'function') {
@@ -210,7 +204,7 @@ export async function fetchHTML({
     }
   }
 
-  let toastId
+  let hide
   if (isGet) {
     _config.method = 'GET'
     _config.headers = {
@@ -224,21 +218,19 @@ export async function fetchHTML({
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     _config.body = urlStringify(body)
-    toastId = Toast.loading('Loading...', 8, () => {
-      if (toastId) Portal.remove(toastId)
-    })
+    hide = loading('Loading...', 8)
   }
   if (SHOW_LOG) log(`⚡️ ${_url}`)
 
   return fetch(_url, _config)
     .then(res => {
       if (!isGet) log(method, 'success', _url, _config, res)
-      if (toastId) Portal.remove(toastId)
+      if (hide) hide()
       return Promise.resolve(raw ? res : res.text())
     })
     .catch(error => {
       console.warn('[utils/fetch] fetchHTML', url, error)
-      if (toastId) Portal.remove(toastId)
+      if (hide) hide()
       return Promise.reject(error)
     })
 }
@@ -256,15 +248,11 @@ export function xhr(
 ) {
   const userStore = getUserStoreAsync()
   const { cookie: userCookie, userAgent } = userStore.userCookie
-  const toastId = noConsole
-    ? 0
-    : Toast.loading('Loading...', 0, () => {
-        if (toastId) Portal.remove(toastId)
-      })
+  const hide = noConsole ? 0 : loading()
   const request = new XMLHttpRequest()
   request.onreadystatechange = () => {
     if (request.readyState !== 4) return
-    if (toastId) Portal.remove(toastId)
+    if (hide) hide()
     if (request.status === 200) {
       success(request.responseText, request)
     } else {

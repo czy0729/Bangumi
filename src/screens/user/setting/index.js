@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:27:12
+ * @Last Modified time: 2021-07-29 13:51:18
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -26,7 +26,7 @@ import { toFixed, setStorage } from '@utils'
 import { withHeader, ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
-import { confirm, info } from '@utils/ui'
+import { confirm, info, loading, feedback } from '@utils/ui'
 import {
   IOS,
   IS_BEFORE_ANDROID_10,
@@ -212,7 +212,11 @@ class Setting extends React.Component {
 
         setTimeout(() => {
           confirm('确定上传当前设置到云端?', async () => {
+            const hide = loading('上传中...')
             const flag = await systemStore.uploadSetting()
+
+            hide()
+            feedback()
             info(flag ? '已上传' : '上传失败, 请等待作者修复')
           })
         }, 160)
@@ -227,7 +231,11 @@ class Setting extends React.Component {
 
         setTimeout(() => {
           confirm('确定恢复到云端的设置?', async () => {
+            const hide = loading()
             const flag = await systemStore.downloadSetting()
+
+            hide()
+            feedback()
             info(flag ? '已恢复' : '下载设置失败')
           })
         }, 160)

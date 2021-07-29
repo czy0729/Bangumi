@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-12 09:07:31
+ * @Last Modified time: 2021-07-29 14:11:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import Portal from '@ant-design/react-native/lib/portal'
-import Toast from '@components/@/ant-design/toast'
 import WebView from '@components/@/web-view'
 import { SafeAreaView } from '@screens/_'
 import { _ } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
 import { saveBase64ImageToCameraRoll } from '@utils/android'
-import { feedback, info } from '@utils/ui'
+import { loading, feedback, info } from '@utils/ui'
 import { html } from './utils'
 
 const title = '长按保存图片'
@@ -28,13 +26,11 @@ class WebViewShare extends React.Component {
     captured: false
   }
 
-  toastId = null
+  hide = null
   saved = false
 
   componentDidMount() {
-    this.toastId = Toast.loading('生成中...', 0, () => {
-      if (this.toastId) Portal.remove(this.toastId)
-    })
+    this.hide = loading('生成中...')
   }
 
   get source() {
@@ -59,7 +55,11 @@ class WebViewShare extends React.Component {
             this.setState({
               captured: true
             })
-            if (this.toastId) Portal.remove(this.toastId)
+
+            if (this.hide) {
+              this.hide()
+              this.hide = null
+            }
           }, 400)
           break
 

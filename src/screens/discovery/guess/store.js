@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:29:29
+ * @Last Modified time: 2021-07-29 13:54:28
  */
 import { observable, computed } from 'mobx'
-import Portal from '@ant-design/react-native/lib/portal'
-import Toast from '@components/@/ant-design/toast'
 import { collectionStore } from '@stores'
 import store from '@utils/store'
 import { getBangumiUrl, unzipBangumiData } from '@utils/app'
 import { xhrCustom, HTMLTrim, queue } from '@utils/fetch'
+import { loading } from '@utils/ui'
 import { guess } from '@utils/subject/anime'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 
@@ -54,11 +53,10 @@ export default class ScreenGuess extends store {
   // -------------------- page --------------------
   getList = async (refresh = true) => {
     if (refresh) {
-      const toastId = Toast.loading('根据收藏分析中...', 0, () => {
-        if (toastId) Portal.remove(toastId)
-      })
+      const hide = loading('根据收藏分析中...')
       await collectionStore.fetchUserCollectionsQueue(true)
-      if (toastId) Portal.remove(toastId)
+
+      hide()
     }
 
     const { like } = this.state

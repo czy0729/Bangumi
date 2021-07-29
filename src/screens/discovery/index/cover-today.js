@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-20 01:33:51
+ * @Last Modified time: 2021-07-29 12:06:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ function CoverToday({ data }, { navigation }) {
         />
         <View style={styles.info} pointerEvents='none'>
           <Text
-            size={13}
+            size={_.device(12, 13)}
             type={_.select('plain', 'title')}
             numberOfLines={1}
             bold
@@ -66,7 +66,7 @@ function CoverToday({ data }, { navigation }) {
           </Text>
           <Text
             style={_.mt.xxs}
-            size={12}
+            size={_.device(11, 12)}
             type={_.select('plain', 'title')}
             numberOfLines={1}
             bold
@@ -102,9 +102,9 @@ const memoStyles = _.memoStyles(_ => ({
   info: {
     position: 'absolute',
     zIndex: 2,
-    right: _._wind - 2,
-    bottom: _.space - 2,
-    left: _._wind - 2,
+    right: _.sm + 4,
+    bottom: _.sm + 2,
+    left: _.sm + 4,
     opacity: 0.92
   }
 }))

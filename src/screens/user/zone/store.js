@@ -4,11 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:51:40
+ * @Last Modified time: 2021-07-29 13:58:38
  */
 import { observable, computed } from 'mobx'
-import Portal from '@ant-design/react-native/lib/portal'
-import Toast from '@components/@/ant-design/toast'
 import {
   _,
   userStore,
@@ -22,11 +20,14 @@ import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { info, feedback } from '@utils/ui'
+import { info, loading, feedback } from '@utils/ui'
 import { HOST, IOS } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
-export const H_BG = Math.min(parseInt(_.window.width * 0.64), _.device(288, 380)) // 整个背景高度
+export const H_BG = Math.min(
+  parseInt(_.window.width * 0.64),
+  _.device(288, 380)
+) // 整个背景高度
 export const H_HEADER = IOS ? 88 : 80 // fixed后带背景的头部高度
 export const H_TABBAR = 48 * _.ratio // TabBar高度
 export const tabs = [
@@ -322,11 +323,7 @@ export default class ScreenZone extends store {
       type: MODEL_TIMELINE_TYPE.getValue('好友')
     }
 
-    let toastId
-    toastId = Toast.loading('查询好友信息中...', 0, () => {
-      if (toastId) Portal.remove(toastId)
-    })
-
+    const hide = loading('查询好友信息中...')
     let data = await timelineStore.fetchTimeline(query, true)
     let find = data.list.find(item =>
       item?.p3?.url?.[0]?.includes(`/user/${username}`)
@@ -341,7 +338,7 @@ export default class ScreenZone extends store {
       item?.p3?.url?.[0]?.includes(`/user/${username}`)
     )
 
-    if (toastId) Portal.remove(toastId)
+    hide()
     if (!find) return info('是你的好友')
 
     const { time } = find
