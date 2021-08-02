@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:50:21
+ * @Last Modified time: 2021-08-02 10:09:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -204,20 +204,20 @@ class GridInfo extends React.Component {
           <Touchable onPress={this.onPress}>
             <Flex align='start'>
               <Flex.Item>
-                <Text size={15} numberOfLines={1} bold>
+                <Text numberOfLines={1} bold>
                   {HTMLDecode(subject.name_cn || subject.name)}
                 </Text>
               </Flex.Item>
             </Flex>
           </Touchable>
-          <Flex style={_.device(_.mt.xs, _.mt.sm)}>
+          <Flex style={_.device(undefined, _.mt.sm)}>
             <Flex.Item>{this.renderCount()}</Flex.Item>
             {this.renderToolBar()}
           </Flex>
           <Eps
             style={_.device(_.mt.xs, _.mt.sm)}
             numbersOfLine={_.device(6, 7)}
-            lines={3}
+            // lines={3}
             login={$.isLogin}
             subjectId={subjectId}
             eps={$.eps(subjectId)}
