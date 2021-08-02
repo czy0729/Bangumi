@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-02 09:26:55
+ * @Last Modified time: 2021-08-02 10:23:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -119,7 +119,7 @@ class Grid extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
-    paddingTop: IOS ? _.tabsHeaderHeight : 0,
+    paddingTop: (IOS ? _.tabsHeaderHeight : 0) + _.xs,
     paddingBottom: IOS ? _.tabBarHeight : 0,
     backgroundColor: _.select(
       _.colorPlain,
@@ -128,11 +128,11 @@ const memoStyles = _.memoStyles(_ => ({
   },
   game: {
     width: '100%',
-    height: 160 * _.device(1, _.ratio + 0.2)
+    minHeight: 160 * _.device(1, _.ratio + 0.2)
   },
   current: {
     width: '100%',
-    height: 256 * _.device(1, _.ratio + 0.2)
+    minHeight: 264 * _.device(1, _.ratio + 0.2)
   },
   noSelect: {
     width: '100%',

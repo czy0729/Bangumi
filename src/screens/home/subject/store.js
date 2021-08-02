@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 09:38:12
+ * @Last Modified time: 2021-08-02 10:54:33
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -1067,7 +1067,7 @@ export default class ScreenSubject extends store {
     } else {
       label = this.subjectFormHTML.type || label
     }
-    return label
+    return label === '动画' ? 'TV' : label
   }
 
   @computed get bilibiliSite() {

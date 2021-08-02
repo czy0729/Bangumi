@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:51:20
+ * @Last Modified time: 2021-08-02 10:39:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,26 +17,31 @@ const imageWidth = (_.window.width - (num - 1) * margin - 2 * _.wind) / num
 
 function GridItem({ subject, subjectId, epStatus }, { $ }) {
   const styles = memoStyles()
+  const { grid } = $.state
+  const { subject_id: current } = grid
   const percent = Math.min(
     (parseInt(epStatus || 0) / parseInt(subject.eps_count || 24)) * 100,
     100
   )
+  const isActive = current === subjectId
   return (
     <View style={styles.item}>
-      <Cover
-        size={imageWidth}
-        src={subject?.images?.medium || ''}
-        shadow
-        radius
-        delay={false}
-        onPress={() =>
-          $.selectGirdSubject(subjectId, {
-            subject_id: subjectId,
-            subject,
-            ep_status: epStatus
-          })
-        }
-      />
+      <View style={isActive && styles.active}>
+        <Cover
+          size={imageWidth}
+          src={subject?.images?.medium || ''}
+          shadow
+          radius
+          delay={false}
+          onPress={() =>
+            $.selectGirdSubject(subjectId, {
+              subject_id: subjectId,
+              subject,
+              ep_status: epStatus
+            })
+          }
+        />
+      </View>
       <Progress
         style={styles.progress}
         barStyle={styles.bar}
@@ -57,6 +62,9 @@ const memoStyles = _.memoStyles(_ => ({
     width: imageWidth,
     marginLeft: margin,
     marginBottom: margin
+  },
+  active: {
+    opacity: 0.5
   },
   progress: {
     borderRadius: _.radiusXs,
