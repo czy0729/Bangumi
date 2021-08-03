@@ -128,11 +128,11 @@ const memoStyles = _.memoStyles(_ => ({
   },
   game: {
     width: '100%',
-    minHeight: 160 * _.device(1, _.ratio + 0.2)
+    height: 160 * _.device(1, _.ratio + 0.2)
   },
   current: {
     width: '100%',
-    minHeight: 264 * _.device(1, _.ratio + 0.2)
+    height: 264 * _.device(1, _.ratio + 0.2)
   },
   noSelect: {
     width: '100%',

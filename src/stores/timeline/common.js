@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 18:00:28
+ * @Last Modified time: 2021-08-03 08:28:42
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import {
@@ -312,21 +312,25 @@ export function analysisSay(HTML) {
     avatar,
     name: $('div.statusHeader h3 > a').text(),
     text: trim($('div.statusContent > p.text').html()),
-    date: $('p.date,tip_j').text(),
+    date: $('p.date.tip_j').text(),
     formhash: $('input[name=formhash]').attr('value')
   })
   const sub = $('ul.subReply > li.reply_item')
     .map((index, element) => {
       const $tr = cheerio(element)
       const subId = ($tr.find('a.cmt_reply').text() || '').replace('@', '')
+      let tr = $tr.html().trim()
+      tr = tr.slice(tr.indexOf('-</span> ') + 9, tr.length)
       return safeObject({
         id: subId,
         avatar: id === subId ? avatar : '',
         name: $tr.find('a.cmt_reply + a.l').text(),
-        text: trim($tr.html()).split('-')[1]
+        text: tr
       })
     })
     .get()
+
+  log([main, ...sub])
   return [main, ...sub]
 }
 
