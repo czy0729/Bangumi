@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-10 02:55:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-10 03:03:01
+ * @Last Modified time: 2021-08-04 05:51:50
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -21,7 +21,7 @@ function Label({ focused, model, label, value }, { $ }) {
         <Text type='title' size={13} bold={focused}>
           {label}
         </Text>
-        <Text size={11} lineHeight={13} type='sub'>
+        <Text size={10} lineHeight={13} type='sub'>
           {' '}
           {model.getLabel(value)}{' '}
         </Text>

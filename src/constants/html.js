@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 17:48:05
+ * @Last Modified time: 2021-08-04 06:32:47
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -128,6 +128,11 @@ export const HTML_RAKUEN = (scope, type) =>
  */
 export const HTML_RAKUEN_SEARCH = (q = '', page = 1) =>
   `https://search.gitee.com/?q=${q}&type=code&repo=VFZSSmVrMUVZelJPUkU1b1RucFplbHBuUFQxaE56WXpaZz09YTc2M2Y%3D&pageno=${page}`
+
+/**
+ * 超展开热门 (需登录)
+ */
+export const HTML_RAKUEN_HOT = () => HOST
 
 /**
  * 帖子

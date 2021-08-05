@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 12:00:05
+ * @Last Modified time: 2021-08-05 08:17:11
  */
 import React from 'react'
 import { Katakana, Text } from '@components'
@@ -20,8 +20,8 @@ function Detail({ time, groupCn, userName, userId }) {
       numberOfLines={2}
     >
       <Text type='sub' size={11}>
-        {correctAgo(time)}
-        {groupCn ? ' / ' : ''}
+        {time ? correctAgo(time) : ''}
+        {groupCn && time ? ' / ' : ''}
       </Text>
       <Katakana type='sub' size={11}>
         {groupCn}

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 15:56:26
+ * @Last Modified time: 2021-08-05 08:12:48
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
@@ -78,7 +78,16 @@ export default class ScreenRakuen extends store {
   fetchRakuen = async refresh => {
     const { scope, page } = this.state
     const type = this.type(page)
-    return rakuenStore.fetchRakuen({ scope, type }, refresh)
+
+    if (type === 'hot') return rakuenStore.fetchRakuenHot()
+
+    return rakuenStore.fetchRakuen(
+      {
+        scope,
+        type
+      },
+      refresh
+    )
   }
 
   // -------------------- get --------------------
@@ -99,7 +108,8 @@ export default class ScreenRakuen extends store {
   rakuen(type) {
     const { scope } = this.state
     return computed(() => {
-      const rakuen = rakuenStore.rakuen(scope, type)
+      const rakuen =
+        type === 'hot' ? rakuenStore.hot : rakuenStore.rakuen(scope, type)
       const { filterDefault, filter18x } = systemStore.setting
       if (filterDefault || filter18x || userStore.isLimit) {
         return {
@@ -107,7 +117,7 @@ export default class ScreenRakuen extends store {
           list: rakuen.list.filter(item => {
             if (
               (filterDefault || userStore.isLimit) &&
-              item.avatar.includes(URL_DEFAULT_AVATAR)
+              item?.avatar?.includes(URL_DEFAULT_AVATAR)
             ) {
               return false
             }

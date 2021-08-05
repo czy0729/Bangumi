@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 11:58:51
+ * @Last Modified time: 2021-08-04 04:25:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,7 +82,7 @@ export const Eps = ob(
       const widthSum = width - marginSum
       return {
         width: widthSum / numbersOfLine,
-        margin: marginSum / marginNumbers
+        margin: parseInt(marginSum / marginNumbers)
       }
     }
 
@@ -112,20 +112,14 @@ export const Eps = ob(
       let data
       if (login) {
         data = [userProgress[item.id] === '看过' ? '撤销' : '看过']
-        if (!isSp) {
-          data.push('看到')
-        }
-        if (advance) {
-          data.push('想看', '抛弃')
-        }
+        if (!isSp) data.push('看到')
+        if (advance) data.push('想看', '抛弃')
         data.push(discuss)
       } else {
         data = [discuss]
       }
 
-      if (canPlay) {
-        data.push('在线播放')
-      }
+      if (canPlay) data.push('在线播放')
 
       return data
     }
@@ -246,6 +240,7 @@ export const Eps = ob(
           itemsNormal.push(item)
         }
       })
+
       return (
         <Flex wrap='wrap' align='start'>
           {itemsNormal.map((item, index) => this.renderButton(item, index + 1))}

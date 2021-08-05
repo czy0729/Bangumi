@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 18:38:27
+ * @Last Modified time: 2021-08-05 08:39:38
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -617,4 +617,32 @@ export function cheerioReviews(HTML) {
       })
       .get() || []
   )
+}
+
+/**
+ * 分析超展开热门
+ * @param {*} HTML
+ */
+export function cheerioHot(HTML) {
+  return (
+    cheerio(HTML)('.sideTpcList li')
+      .map((index, element) => {
+        const $tr = cheerio(element)
+        const $avatar = $tr.find('img')
+        const $title = $tr.find('a.l')
+        const $topic = $tr.find('a.tip')
+        const $subject = $tr.find('p > small.grey > a')
+        return {
+          title: HTMLDecode($title.text().trim()),
+          avatar: $avatar.attr('src') || '',
+          userName: HTMLDecode($avatar.attr('title') || ''),
+          href: $title.attr('href') || '',
+          replies: $tr.find('.inner > small.grey').text().trim(),
+          group: HTMLDecode($topic.text().trim() || $subject.text().trim()),
+          groupHref: $topic.attr('href') || $subject.attr('href') || '',
+          time: ''
+        }
+      })
+      .get() || []
+  ).filter(item => !!item.group)
 }

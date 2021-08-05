@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 18:04:56
+ * @Last Modified time: 2021-08-05 08:15:21
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -16,13 +16,14 @@ import {
   HTML_ACTION_BLOG_REPLY,
   HTML_ACTION_RAKUEN_REPLY,
   HTML_BLOG,
+  HTML_BOARD,
   HTML_GROUP,
   HTML_GROUP_INFO,
   HTML_GROUP_MINE,
   HTML_NOTIFY,
-  HTML_TOPIC,
-  HTML_BOARD,
-  HTML_REVIEWS
+  HTML_RAKUEN_HOT,
+  HTML_REVIEWS,
+  HTML_TOPIC
 } from '@constants/html'
 import { CDN_RAKUEN, CDN_RAKUEN_USER_TOPICS } from '@constants/cdn'
 import store from '@utils/store'
@@ -40,12 +41,13 @@ import {
 import {
   analysisGroup,
   cheerioBlog,
-  cheerioGroupInfo,
-  cheerioNotify,
-  cheerioMine,
-  cheerioTopic,
   cheerioBoard,
+  cheerioGroupInfo,
+  cheerioHot,
+  cheerioMine,
+  cheerioNotify,
   cheerioReviews,
+  cheerioTopic,
   fetchRakuen
 } from './common'
 
@@ -186,24 +188,30 @@ class Rakuen extends store {
      */
     reviews: {
       0: LIST_EMPTY
-    }
+    },
+
+    /**
+     * 超展开热门
+     */
+    hot: LIST_EMPTY
   })
 
   init = () =>
     this.readStorage(
       [
         'blog',
+        'cloudTopic',
         'comments',
         'favor',
         'groupInfo',
         'groupThumb',
+        'hot',
         'mine',
         'notify',
         'rakuen',
         'readed',
         'setting',
-        'topic',
-        'cloudTopic'
+        'topic'
       ],
       NAMESPACE
     )
@@ -638,6 +646,31 @@ class Rakuen extends store {
         _loaded: getTimestamp()
       })
     }
+  }
+
+  /**
+   * 超展开热门数据
+   */
+  fetchRakuenHot = async () => {
+    const key = 'hot'
+
+    const html = await fetchHTML({
+      url: HTML_RAKUEN_HOT()
+    })
+    const list = cheerioHot(html)
+    this.setState({
+      [key]: {
+        list,
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return this[key]
   }
 
   // -------------------- action --------------------

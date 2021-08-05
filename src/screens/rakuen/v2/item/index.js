@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 17:08:14
+ * @Last Modified time: 2021-08-05 08:35:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,8 +16,8 @@ import Content from './content'
 import BtnPopover from './btn-popover'
 import IconFavor from './icon-favor'
 
-const LIMIT_HEAVY_RENDER = _.isPad ? 20 : 10
-const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
+const LIMIT_HEAVY_RENDER = _.device(10, 20)
+const AD_REPLIES_COUNT = 4 // 回复数少于的数字, 判断为广告姬
 
 export default
 @obc
@@ -32,7 +32,7 @@ class Item extends React.Component {
 
     // 匹配userId, 有userId的头像可以跳转到用户空间
     let userId
-    const match = avatar.match(/\/(\d+).jpg/)
+    const match = avatar?.match(/\/(\d+).jpg/)
     if (match) {
       userId = match[1]
     }
@@ -43,7 +43,7 @@ class Item extends React.Component {
   // 回复数
   get replyCount() {
     const { replies = '' } = this.props
-    return parseInt(replies.match(/\d+/g))
+    return parseInt(replies?.match(/\d+/g))
   }
 
   // 小组中文
@@ -94,7 +94,7 @@ class Item extends React.Component {
     return (
       isBlockDefaultUser &&
       avatar === IMG_DEFAULT_AVATAR &&
-      this.replyCount < adRepliesCount
+      this.replyCount < AD_REPLIES_COUNT
     )
   }
 

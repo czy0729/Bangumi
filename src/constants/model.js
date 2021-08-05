@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 02:27:35
+ * @Last Modified time: 2021-08-04 05:49:57
  */
 class Model {
   constructor(data) {
@@ -267,6 +267,10 @@ export const MODEL_RAKUEN_TYPE = new Model([
   {
     label: '全部',
     value: ''
+  },
+  {
+    label: '热门',
+    value: 'hot'
   },
   {
     label: '小组',
