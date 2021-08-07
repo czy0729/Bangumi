@@ -2,95 +2,111 @@
  * @Author: czy0729
  * @Date: 2021-08-05 15:43:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-07 07:29:54
+ * @Last Modified time: 2021-08-08 06:09:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Popover, Button as CompButton, Menu } from '@components'
 import { _, systemStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 
-export const Button = ob(({ props, item, eps, isSp, num }) => {
-  const styles = memoStyles()
-  const {
-    subjectId,
-    width,
-    margin,
-    numbersOfLine,
-    canPlay,
-    login,
-    advance,
-    userProgress,
-    onSelect,
-    onLongPress
-  } = props
-  const isSide = num % numbersOfLine === 0
-  const type = getType(userProgress[item.id], item.status)
+export const Button = React.memo(
+  ({ props, item, eps, isSp, num }) => {
+    // rerender('Eps / Button')
 
-  const popoverData = getPopoverData(
-    item,
-    isSp,
-    canPlay,
-    login,
-    advance,
-    userProgress
-  )
-  let popoverProps
-  if (IOS) {
-    popoverProps = {
-      overlay: (
-        <Menu
-          title={[
-            `ep.${item.sort} ${item.name_cn || item.name}`,
-            `${item.airdate} 讨论数：${item.comment}`
-          ]}
-          data={popoverData}
-          onSelect={value => onSelect(value, item)}
-        />
-      )
-    }
-  } else {
-    popoverProps = {
-      data: popoverData,
-      onSelect: value => onSelect(value, item, subjectId)
-    }
-  }
+    const styles = memoStyles()
+    const {
+      subjectId,
+      width,
+      margin,
+      numbersOfLine,
+      canPlay,
+      login,
+      advance,
+      userProgress,
+      onSelect,
+      onLongPress
+    } = props
+    const isSide = num % numbersOfLine === 0
+    const type = getType(userProgress[item.id], item.status)
 
-  const { heatMap } = systemStore.setting
-  const { min, max } = getComment(eps)
-  return (
-    <Popover
-      style={{
-        marginRight: _.device(isSide ? 0 : margin, margin),
-        marginBottom: margin + 4
-      }}
-      onLongPress={() => onLongPress(item)}
-      {...popoverProps}
-    >
-      <CompButton
-        type={type}
-        size='sm'
+    const popoverData = getPopoverData(
+      item,
+      isSp,
+      canPlay,
+      login,
+      advance,
+      userProgress
+    )
+    let popoverProps
+    if (IOS) {
+      popoverProps = {
+        overlay: (
+          <Menu
+            title={[
+              `ep.${item.sort} ${item.name_cn || item.name}`,
+              `${item.airdate} 讨论数：${item.comment}`
+            ]}
+            data={popoverData}
+            onSelect={value => onSelect(value, item)}
+          />
+        )
+      }
+    } else {
+      popoverProps = {
+        data: popoverData,
+        onSelect: value => onSelect(value, item, subjectId)
+      }
+    }
+
+    const { heatMap } = systemStore.setting
+    const { min, max } = getComment(eps)
+    return (
+      <Popover
         style={{
-          width,
-          height: width
+          marginRight: _.device(isSide ? 0 : margin, margin),
+          marginBottom: margin + 4
         }}
+        onLongPress={() => onLongPress(item)}
+        {...popoverProps}
       >
-        {item.sort}
-      </CompButton>
-      {heatMap && (
-        <View
-          style={[
-            styles.bar,
-            {
-              opacity: (item.comment - min / 1.68) / max // 1.68是比率, 增大少回复与高回复的透明度幅度
-            }
-          ]}
-        />
-      )}
-    </Popover>
-  )
-})
+        <CompButton
+          type={type}
+          size='sm'
+          style={{
+            width,
+            height: width
+          }}
+        >
+          {item.sort}
+        </CompButton>
+        {heatMap && (
+          <View
+            style={[
+              styles.bar,
+              {
+                opacity: (item.comment - min / 1.68) / max // 1.68是比率, 增大少回复与高回复的透明度幅度
+              }
+            ]}
+          />
+        )}
+      </Popover>
+    )
+  },
+  (p, n) => memoString(p) === memoString(n)
+)
+
+function memoString({ props = {}, item = {}, eps = [], isSp, num }) {
+  const { userProgress = {}, ...otherProps } = props
+  return JSON.stringify({
+    props: otherProps,
+    userProgress: userProgress[item.id],
+    item,
+    eps: eps.length,
+    isSp,
+    num
+  })
+}
 
 const memoStyles = _.memoStyles(_ => ({
   bar: {

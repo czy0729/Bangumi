@@ -28,14 +28,10 @@ const contentOffset = IOS
   : undefined
 
 function List({ title }, { $ }) {
-  if (!$.userCollection._loaded) {
-    return <Loading />
-  }
+  if (!$.userCollection._loaded) return <Loading />
 
   const isGrid = $.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
-  if (isGrid) {
-    return <Grid title={title} />
-  }
+  if (isGrid) return <Grid title={title} />
 
   const styles = memoStyles()
   const { page, isFocused } = $.state

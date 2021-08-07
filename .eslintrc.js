@@ -11,6 +11,7 @@ module.exports = {
     fetch: true, // react-native的fetch
     log: true, // 测试打印函数, 能规避循环引用
     warn: true,
+    rerender: true,
     require: true,
     requestAnimationFrame: true
   },

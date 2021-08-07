@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-02 10:43:20
+ * @Last Modified time: 2021-08-08 02:28:12
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -17,7 +17,7 @@ const appJson = require('@/app.json')
 export const DEV = global.__DEV__
 
 // 日志级别 2 所有, 1 轻微, 0 只输出错误和警告
-export const LOG_LEVEL = 1
+export const LOG_LEVEL = 0
 
 /* ==================== BASE ==================== */
 

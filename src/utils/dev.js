@@ -3,13 +3,33 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 14:18:44
+ * @Last Modified time: 2021-08-08 06:43:42
  */
-import {
-  DEV
-  // LOG_LEVEL
-} from '@constants'
+import { DEV, LOG_LEVEL } from '@constants'
 import { pad } from './index'
+
+export function now() {
+  const now = new Date()
+  const h = now.getHours()
+  const m = now.getMinutes()
+  const s = now.getSeconds()
+  // const ms = now.getMilliseconds()
+  return `${h}:${pad(m)}:${pad(s)}`
+}
+
+let rerenderCount = {}
+setInterval(() => {
+  rerenderCount = {}
+}, 8000);
+export function rerender(key) {
+  if (!DEV) return
+  if (!key) return
+
+  if (!rerenderCount[key]) rerenderCount[key] = 0
+  rerenderCount[key] += 1
+
+  console.log(now(), '[render]', key, rerenderCount[key])
+}
 
 /**
  * 测试log
@@ -20,18 +40,9 @@ import { pad } from './index'
  * @param {Any}    value 消息值
  */
 export function log(type = '', key = '', value = '', ...other) {
-  // if (LOG_LEVEL === 0) return
-  // if (LOG_LEVEL < 2) {
-  //   if (type.includes('[prevent]')) return
-  // }
+  if (LOG_LEVEL === 0) return
 
-  const now = new Date()
-  const h = now.getHours()
-  const m = now.getMinutes()
-  const s = now.getSeconds()
-  // const ms = now.getMilliseconds()
-  const time = `${h}:${pad(m)}:${pad(s)}`
-  const res = [time, type]
+  const res = [now(), type]
   if (key !== undefined) res.push('\n', key)
   if (value !== undefined) res.push('\n', value)
   if (other && other.length) res.push('\n', other)
@@ -63,9 +74,7 @@ function handleCircular() {
  * @param {*} space
  */
 export function globalLog(value, space) {
-  if (!DEV) {
-    return
-  }
+  if (!DEV) return
   console.log(JSON.stringify(value, handleCircular(), space))
 }
 
@@ -76,9 +85,7 @@ export function globalLog(value, space) {
  * @param {*} error
  */
 export function globalWarn(key, method) {
-  if (!DEV) {
-    return
-  }
+  if (!DEV) return
   log(`\x1b[40m\x1b[33m[${key}] ${method}\x1b[0m`)
 }
 

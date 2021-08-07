@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 18:31:17
+ * @Last Modified time: 2021-08-08 04:08:02
  */
 import * as WebBrowser from 'expo-web-browser'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -15,7 +15,7 @@ import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
-import { globalLog, globalWarn } from './dev'
+import { rerender, globalLog, globalWarn } from './dev'
 
 const HOST_IMAGE = '//lain.bgm.tv'
 
@@ -23,11 +23,14 @@ const HOST_IMAGE = '//lain.bgm.tv'
  * 启动
  */
 export function bootApp() {
+  console.log('==================== bootApp ====================')
+
   initHashSubjectOTA()
   initHashAvatarOTA()
 
   global.log = globalLog
   global.warn = globalWarn
+  global.rerender = rerender
 
   /**
    * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
