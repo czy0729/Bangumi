@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:25:36
+ * @Last Modified time: 2021-08-05 08:56:53
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
+import { Login } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
@@ -25,10 +26,12 @@ const contentOffset = IOS
 
 function List({ index }, { $ }) {
   const type = $.type(index)
-  const rakuen = $.rakuen(type)
-  if (!rakuen._loaded) {
-    return <Loading />
+  if (type === 'hot' && !$.isWebLogin) {
+    return <Login text='热门帖子需登陆才能显示' btnText='去登陆' />
   }
+
+  const rakuen = $.rakuen(type)
+  if (!rakuen._loaded) return <Loading />
 
   const { page, isFocused } = $.state
   return (

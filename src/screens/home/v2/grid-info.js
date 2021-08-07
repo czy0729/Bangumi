@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-04 04:22:28
+ * @Last Modified time: 2021-08-08 00:45:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -216,8 +216,8 @@ class GridInfo extends React.Component {
           </Flex>
           <Eps
             style={_.device(_.mt.xs, _.mt.sm)}
+            grid
             numbersOfLine={_.device(6, 7)}
-            // lines={3}
             login={$.isLogin}
             subjectId={subjectId}
             eps={$.eps(subjectId)}

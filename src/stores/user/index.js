@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-28 03:29:33
+ * @Last Modified time: 2021-08-07 07:22:22
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -388,7 +388,7 @@ class User extends store {
         }
 
         const userProgress = {
-          _loaded: getTimestamp()
+          _loaded: 1
         }
         item.eps.forEach(i => (userProgress[i.id] = i.status.cn_name))
         this.setState({
@@ -402,7 +402,7 @@ class User extends store {
       this.setState({
         userProgress: {
           [subjectId]: {
-            _loaded: getTimestamp()
+            _loaded: 1
           }
         }
       })

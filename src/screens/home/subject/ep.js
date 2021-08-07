@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 14:55:56
+ * @Last Modified time: 2021-08-07 07:17:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Flex, Input, Button, Heatmap } from '@components'
-import { SectionTitle, Eps, Popover, IconTouchable } from '@screens/_'
+import { SectionTitle, Popover, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import BookEp from './book-ep'
 import Disc from './disc'
+import Eps from './eps'
 import IconEpFilter from './icon/ep-filter'
 import IconOnline from './icon/online'
 import IconEp from './icon/ep'
 import IconReverse from './icon/reverse'
 
-const layoutWidth = parseInt(_.window.width - _.wind) - 1
 const weekDayDS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 const weekDayMap = {
   0: '周日',
@@ -70,7 +70,7 @@ const minuteDS = [
   '55'
 ]
 
-function Ep({ style }, { $, navigation }) {
+function Ep({ style }, { $ }) {
   // 游戏没有ep
   if ($.type === '游戏') return null
   if ($.type === '书籍') return <BookEp style={style} />
@@ -79,9 +79,6 @@ function Ep({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { watchedEps } = $.state
   const { totalEps } = $.subjectFormHTML
-  const canPlay = $.onlinePlayActionSheetData.length >= 2
-  const showPlay = !$.isLimit && canPlay
-
   const { timeJP, weekDayJP, timeCN, weekDayCN } = $.onAir
   const weekDay = weekDayCN || weekDayJP
   const time = timeCN || timeJP
@@ -102,19 +99,7 @@ function Ep({ style }, { $, navigation }) {
         章节
       </SectionTitle>
       <View style={_.mt.md}>
-        <Eps
-          layoutWidth={layoutWidth}
-          marginRight={_._wind}
-          advance
-          pagination
-          login={$.isLogin}
-          subjectId={$.params.subjectId}
-          eps={$.toEps}
-          userProgress={$.userProgress}
-          canPlay={showPlay}
-          onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
-          onLongPress={item => $.doEpsLongPress(item)}
-        />
+        <Eps />
         <Heatmap id='条目.章节按钮长按' />
         <Heatmap bottom={35} id='条目.章节菜单操作' />
       </View>

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:07:36
+ * @Last Modified time: 2021-08-08 00:35:17
  */
 import React from 'react'
 import { Text } from '@components'
@@ -33,8 +33,7 @@ export const Name = ob(
         {children}
         {hasChangedName && (
           <Text type='sub' size={11} lineHeight={lineHeight || size}>
-            {' '}
-            ({friendsMap[userId].lastUserName})
+            ({friendsMap[userId].lastUserName}){' '}
           </Text>
         )}
         {showFriend && isFriend && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-14 21:53:16
+ * @Last Modified time: 2021-08-05 09:24:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,9 +14,7 @@ import { layoutWidth, itemPadding } from './ds'
 
 function Eps({ index, subjectId }, { $, navigation }) {
   const { expand } = $.$Item(subjectId)
-  if (!expand) {
-    return null
-  }
+  if (!expand) return null
 
   return (
     <View style={styles.eps}>
