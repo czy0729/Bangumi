@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-08 06:10:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 06:49:50
+ * @Last Modified time: 2021-08-08 06:55:46
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ export const Eps = React.memo(
     const [width, setWidth] = useState(layoutWidth - marginRight)
 
     const btnStyle = useMemo(() => {
-      // rerender('Eps.btnStyle')
+      rerender('Eps.btnStyle')
 
       if (_.isPad) {
         return {
@@ -57,7 +57,7 @@ export const Eps = React.memo(
     }, [width, numbersOfLine, grid])
 
     const passProps = useMemo(() => {
-      // rerender('Eps.passProps')
+      rerender('Eps.passProps')
 
       const { width, margin } = btnStyle
       return {
@@ -84,7 +84,7 @@ export const Eps = React.memo(
     ])
 
     const pages = useMemo(() => {
-      // rerender('Eps.pages')
+      rerender('Eps.pages')
 
       let _eps = eps || []
       let hasSp = false // 是否有SP
@@ -118,8 +118,9 @@ export const Eps = React.memo(
       [width, marginRight]
     )
 
-    // rerender('Eps')
     if (!pages.length) return null
+
+    rerender('Eps')
 
     const mounted = width !== 0
     const _style = mounted ? style : undefined

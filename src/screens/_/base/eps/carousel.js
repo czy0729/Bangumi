@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 04:40:38
+ * @Last Modified time: 2021-08-08 06:53:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { memoCompare } from '@utils'
 import { NormalButtons } from './normal-buttons'
 
 export const Carousel = React.memo(({ props, epsGroup = [] }) => {
-  // rerender('Eps / Carousel')
+  rerender('Eps / Carousel')
 
   const styles = memoStyles()
   return (

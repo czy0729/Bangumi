@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 22:19:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 04:27:18
+ * @Last Modified time: 2021-08-08 06:55:52
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -11,9 +11,9 @@ import { Button } from './button'
 
 export const SpButtons = React.memo(
   ({ props, eps, preNum }) => {
-    // rerender('Eps / SpButtons')
-
     if (!eps.length) return null
+
+    rerender('Eps / SpButtons')
 
     const { width, margin, numbersOfLine } = props
     const isSide = (preNum + 1) % numbersOfLine === 0

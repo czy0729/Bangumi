@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 06:43:42
+ * @Last Modified time: 2021-08-08 06:59:43
  */
 import { DEV, LOG_LEVEL } from '@constants'
 import { pad } from './index'
@@ -17,13 +17,13 @@ export function now() {
   return `${h}:${pad(m)}:${pad(s)}`
 }
 
+const rerenderFilter = 'Eps.'
 let rerenderCount = {}
 setInterval(() => {
   rerenderCount = {}
-}, 8000);
+}, 8000)
 export function rerender(key) {
-  if (!DEV) return
-  if (!key) return
+  if (!DEV || !key || !key.includes(rerenderFilter)) return
 
   if (!rerenderCount[key]) rerenderCount[key] = 0
   rerenderCount[key] += 1

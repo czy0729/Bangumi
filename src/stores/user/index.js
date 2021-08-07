@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-07 07:22:22
+ * @Last Modified time: 2021-08-08 06:58:43
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -23,7 +23,8 @@ import {
   IOS,
   LIST_EMPTY,
   URL_OAUTH_REDIRECT,
-  VERSION_GOOGLE
+  VERSION_GOOGLE,
+  LOG_LEVEL
 } from '@constants'
 import {
   API_ACCESS_TOKEN,
@@ -700,6 +701,8 @@ class User extends store {
     // if (this.myUserId !== APP_USERID_TOURIST) {
     //   return
     // }
+
+    if (LOG_LEVEL <= 0) return
 
     log({
       tourist: 1,

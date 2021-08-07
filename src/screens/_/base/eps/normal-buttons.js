@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:47:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 06:34:49
+ * @Last Modified time: 2021-08-08 06:54:00
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -12,7 +12,7 @@ import { Button } from './button'
 import { SpButtons } from './sp-buttons'
 
 export const NormalButtons = React.memo(({ props, eps }) => {
-  // rerender('Eps / NormalButtons')
+  rerender('Eps / NormalButtons')
 
   const itemsNormal = []
   const itemsSp = []

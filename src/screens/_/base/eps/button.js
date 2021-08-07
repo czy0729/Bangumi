@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 15:43:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 06:09:47
+ * @Last Modified time: 2021-08-08 06:53:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { IOS } from '@constants'
 
 export const Button = React.memo(
   ({ props, item, eps, isSp, num }) => {
-    // rerender('Eps / Button')
+    rerender('Eps / Button')
 
     const styles = memoStyles()
     const {
