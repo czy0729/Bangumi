@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:38:35
+ * @Last Modified time: 2021-08-09 04:31:40
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
@@ -10,7 +10,7 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
+import { IOS, DEV } from '@constants'
 import { H_TABBAR } from './store'
 
 function Tab({ routes, renderScene }, { $ }) {
@@ -21,7 +21,7 @@ function Tab({ routes, renderScene }, { $ }) {
   return (
     <TabView
       sceneContainerStyle={styles.sceneContainerStyle}
-      lazy={!IOS}
+      lazy={!IOS || DEV}
       lazyPreloadDistance={rendered ? 1 : 0}
       navigationState={{
         index: page,
