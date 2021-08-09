@@ -25,8 +25,8 @@ public class MainActivity extends ReactActivity {
     // 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
     // UMConfigure.setLogEnabled(true);
     UMConfigure.setProcessEvent(true);
-    // UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
-    UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Google Play", UMConfigure.DEVICE_TYPE_PHONE, null);
+    UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
+    // UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Google Play", UMConfigure.DEVICE_TYPE_PHONE, null);
 
     // interval: 单位是毫秒，默认Session间隔时间是45秒
     // MobclickAgent.setDebugMode(true);

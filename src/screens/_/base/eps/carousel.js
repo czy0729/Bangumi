@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 06:53:03
+ * @Last Modified time: 2021-08-10 00:13:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import AntCarousel from '@ant-design/react-native/lib/carousel'
 import { _ } from '@stores'
-import { memoCompare } from '@utils'
+import { ob } from '@utils/decorators'
 import { NormalButtons } from './normal-buttons'
 
-export const Carousel = React.memo(({ props, epsGroup = [] }) => {
-  rerender('Eps / Carousel')
-
+export const Carousel = ob(({ props, epsGroup = [] }) => {
   const styles = memoStyles()
   return (
     <AntCarousel
@@ -33,7 +31,7 @@ export const Carousel = React.memo(({ props, epsGroup = [] }) => {
         ))}
     </AntCarousel>
   )
-}, memoCompare)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   carousel: {

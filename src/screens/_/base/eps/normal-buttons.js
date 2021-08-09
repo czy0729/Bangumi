@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:47:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 06:54:00
+ * @Last Modified time: 2021-08-10 01:41:37
  */
 import React from 'react'
 import { Flex } from '@components'
-import { memoCompare } from '@utils'
+import { ob } from '@utils/decorators'
 import { MODEL_EP_TYPE } from '@constants/model'
 import { Button } from './button'
 import { SpButtons } from './sp-buttons'
 
-export const NormalButtons = React.memo(({ props, eps }) => {
-  rerender('Eps / NormalButtons')
-
+export const NormalButtons = ob(({ props, eps }) => {
   const itemsNormal = []
   const itemsSp = []
   eps.forEach(item => {
@@ -39,4 +37,4 @@ export const NormalButtons = React.memo(({ props, eps }) => {
       <SpButtons props={props} eps={itemsSp} preNum={itemsNormal.length} />
     </Flex>
   )
-}, memoCompare)
+})

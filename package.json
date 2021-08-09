@@ -2,6 +2,8 @@
   "scripts": {
     "38": "mv ./node_modules ../SDK && mv ../SDK/38/node_modules ./ && mv ../SDK/node_modules ../SDK/39",
     "39": "mv ./node_modules ../SDK && mv ../SDK/39/node_modules ./ && mv ../SDK/node_modules ../SDK/38",
+    "umeng": "mv ../SDK/Umeng/MainActivity.java ./android/app/src/main/java/com/czy0729/bangumi/MainActivity.java",
+    "google": "mv ../SDK/Google/MainActivity.java ./android/app/src/main/java/com/czy0729/bangumi/MainActivity.java",
     "start": "expo start",
     "android": "react-native run-android --no-jetifier",
     "build": "cd android && ./gradlew assembleRelease",

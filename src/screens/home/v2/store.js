@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-09 05:39:15
+ * @Last Modified time: 2021-08-09 08:33:12
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -95,7 +95,6 @@ const excludeState = {
   },
   filter: '',
   isFocused: true,
-  dev: '',
   _mounted: false
 }
 const day = new Date().getDay()
@@ -138,13 +137,6 @@ export default class ScreenHomeV2 extends store {
         })
       }, 80)
     })
-
-    setTimeout(() => {
-      this.setState({
-        dev: '11111'
-      })
-      console.log(1111111)
-    }, 6000)
 
     return true
   }

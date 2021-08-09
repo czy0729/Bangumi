@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-09 02:41:05
+ * @Last Modified time: 2021-08-10 01:51:36
  */
 import { DEV, LOG_LEVEL } from '@constants'
 import { pad } from './index'
@@ -28,7 +28,11 @@ export function rerender(key, ...other) {
   if (!rerenderCount[key]) rerenderCount[key] = 0
   rerenderCount[key] += 1
 
-  console.log(now(), '[render]', key, rerenderCount[key], ...other)
+  let _key = key
+  for (let len = _key.length; len <= 20; len += 1) {
+    _key += ' '
+  }
+  console.info(now(), '[render]', _key, rerenderCount[key], ...other)
 }
 
 /**

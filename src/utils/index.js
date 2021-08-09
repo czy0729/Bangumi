@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-09 03:15:56
+ * @Last Modified time: 2021-08-10 01:17:04
  */
 import { InteractionManager, Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -69,6 +69,7 @@ export function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
     console.log('[memoCompare]', noUpdate)
     compare(prevProps, nextProps)
   }
+
   return noUpdate
 }
 
@@ -126,6 +127,14 @@ export function debounce(fn, ms = 400) {
       fn.apply(this, arguments)
     }, ms)
   }
+}
+
+export function pick(obj, arr) {
+  return arr.reduce(
+    // eslint-disable-next-line no-sequences
+    (acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc),
+    {}
+  )
 }
 
 /**
