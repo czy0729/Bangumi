@@ -36,7 +36,7 @@ function Main({
   top,
   onItemPress
 }) {
-  // rerender('Home.Item.Main', subject.name_cn || subject.name)
+  rerender('Home.Item.Main', subject.name_cn || subject.name)
 
   const isTop = top.indexOf(subjectId) !== -1
   return (

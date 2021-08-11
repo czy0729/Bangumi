@@ -5,8 +5,7 @@
  * @Last Modified time: 2021-08-10 01:42:59
  */
 import React from 'react'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import Main from './index.main'
 
-export const Eps = ob(props => <Main {...props} isPad={_.isPad} sm={_.sm} />)
+export const Eps = ob(props => <Main {...props} />)

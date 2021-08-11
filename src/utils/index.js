@@ -2,76 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 01:17:04
+ * @Last Modified time: 2021-08-11 09:14:09
  */
 import { InteractionManager, Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
-
-export function compare(prev, next) {
-  const unsameKeys = []
-  Object.keys(prev).forEach(key => {
-    if (typeof prev[key] === 'object') {
-      if (JSON.stringify(prev[key]) === JSON.stringify(next[key])) {
-        return
-      }
-    } else if (prev[key] === next[key]) {
-      return
-    }
-
-    unsameKeys.push(key)
-  })
-
-  if (unsameKeys.length) {
-    if (prev[unsameKeys[0]] === 'object') {
-      compare(prev[unsameKeys[0]], next[unsameKeys[0]])
-      return
-    }
-
-    console.log(
-      '[compare]',
-      unsameKeys[0],
-      prev[unsameKeys[0]],
-      next[unsameKeys[0]]
-    )
-  }
-}
-
-/**
- * @param {*} prevProps
- * @param {*} nextProps
- * @param {*} propsOrKeys
- */
-export function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
-  let noUpdate
-
-  if (propsOrKeys) {
-    const _keys = Array.isArray(propsOrKeys)
-      ? propsOrKeys
-      : Object.keys(propsOrKeys)
-    const _prevProps = {}
-    const _nextProps = {}
-    _keys.forEach(key => {
-      _prevProps[key] = prevProps[key]
-      _nextProps[key] = nextProps[key]
-    })
-
-    if (dev) compare(_prevProps, _nextProps)
-
-    noUpdate = JSON.stringify(_prevProps) === JSON.stringify(_nextProps)
-  } else {
-    noUpdate = JSON.stringify(prevProps) === JSON.stringify(nextProps)
-  }
-
-  if (dev && !noUpdate) {
-    console.log('[memoCompare]', noUpdate)
-    compare(prevProps, nextProps)
-  }
-
-  return noUpdate
-}
 
 /**
  * @param {*} fn

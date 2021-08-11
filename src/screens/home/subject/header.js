@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 19:18:02
+ * @Last Modified time: 2021-08-11 08:30:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,7 +44,7 @@ function Header(props, { $ }) {
       <Head />
       <View style={styles.content}>
         <Lock />
-        <Box style={_.mt.md} />
+        <Box />
         <Ep style={_.mt.lg} />
         <Tags style={_.mt.lg} />
         {rendered && (

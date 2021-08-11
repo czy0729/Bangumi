@@ -3,21 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 01:51:36
+ * @Last Modified time: 2021-08-11 09:57:54
  */
 import { DEV, LOG_LEVEL } from '@constants'
 import { pad } from './index'
 
-export function now() {
-  const now = new Date()
-  const h = now.getHours()
-  const m = now.getMinutes()
-  const s = now.getSeconds()
-  // const ms = now.getMilliseconds()
-  return `${h}:${pad(m)}:${pad(s)}`
-}
-
-const rerenderFilter = 'Home'
+const rerenderFilter = 'Subject.Head'
 let rerenderCount = {}
 setInterval(() => {
   rerenderCount = {}
@@ -29,10 +20,25 @@ export function rerender(key, ...other) {
   rerenderCount[key] += 1
 
   let _key = key
-  for (let len = _key.length; len <= 20; len += 1) {
+  for (let len = _key.length; len <= 24; len += 1) {
     _key += ' '
   }
-  console.info(now(), '[render]', _key, rerenderCount[key], ...other)
+
+  let _count = String(rerenderCount[key])
+  for (let len = _count.length; len <= 8; len += 1) {
+    _count += ' '
+  }
+
+  console.info(now(), '[render]', _key, _count, ...other)
+}
+
+export function now() {
+  const now = new Date()
+  const h = now.getHours()
+  const m = now.getMinutes()
+  const s = now.getSeconds()
+  // const ms = now.getMilliseconds()
+  return `${h}:${pad(m)}:${pad(s)}`
 }
 
 /**

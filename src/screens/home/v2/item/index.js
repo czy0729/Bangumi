@@ -23,7 +23,7 @@ function Item(
     return <View style={styles.lazy} />
   }
 
-  // rerender('Home.Item', subject.name_cn || subject.name)
+  rerender('Home.Item', subject.name_cn || subject.name)
 
   const styles = memoStyles()
   const { top } = $.state

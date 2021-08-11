@@ -2,17 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 01:25:15
+ * @Last Modified time: 2021-08-10 20:21:11
  */
-import { _ } from '@stores'
 import { pick } from '@utils'
 
 export const defaultProps = {
-  // stores
-  isPad: _.isPad,
-  sm: _.sm,
-
-  // props
   style: {},
   subjectId: 0, // 条目Id
   layoutWidth: 0, // 容器宽度, 存在此值则不计算onLayout, 加速渲染
@@ -33,7 +27,6 @@ export const defaultProps = {
 export const buttonDefaultProps = {
   // stores
   styles: {},
-  isPad: _.isPad,
   heatMap: false,
 
   // props

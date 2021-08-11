@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 01:24:16
+ * @Last Modified time: 2021-08-10 20:21:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Popover, Button as CompButton, Menu } from '@components'
+import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { IOS } from '@constants'
 import { buttonDefaultProps as defaultProps } from './ds'
 
-function Button({ styles, isPad, heatMap, props, item, eps, isSp, num }) {
+function Button({ styles, heatMap, props, item, eps, isSp, num }) {
   rerender('Eps.Button.Main')
 
   const {
@@ -62,7 +63,7 @@ function Button({ styles, isPad, heatMap, props, item, eps, isSp, num }) {
   return (
     <Popover
       style={{
-        marginRight: isPad ? margin : isSide ? 0 : margin,
+        marginRight: _.device(isSide ? 0 : margin, margin),
         marginBottom: margin + 4
       }}
       onLongPress={() => onLongPress(item)}

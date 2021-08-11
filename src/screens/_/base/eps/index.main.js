@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:34:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 01:25:53
+ * @Last Modified time: 2021-08-10 20:20:52
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
+import { _ } from '@stores'
 import { arrGroup } from '@utils'
 import { memo } from '@utils/decorators'
 import { MODEL_EP_TYPE } from '@constants/model'
@@ -14,8 +15,6 @@ import { Carousel } from './carousel'
 import { defaultProps } from './ds'
 
 function Eps({
-  isPad,
-  sm,
   style,
   subjectId,
   layoutWidth,
@@ -37,12 +36,12 @@ function Eps({
   const [width, setWidth] = useState(layoutWidth - marginRight)
 
   const btnStyle = useMemo(() => {
-    // rerender('Eps.btnStyle')
+    rerender('Eps.btnStyle')
 
-    if (isPad) {
+    if (_.isPad) {
       return {
         width: 48,
-        margin: sm
+        margin: _.sm
       }
     }
 
@@ -61,7 +60,7 @@ function Eps({
   }, [width, numbersOfLine, grid])
 
   const passProps = useMemo(() => {
-    // rerender('Eps.passProps')
+    rerender('Eps.passProps')
 
     const { width, margin } = btnStyle
     return {
@@ -88,7 +87,7 @@ function Eps({
   ])
 
   const pages = useMemo(() => {
-    // rerender('Eps.pages')
+    rerender('Eps.pages')
 
     let _eps = eps || []
     let hasSp = false // 是否有SP
