@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 18:05:42
+ * @Last Modified time: 2021-08-12 00:40:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,8 @@ import IconWenku from './icon/wenku'
 import IconHD from './icon/hd'
 
 function BookEp({ style }, { $ }) {
+  rerender('Subject.BookEp')
+
   const { chap, vol } = $.state
   const { book = {} } = $.subjectFormHTML
   const {

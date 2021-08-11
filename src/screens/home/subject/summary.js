@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 12:44:04
+ * @Last Modified time: 2021-08-12 00:45:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,8 @@ import { obc } from '@utils/decorators'
 import IconTranslate from './icon/translate'
 
 function Summary({ style }, { $ }) {
+  rerender('Subject.Summary')
+
   const { _loaded } = $.subject
   if (_loaded && !$.summary) return null
 

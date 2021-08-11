@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 16:31:07
+ * @Last Modified time: 2021-08-12 00:44:18
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -44,6 +44,8 @@ class List extends React.Component {
   }
 
   render() {
+    rerender('Subject.List')
+
     const { $ } = this.context
     const { onScroll } = this.props
     return (

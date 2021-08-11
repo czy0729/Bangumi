@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 12:43:28
+ * @Last Modified time: 2021-08-12 00:45:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,8 @@ const initialRenderNums = _.isPad
   : Math.floor(_.window.contentWidth / 56) + 1
 
 function Staff({ style }, { $, navigation }) {
+  rerender('Subject.Staff')
+
   if (!$.staff.length) return null
 
   const { showStaff } = systemStore.setting

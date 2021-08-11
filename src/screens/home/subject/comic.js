@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 15:31:21
+ * @Last Modified time: 2021-08-12 00:41:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,8 @@ const initialRenderNums = _.isPad
   : Math.floor(_.window.contentWidth / coverWidth) + 1
 
 function Comic({ style }, { $, navigation }) {
+  rerender('Subject.Comic')
+
   if (!$.comic.length) return null
 
   return (

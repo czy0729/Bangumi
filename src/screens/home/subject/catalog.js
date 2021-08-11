@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 23:14:16
+ * @Last Modified time: 2021-08-12 00:40:42
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,6 +16,8 @@ import { URL_DEFAULT_AVATAR } from '@constants'
 import IconCatalog from './icon/catalog'
 
 function Catalog({ style }, { $, navigation }) {
+  rerender('Subject.Catalog')
+
   const { catalog } = $.subjectFormHTML
   let _catalog = catalog || []
   if ($.filterDefault || $.isLimit) {

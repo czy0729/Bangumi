@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-07 07:13:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-07 07:24:19
+ * @Last Modified time: 2021-08-12 00:42:35
  */
 import React from 'react'
 import { Eps as CompEps } from '@screens/_'
@@ -12,6 +12,8 @@ import { obc } from '@utils/decorators'
 const layoutWidth = parseInt(_.window.width - _.wind) - 1
 
 function Eps(props, { $, navigation }) {
+  rerender('Subject.Eps')
+
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   const showPlay = !$.isLimit && canPlay
   return (

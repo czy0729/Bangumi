@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 19:17:02
+ * @Last Modified time: 2021-08-12 00:40:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,8 @@ import { URL_DEFAULT_AVATAR } from '@constants'
 import IconBlog from './icon/blog'
 
 function Blog({ style }, { $, navigation }) {
+  rerender('Subject.Blog')
+
   const { blog } = $.subject
   let _blog = blog || []
   if ($.filterDefault || $.isLimit) {

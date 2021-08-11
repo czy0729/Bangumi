@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 12:14:16
+ * @Last Modified time: 2021-08-12 00:45:01
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,6 +13,8 @@ import { obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
 
 function Recent({ style }, { $, navigation }) {
+  rerender('Subject.Recent')
+
   const { who } = $.subjectFormHTML
   let _who = who || []
   if ($.filterDefault || $.isLimit) {

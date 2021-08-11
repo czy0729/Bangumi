@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 12:12:41
+ * @Last Modified time: 2021-08-12 00:46:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,8 @@ import { HENTAI_TAGS } from '@utils/subject/hentai'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function Tags({ style }, { $, navigation }) {
+  rerender('Subject.Tags')
+
   const styles = memoStyles()
   const { tag = [] } = $.collection
   const { showTags } = systemStore.setting

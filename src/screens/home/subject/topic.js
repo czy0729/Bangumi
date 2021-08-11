@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-06 19:42:06
+ * @Last Modified time: 2021-08-12 00:47:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,8 @@ import { URL_DEFAULT_AVATAR } from '@constants'
 import IconTopic from './icon/topic'
 
 function Topic({ style }, { $, navigation }) {
+  rerender('Subject.Topic')
+
   const { topic } = $.subject
   let _topic = topic || []
   if ($.filterDefault || $.isLimit) {

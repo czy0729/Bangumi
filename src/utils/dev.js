@@ -3,29 +3,40 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-11 09:57:54
+ * @Last Modified time: 2021-08-12 01:52:54
  */
 import { DEV, LOG_LEVEL } from '@constants'
 import { pad } from './index'
 
-const rerenderFilter = 'Subject.Head'
-let rerenderCount = {}
-setInterval(() => {
-  rerenderCount = {}
-}, 8000)
-export function rerender(key, ...other) {
-  if (!DEV || !key || !key.includes(rerenderFilter)) return
+const RERENDER_FILTER = 'Subject.HeaderTitle'
+const RERENDER_LOG_COUNT = 3
+let RERENDER_MEMO = {}
+if (!RERENDER_LOG_COUNT) {
+  setInterval(() => {
+    RERENDER_MEMO = {}
+  }, 8000)
+}
 
-  if (!rerenderCount[key]) rerenderCount[key] = 0
-  rerenderCount[key] += 1
+export function rerender(key, ...other) {
+  if (!DEV || !key || !key.includes(RERENDER_FILTER)) return
+
+  if (!RERENDER_MEMO[key]) RERENDER_MEMO[key] = 0
+  RERENDER_MEMO[key] += 1
 
   let _key = key
   for (let len = _key.length; len <= 24; len += 1) {
     _key += ' '
   }
 
-  let _count = String(rerenderCount[key])
-  for (let len = _count.length; len <= 8; len += 1) {
+  let _count = String(RERENDER_MEMO[key])
+  if (_count && _count <= RERENDER_LOG_COUNT) return
+
+  _count += ' '
+  for (let len = 0; len <= RERENDER_MEMO[key]; len += 1) {
+    _count += '■■'
+  }
+
+  for (let len = _count.length; len <= 12; len += 1) {
     _count += ' '
   }
 

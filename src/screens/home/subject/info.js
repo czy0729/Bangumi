@@ -14,6 +14,8 @@ import { appNavigate } from '@utils/app'
 import IconWiki from './icon/wiki'
 
 function Info({ style }, { $, navigation }) {
+  rerender('Subject.Info')
+
   const styles = memoStyles()
   const { showInfo } = systemStore.setting
   let html = $.info

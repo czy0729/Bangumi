@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 20:17:50
+ * @Last Modified time: 2021-08-12 00:42:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,8 @@ import { appNavigate } from '@utils/app'
 import IconDisc from './icon/disc'
 
 function Disc({ style }, { $, navigation }) {
+  rerender('Subject.Disc')
+
   const styles = memoStyles()
   const { discTranslateResult } = $.state
   const _discTranslateResult = [...discTranslateResult]

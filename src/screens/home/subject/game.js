@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 12:05:14
+ * @Last Modified time: 2021-08-12 00:42:51
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -163,6 +163,8 @@ class Game extends React.Component {
   }
 
   render() {
+    rerender('Subject.Game')
+
     const { $ } = this.context
     if (!$.gameInfo || !$.gameInfo.id) {
       return null

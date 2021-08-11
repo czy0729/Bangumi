@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 19:23:23
+ * @Last Modified time: 2021-08-12 00:39:54
  */
 import React from 'react'
 import { BlurView } from '@components'
@@ -13,6 +13,8 @@ import { IOS } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
 function Bg({ show }, { $ }) {
+  rerender('Subject.Bg')
+
   if (!show) return null
 
   const styles = memoStyles()

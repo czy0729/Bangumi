@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 15:31:39
+ * @Last Modified time: 2021-08-12 00:45:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,8 @@ const initialRenderNums = _.isPad
   : Math.floor(_.window.contentWidth / coverWidth) + 1
 
 function Relations({ style }, { $, navigation }) {
+  rerender('Subject.Relations')
+
   if (!$.relations.length) return null
 
   const { showRelations } = systemStore.setting

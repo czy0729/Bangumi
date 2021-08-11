@@ -45,7 +45,7 @@ function Header(props, { $ }) {
       <View style={styles.content}>
         <Lock />
         <Box />
-        <Ep style={_.mt.lg} />
+        <Ep />
         <Tags style={_.mt.lg} />
         {rendered && (
           <>

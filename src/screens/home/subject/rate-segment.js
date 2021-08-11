@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:10:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 12:09:14
+ * @Last Modified time: 2021-08-12 00:44:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,8 @@ import { obc } from '@utils/decorators'
 const scoresDS = ['全部', '9-10', '7-8', '4-6', '1-3']
 
 function RateSegement(props, { $ }) {
+  rerender('Subject.RateSegement')
+
   const { filterScores } = $.state
   return (
     <View>

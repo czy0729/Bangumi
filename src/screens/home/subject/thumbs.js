@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 15:56:15
+ * @Last Modified time: 2021-08-12 00:46:53
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -45,6 +45,8 @@ class Thumbs extends React.Component {
   }
 
   render() {
+    rerender('Subject.Thumbs')
+
     const { $ } = this.context
     const { epsThumbs, epsThumbsHeader } = $.state
     if (!epsThumbs.length) return null

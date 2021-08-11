@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-09 23:41:28
+ * @Last Modified time: 2021-08-12 00:42:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,8 @@ class Cover extends React.Component {
     }, 400)
 
   render() {
+    rerender('Subject.Cover')
+
     const { $ } = this.context
     const { _imageForce } = $.params
     const { image, placeholder } = this.props

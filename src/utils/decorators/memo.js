@@ -3,10 +3,9 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-11 10:34:21
+ * @Last Modified time: 2021-08-11 14:42:09
  */
 import React from 'react'
-import { similar } from '@utils'
 
 function compareLog(prev, next) {
   const unsameKeys = []
@@ -26,14 +25,13 @@ function compareLog(prev, next) {
     }
 
     console.log(
-      '[compare]',
-      'key:',
-      unsameKeys[0],
-      'similar:',
-      similar(
-        JSON.stringify(prev[unsameKeys[0]]),
-        JSON.stringify(next[unsameKeys[0]])
-      )
+      '\n',
+      '[update]',
+      `${unsameKeys[0]}:`,
+      JSON.stringify(prev[unsameKeys[0]]),
+      '=>',
+      JSON.stringify(next[unsameKeys[0]]),
+      '\n'
     )
   }
 }
@@ -74,10 +72,7 @@ function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
   }
 
   const notUpdate = JSON.stringify(_prevProps) === JSON.stringify(_nextProps)
-  if (dev && !notUpdate) {
-    console.log('[memoCompare]', notUpdate)
-    compareLog(_prevProps, _nextProps)
-  }
+  if (dev && !notUpdate) compareLog(_prevProps, _nextProps)
 
   return notUpdate
 }

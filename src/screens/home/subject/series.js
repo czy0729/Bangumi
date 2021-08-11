@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 14:41:11
+ * @Last Modified time: 2021-08-12 00:45:32
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -16,6 +16,8 @@ const coverWidth = _.device(24, 32) * _.ratio
 const coverHeight = coverWidth * 1.4
 
 function Series({ size }, { $, navigation }) {
+  rerender('Subject.Series')
+
   if (!($.subjectPrev || $.subjectAfter || $.subjectSeries || $.subjectAnime)) {
     return null
   }

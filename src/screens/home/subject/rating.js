@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 15:09:06
+ * @Last Modified time: 2021-08-12 00:44:54
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -214,6 +214,8 @@ class Ranting extends React.Component {
   }
 
   render() {
+    rerender('Subject.Rating')
+
     const { style } = this.props
     const { showRating } = systemStore.setting
     return (

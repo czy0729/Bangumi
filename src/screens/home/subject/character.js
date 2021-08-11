@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 14:33:03
+ * @Last Modified time: 2021-08-12 00:40:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,8 @@ const initialRenderNums = _.isPad
   : Math.floor(_.window.contentWidth / 56) + 1
 
 function Character({ style }, { $, navigation }) {
+  rerender('Subject.Character')
+
   if (!$.crt.length) return null
 
   const { showCharacter } = systemStore.setting
