@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 00:42:51
+ * @Last Modified time: 2021-08-12 13:02:49
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -171,9 +171,8 @@ class Game extends React.Component {
     }
 
     const { showGameInfo } = systemStore.setting
-    const { style } = this.props
     return (
-      <View style={style}>
+      <View style={_.mt.lg}>
         <SectionTitle
           style={_.container.wind}
           right={!this.isADV && <IconPS />}

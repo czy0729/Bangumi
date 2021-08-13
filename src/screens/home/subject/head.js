@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-11 10:24:21
+ * @Last Modified time: 2021-08-12 12:55:53
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -61,7 +61,8 @@ const Head = memo(
 
     // 主标题大小
     let size =
-      (cn.length > 24 ? 11 : cn.length > 16 ? 13 : 16) + (PAD === 2 ? 4 : 2)
+      (cn.length > 32 ? 10 : cn.length > 24 ? 11 : cn.length > 16 ? 13 : 16) +
+      (PAD === 2 ? 4 : 2)
 
     if (showRelation && hasRelation) size = Math.max(11, size - 2)
 
@@ -150,7 +151,7 @@ const Head = memo(
             </View>
             <Series size={size} />
           </View>
-          <Flex>
+          <Flex style={_.mt.xs}>
             {!hideScore && (
               <>
                 <Text type='main' size={_.device(20, 24)}>

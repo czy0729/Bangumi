@@ -1,123 +1,47 @@
 /*
  * @Author: czy0729
- * @Date: 2019-03-24 05:29:31
+ * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 00:44:54
+ * @Last Modified time: 2021-08-12 16:23:48
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
-import { SectionTitle, Rank } from '@screens/_'
-import { _, systemStore } from '@stores'
-import { open, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { _ } from '@stores'
+import { toFixed } from '@utils'
+import { memo, obc } from '@utils/decorators'
 
-export default
-@obc
-class Ranting extends React.Component {
-  state = {
-    show: false
-  }
+const defaultProps = {
+  navigation: {},
+  styles: {},
+  friend: {},
+  rating: 0,
+  total: 0,
+  count: {},
+  score: 0,
+  toRating: Function.prototype
+}
 
-  setShow = () =>
-    this.setState({
-      show: true
-    })
+const Chart = memo(
+  ({ navigation, styles, friend, rating, total, count, score, toRating }) => {
+    rerender('Subject.Rating.Chart.Main')
 
-  /**
-   * 标准差
-   */
-  get deviation() {
-    const { $ } = this.context
-    const { total, count, score } = $.rating
-    if (total == 0) return 0
-
-    const scores = Object.values(count).reverse()
-    return calculateSD(scores, score, total)
-  }
-
-  get showScore() {
-    const { $ } = this.context
-    const { show } = this.state
-    return !$.hideScore || show
-  }
-
-  renderTitle() {
-    const { showRating } = systemStore.setting
-    const { $ } = this.context
-    const { rank = '-' } = $.subject
-    return (
-      <SectionTitle
-        right={
-          showRating && (
-            <Touchable
-              style={this.styles.touchRate}
-              onPress={() => {
-                t('条目.跳转', {
-                  to: 'Netabare',
-                  from: '评分分布',
-                  subjectId: $.subjectId
-                })
-                open(`https://netaba.re/subject/${$.subjectId}`)
-              }}
-            >
-              <Flex>
-                {this.showScore && <Rank value={rank} size={13} />}
-                <Text style={_.ml.sm} type='sub'>
-                  趋势
-                </Text>
-                <Iconfont name='md-navigate-next' />
-              </Flex>
-              <Heatmap
-                id='条目.跳转'
-                data={{
-                  from: '评分分布'
-                }}
-              />
-            </Touchable>
-          )
-        }
-        icon={!showRating && 'md-navigate-next'}
-        onPress={() => $.switchBlock('showRating')}
-      >
-        评分{' '}
-        {this.showScore && (
-          <>
-            <Text type='warning' size={18} lineHeight={18} bold>
-              {' '}
-              {$.rating.score}{' '}
-            </Text>
-            {!!$.rating.total && (
-              <Text size={12} lineHeight={18} type='sub'>
-                ({$.rating.total}){' '}
-              </Text>
-            )}
-          </>
-        )}
-      </SectionTitle>
-    )
-  }
-
-  renderRating() {
-    const { $, navigation } = this.context
-    const { friend = {} } = $.subjectFormHTML
-    const { rating = 0 } = $.collection
+    const deviation = getDeviation(total, count, score)
     return (
       <>
         <Flex style={_.mt.md}>
-          {Object.keys($.rating.count)
+          {Object.keys(count)
             .reverse()
             .map((item, index) => {
-              const height = getHeight($.rating.total, $.rating.count[item])
+              const height = getHeight(total, count[item])
               const isActive = rating == item
               return (
                 <Flex.Item key={item} style={index > 0 && _.ml.xs}>
-                  <Flex style={this.styles.item} justify='center' align='end'>
+                  <Flex style={styles.item} justify='center' align='end'>
                     <View
                       style={[
-                        this.styles.itemFill,
-                        isActive && this.styles.itemFillActive,
+                        styles.itemFill,
+                        isActive && styles.itemFillActive,
                         {
                           height
                         }
@@ -125,7 +49,7 @@ class Ranting extends React.Component {
                     />
                     <Text
                       style={[
-                        this.styles.total,
+                        styles.total,
                         {
                           bottom: height
                         }
@@ -135,7 +59,7 @@ class Ranting extends React.Component {
                       align='center'
                       bold
                     >
-                      {$.rating.count[item]}{' '}
+                      {count[item]}{' '}
                     </Text>
                   </Flex>
                   <Text
@@ -153,8 +77,8 @@ class Ranting extends React.Component {
         <Flex style={_.mt.md}>
           <Flex.Item>
             <Touchable
-              style={this.styles.touchFriend}
-              onPress={() => $.toRating(navigation, '评分分布')}
+              style={styles.friend}
+              onPress={() => toRating(navigation, '评分分布')}
             >
               <Flex>
                 {friend.score ? (
@@ -184,13 +108,13 @@ class Ranting extends React.Component {
             </Touchable>
           </Flex.Item>
           <Touchable
-            style={this.styles.touchDeviation}
+            style={styles.deviation}
             name='right'
             size={14}
             onPress={() =>
               Alert.alert(
                 '标准差',
-                '0-1 异口同声\n1.15 基本一致\n1.3 略有分歧\n1.45 莫衷一是\n1.6 各执一词\n1.75 你死我活\n'
+                '0-1 异口同声\n1.15 基本一致\n1.3 略有分歧\n1.45 莫衷一是\n1.6 各执一词\n1.75 你死我活'
               )
             }
           >
@@ -200,10 +124,10 @@ class Ranting extends React.Component {
               </Text>
               <Text size={12} type='main' bold>
                 {' '}
-                {toFixed(this.deviation, 2)}{' '}
+                {toFixed(deviation, 2)}{' '}
               </Text>
               <Text size={12} lineHeight={12} type='sub'>
-                {getDispute(this.deviation)}{' '}
+                {getDispute(deviation)}{' '}
               </Text>
               <Iconfont name='md-info-outline' size={16} />
             </Flex>
@@ -211,37 +135,27 @@ class Ranting extends React.Component {
         </Flex>
       </>
     )
-  }
+  },
+  defaultProps
+)
 
-  render() {
-    rerender('Subject.Rating')
+export default obc((props, { $, navigation }) => {
+  rerender('Subject.Rating.Chart')
 
-    const { style } = this.props
-    const { showRating } = systemStore.setting
-    return (
-      <View style={[_.container.wind, style, !showRating && _.short]}>
-        {this.renderTitle()}
-        {showRating && (
-          <View>
-            {this.showScore ? (
-              this.renderRating()
-            ) : (
-              <Touchable onPress={this.setShow}>
-                <Flex style={this.styles.hideScore} justify='center'>
-                  <Text>评分已隐藏, 点击显示</Text>
-                </Flex>
-              </Touchable>
-            )}
-          </View>
-        )}
-      </View>
-    )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
-}
+  const { total, count, score } = $.rating
+  return (
+    <Chart
+      navigation={navigation}
+      styles={memoStyles()}
+      friend={$.subjectFormHTML.friend}
+      rating={$.collection.rating}
+      total={total}
+      count={count}
+      score={score}
+      toRating={$.toRating}
+    />
+  )
+})
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
@@ -267,22 +181,13 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     marginBottom: 4
   },
-  hideScore: {
-    height: 144 * _.ratio
-  },
-  touchRate: {
-    paddingLeft: _.xs,
-    marginRight: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  touchFriend: {
+  friend: {
     paddingLeft: _.xs,
     marginLeft: -_.xs,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
-  touchDeviation: {
+  deviation: {
     paddingLeft: _.xs,
     marginRight: -_.xs,
     borderRadius: _.radiusSm,
@@ -301,6 +206,19 @@ function getHeight(total, current) {
   let percent = current / total
   if (percent > 0 && percent < min) percent = min
   return `${Math.min(percent * 1.44 || min, 1) * 100}%`
+}
+
+/**
+ * 计算标准差
+ * @param {*} total
+ * @param {*} count
+ * @param {*} score
+ */
+function getDeviation(total, count, score) {
+  if (total == 0) return 0
+
+  const scores = Object.values(count).reverse()
+  return calculateSD(scores, score, total)
 }
 
 /**

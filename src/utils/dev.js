@@ -3,22 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 01:52:54
+ * @Last Modified time: 2021-08-13 09:48:36
  */
 import { DEV, LOG_LEVEL } from '@constants'
+import { RERENDER_SHOW } from '../../config'
 import { pad } from './index'
 
-const RERENDER_FILTER = 'Subject.HeaderTitle'
-const RERENDER_LOG_COUNT = 3
+const RERENDER_LOG_COUNT = 0
 let RERENDER_MEMO = {}
-if (!RERENDER_LOG_COUNT) {
+if (DEV && !RERENDER_LOG_COUNT) {
   setInterval(() => {
     RERENDER_MEMO = {}
   }, 8000)
 }
 
 export function rerender(key, ...other) {
-  if (!DEV || !key || !key.includes(RERENDER_FILTER)) return
+  if (!DEV || !key || !RERENDER_SHOW.test(key)) return
 
   if (!RERENDER_MEMO[key]) RERENDER_MEMO[key] = 0
   RERENDER_MEMO[key] += 1
@@ -32,8 +32,8 @@ export function rerender(key, ...other) {
   if (_count && _count <= RERENDER_LOG_COUNT) return
 
   _count += ' '
-  for (let len = 0; len <= RERENDER_MEMO[key]; len += 1) {
-    _count += '■■'
+  for (let len = 1; len <= RERENDER_MEMO[key]; len += 1) {
+    _count += '■'
   }
 
   for (let len = _count.length; len <= 12; len += 1) {

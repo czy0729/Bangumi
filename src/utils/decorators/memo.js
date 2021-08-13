@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-11 14:42:09
+ * @Last Modified time: 2021-08-13 08:39:59
  */
 import React from 'react'
 
@@ -24,15 +24,22 @@ function compareLog(prev, next) {
       return
     }
 
-    console.log(
-      '\n',
-      '[update]',
-      `${unsameKeys[0]}:`,
-      JSON.stringify(prev[unsameKeys[0]]),
-      '=>',
-      JSON.stringify(next[unsameKeys[0]]),
-      '\n'
-    )
+    // 不打印styles, 没意义
+    if (unsameKeys[0]) {
+      if (unsameKeys[0] === 'styles') {
+        console.log('\n', '[update]', unsameKeys[0], '\n')
+      } else {
+        console.log(
+          '\n',
+          '[update]',
+          `${unsameKeys[0]}:`,
+          JSON.stringify(prev[unsameKeys[0]]),
+          '=>',
+          JSON.stringify(next[unsameKeys[0]]),
+          '\n'
+        )
+      }
+    }
   }
 }
 
@@ -58,6 +65,11 @@ function mapKey(target, key, value) {
  * @param {*} propsOrKeys
  */
 function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
+  // 正常情况不会是false, 这是留给强制更新的一个参数配合
+  if (prevProps === false && nextProps === false) {
+    return false
+  }
+
   const _prevProps = propsOrKeys ? {} : prevProps
   const _nextProps = propsOrKeys ? {} : nextProps
   if (propsOrKeys) {

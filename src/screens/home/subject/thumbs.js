@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 00:46:53
+ * @Last Modified time: 2021-08-12 13:18:40
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -51,7 +51,6 @@ class Thumbs extends React.Component {
     const { epsThumbs, epsThumbsHeader } = $.state
     if (!epsThumbs.length) return null
 
-    const { style } = this.props
     const { scrolled } = this.state
     const { showThumbs } = systemStore.setting
 
@@ -64,7 +63,7 @@ class Thumbs extends React.Component {
       ? 'douban.com'
       : ''
     return (
-      <View style={[styles.container, style, !showThumbs && _.short]}>
+      <View style={[_.mt.lg, !showThumbs && _.short]}>
         <SectionTitle
           style={_.container.wind}
           icon={!showThumbs && 'md-navigate-next'}
@@ -75,7 +74,7 @@ class Thumbs extends React.Component {
         {showThumbs && (
           <ScrollView
             style={_.mt.md}
-            contentContainerStyle={styles.contentContainerStyle}
+            contentContainerStyle={_.container.wind}
             horizontal
             showsHorizontalScrollIndicator={false}
             scrollEventThrottle={80}
@@ -125,12 +124,6 @@ class Thumbs extends React.Component {
 }
 
 const styles = _.create({
-  contentContainerStyle: {
-    paddingHorizontal: _.wind
-  },
-  icon: {
-    marginRight: -_.sm
-  },
   image: {
     overflow: 'hidden'
   }

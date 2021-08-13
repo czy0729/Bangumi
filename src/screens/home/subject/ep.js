@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-11 14:38:10
+ * @Last Modified time: 2021-08-13 09:10:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -69,10 +69,8 @@ const minuteDS = [
   '50',
   '55'
 ]
-
 const defaultProps = {
   styles: {},
-  type: '',
   watchedEps: '',
   totalEps: 0,
   onAir: {},
@@ -86,7 +84,6 @@ const defaultProps = {
 const Ep = memo(
   ({
     styles,
-    type,
     watchedEps,
     totalEps,
     onAir,
@@ -97,10 +94,6 @@ const Ep = memo(
     doUpdateSubjectEp
   }) => {
     rerender('Subject.Ep.Main')
-
-    if (type === '游戏') return null // 游戏没有ep
-    if (type === '书籍') return <BookEp />
-    if (type === '音乐') return <Disc />
 
     const { timeJP, weekDayJP, timeCN, weekDayCN } = onAir
     const weekDay = weekDayCN || weekDayJP
@@ -215,17 +208,19 @@ const Ep = memo(
       </View>
     )
   },
-  defaultProps,
-  true
+  defaultProps
 )
 
 export default obc((props, { $ }) => {
   rerender('Subject.Ep')
 
+  if ($.type === '游戏') return null // 游戏没有ep
+  if ($.type === '书籍') return <BookEp />
+  if ($.type === '音乐') return <Disc />
+
   return (
     <Ep
       styles={memoStyles()}
-      type={$.type}
       watchedEps={$.state.watchedEps}
       totalEps={$.subjectFormHTML.totalEps}
       onAir={$.onAir}

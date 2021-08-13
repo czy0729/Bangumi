@@ -2,28 +2,53 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 00:44:28
+ * @Last Modified time: 2021-08-13 09:22:20
  */
 import React from 'react'
 import { ManageModal } from '@screens/_'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 
-function Modal(props, { $ }) {
+const defaultProps = {
+  visible: false,
+  subject: 0,
+  name: '',
+  nameCn: '',
+  action: '看',
+  onSubmit: Function.prototype,
+  onClose: Function.prototype
+}
+
+const Modal = memo(
+  ({ visible, subjectId, name, nameCn, action, onSubmit, onClose }) => {
+    rerender('Subject.Modal.Main')
+
+    return (
+      <ManageModal
+        visible={visible}
+        subjectId={subjectId}
+        title={nameCn || name}
+        desc={name}
+        action={action}
+        onSubmit={onSubmit}
+        onClose={onClose}
+      />
+    )
+  },
+  defaultProps
+)
+
+export default obc((props, { $ }) => {
   rerender('Subject.Modal')
 
-  const { visible } = $.state
-  const { name_cn: nameCn, name } = $.subject
   return (
-    <ManageModal
-      visible={visible}
+    <Modal
+      visible={$.state.visible}
       subjectId={$.params.subjectId}
-      title={nameCn || name}
-      desc={name}
+      name={$.subject.name}
+      nameCn={$.subject.name_cn}
       action={$.action}
       onSubmit={$.doUpdateCollection}
       onClose={$.closeManageModal}
     />
   )
-}
-
-export default obc(Modal)
+})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-11 08:30:54
+ * @Last Modified time: 2021-08-13 07:42:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,23 +46,23 @@ function Header(props, { $ }) {
         <Lock />
         <Box />
         <Ep />
-        <Tags style={_.mt.lg} />
+        <Tags />
         {rendered && (
           <>
-            <Game style={_.mt.lg} />
-            <Summary style={_.mt.lg} />
-            <Thumbs style={_.mt.lg} />
-            <Info style={_.mt.lg} />
-            <Rating style={_.mt.lg} />
-            <Character style={_.mt.lg} />
-            <Staff style={_.mt.lg} />
-            <Relations style={_.mt.lg} />
-            <Comic style={_.mt.lg} />
-            <Catalog style={_.mt.lg} />
-            <Like style={_.mt.lg} />
-            <Blog style={_.mt.lg} />
-            <Topic style={_.mt.lg} />
-            <Recent style={_.mt.lg} />
+            <Game />
+            <Summary />
+            <Thumbs />
+            <Info />
+            <Rating />
+            <Character />
+            <Staff />
+            <Relations />
+            <Comic />
+            <Catalog />
+            <Like />
+            <Blog />
+            <Topic />
+            <Recent />
             <SectionTitle
               style={styles.title}
               right={

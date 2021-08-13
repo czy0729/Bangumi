@@ -11,7 +11,7 @@ import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { DEV, IOS } from '@constants'
 import _ from '@styles'
-import { initialDevDark } from '@/config'
+import { INIT_DEV_DARK } from '@/config'
 import systemStore from '../system'
 
 const NAMESPACE = 'Theme'
@@ -818,18 +818,18 @@ class Theme extends store {
 const Store = new Theme()
 
 setTimeout(() => {
-  if (DEV && typeof initialDevDark === 'boolean') {
+  if (DEV && typeof INIT_DEV_DARK === 'boolean') {
     if (
-      (initialDevDark && !Store.isDark) ||
-      (!initialDevDark && Store.isDark)
+      (INIT_DEV_DARK && !Store.isDark) ||
+      (!INIT_DEV_DARK && Store.isDark)
     ) {
       Store.toggleMode()
       console.info('Store.toggleMode')
     }
 
     if (
-      (initialDevDark && !Store.isTinygrailDark) ||
-      (!initialDevDark && Store.isTinygrailDark)
+      (INIT_DEV_DARK && !Store.isTinygrailDark) ||
+      (!INIT_DEV_DARK && Store.isTinygrailDark)
     ) {
       Store.toggleTinygrailThemeMode()
       console.info('Store.toggleTinygrailThemeMode')

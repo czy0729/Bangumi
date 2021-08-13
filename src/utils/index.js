@@ -2,13 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-11 09:14:09
+ * @Last Modified time: 2021-08-13 08:24:49
  */
 import { InteractionManager, Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
+
+/**
+ * 排除null
+ * @param {*} value
+ */
+export function isObject(value) {
+  return typeof value === 'object' && !!value
+}
 
 /**
  * @param {*} fn

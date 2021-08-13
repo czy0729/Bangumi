@@ -2,33 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 00:41:13
+ * @Last Modified time: 2021-08-13 09:07:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 const coverWidth = 80
 const coverHeight = coverWidth * 1.4
-const initialRenderNums = _.isPad
-  ? 6
-  : Math.floor(_.window.contentWidth / coverWidth) + 1
+const initialRenderNums = _.device(
+  Math.floor(_.window.contentWidth / coverWidth) + 1,
+  6
+)
+const defaultProps = {
+  navigation: {},
+  subjectId: 0,
+  comic: []
+}
 
-function Comic({ style }, { $, navigation }) {
-  rerender('Subject.Comic')
-
-  if (!$.comic.length) return null
-
+const Comic = memo(({ navigation, subjectId, comic }) => {
+  rerender('Subject.Comic.Main')
   return (
-    <View style={style}>
+    <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>单行本</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
-        data={$.comic}
+        data={comic}
         width={coverWidth}
         height={coverHeight}
         ellipsizeMode='middle'
@@ -37,7 +40,7 @@ function Comic({ style }, { $, navigation }) {
           t('条目.跳转', {
             to: 'Subject',
             from: '单行本',
-            subjectId: $.subjectId
+            subjectId
           })
           navigation.push('Subject', {
             subjectId: id,
@@ -55,6 +58,14 @@ function Comic({ style }, { $, navigation }) {
       />
     </View>
   )
-}
+}, defaultProps)
 
-export default obc(Comic)
+export default obc((props, { $, navigation }) => {
+  rerender('Subject.Comic')
+
+  if (!$.comic.length) return null
+
+  return (
+    <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
+  )
+})

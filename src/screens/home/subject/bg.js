@@ -2,34 +2,48 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 00:39:54
+ * @Last Modified time: 2021-08-12 02:24:26
  */
 import React from 'react'
 import { BlurView } from '@components'
 import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
-function Bg({ show }, { $ }) {
-  rerender('Subject.Bg')
+const defaultProps = {
+  styles: {},
+  src: ''
+}
 
-  if (!show) return null
+const Bg = memo(({ styles, src }) => {
+  rerender('Subject.Bg.Main')
 
-  const styles = memoStyles()
-  const { images = {} } = $.subject
   return (
     <BlurView
       style={styles.blurView}
       theme={_.select(null, 'dark')}
       tint={_.select('default', 'dark')}
-      src={CDN_OSS_SUBJECT(getCoverMedium($.coverPlaceholder || images.common))}
+      src={CDN_OSS_SUBJECT(getCoverMedium(src))}
     />
   )
-}
+}, defaultProps)
 
-export default obc(Bg)
+export default obc(({ show }, { $ }) => {
+  rerender('Subject.Bg')
+
+  if (!show) return null
+
+  const { images = {} } = $.subject
+  return (
+    <Bg
+      styles={memoStyles()}
+      show={show}
+      src={$.coverPlaceholder || images.common}
+    />
+  )
+})
 
 const memoStyles = _.memoStyles(_ => ({
   blurView: {
