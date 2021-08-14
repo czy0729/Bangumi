@@ -2,17 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 15:20:07
+ * @Last Modified time: 2021-08-14 15:44:35
  */
 import React from 'react'
 import { Text } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { ob } from '@utils/decorators'
 
 export const Rank = ob(({ style, size = 10, value }) => {
-  if (!value) {
-    return null
-  }
+  if (systemStore.setting.hideScore || !value) return null
 
   const styles = memoStyles()
   return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 15:51:44
+ * @Last Modified time: 2021-08-14 15:59:35
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -60,7 +60,7 @@ function Title({ showScore }, { $ }) {
           </Text>
           {!!$.rating.total && (
             <Text size={12} lineHeight={18} type='sub'>
-              ({$.rating.total}){' '}
+              ({$.rating.total}人评分)
             </Text>
           )}
         </>

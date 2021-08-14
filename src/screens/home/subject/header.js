@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 07:42:26
+ * @Last Modified time: 2021-08-14 17:21:48
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text, Flex, Loading, Heatmap } from '@components'
-import { SectionTitle } from '@screens/_'
+import { Flex, Loading } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Head from './head'
@@ -29,16 +28,12 @@ import Like from './like'
 import Recent from './recent'
 import Blog from './blog'
 import Topic from './topic'
-import RateSegement from './rate-segment'
-import IconComment from './icon/comment'
+import Comment from './comment'
 
 function Header(props, { $ }) {
   const styles = memoStyles()
   const { rendered } = $.state
-  const {
-    pagination: { pageTotal = 0 },
-    _loaded
-  } = $.subjectComments
+  const { _loaded } = $.subjectComments
   return (
     <View style={styles.container}>
       <Head />
@@ -63,27 +58,7 @@ function Header(props, { $ }) {
             <Blog />
             <Topic />
             <Recent />
-            <SectionTitle
-              style={styles.title}
-              right={
-                <>
-                  <RateSegement />
-                  <IconComment />
-                </>
-              }
-            >
-              吐槽{' '}
-              <Text size={12} type='sub' lineHeight={24}>
-                {20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)}+
-              </Text>
-            </SectionTitle>
-            <Heatmap
-              bottom={32}
-              id='条目.跳转'
-              data={{
-                from: '吐槽'
-              }}
-            />
+            <Comment />
           </>
         )}
         {!_loaded && (

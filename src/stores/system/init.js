@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 20:29:39
+ * @Last Modified time: 2021-08-14 16:17:39
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -66,7 +66,8 @@ export const INIT_SETTING = {
   showRecent: false, // 动态
   showBlog: false, // 日志
   showTopic: false, // 帖子
-  showLike: false // 猜你喜欢
+  showLike: false, // 猜你喜欢
+  showComment: true // 吐槽
 }
 
 export const INIT_DEV_EVENT = {

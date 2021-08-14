@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 13:57:38
+ * @Last Modified time: 2021-08-14 15:48:46
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
@@ -132,7 +132,7 @@ export const ItemSearch = ob(
               <Rank value={rank} />
               <Stars value={score} color='warning' />
               <Text style={_.ml.xxs} type='sub' size={11}>
-                {total.replace('人评分', '')}
+                {total}
               </Text>
             </Flex>
           </Flex>
