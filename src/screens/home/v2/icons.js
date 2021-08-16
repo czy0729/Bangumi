@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:28:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 11:52:03
+ * @Last Modified time: 2021-08-16 10:32:22
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -16,6 +16,8 @@ const event = {
 }
 
 function Icons(props, { navigation }) {
+  rerender('Home.Icons')
+
   const { tinygrail } = systemStore.setting
   return (
     <Flex style={styles.icons}>

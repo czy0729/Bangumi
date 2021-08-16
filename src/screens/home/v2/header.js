@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 17:54:02
+ * @Last Modified time: 2021-08-16 10:32:15
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -17,6 +17,8 @@ const event = {
 }
 
 function Header(props, { navigation }) {
+  rerender('Home.Header')
+
   return (
     <Flex style={styles.header}>
       <Flex style={styles.icons}>

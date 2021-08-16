@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 01:33:58
+ * @Last Modified time: 2021-08-16 10:32:33
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -28,6 +28,8 @@ const contentOffset = IOS
   : undefined
 
 function List({ title }, { $ }) {
+  rerender('Home.List')
+
   if (!$.userCollection._loaded) return <Loading />
 
   const isGrid = $.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')

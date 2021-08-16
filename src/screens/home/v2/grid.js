@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-02 10:23:13
+ * @Last Modified time: 2021-08-16 10:28:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -69,6 +69,8 @@ class Grid extends React.Component {
   }
 
   render() {
+    rerender('Home.Grid')
+
     const { $ } = this.context
     const { title } = this.props
     if (!$.userCollection._loaded) {

@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 20:31:33
+ * @Last Modified time: 2021-08-16 10:27:46
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
 import { obc } from '@utils/decorators'
 
 function CheckLogin(props, { $, navigation }) {
+  rerender('Home.CheckLogin')
+
   return (
     <NavigationEvents
       onWillFocus={() => {

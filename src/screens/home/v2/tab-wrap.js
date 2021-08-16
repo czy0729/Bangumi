@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:19:48
+ * @Last Modified time: 2021-08-16 10:32:59
  */
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
@@ -19,6 +19,8 @@ import { H_TABBAR } from './store'
  * 所以只能在上面把routes的length传下来监听刷新
  */
 function TabWrap({ length }, { $ }) {
+  rerender('Home.TabWrap')
+
   const renderScene = useMemo(
     () =>
       length === 5

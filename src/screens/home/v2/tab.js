@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-09 04:31:40
+ * @Last Modified time: 2021-08-16 10:33:05
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
@@ -14,6 +14,8 @@ import { IOS, DEV } from '@constants'
 import { H_TABBAR } from './store'
 
 function Tab({ routes, renderScene }, { $ }) {
+  rerender('Home.Tab')
+
   const styles = memoStyles()
   const { rendered } = systemStore
   const { page } = $.state

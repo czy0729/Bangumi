@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 09:48:36
+ * @Last Modified time: 2021-08-16 10:24:53
  */
 import { DEV, LOG_LEVEL } from '@constants'
 import { RERENDER_SHOW } from '../../config'
@@ -32,7 +32,7 @@ export function rerender(key, ...other) {
   if (_count && _count <= RERENDER_LOG_COUNT) return
 
   _count += ' '
-  for (let len = 1; len <= RERENDER_MEMO[key]; len += 1) {
+  for (let len = 1; len <= Math.min(RERENDER_MEMO[key], 20); len += 1) {
     _count += '■'
   }
 

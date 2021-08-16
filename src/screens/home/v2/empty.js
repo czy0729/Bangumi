@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 01:52:06
+ * @Last Modified time: 2021-08-16 10:27:56
  */
 import React from 'react'
 import { Flex, Text, Mesume, Button } from '@components'
@@ -20,6 +20,8 @@ const footerEmptyDataTextMap = {
 }
 
 function Empty({ title, length }, { $, navigation }) {
+  rerender('Home.Empty')
+
   const { filter } = $.state
   return (
     <Flex

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:39:35
+ * @Last Modified time: 2021-08-16 10:28:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,6 +35,8 @@ class Filter extends React.Component {
     if (!this.show) {
       return null
     }
+
+    rerender('Home.Filter')
 
     const { $ } = this.context
     const { filter } = $.state

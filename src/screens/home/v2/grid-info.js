@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 00:45:13
+ * @Last Modified time: 2021-08-16 10:28:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -173,6 +173,8 @@ class GridInfo extends React.Component {
   }
 
   render() {
+    rerender('Home.GridInfo')
+
     const { $ } = this.context
     const { subjectId, subject } = this.props
     const isToday = $.isToday(subjectId)

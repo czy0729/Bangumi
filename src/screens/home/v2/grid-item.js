@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-02 10:39:02
+ * @Last Modified time: 2021-08-16 10:28:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,8 @@ const num = _.isPad ? 5 : 4
 const imageWidth = (_.window.width - (num - 1) * margin - 2 * _.wind) / num
 
 function GridItem({ subject, subjectId, epStatus }, { $ }) {
+  rerender('Home.GridItem')
+
   const styles = memoStyles()
   const { grid } = $.state
   const { subject_id: current } = grid
