@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:25:07
+ * @Last Modified time: 2021-08-17 13:42:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,8 @@ import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 
 function Content(props, { $, navigation }) {
+  rerender('Topic.Content')
+
   const event = {
     id: '帖子.跳转',
     data: {

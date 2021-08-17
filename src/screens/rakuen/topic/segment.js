@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:13:28
+ * @Last Modified time: 2021-08-17 13:42:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,8 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 function Segement(props, { $ }) {
+  rerender('Topic.Segement')
+
   const { filterMe, filterFriends } = $.state
   const hasLogin = !!$.myId
 

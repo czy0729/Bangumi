@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:30:01
+ * @Last Modified time: 2021-08-17 16:06:38
  */
 import React from 'react'
 import {
@@ -32,7 +32,6 @@ import IconFavor from './icon/favor'
 import Store from './store'
 
 const title = '帖子'
-const ListHeaderComponent = <Top />
 
 export default
 @inject(Store)
@@ -353,7 +352,7 @@ class Topic extends React.Component {
           maxToRenderPerBatch={120}
           updateCellsBatchingPeriod={120}
           scrollToTop
-          ListHeaderComponent={ListHeaderComponent}
+          ListHeaderComponent={<Top />}
           renderItem={this.renderItem}
           onScroll={this.onScroll}
           onScrollToIndexFailed={this.onScrollToIndexFailed}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 20:33:27
+ * @Last Modified time: 2021-08-17 13:42:47
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -12,6 +12,8 @@ import { obc } from '@utils/decorators'
 import Segment from './segment'
 
 function SectionTitle(props, { $ }) {
+  rerender('Topic.SectionTitle')
+
   const { list = [] } = $.comments
   const { reverse } = $.state
   let commentsCount = 0
