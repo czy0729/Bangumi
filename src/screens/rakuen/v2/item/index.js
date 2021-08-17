@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 08:35:33
+ * @Last Modified time: 2021-08-17 12:57:17
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap } from '@components'
+import {
+  Flex
+  // Heatmap
+} from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { findSubjectCn } from '@utils/app'
 import { IMG_DEFAULT_AVATAR } from '@constants'
 import Avatar from './avatar'
@@ -16,188 +19,195 @@ import Content from './content'
 import BtnPopover from './btn-popover'
 import IconFavor from './icon-favor'
 
-const LIMIT_HEAVY_RENDER = _.device(10, 20)
+const LIMIT_HEAVY = _.device(10, 20)
 const AD_REPLIES_COUNT = 4 // 回复数少于的数字, 判断为广告姬
+const defaultProps = {
+  styles: {},
+  avatar: '',
+  userId: '',
+  userName: '',
+  group: '',
+  groupHref: '',
+  groupCn: '',
+  href: '',
+  title: '',
+  time: '',
+  topicId: '',
+  replyCount: '',
+  isReaded: false,
+  isGroup: false
+}
 
-export default
-@obc
-class Item extends React.Component {
-  get topicId() {
-    const { href = '' } = this.props
-    return href.replace('/rakuen/topic/', '')
-  }
-
-  get userId() {
-    const { avatar } = this.props
-
-    // 匹配userId, 有userId的头像可以跳转到用户空间
-    let userId
-    const match = avatar?.match(/\/(\d+).jpg/)
-    if (match) {
-      userId = match[1]
-    }
-
-    return userId
-  }
-
-  // 回复数
-  get replyCount() {
-    const { replies = '' } = this.props
-    return parseInt(replies?.match(/\d+/g))
-  }
-
-  // 小组中文
-  get groupCn() {
-    const { group } = this.props
-    return findSubjectCn(group)
-  }
-
-  // 是否已读
-  get isReaded() {
-    const { $ } = this.context
-    const readed = $.readed(this.topicId)
-    return !!readed.time
-  }
-
-  // 是否小组
-  get isGroup() {
-    return this.topicId.includes('group/')
-  }
-
-  // 处理屏蔽小组
-  get isBlockGroup() {
-    const { $ } = this.context
-    const { blockGroups } = $.setting
-    return blockGroups.includes(this.groupCn)
-  }
-
-  // 处理屏蔽用户
-  get isBlockUser() {
-    const { $ } = this.context
-    const { userName } = this.props
-    const { blockUserIds } = $.setting
-    const findIndex = blockUserIds.findIndex(item => {
-      const [itemUserName, itemUserId] = item.split('@')
-      if (itemUserId === 'undefined') {
-        return itemUserName === userName
-      }
-      return itemUserId === this.userId
-    })
-    return findIndex !== -1
-  }
-
-  // 设置开启屏蔽默认头像, 且回复数小于4, 鉴定为广告姬
-  get isAd() {
-    const { $ } = this.context
-    const { avatar } = this.props
-    const { isBlockDefaultUser } = $.setting
-    return (
-      isBlockDefaultUser &&
-      avatar === IMG_DEFAULT_AVATAR &&
-      this.replyCount < AD_REPLIES_COUNT
-    )
-  }
-
-  get containerStyle() {
-    const { style } = this.props
-    return [
-      _.container.item,
-      this.styles.container,
-      this.isReaded && this.styles.readed,
-      style
-    ]
-  }
-
-  get contentStyle() {
-    const { index } = this.props
-    const isTop = index === 0
-    return [this.styles.wrap, !isTop && !_.flat && this.styles.border]
-  }
-
-  render() {
-    const { $ } = this.context
-    const {
-      index,
-      avatar,
-      group,
-      groupHref,
-      href = '',
-      time,
-      title,
-      userName
-    } = this.props
-    const { _mounted } = $.state
-    if (index >= LIMIT_HEAVY_RENDER && !_mounted) {
-      return <View style={this.styles.lazy} />
-    }
-
-    if (this.isBlockGroup || this.isBlockUser || this.isAd) {
-      return null
-    }
+const Item = memo(
+  ({
+    styles,
+    avatar,
+    userId,
+    userName,
+    group,
+    groupHref,
+    groupCn,
+    href,
+    title,
+    time,
+    topicId,
+    replyCount,
+    isReaded,
+    isGroup
+  }) => {
+    rerender('Rakuen.Item.Main')
 
     return (
-      <View style={this.containerStyle}>
+      <View
+        style={[_.container.item, styles.container, isReaded && styles.readed]}
+      >
         <Flex align='start'>
-          <Avatar
-            index={index}
-            avatar={avatar}
-            userName={userName}
-            userId={this.userId}
-          />
-          <Flex.Item style={this.contentStyle}>
+          <Avatar avatar={avatar} userName={userName} userId={userId} />
+          <Flex.Item style={styles.wrap}>
             <Flex align='start'>
               <Flex.Item>
                 <Content
                   avatar={avatar}
                   group={group}
-                  groupCn={this.groupCn}
+                  groupCn={groupCn}
                   href={href}
-                  replyCount={this.replyCount}
-                  time={time}
                   title={title}
-                  topicId={this.topicId}
-                  userId={this.userId}
+                  time={time}
+                  topicId={topicId}
+                  replyCount={replyCount}
+                  userId={userId}
                   userName={userName}
-                  isReaded={this.isReaded}
-                  isGroup={this.isGroup}
+                  isReaded={isReaded}
+                  isGroup={isGroup}
                 />
               </Flex.Item>
               <BtnPopover
-                index={index}
-                groupCn={this.groupCn}
+                groupCn={groupCn}
                 groupHref={groupHref}
                 href={href}
-                topicId={this.topicId}
-                userId={this.userId}
+                topicId={topicId}
+                userId={userId}
                 userName={userName}
-                isGroup={this.isGroup}
+                isGroup={isGroup}
               />
             </Flex>
           </Flex.Item>
         </Flex>
-        <IconFavor topicId={this.topicId} />
-        {index === 2 && (
-          <Heatmap
-            id='超展开.跳转'
-            data={{
-              to: 'Topic',
-              alias: '帖子'
-            }}
-          />
-        )}
+        <IconFavor topicId={topicId} />
+        {/* <Heatmap
+          id='超展开.跳转'
+          data={{
+            to: 'Topic',
+            alias: '帖子'
+          }}
+        /> */}
       </View>
     )
-  }
+  },
+  defaultProps,
+  true
+)
 
-  get styles() {
-    return memoStyles()
+export default obc(
+  (
+    { index, avatar, userName, group, groupHref, href, title, time, replies },
+    { $ }
+  ) => {
+    rerender('Rakuen.Item')
+
+    const { _mounted } = $.state
+    if (index >= LIMIT_HEAVY && !_mounted) {
+      return (
+        <View
+          style={{
+            height: 74
+          }}
+        />
+      )
+    }
+
+    const { blockGroups, blockUserIds, isBlockDefaultUser } = $.setting
+    const groupCn = findSubjectCn(group)
+    const userId = getUserId(avatar)
+    const replyCount = getReplyCount(replies)
+    if (
+      getIsBlockGroup(blockGroups, groupCn) ||
+      getIsBlockUser(blockUserIds, userName, userId) ||
+      getIsAd(isBlockDefaultUser, avatar, replyCount)
+    ) {
+      return null
+    }
+
+    const topicId = getTopicId(href)
+    return (
+      <Item
+        styles={memoStyles()}
+        avatar={avatar}
+        userId={userId}
+        userName={userName}
+        group={group}
+        groupHref={groupHref}
+        groupCn={groupCn}
+        href={href}
+        title={title}
+        time={time}
+        topicId={topicId}
+        replyCount={replyCount}
+        isReaded={!!$.readed(topicId).time}
+        isGroup={getIsGroup(topicId)}
+      />
+    )
   }
+)
+
+// 处理屏蔽小组
+function getIsBlockGroup(blockGroups, group) {
+  return blockGroups.includes(group)
+}
+
+// 处理屏蔽用户
+function getIsBlockUser(blockUserIds, userName, userId) {
+  const findIndex = blockUserIds.findIndex(item => {
+    const [itemUserName, itemUserId] = item.split('@')
+    if (itemUserId === 'undefined') return itemUserName === userName
+    return itemUserId === userId
+  })
+  return findIndex !== -1
+}
+
+// 设置开启屏蔽默认头像, 且回复数小于4, 鉴定为广告姬
+function getIsAd(isBlockDefaultUser, avatar, replyCount) {
+  return (
+    isBlockDefaultUser &&
+    avatar === IMG_DEFAULT_AVATAR &&
+    replyCount < AD_REPLIES_COUNT
+  )
+}
+
+// 匹配userId, 有userId的头像可以跳转到用户空间
+function getUserId(avatar) {
+  let userId
+  const match = avatar?.match(/\/(\d+).jpg/)
+  if (match) userId = match[1]
+  return userId
+}
+
+// 帖子Id
+function getTopicId(href = '') {
+  return href.replace('/rakuen/topic/', '')
+}
+
+// 回复数
+function getReplyCount(replies = '') {
+  return parseInt(replies?.match(/\d+/g))
+}
+
+// 是否小组
+function getIsGroup(topicId = '') {
+  return topicId?.includes('group/')
 }
 
 const memoStyles = _.memoStyles(_ => ({
-  lazy: {
-    height: 74
-  },
   container: {
     paddingLeft: _.wind
   },
@@ -206,9 +216,5 @@ const memoStyles = _.memoStyles(_ => ({
   },
   wrap: {
     paddingRight: _.wind - _._wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
   }
 }))

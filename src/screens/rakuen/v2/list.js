@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 08:56:53
+ * @Last Modified time: 2021-08-16 13:02:55
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -25,6 +25,8 @@ const contentOffset = IOS
   : undefined
 
 function List({ index }, { $ }) {
+  rerender('Rakuen.List')
+
   const type = $.type(index)
   if (type === 'hot' && !$.isWebLogin) {
     return <Login text='热门帖子需登陆才能显示' btnText='去登陆' />

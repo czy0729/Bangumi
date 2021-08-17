@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:38:12
+ * @Last Modified time: 2021-08-17 12:52:55
  */
 export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const INIT_ROUTE = 'Home'
-export const RERENDER_SHOW = /AA\./ // /Subject\.(.+?)\.Main/
+export const RERENDER_SHOW = /Rakuen\.(.+?)\.Main/ // /Subject\.(.+?)\.Main/
 
 export default {
   initialRouteName: 'Rakuen', // HomeTab Discovery Subject Tinygrail

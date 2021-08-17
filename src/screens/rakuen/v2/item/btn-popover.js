@@ -2,16 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 20:39:43
+ * @Last Modified time: 2021-08-17 12:55:04
  */
 import React from 'react'
-import { Flex, Heatmap, Iconfont } from '@components'
+import {
+  Flex,
+  // Heatmap,
+  Iconfont
+} from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 function BtnPopover(
-  { index, groupCn, groupHref, href, topicId, userId, userName, isGroup },
+  { groupCn, groupHref, href, topicId, userId, userName, isGroup },
   { $, navigation }
 ) {
   const isSubject = topicId.includes('subject/')
@@ -55,13 +59,9 @@ function BtnPopover(
       <Flex style={styles.icon} justify='center'>
         <Iconfont name='md-more-vert' size={18} />
       </Flex>
-      {index === 1 && (
-        <>
-          <Heatmap bottom={34} id='超展开.小组菜单点击' />
-          <Heatmap id='超展开.人物菜单点击' transparent />
-          <Heatmap bottom={-32} id='超展开.项额外点击' transparent />
-        </>
-      )}
+      {/* <Heatmap bottom={34} id='超展开.小组菜单点击' />
+      <Heatmap id='超展开.人物菜单点击' transparent />
+      <Heatmap bottom={-32} id='超展开.项额外点击' transparent /> */}
     </Popover>
   )
 }
