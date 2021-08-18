@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:35:34
+ * @Last Modified time: 2021-08-18 17:04:42
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -11,6 +11,7 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { IOS, DEV } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import ToolBar from './tool-bar'
@@ -83,8 +84,7 @@ class Tab extends React.Component {
   renderLabel = ({ route, focused }) => {
     const { $ } = this.context
     const { subjectType } = $.state
-    const count =
-      $.counts[MODEL_SUBJECT_TYPE.getTitle(subjectType)][route.title]
+    const count = $.counts[MODEL_SUBJECT_TYPE.getTitle(subjectType)][route.title]
     return (
       <Flex style={this.styles.labelText} justify='center'>
         <Text type='title' size={13} bold={focused}>
@@ -119,10 +119,13 @@ class Tab extends React.Component {
   )
 
   render() {
+    rerender('User.Tab')
+
     return (
       <>
         <TabView
-          lazyPreloadDistance={1}
+          lazy={!IOS || DEV}
+          lazyPreloadDistance={0}
           navigationState={this.navigationState}
           renderTabBar={this.renderTabBar}
           renderScene={this.renderScene}

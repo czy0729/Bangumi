@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:11:55
+ * @Last Modified time: 2021-08-18 15:44:20
  */
 import React from 'react'
 import { Flex, Button, Heatmap } from '@components'
@@ -12,13 +12,12 @@ import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function TabBarLeft({ onSelect }, { $ }) {
+  rerender('User.TabBarLeft')
+
   const styles = memoStyles()
   const { subjectType } = $.state
   return (
-    <Popover
-      data={MODEL_SUBJECT_TYPE.data.map(item => item.title)}
-      onSelect={onSelect}
-    >
+    <Popover data={MODEL_SUBJECT_TYPE.data.map(item => item.title)} onSelect={onSelect}>
       <Flex style={styles.tabBarLeft} justify='center'>
         <Button style={styles.btn} type='ghostMain' size='sm'>
           {MODEL_SUBJECT_TYPE.getTitle(subjectType)}

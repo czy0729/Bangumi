@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:32:29
+ * @Last Modified time: 2021-08-18 16:47:28
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -29,8 +29,8 @@ const namespace = 'ScreenUser'
 const excludeState = {
   isFocused: true
 }
-const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
-const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
+export const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
+export const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
 
 export default class ScreenUser extends store {
   state = observable({

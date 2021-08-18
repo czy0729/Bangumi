@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:31:29
+ * @Last Modified time: 2021-08-18 14:18:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,8 @@ import { _ } from '@stores'
 const avatarSize = 88 * _.ratio
 
 function Head({ style }, { $, navigation }) {
+  rerender('User.Head')
+
   const { avatar = {}, nickname, id, username } = $.usersInfo
   const { userId } = $.params
   const isMe = !userId || userId === $.myUserId
