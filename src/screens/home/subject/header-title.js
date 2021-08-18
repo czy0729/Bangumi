@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 01:52:32
+ * @Last Modified time: 2021-08-18 12:20:12
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -25,38 +25,35 @@ const defaultProps = {
   titleLabel: ''
 }
 
-const HeaderTitle = memo(
-  ({ showHeaderTitle, common, score, type, cn, titleLabel }) => {
-    rerender('Subject.HeaderTitle.Main')
+const HeaderTitle = memo(({ showHeaderTitle, common, score, type, cn, titleLabel }) => {
+  rerender('Subject.HeaderTitle.Main')
 
-    return (
-      <FadeIn show={showHeaderTitle}>
-        <Flex style={styles.container}>
-          <Cover
-            src={CDN_OSS_SUBJECT(getCoverMedium(common))}
-            size={type === '音乐' ? imgHeight : imgWidth}
-            height={imgHeight}
-            radius
-            fadeDuration={0}
-          />
-          <Flex.Item style={_.ml.sm}>
-            <Text size={13} numberOfLines={1}>
-              {cn}
-              {!!titleLabel && (
-                <Text size={13} type='sub'>
-                  {' '}
-                  · {titleLabel}
-                </Text>
-              )}
-            </Text>
-            <Stars value={score} />
-          </Flex.Item>
-        </Flex>
-      </FadeIn>
-    )
-  },
-  defaultProps
-)
+  return (
+    <FadeIn show={showHeaderTitle}>
+      <Flex style={styles.container}>
+        <Cover
+          src={CDN_OSS_SUBJECT(getCoverMedium(common))}
+          size={type === '音乐' ? imgHeight : imgWidth}
+          height={imgHeight}
+          radius
+          fadeDuration={0}
+        />
+        <Flex.Item style={_.ml.sm}>
+          <Text size={13} numberOfLines={1}>
+            {cn}
+            {!!titleLabel && (
+              <Text size={13} type='sub'>
+                {' '}
+                · {titleLabel}
+              </Text>
+            )}
+          </Text>
+          <Stars value={score} />
+        </Flex.Item>
+      </Flex>
+    </FadeIn>
+  )
+}, defaultProps)
 
 export default ob(({ navigation }) => {
   rerender('Subject.HeaderTitle')
@@ -84,7 +81,7 @@ export default ob(({ navigation }) => {
 
 const styles = _.create({
   container: {
-    marginLeft: _.device(-_.md, -_.sm),
+    marginLeft: -_.sm,
     marginRight: _.md
   }
 })

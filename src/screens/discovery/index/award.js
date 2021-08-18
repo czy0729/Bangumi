@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 12:01:30
+ * @Last Modified time: 2021-08-18 12:11:01
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -19,6 +19,8 @@ const itemWidth = _.device(128, 160)
 const itemWidthLg = itemWidth * 2 + 16
 
 function Award(props, { navigation }) {
+  rerender('Discovery.Award')
+
   const styles = memoStyles()
   return (
     <ScrollView

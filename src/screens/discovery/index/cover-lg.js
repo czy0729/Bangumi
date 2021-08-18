@@ -20,6 +20,8 @@ const imageWidth = _.window.width - _.wind * 2
 const imageHeight = imageWidth * 1.38
 
 function CoverLg({ title, src, cn, data }, { navigation }) {
+  rerender('Discovery.CoverLg')
+
   const styles = memoStyles()
   return (
     <View style={styles.item}>
@@ -47,22 +49,12 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
           })
         }}
       />
-      <LinearGradient
-        style={styles.linear}
-        colors={linearColor}
-        pointerEvents='none'
-      />
+      <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
       <View style={styles.desc} pointerEvents='none'>
         <Text type={_.select('plain', 'desc')} bold>
           {data.info}
         </Text>
-        <Text
-          style={_.mt.xs}
-          size={24}
-          type={_.select('plain', 'title')}
-          bold
-          numberOfLines={2}
-        >
+        <Text style={_.mt.xs} size={24} type={_.select('plain', 'title')} bold numberOfLines={2}>
           {HTMLDecode(cn)}
         </Text>
       </View>

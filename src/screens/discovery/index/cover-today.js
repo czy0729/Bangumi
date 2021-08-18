@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-29 12:06:05
+ * @Last Modified time: 2021-08-18 12:11:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,8 @@ const weekdayCN = {
 }
 
 function CoverToday({ data }, { navigation }) {
+  rerender('Discovery.CoverToday')
+
   const styles = memoStyles()
   return (
     <View>
@@ -48,11 +50,7 @@ function CoverToday({ data }, { navigation }) {
             })
           }}
         />
-        <LinearGradient
-          style={styles.linear}
-          colors={linearColor}
-          pointerEvents='none'
-        />
+        <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
         <View style={styles.info} pointerEvents='none'>
           <Text
             size={_.device(12, 13)}
@@ -61,8 +59,7 @@ function CoverToday({ data }, { navigation }) {
             bold
             pointerEvents='none'
           >
-            {data.timeCN.slice(0, 2)}:{data.timeCN.slice(2)} · 周
-            {weekdayCN[data.weekday]}
+            {data.timeCN.slice(0, 2)}:{data.timeCN.slice(2)} · 周{weekdayCN[data.weekday]}
           </Text>
           <Text
             style={_.mt.xxs}

@@ -19,6 +19,8 @@ import { appNavigate } from '@utils/app'
 const itemWidth = (_.window.width - 2 * _.wind) / 4
 
 function Btn({ item }, { $, navigation }) {
+  rerender('Discovery.Btn')
+
   const styles = memoStyles()
   const { username, id } = $.userInfo
   const { path, login, icon, title } = item

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-20 01:37:02
+ * @Last Modified time: 2021-08-18 12:15:21
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -144,14 +144,15 @@ const menus = [
 ]
 
 function Menu(props, { $ }) {
+  rerender('Discovery.Menu')
+
   const { expand } = $.state
   return (
     <Flex style={styles.container} wrap='wrap'>
       {menus
         .filter(
           (item, index) =>
-            item.path !== (expand ? 'open' : 'close') &&
-            index <= (expand ? 100 : 7)
+            item.path !== (expand ? 'open' : 'close') && index <= (expand ? 100 : 7)
         )
         .map(item => (
           <Btn key={item.path} item={item} />

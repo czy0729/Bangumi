@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 18:39:03
+ * @Last Modified time: 2021-08-18 12:12:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,11 +19,7 @@ export default obc(
       autorun(() => {
         if ($.state.visible) {
           setTimeout(() => {
-            if (
-              this.iptRef &&
-              this.iptRef.inputRef &&
-              this.iptRef.inputRef.focus
-            ) {
+            if (this.iptRef && this.iptRef.inputRef && this.iptRef.inputRef.focus) {
               this.iptRef.inputRef.focus()
             }
           }, 240)
@@ -34,6 +30,8 @@ export default obc(
     iptRef
 
     render() {
+      rerender('Discovery.LinkModal')
+
       const { $, navigation } = this.context
       const { visible, link } = $.state
       return (
@@ -66,10 +64,7 @@ export default obc(
                   onSubmitEditing={() => $.onLinkSubmit(navigation)}
                 />
               </Flex.Item>
-              <Touchable
-                style={_.ml.md}
-                onPress={() => $.onLinkSubmit(navigation)}
-              >
+              <Touchable style={_.ml.md} onPress={() => $.onLinkSubmit(navigation)}>
                 <Text size={13}>提交</Text>
               </Touchable>
             </Flex>

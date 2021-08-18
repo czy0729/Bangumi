@@ -2,22 +2,27 @@
  * @Author: czy0729
  * @Date: 2021-07-15 23:27:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-20 01:35:08
+ * @Last Modified time: 2021-08-18 13:26:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, HorizontalList, Text } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { initialRenderNumsXs } from './list'
 import CoverToday from './cover-today'
 
-function Today(props, { $ }) {
-  if (!$.todayBangumi.length) return null
+const defaultProps = {
+  todayBangumi: []
+}
+
+const Today = memo(({ todayBangumi }) => {
+  rerender('Discovery.Today.Main')
+
   return (
     <HorizontalList
       contentContainerStyle={styles.contentContainerStyle}
-      data={$.todayBangumi}
+      data={todayBangumi}
       initialRenderNums={initialRenderNumsXs}
       renderItem={(item, index) => (
         <>
@@ -42,9 +47,15 @@ function Today(props, { $ }) {
       )}
     />
   )
-}
+}, defaultProps)
 
-export default obc(Today)
+export default obc((props, { $ }) => {
+  rerender('Discovery.Today')
+
+  if (!$.todayBangumi.length) return null
+
+  return <Today todayBangumi={$.todayBangumi} />
+})
 
 const styles = _.create({
   contentContainerStyle: {

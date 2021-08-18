@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 14:22:06
+ * @Last Modified time: 2021-08-18 13:41:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,19 +10,26 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Flex, Text } from '@components'
 import { Cover, Avatar } from '@screens/_'
 import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { linearColor } from './ds'
 
-const imageWidth =
-  _.device(_.window.width * 0.34, _.window.contentWidth * 0.4) * 0.5625
+const imageWidth = _.device(_.window.width * 0.34, _.window.contentWidth * 0.4) * 0.5625
 const imageHeight = imageWidth * 1.38
 const avatarSize = 24
+const defaultProps = {
+  navigation: {},
+  styles: {},
+  avatarRound: false,
+  title: '',
+  avatar: '',
+  data: {}
+}
 
-function CoverXs({ title, avatar, data }, { navigation }) {
-  const styles = memoStyles()
-  const { avatarRound } = systemStore.setting
+const CoverXs = memo(({ navigation, styles, avatarRound, title, avatar, data }) => {
+  rerender('Discovery.CoverXs.Main')
+
   return (
     <View>
       <View style={styles.item}>
@@ -74,8 +81,8 @@ function CoverXs({ title, avatar, data }, { navigation }) {
           justify='center'
         >
           <Avatar
-            style={styles.avatar}
             navigation={navigation}
+            style={styles.avatar}
             size={avatarSize}
             src={avatar}
             userId={data.userId}
@@ -86,9 +93,23 @@ function CoverXs({ title, avatar, data }, { navigation }) {
       )}
     </View>
   )
-}
+}, defaultProps)
 
-export default obc(CoverXs)
+export default obc(({ title, avatar, data }, { navigation }) => {
+  rerender('Discovery.CoverXs')
+
+  const { avatarRound } = systemStore.setting
+  return (
+    <CoverXs
+      navigation={navigation}
+      styles={memoStyles()}
+      avatarRound={avatarRound}
+      title={title}
+      avatar={avatar}
+      data={data}
+    />
+  )
+})
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

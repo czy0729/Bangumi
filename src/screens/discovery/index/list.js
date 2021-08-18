@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-20 01:34:35
+ * @Last Modified time: 2021-08-18 13:57:46
  */
 import React from 'react'
 import { HorizontalList } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { findSubjectCn, getCoverLarge } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -17,26 +17,27 @@ import CoverSm from './cover-sm'
 import CoverXs from './cover-xs'
 
 const dataCache = {}
-const initialRenderNumsSm = _.isPad
-  ? 0
-  : Math.floor(_.window.contentWidth / 140) + 1
-export const initialRenderNumsXs = _.isPad
-  ? 0
-  : Math.floor(_.window.contentWidth / 86) + 1
+const initialRenderNumsSm = _.device(Math.floor(_.window.contentWidth / 140) + 1, 0)
+export const initialRenderNumsXs = _.device(
+  Math.floor(_.window.contentWidth / 86) + 1,
+  0
+)
 
-function List({ style, type }, { $ }) {
-  if (!$.home[type].length) {
-    return null
-  }
+const defaultProps = {
+  style: {},
+  type: 'anime',
+  list: [],
+  friendsChannel: [],
+  friendsMap: {}
+}
 
-  const data =
-    dataCache[type] || $.home[type].sort(() => 0.5 - Math.random()) || []
-  if (!dataCache[type] && data.length) {
-    dataCache[type] = data
-  }
+const List = memo(({ style, type, list, friendsChannel, friendsMap }) => {
+  rerender('Discovery.List.Main')
+
+  const data = dataCache[type] || list.sort(() => 0.5 - Math.random()) || []
+  if (!dataCache[type] && data.length) dataCache[type] = data
 
   const title = MODEL_SUBJECT_TYPE.getTitle(type)
-  const friendsChannel = $.friendsChannel(type)
   return (
     <>
       <SectionTitle title={title} type={type} />
@@ -70,7 +71,7 @@ function List({ style, type }, { $ }) {
             <CoverXs
               key={`${item.userId}|${item.id}`}
               title={title}
-              avatar={$.friendsMap[item.userId]?.avatar}
+              avatar={friendsMap[item.userId]?.avatar}
               data={item}
             />
           )}
@@ -78,10 +79,22 @@ function List({ style, type }, { $ }) {
       )}
     </>
   )
-}
+}, defaultProps)
 
-export default obc(List, {
-  type: 'anime'
+export default obc(({ style, type = 'anime' }, { $ }) => {
+  rerender('Discovery.List')
+
+  const list = $.home[type]
+  if (!list.length) return null
+
+  return (
+    <List
+      style={style}
+      list={list}
+      friendsChannel={$.friendsChannel(type)}
+      friendsMap={$.friendsMap}
+    />
+  )
 })
 
 const styles = _.create({

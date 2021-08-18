@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 14:21:46
+ * @Last Modified time: 2021-08-18 12:11:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,8 @@ const imageWidth = _.device(_.window.width * 0.34, _.window.contentWidth * 0.4)
 const imageHeight = imageWidth * 1.38
 
 function CoverSm({ title, src, cn, data }, { navigation }) {
+  rerender('Discovery.CoverSm')
+
   const styles = memoStyles()
   return (
     <View style={styles.item}>
@@ -45,27 +47,12 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
           })
         }}
       />
-      <LinearGradient
-        style={styles.linear}
-        colors={linearColor}
-        pointerEvents='none'
-      />
+      <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
       <View style={styles.desc} pointerEvents='none'>
-        <Text
-          size={10}
-          type={_.select('plain', 'title')}
-          numberOfLines={1}
-          bold
-        >
+        <Text size={10} type={_.select('plain', 'title')} numberOfLines={1} bold>
           {data.info}
         </Text>
-        <Text
-          style={_.mt.xs}
-          type={_.select('plain', 'title')}
-          size={12}
-          numberOfLines={2}
-          bold
-        >
+        <Text style={_.mt.xs} type={_.select('plain', 'title')} size={12} numberOfLines={2} bold>
           {HTMLDecode(cn)}
         </Text>
       </View>

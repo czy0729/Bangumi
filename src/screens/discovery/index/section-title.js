@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 21:14:26
+ * @Last Modified time: 2021-08-18 12:15:33
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
@@ -12,6 +12,8 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function SectionTitle({ title, type }, { navigation }) {
+  rerender('Discovery.SectionTitle')
+
   return (
     <CompSectionTitle
       style={styles.section}
