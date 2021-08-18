@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 10:56:54
+ * @Last Modified time: 2021-08-18 09:26:03
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -51,6 +51,13 @@ class List extends React.Component {
     }
   }
 
+  connectRef = ref => {
+    const { $ } = this.context
+    const { title } = this.props
+    const index = tabs.findIndex(item => item.title === title)
+    return $.connectRef(ref, index)
+  }
+
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     const { scope, title } = this.props
@@ -87,19 +94,14 @@ class List extends React.Component {
     }
 
     const { hide } = this.state
-    if (hide) {
-      return null
-    }
+    if (hide) return null
 
     const timeline = $.timeline(scope, MODEL_TIMELINE_TYPE.getValue(title))
-    if (!timeline._loaded) {
-      return <Loading />
-    }
+    if (!timeline._loaded) return <Loading />
 
-    const index = tabs.findIndex(item => item.title === title)
     return (
       <ListView
-        ref={ref => $.connectRef(ref, index)}
+        ref={this.connectRef}
         style={!IOS && styles.androidWrap}
         contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}

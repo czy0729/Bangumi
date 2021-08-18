@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:09:09
+ * @Last Modified time: 2021-08-17 19:26:47
  */
 import React from 'react'
 import {
@@ -40,8 +40,11 @@ function callOnceInInterval(functionTobeCalled, interval = 40) {
     /**
      * 把点击事件放在requestAnimationFrame里面, 在安卓上面是两个完全不同的体验
      */
-    return requestAnimationFrame(() => functionTobeCalled())
+    return setTimeout(() => {
+      functionTobeCalled()
+    }, 0);
   }
+
   return false
 }
 
@@ -53,17 +56,25 @@ export const Touchable = observer(
     delay = true,
     children,
     hitSlop = defaultHitSlop,
+    delayPressIn = 0,
+    delayPressOut = 0,
     onPress = Function.prototype,
     ...other
   }) => {
+    const passProps = {
+      hitSlop,
+      delayPressIn,
+      delayPressOut,
+      onPress: delay ? () => callOnceInInterval(onPress) : onPress
+    }
+
     if (withoutFeedback) {
       return (
         <TouchableOpacity
           style={style}
           activeOpacity={1}
-          hitSlop={hitSlop}
           {...other}
-          onPress={delay ? () => callOnceInInterval(onPress) : onPress}
+          {...passProps}
         >
           {children}
         </TouchableOpacity>
@@ -79,9 +90,8 @@ export const Touchable = observer(
               style={styles.touchable}
               activeOpacity={1}
               underlayColor={_.colorHighLight}
-              hitSlop={hitSlop}
               {...other}
-              onPress={delay ? () => callOnceInInterval(onPress) : onPress}
+              {...passProps}
             >
               <View />
             </TouchableHighlight>
@@ -95,9 +105,8 @@ export const Touchable = observer(
         <TouchableOpacity
           style={style}
           activeOpacity={0.64}
-          hitSlop={hitSlop}
           {...other}
-          onPress={delay ? () => callOnceInInterval(onPress) : onPress}
+          {...passProps}
         >
           {children}
         </TouchableOpacity>
@@ -106,11 +115,7 @@ export const Touchable = observer(
 
     return (
       <View style={style}>
-        <TouchableNativeFeedback
-          hitSlop={hitSlop}
-          {...other}
-          onPress={delay ? () => callOnceInInterval(onPress) : onPress}
-        >
+        <TouchableNativeFeedback {...other} {...passProps}>
           <View style={styles.touchable} />
         </TouchableNativeFeedback>
         {children}

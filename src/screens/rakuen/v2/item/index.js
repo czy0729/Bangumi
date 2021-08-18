@@ -104,8 +104,7 @@ const Item = memo(
       </View>
     )
   },
-  defaultProps,
-  true
+  defaultProps
 )
 
 export default obc(

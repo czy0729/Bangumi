@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:04:08
+ * @Last Modified time: 2021-08-18 11:46:28
  */
-import React from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
 import { Flex, Katakana, Text, Iconfont, Touchable } from '@components'
 import { _, timelineStore } from '@stores'
@@ -12,69 +12,118 @@ import { getTimestamp } from '@utils'
 import { appNavigate, findSubjectCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 import { t } from '@utils/fetch'
-import { ob } from '@utils/decorators'
+import { memo, ob } from '@utils/decorators'
 import { HOST, HOST_NAME, EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import { Avatar, Cover, Stars, Name, Popover } from '../base'
 
 const avatarWidth = 40
-const avatarCoverWidth = 40
+const avatarCoverWidth = 40 * _.ratio
 const hiddenDS = ['1天不看TA', '3天不看TA', '7天不看TA', '重置']
+const defaultProps = {
+  navigation: {},
+  styles: {},
+  style: {},
+  avatar: {},
+  userId: '',
+  p1: {},
+  p2: {},
+  p3: {
+    text: [],
+    url: []
+  },
+  p4: {},
+  image: [],
+  comment: '',
+  reply: {},
+  time: '',
+  star: '',
+  subject: '',
+  subjectId: 0,
+  clearHref: '',
+  event: EVENT,
+  onDelete: Function.prototype,
+  onHidden: Function.prototype
+}
 
-export const ItemTimeline = ob(
-  class extends React.Component {
-    static defaultProps = {
-      navigation: null,
-      avatar: {},
-      p1: {},
-      p2: {},
-      p3: {
-        text: [],
-        url: []
-      },
-      p4: {},
-      reply: {},
-      image: [],
-      clearHref: '',
-      event: EVENT,
-      onDelete: Function.prototype,
-      onHidden: Function.prototype
-    }
+const Item = memo(
+  ({
+    navigation,
+    styles,
+    style,
+    avatar,
+    userId,
+    p1,
+    p2,
+    p3,
+    p4,
+    image,
+    comment,
+    reply,
+    time,
+    star,
+    subject,
+    subjectId,
+    clearHref,
+    event,
+    onDelete,
+    onHidden
+  }) => {
+    rerender('Component.ItemTimeline.Main')
 
-    appNavigate = (url, passParams) => {
-      const { navigation, event } = this.props
-      appNavigate(url, navigation, passParams, event)
-    }
+    const { src: avatarSrc } = avatar
+    const { length: imageLength } = image
+    const { count: replyCount, url: replyUrl } = reply
+    const { text: p1Text, url: p1Url } = p1
+    const { text: p2Text } = p2
+    const { text: p3Text, url: p3Url } = p3
+    const { text: p4Text } = p4
 
-    onClear = () => {
-      const { clearHref, onDelete } = this.props
-      Alert.alert('警告', '确定删除?', [
-        {
-          text: '取消',
-          style: 'cancel'
-        },
-        {
-          text: '确定',
-          onPress: () => onDelete(clearHref)
-        }
-      ])
-    }
+    const onNavigate = useCallback(
+      (url, passParams) => appNavigate(url, navigation, passParams, event),
+      []
+    )
+    const onClear = useCallback(
+      () =>
+        Alert.alert('警告', '确定删除?', [
+          {
+            text: '取消',
+            style: 'cancel'
+          },
+          {
+            text: '确定',
+            onPress: () => onDelete(clearHref)
+          }
+        ]),
+      [clearHref]
+    )
 
-    get userId() {
-      const { avatar, p1 } = this.props
-      return matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
-    }
+    // useMemo组件都不传依赖参数, 时间胶囊数据性质就是一次性, 没有更新需求
+    const renderAvatar = useMemo(
+      () => (
+        <View style={styles.avatar}>
+          {!!avatarSrc && (
+            <Avatar
+              navigation={navigation}
+              size={avatarWidth}
+              userId={userId}
+              name={p1Text}
+              src={avatarSrc}
+              event={event}
+            />
+          )}
+        </View>
+      ),
+      []
+    )
 
-    renderP3() {
-      const { p3, image } = this.props
-
-      // 位置3: 多个条目信息
+    // 位置3: 多个条目信息
+    const renderP3 = useMemo(() => {
       let $p3
-      if (p3.text.length > 1) {
+      if (p3Text.length > 1) {
         $p3 = []
-        p3.text.forEach((item, index) => {
-          const url = String(p3.url[index])
-          const isSubject =
-            url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
+        p3Text.forEach((item, index) => {
+          const url = String(p3Url[index])
+          const isSubject = url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
           const subjectId = isSubject ? matchSubjectId(url) : 0
           $p3.push(
             <Katakana
@@ -83,7 +132,7 @@ export const ItemTimeline = ob(
               lineHeight={16}
               bold={isSubject}
               onPress={() =>
-                this.appNavigate(
+                onNavigate(
                   url,
                   isSubject && {
                     _jp: item,
@@ -102,85 +151,76 @@ export const ItemTimeline = ob(
           )
         })
         $p3.pop()
-      } else if (p3.text.length === 1) {
+      } else if (p3Text.length === 1) {
         const isSubject =
-          !!String(!!p3.url.length && p3.url[0]).includes(
-            `${HOST_NAME}/subject/`
-          ) && !p3.url[0].includes('/ep/')
-        const subjectId = isSubject
-          ? matchSubjectId(!!p3.url.length && p3.url[0])
-          : 0
+          !!String(!!p3Url.length && p3Url[0]).includes(`${HOST_NAME}/subject/`) &&
+          !p3Url[0].includes('/ep/')
+        const subjectId = isSubject ? matchSubjectId(!!p3Url.length && p3Url[0]) : 0
         $p3 = (
           <Katakana
             type={isSubject ? 'main' : 'title'}
             lineHeight={16}
             bold={isSubject}
             onPress={() =>
-              this.appNavigate(
-                !!p3.url.length && p3.url[0],
+              onNavigate(
+                !!p3Url.length && p3Url[0],
                 isSubject && {
-                  _jp: !!p3.text.length && p3.text[0],
-                  _cn: findSubjectCn(!!p3.text.length && p3.text[0], subjectId),
-                  _name: !!p3.text.length && p3.text[0],
-                  _image: getCoverMedium((!!image.length && image[0]) || '')
+                  _jp: !!p3Text.length && p3Text[0],
+                  _cn: findSubjectCn(!!p3Text.length && p3Text[0], subjectId),
+                  _name: !!p3Text.length && p3Text[0],
+                  _image: getCoverMedium((!!imageLength && image[0]) || '')
                 }
               )
             }
           >
             {isSubject
-              ? findSubjectCn(!!p3.text.length && p3.text[0], subjectId)
-              : !!p3.text.length && p3.text[0]}
+              ? findSubjectCn(!!p3Text.length && p3Text[0], subjectId)
+              : !!p3Text.length && p3Text[0]}
           </Katakana>
         )
       }
 
       return $p3
-    }
+    }, [])
 
-    renderP() {
-      const { p1, p2, p3, p4, avatar } = this.props
-
+    const renderP = useMemo(() => {
       // 是否渲染第一行
-      const hasPosition = !!(p1.text || p2.text || p3.text.length || p4.text)
-      if (!hasPosition) {
-        return null
-      }
+      const hasPosition = !!(p1Text || p2Text || p3Text.length || p4Text)
+      if (!hasPosition) return null
 
       return (
         <Text lineHeight={16}>
-          {!!p1.text && (
+          {!!p1Text && (
             <Name
-              userId={this.userId}
+              userId={userId}
               type='title'
               lineHeight={16}
               bold
               onPress={() =>
-                this.appNavigate(p1.url, {
-                  _name: p1.text,
-                  _image: avatar.src
+                onNavigate(p1Url, {
+                  _name: p1Text,
+                  _image: avatarSrc
                 })
               }
             >
-              {p1.text}{' '}
+              {p1Text}{' '}
             </Name>
           )}
           <Text type='sub' lineHeight={16}>
-            {p2.text}{' '}
+            {p2Text}{' '}
           </Text>
-          {this.renderP3()}
-          {!!p4.text && (
+          {renderP3}
+          {!!p4Text && (
             <Text type='sub' lineHeight={16}>
               {' '}
-              {p4.text}
+              {p4Text}
             </Text>
           )}
         </Text>
       )
-    }
+    }, [])
 
-    renderDesc() {
-      const { navigation, subject, image, subjectId, comment, reply, event } =
-        this.props
+    const renderDesc = useMemo(() => {
       const { id, data = {} } = event
       return (
         <>
@@ -196,11 +236,12 @@ export const ItemTimeline = ob(
                       subjectId,
                       ...data
                     })
+
                     navigation.push('Subject', {
                       subjectId,
                       _cn: findSubjectCn(subject, subjectId),
                       _jp: subject,
-                      _image: getCoverMedium(!!image.length && image[0])
+                      _image: getCoverMedium(!!imageLength && image[0])
                     })
                   }}
                 >
@@ -209,44 +250,36 @@ export const ItemTimeline = ob(
               </Katakana.Provider>
             </View>
           )}
-          {!!(comment || reply.content) && (
+          {!!(comment || replyCount) && (
             <Text style={_.mt.sm} lineHeight={20}>
-              {comment || reply.content}
+              {comment || replyCount}
             </Text>
           )}
         </>
       )
-    }
+    }, [])
 
-    renderImages(type) {
-      const { p3, image } = this.props
-      if (image.length <= 1) {
-        return null
-      }
+    const renderImages = useCallback(type => {
+      if (imageLength <= 1) return null
 
       const images = image.map((item, index) => {
-        const isAvatar = !String(!!p3.url.length && p3.url[0]).includes(
-          'subject'
-        )
+        const isAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
         return (
           <View key={item || index} style={type ? _.mr.md : _.mr.sm}>
             <Cover
               src={item}
-              size={isAvatar ? avatarCoverWidth * _.ratio : IMG_WIDTH_SM}
-              height={isAvatar ? avatarCoverWidth * _.ratio : IMG_HEIGHT_SM}
+              size={isAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
+              height={isAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
               radius
               shadow
               type={type}
               onPress={() => {
-                const url = (!!p3.url.length && p3.url[index]) || ''
+                const url = (!!p3Url.length && p3Url[index]) || ''
                 const subjectId = matchSubjectId(url)
-                this.appNavigate(url, {
-                  _cn: findSubjectCn(
-                    !!p3.text.length && p3.text[index],
-                    subjectId
-                  ),
-                  _jp: !!p3.text.length && p3.text[index],
-                  _name: !!p3.text.length && p3.text[index],
+                onNavigate(url, {
+                  _cn: findSubjectCn(!!p3Text.length && p3Text[index], subjectId),
+                  _jp: !!p3Text.length && p3Text[index],
+                  _name: !!p3Text.length && p3Text[index],
                   _image: image
                 })
               }}
@@ -255,7 +288,7 @@ export const ItemTimeline = ob(
         )
       })
 
-      if (image.length <= 3) {
+      if (imageLength <= 3) {
         return (
           <Flex style={_.mt.sm} wrap='wrap'>
             {images}
@@ -267,85 +300,41 @@ export const ItemTimeline = ob(
       return (
         <ScrollView
           style={_.mt.sm}
-          contentContainerStyle={this.styles.images}
+          contentContainerStyle={styles.images}
           horizontal
           showsHorizontalScrollIndicator={false}
         >
           {images}
         </ScrollView>
       )
-    }
+    }, [])
 
-    renderAvatar() {
-      const { navigation, avatar, p1, event } = this.props
-      return (
-        <View style={this.styles.avatar}>
-          {!!avatar.src && (
-            <Avatar
-              navigation={navigation}
-              size={avatarWidth}
-              userId={this.userId}
-              name={p1.text}
-              src={avatar.src}
-              event={event}
-            />
-          )}
-        </View>
-      )
-    }
-
-    renderContent() {
-      const {
-        index,
-        p2,
-        p3,
-        star,
-        reply,
-        comment,
-        time,
-        image,
-        clearHref,
-        onHidden
-      } = this.props
-      const _image = !!image.length && image[0]
-      const bodyStyle =
-        image.length === 1 && !(comment || reply.content) ? _.mt.lg : _.mt.md
-      const rightCoverIsAvatar = !String(!!p3.url.length && p3.url[0]).includes(
-        'subject'
-      )
-      const showImages = image.length >= 3
-      const type = p2?.text?.includes('读')
+    const renderContent = useMemo(() => {
+      const _image = !!imageLength && image[0]
+      const bodyStyle = imageLength === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md
+      const rightCoverIsAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
+      const showImages = imageLength >= 3
+      const type = p2Text?.includes('读')
         ? '书籍'
-        : p2?.text?.includes('听')
+        : p2Text?.includes('听')
         ? '音乐'
-        : p2?.text?.includes('玩')
+        : p2Text?.includes('玩')
         ? '游戏'
         : ''
+
       return (
-        <Flex.Item
-          style={[
-            showImages
-              ? this.styles.contentNoPaddingRight
-              : this.styles.content,
-            index !== 0 && !_.flat && this.styles.border,
-            _.ml.sm
-          ]}
-        >
+        <Flex.Item style={[showImages ? styles.noPR : styles.content, _.ml.sm]}>
           <Flex align='start'>
             <Flex.Item>
-              <View style={showImages && this.styles.contentHasPaddingRight}>
-                {this.renderP()}
-                {this.renderDesc()}
+              <View style={showImages && styles.hasPR}>
+                {renderP}
+                {renderDesc}
               </View>
-              {this.renderImages(type)}
+              {renderImages(type)}
               <Flex style={bodyStyle}>
-                {!!reply.count && (
-                  <Text
-                    type='primary'
-                    size={12}
-                    onPress={() => this.appNavigate(reply.url)}
-                  >
-                    {reply.count}
+                {!!replyCount && (
+                  <Text type='primary' size={12} onPress={() => onNavigate(replyUrl)}>
+                    {replyCount}
                   </Text>
                 )}
                 <Text style={_.mr.sm} type='sub' size={12}>
@@ -355,27 +344,19 @@ export const ItemTimeline = ob(
               </Flex>
             </Flex.Item>
             <Flex align='start'>
-              {image.length === 1 && (
+              {imageLength === 1 && (
                 <View style={_.ml.md}>
                   <Cover
                     src={_image}
-                    size={
-                      rightCoverIsAvatar
-                        ? avatarCoverWidth * _.ratio
-                        : IMG_WIDTH_SM
-                    }
-                    height={
-                      rightCoverIsAvatar
-                        ? avatarCoverWidth * _.ratio
-                        : IMG_HEIGHT_SM
-                    }
+                    size={rightCoverIsAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
+                    height={rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
                     radius
                     shadow
                     type={type}
                     onPress={() =>
-                      this.appNavigate(!!p3.url.length && p3.url[0], {
-                        _jp: !!p3.text.length && p3.text[0],
-                        _name: !!p3.text.length && p3.text[0],
+                      onNavigate(!!p3Url.length && p3Url[0], {
+                        _jp: !!p3Text.length && p3Text[0],
+                        _name: !!p3Text.length && p3Text[0],
                         _image
                       })
                     }
@@ -383,18 +364,18 @@ export const ItemTimeline = ob(
                 </View>
               )}
               {clearHref ? (
-                <Touchable style={this.styles.touch} onPress={this.onClear}>
-                  <Flex style={this.styles.extra} justify='center'>
+                <Touchable style={styles.touch} onPress={onClear}>
+                  <Flex style={styles.extra} justify='center'>
                     <Iconfont name='md-close' size={18} />
                   </Flex>
                 </Touchable>
               ) : (
                 <Popover
-                  style={this.styles.touch}
+                  style={styles.touch}
                   data={hiddenDS}
-                  onSelect={title => onHidden(title, this.userId)}
+                  onSelect={title => onHidden(title, userId)}
                 >
-                  <Flex style={this.styles.extra} justify='center'>
+                  <Flex style={styles.extra} justify='center'>
                     <Iconfont name='md-more-vert' size={18} />
                   </Flex>
                 </Popover>
@@ -403,44 +384,87 @@ export const ItemTimeline = ob(
           </Flex>
         </Flex.Item>
       )
-    }
+    }, [])
 
-    render() {
-      if (this.userId in timelineStore.hidden) {
-        if (getTimestamp() < timelineStore.hidden[this.userId]) {
-          return null
-        }
+    return (
+      <Flex
+        style={[_.flat && styles.item, _.flat && !avatarSrc && styles.withoutAvatar, style]}
+        align='start'
+      >
+        {renderAvatar}
+        {renderContent}
+      </Flex>
+    )
+  },
+  defaultProps,
+  ({ styles }) => ({
+    styles
+  })
+)
+
+export const ItemTimeline = ob(
+  ({
+    navigation,
+    style,
+    avatar,
+    p1,
+    p2,
+    p3,
+    p4,
+    image,
+    comment,
+    reply,
+    time,
+    star,
+    subject,
+    subjectId,
+    clearHref,
+    event,
+    onDelete,
+    onHidden
+  }) => {
+    rerender('Component.ItemTimeline')
+
+    const userId = matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
+    if (userId in timelineStore.hidden) {
+      if (getTimestamp() < timelineStore.hidden[userId]) {
+        return null
       }
-
-      const { style, avatar, children } = this.props
-      return (
-        <Flex
-          style={[
-            _.container.item,
-            _.flat && this.styles.flat,
-            _.flat && !avatar.src && this.styles.flatNoAvatar,
-            style
-          ]}
-          align='start'
-        >
-          {this.renderAvatar()}
-          {this.renderContent()}
-          {children}
-        </Flex>
-      )
     }
 
-    get styles() {
-      return memoStyles()
-    }
+    return (
+      <Item
+        navigation={navigation}
+        styles={memoStyles()}
+        style={style}
+        avatar={avatar}
+        userId={userId}
+        p1={p1}
+        p2={p2}
+        p3={p3}
+        p4={p4}
+        image={image}
+        comment={comment}
+        reply={reply}
+        time={time}
+        star={star}
+        subject={subject}
+        subjectId={subjectId}
+        clearHref={clearHref}
+        event={event}
+        onDelete={onDelete}
+        onHidden={onHidden}
+      />
+    )
   }
 )
 
 const memoStyles = _.memoStyles(_ => ({
-  flat: {
+  item: {
+    ..._.container.item,
     paddingVertical: _.xs
   },
-  flatNoAvatar: {
+  withoutAvatar: {
     marginTop: -_.md
   },
   images: {
@@ -458,17 +482,17 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind - _._wind,
     paddingBottom: _.md
   },
-  contentNoPaddingRight: {
+  noPR: {
     paddingVertical: _.md,
     paddingRight: _.wind - _._wind
   },
-  contentHasPaddingRight: {
+  hasPR: {
     paddingRight: _._wind
   },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
+  // border: {
+  //   borderTopColor: _.colorBorder,
+  //   borderTopWidth: _.hairlineWidth
+  // },
   touch: {
     marginTop: -8,
     marginHorizontal: _.xs,

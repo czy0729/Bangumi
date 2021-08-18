@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-14 17:21:48
+ * @Last Modified time: 2021-08-18 08:22:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,10 +42,10 @@ function Header(props, { $ }) {
         <Box />
         <Ep />
         <Tags />
+        <Summary />
         {rendered && (
           <>
             <Game />
-            <Summary />
             <Thumbs />
             <Info />
             <Rating />

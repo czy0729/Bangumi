@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:02:43
+ * @Last Modified time: 2021-08-18 07:46:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Text } from '@components'
 import { BlurView } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
+import { IOS, DEV } from '@constants'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import List from './list'
@@ -59,7 +59,7 @@ function Tab(props, { $ }) {
     <>
       <TabView
         sceneContainerStyle={styles.sceneContainerStyle}
-        // lazy={!IOS}
+        lazy={!IOS || DEV}
         lazyPreloadDistance={1}
         navigationState={{
           index: page,

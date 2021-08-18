@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 19:08:16
+ * @Last Modified time: 2021-08-18 07:40:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,11 +41,9 @@ class Subject extends React.Component {
   componentDidMount() {
     runAfter(async () => {
       const { $ } = this.context
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          $.rendered()
-        }, 160)
-      })
+      setTimeout(() => {
+        $.rendered()
+      }, 400)
 
       const res = $.init()
       this.updateNavigation()
@@ -107,7 +105,6 @@ class Subject extends React.Component {
     const { $ } = this.context
     const { onScroll } = this.props
     onScroll(e)
-    $.rendered()
 
     const { nativeEvent } = e
     const { y } = nativeEvent.contentOffset

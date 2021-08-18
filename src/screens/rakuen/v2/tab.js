@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 08:29:48
+ * @Last Modified time: 2021-08-18 07:47:51
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -12,7 +12,7 @@ import { Flex, Text } from '@components'
 import { BlurView } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
+import { IOS, DEV } from '@constants'
 import {
   MODEL_RAKUEN_TYPE,
   MODEL_RAKUEN_TYPE_GROUP,
@@ -62,7 +62,7 @@ function Tab(props, { $ }) {
   return (
     <TabView
       sceneContainerStyle={styles.sceneContainerStyle}
-      lazy={!IOS}
+      lazy={!IOS || DEV}
       lazyPreloadDistance={1}
       navigationState={{
         index: page,

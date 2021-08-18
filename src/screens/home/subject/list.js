@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-14 17:35:44
+ * @Last Modified time: 2021-08-18 07:38:35
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -22,6 +22,9 @@ export default
 class List extends React.Component {
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
+    const { rendered } = $.state
+    if (!rendered) return null
+
     return (
       <ItemComment
         navigation={navigation}
