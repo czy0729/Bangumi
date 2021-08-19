@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 12:45:32
+ * @Last Modified time: 2021-08-20 07:19:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,7 @@ const defaultProps = {
   comments: '',
   time: '',
   collection: '',
+  userCollection: '',
   cover: '',
   type: '',
   modify: '',
@@ -57,6 +58,7 @@ const Item = memo(
     comments,
     time,
     collection,
+    userCollection,
     cover,
     type,
     modify,
@@ -117,7 +119,8 @@ const Item = memo(
             _jp: name,
             _cn: nameCn,
             _image: cover,
-            _type: type
+            _type: type,
+            _collection: collection || userCollection
           })
         }}
       >
@@ -217,6 +220,7 @@ export const ItemCollections = ob(
     comments,
     time,
     collection,
+    userCollection,
     cover,
     type,
     modify,
@@ -246,6 +250,7 @@ export const ItemCollections = ob(
         comments={comments}
         time={time}
         collection={collection}
+        userCollection={userCollection}
         cover={cover}
         type={type}
         modify={modify}

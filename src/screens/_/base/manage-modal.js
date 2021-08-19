@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 09:44:00
+ * @Last Modified time: 2021-08-20 06:54:23
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -288,7 +288,7 @@ export const ManageModal = ob(
                   defaultValue={comment}
                   placeholder='吐槽点什么'
                   multiline
-                  numberOfLines={_.device(4, 6)}
+                  numberOfLines={_.device(5, 6)}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
                   onChangeText={text => this.changeText('comment', text)}
@@ -302,7 +302,7 @@ export const ManageModal = ob(
                 <Flex style={_.mt.md}>
                   <Flex.Item>
                     <Button type='main' onPress={this.onSubmit}>
-                      更新收藏状态
+                      更新
                     </Button>
                   </Flex.Item>
                   <Button
@@ -330,7 +330,7 @@ const memoStyles = _.memoStyles(_ => ({
   modal: {
     width: (_.window.width - 2 * _.wind) * _.ratio,
     maxWidth: _.device(408, 560),
-    paddingTop: _.device(_.md, 28),
+    paddingTop: _.device(_.md + 2, 28),
     paddingHorizontal: _.device(0, _.sm),
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },

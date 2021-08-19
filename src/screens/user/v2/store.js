@@ -169,6 +169,11 @@ export default class ScreenUser extends store {
     return MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
   }
 
+  @computed get label() {
+    const { page } = this.state
+    return tabs[page].title
+  }
+
   /**
    * 条目动作
    */
@@ -224,11 +229,7 @@ export default class ScreenUser extends store {
   userCollectionsTags(subjectType, type) {
     const { username } = this.usersInfo
     return computed(() =>
-      collectionStore.userCollectionsTags(
-        username || this.userId,
-        subjectType,
-        type
-      )
+      collectionStore.userCollectionsTags(username || this.userId, subjectType, type)
     ).get()
   }
 

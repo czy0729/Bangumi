@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 12:51:00
+ * @Last Modified time: 2021-08-20 07:23:05
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -77,6 +77,7 @@ class List extends React.Component {
           type={typeCn}
           event={event}
           showLabel={false}
+          userCollection={$.label}
           {...item}
         />
       )
@@ -90,6 +91,7 @@ class List extends React.Component {
         index={index}
         num={4}
         type={typeCn}
+        userCollection={$.label}
         event={event}
         {...item}
       />

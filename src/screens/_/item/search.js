@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 15:53:52
+ * @Last Modified time: 2021-08-20 07:17:30
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
@@ -70,7 +70,8 @@ const Item = memo(
               _jp: name,
               _cn: nameCn,
               _image: cover,
-              _type: typeCn
+              _type: typeCn,
+              _collection: collection
             },
             event
           )

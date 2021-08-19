@@ -1,11 +1,12 @@
 /*
  * 条目
- * @Params: { _ningMoeId, _jp, _cn, _image, _imageForce, _summary, _type,
+ * @Params: { _jp, _cn, _image, _imageForce, _summary, _type,
+ *            _collection, _rating,
  *            _aid, _wid, _hid }
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-14 17:56:00
+ * @Last Modified time: 2021-08-20 06:58:46
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -222,11 +223,7 @@ export default class ScreenSubject extends store {
    * 条目留言
    */
   fetchSubjectComments = (refresh, reverse) =>
-    subjectStore.fetchSubjectComments(
-      { subjectId: this.subjectId },
-      refresh,
-      reverse
-    )
+    subjectStore.fetchSubjectComments({ subjectId: this.subjectId }, refresh, reverse)
 
   /**
    * 获取单集播放源
@@ -284,10 +281,7 @@ export default class ScreenSubject extends store {
                   new Set(
                     result.main_section.episodes.map(
                       item =>
-                        `${item.cover.replace(
-                          'http://',
-                          'https://'
-                        )}@192w_120h_1c.jpg`
+                        `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
                     )
                   )
                 ),
@@ -323,8 +317,7 @@ export default class ScreenSubject extends store {
                     decodeURIComponent(_response)
                       .replace(/\\\/>/g, '/>')
                       .replace(/(\\"|"\\)/g, '"')
-                      .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) ||
-                    []
+                      .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
                   )
                     .map(item => {
                       const match = item.match(/src="(.+?)"/)
@@ -363,9 +356,7 @@ export default class ScreenSubject extends store {
               epsThumbs: Array.from(
                 new Set(
                   match
-                    .map(
-                      item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`
-                    )
+                    .map(item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
                     .filter((item, index) => !!index)
                 )
               ),
@@ -451,9 +442,7 @@ export default class ScreenSubject extends store {
         }
 
         // 判断是否有分页
-        const match = _response.match(
-          /<span class="count">\(共(\d+)张\)<\/span>/
-        )
+        const match = _response.match(/<span class="count">\(共(\d+)张\)<\/span>/)
         const count = match ? Number(match[1]) : 0
         const start = count >= 100 ? count - 50 : count >= 30 ? count - 30 : 0
 
@@ -650,8 +639,7 @@ export default class ScreenSubject extends store {
   @computed get ningMoeEpOffset() {
     const { eps = [] } = this.subject
     return (
-      eps.filter(item => item.type === 0).sort((a, b) => a.sort - b.sort)[0]
-        .sort - 1
+      eps.filter(item => item.type === 0).sort((a, b) => a.sort - b.sort)[0].sort - 1
     )
   }
 
@@ -703,9 +691,7 @@ export default class ScreenSubject extends store {
     const _data = []
     const data = [
       ..._data,
-      ...sites
-        .filter(item => SITES_DS.includes(item.site))
-        .map(item => item.site)
+      ...sites.filter(item => SITES_DS.includes(item.site)).map(item => item.site)
     ]
 
     if (['动画'].includes(this.type)) {
@@ -873,9 +859,7 @@ export default class ScreenSubject extends store {
    * 封面图高度
    */
   @computed get imageHeight() {
-    return this.type === '音乐'
-      ? this.imageWidth
-      : IMG_HEIGHT * (_.isPad ? 1.64 : 1.4)
+    return this.type === '音乐' ? this.imageWidth : IMG_HEIGHT * (_.isPad ? 1.64 : 1.4)
   }
 
   // -------------------- get: cdn fallback --------------------
@@ -1134,9 +1118,7 @@ export default class ScreenSubject extends store {
     }
 
     const { relations = [] } = this.subjectFormHTML
-    const find = relations.find(
-      item => item.type === '动画' || item.type === '其他'
-    )
+    const find = relations.find(item => item.type === '动画' || item.type === '其他')
 
     // 部分条目维护不够好, 动画化条目标签为其他, 若日文名字相等都认为是动画化
     if (
@@ -1280,9 +1262,7 @@ export default class ScreenSubject extends store {
       switch (key) {
         case 'AGE动漫':
           if (_aid || findAnime(this.subjectId).ageId) {
-            url = `${SITE_AGEFANS()}/detail/${
-              _aid || findAnime(this.subjectId).ageId
-            }`
+            url = `${SITE_AGEFANS()}/detail/${_aid || findAnime(this.subjectId).ageId}`
           } else {
             url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(
               this.cn || this.jp
@@ -1291,9 +1271,7 @@ export default class ScreenSubject extends store {
           break
 
         case 'Anime1':
-          url = `https://anime1.me/?s=${encodeURIComponent(
-            s2t(this.cn || this.jp)
-          )}`
+          url = `https://anime1.me/?s=${encodeURIComponent(s2t(this.cn || this.jp))}`
           break
 
         case '迅播动漫':
@@ -1380,11 +1358,7 @@ export default class ScreenSubject extends store {
       subjectId: this.subjectId
     })
 
-    open(
-      `https://psnine.com/psngame?title=${encodeURIComponent(
-        this.cn || this.jp
-      )}`
-    )
+    open(`https://psnine.com/psngame?title=${encodeURIComponent(this.cn || this.jp)}`)
   }
 
   /**
@@ -1435,13 +1409,7 @@ export default class ScreenSubject extends store {
       status
     })
 
-    const {
-      wish,
-      collect,
-      doing,
-      on_hold: onHold,
-      dropped
-    } = this.subjectCollection
+    const { wish, collect, doing, on_hold: onHold, dropped } = this.subjectCollection
     navigation.push('Rating', {
       subjectId: this.subjectId,
       status,

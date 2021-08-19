@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 13:56:20
+ * @Last Modified time: 2021-08-20 07:23:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,7 @@ const defaultProps = {
   rank: '',
   typeCn: '',
   collection: '',
+  userCollection: '',
   aid: '',
   wid: '',
   mid: '',
@@ -53,6 +54,7 @@ const Item = memo(
     rank,
     typeCn,
     collection,
+    userCollection,
     aid,
     wid,
     mid,
@@ -82,7 +84,8 @@ const Item = memo(
         _aid: aid,
         _wid: wid,
         _mid: mid,
-        _type: typeCn
+        _type: typeCn,
+        _collection: collection || userCollection
       })
     }
 
@@ -146,6 +149,7 @@ export const ItemCollectionsGrid = ob(
     rank,
     typeCn,
     collection,
+    userCollection,
     aid,
     wid,
     mid,
@@ -168,6 +172,7 @@ export const ItemCollectionsGrid = ob(
         rank={rank}
         typeCn={typeCn}
         collection={collection}
+        userCollection={userCollection}
         aid={aid}
         wid={wid}
         mid={mid}

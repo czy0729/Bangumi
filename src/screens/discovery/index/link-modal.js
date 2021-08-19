@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 12:12:22
+ * @Last Modified time: 2021-08-20 06:49:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ export default obc(
                   ref={ref => (this.iptRef = ref)}
                   style={this.styles.ipt}
                   defaultValue={link}
-                  placeholder='输入/粘贴bgm.tv的链接'
+                  placeholder='输入或粘贴 bgm.tv 的链接'
                   clear
                   onChangeText={$.onChangeText}
                   onSubmitEditing={() => $.onLinkSubmit(navigation)}

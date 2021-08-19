@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:11:17
+ * @Last Modified time: 2021-08-20 07:15:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,10 +15,12 @@ import { IOS } from '@constants'
 import IconFolder from './icon/folder'
 import IconClose from './icon/close'
 
+const RATE = [1, 2, 3, 4, 5]
 const defaultProps = {
   styles: {},
   navigation: {},
   collection: {},
+  collectionStatus: '未收藏',
   isLogin: false,
   status: [],
   showManageModel: Function.prototype,
@@ -26,11 +28,24 @@ const defaultProps = {
 }
 
 const Box = memo(
-  ({ styles, navigation, collection, isLogin, status, showManageModel, toRating }) => {
+  ({
+    styles,
+    navigation,
+    collection,
+    collectionStatus: userCollectionStatus,
+    isLogin,
+    status,
+    showManageModel,
+    toRating
+  }) => {
     rerender('Subject.Box.Main')
 
     // 自己的收藏状态
-    const { status: collectionStatus = { name: '未收藏' }, rating = 0 } = collection
+    const {
+      status: collectionStatus = { name: '未收藏' },
+      rating = 0,
+      _loaded
+    } = collection
     const leftStyle = []
     const rightStyle = []
     if (rating) {
@@ -38,7 +53,15 @@ const Box = memo(
       rightStyle.push(styles.right)
     }
 
-    const btnText = isLogin ? collectionStatus.name : '登陆管理'
+    let btnText = '登陆管理'
+    if (isLogin) {
+      if (!_loaded) {
+        btnText = userCollectionStatus || collectionStatus.name
+      } else {
+        btnText = collectionStatus.name
+      }
+    }
+
     const onPress = isLogin ? showManageModel : () => navigation.push('LoginV2')
     const statusSize = status[status.length - 1]?.text.length >= 6 ? 11 : 12
     return (
@@ -65,7 +88,7 @@ const Box = memo(
               <Flex.Item>
                 <Button style={rightStyle} type={getType(btnText)}>
                   {getRating(rating)}{' '}
-                  {[1, 2, 3, 4, 5].map(item => {
+                  {RATE.map(item => {
                     let type
                     if (rating / 2 >= item) {
                       type = 'ios-star'
@@ -119,6 +142,7 @@ export default obc((props, { $, navigation }) => {
       styles={memoStyles()}
       navigation={navigation}
       collection={$.collection}
+      collectionStatus={$.params._collection}
       isLogin={$.isLogin}
       status={$.status}
       showManageModel={$.showManageModel}
