@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-23 19:54:49
+ * @Last Modified time: 2021-08-20 06:39:57
  */
 import React from 'react'
 import {
@@ -84,7 +84,7 @@ class Blog extends React.Component {
       navigation.setParams({
         heatmap: '日志.右上角菜单',
         popover: {
-          data: ['浏览器查看', '复制链接'],
+          data: ['浏览器查看', '复制链接', '复制分享'],
           onSelect: key => {
             t('日志.右上角菜单', {
               key
@@ -94,10 +94,17 @@ class Blog extends React.Component {
               case '浏览器查看':
                 open(url)
                 break
+
               case '复制链接':
                 copy(url)
-                info('已复制')
+                info('已复制链接')
                 break
+
+              case '复制分享':
+                copy(`【链接】${$.title} | Bangumi番组计划\n${url}`)
+                info('已复制分享文案')
+                break
+
               default:
                 break
             }

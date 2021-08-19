@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:33:55
+ * @Last Modified time: 2021-08-20 06:41:30
  */
 import React from 'react'
 import {
@@ -97,7 +97,7 @@ class Topic extends React.Component {
         extra: <IconFavor $={$} />,
         heatmap: '帖子.右上角菜单',
         popover: {
-          data: ['浏览器查看', '复制链接', '举报'],
+          data: ['浏览器查看', '复制链接', '复制分享', '举报'],
           onSelect: key => {
             t('帖子.右上角菜单', {
               key
@@ -107,13 +107,21 @@ class Topic extends React.Component {
               case '浏览器查看':
                 open(url)
                 break
+
               case '复制链接':
                 copy(url)
-                info('已复制')
+                info('已复制链接')
                 break
+
+              case '复制分享':
+                copy(`【链接】${$.title} | Bangumi番组计划\n${url}`)
+                info('已复制分享文案')
+                break
+
               case '举报':
                 open(`${HOST}/group/forum`)
                 break
+
               default:
                 break
             }

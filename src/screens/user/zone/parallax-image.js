@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:53:27
+ * @Last Modified time: 2021-08-20 06:44:02
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -46,7 +46,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
     })
   }
 
-  const data = ['浏览器查看', '复制链接', '发短信', 'TA的收藏', 'TA的好友']
+  const data = ['浏览器查看', '复制链接', '复制分享', '发短信', 'TA的收藏', 'TA的好友']
   if ($.users.connectUrl) {
     data.push('加为好友')
   } else if ($.users.disconnectUrl) {
@@ -82,10 +82,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             styles.parallaxMask,
             parallaxStyle,
             {
-              backgroundColor: _.select(
-                'rgba(0, 0, 0, 0.48)',
-                'rgba(0, 0, 0, 0.64)'
-              ),
+              backgroundColor: _.select('rgba(0, 0, 0, 0.48)', 'rgba(0, 0, 0, 0.64)'),
               opacity: scrollY.interpolate({
                 inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
@@ -147,20 +144,27 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
               userId: $.userId
             })
 
+            const url = `${HOST}/user/${username}`
+            const userName = HTMLDecode(nickname || _name)
             switch (key) {
               case '浏览器查看':
-                open(`${HOST}/user/${username}`)
+                open(url)
                 break
 
               case '复制链接':
-                copy(`${HOST}/user/${username}`)
-                info('已复制')
+                copy(url)
+                info('已复制链接')
+                break
+
+              case '复制分享':
+                copy(`【链接】${userName} | Bangumi番组计划\n${url}`)
+                info('已复制分享文案')
                 break
 
               case '发短信':
                 navigation.push('PM', {
                   userId: id, // 必须是数字id
-                  userName: HTMLDecode(nickname || _name)
+                  userName
                 })
                 break
 

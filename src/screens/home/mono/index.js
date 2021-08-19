@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:34:40
+ * @Last Modified time: 2021-08-20 06:35:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { ListView, Heatmap } from '@components'
 import { ItemTopic, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
-import { keyExtractor } from '@utils/app'
+import { keyExtractor, cnjp } from '@utils/app'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -57,7 +57,7 @@ class Mono extends React.Component {
     navigation.setParams({
       heatmap: '人物.右上角菜单',
       popover: {
-        data: ['浏览器查看', '复制链接'],
+        data: ['浏览器查看', '复制链接', '复制分享'],
         onSelect: key => {
           t('人物.右上角菜单', {
             key
@@ -67,10 +67,17 @@ class Mono extends React.Component {
             case '浏览器查看':
               open($.url)
               break
+
             case '复制链接':
               copy($.url)
-              info('已复制')
+              info('已复制链接')
               break
+
+            case '复制分享':
+              copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`)
+              info('已复制分享文案')
+              break
+
             default:
               break
           }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 07:40:37
+ * @Last Modified time: 2021-08-20 06:33:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { open, copy, runAfter } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info, androidKeyboardAdjust } from '@utils/ui'
+import { cnjp } from '@utils/app'
 import { TITLE } from '@constants'
 import HeaderTitle from './header-title'
 import Bg from './bg'
@@ -68,7 +69,7 @@ class Subject extends React.Component {
       heatmap: '条目.右上角菜单',
       extra: <IconShare $={$} navigation={navigation} />,
       popover: {
-        data: [TITLE, '复制链接'],
+        data: [TITLE, '复制链接', '复制分享'],
         onSelect: key => {
           t('条目.右上角菜单', {
             subjectId: $.subjectId,
@@ -78,8 +79,14 @@ class Subject extends React.Component {
           switch (key) {
             case '复制链接':
               copy($.url)
-              info('已复制')
+              info('已复制链接')
               break
+
+            case '复制分享':
+              copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`)
+              info('已复制分享文案')
+              break
+
             default:
               open($.url)
               break
@@ -131,10 +138,7 @@ class Subject extends React.Component {
       <View style={_.container.plain}>
         <Bg show={showBlurView} />
         <List onScroll={this.onScroll} />
-        <NavigationEvents
-          onDidFocus={this.onDidFocus}
-          onDidBlur={this.onDidBlur}
-        />
+        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <Modal />
         <Heatmap id={title} screen='Subject' />
       </View>

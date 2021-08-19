@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 09:26:03
+ * @Last Modified time: 2021-08-20 02:53:40
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -15,16 +15,9 @@ import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import ItemHeatmaps from './item-heatmaps'
 import { tabs, H_TABBAR } from './store'
 
-const contentInset = IOS
-  ? {
-      top: _.headerHeight + H_TABBAR
-    }
-  : undefined
-const contentOffset = IOS
-  ? {
-      y: -(_.headerHeight + H_TABBAR)
-    }
-  : undefined
+const h = _.headerHeight + H_TABBAR
+const contentInset = IOS ? { top: h } : undefined
+const contentOffset = IOS ? { y: -h } : undefined
 
 export default
 @obc

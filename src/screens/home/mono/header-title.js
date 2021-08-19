@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 09:15:19
+ * @Last Modified time: 2021-08-20 02:59:14
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -66,7 +66,7 @@ export default ob(({ navigation }) => {
 
 const styles = _.create({
   container: {
-    marginLeft: -_.sm,
+    marginLeft: _.device(-_.md, -_.sm),
     marginRight: _.md
   }
 })

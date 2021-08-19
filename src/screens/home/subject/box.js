@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-11 09:43:58
+ * @Last Modified time: 2021-08-20 06:11:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,20 +26,11 @@ const defaultProps = {
 }
 
 const Box = memo(
-  ({
-    styles,
-    navigation,
-    collection,
-    isLogin,
-    status,
-    showManageModel,
-    toRating
-  }) => {
+  ({ styles, navigation, collection, isLogin, status, showManageModel, toRating }) => {
     rerender('Subject.Box.Main')
 
     // 自己的收藏状态
-    const { status: collectionStatus = { name: '未收藏' }, rating = 0 } =
-      collection
+    const { status: collectionStatus = { name: '未收藏' }, rating = 0 } = collection
     const leftStyle = []
     const rightStyle = []
     if (rating) {
@@ -84,12 +75,7 @@ const Box = memo(
                       type = 'ios-star-outline'
                     }
                     return (
-                      <Icon
-                        key={item}
-                        name={type}
-                        size={16}
-                        color={_.__colorPlain__}
-                      />
+                      <Icon key={item} name={type} size={16} color={_.__colorPlain__} />
                     )
                   })}
                 </Button>
@@ -145,7 +131,7 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     minHeight: 120,
     paddingHorizontal: _.wind,
-    marginTop: _.md
+    marginTop: _.lg - 4
   },
   sectionTitle: {
     height: 28

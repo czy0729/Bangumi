@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:15:47
+ * @Last Modified time: 2021-08-20 02:56:52
  */
 import React from 'react'
 import {
@@ -19,12 +19,7 @@ import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _, systemStore } from '@stores'
 import { runAfter, sleep, date, simpleTime } from '@utils'
 import { LIST_EMPTY } from '@constants'
-import {
-  TEXT_REFRESHING,
-  TEXT_FAIL,
-  TEXT_NO_MORE,
-  TEXT_EMPTY
-} from '@constants/text'
+import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
 import { randomSpeech } from '@constants/speech'
 import { Flex } from './flex'
 import { Mesume } from './mesume'
@@ -142,7 +137,8 @@ export const ListView = observer(
         this.setState({
           refreshState: RefreshState.HeaderRefreshing
         })
-        await sleep(640)
+
+        await sleep(400)
         onHeaderRefresh()
       }
     }
@@ -223,7 +219,7 @@ export const ListView = observer(
           : ListFooterComponent,
         onRefresh: this.onHeaderRefresh,
         onEndReached: this.onEndReached,
-        onEndReachedThreshold: 0.64,
+        onEndReachedThreshold: 0.5,
 
         // optimize
         initialNumToRender: 48,
@@ -240,8 +236,7 @@ export const ListView = observer(
       const { rendered } = this.state
       let _sections = []
       if (sections) {
-        _sections =
-          lazy && !rendered ? sections.slice(0, lazy) : sections.slice()
+        _sections = lazy && !rendered ? sections.slice(0, lazy) : sections.slice()
       } else {
         const sectionsMap = {}
         data.list.slice().forEach(item => {
@@ -358,11 +353,7 @@ export const ListView = observer(
           break
         case RefreshState.FooterRefreshing:
           footer = footerRefreshingComponent || (
-            <Flex
-              style={this.styles.footerNoMore}
-              justify='center'
-              direction='column'
-            >
+            <Flex style={this.styles.footerNoMore} justify='center' direction='column'>
               <ActivityIndicator size='small' />
               <Text
                 style={[this.styles.footerText, _.mt.sm]}
@@ -394,9 +385,7 @@ export const ListView = observer(
                     size={13}
                     lineHeight={15}
                   >
-                    {data._filter
-                      ? `已过滤${data._filter}个敏感条目`
-                      : randomSpeech()}
+                    {data._filter ? `已过滤${data._filter}个敏感条目` : randomSpeech()}
                   </Text>
                 )}
               </Flex>
@@ -414,9 +403,7 @@ export const ListView = observer(
       return (
         <RefreshControl
           title={
-            data._loaded
-              ? `上次刷新时间: ${simpleTime(date(data._loaded))}`
-              : undefined
+            data._loaded ? `上次刷新时间: ${simpleTime(date(data._loaded))}` : undefined
           }
           colors={refreshControlColors}
           titleColor={_.colorSub}
@@ -471,17 +458,11 @@ export const ListView = observer(
           )
         } else {
           $list = (
-            <SectionList
-              sections={this.section}
-              {...this.commonProps}
-              {...other}
-            />
+            <SectionList sections={this.section} {...this.commonProps} {...other} />
           )
         }
       } else if (animated) {
-        $list = (
-          <AnimatedFlatList data={this.data} {...this.commonProps} {...other} />
-        )
+        $list = <AnimatedFlatList data={this.data} {...this.commonProps} {...other} />
       } else {
         $list = <FlatList data={this.data} {...this.commonProps} {...other} />
       }
