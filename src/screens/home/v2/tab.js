@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:33:05
+ * @Last Modified time: 2021-08-18 17:48:47
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS, DEV } from '@constants'
 import { H_TABBAR } from './store'
@@ -17,14 +17,13 @@ function Tab({ routes, renderScene }, { $ }) {
   rerender('Home.Tab')
 
   const styles = memoStyles()
-  const { rendered } = systemStore
   const { page } = $.state
   const W_TAB = _.window.width / routes.length
   return (
     <TabView
       sceneContainerStyle={styles.sceneContainerStyle}
       lazy={!IOS || DEV}
-      lazyPreloadDistance={rendered ? 1 : 0}
+      lazyPreloadDistance={0}
       navigationState={{
         index: page,
         routes
@@ -74,10 +73,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: _.headerHeight - (IOS ? 18 : 24),
     backgroundColor: IOS
       ? 'transparent'
-      : _.select(
-          _.colorPlain,
-          _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-        ),
+      : _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
     borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     elevation: 0

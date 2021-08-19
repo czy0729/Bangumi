@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:32:33
+ * @Last Modified time: 2021-08-18 17:53:17
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -48,12 +48,8 @@ function List({ title }, { $ }) {
       keyExtractor={keyExtractor}
       data={data}
       footerNoMoreDataText=''
-      footerEmptyDataComponent={
-        !length && <Empty title={title} length={length} />
-      }
-      footerNoMoreDataComponent={
-        length <= 3 && <Empty title={title} length={length} />
-      }
+      footerEmptyDataComponent={!length && <Empty title={title} length={length} />}
+      footerNoMoreDataComponent={length <= 3 && <Empty title={title} length={length} />}
       contentInset={contentInset}
       contentOffset={contentOffset}
       scrollToTop={isFocused && tabs[page].title === title}

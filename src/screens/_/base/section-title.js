@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 08:50:09
+ * @Last Modified time: 2021-08-18 17:45:26
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -29,14 +29,14 @@ export const SectionTitle = memo(
             {onPress ? (
               <Touchable style={styles.touch} onPress={onPress}>
                 <Flex>
-                  <Text type='title' size={18} bold>
+                  <Text type='title' size={20} bold>
                     {children}
                   </Text>
                   {!!icon && <Iconfont name={icon} color={_.colorIcon} />}
                 </Flex>
               </Touchable>
             ) : (
-              <Text type='title' size={18} bold>
+              <Text type='title' size={20} bold>
                 {children}
               </Text>
             )}

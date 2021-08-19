@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 16:06:50
+ * @Last Modified time: 2021-08-18 17:31:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,7 +78,7 @@ const Item = memo(
     event,
     onToggleExpand
   }) => {
-    // rerender('Topic.Item.Main')
+    rerender('Topic.Item.Main')
 
     // 遗留问题, 给宣传语增加一点高度
     const _msg = msg.replace(
@@ -87,11 +87,7 @@ const Item = memo(
     )
     return (
       <Flex
-        style={[
-          _.container.item,
-          isNew && styles.itemNew,
-          isJump && styles.itemJump
-        ]}
+        style={[_.container.item, isNew && styles.itemNew, isJump && styles.itemJump]}
         align='start'
       >
         <Avatar
@@ -173,9 +169,7 @@ const Item = memo(
                   align='center'
                   bold
                 >
-                  {isExpand
-                    ? '收起楼层'
-                    : `展开 ${sub.length - expandNum} 条回复`}
+                  {isExpand ? '收起楼层' : `展开 ${sub.length - expandNum} 条回复`}
                 </Text>
               </Touchable>
             )}
@@ -208,21 +202,16 @@ export default obc(
     },
     { $, navigation }
   ) => {
-    // rerender('Topic.Item')
+    rerender('Topic.Item')
 
-    if ($.isBlockUser(userId, userName, replySub)) {
-      return null
-    }
+    if ($.isBlockUser(userId, userName, replySub)) return null
 
     const msg = decoder(message)
-    if ($.filterDelete && msg.includes('内容已被用户删除')) {
-      return null
-    }
+    if ($.filterDelete && msg.includes('内容已被用户删除')) return null
 
     const { expands } = $.state
     const isExpand =
-      sub.length <= expandNum ||
-      (sub.length > expandNum && expands.includes(id))
+      sub.length <= expandNum || (sub.length > expandNum && expands.includes(id))
 
     const { _time: readedTime } = $.readed
     const isNew = !!readedTime && getTimestamp(time) > readedTime

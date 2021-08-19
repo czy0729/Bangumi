@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:08:56
+ * @Last Modified time: 2021-08-19 10:10:20
  */
 export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const INIT_ROUTE = 'Home'
 export const RERENDER_SHOW = /ZZZ/
-// export const RERENDER_SHOW = /Rakuen\.(.+?)\.Main/ // /Subject\.(.+?)\.Main/
+// export const RERENDER_SHOW = /Rakuen\.(.+?)\.Main/
 
 export default {
   initialRouteName: 'HomeTab', // HomeTab Discovery Subject Tinygrail
@@ -15,7 +15,7 @@ export default {
     // subjectId: 296870 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/364470' // group/360353, ep/938136
     // userId: 'lilyurey' // 456208, 419012
-    // monoId: 'character/6782' // 20391 character/70323 person/5745
+    // monoId: 'character/20391' // 20391 character/70323 person/5745
     // id: 240929
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 298795 // 294448

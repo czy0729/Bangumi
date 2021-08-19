@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-14 15:59:35
+ * @Last Modified time: 2021-08-18 17:44:21
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -33,7 +33,7 @@ function Title({ showScore }, { $ }) {
             }}
           >
             <Flex>
-              {showScore && <Rank value={rank} size={13} />}
+              {showScore && <Rank style={styles.rank} value={rank} size={13} />}
               <Text style={_.ml.sm} type='sub'>
                 趋势
               </Text>
@@ -77,5 +77,8 @@ const styles = _.create({
     marginRight: -_.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  rank: {
+    minWidth: 44 * _.ratio
   }
 })

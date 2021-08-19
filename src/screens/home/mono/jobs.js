@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 10:36:57
+ * @Last Modified time: 2021-08-19 09:50:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -21,11 +21,15 @@ const event = {
     from: '出演'
   }
 }
+const defaultProps = {
+  navigation: {},
+  style: {},
+  jobs: []
+}
 
-function Jobs({ style }, { $, navigation }) {
-  if (!$.jobs.length) return null
+const Jobs = memo(({ navigation, style, jobs }) => {
+  rerender('Mono.Jobs.Main')
 
-  const styles = memoStyles()
   return (
     <View style={[styles.container, style]}>
       <View>
@@ -38,7 +42,7 @@ function Jobs({ style }, { $, navigation }) {
         />
       </View>
       <View style={_.mt.md}>
-        {$.jobs.map((item, index) => (
+        {jobs.map((item, index) => (
           <Flex
             key={item.href}
             style={[styles.item, index !== 0 && !_.flat && styles.border]}
@@ -86,13 +90,7 @@ function Jobs({ style }, { $, navigation }) {
                     <Tag style={styles.tag} value={item.staff} />
                   </Flex>
                   {!!item.nameCn && (
-                    <Text
-                      style={_.mt.xs}
-                      size={10}
-                      type='sub'
-                      lineHeight={12}
-                      bold
-                    >
+                    <Text style={_.mt.xs} size={10} type='sub' lineHeight={12} bold>
                       {item.nameCn}
                     </Text>
                   )}
@@ -184,11 +182,17 @@ function Jobs({ style }, { $, navigation }) {
       </View>
     </View>
   )
-}
+}, defaultProps)
 
-export default obc(Jobs)
+export default obc(({ style }, { $, navigation }) => {
+  rerender('Mono.Jobs')
 
-const memoStyles = _.memoStyles(_ => ({
+  if (!$.jobs.length) return null
+
+  return <Jobs navigation={navigation} style={style} jobs={$.jobs} />
+})
+
+const styles = _.create({
   container: {
     paddingLeft: _.wind,
     paddingBottom: _.md
@@ -200,13 +204,9 @@ const memoStyles = _.memoStyles(_ => ({
   content: {
     marginLeft: _.sm + 4
   },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
   tag: {
     marginTop: _.xs - 1,
     marginRight: _.sm,
     marginLeft: _.xs
   }
-}))
+})

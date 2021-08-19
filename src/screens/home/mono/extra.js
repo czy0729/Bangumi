@@ -2,22 +2,28 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:18:46
+ * @Last Modified time: 2021-08-19 10:09:26
  */
 import React from 'react'
 import { Alert } from 'react-native'
 import { IconHeader } from '@screens/_'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { memo, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
-function Extra({ $, navigation }) {
-  if (!$.tinygrail) {
-    return null
-  }
+const defaultProps = {
+  navigation: {},
+  monoId: '',
+  canICO: false,
+  icoUsers: undefined,
+  doICO: Function.prototype
+}
 
-  if ($.canICO) {
+const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
+  rerender('Mono.Extra.Main')
+
+  if (canICO) {
     return (
       <Touchable
         style={_.container.touch}
@@ -29,7 +35,7 @@ function Extra({ $, navigation }) {
             },
             {
               text: '确定',
-              onPress: () => $.doICO(navigation)
+              onPress: () => doICO(navigation)
             }
           ])
         }
@@ -47,14 +53,14 @@ function Extra({ $, navigation }) {
       name='trophy'
       size={19}
       onPress={() => {
-        const path = $.chara.users ? 'TinygrailICODeal' : 'TinygrailDeal'
+        const path = icoUsers ? 'TinygrailICODeal' : 'TinygrailDeal'
         t('人物.跳转', {
           to: path,
-          monoId: $.monoId
+          monoId
         })
 
         navigation.push(path, {
-          monoId: $.monoId
+          monoId
         })
       }}
     >
@@ -78,6 +84,20 @@ function Extra({ $, navigation }) {
       />
     </IconHeader>
   )
-}
+}, defaultProps)
 
-export default ob(Extra)
+export default ob(({ $, navigation }) => {
+  rerender('Mono.Extra')
+
+  if (!$.tinygrail) return null
+
+  return (
+    <Extra
+      navigation={navigation}
+      monoId={$.monoId}
+      canICO={$.canICO}
+      doICO={$.doICO}
+      icoUsers={$.chara.users}
+    />
+  )
+})

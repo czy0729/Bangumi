@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 07:47:51
+ * @Last Modified time: 2021-08-18 17:48:51
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -63,7 +63,7 @@ function Tab(props, { $ }) {
     <TabView
       sceneContainerStyle={styles.sceneContainerStyle}
       lazy={!IOS || DEV}
-      lazyPreloadDistance={1}
+      lazyPreloadDistance={0}
       navigationState={{
         index: page,
         routes

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 19:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:25:54
+ * @Last Modified time: 2021-08-18 17:57:21
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -11,6 +11,8 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function SectionRight({ event, text, to }, { $, navigation }) {
+  rerender('Mono.SectionRight')
+
   return (
     <Touchable
       style={styles.touch}

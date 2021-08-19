@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:46:42
+ * @Last Modified time: 2021-08-18 17:48:59
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -122,7 +122,7 @@ class Tab extends React.Component {
   render() {
     return (
       <TabView
-        lazyPreloadDistance={1}
+        lazyPreloadDistance={0}
         navigationState={this.navigationState}
         renderTabBar={this.renderTabBar}
         renderScene={this.renderScene}

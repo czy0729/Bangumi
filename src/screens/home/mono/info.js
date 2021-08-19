@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 10:19:39
+ * @Last Modified time: 2021-08-18 17:56:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,8 @@ import Jobs from './jobs'
 const maxSize = _.window.contentWidth * 0.5 * _.ratio
 
 function Info(props, { $, navigation }) {
+  rerender('Mono.Info')
+
   const { collectUrl, eraseCollectUrl } = $.mono
   return (
     <>

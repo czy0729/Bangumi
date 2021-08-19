@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 10:39:25
+ * @Last Modified time: 2021-08-19 09:26:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import SectionRight from './section-right'
 import { coverWidth, coverHeight } from './jobs'
@@ -20,11 +20,16 @@ const event = {
     from: '最近演出角色'
   }
 }
+const imgWidth = 40 * _.ratio
+const defaultProps = {
+  navigation: {},
+  style: {},
+  voices: []
+}
 
-function Voice({ style }, { $, navigation }) {
-  if (!$.voices.length) return null
+const Voice = memo(({ navigation, style, voices }) => {
+  rerender('Mono.Voice.Main')
 
-  const styles = memoStyles()
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
@@ -45,16 +50,12 @@ function Voice({ style }, { $, navigation }) {
         最近演出角色
       </SectionTitle>
       <View style={_.mt.md}>
-        {$.voices.map((item, index) => (
-          <Flex
-            key={item.href}
-            style={[styles.item, index !== 0 && !_.flat && styles.border]}
-            align='start'
-          >
+        {voices.map(item => (
+          <Flex key={item.href} style={styles.item} align='start'>
             <Flex.Item flex={2}>
               <Flex align='start'>
                 <Image
-                  size={40 * _.ratio}
+                  size={imgWidth}
                   src={item.cover}
                   radius
                   shadow
@@ -91,13 +92,7 @@ function Voice({ style }, { $, navigation }) {
                   </Text>
                   <Flex style={_.mt.xs} align='start'>
                     <Flex.Item>
-                      <Text
-                        size={10}
-                        type='sub'
-                        align='right'
-                        lineHeight={12}
-                        bold
-                      >
+                      <Text size={10} type='sub' align='right' lineHeight={12} bold>
                         {item.subjectNameCn}
                       </Text>
                     </Flex.Item>
@@ -110,9 +105,7 @@ function Voice({ style }, { $, navigation }) {
                   src={item.subjectCover}
                   radius
                   shadow
-                  onPress={() =>
-                    appNavigate(item.subjectHref, navigation, {}, event)
-                  }
+                  onPress={() => appNavigate(item.subjectHref, navigation, {}, event)}
                 />
               </Flex>
             </Flex.Item>
@@ -127,11 +120,17 @@ function Voice({ style }, { $, navigation }) {
       </View>
     </View>
   )
-}
+}, defaultProps)
 
-export default obc(Voice)
+export default obc(({ style }, { $, navigation }) => {
+  rerender('Mono.Voice')
 
-const memoStyles = _.memoStyles(_ => ({
+  if (!$.voices.length) return null
+
+  return <Voice navigation={navigation} style={style} voices={$.voices} />
+})
+
+const styles = _.create({
   container: {
     paddingLeft: _.wind,
     paddingBottom: _.md
@@ -142,9 +141,5 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingVertical: _.md,
     paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
   }
-}))
+})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 16:06:38
+ * @Last Modified time: 2021-08-18 17:33:55
  */
 import React from 'react'
 import {
@@ -54,7 +54,7 @@ class Topic extends React.Component {
     InteractionManager.runAfterInteractions(async () => {
       setTimeout(() => {
         this.rendered()
-      }, 300)
+      }, 400)
 
       const { $, navigation } = this.context
 
@@ -92,8 +92,7 @@ class Topic extends React.Component {
       //   return
       // }
 
-      const url =
-        navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
+      const url = navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
       navigation.setParams({
         extra: <IconFavor $={$} />,
         heatmap: '帖子.右上角菜单',
@@ -142,7 +141,6 @@ class Topic extends React.Component {
     const { $ } = this.context
     const { onScroll } = this.props
     onScroll(e)
-    this.rendered()
 
     const { showHeaderTitle } = $.state
     const { nativeEvent } = e
@@ -298,10 +296,7 @@ class Topic extends React.Component {
       return (
         <Flex style={this.styles.fixedBottom}>
           <Text>半公开小组只有成员才能发言, </Text>
-          <Text
-            type='main'
-            onPress={() => appNavigate($.groupHref, navigation)}
-          >
+          <Text type='main' onPress={() => appNavigate($.groupHref, navigation)}>
             点击加入
           </Text>
         </Flex>

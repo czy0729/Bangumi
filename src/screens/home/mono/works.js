@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 10:38:06
+ * @Last Modified time: 2021-08-19 09:47:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
 import { appNavigate, findSubjectCn } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import SectionRight from './section-right'
@@ -21,11 +21,15 @@ const event = {
     from: '最近参与'
   }
 }
+const defaultProps = {
+  navigation: {},
+  style: {},
+  works: []
+}
 
-function Works({ style }, { $, navigation }) {
-  if (!$.works.length) return null
+const Works = memo(({ navigation, style, works }) => {
+  rerender('Mono.Works.Main')
 
-  const styles = memoStyles()
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
@@ -46,12 +50,8 @@ function Works({ style }, { $, navigation }) {
         最近参与
       </SectionTitle>
       <View style={_.mt.md}>
-        {$.works.map((item, index) => (
-          <Flex
-            key={item.href}
-            style={[styles.item, index !== 0 && !_.flat && styles.border]}
-            align='start'
-          >
+        {works.map(item => (
+          <Flex key={item.href} style={styles.item} align='start'>
             <Cover
               size={coverWidth}
               height={coverHeight}
@@ -93,11 +93,17 @@ function Works({ style }, { $, navigation }) {
       </View>
     </View>
   )
-}
+}, defaultProps)
 
-export default obc(Works)
+export default obc(({ style }, { $, navigation }) => {
+  rerender('Mono.Works')
 
-const memoStyles = _.memoStyles(_ => ({
+  if (!$.works.length) return null
+
+  return <Works navigation={navigation} style={style} works={$.works} />
+})
+
+const styles = _.create({
   container: {
     paddingLeft: _.wind,
     paddingBottom: _.md
@@ -108,10 +114,6 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingVertical: _.md,
     paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
   },
   content: {
     marginLeft: _.sm + 4
@@ -124,4 +126,4 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: 2,
     marginLeft: _.xs
   }
-}))
+})
