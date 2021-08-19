@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-14 10:50:53
+ * @Last Modified time: 2021-08-19 17:12:31
  */
 import { Platform, Easing, Animated } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
@@ -41,23 +41,27 @@ const config = {
 }
 
 if (!IOS) {
-  const transitionSpec = {
-    duration: 448,
-    // easing: Easing.out(Easing.poly(3)),
-    easing: Easing.bezier(0.35, 0.45, 0, 1),
-    timing: Animated.timing,
-    useNativeDriver: true
-  }
   config.transitionConfig = () => {
     const { transition } = systemStore.setting
     if (transition === 'vertical') {
       return {
-        transitionSpec,
+        transitionSpec: {
+          duration: 448,
+          easing: Easing.bezier(0.35, 0.45, 0, 1),
+          timing: Animated.timing,
+          useNativeDriver: true
+        },
         screenInterpolator: StackViewStyleInterpolator.forVertical
       }
     }
+
     return {
-      transitionSpec,
+      transitionSpec: {
+        duration: 480,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+        useNativeDriver: true
+      },
       screenInterpolator: StackViewStyleInterpolator.forHorizontal
     }
   }
