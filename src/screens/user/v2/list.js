@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:00:58
+ * @Last Modified time: 2021-08-19 12:51:00
  */
 import React from 'react'
-import { Loading, ListView, Heatmap } from '@components'
+import { Loading, ListView } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
@@ -39,6 +39,13 @@ class List extends React.Component {
     }
   }
 
+  connectRef = ref => {
+    const { $ } = this.context
+    const { title } = this.props
+    const index = tabs.findIndex(item => item.title === title)
+    return $.connectRef(ref, index)
+  }
+
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     const { list, subjectType } = $.state
@@ -51,6 +58,15 @@ class List extends React.Component {
 
     const typeCn = MODEL_SUBJECT_TYPE.getTitle(subjectType)
     if (list) {
+      // {index === 0 && (
+      //   <Heatmap
+      //     id='我的.跳转'
+      //     data={{
+      //       to: 'Subject',
+      //       alias: '条目'
+      //     }}
+      //   />
+      // )}
       return (
         <ItemCollections
           navigation={navigation}
@@ -62,28 +78,14 @@ class List extends React.Component {
           event={event}
           showLabel={false}
           {...item}
-        >
-          {index === 0 && (
-            <Heatmap
-              id='我的.跳转'
-              data={{
-                to: 'Subject',
-                alias: '条目'
-              }}
-            />
-          )}
-        </ItemCollections>
+        />
       )
     }
 
     const needResetMarginLeft = _.isPad && index % gridNum === 0
     return (
       <ItemCollectionsGrid
-        style={
-          needResetMarginLeft && {
-            marginLeft: _.wind + _._wind
-          }
-        }
+        style={needResetMarginLeft && styles.resetML}
         navigation={navigation}
         index={index}
         num={4}
@@ -114,10 +116,9 @@ class List extends React.Component {
 
     const { list, page, isFocused } = $.state
     const numColumns = list ? undefined : gridNum
-    const index = tabs.findIndex(item => item.title === title)
     return (
       <ListView
-        ref={ref => $.connectRef(ref, index)}
+        ref={this.connectRef}
         key={`${$.subjectType}${String(numColumns)}`}
         keyExtractor={keyExtractor}
         style={!IOS && styles.androidWrap}
@@ -144,5 +145,8 @@ const styles = _.create({
   contentContainerStyle: {
     paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight,
     minHeight: _.window.height + H_BG - _.tabBarHeight - H_TOOLBAR
+  },
+  resetML: {
+    marginLeft: _.wind + _._wind
   }
 })

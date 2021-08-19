@@ -3,16 +3,17 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-14 16:57:49
+ * @Last Modified time: 2021-08-19 14:56:50
  */
 import React from 'react'
+import isEqual from 'lodash.isequal'
 
 function compareLog(prev, next) {
   const unsameKeys = []
 
   Object.keys(prev).forEach(key => {
     if (typeof prev[key] === 'object') {
-      if (JSON.stringify(prev[key]) === JSON.stringify(next[key])) return
+      if (isEqual(prev[key], next[key])) return
     } else if (prev[key] === next[key]) return
 
     unsameKeys.push(key)
@@ -73,9 +74,7 @@ function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
   const _prevProps = propsOrKeys ? {} : prevProps
   const _nextProps = propsOrKeys ? {} : nextProps
   if (propsOrKeys) {
-    const _keys = Array.isArray(propsOrKeys)
-      ? propsOrKeys
-      : Object.keys(propsOrKeys)
+    const _keys = Array.isArray(propsOrKeys) ? propsOrKeys : Object.keys(propsOrKeys)
 
     _keys.forEach(key => {
       mapKey(_prevProps, key, prevProps[key])
@@ -83,7 +82,7 @@ function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
     })
   }
 
-  const notUpdate = JSON.stringify(_prevProps) === JSON.stringify(_nextProps)
+  const notUpdate = isEqual(_prevProps, _nextProps)
   if (dev && !notUpdate) compareLog(_prevProps, _nextProps)
 
   return notUpdate
@@ -107,12 +106,7 @@ export default function memo(Component, defaultProps, customCompareFn, dev) {
 
   return React.memo(Component, (prevProps, nextProps) =>
     typeof customCompareFn === 'function'
-      ? memoCompare(
-          customCompareFn(prevProps),
-          customCompareFn(nextProps),
-          null,
-          _dev
-        )
+      ? memoCompare(customCompareFn(prevProps), customCompareFn(nextProps), null, _dev)
       : memoCompare(prevProps, nextProps, Component.defaultProps, _dev)
   )
 }

@@ -33,6 +33,7 @@
     "expo-updates": "~0.2.10",
     "expo-web-browser": "~8.3.1",
     "hoist-non-react-statics": "^2.5.0",
+    "lodash.isequal": "^4.5.0",
     "mobx": "4.9.2",
     "mobx-react": "5.4.3",
     "mobx-react-lite": "^2.0.7",

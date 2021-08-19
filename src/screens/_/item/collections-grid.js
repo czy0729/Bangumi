@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:03:40
+ * @Last Modified time: 2021-08-19 13:56:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,8 @@ import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { ob } from '@utils/decorators'
-import { EVENT } from '@constants'
+import { memo, ob } from '@utils/decorators'
+import { EVENT, DEV } from '@constants'
 import { Tag, Cover, Stars, Rank } from '../base'
 
 const hitSlop = {
@@ -20,27 +20,48 @@ const hitSlop = {
   bottom: _.device(10, 4),
   left: _.device(4, 4)
 }
+const defaultProps = {
+  navigation: {},
+  style: {},
+  num: 3,
+  id: 0,
+  name: '',
+  nameCn: '',
+  cover: '',
+  score: '',
+  rank: '',
+  typeCn: '',
+  collection: '',
+  aid: '',
+  wid: '',
+  mid: '',
+  textOnly: DEV,
+  isCollect: false,
+  event: EVENT
+}
 
-export const ItemCollectionsGrid = ob(
+const Item = memo(
   ({
-    style,
     navigation,
-    event = EVENT,
+    style,
+    num,
     id,
-    cover,
     name,
     nameCn,
+    cover,
     score,
-    isCollect,
-    collection,
-    typeCn,
-    textOnly,
-    num = 3,
     rank,
+    typeCn,
+    collection,
     aid,
     wid,
-    mid
+    mid,
+    textOnly,
+    isCollect,
+    event
   }) => {
+    rerender('Component.ItemCollectionsGrid.Main')
+
     const gridStyles = _.grid(num)
     const _collection = collection || (isCollect ? '已收藏' : '')
     const onPress = () => {
@@ -64,6 +85,7 @@ export const ItemCollectionsGrid = ob(
         _type: typeCn
       })
     }
+
     return (
       <View
         style={[
@@ -106,6 +128,53 @@ export const ItemCollectionsGrid = ob(
           )}
         </Touchable>
       </View>
+    )
+  },
+  defaultProps
+)
+
+export const ItemCollectionsGrid = ob(
+  ({
+    navigation,
+    style,
+    num,
+    id,
+    name,
+    nameCn,
+    cover,
+    score,
+    rank,
+    typeCn,
+    collection,
+    aid,
+    wid,
+    mid,
+    textOnly,
+    isCollect,
+    event
+  }) => {
+    rerender('Component.ItemCollectionsGrid')
+
+    return (
+      <Item
+        navigation={navigation}
+        style={style}
+        num={num}
+        id={id}
+        name={name}
+        nameCn={nameCn}
+        cover={cover}
+        score={score}
+        rank={rank}
+        typeCn={typeCn}
+        collection={collection}
+        aid={aid}
+        wid={wid}
+        mid={mid}
+        textOnly={textOnly}
+        isCollect={isCollect}
+        event={event}
+      />
     )
   }
 )

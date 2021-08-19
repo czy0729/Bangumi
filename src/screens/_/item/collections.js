@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 11:04:25
+ * @Last Modified time: 2021-08-19 12:45:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,41 +12,67 @@ import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { x18 } from '@utils/app'
-import { ob } from '@utils/decorators'
+import { memo, ob } from '@utils/decorators'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { Tag, Stars, Cover } from '../base'
 import { IconTouchable } from '../icon/touchable'
 
-export const ItemCollections = ob(
+const defaultProps = {
+  navigation: {},
+  styles: {},
+  id: 0,
+  name: '',
+  nameCn: '',
+  tip: '',
+  score: '',
+  tags: '',
+  comments: '',
+  time: '',
+  collection: '',
+  cover: '',
+  type: '',
+  modify: '',
+  showLabel: true,
+  hideScore: false,
+  isDo: false,
+  isOnHold: false,
+  isDropped: false,
+  isCollect: false,
+  isCatalog: false,
+  isEditable: false,
+  event: EVENT,
+  onEdit: Function.prototype
+}
+
+const Item = memo(
   ({
     navigation,
-    index,
+    styles,
     id,
-    cover,
     name,
     nameCn,
     tip,
     score,
-    time,
-    tags = '',
+    tags,
     comments,
-    type,
+    time,
     collection,
-    showLabel = true,
-    hideScore = false,
-    isCollect,
-    isCatalog,
-    isEditable = false,
+    cover,
+    type,
+    modify,
+    showLabel,
+    hideScore,
     isDo,
     isOnHold,
     isDropped,
-    event = EVENT,
-    modify,
-    onEdit = Function.prototype,
-    children
+    isCollect,
+    isCatalog,
+    isEditable,
+    event,
+    onEdit
   }) => {
-    const styles = memoStyles()
-    const isFirst = index === 0
+    rerender('Component.ItemCollections.Main')
+
     const hasName = !!name
     const hasTip = !!tip
     const hasScore = !!score
@@ -95,10 +121,7 @@ export const ItemCollections = ob(
           })
         }}
       >
-        <Flex
-          style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-          align='start'
-        >
+        <Flex style={styles.wrap} align='start'>
           <View style={styles.imgContainer}>
             <Cover
               style={styles.image}
@@ -118,9 +141,7 @@ export const ItemCollections = ob(
               align='start'
             >
               <Flex align='start'>
-                {!!_collection && (
-                  <Tag style={styles.collection} value={_collection} />
-                )}
+                {!!_collection && <Tag style={styles.collection} value={_collection} />}
                 <Flex.Item>
                   <Katakana.Provider
                     itemStyle={styles.katakanas}
@@ -177,8 +198,68 @@ export const ItemCollections = ob(
             </Flex>
           </Flex.Item>
         </Flex>
-        {children}
+        {/* {children} */}
       </Touchable>
+    )
+  },
+  defaultProps
+)
+
+export const ItemCollections = ob(
+  ({
+    navigation,
+    id,
+    name,
+    nameCn,
+    tip,
+    score,
+    tags,
+    comments,
+    time,
+    collection,
+    cover,
+    type,
+    modify,
+    showLabel,
+    hideScore,
+    isDo,
+    isOnHold,
+    isDropped,
+    isCollect,
+    isCatalog,
+    isEditable,
+    event,
+    onEdit
+  }) => {
+    rerender('Component.ItemCollections')
+
+    return (
+      <Item
+        navigation={navigation}
+        styles={memoStyles()}
+        id={id}
+        name={name}
+        nameCn={nameCn}
+        tip={tip}
+        score={score}
+        tags={tags}
+        comments={comments}
+        time={time}
+        collection={collection}
+        cover={cover}
+        type={type}
+        modify={modify}
+        showLabel={showLabel}
+        hideScore={hideScore}
+        isDo={isDo}
+        isOnHold={isOnHold}
+        isDropped={isDropped}
+        isCollect={isCollect}
+        isCatalog={isCatalog}
+        isEditable={isEditable}
+        event={event}
+        onEdit={onEdit}
+      />
     )
   }
 )
@@ -193,10 +274,6 @@ const memoStyles = _.memoStyles(_ => ({
   wrap: {
     paddingVertical: _.space,
     paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
   },
   content: {
     height: IMG_HEIGHT
