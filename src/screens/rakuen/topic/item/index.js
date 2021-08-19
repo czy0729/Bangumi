@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:31:29
+ * @Last Modified time: 2021-08-19 16:42:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -257,8 +257,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorMainLight
   },
   itemJump: {
-    borderWidth: 1,
-    borderColor: _.colorWarning
+    borderBottomWidth: 2,
+    borderColor: _.colorSuccess
   },
   image: {
     marginTop: _.space,

@@ -2,45 +2,62 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-14 15:48:46
+ * @Last Modified time: 2021-08-19 15:53:52
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate, x18 } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { ob } from '@utils/decorators'
+import { memo, ob } from '@utils/decorators'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { Tag, Cover, Stars, Rank } from '../base'
 
-export const ItemSearch = ob(
+const defaultProps = {
+  navigation: {},
+  style: {},
+  id: '',
+  name: '',
+  nameCn: '',
+  cover: '',
+  type: '',
+  typeCn: '',
+  tip: '',
+  rank: '',
+  score: '',
+  total: '',
+  comments: '',
+  collection: '', // 动画才有, 具体收藏状态
+  collected: false, // 是否收藏
+  position: [],
+  event: EVENT
+}
+
+const Item = memo(
   ({
-    style,
     navigation,
-    index,
+    style,
     id,
-    cover,
     name,
     nameCn,
-    tip,
-    score,
-    total,
-    rank,
+    cover,
     type,
     typeCn,
-    collection, // 动画才有, 具体收藏状态
-    collected, // 是否收藏
+    tip,
+    rank,
+    score,
+    total,
     comments,
-    position = [],
-    event = EVENT,
-    children
+    collection,
+    collected,
+    position,
+    event
   }) => {
-    const styles = memoStyles()
+    rerender('Component.ItemSearch.Main')
 
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !id.includes('/subject/')
-    const isFirst = index === 0
     const _collection = collection || (collected ? '已收藏' : '')
     return (
       <Touchable
@@ -59,10 +76,7 @@ export const ItemSearch = ob(
           )
         }
       >
-        <Flex
-          align='start'
-          style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-        >
+        <Flex align='start' style={styles.wrap}>
           <Cover
             style={styles.image}
             src={cover}
@@ -95,12 +109,7 @@ export const ItemSearch = ob(
                   </Katakana.Provider>
                 )}
                 {!!name && name !== nameCn && (
-                  <Katakana
-                    type='sub'
-                    size={12}
-                    lineHeight={15}
-                    numberOfLines={1}
-                  >
+                  <Katakana type='sub' size={12} lineHeight={15} numberOfLines={1}>
                     {HTMLDecode(name)}
                   </Katakana>
                 )}
@@ -109,10 +118,7 @@ export const ItemSearch = ob(
                 {!!_collection && <Tag style={_.ml.sm} value={_collection} />}
                 {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
                 {!!type && (
-                  <Tag
-                    style={_.ml.sm}
-                    value={MODEL_SUBJECT_TYPE.getTitle(type)}
-                  />
+                  <Tag style={_.ml.sm} value={MODEL_SUBJECT_TYPE.getTitle(type)} />
                 )}
               </Flex>
             </Flex>
@@ -137,13 +143,60 @@ export const ItemSearch = ob(
             </Flex>
           </Flex>
         </Flex>
-        {children}
+        {/* {children} */}
       </Touchable>
+    )
+  },
+  defaultProps
+)
+
+export const ItemSearch = ob(
+  ({
+    navigation,
+    style,
+    id,
+    name,
+    nameCn,
+    cover,
+    type,
+    typeCn,
+    tip,
+    rank,
+    score,
+    total,
+    comments,
+    collection,
+    collected,
+    position,
+    event
+  }) => {
+    rerender('Component.ItemSearch')
+
+    return (
+      <Item
+        navigation={navigation}
+        style={style}
+        id={id}
+        name={name}
+        nameCn={nameCn}
+        cover={cover}
+        type={type}
+        typeCn={typeCn}
+        tip={tip}
+        rank={rank}
+        score={score}
+        total={total}
+        comments={comments}
+        collection={collection}
+        collected={collected}
+        position={position}
+        event={event}
+      />
     )
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const styles = _.create({
   container: {
     paddingLeft: _.wind
   },
@@ -151,13 +204,9 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.space,
     paddingRight: _.wind
   },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
   content: {
     flex: 1,
     minHeight: IMG_HEIGHT,
     marginLeft: _._wind
   }
-}))
+})
