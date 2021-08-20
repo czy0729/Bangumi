@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 13:18:40
+ * @Last Modified time: 2021-08-20 15:33:46
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,6 +13,7 @@ import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
+import IconHidden from './icon/hidden'
 
 const thumbWidth = 160 * _.ratio
 const thumbHeight = thumbWidth * 0.56
@@ -47,13 +48,14 @@ class Thumbs extends React.Component {
   render() {
     rerender('Subject.Thumbs')
 
+    const { showThumbs } = systemStore.setting
+    if (showThumbs === -1) return null
+
     const { $ } = this.context
     const { epsThumbs, epsThumbsHeader } = $.state
     if (!epsThumbs.length) return null
 
     const { scrolled } = this.state
-    const { showThumbs } = systemStore.setting
-
     const thumbs = epsThumbs.map(item => ({
       url: item.split('@')[0], // 参数: bilibili为@, youku没有, iqiyi看不懂不作处理
       headers: epsThumbsHeader
@@ -66,6 +68,7 @@ class Thumbs extends React.Component {
       <View style={[_.mt.lg, !showThumbs && _.short]}>
         <SectionTitle
           style={_.container.wind}
+          right={!showThumbs && <IconHidden name={title} value='showThumbs' />}
           icon={!showThumbs && 'md-navigate-next'}
           onPress={() => $.switchBlock('showThumbs')}
         >

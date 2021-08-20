@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 13:27:38
+ * @Last Modified time: 2021-08-20 15:37:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { obc, memo } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import IconWiki from './icon/wiki'
+import IconHidden from './icon/hidden'
 
 const defaultProps = {
   navigation: {},
@@ -32,13 +33,12 @@ const Info = memo(
     } catch (error) {
       warn('home/subject/info.js', 'Info', error)
     }
+
     return (
-      <View
-        style={[showInfo && styles.container, _.mt.lg, !showInfo && _.short]}
-      >
+      <View style={[showInfo && styles.container, _.mt.lg, !showInfo && _.short]}>
         <SectionTitle
           style={_.container.wind}
-          right={<IconWiki />}
+          right={showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />}
           icon={!showInfo && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showInfo')}
         >
@@ -86,12 +86,16 @@ const Info = memo(
 
 export default obc((props, { $, navigation }) => {
   rerender('Subject.Info')
+
+  const { showInfo } = systemStore.setting
+  if (showInfo === -1) return null
+
   return (
     <Info
       navigation={navigation}
       styles={memoStyles()}
       subjectId={$.subjectId}
-      showInfo={systemStore.setting.showInfo}
+      showInfo={showInfo}
       info={$.info}
       onSwitchBlock={$.switchBlock}
     />

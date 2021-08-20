@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-14 16:17:39
+ * @Last Modified time: 2021-08-20 16:52:27
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -16,6 +16,29 @@ import {
 export const NAMESPACE = 'System'
 
 // -------------------- init --------------------
+/**
+ * 条目页面
+ * true 显示 | false 折叠 | -1 永久隐藏
+ */
+export const INIT_SUBJECT_LAYOUT = {
+  showRelation: true, // 页面头部关系
+  showTags: true, // 页面标签
+  showSummary: true, // 简介
+  showInfo: true, // 简介
+  showThumbs: true, // 预览图
+  showGameInfo: true, // 游戏条目游戏更多信息
+  showRating: true, // 评分
+  showCharacter: true, // 角色
+  showStaff: true, // 制作人员
+  showRelations: true, // 关联
+  showCatalog: false, // 目录
+  showRecent: false, // 动态
+  showBlog: false, // 日志
+  showTopic: false, // 帖子
+  showLike: false, // 猜你喜欢
+  showComment: true // 吐槽
+}
+
 export const INIT_SETTING = {
   s2t: false, // 简体转繁体
   deepDark: true, // 黑暗模式是否纯黑
@@ -48,26 +71,7 @@ export const INIT_SETTING = {
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   transition: MODEL_SETTING_TRANSITION.getValue('水平'), // 切页动画
-
-  /**
-   * 条目页面
-   */
-  showRelation: true, // 页面头部关系
-  showTags: true, // 页面标签
-  showSummary: true, // 简介
-  showInfo: true, // 简介
-  showThumbs: true, // 预览图
-  showGameInfo: true, // 游戏条目游戏更多信息
-  showRating: true, // 评分
-  showCharacter: true, // 角色
-  showStaff: true, // 制作人员
-  showRelations: true, // 关联
-  showCatalog: false, // 目录
-  showRecent: false, // 动态
-  showBlog: false, // 日志
-  showTopic: false, // 帖子
-  showLike: false, // 猜你喜欢
-  showComment: true // 吐槽
+  ...INIT_SUBJECT_LAYOUT
 }
 
 export const INIT_DEV_EVENT = {

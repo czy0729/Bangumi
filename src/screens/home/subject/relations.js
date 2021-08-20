@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 09:23:43
+ * @Last Modified time: 2021-08-20 16:00:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle, HorizontalList } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import IconHidden from './icon/hidden'
 
 const coverWidth = 80
 const coverHeight = coverWidth * 1.4
@@ -33,6 +34,7 @@ const Relations = memo(
       <View style={[_.mt.lg, !showRelations && _.short]}>
         <SectionTitle
           style={_.container.wind}
+          right={!showRelations && <IconHidden name='关联' value='showRelations' />}
           icon={!showRelations && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showRelations')}
         >
@@ -79,12 +81,13 @@ const Relations = memo(
 export default obc((props, { $, navigation }) => {
   rerender('Subject.Relations')
 
-  if (!$.relations.length) return null
+  const { showRelations } = systemStore.setting
+  if (showRelations === -1 || !$.relations.length) return null
 
   return (
     <Relations
       navigation={navigation}
-      showRelations={systemStore.setting.showRelations}
+      showRelations={showRelations}
       subjectId={$.subjectId}
       relations={$.relations}
       onSwitchBlock={$.switchBlock}

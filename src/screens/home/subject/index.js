@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:33:56
+ * @Last Modified time: 2021-08-20 16:57:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { Heatmap } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { open, copy, runAfter } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
@@ -69,28 +69,35 @@ class Subject extends React.Component {
       heatmap: '条目.右上角菜单',
       extra: <IconShare $={$} navigation={navigation} />,
       popover: {
-        data: [TITLE, '复制链接', '复制分享'],
+        data: [TITLE, '复制链接', '复制分享', '重置布局'],
         onSelect: key => {
           t('条目.右上角菜单', {
             subjectId: $.subjectId,
             key
           })
 
-          switch (key) {
-            case '复制链接':
-              copy($.url)
-              info('已复制链接')
-              break
+          setTimeout(() => {
+            switch (key) {
+              case '复制链接':
+                copy($.url)
+                info('已复制链接')
+                break
 
-            case '复制分享':
-              copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`)
-              info('已复制分享文案')
-              break
+              case '复制分享':
+                copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`)
+                info('已复制分享文案')
+                break
 
-            default:
-              open($.url)
-              break
-          }
+              case '重置布局':
+                systemStore.resetSubjectLayout()
+                info('已重置')
+                break
+
+              default:
+                open($.url)
+                break
+            }
+          }, 0)
         }
       }
     })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 09:38:55
+ * @Last Modified time: 2021-08-20 15:28:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc, memo } from '@utils/decorators'
 import IconTranslate from './icon/translate'
+import IconHidden from './icon/hidden'
 
 const defaultProps = {
   styles: {},
@@ -34,7 +35,13 @@ const Summary = memo(
         ]}
       >
         <SectionTitle
-          right={<IconTranslate />}
+          right={
+            showSummary ? (
+              <IconTranslate />
+            ) : (
+              <IconHidden name='简介' value='showSummary' />
+            )
+          }
           icon={!showSummary && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showSummary')}
         >
@@ -76,12 +83,13 @@ const Summary = memo(
 export default obc((props, { $ }) => {
   rerender('Subject.Summary')
 
-  if ($.subject._loaded && !$.summary) return null
+  const { showSummary } = systemStore.setting
+  if (showSummary === -1 || ($.subject._loaded && !$.summary)) return null
 
   return (
     <Summary
       styles={memoStyles()}
-      showSummary={systemStore.setting.showSummary}
+      showSummary={showSummary}
       translateResult={$.state.translateResult}
       content={$.summary.replace(/\r\n\r\n/g, '\r\n')}
       onSwitchBlock={$.switchBlock}

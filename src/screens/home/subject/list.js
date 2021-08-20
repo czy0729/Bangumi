@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 07:38:35
+ * @Last Modified time: 2021-08-20 16:35:51
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -61,6 +61,7 @@ class List extends React.Component {
         removeClippedSubviews={false}
         scrollEventThrottle={16}
         scrollToTop
+        footerEmptyDataComponent={$.footerEmptyDataComponent}
         refreshControlProps={refreshControlProps}
         ListHeaderComponent={<Header />}
         renderItem={this.renderItem}

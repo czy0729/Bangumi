@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 09:29:55
+ * @Last Modified time: 2021-08-20 15:16:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,14 @@ import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HENTAI_TAGS } from '@utils/subject/hentai'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import IconHidden from './icon/hidden'
 
 const defaultProps = {
   navigation: {},
   styles: {},
   subjectId: 0,
   subjectType: '',
+  showTags: true,
   tag: [],
   tags: [],
   hentaiTags: [],
@@ -40,14 +42,9 @@ const Tags = memo(
     rerender('Subject.Tags.Main')
 
     return (
-      <View
-        style={[
-          _.container.wind,
-          _.mt.lg,
-          showTags ? styles.container : _.short
-        ]}
-      >
+      <View style={[_.container.wind, _.mt.lg, showTags ? styles.container : _.short]}>
         <SectionTitle
+          right={!showTags && <IconHidden name='标签' value='showTags' />}
           icon={!showTags && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showTags')}
         >
@@ -143,13 +140,16 @@ const Tags = memo(
 export default obc((props, { $, navigation }) => {
   rerender('Subject.Tags')
 
+  const { showTags } = systemStore.setting
+  if (showTags === -1) return null
+
   return (
     <Tags
       navigation={navigation}
       styles={memoStyles()}
       subjectId={$.subjectId}
       subjectType={$.subjectType}
-      showTags={systemStore.setting.showTags}
+      showTags={showTags}
       tag={$.collection.tag}
       tags={$.tags}
       hentaiTags={$.hentaiInfo?.tags}

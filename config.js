@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:15:12
+ * @Last Modified time: 2021-08-20 16:35:21
  */
 export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const INIT_ROUTE = 'Home'
-export const RERENDER_SHOW = /Component.Cover/
+export const RERENDER_SHOW = /ZZZ/
 // export const RERENDER_SHOW = /Rakuen\.(.+?)\.Main/
 
 export default {

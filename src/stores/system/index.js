@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 18:26:37
+ * @Last Modified time: 2021-08-20 16:53:45
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -28,6 +28,7 @@ import {
 import UserStore from '../user'
 import {
   NAMESPACE,
+  INIT_SUBJECT_LAYOUT,
   INIT_SETTING,
   INIT_DEV_EVENT,
   INIT_RELEASE,
@@ -94,15 +95,7 @@ class System extends store {
 
   init = async () => {
     await this.readStorage(
-      [
-        'ota',
-        'advance',
-        'setting',
-        'release',
-        'dev',
-        'devEvent',
-        'iosUGCAgree'
-      ],
+      ['ota', 'advance', 'setting', 'release', 'dev', 'devEvent', 'iosUGCAgree'],
       NAMESPACE
     )
 
@@ -312,6 +305,34 @@ class System extends store {
       [key]: {
         ...this.setting,
         [switchKey]: !this.setting[switchKey]
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 对指定设置直接赋值 (暂用于永久隐藏条目页面板块)
+   */
+  setSetting = (switchKey, value = true) => {
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        [switchKey]: value
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 条目页面重置布局
+   */
+  resetSubjectLayout = () => {
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        ...INIT_SUBJECT_LAYOUT
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

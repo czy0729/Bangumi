@@ -6,8 +6,10 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:58:46
+ * @Last Modified time: 2021-08-20 16:46:44
  */
+import React from 'react'
+import { View } from 'react-native'
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import {
@@ -208,9 +210,7 @@ export default class ScreenSubject extends store {
   fetchSubjectFormCDN = async () => {
     const { setting } = systemStore
     const { _loaded } = this.subjectFormHTML
-    if (!setting.cdn || _loaded) {
-      return true
-    }
+    if (!setting.cdn || _loaded) return true
     return subjectStore.fetchSubjectFormCDN(this.subjectId)
   }
 
@@ -508,6 +508,13 @@ export default class ScreenSubject extends store {
     return showComment
   }
 
+  @computed get footerEmptyDataComponent() {
+    if (this.showComment === -1) {
+      return <View />
+    }
+    return undefined
+  }
+
   /**
    * bgm链接
    */
@@ -565,7 +572,7 @@ export default class ScreenSubject extends store {
    */
   @computed get subjectComments() {
     const subjectComments = subjectStore.subjectComments(this.subjectId)
-    if (!this.showComment) {
+    if (!this.showComment || this.showComment === -1) {
       const { pageTotal } = subjectComments.pagination || 1
       return {
         list: [],
@@ -1432,6 +1439,18 @@ export default class ScreenSubject extends store {
     })
 
     systemStore.switchSetting(key)
+  }
+
+  /**
+   * 展开收起功能块
+   * @param {*} key
+   */
+  hiddenBlock = key => {
+    t('条目.展开收起功能块', {
+      key: `${key} | -1`
+    })
+
+    systemStore.setSetting(key, -1)
   }
 
   /**

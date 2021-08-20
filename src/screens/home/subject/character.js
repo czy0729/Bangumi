@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 09:07:05
+ * @Last Modified time: 2021-08-20 15:49:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,11 +12,9 @@ import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconCharacter from './icon/character'
+import IconHidden from './icon/hidden'
 
-const initialRenderNums = _.device(
-  Math.floor(_.window.contentWidth / 56) + 1,
-  8
-)
+const initialRenderNums = _.device(Math.floor(_.window.contentWidth / 56) + 1, 8)
 const defaultProps = {
   navigation: {},
   showCharacter: true,
@@ -32,7 +30,13 @@ const Character = memo(
       <View style={[_.mt.lg, !showCharacter && _.short]}>
         <SectionTitle
           style={_.container.wind}
-          right={<IconCharacter />}
+          right={
+            showCharacter ? (
+              <IconCharacter />
+            ) : (
+              <IconHidden name='角色' value='showCharacter' />
+            )
+          }
           icon={!showCharacter && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showCharacter')}
         >
@@ -77,12 +81,13 @@ const Character = memo(
 export default obc((props, { $, navigation }) => {
   rerender('Subject.Character')
 
-  if (!$.crt.length) return null
+  const { showCharacter } = systemStore.setting
+  if (showCharacter === -1 || !$.crt.length) return null
 
   return (
     <Character
       navigation={navigation}
-      showCharacter={systemStore.setting.showCharacter}
+      showCharacter={showCharacter}
       subjectId={$.subjectId}
       crt={$.crt}
       onSwitchBlock={$.switchBlock}

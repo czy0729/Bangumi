@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 07:42:15
+ * @Last Modified time: 2021-08-20 16:15:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle, Avatar, Stars } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
+import IconHidden from './icon/hidden'
 
 const defaultProps = {
   navigation: {},
@@ -29,6 +30,7 @@ const Recent = memo(
       <View style={[_.mt.lg, !showRecent && _.short]}>
         <SectionTitle
           style={_.container.wind}
+          right={!showRecent && <IconHidden name='动态' value='showRecent' />}
           icon={!showRecent && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showRecent')}
         >
@@ -62,9 +64,7 @@ const Recent = memo(
                       <Text size={13} bold>
                         {item.name}
                       </Text>
-                      {!hideScore && (
-                        <Stars style={_.ml.xs} value={item.star} simple />
-                      )}
+                      {!hideScore && <Stars style={_.ml.xs} value={item.star} simple />}
                     </Flex>
                     <Text style={_.mt.xs} size={10} type='sub'>
                       {item.status}
@@ -90,6 +90,9 @@ const Recent = memo(
 export default obc((props, { $, navigation }) => {
   rerender('Subject.Recent')
 
+  const { showRecent } = systemStore.setting
+  if (showRecent === -1) return null
+
   const { who } = $.subjectFormHTML
   let _who = who || []
   if ($.filterDefault || $.isLimit) {
@@ -100,7 +103,7 @@ export default obc((props, { $, navigation }) => {
   return (
     <Recent
       navigation={navigation}
-      showRecent={systemStore.setting.showRecent}
+      showRecent={showRecent}
       subjectId={$.subjectId}
       who={_who}
       hideScore={$.hideScore}

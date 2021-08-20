@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 13:02:49
+ * @Last Modified time: 2021-08-20 16:44:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -15,6 +15,7 @@ import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { CDN_GAME } from '@constants/cdn'
 import IconPS from './icon/ps'
+import IconHidden from './icon/hidden'
 
 const thumbWidth = 160 * _.ratio
 const thumbHeight = thumbWidth * 0.56
@@ -42,9 +43,7 @@ class Game extends React.Component {
       return []
     }
 
-    return new Array(length)
-      .fill()
-      .map((item, index) => CDN_GAME($.subjectId, index))
+    return new Array(length).fill().map((item, index) => CDN_GAME($.subjectId, index))
   }
 
   get isADV() {
@@ -93,8 +92,7 @@ class Game extends React.Component {
 
   renderDetails() {
     const { $ } = this.context
-    const { title, sub, tag, platform, time, timeCn, dev, publish, vid } =
-      $.gameInfo
+    const { title, sub, tag, platform, time, timeCn, dev, publish, vid } = $.gameInfo
     return (
       <View style={[_.container.wind, _.mt.md]}>
         {this.isADV && title !== sub && (
@@ -150,9 +148,7 @@ class Game extends React.Component {
             open(
               `https://search.bilibili.com/all?keyword=${encodeURIComponent(
                 $.jp || $.cn
-              )}%20${
-                this.isADV ? 'OP' : 'PV'
-              }&order=totalrank&duration=1&tids_1=4`
+              )}%20${this.isADV ? 'OP' : 'PV'}&order=totalrank&duration=1&tids_1=4`
             )
           }
         >
@@ -165,17 +161,23 @@ class Game extends React.Component {
   render() {
     rerender('Subject.Game')
 
+    const { showGameInfo } = systemStore.setting
     const { $ } = this.context
-    if (!$.gameInfo || !$.gameInfo.id) {
+    if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.id) {
       return null
     }
 
-    const { showGameInfo } = systemStore.setting
     return (
       <View style={_.mt.lg}>
         <SectionTitle
           style={_.container.wind}
-          right={!this.isADV && <IconPS />}
+          right={
+            !showGameInfo ? (
+              <IconHidden name='游戏' value='showGameInfo' />
+            ) : (
+              !this.isADV && <IconPS />
+            )
+          }
           icon={!showGameInfo && 'md-navigate-next'}
           onPress={() => $.switchBlock('showGameInfo')}
         >
