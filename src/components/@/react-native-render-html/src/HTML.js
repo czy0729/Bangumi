@@ -3,17 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-07 01:22:42
+ * @Last Modified time: 2021-08-20 18:03:31
  */
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  Text,
-  ViewPropTypes,
-  ActivityIndicator,
-  Dimensions
-} from 'react-native'
+import { View, Text, ViewPropTypes, ActivityIndicator, Dimensions } from 'react-native'
 import {
   cssStringToRNStyle,
   _getElementClassStyles,
@@ -165,10 +159,7 @@ export default class HTML extends PureComponent {
         return false
       }
     } else {
-      console.warn(
-        'react-native-render-html',
-        'Please provide the html or uri prop.'
-      )
+      console.warn('react-native-render-html', 'Please provide the html or uri prop.')
     }
   }
 
@@ -198,12 +189,8 @@ export default class HTML extends PureComponent {
   }
 
   generateDefaultStyles(baseFontStyle = this.props.baseFontStyle) {
-    this.defaultBlockStyles = generateDefaultBlockStyles(
-      baseFontStyle.fontSize || 14
-    )
-    this.defaultTextStyles = generateDefaultTextStyles(
-      baseFontStyle.fontSize || 14
-    )
+    this.defaultBlockStyles = generateDefaultBlockStyles(baseFontStyle.fontSize || 14)
+    this.defaultTextStyles = generateDefaultTextStyles(baseFontStyle.fontSize || 14)
   }
 
   /**
@@ -307,10 +294,7 @@ export default class HTML extends PureComponent {
     } = props
     let RNElements = DOMNodes.map((node, nodeIndex) => {
       let { children, data } = node
-      if (
-        ignoreNodesFunction &&
-        ignoreNodesFunction(node, parentTag) === true
-      ) {
+      if (ignoreNodesFunction && ignoreNodesFunction(node, parentTag) === true) {
         return false
       }
       if (
@@ -442,11 +426,7 @@ export default class HTML extends PureComponent {
       })
       .map((parsedNode, nodeIndex) => {
         const { wrapper, attribs, tagName, children } = parsedNode
-        if (
-          wrapper === 'View' &&
-          attribs &&
-          this.wrapperHasTextChild(children)
-        ) {
+        if (wrapper === 'View' && attribs && this.wrapperHasTextChild(children)) {
           // When encountering a View wrapper that has some styles and also Text children,
           // let's filter out text-only styles and apply those to *all* Text children and
           // remove them from the wrapper, mimicking browsers' behaviour better.
@@ -478,9 +458,7 @@ export default class HTML extends PureComponent {
               // Set (or merge) the inherited text styles extracted from the wrapper for
               // each Text child
               if (!attribs.style) {
-                child.attribs.style = cssObjectToString(
-                  textChildrenInheritedStyles
-                )
+                child.attribs.style = cssObjectToString(textChildrenInheritedStyles)
               } else {
                 child.attribs.style = cssObjectToString({
                   ...textChildrenInheritedStyles,
@@ -525,15 +503,8 @@ export default class HTML extends PureComponent {
 
     return RNElements && RNElements.length
       ? RNElements.map((element, index) => {
-          const {
-            attribs,
-            data,
-            tagName,
-            parentTag,
-            children,
-            nodeIndex,
-            wrapper
-          } = element
+          const { attribs, data, tagName, parentTag, children, nodeIndex, wrapper } =
+            element
           const Wrapper = wrapper === 'Text' ? Text : View
           const key = `${wrapper}-${parentIndex}-${nodeIndex}-${tagName}-${index}-${parentTag}`
           const convertedCSSStyles =
@@ -620,9 +591,9 @@ export default class HTML extends PureComponent {
 
           const style = [
             !tagsStyles || !tagsStyles[tagName]
-              ? (Wrapper === Text
-                  ? this.defaultTextStyles
-                  : this.defaultBlockStyles)[tagName]
+              ? (Wrapper === Text ? this.defaultTextStyles : this.defaultBlockStyles)[
+                  tagName
+                ]
               : undefined,
             tagsStyles ? tagsStyles[tagName] : undefined,
             classStyles,
@@ -645,12 +616,8 @@ export default class HTML extends PureComponent {
   }
 
   render() {
-    const {
-      allowFontScaling,
-      customWrapper,
-      remoteLoadingView,
-      remoteErrorView
-    } = this.props
+    const { allowFontScaling, customWrapper, remoteLoadingView, remoteErrorView } =
+      this.props
     const { RNNodes, loadingRemoteURL, errorLoadingRemoteURL } = this.state
     if (!RNNodes && !loadingRemoteURL && !errorLoadingRemoteURL) {
       return null

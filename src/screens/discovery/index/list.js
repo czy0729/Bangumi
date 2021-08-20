@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 13:57:46
+ * @Last Modified time: 2021-08-20 19:35:28
  */
 import React from 'react'
 import { HorizontalList } from '@components'
@@ -90,6 +90,7 @@ export default obc(({ style, type = 'anime' }, { $ }) => {
   return (
     <List
       style={style}
+      type={type}
       list={list}
       friendsChannel={$.friendsChannel(type)}
       friendsMap={$.friendsMap}

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 18:03:22
+ * @Last Modified time: 2021-08-20 18:34:50
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './thirdParty/html-parser'
@@ -27,9 +27,8 @@ export function removeHTMLTag(str) {
  * @param {*} str
  */
 export function HTMLDecode(str = '') {
-  if (str.length === 0) {
-    return ''
-  }
+  if (str.length === 0) return ''
+
   return (
     str
       .replace(/&amp;/g, '&')
@@ -40,6 +39,22 @@ export function HTMLDecode(str = '') {
       .replace(/&#39;/g, "'")
       .replace(/&quot;/g, '"')
   )
+}
+
+/**
+ * HTML转义
+ * @param {*} str
+ */
+export function HTMLEncode(str = '') {
+  if (str.length === 0) return ''
+
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/ /g, '&nbsp;')
+    .replace(/'/g, '&#39;')
+    .replace(/"/g, '&quot;')
 }
 
 /**
@@ -163,8 +178,7 @@ export function findTreeNode(children, cmd = '', defaultValue) {
               item.attrs[_attr] &&
               item.attrs[_attr].indexOf(_value) !== -1
           } else if (_attr) {
-            match =
-              match && item.tag === _tag && item.attrs[_attr] !== undefined
+            match = match && item.tag === _tag && item.attrs[_attr] !== undefined
           }
         } else {
           // =
@@ -177,8 +191,7 @@ export function findTreeNode(children, cmd = '', defaultValue) {
             if (_attr === 'text') {
               match = match && item.tag === _tag && item.text.length !== 0
             } else {
-              match =
-                match && item.tag === _tag && item.attrs[_attr] !== undefined
+              match = match && item.tag === _tag && item.attrs[_attr] !== undefined
             }
           }
         }

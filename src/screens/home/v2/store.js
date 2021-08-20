@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-09 08:33:12
+ * @Last Modified time: 2021-08-20 19:36:45
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -923,7 +923,8 @@ export default class ScreenHomeV2 extends store {
       subjectId,
       _jp: subject.name,
       _cn: subject.name_cn || subject.name,
-      _image: subject?.images?.medium || ''
+      _image: subject?.images?.medium || '',
+      _collection: '在看'
     })
   }
 

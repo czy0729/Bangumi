@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:23:31
+ * @Last Modified time: 2021-08-20 19:22:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,6 +60,7 @@ const spanMark = {
   lineThrough: 'line-through;',
   hidden: 'visibility:hidden;'
 }
+const regFixedQ = /<\/(.+?)\.\.\.<\/span>$/
 
 export const RenderHtml = observer(
   class extends React.Component {
@@ -95,6 +96,8 @@ export const RenderHtml = observer(
     }
 
     componentDidCatch() {
+      console.info('@/components/render-html', 'componentDidCatch')
+
       this.setState({
         error: true
       })
@@ -288,8 +291,7 @@ export const RenderHtml = observer(
               return `<span style="font-family:bgm;font-size:${
                 _baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
               }px;line-height:${
-                _baseFontStyle.lineHeight ||
-                this.defaultBaseFontStyle.lineHeight
+                _baseFontStyle.lineHeight || this.defaultBaseFontStyle.lineHeight
               }px;user-select:all">${bgmMap[index]}</span>`
             }
             return alt
@@ -320,9 +322,7 @@ export const RenderHtml = observer(
         _html = `<div>${_html}</div>`
         const match = _html.match(/>[^<>]+?</g)
         if (match) {
-          match.forEach(
-            item => (_html = _html.replace(item, `><span${item}/span><`))
-          )
+          match.forEach(item => (_html = _html.replace(item, `><span${item}/span><`)))
         }
 
         /**
@@ -331,10 +331,17 @@ export const RenderHtml = observer(
          */
         if (!IOS) {
           if (_html.includes('<q>')) {
-            _html = HTMLDecode(_html).replace(
-              /<q>(.+?)<\/q>/g,
-              (match, q) => `<q>${q.replace(/<img/g, ' img')}</q>`
-            )
+            _html = HTMLDecode(_html).replace(/<q>(.+?)<\/q>/g, (match, q) => {
+              let _q = q.replace(/<img/g, ' img')
+
+              // @hack: 暂时没办法处理像 </smal...结尾这样的情况
+              // 因为之前的错误全局HTMLDecode, 没办法再处理
+              if (regFixedQ.test(_q)) {
+                const { index } = _q.match(regFixedQ)
+                _q = _q.slice(0, index)
+              }
+              return `<q>${_q}</span></q>`
+            })
           }
         }
 

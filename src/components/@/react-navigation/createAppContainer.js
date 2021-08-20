@@ -30,9 +30,7 @@ function validateProps(props) {
   if (keys.length !== 0) {
     throw new Error(
       'This navigator has both navigation and container props, so it is ' +
-        `unclear if it should own its own state. Remove props: "${keys.join(
-          ', '
-        )}" ` +
+        `unclear if it should own its own state. Remove props: "${keys.join(', ')}" ` +
         'if the navigator should get its state from the navigation prop. If the ' +
         'navigator should maintain its own state, do not pass a navigation prop.'
     )
@@ -224,8 +222,7 @@ export default function createNavigationContainer(Component) {
       let action = this._initialAction
       let startupState = this.state.nav
       if (!startupState) {
-        !!process.env.REACT_NAV_LOGGING &&
-          console.log('Init new Navigation State')
+        !!process.env.REACT_NAV_LOGGING && console.log('Init new Navigation State')
         startupState = Component.router.getStateForAction(action)
       }
 
@@ -242,21 +239,12 @@ export default function createNavigationContainer(Component) {
       // Pull state out of URL
       if (parsedUrl) {
         const { path, params } = parsedUrl
-        const urlAction = Component.router.getActionForPathAndParams(
-          path,
-          params
-        )
+        const urlAction = Component.router.getActionForPathAndParams(path, params)
         if (urlAction) {
           !!process.env.REACT_NAV_LOGGING &&
-            console.log(
-              'Applying Navigation Action for Initial URL:',
-              parsedUrl
-            )
+            console.log('Applying Navigation Action for Initial URL:', parsedUrl)
           action = urlAction
-          startupState = Component.router.getStateForAction(
-            urlAction,
-            startupState
-          )
+          startupState = Component.router.getStateForAction(urlAction, startupState)
         }
       }
 
@@ -283,6 +271,8 @@ export default function createNavigationContainer(Component) {
     }
 
     componentDidCatch(e) {
+      console.info('@/components/react-navigation', 'componentDidCatch')
+
       if (_reactNavigationIsHydratingState) {
         _reactNavigationIsHydratingState = false
         console.warn(
@@ -323,10 +313,7 @@ export default function createNavigationContainer(Component) {
       this._navState = this._navState || this.state.nav
       const lastNavState = this._navState
       invariant(lastNavState, 'should be set in constructor if stateful')
-      const reducedState = Component.router.getStateForAction(
-        action,
-        lastNavState
-      )
+      const reducedState = Component.router.getStateForAction(action, lastNavState)
       const navState = reducedState === null ? lastNavState : reducedState
 
       const dispatchActionEvents = () => {

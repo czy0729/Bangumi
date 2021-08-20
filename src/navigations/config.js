@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 02:35:01
+ * @Last Modified time: 2021-08-20 17:25:47
  */
 import { Platform, Easing, Animated } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
@@ -16,13 +16,13 @@ const transitionSpecVertical = {
   useNativeDriver: true
 }
 const transitionSpecHorizontal = {
-  duration: IOS ? 400 : 480,
+  duration: IOS ? 400 : 448,
   easing: Easing.out(Easing.poly(3)),
   timing: Animated.timing,
   useNativeDriver: true
 }
 const transitionSpecHorizontalIsBack = {
-  duration: IOS ? 480 : 560,
+  duration: IOS ? 480 : 500,
   easing: Easing.out(Easing.poly(3)),
   timing: Animated.timing,
   useNativeDriver: true
