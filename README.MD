@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.14.0" src="https://img.shields.io/badge/Version-4.14.0-0366d6" />
+  <img alt="Version: 5.1.0" src="https://img.shields.io/badge/Version-5.1.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,32 +46,18 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v5.0.3 - 2021/08/03
-
-—— 优化 ——
-
-- [x] 所有可点击区域增大响应范围
-
-—— 修复 ——
-
-- [x] [首页] 网格布局 ep 改成 4 行, 以规避很多 bug
-- [x] [吐槽] 修复吐槽详情页某些情况文字丢失问题
-
-v5.0.0 - 2021/07/19
+v5.1.0 - 2021/08/20
 
 —— 新增 ——
 
-- [x] [条目] 新增海报分享图
-- [x] [条目] 可以查询到修订历史、增改封面
-- [x] [条目] 日志块右侧新增更多
-- [x] 重新适配 Pad 布局 (beta, 结构不变, 调整了图片、文字的大小和行高)
+- [x] [条目] 评论也支持不显示 (点击吐槽标题切换)
+- [x] [条目] 隐藏一个功能块后, 可以继续对其操作, 进行永久隐藏
+- [x] 部分页面, 右上角菜单若有复制链接, 增加复制分享文案按钮
 
 —— 优化 ——
 
-- [x] [条目] 日志右上角添加更多
-- [x] [发现] 功能迭代
-- [x] [帖子] 屏蔽用户添加二次确认
-- [x] 包继续缩小, 移除无法维护的数据
+- [x] 对几个主要页面的代码都做了重构优化, 以减少重绘, 帧率应该会高点?
+- [x] 现在开启隐藏评分后, 排名也不会显示了
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
