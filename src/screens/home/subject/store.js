@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 16:46:44
+ * @Last Modified time: 2021-08-25 12:00:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,8 @@ import {
   SITE_XUNBO,
   SITE_RRYS,
   SITE_WK8,
-  SITE_MANHUADB
+  SITE_MANHUADB,
+  SITE_WNACG
 } from '@constants/site'
 // import { NINGMOE_ID } from '@constants/online'
 
@@ -720,6 +721,20 @@ export default class ScreenSubject extends store {
     return data
   }
 
+  @computed get onlineComicOrigins() {
+    const data = []
+
+    if (this.jp) {
+      data.push(`[绅士漫画] ${this.jp} (需飞机)`)
+    }
+
+    if (this.cn && this.cn !== this.jp) {
+      data.push(`[绅士漫画] ${this.cn} (需飞机)`)
+    }
+
+    return data
+  }
+
   /**
    * 是否PS游戏, 跳转psnine查看奖杯
    */
@@ -1254,13 +1269,13 @@ export default class ScreenSubject extends store {
    * @params {*} key
    */
   onlinePlaySelected = key => {
-    t('条目.搜索源', {
-      type: key,
-      subjectId: this.subjectId,
-      subjectType: this.type
-    })
-
     try {
+      t('条目.搜索源', {
+        type: key,
+        subjectId: this.subjectId,
+        subjectType: this.type
+      })
+
       const { _aid } = this.params
       const { bangumiInfo } = this.state
       const { sites = [] } = bangumiInfo
@@ -1322,6 +1337,45 @@ export default class ScreenSubject extends store {
       }
     } catch (error) {
       warn(namespace, 'onlinePlaySelected', error)
+    }
+  }
+
+  onlineComicSelected = key => {
+    try {
+      let _key
+      if (key.includes('绅士漫画')) {
+        _key = 'wnacg.org'
+      }
+
+      t('条目.搜索源', {
+        type: _key,
+        subjectId: this.subjectId,
+        subjectType: this.type
+      })
+
+      let url
+      let q
+      switch (_key) {
+        case 'wnacg.org':
+          q = key.replace('[绅士漫画] ', '').replace(' (需飞机)', '')
+          url = `${SITE_WNACG()}/search/?q=${encodeURIComponent(
+            q
+          )}&f=_all&s=create_time_DESC`
+          break
+
+        default:
+          break
+      }
+
+      if (url) {
+        copy(url)
+        info('已复制地址')
+        setTimeout(() => {
+          open(url)
+        }, 1600)
+      }
+    } catch (error) {
+      warn(namespace, 'onlineComicSelected', error)
     }
   }
 

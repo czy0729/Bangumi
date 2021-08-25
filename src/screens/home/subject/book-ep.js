@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 12:08:55
+ * @Last Modified time: 2021-08-25 11:23:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,7 @@ const BookEp = memo(
         </SectionTitle>
         <Flex style={_.mt.md} align='start'>
           {status.name === '未收藏' ? (
-            <Text type='sub'>收藏后开启管理进度</Text>
+            <Text type='sub'>收藏后开启管理</Text>
           ) : (
             <>
               <Flex.Item>
@@ -174,7 +174,7 @@ const styles = _.create({
     paddingHorizontal: _.sm,
     color: _.colorSub,
     fontWeight: 'bold',
-    ..._.device(_.fontSize11, _.fontSize15)
+    ..._.device(_.fontSize12, _.fontSize15)
   },
   total: {
     position: 'absolute',

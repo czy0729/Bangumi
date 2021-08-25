@@ -254,7 +254,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.sm,
     color: _.colorSub,
     fontWeight: 'bold',
-    ..._.device(_.fontSize11, _.fontSize15)
+    ..._.device(_.fontSize12, _.fontSize15)
   },
   total: {
     position: 'absolute',
