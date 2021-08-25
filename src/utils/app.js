@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 04:08:02
+ * @Last Modified time: 2021-08-25 10:45:12
  */
 import * as WebBrowser from 'expo-web-browser'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -23,7 +23,7 @@ const HOST_IMAGE = '//lain.bgm.tv'
  * 启动
  */
 export function bootApp() {
-  console.log('==================== bootApp ====================')
+  console.info('==================== bootApp ====================')
 
   initHashSubjectOTA()
   initHashAvatarOTA()
@@ -93,7 +93,6 @@ export function x18(subjectId, title) {
   if (!filter && title) {
     filter = ['乳', '妻', '淫'].some(item => title.includes(item))
   }
-  // if (DEV && filter) console.log(subjectId, filter)
   return filter
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-25 21:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 23:05:32
+ * @Last Modified time: 2021-08-25 10:48:37
  */
 import { log } from '@utils/dev'
 import { DEV } from '@constants'
@@ -25,7 +25,7 @@ export const navigateOnce = getStateForAction => (action, lastState) => {
   if (type === 'Navigation/PUSH') {
     const currentStringify = `${routeName}/${JSON.stringify(params)}`
     if (!DEV && currentStringify === lastStringify) {
-      log(`🔒 ${routeName}`)
+      console.info(`🔒 ${routeName}`)
       return null
     }
 

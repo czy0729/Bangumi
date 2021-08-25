@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-03 08:28:42
+ * @Last Modified time: 2021-08-25 10:48:02
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import {
@@ -330,7 +330,6 @@ export function analysisSay(HTML) {
     })
     .get()
 
-  log([main, ...sub])
   return [main, ...sub]
 }
 

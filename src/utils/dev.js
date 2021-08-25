@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:24:53
+ * @Last Modified time: 2021-08-25 10:45:52
  */
 import { DEV, LOG_LEVEL } from '@constants'
 import { RERENDER_SHOW } from '../../config'
@@ -96,7 +96,7 @@ function handleCircular() {
  */
 export function globalLog(value, space) {
   if (!DEV) return
-  console.log(JSON.stringify(value, handleCircular(), space))
+  console.info(JSON.stringify(value, handleCircular(), space))
 }
 
 /**

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:02:07
+ * @Last Modified time: 2021-08-25 10:45:06
  */
 import { observable, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -401,7 +401,7 @@ class Collection extends store {
       this.setStorage(key, undefined, NAMESPACE)
     } catch (error) {
       info('时间瓷砖数据生成中，请稍等一下再试')
-      console.log('CollectionStore', 'fetchMosaicTile', error)
+      console.info('CollectionStore', 'fetchMosaicTile', error)
     }
     return this[key]
   }

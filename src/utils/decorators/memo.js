@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 14:56:50
+ * @Last Modified time: 2021-08-25 10:46:05
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
@@ -28,9 +28,9 @@ function compareLog(prev, next) {
     // 不打印styles, 没意义
     if (unsameKeys[0]) {
       if (unsameKeys[0] === 'styles') {
-        console.log('\n', '[update]', unsameKeys[0], '\n')
+        console.info('\n', '[update]', unsameKeys[0], '\n')
       } else {
-        console.log(
+        console.info(
           '\n',
           '[update]',
           `${unsameKeys[0]}:`,

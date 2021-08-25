@@ -43,7 +43,7 @@ function upadteCookie(rsp) {
   let formhash = cheerio
     .load(loginRsp.data)('input[name=formhash]')
     .attr('value')
-  console.log(`formhash=${formhash}`)
+  console.info(`formhash=${formhash}`)
 
   await axios({
     method: 'get',
@@ -75,7 +75,7 @@ function upadteCookie(rsp) {
     })
   })
   upadteCookie(followRsp)
-  console.log(`cookie=${getCookie()}`)
+  console.info(`cookie=${getCookie()}`)
 
   let oauthRsp = await axios({
     method: 'get',
@@ -87,7 +87,7 @@ function upadteCookie(rsp) {
   formhash = cheerio
     .load(oauthRsp.data)('input[name=formhash]')
     .attr('value')
-  console.log(`formhash=${formhash}`)
+  console.info(`formhash=${formhash}`)
 
   oauthRsp = await axios({
     method: 'post',
@@ -109,7 +109,7 @@ function upadteCookie(rsp) {
     .split('=')
     .slice(1)
     .join('=')
-  console.log(`code=${code}`)
+  console.info(`code=${code}`)
 
   let tokenRsp = await axios({
     method: 'post',
@@ -128,7 +128,7 @@ function upadteCookie(rsp) {
       state: ''
     })
   })
-  console.log(tokenRsp.data)
+  console.info(tokenRsp.data)
 })().then(() => {
   readline.close()
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:27:06
+ * @Last Modified time: 2021-08-25 10:44:27
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -53,7 +53,6 @@ export const FilterSwitch = obc(
                       ? undefined
                       : () => {
                           setStorage(FilterSwitchLastPathKey, pathDS[item])
-                          console.log(FilterSwitchLastPathKey, pathDS[item])
                           navigation.replace(pathDS[item])
                         }
                   }

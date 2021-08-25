@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 08:24:49
+ * @Last Modified time: 2021-08-25 10:47:37
  */
 import { InteractionManager, Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -127,7 +127,7 @@ export function open(url) {
     showInRecents: true
   })
 
-  if (DEV) log(url)
+  if (DEV) console.info(url)
 
   return true
 }
