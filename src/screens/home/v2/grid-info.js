@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:28:25
+ * @Last Modified time: 2021-08-30 16:30:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,11 +83,7 @@ class GridInfo extends React.Component {
     return (
       <Touchable style={styles.touchable} onPress={this.onCheckPress}>
         <Flex justify='center'>
-          <Iconfont
-            style={styles.icon}
-            name='md-check-circle-outline'
-            size={18}
-          />
+          <Iconfont style={styles.icon} name='md-check-circle-outline' size={18} />
           <View style={[styles.placeholder, _.ml.sm]}>
             <Text type='sub'>{sort}</Text>
           </View>
@@ -100,10 +96,7 @@ class GridInfo extends React.Component {
     return (
       <Flex>
         {this.renderBtnNextEp()}
-        <Touchable
-          style={[styles.touchable, _.ml.sm]}
-          onPress={this.onStarPress}
-        >
+        <Touchable style={[styles.touchable, _.ml.sm]} onPress={this.onStarPress}>
           <Iconfont name='md-star-outline' size={19} />
         </Touchable>
       </Flex>
@@ -162,11 +155,7 @@ class GridInfo extends React.Component {
         onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
       >
         <Flex justify='center'>
-          <Iconfont
-            style={styles.icon}
-            name='md-check-circle-outline'
-            size={18}
-          />
+          <Iconfont style={styles.icon} name='md-check-circle-outline' size={18} />
         </Flex>
       </Touchable>
     )

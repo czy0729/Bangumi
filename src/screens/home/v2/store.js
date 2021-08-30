@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 19:36:45
+ * @Last Modified time: 2021-08-30 16:46:11
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
 import Modal from '@ant-design/react-native/lib/modal'
 import { Text } from '@components'
-import { Eps } from '@screens/_'
 import {
   _,
   userStore,
@@ -44,6 +43,9 @@ import {
 } from '@constants/model'
 import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS } from '@constants/site'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+
+const PAGE_LIMIT_LIST = 4 * 8
+const PAGE_LIMIT_GRID = 4 * 6
 
 const tabs = [
   {
@@ -302,10 +304,10 @@ export default class ScreenHomeV2 extends store {
         // 支持每个字符首拼音筛选
         if (/^[a-zA-Z]+$/.test(_filter) && cn) {
           if (!pinYinFirstCharacter[cn]) {
-            pinYinFirstCharacter[cn] = getPinYinFirstCharacter(
-              cn,
-              cn.length
-            ).replace(/ /g, '')
+            pinYinFirstCharacter[cn] = getPinYinFirstCharacter(cn, cn.length).replace(
+              / /g,
+              ''
+            )
           }
 
           if (pinYinFirstCharacter[cn].includes(_filter)) {
@@ -352,10 +354,10 @@ export default class ScreenHomeV2 extends store {
         // 支持每个字符首拼音筛选
         if (/^[a-zA-Z]+$/.test(_filter) && cn) {
           if (!pinYinFirstCharacter[cn]) {
-            pinYinFirstCharacter[cn] = getPinYinFirstCharacter(
-              cn,
-              cn.length
-            ).replace(/ /g, '')
+            pinYinFirstCharacter[cn] = getPinYinFirstCharacter(cn, cn.length).replace(
+              / /g,
+              ''
+            )
           }
 
           if (pinYinFirstCharacter[cn].includes(_filter)) {
@@ -424,9 +426,8 @@ export default class ScreenHomeV2 extends store {
         const { length } = eps
 
         // 集数超过了1页的显示个数
-        const isGrid =
-          this.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
-        if (length > (isGrid ? 24 : Eps.pageLimit)) {
+        const isGrid = this.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
+        if (length > (isGrid ? PAGE_LIMIT_GRID : PAGE_LIMIT_LIST)) {
           const userProgress = this.userProgress(subjectId)
           const index = eps.findIndex(
             item => item.type === 0 && userProgress[item.id] !== '看过'
@@ -434,12 +435,12 @@ export default class ScreenHomeV2 extends store {
 
           // 找不到未看集数, 返回最后的数据
           if (index === -1) {
-            return eps.slice(length - Eps.pageLimit - 1, length - 1)
+            return eps.slice(length - PAGE_LIMIT_LIST - 1, length - 1)
           }
 
           // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
           // @notice 注意这里第一个值不能小于0, 不然会返回空
-          return eps.slice(index < 1 ? 0 : index - 1, index + Eps.pageLimit - 1)
+          return eps.slice(index < 1 ? 0 : index - 1, index + PAGE_LIMIT_LIST - 1)
         }
         return eps
       }).get()
@@ -569,9 +570,7 @@ export default class ScreenHomeV2 extends store {
       const _data = []
       const data = [
         ..._data,
-        ...sites
-          .filter(item => SITES_DS.includes(item.site))
-          .map(item => item.site)
+        ...sites.filter(item => SITES_DS.includes(item.site)).map(item => item.site)
       ]
       if (type === 2) {
         data.push('AGE动漫', '迅播动漫')
@@ -647,9 +646,7 @@ export default class ScreenHomeV2 extends store {
 
         return list
           .sort((a, b) => weightMap[b.subject_id] - weightMap[a.subject_id])
-          .sort(
-            (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
-          )
+          .sort((a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0))
       }
 
       // APP顺序
@@ -675,18 +672,14 @@ export default class ScreenHomeV2 extends store {
       })
       return list
         .sort((a, b) => weightMap[b.subject_id] - weightMap[a.subject_id])
-        .sort(
-          (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
-        )
+        .sort((a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0))
     } catch (error) {
       console.warn(`[${namespace}] sortList`, error)
 
       // fallback
       return list
         .sort((a, b) => this.isToday(b.subject_id) - this.isToday(a.subject_id))
-        .sort(
-          (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
-        )
+        .sort((a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0))
     }
   }
 
@@ -879,22 +872,16 @@ export default class ScreenHomeV2 extends store {
           if (find(subjectId).aid) {
             url = `${SITE_AGEFANS()}/detail/${find(subjectId).aid}`
           } else {
-            url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(
-              cn
-            )}&page=1`
+            url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(cn)}&page=1`
           }
           break
 
         case '迅播动漫':
-          url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(
-            cn
-          )}`
+          url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(cn)}`
           break
 
         case '人人影视':
-          url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
-            cn
-          )}&type=resource`
+          url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(cn)}&type=resource`
           break
 
         default:
