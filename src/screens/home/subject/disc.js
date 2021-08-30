@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 12:26:11
+ * @Last Modified time: 2021-08-30 15:49:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,7 +91,11 @@ const Disc = memo(
       </View>
     )
   },
-  defaultProps
+  defaultProps,
+  ({ discTranslateResult, ...other }) => ({
+    discTranslateResult: discTranslateResult.length,
+    ...other
+  })
 )
 
 export default obc((props, { $, navigation }) => {

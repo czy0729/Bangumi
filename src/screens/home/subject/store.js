@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-25 12:00:33
+ * @Last Modified time: 2021-08-30 15:55:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,7 @@ import {
   x18
 } from '@utils/app'
 import store from '@utils/store'
-import { feedback, info, showActionSheet } from '@utils/ui'
+import { feedback, info, showActionSheet, loading } from '@utils/ui'
 import { find as findAnime } from '@utils/subject/anime'
 import { find as findManga } from '@utils/subject/manga'
 import { find as findWenku } from '@utils/subject/wenku'
@@ -1883,8 +1883,12 @@ export default class ScreenSubject extends store {
       subjectId: this.subjectId
     })
 
+    let hide
     try {
+      hide = loading('请求中...')
       const response = await baiduTranslate(this.summary)
+      hide()
+
       const { trans_result: translateResult } = JSON.parse(response)
       if (Array.isArray(translateResult)) {
         this.setState({
@@ -1895,6 +1899,7 @@ export default class ScreenSubject extends store {
       }
       info('翻译失败, 请重试')
     } catch (error) {
+      if (hide) hide()
       info('翻译失败, 请重试')
     }
   }
@@ -1918,8 +1923,12 @@ export default class ScreenSubject extends store {
       })
     })
 
+    let hide
     try {
+      hide = loading('请求中...')
       const response = await baiduTranslate(discTitle.join('\n'))
+      hide()
+
       const { trans_result: discTranslateResult } = JSON.parse(response)
       if (Array.isArray(discTranslateResult)) {
         this.setState({
@@ -1930,6 +1939,7 @@ export default class ScreenSubject extends store {
       }
       info('翻译失败, 请重试')
     } catch (error) {
+      if (hide) hide()
       info('翻译失败, 请重试')
     }
   }
