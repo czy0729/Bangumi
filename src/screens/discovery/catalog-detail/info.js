@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 09:58:41
+ * @Last Modified time: 2021-08-30 19:49:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import {
   Text,
   Loading,
   SegmentedControl,
+  Button,
   Heatmap
 } from '@components'
 import { _ } from '@stores'
@@ -90,7 +91,18 @@ function Info(props, { $, navigation }) {
           进度 {progress.replace('/', ' / ')}
         </Text>
       </Flex>
-      <Flex style={_.mt.lg} justify='end'>
+      <Flex style={_.mt.lg}>
+        <Flex.Item>
+          <Button
+            style={styles.btn}
+            styleText={_.fontSize11}
+            size='mini'
+            type='plain'
+            onPress={$.fetchSubjectQueue}
+          >
+            更新分数
+          </Button>
+        </Flex.Item>
         <SegmentedControl
           style={styles.segmentedControl}
           size={11}
@@ -122,5 +134,9 @@ const styles = _.create({
   },
   loading: {
     height: 120
+  },
+  btn: {
+    width: 82 * _.ratio,
+    height: 22 * _.ratio
   }
 })

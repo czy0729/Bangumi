@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:09:45
+ * @Last Modified time: 2021-08-30 17:04:22
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -34,7 +34,7 @@ class List extends React.Component {
     const catalogs = $.catalogs(id)
     const { _loaded } = catalogs
     if (!_loaded) {
-      return <Loading style={_.container.screen} />
+      return <Loading style={_.container.plain} />
     }
 
     return (

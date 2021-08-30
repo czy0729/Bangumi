@@ -2,22 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 11:16:00
+ * @Last Modified time: 2021-08-30 19:51:36
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
-import {
-  discoveryStore,
-  collectionStore,
-  subjectStore,
-  userStore
-} from '@stores'
+import { discoveryStore, collectionStore, subjectStore, userStore } from '@stores'
 import store from '@utils/store'
-import { info, feedback } from '@utils/ui'
+import { info, feedback, confirm } from '@utils/ui'
 import { t, fetchHTML, queue } from '@utils/fetch'
 import { removeHTMLTag } from '@utils/html'
 import { HOST } from '@constants'
-import rateData from '@constants/json/rate.json'
 
 const namespace = 'ScreenCatalogDetail'
 const excludeState = {
@@ -50,6 +44,28 @@ export default class ScreenCatalogDetail extends store {
       id: this.catalogId
     })
 
+  /**
+   * 批量获取条目评分
+   * 目录没有评分, 需要在详情里面获取
+   */
+  fetchSubjectQueue = () => {
+    const { list } = this.catalogDetail
+    confirm(
+      `更新 ${list.length} 个条目的评分?`,
+      () => {
+        const fetchs = []
+        this.catalogDetail.list.forEach(({ id }, index) => {
+          fetchs.push(() => {
+            info(`${index + 1} / ${list.length}`)
+            return subjectStore.fetchSubject(id)
+          })
+        })
+        queue(fetchs, 1)
+      },
+      '提示'
+    )
+  }
+
   // -------------------- get --------------------
   @computed get catalogId() {
     const { catalogId = '' } = this.params
@@ -61,8 +77,7 @@ export default class ScreenCatalogDetail extends store {
     const catalogDetail = discoveryStore.catalogDetail(this.catalogId)
     let list = catalogDetail.list.map(item => ({
       ...item,
-      score:
-        subjectStore.subject(item.id)?.rating?.score || rateData[item.id] || 0
+      score: subjectStore.subject(item.id)?.rating?.score || 0
     }))
 
     if (sort === 1) {

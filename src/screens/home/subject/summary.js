@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 15:48:09
+ * @Last Modified time: 2021-08-30 17:05:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,6 @@ const Summary = memo(
   ({ styles, showSummary, translateResult, content, onSwitchBlock }) => {
     rerender('Subject.Summary.Main')
 
-    console.log(translateResult)
     return (
       <View
         style={[
