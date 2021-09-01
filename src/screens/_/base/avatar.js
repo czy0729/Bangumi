@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:56:04
+ * @Last Modified time: 2021-09-01 19:26:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -130,10 +130,7 @@ export const Avatar = ob(
         key={typeof _src === 'string' ? _src : 'avatar'}
         style={[
           style,
-          dev &&
-            typeof _src === 'string' &&
-            _src.includes(HOST_CDN) &&
-            styles.dev
+          dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev
         ]}
         size={_size}
         src={_src}

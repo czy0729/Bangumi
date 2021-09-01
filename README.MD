@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.1.0" src="https://img.shields.io/badge/Version-5.1.0-0366d6" />
+  <img alt="Version: 5.1.2" src="https://img.shields.io/badge/Version-5.1.2-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,18 +46,22 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v5.1.0 - 2021/08/20
+v5.1.2 - 2021/09/01
 
 —— 新增 ——
 
-- [x] [条目] 评论也支持不显示 (点击吐槽标题切换)
-- [x] [条目] 隐藏一个功能块后, 可以继续对其操作, 进行永久隐藏
-- [x] 部分页面, 右上角菜单若有复制链接, 增加复制分享文案按钮
+- [x] [目录详情] 增加一键获取所有条目分数的功能 (网页版没有显示分数)
 
 —— 优化 ——
 
-- [x] 对几个主要页面的代码都做了重构优化, 以减少重绘, 帧率应该会高点?
-- [x] 现在开启隐藏评分后, 排名也不会显示了
+- [x] [条目] 漫画/音乐类型条目, 迭代失效的搜索源头功能
+
+—— 修复 ——
+
+- [x] [条目] 修复了翻译失败的问题
+- [x] [进度] 修复了网格模式, 按钮显示不正确的问题
+- [x] [时间胶囊] 修复了吐槽没显示内容的问题
+- [x] 用户设置了 App 启动页非进度页时, 第一次显示前非登录不能跳转到登录页
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 

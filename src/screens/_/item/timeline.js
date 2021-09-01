@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 19:13:43
+ * @Last Modified time: 2021-09-01 19:43:22
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -495,12 +495,8 @@ const memoStyles = _.memoStyles(_ => ({
   hasPR: {
     paddingRight: _._wind
   },
-  // border: {
-  //   borderTopColor: _.colorBorder,
-  //   borderTopWidth: _.hairlineWidth
-  // },
   touch: {
-    marginTop: -8,
+    marginTop: -7,
     marginHorizontal: _.xs,
     borderRadius: 20,
     overflow: 'hidden'
