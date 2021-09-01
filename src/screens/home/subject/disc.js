@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 15:49:30
+ * @Last Modified time: 2021-08-31 19:02:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { obc, memo } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import IconDisc from './icon/disc'
+import IconSearchDisc from './icon/search-disc'
 
 const defaultProps = {
   navigation: {},
@@ -28,7 +29,14 @@ const Disc = memo(
     const _discTranslateResult = [...discTranslateResult]
     return (
       <View style={styles.container}>
-        <SectionTitle right={!discTranslateResult.length && <IconDisc />}>
+        <SectionTitle
+          right={
+            <>
+              <IconSearchDisc />
+              {!discTranslateResult.length && <IconDisc />}
+            </>
+          }
+        >
           曲目列表
         </SectionTitle>
         {!!disc.length && (

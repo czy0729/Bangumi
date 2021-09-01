@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-25 11:32:40
+ * @Last Modified time: 2021-08-31 19:17:05
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -16,6 +16,7 @@ function IconSearch(props, { $ }) {
   return (
     <Popover
       style={styles.touch}
+      menuStyle={styles.menuStyle}
       data={$.onlineComicOrigins}
       onSelect={$.onlineComicSelected}
     >
@@ -32,6 +33,9 @@ function IconSearch(props, { $ }) {
 export default obc(IconSearch)
 
 const styles = _.create({
+  menuStyle: {
+    width: _.device(240, 320)
+  },
   touch: {
     borderRadius: 20,
     overflow: 'hidden'

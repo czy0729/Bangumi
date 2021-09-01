@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 14:18:58
+ * @Last Modified time: 2021-09-01 18:49:12
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Touchable, Heatmap } from '@components'
+import { IconTouchable } from '@screens/_'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { _ } from '@stores'
+import { info } from '@utils/ui'
+import { _, systemStore } from '@stores'
 
 const avatarSize = 88 * _.ratio
 
@@ -20,6 +22,7 @@ function Head({ style }, { $, navigation }) {
   const { userId } = $.params
   const isMe = !userId || userId === $.myUserId
   const src = $.avatar || avatar.large
+  const showAdvance = isMe && systemStore.advance
   return (
     <Flex style={style} justify='center' direction='column'>
       <View>
@@ -120,13 +123,24 @@ function Head({ style }, { $, navigation }) {
           </>
         )}
       </View>
-      <Text style={_.mt.md} type={_.select('plain', 'title')}>
-        {nickname}
+      <Flex style={[_.mt.md, showAdvance && styles.advanceContainer]}>
         <Text type={_.select('plain', 'title')}>
-          {' '}
-          {username || id ? `@${username || id} ` : ''}
+          {nickname}
+          <Text type={_.select('plain', 'title')}>
+            {' '}
+            {username || id ? `@${username || id} ` : ''}
+          </Text>
         </Text>
-      </Text>
+        {showAdvance && (
+          <IconTouchable
+            style={styles.advance}
+            color={_.__colorPlain__}
+            size={16}
+            name='md-star'
+            onPress={() => info('您是高级会员')}
+          />
+        )}
+      </Flex>
     </Flex>
   )
 }
@@ -158,5 +172,13 @@ const styles = _.create({
   },
   r1: rStyle(16, 100),
   r2: rStyle(52, 116),
-  r3: rStyle(88, 100)
+  r3: rStyle(88, 100),
+  advanceContainer: {
+    paddingLeft: _.sm * 2
+  },
+  advance: {
+    padding: 0,
+    paddingLeft: 2,
+    opacity: 0.64
+  }
 })

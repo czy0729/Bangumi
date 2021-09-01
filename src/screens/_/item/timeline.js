@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 11:46:28
+ * @Last Modified time: 2021-09-01 19:13:43
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -72,7 +72,7 @@ const Item = memo(
 
     const { src: avatarSrc } = avatar
     const { length: imageLength } = image
-    const { count: replyCount, url: replyUrl } = reply
+    const { count: replyCount, url: replyUrl, content: replyContent } = reply
     const { text: p1Text, url: p1Url } = p1
     const { text: p2Text } = p2
     const { text: p3Text, url: p3Url } = p3
@@ -123,7 +123,8 @@ const Item = memo(
         $p3 = []
         p3Text.forEach((item, index) => {
           const url = String(p3Url[index])
-          const isSubject = url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
+          const isSubject =
+            url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
           const subjectId = isSubject ? matchSubjectId(url) : 0
           $p3.push(
             <Katakana
@@ -250,9 +251,9 @@ const Item = memo(
               </Katakana.Provider>
             </View>
           )}
-          {!!(comment || replyCount) && (
+          {!!(comment || replyContent || replyCount) && (
             <Text style={_.mt.sm} lineHeight={20}>
-              {comment || replyCount}
+              {comment || replyContent || replyCount}
             </Text>
           )}
         </>
@@ -311,7 +312,8 @@ const Item = memo(
 
     const renderContent = useMemo(() => {
       const _image = !!imageLength && image[0]
-      const bodyStyle = imageLength === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md
+      const bodyStyle =
+        imageLength === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md
       const rightCoverIsAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
       const showImages = imageLength >= 3
       const type = p2Text?.includes('读')
@@ -388,7 +390,11 @@ const Item = memo(
 
     return (
       <Flex
-        style={[_.flat && styles.item, _.flat && !avatarSrc && styles.withoutAvatar, style]}
+        style={[
+          _.flat && styles.item,
+          _.flat && !avatarSrc && styles.withoutAvatar,
+          style
+        ]}
         align='start'
       >
         {renderAvatar}

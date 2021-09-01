@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 07:19:47
+ * @Last Modified time: 2021-09-01 18:54:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,7 +94,7 @@ const Item = memo(
           .split(' ')
           .filter(item => !!item)
           .filter((item, index) => index < 4)
-          .join(' ')
+          .join(' · ')
       )
     }
 
@@ -157,7 +157,7 @@ const Item = memo(
                     </Katakana>
                     {hasName && name !== nameCn && (
                       <Katakana type='sub' size={11} lineHeight={15} bold>
-                        {' '}
+                        {'  '}
                         {HTMLDecode(name)}
                       </Katakana>
                     )}

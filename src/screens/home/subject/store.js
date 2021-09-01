@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 15:55:40
+ * @Last Modified time: 2021-08-31 19:51:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -693,6 +693,9 @@ export default class ScreenSubject extends store {
     return systemStore.setting.hideScore
   }
 
+  /**
+   * 动画和三次元源头
+   */
   @computed get onlineOrigins() {
     const { bangumiInfo } = this.state
     const { sites = [] } = bangumiInfo
@@ -721,6 +724,9 @@ export default class ScreenSubject extends store {
     return data
   }
 
+  /**
+   * 漫画源头
+   */
   @computed get onlineComicOrigins() {
     const data = []
 
@@ -732,6 +738,20 @@ export default class ScreenSubject extends store {
       data.push(`[绅士漫画] ${this.cn} (需飞机)`)
     }
 
+    return data
+  }
+
+  /**
+   * 音乐源头
+   */
+  @computed get onlineDiscOrigins() {
+    const data = []
+    if (this.jp) data.push(`[网易云] ${this.jp}`)
+    if (this.cn && this.cn !== this.jp) data.push(`[网易云] ${this.cn}`)
+    if (this.jp) data.push(`[QQ音乐] ${this.jp}`)
+    if (this.cn && this.cn !== this.jp) data.push(`[QQ音乐] ${this.cn}`)
+    if (this.jp) data.push(`[bilibili] ${this.jp}`)
+    if (this.cn && this.cn !== this.jp) data.push(`[bilibili] ${this.cn}`)
     return data
   }
 
@@ -1376,6 +1396,64 @@ export default class ScreenSubject extends store {
       }
     } catch (error) {
       warn(namespace, 'onlineComicSelected', error)
+    }
+  }
+
+  onlineDiscSelected = key => {
+    try {
+      let _key
+
+      if (key.includes('网易云')) {
+        _key = 'music.163.com'
+      } else if (key.includes('QQ音乐')) {
+        _key = 'y.qq.com'
+      } else if (key.includes('bilibili')) {
+        _key = 'search.bilibili.com'
+      }
+
+      t('条目.搜索源', {
+        type: _key,
+        subjectId: this.subjectId,
+        subjectType: this.type
+      })
+
+      let url
+      let q
+      switch (_key) {
+        case 'music.163.com':
+          q = key.replace('[网易云] ', '')
+          url = `https://www.baidu.com/s?word=site%3Amusic.163.com+%E4%B8%93%E8%BE%91+${encodeURIComponent(
+            q
+          )}`
+          break
+
+        case 'y.qq.com':
+          q = key.replace('[QQ音乐] ', '')
+          url = `https://www.baidu.com/s?word=site%3Ay.qq.com+%E4%B8%93%E8%BE%91+${encodeURIComponent(
+            q
+          )}`
+          break
+
+        case 'search.bilibili.com':
+          q = key.replace('[bilibili] ', '')
+          url = `https://search.bilibili.com/all?keyword=${encodeURIComponent(
+            q
+          )}&from_source=nav_suggest_new&order=stow&duration=0&tids_1=3`
+          break
+
+        default:
+          break
+      }
+
+      if (url) {
+        copy(url)
+        info('已复制地址')
+        setTimeout(() => {
+          open(url)
+        }, 1600)
+      }
+    } catch (error) {
+      warn(namespace, 'onlineDiscSelected', error)
     }
   }
 

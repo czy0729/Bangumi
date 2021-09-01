@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 16:23:13
+ * @Last Modified time: 2021-09-01 18:04:46
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -72,8 +72,8 @@ export const APP_ID = 'bgm8885c4d524cd61fc'
 // client_secret
 export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
 
-// 功能留言板入口 2020年: 19945783
-export const APP_ID_SAY_DEVELOP = '23045125'
+// 功能留言板入口 2020年: 19945783, 2021年: 23045125
+export const APP_ID_SAY_DEVELOP = '25475042'
 
 // 小圣杯意见反馈入口
 export const APP_ID_SAY_TINYGRAIL = '19820034'

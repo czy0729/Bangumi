@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 20:31:04
+ * @Last Modified time: 2021-09-01 19:21:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,8 +21,7 @@ import IconExtra from '../icon/extra'
 import ItemPlusOne from './plus-one'
 
 const avatarWidth = 32
-const imagesMaxWidthSub =
-  _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 function ItemSub(
   {
@@ -88,10 +87,7 @@ function ItemSub(
   const isJump = !!postId && postId === id
 
   return (
-    <Flex
-      style={[isNew && styles.itemNew, isJump && styles.itemJump]}
-      align='start'
-    >
+    <Flex style={[isNew && styles.itemNew, isJump && styles.itemJump]} align='start'>
       <Avatar
         style={_.mt.md}
         navigation={navigation}
@@ -110,11 +106,7 @@ function ItemSub(
               lineHeight={14}
               bold
               right={
-                <UserLabel
-                  isAuthor={isAuthor}
-                  isFriend={isFriend}
-                  isLayer={isLayer}
-                />
+                <UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} />
               }
             >
               {userName}
@@ -167,8 +159,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorMainLight
   },
   itemJump: {
-    borderWidth: 1,
-    borderColor: _.colorWarning
+    borderBottomWidth: 2,
+    borderColor: _.colorSuccess
   },
   border: {
     borderTopColor: _.colorBorder,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:37:22
+ * @Last Modified time: 2021-09-01 19:17:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -75,12 +75,12 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     zIndex: 2,
     top: 5,
-    left: 20,
+    left: 21.5,
     width: 12,
     height: 12,
     backgroundColor: _.colorMain,
     borderWidth: 2,
     borderColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderRadius: 12
+    borderRadius: 16
   }
 }))
