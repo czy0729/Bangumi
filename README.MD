@@ -23,8 +23,8 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 [安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642) | [google play](https://play.google.com/store/apps/details?id=com.czy0729.bangumi)
 
-苹果开发者账号已过期，期间没能过审，有缘再送审
-[IOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.io/@bgm-ios-test/bangumi-pro)
+苹果开发者账号已过期，期间没能过审，有缘再送审（100刀喂狗了bgm38）
+[iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.io/@bgm-ios-test/bangumi-pro)
 
 ## Features
 
