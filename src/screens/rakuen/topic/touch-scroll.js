@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 16:46:15
+ * @Last Modified time: 2021-09-06 16:14:49
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -44,9 +44,7 @@ const TouchScroll = memo(
       >
         <Flex.Item flex={isVertical ? 1 : 3}>
           <TouchableWithoutFeedback onPressIn={() => onPress(-1)}>
-            <Flex
-              style={isVertical ? styles.itemVertical : styles.itemHorizontal}
-            >
+            <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
               <Text style={styles.text} size={8} type='icon' align='center'>
                 1
               </Text>
@@ -55,6 +53,7 @@ const TouchScroll = memo(
         </Flex.Item>
         {list.map((item, index) => {
           let isNew = false
+
           if (readedTime) {
             if (getTimestamp(item.time) > readedTime) {
               isNew = true
@@ -104,7 +103,11 @@ const TouchScroll = memo(
       </Flex>
     )
   },
-  defaultProps
+  defaultProps,
+  ({ list, ...other }) => ({
+    list: list.length,
+    ...other
+  })
 )
 
 export default obc(({ onPress }, { $ }) => {
@@ -137,7 +140,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     top: _.headerHeight,
     right: 0,
-    bottom: 48,
+    bottom: 40,
     width: 16 * _.ratio,
     backgroundColor: _.colorPlain
   },
@@ -145,7 +148,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     top: _.headerHeight,
     left: 0,
-    bottom: 48,
+    bottom: 40,
     width: 16 * _.ratio,
     backgroundColor: _.colorPlain
   },

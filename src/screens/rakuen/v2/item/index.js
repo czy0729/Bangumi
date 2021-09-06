@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 12:57:17
+ * @Last Modified time: 2021-09-06 16:21:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,9 +58,7 @@ const Item = memo(
     rerender('Rakuen.Item.Main')
 
     return (
-      <View
-        style={[_.container.item, styles.container, isReaded && styles.readed]}
-      >
+      <View style={[_.container.item, styles.container, isReaded && styles.readed]}>
         <Flex align='start'>
           <Avatar avatar={avatar} userName={userName} userId={userId} />
           <Flex.Item style={styles.wrap}>
@@ -168,7 +166,7 @@ function getIsBlockGroup(blockGroups, group) {
 function getIsBlockUser(blockUserIds, userName, userId) {
   const findIndex = blockUserIds.findIndex(item => {
     const [itemUserName, itemUserId] = item.split('@')
-    if (itemUserId === 'undefined') return itemUserName === userName
+    if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName
     return itemUserId === userId
   })
   return findIndex !== -1
@@ -177,9 +175,7 @@ function getIsBlockUser(blockUserIds, userName, userId) {
 // 设置开启屏蔽默认头像, 且回复数小于4, 鉴定为广告姬
 function getIsAd(isBlockDefaultUser, avatar, replyCount) {
   return (
-    isBlockDefaultUser &&
-    avatar === IMG_DEFAULT_AVATAR &&
-    replyCount < AD_REPLIES_COUNT
+    isBlockDefaultUser && avatar === IMG_DEFAULT_AVATAR && replyCount < AD_REPLIES_COUNT
   )
 }
 

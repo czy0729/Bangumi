@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-25 11:23:27
+ * @Last Modified time: 2021-09-06 16:28:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -151,6 +151,7 @@ export default obc((props, { $ }) => {
       status={$.collection.status}
       onChangeText={$.changeText}
       doUpdateBookEp={$.doUpdateBookEp}
+      doUpdateNext={$.doUpdateNext}
     />
   )
 })
@@ -171,10 +172,10 @@ const styles = _.create({
   inputRaw: {
     height: 34 * _.ratio,
     paddingVertical: 0,
-    paddingHorizontal: _.sm,
+    paddingHorizontal: _.sm + 2,
     color: _.colorSub,
     fontWeight: 'bold',
-    ..._.device(_.fontSize12, _.fontSize15)
+    ..._.device(_.fontSize13, _.fontSize15)
   },
   total: {
     position: 'absolute',
@@ -191,6 +192,6 @@ const styles = _.create({
     height: _.device(34, 48)
   },
   btnText: {
-    ..._.device(_.fontSize11, _.fontSize18)
+    ..._.device(_.fontSize13, _.fontSize18)
   }
 })
