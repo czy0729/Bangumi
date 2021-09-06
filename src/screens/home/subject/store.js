@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-31 19:51:47
+ * @Last Modified time: 2021-09-06 18:13:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,12 +54,15 @@ import {
 import { CDN_EPS, getOTA } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import {
+  SITE_77MH,
   SITE_AGEFANS,
-  SITE_XUNBO,
+  SITE_MANGABZ,
+  SITE_MANHUA1234,
+  SITE_MANHUADB,
   SITE_RRYS,
   SITE_WK8,
-  SITE_MANHUADB,
-  SITE_WNACG
+  SITE_WNACG,
+  SITE_XUNBO
 } from '@constants/site'
 // import { NINGMOE_ID } from '@constants/online'
 
@@ -729,15 +732,13 @@ export default class ScreenSubject extends store {
    */
   @computed get onlineComicOrigins() {
     const data = []
-
-    if (this.jp) {
-      data.push(`[绅士漫画] ${this.jp} (需飞机)`)
+    if (this.jp) data.push(`[绅士漫画] ${this.jp} (需飞机)`)
+    if (this.cn && this.cn !== this.jp) data.push(`[绅士漫画] ${this.cn} (需飞机)`)
+    if (this.cn || this.jp) {
+      data.push(`[manhua1234] ${this.cn || this.jp}`)
+      data.push(`[77mh] ${this.cn || this.jp}`)
+      data.push(`[Mangabz] ${this.cn || this.jp}`)
     }
-
-    if (this.cn && this.cn !== this.jp) {
-      data.push(`[绅士漫画] ${this.cn} (需飞机)`)
-    }
-
     return data
   }
 
@@ -1363,8 +1364,14 @@ export default class ScreenSubject extends store {
   onlineComicSelected = key => {
     try {
       let _key
-      if (key.includes('绅士漫画')) {
-        _key = 'wnacg.org'
+      if (key.includes('[绅士漫画]')) {
+        _key = '绅士漫画'
+      } else if (key.includes('[Mangabz]')) {
+        _key = 'Mangabz'
+      } else if (key.includes('[manhua1234]')) {
+        _key = 'manhua1234'
+      } else if (key.includes('[77mh]')) {
+        _key = '77mh'
       }
 
       t('条目.搜索源', {
@@ -1376,11 +1383,26 @@ export default class ScreenSubject extends store {
       let url
       let q
       switch (_key) {
-        case 'wnacg.org':
+        case '绅士漫画':
           q = key.replace('[绅士漫画] ', '').replace(' (需飞机)', '')
           url = `${SITE_WNACG()}/search/?q=${encodeURIComponent(
             q
           )}&f=_all&s=create_time_DESC`
+          break
+
+        case 'Mangabz':
+          q = key.replace('[Mangabz] ', '')
+          url = `${SITE_MANGABZ()}/search?title=${encodeURIComponent(q)}`
+          break
+
+        case 'manhua1234':
+          q = key.replace('[manhua1234] ', '')
+          url = `${SITE_MANHUA1234()}/search/?keywords=${encodeURIComponent(q)}`
+          break
+
+        case '77mh':
+          q = key.replace('[77mh] ', '')
+          url = `${SITE_77MH()}/m.php?k=${encodeURIComponent(q)}`
           break
 
         default:
