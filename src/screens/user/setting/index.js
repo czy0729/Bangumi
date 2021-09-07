@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 18:06:40
+ * @Last Modified time: 2021-09-07 21:05:33
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -15,12 +15,7 @@ import {
   SegmentedControl,
   Heatmap
 } from '@components'
-import {
-  Popover,
-  ItemSetting,
-  IconTouchable,
-  NavigationBarEvents
-} from '@screens/_'
+import { Popover, ItemSetting, IconTouchable, NavigationBarEvents } from '@screens/_'
 import Stores, { _, userStore, systemStore, themeStore } from '@stores'
 import { toFixed, setStorage } from '@utils'
 import { withHeader, ob } from '@utils/decorators'
@@ -53,9 +48,7 @@ const tinygrailModeDS = ['绿涨红跌', '红涨绿跌']
 const homeLayoutDS = MODEL_SETTING_HOME_LAYOUT.data.map(({ label }) => label)
 const homeSortDS = MODEL_SETTING_HOME_SORTING.data.map(({ label }) => label)
 const qualityDS = MODEL_SETTING_QUALITY.data.map(({ label }) => label)
-const fontSizeAdjustDS = MODEL_SETTING_FONTSIZEADJUST.data.map(
-  ({ label }) => label
-)
+const fontSizeAdjustDS = MODEL_SETTING_FONTSIZEADJUST.data.map(({ label }) => label)
 const avatarDS = ['圆形', '方形']
 const transitionDS = MODEL_SETTING_TRANSITION.data.map(({ label }) => label)
 const hitSlop = {
@@ -308,8 +301,7 @@ class Setting extends React.Component {
 
   renderModule() {
     const { module: _module } = this.state
-    const { cdn, deepDark, tinygrail, katakana, autoColorScheme } =
-      systemStore.setting
+    const { cdn, deepDark, tinygrail, katakana, autoColorScheme } = systemStore.setting
     return (
       <>
         {this.renderSection('特色', 'module')}
@@ -470,11 +462,7 @@ class Setting extends React.Component {
 
                     t('设置.切换', {
                       title: '小圣杯涨跌色',
-                      label: _.isWeb
-                        ? '网页一致'
-                        : _.isGreen
-                        ? '红涨绿跌'
-                        : '绿涨红跌'
+                      label: _.isWeb ? '网页一致' : _.isGreen ? '红涨绿跌' : '绿涨红跌'
                     })
 
                     if (value === tinygrailModeDS[2]) {
@@ -527,15 +515,8 @@ class Setting extends React.Component {
 
   renderBasic() {
     const { basic } = this.state
-    const {
-      s2t,
-      heatMap,
-      filterDefault,
-      hideScore,
-      cnFirst,
-      initialPage,
-      filter18x
-    } = systemStore.setting
+    const { s2t, heatMap, filterDefault, hideScore, cnFirst, initialPage, filter18x } =
+      systemStore.setting
     return (
       <>
         {this.renderSection('定制', 'basic')}
@@ -696,9 +677,7 @@ class Setting extends React.Component {
               hd='启动页'
               ft={
                 <Popover
-                  data={MODEL_SETTING_INITIAL_PAGE.data.map(
-                    ({ label }) => label
-                  )}
+                  data={MODEL_SETTING_INITIAL_PAGE.data.map(({ label }) => label)}
                   hitSlop={hitSlop}
                   onSelect={this.setInitialPage}
                 >
@@ -1387,6 +1366,21 @@ class Setting extends React.Component {
         scrollToTop
       >
         <NavigationBarEvents />
+        <ItemSetting
+          style={_.mt.sm}
+          hd='使用指南'
+          arrow
+          highlight
+          onPress={() => {
+            t('设置.跳转', {
+              title: '个人设置',
+              to: 'Zhinan'
+            })
+
+            const { navigation } = this.props
+            navigation.push('Zhinan')
+          }}
+        />
         {this.renderUser()}
         {this.renderRakuen()}
         <View style={this.styles.split} />

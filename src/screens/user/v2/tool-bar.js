@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:00:16
+ * @Last Modified time: 2021-09-07 20:59:51
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -76,7 +76,11 @@ const ToolBar = memo(
       </CompToolBar>
     )
   },
-  defaultProps
+  defaultProps,
+  ({ userCollectionsTags, ...other }) => ({
+    ...other,
+    userCollectionsTags: userCollectionsTags.length
+  })
 )
 
 export default obc((props, { $ }) => {

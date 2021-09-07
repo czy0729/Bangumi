@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 15:16:48
+ * @Last Modified time: 2021-09-07 20:28:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ const defaultProps = {
   showTags: true,
   tag: [],
   tags: [],
+  animeTags: '',
   hentaiTags: [],
   onSwitchBlock: Function.prototype
 }
@@ -36,6 +37,7 @@ const Tags = memo(
     showTags,
     tag,
     tags,
+    animeTags,
     hentaiTags,
     onSwitchBlock
   }) => {
@@ -81,6 +83,7 @@ const Tags = memo(
                       <Text
                         type={_.select('desc', isSelected ? 'main' : 'desc')}
                         size={12}
+                        bold={isSelected}
                       >
                         {name}
                       </Text>
@@ -88,6 +91,7 @@ const Tags = memo(
                         style={_.ml.xs}
                         type={_.select('sub', isSelected ? 'main' : 'desc')}
                         size={12}
+                        bold={isSelected}
                       >
                         {count}
                       </Text>
@@ -95,6 +99,33 @@ const Tags = memo(
                   </Touchable>
                 )
               })}
+              {!!animeTags && (
+                <>
+                  <View style={styles.split} />
+                  <Text style={_.mr.sm} size={12} type='sub'>
+                    内容
+                  </Text>
+                  {animeTags.split(' ').map(item => (
+                    <Touchable
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={item}
+                      style={styles.item}
+                      onPress={() => {
+                        t('条目.跳转', {
+                          to: 'Anime',
+                          from: '标签',
+                          subjectId
+                        })
+                        navigation.push('Anime', {
+                          _tags: [item]
+                        })
+                      }}
+                    >
+                      <Text size={12}>{item}</Text>
+                    </Touchable>
+                  ))}
+                </>
+              )}
               {!!hentaiTags.length && (
                 <>
                   <View style={styles.split} />
@@ -152,6 +183,7 @@ export default obc((props, { $, navigation }) => {
       showTags={showTags}
       tag={$.collection.tag}
       tags={$.tags}
+      animeTags={$.animeInfo?.tags}
       hentaiTags={$.hentaiInfo?.tags}
       onSwitchBlock={$.switchBlock}
     />

@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-06 18:13:14
+ * @Last Modified time: 2021-09-07 20:21:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -769,7 +769,16 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 游戏条目查找额外游戏信息
+   * 第三方动画信息
+   */
+  @computed get animeInfo() {
+    if (this.type !== '动画') return null
+
+    return findAnime(this.subjectId)
+  }
+
+  /**
+   * 第三方游戏信息
    */
   @computed get gameInfo() {
     if (this.type !== '游戏') return null
@@ -778,7 +787,7 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * Hentai条目查找额外信息
+   * Hentai条目第三方信息
    */
   @computed get hentaiInfo() {
     if (this.type !== '动画' && !this.x18) return null
