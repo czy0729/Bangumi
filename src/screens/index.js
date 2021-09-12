@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 20:35:30
+ * @Last Modified time: 2021-09-07 23:03:17
  */
 // Dev
 // export { default as Auth } from './login/auth'
@@ -129,3 +129,4 @@ export { default as TinygrailValhall } from './tinygrail/valhall'
 // Other
 export { default as WebView } from './web-view'
 export { default as Share } from './web-view/share'
+export { default as Zhinan } from './web-view/zhinan'

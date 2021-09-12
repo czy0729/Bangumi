@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 08:39:02
+ * @Last Modified time: 2021-09-12 08:42:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,7 @@ export const Button = observer(
     radius = true,
     loading = false,
     children,
+    extra,
     onPress,
     ...other
   }) => {
@@ -70,6 +71,7 @@ export const Button = observer(
         >
           {children}
         </Text>
+        {extra}
       </Flex>
     )
 

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:54:23
+ * @Last Modified time: 2021-09-12 08:48:53
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { Button, Flex, Input, Text, Touchable } from '@components'
+import { Button, Flex, Input, Text, Touchable, Iconfont } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
@@ -45,8 +45,7 @@ export const ManageModal = ob(
     commentRef
 
     async componentDidMount() {
-      const privacy =
-        (await getStorage(storageKey)) || MODEL_PRIVATE.getValue('公开')
+      const privacy = (await getStorage(storageKey)) || MODEL_PRIVATE.getValue('公开')
       this.setState({
         showTags: systemStore.setting.showTags,
         privacy
@@ -133,9 +132,7 @@ export const ManageModal = ob(
     togglePrivacy = () => {
       const { privacy } = this.state
       const label = MODEL_PRIVATE.getLabel(privacy)
-      const _privacy = MODEL_PRIVATE.getValue(
-        label === '公开' ? '私密' : '公开'
-      )
+      const _privacy = MODEL_PRIVATE.getValue(label === '公开' ? '私密' : '公开')
       this.setState({
         privacy: _privacy
       })
@@ -218,16 +215,8 @@ export const ManageModal = ob(
                 key={name}
                 onPress={() => this.toggleTag(name)}
               >
-                <Flex
-                  style={[
-                    this.styles.tag,
-                    isSelected && this.styles.tagSelected
-                  ]}
-                >
-                  <Text
-                    size={13}
-                    type={_.select('desc', isSelected ? 'main' : 'desc')}
-                  >
+                <Flex style={[this.styles.tag, isSelected && this.styles.tagSelected]}>
+                  <Text size={13} type={_.select('desc', isSelected ? 'main' : 'desc')}>
                     {name}
                   </Text>
                   <Text
@@ -247,8 +236,7 @@ export const ManageModal = ob(
 
     render() {
       const { visible, title, desc, action, onClose } = this.props
-      const { focus, loading, rating, tags, comment, status, privacy } =
-        this.state
+      const { focus, loading, rating, tags, comment, status, privacy } = this.state
       const label = MODEL_PRIVATE.getLabel(privacy)
       return (
         <Modal
@@ -306,8 +294,18 @@ export const ManageModal = ob(
                     </Button>
                   </Flex.Item>
                   <Button
-                    style={[this.styles.btnEye, _.ml.sm]}
+                    style={this.styles.btnEye}
                     type={label === '公开' ? 'ghostMain' : 'ghostPlain'}
+                    extra={
+                      label === '私密' && (
+                        <Iconfont
+                          style={_.ml.xs}
+                          color={_.colorSub}
+                          size={16}
+                          name='md-visibility-off'
+                        />
+                      )
+                    }
                     onPress={this.togglePrivacy}
                   >
                     {label}
@@ -364,7 +362,8 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2)
   },
   btnEye: {
-    width: 70 * _.ratio
+    width: 88 * _.ratio,
+    marginLeft: _.sm
   },
   touch: {
     padding: _.xs,

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 07:15:56
+ * @Last Modified time: 2021-09-12 08:44:17
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Button, Icon, Text, Touchable, Heatmap } from '@components'
+import { Flex, Button, Icon, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
@@ -44,6 +44,7 @@ const Box = memo(
     const {
       status: collectionStatus = { name: '未收藏' },
       rating = 0,
+      private: privacy,
       _loaded
     } = collection
     const leftStyle = []
@@ -80,7 +81,20 @@ const Box = memo(
         <Touchable style={styles.btn} onPress={onPress}>
           <Flex justify='center'>
             <Flex.Item>
-              <Button style={leftStyle} type={getType(btnText)}>
+              <Button
+                style={leftStyle}
+                type={getType(btnText)}
+                extra={
+                  privacy == 1 && (
+                    <Iconfont
+                      style={_.ml.xs}
+                      color={_.__colorPlain__}
+                      size={17}
+                      name='md-visibility-off'
+                    />
+                  )
+                }
+              >
                 {btnText}
               </Button>
             </Flex.Item>
