@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 16:42:53
+ * @Last Modified time: 2021-09-14 21:15:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -178,7 +178,11 @@ const Item = memo(
       </Flex>
     )
   },
-  defaultProps
+  defaultProps,
+  ({ sub, ...other }) => ({
+    sub: sub.length,
+    ...other
+  })
 )
 
 export default obc(

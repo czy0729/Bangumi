@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.1.2" src="https://img.shields.io/badge/Version-5.1.2-0366d6" />
+  <img alt="Version: 5.2.0" src="https://img.shields.io/badge/Version-5.2.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -47,22 +47,22 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 ## Update
 
-v5.1.2 - 2021/09/01
+v5.2.0 - 2021/09/14
 
 —— 新增 ——
 
-- [x] [目录详情] 增加一键获取所有条目分数的功能 (网页版没有显示分数)
+- [x] [设置] 新增了使用指南
 
 —— 优化 ——
 
-- [x] [条目] 漫画/音乐类型条目, 迭代失效的搜索源头功能
+- [x] [条目] 直接通过图标显示是否私密收藏
+- [x] [时光机] 私密的收藏状态显示更直观
 
 —— 修复 ——
 
-- [x] [条目] 修复了翻译失败的问题
-- [x] [进度] 修复了网格模式, 按钮显示不正确的问题
-- [x] [时间胶囊] 修复了吐槽没显示内容的问题
-- [x] 用户设置了 App 启动页非进度页时, 第一次显示前非登录不能跳转到登录页
+- [x] [超展开] 修复了单独屏蔽用户若是无头像用户, 不生效的问题
+- [x] [帖子] 使用了另一种兼容写法，帖子崩溃情况应该会有改善
+- [x] [条目] 漫画 vol, chap +1 不生效问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
