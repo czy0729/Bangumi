@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 15:40:35
+ * @Last Modified time: 2021-09-14 15:52:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,23 +91,21 @@ const Item = memo(
 
     let isHidden
     if (tags) {
-      info.push(
-        tags
-          .split(' ')
-          .filter(item => {
-            if (item === '自己可见') {
-              isHidden = true
-              return false
-            }
-            return !!item
-          })
-          .filter((item, index) => index < 4)
-          .join(' · ')
-      )
+      const tag = tags
+        .split(' ')
+        .filter(item => {
+          if (item === '自己可见') {
+            isHidden = true
+            return false
+          }
+          return !!item
+        })
+        .filter((item, index) => index < 4)
+        .join(' · ')
+      if (tag) info.push(tag)
     }
 
     const _collection = collection || (isCollect ? '已收藏' : '')
-
     // {collection} = 2个全角 + 1个半角, 已收藏 = 3个全角
     const indent = _collection ? (collection ? '　　 ' : '　　　') : ''
     return (
@@ -174,11 +172,7 @@ const Item = memo(
                 <Flex style={_.mt.xxs}>
                   {isHidden && (
                     <Flex style={styles.hidden} justify='center'>
-                      <Iconfont
-                        name='md-visibility-off'
-                        color={_.colorSub}
-                        size={11}
-                      />
+                      <Iconfont name='md-visibility-off' color={_.colorSub} size={11} />
                     </Flex>
                   )}
                   {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}

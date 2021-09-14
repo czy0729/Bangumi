@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 19:22:11
+ * @Last Modified time: 2021-09-14 21:06:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,6 @@ import { observer } from 'mobx-react'
 import { _, userStore, systemStore } from '@stores'
 import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
-import decoder from '@utils/thirdParty/html-entities-decoder'
-import { s2t } from '@utils/thirdParty/cn-char'
-import { IOS, PAD } from '@constants'
 import HTML from '../@/react-native-render-html'
 import { BgmText, bgmMap } from '../bgm-text'
 import { translateAll } from '../katakana'
@@ -25,33 +22,14 @@ import LineThroughtText from './line-throught-text'
 import HiddenText from './hidden-text'
 import Li from './li'
 import ToggleImage from './toggle-image'
-
-const padFontSizeIncrease = PAD === 2 ? 3 : 2
-const padLineHeightIncrease = PAD === 2 ? 10 : 4
-
-function getIncreaseFontSize(fontSize) {
-  if (!fontSize || !_.isPad) return fontSize
-  return Number(fontSize) + padFontSizeIncrease
-}
-
-function getIncreaseLineHeight(lineHeight) {
-  if (!lineHeight || !_.isPad) return lineHeight
-  return Number(lineHeight) + padLineHeightIncrease
-}
-
-function fixedBaseFontStyle(baseFontStyle = {}) {
-  if (!_.isPad) return baseFontStyle
-
-  const _baseFontStyle = {
-    ...baseFontStyle
-  }
-  if (_baseFontStyle.fontSize) _baseFontStyle.fontSize += padFontSizeIncrease
-  if (_baseFontStyle.lineHeight) {
-    _baseFontStyle.lineHeight += padLineHeightIncrease
-  }
-
-  return _baseFontStyle
-}
+import {
+  padFontSizeIncrease,
+  padLineHeightIncrease,
+  regs,
+  getIncreaseFontSize,
+  fixedBaseFontStyle,
+  hackFixedHTMLTags
+} from './utils'
 
 // 一些超展开内容文本样式的标记
 const spanMark = {
@@ -60,7 +38,6 @@ const spanMark = {
   lineThrough: 'line-through;',
   hidden: 'visibility:hidden;'
 }
-const regFixedQ = /<\/(.+?)\.\.\.<\/span>$/
 
 export const RenderHtml = observer(
   class extends React.Component {
@@ -264,9 +241,7 @@ export const RenderHtml = observer(
         /**
          * iOS碰到过文本里巨大会遇到Maximun stack size exceeded的错误
          */
-        // if (IOS && html.length > 100000) {
-        //   return html
-        // }
+        // if (IOS && html.length > 100000) return html
 
         let _html = html
 
@@ -279,7 +254,7 @@ export const RenderHtml = observer(
           const alt = $img.attr('alt') || ''
           if (alt) {
             // bgm偏移量24
-            const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 24
+            const index = parseInt(alt.replace(regs.bgm, '')) - 24
 
             // 限制用户不显示bgm表情
             if (userStore.isLimit) {
@@ -316,75 +291,7 @@ export const RenderHtml = observer(
           })
         }
 
-        /**
-         * 给纯文字包上span, 否则安卓不能自由复制
-         */
-        _html = `<div>${_html}</div>`
-        const match = _html.match(/>[^<>]+?</g)
-        if (match) {
-          match.forEach(item => (_html = _html.replace(item, `><span${item}/span><`)))
-        }
-
-        /**
-         * 去除<q>里面的图片
-         * (非常特殊的情况, 无法预测, 安卓Text里面不能包含其他元素)
-         */
-        if (!IOS) {
-          if (_html.includes('<q>')) {
-            _html = HTMLDecode(_html).replace(/<q>(.+?)<\/q>/g, (match, q) => {
-              let _q = q.replace(/<img/g, ' img')
-
-              // @hack: 暂时没办法处理像 </smal...结尾这样的情况
-              // 因为之前的错误全局HTMLDecode, 没办法再处理
-              if (regFixedQ.test(_q)) {
-                const { index } = _q.match(regFixedQ)
-                _q = _q.slice(0, index)
-              }
-              return `<q>${_q}</span></q>`
-            })
-          }
-        }
-
-        /**
-         * 安卓识别<pre>目前报错, 暂时屏蔽此标签
-         */
-        if (!IOS) {
-          if (_html.includes('<pre>')) {
-            _html = HTMLDecode(_html)
-              .replace(/<pre>/g, '<div>')
-              .replace(/<\/pre>/g, '</div>')
-          }
-        }
-
-        /**
-         * 缩小引用的字号
-         */
-        _html = _html.replace(
-          /<div class="quote"><q>/g,
-          `<div class="quote"><q style="font-size: ${getIncreaseFontSize(
-            12
-          )}px; line-height: ${getIncreaseLineHeight(16)}px">`
-        )
-
-        /**
-         * 去除图片之间的br
-         */
-        _html = _html.replace(/<br><img/g, '<img')
-
-        /**
-         * 去除暂时无法支持的html
-         */
-        _html = _html.replace(/<ruby>(.+?)<\/ruby>/g, '')
-
-        /**
-         * 转义bug
-         */
-        _html = _html.replace(/<;/g, '< ;')
-
-        const { s2t: _s2t } = systemStore.setting
-        if (_s2t) _html = s2t(decoder(_html))
-
-        return HTMLDecode(_html)
+        return hackFixedHTMLTags(_html)
       } catch (error) {
         warn('RenderHtml', 'formatHTML', error)
         return HTMLDecode(html)
@@ -414,9 +321,7 @@ export const RenderHtml = observer(
         ...other
       } = this.props
       const { error } = this.state
-      if (error) {
-        return <Error />
-      }
+      if (error) return <Error />
 
       const _baseFontStyle = fixedBaseFontStyle(baseFontStyle)
       return (

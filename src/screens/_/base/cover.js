@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:25:46
+ * @Last Modified time: 2021-09-14 16:05:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ export const Cover = ob(
           ]}
           justify='center'
         >
-          <Text type='sub' bold>
+          <Text type='sub' bold onPress={other.onPress}>
             text-only
           </Text>
         </Flex>

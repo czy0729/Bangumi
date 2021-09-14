@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 19:21:31
+ * @Last Modified time: 2021-09-14 21:06:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,14 +44,10 @@ function ItemSub(
   },
   { $, navigation }
 ) {
-  if ($.isBlockUser(userId, userName, replySub)) {
-    return null
-  }
+  if ($.isBlockUser(userId, userName, replySub)) return null
 
   const msg = removeHTMLTag(decoder(message))
-  if ($.filterDelete && msg.includes('内容已被用户删除')) {
-    return null
-  }
+  if ($.filterDelete && msg.includes('内容已被用户删除')) return null
 
   if (msg.length <= 10 && msg.includes('+1')) {
     return (
@@ -85,7 +81,6 @@ function ItemSub(
   const isFriend = $.myFriendsMap[userId]
   const isNew = !!readedTime && getTimestamp(time) > readedTime
   const isJump = !!postId && postId === id
-
   return (
     <Flex style={[isNew && styles.itemNew, isJump && styles.itemJump]} align='start'>
       <Avatar
