@@ -129,4 +129,3 @@ export { default as TinygrailValhall } from './tinygrail/valhall'
 // Other
 export { default as WebView } from './web-view'
 export { default as Share } from './web-view/share'
-export { default as Zhinan } from './web-view/zhinan'

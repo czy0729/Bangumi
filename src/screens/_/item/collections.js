@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 18:54:40
+ * @Last Modified time: 2021-09-14 15:40:35
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Katakana, Text, Touchable } from '@components'
+import { Flex, Katakana, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
@@ -88,11 +88,19 @@ const Item = memo(
     if (isDo) info.push(`${days}天`)
     if (isOnHold) info.push(`搁置${days}天`)
     if (isDropped) info.push(`抛弃${days}天`)
+
+    let isHidden
     if (tags) {
       info.push(
         tags
           .split(' ')
-          .filter(item => !!item)
+          .filter(item => {
+            if (item === '自己可见') {
+              isHidden = true
+              return false
+            }
+            return !!item
+          })
           .filter((item, index) => index < 4)
           .join(' · ')
       )
@@ -164,6 +172,15 @@ const Item = memo(
                   </Katakana.Provider>
                 </Flex.Item>
                 <Flex style={_.mt.xxs}>
+                  {isHidden && (
+                    <Flex style={styles.hidden} justify='center'>
+                      <Iconfont
+                        name='md-visibility-off'
+                        color={_.colorSub}
+                        size={11}
+                      />
+                    </Flex>
+                  )}
                   {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
                   {showLabel && !!type && <Tag style={_.ml.sm} value={type} />}
                 </Flex>
@@ -304,5 +321,15 @@ const memoStyles = _.memoStyles(_ => ({
   edit: {
     marginTop: _.sm,
     marginRight: -_.xs
+  },
+  hidden: {
+    width: 28,
+    height: 16,
+    paddingHorizontal: _.xs,
+    paddingVertical: 1,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderWidth: _.hairlineWidth,
+    borderRadius: _.radiusXs,
+    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
   }
 }))

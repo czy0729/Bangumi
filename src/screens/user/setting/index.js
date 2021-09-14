@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-07 23:02:58
+ * @Last Modified time: 2021-09-12 09:01:53
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -17,7 +17,7 @@ import {
 } from '@components'
 import { Popover, ItemSetting, IconTouchable, NavigationBarEvents } from '@screens/_'
 import Stores, { _, userStore, systemStore, themeStore } from '@stores'
-import { toFixed, setStorage } from '@utils'
+import { toFixed, setStorage, open } from '@utils'
 import { withHeader, ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -1377,8 +1377,7 @@ class Setting extends React.Component {
               to: 'Zhinan'
             })
 
-            const { navigation } = this.props
-            navigation.push('Zhinan')
+            open('https://www.yuque.com/chenzhenyu-k0epm/znygb4')
           }}
         />
         {this.renderUser()}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 07:23:05
+ * @Last Modified time: 2021-09-14 15:15:00
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -67,6 +67,7 @@ class List extends React.Component {
       //     }}
       //   />
       // )}
+
       return (
         <ItemCollections
           navigation={navigation}

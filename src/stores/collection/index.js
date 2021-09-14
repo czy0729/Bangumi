@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-25 10:45:06
+ * @Last Modified time: 2021-09-14 15:26:57
  */
 import { observable, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -21,18 +21,10 @@ import {
   API_COLLECTION_ACTION,
   API_SUBJECT_UPDATE_WATCHED
 } from '@constants/api'
-import {
-  HTML_USER_COLLECTIONS,
-  HTML_ACTION_SUBJECT_SET_WATCHED
-} from '@constants/html'
+import { HTML_USER_COLLECTIONS, HTML_ACTION_SUBJECT_SET_WATCHED } from '@constants/html'
 import rateData from '@constants/json/rate.json'
 import userStore from '../user'
-import {
-  NAMESPACE,
-  DEFAULT_SUBJECT_TYPE,
-  DEFAULT_TYPE,
-  DEFAULT_ORDER
-} from './init'
+import { NAMESPACE, DEFAULT_SUBJECT_TYPE, DEFAULT_TYPE, DEFAULT_ORDER } from './init'
 
 class Collection extends store {
   state = observable({
@@ -229,7 +221,9 @@ class Collection extends store {
 
         // 标签
         node = findTreeNode(children, 'div > p > span|class=tip')
-        const tags = node ? trim(node[0].text[0].replace('标签: ', '')) : ''
+        let tags = node ? trim(node[0].text[0].replace('标签: ', '')) : ''
+
+        if (node?.[1]?.text?.[0]) tags = `${trim(node[1].text[0])} ${tags}`
 
         // 评论
         node = findTreeNode(children, 'div > div > div > div > div')
@@ -237,9 +231,7 @@ class Collection extends store {
 
         // 评分
         node = findTreeNode(children, 'div > p > span|class=starstop-s > span')
-        const score = node
-          ? node[0].attrs.class.replace(/starlight stars/g, '')
-          : ''
+        const score = node ? node[0].attrs.class.replace(/starlight stars/g, '') : ''
 
         node = findTreeNode(children, 'div > p > span|class=tip_j')
         const time = node ? node[0].text[0] : ''
@@ -275,12 +267,10 @@ class Collection extends store {
     })
 
     // 只本地化自己的收藏概览
-    if (
-      userId === userStore.userInfo.username ||
-      userId === userStore.myUserId
-    ) {
+    if (userId === userStore.userInfo.username || userId === userStore.myUserId) {
       this.setUserCollectionsStroage()
     }
+
     return data
   }
 
@@ -299,11 +289,7 @@ class Collection extends store {
       const subjectType = MODEL_SUBJECT_TYPE.getLabel(typeCn)
       const now = getTimestamp()
       for (const item of MODEL_COLLECTION_STATUS.data) {
-        const { _loaded } = this.userCollections(
-          userId,
-          subjectType,
-          item.value
-        )
+        const { _loaded } = this.userCollections(userId, subjectType, item.value)
         if (refresh || !_loaded || now - _loaded > 60 * 60) {
           await this.fetchUserCollections(
             {
@@ -337,17 +323,15 @@ class Collection extends store {
           }
         }
 
-        this.userCollections(userId, subjectType, item.value).list.forEach(
-          i => {
-            if (typeCn === '游戏') {
-              userCollectionsMap[i.id] = item.label.replace('看', '玩')
-            } else if (typeCn === '音乐') {
-              userCollectionsMap[i.id] = item.label.replace('看', '听')
-            } else {
-              userCollectionsMap[i.id] = item.label
-            }
+        this.userCollections(userId, subjectType, item.value).list.forEach(i => {
+          if (typeCn === '游戏') {
+            userCollectionsMap[i.id] = item.label.replace('看', '玩')
+          } else if (typeCn === '音乐') {
+            userCollectionsMap[i.id] = item.label.replace('看', '听')
+          } else {
+            userCollectionsMap[i.id] = item.label
           }
-        )
+        })
       }
 
       this.setState({
@@ -459,10 +443,7 @@ class Collection extends store {
     })
 
     // 只本地化自己的收藏概览
-    if (
-      userId === userStore.userInfo.username ||
-      userId === userStore.myUserId
-    ) {
+    if (userId === userStore.userInfo.username || userId === userStore.myUserId) {
       this.setUserCollectionsStroage()
     }
   }
@@ -471,14 +452,7 @@ class Collection extends store {
   /**
    * 管理收藏
    */
-  doUpdateCollection = ({
-    subjectId,
-    status,
-    tags,
-    comment,
-    rating,
-    privacy
-  } = {}) =>
+  doUpdateCollection = ({ subjectId, status, tags, comment, rating, privacy } = {}) =>
     fetch({
       url: API_COLLECTION_ACTION(subjectId),
       method: 'POST',
