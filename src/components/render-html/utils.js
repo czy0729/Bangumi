@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 21:05:12
+ * @Last Modified time: 2021-09-14 22:56:31
  */
 import { _, systemStore } from '@stores'
 import { HTMLDecode } from '@utils/html'
@@ -22,7 +22,7 @@ export const regs = {
   preR: /<\/pre>/g,
   q: /<q>(.+?)<\/q>/g,
   ruby: /<ruby>(.+?)<\/ruby>/g,
-  whiteTags: /<(?!\/?(div|a|p|span|br|q|img))/g
+  whiteTags: /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
 }
 
 export function getIncreaseFontSize(fontSize) {
