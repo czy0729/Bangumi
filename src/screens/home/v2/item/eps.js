@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 09:24:14
+ * @Last Modified time: 2021-09-26 13:57:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,6 @@ import { obc } from '@utils/decorators'
 import { layoutWidth, itemPadding } from './ds'
 
 function Eps({ index, subjectId }, { $, navigation }) {
-  const { expand } = $.$Item(subjectId)
-  if (!expand) return null
-
   return (
     <View style={styles.eps}>
       <CompEps
@@ -25,9 +22,7 @@ function Eps({ index, subjectId }, { $, navigation }) {
         subjectId={subjectId}
         eps={$.eps(subjectId)}
         userProgress={$.userProgress(subjectId)}
-        onSelect={(value, item) =>
-          $.doEpsSelect(value, item, subjectId, navigation)
-        }
+        onSelect={(value, item) => $.doEpsSelect(value, item, subjectId, navigation)}
         onLongPress={item => $.doEpsLongPress(item, subjectId)}
       />
       {index === 1 && (

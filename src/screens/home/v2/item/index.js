@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:52:13
+ * @Last Modified time: 2021-09-26 13:58:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Heatmap } from '@components'
+import { Flex, Touchable, Accordion, Heatmap } from '@components'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import Cover from './cover'
@@ -80,11 +80,7 @@ const Item = memo(
                     epStatus={epStatus}
                   />
                 </Flex.Item>
-                <ToolBar
-                  index={index}
-                  subjectId={subjectId}
-                  subject={subject}
-                />
+                <ToolBar index={index} subjectId={subjectId} subject={subject} />
               </Flex>
               <Progress epStatus={epStatus} subject={subject} />
             </View>
@@ -95,7 +91,9 @@ const Item = memo(
             </View>
           )}
         </Flex>
-        <Eps subjectId={subjectId} />
+        <Accordion expand={expand}>
+          <Eps subjectId={subjectId} />
+        </Accordion>
         {isTop && <View style={styles.dot} />}
       </View>
     )
@@ -104,10 +102,7 @@ const Item = memo(
 )
 
 export default obc(
-  (
-    { index = 0, subjectId = 0, subject = {}, epStatus = '' },
-    { $, navigation }
-  ) => {
+  ({ index = 0, subjectId = 0, subject = {}, epStatus = '' }, { $, navigation }) => {
     // rerender('Home.Item', subject.name_cn || subject.name)
 
     const { _mounted } = $.state

@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2021-03-18 11:02:23
  */
+export * from './accordion'
 export * from './activity'
 export * from './back-android'
 export * from './bgm'
