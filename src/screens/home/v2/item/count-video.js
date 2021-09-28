@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:22:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-26 08:51:54
+ * @Last Modified time: 2021-09-28 13:51:48
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -34,7 +34,7 @@ function Count({ epStatus, subjectId, subject }, { $ }) {
         {countFixed}
         <Text type='sub' lineHeight={20}>
           {' '}
-          / {subject.eps_count || '?'}{' '}
+          / {subject.eps_count || '?'}
         </Text>
       </Text>
       <IconExpand style={styles.icon} expand={expand} />

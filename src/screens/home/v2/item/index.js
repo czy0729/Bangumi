@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-26 13:58:56
+ * @Last Modified time: 2021-09-28 17:13:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,7 +91,7 @@ const Item = memo(
             </View>
           )}
         </Flex>
-        <Accordion expand={expand}>
+        <Accordion expand={expand} lazy={index >= 4}>
           <Eps subjectId={subjectId} />
         </Accordion>
         {isTop && <View style={styles.dot} />}

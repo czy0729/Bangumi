@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 15:26:57
+ * @Last Modified time: 2021-09-27 22:51:30
  */
 import { observable, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -243,7 +243,7 @@ class Collection extends store {
           nameCn,
           tip,
           tags,
-          comments: HTMLDecode(comments),
+          comments: HTMLDecode(trim(comments)),
           score,
           time
         }
@@ -441,6 +441,8 @@ class Collection extends store {
         }
       }
     })
+
+    console.log(list)
 
     // 只本地化自己的收藏概览
     if (userId === userStore.userInfo.username || userId === userStore.myUserId) {

@@ -4,5 +4,5 @@ jsconfig.json
 /node_modules
 /src/assets/*
 /src/utils/thirdParty/*
-# *.ts
-# *.tsx
+*.ts
+*.tsx
