@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 23:13:36
+ * @Last Modified time: 2021-10-02 16:54:27
  */
 import { getTimestamp, getStorage, setStorage } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -59,7 +59,7 @@ export const hash = _hash
  * @url https://github.com/ekibun/bangumi_onair
  */
 export const CDN_ONAIR = () =>
-  `${HOST_CDN}/gh/ekibot/bangumi-onair@master/calendar.json?t=${getTimestamp()}`
+  `${HOST_CDN}/gh/ekibot/bangumi-onair@latest/calendar.json?t=${getTimestamp()}`
 
 /**
  * 单集数据源

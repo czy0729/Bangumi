@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-01 11:38:23
+ * @Last Modified time: 2021-10-02 16:54:46
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -215,13 +215,10 @@ class Calendar extends store {
 
           node = findTreeNode(children, 'a|href&title')
           const title = node ? node[0].attrs.title : ''
-          const subjectId = node
-            ? node[0].attrs.href.replace('/subject/', '')
-            : ''
+          const subjectId = node ? node[0].attrs.href.replace('/subject/', '') : ''
 
           node =
-            findTreeNode(children, 'p > small') ||
-            findTreeNode(children, 'div > small')
+            findTreeNode(children, 'p > small') || findTreeNode(children, 'div > small')
           const info = node ? node[0].text[0] : ''
 
           list.push({
@@ -288,9 +285,7 @@ class Calendar extends store {
    */
   _fetchOnAir = false
   fetchOnAir = async () => {
-    if (this._fetchOnAir) {
-      return
-    }
+    if (this._fetchOnAir) return
 
     try {
       const { _response } = await xhrCustom({
@@ -300,6 +295,7 @@ class Calendar extends store {
       const data = {
         _loaded: true
       }
+
       JSON.parse(_response).forEach(item => {
         const airEps = item.eps.filter(
           item => item.status === 'Air' || item.status === 'Today'

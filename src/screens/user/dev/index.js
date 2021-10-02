@@ -2,19 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 16:14:37
+ * @Last Modified time: 2021-09-29 21:05:50
  */
 import React from 'react'
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
-import {
-  ScrollView,
-  Text,
-  Switch,
-  Touchable,
-  Button,
-  Iconfont
-} from '@components'
+import { ScrollView, Text, Switch, Touchable, Button, Iconfont } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, systemStore, userStore } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
@@ -108,16 +101,13 @@ class DEV extends React.Component {
 
   renderView(title, content) {
     return (
-      <Text
-        style={[this.styles.code, _.mt.md]}
-        size={12}
-        lineHeight={16}
-        selectable
-      >
+      <Text style={[this.styles.code, _.mt.md]} size={12} lineHeight={16} selectable>
         <Text size={12} lineHeight={16} type='sub'>
           {title}
         </Text>
-        {content.map(item => `\n\n${JSON.stringify(item, null, 2)}`)}
+        {typeof content === 'string'
+          ? content
+          : content.map(item => `\n\n${JSON.stringify(item, null, 2)}`)}
       </Text>
     )
   }
@@ -133,6 +123,14 @@ class DEV extends React.Component {
       >
         {this.rederOptions()}
         {this.renderIcons()}
+        {this.renderView(
+          '',
+          JSON.stringify({
+            tourist: 1,
+            accessToken: userStore.accessToken,
+            userCookie: userStore.userCookie
+          })
+        )}
         {this.renderView('HASH-OTA', [
           {
             hashSubject: Object.keys(hashSubject).length,

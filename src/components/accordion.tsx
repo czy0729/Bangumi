@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-28 17:13:45
+ * @Last Modified time: 2021-10-02 17:38:13
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -29,6 +29,8 @@ export const Accordion: React.FC<Props> = ({
   children
 }) => {
   const [show, setShow] = useState(lazy ? expand : true)
+  const expanded = useRef(expand)
+
   const [h, setH] = useState(0)
   const aH = useRef(new Animated.Value(expand ? 1 : 0))
   const animatedStyles = useMemo(
@@ -55,7 +57,10 @@ export const Accordion: React.FC<Props> = ({
   )
 
   useEffect(() => {
-    if (expand) setShow(true)
+    if (expand) {
+      setShow(true)
+      expanded.current = true
+    }
 
     Animated.timing(aH.current, {
       toValue: expand ? 1 : 0,
@@ -70,7 +75,7 @@ export const Accordion: React.FC<Props> = ({
     }
   }, [expand])
 
-  if (!show) return null
+  if (!expanded.current && lazy && !show) return null
 
   return (
     <Animated.View style={animatedStyles}>
