@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 16:46:11
+ * @Last Modified time: 2021-10-02 19:48:21
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -517,11 +517,18 @@ export default class ScreenHomeV2 extends store {
   }
 
   /**
+   * 用户自定义放送时间
+   */
+  onAirUser(subjectId) {
+    return computed(() => calendarStore.onAirUser(subjectId)).get()
+  }
+
+  /**
    * 是否放送中
    */
   isToday(subjectId) {
     return computed(() => {
-      const item = this.onAir[subjectId]
+      const item = this.onAir[subjectId] || this.onAirUser(subjectId)
       if (!item) return false
 
       return getWeekDay(item) === day
@@ -533,7 +540,7 @@ export default class ScreenHomeV2 extends store {
    */
   isNextDay(subjectId) {
     return computed(() => {
-      const item = this.onAir[subjectId]
+      const item = this.onAir[subjectId] || this.onAirUser(subjectId)
       if (!item) return false
 
       const _day = getWeekDay(item)

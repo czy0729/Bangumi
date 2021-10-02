@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 07:49:23
+ * @Last Modified time: 2021-10-02 19:39:17
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_MANGA, CDN_STATIC_MANGA, getOTA } from '@constants/cdn'
 import { getTimestamp, getStorage, setStorage } from '../index'
 import { xhrCustom } from '../fetch'
-import { info } from '../ui'
+// import { info } from '../ui'
 import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 import { ANIME_YEAR, SORT } from './anime'
 
@@ -137,7 +137,7 @@ export async function init() {
   const needUpdate =
     (!loaded && !data.length) || parseInt(ota.VERSION_MANGA) > parseInt(version)
   if (needUpdate) {
-    info('正在从云端拉取最新数据...')
+    // info('正在从云端拉取最新数据...')
 
     try {
       loaded = true
@@ -155,7 +155,7 @@ export async function init() {
 
   // 没缓存也要请求数据
   if (!data.length) {
-    info('正在从云端拉取最新数据...')
+    // info('正在从云端拉取最新数据...')
 
     try {
       loaded = true

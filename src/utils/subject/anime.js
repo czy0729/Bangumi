@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 01:44:08
+ * @Last Modified time: 2021-10-02 19:38:48
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
@@ -346,7 +346,7 @@ export async function init() {
   const needUpdate =
     (!loaded && !data.length) || parseInt(ota.VERSION_ANIME) > parseInt(version)
   if (needUpdate) {
-    info('正在从云端拉取最新数据...')
+    // info('正在从云端拉取最新数据...')
 
     try {
       loaded = true
@@ -364,7 +364,7 @@ export async function init() {
 
   // 没缓存也要请求数据
   if (!data.length) {
-    info('正在从云端拉取最新数据...')
+    // info('正在从云端拉取最新数据...')
 
     try {
       loaded = true

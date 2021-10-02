@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-06 16:30:08
+ * @Last Modified time: 2021-10-02 20:27:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,6 +73,8 @@ const defaultProps = {
   styles: {},
   watchedEps: '',
   totalEps: 0,
+  type: '动画',
+  collection: {},
   onAir: {},
   onAirUser: {},
   onChangeText: Function.prototype,
@@ -86,6 +88,8 @@ const Ep = memo(
     styles,
     watchedEps,
     totalEps,
+    type,
+    collection,
     onAir,
     onAirUser,
     onChangeText,
@@ -95,11 +99,19 @@ const Ep = memo(
   }) => {
     rerender('Subject.Ep.Main')
 
-    const { timeJP, weekDayJP, timeCN, weekDayCN } = onAir
-    const weekDay = weekDayCN || weekDayJP
+    const onAirItem = { ...onAir, ...onAirUser }
+    const { timeJP, weekDayJP, timeCN, weekDayCN } = onAirItem
+    const weekDay = weekDayCN === undefined ? weekDayJP : weekDayCN
     const time = timeCN || timeJP
-    const h = typeof time === 'string' ? time.slice(0, 2) : '00'
-    const m = typeof time === 'string' ? time.slice(2, 4) : '00'
+    const h = typeof time === 'string' ? time.slice(0, 2) : ''
+    const m = typeof time === 'string' ? time.slice(2, 4) : ''
+
+    // 有onAir数据显示; 在看的动画也显示
+    const { status } = collection
+    const showCustomOnAir =
+      (weekDay !== undefined && weekDay !== '') ||
+      (type === '动画' && status?.type === 'do')
+
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -153,7 +165,7 @@ const Ep = memo(
               </Button>
             </Flex>
           </Flex.Item>
-          {weekDay !== undefined && weekDay !== '' && (
+          {showCustomOnAir && (
             <Flex>
               <Popover
                 data={weekDayDS}
@@ -167,27 +179,31 @@ const Ep = memo(
               >
                 <Flex style={styles.btnOnAir} justify='center'>
                   <Text size={11} bold type='sub'>
-                    {weekDayMap[weekDay] || '周日'}
+                    {weekDayMap[weekDay] === undefined ? '周' : weekDayMap[weekDay]}
                   </Text>
                 </Flex>
               </Popover>
               <Popover
                 data={hourDS}
-                onSelect={title => onSelectOnAir('timeCN', `${title}${m}`)}
+                onSelect={title =>
+                  onSelectOnAir('timeCN', `${title || '00'}${m || '00'}`)
+                }
               >
                 <Flex style={styles.btnOnAir} justify='center'>
                   <Text size={11} bold type='sub'>
-                    {h}
+                    {h || '时'}
                   </Text>
                 </Flex>
               </Popover>
               <Popover
                 data={minuteDS}
-                onSelect={title => onSelectOnAir('timeCN', `${h}${title}`)}
+                onSelect={title =>
+                  onSelectOnAir('timeCN', `${h || '00'}${title || '00'}`)
+                }
               >
                 <Flex style={styles.btnOnAir} justify='center'>
                   <Text size={11} bold type='sub'>
-                    {m}
+                    {m || '分'}
                   </Text>
                 </Flex>
               </Popover>
@@ -217,12 +233,13 @@ export default obc((props, { $ }) => {
   if ($.type === '游戏') return null // 游戏没有ep
   if ($.type === '书籍') return <BookEp />
   if ($.type === '音乐') return <Disc />
-
   return (
     <Ep
       styles={memoStyles()}
       watchedEps={$.state.watchedEps}
       totalEps={$.subjectFormHTML.totalEps}
+      type={$.type}
+      collection={$.collection}
       onAir={$.onAir}
       onAirUser={$.onAirUser}
       onChangeText={$.changeText}

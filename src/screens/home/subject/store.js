@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-07 20:21:40
+ * @Last Modified time: 2021-10-02 19:36:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -478,6 +478,9 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- get --------------------
+  /**
+   * 条目唯一Id
+   */
   @computed get subjectId() {
     const { subjectId } = this.params
     return subjectId
@@ -490,44 +493,60 @@ export default class ScreenSubject extends store {
     return `${namespace}|${this.subjectId}`
   }
 
+  /**
+   * 是否敏感条目
+   */
   @computed get x18() {
     return x18(this.subjectId, this.cn || this.jp)
   }
 
+  /**
+   * 放送信息
+   */
   @computed get onAir() {
     return calendarStore.onAir[this.subjectId] || {}
   }
 
+  /**
+   * 用户自定义放送时间
+   */
   @computed get onAirUser() {
     return calendarStore.onAirUser(this.subjectId)
   }
 
+  /**
+   * 屏蔽默认头像用户相关信息
+   */
   @computed get filterDefault() {
     const { filterDefault } = systemStore.setting
     return filterDefault
   }
 
+  /**
+   * 是否显示吐槽
+   */
   @computed get showComment() {
     const { showComment } = systemStore.setting
     return showComment
   }
 
+  /**
+   * 不显示吐槽块的空占位组件
+   */
   @computed get footerEmptyDataComponent() {
-    if (this.showComment === -1) {
-      return <View />
-    }
+    if (this.showComment === -1) return <View />
     return undefined
   }
 
   /**
-   * bgm链接
+   * bgm网址
    */
   @computed get url() {
     return `${HOST}/subject/${this.subjectId}`
   }
 
   /**
-   * 是否登陆(token)
+   * 是否登陆
    */
   @computed get isLogin() {
     return userStore.isLogin
@@ -548,7 +567,7 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 柠萌瞬间ep数据
+   * [废弃]柠萌瞬间ep数据
    */
   @computed get ningMoeDetail() {
     return discoveryStore.ningMoeDetail(this.subjectId)
@@ -688,10 +707,16 @@ export default class ScreenSubject extends store {
     }
   }
 
+  /**
+   * 是否限制用户(防审核)
+   */
   @computed get isLimit() {
     return userStore.isLimit
   }
 
+  /**
+   * 是否网站用户评分
+   */
   @computed get hideScore() {
     return systemStore.setting.hideScore
   }
@@ -915,6 +940,9 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- get: cdn fallback --------------------
+  /**
+   * 封面占位
+   */
   @computed get coverPlaceholder() {
     const { _image, _imageForce } = this.params
     return (
@@ -926,11 +954,17 @@ export default class ScreenSubject extends store {
     )
   }
 
+  /**
+   * 日文名
+   */
   @computed get jp() {
     const { _jp } = this.params
     return HTMLDecode(this.subject.name || _jp || this.subjectFormCDN.name)
   }
 
+  /**
+   * 中文名
+   */
   @computed get cn() {
     const { _cn } = this.params
     return HTMLDecode(
@@ -938,13 +972,17 @@ export default class ScreenSubject extends store {
     )
   }
 
+  /**
+   * 条目类型(Api值)
+   */
   @computed get subjectType() {
-    if (this.subject._loaded) {
-      return this.subject.type
-    }
+    if (this.subject._loaded) return this.subject.type
     return this.subjectFormCDN.type
   }
 
+  /**
+   * 网站用户评分
+   */
   @computed get rating() {
     if (this.subject._loaded) {
       return {
@@ -952,41 +990,42 @@ export default class ScreenSubject extends store {
         ...this.subject.rating
       }
     }
+
     if (this.subjectFormCDN._loaded) {
       return {
         ...initRating,
         ...this.subjectFormCDN.rating
       }
     }
+
     return initRating
   }
 
+  /**
+   * 是否锁定条目
+   */
   @computed get lock() {
-    if (this.subjectFormHTML._loaded) {
-      return this.subjectFormHTML.lock
-    }
+    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.lock
     return this.subjectFormCDN.lock
   }
 
+  /**
+   * 各状态评分人数
+   */
   @computed get subjectCollection() {
-    if (this.subject._loaded) {
-      return this.subject.collection || {}
-    }
+    if (this.subject._loaded) return this.subject.collection || {}
     return this.subjectFormCDN.collection || {}
   }
 
+  /**
+   * 章节数据
+   */
   @computed get eps() {
     if (this.subject._loaded) {
       // type = 1 SP的排后面
       return (this.subject.eps || []).sort((a, b) => {
-        if (a.type === b.type) {
-          return true
-        }
-
-        if (a.type === 1) {
-          return false
-        }
-
+        if (a.type === b.type) return true
+        if (a.type === 1) return false
         return true
       })
     }
@@ -1007,6 +1046,9 @@ export default class ScreenSubject extends store {
     return epsReverse ? this.eps.reverse() : this.eps
   }
 
+  /**
+   * 音乐曲目数据
+   */
   @computed get disc() {
     if (this.subjectFormHTML._loaded) {
       return this.subjectFormHTML.disc || []
@@ -1014,6 +1056,9 @@ export default class ScreenSubject extends store {
     return this.subjectFormCDN.disc || []
   }
 
+  /**
+   * 详情
+   */
   @computed get summary() {
     if (this.subject._loaded) {
       return this.subject.summary
@@ -1022,6 +1067,9 @@ export default class ScreenSubject extends store {
     return this.subjectFormCDN.summary || _summary
   }
 
+  /**
+   * 标签
+   */
   @computed get tags() {
     const data =
       (this.subjectFormHTML._loaded
@@ -1030,13 +1078,17 @@ export default class ScreenSubject extends store {
     return data.filter(item => !!item.name).filter((item, index) => index < 20)
   }
 
+  /**
+   * 网页版详情
+   */
   @computed get info() {
-    if (this.subjectFormHTML._loaded) {
-      return this.subjectFormHTML.info
-    }
+    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.info
     return this.subjectFormCDN.info
   }
 
+  /**
+   * 关联人物
+   */
   @computed get crt() {
     if (this.subject._loaded) {
       const { crt } = this.subject
@@ -1061,6 +1113,9 @@ export default class ScreenSubject extends store {
     return this.subjectFormCDN.crt || []
   }
 
+  /**
+   * 制作人员
+   */
   @computed get staff() {
     if (this.subject._loaded) {
       const { staff } = this.subject
@@ -1078,6 +1133,9 @@ export default class ScreenSubject extends store {
     return this.subjectFormCDN.staff || []
   }
 
+  /**
+   * 关联条目
+   */
   @computed get relations() {
     if (this.subject._loaded) {
       return (this.subjectFormHTML.relations || []).map(
@@ -1097,6 +1155,9 @@ export default class ScreenSubject extends store {
     }))
   }
 
+  /**
+   * 单行本
+   */
   @computed get comic() {
     if (this.subject._loaded) {
       return this.subjectFormHTML.comic || []
@@ -1104,6 +1165,9 @@ export default class ScreenSubject extends store {
     return this.subjectFormCDN.comic || []
   }
 
+  /**
+   * 猜你喜欢
+   */
   @computed get like() {
     if (this.subject._loaded) {
       return this.subjectFormHTML.like || []
@@ -1111,6 +1175,9 @@ export default class ScreenSubject extends store {
     return this.subjectFormCDN.like || []
   }
 
+  /**
+   * 条目类别
+   */
   @computed get titleLabel() {
     // bangumiInfo只有动画的数据
     let label = MODEL_SUBJECT_TYPE.getTitle(this.subjectType)
@@ -1123,47 +1190,58 @@ export default class ScreenSubject extends store {
     return label === '动画' ? 'TV' : label
   }
 
+  /**
+   * bilibili放送信息
+   */
   @computed get bilibiliSite() {
     const { bangumiInfo } = this.state
     return bangumiInfo?.sites?.find(item => item.site === 'bilibili') || {}
   }
 
+  /**
+   * 爱奇艺放送信息
+   */
   @computed get iqiyiSite() {
     const { bangumiInfo } = this.state
     return bangumiInfo?.sites?.find(item => item.site === 'iqiyi') || {}
   }
 
+  /**
+   * 优酷放送信息
+   */
   @computed get youkuSite() {
     const { bangumiInfo } = this.state
     return bangumiInfo?.sites?.find(item => item.site === 'youku') || {}
   }
 
-  @computed get friendsMap() {
-    return usersStore.friendsMap
-  }
-
   /**
    * 关联: 前传和续集, 或系列: 若为单行本, relations第一项则为系列
+   * 前传
    */
-  // 前传
   @computed get subjectPrev() {
     const { relations = [] } = this.subjectFormHTML
     return relations.find(item => item.type === '前传')
   }
 
-  // 续集
+  /**
+   * 续集
+   */
   @computed get subjectAfter() {
     const { relations = [] } = this.subjectFormHTML
     return relations.find(item => item.type === '续集')
   }
 
-  // 系列
+  /**
+   * 系列
+   */
   @computed get subjectSeries() {
     const { relations = [] } = this.subjectFormHTML
     return relations?.[0]?.type === '系列' ? relations[0] : null
   }
 
-  // 动画化
+  /**
+   * 动画化
+   */
   @computed get subjectAnime() {
     if (!(this.titleLabel || '').includes('系列')) {
       return null
@@ -1183,7 +1261,7 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 存在高清资源
+   * 高清资源
    */
   @computed get hd() {
     const { HD = [] } = getOTA()
@@ -1209,10 +1287,16 @@ export default class ScreenSubject extends store {
     return usersStore.catalogs()
   }
 
+  /**
+   * 目录详情
+   */
   catalogDetail(id) {
     return computed(() => discoveryStore.catalogDetail(id)).get()
   }
 
+  /**
+   * 是否存在在目录中
+   */
   @computed get catalogIncludes() {
     const { list } = this.catalogs
     let num = 0
