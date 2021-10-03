@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:34:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 16:35:21
+ * @Last Modified time: 2021-10-03 18:42:07
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -110,7 +110,7 @@ function Eps({
     // SP可能会占用一格, 若eps当中存在sp, 每组要减1项避免换行
     const arrNum = numbersOfLine * lines - (lines <= 3 ? 0 : hasSp ? 1 : 0)
     return arrGroup(_eps, arrNum)
-  }, [eps.length, advance, numbersOfLine, lines])
+  }, [eps, advance, numbersOfLine, lines])
 
   const onLayout = useCallback(
     ({ nativeEvent }) => {

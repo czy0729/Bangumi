@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 13:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 19:57:57
+ * @Last Modified time: 2021-10-03 15:35:29
  */
 import React from 'react'
 import { Text } from '@components'
@@ -17,6 +17,7 @@ function OnAir({ subjectId }, { $ }) {
     const t = [time.slice(0, 2), time.slice(2, 4)].filter(item => !!item)
     return (
       <Text style={_.ml.sm} type='success' size={13} lineHeight={15} bold>
+        {!t.length && '今天'}
         {t.join(':')}
       </Text>
     )

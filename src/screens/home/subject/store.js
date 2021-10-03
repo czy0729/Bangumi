@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 19:36:46
+ * @Last Modified time: 2021-10-03 18:40:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1038,12 +1038,13 @@ export default class ScreenSubject extends store {
    */
   @computed get toEps() {
     const { epsReverse, filterEps } = this.state
+
     if (filterEps) {
       const eps = this.eps.filter((item, index) => index > filterEps)
       return epsReverse ? eps.reverse() : eps
     }
 
-    return epsReverse ? this.eps.reverse() : this.eps
+    return epsReverse ? this.eps.map(item => item).reverse() : this.eps
   }
 
   /**
