@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:43:26
+ * @Last Modified time: 2021-10-04 09:54:34
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -90,6 +90,11 @@ class Theme extends store {
         this[key] = _[key]
       }
     })
+
+    /** [待完善] TS fixed */
+    this.ratio = _.ratio
+    this.md = _.md
+    this.radiusSm = _.radiusSm
   }
 
   state = observable({
@@ -265,9 +270,7 @@ class Theme extends store {
   }
 
   @computed get _colorPlainHex() {
-    return this.deepDark
-      ? _._colorThemeDeepDark.colorPlainHex
-      : _._colorPlainHex
+    return this.deepDark ? _._colorThemeDeepDark.colorPlainHex : _._colorPlainHex
   }
 
   @computed get _colorWait() {
@@ -285,9 +288,7 @@ class Theme extends store {
   }
 
   @computed get _colorPlainRaw() {
-    return this.deepDark
-      ? _._colorThemeDeepDark.colorPlainRaw
-      : _._colorPlainRaw
+    return this.deepDark ? _._colorThemeDeepDark.colorPlainRaw : _._colorPlainRaw
   }
 
   // -------------------- tinygrail --------------------
@@ -344,9 +345,7 @@ class Theme extends store {
   }
 
   @computed get colorTinygrailPrimary() {
-    return this.isTinygrailDark
-      ? _.colorTinygrailPrimary
-      : _._colorTinygrailPrimary
+    return this.isTinygrailDark ? _.colorTinygrailPrimary : _._colorTinygrailPrimary
   }
 
   @computed get colorTinygrailBg() {
@@ -354,9 +353,7 @@ class Theme extends store {
   }
 
   @computed get colorTinygrailContainer() {
-    return this.isTinygrailDark
-      ? _.colorTinygrailContainer
-      : _._colorTinygrailContainer
+    return this.isTinygrailDark ? _.colorTinygrailContainer : _._colorTinygrailContainer
   }
 
   @computed get colorTinygrailContainerHex() {
@@ -366,9 +363,7 @@ class Theme extends store {
   }
 
   @computed get colorTinygrailBorder() {
-    return this.isTinygrailDark
-      ? _.colorTinygrailBorder
-      : _._colorTinygrailBorder
+    return this.isTinygrailDark ? _.colorTinygrailBorder : _._colorTinygrailBorder
   }
 
   @computed get colorTinygrailIcon() {
@@ -380,9 +375,7 @@ class Theme extends store {
   }
 
   @computed get colorTinygrailActive() {
-    return this.isTinygrailDark
-      ? _.colorTinygrailActive
-      : _._colorTinygrailActive
+    return this.isTinygrailDark ? _.colorTinygrailActive : _._colorTinygrailActive
   }
 
   // -------------------- tool styles --------------------
@@ -402,9 +395,7 @@ class Theme extends store {
       },
       _bg: {
         flex: 1,
-        backgroundColor: IOS
-          ? this.colorBg
-          : this.select('transparent', this._colorBg)
+        backgroundColor: IOS ? this.colorBg : this.select('transparent', this._colorBg)
       },
       plain: {
         flex: 1,
@@ -646,8 +637,7 @@ class Theme extends store {
    * 小圣杯主题选择
    * 白天模式使用第二个值
    */
-  tSelect = (lightValue, darkValue) =>
-    this.isTinygrailDark ? lightValue : darkValue
+  tSelect = (lightValue, darkValue) => (this.isTinygrailDark ? lightValue : darkValue)
 
   /**
    * 切换模式
@@ -710,8 +700,7 @@ class Theme extends store {
     const { tinygrailMode } = this.state
     const key = 'tinygrailMode'
     this.setState({
-      [key]:
-        type === 'web' ? 'web' : tinygrailMode === 'green' ? 'red' : 'green'
+      [key]: type === 'web' ? 'web' : tinygrailMode === 'green' ? 'red' : 'green'
     })
     this.setStorage(key, undefined, NAMESPACE)
   }
@@ -763,10 +752,7 @@ class Theme extends store {
 
     try {
       InteractionManager.runAfterInteractions(() => {
-        changeNavigationBarColor(
-          this.colorTinygrailContainerHex,
-          !this.isTinygrailDark
-        )
+        changeNavigationBarColor(this.colorTinygrailContainerHex, !this.isTinygrailDark)
         androidDayNightToggle(this.isTinygrailDark)
       })
     } catch (error) {
@@ -819,10 +805,7 @@ const Store = new Theme()
 
 setTimeout(() => {
   if (DEV && typeof INIT_DEV_DARK === 'boolean') {
-    if (
-      (INIT_DEV_DARK && !Store.isDark) ||
-      (!INIT_DEV_DARK && Store.isDark)
-    ) {
+    if ((INIT_DEV_DARK && !Store.isDark) || (!INIT_DEV_DARK && Store.isDark)) {
       Store.toggleMode()
       console.info('Store.toggleMode')
     }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:59:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 16:21:25
+ * @Last Modified time: 2021-10-04 08:40:10
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -15,7 +15,14 @@ function IconReverse(props, { $ }) {
   return (
     <CompIconReverse
       style={{
-        marginRight: 10
+        marginRight: 10,
+        transform: epsReverse
+          ? [
+              {
+                rotateX: '180deg'
+              }
+            ]
+          : undefined
       }}
       color={epsReverse ? _.colorMain : _.colorIcon}
       onPress={$.toggleReverseEps}
