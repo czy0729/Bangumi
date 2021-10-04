@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 16:33:59
+ * @Last Modified time: 2021-10-04 14:45:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,7 +76,7 @@ const Item = memo(
             shadow
             onPress={onPress}
           />
-          {!!timeCN && (
+          {!!timeCN && timeCN !== '2359' && (
             <View style={styles.time} pointerEvents='none'>
               <Text style={styles.timeText} size={12} bold>
                 {' '}
@@ -106,29 +106,31 @@ const Item = memo(
   defaultProps
 )
 
-export default obc(({ style, subjectId, name, images, score }, { $, navigation }) => {
-  rerender('Calendar.Item')
+export default obc(
+  ({ style, subjectId, name, images, score, timeCN }, { $, navigation }) => {
+    rerender('Calendar.Item')
 
-  const { type } = $.state
-  const collection = $.userCollectionsMap[subjectId]
-  if (type === 'collect' && !collection) return null
+    const { type } = $.state
+    const collection = $.userCollectionsMap[subjectId]
+    if (type === 'collect' && !collection) return null
 
-  const { air, timeCN } = $.onAir[subjectId] || {}
-  return (
-    <Item
-      navigation={navigation}
-      hideScore={systemStore.setting.hideScore}
-      style={style}
-      subjectId={subjectId}
-      name={name}
-      images={images}
-      score={score}
-      collection={collection}
-      air={air}
-      timeCN={timeCN}
-    />
-  )
-})
+    const { air, timeCN: onAirTimeCN } = $.onAir[subjectId] || {}
+    return (
+      <Item
+        navigation={navigation}
+        hideScore={systemStore.setting.hideScore}
+        style={style}
+        subjectId={subjectId}
+        name={name}
+        images={images}
+        score={score}
+        collection={collection}
+        air={air}
+        timeCN={onAirTimeCN || timeCN}
+      />
+    )
+  }
+)
 
 const styles = _.create({
   item: {

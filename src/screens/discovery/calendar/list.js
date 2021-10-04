@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 19:16:31
+ * @Last Modified time: 2021-10-04 14:44:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -104,7 +104,7 @@ function List(props, { $ }) {
                 return <ItemLine {...itemProps} />
               }
 
-              return <Item index={idx} {...itemProps} />
+              return <Item index={idx} {...itemProps} timeCN={i.timeCN} />
             })}
           </Flex>
         )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 19:19:27
+ * @Last Modified time: 2021-10-04 14:38:39
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
@@ -14,7 +14,7 @@ export const marginLeft = _.device(_._wind, _.md)
 export const imageWidth =
   (_.window.contentWidth - marginLeft * _.device(num + 1, num - 1)) / num
 export const imageHeight = imageWidth * 1.4
-export const showPrevDay = new Date().getHours() < 19
+export const showPrevDay = new Date().getHours() < 12
 
 const namespace = 'ScreenCalendar'
 

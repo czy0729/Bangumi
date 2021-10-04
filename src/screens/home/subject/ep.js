@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 20:27:19
+ * @Last Modified time: 2021-10-04 14:52:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -99,14 +99,17 @@ const Ep = memo(
   }) => {
     rerender('Subject.Ep.Main')
 
-    const onAirItem = { ...onAir, ...onAirUser }
-    const { timeJP, weekDayJP, timeCN, weekDayCN } = onAirItem
+    const timeJP = onAirUser?.timeJP || onAir?.timeJP
+    const weekDayJP = onAirUser?.weekDayJP || onAir?.weekDayJP
+    const timeCN = onAirUser?.timeCN || onAir?.timeCN
+    const weekDayCN = onAirUser?.weekDayCN || onAir?.weekDayCN
+
     const weekDay = weekDayCN === undefined ? weekDayJP : weekDayCN
     const time = timeCN || timeJP
     const h = typeof time === 'string' ? time.slice(0, 2) : ''
     const m = typeof time === 'string' ? time.slice(2, 4) : ''
 
-    // 有onAir数据显示; 在看的动画也显示
+    // 有onAir数据显示, 在看的动画也显示
     const { status } = collection
     const showCustomOnAir =
       (weekDay !== undefined && weekDay !== '') ||
