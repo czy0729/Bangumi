@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-12 12:18:12
+ * @Last Modified time: 2021-10-04 14:07:41
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -385,9 +385,7 @@ class Subject extends store {
         items = items.reverse()
       }
       items.forEach((item, index) => {
-        const userId = item.match(
-          /<divclass="text"><ahref="\/user\/(.+?)"class="l">/
-        )
+        const userId = item.match(/<divclass="text"><ahref="\/user\/(.+?)"class="l">/)
         const userName = item.match(/"class="l">(.+?)<\/a><smallclass="grey"/)
         const avatar = item.match(/background-image:url\('(.+?)'\)"><\/span>/)
         const time = item.match(/<smallclass="grey">@(.+?)<\/small>/)

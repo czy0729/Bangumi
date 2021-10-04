@@ -2,15 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 17:38:13
+ * @Last Modified time: 2021-10-04 11:13:52
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
 import { _ } from '@stores'
 
-/**
- * @param style style
- */
 type Props = {
   style?: StyleProp<ViewStyle>
   children: React.ReactNode

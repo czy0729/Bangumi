@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 11:11:48
+ * @Last Modified time: 2021-10-04 11:13:56
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -14,9 +14,6 @@ import { Touchable } from './touchable'
 import { Flex } from './flex'
 import { Iconfont } from './iconfont'
 
-/**
- * @param style style
- */
 type Props = {
   style?: StyleProp<ViewStyle>
   moreStyle?: StyleProp<ViewStyle>

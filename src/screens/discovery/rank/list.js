@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 15:36:34
+ * @Last Modified time: 2021-10-04 14:12:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { ScrollView, Flex, Empty, Heatmap } from '@components'
 import { Pagination, ItemSearch, ItemCollectionsGrid, FilterText } from '@screens/_'
-import { _ } from '@stores'
+import { _, collectionStore } from '@stores'
 import { runAfter } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -84,22 +84,25 @@ class List extends React.Component {
       <>
         <View style={this.styles.list}>
           {this.list.length ? (
-            this.list.map((item, index) => (
-              <ItemSearch
-                key={item.id}
-                style={_.container.item}
-                navigation={navigation}
-                index={index}
-                collection={
-                  $.userCollectionsMap[String(item.id).replace('/subject/', '')]
-                }
-                event={eventList}
-                typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
-                {...item}
-              >
-                {index === 1 && <Heatmap id='排行榜.跳转' />}
-              </ItemSearch>
-            ))
+            this.list.map((item, index) => {
+              const id = String(item.id).replace('/subject/', '')
+              const collection =
+                collectionStore.statusName(id) || $.userCollectionsMap[id]
+              return (
+                <ItemSearch
+                  key={item.id}
+                  style={_.container.item}
+                  navigation={navigation}
+                  index={index}
+                  collection={collection}
+                  event={eventList}
+                  typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
+                  {...item}
+                >
+                  {index === 1 && <Heatmap id='排行榜.跳转' />}
+                </ItemSearch>
+              )
+            })
           ) : (
             <Empty />
           )}

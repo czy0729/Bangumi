@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-07 20:28:02
+ * @Last Modified time: 2021-10-04 11:18:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,9 +57,7 @@ const Tags = memo(
             <Flex wrap='wrap'>
               {tags.map(({ name, count }, index) => {
                 const isSelected = tag.includes(name)
-                if (!isSelected && tags.length > 10 && count < 8) {
-                  return null
-                }
+                // if (!isSelected && tags.length > 10 && count < 8) return null
 
                 return (
                   <Touchable

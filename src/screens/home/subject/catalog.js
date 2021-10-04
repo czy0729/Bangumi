@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 15:00:36
+ * @Last Modified time: 2021-10-04 11:31:30
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -139,7 +139,7 @@ const styles = _.create({
     marginBottom: -_.md
   },
   item: {
-    width: 120 * _.ratio,
+    width: _.window.contentWidth * 0.4 * _.ratio,
     marginRight: _.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'

@@ -5,9 +5,9 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-27 22:51:30
+ * @Last Modified time: 2021-10-04 14:12:17
  */
-import { observable, toJS } from 'mobx'
+import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
 import { HTMLTrim, HTMLDecode, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
@@ -88,6 +88,18 @@ class Collection extends store {
       ],
       NAMESPACE
     )
+  }
+
+  // -------------------- get --------------------
+  /**
+   * 获取指定条目收藏状态名
+   * @param {*} subjectId
+   */
+  statusName(subjectId) {
+    return computed(() => {
+      const collection = this.collection(subjectId)
+      return collection?.status?.name || ''
+    }).get()
   }
 
   // -------------------- fetch --------------------
