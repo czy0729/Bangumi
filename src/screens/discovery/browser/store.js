@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 00:19:23
+ * @Last Modified time: 2021-10-04 14:19:24
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -180,7 +180,7 @@ export default class ScreenBrowser extends store {
       })
     } else {
       let _airtime = airtime
-      let _month = month
+      let _month = Number(month)
       if (month == 1) {
         _airtime -= 1
         _month = 12
@@ -218,7 +218,7 @@ export default class ScreenBrowser extends store {
       })
     } else {
       let _airtime = airtime
-      let _month = month
+      let _month = Number(month)
       if (month == 12) {
         _airtime += 1
         _month = 1
