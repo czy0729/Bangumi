@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.2.0" src="https://img.shields.io/badge/Version-5.2.0-0366d6" />
+  <img alt="Version: 5.3.0" src="https://img.shields.io/badge/Version-5.3.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -23,7 +23,7 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 [安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642) | [google play](https://play.google.com/store/apps/details?id=com.czy0729.bangumi)
 
-苹果开发者账号已过期，期间没能过审，有缘再送审（100刀喂狗了bgm38）
+苹果开发者账号已过期，期间没能过审，有缘再送审（100 刀喂狗了 bgm38）
 [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.io/@bgm-ios-test/bangumi-pro)
 
 ## Features
@@ -47,22 +47,24 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 ## Update
 
-v5.2.0 - 2021/09/14
+v5.3.0 - 2021/10/05
 
 —— 新增 ——
 
-- [x] [设置] 新增了使用指南
+- [x] [帖子] 动画单集讨论正文下显示上/下一章节
 
 —— 优化 ——
 
-- [x] [条目] 直接通过图标显示是否私密收藏
-- [x] [时光机] 私密的收藏状态显示更直观
+- [x] [条目] 自定义放送时间的功能，在所有【在看】的动画条目里面显示
+- [x] 所有页面【已收藏】标记在有条目详情的数据下，显示具体的状态
 
 —— 修复 ——
 
-- [x] [超展开] 修复了单独屏蔽用户若是无头像用户, 不生效的问题
-- [x] [帖子] 使用了另一种兼容写法，帖子崩溃情况应该会有改善
-- [x] [条目] 漫画 vol, chap +1 不生效问题
+- [x] [条目] 修复了章节【倒序】失效问题
+- [x] [空间] 修复了按【网站评分】排序不生效问题
+- [x] [每日放送] 修复了换季度期间，有可能新番时间无法获取问题
+- [x] [每日放送] 修复了网格布局时间不显示问题
+- [x] [索引] 修复了上/下一个月，月份拼错问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 

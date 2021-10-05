@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-27 11:58:37
+ * @Last Modified time: 2021-10-05 19:49:54
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -14,7 +14,7 @@ import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
 import { tabs, H_BG } from './store'
 
-const gridNum = 4
+const gridNum = _.device(3, 4)
 
 export default
 @obc
@@ -90,7 +90,7 @@ class List extends React.Component {
         style={needResetMarginLeft && styles.resetML}
         navigation={navigation}
         index={index}
-        num={4}
+        num={gridNum}
         type={typeCn}
         userCollection={$.label}
         event={event}

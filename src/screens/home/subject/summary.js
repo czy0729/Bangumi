@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 17:05:52
+ * @Last Modified time: 2021-10-05 19:26:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,6 @@ import IconTranslate from './icon/translate'
 import IconHidden from './icon/hidden'
 
 const defaultProps = {
-  styles: {},
   showSummary: true,
   translateResult: [],
   content: '',
@@ -22,14 +21,14 @@ const defaultProps = {
 }
 
 const Summary = memo(
-  ({ styles, showSummary, translateResult, content, onSwitchBlock }) => {
+  ({ showSummary, translateResult, content, onSwitchBlock }) => {
     rerender('Subject.Summary.Main')
 
     return (
       <View
         style={[
           _.container.wind,
-          _.mt.lg,
+          _.mt.sm,
           showSummary && styles.container,
           !showSummary && _.short
         ]}
@@ -65,7 +64,7 @@ const Summary = memo(
               </View>
             ) : (
               !!content && (
-                <Expand moreStyle={styles.moreStyle}>
+                <Expand>
                   <Text style={_.mt.sm} size={15} lineHeight={22} selectable>
                     {content}
                   </Text>
@@ -92,7 +91,6 @@ export default obc((props, { $ }) => {
 
   return (
     <Summary
-      styles={memoStyles()}
       showSummary={showSummary}
       translateResult={$.state.translateResult}
       content={$.summary.replace(/\r\n\r\n/g, '\r\n')}
@@ -101,11 +99,8 @@ export default obc((props, { $ }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const styles = {
   container: {
     minHeight: 120
-  },
-  moreStyle: {
-    marginRight: _.md
   }
-}))
+}

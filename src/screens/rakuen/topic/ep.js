@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-05 15:14:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 16:09:49
+ * @Last Modified time: 2021-10-05 16:15:43
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont } from '@components'
@@ -35,7 +35,7 @@ function Ep(props, { $, navigation }) {
     })
   }
   return (
-    <Flex style={_.container.inner}>
+    <Flex style={[_.container.inner, _.mr.xs]}>
       <Flex.Item>
         {prev && (
           <Touchable style={styles.item} onPress={() => onPress(prev)}>

@@ -1,9 +1,9 @@
 {
   "expo": {
-    "description": "A React Native App for https://bgm.tv, google play, tinygrail plugin 4.3.1",
-    "version": "5.2.1",
+    "description": "A React Native App for https://bgm.tv, tinygrail plugin 4.3.1",
+    "version": "5.3.0",
     "android": {
-      "versionCode": 52100,
+      "versionCode": 53000,
       "package": "com.czy0729.bangumi",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/foreground.png",
@@ -13,9 +13,7 @@
     "name": "Bangumi",
     "slug": "bangumi-pro",
     "privacy": "public",
-    "platforms": [
-      "ios"
-    ],
+    "platforms": ["ios"],
     "orientation": "portrait",
     "scheme": "bangumi",
     "icon": "./src/assets/images/icon.png",
@@ -23,9 +21,7 @@
       "enabled": false,
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.czy0729.bangumi",
       "supportsTablet": true
