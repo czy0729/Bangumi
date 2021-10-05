@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 20:18:52
+ * @Last Modified time: 2021-10-06 00:25:44
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -52,48 +52,6 @@ const Tags = memo(
 
     const elTags = (
       <>
-        {tags.map(({ name, count }, index) => {
-          const isSelected = tag.includes(name)
-          // if (!isSelected && tags.length > 10 && count < 8) return null
-
-          return (
-            <Touchable
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              style={[styles.item, isSelected && styles.selected]}
-              onPress={() => {
-                t('条目.跳转', {
-                  to: 'Tag',
-                  from: '标签',
-                  subjectId
-                })
-
-                navigation.push('Tag', {
-                  type: MODEL_SUBJECT_TYPE.getLabel(subjectType),
-                  tag: name
-                })
-              }}
-            >
-              <Flex>
-                <Text
-                  type={_.select('desc', isSelected ? 'main' : 'desc')}
-                  size={13}
-                  bold={isSelected}
-                >
-                  {name}
-                </Text>
-                <Text
-                  style={_.ml.xs}
-                  type={_.select('sub', isSelected ? 'main' : 'desc')}
-                  size={13}
-                  bold={isSelected}
-                >
-                  {count}
-                </Text>
-              </Flex>
-            </Touchable>
-          )
-        })}
         {tags.map(({ name, count }, index) => {
           const isSelected = tag.includes(name)
           // if (!isSelected && tags.length > 10 && count < 8) return null
