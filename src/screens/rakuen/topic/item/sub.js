@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 21:06:08
+ * @Last Modified time: 2021-10-04 15:17:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { getTimestamp, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
-import { removeHTMLTag } from '@utils/html'
+import { HTMLDecode, removeHTMLTag } from '@utils/html'
 import { matchUserIdFromAvatar } from '@utils/match'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import UserLabel from '../user-label'
@@ -104,7 +104,7 @@ function ItemSub(
                 <UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} />
               }
             >
-              {userName}
+              {HTMLDecode(userName)}
             </Name>
           </Flex.Item>
           <IconExtra

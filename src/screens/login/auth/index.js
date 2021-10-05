@@ -2,14 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 18:29:54
+ * @Last Modified time: 2021-10-04 15:32:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
-import { Flex, StatusBarEvents, Button, UM } from '@components'
+import {
+  Touchable,
+  Flex,
+  StatusBarEvents,
+  Button,
+  Iconfont,
+  Text,
+  UM
+} from '@components'
 import { StatusBarPlaceholder, IconTouchable, IconTabBar } from '@screens/_'
 import { _, userStore } from '@stores'
+import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 
@@ -47,20 +56,30 @@ class Auth extends React.Component {
           <StatusBarPlaceholder />
           <Flex style={styles.toolbar}>
             <Flex.Item>
-              <IconTouchable
-                style={{
-                  marginTop: -2
-                }}
-                name='setting'
-                color={_.colorDesc}
-                size={19}
-                onPress={() => navigation.push('Setting')}
-              />
+              <Touchable
+                style={_.ml.sm}
+                onPress={() => open('https://www.yuque.com/chenzhenyu-k0epm/znygb4')}
+              >
+                <Flex>
+                  <Iconfont
+                    name='md-chrome-reader-mode'
+                    color={_.colorDesc}
+                    size={20}
+                  />
+                  <Text style={_.ml.xs} size={13}>
+                    指南
+                  </Text>
+                </Flex>
+              </Touchable>
             </Flex.Item>
             <IconTouchable
-              name='md-search'
+              style={{
+                marginTop: -2
+              }}
+              name='setting'
               color={_.colorDesc}
-              onPress={() => navigation.push('Search')}
+              size={19}
+              onPress={() => navigation.push('Setting')}
             />
           </Flex>
           <Flex

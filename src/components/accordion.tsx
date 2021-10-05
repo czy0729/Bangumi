@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 11:13:52
+ * @Last Modified time: 2021-10-04 15:42:43
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -37,7 +37,7 @@ export const Accordion: React.FC<Props> = ({
         height: h
           ? aH.current.interpolate({
               inputRange: [0, 1],
-              outputRange: [0, h]
+              outputRange: [0, Math.max(h, 48)]
             })
           : 'auto'
       },

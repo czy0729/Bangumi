@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 21:15:22
+ * @Last Modified time: 2021-10-04 15:16:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { getTimestamp, open } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
+import { HTMLDecode } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, EVENT } from '@constants'
 import UserLabel from '../user-label'
@@ -116,7 +117,7 @@ const Item = memo(
                 }
                 numberOfLines={1}
               >
-                {userName}
+                {HTMLDecode(userName)}
               </Name>
             </Flex.Item>
             <IconExtra

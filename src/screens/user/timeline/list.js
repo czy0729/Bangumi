@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:29:42
+ * @Last Modified time: 2021-10-04 15:02:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,8 @@ import { findSubjectCn } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
-const width = (IMG_WIDTH / 1.4) * _.ratio
-const height = (IMG_HEIGHT / 1.4) * _.ratio
+const width = (IMG_WIDTH / 1.1) * _.ratio
+const height = (IMG_HEIGHT / 1.1) * _.ratio
 
 function List(props, { $, navigation }) {
   const styles = memoStyles()
@@ -161,7 +161,7 @@ function List(props, { $, navigation }) {
                                     style={_.mt.sm}
                                     size={12}
                                     bold
-                                    numberOfLines={2}
+                                    numberOfLines={3}
                                   >
                                     {findSubjectCn(i.name)}
                                   </Text>

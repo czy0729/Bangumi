@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 16:16:20
+ * @Last Modified time: 2021-10-05 15:44:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ import { findSubjectCn, appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { HOST, IOS } from '@constants'
 import Content from './content'
+import Ep from './ep'
 import SectionTitle from './section-title'
 
 const defaultProps = {
@@ -101,12 +102,7 @@ const Top = memo(
           </Text>
           <Flex style={styles.groupWrap}>
             <Katakana.Provider itemStyle={styles.katakana}>
-              <Katakana
-                size={13}
-                underline
-                numberOfLines={1}
-                onPress={groupPress}
-              >
+              <Katakana size={13} underline numberOfLines={1} onPress={groupPress}>
                 {HTMLDecode(findSubjectCn(group))}
               </Katakana>
               {!!time && (
@@ -157,8 +153,7 @@ const Top = memo(
                   </Text>
                   <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
                     @{userId}
-                    {!!userSign &&
-                      ` (${userSign.slice(1, userSign.length - 1)})`}
+                    {!!userSign && ` (${userSign.slice(1, userSign.length - 1)})`}
                   </Text>
                 </Flex.Item>
               )}
@@ -174,6 +169,7 @@ const Top = memo(
           <Content />
         </View>
         <Divider />
+        <Ep />
         <SectionTitle />
         {!!html && !commentsLoaded && <Loading style={styles.loading} />}
       </>

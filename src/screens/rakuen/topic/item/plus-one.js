@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:36:37
+ * @Last Modified time: 2021-10-04 15:16:47
  */
 import React from 'react'
 import { Flex, RenderHtml } from '@components'
@@ -11,6 +11,7 @@ import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
+import { HTMLDecode } from '@utils/html'
 
 const avatarWidth = 32
 const imagesMaxWidthSub =
@@ -34,7 +35,7 @@ function ItemPlusOne(
           event={event}
         />
         <Name style={_.ml.sm} userId={userId} size={11} bold>
-          {userName}
+          {HTMLDecode(userName)}
         </Name>
       </Flex>
       <Flex.Item style={_.ml.sm}>

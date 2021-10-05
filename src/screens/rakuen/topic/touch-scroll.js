@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-06 16:14:49
+ * @Last Modified time: 2021-10-04 15:14:52
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, titleCase } from '@utils'
 import { memo, obc } from '@utils/decorators'
+import { IOS } from '@constants'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants/model'
 
 const defaultProps = {
@@ -19,6 +20,12 @@ const defaultProps = {
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧'),
   isWebLogin: false,
   onPress: Function.prototype
+}
+const hitSlop = {
+  top: 0,
+  right: 2,
+  bottom: 0,
+  left: 2
 }
 
 const TouchScroll = memo(
@@ -34,6 +41,15 @@ const TouchScroll = memo(
     const isVertical =
       scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') ||
       scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左侧')
+
+    const passProps = {
+      hitSlop
+    }
+    if (IOS) {
+      passProps.onPress = () => onPress(-1)
+    } else {
+      passProps.onPressIn = () => onPress(-1)
+    }
     return (
       <Flex
         style={[
@@ -43,7 +59,7 @@ const TouchScroll = memo(
         direction={isVertical ? 'column' : undefined}
       >
         <Flex.Item flex={isVertical ? 1 : 3}>
-          <TouchableWithoutFeedback onPressIn={() => onPress(-1)}>
+          <TouchableWithoutFeedback {...passProps}>
             <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
               <Text style={styles.text} size={8} type='icon' align='center'>
                 1
@@ -71,13 +87,21 @@ const TouchScroll = memo(
           }
 
           const showFloorText = showFloor.includes(index)
+          const passProps = {
+            hitSlop
+          }
+          if (IOS) {
+            passProps.onPress = () => onPress(index)
+          } else {
+            passProps.onPressIn = () => onPress(index)
+          }
           return (
             <Flex.Item
               // eslint-disable-next-line react/no-array-index-key
               key={index}
               flex={isVertical ? 1 : showFloorText ? 3 : 1}
             >
-              <TouchableWithoutFeedback onPressIn={() => onPress(index)}>
+              <TouchableWithoutFeedback {...passProps}>
                 <Flex
                   style={[
                     isVertical ? styles.itemVertical : styles.itemHorizontal,

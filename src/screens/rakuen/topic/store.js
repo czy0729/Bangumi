@@ -4,16 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 12:17:13
+ * @Last Modified time: 2021-10-05 15:15:50
  */
 import { observable, computed } from 'mobx'
-import {
-  systemStore,
-  rakuenStore,
-  subjectStore,
-  userStore,
-  usersStore
-} from '@stores'
+import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { removeHTMLTag, HTMLDecode } from '@utils/html'
@@ -93,15 +87,11 @@ export default class ScreenTopic extends store {
    * 私有CDN的帖子内容信息
    */
   fetchTopicFromCDN = () => {
-    if (!this.topicId.includes('group/')) {
-      return false
-    }
+    if (!this.topicId.includes('group/')) return false
 
     const { setting } = systemStore
     const { _loaded } = this.topic
-    if (!setting.cdn || _loaded) {
-      return true
-    }
+    if (!setting.cdn || _loaded) return true
 
     return rakuenStore.fetchTopicFormCDN(this.topicId.replace('group/', ''))
   }
@@ -109,9 +99,7 @@ export default class ScreenTopic extends store {
   // -------------------- get --------------------
   @computed get topicId() {
     const { topicId = '' } = this.params
-    if (!topicId) {
-      return '0'
-    }
+    if (!topicId) return '0'
     return topicId.split('#')[0]
   }
 
@@ -221,9 +209,7 @@ export default class ScreenTopic extends store {
   }
 
   @computed get isMono() {
-    return (
-      this.topicId.indexOf('prsn/') === 0 || this.topicId.indexOf('crt/') === 0
-    )
+    return this.topicId.indexOf('prsn/') === 0 || this.topicId.indexOf('crt/') === 0
   }
 
   @computed get monoId() {
@@ -351,9 +337,7 @@ export default class ScreenTopic extends store {
     if (this.isMono) {
       return this.topic.title || this.params._title
     }
-    return (
-      this.topic.group || this.params._group || this.topicFormCDN.group || ''
-    )
+    return this.topic.group || this.params._group || this.topicFormCDN.group || ''
   }
 
   @computed get groupThumb() {
@@ -376,23 +360,16 @@ export default class ScreenTopic extends store {
   }
 
   @computed get avatar() {
-    return (
-      this.topic.avatar || this.params._avatar || this.topicFormCDN.avatar || ''
-    )
+    return this.topic.avatar || this.params._avatar || this.topicFormCDN.avatar || ''
   }
 
   @computed get userId() {
-    return (
-      this.topic.userId || this.params._userId || this.topicFormCDN.userId || ''
-    )
+    return this.topic.userId || this.params._userId || this.topicFormCDN.userId || ''
   }
 
   @computed get userName() {
     return HTMLDecode(
-      this.topic.userName ||
-        this.params._userName ||
-        this.topicFormCDN.userName ||
-        ''
+      this.topic.userName || this.params._userName || this.topicFormCDN.userName || ''
     )
   }
 
