@@ -2,19 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 19:49:54
+ * @Last Modified time: 2021-10-06 02:08:14
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
 import { tabs, H_BG } from './store'
-
-const gridNum = _.device(3, 4)
 
 export default
 @obc
@@ -44,6 +42,11 @@ class List extends React.Component {
     const { title } = this.props
     const index = tabs.findIndex(item => item.title === title)
     return $.connectRef(ref, index)
+  }
+
+  get userGridNum() {
+    const { userGridNum } = systemStore.setting
+    return Number(userGridNum)
   }
 
   renderItem = ({ item, index }) => {
@@ -84,13 +87,13 @@ class List extends React.Component {
       )
     }
 
-    const needResetMarginLeft = _.isPad && index % gridNum === 0
+    const needResetMarginLeft = _.isPad && index % this.userGridNum === 0
     return (
       <ItemCollectionsGrid
         style={needResetMarginLeft && styles.resetML}
         navigation={navigation}
         index={index}
-        num={gridNum}
+        num={this.userGridNum}
         type={typeCn}
         userCollection={$.label}
         event={event}
@@ -118,7 +121,7 @@ class List extends React.Component {
     }
 
     const { list, page, isFocused } = $.state
-    const numColumns = list ? undefined : gridNum
+    const numColumns = list ? undefined : this.userGridNum
     return (
       <ListView
         ref={this.connectRef}

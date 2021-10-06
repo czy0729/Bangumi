@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 16:53:45
+ * @Last Modified time: 2021-10-06 02:05:23
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -23,7 +23,8 @@ import {
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SETTING_HOME_LAYOUT,
-  MODEL_SETTING_HOME_SORTING
+  MODEL_SETTING_HOME_SORTING,
+  MODEL_SETTING_USER_GRID_NUM
 } from '@constants/model'
 import UserStore from '../user'
 import {
@@ -290,6 +291,23 @@ class System extends store {
         [key]: {
           ...this.setting,
           homeSorting
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  /**
+   * 设置`方格数量`
+   */
+   setUserGridNum = label => {
+    const userGridNum = MODEL_SETTING_USER_GRID_NUM.getValue(label)
+    if (userGridNum) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          userGridNum
         }
       })
       this.setStorage(key, undefined, NAMESPACE)

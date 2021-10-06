@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-12 09:01:53
+ * @Last Modified time: 2021-10-06 02:11:01
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -38,7 +38,8 @@ import {
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
-  MODEL_SETTING_SYNC
+  MODEL_SETTING_SYNC,
+  MODEL_SETTING_USER_GRID_NUM
 } from '@constants/model'
 import Type from './type'
 
@@ -47,6 +48,7 @@ const namespace = 'Setting'
 const tinygrailModeDS = ['绿涨红跌', '红涨绿跌']
 const homeLayoutDS = MODEL_SETTING_HOME_LAYOUT.data.map(({ label }) => label)
 const homeSortDS = MODEL_SETTING_HOME_SORTING.data.map(({ label }) => label)
+const userGridNumDS = MODEL_SETTING_USER_GRID_NUM.data.map(({ label }) => label)
 const qualityDS = MODEL_SETTING_QUALITY.data.map(({ label }) => label)
 const fontSizeAdjustDS = MODEL_SETTING_FONTSIZEADJUST.data.map(({ label }) => label)
 const avatarDS = ['圆形', '方形']
@@ -176,6 +178,17 @@ class Setting extends React.Component {
       })
 
       systemStore.setHomeSorting(label)
+    }
+  }
+
+  setUserGridNum = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '网格布局个数',
+        label
+      })
+
+      systemStore.setUserGridNum(label)
     }
   }
 
@@ -1134,6 +1147,37 @@ class Setting extends React.Component {
     )
   }
 
+  renderMe() {
+    const { userGridNum } = systemStore.setting
+    return (
+      <>
+        {this.renderSection('时光机')}
+        <ItemSetting
+          hd='网格布局个数'
+          ft={
+            <SegmentedControl
+              style={this.styles.segmentedControl}
+              size={12}
+              values={userGridNumDS}
+              selectedIndex={MODEL_SETTING_USER_GRID_NUM.data.findIndex(
+                item => item.value === userGridNum
+              )}
+              onValueChange={this.setUserGridNum}
+            />
+          }
+        >
+          <Heatmap
+            id='设置.切换'
+            data={{
+              title: '网格布局个数'
+            }}
+          />
+        </ItemSetting>
+        <View style={this.styles.split} />
+      </>
+    )
+  }
+
   renderContact() {
     const { navigation } = this.props
     const { contact } = this.state
@@ -1391,6 +1435,7 @@ class Setting extends React.Component {
         <View style={this.styles.split} />
         {this.renderHome()}
         <View style={this.styles.split} />
+        {this.renderMe()}
         {this.renderContact()}
         <View style={this.styles.split} />
         {this.renderSystem()}

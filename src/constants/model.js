@@ -17,9 +17,7 @@ class Model {
    * @param {*} value
    */
   getLabel(value) {
-    const find = this.data.find(
-      item => item.value == value || item.title === value
-    )
+    const find = this.data.find(item => item.value == value || item.title === value)
     return find ? find.label : false
   }
 
@@ -28,9 +26,7 @@ class Model {
    * @param {*} label
    */
   getValue(label) {
-    const find = this.data.find(
-      item => item.label == label || item.title === label
-    )
+    const find = this.data.find(item => item.label == label || item.title === label)
     return find ? find.value : false
   }
 
@@ -39,9 +35,7 @@ class Model {
    * @param {*} label
    */
   getTitle(label) {
-    const find = this.data.find(
-      item => item.label == label || item.value == label
-    )
+    const find = this.data.find(item => item.label == label || item.value == label)
     return find ? find.title : false
   }
 }
@@ -492,6 +486,21 @@ export const MODEL_SETTING_FONTSIZEADJUST = new Model([
   {
     label: '+4',
     value: '+4'
+  }
+])
+
+export const MODEL_SETTING_USER_GRID_NUM = new Model([
+  {
+    label: '3',
+    value: '3'
+  },
+  {
+    label: '4',
+    value: '4'
+  },
+  {
+    label: '5',
+    value: '5'
   }
 ])
 
