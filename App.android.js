@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 18:09:22
+ * @Last Modified time: 2021-10-07 16:10:06
  */
 import React, { useEffect } from 'react'
 import { Alert, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import RNRestart from 'react-native-restart'
 import {
   setJSExceptionHandler,
@@ -33,14 +34,14 @@ export default function App() {
   }
 
   return (
-    <View style={_.container.flex}>
+    <SafeAreaProvider style={_.container.flex}>
       <Provider theme={theme}>
         <Navigations />
       </Provider>
       <BackAndroid />
       <DeepLink />
       <AppCommon />
-    </View>
+    </SafeAreaProvider>
   )
 }
 

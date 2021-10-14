@@ -2,59 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-25 10:47:37
+ * @Last Modified time: 2021-10-07 14:06:27
  */
-import { InteractionManager, Clipboard } from 'react-native'
+import { Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
+import { isObject, runAfter, throttle } from './utils'
 
-/**
- * 排除null
- * @param {*} value
- */
-export function isObject(value) {
-  return typeof value === 'object' && !!value
-}
-
-/**
- * @param {*} fn
- */
-export function runAfter(fn) {
-  return InteractionManager.runAfterInteractions(fn)
-}
-
-/**
- * 节流
- * @param {*} callback
- */
-export function throttle(callback, delay = 400) {
-  let timeoutID
-  let lastExec = 0
-
-  function wrapper() {
-    const self = this
-    const elapsed = Number(new Date()) - lastExec
-    // eslint-disable-next-line prefer-rest-params
-    const args = arguments
-
-    function exec() {
-      lastExec = Number(new Date())
-      callback.apply(self, args)
-    }
-
-    clearTimeout(timeoutID)
-
-    if (elapsed > delay) {
-      exec()
-    } else {
-      timeoutID = setTimeout(exec, delay - elapsed)
-    }
-  }
-
-  return wrapper
-}
+export { isObject, runAfter, throttle }
 
 /**
  * 防抖
@@ -266,9 +223,7 @@ export function date(format, timestamp) {
       return jsdate.getDay()
     },
     z: function () {
-      return (
-        ((jsdate - new Date(jsdate.getFullYear() + '/1/1')) / 86400000) >> 0
-      )
+      return ((jsdate - new Date(jsdate.getFullYear() + '/1/1')) / 86400000) >> 0
     },
     W: function () {
       let a = f.z(),
@@ -331,10 +286,7 @@ export function date(format, timestamp) {
     B: function () {
       let off = (jsdate.getTimezoneOffset() + 60) * 60
       let theSeconds =
-        jsdate.getHours() * 3600 +
-        jsdate.getMinutes() * 60 +
-        jsdate.getSeconds() +
-        off
+        jsdate.getHours() * 3600 + jsdate.getMinutes() * 60 + jsdate.getSeconds() + off
       let beat = Math.floor(theSeconds / 86.4)
       if (beat > 1000) {
         beat -= 1000
@@ -625,9 +577,7 @@ export function lastDate(timestamp, overDaysToShowTime = 365, simple = true) {
   const currentTime = new Date()
 
   if (overDaysToShowTime) {
-    if (
-      Math.floor((currentTime - d) / 1000 / (60 * 60 * 24)) > overDaysToShowTime
-    )
+    if (Math.floor((currentTime - d) / 1000 / (60 * 60 * 24)) > overDaysToShowTime)
       return date(timestamp)
   }
 

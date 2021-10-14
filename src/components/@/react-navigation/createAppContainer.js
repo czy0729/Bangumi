@@ -271,7 +271,7 @@ export default function createNavigationContainer(Component) {
     }
 
     componentDidCatch(e) {
-      console.info('@/components/react-navigation', 'componentDidCatch')
+      console.info('@/components/react-navigation', 'componentDidCatch', e)
 
       if (_reactNavigationIsHydratingState) {
         _reactNavigationIsHydratingState = false

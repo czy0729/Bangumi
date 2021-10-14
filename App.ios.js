@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-16 14:20:32
+ * @Last Modified time: 2021-10-07 16:09:49
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
 import Provider from '@ant-design/react-native/lib/provider'
@@ -24,13 +25,13 @@ export default function App() {
   }
 
   return (
-    <View style={_.container.flex}>
+    <SafeAreaProvider style={_.container.flex}>
       <Provider theme={theme}>
         <Navigations />
         <AppCommon />
       </Provider>
       <DeepLink />
-    </View>
+    </SafeAreaProvider>
   )
 }
 

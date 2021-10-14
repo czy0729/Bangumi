@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2021-03-20 18:03:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-22 14:16:04
+ * @Last Modified time: 2021-10-14 16:52:22
  */
 import createIconSet from '@expo/vector-icons/createIconSet'
 import font from './vendor/react-native-vector-icons/Fonts/Ionicons.ttf'

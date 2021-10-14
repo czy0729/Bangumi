@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:20:55
+ * @Last Modified time: 2021-10-14 16:57:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import Icons from '@expo/vector-icons/AntDesign'
+import Icons from '@components/@/vector-icons/AntDesign'
 import { _ } from '@stores'
 import { PAD } from '@constants'
 import { Icon } from './icon'

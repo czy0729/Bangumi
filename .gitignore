@@ -1,22 +1,20 @@
+# *.gz
+# android/
+# src/constants/json/heatmap-event.json
+# src/constants/json/heatmap.json
 *.jks
 *.mobileprovision
 *.p12
 *.p8
-*.gz
 .expo
 .expo-shared
 .vscode
-# android/
-dist/
-ios/
 auth/
-node_modules/
-KEYSTORE.MD
+dist/
 gradle.properties
-sdk
+ios/
+node_modules/
 src/constants/json/user.json
-# src/constants/json/heatmap.json
-# src/constants/json/heatmap-event.json
 src/screens/user/zone/user.js
 yarn.lock
 
@@ -29,7 +27,7 @@ yarn.lock
 
 # Xcode
 #
-build/
+# build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
