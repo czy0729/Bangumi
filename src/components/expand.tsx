@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 17:16:22
+ * @Last Modified time: 2021-10-14 19:46:02
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -43,7 +43,7 @@ export const Expand: React.FC<Props> = ({ style, moreStyle, ratio = 1, children 
       },
       style
     ],
-    [height, aHeight]
+    [height, ratio, style]
   )
 
   const onLayout = useCallback(event => setHeight(event.nativeEvent.layout.height), [])

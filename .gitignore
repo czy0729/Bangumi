@@ -1,7 +1,3 @@
-# *.gz
-# android/
-# src/constants/json/heatmap-event.json
-# src/constants/json/heatmap.json
 *.jks
 *.mobileprovision
 *.p12

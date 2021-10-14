@@ -124,7 +124,7 @@ class Tab extends React.Component {
     return (
       <>
         <TabView
-          lazy={!IOS || DEV}
+          lazy={!IOS}
           lazyPreloadDistance={0}
           navigationState={this.navigationState}
           renderTabBar={this.renderTabBar}

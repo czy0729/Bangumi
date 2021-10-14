@@ -62,7 +62,7 @@ function Tab(props, { $ }) {
   return (
     <TabView
       sceneContainerStyle={styles.sceneContainerStyle}
-      lazy={!IOS || DEV}
+      lazy={!IOS}
       lazyPreloadDistance={0}
       navigationState={{
         index: page,

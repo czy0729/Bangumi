@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 17:27:34
+ * @Last Modified time: 2021-10-14 19:24:23
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -45,7 +45,7 @@ export const Accordion: React.FC<Props> = ({
       },
       style
     ],
-    [h, aH]
+    [h, style]
   )
   const onLayout = useCallback(
     event => {
