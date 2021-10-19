@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 12:11:59
+ * @Last Modified time: 2021-10-18 12:02:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { obc } from '@utils/decorators'
 import Award from './award'
 import Today from './today'
 import Menu from './menu'
+import SortMenu from './sort-menu'
 
 function Header(props, { $ }) {
   rerender('Discovery.Header')
@@ -22,7 +23,8 @@ function Header(props, { $ }) {
   return (
     <View style={styles.container}>
       <StatusBarPlaceholder />
-      <View>
+      <SortMenu />
+      {/* <View>
         <Award />
         <Heatmap
           id='发现.跳转'
@@ -44,7 +46,7 @@ function Header(props, { $ }) {
           </Text>
         </Flex.Item>
       </Flex>
-      <Today />
+      <Today /> */}
     </View>
   )
 }

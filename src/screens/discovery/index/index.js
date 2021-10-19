@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 17:42:49
+ * @Last Modified time: 2021-10-18 12:15:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,6 +57,7 @@ class Discovery extends React.Component {
           ListHeaderComponent={this.ListHeaderComponent}
           renderItem={renderItem}
           scrollToTop={isFocused}
+          scrollEnabled={false}
           onHeaderRefresh={$.init}
           onFooterRefresh={$.fetchHome}
         />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-14 19:57:18
+ * @Last Modified time: 2021-10-18 11:56:56
  */
 module.exports = {
   root: true,
@@ -16,7 +16,10 @@ module.exports = {
     // '/src/utils/thirdParty/*',
     'babel.config.js',
     'jsconfig.json'
-  ]
+  ],
+  globals: {
+    rerender: 1
+  }
 }
 
 // module.exports = {
