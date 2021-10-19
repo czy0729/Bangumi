@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 16:54:55
+ * @Last Modified time: 2021-10-19 22:20:28
  */
 import { observable, computed } from 'mobx'
 import {
@@ -27,6 +27,11 @@ export const sectionHeight = sectionWidth / 2
 export const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 
 const namespace = 'ScreenDiscovery'
+const excludeState = {
+  visible: false,
+  dragging: false,
+  link: ''
+}
 
 export default class ScreenDiscovery extends store {
   state = observable({
@@ -46,15 +51,14 @@ export default class ScreenDiscovery extends store {
       _loaded: getTimestamp()
     },
     expand: false,
-    visible: false,
-    link: ''
+    ...excludeState
   })
 
   init = async () => {
-    const { expand = false } =
-      (await this.getStorage(undefined, namespace)) || {}
+    const { expand = false } = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
-      expand
+      expand,
+      ...excludeState
     })
 
     const { setting } = systemStore
@@ -68,10 +72,7 @@ export default class ScreenDiscovery extends store {
         this.fetchChannel()
       }
 
-      queue([
-        () => calendarStore.fetchOnAir(),
-        () => calendarStore.fetchCalendar()
-      ])
+      queue([() => calendarStore.fetchOnAir(), () => calendarStore.fetchCalendar()])
     }, 800)
     return calendarStore.fetchHome()
   }
@@ -192,15 +193,17 @@ export default class ScreenDiscovery extends store {
       // 在前面和后面拼接多一组数据, 可以实现循环每周, 补全数据
       const circle = [...this.calendar, ...this.calendar, ...this.calendar]
       const data = circle
-        .slice(
-          index - 10 + this.calendar.length,
-          index + 2 + this.calendar.length
-        )
+        .slice(index - 10 + this.calendar.length, index + 2 + this.calendar.length)
         .reverse()
       return data
     } catch (error) {
       return []
     }
+  }
+
+  @computed get discoveryMenu() {
+    const { setting } = systemStore
+    return setting.discoveryMenu
   }
 
   // -------------------- action --------------------
@@ -250,6 +253,29 @@ export default class ScreenDiscovery extends store {
     this.setState({
       visible: !visible
     })
+  }
+
+  toggleDragging = () => {
+    const { dragging } = this.state
+    try {
+      if (!dragging) {
+        this.scrollToIndex({
+          animated: true,
+          index: 0,
+          viewOffset: 8000
+        })
+      }
+    } catch (error) {
+      warn('Discovery', 'toggleDragging', error)
+    }
+
+    this.setState({
+      dragging: !dragging
+    })
+  }
+
+  saveDiscoveryMenu = discoveryMenu => {
+    systemStore.setSetting('discoveryMenu', discoveryMenu)
   }
 
   onChangeText = link => {

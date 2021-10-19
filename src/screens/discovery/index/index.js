@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-18 12:15:50
+ * @Last Modified time: 2021-10-19 22:17:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,6 +43,7 @@ class Discovery extends React.Component {
 
   render() {
     const { $ } = this.context
+    const { dragging } = $.state
     const { isFocused } = this.props
     return (
       <View style={_.container._plain}>
@@ -57,14 +58,12 @@ class Discovery extends React.Component {
           ListHeaderComponent={this.ListHeaderComponent}
           renderItem={renderItem}
           scrollToTop={isFocused}
-          scrollEnabled={false}
+          scrollEnabled={!dragging}
           onHeaderRefresh={$.init}
           onFooterRefresh={$.fetchHome}
         />
         <LinkModal />
-        {isFocused && (
-          <IconPortal index={0} onPress={$.onRefreshThenScrollTop} />
-        )}
+        {isFocused && <IconPortal index={0} onPress={$.onRefreshThenScrollTop} />}
         <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
       </View>
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-06 02:05:23
+ * @Last Modified time: 2021-10-19 16:58:36
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -300,7 +300,7 @@ class System extends store {
   /**
    * 设置`方格数量`
    */
-   setUserGridNum = label => {
+  setUserGridNum = label => {
     const userGridNum = MODEL_SETTING_USER_GRID_NUM.getValue(label)
     if (userGridNum) {
       const key = 'setting'

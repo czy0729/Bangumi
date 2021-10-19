@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-06 02:03:50
+ * @Last Modified time: 2021-10-19 16:49:45
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -73,6 +73,30 @@ export const INIT_SETTING = {
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   transition: MODEL_SETTING_TRANSITION.getValue('水平'), // 切页动画
+
+  // 发现自定义菜单
+  discoveryMenu: [
+    'Rank',
+    'Anime',
+    'Browser',
+    'Catalog',
+    'Calendar',
+    'DiscoveryBlog',
+    'Tags',
+    'Open',
+    'Staff',
+    'Search',
+    'Tinygrail',
+    'Guess',
+    'Wiki',
+    'Yearbook',
+    'UserTimeline',
+    'Netabare',
+    'Anitama',
+    'Character',
+    'Catalogs',
+    'Link'
+  ],
   ...INIT_SUBJECT_LAYOUT
 }
 

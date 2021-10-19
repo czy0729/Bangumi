@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-18 11:56:56
+ * @Last Modified time: 2021-10-19 18:22:44
  */
 module.exports = {
   root: true,
@@ -11,14 +11,20 @@ module.exports = {
   extends: ['@react-native-community', 'prettier'],
   ignorePatterns: [
     '/node_modules',
-    // '/components/@/*',
+    '/components/@/*',
     // '/src/assets/*',
     // '/src/utils/thirdParty/*',
     'babel.config.js',
     'jsconfig.json'
   ],
   globals: {
-    rerender: 1
+    rerender: true,
+    warn: true,
+    log: true
+  },
+  rules: {
+    radix: 0, // parseInt允许不填进制
+    'no-shadow': 0 // 允许相同变量名
   }
 }
 

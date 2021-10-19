@@ -2,188 +2,154 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-18 12:06:13
+ * @Last Modified time: 2021-10-19 22:13:41
  */
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { DraggableGrid } from 'react-native-draggable-grid'
+import React, { useState, useMemo, useCallback } from 'react'
+import { View } from 'react-native'
+import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
+import { Touchable, Flex, Text } from '@components'
+import { _ } from '@stores'
+import { memo, obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
+import Btn from './btn'
+import { getMenus, MenuMapType } from './ds'
 
-const menus = [
-  {
-    name: '排行榜',
-    icon: 'md-equalizer',
-    key: 'Rank'
-  },
-  {
-    name: '找条目',
-    icon: 'md-live-tv',
-    key: 'Anime'
-  },
-  {
-    name: '索引',
-    icon: 'md-data-usage',
-    key: 'Browser'
-  },
-  {
-    name: '目录',
-    icon: 'md-folder-open',
-    key: 'Catalog'
-  },
-  {
-    name: '每日放送',
-    icon: 'md-calendar-today',
-    key: 'Calendar'
-  },
-  // {
-  //   name: '游戏',
-  //   icon: 'md-videogame-asset',
-  //   key: 'Game'
-  // },
-  // {
-  //   name: '漫画',
-  //   icon: 'md-chrome-reader-mode',
-  //   key: 'Manga'
-  // },
-  {
-    name: '日志',
-    icon: 'md-edit',
-    key: 'DiscoveryBlog'
-  },
-  {
-    name: '标签',
-    icon: 'md-bookmark-outline',
-    key: 'Tags'
-  },
-  {
-    name: '更多',
-    icon: 'md-more-horiz',
-    key: 'open'
-  },
-  // {
-  //   name: '文库',
-  //   icon: 'md-notes',
-  //   key: 'Wenku'
-  // },
-  {
-    name: '新番',
-    icon: 'md-local-play',
-    key: 'Staff'
-  },
-  {
-    name: '搜索',
-    icon: 'md-search',
-    key: 'Search'
-  },
-  {
-    name: '小圣杯',
-    icon: 'trophy',
-    key: 'Tinygrail'
-  },
-  {
-    name: '推荐',
-    icon: 'md-favorite-outline',
-    key: 'Guess',
-    login: true
-  },
-  {
-    name: '维基人',
-    icon: 'wiki',
-    key: 'Wiki'
-  },
-  {
-    name: '年鉴',
-    icon: 'md-whatshot',
-    key: 'Yearbook'
-  },
-  {
-    name: '时间线',
-    icon: 'md-timeline',
-    key: 'UserTimeline',
-    login: true
-  },
-  {
-    name: 'netaba.re',
-    icon: 'md-trending-up',
-    key: 'netabare'
-  },
-  {
-    name: 'anitama',
-    icon: 'md-text-format',
-    key: 'Anitama'
-  },
-  // {
-  //   name: '好友',
-  //   icon: 'md-face',
-  //   key: 'Friends',
-  //   login: true
-  // },
-  {
-    name: '我的人物',
-    icon: 'md-folder-shared',
-    key: 'Character',
-    login: true
-  },
-  {
-    name: '我的目录',
-    icon: 'md-folder-special',
-    key: 'Catalogs',
-    login: true
-  },
-  {
-    name: '剪贴板',
-    icon: 'md-link',
-    key: 'Link'
-  },
-  {
-    name: '收起',
-    icon: 'md-expand',
-    key: 'close'
-  }
-]
-
-function SortMenu() {
-  return (
-    <View>
-      <DraggableGrid
-        data={menus}
-        numColumns={4}
-        renderItem={(item: { name: string; key: string }) => (
-          <View style={styles.item} key={item.key}>
-            <Text style={styles.item_text}>{item.name}</Text>
-          </View>
-        )}
-        onDragRelease={data => {
-          // this.setState({ data }) // need reset the props data sort after drag release
-        }}
-      />
-    </View>
-  )
+const defaultProps = {
+  dragging: false,
+  discoveryMenu: [],
+  onToggle: Function.prototype,
+  onSubmit: Function.prototype
 }
 
-export default SortMenu
+const SortMenu = memo(
+  ({ dragging, discoveryMenu, onToggle, onSubmit }) => {
+    rerender('Discovery.SortMenu.Main')
 
-const styles = StyleSheet.create({
-  button: {
-    width: 150,
-    height: 100,
-    backgroundColor: 'blue'
+    const [menu, setMenu] = useState<MenuMapType[]>(discoveryMenu)
+    const menus = useMemo(() => getMenus(menu), [menu])
+
+    const openIndex = menus.findIndex(item => item.key === 'Open')
+    const renderItem = useCallback(
+      (item, index) => (
+        <View
+          key={item.key}
+          style={
+            index > openIndex &&
+            item.key !== 'Cancel' &&
+            item.key !== 'Save' &&
+            styles.transparent
+          }
+        >
+          <Btn item={item} />
+        </View>
+      ),
+      [openIndex]
+    )
+    const onDragRelease = useCallback(data => {
+      const _menu = []
+      data.forEach(item => {
+        if (item.key === 'Save') return
+        if (item.key === 'Split') return _menu.push('Open')
+        _menu.push(item.key)
+      })
+      setMenu(_menu)
+    }, [])
+    const onCancel = useCallback(() => {
+      onToggle()
+      setMenu(discoveryMenu)
+    }, [discoveryMenu, onToggle])
+    const onSave = useCallback(() => {
+      onSubmit(menu)
+      onToggle()
+    }, [menu, onSubmit, onToggle])
+
+    let data: any[]
+    if (dragging) {
+      data = [
+        ...menus.slice(0, openIndex),
+        {
+          key: 'Split',
+          name: '后面隐藏',
+          text: '|',
+          size: 20
+        },
+        ...menus.slice(openIndex + 1, menus.length)
+      ]
+    } else {
+      data = menus.filter((_item, index) => index <= openIndex)
+    }
+    return (
+      <View style={_.container.wind}>
+        {dragging && (
+          <Text style={styles.text} bold>
+            按住拖拽排序，分割线左边显示，右边隐藏
+          </Text>
+        )}
+        <DraggableGrid
+          data={data}
+          numColumns={4}
+          renderItem={renderItem}
+          onDragRelease={onDragRelease}
+        />
+        {dragging && (
+          <Flex style={styles.btns} justify='end'>
+            <Flex.Item>
+              <Touchable onPress={onCancel}>
+                <Flex style={styles.btn} justify='center'>
+                  <Text type='__plain__' bold>
+                    取消
+                  </Text>
+                </Flex>
+              </Touchable>
+            </Flex.Item>
+            <Flex.Item style={_.ml.md}>
+              <Touchable onPress={onSave}>
+                <Flex style={styles.btn} justify='center'>
+                  <Text type='__plain__' bold>
+                    保存
+                  </Text>
+                </Flex>
+              </Touchable>
+            </Flex.Item>
+          </Flex>
+        )}
+      </View>
+    )
   },
-  wrapper: {
-    paddingTop: 100,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center'
+  defaultProps,
+  undefined,
+  undefined
+)
+
+export default obc((props, { $ }) => {
+  rerender('Discovery.SortMenu')
+  return (
+    <SortMenu
+      dragging={$.state.dragging}
+      discoveryMenu={$.discoveryMenu}
+      onToggle={$.toggleDragging}
+      onSubmit={$.saveDiscoveryMenu}
+    />
+  )
+})
+
+const size = 44 * _.ratio
+
+const styles = _.create({
+  transparent: {
+    opacity: _.select(0.6, 0.4)
   },
-  item: {
-    width: 100,
-    height: 100,
-    borderRadius: 8,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center'
+  text: {
+    marginTop: _.sm,
+    marginLeft: _.md,
+    marginBottom: _.md
   },
-  item_text: {
-    fontSize: 40,
-    color: '#FFFFFF'
+  btns: {
+    marginTop: _.md + 4
+  },
+  btn: {
+    height: size,
+    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
+    borderRadius: size
   }
 })

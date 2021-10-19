@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 09:54:34
+ * @Last Modified time: 2021-10-19 19:29:40
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -13,6 +13,15 @@ import { DEV, IOS } from '@constants'
 import _ from '@styles'
 import { INIT_DEV_DARK } from '@/config'
 import systemStore from '../system'
+
+type ThemeWindow = {
+  width: number,
+  maxWidth: number,
+  contentWidth: number,
+  height: number
+}
+
+type memoStyles = <T>(styles: T, dev?: boolean) => T
 
 const NAMESPACE = 'Theme'
 const DEFAULT_MODE = 'light'
@@ -90,12 +99,16 @@ class Theme extends store {
         this[key] = _[key]
       }
     })
-
-    /** [待完善] TS fixed */
-    this.ratio = _.ratio
-    this.md = _.md
-    this.radiusSm = _.radiusSm
   }
+
+  /** [待完善] TS fixed */
+  ratio = _.ratio
+  sm = _.sm
+  md = _.md
+  radiusSm = _.radiusSm
+  wind = _.wind
+  window: ThemeWindow = _.window
+  mt = _.mt
 
   state = observable({
     mode: DEFAULT_MODE,
@@ -767,7 +780,7 @@ class Theme extends store {
    *
    *  - 支持key名为current的对象懒计算
    */
-  memoStyles = (styles, dev) => {
+  memoStyles: memoStyles = (styles, dev = false) => {
     const memoId = getMemoStylesId()
     return () => {
       if (
