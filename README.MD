@@ -21,7 +21,7 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 ## Download
 
-[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642)
+[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642) | Google Play被恶意举报，等待申诉中
 
 苹果开发者账号已过期，期间没能过审，有缘再送审（100 刀喂狗了 bgm38）
 [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.io/@bgm-ios-test/bangumi-pro)
@@ -45,7 +45,13 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 - 番剧、游戏截图预览
 - [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏, App 独立设计 UI 和交互）
 
-## Update
+## Next
+
+- [发现] 支持自定义菜单排序
+
+https://user-images.githubusercontent.com/13514316/137933757-4dba738f-e081-4fcf-8827-6c7d6c2ae89e.mp4
+
+## Recently Update
 
 v5.3.0 - 2021/10/05
 
@@ -101,18 +107,6 @@ v5.3.0 - 2021/10/05
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/6.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/6.jpg" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/7.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/7.jpg" width="100%" />
 
 （被墙看不见图的可以复制 alt 打开）
-
-## 后续迭代
-
-现版本基本用户需要的功能已齐全，接下来会使用友盟收集到的埋点数据（匿名），尝试学习数据分析，根据结果计划后续版本迭代的方向
-
-[[bangumi-analysis]](https://github.com/czy0729/Bangumi-Analysis) 脱敏埋点数据
-
-目前进程，根据本 APP 最核心的页面（条目），先进行整合数据并进行简单的可视化模块搭建，以下根据最近 30 天埋点数据情况，显示平均一天事件触发次数和百分比
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" width="188" />
-
-可以一眼了解到哪些功能需求强，可以进行迭代，也能明确哪些功能需求偏低，适当进行隐藏或者移除，发现存在 0 数据的事件，可以考虑是不是埋点写法出了问题
 
 ## 免责声明
 
@@ -177,10 +171,20 @@ react-native run-android // [android] 真机 usb 调试
 
 - 打包失败，看见错误提示上面有 node_modules 包的名字，请尝试把这个包下载补全
 
----
-
 ## 投食
 
 觉得 APP 好用的
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" style="vertical-align: top" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" style="vertical-align: top" />
+
+## 后续迭代
+
+现版本基本用户需要的功能已齐全，接下来会使用友盟收集到的埋点数据（匿名），尝试学习数据分析，根据结果计划后续版本迭代的方向
+
+[[bangumi-analysis]](https://github.com/czy0729/Bangumi-Analysis) 脱敏埋点数据
+
+目前进程，根据本 APP 最核心的页面（条目），先进行整合数据并进行简单的可视化模块搭建，以下根据最近 30 天埋点数据情况，显示平均一天事件触发次数和百分比
+
+<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" width="188" />
+
+可以一眼了解到哪些功能需求强，可以进行迭代，也能明确哪些功能需求偏低，适当进行隐藏或者移除，发现存在 0 数据的事件，可以考虑是不是埋点写法出了问题
