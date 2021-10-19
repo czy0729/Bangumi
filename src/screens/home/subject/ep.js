@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 22:13:58
+ * @Last Modified time: 2021-10-20 06:23:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,6 +83,15 @@ const defaultProps = {
   doUpdateSubjectEp: Function.prototype
 }
 
+function isNull(value) {
+  return value === undefined || value === ''
+}
+
+function getSafeValue(key, onAir, onAirUser) {
+  let userValue = onAirUser?.[key]
+  return isNull(userValue) ? onAir?.[key] : userValue
+}
+
 const Ep = memo(
   ({
     styles,
@@ -99,12 +108,14 @@ const Ep = memo(
   }) => {
     rerender('Subject.Ep.Main')
 
-    const timeJP = onAirUser?.timeJP !== undefined ? onAirUser?.timeJP : onAir?.timeJP
-    const weekDayJP = onAirUser?.weekDayJP !== undefined ? onAirUser?.weekDayJP : onAir?.weekDayJP
-    const timeCN = onAirUser?.timeCN !== undefined ? onAirUser?.timeCN : onAir?.timeCN
-    const weekDayCN = onAirUser?.weekDayCN !== undefined ? onAirUser?.weekDayCN : onAir?.weekDayCN
-    const weekDay = weekDayCN !== undefined ? weekDayCN : weekDayJP
-    const time = timeCN || timeJP
+    const timeJP = getSafeValue('timeJP', onAir, onAirUser)
+    const timeCN = getSafeValue('timeCN', onAir, onAirUser)
+    const time = isNull(timeCN) ? timeJP : timeCN
+
+    const weekDayJP = getSafeValue('weekDayJP', onAir, onAirUser)
+    const weekDayCN = getSafeValue('weekDayCN', onAir, onAirUser)
+    const weekDay = isNull(weekDayCN) ? weekDayJP : weekDayCN
+
     const h = typeof time === 'string' ? time.slice(0, 2) : ''
     const m = typeof time === 'string' ? time.slice(2, 4) : ''
 
