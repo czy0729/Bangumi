@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-25 10:45:12
+ * @Last Modified time: 2021-10-21 00:47:49
  */
 import * as WebBrowser from 'expo-web-browser'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -709,7 +709,6 @@ export function caculateICO(ico) {
   // 资金等级
   while (ico.total >= next && level < headLevel) {
     level += 1
-    // eslint-disable-next-line no-restricted-properties
     next += Math.pow(level + 1, 2) * 100000
   }
 

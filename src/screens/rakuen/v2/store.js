@@ -1,9 +1,8 @@
-/* eslint-disable no-await-in-loop */
 /*
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 08:12:48
+ * @Last Modified time: 2021-10-21 00:47:55
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
@@ -108,8 +107,7 @@ export default class ScreenRakuen extends store {
   rakuen(type) {
     const { scope } = this.state
     return computed(() => {
-      const rakuen =
-        type === 'hot' ? rakuenStore.hot : rakuenStore.rakuen(scope, type)
+      const rakuen = type === 'hot' ? rakuenStore.hot : rakuenStore.rakuen(scope, type)
       const { filterDefault, filter18x } = systemStore.setting
       if (filterDefault || filter18x || userStore.isLimit) {
         return {
@@ -339,9 +337,7 @@ export default class ScreenRakuen extends store {
       try {
         // 需要检查回复数是否小于LIMIT_TOPIC_PUSH
         // replies: (+1)
-        const count = parseInt(
-          String(item.replies || '0').replace(/\(\+|\)/g, '')
-        )
+        const count = parseInt(String(item.replies || '0').replace(/\(\+|\)/g, ''))
         if (count <= LIMIT_TOPIC_PUSH) {
           const id = String(item.href).replace('/rakuen/topic/', '')
           if (!topic[id]) {
@@ -396,7 +392,6 @@ export default class ScreenRakuen extends store {
       prefetchCurrent
     })
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const topicId of _ids) {
       const { prefetching } = this.state
 

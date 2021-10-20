@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-06 16:21:35
+ * @Last Modified time: 2021-10-21 01:10:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -114,20 +114,16 @@ export default obc(
 
     const { _mounted } = $.state
     if (index >= LIMIT_HEAVY && !_mounted) {
-      return (
-        <View
-          style={{
-            height: 74
-          }}
-        />
-      )
+      const styles = memoStyles()
+      return <View style={styles.placeholder} />
     }
 
-    const { blockGroups, blockUserIds, isBlockDefaultUser } = $.setting
+    const { blockKeywords, blockGroups, blockUserIds, isBlockDefaultUser } = $.setting
     const groupCn = findSubjectCn(group)
     const userId = getUserId(avatar)
     const replyCount = getReplyCount(replies)
     if (
+      getIsBlockKeyword(blockKeywords, title) ||
       getIsBlockGroup(blockGroups, groupCn) ||
       getIsBlockUser(blockUserIds, userName, userId) ||
       getIsAd(isBlockDefaultUser, avatar, replyCount)
@@ -135,10 +131,11 @@ export default obc(
       return null
     }
 
+    const styles = memoStyles()
     const topicId = getTopicId(href)
     return (
       <Item
-        styles={memoStyles()}
+        styles={styles}
         avatar={avatar}
         userId={userId}
         userName={userName}
@@ -156,6 +153,11 @@ export default obc(
     )
   }
 )
+
+// 处理屏蔽关键字
+function getIsBlockKeyword(blockKeywords, title) {
+  return blockKeywords.some(item => title.includes(item))
+}
 
 // 处理屏蔽小组
 function getIsBlockGroup(blockGroups, group) {
@@ -211,5 +213,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   wrap: {
     paddingRight: _.wind - _._wind
+  },
+  placeholder: {
+    height: 74
   }
 }))

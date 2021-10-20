@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 21:06:02
+ * @Last Modified time: 2021-10-21 01:32:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,6 +64,7 @@ export const RenderHtml = observer(
         if (settingKatakana) {
           const katakanaResult = await translateAll(html)
           if (katakanaResult) {
+            // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
               katakanaResult
             })
@@ -141,7 +142,6 @@ export const RenderHtml = observer(
                         // 表情
                         text.push(
                           <BgmText
-                            // eslint-disable-next-line react/no-array-index-key
                             key={`${index}-${idx}`}
                             size={_baseFontStyle.fontSize}
                             lineHeight={_baseFontStyle.lineHeight}

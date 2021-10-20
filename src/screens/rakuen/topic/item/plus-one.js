@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 15:16:47
+ * @Last Modified time: 2021-10-21 01:25:37
  */
 import React from 'react'
 import { Flex, RenderHtml } from '@components'
@@ -14,8 +14,7 @@ import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 
 const avatarWidth = 32
-const imagesMaxWidthSub =
-  _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 function ItemPlusOne(
   { id, message, userId, userName, avatar, url, event },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 15:17:09
+ * @Last Modified time: 2021-10-21 01:27:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,7 @@ import ItemPlusOne from './plus-one'
 
 const avatarWidth = 32
 const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const regPlus = /\+\d/
 
 function ItemSub(
   {
@@ -49,7 +50,7 @@ function ItemSub(
   const msg = removeHTMLTag(decoder(message))
   if ($.filterDelete && msg.includes('内容已被用户删除')) return null
 
-  if (msg.length <= 10 && msg.includes('+1')) {
+  if (msg.length <= 10 && regPlus.test(msg)) {
     return (
       <ItemPlusOne
         id={id}
