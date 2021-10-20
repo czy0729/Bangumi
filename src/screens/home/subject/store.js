@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-03 18:40:49
+ * @Last Modified time: 2021-10-21 06:09:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1928,8 +1928,6 @@ export default class ScreenSubject extends store {
 
     try {
       const { chap, vol } = this.state
-
-      // eslint-disable-next-line react/no-access-state-in-setstate
       const next = String(parseInt(this.state[name] || 0) + 1)
       await collectionStore.doUpdateBookEp({
         subjectId: this.subjectId,

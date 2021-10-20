@@ -1,10 +1,9 @@
-/* eslint-disable react/no-array-index-key */
 /*
  * 带标签的回复框
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:01:08
+ * @Last Modified time: 2021-10-21 07:19:19
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,7 +11,7 @@ import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { getStorage, setStorage, open } from '@utils'
-import { IOS } from '@constants'
+import { IOS, HOST_IMAGE_UPLOAD } from '@constants'
 import { Text } from './text'
 import { Bgm } from './bgm'
 import { Flex } from './flex'
@@ -55,15 +54,13 @@ export const FixedTextarea = observer(
 
     async componentDidMount() {
       try {
-        const showSource =
-          (await getStorage(`${namespace}|showSource`)) || false
-        const history = (await getStorage(namespace)) || '15'
+        const showSource = (await getStorage(`${namespace}|showSource`)) || false
+        const history = (await getStorage(namespace)) || '15' // 15就是bgm38
         const bgmHistory = history
           .split(',')
           .filter(item => item !== '')
           .map(item => parseInt(item))
-        const replyHistory =
-          (await getStorage(`${namespace}|replyHistory`)) || []
+        const replyHistory = (await getStorage(`${namespace}|replyHistory`)) || []
 
         this.setState({
           showSource,
@@ -138,13 +135,20 @@ export const FixedTextarea = observer(
       const { value } = this.state
       const index = this.getSelection()
 
-      // 插入值, 如[s]光标位置[/s]
-      const left = `${value.slice(0, index)}[${symbol}]`
-      const right = `[/${symbol}]${value.slice(index)}`
+      // 插入值, 如[s]光标位置[/s], [url=光标位置]链接描述[/url]
+      let left
+      let right
+      if (symbol === 'url') {
+        left = `${value.slice(0, index)}[url=`
+        right = `]链接描述[/url]${value.slice(index)}`
+      } else {
+        left = `${value.slice(0, index)}[${symbol}]`
+        right = `[/${symbol}]${value.slice(index)}`
+      }
+
       this.setState({
         value: `${left}${right}`
       })
-
       this.setSelection(left.length)
     }
 
@@ -166,9 +170,7 @@ export const FixedTextarea = observer(
     // 提交 (完了要保存历史)
     onSubmit = () => {
       const { value } = this.state
-      if (value === '') {
-        return
-      }
+      if (value === '') return
 
       const { onSubmit } = this.props
       onSubmit(this.value)
@@ -202,9 +204,7 @@ export const FixedTextarea = observer(
 
     // 设定光标位置
     setSelection = start => {
-      if (!IOS) {
-        return
-      }
+      if (!IOS) return
 
       const ref = this.ref.textAreaRef
       setTimeout(() => {
@@ -258,7 +258,6 @@ export const FixedTextarea = observer(
 
     // 本地化最近使用bgm
     setRecentUseBgm = async bgmIndex => {
-      // eslint-disable-next-line react/no-access-state-in-setstate
       let history = [...this.state.history]
       if (history.includes(bgmIndex)) {
         history = history.filter(item => item !== bgmIndex)
@@ -278,7 +277,6 @@ export const FixedTextarea = observer(
 
     // 本地化最近的回复
     setReplyHistory = async value => {
-      // eslint-disable-next-line react/no-access-state-in-setstate
       let replyHistory = [...this.state.replyHistory]
       if (replyHistory.includes(value)) {
         replyHistory = replyHistory.filter(item => item !== value)
@@ -287,9 +285,7 @@ export const FixedTextarea = observer(
         replyHistory.unshift(value)
       }
       if (replyHistory.length > maxHistoryCount) {
-        replyHistory = replyHistory.filter(
-          (item, index) => index < maxHistoryCount
-        )
+        replyHistory = replyHistory.filter((item, index) => index < maxHistoryCount)
       }
 
       this.setState({
@@ -357,6 +353,7 @@ export const FixedTextarea = observer(
     }
 
     renderBtn(text, symbol) {
+      const size = _.window.width < 375 ? 10 : 11
       if (text === 'BGM') {
         const { showBgm, showReplyHistory } = this.state
         return (
@@ -370,10 +367,7 @@ export const FixedTextarea = observer(
               }
             }}
           >
-            <Text
-              type={showBgm && !showReplyHistory ? 'main' : 'sub'}
-              size={12}
-            >
+            <Text type={showBgm && !showReplyHistory ? 'main' : 'sub'} size={size}>
               {text}
             </Text>
           </Touchable>
@@ -393,40 +387,40 @@ export const FixedTextarea = observer(
               }
             }}
           >
-            <Text
-              type={showReplyHistory ? 'main' : 'sub'}
-              size={11}
-              align='center'
-            >
+            <Text type={showReplyHistory ? 'main' : 'sub'} size={size} align='center'>
               {text}
             </Text>
           </Touchable>
         )
       }
 
+      const isOpenInNew = text === '图床'
       return (
         <Touchable
           style={this.styles.toolBarBtn}
           onPress={() => {
-            if (text === '图床') {
-              open('https://imgchr.com/')
+            if (isOpenInNew) {
+              open(HOST_IMAGE_UPLOAD)
             } else {
               this.onAddSymbolText(symbol)
             }
           }}
         >
-          <Text type='sub' size={11} align='center'>
-            {text}
-          </Text>
+          <Flex>
+            <Text type='sub' size={size} align='center'>
+              {text}
+            </Text>
+            {isOpenInNew && (
+              <Iconfont style={_.ml.xxs} name='md-open-in-new' size={size + 1} />
+            )}
+          </Flex>
         </Touchable>
       )
     }
 
     renderToolBar() {
       const { showTextarea, showBgm } = this.state
-      if (!(showTextarea || showBgm)) {
-        return null
-      }
+      if (!(showTextarea || showBgm)) return null
 
       const { simple } = this.props
       return (
@@ -436,14 +430,18 @@ export const FixedTextarea = observer(
           justify={simple ? undefined : 'between'}
         >
           {this.renderBtn('BGM')}
-          {!simple && this.renderBtn('加粗', 'b')}
-          {!simple && this.renderBtn('斜体', 'i')}
-          {!simple && this.renderBtn('下划', 'u')}
-          {!simple && this.renderBtn('删除', 's')}
-          {!simple && this.renderBtn('剧透', 'mask')}
-          {!simple && this.renderBtn('图片', 'img')}
-          {!simple && this.renderBtn('图床', 'imgchr')}
-          {!simple && this.renderBtn('链接', 'url')}
+          {!simple && (
+            <>
+              {this.renderBtn('加粗', 'b')}
+              {this.renderBtn('斜体', 'i')}
+              {this.renderBtn('下划', 'u')}
+              {this.renderBtn('删除', 's')}
+              {this.renderBtn('剧透', 'mask')}
+              {this.renderBtn('链接', 'url')}
+              {this.renderBtn('图片', 'img')}
+              {this.renderBtn('图床', 'imgchr')}
+            </>
+          )}
           {this.renderBtn('历史')}
         </Flex>
       )
@@ -452,33 +450,22 @@ export const FixedTextarea = observer(
     renderSource() {
       const { source } = this.props
       const { showTextarea, showSource } = this.state
-      if (!source || !showTextarea) {
-        return null
-      }
+      if (!source || !showTextarea) return null
 
       return (
         <Flex style={this.styles.source}>
           <Flex.Item>
             {showSource && (
-              <Text
-                style={{
-                  opacity: 0.8
-                }}
-                size={10}
-                type='sub'
-              >
+              <Text style={this.styles.opacity} size={10} type='sub'>
                 [来自Bangumi for {IOS ? 'iOS' : 'android'}]
               </Text>
             )}
           </Flex.Item>
-          <Touchable
-            style={this.styles.touchSource}
-            onPress={this.toggleSource}
-          >
+          <Touchable style={this.styles.touchSource} onPress={this.toggleSource}>
             <Flex>
               <Iconfont
                 name={showSource ? 'md-check-circle' : 'md-radio-button-off'}
-                size={14}
+                size={11}
                 color={showSource ? _.colorMain : _.colorSub}
               />
               <Text style={_.ml.xs} type='sub' size={11}>
@@ -496,7 +483,7 @@ export const FixedTextarea = observer(
       const canSend = value !== ''
       return (
         <View style={_.container.wind}>
-          <Flex style={this.styles.textareaContainer} align='start'>
+          <Flex align='start'>
             <Flex.Item>
               <TextareaItem
                 ref={ref => (this.ref = ref)}
@@ -536,13 +523,8 @@ export const FixedTextarea = observer(
         replyHistory
       } = this.state
       // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
-      if (!IOS && !showBgm) {
-        return null
-      }
-
-      if (!showTextarea || !keyboardHeight) {
-        return null
-      }
+      if (!IOS && !showBgm) return null
+      if (!showTextarea || !keyboardHeight) return null
 
       return (
         <ScrollView
@@ -609,11 +591,7 @@ export const FixedTextarea = observer(
       return (
         <>
           {(showTextarea || showBgm) && (
-            <Touchable
-              style={this.styles.mask}
-              withoutFeedback
-              onPress={this.onBlur}
-            />
+            <Touchable style={this.styles.mask} withoutFeedback onPress={this.onBlur} />
           )}
           <View style={this.styles.container}>
             {children}
@@ -622,7 +600,7 @@ export const FixedTextarea = observer(
             {this.renderContent()}
           </View>
           {!showKeyboardSpacer && (
-            <View style={{ display: 'none' }}>
+            <View style={this.styles.hide}>
               <KeyboardSpacer onToggle={this.onToggle} />
             </View>
           )}
@@ -681,10 +659,6 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.wind,
     paddingVertical: _.sm
   },
-  textareaContainer: {
-    // borderBottomWidth: _.hairlineWidth,
-    // borderBottomColor: _.colorBorder
-  },
   textarea: {
     paddingVertical: _.sm,
     paddingHorizontal: 0,
@@ -717,5 +691,11 @@ const memoStyles = _.memoStyles(_ => ({
     right: 4,
     bottom: _.md,
     left: 2
+  },
+  opacity: {
+    opacity: 0.8
+  },
+  hide: {
+    display: 'none'
   }
 }))

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-09 23:52:56
+ * @Last Modified time: 2021-10-21 07:33:09
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -12,20 +12,16 @@ import cheerio from 'cheerio-without-node-native'
 import {
   KeyboardSpacer,
   StatusBarEvents,
+  Touchable,
   Text,
   Flex,
+  Iconfont,
   UM,
   Heatmap
 } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore, usersStore, rakuenStore } from '@stores'
-import {
-  getTimestamp,
-  setStorage,
-  getStorage,
-  open,
-  urlStringify
-} from '@utils'
+import { getTimestamp, setStorage, getStorage, open, urlStringify } from '@utils'
 import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
@@ -231,9 +227,7 @@ class LoginV2 extends React.Component {
     })
     this.updateCookie(headers?.['set-cookie']?.[0])
 
-    const match = data.match(
-      /<input type="hidden" name="formhash" value="(.+?)">/
-    )
+    const match = data.match(/<input type="hidden" name="formhash" value="(.+?)">/)
     if (match) this.formhash = match[1]
 
     return true
@@ -561,16 +555,8 @@ class LoginV2 extends React.Component {
 
   renderForm() {
     const { navigation } = this.props
-    const {
-      host,
-      email,
-      password,
-      captcha,
-      base64,
-      isCommonUA,
-      loading,
-      info
-    } = this.state
+    const { host, email, password, captcha, base64, isCommonUA, loading, info } =
+      this.state
     return (
       <Form
         forwardRef={ref => (this.codeRef = ref)}
@@ -613,9 +599,7 @@ class LoginV2 extends React.Component {
         ) : (
           <Flex style={this.styles.old}>
             <Flex.Item>
-              <Text
-                size={13}
-                align='center'
+              <Touchable
                 onPress={() => {
                   t('登陆.跳转', {
                     to: 'Signup'
@@ -637,8 +621,18 @@ class LoginV2 extends React.Component {
                   )
                 }}
               >
-                注册
-              </Text>
+                <Flex justify='center'>
+                  <Text size={13} align='center'>
+                    注册
+                  </Text>
+                  <Iconfont
+                    style={_.ml.xxs}
+                    name='md-open-in-new'
+                    color={_.colorDesc}
+                    size={16}
+                  />
+                </Flex>
+              </Touchable>
               <Heatmap
                 id='登陆.跳转'
                 data={{
@@ -707,24 +701,9 @@ class LoginV2 extends React.Component {
         <StatusBarPlaceholder />
         {this.renderContent()}
         <KeyboardSpacer />
-        <Heatmap
-          right={_.wind}
-          bottom={_.bottom + 120}
-          id='登陆.登陆'
-          transparent
-        />
-        <Heatmap
-          right={_.wind}
-          bottom={_.bottom + 86}
-          id='登陆.成功'
-          transparent
-        />
-        <Heatmap
-          right={_.wind}
-          bottom={_.bottom + 52}
-          id='登陆.错误'
-          transparent
-        />
+        <Heatmap right={_.wind} bottom={_.bottom + 120} id='登陆.登陆' transparent />
+        <Heatmap right={_.wind} bottom={_.bottom + 86} id='登陆.成功' transparent />
+        <Heatmap right={_.wind} bottom={_.bottom + 52} id='登陆.错误' transparent />
         <Heatmap id='登陆' screen='Login' />
       </View>
     )

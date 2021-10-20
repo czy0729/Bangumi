@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-22 10:19:25
+ * @Last Modified time: 2021-10-21 07:18:09
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -51,6 +51,7 @@ export const HOST_NING_MOE = 'https://www.ningmoe.com' // 柠萌瞬间地址
 export const HOST_ANITAMA = 'https://app.anitama.net' // Anitama api地址
 export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
+export const HOST_IMAGE_UPLOAD = 'https://www.hualigs.cn' // 免费图床
 
 /* ==================== URL ==================== */
 // 登陆v1.0 oauth地址
@@ -101,8 +102,7 @@ export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'
 export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec'
 
 // 小圣杯授权跳转地址
-export const TINYGRAIL_URL_OAUTH_REDIRECT =
-  'https://tinygrail.com/api/account/callback'
+export const TINYGRAIL_URL_OAUTH_REDIRECT = 'https://tinygrail.com/api/account/callback'
 
 // 更新内容帖子
 export const TINYGRAIL_UPDATES_LOGS_URL = `${HOST}/group/topic/354698`
@@ -122,8 +122,7 @@ export const GITHUB_RELEASE_REPOS =
   'https://api.github.com/repos/czy0729/Bangumi/releases'
 
 // ota url
-export const GITHUB_DATA =
-  'https://gitee.com/a296377710/bangumi/raw/master/data.json'
+export const GITHUB_DATA = 'https://gitee.com/a296377710/bangumi/raw/master/data.json'
 
 // 高级会员 url
 export const GITHUB_ADVANCE =

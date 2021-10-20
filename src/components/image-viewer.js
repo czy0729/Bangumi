@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:37:23
+ * @Last Modified time: 2021-10-21 07:01:21
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -43,10 +43,7 @@ export const ImageViewer = observer(
 
     onMenus = () => {
       const { index, imageUrls, onCancel } = this.props
-      return this.renderMenus(
-        imageUrls[index]._url || imageUrls[index].url,
-        onCancel
-      )
+      return this.renderMenus(imageUrls[index]._url || imageUrls[index].url, onCancel)
     }
 
     renderMenus(url, onCancel) {

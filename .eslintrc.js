@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 00:48:09
+ * @Last Modified time: 2021-10-21 06:34:46
  */
 module.exports = {
   root: true,
@@ -26,7 +26,8 @@ module.exports = {
     radix: 0, // parseInt允许不填进制
     'no-shadow': 0, // 允许相同变量名
     'max-len': ['error', 200],
-    eqeqeq: 0
+    eqeqeq: 0,
+    'react/no-did-mount-set-state': 0
   }
 }
 

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 16:44:58
+ * @Last Modified time: 2021-10-21 07:38:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Image, Text } from '@components'
+import { Touchable, Flex, Image, Text, Iconfont } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
@@ -141,9 +141,7 @@ class Game extends React.Component {
             *信息来源自vgtime.com
           </Text>
         )}
-        <Text
-          type='main'
-          lineHeight={22}
+        <Touchable
           onPress={() =>
             open(
               `https://search.bilibili.com/all?keyword=${encodeURIComponent(
@@ -152,8 +150,13 @@ class Game extends React.Component {
             )
           }
         >
-          点击查找{this.isADV ? 'OP' : 'PV'}
-        </Text>
+          <Flex>
+            <Text type='sub' lineHeight={22}>
+              点击查找 {this.isADV ? 'OP' : 'PV'}
+            </Text>
+            <Iconfont style={_.ml.xs} name='md-open-in-new' size={16} />
+          </Flex>
+        </Touchable>
       </View>
     )
   }
@@ -163,9 +166,7 @@ class Game extends React.Component {
 
     const { showGameInfo } = systemStore.setting
     const { $ } = this.context
-    if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.id) {
-      return null
-    }
+    if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.id) return null
 
     return (
       <View style={_.mt.lg}>

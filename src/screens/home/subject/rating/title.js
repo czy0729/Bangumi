@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:44:21
+ * @Last Modified time: 2021-10-21 06:27:10
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -17,6 +17,7 @@ function Title({ showScore }, { $ }) {
 
   const { showRating } = systemStore.setting
   const { rank = '-' } = $.subject
+  const showNetabare = $.type === '动画'
   return (
     <SectionTitle
       right={
@@ -34,10 +35,14 @@ function Title({ showScore }, { $ }) {
           >
             <Flex>
               {showScore && <Rank style={styles.rank} value={rank} size={13} />}
-              <Text style={_.ml.sm} type='sub'>
-                趋势
-              </Text>
-              <Iconfont name='md-navigate-next' />
+              {showNetabare && (
+                <>
+                  <Text style={_.ml.sm} type='sub'>
+                    趋势
+                  </Text>
+                  <Iconfont style={_.ml.xs} name='md-open-in-new' size={18} />
+                </>
+              )}
             </Flex>
             <Heatmap
               id='条目.跳转'

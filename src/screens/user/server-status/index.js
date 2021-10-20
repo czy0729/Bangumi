@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 14:56:10
+ * @Last Modified time: 2021-10-21 07:21:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,17 +14,13 @@ import { t } from '@utils/fetch'
 import {
   HOST_MANGA,
   HOST_ANITAMA,
+  HOST_IMAGE_UPLOAD,
   URL_OAUTH,
   GITHUB_RELEASE_REPOS
 } from '@constants'
 import { API_CALENDAR } from '@constants/api'
 import { CDN_ONAIR, CDN_DISCOVERY_HOME } from '@constants/cdn'
-import {
-  SITE_AGEFANS,
-  SITE_XUNBO,
-  SITE_77MH,
-  SITE_COMIC123
-} from '@constants/site'
+import { SITE_AGEFANS, SITE_XUNBO, SITE_77MH, SITE_COMIC123 } from '@constants/site'
 
 const title = '网络探针'
 const pingCount = 4
@@ -163,15 +159,15 @@ const initList = () => [
   },
   {
     title: 'https://netaba.re',
-    desc: 'Netabare动漫趋势',
+    desc: 'netaba.re',
     url: 'https://netaba.re',
     msg: [],
     loading: false
   },
   {
-    title: 'https://imgchr.com',
-    desc: '图床',
-    url: 'https://imgchr.com',
+    title: HOST_IMAGE_UPLOAD,
+    desc: '免费图床',
+    url: HOST_IMAGE_UPLOAD,
     msg: [],
     loading: false
   }

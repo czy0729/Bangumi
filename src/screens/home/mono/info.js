@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:56:44
+ * @Last Modified time: 2021-10-21 07:04:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -102,10 +102,15 @@ function Info(props, { $, navigation }) {
           <Flex style={_.mt.lg} justify='end'>
             <Touchable style={styles.touch} onPress={$.onMore}>
               <Flex>
-                <Iconfont name='md-read-more' color={_.colorSub} />
                 <Text style={_.ml.sm} type='sub'>
                   更多资料
                 </Text>
+                <Iconfont
+                  style={_.ml.xxs}
+                  name='md-open-in-new'
+                  color={_.colorSub}
+                  size={16}
+                />
               </Flex>
             </Touchable>
           </Flex>

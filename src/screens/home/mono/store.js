@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 16:15:27
+ * @Last Modified time: 2021-10-21 07:03:18
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -46,9 +46,7 @@ export default class ScreenMono extends store {
       return false
     }
 
-    const res = tinygrailStore.fetchCharacters([
-      this.monoId.replace('character/', '')
-    ])
+    const res = tinygrailStore.fetchCharacters([this.monoId.replace('character/', '')])
     await res
     this.setState({
       checkTinygrail: true
