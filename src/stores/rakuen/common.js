@@ -2,18 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 08:39:38
+ * @Last Modified time: 2021-10-21 02:05:38
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
 import { fetchHTML } from '@utils/fetch'
-import {
-  HTMLTrim,
-  HTMLToTree,
-  findTreeNode,
-  HTMLDecode,
-  cheerio
-} from '@utils/html'
+import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode, cheerio } from '@utils/html'
 import { matchAvatar, matchUserId } from '@utils/match'
 import { HTML_RAKUEN } from '@constants/html'
 import { INIT_TOPIC, INIT_COMMENTS_ITEM, INIT_BLOG } from './init'
@@ -24,9 +18,7 @@ export async function fetchRakuen({ scope, type } = {}) {
     url: HTML_RAKUEN(scope, type)
   })
   const raw = await res
-  const HTML = HTMLTrim(raw).match(
-    /<div id="eden_tpc_list"><ul>(.+?)<\/ul><\/div>/
-  )
+  const HTML = HTMLTrim(raw).match(/<div id="eden_tpc_list"><ul>(.+?)<\/ul><\/div>/)
 
   // -------------------- 分析HTML --------------------
   const rakuen = []
@@ -116,10 +108,7 @@ export function analysisComments(HTML, reverse) {
       const subMessageHTML = subHTML[1]
         .match(/<div id="post_\d+"(.+?)<\/div><\/div><\/div>/g)
         .map(item =>
-          item.replace(
-            /<div id="post_\d+" class="sub_reply_bgclearit">|<\/div>$/g,
-            ''
-          )
+          item.replace(/<div id="post_\d+" class="sub_reply_bgclearit">|<\/div>$/g, '')
         )
 
       const subTree = HTMLToTree(subHTML[1])
@@ -145,9 +134,7 @@ export function analysisComments(HTML, reverse) {
         messageHTML[index] &&
         messageHTML[index]
           .replace('class="message clearit"', 'class="message"')
-          .match(
-            /<div class="message">(.+?)<\/div><div class="topic_sub_reply"/
-          )
+          .match(/<div class="message">(.+?)<\/div><div class="topic_sub_reply"/)
       message = match ? match[1] : ''
     } else {
       const match =
@@ -282,7 +269,6 @@ export function cheerioNotify(HTML) {
       let message2
 
       if (title) {
-        // eslint-disable-next-line no-extra-semi
         ;[message, message2] = $tr.find('div.reply_content').text().split(title)
       } else {
         message = $tr.find('div.reply_content').text()
@@ -315,9 +301,7 @@ export function cheerioTopic(HTML) {
     // 主楼
     const $group = $('#pageHeader a.avatar')
     const $user = $('div.postTopic strong > a.l')
-    const [floor, time] = (
-      $('div.postTopic div.re_info > small').text().trim() || ''
-    )
+    const [floor, time] = ($('div.postTopic div.re_info > small').text().trim() || '')
       .split('/')[0]
       .split(' - ')
     const titleText = $('#pageHeader > h1').text().trim() || ''
@@ -353,9 +337,7 @@ export function cheerioTopic(HTML) {
         .map((index, element) => {
           const $row = cheerio(element)
 
-          const [floor, time] = (
-            $row.find('> div.re_info > small').text().trim() || ''
-          )
+          const [floor, time] = ($row.find('> div.re_info > small').text().trim() || '')
             .split('/')[0] // 这里其实为了去除 / del / edit
             .split(' - ')
           return safeObject({
@@ -369,18 +351,13 @@ export function cheerioTopic(HTML) {
               $row.find('> div.inner > div.reply_content > div.message').html()
             ),
             replySub:
-              $row
-                .find('> div.inner > span.userInfo > a.icons_cmt')
-                .attr('onclick') ||
+              $row.find('> div.inner > span.userInfo > a.icons_cmt').attr('onclick') ||
               // ep不一样
               $row.find('> div.inner > a.icons_cmt').attr('onclick'),
             time,
             userId: matchUserId($row.find('a.avatar').attr('href')),
             userName:
-              $row
-                .find('> div.inner > span.userInfo > strong > a.l')
-                .text()
-                .trim() ||
+              $row.find('> div.inner > span.userInfo > strong > a.l').text().trim() ||
               $row.find('> div.inner > strong > a.l').text().trim(),
             userSign: HTMLDecode($row.find('span.tip_j').text().trim()),
             erase: $row.find('> div.re_info a.erase_post').attr('href'),
@@ -458,16 +435,11 @@ export function cheerioBlog(HTML) {
         .get() || []
 
     blog = safeObject({
-      avatar: getCoverSmall(
-        $('#pageHeader img.avatar').attr('src').split('?')[0]
-      ),
+      avatar: getCoverSmall($('#pageHeader img.avatar').attr('src').split('?')[0]),
       floor: '#0',
       formhash: $('input[name=formhash]').attr('value'),
       message: HTMLTrim($('div#entry_content').html()),
-      time: $('hr + div.re_info')
-        .text()
-        .replace(' / ', '')
-        .replace('del / edit', ''),
+      time: $('hr + div.re_info').text().replace(' / ', '').replace('del / edit', ''),
       title,
       userId: matchUserId($user.attr('href')),
       userName: $user.text().replace(' ', '').replace('\n\n', ''),
@@ -481,9 +453,7 @@ export function cheerioBlog(HTML) {
         .map((index, element) => {
           const $row = cheerio(element)
 
-          const [floor, time] = (
-            $row.find('> div.re_info > small').text() || ''
-          )
+          const [floor, time] = ($row.find('> div.re_info > small').text() || '')
             .split('/')[0] // 这里其实为了去除 / del / edit
             .split(' - ')
           return safeObject({

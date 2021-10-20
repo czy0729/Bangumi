@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 14:06:49
+ * @Last Modified time: 2021-10-21 01:43:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,6 @@ const cacheKey = `${namespace}|cache`
 let cache = {}
 let inited = false
 
-// eslint-disable-next-line semi-style
 ;(async () => {
   try {
     cache = (await getStorage(cacheKey)) || {}
@@ -38,7 +37,8 @@ let inited = false
   }
 })()
 
-const katakana = /[\u30A1-\u30FA\u30FD-\u30FF][\u3099\u309A\u30A1-\u30FF]*[\u3099\u309A\u30A1-\u30FA\u30FC-\u30FF]|[\uFF66-\uFF6F\uFF71-\uFF9D][\uFF65-\uFF9F]*[\uFF66-\uFF9F]/g
+const katakana =
+  /[\u30A1-\u30FA\u30FD-\u30FF][\u3099\u309A\u30A1-\u30FF]*[\u3099\u309A\u30A1-\u30FA\u30FC-\u30FF]|[\uFF66-\uFF6F\uFF71-\uFF9D][\uFF65-\uFF9F]*[\uFF66-\uFF9F]/g
 export function matchKatakanas(str) {
   return str.match(katakana)
 }
@@ -75,6 +75,7 @@ async function doTranslate() {
     jps = []
     const response = await baiduTranslate(text, 'en')
     const { trans_result: transResult } = JSON.parse(response)
+
     if (Array.isArray(transResult)) {
       // [{ dst: 'Studio pulp', src: 'スタジオパルプ' }]
       transResult.forEach(item => (cache[item.src] = item.dst))
@@ -168,7 +169,6 @@ const Provider = observer(
         const { children } = this.props
         const _fullTextConfig = []
 
-        // eslint-disable-next-line semi-style
         ;(Array.isArray(children) ? children : [children])
           .filter(item => !!item)
           .forEach(item =>
@@ -286,18 +286,12 @@ const Provider = observer(
       // 在整串文字中, 取得每一个片假名的索引位置, 使用onLayout计算英文需要出现的位置
       const { style } = this.props
       return (
-        <Flex
-          style={style ? [styles.measure, style] : styles.measure}
-          wrap='wrap'
-        >
+        <Flex style={style ? [styles.measure, style] : styles.measure} wrap='wrap'>
           {fullTextConfig.map(node => {
             const jpIndexMap = {}
-            matches.forEach(
-              item => (jpIndexMap[node.text.indexOf(item.jp)] = item.jp)
-            )
+            matches.forEach(item => (jpIndexMap[node.text.indexOf(item.jp)] = item.jp))
             return node.text.split('').map((text, index) => (
               <Text
-                // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 size={node.size}
                 lineHeight={node.lineHeight}
@@ -395,10 +389,7 @@ const Katakana = observer(
 
     translate = async () => {
       const { children } = this.props
-      if (
-        !children ||
-        !(typeof children === 'string' || Array.isArray(children))
-      ) {
+      if (!children || !(typeof children === 'string' || Array.isArray(children))) {
         return
       }
 

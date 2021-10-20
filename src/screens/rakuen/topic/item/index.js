@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 15:16:30
+ * @Last Modified time: 2021-10-21 02:13:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,8 +83,8 @@ const Item = memo(
 
     // 遗留问题, 给宣传语增加一点高度
     const _msg = msg.replace(
-      '<span style="font-size:10px; line-height:10px;">[來自Bangumi for',
-      '<span style="font-size:10px; line-height:20px;">[來自Bangumi for'
+      '<span style="font-size:10px; line-height:10px;">[来自Bangumi for android]',
+      '<span style="font-size:10px; line-height:20px;">[来自Bangumi for android]'
     )
     return (
       <Flex
@@ -211,7 +211,7 @@ export default obc(
 
     if ($.isBlockUser(userId, userName, replySub)) return null
 
-    const msg = decoder(message)
+    let msg = decoder(message)
     if ($.filterDelete && msg.includes('内容已被用户删除')) return null
 
     const { expands } = $.state
@@ -225,6 +225,12 @@ export default obc(
 
     const { _url } = $.params
     const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
+
+    const { blockKeywords } = $.setting
+    if (blockKeywords.some(item => msg.includes(item))) {
+      msg =
+        '<span style="color:#999;font-size:12px">命中自定义关键字，已被App屏蔽</span>'
+    }
     return (
       <Item
         navigation={navigation}
@@ -274,13 +280,9 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind,
     marginLeft: _.sm
   },
-  // border: {
-  //   borderTopColor: _.colorBorder,
-  //   borderTopWidth: _.hairlineWidth
-  // },
   sub: {
     marginTop: _.md,
-    marginBottom: -_.md
+    marginBottom: -20
   },
   expand: {
     paddingTop: _.sm,

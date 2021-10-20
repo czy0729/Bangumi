@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 01:27:38
+ * @Last Modified time: 2021-10-21 02:05:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -74,6 +74,12 @@ function ItemSub(
     if (quoteUserId && $.isBlockUser(quoteUserId, quoteUserName)) {
       return null
     }
+  }
+
+  const { blockKeywords } = $.setting
+  if (blockKeywords.some(item => msg.includes(item))) {
+    message =
+      '<span style="color:#999;font-size:12px">命中自定义关键字，已被App屏蔽</span>'
   }
 
   const styles = memoStyles()
