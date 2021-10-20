@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 20:23:24
+ * @Last Modified time: 2021-10-20 07:59:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,16 +32,13 @@ function History({ style, data = [], onDelete = Function.prototype }) {
         <View key={item} style={styles.item}>
           <Flex style={styles.content}>
             <Flex.Item>
-              <Text type='title' size={15} bold>
+              <Text size={15} bold>
                 {item.replace('@undefined', '')}
               </Text>
             </Flex.Item>
-            <Touchable
-              style={[styles.touch, _.ml.md]}
-              onPress={() => onDelete(item)}
-            >
+            <Touchable style={[styles.touch, _.ml.md]} onPress={() => onDelete(item)}>
               <Flex style={styles.icon} justify='center'>
-                <Iconfont name='md-close' />
+                <Iconfont name='md-close' size={20} />
               </Flex>
             </Touchable>
           </Flex>
@@ -62,7 +59,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind
   },
   content: {
-    paddingVertical: _.sm
+    marginTop: _.sm
   },
   touch: {
     borderRadius: 20,

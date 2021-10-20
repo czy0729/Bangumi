@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:10:50
+ * @Last Modified time: 2021-10-20 07:59:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,18 +11,20 @@ import {
   Text,
   SwitchPro,
   Flex,
-  SegmentedControl
+  SegmentedControl,
+  Input,
+  Touchable,
+  Iconfont
 } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, rakuenStore } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants/model'
 import History from './history'
 
-const scrollDirectionDS = MODEL_RAKUEN_SCROLL_DIRECTION.data.map(
-  item => item.label
-)
+const scrollDirectionDS = MODEL_RAKUEN_SCROLL_DIRECTION.data.map(item => item.label)
 const title = '超展开设置'
 
 export default
@@ -32,12 +34,42 @@ export default
 })
 @ob
 class RakuenSetting extends React.Component {
-  renderSection(text) {
+  state = {
+    keyword: ''
+  }
+
+  onChange = keyword => {
+    this.setState({
+      keyword: keyword.trim()
+    })
+  }
+
+  onSubmit = () => {
+    const { keyword } = this.state
+    if (!keyword.length) {
+      info('不能为空')
+      return
+    }
+
+    rakuenStore.addBlockKeyword(keyword)
+    this.setState({
+      keyword: ''
+    })
+  }
+
+  get setting() {
+    return rakuenStore.setting
+  }
+
+  renderSection(text, information) {
     return (
       <Flex style={this.styles.section}>
         <Flex.Item>
-          <Text size={16} type='sub'>
+          <Text type='title' size={16} bold>
             {text}
+          </Text>
+          <Text style={this.styles.information} type='sub' size={12}>
+            {information}
           </Text>
         </Flex.Item>
       </Flex>
@@ -45,7 +77,7 @@ class RakuenSetting extends React.Component {
   }
 
   renderTopic() {
-    const { quote, scrollDirection } = rakuenStore.setting
+    const { quote, scrollDirection } = this.setting
     return (
       <>
         {this.renderSection('帖子')}
@@ -95,8 +127,7 @@ class RakuenSetting extends React.Component {
   }
 
   renderList() {
-    const { filterDelete, isBlockDefaultUser, isMarkOldTopic } =
-      rakuenStore.setting
+    const { filterDelete, isBlockDefaultUser, isMarkOldTopic } = this.setting
     return (
       <>
         {this.renderSection('列表')}
@@ -158,12 +189,47 @@ class RakuenSetting extends React.Component {
     )
   }
 
+  renderCustom() {
+    const { keyword } = this.state
+    return (
+      <>
+        {this.renderSection('屏蔽关键字', '对标题、正文内容生效')}
+        <History
+          data={this.setting.blockKeywords}
+          onDelete={item => {
+            t('超展开设置.取消关键字', {
+              item
+            })
+            rakuenStore.deleteBlockKeyword(item)
+          }}
+        />
+        <Flex style={this.styles.section}>
+          <Flex.Item>
+            <Input
+              value={keyword}
+              placeholder='输入关键字'
+              returnKeyType='search'
+              returnKeyLabel='添加'
+              onChangeText={this.onChange}
+              onSubmitEditing={this.onSubmit}
+            />
+          </Flex.Item>
+          <Touchable style={_.ml.md} onPress={this.onSubmit}>
+            <Flex style={this.styles.icon} justify='center'>
+              <Iconfont name='md-add' size={24} />
+            </Flex>
+          </Touchable>
+        </Flex>
+      </>
+    )
+  }
+
   renderBlock() {
     return (
       <>
-        {this.renderSection('屏蔽小组 / 条目')}
+        {this.renderSection('屏蔽小组 / 条目', '对帖子所属小组名生效')}
         <History
-          data={rakuenStore.setting.blockGroups}
+          data={this.setting.blockGroups}
           onDelete={item => {
             t('超展开设置.取消关键字', {
               item
@@ -172,10 +238,10 @@ class RakuenSetting extends React.Component {
           }}
         />
         <View style={this.styles.split} />
-        {this.renderSection('屏蔽用户')}
+        {this.renderSection('屏蔽用户', '对发帖人、楼层主生效')}
         <History
           style={_.mt.sm}
-          data={rakuenStore.setting.blockUserIds}
+          data={this.setting.blockUserIds}
           onDelete={item => {
             t('超展开设置.取消用户', {
               item
@@ -197,6 +263,8 @@ class RakuenSetting extends React.Component {
         {this.renderTopic()}
         <View style={this.styles.split} />
         {this.renderList()}
+        <View style={this.styles.split} />
+        {this.renderCustom()}
         <View style={this.styles.split} />
         {this.renderBlock()}
       </ScrollView>
@@ -231,5 +299,13 @@ const memoStyles = _.memoStyles(_ => ({
         scale: _.device(0.8, 1.12)
       }
     ]
+  },
+  icon: {
+    width: 36,
+    height: 36
+  },
+  information: {
+    maxWidth: '80%',
+    marginTop: _.xs
   }
 }))

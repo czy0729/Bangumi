@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 08:15:21
+ * @Last Modified time: 2021-10-20 07:41:25
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -832,6 +832,42 @@ class Rakuen extends store {
       [key]: {
         ...this.setting,
         isBlockDefaultUser: !isBlockDefaultUser
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 添加屏蔽关键字
+   * @param {string} keyword
+   */
+  addBlockKeyword = keyword => {
+    const { blockKeywords } = this.setting
+    if (blockKeywords.includes(keyword)) {
+      return
+    }
+
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        blockKeywords: [...blockKeywords, keyword]
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 删除屏蔽关键字
+   * @param {string} keyword
+   */
+  deleteBlockKeyword = keyword => {
+    const { blockKeywords } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        blockKeywords: blockKeywords.filter(item => item !== keyword)
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
