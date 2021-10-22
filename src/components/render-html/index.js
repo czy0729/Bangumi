@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 01:32:32
+ * @Last Modified time: 2021-10-22 06:29:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,6 +21,7 @@ import QuoteText from './quote-text'
 import LineThroughtText from './line-throught-text'
 import HiddenText from './hidden-text'
 import Li from './li'
+import A from './a'
 import ToggleImage from './toggle-image'
 import {
   padFontSizeIncrease,
@@ -28,7 +29,8 @@ import {
   regs,
   getIncreaseFontSize,
   fixedBaseFontStyle,
-  hackFixedHTMLTags
+  hackFixedHTMLTags,
+  hackMatchMediaLink
 } from './utils'
 
 // 一些超展开内容文本样式的标记
@@ -64,7 +66,6 @@ export const RenderHtml = observer(
         if (settingKatakana) {
           const katakanaResult = await translateAll(html)
           if (katakanaResult) {
-            // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
               katakanaResult
             })
@@ -220,6 +221,20 @@ export const RenderHtml = observer(
         ),
         li: (attrs, children, convertedCSSStyles, { key }) => (
           <Li key={key}>{children}</Li>
+        ),
+        a: (attrs, children, convertedCSSStyles, passProps) => (
+          <A
+            key={passProps.key}
+            style={{
+              ...this.defaultBaseFontStyle,
+              ...baseFontStyle
+            }}
+            attrs={attrs}
+            passProps={passProps}
+            onPress={this.onLinkPress}
+          >
+            {children}
+          </A>
         )
       }
     })
@@ -291,7 +306,7 @@ export const RenderHtml = observer(
           })
         }
 
-        return hackFixedHTMLTags(_html)
+        return hackMatchMediaLink(hackFixedHTMLTags(_html))
       } catch (error) {
         warn('RenderHtml', 'formatHTML', error)
         return HTMLDecode(html)

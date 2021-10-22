@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-22 06:54:30
+ * @Last Modified time: 2021-10-22 06:30:33
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, Text } from '@components'
+import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
-import { ob } from '@utils/decorators'
 import { IMG_DEFAULT, DEV } from '@constants'
 import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
+import { Flex } from '../flex'
+import { Image } from '../image'
+import { Text } from '../text'
 
 const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
 
-export const Cover = ob(
+export const Cover = observer(
   ({ style, src, size, height, noDefault, type, textOnly = DEV, ...other }) => {
     const styles = memoStyles()
     if (textOnly) {

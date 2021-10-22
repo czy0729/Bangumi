@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 14:07:41
+ * @Last Modified time: 2021-10-22 06:47:25
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
@@ -188,6 +188,25 @@ class Subject extends store {
       ],
       NAMESPACE
     )
+
+  // -------------------- get --------------------
+  image(subjectId) {
+    if (!subjectId) return ''
+
+    const subject = this.subject(subjectId)
+    if (subject._loaded && subject.images.common) return subject.images.common
+
+    const subjectFormCDN = this.subjectFormCDN(subjectId)
+    return subjectFormCDN.image || ''
+  }
+
+  cn(subjectId) {
+    const subject = this.subject(subjectId)
+    if (subject._loaded) return subject.name_cn || subject.name || ''
+
+    const subjectFormCDN = this.subjectFormCDN(subjectId)
+    return subjectFormCDN.name || ''
+  }
 
   // -------------------- fetch --------------------
   /**

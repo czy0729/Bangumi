@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 22:56:31
+ * @Last Modified time: 2021-10-22 06:50:55
  */
 import { _, systemStore } from '@stores'
 import { HTMLDecode } from '@utils/html'
@@ -22,7 +22,8 @@ export const regs = {
   preR: /<\/pre>/g,
   q: /<q>(.+?)<\/q>/g,
   ruby: /<ruby>(.+?)<\/ruby>/g,
-  whiteTags: /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
+  whiteTags:
+    /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
 }
 
 export function getIncreaseFontSize(fontSize) {
@@ -125,4 +126,20 @@ export function hackFixedHTMLTags(html) {
    * 因一开始错误把整体转义过一次, 导致只能手动把左边的非合法标签'<'转义规避报错
    */
   return HTMLDecode(_html).replace(regs.whiteTags, '&lt;')
+}
+
+/**
+ * 匹配bgm部分页面链接, 把这些链接变成Media块, 与行内文字独立
+ * @param {*} html
+ */
+export function hackMatchMediaLink(html) {
+  const _html = html.replace(
+    /<a href="https:\/\/(bgm|bangumi).tv\/subject\/\d+" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
+    match => {
+      return `<div>${match}</div>`
+    }
+  )
+
+  // 防止两个连续的Media块中间产生大间隔
+  return _html.replace(/<\/div><br><div>/g, '</div><div>')
 }

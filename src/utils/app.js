@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 00:47:49
+ * @Last Modified time: 2021-10-22 04:28:35
  */
 import * as WebBrowser from 'expo-web-browser'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -208,21 +208,11 @@ export function keyExtractor(item = {}) {
 }
 
 /**
- * 根据Bangumi的url判断路由跳转方式
- * @param {*} url 链接
- * @param {*} navigation
- * @param {*} passParams 传递的参数
- * @param {*} event      { id, data }
+ * 修复链接
+ * @param {*} url
  */
-export function appNavigate(
-  url = '',
-  navigation,
-  passParams = {},
-  event = {},
-  openWebBrowser = true
-) {
+export function fixedBgmUrl(url = '') {
   try {
-    const { id, data = {} } = event
     let _url = url
 
     // 补全协议
@@ -240,8 +230,187 @@ export function appNavigate(
       _url = _url.replace(HOST_2, HOST)
     }
 
+    return _url
+  } catch (error) {
+    return url
+  }
+}
+
+/**
+ * 判断是否bgm的链接, 若是返回页面信息, 否则返回false
+ * @param {*} url
+ */
+export function matchBgmLink(url = '') {
+  try {
+    const _url = fixedBgmUrl(url)
+    if (!_url.includes(HOST)) return false
+
+    // 超展开内容 [/rakuen/topic/{topicId}]
+    if (_url.includes('/rakuen/topic/')) {
+      const topicId = _url.replace(`${HOST}/rakuen/topic/`, '')
+      return {
+        route: 'Topic',
+        params: {
+          topicId
+        }
+      }
+    }
+
+    if (_url.includes('/group/topic/')) {
+      const topicId = `group/${_url.replace(`${HOST}/group/topic/`, '')}`
+      return {
+        route: 'Topic',
+        params: {
+          topicId
+        }
+      }
+    }
+
+    // 条目 > 讨论版
+    if (_url.includes('/subject/topic/')) {
+      const topicId = `subject/${_url.replace(`${HOST}/subject/topic/`, '')}`
+      return {
+        route: 'Topic',
+        params: {
+          topicId
+        }
+      }
+    }
+
+    // 本集讨论 [/ep/\d+]
+    // 结构与超展开内容类似, 跳转到超展开内容
+    if (_url.includes('/ep/')) {
+      const topicId = _url.replace(`${HOST}/`, '').replace('subject/', '')
+      return {
+        route: 'Topic',
+        params: {
+          topicId
+        }
+      }
+    }
+
+    // 条目 [/subject/{subjectId}]
+    if (_url.includes('/subject/')) {
+      const subjectId = _url.replace(`${HOST}/subject/`, '')
+      return {
+        route: 'Subject',
+        params: {
+          subjectId
+        }
+      }
+    }
+
+    // 个人中心 [/user/{userId}]
+    // 排除时间线回复 [user/{userId}/timeline/status/{timelineId}]
+    if (_url.includes('/user/') && _url.split('/').length <= 6) {
+      const userId = _url.replace(`${HOST}/user/`, '')
+      return {
+        route: 'Zone',
+        params: {
+          userId
+        }
+      }
+    }
+
+    // 人物 [/character/\d+, /person/\d+]
+    if (_url.includes('/character/') || _url.includes('/person/')) {
+      const monoId = _url.replace(`${HOST}/`, '')
+      return {
+        route: 'Mono',
+        params: {
+          monoId
+        }
+      }
+    }
+
+    // 小组
+    if (_url.includes('/group/')) {
+      const groupId = _url.replace(`${HOST}/group/`, '')
+      return {
+        route: 'Group',
+        params: {
+          groupId
+        }
+      }
+    }
+
+    // 标签
+    if (_url.includes('/tag/')) {
+      // ['https:', ', 'bangumi.tv', 'anime', 'tag', '剧场版', 'airtime', '2018']
+      const params = _url.split('/')
+      return {
+        route: 'Tag',
+        params: {
+          type: params[3],
+          tag: decodeURIComponent(params[5]),
+          airtime: params[7]
+        }
+      }
+    }
+
+    // 吐槽
+    if (_url.includes('/timeline/status/')) {
+      const splits = _url.split('/timeline/status/')
+      const _userId = splits[0].replace('https://bgm.tv/user/', '')
+      const _id = splits[1]
+      return {
+        route: 'Say',
+        params: {
+          id: _id,
+          userId: _userId
+        }
+      }
+    }
+
+    // 目录
+    if (_url.includes('/index/')) {
+      const _id = _url.split('/index/')[1]
+      return {
+        route: 'CatalogDetail',
+        params: {
+          catalogId: _id
+        }
+      }
+    }
+
+    // 日志
+    if (_url.includes('/blog/')) {
+      const _id = _url.split('/blog/')[1]
+      return {
+        route: 'Blog',
+        params: {
+          blogId: _id
+        }
+      }
+    }
+
+    return false
+  } catch (error) {
+    return false
+  }
+}
+
+/**
+ * 根据Bangumi的url判断路由跳转方式
+ * @param {*} url 链接
+ * @param {*} navigation
+ * @param {*} passParams 传递的参数
+ * @param {*} event      { id, data }
+ */
+export function appNavigate(
+  url = '',
+  navigation,
+  passParams = {},
+  event = {},
+  openWebBrowser = true
+) {
+  try {
+    const { id, data = {} } = event
+    const _url = fixedBgmUrl(url)
+    const result = matchBgmLink(_url)
+
     // 没路由对象或者非本站
-    if (!navigation || !_url.includes(HOST)) {
+    if (!navigation || !_url.includes(HOST) || !result) {
       if (openWebBrowser) {
         t(id, {
           to: 'WebBrowser',
@@ -254,225 +423,19 @@ export function appNavigate(
       return false
     }
 
-    // 超展开内容 [/rakuen/topic/{topicId}]
-    if (_url.includes('/rakuen/topic/')) {
-      const topicId = _url.replace(`${HOST}/rakuen/topic/`, '')
-      t(id, {
-        to: 'Topic',
-        topicId,
-        ...data
-      })
+    const { route, params } = result
+    t(id, {
+      to: route,
+      ...params,
+      ...data
+    })
 
-      navigation.push('Topic', {
-        topicId,
-        _url,
-        ...passParams
-      })
-      return true
-    }
-
-    if (_url.includes('/group/topic/')) {
-      const topicId = `group/${_url.replace(`${HOST}/group/topic/`, '')}`
-      t(id, {
-        to: 'Topic',
-        topicId,
-        ...data
-      })
-
-      navigation.push('Topic', {
-        topicId,
-        _url,
-        ...passParams
-      })
-      return true
-    }
-
-    // 条目 > 讨论版
-    if (_url.includes('/subject/topic/')) {
-      const topicId = `subject/${_url.replace(`${HOST}/subject/topic/`, '')}`
-      t(id, {
-        to: 'Topic',
-        topicId,
-        ...data
-      })
-
-      navigation.push('Topic', {
-        topicId,
-        _url,
-        ...passParams
-      })
-      return true
-    }
-
-    // 本集讨论 [/ep/\d+]
-    // 结构与超展开内容类似, 跳转到超展开内容
-    if (_url.includes('/ep/')) {
-      const topicId = _url.replace(`${HOST}/`, '').replace('subject/', '')
-      t(id, {
-        to: 'Topic',
-        topicId,
-        ...data
-      })
-
-      navigation.push('Topic', {
-        topicId,
-        _url,
-        ...passParams
-      })
-      return true
-    }
-
-    // 条目 [/subject/{subjectId}]
-    if (_url.includes('/subject/')) {
-      const subjectId = _url.replace(`${HOST}/subject/`, '')
-      t(id, {
-        to: 'Subject',
-        subjectId,
-        ...data
-      })
-
-      navigation.push('Subject', {
-        subjectId,
-        _url,
-        ...passParams
-      })
-      return true
-    }
-
-    // 个人中心 [/user/{userId}]
-    // 排除时间线回复 [user/{userId}/timeline/status/{timelineId}]
-    if (_url.includes('/user/') && _url.split('/').length <= 6) {
-      const userId = _url.replace(`${HOST}/user/`, '')
-      t(id, {
-        to: 'Zone',
-        userId,
-        ...data
-      })
-
-      navigation.push('Zone', {
-        userId,
-        _url,
-        ...passParams
-      })
-      return true
-    }
-
-    // 人物 [/character/\d+, /person/\d+]
-    if (_url.includes('/character/') || _url.includes('/person/')) {
-      const monoId = _url.replace(`${HOST}/`, '')
-      t(id, {
-        to: 'Mono',
-        monoId,
-        ...data
-      })
-
-      navigation.push('Mono', {
-        monoId,
-        _url,
-        ...passParams
-      })
-      return true
-    }
-
-    // 小组
-    if (_url.includes('/group/')) {
-      const groupId = _url.replace(`${HOST}/group/`, '')
-      t(id, {
-        to: 'Group',
-        groupId,
-        ...data
-      })
-
-      navigation.push('Group', {
-        groupId,
-        _url,
-        ...passParams
-      })
-      return true
-    }
-
-    // 标签
-    if (_url.includes('/tag/')) {
-      t(id, {
-        to: 'Tag',
-        type: params[3],
-        tag: decodeURIComponent(params[5]),
-        airtime: params[7],
-        ...data
-      })
-
-      // ['https:', ', 'bangumi.tv', 'anime', 'tag', '剧场版', 'airtime', '2018']
-      const params = _url.split('/')
-      navigation.push('Tag', {
-        type: params[3],
-        tag: decodeURIComponent(params[5]),
-        airtime: params[7],
-        ...passParams
-      })
-      return true
-    }
-
-    // 吐槽
-    if (_url.includes('/timeline/status/')) {
-      const splits = _url.split('/timeline/status/')
-      const _userId = splits[0].replace('https://bgm.tv/user/', '')
-      const _id = splits[1]
-      t(id, {
-        to: 'Say',
-        id: _id,
-        ...data
-      })
-
-      navigation.push('Say', {
-        id: _id,
-        userId: _userId,
-        ...passParams
-      })
-      return true
-    }
-
-    // 目录
-    if (_url.includes('/index/')) {
-      const _id = _url.split('/index/')[1]
-      t(id, {
-        to: 'CatalogDetail',
-        catalogId: _id,
-        ...data
-      })
-
-      navigation.push('CatalogDetail', {
-        catalogId: _id,
-        ...passParams
-      })
-      return true
-    }
-
-    // 日志
-    if (_url.includes('/blog/')) {
-      const _id = _url.split('/blog/')[1]
-      t(id, {
-        to: 'Blog',
-        blogId: _id,
-        ...data
-      })
-
-      navigation.push('Blog', {
-        blogId: _id,
-        ...passParams
-      })
-      return true
-    }
-
-    if (openWebBrowser) {
-      t(id, {
-        to: 'WebBrowser',
-        url: _url,
-        ...data
-      })
-
-      WebBrowser.openBrowserAsync(_url)
-    }
-    return false
+    navigation.push(route, {
+      _url,
+      ...params,
+      ...passParams
+    })
+    return true
   } catch (error) {
     warn('utils/app', 'appNavigate', error)
     return false

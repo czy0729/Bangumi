@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:35:24
+ * @Last Modified time: 2021-10-22 06:51:26
  */
 export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const INIT_ROUTE = 'Home'
@@ -13,7 +13,7 @@ export default {
   initialRouteName: 'HomeTab', // HomeTab Discovery Subject Tinygrail
   initialRouteParams: {
     // subjectId: 319513 // anime: 296870, music: 302514, book: 267358, game: 137458
-    // topicId: 'ep/1039479' // group/360353, ep/938136
+    // topicId: 'group/365650' // group/360353, ep/938136
     // userId: 'lilyurey' // 456208, 419012
     // monoId: 'character/20391' // 20391 character/70323 person/5745
     // id: 240929
