@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 13:42:47
+ * @Last Modified time: 2021-10-22 22:06:31
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -31,7 +31,18 @@ function SectionTitle(props, { $ }) {
         <>
           <Segment />
           <IconReverse
-            style={styles.sort}
+            style={[
+              styles.sort,
+              {
+                transform: reverse
+                  ? [
+                      {
+                        rotateX: '180deg'
+                      }
+                    ]
+                  : undefined
+              }
+            ]}
             color={reverse ? _.colorMain : _.colorIcon}
             size={18}
             onPress={$.toggleReverseComments}

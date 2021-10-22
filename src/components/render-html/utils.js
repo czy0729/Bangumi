@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-22 06:50:55
+ * @Last Modified time: 2021-10-23 02:01:49
  */
-import { _, systemStore } from '@stores'
+import { _, systemStore, subjectStore } from '@stores'
+import { sleep } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { IOS, PAD } from '@constants'
+import { DEV, IOS, PAD } from '@constants'
 
 export const padFontSizeIncrease = PAD === 2 ? 3 : 2
 export const padLineHeightIncrease = PAD === 2 ? 10 : 4
@@ -133,13 +134,47 @@ export function hackFixedHTMLTags(html) {
  * @param {*} html
  */
 export function hackMatchMediaLink(html) {
+  let flag
   const _html = html.replace(
     /<a href="https:\/\/(bgm|bangumi).tv\/subject\/\d+" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
     match => {
+      flag = true
       return `<div>${match}</div>`
     }
   )
 
   // 防止两个连续的Media块中间产生大间隔
-  return _html.replace(/<\/div><br><div>/g, '</div><div>')
+  if (flag) return _html.replace(/<\/div><br><div>/g, '</div><div>')
+  return _html
+}
+
+const ids = []
+const loadedIds = []
+let loading = false
+export async function fetchSubjectQueue(subjectId) {
+  if (subjectId) {
+    const id = parseInt(subjectId)
+    if (id && !loadedIds.includes(id) && !ids.includes(id)) {
+      ids.push(id)
+    }
+  }
+
+  if (!ids.length) return
+
+  if (!loading) {
+    const id = ids.shift()
+    loadedIds.push(id)
+
+    try {
+      if (DEV) console.log('fetchSubject', ids, id)
+      loading = true
+      await subjectStore.fetchSubject(id)
+      await sleep()
+      loading = false
+
+      fetchSubjectQueue()
+    } catch (error) {
+      loading = false
+    }
+  }
 }

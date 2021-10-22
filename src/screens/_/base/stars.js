@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:10:49
+ * @Last Modified time: 2021-10-22 23:18:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,12 +32,7 @@ export const Stars = ob(
         {nums.map(item => {
           if (value / 2 >= item) {
             return (
-              <Iconfont
-                key={item}
-                name='md-star'
-                size={size}
-                color={_.colorWarning}
-              />
+              <Iconfont key={item} name='md-star' size={size} color={_.colorWarning} />
             )
           }
 
@@ -56,12 +51,7 @@ export const Stars = ob(
           }
 
           return (
-            <Iconfont
-              key={item}
-              name='md-star'
-              size={size}
-              color={_.colorBorder}
-            />
+            <Iconfont key={item} name='md-star' size={size} color={_.colorBorder} />
           )
         })}
         <Text style={_.ml.xxs} type={type} size={size} lineHeight={size} bold>

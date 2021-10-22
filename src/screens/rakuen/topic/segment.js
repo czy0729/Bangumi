@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 13:42:54
+ * @Last Modified time: 2021-10-22 22:06:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,10 +50,7 @@ function Segement(props, { $ }) {
         values={segmentedControlDS}
         selectedIndex={selectedIndex}
         onValueChange={title => {
-          if (
-            (title.includes('我') && !filterMe) ||
-            (title === '全部' && filterMe)
-          ) {
+          if ((title.includes('我') && !filterMe) || (title === '全部' && filterMe)) {
             $.toggleFilterMe()
             return
           }

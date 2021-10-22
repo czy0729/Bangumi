@@ -1,10 +1,9 @@
-/* eslint-disable space-before-function-paren, func-names */
 /*
  * 请求相关
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 15:35:24
+ * @Last Modified time: 2021-10-23 00:35:20
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -349,7 +348,6 @@ export function sax({
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
 
-    // eslint-disable-next-line prefer-arrow-callback
     const cb = debounce(function (response) {
       if (response.length < 1000) {
         return
@@ -421,8 +419,7 @@ export function hm(url, screen) {
   try {
     // 保证这种低优先级的操作在UI响应之后再执行
     InteractionManager.runAfterInteractions(() => {
-      const fullUrl =
-        String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
+      const fullUrl = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
       const query = {
         v: VERSION_GITHUB_RELEASE
       }
@@ -434,9 +431,7 @@ export function hm(url, screen) {
         }
         query.s = screen
       }
-      const u = `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${urlStringify(
-        query
-      )}`
+      const u = `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${urlStringify(query)}`
       lastHm = u
       if (DEV) log(`📌 ${u}`)
 
@@ -525,7 +520,6 @@ export async function queue(fetchs = [], num = 2) {
   await Promise.all(
     new Array(num).fill(0).map(async () => {
       while (fetchs.length) {
-        // eslint-disable-next-line no-await-in-loop
         await fetchs.shift()()
       }
     })
@@ -568,7 +562,6 @@ export async function baiduTranslate(query, to = 'zh') {
  */
 function safe(data) {
   if (data instanceof Object) {
-    // eslint-disable-next-line no-param-reassign
     Object.keys(data).forEach(k => (data[k] = safe(data[k])))
   }
   return data === null ? '' : data
