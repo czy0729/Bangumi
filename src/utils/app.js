@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-22 04:28:35
+ * @Last Modified time: 2021-10-23 05:16:06
  */
 import * as WebBrowser from 'expo-web-browser'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -243,6 +243,22 @@ export function fixedBgmUrl(url = '') {
 export function matchBgmLink(url = '') {
   try {
     const _url = fixedBgmUrl(url)
+
+    // 自定义的 App 内协议
+    if (_url.indexOf('https://App/') === 0) {
+      const [, , , route = '', params = ''] = _url.split('/')
+      if (route && params) {
+        const [key, value] = params.split(':')
+        return {
+          route,
+          params: {
+            [key]: value
+          },
+          app: true
+        }
+      }
+    }
+
     if (!_url.includes(HOST)) return false
 
     // 超展开内容 [/rakuen/topic/{topicId}]

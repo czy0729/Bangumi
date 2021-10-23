@@ -41,13 +41,7 @@ export const VERSION_HENTAI = '20210630'
 export const VERSION_GAME = '20210630'
 export const VERSION_TINYGRAIL = '20210720'
 
-export const VERSIONS_AVATAR = [
-  '20210609',
-  '20210410',
-  '20201018',
-  '20200502',
-  '1.0.2'
-]
+export const VERSIONS_AVATAR = ['20210609', '20210410', '20201018', '20200502', '1.0.2']
 
 /**
  * 对图片完整地址进行哈希计算
@@ -438,9 +432,7 @@ export const CDN_OSS_SUBJECT = src => {
   if (_hash in hashSubjectOTA) {
     const ota = getOTA()
     const version =
-      parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
-        ? ota.VERSION_OSS
-        : VERSION_OSS
+      parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS) ? ota.VERSION_OSS : VERSION_OSS
 
     const path = _hash.slice(0, 1).toLocaleLowerCase()
     const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/subject/c/${path}/${_hash}.jpg`
@@ -466,8 +458,7 @@ export const initXsbRelationOTA = async () => {
 
   // 云版本
   // 版本没有 OTA 高需要重新请求数据
-  const version =
-    (await getStorage(xsbRelationOTAVersionKey)) || VERSION_TINYGRAIL
+  const version = (await getStorage(xsbRelationOTAVersionKey)) || VERSION_TINYGRAIL
   const data = (await getStorage(xsbRelationOTADataKey)) || {
     name: {},
     data: {},

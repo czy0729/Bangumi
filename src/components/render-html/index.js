@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-22 06:29:58
+ * @Last Modified time: 2021-10-23 11:08:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { _, userStore, systemStore } from '@stores'
 import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
 import HTML from '../@/react-native-render-html'
+import { a } from '../@/react-native-render-html/src/HTMLRenderers'
 import { BgmText, bgmMap } from '../bgm-text'
 import { translateAll } from '../katakana'
 import Error from './error'
@@ -50,6 +51,7 @@ export const RenderHtml = observer(
       imagesMaxWidth: _.window.width - 2 * _.wind,
       html: '',
       autoShowImage: false,
+      matchLink: false,
       onLinkPress: Function.prototype,
       onImageFallback: Function.prototype
     }
@@ -85,7 +87,7 @@ export const RenderHtml = observer(
     /**
      * 生成render-html配置
      */
-    generateConfig = (imagesMaxWidth, baseFontStyle, linkStyle) => ({
+    generateConfig = (imagesMaxWidth, baseFontStyle, linkStyle, matchLink) => ({
       imagesMaxWidth: _.window.width,
       baseFontStyle: {
         ...this.defaultBaseFontStyle,
@@ -222,20 +224,22 @@ export const RenderHtml = observer(
         li: (attrs, children, convertedCSSStyles, { key }) => (
           <Li key={key}>{children}</Li>
         ),
-        a: (attrs, children, convertedCSSStyles, passProps) => (
-          <A
-            key={passProps.key}
-            style={{
-              ...this.defaultBaseFontStyle,
-              ...baseFontStyle
-            }}
-            attrs={attrs}
-            passProps={passProps}
-            onPress={this.onLinkPress}
-          >
-            {children}
-          </A>
-        )
+        a: matchLink
+          ? (attrs, children, convertedCSSStyles, passProps) => (
+              <A
+                key={passProps.key}
+                style={{
+                  ...this.defaultBaseFontStyle,
+                  ...baseFontStyle
+                }}
+                attrs={attrs}
+                passProps={passProps}
+                onPress={this.onLinkPress}
+              >
+                {children}
+              </A>
+            )
+          : a
       }
     })
 
@@ -249,7 +253,7 @@ export const RenderHtml = observer(
     }
 
     formatHTML = () => {
-      const { html, baseFontStyle } = this.props
+      const { html, baseFontStyle, matchLink } = this.props
       const { katakanaResult } = this.state
 
       try {
@@ -306,7 +310,8 @@ export const RenderHtml = observer(
           })
         }
 
-        return hackMatchMediaLink(hackFixedHTMLTags(_html))
+        _html = hackFixedHTMLTags(_html)
+        return matchLink ? hackMatchMediaLink(_html) : _html
       } catch (error) {
         warn('RenderHtml', 'formatHTML', error)
         return HTMLDecode(html)
@@ -332,6 +337,7 @@ export const RenderHtml = observer(
         imagesMaxWidth,
         html,
         autoShowImage,
+        matchLink,
         onLinkPress,
         ...other
       } = this.props
@@ -348,7 +354,12 @@ export const RenderHtml = observer(
               ..._baseFontStyle
             }}
             onLinkPress={this.onLinkPress}
-            {...this.generateConfig(imagesMaxWidth, _baseFontStyle, linkStyle)}
+            {...this.generateConfig(
+              imagesMaxWidth,
+              _baseFontStyle,
+              linkStyle,
+              matchLink
+            )}
             {...other}
           />
         </View>

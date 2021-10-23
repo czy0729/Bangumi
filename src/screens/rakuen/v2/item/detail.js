@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 08:17:11
+ * @Last Modified time: 2021-10-23 10:36:48
  */
 import React from 'react'
 import { Katakana, Text } from '@components'
@@ -17,7 +17,7 @@ function Detail({ time, groupCn, userName, userId }) {
       style={_.mt.sm}
       itemStyle={styles.katakanas}
       size={11}
-      numberOfLines={2}
+      numberOfLines={1}
     >
       <Text type='sub' size={11}>
         {time ? correctAgo(time) : ''}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 02:13:57
+ * @Last Modified time: 2021-10-23 11:04:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,6 +35,7 @@ const defaultProps = {
   postId: '', // 存在就跳转到对应楼层
   readedTime: '',
   replySub: '',
+  matchLink: false,
   showFixedTextare: false,
   sub: [],
   time: '',
@@ -64,6 +65,7 @@ const Item = memo(
     postId,
     readedTime,
     replySub,
+    matchLink,
     showFixedTextare,
     sub,
     time,
@@ -134,6 +136,7 @@ const Item = memo(
             baseFontStyle={_.baseFontStyle.md}
             imagesMaxWidth={imagesMaxWidth}
             html={_msg}
+            matchLink={matchLink}
             onLinkPress={href => appNavigate(href, navigation, {}, event)}
             onImageFallback={() => open(`${url}#post_${id}`)}
           />
@@ -157,6 +160,7 @@ const Item = memo(
                   uid={userId}
                   url={url}
                   readedTime={readedTime}
+                  matchLink={matchLink}
                   showFixedTextare={showFixedTextare}
                   event={event}
                 />
@@ -202,6 +206,7 @@ export default obc(
       floor,
       userSign,
       erase,
+      rendered,
       showFixedTextare,
       event
     },
@@ -244,6 +249,7 @@ export default obc(
         postId={postId}
         readedTime={readedTime}
         replySub={replySub}
+        matchLink={rendered}
         showFixedTextare={showFixedTextare}
         sub={sub}
         time={time}

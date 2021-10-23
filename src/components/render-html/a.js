@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 01:47:01
+ * @Last Modified time: 2021-10-23 05:41:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, subjectStore, systemStore } from '@stores'
-import { matchBgmLink } from '@utils/app'
+import { runAfter } from '@utils'
+import { matchBgmLink, navigationReference } from '@utils/app'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Text } from '../text'
@@ -19,8 +20,31 @@ import { fetchSubjectQueue } from './utils'
 function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
   const { href } = attrs
   const result = matchBgmLink(href)
-  const onLinkPress = () => onPress(null, href)
-  if (result?.route === 'Subject') {
+
+  if (result?.app && result?.route === 'Subject') {
+    // AC自动机猜测条目文字
+    const text = passProps?.rawChildren?.[0]?.data
+    if (text) {
+      const { subjectId } = result.params
+      const navigation = navigationReference()
+      return (
+        <Text
+          style={style}
+          selectable
+          underline
+          onPress={() =>
+            navigation.push('Subject', {
+              subjectId,
+              _cn: text
+            })
+          }
+        >
+          {text}
+        </Text>
+      )
+    }
+  } else if (result?.route === 'Subject') {
+    // 条目
     const text = passProps?.rawChildren?.[0]?.data
     if (text) {
       const { subjectId } = result.params
@@ -33,8 +57,8 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
       } = subjectStore.subject(subjectId)
       if (!_loaded) {
         setTimeout(() => {
-          fetchSubjectQueue(subjectId)
-        }, 80)
+          runAfter(() => fetchSubjectQueue(subjectId))
+        }, 2000)
       } else {
         const { score } = rating
         const image = images.common
@@ -46,9 +70,9 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
           const showBottom = bottom && bottom !== top
           return (
             <Flex style={styles.subjectWrap}>
-              <Touchable onPress={onLinkPress}>
+              <Touchable onPress={() => onPress(null, href)}>
                 <Flex style={styles.subject}>
-                  <Cover src={image} size={40} radius textOnly={false} />
+                  <Cover src={image} size={48} radius textOnly={false} />
                   <View style={_.ml.sm}>
                     <Text size={12} bold numberOfLines={2} selectable>
                       {top}
@@ -88,7 +112,7 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
   }
 
   return (
-    <Text style={style} selectable {...other} onPress={onLinkPress}>
+    <Text style={style} selectable {...other} onPress={() => onPress(null, href)}>
       {children}
     </Text>
   )

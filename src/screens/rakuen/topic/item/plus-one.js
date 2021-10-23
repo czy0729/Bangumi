@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 01:25:37
+ * @Last Modified time: 2021-10-23 12:32:36
  */
 import React from 'react'
 import { Flex, RenderHtml } from '@components'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 
-const avatarWidth = 32
+const avatarWidth = 20
 const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 function ItemPlusOne(
@@ -27,13 +27,13 @@ function ItemPlusOne(
       <Flex style={avatarRound ? styles.round : styles.rectangle}>
         <Avatar
           navigation={navigation}
-          size={24}
+          size={avatarWidth}
           userId={userId}
           name={userName}
           src={avatar}
           event={event}
         />
-        <Name style={_.ml.sm} userId={userId} size={11} bold>
+        <Name style={_.ml.sm} userId={userId} size={10} bold>
           {HTMLDecode(userName)}
         </Name>
       </Flex>

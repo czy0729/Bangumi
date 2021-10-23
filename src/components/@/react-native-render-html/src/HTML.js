@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 18:03:31
+ * @Last Modified time: 2021-10-23 10:51:02
  */
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
@@ -497,8 +497,8 @@ export default class HTML extends PureComponent {
       emSize,
       ignoredStyles,
       ptSize,
-      tagsStyles,
-      textSelectable
+      tagsStyles
+      // textSelectable
     } = props
 
     return RNElements && RNElements.length

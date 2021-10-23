@@ -1,12 +1,13 @@
+/* eslint-disable no-bitwise */
 /*
  * @Author: czy0729
  * @Date: 2021-01-13 11:25:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 11:26:03
+ * @Last Modified time: 2021-10-23 03:39:56
  */
-const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
-  ''
-)
+const I64BIT_TABLE =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split('')
+
 export default function hash(input) {
   let hash = 5381
   let i = input.length - 1

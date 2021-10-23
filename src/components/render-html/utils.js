@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 02:01:49
+ * @Last Modified time: 2021-10-23 12:27:55
  */
+import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore } from '@stores'
 import { sleep } from '@utils'
-import { HTMLDecode } from '@utils/html'
+import { HTMLDecode, removeHTMLTag } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/cn-char'
+import hash from '@utils/thirdParty/hash'
 import { DEV, IOS, PAD } from '@constants'
+import substrings from '@constants/json/substrings.json'
 
 export const padFontSizeIncrease = PAD === 2 ? 3 : 2
 export const padLineHeightIncrease = PAD === 2 ? 10 : 4
@@ -22,6 +25,7 @@ export const regs = {
   pre: /<pre>/g,
   preR: /<\/pre>/g,
   q: /<q>(.+?)<\/q>/g,
+  quote: /<div class="quote"><q(.+?)<\/q><\/div>/g,
   ruby: /<ruby>(.+?)<\/ruby>/g,
   whiteTags:
     /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
@@ -135,7 +139,7 @@ export function hackFixedHTMLTags(html) {
  */
 export function hackMatchMediaLink(html) {
   let flag
-  const _html = html.replace(
+  let _html = html.replace(
     /<a href="https:\/\/(bgm|bangumi).tv\/subject\/\d+" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
     match => {
       flag = true
@@ -145,9 +149,28 @@ export function hackMatchMediaLink(html) {
 
   // 防止两个连续的Media块中间产生大间隔
   if (flag) return _html.replace(/<\/div><br><div>/g, '</div><div>')
+
+  // [实验性] 文字猜测条目并替换成链接
+  const htmlNoQ = _html.replace(regs.quote, '')
+  const acData = acSearch(removeHTMLTag(htmlNoQ))
+  if (acData.length) {
+    acData.forEach((item, index) => {
+      _html = _html.replace(item, `###${index}###`)
+    })
+    acData.forEach((item, index) => {
+      _html = _html.replace(
+        `###${index}###`,
+        `<a href="https://App/Subject/subjectId:${substrings[item]}">${item}</a>`
+      )
+    })
+  }
+
   return _html
 }
 
+/**
+ * 列队请求条目信息
+ */
 const ids = []
 const loadedIds = []
 let loading = false
@@ -177,4 +200,24 @@ export async function fetchSubjectQueue(subjectId) {
       loading = false
     }
   }
+}
+
+/**
+ * AC自动机
+ * https://github.com/theLAZYmd/aho-corasick
+ */
+const cache = {}
+let trie
+export function acSearch(str) {
+  if (!trie) {
+    trie = new lazyac(Object.keys(substrings), {
+      allowDuplicates: false
+    })
+  }
+
+  const _hash = hash(str)
+  if (cache[_hash]) return cache[_hash]
+
+  cache[_hash] = trie.search(str).sort((a, b) => b.length - a.length)
+  return cache[_hash]
 }

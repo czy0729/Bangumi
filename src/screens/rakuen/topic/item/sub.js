@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 02:05:24
+ * @Last Modified time: 2021-10-23 11:02:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ function ItemSub(
     uid,
     url,
     readedTime,
+    matchLink,
     showFixedTextare,
     event
   },
@@ -47,10 +48,11 @@ function ItemSub(
 ) {
   if ($.isBlockUser(userId, userName, replySub)) return null
 
-  const msg = removeHTMLTag(decoder(message))
-  if ($.filterDelete && msg.includes('内容已被用户删除')) return null
+  const msg = decoder(message)
+  const rawMsg = removeHTMLTag(msg)
+  if ($.filterDelete && rawMsg.includes('内容已被用户删除')) return null
 
-  if (msg.length <= 10 && regPlus.test(msg)) {
+  if (rawMsg.length <= 10 && regPlus.test(rawMsg)) {
     return (
       <ItemPlusOne
         id={id}
@@ -67,7 +69,7 @@ function ItemSub(
   }
 
   // 回复引用的用户是屏蔽用户也要隐藏
-  const quoteUserName = msg.match(/^(.+?)说:/)?.[1]
+  const quoteUserName = rawMsg.match(/^(.+?)说:/)?.[1]
   const quoteUser = $.postUsersMap[quoteUserName]
   if (quoteUser) {
     const quoteUserId = matchUserIdFromAvatar(quoteUser.avatar)
@@ -77,7 +79,7 @@ function ItemSub(
   }
 
   const { blockKeywords } = $.setting
-  if (blockKeywords.some(item => msg.includes(item))) {
+  if (blockKeywords.some(item => rawMsg.includes(item))) {
     message =
       '<span style="color:#999;font-size:12px">命中自定义关键字，已被App屏蔽</span>'
   }
@@ -128,7 +130,8 @@ function ItemSub(
           <RenderHtml
             baseFontStyle={_.baseFontStyle.md}
             imagesMaxWidth={imagesMaxWidthSub}
-            html={message}
+            html={msg}
+            matchLink={matchLink}
             onLinkPress={href => appNavigate(href, navigation, {}, event)}
             onImageFallback={() => open(`${url}#post_${id}`)}
           />

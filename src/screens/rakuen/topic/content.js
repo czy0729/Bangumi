@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 15:43:35
+ * @Last Modified time: 2021-10-23 11:54:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,6 @@ function Content(props, { $, navigation }) {
       {translateResult.length ? (
         <View>
           {translateResult.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <View key={index}>
               <Text style={_.mt.md} size={13} type='sub'>
                 {item.src}
@@ -62,6 +61,7 @@ function Content(props, { $, navigation }) {
             <View style={_.mt.md}>
               <RenderHtml
                 html={$.html}
+                matchLink
                 onLinkPress={href => appNavigate(href, navigation, {}, event)}
               />
               <Heatmap

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 19:04:28
+ * @Last Modified time: 2021-10-23 11:02:26
  */
 import React from 'react'
 import {
@@ -274,9 +274,7 @@ class Topic extends React.Component {
     const { rendered } = this.state
 
     // 延迟渲染, 减少二次进入页面瞬间楼层过多导致动画掉帧, 进入页面瞬间最多只渲染2个楼层
-    if (!rendered && index > 2 && !$.postId) {
-      return null
-    }
+    if (!rendered && index > 2 && !$.postId) return null
 
     const event = {
       id: '帖子.跳转',
@@ -290,6 +288,7 @@ class Topic extends React.Component {
         postId={$.postId}
         authorId={$.topic.userId}
         {...item}
+        rendered={rendered}
         showFixedTextare={this.showFixedTextare}
         event={event}
       />
