@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 11:08:38
+ * @Last Modified time: 2021-10-23 12:40:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,8 +76,8 @@ export const RenderHtml = observer(
       }
     }
 
-    componentDidCatch() {
-      console.info('@/components/render-html', 'componentDidCatch')
+    componentDidCatch(error) {
+      console.info('@/components/render-html', 'componentDidCatch', error)
 
       this.setState({
         error: true

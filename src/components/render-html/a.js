@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 05:41:47
+ * @Last Modified time: 2021-10-23 12:44:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,8 +20,10 @@ import { fetchSubjectQueue } from './utils'
 function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
   const { href } = attrs
   const result = matchBgmLink(href)
+  const route = result?.route
 
-  if (result?.app && result?.route === 'Subject') {
+  if (route && route !== 'Subject') console.log(route)
+  if (result?.app && route === 'Subject') {
     // AC自动机猜测条目文字
     const text = passProps?.rawChildren?.[0]?.data
     if (text) {
@@ -43,7 +45,7 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
         </Text>
       )
     }
-  } else if (result?.route === 'Subject') {
+  } else if (route === 'Subject') {
     // 条目
     const text = passProps?.rawChildren?.[0]?.data
     if (text) {
@@ -108,6 +110,10 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
           )
         }
       }
+    }
+  } else if (route === 'Topic') {
+    const text = passProps?.rawChildren?.[0]?.data
+    if (text) {
     }
   }
 
