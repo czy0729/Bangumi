@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:10:48
+ * @Last Modified time: 2021-10-24 17:59:08
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -134,12 +134,7 @@ export const HorizontalList = ob(
                     {findCn ? findSubjectCn(item.name, item.id) : item.name}
                   </Text>
                   {!!item.desc && (
-                    <Text
-                      style={_.mt.xs}
-                      type='sub'
-                      size={10}
-                      numberOfLines={2}
-                    >
+                    <Text style={_.mt.xs} type='sub' size={10} numberOfLines={2}>
                       {item.desc}
                     </Text>
                   )}

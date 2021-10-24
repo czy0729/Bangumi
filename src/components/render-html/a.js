@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-24 16:53:39
+ * @Last Modified time: 2021-10-25 00:35:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,12 +34,15 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
     onPress,
     onLinkPress
   }
+
   if (result?.app && route === 'Subject') {
     el = getACSearch(args)
   } else if (route === 'Subject') {
     el = getSubject(args)
   } else if (route === 'Topic') {
     el = getTopic(args)
+  } else if (route === 'Mono') {
+    el = getMono(args)
   }
   if (el) return el
 
@@ -50,6 +53,9 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
   )
 }
 
+/**
+ * 获取html根节点文字
+ */
 function getRawChildrenText(passProps) {
   try {
     let text = passProps?.rawChildren?.[0]?.data
@@ -204,6 +210,58 @@ function getTopic({ style, passProps, params, href, onLinkPress }) {
                       selectable
                     >
                       {group} · {userName} · {list.length}回复
+                    </Text>
+                  </Flex>
+                </View>
+              </Flex>
+            </Touchable>
+          </Flex>
+        )
+      }
+    }
+  }
+}
+
+/**
+ * 人物媒体块
+ */
+function getMono({ style, passProps, params, href, onLinkPress }) {
+  const text = getRawChildrenText(passProps)
+  if (text) {
+    const { monoId } = params
+    const { cover, name, nameCn, _loaded } = subjectStore.mono(monoId)
+    if (!_loaded) {
+      setTimeout(() => {
+        runAfter(() => fetchMediaQueue('mono', monoId))
+      }, 2000)
+    } else {
+      const styles = memoStyles()
+      if (cover) {
+        return (
+          <Flex style={styles.wrap}>
+            <Touchable onPress={onLinkPress}>
+              <Flex style={styles.body}>
+                <Cover
+                  src={cover.replace('/m/', '/g/')}
+                  size={48}
+                  radius
+                  textOnly={false}
+                  quality={false}
+                />
+                <View style={_.ml.sm}>
+                  <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
+                    {text}
+                  </Text>
+                  <Flex style={_.mt.xs}>
+                    <Text
+                      style={styles.bottom}
+                      type='sub'
+                      size={10}
+                      bold
+                      numberOfLines={1}
+                      selectable
+                    >
+                      {nameCn || name}
                     </Text>
                   </Flex>
                 </View>

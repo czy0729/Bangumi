@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-24 16:27:46
+ * @Last Modified time: 2021-10-24 18:04:37
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -201,6 +201,13 @@ export async function fetchMediaQueue(type, id) {
         await rakuenStore.fetchTopic({
           topicId: item.id
         })
+      } else if (item.type === 'mono') {
+        await subjectStore.fetchMono(
+          {
+            monoId: item.id
+          },
+          true
+        )
       }
 
       await sleep()
