@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 11:04:18
+ * @Last Modified time: 2021-10-23 19:24:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -141,30 +141,32 @@ const Item = memo(
             onImageFallback={() => open(`${url}#post_${id}`)}
           />
           <View style={styles.sub}>
-            {sub
-              .filter((item, index) => (isExpand ? true : index < expandNum))
-              .map(item => (
-                <ItemSub
-                  key={item.id}
-                  id={item.id}
-                  message={item.message}
-                  userId={item.userId}
-                  userName={item.userName}
-                  avatar={item.avatar}
-                  floor={item.floor}
-                  erase={item.erase}
-                  replySub={item.replySub}
-                  time={item.time}
-                  postId={postId}
-                  authorId={authorId}
-                  uid={userId}
-                  url={url}
-                  readedTime={readedTime}
-                  matchLink={matchLink}
-                  showFixedTextare={showFixedTextare}
-                  event={event}
-                />
-              ))}
+            <Flex wrap='wrap'>
+              {sub
+                .filter((item, index) => (isExpand ? true : index < expandNum))
+                .map(item => (
+                  <ItemSub
+                    key={item.id}
+                    id={item.id}
+                    message={item.message}
+                    userId={item.userId}
+                    userName={item.userName}
+                    avatar={item.avatar}
+                    floor={item.floor}
+                    erase={item.erase}
+                    replySub={item.replySub}
+                    time={item.time}
+                    postId={postId}
+                    authorId={authorId}
+                    uid={userId}
+                    url={url}
+                    readedTime={readedTime}
+                    matchLink={matchLink}
+                    showFixedTextare={showFixedTextare}
+                    event={event}
+                  />
+                ))}
+            </Flex>
             {sub.length > expandNum && (
               <Touchable onPress={() => onToggleExpand(id)}>
                 <Text

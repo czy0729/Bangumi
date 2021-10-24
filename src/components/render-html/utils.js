@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 12:27:55
+ * @Last Modified time: 2021-10-24 16:27:46
  */
 import lazyac from 'lazy-aho-corasick'
-import { _, systemStore, subjectStore } from '@stores'
+import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep } from '@utils'
 import { HTMLDecode, removeHTMLTag } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
@@ -26,6 +26,7 @@ export const regs = {
   preR: /<\/pre>/g,
   q: /<q>(.+?)<\/q>/g,
   quote: /<div class="quote"><q(.+?)<\/q><\/div>/g,
+  a: /<a (.+?)<\/a>/g,
   ruby: /<ruby>(.+?)<\/ruby>/g,
   whiteTags:
     /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
@@ -140,7 +141,7 @@ export function hackFixedHTMLTags(html) {
 export function hackMatchMediaLink(html) {
   let flag
   let _html = html.replace(
-    /<a href="https:\/\/(bgm|bangumi).tv\/subject\/\d+" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
+    /<a href="https:\/\/(bgm|bangumi).tv\/(subject|group\/topic)\/\d+" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
     match => {
       flag = true
       return `<div>${match}</div>`
@@ -151,8 +152,8 @@ export function hackMatchMediaLink(html) {
   if (flag) return _html.replace(/<\/div><br><div>/g, '</div><div>')
 
   // [实验性] 文字猜测条目并替换成链接
-  const htmlNoQ = _html.replace(regs.quote, '')
-  const acData = acSearch(removeHTMLTag(htmlNoQ))
+  const htmlNoTags = _html.replace(regs.quote, '').replace(regs.a, '')
+  const acData = acSearch(removeHTMLTag(htmlNoTags))
   if (acData.length) {
     acData.forEach((item, index) => {
       _html = _html.replace(item, `###${index}###`)
@@ -174,29 +175,40 @@ export function hackMatchMediaLink(html) {
 const ids = []
 const loadedIds = []
 let loading = false
-export async function fetchSubjectQueue(subjectId) {
-  if (subjectId) {
-    const id = parseInt(subjectId)
-    if (id && !loadedIds.includes(id) && !ids.includes(id)) {
-      ids.push(id)
+export async function fetchMediaQueue(type, id) {
+  if (type && id) {
+    if (![...ids, ...loadedIds].find(item => item.type === type && item.id === id)) {
+      ids.push({
+        type,
+        id
+      })
     }
   }
 
   if (!ids.length) return
 
   if (!loading) {
-    const id = ids.shift()
-    loadedIds.push(id)
+    const item = ids.shift()
+    loadedIds.push(item)
 
     try {
-      if (DEV) console.log('fetchSubject', ids, id)
+      if (DEV) console.log('fetchMediaQueue', ids, item)
       loading = true
-      await subjectStore.fetchSubject(id)
+
+      if (item.type === 'subject') {
+        await subjectStore.fetchSubject(item.id)
+      } else if (item.type === 'topic') {
+        await rakuenStore.fetchTopic({
+          topicId: item.id
+        })
+      }
+
       await sleep()
       loading = false
 
-      fetchSubjectQueue()
+      fetchMediaQueue()
     } catch (error) {
+      console.log('fetchMediaQueue error', error, ids)
       loading = false
     }
   }

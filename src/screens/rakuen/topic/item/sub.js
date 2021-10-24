@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 11:02:01
+ * @Last Modified time: 2021-10-23 19:23:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import UserLabel from '../user-label'
 import FloorText from '../floor-text'
 import IconExtra from '../icon/extra'
-import ItemPlusOne from './plus-one'
+import PlusOne from './plus-one'
 
 const avatarWidth = 32
 const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
@@ -54,7 +54,7 @@ function ItemSub(
 
   if (rawMsg.length <= 10 && regPlus.test(rawMsg)) {
     return (
-      <ItemPlusOne
+      <PlusOne
         id={id}
         message={message}
         userId={userId}

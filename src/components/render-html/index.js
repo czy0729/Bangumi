@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 12:40:30
+ * @Last Modified time: 2021-10-24 15:51:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -230,7 +230,8 @@ export const RenderHtml = observer(
                 key={passProps.key}
                 style={{
                   ...this.defaultBaseFontStyle,
-                  ...baseFontStyle
+                  ...baseFontStyle,
+                  maxWidth: imagesMaxWidth
                 }}
                 attrs={attrs}
                 passProps={passProps}

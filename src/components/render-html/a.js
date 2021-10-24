@@ -2,142 +2,237 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 12:44:51
+ * @Last Modified time: 2021-10-24 16:53:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { _, subjectStore, systemStore } from '@stores'
+import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { runAfter } from '@utils'
 import { matchBgmLink, navigationReference } from '@utils/app'
+import { HOST } from '@constants'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { Iconfont } from '../iconfont'
 import { Cover } from './cover'
-import { fetchSubjectQueue } from './utils'
+import { Avatar } from './avatar'
+import { fetchMediaQueue } from './utils'
 
 function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
   const { href } = attrs
   const result = matchBgmLink(href)
   const route = result?.route
+  const onLinkPress = () => onPress(null, href)
 
-  if (route && route !== 'Subject') console.log(route)
-  if (result?.app && route === 'Subject') {
-    // AC自动机猜测条目文字
-    const text = passProps?.rawChildren?.[0]?.data
-    if (text) {
-      const { subjectId } = result.params
-      const navigation = navigationReference()
-      return (
-        <Text
-          style={style}
-          selectable
-          underline
-          onPress={() =>
-            navigation.push('Subject', {
-              subjectId,
-              _cn: text
-            })
-          }
-        >
-          {text}
-        </Text>
-      )
-    }
-  } else if (route === 'Subject') {
-    // 条目
-    const text = passProps?.rawChildren?.[0]?.data
-    if (text) {
-      const { subjectId } = result.params
-      const {
-        images = {},
-        name,
-        name_cn,
-        rating = {},
-        _loaded
-      } = subjectStore.subject(subjectId)
-      if (!_loaded) {
-        setTimeout(() => {
-          runAfter(() => fetchSubjectQueue(subjectId))
-        }, 2000)
-      } else {
-        const { score } = rating
-        const image = images.common
-        if (image) {
-          const styles = memoStyles()
-          const top = name_cn || name || text || ''
-          const bottom = text !== top && text !== href ? text : name || name_cn || ''
-          const showScore = !systemStore.setting.hideScore && score
-          const showBottom = bottom && bottom !== top
-          return (
-            <Flex style={styles.subjectWrap}>
-              <Touchable onPress={() => onPress(null, href)}>
-                <Flex style={styles.subject}>
-                  <Cover src={image} size={48} radius textOnly={false} />
-                  <View style={_.ml.sm}>
-                    <Text size={12} bold numberOfLines={2} selectable>
-                      {top}
-                    </Text>
-                    {(showScore || showBottom) && (
-                      <Flex style={_.mt.xs}>
-                        {showScore && (
-                          <Flex style={_.mr.xs}>
-                            <Iconfont name='md-star' size={10} color={_.colorWarning} />
-                            <Text style={_.ml.xxs} type='sub' size={10} bold>
-                              {score}
-                            </Text>
-                          </Flex>
-                        )}
-                        {showBottom && (
-                          <Text
-                            style={styles.bottom}
-                            type='sub'
-                            size={10}
-                            bold
-                            numberOfLines={1}
-                            selectable
-                          >
-                            {bottom}
-                          </Text>
-                        )}
-                      </Flex>
-                    )}
-                  </View>
-                </Flex>
-              </Touchable>
-            </Flex>
-          )
-        }
-      }
-    }
-  } else if (route === 'Topic') {
-    const text = passProps?.rawChildren?.[0]?.data
-    if (text) {
-    }
+  let el
+  const args = {
+    style,
+    passProps,
+    params: result.params,
+    href,
+    onPress,
+    onLinkPress
   }
+  if (result?.app && route === 'Subject') {
+    el = getACSearch(args)
+  } else if (route === 'Subject') {
+    el = getSubject(args)
+  } else if (route === 'Topic') {
+    el = getTopic(args)
+  }
+  if (el) return el
 
   return (
-    <Text style={style} selectable {...other} onPress={() => onPress(null, href)}>
+    <Text style={style} selectable {...other} onPress={onLinkPress}>
       {children}
     </Text>
   )
 }
 
+function getRawChildrenText(passProps) {
+  try {
+    let text = passProps?.rawChildren?.[0]?.data
+    if (text) return text
+
+    const children = passProps?.rawChildren?.[0]?.children
+    if (Array.isArray(children)) {
+      let text = ''
+      children.forEach(item => {
+        if (typeof item.data === 'string') text += item.data
+      })
+      return text
+    }
+
+    return ''
+  } catch (error) {
+    console.info('getRawChildrenText error', error)
+    return ''
+  }
+}
+
+/**
+ * AC自动机猜测条目文字
+ */
+function getACSearch({ style, passProps, params, onPress }) {
+  const text = getRawChildrenText(passProps)
+  if (text) {
+    const navigation = navigationReference()
+    const { subjectId } = params
+    return (
+      <Text
+        style={style}
+        selectable
+        underline
+        onPress={() =>
+          navigation
+            ? navigation.push('Subject', {
+                subjectId,
+                _cn: text
+              })
+            : onPress(null, `${HOST}/subject/${subjectId}`)
+        }
+      >
+        {text}
+      </Text>
+    )
+  }
+}
+
+/**
+ * 条目媒体块
+ */
+function getSubject({ style, passProps, params, href, onLinkPress }) {
+  const text = getRawChildrenText(passProps)
+  if (text) {
+    const { subjectId } = params
+    const {
+      images = {},
+      name,
+      name_cn,
+      rating = {},
+      _loaded
+    } = subjectStore.subject(subjectId)
+    if (!_loaded) {
+      setTimeout(() => {
+        runAfter(() => fetchMediaQueue('subject', subjectId))
+      }, 2000)
+    } else {
+      const { score } = rating
+      const image = images.common
+      if (image) {
+        const styles = memoStyles()
+        const top = name_cn || name || text || ''
+        const bottom = text !== top && text !== href ? text : name || name_cn || ''
+        const showScore = !systemStore.setting.hideScore && score
+        const showBottom = bottom && bottom !== top
+        return (
+          <Flex style={styles.wrap}>
+            <Touchable onPress={onLinkPress}>
+              <Flex style={styles.body}>
+                <Cover src={image} size={48} radius textOnly={false} />
+                <View style={_.ml.sm}>
+                  <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
+                    {top}
+                  </Text>
+                  {(showScore || showBottom) && (
+                    <Flex style={_.mt.xs}>
+                      {showScore && (
+                        <Flex style={_.mr.xs}>
+                          <Iconfont name='md-star' size={10} color={_.colorWarning} />
+                          <Text style={_.ml.xxs} type='sub' size={10} bold>
+                            {score}
+                          </Text>
+                        </Flex>
+                      )}
+                      {showBottom && (
+                        <Text
+                          style={styles.bottom}
+                          type='sub'
+                          size={10}
+                          bold
+                          numberOfLines={1}
+                          selectable
+                        >
+                          {bottom}
+                        </Text>
+                      )}
+                    </Flex>
+                  )}
+                </View>
+              </Flex>
+            </Touchable>
+          </Flex>
+        )
+      }
+    }
+  }
+}
+
+/**
+ * 帖子媒体块
+ */
+function getTopic({ style, passProps, params, href, onLinkPress }) {
+  const text = getRawChildrenText(passProps)
+  if (text) {
+    const { topicId } = params
+    const { avatar, group, userName, _loaded } = rakuenStore.topic(topicId)
+    if (!_loaded) {
+      setTimeout(() => {
+        runAfter(() => fetchMediaQueue('topic', topicId))
+      }, 2000)
+    } else {
+      const styles = memoStyles()
+      const { list } = rakuenStore.comments(topicId)
+      if (avatar && group && userName) {
+        return (
+          <Flex style={styles.wrap}>
+            <Touchable onPress={onLinkPress}>
+              <Flex style={styles.body}>
+                <Avatar src={avatar} size={48} radius textOnly={false} />
+                <View style={_.ml.sm}>
+                  <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
+                    {text}
+                  </Text>
+                  <Flex style={_.mt.xs}>
+                    <Text
+                      style={styles.bottom}
+                      type='sub'
+                      size={10}
+                      bold
+                      numberOfLines={1}
+                      selectable
+                    >
+                      {group} · {userName} · {list.length}回复
+                    </Text>
+                  </Flex>
+                </View>
+              </Flex>
+            </Touchable>
+          </Flex>
+        )
+      }
+    }
+  }
+}
+
 export default observer(A)
 
 const memoStyles = _.memoStyles(_ => ({
-  subjectWrap: {
-    paddingTop: 8,
+  wrap: {
+    paddingTop: 10,
     paddingRight: 4,
     paddingBottom: 2
   },
-  subject: {
+  body: {
     overflow: 'hidden',
     padding: 6,
     paddingRight: 10,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusSm
+  },
+  top: {
+    maxWidth: _.window.contentWidth / 2
   },
   bottom: {
     maxWidth: _.window.contentWidth / 2
