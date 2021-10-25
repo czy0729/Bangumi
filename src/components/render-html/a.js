@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 09:24:12
+ * @Last Modified time: 2021-10-25 13:59:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -240,6 +240,7 @@ function getMono({ passProps, params, onLinkPress }) {
     } else {
       const styles = memoStyles()
       if (cover) {
+        const bottom = nameCn === text ? name : nameCn
         return (
           <Flex style={styles.wrap}>
             <Touchable onPress={onLinkPress}>
@@ -255,18 +256,20 @@ function getMono({ passProps, params, onLinkPress }) {
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
                     {text}
                   </Text>
-                  <Flex style={_.mt.xs}>
-                    <Text
-                      style={styles.bottom}
-                      type='sub'
-                      size={10}
-                      bold
-                      numberOfLines={1}
-                      selectable
-                    >
-                      {nameCn || name}
-                    </Text>
-                  </Flex>
+                  {bottom !== text && (
+                    <Flex style={_.mt.xs}>
+                      <Text
+                        style={styles.bottom}
+                        type='sub'
+                        size={10}
+                        bold
+                        numberOfLines={1}
+                        selectable
+                      >
+                        {bottom}
+                      </Text>
+                    </Flex>
+                  )}
                 </View>
               </Flex>
             </Touchable>
