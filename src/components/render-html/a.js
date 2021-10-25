@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 00:35:02
+ * @Last Modified time: 2021-10-25 09:24:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ import { Avatar } from './avatar'
 import { fetchMediaQueue } from './utils'
 
 function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
+  const { matchLink, acSearch } = rakuenStore.setting
   const { href } = attrs
   const result = matchBgmLink(href)
   const route = result?.route
@@ -36,13 +37,15 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
   }
 
   if (result?.app && route === 'Subject') {
-    el = getACSearch(args)
-  } else if (route === 'Subject') {
-    el = getSubject(args)
-  } else if (route === 'Topic') {
-    el = getTopic(args)
-  } else if (route === 'Mono') {
-    el = getMono(args)
+    if (acSearch) el = getACSearch(args)
+  } else if (matchLink) {
+    if (route === 'Subject') {
+      el = getSubject(args)
+    } else if (route === 'Topic') {
+      el = getTopic(args)
+    } else if (route === 'Mono') {
+      el = getMono(args)
+    }
   }
   if (el) return el
 
@@ -108,7 +111,7 @@ function getACSearch({ style, passProps, params, onPress }) {
 /**
  * 条目媒体块
  */
-function getSubject({ style, passProps, params, href, onLinkPress }) {
+function getSubject({ passProps, params, href, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { subjectId } = params
@@ -178,7 +181,7 @@ function getSubject({ style, passProps, params, href, onLinkPress }) {
 /**
  * 帖子媒体块
  */
-function getTopic({ style, passProps, params, href, onLinkPress }) {
+function getTopic({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { topicId } = params
@@ -209,7 +212,7 @@ function getTopic({ style, passProps, params, href, onLinkPress }) {
                       numberOfLines={1}
                       selectable
                     >
-                      {group} · {userName} · {list.length}回复
+                      {list.length}回复 · {group} · {userName}
                     </Text>
                   </Flex>
                 </View>
@@ -225,7 +228,7 @@ function getTopic({ style, passProps, params, href, onLinkPress }) {
 /**
  * 人物媒体块
  */
-function getMono({ style, passProps, params, href, onLinkPress }) {
+function getMono({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { monoId } = params

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-20 07:13:02
+ * @Last Modified time: 2021-10-25 09:10:01
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -72,7 +72,10 @@ export const INIT_NOTIFY = {
 }
 
 export const INIT_SETTING = {
-  quote: true, // 帖子展开引用,
+  matchLink: true, // 楼层正文链接显示成信息块
+  acSearch: true, // 楼层正文内容猜测条目
+  quote: true, // 帖子展开引用
+  quoteAvatar: true, // 帖子展开引用时, 尝试寻找用户名的头像
   isBlockDefaultUser: false, // 是否屏蔽默认头像用户帖子
   blockKeywords: [], // 自定义屏蔽关键字 string
   blockGroups: [], // 屏蔽的小组 string

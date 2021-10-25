@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-20 07:59:00
+ * @Last Modified time: 2021-10-25 09:35:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -77,10 +77,46 @@ class RakuenSetting extends React.Component {
   }
 
   renderTopic() {
-    const { quote, scrollDirection } = this.setting
+    const { matchLink, acSearch, quote, quoteAvatar, scrollDirection } = this.setting
     return (
       <>
         {this.renderSection('帖子')}
+        <ItemSetting
+          hd='楼层链接显示成信息块'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={matchLink}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '显示信息块',
+                  checked: !matchLink
+                })
+                rakuenStore.switchSetting('matchLink')
+              }}
+            />
+          }
+          withoutFeedback
+          information='若楼层出现特定页面链接，使用不同的UI代替'
+        />
+        <ItemSetting
+          hd='[实验性] 楼层内容猜测条目'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={acSearch}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '猜测条目',
+                  checked: !acSearch
+                })
+                rakuenStore.switchSetting('acSearch')
+              }}
+            />
+          }
+          withoutFeedback
+          information='使用条目词库对楼层文字进行猜测匹配，若匹配成功文字下方显示下划线，点击直接去到条目页面'
+        />
         <ItemSetting
           hd='展开引用'
           ft={
@@ -92,13 +128,32 @@ class RakuenSetting extends React.Component {
                   title: '展开引用',
                   checked: !quote
                 })
-                rakuenStore.switchQuote()
+                rakuenStore.switchSetting('quote')
               }}
             />
           }
           withoutFeedback
           information='展开子回复中上一级的回复内容'
         />
+        {quote && (
+          <ItemSetting
+            hd='显示引用头像'
+            ft={
+              <SwitchPro
+                style={this.styles.switch}
+                value={quoteAvatar}
+                onSyncPress={() => {
+                  t('超展开设置.切换', {
+                    title: '显示引用头像',
+                    checked: !quoteAvatar
+                  })
+                  rakuenStore.switchSetting('quoteAvatar')
+                }}
+              />
+            }
+            withoutFeedback
+          />
+        )}
         <ItemSetting
           border
           hd='楼层直达条'
@@ -142,7 +197,7 @@ class RakuenSetting extends React.Component {
                   title: '过滤删除',
                   checked: !filterDelete
                 })
-                rakuenStore.switchFilterDelete()
+                rakuenStore.switchSetting('filterDelete')
               }}
             />
           }
@@ -159,7 +214,7 @@ class RakuenSetting extends React.Component {
                   title: '屏蔽广告',
                   checked: !isBlockDefaultUser
                 })
-                rakuenStore.switchIsBlockDefaultUser()
+                rakuenStore.switchSetting('isBlockDefaultUser')
               }}
             />
           }
@@ -178,7 +233,7 @@ class RakuenSetting extends React.Component {
                   title: '坟贴',
                   checked: !isMarkOldTopic
                 })
-                rakuenStore.switchIsMarkOldTopic()
+                rakuenStore.switchSetting('isMarkOldTopic')
               }}
             />
           }
@@ -238,7 +293,7 @@ class RakuenSetting extends React.Component {
           }}
         />
         <View style={this.styles.split} />
-        {this.renderSection('屏蔽用户', '对发帖人、楼层主生效')}
+        {this.renderSection('屏蔽用户', '对发帖人、楼层主、条目评分留言人生效')}
         <History
           style={_.mt.sm}
           data={this.setting.blockUserIds}

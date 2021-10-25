@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-24 15:51:18
+ * @Last Modified time: 2021-10-25 09:18:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,7 +64,7 @@ export const RenderHtml = observer(
     async componentDidMount() {
       const { katakana, html } = this.props
       if (katakana) {
-        const { katakana: settingKatakana } = systemStore.setting
+        const { katakana: settingKatakana } = this.setting
         if (settingKatakana) {
           const katakanaResult = await translateAll(html)
           if (katakanaResult) {
@@ -328,6 +328,10 @@ export const RenderHtml = observer(
         lineHeight: 24 + (_.isPad ? padLineHeightIncrease : 0),
         color: _.colorTitle
       }
+    }
+
+    get setting() {
+      return systemStore.setting
     }
 
     render() {

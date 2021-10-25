@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 18:23:35
+ * @Last Modified time: 2021-10-25 08:06:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ class QuoteText extends React.Component {
     if (!show) {
       return (
         <Text style={this.styles.quoteTextPlaceholder} selectable onPress={this.show}>
-          ...
+          「...」
         </Text>
       )
     }
@@ -64,8 +64,7 @@ class QuoteText extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   quoteTextPlaceholder: {
-    paddingBottom: 10,
-    marginTop: -6,
+    paddingBottom: 2,
     color: _.colorSub,
     textAlign: 'center'
   },

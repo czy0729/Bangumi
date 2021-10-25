@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-20 07:41:25
+ * @Last Modified time: 2021-10-25 07:07:59
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -793,45 +793,14 @@ class Rakuen extends store {
   }
 
   /**
-   * 切换`帖子展开引用`
+   * 切换
    */
-  switchQuote = () => {
-    const { quote } = this.setting
+  switchSetting = switchKey => {
     const key = 'setting'
     this.setState({
       [key]: {
         ...this.setting,
-        quote: !quote
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`过滤用户删除的楼层`
-   */
-  switchFilterDelete = () => {
-    const { filterDelete } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        filterDelete: !filterDelete
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`屏蔽广告姬`
-   */
-  switchIsBlockDefaultUser = () => {
-    const { isBlockDefaultUser } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        isBlockDefaultUser: !isBlockDefaultUser
+        [switchKey]: !this.setting[switchKey]
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
@@ -940,21 +909,6 @@ class Rakuen extends store {
       [key]: {
         ...this.setting,
         blockUserIds: blockUserIds.filter(item => item !== userNameSpace)
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`标记坟贴`
-   */
-  switchIsMarkOldTopic = () => {
-    const { isMarkOldTopic } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        isMarkOldTopic: !isMarkOldTopic
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

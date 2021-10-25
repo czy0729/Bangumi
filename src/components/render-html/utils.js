@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-24 18:04:37
+ * @Last Modified time: 2021-10-25 09:22:25
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -139,31 +139,39 @@ export function hackFixedHTMLTags(html) {
  * @param {*} html
  */
 export function hackMatchMediaLink(html) {
+  const { matchLink, acSearch: acSearchSetting } = rakuenStore.setting
+
+  let _html = html
   let flag
-  let _html = html.replace(
-    /<a href="https:\/\/(bgm|bangumi).tv\/(subject|group\/topic)\/\d+" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
-    match => {
-      flag = true
-      return `<div>${match}</div>`
-    }
-  )
+
+  if (matchLink) {
+    _html = html.replace(
+      /<a href="https:\/\/(bgm|bangumi).tv\/(subject|group\/topic)\/\d+" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
+      match => {
+        flag = true
+        return `<div>${match}</div>`
+      }
+    )
+  }
 
   // 防止两个连续的Media块中间产生大间隔
   if (flag) return _html.replace(/<\/div><br><div>/g, '</div><div>')
 
   // [实验性] 文字猜测条目并替换成链接
-  const htmlNoTags = _html.replace(regs.quote, '').replace(regs.a, '')
-  const acData = acSearch(removeHTMLTag(htmlNoTags))
-  if (acData.length) {
-    acData.forEach((item, index) => {
-      _html = _html.replace(item, `###${index}###`)
-    })
-    acData.forEach((item, index) => {
-      _html = _html.replace(
-        `###${index}###`,
-        `<a href="https://App/Subject/subjectId:${substrings[item]}">${item}</a>`
-      )
-    })
+  if (acSearchSetting) {
+    const htmlNoTags = _html.replace(regs.quote, '').replace(regs.a, '')
+    const acData = acSearch(removeHTMLTag(htmlNoTags))
+    if (acData.length) {
+      acData.forEach((item, index) => {
+        _html = _html.replace(item, `###${index}###`)
+      })
+      acData.forEach((item, index) => {
+        _html = _html.replace(
+          `###${index}###`,
+          `<a href="https://App/Subject/subjectId:${substrings[item]}">${item}</a>`
+        )
+      })
+    }
   }
 
   return _html
