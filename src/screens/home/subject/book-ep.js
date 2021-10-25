@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-06 16:28:40
+ * @Last Modified time: 2021-10-26 01:47:51
  */
 import React from 'react'
 import { View } from 'react-native'
+import Progress from '@ant-design/react-native/lib/progress'
 import { Flex, Text, Input, Button, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
@@ -85,6 +86,15 @@ const BookEp = memo(
                     +
                   </Button>
                 </Flex>
+                {!!book.totalChap && (
+                  <Flex style={styles.progressWrap}>
+                    <Progress
+                      style={styles.progress}
+                      barStyle={styles.bar}
+                      percent={(parseInt(chap) / parseInt(book.totalChap)) * 100}
+                    />
+                  </Flex>
+                )}
                 <Flex style={_.mt.sm}>
                   <Text style={styles.label} align='right'>
                     Vol.
@@ -120,13 +130,18 @@ const BookEp = memo(
                   </Button>
                   <Heatmap id='条目.更新书籍下一个章节' />
                 </Flex>
+                {!!book.totalVol && (
+                  <Flex style={styles.progressWrap}>
+                    <Progress
+                      style={styles.progress}
+                      barStyle={styles.bar}
+                      percent={(parseInt(vol) / parseInt(book.totalVol)) * 100}
+                    />
+                  </Flex>
+                )}
               </Flex.Item>
               <View style={_.ml.md}>
-                <Button
-                  style={styles.btn}
-                  type='ghostPrimary'
-                  onPress={doUpdateBookEp}
-                >
+                <Button style={styles.btn} type='ghostPrimary' onPress={doUpdateBookEp}>
                   更新
                 </Button>
                 <Heatmap id='条目.更新书籍章节' />
@@ -156,6 +171,9 @@ export default obc((props, { $ }) => {
   )
 })
 
+const labelWidth = 48 * _.ratio
+const inputWidth = 120 * _.ratio
+
 const styles = _.create({
   container: {
     height: 120 * _.ratio,
@@ -163,10 +181,10 @@ const styles = _.create({
     marginTop: _.lg
   },
   label: {
-    width: 48 * _.ratio
+    width: labelWidth
   },
   input: {
-    width: 120 * _.ratio,
+    width: inputWidth,
     height: _.device(34, 48)
   },
   inputRaw: {
@@ -191,7 +209,20 @@ const styles = _.create({
     width: 40 * _.ratio,
     height: _.device(34, 48)
   },
-  btnText: {
-    ..._.device(_.fontSize13, _.fontSize18)
+  btnText: _.device(_.fontSize13, _.fontSize18),
+  progressWrap: {
+    width: inputWidth,
+    marginLeft: labelWidth + _.sm,
+    marginBottom: 4
+  },
+  progress: {
+    backgroundColor: 'transparent',
+    borderRadius: 4
+  },
+  bar: {
+    backgroundColor: 'transparent',
+    borderBottomColor: _.colorPrimary,
+    borderBottomWidth: 4,
+    borderRadius: 4
   }
 })
