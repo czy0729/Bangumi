@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 09:35:13
+ * @Last Modified time: 2021-10-26 04:58:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,12 +65,14 @@ class RakuenSetting extends React.Component {
     return (
       <Flex style={this.styles.section}>
         <Flex.Item>
-          <Text type='title' size={16} bold>
+          <Text type='main' size={16} bold>
             {text}
           </Text>
-          <Text style={this.styles.information} type='sub' size={12}>
-            {information}
-          </Text>
+          {!!information && (
+            <Text style={this.styles.information} type='sub' size={12}>
+              {information}
+            </Text>
+          )}
         </Flex.Item>
       </Flex>
     )

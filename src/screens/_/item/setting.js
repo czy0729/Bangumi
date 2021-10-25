@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 23:43:30
+ * @Last Modified time: 2021-10-26 05:00:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,11 +70,7 @@ export const ItemSetting = ob(
 
     if (onPress) {
       return (
-        <Touchable
-          style={[styles.touchable, style]}
-          onPress={onPress}
-          {...other}
-        >
+        <Touchable style={[styles.touchable, style]} onPress={onPress} {...other}>
           {content}
         </Touchable>
       )
@@ -98,7 +94,6 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind
   },
   information: {
-    maxWidth: '80%',
-    marginTop: _.xs
+    maxWidth: '80%'
   }
 }))

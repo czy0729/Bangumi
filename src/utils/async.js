@@ -1,8 +1,9 @@
 /*
+ * 这种写法是为了防止交叉引用
  * @Author: czy0729
  * @Date: 2020-12-04 11:04:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 16:56:12
+ * @Last Modified time: 2021-10-26 02:19:10
  */
 export function getUserStoreAsync() {
   return require('../stores/user').default
@@ -14,6 +15,10 @@ export function getThemeStoreAsync() {
 
 export function getSystemStoreAsync() {
   return require('../stores/system').default
+}
+
+export function getRakuenStoreAsync() {
+  return require('../stores/rakuen').default
 }
 
 export function s2tAsync(str = '') {

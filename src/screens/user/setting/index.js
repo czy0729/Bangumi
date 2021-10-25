@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-06 02:11:01
+ * @Last Modified time: 2021-10-26 05:00:58
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -16,8 +16,8 @@ import {
   Heatmap
 } from '@components'
 import { Popover, ItemSetting, IconTouchable, NavigationBarEvents } from '@screens/_'
-import Stores, { _, userStore, systemStore, themeStore } from '@stores'
-import { toFixed, setStorage, open } from '@utils'
+import Stores, { _, userStore, systemStore, rakuenStore, themeStore } from '@stores'
+import { toFixed, setStorage, open, sleep } from '@utils'
 import { withHeader, ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -218,12 +218,16 @@ class Setting extends React.Component {
 
         setTimeout(() => {
           confirm('确定上传当前设置到云端?', async () => {
-            const hide = loading('上传中...')
+            let hide = loading('上传设置(1/2)...')
             const flag = await systemStore.uploadSetting()
+            hide()
 
+            hide = loading('超展开设置(2/2)...')
+            await rakuenStore.uploadSetting()
             hide()
             feedback()
-            info(flag ? '已上传' : '上传失败, 请等待作者修复')
+
+            info(flag ? '已上传' : '上传失败，云服务异常，请待作者修复')
           })
         }, 160)
         return
@@ -237,11 +241,15 @@ class Setting extends React.Component {
 
         setTimeout(() => {
           confirm('确定恢复到云端的设置?', async () => {
-            const hide = loading()
+            let hide = loading('下载设置(1/2)...')
             const flag = await systemStore.downloadSetting()
+            hide()
 
+            hide = loading('超展开设置(2/2)...')
+            await rakuenStore.downloadSetting()
             hide()
             feedback()
+
             info(flag ? '已恢复' : '下载设置失败')
           })
         }, 160)
@@ -275,7 +283,7 @@ class Setting extends React.Component {
     return (
       <Flex style={this.styles.section}>
         <Flex.Item>
-          <Text size={16} type='sub'>
+          <Text size={16} type='main' bold>
             {text}
           </Text>
         </Flex.Item>
@@ -349,7 +357,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              show={_.isDark}
+              show={!this.simple && _.isDark}
               hd='纯黑'
               ft={
                 <SwitchPro
@@ -431,7 +439,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              show={!userStore.isLimit}
+              show={!this.simple && !userStore.isLimit}
               hd='小圣杯'
               ft={
                 <SwitchPro
@@ -456,7 +464,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              show={!userStore.isLimit && tinygrail}
+              show={!this.simple && !userStore.isLimit && tinygrail}
               hd='涨跌色'
               ft={
                 <SegmentedControl
@@ -496,7 +504,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple}
-              hd='片假名终结者'
+              hd='[实验性] 片假名终结者'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -511,7 +519,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information='[实验性] 在日语外来语上方标注英文原词，开启后资源消耗增大，非必要请勿开启'
+              information='在日语外来语上方标注英文原词，开启后资源消耗增大，非必要请勿开启'
             >
               <Heatmap
                 id='设置.切换'
@@ -1067,7 +1075,7 @@ class Setting extends React.Component {
           />
         </ItemSetting>
         <ItemSetting
-          show={!userStore.isLimit}
+          show={!this.simple && !userStore.isLimit}
           hd='搜索源头按钮'
           ft={
             <SwitchPro
@@ -1092,6 +1100,7 @@ class Setting extends React.Component {
           />
         </ItemSetting>
         <ItemSetting
+          show={!this.simple}
           hd='游戏标签页'
           ft={
             <SwitchPro
@@ -1289,7 +1298,7 @@ class Setting extends React.Component {
               hd='版本'
               ft={
                 hasNewVersion && !IOS ? (
-                  <Text type='success'>
+                  <Text type='success' size={15}>
                     有新版本{name}
                     <Text type='sub' size={15}>
                       {' '}
@@ -1297,7 +1306,9 @@ class Setting extends React.Component {
                     </Text>
                   </Text>
                 ) : (
-                  `${VERSION_GITHUB_RELEASE}`
+                  <Text type='sub' size={15}>
+                    {VERSION_GITHUB_RELEASE}
+                  </Text>
                 )
               }
               arrow={!IOS}
@@ -1319,11 +1330,13 @@ class Setting extends React.Component {
               }
               arrow
               highlight
+              information='推荐大于10MB或预到数据不刷新等情况进行清除'
               onPress={this.clearStorage}
             >
               <Heatmap id='设置.清除缓存' />
             </ItemSetting>
             <ItemSetting
+              show={!this.simple}
               hd='网络探针'
               arrow
               highlight
@@ -1391,9 +1404,7 @@ class Setting extends React.Component {
         </ItemSetting>
         <Flex style={_.mt.md} justify='center'>
           <IconTouchable
-            style={{
-              opacity: 0
-            }}
+            style={this.styles.transparent}
             name='md-more-horiz'
             onPress={() => navigation.push('DEV')}
           />
@@ -1479,5 +1490,8 @@ const memoStyles = _.memoStyles(_ => ({
         rotate: '-90deg'
       }
     ]
+  },
+  transparent: {
+    opacity: 0
   }
 }))

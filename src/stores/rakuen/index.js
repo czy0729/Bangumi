@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 07:07:59
+ * @Last Modified time: 2021-10-26 04:53:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -978,6 +978,71 @@ class Rakuen extends store {
       this.setStorage('cloudTopic', undefined, NAMESPACE)
       return true
     } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * 上传当前设置到云端
+   */
+  uploadSetting = () => {
+    const { id } = getUserStoreAsync().userInfo
+    return put({
+      path: `rakuen-setting/${id}.json`,
+      content: JSON.stringify({
+        ...this.setting,
+        blockKeywords: escape(JSON.stringify(this.setting.blockKeywords)),
+        blockGroups: escape(JSON.stringify(this.setting.blockGroups)),
+        blockUserIds: escape(JSON.stringify(this.setting.blockUserIds))
+      })
+    })
+  }
+
+  /**
+   * 恢复到云端的设置
+   */
+  downloadSetting = async () => {
+    const { id } = getUserStoreAsync().userInfo
+    const { content } = await read({
+      path: `rakuen-setting/${id}.json`
+    })
+
+    if (!content) {
+      return false
+    }
+
+    try {
+      const setting = JSON.parse(content)
+      const key = 'setting'
+
+      // 屏蔽的数据还需要跟现在的合并
+      let { blockKeywords, blockGroups, blockUserIds } = setting
+      blockKeywords = JSON.parse(unescape(blockKeywords))
+      blockGroups = JSON.parse(unescape(blockGroups))
+      blockUserIds = JSON.parse(unescape(blockUserIds))
+      this.setting.blockKeywords.forEach(item => {
+        if (!blockKeywords.includes(item)) blockKeywords.push(item)
+      })
+      this.setting.blockGroups.forEach(item => {
+        if (!blockGroups.includes(item)) blockGroups.push(item)
+      })
+      this.setting.blockUserIds.forEach(item => {
+        if (!blockUserIds.includes(item)) blockUserIds.push(item)
+      })
+
+      this.setState({
+        [key]: {
+          ...this.setting,
+          ...setting,
+          blockKeywords,
+          blockGroups,
+          blockUserIds
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+      return true
+    } catch (error) {
+      console.info('rakuenStore downloadSetting', error)
       return false
     }
   }
