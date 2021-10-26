@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 13:57:22
+ * @Last Modified time: 2021-10-27 04:29:53
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -185,7 +185,10 @@ const loadedIds = []
 let loading = false
 export async function fetchMediaQueue(type, id) {
   if (type && id) {
-    if (![...ids, ...loadedIds].find(item => item.type === type && item.id === id)) {
+    if (
+      ids.length <= 16 &&
+      ![...ids, ...loadedIds].find(item => item.type === type && item.id === id)
+    ) {
       ids.push({
         type,
         id

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 15:37:41
+ * @Last Modified time: 2021-10-27 04:46:58
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -10,12 +10,13 @@ import { Popover } from '@screens/_'
 import { _, rakuenStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { info, confirm } from '@utils/ui'
+import { removeHTMLTag } from '@utils/html'
 
 function IconExtra(
-  { replySub, erase, userId, userName, message, showFixedTextare },
+  { replySub, erase, userId, userName, message, msg, showFixedTextare },
   { $ }
 ) {
-  const data = []
+  const data = ['翻译']
   if (replySub && !$.isLimit) data.push('回复')
   if (erase) data.push('删除')
   data.push('屏蔽用户')
@@ -24,6 +25,10 @@ function IconExtra(
       style={styles.touch}
       data={data}
       onSelect={title => {
+        if (title === '翻译') {
+          return
+        }
+
         if (title === '回复') {
           $.showFixedTextarea(userName, replySub, message)
           showFixedTextare()

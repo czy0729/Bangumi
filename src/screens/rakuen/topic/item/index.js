@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 19:24:10
+ * @Last Modified time: 2021-10-27 04:44:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -123,6 +123,7 @@ const Item = memo(
               </Name>
             </Flex.Item>
             <IconExtra
+              msg={msg}
               replySub={replySub}
               erase={erase}
               userId={userId}
