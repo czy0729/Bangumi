@@ -13,7 +13,9 @@
     "name": "Bangumi",
     "slug": "bangumi-pro",
     "privacy": "public",
-    "platforms": ["ios"],
+    "platforms": [
+      "ios"
+    ],
     "orientation": "portrait",
     "scheme": "bangumi",
     "icon": "./src/assets/images/icon.png",
@@ -21,7 +23,9 @@
       "enabled": false,
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.czy0729.bangumi",
       "supportsTablet": true
@@ -30,7 +34,6 @@
       "barStyle": "dark-content",
       "backgroundColor": "#ffffff"
     },
-    "githubUrl": "https://github.com/czy0729/Bangumi",
-    "sdkVersion": "39.0.0"
+    "githubUrl": "https://github.com/czy0729/Bangumi"
   }
 }

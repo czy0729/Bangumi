@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 07:31:30
+ * @Last Modified time: 2021-10-28 03:24:43
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -10,7 +10,6 @@ import { Popover } from '@screens/_'
 import { _, rakuenStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { info, confirm } from '@utils/ui'
-import { removeHTMLTag } from '@utils/html'
 
 function IconExtra(
   { id, replySub, erase, userId, userName, message, msg, showFixedTextare },
