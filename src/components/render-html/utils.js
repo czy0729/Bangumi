@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 04:29:53
+ * @Last Modified time: 2021-10-27 14:47:12
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -146,7 +146,7 @@ export function hackMatchMediaLink(html) {
 
   if (matchLink) {
     _html = html.replace(
-      /<a href="https:\/\/(bgm|bangumi).tv\/(subject|group\/topic|character|person)\/\d+" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
+      /<a href="(https|http):\/\/(bgm|bangumi)\.tv\/(subject|group\/topic|character|person)\/(.+?)" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
       match => {
         flag = true
         return `<div>${match}</div>`
