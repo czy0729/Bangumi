@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:19:19
+ * @Last Modified time: 2021-10-27 10:53:02
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -51,6 +51,10 @@ export const FixedTextarea = observer(
     }
 
     ref
+    selection = {
+      start: this.props.value.length,
+      end: this.props.value.length
+    }
 
     async componentDidMount() {
       try {
@@ -122,9 +126,23 @@ export const FixedTextarea = observer(
       const { onChange } = this.props
       onChange(value)
 
+      // 安卓设置过光标后, 继续打字光标会闪回到上次设置的地方, 需要重置
+      try {
+        if (!IOS) {
+          this.ref.textAreaRef.setNativeProps({
+            selection: {}
+          })
+        }
+      } catch (error) {}
+
       this.setState({
         value
       })
+    }
+
+    onSelectionChange = event => {
+      const { nativeEvent } = event
+      this.selection = nativeEvent.selection
     }
 
     // @todo 暂时没有对选择了一段文字的情况做判断
@@ -192,28 +210,32 @@ export const FixedTextarea = observer(
 
     // 获取光标位置
     getSelection = () => {
-      const ref = this.ref.textAreaRef
-      const selection = ref._lastNativeSelection || null
-      const { value } = this.state
-      let index = value.length
-      if (selection) {
-        index = selection.start
-      }
-      return index
+      // 失效?
+      // const ref = this.ref.textAreaRef
+      // const selection = ref._lastNativeSelection || null
+      // const { value } = this.state
+      // let index = value.length
+      // if (selection) {
+      //   index = selection.start
+      // }
+      // return index
+
+      return this.selection.end
     }
 
     // 设定光标位置
     setSelection = start => {
-      if (!IOS) return
-
-      const ref = this.ref.textAreaRef
+      const { textAreaRef } = this.ref
       setTimeout(() => {
-        ref.setNativeProps({
-          selection: {
-            start,
-            end: start
-          }
+        const selection = {
+          start,
+          end: start
+        }
+
+        textAreaRef.setNativeProps({
+          selection
         })
+        this.selection = selection
       }, 0)
     }
 
@@ -496,6 +518,7 @@ export const FixedTextarea = observer(
                 clear
                 onFocus={this.onFocus}
                 onChange={this.onChange}
+                onSelectionChange={this.onSelectionChange}
               />
             </Flex.Item>
             <Touchable style={this.styles.touchSend} onPress={this.onSubmit}>
@@ -529,7 +552,7 @@ export const FixedTextarea = observer(
       return (
         <ScrollView
           style={{
-            height: keyboardHeight - 2
+            height: keyboardHeight + 1
           }}
           contentContainerStyle={this.styles.bgmContainer}
         >
