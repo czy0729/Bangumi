@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 17:47:42
+ * @Last Modified time: 2021-10-27 11:49:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,13 +18,13 @@ const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
   const styles = memoStyles()
-  const { icon, id, name, total, end = '' } = $.chara
+  const { icon, monoId, name, total, end = '' } = $.chara
   const { next, level, price, amount } = caculateICO($.chara)
   const endTime = getTimestamp(end.replace('T', ' '))
   const event = {
     id: 'ICO交易.封面图查看',
     data: {
-      monoId: id
+      monoId
     }
   }
   return (
@@ -48,18 +48,18 @@ function Info(props, { $, navigation }) {
         onPress={() => {
           t('ICO交易.跳转', {
             to: 'Mono',
-            monoId: id
+            monoId
           })
 
           navigation.push('Mono', {
-            monoId: `character/${id}`,
+            monoId: `character/${monoId}`,
             _name: name
           })
         }}
       >
         <Flex justify='center'>
           <Text type='tinygrailPlain' size={15} bold>
-            #{id} - {name}
+            #{monoId} - {name}
           </Text>
           <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
         </Flex>
@@ -81,8 +81,7 @@ function Info(props, { $, navigation }) {
         下一等级需要 {formatNumber(next, 0, $.short)}
       </Text>
       <Text style={_.mt.sm} type='tinygrailPlain' align='center'>
-        预计发行量 约{formatNumber(amount, 0, $.short)}股 / 发行价{' '}
-        {formatNumber(price)}
+        预计发行量 约{formatNumber(amount, 0, $.short)}股 / 发行价 {formatNumber(price)}
       </Text>
       <Bar style={_.mt.md} total={total} level={level} next={next} />
     </View>
