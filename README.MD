@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.3.0" src="https://img.shields.io/badge/Version-5.3.0-0366d6" />
+  <img alt="Version: 5.4.0" src="https://img.shields.io/badge/Version-5.4.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -21,7 +21,7 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 ## Download
 
-[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642) | Google Play被恶意举报，等待申诉中
+[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642) | Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互斥，只能建议之前使用此渠道的用户卸载后使用其他渠道
 
 苹果开发者账号已过期，期间没能过审，有缘再送审（100 刀喂狗了 bgm38）
 [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.io/@bgm-ios-test/bangumi-pro)
@@ -45,34 +45,43 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 - 番剧、游戏截图预览
 - [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏, App 独立设计 UI 和交互）
 
+## Recently Update
+
+v5.4.0 - 2021/10/27
+
+—— 新增 ——
+
+- [x] [发现] 支持自定义菜单排序
+- [x] [帖子] 支持 bgm 内条目、人物、帖子等链接直接显示成信息块（超展开设置可关闭）
+- [x] [帖子] 支持正文内容猜测条目，可以直接跳转到对应条目（实验性，超展开设置可关闭）
+
+—— 优化 ——
+
+- [x] [条目] 书籍条目，数据足够的情况显示进度条
+- [x] [帖子] 楼层旁边菜单增加翻译功能
+- [x] [超展开设置] 可添加屏蔽关键字
+- [x] [设置] 现在同步设置也会同步超展开的设置/屏蔽词了
+- [x] [时光机] 方格布局可以在设置自定义个数
+- [x] 用图标区分直接打开浏览器的跳转
+
+—— 修复 ——
+
+- [x] [条目] 修复了放送日为周日，自定义放送时间没默认填入的问题
+- [x] [帖子] 修复了书籍类条目帖子闪退的问题
+- [x] [帖子] 回复框优化了链接的插入写法，优化了插入 bgm 表情和 BBCode 后的光标位置
+- [x] [小圣杯] 修复了 ico 角色详情页面进入人物页面，id 错误的问题
+
+—— 已知问题 ——
+
+- [ ] 在交叉使用多个账号，或者在彻底删除一个条目的收藏后，列表上会出现叠加的【已收藏】状态标记
+
+[CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
+
 ## Next
 
 - [发现] 支持自定义菜单排序
 
 https://user-images.githubusercontent.com/13514316/137933757-4dba738f-e081-4fcf-8827-6c7d6c2ae89e.mp4
-
-## Recently Update
-
-v5.3.0 - 2021/10/05
-
-—— 新增 ——
-
-- [x] [帖子] 动画单集讨论正文下显示上/下一章节
-
-—— 优化 ——
-
-- [x] [条目] 自定义放送时间的功能，在所有【在看】的动画条目里面显示
-- [x] 所有页面【已收藏】标记在有条目详情的数据下，显示具体的状态
-
-—— 修复 ——
-
-- [x] [条目] 修复了章节【倒序】失效问题
-- [x] [空间] 修复了按【网站评分】排序不生效问题
-- [x] [每日放送] 修复了换季度期间，有可能新番时间无法获取问题
-- [x] [每日放送] 修复了网格布局时间不显示问题
-- [x] [索引] 修复了上/下一个月，月份拼错问题
-
-[CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
 ## PowerBy
 
