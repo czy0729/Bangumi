@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 07:50:08
+ * @Last Modified time: 2021-10-27 08:02:49
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { removeHTMLTag, HTMLDecode } from '@utils/html'
-import { info, feedback } from '@utils/ui'
+import { info, feedback, loading } from '@utils/ui'
 import { t, baiduTranslate } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IOS, HOST, URL_DEFAULT_AVATAR } from '@constants'
@@ -23,7 +23,8 @@ const excludeState = {
   value: '', // 回复框value
   replySub: '', // 存放bgm特有的子回复配置字符串
   message: '', // 存放子回复html
-  translateResult: [] // 翻译缓存
+  translateResult: [], // 翻译缓存
+  translateResultFloor: {} // 楼层翻译缓存
 }
 
 export default class ScreenTopic extends store {
@@ -669,20 +670,22 @@ export default class ScreenTopic extends store {
    * 翻译内容
    */
   doTranslate = async () => {
-    if (this.state.translateResult.length) {
-      return
-    }
+    if (this.state.translateResult.length) return
 
     t('帖子.翻译内容', {
       topicId: this.topicId
     })
 
+    let hide
     try {
+      hide = loading()
       const response = await baiduTranslate(
         String(`${this.title}\n${this.html}`)
           .replace(/<br \/>/g, '\n')
           .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
       )
+      hide()
+
       const { trans_result: translateResult } = JSON.parse(response)
       if (Array.isArray(translateResult)) {
         this.setState({
@@ -693,6 +696,41 @@ export default class ScreenTopic extends store {
       }
       info('翻译失败, 请重试')
     } catch (error) {
+      if (hide) hide()
+      info('翻译失败, 请重试')
+    }
+  }
+
+  /**
+   * 翻译楼层
+   */
+  doTranslateFloor = async (floorId, msg) => {
+    const { translateResultFloor } = this.state
+    if (translateResultFloor[floorId]) return
+
+    t('帖子.翻译内容', {
+      floorId
+    })
+
+    let hide
+    try {
+      hide = loading()
+      const response = await baiduTranslate(removeHTMLTag(msg.replace(/<br>/g, '\n')))
+      hide()
+
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResultFloor: {
+            ...translateResultFloor,
+            [floorId]: translateResult.map(item => item.dst).join('\n')
+          }
+        })
+        return
+      }
+      info('翻译失败, 请重试')
+    } catch (error) {
+      if (hide) hide()
       info('翻译失败, 请重试')
     }
   }

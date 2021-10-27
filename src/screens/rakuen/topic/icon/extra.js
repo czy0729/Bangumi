@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 04:46:58
+ * @Last Modified time: 2021-10-27 07:31:30
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -13,19 +13,20 @@ import { info, confirm } from '@utils/ui'
 import { removeHTMLTag } from '@utils/html'
 
 function IconExtra(
-  { replySub, erase, userId, userName, message, msg, showFixedTextare },
+  { id, replySub, erase, userId, userName, message, msg, showFixedTextare },
   { $ }
 ) {
-  const data = ['翻译']
+  const data = []
   if (replySub && !$.isLimit) data.push('回复')
   if (erase) data.push('删除')
-  data.push('屏蔽用户')
+  data.push('屏蔽用户', '翻译')
   return (
     <Popover
       style={styles.touch}
       data={data}
       onSelect={title => {
         if (title === '翻译') {
+          $.doTranslateFloor(id, msg)
           return
         }
 

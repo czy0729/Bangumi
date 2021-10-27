@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 04:44:38
+ * @Last Modified time: 2021-10-27 08:17:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,23 +31,24 @@ const defaultProps = {
   erase: '',
   floor: '',
   id: 0,
+  isAuthor: false,
+  isExpand: false,
+  isFriend: false,
+  isJump: false,
+  isNew: false,
+  matchLink: false,
   msg: '',
   postId: '', // 存在就跳转到对应楼层
   readedTime: '',
   replySub: '',
-  matchLink: false,
   showFixedTextare: false,
   sub: [],
   time: '',
+  translate: '',
   url: '',
   userId: '',
   userName: '',
   userSign: '',
-  isExpand: false,
-  isFriend: false,
-  isNew: false,
-  isAuthor: false,
-  isJump: false,
   event: EVENT,
   onToggleExpand: Function.prototype
 }
@@ -61,23 +62,24 @@ const Item = memo(
     erase,
     floor,
     id,
+    isAuthor,
+    isExpand,
+    isFriend,
+    isJump,
+    isNew,
+    matchLink,
     msg,
     postId,
     readedTime,
     replySub,
-    matchLink,
     showFixedTextare,
     sub,
     time,
+    translate,
     url,
     userId,
     userName,
     userSign,
-    isExpand,
-    isFriend,
-    isNew,
-    isAuthor,
-    isJump,
     event,
     onToggleExpand
   }) => {
@@ -123,6 +125,7 @@ const Item = memo(
               </Name>
             </Flex.Item>
             <IconExtra
+              id={id}
               msg={msg}
               replySub={replySub}
               erase={erase}
@@ -141,6 +144,11 @@ const Item = memo(
             onLinkPress={href => appNavigate(href, navigation, {}, event)}
             onImageFallback={() => open(`${url}#post_${id}`)}
           />
+          {!!translate && (
+            <Text style={styles.translate} size={11}>
+              {translate}
+            </Text>
+          )}
           <View style={styles.sub}>
             <Flex wrap='wrap'>
               {sub
@@ -222,7 +230,7 @@ export default obc(
     let msg = decoder(message)
     if ($.filterDelete && msg.includes('内容已被用户删除')) return null
 
-    const { expands } = $.state
+    const { expands, translateResultFloor } = $.state
     const isExpand =
       sub.length <= expandNum || (sub.length > expandNum && expands.includes(id))
 
@@ -248,23 +256,24 @@ export default obc(
         erase={erase}
         floor={floor}
         id={id}
+        isAuthor={isAuthor}
+        isExpand={isExpand}
+        isFriend={$.myFriendsMap[userId]}
+        isJump={isJump}
+        isNew={isNew}
+        matchLink={rendered}
         msg={msg}
         postId={postId}
         readedTime={readedTime}
         replySub={replySub}
-        matchLink={rendered}
         showFixedTextare={showFixedTextare}
         sub={sub}
         time={time}
+        translate={translateResultFloor[id]}
         url={url}
         userId={userId}
         userName={userName}
         userSign={userSign}
-        isExpand={isExpand}
-        isFriend={$.myFriendsMap[userId]}
-        isNew={isNew}
-        isAuthor={isAuthor}
-        isJump={isJump}
         event={event}
         onToggleExpand={$.toggleExpand}
       />
@@ -297,5 +306,12 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: _.sm,
     paddingBottom: _.md,
     marginLeft: 44
+  },
+  translate: {
+    padding: _.sm,
+    marginTop: _.sm,
+    marginRight: _.sm,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: _.radiusXs
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 09:37:15
+ * @Last Modified time: 2021-10-27 08:16:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,6 +46,7 @@ const defaultProps = {
   replySub: '',
   showFixedTextare: false,
   time: '',
+  translate: '',
   uid: '',
   url: '',
   userId: '',
@@ -76,6 +77,7 @@ const ItemSub = memo(
     replySub,
     showFixedTextare,
     time,
+    translate,
     uid,
     url,
     userId,
@@ -155,11 +157,13 @@ const ItemSub = memo(
               </Name>
             </Flex.Item>
             <IconExtra
+              id={id}
               replySub={replySub}
               erase={erase}
               userId={userId}
               userName={userName}
               message={message}
+              msg={msg}
               showFixedTextare={showFixedTextare}
             />
           </Flex>
@@ -173,6 +177,11 @@ const ItemSub = memo(
               onLinkPress={href => appNavigate(href, navigation, {}, event)}
               onImageFallback={() => open(`${url}#post_${id}`)}
             />
+            {!!translate && (
+              <Text style={styles.translate} size={11}>
+                {translate}
+              </Text>
+            )}
             {quote && quoteAvatar && !!quoteUser && (
               <Flex style={styles.quoteUserRound}>
                 <Avatar
@@ -224,6 +233,7 @@ export default obc(
 
     if ($.isBlockUser(userId, userName, replySub)) return null
 
+    const { translateResultFloor } = $.state
     const { blockKeywords, quote, quoteAvatar } = $.setting
     return (
       <ItemSub
@@ -248,6 +258,7 @@ export default obc(
         replySub={replySub}
         showFixedTextare={showFixedTextare}
         time={time}
+        translate={translateResultFloor[id]}
         uid={uid}
         url={url}
         userId={userId}
@@ -280,5 +291,12 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     padding: 2,
     backgroundColor: _.colorBg
+  },
+  translate: {
+    padding: _.sm,
+    marginTop: _.sm,
+    marginRight: _.sm,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: _.radiusXs
   }
 }))
