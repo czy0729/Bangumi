@@ -2,15 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 11:02:26
+ * @Last Modified time: 2021-10-28 00:28:36
  */
 import React from 'react'
-import {
-  InteractionManager,
-  // Alert,
-  View
-} from 'react-native'
-import { ListView, FixedTextarea, Flex, Text } from '@components'
+import { InteractionManager, View } from 'react-native'
+import { ListView, FixedTextarea, Flex, Text, Loading } from '@components'
 import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
@@ -18,11 +14,7 @@ import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { keyExtractor, appNavigate } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import {
-  // TITLE,
-  HOST,
-  IOS
-} from '@constants'
+import { HOST, IOS } from '@constants'
 import HeaderTitle from './header-title'
 import Top from './top'
 import Item from './item'
@@ -274,7 +266,13 @@ class Topic extends React.Component {
     const { rendered } = this.state
 
     // 延迟渲染, 减少二次进入页面瞬间楼层过多导致动画掉帧, 进入页面瞬间最多只渲染2个楼层
-    if (!rendered && index > 2 && !$.postId) return null
+    if (!$.postId) {
+      if (!rendered) {
+        // 渲染指示标记
+        if (index === 3) return <Loading style={_.mt.md} />
+        if (index > 2) return null
+      }
+    }
 
     const event = {
       id: '帖子.跳转',

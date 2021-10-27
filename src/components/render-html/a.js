@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 14:40:12
+ * @Last Modified time: 2021-10-28 00:23:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { runAfter } from '@utils'
 import { matchBgmLink, navigationReference } from '@utils/app'
-import { HOST } from '@constants'
+import { HOST, IOS } from '@constants'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Text } from '../text'
@@ -42,7 +42,7 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
     if (route === 'Subject') {
       el = getSubject(args)
     } else if (route === 'Topic') {
-      el = getTopic(args)
+      if (result.params.topicId !== 'group/350677') el = getTopic(args)
     } else if (route === 'Mono') {
       el = getMono(args)
     }
@@ -51,8 +51,19 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
 
   return (
     <Text style={style} selectable {...other} onPress={onLinkPress}>
-      {children}
+      {filterChildren(children)}
     </Text>
+  )
+}
+
+/**
+ * @todo: 待优化, 安卓Text中一定要过滤非文字节点
+ */
+function filterChildren(children) {
+  if (IOS) return children
+
+  return React.Children.toArray(children).filter(
+    item => item?.type?.displayName === 'Text'
   )
 }
 

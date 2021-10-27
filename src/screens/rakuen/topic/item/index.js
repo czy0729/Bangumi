@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 14:47:25
+ * @Last Modified time: 2021-10-28 00:23:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -224,6 +224,10 @@ export default obc(
     { $, navigation }
   ) => {
     rerender('Topic.Item')
+
+    // // test code
+    // const _floor = Number(floor.replace('#', ''))
+    // if (!(_floor === 97)) return null
 
     if ($.isBlockUser(userId, userName, replySub)) return null
 
