@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 22:13:41
+ * @Last Modified time: 2021-10-27 12:00:14
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { rerender } from '@utils/dev'
+import { IOS } from '@constants'
 import Btn from './btn'
 import { getMenus, MenuMapType } from './ds'
 
@@ -82,7 +83,7 @@ const SortMenu = memo(
       <View style={_.container.wind}>
         {dragging && (
           <Text style={styles.text} bold>
-            按住拖拽排序，分割线左边显示，右边隐藏
+            按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
           </Text>
         )}
         <DraggableGrid
@@ -140,16 +141,17 @@ const styles = _.create({
     opacity: _.select(0.6, 0.4)
   },
   text: {
-    marginTop: _.sm,
+    marginTop: IOS ? _.sm : _.md,
     marginLeft: _.md,
     marginBottom: _.md
   },
   btns: {
-    marginTop: _.md + 4
+    marginTop: _.md + 8,
+    marginBottom: _.md
   },
   btn: {
     height: size,
-    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
+    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel2),
     borderRadius: size
   }
 })

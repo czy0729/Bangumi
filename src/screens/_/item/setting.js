@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-26 05:00:28
+ * @Last Modified time: 2021-10-27 11:56:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,6 +94,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind
   },
   information: {
-    maxWidth: '80%'
+    maxWidth: '80%',
+    marginTop: 2
   }
 }))

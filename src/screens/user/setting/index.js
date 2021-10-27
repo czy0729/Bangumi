@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-26 05:00:58
+ * @Last Modified time: 2021-10-27 11:55:35
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -283,7 +283,7 @@ class Setting extends React.Component {
     return (
       <Flex style={this.styles.section}>
         <Flex.Item>
-          <Text size={16} type='main' bold>
+          <Text size={16} type='sub' bold>
             {text}
           </Text>
         </Flex.Item>
@@ -846,7 +846,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              show={!IOS}
+              show={!this.simple && !IOS}
               hd='点击水纹效果'
               ft={
                 <SwitchPro
@@ -1469,7 +1469,7 @@ const memoStyles = _.memoStyles(_ => ({
   split: {
     marginTop: _.md,
     marginHorizontal: _.wind,
-    borderTopWidth: _.hairlineWidth,
+    borderTopWidth: _.select(_.hairlineWidth, 1),
     borderColor: _.colorBorder
   },
   segmentedControl: {

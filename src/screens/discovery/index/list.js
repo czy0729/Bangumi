@@ -84,6 +84,9 @@ const List = memo(({ style, type, list, friendsChannel, friendsMap }) => {
 export default obc(({ style, type = 'anime' }, { $ }) => {
   rerender('Discovery.List')
 
+  const { dragging } = $.state
+  if (dragging) return null
+
   const list = $.home[type]
   if (!list.length) return null
 
