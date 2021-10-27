@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 14:47:12
+ * @Last Modified time: 2021-10-28 01:02:32
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -29,7 +29,9 @@ export const regs = {
   a: /<a (.+?)<\/a>/g,
   ruby: /<ruby>(.+?)<\/ruby>/g,
   whiteTags:
-    /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
+    /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g,
+  media:
+    /<a href="(https|http):\/\/(bgm|bangumi)\.tv\/(subject|group\/topic|character|person)\/(.+?)" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g
 }
 
 export function getIncreaseFontSize(fontSize) {
@@ -145,13 +147,17 @@ export function hackMatchMediaLink(html) {
   let flag
 
   if (matchLink) {
-    _html = html.replace(
-      /<a href="(https|http):\/\/(bgm|bangumi)\.tv\/(subject|group\/topic|character|person)\/(.+?)" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
-      match => {
-        flag = true
-        return `<div>${match}</div>`
-      }
-    )
+    _html = html.replace(regs.media, match => {
+      // App推广语不做单独块处理
+      if (
+        match ===
+        '<a href="https://bgm.tv/group/topic/350677" target="_blank" rel="nofollow external noopener noreferrer" class="l"><span style="color: grey;">获取</span></a>'
+      )
+        return match
+
+      flag = true
+      return `<div>${match}</div>`
+    })
   }
 
   // 防止两个连续的Media块中间产生大间隔
