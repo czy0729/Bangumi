@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-28 00:28:36
+ * @Last Modified time: 2021-10-30 16:58:08
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -383,12 +383,13 @@ const memoStyles = _.memoStyles(_ => ({
     right: 0,
     bottom: 0,
     left: 0,
-    height: 46,
+    paddingVertical: 12,
     paddingHorizontal: _.wind,
     marginBottom: -4,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     ...(IOS
       ? {
+          paddingBottom: 32,
           shadowColor: _.colorShadow,
           shadowOffset: {
             height: -2

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 08:02:49
+ * @Last Modified time: 2021-10-31 09:36:00
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
@@ -343,13 +343,9 @@ export default class ScreenTopic extends store {
 
   @computed get groupThumb() {
     const { _group, _groupThumb } = this.params
-    if (_groupThumb) {
-      return _groupThumb
-    }
-    if (_group) {
-      return rakuenStore.groupThumb(_group)
-    }
-    return this.topicFormCDN.groupThumb || ''
+    if (_groupThumb) return _groupThumb
+    if (_group) return rakuenStore.groupThumb(_group)
+    return this.topic.groupThumb || this.topicFormCDN.groupThumb || ''
   }
 
   @computed get groupHref() {

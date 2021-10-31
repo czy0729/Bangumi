@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 15:44:05
+ * @Last Modified time: 2021-10-31 09:59:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import {
   HeaderPlaceholder,
+  Touchable,
   Flex,
-  Katakana,
   Text,
   Divider,
   Loading,
@@ -28,12 +28,14 @@ import SectionTitle from './section-title'
 
 const defaultProps = {
   navigation: {},
+  styles: {},
   topicId: '',
   title: '',
   time: '',
   replies: '',
   group: '',
   groupHref: '',
+  groupThumb: '',
   avatar: '',
   userId: '',
   userName: '',
@@ -47,12 +49,14 @@ const defaultProps = {
 const Top = memo(
   ({
     navigation,
+    styles,
     topicId,
     title,
     time,
     replies,
     group,
     groupHref,
+    groupThumb,
     avatar,
     userId,
     userName,
@@ -101,22 +105,19 @@ const Top = memo(
             )}
           </Text>
           <Flex style={styles.groupWrap}>
-            <Katakana.Provider itemStyle={styles.katakana}>
-              <Katakana size={13} underline numberOfLines={1} onPress={groupPress}>
-                {HTMLDecode(findSubjectCn(group))}
-              </Katakana>
-              {!!time && (
-                <>
-                  <Text style={_.ml.sm} type='sub' size={13}>
-                    {' '}
-                    /{' '}
-                  </Text>
-                  <Text type='sub' size={13}>
-                    {simpleTime(time)}
-                  </Text>
-                </>
-              )}
-            </Katakana.Provider>
+            <Touchable onPress={groupPress}>
+              <Flex style={styles.groupLabel}>
+                {!!groupThumb && <Avatar style={_.mr.xs} size={20} src={groupThumb} />}
+                <Text size={13} numberOfLines={1}>
+                  {HTMLDecode(findSubjectCn(group))}
+                </Text>
+              </Flex>
+            </Touchable>
+            {!!time && (
+              <Text type='sub' size={13}>
+                {simpleTime(time)}
+              </Text>
+            )}
             <Heatmap
               right={74}
               id='帖子.跳转'
@@ -186,12 +187,14 @@ export default obc((props, { $, navigation }) => {
   return (
     <Top
       navigation={navigation}
+      styles={memoStyles()}
       topicId={$.topicId}
       title={$.title}
       time={$.time}
       replies={_replies}
       group={$.group}
       groupHref={$.groupHref}
+      groupThumb={$.groupThumb}
       avatar={$.avatar}
       userId={$.userId}
       userName={$.userName}
@@ -204,10 +207,19 @@ export default obc((props, { $, navigation }) => {
   )
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(_ => ({
   groupWrap: {
     height: 32 * _.ratio,
-    marginTop: _.sm
+    marginTop: _.sm,
+    marginBottom: _.xs
+  },
+  groupLabel: {
+    overflow: 'hidden',
+    padding: 4,
+    paddingRight: 10,
+    marginRight: _.sm,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: _.radiusXs
   },
   userWrap: {
     height: 42 * _.ratio
@@ -218,4 +230,4 @@ const styles = _.create({
   loading: {
     height: 240 * _.ratio
   }
-})
+}))

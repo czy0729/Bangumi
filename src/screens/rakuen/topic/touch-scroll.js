@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 15:14:52
+ * @Last Modified time: 2021-10-30 17:01:13
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -18,6 +18,7 @@ const defaultProps = {
   list: [],
   readedTime: 0,
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧'),
+  reverse: false,
   isWebLogin: false,
   onPress: Function.prototype
 }
@@ -96,11 +97,7 @@ const TouchScroll = memo(
             passProps.onPressIn = () => onPress(index)
           }
           return (
-            <Flex.Item
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              flex={isVertical ? 1 : showFloorText ? 3 : 1}
-            >
+            <Flex.Item key={index} flex={isVertical ? 1 : showFloorText ? 3 : 1}>
               <TouchableWithoutFeedback {...passProps}>
                 <Flex
                   style={[
@@ -153,6 +150,7 @@ export default obc(({ onPress }, { $ }) => {
       list={list}
       readedTime={readedTime}
       scrollDirection={scrollDirection}
+      reverse={$.state.reverse}
       isWebLogin={$.isWebLogin}
       onPress={onPress}
     />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 16:47:28
+ * @Last Modified time: 2021-10-28 01:28:31
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -180,6 +180,8 @@ export default class ScreenUser extends store {
   @computed get action() {
     const { subjectType } = this.state
     switch (MODEL_SUBJECT_TYPE.getTitle(subjectType)) {
+      case '书籍':
+        return '读'
       case '音乐':
         return '听'
       case '游戏':
