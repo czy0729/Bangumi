@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 19:43:22
+ * @Last Modified time: 2021-11-03 09:54:14
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -131,7 +132,7 @@ const Item = memo(
               key={item || index}
               type={isSubject ? 'main' : 'title'}
               lineHeight={16}
-              bold={isSubject}
+              bold
               onPress={() =>
                 onNavigate(
                   url,
@@ -161,7 +162,7 @@ const Item = memo(
           <Katakana
             type={isSubject ? 'main' : 'title'}
             lineHeight={16}
-            bold={isSubject}
+            bold
             onPress={() =>
               onNavigate(
                 !!p3Url.length && p3Url[0],

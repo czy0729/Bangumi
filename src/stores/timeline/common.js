@@ -2,16 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-25 10:48:02
+ * @Last Modified time: 2021-11-03 09:52:57
  */
 import { trim, getTimestamp, safeObject } from '@utils'
-import {
-  cheerio,
-  HTMLTrim,
-  HTMLToTree,
-  findTreeNode,
-  HTMLDecode
-} from '@utils/html'
+import { cheerio, HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import { fetchHTML } from '@utils/fetch'
 import { HOST, HOST_NAME } from '@constants'
 import { HTML_TIMELINE } from '@constants/html'
@@ -42,9 +36,7 @@ export async function fetchTimeline(
     url: HTML_TIMELINE(scope, type, userId, page)
   })
   const raw = await res
-  const HTML = HTMLTrim(raw).match(
-    /<div id="timeline">(.+?)<div id="tmlPager">/
-  )
+  const HTML = HTMLTrim(raw).match(/<div id="timeline">(.+?)<div id="tmlPager">/)
 
   // -------------------- 分析HTML --------------------
   const timeline = []
@@ -55,9 +47,7 @@ export async function fetchTimeline(
     let node
 
     // 日期分组
-    const dates = findTreeNode(tree.children, 'h4', []).map(
-      item => item.text[0]
-    )
+    const dates = findTreeNode(tree.children, 'h4', []).map(item => item.text[0])
 
     // 项
     findTreeNode(tree.children, 'ul', []).forEach((item, index) => {
@@ -77,15 +67,18 @@ export async function fetchTimeline(
           text: '',
           url: ''
         }
+
         // 位置2, 通常是动作
         const p2 = {
           text: ''
         }
+
         // 位置3, 通常是条目
         const p3 = {
           text: [],
           url: []
         }
+
         // 位置4, 通常是动作补充
         const p4 = {
           text: ''
@@ -96,6 +89,7 @@ export async function fetchTimeline(
           src: '',
           url: ''
         }
+
         if (isSelf) {
           if (idx === 0) {
             // 一分组只有第一个才显示头像
@@ -117,10 +111,7 @@ export async function fetchTimeline(
 
         // 位置1
         if (!isSelf) {
-          node = findTreeNode(
-            children,
-            `a|text&class=l&href~://${HOST_NAME}/user/`
-          )
+          node = findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/user/`)
           if (node) {
             p1.text = node[0].text[0]
             p1.url = node[0].attrs.href
@@ -149,26 +140,12 @@ export async function fetchTimeline(
 
         // 位置3: case 1 (条目, 角色, 人物, 小组, 目录, 天窗)
         node =
-          findTreeNode(
-            children,
-            `a|text&class=l&href~://${HOST_NAME}/subject/`
-          ) ||
-          findTreeNode(
-            children,
-            `a|text&class=l&href~://${HOST_NAME}/character/`
-          ) ||
-          findTreeNode(
-            children,
-            `a|text&class=l&href~://${HOST_NAME}/person/`
-          ) ||
-          findTreeNode(
-            children,
-            `a|text&class=l&href~://${HOST_NAME}/group/`
-          ) ||
-          findTreeNode(
-            children,
-            `a|text&class=l&href~://${HOST_NAME}/index/`
-          ) ||
+          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/subject/`) ||
+          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/character/`) ||
+          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/person/`) ||
+          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/group/`) ||
+          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/index/`) ||
+          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/blog/`) ||
           findTreeNode(
             children,
             `a|text&class=l&href~://doujin.${HOST_NAME}/subject/`
@@ -201,9 +178,7 @@ export async function fetchTimeline(
           `div > a|text&class=tip&href~://${HOST_NAME}/subject/`
         )
         const subject = node ? HTMLDecode(node[0].text[0]) : ''
-        const subjectId = node
-          ? node[0].attrs.href.replace(`${HOST}/subject/`, '')
-          : 0
+        const subjectId = node ? node[0].attrs.href.replace(`${HOST}/subject/`, '') : 0
 
         // 时间
         node = findTreeNode(children, 'p|text&class=date')
@@ -213,15 +188,13 @@ export async function fetchTimeline(
               .replace('分钟', '分')
               .replace('· web', '')
           : ''
-        if (time && time.includes('· ') && !time.includes('mobile')) {
-          time += 'onAir'
-        }
+        // if (time && time.includes('· ') && !time.includes('mobile')) {
+        //   time += 'onAir'
+        // }
 
         // 评分
         node = findTreeNode(children, 'div > span|class=starstop-s > span')
-        const star = node
-          ? node[0].attrs.class.replace(/starlight stars/g, '')
-          : ''
+        const star = node ? node[0].attrs.class.replace(/starlight stars/g, '') : ''
 
         // 评论 | 小组描述
         node =
@@ -238,6 +211,13 @@ export async function fetchTimeline(
         node = findTreeNode(children, 'p|text&class=status')
         if (node) {
           reply.content = HTMLDecode(node[0].text[0])
+
+          // add 2021/11/03
+          if (node[0]?.children?.[0]?.text?.[0]) {
+            reply.content = `${HTMLDecode(node[0].children[0].text[0])} ${
+              reply.content
+            }`
+          }
 
           // 把改名信息也纳入留言
           if (trim(node[0].text[1]) === '改名为') {
