@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 19:49:05
+ * @Last Modified time: 2021-11-03 10:14:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ import {
 } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { getCoverLarge } from '@utils/app'
+import { getCoverLarge, appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
@@ -56,7 +56,10 @@ function Info(props, { $, navigation }) {
       )}
       {!!content && (
         <Expand style={_.mt.md} ratio={0.64}>
-          <RenderHtml html={content} />
+          <RenderHtml
+            html={content}
+            onLinkPress={href => appNavigate(href, navigation)}
+          />
         </Expand>
       )}
       <Flex style={_.mt.md}>

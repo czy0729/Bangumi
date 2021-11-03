@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:04:17
+ * @Last Modified time: 2021-11-03 10:17:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ import {
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { getCoverLarge } from '@utils/app'
+import { getCoverLarge, appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Voice from './voice'
@@ -96,8 +96,20 @@ function Info(props, { $, navigation }) {
             <Heatmap id='人物.封面图查看' />
           </Flex>
         )}
-        {!!$.info && <RenderHtml style={styles.info} html={$.info} />}
-        {!!$.detail && <RenderHtml style={_.mt.lg} html={$.detail} />}
+        {!!$.info && (
+          <RenderHtml
+            style={styles.info}
+            html={$.info}
+            onLinkPress={href => appNavigate(href, navigation)}
+          />
+        )}
+        {!!$.detail && (
+          <RenderHtml
+            style={_.mt.lg}
+            html={$.detail}
+            onLinkPress={href => appNavigate(href, navigation)}
+          />
+        )}
         {!!$.cn && (
           <Flex style={_.mt.lg} justify='end'>
             <Touchable style={styles.touch} onPress={$.onMore}>

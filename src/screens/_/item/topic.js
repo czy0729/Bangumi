@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 17:56:30
+ * @Last Modified time: 2021-11-03 10:15:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,8 +16,7 @@ import { Avatar } from '../base'
 
 const avatarWidth = 34
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
-const imagesMaxWidthSub =
-  _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 export const ItemTopic = ob(
   ({
@@ -58,11 +57,7 @@ export const ItemTopic = ob(
           event={event}
         />
         <Flex.Item
-          style={[
-            styles.content,
-            index !== 0 && !_.flat && styles.border,
-            _.ml.sm
-          ]}
+          style={[styles.content, index !== 0 && !_.flat && styles.border, _.ml.sm]}
         >
           <Flex>
             <Flex.Item>
@@ -108,11 +103,7 @@ export const ItemTopic = ob(
                     event={event}
                   />
                   <Flex.Item
-                    style={[
-                      styles.subContent,
-                      !_.flat && styles.border,
-                      _.ml.sm
-                    ]}
+                    style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}
                   >
                     <Flex>
                       <Flex.Item>
@@ -141,9 +132,7 @@ export const ItemTopic = ob(
                       baseFontStyle={baseFontStyle}
                       imagesMaxWidth={imagesMaxWidthSub}
                       html={item.message}
-                      onLinkPress={href =>
-                        appNavigate(href, navigation, {}, event)
-                      }
+                      onLinkPress={href => appNavigate(href, navigation, {}, event)}
                     />
                   </Flex.Item>
                 </Flex>

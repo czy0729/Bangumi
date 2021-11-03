@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:09:56
+ * @Last Modified time: 2021-11-03 10:14:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -86,14 +86,7 @@ export const ItemSay = obc(
         <Flex.Item style={styles.contentLeft}>
           <Flex direction='column' align='start'>
             {showName && (
-              <Name
-                style={_.ml.sm}
-                userId={id}
-                showFriend
-                size={11}
-                type='title'
-                bold
-              >
+              <Name style={_.ml.sm} userId={id} showFriend size={11} type='title' bold>
                 {name}
               </Name>
             )}

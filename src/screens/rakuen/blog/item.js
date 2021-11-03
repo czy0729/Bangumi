@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:01:25
+ * @Last Modified time: 2021-11-03 10:15:38
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -16,8 +16,7 @@ import { HOST, EVENT } from '@constants'
 
 const avatarWidth = 32
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
-const imagesMaxWidthSub =
-  _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 function Item(
   {
@@ -70,11 +69,7 @@ function Item(
         event={event}
       />
       <Flex.Item
-        style={[
-          styles.content,
-          index !== 0 && !_.flat && styles.border,
-          _.ml.sm
-        ]}
+        style={[styles.content, index !== 0 && !_.flat && styles.border, _.ml.sm]}
       >
         <Flex>
           <Flex.Item>
@@ -207,9 +202,7 @@ function Item(
                     baseFontStyle={baseFontStyle}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
-                    onLinkPress={href =>
-                      appNavigate(href, navigation, {}, event)
-                    }
+                    onLinkPress={href => appNavigate(href, navigation, {}, event)}
                     onImageFallback={() => open(`${url}#post_${item.id}`)}
                   />
                   <Flex justify='end'>

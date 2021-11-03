@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 06:55:47
+ * @Last Modified time: 2021-11-03 10:11:03
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
@@ -23,7 +23,6 @@ const title = '目录详情'
 const event = {
   id: '目录详情.跳转'
 }
-const ListHeaderComponent = <Info />
 
 export default
 @inject(Store)
@@ -32,6 +31,8 @@ export default
 })
 @obc
 class CatalogDetail extends React.Component {
+  ListHeaderComponent = (<Info />)
+
   async componentDidMount() {
     const { $, navigation } = this.context
     await $.init()
@@ -106,7 +107,7 @@ class CatalogDetail extends React.Component {
           contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
           data={$.catalogDetail}
-          ListHeaderComponent={ListHeaderComponent}
+          ListHeaderComponent={this.ListHeaderComponent}
           renderItem={this.renderItem}
           scrollEventThrottle={16}
           scrollToTop

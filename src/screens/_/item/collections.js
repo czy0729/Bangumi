@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 15:52:05
+ * @Last Modified time: 2021-11-03 10:19:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -196,11 +196,13 @@ const Item = memo(
             </Flex>
             <Flex>
               <Flex.Item>
-                {hasComment && (
-                  <Text style={[styles.comments, _.mt.md]} size={13}>
-                    {comments}
-                  </Text>
-                )}
+                <Flex>
+                  {hasComment && (
+                    <Text style={[styles.comments, _.mt.md]} size={13}>
+                      {comments}
+                    </Text>
+                  )}
+                </Flex>
               </Flex.Item>
               {isEditable && (
                 <IconTouchable
