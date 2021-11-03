@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-31 09:59:57
+ * @Last Modified time: 2021-11-03 11:29:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,6 +91,7 @@ const Top = memo(
     }
 
     const isGroup = topicId.includes('group/')
+    const isEp = topicId.includes('ep/')
     return (
       <>
         {!IOS && <HeaderPlaceholder />}
@@ -107,7 +108,13 @@ const Top = memo(
           <Flex style={styles.groupWrap}>
             <Touchable onPress={groupPress}>
               <Flex style={styles.groupLabel}>
-                {!!groupThumb && <Avatar style={_.mr.xs} size={20} src={groupThumb} />}
+                {!!groupThumb && (
+                  <Avatar
+                    style={isEp ? _.mr.sm : _.mr.xs}
+                    size={isEp ? 40 : 20}
+                    src={groupThumb}
+                  />
+                )}
                 <Text size={13} numberOfLines={1}>
                   {HTMLDecode(findSubjectCn(group))}
                 </Text>
@@ -209,12 +216,13 @@ export default obc((props, { $, navigation }) => {
 
 const memoStyles = _.memoStyles(_ => ({
   groupWrap: {
-    height: 32 * _.ratio,
+    minHeight: 32 * _.ratio,
     marginTop: _.sm,
     marginBottom: _.xs
   },
   groupLabel: {
     overflow: 'hidden',
+    maxWidth: '100%',
     padding: 4,
     paddingRight: 10,
     marginRight: _.sm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 18:39:47
+ * @Last Modified time: 2021-11-03 10:29:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,50 +28,48 @@ function List({ style }, { $, navigation }) {
 
   return (
     <View style={style}>
-      {list.map(
-        ({ id, title, replies, time, avatar, userId, userName }, index) => (
-          <Touchable
-            key={id}
-            style={styles.item}
-            onPress={() =>
-              navigation.push('Blog', {
-                blogId: id
-              })
-            }
+      {list.map(({ id, title, replies, time, avatar, userId, userName }, index) => (
+        <Touchable
+          key={id}
+          style={styles.item}
+          onPress={() =>
+            navigation.push('Blog', {
+              blogId: id
+            })
+          }
+        >
+          <Flex
+            style={[styles.wrap, !!index && !_.flat && styles.border]}
+            align='start'
           >
-            <Flex
-              style={[styles.wrap, !!index && !_.flat && styles.border]}
-              align='start'
-            >
-              <Avatar
-                style={_.mr.sm}
-                navigation={navigation}
-                userId={userId}
-                name={userName}
-                src={avatar}
-              />
-              <Flex.Item>
-                <Text size={15}>
-                  {title}
-                  {replies !== '+0' && (
-                    <Text type='main' size={12} lineHeight={15} bold>
-                      {' '}
-                      {replies}
-                    </Text>
-                  )}
-                </Text>
-                <Text style={_.mt.sm} type='sub' size={12}>
-                  {correctAgo(time)} /{' '}
-                  <Text size={12} bold>
-                    {userName}
+            <Avatar
+              style={_.mr.sm}
+              navigation={navigation}
+              userId={userId}
+              name={userName}
+              src={avatar}
+            />
+            <Flex.Item>
+              <Text size={15}>
+                {title}
+                {replies !== '+0' && (
+                  <Text type='main' size={12} lineHeight={15} bold>
+                    {' '}
+                    {replies}
                   </Text>
+                )}
+              </Text>
+              <Text style={_.mt.sm} type='sub' size={12}>
+                {correctAgo(time)} /{' '}
+                <Text size={12} bold>
+                  {userName}
                 </Text>
-                {!index && <Heatmap id='讨论版.跳转' />}
-              </Flex.Item>
-            </Flex>
-          </Touchable>
-        )
-      )}
+              </Text>
+              {!index && <Heatmap id='讨论版.跳转' />}
+            </Flex.Item>
+          </Flex>
+        </Touchable>
+      ))}
     </View>
   )
 }

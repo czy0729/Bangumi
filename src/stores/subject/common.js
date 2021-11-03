@@ -2,17 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-12 11:23:34
+ * @Last Modified time: 2021-11-03 12:01:46
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
-import {
-  HTMLTrim,
-  HTMLToTree,
-  findTreeNode,
-  HTMLDecode,
-  cheerio
-} from '@utils/html'
+import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode, cheerio } from '@utils/html'
 import { fetchHTML } from '@utils/fetch'
 import {
   matchSubjectId,
@@ -45,8 +39,7 @@ export async function fetchMono({ monoId = 0 }) {
 
   if (HTML) {
     const $ = cheerio(raw)
-    mono.eraseCollectUrl =
-      $('li.collect > span.collect > a.break').attr('href') || ''
+    mono.eraseCollectUrl = $('li.collect > span.collect > a.break').attr('href') || ''
     if (!mono.eraseCollectUrl) {
       mono.collectUrl = $('li.collect > span.collect > a').attr('href') || ''
     }
@@ -532,10 +525,7 @@ export function cheerioMonoVoices(HTML) {
           const $li = cheerio(element)
           const $leftItem = $li.find('div.innerLeftItem')
           return safeObject({
-            id: $leftItem
-              .find('h3 > a.l')
-              .attr('href')
-              .replace('/character/', ''),
+            id: $leftItem.find('h3 > a.l').attr('href').replace('/character/', ''),
             name: $leftItem.find('h3 > a.l').text().trim(),
             nameCn: $leftItem.find('h3 > p.tip').text().trim(),
             cover: $leftItem.find('img.avatar').attr('src').split('?')[0],

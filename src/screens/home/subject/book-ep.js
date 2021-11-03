@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-26 01:47:51
+ * @Last Modified time: 2021-11-03 12:12:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ const defaultProps = {
   chap: '',
   vol: '',
   book: {},
+  comicLength: 0,
   status: {
     name: '未收藏'
   },
@@ -29,9 +30,20 @@ const defaultProps = {
 }
 
 const BookEp = memo(
-  ({ chap, vol, book, status, onChangeText, doUpdateBookEp, doUpdateNext }) => {
+  ({
+    chap,
+    vol,
+    book,
+    comicLength,
+    status,
+    onChangeText,
+    doUpdateBookEp,
+    doUpdateNext
+  }) => {
     rerender('Subject.BookEp.Main')
 
+    let textVol = book.totalVol
+    if (textVol === '??' && comicLength) textVol = `?${comicLength}`
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -114,9 +126,9 @@ const BookEp = memo(
                       }}
                       onSubmitEditing={doUpdateBookEp}
                     />
-                    {!!book.totalVol && (
+                    {!!textVol && (
                       <Text style={styles.total} type='sub'>
-                        / {book.totalVol}
+                        / {textVol}
                       </Text>
                     )}
                   </View>
@@ -163,6 +175,7 @@ export default obc((props, { $ }) => {
       chap={$.state.chap}
       vol={$.state.vol}
       book={$.subjectFormHTML.book}
+      comicLength={$.comic.length}
       status={$.collection.status}
       onChangeText={$.changeText}
       doUpdateBookEp={$.doUpdateBookEp}

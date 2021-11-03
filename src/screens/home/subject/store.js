@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 06:09:34
+ * @Last Modified time: 2021-11-03 11:58:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -199,7 +199,9 @@ export default class ScreenSubject extends store {
    */
   fetchSubjectFormHTML = async () => {
     const res = subjectStore.fetchSubjectFormHTML(this.subjectId)
-    const { watchedEps, book } = await res
+    const data = await res
+
+    const { watchedEps, book } = data
     this.setState({
       watchedEps: watchedEps || '0',
       chap: book.chap || '0',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-05 15:14:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 09:02:37
+ * @Last Modified time: 2021-11-03 11:51:29
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont } from '@components'
@@ -16,7 +16,7 @@ function Ep(props, { $, navigation }) {
 
   const subjectId = Number($.groupHref.replace('/subject/', ''))
   const { eps } = subjectStore.subject(subjectId)
-  if (!Array.isArray(eps)) return null
+  if (!eps?.length) return null
 
   const index = eps.findIndex(item => item.url.includes($.topicId))
   if (index === -1) return null

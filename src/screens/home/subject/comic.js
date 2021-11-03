@@ -65,7 +65,5 @@ export default obc((props, { $, navigation }) => {
 
   if (!$.comic.length) return null
 
-  return (
-    <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
-  )
+  return <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 18:05:10
+ * @Last Modified time: 2021-11-03 10:29:54
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -54,6 +54,5 @@ export default class ScreenBoard extends store {
   }
 
   // -------------------- page --------------------
-  onItemPress = (topicId, replies) =>
-    rakuenStore.updateTopicReaded(topicId, replies)
+  onItemPress = (topicId, replies) => rakuenStore.updateTopicReaded(topicId, replies)
 }

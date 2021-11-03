@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 16:05:55
+ * @Last Modified time: 2021-11-03 11:23:57
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -10,6 +10,7 @@ import { Avatar } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { urlStringify } from '@utils'
 import { memo, ob } from '@utils/decorators'
+import { IMG_DEFAULT_AVATAR } from '@constants'
 
 const routeName = 'Topic'
 const imgWidth = 28
@@ -73,7 +74,7 @@ export default ob(({ navigation }) => {
     <HeaderTitle
       navigation={navigation}
       showHeaderTitle={showHeaderTitle}
-      avatar={$.avatar}
+      avatar={$.avatar === IMG_DEFAULT_AVATAR ? $.groupThumb : $.avatar}
       userId={$.userId}
       userName={$.userName}
       title={$.title}
