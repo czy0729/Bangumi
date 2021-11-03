@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-28 00:23:31
+ * @Last Modified time: 2021-10-31 10:39:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -297,6 +297,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: _.sm,
     marginRight: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 }))

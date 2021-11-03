@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-28 00:58:35
+ * @Last Modified time: 2021-11-03 09:19:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -205,6 +205,11 @@ function getTopic({ passProps, params, onLinkPress }) {
       const styles = memoStyles()
       const { list } = rakuenStore.comments(topicId)
       if (avatar && group && userName) {
+        let reply = 0
+        list.forEach(item => {
+          reply += 1
+          if (item?.sub?.length) reply += item.sub.length
+        })
         return (
           <Flex style={styles.wrap}>
             <Touchable onPress={onLinkPress}>
@@ -223,7 +228,7 @@ function getTopic({ passProps, params, onLinkPress }) {
                       numberOfLines={1}
                       selectable
                     >
-                      {list.length}回复 · {group} · {userName}
+                      {reply}回复 · {group} · {userName}
                     </Text>
                   </Flex>
                 </View>

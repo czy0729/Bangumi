@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 11:55:35
+ * @Last Modified time: 2021-11-03 08:51:57
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -1330,7 +1330,7 @@ class Setting extends React.Component {
               }
               arrow
               highlight
-              information='推荐大于10MB或预到数据不刷新等情况进行清除'
+              information='推荐大于10MB或遇到数据不刷新等情况进行清除'
               onPress={this.clearStorage}
             >
               <Heatmap id='设置.清除缓存' />
