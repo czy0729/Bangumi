@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-07 14:06:27
+ * @Last Modified time: 2021-11-04 11:00:17
  */
 import { Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -20,12 +20,10 @@ export { isObject, runAfter, throttle }
  */
 export function debounce(fn, ms = 400) {
   let timeout = null // 创建一个标记用来存放定时器的返回值
-  // eslint-disable-next-line func-names
   return function () {
     clearTimeout(timeout) // 每当用户输入的时候把前一个 setTimeout clear 掉
     timeout = setTimeout(() => {
       // 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
-      // eslint-disable-next-line prefer-rest-params
       fn.apply(this, arguments)
     }, ms)
   }
@@ -62,7 +60,6 @@ export function toFixed(value, num = 2) {
 export function safeObject(object = {}) {
   Object.keys(object).forEach(key => {
     if (object[key] === undefined) {
-      // eslint-disable-next-line no-param-reassign
       object[key] = ''
     }
   })
@@ -95,10 +92,11 @@ export function open(url) {
  * @param {*} key
  */
 export async function setStorage(key, data) {
-  if (!key) {
-    return false
-  }
-  return AsyncStorage.setItem(key, JSON.stringify(data))
+  try {
+    if (!key) return false
+
+    runAfter(() => AsyncStorage.setItem(key, JSON.stringify(data)))
+  } catch (error) {}
 }
 
 /**
@@ -107,11 +105,14 @@ export async function setStorage(key, data) {
  * @param {*} key
  */
 export async function getStorage(key) {
-  if (!key) {
-    return null
+  try {
+    if (!key) return null
+
+    const data = await AsyncStorage.getItem(key)
+    return Promise.resolve(JSON.parse(data))
+  } catch (error) {
+    return Promise.resolve(null)
   }
-  const data = await AsyncStorage.getItem(key)
-  return Promise.resolve(JSON.parse(data))
 }
 
 /**
@@ -156,7 +157,6 @@ export function sleep(ms = 800) {
  * @param  {Int}    timestamp 时间戳
  * @return {String}
  */
-/* eslint-disable */
 export function date(format, timestamp) {
   // 假如第二个参数不存在，第一个参数作为timestamp
   if (!timestamp) {
@@ -203,10 +203,10 @@ export function date(format, timestamp) {
       // return f.j()
       return pad(f.j(), 2)
     },
-    D: function () {
-      t = f.l()
-      return t.substr(0, 3)
-    },
+    // D: function () {
+    //   t = f.l()
+    //   return t.substr(0, 3)
+    // },
     j: function () {
       return jsdate.getDate()
     },
@@ -223,6 +223,7 @@ export function date(format, timestamp) {
       return jsdate.getDay()
     },
     z: function () {
+      // eslint-disable-next-line no-bitwise
       return ((jsdate - new Date(jsdate.getFullYear() + '/1/1')) / 86400000) >> 0
     },
     W: function () {
@@ -237,6 +238,7 @@ export function date(format, timestamp) {
           nd2 = new Date(jsdate.getFullYear() - 1 + '/12/31')
           return date('W', Math.round(nd2.getTime() / 1000))
         } else {
+          // eslint-disable-next-line no-bitwise
           return (1 + (nd <= 3 ? (a + nd) / 7 : (a - (7 - nd)) / 7)) >> 0
         }
       }
@@ -248,10 +250,10 @@ export function date(format, timestamp) {
       // return f.n()
       return pad(f.n(), 2)
     },
-    M: function () {
-      t = f.F()
-      return t.substr(0, 3)
-    },
+    // M: function () {
+    //   t = f.F()
+    //   return t.substr(0, 3)
+    // },
     n: function () {
       return jsdate.getMonth() + 1
     },
@@ -260,6 +262,7 @@ export function date(format, timestamp) {
       if ((n = jsdate.getMonth() + 1) == 2) {
         return 28 + f.L()
       } else {
+        // eslint-disable-next-line no-bitwise
         if ((n & 1 && n < 8) || (!(n & 1) && n > 7)) {
           return 31
         } else {
@@ -269,6 +272,7 @@ export function date(format, timestamp) {
     },
     L: function () {
       let y = f.Y()
+      // eslint-disable-next-line no-bitwise
       return !(y & 3) && (y % 100 || !(y % 400)) ? 1 : 0
     },
     Y: function () {
@@ -367,7 +371,6 @@ export function date(format, timestamp) {
     return ret
   })
 }
-/* eslint-enable */
 
 /**
  * IOS8601时间转换
@@ -488,10 +491,8 @@ export function trim(str = '') {
  * @param {*} n
  */
 export function randomn(n) {
-  if (n > 21) {
-    return null
-  }
-  // eslint-disable-next-line no-restricted-properties
+  if (n > 21) return null
+
   return parseInt((Math.random() + 1) * Math.pow(10, n - 1))
 }
 
@@ -514,7 +515,6 @@ export function random(start, end) {
  * @param {Int} n 保留多少位小数
  * @return {String}
  */
-/* eslint-disable */
 export function formatNumber(s, n = 2, xsb) {
   if (xsb) {
     if (s >= B) {
@@ -533,7 +533,7 @@ export function formatNumber(s, n = 2, xsb) {
     return Number(0).toFixed(n)
   }
 
-  s = parseFloat((s + '').replace(/[^\d\.-]/g, '')).toFixed(n) + ''
+  s = parseFloat((s + '').replace(/[^\d.-]/g, '')).toFixed(n) + ''
 
   if (s == 0) {
     return Number(s).toFixed(n)
@@ -624,7 +624,6 @@ export function lastDate(timestamp, overDaysToShowTime = 365, simple = true) {
 
   return '刚刚'
 }
-/* eslint-enable */
 
 /**
  * 清除搜索关键字的特殊字符
@@ -648,7 +647,6 @@ export function similar(s, t, f) {
   const m = t.length
   const d = []
 
-  // eslint-disable-next-line no-param-reassign
   f = f || 3
   const min = (a, b, c) => (a < b ? (a < c ? a : c) : b < c ? b : c)
 

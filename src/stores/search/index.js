@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 16:07:21
+ * @Last Modified time: 2021-11-06 10:59:27
  */
 import { observable } from 'mobx'
 import Constants from 'expo-constants'
@@ -48,19 +48,10 @@ class Search extends store {
    * @param {*} legacy  1为精准匹配
    * @param {*} refresh 是否刷新
    */
-  fetchSearch = async (
-    { text = '', cat = DEFAULT_CAT, legacy = '' } = {},
-    refresh
-  ) => {
+  fetchSearch = async ({ text = '', cat = DEFAULT_CAT, legacy = '' } = {}, refresh) => {
     const _text = text.replace(/ /g, '+')
-
     const { list, pagination } = this.search(_text, cat, legacy)
-    let page // 下一页的页码
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
+    const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
@@ -69,15 +60,11 @@ class Search extends store {
     })
     const raw = await res
     const HTML = HTMLTrim(raw)
-
-    if (HTML.includes('秒内只能进行一次搜索')) {
-      return Promise.reject()
-    }
+    if (HTML.includes('秒内只能进行一次搜索')) return Promise.reject()
 
     // -------------------- 分析HTML --------------------
-    let node
-
     const search = []
+    let node
     let { pageTotal = 0 } = pagination
     let searchHTML
 
@@ -89,18 +76,16 @@ class Search extends store {
       if (searchHTML) {
         // 总页数
         if (page === 1) {
+          // case1: <span class="p_edge">(&nbsp;1&nbsp;/&nbsp;23&nbsp;)</span>
+          // case2: <a href="/subject_search/love+live?cat=2&page=2" class="p">2</a><a href="/subject_search/love+live?cat=2&page=2" class="p">&rsaquo;&rsaquo;</a>
           const pageHTML =
             HTML.match(
               /<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
             ) ||
             HTML.match(
-              /<a href="\? page=\d+" class="p">(\d+)<\/a><a href="\? page=2" class="p">&rsaquo;&rsaquo;<\/a>/
+              /<a href=".+?&page=\d+" class="p">(\d+)<\/a><a href=".+?&page=2" class="p">&rsaquo;&rsaquo;<\/a>/
             )
-          if (pageHTML) {
-            pageTotal = pageHTML[1]
-          } else {
-            pageTotal = 1
-          }
+          pageTotal = pageHTML ? pageHTML[1] : 1
         }
 
         const tree = HTMLToTree(searchHTML[1])
@@ -145,10 +130,7 @@ class Search extends store {
           // 类型
           node = findTreeNode(children, 'div > h3 > span|class')
           const type = node
-            ? node[0].attrs.class.replace(
-                /ico_subject_type subject_type_| ll/g,
-                ''
-              )
+            ? node[0].attrs.class.replace(/ico_subject_type subject_type_| ll/g, '')
             : ''
 
           // 收藏状态

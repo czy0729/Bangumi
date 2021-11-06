@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-10 14:18:02
+ * @Last Modified time: 2021-11-06 11:05:54
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore } from '@stores'
@@ -11,6 +11,7 @@ import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants/model'
+import { HTML_SEARCH } from '@constants/html'
 
 const namespace = 'ScreenSearch'
 const initCat = MODEL_SEARCH_CAT.getValue('动画')
@@ -59,6 +60,13 @@ export default class ScreenSearch extends store {
 
   @computed get userCollectionsMap() {
     return collectionStore.userCollectionsMap
+  }
+
+  @computed get url() {
+    const { value = '', cat, legacy = '' } = this.state
+    const _text = value.replace(/ /g, '+')
+    const url = HTML_SEARCH(_text, cat, 1, legacy)
+    return url
   }
 
   // -------------------- page --------------------

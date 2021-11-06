@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:54:36
+ * @Last Modified time: 2021-11-06 11:06:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { open } from '@utils'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST } from '@constants'
 import { MODEL_SEARCH_CAT } from '@constants/model'
 import Category from './category'
 import Legacy from './legacy'
@@ -46,8 +45,9 @@ class Search extends React.Component {
 
           switch (key) {
             case '浏览器查看':
-              open(`${HOST}/subject_search`)
+              open($.url)
               break
+
             default:
               break
           }
