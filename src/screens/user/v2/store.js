@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-28 01:28:31
+ * @Last Modified time: 2021-11-06 16:37:04
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -104,8 +104,6 @@ export default class ScreenUser extends store {
     let { page } = pagination
     for (; page < pageTotal; page += 1) {
       info(`排序中 ${page + 1} / ${pageTotal}`)
-
-      // eslint-disable-next-line no-await-in-loop
       await this.fetchUserCollectionsNormal()
     }
 
@@ -313,8 +311,10 @@ export default class ScreenUser extends store {
    * 底部TabBar再次点击滚动到顶并刷新数据
    */
   scrollToIndex = {}
+  scrollToOffset = {}
   connectRef = (ref, index) => {
     this.scrollToIndex[index] = ref?.scrollToIndex
+    this.scrollToOffset[index] = ref?.scrollToOffset
   }
 
   onRefreshThenScrollTop = () => {

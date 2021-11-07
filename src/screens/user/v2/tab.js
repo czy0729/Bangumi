@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:04:42
+ * @Last Modified time: 2021-11-08 02:06:55
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -11,18 +11,19 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS, DEV } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import ToolBar from './tool-bar'
 import List from './list'
 import { tabs, H_BG, H_TABBAR, H_HEADER } from './store'
 
+const headerStyle = {
+  height: H_BG + H_TABBAR
+}
+
 class Tab extends React.Component {
   onIndexChange = index => {
     const { $ } = this.context
-    const { onIndexChange } = this.props
-    onIndexChange(index)
     $.onChange(index)
   }
 
@@ -33,12 +34,8 @@ class Tab extends React.Component {
 
   ListHeaderComponent = (
     <>
-      <View
-        style={{
-          height: H_BG + H_TABBAR
-        }}
-      />
-      <ToolBar />
+      <View style={headerStyle} />
+      <ToolBar onToggleList={this.props.onToggleList} />
     </>
   )
 
@@ -124,11 +121,12 @@ class Tab extends React.Component {
     return (
       <>
         <TabView
-          lazy={!IOS}
-          lazyPreloadDistance={0}
+          lazy
+          lazyPreloadDistance={1}
           navigationState={this.navigationState}
           renderTabBar={this.renderTabBar}
           renderScene={this.renderScene}
+          onSwipeStart={this.props.onSwipeStart}
           onIndexChange={this.onIndexChange}
         />
         <Animated.View style={[this.styles.tabBarLeft, this.transform]}>

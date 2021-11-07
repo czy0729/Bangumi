@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 00:35:20
+ * @Last Modified time: 2021-11-06 11:18:28
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -404,7 +404,7 @@ export function sax({
 }
 
 /**
- * hm v6.0
+ * hm v6.0 浏览统计
  * @param {*} url
  * @param {*} screen
  */
@@ -459,7 +459,7 @@ export function hm(url, screen) {
 }
 
 /**
- * track
+ * track 埋点统计
  * @param {*} u
  */
 export function t(desc, eventData) {

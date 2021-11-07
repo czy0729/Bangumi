@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 14:46:19
+ * @Last Modified time: 2021-11-08 02:15:31
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -19,7 +19,7 @@ import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import Heatmaps from './heatmaps'
-import Store, { tabs, H_BG } from './store'
+import Store, { tabs, H_BG, H_HEADER } from './store'
 
 const title = '时光机'
 
@@ -40,15 +40,12 @@ class User extends React.Component {
   }
 
   scrollY = new Animated.Value(0)
-  offsetZeroNativeEvent
-  loaded = {}
+  y = 0
 
   componentDidMount() {
     runAfter(async () => {
       const { $ } = this.context
       await $.init()
-      const { page } = $.state
-      this.loaded[page] = true
 
       hm(`user/${$.myUserId}?route=user`, 'User')
     })
@@ -61,48 +58,53 @@ class User extends React.Component {
     })
   }
 
-  onScroll = e => {
-    // 记录一个nativeEvent用于切页重置
-    if (!this.offsetZeroNativeEvent && e.nativeEvent) {
-      this.offsetZeroNativeEvent = e.nativeEvent
-      this.offsetZeroNativeEvent.contentOffset.y = 0
+  updatePageOffset = (index = [-1, 1]) => {
+    const { $ } = this.context
+    const { page } = $.state
+    const { fixed } = this.state
+    const config = {
+      offset: fixed ? H_BG - H_HEADER : this.y,
+      animated: false
     }
 
-    // 更新头部是否置顶
-    const { contentOffset } = e.nativeEvent
-    const { y } = contentOffset
+    index.forEach(item => {
+      $.scrollToOffset[page + item]?.(config)
+    })
+  }
+
+  onScroll = e => {
     const { fixed } = this.state
-    if (fixed) {
-      const { $ } = this.context
-      const { page } = $.state
-      this.loaded[page] = true
-    }
-    if (fixed && y < H_BG) {
+    const { y } = e.nativeEvent.contentOffset
+    this.y = y
+
+    const offset = H_BG - H_HEADER - 20
+    if (fixed && y < offset) {
       this.setState({
         fixed: false
       })
       return
     }
-    if (!fixed && y >= H_BG) {
+
+    if (!fixed && y >= offset) {
       this.setState({
         fixed: true
       })
     }
   }
 
-  onIndexChange = page => {
-    if (!this.loaded[page]) {
-      this.resetPageOffset(page)
-    }
-  }
-
   onSelectSubjectType = title => {
     const { $ } = this.context
     $.onSelectSubjectType(title)
-    this.loaded = {}
+  }
 
-    const { page } = $.state
-    this.resetPageOffset(page)
+  onToggleList = () => {
+    setTimeout(() => {
+      this.updatePageOffset([0])
+    }, 0)
+  }
+
+  onSwipeStart = () => {
+    this.updatePageOffset()
   }
 
   /**
@@ -116,27 +118,7 @@ class User extends React.Component {
       subjectType,
       MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
     )
-    if (!_loaded) {
-      $.fetchUserCollections(true)
-    }
-  }
-
-  resetPageOffset = page => {
-    if (!this.loaded[page] && this.offsetZeroNativeEvent) {
-      setTimeout(() => {
-        Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: this.scrollY
-              }
-            }
-          }
-        ])({
-          nativeEvent: this.offsetZeroNativeEvent
-        })
-      }, 0)
-    }
+    if (!_loaded) $.fetchUserCollections(true)
   }
 
   get style() {
@@ -148,19 +130,14 @@ class User extends React.Component {
     const { id } = $.usersInfo
 
     // 自己并且没登陆
-    if (!id && !$.isLogin) {
-      return <Login style={_.container._plain} />
-    }
+    if (!id && !$.isLogin) return <Login style={_.container._plain} />
 
     const { _loaded } = $.state
     const { isFocused } = this.props
     const { fixed } = this.state
     return (
       <View style={this.style}>
-        <StatusBarEvents
-          barStyle='light-content'
-          backgroundColor='transparent'
-        />
+        <StatusBarEvents barStyle='light-content' backgroundColor='transparent' />
         {_loaded && (
           <>
             <UM screen={title} />
@@ -168,8 +145,6 @@ class User extends React.Component {
             <Tab
               scrollY={this.scrollY}
               scrollEventThrottle={16}
-              onSelectSubjectType={this.onSelectSubjectType}
-              onIndexChange={this.onIndexChange}
               onScroll={Animated.event(
                 [
                   {
@@ -185,11 +160,12 @@ class User extends React.Component {
                   listener: this.onScroll
                 }
               )}
+              onSwipeStart={this.onSwipeStart}
+              onSelectSubjectType={this.onSelectSubjectType}
+              onToggleList={this.onToggleList}
             />
             <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
-            {isFocused && (
-              <IconPortal index={4} onPress={$.onRefreshThenScrollTop} />
-            )}
+            {isFocused && <IconPortal index={4} onPress={$.onRefreshThenScrollTop} />}
             <Heatmaps />
           </>
         )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 16:57:45
+ * @Last Modified time: 2021-11-06 11:12:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,6 @@ import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info, androidKeyboardAdjust } from '@utils/ui'
 import { cnjp } from '@utils/app'
-import { TITLE } from '@constants'
 import HeaderTitle from './header-title'
 import Bg from './bg'
 import List from './list'
@@ -69,7 +68,7 @@ class Subject extends React.Component {
       heatmap: '条目.右上角菜单',
       extra: <IconShare $={$} navigation={navigation} />,
       popover: {
-        data: [TITLE, '复制链接', '复制分享', '重置布局'],
+        data: ['浏览器打开', '复制链接', '复制分享', '重置布局'],
         onSelect: key => {
           t('条目.右上角菜单', {
             subjectId: $.subjectId,

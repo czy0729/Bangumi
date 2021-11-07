@@ -2,18 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 15:35:42
+ * @Last Modified time: 2021-11-08 02:20:16
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Text, Iconfont, Heatmap } from '@components'
-import {
-  Popover,
-  IconHeader,
-  // IconTouchable,
-  IconBack,
-  Avatar
-} from '@screens/_'
+import { Popover, IconHeader, IconBack, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { HTMLDecode } from '@utils/html'
@@ -66,16 +60,19 @@ const ParallaxImage = memo(
   }) => {
     rerender('User.ParallaxImage.Main')
 
-    const parallaxStyle = {
-      transform: [
-        {
-          translateY: scrollY.interpolate({
-            inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
-            outputRange: [H_BG / 2, 0, -(H_BG - H_HEADER), -(H_BG - H_HEADER)]
-          })
-        }
-      ]
-    }
+    const parallaxStyle = useMemo(
+      () => ({
+        transform: [
+          {
+            translateY: scrollY.interpolate({
+              inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+              outputRange: [H_BG / 2, 0, -(H_BG - H_HEADER), -(H_BG - H_HEADER)]
+            })
+          }
+        ]
+      }),
+      [scrollY]
+    )
 
     // 安卓没有弹簧效果不需要形变
     if (IOS) {
@@ -137,7 +134,7 @@ const ParallaxImage = memo(
             break
         }
       },
-      [userId, id]
+      [navigation, userId, id]
     )
 
     const AnimatedView = useMemo(() => {
@@ -159,8 +156,8 @@ const ParallaxImage = memo(
             style={[
               styles.parallaxMask,
               parallaxStyle,
+              styles.parallaxMaskOpacity,
               {
-                backgroundColor: 'rgba(0, 0, 0, 0.48)',
                 opacity: scrollY.interpolate({
                   inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                   outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
@@ -209,7 +206,7 @@ const ParallaxImage = memo(
           </Animated.View>
         </>
       )
-    }, [textType, bg, avatar.large, src, nickname])
+    }, [bg, avatar.large, parallaxStyle, scrollY, src, textType, nickname])
 
     const Content = useMemo(() => {
       rerender('User.ParallaxImage.Content')
@@ -283,8 +280,7 @@ const ParallaxImage = memo(
           )}
         </>
       )
-    }, [id, myUserId, paramsUserId, username, nickname])
-
+    }, [navigation, id, myUserId, paramsUserId, onSelect, username, nickname])
     return (
       <>
         <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
@@ -338,6 +334,9 @@ const styles = _.create({
     right: 0,
     bottom: -_.hairlineWidth,
     left: 0
+  },
+  parallaxMaskOpacity: {
+    backgroundColor: 'rgba(0, 0, 0, 0.48)'
   },
   head: {
     marginTop: 76

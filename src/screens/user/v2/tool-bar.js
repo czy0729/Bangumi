@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-07 20:59:51
+ * @Last Modified time: 2021-11-08 02:07:37
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -83,7 +83,7 @@ const ToolBar = memo(
   })
 )
 
-export default obc((props, { $ }) => {
+export default obc(({ onToggleList }, { $ }) => {
   rerender('User.ToolBar')
 
   const { subjectType = defaultSubjectType, list, order, tag, page } = $.state
@@ -98,7 +98,10 @@ export default obc((props, { $ }) => {
       userCollectionsTags={$.userCollectionsTags(subjectType, type)}
       onOrderSelect={$.onOrderSelect}
       onFilterSelect={$.onFilterSelect}
-      onToggleList={$.toggleList}
+      onToggleList={() => {
+        onToggleList()
+        $.toggleList()
+      }}
     />
   )
 })
