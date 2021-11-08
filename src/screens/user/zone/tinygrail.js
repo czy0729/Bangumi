@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 03:15:25
+ * @Last Modified time: 2021-11-08 17:01:47
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -12,13 +12,17 @@ import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { H_BG } from './store'
+import { tabsWithTinygrail, H_BG } from './store'
 
 function Tinygrail(props, { $, navigation }) {
   const { assets, balance, lastIndex } = $.userAssets
   const { nickname } = $.usersInfo
   return (
     <Animated.ScrollView
+      ref={ref => {
+        const index = tabsWithTinygrail.findIndex(item => item.title === '小圣杯')
+        return $.connectRef(ref, index)
+      }}
       contentContainerStyle={styles.contentContainerStyle}
       {...props}
     >

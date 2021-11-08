@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:54:33
+ * @Last Modified time: 2021-11-08 18:57:38
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -58,9 +58,7 @@ class UsedModal extends React.Component {
           .usersTimeline(userId)
           .list.filter(
             item =>
-              item.reply &&
-              item.reply.content &&
-              item.reply.content.includes('改名为')
+              item.reply && item.reply.content && item.reply.content.includes('改名为')
           )
           .map(item => ({
             date: item.date,
@@ -140,7 +138,6 @@ class UsedModal extends React.Component {
         {name._loaded ? (
           name.list.length ? (
             name.list.map((item, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <Flex key={index} style={this.styles.item} align='start'>
                 <Text style={this.styles.date} type='sub' size={12}>
                   {item.date}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 22:50:02
+ * @Last Modified time: 2021-11-08 21:04:04
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -15,7 +15,7 @@ import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import UsedModal from './used-modal'
 import Heatmaps from './heatmaps'
-import Store, { H_BG } from './store'
+import Store, { H_BG, H_HEADER } from './store'
 
 const title = '空间'
 
@@ -32,94 +32,85 @@ class Zone extends React.Component {
   }
 
   scrollY = new Animated.Value(0)
-  offsetZeroNativeEvent
-  loaded = {}
+  y = 0
 
   async componentDidMount() {
     const { $ } = this.context
     await $.init()
-    const { page } = $.state
-    this.loaded[page] = true
 
     hm(`user/${$.params.userId}?route=zone`, 'Zone')
   }
 
-  onScroll = e => {
-    // 记录一个nativeEvent用于切页重置
-    if (!this.offsetZeroNativeEvent && e.nativeEvent) {
-      this.offsetZeroNativeEvent = e.nativeEvent
-      this.offsetZeroNativeEvent.contentOffset.y = 0
-    }
-
-    // 更新头部是否置顶
-    const { contentOffset } = e.nativeEvent
-    const { y } = contentOffset
+  updatePageOffset = (index = [-1, 1]) => {
+    const { $ } = this.context
+    const { page } = $.state
     const { fixed } = this.state
-    if (fixed) {
-      const { $ } = this.context
-      const { page } = $.state
-      this.loaded[page] = true
-    }
-    if (fixed && y < H_BG) {
+
+    const offset = fixed ? H_BG - H_HEADER : this.y
+    index.forEach(item => {
+      const scrollToOffset = $.scrollToOffset[page + item]
+      if (typeof scrollToOffset === 'function') {
+        scrollToOffset({
+          offset,
+          animated: false
+        })
+      } else {
+        const scrollTo = $.scrollTo[page + item]
+        if (typeof scrollTo === 'function') {
+          scrollTo({
+            y: offset,
+            animated: false
+          })
+        }
+      }
+    })
+  }
+
+  onScroll = e => {
+    const { fixed } = this.state
+    const { y } = e.nativeEvent.contentOffset
+    this.y = y
+
+    const offset = H_BG - H_HEADER - 20
+    if (fixed && y < offset) {
       this.setState({
         fixed: false
       })
       return
     }
-    if (!fixed && y >= H_BG) {
+
+    if (!fixed && y >= offset) {
       this.setState({
         fixed: true
       })
     }
   }
 
-  onIndexChange = page => {
-    if (!this.loaded[page]) {
-      this.resetPageOffset(page)
-    }
+  onSwipeStart = () => {
+    this.updatePageOffset()
   }
 
-  resetPageOffset = page => {
-    if (!this.loaded[page] && this.offsetZeroNativeEvent) {
-      setTimeout(() => {
-        Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: this.scrollY
-              }
-            }
-          }
-        ])({
-          nativeEvent: this.offsetZeroNativeEvent
-        })
-        this.loaded[page] = true
-      }, 0)
-    }
+  onIndexChange = () => {
+    setTimeout(() => {
+      this.updatePageOffset([0])
+    }, 0)
   }
 
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    if (!_loaded) {
-      return <View style={_.container.plain} />
-    }
+    if (!_loaded) return <View style={_.container.plain} />
 
     const { visible } = $.state
     const { fixed } = this.state
     return (
       <View style={_.container.plain}>
         <UM screen={title} />
-        <StatusBarEvents
-          barStyle='light-content'
-          backgroundColor='transparent'
-        />
+        <StatusBarEvents barStyle='light-content' backgroundColor='transparent' />
         <NavigationBarEvents />
         <Tab
           scrollY={this.scrollY}
           scrollEventThrottle={16}
-          onSelectSubjectType={this.onSelectSubjectType}
-          onIndexChange={this.onIndexChange}
           onScroll={Animated.event(
             [
               {
@@ -135,6 +126,8 @@ class Zone extends React.Component {
               listener: this.onScroll
             }
           )}
+          onSwipeStart={this.onSwipeStart}
+          onIndexChange={this.onIndexChange}
         />
         <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
         <UsedModal visible={visible} defaultAvatar={$.src} />

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-23 17:23:28
+ * @Last Modified time: 2021-11-08 19:00:31
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -109,16 +109,15 @@ class Timeline extends store {
   ) => {
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue('自己')
-    const timeline = this.usersTimeline(userId)
     const res = fetchTimeline(
       { scope, type, userId },
       refresh,
-      timeline,
+      this.usersTimeline(userId),
       userStore.usersInfo(userId)
     )
-    const data = await res
 
     // -------------------- 缓存 --------------------
+    const data = await res
     const key = 'usersTimeline'
     const stateKey = userId
     this.setState({

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-04 06:32:47
+ * @Last Modified time: 2021-11-08 19:10:05
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -77,12 +77,8 @@ export const HTML_MONO = monoId => {
  * 类型: anime | book | game | music | real
  * 职位: /position/{INT}
  */
-export const HTML_MONO_WORKS = (
-  monoId,
-  position = '',
-  sort = 'title',
-  page = 1
-) => `${HOST}/${monoId}/works${position}?sort=${sort}&page=${page}`
+export const HTML_MONO_WORKS = (monoId, position = '', sort = 'title', page = 1) =>
+  `${HOST}/${monoId}/works${position}?sort=${sort}&page=${page}`
 
 /**
  * 人物角色
@@ -106,8 +102,10 @@ export const HTML_TIMELINE = (scope, type, userId, page = 1) => {
   switch (MODEL_TIMELINE_SCOPE.getLabel(scope)) {
     case '全站':
       return `!${HOST}/timeline?type=${type}&page=${page}`
+
     case '自己':
-      return `${HOST}/user/${userId}/timeline?type=${type}&page=${page}`
+      return `${HOST}/user/${userId}/timeline?type=${type}&page=${page}&ajax=1`
+
     default:
       return `${HOST}/timeline?type=${type}&page=${page}`
   }
@@ -118,8 +116,7 @@ export const HTML_TIMELINE = (scope, type, userId, page = 1) => {
  * @param {*} scope
  * @param {*} type
  */
-export const HTML_RAKUEN = (scope, type) =>
-  `${HOST}/rakuen/${scope}?type=${type}`
+export const HTML_RAKUEN = (scope, type) => `${HOST}/rakuen/${scope}?type=${type}`
 
 /**
  * 超展开搜索
@@ -210,13 +207,7 @@ export const HTML_TAG = (text, type = 'anime', order, page = 1, airtime) => {
  * @param {*} filter 右侧类型 '/ova'
  * @param {*} airtime '/airtime/2019'
  */
-export const HTML_RANK = (
-  type = 'anime',
-  order = 'rank',
-  page = 1,
-  filter,
-  airtime
-) =>
+export const HTML_RANK = (type = 'anime', order = 'rank', page = 1, filter, airtime) =>
   `${HOST}/${type}/browser${filter ? `/${filter}` : ''}${
     airtime ? `/airtime/${airtime}` : ''
   }?sort=${order}&page=${page}`
@@ -261,8 +252,7 @@ export const HTML_NEW_TOPIC = () => `${HOST}/rakuen/new_topic`
 /**
  * 添加新时间线
  */
-export const HTML_NEW_TIMELINE = userId =>
-  `${HOST}/user/${userId}/timeline?type=say`
+export const HTML_NEW_TIMELINE = userId => `${HOST}/user/${userId}/timeline?type=say`
 
 /**
  * 电波提醒
@@ -363,8 +353,7 @@ export const HTML_USERS_PERSON = (userId = '', page = 1) =>
  * 我收藏人物的最近作品
  * @param {*} page
  */
-export const HTML_USERS_MONO_RECENTS = (page = 1) =>
-  `${HOST}/mono/update?page=${page}`
+export const HTML_USERS_MONO_RECENTS = (page = 1) => `${HOST}/mono/update?page=${page}`
 
 /**
  * 用户日志列表
@@ -384,8 +373,7 @@ export const HTML_TAGS = (type, page = 1) => `${HOST}/${type}/tag?page=${page}`
  * @param {*} userId
  * @param {*} id
  */
-export const HTML_SAY = (userId, id) =>
-  `${HOST}/user/${userId}/timeline/status/${id}`
+export const HTML_SAY = (userId, id) => `${HOST}/user/${userId}/timeline/status/${id}`
 
 /**
  * 频道聚合
@@ -404,8 +392,7 @@ export const HTML_SUBJECT_CHARACTERS = subjectId =>
  * 条目更多制作人员
  * @param {*} subjectId
  */
-export const HTML_SUBJECT_PERSONS = subjectId =>
-  `${HOST}/subject/${subjectId}/persons`
+export const HTML_SUBJECT_PERSONS = subjectId => `${HOST}/subject/${subjectId}/persons`
 
 /**
  * 维基人
@@ -496,8 +483,7 @@ export const HTML_ACTION_CATALOG_DELETE = catalogId =>
  * desc: '',
  * submit: '保存修改'
  */
-export const HTML_ACTION_CATALOG_EDIT = catalogId =>
-  `${HOST}/index/${catalogId}/edit`
+export const HTML_ACTION_CATALOG_EDIT = catalogId => `${HOST}/index/${catalogId}/edit`
 
 /**
  * [POST] 目录添加条目
@@ -539,8 +525,7 @@ export const HTML_REVIEWS = subjectid => `${HOST}/subject/${subjectid}/reviews`
  * 条目修订历史
  * @param {*} subjectid
  */
-export const HTML_SUBJECT_WIKI_EDIT = subjectid =>
-  `${HOST}/subject/${subjectid}/edit`
+export const HTML_SUBJECT_WIKI_EDIT = subjectid => `${HOST}/subject/${subjectid}/edit`
 
 /**
  * 条目封面修订历史

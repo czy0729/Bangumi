@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 03:15:22
+ * @Last Modified time: 2021-11-08 16:10:12
  */
 import React from 'react'
 import {
@@ -19,7 +19,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { t } from '@utils/fetch'
-import { H_BG } from './store'
+import { tabs, H_BG } from './store'
 
 const event = {
   id: '空间.跳转'
@@ -28,14 +28,17 @@ const event = {
 export default
 @obc
 class List extends React.Component {
+  connectRef = ref => {
+    const { $ } = this.context
+    const index = tabs.findIndex(item => item.title === '番剧')
+    return $.connectRef(ref, index)
+  }
+
   renderSectionHeader = ({ section: { title, count } }) => {
     const { $ } = this.context
     const { expand } = $.state
     return (
-      <Touchable
-        style={this.styles.section}
-        onPress={() => $.toggleSection(title)}
-      >
+      <Touchable style={this.styles.section} onPress={() => $.toggleSection(title)}>
         <SectionHeader
           style={this.styles.sectionHeader}
           type='title'
@@ -43,11 +46,7 @@ class List extends React.Component {
           right={
             <Iconfont
               style={_.mr._sm}
-              name={
-                expand[title]
-                  ? 'md-keyboard-arrow-down'
-                  : 'md-keyboard-arrow-up'
-              }
+              name={expand[title] ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
             />
           }
         >
@@ -87,9 +86,7 @@ class List extends React.Component {
 
   render() {
     const { $, navigation } = this.context
-    if (!$.userCollections._loaded) {
-      return <Loading />
-    }
+    if (!$.userCollections._loaded) return <Loading />
 
     const { expand } = $.state
     const sections = []
@@ -104,16 +101,16 @@ class List extends React.Component {
         ]
       })
     })
+
     return (
       <ListView
+        ref={this.connectRef}
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         sections={sections}
         renderSectionHeader={this.renderSectionHeader}
         renderItem={({ item, section: { title } }) => {
-          if (!expand[title]) {
-            return null
-          }
+          if (!expand[title]) return null
 
           return (
             <Flex wrap='wrap' align='start'>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 02:06:55
+ * @Last Modified time: 2021-11-08 21:06:02
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -24,6 +24,8 @@ const headerStyle = {
 class Tab extends React.Component {
   onIndexChange = index => {
     const { $ } = this.context
+    const { onIndexChange } = this.props
+    onIndexChange()
     $.onChange(index)
   }
 

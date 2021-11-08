@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:48:59
+ * @Last Modified time: 2021-11-08 21:03:04
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -18,6 +18,10 @@ import About from './about'
 import Tinygrail from './tinygrail'
 import { tabs, tabsWithTinygrail, H_BG, H_TABBAR, H_HEADER } from './store'
 
+const headerStyle = {
+  height: H_BG + H_TABBAR
+}
+
 class Tab extends React.Component {
   onIndexChange = index => {
     const { $ } = this.context
@@ -26,13 +30,7 @@ class Tab extends React.Component {
     $.onChange(index)
   }
 
-  ListHeaderComponent = (
-    <View
-      style={{
-        height: H_BG + H_TABBAR
-      }}
-    />
-  )
+  ListHeaderComponent = (<View style={headerStyle} />)
 
   renderScene = SceneMap({
     bangumi: () => (
@@ -122,10 +120,12 @@ class Tab extends React.Component {
   render() {
     return (
       <TabView
-        lazyPreloadDistance={0}
+        lazy
+        lazyPreloadDistance={1}
         navigationState={this.navigationState}
         renderTabBar={this.renderTabBar}
         renderScene={this.renderScene}
+        onSwipeStart={this.props.onSwipeStart}
         onIndexChange={this.onIndexChange}
       />
     )

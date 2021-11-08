@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-29 13:58:38
+ * @Last Modified time: 2021-11-08 21:00:05
  */
 import { observable, computed } from 'mobx'
 import {
@@ -24,10 +24,7 @@ import { info, loading, feedback } from '@utils/ui'
 import { HOST, IOS } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
-export const H_BG = Math.min(
-  parseInt(_.window.width * 0.64),
-  _.device(288, 380)
-) // 整个背景高度
+export const H_BG = Math.min(parseInt(_.window.width * 0.64), _.device(288, 380)) // 整个背景高度
 export const H_HEADER = IOS ? 88 : 80 // fixed后带背景的头部高度
 export const H_TABBAR = 48 * _.ratio // TabBar高度
 export const tabs = [
@@ -197,13 +194,15 @@ export default class ScreenZone extends store {
   // -------------------- fetch --------------------
   fetchUsersInfo = () => userStore.fetchUsersInfo(this.userId)
 
-  fetchUserCollections = () =>
-    userStore.fetchUserCollections(undefined, this.userId)
+  fetchUserCollections = () => userStore.fetchUserCollections(undefined, this.userId)
 
-  fetchUsersTimeline = () =>
-    timelineStore.fetchUsersTimeline({
-      userId: this.userId
-    })
+  fetchUsersTimeline = refresh =>
+    timelineStore.fetchUsersTimeline(
+      {
+        userId: this.userId
+      },
+      refresh
+    )
 
   fetchUsers = () =>
     usersStore.fetchUsers({
@@ -239,7 +238,7 @@ export default class ScreenZone extends store {
 
     // 延迟请求
     if (title === '时间胶囊') {
-      this.fetchUsersTimeline()
+      this.fetchUsersTimeline(true)
     }
 
     if (title === '超展开') {
@@ -325,24 +324,30 @@ export default class ScreenZone extends store {
 
     const hide = loading('查询好友信息中...')
     let data = await timelineStore.fetchTimeline(query, true)
-    let find = data.list.find(item =>
-      item?.p3?.url?.[0]?.includes(`/user/${username}`)
-    )
+    let find = data.list.find(item => item?.p3?.url?.[0]?.includes(`/user/${username}`))
 
     if (!find) {
       await timelineStore.fetchTimeline(query)
       await timelineStore.fetchTimeline(query)
       data = await timelineStore.fetchTimeline(query)
     }
-    find = data.list.find(item =>
-      item?.p3?.url?.[0]?.includes(`/user/${username}`)
-    )
+    find = data.list.find(item => item?.p3?.url?.[0]?.includes(`/user/${username}`))
 
     hide()
     if (!find) return info('是你的好友')
 
     const { time } = find
     return info(`${time.split(' · ')[0]}加为了好友`)
+  }
+
+  /**
+   * 底部TabBar再次点击滚动到顶并刷新数据
+   */
+  scrollToOffset = {}
+  scrollTo = {}
+  connectRef = (ref, index) => {
+    this.scrollToOffset[index] = ref?.scrollToOffset
+    this.scrollTo[index] = ref?.scrollTo
   }
 
   // -------------------- action --------------------

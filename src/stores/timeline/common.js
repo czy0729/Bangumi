@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 09:52:57
+ * @Last Modified time: 2021-11-08 19:19:36
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import { cheerio, HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
@@ -24,16 +24,11 @@ export async function fetchTimeline(
   userInfo
 ) {
   // 计算下一页的页码
-  let page
-  if (refresh) {
-    page = 1
-  } else {
-    page = pagination.page + 1
-  }
+  const page = refresh ? 1 : pagination.page + 1
 
   // -------------------- 请求HTML --------------------
   const res = fetchHTML({
-    url: HTML_TIMELINE(scope, type, userId, page)
+    url: HTML_TIMELINE(scope, type, userInfo?.username || userId, page)
   })
   const raw = await res
   const HTML = HTMLTrim(raw).match(/<div id="timeline">(.+?)<div id="tmlPager">/)

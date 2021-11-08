@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:59:55
+ * @Last Modified time: 2021-11-08 16:41:13
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -10,7 +10,7 @@ import { RenderHtml } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
-import { H_BG } from './store'
+import { tabs, H_BG } from './store'
 
 function About(props, { $, navigation }) {
   // 去除APP内高清头像背景的代码
@@ -21,6 +21,10 @@ function About(props, { $, navigation }) {
     ) || '(什么都没有)'
   return (
     <Animated.ScrollView
+      ref={ref => {
+        const index = tabs.findIndex(item => item.title === '关于TA')
+        return $.connectRef(ref, index)
+      }}
       contentContainerStyle={styles.contentContainerStyle}
       {...props}
     >

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 02:15:31
+ * @Last Modified time: 2021-11-08 21:05:46
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -107,6 +107,12 @@ class User extends React.Component {
     this.updatePageOffset()
   }
 
+  onIndexChange = () => {
+    setTimeout(() => {
+      this.updatePageOffset([0])
+    }, 0)
+  }
+
   /**
    * 登陆过期后登陆成功返回本页面, 没有正常触发请求
    * 假如当前没有数据主动请求
@@ -161,6 +167,7 @@ class User extends React.Component {
                 }
               )}
               onSwipeStart={this.onSwipeStart}
+              onIndexChange={this.onIndexChange}
               onSelectSubjectType={this.onSelectSubjectType}
               onToggleList={this.onToggleList}
             />

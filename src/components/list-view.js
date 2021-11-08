@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 02:56:52
+ * @Last Modified time: 2021-11-08 20:59:51
  */
 import React from 'react'
 import {
@@ -100,6 +100,26 @@ export const ListView = observer(
       this.updateRefreshState(data)
     }
 
+    scrollToIndex = Function.prototype
+    scrollToOffset = Function.prototype
+    scrollToItem = Function.prototype
+    scrollToLocation = Function.prototype
+    connectRef = ref => {
+      if (ref?.scrollToIndex) this.scrollToIndex = params => ref.scrollToIndex(params)
+
+      if (ref?.scrollToOffset) {
+        this.scrollToOffset = params => ref.scrollToOffset(params)
+      } else if (ref?._wrapperListRef?._listRef?.scrollToOffset) {
+        this.scrollToOffset = params =>
+          ref._wrapperListRef._listRef.scrollToOffset(params)
+      }
+
+      if (ref?.scrollToItem) this.scrollToItem = params => ref.scrollToItem(params)
+
+      if (ref?.scrollToLocation)
+        this.scrollToLocation = params => ref.scrollToLocation(params)
+    }
+
     updateRefreshState = data => {
       const { list = [], pagination = {}, _loaded } = data
       let refreshState
@@ -121,17 +141,10 @@ export const ListView = observer(
       }
     }
 
-    scrollToIndex = Function.prototype
-    scrollToItem = Function.prototype
-    scrollToOffset = Function.prototype
-
-    // eslint-disable-next-line consistent-return
     onHeaderRefresh = async () => {
       const { lazy, onHeaderRefresh } = this.props
       const { rendered } = this.state
-      if (lazy && !rendered) {
-        return undefined
-      }
+      if (lazy && !rendered) return undefined
 
       if (onHeaderRefresh) {
         this.setState({
@@ -143,13 +156,10 @@ export const ListView = observer(
       }
     }
 
-    // eslint-disable-next-line consistent-return
     onFooterRefresh = async () => {
       const { lazy, onFooterRefresh } = this.props
       const { rendered } = this.state
-      if (lazy && !rendered) {
-        return undefined
-      }
+      if (lazy && !rendered) return undefined
 
       if (onFooterRefresh) {
         this.setState({
@@ -161,9 +171,7 @@ export const ListView = observer(
     }
 
     onEndReached = () => {
-      if (this.shouldStartFooterRefreshing()) {
-        this.onFooterRefresh()
-      }
+      if (this.shouldStartFooterRefreshing()) this.onFooterRefresh()
     }
 
     shouldStartHeaderRefreshing = () => {
@@ -180,15 +188,6 @@ export const ListView = observer(
     shouldStartFooterRefreshing = () => {
       const { refreshState } = this.state
       return refreshState === RefreshState.Idle
-    }
-
-    connectRef = ref => {
-      if (ref) {
-        this.scrollToIndex = params => ref.scrollToIndex(params)
-        this.scrollToItem = params => ref.scrollToItem(params)
-        this.scrollToOffset = params => ref.scrollToOffset(params)
-        this.scrollToLocation = params => ref.scrollToLocation(params)
-      }
     }
 
     get style() {
@@ -239,7 +238,7 @@ export const ListView = observer(
         _sections = lazy && !rendered ? sections.slice(0, lazy) : sections.slice()
       } else {
         const sectionsMap = {}
-        data.list.slice().forEach(item => {
+        data.list.forEach(item => {
           const title = item[sectionKey]
           if (sectionsMap[title] === undefined) {
             sectionsMap[title] = _sections.length
