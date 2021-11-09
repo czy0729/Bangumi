@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 18:08:22
+ * @Last Modified time: 2021-11-10 01:19:32
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -381,33 +381,33 @@ const styles = _.create({
   back: {
     ..._.header.left,
     zIndex: 1,
-    marginTop: -8
+    marginTop: IOS ? -8 : -4
   },
   menu: {
     ..._.header.left,
     zIndex: 1,
     padding: _.sm,
-    marginTop: -16,
+    marginTop: IOS ? -16 : -12,
     marginLeft: -4,
     opacity: 0.8
   },
   more: {
     ..._.header.right,
     zIndex: 1,
-    marginTop: -8,
+    marginTop: IOS ? -8 : -4,
     opacity: 0.8
   },
   timeline: {
     ..._.header.right,
     zIndex: 1,
-    marginTop: -8,
+    marginTop: IOS ? -8 : -4,
     marginRight: _.device(38, 52),
     opacity: 0.8
   },
   setting: {
     ..._.header.right,
     zIndex: 1,
-    marginTop: -8,
+    marginTop: IOS ? -8 : -4,
     opacity: 0.8
   },
   touch: {

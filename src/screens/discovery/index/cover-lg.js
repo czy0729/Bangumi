@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 14:21:40
+ * @Last Modified time: 2021-11-10 01:22:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -81,8 +81,8 @@ const memoStyles = _.memoStyles(_ => ({
     bottom: 0,
     left: 0,
     marginBottom: -0.5,
-    borderBottomRightRadius: _.radiusMd,
-    borderBottomLeftRadius: _.radiusMd
+    borderBottomRightRadius: _.radiusSm,
+    borderBottomLeftRadius: _.radiusSm
   },
   desc: {
     position: 'absolute',

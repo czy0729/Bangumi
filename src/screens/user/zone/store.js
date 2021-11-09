@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 21:00:05
+ * @Last Modified time: 2021-11-10 01:10:34
  */
 import { observable, computed } from 'mobx'
 import {
@@ -347,7 +347,9 @@ export default class ScreenZone extends store {
   scrollTo = {}
   connectRef = (ref, index) => {
     this.scrollToOffset[index] = ref?.scrollToOffset
-    this.scrollTo[index] = ref?.scrollTo
+
+    // android: scrollResponderScrollTo, ios: scrollTo
+    this.scrollTo[index] = ref?.scrollResponderScrollTo || ref?.scrollTo
   }
 
   // -------------------- action --------------------
