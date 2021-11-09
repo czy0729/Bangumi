@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 10:38:04
+ * @Last Modified time: 2021-11-09 12:35:07
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -35,14 +35,9 @@ export const ItemArticle = ob(
     const styles = memoStyles()
     const isFirst = index === 0
     let time = date('y-m-d', timestamp)
-    if (time.indexOf(`${y}-`) !== -1) {
-      time = time.replace(`${y}-`, '')
-    }
+    if (time.indexOf(`${y}-`) !== -1) time = time.replace(`${y}-`, '')
     return (
-      <Touchable
-        style={style}
-        onPress={() => appNavigate(url, navigation, {}, event)}
-      >
+      <Touchable style={style} onPress={() => appNavigate(url, navigation, {}, event)}>
         <Flex align='start'>
           <Avatar
             style={styles.image}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-31 10:39:29
+ * @Last Modified time: 2021-11-09 13:29:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,8 @@ import PlusOne from './plus-one'
 const avatarWidth = 32
 const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 const regPlus = /\+\d/
+const regBgm =
+  /^<img src="\/img\/smiles\/tv\/\d+\.gif" smileid="\d+" alt="\(bgm\d+\)">$/
 const defaultProps = {
   navigation: {},
   styles: {},
@@ -90,7 +92,8 @@ const ItemSub = memo(
     const rawMsg = removeHTMLTag(msg)
     if (filterDelete && rawMsg.includes('内容已被用户删除')) return null
 
-    if (rawMsg.length <= 10 && regPlus.test(rawMsg)) {
+    // +N的楼层, 只有表情的楼层
+    if ((rawMsg.length <= 10 && regPlus.test(rawMsg)) || regBgm.test(msg.trim())) {
       return (
         <PlusOne
           id={id}
@@ -126,6 +129,7 @@ const ItemSub = memo(
     const isFriend = myFriendsMap[userId]
     const isNew = !!readedTime && getTimestamp(time) > readedTime
     const isJump = !!postId && postId === id
+    const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
     return (
       <Flex style={[isNew && styles.itemNew, isJump && styles.itemJump]} align='start'>
         <Avatar
@@ -137,7 +141,7 @@ const ItemSub = memo(
           size={36}
           event={event}
         />
-        <Flex.Item style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}>
+        <Flex.Item style={styles.subContent}>
           <Flex align='start'>
             <Flex.Item>
               <Name
@@ -182,7 +186,7 @@ const ItemSub = memo(
                 {translate}
               </Text>
             )}
-            {quote && quoteAvatar && !!quoteUser && (
+            {showQuoteAvatar && (
               <Flex style={styles.quoteUserRound}>
                 <Avatar
                   navigation={navigation}
@@ -282,7 +286,8 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopWidth: _.hairlineWidth
   },
   subContent: {
-    paddingVertical: _.md
+    paddingVertical: _.md,
+    marginLeft: _.sm
   },
   quoteUserRound: {
     position: 'absolute',

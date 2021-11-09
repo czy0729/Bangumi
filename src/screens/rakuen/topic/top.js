@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 11:29:09
+ * @Last Modified time: 2021-11-09 12:29:50
  */
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
 import {
   HeaderPlaceholder,
@@ -68,6 +68,9 @@ const Top = memo(
   }) => {
     rerender('Topic.Top.Main')
 
+    const [lines, setLines] = useState(1)
+    const setLines2 = useCallback(() => setLines(2), [])
+
     const event = {
       id: '帖子.跳转',
       data: {
@@ -77,19 +80,17 @@ const Top = memo(
     }
 
     // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
-    let groupPress = () =>
-      appNavigate(
-        groupHref,
-        navigation,
-        {
-          _jp: group
-        },
-        event
-      )
-    if (isMono) {
-      groupPress = () => appNavigate(`${HOST}/${monoId}`, navigation, {}, event)
-    }
-
+    const groupPress = isMono
+      ? () => appNavigate(`${HOST}/${monoId}`, navigation, {}, event)
+      : () =>
+          appNavigate(
+            groupHref,
+            navigation,
+            {
+              _jp: group
+            },
+            event
+          )
     const isGroup = topicId.includes('group/')
     const isEp = topicId.includes('ep/')
     return (
@@ -100,7 +101,7 @@ const Top = memo(
             {title}
             {!!replies && (
               <Text type='main' size={12} lineHeight={26} bold>
-                {' '}
+                {'  '}
                 {replies}
               </Text>
             )}
@@ -143,7 +144,7 @@ const Top = memo(
             />
           </Flex>
           {isGroup && (
-            <Flex style={[styles.userWrap, _.mt.sm]}>
+            <Flex style={styles.userWrap}>
               {!!avatar && (
                 <Avatar
                   navigation={navigation}
@@ -159,7 +160,13 @@ const Top = memo(
                   <Text numberOfLines={1} bold>
                     {userName}
                   </Text>
-                  <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
+                  <Text
+                    style={_.mt.xs}
+                    type='sub'
+                    size={12}
+                    numberOfLines={lines}
+                    onPress={setLines2}
+                  >
                     @{userId}
                     {!!userSign && ` (${userSign.slice(1, userSign.length - 1)})`}
                   </Text>
@@ -230,7 +237,8 @@ const memoStyles = _.memoStyles(_ => ({
     borderRadius: _.radiusXs
   },
   userWrap: {
-    height: 42 * _.ratio
+    height: 42 * _.ratio,
+    marginTop: _.sm
   },
   katakana: {
     marginTop: -12

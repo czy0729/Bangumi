@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 11:22:19
+ * @Last Modified time: 2021-11-09 13:11:24
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -19,9 +19,7 @@ function SectionTitle(props, { $ }) {
   let commentsCount = 0
   list.forEach(item => {
     commentsCount += 1
-    if (item.sub) {
-      commentsCount += item.sub.length
-    }
+    if (item.sub) commentsCount += item.sub.length
   })
 
   return (
@@ -31,18 +29,8 @@ function SectionTitle(props, { $ }) {
         <>
           <Segment />
           <IconReverse
-            style={[
-              styles.sort,
-              {
-                transform: reverse
-                  ? [
-                      {
-                        rotateX: '180deg'
-                      }
-                    ]
-                  : undefined
-              }
-            ]}
+            style={reverse ? styles.reverse : undefined}
+            iconStyle={styles.reverseIcon}
             color={reverse ? _.colorMain : _.colorIcon}
             size={18}
             onPress={$.toggleReverseComments}
@@ -70,7 +58,14 @@ const styles = _.create({
     marginTop: _.lg,
     marginBottom: _.md
   },
-  sort: {
-    marginLeft: _.xs
+  reverse: {
+    transform: [
+      {
+        rotateX: '180deg'
+      }
+    ]
+  },
+  reverseIcon: {
+    marginLeft: _.md
   }
 })

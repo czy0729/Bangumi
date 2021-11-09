@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:07:59
+ * @Last Modified time: 2021-11-09 12:35:46
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -37,9 +37,7 @@ export const ItemNotify = ob(
           src={avatar}
           event={event}
         />
-        <Flex.Item
-          style={[styles.item, !!index && !_.flat && styles.border, _.ml.sm]}
-        >
+        <Flex.Item style={[styles.item, !!index && !_.flat && styles.border, _.ml.sm]}>
           <Name userId={userId} showFriend size={13} type='title' bold>
             {userName}
           </Name>

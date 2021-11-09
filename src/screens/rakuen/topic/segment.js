@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-22 22:06:49
+ * @Last Modified time: 2021-11-09 13:02:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,12 +17,9 @@ function Segement(props, { $ }) {
   const hasLogin = !!$.myId
 
   const segmentedControlDS = ['全部']
-  if (hasLogin && $.commentMeCount) {
-    segmentedControlDS.push(`我 ${$.commentMeCount}`)
-  }
-  if (hasLogin && $.commentFriendsCount) {
+  if (hasLogin && $.commentMeCount) segmentedControlDS.push(`我 ${$.commentMeCount}`)
+  if (hasLogin && $.commentFriendsCount)
     segmentedControlDS.push(`好友 ${$.commentFriendsCount}`)
-  }
 
   let selectedIndex = 0
   if (segmentedControlDS.length > 1) {
@@ -33,9 +30,7 @@ function Segement(props, { $ }) {
     }
   }
 
-  if (segmentedControlDS.length <= 1) {
-    return null
-  }
+  if (segmentedControlDS.length <= 1) return null
 
   return (
     <View>
@@ -51,8 +46,7 @@ function Segement(props, { $ }) {
         selectedIndex={selectedIndex}
         onValueChange={title => {
           if ((title.includes('我') && !filterMe) || (title === '全部' && filterMe)) {
-            $.toggleFilterMe()
-            return
+            return $.toggleFilterMe()
           }
 
           if (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-28 03:24:43
+ * @Last Modified time: 2021-11-09 12:58:50
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -19,6 +19,7 @@ function IconExtra(
   if (replySub && !$.isLimit) data.push('回复')
   if (erase) data.push('删除')
   data.push('屏蔽用户', '翻译')
+
   return (
     <Popover
       style={styles.touch}
@@ -49,7 +50,7 @@ function IconExtra(
       }}
     >
       <Flex style={styles.icon} justify='center'>
-        <Iconfont name='md-more-vert' size={16} />
+        <Iconfont style={_.ml.md} name='md-more-vert' size={16} />
       </Flex>
     </Popover>
   )

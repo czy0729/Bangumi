@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 20:08:52
+ * @Last Modified time: 2021-11-09 12:35:56
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -39,9 +39,7 @@ export const ItemPM = ob(
           src={avatar}
           event={event}
         />
-        <Flex.Item
-          style={[styles.item, !!index && !_.flat && styles.border, _.ml.sm]}
-        >
+        <Flex.Item style={[styles.item, !!index && !_.flat && styles.border, _.ml.sm]}>
           <Touchable
             onPress={() => {
               t(event.id, {

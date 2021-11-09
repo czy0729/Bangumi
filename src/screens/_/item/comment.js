@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 07:37:22
+ * @Last Modified time: 2021-11-09 12:35:43
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -80,17 +80,7 @@ const Item = memo(
 )
 
 export const ItemComment = ob(
-  ({
-    navigation,
-    style,
-    time,
-    avatar,
-    userId,
-    userName,
-    star,
-    comment,
-    event
-  }) => (
+  ({ navigation, style, time, avatar, userId, userName, star, comment, event }) => (
     <Item
       navigation={navigation}
       styles={memoStyles()}
@@ -137,9 +127,5 @@ function formatTime(str = '') {
   }
 
   // ago
-  return str
-    .replace('d', 'd ')
-    .replace('h', 'h ')
-    .replace('m', 'm ')
-    .replace('s', 's ')
+  return str.replace('d', 'd ').replace('h', 'h ').replace('m', 'm ').replace('s', 's ')
 }

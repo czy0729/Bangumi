@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-31 10:39:15
+ * @Last Modified time: 2021-11-09 13:31:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -119,7 +119,6 @@ const Item = memo(
                     userSign={userSign}
                   />
                 }
-                numberOfLines={1}
               >
                 {HTMLDecode(userName)}
               </Name>
@@ -225,7 +224,7 @@ export default obc(
   ) => {
     rerender('Topic.Item')
 
-    // // test code
+    // [test code]
     // const _floor = Number(floor.replace('#', ''))
     // if (!(_floor === 97)) return null
 
