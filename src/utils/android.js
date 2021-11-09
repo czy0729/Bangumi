@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 21:33:07
+ * @Last Modified time: 2021-11-09 23:52:34
  */
 import { PermissionsAndroid } from 'react-native'
-import RNFS from '@components/@/react-native-fs'
-import RNFetchBlob from '@components/@/rn-fetch-blob'
-import CameraRoll from '@components/@/cameraroll'
+import RNFS from 'react-native-fs'
+import RNFetchBlob from 'rn-fetch-blob'
+import CameraRoll from '@react-native-community/cameraroll'
 import { IOS } from '@constants'
 
 async function hasAndroidPermission() {
