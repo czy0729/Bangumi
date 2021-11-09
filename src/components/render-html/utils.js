@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 13:46:40
+ * @Last Modified time: 2021-11-10 00:52:18
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -31,7 +31,7 @@ export const regs = {
   whiteTags:
     /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g,
   media:
-    /<a href="(https|http):\/\/(bgm|bangumi)\.tv\/(subject|group\/topic|character|person)\/(.+?)" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g
+    /<a href="(https|http):\/\/(bgm|bangumi)\.tv\/(subject|group\/topic|rakuen\/topic\/group|character|person)\/(.+?)" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g
 }
 
 export function getIncreaseFontSize(fontSize) {
@@ -155,12 +155,15 @@ export function hackMatchMediaLink(html) {
         return match
 
       flag = true
+      console.log(match)
       return `<div>${match}</div>`
     })
   }
 
   // 防止两个连续的Media块中间产生大间隔
-  if (flag) return _html.replace(/<\/div><br><div>/g, '</div><div>')
+  if (flag) {
+    return _html.replace(/<\/div><br><div>/g, '</div><div>')
+  }
 
   // [实验性] 文字猜测条目并替换成链接
   if (acSearchSetting) {
