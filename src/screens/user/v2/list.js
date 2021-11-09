@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-06 02:08:14
+ * @Last Modified time: 2021-11-09 16:47:59
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -127,7 +127,7 @@ class List extends React.Component {
         ref={this.connectRef}
         key={`${$.subjectType}${String(numColumns)}`}
         keyExtractor={keyExtractor}
-        style={!IOS && styles.androidWrap}
+        style={styles.list}
         contentContainerStyle={styles.contentContainerStyle}
         data={userCollections}
         lazy={12}
@@ -145,8 +145,9 @@ class List extends React.Component {
 
 const H_TOOLBAR = 42 * _.ratio
 const styles = _.create({
-  androidWrap: {
-    marginBottom: _.tabBarHeight - 1
+  list: {
+    zIndex: 0,
+    marginBottom: IOS ? 0 : _.tabBarHeight - 1
   },
   contentContainerStyle: {
     paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 02:20:16
+ * @Last Modified time: 2021-11-09 18:08:22
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -15,7 +15,7 @@ import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Head from './head'
-import { H_BG, H_HEADER } from './store'
+import { H_BG, H_HEADER, H_RADIUS_LINE } from './store'
 
 const dataMe = [
   '我的空间',
@@ -27,6 +27,7 @@ const dataMe = [
 ]
 const dataOther = ['TA的好友', 'TA的netaba.re']
 const defaultProps = {
+  themeStyles: {},
   navigation: {},
   avatar: {},
   bg: '',
@@ -44,6 +45,7 @@ const defaultProps = {
 
 const ParallaxImage = memo(
   ({
+    themeStyles,
     navigation,
     avatar,
     bg,
@@ -60,19 +62,17 @@ const ParallaxImage = memo(
   }) => {
     rerender('User.ParallaxImage.Main')
 
-    const parallaxStyle = useMemo(
-      () => ({
-        transform: [
-          {
-            translateY: scrollY.interpolate({
-              inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
-              outputRange: [H_BG / 2, 0, -(H_BG - H_HEADER), -(H_BG - H_HEADER)]
-            })
-          }
-        ]
-      }),
-      [scrollY]
-    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const parallaxStyle = {
+      transform: [
+        {
+          translateY: scrollY.interpolate({
+            inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+            outputRange: [H_BG / 2, 0, -(H_BG - H_HEADER), -(H_BG - H_HEADER)]
+          })
+        }
+      ]
+    }
 
     // 安卓没有弹簧效果不需要形变
     if (IOS) {
@@ -154,9 +154,9 @@ const ParallaxImage = memo(
           />
           <Animated.View
             style={[
+              styles.parallaxWrap,
               styles.parallaxMask,
               parallaxStyle,
-              styles.parallaxMaskOpacity,
               {
                 opacity: scrollY.interpolate({
                   inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
@@ -190,23 +190,31 @@ const ParallaxImage = memo(
               </Text>
             </Flex>
           </Animated.View>
-          <Animated.View
-            style={[
-              styles.parallaxMask,
-              parallaxStyle,
-              {
+          <Animated.View style={[styles.parallaxWrap, parallaxStyle]}>
+            <Animated.View
+              style={{
                 opacity: scrollY.interpolate({
                   inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                   outputRange: [1, 1, 0, 0]
                 })
-              }
-            ]}
-          >
-            <Head style={styles.head} />
+              }}
+            >
+              <Head style={styles.head} />
+            </Animated.View>
+            <View style={themeStyles.parallaxLine} />
           </Animated.View>
         </>
       )
-    }, [bg, avatar.large, parallaxStyle, scrollY, src, textType, nickname])
+    }, [
+      avatar.large,
+      bg,
+      nickname,
+      parallaxStyle,
+      scrollY,
+      src,
+      textType,
+      themeStyles.parallaxLine
+    ])
 
     const Content = useMemo(() => {
       rerender('User.ParallaxImage.Content')
@@ -299,6 +307,7 @@ export default obc(({ scrollY, fixed }, { $, navigation }) => {
   const { id, avatar = {}, nickname, username } = $.usersInfo
   return (
     <ParallaxImage
+      themeStyles={memoStyles()}
       navigation={navigation}
       avatar={avatar}
       bg={$.bg}
@@ -316,6 +325,23 @@ export default obc(({ scrollY, fixed }, { $, navigation }) => {
   )
 })
 
+const memoStyles = _.memoStyles(() => ({
+  parallaxLine: {
+    position: 'absolute',
+    right: 0,
+    bottom: -1,
+    left: 0,
+    height: H_RADIUS_LINE,
+    backgroundColor: _.select(
+      _.colorPlain,
+      _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+    ),
+    borderTopLeftRadius: H_RADIUS_LINE,
+    borderTopRightRadius: H_RADIUS_LINE,
+    overflow: 'hidden'
+  }
+}))
+
 const styles = _.create({
   parallax: {
     position: 'absolute',
@@ -328,14 +354,14 @@ const styles = _.create({
     marginTop: -8,
     height: H_BG + 8
   },
-  parallaxMask: {
+  parallaxWrap: {
     position: 'absolute',
     top: 0,
     right: 0,
-    bottom: -_.hairlineWidth,
+    bottom: -2,
     left: 0
   },
-  parallaxMaskOpacity: {
+  parallaxMask: {
     backgroundColor: 'rgba(0, 0, 0, 0.48)'
   },
   head: {
@@ -345,7 +371,7 @@ const styles = _.create({
     position: 'absolute',
     left: '50%',
     width: 240,
-    bottom: _.sm + 4,
+    bottom: H_RADIUS_LINE + 10,
     transform: [
       {
         translateX: -120

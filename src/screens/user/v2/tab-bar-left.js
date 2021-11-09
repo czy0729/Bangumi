@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 15:44:20
+ * @Last Modified time: 2021-11-09 18:05:07
  */
 import React from 'react'
 import { Flex, Button, Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { H_RADIUS_LINE } from './store'
 
 function TabBarLeft({ onSelect }, { $ }) {
   rerender('User.TabBarLeft')
@@ -33,13 +34,16 @@ export default obc(TabBarLeft)
 const memoStyles = _.memoStyles(_ => ({
   tabBarLeft: {
     height: 42 * _.ratio,
-    paddingLeft: _._wind * _.ratio,
+    paddingLeft: _._wind * _.ratio - 4,
     paddingRight: _.sm,
-    marginTop: _.device(0, 2),
+    marginTop: _.device(0, 2) - H_RADIUS_LINE + 3,
     backgroundColor: _.select(
       'transparent',
       _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-    )
+    ),
+    borderTopLeftRadius: H_RADIUS_LINE,
+    borderTopRightRadius: H_RADIUS_LINE,
+    overflow: 'hidden'
   },
   btn: {
     width: 48 * _.ratio,

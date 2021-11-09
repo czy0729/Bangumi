@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 02:07:37
+ * @Last Modified time: 2021-11-09 18:00:20
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -108,7 +108,7 @@ export default obc(({ onToggleList }, { $ }) => {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingTop: 12,
+    paddingTop: _.md,
     backgroundColor: _.colorPlain
   }
 }))

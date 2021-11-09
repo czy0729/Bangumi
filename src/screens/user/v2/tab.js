@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 21:06:02
+ * @Last Modified time: 2021-11-09 18:04:23
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -15,10 +15,10 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import ToolBar from './tool-bar'
 import List from './list'
-import { tabs, H_BG, H_TABBAR, H_HEADER } from './store'
+import { tabs, H_BG, H_TABBAR, H_HEADER, H_RADIUS_LINE } from './store'
 
 const headerStyle = {
-  height: H_BG + H_TABBAR
+  height: H_BG + H_TABBAR - _.radiusLg
 }
 
 class Tab extends React.Component {
@@ -85,12 +85,12 @@ class Tab extends React.Component {
     const { subjectType } = $.state
     const count = $.counts[MODEL_SUBJECT_TYPE.getTitle(subjectType)][route.title]
     return (
-      <Flex style={this.styles.labelText} justify='center'>
+      <Flex style={this.styles.labelText} justify='center' align='start'>
         <Text type='title' size={13} bold={focused}>
           {route.title.replace('看', $.action)}
         </Text>
         {!!count && (
-          <Text type='sub' size={11} lineHeight={13}>
+          <Text type='sub' size={9} lineHeight={11} bold>
             {' '}
             {count}{' '}
           </Text>
@@ -152,7 +152,7 @@ const memoStyles = _.memoStyles(_ => ({
   tabBarWrap: {
     position: 'absolute',
     zIndex: 2,
-    top: 0,
+    top: -H_RADIUS_LINE + 2,
     right: 0,
     left: 0
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-06 16:37:04
+ * @Last Modified time: 2021-11-09 18:10:45
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -17,8 +17,9 @@ import {
   MODEL_COLLECTIONS_ORDERBY
 } from '@constants/model'
 
-export const H_BG = Math.min(parseInt(_.window.width * 0.64), _.device(288, 380)) // 整个背景高度
-export const H_HEADER = IOS ? 88 : 80 // fixed后带背景的头部高度
+export const H_BG = Math.min(parseInt(_.window.width * 0.7), _.device(288, 380)) // 整个背景高度
+export const H_RADIUS_LINE = _.radiusLg
+export const H_HEADER = (IOS ? 88 : 80) + H_RADIUS_LINE // fixed后带背景的头部高度
 export const H_TABBAR = 48 * _.ratio // TabBar高度
 export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
   title: item.label,
