@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-28 01:02:32
+ * @Last Modified time: 2021-11-09 13:46:40
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -66,9 +66,7 @@ export function hackFixedHTMLTags(html) {
    */
   // _html = `<div>${_html}</div>`
   // const match = _html.match(/>[^<>]+?</g)
-  // if (match) {
-  //   match.forEach(item => (_html = _html.replace(item, `><span${item}/span><`)))
-  // }
+  // if (match) match.forEach(item => (_html = _html.replace(item, `><span${item}/span><`)))
 
   /**
    * 去除<q>里面的图片
@@ -85,6 +83,7 @@ export function hackFixedHTMLTags(html) {
           const { index } = _q.match(regs.fixedQ)
           _q = _q.slice(0, index)
         }
+
         return `<q>${_q}</span></q>`
       })
     }

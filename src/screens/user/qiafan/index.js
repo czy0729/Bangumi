@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/accessible-emoji, no-irregular-whitespace */
 /*
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:34:57
+ * @Last Modified time: 2021-11-09 14:00:47
  */
 import React from 'react'
 import { ScrollView, Flex, Text, Image } from '@components'
@@ -40,7 +39,7 @@ class Qiafan extends React.Component {
           　　本App作为一个第三方客户端，相比于bgm.tv在出发点上可能会存在分歧，App的主要目的还是让用户能发现喜欢的番剧，所以在后来的开发，一直只是在聚合各种元素。在发布超过40多个版本的同时，功能趋于完整，开发到了瓶颈阶段，所以无任欢迎提各种意见和需求。
         </Text>
         <Text style={_.mt.md} lineHeight={16} align='right'>
-          　　2021/01/30
+          　　2021/11/09
         </Text>
         {!userStore.isLimit && (
           <>
@@ -53,31 +52,14 @@ class Qiafan extends React.Component {
             <Text style={_.mt.sm} lineHeight={16}>
               　　为了能继续发展，部分功能可能会突然消失，懂的都懂(bgm38)。
             </Text>
-            <Text
-              style={{
-                marginTop: 80
-              }}
-              align='center'
-              type='sub'
-            >
+            <Text style={styles.mt80} align='center' type='sub'>
               支持下面方式
             </Text>
-            <Text
-              style={{
-                marginVertical: 20
-              }}
-              align='center'
-              type='sub'
-            >
+            <Text style={styles.mv20} align='center' type='sub'>
               (投食前可以的话备注一下bgm的id, 以后若有新的高级功能,
               会第一时间为投食用户开放!)
             </Text>
-            <Flex
-              style={{
-                marginTop: 200
-              }}
-              justify='center'
-            >
+            <Flex style={styles.mt200} justify='center'>
               <Image
                 size={240}
                 height={274}
@@ -85,31 +67,13 @@ class Qiafan extends React.Component {
                 src={`${HOST_CDN}/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png`}
               />
             </Flex>
-            <Text
-              style={{
-                marginTop: 120,
-                marginBottom: 20
-              }}
-              align='center'
-              type='sub'
-            >
+            <Text style={styles.mt120} align='center' type='sub'>
               (上面是支付宝)
             </Text>
-            <Text
-              style={{
-                marginTop: 80
-              }}
-              align='center'
-              type='sub'
-            >
+            <Text style={styles.mt80} align='center' type='sub'>
               (下面是微信)
             </Text>
-            <Flex
-              style={{
-                marginTop: 120
-              }}
-              justify='center'
-            >
+            <Flex style={styles.mt120} justify='center'>
               <Image
                 size={240}
                 height={240}
@@ -122,3 +86,19 @@ class Qiafan extends React.Component {
     )
   }
 }
+
+const styles = _.create({
+  mt80: {
+    marginTop: 80
+  },
+  mt120: {
+    marginTop: 120,
+    marginBottom: 20
+  },
+  mt200: {
+    marginTop: 200
+  },
+  mv20: {
+    marginVertical: 20
+  }
+})

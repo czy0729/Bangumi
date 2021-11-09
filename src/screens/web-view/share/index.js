@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-29 14:12:35
+ * @Last Modified time: 2021-11-09 14:54:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,12 @@ import WebView from '@components/@/web-view'
 import { SafeAreaView } from '@screens/_'
 import { _ } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
-import { loading, info } from '@utils/ui'
+import { loading, info, feedback } from '@utils/ui'
+import { saveBase64ImageToCameraRoll } from '@utils/android'
 import { IOS } from '@constants'
 import { html } from './utils'
 
-const title = 'iOS暂请自行截屏'
+const title = IOS ? 'iOS暂请自行截屏' : '长按保存图片'
 
 export default
 @withHeader({
@@ -71,6 +72,18 @@ class WebViewShare extends React.Component {
               info('已保存到相册')
               return
             }
+
+            saveBase64ImageToCameraRoll(
+              data.dataUrl,
+              () => {
+                this.saved = true
+                info('已保存到相册')
+                feedback()
+              },
+              () => {
+                info('保存失败, 请确保给与读写权限')
+              }
+            )
           }
           break
 

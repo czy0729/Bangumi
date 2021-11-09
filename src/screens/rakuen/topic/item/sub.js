@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 13:29:52
+ * @Last Modified time: 2021-11-09 13:53:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -88,7 +88,7 @@ const ItemSub = memo(
   }) => {
     rerender('Topic.ItemSub.Main')
 
-    const msg = decoder(message)
+    let msg = decoder(message)
     const rawMsg = removeHTMLTag(msg)
     if (filterDelete && rawMsg.includes('内容已被用户删除')) return null
 
@@ -114,15 +114,19 @@ const ItemSub = memo(
     const quoteUser = postUsersMap[quoteUserName]
     if (quoteUser) {
       const quoteUserId = matchUserIdFromAvatar(quoteUser.avatar)
-      if (quoteUserId && isBlockUser(quoteUserId, quoteUserName)) {
-        return null
-      }
+      if (quoteUserId && isBlockUser(quoteUserId, quoteUserName)) return null
     }
 
     if (blockKeywords.some(item => rawMsg.includes(item))) {
       message =
         '<span style="color:#999;font-size:12px">命中自定义关键字，已被App屏蔽</span>'
     }
+
+    // 遗留问题, 给宣传语增加一点高度
+    msg = msg.replace(
+      '<span style="font-size:10px; line-height:10px;">[来自Bangumi for',
+      '<span style="font-size:10px; line-height:20px;">[来自Bangumi for'
+    )
 
     const isAuthor = authorId === userId
     const isLayer = !isAuthor && uid === userId

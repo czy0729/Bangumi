@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 13:31:16
+ * @Last Modified time: 2021-11-09 13:47:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -87,8 +87,8 @@ const Item = memo(
 
     // 遗留问题, 给宣传语增加一点高度
     const _msg = msg.replace(
-      '<span style="font-size:10px; line-height:10px;">[来自Bangumi for android]',
-      '<span style="font-size:10px; line-height:20px;">[来自Bangumi for android]'
+      '<span style="font-size:10px; line-height:10px;">[来自Bangumi for',
+      '<span style="font-size:10px; line-height:20px;">[来自Bangumi for'
     )
     return (
       <Flex

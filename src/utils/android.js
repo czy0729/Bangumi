@@ -1,14 +1,13 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /*
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 19:21:28
+ * @Last Modified time: 2021-11-09 14:54:32
  */
 import { PermissionsAndroid } from 'react-native'
-import RNFS from 'react-native-fs'
-import RNFetchBlob from 'rn-fetch-blob'
-import CameraRoll from '@react-native-community/cameraroll'
+import RNFS from '@components/@/react-native-fs'
+import RNFetchBlob from '@components/@/rn-fetch-blob'
+import CameraRoll from '@components/@/cameraroll'
 import { IOS } from '@constants'
 
 async function hasAndroidPermission() {
@@ -41,21 +40,19 @@ export async function saveBase64ImageToCameraRoll(
   const downloadDest = `${dirs}/bangumi_${new Date().getTime()}.jpg`
   const imageData = base64Img.split(';base64,')[1]
 
-  return RNFetchBlob.fs
-    .writeFile(downloadDest, imageData, 'base64')
-    .then(() => {
-      try {
-        CameraRoll.saveToCameraRoll(downloadDest)
-          .then(res => {
-            success(res)
-          })
-          .catch(error => {
-            fail(error)
-          })
-      } catch (error) {
-        fail(error)
-      }
-    })
+  return RNFetchBlob.fs.writeFile(downloadDest, imageData, 'base64').then(() => {
+    try {
+      CameraRoll.saveToCameraRoll(downloadDest)
+        .then(res => {
+          success(res)
+        })
+        .catch(error => {
+          fail(error)
+        })
+    } catch (error) {
+      fail(error)
+    }
+  })
 
   // return RNFS.downloadFile({
   //   fromUrl: imageData,

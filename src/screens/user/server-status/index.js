@@ -1,9 +1,8 @@
-/* eslint-disable no-await-in-loop, consistent-return, func-names */
 /*
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:21:45
+ * @Last Modified time: 2021-11-09 13:57:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -309,7 +308,6 @@ class ServerStatus extends React.Component {
                 {item.msg
                   .filter((item, index) => !!index)
                   .map((i, idx) => (
-                    // eslint-disable-next-line react/no-array-index-key
                     <Text key={idx} style={_.mb.xs} size={10}>
                       {i ? `${i}ms` : '>5000ms 超时'}
                     </Text>
@@ -324,19 +322,12 @@ class ServerStatus extends React.Component {
                     ]}
                   />
                 )}
-                <Flex
-                  style={{
-                    width: 48
-                  }}
-                  justify='center'
-                >
+                <Flex style={this.styles.loading} justify='center'>
                   {item.loading ? (
                     <Activity />
                   ) : (
                     <Button
-                      style={{
-                        width: '100%'
-                      }}
+                      style={this.styles.btnCheck}
                       type='plain'
                       size='sm'
                       onPress={() => this.onPingOne(index)}
@@ -393,6 +384,12 @@ const memoStyles = _.memoStyles(_ => ({
   },
   statusDanger: {
     backgroundColor: _.colorDanger
+  },
+  loading: {
+    width: 48
+  },
+  btnCheck: {
+    width: '100%'
   }
 }))
 
