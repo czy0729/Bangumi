@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 15:43:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 20:21:21
+ * @Last Modified time: 2021-11-11 22:42:46
  */
 import React from 'react'
 import { _, systemStore } from '@stores'
@@ -10,11 +10,7 @@ import { ob } from '@utils/decorators'
 import Main from './button.main'
 
 export const Button = ob(props => (
-  <Main
-    styles={memoStyles()}
-    heatMap={systemStore.setting.heatMap}
-    {...props}
-  />
+  <Main styles={memoStyles()} heatMap={systemStore.setting.heatMap} {...props} />
 ))
 
 const memoStyles = _.memoStyles(_ => ({

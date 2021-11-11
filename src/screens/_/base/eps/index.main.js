@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:34:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-03 18:42:07
+ * @Last Modified time: 2021-11-11 22:40:48
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -16,18 +16,18 @@ import { defaultProps } from './ds'
 
 function Eps({
   style,
-  subjectId,
+  advance,
+  canPlay,
+  eps,
+  grid,
   layoutWidth,
+  lines,
+  login,
   marginRight,
   numbersOfLine,
-  lines,
   pagination,
-  canPlay,
-  login,
-  advance,
-  eps,
+  subjectId,
   userProgress,
-  grid,
   onSelect,
   onLongPress
 }) {
@@ -64,26 +64,27 @@ function Eps({
 
     const { width, margin } = btnStyle
     return {
-      width,
-      margin,
-      subjectId,
-      numbersOfLine,
+      advance,
       canPlay,
       login,
-      advance,
+      margin,
+      numbersOfLine,
+      subjectId,
       userProgress,
+      width,
       onSelect,
       onLongPress
     }
   }, [
-    btnStyle.width,
-    btnStyle.margin,
-    subjectId,
-    numbersOfLine,
+    advance,
+    btnStyle,
     canPlay,
     login,
-    advance,
-    JSON.stringify(userProgress)
+    numbersOfLine,
+    subjectId,
+    userProgress,
+    onSelect,
+    onLongPress
   ])
 
   const pages = useMemo(() => {
@@ -141,16 +142,11 @@ function Eps({
   }
 
   const { margin } = btnStyle
+  const marginStyle = {
+    marginBottom: margin ? -margin : 0 // 抵消最后一行的marginBottom
+  }
   return (
-    <View
-      style={[
-        _style,
-        {
-          marginBottom: margin ? -margin : 0 // 抵消最后一行的marginBottom
-        }
-      ]}
-      onLayout={_onLayout}
-    >
+    <View style={[_style, marginStyle]} onLayout={_onLayout}>
       {mounted && <NormalButtons props={passProps} eps={pages[0]} />}
     </View>
   )

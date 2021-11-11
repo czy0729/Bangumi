@@ -5,14 +5,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-08 06:58:43
+ * @Last Modified time: 2021-11-11 22:13:46
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
-// import { confirm } from '@utils/ui'
 import {
   APP_ID,
   APP_SECRET,
@@ -23,8 +22,7 @@ import {
   IOS,
   LIST_EMPTY,
   URL_OAUTH_REDIRECT,
-  VERSION_GOOGLE,
-  LOG_LEVEL
+  VERSION_GOOGLE
 } from '@constants'
 import {
   API_ACCESS_TOKEN,
@@ -114,8 +112,7 @@ class User extends store {
      * @param {*} userId
      */
     userCollections: {
-      _: (scope = DEFAULT_SCOPE, userId) =>
-        `${scope}|${userId || this.myUserId}`,
+      _: (scope = DEFAULT_SCOPE, userId) => `${scope}|${userId || this.myUserId}`,
       0: LIST_EMPTY
     },
 
@@ -249,9 +246,7 @@ class User extends store {
    * 取自己用户Id(改过用户名后)
    */
   @computed get myId() {
-    return (
-      this.userInfo.username || this.userInfo.id || this.accessToken.user_id
-    )
+    return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
   }
 
   /**
@@ -417,10 +412,7 @@ class User extends store {
    * @param {*} scope
    * @param {*} userId
    */
-  fetchUserCollections = async (
-    scope = DEFAULT_SCOPE,
-    userId = this.myUserId
-  ) => {
+  fetchUserCollections = async (scope = DEFAULT_SCOPE, userId = this.myUserId) => {
     const config = {
       url: API_USER_COLLECTIONS(scope, userId),
       data: {
@@ -698,17 +690,12 @@ class User extends store {
    * 打印游客登陆sercet
    */
   logTourist = () => {
-    // if (this.myUserId !== APP_USERID_TOURIST) {
-    //   return
-    // }
-
-    if (LOG_LEVEL <= 0) return
-
-    log({
-      tourist: 1,
-      accessToken: this.state.accessToken,
-      userCookie: this.state.userCookie
-    })
+    // if (LOG_LEVEL <= 0) return
+    // log({
+    //   tourist: 1,
+    //   accessToken: this.state.accessToken,
+    //   userCookie: this.state.userCookie
+    // })
   }
 
   // -------------------- action --------------------

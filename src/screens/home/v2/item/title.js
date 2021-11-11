@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-15 06:03:31
+ * @Last Modified time: 2021-11-12 00:39:24
  */
 import React from 'react'
 import { Text } from '@components'
@@ -28,7 +28,7 @@ function Title({ subject, subjectId }, { $ }) {
   const isBook = type === '书籍'
   const doing = isBook ? '读' : '看'
 
-  const weekDay = $.sortOnAir ? getWeekDay($.onAir[subjectId]) : ''
+  const weekDay = getWeekDay($.onAir[subjectId])
   const weekDayText =
     weekDay === undefined || weekDay === '' ? '' : ` / 周${weekDayMap[weekDay]}`
   return (

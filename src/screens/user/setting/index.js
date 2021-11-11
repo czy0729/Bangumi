@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 08:51:57
+ * @Last Modified time: 2021-11-12 00:36:56
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -17,7 +17,7 @@ import {
 } from '@components'
 import { Popover, ItemSetting, IconTouchable, NavigationBarEvents } from '@screens/_'
 import Stores, { _, userStore, systemStore, rakuenStore, themeStore } from '@stores'
-import { toFixed, setStorage, open, sleep } from '@utils'
+import { toFixed, setStorage, open } from '@utils'
 import { withHeader, ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -58,6 +58,11 @@ const hitSlop = {
   right: 32,
   bottom: 16,
   left: 32
+}
+const homeSortingInformation = {
+  APP: 'APP：放送中未看 > 放送中 > 明天放送 > 本季未完结新番 > 网页',
+  网页: '网页: 与bangumi网页版一致',
+  放送: '放送: 放送中 > 明天放送 > 默认'
 }
 
 export default
@@ -1002,7 +1007,7 @@ class Setting extends React.Component {
   }
 
   renderHome() {
-    const { homeSorting, homeLayout, homeFilter, homeOrigin, showGame } =
+    const { homeSorting, homeSortSink, homeLayout, homeFilter, homeOrigin, showGame } =
       systemStore.setting
     return (
       <>
@@ -1020,12 +1025,40 @@ class Setting extends React.Component {
               onValueChange={this.setHomeSorting}
             />
           }
-          information='APP排序优先：放送中未看 > 放送中 > 明天放送 > 本季未完结新番 > 网页'
+          information={
+            homeSortingInformation[MODEL_SETTING_HOME_SORTING.getLabel(homeSorting)]
+          }
         >
           <Heatmap
             id='设置.切换'
             data={{
               title: '首页排序'
+            }}
+          />
+        </ItemSetting>
+        <ItemSetting
+          show={homeSorting !== MODEL_SETTING_HOME_SORTING.getValue('网页')}
+          hd='条目自动下沉'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={homeSortSink}
+              onSyncPress={() => {
+                t('设置.切换', {
+                  title: '自动下沉',
+                  checked: !homeSortSink
+                })
+
+                systemStore.switchSetting('homeSortSink')
+              }}
+            />
+          }
+          information='当条目没有未观看的已放送章节时，自动下沉到底'
+        >
+          <Heatmap
+            id='设置.切换'
+            data={{
+              title: '自动下沉'
             }}
           />
         </ItemSetting>

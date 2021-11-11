@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 20:21:22
+ * @Last Modified time: 2021-11-11 22:42:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,14 +30,7 @@ function Button({ styles, heatMap, props, item, eps, isSp, num }) {
   const isSide = num % numbersOfLine === 0
   const type = getType(userProgress[item.id], item.status)
 
-  const popoverData = getPopoverData(
-    item,
-    isSp,
-    canPlay,
-    login,
-    advance,
-    userProgress
-  )
+  const popoverData = getPopoverData(item, isSp, canPlay, login, advance, userProgress)
   let popoverProps
   if (IOS) {
     popoverProps = {

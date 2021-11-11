@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 19:48:21
+ * @Last Modified time: 2021-11-12 00:43:00
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -16,7 +16,7 @@ import {
   calendarStore,
   systemStore
 } from '@stores'
-import { open, runAfter } from '@utils'
+import { open, runAfter, getTimestamp } from '@utils'
 import { t, queue } from '@utils/fetch'
 import {
   x18,
@@ -168,10 +168,14 @@ export default class ScreenHomeV2 extends store {
        */
       runAfter(() => {
         const fetchs = []
-        this.sortList(data[0]).forEach(({ subject_id: subjectId }) => {
+        const now = getTimestamp()
+        this.sortList(data[0]).forEach(({ subject_id: subjectId }, index) => {
           const { _loaded } = this.subject(subjectId)
           if (refresh || !_loaded) {
             fetchs.push(() => subjectStore.fetchSubject(subjectId))
+          } else if (now - _loaded >= 60 * 5 * index) {
+            fetchs.push(() => subjectStore.fetchSubject(subjectId))
+            console.log('fetchs.push', subjectId)
           }
         })
         queue(fetchs, 1)
@@ -374,9 +378,7 @@ export default class ScreenHomeV2 extends store {
    * 列表当前数据
    */
   currentUserCollection(title) {
-    if (title === '游戏') {
-      return this.games
-    }
+    if (title === '游戏') return this.games
 
     return computed(() => {
       const userCollection = {
@@ -589,6 +591,17 @@ export default class ScreenHomeV2 extends store {
     }).get()
   }
 
+  /**
+   * 存在没有看的正常章节
+   */
+  hasNewEp(subjectId) {
+    const eps = this.eps(subjectId)
+    const progress = this.userProgress(subjectId)
+    return eps.some(
+      item => item.status === 'Air' && item.type === 0 && !(item.id in progress)
+    )
+  }
+
   // -------------------- page --------------------
   onChange = page => {
     t('首页.标签页切换', {
@@ -628,6 +641,8 @@ export default class ScreenHomeV2 extends store {
     }
 
     try {
+      const { homeSortSink } = systemStore.setting
+
       // 计算每一个条目看过ep的数量
       const weightMap = {}
 
@@ -649,6 +664,11 @@ export default class ScreenHomeV2 extends store {
           } else {
             weightMap[subjectId] = 10 - weekDay
           }
+
+          // 看完下沉逻辑
+          if (homeSortSink && !this.hasNewEp(subjectId)) {
+            weightMap[subjectId] = weightMap[subjectId] - 10000
+          }
         })
 
         return list
@@ -663,9 +683,7 @@ export default class ScreenHomeV2 extends store {
 
         let watchedCount = 0
         Object.keys(progress).forEach(i => {
-          if (progress[i] === '看过') {
-            watchedCount += 1
-          }
+          if (progress[i] === '看过') watchedCount += 1
         })
 
         const { air = 0 } = this.onAir[subjectId] || {}
@@ -676,7 +694,13 @@ export default class ScreenHomeV2 extends store {
         } else {
           weightMap[subjectId] = air > watchedCount ? 10 : 1
         }
+
+        // 看完下沉逻辑
+        if (homeSortSink && !this.hasNewEp(subjectId)) {
+          weightMap[subjectId] = weightMap[subjectId] - 100001
+        }
       })
+
       return list
         .sort((a, b) => weightMap[b.subject_id] - weightMap[a.subject_id])
         .sort((a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0))

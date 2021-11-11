@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 17:42:19
+ * @Last Modified time: 2021-11-11 22:25:04
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -102,10 +102,7 @@ class Home extends React.Component {
             {/* {isFocused && (
               <IconPortal index={2} onPress={$.onRefreshThenScrollTop} />
             )} */}
-            <NavigationEvents
-              onDidFocus={this.onDidFocus}
-              onDidBlur={this.onDidBlur}
-            />
+            <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
             <Heatmaps />
           </>
         )}

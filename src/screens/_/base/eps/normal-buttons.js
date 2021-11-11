@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:47:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 01:41:37
+ * @Last Modified time: 2021-11-11 22:42:25
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -26,13 +26,7 @@ export const NormalButtons = ob(({ props, eps }) => {
   return (
     <Flex wrap='wrap' align='start'>
       {itemsNormal.map((item, index) => (
-        <Button
-          key={item.id}
-          props={props}
-          item={item}
-          eps={eps}
-          num={index + 1}
-        />
+        <Button key={item.id} props={props} item={item} eps={eps} num={index + 1} />
       ))}
       <SpButtons props={props} eps={itemsSp} preNum={itemsNormal.length} />
     </Flex>
