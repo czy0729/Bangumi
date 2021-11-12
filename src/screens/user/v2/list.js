@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 16:47:59
+ * @Last Modified time: 2021-11-12 08:45:58
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -52,14 +52,11 @@ class List extends React.Component {
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     const { list, subjectType } = $.state
-    const isDo = $.type === 'do'
-    const isOnHold = $.type === 'on_hold'
-    const isDropped = $.type === 'dropped'
     const event = {
       id: '我的.跳转'
     }
-
     const typeCn = MODEL_SUBJECT_TYPE.getTitle(subjectType)
+
     if (list) {
       // {index === 0 && (
       //   <Heatmap
@@ -75,13 +72,13 @@ class List extends React.Component {
         <ItemCollections
           navigation={navigation}
           index={index}
-          isDo={isDo}
-          isOnHold={isOnHold}
-          isDropped={isDropped}
-          type={typeCn}
-          event={event}
+          isDo={$.type === 'do'}
+          isDropped={$.type === 'dropped'}
+          isOnHold={$.type === 'on_hold'}
           showLabel={false}
+          type={typeCn}
           userCollection={$.label}
+          event={event}
           {...item}
         />
       )

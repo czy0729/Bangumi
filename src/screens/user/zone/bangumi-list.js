@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 16:10:12
+ * @Last Modified time: 2021-11-12 09:45:48
  */
 import React from 'react'
 import {
@@ -45,7 +45,7 @@ class List extends React.Component {
           size={15}
           right={
             <Iconfont
-              style={_.mr._sm}
+              style={this.styles.arrow}
               name={expand[title] ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
             />
           }
@@ -169,5 +169,8 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.md,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  arrow: {
+    marginRight: -3
   }
 }))

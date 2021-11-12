@@ -1,9 +1,8 @@
-/* eslint-disable no-restricted-globals */
 /*
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 07:45:03
+ * @Last Modified time: 2021-11-12 09:34:01
  */
 import React from 'react'
 import { View } from 'react-native'

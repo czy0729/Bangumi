@@ -4,11 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-10 01:10:34
+ * @Last Modified time: 2021-11-12 09:03:58
  */
 import { observable, computed } from 'mobx'
 import {
-  _,
   userStore,
   usersStore,
   timelineStore,
@@ -21,12 +20,11 @@ import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { info, loading, feedback } from '@utils/ui'
-import { HOST, IOS } from '@constants'
+import { HOST } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
+import { H_BG, H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/store'
 
-export const H_BG = Math.min(parseInt(_.window.width * 0.64), _.device(288, 380)) // 整个背景高度
-export const H_HEADER = IOS ? 88 : 80 // fixed后带背景的头部高度
-export const H_TABBAR = 48 * _.ratio // TabBar高度
+export { H_BG, H_RADIUS_LINE, H_HEADER, H_TABBAR }
 export const tabs = [
   {
     title: '番剧',
@@ -52,6 +50,7 @@ export const tabsWithTinygrail = [
     key: 'tinygrail'
   }
 ]
+
 const namespace = 'ScreenZone'
 const excludeState = {
   visible: false,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 21:03:04
+ * @Last Modified time: 2021-11-12 09:24:05
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -16,7 +16,14 @@ import TimelineList from './timeline-list'
 import RakuenList from './rakuen-list'
 import About from './about'
 import Tinygrail from './tinygrail'
-import { tabs, tabsWithTinygrail, H_BG, H_TABBAR, H_HEADER } from './store'
+import {
+  tabs,
+  tabsWithTinygrail,
+  H_BG,
+  H_TABBAR,
+  H_HEADER,
+  H_RADIUS_LINE
+} from './store'
 
 const headerStyle = {
   height: H_BG + H_TABBAR
@@ -145,7 +152,7 @@ const commonStyle = {
   tabBarWrap: {
     position: 'absolute',
     zIndex: 2,
-    top: 0,
+    top: -H_RADIUS_LINE + 2,
     right: 0,
     left: 0
   },

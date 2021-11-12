@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:19:34
+ * @Last Modified time: 2021-11-12 08:43:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -214,7 +214,6 @@ const Item = memo(
             </Flex>
           </Flex.Item>
         </Flex>
-        {/* {children} */}
       </Touchable>
     )
   },

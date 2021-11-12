@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:44:02
+ * @Last Modified time: 2021-11-12 09:50:49
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -16,7 +16,7 @@ import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { IOS, HOST } from '@constants'
 import Head from './head'
-import { H_BG, H_HEADER } from './store'
+import { H_BG, H_HEADER, H_RADIUS_LINE } from './store'
 
 function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   const styles = memoStyles()
@@ -79,7 +79,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
         />
         <Animated.View
           style={[
-            styles.parallaxMask,
+            styles.parallaxWrap,
             parallaxStyle,
             {
               backgroundColor: _.select('rgba(0, 0, 0, 0.48)', 'rgba(0, 0, 0, 0.64)'),
@@ -92,7 +92,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
         />
         <Animated.View
           style={[
-            styles.parallaxMask,
+            styles.parallaxWrap,
             parallaxStyle,
             {
               opacity: scrollY.interpolate({
@@ -115,19 +115,18 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             </Text>
           </Flex>
         </Animated.View>
-        <Animated.View
-          style={[
-            styles.parallaxMask,
-            parallaxStyle,
-            {
+        <Animated.View style={[styles.parallaxWrap, parallaxStyle]}>
+          <Animated.View
+            style={{
               opacity: scrollY.interpolate({
                 inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: [1, 1, 0, 0]
               })
-            }
-          ]}
-        >
-          <Head style={styles.head} />
+            }}
+          >
+            <Head style={styles.head} />
+          </Animated.View>
+          <View style={styles.parallaxLine} />
         </Animated.View>
       </View>
       <IconBack
@@ -203,7 +202,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           }}
         >
           <Flex style={styles.icon} justify='center'>
-            <Iconfont name='md-menu' color={_.__colorPlain__} />
+            <Iconfont name='md-more-vert' color={_.__colorPlain__} />
           </Flex>
           <Heatmap id='空间.右上角菜单' />
           <Heatmap right={62} id='空间.添加好友' transparent />
@@ -237,12 +236,26 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: -8,
     height: H_BG + 8
   },
-  parallaxMask: {
+  parallaxWrap: {
     position: 'absolute',
     top: 0,
     right: 0,
-    bottom: -_.hairlineWidth,
+    bottom: -2,
     left: 0
+  },
+  parallaxLine: {
+    position: 'absolute',
+    right: 0,
+    bottom: -1,
+    left: 0,
+    height: H_RADIUS_LINE,
+    backgroundColor: _.select(
+      _.colorPlain,
+      _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+    ),
+    borderTopLeftRadius: H_RADIUS_LINE,
+    borderTopRightRadius: H_RADIUS_LINE,
+    overflow: 'hidden'
   },
   head: {
     marginTop: 76
@@ -251,7 +264,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     left: '50%',
     width: 240,
-    bottom: _.sm + 4,
+    bottom: H_RADIUS_LINE + 10,
     transform: [
       {
         translateX: -120
@@ -273,16 +286,17 @@ const memoStyles = _.memoStyles(_ => ({
   },
   btn: {
     zIndex: 1,
-    marginTop: -5
+    marginTop: -8
   },
   touch: {
     zIndex: 1,
-    marginTop: -4,
+    marginTop: -6,
     borderRadius: 20,
     overflow: 'hidden'
   },
   icon: {
     width: 36,
-    height: 36
+    height: 36,
+    marginRight: -2
   }
 }))
