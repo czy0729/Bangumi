@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 00:43:00
+ * @Last Modified time: 2021-11-12 08:36:23
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -153,6 +153,11 @@ export default class ScreenHomeV2 extends store {
     return state
   }
 
+  /**
+   * 被动请求
+   * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
+   * cloudfare请求太快会被拒绝
+   */
   initFetch = async refresh => {
     const res = Promise.all([
       userStore.fetchUserCollection(),
@@ -160,24 +165,31 @@ export default class ScreenHomeV2 extends store {
     ])
     const data = await res
 
-    if (data[0] && !DEV) {
-      /**
-       * 被动请求
-       * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
-       * cloudfare请求太快会被拒绝
-       */
+    if (data[0]) {
       runAfter(() => {
         const fetchs = []
         const now = getTimestamp()
-        this.sortList(data[0]).forEach(({ subject_id: subjectId }, index) => {
-          const { _loaded } = this.subject(subjectId)
+
+        this.sortList(data[0]).forEach(({ subject_id, ep_status }) => {
+          const { _loaded } = this.subject(subject_id)
+          let flag
+
+          // 强制刷新或没有数据强制请求
           if (refresh || !_loaded) {
-            fetchs.push(() => subjectStore.fetchSubject(subjectId))
-          } else if (now - _loaded >= 60 * 5 * index) {
-            fetchs.push(() => subjectStore.fetchSubject(subjectId))
-            console.log('fetchs.push', subjectId)
+            flag = true
+          } else if (
+            systemStore.setting.homeSortSink && // 下沉模式
+            this.onAir[subject_id] && // 需要有当季放送数据
+            now - _loaded >= 60 * 5 && // 请求间隔大于5分钟
+            ep_status <= 28 // 长篇也不被动请求
+          ) {
+            if (DEV) console.info('initFetch', subject_id)
+            flag = true
           }
+
+          if (flag) fetchs.push(() => subjectStore.fetchSubject(subject_id))
         })
+
         queue(fetchs, 1)
       })
     }
