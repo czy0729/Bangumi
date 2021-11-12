@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
 import { AsyncStorage, Linking, Platform, BackHandler } from 'react-native'
 import { polyfill } from 'react-lifecycles-compat'
@@ -22,7 +21,6 @@ function validateProps(props) {
   if (isStateful(props)) {
     return
   }
-  // eslint-disable-next-line no-unused-vars
   const { navigation, screenProps, ...containerProps } = props
 
   const keys = Object.keys(containerProps)
@@ -117,11 +115,8 @@ export default function createNavigationContainer(Component) {
         return
       }
 
-      // eslint-disable-next-line no-unused-vars
       const { navigation, screenProps, ...containerProps } = props
-
       const keys = Object.keys(containerProps)
-
       if (keys.length !== 0) {
         throw new Error(
           'This navigator has both navigation and container props, so it is ' +
@@ -263,7 +258,6 @@ export default function createNavigationContainer(Component) {
         return
       }
 
-      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({ nav: startupState }, () => {
         _reactNavigationIsHydratingState = false
         dispatchActions()

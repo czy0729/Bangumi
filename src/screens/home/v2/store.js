@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 08:36:23
+ * @Last Modified time: 2021-11-12 11:52:44
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -180,14 +180,18 @@ export default class ScreenHomeV2 extends store {
           } else if (
             systemStore.setting.homeSortSink && // 下沉模式
             this.onAir[subject_id] && // 需要有当季放送数据
-            now - _loaded >= 60 * 5 && // 请求间隔大于5分钟
+            now - _loaded >= 60 * 15 && // 请求间隔大于15分钟
             ep_status <= 28 // 长篇也不被动请求
           ) {
-            if (DEV) console.info('initFetch', subject_id)
             flag = true
           }
 
-          if (flag) fetchs.push(() => subjectStore.fetchSubject(subject_id))
+          if (flag) {
+            fetchs.push(() => {
+              if (DEV) console.info('initFetch', subject_id)
+              return subjectStore.fetchSubject(subject_id)
+            })
+          }
         })
 
         queue(fetchs, 1)
@@ -640,6 +644,8 @@ export default class ScreenHomeV2 extends store {
    * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
    */
   sortList = (list = []) => {
+    if (!list.length) return []
+
     // 置顶排序
     const { top } = this.state
     const topMap = {}

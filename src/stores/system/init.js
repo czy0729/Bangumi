@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 00:25:12
+ * @Last Modified time: 2021-11-12 11:58:01
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -69,7 +69,7 @@ export const INIT_SETTING = {
   homeOrigin: false, // 首页条目显示搜索源头
   homeSortSink: true, // 首页已放送章节看完条目下沉
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
-  homeSorting: MODEL_SETTING_HOME_SORTING.getValue('网页'), // 首页收藏排序
+  homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
   userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue('4'),
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量

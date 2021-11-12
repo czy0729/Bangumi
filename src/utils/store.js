@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-13 15:12:17
+ * @Last Modified time: 2021-11-12 11:28:29
  */
 import AsyncStorage from '@react-native-community/async-storage'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
-import { getTimestamp } from '@utils'
+import { getTimestamp, setStorage } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import fetch from './fetch'
 
@@ -20,10 +20,7 @@ export default class Store {
    * Store new后调用的方法
    */
   setup = () => {
-    // console.info('\n')
-    // console.info(`========== ${this.getName()} store setup start ==========`)
     this.initComputed()
-    // console.info(`========== ${this.getName()} store setup end ==========`)
   }
 
   /**
@@ -35,10 +32,7 @@ export default class Store {
       /**
        * 已有computed跳过
        */
-      if (this[key] !== undefined) {
-        // console.info(`skip [computed] ${key}`)
-        return
-      }
+      if (this[key] !== undefined) return
 
       /**
        * 情况1
@@ -52,7 +46,6 @@ export default class Store {
             return computed(() => this.state[key]).get()
           }
         })
-        // console.info(`[computed] ${key}`)
         return
       }
 
@@ -72,7 +65,6 @@ export default class Store {
           const id = this.state[key]._(...arg)
           return computed(() => this.state[key][id] || this.state[key][0]).get()
         }
-        // console.info(`[computed] ${key}(...arg)`)
         return
       }
 
@@ -86,7 +78,6 @@ export default class Store {
        */
       this[key] = (id = 0) =>
         computed(() => this.state[key][id] || this.state[key][0]).get()
-      // console.info(`[computed] ${key}(id)`)
     })
   }
 
@@ -98,8 +89,9 @@ export default class Store {
   setState = action(state => {
     Object.keys(state).forEach(key => {
       const data = state[key]
+
+      // 键值不存在时需手动创建观察
       if (!(key in this.state)) {
-        // 键值不存在时需手动创建观察
         extendObservable(this.state, {
           [key]: data
         })
@@ -153,7 +145,6 @@ export default class Store {
 
     const res = fetch(_fetchConfig)
     const data = await res
-
     let _data
     if (Array.isArray(data)) {
       if (list) {
@@ -201,15 +192,11 @@ export default class Store {
    */
   setStorage = (key, value, namesapce) => {
     let _key = namesapce || this.getName()
-    if (key) {
-      _key += `|${key}`
-    }
+    if (key) _key += `|${key}`
     _key += '|state'
 
-    return AsyncStorage.setItem(
-      _key,
-      JSON.stringify(key ? value || this.state[key] : this.state)
-    )
+    const data = key ? value || this.state[key] : this.state
+    return setStorage(_key, data)
   }
 
   /**
@@ -220,9 +207,7 @@ export default class Store {
    */
   getStorage = async (key, namesapce, defaultValue = {}) => {
     let _key = namesapce || this.getName()
-    if (key) {
-      _key += `|${key}`
-    }
+    if (key) _key += `|${key}`
     _key += '|state'
 
     return JSON.parse(await AsyncStorage.getItem(_key)) || defaultValue
@@ -264,9 +249,7 @@ export default class Store {
    */
   getName = () => {
     let s = this.constructor.toString()
-    if (s.indexOf('function') == -1) {
-      return null
-    }
+    if (s.indexOf('function') == -1) return null
 
     s = s.replace('function', '')
     const idx = s.indexOf('(')

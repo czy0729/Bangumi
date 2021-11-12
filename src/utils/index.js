@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-04 11:00:17
+ * @Last Modified time: 2021-11-12 12:01:34
  */
 import { Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -12,6 +12,23 @@ import { info } from './ui'
 import { isObject, runAfter, throttle } from './utils'
 
 export { isObject, runAfter, throttle }
+
+/**
+ * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
+ * @param {*} fetchs
+ */
+export async function queue(fetchs = [], num = 2) {
+  if (!fetchs.length) return false
+
+  await Promise.all(
+    new Array(num).fill(0).map(async () => {
+      while (fetchs.length) {
+        await fetchs.shift()()
+      }
+    })
+  )
+  return true
+}
 
 /**
  * 防抖
@@ -89,15 +106,46 @@ export function open(url) {
 /**
  * 保存数据
  * @version 190321 1.0
+ * @version 211112 2.0
  * @param {*} key
  */
+const setStorageLazyMap = {}
 export async function setStorage(key, data) {
-  try {
-    if (!key) return false
+  if (!key) return false
 
-    runAfter(() => AsyncStorage.setItem(key, JSON.stringify(data)))
-  } catch (error) {}
+  const _data = JSON.stringify(data)
+  if (_data.length >= 10000) {
+    setStorageLazyMap[key] = _data
+  } else {
+    AsyncStorage.setItem(key, _data)
+  }
 }
+
+// @version 211112 数据较大的键, 合并没必要的多次写入
+let setStorageInterval
+if (setStorageInterval) clearInterval(setStorageInterval)
+setStorageInterval = setInterval(async () => {
+  const keys = Object.keys(setStorageLazyMap)
+  if (!keys.length) {
+    // console.log('setStorage', 'empty')
+    return
+  }
+
+  const setItems = []
+  keys.forEach(key => {
+    setItems.push(async () => {
+      // console.log(
+      //   'setStorage',
+      //   key,
+      //   `${(setStorageLazyMap[key].length / 1000).toFixed(2)}kb`
+      // )
+      AsyncStorage.setItem(key, setStorageLazyMap[key])
+      delete setStorageLazyMap[key]
+    })
+  })
+
+  queue(setItems, 1)
+}, 60000)
 
 /**
  * 读取数据
