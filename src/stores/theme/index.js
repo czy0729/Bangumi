@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 19:29:40
+ * @Last Modified time: 2021-11-13 17:13:06
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -13,82 +13,17 @@ import { DEV, IOS } from '@constants'
 import _ from '@styles'
 import { INIT_DEV_DARK } from '@/config'
 import systemStore from '../system'
-
-type ThemeWindow = {
-  width: number,
-  maxWidth: number,
-  contentWidth: number,
-  height: number
-}
-
-type memoStyles = <T>(styles: T, dev?: boolean) => T
-
-const NAMESPACE = 'Theme'
-const DEFAULT_MODE = 'light'
-const DEFAULT_TINYGRAIL_MODE = 'green' // green: 绿涨红跌 | red: 红涨绿跌 | web: 网页一致
-const DEFAULT_TINYGRAIL_THEME_MODE = 'dark'
-const lightStyles = {
-  // theme
-  colorMain: _.colorMain,
-  colorMainLight: _.colorMainLight,
-  colorPrimary: _.colorPrimary,
-  colorSuccess: _.colorSuccess,
-  colorYellow: _.colorYellow,
-  colorWarning: _.colorWarning,
-  colorPlainRaw: _.colorPlainRaw,
-  colorPlain: _.colorPlain,
-  colorWait: _.colorWait,
-  colorBg: _.colorBg,
-  colorBorder: _.colorBorder,
-  colorHighLight: _.colorHighLight,
-
-  // text
-  colorTitleRaw: _.colorTitleRaw,
-  colorTitle: _.colorTitle,
-  colorDesc: _.colorDesc,
-  colorSub: _.colorSub,
-  colorDisabled: _.colorDisabled,
-  colorIcon: _.colorIcon
-}
-const darkStyles = {
-  // theme
-  colorMain: _._colorMain,
-  colorMainLight: _._colorMainLight,
-  colorPrimary: _._colorPrimary,
-  colorSuccess: _._colorSuccess,
-  colorYellow: _._colorYellow,
-  colorWarning: _._colorWarning,
-  colorPlainRaw: _._colorPlainRaw,
-  colorPlain: _._colorPlain,
-  colorWait: _._colorWait,
-  colorBg: _._colorBg,
-  colorBorder: _._colorBorder,
-  colorHighLight: _._colorHighLight,
-
-  // text
-  colorTitleRaw: _._colorTitleRaw,
-  colorTitle: _._colorTitle,
-  colorDesc: _._colorDesc,
-  colorSub: _._colorSub,
-  colorDisabled: _._colorDisabled,
-  colorIcon: _._colorIcon
-}
-
-/**
- * 生成记忆styles的标识
- */
-let _memoStylesId = 0
-function getMemoStylesId() {
-  _memoStylesId += 1
-  return {
-    _id: _memoStylesId,
-    _mode: '',
-    _tMode: '',
-    _flat: '',
-    _deepDark: '',
-    _styles: ''
-  }
-}
+import {
+  ThemeWindow,
+  memoStyles,
+  NAMESPACE,
+  DEFAULT_MODE,
+  DEFAULT_TINYGRAIL_MODE,
+  DEFAULT_TINYGRAIL_THEME_MODE,
+  STYLES_LIGHT,
+  STYLES_DARK,
+  getMemoStylesId
+} from './init'
 
 class Theme extends store {
   constructor() {
@@ -115,40 +50,30 @@ class Theme extends store {
     tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
     tinygrailMode: DEFAULT_TINYGRAIL_MODE,
     fontSizeAdjust: 0,
-    ...lightStyles
+    ...STYLES_LIGHT
   })
 
   init = async () => {
-    const mode = await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
-
     // 遗漏问题, 版本前有部分用户安卓9启用了跟随系统设置, 需要排除掉
     if (this.autoColorScheme) {
-      // 主题是否跟随系统
-      const sysMode = Appearance.getColorScheme()
-      if (sysMode !== mode) {
-        this.toggleMode(sysMode)
-      }
+      this.toggleMode(Appearance.getColorScheme())
     } else {
-      // 默认是白天模式, 若初始化不是白天切换主题
+      const mode = await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
       this.toggleMode(mode)
     }
 
-    const tinygrailMode = await this.getStorage(
-      'tinygrailMode',
-      NAMESPACE,
-      DEFAULT_TINYGRAIL_MODE
-    )
-    const tinygrailThemeMode = await this.getStorage(
-      'tinygrailThemeMode',
-      NAMESPACE,
-      DEFAULT_TINYGRAIL_MODE
-    )
-
-    const fontSizeAdjust = await this.getStorage('fontSizeAdjust', NAMESPACE, 0)
     this.setState({
-      tinygrailMode,
-      tinygrailThemeMode,
-      fontSizeAdjust
+      tinygrailMode: await this.getStorage(
+        'tinygrailMode',
+        NAMESPACE,
+        DEFAULT_TINYGRAIL_MODE
+      ),
+      tinygrailThemeMode: await this.getStorage(
+        'tinygrailThemeMode',
+        NAMESPACE,
+        DEFAULT_TINYGRAIL_MODE
+      ),
+      fontSizeAdjust: await this.getStorage('fontSizeAdjust', NAMESPACE, 0)
     })
 
     return true
@@ -660,19 +585,19 @@ class Theme extends store {
     if (mode === 'light') {
       this.setState({
         [key]: 'light',
-        ...lightStyles
+        ...STYLES_LIGHT
       })
     } else if (mode === 'dark') {
       this.setState(
         this.deepDark
           ? {
               [key]: 'dark',
-              ...darkStyles,
+              ...STYLES_DARK,
               ..._._colorThemeDeepDark
             }
           : {
               [key]: 'dark',
-              ...darkStyles
+              ...STYLES_DARK
             }
       )
     } else {
@@ -681,11 +606,11 @@ class Theme extends store {
         ...this.select(
           this.deepDark
             ? {
-                ...darkStyles,
+                ...STYLES_DARK,
                 ..._._colorThemeDeepDark
               }
-            : darkStyles,
-          lightStyles
+            : STYLES_DARK,
+          STYLES_LIGHT
         )
       })
     }
@@ -733,9 +658,7 @@ class Theme extends store {
    * 安卓改变底部菜单颜色
    */
   changeNavigationBarColor = () => {
-    if (IOS) {
-      return
-    }
+    if (IOS) return
 
     try {
       InteractionManager.runAfterInteractions(() => {
@@ -816,21 +739,21 @@ class Theme extends store {
 
 const Store = new Theme()
 
-setTimeout(() => {
-  if (DEV && typeof INIT_DEV_DARK === 'boolean') {
-    if ((INIT_DEV_DARK && !Store.isDark) || (!INIT_DEV_DARK && Store.isDark)) {
-      Store.toggleMode()
-      console.info('Store.toggleMode')
-    }
+// setTimeout(() => {
+//   if (DEV && typeof INIT_DEV_DARK === 'boolean') {
+//     if ((INIT_DEV_DARK && !Store.isDark) || (!INIT_DEV_DARK && Store.isDark)) {
+//       Store.toggleMode()
+//       console.info('Store.toggleMode')
+//     }
 
-    if (
-      (INIT_DEV_DARK && !Store.isTinygrailDark) ||
-      (!INIT_DEV_DARK && Store.isTinygrailDark)
-    ) {
-      Store.toggleTinygrailThemeMode()
-      console.info('Store.toggleTinygrailThemeMode')
-    }
-  }
-}, 1000)
+//     if (
+//       (INIT_DEV_DARK && !Store.isTinygrailDark) ||
+//       (!INIT_DEV_DARK && Store.isTinygrailDark)
+//     ) {
+//       Store.toggleTinygrailThemeMode()
+//       console.info('Store.toggleTinygrailThemeMode')
+//     }
+//   }
+// }, 1000)
 
 export default Store
