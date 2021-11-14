@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 16:30:57
+ * @Last Modified time: 2021-11-14 16:10:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -168,8 +168,7 @@ class GridInfo extends React.Component {
     const { subjectId, subject } = this.props
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
-    const onAir = $.onAir[subjectId] || {}
-    const time = onAir.timeCN || onAir.timeJP || ''
+    const { h, m } = $.onAirCustom(subjectId)
     return (
       <Flex style={styles.item} align='start'>
         <View>
@@ -183,11 +182,11 @@ class GridInfo extends React.Component {
           />
           {isToday ? (
             <Text style={_.mt.sm} type='success' align='center' size={12} bold>
-              {time.slice(0, 2)}:{time.slice(2, 4)}
+              {h}:{m}
             </Text>
           ) : isNextDay ? (
             <Text style={_.mt.sm} type='sub' align='center' size={12} bold>
-              明天{time.slice(0, 2)}:{time.slice(2, 4)}
+              明天{h}:{m}
             </Text>
           ) : null}
         </View>

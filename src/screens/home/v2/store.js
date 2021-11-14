@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 11:52:44
+ * @Last Modified time: 2021-11-14 16:28:40
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -23,7 +23,7 @@ import {
   appNavigate,
   getCoverMedium,
   getBangumiUrl,
-  getWeekDay,
+  getOnAir,
   unzipBangumiData
 } from '@utils/app'
 import store from '@utils/store'
@@ -165,7 +165,7 @@ export default class ScreenHomeV2 extends store {
     ])
     const data = await res
 
-    if (data[0]) {
+    if (data[0] && !DEV) {
       runAfter(() => {
         const fetchs = []
         const now = getTimestamp()
@@ -179,7 +179,7 @@ export default class ScreenHomeV2 extends store {
             flag = true
           } else if (
             systemStore.setting.homeSortSink && // 下沉模式
-            this.onAir[subject_id] && // 需要有当季放送数据
+            this.onAirCustom(subject_id).isExist && // 需要有放送数据
             now - _loaded >= 60 * 15 && // 请求间隔大于15分钟
             ep_status <= 28 // 长篇也不被动请求
           ) {
@@ -428,13 +428,6 @@ export default class ScreenHomeV2 extends store {
   }
 
   /**
-   * 条目章节
-   */
-  // subjectEp(subjectId) {
-  //   return computed(() => subjectStore.subjectEp(subjectId)).get()
-  // }
-
-  /**
    * 条目章节数据
    */
   eps(subjectId) {
@@ -490,55 +483,14 @@ export default class ScreenHomeV2 extends store {
     }
   }
 
-  /**
-   * 条目观看进度百分比
-   */
-  // percent(subjectId, subject = {}) {
-  //   return computed(() => {
-  //     const eps = this.eps(subjectId)
-  //     if (!subject.eps_count || !eps.length) {
-  //       return 0
-  //     }
-
-  //     // 排除SP章节
-  //     let watchedCount = 0
-  //     const userProgress = this.userProgress(subjectId)
-  //     try {
-  //       const epsWithoutSP = eps.filter(item => item.type === 0)
-  //       epsWithoutSP.forEach(item => {
-  //         if (userProgress[item.id] === '看过') {
-  //           // 这里很坑, 有一些是多季度不是1开始的番, 还有一些是只显示4行的超长番组, 很容易混淆
-  //           if (
-  //             watchedCount === 0 &&
-  //             item.sort !== 1 &&
-  //             epsWithoutSP.length >= 32
-  //           ) {
-  //             watchedCount += parseInt(item.sort)
-  //           } else {
-  //             watchedCount += 1
-  //           }
-  //         }
-  //       })
-  //     } catch (error) {
-  //       // do nothing
-  //     }
-  //     return (watchedCount / subject.eps_count) * 100
-  //   }).get()
-  // }
-
-  @computed get onAir() {
-    return calendarStore.onAir
-  }
-
   @computed get sortOnAir() {
     return this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('放送')
   }
 
-  /**
-   * 用户自定义放送时间
-   */
-  onAirUser(subjectId) {
-    return computed(() => calendarStore.onAirUser(subjectId)).get()
+  onAirCustom(subjectId) {
+    return computed(() =>
+      getOnAir(calendarStore.onAir[subjectId], calendarStore.onAirUser(subjectId))
+    ).get()
   }
 
   /**
@@ -546,10 +498,9 @@ export default class ScreenHomeV2 extends store {
    */
   isToday(subjectId) {
     return computed(() => {
-      const item = this.onAir[subjectId] || this.onAirUser(subjectId)
-      if (!item) return false
-
-      return getWeekDay(item) === day
+      const { weekDay, isExist } = this.onAirCustom(subjectId)
+      if (!isExist) return false
+      return weekDay === day
     }).get()
   }
 
@@ -558,13 +509,9 @@ export default class ScreenHomeV2 extends store {
    */
   isNextDay(subjectId) {
     return computed(() => {
-      const item = this.onAir[subjectId] || this.onAirUser(subjectId)
-      if (!item) return false
-
-      const _day = getWeekDay(item)
-      if (_day === '') return false
-
-      return day === 6 ? _day === 0 : day === _day - 1
+      const { weekDay, isExist } = this.onAirCustom(subjectId)
+      if (!isExist) return false
+      return day === 6 ? weekDay === 0 : day === weekDay - 1
     }).get()
   }
 
@@ -668,8 +615,8 @@ export default class ScreenHomeV2 extends store {
       if (this.sortOnAir) {
         list.forEach(item => {
           const { subject_id: subjectId } = item
-          const weekDay = getWeekDay(this.onAir[subjectId])
-          if (weekDay === '' || weekDay === undefined) {
+          const { weekDay, isExist } = this.onAirCustom(subjectId)
+          if (!isExist) {
             weightMap[subjectId] = 1
           } else if (this.isToday(subjectId)) {
             weightMap[subjectId] = 1001
@@ -704,7 +651,7 @@ export default class ScreenHomeV2 extends store {
           if (progress[i] === '看过') watchedCount += 1
         })
 
-        const { air = 0 } = this.onAir[subjectId] || {}
+        const { air = 0 } = calendarStore.onAir[subjectId] || {}
         if (this.isToday(subjectId)) {
           weightMap[subjectId] = air > watchedCount ? 100000 : 10000
         } else if (this.isNextDay(subjectId)) {

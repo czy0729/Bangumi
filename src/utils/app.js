@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 05:16:06
+ * @Last Modified time: 2021-11-14 16:41:10
  */
 import * as WebBrowser from 'expo-web-browser'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -67,6 +67,38 @@ export function getSetting() {
 export function cnjp(cn, jp) {
   const { cnFirst } = getSetting()
   return cnFirst ? cn || jp : jp || cn
+}
+
+function isNull(value) {
+  return value === undefined || value === ''
+}
+
+function getSafeValue(key, onAir, onAirUser) {
+  let userValue = onAirUser?.[key]
+  return isNull(userValue) ? onAir?.[key] : userValue
+}
+
+/**
+ * 云端onAir和自定义onAir组合判断
+ */
+export function getOnAir(onAir, onAirUser) {
+  const timeJP = getSafeValue('timeJP', onAir, onAirUser)
+  const timeCN = getSafeValue('timeCN', onAir, onAirUser)
+  const time = isNull(timeCN) ? timeJP : timeCN
+
+  const weekDayJP = getSafeValue('weekDayJP', onAir, onAirUser)
+  const weekDayCN = getSafeValue('weekDayCN', onAir, onAirUser)
+  const weekDay = isNull(weekDayCN) ? weekDayJP : weekDayCN
+
+  const h = typeof time === 'string' ? time.slice(0, 2) : ''
+  const m = typeof time === 'string' ? time.slice(2, 4) : ''
+  return {
+    weekDay,
+    h,
+    m,
+    isExist: weekDay !== undefined && weekDay !== '',
+    isCustom: !!onAirUser?._loaded
+  }
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-20 06:23:13
+ * @Last Modified time: 2021-11-14 17:39:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,23 +73,12 @@ const defaultProps = {
   styles: {},
   watchedEps: '',
   totalEps: 0,
-  type: '动画',
-  collection: {},
-  onAir: {},
-  onAirUser: {},
+  onAirCustom: {},
+  isDoing: false,
   onChangeText: Function.prototype,
   onSelectOnAir: Function.prototype,
   onResetOnAirUser: Function.prototype,
   doUpdateSubjectEp: Function.prototype
-}
-
-function isNull(value) {
-  return value === undefined || value === ''
-}
-
-function getSafeValue(key, onAir, onAirUser) {
-  let userValue = onAirUser?.[key]
-  return isNull(userValue) ? onAir?.[key] : userValue
 }
 
 const Ep = memo(
@@ -97,10 +86,8 @@ const Ep = memo(
     styles,
     watchedEps,
     totalEps,
-    type,
-    collection,
-    onAir,
-    onAirUser,
+    onAirCustom,
+    isDoing,
     onChangeText,
     onSelectOnAir,
     onResetOnAirUser,
@@ -108,23 +95,8 @@ const Ep = memo(
   }) => {
     rerender('Subject.Ep.Main')
 
-    const timeJP = getSafeValue('timeJP', onAir, onAirUser)
-    const timeCN = getSafeValue('timeCN', onAir, onAirUser)
-    const time = isNull(timeCN) ? timeJP : timeCN
-
-    const weekDayJP = getSafeValue('weekDayJP', onAir, onAirUser)
-    const weekDayCN = getSafeValue('weekDayCN', onAir, onAirUser)
-    const weekDay = isNull(weekDayCN) ? weekDayJP : weekDayCN
-
-    const h = typeof time === 'string' ? time.slice(0, 2) : ''
-    const m = typeof time === 'string' ? time.slice(2, 4) : ''
-
-    // 有onAir数据显示, 在看的动画也显示
-    const { status } = collection
-    const showCustomOnAir =
-      (weekDay !== undefined && weekDay !== '') ||
-      (type === '动画' && status?.type === 'do')
-
+    const { weekDay, h, m, isExist, isCustom } = onAirCustom
+    const showCustomOnAir = isExist || isDoing
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -220,7 +192,7 @@ const Ep = memo(
                   </Text>
                 </Flex>
               </Popover>
-              {!!onAirUser._loaded && (
+              {isCustom && (
                 <View style={styles.btnReset}>
                   <IconTouchable
                     style={_.mr._xs}
@@ -251,10 +223,8 @@ export default obc((props, { $ }) => {
       styles={memoStyles()}
       watchedEps={$.state.watchedEps}
       totalEps={$.subjectFormHTML.totalEps}
-      type={$.type}
-      collection={$.collection}
-      onAir={$.onAir}
-      onAirUser={$.onAirUser}
+      onAirCustom={$.onAirCustom}
+      isDoing={$.collection?.status?.type === 'do'}
       onChangeText={$.changeText}
       onSelectOnAir={$.onSelectOnAir}
       onResetOnAirUser={$.resetOnAirUser}

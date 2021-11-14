@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 11:58:58
+ * @Last Modified time: 2021-11-14 17:37:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ import {
   findSubjectCn,
   getBangumiUrl,
   getCoverMedium,
+  getOnAir,
   cnjp,
   unzipBangumiData,
   x18
@@ -502,18 +503,11 @@ export default class ScreenSubject extends store {
     return x18(this.subjectId, this.cn || this.jp)
   }
 
-  /**
-   * 放送信息
-   */
-  @computed get onAir() {
-    return calendarStore.onAir[this.subjectId] || {}
-  }
-
-  /**
-   * 用户自定义放送时间
-   */
-  @computed get onAirUser() {
-    return calendarStore.onAirUser(this.subjectId)
+  @computed get onAirCustom() {
+    return getOnAir(
+      calendarStore.onAir[this.subjectId],
+      calendarStore.onAirUser(this.subjectId)
+    )
   }
 
   /**
