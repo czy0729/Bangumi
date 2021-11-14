@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-13 17:13:06
+ * @Last Modified time: 2021-11-14 17:56:29
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
-import { DEV, IOS } from '@constants'
+import { IOS } from '@constants'
 import _ from '@styles'
-import { INIT_DEV_DARK } from '@/config'
+// import { INIT_DEV_DARK } from '@/config'
 import systemStore from '../system'
 import {
   ThemeWindow,

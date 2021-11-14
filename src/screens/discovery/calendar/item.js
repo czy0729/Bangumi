@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 14:45:10
+ * @Last Modified time: 2021-11-14 17:58:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -87,14 +87,14 @@ const Item = memo(
         </View>
         <Touchable style={_.mt.sm} withoutFeedback hitSlop={hitSlop} onPress={onPress}>
           {!!collection && <Tag style={styles.collection} value={collection} />}
-          <Text size={12} bold lineHeight={_.device(13, 15)} numberOfLines={2}>
+          <Text size={12} bold lineHeight={14} numberOfLines={2}>
             {indent}
             {HTMLDecode(name)}
           </Text>
           <Flex style={_.mt.xs}>
             {!!air && (
-              <Text style={_.mr.sm} size={11} type='main' bold>
-                {air}话
+              <Text style={_.mr.xs} size={11} type='sub' bold>
+                更新至第{air}话
               </Text>
             )}
             {showScore && <Stars simple value={score} />}
@@ -143,7 +143,7 @@ const styles = _.create({
     zIndex: 1,
     top: _.sm,
     left: _.sm,
-    paddingVertical: 2,
+    padding: 4,
     backgroundColor: 'rgba(0, 0, 0, 0.64)',
     borderRadius: _.radiusXs
   },

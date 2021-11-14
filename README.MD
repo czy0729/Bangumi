@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.4.0" src="https://img.shields.io/badge/Version-5.4.0-0366d6" />
+  <img alt="Version: 5.5.0" src="https://img.shields.io/badge/Version-5.5.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -47,41 +47,23 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 ## Recently Update
 
-v5.4.0 - 2021/10/27
-
-—— 新增 ——
-
-- [x] [发现] 支持自定义菜单排序
-- [x] [帖子] 支持 bgm 内条目、人物、帖子等链接直接显示成信息块（超展开设置可关闭）
-- [x] [帖子] 支持正文内容猜测条目，可以直接跳转到对应条目（实验性，超展开设置可关闭）
+v5.5.0 - 2021/11/14
 
 —— 优化 ——
 
-- [x] [条目] 书籍条目，数据足够的情况显示进度条
-- [x] [帖子] 楼层旁边菜单增加翻译功能
-- [x] [超展开设置] 可添加屏蔽关键字
-- [x] [设置] 现在同步设置也会同步超展开的设置/屏蔽词了
-- [x] [时光机] 方格布局可以在设置自定义个数
-- [x] 用图标区分直接打开浏览器的跳转
+- [x] [首页收藏] 支持看完所有放送中章节后，条目自动下沉（设置中可改变）
+- [x] [我的] 优化滚动时 Tab 的表现
 
 —— 修复 ——
 
-- [x] [条目] 修复了放送日为周日，自定义放送时间没默认填入的问题
-- [x] [帖子] 修复了书籍类条目帖子闪退的问题
-- [x] [帖子] 回复框优化了链接的插入写法，优化了插入 bgm 表情和 BBCode 后的光标位置
-- [x] [小圣杯] 修复了 ico 角色详情页面进入人物页面，id 错误的问题
-
-—— 已知问题 ——
-
-- [ ] 在交叉使用多个账号，或者在彻底删除一个条目的收藏后，列表上会出现叠加的【已收藏】状态标记
+- [x] [时间胶囊] 修复了日志无法进入查看的问题
+- [x] [目录详情] 修复了介绍中的链接无法跳转的问题
+- [x] [帖子] 修复了动画单集讨论上/下一章节消失的问题
+- [x] [搜索] 修复了部分情况下搜索结果只有 1 页的问题
+- [x] [空间] 修复了部分用户时间胶囊加载下一页数据错误的问题
+- [x] [设置] 修复了深色模式跟随系统失效的问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
-
-## Next
-
-- [发现] 支持自定义菜单排序
-
-https://user-images.githubusercontent.com/13514316/137933757-4dba738f-e081-4fcf-8827-6c7d6c2ae89e.mp4
 
 ## PowerBy
 

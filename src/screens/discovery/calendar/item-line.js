@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 16:14:11
+ * @Last Modified time: 2021-11-14 18:00:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -99,18 +99,18 @@ const ItemLine = memo(
                   {!!collection && <Tag style={styles.collection} value={collection} />}
                   <Katakana.Provider
                     itemStyle={styles.katakanas}
-                    size={13}
-                    numberOfLines={2}
+                    size={15}
+                    numberOfLines={3}
                   >
-                    <Katakana type='desc' size={13} numberOfLines={2} bold>
+                    <Katakana type='desc' size={15} numberOfLines={3} bold>
                       {indent}
                       {HTMLDecode(name)}
                     </Katakana>
                   </Katakana.Provider>
                   <Flex>
                     {!!air && (
-                      <Text style={_.mr.sm} type='main' size={13} bold>
-                        第{air}话
+                      <Text style={_.mr.sm} type='sub' size={14} bold>
+                        更新至第{air}话
                       </Text>
                     )}
                     {showScore && <Stars simple value={score} type='desc' size={13} />}

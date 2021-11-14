@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-10-05 15:14:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 11:51:29
+ * @Last Modified time: 2021-11-14 17:46:49
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont } from '@components'
 import { _, subjectStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { cnjp } from '@utils/app'
+import { HTMLDecode } from '@utils/html'
 
 function Ep(props, { $, navigation }) {
   const styles = memoStyles()
@@ -18,13 +19,14 @@ function Ep(props, { $, navigation }) {
   const { eps } = subjectStore.subject(subjectId)
   if (!eps?.length) return null
 
-  const index = eps.findIndex(item => item.url.includes($.topicId))
+  const _eps = eps.filter(item => item.type === 0)
+  const index = _eps.findIndex(item => item.url.includes($.topicId))
   if (index === -1) return null
 
   let prev
   let next
-  if (index - 1 >= 0) prev = eps[index - 1]
-  if (index + 1 <= eps.length - 1) next = eps[index + 1]
+  if (index - 1 >= 0) prev = _eps[index - 1]
+  if (index + 1 <= _eps.length - 1) next = _eps[index + 1]
   if (!(prev || next)) return null
 
   const onPress = item => {
@@ -54,7 +56,7 @@ function Ep(props, { $, navigation }) {
               </Text>
             </Flex>
             <Text style={_.mt.xs} size={12} type='sub' numberOfLines={1}>
-              {cnjp(prev.name_cn, prev.name)}
+              {HTMLDecode(cnjp(prev.name_cn, prev.name))}
             </Text>
           </Touchable>
         )}
@@ -75,7 +77,7 @@ function Ep(props, { $, navigation }) {
               />
             </Flex>
             <Text style={_.mt.xs} size={12} type='sub' align='right' numberOfLines={1}>
-              {cnjp(next.name_cn, next.name)}
+              {HTMLDecode(cnjp(next.name_cn, next.name))}
             </Text>
           </Touchable>
         )}
