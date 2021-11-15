@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 21:59:24
+ * @Last Modified time: 2021-11-15 20:54:57
  */
 import React from 'react'
 import { Touchable, Flex, Input, Heatmap, Iconfont } from '@components'
@@ -25,11 +25,7 @@ export const Pagination = ob(
         <Flex.Item>
           <Touchable style={styles.touch} onPress={onPrev}>
             <Flex style={styles.pagination} justify='center'>
-              <Iconfont
-                name='md-navigate-before'
-                size={22}
-                color={_.colorDesc}
-              />
+              <Iconfont name='md-navigate-before' size={22} color={_.colorDesc} />
             </Flex>
             {!!heatmaps.prev && <Heatmap id={heatmaps.prev} />}
           </Touchable>

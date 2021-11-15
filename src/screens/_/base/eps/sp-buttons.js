@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 22:19:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 01:43:33
+ * @Last Modified time: 2021-11-15 20:52:43
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -15,21 +15,19 @@ export const SpButtons = ob(({ props, eps, preNum }) => {
 
   const { width, margin, numbersOfLine } = props
   const isSide = (preNum + 1) % numbersOfLine === 0
+  const style = [
+    styles.sp,
+    {
+      width,
+      height: width - 4, // 感觉短一点好看
+      marginRight: isSide ? 0 : margin,
+      marginBottom: margin + 4
+    }
+  ]
   return (
     <>
       {!!eps.length && (
-        <Flex
-          style={[
-            styles.sp,
-            {
-              width,
-              height: width - 4, // 感觉短一点好看
-              marginRight: isSide ? 0 : margin,
-              marginBottom: margin + 4
-            }
-          ]}
-          justify='center'
-        >
+        <Flex style={style} justify='center'>
           <Text type='sub' size={13}>
             SP
           </Text>

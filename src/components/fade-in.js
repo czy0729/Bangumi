@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-12 15:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:12:34
+ * @Last Modified time: 2021-11-15 20:45:03
  */
 import React, { Component } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 
 export const FadeIn = observer(
   class extends Component {
@@ -50,8 +51,8 @@ export const FadeIn = observer(
       return (
         <Animated.View
           style={[
+            _.container.block,
             {
-              width: '100%',
               opacity,
               marginTop: opacity.interpolate({
                 inputRange: [0, 1],

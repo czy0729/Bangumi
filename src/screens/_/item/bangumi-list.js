@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 19:58:34
+ * @Last Modified time: 2021-11-15 21:02:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,13 +35,7 @@ export const ItemBangumiList = ob(
     }
     return (
       <View style={[styles.item, style]}>
-        <Cover
-          size={imageWidth}
-          src={images.small}
-          radius
-          shadow
-          onPress={onPress}
-        />
+        <Cover size={imageWidth} src={images.small} radius shadow onPress={onPress} />
         <Touchable withoutFeedback onPress={onPress}>
           <Text style={_.mt.sm} size={11} numberOfLines={2} bold>
             {HTMLDecode(name)}

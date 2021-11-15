@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-06 17:07:59
+ * @Last Modified time: 2021-11-15 20:44:55
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -255,6 +255,9 @@ export const container = StyleSheet.create({
   touch: {
     borderRadius: radiusMd,
     overflow: 'hidden'
+  },
+  block: {
+    width: '100%'
   },
   w100: {
     width: '100%'

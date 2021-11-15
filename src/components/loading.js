@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:44:20
+ * @Last Modified time: 2021-11-15 20:46:38
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
@@ -11,10 +11,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 
 const Raw = observer(({ color, size = 'small' }) => (
-  <ActivityIndicator
-    color={color || _.select(_.colorSub, _.colorDesc)}
-    size={size}
-  />
+  <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
 ))
 
 const Loading = observer(({ style, color, size = 'small', children }) => (

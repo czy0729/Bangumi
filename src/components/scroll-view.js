@@ -21,9 +21,7 @@ export const ScrollView = ({
   const scrollViewEl = useRef(null)
   return (
     <RNScrollView
-      ref={
-        scrollToTop ? ref => (scrollViewEl.current = ref?.scrollTo) : undefined
-      }
+      ref={scrollToTop ? ref => (scrollViewEl.current = ref?.scrollTo) : undefined}
       scrollIndicatorInsets={scrollIndicatorInsets}
       {...other}
     >

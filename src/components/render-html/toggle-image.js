@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:17:44
+ * @Last Modified time: 2021-11-15 20:50:31
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -105,11 +105,7 @@ class ToggleImage extends React.Component {
 
     return (
       <Flex style={this.styles.image} justify='center'>
-        <Image
-          {...this.props}
-          onLoadEnd={this.onLoadEnd}
-          onError={this.onLoadEnd}
-        />
+        <Image {...this.props} onLoadEnd={this.onLoadEnd} onError={this.onLoadEnd} />
         {!this.props.show && (
           <Touchable
             style={this.styles.closeImageWrap}

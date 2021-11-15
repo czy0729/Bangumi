@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 00:13:50
+ * @Last Modified time: 2021-11-15 20:51:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,6 @@ export const Carousel = ob(({ props, epsGroup = [] }) => {
         // 渲染过多会卡顿, 暂时只取前5页
         .filter((item, index) => index < 5)
         .map((eps, index) => (
-          // eslint-disable-next-line react/no-array-index-key
           <View key={index}>
             <NormalButtons props={props} eps={eps} />
           </View>

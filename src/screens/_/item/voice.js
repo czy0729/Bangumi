@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 18:24:52
+ * @Last Modified time: 2021-11-15 21:03:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -80,13 +80,7 @@ export const ItemVoice = ob(
                   </Text>
                   <Flex style={_.mt.xs} align='start'>
                     <Flex.Item>
-                      <Text
-                        size={11}
-                        type='sub'
-                        align='right'
-                        lineHeight={14}
-                        bold
-                      >
+                      <Text size={11} type='sub' align='right' lineHeight={14} bold>
                         {item.nameCn}
                       </Text>
                     </Flex.Item>

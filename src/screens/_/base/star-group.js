@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 16:30:19
+ * @Last Modified time: 2021-11-15 20:55:20
  */
 import React from 'react'
 import { Text, Touchable, Iconfont, Flex } from '@components'
@@ -94,9 +94,7 @@ export const StarGroup = ob(
                   <Iconfont
                     name={type}
                     size={36}
-                    color={
-                      type === 'md-star-outline' ? _.colorIcon : _.colorWarning
-                    }
+                    color={type === 'md-star-outline' ? _.colorIcon : _.colorWarning}
                   />
                 </Touchable>
               )

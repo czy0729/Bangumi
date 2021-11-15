@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-expressions */
 /*
  * https://github.com/react-native-community/segmented-control/tree/master/js
  *
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 04:54:36
+ * @Last Modified time: 2021-11-15 20:50:47
  */
 import React, { useEffect, useState, useRef } from 'react'
 import { Animated, Easing, View } from 'react-native'
@@ -103,7 +102,6 @@ const SegmentedControlComp = ({
       {values &&
         values.map((value, index) => (
           <SegmentedControlTab
-            // eslint-disable-next-line react/no-array-index-key
             key={index}
             enabled={enabled}
             selected={selectedIndex === index}

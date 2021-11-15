@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 03:23:52
+ * @Last Modified time: 2021-11-15 20:46:27
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -102,11 +102,7 @@ export const Input = observer(
           <View style={this.styles.container}>
             <TouchableWithoutFeedback onPress={() => this.inputRef.focus()}>
               <View
-                style={[
-                  this.styles.multiContainer,
-                  { height: containerHeight },
-                  style
-                ]}
+                style={[this.styles.multiContainer, { height: containerHeight }, style]}
               >
                 <TextInput
                   ref={ref => (this.inputRef = ref)}

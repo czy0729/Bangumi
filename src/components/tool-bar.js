@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 15:26:58
+ * @Last Modified time: 2021-11-15 20:49:10
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -62,9 +62,7 @@ ToolBar.Popover = function ToolBarPopover({
   return (
     <Popover style={styles.touch} data={data} onSelect={onSelect}>
       <Flex style={styles.item} justify='center'>
-        {!!icon && (
-          <Iconfont style={_.mr.xs} name={icon} size={16} color={iconColor} />
-        )}
+        {!!icon && <Iconfont style={_.mr.xs} name={icon} size={16} color={iconColor} />}
         <Text size={11} type={type} bold>
           {text}
         </Text>
@@ -89,10 +87,7 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     height: _.device(30, 44),
     paddingHorizontal: _.md,
-    backgroundColor: _.select(
-      'rgba(238, 238, 238, 0.8)',
-      _._colorDarkModeLevel1
-    ),
+    backgroundColor: _.select('rgba(238, 238, 238, 0.8)', _._colorDarkModeLevel1),
     borderRadius: 16 * _.ratio
   }
 }))

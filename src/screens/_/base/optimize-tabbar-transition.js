@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-12 20:40:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:29:38
+ * @Last Modified time: 2021-11-15 20:54:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,10 +32,7 @@ export const OptimizeTabbarTransition = class extends React.Component {
     const { action = {} } = config
     const { routeName } = action
     const isNextPageHasHeader = PAGES_HAS_HEADER[routeName]
-    if (
-      typeof isNextPageHasHeader === 'boolean' &&
-      isNextPageHasHeader !== header
-    ) {
+    if (typeof isNextPageHasHeader === 'boolean' && isNextPageHasHeader !== header) {
       this.setState({
         hide: true
       })

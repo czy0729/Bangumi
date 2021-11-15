@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:42:33
+ * @Last Modified time: 2021-11-15 20:46:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,22 +19,8 @@ import { Text } from './text'
 const totalWithoutView = heatmapData.total - heatmapData['其他.查看']
 
 const Heatmap = observer(
-  ({
-    right = 1,
-    bottom = 1,
-    transparent,
-    id = '',
-    data = {},
-    screen,
-    mini
-  }) => {
-    const {
-      enabled,
-      grid,
-      text,
-      sum,
-      mini: devEventMini
-    } = systemStore.devEvent
+  ({ right = 1, bottom = 1, transparent, id = '', data = {}, screen, mini }) => {
+    const { enabled, grid, text, sum, mini: devEventMini } = systemStore.devEvent
     if (!enabled || (!grid && !text && !sum && !devEventMini)) {
       return null
     }
@@ -82,13 +68,7 @@ const Heatmap = observer(
       return (
         <View style={gridStyle} pointerEvents='none'>
           <View style={textStyle}>
-            <Text
-              style={styles.textMini}
-              type='__plain__'
-              size={8}
-              bold
-              align='right'
-            >
+            <Text style={styles.textMini} type='__plain__' size={8} bold align='right'>
               {formatNumber(count, 0)}
             </Text>
           </View>
@@ -102,10 +82,7 @@ const Heatmap = observer(
       ? key
       : id.split('.')[1]
     const eventDetail = value ? `.${data.alias || value}` : ''
-    const eventCount = formatNumber(
-      count / 30,
-      count >= 30 || count === 0 ? 0 : 1
-    )
+    const eventCount = formatNumber(count / 30, count >= 30 || count === 0 ? 0 : 1)
     const eventAppPercent = count !== 0 ? ` / ${percent}%` : ''
     const eventPagePercent =
       percentTo && percentTo !== percent ? ` (${percentTo}%)` : ''
@@ -123,10 +100,7 @@ const Heatmap = observer(
           />
         )}
         {!!text && (
-          <View
-            style={isPage ? styles.page : styles.position}
-            pointerEvents='none'
-          >
+          <View style={isPage ? styles.page : styles.position} pointerEvents='none'>
             <View style={textStyle}>
               <Text type='__plain__' size={10} bold align='right'>
                 {eventName}
@@ -252,10 +226,7 @@ function PageText({ page, screen }) {
           </Text>
           <Text type='__plain__' size={9} bold align='right'>
             {formatNumber(countView / 30, 0)} /{' '}
-            {parseInt(
-              (countView / heatmapEventData['其他.查看.screen'].total) * 100
-            )}
-            %
+            {parseInt((countView / heatmapEventData['其他.查看.screen'].total) * 100)}%
           </Text>
         </>
       )}

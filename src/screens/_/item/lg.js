@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-04 19:23:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 19:00:37
+ * @Last Modified time: 2021-11-15 21:03:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,10 +25,7 @@ const colors = [
   'rgba(0, 0, 0, 0.92)'
 ]
 
-function Item(
-  { id, ageId, image, cn, jp, begin, ep, official },
-  { $, navigation }
-) {
+function Item({ id, ageId, image, cn, jp, begin, ep, official }, { $, navigation }) {
   const eps = $.state.eps[id]
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const onPress = () => {

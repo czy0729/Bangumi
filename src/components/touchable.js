@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 19:26:47
+ * @Last Modified time: 2021-11-15 20:49:14
  */
 import React from 'react'
 import {
@@ -42,7 +42,7 @@ function callOnceInInterval(functionTobeCalled, interval = 40) {
      */
     return setTimeout(() => {
       functionTobeCalled()
-    }, 0);
+    }, 0)
   }
 
   return false
@@ -70,12 +70,7 @@ export const Touchable = observer(
 
     if (withoutFeedback) {
       return (
-        <TouchableOpacity
-          style={style}
-          activeOpacity={1}
-          {...other}
-          {...passProps}
-        >
+        <TouchableOpacity style={style} activeOpacity={1} {...other} {...passProps}>
           {children}
         </TouchableOpacity>
       )
@@ -102,12 +97,7 @@ export const Touchable = observer(
 
       // 绝大部分情况会return这个
       return (
-        <TouchableOpacity
-          style={style}
-          activeOpacity={0.64}
-          {...other}
-          {...passProps}
-        >
+        <TouchableOpacity style={style} activeOpacity={0.64} {...other} {...passProps}>
           {children}
         </TouchableOpacity>
       )

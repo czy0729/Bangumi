@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:28:15
+ * @Last Modified time: 2021-11-15 20:53:07
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -10,13 +10,7 @@ import { computed } from 'mobx'
 import { Touchable, Flex, Text, Iconfont, Input, Divider } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
-import {
-  _,
-  userStore,
-  usersStore,
-  discoveryStore,
-  collectionStore
-} from '@stores'
+import { _, userStore, usersStore, discoveryStore, collectionStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { queue, t } from '@utils/fetch'
@@ -423,9 +417,7 @@ export const FolderManageModal = ob(
           if (current == 0) {
             order = -10
           } else {
-            temp = detail.list
-              .map(i => fixedOrder(i.order))
-              .sort((a, b) => b - a)
+            temp = detail.list.map(i => fixedOrder(i.order)).sort((a, b) => b - a)
             temp.forEach(i => {
               if (!flag && current > i) {
                 order = i - 10
@@ -699,10 +691,7 @@ export const FolderManageModal = ob(
       const { create, expand } = this.state
       const { list } = this.catalogs
       return (
-        <ScrollView
-          style={this.styles.scrollView}
-          showsVerticalScrollIndicator={false}
-        >
+        <ScrollView style={this.styles.scrollView} showsVerticalScrollIndicator={false}>
           {create === true
             ? this.renderCreate()
             : list
@@ -806,11 +795,7 @@ export const FolderManageModal = ob(
                   onSelect={title => this.onControl(title, item)}
                 >
                   <Flex style={this.styles.touch} justify='center'>
-                    <Iconfont
-                      name='md-more-vert'
-                      size={18}
-                      color={_.colorSub}
-                    />
+                    <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
                   </Flex>
                 </Popover>
               </>
@@ -951,11 +936,7 @@ export const FolderManageModal = ob(
                       onSelect={title => this.onSubjectControl(title, i, item)}
                     >
                       <Flex style={this.styles.touch} justify='center'>
-                        <Iconfont
-                          name='md-more-vert'
-                          size={18}
-                          color={_.colorSub}
-                        />
+                        <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
                       </Flex>
                     </Popover>
                   )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 12:04:06
+ * @Last Modified time: 2021-11-15 20:49:37
  */
 import React from 'react'
 import RNWebView from '@components/@/web-view'
@@ -16,9 +16,7 @@ export const WebView = class extends React.Component {
 
   render() {
     const { uri, ...other } = this.props
-    if (!uri) {
-      return null
-    }
+    if (!uri) return null
 
     return (
       <>

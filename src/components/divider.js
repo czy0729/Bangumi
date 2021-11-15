@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 03:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:03:51
+ * @Last Modified time: 2021-11-15 20:39:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,10 +14,7 @@ import { Flex } from './flex'
 export const Divider = observer(({ style }) => {
   const styles = memoStyles()
   return (
-    <Flex
-      style={style ? [styles.divider, style] : styles.divider}
-      justify='center'
-    >
+    <Flex style={style ? [styles.divider, style] : styles.divider} justify='center'>
       <View style={styles.line} />
     </Flex>
   )

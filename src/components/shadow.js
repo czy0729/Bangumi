@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-01 07:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:46:57
+ * @Last Modified time: 2021-11-15 20:48:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,11 +13,7 @@ import { IOS } from '@constants'
 
 export const Shadow = observer(({ style, children }) => {
   const styles = memoStyles()
-  return (
-    <View style={style ? [styles.shadow, style] : styles.shadow}>
-      {children}
-    </View>
-  )
+  return <View style={style ? [styles.shadow, style] : styles.shadow}>{children}</View>
 })
 
 const memoStyles = _.memoStyles(_ => ({

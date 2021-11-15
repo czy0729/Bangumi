@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-20 22:29:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-05 08:52:31
+ * @Last Modified time: 2021-11-15 20:54:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,18 +16,16 @@ export const Login = obc(
       <Text type='sub' size={16}>
         {text}
       </Text>
-      <Button
-        style={[
-          {
-            width: 160
-          },
-          _.mt.md
-        ]}
-        shadow
-        onPress={() => navigation.push('LoginV2')}
-      >
+      <Button style={styles.btn} shadow onPress={() => navigation.push('LoginV2')}>
         {btnText}
       </Button>
     </View>
   )
 )
+
+const styles = _.create({
+  btn: {
+    width: 160,
+    marginTop: _.md
+  }
+})

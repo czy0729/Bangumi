@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 12:08:09
+ * @Last Modified time: 2021-11-15 20:50:54
  */
 import * as React from 'react'
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
@@ -16,11 +16,7 @@ export const SegmentedControlTab = ({
   type = 'title',
   size = 14
 }) => (
-  <TouchableOpacity
-    style={styles.container}
-    disabled={!enabled}
-    onPress={onSelect}
-  >
+  <TouchableOpacity style={styles.container} disabled={!enabled} onPress={onSelect}>
     <View style={styles.default}>
       <Text type={type} size={size} bold={selected}>
         {value}

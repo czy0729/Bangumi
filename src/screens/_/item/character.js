@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 10:42:53
+ * @Last Modified time: 2021-11-15 21:02:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,10 +54,7 @@ export const ItemCharacter = obc(
     }
     return (
       <View style={styles.container}>
-        <Flex
-          align='start'
-          style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-        >
+        <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
           <View style={styles.imgContainer}>
             {!!cover && (
               <Cover
@@ -75,7 +72,7 @@ export const ItemCharacter = obc(
             <Touchable style={styles.touch} onPress={onPress}>
               <Flex direction='column' justify='between' align='start'>
                 <View>
-                  <Flex align='start' style={{ width: '100%' }}>
+                  <Flex style={_.container.block} align='start'>
                     <Flex.Item>
                       <Text size={15} numberOfLines={2} bold>
                         {HTMLDecode(nameCn)}

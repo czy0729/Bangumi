@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:21:39
+ * @Last Modified time: 2021-11-15 20:50:11
  */
 import React from 'react'
 import { StyleSheet, UIManager, findNodeHandle, View } from 'react-native'
@@ -26,9 +26,7 @@ export default class Popover extends React.Component {
     const { s2t: _s2t } = systemStore.setting
     UIManager.showPopupMenu(
       findNodeHandle(this.ref),
-      _s2t
-        ? data.map(item => (typeof item === 'string' ? s2t(item) : item))
-        : data,
+      _s2t ? data.map(item => (typeof item === 'string' ? s2t(item) : item)) : data,
       Function.prototype, // err callback
       this.onPopupItemPress
     )

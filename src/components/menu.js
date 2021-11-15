@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-07 06:54:41
+ * @Last Modified time: 2021-11-15 20:46:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,17 +48,11 @@ export const Menu = observer(
             )
           }
 
-          if (item.type === 'divider') {
-            // eslint-disable-next-line react/no-array-index-key
-            return <View key={index} style={styles.border} />
-          }
+          if (item.type === 'divider') return <View key={index} style={styles.border} />
 
           return (
             <View key={item.title} style={styles.border}>
-              <Touchable
-                style={styles.item}
-                onPress={() => onSelect(item.title)}
-              >
+              <Touchable style={styles.item} onPress={() => onSelect(item.title)}>
                 {item.title}
               </Touchable>
             </View>

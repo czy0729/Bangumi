@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:18:18
+ * @Last Modified time: 2021-11-15 20:46:14
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -39,12 +39,7 @@ export const HorizontalList = observer(
     }
 
     render() {
-      const {
-        style,
-        contentContainerStyle,
-        initialRenderNums,
-        renderItem
-      } = this.props
+      const { style, contentContainerStyle, initialRenderNums, renderItem } = this.props
       const { scrolled } = this.state
       return (
         <ScrollView

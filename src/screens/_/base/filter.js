@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-27 19:53:39
+ * @Last Modified time: 2021-11-15 20:53:02
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -40,11 +40,7 @@ export const Filter = obc(
               >
                 <View>
                   <View>
-                    <Text
-                      style={multiple && styles.multipleTitle}
-                      size={12}
-                      bold
-                    >
+                    <Text style={multiple && styles.multipleTitle} size={12} bold>
                       {item.title}
                     </Text>
                     {multiSelect && (
@@ -83,30 +79,18 @@ export const Filter = obc(
                       hitSlop={hitSlop}
                       onPress={() => $.onSelect(item.type, '')}
                     >
-                      <Text size={11}>
-                        {item.type === 'sort' ? '默认' : '全部'}
-                      </Text>
+                      <Text size={11}>{item.type === 'sort' ? '默认' : '全部'}</Text>
                     </Touchable>
                     <ScrollView
-                      ref={scrollView =>
-                        scrollToX(scrollView, item.data, state)
-                      }
+                      ref={scrollView => scrollToX(scrollView, item.data, state)}
                       style={styles.contentContainerStyle}
                       horizontal
                       showsHorizontalScrollIndicator={false}
                     >
                       {multiple ? (
-                        <Flex
-                          style={styles.multiple}
-                          direction='column'
-                          align='start'
-                        >
+                        <Flex style={styles.multiple} direction='column' align='start'>
                           {item.data.map((i, idx) => (
-                            <Flex
-                              // eslint-disable-next-line react/no-array-index-key
-                              key={idx}
-                              style={styles.contentContainerStyle}
-                            >
+                            <Flex key={idx} style={styles.contentContainerStyle}>
                               {i.map(tag => (
                                 <Touchable
                                   key={tag}
@@ -141,12 +125,7 @@ export const Filter = obc(
                       ) : (
                         <>
                           {item.login && !$.isLogin ? (
-                            <Text
-                              style={_.ml.sm}
-                              size={11}
-                              type='sub'
-                              lineHeight={16}
-                            >
+                            <Text style={_.ml.sm} size={11} type='sub' lineHeight={16}>
                               登录后显示
                             </Text>
                           ) : (

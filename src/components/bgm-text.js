@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 10:45:51
+ * @Last Modified time: 2021-11-15 20:37:20
  */
 import React from 'react'
 import { Text } from 'react-native'
@@ -150,8 +150,7 @@ export const BgmText = observer(
     if (size) _style.push(styles[size])
     if (lineHeight !== undefined) {
       _style.push({
-        lineHeight:
-          lineHeight <= 2 ? lineHeight * size : lineHeight * _.lineHeightRatio
+        lineHeight: lineHeight <= 2 ? lineHeight * size : lineHeight * _.lineHeightRatio
       })
     }
     if (style) _style.push(style)

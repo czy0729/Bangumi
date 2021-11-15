@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 22:20:15
+ * @Last Modified time: 2021-11-15 21:02:21
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
@@ -10,16 +10,7 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 export const IconTouchable = ob(
-  ({
-    style,
-    name,
-    size,
-    color,
-    count = 0,
-    withoutFeedback,
-    children,
-    onPress
-  }) => {
+  ({ style, name, size, color, count = 0, withoutFeedback, children, onPress }) => {
     if (count) {
       return (
         <Touchable

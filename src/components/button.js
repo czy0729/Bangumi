@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-12 08:42:48
+ * @Last Modified time: 2021-11-15 20:38:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,9 +60,7 @@ export const Button = observer(
         <Text
           style={[
             // 部分安卓机不写具体width会导致文字显示不全
-            size === 'sm' && {
-              width: 32
-            },
+            size === 'sm' && styles.androidFixed,
             _text,
             styleText
           ]}
@@ -215,5 +213,8 @@ const memoStyles = _.memoStyles(_ => ({
   radius: {
     borderRadius: _.radiusXs,
     overflow: IOS ? undefined : 'hidden'
+  },
+  androidFixed: {
+    width: 32
   }
 }))

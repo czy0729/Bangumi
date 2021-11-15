@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-12 03:50:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:44:53
+ * @Last Modified time: 2021-11-15 20:46:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,9 +10,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 
 export const MaxWidth = observer(({ children }) => {
-  if (!_.isPad) {
-    return children
-  }
+  if (!_.isPad) return children
 
   return <View style={styles.maxWidth}>{children}</View>
 })

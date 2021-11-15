@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 10:54:03
+ * @Last Modified time: 2021-11-15 20:37:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,17 +22,8 @@ const backgroundColor = {
 }
 
 export const BlurView = observer(
-  ({
-    style,
-    src,
-    theme = 'default',
-    tint = 'default',
-    intensity = 100,
-    children
-  }) => {
-    if (!src) {
-      return null
-    }
+  ({ style, src, theme = 'default', tint = 'default', intensity = 100, children }) => {
+    if (!src) return null
 
     return (
       <View style={style}>

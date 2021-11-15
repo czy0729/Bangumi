@@ -10,14 +10,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-06 16:25:56
+ * @Last Modified time: 2021-11-15 20:36:29
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
-import {
-  CacheManager,
-  Image as AnimatedImage
-} from 'react-native-expo-image-cache'
+import { CacheManager, Image as AnimatedImage } from 'react-native-expo-image-cache'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
@@ -106,9 +103,7 @@ export const Image = observer(
       let qualityLevel
       if (this.props.quality) {
         // systemStore.isWifi
-        const label = MODEL_SETTING_QUALITY.getLabel(
-          systemStore.setting.quality
-        )
+        const label = MODEL_SETTING_QUALITY.getLabel(systemStore.setting.quality)
         switch (label) {
           case 'WiFi下高质量':
             if (systemStore.wifi) {
@@ -336,9 +331,7 @@ export const Image = observer(
        * systemStore.devEvent 安卓下当有阴影, 层级会被提高, 导致遮挡卖点分析的可视化文字
        */
       if (shadow && !_.isDark && !(!IOS && systemStore.devEvent.text)) {
-        container.push(
-          shadow === 'lg' ? this.styles.shadowLg : this.styles.shadow
-        )
+        container.push(shadow === 'lg' ? this.styles.shadowLg : this.styles.shadow)
       }
       if (placeholder) container.push(this.styles.placeholder)
       if (style) container.push(style)
@@ -393,13 +386,7 @@ export const Image = observer(
       if (textOnly) {
         return (
           <Flex style={this.computedStyle.image} justify='center'>
-            <Text
-              style={{
-                marginTop: -8
-              }}
-              type='sub'
-              bold
-            >
+            <Text style={this.styles.textOnly} type='sub' bold>
               text-only
             </Text>
           </Flex>
@@ -532,9 +519,7 @@ export const Image = observer(
         )
       }
 
-      return (
-        <View style={this.computedStyle.container}>{this.renderImage()}</View>
-      )
+      return <View style={this.computedStyle.container}>{this.renderImage()}</View>
     }
 
     get styles() {
@@ -565,6 +550,6 @@ const memoStyles = _.memoStyles(_ => ({
     padding: 4
   },
   textOnly: {
-    backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
+    marginTop: -8
   }
 }))

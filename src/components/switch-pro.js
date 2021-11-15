@@ -1,12 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/require-default-props */
 /*
  * https://github.com/poberwong/react-native-switch-pro/blob/master/lib/index.js
  *
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:50:10
+ * @Last Modified time: 2021-11-15 20:48:45
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -92,18 +90,18 @@ class SwitchProComp extends Component {
 
   UNSAFE_componentWillMount() {
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
+      onPanResponderTerminationRequest: () => true,
       onPanResponderGrant: this._onPanResponderGrant,
       onPanResponderMove: this._onPanResponderMove,
       onPanResponderRelease: this._onPanResponderRelease
     })
   }
 
-  _onPanResponderGrant = (evt, gestureState) => {
+  _onPanResponderGrant = () => {
     const { disabled } = this.props
     if (disabled) return
 
@@ -121,7 +119,7 @@ class SwitchProComp extends Component {
     })
   }
 
-  _onPanResponderRelease = (evt, gestureState) => {
+  _onPanResponderRelease = () => {
     const { toggleable } = this.state
     const { disabled, onAsyncPress, onSyncPress } = this.props
 

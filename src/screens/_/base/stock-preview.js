@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:29:54
+ * @Last Modified time: 2021-11-15 20:59:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,18 +64,13 @@ export const StockPreview = ob(
       return (
         <Flex style={this.styles.ico}>
           <Text
-            style={[
-              this.styles.iconText,
-              this.isDark && this.styles.iconTextDark
-            ]}
+            style={[this.styles.iconText, this.isDark && this.styles.iconTextDark]}
             size={11}
             align='center'
           >
             lv.{level} {percent}%
           </Text>
-          <View
-            style={[this.styles.icoBar, this.isDark && this.styles.icoBarDark]}
-          >
+          <View style={[this.styles.icoBar, this.isDark && this.styles.icoBarDark]}>
             <View
               style={[
                 this.styles.icoProcess,
@@ -96,16 +91,8 @@ export const StockPreview = ob(
     }
 
     render() {
-      const {
-        style,
-        current,
-        fluctuation,
-        change,
-        bids,
-        asks,
-        users,
-        _loaded
-      } = this.props
+      const { style, current, fluctuation, change, bids, asks, users, _loaded } =
+        this.props
       if (!_loaded) {
         return null
       }
@@ -121,9 +108,7 @@ export const StockPreview = ob(
       } else if (fluctuation > 0) {
         fluctuationStyle.push(this.styles.success)
       } else {
-        fluctuationStyle.push(
-          this.isDark ? this.styles.defaultDark : this.styles.sub
-        )
+        fluctuationStyle.push(this.isDark ? this.styles.defaultDark : this.styles.sub)
       }
 
       let showFloor = true
@@ -146,10 +131,7 @@ export const StockPreview = ob(
       let realChange = '0.00'
       if (show) {
         if (fluctuation > 0) {
-          realChange = `+${toFixed(
-            current - current / (1 + fluctuation / 100),
-            2
-          )}`
+          realChange = `+${toFixed(current - current / (1 + fluctuation / 100), 2)}`
         } else if (fluctuation < 0) {
           realChange = `-${toFixed(current / (1 + fluctuation / 100), 2)}`
         }
@@ -271,9 +253,8 @@ export const StockPreview = ob(
             ) : (
               <Text
                 style={[
-                  _.ml.sm,
+                  this.styles.noStock,
                   {
-                    minWidth: 40,
                     color: this.isDark ? colorDarkText : _.colorSub
                   }
                 ]}
@@ -369,5 +350,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   iconTextDark: {
     color: _.colorTinygrailPlain
+  },
+  noStock: {
+    minWidth: 40,
+    marginLeft: _.sm
   }
 }))

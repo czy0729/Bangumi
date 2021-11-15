@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-16 14:08:12
+ * @Last Modified time: 2021-11-15 20:47:53
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,16 +12,8 @@ import { IOS } from '@constants'
 import { Touchable } from './touchable'
 
 const ScrollToTop = observer(
-  ({
-    scrollTo,
-    scrollToIndex,
-    scrollToLocation,
-    isFocused = true,
-    onPress
-  }) => {
-    if ((IOS || !isFocused) && !systemStore.dev) {
-      return null
-    }
+  ({ scrollTo, scrollToIndex, scrollToLocation, isFocused = true, onPress }) => {
+    if ((IOS || !isFocused) && !systemStore.dev) return null
 
     return (
       <Portal>
@@ -65,8 +57,8 @@ const ScrollToTop = observer(
                     viewOffset: 800,
                     viewPosition: 0
                   })
-                } catch (error) {
-                  warn('ScrollToTop', 'scrollToLocation', error)
+                } catch (ex) {
+                  warn('ScrollToTop', 'scrollToLocation', ex)
                 }
               }
             }
