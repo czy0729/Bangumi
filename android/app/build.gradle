@@ -32,8 +32,8 @@ import com.android.build.OutputFile
  *   // whether to bundle JS and assets in another build variant (if configured).
  *   // See http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Variants
  *   // The configuration property can be in the following formats
- *   //         'bundleIn${productFlavor}${buildType}'
- *   //         'bundleIn${buildType}'
+ *   //     'bundleIn${productFlavor}${buildType}'
+ *   //     'bundleIn${buildType}'
  *   // bundleInFreeDebug: true,
  *   // bundleInPaidRelease: true,
  *   // bundleInBeta: true,
@@ -42,8 +42,8 @@ import com.android.build.OutputFile
  *   // for example: to disable dev mode in the staging build type (if configured)
  *   devDisabledInStaging: true,
  *   // The configuration property can be in the following formats
- *   //         'devDisabledIn${productFlavor}${buildType}'
- *   //         'devDisabledIn${buildType}'
+ *   //     'devDisabledIn${productFlavor}${buildType}'
+ *   //     'devDisabledIn${buildType}'
  *
  *   // the root of your project, i.e. where "package.json" lives
  *   root: "../../",
@@ -78,8 +78,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,
-    bundleCommand: "ram-bundle"
+  enableHermes: false,
+  bundleCommand: "ram-bundle"
 ]
 
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
@@ -126,140 +126,137 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
-    dexOptions {
-        javaMaxHeapSize "3g"
-    }
+  dexOptions {
+    javaMaxHeapSize "3g"
+  }
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+  compileSdkVersion rootProject.ext.compileSdkVersion
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 
-    defaultConfig {
-        applicationId "com.czy0729.bangumi"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode expoVersionCode
-        versionName expoVersionName
-    }
-    splits {
-        abi {
-            reset()
-            enable enableSeparateBuildPerCPUArchitecture
-            universalApk true  // If true, also generate a universal APK
-            include "armeabi-v7a", "arm64-v8a" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-        }
-    }
-    signingConfigs {
-        debug {
-            // storeFile file('debug.keystore')
-            // storePassword 'android'
-            // keyAlias 'androiddebugkey'
-            // keyPassword 'android'
-             if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
-        }
+  defaultConfig {
+    applicationId "com.czy0729.bangumi"
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+    versionCode expoVersionCode
+    versionName expoVersionName
+  }
 
-        release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
-        }
+  splits {
+    abi {
+      reset()
+      enable enableSeparateBuildPerCPUArchitecture
+      universalApk true  // If true, also generate a universal APK
+      include "armeabi-v7a", "arm64-v8a" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
     }
-    buildTypes {
-        debug {
-            // signingConfig signingConfigs.debug
-            signingConfig signingConfigs.release
-        }
-        release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-        }
+  }
+  signingConfigs {
+    debug {
+      // storeFile file('debug.keystore')
+      // storePassword 'android'
+      // keyAlias 'androiddebugkey'
+      // keyPassword 'android'
+      if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+        storeFile file(MYAPP_RELEASE_STORE_FILE)
+        storePassword MYAPP_RELEASE_STORE_PASSWORD
+        keyAlias MYAPP_RELEASE_KEY_ALIAS
+        keyPassword MYAPP_RELEASE_KEY_PASSWORD
+      }
     }
+    release {
+      if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+        storeFile file(MYAPP_RELEASE_STORE_FILE)
+        storePassword MYAPP_RELEASE_STORE_PASSWORD
+        keyAlias MYAPP_RELEASE_KEY_ALIAS
+        keyPassword MYAPP_RELEASE_KEY_PASSWORD
+      }
+    }
+  }
+  buildTypes {
+    debug {
+      // signingConfig signingConfigs.debug
+      signingConfig signingConfigs.release
+    }
+    release {
+      // Caution! In production, you need to generate your own keystore file.
+      // see https://facebook.github.io/react-native/docs/signed-apk-android.
+      signingConfig signingConfigs.release
+      minifyEnabled enableProguardInReleaseBuilds
+      proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    }
+  }
 
-    packagingOptions {
-        // pickFirst "lib/armeabi-v7a/libc++_shared.so"
-        // pickFirst "lib/arm64-v8a/libc++_shared.so"
-        // pickFirst "lib/x86/libc++_shared.so"
-        // pickFirst "lib/x86_64/libc++_shared.so"
-    }
+  packagingOptions {
+    // pickFirst "lib/armeabi-v7a/libc++_shared.so"
+    // pickFirst "lib/arm64-v8a/libc++_shared.so"
+    // pickFirst "lib/x86/libc++_shared.so"
+    // pickFirst "lib/x86_64/libc++_shared.so"
+  }
 
-    // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // https://developer.android.com/studio/build/configure-apk-splits.html
-            // def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
-            def versionCodes = ["armeabi-v7a": 1, "arm64-v8a": 2]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
-            }
-
-        }
+  // applicationVariants are e.g. debug, release
+  applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+      // For each separate APK per architecture, set a unique version code as described here:
+      // https://developer.android.com/studio/build/configure-apk-splits.html
+      // def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+      def versionCodes = ["armeabi-v7a": 1, "arm64-v8a": 2]
+      def abi = output.getFilter(OutputFile.ABI)
+      if (abi != null) {
+        // null for the universal-debug, universal-release variants
+        output.versionCodeOverride = versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+      }
     }
+  }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+  implementation fileTree(dir: "libs", include: ["*.jar"])
+  implementation "com.facebook.react:react-native:+"  // From node_modules
+  implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    // 友盟
-    implementation 'com.umeng.umsdk:common:2.0.0' //基础组件
-    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-    implementation 'com.umeng.umsdk:analytics:8.0.0' //统计
+  implementation 'com.umeng.umsdk:common:2.0.0' // 基础组件
+  implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+  implementation 'com.umeng.umsdk:analytics:8.0.0' // 统计
 
-    implementation project(':react-native-fs')
-    implementation project(':rn-fetch-blob')
-    implementation project(':@react-native-community_cameraroll')
+  // 如果你需要支持GIF动图
+  // implementation "com.facebook.fresco:animated-gif:2.0.0"
 
-    // // 如果你需要支持GIF动图
-    // implementation "com.facebook.fresco:animated-gif:2.0.0"
+  // 如果你需要支持WebP格式，包括WebP动图
+  // implementation "com.facebook.fresco:animated-webp:2.1.0"
+  // implementation "com.facebook.fresco:webpsupport:2.0.0"
 
-    // // 如果你需要支持WebP格式，包括WebP动图
-    // implementation "com.facebook.fresco:animated-webp:2.1.0"
-    // implementation "com.facebook.fresco:webpsupport:2.0.0"
+  // implementation project(':react-native-fs')
+  // implementation project(':rn-fetch-blob')
+  // implementation project(':@react-native-community_cameraroll')
 
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
-      exclude group:'com.facebook.fbjni'
-    }
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.facebook.flipper'
-    }
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.facebook.flipper'
-    }
-    addUnimodulesDependencies()
+  debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
+    exclude group:'com.facebook.fbjni'
+  }
+  debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+    exclude group:'com.facebook.flipper'
+  }
+  debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
+    exclude group:'com.facebook.flipper'
+  }
+  addUnimodulesDependencies()
 
-    if (enableHermes) {
-        def hermesPath = "../../node_modules/hermes-engine/android/";
-        debugImplementation files(hermesPath + "hermes-debug.aar")
-        releaseImplementation files(hermesPath + "hermes-release.aar")
-    } else {
-        implementation jscFlavor
-    }
+  if (enableHermes) {
+    def hermesPath = "../../node_modules/hermes-engine/android/";
+    debugImplementation files(hermesPath + "hermes-debug.aar")
+    releaseImplementation files(hermesPath + "hermes-release.aar")
+  } else {
+    implementation jscFlavor
+  }
 }
 
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
 task copyDownloadableDepsToLibs(type: Copy) {
-    from configurations.compile
-    into 'libs'
+  from configurations.compile
+  into 'libs'
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

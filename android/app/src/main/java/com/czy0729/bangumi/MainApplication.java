@@ -27,8 +27,9 @@ import javax.annotation.Nullable;
 import com.umeng.commonsdk.UMConfigure;
 import com.czy0729.bangumi.umeng.DplusReactPackage;
 import com.czy0729.bangumi.umeng.RNUMConfigure;
-import com.czy0729.bangumi.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
 import com.czy0729.bangumi.daynight.DayNightPackage;
+import com.czy0729.bangumi.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
+
 import com.rnfs.RNFSPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
@@ -49,11 +50,11 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
       packages.add(new DplusReactPackage());
-      new AndroidKeyboardAdjustPackage();
       packages.add(new DayNightPackage());
-      packages.add(new RNFSPackage());
-      packages.add(new RNFetchBlobPackage());
-      packages.add(new CameraRollPackage());
+      new AndroidKeyboardAdjustPackage();
+      // packages.add(new RNFSPackage());
+      // packages.add(new RNFetchBlobPackage());
+      // packages.add(new CameraRollPackage());
       return packages;
     }
 
@@ -65,21 +66,11 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected @Nullable String getJSBundleFile() {
       return super.getJSBundleFile();
-      // if (BuildConfig.DEBUG) {
-      //   return super.getJSBundleFile();
-      // } else {
-      //   return UpdatesController.getInstance().getLaunchAssetFile();
-      // }
     }
 
     @Override
     protected @Nullable String getBundleAssetName() {
       return super.getBundleAssetName();
-      // if (BuildConfig.DEBUG) {
-      //   return super.getBundleAssetName();
-      // } else {
-      //   return UpdatesController.getInstance().getBundleAssetName();
-      // }
     }
   };
 
@@ -98,9 +89,6 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-
-    // UMConfigure.setLogEnabled(true);
-    // UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
   }
 
   /**
@@ -111,17 +99,17 @@ public class MainApplication extends Application implements ReactApplication {
    * @param reactInstanceManager
    */
   private static void initializeFlipper(
-      Context context, ReactInstanceManager reactInstanceManager) {
+    Context context, ReactInstanceManager reactInstanceManager) {
     if (BuildConfig.DEBUG) {
       try {
         /*
-         We use reflection here to pick up the class that initializes Flipper,
-        since Flipper library is not available in release mode
+          We use reflection here to pick up the class that initializes Flipper,
+          since Flipper library is not available in release mode
         */
         Class<?> aClass = Class.forName("com.rndiffapp.ReactNativeFlipper");
         aClass
-            .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
-            .invoke(null, context, reactInstanceManager);
+          .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
+          .invoke(null, context, reactInstanceManager);
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       } catch (NoSuchMethodException e) {
