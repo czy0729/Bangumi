@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-17 01:59:21
+ * @Last Modified time: 2021-11-17 20:16:08
  */
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { NativeEventEmitter, Alert, Clipboard } from 'react-native'
 import Shortcuts from 'react-native-actions-shortcuts'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -111,7 +111,6 @@ function useShortcuts() {
         })
       }
 
-      console.log(shortcutsItems)
       Shortcuts.setShortcuts(shortcutsItems.reverse())
     }, 8000)
   }, [])
@@ -126,7 +125,7 @@ function useShortcuts() {
         }, 300)
       }
 
-      const { type, data } = item || {}
+      const { type } = item || {}
       if (type === 'Link') {
         // @issue 打开APP瞬间剪贴板读不到内容, 需要延迟
         setTimeout(async () => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:35:17
+ * @Last Modified time: 2021-11-17 20:15:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,10 +32,6 @@ const hitSlop = {
 }
 const defaultHeaderStyle = {
   backgroundColor: 'transparent'
-}
-if (!IOS) {
-  defaultHeaderStyle.height = _.statusBarHeight + 52
-  defaultHeaderStyle.paddingTop = _.statusBarHeight
 }
 
 /**
@@ -127,9 +123,7 @@ const withTransitionHeader =
               ...headerStyle
             },
             headerTintColor,
-            headerLeft: (
-              <IconBack navigation={navigation} color={headerTintColor} />
-            ),
+            headerLeft: <IconBack navigation={navigation} color={headerTintColor} />,
             headerRight,
             headerRightContainerStyle: {
               marginRight: _._wind
@@ -147,8 +141,7 @@ const withTransitionHeader =
         }
 
         state = {
-          barStyle:
-            barStyle || (headerTransition ? 'light-content' : 'dark-content')
+          barStyle: barStyle || (headerTransition ? 'light-content' : 'dark-content')
         }
 
         headerTransitioned = false
@@ -159,8 +152,7 @@ const withTransitionHeader =
         headerTransitionCallback = ({ nativeEvent }) => {
           const { y } = nativeEvent.contentOffset
           if (
-            (this.headerTransitioned &&
-              y > _.headerHeight + headerTransition) ||
+            (this.headerTransitioned && y > _.headerHeight + headerTransition) ||
             (this.headerTransitioned && y < 0)
           ) {
             return
@@ -185,9 +177,7 @@ const withTransitionHeader =
                 barStyle: 'dark-content'
               })
             }
-            const headerTransitionTitle = navigation.getParam(
-              'headerTransitionTitle'
-            )
+            const headerTransitionTitle = navigation.getParam('headerTransitionTitle')
             if (headerTransitionTitle) {
               title = headerTransitionTitle
             }

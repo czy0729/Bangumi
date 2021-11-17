@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 17:52:56
+ * @Last Modified time: 2021-11-17 20:15:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,120 +18,117 @@ import ob from './observer-props'
 const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
 
 // (1) 装饰器
-const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
-  ob(
-    class withTabsHeaderComponent extends React.Component {
-      /**
-       * @notice 把tabbar通过某些手段放进去header里面, 才能实现比较好的毛玻璃效果
-       * 安卓没有毛玻璃效果, 不设置
-       */
-      static navigationOptions = ({ navigation }) => {
-        let withTabsHeaderOptions
-        const headerLeft = navigation.getParam('headerLeft')
-        const headerRight = navigation.getParam('headerRight')
-        if (IOS) {
-          withTabsHeaderOptions = {
-            headerTransparent: true,
-            headerStyle: {
-              height: _.headerHeight - correctHeightIOS
-            },
-            headerTitle: (
-              <>
-                <BlurView style={styles.headerBackgroundIOS} />
-                <View>
-                  <Logo />
-                  <View style={styles.headerTabsWrapIOS}>
-                    <View style={styles.headerTabsIOS}>
-                      {navigation.getParam('headerTabs')}
+const withTabsHeader =
+  ({ screen } = {}, hm) =>
+  ComposedComponent =>
+    ob(
+      class withTabsHeaderComponent extends React.Component {
+        /**
+         * @notice 把tabbar通过某些手段放进去header里面, 才能实现比较好的毛玻璃效果
+         * 安卓没有毛玻璃效果, 不设置
+         */
+        static navigationOptions = ({ navigation }) => {
+          let withTabsHeaderOptions
+          const headerLeft = navigation.getParam('headerLeft')
+          const headerRight = navigation.getParam('headerRight')
+          if (IOS) {
+            withTabsHeaderOptions = {
+              headerTransparent: true,
+              headerStyle: {
+                height: _.headerHeight - correctHeightIOS
+              },
+              headerTitle: (
+                <>
+                  <BlurView style={styles.headerBackgroundIOS} />
+                  <View>
+                    <Logo />
+                    <View style={styles.headerTabsWrapIOS}>
+                      <View style={styles.headerTabsIOS}>
+                        {navigation.getParam('headerTabs')}
+                      </View>
                     </View>
                   </View>
-                </View>
-              </>
-            ),
-            headerLeft,
-            headerRight,
-            headerLeftContainerStyle: {
-              paddingLeft: _.sm + 2
-            },
-            headerRightContainerStyle: {
-              marginRight: _._wind + 2
-            }
-
-            /**
-             * @issue 这个属性在页面切换时会被隐藏掉?
-             * 暂使用headerTitle插入BlurView并适应位置代替
-             */
-            // headerBackground: <BlurView />
-          }
-        } else {
-          const headerBackground = navigation.getParam(
-            'headerBackground',
-            <View />
-          )
-          withTabsHeaderOptions = {
-            headerStyle: {
-              height: _.headerHeight - _.statusBarHeight + _.space,
-              paddingTop: _.statusBarHeight,
-              backgroundColor: _.select(
-                'transparent',
-                _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+                </>
               ),
-              elevation: 0
-            },
-            headerTitle: (
-              <Logo
-                forceUpdate={() =>
-                  navigation.setParams({
-                    headerBackground
-                  })
-                }
-              />
-            ),
-            headerLeft,
-            headerRight,
-            headerLeftContainerStyle: {
-              paddingLeft: _.xs + 4
-            },
-            headerRightContainerStyle: {
-              marginRight: _._wind - _.sm
-            },
-            headerBackground
+              headerLeft,
+              headerRight,
+              headerLeftContainerStyle: {
+                paddingLeft: _.sm + 2
+              },
+              headerRightContainerStyle: {
+                marginRight: _._wind + 2
+              }
+
+              /**
+               * @issue 这个属性在页面切换时会被隐藏掉?
+               * 暂使用headerTitle插入BlurView并适应位置代替
+               */
+              // headerBackground: <BlurView />
+            }
+          } else {
+            const headerBackground = navigation.getParam('headerBackground', <View />)
+            withTabsHeaderOptions = {
+              headerStyle: {
+                height: _.headerHeight - _.statusBarHeight + _.space,
+                paddingTop: _.statusBarHeight,
+                backgroundColor: _.select(
+                  'transparent',
+                  _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+                ),
+                elevation: 0
+              },
+              headerTitle: (
+                <Logo
+                  forceUpdate={() =>
+                    navigation.setParams({
+                      headerBackground
+                    })
+                  }
+                />
+              ),
+              headerLeft,
+              headerRight,
+              headerLeftContainerStyle: {
+                paddingLeft: _.xs + 4
+              },
+              headerRightContainerStyle: {
+                marginRight: _._wind - _.sm
+              },
+              headerBackground
+            }
+          }
+
+          return {
+            ...withTabsHeaderOptions,
+            ...(typeof ComposedComponent.navigationOptions === 'function'
+              ? ComposedComponent.navigationOptions({ navigation })
+              : ComposedComponent.navigationOptions)
           }
         }
 
-        return {
-          ...withTabsHeaderOptions,
-          ...(typeof ComposedComponent.navigationOptions === 'function'
-            ? ComposedComponent.navigationOptions({ navigation })
-            : ComposedComponent.navigationOptions)
-        }
-      }
-
-      componentDidMount() {
-        if (Array.isArray(hm)) {
-          utilsHM(...hm)
-        }
-      }
-
-      render() {
-        const { navigation } = this.props
-        let backgroundColor
-        if (!IOS && _.isDark) {
-          backgroundColor = _.deepDark
-            ? _._colorPlainHex
-            : _._colorDarkModeLevel1Hex
+        componentDidMount() {
+          if (Array.isArray(hm)) {
+            utilsHM(...hm)
+          }
         }
 
-        return (
-          <>
-            <UM screen={screen} />
-            <StatusBarEvents backgroundColor={backgroundColor} />
-            <ComposedComponent navigation={navigation} />
-          </>
-        )
+        render() {
+          const { navigation } = this.props
+          let backgroundColor
+          if (!IOS && _.isDark) {
+            backgroundColor = _.deepDark ? _._colorPlainHex : _._colorDarkModeLevel1Hex
+          }
+
+          return (
+            <>
+              <UM screen={screen} />
+              <StatusBarEvents backgroundColor={backgroundColor} />
+              <ComposedComponent navigation={navigation} />
+            </>
+          )
+        }
       }
-    }
-  )
+    )
 
 // (2) componentDidMount设置Tabs
 withTabsHeader.setTabs = (navigation, headerTabs) => {

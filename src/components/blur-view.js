@@ -4,12 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:37:34
+ * @Last Modified time: 2021-11-17 20:23:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
+// import { BlurView as RNBlurView } from '@react-native-community/blur'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { IOS } from '@constants'
 import { Image } from './image'
@@ -33,6 +34,7 @@ export const BlurView = observer(
             src={src}
             fadeDuration={0}
             blurRadius={IOS ? undefined : 40}
+            textOnly={false}
           />
         )}
         {IOS ? (

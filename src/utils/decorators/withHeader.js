@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-03 12:53:25
+ * @Last Modified time: 2021-11-17 20:15:03
  */
 import React from 'react'
 import {
@@ -23,11 +23,6 @@ import IconBack from './cycles/back'
 import ob from './observer-props'
 
 const defaultHeaderStyle = {}
-if (!IOS) {
-  defaultHeaderStyle.height = _.statusBarHeight + 52
-  defaultHeaderStyle.paddingTop = _.statusBarHeight
-}
-
 const withHeader =
   ({
     title,
@@ -73,11 +68,7 @@ const withHeader =
             headerRight = (
               <Flex>
                 {extra}
-                <Popover
-                  style={styles.popover}
-                  placement='bottom'
-                  {...popoverProps}
-                >
+                <Popover style={styles.popover} placement='bottom' {...popoverProps}>
                   {element}
                   {!!heatmap && <Heatmap id={heatmap} />}
                 </Popover>
@@ -176,11 +167,7 @@ const withHeader =
               )}
               <ComposedComponent navigation={navigation} />
               {!!hm?.[1] && (
-                <Heatmap
-                  bottom={_.bottom + _.sm}
-                  id={alias || screen}
-                  screen={hm[1]}
-                />
+                <Heatmap bottom={_.bottom + _.sm} id={alias || screen} screen={hm[1]} />
               )}
             </>
           )
