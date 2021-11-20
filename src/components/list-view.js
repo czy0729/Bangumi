@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 20:59:51
+ * @Last Modified time: 2021-11-21 02:28:28
  */
 import React from 'react'
 import {
@@ -196,14 +196,8 @@ export const ListView = observer(
     }
 
     get commonProps() {
-      const {
-        optimize,
-        showFooter,
-        ListFooterComponent = null,
-        showsVerticalScrollIndicator,
-        lazy
-      } = this.props
-      const { refreshState, rendered } = this.state
+      const { optimize, showFooter, ListFooterComponent = null } = this.props
+      const { refreshState } = this.state
       return {
         ref: this.connectRef,
         style: this.style,
@@ -225,8 +219,10 @@ export const ListView = observer(
         windowSize: optimize ? 12 : undefined,
         maxToRenderPerBatch: optimize ? 48 : undefined,
         updateCellsBatchingPeriod: optimize ? 48 : undefined,
-        showsVerticalScrollIndicator:
-          lazy && !rendered ? false : showsVerticalScrollIndicator
+
+        // 都不显示滚动条
+        showsHorizontalScrollIndicator: false,
+        showsVerticalScrollIndicator: false
       }
     }
 
@@ -283,9 +279,7 @@ export const ListView = observer(
         onFooterRefresh
       } = this.props
       const { rendered } = this.state
-      if (lazy && !rendered) {
-        return footer
-      }
+      if (lazy && !rendered) return footer
 
       switch (refreshState) {
         case RefreshState.Idle:
@@ -417,9 +411,7 @@ export const ListView = observer(
 
     renderScrollToTop() {
       const { scrollToTop } = this.props
-      if (!scrollToTop) {
-        return null
-      }
+      if (!scrollToTop) return null
 
       return (
         <ScrollToTop
@@ -441,6 +433,7 @@ export const ListView = observer(
         showFooter,
         animated,
         scrollToTop,
+        showsHorizontalScrollIndicator,
         showsVerticalScrollIndicator,
         lazy,
         ...other

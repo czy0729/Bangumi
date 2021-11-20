@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable react-native/no-inline-styles */
 import React, { isValidElement } from 'react'
 import {
   Animated,
@@ -63,12 +63,7 @@ export class DefaultTabBar extends React.PureComponent {
       return
     }
 
-    if (
-      this.necessarilyMeasurementsCompleted(
-        position,
-        position === lastTabPosition
-      )
-    ) {
+    if (this.necessarilyMeasurementsCompleted(position, position === lastTabPosition)) {
       this.updateTabPanel(position, pageOffset)
       this.updateTabUnderline(position, pageOffset, tabCount)
     }
@@ -93,10 +88,7 @@ export class DefaultTabBar extends React.PureComponent {
     let newScrollX = tabOffset + absolutePageOffset
 
     newScrollX -=
-      (containerWidth -
-        (1 - pageOffset) * tabWidth -
-        pageOffset * nextTabWidth) /
-      2
+      (containerWidth - (1 - pageOffset) * tabWidth - pageOffset * nextTabWidth) / 2
     newScrollX = newScrollX >= 0 ? newScrollX : 0
 
     if (Platform.OS === 'android') {
@@ -113,26 +105,22 @@ export class DefaultTabBar extends React.PureComponent {
 
   updateTabUnderline(position, pageOffset, tabCount) {
     const { dynamicTabUnderlineWidth } = this.props
-    if (0 <= position && position <= tabCount - 1) {
+    if (position >= 0 && position <= tabCount - 1) {
       if (dynamicTabUnderlineWidth) {
         const nowLeft = this._tabsMeasurements[position].left
         const nowRight = this._tabsMeasurements[position].right
         const nextTabLeft = this._tabsMeasurements[position + 1].left
         const nextTabRight = this._tabsMeasurements[position + 1].right
 
-        const newLineLeft =
-          pageOffset * nextTabLeft + (1 - pageOffset) * nowLeft
-        const newLineRight =
-          pageOffset * nextTabRight + (1 - pageOffset) * nowRight
+        const newLineLeft = pageOffset * nextTabLeft + (1 - pageOffset) * nowLeft
+        const newLineRight = pageOffset * nextTabRight + (1 - pageOffset) * nowRight
 
         this.state._leftTabUnderline.setValue(newLineLeft)
         this.state._widthTabUnderline.setValue(newLineRight - newLineLeft)
       } else {
         const nowLeft = (position * this.state._tabContainerWidth) / tabCount
-        const nextTabLeft =
-          ((position + 1) * this.state._tabContainerWidth) / tabCount
-        const newLineLeft =
-          pageOffset * nextTabLeft + (1 - pageOffset) * nowLeft
+        const nextTabLeft = ((position + 1) * this.state._tabContainerWidth) / tabCount
+        const newLineLeft = pageOffset * nextTabLeft + (1 - pageOffset) * nowLeft
         this.state._leftTabUnderline.setValue(newLineLeft)
       }
     }
@@ -235,8 +223,7 @@ export class DefaultTabBar extends React.PureComponent {
             width: this.state._widthTabUnderline
           }
 
-          const tabWidth =
-            this.state._containerWidth / Math.min(page, tabs.length)
+          const tabWidth = this.state._containerWidth / Math.min(page, tabs.length)
           const underlineProps = {
             style: {
               ...dynamicTabUnderline,

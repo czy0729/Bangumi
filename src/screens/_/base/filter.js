@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:53:02
+ * @Last Modified time: 2021-11-21 02:31:57
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -86,6 +86,7 @@ export const Filter = obc(
                       style={styles.contentContainerStyle}
                       horizontal
                       showsHorizontalScrollIndicator={false}
+                      showsVerticalScrollIndicator={false}
                     >
                       {multiple ? (
                         <Flex style={styles.multiple} direction='column' align='start'>

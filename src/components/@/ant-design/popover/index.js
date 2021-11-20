@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 02:53:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:26:22
+ * @Last Modified time: 2021-11-21 02:30:19
  */
 import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -74,15 +74,19 @@ export default class Popover extends React.PureComponent {
         }
       })
     })
+
     if (typeof renderOverlayComponent === 'function') {
       return renderOverlayComponent(items)
     }
+
     return (
       <ScrollView
         style={{
           maxHeight: parseInt(_.window.height * 0.48),
           backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
         }}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
         {items}
       </ScrollView>

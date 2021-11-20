@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 11:02:23
+ * @Last Modified time: 2021-11-20 14:01:58
  */
 export * from './accordion'
 export * from './activity'
@@ -50,6 +50,7 @@ export * from './tabs-v2'
 export * from './text'
 export * from './tool-bar'
 export * from './touchable'
+export * from './transition-view'
 export * from './um'
 export * from './user-status'
 export * from './web-view'

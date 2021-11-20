@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:28:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:32:22
+ * @Last Modified time: 2021-11-21 02:40:11
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -27,11 +27,7 @@ function Icons(props, { navigation }) {
         event={event}
       />
       {tinygrail ? (
-        <IconTinygrail
-          style={styles.icon}
-          navigation={navigation}
-          event={event}
-        />
+        <IconTinygrail style={styles.icon} navigation={navigation} event={event} />
       ) : (
         <IconTabsHeader
           style={styles.icon}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:38:16
+ * @Last Modified time: 2021-11-21 02:33:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -61,6 +61,7 @@ class Game extends React.Component {
         contentContainerStyle={styles.contentContainerStyle}
         horizontal
         showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         scrollEventThrottle={80}
         onScroll={scrolled ? undefined : this.onScroll}
       >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:30:08
+ * @Last Modified time: 2021-11-21 02:36:42
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -107,6 +107,7 @@ function MosaicTile(props, { $ }) {
           contentContainerStyle={styles.contentContainerStyle}
           horizontal
           showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
           <View>
             <Flex style={styles.months}>
@@ -211,12 +212,9 @@ const memoStyles = _.memoStyles(_ => ({
 }))
 
 function getDates(weeks = 52) {
-  const stime =
-    new Date() - (new Date().getDay() + weeks * 7) * 24 * 60 * 60 * 1000
+  const stime = new Date() - (new Date().getDay() + weeks * 7) * 24 * 60 * 60 * 1000
   return new Array((weeks + 1) * 7)
     .fill(0)
-    .map((_, i) =>
-      date('Y-m-d', new Date(stime + i * 24 * 60 * 60 * 1000) / 1000)
-    )
+    .map((_, i) => date('Y-m-d', new Date(stime + i * 24 * 60 * 60 * 1000) / 1000))
     .reverse()
 }

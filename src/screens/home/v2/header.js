@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:32:15
+ * @Last Modified time: 2021-11-21 02:40:22
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -44,11 +44,7 @@ function Header(props, { navigation }) {
         </Flex>
       </Flex.Item>
       <Flex style={styles.icons} justify='end'>
-        <IconTinygrail
-          style={styles.icon}
-          navigation={navigation}
-          event={event}
-        />
+        <IconTinygrail style={styles.icon} navigation={navigation} event={event} />
         <IconTabsHeader
           style={styles.icon}
           name='md-search'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 16:34:35
+ * @Last Modified time: 2021-11-21 02:35:57
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -74,6 +74,8 @@ class Tinygrail extends React.Component {
               onRefresh={this.onRefresh}
             />
           }
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
           <UM screen={title} />
           <StatusBarEvents backgroundColor='transparent' />

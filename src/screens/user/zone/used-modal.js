@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 18:57:38
+ * @Last Modified time: 2021-11-21 02:36:53
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -116,6 +116,7 @@ class UsedModal extends React.Component {
         contentContainerStyle={this.styles.avatars}
         horizontal
         showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
         {avatar.map(item => (
           <Image
@@ -134,7 +135,11 @@ class UsedModal extends React.Component {
   renderNames() {
     const { name } = this.state
     return (
-      <ScrollView contentContainerStyle={this.styles.names}>
+      <ScrollView
+        contentContainerStyle={this.styles.names}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      >
         {name._loaded ? (
           name.list.length ? (
             name.list.map((item, index) => (

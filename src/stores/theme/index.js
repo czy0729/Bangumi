@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 17:56:29
+ * @Last Modified time: 2021-11-21 01:33:30
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -411,6 +411,9 @@ class Theme extends store {
       left: {
         marginLeft: _.wind
       },
+      block: {
+        width: '100%'
+      },
       w100: {
         width: '100%'
       },
@@ -703,7 +706,7 @@ class Theme extends store {
    *
    *  - 支持key名为current的对象懒计算
    */
-  memoStyles: memoStyles = (styles, dev = false) => {
+  memoStyles: memoStyles = (styles: () => {}, dev: boolean = false) => {
     const memoId = getMemoStylesId()
     return () => {
       if (

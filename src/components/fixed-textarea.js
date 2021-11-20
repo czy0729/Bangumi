@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 10:53:02
+ * @Last Modified time: 2021-11-21 02:29:57
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -555,6 +555,8 @@ export const FixedTextarea = observer(
             height: keyboardHeight + 1
           }}
           contentContainerStyle={this.styles.bgmContainer}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
           {showReplyHistory ? (
             <>

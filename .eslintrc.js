@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:13:23
+ * @Last Modified time: 2021-11-21 02:39:07
  */
 module.exports = {
   root: true,
-  parser: 'babel-eslint', // '@typescript-eslint/parser'
+  parser: 'babel-eslint', // babel-eslint | @typescript-eslint/parser
   plugins: ['@typescript-eslint/eslint-plugin', 'prettier'],
   extends: ['@react-native-community', 'prettier'],
   ignorePatterns: [

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-12 08:48:53
+ * @Last Modified time: 2021-11-21 02:32:24
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -206,7 +206,11 @@ export const ManageModal = ob(
 
       const selected = this.state.tags.split(' ')
       return (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
           {tags.map(({ name, count }) => {
             const isSelected = selected.indexOf(name) !== -1
             return (

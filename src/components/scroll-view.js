@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:15:29
+ * @Last Modified time: 2021-11-21 02:29:22
  */
 import React, { useRef } from 'react'
 import { ScrollView as RNScrollView } from 'react-native'
@@ -24,6 +24,8 @@ export const ScrollView = ({
       ref={scrollToTop ? ref => (scrollViewEl.current = ref?.scrollTo) : undefined}
       scrollIndicatorInsets={scrollIndicatorInsets}
       {...other}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
     >
       {children}
       {scrollToTop && <ScrollToTop scrollTo={scrollViewEl.current} />}

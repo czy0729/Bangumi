@@ -2,19 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 20:57:25
+ * @Last Modified time: 2021-11-21 02:35:08
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import {
-  FixedTextarea,
-  Flex,
-  Heatmap,
-  Touchable,
-  Text,
-  Iconfont
-} from '@components'
+import { FixedTextarea, Flex, Heatmap, Touchable, Text, Iconfont } from '@components'
 import { NavigationBarEvents, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -79,9 +72,7 @@ class Say extends React.Component {
     }, 160)
 
     hm(
-      $.isNew
-        ? `${HOST}/timeline?type=say`
-        : `/user/${userId}/timeline/status/${id}`,
+      $.isNew ? `${HOST}/timeline?type=say` : `/user/${userId}/timeline/status/${id}`,
       'Say'
     )
   }
@@ -106,6 +97,8 @@ class Say extends React.Component {
           ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={_.container.bottom}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
           <Chat />
         </ScrollView>
@@ -141,7 +134,8 @@ class Say extends React.Component {
           ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={this.styles.list}
-          scrollToTop
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
           <Chat />
         </ScrollView>
@@ -159,6 +153,7 @@ class Say extends React.Component {
         contentContainerStyle={this.styles.contentContainerStyle}
         horizontal
         showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
         <Flex>
           <Text style={_.ml.sm} size={12} bold>
@@ -188,6 +183,7 @@ class Say extends React.Component {
         contentContainerStyle={this.styles.contentContainerStyle}
         horizontal
         showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
         {$.users.map(item => {
           const { avatar = {} } = $.usersInfo(item.id)

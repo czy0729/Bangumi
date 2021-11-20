@@ -32,11 +32,7 @@ type Props<T extends Route> = {
     focused: boolean
     color: string
   }) => React.ReactNode
-  renderIcon?: (scene: {
-    route: T
-    focused: boolean
-    color: string
-  }) => React.ReactNode
+  renderIcon?: (scene: { route: T; focused: boolean; color: string }) => React.ReactNode
   renderBadge?: (scene: Scene<T>) => React.ReactNode
   onLayout?: (event: LayoutChangeEvent) => void
   onPress: () => void
@@ -48,9 +44,7 @@ type Props<T extends Route> = {
 const DEFAULT_ACTIVE_COLOR = 'rgba(255, 255, 255, 1)'
 const DEFAULT_INACTIVE_COLOR = 'rgba(255, 255, 255, 0.7)'
 
-export default class TabBarItem<T extends Route> extends React.Component<
-  Props<T>
-> {
+export default class TabBarItem<T extends Route> extends React.Component<Props<T>> {
   private getActiveOpacity = memoize(
     (position: Animated.Node<number>, routes: Route[], tabIndex: number) => {
       if (routes.length > 1) {
@@ -188,9 +182,7 @@ export default class TabBarItem<T extends Route> extends React.Component<
           <Animated.View style={{ opacity: inactiveOpacity }}>
             {inactiveLabel}
           </Animated.View>
-          <Animated.View
-            style={[StyleSheet.absoluteFill, { opacity: activeOpacity }]}
-          >
+          <Animated.View style={[StyleSheet.absoluteFill, { opacity: activeOpacity }]}>
             {activeLabel}
           </Animated.View>
         </View>

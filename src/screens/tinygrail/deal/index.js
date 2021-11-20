@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 19:29:39
+ * @Last Modified time: 2021-11-21 02:35:39
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -75,6 +75,8 @@ class TinygrailDeal extends React.Component {
               onRefresh={this.onRefresh}
             />
           }
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
           <Flex style={this.styles.form} align='start'>
             <Flex.Item>

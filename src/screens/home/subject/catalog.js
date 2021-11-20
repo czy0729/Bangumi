@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 11:31:30
+ * @Last Modified time: 2021-11-21 02:33:50
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -51,6 +51,7 @@ const Catalog = memo(
                 contentContainerStyle={styles.contentContainerStyle}
                 horizontal
                 showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
               >
                 {catalog.map(item => (
                   <Touchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:05:51
+ * @Last Modified time: 2021-11-21 02:35:26
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -22,10 +22,7 @@ function ToolBar({
   onLevelSelect = Function.prototype
 }) {
   const styles = memoStyles()
-  const sum = Object.keys(levelMap).reduce(
-    (total, level) => total + levelMap[level],
-    0
-  )
+  const sum = Object.keys(levelMap).reduce((total, level) => total + levelMap[level], 0)
   const levelDS = [
     `全部 (${sum})`,
     ...Object.keys(levelMap).map(level => `lv${level} (${levelMap[level]})`)
@@ -46,11 +43,7 @@ function ToolBar({
             size={16}
             color={level ? _.colorAsk : _.colorTinygrailText}
           />
-          <Text
-            style={_.ml.xs}
-            size={13}
-            type={level ? 'ask' : 'tinygrailText'}
-          >
+          <Text style={_.ml.xs} size={13} type={level ? 'ask' : 'tinygrailText'}>
             {level ? `lv${level}` : '等级'}
             {levelMap[level] ? ` (${levelMap[level]})` : ''}
           </Text>
@@ -62,6 +55,7 @@ function ToolBar({
           horizontal
           alwaysBounceVertical={false}
           showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
           {data.map(item => {
             const isActive = sort === item.value

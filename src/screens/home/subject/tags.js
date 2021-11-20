@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-06 00:25:44
+ * @Last Modified time: 2021-11-21 02:34:12
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -179,6 +179,7 @@ const Tags = memo(
                 contentContainerStyle={_.container.wind}
                 horizontal
                 showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
               >
                 {elTags}
               </ScrollView>

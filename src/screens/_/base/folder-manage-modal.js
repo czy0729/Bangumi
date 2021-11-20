@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:53:07
+ * @Last Modified time: 2021-11-21 02:32:14
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -691,7 +691,11 @@ export const FolderManageModal = ob(
       const { create, expand } = this.state
       const { list } = this.catalogs
       return (
-        <ScrollView style={this.styles.scrollView} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={this.styles.scrollView}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
           {create === true
             ? this.renderCreate()
             : list

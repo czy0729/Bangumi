@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-10 16:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 17:20:42
+ * @Last Modified time: 2021-11-20 12:28:07
  */
 import { useState, useEffect } from 'react'
 
@@ -12,7 +12,7 @@ export default function usePager(list, finger, limit = INIT_LIMIT) {
   const [state, setState] = useState(pageList(list, limit))
   useEffect(() => {
     if (list._loaded) setState(pageList(list, limit))
-  }, [finger])
+  }, [finger, limit, list])
   return {
     list: state,
     next: () => setState(pageList(state, limit))
