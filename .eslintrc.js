@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:39:07
+ * @Last Modified time: 2021-11-22 03:16:07
  */
 module.exports = {
   root: true,
@@ -13,7 +13,7 @@ module.exports = {
     '/node_modules',
     '/components/@/*',
     // '/src/assets/*',
-    // '/src/utils/thirdParty/*',
+    '/src/utils/thirdParty/*',
     'babel.config.js',
     'jsconfig.json'
   ],

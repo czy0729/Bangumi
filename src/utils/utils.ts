@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-07 13:55:15
+ * @Last Modified time: 2021-11-22 03:07:52
  */
 import { InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 
@@ -31,6 +31,7 @@ export function throttle(callback: () => void, delay = 400) {
   let lastExec = 0
 
   function wrapper() {
+    // eslint-disable-next-line consistent-this
     const self = this
     const elapsed = Number(new Date()) - lastExec
     const args = arguments

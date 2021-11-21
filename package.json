@@ -6,6 +6,7 @@
     "google": "mv ../SDK/Google/MainActivity.java ./android/app/src/main/java/com/czy0729/bangumi/MainActivity.java",
     "start": "expo start",
     "android": "react-native run-android --no-jetifier",
+    "clean": "cd android && ./gradlew clean",
     "build": "cd android && ./gradlew assembleRelease",
     "build:ios": "expo build:ios -c",
     "open": "open ./android/app/build/outputs/apk/release/",
