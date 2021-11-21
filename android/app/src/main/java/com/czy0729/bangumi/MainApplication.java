@@ -30,10 +30,6 @@ import com.czy0729.bangumi.umeng.RNUMConfigure;
 import com.czy0729.bangumi.daynight.DayNightPackage;
 import com.czy0729.bangumi.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
 
-import com.rnfs.RNFSPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.reactnativecommunity.cameraroll.CameraRollPackage;
-
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
     new BasePackageList().getPackageList()
