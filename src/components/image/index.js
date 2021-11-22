@@ -10,10 +10,10 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:36:29
+ * @Last Modified time: 2021-11-23 06:30:31
  */
 import React from 'react'
-import { View, Image as RNImage } from 'react-native'
+import { View } from 'react-native'
 import { CacheManager, Image as AnimatedImage } from 'react-native-expo-image-cache'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
@@ -23,9 +23,10 @@ import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT, DEV } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
-import { Touchable } from './touchable'
-import { Flex } from './flex'
-import { Text } from './text'
+import { Touchable } from '../touchable'
+import { Flex } from '../flex'
+import { Text } from '../text'
+import ImageComponent from './image'
 
 const defaultHeaders = {
   Referer: `${HOST}/`
@@ -233,7 +234,7 @@ export const Image = observer(
         })
       }
 
-      RNImage.getSize(uri, cb)
+      ImageComponent.getSize(uri, cb)
     }
 
     /**
@@ -398,7 +399,7 @@ export const Image = observer(
       if (error) {
         // 错误显示本地的错误提示图片
         return (
-          <RNImage
+          <ImageComponent
             style={[this.computedStyle.image, this.styles.error]}
             source={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
             fadeDuration={this.fadeDuration}
@@ -431,7 +432,7 @@ export const Image = observer(
 
           // 网络图片
           return (
-            <RNImage
+            <ImageComponent
               style={this.computedStyle.image}
               source={{
                 headers: this.headers,
@@ -450,7 +451,7 @@ export const Image = observer(
 
       // 本地图片
       return (
-        <RNImage
+        <ImageComponent
           style={this.computedStyle.image}
           source={
             headers

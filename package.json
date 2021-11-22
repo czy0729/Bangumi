@@ -50,6 +50,7 @@
     "react-native-draggable-grid": "^2.1.4",
     "react-native-exception-handler": "^2.10.8",
     "react-native-expo-image-cache": "^4.0.8",
+    "react-native-fast-image": "^8.5.11",
     "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-image-zoom-viewer": "2.2.26",

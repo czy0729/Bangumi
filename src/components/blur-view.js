@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-17 20:23:51
+ * @Last Modified time: 2021-11-23 06:57:57
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 // import { BlurView as RNBlurView } from '@react-native-community/blur'
@@ -23,33 +23,44 @@ const backgroundColor = {
 }
 
 export const BlurView = observer(
-  ({ style, src, theme = 'default', tint = 'default', intensity = 100, children }) => {
+  ({ style, src, theme = 'light', tint = 'light', intensity = 100, children }) => {
     if (!src) return null
 
-    return (
-      <View style={style}>
-        {src && (
+    if (IOS) {
+      return (
+        <View style={style}>
           <Image
             imageStyle={styles.image}
             src={src}
             fadeDuration={0}
-            blurRadius={IOS ? undefined : 40}
             textOnly={false}
           />
-        )}
-        {IOS ? (
           <ExpoBlurView
             style={StyleSheet.absoluteFill}
             tint={tint}
             intensity={intensity}
           />
-        ) : (
-          !!theme && (
-            <LinearGradient
-              style={StyleSheet.absoluteFill}
-              colors={backgroundColor[theme]}
-            />
-          )
+          {children}
+        </View>
+      )
+    }
+
+    return (
+      <View style={style}>
+        <RNImage
+          style={styles.image}
+          source={{
+            uri: src.replace('http://', 'https://')
+          }}
+          fadeDuration={0}
+          blurRadius={16}
+          textOnly={false}
+        />
+        {!!theme && (
+          <LinearGradient
+            style={StyleSheet.absoluteFill}
+            colors={backgroundColor[theme]}
+          />
         )}
         {children}
       </View>
