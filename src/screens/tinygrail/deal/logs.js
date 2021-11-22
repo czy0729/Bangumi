@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:30:40
+ * @Last Modified time: 2021-11-23 04:36:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,6 @@ function Logs({ style }, { $ }) {
         {bids
           .sort((a, b) => b.price - a.price)
           .map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <View key={index} style={styles.item}>
               <Flex>
                 <Flex.Item>
@@ -61,11 +60,7 @@ function Logs({ style }, { $ }) {
                   style={[styles.cancel, _.ml.sm]}
                   onPress={() => $.doCancel('bid', item.id)}
                 >
-                  <Iconfont
-                    name='md-close'
-                    size={14}
-                    color={_.colorTinygrailIcon}
-                  />
+                  <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
                 </Touchable>
               </Flex>
             </View>
@@ -91,7 +86,6 @@ function Logs({ style }, { $ }) {
         {asks
           .sort((a, b) => a.price - b.price)
           .map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <View key={index} style={styles.item}>
               <Flex>
                 <Flex.Item>
@@ -112,11 +106,7 @@ function Logs({ style }, { $ }) {
                   style={[styles.cancel, _.ml.sm]}
                   onPress={() => $.doCancel('ask', item.id)}
                 >
-                  <Iconfont
-                    name='md-close'
-                    size={14}
-                    color={_.colorTinygrailIcon}
-                  />
+                  <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
                 </Touchable>
               </Flex>
             </View>

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 14:31:06
+ * @Last Modified time: 2021-11-23 03:47:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { toJS } from 'mobx'
 import { ScrollView, Flex, Text, Touchable, Image, Heatmap } from '@components'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { desc, open } from '@utils'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { cnjp } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -59,10 +59,8 @@ class Episodes extends React.Component {
     const { $ } = this.context
 
     // sp排在正常章节后面, 已播放优先
-    return $.eps.sort(
-      (a, b) =>
-        (b.status === 'NA' ? 0 : b.type || 10) -
-        (a.status === 'NA' ? 0 : a.type || 10)
+    return $.eps.sort((a, b) =>
+      desc(a, b, item => (item.status === 'NA' ? 0 : item.type || 10))
     )
   }
 

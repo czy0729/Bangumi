@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 19:39:01
+ * @Last Modified time: 2021-11-23 04:38:39
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_GAME, CDN_STATIC_GAME, getOTA } from '@constants/cdn'
@@ -184,14 +184,7 @@ export const GAME_PUB = [
   '5pb.',
   'Nihon Falcom'
 ]
-export const GAME_SORT = [
-  '发行',
-  '排名',
-  '外网评分',
-  '外网热度',
-  '随机',
-  '名称'
-]
+export const GAME_SORT = ['发行', '排名', '外网评分', '外网热度', '随机', '名称']
 export const GAME_SORT_ADV = ['发行', '排名', '随机', '名称']
 
 /**

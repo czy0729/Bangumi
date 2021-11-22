@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 12:01:34
+ * @Last Modified time: 2021-11-23 03:47:53
  */
 import { Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
-import { isObject, runAfter, throttle } from './utils'
+import { isObject, runAfter, throttle, asc, desc } from './utils'
 
-export { isObject, runAfter, throttle }
+export { isObject, runAfter, throttle, asc, desc }
 
 /**
  * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
@@ -444,9 +444,7 @@ export function parseIOS8601(isostr, format = 'Y-m-d') {
  */
 export function getTimestamp(date = '') {
   const _date = trim(date)
-  if (_date) {
-    return Math.floor(new Date(_date.replace(/-/g, '/')).valueOf() / 1000)
-  }
+  if (_date) return Math.floor(new Date(_date.replace(/\//g, '-')).valueOf() / 1000)
   return Math.floor(new Date().valueOf() / 1000)
 }
 
@@ -457,9 +455,7 @@ export function getTimestamp(date = '') {
  */
 const _y = date('y', getTimestamp())
 export function simpleTime(time = '') {
-  if (!time) {
-    return '-'
-  }
+  if (!time) return '-'
 
   const _time = getTimestamp(time)
   const ymd = date('y-m-d', _time)

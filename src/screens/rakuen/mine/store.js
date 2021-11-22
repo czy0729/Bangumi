@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 14:20:20
+ * @Last Modified time: 2021-11-23 04:15:00
  */
 import { computed } from 'mobx'
 import { rakuenStore } from '@stores'
-import { HTML_GROUP_MINE } from '@constants/html'
+import { desc } from '@utils'
 import store from '@utils/store'
+import { HTML_GROUP_MINE } from '@constants/html'
 
 export default class ScreenMine extends store {
   init = () => this.fetchMine()
@@ -16,7 +17,7 @@ export default class ScreenMine extends store {
   @computed get mine() {
     return {
       ...rakuenStore.mine,
-      list: rakuenStore.mine.list.sort((a, b) => b.num - a.num)
+      list: rakuenStore.mine.list.sort((a, b) => desc(a, b, item => item.num))
     }
   }
 

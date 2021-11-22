@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 12:29:50
+ * @Last Modified time: 2021-11-23 02:58:37
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -107,20 +107,22 @@ const Top = memo(
             )}
           </Text>
           <Flex style={styles.groupWrap}>
-            <Touchable onPress={groupPress}>
-              <Flex style={styles.groupLabel}>
-                {!!groupThumb && (
-                  <Avatar
-                    style={isEp ? _.mr.sm : _.mr.xs}
-                    size={isEp ? 40 : 20}
-                    src={groupThumb}
-                  />
-                )}
-                <Text size={13} numberOfLines={1}>
-                  {HTMLDecode(findSubjectCn(group))}
-                </Text>
-              </Flex>
-            </Touchable>
+            {!!group && (
+              <Touchable onPress={groupPress}>
+                <Flex style={styles.groupLabel}>
+                  {!!groupThumb && (
+                    <Avatar
+                      style={isEp ? _.mr.sm : _.mr.xs}
+                      size={isEp ? 40 : 20}
+                      src={groupThumb}
+                    />
+                  )}
+                  <Text size={13} numberOfLines={1}>
+                    {HTMLDecode(findSubjectCn(group))}
+                  </Text>
+                </Flex>
+              </Touchable>
+            )}
             {!!time && (
               <Text type='sub' size={13}>
                 {simpleTime(time)}

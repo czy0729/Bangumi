@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 19:39:17
+ * @Last Modified time: 2021-11-23 04:40:22
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_MANGA, CDN_STATIC_MANGA, getOTA } from '@constants/cdn'
@@ -180,15 +180,7 @@ export async function init() {
  * 只返回下标数组对象
  */
 const searchCache = {}
-export function search({
-  first,
-  year,
-  begin,
-  status,
-  tags = [],
-  hd,
-  sort
-} = {}) {
+export function search({ first, year, begin, status, tags = [], hd, sort } = {}) {
   init()
 
   // 查询指纹
@@ -224,8 +216,7 @@ export function search({
 
     // status: 1
     if (match && status) {
-      match =
-        (item.st === 1 && status === '完结') || (!item.st && status === '连载')
+      match = (item.st === 1 && status === '完结') || (!item.st && status === '连载')
     }
 
     // tags: '科幻 机战 悬疑 战斗 战争'

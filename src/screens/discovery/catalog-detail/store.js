@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:16:55
+ * @Last Modified time: 2021-11-23 04:20:35
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { discoveryStore, collectionStore, subjectStore, userStore } from '@stores'
+import { desc } from '@utils'
 import store from '@utils/store'
 import { info, feedback, confirm } from '@utils/ui'
 import { t, fetchHTML, queue } from '@utils/fetch'
@@ -85,7 +86,7 @@ export default class ScreenCatalogDetail extends store {
       list = list.sort((a, b) => b.info.localeCompare(a.info))
     } else if (sort === 2) {
       // 分数
-      list = list.sort((a, b) => b.score - a.score)
+      list = list.sort((a, b) => desc(a, b, item => item.score))
     }
     return {
       ...catalogDetail,

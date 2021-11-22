@@ -1,9 +1,8 @@
-/* eslint-disable no-extra-semi */
 /*
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:30:45
+ * @Last Modified time: 2021-11-23 04:35:46
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -209,10 +208,7 @@ class CharactersModal extends React.Component {
 
   onToogleIsTemple = title => {
     const { isTemple } = this.state
-    if (
-      (isTemple && title === '消耗圣殿') ||
-      (!isTemple && title === '消耗活股')
-    ) {
+    if ((isTemple && title === '消耗圣殿') || (!isTemple && title === '消耗活股')) {
       return
     }
 
@@ -532,9 +528,7 @@ class CharactersModal extends React.Component {
 
     try {
       ;(list || []).forEach(item =>
-        data[lv(item) || 0]
-          ? (data[lv(item) || 0] += 1)
-          : (data[lv(item) || 0] = 1)
+        data[lv(item) || 0] ? (data[lv(item) || 0] += 1) : (data[lv(item) || 0] = 1)
       )
     } catch (error) {
       warn(error)
@@ -643,9 +637,7 @@ class CharactersModal extends React.Component {
                 return item.name.includes(rightValue)
               }
 
-              return isTemple
-                ? lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
-                : true
+              return isTemple ? lv(item) <= lv(leftItem) + (isTemple ? 0 : 1) : true
             }
 
             if (rightValue) {
@@ -729,9 +721,7 @@ class CharactersModal extends React.Component {
 
     try {
       ;(list || []).forEach(item =>
-        data[lv(item) || 0]
-          ? (data[lv(item) || 0] += 1)
-          : (data[lv(item) || 0] = 1)
+        data[lv(item) || 0] ? (data[lv(item) || 0] += 1) : (data[lv(item) || 0] = 1)
       )
     } catch (error) {
       warn(error)
@@ -816,11 +806,7 @@ class CharactersModal extends React.Component {
             size={14}
             color={filter ? _.colorAsk : _.colorTinygrailText}
           />
-          <Text
-            style={_.ml.xs}
-            size={10}
-            type={filter ? 'ask' : 'tinygrailText'}
-          >
+          <Text style={_.ml.xs} size={10} type={filter ? 'ask' : 'tinygrailText'}>
             {filter ? `lv${filter}` : '等级'}
             {map[filter] ? ` (${map[filter]})` : ''}
           </Text>
@@ -907,14 +893,10 @@ class CharactersModal extends React.Component {
     return (
       <>
         <Flex>
-          {this.renderFilter(
-            rightFilter,
-            this.rightDS,
-            this.rightLevelMap,
-            lv =>
-              this.setState({
-                rightFilter: lv
-              })
+          {this.renderFilter(rightFilter, this.rightDS, this.rightLevelMap, lv =>
+            this.setState({
+              rightFilter: lv
+            })
           )}
           <Flex.Item style={_.ml.sm}>
             <SearchInput

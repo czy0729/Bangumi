@@ -3,14 +3,14 @@
  */
 let treemap = {}
 
-var InternalNode = (function() {
+var InternalNode = (function () {
   function InternalNode(weight, data) {
     this.weight = 0
     this.frame = { x: 0, y: 0, width: 0, height: 0 }
     this.weight = weight
     this.data = data
   }
-  InternalNode.weigh = function(node) {
+  InternalNode.weigh = function (node) {
     var nodeLevel2Nodes = new Array()
     var nodeList = new Array()
     node.level = 0
@@ -44,7 +44,7 @@ var InternalNode = (function() {
 })()
 treemap.InternalNode = InternalNode
 
-var Size = (function() {
+var Size = (function () {
   function Size() {}
   return Size
 })()
@@ -62,9 +62,7 @@ function fontSize(canvasSize, tileSize) {
   var max = this.maxFontSize(canvasSize)
   return Math.max(
     min,
-    ((tileSize.width + tileSize.height) /
-      (canvasSize.width + canvasSize.height)) *
-      max
+    ((tileSize.width + tileSize.height) / (canvasSize.width + canvasSize.height)) * max
   )
 }
 treemap.fontSize = fontSize
@@ -81,12 +79,12 @@ function yMargin(tileSize) {
 }
 treemap.yMargin = yMargin
 
-var Squarifier = (function() {
+var Squarifier = (function () {
   function Squarifier() {}
-  Squarifier.squarify = function(nodes, width, height, createRectangle) {
+  Squarifier.squarify = function (nodes, width, height, createRectangle) {
     var children = nodes.slice(0)
     this.scaleWeights(nodes, width, height)
-    children.sort(function(a, b) {
+    children.sort(function (a, b) {
       return b.weight - a.weight
     })
     children.push(new treemap.InternalNode(0, null))
@@ -136,30 +134,30 @@ var Squarifier = (function() {
       }
     }
   }
-  Squarifier.worst = function(s, min, max, w) {
+  Squarifier.worst = function (s, min, max, w) {
     return Math.max((w * w * max) / (s * s), (s * s) / (w * w * min))
   }
-  Squarifier.scaleWeights = function(weights, width, height) {
+  Squarifier.scaleWeights = function (weights, width, height) {
     var scale = (width * height) / this.sum(weights)
     for (var i = 0; i < weights.length; i++) {
       weights[i].weight = scale * weights[i].weight
     }
   }
-  Squarifier.max = function(array) {
+  Squarifier.max = function (array) {
     return Math.max.apply(Math, this.weights(array))
   }
-  Squarifier.min = function(array) {
+  Squarifier.min = function (array) {
     return Math.min.apply(Math, this.weights(array))
   }
-  Squarifier.sum = function(array) {
+  Squarifier.sum = function (array) {
     var total = 0
     for (var i = 0; i < array.length; ++i) {
       total = total + array[i].weight
     }
     return total
   }
-  Squarifier.weights = function(array) {
-    return array.map(function(d) {
+  Squarifier.weights = function (array) {
+    return array.map(function (d) {
       return d.weight
     }, array)
   }
@@ -177,7 +175,7 @@ function squarify(rootNode, f) {
         node.nodes,
         node.frame.width,
         node.frame.height,
-        function(x, y, width, height, n) {
+        function (x, y, width, height, n) {
           n.frame = {
             x: node.frame.x + x,
             y: node.frame.y + y,

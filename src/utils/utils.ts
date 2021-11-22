@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-22 03:07:52
+ * @Last Modified time: 2021-11-23 03:47:41
  */
 import { InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 
@@ -51,4 +51,30 @@ export function throttle(callback: () => void, delay = 400) {
   }
 
   return wrapper
+}
+
+export function asc(a, b, fn) {
+  let _a = a
+  let _b = b
+  if (typeof fn === 'function') {
+    _a = fn(a)
+    _b = fn(b)
+  }
+
+  if (_a === _b) return 0
+  if (_a < _b) return -1
+  return 1
+}
+
+export function desc(a, b, fn) {
+  let _a = a
+  let _b = b
+  if (typeof fn === 'function') {
+    _a = fn(a)
+    _b = fn(b)
+  }
+
+  if (_a === _b) return 0
+  if (_a > _b) return -1
+  return 1
 }

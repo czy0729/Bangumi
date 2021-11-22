@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:32:19
+ * @Last Modified time: 2021-11-23 04:30:17
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { desc } from '@utils'
 import { findSubjectCn } from '@utils/app'
 import { ob } from '@utils/decorators'
 import { Cover } from './cover'
@@ -48,13 +49,13 @@ export const HorizontalList = ob(
     get data() {
       const { data, initialRenderNums } = this.props
       const { scrolled } = this.state
-      if (!initialRenderNums || scrolled) {
-        // 没封面图的置后
-        return data.sort((a, b) => (b.image ? 1 : 0) - (a.image ? 1 : 0))
-      }
+
+      // 没封面图的置后
+      if (!initialRenderNums || scrolled)
+        return data.sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
 
       return data
-        .sort((a, b) => (b.image ? 1 : 0) - (a.image ? 1 : 0))
+        .sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
         .filter((item, index) => index < initialRenderNums)
     }
 

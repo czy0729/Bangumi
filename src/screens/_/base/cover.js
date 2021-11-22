@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-22 06:54:30
+ * @Last Modified time: 2021-11-23 04:03:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
 const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
 
 export const Cover = ob(
-  ({ style, src, size, height, noDefault, type, textOnly = DEV, ...other }) => {
+  ({ style, src, size, height, noDefault, type, textOnly = !DEV, ...other }) => {
     const styles = memoStyles()
     if (textOnly) {
       const w = other.width || size

@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 17:37:25
+ * @Last Modified time: 2021-11-23 03:55:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ import {
   userStore,
   usersStore
 } from '@stores'
-import { open, copy, getTimestamp, similar } from '@utils'
+import { open, copy, getTimestamp, similar, asc } from '@utils'
 import { HTMLDecode, HTMLTrim, cheerio } from '@utils/html'
 import { t, xhrCustom, queue, baiduTranslate } from '@utils/fetch'
 import {
@@ -665,7 +665,9 @@ export default class ScreenSubject extends store {
   @computed get ningMoeEpOffset() {
     const { eps = [] } = this.subject
     return (
-      eps.filter(item => item.type === 0).sort((a, b) => a.sort - b.sort)[0].sort - 1
+      eps
+        .filter(item => item.type === 0)
+        .sort((a, b) => asc(a, b, item => item.sort))[0].sort - 1
     )
   }
 
@@ -1019,11 +1021,7 @@ export default class ScreenSubject extends store {
   @computed get eps() {
     if (this.subject._loaded) {
       // type = 1 SP的排后面
-      return (this.subject.eps || []).sort((a, b) => {
-        if (a.type === b.type) return true
-        if (a.type === 1) return false
-        return true
-      })
+      return (this.subject.eps || []).sort((a, b) => asc(a, b, item => item.type))
     }
 
     return this.subjectFormCDN.eps || []
@@ -1874,7 +1872,7 @@ export default class ScreenSubject extends store {
           const { eps = [] } = this.subject
           const sort = eps
             .filter(i => i.type === 0)
-            .sort((a, b) => (a.sort || 0) - (b.sort || 0))
+            .sort((a, b) => asc(a, b, item => item.sort || 0))
             .findIndex(i => i.sort === item.sort)
           await userStore.doUpdateSubjectWatched({
             subjectId: this.subjectId,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:32:35
+ * @Last Modified time: 2021-11-23 04:36:30
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -31,9 +31,7 @@ function List({ id, title }, { $ }) {
     data.list = data.list.sort((a, b) => parseInt(b.total) - parseInt(a.total))
   } else if (title === '初始') {
     data = toJS(rich)
-    data.list = data.list.sort(
-      (a, b) => parseInt(b.principal) - parseInt(a.principal)
-    )
+    data.list = data.list.sort((a, b) => parseInt(b.principal) - parseInt(a.principal))
   }
   return (
     <ListView

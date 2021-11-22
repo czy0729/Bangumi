@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:34:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-11 22:40:48
+ * @Last Modified time: 2021-11-23 04:32:25
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
-import { arrGroup } from '@utils'
+import { arrGroup, asc } from '@utils'
 import { memo } from '@utils/decorators'
 import { MODEL_EP_TYPE } from '@constants/model'
 import { NormalButtons } from './normal-buttons'
@@ -102,11 +102,9 @@ function Eps({
 
     _eps = _eps
       // 保证SP排在普通章节后面
-      .sort((a, b) => {
-        const sortA = MODEL_EP_TYPE.getLabel(a.type) === '普通' ? 1 : 0
-        const sortB = MODEL_EP_TYPE.getLabel(b.type) === '普通' ? 1 : 0
-        return sortA - sortB
-      })
+      .sort((a, b) =>
+        asc(a, b, item => (MODEL_EP_TYPE.getLabel(item.type) === '普通' ? 1 : 0))
+      )
 
     // SP可能会占用一格, 若eps当中存在sp, 每组要减1项避免换行
     const arrNum = numbersOfLine * lines - (lines <= 3 ? 0 : hasSp ? 1 : 0)

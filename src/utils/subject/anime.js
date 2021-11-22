@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 19:38:48
+ * @Last Modified time: 2021-11-23 04:39:24
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 import { getTimestamp, getStorage, setStorage } from '../index'
 import { xhrCustom } from '../fetch'
-import { info } from '../ui'
 import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 
 export const ANIME_AREA = ['日本', '中国']
@@ -97,7 +96,6 @@ export const ANIME_OFFICIAL = [
   'XEBEC',
   'TMS Entertainment',
   'LIDENFILMS',
-  // eslint-disable-next-line quotes
   "Brain's Base",
   'GONZO',
   '小丑社',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:50:40
+ * @Last Modified time: 2021-11-23 02:35:44
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -156,7 +156,6 @@ export function hackMatchMediaLink(html) {
         return match
 
       flag = true
-      console.log(match)
       return `<div>${match}</div>`
     })
   }
@@ -212,7 +211,7 @@ export async function fetchMediaQueue(type, id) {
     loadedIds.push(item)
 
     try {
-      if (DEV) console.log('fetchMediaQueue', ids, item)
+      if (DEV) console.info('fetchMediaQueue', ids, item)
       loading = true
 
       if (item.type === 'subject') {
@@ -235,7 +234,7 @@ export async function fetchMediaQueue(type, id) {
 
       fetchMediaQueue()
     } catch (error) {
-      console.log('fetchMediaQueue error', error, ids)
+      console.info('fetchMediaQueue error', error, ids)
       loading = false
     }
   }

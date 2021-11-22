@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 16:28:40
+ * @Last Modified time: 2021-11-23 04:09:08
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -16,7 +16,7 @@ import {
   calendarStore,
   systemStore
 } from '@stores'
-import { open, runAfter, getTimestamp } from '@utils'
+import { open, runAfter, getTimestamp, asc, desc } from '@utils'
 import { t, queue } from '@utils/fetch'
 import {
   x18,
@@ -600,9 +600,7 @@ export default class ScreenHomeV2 extends store {
 
     // 网页顺序: 不需要处理
     if (this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('网页')) {
-      return list.sort(
-        (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
-      )
+      return list.sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
     }
 
     try {
@@ -637,8 +635,8 @@ export default class ScreenHomeV2 extends store {
         })
 
         return list
-          .sort((a, b) => weightMap[b.subject_id] - weightMap[a.subject_id])
-          .sort((a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0))
+          .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
+          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
       }
 
       // APP顺序
@@ -667,15 +665,15 @@ export default class ScreenHomeV2 extends store {
       })
 
       return list
-        .sort((a, b) => weightMap[b.subject_id] - weightMap[a.subject_id])
-        .sort((a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0))
+        .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
+        .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
     } catch (error) {
       console.warn(`[${namespace}] sortList`, error)
 
       // fallback
       return list
-        .sort((a, b) => this.isToday(b.subject_id) - this.isToday(a.subject_id))
-        .sort((a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0))
+        .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
+        .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
     }
   }
 
@@ -1085,7 +1083,7 @@ export default class ScreenHomeV2 extends store {
         // 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
         sort = (this.eps(subjectId) || [])
           .filter(i => i.type === 0)
-          .sort((a, b) => (a.sort || 0) - (b.sort || 0))
+          .sort((a, b) => asc(a, b, item => item.sort || 0))
           .findIndex(i => i.sort === item.sort)
       }
 

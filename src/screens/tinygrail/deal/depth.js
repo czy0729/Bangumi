@@ -1,9 +1,8 @@
-/* eslint-disable react/no-array-index-key */
 /*
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:12:40
+ * @Last Modified time: 2021-11-23 04:36:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,9 +94,7 @@ function Depth({ style }, { $ }) {
               return (
                 <Touchable
                   key={index}
-                  onPress={() =>
-                    $.changeValue(toFixed(item.price, 2), item.amount)
-                  }
+                  onPress={() => $.changeValue(toFixed(item.price, 2), item.amount)}
                 >
                   <Flex style={styles.item}>
                     {isMyOrder && <View style={styles.dotAsk} />}
@@ -149,9 +146,7 @@ function Depth({ style }, { $ }) {
               return (
                 <Touchable
                   key={index}
-                  onPress={() =>
-                    $.changeValue(toFixed(item.price, 2), item.amount)
-                  }
+                  onPress={() => $.changeValue(toFixed(item.price, 2), item.amount)}
                 >
                   <Flex style={styles.item}>
                     {isMyOrder && <View style={styles.dotBid} />}

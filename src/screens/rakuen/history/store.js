@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-11 20:25:09
+ * @Last Modified time: 2021-11-23 04:14:24
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
@@ -43,17 +43,11 @@ export default class ScreenRakuenHistory extends store {
   @computed get keys() {
     const { favor } = this.state
     const { topic, cloudTopic } = rakuenStore.state
-    return Array.from(
-      new Set([...Object.keys(topic), ...Object.keys(cloudTopic)])
-    )
+    return Array.from(new Set([...Object.keys(topic), ...Object.keys(cloudTopic)]))
       .filter(topicId => {
         // 不知道哪里有问题, 有时会出现undefined的key值, 过滤掉
-        if (!topicId.includes('group/') || topicId.includes('undefined')) {
-          return false
-        }
-        if (favor) {
-          return this.isFavor(topicId)
-        }
+        if (!topicId.includes('group/') || topicId.includes('undefined')) return false
+        if (favor) return this.isFavor(topicId)
         return true
       })
       .sort((a, b) => b.localeCompare(a))
@@ -63,8 +57,7 @@ export default class ScreenRakuenHistory extends store {
     const sections = []
     const map = {}
     this.keys.forEach(item => {
-      const target =
-        rakuenStore.state.topic[item] || rakuenStore.state.cloudTopic[item]
+      const target = rakuenStore.state.topic[item] || rakuenStore.state.cloudTopic[item]
       const title = (target.time || '').split(' ')[0]
       if (!(title in map)) {
         map[title] = sections.length

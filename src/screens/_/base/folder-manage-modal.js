@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:32:14
+ * @Last Modified time: 2021-11-23 04:30:41
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Touchable, Flex, Text, Iconfont, Input, Divider } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _, userStore, usersStore, discoveryStore, collectionStore } from '@stores'
-import { getTimestamp, setStorage, getStorage } from '@utils'
+import { getTimestamp, setStorage, getStorage, asc, desc } from '@utils'
 import { ob } from '@utils/decorators'
 import { queue, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
@@ -401,7 +401,7 @@ export const FolderManageModal = ob(
 
       switch (title) {
         case '置顶':
-          temp = detail.list.sort((a, b) => Number(a.sort) - Number(b.sort))[0]
+          temp = detail.list.sort((a, b) => asc(a, b, item => Number(item.sort)))[0]
           order = Number(temp.order)
           if (Number.isNaN(order)) {
             order = 0
@@ -417,7 +417,7 @@ export const FolderManageModal = ob(
           if (current == 0) {
             order = -10
           } else {
-            temp = detail.list.map(i => fixedOrder(i.order)).sort((a, b) => b - a)
+            temp = detail.list.map(i => fixedOrder(i.order)).sort((a, b) => desc(a, b))
             temp.forEach(i => {
               if (!flag && current > i) {
                 order = i - 10
@@ -437,7 +437,7 @@ export const FolderManageModal = ob(
         case '下移':
           detail.list
             .map(i => fixedOrder(i.order))
-            .sort((a, b) => a - b)
+            .sort((a, b) => asc(a, b))
             .forEach(i => {
               if (!flag && current < i) {
                 order = i + 10
@@ -453,7 +453,7 @@ export const FolderManageModal = ob(
           break
 
         case '置底':
-          temp = detail.list.sort((a, b) => Number(b.sort) - Number(a.sort))[0]
+          temp = detail.list.sort((a, b) => desc(a, b, item => Number(item.sort)))[0]
           order = Number(temp.order)
           if (Number.isNaN(order)) {
             order = 10

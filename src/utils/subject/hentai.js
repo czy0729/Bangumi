@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 19:39:14
+ * @Last Modified time: 2021-11-23 04:40:19
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_HENTAI, CDN_STATIC_HENTAI, getOTA } from '@constants/cdn'
@@ -162,8 +162,7 @@ export async function init() {
 
   const ota = getOTA()
   const needUpdate =
-    (!loaded && !data.length) ||
-    parseInt(ota.VERSION_HENTAI) > parseInt(version)
+    (!loaded && !data.length) || parseInt(ota.VERSION_HENTAI) > parseInt(version)
   if (needUpdate) {
     // info('正在从云端拉取最新数据...')
 

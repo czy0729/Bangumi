@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-02 19:39:19
+ * @Last Modified time: 2021-11-23 04:40:24
  */
 import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 import { DATA_ALPHABET } from '@constants'
@@ -88,15 +88,7 @@ export const WENKU_AUTHOR = [
   '古宫九时',
   '天泽夏月'
 ]
-export const WENKU_SORT = [
-  '发行',
-  '排名',
-  '热度',
-  '趋势',
-  '更新',
-  '随机',
-  '名称'
-]
+export const WENKU_SORT = ['发行', '排名', '热度', '趋势', '更新', '随机', '名称']
 
 /**
  * v4.0.0 后从包抽离, 需对比版本号
@@ -183,15 +175,7 @@ export async function init() {
  * 只返回下标数组对象
  */
 const searchCache = {}
-export function search({
-  sort,
-  year,
-  first,
-  status,
-  anime,
-  cate,
-  author
-} = {}) {
+export function search({ sort, year, first, status, anime, cate, author } = {}) {
   init()
 
   // 查询指纹
@@ -247,9 +231,7 @@ export function search({
       break
 
     case '更新':
-      _list = _list.sort((a, b) =>
-        String(data[b].up).localeCompare(String(data[a].up))
-      )
+      _list = _list.sort((a, b) => String(data[b].up).localeCompare(String(data[a].up)))
       break
 
     case '名称':

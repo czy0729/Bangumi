@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 10:45:02
+ * @Last Modified time: 2021-11-23 04:19:32
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { getTimestamp, desc } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -63,10 +63,11 @@ export default class ScreenFriends extends store {
     const { list } = this.friends
     info('刷新好友信息中...')
     return queue(
-      list.map(item => () =>
-        usersStore.fetchUsers({
-          userId: item.userId
-        })
+      list.map(
+        item => () =>
+          usersStore.fetchUsers({
+            userId: item.userId
+          })
       )
     )
   }
@@ -105,11 +106,7 @@ export default class ScreenFriends extends store {
     }
 
     if (sort === 'percent') {
-      list = list.sort((a, b) => {
-        const { percent: percentA } = this.users(a.userId)
-        const { percent: percentB } = this.users(b.userId)
-        return percentB - percentA
-      })
+      list = list.sort((a, b) => desc(a, b, item => this.users(item.userId)?.percent))
     } else if (sort === 'recent') {
       list = list.sort((a, b) => {
         const { recent: recentA } = this.users(a.userId)
