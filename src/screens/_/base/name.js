@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 12:49:38
+ * @Last Modified time: 2021-11-24 07:39:07
  */
 import React, { useState, useCallback } from 'react'
 import { Text } from '@components'
@@ -12,6 +12,7 @@ import { usersStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 
 export const Name = ({
+  style,
   size,
   lineHeight,
   userId,

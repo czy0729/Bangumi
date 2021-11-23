@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 09:50:49
+ * @Last Modified time: 2021-11-24 07:45:04
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -264,7 +264,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     left: '50%',
     width: 240,
-    bottom: H_RADIUS_LINE + 10,
+    bottom: H_RADIUS_LINE + 14,
     transform: [
       {
         translateX: -120

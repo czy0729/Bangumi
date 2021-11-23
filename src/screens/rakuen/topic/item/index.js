@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-10 01:25:26
+ * @Last Modified time: 2021-11-24 07:42:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -238,6 +238,7 @@ export default obc(
       sub.length <= expandNum || (sub.length > expandNum && expands.includes(id))
 
     const { _time: readedTime } = $.readed
+
     const isNew = !!readedTime && getTimestamp(time) > readedTime
     const isAuthor = authorId === userId
     const isJump = !!postId && postId === id

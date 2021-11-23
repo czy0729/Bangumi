@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 06:30:31
+ * @Last Modified time: 2021-11-24 07:27:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT, DEV } from '@constants'
+import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT, TEXT_ONLY } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
@@ -54,7 +54,7 @@ export const Image = observer(
       delay: true,
       cache: true,
       headers: undefined,
-      textOnly: DEV,
+      textOnly: TEXT_ONLY,
       onPress: undefined,
       onLongPress: undefined,
       onError: undefined

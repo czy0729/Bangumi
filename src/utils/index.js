@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 03:47:53
+ * @Last Modified time: 2021-11-24 07:18:11
  */
 import { Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
+import dayjs from 'dayjs'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
 import { isObject, runAfter, throttle, asc, desc } from './utils'
@@ -437,15 +438,11 @@ export function parseIOS8601(isostr, format = 'Y-m-d') {
 
 /**
  * 返回timestamp
- * @version 170814 1.0
- * @version 181107 1.1
- * @param  {String} date  指定时间，例2018/11/11 00:00:00
- * @return {Int}    时间戳
  */
 export function getTimestamp(date = '') {
   const _date = trim(date)
-  if (_date) return Math.floor(new Date(_date.replace(/\//g, '-')).valueOf() / 1000)
-  return Math.floor(new Date().valueOf() / 1000)
+  if (_date) return dayjs(_date).unix()
+  return dayjs().unix()
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 13:53:28
+ * @Last Modified time: 2021-11-24 07:24:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -131,6 +131,7 @@ const ItemSub = memo(
     const isAuthor = authorId === userId
     const isLayer = !isAuthor && uid === userId
     const isFriend = myFriendsMap[userId]
+
     const isNew = !!readedTime && getTimestamp(time) > readedTime
     const isJump = !!postId && postId === id
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
@@ -279,6 +280,8 @@ export default obc(
 
 const memoStyles = _.memoStyles(_ => ({
   itemNew: {
+    paddingLeft: _.sm,
+    marginLeft: -_.sm,
     backgroundColor: _.colorMainLight
   },
   itemJump: {
