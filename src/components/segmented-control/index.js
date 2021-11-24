@@ -4,9 +4,9 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:50:47
+ * @Last Modified time: 2021-11-24 08:05:48
  */
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -35,31 +35,39 @@ const SegmentedControlComp = ({
   type,
   size
 }) => {
+  // 组件内缓存一层, 使UI能尽快响应
+  const [_selectedIndex, _setSelectedIndex] = useState(selectedIndex)
   const [segmentWidth, setSegmentWidth] = useState(0)
   const animation = useRef(new Animated.Value(0)).current
 
-  const handleChange = (index: number) => {
-    // mocks iOS's nativeEvent
-    const event: any = {
-      nativeEvent: {
-        value: values[index],
-        selectedSegmentIndex: index
+  const handleChange = useCallback(
+    (index: number) => {
+      // mocks iOS's nativeEvent
+      const event = {
+        nativeEvent: {
+          value: values[index],
+          selectedSegmentIndex: index
+        }
       }
-    }
-    onChange && onChange(event)
-    onValueChange && onValueChange(values[index])
-  }
+      _setSelectedIndex(index)
+      setTimeout(() => {
+        onChange && onChange(event)
+        onValueChange && onValueChange(values[index])
+      }, 0)
+    },
+    [onChange, onValueChange, values]
+  )
 
   useEffect(() => {
     if (animation && segmentWidth) {
       Animated.timing(animation, {
-        toValue: segmentWidth * (selectedIndex || 0),
+        toValue: segmentWidth * (_selectedIndex || 0),
         duration: 300,
         easing: Easing.out(Easing.quad),
         useNativeDriver: true
       }).start()
     }
-  }, [animation, segmentWidth, selectedIndex])
+  }, [animation, segmentWidth, _selectedIndex])
 
   return (
     <View
@@ -77,12 +85,12 @@ const SegmentedControlComp = ({
       }) => {
         const newSegmentWidth = values.length ? width / values.length : 0
         if (newSegmentWidth !== segmentWidth) {
-          animation.setValue(newSegmentWidth * (selectedIndex || 0))
+          animation.setValue(newSegmentWidth * (_selectedIndex || 0))
           setSegmentWidth(newSegmentWidth)
         }
       }}
     >
-      {selectedIndex != null && segmentWidth ? (
+      {_selectedIndex != null && segmentWidth ? (
         <Animated.View
           style={[
             styles.slider,
@@ -104,7 +112,7 @@ const SegmentedControlComp = ({
           <SegmentedControlTab
             key={index}
             enabled={enabled}
-            selected={selectedIndex === index}
+            selected={_selectedIndex === index}
             value={value}
             tintColor={tintColor}
             fontStyle={fontStyle}

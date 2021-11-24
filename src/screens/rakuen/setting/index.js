@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 11:54:41
+ * @Last Modified time: 2021-11-24 09:03:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ class RakuenSetting extends React.Component {
     return (
       <Flex style={this.styles.section}>
         <Flex.Item>
-          <Text type='sub' size={16} bold>
+          <Text type='sub' bold>
             {text}
           </Text>
           {!!information && (
@@ -341,8 +341,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   split: {
     marginTop: _.md,
-    marginHorizontal: _.wind,
-    borderTopWidth: _.select(_.hairlineWidth, 1),
+    marginBottom: _.sm,
+    borderTopWidth: 16,
     borderColor: _.colorBorder
   },
   segmentedControl: {

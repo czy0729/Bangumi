@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-13 17:14:56
+ * @Last Modified time: 2021-11-24 09:03:26
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -288,7 +288,7 @@ class Setting extends React.Component {
     return (
       <Flex style={this.styles.section}>
         <Flex.Item>
-          <Text size={16} type='sub' bold>
+          <Text type='sub' bold>
             {text}
           </Text>
         </Flex.Item>
@@ -459,7 +459,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information='人物卡片交易系统'
+              information='人物卡片交易模块'
             >
               <Heatmap
                 id='设置.切换'
@@ -689,7 +689,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information='条目、小组、时间胶囊等，因网站规则建议注册少于3个月的用户开启'
+              information='条目、小组、时间胶囊等，因网站规则建议注册少于3个月的用户开启'
             >
               <Heatmap
                 id='设置.切换'
@@ -738,7 +738,7 @@ class Setting extends React.Component {
       quality,
       speech,
       transition,
-      flat,
+      // flat,
       vibration,
       coverThings
     } = systemStore.setting
@@ -747,7 +747,7 @@ class Setting extends React.Component {
         {this.renderSection('UI', 'ui')}
         {ui && (
           <>
-            <ItemSetting
+            {/* <ItemSetting
               show={!this.simple}
               hd='扁平'
               ft={
@@ -772,7 +772,7 @@ class Setting extends React.Component {
                   title: '扁平'
                 }}
               />
-            </ItemSetting>
+            </ItemSetting> */}
             <ItemSetting
               show={!this.simple}
               hd='震动'
@@ -1501,8 +1501,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   split: {
     marginTop: _.md,
-    marginHorizontal: _.wind,
-    borderTopWidth: _.select(_.hairlineWidth, 1),
+    marginBottom: _.sm,
+    borderTopWidth: 16,
     borderColor: _.colorBorder
   },
   segmentedControl: {

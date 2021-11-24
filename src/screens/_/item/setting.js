@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 11:56:43
+ * @Last Modified time: 2021-11-24 08:32:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,9 +25,7 @@ export const ItemSetting = ob(
     onPress,
     ...other
   }) => {
-    if (!show) {
-      return null
-    }
+    if (!show) return null
 
     const styles = memoStyles()
     const content = (

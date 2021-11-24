@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-07 16:09:49
+ * @Last Modified time: 2021-11-24 07:56:41
  */
 import React, { useEffect } from 'react'
-import { View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
@@ -55,6 +54,7 @@ function useCachedResources() {
     }
 
     loadResourcesAndDataAsync()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return state
