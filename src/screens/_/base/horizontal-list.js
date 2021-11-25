@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:30:17
+ * @Last Modified time: 2021-11-24 09:53:13
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Text, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { desc } from '@utils'
 import { findSubjectCn } from '@utils/app'
@@ -30,7 +30,8 @@ export const HorizontalList = ob(
       findCn: false,
       ellipsizeMode: 'tail',
       initialRenderNums: 0,
-      onPress: Function.prototype
+      onPress: Function.prototype,
+      onSubPress: undefined
     }
 
     state = {
@@ -68,7 +69,8 @@ export const HorizontalList = ob(
         findCn,
         ellipsizeMode,
         initialRenderNums,
-        onPress
+        onPress,
+        onSubPress
       } = this.props
       const { scrolled } = this.state
       return (
@@ -135,12 +137,29 @@ export const HorizontalList = ob(
                   >
                     {findCn ? findSubjectCn(item.name, item.id) : item.name}
                   </Text>
-                  {!!item.desc && (
-                    <Text style={_.mt.xs} type='sub' size={10} numberOfLines={2}>
-                      {item.desc}
-                    </Text>
-                  )}
                 </Touchable>
+                {!!item.desc && (
+                  <Touchable
+                    style={_.mt.xs}
+                    onPress={() => (onSubPress || onPress)(item, typeCn)}
+                  >
+                    <Flex>
+                      {!!item.actorCover && (
+                        <Cover
+                          style={styles.actor}
+                          src={item.actorCover}
+                          size={16}
+                          radius
+                        />
+                      )}
+                      <Flex.Item>
+                        <Text type='sub' size={10} numberOfLines={2}>
+                          {item.desc}
+                        </Text>
+                      </Flex.Item>
+                    </Flex>
+                  </Touchable>
+                )}
               </View>
             )
           })}
@@ -158,5 +177,8 @@ const styles = _.create({
   cover: {
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  actor: {
+    marginRight: 3
   }
 })

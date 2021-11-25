@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 15:29:43
+ * @Last Modified time: 2021-11-26 01:30:59
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -13,13 +13,14 @@ import { memo } from '@utils/decorators'
 const defaultProps = {
   style: undefined,
   icon: '',
+  left: undefined,
   right: undefined,
   children: undefined,
   onPress: undefined
 }
 
 export const SectionTitle = memo(
-  ({ style, icon, right, children, onPress }) => {
+  ({ style, icon, left, right, children, onPress }) => {
     rerender('Component.SectionTitle')
 
     return (
@@ -40,6 +41,7 @@ export const SectionTitle = memo(
                 {children}
               </Text>
             )}
+            {left}
           </Flex>
         </Flex.Item>
         {right}
@@ -47,7 +49,7 @@ export const SectionTitle = memo(
     )
   },
   defaultProps,
-  ({ right, children, ...other }) => {
+  ({ left, right, children, ...other }) => {
     // right只会是React.Element, 若存在强制更新
     if (isObject(right) || isObject(children)) return false
 

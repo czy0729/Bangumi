@@ -10,10 +10,10 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 07:27:12
+ * @Last Modified time: 2021-11-26 01:49:45
  */
 import React from 'react'
-import { View } from 'react-native'
+import { View, Image as RNImage } from 'react-native'
 import { CacheManager, Image as AnimatedImage } from 'react-native-expo-image-cache'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
@@ -234,7 +234,7 @@ export const Image = observer(
         })
       }
 
-      ImageComponent.getSize(uri, cb)
+      RNImage.getSize(uri, cb)
     }
 
     /**

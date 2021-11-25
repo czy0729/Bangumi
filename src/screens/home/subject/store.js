@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 03:55:53
+ * @Last Modified time: 2021-11-26 01:13:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -184,6 +184,12 @@ export default class ScreenSubject extends store {
     if ((!item && this.type === '动画') || this.type === '三次元') {
       this.fetchEpsThumbsFromDouban(this.cn, this.jp)
     }
+
+    // if (!this.characters._loaded) {
+    //   monoStore.fetchCharacters({
+    //     subjectId: this.subjectId
+    //   })
+    // }
 
     return res
   }
@@ -1081,11 +1087,19 @@ export default class ScreenSubject extends store {
     return this.subjectFormCDN.info
   }
 
+  // @computed get characters() {
+  //   return monoStore.characters(this.subjectId)
+  // }
+
   /**
    * 关联人物
    */
   @computed get crt() {
     if (this.subject._loaded) {
+      // const actorCoverMap = {}
+      // this.characters.list.forEach(item => {
+      //   if (item.actorCover) actorCoverMap[item.actorId] = item.actorCover
+      // })
       const { crt } = this.subject
       return (crt || []).map(
         ({
@@ -1101,10 +1115,12 @@ export default class ScreenSubject extends store {
           _image: images.medium,
           name: nameCn || name,
           nameJP: name,
-          desc: (actors[0] && actors[0].name) || roleName
+          desc: actors?.[0]?.name || roleName,
+          actorId: actors?.[0]?.id
         })
       )
     }
+
     return this.subjectFormCDN.crt || []
   }
 

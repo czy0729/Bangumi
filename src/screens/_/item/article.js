@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 12:35:07
+ * @Last Modified time: 2021-11-26 01:25:38
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -61,7 +61,7 @@ export const ItemArticle = ob(
               </Text>
             </Flex>
             {!!summary && (
-              <Text style={_.mt.sm} size={13} lineHeight={16} numberOfLines={4}>
+              <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={3}>
                 {HTMLDecode(summary.replace(/\r\n\r\n/g, '\r\n'))}
               </Text>
             )}

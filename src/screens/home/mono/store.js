@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-24 17:45:29
+ * @Last Modified time: 2021-11-26 02:03:32
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -141,10 +141,9 @@ export default class ScreenMono extends store {
   }
 
   @computed get jobs() {
-    if (this.mono._loaded) {
-      return this.mono.jobs || []
-    }
-    return this.monoFormCDN.jobs || []
+    return (
+      (this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || []
+    ).reverse()
   }
 
   // -------------------- page --------------------

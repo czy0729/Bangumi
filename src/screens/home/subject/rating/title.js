@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 06:27:10
+ * @Last Modified time: 2021-11-26 01:34:31
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -20,6 +20,7 @@ function Title({ showScore }, { $ }) {
   const showNetabare = $.type === '动画'
   return (
     <SectionTitle
+      left={showRating && <Rank style={styles.rank} value={rank} size={13} />}
       right={
         showRating && (
           <Touchable
@@ -34,7 +35,6 @@ function Title({ showScore }, { $ }) {
             }}
           >
             <Flex>
-              {showScore && <Rank style={styles.rank} value={rank} size={13} />}
               {showNetabare && (
                 <>
                   <Text style={_.ml.sm} type='sub'>
@@ -58,17 +58,9 @@ function Title({ showScore }, { $ }) {
     >
       评分{' '}
       {showScore && (
-        <>
-          <Text type='warning' size={18} lineHeight={18} bold>
-            {' '}
-            {$.rating.score}{' '}
-          </Text>
-          {!!$.rating.total && (
-            <Text size={12} lineHeight={18} type='sub'>
-              ({$.rating.total}人评分)
-            </Text>
-          )}
-        </>
+        <Text type='warning' size={18} lineHeight={18} bold>
+          {$.rating.score}
+        </Text>
       )}
     </SectionTitle>
   )
@@ -84,6 +76,7 @@ const styles = _.create({
     overflow: 'hidden'
   },
   rank: {
-    minWidth: 44 * _.ratio
+    minWidth: 44 * _.ratio,
+    marginLeft: _.xs
   }
 })

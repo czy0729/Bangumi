@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-12 16:23:48
+ * @Last Modified time: 2021-11-26 01:39:02
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -29,6 +29,11 @@ const Chart = memo(
     const deviation = getDeviation(total, count, score)
     return (
       <>
+        {!!total && (
+          <Text style={styles.total} size={11} type='sub'>
+            {total}人评分
+          </Text>
+        )}
         <Flex style={_.mt.md}>
           {Object.keys(count)
             .reverse()
@@ -49,7 +54,7 @@ const Chart = memo(
                     />
                     <Text
                       style={[
-                        styles.total,
+                        styles.count,
                         {
                           bottom: height
                         }
@@ -158,6 +163,12 @@ export default obc((props, { $, navigation }) => {
 })
 
 const memoStyles = _.memoStyles(_ => ({
+  total: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 12,
+    right: -6
+  },
   item: {
     height: 112 * _.ratio,
     paddingBottom: _.xs,
@@ -174,7 +185,7 @@ const memoStyles = _.memoStyles(_ => ({
   itemFillActive: {
     backgroundColor: _.colorWarning
   },
-  total: {
+  count: {
     position: 'absolute',
     zIndex: 1,
     right: 0,

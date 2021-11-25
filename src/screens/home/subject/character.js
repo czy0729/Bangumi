@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 15:49:53
+ * @Last Modified time: 2021-11-24 09:44:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,6 +61,17 @@ const Character = memo(
                   _name: name,
                   _jp: nameJP,
                   _image
+                })
+              }}
+              onSubPress={({ actorId }) => {
+                t('条目.跳转', {
+                  to: 'Mono',
+                  from: '角色',
+                  subjectId
+                })
+
+                navigation.push('Mono', {
+                  monoId: `person/${actorId}`
                 })
               }}
             />

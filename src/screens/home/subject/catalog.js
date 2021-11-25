@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:33:50
+ * @Last Modified time: 2021-11-26 01:20:54
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -79,11 +79,11 @@ const Catalog = memo(
                         type='目录'
                       />
                       <Flex.Item style={_.ml.md}>
-                        <Text size={12} bold numberOfLines={2}>
+                        <Text style={styles.text} size={11} bold numberOfLines={2}>
                           {HTMLDecode(item.title)}
-                          <Text style={_.mt.xs} size={10} lineHeight={12} type='sub'>
+                          <Text style={_.mt.xs} size={10} lineHeight={11} type='sub'>
                             {' '}
-                            {item.name}
+                            {HTMLDecode(item.name)}
                           </Text>
                         </Text>
                       </Flex.Item>
@@ -140,9 +140,11 @@ const styles = _.create({
     marginBottom: -_.md
   },
   item: {
-    width: _.window.contentWidth * 0.4 * _.ratio,
-    marginRight: _.sm,
+    marginRight: _.md,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  text: {
+    maxWidth: _.window.contentWidth * 0.24 * _.ratio
   }
 })
