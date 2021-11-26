@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 07:24:06
+ * @Last Modified time: 2021-11-26 04:29:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, RenderHtml } from '@components'
-import { Avatar, Name } from '@screens/_'
-import { _ } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { getTimestamp, open } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
@@ -16,10 +15,12 @@ import { HTMLDecode, removeHTMLTag } from '@utils/html'
 import { matchUserIdFromAvatar } from '@utils/match'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { EVENT } from '@constants'
-import UserLabel from '../user-label'
-import FloorText from '../floor-text'
-import IconExtra from '../icon/extra'
+import { Avatar, Name } from '../../base'
+import UserLabel from './user-label'
+import FloorText from './floor-text'
+import IconExtra from './icon-extra'
 import PlusOne from './plus-one'
+import { isBlockUser } from './utils'
 
 const avatarWidth = 32
 const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
@@ -240,10 +241,13 @@ export default obc(
   ) => {
     rerender('Topic.ItemSub')
 
-    if ($.isBlockUser(userId, userName, replySub)) return null
+    // 屏蔽脏数据
+    if (!userId) return null
+
+    if (isBlockUser(userId, userName, replySub)) return null
 
     const { translateResultFloor } = $.state
-    const { blockKeywords, quote, quoteAvatar } = $.setting
+    const { blockKeywords, quote, quoteAvatar } = rakuenStore.setting
     return (
       <ItemSub
         navigation={navigation}
@@ -267,7 +271,7 @@ export default obc(
         replySub={replySub}
         showFixedTextare={showFixedTextare}
         time={time}
-        translate={translateResultFloor[id]}
+        translate={translateResultFloor?.[id]}
         uid={uid}
         url={url}
         userId={userId}

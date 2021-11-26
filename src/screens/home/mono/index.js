@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:35:40
+ * @Last Modified time: 2021-11-26 03:57:00
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ListView, Heatmap } from '@components'
-import { ItemTopic, NavigationBarEvents } from '@screens/_'
+import { Heatmap } from '@components'
+import { NavigationBarEvents, ItemPost } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
-import { keyExtractor, cnjp } from '@utils/app'
+import { cnjp } from '@utils/app'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import HeaderTitle from './header-title'
+import List from './list'
 import Extra from './extra'
-import Info from './info'
-import Heatmaps from './heatmaps'
+// import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '人物'
@@ -106,44 +106,19 @@ class Mono extends React.Component {
     }
   }
 
-  ListHeaderComponent = (<Info />)
-
   renderItem = ({ item, index }) => {
     const { navigation } = this.context
-    return (
-      <ItemTopic navigation={navigation} index={index} event={event} {...item}>
-        <Heatmaps index={index} />
-      </ItemTopic>
-    )
+    // <Heatmaps index={index} />
+    return <ItemPost navigation={navigation} index={index} event={event} {...item} />
   }
 
   render() {
-    const { $ } = this.context
     return (
       <View style={_.container.plain}>
         <NavigationBarEvents />
-        <ListView
-          contentContainerStyle={styles.contentContainerStyle}
-          keyExtractor={keyExtractor}
-          data={$.monoComments}
-          scrollEventThrottle={16}
-          scrollToTop
-          ListHeaderComponent={this.ListHeaderComponent}
-          removeClippedSubviews={false}
-          renderItem={this.renderItem}
-          onScroll={this.onScroll}
-          onHeaderRefresh={$.onHeaderRefresh}
-          onFooterRefresh={$.fetchMono}
-          {...withTransitionHeader.listViewProps}
-        />
+        <List renderItem={this.renderItem} onScroll={this.onScroll} />
         <Heatmap id='人物' screen='Mono' />
       </View>
     )
   }
 }
-
-const styles = _.create({
-  contentContainerStyle: {
-    paddingBottom: _.space
-  }
-})

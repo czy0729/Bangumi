@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:17:57
+ * @Last Modified time: 2021-11-27 07:07:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import {
   Flex,
-  Katakana,
   Text,
   Image,
   HeaderPlaceholder,
@@ -33,7 +32,6 @@ const maxSize = _.window.contentWidth * 0.5 * _.ratio
 function Info(props, { $, navigation }) {
   rerender('Mono.Info')
 
-  const { collectUrl, eraseCollectUrl } = $.mono
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -41,42 +39,17 @@ function Info(props, { $, navigation }) {
         <Flex align='start'>
           <Flex.Item>
             <Flex align='baseline'>
-              <Katakana.Provider size={20}>
-                <Katakana size={20} bold>
-                  {$.jp}
-                </Katakana>
-                {$.jp !== $.cn && (
+              <Text size={20} bold>
+                {$.nameTop}
+                {$.nameBottom && (
                   <Text type='sub' lineHeight={20} bold>
                     {' '}
-                    {$.cn}
+                    {$.nameBottom}
                   </Text>
                 )}
-              </Katakana.Provider>
+              </Text>
             </Flex>
           </Flex.Item>
-          {!!collectUrl && (
-            <Touchable style={styles.touch} onPress={$.doCollect}>
-              <Flex>
-                <Iconfont size={18} name='md-favorite-outline' />
-                <Text style={_.ml.xs} lineHeight={22} type='sub'>
-                  收藏
-                </Text>
-              </Flex>
-              <Heatmap id='人物.收藏人物' />
-              <Heatmap right={52} id='人物.取消收藏人物' transparent />
-            </Touchable>
-          )}
-          {!!eraseCollectUrl && (
-            <Touchable style={styles.touch} onPress={$.doEraseCollect}>
-              <Flex>
-                <Iconfont size={18} name='md-favorite' color={_.colorMain} />
-                <Text style={_.ml.xs} lineHeight={22} type='main'>
-                  已收藏
-                </Text>
-              </Flex>
-              <Heatmap id='人物.取消收藏人物' />
-            </Touchable>
-          )}
         </Flex>
         {!!$.cover && (
           <Flex style={_.mt.md} justify='center'>

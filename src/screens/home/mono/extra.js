@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 10:09:26
+ * @Last Modified time: 2021-11-27 07:10:37
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -11,6 +11,7 @@ import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import Favor from './favor'
 
 const defaultProps = {
   navigation: {},
@@ -41,7 +42,7 @@ const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
         }
       >
         <Flex style={_.mr.sm}>
-          <IconHeader name='trophy' size={19} />
+          <IconHeader name='trophy' size={18} />
           <Text size={13}>启动ICO</Text>
         </Flex>
       </Touchable>
@@ -51,7 +52,7 @@ const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
   return (
     <IconHeader
       name='trophy'
-      size={19}
+      size={18}
       onPress={() => {
         const path = icoUsers ? 'TinygrailICODeal' : 'TinygrailDeal'
         t('人物.跳转', {
@@ -89,15 +90,18 @@ const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
 export default ob(({ $, navigation }) => {
   rerender('Mono.Extra')
 
-  if (!$.tinygrail) return null
-
   return (
-    <Extra
-      navigation={navigation}
-      monoId={$.monoId}
-      canICO={$.canICO}
-      doICO={$.doICO}
-      icoUsers={$.chara.users}
-    />
+    <>
+      {$.tinygrail && (
+        <Extra
+          navigation={navigation}
+          monoId={$.monoId}
+          canICO={$.canICO}
+          doICO={$.doICO}
+          icoUsers={$.chara.users}
+        />
+      )}
+      <Favor $={$} />
+    </>
   )
 })

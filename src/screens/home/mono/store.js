@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 02:03:32
+ * @Last Modified time: 2021-11-27 06:54:10
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -12,6 +12,7 @@ import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { info, feedback } from '@utils/ui'
+import { cnjp } from '@utils/app'
 import { HOST } from '@constants'
 
 export default class ScreenMono extends store {
@@ -101,6 +102,15 @@ export default class ScreenMono extends store {
   @computed get canICO() {
     const { checkTinygrail } = this.state
     return checkTinygrail && !this.chara._loaded
+  }
+
+  @computed get nameTop() {
+    return cnjp(this.cn, this.jp) || ''
+  }
+
+  @computed get nameBottom() {
+    const text = cnjp(this.jp, this.cn)
+    return text !== this.nameTop ? text : ''
   }
 
   // -------------------- get: cdn fallback --------------------

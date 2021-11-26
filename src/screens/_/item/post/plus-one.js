@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 19:27:44
+ * @Last Modified time: 2021-11-26 02:45:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, RenderHtml } from '@components'
-import { Avatar, Name } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
+import { Avatar, Name } from '../../base'
 
 const avatarWidth = 20
 const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm

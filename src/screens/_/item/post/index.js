@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 07:42:12
+ * @Last Modified time: 2021-11-26 04:46:27
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
-import { Avatar, Name } from '@screens/_'
-import { _ } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { getTimestamp, open } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, EVENT } from '@constants'
-import UserLabel from '../user-label'
-import FloorText from '../floor-text'
-import IconExtra from '../icon/extra'
+import { Avatar, Name } from '../../base'
+import UserLabel from './user-label'
+import FloorText from './floor-text'
+import IconExtra from './icon-extra'
 import ItemSub from './sub'
+import { isBlockUser } from './utils'
 
 const avatarWidth = 32
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
@@ -200,7 +201,7 @@ const Item = memo(
   })
 )
 
-export default obc(
+export const ItemPost = obc(
   (
     {
       avatar,
@@ -224,33 +225,55 @@ export default obc(
   ) => {
     rerender('Topic.Item')
 
+    // 屏蔽脏数据
+    if (!userId) return null
+
     // [test code]
     // const _floor = Number(floor.replace('#', ''))
     // if (_floor !== 13) return null
 
-    if ($.isBlockUser(userId, userName, replySub)) return null
+    // 屏蔽用户
+    if (isBlockUser(userId, userName, replySub)) return null
 
-    let msg = decoder(message)
-    if ($.filterDelete && msg.includes('内容已被用户删除')) return null
+    // 屏蔽内容删除
+    const { filterDelete, blockKeywords } = rakuenStore.setting
+    let msg
+    if (filterDelete) {
+      msg = decoder(message)
+      if (msg.includes('内容已被用户删除')) return null
+    }
 
+    // 展开子楼层
+    // @todo 状态分离optimize
     const { expands, translateResultFloor } = $.state
-    const isExpand =
-      sub.length <= expandNum || (sub.length > expandNum && expands.includes(id))
+    let isExpand
+    if (expands !== undefined) {
+      isExpand =
+        sub.length <= expandNum || (sub.length > expandNum && expands.includes(id))
+    } else {
+      isExpand = true
+    }
 
-    const { _time: readedTime } = $.readed
-
+    // 新楼层标识
+    const readedTime = $.readed?._time
     const isNew = !!readedTime && getTimestamp(time) > readedTime
+
+    // 作者
     const isAuthor = authorId === userId
+
+    // 跳转楼层标识
     const isJump = !!postId && postId === id
 
-    const { _url } = $.params
+    // 浏览器查看
+    const { _url } = $.params || {}
     const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
 
-    const { blockKeywords } = $.setting
+    // 屏蔽关键字命中
     if (blockKeywords.some(item => msg.includes(item))) {
       msg =
         '<span style="color:#999;font-size:12px">命中自定义关键字，已被App屏蔽</span>'
     }
+
     return (
       <Item
         navigation={navigation}
@@ -262,7 +285,7 @@ export default obc(
         id={id}
         isAuthor={isAuthor}
         isExpand={isExpand}
-        isFriend={$.myFriendsMap[userId]}
+        isFriend={$.myFriendsMap?.[userId]}
         isJump={isJump}
         isNew={isNew}
         matchLink={rendered}
@@ -273,7 +296,7 @@ export default obc(
         showFixedTextare={showFixedTextare}
         sub={sub}
         time={time}
-        translate={translateResultFloor[id]}
+        translate={translateResultFloor?.[id]}
         url={url}
         userId={userId}
         userName={userName}

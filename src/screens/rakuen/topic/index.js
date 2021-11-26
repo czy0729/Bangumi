@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-30 16:58:08
+ * @Last Modified time: 2021-11-26 03:28:08
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
-import { ListView, FixedTextarea, Flex, Text, Loading } from '@components'
-import { NavigationBarEvents } from '@screens/_'
+import { FixedTextarea, Flex, Text, Loading } from '@components'
+import { NavigationBarEvents, ItemPost } from '@screens/_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
-import { keyExtractor, appNavigate } from '@utils/app'
+import { appNavigate } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, IOS } from '@constants'
 import HeaderTitle from './header-title'
-import Top from './top'
-import Item from './item'
+import List from './list'
 import TouchScroll from './touch-scroll'
 import Heatmaps from './heatmaps'
 import IconFavor from './icon/favor'
@@ -51,7 +50,6 @@ class Topic extends React.Component {
       const { $, navigation } = this.context
 
       // 不上架暂时屏蔽UCG协议
-      // eslint-disable-next-line no-constant-condition
       // if (!$.isUGCAgree) {
       //   /**
       //    * @issue 这里注意在iOS上面, 一定要延迟,
@@ -171,18 +169,14 @@ class Topic extends React.Component {
 
   jump = () => {
     const { $ } = this.context
-    if (!$.postId) {
-      return
-    }
+    if (!$.postId) return
 
     const { list, _loaded } = $.comments
     if (_loaded) {
       try {
         let scrollIndex = 0
         list.forEach((item, index) => {
-          if (scrollIndex) {
-            return
-          }
+          if (scrollIndex) return
 
           if (item.id === $.postId) {
             scrollIndex = index
@@ -251,9 +245,7 @@ class Topic extends React.Component {
   onScrollToIndexFailed = ({ highestMeasuredFrameIndex, index }) => {
     this.scrollTo(highestMeasuredFrameIndex)
     setTimeout(() => {
-      if (this.scrollFailCount > 10) {
-        return
-      }
+      if (this.scrollFailCount >= 8) return
       this.scrollFailCount += 1
       this.scrollTo(index)
     }, 100)
@@ -280,8 +272,9 @@ class Topic extends React.Component {
         topicId: $.topicId
       }
     }
+
     return (
-      <Item
+      <ItemPost
         index={index}
         postId={$.postId}
         authorId={$.topic.userId}
@@ -335,31 +328,14 @@ class Topic extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
     return (
       <View style={_.container.flex}>
         <NavigationBarEvents />
-        <ListView
-          ref={this.connectListViewRef}
-          style={_.container.content}
-          contentContainerStyle={this.styles.contentContainerStyle}
-          keyExtractor={keyExtractor}
-          data={$.comments}
-          lazy={$.postId ? undefined : 4}
-          scrollEventThrottle={16}
-          removeClippedSubviews={false}
-          initialNumToRender={120}
-          maxToRenderPerBatch={120}
-          updateCellsBatchingPeriod={120}
-          scrollToTop
-          ListHeaderComponent={<Top />}
+        <List
+          connectRef={this.connectListViewRef}
           renderItem={this.renderItem}
           onScroll={this.onScroll}
           onScrollToIndexFailed={this.onScrollToIndexFailed}
-          onHeaderRefresh={$.fetchTopic}
-          onFooterRefresh={$.fetchTopic}
-          onEndReachedThreshold={0.5}
-          {...withTransitionHeader.listViewProps}
         />
         {this.renderFixedBottom()}
         <TouchScroll onPress={this.scrollToThenFeedback} />
@@ -374,9 +350,6 @@ class Topic extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
-  contentContainerStyle: {
-    paddingBottom: _.bottom
-  },
   fixedBottom: {
     position: 'absolute',
     zIndex: 1,
