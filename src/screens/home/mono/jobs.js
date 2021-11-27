@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 11:36:54
+ * @Last Modified time: 2021-11-27 12:08:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -158,6 +158,7 @@ const Jobs = memo(({ navigation, style, jobs }) => {
                       >
                         <Flex>
                           <Image
+                            style={_.mr.xs}
                             size={24 * _.ratio}
                             src={item?.cast2?.castCover}
                             radius

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 12:00:14
+ * @Last Modified time: 2021-11-27 16:03:35
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -151,7 +151,7 @@ const styles = _.create({
   },
   btn: {
     height: size,
-    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel2),
+    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: size
   }
 })

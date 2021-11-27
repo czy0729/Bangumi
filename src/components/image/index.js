@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 01:49:45
+ * @Last Modified time: 2021-11-27 12:20:50
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -212,9 +212,7 @@ export const Image = observer(
     getSize = () => {
       const { autoSize } = this.props
       const { uri } = this.state
-      if (typeof uri !== 'string' || typeof autoSize !== 'number') {
-        return
-      }
+      if (typeof uri !== 'string' || typeof autoSize !== 'number') return
 
       const cb = (width, height) => {
         let w
@@ -430,6 +428,10 @@ export const Image = observer(
             )
           }
 
+          if (!IOS && autoSize && !this.state.width) {
+            return <View style={this.computedStyle.image} />
+          }
+
           // 网络图片
           return (
             <ImageComponent
@@ -480,7 +482,6 @@ export const Image = observer(
         onLongPress
       } = this.props
       const { uri } = this.state
-
       let _onPress = onPress
       if (imageViewer) {
         _onPress = () => {

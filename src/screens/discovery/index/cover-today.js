@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 14:55:50
+ * @Last Modified time: 2021-11-27 16:02:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,11 @@ function CoverToday({ data }, { navigation }) {
             })
           }}
         />
-        <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
+        <LinearGradient
+          style={styles.linear}
+          colors={linearColor}
+          pointerEvents='none'
+        />
         <View style={styles.info} pointerEvents='none'>
           <Text
             size={_.device(11, 13)}
@@ -59,13 +63,14 @@ function CoverToday({ data }, { navigation }) {
             bold
             pointerEvents='none'
           >
-            {data.timeCN.slice(0, 2)}:{data.timeCN.slice(2)} · 周{weekdayCN[data.weekday]}
+            {data.timeCN.slice(0, 2)}:{data.timeCN.slice(2)} · 周
+            {weekdayCN[data.weekday]}
           </Text>
           <Text
             style={_.mt.xxs}
             size={_.device(10, 12)}
             type={_.select('plain', 'title')}
-            numberOfLines={1}
+            numberOfLines={2}
             bold
             pointerEvents='none'
           >

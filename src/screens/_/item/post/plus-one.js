@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 02:45:34
+ * @Last Modified time: 2021-11-27 12:51:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,7 @@ function ItemPlusOne(
       <Flex>
         <Flex style={avatarRound ? styles.round : styles.rectangle}>
           <Avatar
+            style={_.mr.xs}
             navigation={navigation}
             size={avatarWidth}
             userId={userId}
@@ -35,7 +36,7 @@ function ItemPlusOne(
             src={avatar}
             event={event}
           />
-          <Name style={_.ml.sm} userId={userId} size={10} bold>
+          <Name userId={userId} size={10} bold>
             {HTMLDecode(userName)}
           </Name>
         </Flex>

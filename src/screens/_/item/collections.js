@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 08:43:55
+ * @Last Modified time: 2021-11-27 16:55:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { x18 } from '@utils/app'
+// import { x18 } from '@utils/app'
 import { memo, ob } from '@utils/decorators'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { Tag, Stars, Cover } from '../base'
@@ -90,20 +90,16 @@ const Item = memo(
     if (isDropped) info.push(`抛弃${days}天`)
 
     let isHidden
-    if (tags) {
-      const tag = tags
-        .split(' ')
-        .filter(item => {
-          if (item === '自己可见') {
-            isHidden = true
-            return false
-          }
-          return !!item
-        })
-        .filter((item, index) => index < 4)
-        .join(' · ')
-      if (tag) info.push(tag)
-    }
+    const tag = tags
+      .split(' ')
+      .filter(item => {
+        if (item === '自己可见') {
+          isHidden = true
+          return false
+        }
+        return !!item
+      })
+      .filter((item, index) => index < 4)
 
     const _collection = collection || (isCollect ? '已收藏' : '')
     // {collection} = 2个全角 + 1个半角, 已收藏 = 3个全角
@@ -175,7 +171,7 @@ const Item = memo(
                       <Iconfont name='md-visibility-off' color={_.colorSub} size={11} />
                     </Flex>
                   )}
-                  {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
+                  {/* {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />} */}
                   {showLabel && !!type && <Tag style={_.ml.sm} value={type} />}
                 </Flex>
               </Flex>
@@ -184,14 +180,21 @@ const Item = memo(
                   {HTMLDecode(tip)}
                 </Text>
               )}
-              <Flex style={_.mt.sm} align='start'>
+              <Flex style={_.mt.sm}>
                 {!hideScore && hasScore && (
-                  <Stars style={_.mr.xs} value={score} color='warning' />
+                  <Stars style={_.mr.sm} value={score} color='warning' />
                 )}
-                <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>
-                  {hasScore && !!info.length && '/ '}
-                  {info.join(' / ')}
-                </Text>
+                {!!info.length && (
+                  <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>
+                    {hasScore && !!info.length && '/ '}
+                    {info}
+                  </Text>
+                )}
+                {tag.map(item => (
+                  <View key={item} style={styles.tag}>
+                    <Text size={11}>{item}</Text>
+                  </View>
+                ))}
               </Flex>
             </Flex>
             <Flex>
@@ -326,5 +329,13 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
+  },
+  tag: {
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    marginRight: _.sm,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 }))

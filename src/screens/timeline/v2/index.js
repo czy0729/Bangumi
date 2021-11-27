@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 01:07:39
+ * @Last Modified time: 2021-11-27 16:41:10
  */
 import React from 'react'
 import { UM } from '@components'
@@ -65,9 +65,7 @@ class Timeline extends React.Component {
             <UM screen={title} />
             <Header />
             <Tab />
-            {isFocused && (
-              <IconPortal index={1} onPress={$.onRefreshThenScrollTop} />
-            )}
+            {isFocused && <IconPortal index={1} onPress={$.onRefreshThenScrollTop} />}
             <Heatmaps />
           </>
         )}

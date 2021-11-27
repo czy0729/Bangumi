@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 18:04:23
+ * @Last Modified time: 2021-11-27 17:26:47
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
-import { Flex, Text, Heatmap } from '@components'
+import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import ToolBar from './tool-bar'
+import Label from './label'
 import List from './list'
 import { tabs, H_BG, H_TABBAR, H_HEADER, H_RADIUS_LINE } from './store'
 
@@ -44,9 +44,10 @@ class Tab extends React.Component {
   renderScene = SceneMap(
     Object.assign(
       {},
-      ...tabs.map(item => ({
+      ...tabs.map((item, index) => ({
         [item.key]: () => (
           <List
+            page={index}
             title={item.title}
             ListHeaderComponent={this.ListHeaderComponent}
             scrollEventThrottle={16}
@@ -80,24 +81,7 @@ class Tab extends React.Component {
     }
   }
 
-  renderLabel = ({ route, focused }) => {
-    const { $ } = this.context
-    const { subjectType } = $.state
-    const count = $.counts[MODEL_SUBJECT_TYPE.getTitle(subjectType)][route.title]
-    return (
-      <Flex style={this.styles.labelText} justify='center' align='start'>
-        <Text type='title' size={13} bold={focused}>
-          {route.title.replace('看', $.action)}
-        </Text>
-        {!!count && (
-          <Text type='sub' size={9} lineHeight={11} bold>
-            {' '}
-            {count}{' '}
-          </Text>
-        )}
-      </Flex>
-    )
-  }
+  renderLabel = ({ route, focused }) => <Label title={route.title} focused={focused} />
 
   renderTabBar = props => (
     <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
@@ -173,9 +157,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   label: {
     padding: 0
-  },
-  labelText: {
-    width: '100%'
   },
   indicator: {
     width: W_INDICATOR,

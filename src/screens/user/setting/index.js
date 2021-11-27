@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 09:03:26
+ * @Last Modified time: 2021-11-27 12:51:40
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -826,7 +826,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              show={!this.simple}
+              show={IOS && !this.simple}
               hd='图片渐出动画'
               ft={
                 <SwitchPro
