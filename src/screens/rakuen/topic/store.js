@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-31 09:36:00
+ * @Last Modified time: 2021-11-27 10:22:32
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
@@ -687,7 +687,7 @@ export default class ScreenTopic extends store {
         this.setState({
           translateResult
         })
-        info('翻译成功')
+        // info('翻译成功')
         return
       }
       info('翻译失败, 请重试')

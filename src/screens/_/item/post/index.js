@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 04:46:27
+ * @Last Modified time: 2021-11-27 09:38:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ const expandNum = 4
 const defaultProps = {
   navigation: {},
   styles: {},
+  contentStyle: {},
   authorId: '',
   avatar: '',
   erase: '',
@@ -58,6 +59,7 @@ const Item = memo(
   ({
     navigation,
     styles,
+    contentStyle,
     authorId,
     avatar,
     erase,
@@ -105,7 +107,7 @@ const Item = memo(
           src={avatar}
           event={event}
         />
-        <Flex.Item style={styles.content}>
+        <Flex.Item style={[styles.content, contentStyle]}>
           <Flex align='start'>
             <Flex.Item>
               <Name
@@ -204,6 +206,7 @@ const Item = memo(
 export const ItemPost = obc(
   (
     {
+      contentStyle,
       avatar,
       userId,
       userName,
@@ -278,6 +281,7 @@ export const ItemPost = obc(
       <Item
         navigation={navigation}
         styles={memoStyles()}
+        contentStyle={contentStyle}
         authorId={authorId}
         avatar={avatar}
         erase={erase}

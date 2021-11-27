@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 01:13:00
+ * @Last Modified time: 2021-11-27 10:23:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -2096,7 +2096,7 @@ export default class ScreenSubject extends store {
         this.setState({
           translateResult
         })
-        info('翻译成功')
+        // info('翻译成功')
         return
       }
       info('翻译失败, 请重试')
@@ -2136,7 +2136,7 @@ export default class ScreenSubject extends store {
         this.setState({
           discTranslateResult
         })
-        info('翻译成功')
+        // info('翻译成功')
         return
       }
       info('翻译失败, 请重试')

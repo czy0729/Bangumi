@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 06:54:10
+ * @Last Modified time: 2021-11-27 08:05:32
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
-import { open } from '@utils'
+import { open, desc } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
@@ -137,23 +137,19 @@ export default class ScreenMono extends store {
   }
 
   @computed get voices() {
-    if (this.mono._loaded) {
-      return this.mono.voice || []
-    }
+    if (this.mono._loaded) return this.mono.voice || []
     return this.monoFormCDN.voices || []
   }
 
   @computed get works() {
-    if (this.mono._loaded) {
-      return this.mono.works || []
-    }
+    if (this.mono._loaded) return this.mono.works || []
     return this.monoFormCDN.works || []
   }
 
   @computed get jobs() {
-    return (
-      (this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || []
-    ).reverse()
+    return ((this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || []).sort(
+      (a, b) => desc(a, b, item => (item.type == 2 ? 99 : Number(item.type)))
+    )
   }
 
   // -------------------- page --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 03:57:00
+ * @Last Modified time: 2021-11-27 09:38:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,7 +109,15 @@ class Mono extends React.Component {
   renderItem = ({ item, index }) => {
     const { navigation } = this.context
     // <Heatmaps index={index} />
-    return <ItemPost navigation={navigation} index={index} event={event} {...item} />
+    return (
+      <ItemPost
+        navigation={navigation}
+        contentStyle={styles.contentStyle}
+        index={index}
+        event={event}
+        {...item}
+      />
+    )
   }
 
   render() {
@@ -122,3 +130,9 @@ class Mono extends React.Component {
     )
   }
 }
+
+const styles = _.create({
+  contentStyle: {
+    paddingRight: _.wind - _.sm
+  }
+})

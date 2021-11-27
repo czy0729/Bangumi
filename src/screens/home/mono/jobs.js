@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 09:50:48
+ * @Last Modified time: 2021-11-27 11:36:54
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, Text, Heatmap } from '@components'
+import { Flex, Touchable, Image, Text, Expand, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
-import { appNavigate, getCoverMedium } from '@utils/app'
+import { appNavigate, getCoverMedium, cnjp } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 export const coverWidth = 64 * _.ratio
@@ -31,91 +31,73 @@ const Jobs = memo(({ navigation, style, jobs }) => {
   rerender('Mono.Jobs.Main')
 
   return (
-    <View style={[styles.container, style]}>
-      <View>
-        <SectionTitle>出演</SectionTitle>
-        <Heatmap
-          id='人物.跳转'
-          data={{
-            from: '出演'
-          }}
-        />
-      </View>
-      <View style={_.mt.md}>
-        {jobs.map((item, index) => (
-          <Flex
-            key={item.href}
-            style={[styles.item, index !== 0 && !_.flat && styles.border]}
-            align='start'
-          >
-            <Flex.Item flex={3}>
-              <Flex align='start'>
-                <View>
-                  <Cover
-                    size={coverWidth}
-                    height={coverHeight}
-                    src={item.cover}
-                    radius
-                    shadow
-                    type={MODEL_SUBJECT_TYPE.getTitle(item.type)}
-                    onPress={() =>
-                      appNavigate(
-                        item.href,
-                        navigation,
-                        {
-                          _jp: item.name,
-                          _cn: item.nameCn,
-                          _image: item.cover
-                        },
-                        event
-                      )
-                    }
+    <Expand ratio={2.8}>
+      <View style={[styles.container, style]}>
+        <View>
+          <SectionTitle>出演</SectionTitle>
+          <Heatmap
+            id='人物.跳转'
+            data={{
+              from: '出演'
+            }}
+          />
+        </View>
+        <View style={_.mt.md}>
+          {jobs.map((item, index) => {
+            const nameTop = cnjp(item.nameCn, item.name)
+            const nameBottom = cnjp(item.name, item.nameCn)
+            const type = MODEL_SUBJECT_TYPE.getTitle(item.type)
+            const onPress = () =>
+              appNavigate(
+                item.href,
+                navigation,
+                {
+                  _jp: item.name,
+                  _cn: item.nameCn,
+                  _image: item.cover,
+                  _type: type
+                },
+                event
+              )
+            return (
+              <Flex key={item.href} style={styles.item} align='start'>
+                <Cover
+                  src={item.cover}
+                  type={type}
+                  size={coverWidth}
+                  height={coverHeight}
+                  radius
+                  shadow
+                  onPress={onPress}
+                />
+                {!index && (
+                  <Heatmap
+                    right={-32}
+                    id='人物.跳转'
+                    data={{
+                      to: 'Subject',
+                      alias: '条目'
+                    }}
                   />
-                  {!index && (
-                    <Heatmap
-                      right={-32}
-                      id='人物.跳转'
-                      data={{
-                        to: 'Subject',
-                        alias: '条目'
-                      }}
-                    />
-                  )}
-                </View>
+                )}
                 <Flex.Item style={styles.content}>
-                  <Flex align='start'>
-                    <Text style={_.mt.xs} size={12} bold numberOfLines={3}>
-                      {item.name}
-                    </Text>
-                    <Tag style={styles.tag} value={item.staff} />
-                  </Flex>
-                  {!!item.nameCn && (
-                    <Text style={_.mt.xs} size={10} type='sub' lineHeight={12} bold>
-                      {item.nameCn}
-                    </Text>
-                  )}
-                </Flex.Item>
-              </Flex>
-            </Flex.Item>
-            <Flex.Item flex={2}>
-              <Flex align='start'>
-                <Flex.Item>
-                  <Text style={_.mt.xs} size={12} align='right' bold>
-                    {item.cast}
-                  </Text>
-                  {!!item.castTag && (
-                    <Text style={_.mt.xs} size={10} type='sub' align='right'>
-                      {item.castTag}
-                    </Text>
-                  )}
-                </Flex.Item>
-                {!!item.castCover && (
-                  <View style={_.ml.sm}>
-                    <Image
-                      size={40 * _.ratio}
-                      src={item.castCover}
-                      radius
-                      shadow
+                  <Touchable onPress={onPress}>
+                    <Flex align='start'>
+                      <Flex.Item>
+                        <Text size={12} bold numberOfLines={3}>
+                          {nameTop}
+                        </Text>
+                      </Flex.Item>
+                      <Tag style={styles.tag} value={item.staff} />
+                    </Flex>
+                    {!!nameBottom && nameBottom !== nameTop && (
+                      <Text style={_.mt.xs} size={10} type='sub' bold>
+                        {nameBottom}
+                      </Text>
+                    )}
+                  </Touchable>
+                  <Flex style={_.mt.md}>
+                    <Touchable
                       onPress={() =>
                         appNavigate(
                           item.castHref,
@@ -127,39 +109,41 @@ const Jobs = memo(({ navigation, style, jobs }) => {
                           event
                         )
                       }
-                    />
-                  </View>
-                )}
-                {!index && (
-                  <Heatmap
-                    id='人物.跳转'
-                    data={{
-                      to: 'Mono',
-                      alias: '人物'
-                    }}
-                  />
-                )}
-              </Flex>
+                    >
+                      <Flex>
+                        {!!item.castCover && (
+                          <Image
+                            style={_.mr.xs}
+                            size={24 * _.ratio}
+                            src={item.castCover}
+                            radius
+                            shadow
+                          />
+                        )}
+                        <Text size={11} bold>
+                          {item.cast}
+                          {!!item.castTag && (
+                            <Text size={8} type='sub' lineHeight={11} bold>
+                              {' '}
+                              {item.castTag}
+                            </Text>
+                          )}
+                        </Text>
+                      </Flex>
+                      {!index && (
+                        <Heatmap
+                          id='人物.跳转'
+                          data={{
+                            to: 'Mono',
+                            alias: '人物'
+                          }}
+                        />
+                      )}
+                    </Touchable>
 
-              {!!item?.cast2?.cast && (
-                <Flex style={_.mt.md} align='start'>
-                  <Flex.Item>
-                    <Text style={_.mt.xs} size={12} align='right' bold>
-                      {item?.cast2?.cast}
-                    </Text>
-                    {!!item?.cast2?.castTag && (
-                      <Text style={_.mt.xs} size={10} type='sub' align='right'>
-                        {item?.cast2?.castTag}
-                      </Text>
-                    )}
-                  </Flex.Item>
-                  {!!item?.cast2?.castCover && (
-                    <View style={_.ml.sm}>
-                      <Image
-                        size={40 * _.ratio}
-                        src={item?.cast2?.castCover}
-                        radius
-                        shadow
+                    {!!item?.cast2?.castCover && (
+                      <Touchable
+                        style={[_.ml.md, _.mr.xs]}
                         onPress={() =>
                           appNavigate(
                             item?.cast2?.castHref,
@@ -171,16 +155,34 @@ const Jobs = memo(({ navigation, style, jobs }) => {
                             event
                           )
                         }
-                      />
-                    </View>
-                  )}
-                </Flex>
-              )}
-            </Flex.Item>
-          </Flex>
-        ))}
+                      >
+                        <Flex>
+                          <Image
+                            size={24 * _.ratio}
+                            src={item?.cast2?.castCover}
+                            radius
+                            shadow
+                          />
+                          <Text size={11} bold>
+                            {item?.cast2?.cast}
+                            {!!item?.cast2?.castTag && (
+                              <Text size={8} type='sub' lineHeight={11} bold>
+                                {' '}
+                                {item?.cast2?.castTag}
+                              </Text>
+                            )}
+                          </Text>
+                        </Flex>
+                      </Touchable>
+                    )}
+                  </Flex>
+                </Flex.Item>
+              </Flex>
+            )
+          })}
+        </View>
       </View>
-    </View>
+    </Expand>
   )
 }, defaultProps)
 
@@ -202,11 +204,10 @@ const styles = _.create({
     paddingRight: _.wind
   },
   content: {
-    marginLeft: _.sm + 4
+    paddingTop: 2,
+    paddingLeft: _.sm + 4
   },
   tag: {
-    marginTop: _.xs - 1,
-    marginRight: _.sm,
-    marginLeft: _.xs
+    marginLeft: _.sm
   }
 })

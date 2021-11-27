@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 07:07:32
+ * @Last Modified time: 2021-11-27 11:48:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import {
   Flex,
+  Expand,
   Text,
   Image,
   HeaderPlaceholder,
@@ -36,20 +37,13 @@ function Info(props, { $, navigation }) {
     <>
       {!IOS && <HeaderPlaceholder />}
       <View style={styles.container}>
-        <Flex align='start'>
-          <Flex.Item>
-            <Flex align='baseline'>
-              <Text size={20} bold>
-                {$.nameTop}
-                {$.nameBottom && (
-                  <Text type='sub' lineHeight={20} bold>
-                    {' '}
-                    {$.nameBottom}
-                  </Text>
-                )}
-              </Text>
-            </Flex>
-          </Flex.Item>
+        <Flex wrap='wrap'>
+          <Text size={20} bold>
+            {$.nameTop}{' '}
+          </Text>
+          <Text type='sub' lineHeight={20} bold>
+            {$.nameBottom}
+          </Text>
         </Flex>
         {!!$.cover && (
           <Flex style={_.mt.md} justify='center'>
@@ -77,11 +71,13 @@ function Info(props, { $, navigation }) {
           />
         )}
         {!!$.detail && (
-          <RenderHtml
-            style={_.mt.lg}
-            html={$.detail}
-            onLinkPress={href => appNavigate(href, navigation)}
-          />
+          <Expand ratio={2}>
+            <RenderHtml
+              style={_.mt.lg}
+              html={$.detail}
+              onLinkPress={href => appNavigate(href, navigation)}
+            />
+          </Expand>
         )}
         {!!$.cn && (
           <Flex style={_.mt.lg} justify='end'>
@@ -91,7 +87,7 @@ function Info(props, { $, navigation }) {
                   更多资料
                 </Text>
                 <Iconfont
-                  style={_.ml.xxs}
+                  style={_.ml.xs}
                   name='md-open-in-new'
                   color={_.colorSub}
                   size={16}

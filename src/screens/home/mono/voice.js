@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 09:26:39
+ * @Last Modified time: 2021-11-27 11:26:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, Text, Heatmap } from '@components'
+import { Flex, Touchable, Image, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
+import { appNavigate, cnjp } from '@utils/app'
 import SectionRight from './section-right'
 import { coverWidth, coverHeight } from './jobs'
 
@@ -50,67 +50,79 @@ const Voice = memo(({ navigation, style, voices }) => {
         最近演出角色
       </SectionTitle>
       <View style={_.mt.md}>
-        {voices.map(item => (
-          <Flex key={item.href} style={styles.item} align='start'>
-            <Flex.Item flex={2}>
-              <Flex align='start'>
+        {voices.map(item => {
+          const nameTop = cnjp(item.nameCn, item.name)
+          const nameBottom = cnjp(item.name, item.nameCn)
+          const onPress = () =>
+            appNavigate(
+              item.href,
+              navigation,
+              {
+                _jp: item.name,
+                _cn: item.nameCn,
+                _image: item.cover
+              },
+              event
+            )
+
+          const subjectTop = cnjp(item.subjectNameCn, item.subjectName)
+          const subjectBottom = cnjp(item.subjectName, item.subjectNameCn)
+          const onPressSubject = () =>
+            appNavigate(item.subjectHref, navigation, {}, event)
+          return (
+            <Flex key={item.href} style={styles.item} align='start'>
+              <Flex flex={1} align='start'>
                 <Image
-                  size={imgWidth}
                   src={item.cover}
+                  size={imgWidth}
                   radius
                   shadow
-                  onPress={() =>
-                    appNavigate(
-                      item.href,
-                      navigation,
-                      {
-                        _jp: item.name,
-                        _cn: item.nameCn,
-                        _image: item.cover
-                      },
-                      event
-                    )
-                  }
+                  onPress={onPress}
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Text style={_.mt.xs} bold size={12}>
-                    {item.name}
-                  </Text>
-                  {!!item.nameCn && (
-                    <Text style={_.mt.xs} size={10} type='sub'>
-                      {item.nameCn}
+                  <Touchable style={_.mt.xs} onPress={onPress}>
+                    <Text size={12} bold>
+                      {nameTop}
                     </Text>
-                  )}
-                </Flex.Item>
-              </Flex>
-            </Flex.Item>
-            <Flex.Item style={_.ml.sm} flex={3.8}>
-              <Flex align='start'>
-                <Flex.Item style={_.mr.sm}>
-                  <Text style={_.mt.xs} align='right' size={12}>
-                    {item.subjectName}
-                  </Text>
-                  <Flex style={_.mt.xs} align='start'>
-                    <Flex.Item>
-                      <Text size={10} type='sub' align='right' lineHeight={12} bold>
-                        {item.subjectNameCn}
+                    {!!nameBottom && nameBottom !== nameTop && (
+                      <Text style={_.mt.xs} size={10} type='sub' bold>
+                        {nameBottom}
                       </Text>
-                    </Flex.Item>
-                    <Tag style={_.ml.xs} value={item.staff} />
+                    )}
+                  </Touchable>
+                  <Flex style={_.mt.xs}>
+                    <Tag value={item.staff} />
                   </Flex>
                 </Flex.Item>
-                <Cover
-                  size={coverWidth}
-                  height={coverHeight}
-                  src={item.subjectCover}
-                  radius
-                  shadow
-                  onPress={() => appNavigate(item.subjectHref, navigation, {}, event)}
-                />
               </Flex>
-            </Flex.Item>
-          </Flex>
-        ))}
+              <Flex style={_.ml.md} flex={1.44} align='start'>
+                <Flex.Item>
+                  <Touchable style={_.mt.xs} onPress={onPressSubject}>
+                    <Text size={12} align='right' bold>
+                      {subjectTop}
+                    </Text>
+                    {!!subjectBottom && subjectBottom !== subjectTop && (
+                      <Text style={_.mt.xs} size={10} type='sub' align='right'>
+                        {subjectBottom}
+                      </Text>
+                    )}
+                  </Touchable>
+                </Flex.Item>
+                {!!item.subjectCover && (
+                  <Cover
+                    style={_.ml.sm}
+                    src={item.subjectCover}
+                    size={coverWidth * 0.88}
+                    height={coverHeight * 0.88}
+                    radius
+                    shadow
+                    onPress={onPressSubject}
+                  />
+                )}
+              </Flex>
+            </Flex>
+          )
+        })}
         <Heatmap
           id='人物.跳转'
           data={{

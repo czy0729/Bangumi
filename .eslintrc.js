@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-22 03:16:07
+ * @Last Modified time: 2021-11-27 07:52:22
  */
 module.exports = {
   root: true,
@@ -28,7 +28,8 @@ module.exports = {
     'max-len': ['error', 200],
     eqeqeq: 0,
     'no-unused-vars': ['error', { ignoreRestSiblings: true }],
-    'react/no-did-mount-set-state': 0
+    'react/no-did-mount-set-state': 0,
+    'prefer-const': 1
   }
 }
 

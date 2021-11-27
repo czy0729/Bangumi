@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-19 09:47:05
+ * @Last Modified time: 2021-11-27 11:39:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Heatmap } from '@components'
+import { Flex, Touchable, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
@@ -50,40 +50,46 @@ const Works = memo(({ navigation, style, works }) => {
         最近参与
       </SectionTitle>
       <View style={_.mt.md}>
-        {works.map(item => (
-          <Flex key={item.href} style={styles.item} align='start'>
-            <Cover
-              size={coverWidth}
-              height={coverHeight}
-              src={item.cover}
-              radius
-              shadow
-              type={MODEL_SUBJECT_TYPE.getTitle(item.type)}
-              onPress={() =>
-                appNavigate(
-                  item.href,
-                  navigation,
-                  {
-                    _jp: item.name,
-                    _cn: item.nameCn,
-                    _image: item.cover
-                  },
-                  event
-                )
-              }
-            />
-            <Flex.Item style={styles.content}>
-              <Flex align='start'>
-                <Flex.Item>
-                  <Text style={styles.text} bold size={12}>
-                    {findSubjectCn(item.name)}
-                  </Text>
-                </Flex.Item>
-                <Tag style={styles.tag} value={item.staff} />
-              </Flex>
-            </Flex.Item>
-          </Flex>
-        ))}
+        {works.map(item => {
+          const type = MODEL_SUBJECT_TYPE.getTitle(item.type)
+          const onPress = () =>
+            appNavigate(
+              item.href,
+              navigation,
+              {
+                _jp: item.name,
+                _cn: item.nameCn,
+                _image: item.cover,
+                _type: type
+              },
+              event
+            )
+          return (
+            <Flex key={item.href} style={styles.item} align='start'>
+              <Cover
+                size={coverWidth}
+                height={coverHeight}
+                src={item.cover}
+                radius
+                shadow
+                type={type}
+                onPress={onPress}
+              />
+              <Flex.Item style={styles.content}>
+                <Flex align='start'>
+                  <Flex.Item>
+                    <Touchable style={_.mt.xs} onPress={onPress}>
+                      <Text bold size={12}>
+                        {findSubjectCn(item.name)}
+                      </Text>
+                    </Touchable>
+                  </Flex.Item>
+                  <Tag style={styles.tag} value={item.staff} />
+                </Flex>
+              </Flex.Item>
+            </Flex>
+          )
+        })}
         <Heatmap
           id='人物.跳转'
           data={{
@@ -118,12 +124,8 @@ const styles = _.create({
   content: {
     marginLeft: _.sm + 4
   },
-  text: {
-    width: '66%',
-    marginTop: _.xs
-  },
   tag: {
-    marginTop: 2,
-    marginLeft: _.xs
+    marginTop: 3,
+    marginLeft: _.md
   }
 })
