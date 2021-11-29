@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 10:23:50
+ * @Last Modified time: 2021-11-29 14:22:20
  */
 import React from 'react'
 import {
@@ -219,7 +219,7 @@ export const ListView = observer(
       }
     }
 
-    get section() {
+    get sections() {
       const { data, sectionKey, sections, lazy } = this.props
       const { rendered } = this.state
       let _sections = []

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 15:23:20
+ * @Last Modified time: 2021-11-30 02:08:50
  */
 import React from 'react'
 import { Loading, ListView, Text, Heatmap } from '@components'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import RakuenItem from './rakuen-item'
-import { tabs } from './store'
+import { TABS } from './ds'
 
 const event = {
   id: '空间.跳转',
@@ -25,7 +25,7 @@ export default
 class RakuenList extends React.Component {
   connectRef = ref => {
     const { $ } = this.context
-    const index = tabs.findIndex(item => item.title === '超展开')
+    const index = TABS.findIndex(item => item.title === '超展开')
     return $.connectRef(ref, index)
   }
 

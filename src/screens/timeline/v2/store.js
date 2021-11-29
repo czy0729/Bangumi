@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 20:39:51
+ * @Last Modified time: 2021-11-30 01:21:09
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -82,19 +82,12 @@ export default class ScreenTimeline extends store {
         const list = timeline.list.filter(item => {
           if (
             (filterDefault || userStore.isLimit) &&
-            item.avatar &&
-            item.avatar.src.includes(URL_DEFAULT_AVATAR)
+            item.avatar?.src?.includes(URL_DEFAULT_AVATAR)
           ) {
             return false
           }
 
-          if (
-            (filter18x || userStore.isLimit) &&
-            item.p3 &&
-            item.p3.url &&
-            item.p3.url.length &&
-            item.p3.url[0]
-          ) {
+          if ((filter18x || userStore.isLimit) && item?.p3?.url?.[0]) {
             const url = String(item.p3.url[0])
             if (url.match(/\/subject\/\d+/)) {
               return !x18(url.replace('https://bgm.tv/subject/', ''))
@@ -103,6 +96,7 @@ export default class ScreenTimeline extends store {
 
           return true
         })
+
         return {
           ...timeline,
           list

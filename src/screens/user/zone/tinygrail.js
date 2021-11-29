@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-10 01:02:49
+ * @Last Modified time: 2021-11-30 02:10:37
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -12,7 +12,8 @@ import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { tabsWithTinygrail, H_BG } from './store'
+import { H_BG } from './store'
+import { TABS_WITH_TINYGRAIL } from './ds'
 
 function Tinygrail(props, { $, navigation }) {
   const { assets, balance, lastIndex } = $.userAssets
@@ -20,7 +21,7 @@ function Tinygrail(props, { $, navigation }) {
   return (
     <Animated.ScrollView
       ref={ref => {
-        const index = tabsWithTinygrail.findIndex(item => item.title === '小圣杯')
+        const index = TABS_WITH_TINYGRAIL.findIndex(item => item.title === '小圣杯')
         return $.connectRef(ref, index)
       }}
       contentContainerStyle={styles.contentContainerStyle}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 09:24:05
+ * @Last Modified time: 2021-11-30 02:32:55
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -16,14 +16,8 @@ import TimelineList from './timeline-list'
 import RakuenList from './rakuen-list'
 import About from './about'
 import Tinygrail from './tinygrail'
-import {
-  tabs,
-  tabsWithTinygrail,
-  H_BG,
-  H_TABBAR,
-  H_HEADER,
-  H_RADIUS_LINE
-} from './store'
+import { H_BG, H_TABBAR, H_HEADER, H_RADIUS_LINE } from './store'
+import { TABS, TABS_WITH_TINYGRAIL } from './ds'
 
 const headerStyle = {
   height: H_BG + H_TABBAR
@@ -34,7 +28,7 @@ class Tab extends React.Component {
     const { $ } = this.context
     const { onIndexChange } = this.props
     onIndexChange(index)
-    $.onChange(index)
+    $.onTabChange(index)
   }
 
   ListHeaderComponent = (<View style={headerStyle} />)
@@ -87,11 +81,11 @@ class Tab extends React.Component {
   }
 
   get transform() {
-    const { scrollY } = this.props
+    const { $ } = this.context
     return {
       transform: [
         {
-          translateY: scrollY.interpolate({
+          translateY: $.scrollY.interpolate({
             inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
             outputRange: [H_BG * 2, H_BG, H_HEADER, H_HEADER]
           })
@@ -147,7 +141,7 @@ class Tab extends React.Component {
 export default obc(Tab)
 
 const W_INDICATOR = 16 * _.ratio
-const W_TAB = _.window.width / tabs.length
+const W_TAB = _.window.width / TABS.length
 const commonStyle = {
   tabBarWrap: {
     position: 'absolute',
@@ -195,7 +189,7 @@ const memoStyles = _.memoStyles(_ => ({
   }
 }))
 
-const W_TAB_WITH_TINYGRAIL = _.window.width / tabsWithTinygrail.length
+const W_TAB_WITH_TINYGRAIL = _.window.width / TABS_WITH_TINYGRAIL.length
 const memoStylesWithTinygrail = _.memoStyles(_ => ({
   ...commonStyle,
   tabBar: {

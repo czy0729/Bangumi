@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 20:47:29
+ * @Last Modified time: 2021-11-30 02:10:22
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -10,7 +10,7 @@ import { SectionHeader, ItemTimeline } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
-import { tabs } from './store'
+import { TABS } from './ds'
 
 const event = {
   id: '空间.跳转',
@@ -24,7 +24,7 @@ export default
 class TimelineList extends React.Component {
   connectRef = ref => {
     const { $ } = this.context
-    const index = tabs.findIndex(item => item.title === '时间胶囊')
+    const index = TABS.findIndex(item => item.title === '时间胶囊')
     return $.connectRef(ref, index)
   }
 

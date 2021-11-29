@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 14:08:22
+ * @Last Modified time: 2021-11-30 02:44:49
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -95,12 +95,12 @@ export default class ScreenUser extends store {
 
   // -------------------- fetch --------------------
   /**
-   * 用户信息(自己视角)
+   * 用户信息 (自己视角)
    */
   fetchUsersInfo = () => userStore.fetchUsersInfo(this.userId)
 
   /**
-   * 用户信息(他人视角)
+   * 用户信息 (他人视角)
    */
   fetchUsers = () =>
     usersStore.fetchUsers({
@@ -217,7 +217,7 @@ export default class ScreenUser extends store {
   }
 
   /**
-   * 用户原始userId(数字)
+   * 用户原始userId (数字)
    */
   @computed get userId() {
     const { userId } = this.params
@@ -225,17 +225,17 @@ export default class ScreenUser extends store {
   }
 
   /**
-   * 用户信息
-   */
-  @computed get usersInfo() {
-    return userStore.usersInfo(this.userId)
-  }
-
-  /**
    * 用户自定义唯一userId
    */
   @computed get username() {
     return this.usersInfo.username || this.userId
+  }
+
+  /**
+   * 用户信息
+   */
+  @computed get usersInfo() {
+    return userStore.usersInfo(this.userId)
   }
 
   /**

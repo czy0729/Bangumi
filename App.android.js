@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 11:26:45
+ * @Last Modified time: 2021-11-30 01:32:01
  */
 import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
 import { NativeEventEmitter, Alert, Clipboard } from 'react-native'
 import Shortcuts from 'react-native-actions-shortcuts'
-import KeepAwake from 'react-native-keep-awake'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import RNRestart from 'react-native-restart'
 import {
@@ -17,6 +16,7 @@ import {
 } from 'react-native-exception-handler'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
+import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
 import Provider from '@ant-design/react-native/lib/provider'
 import { DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@screens/_'
@@ -27,18 +27,23 @@ import { t } from '@utils/fetch'
 import { getUserStoreAsync } from '@utils/async'
 import { matchBgmUrl } from '@utils/match'
 import { info } from '@utils/ui'
-import { dev } from '@constants'
+import { DEV } from '@constants'
 import theme from '@styles/theme'
 import Navigations from './src/navigations/index'
 
 export default function App() {
   const isLoadingComplete = useBootApp()
   useShortcuts()
-  if (!isLoadingComplete) return null
+  useEffect(() => {
+    if (DEV) {
+      activateKeepAwake()
+      return () => deactivateKeepAwake()
+    }
+  }, [])
 
+  if (!isLoadingComplete) return null
   return (
     <SafeAreaProvider style={_.container.flex}>
-      {dev && <KeepAwake />}
       <Provider theme={theme}>
         <Navigations />
       </Provider>

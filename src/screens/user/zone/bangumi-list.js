@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 09:45:48
+ * @Last Modified time: 2021-11-30 02:08:19
  */
 import React from 'react'
 import {
@@ -19,7 +19,8 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { t } from '@utils/fetch'
-import { tabs, H_BG } from './store'
+import { H_BG } from './store'
+import { TABS } from './ds'
 
 const event = {
   id: '空间.跳转'
@@ -30,7 +31,7 @@ export default
 class List extends React.Component {
   connectRef = ref => {
     const { $ } = this.context
-    const index = tabs.findIndex(item => item.title === '番剧')
+    const index = TABS.findIndex(item => item.title === '番剧')
     return $.connectRef(ref, index)
   }
 
@@ -38,7 +39,7 @@ class List extends React.Component {
     const { $ } = this.context
     const { expand } = $.state
     return (
-      <Touchable style={this.styles.section} onPress={() => $.toggleSection(title)}>
+      <Touchable style={this.styles.section} onPress={() => $.onToggleSection(title)}>
         <SectionHeader
           style={this.styles.sectionHeader}
           type='title'
@@ -69,7 +70,7 @@ class List extends React.Component {
             to: 'User'
           })
 
-          $.toUser(navigation)
+          $.navigateToUser(navigation)
         }}
       >
         <Text>查看TA的所有收藏</Text>

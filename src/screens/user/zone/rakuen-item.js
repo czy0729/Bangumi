@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 19:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:01:36
+ * @Last Modified time: 2021-11-30 02:08:41
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -11,18 +11,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Item(
-  {
-    index,
-    topicId,
-    avatar,
-    userName,
-    title,
-    group,
-    date,
-    time,
-    userId,
-    children
-  },
+  { index, topicId, avatar, userName, title, group, date, time, userId, children },
   { navigation }
 ) {
   const styles = memoStyles()

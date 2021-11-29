@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 07:45:04
+ * @Last Modified time: 2021-11-30 01:54:52
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -18,14 +18,15 @@ import { IOS, HOST } from '@constants'
 import Head from './head'
 import { H_BG, H_HEADER, H_RADIUS_LINE } from './store'
 
-function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
+function ParallaxImage(props, { $, navigation }) {
   const styles = memoStyles()
   const { _image, _name } = $.params
+  const { fixed } = $.state
   const { avatar = {}, nickname, id, username } = $.usersInfo
   const parallaxStyle = {
     transform: [
       {
-        translateY: scrollY.interpolate({
+        translateY: $.scrollY.interpolate({
           inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
           outputRange: [H_BG / 2, 0, -(H_BG - H_HEADER), -(H_BG - H_HEADER)]
         })
@@ -36,7 +37,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   // 安卓没有弹簧效果不需要形变
   if (IOS) {
     parallaxStyle.transform.push({
-      scale: scrollY.interpolate({
+      scale: $.scrollY.interpolate({
         inputRange: [-H_BG, 0, H_BG],
 
         // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
@@ -83,7 +84,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             parallaxStyle,
             {
               backgroundColor: _.select('rgba(0, 0, 0, 0.48)', 'rgba(0, 0, 0, 0.64)'),
-              opacity: scrollY.interpolate({
+              opacity: $.scrollY.interpolate({
                 inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
               })
@@ -95,7 +96,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             styles.parallaxWrap,
             parallaxStyle,
             {
-              opacity: scrollY.interpolate({
+              opacity: $.scrollY.interpolate({
                 inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: [0, 0, 1, 1]
               })
@@ -118,7 +119,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
         <Animated.View style={[styles.parallaxWrap, parallaxStyle]}>
           <Animated.View
             style={{
-              opacity: scrollY.interpolate({
+              opacity: $.scrollY.interpolate({
                 inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
                 outputRange: [1, 1, 0, 0]
               })
@@ -168,7 +169,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
                 break
 
               case 'TA的收藏':
-                $.toUser(navigation)
+                $.navigateToUser(navigation)
                 break
 
               case 'TA的好友':
@@ -178,7 +179,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
                 break
 
               case '加为好友':
-                $.doConnectFriend()
+                $.doConnect()
                 break
 
               case '解除好友':
@@ -190,7 +191,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
                     },
                     {
                       text: '确定',
-                      onPress: () => $.doDisconnectFriend()
+                      onPress: () => $.doDisconnect()
                     }
                   ])
                 }, 400)
