@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:28:28
+ * @Last Modified time: 2021-11-29 10:04:14
  */
 import React from 'react'
 import {
@@ -17,7 +17,7 @@ import {
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _, systemStore } from '@stores'
-import { runAfter, sleep, date, simpleTime } from '@utils'
+import { runAfter, omit, sleep, date, simpleTime } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
 import { randomSpeech } from '@constants/speech'
@@ -66,6 +66,8 @@ export const ListView = observer(
       scrollIndicatorInsets: {
         right: 1
       },
+      loading: false, // 受控Loading提示
+      loadingText: undefined,
       onHeaderRefresh: undefined,
       onFooterRefresh: undefined
     }
@@ -176,13 +178,10 @@ export const ListView = observer(
 
     shouldStartHeaderRefreshing = () => {
       const { refreshState } = this.state
-      if (
-        refreshState == RefreshState.HeaderRefreshing ||
-        refreshState == RefreshState.FooterRefreshing
-      ) {
-        return false
-      }
-      return true
+      return !(
+        refreshState === RefreshState.HeaderRefreshing ||
+        refreshState === RefreshState.FooterRefreshing
+      )
     }
 
     shouldStartFooterRefreshing = () => {
@@ -201,10 +200,6 @@ export const ListView = observer(
       return {
         ref: this.connectRef,
         style: this.style,
-
-        // 安卓默认为true, iOS为false, false时列表的Text才能自由选择复制
-        // removeClippedSubviews: false,
-
         refreshing: refreshState === RefreshState.HeaderRefreshing,
         refreshControl: this.renderRefreshControl(),
         ListFooterComponent: showFooter
@@ -214,13 +209,13 @@ export const ListView = observer(
         onEndReached: this.onEndReached,
         onEndReachedThreshold: 0.5,
 
-        // optimize
+        // 常用优化参数
         initialNumToRender: 48,
         windowSize: optimize ? 12 : undefined,
         maxToRenderPerBatch: optimize ? 48 : undefined,
         updateCellsBatchingPeriod: optimize ? 48 : undefined,
 
-        // 都不显示滚动条
+        // 强制不显示滚动条
         showsHorizontalScrollIndicator: false,
         showsVerticalScrollIndicator: false
       }
@@ -253,10 +248,7 @@ export const ListView = observer(
     get data() {
       const { data, lazy } = this.props
       const { rendered } = this.state
-      if (lazy && !rendered) {
-        return data.list.slice(0, lazy)
-      }
-
+      if (lazy && !rendered) return data.list.slice(0, lazy)
       return Array.isArray(data.list) ? data.list : data.list.slice()
     }
 
@@ -275,16 +267,20 @@ export const ListView = observer(
         footerEmptyDataComponent,
         footerTextType,
         showMesume,
+        loading,
         onHeaderRefresh,
         onFooterRefresh
       } = this.props
       const { rendered } = this.state
       if (lazy && !rendered) return footer
 
-      switch (refreshState) {
+      // 受控loading强制把RefreshState复写成加载中
+      const _refreshState = loading ? RefreshState.FooterRefreshing : refreshState
+      switch (_refreshState) {
         case RefreshState.Idle:
           footer = <View style={this.styles.footerContainer} />
           break
+
         case RefreshState.Failure:
           footer = (
             <TouchableOpacity
@@ -314,6 +310,7 @@ export const ListView = observer(
             </TouchableOpacity>
           )
           break
+
         case RefreshState.EmptyData:
           footer = (
             <TouchableOpacity
@@ -344,6 +341,7 @@ export const ListView = observer(
             </TouchableOpacity>
           )
           break
+
         case RefreshState.FooterRefreshing:
           footer = footerRefreshingComponent || (
             <Flex style={this.styles.footerNoMore} justify='center' direction='column'>
@@ -360,6 +358,7 @@ export const ListView = observer(
             </Flex>
           )
           break
+
         case RefreshState.NoMoreData:
           footer =
             footerNoMoreDataComponent ||
@@ -384,9 +383,11 @@ export const ListView = observer(
               </Flex>
             ) : null)
           break
+
         default:
           break
       }
+
       return footer
     }
 
@@ -422,46 +423,43 @@ export const ListView = observer(
     }
 
     render() {
-      const {
-        style,
-        data,
-        sectionKey,
-        sections,
-        progressViewOffset,
-        refreshControlProps,
-        optimize,
-        showFooter,
-        animated,
-        scrollToTop,
-        showsHorizontalScrollIndicator,
-        showsVerticalScrollIndicator,
-        lazy,
+      const { sectionKey, sections, animated, ...other } = omit(this.props, [
+        'style',
+        'data',
+        'lazy',
+        'loading',
+        'loadingText',
+        'optimize',
+        'progressViewOffset',
+        'refreshControlProps',
+        'scrollToTop',
+        'showFooter',
+        'showsHorizontalScrollIndicator',
+        'showsVerticalScrollIndicator'
+      ])
+
+      const props = {
+        ...this.commonProps,
         ...other
-      } = this.props
-      let $list
+      }
+      let list
       if (sectionKey || sections) {
-        if (animated) {
-          $list = (
-            <AnimatedSectionList
-              sections={this.section}
-              {...this.commonProps}
-              {...other}
-            />
-          )
-        } else {
-          $list = (
-            <SectionList sections={this.section} {...this.commonProps} {...other} />
-          )
-        }
-      } else if (animated) {
-        $list = <AnimatedFlatList data={this.data} {...this.commonProps} {...other} />
+        list = animated ? (
+          <AnimatedSectionList sections={this.sections} {...props} />
+        ) : (
+          <SectionList sections={this.sections} {...props} />
+        )
       } else {
-        $list = <FlatList data={this.data} {...this.commonProps} {...other} />
+        list = animated ? (
+          <AnimatedFlatList data={this.data} {...props} />
+        ) : (
+          <FlatList data={this.data} {...props} />
+        )
       }
 
       return (
         <>
-          {$list}
+          {list}
           {this.renderScrollToTop()}
         </>
       )

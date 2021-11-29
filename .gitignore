@@ -8,7 +8,7 @@
 auth/
 dist/
 gradle.properties
-ios/
+# ios/
 node_modules/
 src/constants/json/user.json
 src/screens/user/zone/user.js

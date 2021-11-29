@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 21:05:46
+ * @Last Modified time: 2021-11-29 07:02:03
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
-import { NavigationEvents } from 'react-navigation'
 import { StatusBarEvents, UM } from '@components'
-import { IconTabBar, Login, IconPortal } from '@screens/_'
-import { _ } from '@stores'
+import { KeyboardAdjustPanResize, IconTabBar, Login, IconPortal } from '@screens/_'
+import { _, userStore } from '@stores'
 import { runAfter } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -136,7 +135,7 @@ class User extends React.Component {
     const { id } = $.usersInfo
 
     // 自己并且没登陆
-    if (!id && !$.isLogin) return <Login style={_.container._plain} />
+    if (!id && !userStore.isLogin) return <Login style={_.container._plain} />
 
     const { _loaded } = $.state
     const { isFocused } = this.props
@@ -146,8 +145,6 @@ class User extends React.Component {
         <StatusBarEvents barStyle='light-content' backgroundColor='transparent' />
         {_loaded && (
           <>
-            <UM screen={title} />
-            <NavigationEvents onDidFocus={this.onDidFocus} />
             <Tab
               scrollY={this.scrollY}
               scrollEventThrottle={16}
@@ -173,6 +170,8 @@ class User extends React.Component {
             />
             <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
             {isFocused && <IconPortal index={4} onPress={$.onRefreshThenScrollTop} />}
+            <KeyboardAdjustPanResize onDidFocus={this.onDidFocus} />
+            <UM screen={title} />
             <Heatmaps />
           </>
         )}

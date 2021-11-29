@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:55:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 17:09:31
+ * @Last Modified time: 2021-11-28 07:56:30
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -35,8 +35,6 @@ function Content(
 ) {
   // 帖子点击
   const go = () => {
-    // 记录帖子查看历史详情
-    $.onItemPress(topicId, replyCount)
     appNavigate(
       href,
       navigation,
@@ -53,6 +51,11 @@ function Content(
         id: '超展开.跳转'
       }
     )
+
+    setTimeout(() => {
+      // 记录帖子查看历史详情
+      $.onItemPress(topicId, replyCount)
+    }, 400)
   }
   return (
     <Touchable
@@ -89,12 +92,7 @@ function Content(
             isReaded={isReaded}
             isGroup={isGroup}
           />
-          <Detail
-            time={time}
-            groupCn={groupCn}
-            userName={userName}
-            userId={userId}
-          />
+          <Detail time={time} groupCn={groupCn} userName={userName} userId={userId} />
         </Flex.Item>
       </Flex>
     </Touchable>

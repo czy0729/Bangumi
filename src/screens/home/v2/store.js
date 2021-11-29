@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:09:08
+ * @Last Modified time: 2021-11-28 09:54:51
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -307,9 +307,7 @@ export default class ScreenHomeV2 extends store {
     const userCollection = {
       ...userStore.userCollection,
       list: userStore.userCollection.list.filter(item => {
-        if (!filter.length) {
-          return true
-        }
+        if (!filter.length) return true
 
         const cn = (
           item?.subject?.name_cn ||
@@ -317,9 +315,7 @@ export default class ScreenHomeV2 extends store {
           item?.subject?.name ||
           ''
         ).toUpperCase()
-        if (cn.includes(_filter)) {
-          return true
-        }
+        if (cn.includes(_filter)) return true
 
         // 支持每个字符首拼音筛选
         if (/^[a-zA-Z]+$/.test(_filter) && cn) {
@@ -330,9 +326,7 @@ export default class ScreenHomeV2 extends store {
             )
           }
 
-          if (pinYinFirstCharacter[cn].includes(_filter)) {
-            return true
-          }
+          if (pinYinFirstCharacter[cn].includes(_filter)) return true
         }
 
         return false

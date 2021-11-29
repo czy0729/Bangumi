@@ -1,8 +1,9 @@
+/* eslint-disable prefer-const */
 /*
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 07:18:11
+ * @Last Modified time: 2021-11-29 09:46:59
  */
 import { Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -51,6 +52,14 @@ export function pick(obj, arr) {
   return arr.reduce(
     // eslint-disable-next-line no-sequences
     (acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc),
+    {}
+  )
+}
+
+export function omit(obj, arr) {
+  return Object.keys(obj).reduce(
+    // eslint-disable-next-line no-sequences
+    (acc, curr) => (arr.indexOf(curr) === -1 && (acc[curr] = obj[curr]), acc),
     {}
   )
 }

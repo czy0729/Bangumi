@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 07:56:41
+ * @Last Modified time: 2021-11-28 13:34:10
  */
 import React, { useEffect } from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -19,9 +19,7 @@ import Navigations from './src/navigations/index'
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
-  if (!isLoadingComplete) {
-    return null
-  }
+  if (!isLoadingComplete) return null
 
   return (
     <SafeAreaProvider style={_.container.flex}>

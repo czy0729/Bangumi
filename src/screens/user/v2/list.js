@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 16:27:34
+ * @Last Modified time: 2021-11-29 09:25:54
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -115,12 +115,15 @@ class List extends React.Component {
       MODEL_COLLECTION_STATUS.getValue(title)
     )
 
-    if (!userCollections._loaded) {
+    const { _loaded } = userCollections
+    if (!_loaded)
       return <Loading style={IOS ? _.container.plain : _.container._plain} />
-    }
 
-    const { list, page, isFocused } = $.state
+    const { list, page, isFocused, showFilter, filter, fetching } = $.state
     const numColumns = list ? undefined : this.userGridNum
+    const tab = tabs[page]
+    const loading =
+      $.isTabActive(subjectType, tab.key) && showFilter && filter && fetching
     return (
       <ListView
         ref={this.connectRef}
@@ -133,8 +136,9 @@ class List extends React.Component {
         numColumns={numColumns}
         renderItem={this.renderItem}
         animated
-        scrollToTop={isFocused && tabs[page].title === title}
-        onHeaderRefresh={$.onHeaderRefresh}
+        scrollToTop={isFocused && tab.title === title}
+        loading={loading}
+        loadingText='搜索中...'
         onFooterRefresh={$.fetchUserCollections}
         {...other}
       />

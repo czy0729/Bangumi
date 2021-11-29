@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 07:52:22
+ * @Last Modified time: 2021-11-29 09:45:15
  */
 module.exports = {
   root: true,
@@ -29,7 +29,7 @@ module.exports = {
     eqeqeq: 0,
     'no-unused-vars': ['error', { ignoreRestSiblings: true }],
     'react/no-did-mount-set-state': 0,
-    'prefer-const': 1
+    'prefer-const': ['error', { ignoreReadBeforeAssign: true }]
   }
 }
 

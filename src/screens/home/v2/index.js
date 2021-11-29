@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:39:47
+ * @Last Modified time: 2021-11-29 04:52:07
  */
 import React from 'react'
-import { NavigationEvents } from 'react-navigation'
 import { UM } from '@components'
 import {
   StatusBarEvents,
   IconTabBar,
   NavigationBarEvents,
-  SafeAreaView
+  SafeAreaView,
+  KeyboardAdjustPanResize
 } from '@screens/_'
 import { _, userStore } from '@stores'
 import { runAfter } from '@utils'
 import { navigationReference } from '@utils/app'
 import { inject, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { androidKeyboardAdjust } from '@utils/ui'
 import { IOS } from '@constants'
 import CheckLogin from './check-login'
 import Header from './header'
@@ -58,7 +57,7 @@ class Home extends React.Component {
       }, 6400)
     })
 
-    this.onDidFocus()
+    this.checkLogin()
   }
 
   componentWillReceiveProps({ isFocused }) {
@@ -68,19 +67,11 @@ class Home extends React.Component {
     })
   }
 
-  onDidFocus = () => {
-    androidKeyboardAdjust('setAdjustPan')
-
+  checkLogin = () => {
     const { $, navigation } = this.context
     setTimeout(() => {
-      if (!$.isLogin) {
-        navigation.navigate('Auth')
-      }
+      if (!$.isLogin) navigation.navigate('Auth')
     }, 1600)
-  }
-
-  onDidBlur = () => {
-    androidKeyboardAdjust('setAdjustResize')
   }
 
   render() {
@@ -93,11 +84,11 @@ class Home extends React.Component {
         <CheckLogin />
         {$.isLogin && _loaded && (
           <>
-            <UM screen={title} />
             <Header />
             <Tab length={$.tabs.length} />
             <Modal />
-            <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
+            <UM screen={title} />
+            <KeyboardAdjustPanResize onDidFocus={this.onDidFocus} />
             <Heatmaps />
           </>
         )}

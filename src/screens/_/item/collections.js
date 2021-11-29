@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 16:55:05
+ * @Last Modified time: 2021-11-28 08:03:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -182,7 +182,7 @@ const Item = memo(
               )}
               <Flex style={_.mt.sm}>
                 {!hideScore && hasScore && (
-                  <Stars style={_.mr.sm} value={score} color='warning' />
+                  <Stars style={_.mr.xs} value={score} color='warning' />
                 )}
                 {!!info.length && (
                   <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>

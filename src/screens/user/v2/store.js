@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-10 01:20:18
+ * @Last Modified time: 2021-11-29 08:38:40
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -10,6 +10,7 @@ import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
+import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import { IOS } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
@@ -21,17 +22,38 @@ export const H_BG = Math.min(parseInt(_.window.width * 0.68), _.device(288, 380)
 export const H_RADIUS_LINE = _.radiusLg
 export const H_HEADER = (IOS ? 88 : 80) + H_RADIUS_LINE // fixed后带背景的头部高度
 export const H_TABBAR = 48 * _.ratio // TabBar高度
+export const H_FILTER = 36 + 2 * _.md
+
 export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
   title: item.label,
   key: item.value
 }))
+export const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
+export const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
 
 const namespace = 'ScreenUser'
 const excludeState = {
-  isFocused: true
+  isFocused: true,
+  showFilter: false,
+  filter: '',
+  fetching: false
 }
-export const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
-export const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
+const pinYinFirstCharacter = {}
+function testPinYinFirstCharacter(text, filter) {
+  // 支持每个字符首拼音筛选
+  if (/^[a-zA-Z]+$/.test(filter) && text) {
+    if (!pinYinFirstCharacter[text]) {
+      pinYinFirstCharacter[text] = getPinYinFirstCharacter(text, text.length).replace(
+        / /g,
+        ''
+      )
+    }
+
+    if (pinYinFirstCharacter[text].includes(filter)) return true
+  }
+
+  return false
+}
 
 export default class ScreenUser extends store {
   state = observable({
@@ -62,29 +84,30 @@ export default class ScreenUser extends store {
 
     // 用户收藏记录
     const { order } = this.state
-    if (MODEL_COLLECTIONS_ORDERBY.getLabel(order) !== '网站评分') {
+    if (MODEL_COLLECTIONS_ORDERBY.getLabel(order) !== '网站评分')
       this.fetchUserCollections(true)
-    }
     this.fetchUsers()
     return res
   }
 
-  onHeaderRefresh = () => this.fetchUserCollections(true)
-
   // -------------------- fetch --------------------
+  /**
+   * 用户信息(自己视角)
+   */
   fetchUsersInfo = () => userStore.fetchUsersInfo(this.userId)
 
   /**
-   * 网站评分需要递归请求完所有数据, 再通过本地排序显示
+   * 用户信息(他人视角)
+   */
+  fetchUsers = () =>
+    usersStore.fetchUsers({
+      userId: this.userId
+    })
+
+  /**
+   * 普通的收藏请求
    * @param {*} refresh
    */
-  fetchUserCollections = refresh => {
-    const { order } = this.state
-    return MODEL_COLLECTIONS_ORDERBY.getLabel(order) === '网站评分'
-      ? this.fetchUserCollectionsByScore()
-      : this.fetchUserCollectionsNormal(refresh)
-  }
-
   fetchUserCollectionsNormal = refresh => {
     const { subjectType, order, tag } = this.state
     return collectionStore.fetchUserCollections(
@@ -93,12 +116,15 @@ export default class ScreenUser extends store {
         type: this.type,
         order,
         tag,
-        userId: this.usersInfo.username || this.userId
+        userId: this.username
       },
       refresh
     )
   }
 
+  /**
+   * 网站评分需要递归请求完所有数据, 再通过本地排序显示
+   */
   fetchUserCollectionsByScore = async () => {
     const { pagination } = await this.fetchUserCollectionsNormal(true)
     const { pageTotal } = pagination
@@ -109,30 +135,73 @@ export default class ScreenUser extends store {
     }
 
     const { subjectType } = this.state
-    const { username } = this.usersInfo
-    collectionStore.sortUserCollectionsByScore(
-      username || this.userId,
-      subjectType,
-      this.type
-    )
+    collectionStore.sortUserCollectionsByScore(this.username, subjectType, this.type)
 
     return true
   }
 
-  fetchUsers = () =>
-    usersStore.fetchUsers({
-      userId: this.userId
+  /**
+   * 收藏统一请求入口
+   * @param {*} refresh
+   */
+  fetchUserCollections = async refresh => {
+    const { fetching, order } = this.state
+    if (fetching) return false
+
+    this.setState({
+      fetching: true
+    })
+    const res =
+      MODEL_COLLECTIONS_ORDERBY.getLabel(order) === '网站评分'
+        ? this.fetchUserCollectionsByScore()
+        : this.fetchUserCollectionsNormal(refresh)
+    await res
+    this.setState({
+      fetching: false
     })
 
-  // -------------------- get --------------------
-  @computed get isLogin() {
-    return userStore.isLogin
+    return res
   }
 
+  /**
+   * 当前Tab一直请求到最后, 用于页内搜索
+   */
+  fetchUntilTheEnd = async () => {
+    const { fetching, subjectType, page } = this.state
+    if (fetching) return false
+
+    const { key: type } = tabs[page]
+    const { pagination } = collectionStore.userCollections(
+      this.username,
+      subjectType,
+      type
+    )
+    if (pagination.page < pagination.pageTotal) {
+      console.info('fetchUntilTheEnd')
+      await this.fetchUserCollections()
+      this.fetchUntilTheEnd()
+    } else {
+      console.info('fetchUntilTheEnd end')
+    }
+  }
+
+  /**
+   * 若在搜索模式下, 请求到底, 否则正常请求
+   */
+  fetchIsNeedToEnd = refresh => {
+    const { showFilter, filter } = this.state
+    if (showFilter && filter) return this.fetchUntilTheEnd()
+    return this.fetchUserCollections(refresh)
+  }
+
+  // -------------------- get --------------------
   @computed get myUserId() {
     return userStore.myUserId
   }
 
+  /**
+   * 用户原始userId(数字)
+   */
   @computed get userId() {
     const { userId } = this.params
     return userId || this.myUserId
@@ -142,24 +211,25 @@ export default class ScreenUser extends store {
     return userStore.usersInfo(this.userId)
   }
 
-  @computed get userCollectionsStatus() {
-    return userStore.userCollectionsStatus(this.userId)
+  /**
+   * 用户自定义唯一userId
+   */
+  @computed get username() {
+    return this.usersInfo.username || this.userId
   }
 
-  @computed get users() {
-    return usersStore.users(this.userId)
+  @computed get sign() {
+    return usersStore.users(this.userId)?.sign || ''
   }
 
   @computed get avatar() {
-    const { sign = '' } = this.users
-    const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
+    const avatars = this.sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     const src = avatars ? String(avatars[1]).trim() : ''
     return /(jpg|jpeg|png|bmp|gif)$/.test(src) ? src : ''
   }
 
   @computed get bg() {
-    const { sign = '' } = this.users
-    const bgs = sign.match(/\[bg\](.+?)\[\/bg\]/)
+    const bgs = this.sign.match(/\[bg\](.+?)\[\/bg\]/)
     return bgs ? String(bgs[1]).trim() : ''
   }
 
@@ -198,8 +268,10 @@ export default class ScreenUser extends store {
       音乐: {},
       三次元: {}
     }
-    if (this.userCollectionsStatus.length) {
-      this.userCollectionsStatus.forEach(item => {
+
+    const data = userStore.userCollectionsStatus(this.userId)
+    if (data.length) {
+      data.forEach(item => {
         item.collects.forEach(i => {
           const type = MODEL_COLLECTION_STATUS.getLabel(i.status.type)
           counts[item.name_cn][type] = i.count
@@ -209,28 +281,48 @@ export default class ScreenUser extends store {
     return counts
   }
 
-  userCollections(subjectType, type) {
-    const { username } = this.usersInfo
+  isTabActive(subjectType, type) {
     return computed(() => {
-      const userCollections = collectionStore.userCollections(
-        username || this.userId,
+      const { subjectType: _subjectType, page } = this.state
+      return subjectType === _subjectType && tabs[page].key === type
+    }).get()
+  }
+
+  userCollections(subjectType, type) {
+    return computed(() => {
+      // eslint-disable-next-line prefer-const
+      let { list, ...other } = collectionStore.userCollections(
+        this.username,
         subjectType,
         type
       )
-      if (userStore.isLimit) {
-        return {
-          ...userCollections,
-          list: userCollections.list.filter(item => !x18(item.id))
+
+      if (this.isTabActive(subjectType, type)) {
+        const { filter } = this.state
+        if (filter) {
+          const _filter = filter.toUpperCase()
+          list = list.filter(item => {
+            const cn = (item.nameCn || '').toUpperCase()
+            const jp = (item.name || '').toUpperCase()
+            if (cn.includes(_filter) || jp.includes(_filter)) return true
+
+            return (
+              testPinYinFirstCharacter(cn, _filter) ||
+              testPinYinFirstCharacter(jp, _filter)
+            )
+          })
         }
       }
-      return userCollections
+
+      if (userStore.isLimit) list = list.filter(item => !x18(item.id))
+
+      return { list, ...other }
     }).get()
   }
 
   userCollectionsTags(subjectType, type) {
-    const { username } = this.usersInfo
     return computed(() =>
-      collectionStore.userCollectionsTags(username || this.userId, subjectType, type)
+      collectionStore.userCollectionsTags(this.username, subjectType, type)
     ).get()
   }
 
@@ -244,7 +336,7 @@ export default class ScreenUser extends store {
       page,
       tag: ''
     })
-    this.fetchUserCollections(true)
+    this.fetchIsNeedToEnd(true)
     this.setStorage(undefined, undefined, namespace)
   }
 
@@ -260,7 +352,7 @@ export default class ScreenUser extends store {
         subjectType: nextSubjectType,
         tag: ''
       })
-      this.fetchUserCollections(true)
+      this.fetchIsNeedToEnd(true)
       this.setStorage(undefined, undefined, namespace)
     }
   }
@@ -273,7 +365,7 @@ export default class ScreenUser extends store {
     this.setState({
       order: MODEL_COLLECTIONS_ORDERBY.getValue(label)
     })
-    this.fetchUserCollections(true)
+    this.fetchIsNeedToEnd(true)
     this.setStorage(undefined, undefined, namespace)
   }
 
@@ -292,7 +384,7 @@ export default class ScreenUser extends store {
     this.setState({
       tag
     })
-    this.fetchUserCollections(true)
+    this.fetchIsNeedToEnd(true)
     this.setStorage(undefined, undefined, namespace)
   }
 
@@ -326,7 +418,7 @@ export default class ScreenUser extends store {
           screen: 'User'
         })
 
-        this.onHeaderRefresh()
+        this.fetchIsNeedToEnd(true)
         this.scrollToIndex[page]({
           animated: true,
           index: 0,
@@ -336,5 +428,21 @@ export default class ScreenUser extends store {
     } catch (error) {
       warn('User', 'onRefreshThenScrollTop', error)
     }
+  }
+
+  onToggleFilter = () => {
+    const { showFilter } = this.state
+    this.setState({
+      showFilter: !showFilter,
+      filter: ''
+    })
+  }
+
+  onFilterChange = filter => {
+    const _filter = filter.trim()
+    this.setState({
+      filter: _filter
+    })
+    if (_filter) this.fetchUntilTheEnd()
   }
 }

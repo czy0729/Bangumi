@@ -18,9 +18,7 @@ const forceInset = {
 }
 
 export const IconPortal = ob(({ index = 0, onPress = Function.prototype }) => {
-  if (!systemStore.rendered) {
-    return null
-  }
+  if (!systemStore.rendered) return null
 
   return (
     <Portal>
