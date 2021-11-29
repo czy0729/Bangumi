@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 07:18:44
+ * @Last Modified time: 2021-11-30 03:33:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,6 +70,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   quote: {
     padding: 8,
+    paddingLeft: 10,
     marginTop: 4,
     marginRight: 4,
     marginBottom: 8,

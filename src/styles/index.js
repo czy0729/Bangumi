@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-17 20:10:59
+ * @Last Modified time: 2021-11-30 03:20:34
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -79,7 +79,8 @@ export const colorSuccessRaw = colorSuccess.match(regColor)
 export const colorWarningRaw = colorWarning.match(regColor)
 export const colorPlainRaw = colorPlain.match(regColor)
 export const colorTitleRaw = colorTitle.match(regColor)
-export const colorMainLight = `rgba(${colorMainRaw.join()}, 0.1)`
+export const colorMainLight = 'rgb(255, 244, 244)' // `rgba(${colorMainRaw.join()}, 0.1)`
+export const colorMainLightBorder = 'rgb(255, 208, 214)'
 export const colorSuccessLight = `rgba(${colorSuccessRaw.join()}, 0.1)`
 export const colorWarningLight = `rgba(${colorWarningRaw.join()}, 0.1)`
 

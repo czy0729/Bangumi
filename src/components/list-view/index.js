@@ -3,40 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 14:22:20
+ * @Last Modified time: 2021-11-30 05:00:11
  */
 import React from 'react'
-import {
-  FlatList,
-  RefreshControl,
-  SectionList,
-  TouchableOpacity,
-  View,
-  Animated
-} from 'react-native'
+import { RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { _, systemStore } from '@stores'
-import { runAfter, omit, sleep, date, simpleTime } from '@utils'
+import { _ } from '@stores'
+import { runAfter, pick, omit, sleep, simpleTime, date } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
-import { randomSpeech } from '@constants/speech'
-import { Flex } from './flex'
-import { Mesume } from './mesume'
-import { Text } from './text'
-import { ScrollToTop } from './scroll-to-top'
-
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
-const RefreshState = {
-  Idle: 0,
-  HeaderRefreshing: 1,
-  FooterRefreshing: 2,
-  NoMoreData: 3,
-  Failure: 4,
-  EmptyData: 5
-}
-const refreshControlColors = [_.colorMain]
+import { ScrollToTop } from '../scroll-to-top'
+import List from './list'
+import Footer from './footer'
+import { RefreshState } from './ds'
 
 export const ListView = observer(
   class extends React.Component {
@@ -196,13 +175,11 @@ export const ListView = observer(
       const { optimize, showFooter, ListFooterComponent = null } = this.props
       const { refreshState } = this.state
       return {
-        ref: this.connectRef,
         style: this.style,
+        connectRef: this.connectRef,
         refreshing: refreshState === RefreshState.HeaderRefreshing,
         refreshControl: this.renderRefreshControl(),
-        ListFooterComponent: showFooter
-          ? this.renderFooter(refreshState)
-          : ListFooterComponent,
+        ListFooterComponent: showFooter ? this.renderFooter() : ListFooterComponent,
         onRefresh: this.onHeaderRefresh,
         onEndReached: this.onEndReached,
         onEndReachedThreshold: 0.5,
@@ -250,157 +227,73 @@ export const ListView = observer(
       return Array.isArray(data.list) ? data.list : data.list.slice()
     }
 
-    renderFooter(refreshState) {
-      let footer = null
-      const {
-        data,
-        lazy,
-        footerRefreshingText,
-        footerFailureText,
-        // footerNoMoreDataText,
-        footerEmptyDataText,
-        footerRefreshingComponent,
-        footerFailureComponent,
-        footerNoMoreDataComponent,
-        footerEmptyDataComponent,
-        footerTextType,
-        showMesume,
-        onHeaderRefresh,
-        onFooterRefresh
-      } = this.props
-      const { rendered } = this.state
-      if (lazy && !rendered) return footer
-
-      switch (refreshState) {
-        case RefreshState.Idle:
-          footer = <View style={this.styles.footerContainer} />
-          break
-
-        case RefreshState.Failure:
-          footer = (
-            <TouchableOpacity
-              onPress={() => {
-                if (data.list.length === 0) {
-                  if (onHeaderRefresh) {
-                    onHeaderRefresh(RefreshState.HeaderRefreshing)
-                  }
-                } else if (onFooterRefresh) {
-                  onFooterRefresh(RefreshState.FooterRefreshing)
-                }
-              }}
-            >
-              {footerFailureComponent || (
-                <View style={this.styles.footerContainer}>
-                  <Text
-                    style={this.styles.footerText}
-                    type={footerTextType}
-                    size={13}
-                    lineHeight={15}
-                    align='center'
-                  >
-                    {footerFailureText}
-                  </Text>
-                </View>
-              )}
-            </TouchableOpacity>
-          )
-          break
-
-        case RefreshState.EmptyData:
-          footer = (
-            <TouchableOpacity
-              onPress={() => {
-                if (onHeaderRefresh) {
-                  onHeaderRefresh(RefreshState.HeaderRefreshing)
-                }
-              }}
-            >
-              {footerEmptyDataComponent || (
-                <Flex
-                  style={this.styles.footerEmpty}
-                  direction='column'
-                  justify='center'
-                >
-                  {showMesume && <Mesume size={80} />}
-                  <Text
-                    style={[this.styles.footerText, _.mt.sm]}
-                    type={footerTextType}
-                    size={13}
-                    lineHeight={15}
-                    align='center'
-                  >
-                    {footerEmptyDataText}
-                  </Text>
-                </Flex>
-              )}
-            </TouchableOpacity>
-          )
-          break
-
-        case RefreshState.FooterRefreshing:
-          footer = footerRefreshingComponent || (
-            <Flex style={this.styles.footerNoMore} justify='center' direction='column'>
-              <ActivityIndicator size='small' />
-              <Text
-                style={[this.styles.footerText, _.mt.sm]}
-                type={footerTextType}
-                align='center'
-                size={13}
-                lineHeight={15}
-              >
-                {footerRefreshingText}
-              </Text>
-            </Flex>
-          )
-          break
-
-        case RefreshState.NoMoreData:
-          footer =
-            footerNoMoreDataComponent ||
-            (showMesume ? (
-              <Flex
-                style={this.styles.footerNoMore}
-                justify='center'
-                direction='column'
-              >
-                <Mesume size={80} />
-                {systemStore.setting.speech && (
-                  <Text
-                    style={[this.styles.footerText, _.mt.sm]}
-                    type={footerTextType}
-                    align='center'
-                    size={13}
-                    lineHeight={15}
-                  >
-                    {data._filter ? `已过滤${data._filter}个敏感条目` : randomSpeech()}
-                  </Text>
-                )}
-              </Flex>
-            ) : null)
-          break
-
-        default:
-          break
-      }
-
-      return footer
-    }
-
     renderRefreshControl() {
       const { data, progressViewOffset, refreshControlProps } = this.props
       const { refreshState } = this.state
+      const title = data._loaded
+        ? `上次刷新时间: ${simpleTime(date(data._loaded))}`
+        : undefined
       return (
         <RefreshControl
-          title={
-            data._loaded ? `上次刷新时间: ${simpleTime(date(data._loaded))}` : undefined
-          }
-          colors={refreshControlColors}
+          title={title}
+          colors={[_.colorMain]}
           titleColor={_.colorSub}
           tintColor={_.colorSub}
           progressViewOffset={progressViewOffset}
           refreshing={refreshState === RefreshState.HeaderRefreshing}
           onRefresh={this.onHeaderRefresh}
           {...refreshControlProps}
+        />
+      )
+    }
+
+    renderList() {
+      const { sectionKey, sections, ...passProps } = omit(this.props, [
+        'style',
+        'data',
+        'lazy',
+        'optimize',
+        'progressViewOffset',
+        'refreshControlProps',
+        'scrollToTop',
+        'showFooter',
+        'showsHorizontalScrollIndicator',
+        'showsVerticalScrollIndicator'
+      ])
+      if (sectionKey || sections) {
+        passProps.sections = this.sections
+      } else {
+        passProps.data = this.data
+      }
+      return <List {...this.commonProps} {...passProps} />
+    }
+
+    renderFooter() {
+      const { lazy } = this.props
+      const { rendered, refreshState } = this.state
+      if (lazy && !rendered) return null
+
+      const { data = LIST_EMPTY, ...other } = pick(this.props, [
+        'data',
+        'footerEmptyDataComponent',
+        'footerEmptyDataText',
+        'footerFailureComponent',
+        'footerFailureText',
+        'footerNoMoreDataComponent',
+        'footerRefreshingComponent',
+        'footerRefreshingText',
+        'footerTextType',
+        'showMesume',
+        'onHeaderRefresh',
+        'onFooterRefresh'
+      ])
+      const { list, _filter } = data
+      return (
+        <Footer
+          refreshState={refreshState}
+          length={list.length}
+          filterText={_filter}
+          {...other}
         />
       )
     }
@@ -418,41 +311,9 @@ export const ListView = observer(
     }
 
     render() {
-      const { sectionKey, sections, animated, ...other } = omit(this.props, [
-        'style',
-        'data',
-        'lazy',
-        'optimize',
-        'progressViewOffset',
-        'refreshControlProps',
-        'scrollToTop',
-        'showFooter',
-        'showsHorizontalScrollIndicator',
-        'showsVerticalScrollIndicator'
-      ])
-
-      const props = {
-        ...this.commonProps,
-        ...other
-      }
-      let list
-      if (sectionKey || sections) {
-        list = animated ? (
-          <AnimatedSectionList sections={this.sections} {...props} />
-        ) : (
-          <SectionList sections={this.sections} {...props} />
-        )
-      } else {
-        list = animated ? (
-          <AnimatedFlatList data={this.data} {...props} />
-        ) : (
-          <FlatList data={this.data} {...props} />
-        )
-      }
-
       return (
         <>
-          {list}
+          {this.renderList()}
           {this.renderScrollToTop()}
         </>
       )

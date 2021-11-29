@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-30 17:01:13
+ * @Last Modified time: 2021-11-30 03:31:01
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -197,7 +197,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: '100%'
   },
   itemNew: {
-    backgroundColor: _.select('rgba(254, 138, 149, 0.4)', 'rgb(59, 48, 51)')
+    backgroundColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
   },
   itemText: {
     minHeight: 24 * _.ratio

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-25 10:47:14
+ * @Last Modified time: 2021-11-30 01:36:55
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -36,8 +36,7 @@ export function feedback() {
   if (!vibration) return false
 
   if (DEV) console.info('vibration')
-
-  return Vibration.vibrate(IOS ? 1 : 8)
+  return Vibration.vibrate(IOS ? 1 : 4)
 }
 
 /**

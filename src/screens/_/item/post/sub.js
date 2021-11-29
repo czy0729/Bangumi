@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 04:29:59
+ * @Last Modified time: 2021-11-30 03:34:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -303,7 +303,7 @@ const memoStyles = _.memoStyles(_ => ({
   quoteUserRound: {
     position: 'absolute',
     top: 10,
-    left: 10,
+    left: 12,
     zIndex: 1,
     padding: 2,
     backgroundColor: _.colorBg
