@@ -1,11 +1,9 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-await-in-loop */
 /*
  * 收藏
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 14:12:17
+ * @Last Modified time: 2021-11-29 14:02:46
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -453,8 +451,6 @@ class Collection extends store {
         }
       }
     })
-
-    console.log(list)
 
     // 只本地化自己的收藏概览
     if (userId === userStore.userInfo.username || userId === userStore.myUserId) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 17:26:47
+ * @Last Modified time: 2021-11-29 10:54:13
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -34,13 +34,6 @@ class Tab extends React.Component {
     onSelectSubjectType(title)
   }
 
-  ListHeaderComponent = (
-    <>
-      <View style={headerStyle} />
-      <ToolBar onToggleList={this.props.onToggleList} />
-    </>
-  )
-
   renderScene = SceneMap(
     Object.assign(
       {},
@@ -49,7 +42,12 @@ class Tab extends React.Component {
           <List
             page={index}
             title={item.title}
-            ListHeaderComponent={this.ListHeaderComponent}
+            ListHeaderComponent={
+              <>
+                <View style={headerStyle} />
+                <ToolBar page={index} onToggleList={this.props.onToggleList} />
+              </>
+            }
             scrollEventThrottle={16}
             onScroll={this.props.onScroll}
           />

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-28 09:41:16
+ * @Last Modified time: 2021-11-29 13:31:09
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -42,16 +42,18 @@ export const Input = observer(
 
     componentDidMount() {
       const { autoFocus } = this.props
-      if (autoFocus) {
-        this.inputRef.focus()
-
-        setTimeout(() => {
-          this.inputRef.focus()
-        }, 0)
-      }
+      if (autoFocus) this.onFocus()
     }
 
     inputRef
+
+    onFocus = () => {
+      this.inputRef.focus()
+
+      setTimeout(() => {
+        this.inputRef.focus()
+      }, 0)
+    }
 
     onChange = evt => {
       const { onChange } = this.props

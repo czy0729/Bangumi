@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 08:38:40
+ * @Last Modified time: 2021-11-29 14:08:22
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
+import { debounce } from '@utils'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -23,6 +24,7 @@ export const H_RADIUS_LINE = _.radiusLg
 export const H_HEADER = (IOS ? 88 : 80) + H_RADIUS_LINE // fixed后带背景的头部高度
 export const H_TABBAR = 48 * _.ratio // TabBar高度
 export const H_FILTER = 36 + 2 * _.md
+export const H_FIXED = H_BG - H_HEADER
 
 export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
   title: item.label,
@@ -36,6 +38,7 @@ const excludeState = {
   isFocused: true,
   showFilter: false,
   filter: '',
+  fliterInputText: '',
   fetching: false
 }
 const pinYinFirstCharacter = {}
@@ -145,56 +148,70 @@ export default class ScreenUser extends store {
    * @param {*} refresh
    */
   fetchUserCollections = async refresh => {
-    const { fetching, order } = this.state
-    if (fetching) return false
-
-    this.setState({
-      fetching: true
-    })
-    const res =
-      MODEL_COLLECTIONS_ORDERBY.getLabel(order) === '网站评分'
-        ? this.fetchUserCollectionsByScore()
-        : this.fetchUserCollectionsNormal(refresh)
-    await res
-    this.setState({
-      fetching: false
-    })
-
-    return res
+    const { order } = this.state
+    return MODEL_COLLECTIONS_ORDERBY.getLabel(order) === '网站评分'
+      ? this.fetchUserCollectionsByScore()
+      : this.fetchUserCollectionsNormal(refresh)
   }
 
   /**
    * 当前Tab一直请求到最后, 用于页内搜索
    */
-  fetchUntilTheEnd = async () => {
-    const { fetching, subjectType, page } = this.state
-    if (fetching) return false
+  fetchUntilTheEnd = async (lastSubjectType, lastType, isNext) => {
+    if (!this.isTabActive(lastSubjectType, lastType))
+      return console.info('fetchUntilTheEnd abort')
 
+    const { subjectType, page } = this.state
     const { key: type } = tabs[page]
     const { pagination } = collectionStore.userCollections(
       this.username,
       subjectType,
       type
     )
-    if (pagination.page < pagination.pageTotal) {
-      console.info('fetchUntilTheEnd')
-      await this.fetchUserCollections()
-      this.fetchUntilTheEnd()
-    } else {
-      console.info('fetchUntilTheEnd end')
+
+    if (pagination.page >= pagination.pageTotal) {
+      if (isNext) {
+        console.info('fetchUntilTheEnd end')
+        this.setState({
+          fetching: false
+        })
+      }
+      return
     }
+
+    console.info('fetchUntilTheEnd')
+    this.setState({
+      fetching: true
+    })
+    await this.fetchUserCollections()
+    return this.fetchUntilTheEnd(lastSubjectType, lastType, true)
   }
 
   /**
    * 若在搜索模式下, 请求到底, 否则正常请求
    */
   fetchIsNeedToEnd = refresh => {
-    const { showFilter, filter } = this.state
-    if (showFilter && filter) return this.fetchUntilTheEnd()
+    const { showFilter, filter, subjectType, page } = this.state
+    if (showFilter && filter) return this.fetchUntilTheEnd(subjectType, tabs[page].key)
     return this.fetchUserCollections(refresh)
   }
 
+  /**
+   * 若在搜索模式下, 刷新并请求到底, 否则正常请求
+   */
+  fetchIsNeedRefreshToEnd = async () => {
+    const { showFilter, filter, subjectType, page } = this.state
+    if (showFilter && filter) {
+      await this.fetchUserCollections(true)
+      return this.fetchUntilTheEnd(subjectType, tabs[page].key)
+    }
+    return this.fetchUserCollections(true)
+  }
+
   // -------------------- get --------------------
+  /**
+   * 我的用户Id
+   */
   @computed get myUserId() {
     return userStore.myUserId
   }
@@ -207,6 +224,9 @@ export default class ScreenUser extends store {
     return userId || this.myUserId
   }
 
+  /**
+   * 用户信息
+   */
   @computed get usersInfo() {
     return userStore.usersInfo(this.userId)
   }
@@ -218,26 +238,41 @@ export default class ScreenUser extends store {
     return this.usersInfo.username || this.userId
   }
 
+  /**
+   * 用户签名, 用户获取自定义数据
+   */
   @computed get sign() {
     return usersStore.users(this.userId)?.sign || ''
   }
 
+  /**
+   * 自定义头像
+   */
   @computed get avatar() {
     const avatars = this.sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     const src = avatars ? String(avatars[1]).trim() : ''
     return /(jpg|jpeg|png|bmp|gif)$/.test(src) ? src : ''
   }
 
+  /**
+   * 自定义背景
+   */
   @computed get bg() {
     const bgs = this.sign.match(/\[bg\](.+?)\[\/bg\]/)
     return bgs ? String(bgs[1]).trim() : ''
   }
 
+  /**
+   * 当前类型key
+   */
   @computed get type() {
     const { page } = this.state
     return MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
   }
 
+  /**
+   * 当前类型label
+   */
   @computed get label() {
     const { page } = this.state
     return tabs[page].title
@@ -260,6 +295,9 @@ export default class ScreenUser extends store {
     }
   }
 
+  /**
+   * 各个tab条目计数
+   */
   @computed get counts() {
     const counts = {
       动画: {},
@@ -281,13 +319,43 @@ export default class ScreenUser extends store {
     return counts
   }
 
-  isTabActive(subjectType, type) {
+  /**
+   * 是否当前tab
+   * @param {*} subjectType
+   * @param {*} type
+   * @param {*} isBetween 前后tab也算当前
+   * @returns
+   */
+  isTabActive(subjectType, type, isBetween) {
     return computed(() => {
       const { subjectType: _subjectType, page } = this.state
-      return subjectType === _subjectType && tabs[page].key === type
+      if (!subjectType === _subjectType) return false
+      if (isBetween) {
+        return (
+          tabs[page]?.key === type ||
+          tabs[page - 1]?.key === type ||
+          tabs[page + 1]?.key === type
+        )
+      }
+      return tabs[page]?.key === type
     }).get()
   }
 
+  isFiltering(subjectType, type) {
+    return computed(() => {
+      if (!this.isTabActive(subjectType, type)) return false
+
+      const { showFilter, filter, fetching } = this.state
+      return !!(showFilter && filter && fetching)
+    }).get()
+  }
+
+  /**
+   * 用户收藏
+   * @param {*} subjectType
+   * @param {*} type
+   * @returns
+   */
   userCollections(subjectType, type) {
     return computed(() => {
       // eslint-disable-next-line prefer-const
@@ -297,7 +365,7 @@ export default class ScreenUser extends store {
         type
       )
 
-      if (this.isTabActive(subjectType, type)) {
+      if (this.isTabActive(subjectType, type, true)) {
         const { filter } = this.state
         if (filter) {
           const _filter = filter.toUpperCase()
@@ -327,89 +395,22 @@ export default class ScreenUser extends store {
   }
 
   // -------------------- page --------------------
-  onChange = page => {
-    t('我的.标签页切换', {
-      page
-    })
-
-    this.setState({
-      page,
-      tag: ''
-    })
-    this.fetchIsNeedToEnd(true)
-    this.setStorage(undefined, undefined, namespace)
-  }
-
-  onSelectSubjectType = title => {
-    t('我的.类型选择', {
-      title
-    })
-
-    const { subjectType } = this.state
-    const nextSubjectType = MODEL_SUBJECT_TYPE.getLabel(title)
-    if (nextSubjectType !== subjectType) {
-      this.setState({
-        subjectType: nextSubjectType,
-        tag: ''
-      })
-      this.fetchIsNeedToEnd(true)
-      this.setStorage(undefined, undefined, namespace)
-    }
-  }
-
-  onOrderSelect = async label => {
-    t('我的.排序选择', {
-      label
-    })
-
-    this.setState({
-      order: MODEL_COLLECTIONS_ORDERBY.getValue(label)
-    })
-    this.fetchIsNeedToEnd(true)
-    this.setStorage(undefined, undefined, namespace)
-  }
-
-  onFilterSelect = label => {
-    t('我的.筛选选择', {
-      label
-    })
-
-    let tag
-    if (label === '重置') {
-      tag = ''
-    } else {
-      tag = label.replace(/ \(\d+\)/, '')
-    }
-
-    this.setState({
-      tag
-    })
-    this.fetchIsNeedToEnd(true)
-    this.setStorage(undefined, undefined, namespace)
-  }
-
-  toggleList = () => {
-    const { list } = this.state
-    t('我的.布局选择', {
-      list: !list
-    })
-
-    this.setState({
-      list: !list
-    })
-    this.setStorage(undefined, undefined, namespace)
-  }
-
-  /**
-   * 底部TabBar再次点击滚动到顶并刷新数据
-   */
   scrollToIndex = {}
   scrollToOffset = {}
+
+  /**
+   * 收集ListView.scrollToIndex引用
+   * @param {*} ref
+   * @param {*} index
+   */
   connectRef = (ref, index) => {
     this.scrollToIndex[index] = ref?.scrollToIndex
     this.scrollToOffset[index] = ref?.scrollToOffset
   }
 
+  /**
+   * 刷新到顶
+   */
   onRefreshThenScrollTop = () => {
     try {
       const { page } = this.state
@@ -430,19 +431,147 @@ export default class ScreenUser extends store {
     }
   }
 
-  onToggleFilter = () => {
-    const { showFilter } = this.state
-    this.setState({
-      showFilter: !showFilter,
-      filter: ''
+  /**
+   * 标签页切换
+   * @param {*} page
+   */
+  onChange = page => {
+    t('我的.标签页切换', {
+      page
     })
+
+    this.setState({
+      page,
+      tag: ''
+    })
+    this.fetchIsNeedToEnd(true)
+    this.setStorage(undefined, undefined, namespace)
   }
 
+  /**
+   * 条目类型选择
+   * @param {*} title
+   */
+  onSelectSubjectType = title => {
+    t('我的.类型选择', {
+      title
+    })
+
+    const { subjectType } = this.state
+    const nextSubjectType = MODEL_SUBJECT_TYPE.getLabel(title)
+    if (nextSubjectType !== subjectType) {
+      this.setState({
+        subjectType: nextSubjectType,
+        tag: ''
+      })
+      this.fetchIsNeedRefreshToEnd()
+      this.setStorage(undefined, undefined, namespace)
+    }
+  }
+
+  /**
+   * 排序选择
+   * @param {*} label
+   */
+  onOrderSelect = async label => {
+    t('我的.排序选择', {
+      label
+    })
+
+    this.setState({
+      order: MODEL_COLLECTIONS_ORDERBY.getValue(label)
+    })
+    this.fetchIsNeedRefreshToEnd()
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 标签选择
+   * @param {*} label
+   */
+  onTagSelect = label => {
+    t('我的.筛选选择', {
+      label
+    })
+
+    let tag
+    if (label === '重置') {
+      tag = ''
+    } else {
+      tag = label.replace(/ \(\d+\)/, '')
+    }
+
+    this.setState({
+      tag
+    })
+    this.fetchIsNeedRefreshToEnd()
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 布局选择
+   */
+  onToggleList = () => {
+    const { list } = this.state
+    t('我的.布局选择', {
+      list: !list
+    })
+
+    this.setState({
+      list: !list
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起搜索栏
+   */
+  onToggleFilter = () => {
+    const { showFilter } = this.state
+    if (!showFilter) {
+      this.setState({
+        showFilter: !showFilter,
+        filter: ''
+      })
+      setTimeout(() => {
+        const { page } = this.state
+        this.scrollToOffset[page]?.({
+          offset: H_FIXED,
+          animated: true
+        })
+      }, 0)
+    } else {
+      this.setState({
+        showFilter: !showFilter,
+        fliterInputText: ''
+      })
+
+      // 因为会瞬间触发大量计算, 卡住UI, 需要把关键字延迟入库
+      setTimeout(() => {
+        this.setState({
+          filter: ''
+        })
+      }, 160)
+    }
+  }
+
+  /**
+   * 同步更新filterInputText, 异步更新filter
+   * @param {*} filter
+   */
   onFilterChange = filter => {
     const _filter = filter.trim()
     this.setState({
-      filter: _filter
+      fliterInputText: _filter
     })
-    if (_filter) this.fetchUntilTheEnd()
+    this._onFilterChange(_filter)
   }
+  _onFilterChange = debounce(filter => {
+    this.setState({
+      filter
+    })
+
+    const { subjectType, page } = this.state
+    if (filter.length) this.fetchUntilTheEnd(subjectType, tabs[page].key)
+  }, 1200)
 }

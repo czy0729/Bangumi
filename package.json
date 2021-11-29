@@ -55,6 +55,7 @@
     "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-image-zoom-viewer": "2.2.26",
+    "react-native-keep-awake": "^4.0.0",
     "react-native-modal-popover": "0.0.12",
     "react-native-navigation-bar-color": "1.0.0",
     "react-native-reanimated": "~1.13.0",

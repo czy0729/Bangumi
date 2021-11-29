@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 07:02:03
+ * @Last Modified time: 2021-11-29 12:30:05
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -18,7 +18,7 @@ import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import Heatmaps from './heatmaps'
-import Store, { tabs, H_BG, H_HEADER } from './store'
+import Store, { tabs, H_FIXED } from './store'
 
 const title = '时光机'
 
@@ -62,7 +62,7 @@ class User extends React.Component {
     const { page } = $.state
     const { fixed } = this.state
     const config = {
-      offset: fixed ? H_BG - H_HEADER : this.y,
+      offset: fixed ? H_FIXED : this.y,
       animated: false
     }
 
@@ -76,15 +76,14 @@ class User extends React.Component {
     const { y } = e.nativeEvent.contentOffset
     this.y = y
 
-    const offset = H_BG - H_HEADER - 20
-    if (fixed && y < offset) {
+    if (fixed && y < H_FIXED - 20) {
       this.setState({
         fixed: false
       })
       return
     }
 
-    if (!fixed && y >= offset) {
+    if (!fixed && y >= H_FIXED - 20) {
       this.setState({
         fixed: true
       })

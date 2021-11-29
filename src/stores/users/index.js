@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-24 15:42:34
+ * @Last Modified time: 2021-11-29 13:44:03
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -166,7 +166,6 @@ class Users extends store {
         return
       }
 
-      // eslint-disable-next-line no-param-reassign
       item.lastUserName = lastItem?.userName || item.userName
     })
 
@@ -392,10 +391,7 @@ class Users extends store {
   /**
    * 用户日志
    */
-  fetchCatalogs = async (
-    { userId = userStore.myId, isCollect } = {},
-    refresh
-  ) => {
+  fetchCatalogs = async ({ userId = userStore.myId, isCollect } = {}, refresh) => {
     const key = 'catalogs'
     const limit = 30
     const { list, pagination } = this[key](userId, isCollect)

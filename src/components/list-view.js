@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 10:04:14
+ * @Last Modified time: 2021-11-29 10:23:50
  */
 import React from 'react'
 import {
@@ -66,8 +66,6 @@ export const ListView = observer(
       scrollIndicatorInsets: {
         right: 1
       },
-      loading: false, // 受控Loading提示
-      loadingText: undefined,
       onHeaderRefresh: undefined,
       onFooterRefresh: undefined
     }
@@ -267,16 +265,13 @@ export const ListView = observer(
         footerEmptyDataComponent,
         footerTextType,
         showMesume,
-        loading,
         onHeaderRefresh,
         onFooterRefresh
       } = this.props
       const { rendered } = this.state
       if (lazy && !rendered) return footer
 
-      // 受控loading强制把RefreshState复写成加载中
-      const _refreshState = loading ? RefreshState.FooterRefreshing : refreshState
-      switch (_refreshState) {
+      switch (refreshState) {
         case RefreshState.Idle:
           footer = <View style={this.styles.footerContainer} />
           break
@@ -427,8 +422,6 @@ export const ListView = observer(
         'style',
         'data',
         'lazy',
-        'loading',
-        'loadingText',
         'optimize',
         'progressViewOffset',
         'refreshControlProps',

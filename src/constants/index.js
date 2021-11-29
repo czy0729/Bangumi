@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 09:57:02
+ * @Last Modified time: 2021-11-29 14:11:46
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -18,7 +18,7 @@ export const DEV = global.__DEV__
 export const TEXT_ONLY = DEV
 
 // 日志级别 2 所有, 1 只输出错误和警告, 0 不输出
-export const LOG_LEVEL = 1
+export const LOG_LEVEL = 0
 
 /* ==================== BASE ==================== */
 

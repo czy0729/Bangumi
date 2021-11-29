@@ -2,38 +2,120 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-28 09:40:26
+ * @Last Modified time: 2021-11-29 13:32:44
  */
-import React from 'react'
-import { View } from 'react-native'
-import { Flex, Input } from '@components'
+import React, { useRef, useEffect, useMemo } from 'react'
+import { Animated, View } from 'react-native'
+import { Flex, Input, Loading } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { memo, obc } from '@utils/decorators'
+import { tabs } from './store'
 
-function Filter(props, { $ }) {
-  rerender('Home.Filter')
-
-  const styles = memoStyles()
-  const { filter } = $.state
-  return (
-    <Flex style={styles.filter} justify='center'>
-      <View style={styles.wrap}>
-        <Input
-          style={styles.input}
-          clearButtonMode='never'
-          value={filter}
-          placeholder='搜索'
-          autoFocus
-          onChangeText={$.onFilterChange}
-        />
-      </View>
-    </Flex>
-  )
+const defaultProps = {
+  styles: {},
+  showFilter: false,
+  fliterInputText: '',
+  isTabActive: false,
+  isFiltering: false,
+  onFilterChange: Function.prototype
 }
 
-export default obc(Filter)
+const Filter = memo(
+  ({
+    styles,
+    showFilter,
+    fliterInputText,
+    isTabActive,
+    isFiltering,
+    onFilterChange
+  }) => {
+    rerender('User.Filter.Main')
+
+    const inputRef = useRef(null)
+    const aHeight = useRef(new Animated.Value(0))
+    const animatedStyles = useMemo(
+      () => ({
+        height: aHeight.current.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 56]
+        }),
+        overflow: 'hidden'
+      }),
+      []
+    )
+    useEffect(() => {
+      setTimeout(
+        () => {
+          Animated.timing(aHeight.current, {
+            toValue: showFilter ? 1 : 0,
+            duration: 160,
+            useNativeDriver: false
+          }).start()
+
+          if (showFilter && isTabActive) {
+            setTimeout(() => {
+              if (typeof inputRef.current?.onFocus === 'function') {
+                inputRef.current.onFocus()
+              }
+            }, 160)
+          }
+        },
+        showFilter ? 160 : 0
+      )
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showFilter])
+
+    return (
+      <Animated.View style={animatedStyles}>
+        <View style={styles.container}>
+          <Flex style={styles.filter} justify='center'>
+            <View style={styles.wrap}>
+              <Input
+                ref={inputRef}
+                style={styles.input}
+                clearButtonMode='never'
+                value={fliterInputText}
+                placeholder='搜索'
+                onChangeText={onFilterChange}
+              />
+              {isFiltering && (
+                <Flex style={styles.loading} justify='center'>
+                  <Loading.Raw color={_.colorSub} size={16} />
+                </Flex>
+              )}
+            </View>
+          </Flex>
+        </View>
+      </Animated.View>
+    )
+  },
+  defaultProps
+)
+
+export default obc(({ page }, { $ }) => {
+  rerender('User.Filter')
+
+  const { subjectType, showFilter, fliterInputText } = $.state
+  const { key: type } = tabs[page]
+  const isTabActive = $.isTabActive(subjectType, type)
+  const isFiltering = $.isFiltering(subjectType, type)
+  return (
+    <Filter
+      styles={memoStyles()}
+      page={page}
+      showFilter={showFilter}
+      fliterInputText={fliterInputText}
+      isTabActive={isTabActive}
+      isFiltering={isFiltering}
+      onFilterChange={$.onFilterChange}
+    />
+  )
+})
 
 const memoStyles = _.memoStyles(_ => ({
+  container: {
+    height: 56
+  },
   filter: {
     paddingTop: _.sm - 2,
     paddingBottom: _.sm
@@ -55,5 +137,13 @@ const memoStyles = _.memoStyles(_ => ({
     right: 0,
     bottom: 0,
     left: 0
+  },
+  loading: {
+    position: 'absolute',
+    zIndex: 2,
+    top: 0,
+    right: 0,
+    width: 44,
+    height: 44
   }
 }))
