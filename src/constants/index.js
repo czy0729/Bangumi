@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 14:11:46
+ * @Last Modified time: 2021-12-01 05:25:53
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -19,6 +19,25 @@ export const TEXT_ONLY = DEV
 
 // 日志级别 2 所有, 1 只输出错误和警告, 0 不输出
 export const LOG_LEVEL = 0
+
+/* ==================== LAYOUT ==================== */
+const { width, height } = Dimensions.get('window')
+
+export const ORIENTATION_PORTRAIT = 'PORTRAIT'
+export const ORIENTATION_LANDSCAPE = 'LANDSCAPE'
+export const PAD_LEVEL_1 = 616
+export const PAD_LEVEL_2 = 900
+
+const minSide = Math.min(width, height)
+const maxSide = Math.max(width, height)
+let isPad = 0
+
+// 暂时认为长边 <= 短边 * 1.6, 且短边 >= PAD_LEVEL_1, 是平板
+if (maxSide <= minSide * 1.6 && minSide >= PAD_LEVEL_1) {
+  isPad = minSide >= PAD_LEVEL_2 ? 2 : 1
+}
+export const PAD = isPad
+export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1
 
 /* ==================== BASE ==================== */
 
@@ -145,13 +164,6 @@ export const IMG_DEFAULT = require('@assets/images/default.png') // 默认图
 export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png') // 图裂图
 
 /* ==================== IMG SIZE ==================== */
-const { width } = Dimensions.get('window')
-
-export const PAD_LEVEL_1 = 616
-export const PAD_LEVEL_2 = 900
-export const PAD = width >= PAD_LEVEL_2 ? 2 : width >= PAD_LEVEL_1 ? 1 : 0
-export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1
-
 export const IMG_WIDTH = parseInt(RATIO * 82)
 export const IMG_HEIGHT = parseInt(IMG_WIDTH * 1.4)
 export const IMG_WIDTH_SM = parseInt(RATIO * 64)

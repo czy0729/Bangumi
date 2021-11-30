@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 17:35:22
+ * @Last Modified time: 2021-11-30 18:47:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ function Header(props, { $ }) {
 
 export default obc(Header)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingBottom: _.sm
   },

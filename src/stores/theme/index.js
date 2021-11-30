@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 01:33:30
+ * @Last Modified time: 2021-11-30 19:28:39
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
-import { IOS } from '@constants'
+import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
 import _ from '@styles'
 // import { INIT_DEV_DARK } from '@/config'
 import systemStore from '../system'
 import {
-  ThemeWindow,
   memoStyles,
   NAMESPACE,
   DEFAULT_MODE,
@@ -30,9 +29,7 @@ class Theme extends store {
     super()
 
     Object.keys(_).forEach(key => {
-      if (!(key in this)) {
-        this[key] = _[key]
-      }
+      if (!(key in this)) this[key] = _[key]
     })
   }
 
@@ -41,15 +38,14 @@ class Theme extends store {
   sm = _.sm
   md = _.md
   radiusSm = _.radiusSm
-  wind = _.wind
-  window: ThemeWindow = _.window
   mt = _.mt
 
   state = observable({
     mode: DEFAULT_MODE,
+    orientation: ORIENTATION_PORTRAIT,
+    fontSizeAdjust: 0,
     tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
     tinygrailMode: DEFAULT_TINYGRAIL_MODE,
-    fontSizeAdjust: 0,
     ...STYLES_LIGHT
   })
 
@@ -90,19 +86,41 @@ class Theme extends store {
     return this.mode === 'dark'
   }
 
+  @computed get orientation() {
+    return this.state.orientation
+  }
+
+  @computed get isLandscape() {
+    return this.orientation === ORIENTATION_LANDSCAPE
+  }
+
+  @computed get window() {
+    // 手机竖屏和初始化是pad的设备
+    if (this.orientation === ORIENTATION_PORTRAIT || _.isPad) return _.window
+
+    // 手机横屏单独处理
+    return _.landscapeWindow
+  }
+
+  @computed get wind() {
+    // 手机竖屏和初始化是pad的设备
+    if (this.orientation === ORIENTATION_PORTRAIT || _.isPad) return _.wind
+
+    // 手机横屏单独处理
+    return _.landscapeWind
+  }
+
+  // @computed get isPad() {
+  //   return _.isPad
+  // }
+
   @computed get autoColorScheme() {
-    const { autoColorScheme } = systemStore.setting
-    return autoColorScheme
+    return systemStore.setting.autoColorScheme
   }
 
   @computed get flat() {
-    const { flat } = systemStore.setting
-    return flat
-  }
-
-  @computed get deepDark() {
-    const { deepDark } = systemStore.setting
-    return deepDark
+    // return systemStore.setting.flat
+    return true
   }
 
   @computed get colorMain() {
@@ -185,6 +203,10 @@ class Theme extends store {
     return this.state.colorHighLight
   }
 
+  @computed get deepDark() {
+    return systemStore.setting.deepDark
+  }
+
   @computed get _colorDarkModeLevel1() {
     return this.deepDark
       ? _._colorThemeDeepDark.colorDarkModeLevel1
@@ -255,12 +277,8 @@ class Theme extends store {
   }
 
   @computed get colorDepthBid() {
-    if (this.isWeb) {
-      return _.colorDepthBidWeb
-    }
-    if (this.isGreen) {
-      return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
-    }
+    if (this.isWeb) return _.colorDepthBidWeb
+    if (this.isGreen) return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
     return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
   }
 
@@ -272,9 +290,7 @@ class Theme extends store {
 
   @computed get colorDepthAsk() {
     if (this.isWeb) return _.colorDepthAskWeb
-    if (this.isGreen) {
-      return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
-    }
+    if (this.isGreen) return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
     return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
   }
 
@@ -387,16 +403,16 @@ class Theme extends store {
         alignItems: 'center'
       },
       outer: {
-        paddingHorizontal: _.wind,
+        paddingHorizontal: this.wind,
         paddingTop: _.space,
         paddingBottom: _.bottom
       },
       inner: {
         paddingVertical: _.space,
-        paddingHorizontal: _.wind
+        paddingHorizontal: this.wind
       },
       wind: {
-        paddingHorizontal: _.wind
+        paddingHorizontal: this.wind
       },
       bottom: {
         paddingBottom: _.bottom
@@ -409,7 +425,7 @@ class Theme extends store {
         overflow: 'hidden'
       },
       left: {
-        marginLeft: _.wind
+        marginLeft: this.wind
       },
       block: {
         width: '100%'
@@ -551,7 +567,9 @@ class Theme extends store {
   /**
    * 设备选择
    */
-  device = (mobileValue, padValue) => (this.isPad ? padValue : mobileValue)
+  device = (mobileValue, padValue) => {
+    return this.isPad ? padValue : mobileValue
+  }
 
   /**
    * 格子布局分拆工具函数
@@ -685,9 +703,7 @@ class Theme extends store {
    * 小圣杯模块, 安卓改变底部菜单颜色
    */
   changeNavigationBarColorTinygrail = () => {
-    if (IOS) {
-      return
-    }
+    if (IOS) return
 
     try {
       InteractionManager.runAfterInteractions(() => {
@@ -707,35 +723,35 @@ class Theme extends store {
    *  - 支持key名为current的对象懒计算
    */
   memoStyles: memoStyles = (styles: () => {}, dev: boolean = false) => {
-    const memoId = getMemoStylesId()
+    const item = getMemoStylesId()
     return () => {
       if (
-        !memoId._mode ||
-        !memoId._styles ||
-        memoId._mode !== this.mode ||
-        memoId._tMode !== this.tinygrailThemeMode ||
-        memoId._flat !== this.flat ||
-        memoId._deepDark !== this.deepDark
+        !item._mode ||
+        !item._styles ||
+        item._mode !== this.mode ||
+        item._tMode !== this.tinygrailThemeMode ||
+        item._flat !== this.flat ||
+        item._deepDark !== this.deepDark ||
+        item._orientation !== this.orientation
       ) {
-        memoId._mode = this.mode
-        memoId._tMode = this.tinygrailThemeMode
-        memoId._flat = this.flat
-        memoId._deepDark = this.deepDark
+        item._mode = this.mode
+        item._tMode = this.tinygrailThemeMode
+        item._flat = this.flat
+        item._deepDark = this.deepDark
+        item._orientation = this.orientation
 
         const computedStyles = styles(this)
         if (computedStyles.current) {
           const { current, ...otherStyles } = computedStyles
-          memoId._styles = this.create(otherStyles)
-          memoId._styles.current = current
+          item._styles = this.create(otherStyles)
+          item._styles.current = current
         } else {
-          memoId._styles = this.create(computedStyles)
+          item._styles = this.create(computedStyles)
         }
 
-        if (dev) {
-          log(memoId)
-        }
+        if (dev) log(item)
       }
-      return memoId._styles
+      return item._styles
     }
   }
 }

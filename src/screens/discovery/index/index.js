@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 22:17:54
+ * @Last Modified time: 2021-11-30 19:15:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,8 +39,6 @@ class Discovery extends React.Component {
     })
   }
 
-  ListHeaderComponent = (<Header />)
-
   render() {
     const { $ } = this.context
     const { dragging } = $.state
@@ -55,11 +53,11 @@ class Discovery extends React.Component {
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={$.state.home}
-          ListHeaderComponent={this.ListHeaderComponent}
+          ListHeaderComponent={<Header />}
           renderItem={renderItem}
           scrollToTop={isFocused}
           scrollEnabled={!dragging}
-          onHeaderRefresh={$.init}
+          onHeaderRefresh={dragging ? undefined : $.init}
           onFooterRefresh={$.fetchHome}
         />
         <LinkModal />

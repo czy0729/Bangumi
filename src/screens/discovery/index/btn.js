@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-17 01:38:04
+ * @Last Modified time: 2021-11-30 18:33:25
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
@@ -41,9 +41,7 @@ function Btn({ item }, { $, navigation }) {
                 return navigation.push(key)
               }
 
-              if (key === 'Netabare') {
-                return open('https://netaba.re/trending')
-              }
+              if (key === 'Netabare') return open('https://netaba.re/trending')
 
               if (key === 'UserTimeline') {
                 return navigation.push(key, {

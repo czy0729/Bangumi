@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:49:54
+ * @Last Modified time: 2021-11-30 19:37:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -79,7 +79,7 @@ export default obc(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.window.width - 2 * _.wind,
     maxWidth: 400,

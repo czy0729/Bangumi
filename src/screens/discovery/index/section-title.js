@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 12:15:33
+ * @Last Modified time: 2021-11-30 18:04:43
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
@@ -14,6 +14,7 @@ import { t } from '@utils/fetch'
 function SectionTitle({ title, type }, { navigation }) {
   rerender('Discovery.SectionTitle')
 
+  const styles = memoStyles()
   return (
     <CompSectionTitle
       style={styles.section}
@@ -45,7 +46,7 @@ function SectionTitle({ title, type }, { navigation }) {
 
 export default obc(SectionTitle)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   section: {
     marginTop: 24,
     marginHorizontal: _.wind
@@ -56,4 +57,4 @@ const styles = _.create({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-})
+}))

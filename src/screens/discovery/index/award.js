@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 12:11:01
+ * @Last Modified time: 2021-11-30 17:25:36
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -121,7 +121,7 @@ function Award(props, { navigation }) {
 
 export default obc(Award)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind

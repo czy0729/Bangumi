@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 17:36:48
+ * @Last Modified time: 2021-11-30 17:58:02
  */
 import React from 'react'
 import { HorizontalList } from '@components'
@@ -24,6 +24,7 @@ export const initialRenderNumsXs = _.device(
 )
 
 const defaultProps = {
+  styles: {},
   style: {},
   type: 'anime',
   list: [],
@@ -31,7 +32,7 @@ const defaultProps = {
   friendsMap: {}
 }
 
-const List = memo(({ style, type, list, friendsChannel, friendsMap }) => {
+const List = memo(({ styles, style, type, list, friendsChannel, friendsMap }) => {
   rerender('Discovery.List.Main')
 
   const data = dataCache[type] || list.sort(() => 0.5 - Math.random()) || []
@@ -92,6 +93,7 @@ export default obc(({ style, type = 'anime' }, { $ }) => {
 
   return (
     <List
+      styles={memoStyles()}
       style={style}
       type={type}
       list={list}
@@ -101,7 +103,7 @@ export default obc(({ style, type = 'anime' }, { $ }) => {
   )
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingVertical: _.space + 4,
     paddingRight: _.wind - _._wind,
@@ -112,4 +114,4 @@ const styles = _.create({
     paddingBottom: _.space + 4,
     paddingLeft: _.wind
   }
-})
+}))

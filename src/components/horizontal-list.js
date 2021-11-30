@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:46:14
+ * @Last Modified time: 2021-11-30 18:09:55
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 
 export const HorizontalList = observer(
   class extends React.Component {
@@ -28,19 +29,22 @@ export const HorizontalList = observer(
       }
     }
 
-    get data() {
-      const { data, initialRenderNums } = this.props
+    get show() {
+      const { initialRenderNums } = this.props
       const { scrolled } = this.state
-      if (!initialRenderNums || scrolled) {
-        return data
-      }
+      return _.isLandscape || !initialRenderNums || scrolled
+    }
 
+    get data() {
+      const { data } = this.props
+      if (this.show) return data
+
+      const { initialRenderNums } = this.props
       return data.filter((item, index) => index < initialRenderNums)
     }
 
     render() {
-      const { style, contentContainerStyle, initialRenderNums, renderItem } = this.props
-      const { scrolled } = this.state
+      const { style, contentContainerStyle, renderItem } = this.props
       return (
         <ScrollView
           style={style}
@@ -48,7 +52,7 @@ export const HorizontalList = observer(
           horizontal
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={80}
-          onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
+          onScroll={this.show ? undefined : this.onScroll}
         >
           {this.data.map(renderItem)}
         </ScrollView>

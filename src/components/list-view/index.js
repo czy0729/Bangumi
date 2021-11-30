@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 05:00:11
+ * @Last Modified time: 2021-11-30 19:21:37
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -172,15 +172,20 @@ export const ListView = observer(
     }
 
     get commonProps() {
-      const { optimize, showFooter, ListFooterComponent = null } = this.props
+      const {
+        optimize,
+        showFooter,
+        ListFooterComponent = null,
+        onHeaderRefresh
+      } = this.props
       const { refreshState } = this.state
       return {
         style: this.style,
         connectRef: this.connectRef,
+        ListFooterComponent: showFooter ? this.renderFooter() : ListFooterComponent,
         refreshing: refreshState === RefreshState.HeaderRefreshing,
         refreshControl: this.renderRefreshControl(),
-        ListFooterComponent: showFooter ? this.renderFooter() : ListFooterComponent,
-        onRefresh: this.onHeaderRefresh,
+        onRefresh: onHeaderRefresh ? this.onHeaderRefresh : undefined,
         onEndReached: this.onEndReached,
         onEndReachedThreshold: 0.5,
 
@@ -228,13 +233,15 @@ export const ListView = observer(
     }
 
     renderRefreshControl() {
-      const { data, progressViewOffset, refreshControlProps } = this.props
+      const { data, progressViewOffset, refreshControlProps, onHeaderRefresh } =
+        this.props
       const { refreshState } = this.state
       const title = data._loaded
         ? `上次刷新时间: ${simpleTime(date(data._loaded))}`
         : undefined
       return (
         <RefreshControl
+          enabled={!!onHeaderRefresh}
           title={title}
           colors={[_.colorMain]}
           titleColor={_.colorSub}

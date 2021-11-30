@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 13:41:06
+ * @Last Modified time: 2021-11-30 18:39:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,85 +15,83 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { linearColor } from './ds'
 
-const imageWidth = _.device(_.window.width * 0.34, _.window.contentWidth * 0.4) * 0.5625
-const imageHeight = imageWidth * 1.38
 const avatarSize = 24
 const defaultProps = {
   navigation: {},
   styles: {},
+  imageWidth: 0,
   avatarRound: false,
   title: '',
   avatar: '',
   data: {}
 }
 
-const CoverXs = memo(({ navigation, styles, avatarRound, title, avatar, data }) => {
-  rerender('Discovery.CoverXs.Main')
+const CoverXs = memo(
+  ({ navigation, styles, imageWidth, avatarRound, title, avatar, data }) => {
+    rerender('Discovery.CoverXs.Main')
 
-  return (
-    <View>
-      <View style={styles.item}>
-        <Cover
-          src={data.cover}
-          width={imageWidth}
-          height={imageHeight}
-          radius
-          placeholder={false}
-          onPress={() => {
-            t('发现.跳转', {
-              to: 'Subject',
-              from: title,
-              type: 'xs',
-              subjectId: data.id
-            })
+    const imageHeight = imageWidth * 1.38
+    return (
+      <View>
+        <View style={styles.item}>
+          <Cover
+            src={data.cover}
+            width={imageWidth}
+            height={imageHeight}
+            radius
+            placeholder={false}
+            onPress={() => {
+              t('发现.跳转', {
+                to: 'Subject',
+                from: title,
+                type: 'xs',
+                subjectId: data.id
+              })
 
-            navigation.push('Subject', {
-              subjectId: data.id,
-              _jp: data.name,
-              _image: data.cover
-            })
-          }}
-        />
-        <LinearGradient
-          style={styles.linear}
-          colors={linearColor}
-          pointerEvents='none'
-        />
-        <Text
-          style={styles.desc}
-          size={8}
-          type={_.select('plain', 'title')}
-          numberOfLines={2}
-          bold
-          pointerEvents='none'
-        >
-          {HTMLDecode(data.name)}
-        </Text>
-      </View>
-      {!!avatar && (
-        <Flex
-          style={[
-            styles.fixed,
-            {
-              borderRadius: avatarRound ? 28 : _.radiusSm
-            }
-          ]}
-          justify='center'
-        >
-          <Avatar
-            navigation={navigation}
-            style={styles.avatar}
-            size={avatarSize}
-            src={avatar}
-            userId={data.userId}
-            name={data.userName}
-            borderColor='transparent'
+              navigation.push('Subject', {
+                subjectId: data.id,
+                _jp: data.name,
+                _image: data.cover
+              })
+            }}
           />
-        </Flex>
-      )}
-    </View>
-  )
-}, defaultProps)
+          <LinearGradient
+            style={styles.linear}
+            colors={linearColor}
+            pointerEvents='none'
+          />
+          <Text
+            style={styles.desc}
+            size={8}
+            type={_.select('plain', 'title')}
+            numberOfLines={2}
+            bold
+            pointerEvents='none'
+          >
+            {HTMLDecode(data.name)}
+          </Text>
+        </View>
+        {!!avatar && (
+          <Flex
+            style={[styles.fixed, avatarRound && styles.avatarRound]}
+            justify='center'
+          >
+            <Avatar
+              navigation={navigation}
+              style={styles.avatar}
+              size={avatarSize}
+              src={avatar}
+              userId={data.userId}
+              name={data.userName}
+              borderColor='transparent'
+            />
+          </Flex>
+        )}
+      </View>
+    )
+  },
+  defaultProps
+)
 
 export default obc(({ title, avatar, data }, { navigation }) => {
   rerender('Discovery.CoverXs')
@@ -103,6 +101,7 @@ export default obc(({ title, avatar, data }, { navigation }) => {
     <CoverXs
       navigation={navigation}
       styles={memoStyles()}
+      imageWidth={_.window.contentWidth * _.device(0.34, 0.4) * 0.5625}
       avatarRound={avatarRound}
       title={title}
       avatar={avatar}
@@ -111,7 +110,7 @@ export default obc(({ title, avatar, data }, { navigation }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     marginRight: _._wind + 2,
     borderRadius: _.radiusSm,
@@ -145,9 +144,13 @@ const memoStyles = _.memoStyles(_ => ({
     height: 28,
     marginLeft: -6,
     marginBottom: -2,
-    backgroundColor: _.select(_.colorPlain, _.colorBg)
+    backgroundColor: _.select(_.colorPlain, _.colorBg),
+    borderRadius: _.radiusSm
   },
   avatar: {
     backgroundColor: _.select(_.colorPlain, _.colorBg)
+  },
+  avatarRound: {
+    borderRadius: 28
   }
 }))

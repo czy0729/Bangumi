@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 23:27:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 13:26:33
+ * @Last Modified time: 2021-11-30 17:40:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,11 @@ import { initialRenderNumsXs } from './list'
 import CoverToday from './cover-today'
 
 const defaultProps = {
+  styles: {},
   todayBangumi: []
 }
 
-const Today = memo(({ todayBangumi }) => {
+const Today = memo(({ styles, todayBangumi }) => {
   rerender('Discovery.Today.Main')
 
   return (
@@ -54,10 +55,10 @@ export default obc((props, { $ }) => {
 
   if (!$.todayBangumi.length) return null
 
-  return <Today todayBangumi={$.todayBangumi} />
+  return <Today styles={memoStyles()} todayBangumi={$.todayBangumi} />
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingTop: _.space + 4,
     paddingRight: _.wind - _._wind,
@@ -75,4 +76,4 @@ const styles = _.create({
     borderRadius: 2,
     overflow: 'hidden'
   }
-})
+}))

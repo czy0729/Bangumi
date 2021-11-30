@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 16:02:06
+ * @Last Modified time: 2021-11-30 18:42:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,6 @@ import { HTMLDecode } from '@utils/html'
 import { cnjp } from '@utils/app'
 import { linearColor } from './ds'
 
-const imageWidth = _.device(_.window.width * 0.26, _.window.contentWidth * 0.4)
-const imageHeight = imageWidth * 1.38
 const weekdayCN = {
   0: '日',
   1: '一',
@@ -32,6 +30,8 @@ function CoverToday({ data }, { navigation }) {
   rerender('Discovery.CoverToday')
 
   const styles = memoStyles()
+  const imageWidth = _.window.contentWidth * _.device(0.26, 0.4)
+  const imageHeight = imageWidth * 1.38
   return (
     <View>
       <View style={styles.item}>
@@ -84,7 +84,7 @@ function CoverToday({ data }, { navigation }) {
 
 export default obc(CoverToday)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     marginRight: _._wind,
     borderRadius: _.radiusSm,
@@ -93,7 +93,7 @@ const memoStyles = _.memoStyles(_ => ({
   linear: {
     position: 'absolute',
     zIndex: 1,
-    height: imageHeight * 0.5,
+    top: '50%',
     right: 0,
     bottom: 0,
     left: 0,

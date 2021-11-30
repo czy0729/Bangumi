@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 16:03:35
+ * @Last Modified time: 2021-11-30 19:35:19
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -11,11 +11,13 @@ import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { rerender } from '@utils/dev'
-import { IOS } from '@constants'
+import { IOS, ORIENTATION_PORTRAIT } from '@constants'
 import Btn from './btn'
-import { getMenus, MenuMapType } from './ds'
+import { getMenus } from './ds'
 
 const defaultProps = {
+  styles: {},
+  orientation: _.orientation,
   dragging: false,
   discoveryMenu: [],
   onToggle: Function.prototype,
@@ -23,10 +25,10 @@ const defaultProps = {
 }
 
 const SortMenu = memo(
-  ({ dragging, discoveryMenu, onToggle, onSubmit }) => {
+  ({ styles, orientation, dragging, discoveryMenu, onToggle, onSubmit }) => {
     rerender('Discovery.SortMenu.Main')
 
-    const [menu, setMenu] = useState<MenuMapType[]>(discoveryMenu)
+    const [menu, setMenu] = useState(discoveryMenu)
     const menus = useMemo(() => getMenus(menu), [menu])
 
     const openIndex = menus.findIndex(item => item.key === 'Open')
@@ -44,8 +46,9 @@ const SortMenu = memo(
           <Btn item={item} />
         </View>
       ),
-      [openIndex]
+      [openIndex, styles.transparent]
     )
+
     const onDragRelease = useCallback(data => {
       const _menu = []
       data.forEach(item => {
@@ -55,44 +58,20 @@ const SortMenu = memo(
       })
       setMenu(_menu)
     }, [])
+
     const onCancel = useCallback(() => {
       onToggle()
       setMenu(discoveryMenu)
     }, [discoveryMenu, onToggle])
+
     const onSave = useCallback(() => {
       onSubmit(menu)
       onToggle()
     }, [menu, onSubmit, onToggle])
 
-    let data: any[]
-    if (dragging) {
-      data = [
-        ...menus.slice(0, openIndex),
-        {
-          key: 'Split',
-          name: '后面隐藏',
-          text: '|',
-          size: 20
-        },
-        ...menus.slice(openIndex + 1, menus.length)
-      ]
-    } else {
-      data = menus.filter((_item, index) => index <= openIndex)
-    }
-    return (
-      <View style={_.container.wind}>
-        {dragging && (
-          <Text style={styles.text} bold>
-            按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
-          </Text>
-        )}
-        <DraggableGrid
-          data={data}
-          numColumns={4}
-          renderItem={renderItem}
-          onDragRelease={onDragRelease}
-        />
-        {dragging && (
+    const btns = useMemo(
+      () =>
+        dragging && (
           <Flex style={styles.btns} justify='end'>
             <Flex.Item>
               <Touchable onPress={onCancel}>
@@ -113,30 +92,72 @@ const SortMenu = memo(
               </Touchable>
             </Flex.Item>
           </Flex>
+        ),
+      [styles.btn, styles.btns, dragging, onCancel, onSave]
+    )
+
+    const isPortrait = orientation === ORIENTATION_PORTRAIT
+    let data
+    if (dragging) {
+      data = [
+        ...menus.slice(0, openIndex),
+        {
+          key: 'Split',
+          name: '后面隐藏',
+          text: '|',
+          size: 20
+        },
+        ...menus.slice(openIndex + 1, menus.length)
+      ]
+    } else {
+      data = menus.filter((_item, index) => index <= openIndex)
+    }
+
+    return (
+      <View style={_.container.wind}>
+        {isPortrait && dragging && (
+          <Text style={styles.text} bold>
+            按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
+          </Text>
         )}
+        {!isPortrait && btns}
+        <DraggableGrid
+          key={orientation}
+          data={data}
+          numColumns={4}
+          renderItem={renderItem}
+          onDragRelease={onDragRelease}
+        />
+        {isPortrait && btns}
       </View>
     )
   },
-  defaultProps,
-  undefined,
-  undefined
+  defaultProps
 )
 
 export default obc((props, { $ }) => {
   rerender('Discovery.SortMenu')
+
+  const styles = memoStyles()
   return (
-    <SortMenu
-      dragging={$.state.dragging}
-      discoveryMenu={$.discoveryMenu}
-      onToggle={$.toggleDragging}
-      onSubmit={$.saveDiscoveryMenu}
-    />
+    <View style={styles.container}>
+      <SortMenu
+        styles={styles}
+        orientation={_.orientation}
+        dragging={$.state.dragging}
+        discoveryMenu={$.discoveryMenu}
+        onToggle={$.toggleDragging}
+        onSubmit={$.saveDiscoveryMenu}
+      />
+    </View>
   )
 })
 
 const size = 44 * _.ratio
-
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
+  container: {
+    minHeight: 100
+  },
   transparent: {
     opacity: _.select(0.6, 0.4)
   },
@@ -146,6 +167,7 @@ const styles = _.create({
     marginBottom: _.md
   },
   btns: {
+    paddingHorizontal: _.sm,
     marginTop: _.md + 8,
     marginBottom: _.md
   },
@@ -154,4 +176,4 @@ const styles = _.create({
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: size
   }
-})
+}))

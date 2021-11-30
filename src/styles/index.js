@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 03:20:34
+ * @Last Modified time: 2021-11-30 18:44:42
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -10,26 +10,39 @@ import { IOS, PAD, PAD_LEVEL_2, RATIO } from '@constants'
 
 // -------------------- 设备 --------------------
 const { width, height } = Dimensions.get('window')
-const maxWidth = width >= PAD_LEVEL_2 ? 708 : 586
+const maxWidthPadLevel1 = 586
+const maxWidthPadLevel2 = 708
+
+const portraitWidth = Math.min(width, height)
+const portraitHeight = Math.max(width, height)
+const portraitMaxWidth = PAD
+  ? portraitWidth >= PAD_LEVEL_2
+    ? maxWidthPadLevel2
+    : maxWidthPadLevel1
+  : portraitWidth
 export const window = {
-  width,
-  maxWidth,
-  contentWidth: Math.min(width, maxWidth),
-  height
+  width: portraitWidth,
+  height: portraitHeight,
+  maxWidth: portraitMaxWidth,
+  contentWidth: Math.min(portraitWidth, portraitMaxWidth)
 }
 
-export const logoWidth = 124 * ratio // logo宽度
+const landscapeWidth = Math.max(width, height)
+const landscapeHeight = Math.min(width, height)
+const landscapeMaxWidth = PAD
+  ? landscapeWidth >= PAD_LEVEL_2
+    ? maxWidthPadLevel2
+    : maxWidthPadLevel1
+  : landscapeHeight
+export const landscapeWindow = {
+  width: landscapeWidth,
+  height: landscapeHeight,
+  maxWidth: landscapeMaxWidth,
+  contentWidth: Math.min(landscapeWidth, landscapeMaxWidth)
+}
+
 export const isPad = !!PAD
 export const ratio = RATIO
-export const statusBarHeight = Constants.statusBarHeight
-export const appBarHeight = IOS ? Constants.statusBarHeight : 56 //  单独头部高度, iOS 44
-
-// 整个头部高度
-const _headerHeight = appBarHeight + statusBarHeight
-export const headerHeight = PAD ? Math.max(_headerHeight, 80) : _headerHeight
-export const tabsHeight = 42 // 标签页的标签栏高度
-export const tabsHeaderHeight = headerHeight + tabsHeight // 带标签栏的头部高度
-export const tabBarHeight = 50 // 标签栏高度
 
 // -------------------- 统一布局单位 --------------------
 export const { hairlineWidth } = StyleSheet
@@ -37,9 +50,25 @@ export const xs = isPad ? 8 : 4
 export const sm = isPad ? 12 : 8
 export const md = isPad ? 24 : 16
 export const lg = isPad ? 48 : 32
-export const wind = isPad ? parseInt((width - window.contentWidth) / 2) : 16 // 两翼
+export const wind = isPad ? parseInt((window.width - window.contentWidth) / 2) : 16 // 两翼
+export const landscapeWind = parseInt(
+  (landscapeWindow.width - landscapeWindow.contentWidth) / 2
+)
 export const _wind = 16
 export const space = isPad ? 24 : 20 // 上下
+
+// -------------------- 元素 --------------------
+export const logoWidth = 124 * ratio // logo宽度
+export const statusBarHeight = Constants.statusBarHeight
+export const appBarHeight = IOS ? Constants.statusBarHeight : 56 // 单独头部高度
+
+// 整个头部高度
+export const headerHeight = PAD
+  ? Math.max(appBarHeight + statusBarHeight, 80)
+  : appBarHeight + statusBarHeight
+export const tabsHeight = 42 // 标签页的标签栏高度
+export const tabsHeaderHeight = headerHeight + tabsHeight // 带标签栏的头部高度
+export const tabBarHeight = 50 // 标签栏高度
 export const bottom = tabBarHeight + lg // 底部留空
 
 // -------------------- 主题色 --------------------

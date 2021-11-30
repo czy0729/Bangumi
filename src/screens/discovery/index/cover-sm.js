@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 12:11:29
+ * @Last Modified time: 2021-11-30 18:34:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,13 +15,12 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { linearColor } from './ds'
 
-const imageWidth = _.device(_.window.width * 0.34, _.window.contentWidth * 0.4)
-const imageHeight = imageWidth * 1.38
-
 function CoverSm({ title, src, cn, data }, { navigation }) {
   rerender('Discovery.CoverSm')
 
   const styles = memoStyles()
+  const imageWidth = _.window.contentWidth * _.device(0.34, 0.4)
+  const imageHeight = imageWidth * 1.38
   return (
     <View style={styles.item}>
       <Cover
@@ -52,7 +51,13 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
         <Text size={10} type={_.select('plain', 'title')} numberOfLines={1} bold>
           {data.info}
         </Text>
-        <Text style={_.mt.xs} type={_.select('plain', 'title')} size={12} numberOfLines={2} bold>
+        <Text
+          style={_.mt.xs}
+          type={_.select('plain', 'title')}
+          size={12}
+          numberOfLines={2}
+          bold
+        >
           {HTMLDecode(cn)}
         </Text>
       </View>
@@ -62,7 +67,7 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
 
 export default obc(CoverSm)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     marginRight: _._wind + 2,
     backgroundColor: _.colorBg,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-10 01:22:37
+ * @Last Modified time: 2021-11-30 18:02:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,12 @@ import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { linearColor } from './ds'
 
-const imageWidth = _.window.width - _.wind * 2
-const imageHeight = imageWidth * 1.38
-
 function CoverLg({ title, src, cn, data }, { navigation }) {
   rerender('Discovery.CoverLg')
 
   const styles = memoStyles()
+  const imageWidth = _.window.contentWidth
+  const imageHeight = imageWidth * 1.38
   return (
     <View style={styles.item}>
       <Cover
@@ -54,7 +53,13 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
         <Text type={_.select('plain', 'desc')} bold>
           {data.info}
         </Text>
-        <Text style={_.mt.xs} size={24} type={_.select('plain', 'title')} bold numberOfLines={2}>
+        <Text
+          style={_.mt.xs}
+          size={24}
+          type={_.select('plain', 'title')}
+          bold
+          numberOfLines={2}
+        >
           {HTMLDecode(cn)}
         </Text>
       </View>
@@ -64,7 +69,7 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
 
 export default obc(CoverLg)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     marginTop: _.space,
     marginHorizontal: _.wind,
