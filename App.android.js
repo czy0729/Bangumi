@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 01:32:01
+ * @Last Modified time: 2021-11-30 16:23:02
  */
 import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
-import { NativeEventEmitter, Alert, Clipboard } from 'react-native'
-import Shortcuts from 'react-native-actions-shortcuts'
+import { Alert } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import RNRestart from 'react-native-restart'
 import {
@@ -16,30 +15,27 @@ import {
 } from 'react-native-exception-handler'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
-import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
 import Provider from '@ant-design/react-native/lib/provider'
 import { DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@screens/_'
-import Stores, { _, systemStore } from '@stores'
-import { bootApp, navigationReference, appNavigate } from '@utils/app'
-import { useBoolean } from '@utils/hooks'
+import Stores, { _ } from '@stores'
+import { bootApp } from '@utils/app'
+import { useBoolean, useShortcuts, useKeepAwake, useOrientation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { getUserStoreAsync } from '@utils/async'
-import { matchBgmUrl } from '@utils/match'
-import { info } from '@utils/ui'
-import { DEV } from '@constants'
 import theme from '@styles/theme'
-import Navigations from './src/navigations/index'
+import Navigations from './src/navigations'
 
 export default function App() {
   const isLoadingComplete = useBootApp()
   useShortcuts()
+  useKeepAwake()
+  const orientation = useOrientation()
   useEffect(() => {
-    if (DEV) {
-      activateKeepAwake()
-      return () => deactivateKeepAwake()
-    }
-  }, [])
+    _.setState({
+      orientation
+    })
+  }, [orientation])
 
   if (!isLoadingComplete) return null
   return (
@@ -85,82 +81,6 @@ function useBootApp() {
   }, [])
 
   return state
-}
-
-function useShortcuts() {
-  useEffect(() => {
-    setTimeout(() => {
-      const shortcutsItems = [
-        {
-          type: 'Search',
-          title: '搜索',
-          iconName: 'md_search',
-          data: {}
-        },
-        {
-          type: 'Calendar',
-          title: '每日放送',
-          iconName: 'md_calendar',
-          data: {}
-        },
-        {
-          type: 'Link',
-          title: '剪贴板',
-          iconName: 'md_link',
-          data: {}
-        }
-      ]
-
-      if (systemStore.setting.tinygrail) {
-        shortcutsItems.push({
-          type: 'Tinygrail',
-          title: '小圣杯',
-          iconName: 'md_trophy',
-          data: {}
-        })
-      }
-
-      Shortcuts.setShortcuts(shortcutsItems.reverse())
-    }, 8000)
-  }, [])
-
-  useEffect(() => {
-    const ShortcutsEmitter = new NativeEventEmitter(Shortcuts)
-    const listener = item => {
-      const navigation = navigationReference()
-      if (!navigation) {
-        return setTimeout(() => {
-          listener(item)
-        }, 300)
-      }
-
-      const { type } = item || {}
-      if (type === 'Link') {
-        // @issue 打开APP瞬间剪贴板读不到内容, 需要延迟
-        setTimeout(async () => {
-          const content = await Clipboard.getString()
-          const urls = matchBgmUrl(content, true) || []
-          const url = urls[0]
-          if (!url) {
-            info('没有检测到链接')
-            return
-          }
-
-          appNavigate(url, navigation)
-        }, 400)
-      } else {
-        navigation.push(type)
-      }
-    }
-
-    ;(async function () {
-      listener(await Shortcuts.getInitialShortcut())
-
-      ShortcutsEmitter.addListener('onShortcutItemPressed', listener)
-    })()
-
-    return () => ShortcutsEmitter.removeListener('onShortcutItemPressed', listener)
-  }, [])
 }
 
 /**
