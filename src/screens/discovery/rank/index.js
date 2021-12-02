@@ -2,61 +2,32 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:24:52
+ * @Last Modified time: 2021-12-02 08:38:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
-import { open } from '@utils'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { injectWithHeader } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
 import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
 
-const title = '排行榜'
+const Rank = (props, { $, navigation }) => {
+  useMount(() => {
+    $.init()
+    $.setParams(navigation)
+  })
 
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
+  return useObserver(() => (
+    <View style={_.container.plain}>
+      <ToolBar />
+      {$.state._loaded && <List />}
+    </View>
+  ))
+}
+
+export default injectWithHeader(Store, Rank, {
+  screen: '排行榜',
   hm: ['rank', 'Rank']
 })
-@obc
-class Rank extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
-    $.init()
-
-    navigation.setParams({
-      heatmap: '排行榜.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('索引.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open($.url)
-              break
-            default:
-              break
-          }
-        }
-      }
-    })
-  }
-
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.state
-    return (
-      <View style={_.container.plain}>
-        <ToolBar />
-        {_loaded && <List />}
-      </View>
-    )
-  }
-}

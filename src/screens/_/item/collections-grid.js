@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 07:23:28
+ * @Last Modified time: 2021-12-02 08:31:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ const hitSlop = {
 const defaultProps = {
   navigation: {},
   style: {},
-  num: 3,
+  gridStyles: {},
   id: 0,
   name: '',
   nameCn: '',
@@ -45,7 +45,7 @@ const Item = memo(
   ({
     navigation,
     style,
-    num,
+    gridStyles,
     id,
     name,
     nameCn,
@@ -64,7 +64,6 @@ const Item = memo(
   }) => {
     rerender('Component.ItemCollectionsGrid.Main')
 
-    const gridStyles = _.grid(num)
     const _collection = collection || (isCollect ? '已收藏' : '')
     const onPress = () => {
       const { id: eventId, data: eventData } = event
@@ -140,7 +139,7 @@ export const ItemCollectionsGrid = ob(
   ({
     navigation,
     style,
-    num,
+    num = 3,
     id,
     name,
     nameCn,
@@ -163,7 +162,7 @@ export const ItemCollectionsGrid = ob(
       <Item
         navigation={navigation}
         style={style}
-        num={num}
+        gridStyles={_.grid(num)}
         id={id}
         name={name}
         nameCn={nameCn}

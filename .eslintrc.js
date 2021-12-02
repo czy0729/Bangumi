@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 09:45:15
+ * @Last Modified time: 2021-12-01 06:25:04
  */
 module.exports = {
   root: true,
@@ -18,6 +18,7 @@ module.exports = {
     'jsconfig.json'
   ],
   globals: {
+    global: true,
     rerender: true,
     warn: true,
     log: true

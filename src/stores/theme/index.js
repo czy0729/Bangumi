@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 19:28:39
+ * @Last Modified time: 2021-12-02 08:32:00
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -11,7 +11,6 @@ import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
 import _ from '@styles'
-// import { INIT_DEV_DARK } from '@/config'
 import systemStore from '../system'
 import {
   memoStyles,
@@ -33,20 +32,25 @@ class Theme extends store {
     })
   }
 
-  /** [待完善] TS fixed */
-  ratio = _.ratio
-  sm = _.sm
-  md = _.md
-  radiusSm = _.radiusSm
-  mt = _.mt
-
   state = observable({
     mode: DEFAULT_MODE,
+
+    // orientation
     orientation: ORIENTATION_PORTRAIT,
+    window: _.window,
+    wind: _.wind,
+    landscapeWindow: _.landscapeWindow,
+    landscapeWind: _.landscapeWind,
+
+    // font
     fontSizeAdjust: 0,
-    tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
+
+    // colors
+    ...STYLES_LIGHT,
+
+    // tinygrail
     tinygrailMode: DEFAULT_TINYGRAIL_MODE,
-    ...STYLES_LIGHT
+    tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE
   })
 
   init = async () => {
@@ -95,32 +99,15 @@ class Theme extends store {
   }
 
   @computed get window() {
-    // 手机竖屏和初始化是pad的设备
-    if (this.orientation === ORIENTATION_PORTRAIT || _.isPad) return _.window
-
-    // 手机横屏单独处理
-    return _.landscapeWindow
+    return this.isLandscape ? this.state.landscapeWindow : this.state.window
   }
 
   @computed get wind() {
-    // 手机竖屏和初始化是pad的设备
-    if (this.orientation === ORIENTATION_PORTRAIT || _.isPad) return _.wind
-
-    // 手机横屏单独处理
-    return _.landscapeWind
+    return this.isLandscape ? this.state.landscapeWind : this.state.wind
   }
-
-  // @computed get isPad() {
-  //   return _.isPad
-  // }
 
   @computed get autoColorScheme() {
     return systemStore.setting.autoColorScheme
-  }
-
-  @computed get flat() {
-    // return systemStore.setting.flat
-    return true
   }
 
   @computed get colorMain() {
@@ -261,13 +248,11 @@ class Theme extends store {
   }
 
   @computed get isGreen() {
-    const { tinygrailMode } = this.state
-    return tinygrailMode === DEFAULT_TINYGRAIL_MODE
+    return this.state.tinygrailMode === DEFAULT_TINYGRAIL_MODE
   }
 
   @computed get isWeb() {
-    const { tinygrailMode } = this.state
-    return tinygrailMode === 'web'
+    return this.state.tinygrailMode === 'web'
   }
 
   @computed get colorBid() {
@@ -563,6 +548,13 @@ class Theme extends store {
     })).get()
   }
 
+  /**
+   * 已废弃
+   */
+  @computed get flat() {
+    return true
+  }
+
   // -------------------- page --------------------
   /**
    * 设备选择
@@ -575,14 +567,12 @@ class Theme extends store {
    * 格子布局分拆工具函数
    */
   grid = (num = 3) => {
-    const marginLeft = this.device(this._wind, this.md)
-    const width =
-      (this.window.contentWidth - marginLeft * this.device(num + 1, num - 1)) / num
-    const height = width * 1.4
+    const marginLeft = this.device(16, 24)
+    const width = (this.window.contentWidth - (num - 1) * marginLeft) / num
     return {
-      marginLeft,
       width,
-      height
+      height: width * 1.4,
+      marginLeft
     }
   }
 
@@ -639,6 +629,16 @@ class Theme extends store {
     this.setStorage(key, undefined, NAMESPACE)
     this.changeNavigationBarColor()
     androidDayNightToggle(this.isDark)
+  }
+
+  /**
+   * 切换方向
+   */
+  toggleOrientation = orientation => {
+    this.setState({
+      orientation,
+      ..._.getAppLayout()
+    })
   }
 
   /**

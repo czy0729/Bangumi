@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 16:23:02
+ * @Last Modified time: 2021-12-02 06:33:27
  */
 import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
@@ -32,9 +32,7 @@ export default function App() {
   useKeepAwake()
   const orientation = useOrientation()
   useEffect(() => {
-    _.setState({
-      orientation
-    })
+    _.toggleOrientation(orientation)
   }, [orientation])
 
   if (!isLoadingComplete) return null

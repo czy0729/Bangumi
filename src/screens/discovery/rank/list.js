@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 13:02:54
+ * @Last Modified time: 2021-12-02 08:34:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -170,7 +170,7 @@ class List extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingBottom: _.bottom
   },
@@ -179,7 +179,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: 12
   },
   loading: {
-    width: _.window.width,
+    width: '100%',
     minHeight: 400,
     paddingTop: _.md,
     paddingVertical: _.wind

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-14 15:40:21
+ * @Last Modified time: 2021-12-02 05:39:46
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,9 +10,7 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 export const Tag = ob(({ style, type, value, size = 10 }) => {
-  if (!value) {
-    return null
-  }
+  if (!value) return null
 
   const styles = memoStyles()
   let _type = type
@@ -96,8 +94,9 @@ const memoStyles = _.memoStyles(_ => ({
   tag: {
     minWidth: 28,
     minHeight: 16,
-    paddingHorizontal: _.xs,
+    paddingRight: 2,
     paddingVertical: 1,
+    paddingLeft: 1,
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs
   },

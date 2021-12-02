@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 14:10:56
+ * @Last Modified time: 2021-12-01 07:59:03
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
+import { open, x18 } from '@utils'
 import store from '@utils/store'
-import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -61,6 +61,29 @@ export default class ScreenRank extends store {
     })
 
     return this.fetchRank()
+  }
+
+  setParams = navigation => {
+    navigation.setParams({
+      heatmap: '排行榜.右上角菜单',
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          t('索引.右上角菜单', {
+            key
+          })
+
+          switch (key) {
+            case '浏览器查看':
+              open(this.url)
+              break
+
+            default:
+              break
+          }
+        }
+      }
+    })
   }
 
   // -------------------- get --------------------

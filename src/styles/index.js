@@ -2,59 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 18:44:42
+ * @Last Modified time: 2021-12-02 08:04:20
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 import { IOS, PAD, PAD_LEVEL_2, RATIO } from '@constants'
 
 // -------------------- 设备 --------------------
-const { width, height } = Dimensions.get('window')
-const maxWidthPadLevel1 = 586
-const maxWidthPadLevel2 = 708
-
-const portraitWidth = Math.min(width, height)
-const portraitHeight = Math.max(width, height)
-const portraitMaxWidth = PAD
-  ? portraitWidth >= PAD_LEVEL_2
-    ? maxWidthPadLevel2
-    : maxWidthPadLevel1
-  : portraitWidth
-export const window = {
-  width: portraitWidth,
-  height: portraitHeight,
-  maxWidth: portraitMaxWidth,
-  contentWidth: Math.min(portraitWidth, portraitMaxWidth)
-}
-
-const landscapeWidth = Math.max(width, height)
-const landscapeHeight = Math.min(width, height)
-const landscapeMaxWidth = PAD
-  ? landscapeWidth >= PAD_LEVEL_2
-    ? maxWidthPadLevel2
-    : maxWidthPadLevel1
-  : landscapeHeight
-export const landscapeWindow = {
-  width: landscapeWidth,
-  height: landscapeHeight,
-  maxWidth: landscapeMaxWidth,
-  contentWidth: Math.min(landscapeWidth, landscapeMaxWidth)
-}
-
 export const isPad = !!PAD
 export const ratio = RATIO
 
 // -------------------- 统一布局单位 --------------------
+export const { window, wind, landscapeWindow, landscapeWind, _wind } = getAppLayout()
 export const { hairlineWidth } = StyleSheet
 export const xs = isPad ? 8 : 4
 export const sm = isPad ? 12 : 8
 export const md = isPad ? 24 : 16
 export const lg = isPad ? 48 : 32
-export const wind = isPad ? parseInt((window.width - window.contentWidth) / 2) : 16 // 两翼
-export const landscapeWind = parseInt(
-  (landscapeWindow.width - landscapeWindow.contentWidth) / 2
-)
-export const _wind = 16
 export const space = isPad ? 24 : 20 // 上下
 
 // -------------------- 元素 --------------------
@@ -447,5 +411,57 @@ export const header = StyleSheet.create({
     right: 8
   }
 })
+
+export function getAppLayout() {
+  const { width, height } = Dimensions.get('window')
+  const maxWidthPadLevel1 = 586
+  const maxWidthPadLevel2 = 708
+  const portraitMobileWind = 16
+
+  const portraitWidth = Math.min(width, height)
+  const portraitHeight = Math.max(width, height)
+  const portraitMaxWidth = isPad
+    ? portraitWidth >= PAD_LEVEL_2
+      ? maxWidthPadLevel2
+      : maxWidthPadLevel1
+    : portraitWidth
+  const window = {
+    width: portraitWidth,
+    height: portraitHeight,
+    maxWidth: portraitMaxWidth,
+    contentWidth: isPad
+      ? Math.min(portraitWidth, portraitMaxWidth)
+      : portraitMaxWidth - 2 * portraitMobileWind
+  }
+
+  const landscapeWidth = Math.max(width, height)
+  const landscapeHeight = Math.min(width, height)
+  const landscapeMaxWidth = isPad
+    ? landscapeWidth >= PAD_LEVEL_2
+      ? maxWidthPadLevel2
+      : maxWidthPadLevel1
+    : landscapeHeight
+  const landscapeWindow = {
+    width: landscapeWidth,
+    height: landscapeHeight,
+    maxWidth: landscapeMaxWidth,
+    contentWidth: Math.min(landscapeWidth, landscapeMaxWidth)
+  }
+
+  const wind = isPad
+    ? parseInt((window.width - window.contentWidth) / 2)
+    : portraitMobileWind // 两翼
+  const landscapeWind = parseInt(
+    (landscapeWindow.width - landscapeWindow.contentWidth) / 2
+  )
+
+  return {
+    window,
+    wind,
+    landscapeWindow,
+    landscapeWind,
+    _wind: portraitMobileWind
+  }
+}
 
 export default module.exports

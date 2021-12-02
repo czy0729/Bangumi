@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 07:49:35
+ * @Last Modified time: 2021-12-01 06:21:24
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate } from '@utils'
@@ -530,27 +530,25 @@ class Tinygrail extends store {
       const iconsCache = {}
       const data = {
         ...LIST_EMPTY,
-        list: (result.data.Value.Items || result.data.Value).map(
-          (item, index) => {
-            const character = toCharacter(item)
-            const id = item.CharacterId || item.Id
-            const { icon } = character
-            if (icon) iconsCache[id] = icon
+        list: (result.data.Value.Items || result.data.Value).map((item, index) => {
+          const character = toCharacter(item)
+          const id = item.CharacterId || item.Id
+          const { icon } = character
+          if (icon) iconsCache[id] = icon
 
-            if (item.End) {
-              return {
-                ...character,
-                _index: index + 1,
-                id,
-                icoId: item.End ? item.Id : 0
-              }
-            }
+          if (item.End) {
             return {
               ...character,
-              _index: index + 1
+              _index: index + 1,
+              id,
+              icoId: item.End ? item.Id : 0
             }
           }
-        ),
+          return {
+            ...character,
+            _index: index + 1
+          }
+        }),
         pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
@@ -1804,7 +1802,6 @@ class Tinygrail extends store {
 
     // @tofixed 这个接口坏了, 不支持limit > 100
     for (let i = 1; i <= 5; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
       result = await this.fetch(
         API_TINYGRAIL_LIST('recent', i, 80),
         undefined,
@@ -1824,9 +1821,7 @@ class Tinygrail extends store {
     list = Value
       // 规则
       .filter(
-        item =>
-          item.Asks >= 10 &&
-          calculateRate(item.Rate, item.Rank, item.Stars) >= 2
+        item => item.Asks >= 10 && calculateRate(item.Rate, item.Rank, item.Stars) >= 2
       )
       .map(item => {
         const id = item.CharacterId || item.Id
@@ -1876,8 +1871,7 @@ class Tinygrail extends store {
                 firstAsks: asks[0].price,
                 firstAmount: asks[0].amount,
                 mark: toFixed(
-                  (calculateRate(item.rate, item.rank, item.stars) /
-                    asks[0].price) *
+                  (calculateRate(item.rate, item.rank, item.stars) / asks[0].price) *
                     100,
                   1
                 )
@@ -1997,9 +1991,7 @@ class Tinygrail extends store {
     }
     if (State === 0) {
       data = {
-        list: Value.Items.filter(
-          item => parseFloat(item.Rate) >= 2 && item.State >= 80
-        )
+        list: Value.Items.filter(item => parseFloat(item.Rate) >= 2 && item.State >= 80)
           .map(item => ({
             id: item.Id,
             name: item.Name,
@@ -2015,8 +2007,7 @@ class Tinygrail extends store {
               item.Rank > 500
                 ? 0
                 : toFixed(
-                    (calculateRate(item.Rate, item.Rank, item.Stars) /
-                      item.Price) *
+                    (calculateRate(item.Rate, item.Rank, item.Stars) / item.Price) *
                       100,
                     1
                   )
@@ -2053,8 +2044,7 @@ class Tinygrail extends store {
     if (State === 0) {
       data = {
         list: Value.Items.filter(
-          item =>
-            parseFloat(item.Rate) >= 2 && item.State >= 80 && item.Level >= 3
+          item => parseFloat(item.Rate) >= 2 && item.State >= 80 && item.Level >= 3
         )
           .map(item => ({
             id: item.Id,
@@ -2109,10 +2099,7 @@ class Tinygrail extends store {
         })
         .map(item => ({
           ...item,
-          mark: toFixed(
-            parseFloat(item.rate) * (item.level + 1) * 0.3 - item.rate,
-            1
-          )
+          mark: toFixed(parseFloat(item.rate) * (item.level + 1) * 0.3 - item.rate, 1)
         }))
         .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
       pagination: paginationOnePage,
@@ -2454,9 +2441,7 @@ class Tinygrail extends store {
    * @param {*} ids
    */
   batchUpdateMyCharaAssetsByIds = async ids => {
-    // eslint-disable-next-line no-restricted-syntax
     for (const id of ids) {
-      // eslint-disable-next-line no-await-in-loop
       const { amount, sacrifices } = await this.fetchUserLogs(id)
       this.updateMyCharaAssets(id, amount, sacrifices)
     }
@@ -2475,9 +2460,7 @@ class Tinygrail extends store {
     const temple = toJS(this[key]())
     let flag
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const id of ids) {
-      // eslint-disable-next-line no-await-in-loop
       const { list } = await this.fetchCharaTemple(id)
       const find = list.find(item => item.name == this.hash)
       if (find?.id) {
@@ -2709,10 +2692,7 @@ class Tinygrail extends store {
    * Link
    */
   doLink = async ({ monoId, toMonoId }) => {
-    const { data } = await this.fetch(
-      API_TINYGRAIL_LINK(monoId, toMonoId),
-      true
-    )
+    const { data } = await this.fetch(API_TINYGRAIL_LINK(monoId, toMonoId), true)
     return data
   }
 
@@ -2728,10 +2708,7 @@ class Tinygrail extends store {
    * 灌注星之力
    */
   doStarForces = async ({ monoId, amount }) => {
-    const { data } = await this.fetch(
-      API_TINYGRAIL_CHARA_STAR(monoId, amount),
-      true
-    )
+    const { data } = await this.fetch(API_TINYGRAIL_CHARA_STAR(monoId, amount), true)
     return data
   }
 }

@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 11:28:29
+ * @Last Modified time: 2021-12-01 07:47:35
  */
 import AsyncStorage from '@react-native-community/async-storage'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
-import { getTimestamp, setStorage } from '@utils'
 import { LIST_EMPTY } from '@constants'
+import { getTimestamp, setStorage } from './utils'
 import fetch from './fetch'
 
 configure({

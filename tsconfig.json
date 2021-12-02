@@ -18,6 +18,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "react-native",
+    "types": ["react", "react-native", "node"],
     "lib": ["DOM", "ESNext"],
     "moduleResolution": "node",
     "noEmit": true,

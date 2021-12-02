@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 16:41:10
+ * @Last Modified time: 2021-12-01 07:58:54
  */
 import * as WebBrowser from 'expo-web-browser'
 import * as ReactNativeScreens from 'react-native-screens'
-import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import { HTMLDecode } from '@utils/html'
-import { DEV, HOST, HOST_2 } from '@constants'
+import { DEV, HOST, HOST_2, EVENT } from '@constants'
 import { initHashSubjectOTA, initHashAvatarOTA } from '@constants/cdn'
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
+import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
 import { rerender, globalLog, globalWarn } from './dev'
@@ -23,11 +23,6 @@ const HOST_IMAGE = '//lain.bgm.tv'
  * 启动
  */
 export function bootApp() {
-  console.info('==================== bootApp ====================')
-
-  initHashSubjectOTA()
-  initHashAvatarOTA()
-
   global.log = globalLog
   global.warn = globalWarn
   global.rerender = rerender
@@ -37,27 +32,35 @@ export function bootApp() {
    */
   ReactNativeScreens.enableScreens()
 
-  if (DEV) {
-    // 不想在开发时看见满屏的不能解决的warning
-    console.warn = Function.prototype
-    console.error = Function.prototype
-  } else {
-    global.console = {
-      ...global.console,
-      info: Function.prototype,
-      log: Function.prototype,
-      warn: Function.prototype,
-      debug: Function.prototype,
-      error: Function.prototype,
-      assert: Function.prototype
-    }
+  // @ts-ignore
+  global.console.warn = Function.prototype
+
+  // @ts-ignore
+  global.console.error = Function.prototype
+
+  if (!DEV) {
+    // @ts-ignore
+    global.console.info = Function.prototype
+
+    // @ts-ignore
+    global.console.log = Function.prototype
+
+    // @ts-ignore
+    global.console.debug = Function.prototype
+
+    // @ts-ignore
+    global.console.assert = Function.prototype
   }
+
+  initHashSubjectOTA()
+  initHashAvatarOTA()
 }
 
 /**
  * 获取设置
  */
 export function getSetting() {
+  // @ts-ignore
   return getSystemStoreAsync().setting
 }
 
@@ -74,7 +77,7 @@ function isNull(value) {
 }
 
 function getSafeValue(key, onAir, onAirUser) {
-  let userValue = onAirUser?.[key]
+  const userValue = onAirUser?.[key]
   return isNull(userValue) ? onAir?.[key] : userValue
 }
 
@@ -105,7 +108,7 @@ export function getOnAir(onAir, onAirUser) {
  * 统一逻辑, 获取放送日函数
  * @param {*} item onAirItem
  */
-export function getWeekDay(item = {}) {
+export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
   const weekDay =
     item?.weekDayCN == 0 ? item?.weekDayCN : item?.weekDayCN || item?.weekDayJP
   return weekDay === '' ? '' : weekDay
@@ -122,9 +125,7 @@ export function x18(subjectId, title) {
     typeof subjectId === 'string'
       ? parseInt(subjectId.replace('/subject/', '')) in x18data
       : parseInt(subjectId) in x18data
-  if (!filter && title) {
-    filter = ['乳', '妻', '淫'].some(item => title.includes(item))
-  }
+  if (!filter && title) filter = ['乳', '妻', '淫'].some(item => title.includes(item))
   return filter
 }
 
@@ -235,7 +236,7 @@ export function correctAgo(time = '') {
  * keyExtractor
  * @param {*} item
  */
-export function keyExtractor(item = {}) {
+export function keyExtractor(item = { id: '' }) {
   return String(item.id)
 }
 
@@ -449,7 +450,7 @@ export function appNavigate(
   url = '',
   navigation,
   passParams = {},
-  event = {},
+  event = EVENT,
   openWebBrowser = true
 ) {
   try {
@@ -485,7 +486,7 @@ export function appNavigate(
     })
     return true
   } catch (error) {
-    warn('utils/app', 'appNavigate', error)
+    globalWarn('utils/app', 'appNavigate')
     return false
   }
 }
@@ -667,20 +668,14 @@ export function getCoverLarge(src = '') {
  * @param {*} time
  */
 export function formatTime(time) {
-  const _time = new Date(time)
-  const now = new Date()
-  let times = (_time - now) / 1000
+  let times = (+new Date(time) - +new Date()) / 1000
   let day = 0
   let hour = 0
   if (times > 0) {
     day = Math.floor(times / (60 * 60 * 24))
     hour = Math.floor(times / (60 * 60)) - day * 24
-    if (day > 0) {
-      return `${day}天${hour}小时`
-    }
-    if (hour > 1) {
-      return `剩余${hour}小时`
-    }
+    if (day > 0) return `${day}天${hour}小时`
+    if (hour > 1) return `剩余${hour}小时`
     return '即将结束'
   }
 
@@ -689,15 +684,9 @@ export function formatTime(time) {
   hour = Math.floor(times / (60 * 60))
   const miniute = Math.floor(times / 60)
   const second = Math.floor(times)
-  if (miniute < 1) {
-    return `${second}s ago`
-  }
-  if (miniute < 60) {
-    return `${miniute}m ago`
-  }
-  if (hour < 24) {
-    return `${hour}h ago`
-  }
+  if (miniute < 1) return `${second}s ago`
+  if (miniute < 60) return `${miniute}m ago`
+  if (hour < 24) return `${hour}h ago`
   return `${day}d ago`
 }
 
@@ -793,7 +782,9 @@ const sitesMap = {
   ni: 'nicovideo',
   n: 'netflix'
 }
-export function unzipBangumiData(item = {}) {
+export function unzipBangumiData(
+  item: { id?: any; s?: any; j?: string; c?: string; t?: string } = {}
+) {
   const sites = [
     {
       site: 'bangumi',

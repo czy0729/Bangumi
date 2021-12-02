@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 02:48:13
+ * @Last Modified time: 2021-12-01 07:46:56
  */
 import { DEV, LOG_LEVEL } from '@constants'
 import { RERENDER_SHOW } from '../../config'
-import { pad } from './index'
+import { pad } from './utils'
 
 const RERENDER_LOG_COUNT = 0
 let RERENDER_MEMO = {}

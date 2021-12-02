@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 07:17:30
+ * @Last Modified time: 2021-12-01 08:06:43
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
@@ -16,6 +16,7 @@ import { Tag, Cover, Stars, Rank } from '../base'
 
 const defaultProps = {
   navigation: {},
+  styles: {},
   style: {},
   id: '',
   name: '',
@@ -37,6 +38,7 @@ const defaultProps = {
 const Item = memo(
   ({
     navigation,
+    styles,
     style,
     id,
     name,
@@ -144,7 +146,6 @@ const Item = memo(
             </Flex>
           </Flex>
         </Flex>
-        {/* {children} */}
       </Touchable>
     )
   },
@@ -176,6 +177,7 @@ export const ItemSearch = ob(
     return (
       <Item
         navigation={navigation}
+        styles={memoStyles()}
         style={style}
         id={id}
         name={name}
@@ -197,7 +199,7 @@ export const ItemSearch = ob(
   }
 )
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },
@@ -210,4 +212,4 @@ const styles = _.create({
     minHeight: IMG_HEIGHT,
     marginLeft: _._wind
   }
-})
+}))

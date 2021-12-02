@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-23 15:53:48
+ * @Last Modified time: 2021-12-01 07:47:18
  */
 
 /**
@@ -46,10 +46,7 @@ export function matchSubjectId(str = '') {
  * @param {*} str
  */
 export function matchCover(str = '') {
-  // eslint-disable-next-line quotes
-  if (str === "background-image:url('/img/no_icon_subject.png')") {
-    return ''
-  }
+  if (str === "background-image:url('/img/no_icon_subject.png')") return ''
   return str.substring(22, str.length - 2)
 }
 
@@ -68,9 +65,7 @@ export function matchStar(str = '') {
  */
 export function matchBgmUrl(str = '', returnAll = false) {
   const matchs =
-    str.match(
-      /https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g
-    ) || []
+    str.match(/https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g) || []
   return returnAll ? matchs : matchs[0] || ''
 }
 

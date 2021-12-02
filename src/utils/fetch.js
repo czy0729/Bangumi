@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-06 11:18:28
+ * @Last Modified time: 2021-12-01 07:59:58
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -20,7 +20,7 @@ import events from '@constants/events'
 import { BAIDU_KEY } from '@constants/secret'
 import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
-import { urlStringify, sleep, getTimestamp, randomn, debounce } from './index'
+import { urlStringify, sleep, getTimestamp, randomn, debounce } from './utils'
 import { getUserStoreAsync, getThemeStoreAsync } from './async'
 import { info as UIInfo, loading } from './ui'
 import { log } from './dev'

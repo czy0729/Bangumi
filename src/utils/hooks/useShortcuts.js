@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 06:29:43
+ * @Last Modified time: 2021-12-02 05:28:13
  */
 import { useEffect } from 'react'
 import { NativeEventEmitter, Clipboard } from 'react-native'
 import Shortcuts from 'react-native-actions-shortcuts'
-import { systemStore } from '@stores'
-import { navigationReference, appNavigate } from '@utils/app'
-import { matchBgmUrl } from '@utils/match'
-import { info } from '@utils/ui'
+import { navigationReference, appNavigate, getSetting } from '../app'
+import { matchBgmUrl } from '../match'
+import { info } from '../ui'
 
 export default function useShortcuts() {
   useEffect(() => {
@@ -36,7 +35,7 @@ export default function useShortcuts() {
         }
       ]
 
-      if (systemStore.setting.tinygrail) {
+      if (getSetting().tinygrail) {
         shortcutsItems.push({
           type: 'Tinygrail',
           title: '小圣杯',
