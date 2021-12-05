@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:06:30
+ * @Last Modified time: 2021-12-05 12:47:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,10 +63,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
         })
       }}
     >
-      <Flex
-        align='start'
-        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-      >
+      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}
@@ -120,7 +117,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },

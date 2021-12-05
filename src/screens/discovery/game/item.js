@@ -2,18 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:42:57
+ * @Last Modified time: 2021-12-05 12:56:26
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Flex,
-  Text,
-  Touchable,
-  Heatmap,
-  HorizontalList,
-  Image
-} from '@components'
+import { Flex, Text, Touchable, Heatmap, HorizontalList, Image } from '@components'
 import { _ } from '@stores'
 import { Tag, Cover, Stars, Rank } from '@screens/_'
 import { obc } from '@utils/decorators'
@@ -27,6 +20,10 @@ import { CDN_GAME } from '@constants/cdn'
 
 const thumbWidth = _.device(114, parseInt(_.window.contentWidth * 0.4))
 const thumbHeight = parseInt(thumbWidth * 0.56)
+function fixed(image) {
+  if (image.includes('m/')) return image
+  return `m/${image}`
+}
 
 function Item({ index, pickIndex }, { $, navigation }) {
   const styles = memoStyles()
@@ -47,7 +44,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
     length
   } = pick(pickIndex)
   const thumbs = getThumbs(id, length)
-  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const cover = image ? `//lain.bgm.tv/pic/cover/${fixed(image)}.jpg` : IMG_DEFAULT
   let tip = [
     platform.join('、'),
     time,
@@ -76,10 +73,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
         })
       }}
     >
-      <Flex
-        align='start'
-        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-      >
+      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
         <Cover
           style={styles.image}
           src={cover}
@@ -89,12 +83,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
           shadow
           type='游戏'
         />
-        <Flex
-          style={styles.content}
-          direction='column'
-          justify='between'
-          align='start'
-        >
+        <Flex style={styles.content} direction='column' justify='between' align='start'>
           <View style={styles.body}>
             <Flex align='start' style={_.container.w100}>
               <Flex.Item>
@@ -103,12 +92,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
                     {HTMLDecode(title)}
                   </Text>
                   {!!sub && sub !== title && (
-                    <Text
-                      type='sub'
-                      size={11}
-                      lineHeight={15}
-                      numberOfLines={1}
-                    >
+                    <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
                       {' '}
                       {HTMLDecode(sub)}
                     </Text>
@@ -137,10 +121,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 initialRenderNums={3}
                 renderItem={(item, index) => (
                   <Image
-                    style={[
-                      !!index && _.ml.sm,
-                      index === thumbs.length - 1 && _.mr.md
-                    ]}
+                    style={[!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md]}
                     key={item}
                     src={item}
                     size={thumbWidth}
@@ -168,7 +149,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },
@@ -204,7 +185,5 @@ function getThumbs(subjectId, length) {
     return []
   }
 
-  return new Array(length)
-    .fill()
-    .map((item, index) => CDN_GAME(subjectId, index))
+  return new Array(length).fill().map((item, index) => CDN_GAME(subjectId, index))
 }

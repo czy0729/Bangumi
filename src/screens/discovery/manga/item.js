@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-25 22:06:01
+ * @Last Modified time: 2021-12-05 11:58:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,23 +16,9 @@ import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
-  const {
-    id,
-    mangaId,
-    status,
-    author,
-    tags,
-    ep,
-    cn,
-    jp,
-    image,
-    begin,
-    score,
-    rank
-  } = pick(pickIndex)
-  if (!id) {
-    return null
-  }
+  const { id, mangaId, status, author, tags, ep, cn, jp, image, begin, score, rank } =
+    pick(pickIndex)
+  if (!id) return null
 
   const styles = memoStyles()
   const isFirst = index === 0
@@ -64,10 +50,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
         })
       }}
     >
-      <Flex
-        align='start'
-        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-      >
+      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}
@@ -126,7 +109,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },

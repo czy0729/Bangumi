@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 08:57:45
+ * @Last Modified time: 2021-12-05 12:53:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,10 +41,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
         })
       }}
     >
-      <Flex
-        align='start'
-        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-      >
+      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}
@@ -58,9 +55,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
         </View>
         <Flex.Item style={_.ml.wind}>
           <Flex
-            style={
-              $.isLogin && tags.length ? styles.contentFlux : styles.content
-            }
+            style={$.isLogin && tags.length ? styles.contentFlux : styles.content}
             direction='column'
             justify='between'
             align='start'
@@ -106,7 +101,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },
