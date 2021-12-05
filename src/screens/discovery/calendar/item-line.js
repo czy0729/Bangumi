@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 18:00:16
+ * @Last Modified time: 2021-12-05 17:50:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,10 +12,11 @@ import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT, COLLECTION_INDENT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 const defaultProps = {
   navigation: {},
+  styles: {},
   hideScore: false,
   subjectId: 0,
   name: '',
@@ -30,6 +31,7 @@ const defaultProps = {
 const ItemLine = memo(
   ({
     navigation,
+    styles,
     hideScore,
     subjectId,
     name,
@@ -43,7 +45,7 @@ const ItemLine = memo(
   }) => {
     rerender('Calendar.ItemLine.Main')
 
-    const indent = collection ? COLLECTION_INDENT : ''
+    const indent = collection ? '　　' : ''
     const showScore = !hideScore && !!score
     return (
       <Touchable
@@ -100,9 +102,16 @@ const ItemLine = memo(
                   <Katakana.Provider
                     itemStyle={styles.katakanas}
                     size={15}
+                    lineHeight={16}
                     numberOfLines={3}
                   >
-                    <Katakana type='desc' size={15} numberOfLines={3} bold>
+                    <Katakana
+                      type='desc'
+                      size={15}
+                      lineHeight={16}
+                      numberOfLines={3}
+                      bold
+                    >
                       {indent}
                       {HTMLDecode(name)}
                     </Katakana>
@@ -137,6 +146,7 @@ export default obc(
     return (
       <ItemLine
         navigation={navigation}
+        styles={memoStyles()}
         hideScore={systemStore.setting.hideScore}
         subjectId={subjectId}
         name={name}
@@ -152,7 +162,7 @@ export default obc(
   }
 )
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   item: {
     width: '100%',
     paddingVertical: 12
@@ -176,7 +186,7 @@ const styles = _.create({
   collection: {
     position: 'absolute',
     zIndex: 1,
-    top: 4.5 * _.ratio,
-    left: 0
+    top: 7 * _.ratio,
+    left: -1
   }
-})
+}))

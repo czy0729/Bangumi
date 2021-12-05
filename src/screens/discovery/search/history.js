@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 00:22:21
+ * @Last Modified time: 2021-12-05 19:04:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,7 @@ import { obc } from '@utils/decorators'
 
 function History({ style }, { $ }) {
   const { history, value } = $.state
-  if (value !== '') {
-    return null
-  }
+  if (value !== '') return null
 
   const styles = memoStyles()
   return (
@@ -27,10 +25,7 @@ function History({ style }, { $ }) {
                 {item}
               </Text>
             </Flex.Item>
-            <Touchable
-              style={styles.close}
-              onPress={() => $.deleteHistory(item)}
-            >
+            <Touchable style={styles.close} onPress={() => $.deleteHistory(item)}>
               <Iconfont name='md-close' />
             </Touchable>
           </Flex>
@@ -44,7 +39,7 @@ function History({ style }, { $ }) {
 
 export default obc(History)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingHorizontal: _.wind
   },

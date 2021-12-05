@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:54:04
+ * @Last Modified time: 2021-12-05 19:04:22
  */
 import React from 'react'
 import { Button, Heatmap } from '@components'
@@ -17,12 +17,7 @@ function Category(props, { $ }) {
   const { cat } = $.state
   return (
     <Popover style={styles.touch} data={data} onSelect={$.onSelect}>
-      <Button
-        style={styles.btn}
-        styleText={styles.text}
-        size='sm'
-        type='ghostMain'
-      >
+      <Button style={styles.btn} styleText={styles.text} size='sm' type='ghostMain'>
         {MODEL_SEARCH_CAT.getLabel(cat)}
       </Button>
       <Heatmap id='搜索.切换类型' />

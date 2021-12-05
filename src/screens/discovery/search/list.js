@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:48:27
+ * @Last Modified time: 2021-12-05 19:05:59
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -27,9 +27,7 @@ class List extends React.Component {
         navigation={navigation}
         index={index}
         event={event}
-        collection={
-          $.userCollectionsMap[String(item.id).replace('/subject/', '')]
-        }
+        collection={$.userCollectionsMap[String(item.id).replace('/subject/', '')]}
         typeCn={MODEL_SUBJECT_TYPE.getTitle(item.type)}
         {...item}
       >
@@ -41,14 +39,10 @@ class List extends React.Component {
   render() {
     const { $ } = this.context
     const { searching } = $.state
-    if (searching) {
-      return <Loading style={_.container.flex} />
-    }
+    if (searching) return <Loading style={_.container.flex} />
 
     const search = $.search()
-    if (!search._loaded) {
-      return null
-    }
+    if (!search._loaded) return null
 
     return (
       <ListView

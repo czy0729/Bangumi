@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 14:44:09
+ * @Last Modified time: 2021-12-05 19:02:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -115,7 +115,7 @@ function List(props, { $ }) {
 
 export default obc(List)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-06 11:06:10
+ * @Last Modified time: 2021-12-05 19:05:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,7 +82,7 @@ class Search extends React.Component {
   render() {
     return (
       <View style={_.container.plain}>
-        <Flex style={styles.searchBar}>
+        <Flex style={this.styles.searchBar}>
           <Category />
           <Flex.Item>
             <SearchBar onPress={this.onPress} />
@@ -90,7 +90,7 @@ class Search extends React.Component {
           <Legacy />
           <View style={_.ml.sm}>
             <Button
-              style={styles.btn}
+              style={this.styles.btn}
               type='ghostPlain'
               size='sm'
               onPress={this.onPress}
@@ -105,9 +105,13 @@ class Search extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   searchBar: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind
@@ -118,4 +122,4 @@ const styles = _.create({
     borderRadius: 34 * _.ratio,
     overflow: 'hidden'
   }
-})
+}))

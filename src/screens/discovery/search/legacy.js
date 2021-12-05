@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:54:50
+ * @Last Modified time: 2021-12-05 19:05:47
  */
 import React from 'react'
 import { Button, Heatmap } from '@components'
@@ -15,19 +15,12 @@ const data = MODEL_SEARCH_LEGACY.data.map(item => item.label)
 
 function Legacy(props, { $ }) {
   const { cat, legacy } = $.state
-  if (['人物', '用户'].includes(MODEL_SEARCH_CAT.getLabel(cat))) {
-    return null
-  }
+  if (['人物', '用户'].includes(MODEL_SEARCH_CAT.getLabel(cat))) return null
 
   const styles = memoStyles()
   return (
     <Popover style={styles.touch} data={data} onSelect={$.onLegacySelect}>
-      <Button
-        style={styles.btn}
-        styleText={styles.text}
-        type='ghostPlain'
-        size='sm'
-      >
+      <Button style={styles.btn} styleText={styles.text} type='ghostPlain' size='sm'>
         {MODEL_SEARCH_LEGACY.getLabel(legacy)}
       </Button>
       <Heatmap id='搜索.切换细分类型' />
@@ -37,7 +30,7 @@ function Legacy(props, { $ }) {
 
 export default obc(Legacy)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   touch: {
     borderTopRightRadius: 34 * _.ratio,
     borderBottomRightRadius: 34 * _.ratio,

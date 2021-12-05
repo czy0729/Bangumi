@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:55:04
+ * @Last Modified time: 2021-12-05 19:06:08
  */
 import React from 'react'
 import { Input } from '@components'
@@ -16,10 +16,7 @@ function SearchBar({ onPress }, { $ }) {
   const label = MODEL_SEARCH_CAT.getLabel(cat)
   return (
     <Input
-      style={[
-        styles.searchIpt,
-        ['人物', '用户'].includes(label) && styles.radius
-      ]}
+      style={[styles.searchIpt, ['人物', '用户'].includes(label) && styles.radius]}
       value={value}
       returnKeyType='search'
       returnKeyLabel='搜索'
@@ -33,7 +30,7 @@ function SearchBar({ onPress }, { $ }) {
 
 export default obc(SearchBar)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   searchIpt: {
     height: 34 * _.ratio,
     paddingHorizontal: _._wind,

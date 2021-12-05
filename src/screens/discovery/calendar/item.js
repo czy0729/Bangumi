@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 17:58:56
+ * @Last Modified time: 2021-12-05 17:54:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { COLLECTION_INDENT } from '@constants'
 
 const gridStyles = _.grid()
 const hitSlop = {
@@ -63,7 +62,7 @@ const Item = memo(
     }
 
     const showScore = !hideScore && !!score
-    const indent = collection ? COLLECTION_INDENT : ''
+    const indent = collection ? '        ' : ''
     return (
       <View style={[styles.item, style]}>
         <View>
@@ -153,8 +152,8 @@ const styles = _.create({
   collection: {
     position: 'absolute',
     zIndex: 1,
-    top: 0,
-    left: 0
+    top: 1,
+    left: -1
   },
   cover: {
     borderRadius: _.radiusXs,
