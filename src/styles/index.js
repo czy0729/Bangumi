@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 08:04:20
+ * @Last Modified time: 2021-12-05 10:45:36
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -13,7 +13,16 @@ export const isPad = !!PAD
 export const ratio = RATIO
 
 // -------------------- 统一布局单位 --------------------
-export const { window, wind, landscapeWindow, landscapeWind, _wind } = getAppLayout()
+export const {
+  window,
+  wind,
+  landscapeWindow,
+  landscapeWind,
+  landscapeWindowSm,
+  landscapeWindSm,
+  _wind
+} = getAppLayout()
+
 export const { hairlineWidth } = StyleSheet
 export const xs = isPad ? 8 : 4
 export const sm = isPad ? 12 : 8
@@ -418,6 +427,7 @@ export function getAppLayout() {
   const maxWidthPadLevel2 = 708
   const portraitMobileWind = 16
 
+  // portrait
   const portraitWidth = Math.min(width, height)
   const portraitHeight = Math.max(width, height)
   const portraitMaxWidth = isPad
@@ -433,26 +443,42 @@ export function getAppLayout() {
       ? Math.min(portraitWidth, portraitMaxWidth)
       : portraitMaxWidth - 2 * portraitMobileWind
   }
+  const wind = isPad
+    ? parseInt((window.width - window.contentWidth) / 2)
+    : portraitMobileWind // 两翼
 
+  // landscape
   const landscapeWidth = Math.max(width, height)
   const landscapeHeight = Math.min(width, height)
   const landscapeMaxWidth = isPad
     ? landscapeWidth >= PAD_LEVEL_2
       ? maxWidthPadLevel2
       : maxWidthPadLevel1
-    : landscapeHeight
+    : landscapeHeight * 1.64
   const landscapeWindow = {
     width: landscapeWidth,
     height: landscapeHeight,
     maxWidth: landscapeMaxWidth,
     contentWidth: Math.min(landscapeWidth, landscapeMaxWidth)
   }
-
-  const wind = isPad
-    ? parseInt((window.width - window.contentWidth) / 2)
-    : portraitMobileWind // 两翼
   const landscapeWind = parseInt(
     (landscapeWindow.width - landscapeWindow.contentWidth) / 2
+  )
+
+  // landscape small
+  const landscapeMaxWidthSm = isPad
+    ? landscapeWidth >= PAD_LEVEL_2
+      ? maxWidthPadLevel2
+      : maxWidthPadLevel1
+    : landscapeHeight * 1.1
+  const landscapeWindowSm = {
+    width: landscapeWidth,
+    height: landscapeHeight,
+    maxWidth: landscapeMaxWidthSm,
+    contentWidth: Math.min(landscapeWidth, landscapeMaxWidthSm)
+  }
+  const landscapeWindSm = parseInt(
+    (landscapeWindowSm.width - landscapeWindowSm.contentWidth) / 2
   )
 
   return {
@@ -460,6 +486,8 @@ export function getAppLayout() {
     wind,
     landscapeWindow,
     landscapeWind,
+    landscapeWindowSm,
+    landscapeWindSm,
     _wind: portraitMobileWind
   }
 }

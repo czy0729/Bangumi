@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 18:04:43
+ * @Last Modified time: 2021-12-05 11:17:38
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
@@ -49,7 +49,7 @@ export default obc(SectionTitle)
 const memoStyles = _.memoStyles(() => ({
   section: {
     marginTop: 24,
-    marginHorizontal: _.wind
+    marginHorizontal: _.windSm
   },
   touch: {
     paddingVertical: _.xs,

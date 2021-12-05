@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 08:34:30
+ * @Last Modified time: 2021-12-05 09:59:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,6 @@ import { runAfter } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const num = 3
 const eventList = {
   id: '排行榜.跳转',
   data: {
@@ -116,6 +115,7 @@ class List extends React.Component {
   renderGrid() {
     const { $, navigation } = this.context
     const { _filter } = $.rank
+    const num = _.num(3, 5)
     return (
       <>
         <Flex style={this.styles.grid} wrap='wrap' align='start'>

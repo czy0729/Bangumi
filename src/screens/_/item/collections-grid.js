@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 08:31:11
+ * @Last Modified time: 2021-12-05 10:03:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { memo, ob } from '@utils/decorators'
-import { EVENT, DEV } from '@constants'
+import { EVENT } from '@constants'
 import { Tag, Cover, Stars, Rank } from '../base'
 
 const hitSlop = {
@@ -36,7 +36,6 @@ const defaultProps = {
   aid: '',
   wid: '',
   mid: '',
-  textOnly: DEV,
   isCollect: false,
   event: EVENT
 }
@@ -58,7 +57,6 @@ const Item = memo(
     aid,
     wid,
     mid,
-    textOnly,
     isCollect,
     event
   }) => {
@@ -107,7 +105,6 @@ const Item = memo(
           radius
           shadow
           type={typeCn}
-          textOnly={textOnly}
           onPress={onPress}
         />
         {!!_collection && <Tag style={styles.collection} value={_collection} />}
@@ -152,7 +149,6 @@ export const ItemCollectionsGrid = ob(
     aid,
     wid,
     mid,
-    textOnly,
     isCollect,
     event
   }) => {
@@ -175,7 +171,6 @@ export const ItemCollectionsGrid = ob(
         aid={aid}
         wid={wid}
         mid={mid}
-        textOnly={textOnly}
         isCollect={isCollect}
         event={event}
       />

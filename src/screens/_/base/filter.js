@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:31:57
+ * @Last Modified time: 2021-12-05 09:39:56
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -179,7 +179,7 @@ export const Filter = obc(
 )
 
 const vertical = 4
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.sm * _.ratio
   },

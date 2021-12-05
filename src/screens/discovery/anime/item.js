@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:17:52
+ * @Last Modified time: 2021-12-05 09:37:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,20 +16,8 @@ import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
-  const {
-    id,
-    ageId,
-    image,
-    cn,
-    ep,
-    type,
-    status,
-    begin,
-    tags,
-    official,
-    score,
-    rank
-  } = pick(pickIndex)
+  const { id, ageId, image, cn, ep, type, status, begin, tags, official, score, rank } =
+    pick(pickIndex)
   if (!id) return null
 
   const styles = memoStyles()
@@ -62,10 +50,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
         })
       }}
     >
-      <Flex
-        align='start'
-        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-      >
+      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}
@@ -120,7 +105,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 19:35:19
+ * @Last Modified time: 2021-12-05 11:23:04
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -114,7 +114,7 @@ const SortMenu = memo(
     }
 
     return (
-      <View style={_.container.wind}>
+      <View>
         {isPortrait && dragging && (
           <Text style={styles.text} bold>
             按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
@@ -153,9 +153,9 @@ export default obc((props, { $ }) => {
   )
 })
 
-const size = 44 * _.ratio
 const memoStyles = _.memoStyles(() => ({
   container: {
+    paddingHorizontal: _.windSm,
     minHeight: 100
   },
   transparent: {
@@ -172,8 +172,8 @@ const memoStyles = _.memoStyles(() => ({
     marginBottom: _.md
   },
   btn: {
-    height: size,
+    height: 44 * _.ratio,
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: size
+    borderRadius: 44 * _.ratio
   }
 }))

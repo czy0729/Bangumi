@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 07:26:46
+ * @Last Modified time: 2021-12-05 10:01:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,13 +10,13 @@ import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { ob } from '@utils/decorators'
-import { IMG_DEFAULT, TEXT_ONLY } from '@constants'
+import { IMG_DEFAULT } from '@constants'
 import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
 
 const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
 
 export const Cover = ob(
-  ({ style, src, size, height, noDefault, type, textOnly = TEXT_ONLY, ...other }) => {
+  ({ style, src, size, height, noDefault, type, textOnly, ...other }) => {
     const styles = memoStyles()
     if (textOnly) {
       const w = other.width || size

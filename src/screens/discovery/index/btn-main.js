@@ -2,22 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 19:55:36
+ * @Last Modified time: 2021-12-05 11:22:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
-import { MenuItemType } from './ds'
 
-type Props = {
-  item: MenuItemType
-  onPress?: () => any
-}
-
-const itemWidth = (_.window.width - 2 * _.wind) / 4
-
-const BtnMain: React.FC<Props> = ({ item, onPress }) => {
+const BtnMain = ({ item, onPress }) => {
   const styles = memoStyles()
   const { key, name, text, icon, size } = item
   if (key === 'Split') {
@@ -76,11 +68,11 @@ export default BtnMain
 const size = 50 * _.ratio
 const memoStyles = _.memoStyles(() => ({
   wrap: {
-    width: (_.window.width - 2 * _.wind) * 0.249,
+    width: (_.windowSm.width - 2 * _.windSm) * 0.249,
     paddingVertical: _.sm + 4
   },
   item: {
-    width: itemWidth
+    width: (_.windowSm.width - 2 * _.windSm) / 4
   },
   split: {
     width: 3,

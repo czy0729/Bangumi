@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 17:58:02
+ * @Last Modified time: 2021-12-05 11:16:34
  */
 import React from 'react'
 import { HorizontalList } from '@components'
@@ -106,12 +106,12 @@ export default obc(({ style, type = 'anime' }, { $ }) => {
 const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingVertical: _.space + 4,
-    paddingRight: _.wind - _._wind,
-    paddingLeft: _.wind
+    paddingRight: _.windSm - _._wind,
+    paddingLeft: _.windSm
   },
   contentContainerStyleSm: {
-    paddingRight: _.wind - _._wind,
+    paddingRight: _.windSm - _._wind,
     paddingBottom: _.space + 4,
-    paddingLeft: _.wind
+    paddingLeft: _.windSm
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 17:25:36
+ * @Last Modified time: 2021-12-05 11:00:09
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -15,8 +15,6 @@ import { years } from './store'
 
 const cdn =
   'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210413/data/award/title'
-const itemWidth = _.device(128, 160)
-const itemWidthLg = itemWidth * 2 + 16
 
 function Award(props, { navigation }) {
   rerender('Discovery.Award')
@@ -43,8 +41,8 @@ function Award(props, { navigation }) {
       >
         <Image
           src={`${cdn}/2020.png`}
-          size={itemWidthLg}
-          height={itemWidth}
+          size={styles.item2020.width}
+          height={styles.item2020.height}
           placeholder={false}
           resizeMode='contain'
         />
@@ -64,8 +62,8 @@ function Award(props, { navigation }) {
       >
         <Image
           src={`${cdn}/2019.png`}
-          size={itemWidthLg - 32}
-          height={itemWidth}
+          size={styles.item2020.width - 32}
+          height={styles.item2020.height}
           placeholder={false}
           resizeMode='contain'
         />
@@ -85,8 +83,8 @@ function Award(props, { navigation }) {
       >
         <Image
           src={`${cdn}/2018.png`}
-          size={itemWidthLg}
-          height={itemWidth}
+          size={styles.item2018.width}
+          height={styles.item2020.height}
           placeholder={false}
         />
       </Touchable>
@@ -121,35 +119,42 @@ function Award(props, { navigation }) {
 
 export default obc(Award)
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind
-  },
-  item2020: {
-    width: itemWidthLg,
-    marginRight: _.md,
-    backgroundColor: 'rgb(236, 243, 236)',
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
-  },
-  item2019: {
-    width: itemWidthLg,
-    paddingLeft: 20,
-    marginRight: _.md,
-    backgroundColor: 'rgb(54, 63, 69)',
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
-  },
-  item2018: {
-    width: itemWidthLg,
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
-  },
-  item: {
-    width: itemWidth,
-    height: itemWidth,
-    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
+const memoStyles = _.memoStyles(() => {
+  const width = _.device(128, 160)
+  const widthLg = width * 2 + 16
+  return {
+    container: {
+      paddingVertical: _.space,
+      paddingHorizontal: _.windSm
+    },
+    item2020: {
+      width: widthLg,
+      height: width,
+      marginRight: _.md,
+      backgroundColor: 'rgb(236, 243, 236)',
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
+    },
+    item2019: {
+      width: widthLg,
+      height: width,
+      paddingLeft: 20,
+      marginRight: _.md,
+      backgroundColor: 'rgb(54, 63, 69)',
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
+    },
+    item2018: {
+      width: widthLg,
+      height: width,
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
+    },
+    item: {
+      width,
+      height: width,
+      backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
+      borderRadius: _.radiusMd
+    }
   }
-}))
+})

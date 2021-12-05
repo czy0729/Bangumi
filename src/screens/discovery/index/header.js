@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 18:47:46
+ * @Last Modified time: 2021-12-05 11:22:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.sm
   },
   wrap: {
-    paddingHorizontal: _.wind + 2,
+    paddingHorizontal: _.windSm + 2,
     marginTop: _.md + 8,
     marginBottom: _.xs
   }

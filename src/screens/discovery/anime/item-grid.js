@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 07:36:11
+ * @Last Modified time: 2021-12-05 09:52:47
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@screens/_'
@@ -14,17 +14,19 @@ const event = {
   id: 'Anime.跳转'
 }
 
-function ItemGrid({ pickIndex, index, num }, { $, navigation }) {
+function ItemGrid({ index, pickIndex, num }, { $, navigation }) {
   const { id, ageId, image, cn, jp, score, rank } = pick(pickIndex)
   if (!id) return null
 
+  const styles = memoStyles()
   const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
   const collection = $.userCollectionsMap[id]
   return (
     <ItemCollectionsGrid
-      style={_.isPad && !(index % num) && styles.left}
       navigation={navigation}
+      style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
       event={event}
+      num={num}
       id={id}
       aid={ageId}
       cover={cover}
@@ -39,8 +41,8 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }) {
 
 export default obc(ItemGrid)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   left: {
     marginLeft: _.wind
   }
-})
+}))

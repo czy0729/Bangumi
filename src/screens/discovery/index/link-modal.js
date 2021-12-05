@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 19:37:20
+ * @Last Modified time: 2021-12-05 11:25:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -81,9 +81,9 @@ export default obc(
 
 const memoStyles = _.memoStyles(() => ({
   modal: {
-    width: _.window.width - 2 * _.wind,
+    width: _.windowSm.width - 2 * _.windSm,
     maxWidth: 400,
-    marginBottom: _.window.height * 0.4,
+    marginBottom: _.windowSm.height * 0.4,
     backgroundColor: _.select(_.colorBg, _.colorBg)
   },
   container: {

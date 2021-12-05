@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 08:32:00
+ * @Last Modified time: 2021-12-05 10:53:56
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -41,6 +41,8 @@ class Theme extends store {
     wind: _.wind,
     landscapeWindow: _.landscapeWindow,
     landscapeWind: _.landscapeWind,
+    landscapeWindowSm: _.landscapeWindowSm,
+    landscapeWindSm: _.landscapeWindSm,
 
     // font
     fontSizeAdjust: 0,
@@ -81,13 +83,9 @@ class Theme extends store {
 
   create = style => StyleSheet.create(style)
 
-  // -------------------- mode styles --------------------
-  @computed get mode() {
-    return this.state.mode
-  }
-
-  @computed get isDark() {
-    return this.mode === 'dark'
+  // -------------------- layout styles --------------------
+  @computed get isPad() {
+    return _.isPad
   }
 
   @computed get orientation() {
@@ -104,6 +102,27 @@ class Theme extends store {
 
   @computed get wind() {
     return this.isLandscape ? this.state.landscapeWind : this.state.wind
+  }
+
+  @computed get isMobileLanscape() {
+    return !this.isPad && this.isLandscape
+  }
+
+  @computed get windowSm() {
+    return this.isMobileLanscape ? this.state.landscapeWindowSm : this.window
+  }
+
+  @computed get windSm() {
+    return this.isMobileLanscape ? this.state.landscapeWindSm : this.wind
+  }
+
+  // -------------------- mode styles --------------------
+  @computed get mode() {
+    return this.state.mode
+  }
+
+  @computed get isDark() {
+    return this.mode === 'dark'
   }
 
   @computed get autoColorScheme() {
@@ -564,23 +583,16 @@ class Theme extends store {
   }
 
   /**
-   * 格子布局分拆工具函数
-   */
-  grid = (num = 3) => {
-    const marginLeft = this.device(16, 24)
-    const width = (this.window.contentWidth - (num - 1) * marginLeft) / num
-    return {
-      width,
-      height: width * 1.4,
-      marginLeft
-    }
-  }
-
-  /**
    * 主题选择
    * 黑暗模式使用第二个值
    */
   select = (lightValue, darkValue) => (this.isDark ? darkValue : lightValue)
+
+  /**
+   * 方向选择
+   */
+  num = (portaitValue, landscapeValue) =>
+    this.isLandscape ? landscapeValue : portaitValue
 
   /**
    * 小圣杯主题选择
@@ -639,6 +651,19 @@ class Theme extends store {
       orientation,
       ..._.getAppLayout()
     })
+  }
+
+  /**
+   * 格子布局分拆工具函数
+   */
+  grid = (num = 3) => {
+    const marginLeft = this.device(16, 24)
+    const width = (this.window.contentWidth - (num - 1) * marginLeft) / num
+    return {
+      width,
+      height: width * 1.4,
+      marginLeft
+    }
   }
 
   /**

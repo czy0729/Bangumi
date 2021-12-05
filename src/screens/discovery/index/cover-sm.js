@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 18:34:53
+ * @Last Modified time: 2021-12-05 11:07:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,14 +19,12 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
   rerender('Discovery.CoverSm')
 
   const styles = memoStyles()
-  const imageWidth = _.window.contentWidth * _.device(0.34, 0.4)
-  const imageHeight = imageWidth * 1.38
   return (
     <View style={styles.item}>
       <Cover
         src={src}
-        size={imageWidth}
-        height={imageHeight}
+        size={styles.cover.width}
+        height={styles.cover.height}
         radius={_.radiusSm}
         placeholder={false}
         onPress={() => {
@@ -67,31 +65,38 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
 
 export default obc(CoverSm)
 
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    marginRight: _._wind + 2,
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden',
-    ..._.shadow
-  },
-  linear: {
-    position: 'absolute',
-    zIndex: 1,
-    height: 96,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    marginBottom: -0.5,
-    borderBottomRightRadius: _.radiusSm,
-    borderBottomLeftRadius: _.radiusSm
-  },
-  desc: {
-    position: 'absolute',
-    zIndex: 2,
-    right: _._wind - 2,
-    bottom: _.space - 2,
-    left: _._wind - 2,
-    opacity: 0.92
+const memoStyles = _.memoStyles(() => {
+  const width = _.windowSm.contentWidth * _.device(0.34, 0.4)
+  return {
+    item: {
+      marginRight: _._wind + 2,
+      backgroundColor: _.colorBg,
+      borderRadius: _.radiusSm,
+      overflow: 'hidden',
+      ..._.shadow
+    },
+    cover: {
+      width,
+      height: width * 1.38
+    },
+    linear: {
+      position: 'absolute',
+      zIndex: 1,
+      height: 96,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      marginBottom: -0.5,
+      borderBottomRightRadius: _.radiusSm,
+      borderBottomLeftRadius: _.radiusSm
+    },
+    desc: {
+      position: 'absolute',
+      zIndex: 2,
+      right: _._wind - 2,
+      bottom: _.space - 2,
+      left: _._wind - 2,
+      opacity: 0.92
+    }
   }
-}))
+})

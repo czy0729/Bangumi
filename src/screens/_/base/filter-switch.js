@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:31:43
+ * @Last Modified time: 2021-12-05 09:40:15
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -70,7 +70,7 @@ export const FilterSwitch = obc(
 )
 
 const vertical = 4
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   row: {
     paddingRight: _.wind - _._wind,
     paddingLeft: _.wind

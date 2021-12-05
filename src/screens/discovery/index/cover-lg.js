@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 18:02:05
+ * @Last Modified time: 2021-12-05 11:05:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,15 +20,13 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
   rerender('Discovery.CoverLg')
 
   const styles = memoStyles()
-  const imageWidth = _.window.contentWidth
-  const imageHeight = imageWidth * 1.38
   return (
     <View style={styles.item}>
       <Cover
         style={styles.touch}
         src={src}
-        size={imageWidth}
-        height={imageHeight}
+        size={styles.cover.width}
+        height={styles.cover.height}
         radius={_.radiusMd}
         placeholder={false}
         onPress={() => {
@@ -72,11 +70,15 @@ export default obc(CoverLg)
 const memoStyles = _.memoStyles(() => ({
   item: {
     marginTop: _.space,
-    marginHorizontal: _.wind,
+    marginHorizontal: _.windSm,
     borderRadius: _.radiusMd,
     backgroundColor: _.colorBg,
     overflow: IOS ? 'hidden' : undefined,
     ..._.shadow
+  },
+  cover: {
+    width: _.windowSm.contentWidth,
+    height: _.windowSm.contentWidth * 1.38
   },
   linear: {
     position: 'absolute',

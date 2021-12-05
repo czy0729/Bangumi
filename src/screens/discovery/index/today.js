@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 23:27:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 17:40:46
+ * @Last Modified time: 2021-12-05 10:55:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,8 +61,8 @@ export default obc((props, { $ }) => {
 const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingTop: _.space + 4,
-    paddingRight: _.wind - _._wind,
-    paddingLeft: _.wind
+    paddingRight: _.windSm - _._wind,
+    paddingLeft: _.windSm
   },
   split: {
     marginRight: _._wind - _.sm,

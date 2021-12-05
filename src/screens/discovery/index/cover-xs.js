@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 18:39:24
+ * @Last Modified time: 2021-12-05 11:25:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -101,7 +101,7 @@ export default obc(({ title, avatar, data }, { navigation }) => {
     <CoverXs
       navigation={navigation}
       styles={memoStyles()}
-      imageWidth={_.window.contentWidth * _.device(0.34, 0.4) * 0.5625}
+      imageWidth={_.windowSm.contentWidth * _.device(0.34, 0.4) * 0.5625}
       avatarRound={avatarRound}
       title={title}
       avatar={avatar}
