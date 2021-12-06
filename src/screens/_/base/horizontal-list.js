@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 09:53:13
+ * @Last Modified time: 2021-12-06 06:31:39
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -76,7 +76,7 @@ export const HorizontalList = ob(
       return (
         <ScrollView
           style={style}
-          contentContainerStyle={styles.contentContainerStyle}
+          contentContainerStyle={this.styles.contentContainerStyle}
           horizontal
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -113,7 +113,7 @@ export const HorizontalList = ob(
                 ]}
               >
                 <Cover
-                  style={styles.cover}
+                  style={this.styles.cover}
                   size={size}
                   height={height * _.ratio}
                   src={item.image}
@@ -146,7 +146,7 @@ export const HorizontalList = ob(
                     <Flex>
                       {!!item.actorCover && (
                         <Cover
-                          style={styles.actor}
+                          style={this.styles.actor}
                           src={item.actorCover}
                           size={16}
                           radius
@@ -166,10 +166,14 @@ export const HorizontalList = ob(
         </ScrollView>
       )
     }
+
+    get styles() {
+      return memoStyles()
+    }
   }
 )
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingVertical: 4,
     paddingHorizontal: _.wind
@@ -181,4 +185,4 @@ const styles = _.create({
   actor: {
     marginRight: 3
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 06:21:03
+ * @Last Modified time: 2021-12-06 05:58:28
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -32,7 +32,7 @@ export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
  * @param {*} callback
  */
 export function throttle(callback: () => void, delay = 400) {
-  let timeoutID: number
+  let timeoutID
   let lastExec = 0
 
   function wrapper() {
@@ -501,9 +501,9 @@ export function formatNumber(s, n = 2, xsb?) {
  */
 export function lastDate(timestamp, simple = true) {
   const d = new Date(timestamp * 1000)
-  const _date = `${d.getFullYear()}/${
+  const _date = `${d.getFullYear()}-${
     d.getMonth() + 1
-  }/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+  }-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
   const dateTime = new Date(_date)
   const currentTime = new Date()
 

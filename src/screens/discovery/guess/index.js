@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:32:23
+ * @Last Modified time: 2021-12-06 07:35:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,10 +64,7 @@ class Guess extends React.Component {
   get list() {
     const { $ } = this.context
     const { rendered } = this.state
-    if (!rendered) {
-      return $.list.slice(0, 2)
-    }
-
+    if (!rendered) return $.list.slice(0, 2)
     return $.list
   }
 

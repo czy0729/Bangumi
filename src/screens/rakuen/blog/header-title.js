@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 18:41:52
+ * @Last Modified time: 2021-12-06 06:26:09
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -22,9 +22,7 @@ function HeaderTitle({ navigation }) {
     blogId
   })}`
   const $ = Stores.get(screenKey)
-  if (!$) {
-    return null
-  }
+  if (!$) return null
 
   const { showHeaderTitle } = $.state
   return (

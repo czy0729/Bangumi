@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-09 11:06:44
+ * @Last Modified time: 2021-12-06 06:36:14
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -366,9 +366,7 @@ class Discovery extends store {
       if (data.status === 200 && data.success) {
         const key = 'anitamaTimeline'
         animataTimeline = {
-          list: data.data.page.list.filter(
-            item => item.entryType === 'article'
-          ),
+          list: data.data.page.list.filter(item => item.entryType === 'article'),
           _loaded: getTimestamp()
         }
         this.setState({
@@ -633,10 +631,7 @@ class Discovery extends store {
   /**
    * 目录添加条目
    */
-  doCatalogAddRelate = (
-    { catalogId, subjectId, formhash, noConsole },
-    success
-  ) => {
+  doCatalogAddRelate = ({ catalogId, subjectId, formhash, noConsole }, success) => {
     xhr(
       {
         url: HTML_ACTION_CATALOG_ADD_RELATED(catalogId),

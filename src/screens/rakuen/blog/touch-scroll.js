@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:02:27
+ * @Last Modified time: 2021-12-06 06:29:52
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -40,9 +40,7 @@ function TouchScroll({ onPress }, { $ }) {
     >
       <Flex.Item flex={isVertical ? 1 : 3}>
         <TouchableWithoutFeedback onPressIn={() => onPress(-1)}>
-          <Flex
-            style={isVertical ? styles.itemVertical : styles.itemHorizontal}
-          >
+          <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
             <Text style={styles.text} size={8} type='icon' align='center'>
               0
             </Text>
@@ -69,7 +67,6 @@ function TouchScroll({ onPress }, { $ }) {
 
         const showFloorText = showFloor.includes(index)
         return (
-          // eslint-disable-next-line react/no-array-index-key
           <Flex.Item key={index} flex={isVertical ? 1 : showFloorText ? 3 : 1}>
             <TouchableWithoutFeedback onPressIn={() => onPress(index)}>
               <Flex
@@ -101,7 +98,7 @@ export default obc(TouchScroll, {
   onPress: Function.prototype
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   containerRight: {
     position: 'absolute',
     zIndex: 1,
@@ -136,10 +133,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: '100%'
   },
   itemNew: {
-    backgroundColor: _.select(
-      'rgba(254, 138, 149, 0.64)',
-      'rgba(254, 113, 127, 0.16)'
-    )
+    backgroundColor: _.select('rgba(254, 138, 149, 0.64)', 'rgba(254, 113, 127, 0.16)')
   },
   text: {
     width: '100%'

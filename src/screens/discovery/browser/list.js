@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 07:48:29
+ * @Last Modified time: 2021-12-06 05:43:11
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -12,7 +12,6 @@ import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const num = 3
 const eventList = {
   id: '索引.跳转',
   data: {
@@ -29,6 +28,10 @@ const eventGrid = {
 export default
 @obc
 class List extends React.Component {
+  get num() {
+    return _.num(3, 5)
+  }
+
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     const { type } = $.state
@@ -39,9 +42,7 @@ class List extends React.Component {
           navigation={navigation}
           index={index}
           event={eventList}
-          collection={
-            $.userCollectionsMap[String(item.id).replace('/subject/', '')]
-          }
+          collection={$.userCollectionsMap[String(item.id).replace('/subject/', '')]}
           typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
           {...item}
         >
@@ -52,12 +53,11 @@ class List extends React.Component {
 
     return (
       <ItemCollectionsGrid
-        style={_.isPad && !(index % num) && _.container.left}
+        style={(_.isPad || _.isLandscape) && !(index % this.num) && _.container.left}
         navigation={navigation}
+        num={this.num}
         index={index}
-        collection={
-          $.userCollectionsMap[String(item.id).replace('/subject/', '')]
-        }
+        collection={$.userCollectionsMap[String(item.id).replace('/subject/', '')]}
         event={eventGrid}
         {...item}
       />
@@ -74,10 +74,10 @@ class List extends React.Component {
 
     return (
       <ListView
-        key={layout}
+        key={`${layout}${this.num}`}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
-        numColumns={$.isList ? undefined : num}
+        numColumns={$.isList ? undefined : this.num}
         data={$.browser}
         lazy={9}
         renderItem={this.renderItem}

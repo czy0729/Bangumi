@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:01:47
+ * @Last Modified time: 2021-12-06 06:29:52
  */
 import React from 'react'
 import { Text } from '@components'
@@ -11,14 +11,14 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 function SectionTitle(props, { $ }) {
+  const styles = memoStyles()
   const { list = [] } = $.comments
   let commentsCount = 0
   list.forEach(item => {
     commentsCount += 1
-    if (item.sub) {
-      commentsCount += item.sub.length
-    }
+    if (item.sub) commentsCount += item.sub.length
   })
+
   return (
     <CompSectionTitle style={styles.title}>
       吐槽{' '}
@@ -33,7 +33,7 @@ function SectionTitle(props, { $ }) {
 
 export default obc(SectionTitle)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   title: {
     paddingHorizontal: _.wind,
     marginTop: _.lg,
@@ -43,4 +43,4 @@ const styles = _.create({
     marginRight: -_.sm,
     marginLeft: _.xs
   }
-})
+}))

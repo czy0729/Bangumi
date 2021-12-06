@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 09:44:38
+ * @Last Modified time: 2021-12-06 06:45:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ const imgWidth = 56 * _.ratio
 const imgHeight = imgWidth * 1.28
 
 function Friends(props, { $, navigation }) {
+  const styles = memoStyles()
   const { friends } = $.channel
   return (
     <View style={_.mt.lg}>
@@ -93,7 +94,7 @@ function Friends(props, { $, navigation }) {
 
 export default obc(Friends)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     width: '100%',
     paddingHorizontal: _.wind,
@@ -110,4 +111,4 @@ const styles = _.create({
   image: {
     width: imgWidth
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:48:31
+ * @Last Modified time: 2021-12-06 06:10:38
  */
 import React, { useMemo } from 'react'
 import { TabBar, SceneMap } from 'react-native-tab-view'
@@ -38,7 +38,7 @@ export const TabsV2 = ({
           }))
         )
       ),
-    [routes]
+    [renderItem, routes]
   )
   const W_TAB = useMemo(
     () => _.window.width / (tabBarLength || routes.length),
@@ -120,14 +120,11 @@ export const TabsV2 = ({
   )
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   tabBar: {
     backgroundColor: IOS
       ? 'transparent'
-      : _.select(
-          'transparent',
-          _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-        ),
+      : _.select('transparent', _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
     borderBottomWidth: _.select(
       IOS ? 0 : _.hairlineWidth,
       _.deepDark ? 0 : _.hairlineWidth

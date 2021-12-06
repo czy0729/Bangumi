@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 14:13:22
+ * @Last Modified time: 2021-12-06 07:37:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,7 @@ function Counts(props, { $ }) {
 
 export default obc(Counts)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind,
     paddingLeft: _.wind - _.sm,

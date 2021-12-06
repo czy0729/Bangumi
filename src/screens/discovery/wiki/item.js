@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:57:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-16 16:08:47
+ * @Last Modified time: 2021-12-06 07:37:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,10 +15,7 @@ function Item({ id, name, detail, userName, userId }, { navigation }) {
   const styles = memoStyles()
   return (
     <View style={styles.item}>
-      <Touchable
-        style={styles.touch}
-        onPress={() => appNavigate(id, navigation)}
-      >
+      <Touchable style={styles.touch} onPress={() => appNavigate(id, navigation)}>
         <Text type='main' lineHeight={15} bold>
           {findSubjectCn(name)}
         </Text>
@@ -54,7 +51,7 @@ function Item({ id, name, detail, userName, userId }, { navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingVertical: _.sm,
     paddingHorizontal: _.wind

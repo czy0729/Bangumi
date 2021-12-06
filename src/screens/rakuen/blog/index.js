@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 06:39:57
+ * @Last Modified time: 2021-12-06 06:24:40
  */
 import React from 'react'
 import {
@@ -12,6 +12,7 @@ import {
   View
 } from 'react-native'
 import { ListView, FixedTextarea } from '@components'
+import { ItemPost } from '@screens/_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
@@ -24,13 +25,11 @@ import {
 } from '@constants'
 import HeaderTitle from './header-title'
 import Top from './top'
-import Item from './item'
 import TouchScroll from './touch-scroll'
 import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '日志'
-const ListHeaderComponent = <Top />
 
 export default
 @inject(Store)
@@ -246,7 +245,7 @@ class Blog extends React.Component {
       }
     }
     return (
-      <Item
+      <ItemPost
         index={index}
         postId={$.postId}
         authorId={$.blog.userId}
@@ -272,7 +271,7 @@ class Blog extends React.Component {
           initialNumToRender={50}
           removeClippedSubviews={false}
           scrollToTop
-          ListHeaderComponent={ListHeaderComponent}
+          ListHeaderComponent={<Top />}
           renderItem={this.renderItem}
           onScroll={this.onScroll}
           onScrollToIndexFailed={this.onScrollToIndexFailed}

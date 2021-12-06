@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:54:29
+ * @Last Modified time: 2021-12-06 06:43:49
  */
 import React from 'react'
 import { ScrollView, Iconfont, Loading } from '@components'
@@ -37,10 +37,7 @@ class Channel extends React.Component {
       element: <Iconfont name='md-menu' color={_.colorTitle} />,
       heatmap: '频道.右上角菜单',
       popover: {
-        data: [
-          ...MODEL_SUBJECT_TYPE.data.map(item => item.title),
-          '浏览器查看'
-        ],
+        data: [...MODEL_SUBJECT_TYPE.data.map(item => item.title), '浏览器查看'],
         onSelect: key => {
           t('频道.右上角菜单', {
             key
@@ -67,9 +64,7 @@ class Channel extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.channel
-    if (!_loaded) {
-      return <Loading style={_.container.plain} />
-    }
+    if (!_loaded) return <Loading style={_.container.plain} />
 
     return (
       <ScrollView

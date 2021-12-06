@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 14:04:56
+ * @Last Modified time: 2021-12-06 06:56:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,13 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
-import { IMG_WIDTH, IMG_HEIGHT, COLLECTION_INDENT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 const imgWidthSm = 56 * _.ratio
 const imgHeightSm = imgWidthSm * 1.28
 
 function Rank(props, { $, navigation }) {
+  const styles = memoStyles()
   const { rankTop, rank } = $.channel
   return (
     <View style={_.mt.md}>
@@ -25,7 +26,7 @@ function Rank(props, { $, navigation }) {
       <View style={_.mt.sm}>
         {rankTop.map((item, index) => {
           const collection = $.userCollectionsMap[item.id]
-          const indent = collection ? COLLECTION_INDENT : ''
+          const indent = collection ? '       ' : ''
           return (
             <Touchable
               key={item.id}
@@ -97,7 +98,7 @@ function Rank(props, { $, navigation }) {
         <Flex style={styles.container} wrap='wrap'>
           {rank.map((item, index) => {
             const collection = $.userCollectionsMap[item.id]
-            const indent = collection ? COLLECTION_INDENT : ''
+            const indent = collection ? '        ' : ''
             return (
               <Touchable
                 key={item.id}
@@ -169,7 +170,7 @@ function Rank(props, { $, navigation }) {
 
 export default obc(Rank)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     width: '100%',
     paddingHorizontal: _.wind
@@ -198,6 +199,6 @@ const styles = _.create({
     position: 'absolute',
     zIndex: 1,
     top: 1 * _.lineHeightRatio,
-    left: 0
+    left: -1
   }
-})
+}))

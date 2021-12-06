@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-28 08:03:27
+ * @Last Modified time: 2021-12-05 19:11:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-// import { x18 } from '@utils/app'
 import { memo, ob } from '@utils/decorators'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { Tag, Stars, Cover } from '../base'
@@ -103,7 +102,7 @@ const Item = memo(
 
     const _collection = collection || (isCollect ? '已收藏' : '')
     // {collection} = 2个全角 + 1个半角, 已收藏 = 3个全角
-    const indent = _collection ? (collection ? '　　 ' : '　　　') : ''
+    const indent = _collection ? (collection ? '　　' : '　　　') : ''
     return (
       <Touchable
         style={[_.container.plain, styles.container]}

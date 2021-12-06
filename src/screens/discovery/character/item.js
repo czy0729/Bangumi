@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 09:28:40
+ * @Last Modified time: 2021-12-06 07:24:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,9 +11,6 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-
-const num = _.device(5, 6)
-const gridStyles = _.grid(num)
 
 function Item({ index, avatar, name, id }, { navigation }) {
   const styles = memoStyles()
@@ -29,7 +26,7 @@ function Item({ index, avatar, name, id }, { navigation }) {
   }
 
   return (
-    <View style={[styles.item, _.isPad && !(index % num) && _.container.left]}>
+    <View style={[styles.item, index % _.num(5, 8) === 0 && styles.left]}>
       <Image
         style={styles.avatar}
         size={styles.item.width}
@@ -51,14 +48,21 @@ function Item({ index, avatar, name, id }, { navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
-  item: {
-    width: gridStyles.width,
-    marginTop: _.space,
-    marginLeft: gridStyles.marginLeft
-  },
-  avatar: {
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
+const memoStyles = _.memoStyles(() => {
+  const num = _.num(5, 8)
+  const gridStyles = _.grid(num)
+  return {
+    item: {
+      width: gridStyles.width,
+      marginTop: _.space,
+      marginLeft: gridStyles.marginLeft
+    },
+    left: {
+      marginLeft: 0
+    },
+    avatar: {
+      borderRadius: _.radiusSm,
+      overflow: 'hidden'
+    }
   }
-}))
+})

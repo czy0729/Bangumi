@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 04:48:30
+ * @Last Modified time: 2021-12-06 06:37:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -192,9 +192,7 @@ class Award extends React.Component {
         {loading && (
           <Loading style={styles.loading} color={_.__colorPlain__}>
             <Text style={_.mt.md} size={13} type={_.select('plain', 'title')}>
-              {redirectCount
-                ? `第${redirectCount}次重试`
-                : '网页加载中, 请稍等'}
+              {redirectCount ? `第${redirectCount}次重试` : '网页加载中, 请稍等'}
             </Text>
             <Text
               style={styles.extra}

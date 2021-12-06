@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 02:00:05
+ * @Last Modified time: 2021-12-06 07:22:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,10 +37,7 @@ function ItemRecents(
   const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
   return (
     <View style={styles.container}>
-      <Flex
-        align='start'
-        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
-      >
+      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
         <View style={styles.imgContainer}>
           {!!cover && (
             <Cover
@@ -59,7 +56,7 @@ function ItemRecents(
           <Touchable onPress={onPress}>
             <Flex direction='column' justify='between' align='start'>
               <View>
-                <Flex align='start' style={{ width: '100%' }}>
+                <Flex style={_.container.block} align='start'>
                   <Flex.Item>
                     <Katakana.Provider size={15} numberOfLines={2}>
                       <Katakana size={15} bold>
@@ -74,28 +71,19 @@ function ItemRecents(
                     </Katakana.Provider>
                   </Flex.Item>
                   <Flex style={_.mt.xxs}>
-                    {x18(id, name || nameJP) && (
-                      <Tag style={_.ml.sm} value='H' />
-                    )}
+                    {x18(id, name || nameJP) && <Tag style={_.ml.sm} value='H' />}
                     {!!type && <Tag style={_.ml.sm} value={typeCn} />}
                   </Flex>
                 </Flex>
                 {!!info && (
-                  <Text
-                    style={_.mt.sm}
-                    size={12}
-                    lineHeight={14}
-                    numberOfLines={4}
-                  >
+                  <Text style={_.mt.sm} size={12} lineHeight={14} numberOfLines={4}>
                     {HTMLDecode(info)}
                   </Text>
                 )}
               </View>
               {!!star && !!starInfo && (
                 <Flex style={_.mt.sm}>
-                  {!!star && (
-                    <Stars style={_.mr.xs} value={star} color='warning' />
-                  )}
+                  {!!star && <Stars style={_.mr.xs} value={star} color='warning' />}
                   <Text style={_.mr.sm} type='sub' size={12}>
                     {starInfo}
                   </Text>
@@ -143,9 +131,8 @@ function ItemRecents(
 
 export default obc(ItemRecents)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingLeft: _.wind,
     backgroundColor: _.colorPlain
   },
   cover: {
@@ -157,8 +144,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginRight: _.md + 4
   },
   wrap: {
-    paddingVertical: _.space,
-    paddingRight: _.wind
+    paddingVertical: _.space
   },
   border: {
     borderTopColor: _.colorBorder,

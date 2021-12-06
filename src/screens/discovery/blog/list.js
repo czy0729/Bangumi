@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:32:38
+ * @Last Modified time: 2021-12-06 06:18:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,7 +83,7 @@ class List extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.md,
     minHeight: _.window.height

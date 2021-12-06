@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 14:52:41
+ * @Last Modified time: 2021-12-06 06:44:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,9 +42,7 @@ function Discuss(props, { $, navigation }) {
               })
             }}
           >
-            <View
-              style={[styles.wrap, index !== 0 && !_.flat && styles.border]}
-            >
+            <View style={[styles.wrap, index !== 0 && !_.flat && styles.border]}>
               <Flex style={styles.content}>
                 <Flex.Item>
                   <Text size={15} bold>
@@ -84,7 +82,7 @@ function Discuss(props, { $, navigation }) {
 
 export default obc(Discuss)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingLeft: _.wind
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 09:25:21
+ * @Last Modified time: 2021-12-06 07:21:58
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -12,8 +12,6 @@ import { keyExtractor } from '@utils/app'
 import Item from './item'
 import ItemRecents from './item-recents'
 
-export const num = _.device(5, 6)
-
 export default
 @obc
 class List extends React.Component {
@@ -22,15 +20,17 @@ class List extends React.Component {
   }
 
   renderItem = ({ item, index }) => {
-    if (this.isRecents) {
-      return <ItemRecents index={index} {...item} />
-    }
-    return <Item index={index} num={num} {...item} />
+    if (this.isRecents) return <ItemRecents index={index} {...item} />
+    return <Item index={index} num={this.num} {...item} />
   }
 
   get isRecents() {
     const { id } = this.props
     return id === 'recents'
+  }
+
+  get num() {
+    return _.num(5, 8)
   }
 
   render() {
@@ -42,11 +42,12 @@ class List extends React.Component {
     }
 
     const { page } = $.state
-    const numColumns = this.isRecents ? undefined : num
+    const numColumns = this.isRecents ? undefined : this.num
     return (
       <ListView
         key={String(numColumns)}
         keyExtractor={keyExtractor}
+        contentContainerStyle={_.container.wind}
         data={list}
         numColumns={numColumns}
         scrollToTop={$.tabs[page].key === id}

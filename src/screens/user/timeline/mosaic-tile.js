@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:36:42
+ * @Last Modified time: 2021-12-06 08:03:08
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -163,10 +163,10 @@ function MosaicTile(props, { $ }) {
 
 export default obc(MosaicTile)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.sm,
-    paddingLeft: _.wind
+    paddingLeft: _._wind
   },
   months: {
     height: 16 * _.ratio
@@ -187,7 +187,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0
   },
   contentContainerStyle: {
-    paddingRight: _.wind
+    paddingRight: _._wind
   },
   items: {
     minWidth: '100%',

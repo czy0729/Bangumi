@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-08-18 22:44:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 18:23:28
+ * @Last Modified time: 2021-12-06 06:41:37
  */
 const widthSubject = '30vw'
 const widthSubjectSm = '28vw'
 const widthMono = '20vw'
-const heightMono = `${widthMono * 1.32}vw`
+const heightMono = `${20 * 1.32}vw`
 // const hiddenStyle = `
 //   .shareBtn,
 //   #headerNeue2,

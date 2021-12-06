@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:14:32
+ * @Last Modified time: 2021-12-05 19:10:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ function Info(props, { $, navigation }) {
   const { title, avatar, content, progress, nickname, userId, time, _loaded } =
     $.catalogDetail
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, _.container.inner]}>
       {!IOS && <HeaderPlaceholder />}
       <Text size={20} bold>
         {title}
@@ -128,7 +128,6 @@ export default obc(Info)
 
 const styles = _.create({
   container: {
-    ..._.container.inner,
     minHeight: 248
   },
   segmentedControl: {

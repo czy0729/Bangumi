@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 15:02:32
+ * @Last Modified time: 2021-12-06 08:04:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -146,15 +146,9 @@ function List(props, { $, navigation }) {
                                 </View>
                                 <Flex.Item style={_.ml.sm}>
                                   <Flex>
-                                    <Tag
-                                      value={item.action.replace('了', '')}
-                                    />
+                                    <Tag value={item.action.replace('了', '')} />
                                     {!!i.star && (
-                                      <Stars
-                                        style={_.ml.xs}
-                                        value={i.star}
-                                        size={10}
-                                      />
+                                      <Stars style={_.ml.xs} value={i.star} size={10} />
                                     )}
                                   </Flex>
                                   <Text
@@ -192,10 +186,10 @@ function List(props, { $, navigation }) {
 
 export default obc(List)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: 32 * _.ratio,
-    marginHorizontal: _.wind - _._wind
+    marginHorizontal: _.windSm - _._wind
   },
   line: {
     position: 'absolute',

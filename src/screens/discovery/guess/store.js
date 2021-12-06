@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-29 13:54:28
+ * @Last Modified time: 2021-12-06 07:28:53
  */
 import { observable, computed } from 'mobx'
 import { collectionStore } from '@stores'
@@ -164,12 +164,10 @@ export default class ScreenGuess extends store {
         bilibiliSite =
           bangumiInfo?.sites?.find(item => item.site === 'bilibili') || null
         if (!bilibiliSite) {
-          youkuSite =
-            bangumiInfo?.sites?.find(item => item.site === 'youku') || null
+          youkuSite = bangumiInfo?.sites?.find(item => item.site === 'youku') || null
         }
         if (!youkuSite) {
-          iqiyiSite =
-            bangumiInfo?.sites?.find(item => item.site === 'iqiyi') || null
+          iqiyiSite = bangumiInfo?.sites?.find(item => item.site === 'iqiyi') || null
         }
       }
 
@@ -230,8 +228,7 @@ export default class ScreenGuess extends store {
                       decodeURIComponent(_response)
                         .replace(/\\\/>/g, '/>')
                         .replace(/(\\"|"\\)/g, '"')
-                        .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) ||
-                      []
+                        .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
                     )
                       .map(item => {
                         const match = item.match(/src="(.+?)"/)
@@ -269,10 +266,7 @@ export default class ScreenGuess extends store {
                 epsThumbs: Array.from(
                   new Set(
                     match
-                      .map(
-                        item =>
-                          `https:${item.replace(/(data-jpg-img="|")/g, '')}`
-                      )
+                      .map(item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
                       .filter((item, index) => !!index)
                   )
                 ),

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-04 19:23:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:33:59
+ * @Last Modified time: 2021-12-06 07:35:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,10 +16,6 @@ import { t } from '@utils/fetch'
 import { showImageViewer } from '@utils/ui'
 import { IMG_DEFAULT } from '@constants'
 
-const imageWidth = _.window.width - _.wind * 2
-const imageHeight = imageWidth * 1.38
-const thumbWidth = _.device(96, 200)
-const thumbHeight = thumbWidth * 0.56
 const colors = [
   'rgba(0, 0, 0, 0)',
   'rgba(0, 0, 0, 0.24)',
@@ -31,6 +27,7 @@ function Item(
   { id, ageId, image, cn, jp, begin, ep, official, rate },
   { $, navigation }
 ) {
+  const styles = memoStyles()
   const eps = $.state.eps[id]
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const onPress = () => {
@@ -49,8 +46,8 @@ function Item(
     <View style={styles.item}>
       <Cover
         src={cover}
-        size={imageWidth}
-        height={imageHeight}
+        size={styles.cover.width}
+        height={styles.cover.height}
         radius={_.radiusMd}
         onPress={onPress}
       />
@@ -76,8 +73,8 @@ function Item(
           bold
           onPress={onPress}
         >
-          {begin} / {official} [{String(ep).replace(/\(完结\)|第/g, '')}] /
-          推荐分 {rate}
+          {begin} / {official} [{String(ep).replace(/\(完结\)|第/g, '')}] / 推荐分{' '}
+          {rate}
         </Text>
         {!!eps && (
           <HorizontalList
@@ -92,8 +89,8 @@ function Item(
                 ]}
                 key={item}
                 src={item}
-                size={thumbWidth}
-                height={thumbHeight}
+                size={styles.thumb.width}
+                height={styles.thumb.height}
                 radius
                 headers={eps.epsThumbsHeader}
                 onPress={() => {
@@ -116,21 +113,33 @@ function Item(
 
 export default obc(Item)
 
-const styles = _.create({
-  item: {
-    marginTop: _.space,
-    marginHorizontal: _.wind,
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
-  },
-  desc: {
-    position: 'absolute',
-    zIndex: 1,
-    right: 0,
-    bottom: _.md,
-    left: _.md
-  },
-  title: {
-    opacity: 0.88
+const memoStyles = _.memoStyles(() => {
+  const width = _.windowSm.width - _.windSm * 2
+  const thumbWidth = _.device(96, 200)
+  return {
+    item: {
+      marginTop: _.space,
+      marginHorizontal: _.windSm,
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
+    },
+    cover: {
+      width,
+      height: width * 1.38
+    },
+    thumb: {
+      width: thumbWidth,
+      height: thumbWidth * 0.56
+    },
+    desc: {
+      position: 'absolute',
+      zIndex: 1,
+      right: 0,
+      bottom: _.md,
+      left: _.md
+    },
+    title: {
+      opacity: 0.88
+    }
   }
 })

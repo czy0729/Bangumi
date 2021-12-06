@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 17:27:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:40:50
+ * @Last Modified time: 2021-12-06 06:52:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,7 +49,7 @@ function Tags(props, { $, navigation }) {
 
 export default obc(Tags)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingHorizontal: _.wind,
     marginTop: 12

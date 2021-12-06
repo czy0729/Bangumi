@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-17 20:15:19
+ * @Last Modified time: 2021-12-05 19:14:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ const hitSlop = {
   left: 4
 }
 const defaultHeaderStyle = {
+  fontSize: 14,
   backgroundColor: 'transparent'
 }
 
