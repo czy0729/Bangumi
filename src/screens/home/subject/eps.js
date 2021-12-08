@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-08-07 07:13:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 02:44:30
+ * @Last Modified time: 2021-12-07 11:26:34
  */
 import React from 'react'
 import { Eps as CompEps } from '@screens/_'
 import { _ } from '@stores'
+import { window, wind } from '@styles'
 import { obc } from '@utils/decorators'
 
-const layoutWidth = parseInt(_.window.width - _.wind) - 1
+const layoutWidth = parseInt(window.width - wind) - 1
 
 function Eps(props, { $, navigation }) {
   rerender('Subject.Eps')
@@ -19,7 +20,7 @@ function Eps(props, { $, navigation }) {
   return (
     <CompEps
       layoutWidth={layoutWidth}
-      marginRight={_._wind}
+      marginRight={_.isLandscape ? 0 : _._wind}
       advance
       pagination
       login={$.isLogin}

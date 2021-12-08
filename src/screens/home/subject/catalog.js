@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 01:20:54
+ * @Last Modified time: 2021-12-07 10:54:25
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -18,6 +18,7 @@ import IconHidden from './icon/hidden'
 
 const defaultProps = {
   navigation: {},
+  styles: {},
   showCatalog: true,
   subjectId: 0,
   catalog: [],
@@ -25,7 +26,7 @@ const defaultProps = {
 }
 
 const Catalog = memo(
-  ({ navigation, showCatalog, subjectId, catalog, onSwitchBlock }) => {
+  ({ navigation, styles, showCatalog, subjectId, catalog, onSwitchBlock }) => {
     rerender('Subject.Catalog.Main')
 
     return (
@@ -122,6 +123,7 @@ export default obc((props, { $, navigation }) => {
   return (
     <Catalog
       navigation={navigation}
+      styles={memoStyles()}
       showCatalog={showCatalog}
       catalog={_catalog}
       onSwitchBlock={$.switchBlock}
@@ -129,7 +131,7 @@ export default obc((props, { $, navigation }) => {
   )
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingTop: _.sm,
     paddingHorizontal: _.wind,
@@ -147,4 +149,4 @@ const styles = _.create({
   text: {
     maxWidth: _.window.contentWidth * 0.24 * _.ratio
   }
-})
+}))

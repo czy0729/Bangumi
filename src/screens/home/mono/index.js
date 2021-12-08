@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 09:38:58
+ * @Last Modified time: 2021-12-07 07:27:05
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Heatmap } from '@components'
+import { Page, Heatmap } from '@components'
 import { NavigationBarEvents, ItemPost } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
@@ -112,7 +111,7 @@ class Mono extends React.Component {
     return (
       <ItemPost
         navigation={navigation}
-        contentStyle={styles.contentStyle}
+        contentStyle={this.styles.contentStyle}
         index={index}
         event={event}
         {...item}
@@ -122,17 +121,21 @@ class Mono extends React.Component {
 
   render() {
     return (
-      <View style={_.container.plain}>
+      <Page>
         <NavigationBarEvents />
         <List renderItem={this.renderItem} onScroll={this.onScroll} />
         <Heatmap id='人物' screen='Mono' />
-      </View>
+      </Page>
     )
+  }
+
+  get styles() {
+    return memoStyles()
   }
 }
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentStyle: {
     paddingRight: _.wind - _.sm
   }
-})
+}))

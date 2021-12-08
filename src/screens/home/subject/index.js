@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-06 11:12:40
+ * @Last Modified time: 2021-12-07 10:45:48
  */
 import React from 'react'
-import { View } from 'react-native'
-import { NavigationEvents } from 'react-navigation'
-import { Heatmap } from '@components'
+import { Page, Heatmap } from '@components'
+import { KeyboardAdjustPanResize } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { open, copy, runAfter } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { info, androidKeyboardAdjust } from '@utils/ui'
+import { info } from '@utils/ui'
 import { cnjp } from '@utils/app'
 import HeaderTitle from './header-title'
 import Bg from './bg'
@@ -102,14 +101,6 @@ class Subject extends React.Component {
     })
   }
 
-  onDidFocus = () => {
-    androidKeyboardAdjust('setAdjustPan')
-  }
-
-  onDidBlur = () => {
-    androidKeyboardAdjust('setAdjustResize')
-  }
-
   /**
    * - 滚动判断是否显示头部毛玻璃背景
    * - 滚动过马上设置成能渲染底部块
@@ -141,13 +132,13 @@ class Subject extends React.Component {
   render() {
     const { showBlurView } = this.state
     return (
-      <View style={_.container.plain}>
+      <Page>
         <Bg show={showBlurView} />
         <List onScroll={this.onScroll} />
-        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <Modal />
+        <KeyboardAdjustPanResize />
         <Heatmap id={title} screen='Subject' />
-      </View>
+      </Page>
     )
   }
 }

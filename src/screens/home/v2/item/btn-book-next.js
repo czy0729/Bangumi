@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:29:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:38:26
+ * @Last Modified time: 2021-12-07 14:25:59
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -16,11 +16,7 @@ function BtnBookNext({ subjectId, epStatus, volStatus }, { $ }) {
       onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
     >
       <Flex style={styles.btn} justify='center'>
-        <Iconfont
-          style={styles.icon}
-          name='md-check-circle-outline'
-          size={18}
-        />
+        <Iconfont style={styles.icon} name='md-check-circle-outline' size={18} />
       </Flex>
     </Touchable>
   )

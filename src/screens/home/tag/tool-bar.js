@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:09:55
+ * @Last Modified time: 2021-12-07 13:40:44
  */
 import React from 'react'
 import { Iconfont, ToolBar as CompToolBar } from '@components'
@@ -40,10 +40,7 @@ function ToolBar(props, { $ }) {
         heatmap='用户标签.月选择'
         onSelect={$.onMonthSelect}
       />
-      <CompToolBar.Touchable
-        heatmap='用户标签.切换布局'
-        onSelect={$.toggleList}
-      >
+      <CompToolBar.Touchable heatmap='用户标签.切换布局' onSelect={$.toggleList}>
         <Iconfont
           style={_.mr.xs}
           name='md-menu'

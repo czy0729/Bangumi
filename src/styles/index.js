@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 10:45:36
+ * @Last Modified time: 2021-12-08 11:48:20
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -420,6 +420,14 @@ export const header = StyleSheet.create({
     right: 8
   }
 })
+
+export const listViewProps = IOS
+  ? {
+      contentOffset: {
+        y: -tabsHeaderHeight * ratio
+      }
+    }
+  : {}
 
 export function getAppLayout() {
   const { width, height } = Dimensions.get('window')

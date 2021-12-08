@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-10 20:21:11
+ * @Last Modified time: 2021-12-08 12:56:15
  */
+import { _ } from '@stores'
 import { pick } from '@utils'
 
 export const defaultProps = {
@@ -20,6 +21,7 @@ export const defaultProps = {
   eps: [], // 章节数据
   userProgress: {}, // 用户收藏记录
   grid: false,
+  orientation: _.orientation,
   onSelect: Function.prototype, // 操作选择 (value, item, subjectId) => void
   onLongPress: Function.prototype // 按钮长按 (item) => void
 }

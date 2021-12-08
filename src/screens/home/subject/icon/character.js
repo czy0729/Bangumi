@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:56:36
+ * @Last Modified time: 2021-12-07 12:23:33
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import styles from './styles'
 
 function IconCharacter(props, { $, navigation }) {
   const { showCharacter } = systemStore.setting
@@ -38,12 +39,3 @@ function IconCharacter(props, { $, navigation }) {
 }
 
 export default obc(IconCharacter)
-
-const styles = _.create({
-  touch: {
-    paddingLeft: _.xs,
-    marginRight: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-31 19:02:16
+ * @Last Modified time: 2021-12-07 11:00:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -120,7 +120,7 @@ export default obc((props, { $, navigation }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 96,
     paddingHorizontal: _.wind,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 16:10:10
+ * @Last Modified time: 2021-12-08 13:02:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,6 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-
-const imageWidth = 88 * _.ratio
-const imageHeight = imageWidth * 1.4
 
 export default
 @obc
@@ -76,15 +73,13 @@ class GridInfo extends React.Component {
     const { $ } = this.context
     const { subjectId } = this.props
     const { sort } = $.nextWatchEp(subjectId)
-    if (!sort) {
-      return null
-    }
+    if (!sort) return null
 
     return (
-      <Touchable style={styles.touchable} onPress={this.onCheckPress}>
+      <Touchable style={this.styles.touchable} onPress={this.onCheckPress}>
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='md-check-circle-outline' size={18} />
-          <View style={[styles.placeholder, _.ml.sm]}>
+          <Iconfont style={this.styles.icon} name='md-check-circle-outline' size={18} />
+          <View style={this.styles.placeholder}>
             <Text type='sub'>{sort}</Text>
           </View>
         </Flex>
@@ -96,7 +91,7 @@ class GridInfo extends React.Component {
     return (
       <Flex>
         {this.renderBtnNextEp()}
-        <Touchable style={[styles.touchable, _.ml.sm]} onPress={this.onStarPress}>
+        <Touchable style={[this.styles.touchable, _.ml.sm]} onPress={this.onStarPress}>
           <Iconfont name='md-star-outline' size={19} />
         </Touchable>
       </Flex>
@@ -106,9 +101,7 @@ class GridInfo extends React.Component {
   renderCount() {
     const { $ } = this.context
     const { subjectId, subject, epStatus } = this.props
-    if (this.label === '游戏') {
-      return null
-    }
+    if (this.label === '游戏') return null
 
     if (this.label === '书籍') {
       const { list = [] } = $.userCollection
@@ -151,11 +144,11 @@ class GridInfo extends React.Component {
     const { subjectId } = this.props
     return (
       <Touchable
-        style={styles.touchable}
+        style={this.styles.touchable}
         onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
       >
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='md-check-circle-outline' size={18} />
+          <Iconfont style={this.styles.icon} name='md-check-circle-outline' size={18} />
         </Flex>
       </Touchable>
     )
@@ -169,8 +162,14 @@ class GridInfo extends React.Component {
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
     const { h, m } = $.onAirCustom(subjectId)
+
+    const eps = $.eps(subjectId)
+    const numberOfLines = _.isMobileLanscape ? 12 : _.device(7, 8)
+    const imageWidth = _.isMobileLanscape ? 60 : 84
+    const imageHeight = imageWidth * 1.4
+    const onAirStyle = _.isMobileLanscape ? _.mt.xs : _.mt.sm
     return (
-      <Flex style={styles.item} align='start'>
+      <Flex style={this.styles.item} align='start'>
         <View>
           <Cover
             size={imageWidth}
@@ -181,11 +180,11 @@ class GridInfo extends React.Component {
             onPress={this.onPress}
           />
           {isToday ? (
-            <Text style={_.mt.sm} type='success' align='center' size={12} bold>
+            <Text style={onAirStyle} type='success' align='center' size={12} bold>
               {h}:{m}
             </Text>
           ) : isNextDay ? (
-            <Text style={_.mt.sm} type='sub' align='center' size={12} bold>
+            <Text style={onAirStyle} type='sub' align='center' size={12} bold>
               明天{h}:{m}
             </Text>
           ) : null}
@@ -205,12 +204,13 @@ class GridInfo extends React.Component {
             {this.renderToolBar()}
           </Flex>
           <Eps
-            style={_.device(_.mt.xs, _.mt.sm)}
+            style={_.mt.xs}
             grid
-            numbersOfLine={_.device(6, 7)}
+            numbersOfLine={numberOfLines}
+            lines={_.isMobileLanscape ? 1 : 3}
             login={$.isLogin}
             subjectId={subjectId}
-            eps={$.eps(subjectId)}
+            eps={eps}
             userProgress={$.userProgress(subjectId)}
             onSelect={this.onEpsSelect}
             onLongPress={this.onEpsLongPress}
@@ -219,9 +219,13 @@ class GridInfo extends React.Component {
       </Flex>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingVertical: _.device(16, 32),
     paddingHorizontal: _.wind
@@ -233,6 +237,7 @@ const styles = _.create({
     padding: _.sm
   },
   placeholder: {
-    marginBottom: -1.5
+    marginBottom: -1.5,
+    marginLeft: _.sm
   }
-})
+}))

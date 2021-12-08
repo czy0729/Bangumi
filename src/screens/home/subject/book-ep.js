@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 12:12:39
+ * @Last Modified time: 2021-12-07 10:51:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import IconWenku from './icon/wenku'
 import IconHD from './icon/hd'
 
 const defaultProps = {
+  styles: {},
   chap: '',
   vol: '',
   book: {},
@@ -31,6 +32,7 @@ const defaultProps = {
 
 const BookEp = memo(
   ({
+    styles,
     chap,
     vol,
     book,
@@ -172,6 +174,7 @@ export default obc((props, { $ }) => {
 
   return (
     <BookEp
+      styles={memoStyles()}
       chap={$.state.chap}
       vol={$.state.vol}
       book={$.subjectFormHTML.book}
@@ -186,8 +189,7 @@ export default obc((props, { $ }) => {
 
 const labelWidth = 48 * _.ratio
 const inputWidth = 120 * _.ratio
-
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     height: 120 * _.ratio,
     paddingHorizontal: _.wind,
@@ -238,4 +240,4 @@ const styles = _.create({
     borderBottomWidth: 4,
     borderRadius: 4
   }
-})
+}))

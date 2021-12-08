@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 01:26:33
+ * @Last Modified time: 2021-12-08 13:27:17
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -87,7 +87,7 @@ class List extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   list: {
     paddingBottom: _.bottom
   },

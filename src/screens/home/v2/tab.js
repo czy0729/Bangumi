@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-14 17:55:24
+ * @Last Modified time: 2021-12-07 14:24:23
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
@@ -10,7 +10,7 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS, DEV } from '@constants'
+import { IOS } from '@constants'
 import { H_TABBAR } from './store'
 
 function Tab({ routes, renderScene }, { $ }) {
@@ -68,7 +68,7 @@ export default obc(Tab, {
 })
 
 const W_INDICATOR = 16 * _.ratio
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   tabBar: {
     paddingTop: _.headerHeight - (IOS ? 18 : 24),
     backgroundColor: IOS

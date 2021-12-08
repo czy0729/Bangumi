@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:54:36
+ * @Last Modified time: 2021-12-07 07:15:13
  */
 import React from 'react'
-import { View } from 'react-native'
-import { _ } from '@stores'
+import { Page } from '@components'
 import { open } from '@utils'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -50,10 +49,11 @@ class Characters extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     return (
-      <View style={_.container.plain}>
+      <Page loaded={$.characters._loaded}>
         <List />
-      </View>
+      </Page>
     )
   }
 }

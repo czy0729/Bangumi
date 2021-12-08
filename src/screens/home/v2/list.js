@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:53:17
+ * @Last Modified time: 2021-12-07 14:16:10
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -65,7 +65,7 @@ export default obc(List, {
   title: '全部'
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   androidWrap: {
     marginBottom: _.tabBarHeight - 1,
     backgroundColor: _.colorBg

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:34:12
+ * @Last Modified time: 2021-12-07 11:40:11
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -17,9 +17,6 @@ import IconHidden from './icon/hidden'
 
 const thumbWidth = 160 * _.ratio
 const thumbHeight = thumbWidth * 0.56
-const initialRenderNums = _.isPad
-  ? 5
-  : Math.floor(_.window.contentWidth / thumbWidth) + 1
 
 export default
 @obc
@@ -42,6 +39,10 @@ class Thumbs extends React.Component {
     const { epsThumbs } = $.state
     const { scrolled } = this.state
     if (scrolled) return epsThumbs
+
+    const initialRenderNums = _.isPad
+      ? 5
+      : Math.floor(_.window.contentWidth / thumbWidth) + 1
     return epsThumbs.filter((item, index) => index < initialRenderNums)
   }
 

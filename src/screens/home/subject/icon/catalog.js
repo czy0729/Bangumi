@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:00:00
+ * @Last Modified time: 2021-12-07 13:02:47
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
 import { cnjp } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import styles from './styles'
 
 function IconCatalog(props, { $, navigation }) {
   return (
@@ -43,12 +43,3 @@ function IconCatalog(props, { $, navigation }) {
 }
 
 export default obc(IconCatalog)
-
-const styles = _.create({
-  touch: {
-    paddingLeft: _.xs,
-    marginRight: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 11:26:44
+ * @Last Modified time: 2021-12-07 07:34:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,11 +23,12 @@ const event = {
 const imgWidth = 40 * _.ratio
 const defaultProps = {
   navigation: {},
+  styles: {},
   style: {},
   voices: []
 }
 
-const Voice = memo(({ navigation, style, voices }) => {
+const Voice = memo(({ navigation, styles, style, voices }) => {
   rerender('Mono.Voice.Main')
 
   return (
@@ -139,10 +140,17 @@ export default obc(({ style }, { $, navigation }) => {
 
   if (!$.voices.length) return null
 
-  return <Voice navigation={navigation} style={style} voices={$.voices} />
+  return (
+    <Voice
+      styles={memoStyles()}
+      navigation={navigation}
+      style={style}
+      voices={$.voices}
+    />
+  )
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     paddingBottom: _.md
@@ -154,4 +162,4 @@ const styles = _.create({
     paddingVertical: _.md,
     paddingRight: _.wind
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-20 14:44:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 16:56:14
+ * @Last Modified time: 2021-12-07 12:34:04
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -17,12 +17,7 @@ function IconHidden({ name, value }, { $ }) {
 
   return (
     <IconTouchable
-      style={[
-        _.mr._sm,
-        {
-          paddingVertical: 0
-        }
-      ]}
+      style={styles.touch}
       name='md-close'
       color={_.colorIcon}
       onPress={() => {
@@ -47,3 +42,10 @@ function IconHidden({ name, value }, { $ }) {
 }
 
 export default obc(IconHidden)
+
+const styles = _.create({
+  touch: {
+    paddingVertical: 0,
+    marginRight: -_.sm
+  }
+})

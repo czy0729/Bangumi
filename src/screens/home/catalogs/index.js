@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:54:32
+ * @Last Modified time: 2021-12-07 07:10:39
  */
 import React from 'react'
-import { Loading, ListView, Heatmap } from '@components'
+import { Page, ListView, Heatmap } from '@components'
 import { ItemCatalog } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -74,15 +74,9 @@ class SubjectCatalogs extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { _loaded } = $.list
-    if (!_loaded) {
-      return <Loading style={_.container.plain} />
-    }
-
     return (
-      <>
+      <Page loaded={$.list._loaded}>
         <ListView
-          style={_.container.plain}
           contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
           data={$.list}
@@ -92,7 +86,7 @@ class SubjectCatalogs extends React.Component {
           onFooterRefresh={$.fetchSubjectCatalogs}
         />
         <Heatmap bottom={_.bottom} id='条目目录' screen='SubjectCatalogs' />
-      </>
+      </Page>
     )
   }
 }

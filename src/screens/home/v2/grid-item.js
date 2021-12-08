@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-17 00:26:49
+ * @Last Modified time: 2021-12-08 13:03:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,8 +12,6 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 const margin = 10
-const num = _.isPad ? 5 : 4
-const imageWidth = (_.window.width - (num - 1) * margin - 2 * _.wind) / num
 
 function GridItem({ subject, subjectId, epStatus }, { $ }) {
   rerender('Home.GridItem')
@@ -30,7 +28,7 @@ function GridItem({ subject, subjectId, epStatus }, { $ }) {
     <View style={styles.item}>
       <View style={isActive && styles.active}>
         <Cover
-          size={imageWidth}
+          size={styles.item.width}
           src={subject?.images?.medium || ''}
           shadow
           radius
@@ -59,22 +57,27 @@ export default obc(GridItem, {
   subject_id: 0
 })
 
-const memoStyles = _.memoStyles(_ => ({
-  item: {
-    width: imageWidth,
-    marginLeft: margin,
-    marginBottom: margin
-  },
-  active: {
-    opacity: 0.5
-  },
-  progress: {
-    borderRadius: _.radiusXs,
-    backgroundColor: _.select('transparent', _._colorDarkModeLevel1)
-  },
-  bar: {
-    borderBottomWidth: 6,
-    borderRadius: _.radiusXs,
-    borderColor: _.colorWarning
+const memoStyles = _.memoStyles(() => {
+  const numColumns = _.isMobileLanscape ? 9 : _.device(5, 4)
+  const imageWidth = (_.window.contentWidth - (numColumns - 1) * margin) / numColumns
+  return {
+    item: {
+      width: imageWidth,
+      marginLeft: margin,
+      marginBottom: margin
+    },
+    active: {
+      opacity: 0.5
+    },
+    progress: {
+      marginTop: 1,
+      borderRadius: _.radiusXs,
+      backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+    },
+    bar: {
+      borderBottomWidth: 6,
+      borderRadius: _.radiusXs,
+      borderColor: _.colorWarning
+    }
   }
-}))
+})

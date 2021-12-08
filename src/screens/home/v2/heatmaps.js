@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:22:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:16:56
+ * @Last Modified time: 2021-12-07 14:15:46
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -30,12 +30,7 @@ function Heatmaps() {
         id='首页.管理收藏'
         transparent
       />
-      <Heatmap
-        right={_.wind + 288}
-        bottom={_.bottom + 16}
-        id='其他.启动'
-        transparent
-      />
+      <Heatmap right={_.wind + 288} bottom={_.bottom + 16} id='其他.启动' transparent />
       <Heatmap
         right={_.wind + 297}
         bottom={_.bottom + 50}

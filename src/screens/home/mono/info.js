@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 11:48:04
+ * @Last Modified time: 2021-12-07 07:29:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,11 +28,11 @@ import Voice from './voice'
 import Works from './works'
 import Jobs from './jobs'
 
-const maxSize = _.window.contentWidth * 0.5 * _.ratio
-
 function Info(props, { $, navigation }) {
   rerender('Mono.Info')
 
+  const styles = memoStyles()
+  const maxSize = _.window.contentWidth * 0.5 * _.ratio
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -149,7 +149,7 @@ function Info(props, { $, navigation }) {
 
 export default obc(Info)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: _.window.height * 0.56,
     ..._.container.inner
@@ -178,4 +178,4 @@ const styles = _.create({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-})
+}))

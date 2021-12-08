@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:34:07
+ * @Last Modified time: 2021-12-07 12:01:07
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -40,7 +40,7 @@ const Recent = memo(
           <>
             <ScrollView
               style={_.mt.md}
-              contentContainerStyle={styles.contentContainerStyle}
+              contentContainerStyle={_.container.wind}
               horizontal
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
@@ -114,9 +114,6 @@ export default obc((props, { $, navigation }) => {
 })
 
 const styles = _.create({
-  contentContainerStyle: {
-    paddingHorizontal: _.wind
-  },
   item: {
     paddingRight: _.sm
   }

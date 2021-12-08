@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 03:47:04
+ * @Last Modified time: 2021-12-07 07:20:17
  */
 import React from 'react'
 import { View } from 'react-native'
 import { toJS } from 'mobx'
-import { ScrollView, Flex, Text, Touchable, Image, Heatmap } from '@components'
+import { Page, ScrollView, Flex, Text, Touchable, Image, Heatmap } from '@components'
 import { _ } from '@stores'
 import { desc, open } from '@utils'
 import { inject, withHeader, obc } from '@utils/decorators'
@@ -47,6 +47,7 @@ class Episodes extends React.Component {
             case '浏览器查看':
               open($.url)
               break
+
             default:
               break
           }
@@ -98,7 +99,7 @@ class Episodes extends React.Component {
     )
   }
 
-  render() {
+  renderList() {
     const { navigation } = this.context
     return (
       <ScrollView
@@ -157,12 +158,17 @@ class Episodes extends React.Component {
     )
   }
 
+  render() {
+    const { $ } = this.context
+    return <Page loaded={$.subject._loaded}>{this.renderList()}</Page>
+  }
+
   get styles() {
     return memoStyles()
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingVertical: _.sm + 2,
     paddingHorizontal: _.wind

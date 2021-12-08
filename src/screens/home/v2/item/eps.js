@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-26 13:57:57
+ * @Last Modified time: 2021-12-07 14:44:27
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { Eps as CompEps } from '@screens/_'
 import { _ } from '@stores'
+import { window } from '@styles'
 import { obc } from '@utils/decorators'
-import { layoutWidth, itemPadding } from './ds'
 
 function Eps({ index, subjectId }, { $, navigation }) {
   return (
     <View style={styles.eps}>
       <CompEps
-        layoutWidth={layoutWidth}
-        marginRight={itemPadding}
+        layoutWidth={window.contentWidth}
         login={$.isLogin}
         subjectId={subjectId}
         eps={$.eps(subjectId)}
@@ -48,6 +47,6 @@ export default obc(Eps)
 
 const styles = _.create({
   eps: {
-    marginTop: itemPadding
+    marginTop: _._wind
   }
 })

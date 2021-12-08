@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:31:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 18:07:01
+ * @Last Modified time: 2021-12-07 12:56:48
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import styles from './styles'
 
 function IconManga(props, { $ }) {
-  if ($.isLimit || !$.source.mangaId) {
-    return null
-  }
+  if ($.isLimit || !$.source.mangaId) return null
 
   return (
     <Touchable style={styles.icon} onPress={$.toManhuadb}>
@@ -28,13 +27,3 @@ function IconManga(props, { $ }) {
 }
 
 export default obc(IconManga)
-
-const styles = _.create({
-  icon: {
-    padding: _.sm,
-    marginRight: -_.sm,
-    marginLeft: _.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-})

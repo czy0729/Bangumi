@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 10:53:56
+ * @Last Modified time: 2021-12-08 11:43:20
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -577,10 +577,17 @@ class Theme extends store {
   // -------------------- page --------------------
   /**
    * 设备选择
+   * 平板设备使用第二个值
    */
   device = (mobileValue, padValue) => {
     return this.isPad ? padValue : mobileValue
   }
+
+  /**
+   * 平台选择
+   * 安卓平台使用第二个值
+   */
+  ios = (iosValue, androidValue) => (IOS ? iosValue : androidValue)
 
   /**
    * 主题选择
@@ -590,9 +597,16 @@ class Theme extends store {
 
   /**
    * 方向选择
+   * 水平方向使用第二个值
    */
   num = (portaitValue, landscapeValue) =>
     this.isLandscape ? landscapeValue : portaitValue
+
+  /**
+   * 黑暗模式下
+   * 非深黑模式使用第二个值
+   */
+  deep = (deepDarkValue, darkValue) => (this.deepDark ? deepDarkValue : darkValue)
 
   /**
    * 小圣杯主题选择

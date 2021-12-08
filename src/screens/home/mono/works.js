@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 11:39:19
+ * @Last Modified time: 2021-12-07 07:34:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,11 +23,12 @@ const event = {
 }
 const defaultProps = {
   navigation: {},
+  styles: {},
   style: {},
   works: []
 }
 
-const Works = memo(({ navigation, style, works }) => {
+const Works = memo(({ navigation, styles, style, works }) => {
   rerender('Mono.Works.Main')
 
   return (
@@ -106,10 +107,17 @@ export default obc(({ style }, { $, navigation }) => {
 
   if (!$.works.length) return null
 
-  return <Works navigation={navigation} style={style} works={$.works} />
+  return (
+    <Works
+      navigation={navigation}
+      styles={memoStyles()}
+      style={style}
+      works={$.works}
+    />
+  )
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     paddingBottom: _.md
@@ -128,4 +136,4 @@ const styles = _.create({
     marginTop: 3,
     marginLeft: _.md
   }
-})
+}))

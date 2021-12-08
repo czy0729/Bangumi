@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:25:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:59:28
+ * @Last Modified time: 2021-12-07 12:40:06
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import styles from './styles'
 
 function IconStaff(props, { $, navigation }) {
   const { showStaff } = systemStore.setting
-  if (!showStaff) {
-    return null
-  }
+  if (!showStaff) return null
 
   return (
     <Touchable
@@ -41,12 +40,3 @@ function IconStaff(props, { $, navigation }) {
 }
 
 export default obc(IconStaff)
-
-const styles = _.create({
-  touch: {
-    paddingLeft: _.xs,
-    marginRight: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-})

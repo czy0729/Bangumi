@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:32:59
+ * @Last Modified time: 2021-12-07 14:23:58
  */
 import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
 import { SceneMap } from 'react-native-tab-view'
 import { BlurView } from '@screens/_'
 import { _ } from '@stores'
+import { c } from '@utils/decorators'
 import { IOS } from '@constants'
 import Tab from './tab'
 import List from './list'
@@ -21,61 +21,53 @@ import { H_TABBAR } from './store'
 function TabWrap({ length }, { $ }) {
   rerender('Home.TabWrap')
 
-  const renderScene = useMemo(
-    () =>
-      length === 5
-        ? SceneMap({
-            all: () => <List title='全部' />,
-            anime: () => <List title='动画' />,
-            book: () => <List title='书籍' />,
-            real: () => <List title='三次元' />,
-            game: () => (
-              <>
-                <List title='游戏' />
-                {IOS && (
-                  <BlurView
-                    style={{
-                      position: 'absolute',
-                      zIndex: 1,
-                      top: 0,
-                      left: -_.window.width * 4,
-                      right: 0,
-                      height: _.headerHeight + H_TABBAR
-                    }}
-                  />
-                )}
-              </>
-            )
-          })
-        : SceneMap({
-            all: () => <List title='全部' />,
-            anime: () => <List title='动画' />,
-            book: () => <List title='书籍' />,
-            real: () => (
-              <>
-                <List title='三次元' />
-                {IOS && (
-                  <BlurView
-                    style={{
-                      position: 'absolute',
-                      zIndex: 1,
-                      top: 0,
-                      left: -_.window.width * 3,
-                      right: 0,
-                      height: _.headerHeight + H_TABBAR
-                    }}
-                  />
-                )}
-              </>
-            )
-          }),
-    [length]
-  )
+  const styles = memoStyles()
+  const renderScene = useMemo(() => {
+    const routes = {
+      all: () => <List title='全部' />,
+      anime: () => <List title='动画' />,
+      book: () => <List title='书籍' />
+    }
+    if (length === 5) {
+      routes.real = () => <List title='三次元' />
+      routes.game = () => (
+        <>
+          <List title='游戏' />
+          {IOS && <BlurView style={styles.tabs4} />}
+        </>
+      )
+    } else {
+      routes.real = () => (
+        <>
+          <List title='三次元' />
+          {IOS && <BlurView style={styles.tabs3} />}
+        </>
+      )
+    }
+
+    return SceneMap(routes)
+  }, [styles, length])
+
   return <Tab routes={$.tabs} renderScene={renderScene} />
 }
 
-TabWrap.contextTypes = {
-  $: PropTypes.object
-}
+export default c(TabWrap)
 
-export default TabWrap
+const memoStyles = _.memoStyles(() => ({
+  tabs4: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    left: -_.window.width * 4,
+    right: 0,
+    height: _.headerHeight + H_TABBAR
+  },
+  tabs3: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    left: -_.window.width * 3,
+    right: 0,
+    height: _.headerHeight + H_TABBAR
+  }
+}))

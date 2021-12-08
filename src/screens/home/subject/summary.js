@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-05 19:26:42
+ * @Last Modified time: 2021-12-07 12:01:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,7 +51,6 @@ const Summary = memo(
             {translateResult.length ? (
               <View>
                 {translateResult.map((item, index) => (
-                  // eslint-disable-next-line react/no-array-index-key
                   <View key={index} style={_.mt.sm}>
                     <Text style={_.mt.md} type='sub' size={12} selectable>
                       {item.src}

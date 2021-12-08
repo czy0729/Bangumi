@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 15:56:07
+ * @Last Modified time: 2021-12-07 12:01:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,6 @@ import { t } from '@utils/fetch'
 import IconStaff from './icon/staff'
 import IconHidden from './icon/hidden'
 
-const initialRenderNums = _.device(Math.floor(_.window.contentWidth / 56) + 1, 8)
 const defaultProps = {
   navigation: {},
   showStaff: true,
@@ -43,7 +42,7 @@ const Staff = memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock }) 
             style={_.mt.sm}
             data={staff}
             quality={false}
-            initialRenderNums={initialRenderNums}
+            initialRenderNums={_.device(Math.floor(_.window.contentWidth / 56) + 1, 8)}
             onPress={({ id, name, nameJP, _image }) => {
               t('条目.跳转', {
                 to: 'Mono',

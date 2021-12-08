@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:36:59
+ * @Last Modified time: 2021-12-07 14:26:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,22 +12,12 @@ import { obc } from '@utils/decorators'
 
 function BtnEpNext({ index, subjectId }, { $ }) {
   const { sort } = $.nextWatchEp(subjectId)
-  if (!sort) {
-    return null
-  }
+  if (!sort) return null
 
   return (
-    <Touchable
-      // style={$.homeOrigin ? styles.next : styles.btn}
-      style={styles.touch}
-      onPress={() => $.doWatchedNextEp(subjectId)}
-    >
+    <Touchable style={styles.touch} onPress={() => $.doWatchedNextEp(subjectId)}>
       <Flex style={styles.btn} justify='center'>
-        <Iconfont
-          style={styles.icon}
-          name='md-check-circle-outline'
-          size={19}
-        />
+        <Iconfont style={styles.icon} name='md-check-circle-outline' size={19} />
         <View style={styles.text}>
           <Text type='sub'>{sort}</Text>
         </View>

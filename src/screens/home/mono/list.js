@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:42:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 03:53:24
+ * @Last Modified time: 2021-12-07 07:33:09
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -14,7 +14,7 @@ import Info from './info'
 function List({ renderItem, onScroll }, { $ }) {
   return (
     <ListView
-      contentContainerStyle={styles.contentContainerStyle}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={$.monoComments}
       scrollEventThrottle={16}
@@ -31,9 +31,3 @@ function List({ renderItem, onScroll }, { $ }) {
 }
 
 export default obc(List)
-
-const styles = _.create({
-  contentContainerStyle: {
-    paddingBottom: _.bottom
-  }
-})

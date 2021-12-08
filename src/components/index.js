@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-20 14:01:58
+ * @Last Modified time: 2021-12-07 07:08:34
  */
 export * from './accordion'
 export * from './activity'
@@ -35,6 +35,7 @@ export * from './max-width'
 export * from './md'
 export * from './menu'
 export * from './mesume'
+export * from './page'
 export * from './popover'
 export * from './render-html'
 export * from './scroll-to-top'

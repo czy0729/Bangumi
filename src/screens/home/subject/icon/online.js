@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-21 17:22:30
+ * @Last Modified time: 2021-12-07 12:34:50
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -11,12 +11,14 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 function IconOnline(props, { $ }) {
-  if ($.isLimit) {
-    return null
-  }
+  if ($.isLimit) return null
 
   return (
-    <Popover style={styles.touch} data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
+    <Popover
+      style={styles.touch}
+      data={$.onlineOrigins}
+      onSelect={$.onlinePlaySelected}
+    >
       <Flex style={styles.btn} justify='center'>
         <Iconfont name='md-airplay' size={18} />
       </Flex>

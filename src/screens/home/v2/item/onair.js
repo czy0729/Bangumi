@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 13:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 16:27:35
+ * @Last Modified time: 2021-12-08 13:17:24
  */
 import React from 'react'
 import { Text } from '@components'
@@ -15,7 +15,7 @@ function OnAir({ subjectId }, { $ }) {
     const { h, m } = $.onAirCustom(subjectId)
     const t = [h, m].filter(item => !!item)
     return (
-      <Text style={_.ml.sm} type='success' size={13} lineHeight={15} bold>
+      <Text style={styles.onAir} type='success' size={13} lineHeight={14} bold>
         {!t.length && '今天'}
         {t.join(':')}
       </Text>
@@ -27,7 +27,7 @@ function OnAir({ subjectId }, { $ }) {
     const { h, m } = $.onAirCustom(subjectId)
     const t = [h, m].filter(item => !!item)
     return (
-      <Text style={_.ml.sm} type='sub' size={13} lineHeight={15} bold>
+      <Text style={styles.onAir} type='sub' size={13} lineHeight={14} bold>
         明天{t.join(':')}
       </Text>
     )
@@ -37,3 +37,10 @@ function OnAir({ subjectId }, { $ }) {
 }
 
 export default obc(OnAir)
+
+const styles = _.create({
+  onAir: {
+    marginTop: -1,
+    marginLeft: _.sm
+  }
+})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 16:39:31
+ * @Last Modified time: 2021-12-07 11:59:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,10 +15,6 @@ import IconHidden from './icon/hidden'
 
 const coverWidth = 80
 const coverHeight = coverWidth * 1.4
-const initialRenderNums = _.device(
-  Math.floor(_.window.contentWidth / coverWidth) + 1,
-  6
-)
 const defaultProps = {
   navigation: {},
   showLike: true,
@@ -47,7 +43,10 @@ const Like = memo(({ navigation, showLike, subjectId, like, onSwitchBlock }) => 
             data={like}
             width={coverWidth}
             height={coverHeight}
-            initialRenderNums={initialRenderNums}
+            initialRenderNums={_.device(
+              Math.floor(_.window.contentWidth / coverWidth) + 1,
+              6
+            )}
             onPress={({ id, name, image }, type) => {
               t('条目.跳转', {
                 to: 'Subject',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-31 18:58:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-31 19:16:37
+ * @Last Modified time: 2021-12-07 12:56:16
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -31,22 +31,15 @@ function IconSearchDisc(props, { $ }) {
 export default obc(IconSearchDisc)
 
 const styles = _.create({
-  menuStyle: {
-    width: _.device(240, 320)
-  },
   touch: {
     borderRadius: 20,
     overflow: 'hidden'
   },
+  menuStyle: {
+    width: _.device(240, 320)
+  },
   btn: {
     paddingVertical: 2,
     paddingHorizontal: 4
-  },
-  icon: {
-    padding: _.sm,
-    marginRight: -_.sm,
-    marginLeft: _.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
   }
 })

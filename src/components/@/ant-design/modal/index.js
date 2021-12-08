@@ -2,17 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 16:24:07
+ * @Last Modified time: 2021-12-07 13:31:39
  */
-import PropTypes from 'prop-types'
 import React from 'react'
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native'
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
+import PropTypes from 'prop-types'
 import { WithTheme } from '@ant-design/react-native/lib/style'
 import { getComponentLocale } from '@ant-design/react-native/lib/_util/getLocale'
 import alert from '@ant-design/react-native/lib/modal/alert'
@@ -24,10 +18,11 @@ import modalStyles from '@ant-design/react-native/lib/modal/style/index'
 import { Flex, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { IOS } from '@constants'
+import { window } from '@styles'
 
 const maxHeight = StyleSheet.create({
   maxHeight: {
-    maxHeight: Dimensions.get('window').height
+    maxHeight: window.height
   }
 }).maxHeight
 
@@ -86,12 +81,7 @@ class AntmModal extends React.Component {
     } = this.props
 
     // tslint:disable-next-line:variable-name
-    const _locale = getComponentLocale(
-      this.props,
-      this.context,
-      'Modal',
-      () => zhCN
-    )
+    const _locale = getComponentLocale(this.props, this.context, 'Modal', () => zhCN)
 
     return (
       <WithTheme styles={this.props.styles} themeStyles={modalStyles}>
@@ -103,9 +93,7 @@ class AntmModal extends React.Component {
             horizontalFlex = { flex: 1 }
           }
           const buttonWrapStyle =
-            footer && footer.length === 2
-              ? styles.buttonWrapH
-              : styles.buttonWrapV
+            footer && footer.length === 2 ? styles.buttonWrapH : styles.buttonWrapV
           let footerDom
           if (footer && footer.length) {
             const footerButtons = footer.map((button, i) => {
@@ -125,9 +113,7 @@ class AntmModal extends React.Component {
                 }
               }
               const noneBorder =
-                footer && footer.length === 2 && i === 1
-                  ? { borderRightWidth: 0 }
-                  : {}
+                footer && footer.length === 2 && i === 1 ? { borderRightWidth: 0 } : {}
               const onPressFn = () => {
                 if (button.onPress) {
                   button.onPress()
@@ -215,11 +201,7 @@ class AntmModal extends React.Component {
                   onClose={onClose}
                   animationType={animType}
                   wrapStyle={transparent ? styles.wrap : undefined}
-                  style={
-                    style
-                      ? [styles.innerContainer, style]
-                      : styles.innerContainer
-                  }
+                  style={style ? [styles.innerContainer, style] : styles.innerContainer}
                   visible={visible}
                   onAnimationEnd={onAnimationEnd}
                   animateAppear={animateAppear}
@@ -262,11 +244,7 @@ class AntmModal extends React.Component {
                   onClose={onClose}
                   animationType={animType}
                   // tslint:disable-next-line:jsx-no-multiline-js
-                  style={[
-                    styles.popupContainer,
-                    styles[`popup${aType}`],
-                    style
-                  ]}
+                  style={[styles.popupContainer, styles[`popup${aType}`], style]}
                   visible={visible}
                   onAnimationEnd={onAnimationEnd}
                   animateAppear={animateAppear}
@@ -284,11 +262,7 @@ class AntmModal extends React.Component {
           }
           return (
             <View style={styles.container}>
-              <RCModal
-                visible={visible}
-                animationType={animType}
-                onClose={onClose}
-              >
+              <RCModal visible={visible} animationType={animType} onClose={onClose}>
                 <View style={style}>{children}</View>
               </RCModal>
             </View>

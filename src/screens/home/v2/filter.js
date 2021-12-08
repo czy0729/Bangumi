@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-28 08:52:36
+ * @Last Modified time: 2021-12-07 14:03:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,9 +32,7 @@ class Filter extends React.Component {
   }
 
   render() {
-    if (!this.show) {
-      return null
-    }
+    if (!this.show) return null
 
     rerender('Home.Filter')
 
@@ -67,7 +65,7 @@ class Filter extends React.Component {
 
 export default obc(Filter)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   filter: {
     height: H_FILTER,
     paddingVertical: _.md,

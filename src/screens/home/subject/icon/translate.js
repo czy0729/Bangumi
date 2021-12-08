@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:29:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:17:52
+ * @Last Modified time: 2021-12-07 12:41:32
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,9 +13,7 @@ import { obc } from '@utils/decorators'
 function IconTranslate(props, { $ }) {
   const { showSummary } = systemStore.setting
   const { translateResult } = $.state
-  if (!showSummary || translateResult.length) {
-    return null
-  }
+  if (!showSummary || translateResult.length) return null
 
   return (
     <IconTouchable

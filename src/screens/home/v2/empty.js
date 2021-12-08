@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:27:56
+ * @Last Modified time: 2021-12-07 13:43:26
  */
 import React from 'react'
 import { Flex, Text, Mesume, Button } from '@components'
@@ -22,6 +22,7 @@ const footerEmptyDataTextMap = {
 function Empty({ title, length }, { $, navigation }) {
   rerender('Home.Empty')
 
+  const styles = memoStyles()
   const { filter } = $.state
   return (
     <Flex
@@ -56,7 +57,7 @@ function Empty({ title, length }, { $, navigation }) {
 
 export default obc(Empty)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   empty: {
     minHeight: 320
   },
@@ -72,4 +73,4 @@ const styles = _.create({
     marginTop: _.lg,
     width: 120
   }
-})
+}))

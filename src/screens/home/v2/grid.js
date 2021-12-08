@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-16 10:28:46
+ * @Last Modified time: 2021-12-08 13:04:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,13 +14,6 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import GridInfo from './grid-info'
 import GridItem from './grid-item'
 
-const listViewProps = IOS
-  ? {
-      contentOffset: {
-        y: -_.tabsHeaderHeight * _.ratio
-      }
-    }
-  : {}
 const footerNoMoreDataComponent = <View />
 const prevTextMap = {
   全部: '条目',
@@ -68,14 +61,10 @@ class Grid extends React.Component {
     )
   }
 
-  render() {
-    rerender('Home.Grid')
-
+  renderInfo() {
     const { $ } = this.context
     const { title } = this.props
-    if (!$.userCollection._loaded) {
-      return <Loading />
-    }
+    if (!$.userCollection._loaded) return <Loading />
 
     const { current, grid } = $.state
     const userCollection = $.currentUserCollection(title)
@@ -84,31 +73,53 @@ class Grid extends React.Component {
       ? grid
       : userCollection.list.find(item => item.subject_id === current)
     return (
+      <View style={isGame ? this.styles.gameInfo : this.styles.info}>
+        {find ? (
+          <GridInfo
+            subjectId={find.subject_id}
+            subject={find.subject}
+            epStatus={find.ep_status}
+          />
+        ) : (
+          this.renderEmpty()
+        )}
+      </View>
+    )
+  }
+
+  renderList() {
+    const { $ } = this.context
+    const { title } = this.props
+    const userCollection = $.currentUserCollection(title)
+    const numColumns = _.isMobileLanscape ? 9 : _.device(5, 4)
+    return (
+      <ListView
+        key={numColumns}
+        ref={this.connectRef}
+        style={!IOS && this.styles.androidWrap}
+        contentContainerStyle={this.styles.contentContainerStyle}
+        keyExtractor={keyExtractor}
+        data={userCollection}
+        numColumns={numColumns}
+        footerNoMoreDataComponent={footerNoMoreDataComponent}
+        footerNoMoreDataText=''
+        renderItem={renderItem}
+        onHeaderRefresh={$.onHeaderRefresh}
+        {..._.listViewProps}
+      />
+    )
+  }
+
+  render() {
+    rerender('Home.Grid')
+
+    const { $ } = this.context
+    if (!$.userCollection._loaded) return <Loading />
+
+    return (
       <View style={this.styles.container}>
-        <View style={isGame ? this.styles.game : this.styles.current}>
-          {find ? (
-            <GridInfo
-              subjectId={find.subject_id}
-              subject={find.subject}
-              epStatus={find.ep_status}
-            />
-          ) : (
-            this.renderEmpty()
-          )}
-        </View>
-        <ListView
-          ref={this.connectRef}
-          style={!IOS && this.styles.androidWrap}
-          contentContainerStyle={this.styles.contentContainerStyle}
-          keyExtractor={keyExtractor}
-          data={userCollection}
-          numColumns={_.isPad ? 5 : 4}
-          footerNoMoreDataComponent={footerNoMoreDataComponent}
-          footerNoMoreDataText=''
-          renderItem={renderItem}
-          onHeaderRefresh={$.onHeaderRefresh}
-          {...listViewProps}
-        />
+        {this.renderInfo()}
+        {this.renderList()}
       </View>
     )
   }
@@ -118,23 +129,20 @@ class Grid extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
-    paddingTop: (IOS ? _.tabsHeaderHeight : 0) + _.xs,
-    paddingBottom: IOS ? _.tabBarHeight : 0,
-    backgroundColor: _.select(
-      _.colorPlain,
-      _.deepDark ? _.colorPlain : _.colorBg
-    )
+    paddingTop: _.ios(_.tabsHeaderHeight, 0) + _.xs,
+    paddingBottom: _.ios(_.tabBarHeight, 0),
+    backgroundColor: _.select(_.colorPlain, _.deep(_.colorPlain, _.colorBg))
   },
-  game: {
+  info: {
     width: '100%',
-    height: 160 * _.device(1, _.ratio + 0.2)
+    height: _.isMobileLanscape ? 124 : 200
   },
-  current: {
+  gameInfo: {
     width: '100%',
-    height: 264 * _.device(1, _.ratio + 0.2)
+    height: 160
   },
   noSelect: {
     width: '100%',
@@ -145,9 +153,10 @@ const memoStyles = _.memoStyles(_ => ({
   },
   contentContainerStyle: {
     paddingTop: _.sm,
-    paddingBottom: IOS
-      ? _.tabBarHeight + _.space
-      : _.tabBarHeight + _.space - _.tabBarHeight,
+    paddingBottom: _.ios(
+      _.tabBarHeight + _.space,
+      _.tabBarHeight + _.space - _.tabBarHeight
+    ),
     paddingLeft: _.wind - _.sm - 2
   }
 }))

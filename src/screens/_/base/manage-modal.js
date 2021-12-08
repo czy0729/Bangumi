@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:32:24
+ * @Last Modified time: 2021-12-07 13:35:05
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Button, Flex, Input, Text, Touchable, Iconfont } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
+import { window } from '@styles'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { MODEL_PRIVATE } from '@constants/model'
@@ -62,7 +63,8 @@ export const ManageModal = ob(
       if (visible) {
         if (!this.props.visible) {
           this.setState({
-            loading: false
+            loading: false,
+            focus: false
           })
 
           const {
@@ -182,6 +184,11 @@ export const ManageModal = ob(
       return subjectStore.subjectFormHTML(subjectId)
     }
 
+    get numberOfLines() {
+      if (!_.isPad && _.isLandscape) return 2
+      return _.device(5, 6)
+    }
+
     renderTags() {
       const { fetching } = this.state
       if (fetching) {
@@ -280,7 +287,7 @@ export const ManageModal = ob(
                   defaultValue={comment}
                   placeholder='吐槽点什么'
                   multiline
-                  numberOfLines={_.device(5, 6)}
+                  numberOfLines={this.numberOfLines}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
                   onChangeText={text => this.changeText('comment', text)}
@@ -328,7 +335,7 @@ export const ManageModal = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   modal: {
     width: (_.window.width - 2 * _.wind) * _.ratio,
     maxWidth: _.device(408, 560),
@@ -337,15 +344,16 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   focus: {
-    marginTop: -parseInt(_.window.height * 0.32)
+    marginTop: -parseInt(window.height * 0.32)
   },
   wrap: {
     minHeight: _.device(380, 448)
   },
   content: {
     width: '100%',
-    maxWidth: _.window.maxWidth,
-    paddingBottom: _.sm
+    maxWidth: window.maxWidth,
+    paddingBottom: _.sm,
+    marginTop: _.isMobileLanscape ? -24 : 0
   },
   tags: {
     width: '100%',

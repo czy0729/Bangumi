@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 16:00:14
+ * @Last Modified time: 2021-12-07 12:01:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,10 +15,6 @@ import IconHidden from './icon/hidden'
 
 const coverWidth = 80
 const coverHeight = coverWidth * 1.4
-const initialRenderNums = _.device(
-  Math.floor(_.window.contentWidth / coverWidth) + 1,
-  6
-)
 const defaultProps = {
   navigation: {},
   showRelations: true,
@@ -48,7 +44,10 @@ const Relations = memo(
               width={coverWidth}
               height={coverHeight}
               findCn
-              initialRenderNums={initialRenderNums}
+              initialRenderNums={_.device(
+                Math.floor(_.window.contentWidth / coverWidth) + 1,
+                6
+              )}
               onPress={({ id, name, image }, type) => {
                 t('条目.跳转', {
                   to: 'Subject',

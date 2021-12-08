@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 10:59:13
+ * @Last Modified time: 2021-12-07 07:50:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,9 +54,9 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
-    width: '50%',
+    width: _.num('50%', '33%'),
     paddingVertical: _.sm + 2
   },
   comment: {

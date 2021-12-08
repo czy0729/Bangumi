@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:33:58
+ * @Last Modified time: 2021-12-07 11:58:39
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -39,9 +39,7 @@ class Game extends React.Component {
   get data() {
     const { $ } = this.context
     const { length } = $.gameInfo || {}
-    if (typeof length !== 'number') {
-      return []
-    }
+    if (typeof length !== 'number') return []
 
     return new Array(length).fill().map((item, index) => CDN_GAME($.subjectId, index))
   }
@@ -58,8 +56,6 @@ class Game extends React.Component {
     return (
       <ScrollView
         style={_.mt.md}
-        contentContainerStyle={styles.contentContainerStyle}
-        horizontal
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={80}
@@ -197,12 +193,6 @@ class Game extends React.Component {
 }
 
 const styles = _.create({
-  contentContainerStyle: {
-    paddingHorizontal: _.wind
-  },
-  icon: {
-    marginRight: -_.sm
-  },
   image: {
     overflow: 'hidden'
   }

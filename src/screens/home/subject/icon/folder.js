@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 10:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-07 08:25:07
+ * @Last Modified time: 2021-12-07 12:33:07
  */
 import React from 'react'
 import { Flex, Text, Heatmap } from '@components'
@@ -30,11 +30,7 @@ function IconFolder(props, { $ }) {
           </Text>
         )}
       </Flex>
-      <FolderManageModal
-        id={$.subjectId}
-        visible={folder}
-        onClose={$.toggleFolder}
-      />
+      <FolderManageModal id={$.subjectId} visible={folder} onClose={$.toggleFolder} />
     </>
   )
 }

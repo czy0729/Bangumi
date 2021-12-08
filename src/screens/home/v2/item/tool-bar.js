@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:35:29
+ * @Last Modified time: 2021-12-07 14:46:30
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -11,7 +11,6 @@ import { ob } from '@utils/decorators'
 import BtnEpNext from './btn-ep-next'
 import BtnFavor from './btn-favor'
 import BtnOrigin from './btn-origin'
-import { itemPadding } from './ds'
 
 function ToolBar({ index, subjectId, subject }) {
   return (
@@ -27,6 +26,6 @@ export default ob(ToolBar)
 
 const styles = _.create({
   toolBar: {
-    marginRight: -itemPadding / 2 - 3
+    marginRight: -_._wind / 2 - 3
   }
 })

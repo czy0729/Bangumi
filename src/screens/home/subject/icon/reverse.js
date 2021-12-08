@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:59:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 08:40:10
+ * @Last Modified time: 2021-12-07 12:38:33
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,16 +14,7 @@ function IconReverse(props, { $ }) {
   const { epsReverse } = $.state
   return (
     <CompIconReverse
-      style={{
-        marginRight: 10,
-        transform: epsReverse
-          ? [
-              {
-                rotateX: '180deg'
-              }
-            ]
-          : undefined
-      }}
+      style={[styles.touch, epsReverse && styles.reverse]}
       color={epsReverse ? _.colorMain : _.colorIcon}
       onPress={$.toggleReverseEps}
     >
@@ -33,3 +24,16 @@ function IconReverse(props, { $ }) {
 }
 
 export default obc(IconReverse)
+
+const styles = _.create({
+  touch: {
+    marginRight: 10
+  },
+  reverse: {
+    transform: [
+      {
+        rotateX: '180deg'
+      }
+    ]
+  }
+})

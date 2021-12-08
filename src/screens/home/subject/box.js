@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-12 08:44:17
+ * @Last Modified time: 2021-12-07 10:53:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -151,6 +151,7 @@ const Box = memo(
 
 export default obc((props, { $, navigation }) => {
   rerender('Subject.Box')
+
   return (
     <Box
       styles={memoStyles()}
@@ -165,7 +166,7 @@ export default obc((props, { $, navigation }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 120,
     paddingHorizontal: _.wind,

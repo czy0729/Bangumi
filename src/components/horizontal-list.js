@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:35:00
+ * @Last Modified time: 2021-12-08 13:26:24
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -31,21 +31,19 @@ export const HorizontalList = observer(
 
     get initialRenderNums() {
       const { initialRenderNums } = this.props
-      return initialRenderNums * _.isLandscape ? 2 : 1
+      return initialRenderNums * (_.isLandscape ? 2 : 1)
     }
 
     get show() {
-      const { initialRenderNums } = this.props
       const { scrolled } = this.state
-      return !initialRenderNums || scrolled
+      return !this.initialRenderNums || scrolled
     }
 
     get data() {
       const { data } = this.props
       if (this.show) return data
 
-      const { initialRenderNums } = this.props
-      return data.filter((item, index) => index < initialRenderNums)
+      return data.filter((item, index) => index < this.initialRenderNums)
     }
 
     render() {

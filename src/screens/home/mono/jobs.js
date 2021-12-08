@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 12:08:12
+ * @Last Modified time: 2021-12-07 07:32:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,11 +23,12 @@ const event = {
 }
 const defaultProps = {
   navigation: {},
+  styles: {},
   style: {},
   jobs: []
 }
 
-const Jobs = memo(({ navigation, style, jobs }) => {
+const Jobs = memo(({ navigation, styles, style, jobs }) => {
   rerender('Mono.Jobs.Main')
 
   return (
@@ -192,10 +193,12 @@ export default obc(({ style }, { $, navigation }) => {
 
   if (!$.jobs.length) return null
 
-  return <Jobs navigation={navigation} style={style} jobs={$.jobs} />
+  return (
+    <Jobs styles={memoStyles()} navigation={navigation} style={style} jobs={$.jobs} />
+  )
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     paddingBottom: _.md
@@ -211,4 +214,4 @@ const styles = _.create({
   tag: {
     marginLeft: _.sm
   }
-})
+}))

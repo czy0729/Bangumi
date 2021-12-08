@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 01:39:02
+ * @Last Modified time: 2021-12-07 13:03:03
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -162,7 +162,7 @@ export default obc((props, { $, navigation }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   total: {
     position: 'absolute',
     zIndex: 1,

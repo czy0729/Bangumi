@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-07-12 13:36:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-12 13:39:05
+ * @Last Modified time: 2021-12-07 12:44:03
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import styles from './styles'
 
 function IconWiki(props, { $, navigation }) {
   const { showInfo } = systemStore.setting
-  if (!showInfo) {
-    return null
-  }
+  if (!showInfo) return null
 
   return (
     <Touchable
@@ -41,12 +40,3 @@ function IconWiki(props, { $, navigation }) {
 }
 
 export default obc(IconWiki)
-
-const styles = _.create({
-  touch: {
-    paddingLeft: _.xs,
-    marginRight: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-})

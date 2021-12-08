@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 21:03:21
+ * @Last Modified time: 2021-12-08 13:20:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Text, Image } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
+import { HTMLDecode } from '@utils/html'
 import { EVENT } from '@constants'
 import { Cover, Tag } from '../base'
 
@@ -61,11 +62,11 @@ export const ItemVoice = ob(
               />
               <Flex.Item style={_.ml.sm}>
                 <Text size={13} bold>
-                  {name}
+                  {HTMLDecode(name)}
                 </Text>
                 {!!nameCn && nameCn !== name && (
                   <Text style={_.mt.xs} size={11} type='sub'>
-                    {nameCn}
+                    {HTMLDecode(nameCn)}
                   </Text>
                 )}
               </Flex.Item>
@@ -76,12 +77,12 @@ export const ItemVoice = ob(
               <Flex key={item.id} style={idx !== 0 && _.mt.md} align='start'>
                 <Flex.Item style={_.mr.sm}>
                   <Text align='right' size={13}>
-                    {item.name}
+                    {HTMLDecode(item.name)}
                   </Text>
                   <Flex style={_.mt.xs} align='start'>
                     <Flex.Item>
                       <Text size={11} type='sub' align='right' lineHeight={14} bold>
-                        {item.nameCn}
+                        {HTMLDecode(item.nameCn)}
                       </Text>
                     </Flex.Item>
                     <Tag style={styles.tag} value={item.staff} />
@@ -118,7 +119,7 @@ export const ItemVoice = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingLeft: _.wind
   },

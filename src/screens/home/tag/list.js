@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:12:00
+ * @Last Modified time: 2021-12-07 13:40:04
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -12,7 +12,6 @@ import { obc } from '@utils/decorators'
 import { keyExtractor, x18s } from '@utils/app'
 import { TEXT_18X } from '@constants/text'
 
-const num = 3
 const event = {
   id: '用户标签.跳转'
 }
@@ -29,10 +28,13 @@ class List extends React.Component {
     const { $ } = this.context
 
     // 网页判断不了还有没有下一页, 假如长度小于一页24个, 不请求
-    if ($.tag.list.length < 24) {
-      return false
-    }
+    if ($.tag.list.length < 24) return false
+
     return $.fetchTag()
+  }
+
+  get num() {
+    return _.num(3, 5)
   }
 
   renderItem = ({ item, index }) => {
@@ -50,9 +52,7 @@ class List extends React.Component {
               type: 'list'
             }
           }}
-          collection={
-            $.userCollectionsMap[String(item.id).replace('/subject/', '')]
-          }
+          collection={$.userCollectionsMap[String(item.id).replace('/subject/', '')]}
           {...item}
         >
           {!index && <Heatmap id='用户标签.跳转' />}
@@ -63,7 +63,7 @@ class List extends React.Component {
     return (
       <ItemCollectionsGrid
         navigation={navigation}
-        style={_.isPad && !(index % num) && _.container.left}
+        style={(_.isPad || _.isLandscape) && !(index % this.num) && _.container.left}
         index={index}
         event={{
           ...event,
@@ -71,10 +71,8 @@ class List extends React.Component {
             type: 'grid'
           }
         }}
-        collection={
-          $.userCollectionsMap[String(item.id).replace('/subject/', '')]
-        }
-        num={num}
+        collection={$.userCollectionsMap[String(item.id).replace('/subject/', '')]}
+        num={this.num}
         {...item}
       />
     )
@@ -89,7 +87,7 @@ class List extends React.Component {
     if (!_loaded) return <Loading />
 
     const { list } = $.state
-    const numColumns = list ? undefined : num
+    const numColumns = list ? undefined : this.num
     return (
       <ListView
         key={String(numColumns)}

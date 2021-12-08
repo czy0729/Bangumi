@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-17 17:00:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 22:23:40
+ * @Last Modified time: 2021-12-07 07:20:03
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -25,14 +25,12 @@ export default class ScreenEpisodes extends store {
   @computed get eps() {
     if (this.subject._loaded) {
       const { filterEps = 0 } = this.params
-      if (filterEps) {
-        return (this.subject.eps || []).filter(
-          (item, index) => index > filterEps
-        )
-      }
+      if (filterEps)
+        return (this.subject.eps || []).filter((item, index) => index > filterEps)
 
       return this.subject.eps || []
     }
+
     return []
   }
 

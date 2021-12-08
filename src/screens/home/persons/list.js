@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:54:47
+ * @Last Modified time: 2021-12-07 07:40:55
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { ListView } from '@components'
 import { ItemCharacter } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
@@ -34,28 +34,13 @@ class List extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { _loaded } = $.persons
-    if (!_loaded) {
-      return <Loading />
-    }
-
     return (
       <ListView
-        contentContainerStyle={this.styles.contentContainerStyle}
+        contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={$.persons}
         renderItem={this.renderItem}
       />
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
-
-const memoStyles = _.memoStyles(_ => ({
-  contentContainerStyle: {
-    paddingBottom: _.bottom
-  }
-}))

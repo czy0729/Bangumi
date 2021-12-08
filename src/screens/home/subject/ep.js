@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 17:39:05
+ * @Last Modified time: 2021-12-07 11:00:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -233,7 +233,7 @@ export default obc((props, { $ }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 146,
     marginTop: _.lg,

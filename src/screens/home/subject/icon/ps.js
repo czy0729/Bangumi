@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:32:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:25:41
+ * @Last Modified time: 2021-12-07 12:35:28
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
@@ -13,7 +13,7 @@ function IconPS(props, { $ }) {
   if (!$.isPS) return null
 
   return (
-    <Touchable style={styles.icon} onPress={$.toPSNINE}>
+    <Touchable style={_.mr._sm} onPress={$.toPSNINE}>
       <Flex>
         <Text style={_.ml.xs} size={13} type='sub'>
           奖杯
@@ -26,9 +26,3 @@ function IconPS(props, { $ }) {
 }
 
 export default obc(IconPS)
-
-const styles = _.create({
-  icon: {
-    marginRight: -_.sm
-  }
-})

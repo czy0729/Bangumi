@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 13:36:16
+ * @Last Modified time: 2021-12-07 14:26:37
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -11,14 +11,10 @@ import { _, userStore } from '@stores'
 import { obc } from '@utils/decorators'
 
 function BtnOrigin({ subjectId, subject }, { $ }) {
-  if (!$.homeOrigin || userStore.isLimit) {
-    return null
-  }
+  if (!$.homeOrigin || userStore.isLimit) return null
 
   const { type } = subject
-  if (type !== 2 && type !== 6) {
-    return null
-  }
+  if (type !== 2 && type !== 6) return null
 
   return (
     <Popover

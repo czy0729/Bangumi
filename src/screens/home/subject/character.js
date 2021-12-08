@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 09:44:45
+ * @Last Modified time: 2021-12-07 10:56:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,6 @@ import { t } from '@utils/fetch'
 import IconCharacter from './icon/character'
 import IconHidden from './icon/hidden'
 
-const initialRenderNums = _.device(Math.floor(_.window.contentWidth / 56) + 1, 8)
 const defaultProps = {
   navigation: {},
   showCharacter: true,
@@ -48,7 +47,10 @@ const Character = memo(
               style={_.mt.sm}
               data={crt}
               quality={false}
-              initialRenderNums={initialRenderNums}
+              initialRenderNums={_.device(
+                Math.floor(_.window.contentWidth / 56) + 1,
+                8
+              )}
               onPress={({ id, name, nameJP, _image }) => {
                 t('条目.跳转', {
                   to: 'Mono',

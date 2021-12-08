@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 01:06:09
+ * @Last Modified time: 2021-12-08 13:21:46
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -36,13 +36,11 @@ class List extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.monoVoices
-    if (!_loaded) {
-      return <Loading />
-    }
+    if (!_loaded) return <Loading />
 
     return (
       <ListView
-        contentContainerStyle={this.styles.contentContainerStyle}
+        contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={$.monoVoices}
         scrollToTop
@@ -51,14 +49,4 @@ class List extends React.Component {
       />
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
-
-const memoStyles = _.memoStyles(_ => ({
-  contentContainerStyle: {
-    paddingBottom: _.bottom
-  }
-}))

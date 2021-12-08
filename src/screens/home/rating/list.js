@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:50:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:55:33
+ * @Last Modified time: 2021-12-07 07:51:45
  */
 import React from 'react'
 import { ListView, Loading, Heatmap } from '@components'
@@ -16,10 +16,9 @@ import { routes } from './store'
 function List({ title }, { $ }) {
   const status = MODEL_RATING_STATUS.getValue(title)
   const data = $.rating(status)
-  if (!data._loaded) {
-    return <Loading />
-  }
+  if (!data._loaded) return <Loading />
 
+  const styles = memoStyles()
   const { isFriend, page } = $.state
   return (
     <ListView
@@ -28,7 +27,7 @@ function List({ title }, { $ }) {
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       data={data}
-      numColumns={2}
+      numColumns={_.num(2, 3)}
       scrollToTop={routes[page].title === title}
       renderItem={renderItem}
       onEndReachedThreshold={0.2}
@@ -49,11 +48,11 @@ function renderItem({ item, index }) {
   )
 }
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind,
     paddingTop: _.space,
     paddingBottom: _.bottom,
     minHeight: _.window.height
   }
-})
+}))

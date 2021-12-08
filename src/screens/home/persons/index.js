@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:54:44
+ * @Last Modified time: 2021-12-07 07:40:48
  */
 import React from 'react'
-import { View } from 'react-native'
-import { _ } from '@stores'
+import { Page } from '@components'
 import { open } from '@utils'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -41,6 +40,7 @@ class Persons extends React.Component {
             case '浏览器查看':
               open($.url)
               break
+
             default:
               break
           }
@@ -50,10 +50,11 @@ class Persons extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     return (
-      <View style={_.container.plain}>
+      <Page loaded={$.persons._loaded}>
         <List />
-      </View>
+      </Page>
     )
   }
 }

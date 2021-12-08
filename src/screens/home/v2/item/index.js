@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:23:12
+ * @Last Modified time: 2021-12-07 14:46:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,6 @@ import Eps from './eps'
 import Count from './count'
 import ToolBar from './tool-bar'
 import Progress from './progress'
-import { itemPadding } from './ds'
 
 const LIMIT_HEAVY = _.device(8, 16)
 const titleHitSlops = {
@@ -139,49 +138,52 @@ const memoStylesLazy = _.memoStyles(_ => ({
   }
 }))
 
-const memoStyles = _.memoStyles(_ => ({
-  item: {
-    paddingVertical: itemPadding * _.ratio,
-    paddingRight: _.device(0, _.wind - _._wind),
-    paddingLeft: _.device(itemPadding, _.wind),
-    backgroundColor: _.colorPlain,
-    borderBottomWidth: 8,
-    borderBottomColor: _.colorBg
-  },
-  itemWithHeatMap: {
-    paddingTop: itemPadding * _.ratio,
-    paddingRight: _.device(0, _.wind - _._wind),
-    paddingBottom: (itemPadding + 4) * _.ratio,
-    paddingLeft: _.device(itemPadding, _.wind),
-    backgroundColor: _.colorPlain,
-    borderBottomWidth: 8,
-    borderBottomColor: _.colorBg
-  },
-  hd: {
-    paddingRight: itemPadding
-  },
-  content: {
-    marginLeft: itemPadding
-  },
-  title: {
-    minHeight: 60 * _.ratio
-  },
-  info: {
-    height: 40 * _.ratio
-  },
-  dot: {
-    position: 'absolute',
-    top: 6 * _.ratio,
-    right: 6 * _.ratio,
-    borderWidth: 8 * _.ratio,
-    borderTopColor: 'transparent',
-    borderBottomColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderLeftColor: _.colorBorder,
-    transform: [
-      {
-        rotate: '-45deg'
-      }
-    ]
+const memoStyles = _.memoStyles(() => {
+  const needWind = _.isMobileLanscape || _.isPad
+  return {
+    item: {
+      paddingVertical: _._wind * _.ratio,
+      paddingRight: needWind ? _.wind - _._wind : 0,
+      paddingLeft: needWind ? _.wind : _._wind,
+      backgroundColor: _.colorPlain,
+      borderBottomWidth: 8,
+      borderBottomColor: _.colorBg
+    },
+    itemWithHeatMap: {
+      paddingTop: _._wind * _.ratio,
+      paddingRight: needWind ? _.wind - _._wind : 0,
+      paddingBottom: (_._wind + 4) * _.ratio,
+      paddingLeft: needWind ? _.wind : _._wind,
+      backgroundColor: _.colorPlain,
+      borderBottomWidth: 8,
+      borderBottomColor: _.colorBg
+    },
+    hd: {
+      paddingRight: _._wind
+    },
+    content: {
+      marginLeft: _._wind
+    },
+    title: {
+      minHeight: 60 * _.ratio
+    },
+    info: {
+      height: 40 * _.ratio
+    },
+    dot: {
+      position: 'absolute',
+      top: 6 * _.ratio,
+      right: 6 * _.ratio,
+      borderWidth: 8 * _.ratio,
+      borderTopColor: 'transparent',
+      borderBottomColor: 'transparent',
+      borderRightColor: 'transparent',
+      borderLeftColor: _.colorBorder,
+      transform: [
+        {
+          rotate: '-45deg'
+        }
+      ]
+    }
   }
-}))
+})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:21:11
+ * @Last Modified time: 2021-12-07 12:00:32
  */
 import React from 'react'
 import { Flex, Mesume, Text } from '@components'
@@ -32,7 +32,7 @@ function Lock({ style }, { $ }) {
 
 export default obc(Lock)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.space,
     paddingRight: _.wind,

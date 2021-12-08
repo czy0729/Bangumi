@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 08:22:03
+ * @Last Modified time: 2021-12-07 11:59:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,7 +73,7 @@ function Header(props, { $ }) {
 
 export default obc(Header)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     position: 'relative',
     zIndex: 0,

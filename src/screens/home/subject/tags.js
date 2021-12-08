@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:34:12
+ * @Last Modified time: 2021-12-07 12:19:54
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,6 @@ const Tags = memo(
 
           return (
             <Touchable
-              // eslint-disable-next-line react/no-array-index-key
               key={index}
               style={[styles.item, isSelected && styles.selected]}
               onPress={() => {
@@ -102,7 +101,6 @@ const Tags = memo(
             </Text>
             {animeTags.split(' ').map(item => (
               <Touchable
-                // eslint-disable-next-line react/no-array-index-key
                 key={item}
                 style={styles.item}
                 onPress={() => {
@@ -129,7 +127,6 @@ const Tags = memo(
             </Text>
             {hentaiTags.map(item => (
               <Touchable
-                // eslint-disable-next-line react/no-array-index-key
                 key={item}
                 style={styles.item}
                 onPress={() => {
@@ -224,7 +221,7 @@ export default obc((props, { $, navigation }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 96
   },
