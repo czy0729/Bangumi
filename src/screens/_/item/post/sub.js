@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 03:34:57
+ * @Last Modified time: 2021-12-08 14:53:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,6 @@ import PlusOne from './plus-one'
 import { isBlockUser } from './utils'
 
 const avatarWidth = 32
-const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 const regPlus = /\+\d/
 const regBgm =
   /^<img src="\/img\/smiles\/tv\/\d+\.gif" smileid="\d+" alt="\(bgm\d+\)">$/
@@ -136,6 +135,7 @@ const ItemSub = memo(
     const isNew = !!readedTime && getTimestamp(time) > readedTime
     const isJump = !!postId && postId === id
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
+    const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
     return (
       <Flex style={[isNew && styles.itemNew, isJump && styles.itemJump]} align='start'>
         <Avatar
@@ -282,7 +282,7 @@ export default obc(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   itemNew: {
     paddingLeft: _.sm,
     marginLeft: -_.sm,

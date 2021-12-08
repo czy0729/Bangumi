@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 09:38:07
+ * @Last Modified time: 2021-12-08 14:52:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -312,7 +312,7 @@ export const ItemPost = obc(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   itemNew: {
     backgroundColor: _.colorMainLight
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 02:58:37
+ * @Last Modified time: 2021-12-08 14:18:31
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -223,7 +223,7 @@ export default obc((props, { $, navigation }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   groupWrap: {
     minHeight: 32 * _.ratio,
     marginTop: _.sm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-05 15:14:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 17:46:49
+ * @Last Modified time: 2021-12-08 14:17:19
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont } from '@components'
@@ -88,7 +88,7 @@ function Ep(props, { $, navigation }) {
 
 export default obc(Ep)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingTop: _.sm,
     paddingBottom: _.sm + 4,

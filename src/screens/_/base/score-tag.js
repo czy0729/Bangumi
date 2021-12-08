@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 08:43:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:13:16
+ * @Last Modified time: 2021-12-08 14:51:00
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -21,7 +21,7 @@ export const ScoreTag = ob(({ style, value = 0 }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: 2,
     paddingHorizontal: 4,

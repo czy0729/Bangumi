@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 13:11:24
+ * @Last Modified time: 2021-12-08 14:18:08
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -14,6 +14,7 @@ import Segment from './segment'
 function SectionTitle(props, { $ }) {
   rerender('Topic.SectionTitle')
 
+  const styles = memoStyles()
   const { list = [] } = $.comments
   const { reverse } = $.state
   let commentsCount = 0
@@ -52,7 +53,7 @@ function SectionTitle(props, { $ }) {
 
 export default obc(SectionTitle)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   title: {
     paddingHorizontal: _.wind,
     marginTop: _.lg,
@@ -68,4 +69,4 @@ const styles = _.create({
   reverseIcon: {
     marginLeft: _.md
   }
-})
+}))

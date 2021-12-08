@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 17:01:28
+ * @Last Modified time: 2021-12-08 14:06:48
  */
 import React from 'react'
 import { ScrollView, Flex } from '@components'
@@ -40,6 +40,7 @@ class Mine extends React.Component {
             case '浏览器查看':
               open($.url)
               break
+
             default:
               break
           }
@@ -57,12 +58,7 @@ class Mine extends React.Component {
         contentContainerStyle={_.container.outer}
         scrollToTop
       >
-        <Flex
-          style={{
-            marginTop: -_.sm
-          }}
-          wrap='wrap'
-        >
+        <Flex style={_.mt._sm} wrap='wrap'>
           {list.map(item => (
             <Item key={item.id} {...item} />
           ))}

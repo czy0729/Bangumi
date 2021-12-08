@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:02:45
+ * @Last Modified time: 2021-12-08 14:09:53
  */
 import React from 'react'
 import { FadeIn, Flex, Text, Image } from '@components'
@@ -21,9 +21,7 @@ function HeaderTitle({ navigation }) {
     groupId
   })}`
   const $ = Stores.get(screenKey)
-  if (!$) {
-    return null
-  }
+  if (!$) return null
 
   const { showHeaderTitle } = $.state
   const { title } = $.groupInfo

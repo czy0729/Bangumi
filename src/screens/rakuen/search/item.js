@@ -1,9 +1,8 @@
-/* eslint-disable react/no-array-index-key */
 /*
  * @Author: czy0729
  * @Date: 2020-10-23 11:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 04:12:29
+ * @Last Modified time: 2021-12-08 14:16:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,12 +17,8 @@ function Item({ index, topicId, content }, { $, navigation }) {
   const styles = memoStyles()
   const { value, cache } = $.state
   const item = cache[topicId] || {}
-  const titles = String(item.title)
-    .toLowerCase()
-    .split(String(value).toLowerCase())
-  const contents = String(content)
-    .toLowerCase()
-    .split(String(value).toLowerCase())
+  const titles = String(item.title).toLowerCase().split(String(value).toLowerCase())
+  const contents = String(content).toLowerCase().split(String(value).toLowerCase())
   return (
     <View style={[styles.item, !!index && styles.border]} align='start'>
       <Touchable
@@ -91,7 +86,7 @@ function Item({ index, topicId, content }, { $, navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingHorizontal: _.wind,
     paddingBottom: _.md,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 12:35:46
+ * @Last Modified time: 2021-12-08 14:57:29
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -69,7 +69,7 @@ export const ItemNotify = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain

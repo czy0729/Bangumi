@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:30:41
+ * @Last Modified time: 2021-12-08 14:49:59
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -981,7 +981,7 @@ export const FolderManageModal = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   modal: {
     width: (_.window.width - 2 * _.wind) * _.ratio,
     maxWidth: 408 * _.ratio,

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 17:46:30
+ * @Last Modified time: 2021-12-08 14:49:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { _ } from '@stores'
+import { window } from '@styles'
 import { ob } from '@utils/decorators'
 import { IMG_DEFAULT } from '@constants'
 
-const containerWidth = _.window.width - 2 * _.wind
+const containerWidth = window.width - 2 * _._wind
 const imageWidth = containerWidth * 0.216
 const marginRight = (containerWidth - 4 * imageWidth) / 3
 

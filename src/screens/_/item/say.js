@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:14:00
+ * @Last Modified time: 2021-12-08 14:57:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -104,7 +104,7 @@ export const ItemSay = obc(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   avatarWrapLeft: {
     position: 'absolute',
     zIndex: 1,

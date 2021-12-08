@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:05:12
+ * @Last Modified time: 2021-12-08 14:13:35
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -28,12 +28,7 @@ function List({ id, title }, { $, navigation }) {
         }
 
         return (
-          <ItemNotify
-            navigation={navigation}
-            index={index}
-            event={event}
-            {...item}
-          />
+          <ItemNotify navigation={navigation} index={index} event={event} {...item} />
         )
       },
       onHeaderRefresh: $.fetchNotify
@@ -53,9 +48,7 @@ function List({ id, title }, { $, navigation }) {
       onFooterRefresh: () => key => $.fetchPM(true, key)
     }
   }
-  return (
-    <ListView key={id} keyExtractor={keyExtractor} data={$[id]} {...props} />
-  )
+  return <ListView key={id} keyExtractor={keyExtractor} data={$[id]} {...props} />
 }
 
 export default obc(List)

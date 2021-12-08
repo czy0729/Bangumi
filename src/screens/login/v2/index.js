@@ -1,4 +1,3 @@
-/* eslint-disable no-trailing-spaces */
 /*
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
@@ -714,7 +713,7 @@ class LoginV2 extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   old: {
     position: 'absolute',
     zIndex: 1,

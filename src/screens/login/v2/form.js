@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 18:38:03
+ * @Last Modified time: 2021-12-08 13:48:24
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -178,10 +178,7 @@ class Form extends React.Component {
     const { config } = this.state
     if (!config) {
       return (
-        <Touchable
-          style={[this.styles.touch, _.mt.sm]}
-          onPress={this.showConfig}
-        >
+        <Touchable style={[this.styles.touch, _.mt.sm]} onPress={this.showConfig}>
           <Flex style={this.styles.content}>
             <Text type='sub' size={12}>
               登陆配置
@@ -218,9 +215,7 @@ class Form extends React.Component {
             <Touchable style={this.styles.touch} onPress={onUAChange}>
               <Flex style={this.styles.content}>
                 <Iconfont
-                  name={
-                    isCommonUA ? 'md-radio-button-on' : 'md-radio-button-off'
-                  }
+                  name={isCommonUA ? 'md-radio-button-on' : 'md-radio-button-off'}
                   color={isCommonUA ? _.colorMain : _.colorSub}
                   size={18}
                 />
@@ -304,7 +299,7 @@ class Form extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   form: {
     width: 300 * _.ratio,
     paddingBottom: 96

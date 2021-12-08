@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 03:28:08
+ * @Last Modified time: 2021-12-08 14:17:34
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -349,7 +349,7 @@ class Topic extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   fixedBottom: {
     position: 'absolute',
     zIndex: 1,

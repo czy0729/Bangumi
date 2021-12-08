@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 12:35:43
+ * @Last Modified time: 2021-12-08 14:56:03
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -96,7 +96,7 @@ export const ItemComment = ob(
   )
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     backgroundColor: _.colorPlain
   },

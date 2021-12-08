@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:54:58
+ * @Last Modified time: 2021-12-08 14:08:13
  */
 import React from 'react'
 import { Loading, ScrollView } from '@components'
@@ -32,9 +32,7 @@ class Board extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.board
-    if (!_loaded) {
-      return <Loading style={_.container.plain} />
-    }
+    if (!_loaded) return <Loading style={_.container.plain} />
 
     return (
       <ScrollView

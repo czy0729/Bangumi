@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:35:08
+ * @Last Modified time: 2021-12-08 14:33:59
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -241,7 +241,7 @@ class Say extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   expand: {
     position: 'absolute',
     zIndex: 1,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 16:57:26
+ * @Last Modified time: 2021-12-08 14:11:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,11 +83,7 @@ function List({ style }, { $, navigation }) {
             <View style={[styles.wrap, !!index && !_.flat && styles.border]}>
               <Text size={15}>
                 {title}
-                <Text
-                  type={isReaded ? 'sub' : 'main'}
-                  size={12}
-                  lineHeight={15}
-                >
+                <Text type={isReaded ? 'sub' : 'main'} size={12} lineHeight={15}>
                   {' '}
                   {replyText}
                 </Text>
@@ -115,7 +111,7 @@ function List({ style }, { $, navigation }) {
 
 export default obc(List)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingLeft: _.wind - _._wind + _.md,
     marginBottom: _.xs

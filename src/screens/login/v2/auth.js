@@ -40,9 +40,7 @@ function upadteCookie(rsp) {
 ;(async () => {
   let loginRsp = await axios.get('https://bgm.tv/login')
   upadteCookie(loginRsp)
-  let formhash = cheerio
-    .load(loginRsp.data)('input[name=formhash]')
-    .attr('value')
+  let formhash = cheerio.load(loginRsp.data)('input[name=formhash]').attr('value')
   console.info(`formhash=${formhash}`)
 
   await axios({
@@ -84,9 +82,7 @@ function upadteCookie(rsp) {
       cookie: getCookie()
     }
   })
-  formhash = cheerio
-    .load(oauthRsp.data)('input[name=formhash]')
-    .attr('value')
+  formhash = cheerio.load(oauthRsp.data)('input[name=formhash]').attr('value')
   console.info(`formhash=${formhash}`)
 
   oauthRsp = await axios({
@@ -105,10 +101,7 @@ function upadteCookie(rsp) {
       submit: '授权'
     })
   })
-  let code = oauthRsp.headers.location
-    .split('=')
-    .slice(1)
-    .join('=')
+  let code = oauthRsp.headers.location.split('=').slice(1).join('=')
   console.info(`code=${code}`)
 
   let tokenRsp = await axios({

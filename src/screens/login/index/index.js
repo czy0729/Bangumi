@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 18:33:53
+ * @Last Modified time: 2021-12-08 13:47:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -81,9 +81,7 @@ class Login extends React.Component {
                 this.updateUserCookie(data)
                 this.refreshWebView()
               }
-            } else if (
-              data.href.indexOf(`${URL_OAUTH_REDIRECT}?code=`) !== -1
-            ) {
+            } else if (data.href.indexOf(`${URL_OAUTH_REDIRECT}?code=`) !== -1) {
               // 得到code之后获取access_token
               this.doLogin(data)
             } else {
@@ -173,8 +171,7 @@ class Login extends React.Component {
             返回
           </Button>
           <Text style={_.mt.lg} size={12} lineHeight={14} type='sub'>
-            PS: 若登陆出现问题, 请先在授权网页里面登出,
-            不然会出现成功后登陆过期的情况.
+            PS: 若登陆出现问题, 请先在授权网页里面登出, 不然会出现成功后登陆过期的情况.
           </Text>
         </View>
       </View>
@@ -205,10 +202,7 @@ class Login extends React.Component {
 
     const injectedJavaScript = `(function(){
       /* 注入优化样式 */
-      document.querySelector('html').dataset.theme = "${_.select(
-        'light',
-        'dark'
-      )}";
+      document.querySelector('html').dataset.theme = "${_.select('light', 'dark')}";
 
       /* 隐藏会乱跳转的元素 */
       var resetStyle = document.createElement("style");
@@ -306,18 +300,8 @@ class Login extends React.Component {
           id='授权登陆.成功'
           transparent
         />
-        <Heatmap
-          right={_.wind}
-          bottom={_.bottom + 86}
-          id='授权登陆.错误'
-          transparent
-        />
-        <Heatmap
-          right={_.wind}
-          bottom={_.bottom + 52}
-          id='授权登陆.乱逛'
-          transparent
-        />
+        <Heatmap right={_.wind} bottom={_.bottom + 86} id='授权登陆.错误' transparent />
+        <Heatmap right={_.wind} bottom={_.bottom + 52} id='授权登陆.乱逛' transparent />
         <Heatmap id='授权登陆' screen='LoginV1' />
       </View>
     )

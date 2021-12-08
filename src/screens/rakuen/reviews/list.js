@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:29:51
+ * @Last Modified time: 2021-12-08 14:14:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,7 +76,7 @@ function List({ style }, { $, navigation }) {
 
 export default obc(List)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingLeft: _.wind - _._wind + _.md
   },

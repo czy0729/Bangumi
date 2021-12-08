@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:45:08
+ * @Last Modified time: 2021-12-08 14:33:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ const event = {
 }
 
 function Chat(props, { $ }) {
+  const styles = memoStyles()
   const { list } = $.say
   return (
     <View style={styles.container}>
@@ -43,9 +44,9 @@ function Chat(props, { $ }) {
 
 export default obc(Chat)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind
   }
-})
+}))

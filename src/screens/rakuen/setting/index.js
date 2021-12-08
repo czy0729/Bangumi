@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 09:03:23
+ * @Last Modified time: 2021-12-08 14:16:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -333,7 +333,7 @@ class RakuenSetting extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   section: {
     paddingTop: _.md,
     paddingHorizontal: _.wind,

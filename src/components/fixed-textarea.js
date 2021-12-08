@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:29:57
+ * @Last Modified time: 2021-12-08 14:32:49
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -575,7 +575,7 @@ export const FixedTextarea = observer(
               <Text style={_.container.wind} size={12} type='sub'>
                 常用
               </Text>
-              <Flex wrap='wrap'>
+              <Flex style={this.styles.bgms} wrap='wrap'>
                 {history.map((item, index) => (
                   <Touchable
                     key={index}
@@ -591,7 +591,7 @@ export const FixedTextarea = observer(
               <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
                 全部
               </Text>
-              <Flex wrap='wrap'>
+              <Flex style={this.styles.bgms} wrap='wrap'>
                 {Array.from(new Array(100)).map((item, index) => (
                   <Touchable
                     key={index + 1}
@@ -639,7 +639,7 @@ export const FixedTextarea = observer(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   mask: {
     position: 'absolute',
     zIndex: 1000,
@@ -676,8 +676,11 @@ const memoStyles = _.memoStyles(_ => ({
   bgmContainer: {
     paddingVertical: _.sm
   },
+  bgms: {
+    paddingHorizontal: _.wind - _._wind
+  },
   bgm: {
-    width: '14.28%',
+    width: _.isLandscape ? '7.14%' : '14.28%',
     paddingVertical: _.md
   },
   replyHistory: {

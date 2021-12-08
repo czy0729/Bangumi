@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 19:17:05
+ * @Last Modified time: 2021-12-08 14:51:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,7 +70,7 @@ export const IconNotify = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   dot: {
     position: 'absolute',
     zIndex: 2,

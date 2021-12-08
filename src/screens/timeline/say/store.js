@@ -1,9 +1,8 @@
-/* eslint-disable no-await-in-loop */
 /*
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 01:16:59
+ * @Last Modified time: 2021-12-08 14:34:06
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -48,7 +47,6 @@ export default class ScreenSay extends store {
    * 根据noAvatarUserIds递归请求用户头像
    */
   fetchAvatars = async () => {
-    // eslint-disable-next-line no-restricted-syntax
     for (const item of this.noAvatarUserIds) {
       await userStore.fetchUsersInfo(item)
       await sleep(80)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:13:58
+ * @Last Modified time: 2021-12-08 14:51:05
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -25,7 +25,7 @@ export const SectionHeader = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   section: {
     paddingVertical: _.sm + _.xs,
     paddingHorizontal: _.wind,

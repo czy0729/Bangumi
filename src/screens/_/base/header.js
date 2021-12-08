@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-10 11:07:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:01:11
+ * @Last Modified time: 2021-12-08 14:46:20
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -32,6 +32,7 @@ const styles = _.create({
     top: _.statusBarHeight - (IOS ? 6 : -2),
     right: 0,
     left: 0,
+    height: _.ios('auto', 38),
     paddingHorizontal: _.sm
   },
   logo: {

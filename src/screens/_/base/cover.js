@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 10:01:53
+ * @Last Modified time: 2021-12-08 14:49:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -195,7 +195,7 @@ export const Cover = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   dev: {
     borderWidth: 1,
     borderColor: _.colorDanger

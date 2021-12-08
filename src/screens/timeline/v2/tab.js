@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:48:54
+ * @Last Modified time: 2021-12-08 14:43:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,8 +11,9 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
 import { BlurView } from '@screens/_'
 import { _ } from '@stores'
+import { window } from '@styles'
 import { obc } from '@utils/decorators'
-import { IOS, DEV } from '@constants'
+import { IOS } from '@constants'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import List from './list'
@@ -34,14 +35,12 @@ const renderScene = SceneMap(
             <List title={`${item.title}`} />
             {IOS && (
               <BlurView
-                style={{
-                  position: 'absolute',
-                  zIndex: 1,
-                  top: 0,
-                  left: -_.window.width * routes.length,
-                  right: 0,
-                  height: _.headerHeight + H_TABBAR
-                }}
+                style={[
+                  memoStyles().blurView,
+                  {
+                    left: -_.window.width * routes.length
+                  }
+                ]}
               />
             )}
           </>
@@ -58,6 +57,7 @@ function Tab(props, { $ }) {
   return (
     <>
       <TabView
+        key={_.orientation}
         sceneContainerStyle={styles.sceneContainerStyle}
         lazy={!IOS}
         lazyPreloadDistance={0}
@@ -98,47 +98,53 @@ export default obc(Tab)
 
 const W_TAB_BAR_LEFT = 68 * _.ratio
 const TAB_LENTH = _.device(5, 7)
-const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / TAB_LENTH
+const W_TAB = (window.width - W_TAB_BAR_LEFT) / TAB_LENTH
 const W_INDICATOR = 16 * _.ratio
 const TOP_TAB_BAR = _.headerHeight - (IOS ? 18 : 24)
-const memoStyles = _.memoStyles(_ => ({
-  tabBar: {
-    paddingTop: TOP_TAB_BAR,
-    paddingLeft: W_TAB_BAR_LEFT,
-    backgroundColor: IOS
-      ? 'transparent'
-      : _.select(
-          'transparent',
-          _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-        ),
-    borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
-    borderBottomColor: _.colorBorder,
-    elevation: 0
-  },
-  tab: {
-    width: W_TAB,
-    height: 48 * _.ratio
-  },
-  label: {
-    padding: 0
-  },
-  labelText: {
-    width: '100%'
-  },
-  indicator: {
-    width: W_INDICATOR,
-    height: 4,
-    marginLeft: (W_TAB - W_INDICATOR) / 2 + W_TAB_BAR_LEFT,
-    backgroundColor: _.colorMain,
-    borderRadius: 4
-  },
-  sceneContainerStyle: {
-    marginTop: IOS ? -_.headerHeight - H_TABBAR : 0
-  },
-  tabBarLeft: {
-    position: 'absolute',
-    zIndex: 3,
-    top: TOP_TAB_BAR + 2,
-    left: 0
+const memoStyles = _.memoStyles(() => {
+  return {
+    tabBar: {
+      paddingTop: TOP_TAB_BAR,
+      paddingLeft: W_TAB_BAR_LEFT,
+      backgroundColor: IOS
+        ? 'transparent'
+        : _.select('transparent', _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
+      borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
+      borderBottomColor: _.colorBorder,
+      elevation: 0
+    },
+    tab: {
+      width: W_TAB,
+      height: 48 * _.ratio
+    },
+    label: {
+      padding: 0
+    },
+    labelText: {
+      width: '100%'
+    },
+    indicator: {
+      width: W_INDICATOR,
+      height: 4,
+      marginLeft: (W_TAB - W_INDICATOR) / 2 + W_TAB_BAR_LEFT,
+      backgroundColor: _.colorMain,
+      borderRadius: 4
+    },
+    sceneContainerStyle: {
+      marginTop: IOS ? -_.headerHeight - H_TABBAR : 0
+    },
+    tabBarLeft: {
+      position: 'absolute',
+      zIndex: 3,
+      top: TOP_TAB_BAR + 2,
+      left: 0
+    },
+    blurView: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      right: 0,
+      height: _.headerHeight + H_TABBAR
+    }
   }
-}))
+})

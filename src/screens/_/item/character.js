@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 21:02:47
+ * @Last Modified time: 2021-12-08 14:55:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -140,7 +140,7 @@ export const ItemCharacter = obc(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain

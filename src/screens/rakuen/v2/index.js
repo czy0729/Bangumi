@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:49:52
+ * @Last Modified time: 2021-12-08 13:49:16
  */
 import React from 'react'
 import { UM } from '@components'
@@ -65,9 +65,7 @@ class Rakuen extends React.Component {
             <UM screen={title} />
             <Header />
             <Tab />
-            {isFocused && (
-              <IconPortal index={3} onPress={$.onRefreshThenScrollTop} />
-            )}
+            {isFocused && <IconPortal index={3} onPress={$.onRefreshThenScrollTop} />}
             <Heatmaps />
           </>
         )}

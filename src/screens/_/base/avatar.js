@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 19:26:32
+ * @Last Modified time: 2021-12-08 14:47:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -146,7 +146,7 @@ export const Avatar = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   avatar: {
     borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder,

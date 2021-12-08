@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 01:25:38
+ * @Last Modified time: 2021-12-08 14:54:00
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -72,7 +72,7 @@ export const ItemArticle = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   image: {
     marginTop: _.md
   },

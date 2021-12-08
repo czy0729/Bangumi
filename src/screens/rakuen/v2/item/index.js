@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 01:10:39
+ * @Last Modified time: 2021-12-08 14:01:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -204,7 +204,7 @@ function getIsGroup(topicId = '') {
   return topicId?.includes('group/')
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },

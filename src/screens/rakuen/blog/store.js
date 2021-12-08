@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:34:58
+ * @Last Modified time: 2021-12-08 14:03:24
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
@@ -123,23 +123,16 @@ export default class ScreenBlog extends store {
   }
 
   @computed get avatar() {
-    return (
-      this.blog.avatar || this.params._avatar || this.blogFormCDN.avatar || ''
-    )
+    return this.blog.avatar || this.params._avatar || this.blogFormCDN.avatar || ''
   }
 
   @computed get userId() {
-    return (
-      this.blog.userId || this.params._userId || this.blogFormCDN.userId || ''
-    )
+    return this.blog.userId || this.params._userId || this.blogFormCDN.userId || ''
   }
 
   @computed get userName() {
     return (
-      this.blog.userName ||
-      this.params._userName ||
-      this.blogFormCDN.userName ||
-      ''
+      this.blog.userName || this.params._userName || this.blogFormCDN.userName || ''
     )
   }
 

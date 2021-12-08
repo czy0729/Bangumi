@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:15:38
+ * @Last Modified time: 2021-12-08 14:03:07
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -260,7 +260,7 @@ export default obc(Item, {
   event: EVENT
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     ..._.container.item
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:06:26
+ * @Last Modified time: 2021-12-08 14:10:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function Info(props, { $ }) {
   const { _title } = $.params
   const { title, content, create, _loaded } = $.groupInfo
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, _.container.inner]}>
       {!IOS && <HeaderPlaceholder />}
       <Text size={20} bold>
         {title || _title}
@@ -67,8 +67,7 @@ export default obc(Info)
 
 const styles = _.create({
   container: {
-    minHeight: 328,
-    ..._.container.inner
+    minHeight: 328
   },
   loading: {
     height: 200

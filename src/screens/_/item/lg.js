@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-02-04 19:23:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 21:03:07
+ * @Last Modified time: 2021-12-08 14:57:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Text, HorizontalList, Image } from '@components'
 import { _ } from '@stores'
+import { window } from '@styles'
 import { obc } from '@utils/decorators'
 import { cnjp } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -16,7 +17,7 @@ import { showImageViewer } from '@utils/ui'
 import { IMG_DEFAULT } from '@constants'
 import Cover from '../base/cover'
 
-const imageWidth = _.window.width - _.wind * 2
+const imageWidth = window.width - _._wind * 2
 const imageHeight = imageWidth * 1.38
 const colors = [
   'rgba(0, 0, 0, 0)',
@@ -26,6 +27,7 @@ const colors = [
 ]
 
 function Item({ id, ageId, image, cn, jp, begin, ep, official }, { $, navigation }) {
+  const styles = memoStyles()
   const eps = $.state.eps[id]
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const onPress = () => {
@@ -110,7 +112,7 @@ function Item({ id, ageId, image, cn, jp, begin, ep, official }, { $, navigation
 
 export default obc(Item)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   item: {
     marginTop: _.space,
     marginHorizontal: _.wind,
@@ -127,4 +129,4 @@ const styles = _.create({
   title: {
     opacity: 0.88
   }
-})
+}))

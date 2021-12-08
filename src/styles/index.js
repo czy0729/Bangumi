@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 11:48:20
+ * @Last Modified time: 2021-12-08 14:05:42
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -297,6 +297,9 @@ export const mt = StyleSheet.create({
   },
   header: {
     marginTop: headerHeight
+  },
+  _sm: {
+    marginTop: -sm
   }
 })
 

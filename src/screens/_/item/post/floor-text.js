@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 11:59:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 15:44:13
+ * @Last Modified time: 2021-12-08 14:52:43
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -29,7 +29,7 @@ function FloorText({ time, floor }) {
 
 export default ob(FloorText)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     opacity: _.select(1, 0.64)
   },

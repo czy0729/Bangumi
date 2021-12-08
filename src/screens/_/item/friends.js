@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 08:54:54
+ * @Last Modified time: 2021-12-08 14:56:26
  */
 import React from 'react'
 import Progress from '@ant-design/react-native/lib/progress'
@@ -12,8 +12,6 @@ import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Avatar } from '../base'
-
-const wrapWidth = _.window.contentWidth - 144
 
 export const ItemFriends = ob(
   ({
@@ -33,6 +31,7 @@ export const ItemFriends = ob(
     onHold
   }) => {
     const styles = memoStyles()
+    const wrapWidth = _.window.contentWidth - 144
     return (
       <Touchable
         style={styles.container}
@@ -148,7 +147,7 @@ export const ItemFriends = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingBottom: _.md,
     backgroundColor: _.colorPlain

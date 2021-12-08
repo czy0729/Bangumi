@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 04:09:40
+ * @Last Modified time: 2021-12-08 14:16:24
  */
 import React from 'react'
 import { Input } from '@components'
@@ -28,7 +28,7 @@ function SearchBar(props, { $ }) {
 
 export default obc(SearchBar)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   searchIpt: {
     height: 34,
     paddingHorizontal: _._wind,

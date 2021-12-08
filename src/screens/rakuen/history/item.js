@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:35:12
+ * @Last Modified time: 2021-12-08 14:12:36
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -60,12 +60,7 @@ function Item(
             </Flex.Item>
             {$.isFavor(topicId) && (
               <Iconfont
-                style={[
-                  styles.favor,
-                  {
-                    marginTop: 1
-                  }
-                ]}
+                style={styles.favor}
                 size={16}
                 name='md-star'
                 color={_.colorYellow}
@@ -80,7 +75,7 @@ function Item(
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -97,5 +92,8 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  favor: {
+    marginTop: 1
   }
 }))

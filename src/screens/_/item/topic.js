@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:15:15
+ * @Last Modified time: 2021-12-08 14:58:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,6 @@ import { EVENT } from '@constants'
 import { Avatar } from '../base'
 
 const avatarWidth = 34
-const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
-const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 export const ItemTopic = ob(
   ({
@@ -35,11 +33,11 @@ export const ItemTopic = ob(
     event = EVENT,
     children
   }) => {
-    if (!userId) {
-      return null
-    }
+    if (!userId) return null
 
     const styles = memoStyles()
+    const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
+    const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
     const baseFontStyle = {
       fontSize: 14 + _.fontSizeAdjust,
       lineHeight: 22

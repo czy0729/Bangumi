@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:59:33
+ * @Last Modified time: 2021-12-08 14:51:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -275,7 +275,7 @@ export const StockPreview = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     height: '100%',
     paddingVertical: _.space,

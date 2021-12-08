@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-23 21:30:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 21:12:58
+ * @Last Modified time: 2021-12-08 14:52:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ const forceInset = {
 export const IconPortal = ob(({ index = 0, onPress = Function.prototype }) => {
   if (!systemStore.rendered) return null
 
+  const styles = memoStyles()
   return (
     <Portal>
       <SafeAreaView style={_.container.flex} forceInset={forceInset}>
@@ -39,7 +40,7 @@ export const IconPortal = ob(({ index = 0, onPress = Function.prototype }) => {
   )
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   icon: {
     position: 'absolute',
     bottom: 0,
@@ -48,4 +49,4 @@ const styles = _.create({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-})
+}))

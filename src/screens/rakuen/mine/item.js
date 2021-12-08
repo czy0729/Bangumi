@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:08:53
+ * @Last Modified time: 2021-12-08 14:06:59
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -31,12 +31,7 @@ function Item({ id, cover, name, num }, { navigation }) {
       <Flex align='start'>
         <Cover size={imgHeight} src={cover} border radius shadow />
         <Flex.Item style={_.ml.sm}>
-          <Flex
-            style={styles.body}
-            direction='column'
-            align='start'
-            justify='center'
-          >
+          <Flex style={styles.body} direction='column' align='start' justify='center'>
             <Text size={12} numberOfLines={2} bold>
               {name}
             </Text>
@@ -55,9 +50,9 @@ function Item({ id, cover, name, num }, { navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
-    width: '50%',
+    width: _.isLandscape ? '33%' : '50%',
     padding: _.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'

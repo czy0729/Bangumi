@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 12:35:56
+ * @Last Modified time: 2021-12-08 14:57:35
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -95,7 +95,7 @@ export const ItemPM = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain

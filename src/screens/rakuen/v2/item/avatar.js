@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:49:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 12:54:26
+ * @Last Modified time: 2021-12-08 14:00:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ const event = {
 
 function Avatar({ avatar, userName, userId }, { navigation }) {
   return (
-    <View style={styles.image}>
+    <View style={_.mt.md}>
       <CompAvatar
         navigation={navigation}
         src={avatar}
@@ -38,9 +38,3 @@ function Avatar({ avatar, userName, userId }, { navigation }) {
 }
 
 export default obc(Avatar)
-
-const styles = _.create({
-  image: {
-    marginTop: _.md
-  }
-})

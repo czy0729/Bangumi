@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 03:31:01
+ * @Last Modified time: 2021-12-08 14:18:37
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -157,7 +157,7 @@ export default obc(({ onPress }, { $ }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   containerRight: {
     position: 'absolute',
     top: _.headerHeight,

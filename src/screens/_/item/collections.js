@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 19:11:56
+ * @Last Modified time: 2021-12-08 14:55:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -283,7 +283,7 @@ export const ItemCollections = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },

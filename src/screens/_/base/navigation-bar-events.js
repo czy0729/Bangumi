@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-10 22:47:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 16:02:40
+ * @Last Modified time: 2021-12-08 14:50:38
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -11,9 +11,7 @@ import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 
 export const NavigationBarEvents = ob(({ tinygrail }) => {
-  if (IOS) {
-    return null
-  }
+  if (IOS) return null
 
   return (
     <NavigationEvents

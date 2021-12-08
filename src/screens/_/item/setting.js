@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 08:32:25
+ * @Last Modified time: 2021-12-08 14:57:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,7 +82,7 @@ export const ItemSetting = ob(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   touchable: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain

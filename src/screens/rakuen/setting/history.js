@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-20 07:59:29
+ * @Last Modified time: 2021-12-08 14:16:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,7 @@ function History({ style, data = [], onDelete = Function.prototype }) {
 
 export default ob(History)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain

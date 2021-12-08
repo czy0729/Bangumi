@@ -2,19 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:30:50
+ * @Last Modified time: 2021-12-08 13:47:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
-import {
-  ScrollView,
-  Text,
-  Input,
-  Button,
-  KeyboardSpacer,
-  Heatmap
-} from '@components'
+import { ScrollView, Text, Input, Button, KeyboardSpacer, Heatmap } from '@components'
 import { _, userStore } from '@stores'
 import { copy, getTimestamp } from '@utils'
 import { withHeader, ob } from '@utils/decorators'
@@ -176,9 +169,7 @@ class LoginAssist extends React.Component {
       })
 
       const { _response } = await res
-      this.formhash = cheerio
-        .load(_response)('input[name=formhash]')
-        .attr('value')
+      this.formhash = cheerio.load(_response)('input[name=formhash]').attr('value')
       return res
     } catch (error) {
       this.setState({
@@ -309,12 +300,7 @@ class LoginAssist extends React.Component {
           <Text style={this.styles.code} size={12}>
             {code}
           </Text>
-          <Text
-            style={this.styles.copy}
-            size={12}
-            type='success'
-            onPress={this.copy}
-          >
+          <Text style={this.styles.copy} size={12} type='success' onPress={this.copy}>
             点击复制
           </Text>
           <Heatmap id='辅助登陆.复制' />
@@ -362,7 +348,7 @@ class LoginAssist extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     display: 'flex',
     flexDirection: 'column',

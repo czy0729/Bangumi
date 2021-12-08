@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 12:51:58
+ * @Last Modified time: 2021-12-08 14:53:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,6 @@ import { HTMLDecode } from '@utils/html'
 import { Avatar, Name } from '../../base'
 
 const avatarWidth = 20
-const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 function ItemPlusOne(
   { id, message, userId, userName, avatar, url, event },
@@ -23,6 +22,7 @@ function ItemPlusOne(
 ) {
   const styles = memoStyles()
   const { avatarRound } = systemStore.setting
+  const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
   return (
     <View style={styles.item}>
       <Flex>
@@ -55,7 +55,7 @@ function ItemPlusOne(
 
 export default obc(ItemPlusOne)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingRight: _.sm + 2,
     paddingBottom: _.sm

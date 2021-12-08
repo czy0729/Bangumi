@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 06:45:59
+ * @Last Modified time: 2021-12-08 13:59:47
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -15,12 +15,7 @@ import { info } from '@utils/ui'
 function IconGroup(props, { $, navigation }) {
   return (
     <IconTabsHeader
-      style={[
-        styles.icon,
-        _.isPad && {
-          height: 52
-        }
-      ]}
+      style={[styles.icon, _.isPad && styles.iconPad]}
       name='md-filter-none'
       size={18}
       onPress={() => {
@@ -53,5 +48,8 @@ export default obc(IconGroup)
 const styles = _.create({
   icon: {
     marginBottom: 0
+  },
+  iconPad: {
+    height: 52
   }
 })
