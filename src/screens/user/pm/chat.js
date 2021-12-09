@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 23:04:52
+ * @Last Modified time: 2021-12-09 14:01:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,7 @@ function Chat(props, { $ }) {
 
 export default obc(Chat)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-10 00:42:31
+ * @Last Modified time: 2021-12-09 18:28:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,12 +16,6 @@ import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
 import Rank from './rank'
-
-const imageWidth = _.window.contentWidth * 0.28
-const imageHeight = imageWidth * 1.28
-const imageResizeWidth = imageWidth * 1.2
-const imageResizeHeight = imageHeight * 1.2
-const marginLeft = (_.window.contentWidth - 3 * imageWidth) / 4
 
 function ItemTemple(
   {
@@ -59,11 +53,13 @@ function ItemTemple(
   if (assets !== sacrifices) {
     text.push(formatNumber(sacrifices, 0))
   }
+
   return (
     <View style={[styles.item, style]}>
       <View
         style={[
           styles.wrap,
+          // eslint-disable-next-line react-native/no-inline-styles
           {
             borderColor: colorLevel,
             borderWidth: colorLevel ? _.tSelect(2, 3) : 0
@@ -72,14 +68,16 @@ function ItemTemple(
       >
         <Image
           style={styles.image}
-          size={imageResizeWidth}
-          height={imageResizeHeight}
+          size={styles.imageResize.width}
+          height={styles.imageResize.height}
           src={tinygrailOSS(cover)}
           imageViewer={!onPress}
           imageViewerSrc={tinygrailOSS(cover, 480)}
           resizeMode={
             // 高度远小于宽度的图不能contain, 会留白
-            imageResizeHeight * 1.2 >= imageResizeWidth ? 'cover' : 'contain'
+            styles.imageResize.height * 1.2 >= styles.imageResize.width
+              ? 'cover'
+              : 'contain'
           }
           event={{
             id: eventId,
@@ -97,6 +95,7 @@ function ItemTemple(
             <Flex
               style={[
                 styles.fixed,
+                // eslint-disable-next-line react-native/no-inline-styles
                 {
                   borderRadius: avatarRound ? 36 : _.radiusSm
                 }
@@ -142,6 +141,7 @@ function ItemTemple(
             <Flex
               style={[
                 styles.fixed,
+                // eslint-disable-next-line react-native/no-inline-styles
                 {
                   borderRadius: avatarRound ? 36 : _.radiusSm
                 }
@@ -179,39 +179,50 @@ export default obc(ItemTemple, {
   event: EVENT
 })
 
-const memoStyles = _.memoStyles(_ => ({
-  item: {
-    width: imageWidth,
-    marginTop: _.sm,
-    marginBottom: _.sm + 2,
-    marginLeft
-  },
-  avatar: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  wrap: {
-    width: imageWidth,
-    height: imageHeight,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  image: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    left: 0,
-    marginLeft: -(imageResizeWidth - imageWidth) / 2,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  fixed: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    left: 0,
-    width: 36,
-    height: 36,
-    marginTop: -36,
-    marginLeft: -6,
-    backgroundColor: _.colorTinygrailContainer
+const memoStyles = _.memoStyles(() => {
+  const imageWidth = _.window.contentWidth * 0.28
+  const imageHeight = imageWidth * 1.28
+  const imageResizeWidth = imageWidth * 1.2
+  const imageResizeHeight = imageHeight * 1.2
+  const marginLeft = (_.window.contentWidth - 3 * imageWidth) / 4
+  return {
+    item: {
+      width: imageWidth,
+      marginTop: _.sm,
+      marginBottom: _.sm + 2,
+      marginLeft
+    },
+    avatar: {
+      backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
+    },
+    wrap: {
+      width: imageWidth,
+      height: imageHeight,
+      borderRadius: _.radiusXs,
+      overflow: 'hidden'
+    },
+    image: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      left: 0,
+      marginLeft: -(imageResizeWidth - imageWidth) / 2,
+      backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
+    },
+    imageResize: {
+      width: imageResizeWidth,
+      height: imageResizeHeight
+    },
+    fixed: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      left: 0,
+      width: 36,
+      height: 36,
+      marginTop: -36,
+      marginLeft: -6,
+      backgroundColor: _.colorTinygrailContainer
+    }
   }
-}))
+})

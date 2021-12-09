@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 02:08:19
+ * @Last Modified time: 2021-12-09 14:08:15
  */
 import React from 'react'
 import {
@@ -19,7 +19,6 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { t } from '@utils/fetch'
-import { H_BG } from './store'
 import { TABS } from './ds'
 
 const event = {
@@ -152,11 +151,11 @@ class List extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind,
     paddingBottom: _.bottom,
-    minHeight: _.window.height + H_BG - _.tabBarHeight
+    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
   },
   sectionHeader: {
     paddingHorizontal: _._wind,

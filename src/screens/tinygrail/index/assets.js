@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 16:22:54
+ * @Last Modified time: 2021-12-09 18:23:21
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -13,6 +13,7 @@ import { obc } from '@utils/decorators'
 import { M } from '@constants'
 
 function Assets(props, { $ }) {
+  const styles = memoStyles()
   const {
     // loadingAssets,
     currentBalance,
@@ -118,9 +119,9 @@ function Assets(props, { $ }) {
 
 export default obc(Assets)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingRight: _.wind
+    paddingHorizontal: _.isLandscape ? 0 : _._wind
   },
   touch: {
     paddingVertical: _.xs,
@@ -129,4 +130,4 @@ const styles = _.create({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-})
+}))

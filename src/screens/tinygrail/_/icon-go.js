@@ -21,12 +21,7 @@ const hitSlop = {
 function IconGo({ $ }) {
   const { go } = $.state
   return (
-    <Popover
-      style={styles.touch}
-      data={data}
-      hitSlop={hitSlop}
-      onSelect={$.onSelectGo}
-    >
+    <Popover style={styles.touch} data={data} hitSlop={hitSlop} onSelect={$.onSelectGo}>
       <Flex>
         <Iconfont name='md-read-more' size={24} color={_.colorTinygrailPlain} />
         <Text style={_.ml.xs} type='tinygrailPlain' size={13} bold>

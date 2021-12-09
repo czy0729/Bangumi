@@ -4,11 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 02:56:11
+ * @Last Modified time: 2021-12-09 14:21:15
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
 import {
+  _,
   userStore,
   usersStore,
   timelineStore,
@@ -23,10 +24,10 @@ import { HTMLDecode } from '@utils/html'
 import { info, loading, feedback } from '@utils/ui'
 import { HOST } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-import { H_BG, H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/store'
+import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/store'
 import { TABS, TABS_WITH_TINYGRAIL } from './ds'
 
-export { H_BG, H_RADIUS_LINE, H_HEADER, H_TABBAR }
+export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
 
 const namespace = 'ScreenZone'
 const excludeState = {
@@ -209,6 +210,10 @@ export default class ScreenZone extends store {
     return tinygrailStore.charaTotal(this.username)
   }
 
+  @computed get h_fixed() {
+    return _.parallaxImageHeight - H_HEADER
+  }
+
   // -------------------- fetch --------------------
   /**
    * 用户信息 (自己视角)
@@ -285,7 +290,7 @@ export default class ScreenZone extends store {
   updatePageOffset = (index = [-1, 1]) => {
     const { page, fixed } = this.state
 
-    const offset = fixed ? H_BG - H_HEADER : this.y
+    const offset = fixed ? this.h_fixed : this.y
     index.forEach(item => {
       const scrollToOffset = this.scrollToOffset[page + item]
       if (typeof scrollToOffset === 'function') {
@@ -314,7 +319,7 @@ export default class ScreenZone extends store {
     const { y } = e.nativeEvent.contentOffset
     this.y = y
 
-    const offset = H_BG - H_HEADER - 20
+    const offset = this.h_fixed - 20
     if (fixed && y < offset) {
       this.setState({
         fixed: false

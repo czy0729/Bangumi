@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:35:39
+ * @Last Modified time: 2021-12-09 18:04:25
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -98,7 +98,7 @@ class TinygrailDeal extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   dark: {
     backgroundColor: _.colorTinygrailContainer
   },
@@ -106,7 +106,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind - _._wind
   },
   depth: {
-    width: _.isPad ? 224 : 164,
+    width: _.window.contentWidth * 0.44,
     marginLeft: _.md
   }
 }))

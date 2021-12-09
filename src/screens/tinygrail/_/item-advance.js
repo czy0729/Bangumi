@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 06:35:47
+ * @Last Modified time: 2021-12-09 17:55:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -138,9 +138,8 @@ function Item(props, { navigation }) {
                   </Text>
                 )}
                 {assets && ' / '}
-                {!!firstAmount && ' / '}₵
-                {toFixed(firstAsks || firstBids || current, 2)} / +
-                {toFixed(rate, 1)} (
+                {!!firstAmount && ' / '}₵{toFixed(firstAsks || firstBids || current, 2)}{' '}
+                / +{toFixed(rate, 1)} (
                 {Number(toFixed(calculateRate(rate, rank, stars), 1))})
               </Text>
             </Flex.Item>
@@ -172,7 +171,7 @@ Item.defaultProps = {
 
 export default observer(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer

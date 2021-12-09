@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 09:50:08
+ * @Last Modified time: 2021-12-09 14:29:04
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -15,7 +15,7 @@ import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Head from './head'
-import { H_BG, H_HEADER, H_RADIUS_LINE } from './store'
+import { H_HEADER, H_RADIUS_LINE } from './store'
 
 const dataMe = [
   '我的空间',
@@ -27,8 +27,9 @@ const dataMe = [
 ]
 const dataOther = ['TA的好友', 'TA的netaba.re']
 const defaultProps = {
-  themeStyles: {},
   navigation: {},
+  themeStyles: {},
+  parallaxImageHeight: 0,
   avatar: {},
   bg: '',
   fixed: false,
@@ -45,8 +46,9 @@ const defaultProps = {
 
 const ParallaxImage = memo(
   ({
-    themeStyles,
     navigation,
+    themeStyles,
+    parallaxImageHeight,
     avatar,
     bg,
     fixed,
@@ -67,8 +69,18 @@ const ParallaxImage = memo(
       transform: [
         {
           translateY: scrollY.interpolate({
-            inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
-            outputRange: [H_BG / 2, 0, -(H_BG - H_HEADER), -(H_BG - H_HEADER)]
+            inputRange: [
+              -parallaxImageHeight,
+              0,
+              parallaxImageHeight - H_HEADER,
+              parallaxImageHeight
+            ],
+            outputRange: [
+              parallaxImageHeight / 2,
+              0,
+              -(parallaxImageHeight - H_HEADER),
+              -(parallaxImageHeight - H_HEADER)
+            ]
           })
         }
       ]
@@ -78,7 +90,7 @@ const ParallaxImage = memo(
     if (IOS) {
       parallaxStyle.transform.push({
         scale: scrollY.interpolate({
-          inputRange: [-H_BG, 0, H_BG],
+          inputRange: [-parallaxImageHeight, 0, parallaxImageHeight],
 
           // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
           // 当scrollY在0-h时, scale不变. 可以输入任意数量对应的值, 但必须是递增或者相等
@@ -146,7 +158,7 @@ const ParallaxImage = memo(
       return (
         <>
           <Animated.Image
-            style={[styles.parallaxImage, parallaxStyle]}
+            style={[themeStyles.parallaxImage, parallaxStyle]}
             source={{
               uri
             }}
@@ -159,7 +171,12 @@ const ParallaxImage = memo(
               parallaxStyle,
               {
                 opacity: scrollY.interpolate({
-                  inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+                  inputRange: [
+                    -parallaxImageHeight,
+                    0,
+                    parallaxImageHeight - H_HEADER,
+                    parallaxImageHeight
+                  ],
                   outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
                 })
               }
@@ -171,7 +188,12 @@ const ParallaxImage = memo(
               parallaxStyle,
               {
                 opacity: scrollY.interpolate({
-                  inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+                  inputRange: [
+                    -parallaxImageHeight,
+                    0,
+                    parallaxImageHeight - H_HEADER,
+                    parallaxImageHeight
+                  ],
                   outputRange: [0, 0, 1, 1]
                 })
               }
@@ -194,12 +216,17 @@ const ParallaxImage = memo(
             <Animated.View
               style={{
                 opacity: scrollY.interpolate({
-                  inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+                  inputRange: [
+                    -parallaxImageHeight,
+                    0,
+                    parallaxImageHeight - H_HEADER,
+                    parallaxImageHeight
+                  ],
                   outputRange: [1, 1, 0, 0]
                 })
               }}
             >
-              <Head style={styles.head} />
+              <Head style={themeStyles.head} />
             </Animated.View>
             <View style={themeStyles.parallaxLine} />
           </Animated.View>
@@ -209,10 +236,13 @@ const ParallaxImage = memo(
       avatar.large,
       bg,
       nickname,
+      parallaxImageHeight,
       parallaxStyle,
       scrollY,
       src,
       textType,
+      themeStyles.head,
+      themeStyles.parallaxImage,
       themeStyles.parallaxLine
     ])
 
@@ -288,7 +318,8 @@ const ParallaxImage = memo(
           )}
         </>
       )
-    }, [navigation, id, myUserId, paramsUserId, onSelect, username, nickname])
+    }, [id, myUserId, navigation, nickname, onSelect, paramsUserId, username])
+
     return (
       <>
         <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
@@ -307,8 +338,9 @@ export default obc(({ scrollY, fixed }, { $, navigation }) => {
   const { id, avatar = {}, nickname, username } = $.usersInfo
   return (
     <ParallaxImage
-      themeStyles={memoStyles()}
       navigation={navigation}
+      themeStyles={memoStyles()}
+      parallaxImageHeight={_.parallaxImageHeight}
       avatar={avatar}
       bg={$.bg}
       fixed={fixed}
@@ -339,6 +371,13 @@ const memoStyles = _.memoStyles(() => ({
     borderTopLeftRadius: H_RADIUS_LINE,
     borderTopRightRadius: H_RADIUS_LINE,
     overflow: 'hidden'
+  },
+  parallaxImage: {
+    marginTop: -8,
+    height: _.parallaxImageHeight + 8
+  },
+  head: {
+    marginTop: (_.parallaxImageHeight - 120) / 2
   }
 }))
 
@@ -350,10 +389,6 @@ const styles = _.create({
     right: 0,
     left: 0
   },
-  parallaxImage: {
-    marginTop: -8,
-    height: H_BG + 8
-  },
   parallaxWrap: {
     position: 'absolute',
     top: 0,
@@ -363,9 +398,6 @@ const styles = _.create({
   },
   parallaxMask: {
     backgroundColor: 'rgba(0, 0, 0, 0.48)'
-  },
-  head: {
-    marginTop: 76
   },
   title: {
     position: 'absolute',

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:11:44
+ * @Last Modified time: 2021-12-09 17:54:17
  */
 import React from 'react'
 import { _ } from '@stores'
 import { Flex, Touchable, Heatmap } from '@components'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
 
 function Btns({ style, children, ...other }) {
   const styles = memoStyles()
@@ -33,19 +32,16 @@ Btns.Touchable = function Item({ heatmap, onSelect, children }) {
 
 export default obc(Btns)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   btns: {
-    paddingTop: IOS ? 6 : 0,
+    paddingTop: _.ios(6, 0),
     paddingBottom: _.md
   },
   item: {
     paddingVertical: _.sm,
     paddingHorizontal: _.md,
     marginHorizontal: _.xs,
-    backgroundColor: _.tSelect(
-      _.colorTinygrailBorder,
-      'rgba(238, 238, 238, 0.8)'
-    ),
+    backgroundColor: _.tSelect(_.colorTinygrailBorder, 'rgba(238, 238, 238, 0.8)'),
     borderRadius: 16
   }
 }))

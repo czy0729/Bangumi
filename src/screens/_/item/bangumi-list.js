@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:55:09
+ * @Last Modified time: 2021-12-09 14:31:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,12 +51,12 @@ export const ItemBangumiList = ob(
 )
 
 const memoStyles = _.memoStyles(() => {
-  const imageWidth = _.window.contentWidth * 0.16
-  const marginLeft = (_.window.contentWidth - 5 * imageWidth) / 6
+  const num = _.num(5, 7)
+  const { width, marginLeft } = _.grid(num)
   return {
     item: {
-      width: imageWidth,
-      marginBottom: _.sm,
+      width,
+      marginBottom: _.num(_.sm, _.md),
       marginLeft
     }
   }

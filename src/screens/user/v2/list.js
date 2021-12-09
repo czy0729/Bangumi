@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 10:37:21
+ * @Last Modified time: 2021-12-09 13:53:46
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -12,7 +12,7 @@ import { keyExtractor } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
-import { tabs, H_BG } from './store'
+import { tabs } from './store'
 
 export default
 @obc
@@ -46,7 +46,7 @@ class List extends React.Component {
 
   get userGridNum() {
     const { userGridNum } = systemStore.setting
-    return Number(userGridNum)
+    return Number(userGridNum) + (_.isLandscape ? 1 : 0)
   }
 
   renderItem = ({ item, index }) => {
@@ -86,10 +86,8 @@ class List extends React.Component {
       )
     }
 
-    const needResetMarginLeft = _.isPad && index % this.userGridNum === 0
     return (
       <ItemCollectionsGrid
-        style={needResetMarginLeft && styles.resetML}
         navigation={navigation}
         index={index}
         num={this.userGridNum}
@@ -116,19 +114,18 @@ class List extends React.Component {
     )
 
     const { _loaded } = userCollections
-    if (!_loaded) {
+    if (!_loaded)
       return <Loading style={IOS ? _.container.plain : _.container._plain} />
-    }
 
     const numColumns = list ? undefined : this.userGridNum
     const tab = tabs[page]
     return (
       <ListView
+        key={`${$.subjectType}${numColumns}${_.orientation}`}
         ref={this.connectRef}
-        key={`${$.subjectType}${String(numColumns)}`}
         keyExtractor={keyExtractor}
-        style={styles.list}
-        contentContainerStyle={styles.contentContainerStyle}
+        style={this.styles.list}
+        contentContainerStyle={this.styles.contentContainerStyle}
         data={userCollections}
         lazy={12}
         numColumns={numColumns}
@@ -140,19 +137,21 @@ class List extends React.Component {
       />
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
 const H_TOOLBAR = 42 * _.ratio
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   list: {
     zIndex: 0,
     marginBottom: IOS ? 0 : _.tabBarHeight - 1
   },
   contentContainerStyle: {
+    paddingHorizontal: _.wind - _._wind,
     paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight,
-    minHeight: _.window.height + H_BG - _.tabBarHeight - H_TOOLBAR
-  },
-  resetML: {
-    marginLeft: _.wind + _._wind
+    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight - H_TOOLBAR
   }
-})
+}))

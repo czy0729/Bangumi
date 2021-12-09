@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 12:51:40
+ * @Last Modified time: 2021-12-09 14:00:43
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -1493,7 +1493,7 @@ class Setting extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   section: {
     paddingTop: _.md,
     paddingHorizontal: _.wind,

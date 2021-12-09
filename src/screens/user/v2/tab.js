@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 10:54:13
+ * @Last Modified time: 2021-12-09 14:23:32
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -15,11 +15,7 @@ import TabBarLeft from './tab-bar-left'
 import ToolBar from './tool-bar'
 import Label from './label'
 import List from './list'
-import { tabs, H_BG, H_TABBAR, H_HEADER, H_RADIUS_LINE } from './store'
-
-const headerStyle = {
-  height: H_BG + H_TABBAR - _.radiusLg
-}
+import { tabs, H_TABBAR, H_HEADER, H_RADIUS_LINE } from './store'
 
 class Tab extends React.Component {
   onIndexChange = index => {
@@ -44,7 +40,11 @@ class Tab extends React.Component {
             title={item.title}
             ListHeaderComponent={
               <>
-                <View style={headerStyle} />
+                <View
+                  style={{
+                    height: _.parallaxImageHeight + H_TABBAR - _.radiusLg
+                  }}
+                />
                 <ToolBar page={index} onToggleList={this.props.onToggleList} />
               </>
             }
@@ -71,8 +71,18 @@ class Tab extends React.Component {
       transform: [
         {
           translateY: scrollY.interpolate({
-            inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
-            outputRange: [H_BG * 2, H_BG, H_HEADER, H_HEADER]
+            inputRange: [
+              -_.parallaxImageHeight,
+              0,
+              _.parallaxImageHeight - H_HEADER,
+              _.parallaxImageHeight
+            ],
+            outputRange: [
+              _.parallaxImageHeight * 2,
+              _.parallaxImageHeight,
+              H_HEADER,
+              H_HEADER
+            ]
           })
         }
       ]
@@ -105,6 +115,7 @@ class Tab extends React.Component {
     return (
       <>
         <TabView
+          key={_.orientation}
           lazy
           lazyPreloadDistance={1}
           navigationState={this.navigationState}
@@ -127,46 +138,48 @@ class Tab extends React.Component {
 
 export default obc(Tab)
 
-const W_TAB_BAR_LEFT = 68 * _.ratio
-const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5
-const W_INDICATOR = 16 * _.ratio
-const memoStyles = _.memoStyles(_ => ({
-  tabBarWrap: {
-    position: 'absolute',
-    zIndex: 2,
-    top: -H_RADIUS_LINE + 2,
-    right: 0,
-    left: 0
-  },
-  tabBar: {
-    paddingLeft: W_TAB_BAR_LEFT,
-    backgroundColor: _.select(
-      _.colorPlain,
-      _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-    ),
-    borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
-    borderBottomColor: _.colorBorder,
-    shadowOpacity: 0,
-    elevation: 0
-  },
-  tab: {
-    width: W_TAB,
-    height: 48 * _.ratio
-  },
-  label: {
-    padding: 0
-  },
-  indicator: {
-    width: W_INDICATOR,
-    height: 4,
-    marginLeft: (W_TAB - W_INDICATOR) / 2 + W_TAB_BAR_LEFT,
-    backgroundColor: _.colorMain,
-    borderRadius: 4
-  },
-  tabBarLeft: {
-    position: 'absolute',
-    zIndex: 3,
-    left: 0,
-    marginTop: 2
+const memoStyles = _.memoStyles(() => {
+  const W_TAB_BAR_LEFT = 68 * _.ratio
+  const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5
+  const W_INDICATOR = 16 * _.ratio
+  return {
+    tabBarWrap: {
+      position: 'absolute',
+      zIndex: 2,
+      top: -H_RADIUS_LINE + 2,
+      right: 0,
+      left: 0
+    },
+    tabBar: {
+      paddingLeft: W_TAB_BAR_LEFT,
+      backgroundColor: _.select(
+        _.colorPlain,
+        _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+      ),
+      borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
+      borderBottomColor: _.colorBorder,
+      shadowOpacity: 0,
+      elevation: 0
+    },
+    tab: {
+      width: W_TAB,
+      height: 48 * _.ratio
+    },
+    label: {
+      padding: 0
+    },
+    indicator: {
+      width: W_INDICATOR,
+      height: 4,
+      marginLeft: (W_TAB - W_INDICATOR) / 2 + W_TAB_BAR_LEFT,
+      backgroundColor: _.colorMain,
+      borderRadius: 4
+    },
+    tabBarLeft: {
+      position: 'absolute',
+      zIndex: 3,
+      left: 0,
+      marginTop: 2
+    }
   }
-}))
+})

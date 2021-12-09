@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:36:38
+ * @Last Modified time: 2021-12-09 18:09:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -121,8 +121,8 @@ class Temples extends React.Component {
     const { rate, rank, stars } = $.chara
     const { list } = $.charaTemple
     return (
-      <View style={[styles.container, style]}>
-        <Flex style={styles.info}>
+      <View style={[this.styles.container, style]}>
+        <Flex style={this.styles.info}>
           <Flex.Item>
             <Text type='tinygrailPlain' size={13}>
               固定资产{' '}
@@ -149,7 +149,7 @@ class Temples extends React.Component {
           </Touchable> */}
         </Flex>
         {showTemples && (
-          <Flex style={styles.temples} wrap='wrap'>
+          <Flex style={this.styles.temples} wrap='wrap'>
             {this.list.map(item => (
               <ItemTemple
                 key={item.nickname}
@@ -167,7 +167,7 @@ class Temples extends React.Component {
           </Flex>
         )}
         <Flex style={_.mt.md} justify='center'>
-          <Touchable style={styles.expand} onPress={$.toggleTemples}>
+          <Touchable style={this.styles.expand} onPress={$.toggleTemples}>
             <Iconfont
               name={showTemples ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
               color={_.colorTinygrailText}
@@ -175,7 +175,7 @@ class Temples extends React.Component {
           </Touchable>
           {showTemples && list.length > 6 && (
             <Text
-              style={[styles.expand, _.ml.md]}
+              style={[this.styles.expand, _.ml.md]}
               type='tinygrailText'
               onPress={$.toggleExpand}
             >
@@ -186,9 +186,13 @@ class Temples extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 120
   },
@@ -204,4 +208,4 @@ const styles = _.create({
   expand: {
     paddingVertical: _.md
   }
-})
+}))

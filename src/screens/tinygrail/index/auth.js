@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 16:16:46
+ * @Last Modified time: 2021-12-09 18:17:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,10 +45,7 @@ function Auth(props, { $, navigation }) {
           />
           <Flex.Item>
             <Flex>
-              <Touchable
-                style={styles.touch}
-                onPress={() => navigation.push('Qiafan')}
-              >
+              <Touchable style={styles.touch} onPress={() => navigation.push('Qiafan')}>
                 <Text type='tinygrailPlain' size={13} bold>
                   {nickname}
                 </Text>
@@ -82,10 +79,10 @@ function Auth(props, { $, navigation }) {
 
 export default obc(Auth)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.wind
+    paddingHorizontal: _._wind,
+    paddingVertical: _.sm
   },
   back: {
     marginLeft: -8

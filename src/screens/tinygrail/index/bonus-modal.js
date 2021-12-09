@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:15:20
+ * @Last Modified time: 2021-12-09 14:34:37
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
@@ -66,10 +66,7 @@ class BonusModal extends React.Component {
   get total() {
     const { $ } = this.context
     const { bonus } = $.state
-    return bonus.reduce(
-      (total, item) => total + item.Amount * item.CurrentPrice,
-      0
-    )
+    return bonus.reduce((total, item) => total + item.Amount * item.CurrentPrice, 0)
   }
 
   render() {
@@ -144,11 +141,7 @@ class BonusModal extends React.Component {
               </View>
             ))}
           </Flex>
-          <Text
-            type={_.tSelect('tinygrailPlain', 'tinygrailText')}
-            align='center'
-            bold
-          >
+          <Text type={_.tSelect('tinygrailPlain', 'tinygrailText')} align='center' bold>
             总价值
             <Text type={_.tSelect('tinygrailText', 'tinygrailPlain')} bold>
               {' '}
@@ -176,7 +169,7 @@ class BonusModal extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.window.width - 2 * _.wind,
     maxWidth: 400,

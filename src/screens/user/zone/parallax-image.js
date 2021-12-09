@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 01:54:52
+ * @Last Modified time: 2021-12-09 14:28:59
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -16,7 +16,7 @@ import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { IOS, HOST } from '@constants'
 import Head from './head'
-import { H_BG, H_HEADER, H_RADIUS_LINE } from './store'
+import { H_HEADER, H_RADIUS_LINE } from './store'
 
 function ParallaxImage(props, { $, navigation }) {
   const styles = memoStyles()
@@ -27,8 +27,18 @@ function ParallaxImage(props, { $, navigation }) {
     transform: [
       {
         translateY: $.scrollY.interpolate({
-          inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
-          outputRange: [H_BG / 2, 0, -(H_BG - H_HEADER), -(H_BG - H_HEADER)]
+          inputRange: [
+            -_.parallaxImageHeight,
+            0,
+            _.parallaxImageHeight - H_HEADER,
+            _.parallaxImageHeight
+          ],
+          outputRange: [
+            _.parallaxImageHeight / 2,
+            0,
+            -(_.parallaxImageHeight - H_HEADER),
+            -(_.parallaxImageHeight - H_HEADER)
+          ]
         })
       }
     ]
@@ -38,7 +48,7 @@ function ParallaxImage(props, { $, navigation }) {
   if (IOS) {
     parallaxStyle.transform.push({
       scale: $.scrollY.interpolate({
-        inputRange: [-H_BG, 0, H_BG],
+        inputRange: [-_.parallaxImageHeight, 0, _.parallaxImageHeight],
 
         // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
         // 当scrollY在0-h时, scale不变. 可以输入任意数量对应的值, 但必须是递增或者相等
@@ -85,7 +95,12 @@ function ParallaxImage(props, { $, navigation }) {
             {
               backgroundColor: _.select('rgba(0, 0, 0, 0.48)', 'rgba(0, 0, 0, 0.64)'),
               opacity: $.scrollY.interpolate({
-                inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+                inputRange: [
+                  -_.parallaxImageHeight,
+                  0,
+                  _.parallaxImageHeight - H_HEADER,
+                  _.parallaxImageHeight
+                ],
                 outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
               })
             }
@@ -97,7 +112,12 @@ function ParallaxImage(props, { $, navigation }) {
             parallaxStyle,
             {
               opacity: $.scrollY.interpolate({
-                inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+                inputRange: [
+                  -_.parallaxImageHeight,
+                  0,
+                  _.parallaxImageHeight - H_HEADER,
+                  _.parallaxImageHeight
+                ],
                 outputRange: [0, 0, 1, 1]
               })
             }
@@ -120,7 +140,12 @@ function ParallaxImage(props, { $, navigation }) {
           <Animated.View
             style={{
               opacity: $.scrollY.interpolate({
-                inputRange: [-H_BG, 0, H_BG - H_HEADER, H_BG],
+                inputRange: [
+                  -_.parallaxImageHeight,
+                  0,
+                  _.parallaxImageHeight - H_HEADER,
+                  _.parallaxImageHeight
+                ],
                 outputRange: [1, 1, 0, 0]
               })
             }}
@@ -225,7 +250,7 @@ function ParallaxImage(props, { $, navigation }) {
 
 export default obc(ParallaxImage)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   parallax: {
     position: 'absolute',
     zIndex: 1,
@@ -235,7 +260,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   parallaxImage: {
     marginTop: -8,
-    height: H_BG + 8
+    height: _.parallaxImageHeight + 8
   },
   parallaxWrap: {
     position: 'absolute',
@@ -259,7 +284,7 @@ const memoStyles = _.memoStyles(_ => ({
     overflow: 'hidden'
   },
   head: {
-    marginTop: 76
+    marginTop: (_.parallaxImageHeight - 120) / 2
   },
   title: {
     position: 'absolute',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 10:03:18
+ * @Last Modified time: 2021-12-09 18:08:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -170,7 +170,7 @@ export default obc(Header)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingVertical: _.sm,
-    paddingLeft: _.wind,
+    paddingLeft: _._wind,
     paddingRight: _.isPad ? _.wind - _._wind : 8
   },
   back: {

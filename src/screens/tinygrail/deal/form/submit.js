@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 11:40:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:12:23
+ * @Last Modified time: 2021-12-09 18:03:02
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -19,9 +19,7 @@ function Submit({ style }, { $ }) {
       onPress={$.doSubmit}
     >
       <Flex justify='center'>
-        {loading && (
-          <ActivityIndicator style={_.mr.sm} color='white' size='small' />
-        )}
+        {loading && <ActivityIndicator style={_.mr.sm} color='white' size='small' />}
         <Text style={styles.text} align='center'>
           {isIce && '冰山'}
           {$.isBid ? '买入' : '卖出'}

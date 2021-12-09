@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 02:10:37
+ * @Last Modified time: 2021-12-09 14:15:52
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -16,6 +16,7 @@ import { H_BG } from './store'
 import { TABS_WITH_TINYGRAIL } from './ds'
 
 function Tinygrail(props, { $, navigation }) {
+  const styles = memoStyles()
   const { assets, balance, lastIndex } = $.userAssets
   const { nickname } = $.usersInfo
   return (
@@ -67,7 +68,7 @@ function Tinygrail(props, { $, navigation }) {
 
 export default obc(Tinygrail)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingTop: H_BG + _.space * 2,
     paddingHorizontal: _.wind,
@@ -82,4 +83,4 @@ const styles = _.create({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 13:46:40
+ * @Last Modified time: 2021-12-09 12:54:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -126,7 +126,7 @@ export default obc(({ page, onToggleList }, { $ }) => {
   )
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingTop: _.md,
     backgroundColor: _.colorPlain

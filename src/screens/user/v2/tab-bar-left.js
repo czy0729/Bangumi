@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 18:05:07
+ * @Last Modified time: 2021-12-09 12:53:33
  */
 import React from 'react'
 import { Flex, Button, Heatmap } from '@components'
@@ -31,7 +31,7 @@ function TabBarLeft({ onSelect }, { $ }) {
 
 export default obc(TabBarLeft)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   tabBarLeft: {
     height: 42 * _.ratio,
     paddingLeft: _._wind * _.ratio - 4,

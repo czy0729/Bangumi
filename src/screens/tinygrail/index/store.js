@@ -2,19 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 16:25:22
+ * @Last Modified time: 2021-12-09 18:20:57
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore, systemStore } from '@stores'
-import {
-  urlStringify,
-  getTimestamp,
-  formatNumber,
-  toFixed,
-  runAfter
-} from '@utils'
+import { urlStringify, getTimestamp, formatNumber, toFixed, runAfter } from '@utils'
 import store from '@utils/store'
 import { info, feedback } from '@utils/ui'
 import { queue, t } from '@utils/fetch'
@@ -125,10 +119,7 @@ export default class ScreenTinygrail extends store {
   }
 
   refresh = async () => {
-    const res = Promise.all([
-      tinygrailStore.fetchAssets(),
-      this.fetchCharaAssets()
-    ])
+    const res = Promise.all([tinygrailStore.fetchAssets(), this.fetchCharaAssets()])
     await res
     this.caculateChange()
 
@@ -258,15 +249,11 @@ export default class ScreenTinygrail extends store {
       let _Tax
       let _AfterTax
       if (this.short) {
-        _Total =
-          Total > M ? `${toFixed(Total / M, 1)}万` : formatNumber(Total, 2)
-        _Share =
-          Share > M ? `${toFixed(Share / M, 1)}万` : formatNumber(Share, 2)
+        _Total = Total > M ? `${toFixed(Total / M, 1)}万` : formatNumber(Total, 2)
+        _Share = Share > M ? `${toFixed(Share / M, 1)}万` : formatNumber(Share, 2)
         _Tax = Tax > M ? `${toFixed(Tax / M, 1)}万` : formatNumber(Tax, 2)
         _AfterTax =
-          AfterTax > M
-            ? `${toFixed(AfterTax / M, 1)}万`
-            : formatNumber(AfterTax, 2)
+          AfterTax > M ? `${toFixed(AfterTax / M, 1)}万` : formatNumber(AfterTax, 2)
       } else {
         _Total = formatNumber(Total, 0)
         _Share = formatNumber(Share, 2)
@@ -487,9 +474,7 @@ export default class ScreenTinygrail extends store {
     const data = await res
     const { request } = data
     const { _response } = request
-    this.formhash = cheerio
-      .load(_response)('input[name=formhash]')
-      .attr('value')
+    this.formhash = cheerio.load(_response)('input[name=formhash]').attr('value')
 
     return res
   }
@@ -533,9 +518,7 @@ export default class ScreenTinygrail extends store {
     }
 
     feedback()
-    tinygrailStore.updateCookie(
-      `${data.headers['set-cookie'][0].split(';')[0]};`
-    )
+    tinygrailStore.updateCookie(`${data.headers['set-cookie'][0].split(';')[0]};`)
 
     return res
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:04:09
+ * @Last Modified time: 2021-12-09 14:34:45
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -36,13 +36,7 @@ function Btns(props, { $, navigation }) {
     <>
       <Popover
         style={styles.touch}
-        data={[
-          '刮刮乐',
-          `幻想乡刮刮乐(${price})`,
-          '每周分红',
-          '每日签到',
-          '节日福利'
-        ]}
+        data={['刮刮乐', `幻想乡刮刮乐(${price})`, '每周分红', '每日签到', '节日福利']}
         onSelect={title => {
           setTimeout(() => {
             switch (title) {
@@ -127,7 +121,7 @@ function Btns(props, { $, navigation }) {
 
 export default obc(Btns)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   touch: {
     borderRadius: _.radiusXs,
     overflow: 'hidden'

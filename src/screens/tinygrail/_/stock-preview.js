@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:14:48
+ * @Last Modified time: 2021-12-09 17:59:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -114,10 +114,7 @@ class StockPreview extends React.Component {
     let realChange = '0.00'
     if (show) {
       if (fluctuation > 0) {
-        realChange = `+${toFixed(
-          current - current / (1 + fluctuation / 100),
-          2
-        )}`
+        realChange = `+${toFixed(current - current / (1 + fluctuation / 100), 2)}`
       } else if (fluctuation < 0) {
         realChange = `-${toFixed(current / (1 + fluctuation / 100), 2)}`
       }
@@ -224,7 +221,7 @@ class StockPreview extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     height: '100%',
     paddingVertical: 17,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 22:18:47
+ * @Last Modified time: 2021-12-09 17:59:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,6 +15,7 @@ function Tabs({ tabs, children, ...other }, { $ }) {
   const { page } = $.state
   return (
     <CompTabs
+      key={_.orientation}
       style={styles.tabs}
       tabs={tabs}
       initialPage={page}
@@ -36,7 +37,7 @@ Tabs.contextTypes = {
 
 export default observer(Tabs)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   tabs: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer

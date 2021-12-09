@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:35:26
+ * @Last Modified time: 2021-12-09 18:01:01
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -92,9 +92,9 @@ function ToolBar({
 
 export default ob(ToolBar)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingLeft: 12 * _.ratio,
+    paddingLeft: _.wind - _._wind + 12 * _.ratio,
     height: 46 * _.ratio,
     borderBottomWidth: _.hairlineWidth,
     borderBottomColor: _.colorTinygrailBorder

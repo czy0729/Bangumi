@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 13:57:50
+ * @Last Modified time: 2021-12-09 14:01:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -355,7 +355,7 @@ class ServerStatus extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind,
     paddingBottom: _.bottom + _.lg

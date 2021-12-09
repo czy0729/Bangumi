@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-29 21:05:50
+ * @Last Modified time: 2021-12-09 14:03:06
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -170,7 +170,7 @@ class DEV extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   screen: {
     backgroundColor: _.colorPlain
   },

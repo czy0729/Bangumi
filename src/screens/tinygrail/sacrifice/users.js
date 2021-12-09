@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 23:54:35
+ * @Last Modified time: 2021-12-09 18:29:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,13 +39,10 @@ function Users({ style }, { $, navigation }) {
       {showUsers && (
         <Flex style={_.mt.sm} wrap='wrap'>
           {list.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <Flex key={index} style={styles.item}>
               <UserStatus
                 style={styles.userStatus}
-                last={getTimestamp(
-                  (item.lastActiveDate || '').replace('T', ' ')
-                )}
+                last={getTimestamp((item.lastActiveDate || '').replace('T', ' '))}
               >
                 <Avatar
                   style={styles.avatar}
@@ -99,7 +96,7 @@ export default obc(Users)
 const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingVertical: _.sm,
-    width: '50%'
+    width: _.isLandscape ? '33%' : '50%'
   },
   userStatus: {
     backgroundColor: _.colorTinygrailContainer

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:22:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:11:55
+ * @Last Modified time: 2021-12-09 18:02:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import Slider from './slider'
 import Submit from './submit'
 
 function Form({ style }) {
+  const styles = memoStyles()
   return (
     <View style={[styles.container, style]}>
       <Btns />
@@ -26,10 +27,10 @@ function Form({ style }) {
 
 export default ob(Form)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingTop: _.sm,
     paddingBottom: _.md - 4,
     paddingLeft: _.wind
   }
-})
+}))

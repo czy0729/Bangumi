@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 11:43:20
+ * @Last Modified time: 2021-12-09 18:39:17
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -336,6 +336,14 @@ class Theme extends store {
     return this.isTinygrailDark ? _.colorTinygrailActive : _._colorTinygrailActive
   }
 
+  /**
+   * User和Zone页面上方用的可变高度块的高度限制属性
+   */
+  @computed get parallaxImageHeight() {
+    if (this.isMobileLanscape) return 200
+    return Math.min(parseInt(this.window.width * 0.68), this.device(288, 380))
+  }
+
   // -------------------- tool styles --------------------
   @computed get container() {
     return this.create({
@@ -598,6 +606,13 @@ class Theme extends store {
   /**
    * 方向选择
    * 水平方向使用第二个值
+   */
+  portrait = (portaitValue, landscapeValue) =>
+    this.isLandscape ? landscapeValue : portaitValue
+
+  /**
+   * 自适应计数
+   * 只支持number, 手机垂直布局使用原始值, 横屏+1, 平板再+1
    */
   num = (portaitValue, landscapeValue) =>
     this.isLandscape ? landscapeValue : portaitValue

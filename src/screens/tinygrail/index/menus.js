@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 18:14:40
+ * @Last Modified time: 2021-12-09 18:19:40
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -12,41 +12,53 @@ import MenuItem from './menu-item'
 import Assets from './assets'
 
 function Menus(props, { $ }) {
+  const styles = memoStyles()
   const bids = $.list('bid').list.length
   const asks = $.list('asks').list.length
   const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
-    <Flex style={styles.section} wrap='wrap'>
+    <Flex style={styles.container} wrap='wrap'>
       <MenuItem
+        index={0}
         title='热门榜单'
         pathname='TinygrailOverview'
         icon='md-whatshot'
       />
-      <MenuItem title='新番榜单' pathname='TinygrailNew' icon='md-local-play' />
       <MenuItem
+        index={1}
+        title='新番榜单'
+        pathname='TinygrailNew'
+        icon='md-local-play'
+      />
+      <MenuItem
+        index={2}
         title='ICO榜单'
         pathname='TinygrailICO'
         icon='md-attach-money'
       />
-      <MenuItem title='番市首富' pathname='TinygrailRich' icon='md-money' />
-      <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='md-looks' />
+      <MenuItem index={3} title='番市首富' pathname='TinygrailRich' icon='md-money' />
+      <MenuItem index={4} title='英灵殿' pathname='TinygrailValhall' icon='md-looks' />
       <MenuItem
+        index={5}
         title='最新圣殿'
         pathname='TinygrailTemples'
         icon='md-image-aspect-ratio'
       />
       <MenuItem
+        index={6}
         title='每周萌王'
         pathname='TinygrailTopWeek'
         icon='md-favorite-outline'
       />
       <MenuItem
+        index={7}
         title='通天塔(α)'
         pathname='TinygrailStar'
         icon='md-change-history'
       />
       <Assets />
       <MenuItem
+        index={8}
         style={{
           backgroundColor: _.colorDepthBid
         }}
@@ -66,6 +78,7 @@ function Menus(props, { $ }) {
         icon='md-add-circle-outline'
       />
       <MenuItem
+        index={9}
         style={{
           backgroundColor: _.colorDepthAsk
         }}
@@ -85,6 +98,7 @@ function Menus(props, { $ }) {
         icon='md-remove-circle-outline'
       />
       <MenuItem
+        index={10}
         title={
           <>
             我的拍卖
@@ -101,17 +115,25 @@ function Menus(props, { $ }) {
         icon='md-gavel'
       />
       <MenuItem
+        index={11}
         title='我的持仓'
         pathname='TinygrailCharaAssets'
         icon='md-inbox'
       />
       <MenuItem
+        index={12}
         title='资金日志'
         pathname='TinygrailLogs'
         icon='md-insert-chart-outlined'
       />
-      <MenuItem title='人物查询' pathname='TinygrailSearch' icon='md-search' />
       <MenuItem
+        index={13}
+        title='人物查询'
+        pathname='TinygrailSearch'
+        icon='md-search'
+      />
+      <MenuItem
+        index={14}
         style={{
           backgroundColor: _.colorTinygrailActive
         }}
@@ -120,6 +142,7 @@ function Menus(props, { $ }) {
         icon='md-card-membership'
       />
       <MenuItem
+        index={15}
         title='我的道具'
         pathname='TinygrailItems'
         icon='md-workspaces-outline'
@@ -130,9 +153,8 @@ function Menus(props, { $ }) {
 
 export default obc(Menus)
 
-const styles = _.create({
-  section: {
-    paddingBottom: _.sm,
-    marginLeft: _.wind
+const memoStyles = _.memoStyles(() => ({
+  container: {
+    paddingHorizontal: _.isLandscape ? _.wind : 0
   }
-})
+}))

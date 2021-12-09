@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 09:34:01
+ * @Last Modified time: 2021-12-09 14:09:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import { t } from '@utils/fetch'
 const avatarSize = 88 * _.ratio
 
 function Head({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { _id, _name } = $.params
   const { originUid } = $.state
   const { nickname, id, username } = $.usersInfo
@@ -196,7 +197,7 @@ const rStyle = (top, left) => ({
   opacity: 0.8
 })
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   avatar: {
     marginTop: 14,
     backgroundColor: _.__colorPlain__,
@@ -230,4 +231,4 @@ const styles = _.create({
   friend: {
     opacity: 0.88
   }
-})
+}))

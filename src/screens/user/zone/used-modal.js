@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:36:53
+ * @Last Modified time: 2021-12-09 14:16:02
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -192,7 +192,7 @@ class UsedModal extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   modal: {
     width: (_.window.width - 2 * _.wind) * _.ratio,
     maxWidth: 320 * _.ratio,

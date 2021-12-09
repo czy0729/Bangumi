@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-14 21:22:42
+ * @Last Modified time: 2021-12-09 17:58:54
  */
 import React from 'react'
 import { Text } from '@components'
@@ -10,15 +10,14 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 function Rank({ style, size, value }) {
-  if (!value) {
-    return null
-  }
+  if (!value) return null
 
   const styles = memoStyles()
   return (
     <Text
       style={[
         styles.rank,
+        // eslint-disable-next-line react-native/no-inline-styles
         {
           backgroundColor: value <= 500 ? '#ffc107' : '#aaa'
         },
@@ -37,7 +36,7 @@ export default ob(Rank, {
   size: 10
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   rank: {
     minWidth: 30,
     marginRight: _.xs,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 17:36:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 17:40:54
+ * @Last Modified time: 2021-12-09 17:59:44
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -11,9 +11,7 @@ import { IOS } from '@constants'
 import { tinygrailStore } from '@stores'
 
 function WebViewEvents() {
-  if (!IOS) {
-    return null
-  }
+  if (!IOS) return null
 
   return (
     <NavigationEvents

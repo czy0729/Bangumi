@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 02:08:00
+ * @Last Modified time: 2021-12-09 14:07:47
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -10,10 +10,11 @@ import { RenderHtml } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
-import { H_BG } from './store'
 import { TABS } from './ds'
 
 function About(props, { $, navigation }) {
+  const styles = memoStyles()
+
   // 去除APP内高清头像背景的代码
   const sign =
     String($.users.sign).replace(
@@ -55,13 +56,13 @@ function About(props, { $, navigation }) {
 
 export default obc(About)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
-    paddingTop: H_BG + _.space * 2,
+    paddingTop: _.parallaxImageHeight + _.space * 2,
     paddingHorizontal: _.wind,
-    minHeight: _.window.height + H_BG - _.tabBarHeight
+    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
   },
   page: {
-    minHeight: _.window.height - H_BG
+    minHeight: _.window.height - _.parallaxImageHeight
   }
-})
+}))

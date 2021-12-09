@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 19:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 02:08:41
+ * @Last Modified time: 2021-12-09 14:11:38
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -55,7 +55,7 @@ function Item(
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain

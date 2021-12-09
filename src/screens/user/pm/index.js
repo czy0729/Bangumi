@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:34:51
+ * @Last Modified time: 2021-12-09 14:02:34
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -52,17 +52,15 @@ class PM extends React.Component {
   renderNewForm() {
     const { $ } = this.context
     const { userId, userName } = $.params
-    if (!userId) {
-      return null
-    }
+    if (!userId) return null
 
     return (
       <>
-        <View style={styles.form}>
+        <View style={this.styles.form}>
           <Text>收件人: {userName}</Text>
         </View>
         <Input
-          style={styles.ipt}
+          style={this.styles.ipt}
           placeholder='输入标题'
           onChange={this.onTitleChange}
         />
@@ -101,9 +99,13 @@ class PM extends React.Component {
       </View>
     )
   }
+
+  get memoStyles() {
+    return memoStyles()
+  }
 }
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   form: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind
@@ -113,4 +115,4 @@ const styles = _.create({
     paddingHorizontal: _.wind,
     borderRadius: 0
   }
-})
+}))
