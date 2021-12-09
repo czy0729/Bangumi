@@ -15,7 +15,7 @@ function MenuItem(
   { navigation }
 ) {
   const styles = memoStyles()
-  const num = _.num(2, 4)
+  const num = _.portrait(2, 4)
   return (
     <Touchable
       style={[styles.container, _.isLandscape && index % num === 0 && styles.left]}
@@ -45,7 +45,7 @@ function MenuItem(
 export default obc(MenuItem)
 
 const memoStyles = _.memoStyles(() => {
-  const num = _.num(2, 4)
+  const num = _.portrait(2, 4)
   const { width, marginLeft } = _.grid(num)
   return {
     container: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-28 13:34:10
+ * @Last Modified time: 2021-12-09 19:27:47
  */
 import React, { useEffect } from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -13,12 +13,16 @@ import { DeepLink } from '@components'
 import { AppCommon } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
-import { useBoolean } from '@utils/hooks'
+import { useBoolean, useOrientation } from '@utils/hooks'
 import theme from '@styles/theme'
 import Navigations from './src/navigations/index'
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
+  const orientation = useOrientation()
+  useEffect(() => {
+    _.toggleOrientation(orientation)
+  }, [orientation])
   if (!isLoadingComplete) return null
 
   return (

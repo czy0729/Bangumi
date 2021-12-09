@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:32:09
+ * @Last Modified time: 2021-12-09 18:55:45
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -42,7 +42,7 @@ function List({ id }, { $, navigation }) {
   const numColumns = isTemple ? 3 : undefined
   return (
     <ListView
-      key={String(numColumns)}
+      key={`${_.orientation}${numColumns}`}
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={(item, index) => String(index)}

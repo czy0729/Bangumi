@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 13:53:46
+ * @Last Modified time: 2021-12-09 18:56:06
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -121,7 +121,7 @@ class List extends React.Component {
     const tab = tabs[page]
     return (
       <ListView
-        key={`${$.subjectType}${numColumns}${_.orientation}`}
+        key={`${_.orientation}${$.subjectType}${numColumns}`}
         ref={this.connectRef}
         keyExtractor={keyExtractor}
         style={this.styles.list}

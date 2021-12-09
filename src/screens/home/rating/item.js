@@ -56,7 +56,7 @@ export default obc(Item)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    width: _.num('50%', '33%'),
+    width: _.portrait('50%', '33%'),
     paddingVertical: _.sm + 2
   },
   comment: {

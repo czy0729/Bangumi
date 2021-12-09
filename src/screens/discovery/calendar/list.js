@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 19:02:04
+ * @Last Modified time: 2021-12-09 18:52:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,15 +39,16 @@ function Line() {
 function List(props, { $ }) {
   const styles = memoStyles()
   const { layout } = $.state
+  const numColumns = $.isList ? undefined : 3
   return (
     <ListView
-      key={layout}
+      key={`${layout}${numColumns}`}
       style={_.container.plain}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       sections={$.sections}
       lazy={2}
-      numColumns={$.isList ? undefined : 3}
+      numColumns={numColumns}
       scrollToTop
       renderSectionHeader={renderSectionHeader}
       renderItem={({ item, section = {} }) => {

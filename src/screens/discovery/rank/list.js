@@ -115,7 +115,7 @@ class List extends React.Component {
   renderGrid() {
     const { $, navigation } = this.context
     const { _filter } = $.rank
-    const num = _.num(3, 5)
+    const num = _.portrait(3, 5)
     return (
       <>
         <Flex style={this.styles.grid} wrap='wrap' align='start'>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:04:09
+ * @Last Modified time: 2021-12-09 18:55:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,7 +94,7 @@ class Grid extends React.Component {
     const numColumns = _.isMobileLanscape ? 9 : _.device(5, 4)
     return (
       <ListView
-        key={numColumns}
+        key={`${_.orientation}${numColumns}`}
         ref={this.connectRef}
         style={!IOS && this.styles.androidWrap}
         contentContainerStyle={this.styles.contentContainerStyle}

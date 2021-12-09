@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:21:58
+ * @Last Modified time: 2021-12-09 18:52:38
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -30,22 +30,20 @@ class List extends React.Component {
   }
 
   get num() {
-    return _.num(5, 8)
+    return _.portrait(5, 8)
   }
 
   render() {
     const { $ } = this.context
     const { id } = this.props
     const list = $.list(id)
-    if (!list._loaded) {
-      return <Loading />
-    }
+    if (!list._loaded) return <Loading />
 
     const { page } = $.state
     const numColumns = this.isRecents ? undefined : this.num
     return (
       <ListView
-        key={String(numColumns)}
+        key={`${_.orientation}${numColumns}`}
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.wind}
         data={list}

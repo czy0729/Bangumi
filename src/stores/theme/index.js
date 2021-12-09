@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:39:17
+ * @Last Modified time: 2021-12-09 18:42:02
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -614,8 +614,11 @@ class Theme extends store {
    * 自适应计数
    * 只支持number, 手机垂直布局使用原始值, 横屏+1, 平板再+1
    */
-  num = (portaitValue, landscapeValue) =>
-    this.isLandscape ? landscapeValue : portaitValue
+  num = (num = 0) => {
+    if (this.isLandscape) num += 1
+    if (this.isPad) num += 1
+    return num
+  }
 
   /**
    * 黑暗模式下

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 12:53:05
+ * @Last Modified time: 2021-12-09 18:53:14
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -22,7 +22,7 @@ class List extends React.Component {
   }
 
   get num() {
-    return _.num(3, 5)
+    return _.portrait(3, 5)
   }
 
   renderItem = ({ item, index }) => {
@@ -50,13 +50,14 @@ class List extends React.Component {
       )
     }
 
+    const numColumns = $.isList ? undefined : this.num
     return (
       <ListView
-        key={`${layout}${this.num}`}
+        key={`${layout}${numColumns}`}
         ref={this.connectRef}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
-        numColumns={$.isList ? undefined : this.num}
+        numColumns={numColumns}
         data={data}
         lazy={9}
         ListHeaderComponent={this.renderFilter()}

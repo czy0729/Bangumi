@@ -31,8 +31,10 @@
     "expo-constants": "~9.1.1",
     "expo-file-system": "~9.0.1",
     "expo-font": "~8.2.1",
+    "expo-keep-awake": "~8.2.1",
     "expo-linear-gradient": "~8.2.1",
     "expo-linking": "^1.0.1",
+    "expo-screen-orientation": "~1.1.1",
     "expo-splash-screen": "^0.5.0",
     "expo-status-bar": "^1.0.0",
     "expo-web-browser": "~8.3.1",
@@ -76,6 +78,7 @@
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "@react-native-community/eslint-config": "^3.0.1",
+    "@types/node": "^16.11.11",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "@typescript-eslint/eslint-plugin": "^5.0.0",

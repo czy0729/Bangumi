@@ -24,7 +24,7 @@ export default
 @obc
 class Yearbook extends React.Component {
   get num() {
-    return _.num(2, 4)
+    return _.portrait(2, 4)
   }
 
   render() {
@@ -139,11 +139,11 @@ class Yearbook extends React.Component {
 }
 
 const memoStyles = _.memoStyles(() => {
-  const num = _.num(1, 2)
+  const num = _.portrait(1, 2)
   const width = (_.window.width - 2 * _.wind - _.md * (num - 1)) / num
   const height = width * 0.4
 
-  const numSm = _.num(2, 4)
+  const numSm = _.portrait(2, 4)
   const widthSm = (_.window.width - 2 * _.wind - _.md * (numSm - 1)) / numSm
   return {
     container: {

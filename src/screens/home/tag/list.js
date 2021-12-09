@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 13:40:04
+ * @Last Modified time: 2021-12-09 18:55:00
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -34,7 +34,7 @@ class List extends React.Component {
   }
 
   get num() {
-    return _.num(3, 5)
+    return _.portrait(3, 5)
   }
 
   renderItem = ({ item, index }) => {
@@ -90,7 +90,7 @@ class List extends React.Component {
     const numColumns = list ? undefined : this.num
     return (
       <ListView
-        key={String(numColumns)}
+        key={`${_.orientation}${numColumns}`}
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}

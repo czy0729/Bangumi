@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:50:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:51:45
+ * @Last Modified time: 2021-12-09 18:54:39
  */
 import React from 'react'
 import { ListView, Loading, Heatmap } from '@components'
@@ -20,14 +20,15 @@ function List({ title }, { $ }) {
 
   const styles = memoStyles()
   const { isFriend, page } = $.state
+  const numColumns = _.portrait(2, 3)
   return (
     <ListView
-      key={isFriend ? '1' : '0'}
+      key={`${isFriend ? '1' : '0'}${numColumns}`}
       style={_.container.flex}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       data={data}
-      numColumns={_.num(2, 3)}
+      numColumns={numColumns}
       scrollToTop={routes[page].title === title}
       renderItem={renderItem}
       onEndReachedThreshold={0.2}

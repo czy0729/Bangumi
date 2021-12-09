@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 05:43:11
+ * @Last Modified time: 2021-12-09 18:51:40
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -29,7 +29,7 @@ export default
 @obc
 class List extends React.Component {
   get num() {
-    return _.num(3, 5)
+    return _.portrait(3, 5)
   }
 
   renderItem = ({ item, index }) => {
@@ -72,12 +72,13 @@ class List extends React.Component {
     const { _loaded } = $.browser
     if (!_loaded) return <Loading />
 
+    const numColumns = $.isList ? undefined : this.num
     return (
       <ListView
-        key={`${layout}${this.num}`}
+        key={`${layout}${numColumns}`}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
-        numColumns={$.isList ? undefined : this.num}
+        numColumns={numColumns}
         data={$.browser}
         lazy={9}
         renderItem={this.renderItem}

@@ -26,7 +26,7 @@ function Item({ index, avatar, name, id }, { navigation }) {
   }
 
   return (
-    <View style={[styles.item, index % _.num(5, 8) === 0 && styles.left]}>
+    <View style={[styles.item, index % _.portrait(5, 8) === 0 && styles.left]}>
       <Image
         style={styles.avatar}
         size={styles.item.width}
@@ -49,7 +49,7 @@ function Item({ index, avatar, name, id }, { navigation }) {
 export default obc(Item)
 
 const memoStyles = _.memoStyles(() => {
-  const num = _.num(5, 8)
+  const num = _.portrait(5, 8)
   const gridStyles = _.grid(num)
   return {
     item: {
