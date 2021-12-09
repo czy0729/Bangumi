@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:49:16
+ * @Last Modified time: 2021-12-09 20:18:19
  */
 import React from 'react'
 import { UM } from '@components'
@@ -62,9 +62,9 @@ class Rakuen extends React.Component {
         <NavigationBarEvents />
         {_loaded && (
           <>
-            <UM screen={title} />
             <Header />
             <Tab />
+            <UM screen={title} />
             {isFocused && <IconPortal index={3} onPress={$.onRefreshThenScrollTop} />}
             <Heatmaps />
           </>

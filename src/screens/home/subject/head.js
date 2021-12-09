@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 11:58:58
+ * @Last Modified time: 2021-12-09 20:28:14
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -110,7 +110,7 @@ const Head = memo(
         >
           <View
             style={{
-              minHeight: imageHeight - 68
+              minHeight: imageHeight - _.device(68, 120)
             }}
           >
             <View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 14:23:58
+ * @Last Modified time: 2021-12-09 20:26:15
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -57,17 +57,17 @@ const memoStyles = _.memoStyles(() => ({
   tabs4: {
     position: 'absolute',
     zIndex: 1,
-    top: 0,
+    top: -_.statusBarHeight || 0,
     left: -_.window.width * 4,
     right: 0,
-    height: _.headerHeight + H_TABBAR
+    height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0)
   },
   tabs3: {
     position: 'absolute',
     zIndex: 1,
-    top: 0,
+    top: -_.statusBarHeight || 0,
     left: -_.window.width * 3,
     right: 0,
-    height: _.headerHeight + H_TABBAR
+    height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0)
   }
 }))

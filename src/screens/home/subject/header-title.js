@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 01:42:19
+ * @Last Modified time: 2021-12-09 20:30:24
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -14,7 +14,7 @@ import { getCoverMedium } from '@utils/app'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
 const routeName = 'Subject'
-const imgWidth = 28 * _.ratio
+const imgWidth = 28
 const imgHeight = imgWidth * 1.28
 const defaultProps = {
   showHeaderTitle: false,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:56:06
+ * @Last Modified time: 2021-12-09 20:41:57
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -124,8 +124,8 @@ class List extends React.Component {
         key={`${_.orientation}${$.subjectType}${numColumns}`}
         ref={this.connectRef}
         keyExtractor={keyExtractor}
-        style={this.styles.list}
-        contentContainerStyle={this.styles.contentContainerStyle}
+        style={this.styles.listView}
+        contentContainerStyle={list ? this.styles.list : this.styles.grid}
         data={userCollections}
         lazy={12}
         numColumns={numColumns}
@@ -145,12 +145,17 @@ class List extends React.Component {
 
 const H_TOOLBAR = 42 * _.ratio
 const memoStyles = _.memoStyles(() => ({
-  list: {
+  listView: {
     zIndex: 0,
     marginBottom: IOS ? 0 : _.tabBarHeight - 1
   },
-  contentContainerStyle: {
-    paddingHorizontal: _.wind - _._wind,
+  list: {
+    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight,
+    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight - H_TOOLBAR
+  },
+  grid: {
+    paddingLeft: _.wind - _._wind - _.device(0, 8),
+    paddingRight: _.wind - _._wind,
     paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight,
     minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight - H_TOOLBAR
   }

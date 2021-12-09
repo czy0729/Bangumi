@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:43:12
+ * @Last Modified time: 2021-12-09 20:26:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -142,9 +142,9 @@ const memoStyles = _.memoStyles(() => {
     blurView: {
       position: 'absolute',
       zIndex: 1,
-      top: 0,
+      top: -_.statusBarHeight || 0,
       right: 0,
-      height: _.headerHeight + H_TABBAR
+      height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0)
     }
   }
 })
