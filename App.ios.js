@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 19:27:47
+ * @Last Modified time: 2021-12-09 21:52:13
  */
 import React, { useEffect } from 'react'
+import * as ReactNativeScreens from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
@@ -16,6 +17,8 @@ import { bootApp } from '@utils/app'
 import { useBoolean, useOrientation } from '@utils/hooks'
 import theme from '@styles/theme'
 import Navigations from './src/navigations/index'
+
+ReactNativeScreens.enableScreens()
 
 export default function App() {
   const isLoadingComplete = useCachedResources()

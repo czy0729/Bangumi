@@ -3,10 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 07:58:54
+ * @Last Modified time: 2021-12-09 21:51:48
  */
 import * as WebBrowser from 'expo-web-browser'
-import * as ReactNativeScreens from 'react-native-screens'
 import { HTMLDecode } from '@utils/html'
 import { DEV, HOST, HOST_2, EVENT } from '@constants'
 import { initHashSubjectOTA, initHashAvatarOTA } from '@constants/cdn'
@@ -26,11 +25,6 @@ export function bootApp() {
   global.log = globalLog
   global.warn = globalWarn
   global.rerender = rerender
-
-  /**
-   * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
-   */
-  ReactNativeScreens.enableScreens()
 
   // @ts-ignore
   global.console.warn = Function.prototype

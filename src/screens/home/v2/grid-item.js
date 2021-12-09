@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:03:32
+ * @Last Modified time: 2021-12-09 21:23:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ export default obc(GridItem, {
 })
 
 const memoStyles = _.memoStyles(() => {
-  const numColumns = _.isMobileLanscape ? 9 : _.device(5, 4)
+  const numColumns = _.isMobileLanscape ? 9 : _.device(4, 5)
   const imageWidth = (_.window.contentWidth - (numColumns - 1) * margin) / numColumns
   return {
     item: {

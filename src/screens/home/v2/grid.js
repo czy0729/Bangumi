@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:55:14
+ * @Last Modified time: 2021-12-09 21:03:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,7 +91,7 @@ class Grid extends React.Component {
     const { $ } = this.context
     const { title } = this.props
     const userCollection = $.currentUserCollection(title)
-    const numColumns = _.isMobileLanscape ? 9 : _.device(5, 4)
+    const numColumns = _.isMobileLanscape ? 9 : _.device(4, 5)
     return (
       <ListView
         key={`${_.orientation}${numColumns}`}

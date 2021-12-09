@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 06:33:27
+ * @Last Modified time: 2021-12-09 21:52:25
  */
 import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
 import { Alert } from 'react-native'
+import * as ReactNativeScreens from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import RNRestart from 'react-native-restart'
 import {
@@ -25,6 +26,8 @@ import { t } from '@utils/fetch'
 import { getUserStoreAsync } from '@utils/async'
 import theme from '@styles/theme'
 import Navigations from './src/navigations'
+
+ReactNativeScreens.enableScreens()
 
 export default function App() {
   const isLoadingComplete = useBootApp()
