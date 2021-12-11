@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 16:05:21
+ * @Last Modified time: 2021-12-11 19:14:34
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -436,20 +436,17 @@ export function hm(url, screen) {
       if (DEV) log(`📌 ${u}`)
 
       const request = new XMLHttpRequest()
-      request.open(
-        'GET',
-        `https://hm.baidu.com/hm.gif?${urlStringify({
-          rnd: randomn(10),
-          lt: getTimestamp(),
-          si: IOS
-            ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
-            : '2dcb6644739ae08a1748c45fb4cea087',
-          v: '1.2.51',
-          api: '4_0',
-          u
-        })}`,
-        true
-      )
+      const link = `https://hm.baidu.com/hm.gif?${urlStringify({
+        rnd: randomn(10),
+        lt: getTimestamp(),
+        si: IOS
+          ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
+          : '2dcb6644739ae08a1748c45fb4cea087',
+        v: '1.2.51',
+        api: '4_0',
+        u
+      })}`
+      request.open('GET', link, true)
       request.withCredentials = true
       request.send(null)
     })

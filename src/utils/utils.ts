@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 05:58:28
+ * @Last Modified time: 2021-12-11 19:14:13
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -444,7 +444,7 @@ export function trim(str = '') {
 export function randomn(n) {
   if (n > 21) return null
 
-  return Number((Math.random() + 1) * Math.pow(10, n - 1))
+  return Math.floor((Math.random() + 1) * Math.pow(10, n - 1))
 }
 
 /**

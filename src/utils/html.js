@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 18:34:50
+ * @Last Modified time: 2021-12-11 17:59:11
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './thirdParty/html-parser'
@@ -29,16 +29,13 @@ export function removeHTMLTag(str) {
 export function HTMLDecode(str = '') {
   if (str.length === 0) return ''
 
-  return (
-    str
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&nbsp;/g, ' ')
-      // eslint-disable-next-line quotes
-      .replace(/&#39;/g, "'")
-      .replace(/&quot;/g, '"')
-  )
+  return str
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
 }
 
 /**
