@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:43:49
+ * @Last Modified time: 2021-12-11 17:21:00
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -435,9 +435,7 @@ export const ItemTimeline = ob(
 
     const userId = matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
     if (userId in timelineStore.hidden) {
-      if (getTimestamp() < timelineStore.hidden[userId]) {
-        return null
-      }
+      if (getTimestamp() < timelineStore.hidden[userId]) return null
     }
 
     return (

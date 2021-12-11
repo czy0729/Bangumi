@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:07:47
+ * @Last Modified time: 2021-12-11 17:14:01
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -28,6 +28,7 @@ function About(props, { $, navigation }) {
         return $.connectRef(ref, index)
       }}
       contentContainerStyle={styles.contentContainerStyle}
+      showsVerticalScrollIndicator={false}
       {...props}
     >
       <View style={styles.page}>

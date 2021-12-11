@@ -1,9 +1,8 @@
-/* eslint-disable no-param-reassign */
 /*
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 21:39:41
+ * @Last Modified time: 2021-12-11 17:22:32
  */
 import { computed } from 'mobx'
 import { usersStore, collectionStore, timelineStore } from '@stores'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 02:10:22
+ * @Last Modified time: 2021-12-11 17:28:47
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -33,9 +33,15 @@ class TimelineList extends React.Component {
   )
 
   renderItem = ({ item, index }) => {
-    const { navigation } = this.context
+    const { $, navigation } = this.context
     return (
-      <ItemTimeline navigation={navigation} index={index} event={event} {...item} />
+      <ItemTimeline
+        navigation={navigation}
+        index={index}
+        event={event}
+        {...item}
+        onDelete={$.doDelete}
+      />
     )
   }
 

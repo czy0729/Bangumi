@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:21:15
+ * @Last Modified time: 2021-12-11 17:24:30
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -514,5 +514,23 @@ export default class ScreenZone extends store {
       info('已解除好友')
       this.fetchUsers()
     }
+  }
+
+  /**
+   * 删除时间线
+   */
+  doDelete = async href => {
+    if (!href) return false
+
+    const res = fetchHTML({
+      method: 'POST',
+      url: href
+    })
+    await res
+    feedback()
+
+    this.fetchUsersTimeline(true)
+
+    return res
   }
 }

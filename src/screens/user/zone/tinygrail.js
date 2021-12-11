@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:15:52
+ * @Last Modified time: 2021-12-11 17:14:11
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -12,7 +12,6 @@ import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { H_BG } from './store'
 import { TABS_WITH_TINYGRAIL } from './ds'
 
 function Tinygrail(props, { $, navigation }) {
@@ -26,6 +25,7 @@ function Tinygrail(props, { $, navigation }) {
         return $.connectRef(ref, index)
       }}
       contentContainerStyle={styles.contentContainerStyle}
+      showsVerticalScrollIndicator={false}
       {...props}
     >
       <View style={styles.page}>
@@ -70,12 +70,12 @@ export default obc(Tinygrail)
 
 const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
-    paddingTop: H_BG + _.space * 2,
+    paddingTop: _.parallaxImageHeight + _.space * 2,
     paddingHorizontal: _.wind,
-    minHeight: _.window.height + H_BG - _.tabBarHeight
+    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
   },
   page: {
-    minHeight: _.window.height - H_BG
+    minHeight: _.window.height - _.parallaxImageHeight
   },
   touch: {
     paddingVertical: _.sm,

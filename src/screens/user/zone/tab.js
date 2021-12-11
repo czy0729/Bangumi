@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:23:21
+ * @Last Modified time: 2021-12-11 16:53:10
  */
 import React from 'react'
-import { View, Animated } from 'react-native'
+import { Animated } from 'react-native'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import ListHeader from './list-header'
 import BangumiList from './bangumi-list'
 import TimelineList from './timeline-list'
 import RakuenList from './rakuen-list'
 import About from './about'
 import Tinygrail from './tinygrail'
-import { H_TABBAR, H_HEADER, H_RADIUS_LINE } from './store'
+import { H_HEADER, H_RADIUS_LINE } from './store'
 import { TABS, TABS_WITH_TINYGRAIL } from './ds'
 
 class Tab extends React.Component {
@@ -27,46 +28,38 @@ class Tab extends React.Component {
     $.onTabChange(index)
   }
 
-  ListHeaderComponent = (
-    <View
-      style={{
-        height: _.parallaxImageHeight + H_TABBAR
-      }}
-    />
-  )
-
   renderScene = SceneMap({
     bangumi: () => (
       <BangumiList
-        ListHeaderComponent={this.ListHeaderComponent}
+        ListHeaderComponent={ListHeader}
         scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     timeline: () => (
       <TimelineList
-        ListHeaderComponent={this.ListHeaderComponent}
+        ListHeaderComponent={ListHeader}
         scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     rakuen: () => (
       <RakuenList
-        ListHeaderComponent={this.ListHeaderComponent}
+        ListHeaderComponent={ListHeader}
         scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     about: () => (
       <About
-        ListHeaderComponent={this.ListHeaderComponent}
+        ListHeaderComponent={ListHeader}
         scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     tinygrail: () => (
       <Tinygrail
-        ListHeaderComponent={this.ListHeaderComponent}
+        ListHeaderComponent={ListHeader}
         scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />

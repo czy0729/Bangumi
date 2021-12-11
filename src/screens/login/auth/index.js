@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:44:19
+ * @Last Modified time: 2021-12-11 16:07:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 
-const title = '预登陆'
+const title = '预登录'
 
 export default
 @ob
@@ -90,7 +90,7 @@ class Auth extends React.Component {
               shadow
               onPress={() => navigation.push('LoginV2')}
             >
-              登陆管理进度
+              登录管理进度
             </Button>
           </Flex>
         </View>

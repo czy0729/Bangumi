@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 16:00:21
+ * @Last Modified time: 2021-12-11 16:05:21
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -465,8 +465,8 @@ export function hm(url, screen) {
 export function t(desc, eventData) {
   if (!desc) return
 
-  // fixed: 遗留问题
-  if (typeof desc === 'string') desc = desc.replace(/登陆/g, '登录')
+  // fixed: 遗留问题, 显示为登录, 统计还是以前录入的登陆
+  if (typeof desc === 'string') desc = desc.replace(/登录/g, '登陆')
 
   if (IOS) {
     if (!DEV) return
