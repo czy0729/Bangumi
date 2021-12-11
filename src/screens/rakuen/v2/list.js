@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 01:00:23
+ * @Last Modified time: 2021-12-11 15:53:56
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -29,7 +29,7 @@ function List({ index }, { $ }) {
 
   const type = $.type(index)
   if (type === 'hot' && !$.isWebLogin) {
-    return <Login text='热门帖子需登陆才能显示' btnText='去登陆' />
+    return <Login text='热门帖子需登录才能显示' btnText='去登录' />
   }
 
   const rakuen = $.rakuen(type)

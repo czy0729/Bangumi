@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:01:06
+ * @Last Modified time: 2021-12-11 15:54:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,14 +33,14 @@ const initList = () => [
   },
   {
     title: 'https://bangumi.tv',
-    desc: '登陆验证码 (登陆必要)',
+    desc: '登录验证码 (登录必要)',
     url: 'https://bangumi.tv/about/copyright',
     msg: [],
     loading: false
   },
   {
     title: URL_OAUTH,
-    desc: '授权登陆服务 (登陆必要)',
+    desc: '授权登录服务 (登录必要)',
     url: URL_OAUTH,
     msg: [],
     loading: false

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 13:08:19
+ * @Last Modified time: 2021-12-11 15:54:49
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -113,7 +113,7 @@ class User extends React.Component {
   }
 
   /**
-   * 登陆过期后登陆成功返回本页面, 没有正常触发请求
+   * 登录过期后登录成功返回本页面, 没有正常触发请求
    * 假如当前没有数据主动请求
    */
   onDidFocus = () => {
@@ -134,7 +134,7 @@ class User extends React.Component {
     const { $ } = this.context
     const { id } = $.usersInfo
 
-    // 自己并且没登陆
+    // 自己并且没登录
     if (!id && !userStore.isLogin) return <Login style={_.container._plain} />
 
     const { _loaded } = $.state

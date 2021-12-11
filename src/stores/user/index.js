@@ -1,11 +1,11 @@
 /*
  * 用户 (自己)
- *  - accessToken和登陆时在webview里获取cookie是两套登陆状态, 暂时只能分开维护
+ *  - accessToken和登录时在webview里获取cookie是两套登录状态, 暂时只能分开维护
  *  - 一般cookie没多久就过期了
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-11 22:13:46
+ * @Last Modified time: 2021-12-11 15:55:01
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -80,7 +80,7 @@ class User extends store {
 
     /**
      * 是html中后续在请求头中获取的更新cookie的标志
-     * 会随请求一直更新, 并带上请求防止一段时候后掉登陆
+     * 会随请求一直更新, 并带上请求防止一段时候后掉登录
      */
     setCookie: '',
 
@@ -250,14 +250,14 @@ class User extends store {
   }
 
   /**
-   * 取API是否登陆
+   * 取API是否登录
    */
   @computed get isLogin() {
     return !!this.accessToken.access_token
   }
 
   /**
-   * 取Web是否登陆
+   * 取Web是否登录
    */
   @computed get isWebLogin() {
     return !!this.userCookie.cookie
@@ -687,7 +687,7 @@ class User extends store {
   }
 
   /**
-   * 打印游客登陆sercet
+   * 打印游客登录sercet
    */
   logTourist = () => {
     // if (LOG_LEVEL <= 0) return
@@ -730,7 +730,7 @@ class User extends store {
     const { setCookie = '', html } = await res
     if (html.includes('抱歉，当前操作需要您') && !DEV) {
       // confirm(
-      //   '检测到登陆状态好像过期了, 是否登出? 注意若使用了科学上网, 请保证App在使用过程中始终保持在同一网段, 否则很容易触发源站登出逻辑, 可尝试把软件加入白名单',
+      //   '检测到登录状态好像过期了, 是否登出? 注意若使用了科学上网, 请保证App在使用过程中始终保持在同一网段, 否则很容易触发源站登出逻辑, 可尝试把软件加入白名单',
       //   () => {
       //     this.updateUserCookie()
       //   }

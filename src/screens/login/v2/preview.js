@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:48:38
+ * @Last Modified time: 2021-12-11 15:53:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,13 @@ function Preview({ onLogin, onTour }) {
       <Mesume />
       <View style={[styles.bottomContainer, _.mt.lg]}>
         <Button type='main' shadow onPress={onLogin}>
-          账号登陆
+          账号登录
         </Button>
         <View style={_.mt.md}>
           <Button type='plain' shadow onPress={onTour}>
             游客预览
           </Button>
-          <Heatmap id='登陆.游客访问' />
+          <Heatmap id='登录.游客访问' />
         </View>
       </View>
     </View>

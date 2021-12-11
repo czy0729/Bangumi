@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:03:06
+ * @Last Modified time: 2021-12-11 15:54:29
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -142,7 +142,7 @@ class DEV extends React.Component {
         ])}
         {this.renderView('CDN', [ota])}
         {this.renderView('设备视窗', [_.window])}
-        {this.renderView('登陆信息', [
+        {this.renderView('登录信息', [
           {
             accessToken: userStore.accessToken
           },

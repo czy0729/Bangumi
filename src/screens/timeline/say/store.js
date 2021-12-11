@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:34:06
+ * @Last Modified time: 2021-12-11 15:54:02
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -189,7 +189,7 @@ export default class ScreenSay extends store {
   doSubmit = (content, scrollView, navigation) => {
     if (this.isNew) {
       if (!this.formhash) {
-        info('获取表单授权码失败, 请检查登陆状态')
+        info('获取表单授权码失败, 请检查登录状态')
         return
       }
 

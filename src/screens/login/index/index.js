@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:47:58
+ * @Last Modified time: 2021-12-11 15:52:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ import { hm, t } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
 import { SDK, APP_ID, HOST, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 
-const title = '登陆V1'
+const title = '登录V1'
 const uri = `${URL_OAUTH}?${urlStringify({
   response_type: 'code',
   client_id: APP_ID,
@@ -57,7 +57,7 @@ class Login extends React.Component {
   }
 
   onLogin = () => {
-    t('授权登陆.登陆')
+    t('授权登录.登录')
 
     this.setState({
       clicked: true
@@ -73,10 +73,10 @@ class Login extends React.Component {
             if (data.href.indexOf(`${HOST}/login?`) !== -1) {
               // do nothing
             } else if (data.href.indexOf(`${URL_OAUTH}?`) !== -1) {
-              // @issue 首次登陆跳转后redirect_uri丢失了, 不清楚是什么问题
+              // @issue 首次登录跳转后redirect_uri丢失了, 不清楚是什么问题
               // 这个时候刷新当前页面就回到正常的页面?
               if (data.href.indexOf('redirect_uri') === -1) {
-                // @issue 安卓登陆后全过程能拿到完整的cookie, 但是iOS不清除是什么问题
+                // @issue 安卓登录后全过程能拿到完整的cookie, 但是iOS不清除是什么问题
                 // 只有这个报错的节点能找到chii_auth, 所以在这里捕获用户cookie
                 this.updateUserCookie(data)
                 this.refreshWebView()
@@ -100,7 +100,7 @@ class Login extends React.Component {
   }
 
   onError = () => {
-    t('授权登陆.网络问题')
+    t('授权登录.网络问题')
 
     info('网络似乎出了点问题')
     this.setState({
@@ -109,7 +109,7 @@ class Login extends React.Component {
   }
 
   onOtherPage = () => {
-    t('授权登陆.乱逛')
+    t('授权登录.乱逛')
 
     info('授权过程中不要随便乱逛>.<')
     this.setState({
@@ -156,7 +156,7 @@ class Login extends React.Component {
     feedback()
     navigation.popToTop()
 
-    t('授权登陆.成功')
+    t('授权登录.成功')
   }
 
   renderPreview() {
@@ -165,13 +165,13 @@ class Login extends React.Component {
         <Mesume />
         <View style={[this.styles.bottomContainer, _.mt.lg]}>
           <Button type='main' shadow onPress={this.onLogin}>
-            授权登陆
+            授权登录
           </Button>
           <Button style={_.mt.md} type='plain' shadow onPress={this.onTour}>
             返回
           </Button>
           <Text style={_.mt.lg} size={12} lineHeight={14} type='sub'>
-            PS: 若登陆出现问题, 请先在授权网页里面登出, 不然会出现成功后登陆过期的情况.
+            PS: 若登录出现问题, 请先在授权网页里面登出, 不然会出现成功后登录过期的情况.
           </Text>
         </View>
       </View>
@@ -291,18 +291,18 @@ class Login extends React.Component {
         <Heatmap
           right={_.wind}
           bottom={_.bottom + 120}
-          id='授权登陆.登陆'
+          id='授权登录.登录'
           transparent
         />
         <Heatmap
           right={_.wind + 31}
           bottom={_.bottom + 86}
-          id='授权登陆.成功'
+          id='授权登录.成功'
           transparent
         />
-        <Heatmap right={_.wind} bottom={_.bottom + 86} id='授权登陆.错误' transparent />
-        <Heatmap right={_.wind} bottom={_.bottom + 52} id='授权登陆.乱逛' transparent />
-        <Heatmap id='授权登陆' screen='LoginV1' />
+        <Heatmap right={_.wind} bottom={_.bottom + 86} id='授权登录.错误' transparent />
+        <Heatmap right={_.wind} bottom={_.bottom + 52} id='授权登录.乱逛' transparent />
+        <Heatmap id='授权登录' screen='LoginV1' />
       </View>
     )
   }

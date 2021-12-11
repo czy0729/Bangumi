@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 10:53:29
+ * @Last Modified time: 2021-12-11 15:47:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,7 +54,7 @@ const Box = memo(
       rightStyle.push(styles.right)
     }
 
-    let btnText = '登陆管理'
+    let btnText = '登录管理'
     if (isLogin) {
       if (!_loaded) {
         btnText = userCollectionStatus || collectionStatus.name

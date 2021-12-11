@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-11 20:53:00
+ * @Last Modified time: 2021-12-11 15:55:00
  */
 import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -99,7 +99,7 @@ class Stores {
   clearStorage() {
     Alert.alert(
       '提示',
-      '清除包括页面接口的数据缓存，但不会清除登陆等信息 (若需清除图片缓存，请到系统里面清除应用数据)',
+      '清除包括页面接口的数据缓存，但不会清除登录等信息 (若需清除图片缓存，请到系统里面清除应用数据)',
       [
         {
           text: '取消',
@@ -140,7 +140,7 @@ class Stores {
    * 登出
    */
   logout(navigation) {
-    Alert.alert('提示', '确定退出登陆?', [
+    Alert.alert('提示', '确定退出登录?', [
       {
         text: '取消',
         style: 'cancel'

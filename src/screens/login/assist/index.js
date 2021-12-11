@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:47:49
+ * @Last Modified time: 2021-12-11 15:53:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { xhrCustom, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 
-const title = '电脑辅助登陆'
+const title = '电脑辅助登录'
 const code = `JSON.stringify({
   userAgent: navigator.userAgent,
   cookie: document.cookie
@@ -24,7 +24,7 @@ const code = `JSON.stringify({
 export default
 @withHeader({
   screen: title,
-  alias: '辅助登陆',
+  alias: '辅助登录',
   hm: ['login/assist', 'LoginAssist']
 })
 @ob
@@ -45,7 +45,7 @@ class LoginAssist extends React.Component {
   accessToken = ''
 
   copy = () => {
-    t('辅助登陆.复制')
+    t('辅助登录.复制')
 
     copy(code)
     info('已复制')
@@ -68,11 +68,11 @@ class LoginAssist extends React.Component {
       return
     }
 
-    t('辅助登陆.提交')
+    t('辅助登录.提交')
 
     this.setState({
       loading: true,
-      info: '登陆请求中...'
+      info: '登录请求中...'
     })
 
     try {
@@ -104,7 +104,7 @@ class LoginAssist extends React.Component {
         } else {
           this.setState({
             loading: false,
-            info: '结果中没有登陆过的cookie, 请重新输入'
+            info: '结果中没有登录过的cookie, 请重新输入'
           })
           return
         }
@@ -116,7 +116,7 @@ class LoginAssist extends React.Component {
         } else {
           this.setState({
             loading: false,
-            info: '结果中没有登陆过的cookie, 请重新输入'
+            info: '结果中没有登录过的cookie, 请重新输入'
           })
           return
         }
@@ -132,7 +132,7 @@ class LoginAssist extends React.Component {
   }
 
   /**
-   * 登陆
+   * 登录
    */
   onLogin = async () => {
     try {
@@ -146,7 +146,7 @@ class LoginAssist extends React.Component {
     } catch (ex) {
       this.setState({
         loading: false,
-        info: '登陆失败, 请重试或跟我反馈吧bgm38'
+        info: '登录失败, 请重试或跟我反馈吧bgm38'
       })
     }
   }
@@ -174,7 +174,7 @@ class LoginAssist extends React.Component {
     } catch (error) {
       this.setState({
         loading: false,
-        info: '登陆失败, 请重试或跟我反馈吧bgm38'
+        info: '登录失败, 请重试或跟我反馈吧bgm38'
       })
       return false
     }
@@ -211,7 +211,7 @@ class LoginAssist extends React.Component {
     } catch (error) {
       this.setState({
         loading: false,
-        info: '登陆失败, 请重试或跟我反馈吧bgm38'
+        info: '登录失败, 请重试或跟我反馈吧bgm38'
       })
       return false
     }
@@ -246,7 +246,7 @@ class LoginAssist extends React.Component {
     } catch (error) {
       this.setState({
         loading: false,
-        info: '登陆失败, 请重试或跟我反馈吧bgm38'
+        info: '登录失败, 请重试或跟我反馈吧bgm38'
       })
       return false
     }
@@ -257,7 +257,7 @@ class LoginAssist extends React.Component {
    */
   inStore = async () => {
     this.setState({
-      info: '登陆成功, 正在请求个人信息...(4/4)'
+      info: '登录成功, 正在请求个人信息...(4/4)'
     })
 
     const { navigation } = this.props
@@ -283,15 +283,15 @@ class LoginAssist extends React.Component {
         scrollToTop
       >
         <Text type='danger' size={12}>
-          此为登陆最后的手段，流程相对较多 (其实不复杂，
-          熟悉的话比正常登陆还要快和稳)，请先尝试新版和旧版登陆，不行再试这个。
+          此为登录最后的手段，流程相对较多 (其实不复杂，
+          熟悉的话比正常登录还要快和稳)，请先尝试新版和旧版登录，不行再试这个。
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
-          第三方登陆失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异，
+          第三方登录失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异，
           又或者碰上bgm速度不佳 (当然还有代码有bug)。
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
-          本人能力有限，部分设备无论如何都不能走通新版和旧版的登陆流程，
+          本人能力有限，部分设备无论如何都不能走通新版和旧版的登录流程，
           若您实在很喜欢本应用，可以尝试下面的方法 (假如还走不通，请多尝试，
           又或者过来干我)。
         </Text>
@@ -303,13 +303,13 @@ class LoginAssist extends React.Component {
           <Text style={this.styles.copy} size={12} type='success' onPress={this.copy}>
             点击复制
           </Text>
-          <Heatmap id='辅助登陆.复制' />
+          <Heatmap id='辅助登录.复制' />
         </View>
         <Text style={_.mt.md}>
-          2. 使用电脑打开浏览器，访问 {HOST} (一定要是这个域名) 并登陆。
+          2. 使用电脑打开浏览器，访问 {HOST} (一定要是这个域名) 并登录。
         </Text>
         <Text style={_.mt.md}>
-          3. 登陆成功后，打开控制台 (chrome为例，window是F12，mac是⎇ + ⌘ + i)，
+          3. 登录成功后，打开控制台 (chrome为例，window是F12，mac是⎇ + ⌘ + i)，
           之后运行复制的代码。
         </Text>
         <Text style={_.mt.md}>4. 把结果复制到下面的输入框内，提交。</Text>
@@ -320,11 +320,11 @@ class LoginAssist extends React.Component {
             multiline
             numberOfLines={6}
             returnKeyType='done'
-            returnKeyLabel='登陆'
+            returnKeyLabel='登录'
             onChangeText={this.onChangeText}
             onSubmitEditing={this.submit}
           />
-          <Heatmap id='辅助登陆.提交' />
+          <Heatmap id='辅助登录.提交' />
         </View>
         <Button
           style={_.mt.lg}
@@ -333,7 +333,7 @@ class LoginAssist extends React.Component {
           loading={loading}
           onPress={this.submit}
         >
-          登陆
+          登录
         </Button>
         <Text style={_.mt.md} size={12} lineHeight={16} type='sub'>
           {info}

@@ -27,7 +27,7 @@
 
 #### 步骤 4
 
-登陆完成后如图, 之后每次进入这个软件都在这个页面, 点 Bangumi Pro (图中的Bangumi iOS test已改名) 就可以打开
+登录完成后如图, 之后每次进入这个软件都在这个页面, 点 Bangumi Pro (图中的Bangumi iOS test已改名) 就可以打开
 首次下载可能会卡住, 是因为在下载数据包，又或者是网络问题
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi@master/preview/test4.png" width="260" alt="test4" />

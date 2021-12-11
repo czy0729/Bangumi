@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:14:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:24:16
+ * @Last Modified time: 2021-12-11 15:47:44
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -23,7 +23,7 @@ function IconClose(props, { $ }) {
       color={_.colorIcon}
       onPress={() => {
         if (!showErase) {
-          info('无法操作, 请检查登陆状态')
+          info('无法操作, 请检查登录状态')
           return
         }
 

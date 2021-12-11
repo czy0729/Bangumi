@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:20:35
+ * @Last Modified time: 2021-12-11 15:47:19
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -152,7 +152,7 @@ export default class ScreenCatalogDetail extends store {
     const { list } = this.catalogDetail
     const item = list.find(i => i.modify == modify)
     if (!item) {
-      info('目录不属于你或者登陆状态失效了')
+      info('目录不属于你或者登录状态失效了')
       return
     }
 
@@ -184,7 +184,7 @@ export default class ScreenCatalogDetail extends store {
   onCopy = navigation => {
     const { formhash } = userStore
     if (!formhash) {
-      info('请先登陆')
+      info('请先登录')
       return
     }
 
@@ -307,7 +307,7 @@ export default class ScreenCatalogDetail extends store {
               })
             }, 400)
           } else {
-            info('目录创建失败, 请检查登陆状态')
+            info('目录创建失败, 请检查登录状态')
           }
         }
       }

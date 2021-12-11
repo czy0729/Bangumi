@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 10:23:28
+ * @Last Modified time: 2021-12-11 15:47:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -548,7 +548,7 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 是否登陆
+   * 是否登录
    */
   @computed get isLogin() {
     return userStore.isLogin

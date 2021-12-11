@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 10:22:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:36:12
+ * @Last Modified time: 2021-12-11 15:47:33
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -28,7 +28,7 @@ const statusMap = {
 export default class ScreenRating extends store {
   state = observable({
     page: 2,
-    isFriend: false, // 登陆用户默认true
+    isFriend: false, // 登录用户默认true
     _loaded: false,
     _fetching: false
   })

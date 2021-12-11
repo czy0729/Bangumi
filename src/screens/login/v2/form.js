@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:48:24
+ * @Last Modified time: 2021-12-11 15:53:26
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -60,13 +60,13 @@ class Form extends React.Component {
     })
 
   onNoticeHost = () => {
-    t('登陆.配置提示', {
+    t('登录.配置提示', {
       name: 'host'
     })
 
     Alert.alert(
       '提示',
-      '三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n登陆建议优先使用 bangumi.tv，出现问题再尝试 chii.in，最后尝试 bgm.tv。',
+      '三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n登录建议优先使用 bangumi.tv，出现问题再尝试 chii.in，最后尝试 bgm.tv。',
       [
         {
           text: '知道了'
@@ -76,13 +76,13 @@ class Form extends React.Component {
   }
 
   onNoticeUA = () => {
-    t('登陆.配置提示', {
+    t('登录.配置提示', {
       name: 'ua'
     })
 
     Alert.alert(
       '提示',
-      '假如您频繁掉登陆，不妨试试把这个选项勾上，通常登录状态生存时间为7天。 \n\n这是个不稳定的选项，若登陆正常不建议勾上，可能会遇到预测不能的状况。',
+      '假如您频繁掉登录，不妨试试把这个选项勾上，通常登录状态生存时间为7天。 \n\n这是个不稳定的选项，若登录正常不建议勾上，可能会遇到预测不能的状况。',
       [
         {
           text: '知道了'
@@ -147,7 +147,7 @@ class Form extends React.Component {
               value={captcha}
               placeholder='验证码'
               returnKeyType='done'
-              returnKeyLabel='登陆'
+              returnKeyLabel='登录'
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'captcha')}
@@ -181,12 +181,12 @@ class Form extends React.Component {
         <Touchable style={[this.styles.touch, _.mt.sm]} onPress={this.showConfig}>
           <Flex style={this.styles.content}>
             <Text type='sub' size={12}>
-              登陆配置
+              登录配置
             </Text>
             <Iconfont name='md-navigate-next' />
           </Flex>
-          <Heatmap id='登陆.切换域名' />
-          <Heatmap bottom={-32} id='登陆.配置提示' transparent />
+          <Heatmap id='登录.切换域名' />
+          <Heatmap bottom={-32} id='登录.配置提示' transparent />
         </Touchable>
       )
     }
@@ -198,7 +198,7 @@ class Form extends React.Component {
             <Popover style={this.styles.touch} data={data} onSelect={onSelect}>
               <Flex style={this.styles.content}>
                 <Text type='sub' size={12}>
-                  使用 {host} 进行登陆
+                  使用 {host} 进行登录
                 </Text>
                 <Iconfont name='md-keyboard-arrow-down' />
               </Flex>
@@ -220,7 +220,7 @@ class Form extends React.Component {
                   size={18}
                 />
                 <Text style={_.ml.xs} type='sub' size={12}>
-                  使用固定UA登陆 (频繁掉线请勾选)
+                  使用固定UA登录 (频繁掉线请勾选)
                 </Text>
               </Flex>
             </Touchable>
@@ -261,7 +261,7 @@ class Form extends React.Component {
             type='sub'
             onPress={() => navigation.push('LoginAssist')}
           >
-            请尝试切换另一域名进行重试，或尝试切换wifi或4g网络，实在没法登陆，可点击这里前往辅助登陆
+            请尝试切换另一域名进行重试，或尝试切换wifi或4g网络，实在没法登录，可点击这里前往辅助登录
             →
           </Text>
         )}
@@ -286,7 +286,7 @@ class Form extends React.Component {
             loading={loading}
             onPress={onLogin}
           >
-            登陆
+            登录
           </Button>
           {this.renderError()}
         </View>

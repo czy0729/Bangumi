@@ -69,7 +69,7 @@ function upadteCookie(rsp) {
       email,
       password,
       captcha_challenge_field: captcha,
-      loginsubmit: '登陆'
+      loginsubmit: '登录'
     })
   })
   upadteCookie(followRsp)

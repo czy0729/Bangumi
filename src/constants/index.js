@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 20:06:35
+ * @Last Modified time: 2021-12-11 15:58:00
  */
 import { Platform, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
@@ -75,10 +75,10 @@ export const HOST_CDN = 'https://cdn.jsdelivr.net'
 export const HOST_IMAGE_UPLOAD = 'https://www.hualigs.cn' // 免费图床
 
 /* ==================== URL ==================== */
-// 登陆v1.0 oauth地址
+// 登录v1.0 oauth地址
 export const URL_OAUTH = `${HOST}/oauth/authorize`
 
-// 登陆v1.0 授权跳转地址
+// 登录v1.0 授权跳转地址
 export const URL_OAUTH_REDIRECT = `${HOST}/dev/app`
 
 // bgm项目帖子地址

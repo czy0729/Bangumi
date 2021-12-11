@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 18:33:25
+ * @Last Modified time: 2021-12-11 15:47:25
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
@@ -28,7 +28,7 @@ function Btn({ item }, { $, navigation }) {
         dragging
           ? undefined
           : async () => {
-              if (login && !username && !id) return info('请先登陆')
+              if (login && !username && !id) return info('请先登录')
 
               if (key === 'Open') return $.toggleDragging()
 

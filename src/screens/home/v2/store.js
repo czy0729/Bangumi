@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-28 09:54:51
+ * @Last Modified time: 2021-12-11 15:56:47
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -121,7 +121,7 @@ export default class ScreenHomeV2 extends store {
       await this.initStore()
       this.initFetch()
     } else if (DEV) {
-      // 开发模式下热更新的时候, 有时候会识别不到已登陆
+      // 开发模式下热更新的时候, 有时候会识别不到已登录
       setTimeout(async () => {
         await this.initStore()
         this.initFetch()
@@ -284,7 +284,7 @@ export default class ScreenHomeV2 extends store {
   }
 
   /**
-   * 用户是否登陆
+   * 用户是否登录
    */
   @computed get isLogin() {
     return userStore.isLogin

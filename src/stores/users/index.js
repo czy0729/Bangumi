@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 13:44:03
+ * @Last Modified time: 2021-12-11 15:55:18
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -119,7 +119,7 @@ class Users extends store {
       const { _loaded } = this.myFriendsMap
 
       /**
-       * 若登陆了, 而且在2天内没更新过好友列表, 请求好友列表
+       * 若登录了, 而且在2天内没更新过好友列表, 请求好友列表
        * 用于帖子楼层标记是否好友
        */
       if (!_loaded || getTimestamp() - _loaded > 2 * 60 * 60 * 24) {

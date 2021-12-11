@@ -1,10 +1,10 @@
 /*
  * WebView
- * 某些需要登陆的页面会自动跳走, 通过改变页面cookie和重定向, 实现同步cookie
+ * 某些需要登录的页面会自动跳走, 通过改变页面cookie和重定向, 实现同步cookie
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:03:27
+ * @Last Modified time: 2021-12-11 15:55:32
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -111,9 +111,7 @@ class WebView extends React.Component {
           setTimeout(waitForBridge, 200);
         } else {
           __isBridgeOk = true
-          window${
-            SDK >= 36 ? '.ReactNativeWebView' : ''
-          }.postMessage(JSON.stringify({
+          window${SDK >= 36 ? '.ReactNativeWebView' : ''}.postMessage(JSON.stringify({
             type: 'onload',
             data: {
               href: document.location.href,

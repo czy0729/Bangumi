@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:20:57
+ * @Last Modified time: 2021-12-11 15:54:06
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -211,7 +211,7 @@ export default class ScreenTinygrail extends store {
       }
 
       this._doAuthFailCount = 0
-      info('授权失败请重试, 或检查登陆状态')
+      info('授权失败请重试, 或检查登录状态')
       this.setState({
         loading: false
       })

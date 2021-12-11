@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:33:09
+ * @Last Modified time: 2021-12-11 15:53:40
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -29,7 +29,7 @@ import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
-const title = '登陆'
+const title = '登录'
 const namespace = 'LoginV2'
 const AUTH_RETRY_COUNT = 10
 
@@ -87,7 +87,7 @@ class LoginV2 extends React.Component {
    * 游客访问
    */
   onTour = async () => {
-    t('登陆.游客访问')
+    t('登录.游客访问')
 
     try {
       info('正在从github获取游客cookie...')
@@ -106,19 +106,19 @@ class LoginV2 extends React.Component {
         tourist: 1
       })
 
-      info('登陆成功, 正在请求个人信息...', 6)
+      info('登录成功, 正在请求个人信息...', 6)
       userStore.fetchUserInfo()
       userStore.fetchUsersInfo()
       feedback()
       navigation.popToTop()
     } catch (error) {
       warn(namespace, 'onTour', error)
-      info('登陆状态过期, 请稍后再试')
+      info('登录状态过期, 请稍后再试')
     }
   }
 
   /**
-   * 显示登陆表单
+   * 显示登录表单
    */
   onPreviewLogin = () =>
     this.setState({
@@ -126,10 +126,10 @@ class LoginV2 extends React.Component {
     })
 
   /**
-   * 登陆最终失败
+   * 登录最终失败
    */
   loginFail = async info => {
-    t('登陆.错误')
+    t('登录.错误')
 
     this.setState({
       loading: false,
@@ -139,7 +139,7 @@ class LoginV2 extends React.Component {
   }
 
   /**
-   * 登陆流程
+   * 登录流程
    */
   onLogin = async () => {
     const { email, password, captcha } = this.state
@@ -150,14 +150,14 @@ class LoginV2 extends React.Component {
 
     try {
       if (this.lastCaptcha !== captcha) {
-        t('登陆.登陆')
+        t('登录.登录')
         this.codeRef.inputRef.blur()
         setStorage(`${namespace}|email`, email)
 
         await this.login()
 
         if (!this.cookie.chii_auth) {
-          this.loginFail('验证码或密码错误，稍会再重试或前往授权登陆 →')
+          this.loginFail('验证码或密码错误，稍会再重试或前往授权登录 →')
           return
         }
 
@@ -180,7 +180,7 @@ class LoginV2 extends React.Component {
     } catch (ex) {
       if (this.retryCount >= AUTH_RETRY_COUNT) {
         this.loginFail(
-          `[${String(ex)}] 登陆失败，请重试或重启APP，或点击前往旧版授权登陆 →`
+          `[${String(ex)}] 登录失败，请重试或重启APP，或点击前往旧版授权登录 →`
         )
         return
       }
@@ -262,12 +262,12 @@ class LoginV2 extends React.Component {
   }
 
   /**
-   * 密码登陆
+   * 密码登录
    */
   login = async () => {
     this.setState({
       loading: true,
-      info: '登陆请求中...(1/5)'
+      info: '登录请求中...(1/5)'
     })
 
     const { host, email, password, captcha } = this.state
@@ -288,7 +288,7 @@ class LoginV2 extends React.Component {
         email,
         password,
         captcha_challenge_field: captcha,
-        loginsubmit: '登陆'
+        loginsubmit: '登录'
       })
     })
     this.updateCookie(headers?.['set-cookie']?.[0])
@@ -426,7 +426,7 @@ class LoginV2 extends React.Component {
    */
   inStore = async () => {
     this.setState({
-      info: '登陆成功, 正在请求个人信息...(5/5)'
+      info: '登录成功, 正在请求个人信息...(5/5)'
     })
 
     const { navigation } = this.props
@@ -438,7 +438,7 @@ class LoginV2 extends React.Component {
     userStore.updateAccessToken(this.accessToken)
     feedback()
     navigation.popToTop()
-    t('登陆.成功')
+    t('登录.成功')
 
     queue(
       [
@@ -489,7 +489,7 @@ class LoginV2 extends React.Component {
   }
 
   /**
-   * 切换登陆域名
+   * 切换登录域名
    */
   onSelect = host => {
     setStorage(`${namespace}|host`, host)
@@ -498,7 +498,7 @@ class LoginV2 extends React.Component {
         host
       },
       () => {
-        t('登陆.切换域名', {
+        t('登录.切换域名', {
           host
         })
 
@@ -508,7 +508,7 @@ class LoginV2 extends React.Component {
   }
 
   /**
-   * 切换是否使用固定UA登陆
+   * 切换是否使用固定UA登录
    */
   onUAChange = () => {
     const { isCommonUA } = this.state
@@ -535,7 +535,7 @@ class LoginV2 extends React.Component {
         onTour={() =>
           Alert.alert(
             '提示',
-            '将使用开发者的测试账号, 提供大部分功能预览, 确定登陆? (可以在设置里面退出登陆)',
+            '将使用开发者的测试账号, 提供大部分功能预览, 确定登录? (可以在设置里面退出登录)',
             [
               {
                 text: '取消',
@@ -591,7 +591,7 @@ class LoginV2 extends React.Component {
             <View style={this.styles.ps}>
               <Text size={12} lineHeight={14} type='sub'>
                 隐私策略: 我们十分尊重您的隐私, 我们不会收集上述信息.
-                (多次登陆失败后可能一段时间内不能再次登陆)
+                (多次登录失败后可能一段时间内不能再次登录)
               </Text>
             </View>
           )
@@ -600,7 +600,7 @@ class LoginV2 extends React.Component {
             <Flex.Item>
               <Touchable
                 onPress={() => {
-                  t('登陆.跳转', {
+                  t('登录.跳转', {
                     to: 'Signup'
                   })
                   Alert.alert(
@@ -633,7 +633,7 @@ class LoginV2 extends React.Component {
                 </Flex>
               </Touchable>
               <Heatmap
-                id='登陆.跳转'
+                id='登录.跳转'
                 data={{
                   to: 'Signup',
                   alias: '注册'
@@ -645,7 +645,7 @@ class LoginV2 extends React.Component {
                 size={13}
                 align='center'
                 onPress={() => {
-                  t('登陆.跳转', {
+                  t('登录.跳转', {
                     to: 'Login'
                   })
 
@@ -653,13 +653,13 @@ class LoginV2 extends React.Component {
                   navigation.push('Login')
                 }}
               >
-                旧版登陆
+                旧版登录
               </Text>
               <Heatmap
-                id='登陆.跳转'
+                id='登录.跳转'
                 data={{
                   to: 'Login',
-                  alias: '旧版登陆'
+                  alias: '旧版登录'
                 }}
               />
             </Flex.Item>
@@ -668,7 +668,7 @@ class LoginV2 extends React.Component {
                 size={13}
                 align='center'
                 onPress={() => {
-                  t('登陆.跳转', {
+                  t('登录.跳转', {
                     to: 'LoginAssist'
                   })
 
@@ -676,13 +676,13 @@ class LoginV2 extends React.Component {
                   navigation.push('LoginAssist')
                 }}
               >
-                辅助登陆
+                辅助登录
               </Text>
               <Heatmap
-                id='登陆.跳转'
+                id='登录.跳转'
                 data={{
                   to: 'LoginAssist',
-                  alias: '辅助登陆'
+                  alias: '辅助登录'
                 }}
               />
             </Flex.Item>
@@ -700,10 +700,10 @@ class LoginV2 extends React.Component {
         <StatusBarPlaceholder />
         {this.renderContent()}
         <KeyboardSpacer />
-        <Heatmap right={_.wind} bottom={_.bottom + 120} id='登陆.登陆' transparent />
-        <Heatmap right={_.wind} bottom={_.bottom + 86} id='登陆.成功' transparent />
-        <Heatmap right={_.wind} bottom={_.bottom + 52} id='登陆.错误' transparent />
-        <Heatmap id='登陆' screen='Login' />
+        <Heatmap right={_.wind} bottom={_.bottom + 120} id='登录.登录' transparent />
+        <Heatmap right={_.wind} bottom={_.bottom + 86} id='登录.成功' transparent />
+        <Heatmap right={_.wind} bottom={_.bottom + 52} id='登录.错误' transparent />
+        <Heatmap id='登录' screen='Login' />
       </View>
     )
   }

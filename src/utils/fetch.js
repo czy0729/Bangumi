@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 07:59:58
+ * @Last Modified time: 2021-12-11 16:00:21
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -102,7 +102,7 @@ export default async function fetchAPI({
       // 正常情况没有code, 错误情况例如空的时候, 返回 { code: 400, err: '...' }
       if (json && json.error) {
         if (json.error === 'invalid_token') {
-          UIInfo('登陆过期')
+          UIInfo('登录过期')
           userStore.logout()
         }
         return Promise.resolve({})
@@ -235,7 +235,7 @@ export async function fetchHTML({
 }
 
 /**
- * [待废弃] 带登陆信息的XMLHttpRequest
+ * [待废弃] 带登录信息的XMLHttpRequest
  * @param {*} params
  * @param {*} success
  * @param {*} fail
@@ -464,6 +464,9 @@ export function hm(url, screen) {
  */
 export function t(desc, eventData) {
   if (!desc) return
+
+  // fixed: 遗留问题
+  if (typeof desc === 'string') desc = desc.replace(/登陆/g, '登录')
 
   if (IOS) {
     if (!DEV) return

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:14:24
+ * @Last Modified time: 2021-12-11 15:53:50
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
@@ -104,7 +104,7 @@ export default class ScreenRakuenHistory extends store {
    */
   sync = async () => {
     if (!this.isLogin || !userStore.userInfo.id) {
-      info('云同步需先登陆')
+      info('云同步需先登录')
       return
     }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:47:47
+ * @Last Modified time: 2021-12-11 15:44:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,9 +47,7 @@ class Auth extends React.Component {
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationEvents
           onWillFocus={() => {
-            if (userStore.isLogin) {
-              navigation.navigate('Home')
-            }
+            if (userStore.isLogin) navigation.navigate('Home')
           }}
         />
         <View style={_.container.plain}>
@@ -73,10 +71,16 @@ class Auth extends React.Component {
               </Touchable>
             </Flex.Item>
             <IconTouchable
+              name='md-search'
+              color={_.colorDesc}
+              size={22}
+              onPress={() => navigation.push('Search')}
+            />
+            <IconTouchable
               style={styles.setting}
               name='setting'
               color={_.colorDesc}
-              size={19}
+              size={18}
               onPress={() => navigation.push('Setting')}
             />
           </Flex>
@@ -105,7 +109,7 @@ const styles = _.create({
     marginBottom: 96
   },
   setting: {
-    marginTop: -2
+    marginTop: -3
   },
   go: {
     height: _.window.height - 120

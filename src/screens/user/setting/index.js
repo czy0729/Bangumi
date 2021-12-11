@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:00:43
+ * @Last Modified time: 2021-12-11 15:54:42
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -217,7 +217,7 @@ class Setting extends React.Component {
 
       if (label === '上传') {
         if (!this.isLogin || !userStore.userInfo.id) {
-          info('上传需先登陆')
+          info('上传需先登录')
           return
         }
 
@@ -240,7 +240,7 @@ class Setting extends React.Component {
 
       if (label === '下载') {
         if (!this.isLogin || !userStore.userInfo.id) {
-          info('下载需先登陆')
+          info('下载需先登录')
           return
         }
 
@@ -1422,18 +1422,18 @@ class Setting extends React.Component {
           style={_.mt.md}
           hd={
             <Text type='danger' size={16} bold>
-              退出登陆
+              退出登录
             </Text>
           }
           arrow
           highlight
           onPress={() => {
-            t('设置.退出登陆')
+            t('设置.退出登录')
 
             Stores.logout(navigation)
           }}
         >
-          <Heatmap id='设置.退出登陆' />
+          <Heatmap id='设置.退出登录' />
         </ItemSetting>
         <Flex style={_.mt.md} justify='center'>
           <IconTouchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:49:59
+ * @Last Modified time: 2021-12-11 15:46:27
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -273,7 +273,7 @@ export const FolderManageModal = ob(
 
         case '删除':
           if (!(this.formhash || userStore.formhash)) {
-            info('授权信息有误, 无法操作, 请尝试重新登陆')
+            info('授权信息有误, 无法操作, 请尝试重新登录')
             return
           }
 
@@ -319,7 +319,7 @@ export const FolderManageModal = ob(
     onCreate = isNew => {
       if (isNew) {
         if (!(this.formhash || userStore.formhash)) {
-          info('授权信息有误, 无法操作, 请尝试重新登陆')
+          info('授权信息有误, 无法操作, 请尝试重新登录')
           return
         }
 
@@ -340,7 +340,7 @@ export const FolderManageModal = ob(
      */
     onSubmitCatalog = () => {
       if (!(this.formhash || userStore.formhash)) {
-        info('授权信息有误, 无法操作, 请尝试重新登陆')
+        info('授权信息有误, 无法操作, 请尝试重新登录')
         return
       }
 

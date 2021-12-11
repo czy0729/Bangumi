@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 12:56:15
+ * @Last Modified time: 2021-12-11 15:46:43
  */
 import { _ } from '@stores'
 import { pick } from '@utils'
@@ -16,7 +16,7 @@ export const defaultProps = {
   lines: 4, // 最大显示多少行
   pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
   canPlay: false, // 有播放源
-  login: false, // 是否已登陆
+  login: false, // 是否已登录
   advance: false, // 详情页模式, 显示SP和更多的操作按钮
   eps: [], // 章节数据
   userProgress: {}, // 用户收藏记录
