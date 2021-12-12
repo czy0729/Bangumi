@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 11:56:13
+ * @Last Modified time: 2021-12-12 20:35:36
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -100,12 +100,14 @@ const styles = _.create({
   },
   layout: {
     position: 'absolute',
+    zIndex: 1,
     top: 0,
     right: 0,
     left: 0
   },
   linear: {
     position: 'absolute',
+    zIndex: 1,
     right: 0,
     bottom: -2,
     left: 0,

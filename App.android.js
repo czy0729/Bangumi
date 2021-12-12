@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 21:52:25
+ * @Last Modified time: 2021-12-12 19:28:57
  */
 import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
@@ -26,8 +26,6 @@ import { t } from '@utils/fetch'
 import { getUserStoreAsync } from '@utils/async'
 import theme from '@styles/theme'
 import Navigations from './src/navigations'
-
-ReactNativeScreens.enableScreens()
 
 export default function App() {
   const isLoadingComplete = useBootApp()
@@ -69,6 +67,9 @@ function useBootApp() {
 
         // Stores初始化
         await Stores.init()
+
+        // enableScreens
+        ReactNativeScreens.enableScreens(true)
       } catch (ex) {
       } finally {
         setTrue()

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 17:21:00
+ * @Last Modified time: 2021-12-12 19:58:46
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -282,7 +282,7 @@ const Item = memo(
                   _cn: findSubjectCn(!!p3Text.length && p3Text[index], subjectId),
                   _jp: !!p3Text.length && p3Text[index],
                   _name: !!p3Text.length && p3Text[index],
-                  _image: image
+                  _image: item
                 })
               }}
             />
