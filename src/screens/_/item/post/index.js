@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:52:53
+ * @Last Modified time: 2021-12-12 08:42:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -240,7 +240,7 @@ export const ItemPost = obc(
 
     // 屏蔽内容删除
     const { filterDelete, blockKeywords } = rakuenStore.setting
-    let msg
+    let msg = decoder(message)
     if (filterDelete) {
       msg = decoder(message)
       if (msg.includes('内容已被用户删除')) return null
