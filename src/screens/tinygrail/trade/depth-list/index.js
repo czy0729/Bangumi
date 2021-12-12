@@ -1,9 +1,8 @@
-/* eslint-disable react/no-array-index-key */
 /*
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:23:51
+ * @Last Modified time: 2021-12-12 12:47:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,12 +63,7 @@ function DepthList({ style }, { $ }) {
             价格
           </Text>
         </Flex.Item>
-        <Text
-          style={styles.amount}
-          type='tinygrailText'
-          size={10}
-          align='right'
-        >
+        <Text style={styles.amount} type='tinygrailText' size={10} align='right'>
           数量
         </Text>
         <Text

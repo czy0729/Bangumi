@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 10:46:28
+ * @Last Modified time: 2021-12-12 12:50:25
  */
 import React from 'react'
 import { BlurView } from '@components'
@@ -44,7 +44,6 @@ export default obc(({ show }, { $ }) => {
 const memoStyles = _.memoStyles(() => ({
   blurView: {
     position: 'absolute',
-    zIndex: -1,
     top: 0,
     left: 0,
     right: 0,

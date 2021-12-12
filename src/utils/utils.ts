@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 19:14:13
+ * @Last Modified time: 2021-12-12 12:44:56
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -293,6 +293,9 @@ export function date(format, timestamp) {
   const f = {
     Y: function () {
       return jsdate.getFullYear()
+    },
+    y: function () {
+      return (jsdate.getFullYear() + '').slice(2)
     },
     m: function () {
       return pad(f.n())
