@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 19:21:37
+ * @Last Modified time: 2021-12-13 16:21:00
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -332,7 +332,7 @@ export const ListView = observer(
   }
 )
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: parseInt(_.window.height * 0.24)
   },
