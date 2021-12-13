@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 13:43:26
+ * @Last Modified time: 2021-12-13 12:11:45
  */
 import React from 'react'
 import { Flex, Text, Mesume, Button } from '@components'
@@ -19,11 +19,13 @@ const footerEmptyDataTextMap = {
   游戏: '当前没有在玩的游戏哦'
 }
 
-function Empty({ title, length }, { $, navigation }) {
+function Empty({ title }, { $, navigation }) {
   rerender('Home.Empty')
 
   const styles = memoStyles()
   const { filter } = $.state
+  const { list } = $.currentUserCollection(title)
+  const { length } = list
   return (
     <Flex
       style={[styles.empty, length && styles.top]}
@@ -34,23 +36,25 @@ function Empty({ title, length }, { $, navigation }) {
       <Text style={styles.text} type='sub' size={13} align='center'>
         {length ? randomSpeech() : footerEmptyDataTextMap[title]}
       </Text>
-      <Button
-        style={styles.btn}
-        type='ghostMain'
-        onPress={() => {
-          t('首页.再搜索', {
-            type: title,
-            value: filter
-          })
+      {!!filter && length <= 3 && (
+        <Button
+          style={styles.btn}
+          type='ghostMain'
+          onPress={() => {
+            t('首页.再搜索', {
+              type: title,
+              value: filter
+            })
 
-          navigation.push('Search', {
-            _type: title === '全部' ? '条目' : title,
-            _value: filter
-          })
-        }}
-      >
-        前往搜索
-      </Button>
+            navigation.push('Search', {
+              _type: title === '全部' ? '条目' : title,
+              _value: filter
+            })
+          }}
+        >
+          前往搜索
+        </Button>
+      )}
     </Flex>
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 08:06:43
+ * @Last Modified time: 2021-12-13 14:47:39
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'

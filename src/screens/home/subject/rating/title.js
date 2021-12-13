@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 01:34:31
+ * @Last Modified time: 2021-12-13 13:04:22
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -71,7 +71,7 @@ export default obc(Title)
 const styles = _.create({
   rate: {
     paddingLeft: _.xs,
-    marginRight: -_.sm,
+    marginRight: -_.xs,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },

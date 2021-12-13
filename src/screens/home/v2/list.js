@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 14:16:10
+ * @Last Modified time: 2021-12-13 12:18:59
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -39,7 +39,7 @@ function List({ title }, { $ }) {
   const { page, isFocused } = $.state
   const index = $.tabs.findIndex(item => item.title === title)
   const data = $.currentUserCollection(title)
-  const { length } = data.list
+  const emptyComponent = <Empty title={title} />
   return (
     <ListView
       ref={ref => $.connectRef(ref, index)}
@@ -47,13 +47,13 @@ function List({ title }, { $ }) {
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       data={data}
+      ListHeaderComponent={<Filter />}
       footerNoMoreDataText=''
-      footerEmptyDataComponent={!length && <Empty title={title} length={length} />}
-      footerNoMoreDataComponent={length <= 3 && <Empty title={title} length={length} />}
+      footerEmptyDataComponent={emptyComponent}
+      footerNoMoreDataComponent={emptyComponent}
       contentInset={contentInset}
       contentOffset={contentOffset}
       scrollToTop={isFocused && tabs[page].title === title}
-      ListHeaderComponent={<Filter />}
       renderItem={renderItem}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}

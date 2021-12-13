@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 13:03:03
+ * @Last Modified time: 2021-12-13 13:09:28
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -34,7 +34,7 @@ const Chart = memo(
             {total}人评分
           </Text>
         )}
-        <Flex style={_.mt.md}>
+        <Flex style={styles.chart}>
           {Object.keys(count)
             .reverse()
             .map((item, index) => {
@@ -167,7 +167,11 @@ const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1,
     top: 12,
-    right: -6
+    right: -4
+  },
+  chart: {
+    marginTop: _.md,
+    marginHorizontal: -4
   },
   item: {
     height: 112 * _.ratio,
