@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-12 12:49:36
+ * @Last Modified time: 2021-12-13 00:11:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -75,12 +75,11 @@ export default obc(Header)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    position: 'relative',
-    zIndex: 1,
+    // position: 'relative',
+    // zIndex: 0,
     paddingBottom: _.sm
   },
   content: {
-    zIndex: 2,
     minHeight: _.window.height * 0.5,
     backgroundColor: _.colorPlain
   },

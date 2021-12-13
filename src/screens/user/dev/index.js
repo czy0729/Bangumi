@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:54:29
+ * @Last Modified time: 2021-12-12 22:33:54
  */
 import React from 'react'
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
+import * as ScreenOrientation from 'expo-screen-orientation'
 import { ScrollView, Text, Switch, Touchable, Button, Iconfont } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, systemStore, userStore } from '@stores'
@@ -68,6 +69,15 @@ class DEV extends React.Component {
             // eslint-disable-next-line no-undef
             <Touchable onPress={() => yijianmaojiao()}>
               <Text>一键猫叫</Text>
+            </Touchable>
+          }
+          withoutFeedback
+        />
+        <ItemSetting
+          hd='ScreenOrientation'
+          ft={
+            <Touchable onPress={() => ScreenOrientation.unlockAsync()}>
+              <Text>解锁旋转</Text>
             </Touchable>
           }
           withoutFeedback
