@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-07 13:57:40
+ * @Last Modified time: 2021-12-13 17:56:32
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -15,6 +15,7 @@ import { API_CALENDAR } from '@constants/api'
 import { CDN_ONAIR, CDN_DISCOVERY_HOME } from '@constants/cdn'
 import { NAMESPACE, INIT_HOME, INIT_USER_ONAIR_ITEM } from './init'
 import { cheerioToday } from './common'
+import { ON_AIR } from './fallback'
 
 class Calendar extends store {
   state = observable({
@@ -296,7 +297,10 @@ class Calendar extends store {
         _loaded: true
       }
 
-      JSON.parse(_response).forEach(item => {
+      let onAir = JSON.parse(_response)
+      if (onAir.length <= 8) onAir = ON_AIR
+
+      onAir.forEach(item => {
         const airEps = item.eps.filter(
           item => item.status === 'Air' || item.status === 'Today'
         )
