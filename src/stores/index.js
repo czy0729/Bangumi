@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:55:00
+ * @Last Modified time: 2021-12-18 00:17:07
  */
 import { Alert } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
 import { CacheManager } from 'react-native-expo-image-cache'
+import AsyncStorage from '@components/@/react-native-async-storage'
 import { info } from '@utils/ui'
 import { DEV } from '@constants'
 import calendarStore from './calendar'
