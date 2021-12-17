@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:54:42
+ * @Last Modified time: 2021-12-18 00:16:59
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@components/@/react-native-async-storage'
 import {
   ScrollView,
   Flex,

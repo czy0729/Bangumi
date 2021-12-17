@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-12 12:44:56
+ * @Last Modified time: 2021-12-18 00:17:25
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
+import AsyncStorage from '@components/@/react-native-async-storage'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
 
