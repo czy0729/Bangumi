@@ -16,7 +16,7 @@
     "platforms": [
       "ios"
     ],
-    "orientation": "default",
+    "orientation": "portrait",
     "scheme": "bangumi",
     "icon": "./src/assets/images/icon.png",
     "updates": {

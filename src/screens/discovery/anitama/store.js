@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 22:14:52
+ * @Last Modified time: 2021-12-20 22:01:17
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
@@ -30,39 +30,39 @@ export default class ScreenAnitama extends store {
       _loaded: true
     })
 
-    discoveryStore.fetchAnitamaTimeline()
+    discoveryStore.fetchDMZJTimeline()
     return res
   }
 
   // -------------------- fetch --------------------
-  fetchAnitamaTimeline = () => {
+  fetchList = () => {
     const { page } = this.state
-    return discoveryStore.fetchAnitamaTimeline(page)
+    return discoveryStore.fetchDMZJTimeline(page)
   }
 
   // -------------------- get --------------------
-  @computed get anitamaTimeline() {
+  @computed get article() {
     const { page } = this.state
-    return discoveryStore.anitamaTimeline(page)
+    const article = discoveryStore.dmzjTimeline(page)
+    return article
   }
 
   // -------------------- page --------------------
   prev = () => {
     const { page } = this.state
-    if (page === 1) {
-      return
-    }
+    if (page == 1) return
 
+    const _page = parseInt(page) - 1
     t('Anitama.上一页', {
-      page: page - 1
+      page: _page
     })
 
     this.setState({
-      page: page - 1,
+      page: _page,
       show: false,
-      ipt: String(page - 1)
+      ipt: String(_page)
     })
-    this.fetchAnitamaTimeline()
+    this.fetchList()
 
     setTimeout(() => {
       this.setState({
@@ -74,16 +74,18 @@ export default class ScreenAnitama extends store {
 
   next = () => {
     const { page } = this.state
+
+    const _page = parseInt(page) + 1
     t('Anitama.下一页', {
-      page: page + 1
+      page: _page
     })
 
     this.setState({
-      page: page + 1,
+      page: _page,
       show: false,
-      ipt: String(page + 1)
+      ipt: String(_page)
     })
-    this.fetchAnitamaTimeline()
+    this.fetchList()
 
     setTimeout(() => {
       this.setState({
@@ -128,7 +130,7 @@ export default class ScreenAnitama extends store {
       show: false,
       ipt: String(_ipt)
     })
-    this.fetchAnitamaTimeline()
+    this.fetchList()
 
     setTimeout(() => {
       this.setState({

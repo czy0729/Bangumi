@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 20:32:55
+ * @Last Modified time: 2021-12-20 20:19:36
  */
 export type MenuItemType = {
   key: string
@@ -99,7 +99,7 @@ const menuMap = {
   },
   Anitama: {
     key: 'Anitama',
-    name: 'anitama',
+    name: '资讯',
     icon: 'md-text-format'
   },
   Character: {

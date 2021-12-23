@@ -2,37 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:32:34
+ * @Last Modified time: 2021-12-20 22:00:41
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { ScrollView, Touchable, Text, Image, Heatmap } from '@components'
+import { Page, ScrollView, Touchable, Text, Image, Heatmap } from '@components'
 import { Pagination } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { injectWithHeader } from '@utils/decorators'
+import { useObserver, useMount } from '@utils/hooks'
 import { hm, t } from '@utils/fetch'
 import Store from './store'
 
-const title = 'Anitama'
-const width = _.window.width - _.wind * 2
-const height = width * 0.56
+const title = '资讯'
 const heatmaps = {
   prev: 'Anitama.上一页',
   next: 'Anitama.下一页',
   search: 'Anitama.页码跳转'
 }
 
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['discovery/anitama', 'Anitama']
-})
-@obc
-class Anitama extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
+const Anitama = (props, { $, navigation }) => {
+  useMount(() => {
     $.init()
 
     navigation.setParams({
@@ -46,117 +37,116 @@ class Anitama extends React.Component {
 
           switch (key) {
             case '浏览器查看':
-              open('http://www.anitama.cn')
+              open('https://m.news.dmzj.com')
               break
+
             default:
               break
           }
         }
       }
     })
-  }
+  })
 
-  onPress = id => {
-    const url = `http://m.anitama.cn/article/${id}`
+  const onPress = useCallback(item => {
     t('Anitama.跳转', {
       to: 'WebBrowser',
-      url
+      url: item.url
     })
 
-    open(url)
-    hm(url, title)
-  }
+    open(item.url)
+    hm(item.url, title)
+  }, [])
 
-  renderPaganation() {
-    const { $ } = this.context
-    const { ipt } = $.state
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { show, ipt, _loaded } = $.state
+    const { list } = $.article
     return (
-      <Pagination
-        style={_.mt.md}
-        input={ipt}
-        heatmaps={heatmaps}
-        onPrev={$.prev}
-        onNext={$.next}
-        onChange={$.onChange}
-        onSearch={$.doSearch}
-      />
-    )
-  }
-
-  render() {
-    const { $ } = this.context
-    const { show, _loaded } = $.state
-    if (!_loaded) {
-      return <View style={_.select(_.container.bg, _.container.plain)} />
-    }
-
-    return (
-      <ScrollView
-        style={_.select(_.container.bg, _.container.plain)}
-        contentContainerStyle={_.container.bottom}
-        scrollToTop
-      >
-        {show && (
-          <>
-            <View style={this.styles.container}>
-              {$.anitamaTimeline.list.map((item, index) => (
-                <Touchable
-                  key={item.aid}
-                  style={this.styles.item}
-                  onPress={() => this.onPress(item.aid)}
-                >
-                  <Text align='right'>
-                    © {item.author} / {item.origin}
-                  </Text>
-                  <Image
-                    style={_.mt.sm}
-                    src={item.cover.url}
-                    width={width}
-                    height={height}
-                    radius
-                    shadow
-                  />
-                  <View style={this.styles.info}>
-                    <Text size={18} type='title' bold>
-                      {item.title}
+      <Page style={_.select(_.container.bg, _.container.plain)} loaded={_loaded}>
+        <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
+          {show && (
+            <>
+              <View style={styles.container}>
+                {list.map((item, index) => (
+                  <Touchable
+                    key={item.aid}
+                    style={styles.item}
+                    onPress={() => onPress(item)}
+                  >
+                    <Text align='right'>
+                      © {item.author} / {item.origin}
                     </Text>
-                    <Text style={_.mt.sm} lineHeight={18}>
-                      {item.subtitle}
-                    </Text>
-                    {!!item.intro && (
-                      <Text style={_.mt.md} type='sub' lineHeight={18}>
-                        {item.intro}
+                    <Image
+                      style={_.mt.md}
+                      src={item.cover.url}
+                      headers={item.cover.headers}
+                      width={styles.cover.width}
+                      height={styles.cover.height}
+                      radius
+                      shadow
+                    />
+                    <View style={styles.info}>
+                      <Text size={18} type='title' bold>
+                        {item.title}
                       </Text>
-                    )}
-                  </View>
-                  {!index && <Heatmap id='Anitama.跳转' />}
-                </Touchable>
-              ))}
-            </View>
-            {this.renderPaganation()}
-          </>
-        )}
-      </ScrollView>
+                      {!!item.subtitle && (
+                        <Text style={_.mt.sm} lineHeight={18} type='sub' bold>
+                          {item.subtitle}
+                        </Text>
+                      )}
+                      {!!item.intro && (
+                        <Text style={_.mt.md} type='sub' lineHeight={18}>
+                          {item.intro}
+                        </Text>
+                      )}
+                    </View>
+                    {!index && <Heatmap id='Anitama.跳转' />}
+                  </Touchable>
+                ))}
+              </View>
+              <Pagination
+                style={_.mt.md}
+                input={ipt}
+                heatmaps={heatmaps}
+                onPrev={$.prev}
+                onNext={$.next}
+                onChange={$.onChange}
+                onSearch={$.doSearch}
+              />
+            </>
+          )}
+        </ScrollView>
+      </Page>
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    minHeight: _.window.height
-  },
-  item: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind,
-    paddingTop: 24,
-    marginTop: _.lg,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-  },
-  info: {
-    paddingVertical: _.space
+export default injectWithHeader(Store, Anitama, {
+  screen: title,
+  alias: 'Anitama',
+  hm: ['discovery/anitama', 'Anitama']
+})
+
+const memoStyles = _.memoStyles(() => {
+  const width = _.window.width - _.wind * 2
+  return {
+    container: {
+      minHeight: _.window.height
+    },
+    item: {
+      paddingTop: 24,
+      paddingBottom: _.sm,
+      paddingHorizontal: _.wind,
+      marginVertical: _.md,
+      backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+    },
+    cover: {
+      width,
+      height: width * 0.64
+    },
+    info: {
+      paddingVertical: _.space
+    }
   }
-}))
+})

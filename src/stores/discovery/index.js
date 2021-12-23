@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:36:14
+ * @Last Modified time: 2021-12-20 21:14:25
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
-import { fetchHTML, xhr } from '@utils/fetch'
+import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { log } from '@utils/dev'
 import { HTMLDecode } from '@utils/html'
 import { HOST, LIST_EMPTY, HOST_NING_MOE, HOST_ANITAMA } from '@constants'
@@ -63,6 +63,14 @@ class Discovery extends store {
      * @param {*} page
      */
     anitamaTimeline: {
+      _: (page = 1) => page,
+      0: INIT_ANITAMA_TIMELINE_ITEM
+    },
+
+    /**
+     * @param {*} page
+     */
+    dmzjTimeline: {
       _: (page = 1) => page,
       0: INIT_ANITAMA_TIMELINE_ITEM
     },
@@ -380,6 +388,53 @@ class Discovery extends store {
     }
 
     return Promise.resolve(animataTimeline)
+  }
+
+  /**
+   * DMZJ文章列表
+   */
+  fetchDMZJTimeline = async (page = 1) => {
+    const url = 'https://m.news.dmzj.com'
+    log(`⚡️ DMZJ文章列表 ${url}`)
+
+    let data = INIT_ANITAMA_TIMELINE_ITEM
+    try {
+      const { _response } = await xhrCustom({
+        method: 'POST',
+        url,
+        data: {
+          page: page + 1
+        }
+      })
+
+      const key = 'dmzjTimeline'
+      data = {
+        list: JSON.parse(_response).map(item => ({
+          aid: item.id,
+          url: `${url}/article/${item.id}.html`,
+          author: item.authorName,
+          origin: '动漫之家',
+          cover: {
+            url: `https:${item.rowPicUrl}`,
+            headers: {
+              Referer: url
+            }
+          },
+          title: item.title,
+          intro: item.intro,
+          subtitle: item.c_create_time
+        })),
+        _loaded: getTimestamp()
+      }
+
+      this.setState({
+        [key]: {
+          [page]: data
+        }
+      })
+    } catch (error) {}
+
+    return Promise.resolve(data)
   }
 
   /**
