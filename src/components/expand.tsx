@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-13 14:10:31
+ * @Last Modified time: 2021-12-24 03:16:07
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
+import { useObserver } from 'mobx-react-lite'
 import { _ } from '@stores'
 import { Touchable } from './touchable'
 import { Flex } from './flex'
@@ -24,6 +25,7 @@ type Props = {
 
 export const Expand: React.FC<Props> = ({ style, moreStyle, ratio = 1, children }) => {
   const aHeight = useRef(new Animated.Value(0))
+  const ratioHeight = 216 * _.ratio * ratio
 
   const [expand, setExpand] = useState(false)
   const [height, setHeight] = useState(0)
@@ -36,17 +38,24 @@ export const Expand: React.FC<Props> = ({ style, moreStyle, ratio = 1, children 
               inputRange: [0, 1],
 
               // 1个比例的最大高度
-              outputRange: [Math.min(216 * _.ratio * ratio, height), height]
+              outputRange: [Math.min(ratioHeight, height), height]
             })
           : 'auto'
       },
       style
     ],
-    [height, ratio, style]
+    [height, ratioHeight, style]
   )
 
-  const onLayout = useCallback(event => setHeight(event.nativeEvent.layout.height), [])
   const onExpand = useCallback(() => setExpand(true), [])
+  const onLayout = useCallback(
+    event => {
+      const { height } = event.nativeEvent.layout
+      setHeight(height)
+      if (height <= ratioHeight) onExpand()
+    },
+    [ratioHeight, onExpand]
+  )
 
   useEffect(() => {
     if (!expand) return
@@ -58,9 +67,9 @@ export const Expand: React.FC<Props> = ({ style, moreStyle, ratio = 1, children 
     }).start()
   }, [expand])
 
-  return (
+  return useObserver(() => (
     <Animated.View style={animatedStyles}>
-      <View style={height ? undefined : styles.layout} onLayout={onLayout}>
+      <View style={styles.layout} onLayout={onLayout}>
         {children}
       </View>
       {!expand && (
@@ -68,8 +77,9 @@ export const Expand: React.FC<Props> = ({ style, moreStyle, ratio = 1, children 
           <LinearGradient
             style={styles.linear}
             colors={[
-              `rgba(${_.colorPlainRaw.join()}, 0.16)`,
-              `rgba(${_.colorPlainRaw.join()}, 1)`,
+              `rgba(${_.colorPlainRaw.join()}, 0)`,
+              `rgba(${_.colorPlainRaw.join()}, 0.32)`,
+              `rgba(${_.colorPlainRaw.join()}, 0.8)`,
               `rgba(${_.colorPlainRaw.join()}, 1)`
             ]}
           />
@@ -81,7 +91,7 @@ export const Expand: React.FC<Props> = ({ style, moreStyle, ratio = 1, children 
         </>
       )}
     </Animated.View>
-  )
+  ))
 }
 
 const styles = _.create({
@@ -97,7 +107,7 @@ const styles = _.create({
   linear: {
     position: 'absolute',
     right: 0,
-    bottom: 0,
+    bottom: -2,
     left: 0,
     height: 64
   },
@@ -105,7 +115,7 @@ const styles = _.create({
     position: 'absolute',
     zIndex: 1,
     right: 0,
-    bottom: 0,
+    bottom: -_.md,
     left: 0,
     padding: _.md,
     borderRadius: _.radiusSm,

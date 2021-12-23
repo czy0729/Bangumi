@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-10 00:52:24
+ * @Last Modified time: 2021-12-24 03:26:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,7 +72,7 @@ function filterChildren(children) {
  */
 function getRawChildrenText(passProps) {
   try {
-    let text = passProps?.rawChildren?.[0]?.data
+    const text = passProps?.rawChildren?.[0]?.data
     if (text) return text
 
     const children = passProps?.rawChildren?.[0]?.children

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:27:05
+ * @Last Modified time: 2021-12-24 03:27:22
  */
 import React from 'react'
 import { Page, Heatmap } from '@components'
@@ -114,6 +114,7 @@ class Mono extends React.Component {
         contentStyle={this.styles.contentStyle}
         index={index}
         event={event}
+        matchLink={false}
         {...item}
       />
     )

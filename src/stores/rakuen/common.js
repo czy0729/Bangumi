@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 02:05:38
+ * @Last Modified time: 2021-12-24 03:57:13
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -70,9 +70,8 @@ export async function fetchRakuen({ scope, type } = {}) {
  */
 export function analysisComments(HTML, reverse) {
   const comments = []
-  if (!HTML) {
-    return comments
-  }
+  if (!HTML) return comments
+
   // 回复内容需要渲染html就不能使用node查找了, 而且子回复也在里面
   let messageHTML = HTML[1]
     .match(/<div class="reply_content">(.+?)<\/div><\/div><\/div><\/div>/g)
@@ -92,11 +91,10 @@ export function analysisComments(HTML, reverse) {
       children.shift()
     }
   }
+
   children.forEach((item, index) => {
-    // @todo 暂时只显示前200楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
-    if (index >= 200) {
-      return
-    }
+    // @todo 暂时只显示前1000楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
+    if (index >= 1000) return
 
     const sub = [] // 存放子回复
     const subHTML =

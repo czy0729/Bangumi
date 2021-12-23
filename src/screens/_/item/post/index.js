@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-12 08:42:56
+ * @Last Modified time: 2021-12-24 03:29:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -221,6 +221,7 @@ export const ItemPost = obc(
       userSign,
       erase,
       rendered,
+      matchLink,
       showFixedTextare,
       event
     },
@@ -292,7 +293,7 @@ export const ItemPost = obc(
         isFriend={$.myFriendsMap?.[userId]}
         isJump={isJump}
         isNew={isNew}
-        matchLink={rendered}
+        matchLink={matchLink === undefined ? rendered : matchLink}
         msg={msg}
         postId={postId}
         readedTime={readedTime}
