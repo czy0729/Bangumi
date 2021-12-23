@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 05:28:13
+ * @Last Modified time: 2021-12-24 03:06:29
  */
 import { useEffect } from 'react'
 import { NativeEventEmitter, Clipboard } from 'react-native'
@@ -44,7 +44,9 @@ export default function useShortcuts() {
         })
       }
 
-      Shortcuts.setShortcuts(shortcutsItems.reverse())
+      try {
+        Shortcuts.setShortcuts(shortcutsItems.reverse())
+      } catch (error) {}
     }, 8000)
   }, [])
 
@@ -78,7 +80,9 @@ export default function useShortcuts() {
     }
 
     ;(async function () {
-      listener(await Shortcuts.getInitialShortcut())
+      try {
+        listener(await Shortcuts.getInitialShortcut())
+      } catch (error) {}
 
       ShortcutsEmitter.addListener('onShortcutItemPressed', listener)
     })()
