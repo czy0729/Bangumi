@@ -4,9 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-20 20:28:52
+ * @Last Modified time: 2021-12-24 05:55:22
  */
-import { Platform, Dimensions } from 'react-native'
+import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
 
 const expoPackageJson = require('@/node_modules/expo/package.json')
@@ -21,23 +21,11 @@ export const TEXT_ONLY = DEV
 export const LOG_LEVEL = 0
 
 /* ==================== LAYOUT ==================== */
-const { width, height } = Dimensions.get('window')
-
 export const ORIENTATION_PORTRAIT = 'PORTRAIT'
 export const ORIENTATION_LANDSCAPE = 'LANDSCAPE'
+export const PAD = Platform.isPad
 export const PAD_LEVEL_1 = 616
 export const PAD_LEVEL_2 = 900
-
-const minSide = Math.min(width, height)
-const maxSide = Math.max(width, height)
-let isPad = 0
-
-// 暂时认为长边 <= 短边 * 1.6, 且短边 >= PAD_LEVEL_1, 是平板
-if (maxSide <= minSide * 1.6 && minSide >= PAD_LEVEL_1) {
-  isPad = minSide >= PAD_LEVEL_2 ? 2 : 1
-}
-
-export const PAD = isPad
 export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1
 
 /* ==================== BASE ==================== */

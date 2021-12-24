@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-12 19:28:57
+ * @Last Modified time: 2021-12-24 10:34:32
  */
 import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
@@ -25,7 +25,7 @@ import { useBoolean, useShortcuts, useKeepAwake, useOrientation } from '@utils/h
 import { t } from '@utils/fetch'
 import { getUserStoreAsync } from '@utils/async'
 import theme from '@styles/theme'
-import Navigations from './src/navigations'
+import { createNavigator } from './src/navigations/index'
 
 export default function App() {
   const isLoadingComplete = useBootApp()
@@ -35,13 +35,11 @@ export default function App() {
   useEffect(() => {
     _.toggleOrientation(orientation)
   }, [orientation])
-
   if (!isLoadingComplete) return null
+
   return (
     <SafeAreaProvider style={_.container.flex}>
-      <Provider theme={theme}>
-        <Navigations />
-      </Provider>
+      <Provider theme={theme}>{createNavigator()}</Provider>
       <BackAndroid />
       <DeepLink />
       <AppCommon />

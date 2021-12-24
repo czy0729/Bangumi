@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 21:52:13
+ * @Last Modified time: 2021-12-24 10:34:10
  */
 import React, { useEffect } from 'react'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -16,7 +16,7 @@ import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
 import { useBoolean, useOrientation } from '@utils/hooks'
 import theme from '@styles/theme'
-import Navigations from './src/navigations/index'
+import { createNavigator } from './src/navigations/index'
 
 ReactNativeScreens.enableScreens()
 
@@ -30,11 +30,9 @@ export default function App() {
 
   return (
     <SafeAreaProvider style={_.container.flex}>
-      <Provider theme={theme}>
-        <Navigations />
-        <AppCommon />
-      </Provider>
+      <Provider theme={theme}>{createNavigator()}</Provider>
       <DeepLink />
+      <AppCommon />
     </SafeAreaProvider>
   )
 }

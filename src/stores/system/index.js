@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 16:58:36
+ * @Last Modified time: 2021-12-24 10:32:43
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -295,6 +295,36 @@ class System extends store {
       })
       this.setStorage(key, undefined, NAMESPACE)
     }
+  }
+
+  /**
+   * 设置`首页功能块`
+   */
+  setHomeRenderTabs = label => {
+    const { homeRenderTabs } = this.setting
+
+    let data
+    if (homeRenderTabs.includes(label)) {
+      data = homeRenderTabs.filter(item => item !== label)
+    } else {
+      data = []
+      if (label === 'Discovery' || homeRenderTabs.includes('Discovery'))
+        data.push('Discovery')
+      if (label === 'Timeline' || homeRenderTabs.includes('Timeline'))
+        data.push('Timeline')
+      data.push('Home')
+      if (label === 'Rakuen' || homeRenderTabs.includes('Rakuen')) data.push('Rakuen')
+      data.push('User')
+    }
+
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        homeRenderTabs: data
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
   }
 
   /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 11:58:01
+ * @Last Modified time: 2021-12-24 09:13:21
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -68,6 +68,7 @@ export const INIT_SETTING = {
   homeFilter: true, // 首页列表搜索框
   homeOrigin: false, // 首页条目显示搜索源头
   homeSortSink: true, // 首页已放送章节看完条目下沉
+  homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'], // 首页Tabs项
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
   userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue('4'),

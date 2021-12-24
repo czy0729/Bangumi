@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:56:47
+ * @Last Modified time: 2021-12-24 10:51:46
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -937,16 +937,20 @@ export default class ScreenHomeV2 extends store {
    */
   updateInitialPage = navigation => {
     if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {
-      this.init()
-      return
+      return this.init()
     }
 
     if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')) {
-      navigation.push('Tinygrail')
-      return
+      return navigation.push('Tinygrail')
     }
 
     setTimeout(() => {
+      // 若功能块不显示, 不跳转, 初始化进度页面
+      const { initialPage, homeRenderTabs } = systemStore.setting
+      if (!homeRenderTabs.includes(initialPage)) {
+        return this.init()
+      }
+
       this.setState({
         isFocused: false
       })

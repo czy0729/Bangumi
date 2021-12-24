@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-18 00:16:59
+ * @Last Modified time: 2021-12-24 10:42:34
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import {
   ScrollView,
+  Touchable,
   Flex,
   Text,
+  Iconfont,
   SwitchPro,
   SegmentedControl,
   Heatmap
@@ -262,6 +264,17 @@ class Setting extends React.Component {
     }
   }
 
+  setHomeRenderTabs = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '首页功能块',
+        label
+      })
+
+      systemStore.setHomeRenderTabs(label)
+    }
+  }
+
   toggle = key => {
     const state = this.state[key]
     this.setState(
@@ -330,7 +343,6 @@ class Setting extends React.Component {
     const { cdn, deepDark, tinygrail, katakana, autoColorScheme } = systemStore.setting
     return (
       <>
-        {this.renderSection('特色', 'module')}
         {_module && (
           <>
             <ItemSetting
@@ -541,11 +553,10 @@ class Setting extends React.Component {
 
   renderBasic() {
     const { basic } = this.state
-    const { s2t, heatMap, filterDefault, hideScore, cnFirst, initialPage, filter18x } =
+    const { s2t, heatMap, filterDefault, hideScore, cnFirst, filter18x } =
       systemStore.setting
     return (
       <>
-        {this.renderSection('定制', 'basic')}
         {basic && (
           <>
             <ItemSetting
@@ -698,30 +709,6 @@ class Setting extends React.Component {
                 }}
               />
             </ItemSetting>
-            <ItemSetting
-              show={!this.simple && !userStore.isLimit}
-              hd='启动页'
-              ft={
-                <Popover
-                  data={MODEL_SETTING_INITIAL_PAGE.data.map(({ label }) => label)}
-                  hitSlop={hitSlop}
-                  onSelect={this.setInitialPage}
-                >
-                  <Text type='sub' size={15}>
-                    {MODEL_SETTING_INITIAL_PAGE.getLabel(initialPage)}
-                  </Text>
-                </Popover>
-              }
-              arrow
-              highlight
-            >
-              <Heatmap
-                id='设置.切换'
-                data={{
-                  title: '启动页'
-                }}
-              />
-            </ItemSetting>
           </>
         )}
       </>
@@ -744,7 +731,7 @@ class Setting extends React.Component {
     } = systemStore.setting
     return (
       <>
-        {this.renderSection('UI', 'ui')}
+        {this.renderSection('UI')}
         {ui && (
           <>
             {/* <ItemSetting
@@ -1011,7 +998,7 @@ class Setting extends React.Component {
       systemStore.setting
     return (
       <>
-        {this.renderSection('首页收藏')}
+        {this.renderSection('进度')}
         <ItemSetting
           hd='排序'
           ft={
@@ -1226,7 +1213,7 @@ class Setting extends React.Component {
     const { advance } = systemStore
     return (
       <>
-        {this.renderSection('联系', 'contact')}
+        {this.renderSection('联系')}
         {contact && (
           <>
             <ItemSetting
@@ -1324,7 +1311,7 @@ class Setting extends React.Component {
     const hasNewVersion = name !== VERSION_GITHUB_RELEASE
     return (
       <>
-        {this.renderSection('系统', 'system')}
+        {this.renderSection('系统')}
         {system && (
           <>
             <ItemSetting
@@ -1446,6 +1433,142 @@ class Setting extends React.Component {
     )
   }
 
+  renderRoutes() {
+    if (this.simple) return null
+
+    const { initialPage } = systemStore.setting
+    return (
+      <>
+        <View style={this.styles.split} />
+        <ItemSetting
+          show={!userStore.isLimit}
+          hd='启动页'
+          ft={
+            <Popover
+              data={MODEL_SETTING_INITIAL_PAGE.data.map(({ label }) => label)}
+              hitSlop={hitSlop}
+              onSelect={this.setInitialPage}
+            >
+              <Text type='sub' size={15}>
+                {MODEL_SETTING_INITIAL_PAGE.getLabel(initialPage)}
+              </Text>
+            </Popover>
+          }
+          arrow
+          highlight
+        >
+          <Heatmap
+            id='设置.切换'
+            data={{
+              title: '启动页'
+            }}
+          />
+        </ItemSetting>
+        {this.renderTabs()}
+      </>
+    )
+  }
+
+  renderTabs() {
+    const { homeRenderTabs } = systemStore.setting
+    const showDiscovery = homeRenderTabs.includes('Discovery')
+    const showTimeline = homeRenderTabs.includes('Timeline')
+    const showRakuen = homeRenderTabs.includes('Rakuen')
+    return (
+      <View style={this.styles.blocks}>
+        <Text type='title' size={16} bold>
+          功能块
+        </Text>
+        <Text style={_.mt.sm} type='sub' size={12}>
+          点击切换是否显示，切换后需要重新启动才能生效
+        </Text>
+        <Flex style={this.styles.tabs}>
+          <Flex.Item>
+            <Touchable onPress={() => this.setHomeRenderTabs('Discovery')}>
+              <Flex style={this.styles.tab} justify='center' direction='column'>
+                <View style={this.styles.icon}>
+                  <Iconfont
+                    name='home'
+                    color={showDiscovery ? _.colorDesc : _.colorIcon}
+                    size={18}
+                  />
+                </View>
+                <Text type={showDiscovery ? undefined : 'icon'} size={11} bold>
+                  发现
+                </Text>
+                {!showDiscovery && <View style={this.styles.disabledLine} />}
+              </Flex>
+            </Touchable>
+          </Flex.Item>
+          <Flex.Item>
+            <Touchable onPress={() => this.setHomeRenderTabs('Timeline')}>
+              <Flex style={this.styles.tab} justify='center' direction='column'>
+                <View style={this.styles.icon}>
+                  <Iconfont
+                    name='md-access-time'
+                    color={showTimeline ? _.colorDesc : _.colorIcon}
+                    size={19}
+                  />
+                </View>
+                <Text type={showTimeline ? undefined : 'icon'} size={11} bold>
+                  时间胶囊
+                </Text>
+                {!showTimeline && <View style={this.styles.disabledLine} />}
+              </Flex>
+            </Touchable>
+          </Flex.Item>
+          <Flex.Item>
+            <Touchable onPress={() => info('进度暂不允许关闭')}>
+              <Flex style={this.styles.tab} justify='center' direction='column'>
+                <View style={this.styles.icon}>
+                  <Iconfont
+                    style={this.styles.iconStar}
+                    name='md-star-outline'
+                    color={_.colorDesc}
+                    size={21}
+                  />
+                </View>
+                <Text size={11} bold>
+                  进度
+                </Text>
+              </Flex>
+            </Touchable>
+          </Flex.Item>
+          <Flex.Item>
+            <Touchable onPress={() => this.setHomeRenderTabs('Rakuen')}>
+              <Flex style={this.styles.tab} justify='center' direction='column'>
+                <View style={this.styles.icon}>
+                  <Iconfont
+                    style={_.mt.xxs}
+                    name='md-chat-bubble-outline'
+                    color={showRakuen ? _.colorDesc : _.colorIcon}
+                    size={17}
+                  />
+                </View>
+                <Text type={showRakuen ? undefined : 'icon'} size={11} bold>
+                  超展开
+                </Text>
+                {!showRakuen && <View style={this.styles.disabledLine} />}
+              </Flex>
+            </Touchable>
+          </Flex.Item>
+          <Flex.Item>
+            <Touchable onPress={() => info('时光机暂不允许关闭')}>
+              <Flex style={this.styles.tab} justify='center' direction='column'>
+                <View style={this.styles.icon}>
+                  <Iconfont name='md-person-outline' color={_.colorDesc} size={21} />
+                </View>
+                <Text size={11} bold>
+                  时光机
+                </Text>
+              </Flex>
+            </Touchable>
+          </Flex.Item>
+        </Flex>
+      </View>
+    )
+  }
+
   render() {
     return (
       <ScrollView
@@ -1476,6 +1599,7 @@ class Setting extends React.Component {
         {this.renderBasic()}
         <View style={this.styles.split} />
         {this.renderUI()}
+        {this.renderRoutes()}
         <View style={this.styles.split} />
         {this.renderHome()}
         <View style={this.styles.split} />
@@ -1526,5 +1650,40 @@ const memoStyles = _.memoStyles(() => ({
   },
   transparent: {
     opacity: 0
+  },
+  blocks: {
+    paddingHorizontal: _.wind,
+    paddingVertical: _.md - 2
+  },
+  tabs: {
+    marginTop: _.md,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  tab: {
+    paddingVertical: _.sm + 2,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+  },
+  icon: {
+    height: 24
+  },
+  iconStar: {
+    marginTop: -1
+  },
+  disabledLine: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 5,
+    bottom: 4,
+    width: 5,
+    backgroundColor: _.select(_.colorIcon, '#777'),
+    borderLeftWidth: 2,
+    borderRightWidth: 1,
+    borderColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+    transform: [
+      {
+        rotateZ: '45deg'
+      }
+    ]
   }
 }))
