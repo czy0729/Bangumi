@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:02:34
+ * @Last Modified time: 2021-12-25 02:42:00
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -100,7 +100,7 @@ class PM extends React.Component {
     )
   }
 
-  get memoStyles() {
+  get styles() {
     return memoStyles()
   }
 }

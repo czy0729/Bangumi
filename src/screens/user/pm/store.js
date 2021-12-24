@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 01:17:24
+ * @Last Modified time: 2021-12-25 02:37:14
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -125,7 +125,7 @@ export default class ScreenPM extends store {
     }
 
     const { form = {} } = this.pmDetail
-    if (!form.formhash) {
+    if (!form?.formhash) {
       info('获取表单授权码失败, 需要别人回复过才能继续发送')
       return
     }
