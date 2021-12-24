@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:08:34
+ * @Last Modified time: 2021-12-25 04:41:07
  */
 export * from './accordion'
+export * from './action-sheet'
 export * from './activity'
 export * from './back-android'
 export * from './bgm'
@@ -37,6 +38,7 @@ export * from './menu'
 export * from './mesume'
 export * from './page'
 export * from './popover'
+export * from './portal'
 export * from './render-html'
 export * from './scroll-to-top'
 export * from './scroll-view'

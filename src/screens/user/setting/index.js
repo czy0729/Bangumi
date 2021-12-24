@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 10:42:34
+ * @Last Modified time: 2021-12-25 07:50:03
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -15,7 +15,8 @@ import {
   Iconfont,
   SwitchPro,
   SegmentedControl,
-  Heatmap
+  Heatmap,
+  ActionSheet
 } from '@components'
 import { Popover, ItemSetting, IconTouchable, NavigationBarEvents } from '@screens/_'
 import Stores, { _, userStore, systemStore, rakuenStore, themeStore } from '@stores'
@@ -44,6 +45,7 @@ import {
   MODEL_SETTING_USER_GRID_NUM
 } from '@constants/model'
 import Type from './type'
+// import Theme from './theme'
 
 const title = '设置'
 const namespace = 'Setting'
@@ -1571,44 +1573,50 @@ class Setting extends React.Component {
 
   render() {
     return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={_.container.bottom}
-        scrollToTop
-      >
-        <NavigationBarEvents />
-        <ItemSetting
-          style={_.mt.sm}
-          hd='使用指南'
-          arrow
-          highlight
-          onPress={() => {
-            t('设置.跳转', {
-              title: '个人设置',
-              to: 'Zhinan'
-            })
+      <>
+        <ScrollView
+          style={_.container.plain}
+          contentContainerStyle={_.container.bottom}
+          scrollToTop
+        >
+          <NavigationBarEvents />
+          <ItemSetting
+            style={_.mt.sm}
+            hd='使用指南'
+            arrow
+            arrowStyle={_.mr.xxs}
+            arrowIcon='md-open-in-new'
+            arrowSize={18}
+            highlight
+            onPress={() => {
+              t('设置.跳转', {
+                title: '个人设置',
+                to: 'Zhinan'
+              })
 
-            open('https://www.yuque.com/chenzhenyu-k0epm/znygb4')
-          }}
-        />
-        {this.renderUser()}
-        {this.renderRakuen()}
-        <View style={this.styles.split} />
-        {this.renderModule()}
-        <View style={this.styles.split} />
-        {this.renderBasic()}
-        <View style={this.styles.split} />
-        {this.renderUI()}
-        {this.renderRoutes()}
-        <View style={this.styles.split} />
-        {this.renderHome()}
-        <View style={this.styles.split} />
-        {this.renderMe()}
-        {this.renderContact()}
-        <View style={this.styles.split} />
-        {this.renderSystem()}
-        {this.renderDangerZone()}
-      </ScrollView>
+              open('https://www.yuque.com/chenzhenyu-k0epm/znygb4')
+            }}
+          />
+          {this.renderUser()}
+          {this.renderRakuen()}
+          <View style={this.styles.split} />
+          {this.renderModule()}
+          <View style={this.styles.split} />
+          {this.renderBasic()}
+          <View style={this.styles.split} />
+          {this.renderUI()}
+          {this.renderRoutes()}
+          <View style={this.styles.split} />
+          {this.renderHome()}
+          <View style={this.styles.split} />
+          {this.renderMe()}
+          {this.renderContact()}
+          <View style={this.styles.split} />
+          {this.renderSystem()}
+          {this.renderDangerZone()}
+        </ScrollView>
+        <ActionSheet />
+      </>
     )
   }
 

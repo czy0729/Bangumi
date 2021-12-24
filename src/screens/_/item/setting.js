@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:57:54
+ * @Last Modified time: 2021-12-25 07:50:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,9 @@ export const ItemSetting = ob(
     hd,
     ft,
     arrow,
+    arrowStyle,
+    arrowIcon = 'md-navigate-next',
+    arrowSize = 22,
     information,
     informationType = 'sub',
     thumb,
@@ -53,7 +56,9 @@ export const ItemSetting = ob(
             </Flex>
           </Flex.Item>
           {typeof ft === 'string' ? <Text type='sub'>{ft}</Text> : ft}
-          {arrow && <Iconfont style={_.ml.xs} name='md-navigate-next' />}
+          {arrow && (
+            <Iconfont style={[_.ml.xs, arrowStyle]} name={arrowIcon} size={arrowSize} />
+          )}
         </Flex>
         <Flex>
           {information && (
@@ -88,11 +93,11 @@ const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorPlain
   },
   item: {
-    paddingVertical: _.md - 2,
+    paddingVertical: 12,
     paddingRight: _.wind
   },
   information: {
-    maxWidth: '80%',
+    maxWidth: '86%',
     marginTop: 2
   }
 }))

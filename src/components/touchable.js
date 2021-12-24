@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:49:14
+ * @Last Modified time: 2021-12-25 02:49:47
  */
 import React from 'react'
 import {
@@ -40,9 +40,7 @@ function callOnceInInterval(functionTobeCalled, interval = 40) {
     /**
      * 把点击事件放在requestAnimationFrame里面, 在安卓上面是两个完全不同的体验
      */
-    return setTimeout(() => {
-      functionTobeCalled()
-    }, 0)
+    return requestAnimationFrame(() => functionTobeCalled())
   }
 
   return false

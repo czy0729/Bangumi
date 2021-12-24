@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:35:11
+ * @Last Modified time: 2021-12-25 04:56:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,9 +18,6 @@ import Check from './check'
 import Store from './store'
 
 const title = '个人设置'
-const H_BG = Math.min(parseInt(_.window.width * 0.64), 288) + 8
-const W_BGS = parseInt((_.window.contentWidth - _.md - _._wind * 2) / 2)
-const H_BGS = W_BGS * 0.5625
 const headers = {
   Referer: ''
 }
@@ -63,7 +60,7 @@ class UserSetting extends React.Component {
           headers={headers}
           src={bgSrc}
           width={_.window.width}
-          height={H_BG}
+          height={this.styles.preview.height}
           blurRadius={blurRadius}
         />
         <Flex style={this.styles.mask} direction='column' justify='center'>
@@ -199,13 +196,18 @@ class UserSetting extends React.Component {
         <Flex style={_.mt.sm} wrap='wrap'>
           {bgs.map((item, index) => (
             <Touchable
-              // eslint-disable-next-line react/no-array-index-key
               key={index}
               style={[this.styles.bg, index % 2 === 1 && _.ml.md]}
               onPress={() => $.onSelectBg(item)}
               onLongPress={() => this.onViewOrigin(item, index)}
             >
-              <Image src={item} width={W_BGS} height={H_BGS} headers={headers} radius />
+              <Image
+                src={item}
+                width={this.styles.image.width}
+                height={this.styles.image.height}
+                headers={headers}
+                radius
+              />
               {!index && <Heatmap id='个人设置.查看原图' />}
             </Touchable>
           ))}
@@ -234,37 +236,49 @@ class UserSetting extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  mask: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.48)'
-  },
-  avatar: {
-    backgroundColor: _.__colorPlain__
-  },
-  contentContainerStyle: {
-    paddingTop: _.md + 8,
-    paddingHorizontal: _.wind,
-    paddingBottom: _.bottom
-  },
-  bg: {
-    width: W_BGS,
-    height: H_BGS,
-    marginBottom: _.md
-  },
-  input: {
-    paddingRight: 8
-  },
-  example: {
-    position: 'absolute',
-    zIndex: 2,
-    right: _.wind,
-    bottom: _.sm,
-    opacity: 0.64
+const memoStyles = _.memoStyles(() => {
+  const H_BG = Math.min(parseInt(_.window.width * 0.64), 288) + 8
+  const W_BGS = parseInt((_.window.width - _.md - _._wind * 2) / 2)
+  const H_BGS = W_BGS * 0.5625
+  return {
+    mask: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.48)'
+    },
+    avatar: {
+      backgroundColor: _.__colorPlain__
+    },
+    contentContainerStyle: {
+      paddingTop: _.md + 8,
+      paddingHorizontal: _.wind,
+      paddingBottom: _.bottom
+    },
+    bg: {
+      width: W_BGS,
+      height: H_BGS,
+      marginBottom: _.md
+    },
+    input: {
+      paddingRight: 8
+    },
+    preview: {
+      height: H_BG
+    },
+    image: {
+      width: W_BGS,
+      height: H_BGS
+    },
+    example: {
+      position: 'absolute',
+      zIndex: 2,
+      right: _.wind,
+      bottom: _.sm,
+      opacity: 0.64
+    }
   }
-}))
+})

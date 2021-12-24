@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:05:42
+ * @Last Modified time: 2021-12-25 03:12:11
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -304,6 +304,9 @@ export const mt = StyleSheet.create({
 })
 
 export const mr = StyleSheet.create({
+  xxs: {
+    marginRight: 2
+  },
   xs: {
     marginRight: xs
   },
