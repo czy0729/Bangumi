@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-20 22:01:17
+ * @Last Modified time: 2021-12-25 08:18:23
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
@@ -11,13 +11,17 @@ import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 
 const namespace = 'ScreenAnitama'
+const excludeState = {
+  page: 1,
+  ipt: '1'
+}
+let prevPage
 
 export default class ScreenAnitama extends store {
   state = observable({
-    page: 1,
-    show: true,
-    ipt: '1',
+    show: false,
     history: [],
+    ...excludeState,
     _loaded: false
   })
 
@@ -26,11 +30,22 @@ export default class ScreenAnitama extends store {
     const state = await res
     this.setState({
       ...state,
+      ...excludeState,
       show: true,
       _loaded: true
     })
 
-    discoveryStore.fetchDMZJTimeline()
+    // App首次启动使用页码1, 再次进入页面使用之前的页码
+    if (!prevPage) {
+      prevPage = this.state.page
+    } else {
+      this.setState({
+        page: Number(prevPage),
+        ipt: String(prevPage)
+      })
+    }
+
+    this.fetchList()
     return res
   }
 
@@ -62,6 +77,7 @@ export default class ScreenAnitama extends store {
       show: false,
       ipt: String(_page)
     })
+    prevPage = _page
     this.fetchList()
 
     setTimeout(() => {
@@ -85,6 +101,7 @@ export default class ScreenAnitama extends store {
       show: false,
       ipt: String(_page)
     })
+    prevPage = _page
     this.fetchList()
 
     setTimeout(() => {
@@ -130,6 +147,7 @@ export default class ScreenAnitama extends store {
       show: false,
       ipt: String(_ipt)
     })
+    prevPage = _ipt
     this.fetchList()
 
     setTimeout(() => {

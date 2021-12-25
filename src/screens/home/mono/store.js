@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 08:05:32
+ * @Last Modified time: 2021-12-25 08:50:52
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -18,7 +18,8 @@ import { HOST } from '@constants'
 export default class ScreenMono extends store {
   state = observable({
     showHeaderTitle: false,
-    checkTinygrail: false
+    checkTinygrail: false,
+    expands: [] // 展开的子楼层id
   })
 
   init = () => {
@@ -164,6 +165,15 @@ export default class ScreenMono extends store {
         this.cn || this.jp
       )}&mobileaction=toggle_view_mobile`
     )
+
+  toggleExpand = id => {
+    const { expands } = this.state
+    this.setState({
+      expands: expands.includes(id)
+        ? expands.filter(item => item !== id)
+        : [...expands, id]
+    })
+  }
 
   // -------------------- action --------------------
   /**

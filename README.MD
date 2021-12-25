@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.6.0" src="https://img.shields.io/badge/Version-5.6.0-0366d6" />
+  <img alt="Version: 5.6.2" src="https://img.shields.io/badge/Version-5.6.2-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -52,21 +52,22 @@ Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互�
 
 ## Recently Update
 
-v5.6.0 - 2021/12/11
+v5.6.2 - 2021/12/25
 
 —— 新增 ——
 
-- [x] [我的] 支持再自己的所有收藏里面搜索
-- [x] 适配横屏（beta）
+- [x] 支持首页有限地自定义底部 Tabs
 
 —— 优化 ——
 
-- [x] 框架底层升级引擎，调错
-- [x] [人物] 回复 UI 与帖子一致
+- [x] [发现] 某失效功能迭代为资讯页面
 
 —— 修复 ——
 
-- [x] [空间] 修复了查看自己的空间，时间胶囊记录删除按钮无效的问题
+- [x] [帖子] 修复了超展开设置【过滤用户删除的楼层】关闭时，帖子闪退的问题
+- [x] [人物] 修复了留言过多时卡死的问题
+- [x] [PM] 修复了给好友发信息页面崩溃的问题
+- [x] 修复平板判断逻辑
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
