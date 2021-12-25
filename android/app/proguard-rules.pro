@@ -159,3 +159,8 @@
   **[] $VALUES;
   public *;
 }
+
+##### react-native-device-info #####
+-keepclassmembers class com.android.installreferrer.api.** {
+  *;
+}

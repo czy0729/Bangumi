@@ -4,10 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 05:55:22
+ * @Last Modified time: 2021-12-25 22:10:42
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
+import { PAD } from './device'
 
 const expoPackageJson = require('@/node_modules/expo/package.json')
 const appJson = require('@/app.json')
@@ -23,7 +24,6 @@ export const LOG_LEVEL = 0
 /* ==================== LAYOUT ==================== */
 export const ORIENTATION_PORTRAIT = 'PORTRAIT'
 export const ORIENTATION_LANDSCAPE = 'LANDSCAPE'
-export const PAD = Platform.isPad
 export const PAD_LEVEL_1 = 616
 export const PAD_LEVEL_2 = 900
 export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 10:34:32
+ * @Last Modified time: 2021-12-25 22:19:05
  */
 import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
@@ -21,7 +21,12 @@ import { DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
-import { useBoolean, useShortcuts, useKeepAwake, useOrientation } from '@utils/hooks'
+import {
+  useBoolean,
+  // useShortcuts,
+  useKeepAwake,
+  useOrientation
+} from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { getUserStoreAsync } from '@utils/async'
 import theme from '@styles/theme'
@@ -29,7 +34,7 @@ import { createNavigator } from './src/navigations/index'
 
 export default function App() {
   const isLoadingComplete = useBootApp()
-  useShortcuts()
+  // useShortcuts()
   useKeepAwake()
   const orientation = useOrientation()
   useEffect(() => {
