@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 08:06:16
+ * @Last Modified time: 2021-12-27 01:10:22
  */
 export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const INIT_ROUTE = 'Home'
@@ -10,9 +10,9 @@ export const RERENDER_SHOW = /ZZZ/
 // export const RERENDER_SHOW = /Rakuen\.(.+?)\.Main/
 
 export default {
-  initialRouteName: 'HomeTab', // HomeTab Discovery Subject Tinygrail
+  initialRouteName: 'Subject', // HomeTab Discovery Subject Tinygrail
   initialRouteParams: {
-    // subjectId: 137458 // anime: 296870, music: 302514, book: 267358, game: 137458
+    subjectId: 137458 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/366048' // group/360353, ep/938136
     // userId: 456208 // 456208, 419012, 'lilyurey'
     // monoId: 'person/2481' // character/70323 person/5745

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 10:34:10
+ * @Last Modified time: 2021-12-27 02:44:04
  */
 import React, { useEffect } from 'react'
 import * as ReactNativeScreens from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { HoldMenuProvider } from 'react-native-hold-menu'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
 import Provider from '@ant-design/react-native/lib/provider'
