@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-27 08:12:00
+ * @Last Modified time: 2021-12-28 01:01:42
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Page, Heatmap, Flex, Text, Button } from '@components'
+import { Page, Heatmap } from '@components'
 import { KeyboardAdjustPanResize } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { open, copy, runAfter } from '@utils'
@@ -17,12 +16,9 @@ import { cnjp } from '@utils/app'
 import HeaderTitle from './header-title'
 import Bg from './bg'
 import List from './list'
-import Header from './header'
 import Modal from './modal'
 import IconShare from './icon/share'
 import Store from './store'
-
-import { HoldItem } from 'react-native-hold-menu'
 
 const title = '条目'
 const showBlurViewOffset = 200
@@ -138,33 +134,7 @@ class Subject extends React.Component {
     return (
       <Page>
         <Bg show={showBlurView} />
-        <Flex
-          style={{
-            marginTop: 120
-          }}
-        >
-          <HoldItem
-            items={[
-              { text: 'Actions', isTitle: true, onPress: () => {} },
-              { text: 'Action 1', onTap: () => {} },
-              { text: 'Action 2', withSeparator: true, onPress: () => {} },
-              { text: 'Action 3', isDestructive: true, onPress: () => {} }
-            ]}
-            activateOn='tap'
-            closeOnTap
-          >
-            <Button
-              style={{
-                width: 40,
-                height: 40
-              }}
-            >
-              123
-            </Button>
-          </HoldItem>
-        </Flex>
-        <Header />
-        {/* <List onScroll={this.onScroll} /> */}
+        <List onScroll={this.onScroll} />
         <Modal />
         <KeyboardAdjustPanResize />
         <Heatmap id={title} screen='Subject' />

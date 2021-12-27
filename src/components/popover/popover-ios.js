@@ -4,53 +4,52 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-27 08:15:57
+ * @Last Modified time: 2021-12-28 03:43:40
  */
-import React from 'react'
-import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import React, { useMemo, useRef } from 'react'
+import { DeviceEventEmitter, View } from 'react-native'
 import { HoldItem } from 'react-native-hold-menu'
-import { Text } from '../text'
-// import CompPopover from '../@/ant-design/popover'
-// import { _ } from '@stores'
+import { _ } from '@stores'
+import { useMount } from '@utils/hooks'
+import { IOS } from '@constants'
 
-{
-  /* <HoldItem
-  items={[
-    { text: 'Actions', isTitle: true, onPress: () => {} },
-    { text: 'Action 1', onTap: () => {} },
-    { text: 'Action 2', withSeparator: true, onPress: () => {} },
-    { text: 'Action 3', isDestructive: true, onPress: () => {} }
-  ]}
-  activateOn='tap'
->
-  <Flex
-    style={{
-      width: 80,
-      height: 80
-    }}
-  >
-    <Text>1</Text>
-  </Flex>
-</HoldItem> */
-}
+const EVENT_TYPE = 'POPOVER_ONSELECT'
+let id = 0
 
 function Popover({ children, ...other }) {
   const { style, overlay } = other
-  const { data = [], onSelect } = overlay.props
-  const items = data.map(item => ({
-    text: item,
-    onPress: () => onSelect(item)
-  }))
+  const { title, data = [], onSelect = Function.prototype } = overlay.props
+
+  const eventId = useRef((id += 1))
+  const eventType = `${EVENT_TYPE}|${eventId.current}`
+  const items = useMemo(() => {
+    const _items = data.map(item => ({
+      text: item,
+      eventType
+    }))
+    if (title) {
+      _items.unshift({
+        text: title,
+        isTitle: true
+      })
+    }
+    return _items
+  }, [title, data, eventType])
+  useMount(() => {
+    const subscription = DeviceEventEmitter.addListener(eventType, value =>
+      onSelect(value)
+    )
+    return () => subscription.remove()
+  })
+
   return (
     <View style={style}>
       <HoldItem
-        styles={{
-          position: 'relative',
-          maxWidth: '80%'
-        }}
+        styles={styles.holdItem}
         items={items}
         activateOn='tap'
+        closeOnTap
+        hapticFeedback={IOS ? 'Light' : 'None'}
       >
         {children}
       </HoldItem>
@@ -58,6 +57,19 @@ function Popover({ children, ...other }) {
   )
 }
 
+export default Popover
+
+const styles = _.create({
+  holdItem: {
+    position: 'relative',
+    maxWidth: '50%'
+  }
+})
+
+// Old
+// import CompPopover from '../@/ant-design/popover'
+// import { _ } from '@stores'
+//
 // function Popover({ children, ...other }) {
 //   return (
 //     <CompPopover
@@ -70,5 +82,3 @@ function Popover({ children, ...other }) {
 //     </CompPopover>
 //   )
 // }
-
-export default observer(Popover)

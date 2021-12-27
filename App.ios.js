@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-27 08:00:57
+ * @Last Modified time: 2021-12-28 03:11:09
  */
 import React, { useEffect } from 'react'
 import * as ReactNativeScreens from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-// import { HoldMenuProvider } from '@components/@/react-native-hold-menu'
-import { HoldMenuProvider } from 'react-native-hold-menu'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
-// import Provider from '@ant-design/react-native/lib/provider'
+import Provider from '@ant-design/react-native/lib/provider'
 import { DeepLink } from '@components'
+import { HoldMenuProvider } from '@components/@/react-native-hold-menu'
 import { AppCommon } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
 import { useBoolean, useOrientation } from '@utils/hooks'
-// import theme from '@styles/theme'
+import theme from '@styles/theme'
 import { createNavigator } from './src/navigations/index'
 
 ReactNativeScreens.enableScreens()
@@ -31,13 +30,15 @@ export default function App() {
   if (!isLoadingComplete) return null
 
   return (
-    <HoldMenuProvider theme='dark'>
-      <SafeAreaProvider style={_.container.flex}>
-        {createNavigator()}
+    <SafeAreaProvider style={_.container.flex}>
+      <Provider theme={theme}>
+        <HoldMenuProvider theme={_.select('light', 'dark')}>
+          {createNavigator()}
+        </HoldMenuProvider>
         <DeepLink />
         <AppCommon />
-      </SafeAreaProvider>
-    </HoldMenuProvider>
+      </Provider>
+    </SafeAreaProvider>
   )
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 11:31:01
+ * @Last Modified time: 2021-12-28 04:15:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,10 +44,11 @@ const Main = memo(
       popoverProps = {
         overlay: (
           <Menu
-            title={[
-              `ep.${item.sort} ${item.name_cn || item.name}`,
-              `${item.airdate} 讨论数：${item.comment}`
-            ]}
+            // title={[
+            //   `ep.${item.sort} ${item.name_cn || item.name}`,
+            //   `${item.airdate} 讨论数：${item.comment}`
+            // ]}
+            title={`ep.${item.sort} / ${item.airdate}`}
             data={popoverData}
             onSelect={value => onSelect(value, item)}
           />
@@ -122,12 +123,15 @@ const memoStyles = _.memoStyles(() => ({
 }))
 
 function getPopoverData(item, isSp, canPlay, login, advance, userProgress) {
+  // if (IOS) {
+  //   discuss = '本集讨论'
+  // } else {
+  //   discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
+  // }
+
   let discuss
-  if (IOS) {
-    discuss = '本集讨论'
-  } else {
-    discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
-  }
+  discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
+  if (discuss.length >= 14) discuss = `${discuss.slice(0, 14)}...`
 
   let data
   if (login) {
