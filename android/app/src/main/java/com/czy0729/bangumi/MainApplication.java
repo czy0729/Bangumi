@@ -20,6 +20,7 @@ import expo.modules.constants.ConstantsPackage;
 import expo.modules.permissions.PermissionsPackage;
 import expo.modules.filesystem.FileSystemPackage;
 // import expo.modules.updates.UpdatesController;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +30,9 @@ import com.czy0729.bangumi.umeng.DplusReactPackage;
 import com.czy0729.bangumi.umeng.RNUMConfigure;
 import com.czy0729.bangumi.daynight.DayNightPackage;
 import com.czy0729.bangumi.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
+
+import com.facebook.react.bridge.JSIModulePackage;
+import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
@@ -52,6 +56,11 @@ public class MainApplication extends Application implements ReactApplication {
       // packages.add(new RNFetchBlobPackage());
       // packages.add(new CameraRollPackage());
       return packages;
+    }
+
+    @Override
+    protected JSIModulePackage getJSIModulePackage() {
+      return new ReanimatedJSIModulePackage();
     }
 
     @Override

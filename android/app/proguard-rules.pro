@@ -164,3 +164,6 @@
 -keepclassmembers class com.android.installreferrer.api.** {
   *;
 }
+
+##### react-native-reanimated #####
+-keep class com.facebook.react.turbomodule.** { *; }

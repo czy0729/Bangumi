@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-28 03:11:09
+ * @Last Modified time: 2021-12-28 20:21:48
  */
 import React, { useEffect } from 'react'
 import * as ReactNativeScreens from 'react-native-screens'
@@ -32,9 +32,7 @@ export default function App() {
   return (
     <SafeAreaProvider style={_.container.flex}>
       <Provider theme={theme}>
-        <HoldMenuProvider theme={_.select('light', 'dark')}>
-          {createNavigator()}
-        </HoldMenuProvider>
+        <HoldMenuProvider>{createNavigator()}</HoldMenuProvider>
         <DeepLink />
         <AppCommon />
       </Provider>

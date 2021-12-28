@@ -24,7 +24,7 @@ import {
 import { useInternal } from 'react-native-hold-menu/src/hooks'
 
 const AnimatedBlurView = Animated.createAnimatedComponent(View)
-export const BACKDROP_LIGHT_BACKGROUND_COLOR = 'rgba(0,0,0,0.2)'
+export const BACKDROP_LIGHT_BACKGROUND_COLOR = 'rgba(0,0,0,0.1)'
 export const BACKDROP_DARK_BACKGROUND_COLOR = 'rgba(0,0,0,0.5)'
 
 type Context = {

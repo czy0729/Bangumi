@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:50:05
+ * @Last Modified time: 2021-12-28 22:42:29
  */
 import React from 'react'
 import { IOS } from '@constants'
 import { Menu } from '../menu'
-import { Popover as CompPopover } from './index'
+import CompPopover from './index'
 
 export const Popover = ({
   data = [],

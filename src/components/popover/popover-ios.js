@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-28 03:43:40
+ * @Last Modified time: 2021-12-28 21:50:13
  */
 import React, { useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
@@ -18,12 +18,13 @@ let id = 0
 
 function Popover({ children, ...other }) {
   const { style, overlay } = other
-  const { title, data = [], onSelect = Function.prototype } = overlay.props
-
+  const data = other?.data || overlay?.props?.data
+  const title = other?.title || overlay?.props?.title || ''
+  const onSelect = other?.onSelect || overlay?.props?.onSelect || Function.prototype
   const eventId = useRef((id += 1))
   const eventType = `${EVENT_TYPE}|${eventId.current}`
   const items = useMemo(() => {
-    const _items = data.map(item => ({
+    const _items = (data || []).map(item => ({
       text: item,
       eventType
     }))
