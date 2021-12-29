@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-14 19:24:23
+ * @Last Modified time: 2021-12-29 01:27:50
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 
 type Props = {
   style?: StyleProp<ViewStyle>
@@ -29,7 +30,6 @@ export const Accordion: React.FC<Props> = ({
 }) => {
   const [show, setShow] = useState(lazy ? expand : true)
   const expanded = useRef(expand)
-
   const [h, setH] = useState(0)
   const aH = useRef(new Animated.Value(expand ? 1 : 0))
   const animatedStyles = useMemo(
@@ -56,22 +56,24 @@ export const Accordion: React.FC<Props> = ({
   )
 
   useEffect(() => {
-    if (expand) {
-      setShow(true)
-      expanded.current = true
-    }
+    runAfter(() => {
+      if (expand) {
+        setShow(true)
+        expanded.current = true
+      }
 
-    Animated.timing(aH.current, {
-      toValue: expand ? 1 : 0,
-      duration: 160,
-      useNativeDriver: false
-    }).start()
+      Animated.timing(aH.current, {
+        toValue: expand ? 1 : 0,
+        duration: 160,
+        useNativeDriver: false
+      }).start()
 
-    if (!expand) {
-      setTimeout(() => {
-        setShow(false)
-      }, 180)
-    }
+      if (!expand) {
+        setTimeout(() => {
+          setShow(false)
+        }, 180)
+      }
+    })
   }, [expand])
 
   if (!expanded.current && lazy && !show) return null

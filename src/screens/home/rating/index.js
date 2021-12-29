@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 10:40:40
+ * @Last Modified time: 2021-12-29 01:30:31
  */
 import React from 'react'
 import { TabBar, SceneMap } from 'react-native-tab-view'

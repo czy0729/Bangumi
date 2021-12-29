@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-28 22:42:25
+ * @Last Modified time: 2021-12-29 04:46:15
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -50,6 +50,7 @@ export * from './switch'
 export * from './switch-pro'
 export * from './tabs'
 export * from './tabs-v2'
+export * from './tap'
 export * from './text'
 export * from './tool-bar'
 export * from './touchable'

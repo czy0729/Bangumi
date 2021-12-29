@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 14:46:40
+ * @Last Modified time: 2021-12-29 03:01:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,7 @@ const titleHitSlops = {
   left: _.device(8, 4)
 }
 const defaultProps = {
+  navigation: {},
   styles: {},
   index: 0,
   subject: {},
@@ -38,6 +39,7 @@ const defaultProps = {
 
 const Item = memo(
   ({
+    navigation,
     styles,
     index,
     subject,
@@ -60,7 +62,7 @@ const Item = memo(
               style={styles.title}
               withoutFeedback
               hitSlop={titleHitSlops}
-              onPress={onItemPress}
+              onPress={() => onItemPress(navigation, subjectId, subject)}
             >
               <Flex align='start'>
                 <Flex.Item>
@@ -90,7 +92,7 @@ const Item = memo(
             </View>
           )}
         </Flex>
-        <Accordion expand={expand} lazy={index >= 4}>
+        <Accordion expand={expand}>
           <Eps subjectId={subjectId} />
         </Accordion>
         {isTop && <View style={styles.dot} />}
@@ -115,6 +117,7 @@ export default obc(
     const { expand } = $.$Item(subjectId)
     return (
       <Item
+        navigation={navigation}
         styles={styles}
         index={index}
         subject={subject}
@@ -123,13 +126,13 @@ export default obc(
         heatMap={$.heatMap}
         top={top}
         expand={expand}
-        onItemPress={() => $.onItemPress(navigation, subjectId, subject)}
+        onItemPress={$.onItemPress}
       />
     )
   }
 )
 
-const memoStylesLazy = _.memoStyles(_ => ({
+const memoStylesLazy = _.memoStyles(() => ({
   lazy: {
     height: 150,
     backgroundColor: _.colorPlain,

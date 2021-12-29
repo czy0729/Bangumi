@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-19 17:23:42
+ * @Last Modified time: 2021-12-29 02:36:18
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
@@ -44,7 +44,7 @@ function compareLog(prev, next) {
 }
 
 function mapKey(target, key, value) {
-  if (key === 'navigation' || key === '_loaded') return
+  if (key === 'navigation' || key === '_loaded' || typeof value === 'function') return
 
   // 每次请求后, 不管数据源有没有变化, _loaded都会变化
   // 只额外过滤第一层对象里面的_loaded, 避免影响是否更新判断
@@ -66,9 +66,7 @@ function mapKey(target, key, value) {
  */
 function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
   // 正常情况不会是false, 这是留给强制更新的一个参数配合
-  if (prevProps === false && nextProps === false) {
-    return false
-  }
+  if (prevProps === false && nextProps === false) return false
 
   const _prevProps = propsOrKeys ? {} : prevProps
   const _nextProps = propsOrKeys ? {} : nextProps

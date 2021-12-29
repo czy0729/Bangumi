@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:22:08
+ * @Last Modified time: 2021-12-29 18:09:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,7 @@ const BtnMain = ({ item, onPress }) => {
 
   if (onPress) {
     return (
-      <Touchable style={_.container.touch} onPress={onPress}>
+      <Touchable style={_.container.touch} useRN onPress={onPress}>
         {content}
         <Heatmap
           id='发现.跳转'

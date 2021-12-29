@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-13 12:18:59
+ * @Last Modified time: 2021-12-29 03:02:10
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
+import { obc, memo } from '@utils/decorators'
+import { LIST_EMPTY, IOS } from '@constants'
 import { MODEL_SETTING_HOME_LAYOUT, MODEL_SUBJECT_TYPE } from '@constants/model'
 import Filter from './filter'
 import Grid from './grid'
@@ -26,8 +26,53 @@ const contentOffset = IOS
       y: -OFFSET_LISTVIEW
     }
   : undefined
+const defaultProps = {
+  styles: {},
+  connectRef: Function.prototype,
+  data: LIST_EMPTY,
+  title: '',
+  scrollToTop: false,
+  onHeaderRefresh: Function.prototype,
+  onFooterRefresh: undefined
+}
 
-function List({ title }, { $ }) {
+const List = memo(
+  ({
+    styles,
+    connectRef,
+    data,
+    title,
+    scrollToTop,
+    onHeaderRefresh,
+    onFooterRefresh
+  }) => {
+    rerender('Home.List.Main')
+
+    const emptyComponent = <Empty title={title} />
+    return (
+      <ListView
+        ref={connectRef}
+        style={!IOS && styles.androidWrap}
+        contentContainerStyle={styles.contentContainerStyle}
+        keyExtractor={keyExtractor}
+        data={data}
+        ListHeaderComponent={<Filter />}
+        footerNoMoreDataText=''
+        footerEmptyDataComponent={emptyComponent}
+        footerNoMoreDataComponent={emptyComponent}
+        contentInset={contentInset}
+        contentOffset={contentOffset}
+        scrollToTop={scrollToTop}
+        renderItem={renderItem}
+        onHeaderRefresh={onHeaderRefresh}
+        onFooterRefresh={onFooterRefresh}
+      />
+    )
+  },
+  defaultProps
+)
+
+export default obc(({ title = '全部' }, { $ }) => {
   rerender('Home.List')
 
   if (!$.userCollection._loaded) return <Loading />
@@ -38,31 +83,18 @@ function List({ title }, { $ }) {
   const styles = memoStyles()
   const { page, isFocused } = $.state
   const index = $.tabs.findIndex(item => item.title === title)
-  const data = $.currentUserCollection(title)
-  const emptyComponent = <Empty title={title} />
   return (
-    <ListView
-      ref={ref => $.connectRef(ref, index)}
-      style={!IOS && styles.androidWrap}
-      contentContainerStyle={styles.contentContainerStyle}
-      keyExtractor={keyExtractor}
-      data={data}
-      ListHeaderComponent={<Filter />}
-      footerNoMoreDataText=''
-      footerEmptyDataComponent={emptyComponent}
-      footerNoMoreDataComponent={emptyComponent}
-      contentInset={contentInset}
-      contentOffset={contentOffset}
+    <List
+      connectRef={ref => $.connectRef(ref, index)}
+      styles={styles}
+      style={IOS ? undefined : styles.androidWrap}
+      data={$.currentUserCollection(title)}
+      title={title}
       scrollToTop={isFocused && tabs[page].title === title}
-      renderItem={renderItem}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
     />
   )
-}
-
-export default obc(List, {
-  title: '全部'
 })
 
 const memoStyles = _.memoStyles(() => ({

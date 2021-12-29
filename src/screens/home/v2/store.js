@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 10:51:46
+ * @Last Modified time: 2021-12-29 04:33:56
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -16,7 +16,7 @@ import {
   calendarStore,
   systemStore
 } from '@stores'
-import { open, runAfter, getTimestamp, asc, desc } from '@utils'
+import { open, runAfter, getTimestamp, sleep, asc, desc } from '@utils'
 import { t, queue } from '@utils/fetch'
 import {
   x18,
@@ -137,7 +137,7 @@ export default class ScreenHomeV2 extends store {
         this.setState({
           _mounted: true
         })
-      }, 80)
+      }, 2000)
     })
 
     return true
@@ -165,8 +165,8 @@ export default class ScreenHomeV2 extends store {
     ])
     const data = await res
 
-    if (data[0] && !DEV) {
-      runAfter(() => {
+    setTimeout(() => {
+      if (data[0] && !DEV) {
         const fetchs = []
         const now = getTimestamp()
 
@@ -187,16 +187,18 @@ export default class ScreenHomeV2 extends store {
           }
 
           if (flag) {
-            fetchs.push(() => {
+            fetchs.push(async () => {
               if (DEV) console.info('initFetch', subject_id)
+              await sleep(240)
               return subjectStore.fetchSubject(subject_id)
             })
           }
         })
 
         queue(fetchs, 1)
-      })
-    }
+      }
+    }, 240)
+
     return res
   }
 

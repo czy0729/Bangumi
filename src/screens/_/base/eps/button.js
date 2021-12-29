@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-28 21:47:11
+ * @Last Modified time: 2021-12-29 01:36:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -131,7 +131,7 @@ function getPopoverData(item, isSp, canPlay, login, advance, userProgress) {
 
   let discuss
   discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
-  if (discuss.length >= 17) discuss = `${discuss.slice(0, 17)}`
+  if (IOS && discuss.length >= 17) discuss = `${discuss.slice(0, 17)}`
 
   let data
   if (login) {
