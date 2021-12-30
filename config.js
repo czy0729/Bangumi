@@ -2,8 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:36:29
+ * @Last Modified time: 2021-12-30 11:04:14
  */
+// 是否开发模式
+export const DEV = global.__DEV__
+export const TEXT_ONLY = DEV
 export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const INIT_ROUTE = 'Home'
 export const RERENDER_SHOW = /ZZZ/
