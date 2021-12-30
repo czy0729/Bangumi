@@ -4,18 +4,18 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 03:47:28
+ * @Last Modified time: 2021-12-31 07:07:18
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import { DEV, TEXT_ONLY } from '../../config'
-import { PAD } from './device'
+import { PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from './device'
 
 const expoPackageJson = require('@/node_modules/expo/package.json')
 const appJson = require('@/app.json')
 
 /* ==================== CUSTOM ==================== */
-export { DEV, TEXT_ONLY }
+export { DEV, TEXT_ONLY, PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO }
 
 // 日志级别 2 所有, 1 只输出错误和警告, 0 不输出
 export const LOG_LEVEL = 0
@@ -23,9 +23,6 @@ export const LOG_LEVEL = 0
 /* ==================== LAYOUT ==================== */
 export const ORIENTATION_PORTRAIT = 'PORTRAIT'
 export const ORIENTATION_LANDSCAPE = 'LANDSCAPE'
-export const PAD_LEVEL_1 = 616
-export const PAD_LEVEL_2 = 900
-export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1
 
 /* ==================== BASE ==================== */
 
