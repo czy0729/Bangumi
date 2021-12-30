@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-13 14:47:39
+ * @Last Modified time: 2021-12-31 03:43:33
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
@@ -61,6 +61,7 @@ const Item = memo(
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !id.includes('/subject/')
     const _collection = collection || (collected ? '已收藏' : '')
+    const justify = tip || position.length ? 'between' : 'start'
     return (
       <Touchable
         style={[styles.container, style]}
@@ -93,7 +94,7 @@ const Item = memo(
           <Flex
             style={styles.content}
             direction='column'
-            justify='between'
+            justify={justify}
             align='start'
           >
             <Flex align='start' style={_.container.w100}>

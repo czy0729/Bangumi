@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 19:10:05
+ * @Last Modified time: 2021-12-31 02:53:58
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -366,7 +366,12 @@ export const HTML_USERS_BLOGS = (userId = '', page = 1) =>
 /**
  * 标签
  */
-export const HTML_TAGS = (type, page = 1) => `${HOST}/${type}/tag?page=${page}`
+export const HTML_TAGS = (type, page = 1, filter) => {
+  if (filter && filter.length) {
+    return `${HOST}/search/tag/${type}/${filter}?page=${page}`
+  }
+  return `${HOST}/${type}/tag?page=${page}`
+}
 
 /**
  * 吐槽

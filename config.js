@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 11:04:14
+ * @Last Modified time: 2021-12-31 03:48:09
  */
 // 是否开发模式
 export const DEV = global.__DEV__

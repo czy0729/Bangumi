@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-20 21:14:25
+ * @Last Modified time: 2021-12-31 03:15:11
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -80,7 +80,7 @@ class Discovery extends store {
      * @param {*} type
      */
     tags: {
-      _: (type = DEFAULT_TYPE) => type,
+      _: (type = DEFAULT_TYPE, filter) => `${type}|${filter}`,
       0: LIST_EMPTY // <INIT_TAGS_ITEM>
     },
 
@@ -169,7 +169,7 @@ class Discovery extends store {
     this.readStorage(
       [
         'ningMoeDetail',
-        'tags',
+        // 'tags',
         'catalog',
         'catalogDetail',
         'blog',
@@ -440,47 +440,33 @@ class Discovery extends store {
   /**
    * 标签
    */
-  fetchTags = async ({ type = DEFAULT_TYPE } = {}, refresh) => {
-    const { list, pagination } = this.tags(type)
-    let page
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
+  fetchTags = async ({ type = DEFAULT_TYPE, filter } = {}, refresh) => {
+    const { list, pagination } = this.tags(type, filter)
+    const page = refresh ? 1 : pagination.page + 1
 
     const html = await fetchHTML({
-      url: HTML_TAGS(type, page)
+      url: HTML_TAGS(type, page, filter)
     })
     const data = analysisTags(html)
 
-    let characters
-    if (refresh) {
-      characters = {
-        list: data.list,
-        pagination: data.pagination,
-        _loaded: getTimestamp()
-      }
-    } else {
-      characters = {
-        list: [...list, ...data.list],
-        pagination: {
-          ...pagination,
-          page: pagination.page + 1
-        },
-        _loaded: getTimestamp()
-      }
+    const key = 'tags'
+    const tags = {
+      list: refresh ? data.list : [...list, ...data.list],
+      pagination: {
+        page,
+        pageTotal: data.list.length >= 100 ? 100 : page
+      },
+      _loaded: getTimestamp()
     }
 
-    const key = 'tags'
     this.setState({
       [key]: {
-        [type]: characters
+        [`${type}|${filter}`]: tags
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return characters
+    return tags
   }
 
   /**

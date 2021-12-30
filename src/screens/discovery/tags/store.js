@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 19:50:39
+ * @Last Modified time: 2021-12-31 03:22:12
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
+import { _ } from '@stores'
 import store from '@utils/store'
 import { x18s } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -16,11 +17,19 @@ export const tabs = MODEL_SUBJECT_TYPE.data.map(item => ({
   title: item.title,
   key: item.label
 }))
+export const H_FILTER = 36 + 2 * _.md
+
 const namespace = 'ScreenTags'
+const excludeState = {
+  ipt: '',
+  filter: '',
+  isFocused: true
+}
 
 export default class ScreenTags extends store {
   state = observable({
     page: 0,
+    ...excludeState,
     _loaded: false
   })
 
@@ -29,31 +38,42 @@ export default class ScreenTags extends store {
     const state = await res
     this.setState({
       ...state,
+      ...excludeState,
       _loaded: true
     })
 
-    const { page } = this.state
-    const { key } = tabs[page]
-    const { _loaded } = this.list(key)
-    if (!_loaded) {
-      return this.fetchList(key, true)
-    }
+    const { _loaded } = this.list(this.type)
+    if (!_loaded) return this.fetchList(this.type, true)
     return true
   }
 
   // -------------------- fetch --------------------
-  fetchList = (type, refresh) =>
-    discoveryStore.fetchTags(
+  fetchList = (type, refresh) => {
+    const { filter } = this.state
+    return discoveryStore.fetchTags(
       {
-        type
+        type,
+        filter
       },
       refresh
     )
+  }
 
   // -------------------- get --------------------
+  @computed get type() {
+    const { page } = this.state
+    return tabs[page].key
+  }
+
+  @computed get url() {
+    const { page, filter } = this.state
+    return HTML_TAGS(this.type, page, filter)
+  }
+
   list(type) {
     return computed(() => {
-      const tags = discoveryStore.tags(type)
+      const { filter } = this.state
+      const tags = discoveryStore.tags(type, filter)
       if (userStore.isLimit) {
         return {
           ...tags,
@@ -64,17 +84,9 @@ export default class ScreenTags extends store {
     }).get()
   }
 
-  @computed get url() {
-    const { page } = this.state
-    const { key } = tabs[page]
-    return HTML_TAGS(key)
-  }
-
   // -------------------- page --------------------
   onChange = page => {
-    if (page === this.state.page) {
-      return
-    }
+    if (page === this.state.page) return
 
     t('标签索引.标签页切换')
     this.setState({
@@ -90,6 +102,31 @@ export default class ScreenTags extends store {
 
     if (!_loaded) {
       this.fetchList(key, true)
+    }
+  }
+
+  onFilterChange = ipt => {
+    const _ipt = ipt.trim()
+    if (!_ipt) {
+      this.setState({
+        ipt: _ipt,
+        filter: ''
+      })
+      return
+    }
+
+    this.setState({
+      ipt: _ipt
+    })
+  }
+
+  onSubmitEditing = () => {
+    const { ipt } = this.state
+    if (ipt && ipt.length) {
+      this.setState({
+        filter: ipt
+      })
+      this.fetchList(this.type, true)
     }
   }
 }

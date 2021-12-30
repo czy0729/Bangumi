@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:45:32
+ * @Last Modified time: 2021-12-31 03:16:13
  */
 import React from 'react'
 import { Touchable, Text, Flex, Heatmap } from '@components'
@@ -56,7 +56,7 @@ const memoStyles = _.memoStyles(() => {
   const { width, marginLeft } = _.grid(_.num(4))
   return {
     container: {
-      marginTop: _.space,
+      marginBottom: _.md,
       marginLeft
     },
     item: {

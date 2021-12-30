@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-03 21:49:53
+ * @Last Modified time: 2021-12-31 03:03:48
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
@@ -104,9 +104,7 @@ export function analysisCatalogDetail(HTML) {
         title: ($a.text().trim() || '').replace('修改删除', ''),
         type,
         info: $li.find('p.info').text().trim(),
-        comment: HTMLDecode(
-          $li.find('div.text_main_even > div.text').text().trim()
-        ),
+        comment: HTMLDecode($li.find('div.text_main_even > div.text').text().trim()),
         isCollect: !!$li.find('p.collectModify').text().trim(),
 
         // 以下属性自己创建的目录才会存在
@@ -163,20 +161,16 @@ export function cheerioBlog(HTML) {
           title: $a.text().trim(),
           cover: $li.find('span.pictureFrameGroup img').attr('src'),
           time: String(times[times.length - 1]).replace('\n', ''),
-          replies: $li
-            .find('div.content .blue')
-            .text()
-            .trim()
-            .replace(/\(|\)/g, ''),
-          content: `${
-            $li.find('div.content').text().trim().split('...')[0]
-          }...`,
-          username: String(
-            $li.find('div.time small.blue a').text().trim()
-          ).replace('\n', ''),
-          subject: String(
-            $li.find('div.time small.grey a').text().trim()
-          ).replace('\n', ''),
+          replies: $li.find('div.content .blue').text().trim().replace(/\(|\)/g, ''),
+          content: `${$li.find('div.content').text().trim().split('...')[0]}...`,
+          username: String($li.find('div.time small.blue a').text().trim()).replace(
+            '\n',
+            ''
+          ),
+          subject: String($li.find('div.time small.grey a').text().trim()).replace(
+            '\n',
+            ''
+          ),
           tags: ''
         })
       })
@@ -279,14 +273,8 @@ export function cheerioChannel(HTML) {
             title: $a.text().trim(),
             cover: $li.find('span.pictureFrameGroup img').attr('src'),
             time: String(times[times.length - 1]).replace('\n', ''),
-            replies: $li
-              .find('div.content .blue')
-              .text()
-              .trim()
-              .replace(/\(|\)/g, ''),
-            content: `${
-              $li.find('div.content').text().trim().split('...')[0]
-            }...`,
+            replies: $li.find('div.content .blue').text().trim().replace(/\(|\)/g, ''),
+            content: `${$li.find('div.content').text().trim().split('...')[0]}...`,
             username: $li.find('div.time small.blue a').text().trim(),
             subject: $li.find('div.time small.grey a').text().trim(),
             tags: ''

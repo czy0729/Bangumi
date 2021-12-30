@@ -2,31 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:25:05
+ * @Last Modified time: 2021-12-31 02:33:48
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Heatmap } from '@components'
+import { Page, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { injectWithHeader } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import Tabs from './tabs'
 import Store from './store'
 
-const title = '标签'
-
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
-  alias: '标签索引',
-  hm: ['discovery/tags', 'Tags']
-})
-@obc
-class Tags extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
+const Tags = (props, { $, navigation }) => {
+  useMount(() => {
     $.init()
 
     navigation.setParams({
@@ -42,27 +31,30 @@ class Tags extends React.Component {
             case '浏览器查看':
               open($.url)
               break
+
             default:
               break
           }
         }
       }
     })
-  }
+  })
 
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.state
-    return (
-      <View style={_.container.plain}>
-        {!!_loaded && <Tabs />}
-        <Heatmap
-          right={_.wind}
-          bottom={_.window.height - _.tabsHeaderHeight - 12}
-          id='标签索引.标签页切换'
-          transparent
-        />
-      </View>
-    )
-  }
+  return useObserver(() => (
+    <Page loaded={$.state._loaded}>
+      <Tabs />
+      <Heatmap
+        right={_.wind}
+        bottom={_.window.height - _.tabsHeaderHeight - 12}
+        id='标签索引.标签页切换'
+        transparent
+      />
+    </Page>
+  ))
 }
+
+export default injectWithHeader(Store, Tags, {
+  screen: '标签',
+  alias: '标签索引',
+  hm: ['discovery/tags', 'Tags']
+})
