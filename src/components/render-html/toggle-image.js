@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:50:31
+ * @Last Modified time: 2021-12-30 08:22:46
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _ } from '@stores'
@@ -107,15 +107,13 @@ class ToggleImage extends React.Component {
       <Flex style={this.styles.image} justify='center'>
         <Image {...this.props} onLoadEnd={this.onLoadEnd} onError={this.onLoadEnd} />
         {!this.props.show && (
-          <Touchable
-            style={this.styles.closeImageWrap}
-            onPress={this.toggleShow}
-            onLongPress={() => open(src)}
-          >
-            <Flex style={this.styles.closeImage} justify='center'>
-              <Iconfont size={18} name='md-close' color={_.__colorPlain__} />
-            </Flex>
-          </Touchable>
+          <View style={this.styles.closeImageWrap}>
+            <Touchable onPress={this.toggleShow} onLongPress={() => open(src)}>
+              <Flex style={this.styles.closeImage} justify='center'>
+                <Iconfont size={18} name='md-close' color={_.__colorPlain__} />
+              </Flex>
+            </Touchable>
+          </View>
         )}
         {!loaded && (
           <Flex

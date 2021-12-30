@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-29 13:31:09
+ * @Last Modified time: 2021-12-30 08:19:49
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -77,13 +77,11 @@ export const Input = observer(
 
     renderClear() {
       const { value } = this.state
-      if (IOS || value === '') {
-        return null
-      }
+      if (IOS || value === '') return null
 
       const { colorClear } = this.props
       return (
-        <Touchable style={this.styles.close} onPress={this.clear}>
+        <Touchable style={this.styles.close} useRN onPress={this.clear}>
           <Flex style={this.styles.icon} justify='center'>
             <Iconfont name='md-close' size={16} color={colorClear} />
           </Flex>

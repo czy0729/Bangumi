@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:27:12
+ * @Last Modified time: 2021-12-30 08:53:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -119,7 +119,7 @@ class TinygrailTrade extends React.Component {
             <View style={this.styles.kline}>
               <KLine focus={focus} />
               {showMask && (
-                <Touchable style={this.styles.mask} onPress={this.hideMask} />
+                <Touchable style={this.styles.mask} useRN onPress={this.hideMask} />
               )}
             </View>
             <DepthMap />

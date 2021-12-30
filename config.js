@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 18:04:57
+ * @Last Modified time: 2021-12-30 08:36:29
  */
 export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const INIT_ROUTE = 'Home'
-export const RERENDER_SHOW = /Home.Item.Main/
+export const RERENDER_SHOW = /ZZZ/
 // export const RERENDER_SHOW = /Rakuen\.(.+?)\.Main/
 
 export default {
-  initialRouteName: 'Discovery', // HomeTab Discovery Subject Tinygrail
+  initialRouteName: 'HomeTab', // HomeTab Discovery Subject Tinygrail
   initialRouteParams: {
     // subjectId: 296870 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/366048' // group/360353, ep/938136

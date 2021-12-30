@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 03:16:07
+ * @Last Modified time: 2021-12-30 07:38:12
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -83,11 +83,13 @@ export const Expand: React.FC<Props> = ({ style, moreStyle, ratio = 1, children 
               `rgba(${_.colorPlainRaw.join()}, 1)`
             ]}
           />
-          <Touchable style={[styles.more, moreStyle]} onPress={onExpand}>
-            <Flex justify='center'>
-              <Iconfont name='md-keyboard-arrow-down' size={_.device(24, 32)} />
-            </Flex>
-          </Touchable>
+          <View style={[styles.more, moreStyle]}>
+            <Touchable onPress={onExpand}>
+              <Flex justify='center'>
+                <Iconfont name='md-keyboard-arrow-down' size={_.device(24, 32)} />
+              </Flex>
+            </Touchable>
+          </View>
         </>
       )}
     </Animated.View>

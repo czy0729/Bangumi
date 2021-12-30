@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:32:49
+ * @Last Modified time: 2021-12-30 08:19:00
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -367,10 +367,7 @@ export const FixedTextarea = observer(
     get value() {
       const { source } = this.props
       const { value, showSource } = this.state
-      if (!source || !showSource || value.includes(sourceFlag)) {
-        return value
-      }
-
+      if (!source || !showSource || value.includes(sourceFlag)) return value
       return `${value}${sourceText}`
     }
 
@@ -616,7 +613,12 @@ export const FixedTextarea = observer(
       return (
         <>
           {(showTextarea || showBgm) && (
-            <Touchable style={this.styles.mask} withoutFeedback onPress={this.onBlur} />
+            <Touchable
+              style={this.styles.mask}
+              useRN
+              withoutFeedback
+              onPress={this.onBlur}
+            />
           )}
           <View style={this.styles.container}>
             {children}

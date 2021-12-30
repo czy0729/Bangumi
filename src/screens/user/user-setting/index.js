@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 04:56:27
+ * @Last Modified time: 2021-12-30 08:55:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,18 +83,19 @@ class UserSetting extends React.Component {
             </Text>
           </Text>
         </Flex>
-        <Touchable
-          style={this.styles.example}
-          onPress={() =>
-            navigation.push('Zone', {
-              userId: 'sukaretto'
-            })
-          }
-        >
-          <Text size={10} lineHeight={16} type='__plain__'>
-            [示例]
-          </Text>
-        </Touchable>
+        <View style={this.styles.example}>
+          <Touchable
+            onPress={() =>
+              navigation.push('Zone', {
+                userId: 'sukaretto'
+              })
+            }
+          >
+            <Text size={10} lineHeight={16} type='__plain__'>
+              [示例]
+            </Text>
+          </Touchable>
+        </View>
       </View>
     )
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 04:47:35
+ * @Last Modified time: 2021-12-30 08:20:48
  */
 import React, { useState, useCallback } from 'react'
 import { Animated, View } from 'react-native'
@@ -40,7 +40,7 @@ export const ActionSheet = ({ children }) => {
   return (
     <Portal>
       <View style={styles.actionSheet} pointerEvents={show ? 'auto' : 'none'}>
-        <Touchable style={styles.wrap} onPress={toggleShow}>
+        <Touchable style={styles.wrap} useRN onPress={toggleShow}>
           <Animated.View
             style={[
               styles.mask,

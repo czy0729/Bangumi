@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 01:36:05
+ * @Last Modified time: 2021-12-30 08:01:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,33 +62,38 @@ const Main = memo(
     }
 
     const { min, max } = getComment(eps)
+    const containerStyle = {
+      marginBottom: margin - 2
+    }
     const style = {
       marginRight: !_.isLandscape && !_.isPad && isSide ? 0 : margin,
-      marginBottom: margin + 4
+      marginBottom: 6
     }
     return (
-      <Popover style={style} onLongPress={() => onLongPress(item)} {...popoverProps}>
-        <CompButton
-          type={type}
-          size='sm'
-          style={{
-            width,
-            height: width
-          }}
-        >
-          {item.sort}
-        </CompButton>
-        {heatMap && (
-          <View
-            style={[
-              styles.bar,
-              {
-                opacity: (item.comment - min / 1.68) / max // 1.68是比率, 增大少回复与高回复的透明度幅度
-              }
-            ]}
-          />
-        )}
-      </Popover>
+      <View style={containerStyle}>
+        <Popover style={style} onLongPress={() => onLongPress(item)} {...popoverProps}>
+          <CompButton
+            type={type}
+            size='sm'
+            style={{
+              width,
+              height: width
+            }}
+          >
+            {item.sort}
+          </CompButton>
+          {heatMap && (
+            <View
+              style={[
+                styles.bar,
+                {
+                  opacity: (item.comment - min / 1.68) / max // 1.68是比率, 增大少回复与高回复的透明度幅度
+                }
+              ]}
+            />
+          )}
+        </Popover>
+      </View>
     )
   },
   defaultProps,
@@ -111,12 +116,7 @@ export const Button = ob(props => (
 
 const memoStyles = _.memoStyles(() => ({
   bar: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    left: 0,
     height: 4,
-    marginBottom: -4,
     backgroundColor: _.colorWarning,
     borderRadius: 4
   }

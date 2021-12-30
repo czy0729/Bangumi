@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 12:56:26
+ * @Last Modified time: 2021-12-30 08:46:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -167,12 +167,6 @@ const memoStyles = _.memoStyles(() => ({
   },
   body: {
     marginRight: _.wind
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: 0
   },
   thumbs: {
     marginTop: _.md,

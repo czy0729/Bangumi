@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:52:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:17:45
+ * @Last Modified time: 2021-12-30 08:52:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,6 +34,7 @@ function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
       {hover && (
         <Touchable
           style={styles.hover}
+          useRN
           onPress={() =>
             navigation.push('TinygrailSacrifice', {
               monoId: `character/${id}`

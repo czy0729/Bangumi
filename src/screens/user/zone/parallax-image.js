@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:28:59
+ * @Last Modified time: 2021-12-30 09:06:47
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -155,11 +155,9 @@ function ParallaxImage(props, { $, navigation }) {
           <View style={styles.parallaxLine} />
         </Animated.View>
       </View>
-      <IconBack
-        style={[_.header.left, styles.btn]}
-        navigation={navigation}
-        color={_.__colorPlain__}
-      />
+      <View style={[_.header.left, styles.btn]}>
+        <IconBack navigation={navigation} color={_.__colorPlain__} />
+      </View>
       <View style={[_.header.right, styles.touch]}>
         <Popover
           data={data}
@@ -296,19 +294,6 @@ const memoStyles = _.memoStyles(() => ({
         translateX: -120
       }
     ]
-  },
-  tabs: {
-    position: 'absolute',
-    zIndex: 2,
-    left: 0,
-    right: 0
-  },
-  collection: {
-    ..._.header.right,
-    zIndex: 1,
-    marginTop: -5,
-    marginRight: 34,
-    opacity: 0.88
   },
   btn: {
     zIndex: 1,

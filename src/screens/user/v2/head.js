@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 18:49:12
+ * @Last Modified time: 2021-12-30 09:00:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,19 +54,20 @@ function Head({ style }, { $, navigation }) {
         </View>
         {isMe && (
           <>
-            <Touchable
-              style={styles.r1}
-              onPress={() => {
-                t('我的.跳转', {
-                  to: 'Friends'
-                })
+            <View style={styles.r1}>
+              <Touchable
+                onPress={() => {
+                  t('我的.跳转', {
+                    to: 'Friends'
+                  })
 
-                navigation.push('Friends')
-              }}
-            >
-              <Text type={_.select('plain', 'title')} size={11}>
-                好友
-              </Text>
+                  navigation.push('Friends')
+                }}
+              >
+                <Text type={_.select('plain', 'title')} size={11}>
+                  好友
+                </Text>
+              </Touchable>
               <Heatmap
                 right={-32}
                 id='我的.跳转'
@@ -75,20 +76,21 @@ function Head({ style }, { $, navigation }) {
                   alias: '好友'
                 }}
               />
-            </Touchable>
-            <Touchable
-              style={styles.r2}
-              onPress={() => {
-                t('我的.跳转', {
-                  to: 'Character'
-                })
+            </View>
+            <View style={styles.r2}>
+              <Touchable
+                onPress={() => {
+                  t('我的.跳转', {
+                    to: 'Character'
+                  })
 
-                navigation.push('Character')
-              }}
-            >
-              <Text type={_.select('plain', 'title')} size={11}>
-                人物
-              </Text>
+                  navigation.push('Character')
+                }}
+              >
+                <Text type={_.select('plain', 'title')} size={11}>
+                  人物
+                </Text>
+              </Touchable>
               <Heatmap
                 right={-32}
                 id='我的.跳转'
@@ -97,20 +99,21 @@ function Head({ style }, { $, navigation }) {
                   alias: '角色'
                 }}
               />
-            </Touchable>
-            <Touchable
-              style={styles.r3}
-              onPress={() => {
-                t('我的.跳转', {
-                  to: 'Catalogs'
-                })
+            </View>
+            <View style={styles.r3}>
+              <Touchable
+                onPress={() => {
+                  t('我的.跳转', {
+                    to: 'Catalogs'
+                  })
 
-                navigation.push('Catalogs')
-              }}
-            >
-              <Text type={_.select('plain', 'title')} size={11}>
-                目录
-              </Text>
+                  navigation.push('Catalogs')
+                }}
+              >
+                <Text type={_.select('plain', 'title')} size={11}>
+                  目录
+                </Text>
+              </Touchable>
               <Heatmap
                 right={-32}
                 id='我的.跳转'
@@ -119,7 +122,7 @@ function Head({ style }, { $, navigation }) {
                   alias: '目录'
                 }}
               />
-            </Touchable>
+            </View>
           </>
         )}
       </View>
@@ -160,13 +163,6 @@ const rStyle = (top, left) => ({
 })
 
 const styles = _.create({
-  userSetting: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 16,
-    right: 100,
-    opacity: 0.8
-  },
   avatar: {
     backgroundColor: _.__colorPlain__
   },

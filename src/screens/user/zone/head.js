@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:09:26
+ * @Last Modified time: 2021-12-30 08:03:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,37 +43,39 @@ function Head({ style }, { $, navigation }) {
         <Text style={styles.l2} type={_.select('plain', 'title')} size={11}>
           同步率 {isNaN(percent) ? '-' : percent}%
         </Text>
-        <Touchable
-          style={styles.l3}
-          onPress={() => {
-            t('空间.历史', {
-              userId: $.userId
-            })
+        <View style={styles.l3}>
+          <Touchable
+            onPress={() => {
+              t('空间.历史', {
+                userId: $.userId
+              })
 
-            $.openUsedModal()
-          }}
-        >
-          <Text type={_.select('plain', 'title')} size={11}>
-            历史
-          </Text>
+              $.openUsedModal()
+            }}
+          >
+            <Text type={_.select('plain', 'title')} size={11}>
+              历史
+            </Text>
+          </Touchable>
           <Heatmap id='空间.历史' />
-        </Touchable>
-        <Touchable
-          style={styles.r1}
-          onPress={() => {
-            t('空间.跳转', {
-              userId: $.userId,
-              to: 'Character'
-            })
+        </View>
+        <View style={styles.r1}>
+          <Touchable
+            onPress={() => {
+              t('空间.跳转', {
+                userId: $.userId,
+                to: 'Character'
+              })
 
-            navigation.push('Character', {
-              userName: $.userId
-            })
-          }}
-        >
-          <Text type={_.select('plain', 'title')} size={11}>
-            人物
-          </Text>
+              navigation.push('Character', {
+                userName: $.userId
+              })
+            }}
+          >
+            <Text type={_.select('plain', 'title')} size={11}>
+              人物
+            </Text>
+          </Touchable>
           <Heatmap
             right={-84}
             bottom={-8}
@@ -83,23 +85,24 @@ function Head({ style }, { $, navigation }) {
               alias: '人物'
             }}
           />
-        </Touchable>
-        <Touchable
-          style={styles.r2}
-          onPress={() => {
-            t('空间.跳转', {
-              userId: $.userId,
-              to: 'Blogs'
-            })
+        </View>
+        <View style={styles.r2}>
+          <Touchable
+            onPress={() => {
+              t('空间.跳转', {
+                userId: $.userId,
+                to: 'Blogs'
+              })
 
-            navigation.push('Blogs', {
-              userId: $.userId
-            })
-          }}
-        >
-          <Text type={_.select('plain', 'title')} size={11}>
-            日志
-          </Text>
+              navigation.push('Blogs', {
+                userId: $.userId
+              })
+            }}
+          >
+            <Text type={_.select('plain', 'title')} size={11}>
+              日志
+            </Text>
+          </Touchable>
           <Heatmap
             right={-74}
             bottom={-8}
@@ -109,23 +112,24 @@ function Head({ style }, { $, navigation }) {
               alias: '日志'
             }}
           />
-        </Touchable>
-        <Touchable
-          style={styles.r3}
-          onPress={() => {
-            t('空间.跳转', {
-              userId: $.userId,
-              to: 'Catalogs'
-            })
+        </View>
+        <View style={styles.r3}>
+          <Touchable
+            onPress={() => {
+              t('空间.跳转', {
+                userId: $.userId,
+                to: 'Catalogs'
+              })
 
-            navigation.push('Catalogs', {
-              userId: $.userId
-            })
-          }}
-        >
-          <Text type={_.select('plain', 'title')} size={11}>
-            目录
-          </Text>
+              navigation.push('Catalogs', {
+                userId: $.userId
+              })
+            }}
+          >
+            <Text type={_.select('plain', 'title')} size={11}>
+              目录
+            </Text>
+          </Touchable>
           <Heatmap
             right={-76}
             bottom={-8}
@@ -135,7 +139,7 @@ function Head({ style }, { $, navigation }) {
               alias: '目录'
             }}
           />
-        </Touchable>
+        </View>
       </View>
       <View style={_.mt.md}>
         <Flex>

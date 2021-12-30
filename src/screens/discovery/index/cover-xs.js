@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:25:19
+ * @Last Modified time: 2021-12-30 07:05:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -131,8 +131,8 @@ const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 2,
     right: 2,
-    bottom: 4,
-    left: avatarSize + 2,
+    bottom: 3,
+    left: avatarSize + 1,
     opacity: 0.92
   },
   fixed: {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 18:08:45
+ * @Last Modified time: 2021-12-30 10:33:46
  */
 import React from 'react'
 import {
@@ -21,7 +21,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { getSystemStoreAsync } from '@utils/async'
 import { IOS } from '@constants'
-import { defaultHitSlop, styles, callOnceInInterval } from './utils'
+import { defaultHitSlop, styles, callOnceInInterval, separateStyles } from './utils'
 
 export const Touchable = observer(
   ({
@@ -43,52 +43,73 @@ export const Touchable = observer(
       delayPressOut,
       onPress: delay ? () => callOnceInInterval(onPress) : onPress
     }
-    let Component
-
     if (withoutFeedback) {
-      Component = useRN ? RNTouchableOpacity : TouchableOpacity
+      const Component = useRN ? RNTouchableOpacity : TouchableOpacity
       return (
         <Component style={style} activeOpacity={1} {...other} {...passProps}>
-          {children}
+          <View>{children}</View>
         </Component>
       )
     }
 
     const { ripple } = getSystemStoreAsync().setting
     if (!IOS && ripple) {
-      Component = useRN ? RNTouchableNativeFeedback : TouchableNativeFeedback
+      if (useRN) {
+        return (
+          <View style={style}>
+            <RNTouchableNativeFeedback {...other} {...passProps}>
+              <View style={styles.touchable} />
+            </RNTouchableNativeFeedback>
+            {children}
+          </View>
+        )
+      }
+
+      const _styles = separateStyles(style)
       return (
-        <View style={style}>
-          <Component {...other} {...passProps}>
-            <View style={styles.touchable} />
-          </Component>
-          {children}
+        <View style={_styles.containerStyle}>
+          <TouchableNativeFeedback style={_styles.style} {...other} {...passProps}>
+            <View>{children}</View>
+          </TouchableNativeFeedback>
         </View>
       )
     }
 
     if (highlight) {
-      Component = useRN ? RNTouchableHighlight : TouchableHighlight
+      if (useRN) {
+        return (
+          <View style={style}>
+            <RNTouchableHighlight
+              style={styles.touchable}
+              activeOpacity={1}
+              underlayColor={_.colorHighLight}
+              {...other}
+              {...passProps}
+            >
+              <View />
+            </RNTouchableHighlight>
+            {children}
+          </View>
+        )
+      }
+
       return (
-        <View style={style}>
-          <Component
-            style={styles.touchable}
-            activeOpacity={1}
-            underlayColor={_.colorHighLight}
-            {...other}
-            {...passProps}
-          >
-            <View />
-          </Component>
-          {children}
-        </View>
+        <TouchableHighlight
+          style={style}
+          activeOpacity={1}
+          underlayColor={_.colorHighLight}
+          {...other}
+          {...passProps}
+        >
+          <View>{children}</View>
+        </TouchableHighlight>
       )
     }
 
     // 绝大部分情况会return这个
-    Component = useRN ? RNTouchableOpacity : TouchableOpacity
+    const Component = useRN ? RNTouchableOpacity : TouchableOpacity
     return (
-      <Component style={style} activeOpacity={0.64} {...other} {...passProps}>
+      <Component style={style} activeOpacity={0.72} {...other} {...passProps}>
         {children}
       </Component>
     )

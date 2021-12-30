@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 07:01:21
+ * @Last Modified time: 2021-12-30 08:16:14
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -115,7 +115,7 @@ export const ImageViewer = observer(
               onCancel={onCancel}
               {...other}
             />
-            <Touchable style={styles.close} onPress={onCancel}>
+            <Touchable style={styles.close} useRN onPress={onCancel}>
               <Iconfont style={styles.iconfont} name='md-close' />
             </Touchable>
           </View>

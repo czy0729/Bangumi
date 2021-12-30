@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 23:54:14
+ * @Last Modified time: 2021-12-30 08:51:12
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -38,17 +38,11 @@ function Slider({ style }, { $ }) {
           </Text>
         </Flex.Item>
         {showSacrifice && (
-          <Switch
-            style={styles.switch}
-            checked={isSale}
-            onChange={$.switchIsSale}
-          />
+          <Switch style={styles.switch} checked={isSale} onChange={$.switchIsSale} />
         )}
         <IconTouchable
           style={_.mr._sm}
-          name={
-            showSacrifice ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'
-          }
+          name={showSacrifice ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
           color={_.colorTinygrailText}
           onPress={$.toggleSacrifice}
         />
@@ -136,8 +130,7 @@ function Slider({ style }, { $ }) {
             {!!lastSacrifice.time && (
               <Text style={_.ml.xs} type='tinygrailText' size={12}>
                 最近 (单价
-                {formatNumber(lastSacrifice.total / lastSacrifice.amount, 1)} /
-                效率
+                {formatNumber(lastSacrifice.total / lastSacrifice.amount, 1)} / 效率
                 {formatNumber(
                   (lastSacrifice.total / lastSacrifice.amount / current) * 100,
                   0
@@ -160,10 +153,7 @@ function Slider({ style }, { $ }) {
                 />
               </View>
             </Flex.Item>
-            <Touchable
-              style={_.ml.sm}
-              onPress={() => $.changeAmount(userAmount)}
-            >
+            <Touchable style={_.ml.sm} onPress={() => $.changeAmount(userAmount)}>
               <Text
                 style={{
                   paddingVertical: _.sm

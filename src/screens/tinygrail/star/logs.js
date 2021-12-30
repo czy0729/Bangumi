@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:19:24
+ * @Last Modified time: 2021-12-30 08:52:48
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -82,7 +82,7 @@ class Logs extends React.Component {
     return (
       <Flex style={this.styles.logs} pointerEvents={show ? 'auto' : 'none'}>
         <Flex.Item />
-        <Touchable style={this.styles.wrap} onPress={this.toggleShow}>
+        <Touchable style={this.styles.wrap} useRN onPress={this.toggleShow}>
           <Animated.View
             style={[
               this.styles.mask,

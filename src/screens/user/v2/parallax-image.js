@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:29:04
+ * @Last Modified time: 2021-12-30 09:05:37
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -254,11 +254,9 @@ const ParallaxImage = memo(
       return (
         <>
           {!!paramsUserId && (
-            <IconBack
-              navigation={navigation}
-              style={styles.back}
-              color={_.__colorPlain__}
-            />
+            <View style={styles.back}>
+              <IconBack navigation={navigation} color={_.__colorPlain__} />
+            </View>
           )}
           <View style={[isMe ? styles.menu : styles.more]}>
             <Popover style={styles.touch} data={data} onSelect={onSelect}>
@@ -268,23 +266,23 @@ const ParallaxImage = memo(
               <Heatmap right={-40} id='我的.右上角菜单' />
             </Popover>
           </View>
-          <IconHeader
-            style={styles.timeline}
-            name='md-timeline'
-            color={_.__colorPlain__}
-            onPress={() => {
-              t('我的.跳转', {
-                to: 'UserTimeline'
-              })
+          <View style={styles.timeline}>
+            <IconHeader
+              name='md-timeline'
+              color={_.__colorPlain__}
+              onPress={() => {
+                t('我的.跳转', {
+                  to: 'UserTimeline'
+                })
 
-              const data = {
-                userId: username || id
-              }
-              if (paramsUserId) data.userName = nickname
+                const data = {
+                  userId: username || id
+                }
+                if (paramsUserId) data.userName = nickname
 
-              navigation.push('UserTimeline', data)
-            }}
-          >
+                navigation.push('UserTimeline', data)
+              }}
+            />
             <Heatmap
               right={48}
               id='我的.跳转'
@@ -293,20 +291,20 @@ const ParallaxImage = memo(
                 alias: '时间线'
               }}
             />
-          </IconHeader>
+          </View>
           {!paramsUserId && (
-            <IconHeader
-              style={styles.setting}
-              name='setting'
-              color={_.__colorPlain__}
-              onPress={() => {
-                t('我的.跳转', {
-                  to: 'Setting'
-                })
+            <View style={styles.setting}>
+              <IconHeader
+                name='setting'
+                color={_.__colorPlain__}
+                onPress={() => {
+                  t('我的.跳转', {
+                    to: 'Setting'
+                  })
 
-                navigation.push('Setting')
-              }}
-            >
+                  navigation.push('Setting')
+                }}
+              />
               <Heatmap
                 id='我的.跳转'
                 data={{
@@ -314,7 +312,7 @@ const ParallaxImage = memo(
                   alias: '设置'
                 }}
               />
-            </IconHeader>
+            </View>
           )}
         </>
       )

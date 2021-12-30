@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 09:39:56
+ * @Last Modified time: 2021-12-30 08:25:36
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -46,6 +46,7 @@ export const Filter = obc(
                     {multiSelect && (
                       <Touchable
                         style={styles.how}
+                        useRN
                         onPress={() => info('长按标签多选类型')}
                       >
                         <Text size={12} lineHeight={12} type='icon' bold>

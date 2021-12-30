@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:47:53
+ * @Last Modified time: 2021-12-30 08:20:19
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -19,6 +19,7 @@ const ScrollToTop = observer(
       <Portal>
         <Touchable
           style={styles.container}
+          useRN
           highlight
           onPress={() => {
             if (onPress) {

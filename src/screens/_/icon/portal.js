@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-23 21:30:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:52:23
+ * @Last Modified time: 2021-12-30 08:38:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,15 +25,16 @@ export const IconPortal = ob(({ index = 0, onPress = Function.prototype }) => {
     <Portal>
       <SafeAreaView style={_.container.flex} forceInset={forceInset}>
         <View style={_.container.flex} pointerEvents='box-none'>
-          <Touchable
+          <View
             style={[
-              styles.icon,
+              styles.container,
               {
                 left: index * (_.window.width / 5)
               }
             ]}
-            onPress={onPress}
-          />
+          >
+            <Touchable style={styles.touch} onPress={onPress} />
+          </View>
         </View>
       </SafeAreaView>
     </Portal>
@@ -41,9 +42,11 @@ export const IconPortal = ob(({ index = 0, onPress = Function.prototype }) => {
 })
 
 const memoStyles = _.memoStyles(() => ({
-  icon: {
+  container: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 0
+  },
+  touch: {
     width: _.window.width / 5,
     height: _.tabBarHeight,
     borderRadius: _.radiusSm,

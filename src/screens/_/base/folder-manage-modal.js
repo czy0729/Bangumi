@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:46:27
+ * @Last Modified time: 2021-12-30 08:30:49
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -628,18 +628,17 @@ export const FolderManageModal = ob(
 
     renderBtnCreate() {
       const { edit, create } = this.state
-      if (edit || create) {
-        return null
-      }
+      if (edit || create) return null
 
       return (
-        <IconTouchable
-          style={this.styles.btnCreate}
-          name='md-add'
-          size={24}
-          color={_.colorSub}
-          onPress={() => this.onCreate(true)}
-        />
+        <View style={this.styles.btnCreate}>
+          <IconTouchable
+            name='md-add'
+            size={24}
+            color={_.colorSub}
+            onPress={() => this.onCreate(true)}
+          />
+        </View>
       )
     }
 
@@ -669,20 +668,22 @@ export const FolderManageModal = ob(
             clear
             onChange={text => this.onChange(text, 'desc')}
           />
-          <IconTouchable
-            style={this.styles.btnCreateCancel}
-            name='md-close'
-            size={22}
-            color={_.colorSub}
-            onPress={() => this.onCreate(false)}
-          />
-          <IconTouchable
-            style={this.styles.btnCreateSubmit}
-            name='md-check'
-            size={22}
-            color={_.colorSub}
-            onPress={this.onSubmitCatalog}
-          />
+          <View style={this.styles.btnCreateCancel}>
+            <IconTouchable
+              name='md-close'
+              size={22}
+              color={_.colorSub}
+              onPress={() => this.onCreate(false)}
+            />
+          </View>
+          <View style={this.styles.btnCreateSubmit}>
+            <IconTouchable
+              name='md-check'
+              size={22}
+              color={_.colorSub}
+              onPress={this.onSubmitCatalog}
+            />
+          </View>
         </View>
       )
     }
@@ -806,20 +807,22 @@ export const FolderManageModal = ob(
             )}
             {item.id == create && (
               <>
-                <IconTouchable
-                  style={this.styles.btnCreateCancel}
-                  name='md-close'
-                  size={22}
-                  color={_.colorSub}
-                  onPress={() => this.onCreate(false)}
-                />
-                <IconTouchable
-                  style={this.styles.btnCreateSubmit}
-                  name='md-check'
-                  size={22}
-                  color={_.colorSub}
-                  onPress={this.onSubmitCatalog}
-                />
+                <View style={this.styles.btnCreateCancel}>
+                  <IconTouchable
+                    name='md-close'
+                    size={22}
+                    color={_.colorSub}
+                    onPress={() => this.onCreate(false)}
+                  />
+                </View>
+                <View style={this.styles.btnCreateSubmit}>
+                  <IconTouchable
+                    name='md-check'
+                    size={22}
+                    color={_.colorSub}
+                    onPress={this.onSubmitCatalog}
+                  />
+                </View>
               </>
             )}
           </Flex>
@@ -924,13 +927,14 @@ export const FolderManageModal = ob(
                         color={_.colorSub}
                         onPress={() => this.onSubjectEdit()}
                       />
-                      <IconTouchable
-                        style={this.styles.btnSubmit}
-                        name='md-check'
-                        size={18}
-                        color={_.colorSub}
-                        onPress={() => this.onSubmit(i, detail)}
-                      />
+                      <View style={this.styles.btnSubmit}>
+                        <IconTouchable
+                          name='md-check'
+                          size={18}
+                          color={_.colorSub}
+                          onPress={() => this.onSubmit(i, detail)}
+                        />
+                      </View>
                     </View>
                   )}
                   {!edit && !create && (

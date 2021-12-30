@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 17:37:00
+ * @Last Modified time: 2021-12-30 10:32:31
  */
 import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
@@ -40,4 +40,46 @@ export function callOnceInInterval(functionTobeCalled, interval = 80) {
   }
 
   return false
+}
+
+/**
+ * 分离出containerStyle
+ * @param {*} styles
+ * @returns
+ */
+export function separateStyles(styles) {
+  const {
+    margin,
+    marginTop,
+    marginRight,
+    marginBottom,
+    marginLeft,
+    marginHorizontal,
+    marginVertical,
+    borderRadius,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+    overflow,
+    ...style
+  } = StyleSheet.flatten(styles) || {}
+  return {
+    containerStyle: {
+      margin,
+      marginTop,
+      marginRight,
+      marginBottom,
+      marginLeft,
+      marginHorizontal,
+      marginVertical,
+      borderRadius,
+      borderTopLeftRadius,
+      borderTopRightRadius,
+      borderBottomLeftRadius,
+      borderBottomRightRadius,
+      overflow
+    },
+    style
+  }
 }

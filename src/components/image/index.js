@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 12:20:50
+ * @Last Modified time: 2021-12-30 07:51:31
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -510,14 +510,11 @@ export const Image = observer(
 
       if (_onPress || onLongPress) {
         return (
-          <Touchable
-            style={this.computedStyle.container}
-            delay={delay}
-            onPress={_onPress}
-            onLongPress={onLongPress}
-          >
-            {this.renderImage()}
-          </Touchable>
+          <View style={this.computedStyle.container}>
+            <Touchable delay={delay} onPress={_onPress} onLongPress={onLongPress}>
+              {this.renderImage()}
+            </Touchable>
+          </View>
         )
       }
 
