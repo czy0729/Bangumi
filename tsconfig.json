@@ -13,7 +13,9 @@
       "@constants": ["src/constants"],
       "@constants/*": ["src/constants/*"],
       "@styles": ["src/styles"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@tinygrail": ["src/screens/tinygrail"],
+      "@tinygrail/*": ["src/screens/tinygrail/*"]
     },
     "allowJs": true,
     "esModuleInterop": true,

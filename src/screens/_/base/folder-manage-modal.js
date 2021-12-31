@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:30:49
+ * @Last Modified time: 2021-12-31 19:31:06
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -794,7 +794,7 @@ export const FolderManageModal = ob(
                     onPress={() => this.onToggle(item, detail, isIn)}
                   />
                 )}
-                <Popover
+                <Popover.Old
                   style={this.styles.btnPopover}
                   data={controlDS.root}
                   onSelect={title => this.onControl(title, item)}
@@ -802,7 +802,7 @@ export const FolderManageModal = ob(
                   <Flex style={this.styles.touch} justify='center'>
                     <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
                   </Flex>
-                </Popover>
+                </Popover.Old>
               </>
             )}
             {item.id == create && (
@@ -938,7 +938,7 @@ export const FolderManageModal = ob(
                     </View>
                   )}
                   {!edit && !create && (
-                    <Popover
+                    <Popover.Old
                       style={this.styles.btnPopover}
                       data={data}
                       onSelect={title => this.onSubjectControl(title, i, item)}
@@ -946,7 +946,7 @@ export const FolderManageModal = ob(
                       <Flex style={this.styles.touch} justify='center'>
                         <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
                       </Flex>
-                    </Popover>
+                    </Popover.Old>
                   )}
                 </Flex>
               </Flex>

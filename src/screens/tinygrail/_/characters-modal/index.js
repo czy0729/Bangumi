@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:35:46
+ * @Last Modified time: 2021-12-31 19:31:44
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -792,7 +792,7 @@ class CharactersModal extends React.Component {
 
   renderFilter(filter, data, map, onSelect) {
     return (
-      <Popover
+      <Popover.Old
         data={data}
         hitSlop={hitSlop}
         onSelect={title => {
@@ -811,7 +811,7 @@ class CharactersModal extends React.Component {
             {map[filter] ? ` (${map[filter]})` : ''}
           </Text>
         </Flex>
-      </Popover>
+      </Popover.Old>
     )
   }
 

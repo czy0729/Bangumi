@@ -29,13 +29,8 @@ class ActionSheetAndroid extends React.PureComponent {
   }
   render() {
     const { config, onAnimationEnd } = this.props
-    const {
-      title,
-      message,
-      options,
-      destructiveButtonIndex,
-      cancelButtonIndex
-    } = config
+    const { title, message, options, destructiveButtonIndex, cancelButtonIndex } =
+      config
 
     return (
       <WithTheme themeStyles={ActionSheetStyles} styles={this.props.styles}>
@@ -58,11 +53,8 @@ class ActionSheetAndroid extends React.PureComponent {
           )
           const content = options.map((item, index) => (
             <View
-              // eslint-disable-next-line react/no-array-index-key
               key={index}
-              style={[
-                cancelButtonIndex === index ? styles.cancelBtn : undefined
-              ]}
+              style={[cancelButtonIndex === index ? styles.cancelBtn : undefined]}
             >
               <TouchableHighlight
                 style={[styles.btn]}
