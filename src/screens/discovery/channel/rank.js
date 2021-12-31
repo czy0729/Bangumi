@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:56:54
+ * @Last Modified time: 2021-12-31 16:34:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -100,66 +100,69 @@ function Rank(props, { $, navigation }) {
             const collection = $.userCollectionsMap[item.id]
             const indent = collection ? '        ' : ''
             return (
-              <Touchable
+              <View
                 key={item.id}
                 style={[styles.item, index % 2 !== 0 && styles.itemMarginLeft]}
-                onPress={() => {
-                  t('频道.跳转', {
-                    to: 'Subject',
-                    from: 'rank',
-                    type: $.type,
-                    subjectId: item.id
-                  })
-
-                  navigation.push('Subject', {
-                    subjectId: item.id,
-                    _image: item.cover,
-                    _jp: item.name
-                  })
-                }}
               >
-                <Flex align='start'>
-                  <View style={styles.imageSm}>
-                    <Cover
-                      src={item.cover}
-                      width={imgWidthSm}
-                      height={imgHeightSm}
-                      shadow
-                      type={$.typeCn}
-                    />
-                  </View>
-                  <Flex.Item style={$.typeCn === '音乐' ? _.ml.md : _.ml.sm}>
-                    <Flex align='start'>
-                      <Flex.Item>
-                        {!!collection && (
-                          <Tag style={styles.collection} value={collection} />
-                        )}
-                        <Katakana.Provider
-                          size={13}
-                          lineHeight={_.device(13, 18)}
-                          numberOfLines={2}
-                        >
-                          <Katakana
+                <Touchable
+                  onPress={() => {
+                    t('频道.跳转', {
+                      to: 'Subject',
+                      from: 'rank',
+                      type: $.type,
+                      subjectId: item.id
+                    })
+
+                    navigation.push('Subject', {
+                      subjectId: item.id,
+                      _image: item.cover,
+                      _jp: item.name
+                    })
+                  }}
+                >
+                  <Flex align='start'>
+                    <View style={styles.imageSm}>
+                      <Cover
+                        src={item.cover}
+                        width={imgWidthSm}
+                        height={imgHeightSm}
+                        shadow
+                        type={$.typeCn}
+                      />
+                    </View>
+                    <Flex.Item style={$.typeCn === '音乐' ? _.ml.md : _.ml.sm}>
+                      <Flex align='start'>
+                        <Flex.Item>
+                          {!!collection && (
+                            <Tag style={styles.collection} value={collection} />
+                          )}
+                          <Katakana.Provider
                             size={13}
                             lineHeight={_.device(13, 18)}
-                            bold
                             numberOfLines={2}
                           >
-                            {indent}
-                            {findSubjectCn(item.name, item.id)}
-                          </Katakana>
-                        </Katakana.Provider>
-                        <Text style={_.mt.xs} size={11} type='sub'>
-                          {item.follow}
+                            <Katakana
+                              size={13}
+                              lineHeight={_.device(13, 18)}
+                              bold
+                              numberOfLines={2}
+                            >
+                              {indent}
+                              {findSubjectCn(item.name, item.id)}
+                            </Katakana>
+                          </Katakana.Provider>
+                          <Text style={_.mt.xs} size={11} type='sub'>
+                            {item.follow}
+                          </Text>
+                        </Flex.Item>
+                        <Text style={_.ml.xs} type='warning' size={13} bold>
+                          {index + 4}
                         </Text>
-                      </Flex.Item>
-                      <Text style={_.ml.xs} type='warning' size={13} bold>
-                        {index + 4}
-                      </Text>
-                    </Flex>
-                  </Flex.Item>
-                </Flex>
-              </Touchable>
+                      </Flex>
+                    </Flex.Item>
+                  </Flex>
+                </Touchable>
+              </View>
             )
           })}
         </Flex>

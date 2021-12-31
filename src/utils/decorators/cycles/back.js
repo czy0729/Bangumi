@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:23:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 21:49:15
+ * @Last Modified time: 2021-12-31 16:30:26
  */
 import React from 'react'
 import { Touchable, Iconfont, Flex } from '@components'
@@ -25,7 +25,7 @@ export default ob(IconBack, {
 
 const styles = _.create({
   touch: {
-    marginLeft: _.xs,
+    marginLeft: _.ios(0, _.xs),
     borderRadius: 20,
     overflow: 'hidden'
   },

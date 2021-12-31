@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:03:09
+ * @Last Modified time: 2021-12-31 16:32:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ function CoverToday({ data }, { navigation }) {
         />
         <View style={styles.info} pointerEvents='none'>
           <Text
-            size={_.device(11, 13)}
+            size={_.device(10, 13)}
             type={_.select('plain', 'title')}
             numberOfLines={1}
             bold
@@ -65,7 +65,7 @@ function CoverToday({ data }, { navigation }) {
             {weekdayCN[data.weekday]}
           </Text>
           <Text
-            style={_.mt.xxs}
+            style={_.mt.xs}
             size={_.device(10, 12)}
             type={_.select('plain', 'title')}
             numberOfLines={2}
@@ -87,6 +87,7 @@ const memoStyles = _.memoStyles(() => {
   return {
     item: {
       marginRight: _._wind,
+      backgroundColor: _.colorBg,
       borderRadius: _.radiusSm,
       overflow: 'hidden'
     },

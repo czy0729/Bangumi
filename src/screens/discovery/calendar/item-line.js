@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 17:50:43
+ * @Last Modified time: 2021-12-31 16:44:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,88 +48,93 @@ const ItemLine = memo(
     const indent = collection ? '　　' : ''
     const showScore = !hideScore && !!score
     return (
-      <Touchable
-        style={styles.item}
-        onPress={() => {
-          t('每日放送.跳转', {
-            to: 'Subject',
-            subjectId
-          })
+      <View style={styles.item}>
+        <Touchable
+          onPress={() => {
+            t('每日放送.跳转', {
+              to: 'Subject',
+              subjectId
+            })
 
-          navigation.push('Subject', {
-            subjectId,
-            _cn: name,
-            _image: images.medium
-          })
-        }}
-      >
-        <Flex align='start'>
-          <View style={styles.time}>
-            {!!timeCN && (
-              <Text align='center' bold>
-                {timeCN === '2359'
-                  ? '待定'
-                  : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
-              </Text>
-            )}
-            {timeCN === '2359' && (
-              <Touchable style={_.mt.sm} onPress={onToggleExpand}>
-                <Text type='sub' align='center'>
-                  {expand ? '隐藏' : '展开'}
+            navigation.push('Subject', {
+              subjectId,
+              _cn: name,
+              _image: images.medium
+            })
+          }}
+        >
+          <Flex align='start'>
+            <View style={styles.time}>
+              {!!timeCN && (
+                <Text align='center' bold>
+                  {timeCN === '2359'
+                    ? '待定'
+                    : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
                 </Text>
-              </Touchable>
-            )}
-          </View>
-          {(expand || (!expand && timeCN && timeCN !== '2359')) && (
-            <>
-              <View style={styles.image}>
-                <Cover
-                  width={IMG_WIDTH}
-                  height={IMG_HEIGHT}
-                  src={images.medium}
-                  radius
-                  shadow
-                />
-              </View>
-              <Flex.Item style={_.ml.md}>
-                <Flex
-                  style={styles.body}
-                  direction='column'
-                  justify='between'
-                  align='start'
-                >
-                  {!!collection && <Tag style={styles.collection} value={collection} />}
-                  <Katakana.Provider
-                    itemStyle={styles.katakanas}
-                    size={15}
-                    lineHeight={16}
-                    numberOfLines={3}
+              )}
+              {timeCN === '2359' && (
+                <Touchable style={_.mt.sm} onPress={onToggleExpand}>
+                  <Text type='sub' align='center'>
+                    {expand ? '隐藏' : '展开'}
+                  </Text>
+                </Touchable>
+              )}
+            </View>
+            {(expand || (!expand && timeCN && timeCN !== '2359')) && (
+              <>
+                <View style={styles.image}>
+                  <Cover
+                    width={IMG_WIDTH}
+                    height={IMG_HEIGHT}
+                    src={images.medium}
+                    radius
+                    shadow
+                  />
+                </View>
+                <Flex.Item style={_.ml.md}>
+                  <Flex
+                    style={styles.body}
+                    direction='column'
+                    justify='between'
+                    align='start'
                   >
-                    <Katakana
-                      type='desc'
+                    {!!collection && (
+                      <Tag style={styles.collection} value={collection} />
+                    )}
+                    <Katakana.Provider
+                      itemStyle={styles.katakanas}
                       size={15}
                       lineHeight={16}
                       numberOfLines={3}
-                      bold
                     >
-                      {indent}
-                      {HTMLDecode(name)}
-                    </Katakana>
-                  </Katakana.Provider>
-                  <Flex>
-                    {!!air && (
-                      <Text style={_.mr.sm} type='sub' size={14} bold>
-                        更新至第{air}话
-                      </Text>
-                    )}
-                    {showScore && <Stars simple value={score} type='desc' size={13} />}
+                      <Katakana
+                        type='desc'
+                        size={15}
+                        lineHeight={16}
+                        numberOfLines={3}
+                        bold
+                      >
+                        {indent}
+                        {HTMLDecode(name)}
+                      </Katakana>
+                    </Katakana.Provider>
+                    <Flex>
+                      {!!air && (
+                        <Text style={_.mr.sm} type='sub' size={14} bold>
+                          更新至第{air}话
+                        </Text>
+                      )}
+                      {showScore && (
+                        <Stars simple value={score} type='desc' size={13} />
+                      )}
+                    </Flex>
                   </Flex>
-                </Flex>
-              </Flex.Item>
-            </>
-          )}
-        </Flex>
-      </Touchable>
+                </Flex.Item>
+              </>
+            )}
+          </Flex>
+        </Touchable>
+      </View>
     )
   },
   defaultProps

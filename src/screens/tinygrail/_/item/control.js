@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:08:37
+ * @Last Modified time: 2021-12-31 16:25:23
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -62,9 +62,7 @@ function Control(props) {
           }
         />
       )}
-      {!isAuction && (
-        <StockPreview {...props} style={styles.stockPreview} _loaded />
-      )}
+      {!isAuction && <StockPreview {...props} style={styles.stockPreview} _loaded />}
       {showMenu && !isICO && (
         <Popover
           event={event}

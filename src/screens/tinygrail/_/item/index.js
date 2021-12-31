@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 17:11:42
+ * @Last Modified time: 2021-12-31 16:23:21
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -88,7 +88,7 @@ export default obc(Item, {
   onCollect: Function.prototype
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer

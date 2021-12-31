@@ -1,9 +1,8 @@
-/* eslint-disable no-extra-semi */
 /*
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 16:57:24
+ * @Last Modified time: 2021-12-31 16:01:01
  */
 import React from 'react'
 import { Text } from '@components'
@@ -68,9 +67,7 @@ function Detail({
     extra.push(`已筹${totalText}`) // ICO已筹资金
   } else {
     extra.push(
-      `+${toFixed(rate, 1)}(${Number(
-        toFixed(calculateRate(rate, rank, stars), 1)
-      )})`
+      `+${toFixed(rate, 1)}(${Number(toFixed(calculateRate(rate, rank, stars), 1))})`
     )
 
     if (show && (state || sacrifices)) {

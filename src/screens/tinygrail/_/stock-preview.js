@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 17:59:13
+ * @Last Modified time: 2021-12-31 16:26:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -77,13 +77,9 @@ class StockPreview extends React.Component {
   render() {
     const { style, current, fluctuation, change, bids, asks, users, _loaded } =
       this.props
-    if (!_loaded) {
-      return null
-    }
+    if (!_loaded) return null
 
-    if (users) {
-      return this.renderICO()
-    }
+    if (users) return this.renderICO()
 
     const { _stockPreview: show } = tinygrailStore.state
     const fluctuationStyle = [this.styles.fluctuation, _.ml.sm]
@@ -223,7 +219,6 @@ class StockPreview extends React.Component {
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    height: '100%',
     paddingVertical: 17,
     paddingHorizontal: _.sm * _.ratio
   },
