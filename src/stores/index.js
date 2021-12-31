@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-18 00:17:07
+ * @Last Modified time: 2021-12-31 20:53:13
  */
 import { Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
 import AsyncStorage from '@components/@/react-native-async-storage'
+import { runAfter } from '@utils'
 import { info } from '@utils/ui'
 import { DEV } from '@constants'
 import calendarStore from './calendar'
@@ -34,13 +35,9 @@ class Stores {
    */
   async init() {
     try {
-      if (!DEV && inited) {
-        return false
-      }
+      if (!DEV && inited) return false
 
-      if (DEV) {
-        await userStore.init()
-      }
+      if (DEV) await userStore.init()
       inited = true
 
       // [同步加载]APP最重要Stores
@@ -55,16 +52,16 @@ class Stores {
       await res
 
       // [异步加载]非重要Stores
-      Promise.all([
-        calendarStore.init(),
-        discoveryStore.init(),
-        monoStore.init(),
-        rakuenStore.init(),
-        searchStore.init(),
-        timelineStore.init(),
-        tagStore.init(),
+      runAfter(() => {
+        calendarStore.init()
+        discoveryStore.init()
+        monoStore.init()
+        rakuenStore.init()
+        searchStore.init()
+        timelineStore.init()
+        tagStore.init()
         usersStore.init()
-      ])
+      })
 
       return res
     } catch (error) {

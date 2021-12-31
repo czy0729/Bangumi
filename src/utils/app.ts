@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 21:51:48
+ * @Last Modified time: 2021-12-31 21:35:20
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'

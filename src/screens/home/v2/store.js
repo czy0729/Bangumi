@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 04:33:56
+ * @Last Modified time: 2021-12-31 21:51:41
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -390,9 +390,9 @@ export default class ScreenHomeV2 extends store {
    * 列表当前数据
    */
   currentUserCollection(title) {
-    if (title === '游戏') return this.games
-
     return computed(() => {
+      if (title === '游戏') return this.games
+
       const userCollection = {
         ...this.userCollection
       }
@@ -406,6 +406,99 @@ export default class ScreenHomeV2 extends store {
 
       userCollection.list = this.sortList(userCollection.list)
       return userCollection
+    }).get()
+  }
+
+  /**
+   * 列表排序
+   * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
+   */
+  sortList = (list = []) => {
+    return computed(() => {
+      if (!list.length) return []
+
+      // 置顶排序
+      const { top } = this.state
+      const topMap = {}
+      top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
+
+      // 网页顺序: 不需要处理
+      if (this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('网页')) {
+        return list.sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+      }
+
+      try {
+        const { homeSortSink } = systemStore.setting
+
+        // 计算每一个条目看过ep的数量
+        const weightMap = {}
+
+        // 放送顺序: 根据今天星期几, 每天递减, 放送中的番剧优先
+        if (this.sortOnAir) {
+          list.forEach(item => {
+            const { subject_id: subjectId } = item
+            const { weekDay, isExist } = this.onAirCustom(subjectId)
+            if (!isExist) {
+              weightMap[subjectId] = 1
+            } else if (this.isToday(subjectId)) {
+              weightMap[subjectId] = 1001
+            } else if (this.isNextDay(subjectId)) {
+              weightMap[subjectId] = 1000
+            } else if (day === 0) {
+              weightMap[subjectId] = 100 - weekDay
+            } else if (weekDay >= day) {
+              weightMap[subjectId] = 100 - weekDay
+            } else {
+              weightMap[subjectId] = 10 - weekDay
+            }
+
+            // 看完下沉逻辑
+            if (homeSortSink && !this.hasNewEp(subjectId)) {
+              weightMap[subjectId] = weightMap[subjectId] - 10000
+            }
+          })
+
+          return list
+            .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
+            .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+        }
+
+        // APP顺序
+        list.forEach(item => {
+          const { subject_id: subjectId } = item
+          const progress = this.userProgress(subjectId)
+
+          let watchedCount = 0
+          Object.keys(progress).forEach(i => {
+            if (progress[i] === '看过') watchedCount += 1
+          })
+
+          const { air = 0 } = calendarStore.onAir[subjectId] || {}
+          if (this.isToday(subjectId)) {
+            weightMap[subjectId] = air > watchedCount ? 100000 : 10000
+          } else if (this.isNextDay(subjectId)) {
+            weightMap[subjectId] = air > watchedCount ? 1000 : 100
+          } else {
+            weightMap[subjectId] = air > watchedCount ? 10 : 1
+          }
+
+          // 看完下沉逻辑
+          if (homeSortSink && !this.hasNewEp(subjectId)) {
+            weightMap[subjectId] = weightMap[subjectId] - 100001
+          }
+        })
+
+        return list
+          .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
+          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+      } catch (error) {
+        console.warn(`[${namespace}] sortList`, error)
+
+        // fallback
+        return list
+          .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
+          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+      }
     }).get()
   }
 
@@ -580,97 +673,6 @@ export default class ScreenHomeV2 extends store {
     }
 
     this.setStorage(undefined, undefined, namespace)
-  }
-
-  /**
-   * 列表排序
-   * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
-   */
-  sortList = (list = []) => {
-    if (!list.length) return []
-
-    // 置顶排序
-    const { top } = this.state
-    const topMap = {}
-    top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
-
-    // 网页顺序: 不需要处理
-    if (this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('网页')) {
-      return list.sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-    }
-
-    try {
-      const { homeSortSink } = systemStore.setting
-
-      // 计算每一个条目看过ep的数量
-      const weightMap = {}
-
-      // 放送顺序: 根据今天星期几, 每天递减, 放送中的番剧优先
-      if (this.sortOnAir) {
-        list.forEach(item => {
-          const { subject_id: subjectId } = item
-          const { weekDay, isExist } = this.onAirCustom(subjectId)
-          if (!isExist) {
-            weightMap[subjectId] = 1
-          } else if (this.isToday(subjectId)) {
-            weightMap[subjectId] = 1001
-          } else if (this.isNextDay(subjectId)) {
-            weightMap[subjectId] = 1000
-          } else if (day === 0) {
-            weightMap[subjectId] = 100 - weekDay
-          } else if (weekDay >= day) {
-            weightMap[subjectId] = 100 - weekDay
-          } else {
-            weightMap[subjectId] = 10 - weekDay
-          }
-
-          // 看完下沉逻辑
-          if (homeSortSink && !this.hasNewEp(subjectId)) {
-            weightMap[subjectId] = weightMap[subjectId] - 10000
-          }
-        })
-
-        return list
-          .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-      }
-
-      // APP顺序
-      list.forEach(item => {
-        const { subject_id: subjectId } = item
-        const progress = this.userProgress(subjectId)
-
-        let watchedCount = 0
-        Object.keys(progress).forEach(i => {
-          if (progress[i] === '看过') watchedCount += 1
-        })
-
-        const { air = 0 } = calendarStore.onAir[subjectId] || {}
-        if (this.isToday(subjectId)) {
-          weightMap[subjectId] = air > watchedCount ? 100000 : 10000
-        } else if (this.isNextDay(subjectId)) {
-          weightMap[subjectId] = air > watchedCount ? 1000 : 100
-        } else {
-          weightMap[subjectId] = air > watchedCount ? 10 : 1
-        }
-
-        // 看完下沉逻辑
-        if (homeSortSink && !this.hasNewEp(subjectId)) {
-          weightMap[subjectId] = weightMap[subjectId] - 100001
-        }
-      })
-
-      return list
-        .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-        .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-    } catch (error) {
-      console.warn(`[${namespace}] sortList`, error)
-
-      // fallback
-      return list
-        .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
-        .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-    }
   }
 
   /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 03:02:10
+ * @Last Modified time: 2021-12-31 21:43:37
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -48,7 +48,7 @@ const List = memo(
   }) => {
     rerender('Home.List.Main')
 
-    const emptyComponent = <Empty title={title} />
+    const emptyComponent = <Empty title={title} length={data.list.length} />
     return (
       <ListView
         ref={connectRef}

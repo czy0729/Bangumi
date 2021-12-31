@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 01:30:38
+ * @Last Modified time: 2021-12-31 21:53:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -138,7 +138,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   info: {
     width: '100%',
-    height: _.isMobileLanscape ? 124 : 200
+    height: _.isMobileLanscape ? 132 : 208
   },
   gameInfo: {
     width: '100%',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 04:05:48
+ * @Last Modified time: 2021-12-31 21:31:38
  */
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'

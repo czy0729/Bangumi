@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-13 12:11:45
+ * @Last Modified time: 2021-12-31 21:35:06
  */
 import React from 'react'
 import { Flex, Text, Mesume, Button } from '@components'
@@ -19,13 +19,11 @@ const footerEmptyDataTextMap = {
   游戏: '当前没有在玩的游戏哦'
 }
 
-function Empty({ title }, { $, navigation }) {
+function Empty({ title, length }, { $, navigation }) {
   rerender('Home.Empty')
 
   const styles = memoStyles()
   const { filter } = $.state
-  const { list } = $.currentUserCollection(title)
-  const { length } = list
   return (
     <Flex
       style={[styles.empty, length && styles.top]}
