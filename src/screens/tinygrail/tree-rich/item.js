@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:15:54
+ * @Last Modified time: 2021-12-31 18:20:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,19 +15,7 @@ import { B, M } from '@constants'
 
 const area = _.window.width * _.window.height
 
-function Item({
-  w,
-  h,
-  x,
-  y,
-  id,
-  icon,
-  name,
-  price,
-  percent,
-  onPress,
-  onLongPress
-}) {
+function Item({ w, h, x, y, id, icon, name, price, percent, onPress, onLongPress }) {
   const styles = memoStyles()
   const ratio = (percent + 1) ** 2
   const ratioHeight = (h / _.window.height) * 1.2
@@ -55,8 +43,7 @@ function Item({
         styles.item,
         {
           top: y,
-          left: x,
-          backgroundColor
+          left: x
         }
       ]}
     >
@@ -82,7 +69,8 @@ function Item({
             _.container.flex,
             {
               width: w,
-              height: h
+              height: h,
+              backgroundColor
             }
           ]}
           direction='column'

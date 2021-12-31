@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 09:32:34
+ * @Last Modified time: 2021-12-31 18:57:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,10 +14,7 @@ import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 
-function Item(
-  { index, balance, desc, change, time, charaId },
-  { $, navigation }
-) {
+function Item({ index, balance, desc, change, time, charaId }, { $, navigation }) {
   const styles = memoStyles()
   const { go } = $.state
   const isTop = index === 0

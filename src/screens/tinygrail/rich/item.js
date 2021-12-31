@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-04 17:12:41
+ * @Last Modified time: 2021-12-31 18:18:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -106,7 +106,6 @@ function Item(
             <Flex.Item style={_.mr.sm}>
               <Touchable
                 style={styles.item}
-                highlight
                 onPress={() => {
                   t('番市首富.跳转', {
                     to: 'TinygrailTree',
@@ -146,10 +145,7 @@ function Item(
                   <Text style={_.ml.xs} type='tinygrailPlain'>
                     {right}
                   </Text>
-                  <Iconfont
-                    name='md-navigate-next'
-                    color={_.colorTinygrailText}
-                  />
+                  <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
                 </Flex>
               </Touchable>
             </Flex.Item>

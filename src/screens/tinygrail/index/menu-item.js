@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:12:35
+ * @Last Modified time: 2021-12-31 18:16:10
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -49,8 +49,8 @@ const memoStyles = _.memoStyles(() => {
   const { width, marginLeft } = _.grid(num)
   return {
     container: {
+      marginVertical: marginLeft / 2,
       marginLeft,
-      marginBottom: marginLeft,
       borderRadius: _.radiusSm,
       overflow: 'hidden'
     },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:28:39
+ * @Last Modified time: 2021-12-31 18:12:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -180,14 +180,13 @@ export default obc(ItemTemple, {
 })
 
 const memoStyles = _.memoStyles(() => {
-  const imageWidth = _.window.contentWidth * 0.28
-  const imageHeight = imageWidth * 1.28
-  const imageResizeWidth = imageWidth * 1.2
+  const { width, marginLeft } = _.grid(3)
+  const imageHeight = width * 1.28
+  const imageResizeWidth = width * 1.2
   const imageResizeHeight = imageHeight * 1.2
-  const marginLeft = (_.window.contentWidth - 3 * imageWidth) / 4
   return {
     item: {
-      width: imageWidth,
+      width,
       marginTop: _.sm,
       marginBottom: _.sm + 2,
       marginLeft
@@ -196,7 +195,7 @@ const memoStyles = _.memoStyles(() => {
       backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
     },
     wrap: {
-      width: imageWidth,
+      width,
       height: imageHeight,
       borderRadius: _.radiusXs,
       overflow: 'hidden'
@@ -206,7 +205,7 @@ const memoStyles = _.memoStyles(() => {
       zIndex: 1,
       top: 0,
       left: 0,
-      marginLeft: -(imageResizeWidth - imageWidth) / 2,
+      marginLeft: -(imageResizeWidth - width) / 2,
       backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
     },
     imageResize: {

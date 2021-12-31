@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 21:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 16:06:59
+ * @Last Modified time: 2021-12-31 18:09:04
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -99,135 +99,138 @@ class Items extends React.Component {
     const { showItems } = $.state
     const { sacrifices = 0 } = $.userLogs
     const { assets = 0 } = $.myTemple
-    if (!showItems) {
-      return null
-    }
+    if (!showItems) return null
 
     return (
       <Flex wrap='wrap' align='start'>
-        <Touchable
-          style={this.styles.item}
-          onPress={() => {
-            if (sacrifices < 500) {
-              info('需要已献祭大于500才能使用')
-              return
-            }
-
-            Alert.alert('小圣杯助手', '确定消耗10点固定资产使用混沌魔方?', [
-              {
-                text: '取消',
-                style: 'cancel'
-              },
-              {
-                text: '确定',
-                onPress: () =>
-                  $.doUse({
-                    title: '混沌魔方'
-                  })
+        <View style={this.styles.item}>
+          <Touchable
+            onPress={() => {
+              if (sacrifices < 500) {
+                info('需要已献祭大于500才能使用')
+                return
               }
-            ])
-          }}
-        >
-          <Flex style={_.mr.sm} align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/cube.png`)} />
-            <Flex.Item style={_.ml.sm}>
-              <Text type='tinygrailPlain' size={12} bold>
-                混沌魔方
-              </Text>
-              <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                {ITEMS_DESC['混沌魔方']}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Touchable>
-        <Touchable
-          style={this.styles.item}
-          onPress={() => {
-            if (assets < 100) {
-              info('当前固定资产不够100点')
-              return
-            }
-            this.onOpen('虚空道标')
-          }}
-        >
-          <Flex align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/sign.png`)} />
-            <Flex.Item style={_.ml.sm}>
-              <Text type='tinygrailPlain' size={12} bold>
-                虚空道标
-              </Text>
-              <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                {ITEMS_DESC['虚空道标']}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Touchable>
-        <Touchable
-          style={this.styles.item}
-          onPress={() => {
-            if (assets === sacrifices) {
-              info('当前固定资产没有损耗')
-              return
-            }
-            this.onOpen('星光碎片')
-          }}
-        >
-          <Flex style={_.mr.sm} align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/star.png`)} />
-            <Flex.Item style={_.ml.sm}>
-              <Text type='tinygrailPlain' size={12} bold>
-                星光碎片
-              </Text>
-              <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                {ITEMS_DESC['星光碎片']}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Touchable>
-        <Touchable
-          style={this.styles.item}
-          onPress={() => {
-            if (assets < 100) {
-              info('当前固定资产不够100点')
-              return
-            }
-            this.onOpen('闪光结晶')
-          }}
-        >
-          <Flex align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/fire.png`)} />
-            <Flex.Item style={_.ml.sm}>
-              <Text type='tinygrailPlain' size={12} bold>
-                闪光结晶
-              </Text>
-              <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                {ITEMS_DESC['闪光结晶']}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Touchable>
-        <Touchable
-          style={[this.styles.item, this.styles.full]}
-          onPress={() => {
-            if (assets < 100) {
-              info('当前固定资产不够100点')
-              return
-            }
-            this.onOpen('鲤鱼之眼')
-          }}
-        >
-          <Flex align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/eye2.png`)} />
-            <Flex.Item style={_.ml.sm}>
-              <Text type='tinygrailPlain' size={12} bold>
-                鲤鱼之眼
-              </Text>
-              <Text style={_.mt.xs} type='tinygrailText' size={9}>
-                {ITEMS_DESC['鲤鱼之眼']}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Touchable>
+
+              Alert.alert('小圣杯助手', '确定消耗10点固定资产使用混沌魔方?', [
+                {
+                  text: '取消',
+                  style: 'cancel'
+                },
+                {
+                  text: '确定',
+                  onPress: () =>
+                    $.doUse({
+                      title: '混沌魔方'
+                    })
+                }
+              ])
+            }}
+          >
+            <Flex style={_.mr.sm} align='start'>
+              <Image size={28} radius src={tinygrailOSS(`${OSS}/cube.png`)} />
+              <Flex.Item style={_.ml.sm}>
+                <Text type='tinygrailPlain' size={12} bold>
+                  混沌魔方
+                </Text>
+                <Text style={_.mt.xs} type='tinygrailText' size={9}>
+                  {ITEMS_DESC['混沌魔方']}
+                </Text>
+              </Flex.Item>
+            </Flex>
+          </Touchable>
+        </View>
+        <View style={this.styles.item}>
+          <Touchable
+            onPress={() => {
+              if (assets < 100) {
+                info('当前固定资产不够100点')
+                return
+              }
+              this.onOpen('虚空道标')
+            }}
+          >
+            <Flex align='start'>
+              <Image size={28} radius src={tinygrailOSS(`${OSS}/sign.png`)} />
+              <Flex.Item style={_.ml.sm}>
+                <Text type='tinygrailPlain' size={12} bold>
+                  虚空道标
+                </Text>
+                <Text style={_.mt.xs} type='tinygrailText' size={9}>
+                  {ITEMS_DESC['虚空道标']}
+                </Text>
+              </Flex.Item>
+            </Flex>
+          </Touchable>
+        </View>
+        <View style={this.styles.item}>
+          <Touchable
+            onPress={() => {
+              if (assets === sacrifices) {
+                info('当前固定资产没有损耗')
+                return
+              }
+              this.onOpen('星光碎片')
+            }}
+          >
+            <Flex style={_.mr.sm} align='start'>
+              <Image size={28} radius src={tinygrailOSS(`${OSS}/star.png`)} />
+              <Flex.Item style={_.ml.sm}>
+                <Text type='tinygrailPlain' size={12} bold>
+                  星光碎片
+                </Text>
+                <Text style={_.mt.xs} type='tinygrailText' size={9}>
+                  {ITEMS_DESC['星光碎片']}
+                </Text>
+              </Flex.Item>
+            </Flex>
+          </Touchable>
+        </View>
+        <View style={this.styles.item}>
+          <Touchable
+            onPress={() => {
+              if (assets < 100) {
+                info('当前固定资产不够100点')
+                return
+              }
+              this.onOpen('闪光结晶')
+            }}
+          >
+            <Flex align='start'>
+              <Image size={28} radius src={tinygrailOSS(`${OSS}/fire.png`)} />
+              <Flex.Item style={_.ml.sm}>
+                <Text type='tinygrailPlain' size={12} bold>
+                  闪光结晶
+                </Text>
+                <Text style={_.mt.xs} type='tinygrailText' size={9}>
+                  {ITEMS_DESC['闪光结晶']}
+                </Text>
+              </Flex.Item>
+            </Flex>
+          </Touchable>
+        </View>
+        <View style={[this.styles.item, this.styles.full]}>
+          <Touchable
+            onPress={() => {
+              if (assets < 100) {
+                info('当前固定资产不够100点')
+                return
+              }
+              this.onOpen('鲤鱼之眼')
+            }}
+          >
+            <Flex align='start'>
+              <Image size={28} radius src={tinygrailOSS(`${OSS}/eye2.png`)} />
+              <Flex.Item style={_.ml.sm}>
+                <Text type='tinygrailPlain' size={12} bold>
+                  鲤鱼之眼
+                </Text>
+                <Text style={_.mt.xs} type='tinygrailText' size={9}>
+                  {ITEMS_DESC['鲤鱼之眼']}
+                </Text>
+              </Flex.Item>
+            </Flex>
+          </Touchable>
+        </View>
       </Flex>
     )
   }

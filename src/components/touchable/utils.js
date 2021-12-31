@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 10:32:31
+ * @Last Modified time: 2021-12-31 18:07:00
  */
 import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
@@ -49,6 +49,8 @@ export function callOnceInInterval(functionTobeCalled, interval = 80) {
  */
 export function separateStyles(styles) {
   const {
+    width,
+    height,
     margin,
     marginTop,
     marginRight,
@@ -66,6 +68,8 @@ export function separateStyles(styles) {
   } = StyleSheet.flatten(styles) || {}
   return {
     containerStyle: {
+      width,
+      height,
       margin,
       marginTop,
       marginRight,

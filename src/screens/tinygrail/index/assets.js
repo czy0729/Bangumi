@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:23:21
+ * @Last Modified time: 2021-12-31 18:15:25
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'

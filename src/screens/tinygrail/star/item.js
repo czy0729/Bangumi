@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:52:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:52:21
+ * @Last Modified time: 2021-12-31 18:23:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,11 @@ import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 
-const imageWidth = _.window.contentWidth * 0.2
-
 function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
   const styles = memoStyles()
   const { label } = $.state
   const isDisabled = label === '持仓' && !$.mergeListMap[id]
+  const imageWidth = _.window.width * 0.2
   return (
     <View>
       <Touchable withoutFeedback onPress={() => $.setHover(id)}>
@@ -67,7 +66,7 @@ function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   disabled: {
     opacity: 0.1
   },

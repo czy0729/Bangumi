@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-20 20:15:45
+ * @Last Modified time: 2021-12-31 18:57:35
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
+
+// @ts-ignore
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
@@ -503,44 +505,38 @@ export function formatNumber(s, n = 2, xsb?) {
  * @return {String} simple             简单模式
  */
 export function lastDate(timestamp, simple = true) {
-  const d = new Date(timestamp * 1000)
-  const _date = `${d.getFullYear()}-${
-    d.getMonth() + 1
-  }-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
-  const dateTime = new Date(_date)
-  const currentTime = new Date()
-
-  let totalTime = currentTime.getTime() - dateTime.getTime()
-  let _
   const getNumber = () => Math.floor(totalTime / _)
   const modTimestamp = () => totalTime % _
 
-  _ = 1000 * 60 * 60 * 24 * 365
+  let totalTime = getTimestamp() - timestamp
+  let _
+
+  _ = 60 * 60 * 24 * 365
   const years = getNumber()
   totalTime = modTimestamp()
 
-  _ = 1000 * 60 * 60 * 24 * 30
+  _ = 60 * 60 * 24 * 30
   const months = getNumber()
   totalTime = modTimestamp()
 
   if (years > 0) return simple ? `${years}年前` : `${years}年${months}月前`
 
-  _ = 1000 * 60 * 60 * 24 * 7
+  _ = 60 * 60 * 24 * 7
   const weeks = getNumber()
   totalTime = modTimestamp()
   if (months > 0) return simple ? `${months}月前` : `${months}月${weeks}周前`
 
-  _ = 1000 * 60 * 60 * 24
+  _ = 60 * 60 * 24
   const days = getNumber()
   totalTime = modTimestamp()
   if (weeks > 0) return simple ? `${weeks}周前` : `${weeks}周${days}天前`
 
-  _ = 1000 * 60 * 60
+  _ = 60 * 60
   const hours = getNumber()
   totalTime = modTimestamp()
   if (days > 0) return simple ? `${days}天前` : `${days}天${hours}时前`
 
-  _ = 1000 * 60
+  _ = 60
   const minutes = getNumber()
   totalTime = modTimestamp()
   if (hours > 0) return simple ? `${hours}时前` : `${hours}时${minutes}分前`

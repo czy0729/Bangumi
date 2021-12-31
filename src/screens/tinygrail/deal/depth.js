@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:36:08
+ * @Last Modified time: 2021-12-31 18:02:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,7 @@ import { obc } from '@utils/decorators'
 
 function Depth({ style }, { $ }) {
   const { asks = [], bids = [], _loaded } = $.depth
-  if (!_loaded) {
-    return null
-  }
+  if (!_loaded) return null
 
   const styles = memoStyles()
   const { current, fluctuation } = $.chara
@@ -31,12 +29,8 @@ function Depth({ style }, { $ }) {
   let bidsHigh = 0
   let bidsAmount = 0
   bids.forEach(item => {
-    if (!bidsLow || item.price < bidsLow) {
-      bidsLow = item.price
-    }
-    if (!bidsHigh || item.price > bidsHigh) {
-      bidsHigh = item.price
-    }
+    if (!bidsLow || item.price < bidsLow) bidsLow = item.price
+    if (!bidsHigh || item.price > bidsHigh) bidsHigh = item.price
     bidsAmount += item.amount
   })
 
@@ -44,12 +38,8 @@ function Depth({ style }, { $ }) {
   let asksHigh = 0
   let asksAmount = 0
   asks.forEach(item => {
-    if (!asksLow || item.price < asksHigh) {
-      asksLow = item.price
-    }
-    if (!asksHigh || item.price > asksLow) {
-      asksHigh = item.price
-    }
+    if (!asksLow || item.price < asksHigh) asksLow = item.price
+    if (!asksHigh || item.price > asksLow) asksHigh = item.price
     asksAmount += item.amount
   })
 
@@ -74,9 +64,7 @@ function Depth({ style }, { $ }) {
             // 冰山挂单永远显示, 0优先, 之后小的优先
             .sort((a, b) => (a.price || -10000000) - (b.price || -10000000))
             .filter((item, index) => {
-              if (index < 5) {
-                return true
-              }
+              if (index < 5) return true
 
               filterCalculateAsks += item.amount
               return false
@@ -94,6 +82,7 @@ function Depth({ style }, { $ }) {
               return (
                 <Touchable
                   key={index}
+                  style={_.container.block}
                   onPress={() => $.changeValue(toFixed(item.price, 2), item.amount)}
                 >
                   <Flex style={styles.item}>
@@ -146,6 +135,7 @@ function Depth({ style }, { $ }) {
               return (
                 <Touchable
                   key={index}
+                  style={_.container.block}
                   onPress={() => $.changeValue(toFixed(item.price, 2), item.amount)}
                 >
                   <Flex style={styles.item}>
@@ -178,7 +168,7 @@ function Depth({ style }, { $ }) {
 
 export default obc(Depth)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.sm
   },

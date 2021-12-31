@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:15:40
+ * @Last Modified time: 2021-12-31 18:20:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,8 +73,7 @@ function Item({
         styles.item,
         {
           top: y,
-          left: x,
-          backgroundColor
+          left: x
         }
       ]}
     >
@@ -100,7 +99,8 @@ function Item({
             _.container.flex,
             {
               width: w,
-              height: h
+              height: h,
+              backgroundColor
             }
           ]}
           direction='column'
@@ -117,9 +117,7 @@ function Item({
               src={icon}
               size={parseInt(ratioHeight * 240)}
               height={
-                isTemple
-                  ? parseInt(ratioHeight * 320)
-                  : parseInt(ratioHeight * 240)
+                isTemple ? parseInt(ratioHeight * 320) : parseInt(ratioHeight * 240)
               }
               radius={isTemple ? 4 : parseInt(ratioHeight * 120)}
               placeholder={false}
@@ -144,11 +142,7 @@ function Item({
             numberOfLines={1}
             selectable={false}
           >
-            <Text
-              type={textColor}
-              size={Math.min(textSize, 14)}
-              selectable={false}
-            >
+            <Text type={textColor} size={Math.min(textSize, 14)} selectable={false}>
               {extra}
               {left}
               {priceText}
