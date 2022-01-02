@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 18:07:00
+ * @Last Modified time: 2022-01-02 12:06:11
  */
 import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
@@ -66,6 +66,11 @@ export function separateStyles(styles) {
     overflow,
     ...style
   } = StyleSheet.flatten(styles) || {}
+  const _style = {
+    ...style
+  }
+  if (typeof width === 'number') _style.width = width
+  if (typeof height === 'number') _style.height = height
   return {
     containerStyle: {
       width,
@@ -84,6 +89,6 @@ export function separateStyles(styles) {
       borderBottomRightRadius,
       overflow
     },
-    style
+    style: _style
   }
 }

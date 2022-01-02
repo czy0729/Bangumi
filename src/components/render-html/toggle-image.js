@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:22:46
+ * @Last Modified time: 2022-01-02 14:47:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,11 +10,40 @@ import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _ } from '@stores'
 import { open } from '@utils'
+import axios from '@utils/thirdParty/axios'
 import { Flex } from '../flex'
 import { Image } from '../image'
 import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
 import { Text } from '../text'
+
+const memoSize = {}
+function getSize(url) {
+  return new Promise(resolve => {
+    if (url in memoSize) {
+      resolve(memoSize[url])
+      return
+    }
+
+    axios
+      .head(url)
+      .then(response => {
+        if (response?.status !== 200) {
+          memoSize[url] = 0
+          resolve(memoSize[url])
+          return
+        }
+
+        const length = response?.headers?.['content-length']
+        memoSize[url] = parseInt(length / 1024)
+        resolve(memoSize[url])
+      })
+      .catch(() => {
+        memoSize[url] = 0
+        resolve(memoSize[url])
+      })
+  })
+}
 
 export default
 @observer
@@ -25,7 +54,16 @@ class ToggleImage extends React.Component {
 
   state = {
     show: this.props.show || false,
-    loaded: false
+    loaded: false,
+    size: '-'
+  }
+
+  async componentDidMount() {
+    const { src } = this.props
+    const size = await getSize(src)
+    this.setState({
+      size
+    })
   }
 
   toggleShow = () => {
@@ -71,8 +109,22 @@ class ToggleImage extends React.Component {
       )
     }
 
-    const { show, loaded } = this.state
+    const { show, loaded, size } = this.state
+    const ext = src.includes('.jpg')
+      ? 'jpg'
+      : src.includes('.png')
+      ? 'png'
+      : src.includes('.gif')
+      ? 'gif'
+      : ''
     if (!show) {
+      const text = []
+      if (ext) text.push(`[${ext}]`)
+      if (size === 0) {
+        text.push('[获取信息失败]')
+      } else {
+        text.push(`[${size}kb]`)
+      }
       return (
         <Touchable
           style={this.styles.image}
@@ -84,8 +136,8 @@ class ToggleImage extends React.Component {
             direction='column'
             justify='center'
           >
-            <Text size={10} type='sub'>
-              点击显示图片，长按浏览器打开
+            <Text size={12} type='sub' bold>
+              {text.join(' ')}
             </Text>
             {isRemote && (
               <Text
@@ -105,7 +157,12 @@ class ToggleImage extends React.Component {
 
     return (
       <Flex style={this.styles.image} justify='center'>
-        <Image {...this.props} onLoadEnd={this.onLoadEnd} onError={this.onLoadEnd} />
+        <Image
+          {...this.props}
+          radius
+          onLoadEnd={this.onLoadEnd}
+          onError={this.onLoadEnd}
+        />
         {!this.props.show && (
           <View style={this.styles.closeImageWrap}>
             <Touchable onPress={this.toggleShow} onLongPress={() => open(src)}>
@@ -137,7 +194,7 @@ class ToggleImage extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   image: {
     marginVertical: _.sm
   },
@@ -154,14 +211,14 @@ const memoStyles = _.memoStyles(_ => ({
   closeImageWrap: {
     position: 'absolute',
     zIndex: 1,
-    top: _.sm,
-    right: _.sm
+    top: 12,
+    right: 8
   },
   closeImage: {
     width: 24,
     height: 24,
     borderRadius: 24,
-    backgroundColor: 'rgba(0, 0, 0, 0.16)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     overflow: 'hidden'
   },
   textSrc: {

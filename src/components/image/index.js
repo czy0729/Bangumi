@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 07:51:31
+ * @Last Modified time: 2022-01-02 14:07:33
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -183,9 +183,7 @@ export const Image = observer(
         }
 
         // 空地址不作处理
-        if (uri === 'https:') {
-          return false
-        }
+        if (uri === 'https:') return false
 
         this.setState({
           uri

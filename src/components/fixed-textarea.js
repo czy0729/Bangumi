@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:19:00
+ * @Last Modified time: 2022-01-02 12:12:21
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -613,12 +613,7 @@ export const FixedTextarea = observer(
       return (
         <>
           {(showTextarea || showBgm) && (
-            <Touchable
-              style={this.styles.mask}
-              useRN
-              withoutFeedback
-              onPress={this.onBlur}
-            />
+            <Touchable style={this.styles.mask} withoutFeedback onPress={this.onBlur} />
           )}
           <View style={this.styles.container}>
             {children}
