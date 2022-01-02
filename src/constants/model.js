@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-12 11:58:58
+ * @Last Modified time: 2022-01-02 10:05:18
  */
 class Model {
   constructor(data) {
@@ -386,6 +386,18 @@ export const MODEL_SEARCH_LEGACY = new Model([
   {
     label: '精确',
     value: '1'
+  }
+])
+
+// 搜索细度
+export const MODEL_NEWS = new Model([
+  {
+    label: '动漫之家',
+    value: 'https://m.news.dmzj.com'
+  },
+  {
+    label: '机核GCORES',
+    value: 'https://www.gcores.com/news'
   }
 ])
 

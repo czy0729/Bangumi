@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:45:56
+ * @Last Modified time: 2022-01-02 09:35:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,6 +49,7 @@ function Friends(props, { $, navigation }) {
                   src={item.cover}
                   width={imgWidth}
                   height={imgHeight}
+                  radius
                   shadow
                   type={$.typeCn}
                   onPress={onPress}

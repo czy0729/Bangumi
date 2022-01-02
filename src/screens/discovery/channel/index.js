@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:43:49
+ * @Last Modified time: 2022-01-02 09:33:03
  */
 import React from 'react'
 import { ScrollView, Iconfont, Loading } from '@components'
@@ -47,6 +47,7 @@ class Channel extends React.Component {
             case '浏览器查看':
               open($.url)
               break
+
             default:
               setTimeout(() => {
                 navigation.setParams({

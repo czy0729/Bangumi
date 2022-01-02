@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:06:01
+ * @Last Modified time: 2022-01-02 09:27:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,7 @@ export const ItemBlog = obc(
         >
           {!!cover && (
             <View style={styles.imgContainer}>
-              <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} shadow />
+              <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} radius shadow />
             </View>
           )}
           <Flex.Item>

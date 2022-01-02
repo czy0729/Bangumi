@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 17:27:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:52:20
+ * @Last Modified time: 2022-01-02 09:28:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,8 +55,8 @@ const memoStyles = _.memoStyles(() => ({
     marginTop: 12
   },
   tag: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingVertical: 2,
+    paddingHorizontal: 4,
     marginRight: 8,
     marginBottom: 12,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),

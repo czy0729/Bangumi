@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 08:18:23
+ * @Last Modified time: 2022-01-02 11:36:43
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
+import { MODEL_NEWS } from '@constants/model'
 
 const namespace = 'ScreenAnitama'
 const excludeState = {
@@ -21,6 +22,7 @@ export default class ScreenAnitama extends store {
   state = observable({
     show: false,
     history: [],
+    type: MODEL_NEWS.data[0].value,
     ...excludeState,
     _loaded: false
   })
@@ -51,15 +53,40 @@ export default class ScreenAnitama extends store {
 
   // -------------------- fetch --------------------
   fetchList = () => {
-    const { page } = this.state
-    return discoveryStore.fetchDMZJTimeline(page)
+    const { page, type } = this.state
+    const label = MODEL_NEWS.getLabel(type)
+    switch (label) {
+      case '机核GCORES':
+        return discoveryStore.fetchGCORESTimeline(page)
+
+      default:
+        return discoveryStore.fetchDMZJTimeline(page)
+    }
   }
 
   // -------------------- get --------------------
   @computed get article() {
-    const { page } = this.state
-    const article = discoveryStore.dmzjTimeline(page)
-    return article
+    const { page, type } = this.state
+    const label = MODEL_NEWS.getLabel(type)
+    switch (label) {
+      case '机核GCORES':
+        return discoveryStore.gcoresTimeline(page)
+
+      default:
+        return discoveryStore.dmzjTimeline(page)
+    }
+  }
+
+  @computed get url() {
+    const { page, type } = this.state
+    const label = MODEL_NEWS.getLabel(type)
+    switch (label) {
+      case '机核GCORES':
+        return `https://www.gcores.com/news?page=${page}`
+
+      default:
+        return 'https://m.news.dmzj.com'
+    }
   }
 
   // -------------------- page --------------------
@@ -110,6 +137,16 @@ export default class ScreenAnitama extends store {
       })
       this.setStorage(undefined, undefined, namespace)
     }, 400)
+  }
+
+  toggleType = label => {
+    this.setState({
+      type: MODEL_NEWS.getValue(label),
+      ...excludeState
+    })
+    this.setStorage(undefined, undefined, namespace)
+
+    this.fetchList()
   }
 
   onChange = ({ nativeEvent }) => {

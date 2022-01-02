@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 03:15:11
+ * @Last Modified time: 2022-01-02 11:28:23
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -56,23 +56,6 @@ class Discovery extends store {
      */
     ningMoeDetail: {
       0: INIT_NINGMOE_DETAIL_ITEM
-    },
-
-    /**
-     * Anitama文章列表
-     * @param {*} page
-     */
-    anitamaTimeline: {
-      _: (page = 1) => page,
-      0: INIT_ANITAMA_TIMELINE_ITEM
-    },
-
-    /**
-     * @param {*} page
-     */
-    dmzjTimeline: {
-      _: (page = 1) => page,
-      0: INIT_ANITAMA_TIMELINE_ITEM
     },
 
     /**
@@ -162,6 +145,31 @@ class Discovery extends store {
         game: [],
         real: []
       }
+    },
+
+    /**
+     * Anitama文章列表
+     * @param {*} page
+     */
+    anitamaTimeline: {
+      _: (page = 1) => page,
+      0: INIT_ANITAMA_TIMELINE_ITEM
+    },
+
+    /**
+     * @param {*} page
+     */
+    dmzjTimeline: {
+      _: (page = 1) => page,
+      0: INIT_ANITAMA_TIMELINE_ITEM
+    },
+
+    /**
+     * @param {*} page
+     */
+    gcoresTimeline: {
+      _: (page = 1) => page,
+      0: INIT_ANITAMA_TIMELINE_ITEM
     }
   })
 
@@ -402,6 +410,10 @@ class Discovery extends store {
       const { _response } = await xhrCustom({
         method: 'POST',
         url,
+        headers: {
+          referer: url,
+          'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
         data: {
           page: page + 1
         }
@@ -423,6 +435,56 @@ class Discovery extends store {
           title: item.title,
           intro: item.intro,
           subtitle: item.c_create_time
+        })),
+        _loaded: getTimestamp()
+      }
+
+      this.setState({
+        [key]: {
+          [page]: data
+        }
+      })
+    } catch (error) {}
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * GCORES文章列表
+   */
+  fetchGCORESTimeline = async (page = 1) => {
+    log(`⚡️ GCORES文章列表 page=${page}`)
+
+    let data = INIT_ANITAMA_TIMELINE_ITEM
+    try {
+      const { _response } = await xhrCustom({
+        url: `https://www.gcores.com/gapi/v1/originals?page[limit]=12&page[offset]=${
+          (page - 1) * 12
+          // eslint-disable-next-line max-len
+        }&sort=-published-at&include=category,user&filter[is-news]=1&filter[list-all]=0&fields[articles]=title,desc,is-published,thumb,app-cover,cover,comments-count,likes-count,bookmarks-count,is-verified,published-at,option-is-official,option-is-focus-showcase,duration,category,user&fields[videos]=title,desc,is-published,thumb,app-cover,cover,comments-count,likes-count,bookmarks-count,is-verified,published-at,option-is-official,option-is-focus-showcase,duration,category,user&fields[radios]=title,desc,is-published,thumb,app-cover,cover,comments-count,likes-count,bookmarks-count,is-verified,published-at,option-is-official,option-is-focus-showcase,duration,is-free,category,user`,
+        headers: {
+          referer: 'https://www.gcores.com/news',
+          'content-type': 'application/vnd.api+json'
+        },
+        data: {
+          page
+        }
+      })
+
+      const key = 'gcoresTimeline'
+      data = {
+        list: JSON.parse(_response).data.map(({ id, attributes }) => ({
+          aid: id,
+          url: `https://www.gcores.com/articles/${id}`,
+          origin: '机核GCORES',
+          cover: {
+            url: `https://image.gcores.com/${attributes.thumb}?x-oss-process=image/resize,limit_1,m_lfit,w_1600/quality,q_90`,
+            headers: {
+              Referer: 'https://www.gcores.com/'
+            }
+          },
+          title: attributes.title,
+          subtitle: attributes['published-at'].slice(0, 16).replace('T', ' ')
         })),
         _loaded: getTimestamp()
       }

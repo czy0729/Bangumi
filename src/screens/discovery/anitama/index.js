@@ -2,17 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 08:05:39
+ * @Last Modified time: 2022-01-02 11:37:41
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { Page, ScrollView, Touchable, Text, Image, Heatmap } from '@components'
+import {
+  Page,
+  ScrollView,
+  Touchable,
+  Text,
+  Image,
+  Iconfont,
+  Heatmap
+} from '@components'
 import { Pagination } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { injectWithHeader } from '@utils/decorators'
 import { useObserver, useMount } from '@utils/hooks'
 import { hm, t } from '@utils/fetch'
+import { MODEL_NEWS } from '@constants/model'
 import Store from './store'
 
 const title = '资讯'
@@ -27,9 +36,10 @@ const Anitama = (props, { $, navigation }) => {
     $.init()
 
     navigation.setParams({
+      element: <Iconfont name='md-menu' color={_.colorTitle} />,
       heatmap: 'Anitama.右上角菜单',
       popover: {
-        data: ['浏览器查看'],
+        data: [...MODEL_NEWS.data.map(item => item.label), '浏览器查看'],
         onSelect: key => {
           t('Anitama.右上角菜单', {
             key
@@ -37,10 +47,11 @@ const Anitama = (props, { $, navigation }) => {
 
           switch (key) {
             case '浏览器查看':
-              open('https://m.news.dmzj.com')
+              open($.url)
               break
 
             default:
+              $.toggleType(key)
               break
           }
         }
@@ -75,7 +86,7 @@ const Anitama = (props, { $, navigation }) => {
                     onPress={() => onPress(item)}
                   >
                     <Text align='right'>
-                      © {item.author} / {item.origin}
+                      © {[item.author, item.origin].filter(item => !!item).join(' / ')}
                     </Text>
                     <Image
                       style={_.mt.md}

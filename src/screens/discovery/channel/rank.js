@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:34:35
+ * @Last Modified time: 2022-01-02 09:32:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,6 @@ function Rank(props, { $, navigation }) {
       <View style={_.mt.sm}>
         {rankTop.map((item, index) => {
           const collection = $.userCollectionsMap[item.id]
-          const indent = collection ? '       ' : ''
           return (
             <Touchable
               key={item.id}
@@ -47,39 +46,44 @@ function Rank(props, { $, navigation }) {
               }}
             >
               <Flex align='start'>
-                <View style={styles.image}>
-                  <Cover
-                    src={item.cover}
-                    width={IMG_WIDTH}
-                    height={IMG_HEIGHT}
-                    shadow
-                    type={$.typeCn}
-                  />
-                </View>
+                <Cover
+                  src={item.cover}
+                  width={IMG_WIDTH}
+                  height={IMG_HEIGHT}
+                  radius
+                  shadow
+                  type={$.typeCn}
+                />
                 <Flex.Item style={_.ml.md}>
-                  <Flex style={_.mt.sm} align='start'>
+                  <Flex style={_.mt.xs} align='start'>
                     <Flex.Item>
-                      {!!collection && (
-                        <Tag style={styles.collection} value={collection} />
-                      )}
-                      <Katakana.Provider
-                        size={15}
-                        lineHeight={_.device(15, 18)}
-                        numberOfLines={2}
+                      <Flex
+                        style={styles.content}
+                        direction='column'
+                        justify='between'
+                        align='start'
                       >
-                        <Katakana
-                          size={15}
-                          lineHeight={_.device(15, 18)}
-                          bold
-                          numberOfLines={2}
-                        >
-                          {indent}
-                          {findSubjectCn(item.name, item.id)}
-                        </Katakana>
-                      </Katakana.Provider>
-                      <Text style={_.mt.sm} size={13} type='sub'>
-                        {item.follow}
-                      </Text>
+                        <View>
+                          <Katakana.Provider
+                            size={15}
+                            lineHeight={_.device(15, 18)}
+                            numberOfLines={2}
+                          >
+                            <Katakana
+                              size={15}
+                              lineHeight={_.device(15, 18)}
+                              bold
+                              numberOfLines={2}
+                            >
+                              {findSubjectCn(item.name, item.id)}
+                            </Katakana>
+                          </Katakana.Provider>
+                          <Text style={_.mt.xs} size={13} type='sub'>
+                            {item.follow}
+                          </Text>
+                        </View>
+                        <View>{!!collection && <Tag value={collection} />}</View>
+                      </Flex>
                     </Flex.Item>
                     <Text
                       style={_.ml.md}
@@ -98,7 +102,6 @@ function Rank(props, { $, navigation }) {
         <Flex style={styles.container} wrap='wrap'>
           {rank.map((item, index) => {
             const collection = $.userCollectionsMap[item.id]
-            const indent = collection ? '        ' : ''
             return (
               <View
                 key={item.id}
@@ -121,39 +124,44 @@ function Rank(props, { $, navigation }) {
                   }}
                 >
                   <Flex align='start'>
-                    <View style={styles.imageSm}>
-                      <Cover
-                        src={item.cover}
-                        width={imgWidthSm}
-                        height={imgHeightSm}
-                        shadow
-                        type={$.typeCn}
-                      />
-                    </View>
+                    <Cover
+                      src={item.cover}
+                      width={imgWidthSm}
+                      height={imgHeightSm}
+                      radius
+                      shadow
+                      type={$.typeCn}
+                    />
                     <Flex.Item style={$.typeCn === '音乐' ? _.ml.md : _.ml.sm}>
                       <Flex align='start'>
                         <Flex.Item>
-                          {!!collection && (
-                            <Tag style={styles.collection} value={collection} />
-                          )}
-                          <Katakana.Provider
-                            size={13}
-                            lineHeight={_.device(13, 18)}
-                            numberOfLines={2}
+                          <Flex
+                            style={styles.contentSm}
+                            direction='column'
+                            justify='between'
+                            align='start'
                           >
-                            <Katakana
-                              size={13}
-                              lineHeight={_.device(13, 18)}
-                              bold
-                              numberOfLines={2}
-                            >
-                              {indent}
-                              {findSubjectCn(item.name, item.id)}
-                            </Katakana>
-                          </Katakana.Provider>
-                          <Text style={_.mt.xs} size={11} type='sub'>
-                            {item.follow}
-                          </Text>
+                            <View>
+                              <Katakana.Provider
+                                size={12}
+                                lineHeight={_.device(12, 18)}
+                                numberOfLines={2}
+                              >
+                                <Katakana
+                                  size={12}
+                                  lineHeight={_.device(12, 18)}
+                                  bold
+                                  numberOfLines={2}
+                                >
+                                  {findSubjectCn(item.name, item.id)}
+                                </Katakana>
+                              </Katakana.Provider>
+                              <Text style={_.mt.xxs} size={11} type='sub'>
+                                {item.follow}
+                              </Text>
+                            </View>
+                            <View>{!!collection && <Tag value={collection} />}</View>
+                          </Flex>
                         </Flex.Item>
                         <Text style={_.ml.xs} type='warning' size={13} bold>
                           {index + 4}
@@ -188,20 +196,20 @@ const memoStyles = _.memoStyles(() => ({
     width: IMG_WIDTH
   },
   item: {
-    width: '47.5%',
+    width: '48%',
     paddingVertical: _.sm,
     marginBottom: 4
+  },
+  content: {
+    height: IMG_HEIGHT - 2 * _.xs
   },
   imageSm: {
     width: imgWidthSm
   },
-  itemMarginLeft: {
-    marginLeft: '5%'
+  contentSm: {
+    height: imgHeightSm
   },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: -1
+  itemMarginLeft: {
+    marginLeft: '4%'
   }
 }))
