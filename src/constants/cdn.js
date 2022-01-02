@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 07:55:29
+ * @Last Modified time: 2022-01-03 05:10:59
  */
 import { getTimestamp, getStorage, setStorage } from '@utils/utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -28,20 +28,28 @@ export function getOTA() {
   return getSystemStoreAsync().ota
 }
 
-export const VERSION_STATIC = '20210627'
-export const VERSION_RAKUEN = '20210607'
-export const VERSION_AVATAR = '20210609'
-export const VERSION_OSS = '20210611'
-export const VERSION_SUBJECT = '20210607'
+export const VERSION_STATIC = '20220101'
+export const VERSION_RAKUEN = '20220102'
+export const VERSION_AVATAR = '20220102'
+export const VERSION_OSS = '20220103'
+export const VERSION_SUBJECT = '20220102'
 export const VERSION_MONO = '20201216'
-export const VERSION_ANIME = '20210628'
+export const VERSION_ANIME = '20211205'
 export const VERSION_WENKU = '20210627'
 export const VERSION_MANGA = '20210628'
 export const VERSION_HENTAI = '20210630'
-export const VERSION_GAME = '20210630'
+export const VERSION_GAME = '20211002'
 export const VERSION_TINYGRAIL = '20210720'
 
-export const VERSIONS_AVATAR = ['20210609', '20210410', '20201018', '20200502', '1.0.2']
+export const VERSIONS_AVATAR = [
+  '20211105',
+  '20210915',
+  '20210609',
+  '20210410',
+  '20201018',
+  '20200502',
+  '1.0.2'
+]
 
 /**
  * 对图片完整地址进行哈希计算
