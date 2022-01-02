@@ -171,14 +171,3 @@ react-native run-android // [android] 真机 usb 调试
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" style="vertical-align: top" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" style="vertical-align: top" />
 
-## 后续迭代
-
-现版本基本用户需要的功能已齐全，接下来会使用友盟收集到的埋点数据（匿名），尝试学习数据分析，根据结果计划后续版本迭代的方向
-
-[[bangumi-analysis]](https://github.com/czy0729/Bangumi-Analysis) 脱敏埋点数据
-
-目前进程，根据本 APP 最核心的页面（条目），先进行整合数据并进行简单的可视化模块搭建，以下根据最近 30 天埋点数据情况，显示平均一天事件触发次数和百分比
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" width="188" />
-
-可以一眼了解到哪些功能需求强，可以进行迭代，也能明确哪些功能需求偏低，适当进行隐藏或者移除，发现存在 0 数据的事件，可以考虑是不是埋点写法出了问题
