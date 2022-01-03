@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 11:54:30
+ * @Last Modified time: 2022-01-04 04:50:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,10 +36,10 @@ function Content(props, { $, navigation }) {
         <View>
           {translateResult.map((item, index) => (
             <View key={index}>
-              <Text style={_.mt.md} size={13} type='sub'>
+              <Text style={_.mt.md} size={13} lineHeight={14} type='sub'>
                 {item.src}
               </Text>
-              <Text style={_.mt.xs} size={15}>
+              <Text style={_.mt.xs} size={15} lineHeight={17}>
                 {item.dst}
               </Text>
             </View>
@@ -49,14 +49,14 @@ function Content(props, { $, navigation }) {
         !!$.html && (
           <>
             {$.isEp && (
-              <IconTouchable
-                style={styles.iconTranslate}
-                name='md-g-translate'
-                size={18}
-                onPress={$.doTranslate}
-              >
+              <View style={styles.iconTranslate}>
+                <IconTouchable
+                  name='md-g-translate'
+                  size={18}
+                  onPress={$.doTranslate}
+                />
                 <Heatmap id='帖子.翻译内容' />
-              </IconTouchable>
+              </View>
             )}
             <View style={_.mt.md}>
               <RenderHtml
@@ -128,7 +128,7 @@ const styles = _.create({
   iconTranslate: {
     position: 'absolute',
     zIndex: 1,
-    top: -4,
+    top: 0,
     right: -4
   }
 })

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 12:12:21
+ * @Last Modified time: 2022-01-04 03:51:54
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -84,6 +84,8 @@ export const FixedTextarea = observer(
         })
       }
     }
+
+    connectRef = ref => (this.ref = ref)
 
     onToggle = (open, keyboardHeight) => {
       if (open) {
@@ -505,7 +507,7 @@ export const FixedTextarea = observer(
           <Flex align='start'>
             <Flex.Item>
               <TextareaItem
-                ref={ref => (this.ref = ref)}
+                ref={this.connectRef}
                 style={this.styles.textarea}
                 value={value}
                 placeholder={placeholder || '我要吐槽'}
@@ -574,15 +576,13 @@ export const FixedTextarea = observer(
               </Text>
               <Flex style={this.styles.bgms} wrap='wrap'>
                 {history.map((item, index) => (
-                  <Touchable
-                    key={index}
-                    style={this.styles.bgm}
-                    onPress={() => this.onSelectBgm(item)}
-                  >
-                    <Flex justify='center'>
-                      <Bgm index={item} />
-                    </Flex>
-                  </Touchable>
+                  <View key={index} style={this.styles.bgm}>
+                    <Touchable onPress={() => this.onSelectBgm(item)}>
+                      <Flex justify='center'>
+                        <Bgm index={item} />
+                      </Flex>
+                    </Touchable>
+                  </View>
                 ))}
               </Flex>
               <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
@@ -590,15 +590,13 @@ export const FixedTextarea = observer(
               </Text>
               <Flex style={this.styles.bgms} wrap='wrap'>
                 {Array.from(new Array(100)).map((item, index) => (
-                  <Touchable
-                    key={index + 1}
-                    style={this.styles.bgm}
-                    onPress={() => this.onSelectBgm(index + 1)}
-                  >
-                    <Flex justify='center'>
-                      <Bgm index={index + 1} />
-                    </Flex>
-                  </Touchable>
+                  <View key={index + 1} style={this.styles.bgm}>
+                    <Touchable onPress={() => this.onSelectBgm(index + 1)}>
+                      <Flex justify='center'>
+                        <Bgm index={index + 1} />
+                      </Flex>
+                    </Touchable>
+                  </View>
                 ))}
               </Flex>
             </>

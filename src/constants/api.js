@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 01:10:21
+ * @Last Modified time: 2022-01-03 07:43:22
  */
 import { HOST } from './index'
 
@@ -48,8 +48,7 @@ export const API_USER_INFO = userId => `${API_HOST}/user/${userId}`
  * @param {*} ids            收藏条目ID: 批量查询收藏状态，将条目 ID 以半角逗号分隔，如 1,2,4,6
  * @param {*} responseGroup  medium / small
  */
-export const API_USER_COLLECTION = userId =>
-  `${API_HOST}/user/${userId}/collection`
+export const API_USER_COLLECTION = userId => `${API_HOST}/user/${userId}/collection`
 
 /**
  * 用户收藏概览
@@ -111,8 +110,7 @@ export const API_SEARCH = keywords => `${API_HOST}/search/subject/${keywords}`
  * @param {*} ep_id          使用 POST 批量更新 将章节以半角逗号分隔, 如 3697,3698,3699
  *                           请求时 URL 中的 ep_id 为最后一个章节ID
  */
-export const API_EP_STATUS = (id, status) =>
-  `${API_HOST}/ep/${id}/status/${status}`
+export const API_EP_STATUS = (id, status) => `${API_HOST}/ep/${id}/status/${status}`
 
 /**
  * POST 批量更新收视进度
@@ -209,14 +207,12 @@ export const API_TINYGRAIL_DEPTH = monoId =>
 /**
  * 登出
  */
-export const API_TINYGRAIL_LOGOUT = () =>
-  `${API_HOST_TINYGRAIL}/api/account/logout`
+export const API_TINYGRAIL_LOGOUT = () => `${API_HOST_TINYGRAIL}/api/account/logout`
 
 /**
  * 用户Hash
  */
-export const API_TINYGRAIL_HASH = () =>
-  `${API_HOST_TINYGRAIL}/api/account/recommend`
+export const API_TINYGRAIL_HASH = () => `${API_HOST_TINYGRAIL}/api/account/recommend`
 
 /**
  * 资产信息
@@ -439,8 +435,7 @@ export const API_TINYGRAIL_LINK = (monoId, toMonoId) =>
 /**
  * 每周分红
  */
-export const API_TINYGRAIL_BONUS = () =>
-  `${API_HOST_TINYGRAIL}/api/event/share/bonus`
+export const API_TINYGRAIL_BONUS = () => `${API_HOST_TINYGRAIL}/api/event/share/bonus`
 
 /**
  * 每日签到
@@ -485,8 +480,7 @@ export const API_TINYGRAIL_MAGIC = (
 /**
  * 每周萌王
  */
-export const API_TINYGRAIL_TOP_WEEK = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/topweek`
+export const API_TINYGRAIL_TOP_WEEK = () => `${API_HOST_TINYGRAIL}/api/chara/topweek`
 
 /**
  * 检测用户有多少圣殿

@@ -2,17 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:29:03
+ * @Last Modified time: 2022-01-04 04:47:43
  */
 import React from 'react'
 import { View } from 'react-native'
 import {
   Flex,
-  Expand,
   Text,
   Image,
   HeaderPlaceholder,
-  RenderHtml,
   Divider,
   Touchable,
   Iconfont,
@@ -21,9 +19,11 @@ import {
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { getCoverLarge, appNavigate } from '@utils/app'
+import { getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
+import Content from './content'
+import Detail from './detail'
 import Voice from './voice'
 import Works from './works'
 import Jobs from './jobs'
@@ -63,22 +63,8 @@ function Info(props, { $, navigation }) {
             <Heatmap id='人物.封面图查看' />
           </Flex>
         )}
-        {!!$.info && (
-          <RenderHtml
-            style={styles.info}
-            html={$.info}
-            onLinkPress={href => appNavigate(href, navigation)}
-          />
-        )}
-        {!!$.detail && (
-          <Expand ratio={2}>
-            <RenderHtml
-              style={_.mt.lg}
-              html={$.detail}
-              onLinkPress={href => appNavigate(href, navigation)}
-            />
-          </Expand>
-        )}
+        <Content />
+        <Detail />
         {!!$.cn && (
           <Flex style={_.mt.lg} justify='end'>
             <Touchable style={styles.touch} onPress={$.onMore}>
@@ -156,10 +142,6 @@ const memoStyles = _.memoStyles(() => ({
   },
   loading: {
     minHeight: _.window.height * 0.48
-  },
-  info: {
-    paddingHorizontal: _.xs,
-    marginTop: _.md
   },
   title: {
     paddingHorizontal: _.wind,

@@ -3,15 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 08:50:52
+ * @Last Modified time: 2022-01-04 04:57:34
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
 import { open, desc } from '@utils'
 import store from '@utils/store'
-import { fetchHTML, t } from '@utils/fetch'
-import { HTMLDecode } from '@utils/html'
-import { info, feedback } from '@utils/ui'
+import { fetchHTML, t, baiduTranslate } from '@utils/fetch'
+import { HTMLDecode, removeHTMLTag } from '@utils/html'
+import { info, feedback, loading } from '@utils/ui'
 import { cnjp } from '@utils/app'
 import { HOST } from '@constants'
 
@@ -19,7 +19,10 @@ export default class ScreenMono extends store {
   state = observable({
     showHeaderTitle: false,
     checkTinygrail: false,
-    expands: [] // 展开的子楼层id
+    expands: [], // 展开的子楼层id
+    translateResult: [], // 翻译缓存
+    translateResultDetail: [],
+    translateResultFloor: {} // 楼层翻译缓存
   })
 
   init = () => {
@@ -44,9 +47,7 @@ export default class ScreenMono extends store {
     )
 
   fetchChara = async () => {
-    if (!this.monoId.includes('character/')) {
-      return false
-    }
+    if (!this.monoId.includes('character/')) return false
 
     const res = tinygrailStore.fetchCharacters([this.monoId.replace('character/', '')])
     await res
@@ -63,9 +64,7 @@ export default class ScreenMono extends store {
   fetchMonoFormCDN = async () => {
     const { setting } = systemStore
     const { _loaded } = this.mono
-    if (!setting.cdn || _loaded) {
-      return true
-    }
+    if (!setting.cdn || _loaded) return true
 
     return subjectStore.fetchMonoFormCDN(this.monoId)
   }
@@ -243,5 +242,74 @@ export default class ScreenMono extends store {
       monoId: this.monoId.replace('character/', '')
     })
     this.fetchChara()
+  }
+
+  /**
+   * 翻译内容
+   */
+  doTranslate = async (key = 'translateResult', content) => {
+    if (this.state[key].length) return
+
+    t('人物.翻译内容', {
+      monoId: this.monoId
+    })
+
+    let hide
+    try {
+      hide = loading()
+      const response = await baiduTranslate(
+        String(content)
+          .replace(/<br \/>/g, '\n')
+          .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
+      )
+      hide()
+
+      const { trans_result } = JSON.parse(response)
+      if (Array.isArray(trans_result)) {
+        this.setState({
+          [key]: trans_result
+        })
+        // info('翻译成功')
+        return
+      }
+      info('翻译失败, 请重试')
+    } catch (error) {
+      if (hide) hide()
+      info('翻译失败, 请重试')
+    }
+  }
+
+  /**
+   * 翻译楼层
+   */
+  doTranslateFloor = async (floorId, msg) => {
+    const { translateResultFloor } = this.state
+    if (translateResultFloor[floorId]) return
+
+    t('人物.翻译内容', {
+      floorId
+    })
+
+    let hide
+    try {
+      hide = loading()
+      const response = await baiduTranslate(removeHTMLTag(msg.replace(/<br>/g, '\n')))
+      hide()
+
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResultFloor: {
+            ...translateResultFloor,
+            [floorId]: translateResult.map(item => item.dst).join('\n')
+          }
+        })
+        return
+      }
+      info('翻译失败, 请重试')
+    } catch (error) {
+      if (hide) hide()
+      info('翻译失败, 请重试')
+    }
   }
 }

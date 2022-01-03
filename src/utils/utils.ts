@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 18:57:35
+ * @Last Modified time: 2022-01-03 05:30:52
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -60,6 +60,13 @@ export function throttle(callback: () => void, delay = 400) {
   return wrapper
 }
 
+/**
+ * 排序正序辅助函数
+ *  - 用于在安卓端开启低版本的 Hermes 后, Array.sort 需要严格区分返回 0 -1 1, 相同返回会出现不稳定的结果
+ * @param a
+ * @param b
+ * @param fn
+ */
 export function asc(a, b, fn) {
   let _a = a
   let _b = b
@@ -73,6 +80,12 @@ export function asc(a, b, fn) {
   return 1
 }
 
+/**
+ * 排序倒序辅助函数
+ * @param a
+ * @param b
+ * @param fn
+ */
 export function desc(a, b, fn) {
   let _a = a
   let _b = b
