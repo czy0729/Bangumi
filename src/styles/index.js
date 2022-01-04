@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 03:12:11
+ * @Last Modified time: 2022-01-04 09:54:11
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -429,6 +429,9 @@ export const header = StyleSheet.create({
 
 export const listViewProps = IOS
   ? {
+      // contentInset: {
+      //   top: tabsHeaderHeight * ratio
+      // },
       contentOffset: {
         y: -tabsHeaderHeight * ratio
       }

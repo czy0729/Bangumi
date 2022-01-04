@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-20 17:25:47
+ * @Last Modified time: 2022-01-04 10:08:48
  */
 import { Platform, Easing, Animated } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
@@ -56,6 +56,9 @@ export default {
     headerBackAllowFontScaling: false,
     transparentCard: true
     // gesturesEnabled: true
+  },
+  cardStyle: {
+    backgroundColor: 'rgba(0, 0, 0, 0)' // 覆盖掉 react-navigation-stack 强制使用 backgroundColor 的问题
   },
   transitionConfig: props => {
     const { transition } = systemStore.setting

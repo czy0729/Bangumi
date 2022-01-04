@@ -2,10 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 10:30:38
+ * @Last Modified time: 2022-01-04 10:46:34
  */
 import React from 'react'
-import { createStackNavigator, getActiveChildNavigationOptions } from 'react-navigation'
+import {
+  // createStackNavigator,
+  getActiveChildNavigationOptions
+} from 'react-navigation'
+import createStackNavigator from '@components/@/react-navigation/createStackNavigator'
 import createAppContainer from '@components/@/react-navigation/createAppContainer'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { observer } from 'mobx-react'
