@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 20:53:13
+ * @Last Modified time: 2022-01-06 06:23:23
  */
 import { Alert } from 'react-native'
-import { CacheManager } from 'react-native-expo-image-cache'
 import AsyncStorage from '@components/@/react-native-async-storage'
+import { clearCache } from '@components/image/image'
 import { runAfter } from '@utils'
 import { info } from '@utils/ui'
 import { DEV } from '@constants'
@@ -106,7 +106,6 @@ class Stores {
           text: '确定',
           onPress: async () => {
             await AsyncStorage.clear()
-            await CacheManager.clearCache()
 
             // 以下为不需要清除的数据, 再次本地化
             systemStore.setStorage('setting', undefined, 'System') // 设置
@@ -125,6 +124,10 @@ class Stores {
             //   'Tinygrail'
             // )
             tinygrailStore.setStorage('collected', undefined, 'Tinygrail') // 小圣杯人物收藏
+
+            setTimeout(() => {
+              clearCache()
+            }, 0)
 
             info('已清除')
           }
