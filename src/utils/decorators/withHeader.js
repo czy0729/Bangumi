@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-17 20:15:03
+ * @Last Modified time: 2022-01-05 03:54:45
  */
 import React from 'react'
 import {
@@ -31,6 +31,7 @@ const withHeader =
     headerStyle,
     headerTitleStyle,
     iconBackColor,
+    defaultExtra,
     statusBarEvents = true,
     hm,
     withHeaderParams // function
@@ -75,7 +76,7 @@ const withHeader =
               </Flex>
             )
           } else {
-            headerRight = <Flex>{extra}</Flex>
+            headerRight = <Flex>{extra || defaultExtra}</Flex>
           }
 
           // withHeaderParams动态生成的params优先级最高

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 10:33:46
+ * @Last Modified time: 2022-01-06 06:07:38
  */
 import React from 'react'
 import {
@@ -20,7 +20,7 @@ import {
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { getSystemStoreAsync } from '@utils/async'
-import { IOS } from '@constants'
+import { DEV, IOS } from '@constants'
 import { defaultHitSlop, styles, callOnceInInterval, separateStyles } from './utils'
 
 export const Touchable = observer(
@@ -37,6 +37,10 @@ export const Touchable = observer(
     onPress = Function.prototype,
     ...other
   }) => {
+    /**
+     * @tofixed 安卓开发环境热使用RNGH的组件会导致 GestureHandler already initialized 问题, 暂时规避
+     */
+    const _useRN = !IOS && DEV ? false : useRN
     const passProps = {
       hitSlop,
       delayPressIn,
@@ -44,7 +48,7 @@ export const Touchable = observer(
       onPress: delay ? () => callOnceInInterval(onPress) : onPress
     }
     if (withoutFeedback) {
-      const Component = useRN ? RNTouchableOpacity : TouchableOpacity
+      const Component = _useRN ? RNTouchableOpacity : TouchableOpacity
       return (
         <Component style={style} activeOpacity={1} {...other} {...passProps}>
           <View>{children}</View>
@@ -54,7 +58,7 @@ export const Touchable = observer(
 
     const { ripple } = getSystemStoreAsync().setting
     if (!IOS && ripple) {
-      if (useRN) {
+      if (_useRN) {
         return (
           <View style={style}>
             <RNTouchableNativeFeedback {...other} {...passProps}>
@@ -76,7 +80,7 @@ export const Touchable = observer(
     }
 
     if (highlight) {
-      if (useRN) {
+      if (_useRN) {
         return (
           <View style={style}>
             <RNTouchableHighlight
@@ -107,7 +111,7 @@ export const Touchable = observer(
     }
 
     // 绝大部分情况会return这个
-    const Component = useRN ? RNTouchableOpacity : TouchableOpacity
+    const Component = _useRN ? RNTouchableOpacity : TouchableOpacity
     return (
       <Component style={style} activeOpacity={0.72} {...other} {...passProps}>
         {children}

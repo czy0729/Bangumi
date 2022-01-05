@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:39:24
+ * @Last Modified time: 2022-01-05 03:15:55
  */
 import { DATA_ALPHABET } from '@constants'
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
@@ -14,6 +14,7 @@ export const ANIME_AREA = ['日本', '中国']
 export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB']
 export const ANIME_FIRST = DATA_ALPHABET
 export const ANIME_YEAR = [
+  2022,
   2021,
   2020,
   2019,

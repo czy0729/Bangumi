@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:04:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 17:45:44
+ * @Last Modified time: 2022-01-06 07:28:05
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
+import { open } from '@utils'
 import store from '@utils/store'
 import { x18s } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -50,6 +51,29 @@ export default class ScreenDiscoveryBlog extends store {
     },
     _loaded: false
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      heatmap: '全站日志.右上角菜单',
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          t('全站日志.右上角菜单', {
+            key
+          })
+
+          switch (key) {
+            case '浏览器查看':
+              open('https://bgm.tv/blog')
+              break
+
+            default:
+              break
+          }
+        }
+      }
+    })
+  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

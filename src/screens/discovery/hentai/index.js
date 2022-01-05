@@ -2,31 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 12:51:29
+ * @Last Modified time: 2022-01-06 07:03:37
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Flex, Text, Heatmap } from '@components'
-import { FilterSwitch, IconHeader } from '@screens/_'
+import { Page, Text } from '@components'
+import { FilterSwitch } from '@screens/_'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 import { injectWithHeader } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
-import IconLayout from './icon-layout'
+import Extra from '../anime/extra'
 import List from './list'
 import Store from './store'
 
 const Wenku = (props, { $, navigation }) => {
   useMount(() => {
-    $.init()
-    navigation.setParams({
-      extra: (
-        <Flex style={_.mr._right}>
-          <IconLayout $={$} />
-          <IconHeader name='md-vertical-align-top' onPress={$.scrollToTop}>
-            <Heatmap id='Hentai.到顶' />
-          </IconHeader>
-        </Flex>
-      )
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
 
     return () => {
@@ -35,7 +28,7 @@ const Wenku = (props, { $, navigation }) => {
   })
 
   return useObserver(() => (
-    <View style={_.container.plain}>
+    <Page>
       {!$.access ? (
         <>
           <FilterSwitch name='Hentai' />
@@ -46,12 +39,13 @@ const Wenku = (props, { $, navigation }) => {
       ) : (
         <List />
       )}
-    </View>
+    </Page>
   ))
 }
 
 export default injectWithHeader(Store, Wenku, {
   screen: '找番剧',
   alias: 'Hentai',
-  hm: ['hentai', 'Hentai']
+  hm: ['hentai', 'Hentai'],
+  defaultExtra: <Extra title='Hentai' />
 })

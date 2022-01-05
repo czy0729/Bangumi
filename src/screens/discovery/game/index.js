@@ -2,31 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:09:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 13:00:06
+ * @Last Modified time: 2022-01-06 06:45:15
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Flex, Heatmap } from '@components'
-import { IconHeader } from '@screens/_'
-import { _ } from '@stores'
+import { Page } from '@components'
+import { runAfter } from '@utils'
 import { injectWithHeader } from '@utils/decorators'
-import { useMount, useObserver } from '@utils/hooks'
-import IconLayout from './icon-layout'
+import { useMount } from '@utils/hooks'
+import Extra from '../anime/extra'
 import List from './list'
 import Store from './store'
 
 const Game = (props, { $, navigation }) => {
   useMount(() => {
-    $.init()
-    navigation.setParams({
-      extra: (
-        <Flex style={_.mr._right}>
-          <IconLayout $={$} />
-          <IconHeader name='md-vertical-align-top' onPress={$.scrollToTop}>
-            <Heatmap id='游戏.到顶' />
-          </IconHeader>
-        </Flex>
-      )
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
 
     return () => {
@@ -34,14 +25,15 @@ const Game = (props, { $, navigation }) => {
     }
   })
 
-  return useObserver(() => (
-    <View style={_.container.plain}>
+  return (
+    <Page>
       <List />
-    </View>
-  ))
+    </Page>
+  )
 }
 
 export default injectWithHeader(Store, Game, {
   screen: '找游戏',
-  hm: ['game', 'Game']
+  hm: ['game', 'Game'],
+  defaultExtra: <Extra title='游戏' />
 })

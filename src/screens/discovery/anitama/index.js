@@ -2,26 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 11:37:41
+ * @Last Modified time: 2022-01-05 04:02:07
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import {
-  Page,
-  ScrollView,
-  Touchable,
-  Text,
-  Image,
-  Iconfont,
-  Heatmap
-} from '@components'
+import { Page, ScrollView, Touchable, Text, Image, Heatmap } from '@components'
 import { Pagination } from '@screens/_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { runAfter, open } from '@utils'
 import { injectWithHeader } from '@utils/decorators'
 import { useObserver, useMount } from '@utils/hooks'
 import { hm, t } from '@utils/fetch'
-import { MODEL_NEWS } from '@constants/model'
+import IconMenu from './icon-menu'
 import Store from './store'
 
 const title = '资讯'
@@ -33,29 +25,9 @@ const heatmaps = {
 
 const Anitama = (props, { $, navigation }) => {
   useMount(() => {
-    $.init()
-
-    navigation.setParams({
-      element: <Iconfont name='md-menu' color={_.colorTitle} />,
-      heatmap: 'Anitama.右上角菜单',
-      popover: {
-        data: [...MODEL_NEWS.data.map(item => item.label), '浏览器查看'],
-        onSelect: key => {
-          t('Anitama.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open($.url)
-              break
-
-            default:
-              $.toggleType(key)
-              break
-          }
-        }
-      }
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
   })
 
@@ -136,7 +108,8 @@ const Anitama = (props, { $, navigation }) => {
 export default injectWithHeader(Store, Anitama, {
   screen: title,
   alias: 'Anitama',
-  hm: ['discovery/anitama', 'Anitama']
+  hm: ['discovery/anitama', 'Anitama'],
+  defaultExtra: <IconMenu />
 })
 
 const memoStyles = _.memoStyles(() => {

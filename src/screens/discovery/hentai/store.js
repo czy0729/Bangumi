@@ -3,14 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-07 11:24:28
+ * @Last Modified time: 2022-01-06 06:59:00
  */
+import React from 'react'
 import { observable, computed } from 'mobx'
 import { userStore, systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { init, search, getTagType, HENTAI_TAGS } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
+import Extra from '../anime/extra'
 
 const namespace = 'ScreenHentai'
 let _loaded = false
@@ -31,6 +33,12 @@ export default class ScreenHentai extends store {
     expand: false,
     _loaded: false
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      extra: <Extra $={this} title='Hentai' />
+    })
+  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-30 11:39:28
+ * @Last Modified time: 2022-01-06 06:38:22
  */
+import React from 'react'
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
+import Extra from '../anime/extra'
 
 const namespace = 'ScreenManga'
 let _loaded = false
@@ -18,7 +20,7 @@ export default class ScreenManga extends store {
   state = observable({
     query: {
       first: '',
-      year: 2020,
+      year: 2021,
       begin: '',
       status: '',
       tags: [], // 已支持多选, 不过暂时不开放
@@ -30,6 +32,12 @@ export default class ScreenManga extends store {
     expand: false,
     _loaded: false
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      extra: <Extra $={this} title='Manga' />
+    })
+  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

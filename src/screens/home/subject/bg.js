@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-12 21:04:41
+ * @Last Modified time: 2022-01-05 03:20:37
  */
 import React from 'react'
 import { BlurView } from '@components'
@@ -36,9 +36,10 @@ export default obc(({ show }, { $ }) => {
   if (!show) return null
 
   const { images = {} } = $.subject
-  return (
-    <Bg styles={memoStyles()} show={show} src={$.coverPlaceholder || images.common} />
-  )
+  const src = $.coverPlaceholder || images.common
+  if (typeof src !== 'string') return null
+
+  return <Bg styles={memoStyles()} show={show} src={src} />
 })
 
 const memoStyles = _.memoStyles(() => ({

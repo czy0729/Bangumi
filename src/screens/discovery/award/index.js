@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:37:01
+ * @Last Modified time: 2022-01-06 07:14:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,7 +17,6 @@ import { info } from '@utils/ui'
 import { hm, fetchHTML } from '@utils/fetch'
 import { removeCF } from '@utils/html'
 import { HOST } from '@constants'
-// import { CDN_AWARD } from '@constants/cdn'
 import resetStyle from './reset-style'
 import { injectedStaticJavaScript } from './utils'
 
@@ -57,29 +56,6 @@ class Award extends React.Component {
 
     hm(`award/${this.year}`, 'Award')
   }
-
-  /**
-   * CDN方式已废弃
-   */
-  // fetchHTML = async () => {
-  //   if (this.year == 2019) {
-  //     this.fetch2019()
-  //     return
-  //   }
-
-  //   try {
-  //     const { _response } = await xhrCustom({
-  //       url: CDN_AWARD(this.year)
-  //     })
-  //     const { html } = JSON.parse(_response)
-  //     htmlCache[this.year] = html
-  //     this.setState({
-  //       html
-  //     })
-  //   } catch (error) {
-  //     warn('discovery/award/index.js', 'fetchHTML', error)
-  //   }
-  // }
 
   fetch = async () => {
     try {

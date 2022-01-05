@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 21:39:49
+ * @Last Modified time: 2022-01-05 02:49:40
  */
 import React from 'react'
 import { UM } from '@components'
@@ -45,6 +45,8 @@ class Home extends React.Component {
 
     // App生命周期内保存首页的navigation引用
     navigationReference(navigation)
+    this.checkLogin()
+
     runAfter(() => {
       $.updateInitialPage(navigation)
       setTimeout(() => {
@@ -56,8 +58,6 @@ class Home extends React.Component {
         hm(`?id=${id}`, 'Home')
       }, 6400)
     })
-
-    this.checkLogin()
   }
 
   componentWillReceiveProps({ isFocused }) {

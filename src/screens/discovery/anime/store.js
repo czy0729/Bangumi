@@ -3,14 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-07 20:36:26
+ * @Last Modified time: 2022-01-06 06:51:09
  */
+import React from 'react'
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
+import Extra from './extra'
 
 const namespace = 'ScreenAnime'
 let _loaded = false
@@ -21,7 +23,7 @@ export default class ScreenAnime extends store {
       area: '日本',
       type: '',
       first: '',
-      year: 2021,
+      year: 2022,
       begin: '',
       status: '',
       tags: [], // 已支持多选
@@ -34,31 +36,30 @@ export default class ScreenAnime extends store {
     _loaded: false
   })
 
+  setParams = navigation => {
+    navigation.setParams({
+      extra: <Extra $={this} />
+    })
+  }
+
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
       _loaded
     })
 
-    if (!_loaded) {
-      await init()
-    }
-
+    if (!_loaded) await init()
     _loaded = true
     this.setState({
       _loaded: true
     })
 
     const { _tags = [] } = this.params
-    if (_tags.length) {
-      this.initQuery(_tags)
-    }
+    if (_tags.length) this.initQuery(_tags)
 
     this.search()
     collectionStore.fetchUserCollectionsQueue(false)
-    return res
   }
 
   search = passQuery => {

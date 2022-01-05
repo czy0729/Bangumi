@@ -6,15 +6,16 @@
       {
         "alias": {
           "@": "./",
-          "@src": "./src",
+          "@_": "./src/screens/_",
           "@assets": "./src/assets",
           "@bgm": "./src/assets/images/bgm",
           "@components": "./src/components",
           "@constants": "./src/constants",
           "@screens": "./src/screens",
-          "@tinygrail": "./src/screens/tinygrail",
+          "@src": "./src",
           "@stores": "./src/stores",
           "@styles": "./src/styles",
+          "@tinygrail": "./src/screens/tinygrail",
           "@utils": "./src/utils"
         }
       }

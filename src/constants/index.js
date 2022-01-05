@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 10:56:41
+ * @Last Modified time: 2022-01-05 02:47:22
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -189,6 +189,7 @@ export const EVENT = {
 // 时间数组
 export const DATA_AIRTIME = [
   '全部',
+  '2022',
   '2021',
   '2020',
   '2019',

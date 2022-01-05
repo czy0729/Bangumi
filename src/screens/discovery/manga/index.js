@@ -2,31 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-01-09 00:57:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:40:26
+ * @Last Modified time: 2022-01-06 06:43:54
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Flex, Heatmap } from '@components'
-import { IconHeader } from '@screens/_'
-import { _ } from '@stores'
+import { Page } from '@components'
+import { runAfter } from '@utils'
 import { injectWithHeader } from '@utils/decorators'
-import { useMount, useObserver } from '@utils/hooks'
-import IconLayout from './icon-layout'
+import { useMount } from '@utils/hooks'
+import Extra from '../anime/extra'
 import List from './list'
 import Store from './store'
 
 const Manga = (props, { $, navigation }) => {
   useMount(() => {
-    $.init()
-    navigation.setParams({
-      extra: (
-        <Flex style={_.mr._right}>
-          <IconLayout $={$} />
-          <IconHeader name='md-vertical-align-top' onPress={$.scrollToTop}>
-            <Heatmap id='找漫画.到顶' />
-          </IconHeader>
-        </Flex>
-      )
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
 
     return () => {
@@ -34,15 +25,16 @@ const Manga = (props, { $, navigation }) => {
     }
   })
 
-  return useObserver(() => (
-    <View style={_.container.plain}>
+  return (
+    <Page>
       <List />
-    </View>
-  ))
+    </Page>
+  )
 }
 
 export default injectWithHeader(Store, Manga, {
   screen: '找漫画',
   alias: 'Manga',
-  hm: ['manga', 'Manga']
+  hm: ['manga', 'Manga'],
+  defaultExtra: <Extra title='Manga' />
 })

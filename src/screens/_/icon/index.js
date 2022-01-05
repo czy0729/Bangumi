@@ -7,6 +7,7 @@
 export * from './back'
 export * from './expand'
 export * from './header'
+export * from './horiz'
 export * from './layout'
 export * from './notify'
 export * from './portal'

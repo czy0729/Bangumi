@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 11:36:43
+ * @Last Modified time: 2022-01-05 03:54:22
  */
+import React from 'react'
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
+import { open } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_NEWS } from '@constants/model'
+import IconMenu from './icon-menu'
 
 const namespace = 'ScreenAnitama'
 const excludeState = {
@@ -20,12 +23,37 @@ let prevPage
 
 export default class ScreenAnitama extends store {
   state = observable({
+    ...excludeState,
     show: false,
     history: [],
     type: MODEL_NEWS.data[0].value,
-    ...excludeState,
     _loaded: false
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      element: <IconMenu />,
+      heatmap: 'Anitama.右上角菜单',
+      popover: {
+        data: [...MODEL_NEWS.data.map(item => item.label), '浏览器查看'],
+        onSelect: key => {
+          t('Anitama.右上角菜单', {
+            key
+          })
+
+          switch (key) {
+            case '浏览器查看':
+              open(this.url)
+              break
+
+            default:
+              this.toggleType(key)
+              break
+          }
+        }
+      }
+    })
+  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)
