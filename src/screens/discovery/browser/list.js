@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:51:40
+ * @Last Modified time: 2022-01-08 06:54:43
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -76,7 +76,7 @@ class List extends React.Component {
     return (
       <ListView
         key={`${layout}${numColumns}`}
-        contentContainerStyle={_.container.bottom}
+        contentContainerStyle={styles.container}
         keyExtractor={keyExtractor}
         numColumns={numColumns}
         data={$.browser}
@@ -89,3 +89,10 @@ class List extends React.Component {
     )
   }
 }
+
+const styles = _.create({
+  container: {
+    paddingTop: _.md,
+    paddingBottom: _.bottom
+  }
+})

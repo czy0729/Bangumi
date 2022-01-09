@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-05 04:02:07
+ * @Last Modified time: 2022-01-06 07:53:18
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Page, ScrollView, Touchable, Text, Image, Heatmap } from '@components'
-import { Pagination } from '@screens/_'
+import { Pagination, IconHoriz } from '@_'
 import { _ } from '@stores'
 import { runAfter, open } from '@utils'
 import { injectWithHeader } from '@utils/decorators'
 import { useObserver, useMount } from '@utils/hooks'
 import { hm, t } from '@utils/fetch'
-import IconMenu from './icon-menu'
 import Store from './store'
 
 const title = '资讯'
@@ -109,7 +108,7 @@ export default injectWithHeader(Store, Anitama, {
   screen: title,
   alias: 'Anitama',
   hm: ['discovery/anitama', 'Anitama'],
-  defaultExtra: <IconMenu />
+  defaultExtra: <IconHoriz name='md-menu' />
 })
 
 const memoStyles = _.memoStyles(() => {

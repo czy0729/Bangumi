@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 03:43:33
+ * @Last Modified time: 2022-01-08 06:42:55
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { appNavigate, x18 } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { memo, ob } from '@utils/decorators'
-import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { EVENT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { Tag, Cover, Stars, Rank } from '../base'
 
@@ -85,8 +85,8 @@ const Item = memo(
             style={styles.image}
             src={cover}
             placeholder={!isMono}
-            width={IMG_WIDTH}
-            height={isMono ? IMG_WIDTH : IMG_HEIGHT}
+            width={IMG_WIDTH_LG}
+            height={isMono ? IMG_WIDTH_LG : IMG_HEIGHT_LG}
             radius
             shadow
             type={typeCn}
@@ -127,7 +127,7 @@ const Item = memo(
               </Flex>
             </Flex>
             {!!tip && (
-              <Text style={_.mt.sm} size={11} numberOfLines={2}>
+              <Text style={_.mt.sm} size={11} numberOfLines={3}>
                 {HTMLDecode(tip)}
               </Text>
             )}
@@ -205,12 +205,12 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind
   },
   wrap: {
-    paddingVertical: _.space,
+    paddingVertical: 4,
     paddingRight: _.wind
   },
   content: {
     flex: 1,
-    minHeight: IMG_HEIGHT,
+    minHeight: IMG_HEIGHT_LG,
     marginLeft: _._wind
   }
 }))

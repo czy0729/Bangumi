@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 12:53:52
+ * @Last Modified time: 2022-01-08 06:52:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { cnjp } from '@utils/app'
 import { HENTAI_TAGS, pick } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
+import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
   const { id, hId, image, cn, jp, ep, air, tags, score, rank } = pick(pickIndex)
@@ -46,8 +46,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
           <Cover
             style={styles.image}
             src={cover}
-            width={IMG_WIDTH}
-            height={IMG_HEIGHT}
+            width={IMG_WIDTH_LG}
+            height={IMG_HEIGHT_LG}
             radius
             shadow
             textOnly={!$.isLogin}
@@ -55,7 +55,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
         </View>
         <Flex.Item style={_.ml.wind}>
           <Flex
-            style={$.isLogin && tags.length ? styles.contentFlux : styles.content}
+            style={$.isLogin && tags.length >= 14 ? styles.contentFlux : styles.content}
             direction='column'
             justify='between'
             align='start'
@@ -68,11 +68,9 @@ function Item({ index, pickIndex }, { $, navigation }) {
                   </Text>
                 </Text>
               </Flex.Item>
-              <Flex style={_.mt.xxs}>
-                {!!collection && <Tag style={_.ml.sm} value={collection} />}
-              </Flex>
+              <Flex>{!!collection && <Tag style={_.ml.sm} value={collection} />}</Flex>
             </Flex>
-            <Text style={_.mt.sm} size={11} lineHeight={14}>
+            <Text style={_.mt.xs} size={11} lineHeight={14}>
               {tip}
             </Text>
             {$.isLogin && !!tags.length && (
@@ -106,10 +104,10 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind
   },
   imgContainer: {
-    width: IMG_WIDTH
+    width: IMG_WIDTH_LG
   },
   wrap: {
-    paddingVertical: _.space,
+    paddingVertical: _.md,
     paddingRight: _.wind
   },
   border: {
@@ -117,10 +115,10 @@ const memoStyles = _.memoStyles(() => ({
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    height: IMG_HEIGHT
+    height: IMG_HEIGHT_LG
   },
   contentFlux: {
-    minHeight: IMG_HEIGHT
+    minHeight: IMG_HEIGHT_LG
   },
   body: {
     width: '100%'

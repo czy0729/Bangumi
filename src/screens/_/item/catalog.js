@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:55:36
+ * @Last Modified time: 2022-01-08 08:03:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Cover, Avatar } from '../base'
 
-const width = 64 * _.ratio
+const width = parseInt(80 * _.ratio)
 const w = width * 2
 const widthAvatar = 28 * _.ratio
 
@@ -113,12 +113,12 @@ export const ItemCatalog = obc(
               <View>
                 <Text bold>{HTMLDecode(title)}</Text>
                 {!!desc && desc !== title && (
-                  <Text style={_.mt.sm} size={12} numberOfLines={2}>
+                  <Text style={_.mt.sm} size={12} numberOfLines={3}>
                     {desc}
                   </Text>
                 )}
                 {!!collect && (
-                  <Text style={_.mt.xs} size={10} lineHeight={14} type='sub'>
+                  <Text style={_.mt.xs} size={10} lineHeight={14} type='sub' bold>
                     {collect}人收藏
                   </Text>
                 )}
@@ -134,12 +134,14 @@ export const ItemCatalog = obc(
                   src={avatar}
                   event={event}
                 />
-                <Text size={12} bold>
-                  {HTMLDecode(name)}
-                </Text>
-                <Text style={_.ml.xs} size={10} type='sub'>
-                  {date}
-                </Text>
+                <Flex.Item>
+                  <Text size={12} bold numberOfLines={1}>
+                    {HTMLDecode(name)}
+                  </Text>
+                  <Text style={_.mt.xxs} size={10} type='sub'>
+                    {date}
+                  </Text>
+                </Flex.Item>
               </Flex>
             </Flex>
           </Flex.Item>
@@ -161,7 +163,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   content: {
     height: w,
-    paddingVertical: _.sm,
+    paddingVertical: _.xs,
     paddingLeft: 24 * _.ratio
   },
   catalog: {

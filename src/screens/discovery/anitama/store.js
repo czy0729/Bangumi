@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-05 03:54:22
+ * @Last Modified time: 2022-01-06 07:54:18
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
+import { IconHoriz } from '@_'
 import { discoveryStore } from '@stores'
 import { open } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_NEWS } from '@constants/model'
-import IconMenu from './icon-menu'
 
 const namespace = 'ScreenAnitama'
 const excludeState = {
@@ -32,7 +32,7 @@ export default class ScreenAnitama extends store {
 
   setParams = navigation => {
     navigation.setParams({
-      element: <IconMenu />,
+      element: <IconHoriz name='md-menu' />,
       heatmap: 'Anitama.右上角菜单',
       popover: {
         data: [...MODEL_NEWS.data.map(item => item.label), '浏览器查看'],

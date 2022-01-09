@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 09:59:38
+ * @Last Modified time: 2022-01-08 06:35:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -174,9 +174,12 @@ const memoStyles = _.memoStyles(() => ({
   container: {
     paddingBottom: _.bottom
   },
+  list: {
+    paddingTop: _.md
+  },
   grid: {
     paddingHorizontal: _.wind,
-    paddingVertical: 12
+    paddingVertical: _.md
   },
   loading: {
     width: '100%',

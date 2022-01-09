@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 09:37:37
+ * @Last Modified time: 2022-01-08 06:46:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
+import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
   const { id, ageId, image, cn, ep, type, status, begin, tags, official, score, rank } =
@@ -55,8 +55,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
           <Cover
             style={styles.image}
             src={cover}
-            width={IMG_WIDTH}
-            height={IMG_HEIGHT}
+            width={IMG_WIDTH_LG}
+            height={IMG_HEIGHT_LG}
             radius
             shadow
           />
@@ -110,10 +110,10 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind
   },
   imgContainer: {
-    width: IMG_WIDTH
+    width: IMG_WIDTH_LG
   },
   wrap: {
-    paddingVertical: _.space,
+    paddingVertical: _.md,
     paddingRight: _.wind
   },
   border: {
@@ -121,7 +121,7 @@ const memoStyles = _.memoStyles(() => ({
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    height: IMG_HEIGHT
+    height: IMG_HEIGHT_LG
   },
   body: {
     width: '100%'

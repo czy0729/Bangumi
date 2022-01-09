@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:47:43
+ * @Last Modified time: 2022-01-08 07:37:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,8 +49,8 @@ import {
   URL_DEFAULT_AVATAR,
   SITES,
   SITES_DS,
-  IMG_WIDTH,
-  IMG_HEIGHT
+  IMG_WIDTH_LG,
+  IMG_HEIGHT_LG
 } from '@constants'
 import { CDN_EPS, getOTA } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
@@ -929,18 +929,19 @@ export default class ScreenSubject extends store {
 
   /**
    * 封面图宽度
-   * 音乐类型条目为正方形
    */
   @computed get imageWidth() {
-    const w = IMG_WIDTH * (_.isPad ? 1.64 : 1.4)
-    return this.type === '音乐' ? w * 1.2 : w
+    return IMG_WIDTH_LG * (_.isPad ? 1.4 : 1.2)
   }
 
   /**
    * 封面图高度
+   * 音乐类型条目为正方形
    */
   @computed get imageHeight() {
-    return this.type === '音乐' ? this.imageWidth : IMG_HEIGHT * (_.isPad ? 1.64 : 1.4)
+    return this.type === '音乐'
+      ? this.imageWidth
+      : IMG_HEIGHT_LG * (_.isPad ? 1.4 : 1.2)
   }
 
   // -------------------- get: cdn fallback --------------------

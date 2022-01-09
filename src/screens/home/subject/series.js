@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-04 04:19:09
+ * @Last Modified time: 2022-01-08 07:35:25
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -12,7 +12,7 @@ import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 
-const coverWidth = _.device(24, 32) * _.ratio
+const coverWidth = _.device(32, 40) * _.ratio
 const coverHeight = coverWidth * 1.4
 const defaultProps = {
   navigation: {},
@@ -254,7 +254,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   relation: {
     paddingLeft: 2,
-    marginTop: _.sm,
+    marginTop: _.sm + 4,
     marginBottom: _.sm + 4
   },
   series: {

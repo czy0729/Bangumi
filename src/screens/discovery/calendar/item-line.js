@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:44:11
+ * @Last Modified time: 2022-01-08 07:55:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,9 @@ import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+
+const imgWidth = parseInt(IMG_WIDTH * 1.28)
+const imgHeight = parseInt(IMG_HEIGHT * 1.28)
 
 const defaultProps = {
   navigation: {},
@@ -45,7 +48,6 @@ const ItemLine = memo(
   }) => {
     rerender('Calendar.ItemLine.Main')
 
-    const indent = collection ? '　　' : ''
     const showScore = !hideScore && !!score
     return (
       <View style={styles.item}>
@@ -66,7 +68,7 @@ const ItemLine = memo(
           <Flex align='start'>
             <View style={styles.time}>
               {!!timeCN && (
-                <Text align='center' bold>
+                <Text bold>
                   {timeCN === '2359'
                     ? '待定'
                     : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
@@ -74,9 +76,7 @@ const ItemLine = memo(
               )}
               {timeCN === '2359' && (
                 <Touchable style={_.mt.sm} onPress={onToggleExpand}>
-                  <Text type='sub' align='center'>
-                    {expand ? '隐藏' : '展开'}
-                  </Text>
+                  <Text type='sub'>{expand ? '隐藏' : '展开'}</Text>
                 </Touchable>
               )}
             </View>
@@ -84,8 +84,8 @@ const ItemLine = memo(
               <>
                 <View style={styles.image}>
                   <Cover
-                    width={IMG_WIDTH}
-                    height={IMG_HEIGHT}
+                    width={imgWidth}
+                    height={imgHeight}
                     src={images.medium}
                     radius
                     shadow
@@ -98,26 +98,27 @@ const ItemLine = memo(
                     justify='between'
                     align='start'
                   >
-                    {!!collection && (
-                      <Tag style={styles.collection} value={collection} />
-                    )}
-                    <Katakana.Provider
-                      itemStyle={styles.katakanas}
-                      size={15}
-                      lineHeight={16}
-                      numberOfLines={3}
-                    >
-                      <Katakana
-                        type='desc'
-                        size={15}
-                        lineHeight={16}
-                        numberOfLines={3}
-                        bold
-                      >
-                        {indent}
-                        {HTMLDecode(name)}
-                      </Katakana>
-                    </Katakana.Provider>
+                    <Flex align='start'>
+                      <Flex.Item>
+                        <Katakana.Provider
+                          itemStyle={styles.katakanas}
+                          size={15}
+                          lineHeight={16}
+                          numberOfLines={3}
+                        >
+                          <Katakana
+                            type='desc'
+                            size={15}
+                            lineHeight={16}
+                            numberOfLines={3}
+                            bold
+                          >
+                            {HTMLDecode(name)}
+                          </Katakana>
+                        </Katakana.Provider>
+                      </Flex.Item>
+                      {!!collection && <Tag style={_.mt.xxs} value={collection} />}
+                    </Flex>
                     <Flex>
                       {!!air && (
                         <Text style={_.mr.sm} type='sub' size={14} bold>
@@ -174,24 +175,19 @@ const memoStyles = _.memoStyles(() => ({
   },
   time: {
     width: 72 * _.ratio,
-    marginTop: 3
+    paddingLeft: _._wind,
+    marginTop: 2
   },
   image: {
-    width: IMG_WIDTH
+    width: imgWidth
   },
   body: {
     width: '100%',
-    height: IMG_HEIGHT - 6,
-    paddingTop: _.xs,
+    height: imgHeight - 4,
+    paddingTop: 2,
     paddingRight: _.wind
   },
   katakanas: {
     marginTop: -10
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 7 * _.ratio,
-    left: -1
   }
 }))

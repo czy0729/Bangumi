@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 14:19:24
+ * @Last Modified time: 2022-01-06 08:27:22
  */
+import React from 'react'
 import { observable, computed } from 'mobx'
-import { tagStore, userStore, collectionStore } from '@stores'
+import { _, tagStore, userStore, collectionStore } from '@stores'
+import { open } from '@utils'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { HTML_BROSWER } from '@constants/html'
+import Extra from './extra'
 
 const namespace = 'ScreenBrowser'
 const defaultType = MODEL_SUBJECT_TYPE.getLabel('动画')
@@ -31,6 +34,30 @@ export default class ScreenBrowser extends store {
     ...excludeState,
     _loaded: false
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      heatmap: '索引.右上角菜单',
+      extra: <Extra $={this} style={_.mr._xs} />,
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          t('索引.右上角菜单', {
+            key
+          })
+
+          switch (key) {
+            case '浏览器查看':
+              open(this.url)
+
+              break
+            default:
+              break
+          }
+        }
+      }
+    })
+  }
 
   init = async () => {
     const state = (await this.getStorage(undefined, namespace)) || {}

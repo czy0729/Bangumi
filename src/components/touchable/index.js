@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 06:07:38
+ * @Last Modified time: 2022-01-06 07:59:09
  */
 import React from 'react'
 import {
@@ -40,7 +40,7 @@ export const Touchable = observer(
     /**
      * @tofixed 安卓开发环境热使用RNGH的组件会导致 GestureHandler already initialized 问题, 暂时规避
      */
-    const _useRN = !IOS && DEV ? false : useRN
+    const _useRN = !IOS && DEV ? true : useRN
     const passProps = {
       hitSlop,
       delayPressIn,

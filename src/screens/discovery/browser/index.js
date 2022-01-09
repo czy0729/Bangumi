@@ -2,63 +2,43 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:11:37
+ * @Last Modified time: 2022-01-06 08:27:50
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Page } from '@components'
+import { IconHoriz } from '@_'
 import { _ } from '@stores'
-import { open } from '@utils'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import IconLayout from './icon-layout'
+import { runAfter } from '@utils'
+import { injectWithHeader } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
+import Extra from './extra'
 import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
 
-const title = '索引'
-
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['browser', 'Browser']
-})
-@obc
-class Browser extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
-    $.init()
-
-    navigation.setParams({
-      heatmap: '索引.右上角菜单',
-      extra: <IconLayout $={$} />,
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('索引.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open($.url)
-              break
-            default:
-              break
-          }
-        }
-      }
+const Browser = (props, { $, navigation }) => {
+  useMount(() => {
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
-  }
+  })
 
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.state
-    return (
-      <View style={_.container.plain}>
-        <ToolBar />
-        {_loaded && <List />}
-      </View>
-    )
-  }
+  return useObserver(() => (
+    <Page>
+      <ToolBar />
+      {$.state._loaded && <List />}
+    </Page>
+  ))
 }
+
+export default injectWithHeader(Store, Browser, {
+  screen: '索引',
+  hm: ['browser', 'Browser'],
+  defaultExtra: (
+    <>
+      <Extra style={_.mr.xs} />
+      <IconHoriz />
+    </>
+  )
+})

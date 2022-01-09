@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-04 06:31:30
+ * @Last Modified time: 2022-01-08 08:08:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -87,7 +87,6 @@ class Catalog extends React.Component {
 
 const styles = _.create({
   list: {
-    paddingVertical: _.sm,
     minHeight: _.window.height * 0.68
   }
 })

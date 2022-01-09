@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-04 14:38:39
+ * @Last Modified time: 2022-01-08 07:47:45
  */
+import React from 'react'
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
+import Extra from './extra'
 
 const num = _.device(3, 4)
 export const marginLeft = _.device(_._wind, _.md)
@@ -25,6 +27,12 @@ export default class ScreenCalendar extends store {
     expand: false,
     _loaded: false
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      extra: <Extra $={this} />
+    })
+  }
 
   init = async () => {
     const state = (await this.getStorage(undefined, namespace)) || {}

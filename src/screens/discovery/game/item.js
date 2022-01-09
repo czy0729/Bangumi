@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:46:45
+ * @Last Modified time: 2022-01-08 06:47:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { pick } from '@utils/subject/game'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { showImageViewer } from '@utils/ui'
-import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
+import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
 import { CDN_GAME } from '@constants/cdn'
 
 const thumbWidth = _.device(114, parseInt(_.window.contentWidth * 0.4))
@@ -77,8 +77,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
         <Cover
           style={styles.image}
           src={cover}
-          width={IMG_WIDTH}
-          height={IMG_HEIGHT}
+          width={IMG_WIDTH_LG}
+          height={IMG_HEIGHT_LG}
           radius
           shadow
           type='游戏'
@@ -154,7 +154,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind
   },
   wrap: {
-    paddingVertical: _.md + _.sm
+    paddingVertical: _.md
   },
   border: {
     borderTopColor: _.colorBorder,
@@ -162,7 +162,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   content: {
     flex: 1,
-    minHeight: IMG_HEIGHT,
+    minHeight: IMG_HEIGHT_LG,
     marginLeft: _._wind
   },
   body: {
