@@ -2,41 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 02:33:48
+ * @Last Modified time: 2022-01-10 13:23:08
  */
 import React from 'react'
 import { Page, Heatmap } from '@components'
+import { IconHoriz } from '@_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { runAfter } from '@utils'
 import { injectWithHeader } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
-import { t } from '@utils/fetch'
 import Tabs from './tabs'
 import Store from './store'
 
 const Tags = (props, { $, navigation }) => {
   useMount(() => {
-    $.init()
-
-    navigation.setParams({
-      heatmap: '标签索引.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('标签索引.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open($.url)
-              break
-
-            default:
-              break
-          }
-        }
-      }
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
   })
 
@@ -56,5 +38,6 @@ const Tags = (props, { $, navigation }) => {
 export default injectWithHeader(Store, Tags, {
   screen: '标签',
   alias: '标签索引',
-  hm: ['discovery/tags', 'Tags']
+  hm: ['discovery/tags', 'Tags'],
+  defaultExtra: <IconHoriz />
 })

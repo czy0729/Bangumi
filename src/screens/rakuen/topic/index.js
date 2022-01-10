@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:17:34
+ * @Last Modified time: 2022-01-10 14:22:41
  */
 import React from 'react'
-import { InteractionManager, View } from 'react-native'
+import { View } from 'react-native'
 import { FixedTextarea, Flex, Text, Loading } from '@components'
 import { NavigationBarEvents, ItemPost } from '@screens/_'
 import { _ } from '@stores'
-import { copy, open } from '@utils'
+import { runAfter, copy, open } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { hm, t } from '@utils/fetch'
@@ -42,7 +42,7 @@ class Topic extends React.Component {
   scrollFailCount = 0
 
   componentDidMount() {
-    InteractionManager.runAfterInteractions(async () => {
+    runAfter(async () => {
       setTimeout(() => {
         this.rendered()
       }, 400)

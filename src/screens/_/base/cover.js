@@ -2,18 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 07:50:18
+ * @Last Modified time: 2022-01-10 14:06:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
-import { getCoverMedium } from '@utils/app'
+import { matchCoverUrl } from '@utils/app'
 import { ob } from '@utils/decorators'
-import { IMG_DEFAULT } from '@constants'
-import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
-
-const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
+import { HOST_CDN } from '@constants/cdn'
 
 export const Cover = ob(
   ({ style, src, size, height, noDefault, type, textOnly, ...other }) => {
@@ -41,18 +38,13 @@ export const Cover = ob(
     }
 
     const { hashSubjectOTALoaded, dev } = systemStore.state
-    const { cdn, coverThings } = systemStore.setting
-
-    // 有些情况图片地址分析错误, 排除掉
-    const _src = noImg.includes(src)
-      ? IMG_DEFAULT
-      : (cdn ? CDN_OSS_SUBJECT(getCoverMedium(src)) : getCoverMedium(src)) ||
-        (noDefault ? '' : IMG_DEFAULT)
+    const _src = matchCoverUrl(src, noDefault)
     const imageStyle = [
       style,
       dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev
     ]
 
+    const { coverThings } = systemStore.setting
     if (coverThings) {
       if (type === '音乐') {
         // 音乐为矩形唱片装, 长宽取短的

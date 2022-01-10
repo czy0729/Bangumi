@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 05:30:26
+ * @Last Modified time: 2022-01-10 14:03:48
  */
 import {
   arrGroup,
@@ -60,6 +60,7 @@ import {
   getWeekDay,
   keyExtractor,
   matchBgmLink,
+  matchCoverUrl,
   navigationReference,
   tinygrailFixedTime,
   tinygrailOSS,
@@ -123,6 +124,7 @@ export {
   getWeekDay,
   keyExtractor,
   matchBgmLink,
+  matchCoverUrl,
   navigationReference,
   tinygrailFixedTime,
   tinygrailOSS,

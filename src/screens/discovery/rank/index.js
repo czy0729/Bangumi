@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 08:38:05
+ * @Last Modified time: 2022-01-10 11:30:30
  */
 import React from 'react'
-import { View } from 'react-native'
-import { _ } from '@stores'
+import { Page } from '@components'
+import { runAfter } from '@utils'
 import { injectWithHeader } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import ToolBar from './tool-bar'
@@ -15,15 +15,17 @@ import Store from './store'
 
 const Rank = (props, { $, navigation }) => {
   useMount(() => {
-    $.init()
-    $.setParams(navigation)
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
+    })
   })
 
   return useObserver(() => (
-    <View style={_.container.plain}>
+    <Page>
       <ToolBar />
       {$.state._loaded && <List />}
-    </View>
+    </Page>
   ))
 }
 

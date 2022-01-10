@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 19:06:12
+ * @Last Modified time: 2022-01-10 12:07:10
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore } from '@stores'
+import { open } from '@utils'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
@@ -29,6 +30,29 @@ export default class ScreenSearch extends store {
     ...excludeState,
     _loaded: false
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      heatmap: '搜索.右上角菜单',
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          t('搜索.右上角菜单', {
+            key
+          })
+
+          switch (key) {
+            case '浏览器查看':
+              open(this.url)
+              break
+
+            default:
+              break
+          }
+        }
+      }
+    })
+  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)
@@ -67,6 +91,12 @@ export default class ScreenSearch extends store {
     const _text = value.replace(/ /g, '+')
     const url = HTML_SEARCH(_text, cat, 1, legacy)
     return url
+  }
+
+  @computed get isUser() {
+    const { cat } = this.state
+    const label = MODEL_SEARCH_CAT.getLabel(cat)
+    return label === '用户'
   }
 
   // -------------------- page --------------------
@@ -156,6 +186,19 @@ export default class ScreenSearch extends store {
       history: history.filter(item => item !== value)
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  onSubmit = navigation => {
+    if (this.isUser) {
+      const { value } = this.state
+      if (!value) return info('请输入完整的用户Id')
+
+      return navigation.push('Zone', {
+        userId: value
+      })
+    }
+
+    return this.doSearch(true)
   }
 
   // -------------------- action --------------------

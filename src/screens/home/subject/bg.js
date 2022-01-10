@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 07:34:36
+ * @Last Modified time: 2022-01-10 14:09:05
  */
 import React from 'react'
 import { BlurView } from '@components'
 import { _ } from '@stores'
-import { getCoverMedium } from '@utils/app'
 import { memo, obc } from '@utils/decorators'
 import { IOS } from '@constants'
-import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
 const defaultProps = {
   styles: {},
@@ -25,7 +23,7 @@ const Bg = memo(({ styles, src }) => {
       style={styles.blurView}
       theme={_.select(null, 'dark')}
       tint={_.select('default', 'dark')}
-      src={CDN_OSS_SUBJECT(getCoverMedium(src))}
+      src={src}
     />
   )
 }, defaultProps)

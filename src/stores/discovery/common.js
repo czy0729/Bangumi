@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 03:03:48
+ * @Last Modified time: 2022-01-10 13:27:52
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
@@ -15,7 +15,7 @@ import { matchAvatar, matchUserId } from '@utils/match'
  */
 export function analysisTags(HTML) {
   const $ = cheerio(HTML)
-  const tags = $('#tagList a.level1')
+  const tags = $('#tagList a.l')
     .map((index, element) => {
       const $li = cheerio(element)
       return $li.text().trim() || ''

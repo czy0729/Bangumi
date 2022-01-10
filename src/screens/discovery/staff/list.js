@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-30 17:04:22
+ * @Last Modified time: 2022-01-10 13:14:04
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -15,7 +15,7 @@ export default
 @obc
 class List extends React.Component {
   renderItem = ({ item }) => (
-    <ItemCatalog {...item} isUser event={this.event} />
+    <ItemCatalog {...item} name='优莉雅' isUser event={this.event} />
   )
 
   get event() {
@@ -33,9 +33,7 @@ class List extends React.Component {
     const { id } = this.props
     const catalogs = $.catalogs(id)
     const { _loaded } = catalogs
-    if (!_loaded) {
-      return <Loading style={_.container.plain} />
-    }
+    if (!_loaded) return <Loading style={_.container.plain} />
 
     return (
       <ListView

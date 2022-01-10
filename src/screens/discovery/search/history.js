@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 19:04:39
+ * @Last Modified time: 2022-01-10 12:09:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,13 +10,13 @@ import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
-function History({ style }, { $ }) {
+function History(props, { $ }) {
   const { history, value } = $.state
   if (value !== '') return null
 
   const styles = memoStyles()
   return (
-    <View style={style}>
+    <View style={_.mt.sm}>
       {history.map(item => (
         <View key={item} style={styles.item}>
           <Flex style={[styles.content, !_.flat && styles.border]}>

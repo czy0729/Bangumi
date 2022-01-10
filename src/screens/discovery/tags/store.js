@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 03:22:12
+ * @Last Modified time: 2022-01-10 13:21:20
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { _ } from '@stores'
+import { open } from '@utils'
 import store from '@utils/store'
 import { x18s } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -32,6 +33,29 @@ export default class ScreenTags extends store {
     ...excludeState,
     _loaded: false
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      heatmap: '标签索引.右上角菜单',
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          t('标签索引.右上角菜单', {
+            key
+          })
+
+          switch (key) {
+            case '浏览器查看':
+              open(this.url)
+              break
+
+            default:
+              break
+          }
+        }
+      }
+    })
+  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 03:16:13
+ * @Last Modified time: 2022-01-10 13:29:12
  */
 import React from 'react'
 import { Touchable, Text, Flex, Heatmap } from '@components'
@@ -38,7 +38,7 @@ function Item({ type, name, nums, index }, { navigation }) {
       }}
     >
       <Flex style={styles.item} direction='column' justify='center'>
-        <Text align='center' size={12} bold>
+        <Text align='center' size={12} bold numberOfLines={3}>
           {tag}
         </Text>
         <Text style={_.mt.xs} type='sub' align='center' size={11}>

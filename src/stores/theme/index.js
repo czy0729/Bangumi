@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:38:31
+ * @Last Modified time: 2022-01-10 11:43:42
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -621,6 +621,12 @@ class Theme extends store {
   }
 
   /**
+   * 手机 * 1, 平板 * ratio
+   * @param {*} px
+   */
+  r = (px = 0) => this.ratio * px
+
+  /**
    * 黑暗模式下
    * 非深黑模式使用第二个值
    */
@@ -775,7 +781,7 @@ class Theme extends store {
   /**
    * 生成记忆styles函数
    * 原理: 通过闭包使每一个组件里面的StyleSheet.create都被记忆
-   * 只有mode改变了, 才会重新StyleSheet.create, 配合mobx的observer触发重新渲染
+   * 只有全局影响样式的设置改变了, 才会重新StyleSheet.create, 配合mobx的observer触发重新渲染
    *
    *  - 支持key名为current的对象懒计算
    */
@@ -787,13 +793,13 @@ class Theme extends store {
         !item._styles ||
         item._mode !== this.mode ||
         item._tMode !== this.tinygrailThemeMode ||
-        item._flat !== this.flat ||
+        // item._flat !== this.flat ||
         item._deepDark !== this.deepDark ||
         item._orientation !== this.orientation
       ) {
         item._mode = this.mode
         item._tMode = this.tinygrailThemeMode
-        item._flat = this.flat
+        // item._flat = this.flat
         item._deepDark = this.deepDark
         item._orientation = this.orientation
 

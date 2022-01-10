@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-12 20:32:19
+ * @Last Modified time: 2022-01-10 12:10:31
  */
 import React from 'react'
 import { Input } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants/model'
 
-function SearchBar({ onPress }, { $ }) {
+function SearchBar(props, { $, navigation }) {
   const styles = memoStyles()
   const { cat, value } = $.state
   const label = MODEL_SEARCH_CAT.getLabel(cat)
@@ -20,10 +20,10 @@ function SearchBar({ onPress }, { $ }) {
       value={value}
       returnKeyType='search'
       returnKeyLabel='搜索'
-      placeholder={label === '用户' ? '输入完整的用户Id' : '输入关键字'}
+      placeholder={$.isUser ? '输入完整的用户Id' : '输入关键字'}
       autoFocus
       onChange={$.onChange}
-      onSubmitEditing={onPress}
+      onSubmitEditing={() => $.onSubmit(navigation)}
     />
   )
 }

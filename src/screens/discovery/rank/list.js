@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 06:35:32
+ * @Last Modified time: 2022-01-10 13:45:01
  */
 import React from 'react'
-import { View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { ScrollView, Flex, Empty, Heatmap } from '@components'
 import { Pagination, ItemSearch, ItemCollectionsGrid, FilterText } from '@screens/_'
@@ -81,32 +80,30 @@ class List extends React.Component {
     const { _filter } = $.rank
     return (
       <>
-        <View style={this.styles.list}>
-          {this.list.length ? (
-            this.list.map((item, index) => {
-              const id = String(item.id).replace('/subject/', '')
-              // const collection = collectionStore.statusName(id) || $.userCollectionsMap[id]
-              const collection = collectionStore.statusName(id)
-              return (
-                <ItemSearch
-                  key={item.id}
-                  style={_.container.item}
-                  navigation={navigation}
-                  index={index}
-                  collection={collection}
-                  event={eventList}
-                  typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
-                  {...item}
-                >
-                  {index === 1 && <Heatmap id='排行榜.跳转' />}
-                </ItemSearch>
-              )
-            })
-          ) : (
-            <Empty />
-          )}
-          {!!_filter && <FilterText value={_filter} />}
-        </View>
+        {this.list.length ? (
+          this.list.map((item, index) => {
+            const id = String(item.id).replace('/subject/', '')
+            // const collection = collectionStore.statusName(id) || $.userCollectionsMap[id]
+            const collection = collectionStore.statusName(id)
+            return (
+              <ItemSearch
+                key={item.id}
+                style={_.container.item}
+                navigation={navigation}
+                index={index}
+                collection={collection}
+                event={eventList}
+                typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
+                {...item}
+              >
+                {index === 1 && <Heatmap id='排行榜.跳转' />}
+              </ItemSearch>
+            )
+          })
+        ) : (
+          <Empty />
+        )}
+        {!!_filter && <FilterText value={_filter} />}
         {this.renderPagination()}
       </>
     )
@@ -173,9 +170,6 @@ class List extends React.Component {
 const memoStyles = _.memoStyles(() => ({
   container: {
     paddingBottom: _.bottom
-  },
-  list: {
-    paddingTop: _.md
   },
   grid: {
     paddingHorizontal: _.wind,

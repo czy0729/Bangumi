@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 06:42:55
+ * @Last Modified time: 2022-01-10 12:19:34
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
@@ -92,7 +92,7 @@ const Item = memo(
             type={typeCn}
           />
           <Flex
-            style={styles.content}
+            style={[styles.content, !!comments && styles.flux]}
             direction='column'
             justify={justify}
             align='start'
@@ -205,12 +205,16 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind
   },
   wrap: {
-    paddingVertical: 4,
+    paddingVertical: _.md,
     paddingRight: _.wind
   },
   content: {
     flex: 1,
-    minHeight: IMG_HEIGHT_LG,
+    height: IMG_HEIGHT_LG,
     marginLeft: _._wind
+  },
+  flux: {
+    height: 'auto',
+    minHeight: IMG_HEIGHT_LG
   }
 }))

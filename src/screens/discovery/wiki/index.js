@@ -2,51 +2,45 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:36:46
+ * @Last Modified time: 2022-01-10 13:36:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Loading } from '@components'
+import { Page } from '@components'
+import { IconHoriz } from '@_'
 import { _ } from '@stores'
-import { inject, obc, withHeader } from '@utils/decorators'
+import { runAfter } from '@utils'
+import { injectWithHeader } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
 import Counts from './counts'
 import Cate from './cate'
 import List from './list'
 import Store from './store'
 
-const title = '维基人'
+const Wiki = (props, { $, navigation }) => {
+  useMount(() => {
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
+    })
+  })
 
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['wiki', 'Wiki']
-})
-@obc
-class Wiki extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context
-    $.init()
-  }
-
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.state
-    if (!_loaded) {
-      return <Loading style={_.container.plain} />
-    }
-
-    return (
-      <View style={_.container.plain}>
-        <Counts />
-        <View style={styles.list}>
-          <Cate />
-          <List />
-        </View>
+  return useObserver(() => (
+    <Page>
+      <Counts />
+      <View style={styles.list}>
+        <Cate />
+        <List />
       </View>
-    )
-  }
+    </Page>
+  ))
 }
+
+export default injectWithHeader(Store, Wiki, {
+  screen: '维基人',
+  hm: ['wiki', 'Wiki'],
+  defaultExtra: <IconHoriz />
+})
 
 const styles = _.create({
   list: {

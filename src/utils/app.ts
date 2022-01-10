@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 21:35:20
+ * @Last Modified time: 2022-01-10 14:06:57
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
-import { DEV, HOST, HOST_2, EVENT } from '@constants'
-import { initHashSubjectOTA, initHashAvatarOTA } from '@constants/cdn'
+import { DEV, HOST, HOST_2, EVENT, IMG_DEFAULT } from '@constants'
+import { initHashSubjectOTA, initHashAvatarOTA, CDN_OSS_SUBJECT } from '@constants/cdn'
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -431,6 +431,22 @@ export function matchBgmLink(url = '') {
   } catch (error) {
     return false
   }
+}
+
+/**
+ * 自动判断封面CDN地址
+ * @param src
+ * @param noDefault
+ */
+const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
+export function matchCoverUrl(src, noDefault) {
+  const { cdn } = getSetting()
+
+  // 有些情况图片地址分析错误, 排除掉
+  return noImg.includes(src)
+    ? IMG_DEFAULT
+    : (cdn ? CDN_OSS_SUBJECT(getCoverMedium(src)) : getCoverMedium(src)) ||
+        (noDefault ? '' : IMG_DEFAULT)
 }
 
 /**
