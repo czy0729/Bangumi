@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:29:09
+ * @Last Modified time: 2022-01-09 11:54:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -118,6 +118,11 @@ const withTransitionHeader =
             title: this._s2t
               ? s2t(navigation.getParam('title'))
               : navigation.getParam('title'),
+            headerTitleStyle: {
+              width: '100%',
+              textAlign: 'left',
+              fontSize: 14
+            },
             headerTransparent: true,
             headerStyle: {
               ...defaultHeaderStyle,

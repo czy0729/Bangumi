@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 09:33:03
+ * @Last Modified time: 2022-01-09 12:21:21
  */
 import React from 'react'
-import { ScrollView, Iconfont, Loading } from '@components'
+import { Page, ScrollView } from '@components'
+import { IconHoriz } from '@_'
 import { _ } from '@stores'
-import { open } from '@utils'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { runAfter } from '@utils'
+import { injectWithHeader } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Rank from './rank'
 import Friends from './friends'
@@ -18,67 +19,30 @@ import Discuss from './discuss'
 import Tags from './tags'
 import Store from './store'
 
-const title = '频道'
-
-export default
-@inject(Store)
-@withHeader({
-  title: ({ type } = {}) => `${MODEL_SUBJECT_TYPE.getTitle(type)}频道`,
-  screen: title,
-  hm: ['channel', 'Channel']
-})
-@obc
-class Channel extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
-    $.init()
-
-    navigation.setParams({
-      element: <Iconfont name='md-menu' color={_.colorTitle} />,
-      heatmap: '频道.右上角菜单',
-      popover: {
-        data: [...MODEL_SUBJECT_TYPE.data.map(item => item.title), '浏览器查看'],
-        onSelect: key => {
-          t('频道.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open($.url)
-              break
-
-            default:
-              setTimeout(() => {
-                navigation.setParams({
-                  title: `${key}频道`
-                })
-                $.toggleType(MODEL_SUBJECT_TYPE.getLabel(key))
-              }, 40)
-              break
-          }
-        }
-      }
+const Channel = (props, { $, navigation }) => {
+  useMount(() => {
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
-  }
+  })
 
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.channel
-    if (!_loaded) return <Loading style={_.container.plain} />
-
-    return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={_.container.bottom}
-        scrollToTop
-      >
+  return useObserver(() => (
+    <Page loaded={$.channel._loaded}>
+      <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
         <Rank />
         <Friends />
         <Blog />
         <Discuss />
         <Tags />
       </ScrollView>
-    )
-  }
+    </Page>
+  ))
 }
+
+export default injectWithHeader(Store, Channel, {
+  title: ({ type } = {}) => `${MODEL_SUBJECT_TYPE.getTitle(type)}频道`,
+  screen: '频道',
+  hm: ['channel', 'Channel'],
+  defaultExtra: <IconHoriz name='md-menu' />
+})

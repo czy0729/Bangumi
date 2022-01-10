@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 09:32:38
+ * @Last Modified time: 2022-01-09 12:04:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,10 @@ import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
-const imgWidthSm = 56 * _.ratio
-const imgHeightSm = imgWidthSm * 1.28
+export const imgWidth = IMG_WIDTH * 1.2
+export const imgHeight = IMG_HEIGHT * 1.2
+export const imgWidthSm = 72 * _.ratio
+export const imgHeightSm = imgWidthSm * 1.28
 
 function Rank(props, { $, navigation }) {
   const styles = memoStyles()
@@ -48,8 +50,8 @@ function Rank(props, { $, navigation }) {
               <Flex align='start'>
                 <Cover
                   src={item.cover}
-                  width={IMG_WIDTH}
-                  height={IMG_HEIGHT}
+                  width={imgWidth}
+                  height={imgHeight}
                   radius
                   shadow
                   type={$.typeCn}
@@ -145,13 +147,13 @@ function Rank(props, { $, navigation }) {
                               <Katakana.Provider
                                 size={12}
                                 lineHeight={_.device(12, 18)}
-                                numberOfLines={2}
+                                numberOfLines={3}
                               >
                                 <Katakana
                                   size={12}
                                   lineHeight={_.device(12, 18)}
                                   bold
-                                  numberOfLines={2}
+                                  numberOfLines={3}
                                 >
                                   {findSubjectCn(item.name, item.id)}
                                 </Katakana>
@@ -193,7 +195,7 @@ const memoStyles = _.memoStyles(() => ({
     marginBottom: 4
   },
   image: {
-    width: IMG_WIDTH
+    width: imgWidth
   },
   item: {
     width: '48%',
@@ -201,7 +203,7 @@ const memoStyles = _.memoStyles(() => ({
     marginBottom: 4
   },
   content: {
-    height: IMG_HEIGHT - 2 * _.xs
+    height: imgHeight - 2 * _.xs
   },
   imageSm: {
     width: imgWidthSm

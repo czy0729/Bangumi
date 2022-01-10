@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:11:03
+ * @Last Modified time: 2022-01-09 11:33:15
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
@@ -31,8 +31,6 @@ export default
 })
 @obc
 class CatalogDetail extends React.Component {
-  ListHeaderComponent = (<Info />)
-
   async componentDidMount() {
     const { $, navigation } = this.context
     await $.init()
@@ -107,7 +105,7 @@ class CatalogDetail extends React.Component {
           contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
           data={$.catalogDetail}
-          ListHeaderComponent={this.ListHeaderComponent}
+          ListHeaderComponent={<Info />}
           renderItem={this.renderItem}
           scrollEventThrottle={16}
           scrollToTop

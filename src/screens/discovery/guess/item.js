@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-04 19:23:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:35:41
+ * @Last Modified time: 2022-01-09 15:37:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -115,7 +115,7 @@ export default obc(Item)
 
 const memoStyles = _.memoStyles(() => {
   const width = _.windowSm.width - _.windSm * 2
-  const thumbWidth = _.device(96, 200)
+  const thumbWidth = _.device(128, 200)
   return {
     item: {
       marginTop: _.space,

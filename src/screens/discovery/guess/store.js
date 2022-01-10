@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:28:53
+ * @Last Modified time: 2022-01-09 15:39:48
  */
+import React from 'react'
 import { observable, computed } from 'mobx'
 import { collectionStore } from '@stores'
 import store from '@utils/store'
 import { getBangumiUrl, unzipBangumiData } from '@utils/app'
 import { xhrCustom, HTMLTrim, queue } from '@utils/fetch'
-import { loading } from '@utils/ui'
 import { guess } from '@utils/subject/anime'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import Extra from './extra'
 
 const namespace = 'ScreenGuess'
 
@@ -19,10 +20,15 @@ export default class ScreenGuess extends store {
   state = observable({
     list: [],
     page: 1,
-    show: false,
     like: true,
     eps: {}
   })
+
+  setParams = navigation => {
+    navigation.setParams({
+      extra: <Extra $={this} />
+    })
+  }
 
   init = async () => {
     const state = await this.getStorage(undefined, namespace)
@@ -31,13 +37,7 @@ export default class ScreenGuess extends store {
     })
 
     const { list } = this.state
-    if (!list.length) {
-      this.getList()
-    } else {
-      this.setState({
-        show: true
-      })
-    }
+    if (!list.length) this.getList()
   }
 
   // -------------------- get --------------------
@@ -52,23 +52,19 @@ export default class ScreenGuess extends store {
 
   // -------------------- page --------------------
   getList = async (refresh = true) => {
-    if (refresh) {
-      const hide = loading('根据收藏分析中...')
-      await collectionStore.fetchUserCollectionsQueue(true)
+    if (refresh) await collectionStore.fetchUserCollectionsQueue(true)
 
-      hide()
-    }
+    setTimeout(() => {
+      const { like } = this.state
+      const list = guess(this.userCollectionsMap, !like)
+      this.setState({
+        list,
+        page: 1
+      })
+      this.setStorage(undefined, undefined, namespace)
 
-    const { like } = this.state
-    const list = guess(this.userCollectionsMap, !like)
-    this.setState({
-      show: true,
-      list,
-      page: 1
-    })
-    this.setStorage(undefined, undefined, namespace)
-
-    this.queueFetchEpsThumbs()
+      this.queueFetchEpsThumbs()
+    }, 80)
   }
 
   prev = () => {
@@ -76,15 +72,11 @@ export default class ScreenGuess extends store {
     if (page === 1) return
 
     this.setState({
-      show: false,
       page: page - 1
     })
     this.queueFetchEpsThumbs()
 
     setTimeout(() => {
-      this.setState({
-        show: true
-      })
       this.setStorage(undefined, undefined, namespace)
     }, 80)
   }
@@ -93,15 +85,11 @@ export default class ScreenGuess extends store {
     const { page } = this.state
 
     this.setState({
-      show: false,
       page: page + 1
     })
     this.queueFetchEpsThumbs()
 
     setTimeout(() => {
-      this.setState({
-        show: true
-      })
       this.setStorage(undefined, undefined, namespace)
     }, 80)
   }
@@ -128,8 +116,7 @@ export default class ScreenGuess extends store {
   toggleLike = () => {
     const { like } = this.state
     this.setState({
-      like: !like,
-      show: false
+      like: !like
     })
     this.setStorage(undefined, undefined, namespace)
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-05 03:54:45
+ * @Last Modified time: 2022-01-09 11:36:42
  */
 import React from 'react'
 import {
@@ -97,12 +97,14 @@ const withHeader =
             },
             headerStyle: IOS
               ? {
+                  fontSize: 14,
                   backgroundColor: _.colorPlain,
                   borderBottomColor: _.colorBorder,
                   borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
                   ...(_params.headerStyle || headerStyle)
                 }
               : {
+                  fontSize: 14,
                   // backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
                   backgroundColor: _.colorPlain,
                   borderBottomColor: _.colorBorder,
@@ -114,7 +116,7 @@ const withHeader =
             headerTitleStyle: {
               width: '100%',
               color: _.colorTitle,
-              fontSize: 16 + _.fontSizeAdjust,
+              fontSize: 14,
               fontWeight: 'normal',
               ...(_params.headerTitleStyle || headerTitleStyle)
             },

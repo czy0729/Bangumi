@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 19:15:12
+ * @Last Modified time: 2022-01-10 11:15:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import { StatusBarEvents, ListView, UM, Heatmap } from '@components'
+import { Page, StatusBarEvents, ListView, UM, Heatmap } from '@components'
 import { IconTabBar, IconPortal } from '@screens/_'
 import { _ } from '@stores'
 import { runAfter } from '@utils'
-import { inject, obc } from '@utils/decorators'
+import { injectWithBottomTab } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
 import { hm } from '@utils/fetch'
-import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Header from './header'
 import List from './list'
@@ -21,38 +21,25 @@ import Store from './store'
 
 const title = '发现'
 
-export default
-@inject(Store)
-@obc
-class Discovery extends React.Component {
-  static navigationOptions = {
-    header: null,
-    tabBarIcon,
-    tabBarLabel: title
-  }
-
-  componentDidMount() {
+const Discovery = ({ isFocused }, { $ }) => {
+  useMount(() => {
     runAfter(() => {
-      const { $ } = this.context
       $.init()
       hm('discovery', 'Discovery')
     })
-  }
+  })
 
-  render() {
-    const { $ } = this.context
-    const { dragging } = $.state
-    const { isFocused } = this.props
+  return useObserver(() => {
+    const { home, dragging } = $.state
     return (
-      <View style={_.container._plain}>
-        <UM screen={title} />
+      <Page>
         <StatusBarEvents backgroundColor='transparent' />
         <ListView
           ref={$.connectRef}
           style={styles.listView}
-          contentContainerStyle={styles.contentContainerStyle}
+          contentContainerStyle={styles.container}
           keyExtractor={keyExtractor}
-          data={$.state.home}
+          data={home}
           ListHeaderComponent={<Header />}
           renderItem={renderItem}
           scrollToTop={isFocused}
@@ -62,25 +49,27 @@ class Discovery extends React.Component {
         />
         <LinkModal />
         {isFocused && <IconPortal index={0} onPress={$.onRefreshThenScrollTop} />}
+        <UM screen={title} />
         <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
-      </View>
+      </Page>
     )
-  }
+  })
 }
+
+export default injectWithBottomTab(Store, Discovery, {
+  tabBarIcon: ({ tintColor }) => <IconTabBar name='home' size={19} color={tintColor} />,
+  tabBarLabel: title
+})
 
 const styles = _.create({
   listView: {
     flex: 1,
-    marginBottom: IOS ? 0 : _.tabBarHeight - 1
+    marginBottom: _.ios(0, _.tabBarHeight - 1)
   },
-  contentContainerStyle: {
-    paddingBottom: (IOS ? _.bottom : _.bottom - _.tabBarHeight) + _.md
+  container: {
+    paddingBottom: _.bottom - _.ios(0, _.tabBarHeight) + _.md
   }
 })
-
-function tabBarIcon({ tintColor }) {
-  return <IconTabBar name='home' size={19} color={tintColor} />
-}
 
 function keyExtractor(item) {
   return item.type

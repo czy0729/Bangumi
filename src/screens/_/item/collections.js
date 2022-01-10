@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:55:56
+ * @Last Modified time: 2022-01-09 11:28:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { memo, ob } from '@utils/decorators'
-import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { EVENT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
 import { Tag, Stars, Cover } from '../base'
 import { IconTouchable } from '../icon/touchable'
 
@@ -130,8 +130,8 @@ const Item = memo(
             <Cover
               style={styles.image}
               src={cover}
-              width={IMG_WIDTH}
-              height={IMG_HEIGHT}
+              width={IMG_WIDTH_LG}
+              height={IMG_HEIGHT_LG}
               radius
               shadow
               type={type}
@@ -288,14 +288,14 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind
   },
   imgContainer: {
-    width: IMG_WIDTH
+    width: IMG_WIDTH_LG
   },
   wrap: {
-    paddingVertical: _.space,
+    paddingVertical: _.md,
     paddingRight: _.wind
   },
   content: {
-    height: IMG_HEIGHT
+    height: IMG_HEIGHT_LG
   },
   comments: {
     padding: _.sm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:22:06
+ * @Last Modified time: 2022-01-09 12:35:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { x18 } from '@utils/app'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function ItemRecents(
@@ -43,8 +43,8 @@ function ItemRecents(
             <Cover
               style={styles.cover}
               src={cover}
-              width={IMG_WIDTH}
-              height={IMG_HEIGHT}
+              width={IMG_WIDTH_LG}
+              height={IMG_HEIGHT_LG}
               radius
               shadow
               type={typeCn}
@@ -140,7 +140,7 @@ const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   imgContainer: {
-    width: IMG_WIDTH,
+    width: IMG_WIDTH_LG,
     marginRight: _.md + 4
   },
   wrap: {

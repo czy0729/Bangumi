@@ -2,91 +2,34 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 08:08:31
+ * @Last Modified time: 2022-01-09 11:18:55
  */
 import React from 'react'
-import { View } from 'react-native'
-import { ScrollView, Heatmap } from '@components'
-import { Pagination, ItemCatalog } from '@screens/_'
-import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { Page } from '@components'
+import { runAfter } from '@utils'
+import { injectWithHeader } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
 import Type from './type'
+import List from './list'
 import Store from './store'
 
-const title = '目录'
-const event = {
-  id: '目录.跳转'
-}
-const heatmaps = {
-  prev: '目录.上一页',
-  next: '目录.下一页',
-  search: '目录.页码跳转'
-}
-
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['discovery/catalog', 'Catalog']
-})
-@obc
-class Catalog extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
-    $.init()
-
-    navigation.setParams({
-      extra: <Type $={$} />
+const Catalog = (props, { $, navigation }) => {
+  useMount(() => {
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
-  }
+  })
 
-  renderPaganation(style) {
-    const { $ } = this.context
-    const { ipt } = $.state
-    return (
-      <Pagination
-        style={style}
-        input={ipt}
-        heatmaps={heatmaps}
-        onPrev={$.prev}
-        onNext={$.next}
-        onChange={$.onChange}
-        onSearch={$.doSearch}
-      />
-    )
-  }
-
-  render() {
-    const { $ } = this.context
-    const { show, _loaded } = $.state
-    if (!_loaded) return <View style={_.container.plain} />
-
-    return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={_.container.bottom}
-        showsVerticalScrollIndicator={false}
-        scrollToTop
-      >
-        {show && (
-          <>
-            <View style={styles.list}>
-              {$.catalog.list.map((item, index) => (
-                <ItemCatalog key={item.id} event={event} {...item}>
-                  {index === 1 && <Heatmap id='目录.跳转' />}
-                </ItemCatalog>
-              ))}
-            </View>
-            {this.renderPaganation(_.mt.lg)}
-          </>
-        )}
-      </ScrollView>
-    )
-  }
+  return useObserver(() => (
+    <Page loaded={$.state._loaded}>
+      <List />
+    </Page>
+  ))
 }
 
-const styles = _.create({
-  list: {
-    minHeight: _.window.height * 0.68
-  }
+export default injectWithHeader(Store, Catalog, {
+  screen: '目录',
+  hm: ['discovery/catalog', 'Catalog'],
+  defaultExtra: <Type />
 })

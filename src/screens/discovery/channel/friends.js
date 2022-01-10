@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 09:35:13
+ * @Last Modified time: 2022-01-09 12:05:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
-
-const imgWidth = 56 * _.ratio
-const imgHeight = imgWidth * 1.28
+import { imgWidthSm, imgHeightSm } from './rank'
 
 function Friends(props, { $, navigation }) {
   const styles = memoStyles()
@@ -47,8 +45,8 @@ function Friends(props, { $, navigation }) {
               <View style={styles.image}>
                 <Cover
                   src={item.cover}
-                  width={imgWidth}
-                  height={imgHeight}
+                  width={imgWidthSm}
+                  height={imgHeightSm}
                   radius
                   shadow
                   type={$.typeCn}
@@ -110,6 +108,6 @@ const memoStyles = _.memoStyles(() => ({
     marginLeft: '5%'
   },
   image: {
-    width: imgWidth
+    width: imgWidthSm
   }
 }))

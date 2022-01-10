@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 18:22:54
+ * @Last Modified time: 2022-01-09 11:59:00
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,6 +14,7 @@ function IconFavor({ $ }) {
   return (
     <IconHeader
       name={$.isCollect ? 'md-star' : 'md-star-outline'}
+      size={21}
       color={$.isCollect ? _.colorYellow : _.colorDesc}
       onPress={$.toggleCollect}
     >
