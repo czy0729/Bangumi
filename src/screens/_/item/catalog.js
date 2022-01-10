@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 08:03:42
+ * @Last Modified time: 2022-01-10 15:11:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -135,10 +135,12 @@ export const ItemCatalog = obc(
                   event={event}
                 />
                 <Flex.Item>
-                  <Text size={12} bold numberOfLines={1}>
-                    {HTMLDecode(name)}
-                  </Text>
-                  <Text style={_.mt.xxs} size={10} type='sub'>
+                  {!!name && (
+                    <Text style={_.mb.xxs} size={12} bold numberOfLines={1}>
+                      {HTMLDecode(name)}
+                    </Text>
+                  )}
+                  <Text size={10} type='sub'>
                     {date}
                   </Text>
                 </Flex.Item>

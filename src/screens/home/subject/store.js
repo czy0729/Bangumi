@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 07:37:51
+ * @Last Modified time: 2022-01-11 03:00:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -124,9 +124,7 @@ export default class ScreenSubject extends store {
         _loaded: needFetch ? current : _loaded
       })
 
-      if (needFetch) {
-        return this.onHeaderRefresh()
-      }
+      if (needFetch) return this.onHeaderRefresh()
 
       return true
     } catch (error) {
@@ -150,40 +148,13 @@ export default class ScreenSubject extends store {
     userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
 
     // API条目信息
-    const res = this.fetchSubject()
-    const data = await res
-
-    // bangumi-data数据扩展
-    const item = bangumiData.find(
-      item =>
-        item.id == this.subjectId ||
-        item.j === HTMLDecode(data.name) ||
-        item.c === HTMLDecode(data.name)
-    )
-
-    if (item) {
-      const _item = unzipBangumiData(item)
-      this.setState({
-        bangumiInfo: {
-          sites: _item.sites,
-          type: _item.type
-        }
-      })
-
-      setTimeout(() => {
-        this.fetchEpsThumbs(_item)
-      }, 0)
-    }
-
+    const data = await this.fetchSubject()
     queue([
+      () => this.fetchThirdParty(data), // bangumi-data数据扩展
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
       () => this.fetchEpsData() // 单集播放源
     ])
-
-    if ((!item && this.type === '动画') || this.type === '三次元') {
-      this.fetchEpsThumbsFromDouban(this.cn, this.jp)
-    }
 
     // if (!this.characters._loaded) {
     //   monoStore.fetchCharacters({
@@ -191,7 +162,7 @@ export default class ScreenSubject extends store {
     //   })
     // }
 
-    return res
+    return data
   }
 
   // -------------------- fetch --------------------
@@ -225,6 +196,36 @@ export default class ScreenSubject extends store {
     const { _loaded } = this.subjectFormHTML
     if (!setting.cdn || _loaded) return true
     return subjectStore.fetchSubjectFormCDN(this.subjectId)
+  }
+
+  /**
+   * 装载第三方数据
+   */
+  fetchThirdParty = async data => {
+    const item = bangumiData.find(
+      item =>
+        item.id == this.subjectId ||
+        item.j === HTMLDecode(data.name) ||
+        item.c === HTMLDecode(data.name)
+    )
+
+    if (item) {
+      const _item = unzipBangumiData(item)
+      this.setState({
+        bangumiInfo: {
+          sites: _item.sites,
+          type: _item.type
+        }
+      })
+
+      setTimeout(() => {
+        this.fetchEpsThumbs(_item)
+      }, 0)
+    }
+
+    if ((!item && this.type === '动画') || this.type === '三次元') {
+      this.fetchEpsThumbsFromDouban(this.cn, this.jp)
+    }
   }
 
   /**
@@ -678,7 +679,7 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 章节在线播放源
+   * 章节正版播放源
    */
   @computed get onlinePlayActionSheetData() {
     const data = []
@@ -1799,7 +1800,7 @@ export default class ScreenSubject extends store {
         return
       }
 
-      if (value === '在线播放') {
+      if (value === '正版播放') {
         setTimeout(() => {
           showActionSheet(this.onlinePlayActionSheetData, index => {
             t('条目.章节菜单操作', {

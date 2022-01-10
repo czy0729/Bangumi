@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-20 20:19:36
+ * @Last Modified time: 2022-01-10 14:46:13
  */
 export type MenuItemType = {
   key: string
@@ -21,7 +21,8 @@ const menuMap = {
   Anime: {
     key: 'Anime',
     name: '找条目',
-    icon: 'md-live-tv'
+    icon: 'md-live-tv',
+    size: 21
   },
   Browser: {
     key: 'Browser',
@@ -36,12 +37,14 @@ const menuMap = {
   Calendar: {
     key: 'Calendar',
     name: '每日放送',
-    icon: 'md-calendar-today'
+    icon: 'md-calendar-today',
+    size: 20
   },
   DiscoveryBlog: {
     key: 'DiscoveryBlog',
     name: '日志',
-    icon: 'md-edit'
+    icon: 'md-edit',
+    size: 21
   },
   Tags: {
     key: 'Tags',
@@ -100,7 +103,8 @@ const menuMap = {
   Anitama: {
     key: 'Anitama',
     name: '资讯',
-    icon: 'md-text-format'
+    icon: 'md-text-format',
+    size: 26
   },
   Character: {
     key: 'Character',

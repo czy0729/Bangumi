@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-24 17:45:47
+ * @Last Modified time: 2022-01-10 15:08:27
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -85,7 +85,7 @@ class Subject extends store {
      * @param {*} subjectId
      */
     subjectCatalogs: {
-      0: {}
+      0: LIST_EMPTY
     },
 
     /**

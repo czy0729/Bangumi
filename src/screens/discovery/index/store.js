@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:23:40
+ * @Last Modified time: 2022-01-10 14:41:14
  */
 import { observable, computed } from 'mobx'
 import {
@@ -59,15 +59,11 @@ export default class ScreenDiscovery extends store {
     })
 
     const { setting } = systemStore
-    if (setting.cdn) {
-      calendarStore.fetchHomeFromCDN()
-    }
+    if (setting.cdn) calendarStore.fetchHomeFromCDN()
 
     setTimeout(() => {
       this.fetchOnline()
-      if (!DEV && userStore.isWebLogin) {
-        this.fetchChannel()
-      }
+      if (!DEV && userStore.isWebLogin) this.fetchChannel()
 
       queue([() => calendarStore.fetchOnAir(), () => calendarStore.fetchCalendar()])
     }, 800)

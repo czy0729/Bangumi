@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 06:42:16
+ * @Last Modified time: 2022-01-10 15:02:52
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -150,13 +150,15 @@ export const IMG_DEFAULT = require('@assets/images/default.png') // 默认图
 export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png') // 图裂图
 
 /* ==================== IMG SIZE ==================== */
-export const IMG_WIDTH = parseInt(RATIO * 82)
-export const IMG_HEIGHT = parseInt(IMG_WIDTH * 1.4)
-export const IMG_WIDTH_SM = parseInt(RATIO * 64)
-export const IMG_HEIGHT_SM = parseInt(IMG_WIDTH_SM * 1.4)
-export const IMG_WIDTH_LG = parseInt(IMG_WIDTH * 1.4)
-export const IMG_HEIGHT_LG = parseInt(IMG_WIDTH_LG * 1.4)
+const h = w => parseInt(w * 1.4)
+
 export const IMG_AVATAR_WIDTH = 32
+export const IMG_WIDTH = parseInt(RATIO * 82)
+export const IMG_HEIGHT = h(IMG_WIDTH)
+export const IMG_WIDTH_SM = parseInt(RATIO * 72)
+export const IMG_HEIGHT_SM = h(IMG_WIDTH_SM)
+export const IMG_WIDTH_LG = parseInt(IMG_WIDTH * 1.32)
+export const IMG_HEIGHT_LG = h(IMG_WIDTH_LG)
 
 /* ==================== DATA ==================== */
 // LIST 统一结构

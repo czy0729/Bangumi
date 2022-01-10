@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:01:28
+ * @Last Modified time: 2022-01-11 03:00:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -143,7 +143,7 @@ function getPopoverData(item, isSp, canPlay, login, advance, userProgress) {
     data = [discuss]
   }
 
-  if (canPlay) data.push('在线播放')
+  if (canPlay) data.push('正版播放')
 
   return data
 }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 15:33:06
+ * @Last Modified time: 2022-01-11 02:38:53
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -301,7 +301,7 @@ class Collection extends store {
       for (const item of MODEL_COLLECTION_STATUS.data) {
         const { _loaded } = this.userCollections(userId, subjectType, item.value)
         if (refresh || !_loaded || now - _loaded > 60 * 60) {
-          info(`[${item.value}] user collections`)
+          // info(`[${item.value}] user collections`)
           await this.fetchUserCollections(
             {
               userId,
@@ -310,7 +310,7 @@ class Collection extends store {
             },
             true
           )
-          // await sleep()
+          await sleep()
         }
       }
 
@@ -325,13 +325,13 @@ class Collection extends store {
         // 列表未到底就一直请求, 最多请求到10页
         if (page < pageTotal && page < 10) {
           for (let i = page - 1; i < pageTotal; i += 1) {
-            info(`[${item.value}]: ${i + 1}`)
+            // info(`[${item.value}]: ${i + 1}`)
             await this.fetchUserCollections({
               userId,
               subjectType,
               type: item.value
             })
-            // await sleep()
+            await sleep()
           }
         }
 
