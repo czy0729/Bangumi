@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-04 04:50:57
+ * @Last Modified time: 2022-01-11 08:48:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,10 +37,10 @@ function Content(props, { $, navigation }) {
           {translateResult.map((item, index) => (
             <View key={index}>
               <Text style={_.mt.md} size={13} lineHeight={14} type='sub'>
-                {item.src}
+                {item.src.trim()}
               </Text>
               <Text style={_.mt.xs} size={15} lineHeight={17}>
-                {item.dst}
+                {item.dst.trim()}
               </Text>
             </View>
           ))}
@@ -62,7 +62,9 @@ function Content(props, { $, navigation }) {
               <RenderHtml
                 html={$.html}
                 matchLink
-                onLinkPress={href => appNavigate(href, navigation, {}, event)}
+                onLinkPress={(href, passProps = {}) =>
+                  appNavigate(href, navigation, passProps, event)
+                }
               />
               <Heatmap
                 bottom={133}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 11:00:38
+ * @Last Modified time: 2022-01-11 06:24:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -71,6 +71,7 @@ const minuteDS = [
 ]
 const defaultProps = {
   styles: {},
+  subjectId: 0,
   watchedEps: '',
   totalEps: 0,
   onAirCustom: {},
@@ -116,7 +117,7 @@ const Ep = memo(
           <Heatmap id='条目.章节按钮长按' />
           <Heatmap bottom={35} id='条目.章节菜单操作' />
         </View>
-        <Flex style={styles.tool}>
+        <Flex style={_.mt.sm}>
           <Flex.Item>
             <Flex>
               <View style={styles.input}>
@@ -237,12 +238,7 @@ const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 146,
     marginTop: _.lg,
-    marginLeft: _.wind,
-    marginRight: _.wind - _._wind
-  },
-  tool: {
-    marginTop: _.sm,
-    paddingRight: _._wind
+    marginHorizontal: _.wind
   },
   input: {
     width: 68 * _.ratio,

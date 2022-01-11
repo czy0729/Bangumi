@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:11:31
+ * @Last Modified time: 2022-01-11 09:30:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { open } from '@utils'
 import { appNavigate, correctAgo } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 
@@ -69,7 +70,7 @@ function List({ style }, { $, navigation }) {
                   navigation,
                   {
                     _title: title,
-                    _replies: `(+${replies})`,
+                    _replies: `+${replies}`,
                     _group: group,
                     _time: time
                   },
@@ -82,7 +83,7 @@ function List({ style }, { $, navigation }) {
           >
             <View style={[styles.wrap, !!index && !_.flat && styles.border]}>
               <Text size={15}>
-                {title}
+                {HTMLDecode(title)}
                 <Text type={isReaded ? 'sub' : 'main'} size={12} lineHeight={15}>
                   {' '}
                   {replyText}
@@ -113,12 +114,11 @@ export default obc(List)
 
 const memoStyles = _.memoStyles(() => ({
   item: {
-    paddingLeft: _.wind - _._wind + _.md,
-    marginBottom: _.xs
+    paddingLeft: _.wind - _._wind + _.md
   },
   wrap: {
     paddingVertical: _.md,
-    paddingRight: _.wind - _._wind
+    paddingRight: _.wind
   },
   border: {
     borderTopColor: _.colorBorder,

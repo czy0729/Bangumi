@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:19:54
+ * @Last Modified time: 2022-01-11 06:24:57
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HENTAI_TAGS } from '@utils/subject/hentai'
+import { pick } from '@utils/subject/onair'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import IconHidden from './icon/hidden'
 
@@ -50,8 +51,17 @@ const Tags = memo(
       _expand = !expand
     }, [expand])
 
+    const onAirText = pick(subjectId)
     const elTags = (
       <>
+        {!!onAirText && (
+          <Flex style={!expand && styles.onair}>
+            <Text style={_.mr.sm} size={13} type='sub' bold>
+              {onAirText}
+            </Text>
+            <View style={styles.split} />
+          </Flex>
+        )}
         {tags.map(({ name, count }, index) => {
           const isSelected = tag.includes(name)
           // if (!isSelected && tags.length > 10 && count < 8) return null
@@ -95,8 +105,8 @@ const Tags = memo(
         })}
         {!!animeTags && (
           <>
-            <View style={styles.split} />
-            <Text style={_.mr.sm} size={13} type='sub'>
+            <View style={[!expand && _.mt.xs, styles.split]} />
+            <Text style={[!expand && _.mt.xxs, _.mr.sm]} size={13} type='sub'>
               内容
             </Text>
             {animeTags.split(' ').map(item => (
@@ -175,8 +185,6 @@ const Tags = memo(
                 style={_.mt.md}
                 contentContainerStyle={_.container.wind}
                 horizontal
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
               >
                 {elTags}
               </ScrollView>
@@ -184,14 +192,16 @@ const Tags = memo(
           </>
         )}
         {show && (
-          <Touchable style={styles.more} onPress={onExpand}>
-            <Flex justify='center'>
-              <Iconfont
-                name={expand ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
-                size={_.device(24, 32)}
-              />
-            </Flex>
-          </Touchable>
+          <View style={styles.more}>
+            <Touchable onPress={onExpand}>
+              <Flex justify='center'>
+                <Iconfont
+                  name={expand ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
+                  size={_.device(24, 32)}
+                />
+              </Flex>
+            </Touchable>
+          </View>
         )}
       </View>
     )
@@ -228,6 +238,9 @@ const memoStyles = _.memoStyles(() => ({
   loading: {
     height: 96
   },
+  onair: {
+    marginTop: -8
+  },
   item: {
     paddingVertical: 2 * _.ratio,
     paddingHorizontal: 6 * _.ratio,
@@ -253,9 +266,9 @@ const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   more: {
-    padding: _.md,
-    marginTop: -_.md,
-    marginLeft: -8,
+    paddingVertical: _.md,
+    paddingHorizontal: 100,
+    marginTop: -_.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }

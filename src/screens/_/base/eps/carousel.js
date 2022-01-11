@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:51:44
+ * @Last Modified time: 2022-01-11 06:22:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,7 +34,7 @@ export const Carousel = ob(({ props, epsGroup = [] }) => {
 
 const memoStyles = _.memoStyles(_ => ({
   carousel: {
-    height: 224
+    height: 242
   },
   dot: {
     backgroundColor: _.colorPlain,

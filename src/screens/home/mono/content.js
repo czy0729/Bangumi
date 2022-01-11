@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-04 04:32:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-04 04:50:24
+ * @Last Modified time: 2022-01-11 05:35:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,10 +26,10 @@ function Content(props, { $, navigation }) {
           {translateResult.map((item, index) => (
             <View key={index}>
               <Text style={_.mt.md} size={13} lineHeight={14} type='sub'>
-                {item.src}
+                {item.src.trim()}
               </Text>
               <Text style={_.mt.xs} size={15} lineHeight={17}>
-                {item.dst}
+                {item.dst.trim()}
               </Text>
             </View>
           ))}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-13 13:37:43
+ * @Last Modified time: 2022-01-11 05:35:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,10 +53,10 @@ const Summary = memo(
                 {translateResult.map((item, index) => (
                   <View key={index} style={_.mt.sm}>
                     <Text style={_.mt.md} type='sub' size={12} selectable>
-                      {item.src}
+                      {item.src.trim()}
                     </Text>
                     <Text style={_.mt.sm} size={15} bold selectable>
-                      {item.dst}
+                      {item.dst.trim()}
                     </Text>
                   </View>
                 ))}

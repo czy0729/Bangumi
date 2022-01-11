@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 03:26:50
+ * @Last Modified time: 2022-01-11 08:48:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -110,7 +110,9 @@ function getACSearch({ style, passProps, params, onPress }) {
                 subjectId,
                 _cn: text
               })
-            : onPress(null, `${HOST}/subject/${subjectId}`)
+            : onPress(null, `${HOST}/subject/${subjectId}`, {
+                _cn: text
+              })
         }
       >
         {text}

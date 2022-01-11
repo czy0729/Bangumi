@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:09:53
+ * @Last Modified time: 2022-01-11 07:09:17
  */
 import React from 'react'
 import { FadeIn, Flex, Text, Image } from '@components'
@@ -43,7 +43,6 @@ export default ob(HeaderTitle)
 
 const styles = _.create({
   container: {
-    marginLeft: -_.md,
     marginRight: _.md
   }
 })

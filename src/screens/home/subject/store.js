@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 03:00:40
+ * @Last Modified time: 2022-01-11 06:27:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -932,7 +932,7 @@ export default class ScreenSubject extends store {
    * 封面图宽度
    */
   @computed get imageWidth() {
-    return IMG_WIDTH_LG * (_.isPad ? 1.4 : 1.2)
+    return IMG_WIDTH_LG * (_.isPad ? 1.4 : 1.2) * (this.type === '音乐' ? 1.2 : 1)
   }
 
   /**

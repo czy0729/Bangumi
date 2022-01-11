@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 02:35:44
+ * @Last Modified time: 2022-01-11 08:29:52
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep } from '@utils'
-import { HTMLDecode, removeHTMLTag } from '@utils/html'
+import { HTMLDecode } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/cn-char'
 import hash from '@utils/thirdParty/hash'
@@ -136,6 +136,14 @@ export function hackFixedHTMLTags(html) {
   return HTMLDecode(_html).replace(regs.whiteTags, '&lt;')
 }
 
+function removeHTMLTag(str) {
+  return String(str)
+    .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
+    .replace(/[ | ]*\n/g, '\n') // 去除行尾空白
+    .replace(/\n[\s| | ]*\r/g, '\n') // 去除多余空行
+  // .replace(/ /gi, '') // 去掉
+}
+
 /**
  * 匹配bgm部分页面链接, 把这些链接变成Media块, 与行内文字独立
  * @param {*} html
@@ -168,6 +176,7 @@ export function hackMatchMediaLink(html) {
   // [实验性] 文字猜测条目并替换成链接
   if (acSearchSetting) {
     const htmlNoTags = _html.replace(regs.quote, '').replace(regs.a, '')
+
     const acData = acSearch(removeHTMLTag(htmlNoTags))
     if (acData.length) {
       acData.forEach((item, index) => {
@@ -248,14 +257,20 @@ const cache = {}
 let trie
 export function acSearch(str) {
   if (!trie) {
-    trie = new lazyac(Object.keys(substrings), {
-      allowDuplicates: false
-    })
+    trie = new lazyac(
+      // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
+      Object.keys(substrings),
+      {
+        allowDuplicates: false
+      }
+    )
   }
 
   const _hash = hash(str)
   if (cache[_hash]) return cache[_hash]
 
   cache[_hash] = trie.search(str).sort((a, b) => b.length - a.length)
+  // .map(item => item.replace(/&nbsp/g, ' '))
+  // console.log(cache[_hash], str.replace(/ /g, '&nbsp'))
   return cache[_hash]
 }

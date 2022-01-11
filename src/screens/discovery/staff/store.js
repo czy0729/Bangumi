@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 19:54:20
+ * @Last Modified time: 2022-01-11 04:31:14
  */
 import { observable, computed } from 'mobx'
 import { usersStore, discoveryStore } from '@stores'
@@ -34,9 +34,7 @@ export default class ScreenStaff extends store {
     const { page } = this.state
     const { key } = tabs[page]
     const { _loaded } = this.catalogs(key)
-    if (!_loaded) {
-      return this.fetchCatalogs(key, true)
-    }
+    if (!_loaded) return this.fetchCatalogs(key, true)
     return true
   }
 
@@ -58,9 +56,7 @@ export default class ScreenStaff extends store {
 
   fetchCatalogDetail = async id => {
     const { _loaded } = discoveryStore.catalogDetail(id)
-    if (_loaded) {
-      return true
-    }
+    if (_loaded) return true
 
     return discoveryStore.fetchCatalogDetail({
       id

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 15:39:48
+ * @Last Modified time: 2022-01-11 06:35:19
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -52,7 +52,7 @@ export default class ScreenGuess extends store {
 
   // -------------------- page --------------------
   getList = async (refresh = true) => {
-    if (refresh) await collectionStore.fetchUserCollectionsQueue(true)
+    if (refresh) await collectionStore.fetchUserCollectionsQueue(true, '动画', true)
 
     setTimeout(() => {
       const { like } = this.state
