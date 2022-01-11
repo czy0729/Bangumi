@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 03:01:13
+ * @Last Modified time: 2022-01-11 10:49:48
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -46,7 +46,8 @@ function TabWrap({ length }, { $ }) {
     }
 
     return SceneMap(routes)
-  }, [styles, length])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [length])
 
   return <Tab routes={$.tabs} renderScene={renderScene} />
 }

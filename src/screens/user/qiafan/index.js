@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 14:00:47
+ * @Last Modified time: 2022-01-11 09:53:32
  */
 import React from 'react'
 import { ScrollView, Flex, Text, Image } from '@components'
@@ -56,10 +56,13 @@ class Qiafan extends React.Component {
               支持下面方式
             </Text>
             <Text style={styles.mv20} align='center' type='sub'>
-              (投食前可以的话备注一下bgm的id, 以后若有新的高级功能,
-              会第一时间为投食用户开放!)
+              (投食前可以的话备注一下bgm的id，备注这个
+              <Text type='main' bold>
+                {userStore.myUserId}
+              </Text>
+              ， 以后若有新的高级功能，会第一时间为投食用户开放!)
             </Text>
-            <Flex style={styles.mt200} justify='center'>
+            <Flex style={styles.mt160} justify='center'>
               <Image
                 size={240}
                 height={274}
@@ -70,7 +73,7 @@ class Qiafan extends React.Component {
             <Text style={styles.mt120} align='center' type='sub'>
               (上面是支付宝)
             </Text>
-            <Text style={styles.mt80} align='center' type='sub'>
+            <Text style={styles.mt120} align='center' type='sub'>
               (下面是微信)
             </Text>
             <Flex style={styles.mt120} justify='center'>
@@ -95,8 +98,8 @@ const styles = _.create({
     marginTop: 120,
     marginBottom: 20
   },
-  mt200: {
-    marginTop: 200
+  mt160: {
+    marginTop: 160
   },
   mv20: {
     marginVertical: 20

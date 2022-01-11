@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:42:08
+ * @Last Modified time: 2022-01-11 10:51:39
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -63,14 +63,14 @@ const SortMenu = memo(
       onToggle()
       setTimeout(() => {
         setMenu(discoveryMenu)
-      }, 0)
+      }, 80)
     }, [discoveryMenu, onToggle])
 
     const onSave = useCallback(() => {
       onSubmit(menu)
       setTimeout(() => {
         onToggle()
-      }, 0)
+      }, 80)
     }, [menu, onSubmit, onToggle])
 
     const btns = useMemo(

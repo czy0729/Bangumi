@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:01:10
+ * @Last Modified time: 2022-01-11 09:58:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,7 +60,9 @@ const Item = memo(
     return (
       <View style={[_.container.item, styles.container, isReaded && styles.readed]}>
         <Flex align='start'>
-          <Avatar avatar={avatar} userName={userName} userId={userId} />
+          <View style={styles.avatar}>
+            <Avatar avatar={avatar} userName={userName} userId={userId} />
+          </View>
           <Flex.Item style={styles.wrap}>
             <Flex align='start'>
               <Flex.Item>
@@ -210,6 +212,9 @@ const memoStyles = _.memoStyles(() => ({
   },
   readed: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
+  },
+  avatar: {
+    marginTop: 1
   },
   wrap: {
     paddingRight: _.wind - _._wind

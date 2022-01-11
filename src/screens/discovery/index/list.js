@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:16:34
+ * @Last Modified time: 2022-01-11 10:55:04
  */
 import React from 'react'
 import { HorizontalList } from '@components'
@@ -37,7 +37,6 @@ const List = memo(({ styles, style, type, list, friendsChannel, friendsMap }) =>
 
   const data = dataCache[type] || list.sort(() => 0.5 - Math.random()) || []
   if (!dataCache[type] && data.length) dataCache[type] = data
-
   const title = MODEL_SUBJECT_TYPE.getTitle(type)
   return (
     <>

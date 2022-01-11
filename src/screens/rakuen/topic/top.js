@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:18:31
+ * @Last Modified time: 2022-01-11 10:34:01
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,7 @@ import { HOST, IOS } from '@constants'
 import Content from './content'
 import Ep from './ep'
 import SectionTitle from './section-title'
+import Milestone from './milestone'
 
 const defaultProps = {
   navigation: {},
@@ -97,6 +98,7 @@ const Top = memo(
       <>
         {!IOS && <HeaderPlaceholder />}
         <View style={_.container.inner}>
+          <Milestone />
           <Text type='title' size={20} bold>
             {title}
             {!!replies && (
