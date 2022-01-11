@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.6.4" src="https://img.shields.io/badge/Version-5.6.4-0366d6" />
+  <img alt="Version: 5.7.0" src="https://img.shields.io/badge/Version-5.7.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -52,17 +52,20 @@ Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互�
 
 ## Recently Update
 
-v5.6.4 - 2021/12/31
+v5.7.0 - 2022/01/11
 
 —— 优化 ——
 
-- [x] [标签] 支持搜索
-- [x] [iOS] 弹出菜单使用仿原生的 context-menu (实验性)
-- [x] 改善进入 APP 首屏点击响应时间
+- [x] [帖子] 留言中远程图片支持显示图片后缀和大小
+- [x] [人物] 正文和留言楼层都支持翻译
+- [x] [资讯] 完善功能 (发现菜单中进入)
+- [x] 部分页面年份下拉增加 2022 年
 
 —— 修复 ——
 
-- [x] [安卓] 结合新旧逻辑共同判断设备是否平板
+- [x] [条目] 修复正版单集播放源头失效的问题
+- [x] [章节] 修复了翻译功能缺失的问题
+- [x] 修复了上个版本部分页面布局错乱的问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
@@ -170,4 +173,3 @@ react-native run-android // [android] 真机 usb 调试
 觉得 APP 好用的
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" style="vertical-align: top" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" style="vertical-align: top" />
-
