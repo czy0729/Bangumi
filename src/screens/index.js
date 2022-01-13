@@ -2,19 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 01:40:40
+ * @Last Modified time: 2022-01-13 05:54:43
  */
-// Dev
-// export { default as Auth } from './login/auth'
-// export { default as Discovery } from './discovery/index'
-// export { default as Timeline } from './timeline/v2'
-// export { default as Home } from './home/v2'
-// export { default as Rakuen } from './rakuen/v2'
-// export { default as User } from './user/v2'
-// export { default as Subject } from './home/subject'
-// export { default as Staff } from './discovery/staff'
-// export { default as CatalogDetail } from './discovery/catalog-detail'
-
 // Login
 export { default as Auth } from './login/auth'
 export { default as Login } from './login/index'
