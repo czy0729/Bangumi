@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 23:27:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 10:55:03
+ * @Last Modified time: 2022-01-14 17:32:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,22 +58,25 @@ export default obc((props, { $ }) => {
   return <Today styles={memoStyles()} todayBangumi={$.todayBangumi} />
 })
 
-const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingTop: _.space + 4,
-    paddingRight: _.windSm - _._wind,
-    paddingLeft: _.windSm
-  },
-  split: {
-    marginRight: _._wind - _.sm,
-    marginLeft: -_.sm
-  },
-  line: {
-    width: 2,
-    height: 2,
-    marginVertical: _.xs,
-    backgroundColor: _.colorIcon,
-    borderRadius: 2,
-    overflow: 'hidden'
+const memoStyles = _.memoStyles(() => {
+  const margin = _.device(_._wind, _.md)
+  return {
+    contentContainerStyle: {
+      paddingTop: _.space + 4,
+      paddingRight: _.windSm - _._wind,
+      paddingLeft: _.windSm
+    },
+    split: {
+      marginRight: margin - _.sm,
+      marginLeft: -_.sm
+    },
+    line: {
+      width: 2,
+      height: 2,
+      marginVertical: _.xs,
+      backgroundColor: _.colorIcon,
+      borderRadius: 2,
+      overflow: 'hidden'
+    }
   }
-}))
+})

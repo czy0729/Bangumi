@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:06:59
+ * @Last Modified time: 2022-01-14 17:05:46
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
@@ -16,35 +17,36 @@ const imgHeight = 48 * _.ratio
 function Item({ id, cover, name, num }, { navigation }) {
   const styles = memoStyles()
   return (
-    <Touchable
-      style={styles.container}
-      onPress={() => {
-        t('我的小组.跳转', {
-          groupId: id
-        })
+    <View style={styles.container}>
+      <Touchable
+        onPress={() => {
+          t('我的小组.跳转', {
+            groupId: id
+          })
 
-        navigation.push('Group', {
-          groupId: id
-        })
-      }}
-    >
-      <Flex align='start'>
-        <Cover size={imgHeight} src={cover} border radius shadow />
-        <Flex.Item style={_.ml.sm}>
-          <Flex style={styles.body} direction='column' align='start' justify='center'>
-            <Text size={12} numberOfLines={2} bold>
-              {name}
-            </Text>
-            <Text style={_.mt.xs} type='sub' size={10}>
-              <Text type='sub' size={10} bold>
-                {num}
-              </Text>{' '}
-              位成员
-            </Text>
-          </Flex>
-        </Flex.Item>
-      </Flex>
-    </Touchable>
+          navigation.push('Group', {
+            groupId: id
+          })
+        }}
+      >
+        <Flex align='start'>
+          <Cover size={imgHeight} src={cover} border radius shadow />
+          <Flex.Item style={_.ml.sm}>
+            <Flex style={styles.body} direction='column' align='start' justify='center'>
+              <Text size={12} numberOfLines={2} bold>
+                {name}
+              </Text>
+              <Text style={_.mt.xs} type='sub' size={10}>
+                <Text type='sub' size={10} bold>
+                  {num}
+                </Text>{' '}
+                位成员
+              </Text>
+            </Flex>
+          </Flex.Item>
+        </Flex>
+      </Touchable>
+    </View>
   )
 }
 
@@ -52,8 +54,9 @@ export default obc(Item)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    width: _.isLandscape ? '33%' : '50%',
-    padding: _.sm,
+    width: _.isLandscape ? '50%' : '100%',
+    paddingVertical: _.sm + 4,
+    paddingHorizontal: _.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },

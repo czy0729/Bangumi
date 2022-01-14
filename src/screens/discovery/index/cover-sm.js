@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 07:04:57
+ * @Last Modified time: 2022-01-14 17:34:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -66,7 +66,7 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
 export default obc(CoverSm)
 
 const memoStyles = _.memoStyles(() => {
-  const width = _.windowSm.contentWidth * _.device(0.34, 0.4)
+  const width = _.windowSm.contentWidth * _.device(0.34, 0.42)
   return {
     item: {
       marginRight: _._wind + 2,

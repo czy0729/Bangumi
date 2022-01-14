@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 09:05:37
+ * @Last Modified time: 2022-01-14 17:43:06
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -375,7 +375,7 @@ const memoStyles = _.memoStyles(() => ({
     height: _.parallaxImageHeight + 8
   },
   head: {
-    marginTop: (_.parallaxImageHeight - 120) / 2
+    marginTop: _.device((_.parallaxImageHeight - 120) / 2, 80)
   }
 }))
 

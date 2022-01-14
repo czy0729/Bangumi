@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:32:45
+ * @Last Modified time: 2022-01-14 17:32:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,10 +83,11 @@ function CoverToday({ data }, { navigation }) {
 export default obc(CoverToday)
 
 const memoStyles = _.memoStyles(() => {
-  const width = _.windowSm.contentWidth * _.device(0.26, 0.4)
+  const width = _.windowSm.contentWidth * _.device(0.26, 0.298)
+  const margin = _.device(_._wind, _.md)
   return {
     item: {
-      marginRight: _._wind,
+      marginRight: margin,
       backgroundColor: _.colorBg,
       borderRadius: _.radiusSm,
       overflow: 'hidden'

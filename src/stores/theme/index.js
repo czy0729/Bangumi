@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 11:43:42
+ * @Last Modified time: 2022-01-14 18:52:06
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -31,6 +31,10 @@ class Theme extends store {
       if (!(key in this)) this[key] = _[key]
     })
   }
+
+  absoluteFill = StyleSheet.absoluteFill
+  create = style => StyleSheet.create(style)
+  flatten = style => StyleSheet.flatten(style)
 
   state = observable({
     mode: DEFAULT_MODE,
@@ -80,8 +84,6 @@ class Theme extends store {
 
     return true
   }
-
-  create = style => StyleSheet.create(style)
 
   // -------------------- layout styles --------------------
   @computed get isPad() {

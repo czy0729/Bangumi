@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:34:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 14:46:45
+ * @Last Modified time: 2022-01-14 18:09:31
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -127,7 +127,14 @@ const Main = memo(
     if (!pages.length) return null
 
     const mounted = width !== 0
-    const _style = mounted ? style : undefined
+    const _style = mounted
+      ? [
+          style,
+          {
+            marginRight: -btnStyle.margin
+          }
+        ]
+      : undefined
     const _onLayout = layoutWidth ? undefined : onLayout
     if (pagination) {
       return (

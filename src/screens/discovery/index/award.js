@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:00:09
+ * @Last Modified time: 2022-01-14 17:33:31
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -120,7 +120,7 @@ function Award(props, { navigation }) {
 export default obc(Award)
 
 const memoStyles = _.memoStyles(() => {
-  const width = _.device(128, 160)
+  const width = _.device(128, 164)
   const widthLg = width * 2 + 16
   return {
     container: {

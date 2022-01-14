@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 09:00:26
+ * @Last Modified time: 2022-01-14 17:40:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -153,7 +153,7 @@ export default obc(Head)
 const rStyle = (top, left) => ({
   position: 'absolute',
   zIndex: 1,
-  top: (top - _.xs) * _.ratio,
+  top: (top - _.xs) * _.ratio + _.device(0, 4),
   left: (left - _.sm) * _.ratio,
   paddingVertical: _.xs,
   paddingHorizontal: _.sm,

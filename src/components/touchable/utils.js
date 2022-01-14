@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 12:06:11
+ * @Last Modified time: 2022-01-14 18:52:15
  */
-import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
 
 export const defaultHitSlop = {
@@ -14,9 +13,9 @@ export const defaultHitSlop = {
   left: _.device(2, 4)
 }
 
-export const styles = StyleSheet.create({
+export const styles = _.create({
   touchable: {
-    ...StyleSheet.absoluteFill,
+    ..._.absoluteFill,
     zIndex: 1
   }
 })
@@ -58,6 +57,8 @@ export function separateStyles(styles) {
     marginLeft,
     marginHorizontal,
     marginVertical,
+    borderWidth,
+    borderColor,
     borderRadius,
     borderTopLeftRadius,
     borderTopRightRadius,
@@ -65,7 +66,7 @@ export function separateStyles(styles) {
     borderBottomRightRadius,
     overflow,
     ...style
-  } = StyleSheet.flatten(styles) || {}
+  } = _.flatten(styles) || {}
   const _style = {
     ...style
   }
@@ -82,6 +83,8 @@ export function separateStyles(styles) {
       marginLeft,
       marginHorizontal,
       marginVertical,
+      borderWidth,
+      borderColor,
       borderRadius,
       borderTopLeftRadius,
       borderTopRightRadius,
