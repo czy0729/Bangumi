@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 19:14:34
+ * @Last Modified time: 2022-01-19 14:54:48
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -565,4 +565,39 @@ function safe(data) {
     Object.keys(data).forEach(k => (data[k] = safe(data[k])))
   }
   return data === null ? '' : data
+}
+
+export function ping(url, headers = {}) {
+  return new Promise(resolve => {
+    const start = new Date().getTime()
+    const xhr = new XMLHttpRequest()
+    const cb = function (res) {
+      // 有数据就马上返回
+      if (res?._response.length > 10) {
+        resolve(new Date().getTime() - start)
+        return xhr.abort()
+      }
+
+      if (res?.readyState === 4 && res?.responseHeaders?.['Content-Length']) {
+        resolve(new Date().getTime() - start)
+        return xhr.abort()
+      }
+    }
+
+    xhr.onreadystatechange = function () {
+      return cb(this)
+    }
+    xhr.onerror = () => resolve(0)
+    xhr.ontimeout = () => resolve(0)
+
+    xhr.open('GET', url, true)
+    xhr.withCredentials = false
+    Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]))
+    xhr.send()
+
+    setTimeout(() => {
+      resolve(0)
+      return xhr.abort()
+    }, 3000)
+  })
 }

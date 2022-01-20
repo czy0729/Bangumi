@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:54:35
+ * @Last Modified time: 2022-01-19 14:49:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, Button, Activity, Heatmap } from '@components'
 import { _ } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { t, ping } from '@utils/fetch'
 import {
   HOST_MANGA,
   HOST_ANITAMA,
@@ -392,33 +392,3 @@ const memoStyles = _.memoStyles(() => ({
     width: '100%'
   }
 }))
-
-function ping(url, headers = {}) {
-  return new Promise(resolve => {
-    const start = new Date().getTime()
-    const xhr = new XMLHttpRequest()
-    const cb = function (response) {
-      // 有数据就马上返回
-      if (response.length > 10) {
-        resolve(new Date().getTime() - start)
-        return xhr.abort()
-      }
-    }
-
-    xhr.onreadystatechange = function () {
-      return cb(this._response)
-    }
-    xhr.onerror = () => resolve(0)
-    xhr.ontimeout = () => resolve(0)
-
-    xhr.open('GET', url, true)
-    xhr.withCredentials = false
-    Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]))
-    xhr.send()
-
-    setTimeout(() => {
-      resolve(0)
-      return xhr.abort()
-    }, 5000)
-  })
-}

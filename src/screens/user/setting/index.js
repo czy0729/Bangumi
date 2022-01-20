@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 07:50:03
+ * @Last Modified time: 2022-01-20 12:01:05
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -15,11 +15,10 @@ import {
   Iconfont,
   SwitchPro,
   SegmentedControl,
-  Heatmap,
-  ActionSheet
+  Heatmap
 } from '@components'
 import { Popover, ItemSetting, IconTouchable, NavigationBarEvents } from '@screens/_'
-import Stores, { _, userStore, systemStore, rakuenStore, themeStore } from '@stores'
+import Stores, { _, userStore, systemStore, rakuenStore } from '@stores'
 import { toFixed, setStorage, open } from '@utils'
 import { withHeader, ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
@@ -27,7 +26,6 @@ import { t } from '@utils/fetch'
 import { confirm, info, loading, feedback } from '@utils/ui'
 import {
   IOS,
-  IS_BEFORE_ANDROID_10,
   URL_FEEDBACK,
   GITHUB_PROJECT,
   GITHUB_RELEASE,
@@ -44,12 +42,15 @@ import {
   MODEL_SETTING_SYNC,
   MODEL_SETTING_USER_GRID_NUM
 } from '@constants/model'
+import Split from './split'
 import Type from './type'
-// import Theme from './theme'
+import Theme from './theme'
+import CDN from './cdn'
+import Tinygrail from './tinygrail'
+import Katakana from './katakana'
 
 const title = '设置'
 const namespace = 'Setting'
-const tinygrailModeDS = ['绿涨红跌', '红涨绿跌']
 const homeLayoutDS = MODEL_SETTING_HOME_LAYOUT.data.map(({ label }) => label)
 const homeSortDS = MODEL_SETTING_HOME_SORTING.data.map(({ label }) => label)
 const userGridNumDS = MODEL_SETTING_USER_GRID_NUM.data.map(({ label }) => label)
@@ -337,219 +338,6 @@ class Setting extends React.Component {
           }}
         />
       </ItemSetting>
-    )
-  }
-
-  renderModule() {
-    const { module: _module } = this.state
-    const { cdn, deepDark, tinygrail, katakana, autoColorScheme } = systemStore.setting
-    return (
-      <>
-        {_module && (
-          <>
-            <ItemSetting
-              hd='黑暗模式'
-              ft={
-                <SwitchPro
-                  style={this.styles.switch}
-                  value={_.isDark}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '黑暗模式',
-                      checked: !_.isDark
-                    })
-
-                    _.toggleMode()
-                    setTimeout(() => {
-                      this.setParams()
-                    }, 0)
-                  }}
-                />
-              }
-              information='点击顶部Logo可快速切换，长按则前往设置'
-            >
-              <Heatmap
-                id='设置.切换'
-                data={{
-                  title: '黑暗模式'
-                }}
-              />
-            </ItemSetting>
-            <ItemSetting
-              show={!this.simple && _.isDark}
-              hd='纯黑'
-              ft={
-                <SwitchPro
-                  style={this.styles.switch}
-                  value={deepDark}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '纯黑',
-                      checked: !deepDark
-                    })
-
-                    systemStore.switchSetting('deepDark')
-                    themeStore.toggleMode('dark')
-                    setTimeout(() => {
-                      this.setParams()
-                    }, 0)
-                  }}
-                />
-              }
-              information='AMOLED屏幕纯黑更省电'
-            >
-              <Heatmap
-                id='设置.切换'
-                data={{
-                  title: '纯黑'
-                }}
-              />
-            </ItemSetting>
-            <ItemSetting
-              show={!IS_BEFORE_ANDROID_10}
-              hd='跟随系统'
-              ft={
-                <SwitchPro
-                  style={this.styles.switch}
-                  value={autoColorScheme}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '跟随系统',
-                      checked: !autoColorScheme
-                    })
-
-                    systemStore.switchSetting('autoColorScheme')
-                  }}
-                />
-              }
-              information='启动时黑暗模式是否跟随系统'
-            >
-              <Heatmap
-                id='设置.切换'
-                data={{
-                  title: '跟随系统'
-                }}
-              />
-            </ItemSetting>
-            <ItemSetting
-              show={!this.simple}
-              hd='CDN加速'
-              ft={
-                <SwitchPro
-                  style={this.styles.switch}
-                  value={cdn}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: 'CDN加速',
-                      checked: !cdn
-                    })
-
-                    systemStore.switchSetting('cdn')
-                  }}
-                />
-              }
-              information='建议开启，针对静态数据使用CDN快照加速渲染'
-            >
-              <Heatmap
-                id='设置.切换'
-                data={{
-                  title: 'CDN加速'
-                }}
-              />
-            </ItemSetting>
-            <ItemSetting
-              show={!this.simple && !userStore.isLimit}
-              hd='小圣杯'
-              ft={
-                <SwitchPro
-                  style={this.styles.switch}
-                  value={tinygrail}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '小圣杯',
-                      checked: !tinygrail
-                    })
-                    systemStore.switchSetting('tinygrail')
-                  }}
-                />
-              }
-              information='人物卡片交易模块'
-            >
-              <Heatmap
-                id='设置.切换'
-                data={{
-                  title: '小圣杯'
-                }}
-              />
-            </ItemSetting>
-            <ItemSetting
-              show={!this.simple && !userStore.isLimit && tinygrail}
-              hd='涨跌色'
-              ft={
-                <SegmentedControl
-                  style={this.styles.segmentedControl}
-                  size={12}
-                  values={tinygrailModeDS}
-                  selectedIndex={_.isWeb ? 2 : _.isGreen ? 0 : 1}
-                  onValueChange={value => {
-                    if (
-                      (_.isGreen && value === tinygrailModeDS[0]) ||
-                      (!_.isGreen && value === tinygrailModeDS[1]) ||
-                      (_.isWeb && value === tinygrailModeDS[2])
-                    ) {
-                      return
-                    }
-
-                    t('设置.切换', {
-                      title: '小圣杯涨跌色',
-                      label: _.isWeb ? '网页一致' : _.isGreen ? '红涨绿跌' : '绿涨红跌'
-                    })
-
-                    if (value === tinygrailModeDS[2]) {
-                      _.toggleTinygrailMode('web')
-                      return
-                    }
-                    _.toggleTinygrailMode()
-                  }}
-                />
-              }
-            >
-              <Heatmap
-                id='设置.切换'
-                data={{
-                  title: '小圣杯涨跌色'
-                }}
-              />
-            </ItemSetting>
-            <ItemSetting
-              show={!this.simple}
-              hd='[实验性] 片假名终结者'
-              ft={
-                <SwitchPro
-                  style={this.styles.switch}
-                  value={katakana}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '片假名终结者',
-                      checked: !katakana
-                    })
-
-                    systemStore.switchSetting('katakana')
-                  }}
-                />
-              }
-              information='在日语外来语上方标注英文原词，开启后资源消耗增大，非必要请勿开启'
-            >
-              <Heatmap
-                id='设置.切换'
-                data={{
-                  title: '片假名终结者'
-                }}
-              />
-            </ItemSetting>
-          </>
-        )}
-      </>
     )
   }
 
@@ -1204,7 +992,7 @@ class Setting extends React.Component {
             }}
           />
         </ItemSetting>
-        <View style={this.styles.split} />
+        <Split />
       </>
     )
   }
@@ -1441,7 +1229,7 @@ class Setting extends React.Component {
     const { initialPage } = systemStore.setting
     return (
       <>
-        <View style={this.styles.split} />
+        <Split />
         <ItemSetting
           show={!userStore.isLimit}
           hd='启动页'
@@ -1572,6 +1360,7 @@ class Setting extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props
     return (
       <>
         <ScrollView
@@ -1599,23 +1388,25 @@ class Setting extends React.Component {
           />
           {this.renderUser()}
           {this.renderRakuen()}
-          <View style={this.styles.split} />
-          {this.renderModule()}
-          <View style={this.styles.split} />
+          <Split />
+          <Theme navigation={navigation} />
+          <CDN navigation={navigation} />
+          <Tinygrail navigation={navigation} />
+          <Katakana navigation={navigation} />
+          <Split />
           {this.renderBasic()}
-          <View style={this.styles.split} />
+          <Split />
           {this.renderUI()}
           {this.renderRoutes()}
-          <View style={this.styles.split} />
+          <Split />
           {this.renderHome()}
-          <View style={this.styles.split} />
+          <Split />
           {this.renderMe()}
           {this.renderContact()}
-          <View style={this.styles.split} />
+          <Split />
           {this.renderSystem()}
           {this.renderDangerZone()}
         </ScrollView>
-        <ActionSheet />
       </>
     )
   }
@@ -1630,12 +1421,6 @@ const memoStyles = _.memoStyles(() => ({
     paddingTop: _.md,
     paddingHorizontal: _.wind,
     paddingBottom: _.sm
-  },
-  split: {
-    marginTop: _.md,
-    marginBottom: _.sm,
-    borderTopWidth: 16,
-    borderColor: _.colorBorder
   },
   segmentedControl: {
     height: 28 * _.ratio,

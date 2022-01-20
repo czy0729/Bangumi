@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:06:06
+ * @Last Modified time: 2022-01-20 13:03:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { ob } from '@utils/decorators'
 import { HOST_CDN } from '@constants/cdn'
 
 export const Cover = ob(
-  ({ style, src, size, height, noDefault, type, textOnly, ...other }) => {
+  ({ style, src, size, height, noDefault, type, cdn = true, textOnly, ...other }) => {
     const styles = memoStyles()
     if (textOnly) {
       const w = other.width || size
@@ -38,7 +38,7 @@ export const Cover = ob(
     }
 
     const { hashSubjectOTALoaded, dev } = systemStore.state
-    const _src = matchCoverUrl(src, noDefault)
+    const _src = cdn ? matchCoverUrl(src, noDefault) : src
     const imageStyle = [
       style,
       dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev

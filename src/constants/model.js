@@ -543,6 +543,17 @@ export const MODEL_SETTING_SYNC = new Model([
   }
 ])
 
+export const MODEL_SETTING_CDN_ORIGIN = new Model([
+  {
+    label: 'jsDelivr',
+    value: 'jsDelivr'
+  },
+  {
+    label: 'OneDrive',
+    value: 'OneDrive'
+  }
+])
+
 // 超展开设置 - 切页动画
 export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
   {

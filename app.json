@@ -19,6 +19,11 @@
     "orientation": "portrait",
     "scheme": "bangumi",
     "icon": "./src/assets/images/icon.png",
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "updates": {
       "enabled": false,
       "fallbackToCacheTimeout": 0

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 07:50:10
+ * @Last Modified time: 2022-01-19 07:47:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,7 @@ export const ItemSetting = ob(
           )}
         </Flex>
         <Flex>
-          {information && (
+          {!!information && (
             <Text style={styles.information} type={informationType} size={12}>
               {information}
             </Text>
@@ -89,8 +89,7 @@ export const ItemSetting = ob(
 
 const memoStyles = _.memoStyles(() => ({
   touchable: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
+    paddingLeft: _.wind
   },
   item: {
     paddingVertical: 12,

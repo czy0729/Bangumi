@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 01:43:23
+ * @Last Modified time: 2022-01-20 12:24:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,12 +24,16 @@ import { Text } from './text'
 
 const namespace = 'ComponentKatakana'
 const cacheKey = `${namespace}|cache`
-let cache = {}
+let cache = {
+  マギカ: 'Magica'
+}
 let inited = false
 
 ;(async () => {
   try {
-    cache = (await getStorage(cacheKey)) || {}
+    cache = (await getStorage(cacheKey)) || {
+      マギカ: 'Magica'
+    }
   } catch (error) {
     //
   } finally {
@@ -119,16 +123,19 @@ const Provider = observer(
   class extends React.Component {
     static defaultProps = {
       itemStyle: undefined, // 所有katakana的样式
-      itemSecondStyle: undefined // 非第一行katakana的样式
+      itemSecondStyle: undefined, // 非第一行katakana的样式
+      active: false // props可强制启动
     }
 
     static childContextTypes = {
+      active: PropTypes.bool,
       lineHeightIncrease: PropTypes.number, // 用于往嵌套Text传递需要增大行高的标记
       onKatakana: PropTypes.func //  接受到匹配到片假名
     }
 
     getChildContext() {
       return {
+        active: this.props.active,
         lineHeightIncrease: this.lineHeightIncrease,
         onKatakana: this.onKatakana
       }
@@ -266,7 +273,8 @@ const Provider = observer(
 
     get isOn() {
       const { katakana } = systemStore.setting
-      return katakana
+      const { active } = this.props
+      return katakana || active
     }
 
     /**
@@ -362,6 +370,7 @@ const Provider = observer(
 const Katakana = observer(
   class extends React.Component {
     static contextTypes = {
+      active: PropTypes.bool,
       onKatakana: PropTypes.func
     }
 
@@ -423,7 +432,8 @@ const Katakana = observer(
 
     get isOn() {
       const { katakana } = systemStore.setting
-      return katakana
+      const { active } = this.context
+      return katakana || active
     }
 
     render() {

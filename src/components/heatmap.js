@@ -19,19 +19,21 @@ import { Text } from './text'
 const totalWithoutView = heatmapData.total - heatmapData['其他.查看']
 
 const Heatmap = observer(
-  ({ right = 1, bottom = 1, transparent, id = '', data = {}, screen, mini }) => {
+  ({ right = 1, bottom = 1, transparent, id = '', data = {}, title, screen, mini }) => {
     const { enabled, grid, text, sum, mini: devEventMini } = systemStore.devEvent
-    if (!enabled || (!grid && !text && !sum && !devEventMini)) {
-      return null
-    }
+    if (!enabled || (!grid && !text && !sum && !devEventMini)) return null
 
     const styles = memoStyles()
     const isPage = !id.includes('.') // 是否页面
     const page = id.split('.')[0] // 页面名称
 
     // 额外参数
-    const key = Object.keys(data || {})[0] || ''
-    const value = data[key]
+    const _data = {
+      title,
+      ...data
+    }
+    const key = Object.keys(_data)[0] || ''
+    const value = _data[key]
 
     // 计算
     const count = key
@@ -81,7 +83,7 @@ const Heatmap = observer(
       : id.includes('跳转.')
       ? key
       : id.split('.')[1]
-    const eventDetail = value ? `.${data.alias || value}` : ''
+    const eventDetail = value ? `.${_data.alias || value}` : ''
     const eventCount = formatNumber(count / 30, count >= 30 || count === 0 ? 0 : 1)
     const eventAppPercent = count !== 0 ? ` / ${percent}%` : ''
     const eventPagePercent =

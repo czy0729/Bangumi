@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 09:13:21
+ * @Last Modified time: 2022-01-19 11:43:09
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -11,7 +11,8 @@ import {
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
-  MODEL_SETTING_USER_GRID_NUM
+  MODEL_SETTING_USER_GRID_NUM,
+  MODEL_SETTING_CDN_ORIGIN
 } from '@constants/model'
 
 export const NAMESPACE = 'System'
@@ -45,7 +46,15 @@ export const INIT_SETTING = {
   deepDark: true, // 黑暗模式是否纯黑
   simple: true, // 设置页面显示最基本的设置
   avatarRound: false, // 头像是否圆形
-  cdn: true, // CDN加速
+
+  // CDN加速
+  cdn: true,
+  cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr'),
+  cdnAvatar: true,
+  cdnSubject: true,
+  cdnRakuen: true,
+
+  //
   cnFirst: true, // 是否中文优先
   filter18x: false, // 屏蔽18x条目
   filterDefault: false, // 屏蔽默认头像用户相关信息
@@ -65,16 +74,20 @@ export const INIT_SETTING = {
   showGame: false, // 首页显示游戏分类
   xsbShort: true, // 小圣杯缩短资金数字显示
   source: false, // 回复是否显示来源
+
+  //
+  userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue('4'),
+  initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
+  quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
+  transition: MODEL_SETTING_TRANSITION.getValue('水平'), // 切页动画
+
+  // 收藏首页相关
   homeFilter: true, // 首页列表搜索框
   homeOrigin: false, // 首页条目显示搜索源头
   homeSortSink: true, // 首页已放送章节看完条目下沉
   homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'], // 首页Tabs项
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
-  userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue('4'),
-  initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
-  quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
-  transition: MODEL_SETTING_TRANSITION.getValue('水平'), // 切页动画
 
   // 发现自定义菜单
   discoveryMenu: [
@@ -99,6 +112,8 @@ export const INIT_SETTING = {
     'Catalogs',
     'Link'
   ],
+
+  // 条目页面布局
   ...INIT_SUBJECT_LAYOUT
 }
 
