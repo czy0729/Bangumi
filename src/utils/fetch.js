@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-19 14:54:48
+ * @Last Modified time: 2022-01-21 11:50:01
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -578,7 +578,10 @@ export function ping(url, headers = {}) {
         return xhr.abort()
       }
 
-      if (res?.readyState === 4 && res?.responseHeaders?.['Content-Length']) {
+      if (
+        res?.readyState === 4 &&
+        res?.responseHeaders?.[IOS ? 'Content-Length' : 'content-length']
+      ) {
         resolve(new Date().getTime() - start)
         return xhr.abort()
       }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-20 13:07:58
+ * @Last Modified time: 2022-01-21 17:03:56
  */
 import React, { useState, useCallback, useEffect } from 'react'
 import { ActionSheet, Flex, Text, SwitchPro, Heatmap } from '@components'
@@ -12,6 +12,7 @@ import { useObserver } from '@utils/hooks'
 import { t, ping } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { MODEL_SETTING_CDN_ORIGIN } from '@constants/model'
+import styles from './styles'
 
 const URL_LAIN = 'https://lain.bgm.tv/pic/cover/c/fa/1d/25833_kZIjD.jpg'
 const URL_JSDELIVR =
@@ -32,7 +33,7 @@ function CDN() {
       async function cb() {
         data.push(await ping(URL_LAIN))
         data.push(await ping(URL_JSDELIVR))
-        data.push(await ping(URL_ONEDRIVE))
+        if (systemStore.advance) data.push(await ping(URL_ONEDRIVE))
         setPings(data)
       }
       cb()
@@ -44,7 +45,7 @@ function CDN() {
     const origin = MODEL_SETTING_CDN_ORIGIN.getLabel(cdnOrigin)
     const label = []
     if (cdn) {
-      label.push(origin)
+      label.push('开启')
       if (!cdnAvatar) label.push('自定义规则')
     } else {
       label.push('关闭')
@@ -62,7 +63,7 @@ function CDN() {
           highlight
           onPress={setTrue}
         />
-        <ActionSheet height={580} show={show} onClose={setFalse}>
+        <ActionSheet height={560} show={show} onClose={setFalse}>
           <ItemSettingBlock
             style={_.mt.sm}
             title='封面加速'
@@ -127,14 +128,8 @@ function CDN() {
                 )
               }}
             />
-            <Heatmap
-              id='设置.切换'
-              data={{
-                title: 'CDN加速'
-              }}
-            />
+            <Heatmap id='设置.切换' title='CDN加速' />
           </ItemSettingBlock>
-
           <ItemSetting
             hd='头像加速'
             ft={
@@ -154,7 +149,6 @@ function CDN() {
             }
             information='其他用户头像使用清晰快照，但不会实时更新'
           />
-
           <ItemSettingBlock style={_.mt.md} title='测试样例'>
             {test ? (
               <>
@@ -168,8 +162,7 @@ function CDN() {
                       radius
                     />
                     <Text style={_.mt.xs} type='sub' size={10} align='center'>
-                      lain.bgm.tv{'\n'}
-                      {pings[0] || 0}ms
+                      lain.bgm.tv: {pings[0] || 0}ms
                     </Text>
                   </Flex>
                 </Flex.Item>
@@ -182,8 +175,7 @@ function CDN() {
                       radius
                     />
                     <Text style={_.mt.xs} type='sub' size={10} align='center'>
-                      jsDelivr{'\n'}
-                      {pings[1] || 0}ms
+                      jsDelivr: {pings[1] || 0}ms
                     </Text>
                   </Flex>
                 </Flex.Item>
@@ -196,8 +188,7 @@ function CDN() {
                       radius
                     />
                     <Text style={_.mt.xs} type='sub' size={10} align='center'>
-                      OneDrive{'\n'}
-                      {pings[2] || 0}ms
+                      OneDrive: {pings[2] || 0}ms
                     </Text>
                   </Flex>
                 </Flex.Item>
@@ -223,17 +214,3 @@ function CDN() {
 }
 
 export default CDN
-
-const styles = _.create({
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: _.device(0.8, 1.12)
-      }
-    ]
-  },
-  test: {
-    marginTop: -8
-  }
-})

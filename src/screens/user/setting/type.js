@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:03:52
+ * @Last Modified time: 2022-01-21 13:47:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,12 +31,7 @@ function Type() {
           systemStore.switchSetting('simple')
         }}
       />
-      <Heatmap
-        id='设置.切换'
-        data={{
-          title: '简单模式'
-        }}
-      />
+      <Heatmap id='设置.切换' title='简单模式' />
     </View>
   )
 }

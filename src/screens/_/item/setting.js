@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-19 07:47:45
+ * @Last Modified time: 2022-01-21 13:50:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,12 @@ export const ItemSetting = ob(
         </Flex>
         <Flex>
           {!!information && (
-            <Text style={styles.information} type={informationType} size={12}>
+            <Text
+              style={styles.information}
+              type={informationType}
+              size={12}
+              lineHeight={13}
+            >
               {information}
             </Text>
           )}
@@ -96,7 +101,6 @@ const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind
   },
   information: {
-    maxWidth: '86%',
-    marginTop: 2
+    maxWidth: '86%'
   }
 }))

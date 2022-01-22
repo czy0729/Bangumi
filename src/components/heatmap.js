@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:46:09
+ * @Last Modified time: 2022-01-21 16:59:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,20 @@ import { Text } from './text'
 const totalWithoutView = heatmapData.total - heatmapData['其他.查看']
 
 const Heatmap = observer(
-  ({ right = 1, bottom = 1, transparent, id = '', data = {}, title, screen, mini }) => {
+  ({
+    right = 1,
+    bottom = 1,
+    transparent,
+    id = '',
+    screen,
+    mini,
+
+    // @todo data里面通常都是title, to, alias, 后来避免rerender每次生成新Object, 把这些key都拆开单独传
+    data = {},
+    title,
+    to,
+    alias
+  }) => {
     const { enabled, grid, text, sum, mini: devEventMini } = systemStore.devEvent
     if (!enabled || (!grid && !text && !sum && !devEventMini)) return null
 
@@ -30,6 +43,8 @@ const Heatmap = observer(
     // 额外参数
     const _data = {
       title,
+      to,
+      alias,
       ...data
     }
     const key = Object.keys(_data)[0] || ''

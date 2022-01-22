@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-20 12:59:09
+ * @Last Modified time: 2022-01-21 18:46:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,6 +34,7 @@ const ItemSettingBlock = ob(
 ItemSettingBlock.Item = ob(
   ({
     style,
+    itemStyle,
     show = true,
     active = false,
     icon,
@@ -50,7 +51,12 @@ ItemSettingBlock.Item = ob(
     return (
       <Flex.Item style={style}>
         <Touchable style={[styles.touch, active && styles.active]} onPress={onPress}>
-          <Flex style={styles.body} direction='column' justify='center' align='center'>
+          <Flex
+            style={[styles.body, itemStyle]}
+            direction='column'
+            justify='center'
+            align='center'
+          >
             {!!icon && (
               <Iconfont
                 style={_.mb.sm}
@@ -97,7 +103,6 @@ const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorSuccess
   },
   body: {
-    minHeight: 96,
-    padding: _.xs
+    height: 88
   }
 }))

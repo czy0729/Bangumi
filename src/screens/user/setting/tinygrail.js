@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 15:14:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-20 12:02:14
+ * @Last Modified time: 2022-01-21 17:04:57
  */
 import React, { useState, useCallback } from 'react'
 import { ActionSheet, SegmentedControl, Text, SwitchPro, Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import styles from './styles'
 
 const tinygrailModeDS = ['绿涨红跌', '红涨绿跌']
 
@@ -20,15 +21,16 @@ function Tinygrail() {
 
   return useObserver(() => {
     const { tinygrail } = systemStore.setting
-    const label = [tinygrail ? '开启' : '关闭']
     return (
       <>
         <ItemSetting
           hd='小圣杯'
           ft={
-            <Text type='sub' size={15}>
-              {label.join('、')}
-            </Text>
+            tinygrail ? (
+              <Text type='sub' size={15}>
+                开启
+              </Text>
+            ) : null
           }
           arrow
           highlight
@@ -52,12 +54,7 @@ function Tinygrail() {
             }
             information='人物卡片交易模块'
           >
-            <Heatmap
-              id='设置.切换'
-              data={{
-                title: '小圣杯'
-              }}
-            />
+            <Heatmap id='设置.切换' title='小圣杯' />
           </ItemSetting>
           <ItemSetting
             hd='涨跌色'
@@ -90,12 +87,7 @@ function Tinygrail() {
               />
             }
           >
-            <Heatmap
-              id='设置.切换'
-              data={{
-                title: '小圣杯涨跌色'
-              }}
-            />
+            <Heatmap id='设置.切换' title='小圣杯涨跌色' />
           </ItemSetting>
         </ActionSheet>
       </>
@@ -104,18 +96,3 @@ function Tinygrail() {
 }
 
 export default Tinygrail
-
-const styles = _.create({
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: _.device(0.8, 1.12)
-      }
-    ]
-  },
-  segmentedControl: {
-    height: _.r(28),
-    width: _.r(164)
-  }
-})

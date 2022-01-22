@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 20:55:39
+ * @Last Modified time: 2022-01-21 11:57:20
  */
 import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
@@ -44,7 +44,9 @@ export default function App() {
 
   return (
     <SafeAreaProvider style={_.container.flex}>
-      <Provider theme={theme}>{createNavigator()}</Provider>
+      <Provider theme={theme} statusBarTranslucent>
+        {createNavigator()}
+      </Provider>
       <BackAndroid />
       <DeepLink />
       <AppCommon />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-20 11:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-20 13:00:06
+ * @Last Modified time: 2022-01-21 14:00:59
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ function Katakana() {
         <ItemSetting hd='翻译' arrow highlight onPress={setTrue}>
           <Heatmap id='设置.切换' title='片假名终结者' />
         </ItemSetting>
-        <ActionSheet show={show} height={440} onClose={setFalse}>
+        <ActionSheet show={show} onClose={setFalse}>
           <ItemSettingBlock style={_.mt.sm} title='翻译引擎'>
             <ItemSettingBlock.Item title='百度翻译' active onPress={() => {}} />
             <ItemSettingBlock.Item
@@ -57,8 +57,8 @@ function Katakana() {
                 onToggle()
               }}
             >
-              <Text style={_.mt.sm} type='sub' size={13} lineHeight={20} bold>
-                魔法少女まどか☆マギカ
+              <Text style={_.mt.sm} type='sub' size={12} lineHeight={20} bold>
+                例：魔法少女まどか☆マギカ
               </Text>
             </ItemSettingBlock.Item>
             <ItemSettingBlock.Item
@@ -71,9 +71,9 @@ function Katakana() {
               }}
             >
               <View style={_.mt.sm}>
-                <KText.Provider size={13} lineHeight={20} active>
-                  <KText type='sub' size={13} lineHeight={20} bold>
-                    魔法少女まどか☆マギカ
+                <KText.Provider size={12} lineHeight={20} active>
+                  <KText type='sub' size={12} lineHeight={20} bold>
+                    例：魔法少女まどか☆マギカ
                   </KText>
                 </KText.Provider>
               </View>

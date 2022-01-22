@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-20 13:03:34
+ * @Last Modified time: 2022-01-21 18:59:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,21 @@ import { ob } from '@utils/decorators'
 import { HOST_CDN } from '@constants/cdn'
 
 export const Cover = ob(
-  ({ style, src, size, height, noDefault, type, cdn = true, textOnly, ...other }) => {
+  ({
+    style,
+    containerStyle,
+    bodyStyle,
+    angleStyle,
+    src,
+    size,
+    height,
+    noDefault,
+    type,
+    useType = false,
+    cdn = true,
+    textOnly,
+    ...other
+  }) => {
     const styles = memoStyles()
     if (textOnly) {
       const w = other.width || size
@@ -45,7 +59,7 @@ export const Cover = ob(
     ]
 
     const { coverThings } = systemStore.setting
-    if (coverThings) {
+    if (coverThings || useType) {
       if (type === '音乐') {
         // 音乐为矩形唱片装, 长宽取短的
         const w = Math.min(size || 1000, other.width || 1000, height || 1000)
@@ -61,7 +75,8 @@ export const Cover = ob(
                 _style,
                 {
                   borderRadius: w / 2
-                }
+                },
+                angleStyle
               ]}
             />
             <View style={[styles.mask, _style]} />
@@ -110,11 +125,11 @@ export const Cover = ob(
         return (
           <Flex
             key={hashSubjectOTALoaded}
-            style={styles.game}
+            style={[styles.game, containerStyle]}
             direction='column'
             justify='center'
           >
-            <View style={styles.gameHead} />
+            <View style={[styles.gameHead, bodyStyle]} />
             <Image
               style={[imageStyle, styles.gameImage]}
               src={_src}
@@ -127,7 +142,7 @@ export const Cover = ob(
               shadow={false}
               border={false}
             />
-            <View style={styles.gameAngle} />
+            <View style={[styles.gameAngle, angleStyle]} />
           </Flex>
         )
       }

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-20 11:40:40
+ * @Last Modified time: 2022-01-21 21:11:25
  */
 import React, { useState, useEffect } from 'react'
 import { Animated, View } from 'react-native'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Portal } from './portal'
+import { ScrollView } from './scroll-view'
 import { Touchable } from './touchable'
 
 export const ActionSheet = ({ show = false, height = 400, onClose, children }) => {
@@ -75,7 +76,17 @@ export const ActionSheet = ({ show = false, height = 400, onClose, children }) =
               }
             ]}
           >
-            <View style={styles.body}>{children}</View>
+            <ScrollView
+              style={[
+                styles.body,
+                {
+                  height
+                }
+              ]}
+              contentContainerStyle={_.container.bottom}
+            >
+              {children}
+            </ScrollView>
           </Animated.View>
         </View>
       </Portal>

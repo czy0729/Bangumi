@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-20 11:40:24
+ * @Last Modified time: 2022-01-21 17:04:38
  */
 import React, { useState, useCallback } from 'react'
 import { ActionSheet, Text, SwitchPro, Heatmap } from '@components'
@@ -12,6 +12,7 @@ import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IS_BEFORE_ANDROID_10 } from '@constants'
 import Type from './type'
+import styles from './styles'
 
 function Theme({ navigation }) {
   const [show, setShow] = useState(false)
@@ -66,29 +67,6 @@ function Theme({ navigation }) {
               style={_.ml.md}
               icon='ios-moon'
               iconColor={_.colorYellow}
-              title='黑暗'
-              active={_.isDark && !deepDark}
-              onPress={async () => {
-                if (_.isDark && !deepDark) return
-
-                t('设置.切换', {
-                  title: '纯黑',
-                  checked: deepDark
-                })
-
-                if (deepDark) systemStore.switchSetting('deepDark')
-                _.toggleMode('dark')
-                setTimeout(() => {
-                  navigation.setParams({
-                    extra: <Type />
-                  })
-                }, 0)
-              }}
-            />
-            <ItemSettingBlock.Item
-              style={_.ml.md}
-              icon='ios-moon'
-              iconColor={_.colorYellow}
               title='纯黑'
               information='AMOLED屏幕更省电'
               active={_.isDark && deepDark}
@@ -108,19 +86,34 @@ function Theme({ navigation }) {
                   })
                 }, 0)
               }}
-            />
-            <Heatmap
-              id='设置.切换'
-              data={{
-                title: '黑暗模式'
+            >
+              <Heatmap id='设置.切换' title='黑暗模式' />
+            </ItemSettingBlock.Item>
+            <ItemSettingBlock.Item
+              style={_.ml.md}
+              icon='ios-moon'
+              iconColor={_.colorYellow}
+              title='黑暗'
+              active={_.isDark && !deepDark}
+              onPress={async () => {
+                if (_.isDark && !deepDark) return
+
+                t('设置.切换', {
+                  title: '纯黑',
+                  checked: deepDark
+                })
+
+                if (deepDark) systemStore.switchSetting('deepDark')
+                _.toggleMode('dark')
+                setTimeout(() => {
+                  navigation.setParams({
+                    extra: <Type />
+                  })
+                }, 0)
               }}
-            />
-            <Heatmap
-              id='设置.切换'
-              data={{
-                title: '纯黑'
-              }}
-            />
+            >
+              <Heatmap id='设置.切换' title='纯黑' />
+            </ItemSettingBlock.Item>
           </ItemSettingBlock>
           <ItemSetting
             show={!IS_BEFORE_ANDROID_10}
@@ -141,12 +134,7 @@ function Theme({ navigation }) {
             }
             information='启动App时黑白主题是否跟随系统'
           >
-            <Heatmap
-              id='设置.切换'
-              data={{
-                title: '跟随系统'
-              }}
-            />
+            <Heatmap id='设置.切换' title='跟随系统' />
           </ItemSetting>
         </ActionSheet>
       </>
@@ -155,14 +143,3 @@ function Theme({ navigation }) {
 }
 
 export default Theme
-
-const styles = _.create({
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: _.device(0.8, 1.12)
-      }
-    ]
-  }
-})
