@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-19 11:43:09
+ * @Last Modified time: 2022-01-22 23:53:54
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -14,6 +14,7 @@ import {
   MODEL_SETTING_USER_GRID_NUM,
   MODEL_SETTING_CDN_ORIGIN
 } from '@constants/model'
+import { radiusSm } from '@styles'
 
 export const NAMESPACE = 'System'
 
@@ -46,6 +47,7 @@ export const INIT_SETTING = {
   deepDark: true, // 黑暗模式是否纯黑
   simple: true, // 设置页面显示最基本的设置
   avatarRound: false, // 头像是否圆形
+  coverRadius: radiusSm, // 默认的封面圆角大小
 
   // CDN加速
   cdn: true,

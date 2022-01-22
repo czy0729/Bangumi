@@ -2,21 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-01-21 12:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 14:53:48
+ * @Last Modified time: 2022-01-22 22:18:04
  */
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { ActionSheet, Heatmap, SwitchPro, Flex, Text, Button } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import commonStyles from './styles'
 
 function Custom() {
-  const [show, setShow] = useState(false)
-  const setTrue = useCallback(() => setShow(true), [])
-  const setFalse = useCallback(() => setShow(false), [])
+  const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -24,8 +22,11 @@ function Custom() {
       systemStore.setting
     return (
       <>
+        {/* 定制 */}
         <ItemSetting hd='定制' arrow highlight onPress={setTrue} />
-        <ActionSheet show={show} height={640} onClose={setFalse}>
+
+        <ActionSheet show={state} height={640} onClose={setFalse}>
+          {/* 优先中文 */}
           <ItemSettingBlock
             style={_.mt.sm}
             title='优先中文'
@@ -76,6 +77,8 @@ function Custom() {
             </ItemSettingBlock.Item>
             <Heatmap id='设置.切换' title='优先中文' />
           </ItemSettingBlock>
+
+          {/* 章节讨论热力图 */}
           <ItemSettingBlock
             style={_.mt.sm}
             title='章节讨论热力图'
@@ -154,6 +157,8 @@ function Custom() {
             </ItemSettingBlock.Item>
             <Heatmap id='设置.切换' title='章节讨论热力图' />
           </ItemSettingBlock>
+
+          {/* 繁体 */}
           <ItemSetting
             hd='繁体'
             ft={
@@ -173,6 +178,8 @@ function Custom() {
           >
             <Heatmap id='设置.切换' title='繁体' />
           </ItemSetting>
+
+          {/* 隐藏评分 */}
           <ItemSetting
             hd='隐藏评分'
             ft={
@@ -192,6 +199,8 @@ function Custom() {
           >
             <Heatmap id='设置.切换' title='隐藏评分' />
           </ItemSetting>
+
+          {/* 屏蔽无头像用户相关信息 */}
           <ItemSetting
             hd='屏蔽无头像用户相关信息'
             ft={
@@ -211,6 +220,8 @@ function Custom() {
           >
             <Heatmap id='设置.切换' title='屏蔽默认头像用户相关信息' />
           </ItemSetting>
+
+          {/* 屏蔽敏感内容 */}
           <ItemSetting
             hd='屏蔽敏感内容'
             ft={

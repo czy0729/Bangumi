@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 11:36:42
+ * @Last Modified time: 2022-01-22 20:07:42
  */
 import React from 'react'
 import {
@@ -97,18 +97,17 @@ const withHeader =
             },
             headerStyle: IOS
               ? {
-                  fontSize: 14,
+                  fontSize: 15,
                   backgroundColor: _.colorPlain,
                   borderBottomColor: _.colorBorder,
-                  borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
+                  borderBottomWidth: _.select(_.hairlineWidth, 0),
                   ...(_params.headerStyle || headerStyle)
                 }
               : {
-                  fontSize: 14,
-                  // backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+                  fontSize: 15,
                   backgroundColor: _.colorPlain,
                   borderBottomColor: _.colorBorder,
-                  borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
+                  borderBottomWidth: _.select(_.hairlineWidth, 0),
                   elevation: 0,
                   ...defaultHeaderStyle,
                   ...(_params.headerStyle || headerStyle)
@@ -116,7 +115,7 @@ const withHeader =
             headerTitleStyle: {
               width: '100%',
               color: _.colorTitle,
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: 'normal',
               ...(_params.headerTitleStyle || headerTitleStyle)
             },
@@ -141,23 +140,17 @@ const withHeader =
         }
 
         componentDidMount() {
-          if (Array.isArray(hm)) {
-            utilsHM(...hm)
-          }
+          if (Array.isArray(hm)) utilsHM(...hm)
         }
 
         render() {
           const { navigation } = this.props
           let backgroundColor
-          if (!IOS && _.isDark) {
-            backgroundColor = _._colorPlainHex
-          }
+          if (!IOS && _.isDark) backgroundColor = _._colorPlainHex
 
           // withHeaderParams动态生成的params优先级最高
           let _params = {}
-          if (withHeaderParams) {
-            _params = withHeaderParams()
-          }
+          if (withHeaderParams) _params = withHeaderParams()
           const _statusBarEvents =
             _params.statusBarEvents === undefined
               ? statusBarEvents

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 15:27:16
+ * @Last Modified time: 2022-01-22 21:50:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,6 +38,7 @@ ItemSettingBlock.Item = ob(
     show = true,
     active = false,
     icon,
+    iconStyle,
     iconColor,
     title,
     information,
@@ -59,7 +60,7 @@ ItemSettingBlock.Item = ob(
           >
             {!!icon && (
               <Iconfont
-                style={_.mb.sm}
+                style={[_.mb.sm, iconStyle]}
                 name={icon}
                 color={iconColor || _.colorSub}
                 size={20}
@@ -73,7 +74,7 @@ ItemSettingBlock.Item = ob(
                 style={_.mt.xs}
                 type={informationType}
                 size={10}
-                lineHeight={12}
+                lineHeight={11}
                 align='center'
               >
                 {information}

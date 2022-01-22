@@ -2,41 +2,26 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 17:04:38
+ * @Last Modified time: 2022-01-22 22:55:20
  */
-import React, { useState, useCallback } from 'react'
-import { ActionSheet, Text, SwitchPro, Heatmap } from '@components'
+import React from 'react'
+import { ActionSheet, SwitchPro, Heatmap } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IS_BEFORE_ANDROID_10 } from '@constants'
-import Type from './type'
 import styles from './styles'
 
 function Theme({ navigation }) {
-  const [show, setShow] = useState(false)
-  const setTrue = useCallback(() => setShow(true), [])
-  const setFalse = useCallback(() => setShow(false), [])
+  const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => {
     const { deepDark, autoColorScheme } = systemStore.setting
-    const label = [_.isDark ? (deepDark ? '纯黑' : '黑暗') : '明亮']
-    if (autoColorScheme) label.push('跟随系统')
     return (
       <>
-        <ItemSetting
-          hd='主题'
-          ft={
-            <Text type='sub' size={15}>
-              {label.join('、')}
-            </Text>
-          }
-          arrow
-          highlight
-          onPress={setTrue}
-        />
-        <ActionSheet show={show} onClose={setFalse}>
+        <ItemSetting hd='主题' arrow highlight onPress={setTrue} />
+        <ActionSheet show={state} onClose={setFalse}>
           <ItemSettingBlock
             style={_.mt.sm}
             title='主题'
@@ -56,9 +41,11 @@ function Theme({ navigation }) {
                 })
 
                 _.toggleMode()
+
+                // 用于主动刷新头部颜色
                 setTimeout(() => {
                   navigation.setParams({
-                    extra: <Type />
+                    extra: null
                   })
                 }, 0)
               }}
@@ -82,7 +69,7 @@ function Theme({ navigation }) {
                 _.toggleMode('dark')
                 setTimeout(() => {
                   navigation.setParams({
-                    extra: <Type />
+                    extra: null
                   })
                 }, 0)
               }}
@@ -107,7 +94,7 @@ function Theme({ navigation }) {
                 _.toggleMode('dark')
                 setTimeout(() => {
                   navigation.setParams({
-                    extra: <Type />
+                    extra: null
                   })
                 }, 0)
               }}

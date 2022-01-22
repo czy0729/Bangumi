@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 18:59:39
+ * @Last Modified time: 2022-01-22 23:22:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,8 @@ export const Cover = ob(
         const w = Math.min(size || 1000, other.width || 1000, height || 1000)
         const _style = {
           width: w,
-          height: w
+          height: w,
+          borderRadius: other?.radius || _.radiusXs
         }
         return (
           <View key={hashSubjectOTALoaded} style={_style}>
@@ -112,6 +113,7 @@ export const Cover = ob(
               border
               textOnly={textOnly}
               {...other}
+              radius={_.radiusXs}
             />
             <View style={styles.bookLine} />
           </View>
@@ -135,7 +137,7 @@ export const Cover = ob(
               src={_src}
               textOnly={textOnly}
               {...other}
-              radius={4}
+              radius={_.radiusXs}
               size={w - 8}
               width={w - 8}
               height={Math.max(h - 20, w - 12)}
@@ -182,6 +184,7 @@ export const Cover = ob(
               border
               textOnly={textOnly}
               {...other}
+              radius={_.radiusXs}
             />
           </View>
         )

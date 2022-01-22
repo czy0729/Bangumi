@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-01-19 15:14:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 17:04:57
+ * @Last Modified time: 2022-01-22 22:55:43
  */
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import { ActionSheet, SegmentedControl, Text, SwitchPro, Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import styles from './styles'
 
 const tinygrailModeDS = ['绿涨红跌', '红涨绿跌']
 
 function Tinygrail() {
-  const [show, setShow] = useState(false)
-  const setTrue = useCallback(() => setShow(true), [])
-  const setFalse = useCallback(() => setShow(false), [])
+  const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => {
     const { tinygrail } = systemStore.setting
@@ -36,7 +34,7 @@ function Tinygrail() {
           highlight
           onPress={setTrue}
         />
-        <ActionSheet show={show} onClose={setFalse}>
+        <ActionSheet show={state} onClose={setFalse}>
           <ItemSetting
             hd='小圣杯'
             ft={

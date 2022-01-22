@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 09:58:12
+ * @Last Modified time: 2022-01-22 23:51:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -214,7 +214,7 @@ const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   avatar: {
-    marginTop: 1
+    marginTop: _.ios(0, 1)
   },
   wrap: {
     paddingRight: _.wind - _._wind

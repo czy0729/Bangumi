@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 21:11:25
+ * @Last Modified time: 2022-01-22 19:51:40
  */
 import React, { useState, useEffect } from 'react'
 import { Animated, View } from 'react-native'

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 14:53:10
+ * @Last Modified time: 2022-01-22 23:50:31
  */
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import {
   ActionSheet,
@@ -17,7 +17,7 @@ import {
 } from '@components'
 import { ItemSetting, ItemSettingBlock, Cover, Avatar } from '@_'
 import { _, systemStore, userStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IOS, IMG_WIDTH_SM, IMG_HEIGHT_SM, IMG_DEFAULT_AVATAR } from '@constants'
 import { randomSpeech } from '@constants/speech'
@@ -35,15 +35,14 @@ const width = parseInt(IMG_WIDTH_SM / 1.8)
 const height = parseInt(IMG_HEIGHT_SM / 1.8)
 
 function UI() {
-  const [show, setShow] = useState(false)
-  const setTrue = useCallback(() => setShow(true), [])
-  const setFalse = useCallback(() => setShow(false), [])
+  const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => {
     const styles = memoStyles()
     const {
       vibration,
       coverThings,
+      coverRadius,
       imageTransition,
       ripple,
       speech,
@@ -55,7 +54,8 @@ function UI() {
     return (
       <>
         <ItemSetting hd='画面' arrow highlight onPress={setTrue} />
-        <ActionSheet show={show} height={640} onClose={setFalse}>
+        <ActionSheet show={state} height={640} onClose={setFalse}>
+          {/* 封面拟物 */}
           <ItemSettingBlock
             style={_.mt.sm}
             title='封面拟物'
@@ -143,6 +143,87 @@ function UI() {
             </ItemSettingBlock.Item>
             <Heatmap id='设置.切换' title='封面拟物' />
           </ItemSettingBlock>
+
+          {/* 图片圆角 */}
+          <ItemSettingBlock style={_.mt.sm} title='图片圆角'>
+            <ItemSettingBlock.Item
+              title='小'
+              active={coverRadius === _.radiusXs}
+              onPress={() => {
+                if (coverRadius === _.radiusXs) return
+
+                t('设置.切换', {
+                  title: '图片圆角',
+                  label: '小'
+                })
+                systemStore.setSetting('coverRadius', _.radiusXs)
+              }}
+            >
+              <View style={_.mt.xs}>
+                <Cover
+                  angleStyle={styles.musicAngle}
+                  type='音乐'
+                  size={width * 1.1}
+                  height={height * 1.1}
+                  src={URL_MUSIC}
+                  radius={_.radiusXs}
+                />
+              </View>
+            </ItemSettingBlock.Item>
+            <ItemSettingBlock.Item
+              style={_.ml.md}
+              title='中'
+              active={coverRadius === _.radiusSm}
+              onPress={() => {
+                if (coverRadius === _.radiusSm) return
+
+                t('设置.切换', {
+                  title: '图片圆角',
+                  label: '中'
+                })
+                systemStore.setSetting('coverRadius', _.radiusSm)
+              }}
+            >
+              <View style={_.mt.xs}>
+                <Cover
+                  angleStyle={styles.musicAngle}
+                  type='音乐'
+                  size={width * 1.1}
+                  height={height * 1.1}
+                  src={URL_MUSIC}
+                  radius={_.radiusSm}
+                />
+              </View>
+            </ItemSettingBlock.Item>
+            <ItemSettingBlock.Item
+              style={_.ml.md}
+              title='大'
+              active={coverRadius === _.radiusMd}
+              onPress={() => {
+                if (coverRadius === _.radiusMd) return
+
+                t('设置.切换', {
+                  title: '图片圆角',
+                  label: '大'
+                })
+                systemStore.setSetting('coverRadius', _.radiusMd)
+              }}
+            >
+              <View style={_.mt.xs}>
+                <Cover
+                  angleStyle={styles.musicAngle}
+                  type='音乐'
+                  size={width * 1.1}
+                  height={height * 1.1}
+                  src={URL_MUSIC}
+                  radius={_.radiusMd}
+                />
+              </View>
+            </ItemSettingBlock.Item>
+            <Heatmap id='设置.切换' title='图片圆角' />
+          </ItemSettingBlock>
+
+          {/* 看板娘吐槽 */}
           <ItemSettingBlock style={_.mt.sm} title='看板娘吐槽'>
             <ItemSettingBlock.Item
               title='开启'
@@ -187,6 +268,8 @@ function UI() {
             </ItemSettingBlock.Item>
             <Heatmap id='设置.切换' title='看板娘吐槽' />
           </ItemSettingBlock>
+
+          {/* 头像 */}
           <ItemSettingBlock style={_.mt.sm} title='头像'>
             <ItemSettingBlock.Item
               title='圆形'
@@ -223,6 +306,8 @@ function UI() {
             </ItemSettingBlock.Item>
             <Heatmap id='设置.切换' title='圆形头像' />
           </ItemSettingBlock>
+
+          {/* 字号 */}
           <ItemSettingBlock style={_.mt.sm} title='字号'>
             {MODEL_SETTING_FONTSIZEADJUST.data.map((item, index) => (
               <ItemSettingBlock.Item
@@ -240,13 +325,15 @@ function UI() {
                   _.changeFontSizeAdjust(item.value)
                 }}
               >
-                <Text style={_.mt.sm} size={12 + Number(item.value) - _.fontSizeAdjust}>
+                <Text style={_.mt.sm} size={11 + Number(item.value) - _.fontSizeAdjust}>
                   番组计划
                 </Text>
               </ItemSettingBlock.Item>
             ))}
             <Heatmap id='设置.切换' title='字号' />
           </ItemSettingBlock>
+
+          {/* 震动 */}
           <ItemSetting
             hd='震动'
             ft={
@@ -267,6 +354,8 @@ function UI() {
           >
             <Heatmap id='设置.切换' title='震动' />
           </ItemSetting>
+
+          {/* 图片渐出动画 */}
           <ItemSetting
             show={IOS}
             hd='图片渐出动画'
@@ -287,6 +376,8 @@ function UI() {
           >
             <Heatmap id='设置.切换' title='图片渐出动画' />
           </ItemSetting>
+
+          {/* 点击水纹效果 */}
           <ItemSetting
             show={!IOS}
             hd='点击水纹效果'
@@ -308,6 +399,8 @@ function UI() {
           >
             <Heatmap id='设置.切换' title='点击水纹' />
           </ItemSetting>
+
+          {/* 切页动画 */}
           <ItemSetting
             show={!IOS}
             hd='切页动画'
@@ -334,6 +427,8 @@ function UI() {
           >
             <Heatmap id='设置.切换' title='切页动画' />
           </ItemSetting>
+
+          {/* 图片质量 */}
           <ItemSetting
             hd='图片质量'
             information='建议默认，修改后不能享受图片CDN加速'
@@ -383,7 +478,7 @@ const memoStyles = _.memoStyles(() => ({
     borderTopColor: _.select('rgba(0, 0, 0, 0.2)', _._colorBorder)
   },
   musicAngle: {
-    marginRight: -6
+    marginRight: -4
   },
   speech: {
     width: '92%',

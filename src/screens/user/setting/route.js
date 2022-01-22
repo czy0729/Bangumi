@@ -2,21 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-01-22 11:55:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 14:29:40
+ * @Last Modified time: 2022-01-22 22:53:34
  */
-import React, { useState, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { ActionSheet, Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useObserver, useBoolean } from '@utils/hooks'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 
 function Route() {
-  const [show, setShow] = useState(false)
-  const setTrue = useCallback(() => setShow(true), [])
-  const setFalse = useCallback(() => setShow(false), [])
+  const { state, setTrue, setFalse } = useBoolean(false)
   const setHomeRenderTabs = useCallback(label => {
     if (label) {
       t('设置.切换', {
@@ -45,7 +43,7 @@ function Route() {
     return (
       <>
         <ItemSetting hd='底栏' arrow highlight onPress={setTrue} />
-        <ActionSheet show={show} onClose={setFalse}>
+        <ActionSheet show={state} onClose={setFalse}>
           {/* 功能块 */}
           <View style={styles.blocks}>
             <Text type='title' size={16} bold>
@@ -291,6 +289,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.md - 2
   },
   tabs: {
+    paddingHorizontal: _.xs,
     marginTop: _.md,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     borderRadius: _.radiusSm,

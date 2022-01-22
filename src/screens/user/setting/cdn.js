@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 15:50:01
+ * @Last Modified time: 2022-01-22 22:13:28
  */
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ActionSheet, Flex, Text, SwitchPro, Heatmap } from '@components'
 import { ItemSetting, ItemSettingBlock, Cover } from '@_'
 import { _, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useObserver, useBoolean } from '@utils/hooks'
 import { t, ping } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { MODEL_SETTING_CDN_ORIGIN } from '@constants/model'
@@ -22,11 +22,9 @@ const IMG_WIDTH = parseInt((_.window.contentWidth - 2 * _.md) / 3)
 const IMG_HEIGHT = parseInt(IMG_WIDTH * 1.44)
 
 function CDN() {
-  const [show, setShow] = useState(false)
+  const { state, setTrue, setFalse } = useBoolean(false)
   const [test, setTest] = useState(false)
   const [pings, setPings] = useState([])
-  const setTrue = useCallback(() => setShow(true), [])
-  const setFalse = useCallback(() => setShow(false), [])
   useEffect(() => {
     if (test && !pings.length) {
       const data = []
@@ -44,14 +42,10 @@ function CDN() {
     const { cdn, cdnOrigin, cdnAvatar } = systemStore.setting
     const origin = MODEL_SETTING_CDN_ORIGIN.getLabel(cdnOrigin)
     const label = []
-    if (cdn) {
-      label.push('开启')
-      if (!cdnAvatar) label.push('自定义规则')
-    } else {
-      label.push('关闭')
-    }
+    if (!cdn) label.push('关闭')
     return (
       <>
+        {/* CDN */}
         <ItemSetting
           hd='CDN'
           ft={
@@ -63,7 +57,9 @@ function CDN() {
           highlight
           onPress={setTrue}
         />
-        <ActionSheet height={560} show={show} onClose={setFalse}>
+
+        <ActionSheet height={560} show={state} onClose={setFalse}>
+          {/* 封面加速 */}
           <ItemSettingBlock
             style={_.mt.sm}
             title='封面加速'
@@ -130,6 +126,8 @@ function CDN() {
             />
             <Heatmap id='设置.切换' title='CDN加速' />
           </ItemSettingBlock>
+
+          {/* 头像加速 */}
           <ItemSetting
             hd='头像加速'
             ft={
@@ -149,6 +147,8 @@ function CDN() {
             }
             information='其他用户头像使用清晰快照，但不会实时更新'
           />
+
+          {/* 测试 */}
           <ItemSettingBlock style={_.mt.md} title='测试'>
             {test ? (
               <>

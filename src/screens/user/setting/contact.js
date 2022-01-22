@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 16:40:16
+ * @Last Modified time: 2022-01-22 22:14:07
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
-import { systemStore, userStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { appNavigate } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
@@ -17,6 +17,7 @@ function Contact({ navigation }) {
   return useObserver(() => {
     return (
       <>
+        {/* 反馈 */}
         <ItemSetting
           hd='反馈'
           arrow
@@ -34,6 +35,8 @@ function Contact({ navigation }) {
         >
           <Heatmap id='设置.跳转' to='Say' alias='吐槽' />
         </ItemSetting>
+
+        {/* 项目帖子 */}
         <ItemSetting
           hd='项目帖子'
           arrow
@@ -46,19 +49,8 @@ function Contact({ navigation }) {
         >
           <Heatmap id='设置.跳转' to='Topic' alias='帖子' />
         </ItemSetting>
-        <ItemSetting
-          hd='Github'
-          arrow
-          highlight
-          information='欢迎⭐️'
-          onPress={() =>
-            appNavigate(GITHUB_PROJECT, undefined, undefined, {
-              id: '设置.跳转'
-            })
-          }
-        >
-          <Heatmap id='设置.跳转' to='WebBrowser' alias='浏览器' />
-        </ItemSetting>
+
+        {/* 投食🍚 */}
         <ItemSetting
           hd={userStore.isLimit ? '关于' : '投食🍚'}
           arrow
@@ -73,6 +65,24 @@ function Contact({ navigation }) {
           }}
         >
           <Heatmap id='设置.跳转' to='Qiafan' alias='投食' />
+        </ItemSetting>
+
+        {/* Github */}
+        <ItemSetting
+          hd='Github'
+          arrow
+          arrowStyle={_.mr.xxs}
+          arrowIcon='md-open-in-new'
+          arrowSize={18}
+          highlight
+          information='欢迎⭐️'
+          onPress={() =>
+            appNavigate(GITHUB_PROJECT, undefined, undefined, {
+              id: '设置.跳转'
+            })
+          }
+        >
+          <Heatmap id='设置.跳转' to='WebBrowser' alias='浏览器' />
         </ItemSetting>
       </>
     )

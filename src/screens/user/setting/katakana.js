@@ -2,20 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-01-20 11:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 14:00:59
+ * @Last Modified time: 2022-01-22 22:21:31
  */
-import React, { useState, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { ActionSheet, Text, Heatmap, Katakana as KText } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 
 function Katakana() {
-  const [show, setShow] = useState(false)
-  const setTrue = useCallback(() => setShow(true), [])
-  const setFalse = useCallback(() => setShow(false), [])
+  const { state, setTrue, setFalse } = useBoolean(false)
   const onToggle = useCallback(() => {
     t('设置.切换', {
       title: '片假名终结者',
@@ -28,20 +26,25 @@ function Katakana() {
     const { katakana } = systemStore.setting
     return (
       <>
+        {/* 翻译 */}
         <ItemSetting hd='翻译' arrow highlight onPress={setTrue}>
           <Heatmap id='设置.切换' title='片假名终结者' />
         </ItemSetting>
-        <ActionSheet show={show} onClose={setFalse}>
+
+        {/* 翻译引擎 */}
+        <ActionSheet show={state} onClose={setFalse}>
           <ItemSettingBlock style={_.mt.sm} title='翻译引擎'>
             <ItemSettingBlock.Item title='百度翻译' active onPress={() => {}} />
             <ItemSettingBlock.Item
               style={_.ml.md}
               title='谷歌翻译'
-              information='开发中暂不可用'
+              information='规划中暂不可用'
               active={false}
               onPress={() => {}}
             />
           </ItemSettingBlock>
+
+          {/* 片假名终结者 */}
           <ItemSettingBlock
             style={_.mt.sm}
             title='片假名终结者'

@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 14:07:33
+ * @Last Modified time: 2022-01-22 23:45:57
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -306,7 +306,7 @@ export const Image = observer(
       if (radius) {
         if (typeof radius === 'boolean') {
           const style = {
-            borderRadius: _.radiusXs,
+            borderRadius: this.borderRadius,
             overflow: 'hidden'
           }
           container.push(style)
@@ -351,6 +351,11 @@ export const Image = observer(
           ? undefined
           : 0
         : fadeDuration
+    }
+
+    @computed get borderRadius() {
+      const { coverRadius } = systemStore.setting
+      return coverRadius || _.radiusXs
     }
 
     renderImage() {
