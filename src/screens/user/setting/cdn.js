@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 17:03:56
+ * @Last Modified time: 2022-01-22 15:50:01
  */
 import React, { useState, useCallback, useEffect } from 'react'
 import { ActionSheet, Flex, Text, SwitchPro, Heatmap } from '@components'
@@ -53,7 +53,7 @@ function CDN() {
     return (
       <>
         <ItemSetting
-          hd='CDN加速'
+          hd='CDN'
           ft={
             <Text type='sub' size={15}>
               {label.join('、')}
@@ -149,7 +149,7 @@ function CDN() {
             }
             information='其他用户头像使用清晰快照，但不会实时更新'
           />
-          <ItemSettingBlock style={_.mt.md} title='测试样例'>
+          <ItemSettingBlock style={_.mt.md} title='测试'>
             {test ? (
               <>
                 <Flex.Item>

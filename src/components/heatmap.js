@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 16:59:23
+ * @Last Modified time: 2022-01-22 17:29:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import heatmapData from '@constants/json/heatmap.json'
 import heatmapEventData from '@constants/json/heatmap-event.json'
 import { Text } from './text'
 
-const totalWithoutView = heatmapData.total - heatmapData['其他.查看']
+const totalWithoutView = (heatmapData?.total || 0) - heatmapData['其他.查看']
 
 const Heatmap = observer(
   ({
@@ -52,7 +52,7 @@ const Heatmap = observer(
 
     // 计算
     const count = key
-      ? heatmapEventData[`${id}.${key}`][value] || 0
+      ? heatmapEventData[`${id}.${key}`]?.[value] || 0
       : heatmapData[id] || 0 // 事件数量
     const total =
       (isPage ? totalWithoutView : heatmapData[page]) -
@@ -145,7 +145,7 @@ Heatmap.Control = observer(() => {
 
   const styles = memoStyles()
   return (
-    <View style={styles.control}>
+    <View style={styles.control} pointerEvents='none'>
       <Text
         style={styles.controlItem}
         type={grid ? 'warning' : '__plain__'}

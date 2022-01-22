@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 12:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 21:14:13
+ * @Last Modified time: 2022-01-22 14:53:48
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function Custom() {
       systemStore.setting
     return (
       <>
-        <ItemSetting hd='基本设置' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='定制' arrow highlight onPress={setTrue} />
         <ActionSheet show={show} height={640} onClose={setFalse}>
           <ItemSettingBlock
             style={_.mt.sm}

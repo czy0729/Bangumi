@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 18:46:25
+ * @Last Modified time: 2022-01-22 15:27:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -103,6 +103,7 @@ const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorSuccess
   },
   body: {
-    height: 88
+    height: 88,
+    paddingHorizontal: _.xs
   }
 }))

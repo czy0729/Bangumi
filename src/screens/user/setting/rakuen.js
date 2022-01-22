@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:11:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 17:13:44
+ * @Last Modified time: 2022-01-22 15:58:51
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { t } from '@utils/fetch'
 function Rakuen({ navigation }) {
   return (
     <ItemSetting
-      hd='超展开设置'
+      hd='超展开'
       arrow
       highlight
       onPress={() => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 21:13:47
+ * @Last Modified time: 2022-01-22 14:53:10
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -54,7 +54,7 @@ function UI() {
     const avatar = userStore.usersInfo()?.avatar?.large || IMG_DEFAULT_AVATAR
     return (
       <>
-        <ItemSetting hd='UI' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='画面' arrow highlight onPress={setTrue} />
         <ActionSheet show={show} height={640} onClose={setFalse}>
           <ItemSettingBlock
             style={_.mt.sm}
