@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 02:54:48
+ * @Last Modified time: 2022-01-23 20:02:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ export const Avatar = ob(
   }) => {
     const styles = memoStyles()
     const { dev } = systemStore.state
-    const { cdn, avatarRound, coverRadius } = systemStore.setting
+    const { cdn, cdnAvatar, avatarRound, coverRadius } = systemStore.setting
     const { avatar } = userStore.usersInfo()
     const _size = size * _.ratio
 
@@ -57,7 +57,7 @@ export const Avatar = ob(
     }
 
     if (!_src) {
-      _src = cdn ? CDN_OSS_AVATAR(getCoverMedium(src, true)) : mSrc
+      _src = cdn && cdnAvatar ? CDN_OSS_AVATAR(getCoverMedium(src, true)) : mSrc
     }
 
     // 若还是原始头像, 使用本地

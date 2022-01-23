@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 02:57:07
+ * @Last Modified time: 2022-01-23 18:53:29
  */
 import { getTimestamp, getStorage, setStorage } from '@utils/utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -20,6 +20,7 @@ import hashAvatar from '@constants/json/hash/avatar.min.json'
 import { SDK } from './index'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
+export const HOST_CDN_ONEDRIVE = 'https://bangumi.stdcdn.com'
 
 /**
  * 获取设置
@@ -423,7 +424,7 @@ export const getHashSubjectOTA = () => hashSubjectOTA
  * 条目封面CDN
  * @url https://github.com/czy0729/Bangumi-OSS
  */
-export const CDN_OSS_SUBJECT = src => {
+export const CDN_OSS_SUBJECT = (src, cdnOrigin) => {
   if (typeof src !== 'string') return src
 
   if (cacheSubject[src]) return cacheSubject[src]
@@ -443,7 +444,10 @@ export const CDN_OSS_SUBJECT = src => {
       parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS) ? ota.VERSION_OSS : VERSION_OSS
 
     const path = _hash.slice(0, 1).toLocaleLowerCase()
-    const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/subject/c/${path}/${_hash}.jpg`
+    const cdnSrc =
+      cdnOrigin === 'OneDrive'
+        ? `${HOST_CDN_ONEDRIVE}/subject/c/${path}/${_hash}.jpg`
+        : `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/subject/c/${path}/${_hash}.jpg`
     if (hashSubjectLoaded) cacheSubject[src] = cdnSrc
     return cdnSrc
   }

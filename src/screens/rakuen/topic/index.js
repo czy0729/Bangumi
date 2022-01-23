@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:22:41
+ * @Last Modified time: 2022-01-23 18:56:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ import IconFavor from './icon/favor'
 import Store from './store'
 
 const title = '帖子'
+const preRenderIndex = 8
 
 export default
 @inject(Store)
@@ -261,8 +262,8 @@ class Topic extends React.Component {
     if (!$.postId) {
       if (!rendered) {
         // 渲染指示标记
-        if (index === 3) return <Loading style={_.mt.md} />
-        if (index > 2) return null
+        if (index === preRenderIndex) return <Loading style={_.mt.md} />
+        if (index > preRenderIndex - 1) return null
       }
     }
 
