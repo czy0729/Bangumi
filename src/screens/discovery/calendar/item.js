@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 17:54:03
+ * @Last Modified time: 2022-01-23 00:11:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -67,7 +67,6 @@ const Item = memo(
       <View style={[styles.item, style]}>
         <View>
           <Cover
-            style={styles.cover}
             width={gridStyles.width}
             height={gridStyles.height}
             src={images.medium}
@@ -154,9 +153,5 @@ const styles = _.create({
     zIndex: 1,
     top: 1,
     left: -1
-  },
-  cover: {
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
   }
 })

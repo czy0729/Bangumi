@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 12:19:34
+ * @Last Modified time: 2022-01-23 00:17:31
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
@@ -127,7 +127,7 @@ const Item = memo(
               </Flex>
             </Flex>
             {!!tip && (
-              <Text style={_.mt.sm} size={11} numberOfLines={3}>
+              <Text style={_.mt.sm} size={11} lineHeight={13} numberOfLines={3}>
                 {HTMLDecode(tip)}
               </Text>
             )}

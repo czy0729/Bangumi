@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:16:47
+ * @Last Modified time: 2022-01-23 02:39:04
  */
 import React from 'react'
-import { View } from 'react-native'
 import {
+  Page,
   ScrollView,
-  Text,
   SwitchPro,
   Flex,
   SegmentedControl,
@@ -22,6 +21,8 @@ import { withHeader, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants/model'
+import Block from '../../user/setting/block'
+import Tip from '../../user/setting/tip'
 import History from './history'
 
 const scrollDirectionDS = MODEL_RAKUEN_SCROLL_DIRECTION.data.map(item => item.label)
@@ -61,30 +62,14 @@ class RakuenSetting extends React.Component {
     return rakuenStore.setting
   }
 
-  renderSection(text, information) {
-    return (
-      <Flex style={this.styles.section}>
-        <Flex.Item>
-          <Text type='sub' bold>
-            {text}
-          </Text>
-          {!!information && (
-            <Text style={this.styles.information} type='sub' size={12}>
-              {information}
-            </Text>
-          )}
-        </Flex.Item>
-      </Flex>
-    )
-  }
-
   renderTopic() {
     const { matchLink, acSearch, quote, quoteAvatar, scrollDirection } = this.setting
     return (
-      <>
-        {this.renderSection('帖子')}
+      <Block>
+        <Tip>帖子</Tip>
         <ItemSetting
           hd='楼层链接显示成信息块'
+          information='若楼层出现特定页面链接，使用不同的UI代替'
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -99,10 +84,10 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
-          information='若楼层出现特定页面链接，使用不同的UI代替'
         />
         <ItemSetting
           hd='[实验性] 楼层内容猜测条目'
+          information='使用条目词库对楼层文字进行猜测匹配，若匹配成功文字下方显示下划线，点击直接去到条目页面'
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -117,10 +102,10 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
-          information='使用条目词库对楼层文字进行猜测匹配，若匹配成功文字下方显示下划线，点击直接去到条目页面'
         />
         <ItemSetting
           hd='展开引用'
+          information='展开子回复中上一级的回复内容'
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -135,7 +120,6 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
-          information='展开子回复中上一级的回复内容'
         />
         {quote && (
           <ItemSetting
@@ -162,6 +146,7 @@ class RakuenSetting extends React.Component {
           ft={
             <SegmentedControl
               style={this.styles.segmentedControl}
+              backgroundColor={_.select(_.colorBg, _.colorPlain)}
               size={12}
               values={scrollDirectionDS}
               selectedIndex={MODEL_RAKUEN_SCROLL_DIRECTION.data.findIndex(
@@ -179,15 +164,15 @@ class RakuenSetting extends React.Component {
             />
           }
         />
-      </>
+      </Block>
     )
   }
 
   renderList() {
     const { filterDelete, isBlockDefaultUser, isMarkOldTopic } = this.setting
     return (
-      <>
-        {this.renderSection('列表')}
+      <Block>
+        <Tip>列表</Tip>
         <ItemSetting
           hd='过滤用户删除的楼层'
           ft={
@@ -207,6 +192,7 @@ class RakuenSetting extends React.Component {
         />
         <ItemSetting
           hd='屏蔽疑似广告姬'
+          information='屏蔽默认头像发布且回复数小于4的帖子'
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -221,10 +207,9 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
-          information='屏蔽默认头像发布且回复数小于4的帖子'
         />
         <ItemSetting
-          border
+          information='标记发布时间大于1年的帖子'
           hd='标记坟贴'
           ft={
             <SwitchPro
@@ -240,17 +225,16 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
-          information='标记发布时间大于1年的帖子'
         />
-      </>
+      </Block>
     )
   }
 
   renderCustom() {
     const { keyword } = this.state
     return (
-      <>
-        {this.renderSection('屏蔽关键字', '对标题、正文内容生效')}
+      <Block>
+        <Tip>屏蔽关键字（对标题、正文内容生效）</Tip>
         <History
           data={this.setting.blockKeywords}
           onDelete={item => {
@@ -277,54 +261,53 @@ class RakuenSetting extends React.Component {
             </Flex>
           </Touchable>
         </Flex>
-      </>
+      </Block>
     )
   }
 
   renderBlock() {
+    const { navigation } = this.props
     return (
       <>
-        {this.renderSection('屏蔽小组 / 条目', '对帖子所属小组名生效')}
-        <History
-          data={this.setting.blockGroups}
-          onDelete={item => {
-            t('超展开设置.取消关键字', {
-              item
-            })
-            rakuenStore.deleteBlockGroup(item)
-          }}
-        />
-        <View style={this.styles.split} />
-        {this.renderSection('屏蔽用户', '对发帖人、楼层主、条目评分留言人生效')}
-        <History
-          style={_.mt.sm}
-          data={this.setting.blockUserIds}
-          onDelete={item => {
-            t('超展开设置.取消用户', {
-              item
-            })
-            rakuenStore.deleteBlockUser(item)
-          }}
-        />
+        <Block>
+          <Tip>屏蔽小组 / 条目（对帖子所属小组名生效）</Tip>
+          <History
+            data={this.setting.blockGroups}
+            onDelete={item => {
+              t('超展开设置.取消关键字', {
+                item
+              })
+              rakuenStore.deleteBlockGroup(item)
+            }}
+          />
+        </Block>
+        <Block>
+          <Tip>屏蔽用户（对发帖人、楼层主、条目评分留言人生效）</Tip>
+          <History
+            navigation={navigation}
+            data={this.setting.blockUserIds}
+            onDelete={item => {
+              t('超展开设置.取消用户', {
+                item
+              })
+              rakuenStore.deleteBlockUser(item)
+            }}
+          />
+        </Block>
       </>
     )
   }
 
   render() {
     return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={_.container.bottom}
-        scrollToTop
-      >
-        {this.renderTopic()}
-        <View style={this.styles.split} />
-        {this.renderList()}
-        <View style={this.styles.split} />
-        {this.renderCustom()}
-        <View style={this.styles.split} />
-        {this.renderBlock()}
-      </ScrollView>
+      <Page style={_.select(_.container.bg, _.container.plain)}>
+        <ScrollView contentContainerStyle={_.container.bottom}>
+          {this.renderTopic()}
+          {this.renderList()}
+          {this.renderCustom()}
+          {this.renderBlock()}
+        </ScrollView>
+      </Page>
     )
   }
 
@@ -334,17 +317,6 @@ class RakuenSetting extends React.Component {
 }
 
 const memoStyles = _.memoStyles(() => ({
-  section: {
-    paddingTop: _.md,
-    paddingHorizontal: _.wind,
-    paddingBottom: _.sm
-  },
-  split: {
-    marginTop: _.md,
-    marginBottom: _.sm,
-    borderTopWidth: 16,
-    borderColor: _.colorBorder
-  },
   segmentedControl: {
     height: 28 * _.ratio,
     width: 164 * _.ratio
@@ -364,5 +336,10 @@ const memoStyles = _.memoStyles(() => ({
   information: {
     maxWidth: '80%',
     marginTop: _.xs
+  },
+  section: {
+    paddingVertical: _.sm,
+    paddingRight: _.sm,
+    paddingLeft: _._wind
   }
 }))

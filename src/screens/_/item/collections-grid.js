@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 10:03:30
+ * @Last Modified time: 2022-01-23 00:16:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -98,7 +98,6 @@ const Item = memo(
         ]}
       >
         <Cover
-          style={styles.cover}
           size={gridStyles.width}
           height={gridStyles.height}
           src={cover}
@@ -108,10 +107,10 @@ const Item = memo(
           onPress={onPress}
         />
         {!!_collection && <Tag style={styles.collection} value={_collection} />}
-        <Touchable withoutFeedback hitSlop={hitSlop} onPress={onPress}>
+        <Touchable style={_.mt.xs} withoutFeedback hitSlop={hitSlop} onPress={onPress}>
           <Text
             style={_.mt.sm}
-            size={11}
+            size={12}
             lineHeight={13}
             numberOfLines={3}
             bold
@@ -120,7 +119,7 @@ const Item = memo(
             {HTMLDecode(nameCn || name)}
           </Text>
           {!!score && (
-            <Flex style={_.mt.xs} justify='center'>
+            <Flex style={_.mt.sm} justify='center'>
               <Rank style={_.mr.xs} value={rank} size={9} />
               <Stars value={score} color='warning' size={9} />
             </Flex>
@@ -179,10 +178,6 @@ export const ItemCollectionsGrid = ob(
 )
 
 const styles = _.create({
-  cover: {
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
   collection: {
     position: 'absolute',
     zIndex: 1,

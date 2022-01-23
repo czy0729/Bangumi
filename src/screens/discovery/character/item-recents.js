@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 12:35:46
+ * @Last Modified time: 2022-01-23 14:41:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,6 @@ function ItemRecents(
         <View style={styles.imgContainer}>
           {!!cover && (
             <Cover
-              style={styles.cover}
               src={cover}
               width={IMG_WIDTH_LG}
               height={IMG_HEIGHT_LG}
@@ -95,7 +94,6 @@ function ItemRecents(
             {actors.map(item => (
               <Flex key={item.id} style={[styles.actors, _.mt.md]}>
                 <Cover
-                  style={styles.cover}
                   src={item.avatar}
                   size={40 * _.ratio}
                   radius
@@ -134,10 +132,6 @@ export default obc(ItemRecents)
 const memoStyles = _.memoStyles(() => ({
   container: {
     backgroundColor: _.colorPlain
-  },
-  cover: {
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
   },
   imgContainer: {
     width: IMG_WIDTH_LG,

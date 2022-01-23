@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:47:38
+ * @Last Modified time: 2022-01-23 02:57:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -170,7 +170,7 @@ const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 120,
     paddingHorizontal: _.wind,
-    marginTop: _.lg - 4
+    marginTop: _.md
   },
   sectionTitle: {
     height: 28

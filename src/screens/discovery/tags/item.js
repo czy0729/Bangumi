@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 13:29:12
+ * @Last Modified time: 2022-01-23 14:59:49
  */
 import React from 'react'
 import { Touchable, Text, Flex, Heatmap } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
@@ -14,6 +14,7 @@ import { t } from '@utils/fetch'
 
 function Item({ type, name, nums, index }, { navigation }) {
   const styles = memoStyles()
+  const { coverRadius } = systemStore.setting
   let numsText = nums
   if (nums > 10000) numsText = `${formatNumber(nums / 10000, 1)}w`
 
@@ -23,7 +24,10 @@ function Item({ type, name, nums, index }, { navigation }) {
     <Touchable
       style={[
         styles.container,
-        (_.isPad || _.isLandscape) && !(index % num) && _.container.left
+        (_.isPad || _.isLandscape) && !(index % num) && _.container.left,
+        {
+          borderRadius: coverRadius
+        }
       ]}
       onPress={() => {
         t('标签索引.跳转', {
@@ -57,15 +61,15 @@ const memoStyles = _.memoStyles(() => {
   return {
     container: {
       marginBottom: _.md,
-      marginLeft
+      marginLeft,
+      overflow: 'hidden',
+      borderWidth: _.hairlineWidth,
+      borderColor: _.colorBorder,
+      backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
     },
     item: {
       width,
-      height: width,
-      backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-      borderRadius: _.radiusXs,
-      borderWidth: _.hairlineWidth,
-      borderColor: _.colorBorder
+      height: width
     }
   }
 })

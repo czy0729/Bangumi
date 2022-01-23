@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-04 19:23:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 15:37:59
+ * @Last Modified time: 2022-01-23 14:50:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,7 +29,7 @@ function Item(
 ) {
   const styles = memoStyles()
   const eps = $.state.eps[id]
-  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const cover = image ? `//lain.bgm.tv/pic/cover/l/${image}.jpg` : IMG_DEFAULT
   const onPress = () => {
     t('推荐.跳转', {
       id

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:37:09
+ * @Last Modified time: 2022-01-23 15:02:18
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -39,8 +39,8 @@ export default obc(Cate)
 const memoStyles = _.memoStyles(() => ({
   segment: {
     width: _.window.width - _.wind * 2,
-    height: 22 * _.ratio,
+    height: 32 * _.ratio,
     marginLeft: _.wind,
-    marginTop: _.sm
+    marginTop: _.sm + 2
   }
 }))

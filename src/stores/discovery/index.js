@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 13:26:57
+ * @Last Modified time: 2022-01-23 14:21:12
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -494,7 +494,9 @@ class Discovery extends store {
           [page]: data
         }
       })
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
 
     return Promise.resolve(data)
   }

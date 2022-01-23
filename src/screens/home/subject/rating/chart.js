@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-13 13:09:28
+ * @Last Modified time: 2022-01-23 14:48:11
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -220,7 +220,7 @@ function getHeight(total, current) {
   if (!total || !current) return 0
   let percent = current / total
   if (percent > 0 && percent < min) percent = min
-  return `${Math.min(percent * 1.44 || min, 1) * 100}%`
+  return `${Math.min(percent * 1.44 || min, 0.9) * 100}%`
 }
 
 /**

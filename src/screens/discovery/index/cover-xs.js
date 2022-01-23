@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 07:05:41
+ * @Last Modified time: 2022-01-23 14:55:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Flex, Text } from '@components'
 import { Cover, Avatar } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { getCoverMedium } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -30,12 +31,20 @@ const CoverXs = memo(
   ({ navigation, styles, imageWidth, avatarRound, title, avatar, data }) => {
     rerender('Discovery.CoverXs.Main')
 
+    const { coverRadius } = systemStore.setting
     const imageHeight = imageWidth * 1.38
     return (
       <View>
-        <View style={styles.item}>
+        <View
+          style={[
+            styles.item,
+            {
+              borderRadius: coverRadius
+            }
+          ]}
+        >
           <Cover
-            src={data.cover}
+            src={getCoverMedium(data.cover)}
             width={imageWidth}
             height={imageHeight}
             radius
@@ -145,7 +154,7 @@ const memoStyles = _.memoStyles(() => ({
     marginLeft: -6,
     marginBottom: -2,
     backgroundColor: _.select(_.colorPlain, _.colorBg),
-    borderRadius: _.radiusSm
+    borderRadius: _.radiusSm + 2
   },
   avatar: {
     backgroundColor: _.select(_.colorPlain, _.colorBg)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 20:30:24
+ * @Last Modified time: 2022-01-23 00:40:52
  */
 import React from 'react'
 import { FadeIn, Flex, Text } from '@components'
@@ -35,7 +35,7 @@ const HeaderTitle = memo(({ showHeaderTitle, common, score, type, cn, titleLabel
           src={CDN_OSS_SUBJECT(getCoverMedium(common))}
           size={type === '音乐' ? imgHeight : imgWidth}
           height={imgHeight}
-          radius
+          radius={_.radiusSm}
           fadeDuration={0}
         />
         <Flex.Item style={_.ml.sm}>

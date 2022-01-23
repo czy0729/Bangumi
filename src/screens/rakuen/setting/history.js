@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:16:40
+ * @Last Modified time: 2022-01-23 02:39:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Touchable, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
-function History({ style, data = [], onDelete = Function.prototype }) {
+function History({ navigation, style, data = [], onDelete = Function.prototype }) {
   const styles = memoStyles()
   if (!data.length) {
     return (
@@ -32,7 +32,21 @@ function History({ style, data = [], onDelete = Function.prototype }) {
         <View key={item} style={styles.item}>
           <Flex style={styles.content}>
             <Flex.Item>
-              <Text size={15} bold>
+              <Text
+                size={15}
+                bold
+                onPress={() => {
+                  if (!navigation) return
+
+                  try {
+                    const [, userId] = item.replace('@undefined', '').split('@')
+                    if (userId)
+                      navigation.push('Zone', {
+                        userId
+                      })
+                  } catch (error) {}
+                }}
+              >
                 {item.replace('@undefined', '')}
               </Text>
             </Flex.Item>
@@ -52,11 +66,11 @@ export default ob(History)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
+    paddingLeft: _._wind,
+    paddingBottom: _.sm
   },
   item: {
-    paddingRight: _.wind
+    paddingRight: _.sm
   },
   content: {
     marginTop: _.sm

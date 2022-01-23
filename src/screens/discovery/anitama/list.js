@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:19:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 11:24:38
+ * @Last Modified time: 2022-01-23 14:12:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -99,11 +99,14 @@ const memoStyles = _.memoStyles(() => {
       minHeight: _.window.height
     },
     item: {
-      paddingTop: 24,
+      paddingTop: _.md,
       paddingBottom: _.sm,
-      paddingHorizontal: _.wind,
+      paddingHorizontal: _._wind,
       marginVertical: _.md,
-      backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+      marginHorizontal: _.wind,
+      backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
     },
     cover: {
       width,

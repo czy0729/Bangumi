@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 07:35:25
+ * @Last Modified time: 2022-01-23 00:36:14
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -70,7 +70,7 @@ const Series = memo(
                         src={subjectPrev.image || IMG_DEFAULT}
                         size={coverWidth}
                         height={coverHeight}
-                        radius={_.radiusXs}
+                        radius={_.radiusSm}
                         placeholder={false}
                         fadeDuration={0}
                         noDefault
@@ -110,7 +110,7 @@ const Series = memo(
                         src={subjectAfter.image || IMG_DEFAULT}
                         size={coverWidth}
                         height={coverHeight}
-                        radius={_.radiusXs}
+                        radius={_.radiusSm}
                         placeholder={false}
                         fadeDuration={0}
                         noDefault
@@ -151,7 +151,7 @@ const Series = memo(
                         src={subjectAnime.image || IMG_DEFAULT}
                         size={coverWidth}
                         height={coverHeight}
-                        radius={_.radiusXs}
+                        radius={_.radiusSm}
                         placeholder={false}
                         fadeDuration={0}
                         noDefault
@@ -206,7 +206,7 @@ const Series = memo(
             src={subjectSeries.image}
             size={coverWidth}
             height={coverHeight}
-            radius={_.radiusXs}
+            radius={_.radiusSm}
             placeholder={false}
             fadeDuration={0}
             noDefault
@@ -262,7 +262,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: 2,
     paddingRight: _.sm,
     marginVertical: _.sm + 2,
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   icon: {
@@ -271,7 +271,7 @@ const memoStyles = _.memoStyles(() => ({
   touch: {
     paddingRight: _.sm,
     marginLeft: _.sm,
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:24:11
+ * @Last Modified time: 2022-01-23 14:42:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,14 +27,7 @@ function Item({ index, avatar, name, id }, { navigation }) {
 
   return (
     <View style={[styles.item, index % _.portrait(5, 8) === 0 && styles.left]}>
-      <Image
-        style={styles.avatar}
-        size={styles.item.width}
-        src={avatar}
-        radius
-        shadow
-        onPress={onPress}
-      />
+      <Image size={styles.item.width} src={avatar} radius shadow onPress={onPress} />
       <Touchable style={_.mt.sm} withoutFeedback onPress={onPress}>
         <Katakana.Provider size={10} numberOfLines={2} align='center'>
           <Katakana size={10} numberOfLines={2} align='center' bold>
@@ -59,10 +52,6 @@ const memoStyles = _.memoStyles(() => {
     },
     left: {
       marginLeft: 0
-    },
-    avatar: {
-      borderRadius: _.radiusSm,
-      overflow: 'hidden'
     }
   }
 })

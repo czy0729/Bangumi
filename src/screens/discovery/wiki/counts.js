@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:37:34
+ * @Last Modified time: 2022-01-23 15:01:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Text } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { labelDS } from './store'
 
 function Counts(props, { $ }) {
   const styles = memoStyles()
+  const { coverRadius } = systemStore.setting
   const { counts, lastCounts = [] } = $.wiki
   return (
     <View>
@@ -27,7 +28,15 @@ function Counts(props, { $ }) {
             parseInt(item.replace(/,/g, '')) -
               parseInt(lastCounts[index].replace(/,/g, ''))
           return (
-            <View key={labelDS[index]} style={styles.count}>
+            <View
+              key={labelDS[index]}
+              style={[
+                styles.count,
+                {
+                  borderRadius: coverRadius
+                }
+              ]}
+            >
               <Text size={13} bold>
                 {labelDS[index]}
               </Text>
@@ -63,6 +72,7 @@ const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusXs,
     borderWidth: _.hairlineWidth,
-    borderColor: _.colorBorder
+    borderColor: _.colorBorder,
+    overflow: 'hidden'
   }
 }))

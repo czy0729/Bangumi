@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 17:33:31
+ * @Last Modified time: 2022-01-23 00:04:00
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Touchable, Image, Text, Flex } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
@@ -20,6 +20,7 @@ function Award(props, { navigation }) {
   rerender('Discovery.Award')
 
   const styles = memoStyles()
+  const { coverRadius } = systemStore.setting
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -27,7 +28,12 @@ function Award(props, { navigation }) {
       showsHorizontalScrollIndicator={false}
     >
       <Touchable
-        style={styles.item2020}
+        style={[
+          styles.item2020,
+          {
+            borderRadius: coverRadius
+          }
+        ]}
         onPress={() => {
           t('发现.跳转', {
             to: 'Award',
@@ -48,7 +54,12 @@ function Award(props, { navigation }) {
         />
       </Touchable>
       <Touchable
-        style={styles.item2019}
+        style={[
+          styles.item2019,
+          {
+            borderRadius: coverRadius
+          }
+        ]}
         onPress={() => {
           t('发现.跳转', {
             to: 'Award',
@@ -69,7 +80,12 @@ function Award(props, { navigation }) {
         />
       </Touchable>
       <Touchable
-        style={styles.item2018}
+        style={[
+          styles.item2018,
+          {
+            borderRadius: coverRadius
+          }
+        ]}
         onPress={() => {
           t('发现.跳转', {
             to: 'Award',
@@ -91,7 +107,13 @@ function Award(props, { navigation }) {
       {years.map(item => (
         <Touchable
           key={item}
-          style={[_.container.touch, _.ml.md]}
+          style={[
+            _.container.touch,
+            _.ml.md,
+            {
+              borderRadius: coverRadius
+            }
+          ]}
           onPress={() => {
             t('发现.跳转', {
               to: 'Award',
@@ -103,7 +125,16 @@ function Award(props, { navigation }) {
             })
           }}
         >
-          <Flex style={styles.item} justify='center' direction='column'>
+          <Flex
+            style={[
+              styles.item,
+              {
+                borderRadius: coverRadius
+              }
+            ]}
+            justify='center'
+            direction='column'
+          >
             <Text size={18} type={_.select('plain', 'title')} bold>
               {item}
             </Text>

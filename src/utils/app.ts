@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:06:57
+ * @Last Modified time: 2022-01-23 14:45:06
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -441,12 +441,15 @@ export function matchBgmLink(url = '') {
 const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
 export function matchCoverUrl(src, noDefault) {
   const { cdn } = getSetting()
+  const fallback = noDefault ? '' : IMG_DEFAULT
 
   // 有些情况图片地址分析错误, 排除掉
-  return noImg.includes(src)
-    ? IMG_DEFAULT
-    : (cdn ? CDN_OSS_SUBJECT(getCoverMedium(src)) : getCoverMedium(src)) ||
-        (noDefault ? '' : IMG_DEFAULT)
+  if (noImg.includes(src)) return IMG_DEFAULT || fallback
+  if (cdn) return CDN_OSS_SUBJECT(getCoverMedium(src)) || fallback
+
+  // 大图不替换成低质量图
+  if (typeof src === 'string' && src?.includes('/l/')) return src
+  return getCoverMedium(src) || fallback
 }
 
 /**

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 17:32:43
+ * @Last Modified time: 2022-01-23 01:13:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Text } from '@components'
 import { Cover } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
+import { getCoverMedium } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { cnjp } from '@utils/app'
@@ -32,9 +33,16 @@ function CoverToday({ data }, { navigation }) {
   const styles = memoStyles()
   return (
     <View>
-      <View style={styles.item}>
+      <View
+        style={[
+          styles.item,
+          {
+            borderRadius: systemStore.setting.coverRadius
+          }
+        ]}
+      >
         <Cover
-          src={data?.images?.common}
+          src={getCoverMedium(data?.images?.common)}
           width={styles.cover.width}
           height={styles.cover.height}
           radius
@@ -83,7 +91,7 @@ function CoverToday({ data }, { navigation }) {
 export default obc(CoverToday)
 
 const memoStyles = _.memoStyles(() => {
-  const width = _.windowSm.contentWidth * _.device(0.26, 0.298)
+  const width = _.windowSm.contentWidth * _.device(0.28, 0.298)
   const margin = _.device(_._wind, _.md)
   return {
     item: {
@@ -103,9 +111,7 @@ const memoStyles = _.memoStyles(() => {
       right: 0,
       bottom: 0,
       left: 0,
-      marginBottom: -0.5,
-      borderBottomRightRadius: _.radiusSm,
-      borderBottomLeftRadius: _.radiusSm
+      marginBottom: -0.5
     },
     info: {
       position: 'absolute',

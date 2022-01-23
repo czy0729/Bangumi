@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:47:40
+ * @Last Modified time: 2022-01-23 02:54:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ export const Avatar = ob(
   }) => {
     const styles = memoStyles()
     const { dev } = systemStore.state
-    const { cdn, avatarRound } = systemStore.setting
+    const { cdn, avatarRound, coverRadius } = systemStore.setting
     const { avatar } = userStore.usersInfo()
     const _size = size * _.ratio
 
@@ -65,8 +65,16 @@ export const Avatar = ob(
       _src = IMG_DEFAULT
     }
 
-    const _radius =
-      radius === undefined ? (round || avatarRound ? _size / 2 : true) : radius
+    // 默认带圆角, 若大小的一半比设置的圆角还小, 为避免方形头像变成原型, 则覆盖成sm
+    let _radius = true
+    if (radius) {
+      _radius = radius
+    } else if (round || avatarRound) {
+      _radius = _size / 2
+    } else if (_size / 2 <= coverRadius) {
+      _radius = _.radiusSm
+    }
+
     const _onPress = () => {
       if (onPress) {
         onPress()

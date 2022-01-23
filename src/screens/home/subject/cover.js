@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:11:21
+ * @Last Modified time: 2022-01-23 00:34:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { Cover as CompCover } from '@screens/_'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { getCoverMedium, getCoverLarge } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
-import { _ } from '@stores'
 
 export default
 @obc
@@ -31,16 +31,24 @@ class Cover extends React.Component {
   render() {
     rerender('Subject.Cover')
 
+    const { coverRadius } = systemStore.setting
     const { $ } = this.context
     const { _imageForce } = $.params
     const { image, placeholder } = this.props
     const { onLoad } = this.state
     const src = _imageForce || CDN_OSS_SUBJECT(getCoverMedium(image)) || IMG_DEFAULT
     return (
-      <View style={[this.styles.container, onLoad && this.styles.shadow]}>
+      <View
+        style={[
+          this.styles.container,
+          onLoad && this.styles.shadow,
+          {
+            borderRadius: coverRadius
+          }
+        ]}
+      >
         {!!image && (
           <CompCover
-            style={this.styles.cover}
             src={src}
             size={$.imageWidth}
             height={$.imageHeight}
@@ -62,7 +70,13 @@ class Cover extends React.Component {
         )}
         {!onLoad && (
           <CompCover
-            style={[this.styles.placeholder, this.styles.shadow]}
+            style={[
+              this.styles.placeholder,
+              this.styles.shadow,
+              {
+                borderRadius: coverRadius
+              }
+            ]}
             src={placeholder || IMG_DEFAULT}
             size={$.imageWidth}
             height={$.imageHeight}
@@ -88,10 +102,6 @@ const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     top: _.space + 2,
     left: _.wind
-  },
-  cover: {
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
   },
   placeholder: {
     position: 'absolute',

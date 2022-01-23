@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 23:22:27
+ * @Last Modified time: 2022-01-23 03:11:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ export const Cover = ob(
     noDefault,
     type,
     useType = false,
-    cdn = true,
+    cdn,
     textOnly,
     ...other
   }) => {
@@ -52,13 +52,14 @@ export const Cover = ob(
     }
 
     const { hashSubjectOTALoaded, dev } = systemStore.state
-    const _src = cdn ? matchCoverUrl(src, noDefault) : src
+    const _src = cdn !== false ? matchCoverUrl(src, noDefault) : src
+
     const imageStyle = [
       style,
       dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev
     ]
 
-    const { coverThings } = systemStore.setting
+    const { coverThings, coverRadius } = systemStore.setting
     if (coverThings || useType) {
       if (type === '音乐') {
         // 音乐为矩形唱片装, 长宽取短的
@@ -66,7 +67,8 @@ export const Cover = ob(
         const _style = {
           width: w,
           height: w,
-          borderRadius: other?.radius || _.radiusXs
+          borderRadius:
+            other?.radius === true ? coverRadius : other?.radius || _.radiusXs
         }
         return (
           <View key={hashSubjectOTALoaded} style={_style}>
@@ -99,7 +101,8 @@ export const Cover = ob(
         const h = height || size
         const _style = {
           width: w,
-          height: h
+          height: h,
+          borderRadius: _.radiusSm
         }
         return (
           <View key={hashSubjectOTALoaded} style={[_style, styles.bookMarginRight]}>
@@ -184,7 +187,7 @@ export const Cover = ob(
               border
               textOnly={textOnly}
               {...other}
-              radius={_.radiusXs}
+              radius={_.radiusSm}
             />
           </View>
         )
@@ -216,7 +219,8 @@ const memoStyles = _.memoStyles(() => ({
     top: 0,
     right: 0,
     backgroundColor: _.colorBg,
-    borderRadius: _.radiusXs
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   },
   image: {
     position: 'absolute',
@@ -286,7 +290,7 @@ const memoStyles = _.memoStyles(() => ({
     right: 0,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
     borderWidth: 1,
-    borderRadius: 2,
+    borderRadius: _.radiusXs,
     borderColor: _.colorBorder
   },
   catalogLevel1: {

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 07:05:05
+ * @Last Modified time: 2022-01-23 01:03:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Text } from '@components'
 import { Cover } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
+import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -21,13 +22,20 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
 
   const styles = memoStyles()
   return (
-    <View style={styles.item}>
+    <View
+      style={[
+        styles.item,
+        {
+          borderRadius: systemStore.setting.coverRadius
+        }
+      ]}
+    >
       <Cover
         style={styles.touch}
-        src={src}
+        src={getCoverLarge(src)}
         size={styles.cover.width}
         height={styles.cover.height}
-        radius={_.radiusMd}
+        radius
         placeholder={false}
         onPress={() => {
           t('发现.跳转', {
@@ -87,9 +95,7 @@ const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: 0,
     left: 0,
-    marginBottom: -0.5,
-    borderBottomRightRadius: _.radiusSm,
-    borderBottomLeftRadius: _.radiusSm
+    marginBottom: -0.5
   },
   desc: {
     position: 'absolute',

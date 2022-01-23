@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 23:53:54
+ * @Last Modified time: 2022-01-23 14:07:13
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -50,7 +50,7 @@ export const INIT_SETTING = {
   coverRadius: radiusSm, // 默认的封面圆角大小
 
   // CDN加速
-  cdn: true,
+  cdn: false,
   cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr'),
   cdnAvatar: true,
   cdnSubject: true,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 20:07:42
+ * @Last Modified time: 2022-01-23 14:31:26
  */
 import React from 'react'
 import {
@@ -99,15 +99,13 @@ const withHeader =
               ? {
                   fontSize: 15,
                   backgroundColor: _.colorPlain,
-                  borderBottomColor: _.colorBorder,
-                  borderBottomWidth: _.select(_.hairlineWidth, 0),
+                  borderBottomWidth: 0,
                   ...(_params.headerStyle || headerStyle)
                 }
               : {
                   fontSize: 15,
                   backgroundColor: _.colorPlain,
-                  borderBottomColor: _.colorBorder,
-                  borderBottomWidth: _.select(_.hairlineWidth, 0),
+                  borderBottomWidth: 0,
                   elevation: 0,
                   ...defaultHeaderStyle,
                   ...(_params.headerStyle || headerStyle)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:31:39
+ * @Last Modified time: 2022-01-23 00:37:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -113,7 +113,6 @@ export const HorizontalList = ob(
                 ]}
               >
                 <Cover
-                  style={this.styles.cover}
                   size={size}
                   height={height * _.ratio}
                   src={item.image}
@@ -177,10 +176,6 @@ const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingVertical: 4,
     paddingHorizontal: _.wind
-  },
-  cover: {
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
   },
   actor: {
     marginRight: 3

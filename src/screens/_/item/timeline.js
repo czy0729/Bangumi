@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-12 19:58:46
+ * @Last Modified time: 2022-01-23 02:43:02
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
 import { Flex, Katakana, Text, Iconfont, Touchable } from '@components'
 import { _, timelineStore } from '@stores'
-import { getTimestamp } from '@utils'
-import { appNavigate, findSubjectCn, getCoverMedium } from '@utils/app'
+import { getTimestamp, appNavigate, findSubjectCn, getCoverMedium } from '@utils'
 import { matchUserId } from '@utils/match'
 import { t } from '@utils/fetch'
 import { memo, ob } from '@utils/decorators'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 06:35:19
+ * @Last Modified time: 2022-01-23 14:52:53
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -105,12 +105,20 @@ export default class ScreenGuess extends store {
     })
   }
 
-  queueFetchEpsThumbs = () => {
+  queueFetchEpsThumbs = async () => {
     const { list } = this.state
-    queue(
+    await queue(
       list.map(item => () => this.fetchEpsThumbs(item.id)),
       1
     )
+
+    setTimeout(() => {
+      this.toggleLike()
+
+      setTimeout(() => {
+        this.toggleLike()
+      }, 80)
+    }, 240)
   }
 
   toggleLike = () => {
