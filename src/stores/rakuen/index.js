@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-26 04:53:32
+ * @Last Modified time: 2022-01-23 17:03:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -471,7 +471,7 @@ class Rakuen extends store {
    */
   fetchGroup = async ({ groupId, page }) => {
     const html = await fetchHTML({
-      url: `!${HTML_GROUP(groupId, page)}`
+      url: HTML_GROUP(groupId, page)
     })
     const group = analysisGroup(html)
     this.setState({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 17:05:46
+ * @Last Modified time: 2022-01-23 17:01:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,7 +54,7 @@ export default obc(Item)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    width: _.isLandscape ? '50%' : '100%',
+    width: '50%',
     paddingVertical: _.sm + 4,
     paddingHorizontal: _.sm,
     borderRadius: _.radiusSm,
