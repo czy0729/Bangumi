@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-04 03:51:54
+ * @Last Modified time: 2022-01-23 16:52:32
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
@@ -87,6 +87,13 @@ export const FixedTextarea = observer(
 
     connectRef = ref => (this.ref = ref)
 
+    onRefBlur = () => {
+      try {
+        const ref = this.ref.textAreaRef
+        ref.blur()
+      } catch (error) {}
+    }
+
     onToggle = (open, keyboardHeight) => {
       if (open) {
         this.setState({
@@ -120,7 +127,7 @@ export const FixedTextarea = observer(
       })
 
       setTimeout(() => {
-        this.ref.textAreaRef.blur()
+        this.onRefBlur()
       }, 0)
     }
 
@@ -250,15 +257,13 @@ export const FixedTextarea = observer(
         })
 
         setTimeout(() => {
-          const ref = this.ref.textAreaRef
-          ref.blur()
+          this.onRefBlur()
         }, 0)
         return
       }
 
       setTimeout(() => {
-        const ref = this.ref.textAreaRef
-        ref.blur()
+        this.onRefBlur()
 
         setTimeout(() => {
           this.setState({
@@ -327,15 +332,13 @@ export const FixedTextarea = observer(
         })
 
         setTimeout(() => {
-          const ref = this.ref.textAreaRef
-          ref.blur()
+          this.onRefBlur()
         }, 0)
         return
       }
 
       setTimeout(() => {
-        const ref = this.ref.textAreaRef
-        ref.blur()
+        this.onRefBlur()
 
         setTimeout(() => {
           this.setState({
@@ -503,7 +506,7 @@ export const FixedTextarea = observer(
       const { value, showTextarea, showBgm } = this.state
       const canSend = value !== ''
       return (
-        <View style={_.container.wind}>
+        <View style={this.styles.textareaContainer}>
           <Flex align='start'>
             <Flex.Item>
               <TextareaItem
@@ -519,6 +522,7 @@ export const FixedTextarea = observer(
                 onChange={this.onChange}
                 onSelectionChange={this.onSelectionChange}
               />
+              <View style={this.styles.fixedTextareaBorderBottom} />
             </Flex.Item>
             <Touchable style={this.styles.touchSend} onPress={this.onSubmit}>
               <Flex style={this.styles.send} justify='center'>
@@ -605,14 +609,25 @@ export const FixedTextarea = observer(
       )
     }
 
+    renderMask() {
+      const { showTextarea, showBgm } = this.state
+      if (!(showTextarea || showBgm)) return null
+
+      return (
+        <View style={this.styles.maskContainer}>
+          <TouchableWithoutFeedback onPress={this.onBlur}>
+            <View style={this.styles.mask} />
+          </TouchableWithoutFeedback>
+        </View>
+      )
+    }
+
     render() {
       const { children } = this.props
-      const { showTextarea, showBgm, showKeyboardSpacer } = this.state
+      const { showKeyboardSpacer } = this.state
       return (
         <>
-          {(showTextarea || showBgm) && (
-            <Touchable style={this.styles.mask} withoutFeedback onPress={this.onBlur} />
-          )}
+          {this.renderMask()}
           <View style={this.styles.container}>
             {children}
             {this.renderToolBar()}
@@ -635,14 +650,14 @@ export const FixedTextarea = observer(
 )
 
 const memoStyles = _.memoStyles(() => ({
-  mask: {
+  maskContainer: {
     position: 'absolute',
-    zIndex: 1000,
     top: 0,
     right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: _.colorMask
+    left: 0
+  },
+  mask: {
+    height: _.window.height
   },
   container: {
     position: 'absolute',
@@ -650,9 +665,8 @@ const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: 0,
     left: 0,
-    paddingTop: _.device(0, _.xs),
-    paddingBottom: _.device(0, _.sm),
-    marginBottom: -4,
+    paddingTop: 2,
+    paddingBottom: _.ios(20, 0),
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderTopWidth: _.select(_.hairlineWidth, 0),
     borderTopColor: _.colorBorder
@@ -682,6 +696,9 @@ const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.wind,
     paddingVertical: _.sm
   },
+  textareaContainer: {
+    paddingHorizontal: _.wind
+  },
   textarea: {
     paddingVertical: _.sm,
     paddingHorizontal: 0,
@@ -691,7 +708,15 @@ const memoStyles = _.memoStyles(() => ({
     lineHeight: 22,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
+
+  // TextareaItem 下方有一根白色线修复不了, 用这个遮着
+  fixedTextareaBorderBottom: {
+    height: 2,
+    marginTop: -1,
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+  },
   touchSend: {
+    marginTop: _.ios(8, 0),
     marginLeft: _.sm,
     marginRight: -4,
     borderRadius: 20,
