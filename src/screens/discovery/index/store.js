@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:41:14
+ * @Last Modified time: 2022-01-25 17:49:35
  */
 import { observable, computed } from 'mobx'
 import {
@@ -25,6 +25,16 @@ export const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 
 const namespace = 'ScreenDiscovery'
 const excludeState = {
+  home: {
+    list: MODEL_SUBJECT_TYPE.data.map(item => ({
+      type: item.label
+    })),
+    pagination: {
+      page: 1,
+      pageTotal: 1
+    },
+    _loaded: getTimestamp()
+  },
   visible: false,
   dragging: false,
   link: ''
@@ -32,21 +42,6 @@ const excludeState = {
 
 export default class ScreenDiscovery extends store {
   state = observable({
-    home: {
-      list: [
-        {
-          type: MODEL_SUBJECT_TYPE.getLabel('动画')
-        },
-        {
-          type: MODEL_SUBJECT_TYPE.getLabel('书籍')
-        }
-      ],
-      pagination: {
-        page: 1,
-        pageTotal: 2
-      },
-      _loaded: getTimestamp()
-    },
     expand: false,
     ...excludeState
   })
@@ -67,25 +62,9 @@ export default class ScreenDiscovery extends store {
 
       queue([() => calendarStore.fetchOnAir(), () => calendarStore.fetchCalendar()])
     }, 800)
-    return calendarStore.fetchHome()
   }
 
   // -------------------- fetch --------------------
-  fetchHome = () => {
-    this.setState({
-      home: {
-        list: MODEL_SUBJECT_TYPE.data.map(item => ({
-          type: item.label
-        })),
-        pagination: {
-          page: 2,
-          pageTotal: 2
-        },
-        _loaded: getTimestamp()
-      }
-    })
-  }
-
   fetchOnline = () => discoveryStore.fetchOnline()
 
   fetchChannel = () => {
@@ -107,10 +86,20 @@ export default class ScreenDiscovery extends store {
 
   @computed get home() {
     const { setting } = systemStore
-    if (setting.cdn) {
-      return calendarStore.homeFromCDN
-    }
+    if (setting.cdn) return calendarStore.homeFromCDN
     return calendarStore.home
+  }
+
+  @computed get ramdonHome() {
+    const data = JSON.parse(JSON.stringify(this.home))
+    return {
+      ...data,
+      anime: data.anime.sort(() => 0.5 - Math.random()),
+      book: data.book.sort(() => 0.5 - Math.random()),
+      game: data.game.sort(() => 0.5 - Math.random()),
+      music: data.music.sort(() => 0.5 - Math.random()),
+      real: data.real.sort(() => 0.5 - Math.random())
+    }
   }
 
   @computed get today() {

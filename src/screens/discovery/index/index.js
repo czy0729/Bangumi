@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 10:53:12
+ * @Last Modified time: 2022-01-25 17:38:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,8 +44,8 @@ const Discovery = ({ isFocused }, { $ }) => {
           renderItem={renderItem}
           scrollToTop={isFocused}
           scrollEnabled={!dragging}
-          onHeaderRefresh={dragging ? undefined : $.init}
-          onFooterRefresh={$.fetchHome}
+          // onHeaderRefresh={dragging ? undefined : $.init}
+          // onFooterRefresh={$.fetchHome}
         />
         <LinkModal />
         {isFocused && <IconPortal index={0} onPress={$.onRefreshThenScrollTop} />}
@@ -79,12 +79,7 @@ function renderItem({ item }) {
   return (
     <View>
       <List {...item} />
-      <Heatmap
-        id='发现.跳转'
-        data={{
-          from: MODEL_SUBJECT_TYPE.getTitle(item.type)
-        }}
-      />
+      <Heatmap id='发现.跳转' from={MODEL_SUBJECT_TYPE.getTitle(item.type)} />
     </View>
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 10:51:39
+ * @Last Modified time: 2022-01-25 17:42:06
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -125,13 +125,17 @@ const SortMenu = memo(
           </Text>
         )}
         {!isPortrait && btns}
-        <DraggableGrid
-          key={orientation}
-          data={data}
-          numColumns={4}
-          renderItem={renderItem}
-          onDragRelease={onDragRelease}
-        />
+        {dragging ? (
+          <DraggableGrid
+            key={orientation}
+            data={data}
+            numColumns={4}
+            renderItem={renderItem}
+            onDragRelease={onDragRelease}
+          />
+        ) : (
+          <Flex wrap='wrap'>{data.map(item => renderItem(item))}</Flex>
+        )}
         {isPortrait && btns}
       </View>
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 22:13:28
+ * @Last Modified time: 2022-01-25 15:30:51
  */
 import React, { useState, useEffect } from 'react'
 import { ActionSheet, Flex, Text, SwitchPro, Heatmap } from '@components'
@@ -63,7 +63,7 @@ function CDN() {
           <ItemSettingBlock
             style={_.mt.sm}
             title='封面加速'
-            information='使用特定CDN域名加速访问'
+            information='使用特定CDN域名加速访问，切换后可能需要重新启动才能生效'
           >
             <ItemSettingBlock.Item
               title='lain.bgm.tv'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 01:03:53
+ * @Last Modified time: 2022-01-25 15:22:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,6 @@ import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
 import { linearColor } from './ds'
 
 function CoverLg({ title, src, cn, data }, { navigation }) {
@@ -81,7 +80,7 @@ const memoStyles = _.memoStyles(() => ({
     marginHorizontal: _.windSm,
     borderRadius: _.radiusMd,
     backgroundColor: _.colorBg,
-    overflow: IOS ? 'hidden' : undefined,
+    overflow: 'hidden',
     ..._.shadow
   },
   cover: {

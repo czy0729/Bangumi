@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:32:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 22:19:00
+ * @Last Modified time: 2022-01-25 15:52:31
  */
+export { default as useBackHandler } from './useBackHandler'
 export { default as useBoolean } from './useBoolean'
 export { default as useDimensions } from './useDimensions'
 export { default as useInitialURL } from './useInitialURL'

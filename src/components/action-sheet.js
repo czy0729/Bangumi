@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 19:51:40
+ * @Last Modified time: 2022-01-25 16:17:44
  */
-import React, { useState, useEffect } from 'react'
-import { Animated, View } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { Animated, View, StatusBar } from 'react-native'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useObserver, useBackHandler } from '@utils/hooks'
+import { IOS } from '@constants'
 import { Portal } from './portal'
 import { ScrollView } from './scroll-view'
 import { Touchable } from './touchable'
@@ -16,19 +17,23 @@ export const ActionSheet = ({ show = false, height = 400, onClose, children }) =
   const [y] = useState(new Animated.Value(0))
   const [_show, _setShow] = useState(show)
 
-  useEffect(() => {
-    if (show) {
-      _setShow(true)
-      setTimeout(() => {
-        Animated.timing(y, {
-          toValue: 1,
-          duration: 160,
-          useNativeDriver: true
-        }).start()
-      }, 0)
-      return
+  const _onShow = useCallback(() => {
+    _setShow(true)
+
+    if (!IOS && !_.isDark) {
+      // 去除StatusBar的灰色背景
+      StatusBar.setBackgroundColor('rgba(255, 255, 255, 0)', false)
     }
 
+    setTimeout(() => {
+      Animated.timing(y, {
+        toValue: 1,
+        duration: 160,
+        useNativeDriver: true
+      }).start()
+    }, 0)
+  }, [y])
+  const _onClose = useCallback(() => {
     if (_show) {
       onClose()
       Animated.timing(y, {
@@ -40,7 +45,25 @@ export const ActionSheet = ({ show = false, height = 400, onClose, children }) =
         _setShow(false)
       }, 240)
     }
-  }, [_show, onClose, show, y])
+  }, [_show, onClose, y])
+
+  useEffect(() => {
+    if (show) {
+      _onShow()
+      return
+    }
+
+    if (_show) {
+      _onClose()
+    }
+  }, [_onClose, _onShow, _show, show])
+
+  useBackHandler(() => {
+    if (IOS || !_show) return false
+
+    _onClose()
+    return true
+  })
 
   return useObserver(() => {
     if (!_show) return null

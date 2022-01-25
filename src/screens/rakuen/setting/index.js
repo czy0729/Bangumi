@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 02:39:04
+ * @Last Modified time: 2022-01-25 16:20:32
  */
 import React from 'react'
 import {
@@ -301,7 +301,7 @@ class RakuenSetting extends React.Component {
   render() {
     return (
       <Page style={_.select(_.container.bg, _.container.plain)}>
-        <ScrollView contentContainerStyle={_.container.bottom}>
+        <ScrollView contentContainerStyle={this.styles.container}>
           {this.renderTopic()}
           {this.renderList()}
           {this.renderCustom()}
@@ -317,6 +317,10 @@ class RakuenSetting extends React.Component {
 }
 
 const memoStyles = _.memoStyles(() => ({
+  container: {
+    paddingTop: _.sm,
+    paddingBottom: _.bottom
+  },
   segmentedControl: {
     height: 28 * _.ratio,
     width: 164 * _.ratio

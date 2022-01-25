@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:16:14
+ * @Last Modified time: 2022-01-25 15:58:49
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -31,9 +31,7 @@ export const ImageViewer = observer(
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-      if (!IOS) {
-        StatusBar.setHidden(nextProps.visible)
-      }
+      if (!IOS) StatusBar.setHidden(nextProps.visible)
     }
 
     onRequestClose = () => {

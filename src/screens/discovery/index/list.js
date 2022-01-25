@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 10:55:04
+ * @Last Modified time: 2022-01-25 17:44:09
  */
 import React from 'react'
 import { HorizontalList } from '@components'
@@ -16,10 +16,9 @@ import CoverLg from './cover-lg'
 import CoverSm from './cover-sm'
 import CoverXs from './cover-xs'
 
-const dataCache = {}
 const initialRenderNumsSm = _.device(Math.floor(_.window.contentWidth / 140) + 1, 0)
 export const initialRenderNumsXs = _.device(
-  Math.floor(_.window.contentWidth / 86) + 1,
+  Math.floor(_.window.contentWidth / 80) + 1,
   0
 )
 
@@ -35,22 +34,20 @@ const defaultProps = {
 const List = memo(({ styles, style, type, list, friendsChannel, friendsMap }) => {
   rerender('Discovery.List.Main')
 
-  const data = dataCache[type] || list.sort(() => 0.5 - Math.random()) || []
-  if (!dataCache[type] && data.length) dataCache[type] = data
   const title = MODEL_SUBJECT_TYPE.getTitle(type)
   return (
     <>
       <SectionTitle title={title} type={type} />
       <CoverLg
         title={title}
-        src={getCoverLarge(data[0].cover) || IMG_DEFAULT}
-        cn={findSubjectCn(data[0].title, data[0].subjectId)}
-        data={data[0]}
+        src={getCoverLarge(list[0].cover) || IMG_DEFAULT}
+        cn={findSubjectCn(list[0].title, list[0].subjectId)}
+        data={list[0]}
       />
       <HorizontalList
         style={style}
         contentContainerStyle={styles.contentContainerStyle}
-        data={data.filter((item, index) => index > 0)}
+        data={list.filter((item, index) => index > 0)}
         initialRenderNums={initialRenderNumsSm}
         renderItem={item => (
           <CoverSm
@@ -81,21 +78,23 @@ const List = memo(({ styles, style, type, list, friendsChannel, friendsMap }) =>
   )
 }, defaultProps)
 
+const listCache = {}
 export default obc(({ style, type = 'anime' }, { $ }) => {
   rerender('Discovery.List')
 
   const { dragging } = $.state
   if (dragging) return null
 
-  const list = $.home[type]
-  if (!list.length) return null
+  const list = listCache[type] || $.ramdonHome[type]
+  if (!list?.length) return null
+  if (list?.length && !listCache[type]) listCache[type] = list
 
   return (
     <List
       styles={memoStyles()}
       style={style}
       type={type}
-      list={list}
+      list={listCache[type]}
       friendsChannel={$.friendsChannel(type)}
       friendsMap={$.friendsMap}
     />
