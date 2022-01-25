@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 15:08:27
+ * @Last Modified time: 2022-01-25 21:40:56
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -345,9 +345,9 @@ class Subject extends store {
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
     const raw = await res
-    const html = raw.replace(/\s+/g, '')
+    const html = raw.replace(/ {2}|&nbsp;/g, ' ').replace(/\n/g, '')
     const commentsHTML = html.match(
-      /<divid="comment_box">(.+?)<\/div><\/div><divclass="section_lineclear">/
+      /<div id="comment_box">(.+?)<\/div><\/div><div class="section_line clear">/
     )
 
     // -------------------- 分析HTML --------------------
@@ -357,18 +357,16 @@ class Subject extends store {
     if (commentsHTML) {
       /**
        * 总页数
-       * @tucao 晕了, 至少有三种情况, 其实在第一页的时候获取就足够了
+       *
        * [1] 超过10页的, 有总页数
        * [2] 少于10页的, 需要读取最后一个分页按钮获取页数
        * [3] 只有1页, 没有分页按钮
        */
       if (page === 1) {
         const pageHTML =
+          html.match(/<span class="p_edge">\( \d+ \/ (\d+) \)<\/span>/) ||
           html.match(
-            /<spanclass="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
-          ) ||
-          html.match(
-            /<ahref="\?page=\d+"class="p">(\d+)<\/a><ahref="\?page=2"class="p">&rsaquo;&rsaquo;<\/a>/
+            /<a href="\?page=(\d+)" class="p">10<\/a><a href="\?page=2" class="p">&rsaquo;&rsaquo;<\/a>/
           )
         if (pageHTML) {
           pageTotal = pageHTML[1]
@@ -378,25 +376,27 @@ class Subject extends store {
       }
 
       // 留言
-      let items = commentsHTML[1].split('<divclass="itemclearit">')
+      let items = commentsHTML[1].split('<div class="item clearit">')
       items.shift()
 
       if (isReverse) {
         items = items.reverse()
       }
       items.forEach((item, index) => {
-        const userId = item.match(/<divclass="text"><ahref="\/user\/(.+?)"class="l">/)
-        const userName = item.match(/"class="l">(.+?)<\/a><smallclass="grey"/)
+        const userId = item.match(
+          /<div class="text"><a href="\/user\/(.+?)" class="l">/
+        )
+        const userName = item.match(/" class="l">(.+?)<\/a> <small class="grey">/)
         const avatar = item.match(/background-image:url\('(.+?)'\)"><\/span>/)
-        const time = item.match(/<smallclass="grey">@(.+?)<\/small>/)
-        const star = item.match(/starlightstars(.+?)"/)
+        const time = item.match(/<small class="grey">@(.+?)<\/small>/)
+        const star = item.match(/starlight stars(.+?)"/)
         const comment = item.match(/<p>(.+?)<\/p>/)
         comments.push({
           id: `${page}|${index}`,
           userId: userId ? userId[1] : '',
           userName: userName ? HTMLDecode(userName[1]) : '',
           avatar: avatar ? avatar[1] : '',
-          time: time ? time[1] : '',
+          time: time ? time[1].trim() : '',
           star: star ? star[1] : '',
           comment: comment ? HTMLDecode(comment[1]) : ''
         })
