@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 02:56:18
+ * @Last Modified time: 2022-01-23 20:16:29
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -197,12 +197,12 @@ export default obc((props, { $ }) => {
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingTop: 48 * _.ratio,
-    paddingBottom: _.sm
+    paddingTop: 48 * _.ratio
   },
   content: {
     paddingTop: 12 * _.ratio,
     paddingRight: _.wind,
+    paddingBottom: _.md,
     backgroundColor: _.colorPlain,
     borderTopLeftRadius: _.radiusLg,
     borderTopRightRadius: _.radiusLg
