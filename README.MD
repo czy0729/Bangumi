@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.7.0" src="https://img.shields.io/badge/Version-5.7.0-0366d6" />
+  <img alt="Version: 5.7.1" src="https://img.shields.io/badge/Version-5.7.1-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -52,20 +52,18 @@ Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互�
 
 ## Recently Update
 
-v5.7.0 - 2022/01/11
+v5.7.1 - 2022/01/25
 
 —— 优化 ——
 
-- [x] [帖子] 留言中远程图片支持显示图片后缀和大小
-- [x] [人物] 正文和留言楼层都支持翻译
-- [x] [资讯] 完善功能 (发现菜单中进入)
-- [x] 部分页面年份下拉增加 2022 年
+- [x] [设置] 页面迭代
+- [x] [设置] 现在默认不使用 CDN，在不使用 CDN 的情况下，使用恰当质量的图片
+- [x] [条目] 优化评论显示，不会再去掉单个空格
 
 —— 修复 ——
 
-- [x] [条目] 修复正版单集播放源头失效的问题
-- [x] [章节] 修复了翻译功能缺失的问题
-- [x] 修复了上个版本部分页面布局错乱的问题
+- [x] [个人设置] 修复了保存后时区会被强制设置成 gmt+8 的问题
+- [x] [发现] 修复了进入页面有时候会卡死 App 的问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:55:12
+ * @Last Modified time: 2022-01-25 21:54:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,35 +54,37 @@ class UserSetting extends React.Component {
     const blurRadius = bgSrc === avatar.large ? (IOS ? 2 : 1) : 0
     return (
       <View>
-        <Image
-          key={bgSrc}
-          style={this.styles.avatar}
-          headers={headers}
-          src={bgSrc}
-          width={_.window.width}
-          height={this.styles.preview.height}
-          blurRadius={blurRadius}
-        />
-        <Flex style={this.styles.mask} direction='column' justify='center'>
+        <View style={this.styles.container}>
           <Image
-            key={avatarSrc}
-            style={_.mt.md}
+            key={bgSrc}
+            style={this.styles.avatar}
             headers={headers}
-            src={avatarSrc}
-            size={88}
-            radius={44}
-            border={_.__colorPlain__}
-            borderWidth={2}
-            shadow
+            src={bgSrc}
+            width={_.window.contentWidth}
+            height={this.styles.preview.height}
+            blurRadius={blurRadius}
           />
-          <Text style={_.mt.md} type={_.select('plain', 'title')}>
-            {nickname}
-            <Text type={_.select('plain', 'title')}>
-              {' '}
-              {username || id ? `@${username || id} ` : ''}
+          <Flex style={this.styles.mask} direction='column' justify='center'>
+            <Image
+              key={avatarSrc}
+              style={_.mt.md}
+              headers={headers}
+              src={avatarSrc}
+              size={88}
+              radius={44}
+              border={_.__colorPlain__}
+              borderWidth={2}
+              shadow
+            />
+            <Text style={_.mt.md} type={_.select('plain', 'title')}>
+              {nickname}
+              <Text type={_.select('plain', 'title')}>
+                {' '}
+                {username || id ? `@${username || id} ` : ''}
+              </Text>
             </Text>
-          </Text>
-        </Flex>
+          </Flex>
+        </View>
         <View style={this.styles.example}>
           <Touchable
             onPress={() =>
@@ -91,7 +93,7 @@ class UserSetting extends React.Component {
               })
             }
           >
-            <Text size={10} lineHeight={16} type='__plain__'>
+            <Text size={10} lineHeight={16} bold type='__plain__'>
               [示例]
             </Text>
           </Touchable>
@@ -238,10 +240,15 @@ class UserSetting extends React.Component {
 }
 
 const memoStyles = _.memoStyles(() => {
-  const H_BG = Math.min(parseInt(_.window.width * 0.64), 288) + 8
+  const H_BG = Math.min(parseInt(_.window.contentWidth * 0.64), 288) + 8
   const W_BGS = parseInt((_.window.width - _.md - _._wind * 2) / 2)
   const H_BGS = W_BGS * 0.5625
   return {
+    container: {
+      marginHorizontal: _.wind,
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
+    },
     mask: {
       position: 'absolute',
       zIndex: 1,
@@ -249,7 +256,7 @@ const memoStyles = _.memoStyles(() => {
       right: 0,
       bottom: 0,
       left: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.48)'
+      backgroundColor: 'rgba(0, 0, 0, 0.24)'
     },
     avatar: {
       backgroundColor: _.__colorPlain__
@@ -265,7 +272,9 @@ const memoStyles = _.memoStyles(() => {
       marginBottom: _.md
     },
     input: {
-      paddingRight: 8
+      paddingRight: 8,
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
     },
     preview: {
       height: H_BG
@@ -277,7 +286,7 @@ const memoStyles = _.memoStyles(() => {
     example: {
       position: 'absolute',
       zIndex: 2,
-      right: _.wind,
+      right: _.wind + _.md,
       bottom: _.sm,
       opacity: 0.64
     }

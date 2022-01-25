@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 20:03:54
+ * @Last Modified time: 2022-01-25 21:56:08
  */
-import { IOS, VERSION_GITHUB_RELEASE } from '@constants'
+import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
@@ -14,7 +14,7 @@ import {
   MODEL_SETTING_USER_GRID_NUM,
   MODEL_SETTING_CDN_ORIGIN
 } from '@constants/model'
-import { radiusSm, radiusMd } from '@styles'
+import { radiusMd } from '@styles'
 
 export const NAMESPACE = 'System'
 
@@ -47,7 +47,7 @@ export const INIT_SETTING = {
   deepDark: true, // 黑暗模式是否纯黑
   simple: true, // 设置页面显示最基本的设置
   avatarRound: false, // 头像是否圆形
-  coverRadius: IOS ? radiusMd : radiusSm, // 默认的封面圆角大小
+  coverRadius: radiusMd, // 默认的封面圆角大小
 
   // CDN加速
   cdn: false,
