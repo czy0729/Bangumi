@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-01 22:42:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-10 11:27:39
+ * @Last Modified time: 2022-01-25 18:11:05
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLTrim } from '@utils/html'
@@ -90,6 +90,8 @@ export function cheerioUserSetting(HTML) {
     sign: $('#newbio').text().trim(),
     nickname: $('input[name=nickname]').attr('value'),
     sign_input: $('input[name=sign_input]').attr('value'),
-    formhash: $('input[name=formhash]').attr('value')
+    formhash: $('input[name=formhash]').attr('value'),
+    timeoffsetnew:
+      $('select[name=timeoffsetnew] option[selected=selected]').attr('value') || '8'
   }
 }

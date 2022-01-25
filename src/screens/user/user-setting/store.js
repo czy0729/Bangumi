@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 03:13:48
+ * @Last Modified time: 2022-01-25 18:11:31
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -14,7 +14,8 @@ import { info, feedback } from '@utils/ui'
 const onlineBgsUrl = 'https://gitee.com/a296377710/bangumi/raw/master/bg.json'
 const regBg = /\[bg\](.+?)\[\/bg\]/
 const regAvatar = /\[avatar\](.+?)\[\/avatar\]/
-const regFixed = /\[size=0\]\[avatar\]\[\/avatar\]\[\/size\]|\[size=0\]\[bg\]\[\/bg\]\[\/size\]/g
+const regFixed =
+  /\[size=0\]\[avatar\]\[\/avatar\]\[\/size\]|\[size=0\]\[bg\]\[\/bg\]\[\/size\]/g
 
 export default class ScreenAvatar extends store {
   state = observable({
@@ -93,10 +94,7 @@ export default class ScreenAvatar extends store {
 
     const { sign } = this.userSetting
     const _avatars = sign.match(regAvatar)
-    return String(_avatars ? String(_avatars[1]).trim() : '').replace(
-      regFixed,
-      ''
-    )
+    return String(_avatars ? String(_avatars[1]).trim() : '').replace(regFixed, '')
   }
 
   // -------------------- action --------------------
@@ -113,7 +111,7 @@ export default class ScreenAvatar extends store {
   }
 
   onSave = async () => {
-    const { formhash, sign } = this.userSetting
+    const { formhash, sign, timeoffsetnew } = this.userSetting
     const { avatar, bg, nickname, sign_input } = this.state
 
     // 使用个人签名来记录APP自定义头像和背景
@@ -139,7 +137,7 @@ export default class ScreenAvatar extends store {
         nickname,
         sign_input,
         newbio: _sign,
-        timeoffsetnew: '8'
+        timeoffsetnew
       },
       () => {
         t('个人设置.保存', {
