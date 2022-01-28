@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 08:29:52
+ * @Last Modified time: 2022-01-28 15:04:39
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -255,15 +255,23 @@ export async function fetchMediaQueue(type, id) {
  */
 const cache = {}
 let trie
+let trieInit
 export function acSearch(str) {
   if (!trie) {
-    trie = new lazyac(
-      // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
-      Object.keys(substrings),
-      {
-        allowDuplicates: false
-      }
-    )
+    // 初始化需要好几秒, 需要触发后延迟初始化, 待下一次再用
+    if (!trieInit) {
+      trieInit = true
+      setTimeout(() => {
+        trie = new lazyac(
+          // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
+          Object.keys(substrings),
+          {
+            allowDuplicates: false
+          }
+        )
+      }, 2400)
+    }
+    return str
   }
 
   const _hash = hash(str)

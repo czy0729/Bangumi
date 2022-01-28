@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 09:44:06
+ * @Last Modified time: 2022-01-28 06:01:50
  */
 import React from 'react'
 import { Flex, Button, Heatmap } from '@components'
@@ -20,7 +20,7 @@ function TabBarLeft({ onSelect }, { $ }) {
   return (
     <Popover data={MODEL_SUBJECT_TYPE.data.map(item => item.title)} onSelect={onSelect}>
       <Flex style={styles.tabBarLeft} justify='center'>
-        <Button style={styles.btn} type='ghostMain' size='sm'>
+        <Button style={styles.btn} styleText={styles.text} type='ghostMain' size='sm'>
           {MODEL_SUBJECT_TYPE.getTitle(subjectType)}
         </Button>
       </Flex>
@@ -46,9 +46,12 @@ const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   btn: {
-    width: 48 * _.ratio,
+    width: 56 * _.ratio,
     height: 24 * _.ratio,
     marginTop: 2,
     borderRadius: 16 * _.ratio
+  },
+  text: {
+    width: 56 * _.ratio
   }
 }))
