@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-28 15:31:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-29 04:41:24
+ * @Last Modified time: 2022-01-29 05:17:03
  */
 import React from 'react'
 import { ActionSheet, Text, SegmentedControl, Heatmap } from '@components'
@@ -42,9 +42,10 @@ function Subject() {
       <>
         <ItemSetting hd='条目' arrow highlight onPress={setTrue} />
         <ActionSheet show={state} height={640} onClose={setFalse}>
-          {/* 收藏类型数量 */}
+          {/* 其他用户收藏数量 */}
           <ItemSetting
-            hd='收藏类型数量'
+            hd='其他用户收藏数量'
+            information='站点所有用户各收藏状态计数'
             ft={
               <SegmentedControl
                 style={styles.segmentedControl}
@@ -53,7 +54,7 @@ function Subject() {
                 selectedIndex={setting.showCount ? 0 : 1}
                 onValueChange={label => {
                   t('设置.切换', {
-                    title: '条目.收藏类型数量',
+                    title: '条目.其他用户收藏数量',
                     label
                   })
 
@@ -62,7 +63,55 @@ function Subject() {
               />
             }
           >
-            <Heatmap id='设置.切换' title='条目.收藏类型数量' />
+            <Heatmap id='设置.切换' title='条目.其他用户收藏数量' />
+          </ItemSetting>
+
+          {/* 进度输入框 */}
+          <ItemSetting
+            hd='进度输入框'
+            information='批量快速操作章节看过，也可用于标记到没有录入的章节'
+            ft={
+              <SegmentedControl
+                style={styles.segmentedControl}
+                size={12}
+                values={values2}
+                selectedIndex={setting.showEpInput ? 0 : 1}
+                onValueChange={label => {
+                  t('设置.切换', {
+                    title: '条目.进度输入框',
+                    label
+                  })
+
+                  systemStore.setSetting('showEpInput', label === '显示')
+                }}
+              />
+            }
+          >
+            <Heatmap id='设置.切换' title='条目.进度输入框' />
+          </ItemSetting>
+
+          {/* 自定义放送时间块 */}
+          <ItemSetting
+            hd='自定义放送时间块'
+            information='收藏状态为在看的动画，章节的右下方，默认值为线上放送时间，手动更改后首页收藏排序以此为准'
+            ft={
+              <SegmentedControl
+                style={styles.segmentedControl}
+                size={12}
+                values={values2}
+                selectedIndex={setting.showCustomOnair ? 0 : 1}
+                onValueChange={label => {
+                  t('设置.切换', {
+                    title: '条目.自定义放送时间块',
+                    label
+                  })
+
+                  systemStore.setSetting('showCustomOnair', label === '显示')
+                }}
+              />
+            }
+          >
+            <Heatmap id='设置.切换' title='条目.自定义放送时间块' />
           </ItemSetting>
 
           {/* 页面布局 */}

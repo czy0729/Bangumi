@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 06:24:23
+ * @Last Modified time: 2022-01-29 05:33:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Flex, Input, Button, Heatmap } from '@components'
 import { SectionTitle, Popover, IconTouchable } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc, memo } from '@utils/decorators'
 import { IOS } from '@constants'
 import BookEp from './book-ep'
@@ -76,6 +76,8 @@ const defaultProps = {
   totalEps: 0,
   onAirCustom: {},
   isDoing: false,
+  showEpInput: true,
+  showCustomOnair: true,
   onChangeText: Function.prototype,
   onSelectOnAir: Function.prototype,
   onResetOnAirUser: Function.prototype,
@@ -89,6 +91,8 @@ const Ep = memo(
     totalEps,
     onAirCustom,
     isDoing,
+    showEpInput,
+    showCustomOnair,
     onChangeText,
     onSelectOnAir,
     onResetOnAirUser,
@@ -97,7 +101,7 @@ const Ep = memo(
     rerender('Subject.Ep.Main')
 
     const { weekDay, h, m, isExist, isCustom } = onAirCustom
-    const showCustomOnAir = isExist || isDoing
+    const showOnair = showCustomOnair && (isExist || isDoing)
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -117,96 +121,101 @@ const Ep = memo(
           <Heatmap id='条目.章节按钮长按' />
           <Heatmap bottom={35} id='条目.章节菜单操作' />
         </View>
-        <Flex style={_.mt.sm}>
-          <Flex.Item>
-            <Flex>
-              <View style={styles.input}>
-                <Input
-                  style={styles.inputRaw}
-                  pointerEvents='box-none'
-                  keyboardType='numeric'
-                  value={watchedEps}
-                  placeholder={watchedEps || '0'}
-                  clearButtonMode='never'
-                  returnKeyType='done'
-                  returnKeyLabel='更新'
-                  onChangeText={text =>
-                    onChangeText('watchedEps', text.replace(/[^\d]+/, ''))
-                  }
-                  onSubmitEditing={doUpdateSubjectEp}
-                />
-                {!!totalEps && (
-                  <Text style={styles.total} type='sub' size={11} bold>
-                    / {totalEps}
-                  </Text>
+        {showEpInput ||
+          (showOnair && (
+            <Flex style={_.mt.sm}>
+              <Flex.Item>
+                {showEpInput && (
+                  <Flex>
+                    <View style={styles.input}>
+                      <Input
+                        style={styles.inputRaw}
+                        pointerEvents='box-none'
+                        keyboardType='numeric'
+                        value={watchedEps}
+                        placeholder={watchedEps || '0'}
+                        clearButtonMode='never'
+                        returnKeyType='done'
+                        returnKeyLabel='更新'
+                        onChangeText={text =>
+                          onChangeText('watchedEps', text.replace(/[^\d]+/, ''))
+                        }
+                        onSubmitEditing={doUpdateSubjectEp}
+                      />
+                      {!!totalEps && (
+                        <Text style={styles.total} type='sub' size={11} bold>
+                          / {totalEps}
+                        </Text>
+                      )}
+                    </View>
+                    <Button
+                      style={styles.btn}
+                      size='sm'
+                      type='ghostPrimary'
+                      onPress={doUpdateSubjectEp}
+                    >
+                      更新
+                    </Button>
+                  </Flex>
                 )}
-              </View>
-              <Button
-                style={styles.btn}
-                size='sm'
-                type='ghostPrimary'
-                onPress={doUpdateSubjectEp}
-              >
-                更新
-              </Button>
-            </Flex>
-          </Flex.Item>
-          {showCustomOnAir && (
-            <Flex>
-              <Popover
-                data={weekDayDS}
-                onSelect={title => {
-                  const map = {}
-                  Object.keys(weekDayMap).forEach(
-                    item => (map[weekDayMap[item]] = item)
-                  )
-                  onSelectOnAir('weekDayCN', Number(map[title] || 0))
-                }}
-              >
-                <Flex style={styles.btnOnAir} justify='center'>
-                  <Text size={11} bold type='sub'>
-                    {weekDayMap[weekDay] === undefined ? '周' : weekDayMap[weekDay]}
-                  </Text>
+              </Flex.Item>
+              {showOnair && (
+                <Flex>
+                  <Popover
+                    data={weekDayDS}
+                    onSelect={title => {
+                      const map = {}
+                      Object.keys(weekDayMap).forEach(
+                        item => (map[weekDayMap[item]] = item)
+                      )
+                      onSelectOnAir('weekDayCN', Number(map[title] || 0))
+                    }}
+                  >
+                    <Flex style={styles.btnOnAir} justify='center'>
+                      <Text size={11} bold type='sub'>
+                        {weekDayMap[weekDay] === undefined ? '周' : weekDayMap[weekDay]}
+                      </Text>
+                    </Flex>
+                  </Popover>
+                  <Popover
+                    data={hourDS}
+                    onSelect={title =>
+                      onSelectOnAir('timeCN', `${title || '00'}${m || '00'}`)
+                    }
+                  >
+                    <Flex style={styles.btnOnAir} justify='center'>
+                      <Text size={11} bold type='sub'>
+                        {h || '时'}
+                      </Text>
+                    </Flex>
+                  </Popover>
+                  <Popover
+                    data={minuteDS}
+                    onSelect={title =>
+                      onSelectOnAir('timeCN', `${h || '00'}${title || '00'}`)
+                    }
+                  >
+                    <Flex style={styles.btnOnAir} justify='center'>
+                      <Text size={11} bold type='sub'>
+                        {m || '分'}
+                      </Text>
+                    </Flex>
+                  </Popover>
+                  {isCustom && (
+                    <View style={styles.btnReset}>
+                      <IconTouchable
+                        style={_.mr._xs}
+                        name='md-refresh'
+                        size={20}
+                        onPress={onResetOnAirUser}
+                      />
+                    </View>
+                  )}
                 </Flex>
-              </Popover>
-              <Popover
-                data={hourDS}
-                onSelect={title =>
-                  onSelectOnAir('timeCN', `${title || '00'}${m || '00'}`)
-                }
-              >
-                <Flex style={styles.btnOnAir} justify='center'>
-                  <Text size={11} bold type='sub'>
-                    {h || '时'}
-                  </Text>
-                </Flex>
-              </Popover>
-              <Popover
-                data={minuteDS}
-                onSelect={title =>
-                  onSelectOnAir('timeCN', `${h || '00'}${title || '00'}`)
-                }
-              >
-                <Flex style={styles.btnOnAir} justify='center'>
-                  <Text size={11} bold type='sub'>
-                    {m || '分'}
-                  </Text>
-                </Flex>
-              </Popover>
-              {isCustom && (
-                <View style={styles.btnReset}>
-                  <IconTouchable
-                    style={_.mr._xs}
-                    name='md-refresh'
-                    size={20}
-                    onPress={onResetOnAirUser}
-                  />
-                </View>
               )}
+              <Heatmap id='条目.输入框更新章节' />
             </Flex>
-          )}
-          <Heatmap id='条目.输入框更新章节' />
-        </Flex>
+          ))}
       </View>
     )
   },
@@ -226,6 +235,8 @@ export default obc((props, { $ }) => {
       totalEps={$.subjectFormHTML.totalEps}
       onAirCustom={$.onAirCustom}
       isDoing={$.collection?.status?.type === 'do'}
+      showEpInput={systemStore.setting.showEpInput}
+      showCustomOnair={systemStore.setting.showCustomOnair}
       onChangeText={$.changeText}
       onSelectOnAir={$.onSelectOnAir}
       onResetOnAirUser={$.resetOnAirUser}

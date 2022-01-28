@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-28 15:26:02
+ * @Last Modified time: 2022-01-29 04:50:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Button, Icon, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { getType, getRating } from '@utils/app'
 import { obc, memo } from '@utils/decorators'
 import { IOS } from '@constants'
@@ -23,6 +23,7 @@ const defaultProps = {
   collectionStatus: '未收藏',
   isLogin: false,
   status: [],
+  showCount: true,
   showManageModel: Function.prototype,
   toRating: Function.prototype
 }
@@ -35,6 +36,7 @@ const Box = memo(
     collectionStatus: userCollectionStatus,
     isLogin,
     status,
+    showCount,
     showManageModel,
     toRating
   }) => {
@@ -122,27 +124,24 @@ const Box = memo(
           <Heatmap id='条目.管理收藏' />
           <Heatmap right={56} transparent id='条目.显示收藏管理' />
         </Touchable>
-        <View style={_.mt.md}>
-          <Text size={statusSize} type='sub'>
-            {status.map((item, index) => (
-              <Text
-                key={item.status}
-                size={statusSize}
-                type='sub'
-                onPress={() => toRating(navigation, '收藏', item.status)}
-              >
-                {!!index && ' / '}
-                {item.text}
-              </Text>
-            ))}
-          </Text>
-          <Heatmap
-            id='条目.跳转'
-            data={{
-              from: '收藏'
-            }}
-          />
-        </View>
+        {showCount && (
+          <View style={_.mt.md}>
+            <Text size={statusSize} type='sub'>
+              {status.map((item, index) => (
+                <Text
+                  key={item.status}
+                  size={statusSize}
+                  type='sub'
+                  onPress={() => toRating(navigation, '收藏', item.status)}
+                >
+                  {!!index && ' / '}
+                  {item.text}
+                </Text>
+              ))}
+            </Text>
+            <Heatmap id='条目.跳转' from='收藏' />
+          </View>
+        )}
       </View>
     )
   },
@@ -160,6 +159,7 @@ export default obc((props, { $, navigation }) => {
       collectionStatus={$.params._collection}
       isLogin={$.isLogin}
       status={$.status}
+      showCount={systemStore.setting.showCount}
       showManageModel={$.showManageModel}
       toRating={$.toRating}
     />
@@ -168,7 +168,6 @@ export default obc((props, { $, navigation }) => {
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    minHeight: 120,
     paddingHorizontal: _.wind,
     marginTop: _.md
   },

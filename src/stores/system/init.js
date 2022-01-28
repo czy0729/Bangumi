@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 21:56:08
+ * @Last Modified time: 2022-01-29 05:05:01
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -24,6 +24,12 @@ export const NAMESPACE = 'System'
  * true 显示 | false 折叠 | -1 永久隐藏
  */
 export const INIT_SUBJECT_LAYOUT = {
+  // 功能块
+  showCount: true, // 其他用户收藏数量
+  showEpInput: true, // 进度输入框
+  showCustomOnair: true, // 自定义放送时间块
+
+  // 布局
   showRelation: true, // 页面头部关系
   showTags: true, // 页面标签
   showSummary: true, // 简介

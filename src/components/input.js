@@ -3,12 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-29 03:35:30
+ * @Last Modified time: 2022-01-29 04:53:01
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
-import { _, systemStore } from '@stores'
+import {
+  _
+  // systemStore
+} from '@stores'
 import { IOS } from '@constants'
 import { Iconfont } from './iconfont'
 import { Touchable } from './touchable'
@@ -76,8 +79,9 @@ export const Input = observer(
     }
 
     get borderRadius() {
-      const { coverRadius } = systemStore.setting
-      return coverRadius || _.radiusXs
+      return _.radiusXs
+      // const { coverRadius } = systemStore.setting
+      // return coverRadius || _.radiusXs
     }
 
     renderClear() {
