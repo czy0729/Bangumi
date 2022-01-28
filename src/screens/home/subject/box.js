@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 16:24:01
+ * @Last Modified time: 2022-01-28 15:26:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Button, Icon, Text, Touchable, Iconfont, Heatmap } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
 import { obc, memo } from '@utils/decorators'
@@ -197,5 +197,11 @@ const memoStyles = _.memoStyles(() => ({
     borderLeftWidth: 0,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
+  },
+  hide: {
+    position: 'absolute',
+    zIndex: 1,
+    top: -10,
+    right: -_.sm
   }
 }))

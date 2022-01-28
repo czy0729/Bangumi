@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 16:14:41
+ * @Last Modified time: 2022-01-29 03:16:32
  */
 import React from 'react'
 import { Page, ScrollView, Flex } from '@components'
@@ -16,6 +16,7 @@ import Zhinan from './zhinan'
 import User from './user'
 import UserSetting from './user-setting'
 import Rakuen from './rakuen'
+import Subject from './subject'
 import Theme from './theme'
 import Custom from './custom'
 import UI from './ui'
@@ -65,6 +66,7 @@ class Setting extends React.Component {
             <Rakuen navigation={navigation} />
             <User navigation={navigation} />
             <UserSetting navigation={navigation} />
+            <Subject navigation={navigation} />
             <Tinygrail navigation={navigation} />
           </Block>
           <Block>

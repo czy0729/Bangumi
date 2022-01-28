@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 06:27:10
+ * @Last Modified time: 2022-01-29 02:21:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -156,6 +156,7 @@ export default class ScreenSubject extends store {
       () => this.fetchEpsData() // 单集播放源
     ])
 
+    // 查找角色的声优详细资料
     // if (!this.characters._loaded) {
     //   monoStore.fetchCharacters({
     //     subjectId: this.subjectId

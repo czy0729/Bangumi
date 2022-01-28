@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 14:47:17
+ * @Last Modified time: 2022-01-28 15:12:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -206,7 +206,8 @@ const memoStyles = _.memoStyles(() => ({
     width: '100%',
     height: 96 * _.ratio,
     borderWidth: 1,
-    borderColor: _.colorBorder
+    borderColor: _.colorBorder,
+    borderRadius: _.radiusXs
   },
   closeImageWrap: {
     position: 'absolute',

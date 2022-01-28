@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 16:52:32
+ * @Last Modified time: 2022-01-28 15:17:28
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -716,7 +716,7 @@ const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
   touchSend: {
-    marginTop: _.ios(8, 0),
+    marginTop: _.ios(8, -1),
     marginLeft: _.sm,
     marginRight: -4,
     borderRadius: 20,

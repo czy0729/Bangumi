@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:19:49
+ * @Last Modified time: 2022-01-29 03:35:30
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
 import { Iconfont } from './iconfont'
 import { Touchable } from './touchable'
@@ -75,6 +75,11 @@ export const Input = observer(
       onChangeText('')
     }
 
+    get borderRadius() {
+      const { coverRadius } = systemStore.setting
+      return coverRadius || _.radiusXs
+    }
+
     renderClear() {
       const { value } = this.state
       if (IOS || value === '') return null
@@ -106,7 +111,14 @@ export const Input = observer(
           <View style={this.styles.container}>
             <TouchableWithoutFeedback onPress={() => this.inputRef.focus()}>
               <View
-                style={[this.styles.multiContainer, { height: containerHeight }, style]}
+                style={[
+                  this.styles.multiContainer,
+                  {
+                    height: containerHeight,
+                    borderRadius: this.borderRadius
+                  },
+                  style
+                ]}
               >
                 <TextInput
                   ref={ref => (this.inputRef = ref)}
@@ -132,7 +144,22 @@ export const Input = observer(
         <View style={this.styles.container}>
           <TextInput
             ref={ref => (this.inputRef = ref)}
-            style={style ? [this.styles.input, style] : this.styles.input}
+            style={
+              style
+                ? [
+                    this.styles.input,
+                    {
+                      borderRadius: this.borderRadius
+                    },
+                    style
+                  ]
+                : [
+                    this.styles.input,
+                    {
+                      borderRadius: this.borderRadius
+                    }
+                  ]
+            }
             numberOfLines={numberOfLines}
             allowFontScaling={false}
             autoCapitalize='none'
@@ -162,7 +189,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   input: {
     width: '100%',
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     color: _.colorDesc,
     ..._.fontSize(14),
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
@@ -173,7 +201,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   multiContainer: {
     width: '100%',
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
     borderWidth: _.select(_.hairlineWidth, 0),
     borderColor: _.colorBorder,
