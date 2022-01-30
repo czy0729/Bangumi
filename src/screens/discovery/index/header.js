@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:22:35
+ * @Last Modified time: 2022-01-30 23:31:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,12 +26,7 @@ function Header(props, { $ }) {
       {!dragging && (
         <View>
           <Award />
-          <Heatmap
-            id='发现.跳转'
-            data={{
-              to: 'Award'
-            }}
-          />
+          <Heatmap id='发现.跳转' to='Award' />
         </View>
       )}
       <SortMenu />

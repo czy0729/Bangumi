@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-30 20:48:56
+ * @Last Modified time: 2022-01-31 00:52:47
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -189,7 +189,7 @@ const memoStyles = _.memoStyles(() => {
       width: widthLg,
       height: width,
       marginRight: _.md,
-      backgroundColor: 'rgb(160, 175, 122)',
+      backgroundColor: '#ebf3ec',
       borderRadius: _.radiusMd,
       overflow: 'hidden'
     },

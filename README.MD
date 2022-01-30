@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.7.1" src="https://img.shields.io/badge/Version-5.7.1-0366d6" />
+  <img alt="Version: 5.8.0" src="https://img.shields.io/badge/Version-5.8.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -51,6 +51,16 @@ Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互�
 - [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏, App 独立设计 UI 和交互）
 
 ## Recently Update
+
+v5.8.0 - 2022/01/30
+
+—— 新增 ——
+
+- [x] [发现] 支持显示 2021 年鉴
+
+—— 修复 ——
+
+- [x] 敏感条目由于旧 api 已经不返回数据, 很多数据可能会不显示, 会在未来几个版本内解决
 
 v5.7.1 - 2022/01/25
 

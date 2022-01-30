@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 17:49:35
+ * @Last Modified time: 2022-01-31 00:36:08
  */
 import { observable, computed } from 'mobx'
 import {
@@ -62,6 +62,8 @@ export default class ScreenDiscovery extends store {
 
       queue([() => calendarStore.fetchOnAir(), () => calendarStore.fetchCalendar()])
     }, 800)
+
+    return calendarStore.fetchHome()
   }
 
   // -------------------- fetch --------------------
@@ -92,14 +94,15 @@ export default class ScreenDiscovery extends store {
 
   @computed get ramdonHome() {
     const data = JSON.parse(JSON.stringify(this.home))
-    return {
-      ...data,
-      anime: data.anime.sort(() => 0.5 - Math.random()),
-      book: data.book.sort(() => 0.5 - Math.random()),
-      game: data.game.sort(() => 0.5 - Math.random()),
-      music: data.music.sort(() => 0.5 - Math.random()),
-      real: data.real.sort(() => 0.5 - Math.random())
-    }
+    return data
+    // return {
+    //   ...data,
+    //   anime: data.anime.sort(() => 0.5 - Math.random()),
+    //   book: data.book.sort(() => 0.5 - Math.random()),
+    //   game: data.game.sort(() => 0.5 - Math.random()),
+    //   music: data.music.sort(() => 0.5 - Math.random()),
+    //   real: data.real.sort(() => 0.5 - Math.random())
+    // }
   }
 
   @computed get today() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-30 20:45:50
+ * @Last Modified time: 2022-01-31 00:53:48
  */
 import React from 'react'
 import { ScrollView, Touchable, Image, Flex, Text } from '@components'
@@ -176,7 +176,7 @@ const memoStyles = _.memoStyles(() => {
       width,
       height,
       marginTop: _.md,
-      backgroundColor: 'rgb(160, 175, 122)',
+      backgroundColor: '#ebf3ec',
       borderRadius: _.radiusMd,
       overflow: 'hidden'
     },
