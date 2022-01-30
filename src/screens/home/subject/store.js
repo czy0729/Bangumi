@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-29 02:21:24
+ * @Last Modified time: 2022-01-30 21:27:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -956,7 +956,7 @@ export default class ScreenSubject extends store {
       _imageForce ||
       _image ||
       this.subjectFormCDN.image ||
-      this.subject.images.medium ||
+      this.subject?.images?.medium ||
       ''
     )
   }

@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-03 07:43:22
+ * @Last Modified time: 2022-01-30 22:16:30
  */
 import { HOST } from './index'
 
@@ -15,6 +15,7 @@ export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 export const TINYGRAIL_ASSETS_LIMIT = 2000
 const TINYGRAIL_LIMIT = 200
 
+// -------------------- 旧 --------------------
 /**
  * 瓷砖进度接口
  * @param {*} username

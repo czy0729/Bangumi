@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-18 00:17:17
+ * @Last Modified time: 2022-01-30 22:27:13
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants'
 import { getTimestamp, setStorage } from './utils'
 import fetch from './fetch'
+import { fetchSubjectV0 } from './fetch.v0'
 
 configure({
   enforceActions: 'observed'
@@ -144,7 +145,13 @@ export default class Store {
     _fetchConfig.retryCb = () => this.fetch(fetchConfig, stateKey, otherConfig)
 
     const res = fetch(_fetchConfig)
-    const data = await res
+    let data = await res
+
+    // @todo fixed
+    if (_fetchConfig?.info === '条目信息' && !Object.keys(data).length) {
+      data = await fetchSubjectV0(fetchConfig)
+    }
+
     let _data
     if (Array.isArray(data)) {
       if (list) {

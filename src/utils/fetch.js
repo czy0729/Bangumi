@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 11:50:01
+ * @Last Modified time: 2022-01-30 22:45:12
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -560,7 +560,7 @@ export async function baiduTranslate(query, to = 'zh') {
  * @param {*} data
  * @url https://jsperf.com/moved-null-2
  */
-function safe(data) {
+export function safe(data) {
   if (data instanceof Object) {
     Object.keys(data).forEach(k => (data[k] = safe(data[k])))
   }
