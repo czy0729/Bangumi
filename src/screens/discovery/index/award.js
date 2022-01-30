@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 00:04:00
+ * @Last Modified time: 2022-01-30 20:48:56
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -11,6 +11,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import Img2021 from '@assets/images/year_2021.png'
 import { years } from './store'
 
 const cdn =
@@ -27,6 +28,32 @@ function Award(props, { navigation }) {
       horizontal
       showsHorizontalScrollIndicator={false}
     >
+      <Touchable
+        style={[
+          styles.item2021,
+          {
+            borderRadius: coverRadius
+          }
+        ]}
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Award',
+            year: 2021
+          })
+
+          navigation.push('Award', {
+            uri: `${HOST}/award/2021`
+          })
+        }}
+      >
+        <Image
+          src={Img2021}
+          size={styles.item2021.width}
+          height={styles.item2021.height}
+          placeholder={false}
+          resizeMode='contain'
+        />
+      </Touchable>
       <Touchable
         style={[
           styles.item2020,
@@ -157,6 +184,14 @@ const memoStyles = _.memoStyles(() => {
     container: {
       paddingVertical: _.space,
       paddingHorizontal: _.windSm
+    },
+    item2021: {
+      width: widthLg,
+      height: width,
+      marginRight: _.md,
+      backgroundColor: 'rgb(160, 175, 122)',
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
     },
     item2020: {
       width: widthLg,

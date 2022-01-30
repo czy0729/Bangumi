@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:59:22
+ * @Last Modified time: 2022-01-30 20:45:50
  */
 import React from 'react'
 import { ScrollView, Touchable, Image, Flex, Text } from '@components'
@@ -10,6 +10,7 @@ import { _ } from '@stores'
 import { withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import Img2021 from '@assets/images/year_2021.png'
 
 const title = 'Bangumi年鉴'
 const cdn =
@@ -36,6 +37,27 @@ class Yearbook extends React.Component {
         scrollToTop
       >
         <Flex wrap='wrap'>
+          <Touchable
+            style={this.styles.item2021}
+            onPress={() => {
+              t('Bangumi年鉴.跳转', {
+                to: 'Award',
+                year: 2021
+              })
+
+              navigation.push('Award', {
+                uri: `${HOST}/award/2021`
+              })
+            }}
+          >
+            <Image
+              src={Img2021}
+              size={this.styles.item2021.width}
+              height={this.styles.item2021.height}
+              placeholder={false}
+              resizeMode='contain'
+            />
+          </Touchable>
           <Touchable
             style={this.styles.item2020}
             onPress={() => {
@@ -149,6 +171,14 @@ const memoStyles = _.memoStyles(() => {
     container: {
       paddingHorizontal: _.wind,
       paddingBottom: _.bottom
+    },
+    item2021: {
+      width,
+      height,
+      marginTop: _.md,
+      backgroundColor: 'rgb(160, 175, 122)',
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
     },
     item2020: {
       width,
