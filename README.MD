@@ -1,10 +1,12 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 5.8.0" src="https://img.shields.io/badge/Version-5.8.0-0366d6" />
-  <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
-  <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
-  <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
+  <img alt="release" src="https://img.shields.io/github/v/release/czy0729/Bangumi" />
+  <img alt="license" src="https://img.shields.io/github/license/czy0729/Bangumi" />
+  <img alt="codacy" src="https://img.shields.io/codacy/grade/473bdb1186484703b4069148730a3c12" />
+  <img alt="jsdelivr" src="https://img.shields.io/jsdelivr/gh/hm/czy0729/Bangumi" />
+  <img alt="downloads" src="https://img.shields.io/github/downloads/czy0729/Bangumi/total" />
+  <img alt="issues" src="https://img.shields.io/github/issues/czy0729/Bangumi" />
 </p>
 
 ---
