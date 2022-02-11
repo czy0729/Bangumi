@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-30 21:27:05
+ * @Last Modified time: 2022-02-12 06:02:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1893,9 +1893,26 @@ export default class ScreenSubject extends store {
             .filter(i => i.type === 0)
             .sort((a, b) => asc(a, b, item => item.sort || 0))
             .findIndex(i => i.sort === item.sort)
+
+          let value
+          if (sort === -1) {
+            /**
+             * @issue API bug, 多季度番剧使用item.sort不适用, 若item.sort > totalEps, 适用排序的index
+             * @date 2022/02/12
+             */
+            const totalEps = Number(this.subjectFormHTML.totalEps)
+            if (totalEps && item.sort >= totalEps) {
+              value = sort + 1
+            } else {
+              value = item.sort
+            }
+          } else {
+            value = sort + 1
+          }
+
           await userStore.doUpdateSubjectWatched({
             subjectId: this.subjectId,
-            sort: sort === -1 ? item.sort : sort + 1
+            sort: value
           })
           feedback()
 

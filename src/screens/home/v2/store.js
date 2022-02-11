@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 21:51:41
+ * @Last Modified time: 2022-02-12 06:26:34
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -1077,8 +1077,11 @@ export default class ScreenHomeV2 extends store {
       })
 
       // 批量更新收视进度
+      const eps = (this.eps(subjectId) || [])
+        .filter(i => i.type === 0)
+        .sort((a, b) => asc(a, b, item => item.sort || 0))
       let sort
-      if (this.subject(subjectId)?.eps?.[0]?.sort < 10) {
+      if (eps?.[0]?.sort < 10) {
         // [0].sort从小于10开始的番剧都认为是非多季番, 直接使用正常sort去更新
         sort = Math.max(item.sort - 1, 0)
       } else {
