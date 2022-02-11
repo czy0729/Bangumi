@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 02:43:02
+ * @Last Modified time: 2022-02-12 06:51:14
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -305,6 +305,7 @@ const Item = memo(
           horizontal
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          overScrollMode='never'
         >
           {images}
         </ScrollView>

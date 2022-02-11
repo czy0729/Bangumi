@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-29 04:54:30
+ * @Last Modified time: 2022-02-12 06:51:11
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -217,6 +217,7 @@ export const ManageModal = ob(
           horizontal
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          overScrollMode='never'
         >
           {tags.map(({ name, count }) => {
             const isSelected = selected.indexOf(name) !== -1

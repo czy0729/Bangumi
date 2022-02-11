@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 17:14:11
+ * @Last Modified time: 2022-02-12 06:52:02
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -26,6 +26,7 @@ function Tinygrail(props, { $, navigation }) {
       }}
       contentContainerStyle={styles.contentContainerStyle}
       showsVerticalScrollIndicator={false}
+      overScrollMode='never'
       {...props}
     >
       <View style={styles.page}>

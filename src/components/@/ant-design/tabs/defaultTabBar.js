@@ -253,6 +253,7 @@ export class DefaultTabBar extends React.PureComponent {
                 scrollsToTop={false}
                 scrollEnabled={tabs.length > page}
                 keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+                overScrollMode='never'
                 // renderToHardwareTextureAndroid
               >
                 <View

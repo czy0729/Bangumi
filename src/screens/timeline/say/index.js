@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:33:59
+ * @Last Modified time: 2022-02-12 06:51:29
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -99,6 +99,7 @@ class Say extends React.Component {
           contentContainerStyle={_.container.bottom}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          overScrollMode='never'
         >
           <Chat />
         </ScrollView>
@@ -136,6 +137,7 @@ class Say extends React.Component {
           contentContainerStyle={this.styles.list}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          overScrollMode='never'
         >
           <Chat />
         </ScrollView>
@@ -154,6 +156,7 @@ class Say extends React.Component {
         horizontal
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
+        overScrollMode='never'
       >
         <Flex>
           <Text style={_.ml.sm} size={12} bold>
@@ -184,6 +187,7 @@ class Say extends React.Component {
         horizontal
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
+        overScrollMode='never'
       >
         {$.users.map(item => {
           const { avatar = {} } = $.usersInfo(item.id)

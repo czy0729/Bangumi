@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:01:07
+ * @Last Modified time: 2022-02-12 06:51:24
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -44,6 +44,7 @@ const Recent = memo(
               horizontal
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
+              overScrollMode='never'
             >
               {who.map(item => (
                 <Flex key={item.userId} style={styles.item}>

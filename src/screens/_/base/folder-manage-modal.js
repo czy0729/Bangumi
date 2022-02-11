@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 19:31:06
+ * @Last Modified time: 2022-02-12 06:51:04
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -696,6 +696,7 @@ export const FolderManageModal = ob(
           style={this.styles.scrollView}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          overScrollMode='never'
         >
           {create === true
             ? this.renderCreate()

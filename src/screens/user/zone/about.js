@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 17:14:01
+ * @Last Modified time: 2022-02-12 06:51:59
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -29,6 +29,7 @@ function About(props, { $, navigation }) {
       }}
       contentContainerStyle={styles.contentContainerStyle}
       showsVerticalScrollIndicator={false}
+      overScrollMode='never'
       {...props}
     >
       <View style={styles.page}>

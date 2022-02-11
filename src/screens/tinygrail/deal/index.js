@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:04:25
+ * @Last Modified time: 2022-02-12 06:51:46
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -77,6 +77,7 @@ class TinygrailDeal extends React.Component {
           }
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          overScrollMode='never'
         >
           <Flex style={this.styles.form} align='start'>
             <Flex.Item>

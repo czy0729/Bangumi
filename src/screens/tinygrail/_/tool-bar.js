@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:01:01
+ * @Last Modified time: 2022-02-12 06:51:43
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -56,6 +56,7 @@ function ToolBar({
           alwaysBounceVertical={false}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          overScrollMode='never'
         >
           {data.map(item => {
             const isActive = sort === item.value

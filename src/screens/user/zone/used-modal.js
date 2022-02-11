@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:16:02
+ * @Last Modified time: 2022-02-12 06:52:07
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -117,6 +117,7 @@ class UsedModal extends React.Component {
         horizontal
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
+        overScrollMode='never'
       >
         {avatar.map(item => (
           <Image
@@ -139,6 +140,7 @@ class UsedModal extends React.Component {
         contentContainerStyle={this.styles.names}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
+        overScrollMode='never'
       >
         {name._loaded ? (
           name.list.length ? (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 11:40:11
+ * @Last Modified time: 2022-02-12 06:51:26
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -82,6 +82,7 @@ class Thumbs extends React.Component {
             horizontal
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
+            overScrollMode='never'
             scrollEventThrottle={80}
             onScroll={scrolled ? undefined : this.onScroll}
           >

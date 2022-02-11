@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:29:22
+ * @Last Modified time: 2022-02-12 06:48:42
  */
 import React, { useRef } from 'react'
 import { ScrollView as RNScrollView } from 'react-native'
@@ -26,6 +26,7 @@ export const ScrollView = ({
       {...other}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
+      overScrollMode='never'
     >
       {children}
       {scrollToTop && <ScrollToTop scrollTo={scrollViewEl.current} />}

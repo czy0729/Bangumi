@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:26:34
+ * @Last Modified time: 2022-02-12 06:32:48
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -1086,10 +1086,7 @@ export default class ScreenHomeV2 extends store {
         sort = Math.max(item.sort - 1, 0)
       } else {
         // 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
-        sort = (this.eps(subjectId) || [])
-          .filter(i => i.type === 0)
-          .sort((a, b) => asc(a, b, item => item.sort || 0))
-          .findIndex(i => i.sort === item.sort)
+        sort = eps.findIndex(i => i.sort === item.sort)
       }
 
       await userStore.doUpdateSubjectWatched({

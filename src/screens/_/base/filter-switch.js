@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 09:40:15
+ * @Last Modified time: 2022-02-12 06:50:47
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -42,6 +42,7 @@ export const FilterSwitch = obc(
             horizontal
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
+            overScrollMode='never'
           >
             {filterSwitchDS.map(item => {
               const isActive = name === item

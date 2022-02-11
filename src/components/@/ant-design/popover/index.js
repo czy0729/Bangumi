@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 02:53:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:30:19
+ * @Last Modified time: 2022-02-12 06:50:03
  */
 import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -87,6 +87,7 @@ export default class Popover extends React.PureComponent {
         }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
+        overScrollMode='never'
       >
         {items}
       </ScrollView>
