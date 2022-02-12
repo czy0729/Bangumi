@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-28 15:04:39
+ * @Last Modified time: 2022-02-12 11:16:00
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -178,7 +178,7 @@ export function hackMatchMediaLink(html) {
     const htmlNoTags = _html.replace(regs.quote, '').replace(regs.a, '')
 
     const acData = acSearch(removeHTMLTag(htmlNoTags))
-    if (acData.length) {
+    if (Array.isArray(acData)) {
       acData.forEach((item, index) => {
         _html = _html.replace(item, `###${index}###`)
       })

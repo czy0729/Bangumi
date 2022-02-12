@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 09:18:04
+ * @Last Modified time: 2022-02-12 10:58:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { _, userStore, systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
 import HTML from '../@/react-native-render-html'
@@ -277,9 +277,9 @@ export const RenderHtml = observer(
             const index = parseInt(alt.replace(regs.bgm, '')) - 24
 
             // 限制用户不显示bgm表情
-            if (userStore.isLimit) {
-              return alt
-            }
+            // if (userStore.isLimit) {
+            //   return alt
+            // }
 
             if (bgmMap[index]) {
               const _baseFontStyle = fixedBaseFontStyle(baseFontStyle)
