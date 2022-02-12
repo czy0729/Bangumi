@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-28 15:12:30
+ * @Last Modified time: 2022-02-12 16:41:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, rakuenStore } from '@stores'
+import { IOS } from '@constants'
 import { Text } from '../text'
 
 export default
@@ -32,8 +33,20 @@ class QuoteText extends React.Component {
       toggle: true
     })
 
-  render() {
+  get children() {
     const { children } = this.props
+
+    // 过滤掉<q>里面的div
+    if (!IOS && children?.length > 1) {
+      return children.filter(
+        item => !(item?.[0]?.key && item[0].key.indexOf('View-') === 0)
+      )
+    }
+
+    return children
+  }
+
+  render() {
     const { show, toggle } = this.state
     if (!show) {
       return (
@@ -51,7 +64,7 @@ class QuoteText extends React.Component {
           numberOfLines={toggle ? 10 : 3}
           onPress={this.toggle}
         >
-          {children}
+          {this.children}
         </Text>
       </View>
     )
