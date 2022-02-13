@@ -2,18 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 23:53:46
+ * @Last Modified time: 2022-02-14 06:15:08
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Flex,
-  Input,
-  Text,
-  Button,
-  Slider as CompSlider,
-  Iconfont
-} from '@components'
+import { Flex, Input, Text, Button, Slider as CompSlider, Iconfont } from '@components'
 import { IconTouchable, Popover } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, lastDate, toFixed } from '@utils'
@@ -24,13 +17,8 @@ const countDS = ['到500', '到2500', '到12500', '最大']
 
 function Auction({ style }, { $ }) {
   const styles = memoStyles()
-  const {
-    showAuction,
-    auctionLoading,
-    auctionAmount,
-    auctionPrice,
-    lastAuction
-  } = $.state
+  const { showAuction, auctionLoading, auctionAmount, auctionPrice, lastAuction } =
+    $.state
   const { price = 0, amount } = $.valhallChara
   const { balance } = $.assets
   const { state, type } = $.auctionStatus
@@ -83,10 +71,7 @@ function Auction({ style }, { $ }) {
                   onSubmitEditing={$.doAuction}
                 />
                 <View style={styles.popover}>
-                  <Popover
-                    data={countDS}
-                    onSelect={$.changeAuctionAmountByMenu}
-                  >
+                  <Popover data={countDS} onSelect={$.changeAuctionAmountByMenu}>
                     <Flex style={styles.count} justify='center'>
                       <Iconfont
                         name='md-keyboard-arrow-down'
@@ -99,9 +84,7 @@ function Auction({ style }, { $ }) {
             </Flex.Item>
             <View style={[styles.btnSubmit, _.ml.sm]}>
               <Button
-                style={{
-                  height: 36
-                }}
+                style={styles.btnAuction}
                 type='bid'
                 radius={false}
                 loading={auctionLoading}
@@ -113,8 +96,8 @@ function Auction({ style }, { $ }) {
           </Flex>
           {!!lastAuction.time && (
             <Text style={_.mt.md} type='warning' size={12}>
-              最近 ({lastAuction.price} / {formatNumber(lastAuction.amount, 0)}
-              股 / {lastDate(lastAuction.time)})
+              最近 ({lastAuction.price} / {formatNumber(lastAuction.amount, 0)}股 /{' '}
+              {lastDate(lastAuction.time)})
             </Text>
           )}
           <Flex style={_.mt.md}>
@@ -131,7 +114,7 @@ function Auction({ style }, { $ }) {
             </Text>
           </Flex>
           <Flex style={[styles.slider, _.mt.sm]}>
-            <View style={{ width: '100%' }}>
+            <View style={_.container.block}>
               <CompSlider
                 value={auctionAmount}
                 min={0}
@@ -193,6 +176,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   slider: {
     height: 40
+  },
+  btnAuction: {
+    height: 36
   },
   btnSubmit: {
     width: 72

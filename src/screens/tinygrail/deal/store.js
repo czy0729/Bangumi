@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 16:22:40
+ * @Last Modified time: 2022-02-14 06:32:53
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
@@ -161,9 +161,7 @@ export default class ScreenTinygrailDeal extends store {
     const splits = splitAmount(amount)
     let result
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const item of splits) {
-      // eslint-disable-next-line no-await-in-loop
       result = await tinygrailStore[this.isBid ? 'doBid' : 'doAsk']({
         monoId: this.monoId,
         price: value,
@@ -197,11 +195,11 @@ export default class ScreenTinygrailDeal extends store {
       type
     })
 
-    const result = await tinygrailStore[
-      type === 'bid' ? 'doCancelBid' : 'doCancelAsk'
-    ]({
-      id
-    })
+    const result = await tinygrailStore[type === 'bid' ? 'doCancelBid' : 'doCancelAsk'](
+      {
+        id
+      }
+    )
     feedback()
 
     if (!result) {
@@ -224,12 +222,8 @@ export default class ScreenTinygrailDeal extends store {
     const data = type === 'bid' ? this.userLogs.bids : this.userLogs.asks
     let result
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const item of data) {
-      // eslint-disable-next-line no-await-in-loop
-      result = await tinygrailStore[
-        type === 'bid' ? 'doCancelBid' : 'doCancelAsk'
-      ]({
+      result = await tinygrailStore[type === 'bid' ? 'doCancelBid' : 'doCancelAsk']({
         id: item.id
       })
     }
@@ -351,7 +345,6 @@ export default class ScreenTinygrailDeal extends store {
   changeAmount = amount => {
     let _amount = parseInt(amount)
 
-    // eslint-disable-next-line no-restricted-globals
     if (isNaN(_amount)) {
       _amount = 0
     }

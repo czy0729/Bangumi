@@ -2,18 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-19 16:23:04
+ * @Last Modified time: 2022-02-14 06:33:04
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
-import {
-  setStorage,
-  getStorage,
-  getTimestamp,
-  formatNumber,
-  toFixed
-} from '@utils'
+import { setStorage, getStorage, getTimestamp, formatNumber, toFixed } from '@utils'
 import store from '@utils/store'
 import { queue, t, xhrCustom } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
@@ -76,10 +70,11 @@ export default class ScreenTinygrailSacrifice extends store {
     lastSacrifice: initLastSacrifice
   })
 
+  prev = 0
+
   init = async () => {
     const state = (await this.getStorage(undefined, namespace)) || {}
-    const lastAuction =
-      (await getStorage(this.namespaceLastAuction)) || initLastAuction
+    const lastAuction = (await getStorage(this.namespaceLastAuction)) || initLastAuction
     const lastSacrifice =
       (await getStorage(this.namespaceLastSacrifice)) || initLastSacrifice
 
@@ -148,7 +143,6 @@ export default class ScreenTinygrailSacrifice extends store {
     }
     try {
       for (let i = 1; i <= 5; i += 1) {
-        // eslint-disable-next-line no-await-in-loop
         const { _response } = await xhrCustom({
           url: API_TINYGRAIL_STAR(i * 100, 1)
         })
@@ -157,7 +151,6 @@ export default class ScreenTinygrailSacrifice extends store {
       }
 
       for (let i = 1; i <= 4; i += 1) {
-        // eslint-disable-next-line no-await-in-loop
         const { _response } = await xhrCustom({
           url: API_TINYGRAIL_STAR(i * 20, 1)
         })
@@ -296,9 +289,7 @@ export default class ScreenTinygrailSacrifice extends store {
           text: decimal(rankStarForces[r]),
           distance, // 距离段位差多少星之力
           rate: toFixed(_rate, 1), // 打到段位可以提升多少生效股息
-          totalRate: decimal(
-            (state + assets - distance) * _rate - current.totalRate
-          )
+          totalRate: decimal((state + assets - distance) * _rate - current.totalRate)
         })
       }
     })
@@ -358,9 +349,7 @@ export default class ScreenTinygrailSacrifice extends store {
         ? `融资完成！获得资金 ${formatNumber(Value.Balance)}`
         : `融资完成！获得资金 ${formatNumber(Value.Balance)} ${
             Value.Items.length ? '掉落道具' : ''
-          } ${Value.Items.map(item => `「${item.Name}」×${item.Count}`).join(
-            ' '
-          )}`,
+          } ${Value.Items.map(item => `「${item.Name}」×${item.Count}`).join(' ')}`,
       [
         {
           text: '知道了'
@@ -566,10 +555,7 @@ export default class ScreenTinygrailSacrifice extends store {
 
         tinygrailStore.fetchUserLogs(monoId || this.monoId)
         if (title === '星光碎片') {
-          tinygrailStore.batchUpdateTemplesByIds([
-            monoId || this.monoId,
-            toMonoId
-          ])
+          tinygrailStore.batchUpdateTemplesByIds([monoId || this.monoId, toMonoId])
         }
 
         return tinygrailStore.batchUpdateMyCharaAssetsByIds(
@@ -591,14 +577,8 @@ export default class ScreenTinygrailSacrifice extends store {
    */
   moneyNatural = v => {
     if (v && !/^(([1-9]\d*)|0)(\.\d{0,2}?)?$/.test(v)) {
-      if (v === '.') {
-        return '0.'
-      }
-
-      if (!v) {
-        return ''
-      }
-
+      if (v === '.') return '0.'
+      if (!v) return ''
       return this.prev
     }
 
@@ -612,7 +592,6 @@ export default class ScreenTinygrailSacrifice extends store {
   changeAmount = amount => {
     let _amount = parseInt(amount)
 
-    // eslint-disable-next-line no-restricted-globals
     if (isNaN(_amount)) {
       _amount = 0
     }
@@ -626,11 +605,9 @@ export default class ScreenTinygrailSacrifice extends store {
    * 竞拍价钱改变
    */
   changeAuctionPrice = value => {
-    const state = {
+    this.setState({
       auctionPrice: this.moneyNatural(value)
-    }
-
-    this.setState(state)
+    })
   }
 
   /**
@@ -639,7 +616,6 @@ export default class ScreenTinygrailSacrifice extends store {
   changeAuctionAmount = amount => {
     let _amount = parseInt(amount)
 
-    // eslint-disable-next-line no-restricted-globals
     if (isNaN(_amount)) {
       _amount = 0
     }
@@ -666,27 +642,21 @@ export default class ScreenTinygrailSacrifice extends store {
           info('已持有和献祭超过500股')
           return
         }
-        this.changeAuctionAmount(
-          Math.min(500 - sacrifices - userAmount, amount)
-        )
+        this.changeAuctionAmount(Math.min(500 - sacrifices - userAmount, amount))
         return
       case '到2500':
         if (sacrifices + userAmount >= 2500) {
           info('已持有和献祭超过2500股')
           return
         }
-        this.changeAuctionAmount(
-          Math.min(2500 - sacrifices - userAmount, amount)
-        )
+        this.changeAuctionAmount(Math.min(2500 - sacrifices - userAmount, amount))
         return
       case '到12500':
         if (sacrifices + userAmount >= 12500) {
           info('已持有和献祭超过12500股')
           return
         }
-        this.changeAuctionAmount(
-          Math.min(12500 - sacrifices - userAmount, amount)
-        )
+        this.changeAuctionAmount(Math.min(12500 - sacrifices - userAmount, amount))
         return
       default:
         this.changeAuctionAmount(amount)
@@ -698,8 +668,7 @@ export default class ScreenTinygrailSacrifice extends store {
    */
   stepMinus = () => {
     const { auctionPrice } = this.state
-    let _value =
-      parseFloat(this.moneyNatural(auctionPrice) || auctionPrice) - 0.1
+    let _value = parseFloat(this.moneyNatural(auctionPrice) || auctionPrice) - 0.1
     if (_value < 0) {
       _value = 1
     }
@@ -714,8 +683,7 @@ export default class ScreenTinygrailSacrifice extends store {
    */
   stepPlus = () => {
     const { auctionPrice } = this.state
-    const _value =
-      parseFloat(this.moneyNatural(auctionPrice) || auctionPrice) + 0.1
+    const _value = parseFloat(this.moneyNatural(auctionPrice) || auctionPrice) + 0.1
 
     this.setState({
       auctionPrice: toFixed(_value, 2)
@@ -728,7 +696,6 @@ export default class ScreenTinygrailSacrifice extends store {
   changeStarForces = starforces => {
     let _starforces = parseInt(starforces)
 
-    // eslint-disable-next-line no-restricted-globals
     if (isNaN(_starforces)) {
       _starforces = 0
     }
