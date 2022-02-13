@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-11 10:11:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 20:28:45
+ * @Last Modified time: 2022-02-13 13:05:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import WebView from '@components/@/web-view'
+import { WebView } from 'react-native-webview'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
@@ -27,6 +27,8 @@ function Milestone(props, { $ }) {
             html
           }}
           scrollEnabled={false}
+          androidHardwareAccelerationDisabled
+          androidLayerType='software'
         />
       )}
     </View>
@@ -48,7 +50,8 @@ const memoStyles = _.memoStyles(() => {
     body: {
       width,
       height: 160,
-      backgroundColor: '#000'
+      backgroundColor: '#000',
+      opacity: 0.99
     }
   }
 })
