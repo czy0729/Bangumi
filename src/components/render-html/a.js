@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 08:48:04
+ * @Last Modified time: 2022-02-15 22:41:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,13 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
   if (el) return el
 
   return (
-    <Text style={style} selectable {...other} onPress={onLinkPress}>
+    <Text
+      style={style || this.styles.a}
+      selectable
+      underline
+      {...other}
+      onPress={onLinkPress}
+    >
       {filterChildren(children)}
     </Text>
   )
@@ -62,9 +68,13 @@ function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
 function filterChildren(children) {
   if (IOS) return children
 
-  return React.Children.toArray(children).filter(
+  const childrens = React.Children.toArray(children)
+  const data = React.Children.toArray(children).filter(
     item => item?.type?.displayName === 'Text'
   )
+  if (data.length) return data
+
+  return childrens.map(item => item?.props?.src).filter(item => !!item)
 }
 
 /**
@@ -304,7 +314,8 @@ const memoStyles = _.memoStyles(_ => ({
   wrap: {
     paddingTop: 10,
     paddingRight: 4,
-    paddingBottom: 2
+    paddingBottom: 2,
+    backgroundColor: 'red'
   },
   body: {
     overflow: 'hidden',
@@ -318,5 +329,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   bottom: {
     maxWidth: _.window.contentWidth / 2
+  },
+  a: {
+    color: _.colorMain
   }
 }))

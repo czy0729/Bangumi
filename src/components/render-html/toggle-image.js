@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-15 22:07:08
+ * @Last Modified time: 2022-02-15 22:21:25
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { Iconfont } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import axios from '@utils/thirdParty/axios'
@@ -16,6 +15,7 @@ import { Flex } from '../flex'
 import { Image } from '../image'
 import { Touchable } from '../touchable'
 import { Text } from '../text'
+import { Iconfont } from '../iconfont'
 
 const memoSize = {}
 function getSize(url) {
