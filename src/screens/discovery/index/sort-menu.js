@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 17:42:06
+ * @Last Modified time: 2022-02-14 06:55:34
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -78,7 +78,7 @@ const SortMenu = memo(
         dragging && (
           <Flex style={styles.btns} justify='end'>
             <Flex.Item>
-              <Touchable onPress={onCancel}>
+              <Touchable style={styles.touch} onPress={onCancel}>
                 <Flex style={styles.btn} justify='center'>
                   <Text type='__plain__' bold>
                     取消
@@ -87,7 +87,7 @@ const SortMenu = memo(
               </Touchable>
             </Flex.Item>
             <Flex.Item style={_.ml.md}>
-              <Touchable onPress={onSave}>
+              <Touchable style={styles.touch} onPress={onSave}>
                 <Flex style={styles.btn} justify='center'>
                   <Text type='__plain__' bold>
                     保存
@@ -97,7 +97,7 @@ const SortMenu = memo(
             </Flex.Item>
           </Flex>
         ),
-      [styles.btn, styles.btns, dragging, onCancel, onSave]
+      [styles, dragging, onCancel, onSave]
     )
 
     const isPortrait = orientation === ORIENTATION_PORTRAIT
@@ -178,6 +178,10 @@ const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.sm,
     marginTop: _.md + 8,
     marginBottom: _.md
+  },
+  touch: {
+    borderRadius: 44 * _.ratio,
+    overflow: 'hidden'
   },
   btn: {
     height: 44 * _.ratio,

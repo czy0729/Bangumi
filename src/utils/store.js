@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-30 22:27:13
+ * @Last Modified time: 2022-02-15 20:03:54
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -198,7 +198,7 @@ export default class Store {
    * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
   setStorage = (key, value, namesapce) => {
-    let _key = namesapce || this.getName()
+    let _key = namesapce || this.namesapce || this.getName()
     if (key) _key += `|${key}`
     _key += '|state'
 
@@ -213,7 +213,7 @@ export default class Store {
    * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
   getStorage = async (key, namesapce, defaultValue = {}) => {
-    let _key = namesapce || this.getName()
+    let _key = namesapce || this.namesapce || this.getName()
     if (key) _key += `|${key}`
     _key += '|state'
 
@@ -239,6 +239,14 @@ export default class Store {
     this.setState(state)
 
     return state
+  }
+
+  /**
+   * 代替this.setStorage(undefined, undefined, namespace)
+   */
+  saveStorage = namespace => {
+    if (!(namespace || this.namespace)) return false
+    this.setStorage(undefined, undefined, namespace || this.namespace)
   }
 
   /**

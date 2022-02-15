@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-31 00:36:08
+ * @Last Modified time: 2022-02-15 20:16:06
  */
 import { observable, computed } from 'mobx'
 import {
@@ -23,7 +23,6 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 export const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 
-const namespace = 'ScreenDiscovery'
 const excludeState = {
   home: {
     list: MODEL_SUBJECT_TYPE.data.map(item => ({
@@ -41,15 +40,21 @@ const excludeState = {
 }
 
 export default class ScreenDiscovery extends store {
+  namespace = 'ScreenDiscovery'
+
   state = observable({
     expand: false,
-    ...excludeState
+    showBlockTrain: true,
+    ...excludeState,
+    _loaded: true
   })
 
   init = async () => {
-    const { expand = false } = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage()) || {}
+    const { expand = false, showBlockTrain } = state
     this.setState({
       expand,
+      showBlockTrain,
       ...excludeState
     })
 
@@ -196,14 +201,14 @@ export default class ScreenDiscovery extends store {
     this.setState({
       expand: true
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.saveStorage()
   }
 
   closeMenu = () => {
     this.setState({
       expand: false
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.saveStorage()
   }
 
   /**
@@ -257,6 +262,14 @@ export default class ScreenDiscovery extends store {
     this.setState({
       dragging: !dragging
     })
+  }
+
+  toggleBlockTrain = () => {
+    const { showBlockTrain } = this.state
+    this.setState({
+      showBlockTrain: !showBlockTrain
+    })
+    this.saveStorage()
   }
 
   saveDiscoveryMenu = discoveryMenu => {

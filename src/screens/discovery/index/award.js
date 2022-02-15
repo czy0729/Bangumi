@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-31 00:52:47
+ * @Last Modified time: 2022-02-15 20:15:35
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -11,7 +11,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
-import Img2021 from '@assets/images/year_2021.png'
+import Award2021 from './award-2021'
 import { years } from './store'
 
 const cdn =
@@ -46,13 +46,7 @@ function Award(props, { navigation }) {
           })
         }}
       >
-        <Image
-          src={Img2021}
-          size={styles.item2021.width}
-          height={styles.item2021.height}
-          placeholder={false}
-          resizeMode='contain'
-        />
+        <Award2021 />
       </Touchable>
       <Touchable
         style={[
