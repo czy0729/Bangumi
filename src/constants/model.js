@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 10:05:18
+ * @Last Modified time: 2022-02-16 22:28:24
  */
 class Model {
   constructor(data) {
@@ -105,23 +105,28 @@ export const MODEL_EP_TYPE = new Model([
 export const MODEL_COLLECTION_STATUS = new Model([
   {
     label: '想看',
-    value: 'wish'
+    value: 'wish',
+    title: '1'
   },
   {
     label: '看过',
-    value: 'collect'
+    value: 'collect',
+    title: '2'
   },
   {
     label: '在看',
-    value: 'do'
+    value: 'do',
+    title: '3'
   },
   {
     label: '搁置',
-    value: 'on_hold'
+    value: 'on_hold',
+    title: '4'
   },
   {
     label: '抛弃',
-    value: 'dropped'
+    value: 'dropped',
+    title: '5'
   }
 ])
 

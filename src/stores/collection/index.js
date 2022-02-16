@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 06:35:49
+ * @Last Modified time: 2022-02-16 22:33:18
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -19,7 +19,11 @@ import {
   API_COLLECTION_ACTION,
   API_SUBJECT_UPDATE_WATCHED
 } from '@constants/api'
-import { HTML_USER_COLLECTIONS, HTML_ACTION_SUBJECT_SET_WATCHED } from '@constants/html'
+import {
+  HTML_USER_COLLECTIONS,
+  HTML_ACTION_SUBJECT_SET_WATCHED,
+  HTML_ACTION_SUBJECT_INTEREST_UPDATE
+} from '@constants/html'
 import rateData from '@constants/json/rate.json'
 import userStore from '../user'
 import { NAMESPACE, DEFAULT_SUBJECT_TYPE, DEFAULT_TYPE, DEFAULT_ORDER } from './init'
@@ -460,18 +464,44 @@ class Collection extends store {
 
   // -------------------- action --------------------
   /**
-   * 管理收藏
+   * 条目管理
    */
   doUpdateCollection = ({ subjectId, status, tags, comment, rating, privacy } = {}) =>
-    fetch({
-      url: API_COLLECTION_ACTION(subjectId),
-      method: 'POST',
-      data: {
-        status,
-        tags,
-        comment,
-        rating,
-        privacy
+    new Promise(async resolve => {
+      const data = await fetch({
+        url: API_COLLECTION_ACTION(subjectId),
+        method: 'POST',
+        data: {
+          status,
+          tags,
+          comment,
+          rating,
+          privacy
+        }
+      })
+
+      // @todo 20220216 以下旧API不再响应敏感条目, 暂时使用请求网页代替
+      if (data?.code === 404) {
+        const interest = MODEL_COLLECTION_STATUS.getTitle(status)
+        xhr(
+          {
+            url: HTML_ACTION_SUBJECT_INTEREST_UPDATE(subjectId, userStore.formhash),
+            data: {
+              referer: 'subject',
+              interest,
+              rating,
+              tags,
+              comment,
+              privacy,
+              update: '保存'
+            }
+          },
+          () => {
+            return resolve(true)
+          }
+        )
+      } else {
+        return resolve(true)
       }
     })
 

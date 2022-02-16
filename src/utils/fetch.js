@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-30 22:45:12
+ * @Last Modified time: 2022-02-16 11:35:08
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -105,7 +105,11 @@ export default async function fetchAPI({
           UIInfo('登录过期')
           userStore.logout()
         }
-        return Promise.resolve({})
+        return Promise.resolve({
+          code: json.code,
+          error: json.error,
+          request: json.request
+        })
       }
 
       // 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串

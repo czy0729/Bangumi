@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-15 20:03:54
+ * @Last Modified time: 2022-02-16 11:52:14
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants'
 import { getTimestamp, setStorage } from './utils'
 import fetch from './fetch'
-import { fetchSubjectV0 } from './fetch.v0'
+import { fetchSubjectV0, doUpdateCollectionV0 } from './fetch.v0'
 
 configure({
   enforceActions: 'observed'
@@ -147,10 +147,17 @@ export default class Store {
     const res = fetch(_fetchConfig)
     let data = await res
 
-    // @todo fixed
-    if (_fetchConfig?.info === '条目信息' && !Object.keys(data).length) {
-      data = await fetchSubjectV0(fetchConfig)
-    }
+    /* ===== @todo start 20220216 以下旧API不再响应敏感条目, 暂时使用请求网页代替 ===== */
+    if (_fetchConfig?.info === '条目信息')
+      switch (_fetchConfig?.info) {
+        case '条目信息':
+          if (!data?.id) data = await fetchSubjectV0(fetchConfig)
+          break
+
+        default:
+          break
+      }
+    /* ===== @todo end ===== */
 
     let _data
     if (Array.isArray(data)) {

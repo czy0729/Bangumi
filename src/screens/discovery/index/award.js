@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-15 20:15:35
+ * @Last Modified time: 2022-02-16 10:58:20
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -28,26 +28,7 @@ function Award(props, { navigation }) {
       horizontal
       showsHorizontalScrollIndicator={false}
     >
-      <Touchable
-        style={[
-          styles.item2021,
-          {
-            borderRadius: coverRadius
-          }
-        ]}
-        onPress={() => {
-          t('发现.跳转', {
-            to: 'Award',
-            year: 2021
-          })
-
-          navigation.push('Award', {
-            uri: `${HOST}/award/2021`
-          })
-        }}
-      >
-        <Award2021 />
-      </Touchable>
+      <Award2021 />
       <Touchable
         style={[
           styles.item2020,
