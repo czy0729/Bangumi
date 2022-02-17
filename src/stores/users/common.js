@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-24 15:37:41
+ * @Last Modified time: 2022-02-18 06:26:59
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -18,7 +18,11 @@ export function cheerioFriends(HTML) {
       const $li = cheerio(element)
       const $a = $li.find('a.avatar')
       return safeObject({
-        avatar: $li.find('img.avatar').attr('src'),
+        avatar: $li
+          .find('.avatarNeue')
+          .attr('style')
+          .replace("background-image:url('//", '')
+          .split('?')[0],
         userId: $a.attr('href').replace('/user/', ''),
         userName: $a.text().trim()
       })
@@ -39,7 +43,6 @@ export function cheerioUsers(HTML) {
   let formhash = ''
   const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
   if (matchDisconnect) {
-    // eslint-disable-next-line quotes
     const [idPath, , , hash] = matchDisconnect.split("'")
     if (idPath) {
       const id = idPath.split('(')[1].replace(', ', '')
