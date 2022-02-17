@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 12:01:46
+ * @Last Modified time: 2022-02-18 06:18:02
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -581,32 +581,37 @@ export function cheerioRating(HTML) {
       return count
     })
     .get()
+
+  const list =
+    $('#memberUserList li')
+      .map((index, element) => {
+        const $li = cheerio(element)
+        const $user = $li.find('a.avatar')
+        const avatar = $li
+          .find('.avatarNeue')
+          .attr('style')
+          .replace("background-image:url('//", '')
+          .split('?')[0]
+        const starText = $li.find('span.starlight').attr('class')
+        const name = $user.text().trim()
+        const time = $li.find('p.info').text().trim()
+        return safeObject({
+          id: $user.attr('href').replace('/user/', ''),
+          avatar,
+          name,
+          time,
+          star: starText ? parseInt(starText.match(/\d+/)[0]) : 0,
+          comment: HTMLDecode(
+            $li.find('div.userContainer').text().trim().replace(`${name}\n${time}`, '')
+          )
+        })
+      })
+      .get() || []
+  console.log(list)
+
   return {
     counts,
-    list:
-      $('#memberUserList li')
-        .map((index, element) => {
-          const $li = cheerio(element)
-          const $user = $li.find('a.avatar')
-          const starText = $li.find('span.starlight').attr('class')
-          const name = $user.text().trim()
-          const time = $li.find('p.info').text().trim()
-          return safeObject({
-            id: $user.attr('href').replace('/user/', ''),
-            avatar: $li.find('img').attr('src').split('?')[0],
-            name,
-            time,
-            star: starText ? parseInt(starText.match(/\d+/)[0]) : 0,
-            comment: HTMLDecode(
-              $li
-                .find('div.userContainer')
-                .text()
-                .trim()
-                .replace(`${name}\n${time}`, '')
-            )
-          })
-        })
-        .get() || []
+    list
   }
 }
 
