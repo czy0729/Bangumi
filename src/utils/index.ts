@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:03:48
+ * @Last Modified time: 2022-02-23 07:46:18
  */
 import {
   arrGroup,
@@ -41,6 +41,7 @@ import {
 
 import {
   appNavigate,
+  appRandom,
   bootApp,
   caculateICO,
   cnjp,
@@ -103,8 +104,10 @@ export {
   toFixed,
   trim,
   urlStringify,
+
   // app
   appNavigate,
+  appRandom,
   bootApp,
   caculateICO,
   cnjp,

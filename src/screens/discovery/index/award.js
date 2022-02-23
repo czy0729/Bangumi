@@ -12,8 +12,8 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Award2021 from './award-2021'
-import { years } from './store'
 
+const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 const cdn =
   'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210413/data/award/title'
 

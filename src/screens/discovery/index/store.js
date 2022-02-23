@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-15 20:16:06
+ * @Last Modified time: 2022-02-23 08:02:09
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,16 +12,13 @@ import {
   discoveryStore,
   usersStore
 } from '@stores'
-import { date, getTimestamp } from '@utils'
+import { date, getTimestamp, appNavigate, appRandom } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
 import { matchBgmUrl } from '@utils/match'
 import { info } from '@utils/ui'
-import { appNavigate } from '@utils/app'
 import { DEV } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-
-export const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 
 const excludeState = {
   home: {
@@ -36,6 +33,7 @@ const excludeState = {
   },
   visible: false,
   dragging: false,
+  expand: false,
   link: ''
 }
 
@@ -43,7 +41,6 @@ export default class ScreenDiscovery extends store {
   namespace = 'ScreenDiscovery'
 
   state = observable({
-    expand: false,
     showBlockTrain: true,
     ...excludeState,
     _loaded: true
@@ -51,9 +48,8 @@ export default class ScreenDiscovery extends store {
 
   init = async () => {
     const state = (await this.getStorage()) || {}
-    const { expand = false, showBlockTrain } = state
+    const { showBlockTrain } = state
     this.setState({
-      expand,
       showBlockTrain,
       ...excludeState
     })
@@ -98,16 +94,14 @@ export default class ScreenDiscovery extends store {
   }
 
   @computed get ramdonHome() {
-    const data = JSON.parse(JSON.stringify(this.home))
-    return data
-    // return {
-    //   ...data,
-    //   anime: data.anime.sort(() => 0.5 - Math.random()),
-    //   book: data.book.sort(() => 0.5 - Math.random()),
-    //   game: data.game.sort(() => 0.5 - Math.random()),
-    //   music: data.music.sort(() => 0.5 - Math.random()),
-    //   real: data.real.sort(() => 0.5 - Math.random())
-    // }
+    return {
+      ...this.home,
+      anime: appRandom(this.home.anime, 'subjectId'),
+      book: appRandom(this.home.book, 'subjectId'),
+      game: appRandom(this.home.game, 'subjectId'),
+      music: appRandom(this.home.music, 'subjectId'),
+      real: appRandom(this.home.real, 'subjectId')
+    }
   }
 
   @computed get today() {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 18:53:35
+ * @Last Modified time: 2022-02-23 08:00:46
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -56,6 +56,28 @@ export function bootApp() {
 export function getSetting() {
   // @ts-ignore
   return getSystemStoreAsync().setting
+}
+
+/**
+ * app内使用时间因子作为随机数, 规避Hermes引擎Array.sort的卡死bug
+ * @param arr {Array}
+ * @param key {String}
+ * @returns Array
+ */
+const _a = Number(String(new Date().getSeconds()).slice(0, 1))
+export function appRandom(arr = [], key = '') {
+  const data = []
+  arr.forEach(item => {
+    if (item[key]) {
+      const _b = Number(String(item[key]).slice(0, 1))
+      if (_a >= _b) {
+        data.unshift(item)
+      } else {
+        data.push(item)
+      }
+    }
+  })
+  return data
 }
 
 /**
