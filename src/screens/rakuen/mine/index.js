@@ -2,68 +2,34 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:06:48
+ * @Last Modified time: 2022-02-25 13:50:54
  */
 import React from 'react'
-import { ScrollView, Flex } from '@components'
-import { _ } from '@stores'
-import { open } from '@utils'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import Item from './item'
+import { Page } from '@components'
+import { runAfter } from '@utils'
+import { injectWithHeader } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
+import Extra from './extra'
+import List from './list'
+import ListAll from './list-all'
 import Store from './store'
 
-const title = '我的小组'
-
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['group/mine', 'Mine']
-})
-@obc
-class Mine extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
-    $.init()
-
-    navigation.setParams({
-      heatmap: '我的小组.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('我的小组.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open($.url)
-              break
-
-            default:
-              break
-          }
-        }
-      }
+const Mine = (props, { $, navigation }) => {
+  useMount(() => {
+    runAfter(() => {
+      $.setParams(navigation)
+      $.init()
     })
-  }
+  })
 
-  render() {
-    const { $ } = this.context
-    const { list } = $.mine
-    return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={_.container.outer}
-        scrollToTop
-      >
-        <Flex style={_.mt._sm} wrap='wrap'>
-          {list.map(item => (
-            <Item key={item.id} {...item} />
-          ))}
-        </Flex>
-      </ScrollView>
-    )
-  }
+  return useObserver(() => {
+    const { type } = $.state
+    return <Page>{type === 'mine' ? <List /> : <ListAll />}</Page>
+  })
 }
+
+export default injectWithHeader(Store, Mine, {
+  screen: '小组',
+  hm: ['group/mine', 'Mine'],
+  defaultExtra: <Extra />
+})
