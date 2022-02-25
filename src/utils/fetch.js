@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-16 11:35:08
+ * @Last Modified time: 2022-02-25 15:46:42
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -456,6 +456,33 @@ export function hm(url, screen) {
     })
   } catch (error) {
     console.warn('[fetch] hm', error)
+  }
+}
+
+/**
+ * ua
+ */
+export function ua() {
+  try {
+    const userStore = getUserStoreAsync()
+    if (!userStore.isWebLogin) return
+
+    InteractionManager.runAfterInteractions(() => {
+      const request = new XMLHttpRequest()
+      const link = `https://hm.baidu.com/hm.gif?${urlStringify({
+        rnd: randomn(10),
+        lt: getTimestamp(),
+        si: 'a69e268f29c60e0429a711037f9c48b0',
+        v: '1.2.51',
+        api: '4_0',
+        u: `${getUserStoreAsync().url}?v=${VERSION_GITHUB_RELEASE}`
+      })}`
+      request.open('GET', link, true)
+      request.withCredentials = true
+      request.send(null)
+    })
+  } catch (error) {
+    console.warn('[fetch] u', error)
   }
 }
 

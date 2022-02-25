@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:55:01
+ * @Last Modified time: 2022-02-25 15:45:25
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -290,6 +290,13 @@ class User extends store {
     }
 
     return false
+  }
+
+  /**
+   * 用户空间地址
+   */
+  @computed get url() {
+    return `${HOST}/user/${this.myId}`
   }
 
   // -------------------- fetch --------------------

@@ -2,20 +2,28 @@
  * @Author: czy0729
  * @Date: 2021-01-21 16:01:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 01:39:03
+ * @Last Modified time: 2022-02-25 16:24:59
  */
 import React from 'react'
 import CompProgress from '@ant-design/react-native/lib/progress'
 import { ob } from '@utils/decorators'
+import { IMG_WIDTH } from '@constants'
 import { _ } from '@stores'
 
 function Progress({ epStatus, subject }) {
   const styles = memoStyles()
-  const percent = subject.eps_count
-    ? (parseInt(epStatus || 0) / parseInt(subject.eps_count)) * 100
-    : 0
+  const percent = parseInt(
+    subject.eps_count
+      ? (parseInt(epStatus || 0) / parseInt(subject.eps_count)) * 100
+      : 0
+  )
   return (
-    <CompProgress style={styles.progress} barStyle={styles.bar} percent={percent} />
+    <CompProgress
+      style={styles.progress}
+      barStyle={styles.bar}
+      wrapWidth={styles.layout.width}
+      percent={percent}
+    />
   )
 }
 
@@ -31,5 +39,8 @@ const memoStyles = _.memoStyles(() => ({
     borderBottomColor: _.colorPrimary,
     borderBottomWidth: 4,
     borderRadius: 4
+  },
+  layout: {
+    width: _.window.width - 2 * _.wind - IMG_WIDTH - _._wind
   }
 }))

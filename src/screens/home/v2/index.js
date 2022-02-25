@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-05 02:49:40
+ * @Last Modified time: 2022-02-25 15:49:26
  */
 import React from 'react'
 import { UM } from '@components'
@@ -17,7 +17,7 @@ import { _, userStore } from '@stores'
 import { runAfter } from '@utils'
 import { navigationReference } from '@utils/app'
 import { inject, obc } from '@utils/decorators'
-import { hm, t } from '@utils/fetch'
+import { hm, t, ua } from '@utils/fetch'
 import { IOS } from '@constants'
 import CheckLogin from './check-login'
 import Header from './header'
@@ -56,6 +56,7 @@ class Home extends React.Component {
           device: _.isPad ? 'pad' : 'mobile'
         })
         hm(`?id=${id}`, 'Home')
+        if ($.isLogin) ua()
       }, 6400)
     })
   }
