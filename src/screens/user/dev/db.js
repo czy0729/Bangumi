@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-02-27 11:32:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-27 12:16:12
+ * @Last Modified time: 2022-02-27 15:39:31
  */
 import Constants from 'expo-constants'
-import { xhrCustom as xhr } from '@/utils/fetch'
-import Base64 from '@/utils/thirdParty/base64'
+import { xhrCustom as xhr } from '@utils/fetch'
+import Base64 from '@utils/thirdParty/base64'
 
 const oauthData = {
   grant_type: 'password',
@@ -178,9 +178,7 @@ export async function put({ path, content, message }) {
     /**
      * 获取access_token
      */
-    if (!accessToken) {
-      await oauth()
-    }
+    if (!accessToken) await oauth()
 
     /**
      * 检查path是否存在
