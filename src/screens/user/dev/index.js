@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 17:30:58
+ * @Last Modified time: 2022-02-27 12:23:11
  */
 import React from 'react'
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
 import * as ScreenOrientation from 'expo-screen-orientation'
-import { ScrollView, Text, Switch, Touchable, Button, Iconfont } from '@components'
+import { ScrollView, Text, Switch, Touchable, Iconfont } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, systemStore, userStore } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
@@ -20,6 +20,7 @@ import {
 } from '@constants/cdn'
 import hashSubject from '@constants/json/hash/subject.min.json'
 import hashAvatar from '@constants/json/hash/avatar.min.json'
+import UpdateTourist from './update-tourist'
 
 const title = '开发菜单'
 
@@ -49,14 +50,21 @@ class DEV extends React.Component {
     return (
       <>
         <ItemSetting
-          hd='调试'
-          ft={<Switch checked={dev} onChange={systemStore.toggleDev} />}
+          hd='Dev Mode'
+          ft={
+            <Switch
+              style={this.styles.switch}
+              checked={dev}
+              onChange={systemStore.toggleDev}
+            />
+          }
           withoutFeedback
         />
         <ItemSetting
-          hd='显示埋点'
+          hd='Track Points'
           ft={
             <Switch
+              style={this.styles.switch}
               checked={devEvent.enabled}
               onChange={() => systemStore.toggleDevEvent('enabled')}
             />
@@ -64,7 +72,7 @@ class DEV extends React.Component {
           withoutFeedback
         />
         <ItemSetting
-          hd='JSException'
+          hd='JS Exception Test'
           ft={
             // eslint-disable-next-line no-undef
             <Touchable onPress={() => yijianmaojiao()}>
@@ -74,7 +82,7 @@ class DEV extends React.Component {
           withoutFeedback
         />
         <ItemSetting
-          hd='ScreenOrientation'
+          hd='Screen Orientation Lock'
           ft={
             <Touchable onPress={() => ScreenOrientation.unlockAsync()}>
               <Text>解锁旋转</Text>
@@ -82,30 +90,28 @@ class DEV extends React.Component {
           }
           withoutFeedback
         />
+        <UpdateTourist />
+        <ItemSetting hd='Update Advance' />
+        <ItemSetting hd='Advance Users' />
       </>
     )
   }
 
   renderIcons() {
     return (
-      <>
-        <Text style={[this.styles.code, _.mt.md]} selectable>
-          {[
-            'ios-star',
-            'ios-star-outline',
-            'ios-star-half',
-            'ios-moon',
-            'ios-sunny'
-          ].map(item => (
-            <Iconfont key={item} name={item} />
-          ))}
-        </Text>
-        <Text style={[this.styles.code, _.mt.md]} selectable>
-          {['md-videogame-asset', 'md-link'].map(item => (
-            <Iconfont key={item} name={item} />
-          ))}
-        </Text>
-      </>
+      <Text style={[this.styles.code, _.mt.md]} selectable>
+        {[
+          'ios-star',
+          'ios-star-outline',
+          'ios-star-half',
+          'ios-moon',
+          'ios-sunny',
+          'md-videogame-asset',
+          'md-link'
+        ].map(item => (
+          <Iconfont key={item} name={item} />
+        ))}
+      </Text>
     )
   }
 
@@ -117,13 +123,12 @@ class DEV extends React.Component {
         </Text>
         {typeof content === 'string'
           ? content
-          : content.map(item => `\n\n${JSON.stringify(item, null, 2)}`)}
+          : content.map(item => `\n${JSON.stringify(item, null, 2)}`)}
       </Text>
     )
   }
 
   render() {
-    const { showDetail } = this.state
     const { ota } = systemStore.state
     return (
       <ScrollView
@@ -132,16 +137,16 @@ class DEV extends React.Component {
         scrollToTop
       >
         {this.rederOptions()}
-        {this.renderIcons()}
+        {/* {this.renderIcons()} */}
         {this.renderView(
-          '',
+          'AUTH\n',
           JSON.stringify({
             tourist: 1,
             accessToken: userStore.accessToken,
             userCookie: userStore.userCookie
           })
         )}
-        {this.renderView('HASH-OTA', [
+        {this.renderView('OTA', [
           {
             hashSubject: Object.keys(hashSubject).length,
             hashSubjectOTA: Object.keys(getHashSubjectOTA()).length,
@@ -164,13 +169,7 @@ class DEV extends React.Component {
           }
         ])}
         {this.renderView('平台信息', [Platform])}
-        {showDetail ? (
-          this.renderView('平台常量', [Constants])
-        ) : (
-          <Button style={_.mt.md} onPress={this.onShow}>
-            显示平台常量
-          </Button>
-        )}
+        {this.renderView('平台常量', [Constants])}
       </ScrollView>
     )
   }
@@ -186,7 +185,8 @@ const memoStyles = _.memoStyles(() => ({
   },
   container: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginBottom: _.bottom
   },
   code: {
     paddingVertical: _.space,
@@ -197,5 +197,13 @@ const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  switch: {
+    marginRight: -4,
+    transform: [
+      {
+        scale: _.device(0.8, 1.12)
+      }
+    ]
   }
 }))
