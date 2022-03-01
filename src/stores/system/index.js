@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 10:32:43
+ * @Last Modified time: 2022-03-01 11:30:18
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -183,14 +183,10 @@ class System extends store {
    * 判断是否高级用户
    */
   fetchAdvance = async () => {
-    // 永久性质
-    if (this.advance) {
-      return true
-    }
+    if (this.advance) return true
 
-    if (!UserStore.myId) {
-      return false
-    }
+    const { myId, myUserId } = UserStore
+    if (!myId || !myUserId) return false
 
     try {
       const { _response } = await xhrCustom({
@@ -198,7 +194,7 @@ class System extends store {
       })
       const advanceUserMap = JSON.parse(_response)
 
-      if (advanceUserMap[UserStore.myId]) {
+      if (advanceUserMap[myId] || advanceUserMap[myUserId]) {
         const key = 'advance'
         this.setState({
           advance: true
@@ -208,6 +204,7 @@ class System extends store {
     } catch (error) {
       warn(NAMESPACE, 'fetchAdvance', error)
     }
+
     return true
   }
 

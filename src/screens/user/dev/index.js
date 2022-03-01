@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-27 16:44:09
+ * @Last Modified time: 2022-03-01 10:52:44
  */
 import React from 'react'
 import * as ScreenOrientation from 'expo-screen-orientation'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
 import { initXsbRelationOTA } from '@constants/cdn'
 import UpdateTourist from './update-tourist'
+import UpdateAdvance from './update-advance'
 import Detail from './detail'
 
 const title = '开发菜单'
@@ -83,7 +84,7 @@ class DEV extends React.Component {
           withoutFeedback
         />
         <UpdateTourist />
-        <ItemSetting hd='Update Advance' />
+        <UpdateAdvance />
         <ItemSetting hd='Advance Users' />
       </>
     )
