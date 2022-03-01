@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-25 15:45:25
+ * @Last Modified time: 2022-03-01 11:53:59
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -228,6 +228,28 @@ class User extends store {
   }
 
   // -------------------- get --------------------
+
+  /**
+   * 自己用户Id
+   */
+  @computed get myUserId() {
+    return this.userInfo.id || this.accessToken.user_id
+  }
+
+  /**
+   * 自己用户Id(改过用户名后)
+   */
+  @computed get myId() {
+    return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
+  }
+
+  /**
+   * 用户空间地址
+   */
+  @computed get url() {
+    return `${HOST}/user/${this.myId}`
+  }
+
   /**
    * 有新短信
    */
@@ -236,17 +258,10 @@ class User extends store {
   }
 
   /**
-   * 取自己用户Id
+   * 开发者
    */
-  @computed get myUserId() {
-    return this.userInfo.id || this.accessToken.user_id
-  }
-
-  /**
-   * 取自己用户Id(改过用户名后)
-   */
-  @computed get myId() {
-    return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
+  @computed get isDeveloper() {
+    return this.myUserId == 456208
   }
 
   /**
@@ -267,36 +282,16 @@ class User extends store {
    * 限制内容展示
    */
   @computed get isLimit() {
-    if (!VERSION_GOOGLE) {
-      return false
-    }
-
-    if (IOS || !VERSION_GOOGLE) {
-      return false
-    }
+    if (!VERSION_GOOGLE) return false
+    if (IOS || !VERSION_GOOGLE) return false
 
     const { GOOGLE_AUTH } = getOTA()
-    if (!GOOGLE_AUTH) {
-      return false
-    }
-
-    if (!this.isLogin) {
-      return true
-    }
+    if (!GOOGLE_AUTH) return false
+    if (!this.isLogin) return true
 
     const { id } = this.userInfo
-    if (!id || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH) {
-      return true
-    }
-
+    if (!id || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH) return true
     return false
-  }
-
-  /**
-   * 用户空间地址
-   */
-  @computed get url() {
-    return `${HOST}/user/${this.myId}`
   }
 
   // -------------------- fetch --------------------

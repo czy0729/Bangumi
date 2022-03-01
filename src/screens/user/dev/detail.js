@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-02-27 16:26:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-27 16:49:13
+ * @Last Modified time: 2022-03-01 12:22:53
  */
-import React from 'react'
+import React, { useState } from 'react'
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { Text, Iconfont } from '@components'
+import { Touchable, Flex, Text } from '@components'
 import { _, systemStore, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { getHashSubjectOTA, getHashAvatarOTA, getXsbRelationOTA } from '@constants/cdn'
@@ -18,7 +18,7 @@ function Detail() {
   return useObserver(() => {
     return (
       <>
-        <Block>
+        {/* <Block>
           {[
             'ios-star',
             'ios-star-outline',
@@ -30,7 +30,7 @@ function Detail() {
           ].map(item => (
             <Iconfont key={item} name={item} />
           ))}
-        </Block>
+        </Block> */}
         <Block
           value={JSON.stringify({
             tourist: 1,
@@ -76,20 +76,34 @@ function Detail() {
 export default Detail
 
 function Block({ title, value = [], children }) {
+  const [open, setOpen] = useState(false)
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <Text style={[styles.code, _.mt.md]} size={12} lineHeight={16} selectable>
-        {!!title && (
-          <Text size={12} lineHeight={16} type='sub'>
-            {title}
+      <Flex style={[styles.code, _.mt.md]}>
+        <Flex.Item>
+          <Text size={12} lineHeight={16} selectable>
+            {!!title && (
+              <Text size={12} lineHeight={16} type='sub'>
+                {title}
+              </Text>
+            )}
+            {open && (
+              <>
+                {typeof value === 'string'
+                  ? value
+                  : value.map(item => `\n${JSON.stringify(item, null, 2)}`)}
+                {children}
+              </>
+            )}
           </Text>
+        </Flex.Item>
+        {!open && (
+          <Touchable onPress={() => setOpen(true)}>
+            <Text>open</Text>
+          </Touchable>
         )}
-        {typeof value === 'string'
-          ? value
-          : value.map(item => `\n${JSON.stringify(item, null, 2)}`)}
-        {children}
-      </Text>
+      </Flex>
     )
   })
 }
