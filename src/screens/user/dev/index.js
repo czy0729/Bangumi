@@ -2,25 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-27 12:23:11
+ * @Last Modified time: 2022-02-27 16:44:09
  */
 import React from 'react'
-import { Platform } from 'react-native'
-import Constants from 'expo-constants'
 import * as ScreenOrientation from 'expo-screen-orientation'
-import { ScrollView, Text, Switch, Touchable, Iconfont } from '@components'
+import { ScrollView, Text, Switch, Touchable } from '@components'
 import { ItemSetting } from '@screens/_'
-import { _, systemStore, userStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { withHeader, ob } from '@utils/decorators'
-import {
-  getHashSubjectOTA,
-  getHashAvatarOTA,
-  initXsbRelationOTA,
-  getXsbRelationOTA
-} from '@constants/cdn'
-import hashSubject from '@constants/json/hash/subject.min.json'
-import hashAvatar from '@constants/json/hash/avatar.min.json'
+import { initXsbRelationOTA } from '@constants/cdn'
 import UpdateTourist from './update-tourist'
+import Detail from './detail'
 
 const title = '开发菜单'
 
@@ -97,39 +89,7 @@ class DEV extends React.Component {
     )
   }
 
-  renderIcons() {
-    return (
-      <Text style={[this.styles.code, _.mt.md]} selectable>
-        {[
-          'ios-star',
-          'ios-star-outline',
-          'ios-star-half',
-          'ios-moon',
-          'ios-sunny',
-          'md-videogame-asset',
-          'md-link'
-        ].map(item => (
-          <Iconfont key={item} name={item} />
-        ))}
-      </Text>
-    )
-  }
-
-  renderView(title, content) {
-    return (
-      <Text style={[this.styles.code, _.mt.md]} size={12} lineHeight={16} selectable>
-        <Text size={12} lineHeight={16} type='sub'>
-          {title}
-        </Text>
-        {typeof content === 'string'
-          ? content
-          : content.map(item => `\n${JSON.stringify(item, null, 2)}`)}
-      </Text>
-    )
-  }
-
   render() {
-    const { ota } = systemStore.state
     return (
       <ScrollView
         style={this.styles.screen}
@@ -137,39 +97,7 @@ class DEV extends React.Component {
         scrollToTop
       >
         {this.rederOptions()}
-        {/* {this.renderIcons()} */}
-        {this.renderView(
-          'AUTH\n',
-          JSON.stringify({
-            tourist: 1,
-            accessToken: userStore.accessToken,
-            userCookie: userStore.userCookie
-          })
-        )}
-        {this.renderView('OTA', [
-          {
-            hashSubject: Object.keys(hashSubject).length,
-            hashSubjectOTA: Object.keys(getHashSubjectOTA()).length,
-            hashAvatar: Object.keys(hashAvatar).length,
-            hashAvatarOTA: Object.keys(getHashAvatarOTA()).length,
-            xsbRelationOTA: Object.keys(getXsbRelationOTA().data).length
-          }
-        ])}
-        {this.renderView('CDN', [ota])}
-        {this.renderView('设备视窗', [_.window])}
-        {this.renderView('登录信息', [
-          {
-            accessToken: userStore.accessToken
-          },
-          {
-            userCookie: userStore.userCookie
-          },
-          {
-            setCookie: userStore.setCookie
-          }
-        ])}
-        {this.renderView('平台信息', [Platform])}
-        {this.renderView('平台常量', [Constants])}
+        <Detail />
       </ScrollView>
     )
   }
@@ -187,16 +115,6 @@ const memoStyles = _.memoStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     marginBottom: _.bottom
-  },
-  code: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.md,
-    marginHorizontal: _.wind,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
   },
   switch: {
     marginRight: -4,
