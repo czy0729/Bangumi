@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 10:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-01 11:30:53
+ * @Last Modified time: 2022-03-05 18:11:52
  */
 import React, { useState, useCallback } from 'react'
 import { Touchable, Flex, Text, Input, Iconfont } from '@components'
@@ -12,7 +12,7 @@ import { useObserver } from '@utils/hooks'
 import { info } from '@utils/ui'
 import { read, put } from './db'
 
-function UpdateAdvance(props, { navigation }) {
+function UpdateAdvance({ navigation }) {
   const [show, setShow] = useState(false)
   const [uid, setUid] = useState('')
   const [val, setVal] = useState('')
@@ -45,6 +45,12 @@ function UpdateAdvance(props, { navigation }) {
     })
     info('update db success')
   }, [uid, val])
+  const onView = useCallback(async () => {
+    const { content } = await read({
+      path: 'advance.json'
+    })
+    console.info(JSON.stringify(JSON.parse(content), null, 2))
+  }, [])
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -77,8 +83,8 @@ function UpdateAdvance(props, { navigation }) {
                 onChange={onValChange}
               />
             </Flex.Item>
-            <Touchable style={_.ml.md} onPress={onSubmit}>
-              <Iconfont name='md-check' />
+            <Touchable style={_.ml.md} onPress={onView}>
+              <Iconfont name='md-text-format' />
             </Touchable>
             <Touchable
               style={_.ml.md}
@@ -90,6 +96,9 @@ function UpdateAdvance(props, { navigation }) {
               }}
             >
               <Iconfont name='md-arrow-forward' />
+            </Touchable>
+            <Touchable style={_.ml.md} onPress={onSubmit}>
+              <Iconfont name='md-check' />
             </Touchable>
           </Flex>
         )}

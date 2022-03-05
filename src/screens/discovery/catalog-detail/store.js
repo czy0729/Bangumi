@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:47:19
+ * @Last Modified time: 2022-03-05 19:13:21
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -78,7 +78,8 @@ export default class ScreenCatalogDetail extends store {
     const catalogDetail = discoveryStore.catalogDetail(this.catalogId)
     let list = catalogDetail.list.map(item => ({
       ...item,
-      score: subjectStore.subject(item.id)?.rating?.score || 0
+      score: subjectStore.subject(item.id)?.rating?.score || 0,
+      rank: subjectStore.subject(item.id)?.rank || ''
     }))
 
     if (sort === 1) {
@@ -86,7 +87,9 @@ export default class ScreenCatalogDetail extends store {
       list = list.sort((a, b) => b.info.localeCompare(a.info))
     } else if (sort === 2) {
       // 分数
-      list = list.sort((a, b) => desc(a, b, item => item.score))
+      list = list.sort((a, b) =>
+        desc(a, b, item => (item.rank ? 10000 - item.rank : item.score))
+      )
     }
     return {
       ...catalogDetail,

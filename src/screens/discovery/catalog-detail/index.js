@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 11:33:15
+ * @Last Modified time: 2022-03-05 19:10:12
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
@@ -81,6 +81,7 @@ class CatalogDetail extends React.Component {
         tip={item.info}
         comments={item.comment}
         score={item.score}
+        rank={item.rank}
         isCatalog
         isCollect={item.isCollect}
         hideScore={$.hideScore}

@@ -40,16 +40,17 @@ class DEV extends React.Component {
   }
 
   rederOptions() {
+    const { navigation } = this.props
     const { isDeveloper } = userStore
     return (
       <>
-        {isDeveloper && <Base />}
+        {isDeveloper && <Base navigation={navigation} />}
         <ScreenOrientation />
         {isDeveloper && (
           <>
-            <UpdateTourist />
-            <UpdateAdvance />
-            <UsersAdvance />
+            <UpdateTourist navigation={navigation} />
+            <UpdateAdvance navigation={navigation} />
+            <UsersAdvance navigation={navigation} />
           </>
         )}
       </>

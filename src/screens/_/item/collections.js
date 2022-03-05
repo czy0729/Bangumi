@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 00:16:51
+ * @Last Modified time: 2022-03-05 19:11:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,8 +12,8 @@ import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { memo, ob } from '@utils/decorators'
-import { EVENT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
-import { Tag, Stars, Cover } from '../base'
+import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { Tag, Rank, Stars, Cover } from '../base'
 import { IconTouchable } from '../icon/touchable'
 
 const defaultProps = {
@@ -23,6 +23,7 @@ const defaultProps = {
   name: '',
   nameCn: '',
   tip: '',
+  rank: '',
   score: '',
   tags: '',
   comments: '',
@@ -52,6 +53,7 @@ const Item = memo(
     name,
     nameCn,
     tip,
+    rank,
     score,
     tags,
     comments,
@@ -102,7 +104,7 @@ const Item = memo(
 
     const _collection = collection || (isCollect ? '已收藏' : '')
     // {collection} = 2个全角 + 1个半角, 已收藏 = 3个全角
-    const indent = _collection ? (collection ? '　　' : '　　　') : ''
+    const indent = _collection ? (collection ? '　　 ' : '　　　') : ''
     return (
       <Touchable
         style={[_.container.plain, styles.container]}
@@ -130,14 +132,14 @@ const Item = memo(
             <Cover
               style={styles.image}
               src={cover}
-              width={IMG_WIDTH_LG}
-              height={IMG_HEIGHT_LG}
+              width={IMG_WIDTH}
+              height={IMG_HEIGHT}
               radius
               shadow
               type={type}
             />
           </View>
-          <Flex.Item style={_.ml.wind}>
+          <Flex.Item style={[_.mt.xxs, _.ml.wind]}>
             <Flex
               style={[!isCatalog && styles.content]}
               direction='column'
@@ -181,7 +183,10 @@ const Item = memo(
               )}
               <Flex style={_.mt.sm}>
                 {!hideScore && hasScore && (
-                  <Stars style={_.mr.xs} value={score} color='warning' />
+                  <>
+                    <Rank value={rank} />
+                    <Stars style={_.mr.xs} value={score} color='warning' />
+                  </>
                 )}
                 {!!info.length && (
                   <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>
@@ -229,6 +234,7 @@ export const ItemCollections = ob(
     name,
     nameCn,
     tip,
+    rank,
     score,
     tags,
     comments,
@@ -259,6 +265,7 @@ export const ItemCollections = ob(
         name={name}
         nameCn={nameCn}
         tip={tip}
+        rank={rank}
         score={score}
         tags={tags}
         comments={comments}
@@ -288,14 +295,14 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind
   },
   imgContainer: {
-    width: IMG_WIDTH_LG
+    width: IMG_WIDTH
   },
   wrap: {
     paddingVertical: _.md,
     paddingRight: _.wind
   },
   content: {
-    height: IMG_HEIGHT_LG
+    height: IMG_HEIGHT
   },
   comments: {
     padding: _.sm,
