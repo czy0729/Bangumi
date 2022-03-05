@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-31 00:53:55
+ * @Last Modified time: 2022-03-05 20:06:38
  */
 export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const INIT_ROUTE = 'Home'
@@ -23,7 +23,7 @@ export default {
     // id: 240929
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448
-    // catalogId: 34024
+    // catalogId: 35176
     // groupId: 'fillgrids' // fillgrids
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '无职转生 ～在异世界认真地活下去～'
