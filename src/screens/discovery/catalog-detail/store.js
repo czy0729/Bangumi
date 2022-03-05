@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-05 19:13:21
+ * @Last Modified time: 2022-03-05 19:48:59
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -22,14 +22,15 @@ const excludeState = {
 
 export default class ScreenCatalogDetail extends store {
   state = observable({
+    layout: 'list', // list | grid
     sort: 0,
     ...excludeState,
     _loaded: false
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(undefined, namespace)
+    console.log(state)
     this.setState({
       ...state,
       ...excludeState,
@@ -119,6 +120,11 @@ export default class ScreenCatalogDetail extends store {
     return userStore.isLogin && !joinUrl && !byeUrl
   }
 
+  @computed get isList() {
+    const { layout } = this.state
+    return layout === 'list'
+  }
+
   // -------------------- page --------------------
   /**
    * 收藏或取消目录
@@ -205,6 +211,19 @@ export default class ScreenCatalogDetail extends store {
         }
       ]
     )
+  }
+
+  switchLayout = () => {
+    const _layout = this.isList ? 'grid' : 'list'
+
+    t('目录详情.切换布局', {
+      layout: _layout
+    })
+
+    this.setState({
+      layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   // -------------------- action --------------------

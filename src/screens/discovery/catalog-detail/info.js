@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 19:10:17
+ * @Last Modified time: 2022-03-05 19:50:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,9 +24,11 @@ import { getCoverLarge, appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
+const layoutDS = ['列表', '网格']
 const sortDS = ['默认', '时间', '评分']
 
 function Info(props, { $, navigation }) {
+  const styles = memoStyles()
   const { sort } = $.state
   const { title, avatar, content, progress, nickname, userId, time, _loaded } =
     $.catalogDetail
@@ -106,14 +108,25 @@ function Info(props, { $, navigation }) {
             更新分数
           </Button>
         </Flex.Item>
-        <SegmentedControl
-          style={styles.segmentedControl}
-          size={11}
-          values={sortDS}
-          selectedIndex={sort || 0}
-          onValueChange={$.sort}
-        />
-        <Heatmap id='目录详情.排序' />
+        {$.state._loaded && (
+          <>
+            <SegmentedControl
+              style={styles.layout}
+              size={11}
+              values={layoutDS}
+              selectedIndex={$.isList ? 0 : 1}
+              onValueChange={$.switchLayout}
+            />
+            <SegmentedControl
+              style={styles.sort}
+              size={11}
+              values={sortDS}
+              selectedIndex={sort || 0}
+              onValueChange={$.sort}
+            />
+            <Heatmap id='目录详情.排序' />
+          </>
+        )}
       </Flex>
       {!_loaded && (
         <Flex style={styles.loading} justify='center'>
@@ -126,19 +139,24 @@ function Info(props, { $, navigation }) {
 
 export default obc(Info)
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 248
-  },
-  segmentedControl: {
-    width: 144 * _.ratio,
-    height: 22 * _.ratio
   },
   loading: {
     height: 120
   },
+  layout: {
+    width: _.r(82),
+    height: _.r(22),
+    marginRight: _.sm + 2
+  },
+  sort: {
+    width: _.r(128),
+    height: _.r(22)
+  },
   btn: {
-    width: 82 * _.ratio,
-    height: 22 * _.ratio
+    width: _.r(82),
+    height: _.r(22)
   }
-})
+}))

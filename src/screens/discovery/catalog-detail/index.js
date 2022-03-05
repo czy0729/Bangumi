@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-05 19:10:12
+ * @Last Modified time: 2022-03-05 20:05:39
  */
 import React from 'react'
 import { ListView, Heatmap } from '@components'
-import { ItemCollections, FolderManageModal } from '@screens/_'
+import { FolderManageModal, ItemCollections, ItemCollectionsGrid } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
@@ -66,45 +66,70 @@ class CatalogDetail extends React.Component {
     hm(`index/${$.catalogId}`, 'CatalogDetail')
   }
 
+  get num() {
+    return _.portrait(4, 6)
+  }
+
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     const id = String(item.id).match(/\d+/)[0]
+    if ($.isList) {
+      return (
+        <ItemCollections
+          navigation={navigation}
+          event={event}
+          id={id}
+          type={item.type}
+          cover={item.image}
+          name={item.title}
+          nameCn={findSubjectCn(item.title, item.id)}
+          tip={item.info}
+          comments={item.comment}
+          score={item.score}
+          rank={item.rank}
+          isCatalog
+          isCollect={item.isCollect}
+          hideScore={$.hideScore}
+          collection={$.userCollectionsMap[id]}
+          modify={item.modify}
+          isEditable={$.isSelf}
+          onEdit={$.onEdit}
+        >
+          {!index && <Heatmap id='目录详情.跳转' />}
+        </ItemCollections>
+      )
+    }
+
     return (
-      <ItemCollections
+      <ItemCollectionsGrid
         navigation={navigation}
         event={event}
+        num={this.num}
         id={id}
-        type={item.type}
-        cover={item.image}
         name={item.title}
         nameCn={findSubjectCn(item.title, item.id)}
-        tip={item.info}
-        comments={item.comment}
+        cover={item.image}
         score={item.score}
         rank={item.rank}
-        isCatalog
-        isCollect={item.isCollect}
-        hideScore={$.hideScore}
+        type={item.type}
         collection={$.userCollectionsMap[id]}
-        modify={item.modify}
-        isEditable={$.isSelf}
-        onEdit={$.onEdit}
-      >
-        {!index && <Heatmap id='目录详情.跳转' />}
-      </ItemCollections>
+      />
     )
   }
 
   render() {
     const { $ } = this.context
-    const { visible, defaultEditItem } = $.state
+    const { layout, visible, defaultEditItem } = $.state
     const { onScroll } = this.props
+    const numColumns = $.isList ? undefined : this.num
     return (
       <>
         <ListView
+          key={`${layout}${numColumns}`}
           style={_.container.plain}
           contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
+          numColumns={numColumns}
           data={$.catalogDetail}
           ListHeaderComponent={<Info />}
           renderItem={this.renderItem}
