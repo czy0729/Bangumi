@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-11 11:52:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 11:54:26
+ * @Last Modified time: 2022-03-07 21:26:44
  */
 import { useState } from 'react'
 import { Linking } from 'react-native'
@@ -27,5 +27,8 @@ export default function useInitialURL() {
     getUrlAsync()
   })
 
-  return { url, processing }
+  return {
+    url,
+    processing
+  }
 }

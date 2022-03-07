@@ -2,129 +2,67 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-07 17:15:22
+ * @Last Modified time: 2022-03-07 21:24:30
  */
+import '@utils/thirdParty/stable-sort'
 import React, { useEffect } from 'react'
-import { View, Text } from 'react-native'
-
-// import '@utils/thirdParty/stable-sort'
-// import { Alert } from 'react-native'
-// import * as ReactNativeScreens from 'react-native-screens'
-// import { SafeAreaProvider } from 'react-native-safe-area-context'
-// import RNRestart from 'react-native-restart'
-// import {
-//   setJSExceptionHandler,
-//   setNativeExceptionHandler
-// } from 'react-native-exception-handler'
-// import * as SplashScreen from 'expo-splash-screen'
-// import * as Font from 'expo-font'
-// import Provider from '@ant-design/react-native/lib/provider'
-// import { DeepLink, BackAndroid } from '@components'
-// import { AppCommon } from '@screens/_'
-// import Stores, { _ } from '@stores'
-// import { bootApp } from '@utils/app'
-// import {
-//   useBoolean,
-//   // useShortcuts,
-//   useKeepAwake,
-//   useOrientation
-// } from '@utils/hooks'
-// import { t } from '@utils/fetch'
-// import { getUserStoreAsync } from '@utils/async'
-// import theme from '@styles/theme'
-// // import { createNavigator } from './src/navigations/index'
-
-// import { NavigationContainer } from '@react-navigation/native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { createNativeStackNavigator } from '@react-navigation/native-stack'
-// import { Home, Subject } from '@screens'
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
+import Provider from '@ant-design/react-native/lib/provider'
+import { NavigationContainer, DeepLink, BackAndroid } from '@components'
+import { AppCommon } from '@screens/_'
+import { _ } from '@stores'
+import {
+  useCachedResources,
+  useKeepAwake,
+  useOrientation,
+  useErrorHandlerAndroid
+} from '@utils/hooks'
+import theme from '@styles/theme'
+import { Home, Subject } from '@screens'
 
-// const Stack = createNativeStackNavigator()
+const Stack = createStackNavigator()
 
 export default function App() {
-  // const isLoadingComplete = useBootApp()
-  // useShortcuts()
-  // useKeepAwake()
-  // const orientation = useOrientation()
-  // useEffect(() => {
-  //   _.toggleOrientation(orientation)
-  // }, [orientation])
-  // if (!isLoadingComplete) return null
+  const isLoadingComplete = useCachedResources()
+  useKeepAwake()
+  useErrorHandlerAndroid()
+
+  const orientation = useOrientation()
+  useEffect(() => {
+    _.toggleOrientation(orientation)
+  }, [orientation])
+
+  if (!isLoadingComplete) return null
 
   return (
-    <View>
-      <Text>1</Text>
-    </View>
+    <SafeAreaProvider style={_.container.flex}>
+      <Provider theme={theme}>
+        {/* {createNavigator()} */}
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+              name='Home'
+              component={Home}
+              options={{
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+              }}
+            />
+            <Stack.Screen
+              name='Subject'
+              component={Subject}
+              options={{
+                ...Subject.navigationOptions,
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+        <DeepLink />
+        <BackAndroid />
+        <AppCommon />
+      </Provider>
+    </SafeAreaProvider>
   )
 }
-
-// function useBootApp() {
-//   const { state, setTrue } = useBoolean(false)
-//   useEffect(() => {
-//     ;(async function () {
-//       try {
-//         // 保持启动屏
-//         SplashScreen.preventAutoHideAsync()
-
-//         // App初始化
-//         bootApp()
-
-//         // 加载bgm表情特殊字体
-//         await Font.loadAsync({
-//           bgm: require('@assets/fonts/AppleColorEmoji.ttf')
-//         })
-
-//         // Stores初始化
-//         await Stores.init()
-
-//         // enableScreens
-//         ReactNativeScreens.enableScreens(true)
-//       } catch (ex) {
-//       } finally {
-//         setTrue()
-
-//         // 隐藏启动屏
-//         SplashScreen.hideAsync()
-//       }
-//     })()
-
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [])
-
-//   return state
-// }
-
-// /**
-//  * 崩溃处理
-//  * @param {*} e
-//  * @param {*} isFatal
-//  */
-// function errorHandler(e, isFatal) {
-//   if (isFatal) {
-//     Alert.alert(
-//       'Unexpected error occurred',
-//       `
-//         Error: ${isFatal ? 'Fatal:' : ''} ${e.name} ${e.message}
-
-//         We will need to restart the app.
-//         `,
-//       [
-//         {
-//           text: '重启',
-//           onPress: () => {
-//             RNRestart.Restart()
-//           }
-//         }
-//       ]
-//     )
-
-//     const userStore = getUserStoreAsync()
-//     t('其他.崩溃', {
-//       error: `${e.name} ${e.message}`,
-//       id: userStore.myId || ''
-//     })
-//   }
-// }
-
-// setJSExceptionHandler(errorHandler)
-
-// setNativeExceptionHandler(() => {})

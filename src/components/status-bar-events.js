@@ -13,7 +13,7 @@ import { StatusBar } from 'react-native'
 import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import { _ } from '@stores'
-import { NavigationEvents } from './navigation-events'
+import { NavigationEvents } from './navigation/events'
 
 export const StatusBarEvents = observer(
   ({

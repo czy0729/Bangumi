@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-24 03:06:29
+ * @Last Modified time: 2022-03-07 21:28:11
  */
 import { useEffect } from 'react'
 import { NativeEventEmitter, Clipboard } from 'react-native'
@@ -11,7 +11,7 @@ import { navigationReference, appNavigate, getSetting } from '../app'
 import { matchBgmUrl } from '../match'
 import { info } from '../ui'
 
-export default function useShortcuts() {
+export default function useShortcutsAndroid() {
   useEffect(() => {
     setTimeout(() => {
       const shortcutsItems = [
