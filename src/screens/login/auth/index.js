@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 16:07:05
+ * @Last Modified time: 2022-03-07 15:05:35
  */
 import React from 'react'
 import { View } from 'react-native'
-import { NavigationEvents } from 'react-navigation'
+// import { NavigationEvents } from 'react-navigation'
 import {
+  NavigationEvents,
   Touchable,
   Flex,
   StatusBarEvents,

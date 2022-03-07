@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-25 15:49:26
+ * @Last Modified time: 2022-03-07 15:31:00
  */
 import React from 'react'
 import { UM } from '@components'
@@ -12,7 +12,7 @@ import {
   NavigationBarEvents,
   SafeAreaView,
   KeyboardAdjustPanResize
-} from '@screens/_'
+} from '@_'
 import { _, userStore } from '@stores'
 import { runAfter } from '@utils'
 import { navigationReference } from '@utils/app'
@@ -61,7 +61,7 @@ class Home extends React.Component {
     })
   }
 
-  componentWillReceiveProps({ isFocused }) {
+  UNSAFE_componentWillReceiveProps({ isFocused }) {
     const { $ } = this.context
     $.setState({
       isFocused

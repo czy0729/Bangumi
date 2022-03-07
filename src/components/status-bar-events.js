@@ -5,14 +5,15 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:49:01
+ * @Last Modified time: 2022-03-07 15:04:44
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
-import { NavigationEvents } from 'react-navigation'
+// import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import { _ } from '@stores'
+import { NavigationEvents } from './navigation-events'
 
 export const StatusBarEvents = observer(
   ({

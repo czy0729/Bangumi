@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 13:41:02
+ * @Last Modified time: 2022-03-07 15:02:37
  */
 import React from 'react'
-import { NavigationEvents } from 'react-navigation'
+import { NavigationEvents } from '@components'
+// import { NavigationEvents } from 'react-navigation'
 import { obc } from '@utils/decorators'
 import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
 

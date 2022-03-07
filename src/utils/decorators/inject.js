@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 05:35:14
+ * @Last Modified time: 2022-03-07 16:04:36
  */
 import React from 'react'
-import { NavigationEvents } from 'react-navigation'
+import { NavigationEvents } from '@components'
+// import { NavigationEvents } from 'react-navigation'
 import Stores from '@stores'
 import { DEV, contextTypes } from '@constants'
 import { urlStringify } from '../index'
@@ -29,28 +30,23 @@ const Inject =
         constructor(props) {
           super(props)
 
-          const { navigation } = props
-          const { state } = navigation
-
-          // 后期对页面跳转传递数据进行了优化, 排除params里面_开头的key, 如_name, _image
+          const { route } = props
           const params = {}
-          Object.keys(state.params || {}).forEach(key => {
-            if (key.indexOf('_') === 0) return
-            params[key] = state.params[key]
+          const paramsWithoutPlaceholder = {}
+          Object.keys(route.params || {}).forEach(key => {
+            params[key] = route.params[key]
+
+            // 后期对页面跳转传递数据进行了优化, 排除params里面_开头的key, 如_name, _image
+            if (key.indexOf('_') !== 0)
+              paramsWithoutPlaceholder[key] = route.params[key]
           })
 
-          // 初始化页面Store
-          // storeKey约定为路由名字 + 参数(排除_开头的key)的序列化
-          const screenKey = `${state.routeName}?${urlStringify(params)}`
+          // 初始化页面Store, storeKey约定为路由名字+参数(排除_开头的key)的序列化
+          const screenKey = `${route.name}?${urlStringify(paramsWithoutPlaceholder)}`
           this.$ = Stores.get(screenKey)
           if (!this.$ || DEV) {
-            // 新建store
-            this.$ = new Store()
-
-            // 把navigation的页面参数插入store方便使用
-            this.$.params = {
-              ...navigation.state.params
-            }
+            this.$ = new Store() // 新建store
+            this.$.params = params // 把navigation的页面参数插入store方便使用
           }
 
           if (cache) Stores.add(screenKey, this.$)
@@ -66,7 +62,8 @@ const Inject =
           const { navigation } = this.props
           return {
             $: this.$,
-            navigation
+            navigation,
+            route: this.$.params
           }
         }
 

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-14 06:40:43
+ * @Last Modified time: 2022-03-07 15:56:57
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -405,5 +405,6 @@ export const COLLECTION_INDENT = PAD ? '　　    ' : '　　   '
 
 export const contextTypes = {
   $: PropTypes.object,
-  navigation: PropTypes.object
+  navigation: PropTypes.object,
+  route: PropTypes.object
 }

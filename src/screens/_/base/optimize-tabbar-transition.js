@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-05-12 20:40:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:54:52
+ * @Last Modified time: 2022-03-07 15:05:27
  */
 import React from 'react'
 import { View } from 'react-native'
-import { NavigationEvents } from 'react-navigation'
+import { NavigationEvents } from '@components'
+// import { NavigationEvents } from 'react-navigation'
 import { _ } from '@stores'
 import { IOS } from '@constants'
 

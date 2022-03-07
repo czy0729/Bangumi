@@ -5,11 +5,12 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:16:27
+ * @Last Modified time: 2022-03-07 15:02:04
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
-import { NavigationEvents } from 'react-navigation'
+import { NavigationEvents } from '@components'
+// import { NavigationEvents } from 'react-navigation'
 import { IOS } from '@constants'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
@@ -40,9 +41,7 @@ export const StatusBarEvents = ob(
     const props = {
       onDidFocus: () => events()
     }
-    if (action === 'onWillFocus') {
-      props.onWillFocus = () => events()
-    }
+    if (action === 'onWillFocus') props.onWillFocus = () => events()
     return (
       <>
         <StatusBar

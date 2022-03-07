@@ -45,7 +45,7 @@ class Timeline extends React.Component {
     })
   }
 
-  componentWillReceiveProps({ isFocused }) {
+  UNSAFE_componentWillReceiveProps({ isFocused }) {
     const { $ } = this.context
     $.setState({
       isFocused

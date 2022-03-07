@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:53:09
+ * @Last Modified time: 2022-03-07 15:05:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { NavigationEvents } from 'react-navigation'
-import { ScrollView, Flex, Button, Touchable, UM } from '@components'
+// import { NavigationEvents } from 'react-navigation'
+import { NavigationEvents, ScrollView, Flex, Button, Touchable, UM } from '@components'
 import { SafeAreaView, StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
