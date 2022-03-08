@@ -73,12 +73,11 @@
     "react-native-restart": "0.0.14",
     "react-native-safe-area-context": "3.1.9",
     "react-native-safe-area-view": "^1.1.1",
-    "react-native-screens": "^2.x",
+    "react-native-screens": "^3.0.0",
     "react-native-tab-view": "2.14.3",
     "react-native-unimodules": "~0.12.0",
     "react-native-webview": "11.0.0",
     "react-navigation": "3.0.9",
-    "react-navigation-tabs": "1.0.2",
     "rn-fetch-blob": "^0.12.0"
   },
   "resolutions": {
@@ -87,10 +86,9 @@
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "@react-native-community/eslint-config": "^3.0.1",
-    "@types/node": "^16.11.11",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
