@@ -22,7 +22,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "react-native",
-    "types": ["react", "react-native", "node"],
+    "types": ["react", "react-native"],
     "lib": ["DOM", "ESNext"],
     "moduleResolution": "node",
     "noEmit": true,
@@ -33,6 +33,5 @@
     "emitDecoratorMetadata": true,
     "target": "ESNext"
   },
-  "exclude": ["node_modules", "dist", "android", "src/assets", "web"],
-  "extends": "expo/tsconfig.base"
+  "exclude": ["node_modules", "dist", "android", "src/assets", "web"]
 }
