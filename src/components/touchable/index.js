@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 07:59:09
+ * @Last Modified time: 2022-03-11 02:32:27
  */
 import React from 'react'
 import {
@@ -34,6 +34,7 @@ export const Touchable = observer(
     delayPressIn = 0,
     delayPressOut = 0,
     useRN = false,
+    ripple,
     onPress = Function.prototype,
     ...other
   }) => {
@@ -56,12 +57,12 @@ export const Touchable = observer(
       )
     }
 
-    const { ripple } = getSystemStoreAsync().setting
-    if (!IOS && ripple) {
+    const _ripple = ripple === undefined ? getSystemStoreAsync().setting.ripple : ripple
+    if (!IOS && _ripple) {
       if (_useRN) {
         return (
           <View style={style}>
-            <RNTouchableNativeFeedback {...other} {...passProps}>
+            <RNTouchableNativeFeedback {...other} {...passProps} delayPressIn={80}>
               <View style={styles.touchable} />
             </RNTouchableNativeFeedback>
             {children}
@@ -72,7 +73,12 @@ export const Touchable = observer(
       const _styles = separateStyles(style)
       return (
         <View style={_styles.containerStyle}>
-          <TouchableNativeFeedback style={_styles.style} {...other} {...passProps}>
+          <TouchableNativeFeedback
+            style={_styles.style}
+            {...other}
+            {...passProps}
+            delayPressIn={80}
+          >
             <View>{children}</View>
           </TouchableNativeFeedback>
         </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 21:50:59
+ * @Last Modified time: 2022-03-11 00:24:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -98,7 +98,8 @@ const memoStyles = _.memoStyles(() => ({
   touch: {
     borderWidth: 1,
     borderColor: _.colorBorder,
-    borderRadius: _.radiusMd
+    borderRadius: _.radiusMd,
+    overflow: 'hidden'
   },
   active: {
     borderColor: _.colorSuccess

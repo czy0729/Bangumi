@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 00:11:54
+ * @Last Modified time: 2022-03-11 02:17:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,6 @@ const Item = memo(
     }
 
     const showScore = !hideScore && !!score
-    const indent = collection ? '        ' : ''
     return (
       <View style={[styles.item, style]}>
         <View>
@@ -84,9 +83,7 @@ const Item = memo(
           )}
         </View>
         <Touchable style={_.mt.sm} withoutFeedback hitSlop={hitSlop} onPress={onPress}>
-          {!!collection && <Tag style={styles.collection} value={collection} />}
           <Text size={12} bold lineHeight={14} numberOfLines={2}>
-            {indent}
             {HTMLDecode(name)}
           </Text>
           <Flex style={_.mt.xs}>
@@ -97,6 +94,11 @@ const Item = memo(
             )}
             {showScore && <Stars simple value={score} />}
           </Flex>
+          {!!collection && (
+            <Flex style={_.mt.sm}>
+              <Tag value={collection} />
+            </Flex>
+          )}
         </Touchable>
       </View>
     )
@@ -147,11 +149,5 @@ const styles = _.create({
   },
   timeText: {
     color: _.__colorPlain__
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1,
-    left: -1
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-05 19:11:48
+ * @Last Modified time: 2022-03-11 02:29:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -205,7 +205,7 @@ const Item = memo(
               <Flex.Item>
                 <Flex>
                   {hasComment && (
-                    <Text style={[styles.comments, _.mt.md]} size={13}>
+                    <Text style={[styles.comments, _.mt.md]} size={13} lineHeight={15}>
                       {comments}
                     </Text>
                   )}

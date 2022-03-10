@@ -5,9 +5,9 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 21:45:45
+ * @Last Modified time: 2022-03-11 02:21:07
  */
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { useNavigation } from '@react-navigation/native'
 import { _, systemStore } from '@stores'
@@ -44,41 +44,12 @@ const Header = ({
   statusBarEvents = true
 }) => {
   const navigation = useNavigation()
-
-  useLayoutEffect(() => {
-    const options = {
-      // header
-      headerShown: true,
-      headerStyle: {
-        backgroundColor: _.colorPlain,
-        borderBottomWidth: 0,
-        elevation: 0
-      },
-
-      // headerTitle
-      headerTitle: systemStore.setting.s2t ? s2t(title) : title,
-      headerTintColor: _.colorTitle,
-      headerTitleAlign: 'center',
-      headerTitleStyle: {
-        fontSize: 15,
-        fontWeight: 'normal'
-      },
-
-      // headerBack
-      headerBackTitleVisible: false,
-      headerLeft: () => <Back navigation={navigation} />,
-
-      // headerRight
+  useEffect(() => {
+    updateHeader({
+      navigation,
+      title,
       headerRight
-    }
-
-    // platform fixed
-    if (IOS) {
-    } else {
-      options.headerTitleStyle.fontFamily = ''
-    }
-
-    navigation.setOptions(options)
+    })
   }, [navigation, title, headerRight])
 
   useMount(() => {
@@ -98,6 +69,50 @@ const Header = ({
       </>
     )
   })
+}
+
+export const updateHeader = ({ navigation, title, headerRight }) => {
+  if (!navigation) return
+
+  const options = {
+    // header
+    headerShown: true,
+    headerStyle: {
+      backgroundColor: _.colorPlain,
+      borderBottomWidth: 0,
+      elevation: 0
+    },
+
+    // headerTitle
+    headerTintColor: _.colorTitle,
+    headerTitleAlign: 'center',
+    headerTitleStyle: {
+      fontSize: 15,
+      fontWeight: 'normal'
+    },
+
+    // headerBack
+    headerBackTitleVisible: false,
+    headerLeftContainerStyle: {
+      paddingLeft: 5
+    },
+    headerLeft: () => <Back navigation={navigation} />
+  }
+  if (title) options.headerTitle = systemStore.setting.s2t ? s2t(title) : title
+  if (headerRight) {
+    options.headerRightContainerStyle = {
+      paddingRight: 5
+    }
+    options.headerRight = headerRight
+  }
+
+  // platform fixed
+  if (IOS) {
+  } else {
+    options.headerTitleStyle.fontFamily = ''
+  }
+
+  navigation.setOptions(options)
 }
 
 const Back = observer(({ navigation }) => (
@@ -152,7 +167,6 @@ export { Header }
 
 const styles = _.create({
   touch: {
-    marginHorizontal: _.xs,
     borderRadius: 20,
     overflow: 'hidden'
   },

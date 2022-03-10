@@ -7,7 +7,7 @@
 import React from 'react'
 import * as orientation from 'expo-screen-orientation'
 import { Text, Touchable } from '@components'
-import { ItemSetting } from '@screens/_'
+import { ItemSetting } from '@_'
 import { useObserver } from '@utils/hooks'
 
 function ScreenOrientation() {

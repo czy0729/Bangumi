@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 07:55:20
+ * @Last Modified time: 2022-03-11 02:45:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,8 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
-const imgWidth = parseInt(IMG_WIDTH * 1.28)
-const imgHeight = parseInt(IMG_HEIGHT * 1.28)
+const imgWidth = parseInt(IMG_WIDTH * 1.12)
+const imgHeight = parseInt(IMG_HEIGHT * 1.12)
 
 const defaultProps = {
   navigation: {},
@@ -49,9 +49,90 @@ const ItemLine = memo(
     rerender('Calendar.ItemLine.Main')
 
     const showScore = !hideScore && !!score
-    return (
-      <View style={styles.item}>
+
+    const canPress = expand || (!expand && timeCN && timeCN !== '2359')
+    const content = (
+      <Flex style={styles.item} align='start'>
+        <View style={styles.time}>
+          {!!timeCN && (
+            <Text bold>
+              {timeCN === '2359' ? '待定' : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
+            </Text>
+          )}
+          {timeCN === '2359' && (
+            <Touchable
+              style={styles.undetermined}
+              withoutFeedback
+              onPress={onToggleExpand}
+            >
+              <Text type='sub'>{expand ? '隐藏' : '展开'}</Text>
+            </Touchable>
+          )}
+        </View>
+        {canPress && (
+          <>
+            <View style={styles.image}>
+              <Cover
+                width={imgWidth}
+                height={imgHeight}
+                src={images.medium}
+                radius
+                shadow
+              />
+            </View>
+            <Flex.Item style={_.ml.md}>
+              <Flex
+                style={styles.body}
+                direction='column'
+                justify='between'
+                align='start'
+              >
+                <View style={_.container.block}>
+                  <Flex align='start'>
+                    <Flex.Item>
+                      <Katakana.Provider
+                        itemStyle={styles.katakanas}
+                        size={15}
+                        lineHeight={16}
+                        numberOfLines={3}
+                      >
+                        <Katakana
+                          type='desc'
+                          size={15}
+                          lineHeight={16}
+                          numberOfLines={3}
+                          bold
+                        >
+                          {HTMLDecode(name)}
+                        </Katakana>
+                      </Katakana.Provider>
+                    </Flex.Item>
+                  </Flex>
+                  {!!collection && (
+                    <Flex style={_.mt.sm}>
+                      <Tag value={collection} />
+                    </Flex>
+                  )}
+                </View>
+                <Flex>
+                  {!!air && (
+                    <Text style={_.mr.sm} type='sub' size={14} bold>
+                      更新至第{air}话
+                    </Text>
+                  )}
+                  {showScore && <Stars simple value={score} type='desc' size={13} />}
+                </Flex>
+              </Flex>
+            </Flex.Item>
+          </>
+        )}
+      </Flex>
+    )
+
+    if (canPress) {
+      return (
         <Touchable
+          style={_.container.block}
           onPress={() => {
             t('每日放送.跳转', {
               to: 'Subject',
@@ -65,78 +146,12 @@ const ItemLine = memo(
             })
           }}
         >
-          <Flex align='start'>
-            <View style={styles.time}>
-              {!!timeCN && (
-                <Text bold>
-                  {timeCN === '2359'
-                    ? '待定'
-                    : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
-                </Text>
-              )}
-              {timeCN === '2359' && (
-                <Touchable style={_.mt.sm} onPress={onToggleExpand}>
-                  <Text type='sub'>{expand ? '隐藏' : '展开'}</Text>
-                </Touchable>
-              )}
-            </View>
-            {(expand || (!expand && timeCN && timeCN !== '2359')) && (
-              <>
-                <View style={styles.image}>
-                  <Cover
-                    width={imgWidth}
-                    height={imgHeight}
-                    src={images.medium}
-                    radius
-                    shadow
-                  />
-                </View>
-                <Flex.Item style={_.ml.md}>
-                  <Flex
-                    style={styles.body}
-                    direction='column'
-                    justify='between'
-                    align='start'
-                  >
-                    <Flex align='start'>
-                      <Flex.Item>
-                        <Katakana.Provider
-                          itemStyle={styles.katakanas}
-                          size={15}
-                          lineHeight={16}
-                          numberOfLines={3}
-                        >
-                          <Katakana
-                            type='desc'
-                            size={15}
-                            lineHeight={16}
-                            numberOfLines={3}
-                            bold
-                          >
-                            {HTMLDecode(name)}
-                          </Katakana>
-                        </Katakana.Provider>
-                      </Flex.Item>
-                      {!!collection && <Tag style={_.mt.xxs} value={collection} />}
-                    </Flex>
-                    <Flex>
-                      {!!air && (
-                        <Text style={_.mr.sm} type='sub' size={14} bold>
-                          更新至第{air}话
-                        </Text>
-                      )}
-                      {showScore && (
-                        <Stars simple value={score} type='desc' size={13} />
-                      )}
-                    </Flex>
-                  </Flex>
-                </Flex.Item>
-              </>
-            )}
-          </Flex>
+          {content}
         </Touchable>
-      </View>
-    )
+      )
+    }
+
+    return <View style={_.container.block}>{content}</View>
   },
   defaultProps
 )
@@ -189,5 +204,9 @@ const memoStyles = _.memoStyles(() => ({
   },
   katakanas: {
     marginTop: -10
+  },
+  undetermined: {
+    zIndex: 1,
+    paddingVertical: _.sm
   }
 }))

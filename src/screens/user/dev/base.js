@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Text, Switch, Touchable } from '@components'
-import { ItemSetting } from '@screens/_'
+import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-29 03:16:32
+ * @Last Modified time: 2022-03-11 00:23:21
  */
 import React from 'react'
-import { Page, ScrollView, Flex } from '@components'
-import { IconTouchable, NavigationBarEvents } from '@screens/_'
+import { Header, Page, ScrollView, Flex } from '@components'
+import { IconTouchable, NavigationBarEvents } from '@_'
 import { _, systemStore } from '@stores'
-import { withHeader, ob } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
 import Block from './block'
 import Tip from './tip'
 import Version from './version'
@@ -29,22 +29,14 @@ import Contact from './contact'
 import System from './system'
 import DangerZone from './danger-zone'
 
-const title = '设置'
-
-export default
-@withHeader({
-  screen: title,
-  hm: ['settings', 'Setting']
-})
-@ob
-class Setting extends React.Component {
-  componentDidMount() {
+const Setting = ({ navigation }) => {
+  useRunAfter(() => {
     systemStore.fetchAdvance()
-  }
+  })
 
-  render() {
-    const { navigation } = this.props
-    return (
+  return useObserver(() => (
+    <>
+      <Header title='设置' hm={['settings', 'Setting']} />
       <Page style={_.select(_.container.bg, _.container.plain)}>
         <NavigationBarEvents />
         <ScrollView contentContainerStyle={styles.container}>
@@ -88,14 +80,15 @@ class Setting extends React.Component {
           </Flex>
         </ScrollView>
       </Page>
-    )
-  }
+    </>
+  ))
 }
+
+export default Setting
 
 const styles = _.create({
   container: {
-    paddingTop: _.sm,
-    paddingBottom: _.bottom
+    paddingBottom: _.md
   },
   transparent: {
     opacity: 0

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 18:52:15
+ * @Last Modified time: 2022-03-10 23:41:06
  */
 import { _ } from '@stores'
 
@@ -48,6 +48,9 @@ export function callOnceInInterval(functionTobeCalled, interval = 80) {
  */
 export function separateStyles(styles) {
   const {
+    flex,
+    alignItems,
+    justifyContent,
     width,
     height,
     margin,
@@ -74,6 +77,9 @@ export function separateStyles(styles) {
   if (typeof height === 'number') _style.height = height
   return {
     containerStyle: {
+      flex,
+      alignItems,
+      justifyContent,
       width,
       height,
       margin,

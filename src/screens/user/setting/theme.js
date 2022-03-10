@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 22:55:20
+ * @Last Modified time: 2022-03-10 23:56:32
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, Heatmap } from '@components'
+import { updateHeader } from '@components/header'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
@@ -44,8 +45,8 @@ function Theme({ navigation }) {
 
                 // 用于主动刷新头部颜色
                 setTimeout(() => {
-                  navigation.setParams({
-                    extra: null
+                  updateHeader({
+                    navigation
                   })
                 }, 0)
               }}
@@ -67,9 +68,10 @@ function Theme({ navigation }) {
 
                 if (!deepDark) systemStore.switchSetting('deepDark')
                 _.toggleMode('dark')
+
                 setTimeout(() => {
-                  navigation.setParams({
-                    extra: null
+                  updateHeader({
+                    navigation
                   })
                 }, 0)
               }}
@@ -92,9 +94,10 @@ function Theme({ navigation }) {
 
                 if (deepDark) systemStore.switchSetting('deepDark')
                 _.toggleMode('dark')
+
                 setTimeout(() => {
-                  navigation.setParams({
-                    extra: null
+                  updateHeader({
+                    navigation
                   })
                 }, 0)
               }}

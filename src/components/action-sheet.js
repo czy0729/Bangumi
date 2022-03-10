@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 16:17:44
+ * @Last Modified time: 2022-03-11 00:22:09
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'
@@ -73,7 +73,7 @@ export const ActionSheet = ({ show = false, height = 400, onClose, children }) =
     return (
       <Portal>
         <View style={styles.actionSheet}>
-          <Touchable style={styles.wrap} useRN onPress={onClose}>
+          <Touchable style={styles.wrap} useRN ripple={false} onPress={onClose}>
             <Animated.View
               style={[
                 styles.mask,

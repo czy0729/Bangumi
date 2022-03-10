@@ -2,28 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 09:53:32
+ * @Last Modified time: 2022-03-11 01:49:14
  */
 import React from 'react'
-import { ScrollView, Flex, Text, Image } from '@components'
+import { Header, ScrollView, Flex, Text, Image } from '@components'
 import { _, userStore } from '@stores'
-import { withHeader, ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { HOST_CDN } from '@constants/cdn'
 
-const title = '关于'
-
-export default
-@withHeader({
-  screen: title,
-  hm: ['qiafan', 'Qiafan']
-})
-@ob
-class Qiafan extends React.Component {
-  render() {
-    return (
+const Qiafan = () => {
+  return useObserver(() => (
+    <>
+      <Header title='关于' hm={['qiafan', 'Qiafan']} />
       <ScrollView
         style={_.container.plain}
-        contentContainerStyle={_.container.outer}
+        contentContainerStyle={{
+          ..._.container.outer,
+          paddingTop: _.sm
+        }}
         scrollToTop
       >
         <Text lineHeight={16}>
@@ -64,6 +60,7 @@ class Qiafan extends React.Component {
             </Text>
             <Flex style={styles.mt160} justify='center'>
               <Image
+                style={styles.image}
                 size={240}
                 height={274}
                 mode='aspectFit'
@@ -78,6 +75,7 @@ class Qiafan extends React.Component {
             </Text>
             <Flex style={styles.mt120} justify='center'>
               <Image
+                style={styles.image}
                 size={240}
                 height={240}
                 src={`${HOST_CDN}/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png`}
@@ -86,9 +84,11 @@ class Qiafan extends React.Component {
           </>
         )}
       </ScrollView>
-    )
-  }
+    </>
+  ))
 }
+
+export default Qiafan
 
 const styles = _.create({
   mt80: {
@@ -103,5 +103,9 @@ const styles = _.create({
   },
   mv20: {
     marginVertical: 20
+  },
+  image: {
+    borderRadius: _.radiusMd,
+    overflow: 'hidden'
   }
 })

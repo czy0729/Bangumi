@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 17:08:34
+ * @Last Modified time: 2022-03-10 23:41:16
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -22,6 +22,7 @@ function TabBar({ state, descriptors, navigation }) {
         const config = routesConfig[route.name]
         return (
           <Touchable
+            style={styles.item}
             onPress={() => {
               const event = navigation.emit({
                 type: 'tabPress',
@@ -40,20 +41,18 @@ function TabBar({ state, descriptors, navigation }) {
             //   })
             // }}
           >
-            <Flex style={styles.item} direction='column' justify='center'>
-              <Flex style={styles.icon} justify='center'>
-                <Iconfont
-                  name={config.icon}
-                  size={config.size || 24}
-                  color={isFocused ? _.colorMain : _.colorDesc}
-                />
-              </Flex>
-              {isFocused && (
-                <Text type={isFocused ? 'main' : 'desc'} size={12}>
-                  {config.label}
-                </Text>
-              )}
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont
+                name={config.icon}
+                size={config.size || 24}
+                color={isFocused ? _.colorMain : _.colorDesc}
+              />
             </Flex>
+            {isFocused && (
+              <Text type={isFocused ? 'main' : 'desc'} size={12}>
+                {config.label}
+              </Text>
+            )}
           </Touchable>
         )
       })}
@@ -72,6 +71,11 @@ const memoStyles = _.memoStyles(() => ({
     ),
     borderTopWidth: _.ios(0, _.select(_.hairlineWidth, 0)),
     borderTopColor: _.colorBorder
+  },
+  item: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   icon: {
     width: 24,
