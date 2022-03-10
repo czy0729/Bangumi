@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-04 22:21:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 11:11:35
+ * @Last Modified time: 2022-03-10 17:43:53
  */
 export { default as c } from './context'
 export { default as context } from './context'
@@ -16,3 +16,5 @@ export { default as observer } from './observer'
 export { default as withHeader } from './withHeader'
 export { default as withTabsHeader } from './withTabsHeader'
 export { default as withTransitionHeader } from './withTransitionHeader'
+
+export { default as ic } from './injectWithContextTypes'

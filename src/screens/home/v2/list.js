@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 21:43:37
+ * @Last Modified time: 2022-03-10 02:28:51
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -99,11 +99,10 @@ export default obc(({ title = '全部' }, { $ }) => {
 
 const memoStyles = _.memoStyles(() => ({
   androidWrap: {
-    marginBottom: _.tabBarHeight - 1,
     backgroundColor: _.colorBg
   },
   contentContainerStyle: {
-    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
+    paddingBottom: _.bottom
   }
 }))
 

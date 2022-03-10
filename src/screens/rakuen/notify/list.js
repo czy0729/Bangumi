@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:13:35
+ * @Last Modified time: 2022-03-10 22:05:38
  */
 import React from 'react'
 import { ListView } from '@components'
-import { ItemNotify, ItemPM } from '@screens/_'
+import { ItemNotify, ItemPM } from '@_'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 const event = {
@@ -23,9 +24,8 @@ function List({ id, title }, { $, navigation }) {
           nextItem &&
           `${nextItem.userId}|${nextItem.title}|${nextItem.message}|${nextItem.message2}` ===
             `${item.userId}|${item.title}|${item.message}|${item.message2}`
-        ) {
+        )
           return null
-        }
 
         return (
           <ItemNotify navigation={navigation} index={index} event={event} {...item} />
@@ -48,7 +48,15 @@ function List({ id, title }, { $, navigation }) {
       onFooterRefresh: () => key => $.fetchPM(true, key)
     }
   }
-  return <ListView key={id} keyExtractor={keyExtractor} data={$[id]} {...props} />
+  return (
+    <ListView
+      key={id}
+      contentContainerStyle={_.container.bottom}
+      keyExtractor={keyExtractor}
+      data={$[id]}
+      {...props}
+    />
+  )
 }
 
 export default obc(List)

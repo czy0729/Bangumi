@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 20:18:19
+ * @Last Modified time: 2022-03-10 05:42:29
  */
 import React from 'react'
 import { UM } from '@components'
@@ -10,14 +10,12 @@ import {
   SafeAreaView,
   StatusBarEvents,
   NavigationBarEvents,
-  IconTabBar,
-  IconPortal
+  IconTabBar
 } from '@screens/_'
 import { _ } from '@stores'
 import { runAfter } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { IOS } from '@constants'
 import Header from './header'
 import Tab from './tab'
 import Heatmaps from './heapmaps'
@@ -55,9 +53,8 @@ class Rakuen extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    const { isFocused } = this.props
     return (
-      <SafeAreaView style={IOS ? _.container.plain : _.container._plain}>
+      <SafeAreaView style={_.container.plain}>
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
         {_loaded && (
@@ -65,7 +62,6 @@ class Rakuen extends React.Component {
             <Header />
             <Tab />
             <UM screen={title} />
-            {isFocused && <IconPortal index={3} onPress={$.onRefreshThenScrollTop} />}
             <Heatmaps />
           </>
         )}

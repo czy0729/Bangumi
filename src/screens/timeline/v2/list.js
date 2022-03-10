@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-01 19:10:26
+ * @Last Modified time: 2022-03-10 05:40:24
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -95,8 +95,7 @@ class List extends React.Component {
     return (
       <ListView
         ref={this.connectRef}
-        style={!IOS && styles.androidWrap}
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={timeline}
         sectionKey='date'
@@ -112,15 +111,6 @@ class List extends React.Component {
     )
   }
 }
-
-const styles = _.create({
-  androidWrap: {
-    marginBottom: _.tabBarHeight - 1
-  },
-  contentContainerStyle: {
-    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
-  }
-})
 
 function renderSectionHeader({ section: { title } }) {
   return <SectionHeader>{title}</SectionHeader>

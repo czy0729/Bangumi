@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 16:41:10
+ * @Last Modified time: 2022-03-10 05:42:04
  */
 import React from 'react'
 import { UM } from '@components'
@@ -10,8 +10,7 @@ import {
   SafeAreaView,
   StatusBarEvents,
   NavigationBarEvents,
-  IconTabBar,
-  IconPortal
+  IconTabBar
 } from '@screens/_'
 import { _ } from '@stores'
 import { runAfter } from '@utils'
@@ -55,9 +54,8 @@ class Timeline extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    const { isFocused } = this.props
     return (
-      <SafeAreaView style={IOS ? _.container.bg : _.container._plain}>
+      <SafeAreaView style={IOS ? _.container.bg : _.container.plain}>
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
         {_loaded && (
@@ -65,7 +63,6 @@ class Timeline extends React.Component {
             <UM screen={title} />
             <Header />
             <Tab />
-            {isFocused && <IconPortal index={1} onPress={$.onRefreshThenScrollTop} />}
             <Heatmaps />
           </>
         )}

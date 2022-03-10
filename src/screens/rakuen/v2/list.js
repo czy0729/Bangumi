@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:53:56
+ * @Last Modified time: 2022-03-10 05:40:46
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -39,11 +39,10 @@ function List({ index }, { $ }) {
   return (
     <ListView
       ref={ref => $.connectRef(ref, index)}
-      style={!IOS && styles.androidWrap}
-      contentContainerStyle={styles.contentContainerStyle}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={rakuen}
-      lazy={12}
+      lazy={14}
       contentInset={contentInset}
       contentOffset={contentOffset}
       renderItem={renderItem}
@@ -55,15 +54,6 @@ function List({ index }, { $ }) {
 }
 
 export default obc(List)
-
-const styles = _.create({
-  androidWrap: {
-    marginBottom: _.tabBarHeight - 1
-  },
-  contentContainerStyle: {
-    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
-  }
-})
 
 function keyExtractor(item) {
   return item.href

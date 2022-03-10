@@ -3,13 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-07 16:04:36
+ * @Last Modified time: 2022-03-10 21:59:09
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
-// import { NavigationEvents } from 'react-navigation'
 import Stores from '@stores'
-import { DEV, contextTypes } from '@constants'
+import { contextTypes } from '@constants'
 import { urlStringify } from '../index'
 import observer from './observer'
 
@@ -44,7 +43,7 @@ const Inject =
           // 初始化页面Store, storeKey约定为路由名字+参数(排除_开头的key)的序列化
           const screenKey = `${route.name}?${urlStringify(paramsWithoutPlaceholder)}`
           this.$ = Stores.get(screenKey)
-          if (!this.$ || DEV) {
+          if (!this.$) {
             this.$ = new Store() // 新建store
             this.$.params = params // 把navigation的页面参数插入store方便使用
           }

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-15 20:18:29
+ * @Last Modified time: 2022-03-10 05:26:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Page, StatusBarEvents, ListView, UM, Heatmap } from '@components'
-import { IconTabBar, IconPortal } from '@screens/_'
+import { IconTabBar } from '@screens/_'
 import { _ } from '@stores'
 import { runAfter } from '@utils'
 import { injectWithBottomTab } from '@utils/decorators'
@@ -36,8 +36,8 @@ const Discovery = ({ isFocused }, { $ }) => {
         <StatusBarEvents backgroundColor='transparent' />
         <ListView
           ref={$.connectRef}
-          style={styles.listView}
-          contentContainerStyle={styles.container}
+          style={_.container.flex}
+          contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
           data={home}
           ListHeaderComponent={<Header />}
@@ -48,7 +48,6 @@ const Discovery = ({ isFocused }, { $ }) => {
           // onFooterRefresh={$.fetchHome}
         />
         <LinkModal />
-        {isFocused && <IconPortal index={0} onPress={$.onRefreshThenScrollTop} />}
         <UM screen={title} />
         <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
       </Page>
@@ -59,16 +58,6 @@ const Discovery = ({ isFocused }, { $ }) => {
 export default injectWithBottomTab(Store, Discovery, {
   tabBarIcon: ({ tintColor }) => <IconTabBar name='home' size={19} color={tintColor} />,
   tabBarLabel: title
-})
-
-const styles = _.create({
-  listView: {
-    flex: 1,
-    marginBottom: _.ios(0, _.tabBarHeight - 1)
-  },
-  container: {
-    paddingBottom: _.bottom - _.ios(0, _.tabBarHeight) + _.md
-  }
 })
 
 function keyExtractor(item) {

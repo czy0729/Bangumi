@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:54:49
+ * @Last Modified time: 2022-03-10 05:24:29
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { StatusBarEvents, UM } from '@components'
-import { KeyboardAdjustPanResize, IconTabBar, Login, IconPortal } from '@screens/_'
+import { KeyboardAdjustPanResize, IconTabBar, Login } from '@screens/_'
 import { _, userStore } from '@stores'
 import { runAfter } from '@utils'
 import { inject, obc } from '@utils/decorators'
@@ -138,7 +138,6 @@ class User extends React.Component {
     if (!id && !userStore.isLogin) return <Login style={_.container._plain} />
 
     const { _loaded } = $.state
-    const { isFocused } = this.props
     const { fixed } = this.state
     return (
       <View style={this.style}>
@@ -169,7 +168,6 @@ class User extends React.Component {
               onToggleList={this.onToggleList}
             />
             <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
-            {isFocused && <IconPortal index={4} onPress={$.onRefreshThenScrollTop} />}
             <KeyboardAdjustPanResize onDidFocus={this.onDidFocus} />
             <UM screen={title} />
             <Heatmaps />

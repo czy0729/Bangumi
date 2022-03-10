@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 20:41:57
+ * @Last Modified time: 2022-03-10 02:49:56
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -146,17 +146,16 @@ class List extends React.Component {
 const H_TOOLBAR = 42 * _.ratio
 const memoStyles = _.memoStyles(() => ({
   listView: {
-    zIndex: 0,
-    marginBottom: IOS ? 0 : _.tabBarHeight - 1
+    zIndex: 0
   },
   list: {
-    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight,
+    paddingBottom: _.bottom,
     minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight - H_TOOLBAR
   },
   grid: {
     paddingLeft: _.wind - _._wind - _.device(0, 8),
     paddingRight: _.wind - _._wind,
-    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight,
+    paddingBottom: _.bottom,
     minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight - H_TOOLBAR
   }
 }))

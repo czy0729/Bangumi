@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 15:12:19
+ * @Last Modified time: 2022-03-10 22:04:18
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -300,6 +300,9 @@ export const mt = StyleSheet.create({
   },
   _sm: {
     marginTop: -sm
+  },
+  _md: {
+    marginTop: -md
   }
 })
 

@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-04 10:08:48
+ * @Last Modified time: 2022-03-10 02:30:02
  */
 import { Platform, Easing, Animated } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
 import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
 
-const transitionSpecVertical = {
+export const transitionSpecVertical = {
   duration: IOS ? 400 : 448,
   easing: Easing.bezier(0.35, 0.45, 0, 1),
   timing: Animated.timing,
   useNativeDriver: true
 }
-const transitionSpecHorizontal = {
+export const transitionSpecHorizontal = {
   duration: IOS ? 400 : 448,
   easing: Easing.out(Easing.poly(3)),
   timing: Animated.timing,
   useNativeDriver: true
 }
-const transitionSpecHorizontalIsBack = {
+export const transitionSpecHorizontalIsBack = {
   duration: IOS ? 480 : 500,
   easing: Easing.out(Easing.poly(3)),
   timing: Animated.timing,

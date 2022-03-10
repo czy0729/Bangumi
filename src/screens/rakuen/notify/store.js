@@ -2,27 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 16:49:05
+ * @Last Modified time: 2022-03-10 22:13:15
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 
-export const tabs = [
-  {
-    key: 'notify',
-    title: '提醒'
-  },
-  {
-    key: 'pmIn',
-    title: '收件箱'
-  },
-  {
-    key: 'pmOut',
-    title: '已发送'
-  }
-]
 const typePage = {
   pm: 1,
   out: 2
@@ -42,7 +28,7 @@ export default class ScreenNotify extends store {
     })
 
     return queue([
-      this.fetchNotify,
+      () => this.fetchNotify(),
       () => this.fetchPM(true, 'pmIn'),
       () => this.fetchPM(true, 'pmOut')
     ])
@@ -75,6 +61,7 @@ export default class ScreenNotify extends store {
   // -------------------- action --------------------
   doClearNotify = () => {
     t('电波提醒.清除')
+
     rakuenStore.doClearNotify()
   }
 }
