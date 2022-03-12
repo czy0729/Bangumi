@@ -2,39 +2,29 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 06:45:05
+ * @Last Modified time: 2022-03-11 17:21:01
  */
 import React from 'react'
 import { Page } from '@components'
-import { runAfter } from '@utils'
-import { injectWithHeader } from '@utils/decorators'
-import { useMount } from '@utils/hooks'
-import Extra from './extra'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
 import List from './list'
 import Store from './store'
 
-const Anime = (props, { $, navigation }) => {
-  useMount(() => {
-    runAfter(() => {
-      $.setParams(navigation)
-      $.init()
-    })
-
-    return () => {
-      $.scrollToOffset = null
-    }
+const Anime = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
   })
 
-  return (
-    <Page>
-      <List />
-    </Page>
-  )
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page>
+        <List />
+      </Page>
+    </>
+  ))
 }
 
-export default injectWithHeader(Store, Anime, {
-  screen: '找番剧',
-  alias: 'Anime',
-  hm: ['anime', 'Anime'],
-  defaultExtra: <Extra />
-})
+export default ic(Store, Anime)

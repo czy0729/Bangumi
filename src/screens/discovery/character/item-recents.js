@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:41:41
+ * @Last Modified time: 2022-03-12 22:52:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -92,7 +92,7 @@ function ItemRecents(
           </Touchable>
           <Flex style={_.mt.sm} wrap='wrap'>
             {actors.map(item => (
-              <Flex key={item.id} style={[styles.actors, _.mt.md]}>
+              <Flex key={item.id} style={[actors.length > 1 && styles.actors, _.mt.md]}>
                 <Cover
                   src={item.avatar}
                   size={40 * _.ratio}

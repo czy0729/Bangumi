@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-05 19:50:33
+ * @Last Modified time: 2022-03-12 22:34:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import {
-  HeaderPlaceholder,
+  Header,
   RenderHtml,
   Expand,
   Flex,
@@ -22,7 +22,6 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { getCoverLarge, appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
 
 const layoutDS = ['列表', '网格']
 const sortDS = ['默认', '时间', '评分']
@@ -34,12 +33,12 @@ function Info(props, { $, navigation }) {
     $.catalogDetail
   return (
     <View style={[styles.container, _.container.inner]}>
-      {!IOS && <HeaderPlaceholder />}
+      <Header.Placeholder />
       <Text size={20} bold>
         {title}
       </Text>
       {!!avatar && (
-        <Flex style={_.mt.md} justify='center'>
+        <Flex style={_.mt.lg} justify='center'>
           <Image
             src={getCoverLarge(avatar)}
             size={80 * _.ratio}
@@ -57,7 +56,7 @@ function Info(props, { $, navigation }) {
         </Flex>
       )}
       {!!content && (
-        <Expand style={_.mt.md} ratio={0.64}>
+        <Expand style={_.mt.lg} ratio={0.64}>
           <RenderHtml
             html={content}
             onLinkPress={href => appNavigate(href, navigation)}

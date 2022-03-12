@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 06:45:20
+ * @Last Modified time: 2022-03-11 17:58:51
  */
-import React from 'react'
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/game'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
-import Extra from '../anime/extra'
 
 const namespace = 'ScreenGame'
 let _loaded = false
@@ -32,12 +30,6 @@ export default class ScreenGame extends store {
     expand: false,
     _loaded: false
   })
-
-  setParams = navigation => {
-    navigation.setParams({
-      extra: <Extra $={this} title='游戏' />
-    })
-  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

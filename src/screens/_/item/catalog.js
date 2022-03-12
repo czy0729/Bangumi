@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 15:11:52
+ * @Last Modified time: 2022-03-11 22:42:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,9 +15,9 @@ import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Cover, Avatar } from '../base'
 
-const width = parseInt(80 * _.ratio)
+const width = parseInt(_.r(72))
 const w = width * 2
-const widthAvatar = 28 * _.ratio
+const widthAvatar = _.r(28)
 
 export const ItemCatalog = obc(
   (

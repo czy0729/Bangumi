@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-07 15:56:57
+ * @Last Modified time: 2022-03-11 17:20:27
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -157,7 +157,7 @@ export const IMG_WIDTH = parseInt(RATIO * 82)
 export const IMG_HEIGHT = h(IMG_WIDTH)
 export const IMG_WIDTH_SM = parseInt(RATIO * 72)
 export const IMG_HEIGHT_SM = h(IMG_WIDTH_SM)
-export const IMG_WIDTH_LG = parseInt(IMG_WIDTH * 1.32)
+export const IMG_WIDTH_LG = parseInt(IMG_WIDTH * 1.28)
 export const IMG_HEIGHT_LG = h(IMG_WIDTH_LG)
 
 /* ==================== DATA ==================== */

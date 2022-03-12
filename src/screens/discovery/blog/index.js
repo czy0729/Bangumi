@@ -2,39 +2,31 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:02:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 07:44:06
+ * @Last Modified time: 2022-03-11 21:57:41
  */
 import React from 'react'
 import { Page } from '@components'
-import { IconHoriz } from '@_'
-import { runAfter } from '@utils'
-import { injectWithHeader } from '@utils/decorators'
-import { useMount, useObserver } from '@utils/hooks'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
 import Tabs from './tabs'
 import Heatmaps from './heatmaps'
 import Store from './store'
 
-const title = '日志'
-
-const DiscoveryBlog = (props, { $, navigation }) => {
-  useMount(() => {
-    runAfter(() => {
-      $.setParams(navigation)
-      $.init()
-    })
+const DiscoveryBlog = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
   })
 
   return useObserver(() => (
-    <Page loaded={$.state._loaded}>
-      <Tabs />
-      <Heatmaps />
-    </Page>
+    <>
+      <Header />
+      <Page loaded={$.state._loaded}>
+        <Tabs />
+        <Heatmaps />
+      </Page>
+    </>
   ))
 }
 
-export default injectWithHeader(Store, DiscoveryBlog, {
-  screen: title,
-  alias: '全站日志',
-  hm: ['discovery/blog', 'DiscoveryBlog'],
-  defaultExtra: <IconHoriz />
-})
+export default ic(Store, DiscoveryBlog)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:24:10
+ * @Last Modified time: 2022-03-11 22:19:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ class List extends React.Component {
     const { ipt } = $.state
     return (
       <Pagination
-        style={_.mt.md}
+        style={this.styles.pagination}
         input={ipt[type]}
         heatmaps={heatmaps}
         onPrev={$.prev}
@@ -47,34 +47,36 @@ class List extends React.Component {
     const { show } = $.state
     const { list, _loaded } = $.blog(type)
     return (
-      <ScrollView
-        contentContainerStyle={_.container.bottom}
-        scrollToTop={type === $.type}
-      >
-        {show && (
-          <>
-            {_loaded ? (
-              <View style={this.styles.container}>
-                {list.map((item, index) => (
-                  <ItemBlog
-                    key={item.id}
-                    style={_.container.item}
-                    navigation={navigation}
-                    event={event}
-                    index={index}
-                    {...item}
-                  />
-                ))}
-              </View>
-            ) : (
-              <Flex style={this.styles.loading} justify='center'>
-                <ActivityIndicator />
-              </Flex>
-            )}
-            {this.renderPagination()}
-          </>
-        )}
-      </ScrollView>
+      <>
+        <ScrollView
+          contentContainerStyle={_.container.bottom}
+          scrollToTop={type === $.type}
+        >
+          {show && (
+            <>
+              {_loaded ? (
+                <View style={this.styles.container}>
+                  {list.map((item, index) => (
+                    <ItemBlog
+                      key={item.id}
+                      style={_.container.item}
+                      navigation={navigation}
+                      event={event}
+                      index={index}
+                      {...item}
+                    />
+                  ))}
+                </View>
+              ) : (
+                <Flex style={this.styles.loading} justify='center'>
+                  <ActivityIndicator />
+                </Flex>
+              )}
+            </>
+          )}
+        </ScrollView>
+        {this.renderPagination()}
+      </>
     )
   }
 
@@ -91,5 +93,8 @@ const memoStyles = _.memoStyles(() => ({
     paddingTop: _.md,
     paddingBottom: 240,
     minHeight: _.window.height
+  },
+  pagination: {
+    paddingVertical: _.sm
   }
 }))

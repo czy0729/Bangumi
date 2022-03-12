@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:38:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 12:32:04
+ * @Last Modified time: 2022-03-12 22:53:53
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
-import { open } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { HOST } from '@constants'
 
 const namespace = 'ScreenCharacter'
 
@@ -19,36 +17,11 @@ export default class ScreenCharacter extends store {
     _loaded: true
   })
 
-  setParams = navigation => {
-    navigation.setParams({
-      heatmap: '收藏的人物.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('收藏的人物.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open(`${HOST}/user/${this?.params?.userName}/mono`)
-              break
-
-            default:
-              break
-          }
-        }
-      }
-    })
-  }
-
   init = async () => {
     const { page } = this.state
     const { key } = this.tabs[page]
     const { _loaded } = this.list(key)
-    if (!_loaded) {
-      return this.fetchList(key, true)
-    }
+    if (!_loaded) return this.fetchList(key, true)
     return true
   }
 

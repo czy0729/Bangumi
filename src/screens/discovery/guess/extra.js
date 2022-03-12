@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-09 13:43:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 13:53:44
+ * @Last Modified time: 2022-03-12 23:04:20
  */
 import React from 'react'
+import { Flex } from '@components'
 import { IconHeader } from '@_'
-import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import Type from './type'
@@ -19,21 +19,20 @@ function Extra({ $ }) {
 
   const currentLike = $?.state.like === undefined ? like : $?.state.like
   return (
-    <>
+    <Flex>
       <Type
         key={currentLike === undefined}
         like={currentLike}
         onChange={$?.toggleLike}
       />
       <IconHeader
-        style={_.mr._right}
         name='md-refresh'
         onPress={() => {
           t('推荐.刷新')
           if ($?.getList) $.getList()
         }}
       />
-    </>
+    </Flex>
   )
 }
 

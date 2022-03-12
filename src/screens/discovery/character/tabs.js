@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:37:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 07:13:17
+ * @Last Modified time: 2022-03-12 22:49:36
  */
 import React from 'react'
 import { TabsV2 } from '@components'
@@ -15,6 +15,7 @@ function Tabs(props, { $ }) {
   return (
     <TabsV2
       key={_.orientation}
+      style={_.mt._sm}
       routes={$.tabs}
       page={page}
       backgroundColor={_.colorPlain}

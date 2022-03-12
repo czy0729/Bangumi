@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-05 19:48:59
+ * @Last Modified time: 2022-03-12 16:33:21
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
-import { discoveryStore, collectionStore, subjectStore, userStore } from '@stores'
+import { _, discoveryStore, collectionStore, subjectStore, userStore } from '@stores'
 import { desc } from '@utils'
 import store from '@utils/store'
 import { info, feedback, confirm } from '@utils/ui'
@@ -30,7 +30,6 @@ export default class ScreenCatalogDetail extends store {
 
   init = async () => {
     const state = await this.getStorage(undefined, namespace)
-    console.log(state)
     this.setState({
       ...state,
       ...excludeState,
@@ -123,6 +122,10 @@ export default class ScreenCatalogDetail extends store {
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
+  }
+
+  @computed get gridNum() {
+    return _.portrait(3, 5)
   }
 
   // -------------------- page --------------------

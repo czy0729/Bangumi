@@ -2,13 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:22:44
+ * @Last Modified time: 2022-03-11 18:12:04
  */
-import React from 'react'
 import { observable, computed } from 'mobx'
-import { IconHoriz } from '@_'
 import { discoveryStore } from '@stores'
-import { open } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -29,31 +26,6 @@ export default class ScreenAnitama extends store {
     type: MODEL_NEWS.data[0].value,
     _loaded: false
   })
-
-  setParams = navigation => {
-    navigation.setParams({
-      element: <IconHoriz name='md-menu' />,
-      heatmap: 'Anitama.右上角菜单',
-      popover: {
-        data: [...MODEL_NEWS.data.map(item => item.label), '浏览器查看'],
-        onSelect: key => {
-          t('Anitama.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open(this.url)
-              break
-
-            default:
-              this.toggleType(key)
-              break
-          }
-        }
-      }
-    })
-  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

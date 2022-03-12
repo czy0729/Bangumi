@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-26 20:10:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 21:42:32
+ * @Last Modified time: 2022-03-12 04:32:30
  */
 import React from 'react'
 import { NativeModules } from 'react-native'
@@ -19,7 +19,9 @@ export const UM = ({ screen = '' }) => {
       onDidFocus={() => {
         setTimeout(() => UMAnalyticsModule.onPageStart(screen), 0)
       }}
-      onWillBlur={() => UMAnalyticsModule.onPageEnd(screen)}
+      onWillBlur={() => {
+        UMAnalyticsModule.onPageEnd(screen)
+      }}
     />
   )
 }

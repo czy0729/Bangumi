@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:09:05
+ * @Last Modified time: 2022-03-11 02:20:41
  */
 import React from 'react'
 import { BlurView } from '@components'
@@ -29,6 +29,8 @@ const Bg = memo(({ styles, src }) => {
 }, defaultProps)
 
 export default obc(({ show }, { $ }) => {
+  return null
+
   rerender('Subject.Bg')
 
   if (!show) return null

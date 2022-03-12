@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 23:56:32
+ * @Last Modified time: 2022-03-12 05:04:45
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, Heatmap } from '@components'
-import { updateHeader } from '@components/header'
+import { updateHeader } from '@components/header/utils'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'

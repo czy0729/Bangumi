@@ -2,163 +2,152 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-31 00:53:48
+ * @Last Modified time: 2022-03-11 21:17:10
  */
 import React from 'react'
-import { ScrollView, Touchable, Image, Flex, Text } from '@components'
+import { Header, Page, ScrollView, Touchable, Image, Flex, Text } from '@components'
 import { _ } from '@stores'
-import { withHeader, obc } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Img2021 from '@assets/images/year_2021.png'
 
-const title = 'Bangumi年鉴'
 const cdn =
   'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210413/data/award/title'
 const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 
-export default
-@withHeader({
-  screen: title,
-  hm: ['discovery/yearbook', 'Yearbook']
-})
-@obc
-class Yearbook extends React.Component {
-  get num() {
-    return _.portrait(2, 4)
-  }
-
-  render() {
-    const { navigation } = this.props
+const Yearbook = ({ navigation }) => {
+  return useObserver(() => {
+    const styles = memoStyles()
+    const num = _.portrait(2, 4)
     return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={this.styles.container}
-        scrollToTop
-      >
-        <Flex wrap='wrap'>
-          <Touchable
-            style={this.styles.item2021}
-            onPress={() => {
-              t('Bangumi年鉴.跳转', {
-                to: 'Award',
-                year: 2021
-              })
+      <>
+        <Header title='Bangumi年鉴' hm={['discovery/yearbook', 'Yearbook']} />
+        <Page>
+          <ScrollView contentContainerStyle={styles.container} scrollToTop>
+            <Flex wrap='wrap'>
+              <Touchable
+                style={styles.item2021}
+                onPress={() => {
+                  t('Bangumi年鉴.跳转', {
+                    to: 'Award',
+                    year: 2021
+                  })
 
-              navigation.push('Award', {
-                uri: `${HOST}/award/2021`
-              })
-            }}
-          >
-            <Image
-              src={Img2021}
-              size={this.styles.item2021.width}
-              height={this.styles.item2021.height}
-              placeholder={false}
-              resizeMode='contain'
-            />
-          </Touchable>
-          <Touchable
-            style={this.styles.item2020}
-            onPress={() => {
-              t('Bangumi年鉴.跳转', {
-                to: 'Award',
-                year: 2020
-              })
-
-              navigation.push('Award', {
-                uri: `${HOST}/award/2020`
-              })
-            }}
-          >
-            <Image
-              src={`${cdn}/2020.png`}
-              size={this.styles.item2020.width}
-              height={this.styles.item2020.height}
-              placeholder={false}
-              resizeMode='contain'
-            />
-          </Touchable>
-          <Touchable
-            style={this.styles.item2019}
-            onPress={() => {
-              t('Bangumi年鉴.跳转', {
-                to: 'Award',
-                year: 2019
-              })
-
-              navigation.push('Award', {
-                uri: `${HOST}/award/2019`
-              })
-            }}
-          >
-            <Flex justify='center'>
-              <Image
-                src={`${cdn}/2019.png`}
-                size={this.styles.item2019.width - 32}
-                height={this.styles.item2019.height}
-                placeholder={false}
-                resizeMode='contain'
-              />
-            </Flex>
-          </Touchable>
-          <Touchable
-            style={this.styles.item2018}
-            onPress={() => {
-              t('Bangumi年鉴.跳转', {
-                to: 'Award',
-                year: 2018
-              })
-
-              navigation.push('Award', {
-                uri: `${HOST}/award/2018`
-              })
-            }}
-          >
-            <Image
-              src={`${cdn}/2018.png`}
-              size={this.styles.item2018.width}
-              height={this.styles.item2018.height}
-              placeholder={false}
-            />
-          </Touchable>
-        </Flex>
-        <Flex wrap='wrap'>
-          {years.map((item, index) => (
-            <Touchable
-              key={item}
-              style={_.container.touch}
-              onPress={() => {
-                t('Bangumi年鉴.跳转', {
-                  to: 'Award',
-                  year: item
-                })
-
-                navigation.push('Award', {
-                  uri: `${HOST}/award/${item}`
-                })
-              }}
-            >
-              <Flex
-                style={[this.styles.item, index % this.num === 0 && this.styles.left]}
-                justify='center'
-                direction='column'
+                  navigation.push('Award', {
+                    uri: `${HOST}/award/2021`
+                  })
+                }}
               >
-                <Text size={18} type={_.select('plain', 'title')} bold>
-                  {item}
-                </Text>
-              </Flex>
-            </Touchable>
-          ))}
-        </Flex>
-      </ScrollView>
-    )
-  }
+                <Image
+                  src={Img2021}
+                  size={styles.item2021.width}
+                  height={styles.item2021.height}
+                  placeholder={false}
+                  resizeMode='contain'
+                />
+              </Touchable>
+              <Touchable
+                style={styles.item2020}
+                onPress={() => {
+                  t('Bangumi年鉴.跳转', {
+                    to: 'Award',
+                    year: 2020
+                  })
 
-  get styles() {
-    return memoStyles()
-  }
+                  navigation.push('Award', {
+                    uri: `${HOST}/award/2020`
+                  })
+                }}
+              >
+                <Image
+                  src={`${cdn}/2020.png`}
+                  size={styles.item2020.width}
+                  height={styles.item2020.height}
+                  placeholder={false}
+                  resizeMode='contain'
+                />
+              </Touchable>
+              <Touchable
+                style={styles.item2019}
+                onPress={() => {
+                  t('Bangumi年鉴.跳转', {
+                    to: 'Award',
+                    year: 2019
+                  })
+
+                  navigation.push('Award', {
+                    uri: `${HOST}/award/2019`
+                  })
+                }}
+              >
+                <Flex justify='center'>
+                  <Image
+                    src={`${cdn}/2019.png`}
+                    size={styles.item2019.width - 32}
+                    height={styles.item2019.height}
+                    placeholder={false}
+                    resizeMode='contain'
+                  />
+                </Flex>
+              </Touchable>
+              <Touchable
+                style={styles.item2018}
+                onPress={() => {
+                  t('Bangumi年鉴.跳转', {
+                    to: 'Award',
+                    year: 2018
+                  })
+
+                  navigation.push('Award', {
+                    uri: `${HOST}/award/2018`
+                  })
+                }}
+              >
+                <Image
+                  src={`${cdn}/2018.png`}
+                  size={styles.item2018.width}
+                  height={styles.item2018.height}
+                  placeholder={false}
+                />
+              </Touchable>
+            </Flex>
+            <Flex wrap='wrap'>
+              {years.map((item, index) => (
+                <Touchable
+                  key={item}
+                  style={_.container.touch}
+                  onPress={() => {
+                    t('Bangumi年鉴.跳转', {
+                      to: 'Award',
+                      year: item
+                    })
+
+                    navigation.push('Award', {
+                      uri: `${HOST}/award/${item}`
+                    })
+                  }}
+                >
+                  <Flex
+                    style={[styles.item, index % num === 0 && styles.left]}
+                    justify='center'
+                    direction='column'
+                  >
+                    <Text size={18} type={_.select('plain', 'title')} bold>
+                      {item}
+                    </Text>
+                  </Flex>
+                </Touchable>
+              ))}
+            </Flex>
+          </ScrollView>
+        </Page>
+      </>
+    )
+  })
 }
+
+export default Yearbook
 
 const memoStyles = _.memoStyles(() => {
   const num = _.portrait(1, 2)

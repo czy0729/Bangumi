@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 17:02:33
+ * @Last Modified time: 2022-03-12 03:59:44
  */
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -32,14 +32,20 @@ function BottomTabNavigator() {
 
 const Stack = createStackNavigator()
 function Stacks() {
+  const { initialRouteName, initialRouteParams } = navigationsParams
   return (
     <Stack.Navigator
-      initialRouteName={navigationsParams.initialRouteName}
       screenOptions={defaultScreenOptions}
+      initialRouteName={initialRouteName}
     >
       <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
       {Object.keys(Screens).map(name => (
-        <Stack.Screen key={name} name={name} component={Screens[name]} />
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={Screens[name]}
+          initialParams={initialRouteName === name ? initialRouteParams : undefined}
+        />
       ))}
     </Stack.Navigator>
   )

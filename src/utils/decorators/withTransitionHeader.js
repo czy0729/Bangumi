@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-07 16:10:45
+ * @Last Modified time: 2022-03-12 04:13:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { computed } from 'mobx'
-import { CommonActions } from '@react-navigation/native'
 import {
   StatusBarEvents,
   Popover,
@@ -166,8 +165,8 @@ const withTransitionHeader =
             return
           }
 
-          const { navigation, route } = this.context
-          const title = ''
+          const { navigation } = this.context
+          let title = ''
           let opacity = y / (_.headerHeight + headerTransition)
           if (opacity < 0) {
             opacity = 0
@@ -186,10 +185,10 @@ const withTransitionHeader =
               })
             }
 
-            // const headerTransitionTitle = navigation.getParam('headerTransitionTitle')
-            // if (headerTransitionTitle) {
-            //   title = headerTransitionTitle
-            // }
+            const headerTransitionTitle = navigation.getParam('headerTransitionTitle')
+            if (headerTransitionTitle) {
+              title = headerTransitionTitle
+            }
           } else {
             this.headerTransitioned = false
           }
@@ -271,14 +270,8 @@ const withTransitionHeader =
 
 withTransitionHeader.setTitle = (navigation, title) => {
   const { s2t: _s2t } = systemStore.setting
-  // return navigation.setParams({
-  //   headerTransitionTitle: _s2t ? s2t(title) : title
-  // })
-
-  return navigation.dispatch({
-    ...CommonActions.setParams({
-      headerTransitionTitle: _s2t ? s2t(title) : title
-    })
+  return navigation.setParams({
+    headerTransitionTitle: _s2t ? s2t(title) : title
   })
 }
 

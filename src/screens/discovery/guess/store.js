@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:52:53
+ * @Last Modified time: 2022-03-12 23:03:53
  */
-import React from 'react'
 import { observable, computed } from 'mobx'
 import { collectionStore } from '@stores'
 import store from '@utils/store'
 import { getBangumiUrl, unzipBangumiData } from '@utils/app'
 import { xhrCustom, HTMLTrim, queue } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { guess } from '@utils/subject/anime'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
-import Extra from './extra'
 
 const namespace = 'ScreenGuess'
 
@@ -23,12 +22,6 @@ export default class ScreenGuess extends store {
     like: true,
     eps: {}
   })
-
-  setParams = navigation => {
-    navigation.setParams({
-      extra: <Extra $={this} />
-    })
-  }
 
   init = async () => {
     const state = await this.getStorage(undefined, namespace)
@@ -129,6 +122,7 @@ export default class ScreenGuess extends store {
     this.setStorage(undefined, undefined, namespace)
 
     setTimeout(() => {
+      info('loading...')
       this.getList(false)
     }, 80)
   }

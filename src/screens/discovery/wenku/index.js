@@ -2,38 +2,29 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 06:54:25
+ * @Last Modified time: 2022-03-11 17:40:56
  */
 import React from 'react'
 import { Page } from '@components'
-import { runAfter } from '@utils'
-import { injectWithHeader } from '@utils/decorators'
-import { useMount } from '@utils/hooks'
-import Extra from '../anime/extra'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from '../anime/header'
 import List from './list'
 import Store from './store'
 
-const Wenku = (props, { $, navigation }) => {
-  useMount(() => {
-    runAfter(() => {
-      $.setParams(navigation)
-      $.init()
-    })
-
-    return () => {
-      $.scrollToOffset = null
-    }
+const Wenku = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
   })
 
-  return (
-    <Page>
-      <List />
-    </Page>
-  )
+  return useObserver(() => (
+    <>
+      <Header title='找文库' alias='文库' hm={['wenku', 'Wenku']} />
+      <Page>
+        <List />
+      </Page>
+    </>
+  ))
 }
 
-export default injectWithHeader(Store, Wenku, {
-  screen: '找文库',
-  hm: ['wenku', 'Wenku'],
-  defaultExtra: <Extra title='文库' />
-})
+export default ic(Store, Wenku)

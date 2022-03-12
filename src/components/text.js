@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 01:05:28
+ * @Last Modified time: 2022-03-11 22:49:33
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -110,7 +110,7 @@ const memoStyles = _.memoStyles(_ => ({
       hegith: 1
     },
     textShadowRadius: 1,
-    textShadowColor: 'rgba(0, 0, 0, 0.48)'
+    textShadowColor: 'rgba(0, 0, 0, 0.24)'
   },
 
   // theme

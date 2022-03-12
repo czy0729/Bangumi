@@ -2,69 +2,39 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 08:27:22
+ * @Last Modified time: 2022-03-11 22:32:41
  */
-import React from 'react'
 import { observable, computed } from 'mobx'
-import { _, tagStore, userStore, collectionStore } from '@stores'
-import { open } from '@utils'
+import { tagStore, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { HTML_BROSWER } from '@constants/html'
-import Extra from './extra'
 
-const namespace = 'ScreenBrowser'
-const defaultType = MODEL_SUBJECT_TYPE.getLabel('动画')
 const date = new Date()
-const y = date.getFullYear()
-const m = date.getMonth() + 1
+const namespace = 'ScreenBrowser'
 const excludeState = {
   show: true // 是否显示列表, 制造切页效果
 }
 
 export default class ScreenBrowser extends store {
   state = observable({
-    type: defaultType,
-    airtime: y,
-    month: m,
+    type: MODEL_SUBJECT_TYPE.getLabel('动画'),
+    airtime: date.getFullYear(),
+    month: date.getMonth() + 1,
     layout: 'list', // list | grid
     ...excludeState,
     _loaded: false
   })
 
-  setParams = navigation => {
-    navigation.setParams({
-      heatmap: '索引.右上角菜单',
-      extra: <Extra $={this} style={_.mr._xs} />,
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('索引.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open(this.url)
-
-              break
-            default:
-              break
-          }
-        }
-      }
-    })
-  }
-
   init = async () => {
     const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
-      airtime: state.airtime || y,
-      month: state.month || m,
+      airtime: state.airtime || date.getFullYear(),
+      month: state.month || date.getMonth() + 1,
       _loaded: true
     })
 

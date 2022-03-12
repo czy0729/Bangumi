@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-05 04:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 06:35:27
+ * @Last Modified time: 2022-03-11 17:21:19
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -24,11 +24,7 @@ function Extra({ $, title = 'Anime' }) {
   return (
     <Flex style={_.mr._right}>
       {showLayoutIcon && (
-        <IconLayout
-          style={_.mr._xs}
-          list={currenIsList}
-          onPress={$?.switchLayout || Function.prototype}
-        >
+        <IconLayout list={currenIsList} onPress={$?.switchLayout || Function.prototype}>
           <Heatmap right={30} id={`${title}.切换布局`} />
         </IconLayout>
       )}

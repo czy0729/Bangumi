@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 07:14:31
+ * @Last Modified time: 2022-03-11 21:43:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -63,6 +63,7 @@ class Award extends React.Component {
         url: `${HOST}/award/${this.year}`
       })
 
+      // 抹除不必要的元素
       const _html = `${removeCF(html)
         .replace(/>\s+</g, '><')
         .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
@@ -94,9 +95,7 @@ class Award extends React.Component {
   }
 
   onOpen = () => {
-    const { navigation } = this.props
-    const uri = navigation.getParam('uri')
-    open(uri)
+    open(this.uri)
   }
 
   onMessage = async event => {
@@ -132,10 +131,13 @@ class Award extends React.Component {
       loading: false
     })
 
+  get uri() {
+    const { route } = this.props
+    return route?.params?.uri || ''
+  }
+
   get year() {
-    const { navigation } = this.props
-    const uri = navigation.getParam('uri')
-    const uris = uri.split('/')
+    const uris = this.uri.split('/')
     return uris[uris.length - 1]
   }
 

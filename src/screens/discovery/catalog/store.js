@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 11:16:33
+ * @Last Modified time: 2022-03-11 22:37:33
  */
-import React from 'react'
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import store from '@utils/store'
 import { x18s } from '@utils/app'
 import { info } from '@utils/ui'
 import { t, queue } from '@utils/fetch'
-import Type from './type'
 
 const namespace = 'ScreenCatalog'
 
@@ -24,22 +22,13 @@ export default class ScreenCatalog extends store {
     _loaded: false
   })
 
-  setParams = navigation => {
-    navigation.setParams({
-      extra: <Type $={this} />
-    })
-  }
-
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
     this.setState({
-      ...state,
+      ...(await this.getStorage(undefined, namespace)),
       _loaded: true
     })
 
-    this.fetchCatalog()
-    return res
+    return this.fetchCatalog()
   }
 
   // -------------------- fetch --------------------

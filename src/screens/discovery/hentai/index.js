@@ -2,50 +2,41 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 07:03:37
+ * @Last Modified time: 2022-03-11 17:44:40
  */
 import React from 'react'
 import { Page, Text } from '@components'
 import { FilterSwitch } from '@screens/_'
 import { _ } from '@stores'
-import { runAfter } from '@utils'
-import { injectWithHeader } from '@utils/decorators'
-import { useMount, useObserver } from '@utils/hooks'
-import Extra from '../anime/extra'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from '../anime/header'
 import List from './list'
 import Store from './store'
 
-const Wenku = (props, { $, navigation }) => {
-  useMount(() => {
-    runAfter(() => {
-      $.setParams(navigation)
-      $.init()
-    })
-
-    return () => {
-      $.scrollToOffset = null
-    }
+const Hentai = (props, { $, navigation }) => {
+  useRunAfter(() => {
+    $.setParams(navigation)
+    $.init()
   })
 
   return useObserver(() => (
-    <Page>
-      {!$.access ? (
-        <>
-          <FilterSwitch name='Hentai' />
-          <Text style={_.mt.lg} align='center'>
-            此功能暂不开放
-          </Text>
-        </>
-      ) : (
-        <List />
-      )}
-    </Page>
+    <>
+      <Header title='找番剧' alias='Hentai' hm={['hentai', 'Hentai']} />
+      <Page>
+        {!$.access ? (
+          <>
+            <FilterSwitch name='Hentai' />
+            <Text style={_.mt.lg} align='center'>
+              此功能暂不开放
+            </Text>
+          </>
+        ) : (
+          <List />
+        )}
+      </Page>
+    </>
   ))
 }
 
-export default injectWithHeader(Store, Wenku, {
-  screen: '找番剧',
-  alias: 'Hentai',
-  hm: ['hentai', 'Hentai'],
-  defaultExtra: <Extra title='Hentai' />
-})
+export default ic(Store, Hentai)

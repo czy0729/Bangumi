@@ -3,16 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 06:51:09
+ * @Last Modified time: 2022-03-11 17:57:12
  */
-import React from 'react'
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
-import Extra from './extra'
 
 const namespace = 'ScreenAnime'
 let _loaded = false
@@ -35,12 +33,6 @@ export default class ScreenAnime extends store {
     expand: false,
     _loaded: false
   })
-
-  setParams = navigation => {
-    navigation.setParams({
-      extra: <Extra $={this} />
-    })
-  }
 
   init = async () => {
     const state = await this.getStorage(undefined, namespace)

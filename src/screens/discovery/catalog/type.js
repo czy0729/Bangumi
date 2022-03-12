@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 11:22:38
+ * @Last Modified time: 2022-03-11 22:36:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ function Type({ $ }) {
   // 缓存最近一次确定值
   if ($) type = $.state.type
   const currentType = $?.state.type === undefined ? type : $?.state.type
+
   return (
     <View>
       <SegmentedControl
