@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:49:40
+ * @Last Modified time: 2022-03-14 23:38:45
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { getStorage, setStorage, open } from '@utils'
+import { androidKeyboardAdjust } from '@utils/ui'
 import { IOS, HOST_IMAGE_UPLOAD } from '@constants'
 import { Text } from './text'
 import { Bgm } from './bgm'
@@ -57,6 +58,8 @@ export const FixedTextarea = observer(
     }
 
     async componentDidMount() {
+      androidKeyboardAdjust('setAdjustPan')
+
       try {
         const showSource = (await getStorage(`${namespace}|showSource`)) || false
         const history = (await getStorage(namespace)) || '15' // 15就是bgm38

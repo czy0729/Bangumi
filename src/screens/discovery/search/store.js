@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 12:07:10
+ * @Last Modified time: 2022-03-12 23:23:19
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore } from '@stores'
-import { open } from '@utils'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
@@ -30,29 +29,6 @@ export default class ScreenSearch extends store {
     ...excludeState,
     _loaded: false
   })
-
-  setParams = navigation => {
-    navigation.setParams({
-      heatmap: '搜索.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('搜索.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open(this.url)
-              break
-
-            default:
-              break
-          }
-        }
-      }
-    })
-  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

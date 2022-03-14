@@ -5,27 +5,44 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 22:11:59
+ * @Last Modified time: 2022-03-14 23:19:50
  */
 import React, { useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { _ } from '@stores'
-import { useRunAfter, useObserver } from '@utils/hooks'
-import { hm as utilsHM } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { StatusBarEvents } from '../status-bar-events'
-import { UM } from '../um'
-import { Heatmap } from '../heatmap'
+import { Track } from '../track'
 import Popover from './popover'
 import Placeholder from './placeholder'
 import { updateHeader } from './utils'
 
+const statusBarEventsTypes = {
+  Subject: fixed => {
+    return {
+      barStyle: _.isDark || fixed ? 'dark-content' : 'light-content',
+      backgroundColor: 'transparent',
+      action: 'onWillFocus'
+    }
+  },
+  Topic: () => {
+    return {
+      barStyle: 'dark-content',
+      backgroundColor: 'transparent',
+      action: 'onWillFocus'
+    }
+  }
+}
+
 const Header = ({
-  /* 模式: null | float | transition */
+  /* 模式: null | 'float' | 'transition' */
   mode,
 
-  /* 模式为 float | transition 时有效 */
+  /* 是否锁定, 垂直y坐标: 模式为 'float' | 'transition' 时有效 */
   fixed = false,
+
+  y = 0,
 
   /* 标题 */
   title,
@@ -42,34 +59,51 @@ const Header = ({
    */
   headerRight = null,
 
+  /* 模式为 'transition' 时有效, 代替 title 显示 */
+  headerTitle = null,
+
   /* 是否变动状态栏主题 */
-  statusBarEvents = true
+  statusBarEvents = true,
+
+  /* 预设的状态栏主题: 'Subject' | 'Topic' */
+  statusBarEventsType
 }) => {
   const navigation = useNavigation()
   useLayoutEffect(() => {
     updateHeader({
       navigation,
       mode,
+      y,
       fixed,
       title,
-      headerRight
+      headerRight,
+      headerTitle,
+      statusBarEventsType
     })
-  }, [navigation, mode, fixed, title, headerRight])
-
-  useRunAfter(() => {
-    if (Array.isArray(hm)) utilsHM(...hm)
-  })
+  }, [navigation, mode, y, fixed, title, headerRight, headerTitle, statusBarEventsType])
 
   return useObserver(() => {
-    let backgroundColor
-    if (!IOS && _.isDark) backgroundColor = _._colorPlainHex
+    let statusBarEventsProps = {}
+    if (statusBarEvents) {
+      if (statusBarEventsType && statusBarEventsTypes[statusBarEventsType]) {
+        statusBarEventsProps = statusBarEventsTypes[statusBarEventsType](fixed)
+      } else if (mode) {
+        statusBarEventsProps = {
+          barStyle: fixed ? 'light-content' : 'dark-content',
+          backgroundColor: 'transparent',
+          action: 'onWillFocus'
+        }
+      } else if (!IOS && _.isDark) {
+        statusBarEventsProps = {
+          backgroundColor: _._colorPlainHex
+        }
+      }
+    }
+
     return (
       <>
-        {statusBarEvents && <StatusBarEvents backgroundColor={backgroundColor} />}
-        <UM screen={title} />
-        {!!hm?.[1] && (
-          <Heatmap id={alias || title} screen={hm[1]} bottom={_.bottom + _.sm} />
-        )}
+        {statusBarEvents && <StatusBarEvents {...statusBarEventsProps} />}
+        <Track title={title} hm={hm} alias={alias} />
       </>
     )
   })

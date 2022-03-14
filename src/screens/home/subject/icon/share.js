@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-29 13:57:29
+ * @Last Modified time: 2022-03-14 21:25:01
  */
 import React from 'react'
 import { IconTouchable } from '@screens/_'
@@ -15,11 +15,12 @@ import axios from '@utils/thirdParty/axios'
 import { HOST } from '@constants'
 import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
 
-function IconShare({ $, navigation }) {
+function IconShare({ $, navigation, color }) {
   return (
     <IconTouchable
+      style={_.mr.xs}
       name='md-ios-share'
-      color={_.__colorPlain__}
+      color={color}
       size={19}
       onPress={async () => {
         if (!navigation) return

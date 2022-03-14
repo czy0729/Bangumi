@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 23:41:16
+ * @Last Modified time: 2022-03-14 18:15:30
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -74,6 +74,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   item: {
     flex: 1,
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center'
   },

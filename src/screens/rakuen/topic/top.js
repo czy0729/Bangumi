@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 10:34:01
+ * @Last Modified time: 2022-03-14 23:22:48
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -97,7 +97,7 @@ const Top = memo(
     return (
       <>
         {!IOS && <HeaderPlaceholder />}
-        <View style={_.container.inner}>
+        <View style={styles.container}>
           <Milestone />
           <Text type='title' size={20} bold>
             {title}
@@ -226,6 +226,10 @@ export default obc((props, { $, navigation }) => {
 })
 
 const memoStyles = _.memoStyles(() => ({
+  container: {
+    paddingVertical: _.sm,
+    paddingHorizontal: _.wind
+  },
   groupWrap: {
     minHeight: 32 * _.ratio,
     marginTop: _.sm,

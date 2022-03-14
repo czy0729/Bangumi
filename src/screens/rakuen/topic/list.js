@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:14:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 03:23:18
+ * @Last Modified time: 2022-03-14 23:15:09
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -11,10 +11,10 @@ import { withTransitionHeader, obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import Top from './top'
 
-function List({ connectRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }) {
+function List({ listViewRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }) {
   return (
     <ListView
-      ref={connectRef}
+      ref={listViewRef}
       style={_.container.content}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}

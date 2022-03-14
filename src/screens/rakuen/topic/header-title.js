@@ -2,21 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 03:30:03
+ * @Last Modified time: 2022-03-14 23:10:46
  */
 import React from 'react'
-import { FadeIn, Flex, Text } from '@components'
+import { Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
-import Stores, { _ } from '@stores'
-import { urlStringify } from '@utils'
+import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
 import { IMG_DEFAULT_AVATAR } from '@constants'
 
-const routeName = 'Topic'
 const imgWidth = 28
 const defaultProps = {
   navigation: {},
-  showHeaderTitle: false,
   avatar: '',
   userId: '',
   userName: '',
@@ -24,56 +21,40 @@ const defaultProps = {
   group: ''
 }
 
-const HeaderTitle = memo(
-  ({ navigation, showHeaderTitle, avatar, userId, userName, title, group }) => {
-    rerender('Topic.HeaderTitle.Main')
+const HeaderTitle = memo(({ navigation, avatar, userId, userName, title, group }) => {
+  rerender('Topic.HeaderTitle.Main')
 
-    return (
-      <FadeIn show={showHeaderTitle}>
-        <Flex style={styles.container}>
-          {!!avatar && (
-            <Avatar
-              navigation={navigation}
-              size={imgWidth}
-              src={avatar}
-              userId={userId}
-              name={userName}
-            />
-          )}
-          <Flex.Item style={_.ml.sm}>
-            <Text size={13} numberOfLines={1}>
-              {title}
-            </Text>
-            {!!(userName || group) && (
-              <Text type='sub' size={10} bold numberOfLines={1}>
-                {userName || group}
-              </Text>
-            )}
-          </Flex.Item>
-        </Flex>
-      </FadeIn>
-    )
-  },
-  defaultProps
-)
+  return (
+    <Flex style={styles.container}>
+      {!!avatar && (
+        <Avatar
+          navigation={navigation}
+          size={imgWidth}
+          src={avatar}
+          userId={userId}
+          name={userName}
+        />
+      )}
+      <Flex.Item style={_.ml.sm}>
+        <Text size={13} numberOfLines={1}>
+          {title}
+        </Text>
+        {!!(userName || group) && (
+          <Text type='sub' size={10} bold numberOfLines={1}>
+            {userName || group}
+          </Text>
+        )}
+      </Flex.Item>
+    </Flex>
+  )
+}, defaultProps)
 
-export default ob(({ navigation }) => {
+export default ob(({ $, navigation }) => {
   rerender('Topic.HeaderTitle')
 
-  const { state = {} } = navigation
-  const { params = {} } = state
-  const { topicId } = params
-  const screenKey = `${routeName}?${urlStringify({
-    topicId
-  })}`
-  const $ = Stores.get(screenKey)
-  if (!$) return null
-
-  const { showHeaderTitle } = $.state
   return (
     <HeaderTitle
       navigation={navigation}
-      showHeaderTitle={showHeaderTitle}
       avatar={$.avatar === IMG_DEFAULT_AVATAR ? $.groupThumb : $.avatar}
       userId={$.userId}
       userName={$.userName}

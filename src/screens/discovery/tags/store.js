@@ -2,12 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 13:21:20
+ * @Last Modified time: 2022-03-12 23:59:28
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
-import { _ } from '@stores'
-import { open } from '@utils'
 import store from '@utils/store'
 import { x18s } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -18,7 +16,6 @@ export const tabs = MODEL_SUBJECT_TYPE.data.map(item => ({
   title: item.title,
   key: item.label
 }))
-export const H_FILTER = 36 + 2 * _.md
 
 const namespace = 'ScreenTags'
 const excludeState = {
@@ -33,29 +30,6 @@ export default class ScreenTags extends store {
     ...excludeState,
     _loaded: false
   })
-
-  setParams = navigation => {
-    navigation.setParams({
-      heatmap: '标签索引.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('标签索引.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open(this.url)
-              break
-
-            default:
-              break
-          }
-        }
-      }
-    })
-  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

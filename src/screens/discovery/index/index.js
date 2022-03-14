@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 05:26:20
+ * @Last Modified time: 2022-03-13 00:21:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Page, StatusBarEvents, ListView, UM, Heatmap } from '@components'
-import { IconTabBar } from '@screens/_'
 import { _ } from '@stores'
-import { runAfter } from '@utils'
-import { injectWithBottomTab } from '@utils/decorators'
-import { useMount, useObserver } from '@utils/hooks'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
 import { hm } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Header from './header'
@@ -22,11 +20,9 @@ import Store from './store'
 const title = '发现'
 
 const Discovery = ({ isFocused }, { $ }) => {
-  useMount(() => {
-    runAfter(() => {
-      $.init()
-      hm('discovery', 'Discovery')
-    })
+  useRunAfter(() => {
+    $.init()
+    hm('discovery', 'Discovery')
   })
 
   return useObserver(() => {
@@ -55,10 +51,7 @@ const Discovery = ({ isFocused }, { $ }) => {
   })
 }
 
-export default injectWithBottomTab(Store, Discovery, {
-  tabBarIcon: ({ tintColor }) => <IconTabBar name='home' size={19} color={tintColor} />,
-  tabBarLabel: title
-})
+export default ic(Store, Discovery)
 
 function keyExtractor(item) {
   return item.type

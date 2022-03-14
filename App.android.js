@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 23:38:51
+ * @Last Modified time: 2022-03-14 18:23:22
  */
 import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
-import Stacks from '@src/navigations/stacks'
+import Stacks from '@src/navigations'
 import { NavigationContainer, DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'

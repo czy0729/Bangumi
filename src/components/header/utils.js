@@ -2,25 +2,38 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 22:19:10
+ * @Last Modified time: 2022-03-14 21:23:36
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
 import Back from './back'
-import Transition from './transition'
+import Transition, { headerTransitionHeight } from './transition'
+
+const colors = {
+  Subject: fixed => (_.isDark || !fixed ? '#fff' : '#000')
+}
 
 export const updateHeader = ({
+  // 必要
   navigation,
-  mode,
-  fixed = false,
   title = '',
-  headerRight
+  headerRight,
+
+  // 非必要
+  mode,
+  y = 0,
+  fixed = false,
+  headerTitle,
+  statusBarEventsType
 }) => {
   if (!navigation) return
 
   const _title = systemStore.setting.s2t ? s2t(title) : title
+  const color = colors[statusBarEventsType]
+    ? colors[statusBarEventsType](fixed)
+    : undefined
   const options = {
     // header
     headerTransparent: !!mode,
@@ -45,7 +58,7 @@ export const updateHeader = ({
     headerLeftContainerStyle: {
       paddingLeft: 5
     },
-    headerLeft: () => <Back navigation={navigation} />
+    headerLeft: () => <Back navigation={navigation} color={color} />
   }
 
   if (headerRight) {
@@ -56,7 +69,9 @@ export const updateHeader = ({
   }
 
   if (mode) {
-    options.headerBackground = () => <Transition fixed={fixed} title={_title} />
+    options.headerBackground = () => (
+      <Transition y={y} fixed={fixed} title={_title} headerTitle={headerTitle} />
+    )
   }
 
   // platform fixed
@@ -68,19 +83,26 @@ export const updateHeader = ({
   navigation.setOptions(options)
 }
 
-export const useOnScroll = (headerTransitionHeight = 48) => {
+export const useOnScroll = () => {
+  const [y, setY] = useState(0)
   const [fixed, setFixed] = useState(false)
   const onScroll = useCallback(
     ({ nativeEvent }) => {
       const { y } = nativeEvent.contentOffset
+      if (y <= headerTransitionHeight) {
+        setY(y)
+      }
+
       const offset = headerTransitionHeight
       if ((fixed && y > offset) || (!fixed && y <= offset)) return
+      setY(headerTransitionHeight)
       setFixed(y > offset)
     },
-    [fixed, headerTransitionHeight]
+    [fixed]
   )
 
   return {
+    y,
     fixed,
     onScroll
   }

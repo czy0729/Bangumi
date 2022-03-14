@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 20:16:16
+ * @Last Modified time: 2022-03-14 20:12:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,34 +14,49 @@ import { getCoverMedium, getCoverLarge } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
+const srcLoaded = {}
+
 export default
 @obc
 class Cover extends React.Component {
   state = {
-    onLoad: false
+    isLoaded: false
   }
 
-  onLoad = () =>
+  onLoad = () => {
+    if (typeof this.src === 'string') srcLoaded[this.src] = true
+
     setTimeout(() => {
       this.setState({
-        onLoad: true
+        isLoaded: true
       })
-    }, 400)
+    }, 80)
+  }
+
+  get src() {
+    const { $ } = this.context
+    const { _imageForce } = $.params
+    const { image } = this.props
+    const src = _imageForce || CDN_OSS_SUBJECT(getCoverMedium(image)) || IMG_DEFAULT
+    return src
+  }
+
+  get isLoaded() {
+    if (typeof this.src === 'string') return srcLoaded[this.src] || this.state.isLoaded
+    return this.state.isLoaded
+  }
 
   render() {
     rerender('Subject.Cover')
 
     const { coverRadius } = systemStore.setting
     const { $ } = this.context
-    const { _imageForce } = $.params
     const { image, placeholder } = this.props
-    const { onLoad } = this.state
-    const src = _imageForce || CDN_OSS_SUBJECT(getCoverMedium(image)) || IMG_DEFAULT
     return (
       <View
         style={[
           this.styles.container,
-          onLoad && this.styles.shadow,
+          this.isLoaded && this.styles.shadow,
           {
             borderRadius: coverRadius
           }
@@ -49,7 +64,7 @@ class Cover extends React.Component {
       >
         {!!image && (
           <CompCover
-            src={src}
+            src={this.src}
             size={$.imageWidth}
             height={$.imageHeight}
             radius
@@ -68,7 +83,7 @@ class Cover extends React.Component {
             textOnly={false}
           />
         )}
-        {!onLoad && (
+        {!this.isLoaded && (
           <CompCover
             style={[
               this.styles.placeholder,

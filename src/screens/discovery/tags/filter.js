@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-12-31 02:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 03:16:47
+ * @Last Modified time: 2022-03-12 23:58:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Iconfont } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { H_FILTER } from './store'
 
 class Filter extends React.Component {
   state = {
@@ -61,8 +60,8 @@ export default obc(Filter)
 
 const memoStyles = _.memoStyles(() => ({
   filter: {
-    height: H_FILTER,
-    paddingVertical: _.md,
+    height: 64,
+    paddingVertical: 12,
     paddingHorizontal: _.wind,
     marginBottom: _._wind,
     backgroundColor: _.colorBg

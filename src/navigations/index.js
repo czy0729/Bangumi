@@ -1,56 +1,57 @@
 /*
  * @Author: czy0729
- * @Date: 2019-03-29 10:38:12
+ * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-12 07:12:17
+ * @Last Modified time: 2022-03-14 19:10:55
  */
 import React from 'react'
-import { getActiveChildNavigationOptions } from 'react-navigation'
-import createAppContainer from '@components/@/react-navigation/createAppContainer'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { observer } from 'mobx-react'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as Screens from '@screens'
-import { systemStore } from '@stores'
-import navigationsParams, { INIT_ROUTE } from '@/config'
-import createStackNavigator from './createStackNavigator'
-import TabBarComponent from './tab-bar-component'
-import config from './config'
-import HomeScreen from './home-screen'
-import { navigateOnce } from './utils'
+import navigationsParams from '@/config'
+import TabBar from './tab-bar'
 
-export function createNavigator() {
-  const routesMap = {}
-  const { homeRenderTabs } = systemStore.setting
-  homeRenderTabs.forEach(key => {
-    routesMap[key] = key === 'Home' ? HomeScreen : Screens[key]
-  })
-
-  const HomeTab = observer(
-    createBottomTabNavigator(routesMap, {
-      initialRouteName: INIT_ROUTE,
-      tabBarComponent: props => <TabBarComponent {...props} />,
-      navigationOptions: ({ navigation, screenProps }) =>
-        getActiveChildNavigationOptions(navigation, screenProps),
-      animationEnabled: false
-      // lazy: false
-    })
-  )
-
-  const HomeStack = createStackNavigator(
-    {
-      ...Screens,
-      HomeTab
-    },
-    {
-      ...navigationsParams,
-      ...config
-    }
-  )
-
-  const MainNavigator = createAppContainer(HomeStack)
-  MainNavigator.router.getStateForAction = navigateOnce(
-    MainNavigator.router.getStateForAction
-  )
-
-  return <MainNavigator />
+const defaultScreenOptions = {
+  headerShown: false,
+  // cardStyleInterpolator: forHorizontalIOS,
+  cardStyle: {
+    backgroundColor: 'transparent'
+  },
+  ...TransitionPresets.SlideFromRightIOS
 }
+
+const Tab = createBottomTabNavigator()
+function BottomTabNavigator() {
+  return (
+    <Tab.Navigator initialRouteName='Home' tabBar={props => <TabBar {...props} />}>
+      <Tab.Screen name='Discovery' component={Screens.Discovery} />
+      <Tab.Screen name='Timeline' component={Screens.Timeline} />
+      <Tab.Screen name='Home' component={Screens.Home} />
+      <Tab.Screen name='Rakuen' component={Screens.Rakuen} />
+      <Tab.Screen name='User' component={Screens.User} />
+    </Tab.Navigator>
+  )
+}
+
+const Stack = createStackNavigator()
+function Stacks() {
+  const { initialRouteName, initialRouteParams } = navigationsParams
+  return (
+    <Stack.Navigator
+      screenOptions={defaultScreenOptions}
+      initialRouteName={initialRouteName}
+    >
+      <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
+      {Object.keys(Screens).map(name => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={Screens[name]}
+          initialParams={initialRouteName === name ? initialRouteParams : undefined}
+        />
+      ))}
+    </Stack.Navigator>
+  )
+}
+
+export default Stacks

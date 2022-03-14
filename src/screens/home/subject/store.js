@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:02:19
+ * @Last Modified time: 2022-03-14 17:40:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,7 +76,6 @@ const initRating = {
 const excludeState = {
   visible: false, // 是否显示管理模态框
   folder: false, // 是否显示目录管理模态框
-  showHeaderTitle: false,
   rendered: false,
 
   chap: '', // 书籍章
@@ -1646,11 +1645,6 @@ export default class ScreenSubject extends store {
     })
     this.setStorage(undefined, undefined, this.namespace)
   }
-
-  updateShowHeaderTitle = showHeaderTitle =>
-    this.setState({
-      showHeaderTitle
-    })
 
   filterScores = label => {
     t('条目.筛选分数', {

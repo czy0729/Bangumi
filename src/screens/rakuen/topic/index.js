@@ -2,174 +2,101 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-15 22:42:45
+ * @Last Modified time: 2022-03-14 23:27:30
  */
-import React from 'react'
-import { View } from 'react-native'
-import { FixedTextarea, Flex, Text, Loading } from '@components'
-import { NavigationBarEvents, ItemPost } from '@screens/_'
+import React, { useState, useRef, useCallback } from 'react'
+import { Page, Loading } from '@components'
+import { useOnScroll } from '@components/header/utils'
+import { ItemPost } from '@_'
 import { _ } from '@stores'
-import { runAfter, copy, open } from '@utils'
-import { inject, withTransitionHeader, obc } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
-import { hm, t } from '@utils/fetch'
+import { ic } from '@utils/decorators'
+import { useObserver, useIsFocused, useRunAfter } from '@utils/hooks'
+import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST, IOS } from '@constants'
-import HeaderTitle from './header-title'
+import Header from './header'
 import List from './list'
 import TouchScroll from './touch-scroll'
 import Heatmaps from './heatmaps'
-import IconFavor from './icon/favor'
+import Bottom from './bottom'
 import Store from './store'
 
-const title = '帖子'
 const preRenderIndex = 8
 
-export default
-@inject(Store)
-@withTransitionHeader({
-  screen: title,
-  barStyle: 'dark-content',
-  HeaderTitle
-})
-@obc
-class Topic extends React.Component {
-  state = {
-    rendered: false
-  }
+const Topic = (props, { $ }) => {
+  const isFocused = useIsFocused()
+  const [rendered, setRendered] = useState(false)
+  useRunAfter(async () => {
+    setTimeout(() => {
+      if (isFocused.current) setRendered(true)
+    }, 400)
 
-  listView
-  fixedTextarea
-  scrollFailCount = 0
+    await $.init()
+    if ($.postId) jump()
+  })
 
-  componentDidMount() {
-    runAfter(async () => {
-      setTimeout(() => {
-        this.rendered()
-      }, 400)
+  const listViewRef = useRef(null)
+  const fixedTextareaRef = useRef(null)
+  const scrollFailCount = useRef(0)
 
-      const { $, navigation } = this.context
+  const scrollTo = useCallback((index = 0) => {
+    const { list } = $.comments
+    info(list[index].floor, 0.8)
 
-      // 不上架暂时屏蔽UCG协议
-      // if (!$.isUGCAgree) {
-      //   /**
-      //    * @issue 这里注意在iOS上面, 一定要延迟,
-      //    * 不然首页点击讨论跳进来popover + alert直接就不能操作了
-      //    */
-      //   setTimeout(() => {
-      //     t('帖子.UCG')
-
-      //     Alert.alert(
-      //       '社区指导原则',
-      //       `${TITLE} 是一个纯粹的ACG网络, 请查看社区指导原则并且同意后才能继续操作`,
-      //       [
-      //         {
-      //           text: '取消',
-      //           style: 'cancel',
-      //           onPress: () => navigation.goBack()
-      //         },
-      //         {
-      //           text: '查看',
-      //           onPress: () => {
-      //             navigation.goBack()
-      //             navigation.push('UGCAgree', {
-      //               topicId: $.topicId
-      //             })
-      //           }
-      //         }
-      //       ]
-      //     )
-      //   }, 800)
-      //   return
-      // }
-
-      const url = navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
-      navigation.setParams({
-        extra: <IconFavor $={$} />,
-        heatmap: '帖子.右上角菜单',
-        popover: {
-          data: ['浏览器查看', '复制链接', '复制分享', '举报'],
-          onSelect: key => {
-            t('帖子.右上角菜单', {
-              key
-            })
-
-            switch (key) {
-              case '浏览器查看':
-                open(url)
-                break
-
-              case '复制链接':
-                copy(url)
-                info('已复制链接')
-                break
-
-              case '复制分享':
-                copy(`【链接】${$.title} | Bangumi番组计划\n${url}`)
-                info('已复制分享文案')
-                break
-
-              case '举报':
-                open(`${HOST}/group/forum`)
-                break
-
-              default:
-                break
-            }
-          }
-        }
+    try {
+      listViewRef.current?.scrollToIndex({
+        animated: false,
+        index,
+        viewOffset: 0
       })
+    } catch (error) {
+      warn('topic/index.js', 'scrollTo', error)
+    }
 
-      await $.init()
-      const { title } = $.topic
-      withTransitionHeader.setTitle(navigation, title)
-
-      if ($.postId) {
-        this.jump()
-      }
-
-      hm(`rakuen/topic/${$.topicId}`, 'Topic')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  const onScrollTo = useCallback((index = 0) => {
+    t('帖子.楼层跳转', {
+      topicId: $.topicId,
+      index
     })
-  }
 
-  connectListViewRef = ref => (this.listView = ref)
-
-  connectFixedTextareaRef = ref => (this.fixedTextarea = ref)
-
-  onScroll = e => {
-    const { $ } = this.context
-    const { onScroll } = this.props
-    onScroll(e)
-
-    const { showHeaderTitle } = $.state
-    const { nativeEvent } = e
-    const { y } = nativeEvent.contentOffset
-    const headerTranstion = 48
-    if (!showHeaderTitle && y > headerTranstion) {
-      $.updateShowHeaderTitle(true)
+    if (index === -1) {
+      info('#1', 0.8)
+      listViewRef.current?.scrollToOffset({
+        animated: true,
+        offset: 0 - _.headerHeight
+      })
       return
     }
 
-    if (showHeaderTitle && y <= headerTranstion) {
-      $.updateShowHeaderTitle(false)
-    }
-  }
+    const { list } = $.comments
+    info(list[index].floor, 0.8)
 
-  /**
-   * 用于延迟底部块渲染
-   * 优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题
-   */
-  rendered = () => {
-    const { rendered } = this.state
-    if (!rendered) {
-      this.setState({
-        rendered: true
+    try {
+      listViewRef.current?.scrollToIndex({
+        animated: true,
+        index,
+        viewOffset: 0 + _.headerHeight
       })
+    } catch (error) {
+      warn('topic/index.js', 'onScrollTo', error)
     }
-  }
 
-  jump = () => {
-    const { $ } = this.context
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  const onScrollToIndexFailed = useCallback(
+    ({ highestMeasuredFrameIndex, index }) => {
+      scrollTo(highestMeasuredFrameIndex)
+
+      setTimeout(() => {
+        if (scrollFailCount.current >= 8) return
+        scrollFailCount.current += 1
+        scrollTo(index)
+      }, 100)
+    },
+    [scrollTo]
+  )
+  const jump = useCallback(() => {
     if (!$.postId) return
 
     const { list, _loaded } = $.comments
@@ -191,188 +118,69 @@ class Topic extends React.Component {
         })
 
         if (scrollIndex) {
-          this.scrollTo(scrollIndex)
+          scrollTo(scrollIndex)
         }
       } catch (error) {
         warn('topic/index.js', 'jump', error)
       }
     }
-  }
 
-  scrollTo = (index = 0) => {
-    const { $ } = this.context
-    const { list } = $.comments
-    info(list[index].floor, 0.8)
-    try {
-      this.listView.scrollToIndex({
-        animated: false,
-        index,
-        viewOffset: 0
-      })
-    } catch (error) {
-      warn('topic/index.js', 'scrollTo', error)
-    }
-  }
-
-  scrollToThenFeedback = (index = 0) => {
-    const { $ } = this.context
-    t('帖子.楼层跳转', {
-      topicId: $.topicId,
-      index
-    })
-
-    if (index === -1) {
-      info('#1', 0.8)
-      this.listView.scrollToOffset({
-        animated: true,
-        offset: 0 - _.headerHeight
-      })
-      return
-    }
-
-    const { list } = $.comments
-    info(list[index].floor, 0.8)
-    try {
-      this.listView.scrollToIndex({
-        animated: true,
-        index,
-        viewOffset: 0 + _.headerHeight
-      })
-    } catch (error) {
-      warn('topic/index.js', 'scrollToThenFeedback', error)
-    }
-  }
-
-  onScrollToIndexFailed = ({ highestMeasuredFrameIndex, index }) => {
-    this.scrollTo(highestMeasuredFrameIndex)
-    setTimeout(() => {
-      if (this.scrollFailCount >= 8) return
-      this.scrollFailCount += 1
-      this.scrollTo(index)
-    }, 100)
-  }
-
-  showFixedTextare = () => this.fixedTextarea.onFocus()
-
-  renderItem = ({ item, index }) => {
-    const { $ } = this.context
-    const { rendered } = this.state
-
-    // 延迟渲染, 减少二次进入页面瞬间楼层过多导致动画掉帧, 进入页面瞬间最多只渲染2个楼层
-    if (!$.postId) {
-      if (!rendered) {
-        // 渲染指示标记
-        if (index === preRenderIndex) return <Loading style={_.mt.md} />
-        if (index > preRenderIndex - 1) return null
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrollTo])
+  const renderItem = useCallback(
+    ({ item, index }) => {
+      // 延迟渲染, 减少二次进入页面瞬间楼层过多导致动画掉帧, 进入页面瞬间最多只渲染2个楼层
+      if (!$.postId) {
+        if (!rendered) {
+          // 渲染指示标记
+          if (index === preRenderIndex) return <Loading style={_.mt.md} />
+          if (index > preRenderIndex - 1) return null
+        }
       }
-    }
 
-    const event = {
-      id: '帖子.跳转',
-      data: {
-        topicId: $.topicId
+      const event = {
+        id: '帖子.跳转',
+        data: {
+          topicId: $.topicId
+        }
       }
-    }
 
-    return (
-      <ItemPost
-        index={index}
-        postId={$.postId}
-        authorId={$.topic.userId}
-        {...item}
-        rendered={rendered}
-        showFixedTextare={this.showFixedTextare}
-        event={event}
-      />
-    )
-  }
-
-  renderFixedBottom() {
-    const { $, navigation } = this.context
-    const { placeholder, value } = $.state
-    const { tip, close } = $.topic
-    if (tip.includes('半公开')) {
       return (
-        <Flex style={this.styles.fixedBottom}>
-          <Text>半公开小组只有成员才能发言, </Text>
-          <Text type='main' onPress={() => appNavigate($.groupHref, navigation)}>
-            点击加入
-          </Text>
-        </Flex>
-      )
-    }
-
-    if (close) {
-      return (
-        <Flex style={this.styles.fixedBottom}>
-          <Text>主题已被关闭: </Text>
-          <Text type='sub'>{close}</Text>
-        </Flex>
-      )
-    }
-
-    if (!$.isWebLogin || $.isLimit) {
-      return null
-    }
-
-    return (
-      <FixedTextarea
-        ref={this.connectFixedTextareaRef}
-        placeholder={placeholder ? `回复 ${placeholder}` : undefined}
-        value={value}
-        source
-        onChange={$.onChange}
-        onClose={$.closeFixedTextarea}
-        onSubmit={$.doSubmit}
-      />
-    )
-  }
-
-  render() {
-    return (
-      <View style={_.container.flex}>
-        <NavigationBarEvents />
-        <List
-          connectRef={this.connectListViewRef}
-          renderItem={this.renderItem}
-          onScroll={this.onScroll}
-          onScrollToIndexFailed={this.onScrollToIndexFailed}
+        <ItemPost
+          index={index}
+          postId={$.postId}
+          authorId={$.topic.userId}
+          {...item}
+          rendered={rendered}
+          showFixedTextare={() => fixedTextareaRef.current?.onFocus()}
+          event={event}
         />
-        {this.renderFixedBottom()}
-        <TouchScroll onPress={this.scrollToThenFeedback} />
-        <Heatmaps />
-      </View>
-    )
-  }
+      )
+    },
 
-  get styles() {
-    return memoStyles()
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [rendered]
+  )
+
+  const { y, fixed, onScroll } = useOnScroll()
+  return useObserver(() => {
+    return (
+      <>
+        <Header y={y} fixed={fixed} />
+        <Page>
+          <List
+            listViewRef={listViewRef}
+            renderItem={renderItem}
+            onScroll={onScroll}
+            onScrollToIndexFailed={onScrollToIndexFailed}
+          />
+          <TouchScroll onPress={onScrollTo} />
+          <Bottom fixedTextareaRef={fixedTextareaRef} />
+        </Page>
+        <Heatmaps />
+      </>
+    )
+  })
 }
 
-const memoStyles = _.memoStyles(() => ({
-  fixedBottom: {
-    position: 'absolute',
-    zIndex: 1,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    paddingVertical: 12,
-    paddingHorizontal: _.wind,
-    marginBottom: -4,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    ...(IOS
-      ? {
-          paddingBottom: 32,
-          shadowColor: _.colorShadow,
-          shadowOffset: {
-            height: -2
-          },
-          shadowOpacity: 0.06,
-          shadowRadius: 6
-        }
-      : {
-          elevation: 8
-        })
-  }
-}))
+export default ic(Store, Topic)

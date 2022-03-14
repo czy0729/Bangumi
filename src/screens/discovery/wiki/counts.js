@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 15:01:21
+ * @Last Modified time: 2022-03-13 00:10:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ function Counts(props, { $ }) {
   const { coverRadius } = systemStore.setting
   const { counts, lastCounts = [] } = $.wiki
   return (
-    <View>
+    <View style={_.mt._sm}>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         horizontal

@@ -6,10 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
-import { open } from '@utils'
 import store from '@utils/store'
-import { t } from '@utils/fetch'
-import { HOST } from '@constants'
 
 export const labelDS = [
   '全部条目',
@@ -55,29 +52,6 @@ export default class ScreenWiki extends store {
     last: 0,
     _loaded: false
   })
-
-  setParams = navigation => {
-    navigation.setParams({
-      heatmap: '维基人.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('维基人.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open(`${HOST}/wiki`)
-              break
-
-            default:
-              break
-          }
-        }
-      }
-    })
-  }
 
   init = async () => {
     const res = this.getStorage(undefined, namespace)

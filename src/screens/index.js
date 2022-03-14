@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-13 05:54:43
+ * @Last Modified time: 2022-03-14 18:06:23
  */
 // Login
-export { default as Auth } from './login/auth'
 export { default as Login } from './login/index'
 export { default as LoginAssist } from './login/assist'
 export { default as LoginV2 } from './login/v2'
