@@ -2,64 +2,51 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:34:28
+ * @Last Modified time: 2022-03-16 00:40:10
  */
 import React from 'react'
-import { View } from 'react-native'
-import { ListView, Heatmap } from '@components'
-import { ItemBlog } from '@screens/_'
+import { Page, ListView, Heatmap } from '@components'
+import { ItemBlog } from '@_'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
 import { keyExtractor } from '@utils/app'
+import Header from './header'
 import Store from './store'
 
-const title = '用户日志'
 const event = {
   id: '用户日志.跳转'
 }
 
-export default
-@inject(Store)
-@withHeader({
-  screen: title
-})
-@obc
-class Blogs extends React.Component {
-  async componentDidMount() {
-    const { $ } = this.context
+const Board = (props, { $, navigation }) => {
+  useRunAfter(() => {
     $.init()
+  })
 
-    hm(`user/${$.userId}/blog`, 'Blogs')
-  }
-
-  renderItem = ({ item, index }) => {
-    const { navigation } = this.context
-    return (
-      <ItemBlog
-        key={item.userId}
-        navigation={navigation}
-        event={event}
-        index={index}
-        {...item}
-      />
-    )
-  }
-
-  render() {
-    const { $ } = this.context
-    return (
-      <View style={_.container.plain}>
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page>
         <ListView
           data={$.blogs}
           keyExtractor={keyExtractor}
           scrollToTop
-          renderItem={this.renderItem}
+          renderItem={({ item, index }) => (
+            <ItemBlog
+              key={item.userId}
+              navigation={navigation}
+              event={event}
+              index={index}
+              {...item}
+            />
+          )}
           onHeaderRefresh={$.refresh}
           onFooterRefresh={() => $.fetchBlogs()}
         />
-        <Heatmap bottom={_.bottom} id='用户日志' screen='Blogs' />
-      </View>
-    )
-  }
+      </Page>
+      <Heatmap bottom={_.bottom} id='用户日志' screen='Blogs' />
+    </>
+  ))
 }
+
+export default ic(Store, Board)

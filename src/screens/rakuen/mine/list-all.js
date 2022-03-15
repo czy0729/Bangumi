@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-25 12:31:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-25 14:05:21
+ * @Last Modified time: 2022-03-15 22:24:39
  */
 import React from 'react'
 import { PaginationList } from '@_'
@@ -19,7 +19,7 @@ const ListAll = (props, { $ }) => {
     <>
       <Filter />
       <PaginationList
-        style={styles.list}
+        style={_.mt._md}
         contentContainerStyle={_.container.outer}
         data={
           filter
@@ -34,12 +34,6 @@ const ListAll = (props, { $ }) => {
 }
 
 export default obc(ListAll)
-
-const styles = _.create({
-  list: {
-    marginTop: -8
-  }
-})
 
 function getCoverById(id) {
   if (!id) return ''

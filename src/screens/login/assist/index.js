@@ -2,31 +2,34 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:53:09
+ * @Last Modified time: 2022-03-15 21:13:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
-import { ScrollView, Text, Input, Button, KeyboardSpacer, Heatmap } from '@components'
+import {
+  Header,
+  Page,
+  ScrollView,
+  Text,
+  Input,
+  Button,
+  KeyboardSpacer,
+  Heatmap
+} from '@components'
 import { _, userStore } from '@stores'
 import { copy, getTimestamp } from '@utils'
-import { withHeader, ob } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { xhrCustom, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 
-const title = '电脑辅助登录'
 const code = `JSON.stringify({
   userAgent: navigator.userAgent,
   cookie: document.cookie
 });`
 
 export default
-@withHeader({
-  screen: title,
-  alias: '辅助登录',
-  hm: ['login/assist', 'LoginAssist']
-})
 @ob
 class LoginAssist extends React.Component {
   state = {
@@ -277,69 +280,79 @@ class LoginAssist extends React.Component {
   render() {
     const { loading, info } = this.state
     return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={this.styles.container}
-        scrollToTop
-      >
-        <Text type='danger' size={12}>
-          此为登录最后的手段，流程相对较多 (其实不复杂，
-          熟悉的话比正常登录还要快和稳)，请先尝试新版和旧版登录，不行再试这个。
-        </Text>
-        <Text style={_.mt.sm} type='sub' size={12}>
-          第三方登录失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异，
-          又或者碰上bgm速度不佳 (当然还有代码有bug)。
-        </Text>
-        <Text style={_.mt.sm} type='sub' size={12}>
-          本人能力有限，部分设备无论如何都不能走通新版和旧版的登录流程，
-          若您实在很喜欢本应用，可以尝试下面的方法 (假如还走不通，请多尝试，
-          又或者过来干我)。
-        </Text>
-        <Text style={_.mt.lg}>1. 复制框里的代码。</Text>
-        <View style={_.mt.sm}>
-          <Text style={this.styles.code} size={12}>
-            {code}
-          </Text>
-          <Text style={this.styles.copy} size={12} type='success' onPress={this.copy}>
-            点击复制
-          </Text>
-          <Heatmap id='辅助登录.复制' />
-        </View>
-        <Text style={_.mt.md}>
-          2. 使用电脑打开浏览器，访问 {HOST} (一定要是这个域名) 并登录。
-        </Text>
-        <Text style={_.mt.md}>
-          3. 登录成功后，打开控制台 (chrome为例，window是F12，mac是⎇ + ⌘ + i)，
-          之后运行复制的代码。
-        </Text>
-        <Text style={_.mt.md}>4. 把结果复制到下面的输入框内，提交。</Text>
-        <View style={_.mt.sm}>
-          <Input
-            style={this.styles.input}
-            placeholder='粘贴结果'
-            multiline
-            numberOfLines={6}
-            returnKeyType='done'
-            returnKeyLabel='登录'
-            onChangeText={this.onChangeText}
-            onSubmitEditing={this.submit}
-          />
-          <Heatmap id='辅助登录.提交' />
-        </View>
-        <Button
-          style={_.mt.lg}
-          type='main'
-          shadow
-          loading={loading}
-          onPress={this.submit}
-        >
-          登录
-        </Button>
-        <Text style={_.mt.md} size={12} lineHeight={16} type='sub'>
-          {info}
-        </Text>
-        <KeyboardSpacer />
-      </ScrollView>
+      <>
+        <Header
+          title='电脑辅助登录'
+          alias='辅助登录'
+          hm={['login/assist', 'LoginAssist']}
+        />
+        <Page>
+          <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
+            <Text type='danger' size={12}>
+              此为登录最后的手段，流程相对较多 (其实不复杂，
+              熟悉的话比正常登录还要快和稳)，请先尝试新版和旧版登录，不行再试这个。
+            </Text>
+            <Text style={_.mt.sm} type='sub' size={12}>
+              第三方登录失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异，
+              又或者碰上bgm速度不佳 (当然还有代码有bug)。
+            </Text>
+            <Text style={_.mt.sm} type='sub' size={12}>
+              本人能力有限，部分设备无论如何都不能走通新版和旧版的登录流程，
+              若您实在很喜欢本应用，可以尝试下面的方法 (假如还走不通，请多尝试，
+              又或者过来干我)。
+            </Text>
+            <Text style={_.mt.lg}>1. 复制框里的代码。</Text>
+            <View style={_.mt.sm}>
+              <Text style={this.styles.code} size={12}>
+                {code}
+              </Text>
+              <Text
+                style={this.styles.copy}
+                size={12}
+                type='success'
+                onPress={this.copy}
+              >
+                点击复制
+              </Text>
+              <Heatmap id='辅助登录.复制' />
+            </View>
+            <Text style={_.mt.md}>
+              2. 使用电脑打开浏览器，访问 {HOST} (一定要是这个域名) 并登录。
+            </Text>
+            <Text style={_.mt.md}>
+              3. 登录成功后，打开控制台 (chrome为例，window是F12，mac是⎇ + ⌘ + i)，
+              之后运行复制的代码。
+            </Text>
+            <Text style={_.mt.md}>4. 把结果复制到下面的输入框内，提交。</Text>
+            <View style={_.mt.sm}>
+              <Input
+                style={this.styles.input}
+                placeholder='粘贴结果'
+                multiline
+                numberOfLines={6}
+                returnKeyType='done'
+                returnKeyLabel='登录'
+                onChangeText={this.onChangeText}
+                onSubmitEditing={this.submit}
+              />
+              <Heatmap id='辅助登录.提交' />
+            </View>
+            <Button
+              style={_.mt.lg}
+              type='main'
+              shadow
+              loading={loading}
+              onPress={this.submit}
+            >
+              登录
+            </Button>
+            <Text style={_.mt.md} size={12} lineHeight={16} type='sub'>
+              {info}
+            </Text>
+            <KeyboardSpacer />
+          </ScrollView>
+        </Page>
+      </>
     )
   }
 
@@ -352,8 +365,9 @@ const memoStyles = _.memoStyles(() => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    paddingVertical: _.lg,
-    paddingHorizontal: _.wind
+    paddingTop: _.sm,
+    paddingHorizontal: _.wind,
+    paddingBottom: _.lg
   },
   code: {
     paddingVertical: _.space,

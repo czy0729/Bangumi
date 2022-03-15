@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-22 17:10:30
+ * @Last Modified time: 2022-03-15 23:35:10
  */
 import React from 'react'
 import { Flex, Iconfont, Heatmap } from '@components'
@@ -63,6 +63,7 @@ export default obc(IconMore)
 
 const styles = _.create({
   touch: {
+    marginRight: _.xs,
     borderRadius: 20,
     overflow: 'hidden'
   },

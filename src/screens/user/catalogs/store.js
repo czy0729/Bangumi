@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 20:20:40
+ * @Last Modified time: 2022-03-16 01:03:03
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore, discoveryStore } from '@stores'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
+import { HTML_USERS_CATALOGS } from '@constants/html'
 
 export const tabs = [
   {
@@ -75,6 +76,10 @@ export default class ScreenCatelogs extends store {
   @computed get userId() {
     const { userId = userStore.myId } = this.params
     return userId
+  }
+
+  @computed get url() {
+    return HTML_USERS_CATALOGS(this.userId)
   }
 
   catalogs(key) {

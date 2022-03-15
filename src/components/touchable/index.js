@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:01:40
+ * @Last Modified time: 2022-03-16 02:38:13
  */
 import React from 'react'
 import {
@@ -28,7 +28,7 @@ export const Touchable = observer(
     style,
     withoutFeedback = false,
     highlight = false,
-    delay = false,
+    delay = true,
     children,
     hitSlop = defaultHitSlop,
     delayPressIn = 0,

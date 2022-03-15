@@ -2,117 +2,28 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-25 02:42:00
+ * @Last Modified time: 2022-03-16 01:52:12
  */
 import React from 'react'
-import { View, ScrollView } from 'react-native'
-import { FixedTextarea, Input, Text, Loading } from '@components'
-import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import Chat from './chat'
+import { Header } from '@components'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Page from './page'
 import Heatmaps from './heatmaps'
 import Store from './store'
 
-const title = '短信'
+const PM = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
+  })
 
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['pm', 'PM']
-})
-@obc
-class PM extends React.Component {
-  scrollView
-  fixedTextarea
-
-  componentDidMount() {
-    const { $ } = this.context
-    $.init(this.scrollView)
-  }
-
-  connectRefScrollView = ref => (this.scrollView = ref)
-
-  connectRefFixedTextarea = ref => (this.fixedTextarea = ref)
-
-  showFixedTextare = () => this.fixedTextarea.onFocus()
-
-  onTitleChange = evt => {
-    const { $ } = this.context
-    const { nativeEvent } = evt
-    const { text } = nativeEvent
-    $.onTitleChange(text)
-  }
-
-  onSubmit = value => {
-    const { $, navigation } = this.context
-    return $.doSubmit(value, this.scrollView, navigation)
-  }
-
-  renderNewForm() {
-    const { $ } = this.context
-    const { userId, userName } = $.params
-    if (!userId) return null
-
-    return (
-      <>
-        <View style={this.styles.form}>
-          <Text>收件人: {userName}</Text>
-        </View>
-        <Input
-          style={this.styles.ipt}
-          placeholder='输入标题'
-          onChange={this.onTitleChange}
-        />
-      </>
-    )
-  }
-
-  render() {
-    const { $ } = this.context
-    const { value } = $.state
-    return (
-      <View style={_.container.screen}>
-        {$.pmParams._loaded || $.pmDetail._loaded ? (
-          <ScrollView
-            ref={this.connectRefScrollView}
-            style={_.container.screen}
-            contentContainerStyle={_.container.bottom}
-            scrollToTop
-          >
-            <Chat />
-          </ScrollView>
-        ) : (
-          <Loading />
-        )}
-        <FixedTextarea
-          ref={this.connectRefFixedTextarea}
-          placeholder='回复'
-          value={value}
-          onChange={$.onChange}
-          onClose={$.closeFixedTextarea}
-          onSubmit={this.onSubmit}
-        >
-          {this.renderNewForm()}
-        </FixedTextarea>
-        <Heatmaps />
-      </View>
-    )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  return useObserver(() => (
+    <>
+      <Header title='短信' hm={['pm', 'PM']} />
+      <Page />
+      <Heatmaps />
+    </>
+  ))
 }
 
-const memoStyles = _.memoStyles(() => ({
-  form: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind
-  },
-  ipt: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind,
-    borderRadius: 0
-  }
-}))
+export default ic(Store, PM)

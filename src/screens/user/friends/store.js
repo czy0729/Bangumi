@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:19:32
+ * @Last Modified time: 2022-03-16 01:27:23
  */
 import { observable, computed } from 'mobx'
-import { usersStore } from '@stores'
+import { usersStore, userStore } from '@stores'
 import { getTimestamp, desc } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
+import { HTML_FRIENDS } from '@constants/html'
 
 const namespace = 'ScreenFriends'
 const excludeState = {
@@ -123,6 +124,10 @@ export default class ScreenFriends extends store {
 
   users(userId) {
     return computed(() => usersStore.users(userId)).get()
+  }
+
+  @computed get url() {
+    return HTML_FRIENDS(this.params?.userId || userStore.myId)
   }
 
   // -------------------- page --------------------

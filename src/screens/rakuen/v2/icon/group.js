@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:59:47
+ * @Last Modified time: 2022-03-15 23:37:48
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -31,14 +31,7 @@ function IconGroup(props, { $, navigation }) {
         navigation.push('Mine')
       }}
     >
-      <Heatmap
-        right={-40}
-        id='超展开.跳转'
-        data={{
-          to: 'Mine',
-          alias: '我的小组'
-        }}
-      />
+      <Heatmap right={-40} id='超展开.跳转' to='Mine' alias='我的小组' />
     </IconTabsHeader>
   )
 }
@@ -47,7 +40,10 @@ export default obc(IconGroup)
 
 const styles = _.create({
   icon: {
-    marginBottom: 0
+    marginBottom: 0,
+    marginLeft: _.xs,
+    borderRadius: 40,
+    overflow: 'hidden'
   },
   iconPad: {
     height: 52

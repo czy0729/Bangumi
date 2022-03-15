@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:56:58
+ * @Last Modified time: 2022-03-15 23:31:49
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -60,6 +60,7 @@ function Tab(props, { $ }) {
   return (
     <TabView
       key={_.orientation}
+      style={_.mt._sm}
       sceneContainerStyle={styles.sceneContainerStyle}
       lazy={!IOS}
       lazyPreloadDistance={0}
@@ -122,10 +123,8 @@ const memoStyles = _.memoStyles(() => {
   const W_TAB_BAR_LEFT = 0
   const W_TAB = _.window.width / 5
   const W_INDICATOR = 16 * _.ratio
-  const TOP_TAB_BAR = _.headerHeight - _.ios(18, 24)
   return {
     tabBar: {
-      paddingTop: TOP_TAB_BAR,
       paddingLeft: W_TAB_BAR_LEFT,
       backgroundColor: _.ios(
         'transparent',

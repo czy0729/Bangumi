@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 00:23:21
+ * @Last Modified time: 2022-03-16 01:15:02
  */
 import React from 'react'
 import { Header, Page, ScrollView, Flex } from '@components'
@@ -88,6 +88,7 @@ export default Setting
 
 const styles = _.create({
   container: {
+    paddingTop: _.sm,
     paddingBottom: _.md
   },
   transparent: {

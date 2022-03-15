@@ -2,48 +2,32 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:18:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-15 18:06:53
+ * @Last Modified time: 2022-03-15 23:02:30
  */
 import React from 'react'
-import { Loading, ScrollView } from '@components'
+import { Page, ScrollView } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
 import List from './list'
 import Store from './store'
 
-const title = '影评'
+const Reviews = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
+  })
 
-export default
-@inject(Store)
-@withHeader({
-  title: ({ name } = {}) => (name ? `${name}的${title}` : title),
-  screen: title
-})
-@obc
-class Reviews extends React.Component {
-  async componentDidMount() {
-    const { $ } = this.context
-    await $.init()
-
-    hm(`subject/${$.subjectId}/reviews`, 'Reviews')
-  }
-
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.reviews
-    if (!_loaded) {
-      return <Loading style={_.container.plain} />
-    }
-
-    return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={_.container.bottom}
-        scrollToTop
-      >
-        <List />
-      </ScrollView>
-    )
-  }
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page loaded={$.reviews._loaded}>
+        <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
+          <List />
+        </ScrollView>
+      </Page>
+    </>
+  ))
 }
+
+export default ic(Store, Reviews)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 17:54:57
+ * @Last Modified time: 2022-03-16 02:39:01
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
@@ -12,7 +12,11 @@ import Back from './back'
 import Transition, { headerTransitionHeight } from './transition'
 
 const colors = {
-  Subject: fixed => (_.isDark || !fixed ? '#fff' : '#000')
+  Subject: fixed => (_.isDark || !fixed ? '#fff' : '#000'),
+  Tinygrail: () => _.colorTinygrailPlain
+}
+const backgroundColors = {
+  Tinygrail: () => _.colorTinygrailContainer
 }
 
 export const updateHeader = ({
@@ -36,12 +40,15 @@ export const updateHeader = ({
   const color = colors[statusBarEventsType]
     ? colors[statusBarEventsType](fixed)
     : undefined
+  const backgroundColor = backgroundColors[statusBarEventsType]
+    ? backgroundColors[statusBarEventsType](fixed)
+    : undefined
   const options = {
     // header
     headerTransparent: !!mode,
     headerShown: true,
     headerStyle: {
-      backgroundColor: mode ? 'transparent' : _.colorPlain,
+      backgroundColor: backgroundColor || (mode ? 'transparent' : _.colorPlain),
       borderBottomWidth: 0,
       elevation: 0
     },
@@ -54,7 +61,7 @@ export const updateHeader = ({
       fontWeight: 'normal',
       ...headerTitleStyle
     },
-    headerTintColor: _.colorTitle,
+    headerTintColor: color || _.colorTitle,
 
     // headerBack
     headerBackTitleVisible: false,

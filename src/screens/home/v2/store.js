@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 18:52:43
+ * @Last Modified time: 2022-03-15 23:36:55
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -74,7 +74,6 @@ export const tabsWithGame = [
 ]
 
 export const H_TABBAR = 48
-export const H_FILTER = 36 + 2 * _.md
 export const OFFSET_LISTVIEW = IOS ? _.headerHeight + H_TABBAR : 0
 
 const namespace = 'ScreenHomeV2'

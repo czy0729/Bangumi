@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:53:40
+ * @Last Modified time: 2022-03-15 21:14:20
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -36,10 +36,6 @@ const AUTH_RETRY_COUNT = 10
 export default
 @ob
 class LoginV2 extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
-
   state = {
     host: HOST,
     clicked: false,

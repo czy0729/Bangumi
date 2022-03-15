@@ -2,72 +2,45 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:34:45
+ * @Last Modified time: 2022-03-16 01:34:56
  */
 import React from 'react'
-import { ListView, Heatmap } from '@components'
-import { ItemFriends } from '@screens/_'
+import { Page, ListView, Heatmap } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import Sort from './sort'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
 import Filter from './filter'
+import Item from './item'
 import Store from './store'
 
-const title = '好友'
-const event = {
-  id: '好友.跳转'
-}
+const Friends = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
+  })
 
-export default
-@inject(Store)
-@withHeader({
-  screen: title
-})
-@obc
-class Friends extends React.Component {
-  async componentDidMount() {
-    const { $, navigation } = this.context
-    await $.init()
-
-    navigation.setParams({
-      extra: <Sort $={$} />
-    })
-
-    hm(`user/${$.params.userId}/friends`, 'Friends')
-  }
-
-  renderItem = ({ item, index }) => {
-    const { $, navigation } = this.context
-    return (
-      <ItemFriends
-        navigation={navigation}
-        event={event}
-        {...item}
-        {...$.users(item.userId)}
-      >
-        {!index && <Heatmap id='好友.跳转' />}
-      </ItemFriends>
-    )
-  }
-
-  render() {
-    const { $ } = this.context
-    return (
-      <>
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page>
         <ListView
-          style={_.container.plain}
           data={$.friends}
           keyExtractor={keyExtractor}
           scrollToTop
           ListHeaderComponent={<Filter />}
-          renderItem={this.renderItem}
+          renderItem={renderItem}
           onHeaderRefresh={$.refresh}
         />
-        <Heatmap bottom={_.bottom + _.sm} id='好友' screen='Friends' />
-      </>
-    )
-  }
+      </Page>
+      <Heatmap bottom={_.bottom + _.sm} id='好友' screen='Friends' />
+    </>
+  ))
+}
+
+export default ic(Store, Friends)
+
+function renderItem({ item, index }) {
+  return <Item item={item} index={index} />
 }
 
 function keyExtractor(item) {

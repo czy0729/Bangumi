@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 20:26:14
+ * @Last Modified time: 2022-03-16 00:28:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,6 +58,7 @@ function Tab(props, { $ }) {
     <>
       <TabView
         key={_.orientation}
+        style={_.mt._sm}
         sceneContainerStyle={styles.sceneContainerStyle}
         lazy={!IOS}
         lazyPreloadDistance={0}
@@ -100,11 +101,9 @@ const W_TAB_BAR_LEFT = 68 * _.ratio
 const TAB_LENTH = _.device(5, 7)
 const W_TAB = (window.width - W_TAB_BAR_LEFT) / TAB_LENTH
 const W_INDICATOR = 16 * _.ratio
-const TOP_TAB_BAR = _.headerHeight - (IOS ? 18 : 24)
 const memoStyles = _.memoStyles(() => {
   return {
     tabBar: {
-      paddingTop: TOP_TAB_BAR,
       paddingLeft: W_TAB_BAR_LEFT,
       backgroundColor: IOS
         ? 'transparent'
@@ -136,7 +135,7 @@ const memoStyles = _.memoStyles(() => {
     tabBarLeft: {
       position: 'absolute',
       zIndex: 3,
-      top: TOP_TAB_BAR + 2,
+      top: _.headerHeight - _.sm + 2,
       left: 0
     },
     blurView: {

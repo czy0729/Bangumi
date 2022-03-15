@@ -21,11 +21,7 @@ function Header(props, { navigation }) {
   return (
     <LogoHeader
       left={
-        <IconNotify
-          style={[styles.icon, _.ml.xs]}
-          navigation={navigation}
-          event={event}
-        >
+        <IconNotify style={styles.icon} navigation={navigation} event={event}>
           <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />
           <Heatmap right={-92} id='其他.切换主题' transparent />
         </IconNotify>
@@ -68,6 +64,7 @@ export default obc(Header)
 const styles = _.create({
   icon: {
     marginBottom: 0,
+    marginLeft: _.xs,
     borderRadius: 40,
     overflow: 'hidden'
   }

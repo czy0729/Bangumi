@@ -2,70 +2,37 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 05:42:29
+ * @Last Modified time: 2022-03-15 23:29:55
  */
 import React from 'react'
-import { UM } from '@components'
-import {
-  SafeAreaView,
-  StatusBarEvents,
-  NavigationBarEvents,
-  IconTabBar
-} from '@screens/_'
-import { _ } from '@stores'
-import { runAfter } from '@utils'
-import { inject, obc } from '@utils/decorators'
+import { Page, UM } from '@components'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import { StatusBarEvents, NavigationBarEvents } from '@screens/_'
 import { hm } from '@utils/fetch'
 import Header from './header'
 import Tab from './tab'
 import Heatmaps from './heapmaps'
 import Store from './store'
 
-const title = '超展开'
+const Rakuen = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
+    hm('rakuen', 'Rakuen')
+  })
 
-export default
-@inject(Store)
-@obc
-class Rakuen extends React.Component {
-  static navigationOptions = {
-    header: null,
-    tabBarIcon: ({ tintColor }) => (
-      <IconTabBar name='md-chat-bubble-outline' size={19} color={tintColor} />
-    ),
-    tabBarLabel: title
-  }
-
-  componentDidMount() {
-    const { $ } = this.context
-    runAfter(() => {
-      $.init()
-      hm('rakuen', 'Rakuen')
-    })
-  }
-
-  UNSAFE_componentWillReceiveProps({ isFocused }) {
-    const { $ } = this.context
-    $.setState({
-      isFocused
-    })
-  }
-
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.state
-    return (
-      <SafeAreaView style={_.container.plain}>
-        <StatusBarEvents backgroundColor='transparent' />
-        <NavigationBarEvents />
-        {_loaded && (
-          <>
-            <Header />
-            <Tab />
-            <UM screen={title} />
-            <Heatmaps />
-          </>
-        )}
-      </SafeAreaView>
-    )
-  }
+  return useObserver(() => (
+    <>
+      <Page>
+        <Header />
+        {$.state._loaded && <Tab />}
+      </Page>
+      <StatusBarEvents backgroundColor='transparent' />
+      <NavigationBarEvents />
+      <UM screen='超展开' />
+      <Heatmaps />
+    </>
+  ))
 }
+
+export default ic(Store, Rakuen)

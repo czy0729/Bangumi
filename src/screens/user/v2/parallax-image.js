@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 17:43:06
+ * @Last Modified time: 2022-03-16 01:38:05
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -431,7 +431,7 @@ const styles = _.create({
     ..._.header.right,
     zIndex: 1,
     marginTop: IOS ? -8 : -4,
-    marginRight: _.device(38, 52),
+    marginRight: _.device(40, 54),
     opacity: 0.8
   },
   setting: {

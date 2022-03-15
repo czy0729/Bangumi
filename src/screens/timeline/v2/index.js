@@ -2,71 +2,37 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 05:42:04
+ * @Last Modified time: 2022-03-16 00:26:34
  */
 import React from 'react'
-import { UM } from '@components'
-import {
-  SafeAreaView,
-  StatusBarEvents,
-  NavigationBarEvents,
-  IconTabBar
-} from '@screens/_'
-import { _ } from '@stores'
-import { runAfter } from '@utils'
-import { inject, obc } from '@utils/decorators'
+import { Page, UM } from '@components'
+import { StatusBarEvents, NavigationBarEvents } from '@_'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
 import { hm } from '@utils/fetch'
-import { IOS } from '@constants'
 import Header from './header'
 import Tab from './tab'
 import Heatmaps from './heatmaps'
 import Store from './store'
 
-const title = '时间胶囊'
+const Timeline = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
+    hm('timeline', 'Timeline')
+  })
 
-export default
-@inject(Store)
-@obc
-class Timeline extends React.Component {
-  static navigationOptions = {
-    header: null,
-    tabBarIcon: ({ tintColor }) => (
-      <IconTabBar color={tintColor} name='md-access-time' />
-    ),
-    tabBarLabel: title
-  }
-
-  componentDidMount() {
-    runAfter(() => {
-      const { $ } = this.context
-      $.init()
-      hm('timeline', 'Timeline')
-    })
-  }
-
-  UNSAFE_componentWillReceiveProps({ isFocused }) {
-    const { $ } = this.context
-    $.setState({
-      isFocused
-    })
-  }
-
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.state
-    return (
-      <SafeAreaView style={IOS ? _.container.bg : _.container.plain}>
-        <StatusBarEvents backgroundColor='transparent' />
-        <NavigationBarEvents />
-        {_loaded && (
-          <>
-            <UM screen={title} />
-            <Header />
-            <Tab />
-            <Heatmaps />
-          </>
-        )}
-      </SafeAreaView>
-    )
-  }
+  return useObserver(() => (
+    <>
+      <Page>
+        <Header />
+        {$.state._loaded && <Tab />}
+      </Page>
+      <StatusBarEvents backgroundColor='transparent' />
+      <NavigationBarEvents />
+      <UM screen='时间胶囊' />
+      <Heatmaps />
+    </>
+  ))
 }
+
+export default ic(Store, Timeline)

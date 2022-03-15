@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 18:02:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:48:55
+ * @Last Modified time: 2022-03-16 02:21:54
  */
 import React, { useRef, useEffect } from 'react'
 import { useObserver } from 'mobx-react-lite'
@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { navigationReference } from '@utils'
 import { useMount } from '@utils/hooks'
 
+const enabledLimit = 5
 let enabled = false
 
 export const NavigationContainer = ({ children }) => {
@@ -20,14 +21,14 @@ export const NavigationContainer = ({ children }) => {
   useEffect(() => {
     const unsubscribe = navigationRef.current?.addListener('state', e => {
       /**
-       * 当页码少于5页时, 不启用 react-native-screens, 这样切页动画会流畅非常多
+       * 当页码少于 enabledLimit 页时, 不启用 react-native-screens, 这样切页动画会流畅非常多
        * 当大于5页时, 为了节省重叠页面的内存占用, 重新启动
        */
       const { index } = e.data.state
-      if (!enabled && index > 4) {
+      if (!enabled && index > enabledLimit) {
         enabled = true
         enableScreens(enabled)
-      } else if (enabled && index <= 4) {
+      } else if (enabled && index <= enabledLimit) {
         enabled = false
         enableScreens(enabled)
       }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 19:17:02
+ * @Last Modified time: 2022-03-16 00:49:53
  */
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
@@ -11,6 +11,8 @@ import * as Screens from '@screens'
 import { urlStringify } from '@utils'
 import navigationsParams from '@/config'
 import TabBar from './tab-bar'
+
+export const SCREENS_TOTAL = Object.keys(Screens).length
 
 const defaultScreenOptions = {
   headerShown: false,

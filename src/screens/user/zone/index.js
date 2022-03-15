@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 01:56:44
+ * @Last Modified time: 2022-03-16 02:19:08
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -23,10 +23,6 @@ export default
 @inject(Store)
 @obc
 class Zone extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
-
   async componentDidMount() {
     const { $ } = this.context
     await $.init()

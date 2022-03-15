@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-05 18:40:55
+ * @Last Modified time: 2022-03-15 21:32:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ function Top(props, { $, navigation }) {
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
-      <View style={_.container.inner}>
+      <View style={styles.container}>
         <Text type='title' size={20} bold>
           {$.title}
           {!!$.time && (
@@ -98,6 +98,10 @@ function Top(props, { $, navigation }) {
 export default obc(Top)
 
 const styles = _.create({
+  container: {
+    paddingVertical: _.sm,
+    paddingHorizontal: _.wind
+  },
   groupWrap: {
     height: 32
   },

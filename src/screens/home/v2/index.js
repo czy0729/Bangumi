@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 18:54:18
+ * @Last Modified time: 2022-03-15 23:29:06
  */
 import React from 'react'
 import { Page } from '@components'
@@ -37,15 +37,13 @@ const Home = (props, { $, navigation }) => {
     <>
       <Page style={IOS ? _.container.bg : _.container.plain}>
         {$.isLogin ? (
-          $.state._loaded && (
-            <>
-              <Header />
-              <Tab length={$.tabs.length} />
-              <UM screen='首页' />
-              <Modal />
-              <KeyboardAdjustPanResize />
-            </>
-          )
+          <>
+            <Header />
+            {$.state._loaded && <Tab length={$.tabs.length} />}
+            <UM screen='首页' />
+            <Modal />
+            <KeyboardAdjustPanResize />
+          </>
         ) : (
           <Auth />
         )}

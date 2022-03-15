@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 23:38:45
+ * @Last Modified time: 2022-03-15 21:37:12
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -704,8 +704,9 @@ const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.wind
   },
   textarea: {
-    paddingVertical: _.sm,
+    paddingTop: 12,
     paddingHorizontal: 0,
+    paddingBottom: 8,
     marginBottom: -_.hairlineWidth,
     color: _.colorDesc,
     fontSize: 14 + _.fontSizeAdjust,
@@ -720,7 +721,7 @@ const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
   touchSend: {
-    marginTop: _.ios(8, -1),
+    marginTop: _.ios(8, 4),
     marginLeft: _.sm,
     marginRight: -4,
     borderRadius: 20,

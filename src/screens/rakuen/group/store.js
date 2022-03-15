@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:57:27
+ * @Last Modified time: 2022-03-15 22:14:16
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -13,13 +13,9 @@ import { info, feedback } from '@utils/ui'
 import { HOST } from '@constants'
 
 const namespace = 'ScreenGroup'
-const excludeState = {
-  showHeaderTitle: false
-}
 
 export default class ScreenGroup extends store {
   state = observable({
-    ...excludeState,
     page: 1,
     show: true,
     ipt: '1',
@@ -31,7 +27,6 @@ export default class ScreenGroup extends store {
     const state = await this.getStorage(undefined, this.key)
     this.setState({
       ...state,
-      ...excludeState,
       _loaded: true
     })
 
@@ -150,12 +145,6 @@ export default class ScreenGroup extends store {
 
   onItemPress = (topicId, replies) => {
     rakuenStore.updateTopicReaded(topicId, replies)
-  }
-
-  updateShowHeaderTitle = showHeaderTitle => {
-    this.setState({
-      showHeaderTitle
-    })
   }
 
   // -------------------- action --------------------

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-03 10:29:54
+ * @Last Modified time: 2022-03-15 23:01:01
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import store from '@utils/store'
+import { HTML_REVIEWS } from '@constants/html'
 
 const namespace = 'ScreenBoard'
 
@@ -44,6 +45,10 @@ export default class ScreenBoard extends store {
 
   @computed get reviews() {
     return rakuenStore.reviews(this.subjectId)
+  }
+
+  @computed get url() {
+    return HTML_REVIEWS(this.subjectId)
   }
 
   /**

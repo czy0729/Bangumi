@@ -2,58 +2,45 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:32:25
+ * @Last Modified time: 2022-03-15 22:51:30
  */
 import React from 'react'
-import { ListView, Loading } from '@components'
-import { SectionHeader } from '@screens/_'
+import { ListView } from '@components'
+import { SectionHeader } from '@_'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import IconFavor from './icon-favor'
+import { Page } from '@components'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
 import Item from './item'
 import Store from './store'
 
-const title = '本地帖子'
+const RakuenHistory = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
+  })
 
-export default
-@inject(Store)
-@withHeader({
-  title: () => '收藏',
-  screen: title,
-  hm: ['rakuen/history', 'RakuenHistory']
-})
-@obc
-class RakuenHistory extends React.Component {
-  async componentDidMount() {
-    const { $, navigation } = this.context
-    await $.init()
-
-    navigation.setParams({
-      title: '收藏',
-      extra: <IconFavor $={$} />
-    })
-  }
-
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.state
-    if (!_loaded) {
-      return <Loading style={_.container.screen} />
-    }
-
+  return useObserver(() => {
     return (
-      <ListView
-        key={$.sections.length}
-        style={_.container.screen}
-        keyExtractor={keyExtractor}
-        sections={$.sections}
-        scrollToTop
-        renderSectionHeader={renderSectionHeader}
-        renderItem={renderItem}
-      />
+      <>
+        <Header />
+        <Page loaded={$.state._loaded}>
+          <ListView
+            key={$.sections.length}
+            style={_.container.screen}
+            keyExtractor={keyExtractor}
+            sections={$.sections}
+            scrollToTop
+            renderSectionHeader={renderSectionHeader}
+            renderItem={renderItem}
+          />
+        </Page>
+      </>
     )
-  }
+  })
 }
+
+export default ic(Store, RakuenHistory)
 
 function keyExtractor(item) {
   return String(item.topicId)

@@ -2,41 +2,31 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:34:34
+ * @Last Modified time: 2022-03-16 01:05:24
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Heatmap } from '@components'
+import { Page, Heatmap } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
 import Tabs from './tabs'
 import Store from './store'
 
-const title = '用户目录'
-
-export default
-@inject(Store)
-@withHeader({
-  screen: title
-})
-@obc
-class Catelogs extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context
+const Catelogs = (props, { $ }) => {
+  useRunAfter(() => {
     $.init()
+  })
 
-    hm(`user/${$.userId}/index`, 'Catelogs')
-  }
-
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.state
-    return (
-      <View style={_.container.plain}>
-        {!!_loaded && <Tabs />}
-        <Heatmap bottom={_.bottom} id='用户目录' screen='Catelogs' />
-      </View>
-    )
-  }
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page loaded={$.state._loaded}>
+        <Tabs />
+      </Page>
+      <Heatmap bottom={_.bottom} id='用户目录' screen='Catelogs' />
+    </>
+  ))
 }
+
+export default ic(Store, Catelogs)

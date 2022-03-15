@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 05:24:29
+ * @Last Modified time: 2022-03-16 01:09:38
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { StatusBarEvents, UM } from '@components'
-import { KeyboardAdjustPanResize, IconTabBar, Login } from '@screens/_'
+import { KeyboardAdjustPanResize, Login } from '@screens/_'
 import { _, userStore } from '@stores'
 import { runAfter } from '@utils'
 import { inject, obc } from '@utils/decorators'
@@ -26,14 +26,6 @@ export default
 @inject(Store)
 @obc
 class User extends React.Component {
-  static navigationOptions = {
-    header: null,
-    tabBarIcon: ({ tintColor }) => (
-      <IconTabBar name='md-person-outline' size={24} color={tintColor} />
-    ),
-    tabBarLabel: title
-  }
-
   state = {
     fixed: false // 头部是否置顶
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 01:49:14
+ * @Last Modified time: 2022-03-16 00:50:45
  */
 import React from 'react'
 import { Header, ScrollView, Flex, Text, Image } from '@components'
@@ -24,6 +24,13 @@ const Qiafan = () => {
       >
         <Text lineHeight={16}>
           　　自19年2月依赖项目已持续开发快两年。最初仅是为练手而建立，也是第一次做app，后来发现很有趣便一直开发至今。回头一算，发电时间也许已经超过1万小时。
+        </Text>
+        <Text style={_.mt.sm} lineHeight={16}>
+          　　目前APP内不同页面的数量为
+          <Text type='main' bold>
+            96
+          </Text>
+          种。
         </Text>
         <Text style={_.mt.sm} lineHeight={16}>
           　　最近狠下心把底层框架艰难地升级了，流畅性应该比4.0之前的版本有肉眼可见的提升。

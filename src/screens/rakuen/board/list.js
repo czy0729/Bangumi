@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 17:01:07
+ * @Last Modified time: 2022-03-15 21:45:02
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Mesume, Heatmap } from '@components'
+import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { appNavigate, correctAgo } from '@utils/app'
@@ -15,7 +15,7 @@ import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 
-function List({ style }, { $, navigation }) {
+function List(props, { $, navigation }) {
   const styles = memoStyles()
   const { list, _loaded } = $.board
   if (_loaded && !list.length) {
@@ -30,7 +30,7 @@ function List({ style }, { $, navigation }) {
   }
 
   return (
-    <View style={style}>
+    <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
       {list.map(({ title, href, replies, time, userName }, index) => {
         const topicId = href.replace('/subject/topic/', 'subject/')
         const readed = $.readed(topicId)
@@ -91,7 +91,7 @@ function List({ style }, { $, navigation }) {
           </Touchable>
         )
       })}
-    </View>
+    </ScrollView>
   )
 }
 

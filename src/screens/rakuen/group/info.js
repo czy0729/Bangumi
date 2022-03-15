@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:10:19
+ * @Last Modified time: 2022-03-15 22:20:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,14 +18,13 @@ import {
 } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
 
 function Info(props, { $ }) {
   const { _title } = $.params
   const { title, content, create, _loaded } = $.groupInfo
   return (
     <View style={[styles.container, _.container.inner]}>
-      {!IOS && <HeaderPlaceholder />}
+      <HeaderPlaceholder />
       <Text size={20} bold>
         {title || _title}
       </Text>

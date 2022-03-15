@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-07 10:24:24
+ * @Last Modified time: 2022-03-15 21:40:39
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import store from '@utils/store'
+import { HTML_BOARD } from '@constants/html'
 
 const namespace = 'ScreenBoard'
 
@@ -46,6 +47,10 @@ export default class ScreenBoard extends store {
     return rakuenStore.board(this.subjectId)
   }
 
+  @computed get url() {
+    return HTML_BOARD(this.subjectId)
+  }
+
   /**
    * 帖子历史查看记录
    */
@@ -54,6 +59,5 @@ export default class ScreenBoard extends store {
   }
 
   // -------------------- page --------------------
-  onItemPress = (topicId, replies) =>
-    rakuenStore.updateTopicReaded(topicId, replies)
+  onItemPress = (topicId, replies) => rakuenStore.updateTopicReaded(topicId, replies)
 }

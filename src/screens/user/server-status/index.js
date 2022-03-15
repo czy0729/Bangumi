@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-19 14:49:00
+ * @Last Modified time: 2022-03-16 01:57:54
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, Flex, Text, Button, Activity, Heatmap } from '@components'
+import { Header, ScrollView, Flex, Text, Button, Activity, Heatmap } from '@components'
 import { _ } from '@stores'
-import { withHeader, ob } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t, ping } from '@utils/fetch'
 import {
   HOST_MANGA,
@@ -21,7 +21,6 @@ import { API_CALENDAR } from '@constants/api'
 import { CDN_ONAIR, CDN_DISCOVERY_HOME } from '@constants/cdn'
 import { SITE_AGEFANS, SITE_XUNBO, SITE_77MH, SITE_COMIC123 } from '@constants/site'
 
-const title = '网络探针'
 const pingCount = 4
 const initList = () => [
   {
@@ -173,10 +172,6 @@ const initList = () => [
 ]
 
 export default
-@withHeader({
-  screen: title,
-  hm: ['server-status', 'ServerStatus']
-})
 @ob
 class ServerStatus extends React.Component {
   state = {
@@ -286,6 +281,7 @@ class ServerStatus extends React.Component {
       '绿色 < 150ms，黄色 < 1000ms，红色 (或超时) > 1000ms (5000ms)\n若必要服务为红色则严重影响App的正常使用'
     return (
       <>
+        <Header title='网络探针' hm={['server-status', 'ServerStatus']} />
         <ScrollView
           style={_.container.plain}
           contentContainerStyle={this.styles.contentContainerStyle}

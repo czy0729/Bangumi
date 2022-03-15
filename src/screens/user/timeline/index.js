@@ -2,82 +2,46 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 08:00:49
+ * @Last Modified time: 2022-03-16 02:05:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ListView } from '@components'
-import { IconTouchable } from '@screens/_'
-import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { info } from '@utils/ui'
+import { Page, ListView } from '@components'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
 import MosaicTile from './mosaic-tile'
 import List from './list'
 import Store from './store'
 
-const title = '时间线'
-
-export default
-@inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['user/timeline', 'UserTimeline']
-})
-@obc
-class UserTimeline extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
+const UserTimeline = (props, { $ }) => {
+  useRunAfter(() => {
     $.init()
+  })
 
-    const { userName } = $.params
-    if (userName) {
-      navigation.setParams({
-        title: `${userName}的${title}`,
-        extra: (
-          <IconTouchable
-            style={_.mr._right}
-            name='md-info-outline'
-            onPress={this.onInformation}
-          />
-        )
-      })
-    } else {
-      navigation.setParams({
-        extra: (
-          <IconTouchable
-            style={_.mr._right}
-            name='md-info-outline'
-            onPress={this.onInformation}
-          />
-        )
-      })
-    }
-  }
-
-  onInformation = () => info('进度瓷砖会有延迟, 若无数据可过段时间再来')
-
-  renderItem = () => <View />
-
-  render() {
-    const { $ } = this.context
-    return (
-      <ListView
-        style={_.container.plain}
-        data={$.timeline}
-        scrollToTop
-        ListHeaderComponent={
-          <>
-            <MosaicTile />
-            <List />
-          </>
-        }
-        renderItem={this.renderItem}
-        onHeaderRefresh={async () => {
-          await $.fetchMosaicTile()
-          return $.fetchTimeline(true)
-        }}
-        onFooterRefresh={$.fetchTimeline}
-      />
-    )
-  }
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page>
+        <ListView
+          data={$.timeline}
+          scrollToTop
+          ListHeaderComponent={
+            <>
+              <MosaicTile />
+              <List />
+            </>
+          }
+          renderItem={() => <View />}
+          onHeaderRefresh={async () => {
+            await $.fetchMosaicTile()
+            return $.fetchTimeline(true)
+          }}
+          onFooterRefresh={$.fetchTimeline}
+        />
+      </Page>
+    </>
+  ))
 }
+
+export default ic(Store, UserTimeline)

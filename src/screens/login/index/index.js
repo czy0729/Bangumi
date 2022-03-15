@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:52:39
+ * @Last Modified time: 2022-03-15 21:13:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,10 +38,6 @@ const uri = `${URL_OAUTH}?${urlStringify({
 export default
 @ob
 class Login extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
-
   state = {
     clicked: false,
     refreshed: false

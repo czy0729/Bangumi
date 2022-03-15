@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:02:50
+ * @Last Modified time: 2022-03-16 01:35:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Input } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-
-const H_FILTER = 36 + 2 * _.md
 
 class Filter extends React.Component {
   render() {
@@ -41,8 +39,8 @@ export default obc(Filter)
 
 const memoStyles = _.memoStyles(() => ({
   filter: {
-    height: H_FILTER,
-    paddingVertical: _.md,
+    height: 64,
+    paddingVertical: 12,
     paddingHorizontal: _.wind,
     backgroundColor: _.colorBg
   },

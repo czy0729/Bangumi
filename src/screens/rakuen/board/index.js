@@ -2,46 +2,29 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:08:13
+ * @Last Modified time: 2022-03-15 21:45:03
  */
 import React from 'react'
-import { Loading, ScrollView } from '@components'
-import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { Page } from '@components'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
 import List from './list'
 import Store from './store'
 
-const title = '讨论版'
+const Board = (props, { $ }) => {
+  useRunAfter(() => {
+    $.init()
+  })
 
-export default
-@inject(Store)
-@withHeader({
-  title: ({ name } = {}) => (name ? `${name}的${title}` : title),
-  screen: title
-})
-@obc
-class Board extends React.Component {
-  async componentDidMount() {
-    const { $ } = this.context
-    await $.init()
-
-    hm(`subject/${$.subjectId}/board`, 'Board')
-  }
-
-  render() {
-    const { $ } = this.context
-    const { _loaded } = $.board
-    if (!_loaded) return <Loading style={_.container.plain} />
-
-    return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={_.container.bottom}
-        scrollToTop
-      >
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page loaded={$.board._loaded}>
         <List />
-      </ScrollView>
-    )
-  }
+      </Page>
+    </>
+  ))
 }
+
+export default ic(Store, Board)
