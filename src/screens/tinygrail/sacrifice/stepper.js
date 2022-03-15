@@ -46,7 +46,7 @@ function Stepper({ style }, { $ }) {
 
 export default obc(Stepper)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   input: {
     height: 34,
     color: _.colorTinygrailPlain,

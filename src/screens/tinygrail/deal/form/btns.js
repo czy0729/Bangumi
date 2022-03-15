@@ -51,7 +51,7 @@ function Btns(props, { $ }) {
 
 export default obc(Btns)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   btn: {
     padding: 8,
     marginBottom: 8,

@@ -40,7 +40,7 @@ export default ob(Chart, {
   onPress: Function.prototype
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 19:31:44
+ * @Last Modified time: 2022-03-16 06:18:43
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
 import { computed } from 'mobx'
 import { Flex, Text, Button, Iconfont } from '@components'
 import Modal from '@components/@/ant-design/modal'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _, tinygrailStore } from '@stores'
 import {
   toFixed,
@@ -1078,7 +1078,7 @@ class CharactersModal extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   modal: {
     width: (_.window.width - 2 * _.wind) * _.ratio,
     maxWidth: 400 * _.ratio,

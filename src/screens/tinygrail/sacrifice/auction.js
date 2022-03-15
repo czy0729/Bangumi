@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-14 06:15:08
+ * @Last Modified time: 2022-03-16 06:31:38
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Text, Button, Slider as CompSlider, Iconfont } from '@components'
-import { IconTouchable, Popover } from '@screens/_'
+import { IconTouchable, Popover } from '@_'
 import { _ } from '@stores'
 import { formatNumber, lastDate, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
@@ -25,7 +25,7 @@ function Auction({ style }, { $ }) {
   return (
     <View style={[styles.container, style]}>
       <Flex>
-        <Flex.Item flex={1.5}>
+        <Flex.Item flex={1.2}>
           <Text type='tinygrailPlain' size={13}>
             竞拍
             {showAuction && (
@@ -37,7 +37,7 @@ function Auction({ style }, { $ }) {
           </Text>
         </Flex.Item>
         {showAuction && (
-          <Flex.Item style={_.ml.sm}>
+          <Flex.Item>
             <Text type='tinygrailText' size={11}>
               数量 ({amount ? formatNumber(amount, 0) : '-'}股)
             </Text>
@@ -58,7 +58,7 @@ function Auction({ style }, { $ }) {
                 <Stepper />
               </View>
             </Flex.Item>
-            <Flex.Item style={_.ml.sm}>
+            <Flex.Item style={_.ml.md}>
               <Flex style={styles.inputWrap}>
                 <Input
                   style={styles.input}
@@ -82,7 +82,7 @@ function Auction({ style }, { $ }) {
                 </View>
               </Flex>
             </Flex.Item>
-            <View style={[styles.btnSubmit, _.ml.sm]}>
+            <View style={[styles.btnSubmit, _.ml.md]}>
               <Button
                 style={styles.btnAuction}
                 type='bid'
@@ -144,7 +144,7 @@ function Auction({ style }, { $ }) {
 
 export default obc(Auction)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.sm,
     paddingHorizontal: _.wind,

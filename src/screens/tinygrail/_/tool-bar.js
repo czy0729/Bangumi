@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:43
+ * @Last Modified time: 2022-03-16 03:14:01
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Flex, Touchable, Text, Iconfont } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 function ToolBar({
+  style,
   data = [],
   sort,
   level,
@@ -28,7 +29,7 @@ function ToolBar({
     ...Object.keys(levelMap).map(level => `lv${level} (${levelMap[level]})`)
   ]
   return (
-    <Flex style={styles.container}>
+    <Flex style={[styles.container, style]}>
       {renderLeft}
       <Popover
         data={levelDS}

@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { Avatar, IconHeader, IconTouchable } from '@screens/_'
+import { Avatar, IconHeader, IconTouchable } from '@_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
@@ -132,7 +132,7 @@ export default obc(Header, {
   goBack: Function.prototype
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     zIndex: 1,
     paddingTop: _.space,

@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, UserStatus, Touchable, Iconfont } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { formatNumber, toFixed, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
@@ -93,7 +93,7 @@ function Users({ style }, { $, navigation }) {
 
 export default obc(Users)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingVertical: _.sm,
     width: _.isLandscape ? '33%' : '50%'

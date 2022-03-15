@@ -103,7 +103,7 @@ function AuctionList({ style }, { $ }) {
 
 export default obc(AuctionList)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind

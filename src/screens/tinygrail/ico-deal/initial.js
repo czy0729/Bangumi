@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Text, Flex } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { tinygrailOSS } from '@utils/app'
 import { obc } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
@@ -65,7 +65,7 @@ function Initial({ style }, { $, navigation }) {
 
 export default obc(Initial)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingHorizontal: _.wind,
     paddingBottom: _.bottom

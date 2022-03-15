@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
@@ -41,7 +41,7 @@ function ItemBottom({ src, name, level, change, type, onPress }) {
 
 export default ob(ItemBottom)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   avatar: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }

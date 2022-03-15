@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:14:43
+ * @Last Modified time: 2022-03-16 06:14:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ function Slider({ style }, { $ }) {
             />
           </View>
         </Flex.Item>
-        <View style={[styles.btnSubmit, _.ml.sm]}>
+        <View style={[styles.btnSubmit, _.ml.md]}>
           <Button
             style={{
               height: 36
@@ -71,7 +71,7 @@ function Slider({ style }, { $ }) {
 
 export default obc(Slider)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind,

@@ -2,28 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:37:53
+ * @Last Modified time: 2022-03-16 02:55:51
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Header, Page } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { withHeaderParams } from '@tinygrail/styles'
+import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Tabs from '@tinygrail/_/tabs-v2'
 import List from './list'
 import Store from './store'
 import { tabs } from './ds'
 
-const title = 'ICO榜单'
-
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['tinygrail/ico', 'TinygrailICO'],
-  withHeaderParams
-})
 @obc
 class TinygrailICO extends React.Component {
   componentDidMount() {
@@ -35,15 +27,21 @@ class TinygrailICO extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.tinygrail}>
+      <>
         <StatusBarEvents />
-        {!!_loaded && (
+        <Header
+          title='ICO榜单'
+          hm={['tinygrail/ico', 'TinygrailICO']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+        />
+        <Page style={_.container.tinygrail} loaded={_loaded}>
           <Tabs
             routes={tabs}
             renderItem={item => <List key={item.key} id={item.key} />}
           />
-        )}
-      </View>
+        </Page>
+      </>
     )
   }
 }

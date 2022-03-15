@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 14:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:17:55
+ * @Last Modified time: 2022-03-16 05:24:49
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -31,7 +31,8 @@ export default obc(Label)
 
 const styles = _.create({
   segment: {
-    width: 80 * _.ratio,
-    height: 22 * _.ratio
+    width: _.r(80),
+    height: _.r(22),
+    marginRight: _.xs
   }
 })

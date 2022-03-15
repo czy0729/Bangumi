@@ -148,7 +148,7 @@ function DepthList({ style }, { $ }) {
 
 export default obc(DepthList)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.sm
   },

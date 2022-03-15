@@ -7,7 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { StatusBarEvents as CompStatusBarEvents } from '@components'
-import { NavigationBarEvents } from '@screens/_'
+import { NavigationBarEvents } from '@_'
 import { _ } from '@stores'
 import WebViewEvents from './web-view-events'
 

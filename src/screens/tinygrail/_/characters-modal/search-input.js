@@ -53,7 +53,7 @@ function SearchInput({
 
 export default ob(SearchInput)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   wrap: {
     paddingLeft: 8,
     borderColor: _.colorTinygrailBorder,

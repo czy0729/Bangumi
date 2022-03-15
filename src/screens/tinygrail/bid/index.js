@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:36:48
+ * @Last Modified time: 2022-03-16 05:29:05
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
-import { Flex, Text } from '@components'
-import { IconTouchable } from '@screens/_'
+import { Alert } from 'react-native'
+import { Header, Page, Flex, Text } from '@components'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import { withHeaderParams } from '@tinygrail/styles'
+import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Tabs from '@tinygrail/_/tabs-v2'
 import ToolBar from '@tinygrail/_/tool-bar'
@@ -19,48 +17,13 @@ import List from './list'
 import Store from './store'
 import { tabs, sortDS } from './ds'
 
-const title = '我的委托'
-
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  withHeaderParams
-})
 @obc
 class TinygrailBid extends React.Component {
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     $.init()
-
-    const { type = 'bid' } = $.params
-    navigation.setParams({
-      extra: (
-        <IconTouchable
-          style={_.mr._right}
-          name='md-cancel-presentation'
-          color={_.colorTinygrailPlain}
-          onPress={() =>
-            Alert.alert(
-              '小圣杯助手',
-              `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
-              [
-                {
-                  text: '取消',
-                  style: 'cancel'
-                },
-                {
-                  text: '确定',
-                  onPress: () => $.onBatchCancel()
-                }
-              ]
-            )
-          }
-        />
-      )
-    })
-
-    hm(`tinygrail/${type}`, 'TinygrailBid')
   }
 
   getCount = route => {
@@ -71,9 +34,7 @@ class TinygrailBid extends React.Component {
         return $.list(route.key)?.list?.length || 0
 
       case 'auction':
-        return (
-          $.list(route.key)?.list.filter(item => item.state === 0).length || 0
-        )
+        return $.list(route.key)?.list.filter(item => item.state === 0).length || 0
 
       default:
         return 0
@@ -98,11 +59,44 @@ class TinygrailBid extends React.Component {
 
   render() {
     const { $ } = this.context
+    const { type = 'bid' } = $.params
     const { _loaded } = $.state
     return (
-      <View style={_.container.tinygrail}>
+      <>
         <StatusBarEvents />
-        {!!_loaded && (
+        <Header
+          title='我的委托'
+          hm={[`tinygrail/${type}`, 'TinygrailBid']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+          headerRight={() => (
+            <IconTouchable
+              name='md-cancel-presentation'
+              color={_.colorTinygrailPlain}
+              onPress={() =>
+                Alert.alert(
+                  '小圣杯助手',
+                  `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
+                  [
+                    {
+                      text: '取消',
+                      style: 'cancel'
+                    },
+                    {
+                      text: '确定',
+                      onPress: () => $.onBatchCancel()
+                    }
+                  ]
+                )
+              }
+            />
+          )}
+        />
+        <Page
+          style={_.container.tinygrail}
+          loaded={_loaded}
+          loadingColor={_.colorTinygrailText}
+        >
           <Tabs
             routes={tabs}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
@@ -121,8 +115,8 @@ class TinygrailBid extends React.Component {
               </Flex>
             )}
           />
-        )}
-      </View>
+        </Page>
+      </>
     )
   }
 }

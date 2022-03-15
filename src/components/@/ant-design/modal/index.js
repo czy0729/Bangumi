@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 13:31:39
+ * @Last Modified time: 2022-03-16 06:19:20
  */
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
@@ -124,7 +124,6 @@ class AntmModal extends React.Component {
               }
               return (
                 <TouchableHighlight
-                  // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   style={horizontalFlex}
                   underlayColor='#ddd'

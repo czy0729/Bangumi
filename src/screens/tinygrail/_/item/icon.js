@@ -5,7 +5,7 @@
  * @Last Modified time: 2021-12-31 16:03:20
  */
 import React from 'react'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _, tinygrailStore } from '@stores'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'

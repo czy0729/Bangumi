@@ -28,7 +28,7 @@ function Bar({ style }) {
 
 export default ob(Bar)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   bar: {
     paddingVertical: _.sm,
     paddingLeft: 2,

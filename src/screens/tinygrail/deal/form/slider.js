@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:12:04
+ * @Last Modified time: 2022-03-16 06:10:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -89,7 +89,7 @@ function Slider({ style }, { $ }) {
 
 export default obc(Slider)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   inputWrap: {
     paddingLeft: 4,
     borderColor: _.colorTinygrailBorder,
@@ -114,6 +114,7 @@ const memoStyles = _.memoStyles(_ => ({
   slider: {
     height: 40,
     marginTop: _.sm,
+    marginLeft: _.ios(0, -10),
     opacity: 0.8
   },
   sliderWrap: {

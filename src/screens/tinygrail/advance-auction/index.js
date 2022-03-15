@@ -2,78 +2,76 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 06:37:59
+ * @Last Modified time: 2022-03-16 05:47:56
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
-import { IconHeader } from '@screens/_'
+import { Alert } from 'react-native'
+import { Header, Page } from '@components'
+import { IconHeader } from '@_'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { withHeaderParams } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store, { sortDS } from './store'
 
-const title = '拍卖推荐'
-
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['tinygrail/advance-auction', 'TinygrailAdvanceAuction'],
-  withHeaderParams
-})
 @obc
 class TinygrailAdvanceAuction extends React.Component {
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     $.init()
-
-    navigation.setParams({
-      extra: (
-        <IconHeader
-          style={_.mr._right}
-          name='md-info-outline'
-          color={_.colorTinygrailPlain}
-          onPress={() => {
-            t('竞拍推荐.提示', {
-              type: 1
-            })
-
-            Alert.alert(
-              '当前计算方式',
-              '从英灵殿里面查找前 2000 条\n可竞拍数量 > 80, \n实时股息 / 竞拍底价 * 100 = 分数',
-              [
-                {
-                  text: '知道了'
-                }
-              ]
-            )
-          }}
-        />
-      )
-    })
   }
 
   render() {
     const { $ } = this.context
     const { level, sort } = $.state
     return (
-      <View style={this.styles.container}>
+      <>
         <StatusBarEvents />
-        <ToolBar
-          level={level}
-          levelMap={$.levelMap}
-          data={sortDS}
-          sort={sort}
-          direction={sort ? 'down' : undefined}
-          onLevelSelect={$.onLevelSelect}
-          onSortPress={$.onSortPress}
+        <Header
+          title='拍卖推荐'
+          hm={['tinygrail/advance-auction', 'TinygrailAdvanceAuction']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+          headerRight={() => (
+            <IconHeader
+              name='md-info-outline'
+              color={_.colorTinygrailPlain}
+              onPress={() => {
+                t('竞拍推荐.提示', {
+                  type: 1
+                })
+
+                Alert.alert(
+                  '当前计算方式',
+                  '从英灵殿里面查找前 2000 条\n可竞拍数量 > 80, \n实时股息 / 竞拍底价 * 100 = 分数',
+                  [
+                    {
+                      text: '知道了'
+                    }
+                  ]
+                )
+              }}
+            />
+          )}
         />
-        <List />
-      </View>
+        <Page style={this.styles.container}>
+          <StatusBarEvents />
+          <ToolBar
+            level={level}
+            levelMap={$.levelMap}
+            data={sortDS}
+            sort={sort}
+            direction={sort ? 'down' : undefined}
+            onLevelSelect={$.onLevelSelect}
+            onSortPress={$.onSortPress}
+          />
+          <List />
+        </Page>
+      </>
     )
   }
 
@@ -82,7 +80,7 @@ class TinygrailAdvanceAuction extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer

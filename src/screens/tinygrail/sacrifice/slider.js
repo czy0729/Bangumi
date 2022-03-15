@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:51:12
+ * @Last Modified time: 2022-03-16 06:30:13
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -15,7 +15,7 @@ import {
   Switch,
   Touchable
 } from '@components'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { formatNumber, lastDate } from '@utils'
 import { obc } from '@utils/decorators'
@@ -71,7 +71,7 @@ function Slider({ style }, { $ }) {
                 )}
               </View>
             </Flex.Item>
-            <View style={[styles.btnSubmit, _.ml.sm]}>
+            <View style={[styles.btnSubmit, _.ml.md]}>
               <Button
                 style={{
                   height: 36
@@ -183,7 +183,7 @@ function Slider({ style }, { $ }) {
 
 export default obc(Slider)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.sm,
     paddingHorizontal: _.wind,

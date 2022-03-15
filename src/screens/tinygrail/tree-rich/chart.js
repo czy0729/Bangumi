@@ -15,12 +15,7 @@ function Chart({ data, onPress, onLongPress }) {
   return (
     <View style={styles.container}>
       {data.map(item => (
-        <Item
-          key={item.id}
-          {...item}
-          onPress={onPress}
-          onLongPress={onLongPress}
-        />
+        <Item key={item.id} {...item} onPress={onPress} onLongPress={onLongPress} />
       ))}
     </View>
   )
@@ -31,7 +26,7 @@ export default ob(Chart, {
   onPress: Function.prototype
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer

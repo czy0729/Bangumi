@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Alert } from 'react-native'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable } from '@_'
 import { tinygrailStore, _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Popover from '../popover'

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:55:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:39:52
+ * @Last Modified time: 2022-03-16 03:13:44
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Header, Page } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { withHeaderParams } from '@tinygrail/styles'
+import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import IconGo from '@tinygrail/_/icon-go'
@@ -16,24 +15,13 @@ import { sortDS } from '@tinygrail/overview/ds'
 import List from './list'
 import Store from './store'
 
-const title = '英灵殿'
-
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['tinygrail/valhall', 'TinygrailValhall'],
-  withHeaderParams
-})
 @obc
 class TinygrailValhall extends React.Component {
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     $.init()
-
-    navigation.setParams({
-      extra: <IconGo $={$} />
-    })
   }
 
   renderContentHeaderComponent() {
@@ -41,6 +29,7 @@ class TinygrailValhall extends React.Component {
     const { level, sort, direction } = $.state
     return (
       <ToolBar
+        style={_.mt._sm}
         data={sortDS}
         level={level}
         levelMap={$.levelMap}
@@ -53,12 +42,22 @@ class TinygrailValhall extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     return (
-      <View style={_.container.tinygrail}>
+      <>
         <StatusBarEvents />
-        {this.renderContentHeaderComponent()}
-        <List />
-      </View>
+        <Header
+          title='英灵殿'
+          hm={('tinygrail/valhall', 'TinygrailValhall')}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+          headerRight={() => <IconGo $={$} />}
+        />
+        <Page style={_.container.tinygrail}>
+          {this.renderContentHeaderComponent()}
+          <List />
+        </Page>
+      </>
     )
   }
 }

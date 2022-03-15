@@ -49,7 +49,7 @@ function SearchBar(props, { $, navigation }) {
 
 export default obc(SearchBar)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   searchIpt: {
     height: 34,
     paddingHorizontal: _.wind,

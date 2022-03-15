@@ -51,7 +51,7 @@ function History({ style }, { $, navigation }) {
 
 export default obc(History)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingHorizontal: _.wind
   },

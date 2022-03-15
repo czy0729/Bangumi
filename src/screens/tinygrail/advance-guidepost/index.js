@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import { IconHeader } from '@screens/_'
+import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -68,7 +68,7 @@ class TinygrailAdvanceAsk extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer

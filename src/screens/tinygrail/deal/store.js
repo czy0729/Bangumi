@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-14 06:32:53
+ * @Last Modified time: 2022-03-16 05:56:25
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
@@ -129,7 +129,12 @@ export default class ScreenTinygrailDeal extends store {
    */
   doSubmit = () => {
     const { value, amount } = this.state
-    if (!value || !amount) {
+    if (!amount) {
+      info('数量不能0')
+      return
+    }
+
+    if (!value) {
       info('出价有误')
       return
     }

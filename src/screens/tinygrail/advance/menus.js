@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 07:22:14
+ * @Last Modified time: 2022-03-16 05:41:12
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -64,9 +64,8 @@ function Menus({ navigation }) {
 
 export default obc(Menus)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   section: {
-    paddingVertical: _.sm,
     marginLeft: _.wind
   },
   bid: {

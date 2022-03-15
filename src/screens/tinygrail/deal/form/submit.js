@@ -31,7 +31,7 @@ function Submit({ style }, { $ }) {
 
 export default obc(Submit)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   btn: {
     padding: 8,
     marginVertical: 8

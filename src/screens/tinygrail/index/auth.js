@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { IconBack, IconTouchable, Avatar } from '@screens/_'
+import { IconBack, IconTouchable, Avatar } from '@_'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils/app'
 import { obc } from '@utils/decorators'

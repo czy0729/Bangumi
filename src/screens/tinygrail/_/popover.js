@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
-import { Popover as CompPopover } from '@screens/_'
+import { Popover as CompPopover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

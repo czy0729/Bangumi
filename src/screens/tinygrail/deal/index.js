@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:46
+ * @Last Modified time: 2022-03-16 06:08:48
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
-import { Flex, UM } from '@components'
-import { StatusBarPlaceholder } from '@screens/_'
+import { Page, Flex, UM } from '@components'
+import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -25,10 +25,6 @@ export default
 @inject(Store)
 @obc
 class TinygrailDeal extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
-
   state = {
     refreshing: false
   }
@@ -61,7 +57,7 @@ class TinygrailDeal extends React.Component {
   render() {
     const { refreshing } = this.state
     return (
-      <View style={[_.container.flex, this.styles.dark]}>
+      <Page style={[_.container.flex, this.styles.dark]}>
         <UM screen={title} />
         <StatusBarEvents />
         <StatusBarPlaceholder style={this.styles.dark} />
@@ -90,7 +86,7 @@ class TinygrailDeal extends React.Component {
           <Logs />
           <Records />
         </ScrollView>
-      </View>
+      </Page>
     )
   }
 
@@ -108,6 +104,6 @@ const memoStyles = _.memoStyles(() => ({
   },
   depth: {
     width: _.window.contentWidth * 0.44,
-    marginLeft: _.md
+    marginLeft: 18
   }
 }))

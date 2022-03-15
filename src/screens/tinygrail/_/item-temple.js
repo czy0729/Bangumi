@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 18:12:22
+ * @Last Modified time: 2022-03-16 03:24:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Image } from '@components'
 import { _, systemStore } from '@stores'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { formatNumber } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { tinygrailOSS } from '@utils/app'
@@ -37,7 +37,7 @@ function ItemTemple(
   { navigation }
 ) {
   const styles = memoStyles()
-  const { avatarRound } = systemStore.setting
+  const { avatarRound, coverRadius } = systemStore.setting
   const { id: eventId, data: eventData } = event
   const isView = type === 'view' // 后来加的最近圣殿
   const _name = HTMLDecode(nickname || name)
@@ -97,7 +97,7 @@ function ItemTemple(
                 styles.fixed,
                 // eslint-disable-next-line react-native/no-inline-styles
                 {
-                  borderRadius: avatarRound ? 36 : _.radiusSm
+                  borderRadius: avatarRound ? 36 : coverRadius + 2
                 }
               ]}
               justify='center'
@@ -119,7 +119,7 @@ function ItemTemple(
             type='tinygrailPlain'
             size={11}
             bold
-            numberOfLines={1}
+            numberOfLines={2}
             onPress={() => {
               t(eventId, {
                 to: 'TinygrailSacrifice',
@@ -143,7 +143,7 @@ function ItemTemple(
                 styles.fixed,
                 // eslint-disable-next-line react-native/no-inline-styles
                 {
-                  borderRadius: avatarRound ? 36 : _.radiusSm
+                  borderRadius: avatarRound ? 36 : coverRadius + 2
                 }
               ]}
               justify='center'
@@ -162,7 +162,7 @@ function ItemTemple(
           )}
           <Flex style={_.mt.xs}>
             <Rank value={rank} />
-            <Text type='tinygrailPlain' size={11} bold numberOfLines={1}>
+            <Text type='tinygrailPlain' size={11} bold numberOfLines={2}>
               {_name}
             </Text>
           </Flex>

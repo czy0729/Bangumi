@@ -2,30 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:32:42
+ * @Last Modified time: 2022-03-16 03:20:27
  */
 import React from 'react'
-import { View } from 'react-native'
-import { ListView, Loading } from '@components'
+import { Header, Page, ListView } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { withHeaderParams, refreshControlProps } from '@tinygrail/styles'
+import { inject, obc } from '@utils/decorators'
+import { refreshControlProps } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ItemTemple from '@tinygrail/_/item-temple'
 import Store from './store'
 
-const title = '最新圣殿'
 const event = {
   id: '最近圣殿.跳转'
 }
 
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['tinygrail/temples', 'TinygrailTemples'],
-  withHeaderParams
-})
 @obc
 class TinygrailTemples extends React.Component {
   componentDidMount() {
@@ -37,12 +30,22 @@ class TinygrailTemples extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.templeLast
     return (
-      <View style={_.container.tinygrail}>
+      <>
         <StatusBarEvents />
-        {_loaded ? (
+        <Header
+          title='最新圣殿'
+          hm={['tinygrail/temples', 'TinygrailTemples']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+        />
+        <Page
+          style={_.container.tinygrail}
+          loaded={_loaded}
+          loadingColor={_.colorTinygrailText}
+        >
           <ListView
             style={_.container.flex}
-            contentContainerStyle={styles.contentContainerStyle}
+            contentContainerStyle={this.styles.contentContainerStyle}
             keyExtractor={keyExtractor}
             refreshControlProps={refreshControlProps}
             footerTextType='tinygrailText'
@@ -54,20 +57,22 @@ class TinygrailTemples extends React.Component {
             onHeaderRefresh={$.onHeaderRefresh}
             onFooterRefresh={$.fetchTempleLast}
           />
-        ) : (
-          <Loading color={_.colorTinygrailText} />
-        )}
-      </View>
+        </Page>
+      </>
     )
+  }
+
+  get styles() {
+    return memoStyles()
   }
 }
 
-const styles = _.create({
+const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind,
     paddingBottom: _.bottom
   }
-})
+}))
 
 function keyExtractor(item) {
   return `${item.id}|${item.userId}`

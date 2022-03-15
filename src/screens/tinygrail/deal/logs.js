@@ -118,7 +118,7 @@ function Logs({ style }, { $ }) {
 
 export default obc(Logs)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 120,
     paddingVertical: _.md,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-27 11:49:12
+ * @Last Modified time: 2022-03-16 06:14:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -90,10 +90,11 @@ function Info(props, { $, navigation }) {
 
 export default obc(Info)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind
+    paddingTop: _.sm,
+    paddingHorizontal: _.wind,
+    paddingBottom: _.space
   },
   image: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 09:31:47
+ * @Last Modified time: 2022-03-16 05:33:27
  */
 import React from 'react'
-import { Iconfont } from '@components'
-import { Popover, IconTouchable } from '@screens/_'
+import { Flex, Iconfont } from '@components'
+import { Popover, IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -20,14 +20,14 @@ function IconRight({ $ }) {
   const { page, editing, batchAction } = $.state
   if (editing) {
     return (
-      <>
+      <Flex>
         <IconTouchable
+          style={_.mr.xs}
           name='md-close'
           color={_.colorTinygrailPlain}
           onPress={$.toggleBatchEdit}
         />
         <IconTouchable
-          style={_.mr._right}
           name='md-check'
           color={_.colorTinygrailPlain}
           onPress={() => {
@@ -53,13 +53,13 @@ function IconRight({ $ }) {
             }
           }}
         />
-      </>
+      </Flex>
     )
   }
 
   const { title } = tabs[page]
   return (
-    <>
+    <Flex>
       <IconGo $={$} />
       {title !== '圣殿' && (
         <Popover
@@ -73,13 +73,10 @@ function IconRight({ $ }) {
             $.toggleBatchEdit(key)
           }}
         >
-          <Iconfont
-            name='md-menu-open'
-            color={_.colorTinygrailPlain}
-          />
+          <Iconfont name='md-menu-open' color={_.colorTinygrailPlain} />
         </Popover>
       )}
-    </>
+    </Flex>
   )
 }
 
@@ -89,7 +86,6 @@ const styles = _.create({
   icon: {
     padding: _.sm,
     paddingTop: _.sm,
-    paddingLeft: _.xs,
-    marginRight: -_.xs
+    paddingLeft: _.xs
   }
 })

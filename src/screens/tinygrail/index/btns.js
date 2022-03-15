@@ -7,7 +7,7 @@
 import React from 'react'
 import { Alert } from 'react-native'
 import { Button } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'

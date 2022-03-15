@@ -2,38 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:48:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:55:10
+ * @Last Modified time: 2022-03-16 06:24:13
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Header, Page } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { withHeaderParams } from '../styles'
+import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
 import IconGo from '../_/icon-go'
 import List from './list'
 import Store, { sortDS } from './store'
 
-const title = '关联角色'
-
 export default
 @inject(Store)
-@withHeader({
-  title: ({ name } = {}) => name || title,
-  screen: title,
-  hm: ['tinygrail/relation', 'TinygrailRelation'],
-  withHeaderParams
-})
 @obc
 class TinygrailRelation extends React.Component {
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     $.init()
-
-    navigation.setParams({
-      extra: <IconGo $={$} />
-    })
   }
 
   renderContentHeaderComponent() {
@@ -41,6 +28,7 @@ class TinygrailRelation extends React.Component {
     const { level, sort, direction } = $.state
     return (
       <ToolBar
+        style={_.mt._sm}
         data={sortDS}
         level={level}
         sort={sort}
@@ -52,12 +40,23 @@ class TinygrailRelation extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     return (
-      <View style={this.styles.container}>
+      <>
         <StatusBarEvents />
-        {this.renderContentHeaderComponent()}
-        <List />
-      </View>
+        <Header
+          title={$.params?.name || '关联角色'}
+          alias='关联角色'
+          hm={['tinygrail/relation', 'TinygrailRelation']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+          headerRight={() => <IconGo $={$} />}
+        />
+        <Page style={this.styles.container}>
+          {this.renderContentHeaderComponent()}
+          <List />
+        </Page>
+      </>
     )
   }
 
@@ -66,7 +65,7 @@ class TinygrailRelation extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer

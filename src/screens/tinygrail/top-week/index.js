@@ -2,52 +2,29 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 17:39:34
+ * @Last Modified time: 2022-03-16 05:20:07
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, Flex, Text, Touchable } from '@components'
-import { Avatar, IconHeader } from '@screens/_'
+import { Header, Page, ScrollView, Flex, Text, Touchable } from '@components'
+import { Avatar, IconHeader } from '@_'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { M } from '@constants'
-import { withHeaderParams } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Store from './store'
 
-const title = '每周萌王'
-
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['tinygrail/top-week', 'TopWeek'],
-  withHeaderParams
-})
 @obc
 class TinygrailTopWeek extends React.Component {
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     $.init()
-
-    navigation.setParams({
-      extra: (
-        <IconHeader
-          style={_.mr._sm}
-          name='md-refresh'
-          color={_.colorTinygrailPlain}
-          onPress={async () => {
-            t('每周萌王.刷新')
-            await $.fetchTopWeek()
-            info('已刷新')
-          }}
-        />
-      )
-    })
   }
 
   renderItem = (item, index) => {
@@ -91,12 +68,7 @@ class TinygrailTopWeek extends React.Component {
 
     return (
       <View key={item.id} style={this.styles.item}>
-        <Flex
-          style={[
-            this.styles.wrap,
-            index !== 0 && !_.flat && this.styles.border
-          ]}
-        >
+        <Flex style={[this.styles.wrap, index !== 0 && !_.flat && this.styles.border]}>
           <Avatar
             style={this.styles.avatar}
             src={tinygrailOSS(item.avatar)}
@@ -131,12 +103,7 @@ class TinygrailTopWeek extends React.Component {
               <Flex>
                 <Flex.Item>
                   <Flex>
-                    <Text
-                      style={this.styles.rank}
-                      size={12}
-                      bold
-                      align='center'
-                    >
+                    <Text style={this.styles.rank} size={12} bold align='center'>
                       {item.rank}
                     </Text>
                     <Text type='tinygrailPlain' bold>
@@ -152,10 +119,11 @@ class TinygrailTopWeek extends React.Component {
                   </Flex>
                 </Flex.Item>
                 <View style={_.ml.sm}>
-                  <Text type='tinygrailText' size={11} align='right'>
+                  <Text type='tinygrailText' size={11} align='right' bold>
                     <Text size={13} type='tinygrailPlain' bold>
                       +{extraText}
-                    </Text>{' '}
+                    </Text>
+                    {'  '}
                     {item.type}人
                   </Text>
                   <Flex style={_.mt.xs} justify='end'>
@@ -177,12 +145,7 @@ class TinygrailTopWeek extends React.Component {
                       </>
                     )}
                   </Flex>
-                  <Text
-                    style={_.mt.xs}
-                    type='tinygrailText'
-                    size={11}
-                    align='right'
-                  >
+                  <Text style={_.mt.xs} type='tinygrailText' size={11} align='right'>
                     平均拍价：
                     {formatNumber(
                       (item.extra + item.price * item.sacrifices) / item.assets
@@ -201,16 +164,37 @@ class TinygrailTopWeek extends React.Component {
     const { $ } = this.context
     const { list } = $.topWeek
     return (
-      <View style={_.container.tinygrail}>
+      <>
         <StatusBarEvents />
-        <ScrollView
-          style={_.container.flex}
-          contentContainerStyle={_.container.bottom}
-          scrollToTop
-        >
-          {list.map(this.renderItem)}
-        </ScrollView>
-      </View>
+        <Header
+          title='每周萌王'
+          hm={['tinygrail/top-week', 'TopWeek']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+          headerRight={() => (
+            <IconHeader
+              style={_.mr._sm}
+              name='md-refresh'
+              color={_.colorTinygrailPlain}
+              onPress={async () => {
+                t('每周萌王.刷新')
+
+                await $.fetchTopWeek()
+                info('已刷新')
+              }}
+            />
+          )}
+        />
+        <Page style={_.container.tinygrail}>
+          <ScrollView
+            style={_.container.flex}
+            contentContainerStyle={_.container.bottom}
+            scrollToTop
+          >
+            {list.map(this.renderItem)}
+          </ScrollView>
+        </Page>
+      </>
     )
   }
 
@@ -219,7 +203,7 @@ class TinygrailTopWeek extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer

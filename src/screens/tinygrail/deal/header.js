@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:08:28
+ * @Last Modified time: 2022-03-16 06:09:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { Avatar, IconBack, IconTouchable } from '@screens/_'
+import { Avatar, IconBack, IconTouchable } from '@_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
@@ -95,7 +95,7 @@ function Header(props, { $, navigation }) {
                   {fluctuationText}
                 </Text>
               </Flex>
-              <Text style={_.mt.xs} type='tinygrailText' size={12}>
+              <Text style={_.mt.xxs} type='tinygrailText' size={12}>
                 #{$.monoId} / +{toFixed(rate, 1)} (
                 {Number(toFixed(calculateRate(rate, rank, stars), 1))})
               </Text>
@@ -125,7 +125,6 @@ function Header(props, { $, navigation }) {
             }}
           />
           <IconTouchable
-            style={_.ml._xs}
             name='md-waterfall-chart'
             color={_.colorTinygrailPlain}
             onPress={() => {
@@ -148,7 +147,6 @@ function Header(props, { $, navigation }) {
           />
           {!!subject && (
             <IconTouchable
-              style={_.ml._xs}
               name='md-compare-arrows'
               color={_.colorTinygrailPlain}
               onPress={() => {
@@ -167,11 +165,12 @@ function Header(props, { $, navigation }) {
 
 export default obc(Header)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingVertical: _.sm,
-    paddingLeft: _._wind,
-    paddingRight: _.isPad ? _.wind - _._wind : 8
+    paddingRight: _.isPad ? _.wind - _._wind : 8,
+    paddingTop: 12,
+    paddingBottom: _.sm,
+    paddingLeft: _._wind
   },
   back: {
     marginLeft: -8
@@ -183,6 +182,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: _._wind
   },
   avatar: {
+    marginHorizontal: _.xs,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

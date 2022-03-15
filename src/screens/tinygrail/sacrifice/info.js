@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 23:53:57
+ * @Last Modified time: 2022-03-16 06:29:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -106,11 +106,7 @@ function Info(props, { $, navigation }) {
           <Stars value={stars} size={15} />
         </Flex>
       )}
-      <Flex
-        style={[_.container.wind, _.mt.xs]}
-        justify='center'
-        align='baseline'
-      >
+      <Flex style={[_.container.wind, _.mt.xs]} justify='center' align='baseline'>
         <Text type='tinygrailPlain' size={15} bold>
           ₵{current && toFixed(current, 1)}
         </Text>
@@ -121,8 +117,7 @@ function Info(props, { $, navigation }) {
         <Text type='tinygrailText' align='center' size={12}>
           {' '}
           / 发行价{toFixed($.issuePrice, 1)} / 市值
-          {formatNumber(marketValue, 0, $.short)} / 量
-          {formatNumber(total, 0, $.short)}
+          {formatNumber(marketValue, 0, $.short)} / 量{formatNumber(total, 0, $.short)}
         </Text>
       </Flex>
       <Flex style={_.mt.sm} justify='center'>
@@ -166,12 +161,13 @@ function Info(props, { $, navigation }) {
 
 export default obc(Info)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   image: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   container: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind - _._wind
+    paddingTop: _.sm,
+    paddingHorizontal: _.wind - _._wind,
+    paddingBottom: _.space
   }
 }))

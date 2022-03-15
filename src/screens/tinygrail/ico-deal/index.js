@@ -2,29 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 19:29:43
+ * @Last Modified time: 2022-03-16 06:13:54
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
-import { ScrollView } from '@components'
+import { Header, Page, ScrollView } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import { withHeaderParams, refreshControlProps } from '@tinygrail/styles'
+import { inject, obc } from '@utils/decorators'
+import { refreshControlProps } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Info from './info'
 import Slider from './slider'
 import Initial from './initial'
 import Store from './store'
 
-const title = 'ICO'
-
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  withHeaderParams
-})
 @obc
 class TinygrailICODeal extends React.Component {
   state = {
@@ -34,8 +27,6 @@ class TinygrailICODeal extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
-    hm(`tinygrail/ico/deal/${$.monoId}`, 'TinygrailICODeal')
   }
 
   onRefresh = () => {
@@ -56,25 +47,35 @@ class TinygrailICODeal extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     const { refreshing } = this.state
     return (
-      <ScrollView
-        style={_.container.tinygrail}
-        refreshControl={
-          <RefreshControl
-            {...refreshControlProps}
-            colors={[_.colorMain]}
-            refreshing={refreshing}
-            onRefresh={this.onRefresh}
-          />
-        }
-        scrollToTop
-      >
+      <>
         <StatusBarEvents />
-        <Info />
-        <Slider style={_.mt.sm} />
-        <Initial style={_.mt.md} />
-      </ScrollView>
+        <Header
+          title='ICO'
+          hm={[`tinygrail/ico/deal/${$.monoId}`, 'TinygrailICODeal']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+        />
+        <Page style={_.container.tinygrail}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                {...refreshControlProps}
+                colors={[_.colorMain]}
+                refreshing={refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+            scrollToTop
+          >
+            <Info />
+            <Slider style={_.mt.sm} />
+            <Initial style={_.mt.md} />
+          </ScrollView>
+        </Page>
+      </>
     )
   }
 }

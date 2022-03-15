@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-28 09:33:00
+ * @Last Modified time: 2022-03-16 02:32:57
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text, Iconfont } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 
 const data = ['资产重组', '买入', '卖出', 'K线']
@@ -37,7 +37,7 @@ export default observer(IconGo)
 const styles = _.create({
   touch: {
     padding: _.sm,
-    marginRight: -_.xs,
+    marginRight: _.xs,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }

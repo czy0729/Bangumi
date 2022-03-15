@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:49
+ * @Last Modified time: 2022-03-16 05:06:27
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
 import { UM } from '@components'
-import { StatusBarPlaceholder } from '@screens/_'
+import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -25,10 +25,6 @@ export default
 @inject(Store)
 @obc
 class Tinygrail extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
-
   state = {
     refreshing: false
   }
@@ -101,6 +97,7 @@ const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorTinygrailContainer
   },
   contentContainerStyle: {
+    paddingTop: _.sm,
     paddingBottom: _.md
   }
 }))

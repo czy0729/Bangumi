@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
@@ -71,7 +71,7 @@ function Item({
 
 export default ob(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     paddingVertical: 5,
     paddingLeft: 6,

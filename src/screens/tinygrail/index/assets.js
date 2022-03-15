@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { obc } from '@utils/decorators'

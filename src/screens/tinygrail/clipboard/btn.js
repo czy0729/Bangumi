@@ -47,7 +47,7 @@ function Btn(props, { $ }) {
 
 export default obc(Btn)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   wrap: {
     position: 'absolute',
     zIndex: 1,

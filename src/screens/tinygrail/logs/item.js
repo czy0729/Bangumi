@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
 import { tinygrailOSS } from '@utils/app'
@@ -145,7 +145,7 @@ function Item({ index, balance, desc, change, time, charaId }, { $, navigation }
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer

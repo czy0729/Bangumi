@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text, Iconfont } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { obc } from '@utils/decorators'
@@ -14,16 +14,12 @@ import { t } from '@utils/fetch'
 import { B, M } from '@constants'
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants/model'
 
-const caculateTypeData = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.data.map(
-  item => item.label
-)
+const caculateTypeData = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.data.map(item => item.label)
 
 function ToolBar(props, { $ }) {
   const styles = memoStyles()
   const { caculateType, total = 0, filterItems } = $.state
-  const caculateTypeLabel = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getLabel(
-    caculateType
-  )
+  const caculateTypeLabel = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getLabel(caculateType)
   let totalText
   if (total > B) {
     totalText = `${toFixed(total / B, 1)}亿`
@@ -49,10 +45,7 @@ function ToolBar(props, { $ }) {
       </Flex.Item>
       <Flex.Item>
         <Popover
-          data={[
-            '重置',
-            ...filterItems.map(item => `${item.name} #${item.id}`)
-          ]}
+          data={['重置', ...filterItems.map(item => `${item.name} #${item.id}`)]}
           onSelect={title => {
             t('前百首富.选择筛选', {
               title
@@ -73,9 +66,7 @@ function ToolBar(props, { $ }) {
           <Flex style={styles.item} justify='center'>
             <Iconfont
               style={{
-                color: filterItems.length
-                  ? _.colorWarning
-                  : _.colorTinygrailText
+                color: filterItems.length ? _.colorWarning : _.colorTinygrailText
               }}
               name='md-filter-list'
               size={16}
@@ -95,7 +86,7 @@ function ToolBar(props, { $ }) {
 
 export default obc(ToolBar)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     height: 44 * _.ratio,
     backgroundColor: _.colorTinygrailContainer

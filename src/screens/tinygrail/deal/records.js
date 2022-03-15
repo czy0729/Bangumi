@@ -109,7 +109,7 @@ function Records({ style }, { $ }) {
 
 export default obc(Records)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 120,
     paddingTop: _.md,

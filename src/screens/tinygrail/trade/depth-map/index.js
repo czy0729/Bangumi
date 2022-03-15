@@ -170,7 +170,7 @@ function DepthMap({ style }, { $ }) {
 
 export default obc(DepthMap)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingTop: 48,
     borderTopWidth: 1,

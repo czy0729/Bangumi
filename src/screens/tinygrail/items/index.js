@@ -2,29 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:50
+ * @Last Modified time: 2022-03-16 06:17:05
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Touchable, Flex, Image, Text, Iconfont } from '@components'
+import { Header, Page, Touchable, Flex, Image, Text, Iconfont } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
-import { withHeaderParams } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import Store from './store'
 
-const title = '我的道具'
-
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['tinygrail/items', 'TinygrailItems'],
-  withHeaderParams
-})
 @obc
 class TinygrailItems extends React.Component {
   componentDidMount() {
@@ -141,11 +133,19 @@ class TinygrailItems extends React.Component {
 
   render() {
     return (
-      <View style={this.styles.container}>
+      <>
         <StatusBarEvents />
-        {this.renderList()}
-        {this.renderModal()}
-      </View>
+        <Header
+          title='我的道具'
+          hm={['tinygrail/items', 'TinygrailItems']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+        />
+        <Page style={this.styles.container}>
+          {this.renderList()}
+          {this.renderModal()}
+        </Page>
+      </>
     )
   }
 
@@ -154,7 +154,7 @@ class TinygrailItems extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer

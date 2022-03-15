@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 09:52:22
+ * @Last Modified time: 2022-03-16 06:37:00
  */
 import React from 'react'
 import { Flex, Text, Iconfont } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { obc } from '@utils/decorators'
@@ -19,14 +19,12 @@ import {
 } from '@constants/model'
 
 const typeData = MODEL_TINYGRAIL_ASSETS_TYPE.data.map(item => item.label)
-const caculateTypeData = MODEL_TINYGRAIL_CACULATE_TYPE.data.map(
-  item => item.label
-)
+const caculateTypeData = MODEL_TINYGRAIL_CACULATE_TYPE.data.map(item => item.label)
 const caculateTempleTypeData = MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE.data.map(
   item => item.label
 )
 
-function ToolBar(props, { $ }) {
+function ToolBar({ style }, { $ }) {
   const styles = memoStyles()
   const { type, caculateType, total = 0, filterItems } = $.state
   const typeLabel = MODEL_TINYGRAIL_ASSETS_TYPE.getLabel(type)
@@ -40,7 +38,7 @@ function ToolBar(props, { $ }) {
     totalText = toFixed(parseFloat(total || 0), 1)
   }
   return (
-    <Flex style={styles.container}>
+    <Flex style={[styles.container, style]}>
       <Flex.Item flex={0.8}>
         <Popover data={typeData} onSelect={title => $.onTypeSelect(title)}>
           <Flex style={styles.item} justify='center'>
@@ -96,9 +94,7 @@ function ToolBar(props, { $ }) {
           <Flex style={styles.item} justify='center'>
             <Iconfont
               style={{
-                color: filterItems.length
-                  ? _.colorWarning
-                  : _.colorTinygrailText
+                color: filterItems.length ? _.colorWarning : _.colorTinygrailText
               }}
               name='md-filter-list'
               size={16}
@@ -118,7 +114,7 @@ function ToolBar(props, { $ }) {
 
 export default obc(ToolBar)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     height: 44 * _.ratio,
     backgroundColor: _.colorTinygrailContainer

@@ -109,7 +109,7 @@ class KLine extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   chart: {
     height: H_WEBVIEW,
     paddingTop: _.sm,

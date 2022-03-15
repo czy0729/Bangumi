@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
@@ -110,7 +110,7 @@ function Item(
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     marginBottom: _.md,
     backgroundColor: _.colorTinygrailContainer

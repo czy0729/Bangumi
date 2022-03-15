@@ -60,7 +60,7 @@ function Bar({ style, total, level, next }) {
 
 export default ob(Bar)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   ico: {
     height: 24
   },

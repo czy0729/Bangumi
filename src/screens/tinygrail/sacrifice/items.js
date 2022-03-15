@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-03-08 21:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 18:09:04
+ * @Last Modified time: 2022-03-16 06:30:06
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import { computed } from 'mobx'
 import { Flex, Text, Image, Touchable } from '@components'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
@@ -275,7 +275,7 @@ class Items extends React.Component {
 
 export default obc(Items)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.sm,
     paddingHorizontal: _.wind,

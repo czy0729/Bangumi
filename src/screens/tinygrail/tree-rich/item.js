@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { ob } from '@utils/decorators'
@@ -126,7 +126,7 @@ export default ob(Item, {
   onLongPress: Function.prototype
 })
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   item: {
     position: 'absolute',
     borderWidth: _.tSelect(1, _.hairlineWidth),

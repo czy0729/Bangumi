@@ -2,68 +2,32 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 15:19:04
+ * @Last Modified time: 2022-03-16 06:39:02
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
-import { Loading, Text } from '@components'
-import { IconHeader } from '@screens/_'
+import { Alert } from 'react-native'
+import { Header, Page, Flex, Loading, Text } from '@components'
+import { IconHeader } from '@_'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
-import { withHeaderParams } from '@tinygrail/styles'
 import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
 
-const title = '资产分析'
-
 export default
 @inject(Store)
-@withHeader({
-  screen: title,
-  hm: ['tinygrail/tree', 'TinygrailTree'],
-  withHeaderParams
-})
 @obc
 class TinygrailTree extends React.Component {
+  state = {
+    refreshing: false
+  }
+
   componentDidMount() {
     const { $ } = this.context
     $.init()
-    this.setParams()
-  }
-
-  setParams = () => {
-    const { navigation, $ } = this.context
-    const { name } = $.params
-    const params = {
-      title: name || '资产分析',
-      extra: (
-        <>
-          <IconHeader
-            name='md-refresh'
-            color={_.colorTinygrailPlain}
-            size={22}
-            onPress={() => {
-              t('资产分析.刷新')
-              this.onRefresh()
-            }}
-          />
-          <IconHeader
-            style={_.mr._right}
-            name='md-info-outline'
-            color={_.colorTinygrailPlain}
-            onPress={() => {
-              t('资产分析.提醒')
-              this.onAlert()
-            }}
-          />
-        </>
-      )
-    }
-    navigation.setParams(params)
   }
 
   onAlert = () => {
@@ -79,31 +43,18 @@ class TinygrailTree extends React.Component {
   }
 
   onRefresh = async () => {
-    const { $, navigation } = this.context
-    navigation.setParams({
-      extra: (
-        <>
-          <Text style={_.mr.sm} type='tinygrailPlain' size={12}>
-            请求中...
-          </Text>
-          <IconHeader
-            style={_.mr._right}
-            name='md-info-outline'
-            color={_.colorTinygrailPlain}
-            onPress={() => {
-              t('资产分析.提醒')
-              this.onAlert()
-            }}
-          />
-        </>
-      )
+    const { $ } = this.context
+    this.setState({
+      refreshing: true
     })
 
     await $.refresh()
     $.generateTreeMap()
 
     info('已刷新')
-    this.setParams()
+    this.setState({
+      refreshing: false
+    })
   }
 
   onShowMenu = ({ id, name, title }) => {
@@ -123,29 +74,34 @@ class TinygrailTree extends React.Component {
           monoId: `character/${id}`
         })
         return
+
       case '买入':
         navigation.push('TinygrailDeal', {
           monoId: `character/${id}`,
           type: 'bid'
         })
         return
+
       case '卖出':
         navigation.push('TinygrailDeal', {
           monoId: `character/${id}`,
           type: 'ask'
         })
         return
+
       case '资产重组':
         navigation.push('TinygrailSacrifice', {
           monoId: `character/${id}`
         })
         return
+
       case '隐藏':
         $.onToggleItem({
           id,
           name
         })
         return
+
       default:
         navigation.push('Mono', {
           monoId: `character/${id}`,
@@ -157,28 +113,66 @@ class TinygrailTree extends React.Component {
   render() {
     const { $ } = this.context
     const { loading, caculateType, data } = $.state
+    const { refreshing } = this.state
     return (
-      <View style={this.styles.container}>
+      <>
         <StatusBarEvents />
-        <ToolBar />
-        {loading ? (
-          <Loading style={this.styles.container} color={_.colorTinygrailText} />
-        ) : (
-          <Chart
-            data={data}
-            caculateType={caculateType}
-            isTemple={$.isTemple}
-            onPress={this.onShowMenu}
-            onLongPress={item => {
-              t('资产分析.长按隐藏', {
-                id: item.id
-              })
+        <Header
+          title={$.params?.name || '资产分析'}
+          alias='资产分析'
+          hm={['tinygrail/tree', 'TinygrailTree']}
+          statusBarEvents={false}
+          statusBarEventsType='Tinygrail'
+          headerRight={() => (
+            <Flex>
+              {refreshing ? (
+                <Text style={_.mr.sm} type='tinygrailPlain' size={12}>
+                  请求中...
+                </Text>
+              ) : (
+                <IconHeader
+                  style={_.mr.sm}
+                  name='md-refresh'
+                  color={_.colorTinygrailPlain}
+                  size={22}
+                  onPress={() => {
+                    t('资产分析.刷新')
+                    this.onRefresh()
+                  }}
+                />
+              )}
+              <IconHeader
+                name='md-info-outline'
+                color={_.colorTinygrailPlain}
+                onPress={() => {
+                  t('资产分析.提醒')
+                  this.onAlert()
+                }}
+              />
+            </Flex>
+          )}
+        />
+        <Page style={this.styles.container}>
+          <ToolBar style={_.mt._sm} />
+          {loading ? (
+            <Loading style={this.styles.container} color={_.colorTinygrailText} />
+          ) : (
+            <Chart
+              data={data}
+              caculateType={caculateType}
+              isTemple={$.isTemple}
+              onPress={this.onShowMenu}
+              onLongPress={item => {
+                t('资产分析.长按隐藏', {
+                  id: item.id
+                })
 
-              $.onToggleItem(item)
-            }}
-          />
-        )}
-      </View>
+                $.onToggleItem(item)
+              }}
+            />
+          )}
+        </Page>
+      </>
     )
   }
 
@@ -187,7 +181,7 @@ class TinygrailTree extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer

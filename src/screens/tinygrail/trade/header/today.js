@@ -78,7 +78,7 @@ function Today({ style }, { $ }) {
 
 export default obc(Today)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   value: {
     minWidth: 24,
     marginLeft: _.md
