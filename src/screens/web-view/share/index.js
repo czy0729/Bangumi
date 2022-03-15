@@ -2,25 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 14:54:39
+ * @Last Modified time: 2022-03-16 07:00:44
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Header } from '@components'
 import WebView from '@components/@/web-view'
-import { SafeAreaView } from '@screens/_'
+import { SafeAreaView } from '@_'
 import { _ } from '@stores'
-import { withHeader, ob } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { loading, info, feedback } from '@utils/ui'
 import { saveBase64ImageToCameraRoll } from '@utils/android'
 import { IOS } from '@constants'
 import { html } from './utils'
 
-const title = IOS ? 'iOS暂请自行截屏' : '长按保存图片'
-
 export default
-@withHeader({
-  screen: title
-})
 @ob
 class WebViewShare extends React.Component {
   state = {
@@ -35,8 +31,8 @@ class WebViewShare extends React.Component {
   }
 
   get source() {
-    const { navigation } = this.props
-    const { _url, _cover, _title, _content, _detail } = navigation.state.params
+    const { route } = this.props
+    const { _url, _cover, _title, _content, _detail } = route.params || {}
     return {
       html: html
         .replace(/\$url/g, _url)
@@ -98,14 +94,17 @@ class WebViewShare extends React.Component {
   render() {
     const { captured } = this.state
     return (
-      <SafeAreaView style={_.container.flex}>
-        <WebView
-          originWhitelist={['*']}
-          source={this.source}
-          onMessage={this.onMessage}
-        />
-        {!captured && <View style={styles.mask} />}
-      </SafeAreaView>
+      <>
+        <Header title={IOS ? 'iOS暂请自行截屏' : '长按保存图片'} alias='条目分享' />
+        <SafeAreaView style={_.container.flex}>
+          <WebView
+            originWhitelist={['*']}
+            source={this.source}
+            onMessage={this.onMessage}
+          />
+          {!captured && <View style={styles.mask} />}
+        </SafeAreaView>
+      </>
     )
   }
 }

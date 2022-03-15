@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:56:37
+ * @Last Modified time: 2022-03-16 06:54:20
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -22,7 +22,13 @@ function TabBar({ state, descriptors, navigation }) {
         const config = routesConfig[route.name]
         return (
           <Touchable
-            style={styles.touch}
+            key={route.name}
+            style={[
+              styles.touch,
+              {
+                width: _.window.width / state.routes.length
+              }
+            ]}
             onPress={() => {
               const event = navigation.emit({
                 type: 'tabPress',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 23:55:33
+ * @Last Modified time: 2022-03-16 06:56:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function Cover({ index, subjectId, subject }, { $, navigation }) {
         shadow
         type={type}
         onPress={() => $.onItemPress(navigation, subjectId, subject)}
-        onLongPress={() => $.onItemLongPress(subjectId)}
+        // onLongPress={() => $.onItemLongPress(subjectId)}
       />
       {index === 1 && (
         <>

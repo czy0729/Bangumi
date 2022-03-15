@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-16 11:00:58
+ * @Last Modified time: 2022-03-16 07:05:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ function Award2021(props, { $, navigation }) {
     >
       <Touchable
         style={styles.item2021}
+        useRN
         onPress={() => {
           t('发现.跳转', {
             to: 'Award',
