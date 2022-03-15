@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 02:57:35
+ * @Last Modified time: 2022-03-15 02:36:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,14 +43,14 @@ function Header(props, { $ }) {
         <Ep />
         <Tags />
         <Summary />
+        <Game />
+        <Thumbs />
+        <Info />
+        <Rating />
+        <Character />
+        <Staff />
         {rendered && (
           <>
-            <Game />
-            <Thumbs />
-            <Info />
-            <Rating />
-            <Character />
-            <Staff />
             <Relations />
             <Comic />
             <Catalog />

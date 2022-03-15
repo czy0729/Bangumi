@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:55:42
+ * @Last Modified time: 2022-03-15 01:39:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,6 +39,7 @@ export const ItemCharacter = obc(
   ) => {
     const styles = memoStyles()
     const isFirst = index === 0
+    const _nameCn = String(nameCn || name).trim()
     const onPress = () => {
       const monoId = String(id).includes(type) ? id : `${type}/${id}`
       t(event.id, {
@@ -47,7 +48,7 @@ export const ItemCharacter = obc(
       })
       navigation.push('Mono', {
         monoId,
-        _name: nameCn,
+        _name: _nameCn,
         _jp: name,
         _image: cover
       })
@@ -75,8 +76,8 @@ export const ItemCharacter = obc(
                   <Flex style={_.container.block} align='start'>
                     <Flex.Item>
                       <Text size={15} numberOfLines={2} bold>
-                        {HTMLDecode(nameCn)}
-                        {name !== nameCn && (
+                        {HTMLDecode(_nameCn)}
+                        {name !== _nameCn && (
                           <Text type='sub' size={13} lineHeight={15} bold>
                             {' '}
                             {HTMLDecode(name)}

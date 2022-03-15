@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 19:10:55
+ * @Last Modified time: 2022-03-15 19:17:02
  */
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as Screens from '@screens'
+import { urlStringify } from '@utils'
 import navigationsParams from '@/config'
 import TabBar from './tab-bar'
 
@@ -48,6 +49,7 @@ function Stacks() {
           name={name}
           component={Screens[name]}
           initialParams={initialRouteName === name ? initialRouteParams : undefined}
+          getId={({ params }) => (params ? urlStringify(params) : undefined)}
         />
       ))}
     </Stack.Navigator>

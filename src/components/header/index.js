@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 23:19:50
+ * @Last Modified time: 2022-03-15 17:55:19
  */
 import React, { useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
@@ -62,6 +62,12 @@ const Header = ({
   /* 模式为 'transition' 时有效, 代替 title 显示 */
   headerTitle = null,
 
+  /* 标题对齐 */
+  headerTitleAlign = 'center',
+
+  /* 标题样式 */
+  headerTitleStyle,
+
   /* 是否变动状态栏主题 */
   statusBarEvents = true,
 
@@ -78,9 +84,22 @@ const Header = ({
       title,
       headerRight,
       headerTitle,
+      headerTitleAlign,
+      headerTitleStyle,
       statusBarEventsType
     })
-  }, [navigation, mode, y, fixed, title, headerRight, headerTitle, statusBarEventsType])
+  }, [
+    navigation,
+    mode,
+    y,
+    fixed,
+    title,
+    headerRight,
+    headerTitle,
+    headerTitleAlign,
+    headerTitleStyle,
+    statusBarEventsType
+  ])
 
   return useObserver(() => {
     let statusBarEventsProps = {}

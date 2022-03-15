@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-04 04:57:34
+ * @Last Modified time: 2022-03-15 02:22:36
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -17,7 +17,6 @@ import { HOST } from '@constants'
 
 export default class ScreenMono extends store {
   state = observable({
-    showHeaderTitle: false,
     checkTinygrail: false,
     expands: [], // 展开的子楼层id
     translateResult: [], // 翻译缓存
@@ -153,11 +152,6 @@ export default class ScreenMono extends store {
   }
 
   // -------------------- page --------------------
-  updateShowHeaderTitle = showHeaderTitle =>
-    this.setState({
-      showHeaderTitle
-    })
-
   onMore = () =>
     open(
       `https://mzh.moegirl.org.cn/index.php?title=${encodeURIComponent(

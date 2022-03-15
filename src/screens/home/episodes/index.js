@@ -2,189 +2,29 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:20:17
+ * @Last Modified time: 2022-03-15 01:56:41
  */
 import React from 'react'
-import { View } from 'react-native'
-import { toJS } from 'mobx'
-import { Page, ScrollView, Flex, Text, Touchable, Image, Heatmap } from '@components'
-import { _ } from '@stores'
-import { desc, open } from '@utils'
-import { inject, withHeader, obc } from '@utils/decorators'
-import { cnjp } from '@utils/app'
-import { t } from '@utils/fetch'
-import { HTMLDecode } from '@utils/html'
-import { showImageViewer } from '@utils/ui'
+import { Page } from '@components'
+import { ic } from '@utils/decorators'
+import { useRunAfter, useObserver } from '@utils/hooks'
+import Header from './header'
+import List from './list'
 import Store from './store'
 
-const title = '章节'
-const imageWidth = 104 * _.ratio
-const imageHeight = imageWidth * 0.56
-
-export default
-@inject(Store)
-@withHeader({
-  title: ({ name } = {}) => (name ? `${name}的${title}` : title),
-  screen: title,
-  hm: ['episodes', 'Episodes']
-})
-@obc
-class Episodes extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context
+const Episodes = (props, { $ }) => {
+  useRunAfter(() => {
     $.init()
+  })
 
-    navigation.setParams({
-      heatmap: '章节.右上角菜单',
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('章节.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open($.url)
-              break
-
-            default:
-              break
-          }
-        }
-      }
-    })
-  }
-
-  get eps() {
-    const { $ } = this.context
-
-    // sp排在正常章节后面, 已播放优先
-    return $.eps.sort((a, b) =>
-      desc(a, b, item => (item.status === 'NA' ? 0 : item.type || 10))
-    )
-  }
-
-  get epsThumbs() {
-    const { $ } = this.context
-    const { epsThumbs = [] } = $.params
-    return toJS(epsThumbs)
-  }
-
-  renderThumb(index) {
-    const { $ } = this.context
-    const { filterEps = 0 } = $.params
-    const { epsThumbsHeader = {} } = $.params
-    return (
-      !!this.epsThumbs[index + filterEps] && (
-        <View style={_.ml.sm}>
-          <Image
-            src={this.epsThumbs[index]}
-            size={imageWidth}
-            height={imageHeight}
-            radius
-            headers={epsThumbsHeader}
-            onPress={() =>
-              showImageViewer(
-                this.epsThumbs.map(item => ({
-                  url: item.split('@')[0],
-                  headers: epsThumbsHeader
-                })),
-                index
-              )
-            }
-          />
-        </View>
-      )
-    )
-  }
-
-  renderList() {
-    const { navigation } = this.context
-    return (
-      <ScrollView
-        style={_.container.plain}
-        contentContainerStyle={_.container.bottom}
-        scrollToTop
-      >
-        {this.eps.map((item, index) => (
-          <Touchable
-            key={item.id}
-            onPress={() => {
-              t('章节.跳转', {
-                to: 'Topic',
-                topicId: `ep/${item.id}`
-              })
-
-              navigation.push('Topic', {
-                topicId: `ep/${item.id}`,
-                _title: `ep${item.sort}.${item.name}`,
-                _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${item.desc}`
-              })
-            }}
-          >
-            <Flex style={this.styles.item}>
-              <Flex.Item>
-                <Flex align='start'>
-                  <View
-                    style={[
-                      this.styles.status,
-                      item.status === 'Air' && this.styles.statusPrimary,
-                      item.status === 'Today' && this.styles.statusSuccess
-                    ]}
-                  />
-                  <Flex.Item>
-                    <Text bold>
-                      {item.sort}. {HTMLDecode(cnjp(item.name_cn, item.name))}
-                      {!!item.comment && (
-                        <Text type='main' size={11} lineHeight={14}>
-                          {' '}
-                          +{item.comment}
-                        </Text>
-                      )}
-                    </Text>
-                    <Text style={_.mt.sm} size={11} type='sub'>
-                      首播: {item.airdate || '-'} / 时长: {item.duration || '-'}
-                    </Text>
-                  </Flex.Item>
-                </Flex>
-              </Flex.Item>
-              {this.renderThumb(index)}
-            </Flex>
-            {!index && <Heatmap id='章节.跳转' />}
-          </Touchable>
-        ))}
-      </ScrollView>
-    )
-  }
-
-  render() {
-    const { $ } = this.context
-    return <Page loaded={$.subject._loaded}>{this.renderList()}</Page>
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page loaded={$.subject._loaded}>
+        <List />
+      </Page>
+    </>
+  ))
 }
 
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingVertical: _.sm + 2,
-    paddingHorizontal: _.wind
-  },
-  status: {
-    width: 6,
-    height: 6,
-    marginTop: 6 * _.ratio,
-    marginRight: _.sm,
-    backgroundColor: _.colorSub,
-    borderRadius: 3
-  },
-  statusSuccess: {
-    backgroundColor: _.colorSuccess
-  },
-  statusPrimary: {
-    backgroundColor: _.colorPrimary
-  }
-}))
+export default ic(Store, Episodes)

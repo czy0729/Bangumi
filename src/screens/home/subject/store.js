@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 17:40:02
+ * @Last Modified time: 2022-03-15 02:35:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -152,7 +152,8 @@ export default class ScreenSubject extends store {
       () => this.fetchThirdParty(data), // bangumi-data数据扩展
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
-      () => this.fetchEpsData() // 单集播放源
+      () => this.fetchEpsData(), // 单集播放源
+      () => this.rendered() // 有时候没有触发成功, 强制触发
     ])
 
     // 查找角色的声优详细资料

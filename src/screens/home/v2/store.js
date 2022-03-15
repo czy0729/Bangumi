@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:32:48
+ * @Last Modified time: 2022-03-15 18:52:43
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -267,6 +267,10 @@ export default class ScreenHomeV2 extends store {
 
   @computed get myUserId() {
     return userStore.myUserId
+  }
+
+  @computed get userId() {
+    return userStore.userInfo.username || userStore.myUserId
   }
 
   @computed get usersInfo() {

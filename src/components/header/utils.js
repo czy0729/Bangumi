@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 21:23:36
+ * @Last Modified time: 2022-03-15 17:54:57
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
@@ -19,6 +19,8 @@ export const updateHeader = ({
   // 必要
   navigation,
   title = '',
+  headerTitleAlign,
+  headerTitleStyle,
   headerRight,
 
   // 非必要
@@ -46,10 +48,11 @@ export const updateHeader = ({
 
     // headerTitle
     headerTitle: mode ? '' : _title,
-    headerTitleAlign: mode ? 'left' : 'center',
+    headerTitleAlign: headerTitleAlign || (mode ? 'left' : 'center'),
     headerTitleStyle: {
       fontSize: 15,
-      fontWeight: 'normal'
+      fontWeight: 'normal',
+      ...headerTitleStyle
     },
     headerTintColor: _.colorTitle,
 

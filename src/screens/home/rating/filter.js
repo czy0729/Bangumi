@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 22:28:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:48:57
+ * @Last Modified time: 2022-03-15 18:03:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,8 @@ export default ob(Filter)
 
 const styles = _.create({
   segment: {
-    width: 88 * _.ratio,
-    height: 22 * _.ratio
+    width: _.r(88),
+    height: _.r(22),
+    marginRight: _.xs
   }
 })

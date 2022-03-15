@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 10:22:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:47:33
+ * @Last Modified time: 2022-03-15 17:47:58
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -10,6 +10,7 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
+import { HTML_SUBJECT_RATING } from '@constants/html'
 
 export const routes = MODEL_RATING_STATUS.data.map(item => ({
   key: item.value,
@@ -47,9 +48,7 @@ export default class ScreenRating extends store {
 
     const { page } = this.state
     const { _loaded } = this.rating(routes[page].key)
-    if (!_loaded) {
-      return this.fetchRating(true)
-    }
+    if (!_loaded) return this.fetchRating(true)
     return true
   }
 
@@ -93,12 +92,16 @@ export default class ScreenRating extends store {
     return counts
   }
 
+  @computed get url() {
+    const { page, isFriend } = this.state
+    const status = routes[page].key
+    return HTML_SUBJECT_RATING(this.subjectId, status, isFriend)
+  }
+
   // -------------------- fetch --------------------
   fetchRating = async refresh => {
     const { _fetching } = this.state
-    if (_fetching) {
-      return true
-    }
+    if (_fetching) return true
 
     const { page, isFriend } = this.state
     const status = routes[page].key

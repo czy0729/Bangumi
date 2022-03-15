@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 13:58:05
+ * @Last Modified time: 2022-03-15 18:41:45
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore } from '@stores'
@@ -32,9 +32,7 @@ export default class ScreenTag extends store {
 
       // order慎用排名排序, 不然列表数据几乎没区别
       order:
-        state.order === MODEL_TAG_ORDERBY.getValue('排名')
-          ? defaultOrder
-          : state.order,
+        state.order === MODEL_TAG_ORDERBY.getValue('排名') ? defaultOrder : state.order,
       airtime: '',
       month: '',
       hide: false,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 23:41:06
+ * @Last Modified time: 2022-03-15 02:47:23
  */
 import { _ } from '@stores'
 
@@ -48,6 +48,7 @@ export function callOnceInInterval(functionTobeCalled, interval = 80) {
  */
 export function separateStyles(styles) {
   const {
+    display,
     flex,
     alignItems,
     justifyContent,
@@ -68,36 +69,36 @@ export function separateStyles(styles) {
     borderBottomLeftRadius,
     borderBottomRightRadius,
     overflow,
-    ...style
+    ...otherStyle
   } = _.flatten(styles) || {}
-  const _style = {
-    ...style
+  const containerStyle = {
+    display,
+    flex,
+    alignItems,
+    justifyContent,
+    width,
+    height,
+    margin,
+    marginTop,
+    marginRight,
+    marginBottom,
+    marginLeft,
+    marginHorizontal,
+    marginVertical,
+    borderWidth,
+    borderColor,
+    borderRadius,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+    overflow
   }
-  if (typeof width === 'number') _style.width = width
-  if (typeof height === 'number') _style.height = height
+  const style = { ...otherStyle }
+  if (typeof width === 'number') style.width = width
+  if (typeof height === 'number') style.height = height
   return {
-    containerStyle: {
-      flex,
-      alignItems,
-      justifyContent,
-      width,
-      height,
-      margin,
-      marginTop,
-      marginRight,
-      marginBottom,
-      marginLeft,
-      marginHorizontal,
-      marginVertical,
-      borderWidth,
-      borderColor,
-      borderRadius,
-      borderTopLeftRadius,
-      borderTopRightRadius,
-      borderBottomLeftRadius,
-      borderBottomRightRadius,
-      overflow
-    },
-    style: _style
+    containerStyle,
+    style
   }
 }

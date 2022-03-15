@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 18:23:22
+ * @Last Modified time: 2022-03-15 19:16:45
  */
 import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
+import { enableScreens } from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
 import Stacks from '@src/navigations'
@@ -20,6 +21,8 @@ import {
   useErrorHandlerAndroid
 } from '@utils/hooks'
 import theme from '@styles/theme'
+
+enableScreens(false)
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
@@ -39,8 +42,8 @@ export default function App() {
         <NavigationContainer>
           <Stacks />
         </NavigationContainer>
-        <DeepLink />
         <BackAndroid />
+        <DeepLink />
         <AppCommon />
       </Provider>
     </SafeAreaProvider>

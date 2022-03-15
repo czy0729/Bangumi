@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-18 06:18:02
+ * @Last Modified time: 2022-03-15 20:48:48
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -607,7 +607,6 @@ export function cheerioRating(HTML) {
         })
       })
       .get() || []
-  console.log(list)
 
   return {
     counts,

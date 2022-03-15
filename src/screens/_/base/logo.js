@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-20 17:59:24
+ * @Last Modified time: 2022-03-15 19:56:45
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { navigationReference } from '@utils/app'
 import { info } from '@utils/ui'
-import { ob } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
-export const Logo = ob(({ forceUpdate }) => (
+export const Logo = obc(({ forceUpdate }, { navigation }) => (
   <Touchable
     style={styles.radius}
     onPress={() => {
@@ -32,10 +31,7 @@ export const Logo = ob(({ forceUpdate }) => (
       }, 40)
     }}
     onLongPress={() => {
-      const navigation = navigationReference()
-      if (navigation) {
-        navigation.push('Setting')
-      }
+      if (navigation) navigation.push('Setting')
     }}
   >
     <Flex style={styles.logo} justify='center'>

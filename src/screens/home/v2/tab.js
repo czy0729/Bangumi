@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 01:33:04
+ * @Last Modified time: 2022-03-15 20:41:57
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
@@ -21,6 +21,7 @@ function Tab({ routes, renderScene }, { $ }) {
   const W_TAB = _.window.width / routes.length
   return (
     <TabView
+      style={_.mt._sm}
       sceneContainerStyle={styles.sceneContainerStyle}
       lazy={!IOS}
       lazyPreloadDistance={0}
@@ -42,7 +43,7 @@ function Tab({ routes, renderScene }, { $ }) {
           indicatorStyle={[
             styles.indicator,
             {
-              marginLeft: (W_TAB - W_INDICATOR) / 2
+              marginLeft: (W_TAB - styles.indicator.width) / 2
             }
           ]}
           pressOpacity={1}
@@ -67,10 +68,9 @@ export default obc(Tab, {
   routes: []
 })
 
-const W_INDICATOR = 16 * _.ratio
 const memoStyles = _.memoStyles(() => ({
   tabBar: {
-    paddingTop: _.headerHeight - (IOS ? 18 : 24),
+    // paddingTop: _.headerHeight - (IOS ? 18 : 24),
     backgroundColor: IOS
       ? 'transparent'
       : _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
@@ -88,7 +88,7 @@ const memoStyles = _.memoStyles(() => ({
     width: '100%'
   },
   indicator: {
-    width: W_INDICATOR,
+    width: _.r(16),
     height: 4,
     backgroundColor: _.colorMain,
     borderRadius: 4

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 23:27:30
+ * @Last Modified time: 2022-03-15 02:08:47
  */
 import React, { useState, useRef, useCallback } from 'react'
 import { Page, Loading } from '@components'
@@ -24,16 +24,8 @@ const preRenderIndex = 8
 
 const Topic = (props, { $ }) => {
   const isFocused = useIsFocused()
+  const { y, fixed, onScroll } = useOnScroll()
   const [rendered, setRendered] = useState(false)
-  useRunAfter(async () => {
-    setTimeout(() => {
-      if (isFocused.current) setRendered(true)
-    }, 400)
-
-    await $.init()
-    if ($.postId) jump()
-  })
-
   const listViewRef = useRef(null)
   const fixedTextareaRef = useRef(null)
   const scrollFailCount = useRef(0)
@@ -96,7 +88,7 @@ const Topic = (props, { $ }) => {
     },
     [scrollTo]
   )
-  const jump = useCallback(() => {
+  const onJumpTo = useCallback(() => {
     if (!$.postId) return
 
     const { list, _loaded } = $.comments
@@ -121,12 +113,13 @@ const Topic = (props, { $ }) => {
           scrollTo(scrollIndex)
         }
       } catch (error) {
-        warn('topic/index.js', 'jump', error)
+        warn('topic/index.js', 'onJumpTo', error)
       }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollTo])
+  const onShowFixedTextarea = useCallback(() => fixedTextareaRef.current?.onFocus(), [])
   const renderItem = useCallback(
     ({ item, index }) => {
       // 延迟渲染, 减少二次进入页面瞬间楼层过多导致动画掉帧, 进入页面瞬间最多只渲染2个楼层
@@ -152,7 +145,7 @@ const Topic = (props, { $ }) => {
           authorId={$.topic.userId}
           {...item}
           rendered={rendered}
-          showFixedTextare={() => fixedTextareaRef.current?.onFocus()}
+          showFixedTextare={onShowFixedTextarea}
           event={event}
         />
       )
@@ -162,7 +155,15 @@ const Topic = (props, { $ }) => {
     [rendered]
   )
 
-  const { y, fixed, onScroll } = useOnScroll()
+  useRunAfter(async () => {
+    setTimeout(() => {
+      if (isFocused.current) setRendered(true)
+    }, 400)
+
+    await $.init()
+    if ($.postId) onJumpTo()
+  })
+
   return useObserver(() => {
     return (
       <>

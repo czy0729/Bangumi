@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 18:15:30
+ * @Last Modified time: 2022-03-15 02:56:37
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -22,7 +22,7 @@ function TabBar({ state, descriptors, navigation }) {
         const config = routesConfig[route.name]
         return (
           <Touchable
-            style={styles.item}
+            style={styles.touch}
             onPress={() => {
               const event = navigation.emit({
                 type: 'tabPress',
@@ -41,18 +41,20 @@ function TabBar({ state, descriptors, navigation }) {
             //   })
             // }}
           >
-            <Flex style={styles.icon} justify='center'>
-              <Iconfont
-                name={config.icon}
-                size={config.size || 24}
-                color={isFocused ? _.colorMain : _.colorDesc}
-              />
+            <Flex style={styles.item} direction='column' justify='center'>
+              <Flex style={styles.icon} justify='center'>
+                <Iconfont
+                  name={config.icon}
+                  size={config.size || 24}
+                  color={isFocused ? _.colorMain : _.colorDesc}
+                />
+              </Flex>
+              {isFocused && (
+                <Text type={isFocused ? 'main' : 'desc'} size={12}>
+                  {config.label}
+                </Text>
+              )}
             </Flex>
-            {isFocused && (
-              <Text type={isFocused ? 'main' : 'desc'} size={12}>
-                {config.label}
-              </Text>
-            )}
           </Touchable>
         )
       })}
@@ -72,11 +74,12 @@ const memoStyles = _.memoStyles(() => ({
     borderTopWidth: _.ios(0, _.select(_.hairlineWidth, 0)),
     borderTopColor: _.colorBorder
   },
-  item: {
+  touch: {
     flex: 1,
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    height: 50
+  },
+  item: {
+    height: 50
   },
   icon: {
     width: 24,

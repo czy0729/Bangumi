@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-12 09:55:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-12 12:13:27
+ * @Last Modified time: 2022-03-15 20:54:04
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -30,6 +30,6 @@ export default class ScreenSubjectWiki extends store {
   }
 
   @computed get url() {
-    return `${HOST}/subject/${this.subjectId}/ep`
+    return `${HOST}/subject/${this.subjectId}/edit`
   }
 }
