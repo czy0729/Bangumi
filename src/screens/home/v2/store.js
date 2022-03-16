@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 23:36:55
+ * @Last Modified time: 2022-03-16 21:21:44
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -96,10 +96,11 @@ const excludeState = {
   },
   filter: '',
   isFocused: true,
-  _mounted: false
+  _mounted: false // 延迟加载标记
 }
 const day = new Date().getDay()
 const pinYinFirstCharacter = {}
+let inited
 
 export default class ScreenHomeV2 extends store {
   state = observable({
@@ -116,22 +117,16 @@ export default class ScreenHomeV2 extends store {
   })
 
   init = async () => {
+    if (inited) return
+
     if (this.isLogin) {
+      inited = true
+
       await this.initStore()
       this.initFetch()
-    } else if (DEV) {
-      // 开发模式下热更新的时候, 有时候会识别不到已登录
-      setTimeout(async () => {
-        await this.initStore()
-        this.initFetch()
-      }, 240)
     }
 
     runAfter(() => {
-      userStore.logTourist()
-      calendarStore.fetchOnAir()
-
-      // 延迟加载标记
       setTimeout(() => {
         this.setState({
           _mounted: true

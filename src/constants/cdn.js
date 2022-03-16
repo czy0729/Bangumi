@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:34:23
+ * @Last Modified time: 2022-03-16 20:40:36
  */
 import { getTimestamp, getStorage, setStorage } from '@utils/utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -19,7 +19,7 @@ import hashSubject from '@constants/json/hash/subject.min.json'
 import hashAvatar from '@constants/json/hash/avatar.min.json'
 import { SDK } from './index'
 
-export const HOST_CDN = 'https://cdn.jsdelivr.net'
+export const HOST_CDN = 'https://cdn.jsdelivr.net' // cdn | fastly | gcore | originfastly
 export const HOST_CDN_ONEDRIVE = 'https://bangumi.stdcdn.com'
 
 /**

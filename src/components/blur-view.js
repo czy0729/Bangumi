@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 19:42:09
+ * @Last Modified time: 2022-03-16 20:32:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -52,7 +52,7 @@ export const BlurView = observer(
         <Image
           imageStyle={styles.image}
           src={_src}
-          fadeDuration={0}
+          fadeDuration={80}
           blurRadius={16}
           textOnly={false}
           fallback
