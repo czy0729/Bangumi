@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-16 11:52:14
+ * @Last Modified time: 2022-03-16 20:19:52
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants'
 import { getTimestamp, setStorage } from './utils'
 import fetch from './fetch'
-import { fetchSubjectV0, doUpdateCollectionV0 } from './fetch.v0'
+import { fetchSubjectV0 } from './fetch.v0'
 
 configure({
   enforceActions: 'observed'

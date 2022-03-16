@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-30 23:12:55
+ * @Last Modified time: 2022-03-16 20:18:27
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
-import { APP_ID } from '@constants'
+import { APP_ID, UA } from '@constants'
 import { getUserStoreAsync } from './async'
 
 async function request(url) {
@@ -26,7 +26,8 @@ async function request(url) {
       method: 'get',
       url,
       headers: {
-        Authorization: `${accessToken.token_type} ${accessToken.access_token}`
+        Authorization: `${accessToken.token_type} ${accessToken.access_token}`,
+        'User-Agent': UA
       }
     })
     return safe(data)

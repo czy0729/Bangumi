@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-25 15:46:42
+ * @Last Modified time: 2022-03-16 20:17:35
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -14,7 +14,8 @@ import {
   HOST_NAME,
   HOST_CDN,
   IOS,
-  VERSION_GITHUB_RELEASE
+  VERSION_GITHUB_RELEASE,
+  UA
 } from '@constants'
 import events from '@constants/events'
 import { BAIDU_KEY } from '@constants/secret'
@@ -61,7 +62,8 @@ export default async function fetchAPI({
   const _config = {
     timeout: FETCH_TIMEOUT,
     headers: {
-      Authorization: `${accessToken.token_type} ${accessToken.access_token}`
+      Authorization: `${accessToken.token_type} ${accessToken.access_token}`,
+      'User-Agent': UA
     }
   }
   const body = {

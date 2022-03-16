@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:20:27
+ * @Last Modified time: 2022-03-16 20:16:59
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -96,6 +96,9 @@ export const APP_USERID_IOS_AUTH = 474489 // 审核
 /* ==================== ENV ==================== */
 // 是否 iOS
 export const IOS = Platform.OS === 'ios'
+export const UA = `czy0729/Bangumi/${VERSION_GITHUB_RELEASE} (${
+  IOS ? 'iOS' : 'Android'
+})`
 
 // android 10之前
 export const IS_BEFORE_ANDROID_10 = !IOS && Platform.Version < 29
