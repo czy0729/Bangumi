@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 14:26:37
+ * @Last Modified time: 2022-03-16 17:21:47
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -34,7 +34,7 @@ export default obc(BtnOrigin)
 
 const styles = _.create({
   touch: {
-    marginRight: _.device(2, _.sm),
+    marginRight: _.device(4, _.sm),
     borderRadius: 20,
     overflow: 'hidden'
   },

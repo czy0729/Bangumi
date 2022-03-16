@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:17:06
+ * @Last Modified time: 2022-03-16 18:10:09
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -21,7 +21,7 @@ function Header({ y, fixed }, { $, navigation }) {
       y={y}
       fixed={fixed}
       title='人物'
-      hm={[$.monoId, 'Mono']}
+      hm={[$.url, 'Mono']}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
         <Flex>

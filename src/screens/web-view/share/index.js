@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 07:00:44
+ * @Last Modified time: 2022-03-16 18:28:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -92,10 +92,15 @@ class WebViewShare extends React.Component {
   }
 
   render() {
+    const { route } = this.props
     const { captured } = this.state
     return (
       <>
-        <Header title={IOS ? 'iOS暂请自行截屏' : '长按保存图片'} alias='条目分享' />
+        <Header
+          title={IOS ? 'iOS暂请自行截屏' : '长按保存图片'}
+          alias='条目分享'
+          hm={[`share/subject/${route?.params?._subjectId}`, 'Share']}
+        />
         <SafeAreaView style={_.container.flex}>
           <WebView
             originWhitelist={['*']}

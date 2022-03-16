@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 13:53:41
+ * @Last Modified time: 2022-03-16 17:40:47
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -27,7 +27,8 @@ export default ob(Type)
 
 const styles = _.create({
   segment: {
-    width: 80 * _.ratio,
-    height: 22 * _.ratio
+    width: _.r(80),
+    height: _.r(22),
+    marginRight: _.xs
   }
 })

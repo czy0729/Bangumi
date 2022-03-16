@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:21:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:23:09
+ * @Last Modified time: 2022-03-16 18:07:52
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -14,7 +14,7 @@ function Header(props, { $ }) {
   return (
     <CompHeader
       title='搜索'
-      hm={['search', 'Search']}
+      hm={[$.url, 'Search']}
       headerRight={() => (
         <CompHeader.Popover
           data={['浏览器查看']}

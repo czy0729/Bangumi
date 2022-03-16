@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 17:31:03
+ * @Last Modified time: 2022-03-16 17:11:54
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -57,6 +57,7 @@ export * from './tap'
 export * from './text'
 export * from './tool-bar'
 export * from './touchable'
+export * from './track'
 export * from './transition-view'
 export * from './um'
 export * from './user-status'

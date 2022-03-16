@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:03:53
+ * @Last Modified time: 2022-03-16 17:57:36
  */
 import { observable, computed } from 'mobx'
 import { collectionStore } from '@stores'
@@ -14,19 +14,24 @@ import { guess } from '@utils/subject/anime'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 
 const namespace = 'ScreenGuess'
+const excludeState = {
+  rendered: true
+}
 
 export default class ScreenGuess extends store {
   state = observable({
     list: [],
     page: 1,
     like: true,
-    eps: {}
+    eps: {},
+    ...excludeState
   })
 
   init = async () => {
     const state = await this.getStorage(undefined, namespace)
     this.setState({
-      ...state
+      ...state,
+      ...excludeState
     })
 
     const { list } = this.state
@@ -40,7 +45,7 @@ export default class ScreenGuess extends store {
 
   @computed get list() {
     const { page, list } = this.state
-    return list.slice((page - 1) * 16, page * 16)
+    return list.slice((page - 1) * 10, page * 10)
   }
 
   // -------------------- page --------------------
@@ -65,12 +70,16 @@ export default class ScreenGuess extends store {
     if (page === 1) return
 
     this.setState({
-      page: page - 1
+      page: page - 1,
+      rendered: false
     })
     this.queueFetchEpsThumbs()
 
     setTimeout(() => {
       this.setStorage(undefined, undefined, namespace)
+      this.setState({
+        rendered: true
+      })
     }, 80)
   }
 
@@ -78,24 +87,34 @@ export default class ScreenGuess extends store {
     const { page } = this.state
 
     this.setState({
-      page: page + 1
+      page: page + 1,
+      rendered: false
     })
     this.queueFetchEpsThumbs()
 
     setTimeout(() => {
       this.setStorage(undefined, undefined, namespace)
+      this.setState({
+        rendered: true
+      })
     }, 80)
   }
 
   onChange = ({ nativeEvent }) => {
     const { text } = nativeEvent
-    if (Number.isNaN(parseInt(text))) {
-      return
-    }
+    if (Number.isNaN(parseInt(text))) return
 
     this.setState({
-      page: parseInt(text)
+      page: parseInt(text),
+      rendered: false
     })
+
+    setTimeout(() => {
+      this.setStorage(undefined, undefined, namespace)
+      this.setState({
+        rendered: true
+      })
+    }, 80)
   }
 
   queueFetchEpsThumbs = async () => {

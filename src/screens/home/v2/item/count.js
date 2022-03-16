@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:34:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-28 13:35:04
+ * @Last Modified time: 2022-03-16 16:07:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,8 +43,8 @@ export default obc(Count)
 const styles = _.create({
   count: {
     minHeight: 24,
-    paddingLeft: _.xs,
-    marginLeft: -_.xs,
+    paddingHorizontal: _.sm,
+    marginHorizontal: -_.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }

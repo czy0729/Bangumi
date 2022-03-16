@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:44:40
+ * @Last Modified time: 2022-03-16 18:30:09
  */
 import React from 'react'
 import { Page, Text } from '@components'
@@ -14,9 +14,8 @@ import Header from '../anime/header'
 import List from './list'
 import Store from './store'
 
-const Hentai = (props, { $, navigation }) => {
+const Hentai = (props, { $ }) => {
   useRunAfter(() => {
-    $.setParams(navigation)
     $.init()
   })
 

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 17:09:19
+ * @Last Modified time: 2022-03-16 18:36:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,8 @@ const Heatmap = observer(
     title,
     to,
     alias,
-    from
+    from,
+    type
   }) => {
     const { enabled, grid, text, sum, mini: devEventMini } = systemStore.devEvent
     if (!enabled || (!grid && !text && !sum && !devEventMini)) return null
@@ -47,6 +48,7 @@ const Heatmap = observer(
       to,
       alias,
       from,
+      type,
       ...data
     }
     const key = Object.keys(_data)[0] || ''

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 03:00:25
+ * @Last Modified time: 2022-03-16 19:31:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,8 @@ const Main = memo(
       advance,
       userProgress,
       onSelect,
+
+      // eslint-disable-next-line no-unused-vars
       onLongPress
     } = props
     const isSide = num % numbersOfLine === 0
@@ -71,7 +73,11 @@ const Main = memo(
     }
     return (
       <View style={containerStyle}>
-        <Popover style={style} onLongPress={() => onLongPress(item)} {...popoverProps}>
+        <Popover
+          style={style}
+          // onLongPress={() => onLongPress(item)}
+          {...popoverProps}
+        >
           <CompButton
             type={type}
             size='sm'

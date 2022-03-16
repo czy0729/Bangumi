@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 22:11:18
+ * @Last Modified time: 2022-03-16 18:14:42
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -25,7 +25,7 @@ function Header({ y, fixed }, { $, navigation }) {
       fixed={fixed}
       title={$.groupInfo.title}
       alias='小组'
-      hm={[`group/${$.groupId}`, 'Group']}
+      hm={[$.url, 'Group']}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
         <CompHeader.Popover
@@ -38,7 +38,7 @@ function Header({ y, fixed }, { $, navigation }) {
 
             switch (key) {
               case '浏览器查看':
-                open(`${HOST}/group/${$.groupId}`)
+                open($.url)
                 break
 
               case '小组成员':

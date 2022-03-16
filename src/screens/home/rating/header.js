@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 17:59:02
+ * @Last Modified time: 2022-03-16 18:10:34
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -10,7 +10,6 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { HOST } from '@constants'
 import Filter from './filter'
 
 function Header(props, { $ }) {
@@ -20,7 +19,7 @@ function Header(props, { $ }) {
       headerTitleAlign='left'
       headerTitleStyle={_.ml._md}
       alias='用户评分'
-      hm={[`${HOST}/subject/${$.subjectId}/collections`, 'Rating']}
+      hm={[$.url, 'Rating']}
       headerRight={() => (
         <Flex>
           <Filter $={$} />

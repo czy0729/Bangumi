@@ -4,13 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:15:16
+ * @Last Modified time: 2022-03-16 19:42:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { BlurView as ExpoBlurView } from 'expo-blur'
+import { _ } from '@stores'
 import { matchCoverUrl } from '@utils/app'
 import { IOS } from '@constants'
 import { Image } from './image'
@@ -56,12 +57,10 @@ export const BlurView = observer(
           textOnly={false}
           fallback
         />
-        {!!theme && (
-          <LinearGradient
-            style={StyleSheet.absoluteFill}
-            colors={backgroundColor[theme]}
-          />
-        )}
+        <LinearGradient
+          style={StyleSheet.absoluteFill}
+          colors={backgroundColor[theme] || backgroundColor[_.select('light', 'dark')]}
+        />
         {children}
       </View>
     )

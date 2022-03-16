@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 00:48:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 00:50:58
+ * @Last Modified time: 2022-03-16 18:09:12
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -15,7 +15,7 @@ function Header(props, { $ }) {
     <CompHeader
       title={$.params?.name ? `包含${$.params.name}的目录` : '条目目录'}
       alias='条目目录'
-      hm={[`subject/${$.subjectId}/index`, 'SubjectCatalogs']}
+      hm={[$.url, 'SubjectCatalogs']}
       headerRight={() => (
         <CompHeader.Popover
           data={['浏览器查看']}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 03:01:20
+ * @Last Modified time: 2022-03-16 16:07:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,14 +73,13 @@ const Item = memo(
             </Touchable>
             <View>
               <Flex style={styles.info}>
-                <Flex.Item>
-                  <Count
-                    index={index}
-                    subjectId={subjectId}
-                    subject={subject}
-                    epStatus={epStatus}
-                  />
-                </Flex.Item>
+                <Count
+                  index={index}
+                  subjectId={subjectId}
+                  subject={subject}
+                  epStatus={epStatus}
+                />
+                <Flex.Item />
                 <ToolBar index={index} subjectId={subjectId} subject={subject} />
               </Flex>
               <Progress epStatus={epStatus} subject={subject} />

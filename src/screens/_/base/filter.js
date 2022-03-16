@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:50:51
+ * @Last Modified time: 2022-03-16 18:41:57
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -20,7 +20,10 @@ const hitSlop = {
 }
 
 export const Filter = obc(
-  ({ filterDS = [], title = '频道', name = '番剧', type = 'Anime' }, { $ }) => {
+  (
+    { filterDS = [], title = '频道', name = '番剧', type = 'Anime', lastUpdate },
+    { $ }
+  ) => {
     const styles = memoStyles()
     const { query, data, layout, expand } = $.state
     return (
@@ -59,9 +62,7 @@ export const Filter = obc(
                     right={-16}
                     bottom={8}
                     id={`${type}.选择`}
-                    data={{
-                      type: item.type
-                    }}
+                    type={item.type}
                     mini
                   />
                 </View>
@@ -164,17 +165,26 @@ export const Filter = obc(
               </Flex>
             )
           })}
-        <Touchable onPress={$.onExpand}>
-          <Flex style={_.mt.sm} justify='center'>
+        <Flex style={_.mt.sm} justify='center'>
+          <Touchable style={styles.more} onPress={$.onExpand}>
             <Text size={11} lineHeight={12} type='icon' bold>
               {expand ? '收起' : '更多'}选项
             </Text>
-          </Flex>
-        </Touchable>
-        <Text style={[styles.row, _.mt.md]} size={10} type='sub'>
-          {data.list.length} 条记录
-          {!!query?.tags?.length && ` · ${query?.tags?.join(' · ')}`}
-        </Text>
+          </Touchable>
+        </Flex>
+        <Flex style={[_.container.wind, _.mt.md]}>
+          <Flex.Item>
+            <Text size={10} type='sub'>
+              {data.list.length} 条记录
+              {!!query?.tags?.length && ` · ${query?.tags?.join(' · ')}`}
+            </Text>
+          </Flex.Item>
+          {!!lastUpdate && (
+            <Text size={10} type='sub'>
+              最后更新 {lastUpdate}
+            </Text>
+          )}
+        </Flex>
       </View>
     )
   }
@@ -213,6 +223,12 @@ const memoStyles = _.memoStyles(() => ({
     bottom: 0,
     width: 34 * _.ratio,
     marginBottom: -29 * _.ratio
+  },
+  more: {
+    paddingVertical: _.xs,
+    paddingHorizontal: _.md,
+    borderRadius: _.radiusMd,
+    overflow: 'hidden'
   }
 }))
 

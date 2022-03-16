@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 15:58:49
+ * @Last Modified time: 2022-03-16 19:49:15
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -92,7 +92,7 @@ export const ImageViewer = observer(
         <Modal
           visible={visible}
           transparent
-          hardwareAccelerated
+          hardwareAccelerated={false}
           animationType='fade'
           statusBarTranslucent
           // presentationStyle='fullScreen'

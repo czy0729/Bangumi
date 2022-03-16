@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 02:38:13
+ * @Last Modified time: 2022-03-16 17:27:08
  */
 import React from 'react'
 import {
@@ -59,10 +59,12 @@ export const Touchable = observer(
 
     const _ripple = ripple === undefined ? getSystemStoreAsync().setting.ripple : ripple
     if (!IOS && _ripple) {
+      // TouchableNativeFeedback 当 delayPressIn=0 时在安卓端触摸太快会触发涟漪, 需要延迟
+      if (passProps.delayPressIn !== 0) passProps.delayPressIn = 80
       if (_useRN) {
         return (
           <View style={style}>
-            <RNTouchableNativeFeedback {...other} {...passProps} delayPressIn={80}>
+            <RNTouchableNativeFeedback {...other} {...passProps}>
               <View style={styles.touchable} />
             </RNTouchableNativeFeedback>
             {children}
@@ -73,12 +75,7 @@ export const Touchable = observer(
       const _styles = separateStyles(style)
       return (
         <View style={_styles.containerStyle}>
-          <TouchableNativeFeedback
-            style={_styles.style}
-            {...other}
-            {...passProps}
-            delayPressIn={80}
-          >
+          <TouchableNativeFeedback style={_styles.style} {...other} {...passProps}>
             <View>{children}</View>
           </TouchableNativeFeedback>
         </View>

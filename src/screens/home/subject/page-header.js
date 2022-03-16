@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 21:58:10
+ * @Last Modified time: 2022-03-16 18:10:48
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -23,7 +23,7 @@ function Header({ y, fixed }, { $, navigation }) {
       y={y}
       fixed={fixed}
       title='条目'
-      hm={[`subject/${$.subjectId}`, 'Subject']}
+      hm={[$.url, 'Subject']}
       headerTitle={<HeaderTitle $={$} />}
       headerRight={() => (
         <Flex>

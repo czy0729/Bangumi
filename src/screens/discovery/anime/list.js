@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:51:17
+ * @Last Modified time: 2022-03-16 18:37:38
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
 import { Filter } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { VERSION_ANIME } from '@constants/cdn'
 import Item from './item'
 import ItemGrid from './item-grid'
 import { filterDS } from './ds'
@@ -35,7 +36,7 @@ class List extends React.Component {
   }
 
   renderFilter() {
-    return <Filter filterDS={filterDS} />
+    return <Filter filterDS={filterDS} lastUpdate={VERSION_ANIME} />
   }
 
   render() {

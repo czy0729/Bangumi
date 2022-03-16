@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 01:36:55
+ * @Last Modified time: 2022-03-16 16:50:27
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -145,7 +145,7 @@ export function showImageViewer(imageUrls = [], index = 0) {
 /**
  * 调整键盘模式
  * https://github.com/zubricky/react-native-android-keyboard-adjust
- * @param {*} fn 函数名
+ * @param {String} fn 函数名 setAdjustPan | setAdjustResize
  */
 export function androidKeyboardAdjust(fn) {
   if (IOS) return

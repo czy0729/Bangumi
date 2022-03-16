@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:26:24
+ * @Last Modified time: 2022-03-16 17:37:22
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -55,6 +55,7 @@ export const HorizontalList = observer(
           horizontal
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={80}
+          overScrollMode='never'
           onScroll={this.show ? undefined : this.onScroll}
         >
           {this.data.map(renderItem)}

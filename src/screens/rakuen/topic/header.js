@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 23:19:23
+ * @Last Modified time: 2022-03-16 18:15:57
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -15,6 +15,7 @@ import HeaderTitle from './header-title'
 import IconFavor from './icon/favor'
 
 function Header({ y, fixed }, { $, navigation }) {
+  const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
     <CompHeader
       mode='transition'
@@ -23,7 +24,7 @@ function Header({ y, fixed }, { $, navigation }) {
       fixed={fixed}
       title={$.topic.title}
       alias='帖子'
-      hm={[`rakuen/topic/${$.topicId}`, 'Topic']}
+      hm={[url, 'Topic']}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
         <Flex>
@@ -35,7 +36,6 @@ function Header({ y, fixed }, { $, navigation }) {
                 key
               })
 
-              const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
               switch (key) {
                 case '浏览器查看':
                   open(url)

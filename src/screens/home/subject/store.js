@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:35:30
+ * @Last Modified time: 2022-03-16 19:58:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -118,8 +118,6 @@ export default class ScreenSubject extends store {
       this.setState({
         ...state,
         ...excludeState,
-        epsThumbs: [],
-
         _loaded: needFetch ? current : _loaded
       })
 
@@ -275,6 +273,8 @@ export default class ScreenSubject extends store {
    * 获取章节的缩略图
    */
   fetchEpsThumbs = async bangumiData => {
+    if (this.state.epsThumbs.length) return
+
     try {
       // bilibili
       try {

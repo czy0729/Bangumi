@@ -3,24 +3,23 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 21:43:08
+ * @Last Modified time: 2022-03-16 18:03:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import WebView from '@components/@/web-view'
-import { StatusBarEvents, Loading, Text, UM, Heatmap } from '@components'
+import { Track, StatusBarEvents, Loading, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
-import { hm, fetchHTML } from '@utils/fetch'
+import { fetchHTML } from '@utils/fetch'
 import { removeCF } from '@utils/html'
 import { HOST } from '@constants'
 import resetStyle from './reset-style'
 import { injectedStaticJavaScript } from './utils'
 
-const title = '年鉴'
 const originWhitelist = ['*']
 const lightContentYears = ['2020', '2016', '2015', '2012', '2011']
 const htmlCache = {}
@@ -28,10 +27,6 @@ const htmlCache = {}
 export default
 @ob
 class Award extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
-
   state = {
     loading: true,
     redirectCount: 0,
@@ -53,8 +48,6 @@ class Award extends React.Component {
     setTimeout(() => {
       this.onLoad()
     }, 3000)
-
-    hm(`award/${this.year}`, 'Award')
   }
 
   fetch = async () => {
@@ -161,7 +154,6 @@ class Award extends React.Component {
     const { loading, redirectCount, html } = this.state
     return (
       <View style={styles.container}>
-        <UM screen={title} />
         <StatusBarEvents
           barStyle={this.barStyle}
           backgroundColor='transparent'
@@ -194,6 +186,7 @@ class Award extends React.Component {
             onMessage={this.onMessage}
           />
         )}
+        <Track title='年鉴' hm={[`award/${this.year}`, 'Award']} />
         <Heatmap id='年鉴' screen='Award' />
         <Heatmap right={80} bottom={40} id='年鉴.跳转' transparent />
       </View>

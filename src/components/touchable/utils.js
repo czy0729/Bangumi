@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:47:23
+ * @Last Modified time: 2022-03-16 17:17:48
  */
 import { _ } from '@stores'
 
@@ -48,10 +48,6 @@ export function callOnceInInterval(functionTobeCalled, interval = 80) {
  */
 export function separateStyles(styles) {
   const {
-    display,
-    flex,
-    alignItems,
-    justifyContent,
     width,
     height,
     margin,
@@ -72,10 +68,6 @@ export function separateStyles(styles) {
     ...otherStyle
   } = _.flatten(styles) || {}
   const containerStyle = {
-    display,
-    flex,
-    alignItems,
-    justifyContent,
     width,
     height,
     margin,

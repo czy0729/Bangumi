@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:53:32
+ * @Last Modified time: 2022-03-16 18:44:32
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { Filter } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { VERSION_MANGA } from '@constants/cdn'
 import Item from './item'
 import ItemGrid from './item-grid'
 import { filterDS } from './ds'
@@ -35,7 +36,9 @@ class List extends React.Component {
   }
 
   renderFilter() {
-    return <Filter filterDS={filterDS} name='漫画' type='Manga' />
+    return (
+      <Filter filterDS={filterDS} name='漫画' type='Manga' lastUpdate={VERSION_MANGA} />
+    )
   }
 
   render() {

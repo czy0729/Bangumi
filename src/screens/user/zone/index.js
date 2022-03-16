@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 02:19:08
+ * @Last Modified time: 2022-03-16 18:25:24
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
-import { StatusBarEvents, UM } from '@components'
+import { StatusBarEvents, Track } from '@components'
 import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import UsedModal from './used-modal'
@@ -25,9 +24,7 @@ export default
 class Zone extends React.Component {
   async componentDidMount() {
     const { $ } = this.context
-    await $.init()
-
-    hm(`user/${$.params.userId}?route=zone`, 'Zone')
+    $.init()
   }
 
   onSwipeStart = () => {
@@ -50,7 +47,6 @@ class Zone extends React.Component {
     const { visible } = $.state
     return (
       <View style={_.container.plain}>
-        <UM screen={title} />
         <StatusBarEvents barStyle='light-content' backgroundColor='transparent' />
         <NavigationBarEvents />
         <Tab
@@ -75,6 +71,7 @@ class Zone extends React.Component {
         />
         <ParallaxImage />
         <UsedModal visible={visible} defaultAvatar={$.src} />
+        <Track title={title} hm={[`user/${$.params.userId}?route=zone`, 'Zone']} />
         <Heatmaps />
       </View>
     )

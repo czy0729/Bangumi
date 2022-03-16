@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 17:32:30
+ * @Last Modified time: 2022-03-16 18:05:40
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -16,7 +16,7 @@ function Header(props, { $, navigation }) {
     <CompHeader
       title={`${$.typeCn}频道`}
       alias='频道'
-      hm={['channel', 'Channel']}
+      hm={[$.url, 'Channel']}
       headerRight={() => (
         <CompHeader.Popover
           name='md-menu'

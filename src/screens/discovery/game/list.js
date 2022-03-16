@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:52:59
+ * @Last Modified time: 2022-03-16 18:43:13
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { Filter } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { VERSION_GAME } from '@constants/cdn'
 import Item from './item'
 import ItemGrid from './item-grid'
 import { filterDS } from './ds'
@@ -37,7 +38,15 @@ class List extends React.Component {
   }
 
   renderFilter() {
-    return <Filter filterDS={filterDS} title='频道　' name='游戏' type='游戏' />
+    return (
+      <Filter
+        filterDS={filterDS}
+        title='频道　'
+        name='游戏'
+        type='游戏'
+        lastUpdate={VERSION_GAME}
+      />
+    )
   }
 
   render() {

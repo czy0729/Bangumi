@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 19:16:45
+ * @Last Modified time: 2022-03-16 16:58:19
  */
 import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
@@ -18,21 +18,34 @@ import {
   useCachedResources,
   useKeepAwake,
   useOrientation,
+  useMount,
   useErrorHandlerAndroid
 } from '@utils/hooks'
+import { androidKeyboardAdjust } from '@utils/ui'
 import theme from '@styles/theme'
 
 enableScreens(false)
 
 export default function App() {
+  // 加载图标等资源
   const isLoadingComplete = useCachedResources()
+
+  // 开发环境保持常亮状态
   useKeepAwake()
+
+  // 全局致命错误捕捉
   useErrorHandlerAndroid()
 
+  // 获取水平状态, 只有平板允许横屏, 手机锁竖屏
   const orientation = useOrientation()
   useEffect(() => {
     _.toggleOrientation(orientation)
   }, [orientation])
+
+  // 键盘模式设置为不调整画面大小, 需要动态改变的在页面内自行设置
+  useMount(() => {
+    androidKeyboardAdjust('setAdjustPan')
+  })
 
   if (!isLoadingComplete) return null
 
@@ -42,9 +55,9 @@ export default function App() {
         <NavigationContainer>
           <Stacks />
         </NavigationContainer>
+        <AppCommon />
         <BackAndroid />
         <DeepLink />
-        <AppCommon />
       </Provider>
     </SafeAreaProvider>
   )

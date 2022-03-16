@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 22:14:16
+ * @Last Modified time: 2022-03-16 18:14:29
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -78,6 +78,10 @@ export default class ScreenGroup extends store {
       return rakuenStore.groupThumb(_title)
     }
     return ''
+  }
+
+  @computed get url() {
+    return `${HOST}/group/${this.groupId}`
   }
 
   /**

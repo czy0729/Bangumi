@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:08:47
+ * @Last Modified time: 2022-03-16 17:03:31
  */
 import React, { useState, useRef, useCallback } from 'react'
 import { Page, Loading } from '@components'
@@ -10,9 +10,14 @@ import { useOnScroll } from '@components/header/utils'
 import { ItemPost } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useObserver, useIsFocused, useRunAfter } from '@utils/hooks'
+import {
+  useObserver,
+  useIsFocused,
+  useRunAfter,
+  useKeyboardAdjustResize
+} from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, androidKeyboardAdjust } from '@utils/ui'
 import Header from './header'
 import List from './list'
 import TouchScroll from './touch-scroll'
@@ -156,6 +161,8 @@ const Topic = (props, { $ }) => {
   )
 
   useRunAfter(async () => {
+    androidKeyboardAdjust('setAdjustResize')
+
     setTimeout(() => {
       if (isFocused.current) setRendered(true)
     }, 400)
@@ -163,6 +170,7 @@ const Topic = (props, { $ }) => {
     await $.init()
     if ($.postId) onJumpTo()
   })
+  useKeyboardAdjustResize()
 
   return useObserver(() => {
     return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-05 04:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:21:19
+ * @Last Modified time: 2022-03-16 18:43:44
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -22,9 +22,13 @@ function Extra({ $, title = 'Anime' }) {
   // 显示的icon类型
   const currenIsList = $?.isList === undefined ? isList : $?.isList
   return (
-    <Flex style={_.mr._right}>
+    <Flex style={_.mr.xs}>
       {showLayoutIcon && (
-        <IconLayout list={currenIsList} onPress={$?.switchLayout || Function.prototype}>
+        <IconLayout
+          style={_.mr.xs}
+          list={currenIsList}
+          onPress={$?.switchLayout || Function.prototype}
+        >
           <Heatmap right={30} id={`${title}.切换布局`} />
         </IconLayout>
       )}

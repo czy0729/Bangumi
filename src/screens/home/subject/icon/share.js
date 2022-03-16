@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 21:25:01
+ * @Last Modified time: 2022-03-16 18:29:31
  */
 import React from 'react'
 import { IconTouchable } from '@screens/_'
@@ -40,6 +40,7 @@ function IconShare({ $, navigation, color }) {
         hide()
 
         navigation.push('Share', {
+          _subjectId: $.subjectId,
           _url: `${HOST}/subject/${$.subjectId}`,
           _cover: `data:image/jpg;base64,${request._response}`,
           _title: cnjp($.cn, $.jp),

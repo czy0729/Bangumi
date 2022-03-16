@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 22:30:08
+ * @Last Modified time: 2022-03-16 18:04:22
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -15,7 +15,7 @@ function Header(props, { $ }) {
   return (
     <CompHeader
       title='索引'
-      hm={['browser', 'Browser']}
+      hm={[$.url, 'Browser']}
       headerRight={() => (
         <Flex>
           <Extra $={$} />
