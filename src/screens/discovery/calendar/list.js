@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { ListView, Flex, Text, Iconfont, Heatmap } from '@components'
-import { SectionHeader } from '@screens/_'
+import { SectionHeader } from '@_'
 import { _ } from '@stores'
 import { date, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'

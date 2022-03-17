@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { Cover as CompCover } from '@screens/_'
+import { Cover as CompCover } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { getCoverMedium, getCoverLarge } from '@utils/app'

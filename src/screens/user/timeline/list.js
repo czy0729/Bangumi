@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
-import { Cover, Stars, Tag } from '@screens/_'
+import { Cover, Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { findSubjectCn } from '@utils/app'

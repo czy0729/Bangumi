@@ -7,7 +7,7 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Image, Text, Heatmap } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'

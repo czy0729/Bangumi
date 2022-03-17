@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Alert } from 'react-native'
-import { IconHeader } from '@screens/_'
+import { IconHeader } from '@_'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'

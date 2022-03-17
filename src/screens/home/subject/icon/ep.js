@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Heatmap } from '@components'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable } from '@_'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 

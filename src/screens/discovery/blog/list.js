@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { ScrollView, Flex } from '@components'
-import { Pagination, ItemBlog } from '@screens/_'
+import { Pagination, ItemBlog } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

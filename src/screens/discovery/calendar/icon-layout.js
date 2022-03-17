@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Heatmap } from '@components'
-import { IconLayout as Icon } from '@screens/_'
+import { IconLayout as Icon } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-07 22:26:51
+ * @Last Modified time: 2022-03-17 14:17:03
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -15,17 +15,21 @@ import { Flex } from './flex'
 import { Iconfont } from './iconfont'
 
 type Props = {
+  /** 容器样式 */
   style?: StyleProp<ViewStyle>
+
+  /** 展开箭头样式 */
   moreStyle?: StyleProp<ViewStyle>
-  children: React.ReactNode
 
   /** 比例 */
   ratio?: number
+
+  children: React.ReactNode
 }
 
-export const Expand: React.FC<Props> = ({ style, moreStyle, ratio = 1, children }) => {
+export const Expand = ({ style, moreStyle, ratio = 1, children }: Props) => {
   const aHeight = useRef(new Animated.Value(0))
-  const ratioHeight = 216 * _.ratio * ratio
+  const ratioHeight = _.r(216) * ratio
 
   const [expand, setExpand] = useState(false)
   const [height, setHeight] = useState(0)

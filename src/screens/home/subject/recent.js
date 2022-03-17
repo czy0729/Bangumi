@@ -7,7 +7,7 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
-import { SectionTitle, Avatar, Stars } from '@screens/_'
+import { SectionTitle, Avatar, Stars } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'

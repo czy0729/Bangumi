@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 

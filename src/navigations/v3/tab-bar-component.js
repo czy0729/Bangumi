@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
-import { BlurView } from '@screens/_'
+import { BlurView } from '@_'
 import { IOS } from '@constants'
 import { _ } from '@stores'
 

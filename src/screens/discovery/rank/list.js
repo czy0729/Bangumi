@@ -7,7 +7,7 @@
 import React from 'react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { ScrollView, Flex, Empty, Heatmap } from '@components'
-import { Pagination, ItemSearch, ItemCollectionsGrid, FilterText } from '@screens/_'
+import { Pagination, ItemSearch, ItemCollectionsGrid, FilterText } from '@_'
 import { _, collectionStore } from '@stores'
 import { runAfter } from '@utils'
 import { obc } from '@utils/decorators'

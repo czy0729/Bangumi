@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
-import { Login, SectionHeader, ItemTimeline } from '@screens/_'
+import { Login, SectionHeader, ItemTimeline } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'

@@ -5,7 +5,7 @@
  * @Last Modified time: 2021-08-13 09:22:20
  */
 import React from 'react'
-import { ManageModal } from '@screens/_'
+import { ManageModal } from '@_'
 import { memo, obc } from '@utils/decorators'
 
 const defaultProps = {

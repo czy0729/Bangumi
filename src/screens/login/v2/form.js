@@ -17,7 +17,7 @@ import {
   Iconfont,
   Heatmap
 } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'

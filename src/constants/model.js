@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-16 22:28:24
+ * @Last Modified time: 2022-03-16 22:39:46
  */
 class Model {
   constructor(data) {
@@ -530,6 +530,10 @@ export const MODEL_SETTING_TRANSITION = new Model([
   {
     label: '垂直',
     value: 'vertical'
+  },
+  {
+    label: '居中缩放',
+    value: 'scale'
   }
 ])
 

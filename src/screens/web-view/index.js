@@ -9,7 +9,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Loading, WebView as CompWebView } from '@components'
-import { IconBack } from '@screens/_'
+import { IconBack } from '@_'
 import { _, userStore } from '@stores'
 import { open } from '@utils'
 import { withHeader, ob } from '@utils/decorators'

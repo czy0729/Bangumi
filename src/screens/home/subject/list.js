@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { ListView } from '@components'
-import { ItemComment } from '@screens/_'
+import { ItemComment } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

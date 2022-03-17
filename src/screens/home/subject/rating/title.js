@@ -7,7 +7,7 @@
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { SectionTitle, Rank } from '@screens/_'
+import { SectionTitle, Rank } from '@_'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

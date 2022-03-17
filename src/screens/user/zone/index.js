@@ -7,7 +7,7 @@
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { StatusBarEvents, Track } from '@components'
-import { NavigationBarEvents } from '@screens/_'
+import { NavigationBarEvents } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import ParallaxImage from './parallax-image'

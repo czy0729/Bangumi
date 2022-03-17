@@ -19,7 +19,7 @@ import {
   UM,
   Heatmap
 } from '@components'
-import { StatusBarPlaceholder } from '@screens/_'
+import { StatusBarPlaceholder } from '@_'
 import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
 import { ob } from '@utils/decorators'

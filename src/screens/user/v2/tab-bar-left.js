@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Button, Heatmap } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'

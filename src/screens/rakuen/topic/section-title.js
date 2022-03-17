@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
-import { SectionTitle as CompSectionTitle, IconReverse } from '@screens/_'
+import { SectionTitle as CompSectionTitle, IconReverse } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Segment from './segment'

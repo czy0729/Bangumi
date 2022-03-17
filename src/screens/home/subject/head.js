@@ -7,7 +7,7 @@
 import React from 'react'
 import { View, Clipboard } from 'react-native'
 import { Flex, Text, Katakana, Heatmap } from '@components'
-import { ScoreTag, Tag } from '@screens/_'
+import { ScoreTag, Tag } from '@_'
 import { _, systemStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
 import { obc, memo } from '@utils/decorators'

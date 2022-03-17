@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 18:52:06
+ * @Last Modified time: 2022-03-17 14:24:31
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -31,6 +31,10 @@ class Theme extends store {
       if (!(key in this)) this[key] = _[key]
     })
   }
+
+  /** TS fixed */
+  md = _.md
+  radiusSm = _.radiusSm
 
   absoluteFill = StyleSheet.absoluteFill
   create = style => StyleSheet.create(style)
@@ -822,22 +826,5 @@ class Theme extends store {
 }
 
 const Store = new Theme()
-
-// setTimeout(() => {
-//   if (DEV && typeof INIT_DEV_DARK === 'boolean') {
-//     if ((INIT_DEV_DARK && !Store.isDark) || (!INIT_DEV_DARK && Store.isDark)) {
-//       Store.toggleMode()
-//       console.info('Store.toggleMode')
-//     }
-
-//     if (
-//       (INIT_DEV_DARK && !Store.isTinygrailDark) ||
-//       (!INIT_DEV_DARK && Store.isTinygrailDark)
-//     ) {
-//       Store.toggleTinygrailThemeMode()
-//       console.info('Store.toggleTinygrailThemeMode')
-//     }
-//   }
-// }, 1000)
 
 export default Store

@@ -7,7 +7,7 @@
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
 import { Flex, Iconfont, Text, Heatmap } from '@components'
-import { Popover, IconBack, Avatar } from '@screens/_'
+import { Popover, IconBack, Avatar } from '@_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { obc } from '@utils/decorators'

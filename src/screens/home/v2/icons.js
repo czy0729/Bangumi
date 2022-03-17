@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex } from '@components'
-import { IconNotify, IconTinygrail, IconTabsHeader } from '@screens/_'
+import { IconNotify, IconTinygrail, IconTabsHeader } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

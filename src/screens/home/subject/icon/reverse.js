@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Heatmap } from '@components'
-import { IconReverse as CompIconReverse } from '@screens/_'
+import { IconReverse as CompIconReverse } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

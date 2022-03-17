@@ -16,7 +16,7 @@ import {
   Iconfont,
   Heatmap
 } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { getCoverLarge } from '@utils/app'

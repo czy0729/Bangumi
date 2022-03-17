@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Mesume, Heatmap } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { correctAgo } from '@utils/app'
 import { obc } from '@utils/decorators'

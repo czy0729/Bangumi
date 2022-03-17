@@ -7,7 +7,7 @@
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

@@ -7,7 +7,7 @@
 import React from 'react'
 import { Alert, View } from 'react-native'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
 import { obc } from '@utils/decorators'

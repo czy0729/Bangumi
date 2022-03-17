@@ -5,7 +5,7 @@
  * @Last Modified time: 2021-12-05 12:00:03
  */
 import React from 'react'
-import { ItemCollectionsGrid } from '@screens/_'
+import { ItemCollectionsGrid } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { pick } from '@utils/subject/manga'

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { SectionTitle, ItemBlog } from '@screens/_'
+import { SectionTitle, ItemBlog } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

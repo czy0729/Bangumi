@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Page, Text } from '@components'
-import { FilterSwitch } from '@screens/_'
+import { FilterSwitch } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'

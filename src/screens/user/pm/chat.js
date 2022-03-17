@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
-import { ItemSay } from '@screens/_'
+import { ItemSay } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

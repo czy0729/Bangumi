@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-03-12 03:15:25
  */
 import React from 'react'
-import { IconHeader } from '@screens/_'
+import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

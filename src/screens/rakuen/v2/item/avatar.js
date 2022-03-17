@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 // import { Heatmap } from '@components'
-import { Avatar as CompAvatar } from '@screens/_'
+import { Avatar as CompAvatar } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

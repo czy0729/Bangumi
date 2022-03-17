@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Heatmap } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import RateSegement from './rate-segment'

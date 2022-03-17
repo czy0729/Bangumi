@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Katakana, Text } from '@components'
-import { Name } from '@screens/_'
+import { Name } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { correctAgo } from '@utils/app'

@@ -5,7 +5,7 @@
  * @Last Modified time: 2021-12-28 01:00:59
  */
 import React from 'react'
-import { Eps as CompEps } from '@screens/_'
+import { Eps as CompEps } from '@_'
 import { _ } from '@stores'
 import { window, wind } from '@styles'
 import { obc } from '@utils/decorators'

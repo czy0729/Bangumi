@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { Eps as CompEps } from '@screens/_'
+import { Eps as CompEps } from '@_'
 import { _ } from '@stores'
 import { window } from '@styles'
 import { obc } from '@utils/decorators'

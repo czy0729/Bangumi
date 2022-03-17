@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
-import { Filter } from '@screens/_'
+import { Filter } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { VERSION_WENKU } from '@constants/cdn'

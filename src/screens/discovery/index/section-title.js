@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
-import { SectionTitle as CompSectionTitle } from '@screens/_'
+import { SectionTitle as CompSectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

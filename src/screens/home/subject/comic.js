@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { SectionTitle, HorizontalList } from '@screens/_'
+import { SectionTitle, HorizontalList } from '@_'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

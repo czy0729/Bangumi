@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import Progress from '@ant-design/react-native/lib/progress'
-import { Cover } from '@screens/_'
+import { Cover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

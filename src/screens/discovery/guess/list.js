@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView } from '@components'
-import { Pagination } from '@screens/_'
+import { Pagination } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Item from './item'

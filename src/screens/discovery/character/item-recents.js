@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text, Heatmap } from '@components'
-import { Tag, Stars, Cover } from '@screens/_'
+import { Tag, Stars, Cover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'

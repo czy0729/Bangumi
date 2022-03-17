@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Heatmap } from '@components'
-import { LogoHeader, IconNotify, IconTinygrail, IconTabsHeader } from '@screens/_'
+import { LogoHeader, IconNotify, IconTinygrail, IconTabsHeader } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

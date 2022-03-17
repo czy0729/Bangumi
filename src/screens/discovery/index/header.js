@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
-import { StatusBarPlaceholder } from '@screens/_'
+import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Award from './award'

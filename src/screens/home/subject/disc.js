@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Expand, Text, Heatmap } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc, memo } from '@utils/decorators'
 import { appNavigate } from '@utils/app'

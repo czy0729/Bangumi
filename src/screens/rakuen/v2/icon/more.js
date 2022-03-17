@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Iconfont, Heatmap } from '@components'
-import { Popover } from '@screens/_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Text } from '@components'
-import { SectionTitle as CompSectionTitle } from '@screens/_'
+import { SectionTitle as CompSectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

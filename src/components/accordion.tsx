@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 01:27:50
+ * @Last Modified time: 2022-03-17 14:30:28
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { StyleProp, ViewStyle, View, Animated } from 'react-native'
@@ -11,23 +11,19 @@ import { runAfter } from '@utils'
 
 type Props = {
   style?: StyleProp<ViewStyle>
-  children: React.ReactNode
 
   /** 是否展开 */
   expand: boolean
 
   /** 收起后是否销毁 */
   lazy?: boolean
+
+  children: React.ReactNode
 }
 
 const minHeight = 48
 
-export const Accordion: React.FC<Props> = ({
-  style,
-  expand = false,
-  lazy = true,
-  children
-}) => {
+export const Accordion = ({ style, expand = false, lazy = true, children }: Props) => {
   const [show, setShow] = useState(lazy ? expand : true)
   const expanded = useRef(expand)
   const [h, setH] = useState(0)

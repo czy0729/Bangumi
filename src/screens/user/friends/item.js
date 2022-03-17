@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Heatmap } from '@components'
-import { ItemFriends } from '@screens/_'
+import { ItemFriends } from '@_'
 import { obc } from '@utils/decorators'
 
 const event = {

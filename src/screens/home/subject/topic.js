@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap } from '@components'
-import { SectionTitle, ItemArticle } from '@screens/_'
+import { SectionTitle, ItemArticle } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'

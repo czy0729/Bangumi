@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { HeaderPlaceholder, Flex, Text, RenderHtml, Divider } from '@components'
-import { Avatar, HorizontalList } from '@screens/_'
+import { Avatar, HorizontalList } from '@_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'

@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Katakana, Text } from '@components'
-import { SectionTitle, Cover } from '@screens/_'
+import { SectionTitle, Cover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Page, ScrollView, Text, Flex } from '@components'
-import { Cover } from '@screens/_'
+import { Cover } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'

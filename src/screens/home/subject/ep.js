@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Flex, Input, Button, Heatmap } from '@components'
-import { SectionTitle, Popover, IconTouchable } from '@screens/_'
+import { SectionTitle, Popover, IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { obc, memo } from '@utils/decorators'
 import { IOS } from '@constants'

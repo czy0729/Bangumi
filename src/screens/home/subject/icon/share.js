@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-03-16 18:29:31
  */
 import React from 'react'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { getCoverMedium, getCoverLarge, cnjp } from '@utils/app'

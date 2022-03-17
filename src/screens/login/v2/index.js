@@ -18,7 +18,7 @@ import {
   UM,
   Heatmap
 } from '@components'
-import { StatusBarPlaceholder } from '@screens/_'
+import { StatusBarPlaceholder } from '@_'
 import { _, userStore, usersStore, rakuenStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open, urlStringify } from '@utils'
 import { ob } from '@utils/decorators'

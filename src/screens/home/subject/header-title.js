@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { Cover, Stars } from '@screens/_'
+import { Cover, Stars } from '@_'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
 import { getCoverMedium } from '@utils/app'

@@ -15,7 +15,7 @@ import {
   Loading,
   Heatmap
 } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { memo, obc } from '@utils/decorators'

@@ -8,7 +8,7 @@ import React from 'react'
 import { Alert } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Flex, Text, Touchable } from '@components'
-import { IconTabsHeader } from '@screens/_'
+import { IconTabsHeader } from '@_'
 import { obc } from '@utils/decorators'
 import { _ } from '@stores'
 

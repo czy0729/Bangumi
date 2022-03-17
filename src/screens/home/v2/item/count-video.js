@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { IconExpand } from '@screens/_'
+import { IconExpand } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

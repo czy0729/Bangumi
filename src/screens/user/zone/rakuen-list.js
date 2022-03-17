@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading, ListView, Text, Heatmap } from '@components'
-import { SectionHeader } from '@screens/_'
+import { SectionHeader } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

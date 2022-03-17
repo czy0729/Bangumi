@@ -7,7 +7,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Text, Iconfont, Heatmap } from '@components'
-import { Popover, IconHeader, IconBack, Avatar } from '@screens/_'
+import { Popover, IconHeader, IconBack, Avatar } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { HTMLDecode } from '@utils/html'

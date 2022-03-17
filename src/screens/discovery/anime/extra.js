@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
-import { IconLayout, IconHeader } from '@screens/_'
+import { IconLayout, IconHeader } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 

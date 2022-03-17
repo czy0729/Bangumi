@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
-import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
+import { ItemSearch, ItemCollectionsGrid } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { ScrollView, Heatmap } from '@components'
-import { Pagination, ItemCatalog } from '@screens/_'
+import { Pagination, ItemCatalog } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

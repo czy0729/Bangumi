@@ -7,7 +7,7 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
-import { SectionTitle, Cover } from '@screens/_'
+import { SectionTitle, Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { memo, obc } from '@utils/decorators'

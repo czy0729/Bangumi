@@ -14,7 +14,7 @@ import {
   Iconfont,
   Heatmap
 } from '@components'
-import { SectionHeader, ItemBangumiList } from '@screens/_'
+import { SectionHeader, ItemBangumiList } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'

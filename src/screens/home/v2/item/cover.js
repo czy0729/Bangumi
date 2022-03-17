@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { Cover as CompCover } from '@screens/_'
+import { Cover as CompCover } from '@_'
 import { obc } from '@utils/decorators'
 import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
-import { Cover as CompCover, IconTouchable } from '@screens/_'
+import { Cover as CompCover, IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

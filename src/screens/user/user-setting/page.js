@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Image, Text, Input, Touchable, Heatmap } from '@components'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'

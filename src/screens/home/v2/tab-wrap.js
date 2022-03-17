@@ -6,7 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
-import { BlurView } from '@screens/_'
+import { BlurView } from '@_'
 import { _ } from '@stores'
 import { c } from '@utils/decorators'
 import { IOS } from '@constants'

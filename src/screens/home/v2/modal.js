@@ -5,7 +5,7 @@
  * @Last Modified time: 2021-08-16 10:12:40
  */
 import React from 'react'
-import { ManageModal } from '@screens/_'
+import { ManageModal } from '@_'
 import { obc } from '@utils/decorators'
 
 function Modal(props, { $ }) {

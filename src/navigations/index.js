@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 21:12:24
+ * @Last Modified time: 2022-03-16 22:47:09
  */
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
@@ -18,11 +18,9 @@ export const SCREENS_TOTAL = Object.keys(Screens).length
 
 const defaultScreenOptions = {
   headerShown: false,
-  // cardStyleInterpolator: forHorizontalIOS,
   cardStyle: {
     backgroundColor: 'transparent'
-  },
-  ...TransitionPresets.SlideFromRightIOS
+  }
 }
 
 const Tab = createBottomTabNavigator()
@@ -50,23 +48,35 @@ function BottomTabNavigator() {
 const Stack = createStackNavigator()
 function Stacks() {
   const { initialRouteName, initialRouteParams } = navigationsParams
-  return (
-    <Stack.Navigator
-      screenOptions={defaultScreenOptions}
-      initialRouteName={initialRouteName}
-    >
-      <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
-      {Object.keys(Screens).map(name => (
-        <Stack.Screen
-          key={name}
-          name={name}
-          component={Screens[name]}
-          initialParams={initialRouteName === name ? initialRouteParams : undefined}
-          getId={({ params }) => (params ? urlStringify(params) : undefined)}
-        />
-      ))}
-    </Stack.Navigator>
-  )
+  return useObserver(() => {
+    const { transition } = systemStore.setting
+    let transitionPresets = TransitionPresets.SlideFromRightIOS
+    if (transition === 'vertical') {
+      transitionPresets = TransitionPresets.FadeFromBottomAndroid
+    } else if (transition === 'scale') {
+      transitionPresets = TransitionPresets.ScaleFromCenterAndroid
+    }
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          ...defaultScreenOptions,
+          ...transitionPresets
+        }}
+        initialRouteName={initialRouteName}
+      >
+        <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
+        {Object.keys(Screens).map(name => (
+          <Stack.Screen
+            key={name}
+            name={name}
+            component={Screens[name]}
+            initialParams={initialRouteName === name ? initialRouteParams : undefined}
+            getId={({ params }) => (params ? urlStringify(params) : undefined)}
+          />
+        ))}
+      </Stack.Navigator>
+    )
+  })
 }
 
 export default Stacks

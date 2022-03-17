@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text, Heatmap } from '@components'
-import { IconTouchable, FolderManageModal } from '@screens/_'
+import { IconTouchable, FolderManageModal } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

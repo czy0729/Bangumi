@@ -5,7 +5,7 @@
  * @Last Modified time: 2021-12-07 12:33:17
  */
 import React from 'react'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
-import { ItemSearch } from '@screens/_'
+import { ItemSearch } from '@_'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'

@@ -19,7 +19,7 @@ import {
   Button,
   Heatmap
 } from '@components'
-import { Tag } from '@screens/_'
+import { Tag } from '@_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'

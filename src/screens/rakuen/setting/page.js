@@ -15,7 +15,7 @@ import {
   Touchable,
   Iconfont
 } from '@components'
-import { ItemSetting } from '@screens/_'
+import { ItemSetting } from '@_'
 import { _, rakuenStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'

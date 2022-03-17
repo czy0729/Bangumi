@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
-import { Login } from '@screens/_'
+import { Login } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
