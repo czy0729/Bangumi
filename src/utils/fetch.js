@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 20:17:35
+ * @Last Modified time: 2022-03-21 22:27:22
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -414,17 +414,18 @@ export function sax({
  * @param {*} url
  * @param {*} screen
  */
+let lastScreen = ''
 let lastHm = ''
 export function hm(url, screen) {
-  if (screen) {
-    t('其他.查看', {
-      screen
-    })
-  }
-
   try {
     // 保证这种低优先级的操作在UI响应之后再执行
     InteractionManager.runAfterInteractions(() => {
+      if (screen) {
+        t('其他.查看', {
+          screen
+        })
+      }
+
       const fullUrl = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
       const query = {
         v: VERSION_GITHUB_RELEASE
@@ -432,6 +433,7 @@ export function hm(url, screen) {
       const { isDark, isTinygrailDark } = getThemeStoreAsync()
       if (isDark) query.dark = 1
       if (screen) {
+        lastScreen = screen
         if (screen.includes('Tinygrail') && isTinygrailDark) {
           query.tdark = 1
         }
@@ -482,6 +484,40 @@ export function ua() {
       request.open('GET', link, true)
       request.withCredentials = true
       request.send(null)
+    })
+  } catch (error) {
+    console.warn('[fetch] u', error)
+  }
+}
+
+/**
+ * 致命错误上报
+ */
+export function err(desc) {
+  try {
+    if (!desc) return
+
+    const userStore = getUserStoreAsync()
+    const request = new XMLHttpRequest()
+    const link = `https://hm.baidu.com/hm.gif?${urlStringify({
+      rnd: randomn(10),
+      lt: getTimestamp(),
+      si: '00da9670516311c9b9014c067022f55c',
+      v: '1.2.51',
+      api: '4_0',
+      u: `${userStore?.url}?${urlStringify({
+        v: VERSION_GITHUB_RELEASE,
+        d: desc,
+        s: lastScreen
+      })}`
+    })}`
+    request.open('GET', link, true)
+    request.withCredentials = true
+    request.send(null)
+
+    t('其他.崩溃', {
+      error: desc,
+      id: userStore?.myId || ''
     })
   } catch (error) {
     console.warn('[fetch] u', error)

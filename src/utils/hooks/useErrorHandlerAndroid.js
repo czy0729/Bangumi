@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 21:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-07 22:22:37
+ * @Last Modified time: 2022-03-21 22:27:55
  */
 import { useEffect } from 'react'
 import { Alert } from 'react-native'
@@ -11,8 +11,7 @@ import {
   setNativeExceptionHandler
 } from 'react-native-exception-handler'
 import RNRestart from 'react-native-restart'
-import { getUserStoreAsync } from '../async'
-import { t } from '../fetch'
+import { err } from '../fetch'
 
 export default function useErrorHandlerAndroid() {
   useEffect(() => {
@@ -23,6 +22,8 @@ export default function useErrorHandlerAndroid() {
 
 function errorHandler(e, isFatal) {
   if (isFatal) {
+    err(`${e.name} ${e.message}`)
+
     Alert.alert(
       'Unexpected error occurred',
       `
@@ -37,10 +38,5 @@ function errorHandler(e, isFatal) {
         }
       ]
     )
-
-    t('其他.崩溃', {
-      error: `${e.name} ${e.message}`,
-      id: getUserStoreAsync()?.myId || ''
-    })
   }
 }
