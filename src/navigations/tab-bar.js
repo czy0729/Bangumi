@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:18:04
+ * @Last Modified time: 2022-03-17 15:41:11
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -75,10 +75,13 @@ const memoStyles = _.memoStyles(() => ({
     height: _.tabBarHeight,
     backgroundColor: _.ios(
       _.select(_.colorPlain, _._colorDarkModeLevel1),
-      _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
+      _.select(_.colorPlain, _.deep(_._colorPlain, _._colorDarkModeLevel1))
     ),
-    borderTopWidth: _.ios(0, _.select(_.hairlineWidth, 0)),
-    borderTopColor: _.colorBorder
+    borderTopWidth: _.ios(0, _.select(_.hairlineWidth, _.deep(0, _.hairlineWidth))),
+    borderTopColor: _.ios(
+      'transparent',
+      _.select(_.colorBorder, _.deep('transparent', 'rgba(0, 0, 0, 0.16)'))
+    )
   },
   item: {
     height: 50

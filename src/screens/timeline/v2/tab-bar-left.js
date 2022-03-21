@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:34:35
+ * @Last Modified time: 2022-03-17 15:28:23
  */
 import React from 'react'
 import { Flex, Button, Heatmap } from '@components'
@@ -38,9 +38,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _._wind * _.ratio,
     paddingRight: _.sm,
     marginTop: _.device(0, 2),
-    backgroundColor: IOS
-      ? 'transparent'
-      : _.select('transparent', _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
+    backgroundColor: IOS ? 'transparent' : _.select('transparent', _.colorPlain)
   },
   btn: {
     width: 48 * _.ratio,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 14:24:31
+ * @Last Modified time: 2022-03-17 15:44:57
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -799,13 +799,11 @@ class Theme extends store {
         !item._styles ||
         item._mode !== this.mode ||
         item._tMode !== this.tinygrailThemeMode ||
-        // item._flat !== this.flat ||
         item._deepDark !== this.deepDark ||
         item._orientation !== this.orientation
       ) {
         item._mode = this.mode
         item._tMode = this.tinygrailThemeMode
-        // item._flat = this.flat
         item._deepDark = this.deepDark
         item._orientation = this.orientation
 

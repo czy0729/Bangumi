@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:41:57
+ * @Last Modified time: 2022-03-17 15:41:58
  */
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
@@ -70,12 +70,12 @@ export default obc(Tab, {
 
 const memoStyles = _.memoStyles(() => ({
   tabBar: {
-    // paddingTop: _.headerHeight - (IOS ? 18 : 24),
-    backgroundColor: IOS
-      ? 'transparent'
-      : _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
-    borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
-    borderBottomColor: _.colorBorder,
+    backgroundColor: _.ios('transparent', _.select('transparent', _.colorPlain)),
+    borderBottomWidth: _.ios(0, _.select(_.hairlineWidth, _.deep(0, _.hairlineWidth))),
+    borderBottomColor: _.ios(
+      'transparent',
+      _.select(_.colorBorder, _.deep('transparent', 'rgba(0, 0, 0, 0.16)'))
+    ),
     elevation: 0
   },
   tab: {

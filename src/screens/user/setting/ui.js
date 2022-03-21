@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 23:50:31
+ * @Last Modified time: 2022-03-17 15:51:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -424,6 +424,7 @@ function UI() {
                 }}
               />
             }
+            information='切换可能需要重新启动才能正确生效'
           >
             <Heatmap id='设置.切换' title='切页动画' />
           </ItemSetting>
