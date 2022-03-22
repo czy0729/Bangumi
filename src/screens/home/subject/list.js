@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 03:35:05
+ * @Last Modified time: 2022-03-22 15:27:53
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -54,7 +54,7 @@ class List extends React.Component {
     return (
       <ListView
         style={_.container.flex}
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={$.subjectComments}
         lazy={1}
@@ -72,10 +72,3 @@ class List extends React.Component {
     )
   }
 }
-
-const styles = _.create({
-  contentContainerStyle: {
-    paddingTop: _.headerHeight,
-    paddingBottom: _.space
-  }
-})

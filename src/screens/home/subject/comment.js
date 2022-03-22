@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 17:54:04
+ * @Last Modified time: 2022-03-22 02:45:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,13 +45,7 @@ const Comment = memo(({ showComment, pageTotal, onSwitchBlock }) => {
           {20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)}+
         </Text>
       </SectionTitle>
-      <Heatmap
-        bottom={32}
-        id='条目.跳转'
-        data={{
-          from: '吐槽'
-        }}
-      />
+      <Heatmap bottom={32} id='条目.跳转' from='吐槽' />
     </>
   )
 }, defaultProps)

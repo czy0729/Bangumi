@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-29 04:50:22
+ * @Last Modified time: 2022-03-22 02:39:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -168,8 +168,8 @@ export default obc((props, { $, navigation }) => {
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingHorizontal: _.wind,
-    marginTop: _.md
+    paddingTop: _.md,
+    paddingHorizontal: _.wind
   },
   sectionTitle: {
     height: 28

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:36:44
+ * @Last Modified time: 2022-03-22 15:33:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import Bg from './bg'
 import Head from './head'
 import Lock from './lock'
 import Box from './box'
@@ -35,7 +36,8 @@ function Header(props, { $ }) {
   const { rendered } = $.state
   const { _loaded } = $.subjectComments
   return (
-    <View style={styles.container}>
+    <>
+      <Bg />
       <Head />
       <View style={styles.content}>
         <Lock />
@@ -67,18 +69,15 @@ function Header(props, { $ }) {
           </Flex>
         )}
       </View>
-    </View>
+    </>
   )
 }
 
 export default obc(Header)
 
 const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingBottom: _.sm
-  },
   content: {
-    minHeight: _.window.height * 0.5,
+    zIndex: 1,
     backgroundColor: _.colorPlain
   },
   title: {
