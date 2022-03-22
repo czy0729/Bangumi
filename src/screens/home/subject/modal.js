@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-13 09:22:20
+ * @Last Modified time: 2022-03-22 21:31:21
  */
 import React from 'react'
 import { ManageModal } from '@_'
@@ -39,6 +39,8 @@ const Modal = memo(
 
 export default obc((props, { $ }) => {
   rerender('Subject.Modal')
+
+  if (!$.isLogin) return null
 
   return (
     <Modal

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-23 08:24:40
+ * @Last Modified time: 2022-03-22 23:37:22
  */
 import { observable, computed } from 'mobx'
 import {
@@ -36,10 +36,9 @@ const excludeState = {
   expand: false,
   link: ''
 }
+const namespace = 'ScreenDiscovery'
 
 export default class ScreenDiscovery extends store {
-  namespace = 'ScreenDiscovery'
-
   state = observable({
     showBlockTrain: true,
     ...excludeState,
@@ -47,7 +46,7 @@ export default class ScreenDiscovery extends store {
   })
 
   init = async () => {
-    const state = (await this.getStorage()) || {}
+    const state = (await this.getStorage(undefined, namespace)) || {}
     const { showBlockTrain } = state
     this.setState({
       showBlockTrain,
@@ -200,14 +199,14 @@ export default class ScreenDiscovery extends store {
     this.setState({
       expand: true
     })
-    this.saveStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   closeMenu = () => {
     this.setState({
       expand: false
     })
-    this.saveStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   /**
@@ -268,7 +267,7 @@ export default class ScreenDiscovery extends store {
     this.setState({
       showBlockTrain: !showBlockTrain
     })
-    this.saveStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   saveDiscoveryMenu = discoveryMenu => {

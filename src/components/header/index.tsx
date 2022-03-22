@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 14:41:09
+ * @Last Modified time: 2022-03-23 01:26:12
  */
 import React, { useLayoutEffect } from 'react'
 import { StyleProp, TextStyle } from 'react-native'
@@ -18,6 +18,7 @@ import { Track } from '../track'
 import Popover from './popover'
 import Placeholder from './placeholder'
 import { updateHeader } from './utils'
+import HeaderComponent from './header-component'
 
 type Props = {
   /** 模式 */
@@ -96,11 +97,9 @@ const Header = ({
     updateHeader({
       navigation,
       mode,
-      y,
       fixed,
       title,
       headerRight,
-      headerTitle,
       headerTitleAlign,
       headerTitleStyle,
       statusBarEventsType
@@ -108,11 +107,9 @@ const Header = ({
   }, [
     navigation,
     mode,
-    y,
     fixed,
     title,
     headerRight,
-    headerTitle,
     headerTitleAlign,
     headerTitleStyle,
     statusBarEventsType
@@ -138,6 +135,17 @@ const Header = ({
 
     return (
       <>
+        {!!mode && (
+          <HeaderComponent
+            navigation={navigation}
+            y={y}
+            fixed={fixed}
+            title={title}
+            statusBarEventsType={statusBarEventsType}
+            headerTitle={headerTitle}
+            headerRight={headerRight}
+          />
+        )}
         {statusBarEvents && <StatusBarEvents {...statusBarEventsProps} />}
         <Track title={title} hm={hm} alias={alias} />
       </>

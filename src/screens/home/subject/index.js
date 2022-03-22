@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 15:35:00
+ * @Last Modified time: 2022-03-23 01:27:40
  */
 import React from 'react'
 import { Page, Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { useOnScroll } from '@components/header/utils'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useIsFocused, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { _ } from '@stores'
 import Header from './page-header'
 import List from './list'
 import Modal from './modal'
@@ -36,8 +37,8 @@ const Subject = (props, { $ }) => {
       <Header y={y} fixed={fixed} />
       <Page>
         <List onScroll={onScroll} />
+        <Modal />
       </Page>
-      <Modal />
       <Heatmap id='条目' screen='Subject' />
     </>
   ))

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 15:33:32
+ * @Last Modified time: 2022-03-22 22:17:25
  */
 import React from 'react'
+import { View } from 'react-native'
 import { BlurView } from '@components'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
@@ -30,11 +31,12 @@ const Bg = memo(({ styles, src }) => {
 export default obc((props, { $ }) => {
   rerender('Subject.Bg')
 
+  const styles = memoStyles()
   const { images = {} } = $.subject
   const src = $.coverPlaceholder || images.common
-  if (typeof src !== 'string') return null
+  if (typeof src !== 'string') return <View style={styles.bg} />
 
-  return <Bg styles={memoStyles()} src={src} />
+  return <Bg styles={styles} src={src} />
 })
 
 const memoStyles = _.memoStyles(() => ({

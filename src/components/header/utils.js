@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 15:22:46
+ * @Last Modified time: 2022-03-23 01:23:15
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
 import Back from './back'
-import Transition, { headerTransitionHeight } from './transition'
+import { headerTransitionHeight } from './transition'
 
-const colors = {
+export const colors = {
   Subject: fixed => (_.isDark || !fixed ? '#fff' : '#000'),
   Tinygrail: () => _.colorTinygrailPlain
 }
-const backgroundColors = {
+export const backgroundColors = {
   Tinygrail: () => _.colorTinygrailContainer
 }
 
@@ -29,9 +29,7 @@ export const updateHeader = ({
 
   // 非必要
   mode,
-  y = 0,
   fixed = false,
-  headerTitle,
   statusBarEventsType
 }) => {
   if (!navigation) return
@@ -45,7 +43,7 @@ export const updateHeader = ({
     : undefined
   const options = {
     // header
-    headerTransparent: !!mode,
+    headerTransparent: false,
     headerShown: true,
     headerStyle: {
       backgroundColor: backgroundColor || (mode ? 'transparent' : _.colorPlain),
@@ -78,10 +76,19 @@ export const updateHeader = ({
     options.headerRight = headerRight
   }
 
+  /**
+   * 部分vivo 华为机型有非常诡异的bug
+   * headerTransparent不能为true, height不能为0, position不能为absolute, 背景不能为透明
+   * 只要有上述任何一个条件达成了, 就会触发页面背景色丢失, 看见前一个页面文字的bug!
+   * 现在只能自己模拟一个<Header />去避免这个问题
+   */
   if (mode) {
-    options.headerBackground = () => (
-      <Transition y={y} fixed={fixed} title={_title} headerTitle={headerTitle} />
-    )
+    options.headerStyle = {
+      ...options.headerStyle,
+      height: 1
+    }
+    options.headerLeft = () => null
+    options.headerRight = () => null
   }
 
   // platform fixed

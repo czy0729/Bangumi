@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:32:46
+ * @Last Modified time: 2022-03-23 01:32:50
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
@@ -57,7 +57,7 @@ const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     bottom: 8,
     left: 56,
-    right: 88,
+    right: 72,
     minHeight: 26 * 1.28
   },
   text: {

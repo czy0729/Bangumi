@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 16:58:19
+ * @Last Modified time: 2022-03-22 21:59:39
  */
 import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
@@ -24,8 +24,6 @@ import {
 import { androidKeyboardAdjust } from '@utils/ui'
 import theme from '@styles/theme'
 
-enableScreens(false)
-
 export default function App() {
   // 加载图标等资源
   const isLoadingComplete = useCachedResources()
@@ -44,6 +42,7 @@ export default function App() {
 
   // 键盘模式设置为不调整画面大小, 需要动态改变的在页面内自行设置
   useMount(() => {
+    enableScreens(false)
     androidKeyboardAdjust('setAdjustPan')
   })
 

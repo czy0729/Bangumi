@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:22:54
+ * @Last Modified time: 2022-03-23 01:27:37
  */
 import React from 'react'
 import { Page, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
+import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'

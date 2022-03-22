@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 18:11:31
+ * @Last Modified time: 2022-03-22 17:10:08
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -17,7 +17,7 @@ const regAvatar = /\[avatar\](.+?)\[\/avatar\]/
 const regFixed =
   /\[size=0\]\[avatar\]\[\/avatar\]\[\/size\]|\[size=0\]\[bg\]\[\/bg\]\[\/size\]/g
 
-export default class ScreenAvatar extends store {
+export default class ScreenUserSetting extends store {
   state = observable({
     nickname: '',
     sign_input: '',
