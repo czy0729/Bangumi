@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 01:31:17
+ * @Last Modified time: 2022-03-24 01:08:45
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { Flex } from '../flex'
 import Back from './back'
 import Transition from './transition'
-import { colors } from './utils'
+import { colors } from './styles'
 
 function HeaderComponent({
   navigation,
@@ -27,24 +26,18 @@ function HeaderComponent({
     ? colors[statusBarEventsType](fixed)
     : undefined
   return (
-    <>
-      <Flex style={styles.header}>
-        <Transition y={y} fixed={fixed} title={title} headerTitle={headerTitle} />
-        <Back navigation={navigation} color={color} />
-        <Flex.Item />
-        {!!headerRight && headerRight()}
-      </Flex>
-      <View style={styles.fixedLayout} />
-    </>
+    <Flex style={styles.header}>
+      <Transition y={y} fixed={fixed} title={title} headerTitle={headerTitle} />
+      <Back navigation={navigation} color={color} />
+      <Flex.Item />
+      {!!headerRight && headerRight()}
+    </Flex>
   )
 }
 
 export default observer(HeaderComponent)
 
 const memoStyles = _.memoStyles(() => ({
-  fixedLayout: {
-    marginTop: -2
-  },
   header: {
     position: 'absolute',
     zIndex: 1,
@@ -54,7 +47,6 @@ const memoStyles = _.memoStyles(() => ({
     height: _.headerHeight,
     paddingTop: _.statusBarHeight,
     paddingRight: 6,
-    paddingLeft: 5,
-    marginTop: -2
+    paddingLeft: 5
   }
 }))

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 01:26:12
+ * @Last Modified time: 2022-03-24 00:54:16
  */
 import React, { useLayoutEffect } from 'react'
 import { StyleProp, TextStyle } from 'react-native'
@@ -19,6 +19,7 @@ import Popover from './popover'
 import Placeholder from './placeholder'
 import { updateHeader } from './utils'
 import HeaderComponent from './header-component'
+import { statusBarEventsTypes } from './styles'
 
 type Props = {
   /** 模式 */
@@ -59,23 +60,6 @@ type Props = {
 
   /** 预设的状态栏主题 */
   statusBarEventsType?: 'Subject' | 'Topic' | 'Tinygrail'
-}
-
-const statusBarEventsTypes = {
-  Subject: fixed => {
-    return {
-      barStyle: _.isDark || fixed ? 'dark-content' : 'light-content',
-      backgroundColor: 'transparent',
-      action: 'onWillFocus'
-    }
-  },
-  Topic: () => {
-    return {
-      barStyle: 'dark-content',
-      backgroundColor: 'transparent',
-      action: 'onWillFocus'
-    }
-  }
 }
 
 const Header = ({

@@ -2,22 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 01:23:15
+ * @Last Modified time: 2022-03-24 00:55:06
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
 import Back from './back'
-import { headerTransitionHeight } from './transition'
+import { colors, backgroundColors } from './styles'
 
-export const colors = {
-  Subject: fixed => (_.isDark || !fixed ? '#fff' : '#000'),
-  Tinygrail: () => _.colorTinygrailPlain
-}
-export const backgroundColors = {
-  Tinygrail: () => _.colorTinygrailContainer
-}
+const headerTransitionHeight = 56
 
 export const updateHeader = ({
   // 必要
@@ -77,16 +71,21 @@ export const updateHeader = ({
   }
 
   /**
+   * @bug
+   *
+   * 这个应该是react-navigation@5或者react-screens的内部问题
    * 部分vivo 华为机型有非常诡异的bug
-   * headerTransparent不能为true, height不能为0, position不能为absolute, 背景不能为透明
-   * 只要有上述任何一个条件达成了, 就会触发页面背景色丢失, 看见前一个页面文字的bug!
-   * 现在只能自己模拟一个<Header />去避免这个问题
+   * headerTransparent不能为true, height不能为0, position不能为absolute, backgroundColor不能为透明
+   * 只要你试图用任何手段让header看不见, 就会触发当前页面背景色丢失, 看见前一个页面内容的bug!
+   * 现在通过一些hack手段, 自己模拟一个<HeaderComponent>去避免这个问题
    */
   if (mode) {
     options.headerStyle = {
       ...options.headerStyle,
-      height: 1
+      height: 0.5 // 别问为什么留0.5, 我也想知道, 不给他留一点就是会出问题
     }
+
+    // headerLeft和headerRight因为上面的问题迁移到了<HeaderComponent>里面实现
     options.headerLeft = () => null
     options.headerRight = () => null
   }
@@ -94,6 +93,7 @@ export const updateHeader = ({
   // platform fixed
   if (IOS) {
   } else {
+    // 文字至少留一个fontFamily, 不然可能会触发文字截断bug
     options.headerTitleStyle.fontFamily = ''
   }
 

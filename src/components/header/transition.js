@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 01:32:50
+ * @Last Modified time: 2022-03-24 00:55:23
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Text } from '../text'
-
-export const headerTransitionHeight = 56
 
 function Transition({ fixed, title, headerTitle }) {
   const wrapStyles = useAnimatedStyle(() => ({
