@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 01:15:02
+ * @Last Modified time: 2022-03-23 19:41:17
  */
 import React from 'react'
 import { Header, Page, ScrollView, Flex } from '@components'
@@ -23,6 +23,7 @@ import UI from './ui'
 import CDN from './cdn'
 import Tinygrail from './tinygrail'
 import Katakana from './katakana'
+import Origin from './origin'
 import Route from './route'
 import Home from './home'
 import Contact from './contact'
@@ -51,6 +52,7 @@ const Setting = ({ navigation }) => {
             <CDN navigation={navigation} />
             <Route navigation={navigation} />
             <Katakana navigation={navigation} />
+            <Origin navigation={navigation} />
           </Block>
           <Block>
             <Tip>模块</Tip>

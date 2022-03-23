@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 22:49:11
+ * @Last Modified time: 2022-03-23 11:33:56
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -29,6 +29,7 @@ export const Tag = ob(({ style, type, value, size = 10 }) => {
         break
 
       case '游戏':
+      case '生效':
         _type = 'success'
         break
 
@@ -36,6 +37,10 @@ export const Tag = ob(({ style, type, value, size = 10 }) => {
       case '客串':
       case 'H':
         _type = 'warning'
+        break
+
+      case '停用':
+        _type = 'danger'
         break
 
       case '想看':
@@ -65,6 +70,7 @@ export const Tag = ob(({ style, type, value, size = 10 }) => {
 
       case '搁置':
       case '抛弃':
+      case '只读':
         isActive = true
         _type = 'waitActive'
         break
@@ -113,6 +119,10 @@ const memoStyles = _.memoStyles(() => ({
     borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1)
   },
   warning: {
+    backgroundColor: _.select(_.colorWarningLight, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorWarningBorder, _._colorDarkModeLevel1)
+  },
+  danger: {
     backgroundColor: _.select(_.colorWarningLight, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorWarningBorder, _._colorDarkModeLevel1)
   },
