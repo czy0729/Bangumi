@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:25:00
+ * @Last Modified time: 2022-03-24 08:31:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -84,7 +84,8 @@ const memoStyles = _.memoStyles(() => ({
     width: _.windowSm.width - 2 * _.windSm,
     maxWidth: 400,
     marginBottom: _.windowSm.height * 0.4,
-    backgroundColor: _.select(_.colorBg, _.colorBg)
+    backgroundColor: _.select(_.colorBg, _.colorBg),
+    borderRadius: _.radiusMd
   },
   container: {
     paddingVertical: _.md,

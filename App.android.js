@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 21:59:39
+ * @Last Modified time: 2022-03-24 21:45:18
  */
 import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
@@ -19,7 +19,8 @@ import {
   useKeepAwake,
   useOrientation,
   useMount,
-  useErrorHandlerAndroid
+  useErrorHandlerAndroid,
+  useGlobalMount
 } from '@utils/hooks'
 import { androidKeyboardAdjust } from '@utils/ui'
 import theme from '@styles/theme'
@@ -45,6 +46,9 @@ export default function App() {
     enableScreens(false)
     androidKeyboardAdjust('setAdjustPan')
   })
+
+  // App启动稳定后统一做的操作
+  useGlobalMount()
 
   if (!isLoadingComplete) return null
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 22:47:09
+ * @Last Modified time: 2022-03-24 20:48:57
  */
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
@@ -26,9 +26,13 @@ const defaultScreenOptions = {
 const Tab = createBottomTabNavigator()
 function BottomTabNavigator() {
   return useObserver(() => {
-    const { homeRenderTabs } = systemStore.setting
+    const { homeRenderTabs, initialPage } = systemStore.setting
+    const initialRouteName = homeRenderTabs.includes(initialPage) ? initialPage : 'Home'
     return (
-      <Tab.Navigator initialRouteName='Home' tabBar={props => <TabBar {...props} />}>
+      <Tab.Navigator
+        initialRouteName={initialRouteName}
+        tabBar={props => <TabBar {...props} />}
+      >
         {homeRenderTabs.includes('Discovery') && (
           <Tab.Screen name='Discovery' component={Screens.Discovery} />
         )}

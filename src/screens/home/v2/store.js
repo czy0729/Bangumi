@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 09:10:10
+ * @Last Modified time: 2022-03-24 21:57:35
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -977,19 +977,6 @@ export default class ScreenHomeV2 extends store {
     if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')) {
       return navigation.push('Tinygrail')
     }
-
-    setTimeout(() => {
-      // 若功能块不显示, 不跳转, 初始化进度页面
-      const { initialPage, homeRenderTabs } = systemStore.setting
-      if (!homeRenderTabs.includes(initialPage)) {
-        return this.init()
-      }
-
-      this.setState({
-        isFocused: false
-      })
-      navigation.navigate(this.initialPage)
-    }, 0)
   }
 
   onFilterChange = filter => {

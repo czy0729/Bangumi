@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:11
+ * @Last Modified time: 2022-03-24 08:31:32
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -343,7 +343,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingTop: _.device(_.md + 2, 28),
     paddingHorizontal: _.device(0, _.sm),
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusSm
+    borderRadius: _.radiusMd
   },
   focus: {
     marginTop: -parseInt(window.height * 0.32)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 23:37:22
+ * @Last Modified time: 2022-03-24 20:39:14
  */
 import { observable, computed } from 'mobx'
 import {
@@ -192,6 +192,11 @@ export default class ScreenDiscovery extends store {
   @computed get discoveryMenu() {
     const { setting } = systemStore
     return setting.discoveryMenu
+  }
+
+  @computed get discoveryTodayOnair() {
+    const { setting } = systemStore
+    return setting.discoveryTodayOnair
   }
 
   // -------------------- action --------------------

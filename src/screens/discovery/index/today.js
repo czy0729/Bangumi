@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 23:27:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 17:32:30
+ * @Last Modified time: 2022-03-24 20:39:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,7 @@ const Today = memo(({ styles, todayBangumi }) => {
 export default obc((props, { $ }) => {
   rerender('Discovery.Today')
 
-  if (!$.todayBangumi.length) return null
+  if (!$.discoveryTodayOnair || !$.todayBangumi.length) return null
 
   return <Today styles={memoStyles()} todayBangumi={$.todayBangumi} />
 })

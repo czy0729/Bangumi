@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:34:37
+ * @Last Modified time: 2022-03-24 08:32:15
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
@@ -173,7 +173,8 @@ const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.window.width - 2 * _.wind,
     maxWidth: 400,
-    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorBg__)
+    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorBg__),
+    borderRadius: _.radiusMd
   },
   focus: {
     marginTop: -parseInt(_.window.height * 0.56)

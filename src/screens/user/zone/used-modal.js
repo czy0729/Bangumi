@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:52:07
+ * @Last Modified time: 2022-03-24 08:32:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -198,7 +198,8 @@ const memoStyles = _.memoStyles(() => ({
   modal: {
     width: (_.window.width - 2 * _.wind) * _.ratio,
     maxWidth: 320 * _.ratio,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: _.radiusMd
   },
   content: {
     paddingHorizontal: _.sm

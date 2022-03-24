@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-29 05:05:01
+ * @Last Modified time: 2022-03-24 20:11:34
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -97,7 +97,7 @@ export const INIT_SETTING = {
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
 
-  // 发现自定义菜单
+  // 发现页自定义菜单
   discoveryMenu: [
     'Rank',
     'Anime',
@@ -120,6 +120,7 @@ export const INIT_SETTING = {
     'Catalogs',
     'Link'
   ],
+  discoveryTodayOnair: true, // 发现页今日放送
 
   // 条目页面布局
   ...INIT_SUBJECT_LAYOUT

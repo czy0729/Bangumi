@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 21:09:33
+ * @Last Modified time: 2022-03-24 21:42:03
  */
 import React from 'react'
 import { useFocusEffect } from '@react-navigation/native'
@@ -11,8 +11,7 @@ import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import { Track } from '@components'
 import { StatusBarEvents, Auth, NavigationBarEvents } from '@_'
-import { _, calendarStore } from '@stores'
-import { t, ua } from '@utils/fetch'
+import { _ } from '@stores'
 import { IOS } from '@constants'
 import Header from './header'
 import Tab from './tab-wrap'
@@ -23,16 +22,6 @@ import Store from './store'
 const Home = (props, { $, navigation }) => {
   useRunAfter(() => {
     $.updateInitialPage(navigation)
-
-    setTimeout(() => {
-      calendarStore.fetchOnAir()
-
-      t('其他.启动', {
-        userId: $.userId,
-        device: _.isPad ? 'pad' : 'mobile'
-      })
-      if ($.isLogin) ua()
-    }, 6400)
   })
 
   useFocusEffect(() => {

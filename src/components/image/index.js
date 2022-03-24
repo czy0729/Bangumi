@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 23:45:57
+ * @Last Modified time: 2022-03-24 07:16:18
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -243,9 +243,7 @@ export const Image = observer(
         },
         () => {
           const { onError } = this.props
-          if (onError) {
-            onError()
-          }
+          if (typeof onError === 'function') onError()
         }
       )
     }

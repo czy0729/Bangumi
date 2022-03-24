@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-14 06:55:34
+ * @Last Modified time: 2022-03-24 20:39:20
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
-import { Touchable, Flex, Text } from '@components'
-import { _ } from '@stores'
+import { Touchable, Flex, Text, SwitchPro } from '@components'
+import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { rerender } from '@utils/dev'
+import { t } from '@utils/fetch'
 import { IOS, ORIENTATION_PORTRAIT } from '@constants'
 import Btn from './btn'
 import { getMenus } from './ds'
@@ -20,12 +21,21 @@ const defaultProps = {
   orientation: _.orientation,
   dragging: false,
   discoveryMenu: [],
+  discoveryTodayOnair: true,
   onToggle: Function.prototype,
   onSubmit: Function.prototype
 }
 
 const SortMenu = memo(
-  ({ styles, orientation, dragging, discoveryMenu, onToggle, onSubmit }) => {
+  ({
+    styles,
+    orientation,
+    dragging,
+    discoveryMenu,
+    discoveryTodayOnair,
+    onToggle,
+    onSubmit
+  }) => {
     rerender('Discovery.SortMenu.Main')
 
     const [menu, setMenu] = useState(discoveryMenu)
@@ -76,28 +86,47 @@ const SortMenu = memo(
     const btns = useMemo(
       () =>
         dragging && (
-          <Flex style={styles.btns} justify='end'>
-            <Flex.Item>
-              <Touchable style={styles.touch} onPress={onCancel}>
-                <Flex style={styles.btn} justify='center'>
-                  <Text type='__plain__' bold>
-                    取消
-                  </Text>
-                </Flex>
-              </Touchable>
-            </Flex.Item>
-            <Flex.Item style={_.ml.md}>
-              <Touchable style={styles.touch} onPress={onSave}>
-                <Flex style={styles.btn} justify='center'>
-                  <Text type='__plain__' bold>
-                    保存
-                  </Text>
-                </Flex>
-              </Touchable>
-            </Flex.Item>
-          </Flex>
+          <>
+            <Flex style={styles.btns} justify='end'>
+              <Flex.Item>
+                <Touchable style={styles.touch} onPress={onCancel}>
+                  <Flex style={styles.btn} justify='center'>
+                    <Text type='__plain__' bold>
+                      取消
+                    </Text>
+                  </Flex>
+                </Touchable>
+              </Flex.Item>
+              <Flex.Item style={_.ml.md}>
+                <Touchable style={styles.touch} onPress={onSave}>
+                  <Flex style={styles.btn} justify='center'>
+                    <Text type='__plain__' bold>
+                      保存
+                    </Text>
+                  </Flex>
+                </Touchable>
+              </Flex.Item>
+            </Flex>
+            <Flex style={styles.setting}>
+              <Flex.Item>
+                <Text>今日放送</Text>
+              </Flex.Item>
+              <SwitchPro
+                style={styles.switch}
+                value={discoveryTodayOnair}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '发现今日放送',
+                    checked: !discoveryTodayOnair
+                  })
+
+                  systemStore.switchSetting('discoveryTodayOnair')
+                }}
+              />
+            </Flex>
+          </>
         ),
-      [styles, dragging, onCancel, onSave]
+      [styles, dragging, discoveryTodayOnair, onCancel, onSave]
     )
 
     const isPortrait = orientation === ORIENTATION_PORTRAIT
@@ -154,6 +183,7 @@ export default obc((props, { $ }) => {
         orientation={_.orientation}
         dragging={$.state.dragging}
         discoveryMenu={$.discoveryMenu}
+        discoveryTodayOnair={$.discoveryTodayOnair}
         onToggle={$.toggleDragging}
         onSubmit={$.saveDiscoveryMenu}
       />
@@ -180,12 +210,24 @@ const memoStyles = _.memoStyles(() => ({
     marginBottom: _.md
   },
   touch: {
-    borderRadius: 44 * _.ratio,
+    borderRadius: _.r(44),
     overflow: 'hidden'
   },
   btn: {
-    height: 44 * _.ratio,
+    height: _.r(44),
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: 44 * _.ratio
+    borderRadius: _.r(44)
+  },
+  setting: {
+    paddingHorizontal: _.sm,
+    marginTop: _.md
+  },
+  switch: {
+    marginRight: -4,
+    transform: [
+      {
+        scale: _.device(0.8, 1.12)
+      }
+    ]
   }
 }))
