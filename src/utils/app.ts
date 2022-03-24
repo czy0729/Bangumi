@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-23 08:00:46
+ * @Last Modified time: 2022-03-24 23:09:58
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -175,6 +175,8 @@ let _navigationReference
 export function navigationReference(navigation) {
   if (navigation) {
     _navigationReference = navigation
+    if (!_navigationReference.push)
+      _navigationReference.push = _navigationReference.navigate
   }
   return _navigationReference
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-21 08:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-17 01:30:22
+ * @Last Modified time: 2022-03-24 23:08:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -114,7 +114,7 @@ function getACSearch({ style, passProps, params, onPress }) {
         style={style}
         selectable
         underline
-        onPress={() =>
+        onPress={() => {
           navigation
             ? navigation.push('Subject', {
                 subjectId,
@@ -123,7 +123,7 @@ function getACSearch({ style, passProps, params, onPress }) {
             : onPress(null, `${HOST}/subject/${subjectId}`, {
                 _cn: text
               })
-        }
+        }}
       >
         {text}
       </Text>
