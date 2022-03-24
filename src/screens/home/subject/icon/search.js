@@ -2,29 +2,28 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:55:44
+ * @Last Modified time: 2022-03-24 07:48:42
  */
 import React from 'react'
-import { Flex, Iconfont, Text } from '@components'
+import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 function IconSearch(props, { $ }) {
-  if ($.isLimit || $.hd) return null
+  if ($.isLimit) return null
 
   return (
     <Popover
       style={styles.touch}
       menuStyle={styles.menuStyle}
-      data={$.onlineComicOrigins}
+      data={$.onlineComicOrigins.map(item =>
+        typeof item === 'object' ? item.name : item
+      )}
       onSelect={$.onlineComicSelected}
     >
       <Flex style={styles.btn} justify='center'>
-        <Iconfont name='md-search' size={18} />
-        <Text style={_.ml.xs} size={13} type='sub'>
-          源头
-        </Text>
+        <Iconfont name='md-airplay' size={18} />
       </Flex>
     </Popover>
   )

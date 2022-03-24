@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 18:14:01
+ * @Last Modified time: 2022-03-24 06:32:38
  */
 import { observable, computed, toJS } from 'mobx'
+import { subjectStore } from '@stores'
 import { getTimestamp, open, copy } from '@utils'
-import { s2t } from '@utils/thirdParty/cn-char'
 import store from '@utils/store'
 import { info } from '@utils/ui'
-import { getOriginConfig } from './utils'
+import { getOriginConfig, replaceOriginUrl } from './utils'
 
 export const types = [
   {
@@ -77,21 +77,6 @@ export const types = [
   }
 ]
 
-const namespace = 'ScreenOriginSetting'
-const excludeState = {
-  edit: {
-    type: '',
-    item: {
-      id: '',
-      uuid: '',
-      name: '',
-      url: '',
-      sort: 0,
-      active: 1
-    }
-  }
-}
-
 export default class ScreenOriginSetting extends store {
   state = observable({
     data: {
@@ -106,14 +91,22 @@ export default class ScreenOriginSetting extends store {
         real: []
       }
     },
-    ...excludeState
+    edit: {
+      type: '',
+      item: {
+        id: '',
+        uuid: '',
+        name: '',
+        url: '',
+        sort: 0,
+        active: 1
+      }
+    }
   })
 
-  init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+  init = () => {
     this.setState({
-      ...state,
-      ...excludeState
+      data: toJS(subjectStore.origin)
     })
   }
 
@@ -126,6 +119,13 @@ export default class ScreenOriginSetting extends store {
   }
 
   // -------------------- action --------------------
+  updateOrigin = () => {
+    setTimeout(() => {
+      const { data } = this.state
+      subjectStore.updateOrigin(data)
+    }, 0)
+  }
+
   /**
    * 展开编辑表单
    */
@@ -163,7 +163,7 @@ export default class ScreenOriginSetting extends store {
   onChangeText = (key, val) => {
     const { edit } = this.state
     let _val = val.trim()
-    if (key === 'sort') _val = Number(_val)
+    if (key === 'sort') _val = isNaN(Number(_val)) ? 0 : Number(_val)
     this.setState({
       edit: {
         ...edit,
@@ -245,10 +245,8 @@ export default class ScreenOriginSetting extends store {
       data: _data
     })
 
-    setTimeout(() => {
-      this.closeEdit()
-      this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    this.closeEdit()
+    this.updateOrigin()
   }
 
   /**
@@ -279,7 +277,7 @@ export default class ScreenOriginSetting extends store {
     this.setState({
       data: _data
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.updateOrigin()
   }
 
   /**
@@ -310,7 +308,7 @@ export default class ScreenOriginSetting extends store {
     this.setState({
       data: _data
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.updateOrigin()
   }
 
   /**
@@ -326,7 +324,7 @@ export default class ScreenOriginSetting extends store {
     this.setState({
       data: _data
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.updateOrigin()
   }
 
   /**
@@ -337,12 +335,7 @@ export default class ScreenOriginSetting extends store {
 
     try {
       const { test } = types.find(item => item.type === type)
-      const _url = url
-        .replace(/\[CN\]/g, encodeURIComponent(test.CN))
-        .replace(/\[JP\]/g, encodeURIComponent(test.JP))
-        .replace(/\[CN_S2T\]/g, encodeURIComponent(s2t(test.CN)))
-        .replace(/\[TIME\]/g, getTimestamp())
-        .replace(/\[ID\]/g, test.ID)
+      const _url = replaceOriginUrl(url, test)
 
       copy(_url)
       info('已复制地址', 1)

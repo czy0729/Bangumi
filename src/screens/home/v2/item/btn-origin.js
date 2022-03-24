@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:21:47
+ * @Last Modified time: 2022-03-24 08:41:15
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -19,7 +19,9 @@ function BtnOrigin({ subjectId, subject }, { $ }) {
   return (
     <Popover
       style={styles.touch}
-      data={$.onlineOrigins(subjectId)}
+      data={$.onlineOrigins(subjectId).map(item =>
+        typeof item === 'object' ? item.name : item
+      )}
       onSelect={label => $.onlinePlaySelected(label, subjectId)}
     >
       <Flex style={styles.btn} justify='center'>

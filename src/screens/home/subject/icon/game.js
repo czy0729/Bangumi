@@ -1,44 +1,44 @@
 /*
  * @Author: czy0729
- * @Date: 2021-08-31 18:58:29
+ * @Date: 2022-03-24 08:12:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:04:56
+ * @Last Modified time: 2022-03-24 08:21:45
  */
 import React from 'react'
-import { Flex, Iconfont } from '@components'
+import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
-function IconSearchDisc(props, { $ }) {
+function IconGame(props, { $ }) {
+  if (!$.titleLabel.includes('游戏')) return null
+
   return (
     <Popover
       style={styles.touch}
-      menuStyle={styles.menuStyle}
-      data={$.onlineDiscOrigins.map(item =>
+      data={$.onlineGameOrigins.map(item =>
         typeof item === 'object' ? item.name : item
       )}
-      onSelect={$.onlineDiscSelected}
+      onSelect={$.onlineGameSelected}
     >
       <Flex style={styles.btn} justify='center'>
         <Iconfont name='md-airplay' size={18} />
       </Flex>
+      <Heatmap right={55} bottom={-7} id='条目.搜索源' />
     </Popover>
   )
 }
 
-export default obc(IconSearchDisc)
+export default obc(IconGame)
 
 const styles = _.create({
   touch: {
+    marginRight: -_.sm,
     borderRadius: 20,
     overflow: 'hidden'
   },
-  menuStyle: {
-    width: _.device(240, 320)
-  },
   btn: {
-    paddingVertical: 2,
-    paddingHorizontal: 4
+    width: 38,
+    height: 38
   }
 })

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 21:40:56
+ * @Last Modified time: 2022-03-24 05:11:59
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -170,6 +170,22 @@ class Subject extends store {
      */
     wiki: {
       0: INIT_SUBJECT_WIKI
+    },
+
+    /**
+     * 自定义源头数据
+     */
+    origin: {
+      base: {},
+      custom: {
+        anime: [],
+        hanime: [],
+        manga: [],
+        wenku: [],
+        music: [],
+        game: [],
+        real: []
+      }
     }
   })
 
@@ -184,7 +200,8 @@ class Subject extends store {
         'monoComments',
         'monoWorks',
         'monoVoices',
-        'rating'
+        'rating',
+        'origin'
       ],
       NAMESPACE
     )
@@ -659,6 +676,18 @@ class Subject extends store {
       }
     })
     return this[key](subjectId)
+  }
+
+  // -------------------- page --------------------
+  /**
+   * 更新源头数据
+   */
+  updateOrigin = data => {
+    const key = 'origin'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
   }
 }
 

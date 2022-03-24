@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:01:48
+ * @Last Modified time: 2022-03-24 06:58:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,12 +58,7 @@ const Staff = memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock }) 
               })
             }}
           />
-          <Heatmap
-            id='条目.跳转'
-            data={{
-              from: '制作人员'
-            }}
-          />
+          <Heatmap id='条目.跳转' from='制作人员' />
         </>
       )}
     </View>

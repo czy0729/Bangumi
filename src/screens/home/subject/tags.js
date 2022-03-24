@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 06:24:57
+ * @Last Modified time: 2022-03-24 08:17:02
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { HENTAI_TAGS } from '@utils/subject/hentai'
 import { pick } from '@utils/subject/onair'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import IconHidden from './icon/hidden'
+import IconGame from './icon/game'
 
 const defaultProps = {
   navigation: {},
@@ -162,7 +163,7 @@ const Tags = memo(
       <View style={[_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md]}>
         <SectionTitle
           style={_.container.wind}
-          right={!showTags && <IconHidden name='标签' value='showTags' />}
+          right={showTags ? <IconGame /> : <IconHidden name='标签' value='showTags' />}
           icon={!showTags && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showTags')}
         >

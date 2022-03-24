@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:34:50
+ * @Last Modified time: 2022-03-24 06:14:02
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -16,7 +16,7 @@ function IconOnline(props, { $ }) {
   return (
     <Popover
       style={styles.touch}
-      data={$.onlineOrigins}
+      data={$.onlineOrigins.map(item => (typeof item === 'object' ? item.name : item))}
       onSelect={$.onlinePlaySelected}
     >
       <Flex style={styles.btn} justify='center'>

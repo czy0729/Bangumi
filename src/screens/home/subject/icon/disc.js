@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:05:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 19:17:59
+ * @Last Modified time: 2022-03-24 08:05:34
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 function IconDisc(props, { $ }) {
   return (
     <IconTouchable
-      style={_.mr._sm}
+      style={[_.ml.sm, _.mr._sm]}
       name='md-g-translate'
       size={18}
       onPress={$.doDiscTranslate}

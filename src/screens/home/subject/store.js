@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 19:58:50
+ * @Last Modified time: 2022-03-24 08:20:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,8 @@ import {
   subjectStore,
   systemStore,
   userStore,
-  usersStore
+  usersStore,
+  monoStore
 } from '@stores'
 import { open, copy, getTimestamp, similar, asc } from '@utils'
 import { HTMLDecode, HTMLTrim, cheerio } from '@utils/html'
@@ -55,17 +56,13 @@ import {
 import { CDN_EPS, getOTA } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import {
-  SITE_77MH,
   SITE_AGEFANS,
-  SITE_MANGABZ,
-  SITE_MANHUA1234,
   SITE_MANHUADB,
   SITE_RRYS,
   SITE_WK8,
-  SITE_WNACG,
   SITE_XUNBO
 } from '@constants/site'
-// import { NINGMOE_ID } from '@constants/online'
+import { getOriginConfig, replaceOriginUrl } from '../../user/origin-setting/utils'
 
 const namespace = 'ScreenSubject'
 const initRating = {
@@ -154,12 +151,10 @@ export default class ScreenSubject extends store {
       () => this.rendered() // 有时候没有触发成功, 强制触发
     ])
 
-    // 查找角色的声优详细资料
-    // if (!this.characters._loaded) {
-    //   monoStore.fetchCharacters({
-    //     subjectId: this.subjectId
-    //   })
-    // }
+    // 敏感条目不再返回数据, 而旧接口staff也错乱, 主动请求网页的staff数据
+    if (data?.code === 404) {
+      this.fetchPersons()
+    }
 
     return data
   }
@@ -488,6 +483,14 @@ export default class ScreenSubject extends store {
     }
   }
 
+  /**
+   * staff数据
+   */
+  fetchPersons = () =>
+    monoStore.fetchPersons({
+      subjectId: this.subjectId
+    })
+
   // -------------------- get --------------------
   /**
    * 条目唯一Id
@@ -728,33 +731,62 @@ export default class ScreenSubject extends store {
   }
 
   /**
+   * 用户自定义源头
+   */
+  @computed get userOrigins() {
+    return getOriginConfig(subjectStore.origin, 'anime')
+  }
+
+  /**
    * 动画和三次元源头
    */
   @computed get onlineOrigins() {
-    const { bangumiInfo } = this.state
-    const { sites = [] } = bangumiInfo
-    const _data = []
-    const data = [
-      ..._data,
-      ...sites.filter(item => SITES_DS.includes(item.site)).map(item => item.site)
-    ]
+    const data = []
 
     if (['动画'].includes(this.type)) {
       if (systemStore?.ota?.X18 && this.isLogin) {
         let flagX18
         if (this.x18) flagX18 = true
         if (!flagX18) {
-          const x18 = this.tags.some(item => item.name.includes('里番'))
-          if (x18) flagX18 = true
+          flagX18 = this.tags.some(item => item.name.includes('里番'))
         }
-        if (flagX18) data.push('Hanime1')
+
+        // hanime
+        if (flagX18) {
+          getOriginConfig(subjectStore.origin, 'hanime')
+            .filter(item => item.active)
+            .forEach(item => {
+              data.push(item)
+            })
+        }
       }
 
-      data.push('AGE动漫', '迅播动漫')
-      if (!this.x18) data.push('奇奇动漫', 'Anime1')
+      // anime
+      getOriginConfig(subjectStore.origin, 'anime')
+        .filter(item => item.active)
+        .forEach(item => {
+          data.push(item)
+        })
     }
 
-    if (['三次元'].includes(this.type)) data.push('迅播动漫', '人人影视')
+    if (['三次元'].includes(this.type)) {
+      // real
+      getOriginConfig(subjectStore.origin, 'real')
+        .filter(item => item.active)
+        .forEach(item => {
+          data.push(item)
+        })
+    }
+
+    // bangumi-data
+    const { bangumiInfo } = this.state
+    const { sites = [] } = bangumiInfo
+    sites
+      .filter(item => SITES_DS.includes(item.site))
+      .forEach(item => {
+        data.push(item.site)
+      })
+
     return data
   }
 
@@ -762,29 +794,22 @@ export default class ScreenSubject extends store {
    * 漫画源头
    */
   @computed get onlineComicOrigins() {
-    const data = []
-    if (this.jp) data.push(`[绅士漫画] ${this.jp} (需飞机)`)
-    if (this.cn && this.cn !== this.jp) data.push(`[绅士漫画] ${this.cn} (需飞机)`)
-    if (this.cn || this.jp) {
-      data.push(`[manhua1234] ${this.cn || this.jp}`)
-      data.push(`[77mh] ${this.cn || this.jp}`)
-      data.push(`[Mangabz] ${this.cn || this.jp}`)
-    }
-    return data
+    const type = this.titleLabel.includes('小说') ? 'wenku' : 'manga'
+    return getOriginConfig(subjectStore.origin, type).filter(item => item.active)
   }
 
   /**
    * 音乐源头
    */
   @computed get onlineDiscOrigins() {
-    const data = []
-    if (this.jp) data.push(`[网易云] ${this.jp}`)
-    if (this.cn && this.cn !== this.jp) data.push(`[网易云] ${this.cn}`)
-    if (this.jp) data.push(`[QQ音乐] ${this.jp}`)
-    if (this.cn && this.cn !== this.jp) data.push(`[QQ音乐] ${this.cn}`)
-    if (this.jp) data.push(`[bilibili] ${this.jp}`)
-    if (this.cn && this.cn !== this.jp) data.push(`[bilibili] ${this.cn}`)
-    return data
+    return getOriginConfig(subjectStore.origin, 'music').filter(item => item.active)
+  }
+
+  /**
+   * 游戏源头
+   */
+  @computed get onlineGameOrigins() {
+    return getOriginConfig(subjectStore.origin, 'game').filter(item => item.active)
   }
 
   /**
@@ -1133,6 +1158,23 @@ export default class ScreenSubject extends store {
   @computed get staff() {
     if (this.subject._loaded) {
       const { staff } = this.subject
+
+      /**
+       * @fixed
+       * 敏感条目不再返回数据, 而旧接口staff也错乱, 改为使用网页的staff数据
+       */
+      if (staff?.[0]?.id == this.subjectId) {
+        const persons = monoStore.persons(this.subjectId)
+        return persons.list.map(item => ({
+          id: item.id.replace('/person/', ''),
+          image: item.cover,
+          _image: item.cover,
+          name: (item.nameCn || item.name).trim(),
+          nameJP: item.name.trim(),
+          desc: item.position
+        }))
+      }
+
       return (staff || []).map(
         ({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
           id,
@@ -1201,7 +1243,7 @@ export default class ScreenSubject extends store {
     } else {
       label = this.subjectFormHTML.type || label
     }
-    return label === '动画' ? 'TV' : label
+    return (label === '动画' ? 'TV' : label) || ''
   }
 
   /**
@@ -1404,56 +1446,73 @@ export default class ScreenSubject extends store {
         subjectType: this.type
       })
 
-      const { _aid } = this.params
-      const { bangumiInfo } = this.state
-      const { sites = [] } = bangumiInfo
-      let item
       let url
-      switch (key) {
-        case 'AGE动漫':
-          if (_aid || findAnime(this.subjectId).ageId) {
-            url = `${SITE_AGEFANS()}/detail/${_aid || findAnime(this.subjectId).ageId}`
-          } else {
+
+      // AGE动漫，有自维护id数据，优先匹配
+      if (key === 'AGE动漫') {
+        const { _aid } = this.params
+        if (_aid || findAnime(this.subjectId).ageId) {
+          url = `${SITE_AGEFANS()}/detail/${_aid || findAnime(this.subjectId).ageId}`
+        }
+      }
+
+      // 匹配用户自定义源头
+      if (!url) {
+        const find = this.onlineOrigins.find(item => item.name === key)
+        if (find) {
+          url = replaceOriginUrl(find.url, {
+            CN: this.cn || this.jp,
+            JP: this.jp || this.cn,
+            ID: this.subjectId
+          })
+        }
+      }
+
+      // 旧匹配逻辑
+      if (!url) {
+        const { bangumiInfo } = this.state
+        const { sites = [] } = bangumiInfo
+        let item
+        switch (key) {
+          case 'AGE动漫':
             url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(
               this.cn || this.jp
             )}&page=1`
-          }
-          break
+            break
 
-        case 'Anime1':
-          url = `https://anime1.me/?s=${encodeURIComponent(s2t(this.cn || this.jp))}`
-          break
+          case 'Anime1':
+            url = `https://anime1.me/?s=${encodeURIComponent(s2t(this.cn || this.jp))}`
+            break
 
-        case '迅播动漫':
-          url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(
-            this.cn || this.jp
-          )}`
-          break
+          case '迅播动漫':
+            url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(
+              this.cn || this.jp
+            )}`
+            break
 
-        case '奇奇动漫':
-          url = `https://www.qiqidongman.com/vod-search-wd-${encodeURIComponent(
-            this.cn || this.jp
-          )}.html`
-          break
+          case '奇奇动漫':
+            url = `https://www.qiqidongman.com/vod-search-wd-${encodeURIComponent(
+              this.cn || this.jp
+            )}.html`
+            break
 
-        case 'Hanime1':
-          url = `https://hanime1.me/search?query=${encodeURIComponent(
-            this.jp || this.cn
-          )}`
-          break
+          case 'Hanime1':
+            url = `https://hanime1.me/search?query=${encodeURIComponent(
+              this.jp || this.cn
+            )}`
+            break
 
-        case '人人影视':
-          url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
-            this.cn || this.jp
-          )}&type=resource`
-          break
+          case '人人影视':
+            url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
+              this.cn || this.jp
+            )}&type=resource`
+            break
 
-        default:
-          item = sites.find(item => item.site === key)
-          if (item) {
-            url = getBangumiUrl(item)
-          }
-          break
+          default:
+            item = sites.find(item => item.site === key)
+            if (item) url = getBangumiUrl(item)
+            break
+        }
       }
 
       if (url) {
@@ -1470,50 +1529,22 @@ export default class ScreenSubject extends store {
 
   onlineComicSelected = key => {
     try {
-      let _key
-      if (key.includes('[绅士漫画]')) {
-        _key = '绅士漫画'
-      } else if (key.includes('[Mangabz]')) {
-        _key = 'Mangabz'
-      } else if (key.includes('[manhua1234]')) {
-        _key = 'manhua1234'
-      } else if (key.includes('[77mh]')) {
-        _key = '77mh'
-      }
-
       t('条目.搜索源', {
-        type: _key,
+        type: key,
         subjectId: this.subjectId,
         subjectType: this.type
       })
 
       let url
-      let q
-      switch (_key) {
-        case '绅士漫画':
-          q = key.replace('[绅士漫画] ', '').replace(' (需飞机)', '')
-          url = `${SITE_WNACG()}/search/?q=${encodeURIComponent(
-            q
-          )}&f=_all&s=create_time_DESC`
-          break
 
-        case 'Mangabz':
-          q = key.replace('[Mangabz] ', '')
-          url = `${SITE_MANGABZ()}/search?title=${encodeURIComponent(q)}`
-          break
-
-        case 'manhua1234':
-          q = key.replace('[manhua1234] ', '')
-          url = `${SITE_MANHUA1234()}/search/?keywords=${encodeURIComponent(q)}`
-          break
-
-        case '77mh':
-          q = key.replace('[77mh] ', '')
-          url = `${SITE_77MH()}/m.php?k=${encodeURIComponent(q)}`
-          break
-
-        default:
-          break
+      // 匹配用户自定义源头
+      const find = this.onlineComicOrigins.find(item => item.name === key)
+      if (find) {
+        url = replaceOriginUrl(find.url, {
+          CN: this.cn || this.jp,
+          JP: this.jp || this.cn,
+          ID: this.subjectId
+        })
       }
 
       if (url) {
@@ -1530,48 +1561,22 @@ export default class ScreenSubject extends store {
 
   onlineDiscSelected = key => {
     try {
-      let _key
-
-      if (key.includes('网易云')) {
-        _key = 'music.163.com'
-      } else if (key.includes('QQ音乐')) {
-        _key = 'y.qq.com'
-      } else if (key.includes('bilibili')) {
-        _key = 'search.bilibili.com'
-      }
-
       t('条目.搜索源', {
-        type: _key,
+        type: key,
         subjectId: this.subjectId,
         subjectType: this.type
       })
 
       let url
-      let q
-      switch (_key) {
-        case 'music.163.com':
-          q = key.replace('[网易云] ', '')
-          url = `https://www.baidu.com/s?word=site%3Amusic.163.com+%E4%B8%93%E8%BE%91+${encodeURIComponent(
-            q
-          )}`
-          break
 
-        case 'y.qq.com':
-          q = key.replace('[QQ音乐] ', '')
-          url = `https://www.baidu.com/s?word=site%3Ay.qq.com+%E4%B8%93%E8%BE%91+${encodeURIComponent(
-            q
-          )}`
-          break
-
-        case 'search.bilibili.com':
-          q = key.replace('[bilibili] ', '')
-          url = `https://search.bilibili.com/all?keyword=${encodeURIComponent(
-            q
-          )}&from_source=nav_suggest_new&order=stow&duration=0&tids_1=3`
-          break
-
-        default:
-          break
+      // 匹配用户自定义源头
+      const find = this.onlineDiscOrigins.find(item => item.name === key)
+      if (find) {
+        url = replaceOriginUrl(find.url, {
+          CN: this.cn || this.jp,
+          JP: this.jp || this.cn,
+          ID: this.subjectId
+        })
       }
 
       if (url) {
@@ -1583,6 +1588,38 @@ export default class ScreenSubject extends store {
       }
     } catch (error) {
       warn(namespace, 'onlineDiscSelected', error)
+    }
+  }
+
+  onlineGameSelected = key => {
+    try {
+      t('条目.搜索源', {
+        type: key,
+        subjectId: this.subjectId,
+        subjectType: this.type
+      })
+
+      let url
+
+      // 匹配用户自定义源头
+      const find = this.onlineGameOrigins.find(item => item.name === key)
+      if (find) {
+        url = replaceOriginUrl(find.url, {
+          CN: this.cn || this.jp,
+          JP: this.jp || this.cn,
+          ID: this.subjectId
+        })
+      }
+
+      if (url) {
+        copy(url)
+        info('已复制地址')
+        setTimeout(() => {
+          open(url)
+        }, 1600)
+      }
+    } catch (error) {
+      warn(namespace, 'onlineGameSelected', error)
     }
   }
 

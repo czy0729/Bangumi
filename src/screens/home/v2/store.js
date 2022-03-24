@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 21:21:44
+ * @Last Modified time: 2022-03-24 09:10:10
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -43,6 +43,7 @@ import {
 } from '@constants/model'
 import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS } from '@constants/site'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import { getOriginConfig, replaceOriginUrl } from '../../user/origin-setting/utils'
 
 const PAGE_LIMIT_LIST = 4 * 8
 const PAGE_LIMIT_GRID = 4 * 6
@@ -624,19 +625,32 @@ export default class ScreenHomeV2 extends store {
   onlineOrigins(subjectId) {
     return computed(() => {
       const { type } = this.subject(subjectId)
+      const data = []
+
+      if (type === 2) {
+        getOriginConfig(subjectStore.origin, 'anime')
+          .filter(item => item.active)
+          .forEach(item => {
+            data.push(item)
+          })
+      }
+
+      if (type === 6) {
+        getOriginConfig(subjectStore.origin, 'real')
+          .filter(item => item.active)
+          .forEach(item => {
+            data.push(item)
+          })
+      }
+
       const bangumiInfo = this.bangumiInfo(subjectId)
       const { sites = [] } = bangumiInfo
-      const _data = []
-      const data = [
-        ..._data,
-        ...sites.filter(item => SITES_DS.includes(item.site)).map(item => item.site)
-      ]
-      if (type === 2) {
-        data.push('AGE动漫', '迅播动漫')
-      }
-      if (type === 6) {
-        data.push('人人影视')
-      }
+      sites
+        .filter(item => SITES_DS.includes(item.site))
+        .forEach(item => {
+          data.push(item.site)
+        })
+
       return data
     }).get()
   }
@@ -845,7 +859,7 @@ export default class ScreenHomeV2 extends store {
    */
   onlinePlaySelected = (label, subjectId) => {
     const { name_cn, name, type } = this.subject(subjectId)
-    const cn = HTMLDecode(name_cn || name)
+
     t('首页.搜索源', {
       type: label,
       subjectId,
@@ -853,38 +867,56 @@ export default class ScreenHomeV2 extends store {
     })
 
     try {
-      const bangumiInfo = this.bangumiInfo(subjectId)
-      const { sites = [] } = bangumiInfo
-      let item
       let url
-      switch (label) {
-        case 'AGE动漫':
-          if (find(subjectId).aid) {
-            url = `${SITE_AGEFANS()}/detail/${find(subjectId).aid}`
-          } else {
+
+      // AGE动漫，有自维护id数据，优先匹配
+      if (label === 'AGE动漫') {
+        if (find(subjectId).aid) {
+          url = `${SITE_AGEFANS()}/detail/${find(subjectId).aid}`
+        }
+      }
+
+      // 匹配用户自定义源头
+      if (!url) {
+        const find = this.onlineOrigins(subjectId).find(item => item.name === label)
+        if (find) {
+          url = replaceOriginUrl(find.url, {
+            CN: HTMLDecode(name_cn || name),
+            JP: HTMLDecode(name || name_cn),
+            ID: subjectId
+          })
+        }
+      }
+
+      if (!url) {
+        const bangumiInfo = this.bangumiInfo(subjectId)
+        const { sites = [] } = bangumiInfo
+        const cn = HTMLDecode(name_cn || name)
+        let item
+
+        switch (label) {
+          case 'AGE动漫':
             url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(cn)}&page=1`
-          }
-          break
+            break
 
-        case '迅播动漫':
-          url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(cn)}`
-          break
+          case '迅播动漫':
+            url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(cn)}`
+            break
 
-        case '人人影视':
-          url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(cn)}&type=resource`
-          break
+          case '人人影视':
+            url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
+              cn
+            )}&type=resource`
+            break
 
-        default:
-          item = sites.find(item => item.site === label)
-          if (item) {
-            url = getBangumiUrl(item)
-          }
-          break
+          default:
+            item = sites.find(item => item.site === label)
+            if (item) url = getBangumiUrl(item)
+            break
+        }
       }
 
-      if (url) {
-        open(url)
-      }
+      if (url) open(url)
     } catch (error) {
       warn(namespace, 'onlinePlaySelected', error)
     }

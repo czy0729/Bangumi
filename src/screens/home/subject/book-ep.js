@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 10:51:52
+ * @Last Modified time: 2022-03-24 07:55:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -218,7 +218,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   btn: {
     width: 56 * _.ratio,
-    height: _.device(34, 48)
+    height: _.device(32, 48)
   },
   btnPlus: {
     width: 40 * _.ratio,
