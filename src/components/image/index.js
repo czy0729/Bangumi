@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 07:16:18
+ * @Last Modified time: 2022-04-05 04:28:35
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -249,14 +249,19 @@ export const Image = observer(
     }
 
     get headers() {
-      const { headers } = this.props
+      const { src, headers } = this.props
       if (headers) {
         return {
           ...defaultHeaders,
           ...headers
         }
       }
-      return defaultHeaders
+
+      if (typeof src === 'string' && src.includes('lain.')) {
+        return defaultHeaders
+      }
+
+      return {}
     }
 
     @computed get computedStyle() {

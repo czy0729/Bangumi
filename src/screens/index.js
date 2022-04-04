@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 18:55:01
+ * @Last Modified time: 2022-03-28 23:39:59
  */
 // Login
 export { default as Login } from './login/index'
@@ -73,6 +73,7 @@ export { default as UGCAgree } from './rakuen/ugc-agree'
 export { default as Blogs } from './user/blogs'
 export { default as Catalogs } from './user/catalogs'
 export { default as DEV } from './user/dev'
+export { default as Smb } from './user/smb'
 export { default as Friends } from './user/friends'
 export { default as OriginSetting } from './user/origin-setting'
 export { default as PM } from './user/pm'

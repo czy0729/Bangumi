@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 01:26:11
+ * @Last Modified time: 2022-03-31 14:48:38
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -221,7 +221,6 @@ export const container = StyleSheet.create({
   },
   screen: {
     flex: 1
-    // backgroundColor: colorBg
   },
   column: {
     flex: 1,

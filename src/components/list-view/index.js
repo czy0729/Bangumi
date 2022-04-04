@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 21:38:26
+ * @Last Modified time: 2022-04-05 05:51:53
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -131,7 +131,8 @@ export const ListView = observer(
         })
 
         await sleep(400)
-        onHeaderRefresh()
+        await onHeaderRefresh()
+        this.updateRefreshState(this.props.data)
       }
     }
 

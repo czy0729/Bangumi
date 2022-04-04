@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:34:28
+ * @Last Modified time: 2022-04-02 07:06:59
  */
 import React from 'react'
 import { StyleSheet, UIManager, findNodeHandle, View } from 'react-native'
@@ -34,7 +34,7 @@ export default class Popover extends React.Component {
 
   onPopupItemPress = (evt, index) => {
     const { data, onSelect } = this.props
-    if (index !== undefined) onSelect(data[index])
+    if (index !== undefined) onSelect(data[index], index)
   }
 
   render() {

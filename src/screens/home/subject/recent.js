@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:24
+ * @Last Modified time: 2022-03-26 16:06:31
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -27,7 +27,7 @@ const Recent = memo(
     rerender('Subject.Recent.Main')
 
     return (
-      <View style={[_.mt.lg, !showRecent && _.short]}>
+      <View style={[_.mt.lg, showRecent ? _.mb.sm : _.short]}>
         <SectionTitle
           style={_.container.wind}
           right={!showRecent && <IconHidden name='动态' value='showRecent' />}
@@ -116,6 +116,7 @@ export default obc((props, { $, navigation }) => {
 
 const styles = _.create({
   item: {
-    paddingRight: _.sm
+    paddingRight: _.sm,
+    marginRight: _.sm
   }
 })

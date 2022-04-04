@@ -2,22 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 08:04:31
+ * @Last Modified time: 2022-03-26 15:45:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
-import { Cover, Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { findSubjectCn } from '@utils/app'
-import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import Item from './item'
 
-const width = (IMG_WIDTH / 1.1) * _.ratio
-const height = (IMG_HEIGHT / 1.1) * _.ratio
-
-function List(props, { $, navigation }) {
+function List(props, { $ }) {
   const styles = memoStyles()
   return (
     <View style={styles.container}>
@@ -48,7 +42,7 @@ function List(props, { $, navigation }) {
               <View>
                 <View style={styles.line} />
                 <View style={styles.nodeMonth} />
-                <Text size={16} lineHeight={32} type='title' bold>
+                <Text size={20} lineHeight={32} type='title' bold>
                   {parseInt(item.title.slice(5, 7))}月
                 </Text>
                 <Flex>
@@ -102,74 +96,18 @@ function List(props, { $, navigation }) {
                     <View key={item.title}>
                       <View>
                         <View style={styles.line} />
-                        <Text size={10} lineHeight={28} type='sub'>
+                        <Text lineHeight={28} bold>
                           {label}
                         </Text>
                       </View>
                       <View>
                         <View style={styles.line} />
                         {item.data.map(item => (
-                          <Flex
+                          <Item
                             key={item.id}
-                            style={styles.subjects}
-                            align='start'
-                            wrap='wrap'
-                          >
-                            <View style={styles.nodeDay} />
-                            {item.subject.map(i => (
-                              <Flex
-                                key={String(i.id)}
-                                style={
-                                  item.subject.length > 1
-                                    ? styles.subjectHalf
-                                    : styles.subject
-                                }
-                                align='start'
-                              >
-                                <View style={styles.cover}>
-                                  <Cover
-                                    src={i.cover}
-                                    width={width}
-                                    height={height}
-                                    radius
-                                    onPress={() => {
-                                      t('时间线.跳转', {
-                                        to: 'Suject',
-                                        subjectId: i.id
-                                      })
-
-                                      navigation.push('Subject', {
-                                        subjectId: i.id
-                                      })
-                                    }}
-                                  />
-                                </View>
-                                <Flex.Item style={_.ml.sm}>
-                                  <Flex>
-                                    <Tag value={item.action.replace('了', '')} />
-                                    {!!i.star && (
-                                      <Stars style={_.ml.xs} value={i.star} size={10} />
-                                    )}
-                                  </Flex>
-                                  <Text
-                                    style={_.mt.sm}
-                                    size={12}
-                                    bold
-                                    numberOfLines={3}
-                                  >
-                                    {findSubjectCn(i.name)}
-                                  </Text>
-                                  {!!i.comment && (
-                                    <Flex style={_.mt.sm}>
-                                      <Text style={styles.comment} size={12}>
-                                        {i.comment}
-                                      </Text>
-                                    </Flex>
-                                  )}
-                                </Flex.Item>
-                              </Flex>
-                            ))}
-                          </Flex>
+                            subject={item.subject}
+                            action={item.action}
+                          />
                         ))}
                       </View>
                     </View>
@@ -188,7 +126,7 @@ export default obc(List)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingLeft: 32 * _.ratio,
+    paddingLeft: _.r(32),
     marginHorizontal: _.windSm - _._wind
   },
   line: {
@@ -197,11 +135,11 @@ const memoStyles = _.memoStyles(() => ({
     left: 0,
     width: 1,
     height: '100%',
-    marginLeft: -12 * _.ratio,
+    marginLeft: _.r(-12),
     backgroundColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
     transform: [
       {
-        translateX: -0.5 * _.ratio
+        translateX: _.r(-0.5)
       }
     ]
   },
@@ -212,11 +150,11 @@ const memoStyles = _.memoStyles(() => ({
     left: 0,
     width: 1,
     height: '100%',
-    marginLeft: -12 * _.ratio,
+    marginLeft: _.r(-12),
     backgroundColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
     transform: [
       {
-        translateX: -0.5 * _.ratio
+        translateX: _.r(-0.5)
       }
     ]
   },
@@ -225,74 +163,35 @@ const memoStyles = _.memoStyles(() => ({
     zIndex: 2,
     top: '50%',
     left: 0,
-    width: 4 * _.ratio,
-    height: 4 * _.ratio,
-    marginTop: -2 * _.ratio,
-    marginLeft: -12 * _.ratio,
+    width: _.r(4),
+    height: _.r(4),
+    marginTop: _.r(-2),
+    marginLeft: _.r(-12),
     backgroundColor: _.colorTitle,
-    borderRadius: 2 * _.ratio,
+    borderRadius: _.r(2),
     transform: [
       {
-        translateX: -2 * _.ratio
+        translateX: _.r(-2)
       }
     ]
   },
   nodeMonth: {
     position: 'absolute',
     zIndex: 2,
-    top: 22 * _.ratio,
+    top: _.r(22),
     left: 0,
-    width: 8 * _.ratio,
-    height: 8 * _.ratio,
-    marginTop: -4 * _.ratio,
-    marginLeft: -4 * _.ratio,
+    width: _.r(8),
+    height: _.r(8),
+    marginTop: _.r(-4),
+    marginLeft: _.r(-4),
     backgroundColor: _.colorPlain,
     borderWidth: 1,
     borderColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
-    borderRadius: 4 * _.ratio,
+    borderRadius: _.r(4),
     transform: [
       {
-        translateX: -12 * _.ratio
+        translateX: _.r(-12)
       }
     ]
-  },
-  nodeDay: {
-    position: 'absolute',
-    zIndex: 3,
-    top: 8 * _.ratio,
-    left: 0,
-    width: 6 * _.ratio,
-    height: 6 * _.ratio,
-    marginTop: -3 * _.ratio,
-    marginLeft: -12 * _.ratio,
-    backgroundColor: _.colorMain,
-    borderRadius: 3 * _.ratio,
-    transform: [
-      {
-        translateX: -3 * _.ratio
-      }
-    ]
-  },
-  subjects: {
-    marginBottom: _.sm
-  },
-  cover: {
-    width
-  },
-  subject: {
-    marginRight: _.sm,
-    marginBottom: _.md
-  },
-  subjectHalf: {
-    maxWidth: 160 * _.ratio,
-    marginRight: _.sm,
-    marginBottom: _.md
-  },
-  comment: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:57:36
+ * @Last Modified time: 2022-03-27 22:58:54
  */
 import { observable, computed } from 'mobx'
 import { collectionStore } from '@stores'
@@ -202,7 +202,7 @@ export default class ScreenGuess extends store {
                         item => `${item.cover}@192w_120h_1c.jpg`
                       )
                     )
-                  ),
+                  ).filter((item, index) => index <= 5),
                   epsThumbsHeader: {
                     Referer: 'https://www.bilibili.com/'
                   }

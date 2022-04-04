@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 19:44:08
+ * @Last Modified time: 2022-03-27 22:57:47
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Text, Input } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
@@ -83,19 +84,21 @@ const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
         />
       </Flex.Item>
       <IconTouchable
-        style={styles.close}
-        name='md-close'
-        size={22}
-        color={_.colorDesc}
-        onPress={$.closeEdit}
-      />
-      <IconTouchable
         style={_.ml.md}
         name='md-check'
         size={22}
         color={_.colorDesc}
         onPress={$.submitEdit}
       />
+      <View style={styles.close}>
+        <IconTouchable
+          style={styles.close}
+          name='md-close'
+          size={22}
+          color={_.colorDesc}
+          onPress={$.closeEdit}
+        />
+      </View>
     </Flex>
   )
 }

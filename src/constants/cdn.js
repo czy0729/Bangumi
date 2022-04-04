@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 20:40:36
+ * @Last Modified time: 2022-03-27 22:56:42
  */
 import { getTimestamp, getStorage, setStorage } from '@utils/utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -39,7 +39,7 @@ export const VERSION_ANIME = '20220223'
 export const VERSION_WENKU = '20210627'
 export const VERSION_MANGA = '20210628'
 export const VERSION_HENTAI = '20210630'
-export const VERSION_GAME = '20211002'
+export const VERSION_GAME = '20220327'
 export const VERSION_TINYGRAIL = '20210720'
 
 export const VERSIONS_AVATAR = [

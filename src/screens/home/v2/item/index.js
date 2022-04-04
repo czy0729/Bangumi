@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 16:07:14
+ * @Last Modified time: 2022-03-31 14:51:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,6 +33,7 @@ const defaultProps = {
   epStatus: '',
   heatMap: false,
   expand: false,
+  epsCount: 0,
   isTop: false,
   onItemPress: Function.prototype
 }
@@ -47,6 +48,7 @@ const Item = memo(
     epStatus,
     heatMap,
     expand,
+    epsCount,
     top,
     onItemPress
   }) => {
@@ -91,7 +93,7 @@ const Item = memo(
             </View>
           )}
         </Flex>
-        <Accordion expand={expand}>
+        <Accordion key={String(epsCount)} expand={expand}>
           <Eps subjectId={subjectId} />
         </Accordion>
         {isTop && <View style={styles.dot} />}
@@ -125,6 +127,7 @@ export default obc(
         heatMap={$.heatMap}
         top={top}
         expand={expand}
+        epsCount={$.eps(subjectId).length}
         onItemPress={$.onItemPress}
       />
     )

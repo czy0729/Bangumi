@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 00:55:06
+ * @Last Modified time: 2022-04-05 04:20:07
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
@@ -82,7 +82,8 @@ export const updateHeader = ({
   if (mode) {
     options.headerStyle = {
       ...options.headerStyle,
-      height: 0.5 // 别问为什么留0.5, 我也想知道, 不给他留一点就是会出问题
+      height: 0.5, // 别问为什么留0.5, 我也想知道, 不给他留一点就是会出问题
+      backgroundColor: _.colorPlain
     }
 
     // headerLeft和headerRight因为上面的问题迁移到了<HeaderComponent>里面实现

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 02:45:59
+ * @Last Modified time: 2022-03-26 16:02:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,15 @@ const Comment = memo(({ showComment, pageTotal, onSwitchBlock }) => {
   return (
     <>
       <SectionTitle
-        style={[_.container.wind, _.mt.lg, !showComment && _.short]}
+        style={[
+          _.container.wind,
+          _.mt.lg,
+          showComment
+            ? {
+                paddingBottom: _.xs
+              }
+            : _.short
+        ]}
         right={
           showComment ? (
             <>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-21 22:27:22
+ * @Last Modified time: 2022-03-28 12:31:30
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import {
@@ -417,6 +417,8 @@ export function sax({
 let lastScreen = ''
 let lastHm = ''
 export function hm(url, screen) {
+  if (DEV) return
+
   try {
     // 保证这种低优先级的操作在UI响应之后再执行
     InteractionManager.runAfterInteractions(() => {
@@ -467,6 +469,8 @@ export function hm(url, screen) {
  * ua
  */
 export function ua() {
+  if (DEV) return
+
   try {
     const userStore = getUserStoreAsync()
     if (!userStore.isWebLogin) return
@@ -494,6 +498,8 @@ export function ua() {
  * 致命错误上报
  */
 export function err(desc) {
+  if (DEV) return
+
   try {
     if (!desc) return
 
