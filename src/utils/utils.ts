@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-03 05:30:52
+ * @Last Modified time: 2022-04-06 02:54:44
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -212,29 +212,38 @@ export async function setStorage(key, data) {
     setStorageLazyMap[key] = _data
   } else {
     AsyncStorage.setItem(key, _data)
+
+    if (DEV)
+      console.info(
+        'setStorage',
+        key,
+        `${(JSON.stringify(data).length / 1000).toFixed(2)}kb`
+      )
   }
 }
 
-// @version 211112 数据较大的键, 合并没必要的多次写入
+/**
+ * @version 211112 数据较大的键, 合并没必要的多次写入
+ */
 let setStorageInterval
 if (setStorageInterval) clearInterval(setStorageInterval)
 setStorageInterval = setInterval(async () => {
   const keys = Object.keys(setStorageLazyMap)
-  if (!keys.length) {
-    // console.log('setStorage', 'empty')
-    return
-  }
+  if (!keys.length) return
 
   const setItems = []
   keys.forEach(key => {
     setItems.push(async () => {
-      // console.log(
-      //   'setStorage',
-      //   key,
-      //   `${(setStorageLazyMap[key].length / 1000).toFixed(2)}kb`
-      // )
       AsyncStorage.setItem(key, setStorageLazyMap[key])
       delete setStorageLazyMap[key]
+
+      if (DEV) {
+        console.log(
+          'setStorageLazy',
+          key,
+          `${(setStorageLazyMap[key].length / 1000).toFixed(2)}kb`
+        )
+      }
     })
   })
 

@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 05:11:59
+ * @Last Modified time: 2022-04-06 02:37:20
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
@@ -46,22 +46,40 @@ import {
 } from './common'
 
 class Subject extends store {
+  /**
+   * @update 2022/04/06 subject和subjectFormHTML根据id最后一位拆开10个key存放
+   *         避免JSON.stringify后长度太长, 存(取)本地不能
+   */
   state = observable({
     /**
      * 条目
      * @param {*} subjectId
      */
-    subject: {
-      0: INIT_SUBJECT
-    },
+    subject0: {},
+    subject1: {},
+    subject2: {},
+    subject3: {},
+    subject4: {},
+    subject5: {},
+    subject6: {},
+    subject7: {},
+    subject8: {},
+    subject9: {},
 
     /**
      * 条目HTML
      * @param {*} subjectId
      */
-    subjectFormHTML: {
-      0: INIT_SUBJECT_FROM_HTML_ITEM
-    },
+    subjectFormHTML0: {},
+    subjectFormHTML1: {},
+    subjectFormHTML2: {},
+    subjectFormHTML3: {},
+    subjectFormHTML4: {},
+    subjectFormHTML5: {},
+    subjectFormHTML6: {},
+    subjectFormHTML7: {},
+    subjectFormHTML8: {},
+    subjectFormHTML9: {},
 
     /**
      * 条目CDN自维护数据
@@ -192,8 +210,31 @@ class Subject extends store {
   init = () =>
     this.readStorage(
       [
-        'subject',
-        'subjectFormHTML',
+        // subject 拆store
+        'subject0',
+        'subject1',
+        'subject2',
+        'subject3',
+        'subject4',
+        'subject5',
+        'subject6',
+        'subject7',
+        'subject8',
+        'subject9',
+
+        // subjectFormHTML 拆store
+        'subjectFormHTML0',
+        'subjectFormHTML1',
+        'subjectFormHTML2',
+        'subjectFormHTML3',
+        'subjectFormHTML4',
+        'subjectFormHTML5',
+        'subjectFormHTML6',
+        'subjectFormHTML7',
+        'subjectFormHTML8',
+        'subjectFormHTML9',
+
+        // other
         'subjectComments',
         'subjectCatalogs',
         'mono',
@@ -206,13 +247,45 @@ class Subject extends store {
       NAMESPACE
     )
 
+  // -------------------- get --------------------
+  /**
+   * 条目, 合并subject0-9
+   */
+  subject(subjectId) {
+    return computed(() => {
+      if (!subjectId) return INIT_SUBJECT
+
+      const str = String(subjectId)
+      const last = str.charAt(str.length - 1)
+      return this.state?.[`subject${last}`]?.[subjectId] || INIT_SUBJECT
+    }).get()
+  }
+
+  /**
+   * 条目HTML, 合并subject0-9
+   */
+  subjectFormHTML(subjectId) {
+    return computed(() => {
+      if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
+
+      const str = String(subjectId)
+      const last = str.charAt(str.length - 1)
+      return (
+        this.state?.[`subjectFormHTML${last}`]?.[subjectId] ||
+        INIT_SUBJECT_FROM_HTML_ITEM
+      )
+    }).get()
+  }
+
   // -------------------- fetch --------------------
   /**
    * 条目信息
    * @param {*} subjectId
    */
-  fetchSubject = subjectId =>
-    this.fetch(
+  fetchSubject = subjectId => {
+    const str = String(subjectId)
+    const last = str.charAt(str.length - 1)
+    return this.fetch(
       {
         url: API_SUBJECT(subjectId),
         data: {
@@ -220,12 +293,13 @@ class Subject extends store {
         },
         info: '条目信息'
       },
-      ['subject', subjectId],
+      [`subject${last}`, subjectId],
       {
         storage: true,
         namespace: NAMESPACE
       }
     )
+  }
 
   /**
    * 网页获取条目信息
@@ -237,7 +311,9 @@ class Subject extends store {
       url: HTML_SUBJECT(subjectId)
     })
 
-    const key = 'subjectFormHTML'
+    const str = String(subjectId)
+    const last = str.charAt(str.length - 1)
+    const key = `subjectFormHTML${last}`
     const data = {
       ...cheerioSubjectFormHTML(HTML),
       _loaded: getTimestamp()
