@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 20:11:34
+ * @Last Modified time: 2022-04-07 03:24:50
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -31,6 +31,7 @@ export const INIT_SUBJECT_LAYOUT = {
 
   // 布局
   showRelation: true, // 页面头部关系
+  showSMB: true, // 本地目录信息
   showTags: true, // 页面标签
   showSummary: true, // 简介
   showInfo: true, // 简介
@@ -116,6 +117,7 @@ export const INIT_SETTING = {
     'UserTimeline',
     'Netabare',
     'Anitama',
+    'Smb',
     'Character',
     'Catalogs',
     'Link'

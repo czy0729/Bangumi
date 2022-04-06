@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 14:46:13
+ * @Last Modified time: 2022-04-07 03:26:27
  */
 export type MenuItemType = {
   key: string
@@ -105,6 +105,12 @@ const menuMap = {
     name: '资讯',
     icon: 'md-text-format',
     size: 26
+  },
+  Smb: {
+    key: 'Smb',
+    name: '本地管理',
+    text: 'SMB',
+    size: 14
   },
   Character: {
     key: 'Character',

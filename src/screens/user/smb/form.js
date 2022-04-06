@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-04-01 04:04:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 06:27:05
+ * @Last Modified time: 2022-04-07 07:54:48
  */
 import React, { useRef, useEffect } from 'react'
-import { KeyboardAvoidingView, Alert } from 'react-native'
+import { KeyboardAvoidingView, View, Alert } from 'react-native'
 import { Flex, Text, Input, Touchable } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { open } from '@utils'
 import { memo, obc } from '@utils/decorators'
 
 const defaultProps = {
@@ -73,7 +74,7 @@ const Form = memo(
         visible={visible}
         title={
           <Text type='title' size={16}>
-            连接SMB
+            连接SMB服务
           </Text>
         }
         transparent
@@ -244,7 +245,7 @@ const Form = memo(
               />
             </Flex.Item>
           </Flex>
-          <Flex style={_.mt.md} justify='center'>
+          <Flex justify='center'>
             <Touchable style={styles.touch} onPress={onSubmit}>
               <Text style={styles.btn} type='main'>
                 {isEdit ? '保存' : '新增'}
@@ -257,6 +258,15 @@ const Form = memo(
             </Touchable>
           </Flex>
         </KeyboardAvoidingView>
+        <View style={styles.info}>
+          <Touchable
+            onPress={() => open('https://www.yuque.com/chenzhenyu-k0epm/znygb4/rrb8zh')}
+          >
+            <Text size={14} type='sub'>
+              教程
+            </Text>
+          </Touchable>
+        </View>
       </Modal>
     )
   },
@@ -328,5 +338,12 @@ const memoStyles = _.memoStyles(() => ({
   btn: {
     paddingVertical: _.sm,
     paddingHorizontal: _.md
+  },
+  info: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    right: 20,
+    marginTop: -20
   }
 }))

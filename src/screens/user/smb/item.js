@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:31:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 06:59:59
+ * @Last Modified time: 2022-04-06 06:22:38
  */
 import React, { useState } from 'react'
-import { View, Linking } from 'react-native'
+import { Alert, View, Linking } from 'react-native'
 import { Flex, Image, Text, Touchable, Iconfont } from '@components'
 import { Cover, Rank, Stars, Tag } from '@_'
 import { _ } from '@stores'
@@ -32,7 +32,8 @@ const defaultProps = {
   rating: {},
   collection: '',
   folder: {},
-  smb: {}
+  smb: {},
+  url: Function.prototype
 }
 
 const sortOrder = {
@@ -61,7 +62,8 @@ const Item = memo(
     rating,
     collection,
     folder,
-    smb
+    smb,
+    url
   }) => {
     const [showFolder, setShowFolder] = useState(false)
     const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
@@ -86,7 +88,6 @@ const Item = memo(
                 shadow
                 type={typeCn}
                 onPress={() => {
-                  console.log(subjectId)
                   navigation.push('Subject', {
                     subjectId,
                     _name: name,
@@ -209,17 +210,30 @@ const Item = memo(
                         style={styles.item}
                         onPress={() => {
                           copy(
-                            `smb://${smb.username}:${smb.password}@${smb.ip}/${smb.sharedFolder}/${item.path}/${item.name}`
+                            url(smb.sharedFolder, folder.path, folder.name, item.name)
                           )
                           info('已复制smb地址')
+                          console.log(
+                            url(smb.sharedFolder, folder.path, folder.name, item.name)
+                          )
                         }}
                         onLongPress={async () => {
-                          const nplayerUrl = `nplayer-smb://${smb.username}:${smb.password}@${smb.ip}/${smb.sharedFolder}/${item.path}/${item.name}`
-                          if (!Linking.canOpenURL(nplayerUrl)) {
-                            info('本机不支持打开此链接')
+                          const link = url(
+                            smb.sharedFolder,
+                            folder.path,
+                            folder.name,
+                            item.name
+                          )
+                          if (!(await Linking.canOpenURL(link))) {
+                            Alert.alert('本机不支持打开此链接', link, [
+                              {
+                                text: '确定',
+                                onPress: () => {}
+                              }
+                            ])
                             return
                           }
-                          Linking.openURL(nplayerUrl)
+                          Linking.openURL(link)
                         }}
                       >
                         <Flex align='start'>
@@ -274,6 +288,7 @@ export default obc(({ subjectId, ...folder }, { $, navigation }) => {
       collection={status.name}
       folder={folder}
       smb={$.current.smb}
+      url={$.url}
     />
   )
 })

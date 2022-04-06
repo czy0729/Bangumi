@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-06 06:23:23
+ * @Last Modified time: 2022-04-07 01:34:26
  */
 import { Alert } from 'react-native'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -25,6 +25,7 @@ import timelineStore from './timeline'
 import tinygrailStore from './tinygrail'
 import userStore from './user'
 import usersStore from './users'
+import smbStore from './smb'
 
 // @todo 查明init被调用2次的原因
 let inited = false
@@ -53,6 +54,7 @@ class Stores {
 
       // [异步加载]非重要Stores
       runAfter(() => {
+        smbStore.init()
         calendarStore.init()
         discoveryStore.init()
         monoStore.init()
@@ -167,6 +169,7 @@ export {
   monoStore,
   rakuenStore,
   searchStore,
+  smbStore,
   subjectStore,
   systemStore,
   tagStore,

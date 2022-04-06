@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 07:08:02
+ * @Last Modified time: 2022-04-07 04:01:31
  */
 import { observable, computed, toJS } from 'mobx'
-import { subjectStore, collectionStore, userStore } from '@stores'
+import { smbStore, subjectStore, collectionStore, userStore } from '@stores'
 import { getTimestamp, sleep, desc } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
@@ -18,6 +18,7 @@ export const ACTIONS_SMB = ['扫描', '编辑', '复制配置新建', '删除']
 
 const namespace = 'ScreenSmb'
 const excludeState = {
+  data: [],
   loading: false,
   tags: [],
   expand: false,
@@ -38,7 +39,6 @@ const excludeState = {
 
 export default class ScreenSmb extends store {
   state = observable({
-    data: [],
     uuid: '',
     sort: ACTIONS_SORT[0],
     filter: '',
@@ -61,23 +61,22 @@ export default class ScreenSmb extends store {
     const list = await smbList(smb)
 
     if (list.length) {
-      const data = toJS(this.state.data)
+      const data = toJS(this.data)
       const { uuid } = this.state
       const index = data.findIndex(item => item.smb.uuid === uuid)
 
       if (index !== -1) {
         data[index].smb.loaded = getTimestamp()
         data[index].list = list
-        this.setState({
-          data
-        })
+        smbStore.updateData(data)
+
         this.fetchSubjects()
         this.setStorage(undefined, undefined, namespace)
       }
     }
   }
 
-  fetchSubjects = async (refresh = true) => {
+  fetchSubjects = async refresh => {
     const { loading } = this.state
     if (loading) return
 
@@ -88,6 +87,8 @@ export default class ScreenSmb extends store {
 
       if (refresh || !_loaded || now - _loaded >= 60 * 60) {
         fetchs.push(async () => {
+          if (!this.state.loading) return
+
           this.setState({
             loading: `${index + 1} / ${this.subjectIds.length}`
           })
@@ -120,13 +121,17 @@ export default class ScreenSmb extends store {
   }
 
   // -------------------- get --------------------
+  @computed get data() {
+    return smbStore.data
+  }
+
   @computed get isLogin() {
     return userStore.isLogin
   }
 
   @computed get current() {
-    const { data, uuid } = this.state
-    return data.find(item => item.smb.uuid === uuid)
+    const { uuid } = this.state
+    return this.data.find(item => item.smb.uuid === uuid)
   }
 
   @computed get subjectIds() {
@@ -141,8 +146,7 @@ export default class ScreenSmb extends store {
   }
 
   @computed get smbs() {
-    const { data } = this.state
-    return data.map(item => {
+    return this.data.map(item => {
       let name = item.smb.name
       if (!name) name = `${item.smb.ip}${item.smb.port ? ':' : ''}${item.smb.port}`
       return {
@@ -189,11 +193,11 @@ export default class ScreenSmb extends store {
         return desc(
           subjectA._loaded
             ? (subjectA?.rating?.score || 0) +
-                (subjectA?.rank === undefined ? -10000 : 10000 - subjectA?.rank)
+                (subjectA?.rank ? 10000 - subjectA?.rank : -10000)
             : -9999,
           subjectB._loaded
             ? (subjectB?.rating?.score || 0) +
-                (subjectB?.rank === undefined ? -10000 : 10000 - subjectB?.rank)
+                (subjectB?.rank ? 10000 - subjectB?.rank : -10000)
             : -9999
         )
       })
@@ -327,6 +331,29 @@ export default class ScreenSmb extends store {
     }).get()
   }
 
+  url = (sharedFolder = '', folderPath = '', folderName = '', fileName = '') => {
+    return computed(() => {
+      try {
+        if (!this.current) return ''
+
+        // smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]
+        const { smb } = this.current
+        const path = []
+        if (sharedFolder) path.push(sharedFolder)
+        if (folderPath) path.push(folderPath)
+        if (folderName) path.push(folderName)
+        return smb.url
+          .replace(/\[USERNAME\]/g, smb.username)
+          .replace(/\[PASSWORD\]/g, smb.password)
+          .replace(/\[IP\]/g, smb.port ? `${smb.ip}:${smb.port}` : smb.ip)
+          .replace(/\[PATH\]/g, path.join('/'))
+          .replace(/\[FILE\]/g, fileName)
+      } catch (error) {
+        return ''
+      }
+    }).get()
+  }
+
   // -------------------- page --------------------
   onShow = () => {
     this.setState({
@@ -403,31 +430,31 @@ export default class ScreenSmb extends store {
       return
     }
 
-    const data = toJS(this.state.data)
+    const data = toJS(this.data)
     const index = data.findIndex(item => item.smb.uuid === id)
 
     // 新增
     if (index === -1) {
       const uuid = getTimestamp()
-      this.setState({
-        data: [
-          {
-            smb: {
-              uuid,
-              name,
-              ip,
-              username,
-              password,
-              sharedFolder,
-              path,
-              port,
-              workGroup,
-              url: url || excludeState.url
-            },
-            list: []
+      smbStore.updateData([
+        {
+          smb: {
+            uuid,
+            name,
+            ip,
+            username,
+            password,
+            sharedFolder,
+            path,
+            port,
+            workGroup,
+            url: url || excludeState.url
           },
-          ...data
-        ],
+          list: []
+        },
+        ...data
+      ])
+      this.setState({
         uuid,
         ...excludeState
       })
@@ -441,8 +468,8 @@ export default class ScreenSmb extends store {
       data[index].smb.port = port
       data[index].smb.workGroup = workGroup
       data[index].smb.url = url || excludeState.url
+      smbStore.updateData(data)
       this.setState({
-        data,
         ...excludeState
       })
     }
@@ -454,9 +481,9 @@ export default class ScreenSmb extends store {
     if (!this.current) return
 
     const { smb } = this.current
-    const data = toJS(this.state.data).filter(item => item.smb.uuid !== smb.uuid)
+    const data = toJS(this.data).filter(item => item.smb.uuid !== smb.uuid)
+    smbStore.updateData(data)
     this.setState({
-      data,
       uuid: data?.[0]?.smb?.uuid || ''
     })
 
@@ -466,6 +493,7 @@ export default class ScreenSmb extends store {
   onSwitch = (title, index) => {
     const smb = this.smbs[index]
     this.setState({
+      loading: false,
       uuid: smb.uuid
     })
 

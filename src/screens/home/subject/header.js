@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 15:33:20
+ * @Last Modified time: 2022-04-07 02:03:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import Head from './head'
 import Lock from './lock'
 import Box from './box'
 import Ep from './ep'
+import SMB from './smb'
 import Tags from './tags'
 import Summary from './summary'
 import Thumbs from './thumbs'
@@ -43,6 +44,7 @@ function Header(props, { $ }) {
         <Lock />
         <Box />
         <Ep />
+        <SMB />
         <Tags />
         <Summary />
         <Game />

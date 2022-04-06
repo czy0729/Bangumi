@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 07:19:53
+ * @Last Modified time: 2022-04-07 02:59:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,11 +17,7 @@ function Top(props, { $ }) {
   if (!smb) return null
 
   const styles = memoStyles()
-  const {
-    tags,
-    loading
-    // expand
-  } = $.state
+  const { tags, loading } = $.state
   const { name, ip, port, sharedFolder } = smb
   return (
     <>
@@ -71,20 +67,6 @@ function Top(props, { $ }) {
               </Touchable>
             )
         )}
-        {/* {!expand && (
-          <View style={styles.expand}>
-            <Touchable
-              style={styles.expandTouch}
-              onPress={() =>
-                $.setState({
-                  expand: true
-                })
-              }
-            >
-              <Iconfont name='md-keyboard-arrow-down' color={_.colorDesc} size={18} />
-            </Touchable>
-          </View>
-        )} */}
       </Flex>
       {!!loading && (
         <Flex style={_.mb.sm} justify='center'>
@@ -138,21 +120,5 @@ const memoStyles = _.memoStyles(() => ({
         scale: 0.8
       }
     ]
-  },
-  expand: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    backgroundColor: _.colorPlain
-  },
-  expandTouch: {
-    paddingVertical: _.xs,
-    paddingRight: 10,
-    paddingLeft: 8,
-    marginTop: -6,
-    marginRight: 7,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:25:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 16:33:53
+ * @Last Modified time: 2022-04-07 07:39:58
  */
 import React from 'react'
 import { Text } from '@components'
@@ -14,7 +14,13 @@ import { GITHUB_RELEASE, VERSION_GITHUB_RELEASE } from '@constants'
 
 function Version() {
   const { name } = systemStore.release
-  const hasNewVersion = name !== VERSION_GITHUB_RELEASE
+  let hasNewVersion
+  try {
+    hasNewVersion =
+      name !== VERSION_GITHUB_RELEASE &&
+      Number(VERSION_GITHUB_RELEASE.replace(/\./g, '')) <
+        Number(name.replace(/\./g, ''))
+  } catch (error) {}
   return (
     <ItemSetting
       hd='版本'
