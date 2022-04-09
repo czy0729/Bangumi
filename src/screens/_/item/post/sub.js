@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:53:31
+ * @Last Modified time: 2022-04-09 11:03:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -111,7 +111,7 @@ const ItemSub = memo(
 
     // 回复引用的用户是屏蔽用户也要隐藏
     const quoteUserName = rawMsg.match(/^(.+?)说:/)?.[1]
-    const quoteUser = postUsersMap[quoteUserName]
+    const quoteUser = quoteUserName ? postUsersMap[quoteUserName] : ''
     if (quoteUser) {
       const quoteUserId = matchUserIdFromAvatar(quoteUser.avatar)
       if (quoteUserId && isBlockUser(quoteUserId, quoteUserName)) return null
