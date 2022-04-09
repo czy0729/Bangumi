@@ -10,7 +10,9 @@ import { NAMESPACE } from './init'
 
 class SMB extends store {
   state = observable({
-    data: []
+    data: {
+      data: []
+    }
   })
 
   init = () => this.readStorage(['data'], NAMESPACE)
@@ -41,7 +43,9 @@ class SMB extends store {
   updateData = data => {
     const key = 'data'
     this.setState({
-      [key]: data
+      [key]: {
+        data
+      }
     })
     this.setStorage(key, undefined, NAMESPACE)
   }
