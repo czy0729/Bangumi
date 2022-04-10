@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 01:34:26
+ * @Last Modified time: 2022-04-10 12:21:11
  */
 import { Alert } from 'react-native'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -116,15 +116,6 @@ class Stores {
             userStore.setStorage('accessToken', undefined, 'User') // 用户授权信息
             userStore.setStorage('userInfo', undefined, 'User') // 用户个人信息
             userStore.setStorage('userCookie', undefined, 'User') // 用户网页cookie
-
-            // 小圣杯
-            // tinygrailStore.setStorage('advanceList', undefined, 'Tinygrail') // 2小时限制
-            // tinygrailStore.setStorage('advanceBidList', undefined, 'Tinygrail')
-            // tinygrailStore.setStorage(
-            //   'advanceAuctionList',
-            //   undefined,
-            //   'Tinygrail'
-            // )
             tinygrailStore.setStorage('collected', undefined, 'Tinygrail') // 小圣杯人物收藏
 
             setTimeout(() => {

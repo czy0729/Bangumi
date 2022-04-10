@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 22:39:46
+ * @Last Modified time: 2022-04-10 12:03:36
  */
 class Model {
   constructor(data) {
@@ -553,6 +553,10 @@ export const MODEL_SETTING_SYNC = new Model([
 ])
 
 export const MODEL_SETTING_CDN_ORIGIN = new Model([
+  {
+    label: 'fastly',
+    value: 'fastly'
+  },
   {
     label: 'jsDelivr',
     value: 'jsDelivr'

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 15:30:51
+ * @Last Modified time: 2022-04-10 12:22:06
  */
 import React, { useState, useEffect } from 'react'
 import { ActionSheet, Flex, Text, SwitchPro, Heatmap } from '@components'
+import { clearCache } from '@components/image/image'
 import { ItemSetting, ItemSettingBlock, Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
@@ -17,8 +18,9 @@ import styles from './styles'
 const URL_LAIN = 'https://lain.bgm.tv/pic/cover/c/fa/1d/25833_kZIjD.jpg'
 const URL_JSDELIVR =
   'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OSS@master/data/subject/c/t/TfOdAB.jpg'
+const URL_FASTLY = URL_JSDELIVR.replace('cdn', 'fastly')
 const URL_ONEDRIVE = 'https://bangumi.stdcdn.com/subject/c/t/TfOdAB.jpg'
-const IMG_WIDTH = parseInt((_.window.contentWidth - 2 * _.md) / 3)
+const IMG_WIDTH = parseInt((_.window.contentWidth - 2 * _.md) / 4)
 const IMG_HEIGHT = parseInt(IMG_WIDTH * 1.44)
 
 function CDN() {
@@ -30,6 +32,7 @@ function CDN() {
       const data = []
       async function cb() {
         data.push(await ping(URL_LAIN))
+        data.push(await ping(URL_FASTLY))
         data.push(await ping(URL_JSDELIVR))
         if (systemStore.advance) data.push(await ping(URL_ONEDRIVE))
         setPings(data)
@@ -79,12 +82,41 @@ function CDN() {
                 })
 
                 systemStore.switchSetting('cdn')
+
+                setTimeout(() => {
+                  clearCache()
+                }, 0)
               }}
             />
             <ItemSettingBlock.Item
-              style={_.ml.md}
+              style={_.ml.sm}
+              title='fastly'
+              information={'免费开放\n推荐'}
+              active={cdn && origin === 'fastly'}
+              onPress={async () => {
+                if (cdn && origin === 'fastly') return
+
+                t('设置.切换', {
+                  title: 'CDN加速',
+                  checked: !cdn,
+                  origin: 'fastly'
+                })
+
+                if (!cdn) systemStore.switchSetting('cdn')
+                systemStore.setSetting(
+                  'cdnOrigin',
+                  MODEL_SETTING_CDN_ORIGIN.getValue('fastly')
+                )
+
+                setTimeout(() => {
+                  clearCache()
+                }, 0)
+              }}
+            />
+            <ItemSettingBlock.Item
+              style={_.ml.sm}
               title='jsDelivr'
-              information={'免费开放\n国内部分地区不稳定'}
+              information={'免费开放\n国内不稳定'}
               active={cdn && origin === 'jsDelivr'}
               onPress={async () => {
                 if (cdn && origin === 'jsDelivr') return
@@ -100,12 +132,16 @@ function CDN() {
                   'cdnOrigin',
                   MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr')
                 )
+
+                setTimeout(() => {
+                  clearCache()
+                }, 0)
               }}
             />
             <ItemSettingBlock.Item
-              style={_.ml.md}
+              style={_.ml.sm}
               title='OneDrive'
-              information={'高级会员开放\n作者私有付费空间'}
+              information={'高级会员开放\n作者私有付费'}
               active={cdn && origin === 'OneDrive'}
               onPress={async () => {
                 if (cdn && origin === 'OneDrive') return
@@ -122,6 +158,10 @@ function CDN() {
                   'cdnOrigin',
                   MODEL_SETTING_CDN_ORIGIN.getValue('OneDrive')
                 )
+
+                setTimeout(() => {
+                  clearCache()
+                }, 0)
               }}
             />
             <Heatmap id='设置.切换' title='CDN加速' />
@@ -163,6 +203,19 @@ function CDN() {
                     />
                     <Text style={_.mt.xs} type='sub' size={10} align='center'>
                       lain.bgm.tv: {pings[0] || 0}ms
+                    </Text>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item style={_.ml.md}>
+                  <Flex style={_.container.block} direction='column' justify='center'>
+                    <Cover
+                      size={IMG_WIDTH}
+                      height={IMG_HEIGHT}
+                      src={URL_FASTLY}
+                      radius
+                    />
+                    <Text style={_.mt.xs} type='sub' size={10} align='center'>
+                      fastly: {pings[1] || 0}ms
                     </Text>
                   </Flex>
                 </Flex.Item>

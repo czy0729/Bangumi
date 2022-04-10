@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-30 21:00:10
+ * @Last Modified time: 2022-04-10 12:18:37
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -33,7 +33,7 @@ const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1000,
     right: _.wind,
-    bottom: 40
+    bottom: 64
   },
   touch: {
     backgroundColor: _.colorTitle,
