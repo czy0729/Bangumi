@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:30:39
+ * @Last Modified time: 2022-04-10 11:19:40
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -515,7 +515,9 @@ export const FolderManageModal = ob(
 
         setTimeout(() => {
           if (this.textareaRef) {
-            this.textareaRef.textAreaRef.focus()
+            try {
+              this.textareaRef.textAreaRef.focus()
+            } catch (error) {}
           }
         }, 160)
         return

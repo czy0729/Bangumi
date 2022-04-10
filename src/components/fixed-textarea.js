@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-09 10:49:14
+ * @Last Modified time: 2022-04-10 11:06:05
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -111,7 +111,7 @@ export const FixedTextarea = observer(
       })
 
       setTimeout(() => {
-        this.ref.textAreaRef.focus()
+        this.textAreaFocus()
       }, 0)
     }
 
@@ -128,6 +128,10 @@ export const FixedTextarea = observer(
 
       setTimeout(() => {
         this.onRefBlur()
+        this.setState({
+          showTextarea: false,
+          showBgm: false
+        })
       }, 0)
     }
 
@@ -156,27 +160,28 @@ export const FixedTextarea = observer(
 
     // @todo 暂时没有对选择了一段文字的情况做判断
     onAddSymbolText = symbol => {
-      const ref = this.ref.textAreaRef
-      ref.focus()
+      this.textAreaFocus()
 
-      const { value } = this.state
-      const index = this.getSelection()
+      try {
+        const { value } = this.state
+        const index = this.getSelection()
 
-      // 插入值, 如[s]光标位置[/s], [url=光标位置]链接描述[/url]
-      let left
-      let right
-      if (symbol === 'url') {
-        left = `${value.slice(0, index)}[url=`
-        right = `]链接描述[/url]${value.slice(index)}`
-      } else {
-        left = `${value.slice(0, index)}[${symbol}]`
-        right = `[/${symbol}]${value.slice(index)}`
-      }
+        // 插入值, 如[s]光标位置[/s], [url=光标位置]链接描述[/url]
+        let left
+        let right
+        if (symbol === 'url') {
+          left = `${value.slice(0, index)}[url=`
+          right = `]链接描述[/url]${value.slice(index)}`
+        } else {
+          left = `${value.slice(0, index)}[${symbol}]`
+          right = `[/${symbol}]${value.slice(index)}`
+        }
 
-      this.setState({
-        value: `${left}${right}`
-      })
-      this.setSelection(left.length)
+        this.setState({
+          value: `${left}${right}`
+        })
+        this.setSelection(left.length)
+      } catch (error) {}
     }
 
     // 选择bgm表情
@@ -236,15 +241,17 @@ export const FixedTextarea = observer(
     setSelection = start => {
       const { textAreaRef } = this.ref
       setTimeout(() => {
-        const selection = {
-          start,
-          end: start
-        }
+        try {
+          const selection = {
+            start,
+            end: start
+          }
 
-        textAreaRef.setNativeProps({
-          selection
-        })
-        this.selection = selection
+          textAreaRef.setNativeProps({
+            selection
+          })
+          this.selection = selection
+        } catch (error) {}
       }, 0)
     }
 
@@ -280,8 +287,7 @@ export const FixedTextarea = observer(
       })
 
       setTimeout(() => {
-        const ref = this.ref.textAreaRef
-        ref.focus()
+        this.textAreaFocus()
       }, 0)
     }
 
@@ -355,8 +361,7 @@ export const FixedTextarea = observer(
       })
 
       setTimeout(() => {
-        const ref = this.ref.textAreaRef
-        ref.focus()
+        this.textAreaFocus()
       }, 0)
     }
 
@@ -367,6 +372,13 @@ export const FixedTextarea = observer(
         showSource: newShowSource
       })
       setStorage(`${namespace}|showSource`, newShowSource)
+    }
+
+    textAreaFocus = () => {
+      try {
+        const ref = this.ref.textAreaRef
+        ref.focus()
+      } catch (error) {}
     }
 
     get value() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 11:59:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-17 15:44:18
+ * @Last Modified time: 2022-04-10 10:42:04
  */
 import React from 'react'
 import { Text } from '@components'
@@ -32,7 +32,7 @@ function UserLabel({ isAuthor, isFriend, isLayer, userSign }) {
       {!!userSign && (
         <Text type='sub' size={10} lineHeight={14}>
           {' '}
-          ({userSign.slice(1, userSign.length - 1)})
+          ({userSign?.slice(1, userSign?.length - 1)})
         </Text>
       )}
     </>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-29 04:53:01
+ * @Last Modified time: 2022-04-10 11:19:16
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -51,11 +51,13 @@ export const Input = observer(
     inputRef
 
     onFocus = () => {
-      this.inputRef.focus()
-
-      setTimeout(() => {
+      try {
         this.inputRef.focus()
-      }, 0)
+
+        setTimeout(() => {
+          this.inputRef.focus()
+        }, 0)
+      } catch (error) {}
     }
 
     onChange = evt => {
@@ -113,7 +115,7 @@ export const Input = observer(
         const containerHeight = initInputHeight * numberOfLines + 18
         return (
           <View style={this.styles.container}>
-            <TouchableWithoutFeedback onPress={() => this.inputRef.focus()}>
+            <TouchableWithoutFeedback onPress={this.onFocus}>
               <View
                 style={[
                   this.styles.multiContainer,

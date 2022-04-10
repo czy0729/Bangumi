@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 16:12:27
+ * @Last Modified time: 2022-04-10 10:40:40
  */
 import { computed } from 'mobx'
 import { subjectStore, discoveryStore } from '@stores'
@@ -47,9 +47,7 @@ export default class ScreenSubjectCatalogs extends store {
 
   fetchCatalogDetail = async id => {
     const { _loaded } = discoveryStore.catalogDetail(id)
-    if (_loaded) {
-      return true
-    }
+    if (_loaded) return true
 
     return discoveryStore.fetchCatalogDetail({
       id

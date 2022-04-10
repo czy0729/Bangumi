@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 04:04:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 07:54:48
+ * @Last Modified time: 2022-04-10 11:22:35
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
@@ -63,7 +63,9 @@ const Form = memo(
     useEffect(() => {
       setTimeout(() => {
         if (visible && !name.length && typeof nameRef.current?.focus === 'function') {
-          nameRef.current.focus()
+          try {
+            nameRef.current.focus()
+          } catch (error) {}
         }
       }, 400)
     }, [visible, name])
@@ -94,7 +96,11 @@ const Form = memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('name', text)}
-                onSubmitEditing={() => ipRef.current.focus()}
+                onSubmitEditing={() => {
+                  try {
+                    ipRef.current.focus()
+                  } catch (error) {}
+                }}
               />
             </Flex.Item>
           </Flex>
@@ -109,7 +115,11 @@ const Form = memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('ip', text)}
-                onSubmitEditing={() => usernameRef.current.focus()}
+                onSubmitEditing={() => {
+                  try {
+                    usernameRef.current.focus()
+                  } catch (error) {}
+                }}
               />
             </Flex.Item>
           </Flex>
@@ -124,7 +134,11 @@ const Form = memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('username', text)}
-                onSubmitEditing={() => passwordRef.current.focus()}
+                onSubmitEditing={() => {
+                  try {
+                    passwordRef.current.focus()
+                  } catch (error) {}
+                }}
               />
             </Flex.Item>
           </Flex>
@@ -139,7 +153,11 @@ const Form = memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('password', text)}
-                onSubmitEditing={() => sharedFolderRef.current.focus()}
+                onSubmitEditing={() => {
+                  try {
+                    sharedFolderRef.current.focus()
+                  } catch (error) {}
+                }}
               />
             </Flex.Item>
           </Flex>
@@ -154,7 +172,11 @@ const Form = memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('sharedFolder', text)}
-                onSubmitEditing={() => pathRef.current.focus()}
+                onSubmitEditing={() => {
+                  try {
+                    pathRef.current.focus()
+                  } catch (error) {}
+                }}
               />
             </Flex.Item>
           </Flex>
@@ -169,7 +191,11 @@ const Form = memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('path', text)}
-                onSubmitEditing={() => portRef.current.focus()}
+                onSubmitEditing={() => {
+                  try {
+                    portRef.current.focus()
+                  } catch (error) {}
+                }}
               />
             </Flex.Item>
           </Flex>
@@ -184,7 +210,11 @@ const Form = memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('port', text)}
-                onSubmitEditing={() => workGroupRef.current.focus()}
+                onSubmitEditing={() => {
+                  try {
+                    workGroupRef.current.focus()
+                  } catch (error) {}
+                }}
               />
             </Flex.Item>
           </Flex>
@@ -199,7 +229,11 @@ const Form = memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('workGroup', text)}
-                onSubmitEditing={() => urlRef.current.focus()}
+                onSubmitEditing={() => {
+                  try {
+                    urlRef.current.focus()
+                  } catch (error) {}
+                }}
               />
             </Flex.Item>
           </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 15:35:14
+ * @Last Modified time: 2022-04-10 11:27:35
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -73,7 +73,7 @@ const Head = memo(
     const d = release.includes('日')
     if (y && m && d) {
       const str = `${release.replace(/年|月|日/g, '/')}`
-      const ts = getTimestamp(str.slice(0, str.length - 1))
+      const ts = getTimestamp(str?.slice(0, str.length - 1))
       const now = getTimestamp()
       showRelease = ts > now
     } else if ((y && m && !d) || (y && !m && !d)) {

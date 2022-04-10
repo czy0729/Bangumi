@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 22:42:34
+ * @Last Modified time: 2022-04-10 10:41:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,7 @@ export const ItemCatalog = obc(
     const styles = memoStyles()
     const { list, collect, content, avatar, userId, time } = $.catalogDetail(id)
     const desc = HTMLDecode(removeHTMLTag(info || content))
-    const date = time ? lastDate(getTimestamp(time)).slice(0, 10) : ''
+    const date = time ? lastDate(getTimestamp(time))?.slice(0, 10) : ''
     return (
       <Touchable
         style={styles.container}

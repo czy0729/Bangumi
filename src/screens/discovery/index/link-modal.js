@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:31:47
+ * @Last Modified time: 2022-04-10 11:20:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,9 @@ export default obc(
         if ($.state.visible) {
           setTimeout(() => {
             if (this.iptRef && this.iptRef.inputRef && this.iptRef.inputRef.focus) {
-              this.iptRef.inputRef.focus()
+              try {
+                this.iptRef.inputRef.focus()
+              } catch (error) {}
             }
           }, 240)
         }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 11:16:00
+ * @Last Modified time: 2022-04-10 11:09:01
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -269,7 +269,7 @@ export function acSearch(str) {
             allowDuplicates: false
           }
         )
-      }, 2400)
+      }, 4000)
     }
     return str
   }

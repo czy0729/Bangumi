@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-18 20:41:44
+ * @Last Modified time: 2022-04-10 11:13:05
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { ob } from '@utils/decorators'
 function IconFavor({ $ }) {
   return (
     <IconHeader
-      style={styles.icon}
+      style={_.mr.xs}
       name={$.isFavor ? 'md-star' : 'md-star-outline'}
       color={$.isFavor ? _.colorYellow : _.colorDesc}
       onPress={$.setFavor}
@@ -24,9 +24,3 @@ function IconFavor({ $ }) {
 }
 
 export default ob(IconFavor)
-
-const styles = _.create({
-  icon: {
-    marginRight: -2
-  }
-})

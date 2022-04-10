@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:53:26
+ * @Last Modified time: 2022-04-10 11:20:52
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -47,7 +47,9 @@ class Form extends React.Component {
   componentDidMount() {
     const { email, password, captcha } = this.props
     if (email && password && !captcha) {
-      this.codeRef.inputRef.focus()
+      try {
+        this.codeRef.inputRef.focus()
+      } catch (error) {}
     }
   }
 
@@ -116,7 +118,11 @@ class Form extends React.Component {
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'email')}
-              onSubmitEditing={() => this.passwordRef.inputRef.focus()}
+              onSubmitEditing={() => {
+                try {
+                  this.passwordRef.inputRef.focus()
+                } catch (error) {}
+              }}
             />
           </Flex.Item>
         </Flex>
@@ -132,7 +138,11 @@ class Form extends React.Component {
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'password')}
-              onSubmitEditing={() => this.codeRef.inputRef.focus()}
+              onSubmitEditing={() => {
+                try {
+                  this.codeRef.inputRef.focus()
+                } catch (error) {}
+              }}
             />
           </Flex.Item>
         </Flex>

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 23:24:18
+ * @Last Modified time: 2022-04-09 21:56:57
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
@@ -101,7 +101,7 @@ export default class ScreenTopic extends store {
   @computed get topicId() {
     const { topicId = '' } = this.params
     if (!topicId) return '0'
-    return topicId.split('#')[0]
+    return topicId.split('#')?.[0] || ''
   }
 
   /**
@@ -138,10 +138,10 @@ export default class ScreenTopic extends store {
     let list = reverse ? comments.list.reverse() : comments.list
     if (filterDefault || this.isLimit) {
       list = list
-        .filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
+        .filter(item => !item.avatar?.includes(URL_DEFAULT_AVATAR))
         .map(item => ({
           ...item,
-          sub: item.sub.filter(i => !i.avatar.includes(URL_DEFAULT_AVATAR))
+          sub: item.sub.filter(i => !i.avatar?.includes(URL_DEFAULT_AVATAR))
         }))
     }
 

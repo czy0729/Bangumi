@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 23:18:27
+ * @Last Modified time: 2022-04-09 21:55:43
  */
 import React from 'react'
 import { FixedTextarea, Flex, Text } from '@components'
@@ -14,7 +14,7 @@ import { IOS } from '@constants'
 function Bottom({ fixedTextareaRef }, { $, navigation }) {
   const styles = memoStyles()
   const { placeholder, value } = $.state
-  const { tip, close } = $.topic
+  const { tip = '', close } = $.topic
   if (tip.includes('半公开')) {
     return (
       <Flex style={styles.fixedBottom}>
