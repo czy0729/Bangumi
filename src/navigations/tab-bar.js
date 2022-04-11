@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-11 11:33:18
+ * @Last Modified time: 2022-04-12 04:19:56
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -50,7 +50,11 @@ function TabBar({ state, descriptors, navigation }) {
             //   })
             // }}
           >
-            <Flex style={styles.item} direction='column' justify='center'>
+            <Flex
+              style={styles.item}
+              direction={_.isLandscape ? undefined : 'column'}
+              justify='center'
+            >
               <Flex style={styles.icon} justify='center'>
                 <Iconfont
                   name={config.icon}
@@ -59,7 +63,11 @@ function TabBar({ state, descriptors, navigation }) {
                 />
               </Flex>
               {isFocused && (
-                <Text type={isFocused ? 'main' : 'desc'} size={12}>
+                <Text
+                  style={_.isLandscape && _.ml.sm}
+                  type={isFocused ? 'main' : 'desc'}
+                  size={12}
+                >
                   {config.label}
                 </Text>
               )}

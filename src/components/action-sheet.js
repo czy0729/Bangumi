@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 00:22:09
+ * @Last Modified time: 2022-04-12 04:13:12
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'
@@ -69,7 +69,7 @@ export const ActionSheet = ({ show = false, height = 400, onClose, children }) =
     if (!_show) return null
 
     const styles = memoStyles()
-    const h = height || _.window.height * 0.4
+    const h = Math.min(height || _.window.height * 0.4, _.window.height * 0.88)
     return (
       <Portal>
         <View style={styles.actionSheet}>

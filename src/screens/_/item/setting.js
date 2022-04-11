@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-21 13:50:08
+ * @Last Modified time: 2022-04-12 04:07:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,11 +94,11 @@ export const ItemSetting = ob(
 
 const memoStyles = _.memoStyles(() => ({
   touchable: {
-    paddingLeft: _.wind
+    paddingLeft: _._wind
   },
   item: {
     paddingVertical: 12,
-    paddingRight: _.wind
+    paddingRight: _._wind
   },
   information: {
     maxWidth: '86%'

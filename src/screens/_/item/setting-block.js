@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 00:24:20
+ * @Last Modified time: 2022-04-12 04:14:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -92,7 +92,7 @@ export { ItemSettingBlock }
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingHorizontal: _.wind,
+    paddingHorizontal: _._wind,
     paddingBottom: _.md
   },
   touch: {

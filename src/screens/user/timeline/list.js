@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-26 15:45:20
+ * @Last Modified time: 2022-04-12 04:32:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -127,7 +127,7 @@ export default obc(List)
 const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.r(32),
-    marginHorizontal: _.windSm - _._wind
+    marginHorizontal: _.wind - _._wind
   },
   line: {
     position: 'absolute',
