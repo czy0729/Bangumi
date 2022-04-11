@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 22:17:25
+ * @Last Modified time: 2022-04-11 11:04:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,16 +11,16 @@ import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
 
 const defaultProps = {
-  styles: {},
+  style: {},
   src: ''
 }
 
-const Bg = memo(({ styles, src }) => {
+const Bg = memo(({ style, src }) => {
   rerender('Subject.Bg.Main')
 
   return (
     <BlurView
-      style={styles.bg}
+      style={style}
       theme={_.select(null, 'dark')}
       tint={_.select('default', 'dark')}
       src={src}
@@ -36,12 +36,22 @@ export default obc((props, { $ }) => {
   const src = $.coverPlaceholder || images.common
   if (typeof src !== 'string') return <View style={styles.bg} />
 
-  return <Bg styles={styles} src={src} />
+  return <Bg style={styles.bg} src={src} />
 })
 
 const memoStyles = _.memoStyles(() => ({
-  bg: {
-    height: 160,
-    backgroundColor: _.colorBg
-  }
+  bg: _.ios(
+    {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      left: 0,
+      height: 160,
+      backgroundColor: _.colorBg
+    },
+    {
+      height: 160,
+      backgroundColor: _.colorBg
+    }
+  )
 }))

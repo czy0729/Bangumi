@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 21:53:27
+ * @Last Modified time: 2022-04-10 12:38:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -96,7 +96,6 @@ class Grid extends React.Component {
       <ListView
         key={`${_.orientation}${numColumns}`}
         ref={this.connectRef}
-        style={!IOS && this.styles.androidWrap}
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={userCollection}
@@ -147,9 +146,6 @@ const memoStyles = _.memoStyles(() => ({
   noSelect: {
     width: '100%',
     height: '100%'
-  },
-  androidWrap: {
-    marginBottom: _.tabBarHeight - 1
   },
   contentContainerStyle: {
     paddingTop: _.sm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:14:57
+ * @Last Modified time: 2022-04-11 11:47:47
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -53,6 +53,7 @@ export default obc(({ $ }) => {
 
 const styles = _.create({
   container: {
+    marginTop: _.ios(4, 0),
     marginLeft: -_.sm,
     marginRight: _.lg
   },

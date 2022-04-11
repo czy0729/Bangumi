@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 04:20:07
+ * @Last Modified time: 2022-04-11 11:37:00
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
@@ -42,6 +42,7 @@ export const updateHeader = ({
     headerStyle: {
       backgroundColor: backgroundColor || (mode ? 'transparent' : _.colorPlain),
       borderBottomWidth: 0,
+      shadowOpacity: 0,
       elevation: 0
     },
 
@@ -82,7 +83,7 @@ export const updateHeader = ({
   if (mode) {
     options.headerStyle = {
       ...options.headerStyle,
-      height: 0.5, // 别问为什么留0.5, 我也想知道, 不给他留一点就是会出问题
+      height: IOS ? 0 : 0.5, // 别问为什么留0.5, 我也想知道, 不给他留一点就是会出问题
       backgroundColor: _.colorPlain
     }
 

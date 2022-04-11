@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 23:10:46
+ * @Last Modified time: 2022-04-11 11:48:12
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -66,6 +66,7 @@ export default ob(({ $, navigation }) => {
 
 const styles = _.create({
   container: {
+    marginTop: _.ios(4, 0),
     marginLeft: -_.sm,
     marginRight: _.lg
   }

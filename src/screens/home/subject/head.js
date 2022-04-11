@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 11:27:35
+ * @Last Modified time: 2022-04-11 11:05:15
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -199,7 +199,7 @@ const memoStyles = _.memoStyles(() => ({
   container: {
     zIndex: 1,
     paddingTop: _.r(48),
-    marginTop: -80
+    marginTop: _.ios(80, -80)
   },
   content: {
     paddingTop: _.r(12),

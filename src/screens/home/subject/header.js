@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 02:03:32
+ * @Last Modified time: 2022-04-11 11:05:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { IOS } from '@constants'
 import Bg from './bg'
 import Head from './head'
 import Lock from './lock'
@@ -38,7 +39,7 @@ function Header(props, { $ }) {
   const { _loaded } = $.subjectComments
   return (
     <>
-      <Bg />
+      {!IOS && <Bg />}
       <Head />
       <View style={styles.content}>
         <Lock />

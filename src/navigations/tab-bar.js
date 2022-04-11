@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 15:41:11
+ * @Last Modified time: 2022-04-11 11:33:18
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
+import { BlurView } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { IOS } from '@constants'
 import { routesConfig } from './config'
 
 function TabBar({ state, descriptors, navigation }) {
@@ -16,7 +18,8 @@ function TabBar({ state, descriptors, navigation }) {
 
   const styles = memoStyles()
   return (
-    <Flex style={styles.tabBar}>
+    <Flex style={styles.tabBar} align='start'>
+      {IOS && <BlurView style={styles.blurView} />}
       {state.routes.map((route, index) => {
         const isFocused = state.index === index
         const config = routesConfig[route.name]
@@ -72,9 +75,14 @@ export default ob(TabBar)
 
 const memoStyles = _.memoStyles(() => ({
   tabBar: {
-    height: _.tabBarHeight,
+    position: _.ios('absolute', undefined),
+    zIndex: 100,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    height: _.ios(_.tabBarHeight + 20, _.tabBarHeight),
     backgroundColor: _.ios(
-      _.select(_.colorPlain, _._colorDarkModeLevel1),
+      'transparent',
       _.select(_.colorPlain, _.deep(_._colorPlain, _._colorDarkModeLevel1))
     ),
     borderTopWidth: _.ios(0, _.select(_.hairlineWidth, _.deep(0, _.hairlineWidth))),
@@ -89,5 +97,12 @@ const memoStyles = _.memoStyles(() => ({
   icon: {
     width: 24,
     height: 24
+  },
+  blurView: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
   }
 }))

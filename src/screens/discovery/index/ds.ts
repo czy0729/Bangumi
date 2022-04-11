@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 03:26:27
+ * @Last Modified time: 2022-04-11 11:17:42
  */
+import { IOS } from '@constants'
+
 export type MenuItemType = {
   key: string
   name: string
@@ -110,7 +112,8 @@ const menuMap = {
     key: 'Smb',
     name: '本地管理',
     text: 'SMB',
-    size: 14
+    size: 14,
+    ios: false
   },
   Character: {
     key: 'Character',
@@ -162,6 +165,8 @@ export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
       ...menus.slice(openIndex, menus.length)
     ]
   }
+
+  if (IOS) return menus.filter(item => item.ios !== false)
 
   return menus
 }
