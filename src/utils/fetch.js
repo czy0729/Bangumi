@@ -3,35 +3,29 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-28 12:31:30
+ * @Last Modified time: 2022-04-13 01:35:28
  */
-import { NativeModules, InteractionManager } from 'react-native'
-import {
-  APP_ID,
-  APP_ID_BAIDU,
-  DEV,
-  HOST,
-  HOST_NAME,
-  HOST_CDN,
-  IOS,
-  VERSION_GITHUB_RELEASE,
-  UA
-} from '@constants'
-import events from '@constants/events'
+import { APP_ID, APP_ID_BAIDU, HOST, HOST_NAME, HOST_CDN, IOS, UA } from '@constants'
 import { BAIDU_KEY } from '@constants/secret'
 import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
-import { urlStringify, sleep, getTimestamp, randomn, debounce } from './utils'
-import { getUserStoreAsync, getThemeStoreAsync } from './async'
+import {
+  urlStringify,
+  sleep,
+  getTimestamp
+  // debounce
+} from './utils'
+import { getUserStoreAsync } from './async'
 import { info as UIInfo, loading } from './ui'
 import { log } from './dev'
+import { hm, ua, err, t } from './track'
 
-const { UMAnalyticsModule } = NativeModules
+export { hm, ua, err, t }
+
 const SHOW_LOG = true // 开发显示请求信息
 const FETCH_TIMEOUT = 6400 // api超时时间
 const FETCH_RETRY = 4 // get请求失败自动重试次数
-
-const defaultHeaders = {
+const HEADERS_DEFAULT = {
   Accept:
     'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
   'Accept-Encoding': 'gzip, deflate',
@@ -213,7 +207,7 @@ export async function fetchHTML({
   if (isGet) {
     _config.method = 'GET'
     _config.headers = {
-      ...defaultHeaders,
+      ...HEADERS_DEFAULT,
       ..._config.headers
     }
     if (Object.keys(body).length) {
@@ -342,248 +336,72 @@ export function xhrCustom({
 /**
  * 带progress的xhr
  */
-export function sax({
-  method = 'GET',
-  url,
-  data,
-  headers = {},
-  responseType,
-  withCredentials = false,
-  onProgress = Function.prototype
-} = {}) {
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest()
+// export function sax({
+//   method = 'GET',
+//   url,
+//   data,
+//   headers = {},
+//   responseType,
+//   withCredentials = false,
+//   onProgress = Function.prototype
+// } = {}) {
+//   return new Promise((resolve, reject) => {
+//     const request = new XMLHttpRequest()
 
-    const cb = debounce(function (response) {
-      if (response.length < 1000) {
-        return
-      }
+//     const cb = debounce(function (response) {
+//       if (response.length < 1000) {
+//         return
+//       }
 
-      log('[utils/fetch] sax', response.length)
-      onProgress(response)
-    }, 80)
-    request.onreadystatechange = function () {
-      if (this.readyState !== 4) {
-        return cb(this._response)
-      }
+//       log('[utils/fetch] sax', response.length)
+//       onProgress(response)
+//     }, 80)
+//     request.onreadystatechange = function () {
+//       if (this.readyState !== 4) {
+//         return cb(this._response)
+//       }
 
-      if (this.status === 200) {
-        return resolve(this)
-      }
+//       if (this.status === 200) {
+//         return resolve(this)
+//       }
 
-      console.warn('[utils/fetch] sax', url)
-      if (this.status === 404) {
-        return reject(new TypeError('404'))
-      }
+//       console.warn('[utils/fetch] sax', url)
+//       if (this.status === 404) {
+//         return reject(new TypeError('404'))
+//       }
 
-      if (this.status === 500) {
-        return reject(new TypeError('500'))
-      }
+//       if (this.status === 500) {
+//         return reject(new TypeError('500'))
+//       }
 
-      return reject(new TypeError(this.status))
-    }
-    request.onerror = function () {
-      reject(new TypeError('Network request onerror'))
-    }
-    request.ontimeout = function () {
-      reject(new TypeError('Network request ontimeout'))
-    }
-    request.onabort = function () {
-      reject(new TypeError('Network request onabort'))
-    }
+//       return reject(new TypeError(this.status))
+//     }
+//     request.onerror = function () {
+//       reject(new TypeError('Network request onerror'))
+//     }
+//     request.ontimeout = function () {
+//       reject(new TypeError('Network request ontimeout'))
+//     }
+//     request.onabort = function () {
+//       reject(new TypeError('Network request onabort'))
+//     }
 
-    request.open(method, url, true)
-    request.withCredentials = withCredentials
-    if (responseType) {
-      request.responseType = responseType
-    }
-    Object.keys(headers).forEach(key => {
-      request.setRequestHeader(key, headers[key])
-    })
+//     request.open(method, url, true)
+//     request.withCredentials = withCredentials
+//     if (responseType) {
+//       request.responseType = responseType
+//     }
+//     Object.keys(headers).forEach(key => {
+//       request.setRequestHeader(key, headers[key])
+//     })
 
-    const body = data ? urlStringify(data) : null
-    request.send(body)
-    if (SHOW_LOG) {
-      log(`[sax] ${url}`)
-    }
-  })
-}
-
-/**
- * hm v6.0 浏览统计
- * @param {*} url
- * @param {*} screen
- */
-let lastScreen = ''
-let lastHm = ''
-export function hm(url, screen) {
-  if (DEV) return
-
-  try {
-    // 保证这种低优先级的操作在UI响应之后再执行
-    InteractionManager.runAfterInteractions(() => {
-      if (screen) {
-        t('其他.查看', {
-          screen
-        })
-      }
-
-      const fullUrl = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-      const query = {
-        v: VERSION_GITHUB_RELEASE
-      }
-      const { isDark, isTinygrailDark } = getThemeStoreAsync()
-      if (isDark) query.dark = 1
-      if (screen) {
-        lastScreen = screen
-        if (screen.includes('Tinygrail') && isTinygrailDark) {
-          query.tdark = 1
-        }
-        query.s = screen
-      }
-      const u = `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${urlStringify(query)}`
-      lastHm = u
-      if (DEV) log(`📌 ${u}`)
-
-      const request = new XMLHttpRequest()
-      const link = `https://hm.baidu.com/hm.gif?${urlStringify({
-        rnd: randomn(10),
-        lt: getTimestamp(),
-        si: IOS
-          ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
-          : '2dcb6644739ae08a1748c45fb4cea087',
-        v: '1.2.51',
-        api: '4_0',
-        u
-      })}`
-      request.open('GET', link, true)
-      request.withCredentials = true
-      request.send(null)
-    })
-  } catch (error) {
-    console.warn('[fetch] hm', error)
-  }
-}
-
-/**
- * ua
- */
-export function ua() {
-  if (DEV) return
-
-  try {
-    const userStore = getUserStoreAsync()
-    if (!userStore.isWebLogin) return
-
-    InteractionManager.runAfterInteractions(() => {
-      const request = new XMLHttpRequest()
-      const link = `https://hm.baidu.com/hm.gif?${urlStringify({
-        rnd: randomn(10),
-        lt: getTimestamp(),
-        si: 'a69e268f29c60e0429a711037f9c48b0',
-        v: '1.2.51',
-        api: '4_0',
-        u: `${getUserStoreAsync().url}?v=${VERSION_GITHUB_RELEASE}`
-      })}`
-      request.open('GET', link, true)
-      request.withCredentials = true
-      request.send(null)
-    })
-  } catch (error) {
-    console.warn('[fetch] u', error)
-  }
-}
-
-/**
- * 致命错误上报
- */
-export function err(desc) {
-  if (DEV) return
-
-  try {
-    if (!desc) return
-
-    const userStore = getUserStoreAsync()
-    const request = new XMLHttpRequest()
-    const link = `https://hm.baidu.com/hm.gif?${urlStringify({
-      rnd: randomn(10),
-      lt: getTimestamp(),
-      si: '00da9670516311c9b9014c067022f55c',
-      v: '1.2.51',
-      api: '4_0',
-      u: `${userStore?.url}?${urlStringify({
-        v: VERSION_GITHUB_RELEASE,
-        d: desc,
-        s: lastScreen
-      })}`
-    })}`
-    request.open('GET', link, true)
-    request.withCredentials = true
-    request.send(null)
-
-    t('其他.崩溃', {
-      error: desc,
-      id: userStore?.myId || ''
-    })
-  } catch (error) {
-    console.warn('[fetch] u', error)
-  }
-}
-
-/**
- * track 埋点统计
- * @param {*} u
- */
-export function t(desc, eventData) {
-  if (!desc) return
-
-  // fixed: 遗留问题, 显示为登录, 统计还是以前录入的登陆
-  if (typeof desc === 'string') desc = desc.replace(/登录/g, '登陆')
-
-  if (IOS) {
-    if (!DEV) return
-
-    const eventId = events[desc]
-    log(
-      `${eventId ? '' : '找不到eventId '}🏷️  ${desc} ${
-        eventData ? JSON.stringify(eventData) : ''
-      }`
-    )
-    return
-  }
-
-  try {
-    // 保证这种低优先级的操作在UI响应之后再执行
-    InteractionManager.runAfterInteractions(() => {
-      const eventId = events[desc]
-      if (eventId) {
-        if (eventData) {
-          UMAnalyticsModule.onEventWithMap(
-            eventId,
-            eventId === '其他.崩溃'
-              ? {
-                  ...eventData,
-                  url: lastHm
-                }
-              : eventData
-          )
-        } else {
-          UMAnalyticsModule.onEvent(eventId)
-        }
-      }
-
-      if (DEV) {
-        log(
-          `${eventId ? '' : '找不到eventId '}🏷️ ${desc} ${
-            eventData ? JSON.stringify(eventData) : ''
-          }`
-        )
-      }
-    })
-  } catch (error) {
-    warn('utils/fetch', 't', error)
-  }
-}
+//     const body = data ? urlStringify(data) : null
+//     request.send(body)
+//     if (SHOW_LOG) {
+//       log(`[sax] ${url}`)
+//     }
+//   })
+// }
 
 /**
  * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
