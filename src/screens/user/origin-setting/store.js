@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 06:32:38
+ * @Last Modified time: 2022-04-12 15:46:11
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
@@ -109,8 +109,6 @@ export default class ScreenOriginSetting extends store {
       data: toJS(subjectStore.origin)
     })
   }
-
-  // -------------------- fetch --------------------
 
   // -------------------- get --------------------
   @computed get data() {

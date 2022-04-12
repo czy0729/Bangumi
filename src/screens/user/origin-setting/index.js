@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 16:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 19:42:21
+ * @Last Modified time: 2022-04-12 15:46:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Header, Page, ScrollView, Divider } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
+import Cloud from './cloud'
 import Title from './title'
 import Item from './item'
 import Create from './create'
@@ -27,6 +28,7 @@ const OriginSetting = (props, { $ }) => {
         <Header title='自定义源头' hm={['origin-setting', 'OriginSetting']} />
         <Page>
           <ScrollView contentContainerStyle={styles.scrollView}>
+            <Cloud onDownloaded={$.init} />
             {types.map((item, index) => (
               <View key={item.type}>
                 {!!index && <Divider />}

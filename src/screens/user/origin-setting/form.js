@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-27 22:57:47
+ * @Last Modified time: 2022-04-12 04:47:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -92,7 +92,6 @@ const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
       />
       <View style={styles.close}>
         <IconTouchable
-          style={styles.close}
           name='md-close'
           size={22}
           color={_.colorDesc}

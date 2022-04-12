@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 04:14:12
+ * @Last Modified time: 2022-04-12 11:33:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,12 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 const ItemSettingBlock = ob(
-  ({ style, title, information, informationType = 'sub', children }) => {
+  ({ style, title, information, informationType = 'sub', size = 16, children }) => {
     const styles = memoStyles()
     return (
       <View style={[styles.container, style]}>
         {!!title && (
-          <Text type='title' size={16} bold>
+          <Text type='title' size={size} bold>
             {title}
           </Text>
         )}

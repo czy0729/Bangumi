@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-06 02:37:20
+ * @Last Modified time: 2022-04-12 15:47:06
  */
 import { observable, computed } from 'mobx'
-import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
+import CryptoJS from 'crypto-js'
+import { APP_ID, LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
 import {
@@ -24,6 +25,8 @@ import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
+import { put, read } from '@utils/db'
+import UserStore from '../user'
 import {
   NAMESPACE,
   DEFAULT_RATING_STATUS,
@@ -764,6 +767,52 @@ class Subject extends store {
       [key]: data
     })
     this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 上传源头数据到云端
+   */
+  uploadOrigin = () => {
+    const { id } = UserStore.userInfo
+    const { origin } = this.state
+    return put({
+      path: `origin/${id}.json`,
+      content: CryptoJS.AES.encrypt(JSON.stringify(origin), APP_ID).toString()
+    })
+  }
+
+  /**
+   * 恢复源头数据
+   */
+  downloadOrigin = async () => {
+    const { id } = UserStore.userInfo
+    const { content } = await read({
+      path: `origin/${id}.json`
+    })
+
+    if (!content) {
+      return false
+    }
+
+    try {
+      const bytes = CryptoJS.AES.decrypt(content.toString(), APP_ID)
+      const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+      if (typeof data?.base === 'object' && typeof data?.custom === 'object') {
+        const key = 'origin'
+        this.setState({
+          [key]: {
+            base: data.base,
+            custom: data.custom
+          }
+        })
+        this.setStorage(key, undefined, NAMESPACE)
+        return true
+      }
+
+      return false
+    } catch (error) {
+      return false
+    }
   }
 }
 
