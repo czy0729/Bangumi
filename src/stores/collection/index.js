@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-16 22:33:18
+ * @Last Modified time: 2022-04-14 11:25:10
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -521,18 +521,21 @@ class Collection extends store {
   /**
    * 输入框更新章节进度
    */
-  doUpdateSubjectEp = ({ subjectId, watchedEps } = {}, success) =>
-    xhr(
+  doUpdateSubjectEp = ({ subjectId, watchedEps, watchedVols } = {}, success) => {
+    const query = {
+      referer: 'subject',
+      submit: '更新',
+      watchedeps: watchedEps
+    }
+    if (watchedVols) query.watched_vols = watchedVols
+    return xhr(
       {
         url: HTML_ACTION_SUBJECT_SET_WATCHED(subjectId),
-        data: {
-          referer: 'subject',
-          submit: '更新',
-          watchedeps: watchedEps
-        }
+        data: query
       },
       success
     )
+  }
 }
 
 const Store = new Collection()

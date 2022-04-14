@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 11:20:52
+ * @Last Modified time: 2022-04-14 09:25:40
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -312,7 +312,7 @@ class Form extends React.Component {
 const memoStyles = _.memoStyles(() => ({
   form: {
     width: 300 * _.ratio,
-    paddingBottom: 96
+    paddingBottom: 200
   },
   input: {
     height: _.device(44, 38) * _.ratio,

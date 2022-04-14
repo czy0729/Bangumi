@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 21:57:35
+ * @Last Modified time: 2022-04-14 12:04:27
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -1035,15 +1035,19 @@ export default class ScreenHomeV2 extends store {
       subjectId
     })
 
-    await collectionStore.doUpdateBookEp({
-      subjectId,
-      chap: epStatus,
-      vol: volStatus
-    })
-    feedback()
+    await collectionStore.doUpdateSubjectEp(
+      {
+        subjectId,
+        watchedEps: epStatus,
+        watchedVols: volStatus
+      },
+      () => {
+        feedback()
 
-    userStore.fetchUserCollection()
-    userStore.fetchUserProgress()
+        userStore.fetchUserCollection()
+        userStore.fetchUserProgress()
+      }
+    )
   }
 
   /**

@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:20:41
+ * @Last Modified time: 2022-04-14 11:48:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1982,68 +1982,68 @@ export default class ScreenSubject extends store {
 
   /**
    * 更新书籍下一个章节
+   * @version 20220414 x18无效，待废弃，改用doUpdateSubjectEp
    */
   doUpdateNext = async name => {
     t('条目.更新书籍下一个章节', {
       subjectId: this.subjectId
     })
 
-    try {
-      const { chap, vol } = this.state
-      const next = String(parseInt(this.state[name] || 0) + 1)
-      await collectionStore.doUpdateBookEp({
-        subjectId: this.subjectId,
-        chap,
-        vol,
-        [name]: next
-      })
-      feedback()
-
-      this.setState({
-        [name]: next
-      })
-      info('更新成功')
-    } catch (error) {
-      warn(namespace, 'doUpdateNext', error)
+    const { chap, vol } = this.state
+    const next = String(parseInt(this.state[name] || 0) + 1)
+    const query = {
+      subjectId: this.subjectId,
+      chap,
+      vol,
+      [name]: next
     }
+    this.doUpdateEp({
+      eps: query.chap,
+      vol: query.vol
+    })
   }
 
   /**
    * 更新书籍章节
+   * @version 20220414 x18无效，待废弃，改用doUpdateEp
    */
   doUpdateBookEp = async () => {
     t('条目.更新书籍章节', {
       subjectId: this.subjectId
     })
 
-    try {
-      const { chap, vol } = this.state
-      await collectionStore.doUpdateBookEp({
-        subjectId: this.subjectId,
-        chap,
-        vol
-      })
-      feedback()
-      info('更新成功')
-    } catch (error) {
-      warn(namespace, 'doUpdateBookEp', error)
-    }
+    const { chap, vol } = this.state
+    this.doUpdateEp({
+      eps: chap,
+      vol
+    })
   }
 
   /**
    * 输入框更新章节
+   * @version 20220414 x18无效，待废弃，改用doUpdateEp
    */
   doUpdateSubjectEp = async () => {
-    const { watchedEps } = this.state
     t('条目.输入框更新章节', {
       subjectId: this.subjectId
     })
 
+    const { watchedEps } = this.state
+    this.doUpdateEp({
+      eps: watchedEps
+    })
+  }
+
+  /**
+   * 章节更新统一入口
+   */
+  doUpdateEp = async ({ eps, vol }) => {
     try {
       collectionStore.doUpdateSubjectEp(
         {
           subjectId: this.subjectId,
-          watchedEps
+          watchedEps: eps,
+          watchedVols: vol
         },
         async () => {
           feedback()
@@ -2056,7 +2056,7 @@ export default class ScreenSubject extends store {
         }
       )
     } catch (error) {
-      warn(namespace, 'doUpdateSubjectEp', error)
+      warn(namespace, 'doUpdateEp', error)
     }
   }
 

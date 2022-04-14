@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-16 22:30:39
+ * @Last Modified time: 2022-04-14 10:59:25
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -457,6 +457,7 @@ export const HTML_ACTION_ERASE_COLLECTION = (subjectId, formhash) =>
  * referer: subject
  * submit: 更新
  * watchedeps: 3
+ * watched_vols: 1 | ''
  */
 export const HTML_ACTION_SUBJECT_SET_WATCHED = subjectId =>
   `${HOST}/subject/set/watched/${subjectId}`

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 21:14:20
+ * @Last Modified time: 2022-04-14 10:19:35
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -432,6 +432,7 @@ class LoginV2 extends React.Component {
       v: 0
     })
     userStore.updateAccessToken(this.accessToken)
+
     feedback()
     navigation.popToTop()
     t('登录.成功')
