@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-23 07:46:18
+ * @Last Modified time: 2022-04-13 04:28:08
  */
 import {
   arrGroup,
@@ -13,7 +13,6 @@ import {
   debounce,
   desc,
   formatNumber,
-  getStorage,
   getTimestamp,
   gradientColor,
   isObject,
@@ -28,7 +27,6 @@ import {
   randomn,
   runAfter,
   safeObject,
-  setStorage,
   similar,
   simpleTime,
   sleep,
@@ -70,8 +68,12 @@ import {
   x18s
 } from './app'
 
+import { getStorage, setStorage } from './storage'
+
+/**
+ * utils
+ */
 export {
-  // utils
   arrGroup,
   asc,
   cleanQ,
@@ -80,7 +82,6 @@ export {
   debounce,
   desc,
   formatNumber,
-  getStorage,
   getTimestamp,
   gradientColor,
   isObject,
@@ -95,7 +96,6 @@ export {
   randomn,
   runAfter,
   safeObject,
-  setStorage,
   similar,
   simpleTime,
   sleep,
@@ -103,9 +103,13 @@ export {
   titleCase,
   toFixed,
   trim,
-  urlStringify,
+  urlStringify
+}
 
-  // app
+/**
+ * app
+ */
+export {
   appNavigate,
   appRandom,
   bootApp,
@@ -135,3 +139,8 @@ export {
   x18,
   x18s
 }
+
+/**
+ * storage
+ */
+export { getStorage, setStorage }

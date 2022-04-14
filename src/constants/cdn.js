@@ -9,9 +9,10 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 12:09:29
+ * @Last Modified time: 2022-04-14 10:26:44
  */
-import { getTimestamp, getStorage, setStorage } from '@utils/utils'
+import { getTimestamp } from '@utils/utils'
+import { getStorage, setStorage } from '@utils/storage'
 import { getSystemStoreAsync } from '@utils/async'
 import { xhrCustom } from '@utils/fetch'
 import _hash from '@utils/thirdParty/hash'

@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 20:19:52
+ * @Last Modified time: 2022-04-14 10:49:25
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants'
-import { getTimestamp, setStorage } from './utils'
+import { getTimestamp } from './utils'
+import { setStorage } from './storage'
 import fetch from './fetch'
 import { fetchSubjectV0 } from './fetch.v0'
 
@@ -158,7 +159,6 @@ export default class Store {
           break
       }
     /* ===== @todo end ===== */
-
     let _data
     if (Array.isArray(data)) {
       if (list) {

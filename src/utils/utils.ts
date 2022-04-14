@@ -2,14 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-06 02:54:44
+ * @Last Modified time: 2022-04-13 04:28:12
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
-
-// @ts-ignore
-import AsyncStorage from '@components/@/react-native-async-storage'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
 
@@ -195,75 +192,6 @@ export function open(url) {
   if (DEV) console.info(url)
 
   return true
-}
-
-/**
- * 保存数据
- * @version 190321 1.0
- * @version 211112 2.0
- * @param {*} key
- */
-const setStorageLazyMap = {}
-export async function setStorage(key, data) {
-  if (!key) return false
-
-  const _data = JSON.stringify(data)
-  if (_data.length >= 10000) {
-    setStorageLazyMap[key] = _data
-  } else {
-    AsyncStorage.setItem(key, _data)
-
-    if (DEV)
-      console.info(
-        'setStorage',
-        key,
-        `${(JSON.stringify(data).length / 1000).toFixed(2)}kb`
-      )
-  }
-}
-
-/**
- * @version 211112 数据较大的键, 合并没必要的多次写入
- */
-let setStorageInterval
-if (setStorageInterval) clearInterval(setStorageInterval)
-setStorageInterval = setInterval(async () => {
-  const keys = Object.keys(setStorageLazyMap)
-  if (!keys.length) return
-
-  const setItems = []
-  keys.forEach(key => {
-    setItems.push(async () => {
-      AsyncStorage.setItem(key, setStorageLazyMap[key])
-      delete setStorageLazyMap[key]
-
-      if (DEV) {
-        console.log(
-          'setStorageLazy',
-          key,
-          `${(setStorageLazyMap[key].length / 1000).toFixed(2)}kb`
-        )
-      }
-    })
-  })
-
-  queue(setItems, 1)
-}, 60000)
-
-/**
- * 读取数据
- * @version 190321 1.0
- * @param {*} key
- */
-export async function getStorage(key) {
-  try {
-    if (!key) return null
-
-    const data = await AsyncStorage.getItem(key)
-    return Promise.resolve(JSON.parse(data))
-  } catch (error) {
-    return Promise.resolve(null)
-  }
 }
 
 /**
