@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 02:11:52
+ * @Last Modified time: 2022-04-18 12:19:26
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
 import { getTimestamp } from '@utils'
 
-export const PaginationList = ({ data, limit = 24, ...other }) => {
+export const PaginationList = ({
+  data,
+  limit = 24,
+  onPage = Function.prototype,
+  ...other
+}) => {
   const [list, setList] = useState({
     list: [],
     pagination: {
@@ -28,22 +33,25 @@ export const PaginationList = ({ data, limit = 24, ...other }) => {
       list: next,
       pagination: {
         page: page + 1,
-        pageTotal: next.length >= limit ? 100 : page + 1
+        pageTotal: next.length >= limit * page ? 100 : page + 1
       }
     })
-  }, [data, limit, list])
+    onPage(next)
+  }, [data, limit, list, onPage])
 
   useEffect(() => {
+    const list = data.slice(0, limit)
     setList({
-      list: data.slice(0, limit),
+      list,
       pagination: {
         page: 1,
         pageTotal: 100
       },
       _loaded: getTimestamp()
     })
+    onPage(list)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.length])
+  }, [data.length, onPage])
 
   return <ListView data={list} {...other} onFooterRefresh={onFooterRefresh} />
 }

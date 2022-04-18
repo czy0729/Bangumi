@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 20:18:27
+ * @Last Modified time: 2022-04-18 07:31:06
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp, urlStringify } from '@utils'
@@ -10,7 +10,7 @@ import { safe } from '@utils/fetch'
 import { APP_ID, UA } from '@constants'
 import { getUserStoreAsync } from './async'
 
-async function request(url) {
+export async function request(url) {
   axios.defaults.withCredentials = false
 
   try {
@@ -41,10 +41,6 @@ export async function fetchSubjectV0(config) {
   const subject = await request(`https://api.bgm.tv/v0/subjects/${subjectId}`)
   const eps = await request(`https://api.bgm.tv/v0/episodes?subject_id=${subjectId}`)
 
-  let total = 0
-  Object.keys(subject.rating.count).forEach(
-    item => (total += subject.rating.count[item])
-  )
   const data = {
     id: subjectId,
     url: `https://bgm.tv/subject/${subjectId}`,
@@ -56,10 +52,7 @@ export async function fetchSubjectV0(config) {
     eps_count: subject.eps,
     air_date: subject.date,
     // air_weekday: 2,
-    rating: {
-      ...subject.rating,
-      total
-    },
+    rating: subject.rating,
     rank: subject.rating.rank,
     images: subject.images,
     collection: subject.collection,
