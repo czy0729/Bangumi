@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 10:51:55
+ * @Last Modified time: 2022-04-17 17:16:46
  */
 import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
@@ -11,7 +11,12 @@ import { enableScreens } from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
 import Stacks from '@src/navigations'
-import { DEV, NavigationContainer, DeepLink, BackAndroid } from '@components'
+import {
+  // DEV,
+  NavigationContainer,
+  DeepLink,
+  BackAndroid
+} from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
 import {
@@ -61,7 +66,7 @@ export default function App() {
         <AppCommon />
         <BackAndroid />
         <DeepLink />
-        <DEV />
+        {/* <DEV /> */}
       </Provider>
     </SafeAreaProvider>
   )
