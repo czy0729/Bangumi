@@ -199,6 +199,11 @@ export default class ScreenDiscovery extends store {
     return setting.discoveryTodayOnair
   }
 
+  @computed get discoveryMenuNum() {
+    const { setting } = systemStore
+    return setting.discoveryMenuNum
+  }
+
   // -------------------- action --------------------
   openMenu = () => {
     this.setState({

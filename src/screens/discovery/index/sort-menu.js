@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 20:39:20
+ * @Last Modified time: 2022-04-21 06:01:01
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
-import { Touchable, Flex, Text, SwitchPro } from '@components'
+import { Touchable, Flex, Text, SwitchPro, SegmentedControl } from '@components'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { rerender } from '@utils/dev'
@@ -22,6 +22,7 @@ const defaultProps = {
   dragging: false,
   discoveryMenu: [],
   discoveryTodayOnair: true,
+  discoveryMenuNum: 4,
   onToggle: Function.prototype,
   onSubmit: Function.prototype
 }
@@ -33,6 +34,7 @@ const SortMenu = memo(
     dragging,
     discoveryMenu,
     discoveryTodayOnair,
+    discoveryMenuNum,
     onToggle,
     onSubmit
   }) => {
@@ -91,7 +93,7 @@ const SortMenu = memo(
               <Flex.Item>
                 <Touchable style={styles.touch} onPress={onCancel}>
                   <Flex style={styles.btn} justify='center'>
-                    <Text type='__plain__' bold>
+                    <Text type='__plain__' bold size={13}>
                       取消
                     </Text>
                   </Flex>
@@ -100,12 +102,34 @@ const SortMenu = memo(
               <Flex.Item style={_.ml.md}>
                 <Touchable style={styles.touch} onPress={onSave}>
                   <Flex style={styles.btn} justify='center'>
-                    <Text type='__plain__' bold>
+                    <Text type='__plain__' bold size={13}>
                       保存
                     </Text>
                   </Flex>
                 </Touchable>
               </Flex.Item>
+            </Flex>
+            <Flex style={styles.setting}>
+              <Flex.Item>
+                <Text>菜单每行个数</Text>
+              </Flex.Item>
+              <SegmentedControl
+                style={styles.segmentedControl}
+                size={12}
+                values={[4, 5]}
+                selectedIndex={discoveryMenuNum === 4 ? 0 : 1}
+                onValueChange={label => {
+                  t('设置.切换', {
+                    title: '发现菜单个数',
+                    label
+                  })
+
+                  systemStore.setSetting(
+                    'discoveryMenuNum',
+                    discoveryMenuNum === 4 ? 5 : 4
+                  )
+                }}
+              />
             </Flex>
             <Flex style={styles.setting}>
               <Flex.Item>
@@ -126,7 +150,7 @@ const SortMenu = memo(
             </Flex>
           </>
         ),
-      [styles, dragging, discoveryTodayOnair, onCancel, onSave]
+      [styles, dragging, discoveryTodayOnair, discoveryMenuNum, onCancel, onSave]
     )
 
     const isPortrait = orientation === ORIENTATION_PORTRAIT
@@ -149,16 +173,17 @@ const SortMenu = memo(
     return (
       <View>
         {isPortrait && dragging && (
-          <Text style={styles.text} bold>
+          <Text style={styles.text} size={13} bold>
             按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
           </Text>
         )}
         {!isPortrait && btns}
         {dragging ? (
           <DraggableGrid
-            key={orientation}
+            key={`${orientation}|${discoveryMenuNum}`}
             data={data}
-            numColumns={4}
+            numColumns={discoveryMenuNum}
+            itemHeight={styles.dragItem.height}
             renderItem={renderItem}
             onDragRelease={onDragRelease}
           />
@@ -184,6 +209,7 @@ export default obc((props, { $ }) => {
         dragging={$.state.dragging}
         discoveryMenu={$.discoveryMenu}
         discoveryTodayOnair={$.discoveryTodayOnair}
+        discoveryMenuNum={$.discoveryMenuNum}
         onToggle={$.toggleDragging}
         onSubmit={$.saveDiscoveryMenu}
       />
@@ -202,25 +228,25 @@ const memoStyles = _.memoStyles(() => ({
   text: {
     marginTop: IOS ? _.sm : _.md,
     marginLeft: _.md,
-    marginBottom: _.md
+    marginBottom: _.sm
   },
   btns: {
     paddingHorizontal: _.sm,
-    marginTop: _.md + 8,
+    marginTop: _.md,
     marginBottom: _.md
   },
   touch: {
-    borderRadius: _.r(44),
+    borderRadius: _.r(40),
     overflow: 'hidden'
   },
   btn: {
-    height: _.r(44),
+    height: _.r(40),
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: _.r(44)
+    borderRadius: _.r(40)
   },
   setting: {
     paddingHorizontal: _.sm,
-    marginTop: _.md
+    marginVertical: _.sm
   },
   switch: {
     marginRight: -4,
@@ -229,5 +255,12 @@ const memoStyles = _.memoStyles(() => ({
         scale: _.device(0.8, 1.12)
       }
     ]
+  },
+  segmentedControl: {
+    height: _.r(28),
+    width: _.r(128)
+  },
+  dragItem: {
+    height: (_.windowSm.width - 2 * _.windSm) / 4
   }
 }))

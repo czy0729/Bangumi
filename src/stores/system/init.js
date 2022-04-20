@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-19 03:27:49
+ * @Last Modified time: 2022-04-21 05:53:27
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -124,6 +124,7 @@ export const INIT_SETTING = {
     'Link'
   ],
   discoveryTodayOnair: true, // 发现页今日放送
+  discoveryMenuNum: 5, // 发现菜单一列个数
 
   // 条目页面布局
   ...INIT_SUBJECT_LAYOUT
