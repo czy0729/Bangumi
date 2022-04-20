@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-20 18:11:59
+ * @Last Modified time: 2022-04-21 06:56:54
  */
 import { observable, computed, toJS } from 'mobx'
 import { userStore, systemStore } from '@stores'
@@ -23,12 +23,12 @@ const RELATIONS = [
   '前传',
   '续集',
   '番外篇',
-  '主线故事'
+  '主线故事',
+  '相同世界观',
+  '不同世界观'
   // '衍生',
   // '角色出演',
   // '不同演绎',
-  // '不同世界观',
-  // '相同世界观',
 ]
 const SUBJECT_TYPE = 2
 const SUBJECT_ITEM = {
@@ -55,10 +55,12 @@ const excludeState = {
   total: 0
 }
 const loaded = {}
+let indexes = {}
 
 export default class ScreenSeries extends store {
   state = observable({
     collections: [],
+    otherCollections: [],
     relations: {},
     subjects: {},
     data: [],
@@ -85,8 +87,13 @@ export default class ScreenSeries extends store {
     }
   }
 
+  /**
+   * 组织请求构成关联系列数据
+   */
   fetchSeries = async () => {
     if (this.state.fetching) return false
+
+    indexes = {}
 
     // 先加载第一层关系数据
     await this.fetchCollections()
@@ -97,9 +104,17 @@ export default class ScreenSeries extends store {
       // 稍后加载第二层关系数据
       await this.fetchSubRelations()
       await this.calculateData()
+      this.fetchSomeSubjects()
+
+      setTimeout(() => {
+        this.fetchOtherCollections() // 因为关联到的条目也可能存在其他收藏状态, 需要请求补全
+      }, 4000)
     }, 1600)
   }
 
+  /**
+   * 在看和看过的收藏
+   */
   fetchCollections = async () => {
     if (!this.userId) {
       info('此功能依赖收藏数据，请先登录', 4)
@@ -166,9 +181,53 @@ export default class ScreenSeries extends store {
       ...excludeState
     })
 
+    this.setStorage(undefined, undefined, namespace)
     return true
   }
 
+  /**
+   * 想看、搁置和抛弃的收藏
+   */
+  fetchOtherCollections = async () => {
+    const _data = []
+
+    // 想看
+    let data = await request(
+      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=1&limit=${LIMIT}`
+    )
+    if (Array.isArray(data?.data)) _data.push(...data?.data)
+
+    // 搁置
+    data = await request(
+      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=4&limit=${LIMIT}`
+    )
+    if (Array.isArray(data?.data)) _data.push(...data?.data)
+
+    // 抛弃
+    data = await request(
+      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=5&limit=${LIMIT}`
+    )
+    if (Array.isArray(data?.data)) _data.push(...data?.data)
+
+    if (!_data.length) return false
+
+    this.setState({
+      otherCollections: _data
+        .sort((a, b) => desc(a.updated_at, b.updated_at))
+        .map(item => ({
+          id: item.subject_id,
+          type: item.type,
+          ep: item.ep_status,
+          updated_at: item.updated_at
+        }))
+    })
+
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 关联条目
+   */
   fetchRelations = async () => {
     const relations = {}
     const fetchs = []
@@ -203,14 +262,17 @@ export default class ScreenSeries extends store {
         })
         return true
       }),
-      1
+      2
     )
 
     this.clearState('relations', relations)
-
+    this.setStorage(undefined, undefined, namespace)
     return true
   }
 
+  /**
+   * 二级关联条目
+   */
   fetchSubRelations = async () => {
     const relations = {
       ...this.state.relations
@@ -259,7 +321,7 @@ export default class ScreenSeries extends store {
         })
         return true
       }),
-      1
+      2
     )
     this.setState({
       relations
@@ -271,9 +333,13 @@ export default class ScreenSeries extends store {
       })
     }, 1600)
 
+    this.setStorage(undefined, undefined, namespace)
     return true
   }
 
+  /**
+   * 条目信息
+   */
   fetchSubjects = async (subjectIds = []) => {
     if (!subjectIds.length) return false
 
@@ -311,10 +377,29 @@ export default class ScreenSeries extends store {
       })
     })
 
-    await queue(fetchs, 1)
+    await queue(fetchs, 2)
     this.setStorage(undefined, undefined, namespace)
 
     return true
+  }
+
+  /**
+   * 条目信息是懒加载的
+   * 为了首次进入能比较好地使用, 预先加载部分条目数据
+   */
+  fetchSomeSubjects = () => {
+    const { data } = this.state
+    const subjectIds = []
+    data.forEach(item => {
+      if (Array.isArray(toJS(item))) {
+        subjectIds.push(...item)
+      } else {
+        subjectIds.push(item)
+      }
+    })
+
+    subjectIds.length = 200
+    this.fetchSubjects(subjectIds)
   }
 
   /**
@@ -322,7 +407,6 @@ export default class ScreenSeries extends store {
    */
   calculateData = () => {
     const { relations } = this.state
-    const indexes = {}
     const data = []
 
     Object.keys(relations)
@@ -351,8 +435,7 @@ export default class ScreenSeries extends store {
   }
 
   /**
-   * 下一页
-   * @param {*} list
+   * 配合<PaginationList>的下一页
    */
   onPage = (list = []) => {
     const subjectIds = []
@@ -376,20 +459,20 @@ export default class ScreenSeries extends store {
     return this.state.collections.map(item => item.id)
   }
 
-  @computed get subjectIdsAll() {}
-
   collection(subjectId) {
     return computed(() => {
-      return this.state.collections.find(item => item.id === subjectId)
+      return (
+        this.state.collections.find(item => item.id === subjectId) ||
+        this.state.otherCollections.find(item => item.id === subjectId)
+      )
     }).get()
   }
 
   collections(subjectIds) {
     return computed(() => {
-      const { collections } = this.state
       const data = {}
       subjectIds.forEach(subjectId => {
-        const item = collections.find(item => item.id === subjectId)
+        const item = this.collection(subjectId)
         if (item) data[subjectId] = item
       })
 

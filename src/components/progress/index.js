@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-18 11:58:39
+ * @Last Modified time: 2022-04-20 19:11:23
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -74,7 +74,8 @@ const memoStyles = _.memoStyles(() => ({
     paddingTop: _.sm,
     paddingHorizontal: _.sm + 4,
     paddingBottom: _.sm + 6,
-    backgroundColor: _.select('rgba(0, 0, 0, 0.9)', _._colorDarkModeLevel2),
+    backgroundColor: _.select('#ffffff', _._colorDarkModeLevel2),
+    elevation: _.select(16, 0),
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
