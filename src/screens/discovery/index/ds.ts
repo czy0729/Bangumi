@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-11 11:17:42
+ * @Last Modified time: 2022-04-19 03:29:28
  */
 import { IOS } from '@constants'
 
@@ -114,6 +114,12 @@ const menuMap = {
     text: 'SMB',
     size: 14,
     ios: false
+  },
+  Series: {
+    key: 'Series',
+    name: '我的系列',
+    icon: 'md-workspaces-outline',
+    login: true
   },
   Character: {
     key: 'Character',

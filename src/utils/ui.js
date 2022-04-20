@@ -74,6 +74,24 @@ export function confirm(
   return Alert.alert(title, content, params)
 }
 
+export function alert(content, title = '提示') {
+  const params = [
+    {
+      text: '确定',
+      onPress: () => {}
+    }
+  ]
+
+  // iOS 有时候在 popover 里面询问, 会触发屏幕假死, 需要延迟一下让菜单消失了再执行
+  if (IOS) {
+    return setTimeout(() => {
+      Alert.alert(title, content, params)
+    }, 80)
+  }
+
+  return Alert.alert(title, content, params)
+}
+
 /**
  * 轻提示
  * @param {*} content

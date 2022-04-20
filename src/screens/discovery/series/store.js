@@ -2,25 +2,33 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-19 02:52:17
+ * @Last Modified time: 2022-04-20 18:11:59
  */
-import { observable, computed } from 'mobx'
-import { userStore } from '@stores'
+import { observable, computed, toJS } from 'mobx'
+import { userStore, systemStore } from '@stores'
 import { getTimestamp, asc, desc } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
+import { HTMLDecode } from '@utils/html'
+import { info } from '@utils/ui'
+import { MODEL_RANK_ANIME_FILTER } from '@constants/model'
 
+export const DATA_SORT = ['默认', '关联数', '新放送', '评分']
+export const DATA_FILTER = MODEL_RANK_ANIME_FILTER.data.map(item => item.label)
+export const DATA_STATUS = ['全部', '未收藏', '看过', '在看', '未看完']
+
+const HOST_API_V0 = 'https://api.bgm.tv/v0'
 const RELATIONS = [
   '前传',
   '续集',
+  '番外篇',
+  '主线故事'
   // '衍生',
   // '角色出演',
   // '不同演绎',
   // '不同世界观',
   // '相同世界观',
-  '番外篇',
-  '主线故事'
 ]
 const SUBJECT_TYPE = 2
 const SUBJECT_ITEM = {
@@ -37,7 +45,7 @@ const SUBJECT_ITEM = {
   _loaded: 0
 }
 const LIMIT = 100
-const DISTANCE = 60 * 60 * 12
+const DISTANCE = 60 * 60 * 24
 
 const namespace = 'ScreenSeries'
 const excludeState = {
@@ -54,6 +62,10 @@ export default class ScreenSeries extends store {
     relations: {},
     subjects: {},
     data: [],
+    sort: '',
+    filter: '',
+    airtime: '',
+    status: '',
     ...excludeState,
     _loaded: false
   })
@@ -66,11 +78,16 @@ export default class ScreenSeries extends store {
       _loaded: getTimestamp()
     })
 
-    // this.fetchSeries()
-    await this.calculateData()
+    if (!this.state.data.length) {
+      this.fetchSeries()
+    } else {
+      this.calculateData()
+    }
   }
 
   fetchSeries = async () => {
+    if (this.state.fetching) return false
+
     // 先加载第一层关系数据
     await this.fetchCollections()
     await this.fetchRelations()
@@ -84,41 +101,52 @@ export default class ScreenSeries extends store {
   }
 
   fetchCollections = async () => {
-    if (!this.userId) return false
+    if (!this.userId) {
+      info('此功能依赖收藏数据，请先登录', 4)
+      return false
+    }
+
+    this.setState({
+      fetching: true,
+      message: '获取用户收藏',
+      current: 1,
+      total: 2
+    })
 
     const _data = []
 
-    // 想看只请求1页
-    let data = await request(
-      `https://api.bgm.tv/v0/users/${this.userId}/collections?subject_type=2&type=1&limit=${LIMIT}`
-    )
-    if (Array.isArray(data?.data)) _data.push(...data?.data)
-
     // 看过
-    data = await request(
-      `https://api.bgm.tv/v0/users/${this.userId}/collections?subject_type=2&type=2&limit=${LIMIT}`
+    let data = await request(
+      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=2&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) {
       _data.push(...data?.data)
 
-      // 最多请求5页
-      if (data?.total > 100) {
-        for (let i = 2; i <= Math.min(Math.ceil(data.total / LIMIT), 5); i += 1) {
-          data = await request(
-            `https://api.bgm.tv/v0/users/${
-              this.userId
-            }/collections?subject_type=2&type=2&offset=${
-              (i - 1) * LIMIT
-            }&limit=${LIMIT}`
-          )
-          _data.push(...data?.data)
+      // 非高级会员只请求1页
+      if (systemStore.advance) {
+        // 最多请求5页
+        if (data?.total > 100) {
+          for (let i = 2; i <= Math.min(Math.ceil(data.total / LIMIT), 5); i += 1) {
+            data = await request(
+              `${HOST_API_V0}/users/${
+                this.userId
+              }/collections?subject_type=${SUBJECT_TYPE}&type=2&offset=${
+                (i - 1) * LIMIT
+              }&limit=${LIMIT}`
+            )
+            _data.push(...data?.data)
+          }
         }
       }
     }
 
+    this.setState({
+      current: 2
+    })
+
     // 在看最多请求1页
     data = await request(
-      `https://api.bgm.tv/v0/users/${this.userId}/collections?subject_type=2&type=3&limit=${LIMIT}`
+      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=3&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
 
@@ -130,9 +158,14 @@ export default class ScreenSeries extends store {
         .map(item => ({
           id: item.subject_id,
           type: item.type,
-          ep: item.ep_status
+          ep: item.ep_status,
+          updated_at: item.updated_at
         }))
     })
+    this.setState({
+      ...excludeState
+    })
+
     return true
   }
 
@@ -142,9 +175,7 @@ export default class ScreenSeries extends store {
 
     this.subjectIds.forEach(subjectId => {
       fetchs.push(async () => {
-        const data = await request(
-          `https://api.bgm.tv/v0/subjects/${subjectId}/subjects`
-        )
+        const data = await request(`${HOST_API_V0}/subjects/${subjectId}/subjects`)
 
         if (!Array.isArray(data)) {
           relations[subjectId] = []
@@ -156,12 +187,7 @@ export default class ScreenSeries extends store {
             item => SUBJECT_TYPE === item.type && RELATIONS.includes(item.relation)
           )
           .sort((a, b) => asc(a.id, b.id))
-          .map(item => ({
-            id: item.id,
-            image: item?.images?.common || '',
-            name: item.name,
-            name_cn: item.name_cn
-          }))
+          .map(item => item.id)
         return true
       })
     })
@@ -181,6 +207,7 @@ export default class ScreenSeries extends store {
     )
 
     this.clearState('relations', relations)
+
     return true
   }
 
@@ -193,29 +220,22 @@ export default class ScreenSeries extends store {
     Object.keys(relations).forEach(subjectId => {
       const relation = relations[subjectId]
       relation.forEach(sub => {
-        if (relations[sub.id]) return
+        if (relations[sub]) return
 
         fetchs.push(async () => {
-          const data = await request(
-            `https://api.bgm.tv/v0/subjects/${sub.id}/subjects`
-          )
+          const data = await request(`${HOST_API_V0}/subjects/${sub.id}/subjects`)
 
           if (!Array.isArray(data)) {
-            relations[sub.id] = []
+            relations[sub] = []
             return false
           }
 
-          relations[sub.id] = data
+          relations[sub] = data
             .filter(
               item => SUBJECT_TYPE === item.type && RELATIONS.includes(item.relation)
             )
             .sort((a, b) => asc(a.id, b.id))
-            .map(item => ({
-              id: item.id,
-              image: item?.images?.common || '',
-              name: item.name,
-              name_cn: item.name_cn
-            }))
+            .map(item => item.id)
 
           return true
         })
@@ -255,6 +275,8 @@ export default class ScreenSeries extends store {
   }
 
   fetchSubjects = async (subjectIds = []) => {
+    if (!subjectIds.length) return false
+
     const now = getTimestamp()
     const fetchs = []
 
@@ -266,15 +288,14 @@ export default class ScreenSeries extends store {
 
       loaded[subjectId] = true
       fetchs.push(async () => {
-        const data = await request(`https://api.bgm.tv/v0/subjects/${subjectId}`)
+        const data = await request(`${HOST_API_V0}/subjects/${subjectId}`)
         if (!data?.id) return false
 
         this.setState({
           subjects: {
             [subjectId]: {
               id: subjectId,
-              name: data.name,
-              name_cn: data.name_cn,
+              name: HTMLDecode(data.name_cn || data.name),
               image: data?.images?.common || '',
               date: data.date,
               eps: data.eps,
@@ -309,7 +330,7 @@ export default class ScreenSeries extends store {
       .forEach(id => {
         const ids = [Number(id)]
         relations[id].forEach(item => {
-          ids.push(item.id)
+          ids.push(item)
         })
 
         const find = ids.find(id => id in indexes)
@@ -324,15 +345,7 @@ export default class ScreenSeries extends store {
       })
 
     this.setState({
-      data: data.map(item => {
-        const id = Math.min(...item) // 暂时以最小的subjectId作为一个关联系列的pid
-        return {
-          id,
-          data: Array.from(new Set(item))
-            .filter(item => item !== id)
-            .sort((a, b) => asc(a, b))
-        }
-      }),
+      data: data.map(item => Array.from(new Set(item)).sort((a, b) => asc(a, b))),
       _loaded: getTimestamp()
     })
   }
@@ -341,11 +354,16 @@ export default class ScreenSeries extends store {
    * 下一页
    * @param {*} list
    */
-  onPage = list => {
+  onPage = (list = []) => {
     const subjectIds = []
     list.forEach(item => {
-      subjectIds.push(item.id, ...item.data)
+      if (Array.isArray(toJS(item))) {
+        subjectIds.push(...item)
+      } else {
+        subjectIds.push(item)
+      }
     })
+
     this.fetchSubjects(subjectIds)
   }
 
@@ -355,12 +373,15 @@ export default class ScreenSeries extends store {
   }
 
   @computed get subjectIds() {
-    return (
-      this.state.collections
-        .reverse()
-        // .filter((item, index) => index <= 20)
-        .map(item => item.id)
-    )
+    return this.state.collections.map(item => item.id)
+  }
+
+  @computed get subjectIdsAll() {}
+
+  collection(subjectId) {
+    return computed(() => {
+      return this.state.collections.find(item => item.id === subjectId)
+    }).get()
   }
 
   collections(subjectIds) {
@@ -390,5 +411,142 @@ export default class ScreenSeries extends store {
       })
       return data
     }).get()
+  }
+
+  filterData(item) {
+    return computed(() => {
+      const { filter, airtime, status } = this.state
+
+      let data = item
+      if (filter) {
+        data = data.filter(subjectId => {
+          const subject = this.subject(subjectId)
+          return subject?.platform && String(subject.platform).includes(filter)
+        })
+      }
+
+      if (airtime) {
+        data = data.filter(subjectId => {
+          const subject = this.subject(subjectId)
+          return subject?.date && String(subject.date).includes(`${airtime}-`)
+        })
+      }
+
+      if (status === '未收藏') {
+        data = data.filter(subjectId => !this.collection(subjectId))
+      } else if (status === '看过') {
+        data = data.filter(subjectId => this.collection(subjectId)?.type === 2)
+      } else if (status === '在看') {
+        data = data.filter(subjectId => this.collection(subjectId)?.type === 3)
+      } else if (status === '未看完') {
+        data = data.filter(subjectId => {
+          const collection = this.collection(subjectId)
+          const subject = this.subject(subjectId)
+          return collection?.ep && subject?.eps && collection?.ep !== subject?.eps
+        })
+      }
+
+      return data
+    }).get()
+  }
+
+  @computed get data() {
+    const { data, sort } = this.state
+    if (sort === '关联数') {
+      return data.sort((a, b) => desc(a.length, b.length))
+    }
+
+    if (sort === '新放送') {
+      return data.sort((a, b) => {
+        const dateA = Math.max(
+          ...a.map(item =>
+            Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
+          )
+        )
+        const dateB = Math.max(
+          ...b.map(item =>
+            Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
+          )
+        )
+        return desc(dateA, dateB)
+      })
+    }
+
+    if (sort === '评分') {
+      return data.sort((a, b) => {
+        const rankA = Math.min(...a.map(item => this.subject(item).rank || 9999))
+        const rankB = Math.min(...b.map(item => this.subject(item).rank || 9999))
+        return asc(rankA, rankB)
+      })
+    }
+
+    return data
+  }
+
+  @computed get info() {
+    let total = 0
+    this.data.forEach(item => (total += item.length))
+    return {
+      series: this.data.length,
+      total
+    }
+  }
+
+  // -------------------- page --------------------
+  onSortSelect = title => {
+    if (title === '默认') {
+      this.setState({
+        sort: ''
+      })
+
+      return
+    }
+
+    this.setState({
+      sort: title
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onFilterSelect = title => {
+    if (title === '全部') {
+      this.setState({
+        filter: ''
+      })
+      return
+    }
+
+    this.setState({
+      filter: title
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onAirtimeSelect = title => {
+    if (title === '全部') {
+      this.setState({
+        airtime: ''
+      })
+      return
+    }
+
+    this.setState({
+      airtime: title
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onStatusSelect = title => {
+    if (title === '全部') {
+      this.setState({
+        status: ''
+      })
+      return
+    }
+
+    this.setState({
+      status: title
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }

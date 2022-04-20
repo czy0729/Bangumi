@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-11 11:37:00
+ * @Last Modified time: 2022-04-19 16:02:59
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
@@ -84,7 +84,7 @@ export const updateHeader = ({
     options.headerStyle = {
       ...options.headerStyle,
       height: IOS ? 0 : 0.5, // 别问为什么留0.5, 我也想知道, 不给他留一点就是会出问题
-      backgroundColor: _.colorPlain
+      backgroundColor: '#000000'
     }
 
     // headerLeft和headerRight因为上面的问题迁移到了<HeaderComponent>里面实现

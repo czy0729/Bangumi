@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 03:24:50
+ * @Last Modified time: 2022-04-19 03:27:49
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -118,6 +118,7 @@ export const INIT_SETTING = {
     'Netabare',
     'Anitama',
     'Smb',
+    'Series',
     'Character',
     'Catalogs',
     'Link'
