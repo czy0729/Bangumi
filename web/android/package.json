@@ -5,6 +5,7 @@
     "start": "EXPO_USE_EXOTIC=0 expo start",
     "start:offline": "EXPO_USE_EXOTIC=0 expo start --lan --offline",
     "kill": "ps -ef |grep java|awk 'NR==1 {print $2}'|xargs kill -15",
+    "kill:node": "sudo pkill node",
     "android": "react-native run-android --no-jetifier",
     "clean": "cd android && ./gradlew clean",
     "build": "cd android && ./gradlew assembleRelease && cd .. && node web/rename.js",

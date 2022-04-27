@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:26:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 10:28:44
+ * @Last Modified time: 2022-04-27 19:05:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,17 +23,14 @@ function Btn({
   onPress
 }) {
   const styles = memoStyles()
+  const isSuccess = type === 'success' && !disabled
   return (
     <Touchable
       style={[styles.touch, style]}
       onPress={disabled || loading ? undefined : onPress}
     >
       <Flex
-        style={[
-          styles.btn,
-          type === 'success' && !disabled && styles.btnSuccess,
-          btnStyle
-        ]}
+        style={[styles.btn, isSuccess && styles.btnSuccess, btnStyle]}
         justify='center'
       >
         {loading ? (
@@ -41,7 +38,7 @@ function Btn({
             <Loading.Raw />
           </View>
         ) : (
-          <Text bold size={size}>
+          <Text bold size={size} type={isSuccess ? '__plain__' : undefined}>
             {text}
           </Text>
         )}

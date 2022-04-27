@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-24 15:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 11:31:25
+ * @Last Modified time: 2022-04-28 07:50:23
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -40,39 +40,80 @@ const defaultProps = {
   item: {},
   review: {},
   collection: {},
+  hideWatched: false,
+  hideSame: false,
   onBottom: Function.prototype,
   onSubmit: Function.prototype
 }
 
 const Item = memo(
-  ({ navigation, styles, item, review, collection, onBottom, onSubmit }) => {
+  ({
+    navigation,
+    styles,
+    item,
+    review,
+    collection,
+    hideWatched,
+    hideSame,
+    onBottom,
+    onSubmit
+  }) => {
     const { subjectId } = item
     const isSubject = !!subjectId
     const progress =
       item.progress.replace('看到', '').replace('第', '').split(' ')?.[0] || ''
 
+    // hooks
     const [loading, setLoading] = useState(false)
     const [selectStatus, setSelectStatus] = useSelectStatus(
       item.status,
-      collection?.status,
-      collection?._loaded
+      collection?.status
     )
     const [selectEp, setSelectEp] = useSelectEp(progress, collection?.ep_status)
     const [selectScore, setSelectScore] = useSelectScore(
       review?.score,
-      collection?.rating,
-      collection?._loaded
+      collection?.rating
     )
     const [selectComment, setSelectComment] = useSelectComment(
       review?.content,
-      collection?.comment,
-      collection?._loaded
+      collection?.comment
     )
 
-    const nextStatus = BILIBILI_STATUS[item.status]
-    const nextEp = getSelectEp(progress, collection?.ep_status).value
-    const nextScore = getSelectScore(review?.score, collection?.rating).value
-    const nextComment = getSelectComment(review?.content, collection?.comment).value
+    // 隐藏已看过
+    if (hideWatched && collection?.status === 'collect') {
+      return null
+    }
+
+    // 隐藏进度一致
+    const bili = {
+      status: BILIBILI_STATUS[item.status] || '',
+      ep: progress || '',
+      score: review?.score || '',
+      comment: review?.content || ''
+    }
+    const bgm = {
+      status: MODEL_COLLECTION_STATUS.getLabel(collection?.status) || '',
+      ep: collection?.ep_status && `${collection.ep_status}话`,
+      score: collection?.rating || '',
+      comment: collection?.comment || ''
+    }
+    if (
+      hideSame &&
+      bili.status == bgm.status &&
+      bili.ep == bgm.ep &&
+      bili.score == bgm.score &&
+      bili.comment == bgm.comment
+    ) {
+      return null
+    }
+
+    // 若提交确认用的值
+    const next = {
+      status: BILIBILI_STATUS[item.status],
+      ep: getSelectEp(progress, collection?.ep_status).value,
+      score: getSelectScore(review?.score, collection?.rating).value,
+      comment: getSelectComment(review?.content, collection?.comment).value
+    }
     return (
       <Flex style={styles.item} align='start'>
         <Cover
@@ -84,9 +125,9 @@ const Item = memo(
             if (!isSubject) return
 
             navigation.push('Subject', {
-              subjectId: item.subjectId,
+              subjectId,
               _image: item.cover,
-              _cn: item.title
+              _cn: item.title.replace('（僅限港澳台地區）', '')
             })
           }}
         />
@@ -108,15 +149,12 @@ const Item = memo(
               {/* bilibili */}
               <Flex.Item style={_.ml.md}>
                 <Column text='bilibili' type='sub' />
+                <Column style={_.mt.md} text={bili.status} />
+                <Column style={_.mt.md} text={bili.ep} />
+                <Column style={_.mt.md} text={bili.score} />
                 <Column
                   style={_.mt.md}
-                  text={BILIBILI_STATUS[item.status] || '未收藏'}
-                />
-                <Column style={_.mt.md} text={progress} />
-                <Column style={_.mt.md} text={review?.score} />
-                <Column
-                  style={_.mt.md}
-                  text={review?.content}
+                  text={bili.comment}
                   onPress={() => {
                     if (!review?.content) return
                     copy(review?.content)
@@ -132,23 +170,19 @@ const Item = memo(
                   <>
                     <ColumnBgm
                       select={selectStatus}
-                      text={MODEL_COLLECTION_STATUS.getLabel(collection?.status)}
-                      next={nextStatus}
+                      text={bgm.status}
+                      next={next.status}
                     />
-                    <ColumnBgm
-                      select={selectEp}
-                      text={collection?.ep_status && `${collection.ep_status}话`}
-                      next={`${nextEp}话`}
-                    />
+                    <ColumnBgm select={selectEp} text={bgm.ep} next={`${next.ep}话`} />
                     <ColumnBgm
                       select={selectScore}
-                      text={collection?.rating}
-                      next={nextScore}
+                      text={bgm.score}
+                      next={next.score}
                     />
                     <ColumnBgm
                       select={selectComment}
-                      text={collection?.comment}
-                      next={nextComment}
+                      text={bgm.comment}
+                      next={next.comment}
                     />
                   </>
                 ) : (
@@ -162,22 +196,22 @@ const Item = memo(
                   <Column text='选择' type='sub' />
                   <ColumnSelect
                     select={selectStatus}
-                    disabled={!nextStatus}
+                    disabled={!next.status}
                     onPress={setSelectStatus}
                   />
                   <ColumnSelect
                     select={selectEp}
-                    disabled={nextEp === ''}
+                    disabled={next.ep === ''}
                     onPress={setSelectEp}
                   />
                   <ColumnSelect
                     select={selectScore}
-                    disabled={!nextScore}
+                    disabled={!next.score}
                     onPress={setSelectScore}
                   />
                   <ColumnSelect
                     select={selectComment}
-                    disabled={!nextComment}
+                    disabled={!next.comment}
                     onPress={setSelectComment}
                   />
                 </View>
@@ -191,12 +225,12 @@ const Item = memo(
                   <Flex>
                     <Btn
                       text='搜索'
-                      onPress={() =>
+                      onPress={() => {
                         navigation.push('Search', {
-                          _type: '动画',
-                          _value: item.title
+                          type: '动画',
+                          value: item.title.replace('（僅限港澳台地區）', '')
                         })
-                      }
+                      }}
                     />
                     <Btn
                       style={_.ml.sm}
@@ -214,40 +248,44 @@ const Item = memo(
                     }
                     loading={loading}
                     onPress={async () => {
-                      const collectionData = {}
-                      const epData = {}
-                      let flagStatus
-                      let flagEp
-                      let flagScore
-                      let flagComment
+                      const flag = {}
 
+                      const collectionData = {}
                       if (selectStatus) {
-                        flagStatus = true
-                        if (nextStatus === '想看') collectionData.status = 'wish'
-                        if (nextStatus === '看过') collectionData.status = 'collect'
-                        if (nextStatus === '在看') collectionData.status = 'do'
-                      }
-                      if (selectEp) {
-                        flagEp = true
-                        epData.ep = nextEp
+                        if (next.status === '想看') {
+                          flag.status = true
+                          collectionData.status = 'wish'
+                        } else if (next.status === '看过') {
+                          flag.status = true
+                          collectionData.status = 'collect'
+                        } else if (next.status === '在看') {
+                          flag.status = true
+                          collectionData.status = 'do'
+                        }
                       }
                       if (selectScore) {
-                        flagScore = true
-                        collectionData.rating = nextScore
+                        flag.score = true
+                        collectionData.rating = next.score
                       }
                       if (selectComment) {
-                        flagComment = true
-                        collectionData.comment = nextComment
+                        flag.comment = true
+                        collectionData.comment = next.comment
+                      }
+
+                      const epData = {}
+                      if (selectEp) {
+                        flag.ep = true
+                        epData.ep = next.ep
                       }
 
                       setLoading(true)
-                      await onSubmit(item.subjectId, collectionData, epData)
+                      await onSubmit(subjectId, collectionData, epData)
                       setLoading(false)
 
-                      if (flagStatus) setSelectStatus(false)
-                      if (flagEp) setSelectEp(false)
-                      if (flagScore) setSelectScore(false)
-                      if (flagComment) setSelectComment(false)
+                      if (flag.status) setSelectStatus(false)
+                      if (flag.ep) setSelectEp(false)
+                      if (flag.score) setSelectScore(false)
+                      if (flag.comment) setSelectComment(false)
                     }}
                   />
                 )}
@@ -270,6 +308,8 @@ export default obc(({ item }, { $, navigation }) => {
       item={item}
       review={$.review(item.id)}
       collection={$.collection(subjectId)}
+      hideWatched={$.state.hideWatched}
+      hideSame={$.state.hideSame}
       onBottom={$.onBottom}
       onSubmit={$.onSubmit}
     />

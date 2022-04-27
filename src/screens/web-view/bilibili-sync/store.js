@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 12:09:00
+ * @Last Modified time: 2022-04-27 20:10:05
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -11,6 +11,7 @@ import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { info, feedback } from '@utils/ui'
+import { t2s } from '@utils/thirdParty/cn-char'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 
 const HOST_API = 'https://api.bgm.tv'
@@ -29,6 +30,9 @@ export default class ScreenBilibiliSync extends store {
       current: 0
     },
     hide: false,
+    hideWatched: false,
+    hideSame: false,
+    privacy: false,
     _loaded: false
   })
 
@@ -134,7 +138,19 @@ export default class ScreenBilibiliSync extends store {
     this.setState({
       data: {
         list: list.map(item => ({
-          subjectId: bangumiData.find(i => i?.s?.b === item.id)?.id || '',
+          subjectId:
+            bangumiData.find(i => {
+              let flag = i?.s?.b === item.id
+              if (!flag) flag = i?.s?.bhmt === item.id
+              if (!flag) {
+                if (item.title.includes('（僅限港澳台地區）')) {
+                  flag = i?.c === t2s(item.title.replace('（僅限港澳台地區）', ''))
+                } else {
+                  flag = i?.c === item.title
+                }
+              }
+              return flag
+            })?.id || '',
           ...item
         })),
         _loaded: getTimestamp()
@@ -166,7 +182,11 @@ export default class ScreenBilibiliSync extends store {
     if (!subjectId) return false
 
     if (Object.keys(collectionData).length) {
-      await request(`${HOST_API}/collection/${subjectId}/update`, collectionData)
+      const { privacy } = this.state
+      await request(`${HOST_API}/collection/${subjectId}/update`, {
+        ...collectionData,
+        privacy: privacy ? 1 : 0
+      })
     }
 
     if (Object.keys(epData).length) {
@@ -177,5 +197,12 @@ export default class ScreenBilibiliSync extends store {
 
     await this.fetchCollection(subjectId)
     feedback()
+  }
+
+  onToggle = async key => {
+    this.setState({
+      [key]: !this.state[key]
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }
