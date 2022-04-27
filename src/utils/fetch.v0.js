@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-26 07:41:47
+ * @Last Modified time: 2022-04-27 08:03:55
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp, urlStringify } from '@utils'
@@ -10,7 +10,7 @@ import { safe } from '@utils/fetch'
 import { APP_ID, UA } from '@constants'
 import { getUserStoreAsync } from './async'
 
-export async function request(url) {
+export async function request(url, data) {
   axios.defaults.withCredentials = false
 
   try {
@@ -22,15 +22,22 @@ export async function request(url) {
       state: getTimestamp()
     })}`
 
-    const { data } = await axios({
-      method: 'get',
+    const method = typeof data === 'object' ? 'post' : 'get'
+    const config = {
+      method,
       url,
       headers: {
         Authorization: `${accessToken.token_type} ${accessToken.access_token}`,
         'User-Agent': UA
       }
-    })
-    return safe(data)
+    }
+    if (method === 'post') {
+      config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+      config.data = urlStringify(data)
+    }
+
+    const { data: responseData } = await axios(config)
+    return safe(responseData)
   } catch (ex) {
     return {}
   }

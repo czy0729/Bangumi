@@ -2,39 +2,42 @@
  * @Author: czy0729
  * @Date: 2022-02-18 06:37:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-26 08:24:24
+ * @Last Modified time: 2022-04-27 11:50:35
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { Flex, Touchable, Text } from '@components'
-import { IconTouchable } from '@_'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
+import Btn from './btn'
 
 const TYPE_CHECK_LOGIN = 'CHECK_LOGIN'
 const TYPE_GET_LIST = 'GET_LIST'
 const TYPE_GET_REVIEW = 'GET_REVIEW'
-
 const URL_ZONE = 'https://m.bilibili.com/space?from=headline'
 
-function Login({ hide: _hide, setData, setReviews }) {
-  const [login, setLogin] = useState(-1)
-  const [hide, setHide] = useState(_hide)
+let length
 
+function Login({ hide, onToggleHide, setData, setReviews }) {
+  const [key, setKey] = useState(0)
+  const [message, setMessage] = useState('检查状态中...')
   const onMessage = useCallback(
     event => {
       const { type, data } = JSON.parse(event.nativeEvent.data)
       switch (type) {
         case TYPE_CHECK_LOGIN:
-          setLogin(!!data?.data?.isLogin)
+          setMessage(data?.data?.isLogin ? '已登录' : '检查登录状态失败，请先登录')
           break
 
         case TYPE_GET_LIST:
+          setMessage('已获取番剧列表')
           setData(data)
+          length = data.length
           break
 
         case TYPE_GET_REVIEW:
+          setMessage(`已获取${length}个番剧信息，请收起登录框进行操作`)
           setReviews(data)
           break
 
@@ -44,54 +47,60 @@ function Login({ hide: _hide, setData, setReviews }) {
     },
     [setData, setReviews]
   )
-  const onToggleHide = useCallback(() => {
-    setHide(!hide)
-  }, [hide])
+  const onRefresh = useCallback(() => {
+    setMessage('检查状态中...')
+    setKey(key + 1)
+  }, [key])
 
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <View style={[styles.fixed, hide && styles.hide]}>
-        <View style={styles.container}>
-          <WebView
-            source={{
-              uri: URL_ZONE
-            }}
-            containerStyle={[styles.webview, hide && styles.webviewHide]}
-            androidHardwareAccelerationDisabled
-            androidLayerType='software'
-            javaScriptEnabled
-            injectedJavaScript={injectedJavaScript()}
-            onMessage={onMessage}
-          />
+      <>
+        {!hide && <View style={styles.mask} />}
+        <View style={[styles.fixed, hide && styles.hide]}>
+          <View style={styles.container}>
+            <WebView
+              key={key}
+              source={{
+                uri: URL_ZONE
+              }}
+              containerStyle={[styles.webview, hide && styles.webviewHide]}
+              androidHardwareAccelerationDisabled
+              androidLayerType='software'
+              javaScriptEnabled
+              injectedJavaScript={injectedJavaScript()}
+              onMessage={onMessage}
+            />
+          </View>
+          <View style={styles.body}>
+            <Text bold size={15}>
+              {message}
+            </Text>
+            <Text style={_.mt.md} size={11} type='sub'>
+              因bilibili对鉴权信息做了保护加密，目前同步番剧需要通过在WebView内部发起带鉴权的请求，获得数据后通知APP。
+            </Text>
+            <Text style={_.mt.sm} size={11} type='sub'>
+              完成同步前需要一直保持bilibil登录状态，完成后你可以手动登出账号。
+            </Text>
+            <Flex style={_.mt.md} justify='center'>
+              <Btn
+                style={styles.btn}
+                btnStyle={styles.btnStyle}
+                text='重新获取数据'
+                size={13}
+                onPress={onRefresh}
+              />
+              <Btn
+                style={[styles.btn, _.ml.lg]}
+                btnStyle={styles.btnStyle}
+                text='收起登录框'
+                size={13}
+                onPress={onToggleHide}
+              />
+            </Flex>
+          </View>
         </View>
-        <View style={styles.body}>
-          <Text>
-            登录状态: {login === -1 ? '检查状态中' : login ? '已登录' : '未登录'}
-          </Text>
-          <Text style={_.mt.md} size={12} type='sub'>
-            因bilibili对鉴权信息做了保护加密，目前同步番剧需要通过在WebView内部发起带鉴权的请求，获得数据后通知APP。
-          </Text>
-          <Text style={_.mt.sm} size={12} type='sub'>
-            完成同步前需要一直保持bilibil登录状态，完成后你可以手动登出账号。
-          </Text>
-          <Flex style={_.mt.md} justify='center'>
-            <Touchable onPress={onToggleHide}>
-              <Text bold type='main'>
-                收起登录框
-              </Text>
-            </Touchable>
-          </Flex>
-        </View>
-        {hide && (
-          <IconTouchable
-            style={styles.iconToggle}
-            name='md-data-usage'
-            color={_.colorDesc}
-            onPress={onToggleHide}
-          />
-        )}
-      </View>
+      </>
     )
   })
 }
@@ -100,10 +109,18 @@ export default Login
 
 const memoStyles = _.memoStyles(() => {
   return {
-    fixed: {
+    mask: {
       position: 'absolute',
       zIndex: 1,
-      top: _.sm,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    },
+    fixed: {
+      position: 'absolute',
+      zIndex: 2,
+      top: 0,
       right: _.wind,
       width: _.window.contentWidth,
       backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
@@ -113,13 +130,13 @@ const memoStyles = _.memoStyles(() => {
     hide: {
       top: _.sm,
       right: _.sm,
-      width: 40,
-      height: 40,
-      borderRadius: 20,
+      width: 1,
+      height: 1,
+      backgroundColor: 'transparent',
       overflow: 'hidden'
     },
     container: {
-      height: 400,
+      minHeight: 400,
       borderRadius: _.radiusMd,
       overflow: 'hidden'
     },
@@ -131,14 +148,21 @@ const memoStyles = _.memoStyles(() => {
       opacity: 0.01
     },
     body: {
+      paddingTop: 20,
       paddingHorizontal: _.md,
-      paddingVertical: _.md + 4
+      paddingBottom: 28
     },
     iconToggle: {
       position: 'absolute',
       zIndex: 2,
       top: 1,
       right: 0
+    },
+    btn: {
+      width: 128
+    },
+    btnStyle: {
+      height: 40
     }
   }
 })
@@ -241,26 +265,37 @@ function injectedCheckLogin() {
 }
 
 function injectedGetList() {
-  return `function getList(mid) {
-    xhr({
-      url: 'https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn=1&ps=15&vmid='+String(mid)+'&ts='+ts()
-    }).then(data => {
-      if (data) {
-        const list = data.data.list.map(item => ({
-          id: item.media_id,
-          title: item.title,
-          cover: item.cover,
-          status: item.follow_status,
-          progress: item.progress,
-          total: item.total_count
-        }));
-        postMessage('${TYPE_GET_LIST}', list);
+  return `const list = [];
+    const limit = 15;
+    let page = 1;
+    function getList(mid) {
+      xhr({
+        url: 'https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn='+page+'&ps='+limit+'&vmid='+String(mid)+'&ts='+ts()
+      }).then(data => {
+        if (data && data.data && data.data.list) {
+          data.data.list.forEach(item => {
+            list.push({
+              id: item.media_id,
+              title: item.title,
+              cover: item.cover,
+              status: item.follow_status,
+              progress: item.progress,
+              total: item.total_count
+            });
+          });
 
-        const mediaIds = list.map(item => item.id);
-        getReviews(mediaIds);
-      }
-    });
-  }`
+          if (data.data.list.length >= limit) {
+            page += 1;
+            getList(mid);
+          } else {
+            postMessage('${TYPE_GET_LIST}', list);
+
+            const mediaIds = list.map(item => item.id);
+            getReviews(mediaIds);
+          }
+        }
+      });
+    }`
 }
 
 function injectGetReview() {

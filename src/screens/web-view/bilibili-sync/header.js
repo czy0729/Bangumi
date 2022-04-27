@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:53:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 07:01:11
+ * @Last Modified time: 2022-04-27 08:47:56
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -10,7 +10,6 @@ import { Header as CompHeader, Flex } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { confirm } from '@utils/ui'
 
 function Header(props, { $, navigation }) {
   return (
@@ -23,12 +22,7 @@ function Header(props, { $, navigation }) {
             style={_.mr.xs}
             name='md-refresh'
             color={_.colorDesc}
-            onPress={() =>
-              confirm(
-                '刷新涉及大量请求与计算，若非必要请勿重复刷新，确定?',
-                $.fetchSeries
-              )
-            }
+            onPress={$.onToggleHide}
           />
           <IconTouchable
             name='md-info-outline'

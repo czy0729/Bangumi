@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-26 08:35:34
+ * @Last Modified time: 2022-04-27 12:09:00
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
-import { getTimestamp, desc } from '@utils'
+import { getTimestamp, asc, desc } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 
 const HOST_API = 'https://api.bgm.tv'
-const DISTANCE = 60 * 60 * 24
 
-const namespace = 'ScreenBilibiliSync'
+const namespace = 'ScreenBilibili'
 
 export default class ScreenBilibiliSync extends store {
   state = observable({
@@ -26,6 +25,10 @@ export default class ScreenBilibiliSync extends store {
     },
     reviews: {},
     collections: {},
+    bottom: {
+      current: 0
+    },
+    hide: false,
     _loaded: false
   })
 
@@ -33,8 +36,28 @@ export default class ScreenBilibiliSync extends store {
     const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
+      hide: !!state?.data?.list?.length,
       _loaded: true
     })
+  }
+
+  fetchCollection = async subjectId => {
+    const collections = {}
+    const data = await request(`${HOST_API}/collection/${subjectId}`)
+    if (data?.status) {
+      collections[subjectId] = {
+        status: data.status.type,
+        ep_status: data.ep_status,
+        private: data.private,
+        rating: data.rating,
+        comment: data.comment,
+        _loaded: getTimestamp()
+      }
+    }
+    this.setState({
+      collections
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   fetchCollections = async (subjectIds = []) => {
@@ -43,13 +66,9 @@ export default class ScreenBilibiliSync extends store {
       return false
     }
 
-    const now = getTimestamp()
     const collections = {}
     const fetchs = []
     subjectIds.forEach(subjectId => {
-      // const collection = this.collection(subjectId)
-      // if (collection?._loaded && now - collection.loaded <= DISTANCE) return
-
       fetchs.push(async () => {
         const data = await request(`${HOST_API}/collection/${subjectId}`)
         if (data?.status) {
@@ -79,8 +98,11 @@ export default class ScreenBilibiliSync extends store {
   }
 
   @computed get data() {
-    const { list } = this.state.data
-    return list.sort((a, b) => desc(a.subjectId ? 1 : 0, b.subjectId ? 1 : 0))
+    const { data, bottom } = this.state
+    const { list } = data
+    return list
+      .sort((a, b) => asc(bottom[a.id] || 0, bottom[b.id] || 0))
+      .sort((a, b) => desc(a.subjectId ? 1 : 0, b.subjectId ? 1 : 0))
   }
 
   review(mediaId) {
@@ -96,6 +118,13 @@ export default class ScreenBilibiliSync extends store {
   }
 
   // -------------------- page --------------------
+  onToggleHide = () => {
+    const { hide } = this.state
+    this.setState({
+      hide: !hide
+    })
+  }
+
   onPage = page => {
     const subjectIds = page.filter(item => item.subjectId).map(item => item.subjectId)
     this.fetchCollections(subjectIds)
@@ -119,5 +148,34 @@ export default class ScreenBilibiliSync extends store {
       reviews
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  onBottom = mediaId => {
+    const { bottom } = this.state
+    const current = bottom.current + 1
+    this.setState({
+      bottom: {
+        current,
+        [mediaId]: current
+      }
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onSubmit = async (subjectId, collectionData, epData) => {
+    if (!subjectId) return false
+
+    if (Object.keys(collectionData).length) {
+      await request(`${HOST_API}/collection/${subjectId}/update`, collectionData)
+    }
+
+    if (Object.keys(epData).length) {
+      await request(`${HOST_API}/subject/${subjectId}/update/watched_eps`, {
+        watched_eps: epData.ep || 0
+      })
+    }
+
+    await this.fetchCollection(subjectId)
+    feedback()
   }
 }

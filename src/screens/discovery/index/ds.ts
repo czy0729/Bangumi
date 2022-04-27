@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-20 18:22:45
+ * @Last Modified time: 2022-04-27 11:40:15
  */
 import { IOS } from '@constants'
 
@@ -114,6 +114,12 @@ const menuMap = {
     text: 'SMB',
     size: 14,
     ios: false
+  },
+  BilibiliSync: {
+    key: 'BilibiliSync',
+    name: 'bilibili同步',
+    icon: 'md-live-tv',
+    size: 23
   },
   Series: {
     key: 'Series',
