@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-18 06:37:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 11:50:35
+ * @Last Modified time: 2022-04-28 08:26:51
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -120,12 +120,18 @@ const memoStyles = _.memoStyles(() => {
     fixed: {
       position: 'absolute',
       zIndex: 2,
-      top: 0,
+      top: 8,
       right: _.wind,
       width: _.window.contentWidth,
       backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
       borderRadius: _.radiusMd,
-      overflow: 'hidden'
+      shadowColor: _.colorShadow,
+      shadowOffset: {
+        height: 2
+      },
+      shadowOpacity: 0.16,
+      shadowRadius: 6,
+      elevation: _.select(16, 0)
     },
     hide: {
       top: _.sm,

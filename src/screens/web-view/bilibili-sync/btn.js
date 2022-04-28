@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:26:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 19:05:35
+ * @Last Modified time: 2022-04-28 09:07:44
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Touchable, Flex, Text, Loading } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
@@ -34,9 +33,7 @@ function Btn({
         justify='center'
       >
         {loading ? (
-          <View style={styles.loading}>
-            <Loading.Raw />
-          </View>
+          <Loading.Mini />
         ) : (
           <Text bold size={size} type={isSuccess ? '__plain__' : undefined}>
             {text}
@@ -51,7 +48,7 @@ export default ob(Btn)
 
 const memoStyles = _.memoStyles(() => ({
   touch: {
-    width: 64,
+    width: 56,
     borderRadius: _.r(28),
     overflow: 'hidden'
   },
@@ -62,12 +59,5 @@ const memoStyles = _.memoStyles(() => ({
   },
   btnSuccess: {
     backgroundColor: COLOR_SUCCESS
-  },
-  loading: {
-    transform: [
-      {
-        scale: 0.64
-      }
-    ]
   }
 }))

@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-04-24 15:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 07:50:23
+ * @Last Modified time: 2022-04-28 09:42:49
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { Flex, Text, Loading, Touchable, Iconfont } from '@components'
 import { Cover } from '@_'
 import { _ } from '@stores'
-import { copy } from '@utils'
+import { copy, open } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import Column from './column'
 import ColumnBgm from './column-bgm'
@@ -40,10 +40,16 @@ const defaultProps = {
   item: {},
   review: {},
   collection: {},
-  hideWatched: false,
   hideSame: false,
+  onRefreshCollection: Function.prototype,
   onBottom: Function.prototype,
   onSubmit: Function.prototype
+}
+const hitSlop = {
+  top: 4,
+  right: 20,
+  bottom: 4,
+  left: 20
 }
 
 const Item = memo(
@@ -53,13 +59,14 @@ const Item = memo(
     item,
     review,
     collection,
-    hideWatched,
     hideSame,
+    onRefreshCollection,
     onBottom,
     onSubmit
   }) => {
     const { subjectId } = item
     const isSubject = !!subjectId
+    const isLoaded = !!collection?.loaded
     const progress =
       item.progress.replace('看到', '').replace('第', '').split(' ')?.[0] || ''
 
@@ -78,11 +85,6 @@ const Item = memo(
       review?.content,
       collection?.comment
     )
-
-    // 隐藏已看过
-    if (hideWatched && collection?.status === 'collect') {
-      return null
-    }
 
     // 隐藏进度一致
     const bili = {
@@ -114,26 +116,26 @@ const Item = memo(
       score: getSelectScore(review?.score, collection?.rating).value,
       comment: getSelectComment(review?.content, collection?.comment).value
     }
+    const onPress = () => {
+      if (!isSubject) return
+      navigation.push('Subject', {
+        subjectId,
+        _image: item.cover,
+        _cn: item.title.replace('（僅限港澳台地區）', '')
+      })
+    }
     return (
       <Flex style={styles.item} align='start'>
         <Cover
           src={item.cover}
-          width={IMG_WIDTH}
-          height={IMG_HEIGHT}
+          width={IMG_WIDTH_SM}
+          height={IMG_HEIGHT_SM}
           radius
-          onPress={() => {
-            if (!isSubject) return
-
-            navigation.push('Subject', {
-              subjectId,
-              _image: item.cover,
-              _cn: item.title.replace('（僅限港澳台地區）', '')
-            })
-          }}
+          onPress={onPress}
         />
         <Flex.Item>
           <Flex style={styles.body} direction='column' align='start'>
-            <Text bold numberOfLines={2}>
+            <Text bold numberOfLines={2} onPress={onPress}>
               {item.title}
             </Text>
             <Flex style={_.mt.md} align='start'>
@@ -165,26 +167,50 @@ const Item = memo(
 
               {/* bgm */}
               <Flex.Item style={_.ml.md} flex={1.5}>
-                <Column text='bgm' type='sub' />
+                <Column
+                  text='bgm'
+                  type='sub'
+                  right={
+                    isSubject && (
+                      <Touchable
+                        style={_.ml.xs}
+                        hitSlop={hitSlop}
+                        onPress={() => onRefreshCollection(subjectId)}
+                      >
+                        <Iconfont name='md-refresh' size={12} />
+                      </Touchable>
+                    )
+                  }
+                />
                 {isSubject ? (
-                  <>
-                    <ColumnBgm
-                      select={selectStatus}
-                      text={bgm.status}
-                      next={next.status}
-                    />
-                    <ColumnBgm select={selectEp} text={bgm.ep} next={`${next.ep}话`} />
-                    <ColumnBgm
-                      select={selectScore}
-                      text={bgm.score}
-                      next={next.score}
-                    />
-                    <ColumnBgm
-                      select={selectComment}
-                      text={bgm.comment}
-                      next={next.comment}
-                    />
-                  </>
+                  isLoaded ? (
+                    <>
+                      <ColumnBgm
+                        select={selectStatus}
+                        text={bgm.status}
+                        next={next.status}
+                      />
+                      <ColumnBgm
+                        select={selectEp}
+                        text={bgm.ep}
+                        next={`${next.ep}话`}
+                      />
+                      <ColumnBgm
+                        select={selectScore}
+                        text={bgm.score}
+                        next={next.score}
+                      />
+                      <ColumnBgm
+                        select={selectComment}
+                        text={bgm.comment}
+                        next={next.comment}
+                      />
+                    </>
+                  ) : (
+                    <Flex style={styles.loading}>
+                      <Loading.Mini />
+                    </Flex>
+                  )
                 ) : (
                   <Column style={_.mt.md} text='未找到条目' />
                 )}
@@ -193,27 +219,31 @@ const Item = memo(
               {/* selectors */}
               {isSubject && (
                 <View style={styles.selectors}>
-                  <Column text='选择' type='sub' />
-                  <ColumnSelect
-                    select={selectStatus}
-                    disabled={!next.status}
-                    onPress={setSelectStatus}
-                  />
-                  <ColumnSelect
-                    select={selectEp}
-                    disabled={next.ep === ''}
-                    onPress={setSelectEp}
-                  />
-                  <ColumnSelect
-                    select={selectScore}
-                    disabled={!next.score}
-                    onPress={setSelectScore}
-                  />
-                  <ColumnSelect
-                    select={selectComment}
-                    disabled={!next.comment}
-                    onPress={setSelectComment}
-                  />
+                  <Column text=' ' type='sub' />
+                  {isLoaded && (
+                    <>
+                      <ColumnSelect
+                        select={selectStatus}
+                        disabled={!next.status}
+                        onPress={setSelectStatus}
+                      />
+                      <ColumnSelect
+                        select={selectEp}
+                        disabled={next.ep === ''}
+                        onPress={setSelectEp}
+                      />
+                      <ColumnSelect
+                        select={selectScore}
+                        disabled={!next.score}
+                        onPress={setSelectScore}
+                      />
+                      <ColumnSelect
+                        select={selectComment}
+                        disabled={!next.comment}
+                        onPress={setSelectComment}
+                      />
+                    </>
+                  )}
                 </View>
               )}
             </Flex>
@@ -224,6 +254,13 @@ const Item = memo(
                 <Flex.Item>
                   <Flex>
                     <Btn
+                      text='详情'
+                      onPress={() =>
+                        open(`https://www.bilibili.com/bangumi/media/md${item.id}`)
+                      }
+                    />
+                    <Btn
+                      style={_.ml.sm}
                       text='搜索'
                       onPress={() => {
                         navigation.push('Search', {
@@ -244,6 +281,7 @@ const Item = memo(
                     style={_.ml.md}
                     type='success'
                     disabled={
+                      !isLoaded ||
                       !(selectStatus || selectEp || selectScore || selectComment)
                     }
                     loading={loading}
@@ -300,16 +338,25 @@ const Item = memo(
 )
 
 export default obc(({ item }, { $, navigation }) => {
+  const { hideWatched, hideSame, hideNotMatched } = $.state
   const { subjectId } = item
+
+  // 隐藏未匹配
+  if (hideNotMatched && !subjectId) return null
+
+  // 隐藏已看过
+  const collection = $.collection(subjectId)
+  if (hideWatched && collection?.status === 'collect') return null
+
   return (
     <Item
       navigation={navigation}
       styles={memoStyles()}
       item={item}
       review={$.review(item.id)}
-      collection={$.collection(subjectId)}
-      hideWatched={$.state.hideWatched}
-      hideSame={$.state.hideSame}
+      collection={collection}
+      hideSame={hideSame}
+      onRefreshCollection={$.onRefreshCollection}
       onBottom={$.onBottom}
       onSubmit={$.onSubmit}
     />
@@ -320,7 +367,8 @@ const memoStyles = _.memoStyles(() => ({
   item: {
     paddingRight: _.wind - _._wind,
     paddingLeft: _.wind,
-    paddingVertical: _.md
+    paddingVertical: _.md,
+    marginBottom: _.sm
   },
   body: {
     paddingLeft: _.md
@@ -331,6 +379,9 @@ const memoStyles = _.memoStyles(() => ({
   toolbar: {
     width: '100%',
     paddingRight: _._wind,
-    marginTop: _.sm
+    marginTop: _.xs
+  },
+  loading: {
+    marginTop: 13
   }
 }))

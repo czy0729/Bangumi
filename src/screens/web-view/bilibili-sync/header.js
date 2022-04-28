@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:53:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 19:11:47
+ * @Last Modified time: 2022-04-28 08:33:02
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -14,7 +14,7 @@ import { obc } from '@utils/decorators'
 function Header(props, { $, navigation }) {
   return (
     <CompHeader
-      title='Bilibili同步'
+      title='bilibili同步'
       hm={['bilibili-sync', 'BilibiliSync']}
       headerRight={() => (
         <Flex>
@@ -30,7 +30,7 @@ function Header(props, { $, navigation }) {
             size={19}
             onPress={() =>
               Alert.alert(
-                'Bilibili同步',
+                'bilibili同步',
                 `此功能目前为实验性质。
                 \n此功能涉及到第三方平台登录，作者保证不会窃取任何个人数据，若有异议请勿使用。
                 \n因自动对比的数据存在较大的出错可能，目前不打算做一键提交功能，请手动核实后自行提交。

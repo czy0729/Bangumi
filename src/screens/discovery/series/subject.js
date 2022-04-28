@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-20 16:59:51
+ * @Last Modified time: 2022-04-28 11:01:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Text, Loading } from '@components'
 import { Cover, Rank, Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 
 function Subject({ style, id }, { $, navigation }) {
@@ -41,8 +41,8 @@ function Subject({ style, id }, { $, navigation }) {
     <Flex style={[styles.item, style]} align='start'>
       <Cover
         src={subject.image}
-        width={IMG_WIDTH}
-        height={IMG_HEIGHT}
+        width={IMG_WIDTH_SM}
+        height={IMG_HEIGHT_SM}
         radius
         onPress={() => {
           navigation.push('Subject', {
@@ -54,7 +54,7 @@ function Subject({ style, id }, { $, navigation }) {
       />
       <Flex.Item>
         <Flex style={styles.body} direction='column' justify='between' align='start'>
-          <Text bold numberOfLines={2}>
+          <Text size={13} bold numberOfLines={2}>
             {subject.name}
           </Text>
           <Text size={11} bold>
@@ -100,7 +100,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.md + 8
   },
   body: {
-    height: IMG_HEIGHT,
+    height: IMG_HEIGHT_SM,
     paddingLeft: _.md
   },
   tagWrap: {

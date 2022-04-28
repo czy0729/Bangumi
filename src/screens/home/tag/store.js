@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 18:41:45
+ * @Last Modified time: 2022-04-28 13:27:06
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore } from '@stores'
@@ -22,6 +22,7 @@ export default class ScreenTag extends store {
     airtime: '',
     month: '',
     hide: false, // 用于列表置顶
+    hideCollected: false, // 用于隐藏收藏过的条目
     _loaded: false
   })
 
@@ -67,6 +68,18 @@ export default class ScreenTag extends store {
     const { type, tag } = this.params
     const { airtime, month } = this.state
     return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
+  }
+
+  @computed get data() {
+    const { hideCollected } = this.state
+    if (!hideCollected) return this.tag
+
+    return {
+      ...this.tag,
+      list: this.tag.list.filter(
+        item => !this.userCollectionsMap[String(item.id).replace('/subject/', '')]
+      )
+    }
   }
 
   @computed get userCollectionsMap() {
@@ -175,5 +188,14 @@ export default class ScreenTag extends store {
         hide: false
       })
     }, 0)
+  }
+
+  onFilterSelect = title => {
+    if (title.includes('隐藏已收藏')) {
+      this.setState({
+        hideCollected: !this.state.hideCollected
+      })
+    }
+    this.setStorage(undefined, undefined, namespace)
   }
 }

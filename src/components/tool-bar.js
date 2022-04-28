@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 08:10:52
+ * @Last Modified time: 2022-04-28 12:22:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { IOS } from '@constants'
 import { Flex } from './flex'
 import { Popover } from './popover/comp'
 import { Touchable } from './touchable'
@@ -53,6 +52,7 @@ ToolBar.Popover = function ToolBarPopover({
   data,
   icon,
   iconColor,
+  iconSize = 16,
   type = 'sub',
   text,
   heatmap,
@@ -62,10 +62,19 @@ ToolBar.Popover = function ToolBarPopover({
   return (
     <Popover style={styles.touch} data={data} onSelect={onSelect}>
       <Flex style={styles.item} justify='center'>
-        {!!icon && <Iconfont style={_.mr.xs} name={icon} size={16} color={iconColor} />}
-        <Text size={11} type={type} bold>
-          {text}
-        </Text>
+        {!!icon && (
+          <Iconfont
+            style={!!text && _.mr.xs}
+            name={icon}
+            size={iconSize}
+            color={iconColor}
+          />
+        )}
+        {!!text && (
+          <Text size={11} type={type} bold>
+            {text}
+          </Text>
+        )}
       </Flex>
       {!!heatmap && <Heatmap id={heatmap} />}
     </Popover>
@@ -74,22 +83,22 @@ ToolBar.Popover = function ToolBarPopover({
 
 export { ToolBar }
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   toolBar: {
-    paddingTop: IOS ? _.device(6, 10) : 0,
+    paddingTop: _.ios(_.device(6, 10), 0),
     paddingBottom: _.device(10, 16)
   },
   touch: {
-    minWidth: 52,
+    minWidth: 48,
     marginHorizontal: _.xs,
-    borderRadius: 16 * _.ratio,
+    borderRadius: 24,
     overflow: 'hidden'
   },
   item: {
-    minWidth: 52,
+    minWidth: 48,
     height: _.device(30, 44),
-    paddingHorizontal: _.md,
+    paddingHorizontal: 12,
     backgroundColor: _.select('rgba(238, 238, 238, 0.8)', _._colorDarkModeLevel1),
-    borderRadius: 16 * _.ratio
+    borderRadius: _.radiusMd
   }
 }))

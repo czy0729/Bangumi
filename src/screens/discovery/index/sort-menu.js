@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-21 06:01:01
+ * @Last Modified time: 2022-04-28 10:58:35
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -93,7 +93,7 @@ const SortMenu = memo(
               <Flex.Item>
                 <Touchable style={styles.touch} onPress={onCancel}>
                   <Flex style={styles.btn} justify='center'>
-                    <Text type='__plain__' bold size={13}>
+                    <Text type='__plain__' bold size={11}>
                       取消
                     </Text>
                   </Flex>
@@ -102,7 +102,7 @@ const SortMenu = memo(
               <Flex.Item style={_.ml.md}>
                 <Touchable style={styles.touch} onPress={onSave}>
                   <Flex style={styles.btn} justify='center'>
-                    <Text type='__plain__' bold size={13}>
+                    <Text type='__plain__' bold size={11}>
                       保存
                     </Text>
                   </Flex>
@@ -232,17 +232,17 @@ const memoStyles = _.memoStyles(() => ({
   },
   btns: {
     paddingHorizontal: _.sm,
-    marginTop: _.md,
+    marginTop: _.sm,
     marginBottom: _.md
   },
   touch: {
-    borderRadius: _.r(40),
+    borderRadius: _.r(36),
     overflow: 'hidden'
   },
   btn: {
-    height: _.r(40),
+    height: _.r(36),
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: _.r(40)
+    borderRadius: _.r(36)
   },
   setting: {
     paddingHorizontal: _.sm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-26 17:33:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 06:48:29
+ * @Last Modified time: 2022-04-28 09:27:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,13 @@ const hitSlop = {
 
 function ColumnSelect({ select, disabled, onPress }) {
   if (disabled) {
-    return <View style={styles.columnSelect} />
+    return (
+      <View style={styles.columnSelect}>
+        {/* <Flex style={styles.radio} justify='center'>
+          <Iconfont name='md-do-not-disturb-alt' size={16} />
+        </Flex> */}
+      </View>
+    )
   }
 
   return (

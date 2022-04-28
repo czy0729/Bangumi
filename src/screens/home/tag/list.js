@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 01:30:27
+ * @Last Modified time: 2022-04-28 13:27:22
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { ItemSearch, ItemCollectionsGrid } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor, x18s } from '@utils/app'
+import { info } from '@utils/ui'
 import { TEXT_18X } from '@constants/text'
 
 const event = {
@@ -39,7 +40,8 @@ class List extends React.Component {
 
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
-    const { list } = $.state
+    const { list, hideCollected } = $.state
+    const collection = $.userCollectionsMap[String(item.id).replace('/subject/', '')]
     if (list) {
       return (
         <ItemSearch
@@ -52,7 +54,7 @@ class List extends React.Component {
               type: 'list'
             }
           }}
-          collection={$.userCollectionsMap[String(item.id).replace('/subject/', '')]}
+          collection={collection}
           {...item}
         >
           {!index && <Heatmap id='用户标签.跳转' />}
@@ -71,7 +73,7 @@ class List extends React.Component {
             type: 'grid'
           }
         }}
-        collection={$.userCollectionsMap[String(item.id).replace('/subject/', '')]}
+        collection={collection}
         num={this.num}
         {...item}
       />
@@ -94,7 +96,7 @@ class List extends React.Component {
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
-        data={$.tag}
+        data={$.data}
         scrollToTop
         footerEmptyDataText={x18s($.params.tag) ? TEXT_18X : undefined}
         renderItem={this.renderItem}

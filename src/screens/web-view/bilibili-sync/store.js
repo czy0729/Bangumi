@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 20:10:05
+ * @Last Modified time: 2022-04-28 11:49:36
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -13,10 +13,12 @@ import { request } from '@utils/fetch.v0'
 import { info, feedback } from '@utils/ui'
 import { t2s } from '@utils/thirdParty/cn-char'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import { MEDIA_SUBJECT } from './ds'
 
 const HOST_API = 'https://api.bgm.tv'
 
 const namespace = 'ScreenBilibili'
+const loaded = {}
 
 export default class ScreenBilibiliSync extends store {
   state = observable({
@@ -32,6 +34,7 @@ export default class ScreenBilibiliSync extends store {
     hide: false,
     hideWatched: false,
     hideSame: false,
+    hideNotMatched: false,
     privacy: false,
     _loaded: false
   })
@@ -55,7 +58,11 @@ export default class ScreenBilibiliSync extends store {
         private: data.private,
         rating: data.rating,
         comment: data.comment,
-        _loaded: getTimestamp()
+        loaded: getTimestamp()
+      }
+    } else {
+      collections[subjectId] = {
+        loaded: getTimestamp()
       }
     }
     this.setState({
@@ -73,6 +80,9 @@ export default class ScreenBilibiliSync extends store {
     const collections = {}
     const fetchs = []
     subjectIds.forEach(subjectId => {
+      if (loaded[subjectId]) return
+
+      loaded[subjectId] = true
       fetchs.push(async () => {
         const data = await request(`${HOST_API}/collection/${subjectId}`)
         if (data?.status) {
@@ -82,7 +92,11 @@ export default class ScreenBilibiliSync extends store {
             private: data.private,
             rating: data.rating,
             comment: data.comment,
-            _loaded: getTimestamp()
+            loaded: getTimestamp()
+          }
+        } else {
+          collections[subjectId] = {
+            loaded: getTimestamp()
           }
         }
         return true
@@ -139,6 +153,7 @@ export default class ScreenBilibiliSync extends store {
       data: {
         list: list.map(item => ({
           subjectId:
+            MEDIA_SUBJECT[item.id] ||
             bangumiData.find(i => {
               let flag = i?.s?.b === item.id
               if (!flag) flag = i?.s?.bhmt === item.id
@@ -150,10 +165,11 @@ export default class ScreenBilibiliSync extends store {
                 }
               }
               return flag
-            })?.id || '',
+            })?.id ||
+            '',
           ...item
         })),
-        _loaded: getTimestamp()
+        loaded: getTimestamp()
       }
     })
     this.setStorage(undefined, undefined, namespace)
@@ -204,5 +220,20 @@ export default class ScreenBilibiliSync extends store {
       [key]: !this.state[key]
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  onRefreshCollection = subjectId => {
+    this.setState({
+      collections: {
+        [subjectId]: {
+          ...(this.collection(subjectId) || {}),
+          loaded: 0
+        }
+      }
+    })
+
+    setTimeout(() => {
+      this.fetchCollection(subjectId)
+    }, 0)
   }
 }
