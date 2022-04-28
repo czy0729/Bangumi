@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 18:13:17
+ * @Last Modified time: 2022-04-28 17:18:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Touchable, Flex, Button, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
+import i18n from '@constants/i18n'
 import { StatusBarPlaceholder } from './status-bar-placeholder'
 import { IconTouchable } from '../icon/touchable'
 
@@ -46,7 +47,7 @@ export const Auth = obc((props, { navigation }) => (
     </Flex>
     <Flex style={styles.go} direction='column' justify='center'>
       <Button style={styles.btn} shadow onPress={() => navigation.push('LoginV2')}>
-        登录管理进度
+        {i18n.login()}后管理进度
       </Button>
     </Flex>
   </View>

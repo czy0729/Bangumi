@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 10:50:56
+ * @Last Modified time: 2022-04-28 17:22:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { getType, getRating } from '@utils/app'
 import { obc, memo } from '@utils/decorators'
 import { IOS } from '@constants'
+import i18n from '@constants/i18n'
 import IconFolder from './icon/folder'
 import IconClose from './icon/close'
 
@@ -56,7 +57,7 @@ const Box = memo(
       rightStyle.push(styles.right)
     }
 
-    let btnText = '登录管理'
+    let btnText = `${i18n.login()}管理`
     if (isLogin) {
       if (!_loaded) {
         btnText = userCollectionStatus || collectionStatus.name

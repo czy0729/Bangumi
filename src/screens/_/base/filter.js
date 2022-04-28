@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:41:57
+ * @Last Modified time: 2022-04-28 17:19:41
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
+import i18n from '@constants/i18n'
 import { FilterSwitch } from './filter-switch'
 
 const hitSlop = {
@@ -130,7 +131,7 @@ export const Filter = obc(
                         <>
                           {item.login && !$.isLogin ? (
                             <Text style={_.ml.sm} size={11} type='sub' lineHeight={16}>
-                              登录后显示
+                              {i18n.login()}后显示
                             </Text>
                           ) : (
                             item.data.map(i => (

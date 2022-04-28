@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 00:22:59
+ * @Last Modified time: 2022-04-28 18:06:58
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
+import i18n from '@constants/i18n'
 
 function Header(props, { $, navigation }) {
   return (
@@ -21,7 +22,7 @@ function Header(props, { $, navigation }) {
           name='md-add'
           onPress={() => {
             if (!$.isWebLogin) {
-              info('请先登录')
+              info(`请先${i18n.login()}`)
               return
             }
 

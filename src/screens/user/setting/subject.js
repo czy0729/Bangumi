@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-28 15:31:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 07:40:40
+ * @Last Modified time: 2022-04-28 18:57:45
  */
 import React from 'react'
 import { ActionSheet, Text, SegmentedControl, Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import i18n from '@constants/i18n'
 import styles from './styles'
 
 const data = {
@@ -93,7 +94,7 @@ function Subject() {
           {/* 自定义放送时间块 */}
           <ItemSetting
             hd='自定义放送时间块'
-            information='收藏状态为在看的动画，章节的右下方，默认值为线上放送时间，手动更改后首页收藏排序以此为准'
+            information={`收藏状态为在看的动画，章节的右下方，${i18n.initial()}值为线上放送时间，手动更改后首页收藏排序以此为准`}
             ft={
               <SegmentedControl
                 style={styles.segmentedControl}

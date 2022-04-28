@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 05:40:46
+ * @Last Modified time: 2022-04-28 18:08:09
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -10,6 +10,7 @@ import { Login } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
+import i18n from '@constants/i18n'
 import Item from './item'
 import { H_TABBAR } from './store'
 
@@ -29,7 +30,9 @@ function List({ index }, { $ }) {
 
   const type = $.type(index)
   if (type === 'hot' && !$.isWebLogin) {
-    return <Login text='热门帖子需登录才能显示' btnText='去登录' />
+    return (
+      <Login text={`热门帖子需${i18n.login()}才能显示`} btnText={`去${i18n.login()}`} />
+    )
   }
 
   const rakuen = $.rakuen(type)

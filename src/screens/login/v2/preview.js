@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:53:46
+ * @Last Modified time: 2022-04-28 17:30:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Mesume, Heatmap } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import i18n from '@constants/i18n'
 
 function Preview({ onLogin, onTour }) {
   return (
@@ -16,7 +17,7 @@ function Preview({ onLogin, onTour }) {
       <Mesume />
       <View style={[styles.bottomContainer, _.mt.lg]}>
         <Button type='main' shadow onPress={onLogin}>
-          账号登录
+          账号{i18n.login()}
         </Button>
         <View style={_.mt.md}>
           <Button type='plain' shadow onPress={onTour}>

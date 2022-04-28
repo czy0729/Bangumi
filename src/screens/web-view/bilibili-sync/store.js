@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 11:49:36
+ * @Last Modified time: 2022-04-28 18:00:44
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -12,6 +12,7 @@ import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { info, feedback } from '@utils/ui'
 import { t2s } from '@utils/thirdParty/cn-char'
+import i18n from '@constants/i18n'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import { MEDIA_SUBJECT } from './ds'
 
@@ -73,7 +74,7 @@ export default class ScreenBilibiliSync extends store {
 
   fetchCollections = async (subjectIds = []) => {
     if (!this.userId) {
-      info('此功能依赖收藏数据，请先登录', 4)
+      info(`此功能依赖收藏数据，请先${i18n.login()}`, 4)
       return false
     }
 

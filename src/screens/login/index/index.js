@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 21:13:41
+ * @Last Modified time: 2022-04-28 18:17:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ import { info, feedback } from '@utils/ui'
 import { hm, t } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
 import { SDK, APP_ID, HOST, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
+import i18n from '@constants/i18n'
 
 const title = '登录V1'
 const uri = `${URL_OAUTH}?${urlStringify({
@@ -161,13 +162,14 @@ class Login extends React.Component {
         <Mesume />
         <View style={[this.styles.bottomContainer, _.mt.lg]}>
           <Button type='main' shadow onPress={this.onLogin}>
-            授权登录
+            授权{i18n.login()}
           </Button>
           <Button style={_.mt.md} type='plain' shadow onPress={this.onTour}>
             返回
           </Button>
           <Text style={_.mt.lg} size={12} lineHeight={14} type='sub'>
-            PS: 若登录出现问题, 请先在授权网页里面登出, 不然会出现成功后登录过期的情况.
+            PS: 若{i18n.login()}出现问题, 请先在授权网页里面登出, 不然会出现成功后
+            {i18n.login()}过期的情况.
           </Text>
         </View>
       </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-21 06:56:54
+ * @Last Modified time: 2022-04-28 17:22:13
  */
 import { observable, computed, toJS } from 'mobx'
 import { userStore, systemStore } from '@stores'
@@ -13,6 +13,7 @@ import { request } from '@utils/fetch.v0'
 import { HTMLDecode } from '@utils/html'
 import { info } from '@utils/ui'
 import { MODEL_RANK_ANIME_FILTER } from '@constants/model'
+import i18n from '@constants/i18n'
 
 export const DATA_SORT = ['默认', '关联数', '新放送', '评分']
 export const DATA_FILTER = MODEL_RANK_ANIME_FILTER.data.map(item => item.label)
@@ -117,7 +118,7 @@ export default class ScreenSeries extends store {
    */
   fetchCollections = async () => {
     if (!this.userId) {
-      info('此功能依赖收藏数据，请先登录', 4)
+      info(`此功能依赖收藏数据，请先${i18n.login()}`, 4)
       return false
     }
 

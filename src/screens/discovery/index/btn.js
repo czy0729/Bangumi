@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:47:25
+ * @Last Modified time: 2022-04-28 17:21:26
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
@@ -13,6 +13,7 @@ import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { matchBgmUrl } from '@utils/match'
 import { appNavigate } from '@utils/app'
+import i18n from '@constants/i18n'
 import BtnMain from './btn-main'
 
 function Btn({ item }, { $, navigation }) {
@@ -28,7 +29,7 @@ function Btn({ item }, { $, navigation }) {
         dragging
           ? undefined
           : async () => {
-              if (login && !username && !id) return info('请先登录')
+              if (login && !username && !id) return info(`请先${i18n.login()}`)
 
               if (key === 'Open') return $.toggleDragging()
 

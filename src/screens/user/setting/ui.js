@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 15:51:13
+ * @Last Modified time: 2022-04-28 18:58:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -432,7 +432,7 @@ function UI() {
           {/* 图片质量 */}
           <ItemSetting
             hd='图片质量'
-            information='建议默认，修改后不能享受图片CDN加速'
+            information='不建议修改，修改后不能享受图片CDN加速'
             ft={
               <SegmentedControl
                 style={commonStyles.segmentedControl}

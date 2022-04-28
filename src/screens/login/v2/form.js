@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 09:25:40
+ * @Last Modified time: 2022-04-28 18:47:02
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -22,6 +22,7 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, HOST_2, HOST_3 } from '@constants'
+import i18n from '@constants/i18n'
 
 const data = [HOST, HOST_2, HOST_3]
 
@@ -68,7 +69,7 @@ class Form extends React.Component {
 
     Alert.alert(
       '提示',
-      '三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n登录建议优先使用 bangumi.tv，出现问题再尝试 chii.in，最后尝试 bgm.tv。',
+      `三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n${i18n.login()}建议优先使用 bgm.tv，出现问题再尝试 bangumi.tv，最后尝试 chii.in。`,
       [
         {
           text: '知道了'
@@ -84,7 +85,7 @@ class Form extends React.Component {
 
     Alert.alert(
       '提示',
-      '假如您频繁掉登录，不妨试试把这个选项勾上，通常登录状态生存时间为7天。 \n\n这是个不稳定的选项，若登录正常不建议勾上，可能会遇到预测不能的状况。',
+      `假如您频繁掉授权状态，不妨试试把这个选项勾上，通常${i18n.login()}状态生存时间为7天。 \n\n这是个不稳定的选项，若${i18n.login()}正常不建议勾上，可能会遇到预测不能的状况。`,
       [
         {
           text: '知道了'
@@ -157,7 +158,7 @@ class Form extends React.Component {
               value={captcha}
               placeholder='验证码'
               returnKeyType='done'
-              returnKeyLabel='登录'
+              returnKeyLabel={i18n.login()}
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'captcha')}
@@ -191,7 +192,7 @@ class Form extends React.Component {
         <Touchable style={[this.styles.touch, _.mt.sm]} onPress={this.showConfig}>
           <Flex style={this.styles.content}>
             <Text type='sub' size={12}>
-              登录配置
+              {i18n.login()}配置
             </Text>
             <Iconfont name='md-navigate-next' />
           </Flex>
@@ -208,7 +209,7 @@ class Form extends React.Component {
             <Popover style={this.styles.touch} data={data} onSelect={onSelect}>
               <Flex style={this.styles.content}>
                 <Text type='sub' size={12}>
-                  使用 {host} 进行登录
+                  使用 {host} 进行{i18n.login()}
                 </Text>
                 <Iconfont name='md-keyboard-arrow-down' />
               </Flex>
@@ -230,7 +231,7 @@ class Form extends React.Component {
                   size={18}
                 />
                 <Text style={_.ml.xs} type='sub' size={12}>
-                  使用固定UA登录 (频繁掉线请勾选)
+                  使用固定UA{i18n.login()} (频繁掉线请勾选)
                 </Text>
               </Flex>
             </Touchable>
@@ -271,7 +272,7 @@ class Form extends React.Component {
             type='sub'
             onPress={() => navigation.push('LoginAssist')}
           >
-            请尝试切换另一域名进行重试，或尝试切换wifi或4g网络，实在没法登录，可点击这里前往辅助登录
+            请尝试切换另一域名进行重试，或尝试切换wifi或4g网络，实在没法{i18n.login()}，可点击这里前往辅助{i18n.login()}
             →
           </Text>
         )}
@@ -296,7 +297,7 @@ class Form extends React.Component {
             loading={loading}
             onPress={onLogin}
           >
-            登录
+            {i18n.login()}
           </Button>
           {this.renderError()}
         </View>

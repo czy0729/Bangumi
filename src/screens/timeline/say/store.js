@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 00:02:59
+ * @Last Modified time: 2022-04-28 18:09:17
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -11,6 +11,7 @@ import { info, feedback } from '@utils/ui'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { HOST, IOS } from '@constants'
+import i18n from '@constants/i18n'
 
 export default class ScreenSay extends store {
   state = observable({
@@ -196,7 +197,7 @@ export default class ScreenSay extends store {
   doSubmit = (content, scrollView, navigation) => {
     if (this.isNew) {
       if (!this.formhash) {
-        info('获取表单授权码失败, 请检查登录状态')
+        info(`获取表单授权码失败, 请检查${i18n.login()}状态`)
         return
       }
 

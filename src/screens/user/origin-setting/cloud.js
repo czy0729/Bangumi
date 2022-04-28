@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-12 11:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 15:46:44
+ * @Last Modified time: 2022-04-28 18:06:35
  */
 import React, { useState } from 'react'
 import { ItemSettingBlock } from '@_'
@@ -10,6 +10,7 @@ import { _, userStore, subjectStore } from '@stores'
 import { info, confirm, loading, feedback } from '@utils/ui'
 import { useMount } from '@utils/hooks'
 import { read } from '@utils/db'
+import i18n from '@constants/i18n'
 
 const Cloud = ({ onDownloaded }) => {
   const [settingLen, setSettingLen] = useState(0)
@@ -43,11 +44,11 @@ const Cloud = ({ onDownloaded }) => {
         information={
           settingLen
             ? `${(settingLen / 1000).toFixed(1)} kb`
-            : (!userStore.isLogin || !userStore.userInfo.id) && '需登录'
+            : (!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`
         }
         onPress={() => {
           if (!userStore.isLogin || !userStore.userInfo.id) {
-            return info('下载需先登录')
+            return info(`下载需先${i18n.login()}`)
           }
 
           setTimeout(() => {
@@ -67,10 +68,12 @@ const Cloud = ({ onDownloaded }) => {
         style={_.ml.md}
         icon='md-ios-share'
         title='上传'
-        information={(!userStore.isLogin || !userStore.userInfo.id) && '需登录'}
+        information={
+          (!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`
+        }
         onPress={() => {
           if (!userStore.isLogin || !userStore.userInfo.id) {
-            return info('上传需先登录')
+            return info(`上传需先${i18n.login()}`)
           }
 
           setTimeout(() => {

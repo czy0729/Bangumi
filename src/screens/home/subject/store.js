@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 11:48:09
+ * @Last Modified time: 2022-04-28 18:16:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,6 +62,7 @@ import {
   SITE_WK8,
   SITE_XUNBO
 } from '@constants/site'
+import i18n from '@constants/i18n'
 import { getOriginConfig, replaceOriginUrl } from '../../user/origin-setting/utils'
 
 const namespace = 'ScreenSubject'
@@ -1764,7 +1765,7 @@ export default class ScreenSubject extends store {
    */
   toggleFolder = () => {
     if (!this.isLogin) {
-      info('请先登录')
+      info(`请先${i18n.login()}`)
       return
     }
 

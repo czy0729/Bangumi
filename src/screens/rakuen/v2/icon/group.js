@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 23:37:48
+ * @Last Modified time: 2022-04-28 18:07:20
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
+import i18n from '@constants/i18n'
 
 function IconGroup(props, { $, navigation }) {
   return (
@@ -20,7 +21,7 @@ function IconGroup(props, { $, navigation }) {
       size={18}
       onPress={() => {
         if (!$.isWebLogin) {
-          info('请先登录')
+          info(`请先${i18n.login()}`)
           return
         }
 

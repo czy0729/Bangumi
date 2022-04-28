@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 16:33:21
+ * @Last Modified time: 2022-04-28 17:21:02
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -13,6 +13,7 @@ import { info, feedback, confirm } from '@utils/ui'
 import { t, fetchHTML, queue } from '@utils/fetch'
 import { removeHTMLTag } from '@utils/html'
 import { HOST } from '@constants'
+import i18n from '@constants/i18n'
 
 const namespace = 'ScreenCatalogDetail'
 const excludeState = {
@@ -164,7 +165,7 @@ export default class ScreenCatalogDetail extends store {
     const { list } = this.catalogDetail
     const item = list.find(i => i.modify == modify)
     if (!item) {
-      info('目录不属于你或者登录状态失效了')
+      info(`目录不属于你或者${i18n.login()}状态失效了`)
       return
     }
 
@@ -196,7 +197,7 @@ export default class ScreenCatalogDetail extends store {
   onCopy = navigation => {
     const { formhash } = userStore
     if (!formhash) {
-      info('请先登录')
+      info(`请先${i18n.login()}`)
       return
     }
 
@@ -332,7 +333,7 @@ export default class ScreenCatalogDetail extends store {
               })
             }, 400)
           } else {
-            info('目录创建失败, 请检查登录状态')
+            info(`目录创建失败, 请检查${i18n.login()}状态`)
           }
         }
       }

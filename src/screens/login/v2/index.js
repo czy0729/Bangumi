@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 10:19:35
+ * @Last Modified time: 2022-04-28 17:56:37
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -26,6 +26,7 @@ import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
+import i18n from '@constants/i18n'
 import Preview from './preview'
 import Form from './form'
 
@@ -102,14 +103,14 @@ class LoginV2 extends React.Component {
         tourist: 1
       })
 
-      info('登录成功, 正在请求个人信息...', 6)
+      info(`${i18n.login()}成功, 正在请求个人信息...`, 6)
       userStore.fetchUserInfo()
       userStore.fetchUsersInfo()
       feedback()
       navigation.popToTop()
     } catch (error) {
       warn(namespace, 'onTour', error)
-      info('登录状态过期, 请稍后再试')
+      info(`${i18n.login()}状态过期, 请稍后再试`)
     }
   }
 
@@ -153,7 +154,7 @@ class LoginV2 extends React.Component {
         await this.login()
 
         if (!this.cookie.chii_auth) {
-          this.loginFail('验证码或密码错误，稍会再重试或前往授权登录 →')
+          this.loginFail(`验证码或密码错误，稍会再重试或前往授权${i18n.login()} →`)
           return
         }
 
@@ -176,7 +177,9 @@ class LoginV2 extends React.Component {
     } catch (ex) {
       if (this.retryCount >= AUTH_RETRY_COUNT) {
         this.loginFail(
-          `[${String(ex)}] 登录失败，请重试或重启APP，或点击前往旧版授权登录 →`
+          `[${String(
+            ex
+          )}] ${i18n.login()}失败，请重试或重启APP，或点击前往旧版授权${i18n.login()} →`
         )
         return
       }
@@ -263,7 +266,7 @@ class LoginV2 extends React.Component {
   login = async () => {
     this.setState({
       loading: true,
-      info: '登录请求中...(1/5)'
+      info: `${i18n.login()}请求中...(1/5)`
     })
 
     const { host, email, password, captcha } = this.state
@@ -290,7 +293,7 @@ class LoginV2 extends React.Component {
     this.updateCookie(headers?.['set-cookie']?.[0])
 
     if (data.includes('分钟内您将不能登录本站')) {
-      info('累计 5 次错误尝试，15 分钟内您将不能登录本站。')
+      info(`累计 5 次错误尝试，15 分钟内您将不能${i18n.login()}本站。`)
     } else {
       this.updateCookie(headers?.['set-cookie']?.[0])
     }
@@ -422,7 +425,7 @@ class LoginV2 extends React.Component {
    */
   inStore = async () => {
     this.setState({
-      info: '登录成功, 正在请求个人信息...(5/5)'
+      info: `${i18n.login()}成功, 正在请求个人信息...(5/5)`
     })
 
     const { navigation } = this.props
@@ -532,7 +535,7 @@ class LoginV2 extends React.Component {
         onTour={() =>
           Alert.alert(
             '提示',
-            '将使用开发者的测试账号, 提供大部分功能预览, 确定登录? (可以在设置里面退出登录)',
+            `将使用开发者的测试账号, 提供大部分功能预览, 确定${i18n.login()}? (可以在设置里面退出${i18n.login()})`,
             [
               {
                 text: '取消',
@@ -588,7 +591,7 @@ class LoginV2 extends React.Component {
             <View style={this.styles.ps}>
               <Text size={12} lineHeight={14} type='sub'>
                 隐私策略: 我们十分尊重您的隐私, 我们不会收集上述信息.
-                (多次登录失败后可能一段时间内不能再次登录)
+                (多次{i18n.login()}失败后可能一段时间内不能再次{i18n.login()})
               </Text>
             </View>
           )
@@ -600,6 +603,7 @@ class LoginV2 extends React.Component {
                   t('登录.跳转', {
                     to: 'Signup'
                   })
+
                   Alert.alert(
                     '提示',
                     // eslint-disable-next-line max-len
@@ -629,13 +633,7 @@ class LoginV2 extends React.Component {
                   />
                 </Flex>
               </Touchable>
-              <Heatmap
-                id='登录.跳转'
-                data={{
-                  to: 'Signup',
-                  alias: '注册'
-                }}
-              />
+              <Heatmap id='登录.跳转' to='Signup' alias='注册' />
             </Flex.Item>
             <Flex.Item style={this.styles.border}>
               <Text
@@ -650,15 +648,9 @@ class LoginV2 extends React.Component {
                   navigation.push('Login')
                 }}
               >
-                旧版登录
+                旧版{i18n.login()}
               </Text>
-              <Heatmap
-                id='登录.跳转'
-                data={{
-                  to: 'Login',
-                  alias: '旧版登录'
-                }}
-              />
+              <Heatmap id='登录.跳转' to='Login' alias='旧版登录' />
             </Flex.Item>
             <Flex.Item style={this.styles.border}>
               <Text
@@ -673,15 +665,9 @@ class LoginV2 extends React.Component {
                   navigation.push('LoginAssist')
                 }}
               >
-                辅助登录
+                辅助{i18n.login()}
               </Text>
-              <Heatmap
-                id='登录.跳转'
-                data={{
-                  to: 'LoginAssist',
-                  alias: '辅助登录'
-                }}
-              />
+              <Heatmap id='登录.跳转' to='LoginAssist' alias='辅助登录' />
             </Flex.Item>
           </Flex>
         )}

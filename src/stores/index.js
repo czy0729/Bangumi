@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 12:21:11
+ * @Last Modified time: 2022-04-28 19:01:06
  */
 import { Alert } from 'react-native'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -11,6 +11,7 @@ import { clearCache } from '@components/image/image'
 import { runAfter } from '@utils'
 import { info } from '@utils/ui'
 import { DEV } from '@constants'
+import i18n from '@constants/i18n'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import discoveryStore from './discovery'
@@ -98,7 +99,7 @@ class Stores {
   clearStorage() {
     Alert.alert(
       '提示',
-      '清除包括页面接口的数据缓存，但不会清除登录等信息 (若需清除图片缓存，请到系统里面清除应用数据)',
+      `清除包括页面接口的数据${i18n.cache()} (若需清除图片${i18n.cache()}，请到系统里面清除应用数据)`,
       [
         {
           text: '取消',
@@ -133,7 +134,7 @@ class Stores {
    * 登出
    */
   logout(navigation) {
-    Alert.alert('提示', '确定退出登录?', [
+    Alert.alert('提示', `确定${i18n.logout()}?`, [
       {
         text: '取消',
         style: 'cancel'

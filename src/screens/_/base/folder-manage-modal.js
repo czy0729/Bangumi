@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 11:19:40
+ * @Last Modified time: 2022-04-28 17:18:23
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -17,6 +17,7 @@ import { queue, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { HTMLDecode } from '@utils/html'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import i18n from '@constants/i18n'
 import { Cover } from './cover'
 import { Popover } from './popover'
 import { Tag } from './tag'
@@ -273,7 +274,7 @@ export const FolderManageModal = ob(
 
         case '删除':
           if (!(this.formhash || userStore.formhash)) {
-            info('授权信息有误, 无法操作, 请尝试重新登录')
+            info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
             return
           }
 
@@ -319,7 +320,7 @@ export const FolderManageModal = ob(
     onCreate = isNew => {
       if (isNew) {
         if (!(this.formhash || userStore.formhash)) {
-          info('授权信息有误, 无法操作, 请尝试重新登录')
+          info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
           return
         }
 
@@ -340,7 +341,7 @@ export const FolderManageModal = ob(
      */
     onSubmitCatalog = () => {
       if (!(this.formhash || userStore.formhash)) {
-        info('授权信息有误, 无法操作, 请尝试重新登录')
+        info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
         return
       }
 

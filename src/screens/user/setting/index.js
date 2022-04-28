@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 19:41:17
+ * @Last Modified time: 2022-04-28 18:53:53
  */
 import React from 'react'
 import { Header, Page, ScrollView, Flex } from '@components'
 import { IconTouchable, NavigationBarEvents } from '@_'
 import { _, systemStore } from '@stores'
 import { useRunAfter, useObserver } from '@utils/hooks'
+import i18n from '@constants/i18n'
 import Block from './block'
 import Tip from './tip'
 import Version from './version'
@@ -37,7 +38,7 @@ const Setting = ({ navigation }) => {
 
   return useObserver(() => (
     <>
-      <Header title='设置' hm={['settings', 'Setting']} />
+      <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />
       <Page style={_.select(_.container.bg, _.container.plain)}>
         <NavigationBarEvents />
         <ScrollView contentContainerStyle={styles.container}>
@@ -64,7 +65,7 @@ const Setting = ({ navigation }) => {
             <Tinygrail navigation={navigation} />
           </Block>
           <Block>
-            <Tip>联系</Tip>
+            <Tip>{i18n.contact()}</Tip>
             <Contact navigation={navigation} />
             <Zhinan navigation={navigation} />
           </Block>

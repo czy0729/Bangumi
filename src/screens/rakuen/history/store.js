@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:53:50
+ * @Last Modified time: 2022-04-28 18:08:36
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
+import i18n from '@constants/i18n'
 
 const namespace = 'ScreenRakuenHistory'
 
@@ -104,7 +105,7 @@ export default class ScreenRakuenHistory extends store {
    */
   sync = async () => {
     if (!this.isLogin || !userStore.userInfo.id) {
-      info('云同步需先登录')
+      info(`云同步需先${i18n.login()}`)
       return
     }
 

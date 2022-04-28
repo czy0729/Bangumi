@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:54:06
+ * @Last Modified time: 2022-04-28 18:09:44
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -22,6 +22,7 @@ import {
 } from '@constants'
 import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 import { initXsbRelationOTA } from '@constants/cdn'
+import i18n from '@constants/i18n'
 
 const namespace = 'ScreenTinygrail'
 const errorStr = '/false'
@@ -211,7 +212,7 @@ export default class ScreenTinygrail extends store {
       }
 
       this._doAuthFailCount = 0
-      info('授权失败请重试, 或检查登录状态')
+      info(`授权失败请重试, 或检查${i18n.login()}状态`)
       this.setState({
         loading: false
       })

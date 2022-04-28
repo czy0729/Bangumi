@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:42:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 22:08:18
+ * @Last Modified time: 2022-04-28 18:59:54
  */
 import React, { useState, useCallback } from 'react'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -14,6 +14,7 @@ import { useObserver, useMount, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { confirm, info, loading, feedback } from '@utils/ui'
 import { read } from '@utils/db'
+import i18n from '@constants/i18n'
 
 function System({ navigation }) {
   const [storageSize, setStorageSize] = useState('')
@@ -65,7 +66,7 @@ function System({ navigation }) {
       <>
         {/* 清除缓存 */}
         <ItemSetting
-          hd='清除缓存'
+          hd={`清除${i18n.cache()}`}
           information='推荐大于 10mb 或遇到数据不刷新等情况进行清除'
           ft={
             <Text type='sub' size={15}>
@@ -80,13 +81,13 @@ function System({ navigation }) {
         </ItemSetting>
 
         {/* 同步设置 */}
-        <ItemSetting hd='同步设置' arrow highlight onPress={setTrue} />
+        <ItemSetting hd={`同步${i18n.setting()}`} arrow highlight onPress={setTrue} />
         <ActionSheet show={state} onClose={setFalse}>
           {/* 同步设置 */}
           <ItemSettingBlock
             style={_.mt.sm}
-            title='同步设置'
-            information='同步设置和超展开设置'
+            title={`同步${i18n.setting()}`}
+            information={`同步${i18n.setting()}和超展开${i18n.setting()}`}
           >
             <ItemSettingBlock.Item
               icon='md-ios-share'
@@ -101,7 +102,8 @@ function System({ navigation }) {
               information={
                 settingLen
                   ? `${(settingLen / 1000).toFixed(1)} kb`
-                  : (!userStore.isLogin || !userStore.userInfo.id) && '需登录'
+                  : (!userStore.isLogin || !userStore.userInfo.id) &&
+                    `需${i18n.login()}`
               }
               onPress={() => {
                 t('设置.恢复默认设置', {
@@ -109,7 +111,7 @@ function System({ navigation }) {
                 })
 
                 if (!userStore.isLogin || !userStore.userInfo.id) {
-                  return info('下载需先登录')
+                  return info(`下载需先${i18n.login()}`)
                 }
 
                 setTimeout(() => {
@@ -132,14 +134,16 @@ function System({ navigation }) {
               style={_.ml.md}
               icon='md-ios-share'
               title='上传'
-              information={(!userStore.isLogin || !userStore.userInfo.id) && '需登录'}
+              information={
+                (!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`
+              }
               onPress={() => {
                 t('设置.恢复默认设置', {
                   label: '上传'
                 })
 
                 if (!userStore.isLogin || !userStore.userInfo.id) {
-                  return info('上传需先登录')
+                  return info(`上传需先${i18n.login()}`)
                 }
 
                 setTimeout(() => {
@@ -161,14 +165,14 @@ function System({ navigation }) {
             <ItemSettingBlock.Item
               style={_.ml.md}
               icon='md-refresh'
-              title='恢复默认'
+              title={`恢复${i18n.initial()}`}
               onPress={() => {
                 t('设置.恢复默认设置', {
                   label: '恢复默认'
                 })
 
                 setTimeout(() => {
-                  confirm('确定恢复默认设置?', () => {
+                  confirm(`确定恢复${i18n.initial()}值?`, () => {
                     systemStore.resetSetting()
                     setTimeout(() => {
                       info('已恢复')
