@@ -3,13 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 19:01:06
+ * @Last Modified time: 2022-04-28 19:32:15
  */
-import { Alert } from 'react-native'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { clearCache } from '@components/image/image'
 import { runAfter } from '@utils'
-import { info } from '@utils/ui'
+import { info, confirm } from '@utils/ui'
 import { DEV } from '@constants'
 import i18n from '@constants/i18n'
 import calendarStore from './calendar'
@@ -97,36 +96,26 @@ class Stores {
    * 清除缓存
    */
   clearStorage() {
-    Alert.alert(
-      '提示',
+    confirm(
       `清除包括页面接口的数据${i18n.cache()} (若需清除图片${i18n.cache()}，请到系统里面清除应用数据)`,
-      [
-        {
-          text: '取消',
-          style: 'cancel'
-        },
-        {
-          text: '确定',
-          onPress: async () => {
-            await AsyncStorage.clear()
+      async () => {
+        await AsyncStorage.clear()
 
-            // 以下为不需要清除的数据, 再次本地化
-            systemStore.setStorage('setting', undefined, 'System') // 设置
-            rakuenStore.setStorage('setting', undefined, 'Rakuen') // 超展开设置
-            rakuenStore.setStorage('favor', undefined, 'Rakuen') // 超展开收藏帖子
-            userStore.setStorage('accessToken', undefined, 'User') // 用户授权信息
-            userStore.setStorage('userInfo', undefined, 'User') // 用户个人信息
-            userStore.setStorage('userCookie', undefined, 'User') // 用户网页cookie
-            tinygrailStore.setStorage('collected', undefined, 'Tinygrail') // 小圣杯人物收藏
+        // 以下为不需要清除的数据, 再次本地化
+        systemStore.setStorage('setting', undefined, 'System') // 设置
+        rakuenStore.setStorage('setting', undefined, 'Rakuen') // 超展开设置
+        rakuenStore.setStorage('favor', undefined, 'Rakuen') // 超展开收藏帖子
+        userStore.setStorage('accessToken', undefined, 'User') // 用户授权信息
+        userStore.setStorage('userInfo', undefined, 'User') // 用户个人信息
+        userStore.setStorage('userCookie', undefined, 'User') // 用户网页cookie
+        tinygrailStore.setStorage('collected', undefined, 'Tinygrail') // 小圣杯人物收藏
 
-            setTimeout(() => {
-              clearCache()
-            }, 0)
+        setTimeout(() => {
+          clearCache()
+        }, 0)
 
-            info('已清除')
-          }
-        }
-      ]
+        info('已清除')
+      }
     )
   }
 
@@ -134,19 +123,14 @@ class Stores {
    * 登出
    */
   logout(navigation) {
-    Alert.alert('提示', `确定${i18n.logout()}?`, [
-      {
-        text: '取消',
-        style: 'cancel'
+    confirm(
+      `确定${i18n.logout()}?`,
+      async () => {
+        await userStore.logout()
+        navigation.popToTop()
       },
-      {
-        text: '确定',
-        onPress: async () => {
-          await userStore.logout()
-          navigation.popToTop()
-        }
-      }
-    ])
+      '提示'
+    )
   }
 }
 

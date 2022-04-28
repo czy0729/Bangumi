@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 16:50:27
+ * @Last Modified time: 2022-04-28 19:32:14
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
 import { DEV, IOS } from '@constants'
-import { getSystemStoreAsync } from './async'
+import { getSystemStoreAsync, s2tAsync } from './async'
 
 function getSetting() {
   return getSystemStoreAsync().setting
@@ -19,7 +19,7 @@ function getSetting() {
  * Loading
  */
 export function loading(text = 'Loading...', time = 0) {
-  const toastId = Toast.loading(text, time, () => {
+  const toastId = Toast.loading(s2tAsync(text), time, () => {
     if (toastId) Portal.remove(toastId)
   })
 
@@ -42,8 +42,8 @@ export function feedback() {
 /**
  * 确定框
  * @param {*} content
- * @param {*} title
  * @param {*} onPress
+ * @param {*} title
  * @param {*} onCancelPress
  */
 export function confirm(
@@ -54,12 +54,12 @@ export function confirm(
 ) {
   const params = [
     {
-      text: '取消',
+      text: s2tAsync('取消'),
       style: 'cancel',
       onPress: onCancelPress
     },
     {
-      text: '确定',
+      text: s2tAsync('确定'),
       onPress
     }
   ]
@@ -67,17 +67,17 @@ export function confirm(
   // iOS 有时候在 popover 里面询问, 会触发屏幕假死, 需要延迟一下让菜单消失了再执行
   if (IOS) {
     return setTimeout(() => {
-      Alert.alert(title, content, params)
+      Alert.alert(s2tAsync(title), s2tAsync(content), params)
     }, 80)
   }
 
-  return Alert.alert(title, content, params)
+  return Alert.alert(s2tAsync(title), s2tAsync(content), params)
 }
 
 export function alert(content, title = '提示') {
   const params = [
     {
-      text: '确定',
+      text: s2tAsync('确定'),
       onPress: () => {}
     }
   ]
@@ -85,11 +85,11 @@ export function alert(content, title = '提示') {
   // iOS 有时候在 popover 里面询问, 会触发屏幕假死, 需要延迟一下让菜单消失了再执行
   if (IOS) {
     return setTimeout(() => {
-      Alert.alert(title, content, params)
+      Alert.alert(s2tAsync(title), s2tAsync(content), params)
     }, 80)
   }
 
-  return Alert.alert(title, content, params)
+  return Alert.alert(s2tAsync(title), s2tAsync(content), params)
 }
 
 /**
@@ -103,7 +103,7 @@ export function info(
   onClose = Function.prototype,
   mask = false
 ) {
-  Toast.info(content, duration, onClose, mask)
+  Toast.info(s2tAsync(content), duration, onClose, mask)
 
   // if (IOS) {
   //   Toast.info(content, duration, onClose, mask)
