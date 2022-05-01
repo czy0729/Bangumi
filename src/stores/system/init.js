@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 11:36:01
+ * @Last Modified time: 2022-05-01 12:23:24
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -50,7 +50,8 @@ export const INIT_SUBJECT_LAYOUT = {
 }
 
 export const INIT_SETTING = {
-  s2t: false, // 简体转繁体
+  /** 简体转繁体 */
+  s2t: false,
   deepDark: true, // 黑暗模式是否纯黑
   simple: true, // 设置页面显示最基本的设置
   avatarRound: false, // 头像是否圆形
