@@ -1,8 +1,9 @@
 /*
+ * 统一封装文字
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-01 13:41:08
+ * @Last Modified time: 2022-05-01 14:50:36
  */
 import React from 'react'
 import { Text as RNText, StyleProp, TextStyle } from 'react-native'

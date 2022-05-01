@@ -1,8 +1,9 @@
 /*
+ * 加载指示器
  * @Author: czy0729
  * @Date: 2020-07-10 09:46:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 14:33:26
+ * @Last Modified time: 2022-05-01 14:55:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
