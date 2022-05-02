@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 00:55:23
+ * @Last Modified time: 2022-05-02 12:37:17
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Text } from '../text'
+import { HeaderProps } from './types'
 
-function Transition({ fixed, title, headerTitle }) {
+type Props = Pick<HeaderProps, 'fixed' | 'title' | 'headerTitle'>
+
+function Transition({ fixed, title, headerTitle }: Props) {
   const wrapStyles = useAnimatedStyle(() => ({
     opacity: withTiming(fixed ? 1 : 0, {
       duration: 160

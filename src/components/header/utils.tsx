@@ -2,14 +2,31 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-19 16:02:59
+ * @Last Modified time: 2022-05-02 12:46:08
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
+import { Expand, Navigation } from '@types'
 import Back from './back'
 import { colors, backgroundColors } from './styles'
+import { HeaderProps } from './types'
+
+type Props = Expand<
+  {
+    navigation: Navigation
+  } & Pick<
+    HeaderProps,
+    | 'title'
+    | 'headerTitleAlign'
+    | 'headerTitleStyle'
+    | 'headerRight'
+    | 'mode'
+    | 'fixed'
+    | 'statusBarEventsType'
+  >
+>
 
 const headerTransitionHeight = 56
 
@@ -25,7 +42,7 @@ export const updateHeader = ({
   mode,
   fixed = false,
   statusBarEventsType
-}) => {
+}: Props) => {
   if (!navigation) return
 
   const _title = systemStore.setting.s2t ? s2t(title) : title
@@ -40,6 +57,7 @@ export const updateHeader = ({
     headerTransparent: false,
     headerShown: true,
     headerStyle: {
+      height: undefined,
       backgroundColor: backgroundColor || (mode ? 'transparent' : _.colorPlain),
       borderBottomWidth: 0,
       shadowOpacity: 0,
@@ -49,11 +67,13 @@ export const updateHeader = ({
     // headerTitle
     headerTitle: mode ? '' : _title,
     headerTitleAlign: headerTitleAlign || (mode ? 'left' : 'center'),
-    headerTitleStyle: {
-      fontSize: 15,
-      fontWeight: 'normal',
-      ...headerTitleStyle
-    },
+    headerTitleStyle: [
+      {
+        fontSize: 15,
+        fontWeight: 'normal'
+      },
+      headerTitleStyle
+    ],
     headerTintColor: color || _.colorTitle,
 
     // headerBack
@@ -61,7 +81,11 @@ export const updateHeader = ({
     headerLeftContainerStyle: {
       paddingLeft: 5
     },
-    headerLeft: () => <Back navigation={navigation} color={color} />
+    headerLeft: () => <Back navigation={navigation} color={color} />,
+
+    // headerRight
+    headerRightContainerStyle: {},
+    headerRight: undefined
   }
 
   if (headerRight) {
@@ -96,7 +120,12 @@ export const updateHeader = ({
   if (IOS) {
   } else {
     // 文字至少留一个fontFamily, 不然可能会触发文字截断bug
-    options.headerTitleStyle.fontFamily = ''
+    options.headerTitleStyle = [
+      ...options.headerTitleStyle,
+      {
+        fontFamily: ''
+      }
+    ]
   }
 
   navigation.setOptions(options)

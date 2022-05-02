@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-01 13:38:53
+ * @Last Modified time: 2022-05-02 12:00:45
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -33,13 +33,19 @@ class Theme extends store {
   }
 
   /** TS fixed */
+  headerHeight = _.headerHeight
+  isPad = _.isPad
+  lineHeightRatio = _.lineHeightRatio
   md = _.md
   radiusSm = _.radiusSm
+  statusBarHeight = _.statusBarHeight
 
+  /** 缩短引用 */
   absoluteFill = StyleSheet.absoluteFill
-  create = style => StyleSheet.create(style)
-  flatten = style => StyleSheet.flatten(style)
+  create = StyleSheet.create
+  flatten = StyleSheet.flatten
 
+  /** store */
   state = observable({
     mode: DEFAULT_MODE,
 
@@ -90,10 +96,6 @@ class Theme extends store {
   }
 
   // -------------------- layout styles --------------------
-  @computed get isPad() {
-    return _.isPad
-  }
-
   @computed get orientation() {
     return this.state.orientation
   }
@@ -571,10 +573,6 @@ class Theme extends store {
 
   @computed get fontSize30() {
     return this.fontSize(30)
-  }
-
-  @computed get lineHeightRatio() {
-    return _.lineHeightRatio
   }
 
   /**

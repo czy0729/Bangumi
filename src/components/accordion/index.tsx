@@ -3,15 +3,17 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-01 14:51:14
+ * @Last Modified time: 2022-05-02 10:06:16
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
-import { StyleProp, ViewStyle, View, Animated } from 'react-native'
+import { View, Animated } from 'react-native'
 import { _ } from '@stores'
 import { runAfter } from '@utils'
+import { ViewStyle, ReactNode } from '@types'
 
 type Props = {
-  style?: StyleProp<ViewStyle>
+  /** ViewStyle */
+  style?: ViewStyle
 
   /** 是否展开 */
   expand: boolean
@@ -19,7 +21,7 @@ type Props = {
   /** 收起后是否销毁 */
   lazy?: boolean
 
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const minHeight = 48

@@ -5,10 +5,9 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 00:54:16
+ * @Last Modified time: 2022-05-02 12:20:44
  */
 import React, { useLayoutEffect } from 'react'
-import { StyleProp, TextStyle } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -20,52 +19,11 @@ import Placeholder from './placeholder'
 import { updateHeader } from './utils'
 import HeaderComponent from './header-component'
 import { statusBarEventsTypes } from './styles'
-
-type Props = {
-  /** 模式 */
-  mode?: 'float' | 'transition'
-
-  /** 是否锁定, 模式不为空时有效 */
-  fixed?: boolean
-
-  /** onScroll 垂直y坐标, 模式不为空时有效 */
-  y?: number
-
-  /** 标题 */
-  title?: string
-
-  /** 统计参数: [url地址, 对应页面key] */
-  hm?: string[]
-
-  /** 统计别名 */
-  alias?: string
-
-  /**
-   * 右侧element
-   * https://reactnavigation.org/docs/5.x/stack-navigator#headerright
-   */
-  headerRight?: React.ReactNode
-
-  /** 模式为 'transition' 时有效, 代替 title 显示 */
-  headerTitle?: React.ReactNode
-
-  /** 标题对齐 */
-  headerTitleAlign?: 'center' | 'left'
-
-  /** 标题样式 */
-  headerTitleStyle?: StyleProp<TextStyle>
-
-  /** 是否变动状态栏主题 */
-  statusBarEvents?: boolean
-
-  /** 预设的状态栏主题 */
-  statusBarEventsType?: 'Subject' | 'Topic' | 'Tinygrail'
-}
+import { HeaderProps } from './types'
 
 const Header = ({
   mode,
   fixed = false,
-  y = 0,
   title,
   hm,
   alias,
@@ -75,7 +33,7 @@ const Header = ({
   headerTitleStyle,
   statusBarEvents = true,
   statusBarEventsType
-}: Props) => {
+}: HeaderProps) => {
   const navigation = useNavigation()
   useLayoutEffect(() => {
     updateHeader({
@@ -122,7 +80,6 @@ const Header = ({
         {!!mode && (
           <HeaderComponent
             navigation={navigation}
-            y={y}
             fixed={fixed}
             title={title}
             statusBarEventsType={statusBarEventsType}

@@ -11,7 +11,9 @@
       "@utils": ["src/utils"],
       "@utils/*": ["src/utils/*"],
       "@constants": ["src/constants"],
-      "@constants/*": ["src/constants/*"]
+      "@constants/*": ["src/constants/*"],
+      "@types": ["src/types"],
+      "@types/*": ["src/types/*"]
     }
   },
   "exclude": ["node_modules", "dist", "android", "src/assets", "web"]

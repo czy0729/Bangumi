@@ -49,6 +49,12 @@
       ],
       "@utils/*": [
         "src/utils/*"
+      ],
+      "@types": [
+        "src/types"
+      ],
+      "@types/*": [
+        "src/types/*"
       ]
     },
     "allowJs": true,

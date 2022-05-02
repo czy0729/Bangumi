@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 14:13:33
+ * @Last Modified time: 2022-05-02 10:51:58
  */
 module.exports = {
   root: true,
@@ -27,8 +27,8 @@ module.exports = {
     'no-shadow': 0, // 允许相同变量名
     'max-len': ['error', 200],
     eqeqeq: 0,
-    'no-unused-vars': ['error', { ignoreRestSiblings: true }],
     'react/no-did-mount-set-state': 0,
-    'prefer-const': ['error', { ignoreReadBeforeAssign: true }]
+    'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
+    '@typescript-eslint/no-unused-vars': [2, { ignoreRestSiblings: true }]
   }
 }

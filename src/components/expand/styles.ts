@@ -1,12 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2022-05-01 14:39:50
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-05-01 14:39:50
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-05-02 09:23:34
  */
 import { _ } from '@stores'
 
-export default _.create({
+export const styles = _.create({
   container: {
     overflow: 'hidden'
   },

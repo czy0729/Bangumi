@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 00:53:59
+ * @Last Modified time: 2022-05-02 09:30:00
  */
 import { _ } from '@stores'
 
@@ -18,7 +18,7 @@ export default _.create({
 })
 
 export const colors = {
-  Subject: fixed => (_.isDark || !fixed ? '#fff' : '#000'),
+  Subject: (fixed: boolean) => (_.isDark || !fixed ? '#fff' : '#000'),
   Tinygrail: () => _.colorTinygrailPlain
 }
 
@@ -27,7 +27,7 @@ export const backgroundColors = {
 }
 
 export const statusBarEventsTypes = {
-  Subject: fixed => {
+  Subject: (fixed: boolean) => {
     return {
       barStyle: _.isDark || fixed ? 'dark-content' : 'light-content',
       backgroundColor: 'transparent',

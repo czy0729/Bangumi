@@ -3,29 +3,30 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-01 14:43:47
+ * @Last Modified time: 2022-05-02 10:07:07
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
-import { StyleProp, ViewStyle, View, Animated } from 'react-native'
+import { View, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useObserver } from 'mobx-react-lite'
 import { _ } from '@stores'
+import { ViewStyle, ReactNode } from '@types'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
-import styles from './styles'
+import { styles } from './styles'
 
 type Props = {
   /** 容器样式 */
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 
   /** 展开箭头样式 */
-  moreStyle?: StyleProp<ViewStyle>
+  moreStyle?: ViewStyle
 
   /** 比例 */
   ratio?: number
 
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export const Expand = ({ style, moreStyle, ratio = 1, children }: Props) => {
