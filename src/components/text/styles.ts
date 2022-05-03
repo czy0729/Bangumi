@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-01 13:01:17
+ * @Last Modified time: 2022-05-03 11:19:40
  */
 import { _ } from '@stores'
 import { IOS } from '@constants'
@@ -34,7 +34,7 @@ export default _.memoStyles(() => ({
   shadow: {
     textShadowOffset: {
       width: 1,
-      hegith: 1
+      height: 1
     },
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.24)'

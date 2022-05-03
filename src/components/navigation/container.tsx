@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 18:02:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 23:06:19
+ * @Last Modified time: 2022-05-02 14:30:07
  */
 import React, { useRef, useEffect } from 'react'
 import { useObserver } from 'mobx-react-lite'
@@ -11,11 +11,16 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { NavigationContainer as NContainer } from '@react-navigation/native'
 import { _ } from '@stores'
 import { navigationReference } from '@utils'
+import { ReactNode } from '@types'
+
+type Props = {
+  children: ReactNode
+}
 
 const enabledLimit = 5
 let enabled = false
 
-export const NavigationContainer = ({ children }) => {
+export const NavigationContainer = ({ children }: Props) => {
   const navigationRef = useRef(null)
   useEffect(() => {
     const unsubscribe = navigationRef.current?.addListener('state', e => {

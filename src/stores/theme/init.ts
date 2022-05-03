@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-13 16:33:39
+ * @Last Modified time: 2022-05-02 15:58:17
  */
 import _ from '@styles'
 
 export type themeWindowType = {
-  width: number,
-  maxWidth: number,
-  contentWidth: number,
+  width: number
+  maxWidth: number
+  contentWidth: number
   height: number
 }
-
-export type memoStylesType = <T>(styles: T, dev?: boolean) => T
 
 export const NAMESPACE = 'Theme'
 

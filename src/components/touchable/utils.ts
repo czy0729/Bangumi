@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:17:48
+ * @Last Modified time: 2022-05-03 11:47:11
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,11 @@ export const defaultHitSlop = {
 
 export const styles = _.create({
   touchable: {
-    ..._.absoluteFill,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     zIndex: 1
   }
 })
@@ -25,8 +29,11 @@ export const styles = _.create({
  * @param {*} functionTobeCalled
  */
 let isCalled = false
-let timer
-export function callOnceInInterval(functionTobeCalled, interval = 80) {
+let timer: number
+export function callOnceInInterval(
+  functionTobeCalled: (event?: any) => any,
+  interval = 80
+) {
   if (!isCalled) {
     isCalled = true
     clearTimeout(timer)
@@ -44,7 +51,6 @@ export function callOnceInInterval(functionTobeCalled, interval = 80) {
 /**
  * 分离出containerStyle
  * @param {*} styles
- * @returns
  */
 export function separateStyles(styles) {
   const {

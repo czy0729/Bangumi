@@ -4,13 +4,32 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 08:05:48
+ * @Last Modified time: 2022-05-03 11:16:54
  */
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { ViewStyle, TextStyle, ColorValue } from '@types'
 import { SegmentedControlTab } from './segmented-control-tab'
+import { TextType } from '../text'
+import { styles } from './styles'
+
+type Props = {
+  style?: ViewStyle
+  styleExtra?: ViewStyle
+  fontStyle?: TextStyle
+  activeFontStyle?: TextStyle
+  type?: TextType
+  size?: number
+  values?: []
+  selectedIndex?: number
+  enabled?: boolean
+  tintColor?: ColorValue
+  backgroundColor?: ColorValue
+  onChange?: (event?: any) => any
+  onValueChange?: (value?: any) => any
+}
 
 /**
  * SegmentedControl
@@ -22,10 +41,6 @@ const SegmentedControlComp = ({
   selectedIndex,
   enabled = true,
   tintColor,
-  fontStyle = {
-    fontSize: 14
-  },
-  activeFontStyle,
   backgroundColor,
   onChange,
   onValueChange,
@@ -34,7 +49,7 @@ const SegmentedControlComp = ({
   styleExtra,
   type,
   size
-}) => {
+}: Props) => {
   // 组件内缓存一层, 使UI能尽快响应
   const [_selectedIndex, _setSelectedIndex] = useState(selectedIndex)
   const [segmentWidth, setSegmentWidth] = useState(0)
@@ -108,17 +123,14 @@ const SegmentedControlComp = ({
         />
       ) : null}
       {values &&
-        values.map((value, index) => (
+        values.map((value: string, index: number) => (
           <SegmentedControlTab
             key={index}
-            enabled={enabled}
-            selected={_selectedIndex === index}
             value={value}
-            tintColor={tintColor}
-            fontStyle={fontStyle}
             type={type}
             size={size}
-            activeFontStyle={activeFontStyle}
+            enabled={enabled}
+            selected={_selectedIndex === index}
             onSelect={() => {
               handleChange(index)
             }}
@@ -128,32 +140,8 @@ const SegmentedControlComp = ({
   )
 }
 
-const styles = _.create({
-  default: {
-    position: 'relative',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignContent: 'center',
-    width: Math.max(parseInt(_.window.contentWidth / 1.88), 168),
-    height: 36,
-    backgroundColor: '#eee',
-    borderRadius: 5
-  },
-  disabled: {
-    opacity: 0.4
-  },
-  slider: {
-    position: 'absolute',
-    top: 1,
-    bottom: 1,
-    right: 1,
-    left: 1,
-    borderRadius: 5
-  }
-})
-
 export const SegmentedControl = observer(
-  ({ tintColor, fontStyle, activeFontStyle, backgroundColor, ...other }) => (
+  ({ tintColor, fontStyle, activeFontStyle, backgroundColor, ...other }: Props) => (
     <SegmentedControlComp
       tintColor={tintColor || _.select(_.colorPlain, _._colorDarkModeLevel2)}
       backgroundColor={backgroundColor || _.colorBg}

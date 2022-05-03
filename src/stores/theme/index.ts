@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 12:00:45
+ * @Last Modified time: 2022-05-02 17:50:30
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -11,9 +11,9 @@ import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
 import _ from '@styles'
+import { ColorValue } from '@types'
 import systemStore from '../system'
 import {
-  memoStyles,
   NAMESPACE,
   DEFAULT_MODE,
   DEFAULT_TINYGRAIL_MODE,
@@ -33,12 +33,16 @@ class Theme extends store {
   }
 
   /** TS fixed */
-  headerHeight = _.headerHeight
-  isPad = _.isPad
-  lineHeightRatio = _.lineHeightRatio
-  md = _.md
-  radiusSm = _.radiusSm
-  statusBarHeight = _.statusBarHeight
+  isPad: boolean = _.isPad
+
+  sm: number = _.sm
+  md: number = _.md
+  lg: number = _.lg
+  radiusSm: number = _.radiusSm
+
+  headerHeight: number = _.headerHeight
+  statusBarHeight: number = _.statusBarHeight
+  lineHeightRatio: number = _.lineHeightRatio
 
   /** 缩短引用 */
   absoluteFill = StyleSheet.absoluteFill
@@ -108,7 +112,7 @@ class Theme extends store {
     return this.isLandscape ? this.state.landscapeWindow : this.state.window
   }
 
-  @computed get wind() {
+  @computed get wind(): number {
     return this.isLandscape ? this.state.landscapeWind : this.state.wind
   }
 
@@ -241,7 +245,7 @@ class Theme extends store {
       : _._colorDarkModeLevel1Hex
   }
 
-  @computed get _colorDarkModeLevel2() {
+  @computed get _colorDarkModeLevel2(): ColorValue {
     return this.deepDark
       ? _._colorThemeDeepDark.colorDarkModeLevel2
       : _._colorDarkModeLevel2
@@ -357,12 +361,12 @@ class Theme extends store {
    */
   @computed get parallaxImageHeight() {
     if (this.isMobileLanscape) return 200
-    return Math.min(parseInt(this.window.width * 0.68), this.device(288, 380))
+    return Math.min(Number(this.window.width * 0.68), this.device(288, 380))
   }
 
   // -------------------- tool styles --------------------
   @computed get container() {
-    return this.create({
+    return StyleSheet.create({
       /**
        * 特殊布局, background与item应配合使用
        * 安卓为了防止过渡绘制, 全局底色为白色, 所以Item为白色时可以使用透明
@@ -801,8 +805,12 @@ class Theme extends store {
    *
    *  - 支持key名为current的对象懒计算
    */
-  memoStyles: memoStyles = (styles: () => {}, dev: boolean = false) => {
+  memoStyles = <T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>>(
+    styles: () => T,
+    dev: boolean = false
+  ): (() => T) => {
     const item = getMemoStylesId()
+
     return () => {
       if (
         !item._mode ||
@@ -820,15 +828,16 @@ class Theme extends store {
         const computedStyles = styles(this)
         if (computedStyles.current) {
           const { current, ...otherStyles } = computedStyles
-          item._styles = this.create(otherStyles)
+          item._styles = StyleSheet.create(otherStyles)
           item._styles.current = current
         } else {
-          item._styles = this.create(computedStyles)
+          item._styles = StyleSheet.create(computedStyles)
         }
 
         if (dev) log(item)
       }
-      return item._styles
+
+      return item._styles as T
     }
   }
 }

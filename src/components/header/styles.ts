@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 09:30:00
+ * @Last Modified time: 2022-05-03 10:56:49
  */
 import { _ } from '@stores'
 
-export default _.create({
+export const styles = _.create({
   touch: {
     borderRadius: 20,
     overflow: 'hidden'

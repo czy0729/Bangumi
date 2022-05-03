@@ -5,17 +5,24 @@
  * @Author: czy0729
  * @Date: 2022-03-07 14:45:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-07 15:00:43
+ * @Last Modified time: 2022-05-02 14:28:34
  */
 import { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
+
+type Props = {
+  onWillFocus?: () => any
+  onDidFocus?: () => any
+  onWillBlur?: () => any
+  onDidBlur?: () => any
+}
 
 export const NavigationEvents = ({
   onWillFocus,
   onDidFocus,
   onWillBlur,
   onDidBlur
-}) => {
+}: Props) => {
   const navigation = useNavigation()
 
   useEffect(() => {

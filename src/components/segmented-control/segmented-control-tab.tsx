@@ -2,20 +2,41 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:50:54
+ * @Last Modified time: 2022-05-03 11:15:16
  */
-import * as React from 'react'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
-import { Text } from '../text'
+import React from 'react'
+import { View, TouchableOpacity } from 'react-native'
+import { _ } from '@stores'
+import { Text, TextType } from '../text'
+
+type Props = {
+  /** Tab 文字 */
+  value: string
+
+  /** <Text> type */
+  type?: TextType
+
+  /** <Text> size */
+  size?: number
+
+  /** 是否启用 */
+  enabled?: boolean
+
+  /** 是否选择 */
+  selected?: boolean
+
+  /** 选择回调 */
+  onSelect?: () => any
+}
 
 export const SegmentedControlTab = ({
-  onSelect,
   value,
+  type = 'title',
+  size = 14,
   enabled,
   selected,
-  type = 'title',
-  size = 14
-}) => (
+  onSelect
+}: Props) => (
   <TouchableOpacity style={styles.container} disabled={!enabled} onPress={onSelect}>
     <View style={styles.default}>
       <Text type={type} size={size} bold={selected}>
@@ -25,7 +46,7 @@ export const SegmentedControlTab = ({
   </TouchableOpacity>
 )
 
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     flex: 1,
     borderRadius: 5

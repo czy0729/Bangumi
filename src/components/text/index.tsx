@@ -3,40 +3,43 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-01 14:50:36
+ * @Last Modified time: 2022-05-03 11:30:44
  */
 import React from 'react'
-import { Text as RNText, StyleProp, TextStyle } from 'react-native'
+import { Text as RNText } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
+import { TextStyle } from '@types'
 import { PAD_INCREASE, computedLineHeight, format } from './utils'
 import memoStyles from './styles'
 
+export type TextType =
+  | 'plain'
+  | '__plain__'
+  | 'main'
+  | 'primary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'title'
+  | 'desc'
+  | 'sub'
+  | 'icon'
+  | 'border'
+  | 'avatar'
+  | 'bid'
+  | 'ask'
+  | 'tinygrailPlain'
+  | 'tinygrailText'
+  | 'tinygrailIcon'
+
 type Props = {
   /** 样式 */
-  style?: StyleProp<TextStyle>
+  style?: TextStyle
 
   /** 预设主题色 */
-  type?:
-    | 'plain'
-    | '__plain__'
-    | 'main'
-    | 'primary'
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'title'
-    | 'desc'
-    | 'sub'
-    | 'icon'
-    | 'border'
-    | 'avatar'
-    | 'bid'
-    | 'ask'
-    | 'tinygrailPlain'
-    | 'tinygrailText'
-    | 'tinygrailIcon'
+  type?: TextType
 
   /** 大小 */
   size?: number
@@ -91,7 +94,8 @@ function CompText(
   { lineHeightIncrease: contextLineHeightIncrease = 0 }: Context
 ) {
   const styles = memoStyles()
-  const _style = [styles.text]
+  const _style: TextStyle[] = [styles.text]
+
   if (type) _style.push(styles[type])
   if (underline) _style.push(styles.underline)
   if (size) _style.push(_[`fontSize${size + _.device(0, PAD_INCREASE)}`])
@@ -111,6 +115,7 @@ function CompText(
   if (bold) _style.push(styles.bold)
   if (shadow) _style.push(styles.shadow)
   if (style) _style.push(style)
+
   return (
     <RNText
       style={_style}

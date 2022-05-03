@@ -3,17 +3,18 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-01 14:50:19
+ * @Last Modified time: 2022-05-02 14:31:07
  */
 import React from 'react'
-import { View, StyleProp, ViewStyle, ColorValue } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { ViewStyle, ColorValue, ReactNode } from '@types'
 import { Loading } from '../loading'
 
 type Props = {
   /** 样式 */
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 
   /** 是否加载中，通常传入 store._loaded */
   loaded?: boolean | string | number
@@ -22,7 +23,7 @@ type Props = {
   loadingColor?: ColorValue
 
   /** 页面结构 */
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export const Page = observer(

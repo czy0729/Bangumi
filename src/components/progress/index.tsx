@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-20 19:11:23
+ * @Last Modified time: 2022-05-02 18:02:31
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -13,21 +13,38 @@ import Animated, {
   withTiming,
   Easing
 } from 'react-native-reanimated'
-import { _ } from '@stores'
 import { Flex } from '../flex'
 import { Text } from '../text'
+import { memoStyles } from './styles'
+
+type Props = {
+  /** 容器长度 */
+  width?: number
+
+  /** 是否显示 */
+  show?: boolean
+
+  /** 提示文字 */
+  message?: string
+
+  /** 当前计数 */
+  current: number
+
+  /** 总计数 */
+  total: number
+}
 
 export const Progress = ({
-  width = 180,
+  width = 200,
   show = false,
   message = '请求中',
   current = 0,
   total = 1
-}) => {
+}: Props) => {
   const w = useSharedValue(current / (total || 1))
   const barStyle = useAnimatedStyle(() => {
     return {
-      width: withTiming(parseInt(w.value * width), {
+      width: withTiming(Number(w.value * width), {
         duration: 80,
         easing: Easing.linear
       })
@@ -64,32 +81,3 @@ export const Progress = ({
     )
   })
 }
-
-const memoStyles = _.memoStyles(() => ({
-  progress: {
-    position: 'absolute',
-    zIndex: 1000,
-    right: _.wind,
-    bottom: _.lg,
-    paddingTop: _.sm,
-    paddingHorizontal: _.sm + 4,
-    paddingBottom: _.sm + 6,
-    backgroundColor: _.select('#ffffff', _._colorDarkModeLevel2),
-    elevation: _.select(16, 0),
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  bar: {
-    position: 'absolute',
-    zIndex: 1001,
-    right: 0,
-    bottom: 0,
-    left: 0
-  },
-  barActive: {
-    height: 6,
-    backgroundColor: 'rgb(0, 173, 146)',
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-}))

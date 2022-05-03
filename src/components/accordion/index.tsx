@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 10:06:16
+ * @Last Modified time: 2022-05-03 10:54:07
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
-import { _ } from '@stores'
 import { runAfter } from '@utils'
 import { ViewStyle, ReactNode } from '@types'
+import { styles } from './styles'
 
 type Props = {
   /** ViewStyle */
@@ -83,9 +83,3 @@ export const Accordion = ({ style, expand = false, lazy = true, children }: Prop
     </Animated.View>
   )
 }
-
-const styles = _.create({
-  container: {
-    overflow: 'hidden'
-  }
-})

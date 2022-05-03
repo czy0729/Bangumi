@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:56:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 11:21:47
+ * @Last Modified time: 2022-05-03 10:56:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,7 @@ import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
 import { Popover as CompPopover } from '../popover'
 import { Menu } from '../menu'
-import styles from './styles'
+import { styles } from './styles'
 
 type Props = {
   /** 图标名字 */
