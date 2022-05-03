@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 17:22:48
+ * @Last Modified time: 2022-05-03 19:56:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Button, Icon, Text, Touchable, Iconfont, Heatmap } from '@components'
+import { Flex, Button, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { getType, getRating } from '@utils/app'
@@ -115,7 +115,12 @@ const Box = memo(
                       type = 'ios-star-outline'
                     }
                     return (
-                      <Icon key={item} name={type} size={16} color={_.__colorPlain__} />
+                      <Iconfont
+                        key={item}
+                        name={type}
+                        size={16}
+                        color={_.__colorPlain__}
+                      />
                     )
                   })}
                 </Button>

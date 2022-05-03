@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-03-07 20:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 17:59:51
+ * @Last Modified time: 2022-05-03 19:56:38
  */
 import React from 'react'
-import { Icon } from '@components'
+import { Iconfont } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
@@ -24,7 +24,7 @@ function Stars({ value, size }) {
         new Array(sun)
           .fill('')
           .map((item, index) => (
-            <Icon
+            <Iconfont
               key={index}
               style={style}
               name='ios-sunny'
@@ -36,7 +36,7 @@ function Stars({ value, size }) {
         new Array(moon)
           .fill('')
           .map((item, index) => (
-            <Icon
+            <Iconfont
               key={index}
               style={style}
               name='ios-moon'
@@ -48,7 +48,7 @@ function Stars({ value, size }) {
         new Array(star)
           .fill('')
           .map((item, index) => (
-            <Icon
+            <Iconfont
               key={index}
               style={style}
               name='ios-star'

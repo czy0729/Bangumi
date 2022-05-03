@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 16:09:48
+ * @Last Modified time: 2022-05-03 18:44:54
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -10,7 +10,7 @@ import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
-import _ from '@styles'
+import _, { mt } from '@styles'
 import { ColorValue } from '@types'
 import systemStore from '../system'
 import {
@@ -35,6 +35,7 @@ class Theme extends store {
   /** TS fixed */
   isPad: boolean = _.isPad
 
+  xs: number = _.xs
   sm: number = _.sm
   md: number = _.md
   lg: number = _.lg
@@ -44,8 +45,9 @@ class Theme extends store {
   radiusLg: number = _.radiusLg
   _wind: number = _._wind
 
-  headerHeight: number = _.headerHeight
   statusBarHeight: number = _.statusBarHeight
+  headerHeight: number = _.headerHeight
+  tabsHeight: number = _.tabsHeight
   lineHeightRatio: number = _.lineHeightRatio
 
   colorPrimaryLight: ColorValue = _.colorPrimaryLight
@@ -54,6 +56,8 @@ class Theme extends store {
   colorPrimaryBorder: ColorValue = _.colorPrimaryBorder
   colorSuccessBorder: ColorValue = _.colorSuccessBorder
   colorShadow: ColorValue = _.colorShadow
+
+  mt = mt
 
   /** 缩短引用 */
   absoluteFill = StyleSheet.absoluteFill

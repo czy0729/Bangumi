@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-03-18 11:01:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-21 00:56:44
+ * @Last Modified time: 2022-05-03 19:58:41
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import ExpoIcon from '@components/@/vector-icons/MaterialIcons'
 import { _ } from '@stores'
+import { Props } from './types'
 
-export const MD = observer(
-  ({ style, name, size = 22, lineHeight, color, ...other }) => (
+export const Material = observer(
+  ({ style, name, size = 22, lineHeight, color, ...other }: Props) => (
     <ExpoIcon
       style={[
         {

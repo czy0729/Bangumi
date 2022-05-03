@@ -3,26 +3,27 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-14 16:57:27
+ * @Last Modified time: 2022-05-03 19:59:06
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import Icons from '@components/@/vector-icons/AntDesign'
 import { _ } from '@stores'
 import { PAD } from '@constants'
-import { Icon } from './icon'
-import { MD } from './md'
+import { Ionicons } from './ionicons'
+import { Material } from './material'
+import { Props } from './types'
 
-const padIncrease = PAD === 2 ? 4 : 2
+const PAD_INCREASE = PAD === 2 ? 4 : 2
 
 export const Iconfont = observer(
-  ({ style, name, size = 22, lineHeight, color, ...other }) => {
-    const _size = size + _.fontSizeAdjust + (_.isPad ? padIncrease : 0)
+  ({ style, name = '', size = 22, lineHeight, color, ...other }: Props) => {
+    const _size = size + _.fontSizeAdjust + _.device(0, PAD_INCREASE)
     const _lineHeight = lineHeight + _.fontSizeAdjust
 
     if (name.indexOf('md-') === 0) {
       return (
-        <MD
+        <Material
           style={style}
           name={name.replace('md-', '')}
           size={_size}
@@ -35,7 +36,7 @@ export const Iconfont = observer(
 
     if (name.indexOf('ios-') === 0) {
       return (
-        <Icon
+        <Ionicons
           style={style}
           name={name}
           size={_size}

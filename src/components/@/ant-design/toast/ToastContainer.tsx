@@ -2,21 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 04:54:44
+ * @Last Modified time: 2022-05-03 19:55:35
  */
 import React from 'react'
-import {
-  ActivityIndicator,
-  Animated,
-  Text,
-  View,
-  TouchableOpacity
-} from 'react-native'
+import { ActivityIndicator, Animated, Text, View, TouchableOpacity } from 'react-native'
 import Icon, { IconNames } from '@ant-design/react-native/lib/icon'
 import { WithTheme, WithThemeStyles } from '@ant-design/react-native/lib/style'
-import ToastStyles, {
-  ToastStyle
-} from '@ant-design/react-native/lib/toast/style/index'
+import ToastStyles, { ToastStyle } from '@ant-design/react-native/lib/toast/style/index'
 import { getThemeStoreAsync } from '@utils/async'
 import { IOS } from '@constants'
 
