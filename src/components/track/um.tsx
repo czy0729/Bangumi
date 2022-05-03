@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-26 20:10:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 21:17:39
+ * @Last Modified time: 2022-05-03 12:16:32
  */
 import React from 'react'
 import { NativeModules } from 'react-native'
@@ -13,11 +13,14 @@ import { NavigationEvents } from '../navigation/events'
 
 const { UMAnalyticsModule } = NativeModules
 
-function UM({
-  /* 页面的名称 (中文) */
-  title = ''
-}) {
+type Props = {
+  /** 页面的名称 (中文) */
+  title: string
+}
+
+function UM({ title = '' }: Props) {
   if (IOS || !title) return null
+
   return (
     <NavigationEvents
       onDidFocus={() => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 17:50:30
+ * @Last Modified time: 2022-05-03 16:09:48
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -38,16 +38,28 @@ class Theme extends store {
   sm: number = _.sm
   md: number = _.md
   lg: number = _.lg
+  bottom: number = _.bottom
+  radiusXs: number = _.radiusXs
   radiusSm: number = _.radiusSm
+  radiusLg: number = _.radiusLg
+  _wind: number = _._wind
 
   headerHeight: number = _.headerHeight
   statusBarHeight: number = _.statusBarHeight
   lineHeightRatio: number = _.lineHeightRatio
 
+  colorPrimaryLight: ColorValue = _.colorPrimaryLight
+  colorSuccessLight: ColorValue = _.colorSuccessLight
+  colorMainBorder: ColorValue = _.colorMainBorder
+  colorPrimaryBorder: ColorValue = _.colorPrimaryBorder
+  colorSuccessBorder: ColorValue = _.colorSuccessBorder
+  colorShadow: ColorValue = _.colorShadow
+
   /** 缩短引用 */
   absoluteFill = StyleSheet.absoluteFill
   create = StyleSheet.create
   flatten = StyleSheet.flatten
+  hairlineWidth = StyleSheet.hairlineWidth
 
   /** store */
   state = observable({
@@ -141,27 +153,27 @@ class Theme extends store {
     return systemStore.setting.autoColorScheme
   }
 
-  @computed get colorMain() {
+  @computed get colorMain(): ColorValue {
     return this.state.colorMain
   }
 
-  @computed get colorMainLight() {
+  @computed get colorMainLight(): ColorValue {
     return this.state.colorMainLight
   }
 
-  @computed get colorPrimary() {
+  @computed get colorPrimary(): ColorValue {
     return this.state.colorPrimary
   }
 
-  @computed get colorSuccess() {
+  @computed get colorSuccess(): ColorValue {
     return this.state.colorSuccess
   }
 
-  @computed get colorYellow() {
+  @computed get colorYellow(): ColorValue {
     return this.state.colorYellow
   }
 
-  @computed get colorWarning() {
+  @computed get colorWarning(): ColorValue {
     return this.state.colorWarning
   }
 
@@ -169,19 +181,19 @@ class Theme extends store {
     return this.state.colorPlainRaw
   }
 
-  @computed get colorPlain() {
+  @computed get colorPlain(): ColorValue {
     return this.state.colorPlain
   }
 
-  @computed get __colorPlain__() {
+  @computed get __colorPlain__(): ColorValue {
     return _.colorPlain
   }
 
-  @computed get __colorBg__() {
+  @computed get __colorBg__(): ColorValue {
     return _.colorBg
   }
 
-  @computed get colorWait() {
+  @computed get colorWait(): ColorValue {
     return this.state.colorWait
   }
 
@@ -193,11 +205,11 @@ class Theme extends store {
     return this.state.colorAvatar
   }
 
-  @computed get colorBg() {
+  @computed get colorBg(): ColorValue {
     return this.state.colorBg
   }
 
-  @computed get colorBorder() {
+  @computed get colorBorder(): ColorValue {
     return this.state.colorBorder
   }
 
@@ -205,27 +217,27 @@ class Theme extends store {
     return this.state.colorTitleRaw
   }
 
-  @computed get colorTitle() {
+  @computed get colorTitle(): ColorValue {
     return this.state.colorTitle
   }
 
-  @computed get colorDesc() {
+  @computed get colorDesc(): ColorValue {
     return this.state.colorDesc
   }
 
-  @computed get colorSub() {
+  @computed get colorSub(): ColorValue {
     return this.state.colorSub
   }
 
-  @computed get colorDisabled() {
+  @computed get colorDisabled(): ColorValue {
     return this.state.colorDisabled
   }
 
-  @computed get colorIcon() {
+  @computed get colorIcon(): ColorValue {
     return this.state.colorIcon
   }
 
-  @computed get colorHighLight() {
+  @computed get colorHighLight(): ColorValue {
     return this.state.colorHighLight
   }
 

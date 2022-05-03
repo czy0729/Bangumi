@@ -2,18 +2,39 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 04:13:12
+ * @Last Modified time: 2022-05-03 15:27:47
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'
 import { _ } from '@stores'
 import { useObserver, useBackHandler } from '@utils/hooks'
 import { IOS } from '@constants'
-import { Portal } from './portal'
-import { ScrollView } from './scroll-view'
-import { Touchable } from './touchable'
+import { ReactNode } from '@types'
+import { Portal } from '../portal'
+import { ScrollView } from '../scroll-view'
+import { Touchable } from '../touchable'
+import { memoStyles } from './styles'
 
-export const ActionSheet = ({ show = false, height = 400, onClose, children }) => {
+type Props = {
+  /** 是否显示 */
+  show?: boolean
+
+  /** 高度，不会超过屏幕高度的88% */
+  height?: number
+
+  /** 关闭回调函数 */
+  onClose?: () => any
+
+  /** 内容 */
+  children: ReactNode
+}
+
+export const ActionSheet = ({
+  show = false,
+  height = 400,
+  onClose,
+  children
+}: Props) => {
   const [y] = useState(new Animated.Value(0))
   const [_show, _setShow] = useState(show)
 
@@ -116,41 +137,3 @@ export const ActionSheet = ({ show = false, height = 400, onClose, children }) =
     )
   })
 }
-
-const memoStyles = _.memoStyles(() => ({
-  actionSheet: {
-    position: 'absolute',
-    zIndex: 2,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  },
-  wrap: {
-    position: 'absolute',
-    zIndex: 3,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  },
-  mask: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.64)'
-  },
-  content: {
-    position: 'absolute',
-    zIndex: 4,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderTopRightRadius: _.radiusLg,
-    borderTopLeftRadius: _.radiusLg,
-    overflow: 'hidden'
-  },
-  body: {
-    paddingVertical: _.md,
-    paddingHorizontal: _.wind - _._wind
-  }
-}))

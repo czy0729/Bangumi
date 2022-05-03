@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-13 01:32:07
+ * @Last Modified time: 2022-05-03 12:10:39
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import { DEV, HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants'
@@ -39,7 +39,7 @@ function xhr(si, u) {
  * @param {*} url
  * @param {*} screen
  */
-export function hm(url, screen) {
+export function hm(url?: string, screen?: string) {
   if (DEV) return
 
   try {

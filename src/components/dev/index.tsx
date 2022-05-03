@@ -1,17 +1,19 @@
 /*
+ * 开发用：主动热更新按钮
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 12:18:37
+ * @Last Modified time: 2022-05-03 16:11:31
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { DEV as dev } from '@constants'
-import { Flex } from './flex'
-import { Touchable } from './touchable'
-import { Iconfont } from './iconfont'
+import { Flex } from '../flex'
+import { Touchable } from '../touchable'
+import { Iconfont } from '../iconfont'
+import { memoStyles } from './styles'
 
 export const DEV = observer(() => {
   if (!dev) return null
@@ -27,22 +29,3 @@ export const DEV = observer(() => {
     </View>
   )
 })
-
-const memoStyles = _.memoStyles(() => ({
-  dev: {
-    position: 'absolute',
-    zIndex: 1000,
-    right: _.wind,
-    bottom: 64
-  },
-  touch: {
-    backgroundColor: _.colorTitle,
-    borderRadius: 20,
-    overflow: 'hidden',
-    opacity: 0.8
-  },
-  icon: {
-    width: 40,
-    height: 40
-  }
-}))

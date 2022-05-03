@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 23:09:58
+ * @Last Modified time: 2022-05-03 15:42:24
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -12,6 +12,7 @@ import { initHashSubjectOTA, initHashAvatarOTA, CDN_OSS_SUBJECT } from '@constan
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import { Navigation } from '@types'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
 import { rerender, globalLog, globalWarn } from './dev'
@@ -171,8 +172,8 @@ export function x18s(str) {
  * 保存navigation引用
  * @param {*} navigation
  */
-let _navigationReference
-export function navigationReference(navigation) {
+let _navigationReference: Navigation | undefined
+export function navigationReference(navigation?: Navigation | undefined) {
   if (navigation) {
     _navigationReference = navigation
     if (!_navigationReference.push)

@@ -1,95 +1,16 @@
 /*
- * 自定义按钮
  * @Author: czy0729
- * @Date: 2019-03-15 02:32:29
+ * @Date: 2022-05-03 15:49:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-20 14:05:05
+ * @Last Modified time: 2022-05-03 16:03:09
  */
-import React from 'react'
-import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { titleCase } from '@utils'
-import { IOS, PAD } from '@constants'
-import { Activity } from './activity'
-import { Flex } from './flex'
-import { Text } from './text'
-import { Touchable } from './touchable'
+import { PAD } from '@constants'
 
-const padIncrease = PAD === 2 ? 3 : 2
+const PAD_INCREASE = PAD === 2 ? 3 : 2
 
-export const Button = observer(
-  ({
-    style,
-    styleText,
-    type = 'plain',
-    size = 'md',
-    shadow = false,
-    radius = true,
-    loading = false,
-    children,
-    extra,
-    onPress,
-    ...other
-  }) => {
-    const styles = memoStyles(_.mode)
-    const _wrap = [styles.button]
-    const _text = [styles.text]
-    if (shadow && !_.isDark) _wrap.push(styles.shadow)
-    if (type) {
-      _wrap.push(styles[type])
-      _text.push(styles[`text${titleCase(type)}`])
-    }
-    if (size) {
-      _wrap.push(styles[size])
-      _text.push(styles[`text${titleCase(size)}`])
-    }
-    if (radius) _wrap.push(styles.radius)
-    if (style) _wrap.push(style)
-
-    const content = (
-      <Flex justify='center'>
-        {loading && (
-          <View style={_.scale}>
-            <Activity
-              color={type === 'plain' ? 'rgb(128, 128, 128)' : 'white'}
-              size='small'
-            />
-          </View>
-        )}
-        <Text
-          style={[
-            // 部分安卓机不写具体width会导致文字显示不全
-            size === 'sm' && styles.androidFixed,
-            _text,
-            styleText
-          ]}
-          align='center'
-          selectable={false}
-        >
-          {children}
-        </Text>
-        {extra}
-      </Flex>
-    )
-
-    if (onPress) {
-      return (
-        <Touchable style={_wrap} onPress={onPress} {...other}>
-          {content}
-        </Touchable>
-      )
-    }
-
-    return (
-      <View style={_wrap} {...other}>
-        {content}
-      </View>
-    )
-  }
-)
-
-const memoStyles = _.memoStyles(_ => ({
+export const memoStyles = _.memoStyles(() => ({
+  // base
   button: {
     display: 'flex',
     flexDirection: 'row',
@@ -157,10 +78,10 @@ const memoStyles = _.memoStyles(_ => ({
 
   // text
   text: {
-    fontSize: 14 + _.fontSizeAdjust + (_.isPad ? padIncrease : 0)
+    fontSize: 14 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0)
   },
   textSm: {
-    fontSize: 12 + _.fontSizeAdjust + (_.isPad ? padIncrease : 0),
+    fontSize: 12 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0),
     fontWeight: 'bold'
   },
   textPlain: {
@@ -204,6 +125,7 @@ const memoStyles = _.memoStyles(_ => ({
   shadow: {
     shadowColor: _.colorShadow,
     shadowOffset: {
+      width: 1,
       height: 3
     },
     shadowOpacity: 0.16,
@@ -212,7 +134,14 @@ const memoStyles = _.memoStyles(_ => ({
   },
   radius: {
     borderRadius: _.radiusXs,
-    overflow: IOS ? undefined : 'hidden'
+    overflow: _.ios(undefined, 'hidden')
+  },
+  scale: {
+    transform: [
+      {
+        scale: 0.64
+      }
+    ]
   },
   androidFixed: {
     width: 32

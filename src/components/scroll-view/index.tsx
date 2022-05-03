@@ -2,11 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:48:42
+ * @Last Modified time: 2022-05-03 15:35:58
  */
 import React, { useRef } from 'react'
-import { ScrollView as RNScrollView } from 'react-native'
-import { ScrollToTop } from './scroll-to-top'
+import { ScrollView as RNScrollView, ScrollViewProps } from 'react-native'
+import { Expand, ReactNode } from '@types'
+import { ScrollToTop } from '../scroll-to-top'
+
+type Props = Expand<
+  ScrollViewProps & {
+    /** 是否启用点击顶部滚动到顶（安卓 only） */
+    scrollToTop?: boolean
+
+    children?: ReactNode
+  }
+>
 
 export const ScrollView = ({
   scrollToTop,
@@ -17,7 +27,7 @@ export const ScrollView = ({
   },
   children,
   ...other
-}) => {
+}: Props) => {
   const scrollViewEl = useRef(null)
   return (
     <RNScrollView
