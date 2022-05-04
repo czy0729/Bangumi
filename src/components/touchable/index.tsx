@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 11:53:18
+ * @Last Modified time: 2022-05-03 21:02:09
  */
 import React from 'react'
 import {
@@ -59,6 +59,8 @@ type Props = {
 
   /** onPressOut 之后调用 */
   onPress?: (event?: any) => any
+
+  onLongPress?: (event?: any) => any
 
   children?: ReactNode
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-11 14:58:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:03:24
+ * @Last Modified time: 2022-05-03 22:41:58
  */
 import { useEffect } from 'react'
 import { Linking } from 'react-native'
@@ -18,7 +18,8 @@ function navigate(url) {
       navigation,
       {},
       {
-        id: '其他.Linking'
+        id: '其他.Linking',
+        data: undefined
       },
       false
     )

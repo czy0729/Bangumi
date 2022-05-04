@@ -10,12 +10,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 04:28:35
+ * @Last Modified time: 2022-05-03 21:18:40
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
 import { CacheManager, Image as AnimatedImage } from 'react-native-expo-image-cache'
-import { computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
@@ -26,7 +25,9 @@ import { MODEL_SETTING_QUALITY } from '@constants/model'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Text } from '../text'
-import ImageComponent from './image'
+import CompImage from './image'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
 const defaultHeaders = {
   Referer: `${HOST}/`
@@ -34,22 +35,22 @@ const defaultHeaders = {
 const maxErrorCount = 2 // 最大失败重试次数
 
 export const Image = observer(
-  class extends React.Component {
+  class extends React.Component<Props> {
     static defaultProps = {
       style: undefined,
-      imageStyle: undefined, // 强制传递给图片的样式
+      imageStyle: undefined,
       src: undefined,
-      size: 40, // 大小|宽度
-      height: undefined, // 高度
-      border: false, // 边框
+      size: 40,
+      height: undefined,
+      border: false,
       borderWidth: _.hairlineWidth,
-      radius: undefined, // 圆角
-      shadow: false, // 阴影
-      placeholder: true, // 是否有底色
-      autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
-      quality: true, // 是否自动选择Bangumi图片质量
-      imageViewer: false, // 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress
-      imageViewerSrc: undefined, // 若有值, 打开ImageViewer时使用此src
+      radius: undefined,
+      shadow: false,
+      placeholder: true,
+      autoSize: 0,
+      quality: true,
+      imageViewer: false,
+      imageViewerSrc: undefined,
       event: EVENT,
       delay: true,
       cache: true,
@@ -103,13 +104,10 @@ export const Image = observer(
       let uri
       let qualityLevel
       if (this.props.quality) {
-        // systemStore.isWifi
         const label = MODEL_SETTING_QUALITY.getLabel(systemStore.setting.quality)
         switch (label) {
           case 'WiFi下高质量':
-            if (systemStore.wifi) {
-              qualityLevel = 'best'
-            }
+            if (systemStore.wifi) qualityLevel = 'best'
             break
 
           case '高质量':
@@ -170,8 +168,6 @@ export const Image = observer(
             this.timeoutId = null
             this.onError()
           }
-
-          warn('Image', 'cache', error)
         }
       } else {
         uri = src
@@ -196,7 +192,7 @@ export const Image = observer(
     /**
      * 选择图片质量
      */
-    getQuality = (uri, qualityLevel = 'default') => {
+    getQuality = (uri: string, qualityLevel = 'default') => {
       if (!uri) return ''
       if (qualityLevel === 'default') return uri
       if (qualityLevel === 'best') return getCoverLarge(uri)
@@ -212,9 +208,9 @@ export const Image = observer(
       const { uri } = this.state
       if (typeof uri !== 'string' || typeof autoSize !== 'number') return
 
-      const cb = (width, height) => {
-        let w
-        let h
+      const cb = (width: number, height: number) => {
+        let w: number
+        let h: number
 
         // 假如图片本身的宽度没有超过给定的最大宽度, 直接沿用图片原尺寸
         if (width < autoSize) {
@@ -264,7 +260,7 @@ export const Image = observer(
       return {}
     }
 
-    @computed get computedStyle() {
+    get computedStyle() {
       const {
         style,
         imageStyle,
@@ -346,7 +342,7 @@ export const Image = observer(
       }
     }
 
-    @computed get fadeDuration() {
+    get fadeDuration() {
       const { fadeDuration } = this.props
       const { imageTransition } = systemStore.setting
       return fadeDuration === undefined
@@ -356,7 +352,7 @@ export const Image = observer(
         : fadeDuration
     }
 
-    @computed get borderRadius() {
+    get borderRadius() {
       const { coverRadius } = systemStore.setting
       return coverRadius || _.radiusXs
     }
@@ -403,7 +399,7 @@ export const Image = observer(
       if (error) {
         // 错误显示本地的错误提示图片
         return (
-          <ImageComponent
+          <CompImage
             style={[this.computedStyle.image, this.styles.error]}
             source={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
             fadeDuration={this.fadeDuration}
@@ -424,6 +420,7 @@ export const Image = observer(
                     width: this.props.width || this.props.size
                   }
                 ]}
+                // @ts-ignore
                 headers={headers}
                 tint={_.select('light', 'dark')}
                 preview={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
@@ -440,7 +437,7 @@ export const Image = observer(
 
           // 网络图片
           return (
-            <ImageComponent
+            <CompImage
               style={this.computedStyle.image}
               source={{
                 headers: this.headers,
@@ -458,17 +455,20 @@ export const Image = observer(
       }
 
       // 本地图片
+      let source
+      if (headers && typeof src === 'object') {
+        source = {
+          ...src,
+          headers: this.headers
+        }
+      } else {
+        source = src
+      }
+
       return (
-        <ImageComponent
+        <CompImage
           style={this.computedStyle.image}
-          source={
-            headers
-              ? {
-                  ...src,
-                  headers: this.headers
-                }
-              : src
-          }
+          source={source}
           fadeDuration={this.fadeDuration}
           onError={this.onError}
           {...other}
@@ -532,29 +532,3 @@ export const Image = observer(
     }
   }
 )
-
-const memoStyles = _.memoStyles(_ => ({
-  border: {
-    borderWidth: 1,
-    borderColor: _.colorBorder
-  },
-  shadow: _.shadow,
-  shadowLg: {
-    shadowColor: _.colorShadow,
-    shadowOffset: {
-      height: 4
-    },
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    elevation: 16
-  },
-  placeholder: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
-  },
-  error: {
-    padding: 4
-  },
-  textOnly: {
-    marginTop: -8
-  }
-}))

@@ -1,18 +1,28 @@
 /*
+ * 安卓用，仿iOS点击头部列表滚动到顶
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:20:19
+ * @Last Modified time: 2022-05-04 16:22:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import Portal from '@ant-design/react-native/lib/portal'
 import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
-import { Touchable } from './touchable'
+import { Touchable } from '../touchable'
+import { styles } from './styles'
+
+type Props = {
+  isFocused?: boolean
+  scrollTo?: (arg0?: any) => any
+  scrollToIndex?: (arg0?: any) => any
+  scrollToLocation?: (arg0?: any) => any
+  onPress?: (arg0?: any) => any
+}
 
 const ScrollToTop = observer(
-  ({ scrollTo, scrollToIndex, scrollToLocation, isFocused = true, onPress }) => {
+  ({ isFocused = true, scrollTo, scrollToIndex, scrollToLocation, onPress }: Props) => {
     if ((IOS || !isFocused) && !systemStore.dev) return null
 
     return (
@@ -35,7 +45,7 @@ const ScrollToTop = observer(
                   animated: true
                 })
               } catch (error) {
-                warn('ScrollToTop', 'scrollTo', error)
+                console.warn('ScrollToTop', 'scrollTo', error)
               }
               return
             }
@@ -48,7 +58,7 @@ const ScrollToTop = observer(
                   viewOffset: 8000
                 })
               } catch (error) {
-                warn('ScrollToTop', 'scrollToIndex', error)
+                console.warn('ScrollToTop', 'scrollToIndex', error)
 
                 try {
                   scrollToLocation({
@@ -59,7 +69,7 @@ const ScrollToTop = observer(
                     viewPosition: 0
                   })
                 } catch (ex) {
-                  warn('ScrollToTop', 'scrollToLocation', ex)
+                  console.warn('ScrollToTop', 'scrollToLocation', ex)
                 }
               }
             }
@@ -70,8 +80,11 @@ const ScrollToTop = observer(
   }
 )
 
-ScrollToTop.scrollToTop = fn => {
-  if (fn) {
+// @ts-ignore
+ScrollToTop.scrollToTop = (
+  fn: (arg0: { animated: boolean; index: number; viewOffset: number }) => void
+) => {
+  if (typeof fn === 'function') {
     try {
       fn({
         animated: true,
@@ -79,20 +92,9 @@ ScrollToTop.scrollToTop = fn => {
         viewOffset: _.window.height * 2
       })
     } catch (error) {
-      warn('ScrollToTop', 'scrollToTop', error)
+      console.warn('ScrollToTop', 'scrollToTop', error)
     }
   }
 }
 
 export { ScrollToTop }
-
-const styles = _.create({
-  container: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    left: 0,
-    height: _.statusBarHeight + 10
-  }
-})

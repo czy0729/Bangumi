@@ -3,24 +3,54 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 11:19:16
+ * @Last Modified time: 2022-05-04 14:38:34
  */
 import React from 'react'
-import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
+import { View, TextInput, TextInputProps, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
-import {
-  _
-  // systemStore
-} from '@stores'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import { Iconfont } from './iconfont'
-import { Touchable } from './touchable'
-import { Flex } from './flex'
+import { ColorValue, Expand, ViewStyle } from '@types'
+import { Iconfont } from '../iconfont'
+import { Touchable } from '../touchable'
+import { Flex } from '../flex'
+import { memoStyles } from './styles'
+
+type Props = Expand<
+  TextInputProps & {
+    /** Input 容器样式 */
+    style?: ViewStyle
+
+    /** 是否启用多行 */
+    multiline?: boolean
+
+    /** 开启多行后实际使用多少行 */
+    numberOfLines?: number
+
+    /** 是否显示清空图标 */
+    showClear?: boolean
+
+    /** 清空图标颜色 */
+    colorClear?: ColorValue
+
+    /** 是否自动聚焦 */
+    autoFocus?: boolean
+
+    /** 占位文字颜色 */
+    placeholderTextColor?: ColorValue
+
+    /** 文字改变回调（待废弃，使用 onTextChange 代替） */
+    onChange?: (evt: { nativeEvent: { text: string } }) => any
+
+    /** 文字改变回调 */
+    onChangeText?: (text: string) => any
+  }
+>
 
 const initInputHeight = 18 // 一行的大概高度
 
 export const Input = observer(
-  class extends React.Component {
+  class extends React.Component<Props> {
     static defaultProps = {
       style: undefined,
       multiline: false,
@@ -48,7 +78,7 @@ export const Input = observer(
       if (autoFocus) this.onFocus()
     }
 
-    inputRef
+    inputRef: TextInput
 
     onFocus = () => {
       try {
@@ -150,22 +180,13 @@ export const Input = observer(
         <View style={this.styles.container}>
           <TextInput
             ref={ref => (this.inputRef = ref)}
-            style={
+            style={[
+              this.styles.input,
+              {
+                borderRadius: this.borderRadius
+              },
               style
-                ? [
-                    this.styles.input,
-                    {
-                      borderRadius: this.borderRadius
-                    },
-                    style
-                  ]
-                : [
-                    this.styles.input,
-                    {
-                      borderRadius: this.borderRadius
-                    }
-                  ]
-            }
+            ]}
             numberOfLines={numberOfLines}
             allowFontScaling={false}
             autoCapitalize='none'
@@ -174,6 +195,7 @@ export const Input = observer(
             clearButtonMode='while-editing'
             placeholderTextColor={placeholderTextColor || _.colorDisabled}
             selectionColor={_.colorMain}
+            // @ts-ignore
             cursorColor={_.colorMain}
             {...other}
             onChange={this.onChange}
@@ -188,50 +210,3 @@ export const Input = observer(
     }
   }
 )
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    width: '100%'
-  },
-  input: {
-    width: '100%',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    color: _.colorDesc,
-    ..._.fontSize(14),
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-    borderWidth: _.select(_.hairlineWidth, 0),
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  multiContainer: {
-    width: '100%',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-    borderWidth: _.select(_.hairlineWidth, 0),
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  multiInput: {
-    width: '100%',
-    paddingTop: 0,
-    color: _.colorDesc,
-    ..._.fontSize(14)
-  },
-  close: {
-    position: 'absolute',
-    zIndex: 10,
-    top: '50%',
-    right: 0,
-    marginTop: -16,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  icon: {
-    width: 32,
-    height: 32
-  }
-}))

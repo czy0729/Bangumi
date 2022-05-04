@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 15:34:04
+ * @Last Modified time: 2022-05-03 23:01:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,7 @@ import { BlurView as ExpoBlurView } from 'expo-blur'
 // import { _ } from '@stores'
 import { matchCoverUrl } from '@utils/app'
 import { IOS } from '@constants'
-import { Image } from './image'
+import { Image } from '../image'
 
 // const backgroundColor = {
 //   dark: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.12)', 'rgba(0, 0, 0, 0.24)'],

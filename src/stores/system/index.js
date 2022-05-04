@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-01 12:22:59
+ * @Last Modified time: 2022-05-04 16:02:25
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -122,8 +122,20 @@ class System extends store {
     return true
   }
 
+  @computed get dev() {
+    return this.state.dev
+  }
+
   @computed get setting() {
     return this.state.setting
+  }
+
+  @computed get wifi() {
+    return this.state.wifi
+  }
+
+  @computed get devEvent() {
+    return this.state.devEvent
   }
 
   // -------------------- fetch --------------------

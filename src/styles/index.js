@@ -177,6 +177,7 @@ export const radiusLg = 16
 export const shadow = {
   shadowColor: colorShadow,
   shadowOffset: {
+    width: 1,
     height: 4
   },
   shadowOpacity: 0.12,

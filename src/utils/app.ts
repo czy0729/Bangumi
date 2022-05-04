@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 15:42:24
+ * @Last Modified time: 2022-05-03 23:04:47
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -464,7 +464,7 @@ export function matchBgmLink(url = '') {
  * @param noDefault
  */
 const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
-export function matchCoverUrl(src, noDefault) {
+export function matchCoverUrl(src: string, noDefault?: boolean) {
   const { cdn, cdnOrigin } = getSetting()
   const fallback = noDefault ? '' : IMG_DEFAULT
 

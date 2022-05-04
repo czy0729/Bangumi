@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 18:44:54
+ * @Last Modified time: 2022-05-03 23:00:00
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -10,7 +10,7 @@ import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
-import _, { mt } from '@styles'
+import _, { mt, shadow, fontSize } from '@styles'
 import { ColorValue } from '@types'
 import systemStore from '../system'
 import {
@@ -58,6 +58,7 @@ class Theme extends store {
   colorShadow: ColorValue = _.colorShadow
 
   mt = mt
+  shadow = shadow
 
   /** 缩短引用 */
   absoluteFill = StyleSheet.absoluteFill
@@ -491,8 +492,8 @@ class Theme extends store {
     return this.state.fontSizeAdjust
   }
 
-  fontSize(pt) {
-    return computed(() => _.fontSize(pt, this.fontSizeAdjust)).get()
+  fontSize(pt: number) {
+    return computed(() => fontSize(pt, this.fontSizeAdjust)).get()
   }
 
   @computed get fontSize6() {

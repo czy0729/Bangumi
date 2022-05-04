@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 15:42:55
+ * @Last Modified time: 2022-05-03 20:33:24
  */
 import React from 'react'
 import {
   StyleProp,
   ViewStyle as RNViewStyle,
   TextStyle as RNTextStyle,
+  ImageStyle as RNImageStyle,
   ColorValue as RNColorValue
 } from 'react-native'
 
@@ -28,6 +29,13 @@ export type ViewStyle = StyleProp<RNViewStyle>
 
 export type TextStyle = StyleProp<RNTextStyle>
 
+export type ImageStyle = StyleProp<RNImageStyle>
+
 export type ReactNode = React.ReactNode
 
 export type ColorValue = RNColorValue
+
+export type EventType = {
+  id: string
+  data?: object
+}

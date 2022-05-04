@@ -1,15 +1,16 @@
 /*
+ * Tinygrail用，给用户头像包裹，显示用户最近的在线状态
  * @Author: czy0729
  * @Date: 2020-10-29 15:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 12:03:46
+ * @Last Modified time: 2022-05-04 16:35:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
 import { getTimestamp } from '@utils'
-import { Flex } from './flex'
+import { Flex } from '../flex'
+import { memoStyles } from './styles'
 
 const d1ts = 24 * 60 * 60
 const d3ts = 3 * d1ts
@@ -29,31 +30,14 @@ export const UserStatus = observer(({ style, last, children }) => {
   return (
     <View>
       {children}
-      <Flex style={[styles.wrap, style]} justify='center' pointerEvents='none'>
+      <Flex
+        style={[styles.wrap, style]}
+        justify='center'
+        // @ts-ignore
+        pointerEvents='none'
+      >
         <View style={[styles.badge, distance >= d1ts && styles.badgeWarning]} />
       </Flex>
     </View>
   )
 })
-
-const memoStyles = _.memoStyles(_ => ({
-  wrap: {
-    position: 'absolute',
-    zIndex: 10,
-    right: -3,
-    bottom: -3,
-    width: 14,
-    height: 14,
-    backgroundColor: _.colorPlain,
-    borderRadius: 14
-  },
-  badge: {
-    width: 8,
-    height: 8,
-    backgroundColor: _.colorSuccess,
-    borderRadius: 8
-  },
-  badgeWarning: {
-    backgroundColor: _.colorWarning
-  }
-}))

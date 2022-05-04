@@ -3,13 +3,21 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:39:02
+ * @Last Modified time: 2022-05-03 22:40:44
  */
 import React, { useState, useEffect } from 'react'
+import { TextProps } from 'react-native'
 import { getTimestamp } from '@utils'
-import { Text } from './text'
+import { Expand } from '@types'
+import { Text } from '../text'
 
-export const CountDown = ({ end, ...other }) => {
+type Props = Expand<
+  TextProps & {
+    end: number
+  }
+>
+
+export const CountDown = ({ end, ...other }: Props) => {
   const [now, setNow] = useState(getTimestamp())
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,9 +27,8 @@ export const CountDown = ({ end, ...other }) => {
   }, [])
 
   const distance = end - now
-  if (!distance) {
-    return null
-  }
+  if (!distance) return null
+
   const d = (distance / 86400) | 0
   const h = ((distance - d * 86400) / 3600) | 0
   const m = ((distance - d * 86400 - h * 3600) / 60) | 0
