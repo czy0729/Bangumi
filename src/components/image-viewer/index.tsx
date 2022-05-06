@@ -4,30 +4,37 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 19:49:15
+ * @Last Modified time: 2022-05-06 17:45:06
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
 import RNImageViewer from 'react-native-image-zoom-viewer'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { _ } from '@stores'
 import { open } from '@utils'
 import { showActionSheet } from '@utils/ui'
 import { IOS } from '@constants'
-import { Touchable } from './touchable'
-import { Iconfont } from './iconfont'
-import { Text } from './text'
+import { Touchable } from '../touchable'
+import { Iconfont } from '../iconfont'
+import { Text } from '../text'
+import { styles } from './styles'
+
+type Props = {
+  index?: number
+  visible?: boolean
+  imageUrls?: any[]
+  onCancel?: (arg0?: any) => any
+}
 
 const actionSheetDS = ['浏览器打开图片', '取消']
 
 export const ImageViewer = observer(
-  class extends React.Component {
+  class extends React.Component<Props> {
     static defaultProps = {
       index: 0,
       visible: false,
       imageUrls: [],
-      onCancel: Function.prototype
+      onCancel: () => {}
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -70,15 +77,14 @@ export const ImageViewer = observer(
 
     renderIndicator = (currentIndex, allSize) => {
       const { imageUrls } = this.props
-      if (imageUrls.length <= 1) {
-        return null
-      }
+      if (imageUrls.length <= 1) return null
 
       return (
         <Text
           style={styles.indicator}
           type='__plain__'
           align='center'
+          // @ts-ignore
           pointerEvents='none'
         >
           {currentIndex} / {allSize}
@@ -122,37 +128,3 @@ export const ImageViewer = observer(
     }
   }
 )
-
-const styles = _.create({
-  container: {
-    flex: 1,
-    minHeight: _.window.height,
-    backgroundColor: 'rgba(0, 0, 0, 0.88)'
-  },
-  activityIndicator: {
-    position: 'absolute',
-    zIndex: 1,
-    top: '50%',
-    left: '50%'
-  },
-  viewer: {
-    zIndex: 2
-  },
-  close: {
-    position: 'absolute',
-    zIndex: 3,
-    top: 40,
-    right: 0,
-    padding: 16
-  },
-  iconfont: {
-    color: '#fff'
-  },
-  indicator: {
-    position: 'absolute',
-    zIndex: 10,
-    top: _.appBarHeight + 14,
-    right: 0,
-    left: 0
-  }
-})

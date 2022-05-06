@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 23:00:00
+ * @Last Modified time: 2022-05-06 20:33:02
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -10,7 +10,7 @@ import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
-import _, { mt, shadow, fontSize } from '@styles'
+import _, { mt, mr, mb, ml, shadow, fontSize } from '@styles'
 import { ColorValue } from '@types'
 import systemStore from '../system'
 import {
@@ -42,10 +42,14 @@ class Theme extends store {
   bottom: number = _.bottom
   radiusXs: number = _.radiusXs
   radiusSm: number = _.radiusSm
+  radiusMd: number = _.radiusMd
   radiusLg: number = _.radiusLg
   _wind: number = _._wind
 
   statusBarHeight: number = _.statusBarHeight
+
+  /** 单独头部高度 */
+  appBarHeight: number = _.appBarHeight
   headerHeight: number = _.headerHeight
   tabsHeight: number = _.tabsHeight
   lineHeightRatio: number = _.lineHeightRatio
@@ -58,6 +62,9 @@ class Theme extends store {
   colorShadow: ColorValue = _.colorShadow
 
   mt = mt
+  mr = mr
+  mb = mb
+  ml = ml
   shadow = shadow
 
   /** 缩短引用 */
@@ -678,7 +685,7 @@ class Theme extends store {
   /**
    * 切换模式
    */
-  toggleMode = mode => {
+  toggleMode = (mode?: 'dark' | 'light') => {
     const key = 'mode'
     if (mode === 'light') {
       this.setState({

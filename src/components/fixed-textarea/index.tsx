@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 11:06:05
+ * @Last Modified time: 2022-05-06 20:36:35
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -12,30 +12,35 @@ import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { getStorage, setStorage, open } from '@utils'
 import { IOS, HOST_IMAGE_UPLOAD } from '@constants'
-import { Text } from './text'
-import { Bgm } from './bgm'
-import { Flex } from './flex'
-import { Iconfont } from './iconfont'
-import { KeyboardSpacer } from './keyboard-spacer'
-import { Touchable } from './touchable'
+import { Text } from '../text'
+import { Bgm } from '../bgm'
+import { Flex } from '../flex'
+import { Iconfont } from '../iconfont'
+import { KeyboardSpacer } from '../keyboard-spacer'
+import { Touchable } from '../touchable'
+import { NAMESPACE, MAX_HISTORY_COUNT, SOURCE_FLAG, SOURCE_TEXT } from './ds'
+import { memoStyles } from './styles'
 
-const namespace = 'c-fixed-textarea'
-const maxHistoryCount = 7 // 最大常用bgm表情数量
-const sourceFlag = '来自Bangumi for'
-const sourceText = `\n[color=grey][size=10][${sourceFlag} ${
-  IOS ? 'iOS' : 'android'
-}] [url=https://bgm.tv/group/topic/350677][color=grey]获取[/color][/url][/size][/color]`
+type Props = {
+  value?: string
+  placeholder?: string
+  simple?: boolean
+  source?: boolean
+  onClose?: (arg0?: any) => any
+  onChange?: (value: string) => any
+  onSubmit?: (value: string) => any
+}
 
 export const FixedTextarea = observer(
-  class extends React.Component {
+  class extends React.Component<Props> {
     static defaultProps = {
       value: '',
       placeholder: '',
       simple: false,
       source: false,
-      onClose: Function.prototype,
-      onChange: Function.prototype,
-      onSubmit: Function.prototype // value => {}
+      onClose: () => {},
+      onChange: () => {},
+      onSubmit: () => {}
     }
 
     state = {
@@ -58,13 +63,13 @@ export const FixedTextarea = observer(
 
     async componentDidMount() {
       try {
-        const showSource = (await getStorage(`${namespace}|showSource`)) || false
-        const history = (await getStorage(namespace)) || '15' // 15就是bgm38
+        const showSource = (await getStorage(`${NAMESPACE}|showSource`)) || false
+        const history = (await getStorage(NAMESPACE)) || '15' // 15就是bgm38
         const bgmHistory = history
           .split(',')
           .filter(item => item !== '')
           .map(item => parseInt(item))
-        const replyHistory = (await getStorage(`${namespace}|replyHistory`)) || []
+        const replyHistory = (await getStorage(`${NAMESPACE}|replyHistory`)) || []
 
         this.setState({
           showSource,
@@ -72,7 +77,7 @@ export const FixedTextarea = observer(
           replyHistory
         })
       } catch (error) {
-        warn('fixed-textarea', 'componentDidMount', error)
+        // warn('fixed-textarea', 'componentDidMount', error)
       }
     }
 
@@ -300,14 +305,14 @@ export const FixedTextarea = observer(
       } else {
         history.unshift(bgmIndex)
       }
-      if (history.length > maxHistoryCount) {
-        history = history.filter((item, index) => index < maxHistoryCount)
+      if (history.length > MAX_HISTORY_COUNT) {
+        history = history.filter((item, index) => index < MAX_HISTORY_COUNT)
       }
 
       this.setState({
         history
       })
-      setStorage(namespace, history.join())
+      setStorage(NAMESPACE, history.join())
     }
 
     // 本地化最近的回复
@@ -319,14 +324,14 @@ export const FixedTextarea = observer(
       } else {
         replyHistory.unshift(value)
       }
-      if (replyHistory.length > maxHistoryCount) {
-        replyHistory = replyHistory.filter((item, index) => index < maxHistoryCount)
+      if (replyHistory.length > MAX_HISTORY_COUNT) {
+        replyHistory = replyHistory.filter((item, index) => index < MAX_HISTORY_COUNT)
       }
 
       this.setState({
         replyHistory
       })
-      setStorage(`${namespace}|replyHistory`, replyHistory)
+      setStorage(`${NAMESPACE}|replyHistory`, replyHistory)
     }
 
     showReplyHistory = () => {
@@ -371,7 +376,7 @@ export const FixedTextarea = observer(
       this.setState({
         showSource: newShowSource
       })
-      setStorage(`${namespace}|showSource`, newShowSource)
+      setStorage(`${NAMESPACE}|showSource`, newShowSource)
     }
 
     textAreaFocus = () => {
@@ -384,11 +389,11 @@ export const FixedTextarea = observer(
     get value() {
       const { source } = this.props
       const { value, showSource } = this.state
-      if (!source || !showSource || value.includes(sourceFlag)) return value
-      return `${value}${sourceText}`
+      if (!source || !showSource || value.includes(SOURCE_FLAG)) return value
+      return `${value}${SOURCE_TEXT}`
     }
 
-    renderBtn(text, symbol) {
+    renderBtn(text: string, symbol?: string) {
       const size = _.window.width < 375 ? 10 : 11
       if (text === 'BGM') {
         const { showBgm, showReplyHistory } = this.state
@@ -661,104 +666,3 @@ export const FixedTextarea = observer(
     }
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  maskContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0
-  },
-  mask: {
-    height: _.window.height
-  },
-  container: {
-    position: 'absolute',
-    zIndex: 1001,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    paddingTop: 2,
-    paddingBottom: _.ios(20, 0),
-    marginBottom: -1,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderTopWidth: _.select(_.hairlineWidth, 0),
-    borderTopColor: _.colorBorder
-  },
-  toolBar: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.wind,
-    marginLeft: -_.sm
-  },
-  toolBarBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 5,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  bgmContainer: {
-    paddingVertical: _.sm
-  },
-  bgms: {
-    paddingHorizontal: _.wind - _._wind
-  },
-  bgm: {
-    width: _.isLandscape ? '7.14%' : '14.28%',
-    paddingVertical: _.md
-  },
-  replyHistory: {
-    paddingHorizontal: _.wind,
-    paddingVertical: _.sm
-  },
-  textareaContainer: {
-    paddingHorizontal: _.wind
-  },
-  textarea: {
-    paddingTop: 12,
-    paddingHorizontal: 0,
-    paddingBottom: 8,
-    marginBottom: -_.hairlineWidth,
-    color: _.colorDesc,
-    fontSize: 14 + _.fontSizeAdjust,
-    lineHeight: 22,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-  },
-
-  // TextareaItem 下方有一根白色线修复不了, 用这个遮着
-  fixedTextareaBorderBottom: {
-    height: 2,
-    marginTop: -1,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-  },
-  touchSend: {
-    marginTop: _.ios(8, 4),
-    marginLeft: _.sm,
-    marginRight: -4,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  send: {
-    width: 36,
-    height: 36,
-    marginTop: _.device(0, _.xs)
-  },
-  touchSource: {
-    padding: _.xs,
-    marginRight: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  source: {
-    position: 'absolute',
-    zIndex: 2,
-    right: 4,
-    bottom: _.md,
-    left: 2
-  },
-  opacity: {
-    opacity: 0.8
-  },
-  hide: {
-    display: 'none'
-  }
-}))

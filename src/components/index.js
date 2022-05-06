@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 22:43:20
+ * @Last Modified time: 2022-05-06 15:51:57
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -51,12 +51,10 @@ export * from './switch'
 export * from './switch-pro'
 export * from './tabs'
 export * from './tabs-v2'
-export * from './tap'
 export * from './text'
 export * from './tool-bar'
 export * from './touchable'
 export * from './track'
-export * from './transition-view'
 export * from './um'
 export * from './user-status'
 export * from './web-view'

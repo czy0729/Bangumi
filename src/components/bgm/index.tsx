@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 16:15:57
+ * @Last Modified time: 2022-05-06 15:55:20
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { Source } from '@types'
 import { Image } from '../image'
 
 type Props = {
@@ -18,7 +19,7 @@ type Props = {
 }
 
 let bgm: {
-  [x: string | number]: any
+  [x: string]: Source
 }
 
 function init() {

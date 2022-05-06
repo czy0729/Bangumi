@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 20:33:24
+ * @Last Modified time: 2022-05-06 15:53:45
  */
 import React from 'react'
 import {
@@ -36,6 +36,16 @@ export type ReactNode = React.ReactNode
 export type ColorValue = RNColorValue
 
 export type EventType = {
-  id: string
+  id?: string
   data?: object
 }
+
+export type Source =
+  | string
+  | number
+  | {
+      uri?: string
+      headers?: {
+        [key: string]: string
+      }
+    }

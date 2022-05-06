@@ -3,13 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 09:50:37
+ * @Last Modified time: 2022-05-06 15:52:59
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Image } from './image'
+import { Image } from '../image'
+import { Source, ImageStyle } from '@types'
 
-let musume
+type Props = {
+  style?: ImageStyle
+  size?: number
+  index?: 1 | 2 | 3 | 4 | 5 | 6 | 7
+}
+
+let musume: {
+  [x: string]: Source
+}
 function init() {
   musume = {
     1: require('@assets/images/musume1.png'),
@@ -22,7 +31,7 @@ function init() {
   }
 }
 
-export const Mesume = observer(({ style, size = 96, index }) => {
+export const Mesume = observer(({ style, size = 96, index }: Props) => {
   if (!musume) init()
 
   // 获取1-7之间的随机数

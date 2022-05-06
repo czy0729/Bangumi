@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 11:30:44
+ * @Last Modified time: 2022-05-06 17:48:20
  */
 import React from 'react'
-import { Text as RNText } from 'react-native'
+import { Text as RNText, TextProps } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { TextStyle } from '@types'
+import { Expand, TextStyle } from '@types'
 import { PAD_INCREASE, computedLineHeight, format } from './utils'
 import memoStyles from './styles'
 
@@ -34,42 +34,44 @@ export type TextType =
   | 'tinygrailText'
   | 'tinygrailIcon'
 
-type Props = {
-  /** 样式 */
-  style?: TextStyle
+type Props = Expand<
+  TextProps & {
+    /** 样式 */
+    style?: TextStyle
 
-  /** 预设主题色 */
-  type?: TextType
+    /** 预设主题色 */
+    type?: TextType
 
-  /** 大小 */
-  size?: number
+    /** 大小 */
+    size?: number
 
-  /**
-   * 行高
-   * 小于等于2的时候为比例，大小*行高=最终行高；大于2的时候为数值=最终行高
-   * */
-  lineHeight?: number
+    /**
+     * 行高
+     * 小于等于2的时候为比例，大小*行高=最终行高；大于2的时候为数值=最终行高
+     * */
+    lineHeight?: number
 
-  /** 额外增加的行高，主要用于<片假名终结者> */
-  lineHeightIncrease?: number
+    /** 额外增加的行高，主要用于<片假名终结者> */
+    lineHeightIncrease?: number
 
-  /** 对齐 */
-  align?: 'center' | 'right'
+    /** 对齐 */
+    align?: 'center' | 'right'
 
-  /** 是否加粗 */
-  bold?: boolean
+    /** 是否加粗 */
+    bold?: boolean
 
-  /** 是否下划线 */
-  underline?: boolean
+    /** 是否下划线 */
+    underline?: boolean
 
-  /** 是否带阴影 */
-  shadow?: boolean
+    /** 是否带阴影 */
+    shadow?: boolean
 
-  /** 是否可选择 */
-  selectable?: boolean
+    /** 是否可选择 */
+    selectable?: boolean
 
-  children: React.ReactNode
-}
+    children: React.ReactNode
+  }
+>
 
 type Context = {
   /** 额外增加的行高，主要用于<片假名终结者> */
