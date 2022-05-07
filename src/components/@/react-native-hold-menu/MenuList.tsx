@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 
 import Animated, {
   runOnJS,
@@ -33,10 +33,12 @@ import { useInternal } from 'react-native-hold-menu/src/hooks'
 import { deepEqual } from 'react-native-hold-menu/src/utils/validations'
 import { leftOrRight } from 'react-native-hold-menu/src/components/menu/calculations'
 
+import { _ } from '@stores'
+
 const MenuContainerComponent = IS_IOS ? BlurView : View
-const AnimatedView = Animated.createAnimatedComponent<{
-  animatedProps: Partial<{ blurType: string }>
-}>(MenuContainerComponent)
+// const AnimatedView = Animated.createAnimatedComponent<{
+//   animatedProps: Partial<{ blurType: string }>
+// }>(MenuContainerComponent)
 
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal()
@@ -121,10 +123,14 @@ const MenuListComponent = () => {
     [menuProps]
   )
 
+  const AnimatedView = Animated.createAnimatedComponent<{
+    animatedProps: Partial<{ blurType: string }>
+  }>(MenuContainerComponent)
+
   return (
     <AnimatedView
       // @ts-ignore
-      intensity={100}
+      intensity={80}
       animatedProps={animatedProps}
       style={[styles.menuContainer, messageStyles]}
     >
@@ -135,7 +141,17 @@ const MenuListComponent = () => {
           animatedInnerContainerStyle
         ]}
       >
-        <MenuItems items={itemList} />
+        <ScrollView
+          // 暂时对数量大于一屏高度的容器, 强行加入一个很大的下边距, 以可以滑动看完全部选项
+          contentContainerStyle={[
+            additionStyles.contentContainerStyle,
+            itemList.length >= 12 && {
+              paddingBottom: (itemList.length - 10) * 40
+            }
+          ]}
+        >
+          <MenuItems items={itemList} />
+        </ScrollView>
       </Animated.View>
     </AnimatedView>
   )
@@ -144,3 +160,9 @@ const MenuListComponent = () => {
 const MenuList = React.memo(MenuListComponent)
 
 export default MenuList
+
+const additionStyles = StyleSheet.create({
+  contentContainerStyle: {
+    width: '100%'
+  }
+})
