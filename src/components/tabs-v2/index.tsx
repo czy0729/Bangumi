@@ -2,20 +2,42 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:10:38
+ * @Last Modified time: 2022-05-07 12:52:45
  */
 import React, { useMemo } from 'react'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { _ } from '@stores'
-import { IOS } from '@constants'
-import { Flex } from './flex'
-import { Text } from './text'
+import { ColorValue, TextStyle } from '@types'
+import { Flex } from '../flex'
+import { Text } from '../text'
+import { W_INDICATOR, memoStyles } from './styles'
 
-const W_INDICATOR = 16 * _.ratio
+type Route = {
+  key?: string
+  title?: string
+}
+
+type Label = {
+  route?: Route
+  focused?: boolean
+}
+
+type Props = {
+  routes: Route[]
+  tabBarLength?: number
+  page?: number
+  textColor?: ColorValue
+  backgroundColor?: ColorValue
+  borderBottomColor?: ColorValue
+  underlineColor?: ColorValue
+  renderItem?: (item: Route) => any
+  renderLabel?: (item: Label) => any
+  onChange?: (arg0: any) => any
+}
 
 export const TabsV2 = ({
-  routes = [], // Array<{ key: string, title: string }>
+  routes = [],
   tabBarLength,
   page = 0,
   textColor,
@@ -24,9 +46,9 @@ export const TabsV2 = ({
   underlineColor,
   renderItem,
   renderLabel,
-  onChange = Function.prototype,
+  onChange = () => {},
   ...other
-}) => {
+}: Props) => {
   const styles = memoStyles()
   const renderScene = useMemo(
     () =>
@@ -77,11 +99,13 @@ export const TabsV2 = ({
     ],
     [styles, W_TAB, underlineColor]
   )
-  const textStyle = useMemo(
+  const textStyle = useMemo<TextStyle>(
     () =>
-      textColor && {
-        color: textColor
-      },
+      textColor
+        ? {
+            color: textColor
+          }
+        : undefined,
     [textColor]
   )
   return (
@@ -92,6 +116,7 @@ export const TabsV2 = ({
         routes
       }}
       renderTabBar={props => (
+        // @ts-ignore
         <TabBar
           {...props}
           style={tabBarStyle}
@@ -119,32 +144,3 @@ export const TabsV2 = ({
     />
   )
 }
-
-const memoStyles = _.memoStyles(() => ({
-  tabBar: {
-    backgroundColor: IOS
-      ? 'transparent'
-      : _.select('transparent', _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
-    borderBottomWidth: _.select(
-      IOS ? 0 : _.hairlineWidth,
-      _.deepDark ? 0 : _.hairlineWidth
-    ),
-    borderBottomColor: _.colorBorder,
-    elevation: 0
-  },
-  tab: {
-    height: 48 * _.ratio
-  },
-  label: {
-    padding: 0
-  },
-  labelText: {
-    width: '100%'
-  },
-  indicator: {
-    width: W_INDICATOR,
-    height: 4,
-    backgroundColor: _.colorMain,
-    borderRadius: 4
-  }
-}))

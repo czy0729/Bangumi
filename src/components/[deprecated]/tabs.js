@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:53:12
+ * @Last Modified time: 2022-05-07 11:31:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import AntdTabs from './@/ant-design/tabs'
+import AntdTabs from '../@/ant-design/tabs'
 
 export const Tabs = observer(
   ({

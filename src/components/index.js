@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 15:51:57
+ * @Last Modified time: 2022-05-07 13:01:41
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -32,7 +32,6 @@ export * from './katakana'
 export * from './keyboard-spacer'
 export * from './list-view'
 export * from './loading'
-export * from './max-width'
 export * from './menu'
 export * from './mesume'
 export * from './navigation/container'
@@ -49,12 +48,11 @@ export * from './slider'
 export * from './status-bar-events'
 export * from './switch'
 export * from './switch-pro'
-export * from './tabs'
 export * from './tabs-v2'
 export * from './text'
 export * from './tool-bar'
 export * from './touchable'
 export * from './track'
-export * from './um'
+export * from './track/um'
 export * from './user-status'
 export * from './web-view'

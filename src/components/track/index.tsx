@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2022-03-14 20:46:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 12:15:46
+ * @Last Modified time: 2022-05-07 13:01:27
  */
 import React from 'react'
 import { _ } from '@stores'
 import { useRunAfter } from '@utils/hooks'
 import { hm as utilsHM } from '@utils/fetch'
 import { Heatmap } from '../heatmap'
-import UM from './um'
+import { UM } from './um'
 
 type Props = {
   /** 页面标题 */

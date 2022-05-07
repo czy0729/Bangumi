@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 20:29:32
+ * @Last Modified time: 2022-05-07 12:59:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,23 +13,21 @@ import { systemStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import heatmapData from '@constants/json/heatmap.json'
 import heatmapEventData from '@constants/json/heatmap-event.json'
-import { Expand, EventType } from '@types'
+import { EventType } from '@types'
 import { Text } from '../text'
 import { Control } from './control'
 import { PageText } from './page-text'
 import { memoStyles } from './styles'
 
-type Props = Expand<
-  {
-    [key: string]: string
-  } & {
-    right?: number
-    bottom?: number
-    transparent?: boolean
-    data?: EventType
-    mini?: boolean
-  }
->
+type Props = {
+  [key: string]: string | number | boolean
+} & {
+  right?: number
+  bottom?: number
+  transparent?: boolean
+  data?: EventType
+  mini?: boolean
+}
 
 const totalWithoutView = (heatmapData?.total || 0) - heatmapData['其他.查看']
 

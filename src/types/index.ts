@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 15:53:45
+ * @Last Modified time: 2022-05-07 13:08:57
  */
 import React from 'react'
 import {
@@ -49,3 +49,5 @@ export type Source =
         [key: string]: string
       }
     }
+
+export type Fn = (arg?: any) => any

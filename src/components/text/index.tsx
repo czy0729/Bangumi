@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 17:48:20
+ * @Last Modified time: 2022-05-06 21:06:14
  */
 import React from 'react'
 import { Text as RNText, TextProps } from 'react-native'
@@ -34,7 +34,7 @@ export type TextType =
   | 'tinygrailText'
   | 'tinygrailIcon'
 
-type Props = Expand<
+export type Props = Expand<
   TextProps & {
     /** 样式 */
     style?: TextStyle

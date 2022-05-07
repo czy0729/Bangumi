@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-26 20:10:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 12:16:32
+ * @Last Modified time: 2022-05-07 13:01:23
  */
 import React from 'react'
 import { NativeModules } from 'react-native'
@@ -18,7 +18,7 @@ type Props = {
   title: string
 }
 
-function UM({ title = '' }: Props) {
+export function UM({ title = '' }: Props) {
   if (IOS || !title) return null
 
   return (
@@ -33,5 +33,3 @@ function UM({ title = '' }: Props) {
     />
   )
 }
-
-export default UM

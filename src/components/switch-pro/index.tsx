@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-19 10:32:48
+ * @Last Modified time: 2022-05-07 13:06:06
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -20,7 +20,7 @@ import { _ } from '@stores'
 
 const SCALE = 6 / 5
 
-class SwitchProComp extends Component {
+class SwitchProComp extends Component<any, any> {
   static propTypes = {
     style: ViewPropTypes.style,
     circleStyle: ViewPropTypes.style,
@@ -49,6 +49,10 @@ class SwitchProComp extends Component {
       callback(true)
     }
   }
+
+  offset: number
+  handlerSize: number
+  private _panResponder: any
 
   constructor(props, context) {
     super(props, context)
@@ -151,7 +155,11 @@ class SwitchProComp extends Component {
    * @param toValue next status of switch
    * @param callback invoke when task is finished
    */
-  toggleSwitchToValue = (result, toValue, callback = () => null) => {
+  toggleSwitchToValue = (
+    result,
+    toValue,
+    callback: (arg0: any) => any = () => null
+  ) => {
     const { switchAnimation } = this.state
 
     this.animateHandler(this.handlerSize)
@@ -177,7 +185,8 @@ class SwitchProComp extends Component {
     Animated.timing(switchAnimation, {
       toValue: value ? this.offset : -this.offset,
       duration: 200,
-      easing: Easing.linear
+      easing: Easing.linear,
+      useNativeDriver: false
     }).start(callback)
   }
 
@@ -187,7 +196,8 @@ class SwitchProComp extends Component {
     Animated.timing(handlerAnimation, {
       toValue: value,
       duration: 200,
-      easing: Easing.linear
+      easing: Easing.linear,
+      useNativeDriver: false
     }).start(callback)
   }
 

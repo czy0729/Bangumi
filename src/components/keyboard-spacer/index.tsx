@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 11:14:17
+ * @Last Modified time: 2022-05-07 11:22:03
  */
 import {
   UIManager,
@@ -12,25 +12,24 @@ import {
   LayoutAnimation,
   View,
   Dimensions,
-  Platform,
-  StyleSheet
+  Platform
 } from 'react-native'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { IOS } from '@constants'
+import { ViewStyle } from '@types'
+import { styles } from './styles'
+
+type Props = {
+  style?: ViewStyle
+  topSpacing?: number
+  onToggle?: (toggle?: boolean, keyboardSpace?: number) => any
+}
 
 // 注意如果要在Android上使用此动画，则需要在代码中启用
 if (UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true)
 }
-
-const styles = StyleSheet.create({
-  container: {
-    left: 0,
-    right: 0,
-    bottom: 0
-  }
-})
 
 // From: https://medium.com/man-moon/writing-modern-react-native-ui-e317ff956f02
 const defaultAnimation = {
@@ -46,7 +45,7 @@ const defaultAnimation = {
   }
 }
 
-export const KeyboardSpacer = class extends Component {
+export const KeyboardSpacer = class extends Component<Props> {
   static propTypes = {
     topSpacing: PropTypes.number,
     onToggle: PropTypes.func
@@ -57,15 +56,11 @@ export const KeyboardSpacer = class extends Component {
     onToggle: () => null
   }
 
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      keyboardSpace: 0
-      // isKeyboardOpened: false
-    }
-    this._listeners = null
-    this.updateKeyboardSpace = this.updateKeyboardSpace.bind(this)
-    this.resetKeyboardSpace = this.resetKeyboardSpace.bind(this)
+  private _listeners = null
+
+  state = {
+    keyboardSpace: 0
+    // isKeyboardOpened: false
   }
 
   componentDidMount() {
@@ -83,12 +78,12 @@ export const KeyboardSpacer = class extends Component {
     this._listeners.forEach(listener => listener.remove())
   }
 
-  updateKeyboardSpace(event) {
+  updateKeyboardSpace = event => {
     if (!event.endCoordinates) {
       return
     }
 
-    let animationConfig = defaultAnimation
+    let animationConfig: any = defaultAnimation
     if (Platform.OS === 'ios') {
       animationConfig = LayoutAnimation.create(
         event.duration,
@@ -115,8 +110,8 @@ export const KeyboardSpacer = class extends Component {
     )
   }
 
-  resetKeyboardSpace(event) {
-    let animationConfig = defaultAnimation
+  resetKeyboardSpace = event => {
+    let animationConfig: any = defaultAnimation
     if (Platform.OS === 'ios') {
       animationConfig = LayoutAnimation.create(
         event.duration,
@@ -136,9 +131,7 @@ export const KeyboardSpacer = class extends Component {
   }
 
   render() {
-    if (!IOS) {
-      return null
-    }
+    if (!IOS) return null
 
     return (
       <View

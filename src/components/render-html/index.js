@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 10:58:52
+ * @Last Modified time: 2022-05-06 21:37:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { cheerio, HTMLDecode } from '@utils/html'
 import HTML from '../@/react-native-render-html'
 import { a } from '../@/react-native-render-html/src/HTMLRenderers'
 import { BgmText, bgmMap } from '../bgm-text'
-import { translateAll } from '../katakana'
+import { translateAll } from '../katakana/utils'
 import Error from './error'
 import MaskText from './mask-text'
 import QuoteText from './quote-text'

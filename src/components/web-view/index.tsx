@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:49:37
+ * @Last Modified time: 2022-05-07 12:56:54
  */
 import React from 'react'
 import RNWebView from '@components/@/web-view'
-import { KeyboardSpacer } from './keyboard-spacer'
+import { KeyboardSpacer } from '../keyboard-spacer'
 
 export const WebView = class extends React.Component {
   ref
@@ -15,7 +15,7 @@ export const WebView = class extends React.Component {
   goBack = Function.prototype
 
   render() {
-    const { uri, ...other } = this.props
+    const { uri, ...other } = this.props as any
     if (!uri) return null
 
     return (

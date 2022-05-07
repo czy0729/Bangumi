@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-07 01:23:30
+ * @Last Modified time: 2022-05-07 12:53:05
  */
 import React from 'react'
 import { TouchableOpacity, Text, View, Platform } from 'react-native'
@@ -182,8 +182,7 @@ export function iframe(htmlAttribs, children, convertedCSSStyles, passProps) {
   const attrWidth = htmlAttribs.width ? parseInt(htmlAttribs.width) : false
 
   const height = attrHeight || classStyleHeight || tagStyleHeight || 200
-  const width =
-    attrWidth || classStyleWidth || tagStyleWidth || staticContentMaxWidth
+  const width = attrWidth || classStyleWidth || tagStyleWidth || staticContentMaxWidth
 
   const style = _constructStyles({
     tagName: 'iframe',
