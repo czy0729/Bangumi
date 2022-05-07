@@ -83,5 +83,6 @@
     "android",
     "src/assets",
     "web"
-  ]
+  ],
+  "extends": "expo/tsconfig.base"
 }

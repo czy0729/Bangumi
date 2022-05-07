@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 22:57:58
+ * @Last Modified time: 2022-05-07 19:37:30
  */
 import React from 'react'
 import { Text } from 'react-native'
@@ -12,6 +12,8 @@ import { _ } from '@stores'
 import { TextStyle } from '@types'
 import { bgmMap } from './ds'
 import { styles } from './styles'
+
+export { bgmMap }
 
 type Props = {
   /** 图标当成文字一样使用 */
