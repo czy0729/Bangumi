@@ -382,7 +382,8 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
             ])}
             ref={el => {
               // @ts-ignore
-              this.scrollView = el?.getNode()
+              // this.scrollView = el?.getNode()
+              this.scrollView = el
             }}
           >
             {routes.map((route: T) => (

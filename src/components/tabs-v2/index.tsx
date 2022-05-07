@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 12:52:45
+ * @Last Modified time: 2022-05-08 03:03:17
  */
 import React, { useMemo } from 'react'
-import { TabBar, SceneMap } from 'react-native-tab-view'
+import { SceneMap } from 'react-native-tab-view'
+import TabBar from '@components/@/react-native-tab-view/TabBar'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { _ } from '@stores'
 import { ColorValue, TextStyle } from '@types'

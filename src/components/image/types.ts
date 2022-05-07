@@ -31,6 +31,9 @@ export type Props = Expand<
     /** 大小 | 宽度 */
     size?: number
 
+    /** 宽度 */
+    width?: number
+
     /** 高度 */
     height?: number
 

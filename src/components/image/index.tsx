@@ -10,11 +10,14 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 21:18:40
+ * @Last Modified time: 2022-05-08 01:41:21
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
-import { CacheManager, Image as AnimatedImage } from 'react-native-expo-image-cache'
+import {
+  CacheManager,
+  Image as AnimatedImage
+} from '@components/@/react-native-expo-image-cache'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'

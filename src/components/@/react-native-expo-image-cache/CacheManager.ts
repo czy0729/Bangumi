@@ -1,21 +1,25 @@
-/* eslint-disable */
-// https://github.com/wcandillon/react-native-expo-image-cache/blob/master/src/CacheManager.js
+import * as _ from 'lodash'
 import * as FileSystem from 'expo-file-system'
 import SHA1 from 'crypto-js/sha1'
+
+export interface DownloadOptions {
+  md5?: boolean
+  headers?: { [name: string]: string }
+}
 
 const BASE_DIR = `${FileSystem.cacheDirectory}expo-image-cache/`
 
 export class CacheEntry {
-  uri
-  options
-  path
+  uri: string
 
-  constructor(uri, options) {
+  options: DownloadOptions
+
+  constructor(uri: string, options: DownloadOptions) {
     this.uri = uri
     this.options = options
   }
 
-  async getPath() {
+  async getPath(): Promise<string | undefined> {
     const { uri, options } = this
     const { path, exists, tmpPath } = await getCacheEntry(uri)
     if (exists) {
@@ -36,26 +40,32 @@ export class CacheEntry {
 }
 
 export default class CacheManager {
-  static entries = {}
+  static entries: { [uri: string]: CacheEntry } = {}
 
-  static get(uri, options) {
+  static get(uri: string, options: DownloadOptions): CacheEntry {
     if (!CacheManager.entries[uri]) {
       CacheManager.entries[uri] = new CacheEntry(uri, options)
     }
     return CacheManager.entries[uri]
   }
 
-  static async clearCache() {
+  static async clearCache(): Promise<void> {
     await FileSystem.deleteAsync(BASE_DIR, { idempotent: true })
     await FileSystem.makeDirectoryAsync(BASE_DIR)
   }
-  static async getCacheSize() {
-    const { size } = await FileSystem.getInfoAsync(BASE_DIR, { size: true })
-    return size
+
+  static async getCacheSize(): Promise<number> {
+    const result = await FileSystem.getInfoAsync(BASE_DIR)
+    if (!result.exists) {
+      throw new Error(`${BASE_DIR} not found`)
+    }
+    return result.size
   }
 }
 
-const getCacheEntry = async uri => {
+const getCacheEntry = async (
+  uri: string
+): Promise<{ exists: boolean; path: string; tmpPath: string }> => {
   const filename = uri.substring(
     uri.lastIndexOf('/'),
     uri.indexOf('?') === -1 ? uri.length : uri.indexOf('?')

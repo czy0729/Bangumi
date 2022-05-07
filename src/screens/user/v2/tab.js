@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-16 23:37:17
+ * @Last Modified time: 2022-05-08 03:03:37
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
-import { TabBar, SceneMap } from 'react-native-tab-view'
+import { SceneMap } from 'react-native-tab-view'
+import TabBar from '@components/@/react-native-tab-view/TabBar'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
