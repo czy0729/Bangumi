@@ -7,10 +7,12 @@
  * 5. 错误处理
  * 6. 自动选择Bangumi图片质量
  * 7. 联动ImageViewer
+ * 8. 支持 @magma 提供的 [bgm_poster] 后缀
+ *
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-08 01:41:21
+ * @Last Modified time: 2022-05-09 17:08:02
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -31,11 +33,13 @@ import { Text } from '../text'
 import CompImage from './image'
 import { memoStyles } from './styles'
 import { Props } from './types'
+import { getTimestamp } from '@utils'
 
-const defaultHeaders = {
+const DEFAULT_HEADERS = {
   Referer: `${HOST}/`
 }
-const maxErrorCount = 2 // 最大失败重试次数
+const MAX_ERROR_COUNT = 4 // 最大失败重试次数
+const RETRY_DISTANCE = 4000 // 重试间隔
 
 export const Image = observer(
   class extends React.Component<Props> {
@@ -153,24 +157,32 @@ export const Image = observer(
             }
 
             res = CacheManager.get(_src, {
+              // @ts-ignore
               headers: this.headers
             }).getPath()
             const path = await res
-            this.setState({
-              uri: path || _src
-            })
+
+            /**
+             * magma的cdn要单独对第一次对象存储镜像做延迟处理
+             * 需要再重新请求一遍
+             * @date 202205009
+             */
+            if (
+              typeof _src === 'string' &&
+              _src.includes('/bgm_poster') &&
+              path === undefined
+            ) {
+              setTimeout(() => {
+                this.retry(src)
+              }, RETRY_DISTANCE)
+            } else {
+              this.setState({
+                uri: path || _src
+              })
+            }
           }
         } catch (error) {
-          // 图片是不是会下载失败, 当错误次数大于maxErrorCount就认为是错误
-          if (this.errorCount < maxErrorCount) {
-            this.timeoutId = setTimeout(() => {
-              this.errorCount += 1
-              this.cache(src)
-            }, 400)
-          } else {
-            this.timeoutId = null
-            this.onError()
-          }
+          this.retry(src)
         }
       } else {
         uri = src
@@ -190,6 +202,21 @@ export const Image = observer(
       }
 
       return res
+    }
+
+    /**
+     * 图片是不是会下载失败, 当错误次数大于MAX_ERROR_COUNT就认为是错误
+     */
+    retry = src => {
+      if (this.errorCount < MAX_ERROR_COUNT) {
+        this.timeoutId = setTimeout(() => {
+          this.errorCount += 1
+          this.cache(src)
+        }, 400)
+      } else {
+        this.timeoutId = null
+        this.onError()
+      }
     }
 
     /**
@@ -236,6 +263,14 @@ export const Image = observer(
      * 加载失败
      */
     onError = () => {
+      const { src } = this.props
+      if (!IOS && typeof src === 'string' && src.includes('/bgm_poster')) {
+        setTimeout(() => {
+          this.retry(`${src}?ts=${getTimestamp()}`)
+        }, RETRY_DISTANCE)
+        return
+      }
+
       this.setState(
         {
           error: true
@@ -247,17 +282,20 @@ export const Image = observer(
       )
     }
 
-    get headers() {
+    get headers(): {} {
       const { src, headers } = this.props
       if (headers) {
-        return {
-          ...defaultHeaders,
-          ...headers
+        if (typeof src === 'string' && src.includes('lain.')) {
+          return {
+            ...DEFAULT_HEADERS,
+            ...(headers || {})
+          }
         }
+        return headers
       }
 
       if (typeof src === 'string' && src.includes('lain.')) {
-        return defaultHeaders
+        return DEFAULT_HEADERS
       }
 
       return {}

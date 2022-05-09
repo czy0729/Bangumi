@@ -3,12 +3,17 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 23:04:47
+ * @Last Modified time: 2022-05-09 16:14:05
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
 import { DEV, HOST, HOST_2, EVENT, IMG_DEFAULT } from '@constants'
-import { initHashSubjectOTA, initHashAvatarOTA, CDN_OSS_SUBJECT } from '@constants/cdn'
+import {
+  initHashSubjectOTA,
+  initHashAvatarOTA,
+  CDN_OSS_SUBJECT,
+  CDN_OSS_MAGMA_POSTER
+} from '@constants/cdn'
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
@@ -470,6 +475,8 @@ export function matchCoverUrl(src: string, noDefault?: boolean) {
 
   // 有些情况图片地址分析错误, 排除掉
   if (noImg.includes(src)) return IMG_DEFAULT || fallback
+  if (cdn && cdnOrigin === 'magma')
+    return CDN_OSS_MAGMA_POSTER(getCoverMedium(src)) || fallback
   if (cdn) return CDN_OSS_SUBJECT(getCoverMedium(src), cdnOrigin) || fallback
 
   // 大图不替换成低质量图

@@ -4,37 +4,30 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 13:06:06
+ * @Last Modified time: 2022-05-09 13:26:17
  */
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import {
-  ViewPropTypes,
-  ColorPropType,
-  Animated,
-  Easing,
-  PanResponder
-} from 'react-native'
+import { Animated, Easing, PanResponder } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 
 const SCALE = 6 / 5
 
 class SwitchProComp extends Component<any, any> {
-  static propTypes = {
-    style: ViewPropTypes.style,
-    circleStyle: ViewPropTypes.style,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    value: PropTypes.bool,
-    disabled: PropTypes.bool,
-    circleColorActive: ColorPropType,
-    circleColorInactive: ColorPropType,
-    backgroundActive: ColorPropType,
-    backgroundInactive: ColorPropType,
-    onAsyncPress: PropTypes.func,
-    onSyncPress: PropTypes.func
-  }
+  // static propTypes = {
+  //   style: ViewPropTypes.style,
+  //   circleStyle: ViewPropTypes.style,
+  //   width: PropTypes.number,
+  //   height: PropTypes.number,
+  //   value: PropTypes.bool,
+  //   disabled: PropTypes.bool,
+  //   circleColorActive: ColorPropType,
+  //   circleColorInactive: ColorPropType,
+  //   backgroundActive: ColorPropType,
+  //   backgroundInactive: ColorPropType,
+  //   onAsyncPress: PropTypes.func,
+  //   onSyncPress: PropTypes.func
+  // }
 
   static defaultProps = {
     width: 52,

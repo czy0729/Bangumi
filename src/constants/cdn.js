@@ -9,12 +9,13 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 10:26:44
+ * @Last Modified time: 2022-05-10 05:17:28
  */
 import { getTimestamp } from '@utils/utils'
 import { getStorage, setStorage } from '@utils/storage'
 import { getSystemStoreAsync } from '@utils/async'
 import { xhrCustom } from '@utils/fetch'
+import Crypto from '@utils/crypto'
 import _hash from '@utils/thirdParty/hash'
 import hashSubject from '@constants/json/hash/subject.min.json'
 import hashAvatar from '@constants/json/hash/avatar.min.json'
@@ -460,6 +461,30 @@ export const CDN_OSS_SUBJECT = (src, cdnOrigin) => {
 
   if (hashSubjectLoaded) cacheSubject[src] = src
   return src
+}
+
+let CDN_MAGMA
+export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '') => {
+  if (
+    typeof mediumSrc !== 'string' ||
+    mediumSrc === '' ||
+    !mediumSrc.includes('/c/') ||
+    /\/(photo|user|icon)\/|_(crt|prsn)_/.test(mediumSrc)
+  ) {
+    return mediumSrc
+  }
+
+  const poster = mediumSrc.split('/c/')?.[1] || ''
+  if (!poster) return mediumSrc
+
+  if (!CDN_MAGMA) {
+    CDN_MAGMA = Crypto.get(
+      'U2FsdGVkX19ijFHqvLmjqk2TrA/nstbTOXP4RBMFgmACzrGwUBW4kFpYB8QBtsh5'
+    )
+  }
+  if (!CDN_MAGMA) return mediumSrc
+
+  return `${CDN_MAGMA}/pic/cover/l/${poster.split('?')[0]}/bgm_poster`
 }
 
 /* ==================== tinygrail xsb relation ==================== */

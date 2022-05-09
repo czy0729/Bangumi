@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 12:03:36
+ * @Last Modified time: 2022-05-09 14:15:41
  */
 class Model {
   constructor(data) {
@@ -564,6 +564,10 @@ export const MODEL_SETTING_CDN_ORIGIN = new Model([
   {
     label: 'OneDrive',
     value: 'OneDrive'
+  },
+  {
+    label: 'magma',
+    value: 'magma'
   }
 ])
 

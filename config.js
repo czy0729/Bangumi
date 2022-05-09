@@ -1,18 +1,26 @@
 /*
+ * 开发调试时用配置
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 19:45:57
+ * @Last Modified time: 2022-05-10 07:25:34
  */
-export const INIT_DEV_DARK = '' // '' 不控制 | true 强制黑暗 | false 强制白天
+/** 强制主题模式: '' => 不控制 | true => 强制黑暗 | false => 强制白天 */
+export const INIT_DEV_DARK = ''
+
+/** <BottomTabNavigator> 初始路由 */
 export const INIT_ROUTE = 'Home'
-export const RERENDER_SHOW = /ZZZ/
-// export const RERENDER_SHOW = /Rakuen\.(.+?)\.Main/
 
-// 是否开发模式
+/** 观察组件 re-render 用 */
+export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
+
+/** 是否开发模式 */
 export const DEV = global.__DEV__
-export const TEXT_ONLY = DEV
 
+/** 开发模式中是否不显示图片 */
+export const TEXT_ONLY = DEV ? !DEV : false
+
+/** 路由覆盖配置 */
 export default {
   initialRouteName: 'HomeTab', // HomeTab Discovery Subject Tinygrail BilibiliSync
   initialRouteParams: {

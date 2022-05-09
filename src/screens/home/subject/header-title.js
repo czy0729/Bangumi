@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-11 11:48:40
+ * @Last Modified time: 2022-05-09 15:46:34
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { Cover, Stars } from '@_'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
-import { getCoverMedium } from '@utils/app'
-import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
 const imgWidth = 28
 const imgHeight = imgWidth * 1.28
@@ -28,7 +26,7 @@ const HeaderTitle = memo(({ common, score, type, cn, titleLabel }) => {
   return (
     <Flex style={styles.container}>
       <Cover
-        src={CDN_OSS_SUBJECT(getCoverMedium(common))}
+        src={common}
         size={type === '音乐' ? imgHeight : imgWidth}
         height={imgHeight}
         radius={_.radiusSm}

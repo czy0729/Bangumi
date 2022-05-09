@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-20 18:00:08
+ * @Last Modified time: 2022-05-10 06:33:36
  */
 import React from 'react'
 import { Header, ScrollView, Flex, Text, Image } from '@components'
@@ -36,7 +36,7 @@ const Qiafan = () => {
           　　还是那句话，用户的支持就是作者继续开发下去的动力，觉得好用的不忘到github上给星星或分发平台（如酷安）上打分，这些无形的资产也许会对作者日后的职业生涯产生重要的帮助。
         </Text>
         <Text style={_.mt.sm} lineHeight={16}>
-          　　2022年以来，因为网络上面的各种你懂的原因，维护App的正常使用变得异常的困难，目前有打算使用一点资金，在后续的版本中提供更加快速稳定的内容访问服务。话我就说白了，后续会开发更多的专属于会员的服务，因为实在需要米作为开发的动力。
+          　　2022年以来，因各种你懂的原因，且不说开发新功能，有时候因很多突发的问题，维护App的正常使用就已经使人心力交瘁。目前有打算使用一点资金，在后续的版本中提供更加快速稳定的内容访问服务。话我就说白了，后续会开发更多的专属于会员的服务，因为实在需要米作为开发的动力。
         </Text>
         <Text style={_.mt.md} lineHeight={16} align='right'>
           　　2022/04/20

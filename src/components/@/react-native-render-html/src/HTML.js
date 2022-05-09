@@ -3,11 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-23 10:51:02
+ * @Last Modified time: 2022-05-09 13:27:11
  */
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { View, Text, ViewPropTypes, ActivityIndicator, Dimensions } from 'react-native'
+import { View, Text, ActivityIndicator, Dimensions } from 'react-native'
 import {
   cssStringToRNStyle,
   _getElementClassStyles,
@@ -34,39 +33,39 @@ import { IOS } from '@constants'
 import * as HTMLRenderers from './HTMLRenderers'
 
 export default class HTML extends PureComponent {
-  static propTypes = {
-    renderers: PropTypes.object.isRequired,
-    ignoredTags: PropTypes.array.isRequired,
-    ignoredStyles: PropTypes.array.isRequired,
-    allowedStyles: PropTypes.array,
-    decodeEntities: PropTypes.bool.isRequired,
-    debug: PropTypes.bool.isRequired,
-    listsPrefixesRenderers: PropTypes.object,
-    ignoreNodesFunction: PropTypes.func,
-    alterData: PropTypes.func,
-    alterChildren: PropTypes.func,
-    alterNode: PropTypes.func,
-    html: PropTypes.string,
-    uri: PropTypes.string,
-    tagsStyles: PropTypes.object,
-    classesStyles: PropTypes.object,
-    containerStyle: ViewPropTypes ? ViewPropTypes.style : View.propTypes.style,
-    customWrapper: PropTypes.func,
-    onLinkPress: PropTypes.func,
-    onParsed: PropTypes.func,
-    imagesMaxWidth: PropTypes.number,
-    staticContentMaxWidth: PropTypes.number,
-    imagesInitialDimensions: PropTypes.shape({
-      width: PropTypes.number,
-      height: PropTypes.number
-    }),
-    emSize: PropTypes.number.isRequired,
-    ptSize: PropTypes.number.isRequired,
-    baseFontStyle: PropTypes.object.isRequired,
-    textSelectable: PropTypes.bool,
-    renderersProps: PropTypes.object,
-    allowFontScaling: PropTypes.bool
-  }
+  // static propTypes = {
+  //   renderers: PropTypes.object.isRequired,
+  //   ignoredTags: PropTypes.array.isRequired,
+  //   ignoredStyles: PropTypes.array.isRequired,
+  //   allowedStyles: PropTypes.array,
+  //   decodeEntities: PropTypes.bool.isRequired,
+  //   debug: PropTypes.bool.isRequired,
+  //   listsPrefixesRenderers: PropTypes.object,
+  //   ignoreNodesFunction: PropTypes.func,
+  //   alterData: PropTypes.func,
+  //   alterChildren: PropTypes.func,
+  //   alterNode: PropTypes.func,
+  //   html: PropTypes.string,
+  //   uri: PropTypes.string,
+  //   tagsStyles: PropTypes.object,
+  //   classesStyles: PropTypes.object,
+  //   containerStyle: ViewPropTypes ? ViewPropTypes.style : View.propTypes.style,
+  //   customWrapper: PropTypes.func,
+  //   onLinkPress: PropTypes.func,
+  //   onParsed: PropTypes.func,
+  //   imagesMaxWidth: PropTypes.number,
+  //   staticContentMaxWidth: PropTypes.number,
+  //   imagesInitialDimensions: PropTypes.shape({
+  //     width: PropTypes.number,
+  //     height: PropTypes.number
+  //   }),
+  //   emSize: PropTypes.number.isRequired,
+  //   ptSize: PropTypes.number.isRequired,
+  //   baseFontStyle: PropTypes.object.isRequired,
+  //   textSelectable: PropTypes.bool,
+  //   renderersProps: PropTypes.object,
+  //   allowFontScaling: PropTypes.bool
+  // }
 
   static defaultProps = {
     renderers: HTMLRenderers,
@@ -142,7 +141,7 @@ export default class HTML extends PureComponent {
             loadingRemoteURL: true,
             errorLoadingRemoteURL: false
           })
-          let response = await fetch(uri)
+          const response = await fetch(uri)
           this.setState({ dom: response._bodyText, loadingRemoteURL: false })
         } catch (err) {
           console.warn(err)
@@ -238,11 +237,11 @@ export default class HTML extends PureComponent {
           TEXT_TAGS_IGNORING_ASSOCIATION.indexOf(child.parent.name) === -1)
       ) {
         // Texts outside <p> or not <p> themselves (with siblings)
-        let wrappedTexts = []
+        const wrappedTexts = []
         for (let j = i; j < children.length; j++) {
           // Loop on its next siblings and store them in an array
           // until we encounter a block or a <p>
-          let nextSibling = children[j]
+          const nextSibling = children[j]
           if (
             nextSibling.wrapper !== 'Text' ||
             TEXT_TAGS_IGNORING_ASSOCIATION.indexOf(nextSibling.tagName) !== -1
@@ -292,7 +291,7 @@ export default class HTML extends PureComponent {
       tagsStyles,
       classesStyles
     } = props
-    let RNElements = DOMNodes.map((node, nodeIndex) => {
+    const RNElements = DOMNodes.map((node, nodeIndex) => {
       let { children, data } = node
       if (ignoreNodesFunction && ignoreNodesFunction(node, parentTag) === true) {
         return false
@@ -436,7 +435,7 @@ export default class HTML extends PureComponent {
             ...cssStringToObject(attribs.style || '')
           }
 
-          let textChildrenInheritedStyles = {}
+          const textChildrenInheritedStyles = {}
           Object.keys(wrapperStyles).forEach(styleKey => {
             // Extract text-only styles
             if (TextOnlyPropTypes.indexOf(styleKey) !== -1) {
