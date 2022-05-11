@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 23:02:48
+ * @Last Modified time: 2022-05-12 04:47:26
  */
-import { ImageProps } from 'react-native'
+import { ColorValue, ImageProps } from 'react-native'
 import { Expand, ViewStyle, ImageStyle, EventType } from '@types'
 
 type Source = {
@@ -37,10 +37,10 @@ export type Props = Expand<
     /** 高度 */
     height?: number
 
-    /** 是否带边框 */
-    border?: number | boolean
+    /** 是否带边框, truely则显示 */
+    border?: number | boolean | ColorValue
 
-    /** 是否带边框 */
+    /** 边框大小 */
     borderWidth?: number
 
     /** 是否带圆角 */

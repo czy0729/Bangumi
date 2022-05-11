@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-09 16:14:05
+ * @Last Modified time: 2022-05-12 04:59:31
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -17,7 +17,7 @@ import {
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
 import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
-import { Navigation } from '@types'
+import { Navigation, Source } from '@types'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
 import { rerender, globalLog, globalWarn } from './dev'
@@ -475,8 +475,16 @@ export function matchCoverUrl(src: string, noDefault?: boolean) {
 
   // 有些情况图片地址分析错误, 排除掉
   if (noImg.includes(src)) return IMG_DEFAULT || fallback
-  if (cdn && cdnOrigin === 'magma')
+
+  if (
+    cdn &&
+    cdnOrigin === 'magma' &&
+    typeof src === 'string' &&
+    src.includes(HOST_IMAGE)
+  ) {
     return CDN_OSS_MAGMA_POSTER(getCoverMedium(src)) || fallback
+  }
+
   if (cdn) return CDN_OSS_SUBJECT(getCoverMedium(src), cdnOrigin) || fallback
 
   // 大图不替换成低质量图
@@ -669,7 +677,7 @@ export function getCoverSmall(src = '') {
  * 获取中质量bgm图片
  * @param {*} src
  */
-export function getCoverMedium(src = '', mini = false) {
+export function getCoverMedium(src, mini = false) {
   /**
    * 角色图片因为是对头部划图的, 不要处理
    * 用户图床也没有其他质量
@@ -688,6 +696,7 @@ export function getCoverMedium(src = '', mini = false) {
   if (mini || src.includes('/user/') || src.includes('/icon/')) {
     return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
   }
+
   return src.replace(/\/g\/|\/s\/|\/m\/|\/l\//, '/c/')
 }
 

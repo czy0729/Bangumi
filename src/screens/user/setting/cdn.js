@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-10 07:24:24
+ * @Last Modified time: 2022-05-12 05:05:45
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -19,12 +19,14 @@ import { CDN_OSS_MAGMA_POSTER } from '@constants/cdn'
 import styles from './styles'
 
 const URL_LAIN = 'https://lain.bgm.tv/pic/cover/c/fa/1d/25833_kZIjD.jpg'
+const URL_LAIN_NEW = 'https://lain.bgm.tv/pic/cover/c/ff/e5/327606_Q11Sq.jpg'
 const URL_JSDELIVR =
   'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OSS@master/data/subject/c/t/TfOdAB.jpg'
 const URL_FASTLY = URL_JSDELIVR.replace('cdn', 'fastly')
 const URL_ONEDRIVE = 'https://bangumi.stdcdn.com/subject/c/t/TfOdAB.jpg'
-const IMG_WIDTH = parseInt((_.window.contentWidth - 2 * _.md) / 3)
+const IMG_WIDTH = parseInt((_.window.contentWidth - 2 * _.sm) / 3)
 const IMG_HEIGHT = parseInt(IMG_WIDTH * 1.44)
+const ADVANCE_CDN = 10
 
 function CDN() {
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -134,6 +136,18 @@ function CDN() {
                 if (cdn && origin === 'magma') return
                 if (!systemStore.advance) return info('此域名仅对高级会员开放')
 
+                // 获取历史打赏金额
+                const value = await systemStore.fetchAdvanceDetail()
+                if (value == 1) {
+                  info('你是长期高级会员，暂时允许开启')
+                } else {
+                  const [, amount] = String(value).split('|')
+                  if (Number(amount || 0) < ADVANCE_CDN) {
+                    info(`历史打赏为 ${amount}，不足条件 ${ADVANCE_CDN}`)
+                    return
+                  }
+                }
+
                 t('设置.切换', {
                   title: 'CDN加速',
                   checked: !cdn,
@@ -159,10 +173,10 @@ function CDN() {
                   onPress={() =>
                     alert(
                       `此域名为用户 @magma 提供，支持所有封面图，并自带缩放压缩、webp、稳定CDN加速
-                      \n作者与其达成了某种约定，因流量是需要自费的，目前仅对历史打赏达到10元的高级会员开放，恳请谅解
-                      \n后续会观察使用的流量数据，可能会放宽限制
-                      \n更多使用详情说明，目前OSS 1G的费用大概是0.2元，1个用户首次访问10-20个路径的页面，封面图可能会产生50-100MB的流量
-                      \n若漏算了历史打赏金额的，可以私信作者`,
+                      \n作者与其达成了某种约定，因流量是需要自费的，目前仅对历史打赏达到[${ADVANCE_CDN}]元的高级会员开放测试，恳请谅解
+                      \n目前初上线需要监控流量数据，后续会根据观察到的使用量，可能会放宽限制
+                      \n科普: 目前OSS 1G的费用不低于0.2元，1个用户首次访问10-20个路径的页面，封面图可能会产生50-100MB的流量
+                      \n若漏算了历史打赏金额的，可以私信作者修正`,
                       '关于Magma'
                     )
                   }
@@ -175,7 +189,7 @@ function CDN() {
           <ItemSettingBlock
             style={_.mt.md}
             title='测试'
-            information='有ms不代表能加载图片，只是ping后有结果的时间'
+            information='有ms并不代表能顺利加载图片，只是ping后立马返回结果的时间'
           >
             {test ? (
               <>
@@ -188,8 +202,8 @@ function CDN() {
                       cdn={false}
                       radius
                     />
-                    <Text style={_.mt.xs} type='sub' size={10} align='center'>
-                      lain.bgm.tv: {pings.lain || 0}ms
+                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
+                      不使用: {pings.lain || 0}ms
                     </Text>
                   </Flex>
                 </Flex.Item>
@@ -201,7 +215,7 @@ function CDN() {
                       src={CDN_OSS_MAGMA_POSTER(URL_LAIN)}
                       radius
                     />
-                    <Text style={_.mt.xs} type='sub' size={10} align='center'>
+                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
                       Magma: {pings.magma || 0}ms
                     </Text>
                   </Flex>
@@ -214,7 +228,7 @@ function CDN() {
                       src={URL_ONEDRIVE}
                       radius
                     />
-                    <Text style={_.mt.xs} type='sub' size={10} align='center'>
+                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
                       OneDrive: {pings.onedrive || 0}ms
                     </Text>
                   </Flex>
@@ -244,7 +258,7 @@ function CDN() {
                     src={URL_JSDELIVR}
                     radius
                   />
-                  <Text style={_.mt.xs} type='sub' size={10} align='center'>
+                  <Text style={_.mt.sm} type='sub' size={10} align='center'>
                     jsDelivr: {pings.jsdelivr || 0}ms
                   </Text>
                 </Flex>
@@ -252,13 +266,93 @@ function CDN() {
               <Flex.Item style={_.ml.md}>
                 <Flex style={_.container.block} direction='column' justify='center'>
                   <Cover size={IMG_WIDTH} height={IMG_HEIGHT} src={URL_FASTLY} radius />
-                  <Text style={_.mt.xs} type='sub' size={10} align='center'>
+                  <Text style={_.mt.sm} type='sub' size={10} align='center'>
                     fastly: {pings.fastly || 0}ms
                   </Text>
                 </Flex>
               </Flex.Item>
               <Flex.Item style={_.ml.md} />
             </ItemSettingBlock>
+          )}
+
+          {/* 新番 */}
+          {test && (
+            <>
+              <ItemSettingBlock>
+                <Flex.Item>
+                  <Flex style={_.container.block} direction='column' justify='center'>
+                    <Cover
+                      size={IMG_WIDTH}
+                      height={IMG_HEIGHT}
+                      src={URL_LAIN_NEW}
+                      cdn={false}
+                      radius
+                    />
+                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
+                      不使用: 新番图
+                    </Text>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item style={_.ml.md}>
+                  <Flex style={_.container.block} direction='column' justify='center'>
+                    <Cover
+                      size={IMG_WIDTH}
+                      height={IMG_HEIGHT}
+                      src={CDN_OSS_MAGMA_POSTER(URL_LAIN_NEW)}
+                      radius
+                    />
+                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
+                      Magma: 新番图
+                    </Text>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item style={_.ml.md}>
+                  <Flex style={_.container.block} direction='column' justify='center'>
+                    <Cover
+                      size={IMG_WIDTH}
+                      height={IMG_HEIGHT}
+                      src={URL_LAIN_NEW}
+                      cdn={false}
+                      radius
+                    />
+                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
+                      OneDrive: 新番图
+                    </Text>
+                  </Flex>
+                </Flex.Item>
+              </ItemSettingBlock>
+              <ItemSettingBlock style={_.mt._md}>
+                <Flex.Item>
+                  <Flex style={_.container.block} direction='column' justify='center'>
+                    <Cover
+                      size={IMG_WIDTH}
+                      height={IMG_HEIGHT}
+                      src={URL_LAIN_NEW}
+                      cdn={false}
+                      radius
+                    />
+                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
+                      jsDelivr: 新番图
+                    </Text>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item style={_.ml.md}>
+                  <Flex style={_.container.block} direction='column' justify='center'>
+                    <Cover
+                      size={IMG_WIDTH}
+                      height={IMG_HEIGHT}
+                      src={URL_LAIN_NEW}
+                      cdn={false}
+                      radius
+                    />
+                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
+                      fastly: 新番图
+                    </Text>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item style={_.ml.md} />
+              </ItemSettingBlock>
+            </>
           )}
 
           {/* 旧版本域 */}
@@ -270,9 +364,9 @@ function CDN() {
               onPress={() => setDeprecated(!deprecated)}
             >
               [待废弃]
-              因国内访问困难无法恢复，v6.2.5以后不再维护，功能保留，若你的网络依然能访问可以考虑使用
-              <Text size={12} type='sub'>
-                ，点击{deprecated ? '收起' : '展开'}
+              因国内访问困难无法恢复，v6.2.5以后不再维护，功能保留，若你的网络依然能访问可以考虑使用，
+              <Text size={12} type='warning'>
+                点击{deprecated ? '收起' : '展开'}
               </Text>
             </Text>
           </ItemSettingBlock>

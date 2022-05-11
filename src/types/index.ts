@@ -18,7 +18,7 @@ export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never
 
 /** constants */
 export type Navigation = {
-  push?: (arg0?: any) => any
+  push?: (path: string, params?: object) => any
   navigate?: (arg0?: any) => any
   goBack?: (arg0?: any) => any
   getRootState?: (arg0?: any) => any

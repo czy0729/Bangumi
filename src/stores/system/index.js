@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-04 16:02:25
+ * @Last Modified time: 2022-05-12 04:00:01
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -222,6 +222,21 @@ class System extends store {
     }
 
     return true
+  }
+
+  fetchAdvanceDetail = async () => {
+    const { myId, myUserId } = UserStore
+    if (!myId || !myUserId) return false
+
+    try {
+      const { _response } = await xhrCustom({
+        url: `${GITHUB_ADVANCE}?t=${getTimestamp()}`
+      })
+      const advanceUserMap = JSON.parse(_response)
+      return advanceUserMap[myId] || advanceUserMap[myUserId]
+    } catch (error) {
+      return 0
+    }
   }
 
   // -------------------- page --------------------

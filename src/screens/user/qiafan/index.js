@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-10 06:33:36
+ * @Last Modified time: 2022-05-12 04:24:34
  */
 import React from 'react'
 import { Header, ScrollView, Flex, Text, Image } from '@components'
@@ -14,7 +14,10 @@ const Qiafan = () => {
   return useObserver(() => (
     <>
       <Header title='关于' hm={['qiafan', 'Qiafan']} />
-      <ScrollView style={_.container.plain} contentContainerStyle={_.container.wind}>
+      <ScrollView
+        style={_.container.plain}
+        contentContainerStyle={[_.container.wind, _.container.bottom]}
+      >
         <Text lineHeight={16}>
           　　自19年2月以来项目已持续开发已超过3年。最初仅是为练手而建立，也是第一次做app，后来发现很有趣便一直开发至今。回头一算，发电时间也许已经超过10000小时。
         </Text>

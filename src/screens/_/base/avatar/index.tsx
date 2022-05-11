@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 20:02:52
+ * @Last Modified time: 2022-05-12 05:00:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,64 @@ import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
-import { IOS, URL_DEFAULT_AVATAR, IMG_DEFAULT } from '@constants'
+import {
+  IOS,
+  URL_DEFAULT_AVATAR,
+  // @ts-ignore
+  IMG_DEFAULT
+} from '@constants'
 import { HOST_CDN, CDN_OSS_AVATAR } from '@constants/cdn'
+import { ColorValue, EventType, Navigation, ViewStyle, Fn } from '@types'
+import { memoStyles } from './styles'
 
-const ts = parseInt(getTimestamp() / 604800) // 一周才变化一次
+type Props = {
+  /** 图片容器样式 */
+  style?: ViewStyle
+
+  /** 路由 */
+  navigation?: Navigation
+
+  /** 用户 id, 存在则允许点击进入用户空间 */
+  userId?: number | string
+
+  /** 用户昵称 */
+  name?: string
+
+  /** 头像地址 */
+  src?: string
+
+  /** 大小 */
+  size?: number
+
+  /** 边框大小 */
+  borderWidth?: number
+
+  /** 边框颜色 */
+  borderColor?: ColorValue
+
+  /** 埋点事件 */
+  event?: EventType
+
+  /** 路由跳转额外传递参数 */
+  params?: object
+
+  /** 是否强制圆形 */
+  round?: boolean
+
+  /** 圆角大小 */
+  radius?: number
+
+  /** 是否显示底色 */
+  placeholder?: boolean
+
+  /** 点击回调, 会覆盖跳转到用户空间的事件 */
+  onPress?: Fn
+
+  /** 长按回调 */
+  onLongPress?: Fn
+}
+
+const ts = parseInt(String(getTimestamp() / 604800)) // 一周才变化一次
 
 export const Avatar = ob(
   ({
@@ -26,8 +80,8 @@ export const Avatar = ob(
     name,
     src,
     size = 40,
-    borderColor = _.colorBorder,
     borderWidth,
+    borderColor = _.colorBorder,
     event = {},
     params = {},
     round,
@@ -35,12 +89,14 @@ export const Avatar = ob(
     placeholder,
     onPress,
     onLongPress
-  }) => {
+  }: Props) => {
     const styles = memoStyles()
     const { dev } = systemStore.state
     const { cdn, cdnAvatar, avatarRound, coverRadius } = systemStore.setting
+
+    // @ts-ignore
     const { avatar } = userStore.usersInfo()
-    const _size = size * _.ratio
+    const _size = _.r(size)
 
     /**
      * 判断是否自己的头像, 若是不走CDN, 保证最新
@@ -66,7 +122,7 @@ export const Avatar = ob(
     }
 
     // 默认带圆角, 若大小的一半比设置的圆角还小, 为避免方形头像变成原型, 则覆盖成sm
-    let _radius = true
+    let _radius: boolean | number = true
     if (radius) {
       _radius = radius
     } else if (round || avatarRound) {
@@ -109,7 +165,7 @@ export const Avatar = ob(
         {
           width: _size,
           height: _size,
-          borderColor
+          borderWidth: 0
         },
         style
       ]
@@ -133,13 +189,11 @@ export const Avatar = ob(
       )
     }
 
+    const isUrl = typeof _src === 'string'
     return (
       <Image
-        key={typeof _src === 'string' ? _src : 'avatar'}
-        style={[
-          style,
-          dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev
-        ]}
+        key={isUrl ? _src : 'avatar'}
+        style={[style, dev && isUrl && _src.includes(HOST_CDN) && styles.dev]}
         size={_size}
         src={_src}
         radius={_radius}
@@ -153,16 +207,3 @@ export const Avatar = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  avatar: {
-    borderWidth: _.hairlineWidth,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  dev: {
-    borderWidth: 1,
-    borderColor: _.colorDanger
-  }
-}))

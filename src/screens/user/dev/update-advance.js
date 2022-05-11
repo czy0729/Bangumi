@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 10:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-05 18:11:52
+ * @Last Modified time: 2022-05-12 04:03:31
  */
 import React, { useState, useCallback } from 'react'
 import { Touchable, Flex, Text, Input, Iconfont } from '@components'
@@ -41,7 +41,7 @@ function UpdateAdvance({ navigation }) {
 
     await put({
       path: 'advance.json',
-      content: JSON.stringify(data)
+      content: JSON.stringify(data, null, 2)
     })
     info('update db success')
   }, [uid, val])

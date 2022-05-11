@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-10 05:17:28
+ * @Last Modified time: 2022-05-12 03:53:17
  */
 import { getTimestamp } from '@utils/utils'
 import { getStorage, setStorage } from '@utils/storage'
@@ -479,7 +479,7 @@ export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '') => {
 
   if (!CDN_MAGMA) {
     CDN_MAGMA = Crypto.get(
-      'U2FsdGVkX19ijFHqvLmjqk2TrA/nstbTOXP4RBMFgmACzrGwUBW4kFpYB8QBtsh5'
+      'U2FsdGVkX1+S8gwWkhCK40YiqSJWzA2theNahdzlVnwOlyz+ZiaJLOv6qkJeCRPv'
     )
   }
   if (!CDN_MAGMA) return mediumSrc
