@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 19:46:19
+ * @Last Modified time: 2022-05-10 15:40:11
  */
 import React from 'react'
 import { Flex, Text, Iconfont } from '@components'
@@ -39,9 +39,14 @@ const Item = ({ type, id, uuid, active, name, url, sort }, { $ }) => {
               </Text>
             )}
           </Text>
-          <Text style={_.mt.xs} size={12} type='sub' numberOfLines={1}>
-            [{sort}] {url}
-          </Text>
+          <Flex style={_.mt.sm}>
+            {sort >= 0 && <Tag style={_.mr.sm} value={sort} />}
+            <Flex.Item>
+              <Text size={12} type='sub' numberOfLines={1}>
+                {url}
+              </Text>
+            </Flex.Item>
+          </Flex>
         </Flex.Item>
         {isActive && <Tag style={_.ml.md} value='生效' />}
         <Popover

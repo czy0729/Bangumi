@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 15:46:11
+ * @Last Modified time: 2022-05-11 05:26:46
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
 import { getTimestamp, open, copy } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { getOriginConfig, replaceOriginUrl } from './utils'
 
 export const types = [
@@ -77,6 +78,8 @@ export const types = [
   }
 ]
 
+const namespace = 'ScreenOriginSetting'
+
 export default class ScreenOriginSetting extends store {
   state = observable({
     data: {
@@ -101,12 +104,15 @@ export default class ScreenOriginSetting extends store {
         sort: 0,
         active: 1
       }
-    }
+    },
+    active: true
   })
 
-  init = () => {
+  init = async () => {
+    const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
-      data: toJS(subjectStore.origin)
+      data: toJS(subjectStore.origin),
+      active: state?.active || false
     })
   }
 
@@ -117,6 +123,14 @@ export default class ScreenOriginSetting extends store {
   }
 
   // -------------------- action --------------------
+  onToggle = () => {
+    const { active } = this.state
+    this.setState({
+      active: !active
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
   updateOrigin = () => {
     setTimeout(() => {
       const { data } = this.state
@@ -133,6 +147,10 @@ export default class ScreenOriginSetting extends store {
         type,
         item
       }
+    })
+
+    t('自定义源头.编辑表单', {
+      type
     })
   }
 
@@ -153,6 +171,8 @@ export default class ScreenOriginSetting extends store {
         }
       }
     })
+
+    t('自定义源头.关闭表单')
   }
 
   /**
@@ -245,6 +265,10 @@ export default class ScreenOriginSetting extends store {
 
     this.closeEdit()
     this.updateOrigin()
+
+    t('自定义源头.保存源头', {
+      type
+    })
   }
 
   /**
@@ -276,6 +300,10 @@ export default class ScreenOriginSetting extends store {
       data: _data
     })
     this.updateOrigin()
+
+    t('自定义源头.停用源头', {
+      type
+    })
   }
 
   /**
@@ -307,6 +335,10 @@ export default class ScreenOriginSetting extends store {
       data: _data
     })
     this.updateOrigin()
+
+    t('自定义源头.启用源头', {
+      type
+    })
   }
 
   /**

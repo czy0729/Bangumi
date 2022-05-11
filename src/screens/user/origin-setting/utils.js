@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:09:25
+ * @Last Modified time: 2022-05-12 01:55:11
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -39,13 +39,6 @@ export function getBaseOriginConfig() {
         active: 1
       },
       {
-        id: 'anime|xunbo',
-        name: '迅播动漫',
-        url: `${SITE_XUNBO()}/search.php?searchword=[CN]`,
-        sort: 0,
-        active: 1
-      },
-      {
         id: 'anime|qiqi',
         name: '奇奇动漫',
         url: 'https://www.qiqidongman.com/vod-search-wd-[CN].html',
@@ -58,6 +51,21 @@ export function getBaseOriginConfig() {
         url: 'https://anime1.me/?s=[CN_S2T]',
         sort: 0,
         active: 1
+      },
+      {
+        id: 'anime|moe',
+        name: '萌番组',
+        desc: '复制当前[CN]后跳转，请自行粘贴搜索',
+        url: 'https://bangumi.moe/search/index',
+        sort: 0,
+        active: 1
+      },
+      {
+        id: 'anime|xunbo',
+        name: '迅播动漫',
+        url: `${SITE_XUNBO()}/search.php?searchword=[CN]`,
+        sort: 0,
+        active: 0
       }
     ],
     hanime: [

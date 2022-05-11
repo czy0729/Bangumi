@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 00:36:14
+ * @Last Modified time: 2022-05-11 18:06:32
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -79,12 +79,7 @@ const Series = memo(
                         前传
                       </Text>
                     </Flex>
-                    <Heatmap
-                      id='条目.跳转'
-                      data={{
-                        from: '系列前传'
-                      }}
-                    />
+                    <Heatmap id='条目.跳转' from='系列前传' />
                   </Touchable>
                 )}
                 {!!subjectAfter && (
@@ -119,13 +114,7 @@ const Series = memo(
                         续集
                       </Text>
                     </Flex>
-                    <Heatmap
-                      right={-19}
-                      id='条目.跳转'
-                      data={{
-                        from: '系列续集'
-                      }}
-                    />
+                    <Heatmap right={-19} id='条目.跳转' from='系列续集' />
                   </Touchable>
                 )}
                 {!!subjectAnime && (
@@ -160,13 +149,7 @@ const Series = memo(
                         动画
                       </Text>
                     </Flex>
-                    <Heatmap
-                      right={-19}
-                      id='条目.跳转'
-                      data={{
-                        from: '动画化'
-                      }}
-                    />
+                    <Heatmap right={-19} id='条目.跳转' from='动画化' />
                   </Touchable>
                 )}
               </Flex>
@@ -215,12 +198,7 @@ const Series = memo(
             {subjectSeries.title}
           </Text>
         </Flex>
-        <Heatmap
-          id='条目.跳转'
-          data={{
-            from: '系列'
-          }}
-        />
+        <Heatmap id='条目.跳转' from='系列' />
       </Touchable>
     )
   },

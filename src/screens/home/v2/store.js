@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 12:04:27
+ * @Last Modified time: 2022-05-12 01:55:40
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -16,7 +16,7 @@ import {
   calendarStore,
   systemStore
 } from '@stores'
-import { open, runAfter, getTimestamp, sleep, asc, desc } from '@utils'
+import { open, runAfter, getTimestamp, sleep, asc, desc, copy } from '@utils'
 import { t, queue } from '@utils/fetch'
 import {
   x18,
@@ -28,7 +28,7 @@ import {
 } from '@utils/app'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
-import { feedback } from '@utils/ui'
+import { feedback, info } from '@utils/ui'
 import { find } from '@utils/subject/anime'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import { IOS, DEV, SITES_DS } from '@constants'
@@ -880,6 +880,15 @@ export default class ScreenHomeV2 extends store {
       if (!url) {
         const find = this.onlineOrigins(subjectId).find(item => item.name === label)
         if (find) {
+          if (label === '萌番组' && find.id) {
+            copy(HTMLDecode(name_cn || name))
+            info('已复制条目名')
+            setTimeout(() => {
+              open(find.url)
+            }, 1600)
+            return
+          }
+
           url = replaceOriginUrl(find.url, {
             CN: HTMLDecode(name_cn || name),
             JP: HTMLDecode(name || name_cn),

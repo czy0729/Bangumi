@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:01:33
+ * @Last Modified time: 2022-05-11 20:42:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,12 +63,7 @@ const Relations = memo(
                 })
               }}
             />
-            <Heatmap
-              id='条目.跳转'
-              data={{
-                from: '关联条目'
-              }}
-            />
+            <Heatmap id='条目.跳转' from='关联条目' />
           </>
         )}
       </View>
