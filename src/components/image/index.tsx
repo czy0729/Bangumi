@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-09 17:08:02
+ * @Last Modified time: 2022-05-12 05:29:39
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -22,7 +22,7 @@ import {
 } from '@components/@/react-native-expo-image-cache'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { getCoverSmall, getCoverLarge } from '@utils/app'
+// import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT, TEXT_ONLY } from '@constants'
@@ -225,8 +225,11 @@ export const Image = observer(
     getQuality = (uri: string, qualityLevel = 'default') => {
       if (!uri) return ''
       if (qualityLevel === 'default') return uri
-      if (qualityLevel === 'best') return getCoverLarge(uri)
-      if (qualityLevel === 'low') return getCoverSmall(uri)
+
+      /** 已废弃 */
+      // if (qualityLevel === 'best') return getCoverLarge(uri)
+      // if (qualityLevel === 'low') return getCoverSmall(uri)
+
       return uri
     }
 

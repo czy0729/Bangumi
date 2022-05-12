@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 13:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 18:00:08
+ * @Last Modified time: 2022-05-12 05:14:02
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -35,7 +35,28 @@ function Zhinan() {
       </ItemSetting>
       <ItemSetting
         style={_.mt.xs}
-        hd='开发计划'
+        hd='开发状况'
+        arrow
+        arrowStyle={_.mr.xxs}
+        arrowIcon='md-open-in-new'
+        arrowSize={18}
+        highlight
+        onPress={() => {
+          t('设置.跳转', {
+            title: '当前开发中',
+            to: 'Notion'
+          })
+
+          open(
+            'https://adaptable-playroom-795.notion.site/2f26b642dc714c4ca4d3e8701072c591?v=fe42d34dbb354e28b5221078780f93bd'
+          )
+        }}
+      >
+        <Heatmap id='设置.跳转' to='Notion' alias='当前开发中' />
+      </ItemSetting>
+      <ItemSetting
+        style={_.mt.xs}
+        hd='开发计划问卷'
         arrow
         arrowStyle={_.mr.xxs}
         arrowIcon='md-open-in-new'

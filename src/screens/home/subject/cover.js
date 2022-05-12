@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 02:40:51
+ * @Last Modified time: 2022-05-12 05:32:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ class Cover extends React.Component {
           this.styles.container,
           this.isLoaded && this.styles.shadow,
           {
-            borderRadius: coverRadius
+            borderRadius: coverRadius + 2
           }
         ]}
       >

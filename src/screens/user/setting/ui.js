@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:58:30
+ * @Last Modified time: 2022-05-12 05:27:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,8 +23,8 @@ import { IOS, IMG_WIDTH_SM, IMG_HEIGHT_SM, IMG_DEFAULT_AVATAR } from '@constants
 import { randomSpeech } from '@constants/speech'
 import {
   MODEL_SETTING_FONTSIZEADJUST,
-  MODEL_SETTING_TRANSITION,
-  MODEL_SETTING_QUALITY
+  MODEL_SETTING_TRANSITION
+  // MODEL_SETTING_QUALITY
 } from '@constants/model'
 import commonStyles from './styles'
 
@@ -47,8 +47,8 @@ function UI() {
       ripple,
       speech,
       avatarRound,
-      transition,
-      quality
+      transition
+      // quality
     } = systemStore.setting
     const avatar = userStore.usersInfo()?.avatar?.large || IMG_DEFAULT_AVATAR
     return (
@@ -333,28 +333,6 @@ function UI() {
             <Heatmap id='设置.切换' title='字号' />
           </ItemSettingBlock>
 
-          {/* 震动 */}
-          <ItemSetting
-            hd='震动'
-            ft={
-              <SwitchPro
-                style={commonStyles.switch}
-                value={vibration}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '震动',
-                    checked: !vibration
-                  })
-
-                  systemStore.switchSetting('vibration')
-                }}
-              />
-            }
-            information='部分操作追加轻震动反馈'
-          >
-            <Heatmap id='设置.切换' title='震动' />
-          </ItemSetting>
-
           {/* 图片渐出动画 */}
           <ItemSetting
             show={IOS}
@@ -430,7 +408,7 @@ function UI() {
           </ItemSetting>
 
           {/* 图片质量 */}
-          <ItemSetting
+          {/* <ItemSetting
             hd='图片质量'
             information='不建议修改，修改后不能享受图片CDN加速'
             ft={
@@ -455,6 +433,28 @@ function UI() {
             }
           >
             <Heatmap id='设置.切换' title='质量' />
+          </ItemSetting> */}
+
+          {/* 震动 */}
+          <ItemSetting
+            hd='震动'
+            ft={
+              <SwitchPro
+                style={commonStyles.switch}
+                value={vibration}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '震动',
+                    checked: !vibration
+                  })
+
+                  systemStore.switchSetting('vibration')
+                }}
+              />
+            }
+            information='提交操作完成后追加轻震动反馈 (因不同系统差异较大，部分型号手机震动效果非常突兀，近期会重新设计)'
+          >
+            <Heatmap id='设置.切换' title='震动' />
           </ItemSetting>
         </ActionSheet>
       </>

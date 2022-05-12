@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 05:00:33
+ * @Last Modified time: 2022-05-12 05:43:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -71,6 +71,8 @@ type Props = {
 }
 
 const ts = parseInt(String(getTimestamp() / 604800)) // 一周才变化一次
+const USER_MEDIUM = '//lain.bgm.tv/pic/user/m/'
+const USER_LARGE = '//lain.bgm.tv/pic/user/l/'
 
 export const Avatar = ob(
   ({
@@ -190,6 +192,14 @@ export const Avatar = ob(
     }
 
     const isUrl = typeof _src === 'string'
+
+    /**
+     * 强制使用/l/
+     * @date 20220512
+     */
+    if (isUrl && _src.includes(USER_MEDIUM)) {
+      _src = _src.replace(USER_MEDIUM, USER_LARGE)
+    }
     return (
       <Image
         key={isUrl ? _src : 'avatar'}

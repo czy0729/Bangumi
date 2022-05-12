@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-10 07:25:34
+ * @Last Modified time: 2022-05-12 05:30:48
  */
 /** 强制主题模式: '' => 不控制 | true => 强制黑暗 | false => 强制白天 */
 export const INIT_DEV_DARK = ''
@@ -18,7 +18,7 @@ export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
 export const DEV = global.__DEV__
 
 /** 开发模式中是否不显示图片 */
-export const TEXT_ONLY = DEV ? !DEV : false
+export const TEXT_ONLY = DEV ? !DEV : false // : false 是为了打包后的apk稳定显示图片
 
 /** 路由覆盖配置 */
 export default {
