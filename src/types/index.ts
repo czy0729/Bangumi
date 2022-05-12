@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 13:08:57
+ * @Last Modified time: 2022-05-13 05:25:55
  */
 import React from 'react'
 import {
@@ -50,4 +50,4 @@ export type Source =
       }
     }
 
-export type Fn = (arg?: any) => any
+export type Fn = (arg?: any, arg2?: any) => any

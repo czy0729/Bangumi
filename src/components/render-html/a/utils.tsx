@@ -1,80 +1,45 @@
 /*
  * @Author: czy0729
- * @Date: 2021-10-21 08:36:26
+ * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 23:08:56
+ * @Last Modified time: 2022-05-13 06:22:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { runAfter } from '@utils'
-import { matchBgmLink, navigationReference } from '@utils/app'
+import { navigationReference } from '@utils/app'
 import { HOST, IOS } from '@constants'
-import { Touchable } from '../touchable'
-import { Flex } from '../flex'
-import { Text } from '../text'
-import { Iconfont } from '../iconfont'
-import { Cover } from './cover'
-import { Avatar } from './avatar'
-import { fetchMediaQueue } from './utils'
-
-function A({ style, attrs = {}, children, passProps, onPress, ...other }) {
-  const { matchLink, acSearch } = rakuenStore.setting
-  const { href } = attrs
-  const result = matchBgmLink(href)
-  const route = result?.route
-  const onLinkPress = () => onPress(null, href)
-
-  let el
-  const args = {
-    style,
-    passProps,
-    params: result.params,
-    href,
-    onPress,
-    onLinkPress
-  }
-
-  if (result?.app && route === 'Subject') {
-    if (acSearch) el = getACSearch(args)
-  } else if (matchLink) {
-    if (route === 'Subject') {
-      el = getSubject(args)
-    } else if (route === 'Topic') {
-      if (result.params.topicId !== 'group/350677') el = getTopic(args)
-    } else if (route === 'Mono') {
-      el = getMono(args)
-    }
-  }
-  if (el) return el
-
-  return (
-    <Text
-      style={style || this.styles.a}
-      selectable
-      underline
-      {...other}
-      onPress={onLinkPress}
-    >
-      {filterChildren(children)}
-    </Text>
-  )
-}
+import { Touchable } from '../../touchable'
+import { Flex } from '../../flex'
+import { Text } from '../../text'
+import { Iconfont } from '../../iconfont'
+import { Cover } from '../cover'
+import { Avatar } from '../avatar'
+import { fetchMediaQueue } from '../utils'
+import { memoStyles } from './styles'
 
 /**
  * @todo: 待优化, 安卓Text中一定要过滤非文字节点
  */
-function filterChildren(children) {
+export function filterChildren(children) {
   if (IOS) return children
 
   const childrens = React.Children.toArray(children)
   const data = React.Children.toArray(children).filter(
-    item => item?.type?.displayName === 'Text'
+    item =>
+      // @ts-ignore
+      item?.type?.displayName === 'Text'
   )
   if (data.length) return data
 
-  return childrens.map(item => item?.props?.src).filter(item => !!item)
+  return childrens
+    .map(
+      item =>
+        // @ts-ignore
+        item?.props?.src
+    )
+    .filter(item => !!item)
 }
 
 /**
@@ -104,7 +69,7 @@ function getRawChildrenText(passProps) {
 /**
  * AC自动机猜测条目文字
  */
-function getACSearch({ style, passProps, params, onPress }) {
+export function getACSearch({ style, passProps, params, onPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const navigation = navigationReference()
@@ -134,11 +99,12 @@ function getACSearch({ style, passProps, params, onPress }) {
 /**
  * 条目媒体块
  */
-function getSubject({ passProps, params, href, onLinkPress }) {
+export function getSubject({ passProps, params, href, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { subjectId } = params
     const {
+      air_date,
       images = {},
       name,
       name_cn,
@@ -165,7 +131,12 @@ function getSubject({ passProps, params, href, onLinkPress }) {
                 <Cover src={image} size={48} radius textOnly={false} />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
-                    {top}
+                    {top}{' '}
+                    {!!air_date && (
+                      <Text size={9} lineHeight={12} type='sub' bold>
+                        {String(air_date).slice(0, 7)}
+                      </Text>
+                    )}
                   </Text>
                   {(showScore || showBottom) && (
                     <Flex style={_.mt.xs}>
@@ -186,6 +157,7 @@ function getSubject({ passProps, params, href, onLinkPress }) {
                           numberOfLines={1}
                           selectable
                         >
+                          {showScore && '· '}
                           {bottom}
                         </Text>
                       )}
@@ -204,18 +176,22 @@ function getSubject({ passProps, params, href, onLinkPress }) {
 /**
  * 帖子媒体块
  */
-function getTopic({ passProps, params, onLinkPress }) {
+export function getTopic({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { topicId } = params
-    const { avatar, group, userName, _loaded } = rakuenStore.topic(topicId)
+    const { avatar, group, time, userName, _loaded } =
+      // @ts-ignore
+      rakuenStore.topic(topicId)
     if (!_loaded) {
       setTimeout(() => {
         runAfter(() => fetchMediaQueue('topic', topicId))
       }, 2000)
     } else {
       const styles = memoStyles()
-      const { list } = rakuenStore.comments(topicId)
+      const { list } =
+        // @ts-ignore
+        rakuenStore.comments(topicId)
       if (avatar && group && userName) {
         let reply = 0
         list.forEach(item => {
@@ -229,7 +205,12 @@ function getTopic({ passProps, params, onLinkPress }) {
                 <Avatar src={avatar} size={48} radius textOnly={false} />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
-                    {text}
+                    {text}{' '}
+                    {!!time && (
+                      <Text size={9} lineHeight={12} type='sub' bold>
+                        {String(time).split(' ')?.[0]}
+                      </Text>
+                    )}
                   </Text>
                   <Flex style={_.mt.xs}>
                     <Text
@@ -256,11 +237,13 @@ function getTopic({ passProps, params, onLinkPress }) {
 /**
  * 人物媒体块
  */
-function getMono({ passProps, params, onLinkPress }) {
+export function getMono({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { monoId } = params
-    const { cover, name, nameCn, _loaded } = subjectStore.mono(monoId)
+    const { cover, name, nameCn, _loaded } =
+      // @ts-ignore
+      subjectStore.mono(monoId)
     if (!_loaded) {
       setTimeout(() => {
         runAfter(() => fetchMediaQueue('mono', monoId))
@@ -307,29 +290,3 @@ function getMono({ passProps, params, onLinkPress }) {
     }
   }
 }
-
-export default observer(A)
-
-const memoStyles = _.memoStyles(_ => ({
-  wrap: {
-    paddingTop: 10,
-    paddingRight: 4,
-    paddingBottom: 2
-  },
-  body: {
-    overflow: 'hidden',
-    padding: 6,
-    paddingRight: 10,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusSm
-  },
-  top: {
-    maxWidth: _.window.contentWidth / 2
-  },
-  bottom: {
-    maxWidth: _.window.contentWidth / 2
-  },
-  a: {
-    color: _.colorMain
-  }
-}))

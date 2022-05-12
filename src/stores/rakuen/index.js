@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 17:03:32
+ * @Last Modified time: 2022-05-13 05:19:08
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -252,6 +252,13 @@ class Rakuen extends store {
         }
       })
     return data
+  }
+
+  /**
+   * 超展开设置
+   */
+  @computed get setting() {
+    return this.state.setting
   }
 
   // -------------------- fetch --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 23:22:48
+ * @Last Modified time: 2022-05-13 05:07:42
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -130,22 +130,8 @@ const Top = memo(
                 {simpleTime(time)}
               </Text>
             )}
-            <Heatmap
-              right={74}
-              id='帖子.跳转'
-              data={{
-                to: 'Group',
-                alias: '小组'
-              }}
-            />
-            <Heatmap
-              id='帖子.跳转'
-              data={{
-                to: 'Subject',
-                alias: '条目'
-              }}
-              transparent
-            />
+            <Heatmap right={74} id='帖子.跳转' to='Group' alias='小组' />
+            <Heatmap id='帖子.跳转' to='Subject' alias='条目' transparent />
           </Flex>
           {isGroup && (
             <Flex style={styles.userWrap}>
@@ -176,13 +162,7 @@ const Top = memo(
                   </Text>
                 </Flex.Item>
               )}
-              <Heatmap
-                id='帖子.跳转'
-                data={{
-                  to: 'Zone',
-                  alias: '空间'
-                }}
-              />
+              <Heatmap id='帖子.跳转' to='Zone' alias='空间' />
             </Flex>
           )}
           <Content />

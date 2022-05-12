@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:49:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:00:08
+ * @Last Modified time: 2022-05-13 05:06:43
  */
 import React from 'react'
 import { View } from 'react-native'
-// import { Heatmap } from '@components'
 import { Avatar as CompAvatar } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
