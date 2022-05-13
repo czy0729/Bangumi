@@ -7,5 +7,6 @@
   </style>
   <style name="Theme.App.SplashScreen" parent="Theme.AppCompat.DayNight.NoActionBar">
     <item name="android:windowBackground">@drawable/splashscreen</item>
+    <item name="android:statusBarColor">@color/splashscreen_statusbar_color</item>
   </style>
 </resources>
