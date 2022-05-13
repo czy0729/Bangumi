@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:14
+ * @Last Modified time: 2022-05-14 06:11:35
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -300,7 +300,7 @@ const Item = memo(
       // 有一次性操作很多条目很多图片的情况, 水平滚动比较合适
       return (
         <ScrollView
-          style={_.mt.sm}
+          style={styles.scrollView}
           contentContainerStyle={styles.images}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -472,6 +472,10 @@ const memoStyles = _.memoStyles(() => ({
   },
   withoutAvatar: {
     marginTop: -_.md
+  },
+  scrollView: {
+    marginTop: _.sm,
+    marginRight: -40
   },
   images: {
     paddingTop: _.sm,

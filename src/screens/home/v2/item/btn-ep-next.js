@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:21:09
+ * @Last Modified time: 2022-05-14 07:01:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ export default obc(BtnEpNext)
 
 const styles = _.create({
   touch: {
-    marginRight: 2,
+    marginRight: 4,
     borderRadius: 20,
     overflow: 'hidden'
   },

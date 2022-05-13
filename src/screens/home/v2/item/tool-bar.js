@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 14:46:30
+ * @Last Modified time: 2022-05-14 06:36:16
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -12,10 +12,10 @@ import BtnEpNext from './btn-ep-next'
 import BtnFavor from './btn-favor'
 import BtnOrigin from './btn-origin'
 
-function ToolBar({ index, subjectId, subject }) {
+function ToolBar({ index, subjectId, subject, isTop }) {
   return (
     <Flex style={styles.toolBar}>
-      <BtnOrigin subjectId={subjectId} subject={subject} />
+      <BtnOrigin subjectId={subjectId} isTop={isTop} />
       <BtnEpNext subjectId={subjectId} />
       <BtnFavor index={index} subjectId={subjectId} subject={subject} />
     </Flex>

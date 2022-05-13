@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:29:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 14:25:59
+ * @Last Modified time: 2022-05-14 07:00:43
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -26,7 +26,7 @@ export default obc(BtnBookNext)
 
 const styles = _.create({
   touch: {
-    marginLeft: _.device(2, 6),
+    marginLeft: _.device(0, 4),
     borderRadius: 20,
     overflow: 'hidden'
   },

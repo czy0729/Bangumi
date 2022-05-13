@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-13 06:22:53
+ * @Last Modified time: 2022-05-13 06:32:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { runAfter } from '@utils'
 import { navigationReference } from '@utils/app'
 import { HOST, IOS } from '@constants'
+import { ReactNode } from '@types'
 import { Touchable } from '../../touchable'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
@@ -22,7 +23,9 @@ import { memoStyles } from './styles'
 /**
  * @todo: 待优化, 安卓Text中一定要过滤非文字节点
  */
-export function filterChildren(children) {
+export function filterChildren(
+  children: ReactNode | ReactNode[]
+): ReactNode | ReactNode[] {
   if (IOS) return children
 
   const childrens = React.Children.toArray(children)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-31 14:51:33
+ * @Last Modified time: 2022-05-14 06:44:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,12 +49,11 @@ const Item = memo(
     heatMap,
     expand,
     epsCount,
-    top,
+    isTop,
     onItemPress
   }) => {
     rerender('Home.Item.Main', subject.name_cn || subject.name)
 
-    const isTop = top.indexOf(subjectId) !== -1
     return (
       <View style={heatMap && expand ? styles.itemWithHeatMap : styles.item}>
         <Flex style={styles.hd}>
@@ -82,7 +81,12 @@ const Item = memo(
                   epStatus={epStatus}
                 />
                 <Flex.Item />
-                <ToolBar index={index} subjectId={subjectId} subject={subject} />
+                <ToolBar
+                  index={index}
+                  subjectId={subjectId}
+                  subject={subject}
+                  isTop={isTop}
+                />
               </Flex>
               <Progress epStatus={epStatus} subject={subject} />
             </View>
@@ -114,8 +118,9 @@ export default obc(
     }
 
     const styles = memoStyles()
-    const { top } = $.state
     const { expand } = $.$Item(subjectId)
+    const { top } = $.state
+    const isTop = top.indexOf(subjectId) !== -1
     return (
       <Item
         navigation={navigation}
@@ -125,7 +130,7 @@ export default obc(
         subjectId={subjectId}
         epStatus={epStatus}
         heatMap={$.heatMap}
-        top={top}
+        isTop={isTop}
         expand={expand}
         epsCount={$.eps(subjectId).length}
         onItemPress={$.onItemPress}
@@ -177,18 +182,19 @@ const memoStyles = _.memoStyles(() => {
     },
     dot: {
       position: 'absolute',
-      top: 6 * _.ratio,
-      right: 6 * _.ratio,
-      borderWidth: 8 * _.ratio,
+      top: _.r(4),
+      right: _.r(-2),
+      borderWidth: _.r(8),
       borderTopColor: 'transparent',
       borderBottomColor: 'transparent',
       borderRightColor: 'transparent',
-      borderLeftColor: _.colorBorder,
+      borderLeftColor: _.colorIcon,
       transform: [
         {
           rotate: '-45deg'
         }
-      ]
+      ],
+      opacity: 0.8
     }
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 01:55:40
+ * @Last Modified time: 2022-05-14 06:58:09
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -386,6 +386,16 @@ export default class ScreenHomeV2 extends store {
   }
 
   /**
+   * 置顶
+   */
+  @computed get topMap() {
+    const { top } = this.state
+    const topMap = {}
+    top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
+    return topMap
+  }
+
+  /**
    * 列表当前数据
    */
   currentUserCollection(title) {
@@ -403,7 +413,10 @@ export default class ScreenHomeV2 extends store {
         )
       }
 
-      userCollection.list = this.sortList(userCollection.list)
+      userCollection.list = this.sortList(
+        userCollection.list,
+        this.topMap // @tofixed 暂时直接调用一下, 以强制触发置顶排序更新
+      )
       return userCollection
     }).get()
   }
@@ -416,14 +429,11 @@ export default class ScreenHomeV2 extends store {
     return computed(() => {
       if (!list.length) return []
 
-      // 置顶排序
-      const { top } = this.state
-      const topMap = {}
-      top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
-
       // 网页顺序: 不需要处理
       if (this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('网页')) {
-        return list.sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+        return list.sort((a, b) =>
+          desc(a, b, item => this.topMap[item.subject_id] || 0)
+        )
       }
 
       try {
@@ -459,7 +469,7 @@ export default class ScreenHomeV2 extends store {
 
           return list
             .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-            .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+            .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
         }
 
         // APP顺序
@@ -489,14 +499,14 @@ export default class ScreenHomeV2 extends store {
 
         return list
           .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+          .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       } catch (error) {
         console.warn(`[${namespace}] sortList`, error)
 
         // fallback
         return list
           .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
-          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+          .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       }
     }).get()
   }

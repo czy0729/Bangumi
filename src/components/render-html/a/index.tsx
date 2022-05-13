@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-13 06:05:32
+ * @Last Modified time: 2022-05-13 06:28:57
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { matchBgmLink } from '@utils/app'
-import { Fn, ReactNode, TextStyle } from '@types'
+import { ReactNode, TextStyle } from '@types'
 import { Text } from '../../text'
 import { getACSearch, getSubject, getTopic, getMono, filterChildren } from './utils'
 
@@ -25,10 +25,10 @@ type Props = {
   passProps?: object
 
   /** 点击回调 */
-  onPress?: Fn
+  onPress?: (navigation?: null, href?: string) => any
 
   /** 通常是文字或者嵌套的 <a> */
-  children?: ReactNode
+  children?: ReactNode | ReactNode[]
 }
 
 function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props) {

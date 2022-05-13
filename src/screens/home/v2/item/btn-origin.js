@@ -2,30 +2,41 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:41:15
+ * @Last Modified time: 2022-05-14 07:04:21
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _, userStore } from '@stores'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
-function BtnOrigin({ subjectId, subject }, { $ }) {
-  if (!$.homeOrigin || userStore.isLimit) return null
+function BtnOrigin({ subjectId, isTop }, { $ }) {
+  if (!$.homeOrigin) return null
 
-  const { type } = subject
-  if (type !== 2 && type !== 6) return null
-
+  const origins = $.onlineOrigins(subjectId).map(item =>
+    typeof item === 'object' ? item.name : item
+  )
+  const data = [isTop ? '取消置顶' : '置顶', ...origins]
   return (
     <Popover
       style={styles.touch}
-      data={$.onlineOrigins(subjectId).map(item =>
-        typeof item === 'object' ? item.name : item
-      )}
-      onSelect={label => $.onlinePlaySelected(label, subjectId)}
+      data={data}
+      onSelect={label => {
+        if (label === '置顶') {
+          $.itemToggleTop(subjectId, true)
+        } else if (label === '取消置顶') {
+          $.itemToggleTop(subjectId, false)
+        } else {
+          $.onlinePlaySelected(label, subjectId)
+        }
+      }}
     >
       <Flex style={styles.btn} justify='center'>
-        <Iconfont style={styles.icon} name='md-airplay' size={17} />
+        <Iconfont
+          style={styles.icon}
+          name={origins.length ? 'md-airplay' : 'md-menu'}
+          size={origins.length ? 17 : 21}
+        />
       </Flex>
       <Heatmap right={55} bottom={-7} id='首页.搜索源' />
     </Popover>
@@ -36,7 +47,7 @@ export default obc(BtnOrigin)
 
 const styles = _.create({
   touch: {
-    marginRight: _.device(4, _.sm),
+    marginRight: _.device(10, _.sm),
     borderRadius: 20,
     overflow: 'hidden'
   },
