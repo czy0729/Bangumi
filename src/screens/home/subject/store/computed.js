@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 20:52:44
+ * @Last Modified time: 2022-05-14 10:48:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,7 @@ export default class Computed extends State {
   /**
    * 命名空间
    */
-  @computed get NAMESPACE() {
+  @computed get namespace() {
     return `${NAMESPACE}|${this.subjectId}`
   }
 
