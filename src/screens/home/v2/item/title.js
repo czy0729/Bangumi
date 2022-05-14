@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-14 16:19:10
+ * @Last Modified time: 2022-05-14 07:09:00
  */
 import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
+import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -32,7 +33,7 @@ function Title({ subject, subjectId }, { $ }) {
   return (
     <>
       <Text numberOfLines={2} bold>
-        {HTMLDecode(subject.name_cn || subject.name)}
+        {HTMLDecode(cnjp(subject.name_cn, subject.name))}
       </Text>
       {!!subject?.collection?.doing && (
         <Text style={_.mt.xs} type='sub' size={12}>

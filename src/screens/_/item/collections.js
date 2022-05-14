@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-03 17:50:23
+ * @Last Modified time: 2022-05-14 07:15:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Katakana, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
-import { getTimestamp } from '@utils'
+import { getTimestamp, cnjp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { memo, ob } from '@utils/decorators'
@@ -76,6 +76,8 @@ const Item = memo(
   }) => {
     rerender('Component.ItemCollections.Main')
 
+    const left = HTMLDecode(cnjp(nameCn, name))
+    const right = HTMLDecode(cnjp(name, nameCn))
     const hasName = !!name
     const hasTip = !!tip
     const hasScore = !!score
@@ -156,12 +158,12 @@ const Item = memo(
                   >
                     <Katakana size={15} bold>
                       {indent}
-                      {HTMLDecode(nameCn)}
+                      {left}
                     </Katakana>
-                    {hasName && name !== nameCn && (
+                    {hasName && right !== left && (
                       <Katakana type='sub' size={11} lineHeight={15} bold>
                         {'  '}
-                        {HTMLDecode(name)}
+                        {right}
                       </Katakana>
                     )}
                   </Katakana.Provider>

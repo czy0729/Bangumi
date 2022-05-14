@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 00:16:01
+ * @Last Modified time: 2022-05-14 07:15:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
+import { cnjp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { memo, ob } from '@utils/decorators'
@@ -116,7 +117,7 @@ const Item = memo(
             bold
             align='center'
           >
-            {HTMLDecode(nameCn || name)}
+            {HTMLDecode(cnjp(nameCn, name))}
           </Text>
           {!!score && (
             <Flex style={_.mt.sm} justify='center'>

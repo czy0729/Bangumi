@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 00:17:31
+ * @Last Modified time: 2022-05-14 07:31:19
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { cnjp } from '@utils'
 import { appNavigate, x18 } from '@utils/app'
-import { HTMLDecode } from '@utils/html'
 import { memo, ob } from '@utils/decorators'
 import { EVENT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -58,6 +58,9 @@ const Item = memo(
   }) => {
     rerender('Component.ItemSearch.Main')
 
+    const top = cnjp(nameCn, name)
+    const bottom = cnjp(name, nameCn)
+
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !id.includes('/subject/')
     const _collection = collection || (collected ? '已收藏' : '')
@@ -99,10 +102,10 @@ const Item = memo(
           >
             <Flex align='start' style={_.container.w100}>
               <Flex.Item>
-                {!!(nameCn || name) && (
+                {!!(top || bottom) && (
                   <Katakana.Provider size={15} numberOfLines={2}>
                     <Katakana size={15} bold>
-                      {HTMLDecode(nameCn || name)}
+                      {top || bottom}
                     </Katakana>
                     {!!comments && (
                       <Text type='main' lineHeight={15}>
@@ -112,9 +115,9 @@ const Item = memo(
                     )}
                   </Katakana.Provider>
                 )}
-                {!!name && name !== nameCn && (
+                {!!bottom && bottom !== top && (
                   <Katakana type='sub' size={12} lineHeight={15} numberOfLines={1}>
-                    {HTMLDecode(name)}
+                    {bottom}
                   </Katakana>
                 )}
               </Flex.Item>
@@ -128,7 +131,7 @@ const Item = memo(
             </Flex>
             {!!tip && (
               <Text style={_.mt.sm} size={11} lineHeight={13} numberOfLines={3}>
-                {HTMLDecode(tip)}
+                {tip}
               </Text>
             )}
             {!!position.length && (

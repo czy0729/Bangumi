@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-11 11:05:15
+ * @Last Modified time: 2022-05-14 07:18:22
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
 import { Flex, Text, Katakana, Heatmap } from '@components'
 import { ScoreTag, Tag } from '@_'
 import { _, systemStore } from '@stores'
-import { toFixed, getTimestamp } from '@utils'
+import { toFixed, cnjp, getTimestamp } from '@utils'
 import { obc, memo } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { PAD } from '@constants'
@@ -55,6 +55,9 @@ const Head = memo(
     x18
   }) => {
     rerender('Subject.Head.Main')
+
+    const top = cnjp(jp, cn)
+    const bottom = cnjp(cn, jp)
 
     const { images = {} } = subject
     const hasRelation = !!(subjectPrev || subjectAfter || subjectSeries)
@@ -114,37 +117,37 @@ const Head = memo(
             }}
           >
             <View>
-              {!!jp && (
+              {!!top && (
                 <Katakana.Provider
-                  size={jp.length > 12 ? 11 : 13}
+                  size={top.length > 12 ? 11 : 13}
                   itemStyle={styles.katakana}
                   numberOfLines={hasRelation ? 1 : 2}
                 >
                   <Katakana
                     type='sub'
-                    size={jp.length > 12 ? 11 : 13}
+                    size={top.length > 12 ? 11 : 13}
                     numberOfLines={hasRelation ? 1 : 2}
                     onLongPress={() => {
-                      Clipboard.setString(jp)
-                      info(`已复制 ${jp}`)
+                      Clipboard.setString(top)
+                      info(`已复制 ${top}`)
                     }}
                   >
-                    {jp}
+                    {top}
                     {!!titleLabel && ` · ${titleLabel}`}
                   </Katakana>
                 </Katakana.Provider>
               )}
               {!subjectSeries && (
                 <Text
-                  style={!!cn && _.mt.xs}
+                  style={!!bottom && _.mt.xs}
                   size={size}
                   bold
                   onLongPress={() => {
-                    Clipboard.setString(cn)
-                    info(`已复制 ${cn}`)
+                    Clipboard.setString(bottom)
+                    info(`已复制 ${bottom}`)
                   }}
                 >
-                  {cn}
+                  {bottom}
                 </Text>
               )}
               <Heatmap id='条目.复制标题' />

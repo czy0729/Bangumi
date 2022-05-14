@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 05:05:45
+ * @Last Modified time: 2022-05-14 10:36:31
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -176,7 +176,7 @@ function CDN() {
                       \n作者与其达成了某种约定，因流量是需要自费的，目前仅对历史打赏达到[${ADVANCE_CDN}]元的高级会员开放测试，恳请谅解
                       \n目前初上线需要监控流量数据，后续会根据观察到的使用量，可能会放宽限制
                       \n科普: 目前OSS 1G的费用不低于0.2元，1个用户首次访问10-20个路径的页面，封面图可能会产生50-100MB的流量
-                      \n若漏算了历史打赏金额的，可以私信作者修正`,
+                      \nPS: 若漏算了历史打赏金额的，可以私信作者修正`,
                       '关于Magma'
                     )
                   }

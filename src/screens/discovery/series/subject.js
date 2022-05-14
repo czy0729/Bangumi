@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 11:01:40
+ * @Last Modified time: 2022-05-14 07:41:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,6 @@ function Subject({ style, id }, { $, navigation }) {
     return (
       <Flex style={styles.loading} justify='center'>
         <Loading.Raw />
-        <Text>{id}</Text>
       </Flex>
     )
   }

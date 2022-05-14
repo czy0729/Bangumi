@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 16:39:46
+ * @Last Modified time: 2022-05-14 10:23:18
  */
 import React from 'react'
 import {
@@ -16,6 +16,7 @@ import {
 } from '@components'
 import { SectionHeader, ItemBangumiList } from '@_'
 import { _ } from '@stores'
+import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -73,13 +74,7 @@ class List extends React.Component {
         }}
       >
         <Text>查看TA的所有收藏</Text>
-        <Heatmap
-          id='空间.跳转'
-          data={{
-            to: 'User',
-            alias: '所有收藏'
-          }}
-        />
+        <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
       </Touchable>
     </Flex>
   )
@@ -122,18 +117,12 @@ class List extends React.Component {
                     navigation={navigation}
                     subjectId={item.id}
                     images={item.images}
-                    name={item.name_cn || item.name}
+                    name={cnjp(item.name_cn, item.name)}
                     event={event}
                   />
                 ))}
               {title.includes('在看') && (
-                <Heatmap
-                  id='空间.跳转'
-                  data={{
-                    to: 'Subject',
-                    alias: '条目'
-                  }}
-                />
+                <Heatmap id='空间.跳转' to='Subject' alias='条目' />
               )}
             </Flex>
           )

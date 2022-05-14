@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 22:52:37
+ * @Last Modified time: 2022-05-14 10:28:17
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text, Heatmap } from '@components'
 import { Tag, Stars, Cover } from '@_'
 import { _ } from '@stores'
+import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -35,6 +36,9 @@ function ItemRecents(
     })
   }
   const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
+
+  const left = cnjp(name, nameJP)
+  const right = cnjp(nameJP, name)
   return (
     <View style={styles.container}>
       <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
@@ -59,12 +63,12 @@ function ItemRecents(
                   <Flex.Item>
                     <Katakana.Provider size={15} numberOfLines={2}>
                       <Katakana size={15} bold>
-                        {HTMLDecode(name || nameJP)}
+                        {left}
                       </Katakana>
-                      {!!nameJP && (
+                      {!!right && (
                         <Katakana type='sub' size={11} lineHeight={15}>
                           {' '}
-                          {HTMLDecode(nameJP)}
+                          {right}
                         </Katakana>
                       )}
                     </Katakana.Provider>

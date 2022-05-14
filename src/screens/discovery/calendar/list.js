@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 02:37:59
+ * @Last Modified time: 2022-05-14 07:34:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ListView, Flex, Text, Iconfont, Heatmap } from '@components'
 import { SectionHeader } from '@_'
 import { _ } from '@stores'
-import { date, getTimestamp } from '@utils'
+import { date, cnjp, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import Item from './item'
@@ -72,7 +72,7 @@ function List(props, { $ }) {
                 key: i.id,
                 subjectId: i.id,
                 images: i.images,
-                name: i.name_cn || i.name,
+                name: cnjp(i.name_cn, i.name),
                 score: i.rating && i.rating.score,
                 air,
                 timeCN

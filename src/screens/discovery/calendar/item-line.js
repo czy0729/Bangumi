@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 02:45:12
+ * @Last Modified time: 2022-05-14 07:36:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -159,7 +159,6 @@ const ItemLine = memo(
 export default obc(
   ({ subjectId, images = {}, name, air, timeCN, score }, { $, navigation }) => {
     rerender('Calendar.ItemLine')
-
     const { type, expand } = $.state
     const collection = $.userCollectionsMap[subjectId]
     if ((type === 'collect' && !collection) || (!expand && !timeCN)) return null

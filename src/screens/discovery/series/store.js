@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 17:22:13
+ * @Last Modified time: 2022-05-14 07:42:21
  */
 import { observable, computed, toJS } from 'mobx'
 import { userStore, systemStore } from '@stores'
-import { getTimestamp, asc, desc } from '@utils'
+import { getTimestamp, cnjp, asc, desc } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { HTMLDecode } from '@utils/html'
 import { info } from '@utils/ui'
 import { MODEL_RANK_ANIME_FILTER } from '@constants/model'
 import i18n from '@constants/i18n'
@@ -362,7 +361,7 @@ export default class ScreenSeries extends store {
           subjects: {
             [subjectId]: {
               id: subjectId,
-              name: HTMLDecode(data.name_cn || data.name),
+              name: cnjp(data.name_cn, data.name),
               image: data?.images?.common || '',
               date: data.date,
               eps: data.eps,

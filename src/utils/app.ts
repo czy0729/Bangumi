@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 04:59:31
+ * @Last Modified time: 2022-05-14 07:30:12
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -91,7 +91,7 @@ export function appRandom(arr = [], key = '') {
  */
 export function cnjp(cn, jp) {
   const { cnFirst } = getSetting()
-  return cnFirst ? cn || jp : jp || cn
+  return HTMLDecode(cnFirst ? cn || jp : jp || cn)
 }
 
 function isNull(value) {

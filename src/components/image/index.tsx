@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 05:29:39
+ * @Last Modified time: 2022-05-14 10:37:38
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -38,8 +38,8 @@ import { getTimestamp } from '@utils'
 const DEFAULT_HEADERS = {
   Referer: `${HOST}/`
 }
-const MAX_ERROR_COUNT = 4 // 最大失败重试次数
-const RETRY_DISTANCE = 4000 // 重试间隔
+const MAX_ERROR_COUNT = 5 // 最大失败重试次数
+const RETRY_DISTANCE = 3000 // 重试间隔
 
 export const Image = observer(
   class extends React.Component<Props> {
