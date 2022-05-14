@@ -677,7 +677,7 @@ export function getCoverSmall(src = '') {
  * 获取中质量bgm图片
  * @param {*} src
  */
-export function getCoverMedium(src, mini = false) {
+export function getCoverMedium(src = '', mini = false) {
   /**
    * 角色图片因为是对头部划图的, 不要处理
    * 用户图床也没有其他质量

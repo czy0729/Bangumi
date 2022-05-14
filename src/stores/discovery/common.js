@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 13:27:52
+ * @Last Modified time: 2022-05-14 20:02:20
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
 import { getCoverMedium } from '@utils/app'
-import { matchAvatar, matchUserId } from '@utils/match'
+import { matchUserId } from '@utils/match'
 
 /**
  * 分析标签
@@ -54,7 +54,7 @@ export function analysisCatalog(HTML) {
       const $tip = $li.find('span.tip_i > a.l')
       const $title = $li.find('h3 > a.l')
       return safeObject({
-        avatar: matchAvatar($li.find('img.avatar').attr('src'), 0),
+        avatar: $li.find('img.avatar').attr('src'),
         name: $tip.text().trim(),
         userId: matchUserId($tip.attr('href')),
         last: $li.find('span.tip_j').text().trim(),
@@ -132,7 +132,7 @@ export function analysisCatalogDetail(HTML) {
   return {
     list: list.filter(item => !item.id.includes('ep/')),
     title: $('div#header > h1').text().trim(),
-    avatar: matchAvatar($('img.avatar').attr('src'), 0),
+    avatar: $('img.avatar').attr('src'),
     progress: $('div.progress small').text().trim(),
     nickname: $a.text().trim(),
     userId: ($a.attr('href') || '').replace('/user/', ''),
