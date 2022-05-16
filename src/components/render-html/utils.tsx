@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 11:09:01
+ * @Last Modified time: 2022-05-17 06:40:25
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -48,7 +48,10 @@ export function getIncreaseLineHeight(lineHeight) {
 export function fixedBaseFontStyle(baseFontStyle = {}) {
   if (!_.isPad) return baseFontStyle
 
-  const _baseFontStyle = {
+  const _baseFontStyle: {
+    fontSize?: number
+    lineHeight?: number
+  } = {
     ...baseFontStyle
   }
   if (_baseFontStyle.fontSize) _baseFontStyle.fontSize += padFontSizeIncrease
@@ -200,7 +203,7 @@ export function hackMatchMediaLink(html) {
 const ids = []
 const loadedIds = []
 let loading = false
-export async function fetchMediaQueue(type, id) {
+export async function fetchMediaQueue(type?, id?) {
   if (type && id) {
     if (
       ids.length <= 16 &&

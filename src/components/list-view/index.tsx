@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 05:51:53
+ * @Last Modified time: 2022-05-17 05:05:46
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -15,16 +15,18 @@ import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants
 import { ScrollToTop } from '../scroll-to-top'
 import List from './list'
 import Footer from './footer'
-import { RefreshState } from './ds'
+import { REFRESH_STATE } from './ds'
+import { memoStyles } from './styles'
+import { Props, RenderListProps, ScrollToFunction } from './types'
 
 export const ListView = observer(
-  class extends React.Component {
+  class extends React.Component<Props> {
     static defaultProps = {
       style: undefined,
       keyExtractor: undefined,
       data: LIST_EMPTY,
-      sectionKey: '', // 当有此值, 根据item[section]构造<SectionList>的sections
       sections: undefined,
+      sectionKey: '',
       progressViewOffset: undefined,
       refreshControlProps: {},
       renderItem: undefined,
@@ -35,13 +37,11 @@ export const ListView = observer(
       footerEmptyDataText: TEXT_EMPTY,
       footerEmptyDataComponent: undefined,
       footerTextType: 'sub',
-      optimize: true, // 是否开启长列表优化
       showFooter: true,
       showMesume: true,
-      scrollToTop: false, // 自动在顶部补充一区域, 点击列表返回到顶, 安卓用
-      lazy: 0, // 当有值, 初始化时当数组长度超过此长度, 会先渲染这个条数的数据, 再正常渲染
-
-      // 此属性对于 iOS 需要有默认值, 否则会出现首次渲染滚动条位置不正确的问题
+      optimize: true,
+      scrollToTop: false,
+      lazy: 0,
       scrollIndicatorInsets: {
         right: 1
       },
@@ -50,7 +50,7 @@ export const ListView = observer(
     }
 
     state = {
-      refreshState: RefreshState.Idle,
+      refreshState: REFRESH_STATE.Idle,
       rendered: false
     }
 
@@ -79,12 +79,18 @@ export const ListView = observer(
       this.updateRefreshState(data)
     }
 
-    scrollToIndex = Function.prototype
-    scrollToOffset = Function.prototype
-    scrollToItem = Function.prototype
-    scrollToLocation = Function.prototype
+    scrollToIndex: ScrollToFunction = () => {}
+
+    scrollToOffset: ScrollToFunction = () => {}
+
+    scrollToItem: ScrollToFunction = () => {}
+
+    scrollToLocation: ScrollToFunction = () => {}
+
     connectRef = ref => {
-      if (ref?.scrollToIndex) this.scrollToIndex = params => ref.scrollToIndex(params)
+      if (ref?.scrollToIndex) {
+        this.scrollToIndex = params => ref.scrollToIndex(params)
+      }
 
       if (ref?.scrollToOffset) {
         this.scrollToOffset = params => ref.scrollToOffset(params)
@@ -93,10 +99,13 @@ export const ListView = observer(
           ref._wrapperListRef._listRef.scrollToOffset(params)
       }
 
-      if (ref?.scrollToItem) this.scrollToItem = params => ref.scrollToItem(params)
+      if (ref?.scrollToItem) {
+        this.scrollToItem = params => ref.scrollToItem(params)
+      }
 
-      if (ref?.scrollToLocation)
+      if (ref?.scrollToLocation) {
         this.scrollToLocation = params => ref.scrollToLocation(params)
+      }
     }
 
     updateRefreshState = data => {
@@ -104,13 +113,13 @@ export const ListView = observer(
       let refreshState
 
       if (!_loaded) {
-        refreshState = RefreshState.Idle
+        refreshState = REFRESH_STATE.Idle
       } else if (list.length === 0) {
-        refreshState = RefreshState.EmptyData
+        refreshState = REFRESH_STATE.EmptyData
       } else if (pagination.page < pagination.pageTotal) {
-        refreshState = RefreshState.Idle
+        refreshState = REFRESH_STATE.Idle
       } else {
-        refreshState = RefreshState.NoMoreData
+        refreshState = REFRESH_STATE.NoMoreData
       }
 
       if (refreshState !== undefined) {
@@ -127,7 +136,7 @@ export const ListView = observer(
 
       if (onHeaderRefresh) {
         this.setState({
-          refreshState: RefreshState.HeaderRefreshing
+          refreshState: REFRESH_STATE.HeaderRefreshing
         })
 
         await sleep(400)
@@ -143,7 +152,7 @@ export const ListView = observer(
 
       if (onFooterRefresh) {
         this.setState({
-          refreshState: RefreshState.FooterRefreshing
+          refreshState: REFRESH_STATE.FooterRefreshing
         })
         await sleep(640)
         onFooterRefresh()
@@ -157,14 +166,14 @@ export const ListView = observer(
     shouldStartHeaderRefreshing = () => {
       const { refreshState } = this.state
       return !(
-        refreshState === RefreshState.HeaderRefreshing ||
-        refreshState === RefreshState.FooterRefreshing
+        refreshState === REFRESH_STATE.HeaderRefreshing ||
+        refreshState === REFRESH_STATE.FooterRefreshing
       )
     }
 
     shouldStartFooterRefreshing = () => {
       const { refreshState } = this.state
-      return refreshState === RefreshState.Idle
+      return refreshState === REFRESH_STATE.Idle
     }
 
     get style() {
@@ -184,7 +193,7 @@ export const ListView = observer(
         style: this.style,
         connectRef: this.connectRef,
         ListFooterComponent: showFooter ? this.renderFooter() : ListFooterComponent,
-        refreshing: refreshState === RefreshState.HeaderRefreshing,
+        refreshing: refreshState === REFRESH_STATE.HeaderRefreshing,
         refreshControl: this.renderRefreshControl(),
         onRefresh: onHeaderRefresh ? this.onHeaderRefresh : undefined,
         onEndReached: this.onEndReached,
@@ -230,7 +239,10 @@ export const ListView = observer(
       const { data, lazy } = this.props
       const { rendered } = this.state
       if (lazy && !rendered) return data.list.slice(0, lazy)
-      return Array.isArray(data.list) ? data.list : data.list.slice()
+      return Array.isArray(data.list)
+        ? data.list
+        : // @ts-ignore 这里是针对 mobx 的代理对象
+          data.list.slice()
     }
 
     renderRefreshControl() {
@@ -248,7 +260,7 @@ export const ListView = observer(
           titleColor={_.colorSub}
           tintColor={_.colorSub}
           progressViewOffset={progressViewOffset}
-          refreshing={refreshState === RefreshState.HeaderRefreshing}
+          refreshing={refreshState === REFRESH_STATE.HeaderRefreshing}
           onRefresh={this.onHeaderRefresh}
           {...refreshControlProps}
         />
@@ -256,7 +268,7 @@ export const ListView = observer(
     }
 
     renderList() {
-      const { sectionKey, sections, ...passProps } = omit(this.props, [
+      const props: RenderListProps = omit(this.props, [
         'style',
         'data',
         'lazy',
@@ -268,9 +280,12 @@ export const ListView = observer(
         'showsHorizontalScrollIndicator',
         'showsVerticalScrollIndicator'
       ])
+      const { sectionKey, sections, ...passProps } = props
       if (sectionKey || sections) {
+        // @ts-ignore
         passProps.sections = this.sections
       } else {
+        // @ts-ignore
         passProps.data = this.data
       }
       return <List {...this.commonProps} {...passProps} />
@@ -332,28 +347,3 @@ export const ListView = observer(
     }
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    minHeight: parseInt(_.window.height * 0.24)
-  },
-  footerContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    paddingVertical: 8,
-    paddingHorizontal: _.lg
-  },
-  footerText: {
-    maxWidth: _.window.contentWidth - 2 * _.md,
-    ..._.fontSize(14)
-  },
-  footerEmpty: {
-    minHeight: 240
-  },
-  footerNoMore: {
-    padding: 8
-  }
-}))

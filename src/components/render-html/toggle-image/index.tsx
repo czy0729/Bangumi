@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-15 22:21:25
+ * @Last Modified time: 2022-05-17 06:54:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,14 +11,27 @@ import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _ } from '@stores'
 import { open } from '@utils'
 import axios from '@utils/thirdParty/axios'
-import { Flex } from '../flex'
-import { Image } from '../image'
-import { Touchable } from '../touchable'
-import { Text } from '../text'
-import { Iconfont } from '../iconfont'
+import { Flex } from '../../flex'
+import { Image } from '../../image'
+import { Props as ImageProps } from '../../image/types'
+import { Touchable } from '../../touchable'
+import { Text } from '../../text'
+import { Iconfont } from '../../iconfont'
+import { memoStyles } from './styles'
+
+type Props = ImageProps & {
+  show?: boolean
+  onImageFallback?: (arg0?: any) => any
+}
+
+type State = {
+  show: boolean
+  loaded: boolean | number
+  size: string | number
+}
 
 const memoSize = {}
-function getSize(url) {
+function getSize(url): Promise<number> {
   return new Promise(resolve => {
     if (url in memoSize) {
       resolve(memoSize[url])
@@ -26,6 +39,7 @@ function getSize(url) {
     }
 
     axios
+      // @ts-ignore
       .head(url)
       .then(response => {
         if (response?.status !== 200) {
@@ -35,7 +49,7 @@ function getSize(url) {
         }
 
         const length = response?.headers?.['content-length']
-        memoSize[url] = parseInt(length / 1024)
+        memoSize[url] = parseInt(String(length / 1024))
         resolve(memoSize[url])
       })
       .catch(() => {
@@ -45,9 +59,7 @@ function getSize(url) {
   })
 }
 
-export default
-@observer
-class ToggleImage extends React.Component {
+class ToggleImage extends React.Component<Props, State> {
   static defaultProps = {
     onImageFallback: Function.prototype
   }
@@ -84,7 +96,7 @@ class ToggleImage extends React.Component {
     if (src.includes('https://static.saraba1st.com/image/smiley/')) return true
 
     const { size } = this.state
-    if (size && size <= 50) return true
+    if (typeof size === 'number' && size <= 50) return true
   }
 
   render() {
@@ -121,17 +133,21 @@ class ToggleImage extends React.Component {
         )
       }
 
-      const ext = src.includes('.jpg')
-        ? 'jpg'
-        : src.includes('.png')
-        ? 'png'
-        : src.includes('.gif')
-        ? 'gif'
-        : ''
+      let ext = ''
+      if (isRemote) {
+        ext = src.includes('.jpg')
+          ? 'jpg'
+          : src.includes('.png')
+          ? 'png'
+          : src.includes('.gif')
+          ? 'gif'
+          : ''
+      }
+
       if (!show) {
         const text = []
         if (ext) text.push(`[${ext}]`)
-        if (size === 0) {
+        if (typeof size === 'number' && size === 0) {
           text.push('[获取大小失败]')
         } else {
           text.push(`[${size}kb]`)
@@ -167,6 +183,10 @@ class ToggleImage extends React.Component {
       }
     }
 
+    let _autoSize
+    if (typeof this.props.autoSize === 'number' && this.props.autoSize) {
+      _autoSize = this.props.autoSize - _.sm
+    }
     return (
       <Flex
         style={[this.styles.image, !loaded && this.styles.isLoad]}
@@ -174,7 +194,7 @@ class ToggleImage extends React.Component {
       >
         <Image
           {...this.props}
-          autoSize={this.props.autoSize ? this.props.autoSize - _.sm : undefined}
+          autoSize={_autoSize}
           radius
           onLoadEnd={this.onLoadEnd}
           onError={this.onLoadEnd}
@@ -189,7 +209,11 @@ class ToggleImage extends React.Component {
               </Touchable>
             </View>
             <Flex style={this.styles.loading} justify='center'>
-              <ActivityIndicator size='small' color={_.colorIcon} />
+              <ActivityIndicator
+                size='small'
+                // @ts-ignore
+                color={_.colorIcon}
+              />
             </Flex>
           </>
         )}
@@ -202,49 +226,4 @@ class ToggleImage extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  image: {
-    marginVertical: 6
-  },
-  isLoad: {
-    width: _.window.contentWidth * 0.64,
-    height: 64 * _.ratio,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  loading: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    left: 0,
-    width: _.window.contentWidth * 0.64,
-    height: 64 * _.ratio
-  },
-  imagePlaceholder: {
-    width: _.window.contentWidth * 0.64,
-    height: 64 * _.ratio,
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  closeImageWrap: {
-    position: 'absolute',
-    zIndex: 2,
-    top: 4,
-    right: 4,
-    borderRadius: 12,
-    overflow: 'hidden'
-  },
-  closeImage: {
-    width: 24,
-    height: 24,
-    borderRadius: 24,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    overflow: 'hidden'
-  },
-  textSrc: {
-    maxWidth: '96%',
-    marginTop: _.xs
-  }
-}))
+export default observer(ToggleImage)

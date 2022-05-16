@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 19:37:23
+ * @Last Modified time: 2022-05-17 07:08:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
+import { TextStyle, ViewStyle } from '@types'
 import HTML from '../@/react-native-render-html'
 import { a } from '../@/react-native-render-html/src/HTMLRenderers'
 import { BgmText, bgmMap } from '../bgm-text'
@@ -34,6 +35,38 @@ import {
   hackMatchMediaLink
 } from './utils'
 
+type Props = {
+  /** 容器样式 */
+  style?: ViewStyle
+
+  /** 基本字体样式 */
+  baseFontStyle?: TextStyle
+
+  /** 链接字体样式 */
+  linkStyle?: TextStyle
+
+  /** 内嵌图片最大宽度 */
+  imagesMaxWidth?: number
+
+  /** HTML */
+  html?: string
+
+  /** 是否自动加载显示图片 */
+  autoShowImage?: boolean
+
+  /** 是否使用 <A> 渲染内嵌链接 */
+  matchLink?: boolean
+
+  /** 是否对内嵌片假名使用片假名终结者模块 */
+  katakana?: boolean
+
+  /** 复写内嵌链接点击回调 */
+  onLinkPress?: (href?: string) => any
+
+  /** 框架不支持图片的时候, 点击图片后回调 */
+  onImageFallback?: (src?: string) => any
+}
+
 // 一些超展开内容文本样式的标记
 const spanMark = {
   mask: 'background-color:#555;',
@@ -43,7 +76,7 @@ const spanMark = {
 }
 
 export const RenderHtml = observer(
-  class extends React.Component {
+  class extends React.Component<Props> {
     static defaultProps = {
       style: undefined,
       baseFontStyle: {},
@@ -140,7 +173,8 @@ export const RenderHtml = observer(
                       // 文字
                       text.push(item.data)
                     } else if (item.children) {
-                      const _baseFontStyle = fixedBaseFontStyle(baseFontStyle)
+                      const _baseFontStyle: TextStyle =
+                        fixedBaseFontStyle(baseFontStyle)
                       item.children.forEach((i, idx) => {
                         // 表情
                         text.push(
@@ -213,7 +247,7 @@ export const RenderHtml = observer(
               )
             }
           } catch (error) {
-            warn('RenderHtml', 'generateConfig', error)
+            console.info('RenderHtml', 'generateConfig', error)
           }
 
           return children
@@ -282,7 +316,7 @@ export const RenderHtml = observer(
             // }
 
             if (bgmMap[index]) {
-              const _baseFontStyle = fixedBaseFontStyle(baseFontStyle)
+              const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
               return `<span style="font-family:bgm;font-size:${
                 _baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
               }px;line-height:${
@@ -314,7 +348,7 @@ export const RenderHtml = observer(
         _html = hackFixedHTMLTags(_html)
         return matchLink ? hackMatchMediaLink(_html) : _html
       } catch (error) {
-        warn('RenderHtml', 'formatHTML', error)
+        console.info('RenderHtml', 'formatHTML', error)
         return HTMLDecode(html)
       }
     }

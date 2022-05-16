@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-13 05:25:55
+ * @Last Modified time: 2022-05-17 04:51:52
  */
 import React from 'react'
 import {
@@ -51,3 +51,13 @@ export type Source =
     }
 
 export type Fn = (arg?: any, arg2?: any) => any
+
+export type ListEmpty = {
+  list: any[]
+  pagination?: {
+    page?: number
+    pageTotal?: number
+  }
+  _list?: any[]
+  _loaded?: boolean | number
+}

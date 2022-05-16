@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-24 17:55:54
+ * @Last Modified time: 2022-05-17 06:11:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,11 +12,45 @@ import { _, systemStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
-import { IOS, URL_DEFAULT_AVATAR, IMG_DEFAULT } from '@constants'
+import {
+  IOS,
+  URL_DEFAULT_AVATAR,
+  // @ts-ignore
+  IMG_DEFAULT
+} from '@constants'
 import { HOST_CDN, CDN_OSS_AVATAR } from '@constants/cdn'
-import { Image } from '../image'
+import { ColorValue, Navigation, ViewStyle, EventType } from '@types'
+import { Image } from '../../image'
+import { Props as ImageProps } from '../../image/types'
+import { memoStyles } from './styles'
 
-const ts = parseInt(getTimestamp() / 604800) // 一周才变化一次
+type Props = ImageProps & {
+  /** 路由对象 */
+  navigation?: Navigation
+
+  /** 用户id */
+  userId?: number | string
+
+  /** 昵称 */
+  name?: string
+
+  /** 边框颜色 */
+  borderColor?: ColorValue
+
+  /** 边框大小 */
+  borderWidth?: number
+
+  /** 头像埋点参数 */
+  event?: EventType
+
+  /** 传递给路由 Zone 的参数 */
+  params?: object
+
+  /** 是否圆形 */
+  round?: boolean
+}
+
+const ts = parseInt(String(getTimestamp() / 604800)) // 一周才变化一次
 
 export const Avatar = observer(
   ({
@@ -36,12 +70,12 @@ export const Avatar = observer(
     textOnly,
     onPress,
     onLongPress
-  }) => {
+  }: Props) => {
     const styles = memoStyles()
     const { dev } = systemStore.state
     const { cdn, avatarRound } = systemStore.setting
     const { avatar } = userStore.usersInfo()
-    const _size = size * _.ratio
+    const _size = _.r(size)
 
     /**
      * 判断是否自己的头像, 若是不走CDN, 保证最新
@@ -96,8 +130,8 @@ export const Avatar = observer(
      * @notice 安卓gif图片不能直接设置borderRadius, 需要再包一层
      * 然后就是bgm的默认图/icon.jpg根本不是jpg是gif
      */
-    if (!IOS && src && src.includes('/icon.jpg')) {
-      const _style = [
+    if (!IOS && typeof src === 'string' && src.includes('/icon.jpg')) {
+      const _style: ViewStyle = [
         styles.avatar,
         {
           width: _size,
@@ -148,16 +182,3 @@ export const Avatar = observer(
     )
   }
 )
-
-const memoStyles = _.memoStyles(_ => ({
-  avatar: {
-    borderWidth: _.hairlineWidth,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  dev: {
-    borderWidth: 1,
-    borderColor: _.colorDanger
-  }
-}))

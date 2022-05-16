@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 10:17:57
+ * @Last Modified time: 2022-05-17 05:23:53
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -228,6 +228,7 @@ class User extends store {
   }
 
   // -------------------- get --------------------
+
   /**
    * 自己用户Id
    */
@@ -240,6 +241,17 @@ class User extends store {
    */
   @computed get myId() {
     return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
+  }
+
+  /**
+   * 某用户信息
+   * @param {*} userId
+   */
+  usersInfo(userId?: string | number): typeof INIT_USER_INFO {
+    return computed(() => {
+      const { usersInfo } = this.state
+      return usersInfo[userId || this.myUserId] || INIT_USER_INFO
+    }).get()
   }
 
   /**

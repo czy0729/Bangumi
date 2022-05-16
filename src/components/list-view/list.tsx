@@ -2,18 +2,34 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 17:11:41
+ * @Last Modified time: 2022-05-17 04:55:20
  */
 import React from 'react'
 import { FlatList, SectionList, Animated } from 'react-native'
 import { observer } from 'mobx-react'
+import { Fn, ListEmpty } from '@types'
+import { ListProps } from './types'
+
+type PassProps = {
+  ref?: Fn
+  data?: ListEmpty
+  sections?: any
+  overScrollMode: 'never'
+}
 
 const ASectionList = Animated.createAnimatedComponent(SectionList)
 const AFlatList = Animated.createAnimatedComponent(FlatList)
 
-function List({ connectRef, animated, sectionKey, sections, data, ...other }) {
+function List({
+  connectRef,
+  animated,
+  sectionKey,
+  sections,
+  data,
+  ...other
+}: ListProps) {
   let Component
-  const passProps = {
+  const passProps: PassProps = {
     ref: connectRef,
     ...other,
 

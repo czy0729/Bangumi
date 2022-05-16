@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-13 04:28:12
+ * @Last Modified time: 2022-05-17 04:39:54
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -234,7 +234,7 @@ export function sleep(ms = 800) {
  * @param  {Int}    timestamp 时间戳
  * @return {String}
  */
-export function date(format, timestamp) {
+export function date(format, timestamp?: number) {
   // 假如第二个参数不存在，第一个参数作为timestamp
   if (!timestamp) {
     timestamp = format

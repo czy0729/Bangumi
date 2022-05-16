@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:30:12
+ * @Last Modified time: 2022-05-17 06:09:35
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -677,7 +677,7 @@ export function getCoverSmall(src = '') {
  * 获取中质量bgm图片
  * @param {*} src
  */
-export function getCoverMedium(src = '', mini = false) {
+export function getCoverMedium(src: any = '', mini: boolean = false) {
   /**
    * 角色图片因为是对头部划图的, 不要处理
    * 用户图床也没有其他质量

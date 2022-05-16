@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:03:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:50:26
+ * @Last Modified time: 2022-05-17 06:34:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
-import { Text } from '../text'
+import { ReactNode, TextStyle } from '@types'
+import { Text } from '../../text'
+import { memoStyles } from './styles'
 
-export default
-@observer
-class MaskText extends React.Component {
+class MaskText extends React.Component<{
+  style?: TextStyle
+  children?: ReactNode
+}> {
   state = {
     show: false
   }
@@ -42,13 +44,4 @@ class MaskText extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  blockText: {
-    color: _.select(_.colorDesc, _._colorDarkModeLevel2),
-    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel2)
-  },
-  blockTextShow: {
-    color: _.colorPlain,
-    backgroundColor: _.colorDesc
-  }
-}))
+export default observer(MaskText)

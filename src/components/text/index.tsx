@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 21:06:14
+ * @Last Modified time: 2022-05-17 06:18:28
  */
 import React from 'react'
 import { Text as RNText, TextProps } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { Expand, TextStyle } from '@types'
+import { Expand, TextStyle, ReactNode } from '@types'
 import { PAD_INCREASE, computedLineHeight, format } from './utils'
 import memoStyles from './styles'
 
@@ -69,7 +69,7 @@ export type Props = Expand<
     /** 是否可选择 */
     selectable?: boolean
 
-    children: React.ReactNode
+    children: string | string[] | ReactNode | ReactNode[]
   }
 >
 

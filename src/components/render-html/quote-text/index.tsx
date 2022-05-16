@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 16:41:07
+ * @Last Modified time: 2022-05-17 06:40:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { _, rakuenStore } from '@stores'
+import { rakuenStore } from '@stores'
 import { IOS } from '@constants'
-import { Text } from '../text'
+import { ReactNode } from '@types'
+import { Text } from '../../text'
+import { memoStyles } from './styles'
 
-export default
-@observer
-class QuoteText extends React.Component {
+class QuoteText extends React.Component<{
+  children?: ReactNode | ReactNode[] | string | string[]
+}> {
   state = {
     show: rakuenStore.setting.quote || false,
     toggle: false
@@ -37,8 +39,9 @@ class QuoteText extends React.Component {
     const { children } = this.props
 
     // 过滤掉<q>里面的div
-    if (!IOS && children?.length > 1) {
+    if (!IOS && Array.isArray(children) && children.length > 1) {
       return children.filter(
+        // @ts-ignore
         item => !(item?.[0]?.key && item[0].key.indexOf('View-') === 0)
       )
     }
@@ -75,22 +78,4 @@ class QuoteText extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  quoteTextPlaceholder: {
-    paddingBottom: 2,
-    color: _.colorSub,
-    textAlign: 'center'
-  },
-  quote: {
-    padding: 8,
-    paddingLeft: 10,
-    marginTop: 4,
-    marginRight: 4,
-    marginBottom: 8,
-    backgroundColor: _.colorBg,
-    borderLeftWidth: 4,
-    borderLeftColor: _.colorIcon,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))
+export default observer(QuoteText)

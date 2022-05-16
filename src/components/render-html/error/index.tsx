@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-23 17:40:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 12:04:57
+ * @Last Modified time: 2022-05-17 06:14:02
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { Flex } from '../flex'
-import { Text } from '../text'
+import { Flex } from '../../flex'
+import { Text } from '../../text'
 
 function Error() {
   return (

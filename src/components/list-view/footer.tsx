@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 21:31:38
+ * @Last Modified time: 2022-05-17 04:01:14
  */
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -13,7 +13,8 @@ import { randomSpeech } from '@constants/speech'
 import { Flex } from '../flex'
 import { Mesume } from '../mesume'
 import { Text } from '../text'
-import { RefreshState } from './ds'
+import { REFRESH_STATE } from './ds'
+import { foolterStyles as styles } from './styles'
 
 function Footer({
   filterText,
@@ -32,17 +33,17 @@ function Footer({
   onFooterRefresh
 }) {
   switch (refreshState) {
-    case RefreshState.Idle:
+    case REFRESH_STATE.Idle:
       return <View style={styles.container} />
 
-    case RefreshState.Failure:
+    case REFRESH_STATE.Failure:
       return (
         <TouchableOpacity
           onPress={() => {
             if (length === 0) {
-              if (onHeaderRefresh) onHeaderRefresh(RefreshState.HeaderRefreshing)
+              if (onHeaderRefresh) onHeaderRefresh(REFRESH_STATE.HeaderRefreshing)
             } else if (onFooterRefresh) {
-              onFooterRefresh(RefreshState.FooterRefreshing)
+              onFooterRefresh(REFRESH_STATE.FooterRefreshing)
             }
           }}
         >
@@ -62,12 +63,12 @@ function Footer({
         </TouchableOpacity>
       )
 
-    case RefreshState.EmptyData:
+    case REFRESH_STATE.EmptyData:
       return (
         <TouchableOpacity
           onPress={() => {
             if (onHeaderRefresh) {
-              onHeaderRefresh(RefreshState.HeaderRefreshing)
+              onHeaderRefresh(REFRESH_STATE.HeaderRefreshing)
             }
           }}
         >
@@ -88,7 +89,7 @@ function Footer({
         </TouchableOpacity>
       )
 
-    case RefreshState.FooterRefreshing:
+    case REFRESH_STATE.FooterRefreshing:
       return (
         footerRefreshingComponent || (
           <Flex style={styles.noMore} justify='center' direction='column'>
@@ -106,7 +107,7 @@ function Footer({
         )
       )
 
-    case RefreshState.NoMoreData:
+    case REFRESH_STATE.NoMoreData:
       return (
         footerNoMoreDataComponent ||
         (showMesume ? (
@@ -133,25 +134,3 @@ function Footer({
 }
 
 export default observer(Footer)
-
-const styles = _.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    paddingVertical: 8,
-    paddingHorizontal: _.lg
-  },
-  text: {
-    maxWidth: _.window.contentWidth - 2 * _.md,
-    ..._.fontSize(14)
-  },
-  empty: {
-    minHeight: 240
-  },
-  noMore: {
-    padding: 8
-  }
-})

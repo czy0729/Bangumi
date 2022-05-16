@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:13:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 11:12:38
+ * @Last Modified time: 2022-05-17 06:18:42
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Text } from '../text'
+import { Text, Props } from '../../text'
+import { styles } from './styles'
 
-function HiddenText({ style, children, ...other }) {
+function HiddenText({ style, children, ...other }: Props) {
   return (
     <Text style={[style, styles.hidden]} selectable {...other}>
       {children}
@@ -17,9 +17,3 @@ function HiddenText({ style, children, ...other }) {
 }
 
 export default HiddenText
-
-const styles = StyleSheet.create({
-  hidden: {
-    opacity: 0
-  }
-})
