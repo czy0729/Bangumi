@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 03:53:17
+ * @Last Modified time: 2022-05-18 11:40:31
  */
 import { getTimestamp } from '@utils/utils'
 import { getStorage, setStorage } from '@utils/storage'
@@ -464,7 +464,7 @@ export const CDN_OSS_SUBJECT = (src, cdnOrigin) => {
 }
 
 let CDN_MAGMA
-export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '') => {
+export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '', prefix = 'bgm_poster') => {
   if (
     typeof mediumSrc !== 'string' ||
     mediumSrc === '' ||
@@ -484,7 +484,7 @@ export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '') => {
   }
   if (!CDN_MAGMA) return mediumSrc
 
-  return `${CDN_MAGMA}/pic/cover/l/${poster.split('?')[0]}/bgm_poster`
+  return `${CDN_MAGMA}/pic/cover/l/${poster.split('?')[0]}${prefix ? `/${prefix}` : ''}`
 }
 
 /* ==================== tinygrail xsb relation ==================== */

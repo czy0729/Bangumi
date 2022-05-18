@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 06:09:35
+ * @Last Modified time: 2022-05-18 11:39:32
  */
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
@@ -469,7 +469,7 @@ export function matchBgmLink(url = '') {
  * @param noDefault
  */
 const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
-export function matchCoverUrl(src: string, noDefault?: boolean) {
+export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string) {
   const { cdn, cdnOrigin } = getSetting()
   const fallback = noDefault ? '' : IMG_DEFAULT
 
@@ -482,7 +482,7 @@ export function matchCoverUrl(src: string, noDefault?: boolean) {
     typeof src === 'string' &&
     src.includes(HOST_IMAGE)
   ) {
-    return CDN_OSS_MAGMA_POSTER(getCoverMedium(src)) || fallback
+    return CDN_OSS_MAGMA_POSTER(getCoverMedium(src), prefix) || fallback
   }
 
   if (cdn) return CDN_OSS_SUBJECT(getCoverMedium(src), cdnOrigin) || fallback

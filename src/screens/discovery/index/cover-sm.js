@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 15:22:40
+ * @Last Modified time: 2022-05-18 11:36:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,19 +20,21 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
   rerender('Discovery.CoverSm')
 
   const styles = memoStyles()
+  const { coverRadius } = systemStore.setting
+  const isMusic = title === '音乐'
   return (
     <View
       style={[
         styles.item,
         {
-          borderRadius: systemStore.setting.coverRadius
+          borderRadius: coverRadius
         }
       ]}
     >
       <Cover
         src={getCoverMedium(src)}
         size={styles.cover.width}
-        height={styles.cover.height}
+        height={isMusic ? styles.cover.width : styles.cover.height}
         radius
         placeholder={false}
         onPress={() => {
@@ -47,6 +49,7 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
             subjectId: data.subjectId,
             _jp: data.title,
             _cn: cn,
+            _type: title,
             _image: src,
             _imageForce: src
           })

@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 10:37:38
+ * @Last Modified time: 2022-05-19 06:02:43
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -22,7 +22,7 @@ import {
 } from '@components/@/react-native-expo-image-cache'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-// import { getCoverSmall, getCoverLarge } from '@utils/app'
+import { getCoverMedium, getTimestamp } from '@utils'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT, TEXT_ONLY } from '@constants'
@@ -33,13 +33,15 @@ import { Text } from '../text'
 import CompImage from './image'
 import { memoStyles } from './styles'
 import { Props } from './types'
-import { getTimestamp } from '@utils'
 
 const DEFAULT_HEADERS = {
   Referer: `${HOST}/`
 }
 const MAX_ERROR_COUNT = 5 // 最大失败重试次数
 const RETRY_DISTANCE = 3000 // 重试间隔
+
+const OSS_BGM = 'https://lain.bgm.tv'
+const OSS_MEGMA_PREFIX = '/bgm_poster'
 
 export const Image = observer(
   class extends React.Component<Props> {
@@ -169,7 +171,7 @@ export const Image = observer(
              */
             if (
               typeof _src === 'string' &&
-              _src.includes('/bgm_poster') &&
+              _src.includes(OSS_MEGMA_PREFIX) &&
               path === undefined
             ) {
               setTimeout(() => {
@@ -265,15 +267,35 @@ export const Image = observer(
     /**
      * 加载失败
      */
-    onError = () => {
+    onError = async () => {
       const { src } = this.props
-      if (!IOS && typeof src === 'string' && src.includes('/bgm_poster')) {
-        setTimeout(() => {
-          this.retry(`${src}?ts=${getTimestamp()}`)
-        }, RETRY_DISTANCE)
+      if (!IOS && typeof src === 'string' && src.includes(OSS_MEGMA_PREFIX)) {
+        RNImage.getSize(
+          src,
+          () => {},
+          error => {
+            // magma oss 若 status code 为 451 直接触发失败
+            if (String(error).includes('code=451')) {
+              // 提取原来的封面图片地址
+              let s = src.split('/pic/')?.[1] || ''
+              if (s) s = s.replace(OSS_MEGMA_PREFIX, '')
+              this.setState({
+                uri: getCoverMedium(`${OSS_BGM}/pic/${s}`)
+              })
+            } else {
+              setTimeout(() => {
+                this.retry(`${src}?ts=${getTimestamp()}`)
+              }, RETRY_DISTANCE)
+            }
+          }
+        )
         return
       }
 
+      this.comitError()
+    }
+
+    comitError = () => {
       this.setState(
         {
           error: true

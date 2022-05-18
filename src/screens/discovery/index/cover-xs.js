@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:55:30
+ * @Last Modified time: 2022-05-18 11:42:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,7 @@ const CoverXs = memo(
     rerender('Discovery.CoverXs.Main')
 
     const { coverRadius } = systemStore.setting
+    const isMusic = title === '音乐'
     const imageHeight = imageWidth * 1.38
     return (
       <View>
@@ -46,7 +47,7 @@ const CoverXs = memo(
           <Cover
             src={getCoverMedium(data.cover)}
             width={imageWidth}
-            height={imageHeight}
+            height={isMusic ? imageWidth : imageHeight}
             radius
             placeholder={false}
             onPress={() => {
@@ -60,6 +61,7 @@ const CoverXs = memo(
               navigation.push('Subject', {
                 subjectId: data.id,
                 _jp: data.name,
+                _type: title,
                 _image: data.cover
               })
             }}

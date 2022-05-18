@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 15:22:06
+ * @Last Modified time: 2022-05-18 11:39:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Text } from '@components'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
-import { getCoverLarge } from '@utils'
+import { matchCoverUrl } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -20,20 +20,22 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
   rerender('Discovery.CoverLg')
 
   const styles = memoStyles()
+  const { coverRadius } = systemStore.setting
+  const isMusic = title === '音乐'
   return (
     <View
       style={[
         styles.item,
         {
-          borderRadius: systemStore.setting.coverRadius
+          borderRadius: coverRadius
         }
       ]}
     >
       <Cover
         style={styles.touch}
-        src={getCoverLarge(src)}
+        src={matchCoverUrl(src, false, '')}
         size={styles.cover.width}
-        height={styles.cover.height}
+        height={isMusic ? styles.cover.width : styles.cover.height}
         radius
         placeholder={false}
         onPress={() => {
@@ -48,6 +50,7 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
             subjectId: data.subjectId,
             _jp: data.title,
             _cn: cn,
+            _type: title,
             _image: src,
             _imageForce: src
           })

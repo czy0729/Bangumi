@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 20:39:14
+ * @Last Modified time: 2022-05-18 11:32:50
  */
 import { observable, computed } from 'mobx'
 import {
@@ -53,7 +53,7 @@ export default class ScreenDiscovery extends store {
       ...excludeState
     })
 
-    if (systemStore.setting.cdn) calendarStore.fetchHomeFromCDN()
+    // if (systemStore.setting.cdn) calendarStore.fetchHomeFromCDN()
 
     setTimeout(() => {
       queue([
@@ -92,8 +92,8 @@ export default class ScreenDiscovery extends store {
   }
 
   @computed get home() {
-    const { setting } = systemStore
-    if (setting.cdn) return calendarStore.homeFromCDN
+    // const { setting } = systemStore
+    // if (setting.cdn) return calendarStore.homeFromCDN
     return calendarStore.home
   }
 
