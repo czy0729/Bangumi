@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 13:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 05:14:02
+ * @Last Modified time: 2022-05-19 21:32:09
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { URL_PRIVACY } from '@constants'
 
 function Zhinan() {
   return (
@@ -72,6 +73,25 @@ function Zhinan() {
         }}
       >
         <Heatmap id='设置.跳转' to='Jihua' alias='开发计划' />
+      </ItemSetting>
+      <ItemSetting
+        style={_.mt.xs}
+        hd='隐私保护政策'
+        arrow
+        arrowStyle={_.mr.xxs}
+        arrowIcon='md-open-in-new'
+        arrowSize={18}
+        highlight
+        onPress={() => {
+          t('设置.跳转', {
+            title: '隐私保护政策',
+            to: 'Privacy'
+          })
+
+          open(URL_PRIVACY)
+        }}
+      >
+        <Heatmap id='设置.跳转' to='Privacy' alias='隐私保护政策' />
       </ItemSetting>
     </>
   )

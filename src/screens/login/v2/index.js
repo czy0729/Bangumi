@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 17:56:37
+ * @Last Modified time: 2022-05-19 21:28:47
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -25,7 +25,7 @@ import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
-import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
+import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT, URL_PRIVACY } from '@constants'
 import i18n from '@constants/i18n'
 import Preview from './preview'
 import Form from './form'
@@ -34,8 +34,6 @@ const title = '登录'
 const namespace = 'LoginV2'
 const AUTH_RETRY_COUNT = 10
 
-export default
-@ob
 class LoginV2 extends React.Component {
   state = {
     host: HOST,
@@ -590,85 +588,103 @@ class LoginV2 extends React.Component {
           !focus && (
             <View style={this.styles.ps}>
               <Text size={12} lineHeight={14} type='sub'>
-                隐私策略: 我们十分尊重您的隐私, 我们不会收集上述信息.
-                (多次{i18n.login()}失败后可能一段时间内不能再次{i18n.login()})
+                隐私策略: 我们十分尊重您的隐私, 我们不会收集上述信息. (多次
+                {i18n.login()}失败后可能一段时间内不能再次{i18n.login()})
               </Text>
             </View>
           )
         ) : (
-          <Flex style={this.styles.old}>
-            <Flex.Item>
-              <Touchable
-                onPress={() => {
-                  t('登录.跳转', {
-                    to: 'Signup'
-                  })
+          <Flex style={this.styles.old} justify='around'>
+            <Touchable
+              onPress={() => {
+                t('登录.跳转', {
+                  to: 'Signup'
+                })
 
-                  Alert.alert(
-                    '提示',
-                    // eslint-disable-next-line max-len
-                    '声明: 本APP的性质为第三方，只提供显示数据和简单的操作，没有修复和改变源站业务的能力。 \n\n在移动端浏览器注册会经常遇到验证码错误，碰到错误建议在浏览器里使用 [电脑版UA]，再不行推荐使用电脑Chrome注册。 \n\n注册后会有 [激活码] 发到邮箱，测试过只会发送一次，请务必在激活有效时间内激活，否则这个注册账号就废了。输入激活码前，看见下方的文字改变了再填入，提示服务不可用的请务必等到浏览器加载条完成，不然永远都会说激活码错误。\n\n作者只能帮大家到这里了。',
-                    [
-                      {
-                        text: '取消',
-                        type: 'cancel'
-                      },
-                      {
-                        text: '前往注册',
-                        onPress: () => open('https://bgm.tv/signup')
-                      }
-                    ]
-                  )
-                }}
-              >
-                <Flex justify='center'>
-                  <Text size={13} align='center'>
-                    注册
-                  </Text>
-                  <Iconfont
-                    style={_.ml.xxs}
-                    name='md-open-in-new'
-                    color={_.colorDesc}
-                    size={16}
-                  />
-                </Flex>
-              </Touchable>
+                Alert.alert(
+                  '提示',
+                  // eslint-disable-next-line max-len
+                  '声明: 本APP的性质为第三方，只提供显示数据和简单的操作，没有修复和改变源站业务的能力。 \n\n在移动端浏览器注册会经常遇到验证码错误，碰到错误建议在浏览器里使用 [电脑版UA]，再不行推荐使用电脑Chrome注册。 \n\n注册后会有 [激活码] 发到邮箱，测试过只会发送一次，请务必在激活有效时间内激活，否则这个注册账号就废了。输入激活码前，看见下方的文字改变了再填入，提示服务不可用的请务必等到浏览器加载条完成，不然永远都会说激活码错误。\n\n作者只能帮大家到这里了。',
+                  [
+                    {
+                      text: '取消',
+                      type: 'cancel'
+                    },
+                    {
+                      text: '前往注册',
+                      onPress: () => open('https://bgm.tv/signup')
+                    }
+                  ]
+                )
+              }}
+            >
+              <Flex justify='center'>
+                <Text size={11} type='sub' bold>
+                  注册
+                </Text>
+                <Iconfont
+                  style={_.ml.xxs}
+                  name='md-open-in-new'
+                  color={_.colorSub}
+                  size={12}
+                />
+              </Flex>
               <Heatmap id='登录.跳转' to='Signup' alias='注册' />
-            </Flex.Item>
-            <Flex.Item style={this.styles.border}>
-              <Text
-                size={13}
-                align='center'
-                onPress={() => {
-                  t('登录.跳转', {
-                    to: 'Login'
-                  })
+            </Touchable>
+            <Touchable
+              onPress={() => {
+                t('登录.跳转', {
+                  to: 'Privacy'
+                })
 
-                  const { navigation } = this.props
-                  navigation.push('Login')
-                }}
-              >
-                旧版{i18n.login()}
-              </Text>
+                open(URL_PRIVACY)
+              }}
+            >
+              <Flex justify='center'>
+                <Text size={11} type='sub' bold>
+                  隐私保护政策
+                </Text>
+                <Iconfont
+                  style={_.ml.xxs}
+                  name='md-open-in-new'
+                  color={_.colorSub}
+                  size={12}
+                />
+              </Flex>
+              <Heatmap id='登录.跳转' to='Privacy' alias='隐私保护政策' />
+            </Touchable>
+            <Text
+              size={11}
+              bold
+              type='sub'
+              onPress={() => {
+                t('登录.跳转', {
+                  to: 'Login'
+                })
+
+                const { navigation } = this.props
+                navigation.push('Login')
+              }}
+            >
+              旧版{i18n.login()}
               <Heatmap id='登录.跳转' to='Login' alias='旧版登录' />
-            </Flex.Item>
-            <Flex.Item style={this.styles.border}>
-              <Text
-                size={13}
-                align='center'
-                onPress={() => {
-                  t('登录.跳转', {
-                    to: 'LoginAssist'
-                  })
+            </Text>
+            <Text
+              size={11}
+              bold
+              type='sub'
+              onPress={() => {
+                t('登录.跳转', {
+                  to: 'LoginAssist'
+                })
 
-                  const { navigation } = this.props
-                  navigation.push('LoginAssist')
-                }}
-              >
-                辅助{i18n.login()}
-              </Text>
+                const { navigation } = this.props
+                navigation.push('LoginAssist')
+              }}
+            >
+              辅助{i18n.login()}
               <Heatmap id='登录.跳转' to='LoginAssist' alias='辅助登录' />
-            </Flex.Item>
+            </Text>
           </Flex>
         )}
       </>
@@ -695,6 +711,8 @@ class LoginV2 extends React.Component {
     return memoStyles()
   }
 }
+
+export default ob(LoginV2)
 
 const memoStyles = _.memoStyles(() => ({
   old: {

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 20:16:59
+ * @Last Modified time: 2022-05-19 21:17:34
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -136,6 +136,9 @@ export const GITHUB_DATA = 'https://gitee.com/a296377710/bangumi/raw/master/data
 // 高级会员 url
 export const GITHUB_ADVANCE =
   'https://gitee.com/a296377710/bangumi/raw/master/advance.json'
+
+/** 隐私条款 */
+export const URL_PRIVACY = 'https://www.yuque.com/chenzhenyu-k0epm/znygb4/oi3ss2'
 
 /* ==================== IMG ==================== */
 // 占位底图

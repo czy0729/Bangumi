@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 21:42:03
+ * @Last Modified time: 2022-05-19 21:21:55
  */
 import React from 'react'
 import { useFocusEffect } from '@react-navigation/native'
 import { Page } from '@components'
+import { privacy } from '@utils'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import { Track } from '@components'
@@ -21,6 +22,7 @@ import Store from './store'
 
 const Home = (props, { $, navigation }) => {
   useRunAfter(() => {
+    if (!IOS && !$.isLogin) privacy()
     $.updateInitialPage(navigation)
   })
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-13 04:28:08
+ * @Last Modified time: 2022-05-19 07:18:55
  */
 import {
   arrGroup,
@@ -65,7 +65,8 @@ import {
   tinygrailOSS,
   unzipBangumiData,
   x18,
-  x18s
+  x18s,
+  privacy
 } from './app'
 
 import { getStorage, setStorage } from './storage'
@@ -137,7 +138,8 @@ export {
   tinygrailOSS,
   unzipBangumiData,
   x18,
-  x18s
+  x18s,
+  privacy
 }
 
 /**
