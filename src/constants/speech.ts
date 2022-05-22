@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-09 20:04:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 18:24:59
+ * @Last Modified time: 2022-05-20 09:52:13
  */
 const speech = [
   '"啊 欢迎回来 主人！"虽然想这么说，但这种做作的语气只会让我想用钢丝勒断说话人的脖子。',
@@ -156,6 +156,7 @@ const speech = [
   'うそだ！！！'
 ]
 
+/** 随机得到一个 Bangumi 娘话语 */
 export const randomSpeech = () => {
   const { length } = speech
   const index = Math.floor(Math.random() * (0 - length) + length)

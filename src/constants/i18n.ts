@@ -4,11 +4,12 @@
  * @Author: czy0729
  * @Date: 2022-04-28 14:23:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:52:08
+ * @Last Modified time: 2022-05-20 10:43:19
  */
 import { getSystemStoreAsync } from '@utils/async'
 
-const _ = (s, t) => (getSystemStoreAsync().setting.s2t ? t : s)
+const _ = (s?: string, t?: string): string =>
+  getSystemStoreAsync().setting.s2t ? t : s
 
 /**
  * https://github.com/czy0729/Bangumi/issues/60

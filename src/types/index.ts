@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 04:51:52
+ * @Last Modified time: 2022-05-22 10:32:48
  */
 import React from 'react'
 import {
@@ -14,7 +14,15 @@ import {
 } from 'react-native'
 
 /** utils */
-export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never
+export type Expand<T> = T extends infer O
+  ? {
+      [K in keyof O]: O[K]
+    }
+  : never
+
+export type ValueOf<T> = T[keyof T]
+
+export type ModelValueOf<T extends readonly any[], K extends string> = T[number][K]
 
 /** constants */
 export type Navigation = {

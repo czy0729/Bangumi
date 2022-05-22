@@ -58,7 +58,7 @@ type Props = {
   onPress?: (arg0?: any) => any
 
   /** 文字 */
-  children?: string
+  children?: string | string[]
 }
 
 export const Button = observer(

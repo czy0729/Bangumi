@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 05:43:05
+ * @Last Modified time: 2022-05-20 09:10:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,8 +95,6 @@ export const Avatar = ob(
     const styles = memoStyles()
     const { dev } = systemStore.state
     const { cdn, cdnAvatar, avatarRound, coverRadius } = systemStore.setting
-
-    // @ts-ignore
     const { avatar } = userStore.usersInfo()
     const _size = _.r(size)
 

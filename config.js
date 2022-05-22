@@ -3,8 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 05:30:48
+ * @Last Modified time: 2022-05-20 09:24:43
  */
+/** 日志级别 2 所有, 1 只输出错误和警告, 0 不输出 (开发用) */
+export const LOG_LEVEL = 0
+
 /** 强制主题模式: '' => 不控制 | true => 强制黑暗 | false => 强制白天 */
 export const INIT_DEV_DARK = ''
 

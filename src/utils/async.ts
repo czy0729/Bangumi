@@ -1,27 +1,34 @@
 /*
- * 这种写法是为了防止交叉引用
+ * 这种写法是为了防止交叉引用, 其实不是 Async 是 Sync (写错了)
+ *
  * @Author: czy0729
  * @Date: 2020-12-04 11:04:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 19:19:02
+ * @Last Modified time: 2022-05-20 10:03:55
  */
+
+/** 同步取 UserStore */
 export function getUserStoreAsync() {
   return require('../stores/user').default
 }
 
+/** 同步取 ThemeStore */
 export function getThemeStoreAsync() {
   return require('../stores/theme').default
 }
 
+/** 同步取 SystemStore */
 export function getSystemStoreAsync() {
   return require('../stores/system').default
 }
 
+/** 同步取 RakuenStore */
 export function getRakuenStoreAsync() {
   return require('../stores/rakuen').default
 }
 
-export function s2tAsync(str = '') {
+/** 同步 自动判断是否简体转繁体 */
+export function s2tAsync(str: any = ''): string {
   if (typeof str !== 'string') return str
 
   const { s2t: _s2t } = getSystemStoreAsync().setting

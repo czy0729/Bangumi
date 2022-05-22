@@ -4,19 +4,26 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-09 14:15:41
+ * @Last Modified time: 2022-05-22 11:11:00
  */
+type ModelItem = {
+  label: string
+  value: string
+  title?: string
+}
+
 class Model {
-  constructor(data) {
+  constructor(data: readonly ModelItem[]) {
     this.data = data
   }
-  data = []
+
+  data: any = []
 
   /**
    * 优先通过value找label
    * @param {*} value
    */
-  getLabel(value) {
+  getLabel(value: any): string | false {
     const find = this.data.find(item => item.value == value || item.title === value)
     return find ? find.label : false
   }
@@ -25,7 +32,7 @@ class Model {
    * 优先通过label找value
    * @param {*} label
    */
-  getValue(label) {
+  getValue(label: any): string | false {
     const find = this.data.find(item => item.label == label || item.title === label)
     return find ? find.value : false
   }
@@ -34,14 +41,14 @@ class Model {
    * 优先通过label找title
    * @param {*} label
    */
-  getTitle(label) {
+  getTitle(label: any): string | false {
     const find = this.data.find(item => item.label == label || item.value == label)
     return find ? find.title : false
   }
 }
 
-// 条目类型
-export const MODEL_SUBJECT_TYPE = new Model([
+/** 条目类型 */
+export const SUBJECT_TYPE = [
   {
     label: 'anime',
     value: '2',
@@ -67,9 +74,12 @@ export const MODEL_SUBJECT_TYPE = new Model([
     value: '6',
     title: '三次元'
   }
-])
+] as const
 
-// 章节状态
+/** 条目类型 */
+export const MODEL_SUBJECT_TYPE = new Model(SUBJECT_TYPE)
+
+/** 章节状态 */
 export const MODEL_EP_STATUS = new Model([
   {
     label: '想看',
@@ -89,7 +99,7 @@ export const MODEL_EP_STATUS = new Model([
   }
 ])
 
-// 章节类型
+/** 章节类型 */
 export const MODEL_EP_TYPE = new Model([
   {
     label: '普通',
@@ -101,8 +111,8 @@ export const MODEL_EP_TYPE = new Model([
   }
 ])
 
-// 收藏状态
-export const MODEL_COLLECTION_STATUS = new Model([
+/** 收藏状态 */
+export const COLLECTION_STATUS = [
   {
     label: '想看',
     value: 'wish',
@@ -128,9 +138,13 @@ export const MODEL_COLLECTION_STATUS = new Model([
     value: 'dropped',
     title: '5'
   }
-])
+] as const
 
-export const MODEL_RATING_STATUS = new Model([
+/** 收藏状态 */
+export const MODEL_COLLECTION_STATUS = new Model(COLLECTION_STATUS)
+
+/** 打分状态 */
+export const RATING_STATUS = [
   {
     label: '想看',
     value: 'wishes'
@@ -151,9 +165,12 @@ export const MODEL_RATING_STATUS = new Model([
     label: '抛弃',
     value: 'dropped'
   }
-])
+] as const
 
-// 收藏隐私
+/** 打分状态 */
+export const MODEL_RATING_STATUS = new Model(RATING_STATUS)
+
+/** 收藏隐私 */
 export const MODEL_PRIVATE = new Model([
   {
     label: '公开',
@@ -165,8 +182,7 @@ export const MODEL_PRIVATE = new Model([
   }
 ])
 
-// 时间胶囊范围
-export const MODEL_TIMELINE_SCOPE = new Model([
+export const TIMELINE_SCOPE = [
   {
     label: '好友',
     value: 'friend'
@@ -179,10 +195,12 @@ export const MODEL_TIMELINE_SCOPE = new Model([
     label: '自己',
     value: 'self'
   }
-])
+] as const
 
-// 时间胶囊类型
-export const MODEL_TIMELINE_TYPE = new Model([
+/** 时间胶囊范围 */
+export const MODEL_TIMELINE_SCOPE = new Model(TIMELINE_SCOPE)
+
+export const TIMELINE_TYPE = [
   {
     label: '全部',
     value: 'all'
@@ -231,10 +249,13 @@ export const MODEL_TIMELINE_TYPE = new Model([
     label: '',
     value: 'all'
   }
-])
+] as const
 
-// 超展开板块
-export const MODEL_RAKUEN_SCOPE = new Model([
+/** 时间胶囊类型 */
+export const MODEL_TIMELINE_TYPE = new Model(TIMELINE_TYPE)
+
+/** 超展开板块 */
+export const RAKUEN_SCOPE = [
   {
     label: '全局聚合',
     value: 'topiclist'
@@ -259,10 +280,13 @@ export const MODEL_RAKUEN_SCOPE = new Model([
     label: '1/8位面',
     value: 'pvc'
   }
-])
+] as const
 
-// 超展开全局聚合类型
-export const MODEL_RAKUEN_TYPE = new Model([
+/** 超展开板块 */
+export const MODEL_RAKUEN_SCOPE = new Model(RAKUEN_SCOPE)
+
+/** 超展开全局聚合类型 */
+export const RAKUEN_TYPE = [
   {
     label: '全部',
     value: ''
@@ -287,8 +311,12 @@ export const MODEL_RAKUEN_TYPE = new Model([
     label: '人物',
     value: 'mono'
   }
-])
+] as const
 
+/** 超展开全局聚合类型 */
+export const MODEL_RAKUEN_TYPE = new Model(RAKUEN_TYPE)
+
+/** 小组范围 */
 export const MODEL_RAKUEN_TYPE_GROUP = new Model([
   {
     label: '全部', // 全部小组
@@ -308,6 +336,7 @@ export const MODEL_RAKUEN_TYPE_GROUP = new Model([
   }
 ])
 
+/** 人物类型 */
 export const MODEL_RAKUEN_TYPE_MONO = new Model([
   {
     label: '全部', // 全部人物
@@ -323,6 +352,7 @@ export const MODEL_RAKUEN_TYPE_MONO = new Model([
   }
 ])
 
+/** 人物排序 */
 export const MODEL_MONO_WORKS_ORDERBY = new Model([
   {
     label: '名称',
@@ -338,8 +368,8 @@ export const MODEL_MONO_WORKS_ORDERBY = new Model([
   }
 ])
 
-// 搜索类型
-export const MODEL_SEARCH_CAT = new Model([
+/** 搜索类型 */
+export const SEARCH_CAT = [
   {
     label: '条目',
     value: 'subject_all'
@@ -380,9 +410,12 @@ export const MODEL_SEARCH_CAT = new Model([
     label: '用户',
     value: 'user'
   }
-])
+] as const
 
-// 搜索细度
+/** 搜索类型 */
+export const MODEL_SEARCH_CAT = new Model(SEARCH_CAT)
+
+/** 搜索细度 */
 export const MODEL_SEARCH_LEGACY = new Model([
   {
     label: '模糊',
@@ -394,7 +427,7 @@ export const MODEL_SEARCH_LEGACY = new Model([
   }
 ])
 
-// 搜索细度
+/** 文章站点 */
 export const MODEL_NEWS = new Model([
   {
     label: '动漫之家',
@@ -406,7 +439,7 @@ export const MODEL_NEWS = new Model([
   }
 ])
 
-// 设置 - 首页收藏布局
+/** [设置] 首页收藏布局 */
 export const MODEL_SETTING_HOME_LAYOUT = new Model([
   {
     label: '列表',
@@ -418,7 +451,7 @@ export const MODEL_SETTING_HOME_LAYOUT = new Model([
   }
 ])
 
-// 设置 - 首页收藏排序
+/** [设置] 首页收藏排序 */
 export const MODEL_SETTING_HOME_SORTING = new Model([
   {
     label: 'APP',
@@ -434,7 +467,7 @@ export const MODEL_SETTING_HOME_SORTING = new Model([
   }
 ])
 
-// 设置 - 启动页面
+/** [设置] 启动页面 */
 export const MODEL_SETTING_INITIAL_PAGE = new Model([
   {
     label: '发现',
@@ -462,7 +495,7 @@ export const MODEL_SETTING_INITIAL_PAGE = new Model([
   }
 ])
 
-// 设置 - 图片质量
+/** [设置] 图片质量 */
 export const MODEL_SETTING_QUALITY = new Model([
   {
     label: '默认',
@@ -482,7 +515,7 @@ export const MODEL_SETTING_QUALITY = new Model([
   }
 ])
 
-// 设置 - 字号
+/** [设置] 字号 */
 export const MODEL_SETTING_FONTSIZEADJUST = new Model([
   {
     label: '-1',
@@ -506,6 +539,7 @@ export const MODEL_SETTING_FONTSIZEADJUST = new Model([
   }
 ])
 
+/** [设置] 用户空间网格个数 */
 export const MODEL_SETTING_USER_GRID_NUM = new Model([
   {
     label: '3',
@@ -521,7 +555,7 @@ export const MODEL_SETTING_USER_GRID_NUM = new Model([
   }
 ])
 
-// 设置 - 切页动画
+/** [设置] 切页动画 */
 export const MODEL_SETTING_TRANSITION = new Model([
   {
     label: '水平',
@@ -537,6 +571,7 @@ export const MODEL_SETTING_TRANSITION = new Model([
   }
 ])
 
+/** [设置] 同步设置 */
 export const MODEL_SETTING_SYNC = new Model([
   {
     label: '恢复默认',
@@ -552,6 +587,7 @@ export const MODEL_SETTING_SYNC = new Model([
   }
 ])
 
+/** [设置] CDN 源头 */
 export const MODEL_SETTING_CDN_ORIGIN = new Model([
   {
     label: 'fastly',
@@ -571,7 +607,7 @@ export const MODEL_SETTING_CDN_ORIGIN = new Model([
   }
 ])
 
-// 超展开设置 - 切页动画
+/** [设置] 切页动画 */
 export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
   {
     label: '隐藏',
@@ -591,7 +627,8 @@ export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
   }
 ])
 
-export const MODEL_COLLECTIONS_ORDERBY = new Model([
+/** 收藏排序 */
+export const COLLECTIONS_ORDERBY = [
   {
     label: '收藏时间',
     value: ''
@@ -612,9 +649,13 @@ export const MODEL_COLLECTIONS_ORDERBY = new Model([
     label: '网站评分',
     value: 'score'
   }
-])
+] as const
 
-export const MODEL_TAG_ORDERBY = new Model([
+/** 收藏排序 */
+export const MODEL_COLLECTIONS_ORDERBY = new Model(COLLECTIONS_ORDERBY)
+
+/** 标签排序 */
+export const TAG_ORDERBY = [
   {
     label: '名称',
     value: ''
@@ -627,8 +668,12 @@ export const MODEL_TAG_ORDERBY = new Model([
     label: '排名',
     value: 'rank'
   }
-])
+] as const
 
+/** 标签排序 */
+export const MODEL_TAG_ORDERBY = new Model(TAG_ORDERBY)
+
+/** 动画筛选 */
 export const MODEL_RANK_ANIME_FILTER = new Model([
   {
     label: '全部',
@@ -656,6 +701,7 @@ export const MODEL_RANK_ANIME_FILTER = new Model([
   }
 ])
 
+/** 书籍筛选 */
 export const MODEL_RANK_BOOK_FILTER = new Model([
   {
     label: '全部',
@@ -679,6 +725,7 @@ export const MODEL_RANK_BOOK_FILTER = new Model([
   }
 ])
 
+/** 游戏筛选 */
 export const MODEL_RANK_GAME_FILTER = new Model([
   {
     label: '全部',
@@ -770,6 +817,7 @@ export const MODEL_RANK_GAME_FILTER = new Model([
   }
 ])
 
+/** 三次元筛选 */
 export const MODEL_RANK_REAL_FILTER = new Model([
   {
     label: '全部',
@@ -793,6 +841,7 @@ export const MODEL_RANK_REAL_FILTER = new Model([
   }
 ])
 
+/** [小圣杯] 股类型 */
 export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model([
   {
     label: '所有',
@@ -808,6 +857,7 @@ export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model([
   }
 ])
 
+/** [小圣杯] 工具条类型 */
 export const MODEL_TINYGRAIL_CACULATE_TYPE = new Model([
   {
     label: '持仓价值',
@@ -851,6 +901,7 @@ export const MODEL_TINYGRAIL_CACULATE_TYPE = new Model([
   }
 ])
 
+/** [小圣杯] 工具条圣殿类型 */
 export const MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE = new Model([
   {
     label: '持仓价值',
@@ -870,6 +921,7 @@ export const MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE = new Model([
   }
 ])
 
+/** [小圣杯] 首富类型 */
 export const MODEL_TINYGRAIL_CACULATE_RICH_TYPE = new Model([
   {
     label: '周股息',
