@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-22 14:33:45
+ * @Last Modified time: 2022-05-23 07:26:47
  */
 import { EpId, SubjectId, UserId } from '@types'
 import { HOST } from '../index'
@@ -14,7 +14,7 @@ import { CollectionAction } from './types'
 
 export * from './tinygrail'
 
-/** bgm api 域名,  */
+/** bgm api 域名 */
 export const API_HOST = 'https://api.bgm.tv'
 
 /** 瓷砖进度接口 */

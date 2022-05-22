@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-13 01:35:28
+ * @Last Modified time: 2022-05-23 07:13:19
  */
 import { APP_ID, APP_ID_BAIDU, HOST, HOST_NAME, HOST_CDN, IOS, UA } from '@constants'
 import { BAIDU_KEY } from '@constants/secret'
@@ -270,18 +270,32 @@ export function xhr(
   request.send(urlStringify(data))
 }
 
+type XHRConfig = {
+  method?: 'GET' | 'POST'
+  url: string
+  data?: object
+  headers?: {
+    [key: string]: string
+  }
+  responseType?: '' | 'arraybuffer' | 'blob' | 'document' | 'json' | 'text'
+  withCredentials?: boolean
+  showLog?: boolean
+}
+
 /**
  * 自定义XHR
  */
-export function xhrCustom({
-  method = 'GET',
-  url,
-  data,
-  headers = {},
-  responseType,
-  withCredentials = false,
-  showLog = true
-} = {}) {
+export function xhrCustom(config: XHRConfig): Promise<any> {
+  const {
+    method = 'GET',
+    url,
+    data,
+    headers = {},
+    responseType,
+    withCredentials = false,
+    showLog = true
+  } = config || {}
+
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.onreadystatechange = function () {
@@ -312,14 +326,11 @@ export function xhrCustom({
 
     request.open(method, url, true)
     request.withCredentials = withCredentials
-    if (responseType) {
-      request.responseType = responseType
-    }
+    if (responseType) request.responseType = responseType
 
     const _headers = headers
-    if (url.includes(HOST_CDN) && !_headers.Referer) {
-      _headers.Referer = HOST
-    }
+    if (url.includes(HOST_CDN) && !_headers.Referer) _headers.Referer = HOST
+
     Object.keys(_headers).forEach(key => {
       request.setRequestHeader(key, headers[key])
     })
@@ -327,9 +338,7 @@ export function xhrCustom({
     const body = data ? urlStringify(data) : null
     request.send(body)
 
-    if (SHOW_LOG && showLog) {
-      log(`🔍 ${url}`)
-    }
+    if (SHOW_LOG && showLog) log(`🔍 ${url}`)
   })
 }
 
