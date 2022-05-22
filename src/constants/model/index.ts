@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-22 11:11:00
+ * @Last Modified time: 2022-05-22 13:58:11
  */
 type ModelItem = {
   label: string
@@ -80,7 +80,7 @@ export const SUBJECT_TYPE = [
 export const MODEL_SUBJECT_TYPE = new Model(SUBJECT_TYPE)
 
 /** 章节状态 */
-export const MODEL_EP_STATUS = new Model([
+export const EP_STATUS = [
   {
     label: '想看',
     value: 'queue'
@@ -97,7 +97,10 @@ export const MODEL_EP_STATUS = new Model([
     label: '撤销',
     value: 'remove'
   }
-])
+] as const
+
+/** 章节状态 */
+export const MODEL_EP_STATUS = new Model(EP_STATUS)
 
 /** 章节类型 */
 export const MODEL_EP_TYPE = new Model([

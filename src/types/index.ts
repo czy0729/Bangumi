@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-22 10:32:48
+ * @Last Modified time: 2022-05-22 13:10:38
  */
 import React from 'react'
 import {
@@ -69,3 +69,20 @@ export type ListEmpty = {
   _list?: any[]
   _loaded?: boolean | number
 }
+
+/** App */
+export type Id = number | string
+
+export type SubjectId = Id
+
+export type EpId = Id
+
+export type UserId = Id
+
+export type PersonId = `person/${Id}`
+
+export type CharacterId = `character/${Id}`
+
+export type MonoId = CharacterId | PersonId
+
+export type TopicId = `${'group' | 'subject' | 'ep' | 'prsn'}/${Id}`
