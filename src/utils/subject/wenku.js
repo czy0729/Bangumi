@@ -112,7 +112,7 @@ function getData() {
   }
 
   if (!wenkuFallback.length) {
-    wenkuFallback = require('@constants/json/thirdParty/wenku.min.json')
+    wenkuFallback = require('@assets/json/thirdParty/wenku.min.json')
   }
   return wenkuFallback
 }

@@ -4,15 +4,15 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 12:59:43
+ * @Last Modified time: 2022-05-23 22:13:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import heatmapData from '@constants/json/heatmap.json'
-import heatmapEventData from '@constants/json/heatmap-event.json'
+import heatmapData from '@assets/json/heatmap.json'
+import heatmapEventData from '@assets/json/heatmap-event.json'
 import { EventType } from '@types'
 import { Text } from '../text'
 import { Control } from './control'

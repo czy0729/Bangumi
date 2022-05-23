@@ -209,7 +209,7 @@ function getData() {
   }
 
   if (!gameFallback.length) {
-    gameFallback = require('@constants/json/thirdParty/game.min.json')
+    gameFallback = require('@assets/json/thirdParty/game.min.json')
   }
   return gameFallback
 }

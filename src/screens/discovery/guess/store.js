@@ -11,7 +11,7 @@ import { getBangumiUrl, unzipBangumiData } from '@utils/app'
 import { xhrCustom, HTMLTrim, queue } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { guess } from '@utils/subject/anime'
-import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 
 const namespace = 'ScreenGuess'
 const excludeState = {

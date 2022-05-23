@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 06:55:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 07:22:55
+ * @Last Modified time: 2022-05-23 22:16:42
  */
 import { getStorage, setStorage } from '@utils/storage'
 import { xhrCustom } from '@utils/fetch'
-import hashAvatar from '../json/hash/avatar.min.json'
+import hashAvatar from '@assets/json/hash/avatar.min.json'
 import { HOST_CDN, VERSION_OSS, VERSION_AVATAR } from './ds'
 import { hash, getOTA, getVersion } from './utils'
 

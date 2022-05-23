@@ -9,7 +9,7 @@ import { PaginationList } from '@_'
 import { _ } from '@stores'
 import { pad } from '@utils'
 import { obc } from '@utils/decorators'
-import data from '@constants/json/group'
+import data from '@assets/json/group'
 import Filter from './filter'
 import Item from './item'
 

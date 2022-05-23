@@ -15,9 +15,9 @@ import {
   CDN_OSS_SUBJECT,
   CDN_OSS_MAGMA_POSTER
 } from '@constants/cdn'
-import cnData from '@constants/json/cn.json'
-import x18data from '@constants/json/18x.json'
-import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import cnData from '@assets/json/cn.json'
+import x18data from '@assets/json/18x.json'
+import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { Navigation, Source } from '@types'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'

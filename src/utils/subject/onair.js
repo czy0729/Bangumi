@@ -11,7 +11,7 @@ let onairFallback = {
 
 function getData() {
   if (!onairFallback.type.length)
-    onairFallback = require('@constants/json/thirdParty/onair.min.json')
+    onairFallback = require('@assets/json/thirdParty/onair.min.json')
   return onairFallback
 }
 

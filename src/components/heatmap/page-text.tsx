@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-06 18:02:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 18:03:46
+ * @Last Modified time: 2022-05-23 22:15:20
  */
 import React from 'react'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import events from '@constants/events'
-import heatmapData from '@constants/json/heatmap.json'
-import heatmapEventData from '@constants/json/heatmap-event.json'
+import heatmapData from '@assets/json/heatmap.json'
+import heatmapEventData from '@assets/json/heatmap-event.json'
 import { Text } from '../text'
 
 export function PageText({ page, screen }) {

@@ -11,8 +11,8 @@ import { Touchable, Flex, Text } from '@components'
 import { _, systemStore, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { getHashSubjectOTA, getHashAvatarOTA, getXsbRelationOTA } from '@constants/cdn'
-import hashSubject from '@constants/json/hash/subject.min.json'
-import hashAvatar from '@constants/json/hash/avatar.min.json'
+import hashSubject from '@assets/json/hash/subject.min.json'
+import hashAvatar from '@assets/json/hash/avatar.min.json'
 
 function Detail() {
   return useObserver(() => {

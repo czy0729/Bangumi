@@ -24,7 +24,7 @@ import {
   HTML_ACTION_SUBJECT_SET_WATCHED,
   HTML_ACTION_SUBJECT_INTEREST_UPDATE
 } from '@constants/html'
-import rateData from '@constants/json/rate.json'
+import rateData from '@assets/json/rate.json'
 import userStore from '../user'
 import { NAMESPACE, DEFAULT_SUBJECT_TYPE, DEFAULT_TYPE, DEFAULT_ORDER } from './init'
 

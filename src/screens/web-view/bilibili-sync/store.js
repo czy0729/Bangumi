@@ -13,7 +13,7 @@ import { request } from '@utils/fetch.v0'
 import { info, feedback } from '@utils/ui'
 import { t2s } from '@utils/thirdParty/cn-char'
 import i18n from '@constants/i18n'
-import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { MEDIA_SUBJECT } from './ds'
 
 const HOST_API = 'https://api.bgm.tv'

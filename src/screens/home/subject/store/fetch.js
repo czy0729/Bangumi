@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-05-11 19:55:20
  */
-import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
 import { getTimestamp, similar } from '@utils'
 import { HTMLDecode, HTMLTrim, cheerio } from '@utils/html'

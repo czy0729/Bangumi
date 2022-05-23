@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 06:58:09
+ * @Last Modified time: 2022-05-23 22:16:06
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -42,7 +42,7 @@ import {
   MODEL_SETTING_HOME_LAYOUT
 } from '@constants/model'
 import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS } from '@constants/site'
-import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
+import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { getOriginConfig, replaceOriginUrl } from '../../user/origin-setting/utils'
 
 const PAGE_LIMIT_LIST = 4 * 8

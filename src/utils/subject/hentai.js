@@ -144,7 +144,7 @@ function getData() {
 
   // hentai 不做本地静态数据
   // if (!hentaiFallback.length) {
-  //   hentaiFallback = require('@constants/json/thirdParty/hentai.min.json')
+  //   hentaiFallback = require('@assets/json/thirdParty/hentai.min.json')
   // }
   return hentaiFallback
 }

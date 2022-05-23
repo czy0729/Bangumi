@@ -325,7 +325,7 @@ function getData() {
   }
 
   if (!animeFallback.length) {
-    animeFallback = require('@constants/json/thirdParty/anime.min.json')
+    animeFallback = require('@assets/json/thirdParty/anime.min.json')
   }
   return animeFallback
 }

@@ -117,7 +117,7 @@ function getData() {
   }
 
   if (!mangaFallback.length) {
-    mangaFallback = require('@constants/json/thirdParty/manga.min.json')
+    mangaFallback = require('@assets/json/thirdParty/manga.min.json')
   }
   return mangaFallback
 }

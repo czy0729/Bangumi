@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 06:40:25
+ * @Last Modified time: 2022-05-23 22:15:26
  */
 import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
@@ -12,7 +12,7 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/cn-char'
 import hash from '@utils/thirdParty/hash'
 import { DEV, IOS, PAD } from '@constants'
-import substrings from '@constants/json/substrings.json'
+import substrings from '@assets/json/substrings.json'
 
 export const padFontSizeIncrease = PAD === 2 ? 3 : 2
 export const padLineHeightIncrease = PAD === 2 ? 10 : 4

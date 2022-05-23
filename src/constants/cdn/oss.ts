@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2022-05-23 07:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 07:35:41
+ * @Last Modified time: 2022-05-23 22:16:48
  */
 import { getTimestamp } from '@utils/utils'
 import { getStorage, setStorage } from '@utils/storage'
 import { getSystemStoreAsync } from '@utils/async'
 import { xhrCustom } from '@utils/fetch'
 import Crypto from '@utils/crypto'
-import hashSubject from '../json/hash/subject.min.json'
+import hashSubject from '@assets/json/hash/subject.min.json'
 import { HOST_CDN, HOST_CDN_FASTLY, HOST_CDN_ONEDRIVE, VERSION_OSS } from './ds'
 import { hash, getOTA, getVersion } from './utils'
 
