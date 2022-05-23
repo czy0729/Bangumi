@@ -3,10 +3,18 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 07:13:19
+ * @Last Modified time: 2022-05-23 22:48:51
  */
-import { APP_ID, APP_ID_BAIDU, HOST, HOST_NAME, HOST_CDN, IOS, UA } from '@constants'
-import { BAIDU_KEY } from '@constants/secret'
+import {
+  APP_ID,
+  APP_BAIDU_ID,
+  APP_BAIDU_KEY,
+  HOST,
+  HOST_NAME,
+  HOST_CDN,
+  IOS,
+  UA
+} from '@constants'
 import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
 import {
@@ -435,11 +443,11 @@ export async function queue(fetchs = [], num = 2) {
  */
 export async function baiduTranslate(query, to = 'zh') {
   try {
-    const appid = APP_ID_BAIDU // 秘密
+    const appid = APP_BAIDU_ID // 秘密
     const salt = new Date().getTime()
     const from = 'auto'
     const q = query.split('\r\n').join('\n')
-    const sign = md5(`${appid}${q}${salt}${BAIDU_KEY}`)
+    const sign = md5(`${appid}${q}${salt}${APP_BAIDU_KEY}`)
     const { _response } = await xhrCustom({
       url: `https://api.fanyi.baidu.com/api/trans/vip/translate?${urlStringify({
         q,

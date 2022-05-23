@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 05:27:53
+ * @Last Modified time: 2022-05-23 22:58:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,12 +15,12 @@ import {
   Mesume,
   Heatmap
 } from '@components'
+import { randomSpeech } from '@components/mesume/utils'
 import { ItemSetting, ItemSettingBlock, Cover, Avatar } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IOS, IMG_WIDTH_SM, IMG_HEIGHT_SM, IMG_DEFAULT_AVATAR } from '@constants'
-import { randomSpeech } from '@constants/speech'
 import {
   MODEL_SETTING_FONTSIZEADJUST,
   MODEL_SETTING_TRANSITION

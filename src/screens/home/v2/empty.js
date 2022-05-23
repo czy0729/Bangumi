@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 21:35:06
+ * @Last Modified time: 2022-05-23 22:57:52
  */
 import React from 'react'
 import { Flex, Text, Mesume, Button } from '@components'
+import { randomSpeech } from '@components/mesume/utils'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { randomSpeech } from '@constants/speech'
 
 const footerEmptyDataTextMap = {
   全部: '当前没有可管理的条目哦，请先添加一个条目',

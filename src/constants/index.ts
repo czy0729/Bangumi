@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-20 09:50:23
+ * @Last Modified time: 2022-05-23 23:01:09
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import { DEV, LOG_LEVEL, TEXT_ONLY } from '../../config'
-import { PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from './device/index.android'
+import { PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from './device/index'
 
 export { DEV, LOG_LEVEL, TEXT_ONLY, PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO }
 
@@ -104,7 +104,10 @@ export const APP_ID_SAY_DEVELOP = '27168016'
 export const APP_ID_SAY_TINYGRAIL = '19820034'
 
 /** 百度翻译 App ID */
-export const APP_ID_BAIDU = '20200130000378695'
+export const APP_BAIDU_ID = '20200130000378695'
+
+/** 百度翻译 App Key */
+export const APP_BAIDU_KEY = 'U92zpHIA8SkYXHrEaZ9O'
 
 /** APP 游客用户id [476179] 6907***59@qq.com | [474489] 2963***10@qq.com | [542389] say***02@163.com */
 export const APP_USERID_TOURIST = 474489
