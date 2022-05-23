@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:04:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-10 20:09:22
+ * @Last Modified time: 2022-05-23 22:25:31
  */
 export const html = `
 <!DOCTYPE html>
@@ -161,8 +161,8 @@ export const html = `
         color: #fff;
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/dist/dom-to-image.min.js"></script>
+    <script src="https://unpkg.com/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <script src="https://unpkg.com/dom-to-image@2.6.0/dist/dom-to-image.min.js"></script>
     <script>
       function loadImage() {
         // 获取亮色调还是暗色调
