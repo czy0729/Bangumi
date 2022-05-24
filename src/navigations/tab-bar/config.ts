@@ -2,9 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-10 02:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-14 19:05:49
+ * @Last Modified time: 2022-05-25 04:13:11
  */
-export const routesConfig = {
+type RoutesConfig = {
+  [key: string]: {
+    icon: string
+    size?: number
+    label: string
+  }
+}
+
+export const routesConfig: RoutesConfig = {
   Discovery: {
     icon: 'home',
     size: 19,

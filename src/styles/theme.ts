@@ -1,9 +1,11 @@
 /*
+ * [待废弃] Ant-Mobile@3 旧版本代码容器依赖的样式文件
  * https://github.com/ant-design/ant-design-mobile-rn/blob/master/components/style/themes/default.tsx
+ *
  * @Author: czy0729
  * @Date: 2019-03-14 17:31:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-03 13:27:29
+ * @Last Modified time: 2022-05-25 04:10:35
  */
 import { colorPrimary, colorDesc } from './index'
 

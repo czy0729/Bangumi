@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 20:48:57
+ * @Last Modified time: 2022-05-25 04:23:58
  */
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
@@ -11,7 +11,7 @@ import { useObserver } from 'mobx-react-lite'
 import * as Screens from '@screens'
 import { systemStore } from '@stores'
 import { urlStringify } from '@utils'
-import navigationsParams from '@/config'
+import navigationsParams from '../../config'
 import TabBar from './tab-bar'
 
 export const SCREENS_TOTAL = Object.keys(Screens).length
@@ -27,7 +27,10 @@ const Tab = createBottomTabNavigator()
 function BottomTabNavigator() {
   return useObserver(() => {
     const { homeRenderTabs, initialPage } = systemStore.setting
-    const initialRouteName = homeRenderTabs.includes(initialPage) ? initialPage : 'Home'
+    const _initialPage = initialPage || ''
+    const initialRouteName = homeRenderTabs.includes(_initialPage)
+      ? _initialPage
+      : 'Home'
     return (
       <Tab.Navigator
         initialRouteName={initialRouteName}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 20:33:02
+ * @Last Modified time: 2022-05-24 16:02:36
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -47,6 +47,7 @@ class Theme extends store {
   _wind: number = _._wind
 
   statusBarHeight: number = _.statusBarHeight
+  tabBarHeight = _.tabBarHeight
 
   /** 单独头部高度 */
   appBarHeight: number = _.appBarHeight

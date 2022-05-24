@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-20 09:24:43
+ * @Last Modified time: 2022-05-25 04:16:43
  */
 /** 日志级别 2 所有, 1 只输出错误和警告, 0 不输出 (开发用) */
 export const LOG_LEVEL = 0
@@ -18,6 +18,7 @@ export const INIT_ROUTE = 'Home'
 export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
 
 /** 是否开发模式 */
+// @ts-ignore
 export const DEV = global.__DEV__
 
 /** 开发模式中是否不显示图片 */
