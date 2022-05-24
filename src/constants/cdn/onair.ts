@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:43:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 05:45:47
+ * @Last Modified time: 2022-05-25 06:51:29
  */
-import { getTimestamp } from '@utils'
+import dayjs from 'dayjs'
 import { SubjectId } from '@types'
 import { HOST_CDN } from './ds'
 import { getFolder } from './utils'
@@ -20,3 +20,13 @@ export const CDN_EPS = (subjectId: SubjectId) =>
     subjectId,
     1000
   )}/${subjectId}.json?t=${getTimestamp()}`
+
+function trim(str = '') {
+  return str.replace(/^\s+|\s+$/gm, '')
+}
+
+function getTimestamp(date = '') {
+  const _date = trim(date)
+  if (_date) return dayjs(_date).unix()
+  return dayjs().unix()
+}

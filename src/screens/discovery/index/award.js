@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-16 10:58:20
+ * @Last Modified time: 2022-05-25 07:10:37
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -14,8 +14,6 @@ import { HOST } from '@constants'
 import Award2021 from './award-2021'
 
 const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
-const cdn =
-  'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210413/data/award/title'
 
 function Award(props, { navigation }) {
   rerender('Discovery.Award')
@@ -48,7 +46,7 @@ function Award(props, { navigation }) {
         }}
       >
         <Image
-          src={`${cdn}/2020.png`}
+          src={require('@assets/images/static/2020.png')}
           size={styles.item2020.width}
           height={styles.item2020.height}
           placeholder={false}
@@ -74,7 +72,7 @@ function Award(props, { navigation }) {
         }}
       >
         <Image
-          src={`${cdn}/2019.png`}
+          src={require('@assets/images/static/2019.png')}
           size={styles.item2020.width - 32}
           height={styles.item2020.height}
           placeholder={false}
@@ -100,7 +98,7 @@ function Award(props, { navigation }) {
         }}
       >
         <Image
-          src={`${cdn}/2018.png`}
+          src={require('@assets/images/static/2018.png')}
           size={styles.item2018.width}
           height={styles.item2020.height}
           placeholder={false}

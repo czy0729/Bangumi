@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 04:24:34
+ * @Last Modified time: 2022-05-25 07:03:36
  */
 import React from 'react'
 import { Header, ScrollView, Flex, Text, Image } from '@components'
 import { _, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { HOST_CDN } from '@constants/cdn'
 
 const Qiafan = () => {
   return useObserver(() => (
@@ -67,11 +66,9 @@ const Qiafan = () => {
             </Text>
             <Flex style={styles.mt160} justify='center'>
               <Image
-                style={styles.image}
                 size={240}
                 height={274}
-                mode='aspectFit'
-                src={`${HOST_CDN}/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png`}
+                src={require('@assets/images/qr/alipay.png')}
               />
             </Flex>
             <Text style={styles.mt120} align='center' type='sub'>
@@ -82,10 +79,9 @@ const Qiafan = () => {
             </Text>
             <Flex style={styles.mt120} justify='center'>
               <Image
-                style={styles.image}
                 size={240}
-                height={240}
-                src={`${HOST_CDN}/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png`}
+                height={295}
+                src={require('@assets/images/qr/wx.png')}
               />
             </Flex>
           </>
@@ -110,9 +106,5 @@ const styles = _.create({
   },
   mv20: {
     marginVertical: 20
-  },
-  image: {
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
   }
 })

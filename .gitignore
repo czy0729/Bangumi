@@ -11,6 +11,7 @@ yarn.lock
 
 # Bangumi App
 \[deprecated\]/
+\[auth\]/
 auth/
 dist/
 gradle.properties

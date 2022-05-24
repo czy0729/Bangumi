@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:03:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 05:38:15
+ * @Last Modified time: 2022-05-25 07:15:34
  */
-import { SDK } from '../index'
 import {
   HOST_CDN,
   VERSION_STATIC,
@@ -48,8 +47,8 @@ export const CDN_STATIC_HENTAI = () => {
 }
 
 /** 年鉴 */
-export const CDN_AWARD = (year: string | number) => {
-  const v = getVersion('VERSION_STATIC', VERSION_STATIC)
-  const prefix = SDK >= 36 ? '.expo' : ''
-  return `${HOST_STATIC}@${v}/data/award/${year}${prefix}.json`
-}
+// export const CDN_AWARD = (year: string | number) => {
+//   const v = getVersion('VERSION_STATIC', VERSION_STATIC)
+//   const prefix = SDK >= 36 ? '.expo' : ''
+//   return `${HOST_STATIC}@${v}/data/award/${year}${prefix}.json`
+// }

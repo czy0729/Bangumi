@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 20:47:12
+ * @Last Modified time: 2022-05-25 07:11:35
  */
 import React, { useState, useEffect } from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -14,9 +14,8 @@ import { useObserver } from '@utils/hooks'
 import { c } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
-import Img2021 from '@assets/images/year_2021.png'
 
-const jquery = 'https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.slim.min.js'
+const jquery = 'https://unpkg.com/jquery@3.6.0/dist/jquery.slim.min.js'
 
 function Award2021(props, { $, navigation }) {
   const isFocused = useIsFocused()
@@ -74,7 +73,7 @@ function Award2021(props, { $, navigation }) {
             )
           ) : (
             <Image
-              src={Img2021}
+              src={require('@assets/images/static/2021.png')}
               size={styles.body.width}
               height={styles.body.height}
               placeholder={false}

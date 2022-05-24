@@ -11,7 +11,7 @@ import { useObserver } from 'mobx-react-lite'
 import * as Screens from '@screens'
 import { systemStore } from '@stores'
 import { urlStringify } from '@utils'
-import navigationsParams from '../../config'
+import navigationsParams from '@/config'
 import TabBar from './tab-bar'
 
 export const SCREENS_TOTAL = Object.keys(Screens).length

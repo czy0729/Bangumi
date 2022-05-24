@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 15:52:59
+ * @Last Modified time: 2022-05-25 07:18:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,13 +21,13 @@ let musume: {
 }
 function init() {
   musume = {
-    1: require('@assets/images/musume1.png'),
-    2: require('@assets/images/musume2.png'),
-    3: require('@assets/images/musume3.png'),
-    4: require('@assets/images/musume4.png'),
-    5: require('@assets/images/musume5.png'),
-    6: require('@assets/images/musume6.png'),
-    7: require('@assets/images/musume7.png')
+    1: require('@assets/images/musume/musume1.png'),
+    2: require('@assets/images/musume/musume2.png'),
+    3: require('@assets/images/musume/musume3.png'),
+    4: require('@assets/images/musume/musume4.png'),
+    5: require('@assets/images/musume/musume5.png'),
+    6: require('@assets/images/musume/musume6.png'),
+    7: require('@assets/images/musume/musume7.png')
   }
 }
 

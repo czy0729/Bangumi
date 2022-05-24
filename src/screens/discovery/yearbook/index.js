@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 21:17:10
+ * @Last Modified time: 2022-05-25 07:12:40
  */
 import React from 'react'
 import { Header, Page, ScrollView, Touchable, Image, Flex, Text } from '@components'
@@ -10,10 +10,7 @@ import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
-import Img2021 from '@assets/images/year_2021.png'
 
-const cdn =
-  'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210413/data/award/title'
 const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 
 const Yearbook = ({ navigation }) => {
@@ -40,7 +37,7 @@ const Yearbook = ({ navigation }) => {
                 }}
               >
                 <Image
-                  src={Img2021}
+                  src={require('@assets/images/static/2021.png')}
                   size={styles.item2021.width}
                   height={styles.item2021.height}
                   placeholder={false}
@@ -61,7 +58,7 @@ const Yearbook = ({ navigation }) => {
                 }}
               >
                 <Image
-                  src={`${cdn}/2020.png`}
+                  src={require('@assets/images/static/2020.png')}
                   size={styles.item2020.width}
                   height={styles.item2020.height}
                   placeholder={false}
@@ -83,7 +80,7 @@ const Yearbook = ({ navigation }) => {
               >
                 <Flex justify='center'>
                   <Image
-                    src={`${cdn}/2019.png`}
+                    src={require('@assets/images/static/2019.png')}
                     size={styles.item2019.width - 32}
                     height={styles.item2019.height}
                     placeholder={false}
@@ -105,7 +102,7 @@ const Yearbook = ({ navigation }) => {
                 }}
               >
                 <Image
-                  src={`${cdn}/2018.png`}
+                  src={require('@assets/images/static/2018.png')}
                   size={styles.item2018.width}
                   height={styles.item2018.height}
                   placeholder={false}

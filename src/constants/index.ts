@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 23:01:09
+ * @Last Modified time: 2022-05-25 07:17:41
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -176,9 +176,6 @@ export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 
 /** 默认图 */
 export const IMG_DEFAULT = require('@assets/images/default.png')
-
-/** 图裂图 */
-export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png')
 
 /* ==================== IMG SIZE ==================== */
 const h = w => parseInt(String(w * 1.4))
