@@ -131,6 +131,10 @@ v6.3.0 - 2022/05/14
 
 当前 iOS 和 android 是使用不同的包进行开发的，请使用正确的 package.json 进行包安装，配置在 ./web/package.[android | ios].json
 
+** 安卓开发 **
+
+请务必阅读 ./android/README.MD
+
 ** 下载 **
 
 不要使用 taobao 源头，可能会在跑环境时提示不允许代理
