@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 05:23:53
+ * @Last Modified time: 2022-05-25 08:12:27
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -228,17 +228,17 @@ class User extends store {
   }
 
   // -------------------- get --------------------
+  /** 自己用户信息 */
+  @computed get userInfo() {
+    return this.state.userInfo
+  }
 
-  /**
-   * 自己用户Id
-   */
+  /** 自己用户Id */
   @computed get myUserId() {
     return this.userInfo.id || this.accessToken.user_id
   }
 
-  /**
-   * 自己用户Id(改过用户名后)
-   */
+  /** 自己用户Id (改过用户名后) */
   @computed get myId() {
     return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
   }
@@ -254,16 +254,12 @@ class User extends store {
     }).get()
   }
 
-  /**
-   * 用户空间地址
-   */
+  /** 用户空间地址 */
   @computed get url() {
     return `${HOST}/user/${this.myId}`
   }
 
-  /**
-   * 有新短信
-   */
+  /** 有新短信 */
   @computed get hasNewPM() {
     return this.pmIn.list.findIndex(item => item.new) !== -1
   }

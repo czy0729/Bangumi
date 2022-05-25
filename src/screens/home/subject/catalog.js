@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:18
+ * @Last Modified time: 2022-05-25 08:47:11
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -93,12 +93,7 @@ const Catalog = memo(
                   </Touchable>
                 ))}
               </ScrollView>
-              <Heatmap
-                id='条目.跳转'
-                data={{
-                  from: '条目'
-                }}
-              />
+              <Heatmap id='条目.跳转' from='条目' />
             </View>
           </>
         )}

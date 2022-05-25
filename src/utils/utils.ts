@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 04:39:54
+ * @Last Modified time: 2022-05-25 07:59:54
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -14,12 +14,12 @@ import { info } from './ui'
  * 排除null
  * @param {*} value
  */
-export function isObject(value: any) {
+export function isObject(value: any): boolean {
   return typeof value === 'object' && !!value
 }
 
 /**
- * 缩短runAfterInteractions
+ * 缩短 runAfterInteractions
  * @param {*} fn
  */
 export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
@@ -31,7 +31,7 @@ export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
  * @param {*} callback
  */
 export function throttle(callback: () => void, delay = 400) {
-  let timeoutID
+  let timeoutID: number
   let lastExec = 0
 
   function wrapper() {
@@ -58,13 +58,29 @@ export function throttle(callback: () => void, delay = 400) {
 }
 
 /**
+ * 防抖
+ * @param {*} fn
+ * @param {*} ms
+ */
+export function debounce(fn, ms = 400) {
+  let timeout = null // 创建一个标记用来存放定时器的返回值
+  return function () {
+    clearTimeout(timeout) // 每当用户输入的时候把前一个 setTimeout clear 掉
+    timeout = setTimeout(() => {
+      // 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
+      fn.apply(this, arguments)
+    }, ms)
+  }
+}
+
+/**
  * 排序正序辅助函数
  *  - 用于在安卓端开启低版本的 Hermes 后, Array.sort 需要严格区分返回 0 -1 1, 相同返回会出现不稳定的结果
  * @param a
  * @param b
  * @param fn
  */
-export function asc(a, b, fn) {
+export function asc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
   let _a = a
   let _b = b
   if (typeof fn === 'function') {
@@ -83,7 +99,7 @@ export function asc(a, b, fn) {
  * @param b
  * @param fn
  */
-export function desc(a, b, fn) {
+export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
   let _a = a
   let _b = b
   if (typeof fn === 'function') {
@@ -100,7 +116,7 @@ export function desc(a, b, fn) {
  * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
  * @param {*} fetchs
  */
-export async function queue(fetchs = [], num = 2) {
+export async function queue(fetchs: any[] = [], num: number = 2): Promise<boolean> {
   if (!fetchs.length) return false
 
   await Promise.all(
@@ -114,22 +130,11 @@ export async function queue(fetchs = [], num = 2) {
 }
 
 /**
- * 防抖
- * @param {*} fn
- * @param {*} ms
+ * 对象中选择指定 key
+ * @param obj
+ * @param arr
  */
-export function debounce(fn, ms = 400) {
-  let timeout = null // 创建一个标记用来存放定时器的返回值
-  return function () {
-    clearTimeout(timeout) // 每当用户输入的时候把前一个 setTimeout clear 掉
-    timeout = setTimeout(() => {
-      // 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
-      fn.apply(this, arguments)
-    }, ms)
-  }
-}
-
-export function pick(obj, arr) {
+export function pick(obj: object, arr: string[]): object {
   return arr.reduce(
     // eslint-disable-next-line no-sequences
     (acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc),
@@ -137,7 +142,12 @@ export function pick(obj, arr) {
   )
 }
 
-export function omit(obj, arr) {
+/**
+ * 对象中选择排除 key
+ * @param obj
+ * @param arr
+ */
+export function omit(obj: object, arr: string[]): object {
   return Object.keys(obj).reduce(
     // eslint-disable-next-line no-sequences
     (acc, curr) => (arr.indexOf(curr) === -1 && (acc[curr] = obj[curr]), acc),
@@ -147,25 +157,26 @@ export function omit(obj, arr) {
 
 /**
  * 复制到剪贴板
- * @param {*} string
+ * @param {*} str
  */
-export function copy(string) {
-  return Clipboard.setString(string)
+export function copy(str: string) {
+  return Clipboard.setString(str)
 }
 
 /**
- * 安全toFixed
- * @param {*} object
+ * 安全 toFixed
+ * @param value
+ * @param num
  */
-export function toFixed(value, num = 2) {
+export function toFixed(value: any, num: number = 2) {
   return Number(value || 0).toFixed(num)
 }
 
 /**
  * 安全对象
- * @param {*} url
+ * @param {*} object
  */
-export function safeObject(object = {}) {
+export function safeObject(object: any = {}) {
   Object.keys(object).forEach(key => {
     if (object[key] === undefined) {
       object[key] = ''
@@ -178,7 +189,7 @@ export function safeObject(object = {}) {
  * 浏览器打开网页
  * @param {*} url
  */
-export function open(url) {
+export function open(url: any): boolean {
   if (!url || typeof url !== 'string') {
     info('地址不合法')
     return false
@@ -200,7 +211,7 @@ export function open(url) {
  * @param {*} data
  * @param {*} encode
  */
-export function urlStringify(data, encode = true) {
+export function urlStringify(data: object, encode: boolean = true): string {
   if (!data) return ''
 
   const arr = Object.keys(data).map(
@@ -213,18 +224,17 @@ export function urlStringify(data, encode = true) {
  * 补零
  * @version 190301 1.0
  * @param {*} n
- * @param {*} c
  */
-export function pad(n) {
+export function pad(n: string | number) {
   return Number(n) < 10 ? `0${n}` : n
 }
 
 /**
  * 睡眠
  * @version 180417 1.0
- * @return {Promise}
+ * @param {*} ms
  */
-export function sleep(ms = 800) {
+export function sleep(ms: number = 800): Promise<undefined> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
@@ -232,9 +242,8 @@ export function sleep(ms = 800) {
  * 简易时间戳格式化函数
  * @param  {String} format    格式化格式
  * @param  {Int}    timestamp 时间戳
- * @return {String}
  */
-export function date(format, timestamp?: number) {
+export function date(format: string, timestamp?: any): string {
   // 假如第二个参数不存在，第一个参数作为timestamp
   if (!timestamp) {
     timestamp = format
@@ -290,7 +299,7 @@ export function date(format, timestamp?: number) {
  * IOS8601时间转换
  * @param {*} isostr
  */
-export function parseIOS8601(isostr, format = 'Y-m-d') {
+export function parseIOS8601(isostr: string, format = 'Y-m-d') {
   if (!isostr) return ''
 
   const parts = isostr.match(/\d+/g)
@@ -334,7 +343,7 @@ export function simpleTime(time = '') {
  * @param {*} arr
  * @param {*} num
  */
-export function arrGroup(arr, num = 40) {
+export function arrGroup(arr: string | any[], num: number = 40): any[] {
   const allData = []
   let currData = []
 
@@ -353,17 +362,14 @@ export function arrGroup(arr, num = 40) {
  * 首字母大写
  * @param {*} str
  */
-export function titleCase(str = '') {
+export function titleCase(str: string = '') {
   return str.replace(/( |^)[a-z]/g, L => L.toUpperCase())
 }
 
 /**
- * 颜色过渡
- * @param {*} startColor
- * @param {*} endColor
- * @param {*} step
+ * [待废弃] 颜色过渡
  */
-export function gradientColor(startRGB, endRGB, step) {
+export function gradientColor(startRGB: any[], endRGB: any[], step: number) {
   const startR = startRGB[0]
   const startG = startRGB[1]
   const startB = startRGB[2]
@@ -386,9 +392,10 @@ export function gradientColor(startRGB, endRGB, step) {
 }
 
 /**
+ * 去掉收尾空格
  * @param {*} str
  */
-export function trim(str = '') {
+export function trim(str: string = '') {
   return str.replace(/^\s+|\s+$/gm, '')
 }
 
@@ -396,7 +403,7 @@ export function trim(str = '') {
  * 生成n位随机整数
  * @param {*} n
  */
-export function randomn(n) {
+export function randomn(n: number) {
   if (n > 21) return null
 
   return Math.floor((Math.random() + 1) * Math.pow(10, n - 1))
@@ -407,7 +414,7 @@ export function randomn(n) {
  * @param {*} start
  * @param {*} end
  */
-export function random(start, end) {
+export function random(start: number, end: number) {
   return Math.floor(Math.random() * (end - start + 1) + start)
 }
 
@@ -421,10 +428,10 @@ export function random(start, end) {
  * @param {Int} n 保留多少位小数
  * @return {String}
  */
-export function formatNumber(s, n = 2, xsb?) {
+export function formatNumber(s: string | number, n = 2, xsb?: boolean) {
   if (xsb) {
-    if (s >= B) return `${formatNumber(s / B, 1)}亿`
-    if (s >= M) return `${formatNumber(s / M, 1)}万`
+    if (s >= B) return `${formatNumber((s as number) / B, 1)}亿`
+    if (s >= M) return `${formatNumber((s as number) / M, 1)}万`
     return formatNumber(s, n)
   }
 
@@ -432,7 +439,11 @@ export function formatNumber(s, n = 2, xsb?) {
   if (typeof s === 'undefined') return Number(0).toFixed(n)
 
   s = parseFloat((s + '').replace(/[^\d.-]/g, '')).toFixed(n) + ''
+
+  // @ts-ignore
   if (s == 0) return Number(s).toFixed(n)
+
+  // @ts-ignore
   if (s < 1000) return Number(s).toFixed(n)
 
   const l = s.split('.')[0].split('').reverse(),
@@ -447,14 +458,8 @@ export function formatNumber(s, n = 2, xsb?) {
 
 /**
  * 时间戳距离现在时间的描述
- * @version 170217 1.0
- * @version 170605 1.1 修复年份非常小导致的问题
- * @version 180628 1.2 [+]simple
- * @param  {String} *timestamp         时间戳
- * @param  {String} overDaysToShowTime 多少天之后就显示具体时间
- * @return {String} simple             简单模式
  */
-export function lastDate(timestamp, simple = true) {
+export function lastDate(timestamp: number, simple = true) {
   const getNumber = () => Math.floor(totalTime / _)
   const modTimestamp = () => totalTime % _
 
@@ -498,17 +503,17 @@ export function lastDate(timestamp, simple = true) {
  * 清除搜索关键字的特殊字符
  * @param {*} str
  */
-export function cleanQ(str) {
+export function cleanQ(str: any) {
   return String(str).replace(/['!"#$%&\\'()*+,./:;<=>?@[\\\]^`{|}~']/g, ' ')
 }
 
 /**
  * 字符串相似度
- * @param {*} s
- * @param {*} t
- * @param {*} f
+ * @param {*} s 字符串1
+ * @param {*} t 字符串2
+ * @param {*} f 相似度级别
  */
-export function similar(s, t, f) {
+export function similar(s: string, t: string, f: number) {
   if (!s || !t) return 0
 
   const l = s.length > t.length ? s.length : t.length

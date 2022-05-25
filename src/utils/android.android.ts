@@ -2,34 +2,25 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-10 00:15:39
+ * @Last Modified time: 2022-05-25 08:21:51
  */
 import { PermissionsAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import CameraRoll from '@react-native-community/cameraroll'
 import { IOS } from '@constants'
-
-async function hasAndroidPermission() {
-  const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-
-  const hasPermission = await PermissionsAndroid.check(permission)
-  if (hasPermission) return true
-
-  const status = await PermissionsAndroid.request(permission)
-  return status === 'granted'
-}
+import { Fn } from '@types'
 
 /**
- * 保存base64图片到相册
- * @param {*} base64
+ * 保存 base64 图片到相册
+ * @param {*} base64Img
  * @param {*} success
  * @param {*} fail
  */
 export async function saveBase64ImageToCameraRoll(
-  base64Img,
-  success = Function.prototype,
-  fail = Function.prototype
+  base64Img: string,
+  success: Fn = () => {},
+  fail: Fn = () => {}
 ) {
   // iOS Expo 端需要另外用 expo sdk 自带的 api 实现
   if (IOS) return false
@@ -66,4 +57,14 @@ export async function saveBase64ImageToCameraRoll(
   //     }
   //   })
   //   .catch(fail)
+}
+
+async function hasAndroidPermission() {
+  const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+
+  const hasPermission = await PermissionsAndroid.check(permission)
+  if (hasPermission) return true
+
+  const status = await PermissionsAndroid.request(permission)
+  return status === 'granted'
 }

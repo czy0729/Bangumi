@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-22 13:10:38
+ * @Last Modified time: 2022-05-25 08:45:40
  */
 import React from 'react'
 import {
@@ -12,6 +12,7 @@ import {
   ImageStyle as RNImageStyle,
   ColorValue as RNColorValue
 } from 'react-native'
+import { EventKeys } from '@constants/events'
 
 /** utils */
 export type Expand<T> = T extends infer O
@@ -44,7 +45,7 @@ export type ReactNode = React.ReactNode
 export type ColorValue = RNColorValue
 
 export type EventType = {
-  id?: string
+  id?: EventKeys
   data?: object
 }
 

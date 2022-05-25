@@ -2,12 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-13 05:06:23
+ * @Last Modified time: 2022-05-25 08:50:47
  */
 
-/**
- * 匹配头像地址
- */
+/** 匹配头像地址 */
 export function matchAvatar(str = '') {
   return (
     str.match(/background-image:url\('(.+?)'\)/)?.[1] ||
@@ -17,8 +15,8 @@ export function matchAvatar(str = '') {
 
 /**
  * 匹配用户Id
+ *
  * @eg /user/123
- * @url https://jsperf.com/czy0729-002
  * @param {*} str
  */
 export function matchUserId(str = '') {
@@ -27,8 +25,8 @@ export function matchUserId(str = '') {
 
 /**
  * 匹配条目Id
+ *
  * @eg /subject/123
- * @url https://jsperf.com/czy0729-003
  * @param {*} str
  */
 export function matchSubjectId(str = '') {
@@ -37,8 +35,8 @@ export function matchSubjectId(str = '') {
 
 /**
  * 匹配图片
+ *
  * @eg background-image:url('//lain.bgm.tv/pic/cover/m/4b/92/144482_nII3d.jpg')
- * @url https://jsperf.com/czy0729-004
  * @param {*} str
  */
 export function matchCover(str = '') {
@@ -48,6 +46,7 @@ export function matchCover(str = '') {
 
 /**
  * 匹配评分
+ *
  * @eg starlight stars8
  * @param {*} str
  */
@@ -57,6 +56,7 @@ export function matchStar(str = '') {
 
 /**
  * 匹配字符串中第一个bgm地址
+ *
  * @param {*} str
  */
 export function matchBgmUrl(str = '', returnAll = false) {
@@ -67,17 +67,14 @@ export function matchBgmUrl(str = '', returnAll = false) {
 
 /**
  * 从头像地址匹配用户Id
+ *
  * @param {*} str
  */
 export function matchUserIdFromAvatar(str = '') {
-  if (!str) {
-    return 0
-  }
+  if (!str) return 0
 
   const match = str.match(/\/(\d+).jpg/)
-  if (!match) {
-    return 0
-  }
+  if (!match) return 0
 
   return match[1]
 }

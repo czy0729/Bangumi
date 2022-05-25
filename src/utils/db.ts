@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 20:04:29
+ * @Last Modified time: 2022-05-25 08:56:21
  */
 import Constants from 'expo-constants'
 import { xhrCustom as xhr } from './fetch'
@@ -34,9 +34,7 @@ const files = {}
  * https://gitee.com/api/v5/oauth_doc#/list-item-2
  */
 export async function oauth() {
-  if (!ua) {
-    ua = await Constants.getWebViewUserAgentAsync()
-  }
+  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
   const res = await xhr({
     method: 'POST',
@@ -64,9 +62,7 @@ export async function oauth() {
  */
 export async function read({ path }) {
   if (!files[path]) {
-    if (!ua) {
-      ua = await Constants.getWebViewUserAgentAsync()
-    }
+    if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
     const res = await xhr({
       method: 'GET',
@@ -96,9 +92,7 @@ export async function read({ path }) {
  * https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
  */
 export async function add({ path, content, message }) {
-  if (!ua) {
-    ua = await Constants.getWebViewUserAgentAsync()
-  }
+  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
   const res = await xhr({
     method: 'POST',
@@ -136,13 +130,9 @@ export async function add({ path, content, message }) {
  *  - 提示, content不允许携带中文, 请先escape或encode
  */
 export async function update({ path, content, sha, message }) {
-  if (content === files[path].content) {
-    return files[path]
-  }
+  if (content === files[path].content) return files[path]
 
-  if (!ua) {
-    ua = await Constants.getWebViewUserAgentAsync()
-  }
+  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
   const res = await xhr({
     method: 'PUT',
@@ -159,10 +149,9 @@ export async function update({ path, content, sha, message }) {
     },
     showLog: false
   })
+
   const data = JSON.parse(res._response)
-  if (!data?.content?.sha) {
-    return false
-  }
+  if (!data?.content?.sha) return false
 
   files[path] = {
     sha: data.content.sha,
@@ -195,7 +184,7 @@ export async function put({ path, content, message }) {
       ? update({ path, content, sha, message })
       : add({ path, content, message })
   } catch (error) {
-    warn('utils/db', 'put', error)
+    // warn('utils/db', 'put', error)
     return false
   }
 }

@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-07 21:28:11
+ * @Last Modified time: 2022-05-25 08:12:59
  */
 import { useEffect } from 'react'
 import { NativeEventEmitter, Clipboard } from 'react-native'
+
+// @ts-ignore
 import Shortcuts from 'react-native-actions-shortcuts'
 import { navigationReference, appNavigate, getSetting } from '../app'
 import { matchBgmUrl } from '../match'

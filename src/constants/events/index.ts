@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 04:48:33
+ * @Last Modified time: 2022-05-25 08:41:45
  */
 import Discovery from './discovery'
 import Timeline from './timeline'
@@ -16,7 +16,7 @@ import Other from './other'
 /**
  * 跳转: { to: 'Subject', from: 'block', ...other }
  */
-export default {
+const events = {
   ...Discovery,
   ...Timeline,
   ...Home,
@@ -24,4 +24,8 @@ export default {
   ...User,
   ...Tinygrail,
   ...Other
-}
+} as const
+
+export default events
+
+export type EventKeys = keyof typeof events

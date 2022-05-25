@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 17:59:11
+ * @Last Modified time: 2022-05-25 08:54:46
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './thirdParty/html-parser'
@@ -11,10 +11,8 @@ import HTMLParser from './thirdParty/html-parser'
 /**
  * 去除HTML
  * @version 170905 1.0
- * @param  {String} *str
- * @return {String}
  */
-export function removeHTMLTag(str) {
+export function removeHTMLTag(str: any): string {
   return String(str)
     .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
     .replace(/[ | ]*\n/g, '\n') // 去除行尾空白
@@ -26,7 +24,7 @@ export function removeHTMLTag(str) {
  * HTML反转义
  * @param {*} str
  */
-export function HTMLDecode(str = '') {
+export function HTMLDecode(str: string = ''): string {
   if (str.length === 0) return ''
 
   return str
@@ -42,7 +40,7 @@ export function HTMLDecode(str = '') {
  * HTML转义
  * @param {*} str
  */
-export function HTMLEncode(str = '') {
+export function HTMLEncode(str: string = ''): string {
   if (str.length === 0) return ''
 
   return str
@@ -58,10 +56,8 @@ export function HTMLEncode(str = '') {
  * HTML压缩
  * @param {*} str
  */
-export function HTMLTrim(str = '', deep) {
-  if (typeof str !== 'string') {
-    return str
-  }
+export function HTMLTrim(str: any = '', deep: boolean) {
+  if (typeof str !== 'string') return str
 
   if (deep) {
     return removeCF(str)
@@ -80,22 +76,20 @@ export function HTMLTrim(str = '', deep) {
 }
 
 /**
- * html字符串转对象 (很好的利用js的引用特性, hhh)
+ * [待废弃] html字符串转对象
  * @param {*} html
  * @param {*} cmd  是否生成cmd字符串(开发用)
  */
 export function HTMLToTree(html, cmd = true) {
-  const tree = {
+  const tree: any = {
     tag: 'root',
     attrs: {},
     text: [],
     children: []
   }
-  if (cmd) {
-    tree.cmd = 'root'
-  }
-  let ref = tree
+  if (cmd) tree.cmd = 'root'
 
+  let ref = tree
   HTMLParser(html, {
     start: (tag, attrs, unary) => {
       const attrsMap = {}
@@ -105,7 +99,7 @@ export function HTMLToTree(html, cmd = true) {
         const _name = name.replace('data-cf', '')
         return (attrsMap[_name] = escaped || value)
       })
-      const item = {
+      const item: any = {
         tag,
         attrs: attrsMap
       }
@@ -137,7 +131,7 @@ export function HTMLToTree(html, cmd = true) {
 }
 
 /**
- * tree查找
+ * [待废弃] tree查找
  * ul > li > a|title
  * ul > li > a|title=123
  * ul > li > a|title=123&class=article
@@ -147,9 +141,7 @@ export function HTMLToTree(html, cmd = true) {
  * @return {Array}
  */
 export function findTreeNode(children, cmd = '', defaultValue) {
-  if (!cmd) {
-    return children
-  }
+  if (!cmd) return children
 
   const split = ' > '
   const tags = cmd.split(split)
@@ -206,6 +198,7 @@ export function findTreeNode(children, cmd = '', defaultValue) {
 
   const _find = []
   find.forEach(item => {
+    // @ts-ignore
     _find.push(...(findTreeNode(item.children, tags.join(split)) || []))
   })
   if (!_find.length) {
@@ -215,21 +208,18 @@ export function findTreeNode(children, cmd = '', defaultValue) {
 }
 
 /**
- * 干掉cloudfare乱插的dom
+ * 干掉 cloudfare 乱插的 dom
  * @param {*} HTML
  */
-export function removeCF(HTML = '') {
+export function removeCF(HTML: string = '') {
   return HTML.replace(
     /<script[^>]*>([\s\S](?!<script))*?<\/script>|<noscript[^>]*>([\s\S](?!<script))*?<\/noscript>|style="display:none;visibility:hidden;"/g,
     ''
   ).replace(/data-cfsrc/g, 'src')
 }
 
-/**
- * cheerio.load
- * @param {*} HTML
- */
-export function cheerio(target, remove = true) {
+/** cheerio.load */
+export function cheerio(target: any, remove = true) {
   if (typeof target === 'string') {
     if (remove) {
       return cheerioRN.load(removeCF(target), {
@@ -240,5 +230,6 @@ export function cheerio(target, remove = true) {
       decodeEntities: false
     })
   }
+
   return cheerioRN(target)
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:27:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-13 12:36:12
+ * @Last Modified time: 2022-05-25 08:14:55
  */
 import { useEffect, useState } from 'react'
 import * as ScreenOrientation from 'expo-screen-orientation'
@@ -23,6 +23,8 @@ export default function useOrientation() {
 
     const initScreenOrientation = async () => {
       const currentOrientation = await ScreenOrientation.getOrientationAsync()
+
+      // @ts-ignore
       setScreenOrientation(currentOrientation)
     }
 

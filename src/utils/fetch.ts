@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:48:51
+ * @Last Modified time: 2022-05-25 09:14:33
  */
 import {
   APP_ID,
@@ -15,14 +15,10 @@ import {
   IOS,
   UA
 } from '@constants'
+import { Fn } from '@types'
 import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
-import {
-  urlStringify,
-  sleep,
-  getTimestamp
-  // debounce
-} from './utils'
+import { urlStringify, sleep, getTimestamp } from './utils'
 import { getUserStoreAsync } from './async'
 import { info as UIInfo, loading } from './ui'
 import { log } from './dev'
@@ -44,31 +40,47 @@ const HEADERS_DEFAULT = {
   Referer: HOST
 }
 
+type FetchAPIArgs = {
+  method?: 'GET' | 'POST'
+  url: string
+  data?: {
+    [key: string]: any
+  }
+  retryCb?: any
+  info?: string
+  noConsole?: boolean
+}
+
+const _retry = {}
+
 /**
  * 统一请求方法
  * 若GET请求异常, 默认一段时间后重试retryCb, 直到成功
  * @param {*} param
  */
-const _retry = {}
-export default async function fetchAPI({
-  method = 'GET',
-  url,
-  data = {},
-  retryCb,
-  info = '',
-  noConsole = false
-} = {}) {
+export default async function fetchAPI(
+  {
+    method = 'GET',
+    url,
+    data = {},
+    retryCb,
+    info = '',
+    noConsole = false
+  }: FetchAPIArgs = {} as FetchAPIArgs
+) {
   const isGet = method === 'GET'
   const userStore = getUserStoreAsync()
   const { accessToken } = userStore
-  const _config = {
+  const _config: any = {
     timeout: FETCH_TIMEOUT,
     headers: {
       Authorization: `${accessToken.token_type} ${accessToken.access_token}`,
       'User-Agent': UA
     }
   }
-  const body = {
+  const body: {
+    [key: string]: any
+  } = {
     app_id: APP_ID,
     ...data
   }
@@ -138,6 +150,21 @@ export default async function fetchAPI({
     })
 }
 
+type FetchHTMLArgs = {
+  method?: 'GET' | 'POST'
+  url: string
+  data?: {
+    [key: string]: any
+  }
+  headers?: {
+    [key: string]: any
+  }
+  cookie?: string
+  raw?: boolean
+}
+
+const lastFetchHTML = {}
+
 /**
  * 请求获取HTML
  *  - chii_cookietime=2592000
@@ -145,15 +172,16 @@ export default async function fetchAPI({
  *
  * @param {*} param
  */
-const lastFetchHTML = {}
-export async function fetchHTML({
-  method = 'GET',
-  url,
-  data = {},
-  headers = {},
-  cookie,
-  raw = false
-} = {}) {
+export async function fetchHTML(
+  {
+    method = 'GET',
+    url,
+    data = {},
+    headers = {},
+    cookie,
+    raw = false
+  }: FetchHTMLArgs = {} as FetchHTMLArgs
+) {
   const isGet = method === 'GET'
 
   // 拦截瞬间多次完全同样的请求
@@ -180,7 +208,14 @@ export async function fetchHTML({
 
   const userStore = getUserStoreAsync()
   const { cookie: userCookie, setCookie, userAgent } = userStore.userCookie
-  const _config = {
+  const _config: {
+    method?: FetchHTMLArgs['method']
+    timeout: typeof FETCH_TIMEOUT
+    headers: {
+      [key: string]: any
+    }
+    body?: string
+  } = {
     timeout: FETCH_TIMEOUT,
     headers: {}
   }
@@ -242,16 +277,26 @@ export async function fetchHTML({
     })
 }
 
+type XHRArgs = {
+  method: 'GET' | 'POST'
+  url: string
+  data?: {
+    [key: string]: any
+  }
+  noConsole?: boolean
+}
+
 /**
  * [待废弃] 带登录信息的XMLHttpRequest
+ *
  * @param {*} params
  * @param {*} success
  * @param {*} fail
  */
 export function xhr(
-  { method = 'POST', url, data = {}, noConsole } = {},
-  success = Function.prototype,
-  fail = Function.prototype
+  { method = 'POST', url, data = {}, noConsole }: XHRArgs = {} as XHRArgs,
+  success: Fn = () => {},
+  fail: Fn = () => {}
 ) {
   const userStore = getUserStoreAsync()
   const { cookie: userCookie, userAgent } = userStore.userCookie
@@ -278,8 +323,8 @@ export function xhr(
   request.send(urlStringify(data))
 }
 
-type XHRConfig = {
-  method?: 'GET' | 'POST'
+type XHRCustomArgs = {
+  method?: 'GET' | 'POST' | 'PUT'
   url: string
   data?: object
   headers?: {
@@ -293,8 +338,8 @@ type XHRConfig = {
 /**
  * 自定义XHR
  */
-export function xhrCustom(config: XHRConfig): Promise<any> {
-  const {
+export function xhrCustom(
+  {
     method = 'GET',
     url,
     data,
@@ -302,8 +347,8 @@ export function xhrCustom(config: XHRConfig): Promise<any> {
     responseType,
     withCredentials = false,
     showLog = true
-  } = config || {}
-
+  }: XHRCustomArgs = {} as XHRCustomArgs
+): Promise<any> {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.onreadystatechange = function () {
@@ -351,76 +396,6 @@ export function xhrCustom(config: XHRConfig): Promise<any> {
 }
 
 /**
- * 带progress的xhr
- */
-// export function sax({
-//   method = 'GET',
-//   url,
-//   data,
-//   headers = {},
-//   responseType,
-//   withCredentials = false,
-//   onProgress = Function.prototype
-// } = {}) {
-//   return new Promise((resolve, reject) => {
-//     const request = new XMLHttpRequest()
-
-//     const cb = debounce(function (response) {
-//       if (response.length < 1000) {
-//         return
-//       }
-
-//       log('[utils/fetch] sax', response.length)
-//       onProgress(response)
-//     }, 80)
-//     request.onreadystatechange = function () {
-//       if (this.readyState !== 4) {
-//         return cb(this._response)
-//       }
-
-//       if (this.status === 200) {
-//         return resolve(this)
-//       }
-
-//       console.warn('[utils/fetch] sax', url)
-//       if (this.status === 404) {
-//         return reject(new TypeError('404'))
-//       }
-
-//       if (this.status === 500) {
-//         return reject(new TypeError('500'))
-//       }
-
-//       return reject(new TypeError(this.status))
-//     }
-//     request.onerror = function () {
-//       reject(new TypeError('Network request onerror'))
-//     }
-//     request.ontimeout = function () {
-//       reject(new TypeError('Network request ontimeout'))
-//     }
-//     request.onabort = function () {
-//       reject(new TypeError('Network request onabort'))
-//     }
-
-//     request.open(method, url, true)
-//     request.withCredentials = withCredentials
-//     if (responseType) {
-//       request.responseType = responseType
-//     }
-//     Object.keys(headers).forEach(key => {
-//       request.setRequestHeader(key, headers[key])
-//     })
-
-//     const body = data ? urlStringify(data) : null
-//     request.send(body)
-//     if (SHOW_LOG) {
-//       log(`[sax] ${url}`)
-//     }
-//   })
-// }
-
-/**
  * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
  * @param {*} fetchs
  */
@@ -440,8 +415,9 @@ export async function queue(fetchs = [], num = 2) {
 /**
  * 百度翻译
  * @param {*} query
+ * @param {*} to
  */
-export async function baiduTranslate(query, to = 'zh') {
+export async function baiduTranslate(query: string, to = 'zh') {
   try {
     const appid = APP_BAIDU_ID // 秘密
     const salt = new Date().getTime()
@@ -460,7 +436,7 @@ export async function baiduTranslate(query, to = 'zh') {
     })
     return _response
   } catch (error) {
-    warn('utils/fetch.js', 'baiduTranslate', error)
+    // warn('utils/fetch.js', 'baiduTranslate', error)
     return false
   }
 }
@@ -477,6 +453,11 @@ export function safe(data) {
   return data === null ? '' : data
 }
 
+/**
+ * 请求后马上结束
+ * @param url
+ * @param headers
+ */
 export function ping(url, headers = {}) {
   return new Promise(resolve => {
     const start = new Date().getTime()

@@ -1,9 +1,10 @@
+// @ts-nocheck
 /*
  * 状态公共继承
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 10:49:25
+ * @Last Modified time: 2022-05-25 09:01:07
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'

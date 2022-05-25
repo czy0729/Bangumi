@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 21:21:45
+ * @Last Modified time: 2022-05-25 08:05:40
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -18,7 +18,7 @@ import {
 import cnData from '@assets/json/cn.json'
 import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { Navigation, Source } from '@types'
+import { Navigation } from '@types'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
 import { getStorage, setStorage } from './storage'
@@ -26,12 +26,15 @@ import { rerender, globalLog, globalWarn } from './dev'
 
 const HOST_IMAGE = '//lain.bgm.tv'
 
-/**
- * 启动
- */
+/** 启动 */
 export function bootApp() {
+  // @ts-ignore
   global.log = globalLog
+
+  // @ts-ignore
   global.warn = globalWarn
+
+  // @ts-ignore
   global.rerender = rerender
 
   // @ts-ignore
@@ -58,22 +61,19 @@ export function bootApp() {
   initHashAvatarOTA()
 }
 
-/**
- * 获取设置
- */
+/** 获取设置 */
 export function getSetting() {
-  // @ts-ignore
   return getSystemStoreAsync().setting
 }
 
+const _a = Number(String(new Date().getSeconds()).slice(0, 1))
+
 /**
- * app内使用时间因子作为随机数, 规避Hermes引擎Array.sort的卡死bug
+ * app 内使用时间因子作为随机数, 规避 Hermes 引擎 Array.sort 的卡死 bug
  * @param arr {Array}
  * @param key {String}
- * @returns Array
  */
-const _a = Number(String(new Date().getSeconds()).slice(0, 1))
-export function appRandom(arr = [], key = '') {
+export function appRandom(arr: any[] = [], key: string = '') {
   const data = []
   arr.forEach(item => {
     if (item[key]) {
@@ -88,15 +88,13 @@ export function appRandom(arr = [], key = '') {
   return data
 }
 
-/**
- * 适配系统中文优先返回合适字符串
- */
-export function cnjp(cn, jp) {
+/** 适配系统中文优先返回合适字符串 */
+export function cnjp(cn: any, jp: any) {
   const { cnFirst } = getSetting()
   return HTMLDecode(cnFirst ? cn || jp : jp || cn)
 }
 
-function isNull(value) {
+function isNull(value: any) {
   return value === undefined || value === ''
 }
 
@@ -864,6 +862,8 @@ export function unzipBangumiData(
 }
 
 const PRIVACY_STATE = 'bangumi|privacy'
+
+/** 隐私条款弹窗 */
 export async function privacy() {
   const value = await getStorage(PRIVACY_STATE)
   if (value) return

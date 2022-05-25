@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:13:34
+ * @Last Modified time: 2022-05-25 08:46:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { systemStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import heatmapData from '@assets/json/heatmap.json'
 import heatmapEventData from '@assets/json/heatmap-event.json'
+import { EventKeys } from '@constants/events'
 import { EventType } from '@types'
 import { Text } from '../text'
 import { Control } from './control'
@@ -22,6 +23,7 @@ import { memoStyles } from './styles'
 type Props = {
   [key: string]: string | number | boolean
 } & {
+  id?: EventKeys
   right?: number
   bottom?: number
   transparent?: boolean

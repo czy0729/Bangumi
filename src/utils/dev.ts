@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 07:46:56
+ * @Last Modified time: 2022-05-25 07:40:57
  */
 import { DEV, LOG_LEVEL } from '@constants'
-import { RERENDER_SHOW } from '../../config'
+import { RERENDER_SHOW } from '@/config'
 import { pad } from './utils'
 
 const RERENDER_LOG_COUNT = 0
@@ -17,7 +17,8 @@ if (DEV && !RERENDER_LOG_COUNT) {
   }, 8000)
 }
 
-export function rerender(key, ...other) {
+/** 调试查看组件 re-render 情况 */
+export function rerender(key: string, ...other: any[]) {
   if (!DEV || !key || !RERENDER_SHOW.test(key)) return
 
   if (!RERENDER_MEMO[key]) RERENDER_MEMO[key] = 0
@@ -29,7 +30,7 @@ export function rerender(key, ...other) {
   }
 
   let _count = String(RERENDER_MEMO[key])
-  if (_count && _count <= RERENDER_LOG_COUNT) return
+  if (_count && Number(_count) <= RERENDER_LOG_COUNT) return
 
   _count += ' '
   for (let len = 1; len <= Math.min(RERENDER_MEMO[key], 20); len += 1) {
@@ -43,17 +44,20 @@ export function rerender(key, ...other) {
   console.info(now(), '[render]', _key, _count, ...other)
 }
 
+/** 当前时间戳字符串 */
 export function now() {
   const now = new Date()
   const h = now.getHours()
   const m = now.getMinutes()
   const s = now.getSeconds()
   // const ms = now.getMilliseconds()
+
   return `${h}:${pad(m)}:${pad(s)}`
 }
 
 /**
  * 测试log
+ *
  * @version 171024 0.1
  * @version 181101 1.0 测试环境才显示
  * @param {String} type  消息类型
@@ -63,19 +67,19 @@ export function now() {
 export function log(type = '', key = '', value = '', ...other) {
   if (LOG_LEVEL === 0) return
 
-  const res = [now(), type]
+  const res: any[] = [now(), type]
   if (key !== undefined) res.push('\n', key)
   if (value !== undefined) res.push('\n', value)
   if (other && other.length) res.push('\n', other)
+
   console.info(...res)
 }
 
-/**
- * 处理循环引用
- */
+/** 处理循环引用 */
 function handleCircular() {
   const cache = []
   const keyCache = []
+
   return (key, value) => {
     if (typeof value === 'object' && value !== null) {
       const index = cache.indexOf(value)
@@ -91,11 +95,13 @@ function handleCircular() {
 
 /**
  * 全局log, 能打印循环引用
+ *
  * @param {*} value
  * @param {*} space
  */
 export function globalLog(value, space) {
   if (!DEV) return
+
   console.info(JSON.stringify(value, handleCircular(), space))
 }
 
@@ -103,7 +109,6 @@ export function globalLog(value, space) {
  * 全局警告
  * @param {*} key
  * @param {*} method
- * @param {*} error
  */
 export function globalWarn(key, method) {
   if (!DEV) return
@@ -112,17 +117,15 @@ export function globalWarn(key, method) {
 
 /**
  * 字符串填充
+ *
  * @version 171011 1.0
  * @param {*} str
  * @param {*} len
  */
 export function fill(str, len = 32) {
   let _str = str
-  if (_str.length > len) {
-    return _str
-  }
-  for (let i = _str.length; i < len; i += 1) {
-    _str += ' '
-  }
+  if (_str.length > len) return _str
+
+  for (let i = _str.length; i < len; i += 1) _str += ' '
   return _str
 }

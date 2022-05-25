@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 08:03:55
+ * @Last Modified time: 2022-05-25 08:58:04
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp, urlStringify } from '@utils'
@@ -10,7 +10,8 @@ import { safe } from '@utils/fetch'
 import { APP_ID, UA } from '@constants'
 import { getUserStoreAsync } from './async'
 
-export async function request(url, data) {
+export async function request(url, data?) {
+  // @ts-ignore
   axios.defaults.withCredentials = false
 
   try {
@@ -23,7 +24,7 @@ export async function request(url, data) {
     })}`
 
     const method = typeof data === 'object' ? 'post' : 'get'
-    const config = {
+    const config: any = {
       method,
       url,
       headers: {
@@ -36,6 +37,7 @@ export async function request(url, data) {
       config.data = urlStringify(data)
     }
 
+    // @ts-ignore
     const { data: responseData } = await axios(config)
     return safe(responseData)
   } catch (ex) {

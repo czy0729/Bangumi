@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 12:10:39
+ * @Last Modified time: 2022-05-25 08:48:00
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import { DEV, HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants'
-import events from '@constants/events'
+import events, { EventKeys } from '@constants/events'
 import { urlStringify, getTimestamp, randomn } from './utils'
 import { getUserStoreAsync, getThemeStoreAsync } from './async'
 import { log } from './dev'
@@ -17,7 +17,7 @@ let lastQuery = ''
 let currentUrl = ''
 let currentQuery = ''
 
-function xhr(si, u) {
+function xhr(si: string, u: string) {
   const url = `https://hm.baidu.com/hm.gif?${urlStringify({
     rnd: randomn(10),
     lt: getTimestamp(),
@@ -36,6 +36,7 @@ function xhr(si, u) {
 
 /**
  * HM@6.0 浏览统计
+ *
  * @param {*} url
  * @param {*} screen
  */
@@ -48,7 +49,9 @@ export function hm(url?: string, screen?: string) {
       if (screen) t('其他.查看', { screen })
 
       const fullUrl = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-      const query = {
+      const query: {
+        [key: string]: any
+      } = {
         v: VERSION_GITHUB_RELEASE
       }
       const { isDark, isTinygrailDark } = getThemeStoreAsync()
@@ -74,9 +77,7 @@ export function hm(url?: string, screen?: string) {
   }
 }
 
-/**
- * UA
- */
+/** UA */
 export function ua() {
   if (DEV) return
 
@@ -96,8 +97,10 @@ export function ua() {
 
 /**
  * Error 致命错误上报
+ *
+ * @param desc 描述
  */
-export function err(desc) {
+export function err(desc: string) {
   if (DEV) return
 
   try {
@@ -122,13 +125,20 @@ export function err(desc) {
 
 /**
  * track 埋点统计
- * @param {*} u
+ *
+ * @param desc
+ * @param eventData
  */
-export function t(desc, eventData) {
-  if (!desc) return
+export function t(
+  desc: EventKeys,
+  eventData?: {
+    [key: string]: string | number
+  }
+) {
+  if (!desc || typeof desc !== 'string') return
 
   // fixed: 遗留问题, 显示为登录, 统计还是以前录入的登陆
-  if (typeof desc === 'string') desc = desc.replace(/登录/g, '登陆')
+  desc = desc.replace(/登录/g, '登陆') as EventKeys
 
   if (IOS) {
     if (!DEV) return

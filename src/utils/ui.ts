@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 07:18:19
+ * @Last Modified time: 2022-05-25 08:34:27
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -11,13 +11,7 @@ import ActionSheet from '@components/@/ant-design/action-sheet'
 import { DEV, IOS } from '@constants'
 import { getSystemStoreAsync, s2tAsync } from './async'
 
-function getSetting() {
-  return getSystemStoreAsync().setting
-}
-
-/**
- * Loading
- */
+/** Loading */
 export function loading(text = 'Loading...', time = 0) {
   const toastId = Toast.loading(s2tAsync(text), time, () => {
     if (toastId) Portal.remove(toastId)
@@ -28,11 +22,9 @@ export function loading(text = 'Loading...', time = 0) {
   }
 }
 
-/**
- * 轻震动反馈
- */
+/** 轻震动反馈 */
 export function feedback() {
-  const { vibration } = getSetting()
+  const { vibration } = getSystemStoreAsync().setting
   if (!vibration) return false
 
   if (DEV) console.info('vibration')
@@ -47,15 +39,15 @@ export function feedback() {
  * @param {*} onCancelPress
  */
 export function confirm(
-  content,
-  onPress,
+  content: string,
+  onPress = () => {},
   title = '警告',
-  onCancelPress = Function.prototype
+  onCancelPress = () => {}
 ) {
   const params = [
     {
       text: s2tAsync('取消'),
-      style: 'cancel',
+      style: 'cancel' as const,
       onPress: onCancelPress
     },
     {
@@ -74,7 +66,12 @@ export function confirm(
   return Alert.alert(s2tAsync(title), s2tAsync(content), params)
 }
 
-export function alert(content, title = '提示') {
+/**
+ * 提示
+ * @param {*} content
+ * @param {*} title
+ */
+export function alert(content: string, title: string = '提示') {
   const params = [
     {
       text: s2tAsync('确定'),
@@ -98,22 +95,16 @@ export function alert(content, title = '提示') {
  * @param {*} duration
  */
 export function info(
-  content = '网络错误',
-  duration = 2.4,
-  onClose = Function.prototype,
+  content: string = '网络错误',
+  duration: number = 2.4,
+  onClose = () => {},
   mask = false
 ) {
   Toast.info(s2tAsync(content), duration, onClose, mask)
-
-  // if (IOS) {
-  //   Toast.info(content, duration, onClose, mask)
-  // } else {
-  //   ToastAndroid.show(content, ToastAndroid.SHORT)
-  // }
 }
 
 /**
- * 显示ActionSheet
+ * [待废弃] 显示ActionSheet
  * https://rn.mobile.ant.design/components/action-sheet-cn/
  * @param {*} options
  * @param {*} callback
@@ -121,6 +112,7 @@ export function info(
 export function showActionSheet(
   options = [],
   callback = Function.prototype,
+  // @ts-ignore
   { title, message, cancelButtonIndex, destructiveButtonIndex } = {}
 ) {
   ActionSheet.showActionSheetWithOptions(
@@ -136,11 +128,17 @@ export function showActionSheet(
 }
 
 /**
- * 显示ImageViewer
+ * 显示 ImageViewer
  * @param {*} imageUrls
  */
-export function showImageViewer(imageUrls = [], index = 0) {
-  if (!Array.isArray(imageUrls) && imageUrls.length === 0) {
+export function showImageViewer(
+  imageUrls: {
+    url?: any
+    _url?: any
+  }[] = [],
+  index = 0
+) {
+  if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
     return
   }
 
@@ -165,7 +163,7 @@ export function showImageViewer(imageUrls = [], index = 0) {
  * https://github.com/zubricky/react-native-android-keyboard-adjust
  * @param {String} fn 函数名 setAdjustPan | setAdjustResize
  */
-export function androidKeyboardAdjust(fn) {
+export function androidKeyboardAdjust(fn: 'setAdjustPan' | 'setAdjustResize') {
   if (IOS) return
 
   const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
@@ -176,7 +174,7 @@ export function androidKeyboardAdjust(fn) {
  * 安卓原生切换白天黑夜标志, 用于动态改变原生弹窗主题颜色
  * @param {*} isDark
  */
-export function androidDayNightToggle(isDark) {
+export function androidDayNightToggle(isDark?: boolean) {
   if (IOS) return
 
   NativeModules.DayNight.setDarkMode(isDark ? 2 : 1)

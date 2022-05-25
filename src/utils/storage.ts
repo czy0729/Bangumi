@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 07:18:26
+ * @Last Modified time: 2022-05-25 08:02:47
  */
-import { Alert, BackHandler } from 'react-native'
-import * as WebBrowser from 'expo-web-browser'
+// @ts-ignore
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { DEV } from '@constants'
 import { queue } from './utils'
@@ -21,7 +20,7 @@ const LAZY_SET_STORAGE_INTERVAL = 60000
  * @version 190321 1.0
  * @param {*} key
  */
-export async function getStorage(key) {
+export async function getStorage(key: string) {
   try {
     if (!key) return null
 
@@ -32,6 +31,8 @@ export async function getStorage(key) {
   }
 }
 
+const setStorageLazyMap = {}
+
 /**
  * 保存数据
  * @version 190321 1.0
@@ -39,8 +40,7 @@ export async function getStorage(key) {
  * @param {*} key
  * @param {*} data
  */
-const setStorageLazyMap = {}
-export async function setStorage(key, data) {
+export async function setStorage(key: string, data: string | number | boolean | any[]) {
   if (!key) return
 
   const _data = JSON.stringify(data)
@@ -61,9 +61,10 @@ export async function setStorage(key, data) {
 }
 
 /**
- * @version 211112 数据较大的键, 合并没必要的多次写入
+ * 数据较大的键, 合并没必要的多次写入
+ * @version 211112
  */
-let setStorageInterval
+let setStorageInterval: number
 if (setStorageInterval) clearInterval(setStorageInterval)
 
 setStorageInterval = setInterval(async () => {
@@ -88,51 +89,3 @@ setStorageInterval = setInterval(async () => {
 
   queue(setItems, 1)
 }, LAZY_SET_STORAGE_INTERVAL)
-
-const PRIVACY_STATE = 'bangumi|privacy'
-export async function privacy() {
-  const value = await getStorage(PRIVACY_STATE)
-  if (value) return
-
-  const params = [
-    {
-      text: '隐私保护政策',
-      onPress: () => {
-        WebBrowser.openBrowserAsync(
-          'https://www.yuque.com/chenzhenyu-k0epm/znygb4/oi3ss2',
-          {
-            enableBarCollapsing: true,
-            showInRecents: true
-          }
-        )
-
-        setTimeout(() => {
-          privacy()
-        }, 4000)
-      }
-    },
-    {
-      text: '不同意并退出',
-      onPress: () => {
-        BackHandler.exitApp()
-
-        setTimeout(() => {
-          privacy()
-        }, 4000)
-      }
-    },
-    {
-      text: '同意',
-      onPress: () => {
-        setStorage(PRIVACY_STATE, 1)
-      }
-    }
-  ]
-
-  return Alert.alert(
-    '隐私保护政策',
-    `请你务必审慎阅读、充分理解“隐私保护政策”各条款。
-    \n如你同意，请点击“同意”开始使用服务。如你不同意，很遗憾本应用无法为你提供服务。`,
-    params
-  )
-}
