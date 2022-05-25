@@ -104,7 +104,7 @@ export const HTML_TIMELINE = (
 export const HTML_RAKUEN = (scope: RakuenScope, type: RakuenType) =>
   `${HOST}/rakuen/${scope}?type=${type}`
 
-/** [已废弃] 超展开搜索 */
+/** @deprecated [已废弃] 超展开搜索 */
 export const HTML_RAKUEN_SEARCH = (q: string = '', page: number = 1) =>
   `https://search.gitee.com/?q=${q}&type=code&repo=VFZSSmVrMUVZelJPUkU1b1RucFplbHBuUFQxaE56WXpaZz09YTc2M2Y%3D&pageno=${page}`
 

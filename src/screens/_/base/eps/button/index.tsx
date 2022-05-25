@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 19:31:02
+ * @Last Modified time: 2022-05-25 18:16:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,13 @@ import { Popover, Button as CompButton, Menu } from '@components'
 import { _, systemStore } from '@stores'
 import { memo, ob } from '@utils/decorators'
 import { IOS } from '@constants'
-import { buttonDefaultProps as defaultProps } from './ds'
+import { buttonDefaultProps as defaultProps } from '../ds'
+import { getType, getPopoverData, getComment } from './utils'
+import { memoStyles } from './styles'
 
 const Main = memo(
   ({ styles, heatMap, props, item, eps, isSp, num }) => {
-    rerender('Eps.Button.Main')
+    global.rerender('Eps.Button.Main')
 
     const {
       subjectId,
@@ -25,10 +27,8 @@ const Main = memo(
       login,
       advance,
       userProgress,
-      onSelect,
-
-      // eslint-disable-next-line no-unused-vars
-      onLongPress
+      onSelect
+      // onLongPress
     } = props
     const isSide = num % numbersOfLine === 0
     const type = getType(userProgress[item.id], item.status)
@@ -50,7 +50,7 @@ const Main = memo(
             //   `ep.${item.sort} ${item.name_cn || item.name}`,
             //   `${item.airdate} 讨论数：${item.comment}`
             // ]}
-            title={`ep${item.sort} · ${item.airdate}`}
+            title={[`ep${item.sort} · ${item.airdate}`]}
             data={popoverData}
             onSelect={value => onSelect(value, item)}
           />
@@ -119,66 +119,3 @@ const Main = memo(
 export const Button = ob(props => (
   <Main styles={memoStyles()} heatMap={systemStore.setting.heatMap} {...props} />
 ))
-
-const memoStyles = _.memoStyles(() => ({
-  bar: {
-    height: 4,
-    backgroundColor: _.colorWarning,
-    borderRadius: 4
-  }
-}))
-
-function getPopoverData(item, isSp, canPlay, login, advance, userProgress) {
-  // if (IOS) {
-  //   discuss = '本集讨论'
-  // } else {
-  //   discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
-  // }
-
-  let discuss
-  discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
-  if (IOS && discuss.length >= 17) discuss = `${discuss.slice(0, 17)}`
-
-  let data
-  if (login) {
-    data = [userProgress[item.id] === '看过' ? '撤销' : '看过']
-    if (!isSp) data.push('看到')
-    if (advance) data.push('想看', '抛弃')
-    data.push(discuss)
-  } else {
-    data = [discuss]
-  }
-
-  if (canPlay) data.push('正版播放')
-
-  return data
-}
-
-function getType(progress, status) {
-  switch (progress) {
-    case '想看':
-      return 'main'
-    case '看过':
-      return 'primary'
-    case '抛弃':
-      return 'disabled'
-    default:
-      break
-  }
-
-  switch (status) {
-    case 'Air':
-      return 'ghostPlain'
-    case 'Today':
-      return 'ghostSuccess'
-    default:
-      return 'disabled'
-  }
-}
-
-function getComment(eps) {
-  return {
-    min: Math.min(...eps.map(item => item.comment || 1).filter(item => !!item)),
-    max: Math.max(...eps.map(item => item.comment || 1))
-  }
-}

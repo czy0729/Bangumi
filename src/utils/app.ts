@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:05:40
+ * @Last Modified time: 2022-05-26 04:08:41
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -18,7 +18,7 @@ import {
 import cnData from '@assets/json/cn.json'
 import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { Navigation } from '@types'
+import { Navigation, EventType } from '@types'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
 import { getStorage, setStorage } from './storage'
@@ -28,33 +28,19 @@ const HOST_IMAGE = '//lain.bgm.tv'
 
 /** 启动 */
 export function bootApp() {
-  // @ts-ignore
+  const fn = () => {}
+
   global.log = globalLog
-
-  // @ts-ignore
   global.warn = globalWarn
-
-  // @ts-ignore
   global.rerender = rerender
-
-  // @ts-ignore
-  global.console.warn = Function.prototype
-
-  // @ts-ignore
-  global.console.error = Function.prototype
+  global.console.warn = fn
+  global.console.error = fn
 
   if (!DEV) {
-    // @ts-ignore
-    global.console.info = Function.prototype
-
-    // @ts-ignore
-    global.console.log = Function.prototype
-
-    // @ts-ignore
-    global.console.debug = Function.prototype
-
-    // @ts-ignore
-    global.console.assert = Function.prototype
+    global.console.info = fn
+    global.console.log = fn
+    global.console.debug = fn
+    global.console.assert = fn
   }
 
   initHashSubjectOTA()
@@ -203,7 +189,7 @@ export function findSubjectCn(jp = '', subjectId) {
   }
 
   /**
-   * [已废弃] 若带id使用本地SUBJECT_CN加速查找
+   * @deprecated [已废弃] 若带id使用本地SUBJECT_CN加速查找
    */
   if (subjectId) {
     const cn = cnData[subjectId]
@@ -493,19 +479,23 @@ export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string)
 }
 
 /**
- * 根据Bangumi的url判断路由跳转方式
- * @param {*} url 链接
- * @param {*} navigation
- * @param {*} passParams 传递的参数
- * @param {*} event      { id, data }
+ * 根据 Bangumi 的 url 判断路由跳转方式
+ *
+ * @param {*} url            链接
+ * @param {*} navigation     路由对象
+ * @param {*} passParams     传递的参数
+ * @param {*} event          EVENT
+ * @param {*} openWebBrowser 没路由对象或者非本站是否使用浏览器尝试打开
  */
 export function appNavigate(
-  url = '',
-  navigation,
-  passParams = {},
-  event = EVENT,
-  openWebBrowser = true
-) {
+  url: string = '',
+  navigation: Navigation,
+  passParams: {
+    [key: string]: any
+  } = {},
+  event: EventType = EVENT,
+  openWebBrowser: boolean = true
+): boolean {
   try {
     const { id, data = {} } = event
     const _url = fixedBgmUrl(url)

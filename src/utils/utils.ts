@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 07:59:54
+ * @Last Modified time: 2022-05-26 04:35:43
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -134,7 +134,7 @@ export async function queue(fetchs: any[] = [], num: number = 2): Promise<boolea
  * @param obj
  * @param arr
  */
-export function pick(obj: object, arr: string[]): object {
+export function pick(obj: object, arr: string[]) {
   return arr.reduce(
     // eslint-disable-next-line no-sequences
     (acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc),

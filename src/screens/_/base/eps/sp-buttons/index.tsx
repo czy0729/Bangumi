@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-08-05 22:19:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:52:43
+ * @Last Modified time: 2022-05-26 04:36:52
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { Button } from './button'
+import { Button } from '../button'
+import { styles } from './styles'
 
 export const SpButtons = ob(({ props, eps, preNum }) => {
   if (!eps.length) return null
@@ -45,10 +45,4 @@ export const SpButtons = ob(({ props, eps, preNum }) => {
       ))}
     </>
   )
-})
-
-const styles = _.create({
-  sp: {
-    marginTop: 2
-  }
 })

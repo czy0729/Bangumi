@@ -2,18 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 06:09:42
+ * @Last Modified time: 2022-05-25 17:08:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
-import {
-  DEV,
-  // @ts-ignore
-  IMG_DEFAULT
-} from '@constants'
+import { DEV, IMG_DEFAULT } from '@constants'
 import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { Flex } from '../../flex'
 import { Image } from '../../image'

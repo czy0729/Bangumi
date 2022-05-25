@@ -1,9 +1,10 @@
 /*
  * 友盟手动埋点配置
+ *
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:41:45
+ * @Last Modified time: 2022-05-26 04:19:52
  */
 import Discovery from './discovery'
 import Timeline from './timeline'
@@ -14,7 +15,9 @@ import Tinygrail from './tinygrail'
 import Other from './other'
 
 /**
- * 跳转: { to: 'Subject', from: 'block', ...other }
+ * 埋点事件数据
+ *
+ * @eg 跳转: { to: 'Subject', from: 'block', ...other }
  */
 const events = {
   ...Discovery,
@@ -28,4 +31,5 @@ const events = {
 
 export default events
 
-export type EventKeys = keyof typeof events
+/** 埋点事件唯一键值 */
+export type EventKeys = keyof typeof events | ''

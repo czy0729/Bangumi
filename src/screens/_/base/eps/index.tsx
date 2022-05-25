@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:34:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 18:09:31
+ * @Last Modified time: 2022-05-26 04:38:12
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -33,12 +33,12 @@ const Main = memo(
     onSelect,
     onLongPress
   }) => {
-    rerender('Eps.Main')
+    global.rerender('Eps.Main')
 
     const [width, setWidth] = useState(layoutWidth - marginRight)
 
     const btnStyle = useMemo(() => {
-      rerender('Eps.btnStyle')
+      global.rerender('Eps.btnStyle')
 
       if (_.isPad) {
         return {
@@ -56,13 +56,13 @@ const Main = memo(
       const _width = widthSum / numbersOfLine
       const _margin = marginSum / marginNumbers
       return {
-        width: grid ? parseInt(_width) : _width,
-        margin: grid ? parseInt(_margin) : _margin
+        width: grid ? Math.floor(_width) : _width,
+        margin: grid ? Math.floor(_margin) : _margin
       }
     }, [width, numbersOfLine, grid])
 
     const passProps = useMemo(() => {
-      rerender('Eps.passProps')
+      global.rerender('Eps.passProps')
 
       const { width, margin } = btnStyle
       return {
@@ -90,7 +90,7 @@ const Main = memo(
     ])
 
     const pages = useMemo(() => {
-      rerender('Eps.pages')
+      global.rerender('Eps.pages')
 
       let _eps = eps || []
       let hasSp = false // 是否有SP

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-24 16:02:36
+ * @Last Modified time: 2022-05-26 04:31:52
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -33,34 +33,35 @@ class Theme extends store {
   }
 
   /** TS fixed */
-  isPad: boolean = _.isPad
+  isPad = _.isPad
 
-  xs: number = _.xs
-  sm: number = _.sm
-  md: number = _.md
-  lg: number = _.lg
-  bottom: number = _.bottom
-  radiusXs: number = _.radiusXs
-  radiusSm: number = _.radiusSm
-  radiusMd: number = _.radiusMd
-  radiusLg: number = _.radiusLg
-  _wind: number = _._wind
+  ratio = _.ratio
+  xs = _.xs
+  sm = _.sm
+  md = _.md
+  lg = _.lg
+  bottom = _.bottom
+  radiusXs = _.radiusXs
+  radiusSm = _.radiusSm
+  radiusMd = _.radiusMd
+  radiusLg = _.radiusLg
+  _wind = _._wind
 
-  statusBarHeight: number = _.statusBarHeight
+  statusBarHeight = _.statusBarHeight
   tabBarHeight = _.tabBarHeight
 
   /** 单独头部高度 */
-  appBarHeight: number = _.appBarHeight
-  headerHeight: number = _.headerHeight
-  tabsHeight: number = _.tabsHeight
-  lineHeightRatio: number = _.lineHeightRatio
+  appBarHeight = _.appBarHeight
+  headerHeight = _.headerHeight
+  tabsHeight = _.tabsHeight
+  lineHeightRatio = _.lineHeightRatio
 
-  colorPrimaryLight: ColorValue = _.colorPrimaryLight
-  colorSuccessLight: ColorValue = _.colorSuccessLight
-  colorMainBorder: ColorValue = _.colorMainBorder
-  colorPrimaryBorder: ColorValue = _.colorPrimaryBorder
-  colorSuccessBorder: ColorValue = _.colorSuccessBorder
-  colorShadow: ColorValue = _.colorShadow
+  colorPrimaryLight = _.colorPrimaryLight
+  colorSuccessLight = _.colorSuccessLight
+  colorMainBorder = _.colorMainBorder
+  colorPrimaryBorder = _.colorPrimaryBorder
+  colorSuccessBorder = _.colorSuccessBorder
+  colorShadow = _.colorShadow
 
   mt = mt
   mr = mr
@@ -621,7 +622,7 @@ class Theme extends store {
   }
 
   /**
-   * 已废弃
+   * @deprecated 已废弃
    */
   @computed get flat() {
     return true
@@ -741,7 +742,7 @@ class Theme extends store {
    */
   grid = (num = 3) => {
     const marginLeft = this.device(16, 24)
-    const width = parseInt((this.window.contentWidth - (num - 1) * marginLeft) / num)
+    const width = Math.floor((this.window.contentWidth - (num - 1) * marginLeft) / num)
     return {
       width,
       height: width * 1.4,
@@ -778,7 +779,7 @@ class Theme extends store {
   changeFontSizeAdjust = (fontSizeAdjust = 0) => {
     const key = 'fontSizeAdjust'
     this.setState({
-      [key]: parseInt(fontSizeAdjust)
+      [key]: parseInt(String(fontSizeAdjust))
     })
     this.setStorage(key, undefined, NAMESPACE)
   }
@@ -791,6 +792,7 @@ class Theme extends store {
 
     try {
       InteractionManager.runAfterInteractions(() => {
+        // @ts-ignore
         changeNavigationBarColor(
           this.select(
             _.colorPlainHex,

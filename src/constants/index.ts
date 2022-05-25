@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 07:17:41
+ * @Last Modified time: 2022-05-25 18:12:55
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -24,7 +24,7 @@ export const ORIENTATION_LANDSCAPE = 'LANDSCAPE'
 const expoPackageJson = require('@/node_modules/expo/package.json')
 const appJson = require('@/app.json')
 
-/** [已废弃] 打包 apk 和 bangumi-ios-test 线上 expo 使用35, 打包 ipa 提审需至少使用37 */
+/** @deprecated [已废弃] 打包 apk 和 bangumi-ios-test 线上 expo 使用35, 打包 ipa 提审需至少使用37 */
 export const SDK = parseInt(expoPackageJson.version.split('.')[0])
 
 /** Expo 线上预览唯一标识 */
@@ -53,16 +53,16 @@ export const HOST_2 = 'https://bangumi.tv'
 /** 备用域名3 */
 export const HOST_3 = 'https://chii.in'
 
-/** [已废弃] 柠萌瞬间地址 */
+/** @deprecated [已废弃] 柠萌瞬间地址 */
 export const HOST_NING_MOE = 'https://www.ningmoe.com'
 
-/** [已废弃] Anitama api地址 */
+/** @deprecated [已废弃] Anitama api地址 */
 export const HOST_ANITAMA = 'https://app.anitama.net'
 
-/** [已废弃] 动漫之家 */
+/** @deprecated [已废弃] 动漫之家 */
 export const HOST_DMZJ = 'https://m.news.dmzj.com'
 
-/** [已废弃] HD漫画 */
+/** @deprecated [已废弃] HD漫画 */
 export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
 
 /** [待废弃] jsdelivr */
@@ -84,11 +84,11 @@ export const URL_FEEDBACK = `${HOST}/group/topic/350677`
 /** 空头像地址 */
 export const URL_DEFAULT_AVATAR = '/icon.jpg'
 
-/** 隐私条款 */
-export const URL_PRIVACY = 'https://www.yuque.com/chenzhenyu-k0epm/znygb4/oi3ss2'
-
 /** 指南 */
 export const URL_ZHINAN = 'https://www.yuque.com/chenzhenyu-k0epm/znygb4'
+
+/** 隐私条款 */
+export const URL_PRIVACY = 'https://www.yuque.com/chenzhenyu-k0epm/znygb4/oi3ss2'
 
 /* ==================== APP ==================== */
 /** App ID https://bgm.tv/dev/app */
@@ -229,7 +229,7 @@ export const LIMIT_HEAVY_RENDER = 10
 export const EVENT = {
   id: '',
   data: {}
-}
+} as const
 
 /** 时间数组 */
 export const DATA_AIRTIME = [

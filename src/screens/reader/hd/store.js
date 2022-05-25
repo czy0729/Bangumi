@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 15:27:28
+ * @Last Modified time: 2022-05-25 17:07:17
  */
 import { observable, computed } from 'mobx'
 import { open, copy } from '@utils'
@@ -60,9 +60,7 @@ export default class ScreenHD extends store {
     }).fill('').map((it,i)=>'https://cdn.jsdelivr.net/gh/czybot/m@master/out/${
       this.subjectId
     }/${item.vol}/'+(i+1)+'.jpg')`
-    const href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(
-      urlScript
-    )}`
+    const href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(urlScript)}`
     copy(href)
     info('已复制地址')
 

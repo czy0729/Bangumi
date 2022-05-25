@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-29 02:36:18
+ * @Last Modified time: 2022-05-25 17:34:16
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
@@ -94,7 +94,7 @@ function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
  * @param {*} dev
  * @returns Component
  */
-export default function memo(Component, defaultProps, customCompareFn, dev) {
+export default function memo(Component, defaultProps?, customCompareFn?, dev?) {
   if (defaultProps) Component.defaultProps = defaultProps
 
   // 支持第三个参数为dev: true

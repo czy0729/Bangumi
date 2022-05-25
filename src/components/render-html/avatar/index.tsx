@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-20 09:09:11
+ * @Last Modified time: 2022-05-25 17:07:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,7 @@ import { _, systemStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
-import {
-  IOS,
-  URL_DEFAULT_AVATAR,
-  // @ts-ignore
-  IMG_DEFAULT
-} from '@constants'
+import { IOS, URL_DEFAULT_AVATAR, IMG_DEFAULT } from '@constants'
 import { HOST_CDN, CDN_OSS_AVATAR } from '@constants/cdn'
 import { ColorValue, Navigation, ViewStyle, EventType } from '@types'
 import { Image } from '../../image'

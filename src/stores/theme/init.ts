@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 15:58:17
+ * @Last Modified time: 2022-05-26 04:29:57
  */
 import _ from '@styles'
 
@@ -29,6 +29,8 @@ export const STYLES_LIGHT = {
   colorSuccess: _.colorSuccess,
   colorYellow: _.colorYellow,
   colorWarning: _.colorWarning,
+  colorDanger: _.colorDanger,
+  colorAvatar: _.colorAvatar,
   colorPlainRaw: _.colorPlainRaw,
   colorPlain: _.colorPlain,
   colorWait: _.colorWait,
@@ -50,6 +52,8 @@ export const STYLES_DARK = {
   colorSuccess: _._colorSuccess,
   colorYellow: _._colorYellow,
   colorWarning: _._colorWarning,
+  colorDanger: _.colorDanger,
+  colorAvatar: _.colorAvatar,
   colorPlainRaw: _._colorPlainRaw,
   colorPlain: _._colorPlain,
   colorWait: _._colorWait,
