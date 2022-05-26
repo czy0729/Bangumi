@@ -5,10 +5,10 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 07:26:47
+ * @Last Modified time: 2022-05-26 13:30:12
  */
 import { EpId, SubjectId, UserId } from '@types'
-import { HOST } from '../index'
+import { HOST } from '../constants'
 import { EpStatus, SubjectType } from '../model/types'
 import { CollectionAction } from './types'
 

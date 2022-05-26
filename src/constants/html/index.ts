@@ -5,11 +5,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-22 13:12:37
+ * @Last Modified time: 2022-05-26 13:31:51
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
-import { HOST } from '../index'
+import { HOST } from '../constants'
 import { MODEL_TIMELINE_SCOPE } from '../model'
 import {
   CollectionStatus,

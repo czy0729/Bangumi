@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:26:58
+ * @Last Modified time: 2022-05-26 13:37:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Loading, Text } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { HOST_CDN } from '@constants/cdn'
+import { HOST_CDN } from '@constants'
 import html from './html'
 import { getKData } from './utils'
 

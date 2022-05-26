@@ -56,7 +56,7 @@ export function HTMLEncode(str: string = ''): string {
  * HTML压缩
  * @param {*} str
  */
-export function HTMLTrim(str: any = '', deep: boolean) {
+export function HTMLTrim(str: any = '', deep?: boolean) {
   if (typeof str !== 'string') return str
 
   if (deep) {
@@ -140,7 +140,7 @@ export function HTMLToTree(html, cmd = true) {
  * @param {*} cmd
  * @return {Array}
  */
-export function findTreeNode(children, cmd = '', defaultValue) {
+export function findTreeNode(children, cmd = '', defaultValue?) {
   if (!cmd) return children
 
   const split = ' > '

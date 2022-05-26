@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:04:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 07:17:24
+ * @Last Modified time: 2022-05-26 13:40:55
  */
 import { getSystemStoreAsync } from '@utils/async'
 import _hash from '@utils/thirdParty/hash'
@@ -12,7 +12,9 @@ import { SubjectId } from '@types'
 export const hash = _hash
 
 /** 获取云端设置 */
-export function getOTA() {
+export function getOTA(): {
+  [key: string]: string
+} {
   return getSystemStoreAsync().ota
 }
 

@@ -1,11 +1,11 @@
-/* eslint-disable quotes, max-len */
+/* eslint-disable max-len */
 /*
  * @Author: czy0729
  * @Date: 2019-09-01 14:32:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 17:33:13
+ * @Last Modified time: 2022-05-26 13:37:05
  */
-import { HOST_CDN } from '@constants/cdn'
+import { HOST_CDN } from '@constants'
 
 const html = (
   kData,

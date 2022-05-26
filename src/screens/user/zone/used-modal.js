@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:32:20
+ * @Last Modified time: 2022-05-26 13:37:25
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,8 +10,8 @@ import { Loading, Flex, Text, Image } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, timelineStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { hash, HOST_CDN, VERSIONS_AVATAR } from '@constants'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
-import { hash, HOST_CDN, VERSIONS_AVATAR } from '@constants/cdn'
 
 export default
 @obc

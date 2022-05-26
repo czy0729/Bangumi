@@ -2,18 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-12-03 19:23:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:53:21
+ * @Last Modified time: 2022-05-26 13:41:45
  */
-import { getSystemStoreAsync } from '@utils/async'
-
-type OTAType = {
-  [key: string]: string
-}
-
-/** 获取云端设置 */
-export function getOTA(): OTAType {
-  return getSystemStoreAsync().ota
-}
+import { getOTA } from '../cdn'
 
 /* ==================== 动漫 ==================== */
 /** Age动漫 */

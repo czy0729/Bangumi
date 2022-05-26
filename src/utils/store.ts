@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 09:01:07
+ * @Last Modified time: 2022-05-26 13:12:59
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -20,6 +20,7 @@ configure({
 
 export default class Store {
   /**
+   * @deprecated
    * Store new后调用的方法
    */
   setup = () => {
@@ -230,10 +231,10 @@ export default class Store {
 
   /**
    * 批量读取缓存并入库V2
-   * @param {*} *config    约定的配置
-   * @param {*} *namespace 命名空间
+   * @param {*} config    约定的配置
+   * @param {*} namespace 命名空间
    */
-  readStorage = async (config = [], namespace) => {
+  readStorage = async (config: string[] = [], namespace: string) => {
     const data = await Promise.all(
       config.map(key => this.getStorage(key, namespace, this.state[key]))
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:29:31
+ * @Last Modified time: 2022-05-26 13:36:54
  */
 import React from 'react'
 import { IconTouchable } from '@_'
@@ -12,8 +12,7 @@ import { getCoverMedium, getCoverLarge, cnjp } from '@utils/app'
 import { t } from '@utils/fetch'
 import { loading } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
-import { HOST } from '@constants'
-import { HOST_CDN, CDN_OSS_SUBJECT } from '@constants/cdn'
+import { HOST, HOST_CDN, CDN_OSS_SUBJECT } from '@constants'
 
 function IconShare({ $, navigation, color }) {
   return (

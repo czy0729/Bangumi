@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 05:12:50
+ * @Last Modified time: 2022-05-26 13:36:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { matchCoverUrl } from '@utils/app'
 import { ob } from '@utils/decorators'
-import { HOST_CDN } from '@constants/cdn'
+import { HOST_CDN } from '@constants'
 
 export const Cover = ob(
   ({
