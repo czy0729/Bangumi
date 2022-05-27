@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-05 15:14:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:17:19
+ * @Last Modified time: 2022-05-27 11:27:17
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont } from '@components'
@@ -13,14 +13,14 @@ import { HTMLDecode } from '@utils/html'
 
 function Ep(props, { $, navigation }) {
   const styles = memoStyles()
-  if (!$.groupHref.includes('/subject/')) return null
+  if (!$.groupHref?.includes('/subject/')) return null
 
   const subjectId = Number($.groupHref.replace('/subject/', ''))
   const { eps } = subjectStore.subject(subjectId)
   if (!eps?.length) return null
 
   const _eps = eps.filter(item => item.type === 0)
-  const index = _eps.findIndex(item => item.url.includes($.topicId))
+  const index = _eps.findIndex(item => item.url?.includes($.topicId))
   if (index === -1) return null
 
   let prev
@@ -31,7 +31,7 @@ function Ep(props, { $, navigation }) {
 
   const onPress = item => {
     navigation.replace('Topic', {
-      topicId: `ep/${item.url.split('/ep/')[1]}`,
+      topicId: `ep/${item.url?.split('/ep/')[1]}`,
       _title: `${item.type === 1 ? 'sp' : 'ep'}${item.sort}.${cnjp(
         item.name_cn,
         item.name

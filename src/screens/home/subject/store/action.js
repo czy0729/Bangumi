@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 01:55:52
+ * @Last Modified time: 2022-05-27 11:27:24
  */
 import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
 import { open, copy, asc } from '@utils'
@@ -481,7 +481,7 @@ export default class Action extends Fetch {
 
         // 数据占位
         appNavigate(
-          item.url,
+          item.url || `/ep/${item.id}`,
           navigation,
           {
             _title: `ep${item.sort}.${item.name || item.name_cn}`,
