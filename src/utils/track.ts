@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:48:00
+ * @Last Modified time: 2022-05-27 08:00:42
  */
 import { NativeModules, InteractionManager } from 'react-native'
-import { DEV, HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants'
+import { DEV } from '@/config'
+import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import events, { EventKeys } from '@constants/events'
 import { urlStringify, getTimestamp, randomn } from './utils'
 import { getUserStoreAsync, getThemeStoreAsync } from './async'

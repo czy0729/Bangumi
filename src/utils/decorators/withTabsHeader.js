@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-17 20:15:12
+ * @Last Modified time: 2022-05-27 08:02:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import Constants from 'expo-constants'
 import { StatusBarEvents, UM } from '@components'
 import { _ } from '@stores'
 import { hm as utilsHM } from '@utils/fetch'
-import { IOS } from '@constants'
+import { IOS } from '@constants/constants'
 import BlurView from './cycles/blur-view'
 import Logo from './cycles/logo'
 import ob from './observer-props'

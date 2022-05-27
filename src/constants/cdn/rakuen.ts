@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 06:46:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 06:49:30
+ * @Last Modified time: 2022-05-27 08:20:23
  */
 import { Id, UserId } from '@types'
-import { HOST_CDN, VERSION_RAKUEN } from './ds'
+import { HOST_CDN } from '../constants'
+import { VERSION_RAKUEN } from './ds'
 import { getVersion, getFolder } from './utils'
 
 const HOST_RAKUEN = `${HOST_CDN}/gh/czy0729/Bangumi-Rakuen`

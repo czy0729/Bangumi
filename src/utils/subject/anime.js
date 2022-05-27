@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-05 03:15:55
+ * @Last Modified time: 2022-05-27 08:02:55
  */
-import { DATA_ALPHABET } from '@constants'
+import { DATA_ALPHABET } from '@constants/constants'
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 import { getTimestamp, getStorage, setStorage } from '../index'
 import { xhrCustom } from '../fetch'

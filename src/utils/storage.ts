@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:02:47
+ * @Last Modified time: 2022-05-26 13:53:36
  */
 // @ts-ignore
 import AsyncStorage from '@components/@/react-native-async-storage'
-import { DEV } from '@constants'
+import { DEV } from '@/config'
 import { queue } from './utils'
 
 // 本地化字符串大于此值会延迟合并再写入
@@ -40,7 +40,7 @@ const setStorageLazyMap = {}
  * @param {*} key
  * @param {*} data
  */
-export async function setStorage(key: string, data: string | number | boolean | any[]) {
+export async function setStorage(key: string, data: any) {
   if (!key) return
 
   const _data = JSON.stringify(data)

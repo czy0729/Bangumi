@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:42:36
+ * @Last Modified time: 2022-05-26 23:21:36
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -325,7 +325,7 @@ class Calendar extends store {
   }
 
   /** 更新用户自定义放送时间 */
-  updateOnAirUser = (subjectId, k, v) => {
+  updateOnAirUser = (subjectId: SubjectId, k: string, v: any) => {
     if (!subjectId) return
 
     const key = 'onAirUser'
@@ -343,7 +343,7 @@ class Calendar extends store {
   }
 
   /** 删除自定义放送时间 */
-  resetOnAirUser = subjectId => {
+  resetOnAirUser = (subjectId: SubjectId) => {
     const { onAirUser } = this.state
     const _onAirUser = toJS(onAirUser)
     delete _onAirUser[subjectId]

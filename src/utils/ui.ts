@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:34:27
+ * @Last Modified time: 2022-05-27 08:00:59
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
-import { DEV, IOS } from '@constants'
+import { DEV } from '@/config'
+import { IOS } from '@constants/constants'
 import { getSystemStoreAsync, s2tAsync } from './async'
 
 /** Loading */

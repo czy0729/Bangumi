@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:37:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 05:41:58
+ * @Last Modified time: 2022-05-27 08:19:56
  */
 import { SubjectId } from '@types'
-import { HOST_CDN, VERSION_GAME } from './ds'
+import { HOST_CDN } from '../constants'
+import { VERSION_GAME } from './ds'
 import { getVersion, getFolder } from './utils'
 
 const HOST_GAME = `${HOST_CDN}/gh/czy0729/Bangumi-Game`

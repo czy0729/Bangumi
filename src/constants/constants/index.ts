@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:36:19
+ * @Last Modified time: 2022-05-27 08:19:34
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -44,6 +44,9 @@ export const HOST_2 = 'https://bangumi.tv'
 
 /** 备用域名3 */
 export const HOST_3 = 'https://chii.in'
+
+/** jsDelivr */
+export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
 /** @deprecated [已废弃] 柠萌瞬间地址 */
 export const HOST_NING_MOE = 'https://www.ningmoe.com'

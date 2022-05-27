@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2022-05-23 06:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 06:55:19
+ * @Last Modified time: 2022-05-27 08:20:01
  */
 import { SubjectId } from '@types'
-import { HOST_CDN } from './ds'
+import { HOST_CDN } from '../constants'
 import { getOTA } from './utils'
 
 export const CDN_HD = (subjectId: SubjectId) => {

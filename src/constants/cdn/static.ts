@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:03:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 07:15:34
+ * @Last Modified time: 2022-05-27 08:20:24
  */
+import { HOST_CDN } from '../constants'
 import {
-  HOST_CDN,
   VERSION_STATIC,
   VERSION_ANIME,
   VERSION_WENKU,

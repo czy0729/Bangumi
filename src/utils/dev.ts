@@ -5,7 +5,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-05-25 07:40:57
  */
-import { DEV, LOG_LEVEL } from '@constants'
+import { DEV, LOG_LEVEL } from '@/config'
 import { RERENDER_SHOW } from '@/config'
 import { pad } from './utils'
 

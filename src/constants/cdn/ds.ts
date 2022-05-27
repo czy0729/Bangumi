@@ -4,11 +4,8 @@
  * @Author: czy0729
  * @Date: 2022-05-23 04:40:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:35:06
+ * @Last Modified time: 2022-05-27 08:19:40
  */
-/** jsDelivr */
-export const HOST_CDN = 'https://cdn.jsdelivr.net'
-
 /** cdn | fastly | gcore | originfastly */
 export const HOST_CDN_FASTLY = 'https://fastly.jsdelivr.net'
 

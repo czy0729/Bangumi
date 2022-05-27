@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:20:49
+ * @Last Modified time: 2022-05-27 05:16:34
  */
 import React from 'react'
 import {
@@ -75,12 +75,12 @@ export type Source =
 /** 统一列表对象 */
 export type ListEmpty<T> = {
   list: T[]
-  pagination?: {
-    page?: number
-    pageTotal?: number
+  pagination: {
+    page: number
+    pageTotal: number
   }
   _list?: T[]
-  _loaded?: boolean | number
+  _loaded: boolean | number
 }
 
 /** 任意函数 */

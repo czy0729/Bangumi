@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:27:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:14:55
+ * @Last Modified time: 2022-05-27 08:02:45
  */
 import { useEffect, useState } from 'react'
 import * as ScreenOrientation from 'expo-screen-orientation'
-import { PAD } from '@constants'
+import { PAD } from '@constants/device'
 
 export default function useOrientation() {
   const [screenOrientation, setScreenOrientation] = useState()

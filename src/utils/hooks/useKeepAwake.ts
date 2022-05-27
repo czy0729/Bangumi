@@ -6,7 +6,7 @@
  */
 import { useEffect } from 'react'
 import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
-import { DEV } from '@constants'
+import { DEV } from '@/config'
 
 export default function useKeepAwake() {
   useEffect(() => {

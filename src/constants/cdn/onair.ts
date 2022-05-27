@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:43:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 06:51:29
+ * @Last Modified time: 2022-05-27 08:20:03
  */
 import dayjs from 'dayjs'
 import { SubjectId } from '@types'
-import { HOST_CDN } from './ds'
+import { HOST_CDN } from '../constants'
 import { getFolder } from './utils'
 
 const HOST_ONAIR = `${HOST_CDN}/gh/ekibot/bangumi-onair`

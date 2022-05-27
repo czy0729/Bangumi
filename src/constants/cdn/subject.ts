@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:46:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 06:46:01
+ * @Last Modified time: 2022-05-27 08:20:35
  */
 import { Id, SubjectId } from '@types'
-import { HOST_CDN, VERSION_SUBJECT, VERSION_MONO } from './ds'
+import { HOST_CDN } from '../constants'
+import { VERSION_SUBJECT, VERSION_MONO } from './ds'
 import { getVersion, getFolder } from './utils'
 
 /** 条目 CDN 自维护数据 */

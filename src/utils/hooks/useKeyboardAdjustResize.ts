@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2022-03-16 16:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:16:29
+ * @Last Modified time: 2022-05-27 08:02:27
  */
 import { InteractionManager } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { androidKeyboardAdjust } from '@utils/ui'
-import { IOS } from '@constants'
+import { IOS } from '@constants/constants'
 
 function useKeyboardAdjustResize({
   onDidFocus,

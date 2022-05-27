@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, TouchableHighlight, View } from 'react-native'
 import Modal from '@ant-design/react-native/lib/modal/ModalView'
-import { IOS } from '@constants'
+import { IOS } from '@constants/constants'
 import { WithTheme } from '../style'
 import ActionSheetStyles from './style/index'
 

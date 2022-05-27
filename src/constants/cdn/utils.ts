@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:04:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:40:55
+ * @Last Modified time: 2022-05-26 14:06:05
  */
 import { getSystemStoreAsync } from '@utils/async'
 import _hash from '@utils/thirdParty/hash'
@@ -26,5 +26,5 @@ export function getVersion(key: string, version: any) {
 
 /** repo 的目录显示文件数量有限, 所以根据 subjectId 每 100 划分为一个目录 */
 export function getFolder(subjectId: SubjectId, split: 100 | 1000 = 100) {
-  return parseInt(String(parseInt(String(subjectId)) / split))
+  return Math.floor(Number(subjectId) / split)
 }

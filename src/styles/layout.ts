@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-24 16:25:13
+ * @Last Modified time: 2022-05-27 08:15:37
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
-import { IOS, PAD, PAD_LEVEL_2, RATIO } from '@constants'
+import { IOS } from '@constants/constants'
+import { PAD, PAD_LEVEL_2, RATIO } from '@constants/device'
 
 // -------------------- 设备 --------------------
 /** 是否平板 */

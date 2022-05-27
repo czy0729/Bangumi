@@ -2,8 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@": ["./"],
-      "@/*": ["./*"],
       "@_": ["src/screens/_"],
       "@_/*": ["src/screens/_/*"],
       "@assets": ["src/assets"],
@@ -14,8 +12,6 @@
       "@constants/*": ["src/constants/*"],
       "@screens": ["src/screens"],
       "@screens/*": ["src/screens/*"],
-      "@src": ["src"],
-      "@src/*": ["src/*"],
       "@stores": ["src/stores"],
       "@stores/*": ["src/stores/*"],
       "@styles": ["src/styles"],
@@ -26,6 +22,10 @@
       "@types/*": ["src/types/*"],
       "@utils": ["src/utils"],
       "@utils/*": ["src/utils/*"],
+      "@src": ["src"],
+      "@src/*": ["src/*"],
+      "@": ["./"],
+      "@/*": ["./*"]
     },
     "allowJs": true,
     "esModuleInterop": true,

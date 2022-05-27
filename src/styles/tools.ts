@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 04:09:23
+ * @Last Modified time: 2022-05-27 08:16:06
  */
 import { StyleSheet } from 'react-native'
-import { IOS } from '@constants'
+import { IOS } from '@constants/constants'
 import {
   ratio,
   xs,

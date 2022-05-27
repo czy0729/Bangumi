@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-22 13:58:36
+ * @Last Modified time: 2022-05-27 05:04:50
  */
 import { ModelValueOf } from '@types'
 import {
@@ -20,13 +20,27 @@ import {
 } from './index'
 
 export type CollectionStatus = ModelValueOf<typeof COLLECTION_STATUS, 'value'>
+
+export type CollectionStatusCn = ModelValueOf<typeof COLLECTION_STATUS, 'label'>
+
 export type CollectionsOrder = ModelValueOf<typeof COLLECTIONS_ORDERBY, 'value'>
+
 export type EpStatus = ModelValueOf<typeof EP_STATUS, 'value'>
+
 export type Order = ModelValueOf<typeof TAG_ORDERBY, 'value'>
+
 export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE, 'value'>
+
 export type RakuenType = ModelValueOf<typeof RAKUEN_TYPE, 'value'>
+
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS, 'value'>
+
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT, 'value'>
+
 export type SubjectType = ModelValueOf<typeof SUBJECT_TYPE, 'label'>
+
+export type SubjectTypeCn = ModelValueOf<typeof SUBJECT_TYPE, 'title'>
+
 export type TimeLineScope = ModelValueOf<typeof TIMELINE_SCOPE, 'value'>
+
 export type TimeLineType = ModelValueOf<typeof TIMELINE_TYPE, 'value'>

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:35:43
+ * @Last Modified time: 2022-05-27 08:01:14
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
-import { DEV, B, M } from '@constants'
+import { DEV } from '@/config'
+import { B, M } from '@constants/constants'
 import { info } from './ui'
 
 /**

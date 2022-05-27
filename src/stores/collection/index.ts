@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-14 11:25:10
+ * @Last Modified time: 2022-05-27 05:43:25
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -11,68 +11,134 @@ import { HTMLTrim, HTMLDecode, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { LIST_EMPTY, DEV } from '@constants'
-import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS } from '@constants/model'
 import {
+  LIST_EMPTY,
+  DEV,
+  MODEL_SUBJECT_TYPE,
+  MODEL_COLLECTION_STATUS,
   API_MOSAIC_TILE,
   API_COLLECTION,
   API_COLLECTION_ACTION,
-  API_SUBJECT_UPDATE_WATCHED
-} from '@constants/api'
-import {
+  API_SUBJECT_UPDATE_WATCHED,
   HTML_USER_COLLECTIONS,
   HTML_ACTION_SUBJECT_SET_WATCHED,
   HTML_ACTION_SUBJECT_INTEREST_UPDATE
-} from '@constants/html'
+} from '@constants'
+import {
+  CollectionStatus,
+  CollectionStatusCn,
+  SubjectType,
+  SubjectTypeCn
+} from '@constants/model/types'
 import rateData from '@assets/json/rate.json'
+import { ListEmpty, SubjectId, UserId } from '@types'
 import userStore from '../user'
-import { NAMESPACE, DEFAULT_SUBJECT_TYPE, DEFAULT_TYPE, DEFAULT_ORDER } from './init'
+import {
+  NAMESPACE,
+  DEFAULT_SUBJECT_TYPE,
+  DEFAULT_COLLECTION_STATUS,
+  DEFAULT_ORDER
+} from './init'
+import { FetchMosaicTileArgs, FetchUserCollectionsArgs } from './types'
 
 class Collection extends store {
   state = observable({
-    /**
-     * API条目收藏信息
-     * @param {*} subjectId
-     */
+    /** API 条目收藏信息 */
     collection: {
       0: {}
     },
 
-    /**
-     * HTML用户收藏概览(全部)
-     * @param {*} userId
-     * @param {*} subjectType
-     * @param {*} type
-     */
+    /** HTML 用户收藏概览 (全部) */
     userCollections: {
-      _: (userId, subjectType, type) =>
-        `${userId || userStore.myUserId}|${subjectType}|${type}`,
       0: LIST_EMPTY
     },
 
-    /**
-     * HTML用户收藏概览的看过的标签
-     */
+    /** HTML 用户收藏概览的看过的标签 */
     userCollectionsTags: {
-      _: (userId, subjectType, type) =>
-        `${userId || userStore.myUserId}|${subjectType}|${type}`,
       0: []
     },
 
-    /**
-     * 所有收藏条目状态
-     * @params {*} subjectId
-     */
+    /** 所有收藏条目状态 */
     userCollectionsMap: {
-      // 0: '看过'
+      0: '看过'
     },
 
-    /**
-     * 瓷砖进度
-     */
+    /** 瓷砖进度 */
     mosaicTile: {}
   })
 
+  // -------------------- get --------------------
+  /**
+   * API 条目收藏信息
+   * @param subjectId
+   */
+  collection(subjectId: SubjectId) {
+    return computed<any>(() => {
+      return this.state.collection[subjectId] || {}
+    }).get()
+  }
+
+  /**
+   * HTML 用户收藏概览 (全部)
+   * @param {*} userId
+   * @param {*} subjectType
+   * @param {*} type
+   */
+  userCollections(userId: UserId, subjectType: SubjectType, type: CollectionStatus) {
+    return computed<ListEmpty<any>>(() => {
+      const { userCollections } = this.state
+      const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
+      return userCollections[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /**
+   * HTML 用户收藏概览的看过的标签
+   * @param userId
+   * @param subjectType
+   * @param type
+   */
+  userCollectionsTags(
+    userId: UserId,
+    subjectType: SubjectType,
+    type: CollectionStatus
+  ) {
+    return computed<string[]>(() => {
+      const { userCollectionsTags } = this.state
+      const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
+      return userCollectionsTags[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /**
+   * 所有收藏条目状态
+   * @param subjectId
+   */
+  userCollectionsMap(subjectId: SubjectId) {
+    return computed<CollectionStatusCn>(() => {
+      const { userCollectionsMap } = this.state
+      return userCollectionsMap[subjectId]
+    }).get()
+  }
+
+  /** 瓷砖进度 */
+  @computed get mosaicTile(): any {
+    return this.state.mosaicTile
+  }
+
+  /**
+   * 获取指定条目收藏状态名
+   * @param {*} subjectId
+   */
+  statusName(subjectId: SubjectId) {
+    return computed<CollectionStatusCn | ''>(() => {
+      const collection = this.collection(subjectId) as any
+      return collection?.status?.name || ''
+    }).get()
+  }
+
+  // -------------------- fetch --------------------
+  /** 初始化 */
   init = () => {
     if (!DEV) {
       setTimeout(() => {
@@ -80,37 +146,15 @@ class Collection extends store {
       }, 16000)
     }
 
-    return this.readStorage(
-      [
-        'collection',
-        'userCollections',
-        'userCollectionsTags',
-        'userCollectionsMap',
-        'mosaicTile'
-      ],
-      NAMESPACE
-    )
+    return this.readStorage(Object.keys(this.state), NAMESPACE)
   }
 
-  // -------------------- get --------------------
-  /**
-   * 获取指定条目收藏状态名
-   * @param {*} subjectId
-   */
-  statusName(subjectId) {
-    return computed(() => {
-      const collection = this.collection(subjectId)
-      return collection?.status?.name || ''
-    }).get()
-  }
-
-  // -------------------- fetch --------------------
   /**
    * 获取指定条目收藏信息
    * @param {*} subjectId
    */
-  fetchCollection = subjectId =>
-    this.fetch(
+  fetchCollection = (subjectId: SubjectId) => {
+    return this.fetch(
       {
         url: API_COLLECTION(subjectId),
         info: '条目收藏信息'
@@ -121,19 +165,18 @@ class Collection extends store {
         namespace: NAMESPACE
       }
     )
+  }
 
-  /**
-   * HTML用户收藏概览(全部)
-   */
+  /** HTML 用户收藏概览(全部) */
   fetchUserCollections = async (
     {
       userId: _userId,
       subjectType = DEFAULT_SUBJECT_TYPE,
-      type = DEFAULT_TYPE,
+      type = DEFAULT_COLLECTION_STATUS,
       order = DEFAULT_ORDER,
       tag = ''
-    } = {},
-    refresh
+    }: FetchUserCollectionsArgs = {} as FetchUserCollectionsArgs,
+    refresh?: boolean
   ) => {
     const userId = _userId || userStore.myUserId
     const { list, pagination } = this.userCollections(userId, subjectType, type)
@@ -270,7 +313,7 @@ class Collection extends store {
       list: refresh ? userCollections : [...list, ...userCollections],
       pagination: {
         page,
-        pageTotal: parseInt(pageTotal)
+        pageTotal: Number(pageTotal)
       },
       _loaded: getTimestamp()
     }
@@ -292,17 +335,21 @@ class Collection extends store {
    * 排队获取自己的所有动画收藏列表记录
    *  - 每种最多取10页240条数据
    */
-  fetchUserCollectionsQueue = async (refresh, typeCn = '动画', showLoading) => {
+  fetchUserCollectionsQueue = async (
+    refresh?: boolean,
+    typeCn: SubjectTypeCn = '动画',
+    showLoading?: boolean
+  ) => {
     try {
       const { username } = userStore.usersInfo(userStore.myUserId)
       const userId = username || userStore.myUserId
       if (!userId) return false
 
-      const subjectType = MODEL_SUBJECT_TYPE.getLabel(typeCn)
+      const subjectType = MODEL_SUBJECT_TYPE.getLabel(typeCn) as SubjectType
       const now = getTimestamp()
       for (const item of MODEL_COLLECTION_STATUS.data) {
         const { _loaded } = this.userCollections(userId, subjectType, item.value)
-        if (refresh || !_loaded || now - _loaded > 60 * 60) {
+        if (refresh || !_loaded || now - Number(_loaded) > 60 * 60) {
           if (showLoading) info(`[${item.value}] 用户收藏`)
           await this.fetchUserCollections(
             {
@@ -354,15 +401,15 @@ class Collection extends store {
       this.setStorage('userCollectionsMap', userCollectionsMap, NAMESPACE)
       return true
     } catch (error) {
-      warn('CollectionStore', 'fetchUserCollectionsQueue', error)
+      global.warn('CollectionStore', 'fetchUserCollectionsQueue')
       return false
     }
   }
 
-  /**
-   * 瓷砖进度数据
-   */
-  fetchMosaicTile = async ({ userId } = {}) => {
+  /** 瓷砖进度数据 */
+  fetchMosaicTile = async (
+    { userId }: FetchMosaicTileArgs = {} as FetchMosaicTileArgs
+  ) => {
     const key = 'mosaicTile'
     const _username = userId || userStore.myId
     if (
@@ -405,9 +452,7 @@ class Collection extends store {
   }
 
   // -------------------- page --------------------
-  /**
-   * 只本地化自己的收藏概览
-   */
+  /** 只本地化自己的收藏概览 */
   setUserCollectionsStroage = () => {
     const { userCollections } = this.state
     const data = {}
@@ -422,9 +467,7 @@ class Collection extends store {
     this.setStorage('userCollections', data, NAMESPACE)
   }
 
-  /**
-   * 只本地化自己的收藏概览的看过的标签
-   */
+  /** 只本地化自己的收藏概览的看过的标签 */
   setUserCollectionsTagsStroage = () => {
     const { userCollectionsTags } = this.state
     const data = {}
@@ -436,10 +479,12 @@ class Collection extends store {
     this.setStorage('userCollectionsTags', data, NAMESPACE)
   }
 
-  /**
-   * 用户收藏按网站评分本地排序后入库
-   */
-  sortUserCollectionsByScore = (userId, subjectType, type) => {
+  /** 用户收藏按网站评分本地排序后入库 */
+  sortUserCollectionsByScore = (
+    userId: UserId,
+    subjectType: SubjectType,
+    type: CollectionStatus
+  ) => {
     const data = this.userCollections(userId, subjectType, type)
     const list = data.list.sort(
       (a, b) => Number(rateData[b.id] || 0) - Number(rateData[a.id] || 0)
@@ -538,7 +583,4 @@ class Collection extends store {
   }
 }
 
-const Store = new Collection()
-Store.setup()
-
-export default Store
+export default new Collection()

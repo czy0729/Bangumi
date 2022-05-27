@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:40:24
+ * @Last Modified time: 2022-05-27 08:03:33
  */
+import { DATA_ALPHABET } from '@constants/constants'
 import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
-import { DATA_ALPHABET } from '@constants'
 import { getTimestamp, getStorage, setStorage } from '../index'
 import { xhrCustom } from '../fetch'
 // import { info } from '../ui'

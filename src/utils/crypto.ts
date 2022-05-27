@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-10 04:54:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:23:19
+ * @Last Modified time: 2022-05-27 07:59:12
  */
 import CryptoJS from 'crypto-js'
-import { APP_ID } from '@constants'
+import { APP_ID } from '@constants/constants'
 
 /** 加密字符串 */
 export function set(data: object | string) {

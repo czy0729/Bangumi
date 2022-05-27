@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:31:26
+ * @Last Modified time: 2022-05-27 08:02:13
  */
 import React from 'react'
 import {
@@ -18,7 +18,7 @@ import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { hm as utilsHM } from '@utils/fetch'
 import { s2tAsync } from '@utils/async'
-import { IOS } from '@constants'
+import { IOS } from '@constants/constants'
 import IconBack from './cycles/back'
 import ob from './observer-props'
 

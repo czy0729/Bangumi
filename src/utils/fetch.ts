@@ -3,18 +3,18 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 09:14:33
+ * @Last Modified time: 2022-05-27 08:20:59
  */
 import {
   APP_ID,
   APP_BAIDU_ID,
   APP_BAIDU_KEY,
   HOST,
-  HOST_NAME,
   HOST_CDN,
+  HOST_NAME,
   IOS,
   UA
-} from '@constants'
+} from '@constants/constants'
 import { Fn } from '@types'
 import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'

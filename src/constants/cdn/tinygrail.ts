@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-23 07:27:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 07:30:24
+ * @Last Modified time: 2022-05-27 08:20:36
  */
 import { getStorage, setStorage } from '@utils/storage'
 import { xhrCustom } from '@utils/fetch'
-import { HOST_CDN, VERSION_TINYGRAIL } from './ds'
+import { HOST_CDN } from '../constants'
+import { VERSION_TINYGRAIL } from './ds'
 import { getOTA } from './utils'
 
 const HOST_STATIC = `${HOST_CDN}/gh/czy0729/Bangumi-Static`

@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 05:57:03
+ * @Last Modified time: 2022-05-27 08:01:44
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
-import { DEV, contextTypes } from '@constants'
+import { DEV } from '@/config'
+import { contextTypes } from '@constants/constants'
 import { urlStringify } from '../index'
 import observer from './observer'
 

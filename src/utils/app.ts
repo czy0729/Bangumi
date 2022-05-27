@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:08:41
+ * @Last Modified time: 2022-05-27 07:58:43
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
-import { DEV, HOST, HOST_2, URL_PRIVACY, EVENT, IMG_DEFAULT } from '@constants'
+import { DEV } from '@/config'
+import { HOST, HOST_2, URL_PRIVACY, EVENT, IMG_DEFAULT } from '@constants/constants'
 import {
   initHashSubjectOTA,
   initHashAvatarOTA,

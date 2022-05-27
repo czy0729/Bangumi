@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:21:51
+ * @Last Modified time: 2022-05-27 07:57:36
  */
 import { PermissionsAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import CameraRoll from '@react-native-community/cameraroll'
-import { IOS } from '@constants'
+import { IOS } from '@constants/constants'
 import { Fn } from '@types'
 
 /**

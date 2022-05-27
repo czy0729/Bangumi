@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:40:22
+ * @Last Modified time: 2022-05-27 08:03:25
  */
-import { DATA_ALPHABET } from '@constants'
+import { DATA_ALPHABET } from '@constants/constants'
 import { VERSION_MANGA, CDN_STATIC_MANGA, getOTA } from '@constants/cdn'
 import { getTimestamp, getStorage, setStorage } from '../index'
 import { xhrCustom } from '../fetch'

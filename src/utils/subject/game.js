@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:38:39
+ * @Last Modified time: 2022-05-27 08:03:11
  */
-import { DATA_ALPHABET } from '@constants'
+import { DATA_ALPHABET } from '@constants/constants'
 import { VERSION_GAME, CDN_STATIC_GAME, getOTA } from '@constants/cdn'
 import { getTimestamp, getStorage, setStorage } from '../index'
 import { xhrCustom } from '../fetch'

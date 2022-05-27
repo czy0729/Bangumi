@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:58:04
+ * @Last Modified time: 2022-05-27 07:59:56
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
-import { APP_ID, UA } from '@constants'
+import { APP_ID, UA } from '@constants/constants'
 import { getUserStoreAsync } from './async'
 
 export async function request(url, data?) {
