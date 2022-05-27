@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 05:16:34
+ * @Last Modified time: 2022-05-27 10:08:27
  */
 import React from 'react'
 import {
@@ -15,12 +15,16 @@ import {
 import { EventKeys } from '@constants/events'
 
 /** utils */
+
 /** 用于在 vscode 里面注释能直接显示展开的 type */
 export type Expand<T> = T extends infer O
   ? {
       [K in keyof O]: O[K]
     }
   : never
+
+/** 复写 type */
+export type Override<P, S> = Expand<Omit<P, keyof S> & S>
 
 /** 取值 */
 export type ValueOf<T> = T[keyof T]

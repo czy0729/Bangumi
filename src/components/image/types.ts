@@ -5,10 +5,11 @@
  * @Last Modified time: 2022-05-27 08:35:33
  */
 import { ColorValue, ImageProps } from 'react-native'
-import { Expand, ViewStyle, ImageStyle, EventType, Source } from '@types'
+import { Override, ViewStyle, ImageStyle, EventType, Source } from '@types'
 
-export type Props = Expand<
-  Omit<ImageProps, 'source'> & {
+export type Props = Override<
+  Omit<ImageProps, 'source'>,
+  {
     /** 图片容器的样式 */
     style?: ViewStyle
 

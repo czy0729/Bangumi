@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 21:21:54
+ * @Last Modified time: 2022-05-27 10:17:05
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { PAD } from '@constants'
 import { Ionicons } from './ionicons'
 import { Material } from './material'
-import { Props } from './types'
+import { Props, MaterialIconsNames, IoniconsIconsNames, AppIconsNames } from './types'
 
 const PAD_INCREASE = PAD === 2 ? 4 : 2
 
@@ -25,7 +25,7 @@ export const Iconfont = observer(
       return (
         <Material
           style={style}
-          name={name.replace('md-', '')}
+          name={name.replace('md-', '') as MaterialIconsNames}
           size={_size}
           lineHeight={_lineHeight}
           color={color}
@@ -38,7 +38,7 @@ export const Iconfont = observer(
       return (
         <Ionicons
           style={style}
-          name={name}
+          name={name as IoniconsIconsNames}
           size={_size}
           lineHeight={_lineHeight}
           color={color}
@@ -56,7 +56,7 @@ export const Iconfont = observer(
           },
           style
         ]}
-        name={`icon-${name}`}
+        name={`icon-${name}` as AppIconsNames}
         size={_size}
         color={color || _.colorIcon}
         {...other}

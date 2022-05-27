@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 09:12:30
+ * @Last Modified time: 2022-05-28 02:30:30
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -31,6 +31,7 @@ import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import CompImage from './image'
+import { checkError451, setError451 } from './utils'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
@@ -44,11 +45,6 @@ const MAX_ERROR_COUNT = 5
 
 /** 重试间隔 */
 const RETRY_DISTANCE = 3000
-
-/** 记录 code=451 的图片 */
-const CACHE_ERROR_451: {
-  [uri: string]: 1
-} = {}
 
 /** bgm 封面域名 */
 const OSS_BGM = 'https://lain.bgm.tv'
@@ -201,13 +197,16 @@ export const Image = observer(
           this.retry(src)
         }
       } else {
-        uri = src
-        if (typeof uri === 'string') {
-          if (CACHE_ERROR_451[src]) {
+        if (!IOS && typeof src === 'string') {
+          if (checkError451(src)) {
             this.recoveryToBgmCover()
             return
           }
+        }
 
+        uri = src
+
+        if (typeof uri === 'string') {
           uri = this.getQuality(uri, qualityLevel)
           if (uri.indexOf('https:') === -1 && uri.indexOf('http:') === -1) {
             uri = `https:${uri}`
@@ -289,7 +288,7 @@ export const Image = observer(
     onError = async () => {
       const { src } = this.props
       if (!IOS && typeof src === 'string' && src.includes(OSS_MEGMA_PREFIX)) {
-        if (CACHE_ERROR_451[src]) {
+        if (checkError451(src)) {
           this.recoveryToBgmCover()
           return
         }
@@ -298,10 +297,9 @@ export const Image = observer(
           src,
           () => {},
           error => {
-            CACHE_ERROR_451[src] = 1
-
             // magma oss 若 status code 为 451 直接触发失败
             if (String(error).includes('code=451')) {
+              setError451(src)
               this.recoveryToBgmCover()
             } else {
               setTimeout(() => {

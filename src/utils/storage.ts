@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:53:36
+ * @Last Modified time: 2022-05-28 02:10:52
  */
 // @ts-ignore
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -34,8 +34,7 @@ export async function getStorage(key: string) {
 const setStorageLazyMap = {}
 
 /**
- * 保存数据
- * @version 190321 1.0
+ * 保存数据到本地, 并且会对大于 LAZY_SET_STORAGE_SIZE 的操作进行延迟合并保存到本地
  * @version 211112 2.0
  * @param {*} key
  * @param {*} data
