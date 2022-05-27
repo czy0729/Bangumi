@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:00:59
+ * @Last Modified time: 2022-05-27 09:06:46
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -136,6 +136,7 @@ export function showImageViewer(
   imageUrls: {
     url?: any
     _url?: any
+    headers?: object
   }[] = [],
   index = 0
 ) {

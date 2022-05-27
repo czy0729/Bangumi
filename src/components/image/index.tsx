@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 06:02:43
+ * @Last Modified time: 2022-05-27 09:12:30
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -34,13 +34,26 @@ import CompImage from './image'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
+/** 默认请求头 */
 const DEFAULT_HEADERS = {
   Referer: `${HOST}/`
 }
-const MAX_ERROR_COUNT = 5 // 最大失败重试次数
-const RETRY_DISTANCE = 3000 // 重试间隔
 
+/** 最大失败重试次数 */
+const MAX_ERROR_COUNT = 5
+
+/** 重试间隔 */
+const RETRY_DISTANCE = 3000
+
+/** 记录 code=451 的图片 */
+const CACHE_ERROR_451: {
+  [uri: string]: 1
+} = {}
+
+/** bgm 封面域名 */
 const OSS_BGM = 'https://lain.bgm.tv'
+
+/** magma 域名图片后缀 */
 const OSS_MEGMA_PREFIX = '/bgm_poster'
 
 export const Image = observer(
@@ -150,16 +163,17 @@ export const Image = observer(
               return false
             }
 
-            // 检查本地有没有图片缓存
-            // @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发unmounted
-            // @issue to fixed
+            /**
+             * 检查本地有没有图片缓存
+             * @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发unmounted
+             * @issue to fixed
+             */
             if (typeof _src === 'string' && _src.includes('https:/img/')) {
               this.onError()
               return false
             }
 
             res = CacheManager.get(_src, {
-              // @ts-ignore
               headers: this.headers
             }).getPath()
             const path = await res
@@ -189,6 +203,11 @@ export const Image = observer(
       } else {
         uri = src
         if (typeof uri === 'string') {
+          if (CACHE_ERROR_451[src]) {
+            this.recoveryToBgmCover()
+            return
+          }
+
           uri = this.getQuality(uri, qualityLevel)
           if (uri.indexOf('https:') === -1 && uri.indexOf('http:') === -1) {
             uri = `https:${uri}`
@@ -209,7 +228,7 @@ export const Image = observer(
     /**
      * 图片是不是会下载失败, 当错误次数大于MAX_ERROR_COUNT就认为是错误
      */
-    retry = src => {
+    retry = (src: string) => {
       if (this.errorCount < MAX_ERROR_COUNT) {
         this.timeoutId = setTimeout(() => {
           this.errorCount += 1
@@ -270,18 +289,20 @@ export const Image = observer(
     onError = async () => {
       const { src } = this.props
       if (!IOS && typeof src === 'string' && src.includes(OSS_MEGMA_PREFIX)) {
+        if (CACHE_ERROR_451[src]) {
+          this.recoveryToBgmCover()
+          return
+        }
+
         RNImage.getSize(
           src,
           () => {},
           error => {
+            CACHE_ERROR_451[src] = 1
+
             // magma oss 若 status code 为 451 直接触发失败
             if (String(error).includes('code=451')) {
-              // 提取原来的封面图片地址
-              let s = src.split('/pic/')?.[1] || ''
-              if (s) s = s.replace(OSS_MEGMA_PREFIX, '')
-              this.setState({
-                uri: getCoverMedium(`${OSS_BGM}/pic/${s}`)
-              })
+              this.recoveryToBgmCover()
             } else {
               setTimeout(() => {
                 this.retry(`${src}?ts=${getTimestamp()}`)
@@ -293,6 +314,18 @@ export const Image = observer(
       }
 
       this.comitError()
+    }
+
+    recoveryToBgmCover = () => {
+      const { src } = this.props
+      if (typeof src !== 'string') return
+
+      // 提取原来的封面图片地址
+      let s = src.split('/pic/')?.[1] || ''
+      if (s) s = s.replace(OSS_MEGMA_PREFIX, '')
+      this.setState({
+        uri: getCoverMedium(`${OSS_BGM}/pic/${s}`)
+      })
     }
 
     comitError = () => {

@@ -2,17 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 06:03:41
+ * @Last Modified time: 2022-05-27 08:35:33
  */
 import { ColorValue, ImageProps } from 'react-native'
-import { Expand, ViewStyle, ImageStyle, EventType } from '@types'
-
-type Source = {
-  uri?: string
-  headers?: {
-    [key: string]: string
-  }
-}
+import { Expand, ViewStyle, ImageStyle, EventType, Source } from '@types'
 
 export type Props = Expand<
   Omit<ImageProps, 'source'> & {
@@ -23,7 +16,7 @@ export type Props = Expand<
     imageStyle?: ImageStyle
 
     /** 图片地址 */
-    src?: Source | string | number
+    src?: Source
 
     /** 此组件禁用source */
     // source: never
