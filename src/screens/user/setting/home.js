@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 15:58:58
+ * @Last Modified time: 2022-05-28 04:07:12
  */
 import React from 'react'
-import { ActionSheet, SwitchPro, Heatmap } from '@components'
+import { ActionSheet, SwitchPro, SegmentedControl, Heatmap } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { useBoolean, useObserver } from '@utils/hooks'
@@ -18,6 +18,7 @@ const homeSortingInformation = {
   放送: '放送中 > 明天放送 > 网页',
   网页: '与网页bgm.tv一致'
 }
+const values = ['全部', '基本', '隐藏']
 
 function Home() {
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -85,6 +86,33 @@ function Home() {
             <Heatmap id='设置.切换' title='首页排序' />
           </ItemSettingBlock>
 
+          {/* 收藏项右侧菜单 */}
+          <ItemSetting
+            show={!userStore.isLimit}
+            hd='收藏项右侧菜单'
+            information={`收藏项右侧按钮组显示菜单按钮\n全部 = 基本操作菜单 + 源头数据菜单`}
+            ft={
+              <SegmentedControl
+                style={styles.segmentedControl}
+                size={12}
+                values={values}
+                selectedIndex={homeOrigin === -1 ? 2 : homeOrigin ? 0 : 1}
+                onValueChange={label => {
+                  t('设置.切换', {
+                    title: '显示搜索源头按钮',
+                    checked: homeOrigin !== false
+                  })
+
+                  const _value =
+                    label === values[0] ? true : label === values[1] ? false : -1
+                  systemStore.setSetting('homeOrigin', _value)
+                }}
+              />
+            }
+          >
+            <Heatmap id='设置.切换' title='显示搜索源头按钮' />
+          </ItemSetting>
+
           {/* 条目自动下沉 */}
           <ItemSetting
             show={homeSorting !== MODEL_SETTING_HOME_SORTING.getValue('网页')}
@@ -149,28 +177,6 @@ function Home() {
             }
           >
             <Heatmap id='设置.切换' title='显示列表搜索框' />
-          </ItemSetting>
-
-          {/* 搜索源头按钮 */}
-          <ItemSetting
-            show={!userStore.isLimit}
-            hd='搜索源头按钮'
-            ft={
-              <SwitchPro
-                style={styles.switch}
-                value={homeOrigin}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '显示搜索源头按钮',
-                    checked: !homeOrigin
-                  })
-
-                  systemStore.switchSetting('homeOrigin')
-                }}
-              />
-            }
-          >
-            <Heatmap id='设置.切换' title='显示搜索源头按钮' />
           </ItemSetting>
         </ActionSheet>
       </>
