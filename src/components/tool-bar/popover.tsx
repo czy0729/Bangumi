@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-05 19:39:57
+ * @Last Modified time: 2022-05-28 13:07:08
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,13 +13,31 @@ import { Popover } from '../popover/comp'
 import { Iconfont } from '../iconfont'
 import { Heatmap } from '../heatmap'
 import { memoStyles } from './styles'
+import { ToolBarPopoverProps } from './types'
 
 export const ToolBarPopover = observer(
-  ({ data, icon, iconColor, iconSize = 16, type = 'sub', text, heatmap, onSelect }) => {
+  ({
+    data,
+    icon,
+    iconColor,
+    iconSize = 18,
+    type = 'sub',
+    text,
+    heatmap,
+    transparent,
+    onSelect
+  }: ToolBarPopoverProps) => {
     const styles = memoStyles()
     return (
-      <Popover style={styles.touch} data={data} onSelect={onSelect}>
-        <Flex style={styles.item} justify='center'>
+      <Popover
+        style={[styles.touch, transparent && styles.transparentTouch]}
+        data={data}
+        onSelect={onSelect}
+      >
+        <Flex
+          style={[styles.item, transparent && styles.transparentItem]}
+          justify='center'
+        >
           {!!icon && (
             <Iconfont
               style={!!text && _.mr.xs}
@@ -29,7 +47,7 @@ export const ToolBarPopover = observer(
             />
           )}
           {!!text && (
-            <Text size={11} type={type} bold>
+            <Text size={12} type={type} bold>
               {text}
             </Text>
           )}

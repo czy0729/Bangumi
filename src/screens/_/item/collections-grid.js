@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:15:41
+ * @Last Modified time: 2022-05-28 12:57:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { memo, ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Tag, Cover, Stars, Rank } from '../base'
+import { Cover, Stars, Rank } from '../base'
 
 const hitSlop = {
   top: _.device(2, 4),
@@ -34,6 +33,7 @@ const defaultProps = {
   typeCn: '',
   collection: '',
   userCollection: '',
+  airtime: '',
   aid: '',
   wid: '',
   mid: '',
@@ -55,6 +55,7 @@ const Item = memo(
     typeCn,
     collection,
     userCollection,
+    airtime,
     aid,
     wid,
     mid,
@@ -107,7 +108,6 @@ const Item = memo(
           type={typeCn}
           onPress={onPress}
         />
-        {!!_collection && <Tag style={styles.collection} value={_collection} />}
         <Touchable style={_.mt.xs} withoutFeedback hitSlop={hitSlop} onPress={onPress}>
           <Text
             style={_.mt.sm}
@@ -117,8 +117,14 @@ const Item = memo(
             bold
             align='center'
           >
-            {HTMLDecode(cnjp(nameCn, name))}
+            {cnjp(nameCn, name)}
           </Text>
+          {!!(airtime || _collection) && (
+            <Text style={_.mt.xs} size={11} type='sub' bold align='center'>
+              {airtime}
+              {_collection && ` · ${_collection}`}
+            </Text>
+          )}
           {!!score && (
             <Flex style={_.mt.sm} justify='center'>
               <Rank style={_.mr.xs} value={rank} size={9} />
@@ -146,6 +152,7 @@ export const ItemCollectionsGrid = ob(
     typeCn,
     collection,
     userCollection,
+    airtime,
     aid,
     wid,
     mid,
@@ -168,6 +175,7 @@ export const ItemCollectionsGrid = ob(
         typeCn={typeCn}
         collection={collection}
         userCollection={userCollection}
+        airtime={airtime}
         aid={aid}
         wid={wid}
         mid={mid}
@@ -177,12 +185,3 @@ export const ItemCollectionsGrid = ob(
     )
   }
 )
-
-const styles = _.create({
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: _.xs,
-    left: _.xs
-  }
-})

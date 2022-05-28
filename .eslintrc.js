@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 10:51:58
+ * @Last Modified time: 2022-05-28 05:49:01
  */
 module.exports = {
   root: true,
@@ -20,7 +20,8 @@ module.exports = {
     global: true,
     rerender: true,
     warn: true,
-    log: true
+    log: true,
+    JSX: true
   },
   rules: {
     radix: 0, // parseInt允许不填进制

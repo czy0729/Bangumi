@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-05 19:41:36
+ * @Last Modified time: 2022-05-28 07:25:46
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,8 +11,9 @@ import { memoStyles } from './styles'
 import { ToolBarIcon } from './icon'
 import { ToolBarPopover } from './popover'
 import { ToolBarTouchable } from './touchable'
+import { IToolBar } from './types'
 
-const ToolBar = observer(({ style, children, ...other }) => {
+const ToolBar: IToolBar = observer(({ style, children, ...other }) => {
   const styles = memoStyles()
   return (
     <Flex style={[styles.toolBar, style]} justify='center' {...other}>
@@ -21,13 +22,10 @@ const ToolBar = observer(({ style, children, ...other }) => {
   )
 })
 
-// @ts-ignore
 ToolBar.Icon = ToolBarIcon
 
-// @ts-ignore
 ToolBar.Popover = ToolBarPopover
 
-// @ts-ignore
 ToolBar.Touchable = ToolBarTouchable
 
 export { ToolBar }

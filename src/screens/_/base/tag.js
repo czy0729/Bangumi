@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 11:33:56
+ * @Last Modified time: 2022-05-28 11:18:43
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -81,8 +81,12 @@ export const Tag = ob(({ style, type, value, size = 10 }) => {
     }
   }
 
+  const _styles = [styles.tag, styles[_type]]
+  if (String(value).length >= 3) _styles.push(styles.fix)
+  _styles.push(style)
+
   return (
-    <Flex style={[styles.tag, styles[_type], style]} justify='center'>
+    <Flex style={_styles} justify='center'>
       <Text
         type={isActive ? _.select('plain', 'title') : _.select('sub', _type)}
         size={size}
@@ -105,6 +109,10 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: 1,
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs
+  },
+  fix: {
+    paddingRight: 4,
+    paddingLeft: 4
   },
   main: {
     backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel1),

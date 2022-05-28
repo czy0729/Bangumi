@@ -4,13 +4,16 @@
  * @Author: czy0729
  * @Date: 2022-05-23 04:40:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:19:40
+ * @Last Modified time: 2022-05-28 08:01:22
  */
 /** cdn | fastly | gcore | originfastly */
 export const HOST_CDN_FASTLY = 'https://fastly.jsdelivr.net'
 
 /** OneDrive */
 export const HOST_CDN_ONEDRIVE = 'https://bangumi.stdcdn.com'
+
+/** OneDrive Static File */
+export const HOST_CDN_STATIC = 'https://bangumi-static.stdcdn.com'
 
 /** https://github.com/czy0729/Bangumi-Static */
 export const VERSION_STATIC = '20220306'

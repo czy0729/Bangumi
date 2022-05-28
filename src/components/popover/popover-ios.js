@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-08 03:08:48
+ * @Last Modified time: 2022-05-28 07:32:42
  */
 import React, { useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
@@ -66,20 +66,3 @@ const styles = _.create({
     maxWidth: '50%'
   }
 })
-
-// Old
-// import CompPopover from '../@/ant-design/popover'
-// import { _ } from '@stores'
-//
-// function Popover({ children, ...other }) {
-//   return (
-//     <CompPopover
-//       arrowStyle={{
-//         borderTopColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
-//       }}
-//       {...other}
-//     >
-//       {children}
-//     </CompPopover>
-//   )
-// }

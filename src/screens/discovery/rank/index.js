@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:09:37
+ * @Last Modified time: 2022-05-28 10:49:18
  */
 import React from 'react'
 import { Page } from '@components'
@@ -22,7 +22,7 @@ const Rank = (props, { $ }) => {
     <>
       <Header />
       <Page>
-        <ToolBar />
+        {$.state.fixed && <ToolBar />}
         {$.state._loaded && <List />}
       </Page>
     </>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:09:37
+ * @Last Modified time: 2022-05-28 13:12:51
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -48,6 +48,8 @@ export default class ScreenRank extends store {
     airtime: '',
     month: '',
     list: true, // list | grid
+    fixed: false,
+    collected: true,
     ...excludeState,
     _loaded: false
   })
@@ -88,6 +90,16 @@ export default class ScreenRank extends store {
 
     return {
       ...rank
+    }
+  }
+
+  @computed get list() {
+    const { collected } = this.state
+    if (collected) return this.rank
+
+    return {
+      ...this.rank,
+      list: this.rank.list.filter(item => !item.collected)
     }
   }
 
@@ -232,6 +244,30 @@ export default class ScreenRank extends store {
       })
       this.setStorage(undefined, undefined, namespace)
     }, 40)
+  }
+
+  toggleFixed = () => {
+    const { fixed } = this.state
+    t('排行榜.固定工具栏', {
+      fixed: !fixed
+    })
+
+    this.setState({
+      fixed: !fixed
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  toggleCollected = () => {
+    const { collected } = this.state
+    t('排行榜.显示已收藏', {
+      collected: !collected
+    })
+
+    this.setState({
+      collected: !collected
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   prev = () => {

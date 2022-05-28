@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:11:32
+ * @Last Modified time: 2022-05-28 13:13:14
  */
 import React from 'react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
@@ -12,6 +12,7 @@ import { _, collectionStore } from '@stores'
 import { runAfter } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import ToolBar from './tool-bar'
 
 const eventList = {
   id: '排行榜.跳转',
@@ -19,20 +20,20 @@ const eventList = {
     type: 'list'
   }
 }
+
 const eventGrid = {
   id: '排行榜.跳转',
   data: {
     type: 'grid'
   }
 }
+
 const heatmaps = {
   prev: '排行榜.上一页',
   next: '排行榜.下一页',
   search: '排行榜.页码跳转'
 }
 
-export default
-@obc
 class List extends React.Component {
   state = {
     rendered: false
@@ -52,7 +53,7 @@ class List extends React.Component {
 
   get list() {
     const { $ } = this.context
-    const { list } = $.rank
+    const { list } = $.list
     const { rendered } = this.state
     if (!rendered) return list.slice(0, 9)
     return list
@@ -83,7 +84,6 @@ class List extends React.Component {
         {this.list.length ? (
           this.list.map((item, index) => {
             const id = String(item.id).replace('/subject/', '')
-            // const collection = collectionStore.statusName(id) || $.userCollectionsMap[id]
             const collection = collectionStore.statusName(id)
             return (
               <ItemSearch
@@ -111,6 +111,7 @@ class List extends React.Component {
 
   renderGrid() {
     const { $, navigation } = this.context
+    const { airtime } = $.state
     const { _filter } = $.rank
     const num = _.portrait(3, 5)
     return (
@@ -119,6 +120,7 @@ class List extends React.Component {
           {this.list.length ? (
             this.list.map((item, index) => {
               const id = String(item.id).replace('/subject/', '')
+              const collection = collectionStore.statusName(id)
               return (
                 <ItemCollectionsGrid
                   key={item.id}
@@ -126,10 +128,12 @@ class List extends React.Component {
                   style={!(index % num) && this.styles.left}
                   num={num}
                   index={index}
-                  collection={$.userCollectionsMap[id]}
                   event={eventGrid}
+                  airtime={airtime === '' && item.tip.match(/(\d{4})(年|-)/)?.[1]}
                   {...item}
                   id={id}
+                  collection={collection}
+                  isCollect={item.collected}
                 />
               )
             })
@@ -145,20 +149,24 @@ class List extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { show, list: _list } = $.state
+    const { show, list: _list, fixed } = $.state
     const { _loaded } = $.rank
     if (show && _loaded) {
       return (
         <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
+          {!fixed && <ToolBar />}
           {_list ? this.renderList() : this.renderGrid()}
         </ScrollView>
       )
     }
 
     return (
-      <Flex style={this.styles.loading} justify='center'>
-        <ActivityIndicator />
-      </Flex>
+      <>
+        {!fixed && <ToolBar />}
+        <Flex style={this.styles.loading} justify='center'>
+          <ActivityIndicator />
+        </Flex>
+      </>
     )
   }
 
@@ -166,6 +174,8 @@ class List extends React.Component {
     return memoStyles()
   }
 }
+
+export default obc(List)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
