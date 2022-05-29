@@ -22,7 +22,7 @@ type Props = {
   activeFontStyle?: TextStyle
   type?: TextType
   size?: number
-  values?: []
+  values?: string[]
   selectedIndex?: number
   enabled?: boolean
   tintColor?: ColorValue

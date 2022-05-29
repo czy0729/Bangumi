@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:00:42
+ * @Last Modified time: 2022-05-29 08:57:56
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import { DEV } from '@/config'
@@ -133,7 +133,7 @@ export function err(desc: string) {
 export function t(
   desc: EventKeys,
   eventData?: {
-    [key: string]: string | number
+    [key: string]: string | number | boolean
   }
 ) {
   if (!desc || typeof desc !== 'string') return

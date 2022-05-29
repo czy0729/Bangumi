@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 12:52:29
+ * @Last Modified time: 2022-05-29 09:42:16
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -15,7 +15,7 @@ const event = {
 }
 
 function ItemGrid({ pickIndex, index, num }, { $, navigation }) {
-  const { id, hId, image, cn, jp, score, rank } = pick(pickIndex)
+  const { id, hId, image, cn, jp, score, rank, air } = pick(pickIndex)
   if (!id) return null
 
   const styles = memoStyles()
@@ -35,6 +35,7 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }) {
       score={score}
       rank={rank}
       textOnly={!$.isLogin}
+      airtime={air ? String(air).slice(0, 7) : ''}
       isCollection={collection}
     />
   )

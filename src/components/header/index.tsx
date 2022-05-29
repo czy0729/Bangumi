@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 12:20:44
+ * @Last Modified time: 2022-05-29 08:51:42
  */
 import React, { useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
@@ -19,9 +19,9 @@ import Placeholder from './placeholder'
 import { updateHeader } from './utils'
 import HeaderComponent from './header-component'
 import { statusBarEventsTypes } from './styles'
-import { HeaderProps } from './types'
+import { IHeader } from './types'
 
-const Header = ({
+const Header: IHeader = ({
   mode,
   fixed = false,
   title,
@@ -33,7 +33,7 @@ const Header = ({
   headerTitleStyle,
   statusBarEvents = true,
   statusBarEventsType
-}: HeaderProps) => {
+}) => {
   const navigation = useNavigation()
   useLayoutEffect(() => {
     updateHeader({
@@ -95,6 +95,7 @@ const Header = ({
 }
 
 Header.Popover = Popover
+
 Header.Placeholder = Placeholder
 
 export { Header }

@@ -9,9 +9,9 @@ import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Text } from '../text'
-import { HeaderProps } from './types'
+import { Props } from './types'
 
-type Props = Pick<HeaderProps, 'fixed' | 'title' | 'headerTitle'>
+type Props = Pick<Props, 'fixed' | 'title' | 'headerTitle'>
 
 function Transition({ fixed, title, headerTitle }: Props) {
   const wrapStyles = useAnimatedStyle(() => ({

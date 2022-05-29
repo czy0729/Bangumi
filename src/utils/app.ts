@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 07:58:43
+ * @Last Modified time: 2022-05-29 08:56:51
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -19,7 +19,7 @@ import {
 import cnData from '@assets/json/cn.json'
 import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { Navigation, EventType } from '@types'
+import { Navigation, EventType, SubjectId } from '@types'
 import { t } from './fetch'
 import { getSystemStoreAsync } from './async'
 import { getStorage, setStorage } from './storage'
@@ -128,7 +128,7 @@ export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
  * @param {*} subjectId
  * @param {*} title     辅助检测, 有关键字则都认为是18x
  */
-export function x18(subjectId, title) {
+export function x18(subjectId: SubjectId, title?: string) {
   if (!subjectId) return false
   let filter =
     typeof subjectId === 'string'

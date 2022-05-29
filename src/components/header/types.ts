@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 12:34:21
+ * @Last Modified time: 2022-05-29 08:52:27
  */
-import { TextStyle, ReactNode } from '@types'
+import { ViewStyle, TextStyle, IconfontNames, ColorValue, ReactNode } from '@types'
 
-export type HeaderProps = {
+export type Props = {
   /** 模式 */
   mode?: 'float' | 'transition'
 
@@ -20,7 +20,7 @@ export type HeaderProps = {
   title?: string
 
   /** 统计参数: [url地址, 对应页面key] */
-  hm?: string[]
+  hm?: [string] | [string, string]
 
   /** 统计别名 */
   alias?: string
@@ -45,4 +45,33 @@ export type HeaderProps = {
 
   /** 预设的状态栏主题 */
   statusBarEventsType?: 'Subject' | 'Topic' | 'Tinygrail'
+}
+
+export type PopoverProps = {
+  /** 图标名字 */
+  name?: IconfontNames
+
+  /** 图标颜色 */
+  color?: ColorValue
+
+  /** Popover data */
+  data?: string[]
+
+  /** 菜单样式 */
+  menuStyle?: ViewStyle
+
+  /** Popover onSelect */
+  onSelect?: (title?: string) => any
+
+  children?: ReactNode
+}
+
+export type PlaceholderProps = {
+  style?: ViewStyle
+}
+
+export interface IHeader {
+  (props: Props): JSX.Element
+  Popover?: (props: PopoverProps) => JSX.Element
+  Placeholder?: (props: PlaceholderProps) => JSX.Element
 }

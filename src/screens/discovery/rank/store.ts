@@ -1,8 +1,9 @@
+// @ts-nocheck
 /*
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 13:12:51
+ * @Last Modified time: 2022-05-29 09:01:17
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -113,7 +114,7 @@ export default class ScreenRank extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchRank = refresh => {
+  fetchRank = (refresh?: boolean) => {
     const { currentPage, type, filter, airtime, month } = this.state
     return tagStore.fetchRank(
       {

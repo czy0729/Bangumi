@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 10:08:27
+ * @Last Modified time: 2022-05-29 08:40:54
  */
 import React from 'react'
 import {
@@ -13,9 +13,21 @@ import {
   ColorValue as RNColorValue
 } from 'react-native'
 import { EventKeys } from '@constants/events'
+import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
+import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
+import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
+
+/** Assets */
+export { EventKeys }
+export type AppIconsNames = keyof typeof AppIcons
+export type IoniconsIconsNames = keyof typeof IoniconsIcons
+export type MaterialIconsNames = keyof typeof MaterialIcons
+export type IconfontNames =
+  | AppIconsNames
+  | IoniconsIconsNames
+  | `md-${MaterialIconsNames}`
 
 /** utils */
-
 /** 用于在 vscode 里面注释能直接显示展开的 type */
 export type Expand<T> = T extends infer O
   ? {

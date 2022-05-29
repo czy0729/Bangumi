@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 10:55:46
+ * @Last Modified time: 2022-05-29 08:35:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,7 +12,7 @@ import { Flex } from '../flex'
 import Back from './back'
 import Transition from './transition'
 import { colors } from './styles'
-import { HeaderProps } from './types'
+import { Props as HeaderProps } from './types'
 
 type Props = Expand<
   {

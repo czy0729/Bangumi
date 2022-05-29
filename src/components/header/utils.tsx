@@ -11,13 +11,13 @@ import { IOS } from '@constants'
 import { Expand, Navigation } from '@types'
 import Back from './back'
 import { colors, backgroundColors } from './styles'
-import { HeaderProps } from './types'
+import { Props } from './types'
 
 type Props = Expand<
   {
     navigation: Navigation
   } & Pick<
-    HeaderProps,
+    Props,
     | 'title'
     | 'headerTitleAlign'
     | 'headerTitleStyle'

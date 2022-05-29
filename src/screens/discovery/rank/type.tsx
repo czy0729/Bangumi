@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-03-13 14:59:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-13 15:53:07
+ * @Last Modified time: 2022-05-29 08:55:08
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Heatmap, SegmentedControl } from '@components'
+import { SegmentedControl } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
@@ -23,7 +23,7 @@ function Type({ $ }) {
         selectedIndex={filterDS.indexOf(filter)}
         onValueChange={$.toggleFilter}
       />
-      <Heatmap id='排行榜.切换类型' />
+      {/* <Heatmap id='排行榜.切换类型' /> */}
     </View>
   )
 }
