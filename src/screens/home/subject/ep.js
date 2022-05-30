@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 05:58:54
+ * @Last Modified time: 2022-05-30 12:13:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -251,11 +251,11 @@ const memoStyles = _.memoStyles(() => ({
     marginHorizontal: _.wind
   },
   input: {
-    width: 68 * _.ratio,
-    height: 28 * _.ratio
+    width: _.r(74),
+    height: _.r(28)
   },
   inputRaw: {
-    height: 28 * _.ratio,
+    height: _.r(28),
     paddingVertical: 0,
     paddingHorizontal: _.sm,
     color: _.colorSub,
@@ -265,20 +265,20 @@ const memoStyles = _.memoStyles(() => ({
   total: {
     position: 'absolute',
     zIndex: 100,
-    top: 7 * _.ratio,
+    top: _.r(7),
     right: 10
   },
   btn: {
-    width: 44 * _.ratio,
-    height: 28 * _.ratio,
-    marginLeft: 8 * _.ratio,
+    width: _.r(44),
+    height: _.r(28),
+    marginLeft: _.r(10),
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
     overflow: 'hidden'
   },
   btnOnAir: {
-    width: 44 * _.ratio,
-    height: 28 * _.ratio,
-    marginLeft: 8 * _.ratio,
+    width: _.r(44),
+    height: _.r(28),
+    marginLeft: _.r(10),
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2),
     borderWidth: _.select(_.hairlineWidth, 0),
@@ -286,7 +286,7 @@ const memoStyles = _.memoStyles(() => ({
     overflow: IOS ? undefined : 'hidden'
   },
   btnReset: {
-    height: 28 * _.ratio,
+    height: _.r(28),
     marginTop: -8
   }
 }))

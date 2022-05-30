@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:18:22
+ * @Last Modified time: 2022-05-30 11:52:23
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -83,6 +83,19 @@ const Head = memo(
       showRelease = true
     }
 
+    let tops = [top]
+    const year = String(release).match(/(\d{4})/)?.[0] || ''
+    if (year) tops.push(year)
+    if (titleLabel) tops.push(titleLabel)
+    tops = tops.join(' · ')
+
+    let topSize = 13
+    if (tops.length >= 32) {
+      topSize = 11
+    } else if (tops.length >= 22) {
+      topSize = 12
+    }
+
     const left = imageWidth + _.wind + _.device(12, 20)
     return (
       <View style={styles.container}>
@@ -119,21 +132,20 @@ const Head = memo(
             <View>
               {!!top && (
                 <Katakana.Provider
-                  size={top.length > 12 ? 11 : 13}
+                  size={topSize}
                   itemStyle={styles.katakana}
-                  numberOfLines={hasRelation ? 1 : 2}
+                  numberOfLines={2}
                 >
                   <Katakana
                     type='sub'
-                    size={top.length > 12 ? 11 : 13}
-                    numberOfLines={hasRelation ? 1 : 2}
+                    size={topSize}
+                    numberOfLines={2}
                     onLongPress={() => {
                       Clipboard.setString(top)
                       info(`已复制 ${top}`)
                     }}
                   >
-                    {top}
-                    {!!titleLabel && ` · ${titleLabel}`}
+                    {tops}
                   </Katakana>
                 </Katakana.Provider>
               )}

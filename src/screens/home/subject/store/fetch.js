@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 19:55:20
+ * @Last Modified time: 2022-05-30 12:02:32
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -135,7 +135,7 @@ export default class Fetch extends Computed {
    * 获取章节的缩略图
    */
   fetchEpsThumbs = async bangumiData => {
-    if (this.state.epsThumbs.length) return
+    if (this.state.epsThumbs.length >= 12) return
 
     try {
       // bilibili
@@ -176,7 +176,7 @@ export default class Fetch extends Computed {
 
       // 优酷
       try {
-        if (!this.state.epsThumbs.length && this.youkuSite.id) {
+        if (this.state.epsThumbs.length < 12 && this.youkuSite.id) {
           const url = getBangumiUrl(this.youkuSite)
           const { _response } = await xhrCustom({
             url
@@ -221,7 +221,7 @@ export default class Fetch extends Computed {
 
       // 爱奇艺
       try {
-        if (!this.state.epsThumbs.length && this.iqiyiSite.id) {
+        if (this.state.epsThumbs.length < 12 && this.iqiyiSite.id) {
           const url = getBangumiUrl(this.iqiyiSite)
           const { _response } = await xhrCustom({
             url
@@ -251,7 +251,7 @@ export default class Fetch extends Computed {
       // qq网站没有截屏, 不找
 
       // 尝试从douban找
-      if (!this.state.epsThumbs.length) {
+      if (!this.state.epsThumbsHeader.Referer && this.state.epsThumbs.length < 12) {
         const cn = bangumiData?.titleTranslate?.['zh-Hans']?.[0]
         const jp = bangumiData.title
         this.fetchEpsThumbsFromDouban(cn, jp)
@@ -265,7 +265,7 @@ export default class Fetch extends Computed {
    * 从donban匹配条目, 并获取官方剧照信息
    */
   fetchEpsThumbsFromDouban = async (cn, jp) => {
-    if (this.x18 || this.state.epsThumbs.length) return
+    if (this.x18 || this.state.epsThumbs.length >= 12) return
 
     const q = cn || jp
     if (q) {

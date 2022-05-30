@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 19:59:32
+ * @Last Modified time: 2022-05-30 12:05:32
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Image, Text, Heatmap } from '@components'
+import { Image, Flex, Text, Iconfont, Heatmap } from '@components'
 import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -18,8 +18,6 @@ import IconHidden from './icon/hidden'
 const thumbWidth = 160 * _.ratio
 const thumbHeight = thumbWidth * 0.56
 
-export default
-@obc
 class Thumbs extends React.Component {
   state = {
     scrolled: false
@@ -87,7 +85,7 @@ class Thumbs extends React.Component {
             onScroll={scrolled ? undefined : this.onScroll}
           >
             {this.data
-              .filter((item, index) => index < 12)
+              .filter((item, index) => index <= 12)
               .map((item, index) => (
                 <Image
                   key={item}
@@ -112,22 +110,30 @@ class Thumbs extends React.Component {
           </ScrollView>
         )}
         {showThumbs && !!reference && (
-          <View style={[_.container.wind, _.mt.md]}>
+          <Flex style={[_.container.wind, _.mt.md]} justify='end'>
             <Text
               size={10}
               type='icon'
               align='right'
               onPress={() => open(epsThumbsHeader.Referer)}
             >
-              *图片来源自{reference}
+              图片来源自 {reference}
             </Text>
-          </View>
+            <Iconfont
+              style={_.ml.xs}
+              name='md-open-in-new'
+              size={10}
+              color={_.colorIcon}
+            />
+          </Flex>
         )}
         <Heatmap id='条目.预览' />
       </View>
     )
   }
 }
+
+export default obc(Thumbs)
 
 const styles = _.create({
   image: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 10:48:00
+ * @Last Modified time: 2022-05-30 11:50:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -503,7 +503,7 @@ export default class Computed extends State {
   @computed get release() {
     return (
       this.info.match(
-        /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
+        /<li><span>(发售日|放送开始|上映年度|上映时间|开始): <\/span>(.+?)<\/li>/
       )?.[2] || ''
     )
   }
@@ -795,15 +795,20 @@ export default class Computed extends State {
    * 条目类别
    */
   @computed get titleLabel() {
-    // bangumiInfo只有动画的数据
-    let label = MODEL_SUBJECT_TYPE.getTitle(this.subjectType)
+    // bangumiInfo 只有动画的数据
+    const label = MODEL_SUBJECT_TYPE.getTitle(this.subjectType)
     if (label === '动画') {
       const { bangumiInfo } = this.state
-      label = String(bangumiInfo.type).toUpperCase() || label
-    } else {
-      label = this.subjectFormHTML.type || label
+      const _label =
+        this.subjectFormHTML.type ||
+        String(bangumiInfo.type).toUpperCase() ||
+        label ||
+        'TV'
+      if (_label === 'MOVIE') return '剧场版'
+      return _label
     }
-    return (label === '动画' ? 'TV' : label) || ''
+
+    return this.subjectFormHTML.type || label
   }
 
   /**
