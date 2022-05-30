@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 11:50:41
+ * @Last Modified time: 2022-05-30 22:32:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -805,10 +805,10 @@ export default class Computed extends State {
         label ||
         'TV'
       if (_label === 'MOVIE') return '剧场版'
-      return _label
+      return _label || ''
     }
 
-    return this.subjectFormHTML.type || label
+    return this.subjectFormHTML.type || label || ''
   }
 
   /**
