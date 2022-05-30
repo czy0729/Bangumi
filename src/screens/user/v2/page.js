@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 16:30:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:14:27
+ * @Last Modified time: 2022-05-30 09:19:52
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -13,8 +13,6 @@ import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import { tabs } from './store'
 
-export default
-@obc
 class User extends React.Component {
   state = {
     fixed: false // 头部是否置顶
@@ -91,7 +89,7 @@ class User extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { _loaded } = $.state
+    const { page, _loaded } = $.state
     const { fixed } = this.state
     return (
       <Page>
@@ -100,6 +98,7 @@ class User extends React.Component {
             <Tab
               scrollY={this.scrollY}
               scrollEventThrottle={16}
+              page={page}
               onScroll={Animated.event(
                 [
                   {
@@ -127,3 +126,5 @@ class User extends React.Component {
     )
   }
 }
+
+export default obc(User)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 04:05:54
+ * @Last Modified time: 2022-05-30 10:43:06
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -14,7 +14,7 @@ function BtnOrigin({ subjectId, isTop }, { $ }) {
   if ($.homeOrigin === -1) return null
 
   let origins = []
-  if ($.homeOrigin === 0) {
+  if ($.homeOrigin === true) {
     origins = $.onlineOrigins(subjectId).map(item =>
       typeof item === 'object' ? item.name : item
     )

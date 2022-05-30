@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 21:39:51
+ * @Last Modified time: 2022-05-30 06:18:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -27,7 +27,7 @@ let inited: boolean
 })()
 
 const Katakana = observer(
-  class extends React.Component<TextProps> {
+  class KatakanaComponent extends React.Component<TextProps> {
     static contextTypes = {
       active: PropTypes.bool,
       onKatakana: PropTypes.func

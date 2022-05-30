@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 12:54:09
+ * @Last Modified time: 2022-05-30 10:16:50
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Iconfont, ToolBar as CompToolBar } from '@components'
+import { ToolBar as CompToolBar } from '@components'
 import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY } from '@constants/model'
@@ -16,7 +16,9 @@ import Filter from './filter'
 const defaultProps = {
   styles: {},
   colorMain: _.colorMain,
+  colorDesc: _.colorDesc,
   page: 0,
+  fixed: false,
   list: true,
   order: defaultOrder,
   tag: '',
@@ -25,6 +27,7 @@ const defaultProps = {
   onOrderSelect: Function.prototype,
   onTagSelect: Function.prototype,
   onToggleList: Function.prototype,
+  onToggleFixed: Function.prototype,
   onToggleFilter: Function.prototype
 }
 
@@ -32,7 +35,9 @@ const ToolBar = memo(
   ({
     styles,
     colorMain,
+    colorDesc,
     page,
+    fixed,
     list,
     order,
     tag,
@@ -41,9 +46,10 @@ const ToolBar = memo(
     onOrderSelect,
     onTagSelect,
     onToggleList,
+    onToggleFixed,
     onToggleFilter
   }) => {
-    rerender('User.ToolBar.Main')
+    global.rerender('User.ToolBar.Main')
 
     const filterData = ['重置']
     userCollectionsTags.forEach(item => filterData.push(`${item.tag} (${item.count})`))
@@ -53,40 +59,43 @@ const ToolBar = memo(
           <CompToolBar.Popover
             data={MODEL_COLLECTIONS_ORDERBY.data.map(item => item.label)}
             icon='md-sort'
-            iconColor={order ? colorMain : undefined}
+            iconColor={colorDesc}
             text={order ? MODEL_COLLECTIONS_ORDERBY.getLabel(order) : '收藏时间'}
-            type={order ? 'main' : 'sub'}
+            type='desc'
             heatmap='我的.筛选选择'
             onSelect={onOrderSelect}
           />
           <CompToolBar.Popover
             data={filterData}
             icon='md-bookmark-outline'
-            iconColor={tag ? colorMain : undefined}
+            iconColor={colorDesc}
             text={tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
-            type={tag ? 'main' : 'sub'}
+            type='desc'
             heatmap='我的.排序选择'
             onSelect={onTagSelect}
           />
-          <CompToolBar.Touchable heatmap='我的.布局选择' onSelect={onToggleList}>
-            <Iconfont
-              style={_.mr.xs}
-              name='md-menu'
-              size={17}
-              color={list ? colorMain : undefined}
-            />
-            <Iconfont
-              style={_.ml.xs}
-              name='md-grid-view'
-              size={15}
-              color={!list ? colorMain : undefined}
-            />
-          </CompToolBar.Touchable>
           <CompToolBar.Icon
-            style={styles.search}
             icon='md-search'
-            iconColor={showFilter ? _.colorMain : undefined}
+            iconColor={showFilter ? colorMain : colorDesc}
             onSelect={onToggleFilter}
+          />
+          <CompToolBar.Popover
+            data={[
+              `工具栏 · ${fixed ? '固定' : '浮动'}`,
+              `布　局 · ${list ? '列表' : '网格'}`
+            ]}
+            icon='md-more-vert'
+            iconColor={_.colorDesc}
+            iconSize={20}
+            type='desc'
+            transparent
+            onSelect={title => {
+              if (title.includes('布　局')) {
+                onToggleList()
+              } else if (title.includes('工具栏')) {
+                onToggleFixed()
+              }
+            }}
           />
         </CompToolBar>
         <Filter page={page} />
@@ -101,15 +110,24 @@ const ToolBar = memo(
 )
 
 export default obc(({ page, onToggleList }, { $ }) => {
-  rerender('User.ToolBar')
+  global.rerender('User.ToolBar')
 
-  const { subjectType = defaultSubjectType, list, order, tag, showFilter } = $.state
+  const {
+    subjectType = defaultSubjectType,
+    fixed,
+    list,
+    order,
+    tag,
+    showFilter
+  } = $.state
   const type = MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
   return (
     <ToolBar
       styles={memoStyles()}
       colorMain={_.colorMain}
+      colorDesc={_.colorDesc}
       page={page}
+      fixed={fixed}
       list={list}
       order={order}
       tag={tag}
@@ -121,6 +139,7 @@ export default obc(({ page, onToggleList }, { $ }) => {
         onToggleList()
         $.onToggleList()
       }}
+      onToggleFixed={$.onToggleFixed}
       onToggleFilter={$.onToggleFilter}
     />
   )
@@ -128,7 +147,7 @@ export default obc(({ page, onToggleList }, { $ }) => {
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingTop: _.md,
+    paddingTop: _.md - 2,
     backgroundColor: _.colorPlain
   }
 }))

@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:43:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 10:57:00
+ * @Last Modified time: 2022-05-29 11:42:30
  */
 import dayjs from 'dayjs'
 import { SubjectId } from '@types'
-import { HOST_CDN } from '../constants'
 import { getFolder } from './utils'
+import { HOST_CDN_STATIC } from './ds'
 
-const HOST_ONAIR = `${HOST_CDN}/gh/ekibot/bangumi-onair`
+const HOST_ONAIR = `${HOST_CDN_STATIC}/bangumi-onair`
 
 /** 每日放送, https://github.com/ekibot/bangumi-onair */
-export const CDN_ONAIR = () => `${HOST_ONAIR}@master/calendar.json?t=${getTimestamp()}`
+export const CDN_ONAIR = () =>
+  `https://raw.githubusercontent.com/ekibot/bangumi-onair/master/calendar.json?t=${getTimestamp()}`
 
 /** 单集数据源, https://github.com/ekibot/bangumi-onair */
 export const CDN_EPS = (subjectId: SubjectId) =>
-  `${HOST_ONAIR}@master/onair/${getFolder(
+  `${HOST_ONAIR}/onair/${getFolder(
     subjectId,
     1000
   )}/${subjectId}.json?t=${getTimestamp()}`

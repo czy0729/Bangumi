@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 21:36:47
+ * @Last Modified time: 2022-05-30 06:18:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,7 @@ type Props = TextProps & {
 }
 
 export const KatakanaProvider = observer(
-  class extends React.Component<Props> {
+  class KatakanaProviderComponent extends React.Component<Props> {
     static defaultProps = {
       itemStyle: undefined,
       itemSecondStyle: undefined,

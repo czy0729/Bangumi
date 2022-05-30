@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 13:29:48
+ * @Last Modified time: 2022-05-29 14:23:33
  */
 import React from 'react'
 import { ToolBar as CompToolBar } from '@components'
@@ -88,7 +88,7 @@ function ToolBar(props, { $ }) {
             $.toggleList()
           } else if (title.includes('工具栏')) {
             $.toggleFixed()
-          } else if (title.includes('已收藏：')) {
+          } else if (title.includes('已收藏')) {
             $.toggleCollected()
           }
         }}

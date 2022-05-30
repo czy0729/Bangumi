@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-04 14:38:34
+ * @Last Modified time: 2022-05-30 06:18:46
  */
 import React from 'react'
 import { View, TextInput, TextInputProps, TouchableWithoutFeedback } from 'react-native'
@@ -50,7 +50,7 @@ type Props = Expand<
 const initInputHeight = 18 // 一行的大概高度
 
 export const Input = observer(
-  class extends React.Component<Props> {
+  class InputComponent extends React.Component<Props> {
     static defaultProps = {
       style: undefined,
       multiline: false,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 10:56:54
+ * @Last Modified time: 2022-05-30 10:23:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ const Character = memo(
                   _image
                 })
               }}
-              onSubPress={({ actorId }) => {
+              onSubPress={({ actorId, desc }) => {
                 t('条目.跳转', {
                   to: 'Mono',
                   from: '角色',
@@ -73,16 +73,12 @@ const Character = memo(
                 })
 
                 navigation.push('Mono', {
-                  monoId: `person/${actorId}`
+                  monoId: `person/${actorId}`,
+                  _name: desc
                 })
               }}
             />
-            <Heatmap
-              id='条目.跳转'
-              data={{
-                from: '角色'
-              }}
-            />
+            <Heatmap id='条目.跳转' from='角色' />
           </>
         )}
       </View>

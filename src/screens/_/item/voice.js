@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:20:10
+ * @Last Modified time: 2022-05-30 10:31:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,11 +11,11 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
-import { EVENT } from '@constants'
+import { EVENT, IMG_WIDTH_SM } from '@constants'
 import { Cover, Tag } from '../base'
 
 const avatarSize = 40 * _.ratio
-const coverWidth = 48 * _.ratio
+const coverWidth = IMG_WIDTH_SM * _.ratio
 const coverHeight = coverWidth * 1.4
 
 export const ItemVoice = ob(

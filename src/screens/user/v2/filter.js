@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 12:49:33
+ * @Last Modified time: 2022-05-30 10:14:45
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -121,7 +121,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.sm
   },
   wrap: {
-    width: 318
+    width: 248
   },
   input: {
     ..._.fontSize(16),

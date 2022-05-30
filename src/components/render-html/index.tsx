@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 07:08:48
+ * @Last Modified time: 2022-05-30 06:19:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,7 +76,7 @@ const spanMark = {
 }
 
 export const RenderHtml = observer(
-  class extends React.Component<Props> {
+  class RenderHtmlComponent extends React.Component<Props> {
     static defaultProps = {
       style: undefined,
       baseFontStyle: {},

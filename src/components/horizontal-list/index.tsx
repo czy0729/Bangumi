@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 17:30:44
+ * @Last Modified time: 2022-05-30 06:18:34
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -21,7 +21,7 @@ type Props = {
 }
 
 export const HorizontalList = observer(
-  class extends React.Component<Props> {
+  class HorizontalListComponent extends React.Component<Props> {
     static defaultProps = {
       data: [],
       initialRenderNums: 3

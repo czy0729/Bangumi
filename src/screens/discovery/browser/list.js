@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 09:47:35
+ * @Last Modified time: 2022-05-29 14:25:20
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import ToolBar from './tool-bar'
 
 const eventList = {
   id: '索引.跳转',
@@ -25,8 +26,6 @@ const eventGrid = {
   }
 }
 
-export default
-@obc
 class List extends React.Component {
   get num() {
     return _.portrait(3, 5)
@@ -60,17 +59,23 @@ class List extends React.Component {
         collection={$.userCollectionsMap[String(item.id).replace('/subject/', '')]}
         event={eventGrid}
         {...item}
+        isCollect={item.collected}
       />
     )
   }
 
   render() {
     const { $ } = this.context
-    const { show, layout } = $.state
-    if (!show) return null
-
+    const { show, layout, fixed } = $.state
     const { _loaded } = $.browser
-    if (!_loaded) return <Loading />
+    if (!_loaded || !show) {
+      return (
+        <>
+          {!fixed && <ToolBar />}
+          <Loading />
+        </>
+      )
+    }
 
     const numColumns = $.isList ? undefined : this.num
     return (
@@ -79,8 +84,9 @@ class List extends React.Component {
         contentContainerStyle={$.isList ? styles.list : styles.grid}
         keyExtractor={keyExtractor}
         numColumns={numColumns}
-        data={$.browser}
+        data={$.list}
         lazy={9}
+        ListHeaderComponent={!fixed && <ToolBar />}
         renderItem={this.renderItem}
         scrollToTop
         onHeaderRefresh={$.onHeaderRefresh}
@@ -90,12 +96,13 @@ class List extends React.Component {
   }
 }
 
+export default obc(List)
+
 const styles = _.create({
   list: {
     paddingBottom: _.bottom
   },
   grid: {
-    paddingTop: _.sm,
     paddingBottom: _.bottom
   }
 })

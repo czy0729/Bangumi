@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 05:05:46
+ * @Last Modified time: 2022-05-30 06:19:05
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -20,7 +20,7 @@ import { memoStyles } from './styles'
 import { Props, RenderListProps, ScrollToFunction } from './types'
 
 export const ListView = observer(
-  class extends React.Component<Props> {
+  class ListViewComponent extends React.Component<Props> {
     static defaultProps = {
       style: undefined,
       keyExtractor: undefined,

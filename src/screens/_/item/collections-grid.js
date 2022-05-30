@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 12:57:44
+ * @Last Modified time: 2022-05-29 14:26:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -122,7 +122,8 @@ const Item = memo(
           {!!(airtime || _collection) && (
             <Text style={_.mt.xs} size={11} type='sub' bold align='center'>
               {airtime}
-              {_collection && ` · ${_collection}`}
+              {!!(airtime && _collection) && ' · '}
+              {_collection}
             </Text>
           )}
           {!!score && (

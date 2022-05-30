@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 02:49:56
+ * @Last Modified time: 2022-05-30 09:07:20
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -14,8 +14,6 @@ import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
 import { tabs } from './store'
 
-export default
-@obc
 class List extends React.Component {
   state = {
     // @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
@@ -95,6 +93,7 @@ class List extends React.Component {
         userCollection={$.label}
         event={event}
         {...item}
+        airtime={item.tip && item.tip.match(/(\d{4})(年|-)/)?.[1]}
       />
     )
   }
@@ -142,6 +141,8 @@ class List extends React.Component {
     return memoStyles()
   }
 }
+
+export default obc(List)
 
 const H_TOOLBAR = 42 * _.ratio
 const memoStyles = _.memoStyles(() => ({

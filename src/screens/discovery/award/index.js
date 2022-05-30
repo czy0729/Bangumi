@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:03:29
+ * @Last Modified time: 2022-05-30 07:41:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -24,8 +24,6 @@ const originWhitelist = ['*']
 const lightContentYears = ['2020', '2016', '2015', '2012', '2011']
 const htmlCache = {}
 
-export default
-@ob
 class Award extends React.Component {
   state = {
     loading: true,
@@ -193,6 +191,8 @@ class Award extends React.Component {
     )
   }
 }
+
+export default ob(Award)
 
 const backgroundColor = 'rgb(0, 0, 0)'
 const styles = StyleSheet.create({

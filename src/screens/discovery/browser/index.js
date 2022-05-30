@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 22:29:39
+ * @Last Modified time: 2022-05-29 14:14:28
  */
 import React from 'react'
 import { Page } from '@components'
@@ -18,15 +18,18 @@ const Browser = (props, { $ }) => {
     $.init()
   })
 
-  return useObserver(() => (
-    <>
-      <Header />
-      <Page>
-        <ToolBar />
-        {$.state._loaded && <List />}
-      </Page>
-    </>
-  ))
+  return useObserver(() => {
+    const { fixed } = $.state
+    return (
+      <>
+        <Header />
+        <Page>
+          {fixed && <ToolBar />}
+          {$.state._loaded && <List />}
+        </Page>
+      </>
+    )
+  })
 }
 
 export default ic(Store, Browser)

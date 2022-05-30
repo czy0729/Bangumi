@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-08 03:03:37
+ * @Last Modified time: 2022-05-30 10:07:40
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -13,7 +13,7 @@ import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import TabBarLeft from './tab-bar-left'
-import ToolBar from './tool-bar'
+import FixedToolBar from './fixed-tool-bar'
 import Label from './label'
 import List from './list'
 import { tabs, H_TABBAR, H_HEADER, H_RADIUS_LINE } from './store'
@@ -46,7 +46,7 @@ class Tab extends React.Component {
                     height: _.parallaxImageHeight + H_TABBAR - _.radiusLg
                   }}
                 />
-                <ToolBar page={index} onToggleList={this.props.onToggleList} />
+                <FixedToolBar page={index} onToggleList={this.props.onToggleList} />
               </>
             }
             scrollEventThrottle={16}
@@ -92,23 +92,26 @@ class Tab extends React.Component {
 
   renderLabel = ({ route, focused }) => <Label title={route.title} focused={focused} />
 
-  renderTabBar = props => (
-    <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
-      <TabBar
-        {...props}
-        style={this.styles.tabBar}
-        tabStyle={this.styles.tab}
-        labelStyle={this.styles.label}
-        indicatorStyle={this.styles.indicator}
-        pressOpacity={1}
-        pressColor='transparent'
-        scrollEnabled
-        renderLabel={this.renderLabel}
-      />
-      <Heatmap right={_.wind + 62} id='我的.标签页切换' transparent />
-      <Heatmap right={_.wind} id='我的.标签页点击' transparent />
-    </Animated.View>
-  )
+  renderTabBar = props => {
+    return (
+      <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
+        <TabBar
+          {...props}
+          style={this.styles.tabBar}
+          tabStyle={this.styles.tab}
+          labelStyle={this.styles.label}
+          indicatorStyle={this.styles.indicator}
+          pressOpacity={1}
+          pressColor='transparent'
+          scrollEnabled
+          renderLabel={this.renderLabel}
+        />
+        <FixedToolBar fixed />
+        <Heatmap right={_.wind + 62} id='我的.标签页切换' transparent />
+        <Heatmap right={_.wind} id='我的.标签页点击' transparent />
+      </Animated.View>
+    )
+  }
 
   render() {
     rerender('User.Tab')

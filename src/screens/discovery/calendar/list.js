@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:34:48
+ * @Last Modified time: 2022-05-29 11:51:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -137,7 +137,7 @@ function renderSectionHeader({ section: { title } }) {
       style={[
         _.container.plain,
         {
-          paddingVertical: _.sm + 2,
+          paddingVertical: _.md,
           paddingLeft: marginLeft
         }
       ]}

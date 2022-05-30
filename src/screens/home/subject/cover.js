@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 05:32:54
+ * @Last Modified time: 2022-05-30 06:54:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,14 +10,11 @@ import { Heatmap } from '@components'
 import { Cover as CompCover } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { getCoverMedium, getCoverLarge } from '@utils/app'
+import { getCoverLarge, matchCoverUrl } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
-import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
 const srcLoaded = {}
 
-export default
-@obc
 class Cover extends React.Component {
   state = {
     isLoaded: false
@@ -37,7 +34,7 @@ class Cover extends React.Component {
     const { $ } = this.context
     const { _imageForce } = $.params
     const { image } = this.props
-    const src = _imageForce || CDN_OSS_SUBJECT(getCoverMedium(image)) || IMG_DEFAULT
+    const src = _imageForce || matchCoverUrl(image) || IMG_DEFAULT
     return src
   }
 
@@ -110,6 +107,8 @@ class Cover extends React.Component {
     return memoStyles()
   }
 }
+
+export default obc(Cover)
 
 const memoStyles = _.memoStyles(() => ({
   container: {

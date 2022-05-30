@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 13:27:22
+ * @Last Modified time: 2022-05-30 08:24:30
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -10,15 +10,23 @@ import { ItemSearch, ItemCollectionsGrid } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor, x18s } from '@utils/app'
-import { info } from '@utils/ui'
 import { TEXT_18X } from '@constants/text'
+import ToolBar from './tool-bar'
 
-const event = {
-  id: '用户标签.跳转'
+const EVENT_LIST = {
+  id: '用户标签.跳转',
+  data: {
+    type: 'list'
+  }
 }
 
-export default
-@obc
+const EVENT_GRID = {
+  id: '用户标签.跳转',
+  data: {
+    type: 'grid'
+  }
+}
+
 class List extends React.Component {
   onHeaderRefresh = () => {
     const { $ } = this.context
@@ -40,7 +48,7 @@ class List extends React.Component {
 
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
-    const { list, hideCollected } = $.state
+    const { list, airtime } = $.state
     const collection = $.userCollectionsMap[String(item.id).replace('/subject/', '')]
     if (list) {
       return (
@@ -48,12 +56,7 @@ class List extends React.Component {
           style={_.container.item}
           navigation={navigation}
           index={index}
-          event={{
-            ...event,
-            data: {
-              type: 'list'
-            }
-          }}
+          event={EVENT_LIST}
           collection={collection}
           {...item}
         >
@@ -67,26 +70,28 @@ class List extends React.Component {
         navigation={navigation}
         style={(_.isPad || _.isLandscape) && !(index % this.num) && _.container.left}
         index={index}
-        event={{
-          ...event,
-          data: {
-            type: 'grid'
-          }
-        }}
+        event={EVENT_GRID}
         collection={collection}
         num={this.num}
         {...item}
+        airtime={airtime === '' && item.tip && item.tip.match(/(\d{4})(年|-)/)?.[1]}
+        isCollect={item.collected}
       />
     )
   }
 
   render() {
     const { $ } = this.context
-    const { hide } = $.state
-    if (hide) return null
-
+    const { hide, fixed } = $.state
     const { _loaded } = $.tag
-    if (!_loaded) return <Loading />
+    if (!_loaded || hide) {
+      return (
+        <>
+          {!fixed && <ToolBar />}
+          <Loading />
+        </>
+      )
+    }
 
     const { list } = $.state
     const numColumns = list ? undefined : this.num
@@ -96,9 +101,10 @@ class List extends React.Component {
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
-        data={$.data}
+        data={$.list}
         scrollToTop
         footerEmptyDataText={x18s($.params.tag) ? TEXT_18X : undefined}
+        ListHeaderComponent={!fixed && <ToolBar />}
         renderItem={this.renderItem}
         onHeaderRefresh={this.onHeaderRefresh}
         onFooterRefresh={this.onFooterRefresh}
@@ -106,3 +112,5 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)

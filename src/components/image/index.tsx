@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 02:30:30
+ * @Last Modified time: 2022-05-30 07:51:03
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -33,7 +33,7 @@ import { Text } from '../text'
 import CompImage from './image'
 import { checkError451, setError451 } from './utils'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import { Props, State } from './types'
 
 /** 默认请求头 */
 const DEFAULT_HEADERS = {
@@ -53,7 +53,7 @@ const OSS_BGM = 'https://lain.bgm.tv'
 const OSS_MEGMA_PREFIX = '/bgm_poster'
 
 export const Image = observer(
-  class extends React.Component<Props> {
+  class ImageComponent extends React.Component<Props, State> {
     static defaultProps = {
       style: undefined,
       imageStyle: undefined,
@@ -101,7 +101,11 @@ export const Image = observer(
       }
 
       await this.cache(src)
-      if (autoSize) this.getSize()
+      if (autoSize) {
+        setTimeout(() => {
+          this.getSize()
+        }, 0)
+      }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -293,21 +297,23 @@ export const Image = observer(
           return
         }
 
-        RNImage.getSize(
-          src,
-          () => {},
-          error => {
-            // magma oss 若 status code 为 451 直接触发失败
-            if (String(error).includes('code=451')) {
-              setError451(src)
-              this.recoveryToBgmCover()
-            } else {
-              setTimeout(() => {
-                this.retry(`${src}?ts=${getTimestamp()}`)
-              }, RETRY_DISTANCE)
+        setTimeout(() => {
+          RNImage.getSize(
+            src,
+            () => {},
+            error => {
+              // magma oss 若 status code 为 451 直接触发失败
+              if (String(error).includes('code=451')) {
+                setError451(src)
+                this.recoveryToBgmCover()
+              } else {
+                setTimeout(() => {
+                  this.retry(`${src}?ts=${getTimestamp()}`)
+                }, RETRY_DISTANCE)
+              }
             }
-          }
-        )
+          )
+        }, 0)
         return
       }
 
@@ -321,6 +327,7 @@ export const Image = observer(
       // 提取原来的封面图片地址
       let s = src.split('/pic/')?.[1] || ''
       if (s) s = s.replace(OSS_MEGMA_PREFIX, '')
+
       this.setState({
         uri: getCoverMedium(`${OSS_BGM}/pic/${s}`)
       })
@@ -506,7 +513,10 @@ export const Image = observer(
       }
 
       if (typeof src === 'string' || typeof src === 'undefined') {
-        if (uri) {
+        // 没有图片占位
+        if (!uri) return <View style={this.computedStyle.image} />
+
+        if (typeof uri === 'string') {
           // IOS使用了CacheManager管理图片, 请求时已加headers, 所以组件就不需要再加了
           if (IOS && imageTransition) {
             return (
@@ -546,9 +556,6 @@ export const Image = observer(
             />
           )
         }
-
-        // 没有图片占位
-        return <View style={this.computedStyle.image} />
       }
 
       // 本地图片

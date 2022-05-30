@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 13:08:16
+ * @Last Modified time: 2022-05-30 08:55:09
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -60,7 +60,8 @@ export default class ScreenUser extends store {
   state = observable({
     subjectType: defaultSubjectType,
     order: defaultOrder,
-    list: true, // list | grid
+    fixed: false,
+    list: true,
     tag: '',
     page: 2, // <Tabs>当前页数
     ...excludeState,
@@ -521,6 +522,15 @@ export default class ScreenUser extends store {
 
     this.setState({
       list: !list
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onToggleFixed = () => {
+    const { fixed } = this.state
+
+    this.setState({
+      fixed: !fixed
     })
     this.setStorage(undefined, undefined, namespace)
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 18:42:11
+ * @Last Modified time: 2022-05-30 08:15:12
  */
 import React from 'react'
 import { Page } from '@components'
@@ -18,15 +18,18 @@ const Tag = (props, { $ }) => {
     $.init()
   })
 
-  return useObserver(() => (
-    <>
-      <Header />
-      <Page>
-        <ToolBar />
-        {$.state._loaded && <List />}
-      </Page>
-    </>
-  ))
+  return useObserver(() => {
+    const { fixed } = $.state
+    return (
+      <>
+        <Header />
+        <Page>
+          {fixed && <ToolBar />}
+          {$.state._loaded && <List />}
+        </Page>
+      </>
+    )
+  })
 }
 
 export default ic(Store, Tag)

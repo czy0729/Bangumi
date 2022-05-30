@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 01:16:33
+ * @Last Modified time: 2022-05-30 10:32:10
  */
 import React from 'react'
 import { Heatmap, ToolBar as CompToolBar } from '@components'
@@ -23,7 +23,7 @@ function ToolBar(props, { $ }) {
             key={item.title}
             data={data}
             text={find.title === '全部' ? item.title : find.title || item.title}
-            type={find.title !== '全部' ? 'main' : 'sub'}
+            type={find.title !== '全部' ? 'desc' : 'sub'}
             onSelect={label => $.onFilterSelect(label, item.data)}
           />
         )

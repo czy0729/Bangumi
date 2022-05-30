@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:15:11
+ * @Last Modified time: 2022-05-30 10:29:21
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -15,8 +15,6 @@ const event = {
   id: '更多角色.跳转'
 }
 
-export default
-@obc
 class List extends React.Component {
   renderItem = ({ item, index }) => {
     const { navigation } = this.context
@@ -44,3 +42,5 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)

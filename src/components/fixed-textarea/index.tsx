@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 20:36:35
+ * @Last Modified time: 2022-05-30 06:18:27
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -32,7 +32,7 @@ type Props = {
 }
 
 export const FixedTextarea = observer(
-  class extends React.Component<Props> {
+  class FixedTextareaComponent extends React.Component<Props> {
     static defaultProps = {
       value: '',
       placeholder: '',

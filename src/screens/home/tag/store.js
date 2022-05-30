@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 13:27:06
+ * @Last Modified time: 2022-05-30 08:20:30
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore } from '@stores'
@@ -18,11 +18,12 @@ const defaultOrder = MODEL_TAG_ORDERBY.getValue('名称')
 export default class ScreenTag extends store {
   state = observable({
     order: defaultOrder,
-    list: true, // list | grid
     airtime: '',
     month: '',
     hide: false, // 用于列表置顶
-    hideCollected: false, // 用于隐藏收藏过的条目
+    list: true,
+    fixed: false,
+    collected: true,
     _loaded: false
   })
 
@@ -70,15 +71,13 @@ export default class ScreenTag extends store {
     return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
   }
 
-  @computed get data() {
-    const { hideCollected } = this.state
-    if (!hideCollected) return this.tag
+  @computed get list() {
+    const { collected } = this.state
+    if (collected) return this.tag
 
     return {
       ...this.tag,
-      list: this.tag.list.filter(
-        item => !this.userCollectionsMap[String(item.id).replace('/subject/', '')]
-      )
+      list: this.tag.list.filter(item => !item.collected)
     }
   }
 
@@ -190,12 +189,21 @@ export default class ScreenTag extends store {
     }, 0)
   }
 
-  onFilterSelect = title => {
-    if (title.includes('隐藏已收藏')) {
-      this.setState({
-        hideCollected: !this.state.hideCollected
-      })
-    }
+  toggleFixed = () => {
+    const { fixed } = this.state
+
+    this.setState({
+      fixed: !fixed
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  toggleCollected = () => {
+    const { collected } = this.state
+
+    this.setState({
+      collected: !collected
+    })
     this.setStorage(undefined, undefined, namespace)
   }
 }

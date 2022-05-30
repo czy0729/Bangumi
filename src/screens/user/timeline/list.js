@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 04:32:37
+ * @Last Modified time: 2022-05-29 12:45:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,7 @@ function List(props, { $ }) {
               </Text>
               {index === 0 && (
                 <Text style={_.ml.sm} size={12} bold>
-                  加入Bangumi
+                  加入 Bangumi
                   <Text type='main' size={12} bold>
                     {' '}
                     {$.days}{' '}

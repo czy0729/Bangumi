@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 05:43:25
+ * @Last Modified time: 2022-05-30 08:36:08
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -106,7 +106,7 @@ class Collection extends store {
     return computed<string[]>(() => {
       const { userCollectionsTags } = this.state
       const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
-      return userCollectionsTags[key] || LIST_EMPTY
+      return userCollectionsTags[key] || []
     }).get()
   }
 

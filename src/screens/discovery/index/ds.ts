@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 10:56:17
+ * @Last Modified time: 2022-05-30 09:58:32
  */
 import { IOS } from '@constants'
 
@@ -74,12 +74,12 @@ const menuMap = {
     icon: 'trophy',
     size: 20
   },
-  Guess: {
-    key: 'Guess',
-    name: '推荐',
-    icon: 'md-favorite-outline',
-    login: true
-  },
+  // Guess: {
+  //   key: 'Guess',
+  //   name: '推荐',
+  //   icon: 'md-favorite-outline',
+  //   login: true
+  // },
   Wiki: {
     key: 'Wiki',
     name: '维基人',

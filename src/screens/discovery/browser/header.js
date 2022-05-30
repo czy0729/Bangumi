@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:04:22
+ * @Last Modified time: 2022-05-29 14:14:37
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import Extra from './extra'
+// import Extra from './extra'
 
 function Header(props, { $ }) {
   return (
@@ -18,7 +18,7 @@ function Header(props, { $ }) {
       hm={[$.url, 'Browser']}
       headerRight={() => (
         <Flex>
-          <Extra $={$} />
+          {/* <Extra $={$} /> */}
           <CompHeader.Popover
             data={['浏览器查看']}
             onSelect={key => {

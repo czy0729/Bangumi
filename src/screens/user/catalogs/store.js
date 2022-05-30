@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 01:03:03
+ * @Last Modified time: 2022-05-30 07:40:05
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore, discoveryStore } from '@stores'
@@ -38,11 +38,7 @@ export default class ScreenCatelogs extends store {
 
     const { page } = this.state
     const { key } = tabs[page]
-    const { _loaded } = this.catalogs(key)
-    if (!_loaded) {
-      return this.fetchCatalogs(key, true)
-    }
-    return true
+    return this.fetchCatalogs(key, true)
   }
 
   // -------------------- fetch --------------------
@@ -63,9 +59,7 @@ export default class ScreenCatelogs extends store {
 
   fetchCatalogDetail = async id => {
     const { _loaded } = discoveryStore.catalogDetail(id)
-    if (_loaded) {
-      return true
-    }
+    if (_loaded) return true
 
     return discoveryStore.fetchCatalogDetail({
       id

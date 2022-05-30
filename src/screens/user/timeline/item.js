@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-26 15:28:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-26 15:53:18
+ * @Last Modified time: 2022-05-29 12:44:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ function Item({ subject, action }, { navigation }) {
                 }}
               />
             </View>
-            <Flex.Item style={_.ml.sm}>
+            <Flex.Item style={_.ml.md}>
               <Flex>
                 <Tag value={action.replace('了', '')} />
                 {!!i.star && <Stars style={_.ml.xs} value={i.star} size={10} />}

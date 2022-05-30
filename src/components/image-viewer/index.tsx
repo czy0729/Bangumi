@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 17:45:06
+ * @Last Modified time: 2022-05-30 06:18:40
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -29,7 +29,7 @@ type Props = {
 const actionSheetDS = ['浏览器打开图片', '取消']
 
 export const ImageViewer = observer(
-  class extends React.Component<Props> {
+  class ImageViewerComponent extends React.Component<Props> {
     static defaultProps = {
       index: 0,
       visible: false,

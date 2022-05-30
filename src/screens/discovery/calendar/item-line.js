@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:36:24
+ * @Last Modified time: 2022-05-29 11:40:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,6 @@ import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
-
-const imgWidth = parseInt(IMG_WIDTH * 1.12)
-const imgHeight = parseInt(IMG_HEIGHT * 1.12)
 
 const defaultProps = {
   navigation: {},
@@ -73,8 +70,8 @@ const ItemLine = memo(
           <>
             <View style={styles.image}>
               <Cover
-                width={imgWidth}
-                height={imgHeight}
+                width={IMG_WIDTH}
+                height={IMG_HEIGHT}
                 src={images.medium}
                 radius
                 shadow
@@ -193,11 +190,11 @@ const memoStyles = _.memoStyles(() => ({
     marginTop: 2
   },
   image: {
-    width: imgWidth
+    width: IMG_WIDTH
   },
   body: {
     width: '100%',
-    height: imgHeight - 4,
+    height: IMG_HEIGHT - 4,
     paddingTop: 2,
     paddingRight: _.wind
   },

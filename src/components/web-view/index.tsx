@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 12:56:54
+ * @Last Modified time: 2022-05-30 06:19:23
  */
 import React from 'react'
 import RNWebView from '@components/@/web-view'
 import { KeyboardSpacer } from '../keyboard-spacer'
 
-export const WebView = class extends React.Component {
+export const WebView = class WebViewComponent extends React.Component {
   ref
   stopLoading = Function.prototype
   reload = Function.prototype

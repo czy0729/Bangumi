@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:21:46
+ * @Last Modified time: 2022-05-30 10:30:38
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -15,8 +15,6 @@ const event = {
   id: '角色.跳转'
 }
 
-export default
-@obc
 class List extends React.Component {
   renderItem = ({ item, index }) => {
     const { navigation } = this.context
@@ -50,3 +48,5 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)

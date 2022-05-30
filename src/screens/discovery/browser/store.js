@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 22:32:41
+ * @Last Modified time: 2022-05-29 14:24:49
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -25,6 +25,8 @@ export default class ScreenBrowser extends store {
     airtime: date.getFullYear(),
     month: date.getMonth() + 1,
     layout: 'list', // list | grid
+    fixed: false,
+    collected: true,
     ...excludeState,
     _loaded: false
   })
@@ -82,6 +84,16 @@ export default class ScreenBrowser extends store {
       }
     }
     return browser
+  }
+
+  @computed get list() {
+    const { collected } = this.state
+    if (collected) return this.browser
+
+    return {
+      ...this.browser,
+      list: this.browser.list.filter(item => !item.collected)
+    }
   }
 
   @computed get url() {
@@ -250,6 +262,24 @@ export default class ScreenBrowser extends store {
 
     this.setState({
       layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  toggleFixed = () => {
+    const { fixed } = this.state
+
+    this.setState({
+      fixed: !fixed
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  toggleCollected = () => {
+    const { collected } = this.state
+
+    this.setState({
+      collected: !collected
     })
     this.setStorage(undefined, undefined, namespace)
   }

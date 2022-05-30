@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:35:33
+ * @Last Modified time: 2022-05-30 06:30:31
  */
 import { ColorValue, ImageProps } from 'react-native'
 import { Override, ViewStyle, ImageStyle, EventType, Source } from '@types'
@@ -86,3 +86,10 @@ export type Props = Override<
     onError?: (arg0?: any) => any
   }
 >
+
+export type State = {
+  error: boolean
+  uri: Source
+  width: number
+  height: number
+}

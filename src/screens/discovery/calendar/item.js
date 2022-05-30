@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:36:39
+ * @Last Modified time: 2022-05-29 11:52:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,16 +83,16 @@ const Item = memo(
           )}
         </View>
         <Touchable style={_.mt.sm} withoutFeedback hitSlop={hitSlop} onPress={onPress}>
-          <Text size={12} bold lineHeight={14} numberOfLines={2}>
+          <Text size={13} bold lineHeight={15} numberOfLines={2}>
             {HTMLDecode(name)}
           </Text>
-          <Flex style={_.mt.xs}>
+          <Flex style={_.mt.sm}>
             {!!air && (
               <Text style={_.mr.xs} size={11} type='sub' bold>
-                更新至第{air}话
+                第{air}话
               </Text>
             )}
-            {showScore && <Stars simple value={score} />}
+            {showScore && <Stars value={score} simple />}
           </Flex>
           {!!collection && (
             <Flex style={_.mt.sm}>

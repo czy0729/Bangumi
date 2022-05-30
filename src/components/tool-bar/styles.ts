@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 13:06:55
+ * @Last Modified time: 2022-05-29 14:04:44
  */
 import { _ } from '@stores'
 
@@ -19,8 +19,20 @@ export const memoStyles = _.memoStyles(() => ({
   },
   item: {
     minWidth: 40,
-    height: _.device(30, 44),
+    height: 30,
     paddingHorizontal: 16,
+    backgroundColor: _.select('rgba(238, 238, 238, 0.8)', _._colorDarkModeLevel1),
+    borderRadius: _.radiusMd
+  },
+  iconTouch: {
+    minWidth: 32,
+    marginHorizontal: _.xs,
+    borderRadius: 28,
+    overflow: 'hidden'
+  },
+  iconItem: {
+    minWidth: 32,
+    height: 30,
     backgroundColor: _.select('rgba(238, 238, 238, 0.8)', _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
   },

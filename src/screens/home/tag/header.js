@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 18:36:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:11:07
+ * @Last Modified time: 2022-05-30 07:56:41
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -15,7 +15,7 @@ function Header(props, { $ }) {
   const { type, tag } = $.params
   return (
     <CompHeader
-      title={`${MODEL_SUBJECT_TYPE.getTitle(type)}标签 ${tag}`}
+      title={tag || `${MODEL_SUBJECT_TYPE.getTitle(type)}标签`}
       alias='用户标签'
       hm={[$.url, 'Tag']}
       headerRight={() => (
