@@ -71,6 +71,23 @@ v6.4.0 - 2022/05/30
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
+## Preview
+
+![a1](https://user-images.githubusercontent.com/13514316/171143439-5e9c6c22-889d-4774-8c66-4316294d5019.png)
+![a2](https://user-images.githubusercontent.com/13514316/171143470-a982f725-2b86-4c8a-b1a3-f3a3b2b13060.png)
+![a3](https://user-images.githubusercontent.com/13514316/171143473-6589f342-9ff3-4f56-b2e4-9d6e1dfd15ca.png)
+![a4](https://user-images.githubusercontent.com/13514316/171143476-98756d3c-584e-44e4-bf4c-45c7ad9559d7.png)
+![a5](https://user-images.githubusercontent.com/13514316/171143480-a34e08ad-39f5-48fe-b362-73e25e190ef1.png)
+![a6](https://user-images.githubusercontent.com/13514316/171143482-215bc573-6701-4c60-b6dd-3185f0ce93dc.png)
+
+## 免责声明
+
+- 本项目所有数据信息均来自各种网站，不提供任何形式的媒体下载、直接播放和修改功能
+- 本项目承诺不保存任何第三方用户信息
+- 本项目代码仅供学习交流，不得用于商业用途，若侵权请联系
+
+---
+
 ## PowerBy
 
 [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) [[Bangumi-Subject]](https://github.com/czy0729/Bangumi-Subject) 条目快照
@@ -92,26 +109,6 @@ v6.4.0 - 2022/05/30
 [[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
 
 [[bangumi-api]](https://github.com/bangumi/api) 官方接口
-
-## Preview
-
-#### 基础功能
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/1.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/1.jpg" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/2.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/2.jpg" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/3.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/3.jpg" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/4.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/4.jpg" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/5.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/5.jpg" width="100%" />
-
-#### 小圣杯（角色模拟炒股）模块
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/6.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/6.jpg" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/7.jpg" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210622/data/screenshot/4.13.0/7.jpg" width="100%" />
-
-（被墙看不见图的可以复制 alt 打开）
-
-## 免责声明
-
-- 本项目所有数据信息均来自各种网站，不提供任何形式的媒体下载、直接播放和修改功能
-- 本项目承诺不保存任何第三方用户信息
-- 本项目代码仅供学习交流，不得用于商业用途，若侵权请联系
-
----
 
 ## 本地开发
 
