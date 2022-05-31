@@ -1,4 +1,4 @@
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
+![header](https://user-images.githubusercontent.com/13514316/171255663-09a03272-4298-47df-94e1-83661169f26f.png)
 
 <p align="center">
   <img alt="release" src="https://img.shields.io/github/v/release/czy0729/Bangumi" />
