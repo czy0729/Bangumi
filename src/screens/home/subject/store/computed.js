@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 22:32:54
+ * @Last Modified time: 2022-05-31 08:23:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -498,13 +498,26 @@ export default class Computed extends State {
   }
 
   /**
-   * 上映时间
+   * 上映时间 (用于标识未上映)
    */
   @computed get release() {
     return (
       this.info.match(
-        /<li><span>(发售日|放送开始|上映年度|上映时间|开始): <\/span>(.+?)<\/li>/
+        /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
       )?.[2] || ''
+    )
+  }
+
+  /**
+   * 发布时间 (用于显示在 title label)
+   */
+  @computed get year() {
+    return (
+      (
+        this.info.match(
+          /<li><span>(发售日|放送开始|上映年度|上映时间|开始|发行日期|连载开始): <\/span>(.+?)<\/li>/
+        )?.[2] || ''
+      ).match(/(\d{4})/)?.[0] || ''
     )
   }
 
@@ -804,7 +817,8 @@ export default class Computed extends State {
         String(bangumiInfo.type).toUpperCase() ||
         label ||
         'TV'
-      if (_label === 'MOVIE') return '剧场版'
+      if (_label === '动画') return 'TV'
+      if (_label === '剧场版') return 'MOVIE'
       return _label || ''
     }
 

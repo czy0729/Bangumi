@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 11:52:23
+ * @Last Modified time: 2022-05-31 08:19:06
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
-import { Flex, Text, Katakana, Heatmap } from '@components'
+import { Flex, Text, Heatmap } from '@components'
 import { ScoreTag, Tag } from '@_'
 import { _, systemStore } from '@stores'
 import { toFixed, cnjp, getTimestamp } from '@utils'
@@ -26,6 +26,7 @@ const defaultProps = {
   cn: '',
   jp: '',
   release: '',
+  year: '',
   coverPlaceholder: '',
   imageWidth: 0,
   imageHeight: 0,
@@ -46,6 +47,7 @@ const Head = memo(
     cn,
     jp,
     release,
+    year,
     coverPlaceholder,
     imageWidth,
     imageHeight,
@@ -83,8 +85,11 @@ const Head = memo(
       showRelease = true
     }
 
-    let tops = [top]
-    const year = String(release).match(/(\d{4})/)?.[0] || ''
+    const maxLen = 28
+    let tops = [
+      `${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`
+    ]
+
     if (year) tops.push(year)
     if (titleLabel) tops.push(titleLabel)
     tops = tops.join(' · ')
@@ -131,23 +136,18 @@ const Head = memo(
           >
             <View>
               {!!top && (
-                <Katakana.Provider
+                <Text
+                  type='sub'
                   size={topSize}
-                  itemStyle={styles.katakana}
+                  lineHeight={topSize + 1}
                   numberOfLines={2}
+                  onLongPress={() => {
+                    Clipboard.setString(top)
+                    info(`已复制 ${top}`)
+                  }}
                 >
-                  <Katakana
-                    type='sub'
-                    size={topSize}
-                    numberOfLines={2}
-                    onLongPress={() => {
-                      Clipboard.setString(top)
-                      info(`已复制 ${top}`)
-                    }}
-                  >
-                    {tops}
-                  </Katakana>
-                </Katakana.Provider>
+                  {tops}
+                </Text>
               )}
               {!subjectSeries && (
                 <Text
@@ -199,6 +199,7 @@ export default obc((props, { $ }) => {
       cn={$.cn}
       jp={$.jp}
       release={$.release}
+      year={$.year}
       coverPlaceholder={$.coverPlaceholder}
       imageWidth={$.imageWidth}
       imageHeight={$.imageHeight}

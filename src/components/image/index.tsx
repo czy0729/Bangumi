@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 07:51:03
+ * @Last Modified time: 2022-05-31 14:26:19
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -28,6 +28,7 @@ import { t } from '@utils/fetch'
 import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT, TEXT_ONLY } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import { Touchable } from '../touchable'
+import { Iconfont } from '../iconfont'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import CompImage from './image'
@@ -159,7 +160,7 @@ export const Image = observer(
 
             // 空地址不作处理
             if (_src === 'https:') {
-              this.onError()
+              this.comitError()
               return false
             }
 
@@ -169,7 +170,7 @@ export const Image = observer(
              * @issue to fixed
              */
             if (typeof _src === 'string' && _src.includes('https:/img/')) {
-              this.onError()
+              this.comitError()
               return false
             }
 
@@ -188,9 +189,10 @@ export const Image = observer(
               _src.includes(OSS_MEGMA_PREFIX) &&
               path === undefined
             ) {
-              setTimeout(() => {
-                this.retry(src)
-              }, RETRY_DISTANCE)
+              // setTimeout(() => {
+              //   this.retry(src)
+              // }, RETRY_DISTANCE)
+              this.onError()
             } else {
               this.setState({
                 uri: path || _src
@@ -291,28 +293,52 @@ export const Image = observer(
      */
     onError = async () => {
       const { src } = this.props
-      if (!IOS && typeof src === 'string' && src.includes(OSS_MEGMA_PREFIX)) {
+      if (
+        typeof src === 'string' &&
+        src.includes(OSS_MEGMA_PREFIX) &&
+        this.errorCount < MAX_ERROR_COUNT
+      ) {
         if (checkError451(src)) {
           this.recoveryToBgmCover()
           return
         }
 
         setTimeout(() => {
-          RNImage.getSize(
-            src,
-            () => {},
-            error => {
-              // magma oss 若 status code 为 451 直接触发失败
-              if (String(error).includes('code=451')) {
-                setError451(src)
-                this.recoveryToBgmCover()
-              } else {
-                setTimeout(() => {
-                  this.retry(`${src}?ts=${getTimestamp()}`)
-                }, RETRY_DISTANCE)
+          if (IOS) {
+            const that = this
+            const request = new XMLHttpRequest()
+            request.withCredentials = false
+            request.onreadystatechange = function () {
+              if (this.readyState === 4) {
+                if (this.status === 451) {
+                  setError451(src)
+                  that.recoveryToBgmCover()
+                } else {
+                  setTimeout(() => {
+                    that.retry(`${src}?ts=${getTimestamp()}`)
+                  }, RETRY_DISTANCE)
+                }
               }
             }
-          )
+            request.open('get', src, true)
+            request.send(null)
+          } else {
+            RNImage.getSize(
+              src,
+              () => {},
+              error => {
+                // magma oss 若 status code 为 451 直接触发失败
+                if (String(error).includes('code=451')) {
+                  setError451(src)
+                  this.recoveryToBgmCover()
+                } else {
+                  setTimeout(() => {
+                    this.retry(`${src}?ts=${getTimestamp()}`)
+                  }, RETRY_DISTANCE)
+                }
+              }
+            )
+          }
         }, 0)
         return
       }
@@ -502,13 +528,15 @@ export const Image = observer(
       const { imageTransition } = systemStore.setting
       if (error) {
         // 错误显示本地的错误提示图片
+        const size = this.props.size || this.props.width || 80
         return (
-          <CompImage
-            style={[this.computedStyle.image, this.styles.error]}
-            source={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
-            fadeDuration={this.fadeDuration}
-            {...other}
-          />
+          <Flex style={[this.computedStyle.image, this.styles.error]} justify='center'>
+            <Iconfont
+              style={this.styles.errorIcon}
+              name='md-do-not-disturb-alt'
+              size={size / 2.4}
+            />
+          </Flex>
         )
       }
 

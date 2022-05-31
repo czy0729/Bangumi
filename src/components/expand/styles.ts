@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:39:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 09:23:34
+ * @Last Modified time: 2022-05-31 11:26:59
  */
 import { _ } from '@stores'
 
@@ -25,7 +25,7 @@ export const styles = _.create({
   },
   more: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 10,
     right: 0,
     bottom: -_.md,
     left: 0,

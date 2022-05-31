@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 06:11:35
+ * @Last Modified time: 2022-05-31 11:27:10
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
-import { Flex, Katakana, Text, Iconfont, Touchable } from '@components'
+import { Flex, Katakana, Text, Iconfont, Touchable, Expand } from '@components'
 import { _, timelineStore } from '@stores'
 import { getTimestamp, appNavigate, findSubjectCn, getCoverMedium } from '@utils'
 import { matchUserId } from '@utils/match'
@@ -252,9 +252,11 @@ const Item = memo(
             </View>
           )}
           {!!(comment || replyContent || replyCount) && (
-            <Text style={_.mt.sm} lineHeight={20}>
-              {comment || replyContent || replyCount}
-            </Text>
+            <View style={_.mt.sm}>
+              <Expand moreStyle={styles.more} ratio={0.64}>
+                <Text lineHeight={20}>{comment || replyContent || replyCount}</Text>
+              </Expand>
+            </View>
           )}
         </>
       )
@@ -508,6 +510,9 @@ const memoStyles = _.memoStyles(() => ({
   extra: {
     width: 36,
     height: 36
+  },
+  more: {
+    paddingHorizontal: 0
   }
 }))
 
