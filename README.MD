@@ -1,4 +1,4 @@
-![header](https://user-images.githubusercontent.com/13514316/171256452-d24f86fa-47bc-4312-be27-b9f5717f5913.png)
+![header](https://user-images.githubusercontent.com/13514316/171256692-e131a6ca-a8e7-47c6-aef0-7a195d2820a9.png)
 
 <p align="center">
   <img alt="release" src="https://img.shields.io/github/v/release/czy0729/Bangumi" />
