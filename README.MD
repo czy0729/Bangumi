@@ -23,7 +23,7 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 ## Download
 
-[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642)
+[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases)
 
 Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互斥，只能建议之前使用此渠道的用户卸载后使用其他渠道
 
