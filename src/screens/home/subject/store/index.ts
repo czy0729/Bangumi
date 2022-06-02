@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 19:57:43
+ * @Last Modified time: 2022-06-02 05:50:29
  */
 import { userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -14,7 +14,7 @@ import { queue } from '@utils/fetch'
 import Action from './action'
 import { EXCLUDE_STATE } from './ds'
 
-export default class ScreenSubject extends Action {
+class ScreenSubject extends Action {
   /**
    * 初始化
    */
@@ -36,7 +36,7 @@ export default class ScreenSubject extends Action {
 
       return true
     } catch (error) {
-      warn('Subject', 'init', error)
+      console.error('Subject', 'init', error)
 
       this.setState({
         ...EXCLUDE_STATE,
@@ -73,3 +73,5 @@ export default class ScreenSubject extends Action {
     return data
   }
 }
+
+export default ScreenSubject

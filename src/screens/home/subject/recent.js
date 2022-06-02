@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-26 16:06:31
+ * @Last Modified time: 2022-06-02 15:27:17
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
-import { SectionTitle, Avatar, Stars } from '@_'
+import { SectionTitle, Avatar, Stars, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
@@ -75,14 +75,10 @@ const Recent = memo(
                 </Flex>
               ))}
             </ScrollView>
-            <Heatmap
-              id='条目.跳转'
-              data={{
-                from: '用户动态'
-              }}
-            />
+            <Heatmap id='条目.跳转' from='用户动态' />
           </>
         )}
+        <PreventTouchPlaceholder />
       </View>
     )
   },

@@ -2,10 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 20:54:21
+ * @Last Modified time: 2022-06-02 05:24:18
  */
+
+/** 唯一命名空间 */
 export const NAMESPACE = 'ScreenSubject'
 
+/** 分数数据结构 */
 export const INIT_RATING = {
   count: {
     1: 0,
@@ -23,17 +26,31 @@ export const INIT_RATING = {
   total: ''
 }
 
+/** 页面 store 初始化后需要还原的 state */
 export const EXCLUDE_STATE = {
-  visible: false, // 是否显示管理模态框
-  folder: false, // 是否显示目录管理模态框
+  /** 是否显示管理模态框 */
+  visible: false,
+
+  /** 是否显示目录管理模态框 */
+  folder: false,
+
+  /** 页面是否渲染完毕 */
   rendered: false,
 
-  chap: '', // 书籍章
-  vol: '', // 卷
-  translateResult: [], // 翻译缓存
-  discTranslateResult: [] // 曲目名字翻译缓存
+  /** 书籍章 */
+  chap: '',
+
+  /** 书籍卷 */
+  vol: '',
+
+  /** 翻译缓存 */
+  translateResult: [],
+
+  /** 曲目名字翻译缓存 */
+  discTranslateResult: []
 }
 
+/** 关联模块排序优先级 (按描述) */
 export const SORT_RELATION_DESC = {
   动画: 110,
   续集: 100,

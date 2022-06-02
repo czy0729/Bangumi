@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 15:30:57
+ * @Last Modified time: 2022-06-02 15:49:12
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { desc } from '@utils'
-import { findSubjectCn } from '@utils/app'
+import { desc, findSubjectCn } from '@utils'
 import { ob } from '@utils/decorators'
-import { Cover } from './cover'
-import { PreventTouchPlaceholder } from './prevent-touch-placeholder'
+import { Cover } from '../cover'
+import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
 const hitSlop = {
   top: _.device(3, 4),
@@ -22,7 +23,7 @@ const hitSlop = {
 }
 
 export const HorizontalList = ob(
-  class extends React.Component {
+  class HorizontalListComponent extends React.Component<Props> {
     static defaultProps = {
       data: [],
       width: 60,
@@ -176,13 +177,3 @@ export const HorizontalList = ob(
     }
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingVertical: 4,
-    paddingHorizontal: _.wind
-  },
-  actor: {
-    marginRight: 3
-  }
-}))

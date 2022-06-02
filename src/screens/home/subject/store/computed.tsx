@@ -1,8 +1,9 @@
+// @ts-nocheck
 /*
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-31 08:23:09
+ * @Last Modified time: 2022-06-02 05:45:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,31 +42,23 @@ import State from './state'
 import { NAMESPACE, INIT_RATING, SORT_RELATION_DESC } from './ds'
 
 export default class Computed extends State {
-  /**
-   * 条目唯一Id
-   */
+  /** 条目唯一Id */
   @computed get subjectId() {
     const { subjectId } = this.params
     return subjectId
   }
 
-  /**
-   * 命名空间
-   */
+  /** 页面唯一命名空间 */
   @computed get namespace() {
     return `${NAMESPACE}|${this.subjectId}`
   }
 
-  /**
-   * 是否敏感条目
-   */
+  /** 是否敏感条目 */
   @computed get x18() {
     return x18(this.subjectId, this.cn || this.jp)
   }
 
-  /**
-   * 用户自定义播放信息
-   */
+  /** 用户自定义播放信息 */
   @computed get onAirCustom() {
     return getOnAir(
       calendarStore.onAir[this.subjectId],
@@ -73,75 +66,50 @@ export default class Computed extends State {
     )
   }
 
-  /**
-   * 屏蔽默认头像用户相关信息
-   */
+  /** 屏蔽默认头像用户相关信息 */
   @computed get filterDefault() {
     const { filterDefault } = systemStore.setting
     return filterDefault
   }
 
-  /**
-   * 是否显示吐槽
-   */
+  /** 是否显示吐槽 */
   @computed get showComment() {
     const { showComment } = systemStore.setting
     return showComment
   }
 
-  /**
-   * 不显示吐槽块的空占位组件
-   */
+  /** 不显示吐槽块的空占位组件 */
   @computed get footerEmptyDataComponent() {
     if (this.showComment === -1) return <View />
     return undefined
   }
 
-  /**
-   * bgm网址
-   */
+  /** bgm网址 */
   @computed get url() {
     return `${HOST}/subject/${this.subjectId}`
   }
 
-  /**
-   * 是否登录
-   */
+  /** 是否登录 */
   @computed get isLogin() {
     return userStore.isLogin
   }
 
-  /**
-   * 用户id
-   */
+  /** 用户id */
   @computed get userId() {
     return userStore.userInfo.id
   }
 
-  /**
-   * 条目信息
-   */
+  /** 条目信息 */
   @computed get subject() {
     return subjectStore.subject(this.subjectId)
   }
 
-  /**
-   * [废弃]柠萌瞬间ep数据
-   */
-  @computed get ningMoeDetail() {
-    return discoveryStore.ningMoeDetail(this.subjectId)
-  }
-
-  /**
-   * 条目信息(来自网页)
-   */
+  /** 条目信息 (来自网页) */
   @computed get subjectFormHTML() {
     return subjectStore.subjectFormHTML(this.subjectId)
   }
 
-  /**
-   * 条目CDN自维护数据
-   */
+  /** 条目 CDN 自维护数据 */
   @computed get subjectFormCDN() {
     return subjectStore.subjectFormCDN(this.subjectId)
   }
@@ -197,16 +165,12 @@ export default class Computed extends State {
     return subjectComments
   }
 
-  /**
-   * 条目收藏信息
-   */
+  /** 条目收藏信息 */
   @computed get collection() {
     return collectionStore.collection(this.subjectId)
   }
 
-  /**
-   * 用户章节记录
-   */
+  /** 用户章节记录 */
   @computed get userProgress() {
     return userStore.userProgress(this.subjectId)
   }
@@ -240,12 +204,8 @@ export default class Computed extends State {
    * 章节正版播放源
    */
   @computed get onlinePlayActionSheetData() {
-    const data = []
-    if (this.ningMoeDetail.id) {
-      // data.push('柠萌瞬间')
-    }
-
     const { epsData } = this.state
+    const data = []
     SITES.forEach(item => {
       if (epsData[item] && Object.keys(epsData[item]).length) {
         data.push(item)

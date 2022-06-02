@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 08:56:51
+ * @Last Modified time: 2022-06-02 15:49:26
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -174,20 +174,17 @@ export function navigationReference(navigation?: Navigation | undefined) {
   return _navigationReference
 }
 
+const cache = {}
+
 /**
  * 查找条目中文名
  * @param {*} jp
  * @param {*} subjectId
  */
-const cache = {}
-export function findSubjectCn(jp = '', subjectId) {
-  if (!getSetting()?.cnFirst) {
-    return jp
-  }
+export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
+  if (!getSetting()?.cnFirst) return jp
 
-  if (cache[jp]) {
-    return cache[jp]
-  }
+  if (cache[jp]) return cache[jp]
 
   /**
    * @deprecated [已废弃] 若带id使用本地SUBJECT_CN加速查找

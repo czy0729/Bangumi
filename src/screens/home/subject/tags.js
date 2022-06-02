@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:17:02
+ * @Last Modified time: 2022-06-02 15:29:03
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
-import { SectionTitle } from '@_'
+import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -174,12 +174,7 @@ const Tags = memo(
             {expand ? (
               <View style={[_.container.wind, _.mt.sm]}>
                 <Flex wrap='wrap'>{elTags}</Flex>
-                <Heatmap
-                  id='条目.跳转'
-                  data={{
-                    from: '标签'
-                  }}
-                />
+                <Heatmap id='条目.跳转' from='标签' />
               </View>
             ) : (
               <ScrollView
@@ -204,6 +199,7 @@ const Tags = memo(
             </Touchable>
           </View>
         )}
+        <PreventTouchPlaceholder />
       </View>
     )
   },

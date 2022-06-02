@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:22
+ * @Last Modified time: 2022-06-02 15:29:29
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Touchable, Flex, Image, Text, Iconfont } from '@components'
-import { SectionTitle } from '@_'
+import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
@@ -20,8 +20,6 @@ import IconHidden from './icon/hidden'
 const thumbWidth = 160 * _.ratio
 const thumbHeight = thumbWidth * 0.56
 
-export default
-@obc
 class Game extends React.Component {
   state = {
     scrolled: false
@@ -190,10 +188,13 @@ class Game extends React.Component {
             {this.renderDetails()}
           </>
         )}
+        <PreventTouchPlaceholder />
       </View>
     )
   }
 }
+
+export default obc(Game)
 
 const styles = _.create({
   image: {

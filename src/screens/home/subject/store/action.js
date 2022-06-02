@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 11:27:24
+ * @Last Modified time: 2022-06-02 05:40:34
  */
 import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
 import { open, copy, asc } from '@utils'
@@ -11,7 +11,7 @@ import { appNavigate, getBangumiUrl, getCoverMedium, cnjp } from '@utils/app'
 import { feedback, info, showActionSheet, loading } from '@utils/ui'
 import { find as findAnime } from '@utils/subject/anime'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { HOST_NING_MOE, SITES } from '@constants'
+import { SITES } from '@constants'
 import { MODEL_EP_STATUS } from '@constants/model'
 import {
   SITE_AGEFANS,
@@ -513,44 +513,31 @@ export default class Action extends Fetch {
             const isSp = item.type === 1
             let url
 
-            if (this.onlinePlayActionSheetData[index] === '柠萌瞬间') {
-              // @notice 像一拳超人第二季这种 要处理EP偏移
+            // @todo 逻辑比较复杂, 暂时不处理EP偏移
+            const { epsData } = this.state
+            const { eps = [] } = this.subject
+            const site = this.onlinePlayActionSheetData[index]
+            let epIndex
+            if (SITES.includes(site)) {
               if (isSp) {
-                url = `${HOST_NING_MOE}/detail?line=1&eps=1&bangumi_id=${this.ningMoeDetail.id}`
+                url = getBangumiUrl({
+                  id: item.id,
+                  site
+                })
               } else {
-                url = `${HOST_NING_MOE}/detail?line=1&eps=${
-                  item.sort - this.ningMoeEpOffset
-                }&bangumi_id=${this.ningMoeDetail.id}`
-              }
-            } else {
-              // @todo 逻辑比较复杂, 暂时不处理EP偏移
-              const { epsData } = this.state
-              const { eps = [] } = this.subject
-              const site = this.onlinePlayActionSheetData[index]
-              let epIndex
-              if (SITES.includes(site)) {
-                if (isSp) {
-                  url = getBangumiUrl({
+                epIndex = eps
+                  .filter(item => item.type === 0)
+                  .findIndex(i => i.id === item.id)
+                url =
+                  epsData[site][epIndex] ||
+                  getBangumiUrl({
                     id: item.id,
                     site
                   })
-                } else {
-                  epIndex = eps
-                    .filter(item => item.type === 0)
-                    .findIndex(i => i.id === item.id)
-                  url =
-                    epsData[site][epIndex] ||
-                    getBangumiUrl({
-                      id: item.id,
-                      site
-                    })
-                }
               }
             }
 
-            if (url) {
-              open(url)
-            }
+            if (url) open(url)
           })
         }, 320)
 

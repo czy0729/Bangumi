@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:47:11
+ * @Last Modified time: 2022-06-02 15:20:21
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
-import { SectionTitle, Cover } from '@_'
+import { SectionTitle, Cover, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { memo, obc } from '@utils/decorators'
@@ -97,6 +97,7 @@ const Catalog = memo(
             </View>
           </>
         )}
+        <PreventTouchPlaceholder />
       </View>
     )
   },

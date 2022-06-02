@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:08:34
+ * @Last Modified time: 2022-06-02 05:37:59
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -19,69 +19,69 @@ import { radiusMd } from '@styles'
 export const NAMESPACE = 'System'
 
 // -------------------- init --------------------
+type LayoutValue = true | false | -1
+
 /** 条目页面: true 显示 | false 折叠 | -1 永久隐藏 */
-export const INIT_SUBJECT_LAYOUT: {
-  [key: string]: true | false | -1
-} = {
+export const INIT_SUBJECT_LAYOUT = {
   /** 其他用户收藏数量 */
-  showCount: true,
+  showCount: true as LayoutValue,
 
   /** 进度输入框 */
-  showEpInput: true,
+  showEpInput: true as LayoutValue,
 
   /** 自定义放送时间块 */
-  showCustomOnair: true,
+  showCustomOnair: true as LayoutValue,
 
   /** 页面头部关系 */
-  showRelation: true,
+  showRelation: true as LayoutValue,
 
   /** 本地目录信息 */
-  showSMB: true,
+  showSMB: true as LayoutValue,
 
   /** 页面标签 */
-  showTags: true,
+  showTags: true as LayoutValue,
 
   /** 简介 */
-  showSummary: true,
+  showSummary: true as LayoutValue,
 
   /** 简介 */
-  showInfo: true,
+  showInfo: true as LayoutValue,
 
   /** 预览图 */
-  showThumbs: true,
+  showThumbs: true as LayoutValue,
 
   /** 游戏条目游戏更多信息 */
-  showGameInfo: true,
+  showGameInfo: true as LayoutValue,
 
   /** 评分 */
-  showRating: true,
+  showRating: true as LayoutValue,
 
   /** 角色 */
-  showCharacter: true,
+  showCharacter: true as LayoutValue,
 
   /** 制作人员 */
-  showStaff: true,
+  showStaff: true as LayoutValue,
 
   /** 关联 */
-  showRelations: true,
+  showRelations: true as LayoutValue,
 
   /** 目录 */
-  showCatalog: false,
+  showCatalog: false as LayoutValue,
 
   /** 动态 */
-  showRecent: false,
+  showRecent: false as LayoutValue,
 
   /** 日志 */
-  showBlog: false,
+  showBlog: false as LayoutValue,
 
   /** 帖子 */
-  showTopic: false,
+  showTopic: false as LayoutValue,
 
   /** 猜你喜欢 */
-  showLike: false,
+  showLike: false as LayoutValue,
 
   /** 吐槽 */
-  showComment: true
+  showComment: true as LayoutValue
 }
 
 /** 默认设置 */

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 12:05:32
+ * @Last Modified time: 2022-06-02 15:20:32
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Image, Flex, Text, Iconfont, Heatmap } from '@components'
-import { SectionTitle } from '@_'
+import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'
@@ -127,6 +127,7 @@ class Thumbs extends React.Component {
             />
           </Flex>
         )}
+        <PreventTouchPlaceholder />
         <Heatmap id='条目.预览' />
       </View>
     )

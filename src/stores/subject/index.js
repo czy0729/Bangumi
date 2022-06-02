@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 15:47:06
+ * @Last Modified time: 2022-06-02 05:43:38
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -277,6 +277,12 @@ class Subject extends store {
         this.state?.[`subjectFormHTML${last}`]?.[subjectId] ||
         INIT_SUBJECT_FROM_HTML_ITEM
       )
+    }).get()
+  }
+
+  subjectFormCDN(subjectId) {
+    return computed(() => {
+      return this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM
     }).get()
   }
 
