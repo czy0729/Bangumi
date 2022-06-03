@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-31 08:19:06
+ * @Last Modified time: 2022-06-03 17:00:32
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -62,14 +62,6 @@ const Head = memo(
     const bottom = cnjp(cn, jp)
 
     const { images = {} } = subject
-    const hasRelation = !!(subjectPrev || subjectAfter || subjectSeries)
-
-    // 主标题大小
-    let size =
-      (cn.length > 32 ? 10 : cn.length > 24 ? 11 : cn.length > 16 ? 13 : 16) +
-      (PAD === 2 ? 4 : 2)
-
-    if (showRelation && hasRelation) size = Math.max(11, size - 2)
 
     // 是否未上映
     let showRelease
@@ -100,6 +92,15 @@ const Head = memo(
     } else if (tops.length >= 22) {
       topSize = 12
     }
+
+    const hasRelation = !!(subjectPrev || subjectAfter || subjectSeries)
+
+    // 主标题大小
+    let size =
+      (cn.length > 32 ? 11 : cn.length > 24 ? 12 : cn.length > 16 ? 13 : 16) +
+      (PAD === 2 ? 4 : 2)
+
+    if (showRelation && hasRelation) size = Math.max(11, size - 2)
 
     const left = imageWidth + _.wind + _.device(12, 20)
     return (
@@ -139,7 +140,6 @@ const Head = memo(
                 <Text
                   type='sub'
                   size={topSize}
-                  lineHeight={topSize + 1}
                   numberOfLines={2}
                   onLongPress={() => {
                     Clipboard.setString(top)
@@ -153,6 +153,7 @@ const Head = memo(
                 <Text
                   style={!!bottom && _.mt.xs}
                   size={size}
+                  lineHeight={size + 1}
                   bold
                   onLongPress={() => {
                     Clipboard.setString(bottom)

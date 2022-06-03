@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-11 11:01:42
+ * @Last Modified time: 2022-06-03 17:26:00
  */
 import React from 'react'
 import { Page, Heatmap } from '@components'
@@ -32,10 +32,10 @@ const Subject = (props, { $ }) => {
     })
   })
 
-  const { y, fixed, onScroll } = useOnScroll()
+  const { fixed, onScroll } = useOnScroll()
   return useObserver(() => (
     <>
-      <Header y={y} fixed={fixed} />
+      <Header fixed={fixed} />
       <Page>
         {IOS && <Bg />}
         <List onScroll={onScroll} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 01:27:49
+ * @Last Modified time: 2022-06-03 17:30:27
  */
 import React, { useState, useRef, useCallback } from 'react'
 import { Page, Loading } from '@components'
@@ -29,7 +29,7 @@ const preRenderIndex = 8
 
 const Topic = (props, { $ }) => {
   const isFocused = useIsFocused()
-  const { y, fixed, onScroll } = useOnScroll()
+  const { fixed, onScroll } = useOnScroll()
   const [rendered, setRendered] = useState(false)
   const listViewRef = useRef(null)
   const fixedTextareaRef = useRef(null)
@@ -175,7 +175,7 @@ const Topic = (props, { $ }) => {
   return useObserver(() => {
     return (
       <>
-        <Header y={y} fixed={fixed} />
+        <Header fixed={fixed} />
         <Page>
           <List
             listViewRef={listViewRef}

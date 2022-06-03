@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 23:22:31
+ * @Last Modified time: 2022-06-03 17:26:50
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -14,13 +14,12 @@ import { info } from '@utils/ui'
 import HeaderTitle from './header-title'
 import IconShare from './icon/share'
 
-function Header({ y, fixed }, { $, navigation }) {
+function Header({ fixed }, { $, navigation }) {
   const color = _.isDark || !fixed ? '#fff' : '#000'
   return (
     <CompHeader
       mode='transition'
       statusBarEventsType='Subject'
-      y={y}
       fixed={fixed}
       title='条目'
       hm={[$.url, 'Subject']}

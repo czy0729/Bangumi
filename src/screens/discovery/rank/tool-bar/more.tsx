@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:18:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 14:50:52
+ * @Last Modified time: 2022-06-04 06:05:03
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -14,10 +14,10 @@ function More(props, { $ }) {
   return (
     <ToolBar.Popover
       data={[
-        `工具栏 · ${fixed ? '固定' : '浮动'}`,
-        `布　局 · ${list ? '列表' : '网格'}`,
-        `收　藏 · ${collected ? '显示' : '隐藏'}`,
-        `分　页 · ${fixedPagination ? '固定' : '浮动'}`
+        `布局（${list ? '列表' : '网格'}）`,
+        `筛选（${fixed ? '固定' : '浮动'}）`,
+        `分页（${fixedPagination ? '固定' : '浮动'}）`,
+        `收藏（${collected ? '显示' : '隐藏'}）`
       ]}
       icon='md-more-vert'
       iconColor={_.colorDesc}
@@ -25,10 +25,10 @@ function More(props, { $ }) {
       type='desc'
       transparent
       onSelect={title => {
-        if (title.includes('布　局')) return $.onToggleList()
-        if (title.includes('工具栏')) return $.onToggleToolbar('fixed')
-        if (title.includes('收　藏')) return $.onToggleToolbar('collected')
-        if (title.includes('分　页')) return $.onToggleToolbar('fixedPagination')
+        if (title.includes('布局')) return $.onToggleList()
+        if (title.includes('筛选')) return $.onToggleToolbar('fixed')
+        if (title.includes('分页')) return $.onToggleToolbar('fixedPagination')
+        if (title.includes('收藏')) return $.onToggleToolbar('collected')
       }}
     />
   )

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 15:49:26
+ * @Last Modified time: 2022-06-03 17:15:06
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -132,8 +132,8 @@ export function x18(subjectId: SubjectId, title?: string) {
   if (!subjectId) return false
   let filter =
     typeof subjectId === 'string'
-      ? parseInt(subjectId.replace('/subject/', '')) in x18data
-      : parseInt(subjectId) in x18data
+      ? String(parseInt(subjectId.replace('/subject/', ''))) in x18data
+      : String(subjectId) in x18data
   if (!filter && title) filter = ['乳', '妻', '淫'].some(item => title.includes(item))
   return filter
 }

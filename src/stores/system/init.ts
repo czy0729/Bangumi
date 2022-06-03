@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 05:37:59
+ * @Last Modified time: 2022-06-03 19:55:21
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -83,6 +83,33 @@ export const INIT_SUBJECT_LAYOUT = {
   /** 吐槽 */
   showComment: true as LayoutValue
 }
+
+/** 发现页自定义菜单 */
+export const INIT_DISCOVERY_MENU = [
+  'Rank',
+  'Anime',
+  'Browser',
+  'Catalog',
+  'Calendar',
+  'DiscoveryBlog',
+  'Tags',
+  'Open',
+  'Staff',
+  'Search',
+  'Tinygrail',
+  'Guess',
+  'Wiki',
+  'Yearbook',
+  'UserTimeline',
+  'Netabare',
+  'Anitama',
+  'Smb',
+  'BilibiliSync',
+  'Series',
+  'Character',
+  'Catalogs',
+  'Link'
+] as const
 
 /** 默认设置 */
 export const INIT_SETTING = {
@@ -203,32 +230,8 @@ export const INIT_SETTING = {
   /** 首页收藏排序 */
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'),
 
-  // 发现页自定义菜单
-  discoveryMenu: [
-    'Rank',
-    'Anime',
-    'Browser',
-    'Catalog',
-    'Calendar',
-    'DiscoveryBlog',
-    'Tags',
-    'Open',
-    'Staff',
-    'Search',
-    'Tinygrail',
-    'Guess',
-    'Wiki',
-    'Yearbook',
-    'UserTimeline',
-    'Netabare',
-    'Anitama',
-    'Smb',
-    'BilibiliSync',
-    'Series',
-    'Character',
-    'Catalogs',
-    'Link'
-  ],
+  /** 发现页自定义菜单 */
+  discoveryMenu: [...INIT_DISCOVERY_MENU],
 
   /** 发现页今日放送 */
   discoveryTodayOnair: true,

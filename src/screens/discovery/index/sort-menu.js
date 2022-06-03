@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 10:58:35
+ * @Last Modified time: 2022-06-03 20:17:53
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
 import { Touchable, Flex, Text, SwitchPro, SegmentedControl } from '@components'
+import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
+import { INIT_DISCOVERY_MENU } from '@stores/system/init'
 import { memo, obc } from '@utils/decorators'
 import { rerender } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { confirm } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT } from '@constants'
 import Btn from './btn'
 import { getMenus } from './ds'
@@ -108,6 +111,15 @@ const SortMenu = memo(
                   </Flex>
                 </Touchable>
               </Flex.Item>
+              <IconTouchable
+                style={[_.ml.md, _.mr.sm]}
+                name='md-refresh'
+                onPress={() => {
+                  confirm('是否恢复默认菜单布局', () => {
+                    setMenu(INIT_DISCOVERY_MENU)
+                  })
+                }}
+              />
             </Flex>
             <Flex style={styles.setting}>
               <Flex.Item>

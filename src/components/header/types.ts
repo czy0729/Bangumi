@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 08:52:27
+ * @Last Modified time: 2022-06-03 17:26:41
  */
 import { ViewStyle, TextStyle, IconfontNames, ColorValue, ReactNode } from '@types'
 
@@ -14,7 +14,7 @@ export type Props = {
   fixed?: boolean
 
   /** onScroll 垂直y坐标, 模式不为空时有效 */
-  y?: number
+  // y?: number
 
   /** 标题 */
   title?: string
