@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { memo, useEffect, useMemo } from 'react'
 import { PortalProvider } from '@gorhom/portal'
 import Animated, { useSharedValue } from 'react-native-reanimated'

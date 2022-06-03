@@ -1,7 +1,5 @@
 import React, { memo } from 'react'
-
 import MenuItem from './MenuItem'
-
 import isEqual from 'lodash.isequal'
 import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
 

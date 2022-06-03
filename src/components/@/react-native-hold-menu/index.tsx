@@ -1,5 +1,6 @@
 /*
- * 自定义修改 react-native-hold-menu@0.1.1
+ * 二次开发 react-native-hold-menu@0.1.1
+ *
  * https://github.com/enesozturk/react-native-hold-menu
  *  - 减轻全屏毛玻璃背景
  *  - 因为 https://github.com/enesozturk/react-native-hold-menu/issues/28 不能修复
@@ -8,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2021-12-27 06:57:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-28 20:21:42
+ * @Last Modified time: 2022-06-03 13:51:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'

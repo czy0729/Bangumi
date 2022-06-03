@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
@@ -27,7 +29,11 @@ type MenuItemComponentProps = {
 }
 
 const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
-  const { state, theme, menuProps } = useInternal()
+  const {
+    state,
+    theme
+    // menuProps
+  } = useInternal()
 
   const borderStyles = useAnimatedStyle(() => {
     const borderBottomColor =
@@ -53,7 +59,6 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
 
       state.value = CONTEXT_MENU_STATE.END
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, item])
 
   return (

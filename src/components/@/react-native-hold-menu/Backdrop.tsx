@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { memo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Animated, {
@@ -101,7 +103,6 @@ const BackdropComponent = () => {
       onHandlerStateChange={tapGestureEvent}
     >
       <AnimatedBlurView
-        // @ts-ignore
         // intensity={100}
         // tint='default'
         style={[styles.container, animatedContainerStyle]}
