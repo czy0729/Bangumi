@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 21:28:47
+ * @Last Modified time: 2022-06-03 12:19:53
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -698,10 +698,10 @@ class LoginV2 extends React.Component {
         <StatusBarEvents backgroundColor='transparent' />
         <StatusBarPlaceholder />
         {this.renderContent()}
-        <KeyboardSpacer />
-        <Heatmap right={_.wind} bottom={_.bottom + 120} id='登录.登录' transparent />
-        <Heatmap right={_.wind} bottom={_.bottom + 86} id='登录.成功' transparent />
-        <Heatmap right={_.wind} bottom={_.bottom + 52} id='登录.错误' transparent />
+        <KeyboardSpacer topSpacing={_.ios(-120, 0)} />
+        <Heatmap id='登录.登录' right={_.wind} bottom={_.bottom + 120} transparent />
+        <Heatmap id='登录.成功' right={_.wind} bottom={_.bottom + 86} transparent />
+        <Heatmap id='登录.错误' right={_.wind} bottom={_.bottom + 52} transparent />
         <Heatmap id='登录' screen='Login' />
       </View>
     )

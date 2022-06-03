@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 08:40:54
+ * @Last Modified time: 2022-06-03 05:01:51
  */
 import React from 'react'
 import {
@@ -12,6 +12,7 @@ import {
   ImageStyle as RNImageStyle,
   ColorValue as RNColorValue
 } from 'react-native'
+import * as Screens from '@screens'
 import { EventKeys } from '@constants/events'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -19,6 +20,7 @@ import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector
 
 /** Assets */
 export { EventKeys }
+
 export type AppIconsNames = keyof typeof AppIcons
 export type IoniconsIconsNames = keyof typeof IoniconsIcons
 export type MaterialIconsNames = keyof typeof MaterialIcons
@@ -45,10 +47,13 @@ export type ValueOf<T> = T[keyof T]
 export type ModelValueOf<T extends readonly any[], K extends string> = T[number][K]
 
 /** constants */
+/** 页面 */
+export type Paths = keyof typeof Screens
+
 /** 路由对象 */
 export type Navigation = {
-  push?: (path: string, params?: object) => any
-  navigate?: (arg0?: any) => any
+  push?: (path: Paths, params?: object) => any
+  navigate?: (path: Paths) => any
   goBack?: (arg0?: any) => any
   getRootState?: (arg0?: any) => any
   setOptions?: (params?: object) => any

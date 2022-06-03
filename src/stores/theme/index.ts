@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:31:52
+ * @Last Modified time: 2022-06-03 15:03:21
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -741,7 +741,7 @@ class Theme extends store {
    * 格子布局分拆工具函数
    */
   grid = (num = 3) => {
-    const marginLeft = this.device(16, 24)
+    const marginLeft = this.device(14, 24)
     const width = Math.floor((this.window.contentWidth - (num - 1) * marginLeft) / num)
     return {
       width,

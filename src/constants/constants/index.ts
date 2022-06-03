@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:19:34
+ * @Last Modified time: 2022-06-03 12:24:22
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -262,7 +262,7 @@ export const DATA_AIRTIME = [
   '1982',
   '1981',
   '1980'
-].filter((item, index) => (IOS ? index < 20 : 1))
+]
 
 /** 月份数组 */
 export const DATA_MONTH = [
@@ -359,7 +359,7 @@ export const DATA_BROWSER_AIRTIME = [
   '1951',
   '1950',
   '1949'
-].filter((item, index) => (IOS ? index < 20 : 1))
+]
 
 /** 索引时间月数组 */
 export const DATA_BROWSER_MONTH = [

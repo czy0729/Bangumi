@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 09:01:17
+ * @Last Modified time: 2022-06-03 13:45:58
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -22,9 +22,9 @@ const excludeState = {
 
 export default class ScreenRank extends store {
   state = observable({
-    page: 0, // tab的page
+    page: 0,
 
-    // 当前页数
+    // type
     currentPage: {
       all: 1,
       anime: 1,
@@ -34,7 +34,7 @@ export default class ScreenRank extends store {
       real: 1
     },
 
-    // 输入框值
+    // input
     ipt: {
       all: '1',
       anime: '1',
@@ -44,13 +44,18 @@ export default class ScreenRank extends store {
       real: '1'
     },
 
+    // filter
     type: defaultType,
     filter: '',
     airtime: '',
     month: '',
-    list: true, // list | grid
+
+    // toolbar
+    list: true,
     fixed: false,
+    fixedPagination: false,
     collected: true,
+
     ...excludeState,
     _loaded: false
   })
@@ -128,6 +133,7 @@ export default class ScreenRank extends store {
   }
 
   // -------------------- page --------------------
+  /** 类型选择 */
   onTypeSelect = type => {
     t('排行榜.类型选择', {
       type
@@ -142,12 +148,13 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }, 40)
 
     this.fetchRank()
   }
 
+  /** 筛选选择 */
   onFilterSelect = (filter, filterData) => {
     t('排行榜.筛选选择', {
       filter
@@ -161,12 +168,13 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }, 40)
 
     this.fetchRank()
   }
 
+  /** 年选择 */
   onAirdateSelect = airtime => {
     t('排行榜.年选择', {
       airtime
@@ -190,12 +198,13 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }, 40)
 
     this.fetchRank()
   }
 
+  /** 月选择 */
   onMonthSelect = month => {
     const { airtime, type, currentPage, ipt } = this.state
     if (airtime === '') {
@@ -223,13 +232,14 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }, 40)
 
     this.fetchRank()
   }
 
-  toggleList = () => {
+  /** 切换布局 */
+  onToggleList = () => {
     const { list } = this.state
     t('排行榜.切换布局', {
       list: !list
@@ -243,35 +253,21 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }, 40)
   }
 
-  toggleFixed = () => {
-    const { fixed } = this.state
-    t('排行榜.固定工具栏', {
-      fixed: !fixed
-    })
-
+  /** 工具栏 */
+  onToggleToolbar = (key: 'list' | 'fixed' | 'fixedPagination' | 'collected') => {
     this.setState({
-      fixed: !fixed
+      [key]: !this.state[key]
     })
-    this.setStorage(undefined, undefined, namespace)
+    console.log(key, this.state)
+    this.setStorage(namespace)
   }
 
-  toggleCollected = () => {
-    const { collected } = this.state
-    t('排行榜.显示已收藏', {
-      collected: !collected
-    })
-
-    this.setState({
-      collected: !collected
-    })
-    this.setStorage(undefined, undefined, namespace)
-  }
-
-  prev = () => {
+  /** 上一页 */
+  onPrev = () => {
     const { currentPage, type, ipt } = this.state
     const page = currentPage[type]
     if (currentPage[type] === 1) {
@@ -298,13 +294,14 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }, 40)
 
     this.fetchRank()
   }
 
-  next = () => {
+  /** 下一页 */
+  onNext = () => {
     const { currentPage, type, ipt } = this.state
     const page = currentPage[type]
     t('排行榜.下一页', {
@@ -327,12 +324,13 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }, 40)
 
     this.fetchRank()
   }
 
+  /** 输入框改变 */
   onChange = ({ nativeEvent }) => {
     const { text } = nativeEvent
     const { type, ipt } = this.state
@@ -344,6 +342,7 @@ export default class ScreenRank extends store {
     })
   }
 
+  /** 页码跳转 */
   doSearch = () => {
     const { type, currentPage, ipt } = this.state
     const _ipt = ipt[type] === '' ? 1 : parseInt(ipt[type])
@@ -372,7 +371,7 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }, 40)
 
     this.fetchRank()

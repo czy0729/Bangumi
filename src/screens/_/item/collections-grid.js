@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 14:26:12
+ * @Last Modified time: 2022-06-03 14:59:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,6 +38,7 @@ const defaultProps = {
   wid: '',
   mid: '',
   isCollect: false,
+  isRectangle: false,
   event: EVENT
 }
 
@@ -60,6 +61,7 @@ const Item = memo(
     wid,
     mid,
     isCollect,
+    isRectangle,
     event
   }) => {
     rerender('Component.ItemCollectionsGrid.Main')
@@ -101,7 +103,7 @@ const Item = memo(
       >
         <Cover
           size={gridStyles.width}
-          height={gridStyles.height}
+          height={isRectangle ? gridStyles.width : gridStyles.height}
           src={cover}
           radius
           shadow
@@ -158,6 +160,7 @@ export const ItemCollectionsGrid = ob(
     wid,
     mid,
     isCollect,
+    isRectangle,
     event
   }) => {
     rerender('Component.ItemCollectionsGrid')
@@ -181,6 +184,7 @@ export const ItemCollectionsGrid = ob(
         wid={wid}
         mid={mid}
         isCollect={isCollect}
+        isRectangle={isRectangle}
         event={event}
       />
     )

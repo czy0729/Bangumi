@@ -21,7 +21,7 @@ function IconOnline(props, { $, navigation }) {
       data={[...$.onlineOrigins, ORIGINS_MANAGE].map(item =>
         typeof item === 'object' ? item.name : item
       )}
-      onSelect={title => {
+      onSelect={(title: string) => {
         if (title === ORIGINS_MANAGE) {
           navigation.push('OriginSetting')
           return

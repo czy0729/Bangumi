@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:05:51
+ * @Last Modified time: 2022-06-03 15:25:40
  */
 import React from 'react'
 import { Touchable, Flex, Input, Heatmap, Iconfont } from '@components'
@@ -36,6 +36,7 @@ export const Pagination = ob(
             value={input}
             keyboardType='number-pad'
             placeholder='页'
+            showClear={false}
             returnKeyType='search'
             returnKeyLabel='跳转'
             onChange={onChange}

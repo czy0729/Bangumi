@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:31:19
+ * @Last Modified time: 2022-06-03 15:19:01
  */
 import React from 'react'
 import { Flex, Katakana, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { cnjp } from '@utils'
-import { appNavigate, x18 } from '@utils/app'
+import { cnjp, appNavigate, x18 } from '@utils'
 import { memo, ob } from '@utils/decorators'
-import { EVENT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { Tag, Cover, Stars, Rank } from '../base'
+import { EVENT, IMG_WIDTH_LG, IMG_HEIGHT_LG, MODEL_SUBJECT_TYPE } from '@constants'
+import { Tag, Cover, Stars, Rank } from '../../base'
+import { memoStyles } from './styles'
 
 const defaultProps = {
   navigation: {},
@@ -56,19 +55,20 @@ const Item = memo(
     position,
     event
   }) => {
-    rerender('Component.ItemSearch.Main')
+    global.rerender('Component.ItemSearch.Main')
 
     const top = cnjp(nameCn, name)
     const bottom = cnjp(name, nameCn)
 
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !id.includes('/subject/')
+    const isMusic = typeCn === '音乐'
     const _collection = collection || (collected ? '已收藏' : '')
     const justify = tip || position.length ? 'between' : 'start'
     return (
       <Touchable
         style={[styles.container, style]}
-        onPress={() =>
+        onPress={() => {
           appNavigate(
             id,
             navigation,
@@ -81,7 +81,7 @@ const Item = memo(
             },
             event
           )
-        }
+        }}
       >
         <Flex align='start' style={styles.wrap}>
           <Cover
@@ -95,7 +95,11 @@ const Item = memo(
             type={typeCn}
           />
           <Flex
-            style={[styles.content, !!comments && styles.flux]}
+            style={[
+              styles.content,
+              !!comments && styles.flux,
+              isMusic && styles.musicContent
+            ]}
             direction='column'
             justify={justify}
             align='start'
@@ -176,7 +180,7 @@ export const ItemSearch = ob(
     position,
     event
   }) => {
-    rerender('Component.ItemSearch')
+    global.rerender('Component.ItemSearch')
 
     return (
       <Item
@@ -202,22 +206,3 @@ export const ItemSearch = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  content: {
-    flex: 1,
-    height: IMG_HEIGHT_LG,
-    marginLeft: _._wind
-  },
-  flux: {
-    height: 'auto',
-    minHeight: IMG_HEIGHT_LG
-  }
-}))

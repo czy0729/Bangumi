@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 17:18:23
+ * @Last Modified time: 2022-06-03 13:41:22
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -37,7 +37,7 @@ const controlDS = {
 let loaded = false
 
 export const FolderManageModal = ob(
-  class extends React.Component {
+  class FolderManageModalComponent extends React.Component {
     static defaultProps = {
       id: 0,
       defaultExpand: 0,
@@ -997,7 +997,7 @@ const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd
   },
   scrollView: {
-    height: _.window.height * 0.8,
+    height: _.window.height * 0.7,
     marginTop: _.md,
     marginBottom: _.sm
   },

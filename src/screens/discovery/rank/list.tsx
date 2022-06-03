@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 13:13:14
+ * @Last Modified time: 2022-06-03 15:11:19
  */
 import React from 'react'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { ScrollView, Flex, Empty, Heatmap } from '@components'
-import { Pagination, ItemSearch, ItemCollectionsGrid, FilterText } from '@_'
+import { ScrollView, Flex, Loading, Empty, Heatmap } from '@components'
+import { ItemSearch, ItemCollectionsGrid, FilterText } from '@_'
 import { _, collectionStore } from '@stores'
 import { runAfter } from '@utils'
 import { obc } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import ToolBar from './tool-bar'
+import Pagination from './pagination'
 
 const eventList = {
   id: '排行榜.跳转',
@@ -26,12 +26,6 @@ const eventGrid = {
   data: {
     type: 'grid'
   }
-}
-
-const heatmaps = {
-  prev: '排行榜.上一页',
-  next: '排行榜.下一页',
-  search: '排行榜.页码跳转'
 }
 
 class List extends React.Component {
@@ -57,22 +51,6 @@ class List extends React.Component {
     const { rendered } = this.state
     if (!rendered) return list.slice(0, 9)
     return list
-  }
-
-  renderPagination() {
-    const { $ } = this.context
-    const { type, ipt } = $.state
-    return (
-      <Pagination
-        style={_.mt.md}
-        input={ipt[type]}
-        heatmaps={heatmaps}
-        onPrev={$.prev}
-        onNext={$.next}
-        onChange={$.onChange}
-        onSearch={$.doSearch}
-      />
-    )
   }
 
   renderList() {
@@ -104,14 +82,13 @@ class List extends React.Component {
           <Empty />
         )}
         {!!_filter && <FilterText value={_filter} />}
-        {this.renderPagination()}
       </>
     )
   }
 
   renderGrid() {
     const { $, navigation } = this.context
-    const { airtime } = $.state
+    const { type, airtime } = $.state
     const { _filter } = $.rank
     const num = _.portrait(3, 5)
     return (
@@ -134,6 +111,7 @@ class List extends React.Component {
                   id={id}
                   collection={collection}
                   isCollect={item.collected}
+                  isRectangle={MODEL_SUBJECT_TYPE.getTitle(type) === '音乐'}
                 />
               )
             })
@@ -142,31 +120,29 @@ class List extends React.Component {
           )}
           {!!_filter && <FilterText value={_filter} />}
         </Flex>
-        {this.renderPagination()}
       </>
     )
   }
 
   render() {
     const { $ } = this.context
-    const { show, list: _list, fixed } = $.state
+    const { show, list: _list, fixed, fixedPagination } = $.state
     const { _loaded } = $.rank
     if (show && _loaded) {
       return (
-        <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
+        <ScrollView contentContainerStyle={this.styles.scrollView} scrollToTop>
           {!fixed && <ToolBar />}
           {_list ? this.renderList() : this.renderGrid()}
+          {!fixedPagination && <Pagination />}
         </ScrollView>
       )
     }
 
     return (
-      <>
+      <Flex.Item>
         {!fixed && <ToolBar />}
-        <Flex style={this.styles.loading} justify='center'>
-          <ActivityIndicator />
-        </Flex>
-      </>
+        <Loading />
+      </Flex.Item>
     )
   }
 
@@ -178,8 +154,8 @@ class List extends React.Component {
 export default obc(List)
 
 const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingBottom: _.bottom
+  scrollView: {
+    paddingBottom: _.md
   },
   grid: {
     paddingHorizontal: _.wind,
@@ -187,7 +163,6 @@ const memoStyles = _.memoStyles(() => ({
   },
   loading: {
     width: '100%',
-    minHeight: 400,
     paddingTop: _.md,
     paddingVertical: _.wind
   },

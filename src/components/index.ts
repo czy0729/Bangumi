@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 13:01:41
+ * @Last Modified time: 2022-06-03 16:31:12
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -37,6 +37,7 @@ export * from './mesume'
 export * from './navigation/container'
 export * from './navigation/events'
 export * from './page'
+export * from './pagination'
 export * from './popover'
 export * from './portal'
 export * from './progress'

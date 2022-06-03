@@ -1,53 +1,26 @@
 /*
  * 输入框
+ *
+ * @Doc: https://www.react-native.cn/docs/textinput
+ * @Doc: https://lefkowitz.me/visual-guide-to-react-native-textinput-keyboardtype-options/
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:18:46
+ * @Last Modified time: 2022-06-03 16:48:29
  */
 import React from 'react'
-import { View, TextInput, TextInputProps, TouchableWithoutFeedback } from 'react-native'
+import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import { ColorValue, Expand, ViewStyle } from '@types'
 import { Iconfont } from '../iconfont'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-type Props = Expand<
-  TextInputProps & {
-    /** Input 容器样式 */
-    style?: ViewStyle
-
-    /** 是否启用多行 */
-    multiline?: boolean
-
-    /** 开启多行后实际使用多少行 */
-    numberOfLines?: number
-
-    /** 是否显示清空图标 */
-    showClear?: boolean
-
-    /** 清空图标颜色 */
-    colorClear?: ColorValue
-
-    /** 是否自动聚焦 */
-    autoFocus?: boolean
-
-    /** 占位文字颜色 */
-    placeholderTextColor?: ColorValue
-
-    /** 文字改变回调（待废弃，使用 onTextChange 代替） */
-    onChange?: (evt: { nativeEvent: { text: string } }) => any
-
-    /** 文字改变回调 */
-    onChangeText?: (text: string) => any
-  }
->
-
-const initInputHeight = 18 // 一行的大概高度
+/** 一行的大概高度 */
+const initInputHeight = 18
 
 export const Input = observer(
   class InputComponent extends React.Component<Props> {
@@ -90,6 +63,16 @@ export const Input = observer(
       } catch (error) {}
     }
 
+    onBlur = () => {
+      try {
+        this.inputRef.blur()
+
+        setTimeout(() => {
+          this.inputRef.blur()
+        }, 0)
+      } catch (error) {}
+    }
+
     onChange = evt => {
       const { onChange } = this.props
       const { nativeEvent } = evt
@@ -112,8 +95,14 @@ export const Input = observer(
 
     get borderRadius() {
       return _.radiusXs
-      // const { coverRadius } = systemStore.setting
-      // return coverRadius || _.radiusXs
+    }
+
+    get clearButtonMode() {
+      // 安卓使用了模拟按钮代替原生按钮
+      if (!IOS) return 'never'
+
+      const { showClear } = this.props
+      return showClear ? 'while-editing' : 'never'
     }
 
     renderClear() {
@@ -192,7 +181,7 @@ export const Input = observer(
             autoCapitalize='none'
             autoCorrect={false}
             underlineColorAndroid='transparent'
-            clearButtonMode='while-editing'
+            clearButtonMode={this.clearButtonMode}
             placeholderTextColor={placeholderTextColor || _.colorDisabled}
             selectionColor={_.colorMain}
             // @ts-ignore

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-02 06:03:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 15:19:39
+ * @Last Modified time: 2022-06-03 12:44:24
  */
 import { _ } from '@stores'
 
@@ -13,7 +13,6 @@ export const styles = _.create({
     top: 0,
     left: 0,
     bottom: 0,
-    width: _._wind,
-    backgroundColor: 'red'
+    width: _._wind
   }
 })
