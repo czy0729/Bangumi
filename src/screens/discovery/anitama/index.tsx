@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 18:07:58
+ * @Last Modified time: 2022-06-05 06:06:01
  */
 import React from 'react'
 import { Page } from '@components'
@@ -11,6 +11,7 @@ import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import List from './list'
+import Pagination from './pagination'
 import Store from './store'
 
 const Anitama = (props, { $ }) => {
@@ -26,6 +27,7 @@ const Anitama = (props, { $ }) => {
         loaded={$.state._loaded}
       >
         <List />
+        <Pagination />
       </Page>
     </>
   ))

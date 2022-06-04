@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:13:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-31 13:35:37
+ * @Last Modified time: 2022-06-05 06:02:20
  */
 import { _ } from '@stores'
 
@@ -26,6 +26,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   },
   error: {
+    maxWidth: '100%',
     padding: 4
   },
   errorIcon: {

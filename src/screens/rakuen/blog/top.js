@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 21:32:57
+ * @Last Modified time: 2022-06-05 04:55:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,6 @@ import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
 import SectionTitle from './section-title'
 
 function Top(props, { $, navigation }) {
@@ -27,7 +26,7 @@ function Top(props, { $, navigation }) {
   }
   return (
     <>
-      {!IOS && <HeaderPlaceholder />}
+      <HeaderPlaceholder />
       <View style={styles.container}>
         <Text type='title' size={20} bold>
           {$.title}

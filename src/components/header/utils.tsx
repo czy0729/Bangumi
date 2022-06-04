@@ -13,7 +13,7 @@ import Back from './back'
 import { colors, backgroundColors } from './styles'
 import { Props } from './types'
 
-type Props = Expand<
+type UpdateHeaderProps = Expand<
   {
     navigation: Navigation
   } & Pick<
@@ -42,7 +42,7 @@ export const updateHeader = ({
   mode,
   fixed = false,
   statusBarEventsType
-}: Props) => {
+}: UpdateHeaderProps) => {
   if (!navigation) return
 
   const _title = systemStore.setting.s2t ? s2t(title) : title
@@ -107,8 +107,14 @@ export const updateHeader = ({
   if (mode) {
     options.headerStyle = {
       ...options.headerStyle,
-      height: IOS ? 0 : 0.5, // 别问为什么留0.5, 我也想知道, 不给他留一点就是会出问题
       backgroundColor: '#000000'
+    }
+
+    // hack
+    if (!IOS) {
+      options.headerStyle.height = 0.5 // 别问为什么留0.5, 我也想知道, 不给他留一点就是会出现页面重叠问题
+    } else {
+      if (mode) options.headerTransparent = true
     }
 
     // headerLeft和headerRight因为上面的问题迁移到了<HeaderComponent>里面实现
@@ -132,25 +138,25 @@ export const updateHeader = ({
 }
 
 export const useOnScroll = () => {
-  const [y, setY] = useState(0)
+  // const [y, setY] = useState(0)
   const [fixed, setFixed] = useState(false)
   const onScroll = useCallback(
     ({ nativeEvent }) => {
       const { y } = nativeEvent.contentOffset
-      if (y <= headerTransitionHeight) {
-        setY(y)
-      }
+      // if (y <= headerTransitionHeight) {
+      //   setY(y)
+      // }
 
       const offset = headerTransitionHeight
       if ((fixed && y > offset) || (!fixed && y <= offset)) return
-      setY(headerTransitionHeight)
+      // setY(headerTransitionHeight)
       setFixed(y > offset)
     },
     [fixed]
   )
 
   return {
-    y,
+    // y,
     fixed,
     onScroll
   }

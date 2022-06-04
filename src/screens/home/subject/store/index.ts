@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 05:50:29
+ * @Last Modified time: 2022-06-05 05:12:53
  */
 import { userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -22,7 +22,7 @@ class ScreenSubject extends Action {
     // 是否需要更新数据
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60
 
     try {
       const state = (await this.getStorage(undefined, this.namespace)) || {}

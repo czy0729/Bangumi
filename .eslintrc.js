@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 05:49:01
+ * @Last Modified time: 2022-06-05 05:01:54
  */
 module.exports = {
   root: true,
@@ -30,6 +30,7 @@ module.exports = {
     eqeqeq: 0,
     'react/no-did-mount-set-state': 0,
     'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
-    '@typescript-eslint/no-unused-vars': [2, { ignoreRestSiblings: true }]
+    '@typescript-eslint/no-unused-vars': [2, { ignoreRestSiblings: true }],
+    '@typescript-eslint/no-shadow': 0
   }
 }

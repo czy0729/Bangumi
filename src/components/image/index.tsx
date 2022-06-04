@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-31 14:26:19
+ * @Last Modified time: 2022-06-05 06:02:30
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -528,13 +528,13 @@ export const Image = observer(
       const { imageTransition } = systemStore.setting
       if (error) {
         // 错误显示本地的错误提示图片
-        const size = this.props.size || this.props.width || 80
+        const size = this.props.width || this.props.size || 80
         return (
           <Flex style={[this.computedStyle.image, this.styles.error]} justify='center'>
             <Iconfont
               style={this.styles.errorIcon}
               name='md-do-not-disturb-alt'
-              size={size / 2.4}
+              size={Math.min(size / 2.4, 80)}
             />
           </Flex>
         )

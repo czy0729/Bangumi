@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:18:27
+ * @Last Modified time: 2022-06-05 05:04:49
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -56,6 +56,7 @@ export const FixedTextarea = observer(
     }
 
     ref
+
     selection = {
       start: this.props.value.length,
       end: this.props.value.length
@@ -77,7 +78,7 @@ export const FixedTextarea = observer(
           replyHistory
         })
       } catch (error) {
-        // warn('fixed-textarea', 'componentDidMount', error)
+        console.error('fixed-textarea', 'componentDidMount', error)
       }
     }
 
@@ -94,16 +95,17 @@ export const FixedTextarea = observer(
 
     onRefBlur = () => {
       try {
-        const ref = this.ref.textAreaRef
-        ref.blur()
+        if (typeof this.ref?.textAreaRef?.blur === 'function') {
+          this.ref.textAreaRef.blur()
+        }
       } catch (error) {}
     }
 
-    onToggle = (open, keyboardHeight) => {
-      if (open) {
+    onToggle = (isOpen, keyboardHeight) => {
+      if (isOpen) {
         this.setState({
           showKeyboardSpacer: true,
-          keyboardHeight
+          keyboardHeight: keyboardHeight - (IOS ? 24 : 0)
         })
       }
     }
@@ -147,9 +149,11 @@ export const FixedTextarea = observer(
       // 安卓设置过光标后, 继续打字光标会闪回到上次设置的地方, 需要重置
       try {
         if (!IOS) {
-          this.ref.textAreaRef.setNativeProps({
-            selection: {}
-          })
+          if (typeof this.ref?.textAreaRef?.setNativeProps === 'function') {
+            this.ref.textAreaRef.setNativeProps({
+              selection: {}
+            })
+          }
         }
       } catch (error) {}
 
@@ -381,8 +385,9 @@ export const FixedTextarea = observer(
 
     textAreaFocus = () => {
       try {
-        const ref = this.ref.textAreaRef
-        ref.focus()
+        if (typeof this.ref?.textAreaRef?.focus === 'function') {
+          this.ref.textAreaRef.focus()
+        }
       } catch (error) {}
     }
 
@@ -647,10 +652,12 @@ export const FixedTextarea = observer(
         <>
           {this.renderMask()}
           <View style={this.styles.container}>
-            {children}
-            {this.renderToolBar()}
-            {this.renderTextarea()}
-            {this.renderContent()}
+            <>
+              {children}
+              {this.renderToolBar()}
+              {this.renderTextarea()}
+              {this.renderContent()}
+            </>
           </View>
           {!showKeyboardSpacer && (
             <View style={this.styles.hide}>

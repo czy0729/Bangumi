@@ -2,27 +2,26 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 22:19:40
+ * @Last Modified time: 2022-06-05 05:39:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { ScrollView, Flex } from '@components'
-import { Pagination, ItemBlog } from '@_'
+import { ScrollView, Pagination, Flex } from '@components'
+import { ItemBlog } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 const event = {
   id: '全站日志.跳转'
 }
+
 const heatmaps = {
   prev: '全站日志.上一页',
   next: '全站日志.下一页',
   search: '全站日志.页码跳转'
 }
 
-export default
-@obc
 class List extends React.Component {
   renderPagination() {
     const { $ } = this.context
@@ -48,10 +47,7 @@ class List extends React.Component {
     const { list, _loaded } = $.blog(type)
     return (
       <>
-        <ScrollView
-          contentContainerStyle={_.container.bottom}
-          scrollToTop={type === $.type}
-        >
+        <ScrollView scrollToTop={type === $.type}>
           {show && (
             <>
               {_loaded ? (
@@ -85,6 +81,8 @@ class List extends React.Component {
   }
 }
 
+export default obc(List)
+
 const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: _.window.height
@@ -95,6 +93,7 @@ const memoStyles = _.memoStyles(() => ({
     minHeight: _.window.height
   },
   pagination: {
-    paddingVertical: _.sm
+    marginTop: _.xs,
+    marginBottom: _.ios(_.md + _.sm, _.md)
   }
 }))

@@ -2,27 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:19:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:12:48
+ * @Last Modified time: 2022-06-05 06:05:31
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Touchable, Text, Image, Heatmap } from '@components'
-import { Pagination } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 
 const title = '资讯'
-const heatmaps = {
-  prev: 'Anitama.上一页',
-  next: 'Anitama.下一页',
-  search: 'Anitama.页码跳转'
-}
 
 function List(props, { $ }) {
   const styles = memoStyles()
-  const { show, ipt } = $.state
+  const { show } = $.state
   const { list } = $.article
   const onPress = item => {
     t('Anitama.跳转', {
@@ -33,8 +27,9 @@ function List(props, { $ }) {
     open(item.url)
     hm(item.url, title)
   }
+
   return (
-    <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
+    <ScrollView scrollToTop>
       {show && (
         <>
           <View style={styles.container}>
@@ -75,15 +70,6 @@ function List(props, { $ }) {
               </Touchable>
             ))}
           </View>
-          <Pagination
-            style={_.mt.md}
-            input={ipt}
-            heatmaps={heatmaps}
-            onPrev={$.prev}
-            onNext={$.next}
-            onChange={$.onChange}
-            onSearch={$.doSearch}
-          />
         </>
       )}
     </ScrollView>
@@ -110,10 +96,10 @@ const memoStyles = _.memoStyles(() => {
     },
     cover: {
       width,
-      height: width * 0.64
+      height: width * 0.56
     },
     info: {
-      paddingVertical: _.space
+      paddingVertical: _.md
     }
   }
 })

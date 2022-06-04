@@ -4,8 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 11:04:38
+ * @Last Modified time: 2022-06-05 05:55:41
  */
+import { IOS } from '../constants'
+
 type ModelItem = {
   label: string
   value: string
@@ -431,16 +433,26 @@ export const MODEL_SEARCH_LEGACY = new Model([
 ])
 
 /** 文章站点 */
-export const MODEL_NEWS = new Model([
-  {
-    label: '动漫之家',
-    value: 'https://m.news.dmzj.com'
-  },
-  {
-    label: '机核GCORES',
-    value: 'https://www.gcores.com/news'
-  }
-])
+export const NEWS = IOS
+  ? [
+      {
+        label: '动漫之家',
+        value: 'https://m.news.dmzj.com'
+      }
+    ]
+  : [
+      {
+        label: '动漫之家',
+        value: 'https://m.news.dmzj.com'
+      },
+      {
+        label: '机核GCORES',
+        value: 'https://www.gcores.com/news'
+      }
+    ]
+
+/** 文章站点 */
+export const MODEL_NEWS = new Model(NEWS)
 
 /** 索引排序 */
 export const BROWSER_SORT = [
