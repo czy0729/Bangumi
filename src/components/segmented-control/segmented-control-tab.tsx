@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 11:15:16
+ * @Last Modified time: 2022-06-04 22:53:41
  */
 import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
@@ -29,6 +29,13 @@ type Props = {
   onSelect?: () => any
 }
 
+const hitSlop = {
+  top: _.device(3, 4),
+  right: _.device(2, 4),
+  bottom: _.device(3, 4),
+  left: _.device(2, 4)
+}
+
 export const SegmentedControlTab = ({
   value,
   type = 'title',
@@ -37,7 +44,12 @@ export const SegmentedControlTab = ({
   selected,
   onSelect
 }: Props) => (
-  <TouchableOpacity style={styles.container} disabled={!enabled} onPress={onSelect}>
+  <TouchableOpacity
+    style={styles.container}
+    disabled={!enabled}
+    hitSlop={hitSlop}
+    onPress={onSelect}
+  >
     <View style={styles.default}>
       <Text type={type} size={size} bold={selected}>
         {value}

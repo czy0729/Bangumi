@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 22:37:33
+ * @Last Modified time: 2022-06-04 23:25:33
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -74,14 +74,22 @@ export default class ScreenCatalog extends store {
   }
 
   // -------------------- page --------------------
-  toggleType = async () => {
+  onToggleType = async label => {
     const { type } = this.state
+
+    // 是否热门
+    const isCollect = type === 'collect'
+    if (label) {
+      if (label === '热门' && isCollect) return
+      if (label === '最新' && type === '') return
+    }
+
     t('目录.切换类型', {
-      type: type === 'collect' ? '热门' : '最新'
+      type: isCollect ? '最新' : '热门'
     })
 
     this.setState({
-      type: type === 'collect' ? '' : 'collect',
+      type: isCollect ? '' : 'collect',
       page: 1,
       ipt: '1',
       show: false
@@ -94,7 +102,7 @@ export default class ScreenCatalog extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
-  prev = async () => {
+  onPrev = async () => {
     const { page } = this.state
     if (page === 1) {
       return
@@ -119,7 +127,7 @@ export default class ScreenCatalog extends store {
     }, 400)
   }
 
-  next = async () => {
+  onNext = async () => {
     const { page } = this.state
     t('目录.下一页', {
       page: page + 1

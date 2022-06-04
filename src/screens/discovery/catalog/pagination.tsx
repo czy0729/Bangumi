@@ -1,26 +1,26 @@
 /*
  * @Author: czy0729
- * @Date: 2022-06-03 12:34:36
+ * @Date: 2022-06-04 23:01:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 23:06:34
+ * @Last Modified time: 2022-06-04 23:25:21
  */
 import React from 'react'
-import { Pagination as CompPagination } from '@components'
+import { Pagination as PaginationComp } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 const heatmaps = {
-  prev: '排行榜.上一页',
-  next: '排行榜.下一页',
-  search: '排行榜.页码跳转'
+  onPrev: '目录.上一页',
+  onNext: '目录.下一页',
+  search: '目录.页码跳转'
 } as const
 
 function Pagination(props, { $ }) {
-  const { type, ipt } = $.state
+  const { ipt } = $.state
   return (
-    <CompPagination
+    <PaginationComp
       style={styles.pagination}
-      input={ipt[type]}
+      input={ipt}
       heatmaps={heatmaps}
       onPrev={$.onPrev}
       onNext={$.onNext}

@@ -4,32 +4,15 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 11:16:54
+ * @Last Modified time: 2022-06-04 22:52:30
  */
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { ViewStyle, TextStyle, ColorValue } from '@types'
 import { SegmentedControlTab } from './segmented-control-tab'
-import { TextType } from '../text'
 import { styles } from './styles'
-
-type Props = {
-  style?: ViewStyle
-  styleExtra?: ViewStyle
-  fontStyle?: TextStyle
-  activeFontStyle?: TextStyle
-  type?: TextType
-  size?: number
-  values?: string[]
-  selectedIndex?: number
-  enabled?: boolean
-  tintColor?: ColorValue
-  backgroundColor?: ColorValue
-  onChange?: (event?: any) => any
-  onValueChange?: (value?: any) => any
-}
+import { Props } from './types'
 
 /**
  * SegmentedControl
@@ -90,8 +73,8 @@ const SegmentedControlComp = ({
         styles.default,
         style,
         styleExtra,
-        backgroundColor && { backgroundColor },
-        !enabled && styles.disabled
+        backgroundColor && { backgroundColor }
+        // !enabled && styles.disabled
       ]}
       onLayout={({
         nativeEvent: {

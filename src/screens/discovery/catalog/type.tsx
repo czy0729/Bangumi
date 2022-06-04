@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 22:36:23
+ * @Last Modified time: 2022-06-04 22:54:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,12 +21,12 @@ function Type({ $ }) {
   return (
     <View>
       <SegmentedControl
-        key={currentType === undefined}
+        key={String(currentType === undefined)}
         style={styles.segment}
         size={11}
         values={typeDS}
         selectedIndex={currentType === 'collect' ? 1 : 0}
-        onValueChange={$?.toggleType || Function.prototype}
+        onValueChange={$?.onToggleType || (() => {})}
       />
       <Heatmap id='目录.切换类型' />
     </View>
@@ -37,7 +37,7 @@ export default ob(Type)
 
 const styles = _.create({
   segment: {
-    width: 80 * _.ratio,
-    height: 22 * _.ratio
+    width: _.r(96),
+    height: _.r(28)
   }
 })
