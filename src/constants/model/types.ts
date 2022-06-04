@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 05:04:50
+ * @Last Modified time: 2022-06-04 11:07:17
  */
 import { ModelValueOf } from '@types'
 import {
+  BROWSER_SORT,
   COLLECTIONS_ORDERBY,
   COLLECTION_STATUS,
   EP_STATUS,
@@ -44,3 +45,5 @@ export type SubjectTypeCn = ModelValueOf<typeof SUBJECT_TYPE, 'title'>
 export type TimeLineScope = ModelValueOf<typeof TIMELINE_SCOPE, 'value'>
 
 export type TimeLineType = ModelValueOf<typeof TIMELINE_TYPE, 'value'>
+
+export type BrowserSort = ModelValueOf<typeof BROWSER_SORT, 'value'>

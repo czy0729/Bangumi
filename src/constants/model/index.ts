@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 05:11:16
+ * @Last Modified time: 2022-06-04 11:04:38
  */
 type ModelItem = {
   label: string
@@ -441,6 +441,25 @@ export const MODEL_NEWS = new Model([
     value: 'https://www.gcores.com/news'
   }
 ])
+
+/** 索引排序 */
+export const BROWSER_SORT = [
+  {
+    label: '默认',
+    value: ''
+  },
+  {
+    label: '排名',
+    value: 'rank'
+  },
+  {
+    label: '时间',
+    value: 'date'
+  }
+] as const
+
+/** 索引排序 */
+export const MODEL_BROWSER_SORT = new Model(BROWSER_SORT)
 
 /** [设置] 首页收藏布局 */
 export const MODEL_SETTING_HOME_LAYOUT = new Model([

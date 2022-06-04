@@ -1,9 +1,11 @@
 /*
  * 整合了FlatList和SectionList的长列表
+ *
+ * @Doc: https://www.react-native.cn/docs/flatlist
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:19:05
+ * @Last Modified time: 2022-06-04 07:57:25
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -250,7 +252,7 @@ export const ListView = observer(
         this.props
       const { refreshState } = this.state
       const title = data._loaded
-        ? `上次刷新时间: ${simpleTime(date(data._loaded))}`
+        ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}`
         : undefined
       return (
         <RefreshControl
@@ -309,7 +311,7 @@ export const ListView = observer(
         'showMesume',
         'onHeaderRefresh',
         'onFooterRefresh'
-      ])
+      ]) as any
       const { list, _filter } = data
       return (
         <Footer

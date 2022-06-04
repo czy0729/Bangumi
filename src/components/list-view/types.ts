@@ -2,24 +2,30 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 05:04:17
+ * @Last Modified time: 2022-06-04 07:57:39
  */
+import { FlatListProps } from 'react-native'
 import { Fn, ReactNode, ViewStyle, ListEmpty } from '@types'
 
 export type Props = {
   style?: ViewStyle
 
+  contentContainerStyle?: FlatListProps<any>['contentContainerStyle']
+
   /** 此函数用于为给定的 item 生成一个不重复的 key */
   keyExtractor?: (item?: object, index?: number) => string
 
   /** APP 约定列表数据结构 */
-  data?: ListEmpty
+  data?: ListEmpty<any>
 
   /** 与 data 结构一致, https://www.react-native.cn/docs/sectionlist#section */
   sections?: any
 
   /** 自动把 data.list 中对象的这个 key 值转换为对应的 <SectionList> 的 sections */
   sectionKey?: string
+
+  /** 多列布局只能在非水平模式下使用，即必须是horizontal={false}。此时组件内元素会从左到右从上到下按 Z 字形排列，类似启用了flexWrap的布局。组件内元素必须是等高的——暂时还无法支持瀑布流布局。 */
+  numColumns?: FlatListProps<any>['numColumns']
 
   /** 当需要在指定的偏移处显示加载指示器的时候，就可以设置这个值 (Android) */
   progressViewOffset?: number
@@ -34,6 +40,9 @@ export type Props = {
     section?: object,
     separators?: object
   ) => ReactNode
+
+  /** 列表顶部组件 */
+  ListHeaderComponent?: FlatListProps<any>['ListHeaderComponent']
 
   /** 替代整个底部组件 */
   ListFooterComponent?: ReactNode
@@ -110,5 +119,5 @@ export type ListProps = {
   animated?: boolean
   sections?: any
   sectionKey?: string
-  data?: ListEmpty
+  data?: ListEmpty<any>
 }

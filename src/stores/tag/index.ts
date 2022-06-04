@@ -3,29 +3,24 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-24 23:42:55
+ * @Last Modified time: 2022-06-04 12:17:12
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 import { HTML_TAG, HTML_RANK, HTML_BROSWER } from '@constants/html'
+import { BrowserSort } from '@constants/model/types'
 import { NAMESPACE, DEFAULT_TYPE } from './init'
 import { analysisTags, analysiRank } from './common'
+import { FetchBrowser } from './types'
 
 class Tag extends store {
   state = observable({
-    /**
-     * 标签列表
-     * @param {*} text    标签
-     * @param {*} type
-     * @param {*} airtime
-     */
+    /** 标签列表 */
     tag: {
-      _: (text = '', type = DEFAULT_TYPE, airtime = '') =>
-        `${text.replace(/ /g, '+')}|${type}|${airtime}`,
-      0: LIST_EMPTY // <INIT_TAG_ITEM>
+      0: LIST_EMPTY
     },
 
     /**
@@ -38,18 +33,40 @@ class Tag extends store {
       0: LIST_EMPTY // <INIT_RANK_ITEM>
     },
 
-    /**
-     * 索引
-     * @param {*} type
-     * @param {*} airtime
-     */
+    /** 索引 */
     browser: {
-      _: (type = DEFAULT_TYPE, airtime = '') => `${type}|${airtime}`,
-      0: LIST_EMPTY // <INIT_RANK_ITEM>
+      0: LIST_EMPTY
     }
   })
 
   init = () => this.readStorage(['tag', 'rank', 'browser'], NAMESPACE)
+
+  // -------------------- get --------------------
+  /**
+   * 标签列表
+   * @param {*} text    标签
+   * @param {*} type
+   * @param {*} airtime
+   */
+  tag(text = '', type = DEFAULT_TYPE, airtime = '') {
+    return computed(() => {
+      const key = `${text.replace(/ /g, '+')}|${type}|${airtime}`
+      return this.state.tag[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /**
+   * 索引
+   * @param {*} type
+   * @param {*} airtime
+   * @param {*} sort
+   */
+  browser(type = DEFAULT_TYPE, airtime: any = '', sort: BrowserSort = '') {
+    return computed(() => {
+      const key = `${type}|${airtime}|${sort}`
+      return this.state.browser[key] || LIST_EMPTY
+    }).get()
+  }
 
   // -------------------- fetch --------------------
   /**
@@ -144,28 +161,26 @@ class Tag extends store {
   }
 
   /**
-   * 索引
-   * @param {*} param0
+   * 请求索引
+   * @param {*} args
    * @param {*} refresh
    */
-  fetchBrowser = async ({ type = DEFAULT_TYPE, airtime } = {}, refresh) => {
-    const { list, pagination } = this.browser(type, airtime)
-    let page // 下一页的页码
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
+  fetchBrowser: FetchBrowser = async (
+    { type = DEFAULT_TYPE, airtime, sort } = {},
+    refresh
+  ) => {
+    const { list, pagination } = this.browser(type, airtime, sort)
+    const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
-      url: HTML_BROSWER(type, airtime, page)
+      url: HTML_BROSWER(type, airtime, page, sort)
     })
     const raw = await res
     const { pageTotal, tag } = analysisTags(raw, page, pagination)
 
     const key = 'browser'
-    const stateKey = `${type}|${airtime}`
+    const stateKey = `${type}|${airtime}|${sort}`
     this.setState({
       [key]: {
         [stateKey]: {

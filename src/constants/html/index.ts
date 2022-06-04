@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:12:37
+ * @Last Modified time: 2022-06-04 12:16:56
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -180,9 +180,10 @@ export const HTML_RANK = (
 /** 索引 */
 export const HTML_BROSWER = (
   type: SubjectType = 'anime',
-  airtime: string = '2022-6',
-  page: number = 1
-) => `${HOST}/${type}/browser/airtime/${airtime}?page=${page}`
+  airtime: string | number = '2022-6',
+  page: number = 1,
+  sort: '' | 'date' | 'rank'
+) => `${HOST}/${type}/browser/airtime/${airtime}?page=${page}&sort=${sort}`
 
 /** 目录 */
 export const HTML_CATALOG = (type: string = '', page: number = 1) =>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 14:24:49
+ * @Last Modified time: 2022-06-04 12:27:56
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -10,18 +10,21 @@ import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { HTML_BROSWER } from '@constants/html'
+import { MODEL_SUBJECT_TYPE, HTML_BROSWER, MODEL_BROWSER_SORT } from '@constants'
+import { BrowserSort, SubjectType } from '@constants/model/types'
 
 const date = new Date()
 const namespace = 'ScreenBrowser'
 const excludeState = {
-  show: true // 是否显示列表, 制造切页效果
+  sort: '' as BrowserSort,
+
+  /** 是否显示列表, 制造切页效果 */
+  show: true
 }
 
 export default class ScreenBrowser extends store {
   state = observable({
-    type: MODEL_SUBJECT_TYPE.getLabel('动画'),
+    type: MODEL_SUBJECT_TYPE.getLabel('动画') as SubjectType,
     airtime: date.getFullYear(),
     month: date.getMonth() + 1,
     layout: 'list', // list | grid
@@ -37,13 +40,13 @@ export default class ScreenBrowser extends store {
       ...state,
       airtime: state.airtime || date.getFullYear(),
       month: state.month || date.getMonth() + 1,
+      ...excludeState,
       _loaded: true
     })
 
     const { _loaded } = this.browser
-    if (!_loaded) {
-      return this.fetchBrowser(true)
-    }
+    if (!_loaded) return this.fetchBrowser(true)
+
     return true
   }
 
@@ -51,11 +54,12 @@ export default class ScreenBrowser extends store {
 
   // -------------------- fetch --------------------
   fetchBrowser = refresh => {
-    const { type } = this.state
+    const { type, sort } = this.state
     return tagStore.fetchBrowser(
       {
         type,
-        airtime: this.airtime
+        airtime: this.airtime,
+        sort
       },
       refresh
     )
@@ -68,8 +72,8 @@ export default class ScreenBrowser extends store {
   }
 
   @computed get browser() {
-    const { type } = this.state
-    const browser = tagStore.browser(type, this.airtime)
+    const { type, sort } = this.state
+    const browser = tagStore.browser(type, this.airtime, sort)
     if (userStore.isLimit) {
       let _filter = 0
       const list = browser.list.filter(item => {
@@ -97,8 +101,8 @@ export default class ScreenBrowser extends store {
   }
 
   @computed get url() {
-    const { type } = this.state
-    return HTML_BROSWER(type, this.airtime)
+    const { type, sort } = this.state
+    return HTML_BROSWER(type as SubjectType, this.airtime, 1, sort)
   }
 
   @computed get userCollectionsMap() {
@@ -152,7 +156,7 @@ export default class ScreenBrowser extends store {
 
   onMonthSelect = month => {
     const { airtime } = this.state
-    if (airtime === '') {
+    if (!airtime) {
       info('请先选择年')
       return
     }
@@ -177,7 +181,7 @@ export default class ScreenBrowser extends store {
 
   onAirdatePrev = () => {
     const { airtime, month } = this.state
-    if (airtime === '') {
+    if (!airtime) {
       info('请先选择年')
       return
     }
@@ -215,7 +219,7 @@ export default class ScreenBrowser extends store {
 
   onAirdateNext = () => {
     const { airtime, month } = this.state
-    if (airtime === '') {
+    if (!airtime) {
       info('请先选择年')
       return
     }
@@ -251,6 +255,25 @@ export default class ScreenBrowser extends store {
     this.fetchBrowser(true)
   }
 
+  onOrderSelect = label => {
+    // t('索引.排序选择', {
+    //   sort
+    // })
+
+    this.setState({
+      show: false,
+      sort: MODEL_BROWSER_SORT.getValue(label)
+    })
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+      this.setStorage(undefined, undefined, namespace)
+    }, 0)
+
+    this.fetchBrowser(true)
+  }
+
   /**
    * 切换布局
    */
@@ -266,7 +289,7 @@ export default class ScreenBrowser extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
-  toggleFixed = () => {
+  onToggleFixed = () => {
     const { fixed } = this.state
 
     this.setState({
@@ -275,7 +298,7 @@ export default class ScreenBrowser extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
-  toggleCollected = () => {
+  onToggleCollected = () => {
     const { collected } = this.state
 
     this.setState({

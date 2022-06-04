@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 14:25:20
+ * @Last Modified time: 2022-06-04 08:33:45
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -60,6 +60,7 @@ class List extends React.Component {
         event={eventGrid}
         {...item}
         isCollect={item.collected}
+        isRectangle={MODEL_SUBJECT_TYPE.getTitle(type) === '音乐'}
       />
     )
   }
