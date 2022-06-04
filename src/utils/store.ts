@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 12:56:47
+ * @Last Modified time: 2022-06-05 00:52:34
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -206,7 +206,7 @@ export default class Store {
    * @param {*} value
    * @param {*} namespace 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
-  setStorage = (key, value, namespace) => {
+  setStorage = (key, value?, namespace?) => {
     // 只传了一个参数时, 第一个参数作为 namespace
     if (value === undefined && namespace === undefined) {
       let _key = key || this.namespace || this.getName()

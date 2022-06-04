@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-03-13 14:59:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 07:53:00
+ * @Last Modified time: 2022-06-05 00:49:47
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Heatmap, SegmentedControl } from '@components'
+import {
+  // Heatmap,
+  SegmentedControl
+} from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
@@ -22,7 +25,7 @@ function Type({ type, onChange }) {
         selectedIndex={type === 'collect' ? 1 : 0}
         onValueChange={onChange}
       />
-      <Heatmap id='每日放送.切换类型' />
+      {/* <Heatmap id='每日放送.切换类型' /> */}
     </View>
   )
 }
@@ -31,7 +34,7 @@ export default ob(Type)
 
 const styles = _.create({
   segment: {
-    width: 80 * _.ratio,
-    height: 22 * _.ratio
+    width: _.r(96),
+    height: _.r(28)
   }
 })

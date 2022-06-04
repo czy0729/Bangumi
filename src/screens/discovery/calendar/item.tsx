@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 11:52:08
+ * @Last Modified time: 2022-06-05 01:54:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text } from '@components'
-import { Cover, Tag, Stars } from '@_'
+import { Cover, Stars } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
@@ -46,7 +46,16 @@ const Item = memo(
     air,
     timeCN
   }) => {
-    rerender('Calendar.Item.Main')
+    global.rerender('Calendar.Item.Main')
+
+    const showScore = !hideScore && !!score
+
+    let middle: any = []
+    if (!!timeCN && timeCN !== '2359') {
+      middle.push(`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`)
+    }
+    if (collection) middle.push(collection)
+    middle = middle.join(' · ')
 
     const onPress = () => {
       t('每日放送.跳转', {
@@ -61,44 +70,33 @@ const Item = memo(
       })
     }
 
-    const showScore = !hideScore && !!score
     return (
       <View style={[styles.item, style]}>
-        <View>
-          <Cover
-            width={gridStyles.width}
-            height={gridStyles.height}
-            src={images.medium}
-            radius
-            shadow
-            onPress={onPress}
-          />
-          {!!timeCN && timeCN !== '2359' && (
-            <View style={styles.time} pointerEvents='none'>
-              <Text style={styles.timeText} size={12} bold>
-                {' '}
-                {timeCN.slice(0, 2)}:{timeCN.slice(2)}{' '}
-              </Text>
-            </View>
-          )}
-        </View>
-        <Touchable style={_.mt.sm} withoutFeedback hitSlop={hitSlop} onPress={onPress}>
-          <Text size={13} bold lineHeight={15} numberOfLines={2}>
+        <Cover
+          width={gridStyles.width}
+          height={gridStyles.height}
+          src={images.medium}
+          radius
+          shadow
+          onPress={onPress}
+        />
+        <Touchable style={_.mt.sm} hitSlop={hitSlop} withoutFeedback onPress={onPress}>
+          <Text size={13} lineHeight={15} numberOfLines={2} bold>
             {HTMLDecode(name)}
           </Text>
+          {!!middle && (
+            <Text style={_.mt.xs} size={11} lineHeight={12} type='sub' bold>
+              {middle}
+            </Text>
+          )}
           <Flex style={_.mt.sm}>
             {!!air && (
-              <Text style={_.mr.xs} size={11} type='sub' bold>
+              <Text style={_.mr.xs} size={11} bold>
                 第{air}话
               </Text>
             )}
             {showScore && <Stars value={score} simple />}
           </Flex>
-          {!!collection && (
-            <Flex style={_.mt.sm}>
-              <Tag value={collection} />
-            </Flex>
-          )}
         </Touchable>
       </View>
     )
@@ -108,7 +106,7 @@ const Item = memo(
 
 export default obc(
   ({ style, subjectId, name, images, score, timeCN }, { $, navigation }) => {
-    rerender('Calendar.Item')
+    global.rerender('Calendar.Item')
 
     const { type } = $.state
     const collection = $.userCollectionsMap[subjectId]
@@ -136,18 +134,6 @@ const styles = _.create({
   item: {
     width: gridStyles.width,
     marginLeft: gridStyles.marginLeft,
-    marginBottom: _.space
-  },
-  time: {
-    position: 'absolute',
-    zIndex: 1,
-    top: _.sm,
-    left: _.sm,
-    padding: 4,
-    backgroundColor: 'rgba(0, 0, 0, 0.64)',
-    borderRadius: _.radiusXs
-  },
-  timeText: {
-    color: _.__colorPlain__
+    marginBottom: _.md
   }
 })

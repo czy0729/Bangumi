@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 08:36:08
+ * @Last Modified time: 2022-06-05 01:18:17
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -110,15 +110,9 @@ class Collection extends store {
     }).get()
   }
 
-  /**
-   * 所有收藏条目状态
-   * @param subjectId
-   */
-  userCollectionsMap(subjectId: SubjectId) {
-    return computed<CollectionStatusCn>(() => {
-      const { userCollectionsMap } = this.state
-      return userCollectionsMap[subjectId]
-    }).get()
+  /** 所有收藏条目状态 */
+  @computed get userCollectionsMap() {
+    return this.state.userCollectionsMap
   }
 
   /** 瓷砖进度 */

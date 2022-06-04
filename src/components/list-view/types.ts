@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 07:57:39
+ * @Last Modified time: 2022-06-05 01:05:00
  */
 import { FlatListProps } from 'react-native'
 import { Fn, ReactNode, ViewStyle, ListEmpty } from '@types'
@@ -35,11 +35,14 @@ export type Props = {
 
   /** 用来渲染每一个 section 中的每一个列表项的默认渲染器 */
   renderItem?: (
-    item?: object,
+    item?: any,
     index?: number,
     section?: object,
     separators?: object
   ) => ReactNode
+
+  /** 有 sections 才生效 */
+  renderSectionHeader?: any
 
   /** 列表顶部组件 */
   ListHeaderComponent?: FlatListProps<any>['ListHeaderComponent']

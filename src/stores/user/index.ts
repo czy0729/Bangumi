@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:12:27
+ * @Last Modified time: 2022-06-05 00:54:20
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -231,6 +231,11 @@ class User extends store {
   /** 自己用户信息 */
   @computed get userInfo() {
     return this.state.userInfo
+  }
+
+  /** 在看收藏 */
+  @computed get userCollection() {
+    return this.state.userCollection
   }
 
   /** 自己用户Id */

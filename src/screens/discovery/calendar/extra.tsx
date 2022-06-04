@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-08 07:39:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 02:08:12
+ * @Last Modified time: 2022-06-05 00:56:07
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -24,13 +24,13 @@ function Extra({ $ }) {
   return (
     <Flex>
       <Type
-        key={currentType === undefined}
+        key={String(currentType === undefined)}
         type={currentType}
-        onChange={$?.toggleType}
+        onChange={$?.onToggleType}
       />
       <IconLayout
         isList={$?.isList === undefined ? isList : $?.isList}
-        onPress={$?.switchLayout}
+        onPress={$?.onSwitchLayout}
       />
     </Flex>
   )

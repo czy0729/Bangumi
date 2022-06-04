@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 11:40:54
+ * @Last Modified time: 2022-06-05 01:42:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 
 const defaultProps = {
   navigation: {},
@@ -43,17 +43,16 @@ const ItemLine = memo(
     score,
     onToggleExpand
   }) => {
-    rerender('Calendar.ItemLine.Main')
+    global.rerender('Calendar.ItemLine.Main')
 
     const showScore = !hideScore && !!score
-
     const canPress = expand || (!expand && timeCN && timeCN !== '2359')
     const content = (
       <Flex style={styles.item} align='start'>
         <View style={styles.time}>
-          {!!timeCN && (
+          {!!(timeCN && !(timeCN === '2359' && !expand)) && (
             <Text bold>
-              {timeCN === '2359' ? '待定' : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
+              {timeCN === '2359' ? '未知' : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
             </Text>
           )}
           {timeCN === '2359' && (
@@ -62,7 +61,7 @@ const ItemLine = memo(
               withoutFeedback
               onPress={onToggleExpand}
             >
-              <Text type='sub'>{expand ? '隐藏' : '展开'}</Text>
+              <Text type='sub'>{expand ? '收起' : '展开'}</Text>
             </Touchable>
           )}
         </View>
@@ -70,8 +69,8 @@ const ItemLine = memo(
           <>
             <View style={styles.image}>
               <Cover
-                width={IMG_WIDTH}
-                height={IMG_HEIGHT}
+                width={IMG_WIDTH_SM}
+                height={IMG_HEIGHT_SM}
                 src={images.medium}
                 radius
                 shadow
@@ -89,14 +88,14 @@ const ItemLine = memo(
                     <Flex.Item>
                       <Katakana.Provider
                         itemStyle={styles.katakanas}
-                        size={15}
-                        lineHeight={16}
+                        size={14}
+                        lineHeight={15}
                         numberOfLines={3}
                       >
                         <Katakana
                           type='desc'
-                          size={15}
-                          lineHeight={16}
+                          size={14}
+                          lineHeight={15}
                           numberOfLines={3}
                           bold
                         >
@@ -113,7 +112,7 @@ const ItemLine = memo(
                 </View>
                 <Flex>
                   {!!air && (
-                    <Text style={_.mr.sm} type='sub' size={14} bold>
+                    <Text style={_.mr.sm} type='sub' size={13} bold>
                       更新至第{air}话
                     </Text>
                   )}
@@ -128,23 +127,24 @@ const ItemLine = memo(
 
     if (canPress) {
       return (
-        <Touchable
-          style={_.container.block}
-          onPress={() => {
-            t('每日放送.跳转', {
-              to: 'Subject',
-              subjectId
-            })
+        <View style={_.container.block}>
+          <Touchable
+            onPress={() => {
+              t('每日放送.跳转', {
+                to: 'Subject',
+                subjectId
+              })
 
-            navigation.push('Subject', {
-              subjectId,
-              _cn: name,
-              _image: images.medium
-            })
-          }}
-        >
-          {content}
-        </Touchable>
+              navigation.push('Subject', {
+                subjectId,
+                _cn: name,
+                _image: images.medium
+              })
+            }}
+          >
+            {content}
+          </Touchable>
+        </View>
       )
     }
 
@@ -155,7 +155,8 @@ const ItemLine = memo(
 
 export default obc(
   ({ subjectId, images = {}, name, air, timeCN, score }, { $, navigation }) => {
-    rerender('Calendar.ItemLine')
+    global.rerender('Calendar.ItemLine')
+
     const { type, expand } = $.state
     const collection = $.userCollectionsMap[subjectId]
     if ((type === 'collect' && !collection) || (!expand && !timeCN)) return null
@@ -173,7 +174,7 @@ export default obc(
         expand={expand}
         collection={collection}
         score={score}
-        onToggleExpand={$.toggleExpand}
+        onToggleExpand={$.onToggleExpand}
       />
     )
   }
@@ -190,11 +191,11 @@ const memoStyles = _.memoStyles(() => ({
     marginTop: 2
   },
   image: {
-    width: IMG_WIDTH
+    width: IMG_WIDTH_SM
   },
   body: {
     width: '100%',
-    height: IMG_HEIGHT - 4,
+    height: IMG_HEIGHT_SM - 4,
     paddingTop: 2,
     paddingRight: _.wind
   },

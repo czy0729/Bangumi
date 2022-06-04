@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 02:01:16
+ * @Last Modified time: 2022-06-05 01:01:02
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
@@ -104,9 +104,8 @@ export default class ScreenCalendar extends store {
   /**
    * 切换布局
    */
-  switchLayout = () => {
+  onSwitchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
-
     t('每日放送.切换布局', {
       layout: _layout
     })
@@ -114,22 +113,28 @@ export default class ScreenCalendar extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(namespace)
   }
 
-  toggleType = () => {
+  onToggleType = label => {
     const { type } = this.state
+    const isAll = type === 'all'
+    if (label) {
+      if (label === '全部' && isAll) return
+      if (label === '收藏' && type === 'collect') return
+    }
+
     this.setState({
       type: type === 'all' ? 'collect' : 'all'
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(namespace)
   }
 
-  toggleExpand = () => {
+  onToggleExpand = () => {
     const { expand } = this.state
     this.setState({
       expand: !expand
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(namespace)
   }
 }

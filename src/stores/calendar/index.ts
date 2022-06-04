@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 23:21:36
+ * @Last Modified time: 2022-06-04 23:46:44
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -276,22 +276,27 @@ class Calendar extends store {
     }
   }
 
-  _fetchOnAir = false
+  private _fetchOnAir = false
 
   /** onAir数据, 数据不会经常变化, 所以一个启动周期只请求一次 */
   fetchOnAir = async () => {
     if (this._fetchOnAir) return
 
     try {
-      const { _response } = await xhrCustom({
-        url: CDN_ONAIR()
-      })
+      let onAir = []
+
+      try {
+        const { _response } = await xhrCustom({
+          url: CDN_ONAIR()
+        })
+        onAir = JSON.parse(_response)
+      } catch (error) {}
+
+      if (onAir.length <= 8) onAir = require('@constants/fallback/calendar.json')
 
       const data = {
         _loaded: true
       }
-
-      const onAir = JSON.parse(_response)
       onAir.forEach(item => {
         const airEps = item.eps.filter(
           item => item.status === 'Air' || item.status === 'Today'
