@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 11:07:17
+ * @Last Modified time: 2022-06-05 16:03:52
  */
 import { ModelValueOf } from '@types'
 import {
@@ -28,7 +28,7 @@ export type CollectionsOrder = ModelValueOf<typeof COLLECTIONS_ORDERBY, 'value'>
 
 export type EpStatus = ModelValueOf<typeof EP_STATUS, 'value'>
 
-export type Order = ModelValueOf<typeof TAG_ORDERBY, 'value'>
+export type TagOrder = ModelValueOf<typeof TAG_ORDERBY, 'value'>
 
 export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE, 'value'>
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 08:15:12
+ * @Last Modified time: 2022-06-05 16:10:50
  */
 import React from 'react'
 import { Page } from '@components'
@@ -19,13 +19,13 @@ const Tag = (props, { $ }) => {
   })
 
   return useObserver(() => {
-    const { fixed } = $.state
+    const { _loaded, fixed } = $.state
     return (
       <>
         <Header />
         <Page>
           {fixed && <ToolBar />}
-          {$.state._loaded && <List />}
+          {_loaded && <List />}
         </Page>
       </>
     )

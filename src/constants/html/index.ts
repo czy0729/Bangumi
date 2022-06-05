@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 12:16:56
+ * @Last Modified time: 2022-06-05 16:04:21
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -14,7 +14,7 @@ import { MODEL_TIMELINE_SCOPE } from '../model'
 import {
   CollectionStatus,
   CollectionsOrder,
-  Order,
+  TagOrder,
   RakuenScope,
   RakuenType,
   RatingStatus,
@@ -155,7 +155,7 @@ export const HTML_SEARCH = (
 export const HTML_TAG = (
   text: string,
   type: SubjectType = 'anime',
-  order: Order,
+  order: TagOrder = '',
   page: number = 1,
   airtime?: string
 ) => {
@@ -168,7 +168,7 @@ export const HTML_TAG = (
 /** 排行榜 */
 export const HTML_RANK = (
   type: SubjectType = 'anime',
-  order: Order = 'rank',
+  order: TagOrder = 'rank',
   page: number = 1,
   filter?: string,
   airtime?: string

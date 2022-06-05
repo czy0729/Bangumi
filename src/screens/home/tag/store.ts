@@ -2,22 +2,29 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 08:20:30
+ * @Last Modified time: 2022-06-05 16:06:02
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { MODEL_TAG_ORDERBY } from '@constants/model'
+import { MODEL_TAG_ORDERBY } from '@constants'
 import { HTML_TAG } from '@constants/html'
+import { SubjectType, TagOrder } from '@constants/model/types'
 
 const namespace = 'ScreenTag'
 const defaultOrder = MODEL_TAG_ORDERBY.getValue('名称')
 
 export default class ScreenTag extends store {
+  params: {
+    airtime?: string
+    type?: SubjectType
+    tag?: string
+  }
+
   state = observable({
-    order: defaultOrder,
+    order: defaultOrder as TagOrder,
     airtime: '',
     month: '',
     hide: false, // 用于列表置顶
@@ -32,7 +39,7 @@ export default class ScreenTag extends store {
     const _state = {
       ...state,
 
-      // order慎用排名排序, 不然列表数据几乎没区别
+      // order 慎用排名排序, 不然列表数据几乎没区别
       order:
         state.order === MODEL_TAG_ORDERBY.getValue('排名') ? defaultOrder : state.order,
       airtime: '',
@@ -168,7 +175,7 @@ export default class ScreenTag extends store {
     }, 0)
   }
 
-  toggleList = () => {
+  onToggleList = () => {
     const { list } = this.state
     t('用户标签.切换布局', {
       list: !list
@@ -189,7 +196,7 @@ export default class ScreenTag extends store {
     }, 0)
   }
 
-  toggleFixed = () => {
+  onToggleFixed = () => {
     const { fixed } = this.state
 
     this.setState({
@@ -198,7 +205,7 @@ export default class ScreenTag extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
-  toggleCollected = () => {
+  onToggleCollected = () => {
     const { collected } = this.state
 
     this.setState({
