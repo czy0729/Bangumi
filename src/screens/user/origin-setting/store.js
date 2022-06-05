@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 05:26:46
+ * @Last Modified time: 2022-06-06 05:07:09
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
@@ -105,14 +105,16 @@ export default class ScreenOriginSetting extends store {
         active: 1
       }
     },
-    active: true
+    active: true,
+    _loaded: false
   })
 
   init = async () => {
     const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       data: toJS(subjectStore.origin),
-      active: state?.active || false
+      active: state?.active || false,
+      _loaded: getTimestamp()
     })
   }
 
@@ -182,6 +184,7 @@ export default class ScreenOriginSetting extends store {
     const { edit } = this.state
     let _val = val.trim()
     if (key === 'sort') _val = isNaN(Number(_val)) ? 0 : Number(_val)
+
     this.setState({
       edit: {
         ...edit,

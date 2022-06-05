@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 04:47:17
+ * @Last Modified time: 2022-06-06 05:11:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
         </Text>
         <Input
           style={_.mt.sm}
-          value={String(name)}
+          defaultValue={String(name)}
           placeholder='菜单显示名称，唯一'
           onChangeText={isBase ? undefined : text => $.onChangeText('name', text)}
         />
@@ -66,7 +66,7 @@ const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
         </Text>
         <Input
           style={_.mt.sm}
-          value={String(url)}
+          defaultValue={String(url)}
           multiline
           numberOfLines={4}
           textAlignVertical='top'
@@ -80,6 +80,7 @@ const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
           style={_.mt.sm}
           value={String(edit.item.sort)}
           placeholder='数字，越大越前，选填'
+          keyboardType='number-pad'
           onChangeText={text => $.onChangeText('sort', text)}
         />
       </Flex.Item>

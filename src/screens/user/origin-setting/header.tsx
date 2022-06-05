@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 04:32:32
+ * @Last Modified time: 2022-06-06 04:43:25
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -15,6 +15,7 @@ function Header() {
     <CompHeader
       title='自定义源头'
       hm={['origin-setting', 'OriginSetting']}
+      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight={() => (
         <CompHeader.Popover
           data={['说明文档']}

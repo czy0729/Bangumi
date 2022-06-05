@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-10 15:40:11
+ * @Last Modified time: 2022-06-06 05:06:36
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover, Tag } from '@_'
 import { _ } from '@stores'
@@ -113,7 +114,9 @@ const Item = ({ type, id, uuid, active, name, url, sort }, { $ }) => {
             }
           }}
         >
-          <Iconfont name='md-more-vert' color={_.colorDesc} />
+          <View style={styles.touch}>
+            <Iconfont name='md-more-vert' color={_.colorDesc} />
+          </View>
         </Popover>
       </Flex>
       {isEdit && <Form name={name} url={url} isBase={isBase} />}
@@ -126,6 +129,10 @@ export default obc(Item)
 const memoStyles = _.memoStyles(() => ({
   item: {
     marginVertical: _.md
+  },
+  touch: {
+    padding: _.sm,
+    marginRight: -_.sm
   },
   disabled: {
     opacity: 0.5
