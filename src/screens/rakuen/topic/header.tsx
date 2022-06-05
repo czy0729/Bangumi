@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 17:30:11
+ * @Last Modified time: 2022-06-05 14:11:48
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -25,6 +25,7 @@ function Header({ fixed }, { $, navigation }) {
       alias='帖子'
       hm={[url, 'Topic']}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
+      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight={() => (
         <Flex>
           <IconFavor $={$} />

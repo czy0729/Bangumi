@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:03:19
+ * @Last Modified time: 2022-06-05 13:51:25
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -11,8 +11,6 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 
-export default
-@obc
 class List extends React.Component {
   renderItem = ({ item }) => <ItemCatalog {...item} isUser event={this.event} />
 
@@ -36,6 +34,7 @@ class List extends React.Component {
     return (
       <ListView
         style={_.container.plain}
+        contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={catalogs}
         scrollToTop
@@ -46,3 +45,5 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)

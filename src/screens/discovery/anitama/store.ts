@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 18:12:04
+ * @Last Modified time: 2022-06-05 06:09:04
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
@@ -94,7 +94,7 @@ export default class ScreenAnitama extends store {
     const { page } = this.state
     if (page == 1) return
 
-    const _page = parseInt(page) - 1
+    const _page = parseInt(String(page)) - 1
     t('Anitama.上一页', {
       page: _page
     })
@@ -118,7 +118,7 @@ export default class ScreenAnitama extends store {
   next = () => {
     const { page } = this.state
 
-    const _page = parseInt(page) + 1
+    const _page = parseInt(String(page)) + 1
     t('Anitama.下一页', {
       page: _page
     })

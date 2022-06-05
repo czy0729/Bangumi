@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 07:14:13
+ * @Last Modified time: 2022-06-05 13:34:29
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -38,59 +38,37 @@ import {
 
 class System extends store {
   state = observable({
-    /**
-     * 云端配置数据
-     */
+    /** 云端配置数据 */
     ota: {},
 
-    /**
-     * 高级会员
-     */
+    /** 高级会员 */
     advance: false,
 
-    /**
-     * 基本设置
-     */
+    /** 基本设置 */
     setting: INIT_SETTING,
 
-    /**
-     * 发布版本
-     */
+    /** 发布版本 */
     release: INIT_RELEASE,
 
-    /**
-     * 是否显示图片预览
-     */
+    /** 是否显示图片预览 */
     imageViewer: INIT_IMAGE_VIEWER,
 
-    /**
-     * 是否wifi
-     */
+    /** @deprecated 是否wifi */
     wifi: false,
 
-    /**
-     * 是否开发环境
-     */
+    /** 是否开发环境 */
     dev: false,
 
-    /**
-     * 是否显示埋点统计
-     */
+    /** 是否显示埋点统计 */
     devEvent: INIT_DEV_EVENT,
 
-    /**
-     * iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审
-     */
+    /** @deprecated iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
     iosUGCAgree: false,
 
-    /**
-     * 用于标记APP启动后是否进入静止期
-     */
+    /** 用于标记APP启动后是否进入静止期 */
     rendered: false,
 
-    /**
-     * 用于在bangumi-oss ota hash更新后, 强制刷新APP内所有封面
-     */
+    /** 用于在bangumi-oss ota hash更新后, 强制刷新APP内所有封面 */
     hashSubjectOTALoaded: 0
   })
 
@@ -118,24 +96,34 @@ class System extends store {
   }
 
   // -------------------- get --------------------
+  /** iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
   @computed get isUGCAgree() {
     return true
   }
 
+  /** 是否开发环境 */
   @computed get dev() {
     return this.state.dev
   }
 
+  /** 基本设置 */
   @computed get setting() {
     return this.state.setting
   }
 
+  /** @deprecated 是否wifi */
   @computed get wifi() {
     return this.state.wifi
   }
 
+  /** 是否显示埋点统计 */
   @computed get devEvent() {
     return this.state.devEvent
+  }
+
+  /** 高级会员 */
+  @computed get advance() {
+    return this.state.advance
   }
 
   // -------------------- fetch --------------------
@@ -218,7 +206,7 @@ class System extends store {
         this.setStorage(key, undefined, NAMESPACE)
       }
     } catch (error) {
-      warn(NAMESPACE, 'fetchAdvance', error)
+      console.error(NAMESPACE, 'fetchAdvance', error)
     }
 
     return true

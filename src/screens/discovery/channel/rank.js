@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 12:04:52
+ * @Last Modified time: 2022-06-05 13:54:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
+import { HTMLDecode } from '@utils/html'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 export const imgWidth = IMG_WIDTH * 1.2
@@ -77,7 +78,7 @@ function Rank(props, { $, navigation }) {
                               bold
                               numberOfLines={2}
                             >
-                              {findSubjectCn(item.name, item.id)}
+                              {findSubjectCn(HTMLDecode(item.name), item.id)}
                             </Katakana>
                           </Katakana.Provider>
                           <Text style={_.mt.xs} size={13} type='sub'>
@@ -155,7 +156,7 @@ function Rank(props, { $, navigation }) {
                                   bold
                                   numberOfLines={3}
                                 >
-                                  {findSubjectCn(item.name, item.id)}
+                                  {findSubjectCn(HTMLDecode(item.name), item.id)}
                                 </Katakana>
                               </Katakana.Provider>
                               <Text style={_.mt.xxs} size={11} type='sub'>

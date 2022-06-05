@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-31 11:27:10
+ * @Last Modified time: 2022-06-05 14:04:32
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -283,7 +283,8 @@ const Item = memo(
                   _cn: findSubjectCn(!!p3Text.length && p3Text[index], subjectId),
                   _jp: !!p3Text.length && p3Text[index],
                   _name: !!p3Text.length && p3Text[index],
-                  _image: item
+                  _image: item,
+                  _type: type
                 })
               }}
             />
@@ -320,13 +321,15 @@ const Item = memo(
         imageLength === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md
       const rightCoverIsAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
       const showImages = imageLength >= 3
-      const type = p2Text?.includes('读')
-        ? '书籍'
-        : p2Text?.includes('听')
-        ? '音乐'
-        : p2Text?.includes('玩')
-        ? '游戏'
-        : ''
+
+      let type
+      if (p2Text?.includes('读') || p4Text?.includes('书籍')) {
+        type = '书籍'
+      } else if (p2Text?.includes('听') || p4Text?.includes('音乐')) {
+        type = '音乐'
+      } else if (p2Text?.includes('玩') || p4Text?.includes('游戏')) {
+        type = '游戏'
+      }
 
       return (
         <Flex.Item style={[showImages ? styles.noPR : styles.content, _.ml.sm]}>
@@ -363,7 +366,8 @@ const Item = memo(
                       onNavigate(!!p3Url.length && p3Url[0], {
                         _jp: !!p3Text.length && p3Text[0],
                         _name: !!p3Text.length && p3Text[0],
-                        _image
+                        _image,
+                        _type: type
                       })
                     }
                   />

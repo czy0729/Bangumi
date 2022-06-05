@@ -3,24 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-04 14:46:51
+ * @Last Modified time: 2022-06-05 13:28:54
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { ColorValue, ReactNode, ViewStyle } from '@types'
 import { styles } from './styles'
-
-type ActivityIndicatorProps = {
-  color?: ColorValue
-  size?: 'small' | 'large'
-}
-
-type Props = ActivityIndicatorProps & {
-  style?: ViewStyle
-  children?: ReactNode
-}
+import { ILoading, ActivityIndicatorProps } from './types'
 
 const Raw = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
@@ -32,17 +22,15 @@ const Mini = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   </View>
 ))
 
-const Loading = observer(({ style, color, size = 'small', children }: Props) => (
+const Loading: ILoading = observer(({ style, color, size = 'small', children }) => (
   <View style={[_.container.column, styles.loading, style]}>
     <Raw color={color} size={size} />
     {children}
   </View>
 ))
 
-// @ts-ignore
 Loading.Raw = Raw
 
-// @ts-ignore
 Loading.Mini = Mini
 
 export { Loading }

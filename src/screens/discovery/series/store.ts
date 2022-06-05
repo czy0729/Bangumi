@@ -577,7 +577,7 @@ export default class ScreenSeries extends store {
   }
 
   // -------------------- page --------------------
-  toggleFixed = () => {
+  onToggleFixed = () => {
     const { fixed } = this.state
 
     this.setState({

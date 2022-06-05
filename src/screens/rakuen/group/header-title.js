@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 22:05:14
+ * @Last Modified time: 2022-06-05 14:13:14
  */
 import React from 'react'
 import { Flex, Text, Image } from '@components'
@@ -29,6 +29,7 @@ export default ob(HeaderTitle)
 
 const styles = _.create({
   container: {
+    marginTop: _.ios(4, 0),
     marginRight: _.md
   }
 })

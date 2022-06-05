@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 05:40:24
+ * @Last Modified time: 2022-06-05 13:59:29
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -19,8 +19,6 @@ const h = _.headerHeight + H_TABBAR
 const contentInset = IOS ? { top: h } : undefined
 const contentOffset = IOS ? { y: -h } : undefined
 
-export default
-@obc
 class List extends React.Component {
   state = {
     /**
@@ -111,6 +109,8 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)
 
 function renderSectionHeader({ section: { title } }) {
   return <SectionHeader>{title}</SectionHeader>

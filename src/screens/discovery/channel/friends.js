@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 12:05:00
+ * @Last Modified time: 2022-06-05 13:54:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,7 @@ function Friends(props, { $, navigation }) {
                     {findSubjectCn(item.name, item.id)}
                   </Katakana>
                 </Katakana.Provider>
-                <Text style={_.mt.xs} size={11} numberOfLines={1}>
+                <Text style={_.mt.xs} size={11} numberOfLines={2}>
                   <Text
                     size={11}
                     type='sub'

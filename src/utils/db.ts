@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:56:21
+ * @Last Modified time: 2022-06-05 13:33:56
  */
 import Constants from 'expo-constants'
 import { xhrCustom as xhr } from './fetch'
@@ -165,7 +165,15 @@ export async function update({ path, content, sha, message }) {
 /**
  * 自动写入
  */
-export async function put({ path, content, message }) {
+export async function put({
+  path,
+  content,
+  message
+}: {
+  path: `${string}.json`
+  content: string
+  message?: string
+}) {
   try {
     /**
      * 获取access_token

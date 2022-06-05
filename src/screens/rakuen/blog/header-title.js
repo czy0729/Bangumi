@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 21:33:57
+ * @Last Modified time: 2022-06-05 14:14:01
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -42,6 +42,7 @@ export default ob(HeaderTitle)
 
 const styles = _.create({
   container: {
+    marginTop: _.ios(4, 0),
     marginLeft: _.device(-_.md, -_.sm),
     marginRight: _.md
   }

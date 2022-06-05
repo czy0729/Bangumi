@@ -13,7 +13,9 @@
     "name": "Bangumi",
     "slug": "bangumi-pro",
     "privacy": "public",
-    "platforms": ["ios"],
+    "platforms": [
+      "ios"
+    ],
     "orientation": "portrait",
     "scheme": "bangumi",
     "icon": "./src/assets/images/icon.png",
@@ -26,7 +28,9 @@
       "enabled": false,
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.czy0729.bangumi",
       "supportsTablet": true
