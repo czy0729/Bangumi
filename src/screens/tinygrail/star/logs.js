@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:24:54
+ * @Last Modified time: 2022-06-06 11:12:23
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -178,7 +178,7 @@ const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.md
   },
   segment: {
-    width: 80 * _.ratio,
-    height: 22 * _.ratio
+    width: _.r(96),
+    height: _.r(28)
   }
 }))

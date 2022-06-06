@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 01:41:22
+ * @Last Modified time: 2022-06-06 11:12:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ export default ob(Sort)
 const styles = _.create({
   segment: {
     width: _.r(144),
-    height: _.r(22),
+    height: _.r(28),
     marginRight: _.xs
   }
 })

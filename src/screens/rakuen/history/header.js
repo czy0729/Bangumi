@@ -15,6 +15,7 @@ function Header(props, { $ }) {
       title='收藏'
       alias='本地帖子'
       hm={['rakuen/history', 'RakuenHistory']}
+      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight={() => <IconFavor $={$} />}
     />
   )

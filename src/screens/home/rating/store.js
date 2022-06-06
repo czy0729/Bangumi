@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 10:22:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 17:47:58
+ * @Last Modified time: 2022-06-06 11:01:05
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -142,8 +142,13 @@ export default class ScreenRating extends store {
     }
   }
 
-  toggleFilter = () => {
+  onToggleFilter = label => {
     const { page, isFriend } = this.state
+    if (label) {
+      if (label === '所有' && !isFriend) return
+      if (label === '好友' && isFriend) return
+    }
+
     t('用户评分.切换类型', {
       isFriend: !isFriend
     })

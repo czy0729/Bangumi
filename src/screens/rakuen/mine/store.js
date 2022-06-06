@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 22:24:07
+ * @Last Modified time: 2022-06-06 11:11:55
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -44,9 +44,15 @@ export default class ScreenMine extends store {
   }
 
   // -------------------- page --------------------
-  onChange = title => {
+  onChange = label => {
+    if (label) {
+      const { type } = this.state
+      if (label === '我的' && type === 'mine') return
+      if (label === '全部' && type === 'all') return
+    }
+
     this.setState({
-      type: title === '全部' ? 'all' : 'mine'
+      type: label === '全部' ? 'all' : 'mine'
     })
     this.saveStorage()
   }

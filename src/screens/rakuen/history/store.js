@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:08:36
+ * @Last Modified time: 2022-06-06 11:10:26
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
@@ -87,8 +87,13 @@ export default class ScreenRakuenHistory extends store {
   /**
    * 切换收藏
    */
-  toggleFavor = () => {
+  toggleFavor = label => {
     const { favor } = this.state
+    if (label) {
+      if (label === '收藏' && favor) return
+      if (label === '缓存' && !favor) return
+    }
+
     const nextFavor = !favor
     t('本地帖子.切换收藏', {
       favor: nextFavor
@@ -111,7 +116,7 @@ export default class ScreenRakuenHistory extends store {
 
     const result = await rakuenStore.uploadFavorTopic()
     if (result) {
-      info('已同步到云')
+      // info('已同步到云')
     }
   }
 }
