@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-05-05 22:22:42
+ * @Last Modified time: 2022-06-06 11:32:00
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -31,13 +31,7 @@ function IconEp(props, { $, navigation }) {
         })
       }}
     >
-      <Heatmap
-        right={13}
-        id='条目.跳转'
-        data={{
-          from: '章节'
-        }}
-      />
+      <Heatmap right={13} id='条目.跳转' from='章节' />
     </IconTouchable>
   )
 }

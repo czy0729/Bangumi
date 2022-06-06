@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 18:16:51
+ * @Last Modified time: 2022-06-06 11:46:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,10 +46,6 @@ const Main = memo(
       popoverProps = {
         overlay: (
           <Menu
-            // title={[
-            //   `ep.${item.sort} ${item.name_cn || item.name}`,
-            //   `${item.airdate} 讨论数：${item.comment}`
-            // ]}
             title={[`ep${item.sort} · ${item.airdate}`]}
             data={popoverData}
             onSelect={value => onSelect(value, item)}

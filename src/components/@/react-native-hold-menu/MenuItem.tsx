@@ -73,6 +73,7 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
             item.isTitle ? styles.menuItemTitleText : styles.menuItemText,
             textColor
           ]}
+          numberOfLines={item.isTitle ? undefined : 1}
         >
           {item.text}
         </Animated.Text>

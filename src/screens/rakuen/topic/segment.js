@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-09 13:02:16
+ * @Last Modified time: 2022-06-06 11:14:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -67,6 +67,6 @@ export default obc(Segement)
 
 const styles = _.create({
   segmentedControl: {
-    height: 22 * _.ratio
+    height: _.r(28)
   }
 })

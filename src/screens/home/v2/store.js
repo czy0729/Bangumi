@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-31 13:05:32
+ * @Last Modified time: 2022-06-06 11:48:57
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -1149,7 +1149,7 @@ export default class ScreenHomeV2 extends store {
       // 数据占位
       const subject = this.subject(subjectId)
       appNavigate(
-        item.url,
+        item.url || `/ep/${item.id}`,
         navigation,
         {
           _title: `ep${item.sort}.${item.name || item.name_cn}`,

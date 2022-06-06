@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 16:30:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:23:10
+ * @Last Modified time: 2022-06-06 11:24:37
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -93,32 +93,36 @@ class User extends React.Component {
     const { page, _loaded } = $.state
     const { fixed } = this.state
     return (
-      <Page loaded={_loaded}>
-        <Tab
-          scrollY={this.scrollY}
-          scrollEventThrottle={16}
-          page={page}
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    y: this.scrollY
+      <Page>
+        {!!_loaded && (
+          <>
+            <Tab
+              scrollY={this.scrollY}
+              scrollEventThrottle={16}
+              page={page}
+              onScroll={Animated.event(
+                [
+                  {
+                    nativeEvent: {
+                      contentOffset: {
+                        y: this.scrollY
+                      }
+                    }
                   }
+                ],
+                {
+                  useNativeDriver: true,
+                  listener: this.onScroll
                 }
-              }
-            ],
-            {
-              useNativeDriver: true,
-              listener: this.onScroll
-            }
-          )}
-          onSwipeStart={this.onSwipeStart}
-          onIndexChange={this.onIndexChange}
-          onSelectSubjectType={this.onSelectSubjectType}
-          onToggleList={this.onToggleList}
-        />
-        <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
+              )}
+              onSwipeStart={this.onSwipeStart}
+              onIndexChange={this.onIndexChange}
+              onSelectSubjectType={this.onSelectSubjectType}
+              onToggleList={this.onToggleList}
+            />
+            <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
+          </>
+        )}
       </Page>
     )
   }

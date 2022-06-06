@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:55:41
+ * @Last Modified time: 2022-06-06 11:15:46
  */
 import { IOS } from '../constants'
 
@@ -246,10 +246,10 @@ export const TIMELINE_TYPE = [
     label: '目录',
     value: 'index'
   },
-  {
-    label: '天窗',
-    value: 'doujin'
-  },
+  // {
+  //   label: '天窗',
+  //   value: 'doujin'
+  // },
   {
     label: '',
     value: 'all'

@@ -2,20 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 17:21:24
+ * @Last Modified time: 2022-06-06 11:38:20
  */
-import { IOS } from '@constants'
+import { HTMLDecode } from '@utils/html'
 
 export function getPopoverData(item, isSp, canPlay, login, advance, userProgress) {
-  // if (IOS) {
-  //   discuss = '本集讨论'
-  // } else {
-  //   discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
-  // }
-
-  let discuss
-  discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
-  if (IOS && discuss.length >= 17) discuss = `${discuss.slice(0, 17)}`
+  const discuss = HTMLDecode(
+    `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
+  )
 
   let data
   if (login) {
