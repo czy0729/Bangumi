@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 10:36:31
+ * @Last Modified time: 2022-06-07 06:06:03
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -18,25 +18,33 @@ import { MODEL_SETTING_CDN_ORIGIN } from '@constants/model'
 import { CDN_OSS_MAGMA_POSTER } from '@constants/cdn'
 import styles from './styles'
 
+type Pings = {
+  lain?: number
+  magma?: number
+  onedrive?: number
+  jsdelivr?: number
+  fastly?: number
+}
+
 const URL_LAIN = 'https://lain.bgm.tv/pic/cover/c/fa/1d/25833_kZIjD.jpg'
 const URL_LAIN_NEW = 'https://lain.bgm.tv/pic/cover/c/ff/e5/327606_Q11Sq.jpg'
 const URL_JSDELIVR =
   'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OSS@master/data/subject/c/t/TfOdAB.jpg'
 const URL_FASTLY = URL_JSDELIVR.replace('cdn', 'fastly')
 const URL_ONEDRIVE = 'https://bangumi.stdcdn.com/subject/c/t/TfOdAB.jpg'
-const IMG_WIDTH = parseInt((_.window.contentWidth - 2 * _.sm) / 3)
-const IMG_HEIGHT = parseInt(IMG_WIDTH * 1.44)
+const IMG_WIDTH = Math.floor((_.window.contentWidth - 2 * _.sm) / 3)
+const IMG_HEIGHT = Math.floor(IMG_WIDTH * 1.44)
 const ADVANCE_CDN = 10
 
 function CDN() {
   const { state, setTrue, setFalse } = useBoolean(false)
   const [test, setTest] = useState(false)
   const [deprecated, setDeprecated] = useState(false)
-  const [pings, setPings] = useState({})
+  const [pings, setPings] = useState<Pings>({})
 
   useEffect(() => {
-    if (test && !pings.length) {
-      const data = {}
+    if (test && !Object.keys(pings).length) {
+      const data: Pings = {}
       async function cb() {
         data.lain = await ping(URL_LAIN)
         data.magma = await ping(CDN_OSS_MAGMA_POSTER(URL_LAIN))

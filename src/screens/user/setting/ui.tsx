@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:58:19
+ * @Last Modified time: 2022-06-07 05:33:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,8 @@ import {
   SwitchPro,
   SegmentedControl,
   Mesume,
-  Heatmap
+  Heatmap,
+  ScrollView
 } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
 import { ItemSetting, ItemSettingBlock, Cover, Avatar } from '@_'
@@ -24,15 +25,14 @@ import { IOS, IMG_WIDTH_SM, IMG_HEIGHT_SM, IMG_DEFAULT_AVATAR } from '@constants
 import {
   MODEL_SETTING_FONTSIZEADJUST,
   MODEL_SETTING_TRANSITION
-  // MODEL_SETTING_QUALITY
 } from '@constants/model'
 import commonStyles from './styles'
 
 const URL_BOOK = 'https://lain.bgm.tv/pic/cover/c/1e/7b/37782_OkkQ7.jpg'
 const URL_MUSIC = 'https://lain.bgm.tv/pic/cover/c/c5/0f/325453_162n4.jpg'
 const URL_GAME = 'https://lain.bgm.tv/pic/cover/c/60/d8/62229_SrxX4.jpg'
-const width = parseInt(IMG_WIDTH_SM / 1.8)
-const height = parseInt(IMG_HEIGHT_SM / 1.8)
+const width = Math.floor(IMG_WIDTH_SM / 1.8)
+const height = Math.floor(IMG_HEIGHT_SM / 1.8)
 
 function UI() {
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -54,7 +54,7 @@ function UI() {
     return (
       <>
         <ItemSetting hd='画面' arrow highlight onPress={setTrue} />
-        <ActionSheet show={state} height={640} onClose={setFalse}>
+        <ActionSheet show={state} height={680} onClose={setFalse}>
           {/* 封面拟物 */}
           <ItemSettingBlock
             style={_.mt.sm}
@@ -308,28 +308,33 @@ function UI() {
           </ItemSettingBlock>
 
           {/* 字号 */}
-          <ItemSettingBlock style={_.mt.sm} title='字号'>
-            {MODEL_SETTING_FONTSIZEADJUST.data.map((item, index) => (
-              <ItemSettingBlock.Item
-                key={item.label}
-                style={!!index && _.ml.sm}
-                title={item.label}
-                active={_.fontSizeAdjust == item.value}
-                onPress={() => {
-                  if (_.fontSizeAdjust == item.value) return
+          <ItemSettingBlock style={styles.fontBlock} title='字号'>
+            <ScrollView contentContainerStyle={styles.fontScroll} horizontal>
+              {MODEL_SETTING_FONTSIZEADJUST.data.map((item, index) => (
+                <ItemSettingBlock.Item
+                  key={item.label}
+                  style={!!index && _.ml.sm}
+                  title={item.label}
+                  active={_.fontSizeAdjust == item.value}
+                  onPress={() => {
+                    if (_.fontSizeAdjust == item.value) return
 
-                  t('设置.切换', {
-                    title: '字号',
-                    label: item.label
-                  })
-                  _.changeFontSizeAdjust(item.value)
-                }}
-              >
-                <Text style={_.mt.sm} size={11 + Number(item.value) - _.fontSizeAdjust}>
-                  番组计划
-                </Text>
-              </ItemSettingBlock.Item>
-            ))}
+                    t('设置.切换', {
+                      title: '字号',
+                      label: item.label
+                    })
+                    _.changeFontSizeAdjust(item.value)
+                  }}
+                >
+                  <Text
+                    style={_.mt.sm}
+                    size={11 + Number(item.value) - _.fontSizeAdjust}
+                  >
+                    番组计划
+                  </Text>
+                </ItemSettingBlock.Item>
+              ))}
+            </ScrollView>
             <Heatmap id='设置.切换' title='字号' />
           </ItemSettingBlock>
 
@@ -484,5 +489,12 @@ const memoStyles = _.memoStyles(() => ({
   speech: {
     width: '92%',
     marginTop: _.sm
+  },
+  fontBlock: {
+    marginTop: _.sm,
+    marginRight: -_._wind
+  },
+  fontScroll: {
+    paddingRight: _._wind
   }
 }))

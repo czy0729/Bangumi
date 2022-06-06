@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:42:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:59:54
+ * @Last Modified time: 2022-06-07 05:41:12
  */
 import React, { useState, useCallback } from 'react'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -32,7 +32,7 @@ function System({ navigation }) {
       })
       setStorageSize(`${toFixed(storageSize / 1000 / 1000, 1)} mb`)
     } catch (error) {
-      warn('Setting', 'caculateStorageSize', error)
+      console.error('Setting', 'caculateStorageSize', error)
     }
   }, [])
   const clearStorage = useCallback(() => {

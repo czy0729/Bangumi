@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 15:14:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 22:55:43
+ * @Last Modified time: 2022-06-07 05:40:34
  */
 import React from 'react'
 import { ActionSheet, SegmentedControl, Text, SwitchPro, Heatmap } from '@components'
@@ -12,10 +12,9 @@ import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import styles from './styles'
 
-const tinygrailModeDS = ['绿涨红跌', '红涨绿跌']
-
 function Tinygrail() {
   const { state, setTrue, setFalse } = useBoolean(false)
+  const tinygrailModeDS = ['绿涨红跌', '红涨绿跌']
 
   return useObserver(() => {
     const { tinygrail } = systemStore.setting
@@ -76,10 +75,8 @@ function Tinygrail() {
                     label: _.isWeb ? '网页一致' : _.isGreen ? '红涨绿跌' : '绿涨红跌'
                   })
 
-                  if (value === tinygrailModeDS[2]) {
-                    _.toggleTinygrailMode('web')
-                    return
-                  }
+                  if (value === tinygrailModeDS[2]) return _.toggleTinygrailMode('web')
+
                   _.toggleTinygrailMode()
                 }}
               />

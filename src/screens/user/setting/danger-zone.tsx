@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:08:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:05:12
+ * @Last Modified time: 2022-06-07 06:00:36
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -26,11 +26,11 @@ function DangerZone({ navigation }) {
           arrow
           highlight
           onPress={() => {
-            t('设置.退出登录')
+            t('设置.退出登陆')
             Stores.logout(navigation)
           }}
         >
-          <Heatmap id='设置.退出登录' />
+          <Heatmap id='设置.退出登陆' />
         </ItemSetting>
       </>
     )

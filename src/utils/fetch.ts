@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:20:59
+ * @Last Modified time: 2022-06-07 06:05:41
  */
 import {
   APP_ID,
@@ -458,7 +458,7 @@ export function safe(data) {
  * @param url
  * @param headers
  */
-export function ping(url, headers = {}) {
+export function ping(url, headers = {}): Promise<number> {
   return new Promise(resolve => {
     const start = new Date().getTime()
     const xhr = new XMLHttpRequest()

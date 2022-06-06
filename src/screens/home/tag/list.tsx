@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 15:55:27
+ * @Last Modified time: 2022-06-07 07:11:54
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@_'
 import { _ } from '@stores'
+import { matchYear, keyExtractor, x18s } from '@utils'
 import { obc } from '@utils/decorators'
-import { keyExtractor, x18s } from '@utils/app'
 import { TEXT_18X } from '@constants/text'
 import ToolBar from './tool-bar'
 
@@ -74,7 +74,7 @@ class List extends React.Component {
         collection={collection}
         num={this.num}
         {...item}
-        airtime={airtime === '' && item.tip && item.tip.match(/(\d{4})(年|-)/)?.[1]}
+        airtime={airtime === '' && matchYear(item.tip)}
         isCollect={item.collected}
       />
     )

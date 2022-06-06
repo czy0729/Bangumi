@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 15:46:57
+ * @Last Modified time: 2022-06-07 05:22:12
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, Heatmap } from '@components'
@@ -26,7 +26,7 @@ function Theme({ navigation }) {
           <ItemSettingBlock
             style={_.mt.sm}
             title='主题'
-            information={`点击顶部Logo亦可快速切换黑白模式，长按Logo则前往设置\n两种黑暗模式之间切换需要重新启动才能正确生效`}
+            information={`点击顶部 Logo 亦可快速切换黑白模式，长按 Logo 则前往设置\n两种黑暗模式之间切换需要重新启动才能正确生效`}
           >
             <ItemSettingBlock.Item
               icon='ios-sunny'
@@ -56,7 +56,7 @@ function Theme({ navigation }) {
               icon='ios-moon'
               iconColor={_.colorYellow}
               title='纯黑'
-              information='AMOLED屏幕更省电'
+              information='AMOLED 更省电'
               active={_.isDark && deepDark}
               onPress={async () => {
                 if (_.isDark && deepDark) return

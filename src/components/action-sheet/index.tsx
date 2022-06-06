@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 15:27:47
+ * @Last Modified time: 2022-06-07 05:37:21
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'
 import { _ } from '@stores'
 import { useObserver, useBackHandler } from '@utils/hooks'
 import { IOS } from '@constants'
-import { ReactNode } from '@types'
 import { Portal } from '../portal'
 import { ScrollView } from '../scroll-view'
 import { Touchable } from '../touchable'
@@ -26,7 +25,7 @@ type Props = {
   onClose?: () => any
 
   /** 内容 */
-  children: ReactNode
+  children: any
 }
 
 export const ActionSheet = ({
@@ -90,7 +89,7 @@ export const ActionSheet = ({
     if (!_show) return null
 
     const styles = memoStyles()
-    const h = Math.min(height || _.window.height * 0.4, _.window.height * 0.88)
+    const h = Math.min(height || _.window.height * 0.5, _.window.height * 0.88)
     return (
       <Portal>
         <View style={styles.actionSheet}>

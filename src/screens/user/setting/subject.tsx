@@ -42,7 +42,7 @@ function Subject() {
     return (
       <>
         <ItemSetting hd='条目' arrow highlight onPress={setTrue} />
-        <ActionSheet show={state} height={640} onClose={setFalse}>
+        <ActionSheet show={state} height={680} onClose={setFalse}>
           {/* 其他用户收藏数量 */}
           <ItemSetting
             hd='其他用户收藏数量'

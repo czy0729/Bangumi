@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 15:11:19
+ * @Last Modified time: 2022-06-07 06:33:31
  */
 import React from 'react'
 import { ScrollView, Flex, Loading, Empty, Heatmap } from '@components'
 import { ItemSearch, ItemCollectionsGrid, FilterText } from '@_'
 import { _, collectionStore } from '@stores'
-import { runAfter } from '@utils'
+import { runAfter, matchYear } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import ToolBar from './tool-bar'
@@ -106,7 +106,7 @@ class List extends React.Component {
                   num={num}
                   index={index}
                   event={eventGrid}
-                  airtime={airtime === '' && item.tip.match(/(\d{4})(年|-)/)?.[1]}
+                  airtime={airtime === '' && matchYear(item.tip)}
                   {...item}
                   id={id}
                   collection={collection}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 16:53:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 16:01:41
+ * @Last Modified time: 2022-06-07 05:39:19
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -16,7 +16,6 @@ function UserSetting({ navigation }) {
       hd='个人资料'
       arrow
       highlight
-      // information='时光机点击头像也能前往'
       onPress={() => {
         t('设置.跳转', {
           title: '个人设置',

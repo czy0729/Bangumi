@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:35:19
+ * @Last Modified time: 2022-06-07 05:39:58
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -33,48 +33,52 @@ class Theme extends store {
   }
 
   /** TS fixed */
-  isPad = _.isPad
+  readonly isPad = _.isPad
 
-  ratio = _.ratio
-  xs = _.xs
-  sm = _.sm
-  md = _.md
-  lg = _.lg
-  bottom = _.bottom
-  radiusXs = _.radiusXs
-  radiusSm = _.radiusSm
-  radiusMd = _.radiusMd
-  radiusLg = _.radiusLg
-  _wind = _._wind
+  readonly ratio = _.ratio
+  readonly xs = _.xs
+  readonly sm = _.sm
+  readonly md = _.md
+  readonly lg = _.lg
+  readonly bottom = _.bottom
+  readonly radiusXs = _.radiusXs
+  readonly radiusSm = _.radiusSm
+  readonly radiusMd = _.radiusMd
+  readonly radiusLg = _.radiusLg
+  readonly _wind = _._wind
 
-  statusBarHeight = _.statusBarHeight
-  tabBarHeight = _.tabBarHeight
+  readonly statusBarHeight = _.statusBarHeight
+  readonly tabBarHeight = _.tabBarHeight
 
   /** 单独头部高度 */
-  header = _.header
-  appBarHeight = _.appBarHeight
-  headerHeight = _.headerHeight
-  tabsHeight = _.tabsHeight
-  lineHeightRatio = _.lineHeightRatio
+  readonly header = _.header
+  readonly appBarHeight = _.appBarHeight
+  readonly headerHeight = _.headerHeight
+  readonly tabsHeight = _.tabsHeight
+  readonly lineHeightRatio = _.lineHeightRatio
 
-  colorPrimaryLight = _.colorPrimaryLight
-  colorSuccessLight = _.colorSuccessLight
-  colorMainBorder = _.colorMainBorder
-  colorPrimaryBorder = _.colorPrimaryBorder
-  colorSuccessBorder = _.colorSuccessBorder
-  colorShadow = _.colorShadow
+  /** 颜色 */
+  readonly colorPrimaryLight = _.colorPrimaryLight
+  readonly colorSuccessLight = _.colorSuccessLight
+  readonly colorMainBorder = _.colorMainBorder
+  readonly colorPrimaryBorder = _.colorPrimaryBorder
+  readonly colorSuccessBorder = _.colorSuccessBorder
+  readonly colorShadow = _.colorShadow
 
-  mt = mt
-  mr = mr
-  mb = mb
-  ml = ml
-  shadow = shadow
+  /** 黑暗主题颜色 */
+  readonly _colorBorder = _._colorBorder
+
+  readonly mt = mt
+  readonly mr = mr
+  readonly mb = mb
+  readonly ml = ml
+  readonly shadow = shadow
 
   /** 缩短引用 */
-  absoluteFill = StyleSheet.absoluteFill
-  create = StyleSheet.create
-  flatten = StyleSheet.flatten
-  hairlineWidth = StyleSheet.hairlineWidth
+  readonly absoluteFill = StyleSheet.absoluteFill
+  readonly create = StyleSheet.create
+  readonly flatten = StyleSheet.flatten
+  readonly hairlineWidth = StyleSheet.hairlineWidth
 
   /** store */
   state = observable({
@@ -765,7 +769,7 @@ class Theme extends store {
   /**
    * 切换小圣杯涨跌颜色
    */
-  toggleTinygrailMode = type => {
+  toggleTinygrailMode = (type?: 'web' | 'green' | 'red') => {
     const { tinygrailMode } = this.state
     const key = 'tinygrailMode'
     this.setState({

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 10:44:04
+ * @Last Modified time: 2022-06-07 07:12:26
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@_'
 import { _, systemStore } from '@stores'
-import { keyExtractor } from '@utils/app'
+import { matchYear, keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -93,7 +93,7 @@ class List extends React.Component {
         userCollection={$.label}
         event={event}
         {...item}
-        airtime={showYear ? item.tip && item.tip.match(/(\d{4})(年|-)/)?.[1] : false}
+        airtime={showYear ? matchYear(item.tip) : false}
       />
     )
   }

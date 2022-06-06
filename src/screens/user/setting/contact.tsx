@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-22 22:14:07
+ * @Last Modified time: 2022-06-07 05:11:48
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
-import { _, systemStore, userStore } from '@stores'
+import { systemStore, userStore } from '@stores'
 import { appNavigate } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { APP_ID_SAY_DEVELOP, URL_FEEDBACK, GITHUB_PROJECT } from '@constants'
+import { APP_ID_SAY_DEVELOP, URL_FEEDBACK } from '@constants'
 
 function Contact({ navigation }) {
   return useObserver(() => {
@@ -65,24 +65,6 @@ function Contact({ navigation }) {
           }}
         >
           <Heatmap id='设置.跳转' to='Qiafan' alias='投食' />
-        </ItemSetting>
-
-        {/* Github */}
-        <ItemSetting
-          hd='Github'
-          arrow
-          arrowStyle={_.mr.xxs}
-          arrowIcon='md-open-in-new'
-          arrowSize={18}
-          highlight
-          information='欢迎⭐️'
-          onPress={() =>
-            appNavigate(GITHUB_PROJECT, undefined, undefined, {
-              id: '设置.跳转'
-            })
-          }
-        >
-          <Heatmap id='设置.跳转' to='WebBrowser' alias='浏览器' />
         </ItemSetting>
       </>
     )

@@ -29,7 +29,7 @@ function Home() {
     return (
       <>
         <ItemSetting hd='进度' arrow highlight onPress={setTrue} />
-        <ActionSheet show={state} height={640} onClose={setFalse}>
+        <ActionSheet show={state} height={680} onClose={setFalse}>
           {/* 布局 */}
           <ItemSettingBlock style={_.mt.sm} title='布局'>
             <ItemSettingBlock.Item

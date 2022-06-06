@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 10:17:05
+ * @Last Modified time: 2022-06-07 05:56:13
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -48,6 +48,7 @@ export const Iconfont = observer(
     }
 
     return (
+      // @ts-ignore
       <Icons
         style={[
           {

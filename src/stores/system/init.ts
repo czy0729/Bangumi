@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 19:55:21
+ * @Last Modified time: 2022-06-07 05:59:18
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -216,7 +216,7 @@ export const INIT_SETTING = {
   homeFilter: true,
 
   /** 首页条目显示搜索源头 */
-  homeOrigin: false,
+  homeOrigin: false as LayoutValue,
 
   /** 首页已放送章节看完条目下沉 */
   homeSortSink: true,

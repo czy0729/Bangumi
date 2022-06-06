@@ -25,7 +25,7 @@ function Custom() {
         {/* 定制 */}
         <ItemSetting hd='定制' arrow highlight onPress={setTrue} />
 
-        <ActionSheet show={state} height={640} onClose={setFalse}>
+        <ActionSheet show={state} height={680} onClose={setFalse}>
           {/* 优先中文 */}
           <ItemSettingBlock
             style={_.mt.sm}

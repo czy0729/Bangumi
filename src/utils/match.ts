@@ -2,15 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:50:47
+ * @Last Modified time: 2022-06-07 06:52:32
  */
 
-/** 匹配头像地址 */
+/**
+ * 匹配头像地址
+ *
+ * @param str
+ */
 export function matchAvatar(str = '') {
-  return (
-    str.match(/background-image:url\('(.+?)'\)/)?.[1] ||
-    '//lain.bgm.tv/pic/user/s/icon.jpg'
-  )
+  try {
+    return (
+      str.match(/background-image:url\('(.+?)'\)/)?.[1] ||
+      '//lain.bgm.tv/pic/user/s/icon.jpg'
+    )
+  } catch (error) {
+    return ''
+  }
 }
 
 /**
@@ -20,7 +28,11 @@ export function matchAvatar(str = '') {
  * @param {*} str
  */
 export function matchUserId(str = '') {
-  return str.substring(str.lastIndexOf('/') + 1)
+  try {
+    return str.substring(str.lastIndexOf('/') + 1)
+  } catch (error) {
+    return ''
+  }
 }
 
 /**
@@ -30,7 +42,11 @@ export function matchUserId(str = '') {
  * @param {*} str
  */
 export function matchSubjectId(str = '') {
-  return str.substring(str.lastIndexOf('/') + 1)
+  try {
+    return str.substring(str.lastIndexOf('/') + 1)
+  } catch (error) {
+    return ''
+  }
 }
 
 /**
@@ -40,8 +56,12 @@ export function matchSubjectId(str = '') {
  * @param {*} str
  */
 export function matchCover(str = '') {
-  if (str === "background-image:url('/img/no_icon_subject.png')") return ''
-  return str.substring(22, str.length - 2)
+  try {
+    if (str === "background-image:url('/img/no_icon_subject.png')") return ''
+    return str.substring(22, str.length - 2)
+  } catch (error) {
+    return ''
+  }
 }
 
 /**
@@ -51,7 +71,11 @@ export function matchCover(str = '') {
  * @param {*} str
  */
 export function matchStar(str = '') {
-  return str.substring(15)
+  try {
+    return str.substring(15)
+  } catch (error) {
+    return ''
+  }
 }
 
 /**
@@ -60,9 +84,14 @@ export function matchStar(str = '') {
  * @param {*} str
  */
 export function matchBgmUrl(str = '', returnAll = false) {
-  const matchs =
-    str.match(/https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g) || []
-  return returnAll ? matchs : matchs[0] || ''
+  try {
+    const matchs =
+      str.match(/https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g) ||
+      []
+    return returnAll ? matchs : matchs[0] || ''
+  } catch (error) {
+    return ''
+  }
 }
 
 /**
@@ -71,10 +100,27 @@ export function matchBgmUrl(str = '', returnAll = false) {
  * @param {*} str
  */
 export function matchUserIdFromAvatar(str = '') {
-  if (!str) return 0
+  try {
+    if (!str) return 0
 
-  const match = str.match(/\/(\d+).jpg/)
-  if (!match) return 0
+    const match = str.match(/\/(\d+).jpg/)
+    if (!match) return 0
 
-  return match[1]
+    return match[1]
+  } catch (error) {
+    return 0
+  }
+}
+
+/**
+ * 匹配年份
+ *
+ * @param str
+ */
+export function matchYear(str = '') {
+  try {
+    return str.match(/(\d{4})(年|-)/)?.[1]
+  } catch (error) {
+    return ''
+  }
 }

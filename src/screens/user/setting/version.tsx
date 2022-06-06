@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:25:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 07:39:58
+ * @Last Modified time: 2022-06-07 04:36:38
  */
 import React from 'react'
 import { Text } from '@components'
@@ -10,7 +10,7 @@ import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
-import { GITHUB_RELEASE, VERSION_GITHUB_RELEASE } from '@constants'
+import { URL_RELEASE, VERSION_GITHUB_RELEASE } from '@constants'
 
 function Version() {
   const { name } = systemStore.release
@@ -45,7 +45,7 @@ function Version() {
         )
       }
       onPress={() =>
-        appNavigate(GITHUB_RELEASE, undefined, undefined, {
+        appNavigate(URL_RELEASE, undefined, undefined, {
           id: '设置.跳转'
         })
       }

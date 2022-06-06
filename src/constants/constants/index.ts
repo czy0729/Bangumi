@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 12:24:22
+ * @Last Modified time: 2022-06-07 04:39:41
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -21,10 +21,10 @@ const appJson = require('@/app.json')
 export const SDK = parseInt(expoPackageJson.version.split('.')[0])
 
 /** Expo 线上预览唯一标识 */
-export const BUNDLE_IDENTIFIER = appJson.name
+export const BUNDLE_IDENTIFIER = appJson?.expo?.name as string
 
 /** 版本号 */
-export const VERSION_GITHUB_RELEASE = appJson.expo.version
+export const VERSION_GITHUB_RELEASE = appJson?.expo?.version as string
 
 /** 小圣杯助手版本 */
 export const VERSION_TINYGRAIL_PLUGIN =
@@ -37,7 +37,7 @@ export const VERSION_GOOGLE = appJson.expo.description.includes('google play')
 export const HOST_NAME = 'bgm.tv'
 
 /** 域名 */
-export const HOST = `https://${HOST_NAME}`
+export const HOST = `https://${HOST_NAME}` as const
 
 /** 备用域名2 */
 export const HOST_2 = 'https://bangumi.tv'
@@ -64,22 +64,32 @@ export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
 export const HOST_IMAGE_UPLOAD = 'https://www.hualigs.cn'
 
 /** [待废弃] 登录 v1.0 oauth 地址 */
-export const URL_OAUTH = `${HOST}/oauth/authorize`
+export const URL_OAUTH = `${HOST}/oauth/authorize` as const
 
 /** [待废弃] 登录 v1.0 授权跳转地址 */
-export const URL_OAUTH_REDIRECT = `${HOST}/dev/app`
+export const URL_OAUTH_REDIRECT = `${HOST}/dev/app` as const
 
 /** bgm项目帖子地址 */
-export const URL_FEEDBACK = `${HOST}/group/topic/350677`
+export const URL_FEEDBACK = `${HOST}/group/topic/350677` as const
 
 /** 空头像地址 */
 export const URL_DEFAULT_AVATAR = '/icon.jpg'
 
-/** 指南 */
+/** 指南 (语雀) */
 export const URL_ZHINAN = 'https://www.yuque.com/chenzhenyu-k0epm/znygb4'
 
+/** 获取 */
+export const URL_RELEASE = `${URL_ZHINAN}/ratl2b` as const
+
 /** 隐私条款 */
-export const URL_PRIVACY = 'https://www.yuque.com/chenzhenyu-k0epm/znygb4/oi3ss2'
+export const URL_PRIVACY = `${URL_ZHINAN}/oi3ss2` as const
+
+/** 开发状况 */
+export const URL_DEV =
+  'https://adaptable-playroom-795.notion.site/2f26b642dc714c4ca4d3e8701072c591?v=fe42d34dbb354e28b5221078780f93bd'
+
+/** 开发问卷 */
+export const URL_WENJUAN = 'https://wj.qq.com/s2/9645600/92c2/'
 
 /** App ID https://bgm.tv/dev/app */
 export const APP_ID = 'bgm8885c4d524cd61fc'
@@ -111,7 +121,7 @@ export const IOS = Platform.OS === 'ios'
 /** 约定 User-Agent https://bangumi.github.io/api */
 export const UA = `czy0729/Bangumi/${VERSION_GITHUB_RELEASE} (${
   IOS ? 'iOS' : 'Android'
-})`
+})` as const
 
 /** 是否安卓10之前 */
 export const IS_BEFORE_ANDROID_10 = !IOS && Platform.Version < 29
