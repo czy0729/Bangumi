@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 16:30:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 09:19:52
+ * @Last Modified time: 2022-06-06 05:23:10
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -15,7 +15,8 @@ import { tabs } from './store'
 
 class User extends React.Component {
   state = {
-    fixed: false // 头部是否置顶
+    /** 头部是否置顶 */
+    fixed: false
   }
 
   scrollY = new Animated.Value(0)
@@ -92,36 +93,32 @@ class User extends React.Component {
     const { page, _loaded } = $.state
     const { fixed } = this.state
     return (
-      <Page>
-        {!!_loaded && (
-          <>
-            <Tab
-              scrollY={this.scrollY}
-              scrollEventThrottle={16}
-              page={page}
-              onScroll={Animated.event(
-                [
-                  {
-                    nativeEvent: {
-                      contentOffset: {
-                        y: this.scrollY
-                      }
-                    }
+      <Page loaded={_loaded}>
+        <Tab
+          scrollY={this.scrollY}
+          scrollEventThrottle={16}
+          page={page}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: this.scrollY
                   }
-                ],
-                {
-                  useNativeDriver: true,
-                  listener: this.onScroll
                 }
-              )}
-              onSwipeStart={this.onSwipeStart}
-              onIndexChange={this.onIndexChange}
-              onSelectSubjectType={this.onSelectSubjectType}
-              onToggleList={this.onToggleList}
-            />
-            <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
-          </>
-        )}
+              }
+            ],
+            {
+              useNativeDriver: true,
+              listener: this.onScroll
+            }
+          )}
+          onSwipeStart={this.onSwipeStart}
+          onIndexChange={this.onIndexChange}
+          onSelectSubjectType={this.onSelectSubjectType}
+          onToggleList={this.onToggleList}
+        />
+        <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
       </Page>
     )
   }

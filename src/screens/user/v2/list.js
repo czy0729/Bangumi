@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 09:07:20
+ * @Last Modified time: 2022-06-06 10:44:04
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -50,7 +50,7 @@ class List extends React.Component {
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     const { page } = this.props
-    const { list, subjectType } = $.state
+    const { list, subjectType, showYear } = $.state
     const event = {
       id: '我的.跳转'
     }
@@ -93,7 +93,7 @@ class List extends React.Component {
         userCollection={$.label}
         event={event}
         {...item}
-        airtime={item.tip && item.tip.match(/(\d{4})(年|-)/)?.[1]}
+        airtime={showYear ? item.tip && item.tip.match(/(\d{4})(年|-)/)?.[1] : false}
       />
     )
   }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-05 13:12:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:28:38
+ * @Last Modified time: 2022-06-06 05:50:55
  */
 import { Override, ColorValue, ViewStyle } from '@types'
 
 export type ActivityIndicatorProps = {
   color?: ColorValue
-  size?: 'small' | 'large'
+  size?: 'small' | 'large' | number
 }
 
 export type Props = Override<

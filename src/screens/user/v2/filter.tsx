@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 10:14:45
+ * @Last Modified time: 2022-06-06 05:58:29
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -29,7 +29,7 @@ const Filter = memo(
     isFiltering,
     onFilterChange
   }) => {
-    rerender('User.Filter.Main')
+    global.rerender('User.Filter.Main')
 
     const inputRef = useRef(null)
     const aHeight = useRef(new Animated.Value(0))
@@ -66,6 +66,7 @@ const Filter = memo(
     }, [showFilter])
 
     return (
+      // @ts-ignore
       <Animated.View style={animatedStyles}>
         <View style={styles.container}>
           <Flex style={styles.filter} justify='center'>
@@ -93,7 +94,7 @@ const Filter = memo(
 )
 
 export default obc(({ page }, { $ }) => {
-  rerender('User.Filter')
+  global.rerender('User.Filter')
 
   const { subjectType, showFilter, fliterInputText } = $.state
   const { key: type } = tabs[page]

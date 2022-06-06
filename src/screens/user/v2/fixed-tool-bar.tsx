@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-30 09:51:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 10:16:24
+ * @Last Modified time: 2022-06-06 10:35:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,6 @@ const styles = _.create({
     marginTop: -2
   },
   placeholder: {
-    height: 64
+    height: 70
   }
 })

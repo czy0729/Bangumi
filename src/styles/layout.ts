@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:15:37
+ * @Last Modified time: 2022-06-06 05:28:53
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'

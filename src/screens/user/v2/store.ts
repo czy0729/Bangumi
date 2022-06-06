@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 08:55:09
+ * @Last Modified time: 2022-06-06 10:39:32
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -35,6 +35,7 @@ const namespace = 'ScreenUser'
 const excludeState = {
   isFocused: true,
   showFilter: false,
+  fixed: false,
   filter: '',
   fliterInputText: '',
   fetching: false
@@ -60,8 +61,8 @@ export default class ScreenUser extends store {
   state = observable({
     subjectType: defaultSubjectType,
     order: defaultOrder,
-    fixed: false,
     list: true,
+    showYear: true,
     tag: '',
     page: 2, // <Tabs>当前页数
     ...excludeState,
@@ -448,7 +449,7 @@ export default class ScreenUser extends store {
       tag: ''
     })
     this.fetchIsNeedToEnd(true)
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(namespace)
   }
 
   /**
@@ -468,7 +469,7 @@ export default class ScreenUser extends store {
         tag: ''
       })
       this.fetchIsNeedRefreshToEnd()
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(namespace)
     }
   }
 
@@ -485,7 +486,7 @@ export default class ScreenUser extends store {
       order: MODEL_COLLECTIONS_ORDERBY.getValue(label)
     })
     this.fetchIsNeedRefreshToEnd()
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(namespace)
   }
 
   /**
@@ -508,7 +509,7 @@ export default class ScreenUser extends store {
       tag
     })
     this.fetchIsNeedRefreshToEnd()
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(namespace)
   }
 
   /**
@@ -523,7 +524,7 @@ export default class ScreenUser extends store {
     this.setState({
       list: !list
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(namespace)
   }
 
   onToggleFixed = () => {
@@ -532,7 +533,16 @@ export default class ScreenUser extends store {
     this.setState({
       fixed: !fixed
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(namespace)
+  }
+
+  onToggleShowYear = () => {
+    const { showYear } = this.state
+
+    this.setState({
+      showYear: !showYear
+    })
+    this.setStorage(namespace)
   }
 
   /**

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:12:37
+ * @Last Modified time: 2022-06-06 10:46:31
  */
 /** 日志级别 2 所有, 1 只输出错误和警告, 0 不输出 (开发用) */
 export const LOG_LEVEL = 0
@@ -21,7 +21,7 @@ export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
 export const DEV = global.__DEV__
 
 /** 开发模式中是否不显示图片 */
-export const TEXT_ONLY = DEV ? !DEV : false // : false 是为了打包后的apk稳定显示图片
+export const TEXT_ONLY = DEV ? DEV : false // : false 是为了打包后的apk稳定显示图片
 
 /** 路由覆盖配置 */
 export default {
