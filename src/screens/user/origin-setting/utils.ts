@@ -9,25 +9,24 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-12 01:55:11
+ * @Last Modified time: 2022-06-07 16:49:55
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
 import { s2t } from '@utils/thirdParty/cn-char'
 import {
   SITE_AGEFANS,
-  SITE_XUNBO,
+  // SITE_XUNBO,
   SITE_WNACG,
   SITE_MANGABZ,
   SITE_MANHUA1234,
   SITE_WK8,
-  SITE_77MH,
-  SITE_RRYS
+  SITE_77MH
+  // SITE_RRYS
 } from '@constants/site'
+import { SubjectId } from '@types'
 
-/**
- * 获取APP自维护设置数据
- */
+/** 获取APP自维护设置数据 */
 export function getBaseOriginConfig() {
   return {
     anime: [
@@ -39,18 +38,46 @@ export function getBaseOriginConfig() {
         active: 1
       },
       {
+        id: 'anime|scdmfun',
+        name: '双辞动漫',
+        url: 'https://www.scdmfun.cn/search/wd/[CN].html',
+        sort: 0,
+        active: 1
+      },
+      {
+        id: 'anime|zzzfun',
+        name: 'ZzzFun',
+        url: 'http://www.zzzfun.com/vod_search.html?wd=[CN]',
+        sort: 0,
+        active: 0
+      },
+      {
+        id: 'anime|cupfox',
+        name: '茶杯狐',
+        url: 'https://www.cupfox.app/search?key=[CN]',
+        sort: 0,
+        active: 0
+      },
+      {
+        id: 'anime|mx',
+        name: 'MX动漫',
+        url: 'http://www.mxdm.cc/search/[CN]-------------.html',
+        sort: 0,
+        active: 0
+      },
+      {
         id: 'anime|qiqi',
         name: '奇奇动漫',
         url: 'https://www.qiqidongman.com/vod-search-wd-[CN].html',
         sort: 0,
-        active: 1
+        active: 0
       },
       {
         id: 'anime|anime1',
         name: 'Anime1',
         url: 'https://anime1.me/?s=[CN_S2T]',
         sort: 0,
-        active: 1
+        active: 0
       },
       {
         id: 'anime|moe',
@@ -58,15 +85,15 @@ export function getBaseOriginConfig() {
         desc: '复制当前[CN]后跳转，请自行粘贴搜索',
         url: 'https://bangumi.moe/search/index',
         sort: 0,
-        active: 1
-      },
-      {
-        id: 'anime|xunbo',
-        name: '迅播动漫',
-        url: `${SITE_XUNBO()}/search.php?searchword=[CN]`,
-        sort: 0,
         active: 0
       }
+      // {
+      //   id: 'anime|xunbo',
+      //   name: '迅播动漫',
+      //   url: `${SITE_XUNBO()}/search.php?searchword=[CN]`,
+      //   sort: 0,
+      //   active: 0
+      // }
     ],
     hanime: [
       {
@@ -150,12 +177,26 @@ export function getBaseOriginConfig() {
     ],
     real: [
       {
-        id: 'game|rrys',
-        name: '人人影视',
-        url: `${SITE_RRYS()}/search?keyword=[CN]&type=resource`,
+        id: 'real|cupfox',
+        name: '茶杯狐',
+        url: 'https://www.cupfox.app/search?key=[CN]',
+        sort: 0,
+        active: 1
+      },
+      {
+        id: 'real|dianyinggou',
+        name: '电影狗',
+        url: 'https://www.dianyinggou.com/so/[CN]',
         sort: 0,
         active: 1
       }
+      // {
+      //   id: 'real|rrys',
+      //   name: '人人影视',
+      //   url: `${SITE_RRYS()}/search?keyword=[CN]&type=resource`,
+      //   sort: 0,
+      //   active: 0
+      // }
     ]
   }
 }
@@ -163,7 +204,13 @@ export function getBaseOriginConfig() {
 /**
  * 获取设置数据
  */
-export function getOriginConfig(userOriginSetting = {}, pickType) {
+export function getOriginConfig(
+  userOriginSetting: {
+    base?: any
+    custom?: any
+  } = {},
+  pickType
+) {
   const { base = {}, custom = {} } = toJS(userOriginSetting)
   const mergeConfig = getBaseOriginConfig()
 
@@ -199,11 +246,18 @@ export function getOriginConfig(userOriginSetting = {}, pickType) {
   return pickType ? mergeConfig[pickType] : mergeConfig
 }
 
-export function replaceOriginUrl(url, item = {}) {
+export function replaceOriginUrl(
+  url?: string,
+  item: {
+    CN?: string
+    JP?: string
+    ID?: SubjectId
+  } = {}
+) {
   return url
     .replace(/\[CN\]/g, encodeURIComponent(item.CN))
     .replace(/\[JP\]/g, encodeURIComponent(item.JP))
     .replace(/\[CN_S2T\]/g, encodeURIComponent(s2t(item.CN)))
-    .replace(/\[TIME\]/g, getTimestamp())
-    .replace(/\[ID\]/g, item.ID)
+    .replace(/\[TIME\]/g, String(getTimestamp()))
+    .replace(/\[ID\]/g, String(item.ID))
 }

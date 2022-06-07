@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 08:11:53
+ * @Last Modified time: 2022-06-07 17:24:06
  */
 /** 日志级别 2 所有, 1 只输出错误和警告, 0 不输出 (开发用) */
 export const LOG_LEVEL = 0
@@ -21,13 +21,13 @@ export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
 export const DEV = global.__DEV__
 
 /** 开发模式中是否不显示图片 */
-export const TEXT_ONLY = DEV ? DEV : false // : false 是为了打包后的apk稳定显示图片
+export const TEXT_ONLY = DEV ? !DEV : false // : false 是为了打包后的apk稳定显示图片
 
 /** 路由覆盖配置 */
 export default {
   initialRouteName: 'HomeTab', // HomeTab Discovery Subject Tinygrail BilibiliSync
   initialRouteParams: {
-    // subjectId: 330055 // anime: 2968701, music: 302514, book: 267358, game: 137458
+    // subjectId: 1905 // anime: 2968701, music: 302514, book: 267358, game: 137458
     // topicId: 'group/367355' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
     // monoId: 'person/2481' // character/70323 person/5745

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 19:56:24
+ * @Last Modified time: 2022-06-07 17:23:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Button, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
-import { getType, getRating } from '@utils/app'
+import { date, getType, getRating } from '@utils'
 import { obc, memo } from '@utils/decorators'
 import { IOS } from '@constants'
 import i18n from '@constants/i18n'
@@ -48,6 +48,7 @@ const Box = memo(
       status: collectionStatus = { name: '未收藏' },
       rating = 0,
       private: privacy,
+      lasttouch,
       _loaded
     } = collection
     const leftStyle = []
@@ -68,6 +69,15 @@ const Box = memo(
 
     const onPress = isLogin ? showManageModel : () => navigation.push('LoginV2')
     const statusSize = status[status.length - 1]?.text.length >= 6 ? 11 : 12
+
+    let last = ''
+    if (
+      lasttouch &&
+      ['collect', 'on_hold', 'dropped'].includes(collectionStatus?.type)
+    ) {
+      last = date('Y.m.d', lasttouch)
+    }
+
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -99,6 +109,7 @@ const Box = memo(
                 }
               >
                 {btnText}
+                {!!last && ` ${last}`}
               </Button>
             </Flex.Item>
             {!!rating && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:56:26
+ * @Last Modified time: 2022-06-07 16:14:33
  */
 import React from 'react'
 import Progress from '@ant-design/react-native/lib/progress'
@@ -51,7 +51,13 @@ export const ItemFriends = ob(
         }}
       >
         <Flex>
-          <Avatar style={styles.image} name={userName} src={avatar} />
+          <Avatar
+            navigation={navigation}
+            style={styles.image}
+            name={userName}
+            userId={userId}
+            src={avatar}
+          />
           <Flex.Item style={styles.item}>
             <Flex>
               <Flex.Item>
