@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:53:53
+ * @Last Modified time: 2022-06-07 07:50:42
  */
 import React from 'react'
 import { Header, Page, ScrollView, Flex } from '@components'
@@ -28,6 +28,7 @@ import Origin from './origin'
 import Route from './route'
 import Home from './home'
 import Contact from './contact'
+import Storage from './storage'
 import System from './system'
 import DangerZone from './danger-zone'
 
@@ -48,21 +49,21 @@ const Setting = ({ navigation }) => {
           <Block>
             <Tip>基本</Tip>
             <Theme navigation={navigation} />
-            <UI navigation={navigation} />
-            <Custom navigation={navigation} />
-            <CDN navigation={navigation} />
-            <Route navigation={navigation} />
-            <Katakana navigation={navigation} />
+            <UI />
+            <Custom />
+            <CDN />
+            <Route />
+            <Katakana />
             <Origin navigation={navigation} />
           </Block>
           <Block>
             <Tip>模块</Tip>
-            <Home navigation={navigation} />
+            <Home />
             <Rakuen navigation={navigation} />
-            <User navigation={navigation} />
+            <User />
             <UserSetting navigation={navigation} />
-            <Subject navigation={navigation} />
-            <Tinygrail navigation={navigation} />
+            <Subject />
+            <Tinygrail />
           </Block>
           <Block>
             <Tip>{i18n.contact()}</Tip>
@@ -71,6 +72,7 @@ const Setting = ({ navigation }) => {
           </Block>
           <Block>
             <Tip>系统</Tip>
+            <Storage />
             <System navigation={navigation} />
             <DangerZone navigation={navigation} />
           </Block>

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 05:11:48
+ * @Last Modified time: 2022-06-07 07:22:29
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { systemStore, userStore } from '@stores'
-import { appNavigate } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { APP_ID_SAY_DEVELOP, URL_FEEDBACK } from '@constants'
+import { APP_ID_SAY_DEVELOP } from '@constants'
 
 function Contact({ navigation }) {
   return useObserver(() => {
@@ -34,20 +33,6 @@ function Contact({ navigation }) {
           }}
         >
           <Heatmap id='设置.跳转' to='Say' alias='吐槽' />
-        </ItemSetting>
-
-        {/* 项目帖子 */}
-        <ItemSetting
-          hd='项目帖子'
-          arrow
-          highlight
-          onPress={() =>
-            appNavigate(URL_FEEDBACK, navigation, undefined, {
-              id: '设置.跳转'
-            })
-          }
-        >
-          <Heatmap id='设置.跳转' to='Topic' alias='帖子' />
         </ItemSetting>
 
         {/* 投食🍚 */}

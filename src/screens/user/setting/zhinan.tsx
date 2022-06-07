@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 13:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 05:11:48
+ * @Last Modified time: 2022-06-07 07:32:44
  */
 import React from 'react'
 import { ActionSheet, Heatmap } from '@components'
@@ -12,6 +12,7 @@ import { open, appNavigate } from '@utils'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import {
+  URL_FEEDBACK,
   URL_ZHINAN,
   URL_PRIVACY,
   URL_DEV,
@@ -19,15 +20,30 @@ import {
   GITHUB_PROJECT
 } from '@constants'
 
-function Zhinan() {
+function Zhinan({ navigation }) {
   const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => (
     <>
       <ItemSetting hd='更多' arrow highlight onPress={setTrue} />
       <ActionSheet show={state} onClose={setFalse}>
+        {/* 项目帖子 */}
+        <ItemSetting
+          hd='项目帖子'
+          arrow
+          highlight
+          onPress={() =>
+            appNavigate(URL_FEEDBACK, navigation, undefined, {
+              id: '设置.跳转'
+            })
+          }
+        >
+          <Heatmap id='设置.跳转' to='Topic' alias='帖子' />
+        </ItemSetting>
+
         {/* Github */}
         <ItemSetting
+          style={_.mt.xs}
           hd='Github'
           arrow
           arrowStyle={_.mr.xxs}

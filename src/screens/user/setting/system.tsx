@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:42:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 05:41:12
+ * @Last Modified time: 2022-06-07 07:57:26
  */
-import React, { useState, useCallback } from 'react'
-import AsyncStorage from '@components/@/react-native-async-storage'
-import { ActionSheet, Text, Heatmap } from '@components'
+import React, { useState } from 'react'
+import { ActionSheet, Heatmap } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
-import Stores, { _, userStore, systemStore, rakuenStore } from '@stores'
-import { toFixed } from '@utils'
+import { _, userStore, systemStore, rakuenStore } from '@stores'
 import { useObserver, useMount, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { confirm, info, loading, feedback } from '@utils/ui'
@@ -17,36 +15,10 @@ import { read } from '@utils/db'
 import i18n from '@constants/i18n'
 
 function System({ navigation }) {
-  const [storageSize, setStorageSize] = useState('')
   const [settingLen, setSettingLen] = useState(0)
   const { state, setTrue, setFalse } = useBoolean(false)
 
-  const caculateStorageSize = useCallback(async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys()
-      const storages = await AsyncStorage.multiGet(keys)
-
-      let storageSize = 0
-      storages.forEach(item => {
-        storageSize += item[0].length + item[1].length
-      })
-      setStorageSize(`${toFixed(storageSize / 1000 / 1000, 1)} mb`)
-    } catch (error) {
-      console.error('Setting', 'caculateStorageSize', error)
-    }
-  }, [])
-  const clearStorage = useCallback(() => {
-    t('设置.清除缓存')
-
-    Stores.clearStorage()
-    setTimeout(() => {
-      caculateStorageSize()
-    }, 2400)
-  }, [caculateStorageSize])
-
   useMount(() => {
-    caculateStorageSize()
-
     setTimeout(async () => {
       try {
         const { id } = userStore.userInfo
@@ -64,22 +36,6 @@ function System({ navigation }) {
   return useObserver(() => {
     return (
       <>
-        {/* 清除缓存 */}
-        <ItemSetting
-          hd={`清除${i18n.cache()}`}
-          information='推荐大于 10mb 或遇到数据不刷新等情况进行清除'
-          ft={
-            <Text type='sub' size={15}>
-              {storageSize}
-            </Text>
-          }
-          arrow
-          highlight
-          onPress={clearStorage}
-        >
-          <Heatmap id='设置.清除缓存' />
-        </ItemSetting>
-
         {/* 同步设置 */}
         <ItemSetting hd={`同步${i18n.setting()}`} arrow highlight onPress={setTrue} />
         <ActionSheet show={state} onClose={setFalse}>
