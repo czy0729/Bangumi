@@ -237,7 +237,7 @@ dependencies {
   debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
     exclude group:'com.facebook.flipper'
   }
-  addUnimodulesDependencies()
+  addUnimodulesDependencies([exclude:["expo-location"]])
 
   if (enableHermes) {
     def hermesPath = "../../node_modules/hermes-engine/android/";
