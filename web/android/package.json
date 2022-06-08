@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "postinstall": "patch-package",
     "38": "mv ./node_modules ../SDK && mv ../SDK/38/node_modules ./ && mv ../SDK/node_modules ../SDK/39 && cp ./package.json ./web/ios/package.json && cp ./web/android/package.json ./package.json",
     "39": "mv ./node_modules ../SDK && mv ../SDK/39/node_modules ./ && mv ../SDK/node_modules ../SDK/38 && cp ./package.json ./web/android/package.json && cp ./web/ios/package.json ./package.json",
     "start": "EXPO_USE_EXOTIC=0 expo start",
@@ -51,6 +52,8 @@
     "mobx": "4.9.2",
     "mobx-react": "5.4.3",
     "mobx-react-lite": "2.0.7",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "prop-types": "15.8.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -73,7 +76,7 @@
     "react-native-safe-area-context": "3.1.9",
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "3.11.1",
-    "react-native-smb": "^0.2.4",
+    "react-native-smb": "0.2.4",
     "react-native-tab-view": "2.14.3",
     "react-native-unimodules": "0.12.0",
     "react-native-webview": "11.0.0",
