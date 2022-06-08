@@ -3,8 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 07:40:57
+ * @Last Modified time: 2022-06-08 12:00:55
  */
+// import Toast from '@components/@/ant-design/toast'
 import { DEV, LOG_LEVEL } from '@/config'
 import { RERENDER_SHOW } from '@/config'
 import { pad } from './utils'
@@ -16,6 +17,15 @@ if (DEV && !RERENDER_LOG_COUNT) {
     RERENDER_MEMO = {}
   }, 8000)
 }
+
+// function info(
+//   content: string = '网络错误',
+//   duration: number = 1,
+//   onClose = () => {},
+//   mask = false
+// ) {
+//   Toast.info(content, duration, onClose, mask)
+// }
 
 /** 调试查看组件 re-render 情况 */
 export function rerender(key: string, ...other: any[]) {
@@ -42,6 +52,7 @@ export function rerender(key: string, ...other: any[]) {
   }
 
   console.info(now(), '[render]', _key, _count, ...other)
+  // info(_count)
 }
 
 /** 当前时间戳字符串 */

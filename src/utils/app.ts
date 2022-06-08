@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 17:15:06
+ * @Last Modified time: 2022-06-08 09:26:40
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -779,7 +779,10 @@ export function tinygrailOSS(str, w = 150) {
   // https://tinygrail.oss-cn-hangzhou.aliyuncs.com
   // https://tinygrail.mange.cn/cover/1e5f9be0dfe62372a69e9a4f04acd0e1.jpg!w150
   if (str.includes('aliyuncs.com') || str.includes('tinygrail.mange.cn')) {
-    return `${str}!w${w}`
+    return `${str}!w${w}`.replace(
+      'tinygrail.oss-cn-hangzhou.aliyuncs.com',
+      'tinygrail.mange.cn'
+    )
   }
 
   return str

@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 01:05:00
+ * @Last Modified time: 2022-06-08 11:55:10
  */
 import { FlatListProps } from 'react-native'
 import { Fn, ReactNode, ViewStyle, ListEmpty } from '@types'
 
+type FP = FlatListProps<any>
+
 export type Props = {
   style?: ViewStyle
 
-  contentContainerStyle?: FlatListProps<any>['contentContainerStyle']
+  contentContainerStyle?: FP['contentContainerStyle']
 
   /** 此函数用于为给定的 item 生成一个不重复的 key */
   keyExtractor?: (item?: object, index?: number) => string
@@ -25,7 +27,7 @@ export type Props = {
   sectionKey?: string
 
   /** 多列布局只能在非水平模式下使用，即必须是horizontal={false}。此时组件内元素会从左到右从上到下按 Z 字形排列，类似启用了flexWrap的布局。组件内元素必须是等高的——暂时还无法支持瀑布流布局。 */
-  numColumns?: FlatListProps<any>['numColumns']
+  numColumns?: FP['numColumns']
 
   /** 当需要在指定的偏移处显示加载指示器的时候，就可以设置这个值 (Android) */
   progressViewOffset?: number
@@ -45,7 +47,7 @@ export type Props = {
   renderSectionHeader?: any
 
   /** 列表顶部组件 */
-  ListHeaderComponent?: FlatListProps<any>['ListHeaderComponent']
+  ListHeaderComponent?: FP['ListHeaderComponent']
 
   /** 替代整个底部组件 */
   ListFooterComponent?: ReactNode
@@ -93,6 +95,14 @@ export type Props = {
     bottom?: number
     right?: number
   }
+
+  windowSize?: FP['windowSize']
+
+  initialNumToRender?: FP['initialNumToRender']
+
+  maxToRenderPerBatch?: FP['maxToRenderPerBatch']
+
+  updateCellsBatchingPeriod?: FP['updateCellsBatchingPeriod']
 
   /** 顶部刷新回调 */
   onHeaderRefresh?: Fn

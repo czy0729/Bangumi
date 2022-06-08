@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 02:42:12
+ * @Last Modified time: 2022-06-08 11:47:01
  */
 import React from 'react'
 import { TabsV2 } from '@components'
@@ -21,6 +21,8 @@ function Tabs({ routes, ...other }, { $ }) {
       backgroundColor={_.colorTinygrailContainer}
       borderBottomColor={_.colorTinygrailBorder}
       underlineColor={_.colorWarning}
+      lazy
+      lazyPreloadDistance={0}
       onChange={$.onChange}
       {...other}
     />

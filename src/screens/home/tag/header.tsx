@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 18:36:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 15:55:26
+ * @Last Modified time: 2022-06-08 10:17:01
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -18,7 +18,6 @@ function Header(props, { $ }) {
       title={tag || `${MODEL_SUBJECT_TYPE.getTitle(type)}标签`}
       alias='用户标签'
       hm={[$.url, 'Tag']}
-      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight={() => (
         <CompHeader.Popover
           data={['浏览器查看']}

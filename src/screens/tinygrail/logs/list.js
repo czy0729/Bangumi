@@ -88,7 +88,11 @@ function List({ title }, { $ }) {
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={data}
-      lazy={12}
+      windowSize={6}
+      initialNumToRender={24}
+      maxToRenderPerBatch={24}
+      updateCellsBatchingPeriod={24}
+      lazy={24}
       scrollToTop={tabs[page].title === title}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchBalance()}

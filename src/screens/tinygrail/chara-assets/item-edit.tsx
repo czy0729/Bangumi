@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-19 16:49:32
+ * @Last Modified time: 2022-06-08 11:52:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 
-function ItemEdit({ index, item, type, users, event }, { $ }) {
+function ItemEdit({ item, type, users, event }, { $ }) {
   const { editing, editingIds } = $.state
   const { id, monoId, state } = item
   const isActive = editingIds[id]
@@ -32,7 +32,6 @@ function ItemEdit({ index, item, type, users, event }, { $ }) {
         <Flex.Item pointerEvents={editing ? 'none' : undefined}>
           <Item
             style={editing && styles.edit}
-            index={index}
             {...item}
             type={type}
             users={users === 'ico' ? $.mpiUsers[monoId] : users}

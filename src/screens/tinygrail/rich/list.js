@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:36:30
+ * @Last Modified time: 2022-06-08 11:57:51
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -41,7 +41,11 @@ function List({ id, title }, { $ }) {
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={data}
-      lazy={12}
+      windowSize={6}
+      initialNumToRender={24}
+      maxToRenderPerBatch={24}
+      updateCellsBatchingPeriod={24}
+      lazy={24}
       scrollToTop={tabs[$.state.page].title === title}
       renderItem={({ item, index }) => (
         <Item

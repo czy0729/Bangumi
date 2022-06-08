@@ -17,7 +17,6 @@ function Header(props, { $, navigation }) {
       title={`${$.typeCn}频道`}
       alias='频道'
       hm={[$.url, 'Channel']}
-      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight={() => (
         <CompHeader.Popover
           name='md-menu'

@@ -2,23 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:32:28
+ * @Last Modified time: 2022-06-08 11:46:53
  */
 import React from 'react'
-import { Header, Page, Touchable, Flex, Iconfont, Text } from '@components'
+import { Page, Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
+import Header from './header'
 import ToolBar from '@tinygrail/_/tool-bar'
 import Tabs from '@tinygrail/_/tabs-v2'
-import Right from './right'
 import List from './list'
 import Store from './store'
 import { tabs, sortDS } from './ds'
 
-export default
-@inject(Store)
-@obc
 class TinygrailCharaAssets extends React.Component {
   async componentDidMount() {
     const { $ } = this.context
@@ -80,20 +77,29 @@ class TinygrailCharaAssets extends React.Component {
     )
   }
 
+  renderItem = item => <List key={item.key} id={item.key} />
+
+  renderLabel = ({ route, focused }) => (
+    <Flex style={styles.labelText} justify='center'>
+      <Text type='tinygrailPlain' size={13} bold={focused}>
+        {route.title}
+      </Text>
+      {!!this.getCount(route) && (
+        <Text type='tinygrailText' size={11} bold lineHeight={13}>
+          {' '}
+          {this.getCount(route)}{' '}
+        </Text>
+      )}
+    </Flex>
+  )
+
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
       <>
         <StatusBarEvents />
-        <Header
-          title={$.params?.userName ? `${$.params.userName}的持仓` : '我的持仓'}
-          alias='我的持仓'
-          hm={['tinygrail/chara/assets', 'TinygrailCharaAssets']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
-          headerRight={() => <Right $={$} />}
-        />
+        <Header />
         <Page
           style={_.container.tinygrail}
           loaded={_loaded}
@@ -102,26 +108,16 @@ class TinygrailCharaAssets extends React.Component {
           <Tabs
             routes={tabs}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
-            renderItem={item => <List key={item.key} id={item.key} />}
-            renderLabel={({ route, focused }) => (
-              <Flex style={styles.labelText} justify='center'>
-                <Text type='tinygrailPlain' size={13} bold={focused}>
-                  {route.title}
-                </Text>
-                {!!this.getCount(route) && (
-                  <Text type='tinygrailText' size={11} bold lineHeight={13}>
-                    {' '}
-                    {this.getCount(route)}{' '}
-                  </Text>
-                )}
-              </Flex>
-            )}
+            renderItem={this.renderItem}
+            renderLabel={this.renderLabel}
           />
         </Page>
       </>
     )
   }
 }
+
+export default inject(Store)(obc(TinygrailCharaAssets))
 
 const styles = _.create({
   check: {

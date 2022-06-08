@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:12:23
+ * @Last Modified time: 2022-06-08 11:57:53
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -131,7 +131,11 @@ class Logs extends React.Component {
               keyExtractor={keyExtractor}
               refreshControlProps={refreshControlProps}
               data={$.starLogs}
-              lazy={12}
+              windowSize={6}
+              initialNumToRender={24}
+              maxToRenderPerBatch={24}
+              updateCellsBatchingPeriod={24}
+              lazy={24}
               showFooter={false}
               renderItem={this.renderItem}
               onHeaderRefresh={$.fetchStarLogs}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 21:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:30:06
+ * @Last Modified time: 2022-06-08 09:28:26
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -17,7 +17,7 @@ import { info } from '@utils/ui'
 import CharactersModal from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 
-const OSS = 'https://tinygrail.oss-cn-hangzhou.aliyuncs.com/image'
+const OSS = 'https://tinygrail.mange.cn/image'
 
 class Items extends React.Component {
   state = {

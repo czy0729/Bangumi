@@ -17,7 +17,6 @@ function Header(props, { $, navigation }) {
     <CompHeader
       title='关联系列'
       hm={['series', 'Series']}
-      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight={() => (
         <Flex>
           <IconTouchable

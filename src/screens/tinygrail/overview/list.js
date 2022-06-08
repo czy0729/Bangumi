@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:32:28
+ * @Last Modified time: 2022-06-08 11:57:46
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -33,7 +33,11 @@ function List({ id }, { $ }) {
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={list}
-      lazy={12}
+      windowSize={6}
+      initialNumToRender={24}
+      maxToRenderPerBatch={24}
+      updateCellsBatchingPeriod={24}
+      lazy={24}
       scrollToTop={tabs[page].key === id}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(id)}

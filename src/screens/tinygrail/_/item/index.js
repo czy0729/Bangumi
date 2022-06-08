@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:23:21
+ * @Last Modified time: 2022-06-08 11:48:45
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -18,7 +18,7 @@ import Title from './title'
 
 function Item(props, { $, navigation }) {
   const styles = memoStyles()
-  const { style, index, id, monoId, event, type, end, withoutFeedback } = props
+  const { style, id, monoId, event, type, end, withoutFeedback } = props
   const go = props.go || $.state.go
   const isICO = !!end
   const isAuction = type === 'auction'
@@ -56,7 +56,7 @@ function Item(props, { $, navigation }) {
   return (
     <Flex style={[styles.container, style]} align='start'>
       <Icon {...props} />
-      <Flex.Item style={[styles.wrap, index !== 0 && !_.flat && styles.border]}>
+      <Flex.Item style={styles.wrap}>
         <Flex align='start'>
           <Flex.Item style={_.mr.sm}>
             <Touchable
@@ -101,10 +101,6 @@ const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.sm,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
-  },
-  border: {
-    borderTopColor: _.colorTinygrailBorder,
-    borderTopWidth: _.hairlineWidth
   }
 }))
 

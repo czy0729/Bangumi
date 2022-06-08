@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:01:54
+ * @Last Modified time: 2022-06-08 10:14:42
  */
 module.exports = {
   root: true,
@@ -24,13 +24,14 @@ module.exports = {
     JSX: true
   },
   rules: {
-    radix: 0, // parseInt允许不填进制
-    'no-shadow': 0, // 允许相同变量名
-    'max-len': ['error', 200],
-    eqeqeq: 0,
-    'react/no-did-mount-set-state': 0,
-    'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
+    '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/no-unused-vars': [2, { ignoreRestSiblings: true }],
-    '@typescript-eslint/no-shadow': 0
+    'max-len': ['error', 200],
+    'no-shadow': 0, // 允许相同变量名
+    'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
+    'react/no-did-mount-set-state': 0,
+    'react/no-unstable-nested-components': 0,
+    eqeqeq: 0,
+    radix: 0 // parseInt允许不填进制
   }
 }

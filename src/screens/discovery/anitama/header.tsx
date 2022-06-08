@@ -17,7 +17,6 @@ function Header(props, { $ }) {
       title='资讯'
       alias='Anitama'
       hm={['discovery/anitama', 'Anitama']}
-      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight={() => (
         <CompHeader.Popover
           name='md-menu'

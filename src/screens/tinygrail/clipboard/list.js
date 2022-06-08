@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:05:03
+ * @Last Modified time: 2022-06-08 11:57:35
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -27,7 +27,11 @@ function List(props, { $ }) {
       footerTextType='tinygrailText'
       footerEmptyDataText={`您可以复制带有人物链接或id的文本\n进入本页面后会自动获取粘贴板文本中所有角色id\n获取角色数据并生成列表`}
       data={$.list}
-      lazy={12}
+      windowSize={6}
+      initialNumToRender={24}
+      maxToRenderPerBatch={24}
+      updateCellsBatchingPeriod={24}
+      lazy={24}
       scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchValhallList}

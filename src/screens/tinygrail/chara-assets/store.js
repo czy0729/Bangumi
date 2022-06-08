@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-10 11:58:09
+ * @Last Modified time: 2022-06-08 10:52:52
  */
 import { Alert, Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -388,9 +388,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     let count = 0
     if (ids.length) {
       // 多选模式选择要从最后选择的角色索引处开始
-      startIndex = Math.max(
-        ...ids.map(id => list.findIndex(item => item.id == id))
-      )
+      startIndex = Math.max(...ids.map(id => list.findIndex(item => item.id == id)))
     }
 
     list
@@ -431,10 +429,8 @@ export default class ScreenTinygrailCharaAssets extends store {
 
         const successIds = []
         const errorIds = []
-        // eslint-disable-next-line no-restricted-syntax
         for (const id of ids) {
           try {
-            // eslint-disable-next-line no-await-in-loop
             const { State } = await tinygrailStore.doSacrifice({
               monoId: id,
               amount: editingIds[id],
@@ -449,9 +445,7 @@ export default class ScreenTinygrailCharaAssets extends store {
           } catch (error) {
             errorIds.push(id)
           }
-          info(
-            `正在献祭 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`
-          )
+          info(`正在献祭 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`)
         }
         feedback()
 
@@ -501,13 +495,11 @@ export default class ScreenTinygrailCharaAssets extends store {
         const { list } = this.charaList
         const successIds = []
         const errorIds = []
-        // eslint-disable-next-line no-restricted-syntax
         for (const id of ids) {
           try {
             const item = list.find(item => item.id == id)
             if (item) {
               const { current, state } = item
-              // eslint-disable-next-line no-await-in-loop
               const { State } = await tinygrailStore.doAsk({
                 monoId: id,
                 price: current,
@@ -523,11 +515,7 @@ export default class ScreenTinygrailCharaAssets extends store {
           } catch (error) {
             errorIds.push(id)
           }
-          info(
-            `正在挂卖单 ${ids.findIndex(item => item === id) + 1} / ${
-              ids.length
-            }`
-          )
+          info(`正在挂卖单 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`)
         }
         feedback()
 
@@ -539,15 +527,11 @@ export default class ScreenTinygrailCharaAssets extends store {
         }
 
         if (errorIds.length) {
-          Alert.alert(
-            '小圣杯助手',
-            `共有 (${errorIds.length}) 个角色 (挂卖单) 失败`,
-            [
-              {
-                text: '知道了'
-              }
-            ]
-          )
+          Alert.alert('小圣杯助手', `共有 (${errorIds.length}) 个角色 (挂卖单) 失败`, [
+            {
+              text: '知道了'
+            }
+          ])
         } else {
           info('操作完成')
         }
@@ -570,7 +554,6 @@ export default class ScreenTinygrailCharaAssets extends store {
     const { page } = this.state
     const list = page === 1 ? this.myCharaAssets.ico : this.charaList
     const items = []
-    // eslint-disable-next-line no-restricted-syntax
     for (const id of ids) {
       try {
         const item = list.list.find(item => item.id == id)
@@ -584,10 +567,7 @@ export default class ScreenTinygrailCharaAssets extends store {
 
     Clipboard.setString(
       items
-        .map(
-          item =>
-            `https://bgm.tv/character/${item.monoId || item.id}\n${item.name}`
-        )
+        .map(item => `https://bgm.tv/character/${item.monoId || item.id}\n${item.name}`)
         .join('\n')
     )
     info(`已复制 ${items.length} 个角色的分享链接`)
