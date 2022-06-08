@@ -1,0 +1,20 @@
+<p>A third-party <a href="https://bgm.tv">Bangumi</a> client based on React-Native</p>
+<p>The layout is designed for mobile, covering basically all pages of the website.</p>
+<p>Bangumi is used for discovering, discussing, and managing the progress of the anime, music, Japanese drama, game, AVG and more.</p>
+<p><b>Basic Functions</b></p>
+<ul>
+<li>Managing progress</li>
+<li>Details of the entries and charactors</li>
+<li>Timeline (user activity)</li>
+<li>Super-expanding (forum)</li>
+<li>Time Machine (person center), user space</li>
+<li>More than search, rank, index, daily broadcast, yearbook, amd label</li>
+</ul>
+<p><b>Featured Functions</b></p>
+<ul>
+<li>Serve most resources on self-maintained <a href="https://github.com/czy0729/Bangumi-Subject">CDN</a>, high speed access</li>
+<li>Serve images on <a href="https://github.com/czy0729/Bangumi-OSS">CDN</a>, with post-processing,faster than the origin site with higher quality and less size</li>
+<li>Seasonal drama with precise single episode web source, manga source search, looking for drama, novel, game, and music</li>
+<li>Screenshot preview for drama and game</li>
+<li><a href="https://bgm.tv/dev/app/1143">Little chalice</a> (Character Trading Air Game with independent UI/UX design)</li>
+</ul>
