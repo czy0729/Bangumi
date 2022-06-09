@@ -1,0 +1,20 @@
+<p>一个基于 React-Native 的 <a href="https://bgm.tv">Bangumi</a> 第三方客户端</p>
+<p>基于移动端重新设计布局，几乎涵盖网站所有页面</p>
+<p>Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏、AVG），发现和讨论番组</p>
+<p><b>基本功能</b></p>
+<ul>
+<li>番组进度管理</li>
+<li>条目、角色详情</li>
+<li>时间线（用户动态）</li>
+<li>超展开（帖吧）</li>
+<li>时光机（个人中心）、用户空间</li>
+<li>不限于搜索、排行榜、索引、目录、每日放送、年鉴、标签</li>
+</ul>
+<p><b>特色功能</b></p>
+<ul>
+<li>大部分资源覆盖到自维护 <a href="https://github.com/czy0729/Bangumi-Subject">CDN</a>，访问高速化</li>
+<li>图片使用 <a href="https://github.com/czy0729/Bangumi-OSS">CDN</a>，有后处理，比源网站更快、质量更高、流量更小</li>
+<li>当季番剧精准到单集网络播放源、漫画源查询，找番剧、文库、游戏、音乐</li>
+<li>番剧、游戏截图预览</li>
+<li><a href="https://bgm.tv/dev/app/1143">小圣杯</a>（角色交易空气游戏, App 独立设计 UI 和交互）</li>
+</ul>
