@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 05:43:38
+ * @Last Modified time: 2022-06-10 15:22:10
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -26,6 +26,7 @@ import { HTMLTrim, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
+import { MonoId, SubjectId } from '@types'
 import UserStore from '../user'
 import {
   NAMESPACE,
@@ -47,6 +48,12 @@ import {
   cheerioWikiEdits,
   cheerioWikiCovers
 } from './common'
+import {
+  FetchMonoVoices,
+  FetchMonoWorks,
+  MonoCommentsItem,
+  SubjectComments
+} from './types'
 
 class Subject extends store {
   /**
@@ -251,9 +258,7 @@ class Subject extends store {
     )
 
   // -------------------- get --------------------
-  /**
-   * 条目, 合并subject0-9
-   */
+  /** 条目, 合并 subject 0-9 */
   subject(subjectId) {
     return computed(() => {
       if (!subjectId) return INIT_SUBJECT
@@ -264,9 +269,7 @@ class Subject extends store {
     }).get()
   }
 
-  /**
-   * 条目HTML, 合并subject0-9
-   */
+  /** 条目 (HTML), 合并 subject 0-9 */
   subjectFormHTML(subjectId) {
     return computed(() => {
       if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
@@ -280,9 +283,24 @@ class Subject extends store {
     }).get()
   }
 
+  /** 条目 (CDN), 合并 subject 0-9 */
   subjectFormCDN(subjectId) {
     return computed(() => {
       return this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM
+    }).get()
+  }
+
+  /** 条目吐槽箱 */
+  subjectComments(subjectId: SubjectId) {
+    return computed<SubjectComments>(() => {
+      return this.state.subjectComments[subjectId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 人物吐槽箱 */
+  monoComments(monoId: MonoId) {
+    return computed<MonoCommentsItem>(() => {
+      return this.state.monoComments[monoId] || LIST_EMPTY
     }).get()
   }
 
@@ -359,7 +377,7 @@ class Subject extends store {
       })
       return Promise.resolve(data)
     } catch (error) {
-      warn('subjectStore', 'fetchSubjectFormCDN', 404)
+      console.error('subjectStore', 'fetchSubjectFormCDN', 404)
       return Promise.resolve(INIT_SUBJECT_FROM_CDN_ITEM)
     }
   }
@@ -513,7 +531,7 @@ class Subject extends store {
           list: refresh ? comments : [...list, ...comments],
           pagination: {
             page,
-            pageTotal: parseInt(pageTotal)
+            pageTotal: pageTotal
           },
           _loaded: getTimestamp(),
           _reverse: isReverse
@@ -638,15 +656,14 @@ class Subject extends store {
       })
       return Promise.resolve(data)
     } catch (error) {
-      warn('subjectStore', 'fetchMonoFormCDN', 404)
+      console.error('subjectStore', 'fetchMonoFormCDN', 404)
       return Promise.resolve(INIT_MONO)
     }
   }
 
-  /**
-   * 人物作品
-   */
-  fetchMonoWorks = async ({ monoId, position, order } = {}, refresh) => {
+  /** 人物作品 */
+  fetchMonoWorks: FetchMonoWorks = async (args, refresh) => {
+    const { monoId, position, order } = args || {}
     const key = 'monoWorks'
     const limit = 24
     const { list, pagination } = this[key](monoId)
@@ -674,13 +691,12 @@ class Subject extends store {
     return this[key](monoId)
   }
 
-  /**
-   * 人物角色
-   */
-  fetchMonoVoices = async ({ monoId, position, order } = {}) => {
+  /** 人物角色 */
+  fetchMonoVoices: FetchMonoVoices = async args => {
+    const { monoId, position } = args || {}
     const key = 'monoVoices'
     const html = await fetchHTML({
-      url: HTML_MONO_VOICES(monoId, position, order)
+      url: HTML_MONO_VOICES(monoId, position)
     })
     const { list, filters } = cheerioMonoVoices(html)
     this.setState({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:48:48
+ * @Last Modified time: 2022-06-10 13:48:12
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -17,10 +17,11 @@ import {
 } from '@utils/match'
 import { HOST } from '@constants'
 import { HTML_MONO } from '@constants/html'
+import { MonoId } from '@types'
 import { analysisComments } from '../rakuen/common'
 import { INIT_MONO } from './init'
 
-export async function fetchMono({ monoId = 0 }) {
+export async function fetchMono({ monoId }: { monoId: MonoId }) {
   // -------------------- 请求HTML --------------------
   const raw = await fetchHTML({
     url: HTML_MONO(monoId)
