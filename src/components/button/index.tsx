@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 16:04:38
+ * @Last Modified time: 2022-06-11 15:24:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ type Props = {
   onPress?: (arg0?: any) => any
 
   /** 文字 */
-  children?: string | string[]
+  children?: any
 }
 
 export const Button = observer(

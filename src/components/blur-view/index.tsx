@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:00:03
+ * @Last Modified time: 2022-06-11 11:26:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { matchCoverUrl } from '@utils/app'
 import { IOS } from '@constants'
-import { Expand, ReactNode, ViewStyle } from '@types'
+import { Expand, ViewStyle } from '@types'
 import { Image } from '../image'
 import { styles } from './styles'
 
@@ -21,7 +21,7 @@ type Props = Expand<{
   src?: string
   tint?: 'light' | 'dark'
   intensity?: number
-  children?: ReactNode
+  children?: any
 }>
 
 export const BlurView = observer(

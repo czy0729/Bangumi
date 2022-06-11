@@ -514,7 +514,7 @@ export function cleanQ(str: any) {
  * @param {*} t 字符串2
  * @param {*} f 相似度级别
  */
-export function similar(s: string, t: string, f: number) {
+export function similar(s: string, t: string, f?: number) {
   if (!s || !t) return 0
 
   const l = s.length > t.length ? s.length : t.length

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 05:39:58
+ * @Last Modified time: 2022-06-11 15:34:25
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -10,7 +10,7 @@ import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
-import _, { mt, mr, mb, ml, shadow, fontSize } from '@styles'
+import _, { fontSize } from '@styles'
 import { ColorValue } from '@types'
 import systemStore from '../system'
 import {
@@ -67,12 +67,14 @@ class Theme extends store {
 
   /** 黑暗主题颜色 */
   readonly _colorBorder = _._colorBorder
+  readonly _colorSub = _._colorSub
 
-  readonly mt = mt
-  readonly mr = mr
-  readonly mb = mb
-  readonly ml = ml
-  readonly shadow = shadow
+  readonly mt = _.mt
+  readonly mr = _.mr
+  readonly mb = _.mb
+  readonly ml = _.ml
+  readonly shadow = _.shadow
+  readonly short = _.short
 
   /** 缩短引用 */
   readonly absoluteFill = StyleSheet.absoluteFill

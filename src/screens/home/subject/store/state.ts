@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:23:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:11:51
+ * @Last Modified time: 2022-06-11 16:04:42
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
@@ -45,7 +45,9 @@ export default class State extends Store {
     epsThumbs: [],
 
     /** 缩略图请求 header */
-    epsThumbsHeader: {},
+    epsThumbsHeader: {} as {
+      Referer?: any
+    },
 
     /** 页面 store 初始化完成 */
     _loaded: false as boolean | number

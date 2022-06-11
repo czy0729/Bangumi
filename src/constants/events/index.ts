@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 12:53:57
+ * @Last Modified time: 2022-06-11 15:26:47
  */
 import Discovery from './discovery'
 import Timeline from './timeline'
@@ -31,5 +31,7 @@ const events = {
 
 export default events
 
+type PageKeys = '条目'
+
 /** 埋点事件唯一键值 */
-export type EventKeys = keyof typeof events | ''
+export type EventKeys = keyof typeof events | PageKeys | ''

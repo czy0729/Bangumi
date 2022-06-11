@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 05:45:03
+ * @Last Modified time: 2022-06-11 15:57:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -130,6 +130,7 @@ export default class Computed extends State {
           page: pageTotal,
           pageTotal
         },
+        _reverse: subjectComments._reverse,
         _loaded: getTimestamp()
       }
     }

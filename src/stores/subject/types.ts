@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-10 15:22:06
+ * @Last Modified time: 2022-06-11 15:48:43
  */
 import { SubjectType } from '@constants/model/types'
 import { Override, ListEmpty, PersonId } from '@types'
@@ -33,7 +33,7 @@ type SubjectCommentsItem = Override<
 export type SubjectComments = Override<
   ListEmpty<SubjectCommentsItem>,
   {
-    _reverse?: SubjectCommentsItem[]
+    _reverse?: boolean
   }
 >
 

@@ -32,7 +32,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.czy0729.bangumi",
+      "bundleIdentifier": "tv.bangumi.czy0729",
       "supportsTablet": true
     },
     "androidStatusBar": {
