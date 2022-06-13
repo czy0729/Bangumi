@@ -1,19 +1,25 @@
 /*
+ * 评分
+ *
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-22 23:18:58
+ * @Last Modified time: 2022-06-13 12:51:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { ob } from '@utils/decorators'
+import { styles } from './styles'
+import { Props as StarsProps } from './types'
 
-const nums = [1, 2, 3, 4, 5]
+export { StarsProps }
+
+const NUMS = [1, 2, 3, 4, 5] as const
 
 export const Stars = ob(
-  ({ style, simple = false, value = 0, size = 11, type = 'sub' }) => {
+  ({ style, simple = false, value = 0, size = 11, type = 'sub' }: StarsProps) => {
     if (systemStore.setting.hideScore || !value) return null
 
     if (simple) {
@@ -29,7 +35,7 @@ export const Stars = ob(
 
     return (
       <Flex style={style}>
-        {nums.map(item => {
+        {NUMS.map(item => {
           if (value / 2 >= item) {
             return (
               <Iconfont key={item} name='md-star' size={size} color={_.colorWarning} />
@@ -61,14 +67,3 @@ export const Stars = ob(
     )
   }
 )
-
-const styles = _.create({
-  half: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    left: 0,
-    width: '48%',
-    overflow: 'hidden'
-  }
-})

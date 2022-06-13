@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 11:19:40
+ * @Last Modified time: 2022-06-13 10:52:35
  */
 import { _ } from '@stores'
 import { IOS } from '@constants'
 
-export default _.memoStyles(() => ({
+export const memoStyles = _.memoStyles(() => ({
   /**
    * base style
    */

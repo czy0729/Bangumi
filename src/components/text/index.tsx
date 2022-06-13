@@ -3,80 +3,18 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 06:18:28
+ * @Last Modified time: 2022-06-13 11:03:13
  */
 import React from 'react'
-import { Text as RNText, TextProps } from 'react-native'
+import { Text as RNText } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { Expand, TextStyle, ReactNode } from '@types'
 import { PAD_INCREASE, computedLineHeight, format } from './utils'
-import memoStyles from './styles'
+import { memoStyles } from './styles'
+import { TextType, Props as TextProps, Context } from './types'
 
-export type TextType =
-  | 'plain'
-  | '__plain__'
-  | 'main'
-  | 'primary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'title'
-  | 'desc'
-  | 'sub'
-  | 'icon'
-  | 'border'
-  | 'avatar'
-  | 'bid'
-  | 'ask'
-  | 'tinygrailPlain'
-  | 'tinygrailText'
-  | 'tinygrailIcon'
-
-export type Props = Expand<
-  TextProps & {
-    /** 样式 */
-    style?: TextStyle
-
-    /** 预设主题色 */
-    type?: TextType
-
-    /** 大小 */
-    size?: number
-
-    /**
-     * 行高
-     * 小于等于2的时候为比例，大小*行高=最终行高；大于2的时候为数值=最终行高
-     * */
-    lineHeight?: number
-
-    /** 额外增加的行高，主要用于<片假名终结者> */
-    lineHeightIncrease?: number
-
-    /** 对齐 */
-    align?: 'center' | 'right'
-
-    /** 是否加粗 */
-    bold?: boolean
-
-    /** 是否下划线 */
-    underline?: boolean
-
-    /** 是否带阴影 */
-    shadow?: boolean
-
-    /** 是否可选择 */
-    selectable?: boolean
-
-    children: string | string[] | ReactNode | ReactNode[]
-  }
->
-
-type Context = {
-  /** 额外增加的行高，主要用于<片假名终结者> */
-  lineHeightIncrease?: number
-}
+export { TextType, TextProps }
 
 function CompText(
   {
@@ -92,11 +30,11 @@ function CompText(
     selectable = false,
     children,
     ...other
-  }: Props,
+  }: TextProps,
   { lineHeightIncrease: contextLineHeightIncrease = 0 }: Context
 ) {
   const styles = memoStyles()
-  const _style: TextStyle[] = [styles.text]
+  const _style: TextProps['style'][] = [styles.text]
 
   if (type) _style.push(styles[type])
   if (underline) _style.push(styles.underline)

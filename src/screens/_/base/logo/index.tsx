@@ -1,8 +1,10 @@
 /*
+ * Logo
+ *
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 19:56:45
+ * @Last Modified time: 2022-06-13 12:51:55
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont } from '@components'
@@ -10,8 +12,12 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { obc } from '@utils/decorators'
+import { styles } from './styles'
+import { Props as LogoProps } from './types'
 
-export const Logo = obc(({ forceUpdate }, { navigation }) => (
+export { LogoProps }
+
+export const Logo = obc(({ forceUpdate }: LogoProps, { navigation }) => (
   <Touchable
     style={styles.radius}
     onPress={() => {
@@ -22,7 +28,7 @@ export const Logo = obc(({ forceUpdate }, { navigation }) => (
       info('主题切换中', 1.2)
       setTimeout(() => {
         _.toggleMode()
-        if (forceUpdate) {
+        if (typeof forceUpdate === 'function') {
           // 安卓端触发重渲染
           setTimeout(() => {
             forceUpdate()
@@ -44,17 +50,3 @@ export const Logo = obc(({ forceUpdate }, { navigation }) => (
     </Flex>
   </Touchable>
 ))
-
-const styles = _.create({
-  radius: {
-    borderRadius: _.radiusLg,
-    overflow: 'hidden'
-  },
-  logo: {
-    width: 132,
-    height: 32
-  },
-  ios: {
-    marginLeft: 4
-  }
-})

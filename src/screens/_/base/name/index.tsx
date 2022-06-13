@@ -4,12 +4,15 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-24 07:39:07
+ * @Last Modified time: 2022-06-13 12:51:48
  */
 import React, { useState, useCallback } from 'react'
 import { Text } from '@components'
 import { usersStore } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { Props as NameProps } from './types'
+
+export { NameProps }
 
 export const Name = ({
   style,
@@ -21,7 +24,7 @@ export const Name = ({
   numberOfLines = 1,
   children,
   ...other
-}) => {
+}: NameProps) => {
   const [lines, setLines] = useState(numberOfLines)
   const setLines2 = useCallback(() => setLines(numberOfLines + 1), [numberOfLines])
 

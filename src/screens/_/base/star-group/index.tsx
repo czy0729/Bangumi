@@ -1,20 +1,26 @@
 /*
+ * 评分按钮组
+ *
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 20:55:20
+ * @Last Modified time: 2022-06-13 13:38:54
  */
 import React from 'react'
 import { Text, Touchable, Iconfont, Flex } from '@components'
 import { _ } from '@stores'
-import { getRating } from '@utils/app'
+import { getRating } from '@utils'
 import { ob } from '@utils/decorators'
+import { styles } from './styles'
+import { Props as StarGroupProps } from './types'
+
+export { StarGroupProps }
 
 export const StarGroup = ob(
-  class extends React.Component {
+  class StarGroupComponent extends React.Component<StarGroupProps> {
     static defaultProps = {
       value: 0,
-      onChange: Function.prototype
+      onChange: () => {}
     }
 
     state = {
@@ -105,19 +111,3 @@ export const StarGroup = ob(
     }
   }
 )
-
-const styles = _.create({
-  desc: {
-    height: 22
-  },
-  touchClear: {
-    paddingHorizontal: _.xs,
-    marginLeft: _.sm - _.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  touchStar: {
-    borderRadius: 20,
-    overflow: 'hidden'
-  }
-})

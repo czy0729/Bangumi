@@ -2,28 +2,31 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:18:59
+ * @Last Modified time: 2022-06-13 11:04:31
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
-import { TextStyle } from '@types'
+import { Override, TextStyle } from '@types'
 import { Flex } from '../flex'
-import { Text, Props as TextProps } from '../text'
+import { Text, TextProps } from '../text'
 import { styles } from './styles'
 
-type Props = TextProps & {
-  /** 所有katakana的样式 */
-  itemStyle?: TextStyle
+type Props = Override<
+  TextProps,
+  {
+    /** 所有katakana的样式 */
+    itemStyle?: TextStyle
 
-  /** 非第一行katakana的样式 */
-  itemSecondStyle?: TextStyle
+    /** 非第一行katakana的样式 */
+    itemSecondStyle?: TextStyle
 
-  /** props可强制启动 */
-  active?: boolean
-}
+    /** props可强制启动 */
+    active?: boolean
+  }
+>
 
 export const KatakanaProvider = observer(
   class KatakanaProviderComponent extends React.Component<Props> {

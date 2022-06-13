@@ -10,13 +10,13 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:18:52
+ * @Last Modified time: 2022-06-13 11:04:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
-import { Text, Props as TextProps } from '../text'
+import { Text, TextProps } from '../text'
 import { KatakanaProvider } from './provider'
 import { getCache, matchKatakanas, translate } from './utils'
 

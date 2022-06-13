@@ -3,16 +3,17 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 22:40:44
+ * @Last Modified time: 2022-06-13 11:04:02
  */
 import React, { useState, useEffect } from 'react'
 import { TextProps } from 'react-native'
 import { getTimestamp } from '@utils'
-import { Expand } from '@types'
+import { Override } from '@types'
 import { Text } from '../text'
 
-type Props = Expand<
-  TextProps & {
+type Props = Override<
+  TextProps,
+  {
     end: number
   }
 >
