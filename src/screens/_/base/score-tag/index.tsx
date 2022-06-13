@@ -1,16 +1,22 @@
 /*
+ * 评分中文标签
+ *
  * @Author: czy0729
  * @Date: 2019-03-23 08:43:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:51:00
+ * @Last Modified time: 2022-06-13 17:34:48
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getRating } from '@utils/app'
 import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
+import { Props as ScoreTagProps } from './types'
 
-export const ScoreTag = ob(({ style, value = 0 }) => {
+export { ScoreTagProps }
+
+export const ScoreTag = ob(({ style, value = 0 }: ScoreTagProps) => {
   const styles = memoStyles()
   return (
     <Flex style={[styles.container, style]}>
@@ -20,13 +26,3 @@ export const ScoreTag = ob(({ style, value = 0 }) => {
     </Flex>
   )
 })
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: 2,
-    paddingHorizontal: 4,
-    backgroundColor: _.select(_.colorMain, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))

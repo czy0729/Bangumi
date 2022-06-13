@@ -1,16 +1,21 @@
 /*
+ * 带 Logo 的头部
+ *
  * @Author: czy0729
  * @Date: 2022-03-15 19:46:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:39:51
+ * @Last Modified time: 2022-06-13 18:03:35
  */
 import React from 'react'
 import { HeaderPlaceholder, Flex } from '@components'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { Logo } from './logo'
+import { Logo } from '../logo'
+import { styles } from './styles'
+import { Props as LogoHeaderProps } from './types'
 
-export const LogoHeader = ob(({ left, right }) => {
+export { LogoHeaderProps }
+
+export const LogoHeader = ob(({ left, right }: LogoHeaderProps) => {
   return (
     <>
       <HeaderPlaceholder />
@@ -25,22 +30,4 @@ export const LogoHeader = ob(({ left, right }) => {
       </Flex>
     </>
   )
-})
-
-const styles = _.create({
-  header: {
-    position: 'absolute',
-    zIndex: 3,
-    top: 0,
-    right: 0,
-    left: 0,
-    height: _.headerHeight,
-    paddingTop: _.statusBarHeight
-  },
-  side: {
-    width: 80
-  },
-  logo: {
-    flex: 1
-  }
 })

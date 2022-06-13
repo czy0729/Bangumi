@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-09 13:36:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:55:10
+ * @Last Modified time: 2022-06-13 13:49:39
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView } from '@components'
-import { Pagination } from '@_'
+import { ScrollView, Pagination } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Item from './item'

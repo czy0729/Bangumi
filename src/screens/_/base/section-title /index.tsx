@@ -1,27 +1,24 @@
 /*
+ * <ScrollView> 的 section 标题
+ *
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 01:30:59
+ * @Last Modified time: 2022-06-13 20:49:56
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { isObject } from '@utils'
 import { memo } from '@utils/decorators'
+import { styles } from './styles'
+import { Props as SectionTitleProps } from './types'
 
-const defaultProps = {
-  style: undefined,
-  icon: '',
-  left: undefined,
-  right: undefined,
-  children: undefined,
-  onPress: undefined
-}
+export { SectionTitleProps }
 
 export const SectionTitle = memo(
-  ({ style, icon, left, right, children, onPress }) => {
-    rerender('Component.SectionTitle')
+  ({ style, icon, left, right, children, onPress }: SectionTitleProps) => {
+    global.rerender('Component.SectionTitle')
 
     return (
       <Flex style={style}>
@@ -48,7 +45,14 @@ export const SectionTitle = memo(
       </Flex>
     )
   },
-  defaultProps,
+  {
+    style: undefined,
+    icon: '',
+    left: undefined,
+    right: undefined,
+    children: undefined,
+    onPress: undefined
+  },
   ({ left, right, children, ...other }) => {
     // right只会是React.Element, 若存在强制更新
     if (isObject(right) || isObject(children)) return false
@@ -59,12 +63,3 @@ export const SectionTitle = memo(
     }
   }
 )
-
-const styles = _.create({
-  touch: {
-    paddingHorizontal: _.xs,
-    marginLeft: -_.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-})

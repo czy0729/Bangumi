@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 07:51:30
+ * @Last Modified time: 2022-06-13 20:26:21
  */
 import React from 'react'
 import {
@@ -17,7 +17,7 @@ import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icon
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { EventKeys } from '@constants/events'
-import { SubjectTypeCn } from '@constants/model/types'
+import { SubjectTypeCn, RatingStatus } from '@constants/model/types'
 
 /** ==================== App ==================== */
 /** 任意 ID */
@@ -44,7 +44,7 @@ export type MonoId = CharacterId | PersonId
 /** 帖子 ID */
 export type TopicId = `${'group' | 'subject' | 'ep' | 'prsn'}/${Id}`
 
-export { EventKeys, SubjectTypeCn }
+export { EventKeys, SubjectTypeCn, RatingStatus }
 
 export type AppIconsNames = keyof typeof AppIcons
 export type IoniconsIconsNames = keyof typeof IoniconsIcons
@@ -133,3 +133,6 @@ export type ListEmpty<T> = {
 
 /** 任意函数 */
 export type Fn = (arg?: any, arg2?: any) => any
+
+/** 选择函数 */
+export type SelectFn = <T, K>(arg1: T, arg2: K) => T | K

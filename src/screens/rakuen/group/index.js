@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 01:27:46
+ * @Last Modified time: 2022-06-13 13:51:38
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, ScrollView, Heatmap } from '@components'
+import { Page, ScrollView, Pagination, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
-import { Pagination } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'

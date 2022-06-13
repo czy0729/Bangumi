@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 06:52:32
+ * @Last Modified time: 2022-06-13 13:44:36
  */
 
 /**
@@ -90,7 +90,7 @@ export function matchBgmUrl(str = '', returnAll = false) {
       []
     return returnAll ? matchs : matchs[0] || ''
   } catch (error) {
-    return ''
+    return []
   }
 }
 

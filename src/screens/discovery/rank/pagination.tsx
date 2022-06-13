@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-03 12:34:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 23:06:34
+ * @Last Modified time: 2022-06-13 13:50:10
  */
 import React from 'react'
-import { Pagination as CompPagination } from '@components'
+import { Pagination as PaginationComp } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
@@ -18,7 +18,7 @@ const heatmaps = {
 function Pagination(props, { $ }) {
   const { type, ipt } = $.state
   return (
-    <CompPagination
+    <PaginationComp
       style={styles.pagination}
       input={ipt[type]}
       heatmaps={heatmaps}

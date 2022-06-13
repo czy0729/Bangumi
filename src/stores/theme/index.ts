@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:34:25
+ * @Last Modified time: 2022-06-13 17:32:25
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -11,7 +11,7 @@ import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
 import _, { fontSize } from '@styles'
-import { ColorValue } from '@types'
+import { ColorValue, SelectFn } from '@types'
 import systemStore from '../system'
 import {
   NAMESPACE,
@@ -640,27 +640,25 @@ class Theme extends store {
    * 设备选择
    * 平板设备使用第二个值
    */
-  device = (mobileValue, padValue) => {
-    return this.isPad ? padValue : mobileValue
-  }
+  device: SelectFn = (mobileValue, padValue) => (this.isPad ? padValue : mobileValue)
 
   /**
    * 平台选择
    * 安卓平台使用第二个值
    */
-  ios = (iosValue, androidValue) => (IOS ? iosValue : androidValue)
+  ios: SelectFn = (iosValue, androidValue) => (IOS ? iosValue : androidValue)
 
   /**
    * 主题选择
    * 黑暗模式使用第二个值
    */
-  select = (lightValue, darkValue) => (this.isDark ? darkValue : lightValue)
+  select: SelectFn = (lightValue, darkValue) => (this.isDark ? darkValue : lightValue)
 
   /**
    * 方向选择
    * 水平方向使用第二个值
    */
-  portrait = (portaitValue, landscapeValue) =>
+  portrait: SelectFn = (portaitValue, landscapeValue) =>
     this.isLandscape ? landscapeValue : portaitValue
 
   /**
@@ -677,19 +675,21 @@ class Theme extends store {
    * 手机 * 1, 平板 * ratio
    * @param {*} px
    */
-  r = (px = 0) => this.ratio * px
+  r = (px: number = 0) => this.ratio * px
 
   /**
    * 黑暗模式下
    * 非深黑模式使用第二个值
    */
-  deep = (deepDarkValue, darkValue) => (this.deepDark ? deepDarkValue : darkValue)
+  deep: SelectFn = (deepDarkValue, darkValue) =>
+    this.deepDark ? deepDarkValue : darkValue
 
   /**
    * 小圣杯主题选择
    * 白天模式使用第二个值
    */
-  tSelect = (lightValue, darkValue) => (this.isTinygrailDark ? lightValue : darkValue)
+  tSelect: SelectFn = (lightValue, darkValue) =>
+    this.isTinygrailDark ? lightValue : darkValue
 
   /**
    * 切换模式
