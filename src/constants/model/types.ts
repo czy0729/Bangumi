@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 16:03:52
+ * @Last Modified time: 2022-06-13 07:52:10
  */
 import { ModelValueOf } from '@types'
 import {
@@ -38,8 +38,10 @@ export type RatingStatus = ModelValueOf<typeof RATING_STATUS, 'value'>
 
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT, 'value'>
 
+/** 条目类型值 */
 export type SubjectType = ModelValueOf<typeof SUBJECT_TYPE, 'label'>
 
+/** 条目类型中文 */
 export type SubjectTypeCn = ModelValueOf<typeof SUBJECT_TYPE, 'title'>
 
 export type TimeLineScope = ModelValueOf<typeof TIMELINE_SCOPE, 'value'>

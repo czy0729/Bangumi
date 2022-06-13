@@ -1,8 +1,10 @@
 /*
+ * 章节按钮组
+ *
  * @Author: czy0729
  * @Date: 2021-08-10 00:34:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:38:12
+ * @Last Modified time: 2022-06-13 10:11:04
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -13,6 +15,9 @@ import { MODEL_EP_TYPE } from '@constants/model'
 import { NormalButtons } from './normal-buttons'
 import { Carousel } from './carousel'
 import { defaultProps } from './ds'
+import { Props as EpsProps } from './types'
+
+export { EpsProps }
 
 const Main = memo(
   ({
@@ -32,7 +37,7 @@ const Main = memo(
     orientation,
     onSelect,
     onLongPress
-  }) => {
+  }: EpsProps) => {
     global.rerender('Eps.Main')
 
     const [width, setWidth] = useState(layoutWidth - marginRight)
@@ -163,4 +168,6 @@ const Main = memo(
   defaultProps
 )
 
-export const Eps = ob(props => <Main {...props} orientation={_.orientation} />)
+export const Eps = ob((props: EpsProps) => (
+  <Main {...props} orientation={_.orientation} />
+))

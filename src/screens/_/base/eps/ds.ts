@@ -2,28 +2,28 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:35:43
+ * @Last Modified time: 2022-06-13 08:40:52
  */
 import { _ } from '@stores'
 import { pick } from '@utils'
 
 export const defaultProps = {
   style: {},
-  subjectId: 0, // 条目Id
-  layoutWidth: 0, // 容器宽度, 存在此值则不计算onLayout, 加速渲染
-  marginRight: 0, // 容器右侧的margin值
-  numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行, iPad会忽略
-  lines: 4, // 最大显示多少行
-  pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
-  canPlay: false, // 有播放源
-  login: false, // 是否已登录
-  advance: false, // 详情页模式, 显示SP和更多的操作按钮
-  eps: [], // 章节数据
-  userProgress: {}, // 用户收藏记录
+  subjectId: 0,
+  layoutWidth: 0,
+  marginRight: 0,
+  numbersOfLine: 8,
+  lines: 4,
+  pagination: false,
+  canPlay: false,
+  login: false,
+  advance: false,
+  eps: [],
+  userProgress: {},
   grid: false,
   orientation: _.orientation,
-  onSelect: Function.prototype, // 操作选择 (value, item, subjectId) => void
-  onLongPress: Function.prototype // 按钮长按 (item) => void
+  onSelect: Function.prototype,
+  onLongPress: Function.prototype
 }
 
 export const buttonDefaultProps = {

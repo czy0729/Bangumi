@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 06:44:05
+ * @Last Modified time: 2022-06-12 15:09:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,14 +16,8 @@ import Eps from './eps'
 import Count from './count'
 import ToolBar from './tool-bar'
 import Progress from './progress'
+import { LIMIT_HEAVY, TITLE_HIT_SLOPS } from './ds'
 
-const LIMIT_HEAVY = _.device(8, 16)
-const titleHitSlops = {
-  top: _.device(8, 4),
-  right: _.device(8, 4),
-  bottom: _.device(2, 4),
-  left: _.device(8, 4)
-}
 const defaultProps = {
   navigation: {},
   styles: {},
@@ -52,7 +46,7 @@ const Item = memo(
     isTop,
     onItemPress
   }) => {
-    rerender('Home.Item.Main', subject.name_cn || subject.name)
+    global.rerender('Home.Item.Main', subject.name_cn || subject.name)
 
     return (
       <View style={heatMap && expand ? styles.itemWithHeatMap : styles.item}>
@@ -62,7 +56,7 @@ const Item = memo(
             <Touchable
               style={styles.title}
               withoutFeedback
-              hitSlop={titleHitSlops}
+              hitSlop={TITLE_HIT_SLOPS}
               onPress={() => onItemPress(navigation, subjectId, subject)}
             >
               <Flex align='start'>

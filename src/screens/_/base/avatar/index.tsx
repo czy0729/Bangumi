@@ -1,9 +1,10 @@
 /*
  * 头像
+ *
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:36:41
+ * @Last Modified time: 2022-06-13 08:03:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,57 +21,13 @@ import {
   URL_DEFAULT_AVATAR,
   IMG_DEFAULT
 } from '@constants'
-import { ColorValue, EventType, Navigation, ViewStyle, Fn } from '@types'
 import { memoStyles } from './styles'
+import { Props as AvatarProps } from './types'
 
-type Props = {
-  /** 图片容器样式 */
-  style?: ViewStyle
+export { AvatarProps }
 
-  /** 路由 */
-  navigation?: Navigation
-
-  /** 用户 id, 存在则允许点击进入用户空间 */
-  userId?: number | string
-
-  /** 用户昵称 */
-  name?: string
-
-  /** 头像地址 */
-  src?: string
-
-  /** 大小 */
-  size?: number
-
-  /** 边框大小 */
-  borderWidth?: number
-
-  /** 边框颜色 */
-  borderColor?: ColorValue
-
-  /** 埋点事件 */
-  event?: EventType
-
-  /** 路由跳转额外传递参数 */
-  params?: object
-
-  /** 是否强制圆形 */
-  round?: boolean
-
-  /** 圆角大小 */
-  radius?: number
-
-  /** 是否显示底色 */
-  placeholder?: boolean
-
-  /** 点击回调, 会覆盖跳转到用户空间的事件 */
-  onPress?: Fn
-
-  /** 长按回调 */
-  onLongPress?: Fn
-}
-
-const ts = parseInt(String(getTimestamp() / 604800)) // 一周才变化一次
+/** 判断是否自己的头像, 一周才变化一次 */
+const ts = Math.floor(getTimestamp() / 604800)
 const USER_MEDIUM = '//lain.bgm.tv/pic/user/m/'
 const USER_LARGE = '//lain.bgm.tv/pic/user/l/'
 
@@ -91,7 +48,7 @@ export const Avatar = ob(
     placeholder,
     onPress,
     onLongPress
-  }: Props) => {
+  }: AvatarProps) => {
     const styles = memoStyles()
     const { dev } = systemStore.state
     const { cdn, cdnAvatar, avatarRound, coverRadius } = systemStore.setting
@@ -198,6 +155,7 @@ export const Avatar = ob(
     if (isUrl && _src.includes(USER_MEDIUM)) {
       _src = _src.replace(USER_MEDIUM, USER_LARGE)
     }
+
     return (
       <Image
         key={isUrl ? _src : 'avatar'}

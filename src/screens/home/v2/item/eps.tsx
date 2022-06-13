@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 14:44:27
+ * @Last Modified time: 2022-06-12 15:14:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,15 +26,7 @@ function Eps({ index, subjectId }, { $, navigation }) {
       />
       {index === 1 && (
         <>
-          <Heatmap
-            right={72}
-            id='首页.跳转'
-            data={{
-              to: 'Topic',
-              alias: '章节讨论'
-            }}
-            transparent
-          />
+          <Heatmap right={72} id='首页.跳转' to='Topic' alias='章节讨论' transparent />
           <Heatmap bottom={35} id='首页.章节按钮长按' transparent />
           <Heatmap id='首页.章节菜单操作' />
         </>

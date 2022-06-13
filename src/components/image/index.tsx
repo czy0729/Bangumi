@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 06:02:30
+ * @Last Modified time: 2022-06-13 07:06:18
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -34,7 +34,9 @@ import { Text } from '../text'
 import CompImage from './image'
 import { checkError451, setError451 } from './utils'
 import { memoStyles } from './styles'
-import { Props, State } from './types'
+import { Props as ImageProps, State } from './types'
+
+export { ImageProps }
 
 /** 默认请求头 */
 const DEFAULT_HEADERS = {
@@ -54,7 +56,7 @@ const OSS_BGM = 'https://lain.bgm.tv'
 const OSS_MEGMA_PREFIX = '/bgm_poster'
 
 export const Image = observer(
-  class ImageComponent extends React.Component<Props, State> {
+  class ImageComponent extends React.Component<ImageProps, State> {
     static defaultProps = {
       style: undefined,
       imageStyle: undefined,

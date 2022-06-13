@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 05:16:58
+ * @Last Modified time: 2022-06-12 15:35:11
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -129,6 +129,11 @@ class System extends store {
   /** 高级会员 */
   @computed get advance() {
     return this.state.advance
+  }
+
+  /** 是否显示图片预览 */
+  @computed get imageViewer() {
+    return this.state.imageViewer
   }
 
   // -------------------- fetch --------------------

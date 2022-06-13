@@ -1,8 +1,10 @@
 /*
+ * 筛选组
+ *
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 17:19:41
+ * @Last Modified time: 2022-06-13 10:14:44
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,22 +13,26 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import i18n from '@constants/i18n'
-import { FilterSwitch } from './filter-switch'
-
-const hitSlop = {
-  top: _.device(6, 4),
-  right: _.device(2, 4),
-  bottom: _.device(6, 4),
-  left: _.device(2, 4)
-}
+import { EventKeys } from '@types'
+import { FilterSwitch } from '../filter-switch'
+import { memoStyles } from './styles'
+import { HIT_SLOP } from './ds'
+import { Props as FilterProps } from './types'
 
 export const Filter = obc(
   (
-    { filterDS = [], title = '频道', name = '番剧', type = 'Anime', lastUpdate },
+    {
+      filterDS = [],
+      title = '频道',
+      name = '番剧',
+      type = 'Anime',
+      lastUpdate
+    }: FilterProps,
     { $ }
   ) => {
     const styles = memoStyles()
     const { query, data, layout, expand } = $.state
+    const eventId = `${type}.选择` as EventKeys
     return (
       <View style={[styles.container, layout === 'grid' && _.mb.md]}>
         <FilterSwitch title={title} name={name} />
@@ -59,13 +65,7 @@ export const Filter = obc(
                       </Touchable>
                     )}
                   </View>
-                  <Heatmap
-                    right={-16}
-                    bottom={8}
-                    id={`${type}.选择`}
-                    type={item.type}
-                    mini
-                  />
+                  <Heatmap right={-16} bottom={8} id={eventId} type={item.type} mini />
                 </View>
                 <Flex.Item style={_.ml.md}>
                   <Flex align={multiple ? 'start' : 'center'}>
@@ -76,10 +76,10 @@ export const Filter = obc(
                           ? state.length === 0
                           : state === '') && styles.itemActive,
                         multiple && {
-                          marginTop: 4 * _.ratio
+                          marginTop: _.r(4)
                         }
                       ]}
-                      hitSlop={hitSlop}
+                      hitSlop={HIT_SLOP}
                       onPress={() => $.onSelect(item.type, '')}
                     >
                       <Text size={11}>{item.type === 'sort' ? '默认' : '全部'}</Text>
@@ -105,7 +105,7 @@ export const Filter = obc(
                                       ? state.includes(tag)
                                       : state === tag) && styles.itemActive
                                   ]}
-                                  hitSlop={hitSlop}
+                                  hitSlop={HIT_SLOP}
                                   onPress={() => $.onSelect(item.type, tag)}
                                   onLongPress={
                                     multiSelect
@@ -114,14 +114,7 @@ export const Filter = obc(
                                   }
                                 >
                                   <Text size={11}>{tag}</Text>
-                                  <Heatmap
-                                    right={-1}
-                                    id={`${type}.选择`}
-                                    data={{
-                                      value: tag
-                                    }}
-                                    mini
-                                  />
+                                  <Heatmap right={-1} id={eventId} value={tag} mini />
                                 </Touchable>
                               ))}
                             </Flex>
@@ -143,18 +136,11 @@ export const Filter = obc(
                                     ? state.includes(i)
                                     : state === i) && styles.itemActive
                                 ]}
-                                hitSlop={hitSlop}
+                                hitSlop={HIT_SLOP}
                                 onPress={() => $.onSelect(item.type, i)}
                               >
                                 <Text size={11}>{i}</Text>
-                                <Heatmap
-                                  right={-1}
-                                  id={`${type}.选择`}
-                                  data={{
-                                    value: i
-                                  }}
-                                  mini
-                                />
+                                <Heatmap right={-1} id={eventId} value={i} mini />
                               </Touchable>
                             ))
                           )}
@@ -190,48 +176,6 @@ export const Filter = obc(
     )
   }
 )
-
-const vertical = 4
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.sm * _.ratio
-  },
-  row: {
-    paddingLeft: _.wind
-  },
-  multiple: {
-    marginVertical: -vertical * _.ratio
-  },
-  multipleTitle: {
-    marginTop: 8 * _.ratio
-  },
-  contentContainerStyle: {
-    paddingVertical: vertical * _.ratio
-  },
-  item: {
-    paddingVertical: vertical,
-    paddingHorizontal: 12 * _.ratio,
-    borderRadius: 12 * _.ratio,
-    overflow: 'hidden'
-  },
-  itemActive: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
-  },
-  how: {
-    position: 'absolute',
-    zIndex: 1,
-    left: 0,
-    bottom: 0,
-    width: 34 * _.ratio,
-    marginBottom: -29 * _.ratio
-  },
-  more: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.md,
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
-  }
-}))
 
 function scrollToX(scrollView, data, value, width = 50) {
   if (scrollView && value) {

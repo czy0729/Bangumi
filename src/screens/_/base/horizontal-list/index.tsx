@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 15:49:12
+ * @Last Modified time: 2022-06-13 08:43:53
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,17 +13,13 @@ import { ob } from '@utils/decorators'
 import { Cover } from '../cover'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import { HIT_SLOP } from './ds'
+import { Props as HorizontalListProps } from './types'
 
-const hitSlop = {
-  top: _.device(3, 4),
-  right: _.device(4, 4),
-  bottom: _.device(4, 4),
-  left: _.device(4, 4)
-}
+export { HorizontalListProps }
 
 export const HorizontalList = ob(
-  class HorizontalListComponent extends React.Component<Props> {
+  class HorizontalListComponent extends React.Component<HorizontalListProps> {
     static defaultProps = {
       data: [],
       width: 60,
@@ -128,7 +124,7 @@ export const HorizontalList = ob(
                   />
                   <Touchable
                     withoutFeedback
-                    hitSlop={hitSlop}
+                    hitSlop={HIT_SLOP}
                     onPress={() => onPress(item, typeCn)}
                   >
                     <Text

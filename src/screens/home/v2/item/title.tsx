@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:09:00
+ * @Last Modified time: 2022-06-12 15:12:05
  */
 import React from 'react'
 import { Text } from '@components'
@@ -11,17 +11,7 @@ import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-
-const weekDayMap = {
-  0: '日',
-  1: '一',
-  2: '二',
-  3: '三',
-  4: '四',
-  5: '五',
-  6: '六',
-  7: '日'
-}
+import { WEEK_DAY_MAP } from './ds'
 
 function Title({ subject, subjectId }, { $ }) {
   const type = MODEL_SUBJECT_TYPE.getTitle(subject.type)
@@ -29,7 +19,7 @@ function Title({ subject, subjectId }, { $ }) {
   const doing = isBook ? '读' : '看'
 
   const { weekDay, isExist } = $.onAirCustom(subjectId)
-  const weekDayText = isExist ? ` / 周${weekDayMap[weekDay]}` : ''
+  const weekDayText = isExist ? ` / 周${WEEK_DAY_MAP[weekDay]}` : ''
   return (
     <>
       <Text numberOfLines={2} bold>

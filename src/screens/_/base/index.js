@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 06:05:14
+ * @Last Modified time: 2022-06-12 15:51:25
  */
 export * from './app-common'
 export * from './auth'
 export * from './avatar'
 export * from './blur-view'
-export * from './characters'
 export * from './cover'
 export * from './eps'
 export * from './filter'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 12:34:43
+ * @Last Modified time: 2022-06-13 07:51:30
  */
 import React from 'react'
 import {
@@ -13,23 +13,50 @@ import {
   ColorValue as RNColorValue
 } from 'react-native'
 import * as Screens from '@screens'
-import { EventKeys } from '@constants/events'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
+import { EventKeys } from '@constants/events'
+import { SubjectTypeCn } from '@constants/model/types'
 
-/** Assets */
-export { EventKeys }
+/** ==================== App ==================== */
+/** 任意 ID */
+export type Id = number | string
+
+/** 条目 ID */
+export type SubjectId = Id
+
+/** 章节 ID */
+export type EpId = Id
+
+/** 用户 ID */
+export type UserId = Id
+
+/** 真实人物 ID */
+export type PersonId = `person/${Id}`
+
+/** 虚拟角色 ID */
+export type CharacterId = `character/${Id}`
+
+/** 人物 ID */
+export type MonoId = CharacterId | PersonId
+
+/** 帖子 ID */
+export type TopicId = `${'group' | 'subject' | 'ep' | 'prsn'}/${Id}`
+
+export { EventKeys, SubjectTypeCn }
 
 export type AppIconsNames = keyof typeof AppIcons
 export type IoniconsIconsNames = keyof typeof IoniconsIcons
 export type MaterialIconsNames = keyof typeof MaterialIcons
+
+/** 所有图标名 */
 export type IconfontNames =
   | AppIconsNames
   | IoniconsIconsNames
   | `md-${MaterialIconsNames}`
 
-/** utils */
+/** ==================== Utils ==================== */
 /** 用于在 vscode 里面注释能直接显示展开的 type */
 export type Expand<T> = T extends infer O
   ? {
@@ -46,7 +73,7 @@ export type ValueOf<T> = T[keyof T]
 /** 取 Model 联合类型 */
 export type ModelValueOf<T extends readonly any[], K extends string> = T[number][K]
 
-/** constants */
+/** ==================== Constants ==================== */
 /** 页面 */
 export type Paths = keyof typeof Screens
 
@@ -106,29 +133,3 @@ export type ListEmpty<T> = {
 
 /** 任意函数 */
 export type Fn = (arg?: any, arg2?: any) => any
-
-/** App */
-
-/** 任意 ID */
-export type Id = number | string
-
-/** 条目 ID */
-export type SubjectId = Id
-
-/** 章节 ID */
-export type EpId = Id
-
-/** 用户 ID */
-export type UserId = Id
-
-/** 真实人物 ID */
-export type PersonId = `person/${Id}`
-
-/** 虚拟角色 ID */
-export type CharacterId = `character/${Id}`
-
-/** 人物 ID */
-export type MonoId = CharacterId | PersonId
-
-/** 帖子 ID */
-export type TopicId = `${'group' | 'subject' | 'ep' | 'prsn'}/${Id}`
