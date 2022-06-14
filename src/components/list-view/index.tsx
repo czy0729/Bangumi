@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 07:57:25
+ * @Last Modified time: 2022-06-14 19:50:58
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -19,10 +19,12 @@ import List from './list'
 import Footer from './footer'
 import { REFRESH_STATE } from './ds'
 import { memoStyles } from './styles'
-import { Props, RenderListProps, ScrollToFunction } from './types'
+import { Props as ListViewProps, RenderListProps, ScrollToFunction } from './types'
+
+export { ListViewProps }
 
 export const ListView = observer(
-  class ListViewComponent extends React.Component<Props> {
+  class ListViewComponent extends React.Component<ListViewProps> {
     static defaultProps = {
       style: undefined,
       keyExtractor: undefined,

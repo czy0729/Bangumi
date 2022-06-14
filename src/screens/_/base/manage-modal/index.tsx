@@ -1,8 +1,10 @@
 /*
+ * 条目收藏管理弹窗
+ *
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 15:55:07
+ * @Last Modified time: 2022-06-14 15:57:16
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'

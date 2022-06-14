@@ -22,10 +22,10 @@ export type Props = {
   overlay?: ReactNode
 
   /** 菜单选择 */
-  onSelect?: (title: string) => any
+  onSelect?: (title?: string) => any
 
   /** 菜单长按选择 (不推荐使用) */
-  onLongPress?: (title: string) => any
+  onLongPress?: (title?: string) => any
 
   children?: ReactNode
 }

@@ -7,7 +7,9 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import PopoverIOS from './popover-ios'
-import { Props } from './types'
+import { Props as PopoverProps } from './types'
+
+export { PopoverProps }
 
 export const Popover = observer(
   ({
@@ -20,7 +22,7 @@ export const Popover = observer(
     onLongPress,
     children,
     ...other
-  }: Props) => {
+  }: PopoverProps) => {
     return (
       <PopoverIOS
         style={style}

@@ -1,20 +1,26 @@
 /*
+ * 自动分页的长列表
+ *
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-18 12:19:26
+ * @Last Modified time: 2022-06-14 20:00:37
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
 import { getTimestamp } from '@utils'
+import { ListEmpty } from '@types'
+import { Props as PaginationList2Props } from './types'
 
-export const PaginationList = ({
+export { PaginationList2Props }
+
+export const PaginationList2 = ({
   data,
   limit = 24,
-  onPage = Function.prototype,
+  onPage = () => {},
   ...other
-}) => {
-  const [list, setList] = useState({
+}: PaginationList2Props) => {
+  const [list, setList] = useState<ListEmpty<any>>({
     list: [],
     pagination: {
       page: 1,
@@ -50,8 +56,7 @@ export const PaginationList = ({
       _loaded: getTimestamp()
     })
     onPage(list)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.length, onPage])
+  }, [data, limit, onPage])
 
   return <ListView data={list} {...other} onFooterRefresh={onFooterRefresh} />
 }
