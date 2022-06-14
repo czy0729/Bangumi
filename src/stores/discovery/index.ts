@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:53:05
+ * @Last Modified time: 2022-06-14 14:24:41
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
@@ -24,6 +24,7 @@ import {
   HTML_ACTION_CATALOG_DELETE,
   HTML_ACTION_CATALOG_EDIT
 } from '@constants/html'
+import { Id } from '@types'
 import {
   NAMESPACE,
   DEFAULT_TYPE,
@@ -42,6 +43,7 @@ import {
   cheerioChannel,
   cheerioWiki
 } from './common'
+import { DoCatalogAddRelate } from './types'
 
 class Discovery extends store {
   state = observable({
@@ -77,10 +79,7 @@ class Discovery extends store {
       0: INIT_CATALOG_ITEM
     },
 
-    /**
-     * 目录详情
-     * @param {*} id
-     */
+    /** 目录详情 */
     catalogDetail: {
       0: INIT_CATELOG_DETAIL_ITEM
     },
@@ -188,6 +187,18 @@ class Discovery extends store {
       ],
       NAMESPACE
     )
+
+  // -------------------- get --------------------
+  /**
+   * 目录详情
+   * @param {*} id
+   */
+  catalogDetail(id?: Id) {
+    return computed<typeof INIT_CATELOG_DETAIL_ITEM>(() => {
+      const { catalogDetail } = this.state
+      return catalogDetail[id] || INIT_CATELOG_DETAIL_ITEM
+    }).get()
+  }
 
   // -------------------- fetch --------------------
   /**
@@ -736,7 +747,10 @@ class Discovery extends store {
   /**
    * 目录添加条目
    */
-  doCatalogAddRelate = ({ catalogId, subjectId, formhash, noConsole }, success) => {
+  doCatalogAddRelate: DoCatalogAddRelate = (
+    { catalogId, subjectId, formhash, noConsole },
+    success
+  ) => {
     xhr(
       {
         url: HTML_ACTION_CATALOG_ADD_RELATED(catalogId),

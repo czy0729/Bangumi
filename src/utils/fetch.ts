@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 06:05:41
+ * @Last Modified time: 2022-06-14 14:24:39
  */
 import {
   APP_ID,
@@ -278,7 +278,7 @@ export async function fetchHTML(
 }
 
 type XHRArgs = {
-  method: 'GET' | 'POST'
+  method?: 'GET' | 'POST'
   url: string
   data?: {
     [key: string]: any

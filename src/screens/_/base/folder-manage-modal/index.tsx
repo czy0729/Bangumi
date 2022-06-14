@@ -1,8 +1,10 @@
 /*
+ * 目录管理弹窗
+ *
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 13:41:22
+ * @Last Modified time: 2022-06-14 14:34:14
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
@@ -16,28 +18,24 @@ import { ob } from '@utils/decorators'
 import { queue, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { HTMLDecode } from '@utils/html'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import i18n from '@constants/i18n'
-import { Cover } from './cover'
-import { Popover } from './popover'
-import { Tag } from './tag'
-import { IconTouchable } from '../icon/touchable'
+import { Cover } from '../cover'
+import { Popover } from '../popover'
+import { Tag } from '../tag'
+import { IconTouchable } from '../../icon/touchable'
+import { STORAGE_KEY, WIDTH, HEIGHT, CONTROL_DS } from './ds'
+import { memoStyles } from './styles'
+import { Props as FolderManageModalProps, State } from './types'
 
-const storageKey = 'FolderManageModal|expand'
-const width = (IMG_WIDTH / 1.6) * _.ratio
-const height = (IMG_HEIGHT / 1.6) * _.ratio
-const controlDS = {
-  root: ['修改', '删除'],
-  single: ['修改', '移出'],
-  top: ['修改', '下移', '置底', '移出'],
-  middle: ['修改', '置顶', '上移', '下移', '置底', '移出'],
-  bottom: ['修改', '置顶', '上移', '移出']
-}
+export { FolderManageModalProps }
 
 let loaded = false
 
 export const FolderManageModal = ob(
-  class FolderManageModalComponent extends React.Component {
+  class FolderManageModalComponent extends React.Component<
+    FolderManageModalProps,
+    State
+  > {
     static defaultProps = {
       id: 0,
       defaultExpand: 0,
@@ -51,23 +49,20 @@ export const FolderManageModal = ob(
     state = {
       visible: false,
       expand: [],
-
-      // 新建目录, 目录编辑
       create: false,
       title: '',
       desc: '',
-
-      // 条目编辑
       edit: 0,
       content: '',
       order: '0'
     }
 
     formhash
+
     textareaRef
 
     async componentDidMount() {
-      const expand = await getStorage(storageKey)
+      const expand = await getStorage(STORAGE_KEY)
       if (Array.isArray(expand)) {
         this.setState({
           expand
@@ -201,7 +196,7 @@ export const FolderManageModal = ob(
           order: '0'
         },
         () => {
-          setStorage(storageKey, this.state.expand)
+          setStorage(STORAGE_KEY, this.state.expand)
         }
       )
     }
@@ -506,7 +501,7 @@ export const FolderManageModal = ob(
     /**
      * 编辑项
      */
-    onSubjectEdit = item => {
+    onSubjectEdit = (item?) => {
       if (item) {
         this.setState({
           edit: item.id,
@@ -531,10 +526,9 @@ export const FolderManageModal = ob(
       })
     }
 
-    /**
-     * 改变文字
-     */
-    onChange = (value, key = 'content') => {
+    /** 改变文字 */
+    onChange = (value: string, key = 'content') => {
+      // @ts-ignore
       this.setState({
         [key]: value
       })
@@ -552,9 +546,7 @@ export const FolderManageModal = ob(
       }
 
       const _order = Number(order)
-      if (Number.isNaN(_order)) {
-        return
-      }
+      if (Number.isNaN(_order)) return
 
       this.setState({
         order: _order == 0 ? '' : _order
@@ -614,11 +606,11 @@ export const FolderManageModal = ob(
       )
     }
 
-    @computed get userCollectionsMap() {
+    get userCollectionsMap() {
       return collectionStore.userCollectionsMap
     }
 
-    @computed get catalogs() {
+    get catalogs() {
       return usersStore.catalogs()
     }
 
@@ -658,7 +650,7 @@ export const FolderManageModal = ob(
             style={[this.styles.textarea, _.mt.md]}
             defaultValue={title}
             placeholder='输入标题'
-            clear
+            showClear
             onChangeText={text => this.onChange(text, 'title')}
           />
           <TextareaItem
@@ -746,7 +738,7 @@ export const FolderManageModal = ob(
                   style={[this.styles.textarea, _.mt.md]}
                   defaultValue={item.title}
                   placeholder='输入标题'
-                  clear
+                  showClear
                   onChangeText={text => this.onChange(text, 'title')}
                 />
                 <TextareaItem
@@ -800,7 +792,7 @@ export const FolderManageModal = ob(
                 )}
                 <Popover.Old
                   style={this.styles.btnPopover}
-                  data={controlDS.root}
+                  data={CONTROL_DS.root}
                   onSelect={title => this.onControl(title, item)}
                 >
                   <Flex style={this.styles.touch} justify='center'>
@@ -837,9 +829,7 @@ export const FolderManageModal = ob(
     renderSubjects(item, detail) {
       const { id } = this.props
       const { expand, create, edit, content, order } = this.state
-      if (!(expand.includes(item.id) || create == item.id)) {
-        return null
-      }
+      if (!(expand.includes(item.id) || create == item.id)) return null
 
       return (
         <View style={this.styles.subjects}>
@@ -848,13 +838,13 @@ export const FolderManageModal = ob(
             const { length } = detail.list
             let data
             if (length <= 1) {
-              data = controlDS.single
+              data = CONTROL_DS.single
             } else if (index === 0) {
-              data = controlDS.top
+              data = CONTROL_DS.top
             } else if (index === length - 1) {
-              data = controlDS.bottom
+              data = CONTROL_DS.bottom
             } else {
-              data = controlDS.middle
+              data = CONTROL_DS.middle
             }
 
             const align = isEditing || i.comment ? 'start' : 'center'
@@ -864,8 +854,8 @@ export const FolderManageModal = ob(
               <Flex style={this.styles.subject} align={align}>
                 <Cover
                   src={i.image}
-                  size={width}
-                  height={height}
+                  size={WIDTH}
+                  height={HEIGHT}
                   radius
                   type={i.type === '音乐' ? i.type : undefined}
                 />
@@ -988,110 +978,6 @@ export const FolderManageModal = ob(
     }
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  modal: {
-    width: (_.window.width - 2 * _.wind) * _.ratio,
-    maxWidth: 408 * _.ratio,
-    backgroundColor: _.select(_.colorBg, _.colorBg),
-    borderRadius: _.radiusMd
-  },
-  scrollView: {
-    height: _.window.height * 0.7,
-    marginTop: _.md,
-    marginBottom: _.sm
-  },
-  catalog: {
-    padding: _.device(_.sm, _.md),
-    paddingRight: 0,
-    marginBottom: _.sm
-  },
-  control: {
-    minWidth: 48,
-    height: '100%'
-  },
-  subjects: {
-    paddingLeft: _.sm,
-    paddingBottom: _.sm,
-    marginTop: -_.sm
-  },
-  subject: {
-    paddingVertical: _.sm
-  },
-  subjectContent: {
-    paddingLeft: 12
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    left: 0
-  },
-  comment: {
-    padding: _.sm,
-    marginTop: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.select(_.colorIcon, _.colorBorder),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  textarea: {
-    padding: _.sm,
-    marginTop: _.sm,
-    marginBottom: -4,
-    color: _.colorDesc,
-    ..._.fontSize10,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.select(_.colorIcon, _.colorBorder),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  editWrap: {
-    height: '100%'
-  },
-  create: {
-    paddingTop: _.sm,
-    paddingRight: 48,
-    paddingLeft: _.sm,
-    marginBottom: _.md
-  },
-  btnPopover: {
-    marginLeft: _.xs,
-    marginRight: -2,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  touch: {
-    width: 38,
-    height: 38
-  },
-  btnCreate: {
-    position: 'absolute',
-    zIndex: 1,
-    top: -31,
-    right: 12
-  },
-  btnCreateCancel: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: -4
-  },
-  btnSubmit: {
-    position: 'absolute',
-    zIndex: 1,
-    right: 0,
-    bottom: -4
-  },
-  btnCreateSubmit: {
-    position: 'absolute',
-    zIndex: 1,
-    right: -4,
-    bottom: -4
-  }
-}))
 
 function fixedOrder(order) {
   const _order = Number(order)

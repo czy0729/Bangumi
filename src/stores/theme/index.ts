@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 17:32:25
+ * @Last Modified time: 2022-06-14 11:31:03
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -59,9 +59,11 @@ class Theme extends store {
 
   /** 颜色 */
   readonly colorPrimaryLight = _.colorPrimaryLight
+  readonly colorWarningLight = _.colorWarningLight
   readonly colorSuccessLight = _.colorSuccessLight
   readonly colorMainBorder = _.colorMainBorder
   readonly colorPrimaryBorder = _.colorPrimaryBorder
+  readonly colorWarningBorder = _.colorWarningBorder
   readonly colorSuccessBorder = _.colorSuccessBorder
   readonly colorShadow = _.colorShadow
 

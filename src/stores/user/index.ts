@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 00:54:20
+ * @Last Modified time: 2022-06-14 14:02:43
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -175,9 +175,7 @@ class User extends store {
      */
     logout: '',
 
-    /**
-     * 表单提交唯一码
-     */
+    /** 表单提交唯一码 */
     formhash: '',
 
     /**
@@ -246,6 +244,11 @@ class User extends store {
   /** 自己用户Id (改过用户名后) */
   @computed get myId() {
     return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
+  }
+
+  /** 表单提交唯一码 */
+  @computed get formhash() {
+    return this.state.formhash
   }
 
   /**

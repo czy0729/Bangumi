@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:31:32
+ * @Last Modified time: 2022-06-14 15:55:07
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -10,45 +10,48 @@ import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Button, Flex, Input, Text, Touchable, Iconfont } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
-import { window } from '@styles'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { MODEL_PRIVATE } from '@constants/model'
-import { StarGroup } from './star-group'
-import { StatusBtnGroup } from './status-btn-group'
+import { RatingStatus } from '@types'
+import { StarGroup } from '../star-group'
+import { StatusBtnGroup } from '../status-btn-group'
+import { STORAGE_KEY } from './ds'
+import { memoStyles } from './styles'
+import { Props as ManageModalProps, State } from './types'
 
-const initState = {
-  focus: false,
-  loading: true,
-  fetching: false,
-  rating: 0,
-  tags: '',
-  showTags: true,
-  comment: '',
-  status: '',
-  privacy: MODEL_PRIVATE.getValue('公开')
-}
-const storageKey = 'ManageModal|privacy'
+export { ManageModalProps }
 
 export const ManageModal = ob(
-  class extends React.Component {
+  class ManageModalComponent extends React.Component<ManageModalProps, State> {
     static defaultProps = {
       visible: false,
       subjectId: 0,
       title: '',
       desc: '',
       action: '看',
-      onSubmit: Function.prototype,
-      onClose: Function.prototype
+      onSubmit: () => {},
+      onClose: () => {}
     }
 
-    state = initState
+    state = {
+      focus: false,
+      loading: true,
+      fetching: false,
+      rating: 0,
+      tags: '',
+      showTags: true,
+      comment: '',
+      status: '' as RatingStatus,
+      privacy: MODEL_PRIVATE.getValue('公开')
+    }
+
     commentRef
 
     async componentDidMount() {
-      const privacy = (await getStorage(storageKey)) || MODEL_PRIVATE.getValue('公开')
+      const privacy = (await getStorage(STORAGE_KEY)) || MODEL_PRIVATE.getValue('公开')
       this.setState({
-        showTags: systemStore.setting.showTags,
+        showTags: systemStore.setting.showTags === true,
         privacy
       })
       BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
@@ -75,15 +78,14 @@ export const ManageModal = ob(
             status = {}
           } = await collectionStore.fetchCollection(subjectId)
 
-          const state = {
+          const state: any = {
             rating,
             tags: tag.join(' '),
             comment,
             status: status.type
           }
-          if (privacy !== undefined) {
-            state.privacy = privacy
-          }
+          if (privacy !== undefined) state.privacy = privacy
+
           this.setState(state)
         }
       }
@@ -105,6 +107,7 @@ export const ManageModal = ob(
     }
 
     changeText = (name, text) => {
+      // @ts-ignore
       this.setState({
         [name]: text
       })
@@ -138,7 +141,7 @@ export const ManageModal = ob(
       this.setState({
         privacy: _privacy
       })
-      setStorage(storageKey, _privacy)
+      setStorage(STORAGE_KEY, _privacy)
     }
 
     fetchTags = async () => {
@@ -335,57 +338,3 @@ export const ManageModal = ob(
     }
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  modal: {
-    width: (_.window.width - 2 * _.wind) * _.ratio,
-    maxWidth: _.device(408, 560),
-    paddingTop: _.device(_.md + 2, 28),
-    paddingHorizontal: _.device(0, _.sm),
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
-  },
-  focus: {
-    marginTop: -parseInt(window.height * 0.32)
-  },
-  wrap: {
-    minHeight: _.device(380, 448)
-  },
-  content: {
-    width: '100%',
-    maxWidth: window.maxWidth,
-    paddingBottom: _.sm,
-    marginTop: _.isMobileLanscape ? -24 : 0
-  },
-  tags: {
-    width: '100%',
-    height: 54 * _.ratio,
-    paddingVertical: 12
-  },
-  tag: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
-    marginRight: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
-    borderWidth: _.select(1, 0),
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs
-  },
-  tagSelected: {
-    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
-    borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2)
-  },
-  btnEye: {
-    width: 88 * _.ratio,
-    marginLeft: _.sm
-  },
-  touch: {
-    padding: _.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  touchTag: {
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))

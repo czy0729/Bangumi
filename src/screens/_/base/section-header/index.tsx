@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:51:05
+ * @Last Modified time: 2022-06-14 15:18:59
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
+import { Props as SectionHeaderProps } from './types'
+
+export { SectionHeaderProps }
 
 export const SectionHeader = ob(
-  ({ style, type = 'title', size = 14, right, children }) => {
+  ({ style, type = 'title', size = 14, right, children }: SectionHeaderProps) => {
     const styles = memoStyles()
     return (
       <Flex style={[styles.section, style]}>
@@ -24,11 +27,3 @@ export const SectionHeader = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  section: {
-    paddingVertical: _.sm + _.xs,
-    paddingHorizontal: _.wind,
-    backgroundColor: _.colorBg
-  }
-}))
