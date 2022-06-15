@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 13:58:13
+ * @Last Modified time: 2022-06-15 15:27:38
  */
 import React from 'react'
 import {
@@ -87,6 +87,12 @@ export type Navigation = {
   getRootState?: (arg0?: any) => any
   setOptions?: (params?: object) => any
 }
+
+/** @todo */
+export type StoreType = any
+
+/** @todo */
+export type StoreInstance = any
 
 /** <View> StyleProp */
 export type ViewStyle = StyleProp<RNViewStyle>

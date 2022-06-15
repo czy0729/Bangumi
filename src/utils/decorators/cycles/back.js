@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:23:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:30:26
+ * @Last Modified time: 2022-06-15 14:36:01
  */
 import React from 'react'
 import { Touchable, Iconfont, Flex } from '@components'
 import { _ } from '@stores'
-import ob from '../observer-props'
+import ob from '../ob'
 
 function IconBack({ style, navigation, color }) {
   return (

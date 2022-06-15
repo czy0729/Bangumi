@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:02:23
+ * @Last Modified time: 2022-06-15 14:36:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ import { gradientColor } from '@utils'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants/constants'
 import IconBack from './cycles/back'
-import ob from './observer-props'
+import ob from './ob'
 
 const hitSlop = {
   top: 4,

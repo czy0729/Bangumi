@@ -20,7 +20,7 @@ import { hm as utilsHM } from '@utils/fetch'
 import { s2tAsync } from '@utils/async'
 import { IOS } from '@constants/constants'
 import IconBack from './cycles/back'
-import ob from './observer-props'
+import ob from './ob'
 
 const defaultHeaderStyle = {}
 const withHeader =

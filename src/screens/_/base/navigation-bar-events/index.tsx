@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-12-10 22:47:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 15:30:31
+ * @Last Modified time: 2022-06-15 14:46:56
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
+import { Props as NavigationBarEventsProps } from './types'
 
-export const NavigationBarEvents = ob(({ tinygrail }) => {
+export { NavigationBarEventsProps }
+
+export const NavigationBarEvents = ob(({ tinygrail }: NavigationBarEventsProps) => {
   if (IOS) return null
 
   return (

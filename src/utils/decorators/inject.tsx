@@ -3,15 +3,31 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:01:44
+ * @Last Modified time: 2022-06-15 15:29:49
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
 import { DEV } from '@/config'
 import { contextTypes } from '@constants/constants'
+import { Navigation, StoreType, StoreInstance } from '@types'
 import { urlStringify } from '../index'
 import observer from './observer'
+
+type Params = {
+  /** 页面 store 是否缓存 */
+  cache?: boolean
+}
+
+type Props = {
+  /** 路由对象 */
+  navigation: Navigation
+}
+
+type State = {
+  /** 页面是否在最顶 */
+  isFocused?: boolean
+}
 
 /**
  * App HOC
@@ -19,11 +35,14 @@ import observer from './observer'
  * @param {*} param { cache: 是否缓存 }
  */
 const Inject =
-  (Store, { cache = true } = {}) =>
+  (Store: StoreType, { cache = true }: Params = {}) =>
   ComposedComponent =>
     observer(
-      class InjectComponent extends React.Component {
-        static navigationOptions = ComposedComponent.navigationOptions
+      class InjectComponent extends React.Component<Props, State> {
+        /** @deprecated */
+        static navigationOptions =
+          /** @ts-ignore */
+          ComposedComponent.navigationOptions
 
         static childContextTypes = contextTypes
 
@@ -56,7 +75,8 @@ const Inject =
           isFocused: true
         }
 
-        $ // 页面独立状态机引用
+        /** 页面独立状态机引用 */
+        $?: StoreInstance
 
         getChildContext() {
           const { navigation } = this.props

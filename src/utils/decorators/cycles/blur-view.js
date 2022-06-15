@@ -7,7 +7,7 @@
 import React from 'react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { _ } from '@stores'
-import ob from '../observer-props'
+import ob from '../ob'
 
 function BlurView({ style, children }) {
   return (

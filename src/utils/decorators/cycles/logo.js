@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { navigationReference } from '@utils/app'
 import { info } from '@utils/ui'
-import ob from '../observer-props'
+import ob from '../ob'
 
 const IOS = true
 function Logo({ forceUpdate }) {
