@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-23 21:30:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 08:38:58
+ * @Last Modified time: 2022-06-15 13:57:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,12 @@ const forceInset = {
   bottom: 'always'
 }
 
-export const IconPortal = ob(({ index = 0, onPress = Function.prototype }) => {
+type Props = {
+  index?: 0 | 1 | 2 | 3 | 4 | 5
+  onPress?: (event?: any) => any
+}
+
+export const IconPortal = ob(({ index = 0, onPress = () => {} }: Props) => {
   if (!systemStore.rendered) return null
 
   const styles = memoStyles()

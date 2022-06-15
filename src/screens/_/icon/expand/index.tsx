@@ -2,14 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-09-26 07:16:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-09-26 09:02:01
+ * @Last Modified time: 2022-06-15 13:23:19
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { Iconfont } from '@components'
 import { _ } from '@stores'
+import { ColorValue, ViewStyle } from '@types'
 
-export const IconExpand = ({ style, expand = false, color = _.colorIcon }) => {
+type Props = {
+  style?: ViewStyle
+  expand?: boolean
+  color?: ColorValue
+}
+
+export const IconExpand = ({ style, expand = false, color = _.colorIcon }: Props) => {
   const rotate = useRef(new Animated.Value(expand ? 1 : 0))
   const styles = useMemo(
     () => [

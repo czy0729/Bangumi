@@ -2,15 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 21:02:21
+ * @Last Modified time: 2022-06-15 13:39:38
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { ColorValue, IconfontNames, ViewStyle } from '@types'
+
+type Props = {
+  style?: ViewStyle
+  name: IconfontNames
+  size?: number
+  color?: ColorValue
+  count?: number | string
+  withoutFeedback?: boolean
+  children?: any
+  onPress?: (event?: any) => any
+}
 
 export const IconTouchable = ob(
-  ({ style, name, size, color, count = 0, withoutFeedback, children, onPress }) => {
+  ({
+    style,
+    name,
+    size,
+    color,
+    count = 0,
+    withoutFeedback,
+    children,
+    onPress
+  }: Props) => {
     if (count) {
       return (
         <Touchable

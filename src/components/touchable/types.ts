@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:50:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 07:51:20
+ * @Last Modified time: 2022-06-15 13:39:30
  */
 import { Insets } from 'react-native'
-import { ViewStyle, ReactNode } from '@types'
+import { ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
@@ -43,5 +43,5 @@ export type Props = {
 
   onLongPress?: (event?: any) => any
 
-  children?: ReactNode
+  children?: any
 }

@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 01:10:22
+ * @Last Modified time: 2022-06-15 13:45:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _, rakuenStore, userStore } from '@stores'
+import { rakuenStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { IconTabsHeader } from './tabs-header'
+import { IconTabsHeader } from '../tabs-header'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
 let isSetTimeout = false
 
 export const IconNotify = ob(
-  class extends React.Component {
+  class IconNotifyComponent extends React.Component<Props> {
     static defaultProps = {
       event: EVENT
     }
@@ -69,18 +71,3 @@ export const IconNotify = ob(
     }
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  dot: {
-    position: 'absolute',
-    zIndex: 2,
-    top: 6,
-    left: 25,
-    width: 12,
-    height: 12,
-    backgroundColor: _.colorMain,
-    borderWidth: 2,
-    borderColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderRadius: 16
-  }
-}))

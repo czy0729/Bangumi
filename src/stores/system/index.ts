@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-12 15:35:11
+ * @Last Modified time: 2022-06-15 13:57:35
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -134,6 +134,11 @@ class System extends store {
   /** 是否显示图片预览 */
   @computed get imageViewer() {
     return this.state.imageViewer
+  }
+
+  /** 用于标记APP启动后是否进入静止期 */
+  @computed get rendered() {
+    return this.state.rendered
   }
 
   // -------------------- fetch --------------------

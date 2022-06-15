@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 14:36:24
+ * @Last Modified time: 2022-06-15 13:58:13
  */
 import React from 'react'
 import {
@@ -17,7 +17,7 @@ import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icon
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { EventKeys } from '@constants/events'
-import { SubjectTypeCn, RatingStatus } from '@constants/model/types'
+import { SubjectType, SubjectTypeCn, RatingStatus } from '@constants/model/types'
 
 /** ==================== App ==================== */
 /** 任意 ID */
@@ -44,7 +44,7 @@ export type MonoId = CharacterId | PersonId
 /** 帖子 ID */
 export type TopicId = `${'group' | 'subject' | 'ep' | 'prsn'}/${Id}`
 
-export { EventKeys, SubjectTypeCn, RatingStatus }
+export { EventKeys, SubjectType, SubjectTypeCn, RatingStatus }
 
 /** ==================== Assets ==================== */
 export type AppIconsNames = keyof typeof AppIcons
@@ -56,6 +56,7 @@ export type IconfontNames =
   | AppIconsNames
   | IoniconsIconsNames
   | `md-${MaterialIconsNames}`
+  | 'trophy'
 
 /** ==================== Utils ==================== */
 /** 用于在 vscode 里面注释能直接显示展开的 type */
@@ -120,6 +121,11 @@ export type Source =
         [key: string]: string
       }
     }
+
+export type IReactComponent<P = any> =
+  | React.FunctionComponent<P>
+  | React.ComponentClass<P>
+  | React.ClassicComponentClass<P>
 
 /** 统一列表对象 */
 export type ListEmpty<T> = {

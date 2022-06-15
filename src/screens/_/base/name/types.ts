@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 11:14:46
+ * @Last Modified time: 2022-06-14 21:19:57
  */
 import { TextProps } from '@components'
-import { Override, UserId } from '@types'
+import { Override, ReactNode, UserId } from '@types'
 
 export type Props = Override<
   TextProps,
@@ -17,6 +17,6 @@ export type Props = Override<
     showFriend?: boolean
 
     /** 右侧额外 */
-    right?: any
+    right?: ReactNode
   }
 >

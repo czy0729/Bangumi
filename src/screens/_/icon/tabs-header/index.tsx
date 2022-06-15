@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-15 21:02:14
+ * @Last Modified time: 2022-06-15 13:55:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,17 @@ import { Touchable, Iconfont } from '@components'
 import { IOS } from '@constants'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { ColorValue, IconfontNames, ViewStyle } from '@types'
+
+type Props = {
+  style?: ViewStyle
+  name?: IconfontNames
+  size?: number
+  color?: ColorValue
+  position?: 'left' | 'right'
+  children?: any
+  onPress?: (event?: any) => any
+}
 
 export const IconTabsHeader = ob(
   ({
@@ -20,7 +31,7 @@ export const IconTabsHeader = ob(
     position = 'left',
     children,
     onPress
-  }) => {
+  }: Props) => {
     if (!onPress) {
       return (
         <View style={[styles.icon, styles[position], IOS && styles.ios, style]}>
@@ -46,8 +57,9 @@ const styles = _.create({
   icon: {
     padding: _.sm
   },
+  left: {},
   right: {
-    marginRight: IOS ? -_.sm : 0
+    marginRight: _.ios(-_.sm, 0)
   },
   ios: {
     marginBottom: _.tabsHeight

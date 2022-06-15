@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-09 11:03:01
+ * @Last Modified time: 2022-06-14 23:09:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -86,7 +86,7 @@ const ItemSub = memo(
     userName,
     event
   }) => {
-    rerender('Topic.ItemSub.Main')
+    global.rerender('Topic.ItemSub.Main')
 
     let msg = decoder(message)
     const rawMsg = removeHTMLTag(msg)
@@ -239,7 +239,7 @@ export default obc(
     },
     { $, navigation }
   ) => {
-    rerender('Topic.ItemSub')
+    global.rerender('Topic.ItemSub')
 
     // 屏蔽脏数据
     if (!userId) return null

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-13 05:19:08
+ * @Last Modified time: 2022-06-15 13:47:55
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -217,6 +217,11 @@ class Rakuen extends store {
     )
 
   // -------------------- get --------------------
+  /** 电波提醒 */
+  @computed get notify() {
+    return this.state.notify
+  }
+
   blogFormCDN() {
     return INIT_TOPIC
   }
