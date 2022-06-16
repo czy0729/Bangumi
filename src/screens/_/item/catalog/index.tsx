@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 20:02:30
+ * @Last Modified time: 2022-06-16 23:54:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,11 +13,12 @@ import { t } from '@utils/fetch'
 import { HTMLDecode, removeHTMLTag } from '@utils/html'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Cover, Avatar } from '../base'
+import { Cover, Avatar } from '../../base'
+import { WIDTH, CATALOG_WIDTH, AVATAR_WIDTH } from './ds'
+import { memoStyles } from './styles'
+import { Props as ItemCatalogProps } from './types'
 
-const width = parseInt(_.r(72))
-const w = width * 2
-const widthAvatar = _.r(28)
+export { ItemCatalogProps }
 
 export const ItemCatalog = obc(
   (
@@ -35,7 +36,7 @@ export const ItemCatalog = obc(
       isUser,
       hideScore = false,
       children
-    },
+    }: ItemCatalogProps,
     { $, navigation }
   ) => {
     if (!isUser && !book && !anime && !music && !game && !real) return null
@@ -68,8 +69,8 @@ export const ItemCatalog = obc(
                 styles.catalogLine,
                 styles.catalogLevel2,
                 {
-                  width: w,
-                  height: w - 15
+                  width: CATALOG_WIDTH,
+                  height: CATALOG_WIDTH - 15
                 }
               ]}
             />
@@ -78,8 +79,8 @@ export const ItemCatalog = obc(
                 styles.catalogLine,
                 styles.catalogLevel1,
                 {
-                  width: w,
-                  height: w - 7
+                  width: CATALOG_WIDTH,
+                  height: CATALOG_WIDTH - 7
                 }
               ]}
             />
@@ -89,7 +90,7 @@ export const ItemCatalog = obc(
                 .map(item => (
                   <Cover
                     key={item.id}
-                    size={width}
+                    size={WIDTH}
                     src={item.image}
                     placeholder={false}
                   />
@@ -128,7 +129,7 @@ export const ItemCatalog = obc(
                   key={avatar}
                   style={_.mr.sm}
                   navigation={navigation}
-                  size={widthAvatar}
+                  size={AVATAR_WIDTH}
                   userId={userId}
                   name={name}
                   src={avatar}
@@ -153,58 +154,3 @@ export const ItemCatalog = obc(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
-  },
-  wrap: {
-    paddingVertical: _.space,
-    paddingRight: _.wind
-  },
-  content: {
-    height: w,
-    paddingVertical: _.xs,
-    paddingLeft: 24 * _.ratio
-  },
-  catalog: {
-    width: w,
-    height: w
-  },
-  num: {
-    width,
-    height: width
-  },
-  catalogLine: {
-    position: 'absolute',
-    right: 0,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderRadius: 2,
-    borderColor: _.colorBorder
-  },
-  catalogLevel1: {
-    zIndex: 2,
-    top: 4,
-    marginRight: -7
-  },
-  catalogLevel2: {
-    zIndex: 1,
-    top: 8,
-    marginRight: -12
-  },
-  thumbs: {
-    position: 'absolute',
-    zIndex: 3,
-    top: 0,
-    left: 0,
-    width: w + 2,
-    height: w + 2,
-    backgroundColor: _.select(_.colorPlain, _.colorBg),
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    borderRadius: 3,
-    overflow: 'hidden'
-  }
-}))

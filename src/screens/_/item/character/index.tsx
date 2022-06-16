@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 10:28:38
+ * @Last Modified time: 2022-06-17 00:10:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,16 +12,18 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Tag, Cover } from '../base'
+import { Tag, Cover } from '../../base'
+import { IMG_WIDTH } from './ds'
+import { memoStyles } from './styles'
+import { Props as ItemCharacterProps } from './types'
 
-const imgWidth = 56 * _.ratio
+export { ItemCharacterProps }
 
 export const ItemCharacter = obc(
   (
     {
       event = EVENT,
-      index,
-      type = 'character', // character | person
+      type = 'character',
       id,
       cover,
       name,
@@ -34,11 +36,10 @@ export const ItemCharacter = obc(
       actor,
       actorCn,
       children
-    },
+    }: ItemCharacterProps,
     { navigation }
   ) => {
     const styles = memoStyles()
-    const isFirst = index === 0
     const _nameCn = String(nameCn || name).trim()
     const onPress = () => {
       const monoId = String(id).includes(type) ? id : `${type}/${id}`
@@ -55,14 +56,13 @@ export const ItemCharacter = obc(
     }
     return (
       <View style={styles.container}>
-        <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
+        <Flex align='start' style={styles.wrap}>
           <View style={styles.imgContainer}>
             {!!cover && (
               <Cover
-                style={styles.image}
                 src={cover}
-                width={imgWidth}
-                height={imgWidth}
+                width={IMG_WIDTH}
+                height={IMG_WIDTH}
                 radius
                 shadow
                 onPress={onPress}
@@ -140,32 +140,3 @@ export const ItemCharacter = obc(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
-  },
-  imgContainer: {
-    width: imgWidth
-  },
-  wrap: {
-    paddingVertical: _.space,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  touch: {
-    paddingLeft: _.xs,
-    marginLeft: -_.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  touchActor: {
-    marginTop: _.md,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-}))

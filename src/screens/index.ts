@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-23 12:22:16
+ * @Last Modified time: 2022-06-16 22:18:50
  */
 // Login
-export { default as Login } from './login/index'
+export { default as Login } from './login/index/index'
 export { default as LoginAssist } from './login/assist'
 export { default as LoginV2 } from './login/v2'
 
@@ -19,7 +19,7 @@ export { default as Catalog } from './discovery/catalog'
 export { default as CatalogDetail } from './discovery/catalog-detail'
 export { default as Channel } from './discovery/channel'
 export { default as Character } from './discovery/character'
-export { default as Discovery } from './discovery/index'
+export { default as Discovery } from './discovery/index/index'
 export { default as DiscoveryBlog } from './discovery/blog'
 export { default as Game } from './discovery/game'
 export { default as Guess } from './discovery/guess'
@@ -87,7 +87,7 @@ export { default as UserSetting } from './user/user-setting'
 export { default as Zone } from './user/zone'
 
 // Tinygrail
-export { default as Tinygrail } from './tinygrail/index'
+export { default as Tinygrail } from './tinygrail/index/index'
 export { default as TinygrailAdvance } from './tinygrail/advance'
 export { default as TinygrailAdvanceAsk } from './tinygrail/advance-ask'
 export { default as TinygrailAdvanceAuction } from './tinygrail/advance-auction'

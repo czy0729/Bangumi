@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-27 12:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-27 15:51:10
+ * @Last Modified time: 2022-06-15 16:57:08
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -212,8 +212,8 @@ async function doLogin({ ua, cookie, formhash }, captcha) {
       formhash,
       referer: '',
       dreferer: '',
-      email: Base64.atob('Mjk2Mzc3NzEwQHFxLmNvbQ=='),
-      password: Base64.atob('ODQ3ODMwMTk='),
+      email: Base64.atob('c2F5YWlmb3J1OThAMTYzLmNvbQ=='), // Base64.atob('Mjk2Mzc3NzEwQHFxLmNvbQ==')
+      password: Base64.atob('MTIzcXdlYXNkenhj'), // Base64.atob('ODQ3ODMwMTk=')
       captcha_challenge_field: captcha,
       loginsubmit: '登录'
     })

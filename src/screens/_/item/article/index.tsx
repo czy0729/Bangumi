@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:54:00
+ * @Last Modified time: 2022-06-16 23:33:06
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -12,16 +12,19 @@ import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, Name } from '../base'
+import { Avatar, Name } from '../../base'
+import { memoStyles } from './styles'
+import { Props as ItemArticleProps } from './types'
 
-const d = new Date()
-const y = String(d.getFullYear()).slice(2, 4)
+export { ItemArticleProps }
+
+const D = new Date()
+const Y = String(D.getFullYear()).slice(2, 4)
 
 export const ItemArticle = ob(
   ({
     navigation,
     style,
-    index,
     avatar,
     title,
     summary,
@@ -31,11 +34,10 @@ export const ItemArticle = ob(
     replies,
     url,
     event = EVENT
-  }) => {
+  }: ItemArticleProps) => {
     const styles = memoStyles()
-    const isFirst = index === 0
     let time = date('y-m-d', timestamp)
-    if (time.indexOf(`${y}-`) !== -1) time = time.replace(`${y}-`, '')
+    if (time.indexOf(`${Y}-`) !== -1) time = time.replace(`${Y}-`, '')
     return (
       <Touchable style={style} onPress={() => appNavigate(url, navigation, {}, event)}>
         <Flex align='start'>
@@ -47,9 +49,7 @@ export const ItemArticle = ob(
             event={event}
             navigation={navigation}
           />
-          <Flex.Item
-            style={[styles.item, !isFirst && !_.flat && styles.border, _.ml.sm]}
-          >
+          <Flex.Item style={styles.item}>
             <Text bold>{HTMLDecode(title)}</Text>
             <Flex style={_.mt.xs}>
               <Name userId={userId} showFriend size={12} bold>
@@ -71,17 +71,3 @@ export const ItemArticle = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  image: {
-    marginTop: _.md
-  },
-  item: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  }
-}))

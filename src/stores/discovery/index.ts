@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 14:24:41
+ * @Last Modified time: 2022-06-16 23:44:07
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -197,6 +197,17 @@ class Discovery extends store {
     return computed<typeof INIT_CATELOG_DETAIL_ITEM>(() => {
       const { catalogDetail } = this.state
       return catalogDetail[id] || INIT_CATELOG_DETAIL_ITEM
+    }).get()
+  }
+
+  /**
+   * 日志查看历史
+   * @param {*} blogId
+   */
+  blogReaded(blogId?: Id) {
+    return computed<boolean>(() => {
+      const { blogReaded } = this.state
+      return blogReaded[blogId] || false
     }).get()
   }
 

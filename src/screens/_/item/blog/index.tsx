@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 09:27:30
+ * @Last Modified time: 2022-06-16 23:44:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,13 +12,16 @@ import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { EVENT, IMG_WIDTH } from '@constants'
-import { Cover } from '../base'
+import { Cover } from '../../base'
+import { memoStyles } from './styles'
+import { Props as ItemBlogProps } from './types'
+
+export { ItemBlogProps }
 
 export const ItemBlog = obc(
   (
     {
       style,
-      index,
       id,
       cover,
       title,
@@ -29,7 +32,7 @@ export const ItemBlog = obc(
       replies,
       tags = [],
       event = EVENT
-    },
+    }: ItemBlogProps,
     { navigation }
   ) => {
     const styles = memoStyles()
@@ -45,7 +48,7 @@ export const ItemBlog = obc(
           const { id: eventId, data: eventData } = event
           t(eventId, {
             to: 'Blog',
-            subjectId: id,
+            blogId: id,
             ...eventData
           })
 
@@ -56,10 +59,7 @@ export const ItemBlog = obc(
           })
         }}
       >
-        <Flex
-          align='start'
-          style={[styles.wrap, index !== 0 && !_.flat && styles.border]}
-        >
+        <Flex align='start' style={styles.wrap}>
           {!!cover && (
             <View style={styles.imgContainer}>
               <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} radius shadow />
@@ -100,32 +100,3 @@ export const ItemBlog = obc(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind
-  },
-  readed: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
-  },
-  imgContainer: {
-    width: IMG_WIDTH,
-    marginRight: _._wind
-  },
-  wrap: {
-    paddingVertical: _.space,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  tags: {
-    padding: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: _.select(_.hairlineWidth, 0),
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 10:31:05
+ * @Last Modified time: 2022-06-16 22:51:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,37 +11,34 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
-import { EVENT, IMG_WIDTH_SM } from '@constants'
-import { Cover, Tag } from '../base'
+import { EVENT } from '@constants'
+import { Cover, Tag } from '../../base'
+import { AVATAR_SIZE, COVER_WIDTH, COVER_HEIGHT } from './ds'
+import { memoStyles } from './styles'
+import { Props as ItemVoiceProps } from './types'
 
-const avatarSize = 40 * _.ratio
-const coverWidth = IMG_WIDTH_SM * _.ratio
-const coverHeight = coverWidth * 1.4
+export { ItemVoiceProps }
 
 export const ItemVoice = ob(
   ({
     style,
     navigation,
     event = EVENT,
-    index,
     id,
     name,
     nameCn,
     cover,
     subject = [],
     children
-  }) => {
+  }: ItemVoiceProps) => {
     const styles = memoStyles()
     return (
       <View style={[styles.item, style]}>
-        <Flex
-          style={[styles.wrap, index !== 0 && !_.flat && styles.border]}
-          align='start'
-        >
+        <Flex style={styles.wrap} align='start'>
           <Flex.Item flex={2}>
             <Flex align='start'>
               <Image
-                size={avatarSize}
+                size={AVATAR_SIZE}
                 src={cover}
                 radius
                 shadow
@@ -89,8 +86,8 @@ export const ItemVoice = ob(
                   </Flex>
                 </Flex.Item>
                 <Cover
-                  size={coverWidth}
-                  height={coverHeight}
+                  size={COVER_WIDTH}
+                  height={COVER_HEIGHT}
                   src={item.cover}
                   radius
                   shadow
@@ -118,21 +115,3 @@ export const ItemVoice = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingLeft: _.wind
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  tag: {
-    marginTop: 2,
-    marginLeft: _.xs
-  }
-}))
