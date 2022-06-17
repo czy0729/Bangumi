@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 12:19:53
+ * @Last Modified time: 2022-06-17 22:22:16
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -146,7 +146,10 @@ class LoginV2 extends React.Component {
     try {
       if (this.lastCaptcha !== captcha) {
         t('登录.登录')
-        this.codeRef.inputRef.blur()
+
+        if (typeof this?.codeRef?.inputRef?.blur === 'function') {
+          this.codeRef.inputRef.blur()
+        }
         setStorage(`${namespace}|email`, email)
 
         await this.login()

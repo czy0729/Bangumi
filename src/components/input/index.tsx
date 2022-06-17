@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 16:48:29
+ * @Last Modified time: 2022-06-17 22:05:08
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -55,20 +55,28 @@ export const Input = observer(
 
     onFocus = () => {
       try {
-        this.inputRef.focus()
+        if (typeof this?.inputRef?.focus === 'function') {
+          this.inputRef.focus()
+        }
 
         setTimeout(() => {
-          this.inputRef.focus()
+          if (typeof this?.inputRef?.focus === 'function') {
+            this.inputRef.focus()
+          }
         }, 0)
       } catch (error) {}
     }
 
     onBlur = () => {
       try {
-        this.inputRef.blur()
+        if (typeof this?.inputRef?.blur === 'function') {
+          this.inputRef.blur()
+        }
 
         setTimeout(() => {
-          this.inputRef.blur()
+          if (typeof this?.inputRef?.blur === 'function') {
+            this.inputRef.blur()
+          }
         }, 0)
       } catch (error) {}
     }

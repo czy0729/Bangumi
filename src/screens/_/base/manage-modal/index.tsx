@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 15:57:16
+ * @Last Modified time: 2022-06-17 22:13:16
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -184,6 +184,14 @@ export const ManageModal = ob(
       })
     }
 
+    onSubmitEditing = () => {
+      try {
+        if (typeof this?.commentRef?.inputRef?.focus === 'function') {
+          this.commentRef.inputRef.focus()
+        }
+      } catch (error) {}
+    }
+
     get subjectFormHTML() {
       const { subjectId } = this.props
       return subjectStore.subjectFormHTML(subjectId)
@@ -284,7 +292,7 @@ export const ManageModal = ob(
                   placeholder='我的标签'
                   returnKeyType='next'
                   onChangeText={text => this.changeText('tags', text)}
-                  onSubmitEditing={() => this.commentRef.inputRef.focus()}
+                  onSubmitEditing={this.onSubmitEditing}
                 />
                 <Flex style={this.styles.tags}>{this.renderTags()}</Flex>
                 <Input

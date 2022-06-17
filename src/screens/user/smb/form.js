@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 04:04:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 11:22:35
+ * @Last Modified time: 2022-06-17 22:21:37
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
@@ -62,9 +62,11 @@ const Form = memo(
 
     useEffect(() => {
       setTimeout(() => {
-        if (visible && !name.length && typeof nameRef.current?.focus === 'function') {
+        if (visible && !name.length) {
           try {
-            nameRef.current.focus()
+            if (typeof nameRef?.current?.focus === 'function') {
+              nameRef.current.focus()
+            }
           } catch (error) {}
         }
       }, 400)
@@ -98,7 +100,9 @@ const Form = memo(
                 onChangeText={text => onChange('name', text)}
                 onSubmitEditing={() => {
                   try {
-                    ipRef.current.focus()
+                    if (typeof ipRef?.current?.focus === 'function') {
+                      ipRef.current.focus()
+                    }
                   } catch (error) {}
                 }}
               />
@@ -117,7 +121,9 @@ const Form = memo(
                 onChangeText={text => onChange('ip', text)}
                 onSubmitEditing={() => {
                   try {
-                    usernameRef.current.focus()
+                    if (typeof usernameRef?.current?.focus === 'function') {
+                      usernameRef.current.focus()
+                    }
                   } catch (error) {}
                 }}
               />
@@ -136,7 +142,9 @@ const Form = memo(
                 onChangeText={text => onChange('username', text)}
                 onSubmitEditing={() => {
                   try {
-                    passwordRef.current.focus()
+                    if (typeof passwordRef?.current?.focus === 'function') {
+                      passwordRef.current.focus()
+                    }
                   } catch (error) {}
                 }}
               />
@@ -155,7 +163,9 @@ const Form = memo(
                 onChangeText={text => onChange('password', text)}
                 onSubmitEditing={() => {
                   try {
-                    sharedFolderRef.current.focus()
+                    if (typeof sharedFolderRef?.current?.focus === 'function') {
+                      sharedFolderRef.current.focus()
+                    }
                   } catch (error) {}
                 }}
               />
@@ -174,7 +184,9 @@ const Form = memo(
                 onChangeText={text => onChange('sharedFolder', text)}
                 onSubmitEditing={() => {
                   try {
-                    pathRef.current.focus()
+                    if (typeof pathRef?.current?.focus === 'function') {
+                      pathRef.current.focus()
+                    }
                   } catch (error) {}
                 }}
               />
@@ -193,7 +205,9 @@ const Form = memo(
                 onChangeText={text => onChange('path', text)}
                 onSubmitEditing={() => {
                   try {
-                    portRef.current.focus()
+                    if (typeof portRef?.current?.focus === 'function') {
+                      portRef.current.focus()
+                    }
                   } catch (error) {}
                 }}
               />
@@ -212,7 +226,9 @@ const Form = memo(
                 onChangeText={text => onChange('port', text)}
                 onSubmitEditing={() => {
                   try {
-                    workGroupRef.current.focus()
+                    if (typeof workGroupRef?.current?.focus === 'function') {
+                      workGroupRef.current.focus()
+                    }
                   } catch (error) {}
                 }}
               />
@@ -231,7 +247,9 @@ const Form = memo(
                 onChangeText={text => onChange('workGroup', text)}
                 onSubmitEditing={() => {
                   try {
-                    urlRef.current.focus()
+                    if (typeof urlRef?.current?.focus === 'function') {
+                      urlRef.current.focus()
+                    }
                   } catch (error) {}
                 }}
               />

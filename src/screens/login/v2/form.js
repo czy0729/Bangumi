@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:47:02
+ * @Last Modified time: 2022-06-17 22:22:49
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -49,7 +49,9 @@ class Form extends React.Component {
     const { email, password, captcha } = this.props
     if (email && password && !captcha) {
       try {
-        this.codeRef.inputRef.focus()
+        if (typeof this?.codeRef?.inputRef?.focus === 'function') {
+          this.codeRef.inputRef.focus()
+        }
       } catch (error) {}
     }
   }
@@ -94,6 +96,22 @@ class Form extends React.Component {
     )
   }
 
+  onSubmitEditingEmail = () => {
+    try {
+      if (typeof this?.passwordRef?.inputRef?.focus === 'function') {
+        this.passwordRef.inputRef.focus()
+      }
+    } catch (error) {}
+  }
+
+  onSubmitEditingPassword = () => {
+    try {
+      if (typeof this?.codeRef?.inputRef?.focus === 'function') {
+        this.codeRef.inputRef.focus()
+      }
+    } catch (error) {}
+  }
+
   renderForm() {
     const {
       email,
@@ -119,11 +137,7 @@ class Form extends React.Component {
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'email')}
-              onSubmitEditing={() => {
-                try {
-                  this.passwordRef.inputRef.focus()
-                } catch (error) {}
-              }}
+              onSubmitEditing={this.onSubmitEditingEmail}
             />
           </Flex.Item>
         </Flex>
@@ -139,11 +153,7 @@ class Form extends React.Component {
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'password')}
-              onSubmitEditing={() => {
-                try {
-                  this.codeRef.inputRef.focus()
-                } catch (error) {}
-              }}
+              onSubmitEditing={this.onSubmitEditingPassword}
             />
           </Flex.Item>
         </Flex>
@@ -272,8 +282,8 @@ class Form extends React.Component {
             type='sub'
             onPress={() => navigation.push('LoginAssist')}
           >
-            请尝试切换另一域名进行重试，或尝试切换wifi或4g网络，实在没法{i18n.login()}，可点击这里前往辅助{i18n.login()}
-            →
+            请尝试切换另一域名进行重试，或尝试切换wifi或4g网络，实在没法{i18n.login()}
+            ，可点击这里前往辅助{i18n.login()}→
           </Text>
         )}
       </>
