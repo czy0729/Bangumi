@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 16:14:33
+ * @Last Modified time: 2022-06-17 13:13:45
  */
 import React from 'react'
 import Progress from '@ant-design/react-native/lib/progress'
@@ -11,7 +11,11 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar } from '../base'
+import { Avatar } from '../../base'
+import { memoStyles } from './styles'
+import { Props as ItemFriendsProps } from './types'
+
+export { ItemFriendsProps }
 
 export const ItemFriends = ob(
   ({
@@ -29,7 +33,7 @@ export const ItemFriends = ob(
     event = EVENT,
     children,
     onHold
-  }) => {
+  }: ItemFriendsProps) => {
     const styles = memoStyles()
     const wrapWidth = _.window.contentWidth - 144
     return (
@@ -152,47 +156,3 @@ export const ItemFriends = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingBottom: _.md,
-    backgroundColor: _.colorPlain
-  },
-  image: {
-    marginTop: 2,
-    marginLeft: _.wind
-  },
-  item: {
-    paddingTop: _.md - 2,
-    paddingRight: _.wind,
-    paddingBottom: _.sm + 2,
-    marginLeft: _.md - 2
-  },
-  progress: {
-    position: 'absolute',
-    right: '32%',
-    bottom: 0,
-    left: 0,
-    borderRadius: 8,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    overflow: 'hidden'
-  },
-  bar: {
-    backgroundColor: 'transparent',
-    borderBottomColor: _.colorPrimary,
-    borderBottomWidth: 4,
-    borderRadius: 4
-  },
-  hobby: {
-    position: 'absolute',
-    right: _.wind - _.sm,
-    bottom: 0,
-    paddingHorizontal: _.sm,
-    marginBottom: -4,
-    backgroundColor: _.colorPlain
-  },
-  count: {
-    marginTop: _.sm,
-    marginBottom: _.xs
-  }
-}))

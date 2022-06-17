@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 04:07:23
+ * @Last Modified time: 2022-06-17 12:59:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,10 @@ import { Touchable, Flex, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 import { showImageViewer } from '@utils/ui'
 import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
+import { Props as ItemSettingProps } from './types'
+
+export { ItemSettingProps }
 
 export const ItemSetting = ob(
   ({
@@ -27,7 +31,7 @@ export const ItemSetting = ob(
     children,
     onPress,
     ...other
-  }) => {
+  }: ItemSettingProps) => {
     if (!show) return null
 
     const styles = memoStyles()
@@ -91,16 +95,3 @@ export const ItemSetting = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  touchable: {
-    paddingLeft: _._wind
-  },
-  item: {
-    paddingVertical: 12,
-    paddingRight: _._wind
-  },
-  information: {
-    maxWidth: '86%'
-  }
-}))

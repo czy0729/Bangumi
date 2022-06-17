@@ -1,29 +1,16 @@
 /*
  * @Author: czy0729
- * @Date: 2021-08-18 07:29:27
+ * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:56:03
+ * @Last Modified time: 2022-06-17 12:46:13
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { memo, ob } from '@utils/decorators'
+import { memo } from '@utils/decorators'
 import { correctAgo } from '@utils/app'
-import { EVENT } from '@constants'
-import { Avatar, Stars, Name } from '../base'
-
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  style: {},
-  time: '',
-  avatar: '',
-  userId: '',
-  userName: '',
-  star: '',
-  comment: '',
-  event: EVENT
-}
+import { Avatar, Stars, Name } from '../../base'
+import { DEFAULT_PROPS } from './ds'
 
 const Item = memo(
   ({
@@ -38,7 +25,8 @@ const Item = memo(
     comment,
     event
   }) => {
-    rerender('Item.ItemComment.Main', userName)
+    global.rerender('Item.ItemComment.Main', userName)
+
     return (
       <Flex style={[styles.item, style]} align='start'>
         <Avatar
@@ -76,43 +64,10 @@ const Item = memo(
       </Flex>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
 
-export const ItemComment = ob(
-  ({ navigation, style, time, avatar, userId, userName, star, comment, event }) => (
-    <Item
-      navigation={navigation}
-      styles={memoStyles()}
-      style={style}
-      time={time}
-      avatar={avatar}
-      userId={userId}
-      userName={userName}
-      star={star}
-      comment={comment}
-      event={event}
-    />
-  )
-)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    backgroundColor: _.colorPlain
-  },
-  image: {
-    marginTop: _.md,
-    marginLeft: _.wind
-  },
-  content: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  }
-}))
+export default Item
 
 /**
  * 由于爬出的html做了去除空格操作

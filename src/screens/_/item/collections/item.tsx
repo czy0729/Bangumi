@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-05-25 23:00:45
+ * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:15:06
+ * @Last Modified time: 2022-06-17 12:21:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,39 +11,11 @@ import { _ } from '@stores'
 import { getTimestamp, cnjp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { memo, ob } from '@utils/decorators'
-import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
-import { Tag, Rank, Stars, Cover } from '../base'
-import { IconTouchable } from '../icon/touchable'
-
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  id: 0,
-  name: '',
-  nameCn: '',
-  tip: '',
-  rank: '',
-  score: '',
-  tags: '',
-  comments: '',
-  time: '',
-  collection: '',
-  userCollection: '',
-  cover: '',
-  type: '',
-  modify: '',
-  showLabel: true,
-  hideScore: false,
-  isDo: false,
-  isOnHold: false,
-  isDropped: false,
-  isCollect: false,
-  isCatalog: false,
-  isEditable: false,
-  event: EVENT,
-  onEdit: Function.prototype
-}
+import { memo } from '@utils/decorators'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { Tag, Rank, Stars, Cover } from '../../base'
+import { IconTouchable } from '../../icon/touchable'
+import { DEFAULT_PROPS } from './ds'
 
 const Item = memo(
   ({
@@ -74,7 +46,7 @@ const Item = memo(
     event,
     onEdit
   }) => {
-    rerender('Component.ItemCollections.Main')
+    global.rerender('Component.ItemCollections.Main')
 
     const left = HTMLDecode(cnjp(nameCn, name))
     const right = HTMLDecode(cnjp(name, nameCn))
@@ -187,7 +159,7 @@ const Item = memo(
                 {!hideScore && hasScore && (
                   <>
                     <Rank value={rank} />
-                    <Stars style={_.mr.xs} value={score} color='warning' />
+                    <Stars style={_.mr.xs} value={score} />
                   </>
                 )}
                 {!!info.length && (
@@ -226,124 +198,7 @@ const Item = memo(
       </Touchable>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
 
-export const ItemCollections = ob(
-  ({
-    navigation,
-    id,
-    name,
-    nameCn,
-    tip,
-    rank,
-    score,
-    tags,
-    comments,
-    time,
-    collection,
-    userCollection,
-    cover,
-    type,
-    modify,
-    showLabel,
-    hideScore,
-    isDo,
-    isOnHold,
-    isDropped,
-    isCollect,
-    isCatalog,
-    isEditable,
-    event,
-    onEdit
-  }) => {
-    rerender('Component.ItemCollections')
-
-    return (
-      <Item
-        navigation={navigation}
-        styles={memoStyles()}
-        id={id}
-        name={name}
-        nameCn={nameCn}
-        tip={tip}
-        rank={rank}
-        score={score}
-        tags={tags}
-        comments={comments}
-        time={time}
-        collection={collection}
-        userCollection={userCollection}
-        cover={cover}
-        type={type}
-        modify={modify}
-        showLabel={showLabel}
-        hideScore={hideScore}
-        isDo={isDo}
-        isOnHold={isOnHold}
-        isDropped={isDropped}
-        isCollect={isCollect}
-        isCatalog={isCatalog}
-        isEditable={isEditable}
-        event={event}
-        onEdit={onEdit}
-      />
-    )
-  }
-)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind
-  },
-  imgContainer: {
-    width: IMG_WIDTH
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  content: {
-    height: IMG_HEIGHT
-  },
-  comments: {
-    padding: _.sm,
-    marginBottom: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: _.select(_.hairlineWidth, 0),
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  katakanas: {
-    marginTop: -6
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: 0
-  },
-  edit: {
-    marginTop: _.sm,
-    marginRight: -_.xs
-  },
-  hidden: {
-    width: 28,
-    height: 16,
-    paddingHorizontal: _.xs,
-    paddingVertical: 1,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: _.hairlineWidth,
-    borderRadius: _.radiusXs,
-    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
-  },
-  tag: {
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    marginRight: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))
+export default Item

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:57:41
+ * @Last Modified time: 2022-06-17 20:06:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,11 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, Name } from '../base'
+import { Avatar, Name } from '../../base'
+import { memoStyles } from './styles'
+import { Props as ItemSayProps } from './types'
+
+export { ItemSayProps }
 
 export const ItemSay = obc(
   (
@@ -25,8 +29,8 @@ export const ItemSay = obc(
       text,
       id,
       format = true,
-      onLongPress = Function.prototype
-    },
+      onLongPress = () => {}
+    }: ItemSayProps,
     { navigation }
   ) => {
     const styles = memoStyles()
@@ -52,13 +56,12 @@ export const ItemSay = obc(
           </Flex.Item>
           <Flex style={styles.avatarWrapRight} justify='center'>
             <Avatar
-              style={styles.avatar}
               navigation={navigation}
               src={avatar}
               size={34}
               userId={id}
               name={name}
-              border={0}
+              borderWidth={0}
               round
               event={event}
             />
@@ -71,14 +74,13 @@ export const ItemSay = obc(
       <Flex key={index} style={showName ? _.mt.md : _.mt.sm} align='start'>
         <Flex style={styles.avatarWrapLeft} justify='center'>
           <Avatar
-            style={styles.avatar}
             navigation={navigation}
             src={avatar}
             size={34}
             userId={id}
             name={name}
             round
-            border={0}
+            borderWidth={0}
             event={event}
             onLongPress={onLongPress}
           />
@@ -103,65 +105,6 @@ export const ItemSay = obc(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  avatarWrapLeft: {
-    position: 'absolute',
-    zIndex: 1,
-    left: 0,
-    bottom: 0,
-    width: 40,
-    height: 40,
-    backgroundColor: _.colorBg,
-    borderRadius: 20
-  },
-  avatarWrapRight: {
-    position: 'absolute',
-    zIndex: 1,
-    right: 0,
-    bottom: 0,
-    width: 40,
-    height: 40,
-    backgroundColor: _.colorBg,
-    borderRadius: 20
-  },
-  contentLeft: {
-    maxWidth: '88%',
-    marginBottom: 24,
-    marginLeft: 24
-  },
-  contentRight: {
-    maxWidth: '88%',
-    marginLeft: '12%',
-    marginBottom: 24,
-    marginRight: 24
-  },
-  text: {
-    padding: 12,
-    marginRight: 24,
-    backgroundColor: _.colorPlain,
-    borderRadius: 16
-  },
-  textActive: {
-    marginRight: 0,
-    marginLeft: 24,
-    backgroundColor: _.colorPrimary,
-    borderTopLeftRadius: 16
-  },
-  baseFontStyle: {
-    fontSize: 14 + _.fontSizeAdjust,
-    lineHeight: 22
-  },
-  baseFontStyleRight: {
-    fontSize: 14 + _.fontSizeAdjust,
-    lineHeight: 22,
-    color: _.__colorPlain__
-  },
-  linkStyleRight: {
-    color: _.__colorPlain__,
-    textDecorationColor: _.__colorPlain__
-  }
-}))
 
 function getBgmHtml(html = '') {
   let _html = html

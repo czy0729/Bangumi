@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:57:35
+ * @Last Modified time: 2022-06-17 20:00:50
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -11,13 +11,16 @@ import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, Name } from '../base'
+import { Avatar, Name } from '../../base'
+import { memoStyles } from './styles'
+import { Props as ItemPMProps } from './types'
+
+export { ItemPMProps }
 
 export const ItemPM = ob(
   ({
     navigation,
     event = EVENT,
-    index,
     id,
     title,
     content,
@@ -26,8 +29,8 @@ export const ItemPM = ob(
     userId,
     time,
     new: isNew,
-    onRefresh = Function.prototype
-  }) => {
+    onRefresh = () => {}
+  }: ItemPMProps) => {
     const styles = memoStyles()
     return (
       <Flex style={styles.container} align='start'>
@@ -39,7 +42,7 @@ export const ItemPM = ob(
           src={avatar}
           event={event}
         />
-        <Flex.Item style={[styles.item, !!index && !_.flat && styles.border, _.ml.sm]}>
+        <Flex.Item style={styles.item}>
           <Touchable
             onPress={() => {
               t(event.id, {
@@ -94,21 +97,3 @@ export const ItemPM = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
-  },
-  image: {
-    marginTop: _.md
-  },
-  item: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  }
-}))

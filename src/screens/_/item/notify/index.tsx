@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:57:29
+ * @Last Modified time: 2022-06-17 19:53:02
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,12 +10,15 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, Name } from '../base'
+import { Avatar, Name } from '../../base'
+import { memoStyles } from './styles'
+import { Props as ItemNotifyProps } from './types'
+
+export { ItemNotifyProps }
 
 export const ItemNotify = ob(
   ({
     navigation,
-    index,
     avatar,
     userId,
     userName,
@@ -25,7 +28,7 @@ export const ItemNotify = ob(
     href,
     event = EVENT,
     children
-  }) => {
+  }: ItemNotifyProps) => {
     const styles = memoStyles()
     return (
       <Flex style={styles.container} align='start'>
@@ -37,7 +40,7 @@ export const ItemNotify = ob(
           src={avatar}
           event={event}
         />
-        <Flex.Item style={[styles.item, !!index && !_.flat && styles.border, _.ml.sm]}>
+        <Flex.Item style={styles.item}>
           <Name userId={userId} showFriend size={13} type='title' bold>
             {userName}
           </Name>
@@ -68,21 +71,3 @@ export const ItemNotify = ob(
     )
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
-  },
-  image: {
-    marginTop: _.md
-  },
-  item: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  }
-}))

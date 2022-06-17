@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 19:00:31
+ * @Last Modified time: 2022-06-17 20:50:13
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhr } from '@utils/fetch'
@@ -54,13 +54,17 @@ class Timeline extends store {
      */
     formhash: '',
 
-    /**
-     * 隐藏TA
-     */
+    /** 隐藏TA */
     hidden: {}
   })
 
   init = () => this.readStorage(['timeline', 'say', 'hidden'], NAMESPACE)
+
+  // -------------------- computed --------------------
+  /** 隐藏TA */
+  @computed get hidden() {
+    return this.state.hidden
+  }
 
   // -------------------- fetch --------------------
   /**

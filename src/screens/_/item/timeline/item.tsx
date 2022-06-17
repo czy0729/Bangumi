@@ -3,47 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 14:04:32
+ * @Last Modified time: 2022-06-17 20:50:09
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
 import { Flex, Katakana, Text, Iconfont, Touchable, Expand } from '@components'
-import { _, timelineStore } from '@stores'
-import { getTimestamp, appNavigate, findSubjectCn, getCoverMedium } from '@utils'
-import { matchUserId } from '@utils/match'
+import { _ } from '@stores'
+import { appNavigate, findSubjectCn, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
-import { memo, ob } from '@utils/decorators'
-import { HOST, HOST_NAME, EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
-import { Avatar, Cover, Stars, Name, Popover } from '../base'
-
-const avatarWidth = 40
-const avatarCoverWidth = 40 * _.ratio
-const hiddenDS = ['1天不看TA', '3天不看TA', '7天不看TA', '重置']
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  style: {},
-  avatar: {},
-  userId: '',
-  p1: {},
-  p2: {},
-  p3: {
-    text: [],
-    url: []
-  },
-  p4: {},
-  image: [],
-  comment: '',
-  reply: {},
-  time: '',
-  star: '',
-  subject: '',
-  subjectId: 0,
-  clearHref: '',
-  event: EVENT,
-  onDelete: Function.prototype,
-  onHidden: Function.prototype
-}
+import { memo } from '@utils/decorators'
+import { HOST_NAME, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
+import { Avatar, Cover, Stars, Name, Popover } from '../../base'
+import { DEFAULT_PROPS, AVATAR_WIDTH, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
+import { matchSubjectId } from './utils'
 
 const Item = memo(
   ({
@@ -68,7 +40,7 @@ const Item = memo(
     onDelete,
     onHidden
   }) => {
-    rerender('Component.ItemTimeline.Main')
+    global.rerender('Component.ItemTimeline.Main')
 
     const { src: avatarSrc } = avatar
     const { length: imageLength } = image
@@ -79,7 +51,7 @@ const Item = memo(
     const { text: p4Text } = p4
 
     const onNavigate = useCallback(
-      (url, passParams) => appNavigate(url, navigation, passParams, event),
+      (url, passParams?) => appNavigate(url, navigation, passParams, event),
       []
     )
     const onClear = useCallback(
@@ -104,7 +76,7 @@ const Item = memo(
           {!!avatarSrc && (
             <Avatar
               navigation={navigation}
-              size={avatarWidth}
+              size={AVATAR_WIDTH}
               userId={userId}
               name={p1Text}
               src={avatarSrc}
@@ -271,8 +243,8 @@ const Item = memo(
           <View key={item || index} style={type ? _.mr.md : _.mr.sm}>
             <Cover
               src={item}
-              size={isAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
-              height={isAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
+              size={isAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
+              height={isAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
               radius
               shadow
               type={type}
@@ -357,8 +329,8 @@ const Item = memo(
                 <View style={_.ml.md}>
                   <Cover
                     src={_image}
-                    size={rightCoverIsAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
-                    height={rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
+                    size={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
+                    height={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
                     radius
                     shadow
                     type={type}
@@ -382,7 +354,7 @@ const Item = memo(
               ) : (
                 <Popover
                   style={styles.touch}
-                  data={hiddenDS}
+                  data={HIDDEN_DS}
                   onSelect={title => onHidden(title, userId)}
                 >
                   <Flex style={styles.extra} justify='center'>
@@ -410,124 +382,10 @@ const Item = memo(
       </Flex>
     )
   },
-  defaultProps,
+  DEFAULT_PROPS,
   ({ styles }) => ({
     styles
   })
 )
 
-export const ItemTimeline = ob(
-  ({
-    navigation,
-    style,
-    avatar,
-    p1,
-    p2,
-    p3,
-    p4,
-    image,
-    comment,
-    reply,
-    time,
-    star,
-    subject,
-    subjectId,
-    clearHref,
-    event,
-    onDelete,
-    onHidden
-  }) => {
-    rerender('Component.ItemTimeline')
-
-    const userId = matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
-    if (userId in timelineStore.hidden) {
-      if (getTimestamp() < timelineStore.hidden[userId]) return null
-    }
-
-    return (
-      <Item
-        navigation={navigation}
-        styles={memoStyles()}
-        style={style}
-        avatar={avatar}
-        userId={userId}
-        p1={p1}
-        p2={p2}
-        p3={p3}
-        p4={p4}
-        image={image}
-        comment={comment}
-        reply={reply}
-        time={time}
-        star={star}
-        subject={subject}
-        subjectId={subjectId}
-        clearHref={clearHref}
-        event={event}
-        onDelete={onDelete}
-        onHidden={onHidden}
-      />
-    )
-  }
-)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    ..._.container.item,
-    paddingVertical: _.xs
-  },
-  withoutAvatar: {
-    marginTop: -_.md
-  },
-  scrollView: {
-    marginTop: _.sm,
-    marginRight: -40
-  },
-  images: {
-    paddingTop: _.sm,
-    paddingRight: _.sm,
-    paddingBottom: _.md
-  },
-  avatar: {
-    width: avatarWidth * _.ratio,
-    marginTop: 18,
-    marginLeft: _.wind
-  },
-  content: {
-    paddingTop: _.md,
-    paddingRight: _.wind - _._wind,
-    paddingBottom: _.md
-  },
-  noPR: {
-    paddingVertical: _.md,
-    paddingRight: _.wind - _._wind
-  },
-  hasPR: {
-    paddingRight: _._wind
-  },
-  touch: {
-    marginTop: -7,
-    marginHorizontal: _.xs,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  extra: {
-    width: 36,
-    height: 36
-  },
-  more: {
-    paddingHorizontal: 0
-  }
-}))
-
-function matchSubjectId(url = '') {
-  if (typeof url !== 'string') {
-    return 0
-  }
-
-  const match = url.match(/\d+/)
-  if (match && match.length) {
-    return match[0]
-  }
-  return 0
-}
+export default Item
