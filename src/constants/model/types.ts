@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 15:03:12
+ * @Last Modified time: 2022-06-20 17:02:29
  */
 import { ModelValueOf } from '@types'
 import {
@@ -48,6 +48,8 @@ export type SubjectTypeValue = ModelValueOf<typeof SUBJECT_TYPE, 'value'>
 export type SubjectTypeCn = ModelValueOf<typeof SUBJECT_TYPE, 'title'>
 
 export type TimeLineScope = ModelValueOf<typeof TIMELINE_SCOPE, 'value'>
+
+export type TimeLineScopeCn = ModelValueOf<typeof TIMELINE_SCOPE, 'label'>
 
 export type TimeLineType = ModelValueOf<typeof TIMELINE_TYPE, 'value'>
 

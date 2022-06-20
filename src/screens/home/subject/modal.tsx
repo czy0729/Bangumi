@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:50:34
+ * @Last Modified time: 2022-06-20 16:52:14
  */
 import React from 'react'
 import { ManageModal } from '@_'
@@ -14,8 +14,8 @@ const defaultProps = {
   name: '',
   nameCn: '',
   action: '看',
-  onSubmit: Function.prototype,
-  onClose: Function.prototype
+  onSubmit: () => {},
+  onClose: () => {}
 }
 
 const Modal = memo(

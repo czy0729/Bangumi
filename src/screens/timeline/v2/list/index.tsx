@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:59:29
+ * @Last Modified time: 2022-06-20 17:07:26
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -10,16 +10,16 @@ import { Login, SectionHeader, ItemTimeline } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
-import { IOS } from '@constants'
-import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-import ItemHeatmaps from './item-heatmaps'
-import { tabs, H_TABBAR } from './store'
+import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
+import { TimeLineScope, TimeLineScopeCn } from '@types'
+import ItemHeatmaps from '../item-heatmaps'
+import { tabs } from '../store'
+import { styles } from './styles'
 
-const h = _.headerHeight + H_TABBAR
-const contentInset = IOS ? { top: h } : undefined
-const contentOffset = IOS ? { y: -h } : undefined
-
-class List extends React.Component {
+class List extends React.Component<{
+  scope?: TimeLineScope
+  title?: string
+}> {
   state = {
     /**
      * @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
@@ -79,10 +79,8 @@ class List extends React.Component {
     const { $ } = this.context
     const { scope, page, isFocused } = $.state
     const { title } = this.props
-    const label = MODEL_TIMELINE_SCOPE.getLabel(scope)
-    if (!$.isWebLogin && ['好友', '自己'].includes(label)) {
-      return <Login />
-    }
+    const label = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope)
+    if (!$.isWebLogin && ['好友', '自己'].includes(label)) return <Login />
 
     const { hide } = this.state
     if (hide) return null
@@ -93,13 +91,12 @@ class List extends React.Component {
     return (
       <ListView
         ref={this.connectRef}
-        contentContainerStyle={_.container.bottom}
+        contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={timeline}
         sectionKey='date'
         stickySectionHeadersEnabled={false}
-        contentInset={contentInset}
-        contentOffset={contentOffset}
+        progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
         scrollToTop={isFocused && tabs[page].title === title}
         renderSectionHeader={renderSectionHeader}
         renderItem={this.renderItem}

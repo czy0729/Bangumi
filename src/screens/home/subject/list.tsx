@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:17:35
+ * @Last Modified time: 2022-06-20 18:07:21
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -21,7 +21,7 @@ const refreshControlProps = {
 class List extends React.Component<{
   onScroll: Fn
 }> {
-  renderItem = ({ item, index }) => {
+  renderItem = ({ item }) => {
     const { $, navigation } = this.context
     const { rendered } = $.state
     if (!rendered) return null
@@ -36,7 +36,6 @@ class List extends React.Component<{
             subjectId: $.subjectId
           }
         }}
-        index={index}
         time={item.time}
         avatar={item.avatar}
         userId={item.userId}
@@ -59,6 +58,7 @@ class List extends React.Component<{
         keyExtractor={keyExtractor}
         data={$.subjectComments}
         lazy={1}
+        progressViewOffset={_.ios(_.statusBarHeight, 0)}
         removeClippedSubviews={false}
         scrollEventThrottle={16}
         scrollToTop

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 13:45:53
+ * @Last Modified time: 2022-06-20 22:13:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,9 @@ export const IconNotify = ob(
       const { hasNewPM } = userStore
       return (
         <View>
-          {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} />}
+          {(hasNewNotify || hasNewPM) && (
+            <View style={this.styles.dot} pointerEvents='none' />
+          )}
           <IconTabsHeader
             style={style}
             name='md-mail-outline'

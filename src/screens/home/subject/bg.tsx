@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:27:02
+ * @Last Modified time: 2022-06-20 18:09:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,7 @@ const memoStyles = _.memoStyles(() => ({
       top: 0,
       right: 0,
       left: 0,
-      height: 160,
+      height: _.window.height / 2,
       backgroundColor: _.colorBg
     },
     {

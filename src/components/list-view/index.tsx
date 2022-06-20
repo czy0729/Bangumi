@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 19:50:58
+ * @Last Modified time: 2022-06-20 17:31:18
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -142,6 +142,15 @@ export const ListView = observer(
         this.setState({
           refreshState: REFRESH_STATE.HeaderRefreshing
         })
+
+        // 4秒没有返回也强制消除加载中的提示
+        setTimeout(() => {
+          if (this.state.refreshState !== REFRESH_STATE.Idle) {
+            this.setState({
+              refreshState: REFRESH_STATE.Idle
+            })
+          }
+        }, 4000)
 
         await sleep(400)
         await onHeaderRefresh()

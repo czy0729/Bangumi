@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:26:46
+ * @Last Modified time: 2022-06-20 18:08:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,7 +19,7 @@ import { styles } from './styles'
 type Props = Expand<{
   style?: ViewStyle
   src?: string
-  tint?: 'light' | 'dark'
+  tint?: 'default' | 'light' | 'dark'
   intensity?: number
   children?: any
 }>

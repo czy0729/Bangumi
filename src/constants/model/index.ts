@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:43:55
+ * @Last Modified time: 2022-06-20 17:01:40
  */
 import { IOS } from '../constants'
 
@@ -25,7 +25,7 @@ class Model {
    * 优先通过value找label
    * @param {*} value
    */
-  getLabel(value: any): string | false {
+  getLabel<T = string | false>(value: any): T {
     const find = this.data.find(item => item.value == value || item.title === value)
     return find ? find.label : false
   }
@@ -34,7 +34,7 @@ class Model {
    * 优先通过label找value
    * @param {*} label
    */
-  getValue(label: any): string | false {
+  getValue<T = string | false>(label: any): T {
     const find = this.data.find(item => item.label == label || item.title === label)
     return find ? find.value : false
   }

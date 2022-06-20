@@ -2,31 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:08:09
+ * @Last Modified time: 2022-06-20 17:22:30
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { Login } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
 import i18n from '@constants/i18n'
-import Item from './item'
-import { H_TABBAR } from './store'
-
-const contentInset = IOS
-  ? {
-      top: _.headerHeight + H_TABBAR
-    }
-  : undefined
-const contentOffset = IOS
-  ? {
-      y: -(_.headerHeight + H_TABBAR)
-    }
-  : undefined
+import Item from '../item'
+import { styles } from './styles'
 
 function List({ index }, { $ }) {
-  rerender('Rakuen.List')
+  global.rerender('Rakuen.List')
 
   const type = $.type(index)
   if (type === 'hot' && !$.isWebLogin) {
@@ -42,12 +30,11 @@ function List({ index }, { $ }) {
   return (
     <ListView
       ref={ref => $.connectRef(ref, index)}
-      contentContainerStyle={_.container.bottom}
+      contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       data={rakuen}
       lazy={14}
-      contentInset={contentInset}
-      contentOffset={contentOffset}
+      progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
       renderItem={renderItem}
       scrollToTop={isFocused && page === index}
       onHeaderRefresh={$.onHeaderRefresh}

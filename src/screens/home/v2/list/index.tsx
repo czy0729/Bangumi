@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 13:01:40
+ * @Last Modified time: 2022-06-20 16:56:18
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -21,13 +21,12 @@ export default obc(({ title = '全部' }, { $ }) => {
   const isGrid = $.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
   if (isGrid) return <Grid title={title} />
 
-  const styles = memoStyles()
   const { page, isFocused } = $.state
   const index = $.tabs.findIndex(item => item.title === title)
   return (
     <List
       connectRef={ref => $.connectRef(ref, index)}
-      styles={styles}
+      styles={memoStyles()}
       data={$.currentUserCollection(title)}
       title={title}
       scrollToTop={isFocused && TABS[page].title === title}

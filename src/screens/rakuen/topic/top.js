@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-13 05:07:42
+ * @Last Modified time: 2022-06-20 21:23:32
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ import { simpleTime } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { findSubjectCn, appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { HOST, IOS } from '@constants'
+import { HOST } from '@constants'
 import Content from './content'
 import Ep from './ep'
 import SectionTitle from './section-title'
@@ -96,7 +96,7 @@ const Top = memo(
     const isEp = topicId.includes('ep/')
     return (
       <>
-        {!IOS && <HeaderPlaceholder />}
+        <HeaderPlaceholder />
         <View style={styles.container}>
           <Milestone />
           <Text type='title' size={20} bold>

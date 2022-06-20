@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 22:12:21
+ * @Last Modified time: 2022-06-20 18:03:58
  */
 import React from 'react'
 import { Alert, BackHandler, ScrollView, View } from 'react-native'
 import { computed } from 'mobx'
-import { Touchable, Flex, Text, Iconfont, Input, Divider } from '@components'
+import { Touchable, Flex, Text, Iconfont, Input, Divider, Empty } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _, userStore, usersStore, discoveryStore, collectionStore } from '@stores'
@@ -719,6 +719,7 @@ export const FolderManageModal = ob(
                     </View>
                   )
                 })}
+          {!create && !list.length && <Empty text='还没有创建过目录' />}
         </ScrollView>
       )
     }
@@ -790,6 +791,7 @@ export const FolderManageModal = ob(
                     onPress={() => this.onToggle(item, detail, isIn)}
                   />
                 )}
+                {/** @ts-ignore */}
                 <Popover.Old
                   style={this.styles.btnPopover}
                   data={CONTROL_DS.root}
@@ -798,6 +800,7 @@ export const FolderManageModal = ob(
                   <Flex style={this.styles.touch} justify='center'>
                     <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
                   </Flex>
+                  {/** @ts-ignore */}
                 </Popover.Old>
               </>
             )}
@@ -932,6 +935,7 @@ export const FolderManageModal = ob(
                     </View>
                   )}
                   {!edit && !create && (
+                    // @ts-ignore
                     <Popover.Old
                       style={this.styles.btnPopover}
                       data={data}
@@ -940,6 +944,7 @@ export const FolderManageModal = ob(
                       <Flex style={this.styles.touch} justify='center'>
                         <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
                       </Flex>
+                      {/** @ts-ignore */}
                     </Popover.Old>
                   )}
                 </Flex>

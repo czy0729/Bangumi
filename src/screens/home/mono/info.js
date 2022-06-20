@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-04 04:47:43
+ * @Last Modified time: 2022-06-20 22:55:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,6 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
 import Content from './content'
 import Detail from './detail'
 import Voice from './voice'
@@ -35,7 +34,7 @@ function Info(props, { $, navigation }) {
   const maxSize = _.window.contentWidth * 0.5 * _.ratio
   return (
     <>
-      {!IOS && <HeaderPlaceholder />}
+      <HeaderPlaceholder />
       <View style={styles.container}>
         <Flex wrap='wrap'>
           <Text size={20} bold>

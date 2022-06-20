@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:44:40
+ * @Last Modified time: 2022-06-20 18:12:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,12 +42,11 @@ const Topic = memo(
         {showTopic && (
           <>
             <Expand style={_.mt.sm} ratio={1.2}>
-              {topic.map((item, index) => (
+              {topic.map(item => (
                 <ItemArticle
                   key={item.id}
                   style={styles.item}
                   navigation={navigation}
-                  index={index}
                   avatar={item.user.avatar.small}
                   title={item.title}
                   summary={item.summary}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 15:51:45
+ * @Last Modified time: 2022-06-20 17:02:38
  */
 import React from 'react'
 import {
@@ -22,7 +22,9 @@ import {
   SubjectTypeValue,
   SubjectTypeCn,
   EpStatus,
-  RatingStatus
+  RatingStatus,
+  TimeLineScope,
+  TimeLineScopeCn
 } from '@constants/model/types'
 
 export {
@@ -31,7 +33,9 @@ export {
   SubjectTypeValue,
   SubjectTypeCn,
   EpStatus,
-  RatingStatus
+  RatingStatus,
+  TimeLineScope,
+  TimeLineScopeCn
 }
 
 /** ==================== App ==================== */
