@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:09:17
+ * @Last Modified time: 2022-06-21 03:41:57
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -33,7 +33,7 @@ export default class ScreenSay extends store {
     await res
 
     timelineStore.fetchFormHash()
-    this.fetchAvatars()
+    // this.fetchAvatars()
     return res
   }
 

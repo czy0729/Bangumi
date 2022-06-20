@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 02:22:36
+ * @Last Modified time: 2022-06-21 04:25:59
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -48,7 +48,7 @@ export default class ScreenMono extends store {
   fetchChara = async () => {
     if (!this.monoId.includes('character/')) return false
 
-    const res = tinygrailStore.fetchCharacters([this.monoId.replace('character/', '')])
+    const res = tinygrailStore.fetchCharacters([this.id])
     await res
     this.setState({
       checkTinygrail: true
@@ -70,8 +70,12 @@ export default class ScreenMono extends store {
 
   // -------------------- get --------------------
   @computed get monoId() {
-    const { monoId = '' } = this.params
-    return monoId
+    const { monoId } = this.params
+    return monoId || ''
+  }
+
+  @computed get id() {
+    return this.monoId.split('/')?.[1] || ''
   }
 
   @computed get url() {
@@ -100,7 +104,7 @@ export default class ScreenMono extends store {
 
   @computed get canICO() {
     const { checkTinygrail } = this.state
-    return checkTinygrail && !this.chara._loaded
+    return this.monoId.includes('character/') && checkTinygrail && !this.chara._loaded
   }
 
   @computed get nameTop() {

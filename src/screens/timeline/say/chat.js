@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:33:46
+ * @Last Modified time: 2022-06-21 03:47:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Text } from '@components'
 import { ItemSay } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { API_AVATAR } from '@constants'
 
 const event = {
   id: '吐槽.跳转'
@@ -26,13 +27,12 @@ function Chat(props, { $ }) {
       {list.map((item, index) => {
         const prevItem = index === 0 ? {} : list[index - 1]
         const isMe = item.id === $.myId
-        const avatar = isMe ? $.userInfo.avatar : $.usersInfo(item.id).avatar
         return (
           <ItemSay
             {...item}
             event={event}
             position={isMe ? 'right' : 'left'}
-            avatar={item.avatar || avatar?.medium}
+            avatar={API_AVATAR(item.id)}
             showName={prevItem.name !== item.name}
             onLongPress={() => $.at(item.id)}
           />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-27 07:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 07:11:17
+ * @Last Modified time: 2022-06-21 04:28:26
  */
 import React from 'react'
 import { Touchable, Iconfont, Heatmap } from '@components'
@@ -40,7 +40,6 @@ export default ob(Favor)
 const styles = _.create({
   touch: {
     paddingHorizontal: _.sm,
-    marginRight: -_.xs,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }

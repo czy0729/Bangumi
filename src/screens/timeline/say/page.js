@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 00:07:18
+ * @Last Modified time: 2022-06-21 03:46:22
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -19,14 +19,13 @@ import {
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { API_AVATAR } from '@constants'
 import Chat from './chat'
 
 const event = {
   id: '吐槽.跳转'
 }
 
-export default
-@obc
 class Say extends React.Component {
   state = {
     expand: false
@@ -156,23 +155,21 @@ class Say extends React.Component {
         showsVerticalScrollIndicator={false}
         overScrollMode='never'
       >
-        {$.users.map(item => {
-          const { avatar = {} } = $.usersInfo(item.id)
-          return (
-            <Avatar
-              style={_.mr.sm}
-              navigation={navigation}
-              src={item.avatar || avatar.medium}
-              size={34}
-              userId={item.id}
-              name={item.name}
-              border={0}
-              round
-              event={event}
-              onLongPress={() => $.at(item.id)}
-            />
-          )
-        })}
+        {$.users.map(item => (
+          <Avatar
+            key={item.id}
+            style={_.mr.sm}
+            navigation={navigation}
+            src={API_AVATAR(item.id)}
+            size={34}
+            userId={item.id}
+            name={item.name}
+            border={0}
+            round
+            event={event}
+            onLongPress={() => $.at(item.id)}
+          />
+        ))}
         <Heatmap id='吐槽.at' />
       </ScrollView>
     )
@@ -209,6 +206,8 @@ class Say extends React.Component {
     return memoStyles()
   }
 }
+
+export default obc(Say)
 
 const memoStyles = _.memoStyles(() => ({
   expand: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 22:55:16
+ * @Last Modified time: 2022-06-21 04:21:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,19 +19,22 @@ import {
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
-import Content from './content'
-import Detail from './detail'
-import Voice from './voice'
-import Works from './works'
-import Jobs from './jobs'
+import { API_MONO_COVER } from '@constants'
+import Content from '../content'
+import Detail from '../detail'
+import Voice from '../voice'
+import Works from '../works'
+import Jobs from '../jobs'
+import { memoStyles } from './styles'
 
 function Info(props, { $, navigation }) {
-  rerender('Mono.Info')
+  global.rerender('Mono.Info')
 
   const styles = memoStyles()
   const maxSize = _.window.contentWidth * 0.5 * _.ratio
+  const isCharacter = $.monoId.includes('character/')
+  const src = API_MONO_COVER($.id, 'large', isCharacter ? 'characters' : 'persons')
   return (
     <>
       <HeaderPlaceholder />
@@ -44,24 +47,21 @@ function Info(props, { $, navigation }) {
             {$.nameBottom}
           </Text>
         </Flex>
-        {!!$.cover && (
-          <Flex style={_.mt.md} justify='center'>
-            <Image
-              src={getCoverLarge($.cover)}
-              autoSize={maxSize}
-              shadow
-              placholder={false}
-              imageViewer
-              event={{
-                id: '人物.封面图查看',
-                data: {
-                  monoId: $.monoId
-                }
-              }}
-            />
-            <Heatmap id='人物.封面图查看' />
-          </Flex>
-        )}
+        <Flex style={_.mt.md} justify='center'>
+          <Image
+            src={src}
+            autoSize={maxSize}
+            shadow
+            imageViewer
+            event={{
+              id: '人物.封面图查看',
+              data: {
+                monoId: $.monoId
+              }
+            }}
+          />
+          <Heatmap id='人物.封面图查看' />
+        </Flex>
         <Content />
         <Detail />
         {!!$.cn && (
@@ -98,7 +98,7 @@ function Info(props, { $, navigation }) {
                 monoId: $.monoId
               })
 
-              const type = $.monoId.includes('character/') ? 'crt' : 'prsn'
+              const type = isCharacter ? 'crt' : 'prsn'
               navigation.push('Topic', {
                 topicId: `${type}/${($.monoId || '').match(/\d+/g)[0]}`
               })
@@ -108,21 +108,8 @@ function Info(props, { $, navigation }) {
               <Text type='sub'>去吐槽</Text>
               <Iconfont name='md-navigate-next' />
             </Flex>
-            <Heatmap
-              id='人物.跳转'
-              data={{
-                from: '去吐槽'
-              }}
-            />
-            <Heatmap
-              right={66}
-              id='人物.跳转'
-              data={{
-                to: 'Topic',
-                alias: '帖子'
-              }}
-              transparent
-            />
+            <Heatmap id='人物.跳转' from='去吐槽' />
+            <Heatmap right={66} id='人物.跳转' to='Topic' alias='帖子' transparent />
           </Touchable>
         }
       >
@@ -133,30 +120,3 @@ function Info(props, { $, navigation }) {
 }
 
 export default obc(Info)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    minHeight: _.window.height * 0.56,
-    ..._.container.inner
-  },
-  loading: {
-    minHeight: _.window.height * 0.48
-  },
-  title: {
-    paddingHorizontal: _.wind,
-    marginTop: _.lg,
-    marginBottom: _.md
-  },
-  touch: {
-    paddingHorizontal: _.xs,
-    marginRight: -_.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  touchTopic: {
-    paddingLeft: _.xs,
-    marginRight: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-}))

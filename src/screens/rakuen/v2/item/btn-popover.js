@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:00:31
+ * @Last Modified time: 2022-06-21 03:52:39
  */
 import React from 'react'
 import {
@@ -70,7 +70,7 @@ export default obc(BtnPopover)
 
 const styles = _.create({
   touch: {
-    marginRight: 6,
+    marginRight: 4,
     marginTop: 8,
     borderRadius: 20,
     overflow: 'hidden'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-27 07:10:37
+ * @Last Modified time: 2022-06-21 04:28:54
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -22,7 +22,7 @@ const defaultProps = {
 }
 
 const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
-  rerender('Mono.Extra.Main')
+  global.rerender('Mono.Extra.Main')
 
   if (canICO) {
     return (
@@ -51,6 +51,7 @@ const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
 
   return (
     <IconHeader
+      style={_.mr.xs}
       name='trophy'
       size={18}
       onPress={() => {
@@ -69,30 +70,21 @@ const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
       <Heatmap
         right={109}
         id='人物.跳转'
-        data={{
-          to: 'TinygrailICODeal',
-          alias: 'ICO'
-        }}
+        to='TinygrailICODeal'
+        alias='ICO'
         transparent
       />
-      <Heatmap
-        right={30}
-        id='人物.跳转'
-        data={{
-          to: 'TinygrailDeal',
-          alias: '交易'
-        }}
-      />
+      <Heatmap right={30} id='人物.跳转' to='TinygrailDeal' alias='交易' />
     </IconHeader>
   )
 }, defaultProps)
 
 export default ob(({ $, navigation }) => {
-  rerender('Mono.Extra')
+  global.rerender('Mono.Extra')
 
   return (
     <>
-      {$.tinygrail && (
+      {$.monoId.includes('character') && $.tinygrail && (
         <Extra
           navigation={navigation}
           monoId={$.monoId}
