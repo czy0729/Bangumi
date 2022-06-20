@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:34:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 16:07:51
+ * @Last Modified time: 2022-06-19 16:45:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,12 +27,7 @@ function Count({ index, subjectId, subject, epStatus }, { $ }) {
 
   return (
     <Touchable style={styles.count} onPress={() => $.itemToggleExpand(subjectId)}>
-      <CountVideo
-        index={index}
-        epStatus={epStatus}
-        subjectId={subjectId}
-        subject={subject}
-      />
+      <CountVideo epStatus={epStatus} subjectId={subjectId} subject={subject} />
       {index === 1 && <Heatmap right={44} bottom={5} id='首页.展开或收起条目' />}
     </Touchable>
   )

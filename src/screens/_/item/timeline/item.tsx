@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:50:09
+ * @Last Modified time: 2022-06-19 12:04:56
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -265,11 +265,7 @@ const Item = memo(
       })
 
       if (imageLength <= 3) {
-        return (
-          <Flex style={_.mt.sm} wrap='wrap'>
-            {images}
-          </Flex>
-        )
+        return <Flex style={_.mt.sm}>{images}</Flex>
       }
 
       // 有一次性操作很多条目很多图片的情况, 水平滚动比较合适

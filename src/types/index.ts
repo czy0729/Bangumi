@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-16 23:22:19
+ * @Last Modified time: 2022-06-20 15:51:45
  */
 import React from 'react'
 import {
@@ -17,7 +17,22 @@ import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icon
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { EventKeys } from '@constants/events'
-import { SubjectType, SubjectTypeCn, RatingStatus } from '@constants/model/types'
+import {
+  SubjectType,
+  SubjectTypeValue,
+  SubjectTypeCn,
+  EpStatus,
+  RatingStatus
+} from '@constants/model/types'
+
+export {
+  EventKeys,
+  SubjectType,
+  SubjectTypeValue,
+  SubjectTypeCn,
+  EpStatus,
+  RatingStatus
+}
 
 /** ==================== App ==================== */
 /** 任意 ID */
@@ -44,7 +59,7 @@ export type MonoId = CharacterId | PersonId
 /** 帖子 ID */
 export type TopicId = `${'group' | 'subject' | 'ep' | 'prsn'}/${Id}`
 
-/** bgm.tv 接口的图片结构 */
+/** bgm.tv 接口图片结构 */
 export type Images = {
   large?: string
   common?: string
@@ -53,7 +68,14 @@ export type Images = {
   grid?: string
 }
 
-export { EventKeys, SubjectType, SubjectTypeCn, RatingStatus }
+/** bgm.tv 条目 */
+export type Subject = {
+  type?: SubjectTypeValue
+  name?: string
+  name_cn?: string
+  images?: Images
+  eps_count?: number
+}
 
 /** ==================== Assets ==================== */
 export type AppIconsNames = keyof typeof AppIcons

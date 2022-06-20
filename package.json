@@ -13,6 +13,7 @@
     "open": "open ./android/app/build/outputs/apk/release/",
     "ios": "react-native run-ios",
     "kill": "sudo purge",
+    "kill:node": "ps -ef |grep node|awk 'NR==1 {print $2}'|xargs kill -15",
     "top": "top -s 4 -o rsize"
   },
   "dependencies": {

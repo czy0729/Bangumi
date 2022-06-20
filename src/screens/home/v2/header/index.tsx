@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 19:54:09
+ * @Last Modified time: 2022-06-19 17:29:43
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -10,18 +10,19 @@ import { LogoHeader, IconNotify, IconTinygrail, IconTabsHeader } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { styles } from './styles'
 
-const event = {
+const EVENT = {
   id: '首页.跳转'
-}
+} as const
 
 function Header(props, { navigation }) {
-  rerender('Home.Header')
+  global.rerender('Home.Header')
 
   return (
     <LogoHeader
       left={
-        <IconNotify style={styles.icon} navigation={navigation} event={event}>
+        <IconNotify style={styles.icon} navigation={navigation} event={EVENT}>
           <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />
           <Heatmap right={-92} id='其他.切换主题' transparent />
         </IconNotify>
@@ -31,7 +32,7 @@ function Header(props, { navigation }) {
           <IconTinygrail
             style={[styles.icon, _.mr.xs]}
             navigation={navigation}
-            event={event}
+            event={EVENT}
           />
           <IconTabsHeader
             style={[styles.icon, _.mr.xs]}
@@ -60,12 +61,3 @@ function Header(props, { navigation }) {
 }
 
 export default obc(Header)
-
-const styles = _.create({
-  icon: {
-    marginBottom: 0,
-    marginLeft: _.xs,
-    borderRadius: 40,
-    overflow: 'hidden'
-  }
-})

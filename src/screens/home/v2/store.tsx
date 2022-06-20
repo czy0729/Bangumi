@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:48:57
+ * @Last Modified time: 2022-06-19 13:01:30
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -65,14 +65,15 @@ const tabs = [
     key: 'real',
     title: '三次元'
   }
-]
+] as const
+
 export const tabsWithGame = [
   ...tabs,
   {
     key: 'game',
     title: '游戏'
   }
-]
+] as const
 
 export const H_TABBAR = 48
 export const OFFSET_LISTVIEW = IOS ? _.headerHeight + H_TABBAR : 0

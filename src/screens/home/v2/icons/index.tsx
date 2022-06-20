@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:28:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-21 02:40:11
+ * @Last Modified time: 2022-06-19 17:28:31
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -10,13 +10,14 @@ import { IconNotify, IconTinygrail, IconTabsHeader } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { styles } from './styles'
 
-const event = {
+const EVENT = {
   id: '首页.跳转'
-}
+} as const
 
 function Icons(props, { navigation }) {
-  rerender('Home.Icons')
+  global.rerender('Home.Icons')
 
   const { tinygrail } = systemStore.setting
   return (
@@ -24,10 +25,10 @@ function Icons(props, { navigation }) {
       <IconNotify
         style={[styles.icon, _.mr.sm]}
         navigation={navigation}
-        event={event}
+        event={EVENT}
       />
       {tinygrail ? (
-        <IconTinygrail style={styles.icon} navigation={navigation} event={event} />
+        <IconTinygrail style={styles.icon} navigation={navigation} event={EVENT} />
       ) : (
         <IconTabsHeader
           style={styles.icon}
@@ -45,15 +46,3 @@ function Icons(props, { navigation }) {
 }
 
 export default obc(Icons)
-
-const styles = _.create({
-  icons: {
-    position: 'absolute',
-    zIndex: 3,
-    top: _.statusBarHeight + 4,
-    right: _._wind
-  },
-  icon: {
-    marginBottom: 0
-  }
-})

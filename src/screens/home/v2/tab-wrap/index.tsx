@@ -2,28 +2,27 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-11 11:40:24
+ * @Last Modified time: 2022-06-19 16:31:51
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { BlurView } from '@_'
-import { _ } from '@stores'
 import { c } from '@utils/decorators'
 import { IOS } from '@constants'
-import Tab from './tab'
-import List from './list'
-import { H_TABBAR } from './store'
+import Tab from '../tab'
+import List from '../list'
+import { memoStyles } from './styles'
 
 /**
  * 因为本组件使用useMemo后不能用mobx@4去observer
  * 所以只能在上面把routes的length传下来监听刷新
  */
 function TabWrap({ length }, { $ }) {
-  rerender('Home.TabWrap')
+  global.rerender('Home.TabWrap')
 
   const styles = memoStyles()
   const renderScene = useMemo(() => {
-    const routes = {
+    const routes: Record<string, React.ComponentType> = {
       all: () => <List title='全部' />,
       anime: () => <List title='动画' />,
       book: () => <List title='书籍' />
@@ -53,22 +52,3 @@ function TabWrap({ length }, { $ }) {
 }
 
 export default c(TabWrap)
-
-const memoStyles = _.memoStyles(() => ({
-  tabs4: {
-    position: 'absolute',
-    zIndex: 1,
-    top: -_.statusBarHeight || 0,
-    left: -_.window.width * 4,
-    right: 0,
-    height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0)
-  },
-  tabs3: {
-    position: 'absolute',
-    zIndex: 1,
-    top: -_.statusBarHeight || 0,
-    left: -_.window.width * 3,
-    right: 0,
-    height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0)
-  }
-}))

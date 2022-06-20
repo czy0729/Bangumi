@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 12:38:33
+ * @Last Modified time: 2022-06-19 21:37:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,22 +10,14 @@ import { Loading, ListView, Flex, Text, Mesume } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import GridInfo from './grid-info'
-import GridItem from './grid-item'
+import GridInfo from '../grid-info'
+import { keyExtractor, renderItem } from './utils'
+import { PREV_TEXT } from './ds'
+import { memoStyles } from './styles'
 
-const footerNoMoreDataComponent = <View />
-const prevTextMap = {
-  全部: '条目',
-  动画: '番组',
-  书籍: '书籍',
-  三次元: '电视剧',
-  游戏: '游戏'
-}
-
-export default
-@obc
-class Grid extends React.Component {
+class Grid extends React.Component<{
+  title?: string
+}> {
   static defaultProps = {
     title: '全部'
   }
@@ -42,7 +34,7 @@ class Grid extends React.Component {
           viewOffset: 0
         })
       } catch (error) {
-        warn('HomeGrid', 'componentDidMount', error)
+        console.error('HomeGrid', 'componentDidMount', error)
       }
     }
   }
@@ -55,7 +47,7 @@ class Grid extends React.Component {
       <Flex style={this.styles.noSelect} justify='center' direction='column'>
         <Mesume size={80} />
         <Text style={_.mt.sm} type='sub' align='center'>
-          请先点击下方{prevTextMap[title]}
+          请先点击下方{PREV_TEXT[title]}
         </Text>
       </Flex>
     )
@@ -100,17 +92,16 @@ class Grid extends React.Component {
         keyExtractor={keyExtractor}
         data={userCollection}
         numColumns={numColumns}
-        footerNoMoreDataComponent={footerNoMoreDataComponent}
+        footerNoMoreDataComponent={<View />}
         footerNoMoreDataText=''
         renderItem={renderItem}
         onHeaderRefresh={$.onHeaderRefresh}
-        {..._.listViewProps}
       />
     )
   }
 
   render() {
-    rerender('Home.Grid')
+    global.rerender('Home.Grid')
 
     const { $ } = this.context
     if (!$.userCollection._loaded) return <Loading />
@@ -128,61 +119,4 @@ class Grid extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    paddingTop: _.ios(_.tabsHeaderHeight, 0) + _.xs,
-    paddingBottom: _.ios(_.tabBarHeight, 0),
-    backgroundColor: _.select(_.colorPlain, _.deep(_.colorPlain, _.colorBg))
-  },
-  info: {
-    width: '100%',
-    height: _.isMobileLanscape ? 132 : 208
-  },
-  gameInfo: {
-    width: '100%',
-    height: 160
-  },
-  noSelect: {
-    width: '100%',
-    height: '100%'
-  },
-  contentContainerStyle: {
-    paddingTop: _.sm,
-    paddingBottom: _.ios(
-      _.tabBarHeight + _.space,
-      _.tabBarHeight + _.space - _.tabBarHeight
-    ),
-    paddingLeft: _.wind - _.sm - 2
-  }
-}))
-
-function keyExtractor(item) {
-  return String(item.subject_id || item.id)
-}
-
-function renderItem({ item }) {
-  return (
-    <GridItem
-      subjectId={item.subject_id || item.id}
-      subject={
-        item.subject || {
-          id: item.id,
-          images: {
-            common: item.cover,
-            grid: item.cover,
-            large: item.cover,
-            medium: item.cover,
-            small: item.cover
-          },
-          name: item.name,
-          name_cn: item.nameCn,
-          summary: '',
-          type: MODEL_SUBJECT_TYPE.getValue('游戏'),
-          url: ''
-        }
-      }
-      epStatus={item.ep_status}
-    />
-  )
-}
+export default obc(Grid)

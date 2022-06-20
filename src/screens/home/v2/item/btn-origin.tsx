@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 10:43:06
+ * @Last Modified time: 2022-06-19 16:56:03
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { styles } from './styles'
 
 function BtnOrigin({ subjectId, isTop }, { $ }) {
   if ($.homeOrigin === -1) return null
@@ -62,3 +62,18 @@ function BtnOrigin({ subjectId, isTop }, { $ }) {
 }
 
 export default obc(BtnOrigin)
+
+const styles = _.create({
+  touch: {
+    marginRight: _.device(10, _.sm),
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  btn: {
+    width: 34,
+    height: 34
+  },
+  icon: {
+    marginBottom: -1
+  }
+})

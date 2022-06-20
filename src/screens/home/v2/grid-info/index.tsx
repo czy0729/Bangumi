@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:02:24
+ * @Last Modified time: 2022-06-20 15:08:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,14 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { EpStatus, Subject, SubjectId } from '@types'
+import { memoStyles } from './styles'
 
-export default
-@obc
-class GridInfo extends React.Component {
+class GridInfo extends React.Component<{
+  subjectId?: SubjectId
+  subject?: Subject
+  epStatus?: EpStatus
+}> {
   static defaultProps = {
     subjectId: 0,
     subject: {},
@@ -155,7 +159,7 @@ class GridInfo extends React.Component {
   }
 
   render() {
-    rerender('Home.GridInfo')
+    global.rerender('Home.GridInfo')
 
     const { $ } = this.context
     const { subjectId, subject } = this.props
@@ -225,19 +229,4 @@ class GridInfo extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingVertical: _.device(16, 32),
-    paddingHorizontal: _.wind
-  },
-  icon: {
-    marginBottom: -1
-  },
-  touchable: {
-    padding: _.sm
-  },
-  placeholder: {
-    marginBottom: -1.5,
-    marginLeft: _.sm
-  }
-}))
+export default obc(GridInfo)

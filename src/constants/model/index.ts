@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:15:46
+ * @Last Modified time: 2022-06-19 16:43:55
  */
 import { IOS } from '../constants'
 
@@ -43,7 +43,7 @@ class Model {
    * 优先通过label找title
    * @param {*} label
    */
-  getTitle(label: any): string | false {
+  getTitle<T = string | false>(label: any): T {
     const find = this.data.find(item => item.label == label || item.value == label)
     return find ? find.title : false
   }

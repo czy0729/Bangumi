@@ -2,37 +2,37 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:57:52
+ * @Last Modified time: 2022-06-19 17:23:55
  */
 import React from 'react'
 import { Flex, Text, Mesume, Button } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { memoStyles } from './styles'
 
-const footerEmptyDataTextMap = {
-  全部: '当前没有可管理的条目哦，请先添加一个条目',
+const FOOTER_EMPTY_TEXT = {
+  全部: '当前没有可管理的条目哦',
   动画: '当前没有在追的番组哦',
   书籍: '当前没有在读的书籍哦',
   三次元: '当前没有在追的电视剧哦',
   游戏: '当前没有在玩的游戏哦'
-}
+} as const
 
 function Empty({ title, length }, { $, navigation }) {
-  rerender('Home.Empty')
+  global.rerender('Home.Empty')
 
   const styles = memoStyles()
   const { filter } = $.state
   return (
     <Flex
-      style={[styles.empty, length && styles.top]}
+      style={[styles.empty, !!length && styles.top]}
       direction='column'
       justify='center'
     >
       <Mesume size={80} />
       <Text style={styles.text} type='sub' size={13} align='center'>
-        {length ? randomSpeech() : footerEmptyDataTextMap[title]}
+        {length ? randomSpeech() : FOOTER_EMPTY_TEXT[title]}
       </Text>
       {!!filter && length <= 3 && (
         <Button
@@ -58,21 +58,3 @@ function Empty({ title, length }, { $, navigation }) {
 }
 
 export default obc(Empty)
-
-const memoStyles = _.memoStyles(() => ({
-  empty: {
-    minHeight: 320
-  },
-  top: {
-    minHeight: 280
-  },
-  text: {
-    marginTop: _.md,
-    maxWidth: _.window.contentWidth - 2 * _.md,
-    ..._.fontSize(14)
-  },
-  btn: {
-    marginTop: _.lg,
-    width: 120
-  }
-}))
