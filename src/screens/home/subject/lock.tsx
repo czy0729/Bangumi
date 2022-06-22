@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:50:50
+ * @Last Modified time: 2022-06-23 01:44:15
  */
 import React from 'react'
 import { Flex, Mesume, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
-function Lock({ style }, { $ }) {
+function Lock(props, { $ }) {
   if (!$.lock) return null
 
   const styles = memoStyles()
   return (
-    <Flex style={[styles.container, style]}>
+    <Flex style={styles.container}>
       <Mesume index={2} size={72} />
       <Flex.Item>
         <Text type='main' size={16} bold>

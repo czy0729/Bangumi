@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 07:51:40
+ * @Last Modified time: 2022-06-21 18:38:35
  */
 import React from 'react'
 import {
@@ -23,7 +23,9 @@ import { _ } from '@stores'
 import { getSystemStoreAsync } from '@utils/async'
 import { DEV, IOS } from '@constants'
 import { defaultHitSlop, styles, callOnceInInterval, separateStyles } from './utils'
-import { Props } from './types'
+import { Props as TouchableProps } from './types'
+
+export { TouchableProps }
 
 export const Touchable = observer(
   ({
@@ -39,7 +41,7 @@ export const Touchable = observer(
     onPress = () => {},
     children,
     ...other
-  }: Props) => {
+  }: TouchableProps) => {
     /**
      * @tofixed 安卓开发环境热使用RNGH的组件会导致 GestureHandler already initialized 问题, 暂时规避
      */

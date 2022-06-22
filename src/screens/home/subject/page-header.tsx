@@ -28,7 +28,7 @@ function Header({ fixed }, { $, navigation }) {
         <Flex>
           <IconShare $={$} navigation={navigation} color={color} />
           <CompHeader.Popover
-            data={['浏览器打开', '复制链接', '复制分享', '重置布局']}
+            data={[`浏览器打开 · ${$.subjectId}`, '复制链接', '复制分享', '重置布局']}
             color={color}
             onSelect={key => {
               t('条目.右上角菜单', {

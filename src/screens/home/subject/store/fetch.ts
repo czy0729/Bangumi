@@ -2,14 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 16:04:14
+ * @Last Modified time: 2022-06-23 04:40:05
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
-import { getTimestamp, similar } from '@utils'
-import { HTMLDecode, HTMLTrim, cheerio } from '@utils/html'
+import { getTimestamp } from '@utils'
+import { HTMLDecode, HTMLTrim } from '@utils/html'
 import { xhrCustom } from '@utils/fetch'
 import { getBangumiUrl, unzipBangumiData } from '@utils/app'
+import {
+  search,
+  matchGame,
+  getVideo,
+  matchMovie,
+  getPreview,
+  getTrailer
+} from '@utils/douban'
+import { update } from '@utils/kv'
 import { SITES } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import Computed from './computed'
@@ -77,6 +86,8 @@ export default class Fetch extends Computed {
 
     if ((!item && this.type === '动画') || this.type === '三次元') {
       this.fetchEpsThumbsFromDouban(this.cn, this.jp)
+    } else if (this.type === '游戏') {
+      this.fetchGameFromDouban(this.cn, this.jp)
     }
   }
 
@@ -90,7 +101,7 @@ export default class Fetch extends Computed {
   /**
    * 条目留言
    */
-  fetchSubjectComments = (refresh, reverse) => {
+  fetchSubjectComments = (refresh, reverse?) => {
     return subjectStore.fetchSubjectComments(
       {
         subjectId: this.subjectId
@@ -124,7 +135,7 @@ export default class Fetch extends Computed {
         this.setState({
           epsData
         })
-        this.setStorage(undefined, undefined, this.namespace)
+        this.setStorage(this.namespace)
       } catch (error) {
         console.error(NAMESPACE, 'fetchEpsData', error)
       }
@@ -132,8 +143,15 @@ export default class Fetch extends Computed {
   }
 
   /**
-   * 获取章节的缩略图
+   * staff数据
    */
+  fetchPersons = () => {
+    return monoStore.fetchPersons({
+      subjectId: this.subjectId
+    })
+  }
+
+  /** 获取章节的缩略图 */
   fetchEpsThumbs = async bangumiData => {
     if (this.state.epsThumbs.length >= 12) return
 
@@ -166,7 +184,7 @@ export default class Fetch extends Computed {
                   Referer: 'https://www.bilibili.com/'
                 }
               })
-              this.setStorage(undefined, undefined, this.namespace)
+              this.setStorage(this.namespace)
             }
           }
         }
@@ -212,7 +230,7 @@ export default class Fetch extends Computed {
                 Referer: 'https://list.youku.com/'
               }
             })
-            this.setStorage(undefined, undefined, this.namespace)
+            this.setStorage(this.namespace)
           }
         }
       } catch (error) {
@@ -241,7 +259,7 @@ export default class Fetch extends Computed {
                 Referer: 'https://www.iqiyi.com/'
               }
             })
-            this.setStorage(undefined, undefined, this.namespace)
+            this.setStorage(this.namespace)
           }
         }
       } catch (error) {
@@ -251,7 +269,10 @@ export default class Fetch extends Computed {
       // qq网站没有截屏, 不找
 
       // 尝试从douban找
-      if (!this.state.epsThumbsHeader.Referer && this.state.epsThumbs.length < 12) {
+      if (
+        (!this.state.epsThumbsHeader.Referer && this.state.epsThumbs.length < 12) ||
+        this.state.epsThumbs.length === 0
+      ) {
         const cn = bangumiData?.titleTranslate?.['zh-Hans']?.[0]
         const jp = bangumiData.title
         this.fetchEpsThumbsFromDouban(cn, jp)
@@ -261,101 +282,81 @@ export default class Fetch extends Computed {
     }
   }
 
-  /**
-   * 从donban匹配条目, 并获取官方剧照信息
-   */
-  fetchEpsThumbsFromDouban = async (cn, jp) => {
-    if (this.x18 || this.state.epsThumbs.length >= 12) return
+  /** 从donban匹配条目, 并获取官方剧照信息 */
+  fetchEpsThumbsFromDouban = async (cn: string, jp: string) => {
+    if (this.x18) return
 
     const q = cn || jp
     if (q) {
-      let doubanId
+      const result = await search(q)
+      const doubanId = matchMovie(q, result, jp)
 
-      // 搜索
-      const { _response } = await xhrCustom({
-        url: `https://www.douban.com/search?cat=1002&q=${q}`
-      })
-
-      const $ = cheerio(_response)
-      $('.result .content').each((index, element) => {
-        if (doubanId) return
-
-        const $row = cheerio(element)
-        const $a = $row.find('h3 a')
-        const _cn = $a.text().trim()
-        if (similar(_cn, q) < 0.8) {
-          const cast = $row.find('.subject-cast').text().trim()
-          if (!cast.includes('原名:')) return
-
-          const _jp = cast.split(' / ')[0].replace('原名:', '')
-          if (similar(_jp, jp || cn) < 0.8) return
-        }
-
-        const match = $a.attr('onclick').match(/sid: (\d+)/)
-        if (match && match[1]) {
-          doubanId = match[1]
-        }
-      })
-
-      if (doubanId) {
-        // type=o 官方剧照, type=a 剧照
-        let type = 'o'
-        let _response
-
-        // 获取条目剧照
-        const data = await xhrCustom({
-          url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=0&sortby=time&size=a&subtype=${type}`
-        })
-        _response = data._response
-
-        // 当官方剧照少于12张, 再次请求使用所有剧照
-        const { length } = cheerio(_response)('.cover img')
-        if (length > 0 && length < 12) {
-          type = 'a'
-          const data = await xhrCustom({
-            url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=0&sortby=time&size=a&subtype=${type}`
-          })
-          _response = data._response
-        }
-
-        // 判断是否有分页
-        const match = _response.match(/<span class="count">\(共(\d+)张\)<\/span>/)
-        const count = match ? Number(match[1]) : 0
-        const start = count >= 100 ? count - 50 : count >= 30 ? count - 30 : 0
-
-        // 由于剧照是根据时间从新到旧排序的, 需要获取较后面的数据, 以免剧透
-        if (start) {
-          const data = await xhrCustom({
-            url: `https://movie.douban.com/subject/${doubanId}/photos?type=S&start=${start}&sortby=time&size=a&subtype=${type}`
-          })
-          _response = data._response
-        }
-
-        const $ = cheerio(_response)
+      const trailer = await getTrailer(doubanId)
+      if (trailer.data.length) {
         this.setState({
-          epsThumbs: (
-            $('.cover img')
-              .map((index, element) => {
-                const $row = cheerio(element)
-                return $row.attr('src').replace('http://', 'https://')
-              })
-              .get() || []
-          ).reverse(),
+          videos: trailer.data,
           epsThumbsHeader: {
-            Referer: `https://movie.douban.com/subject/${doubanId}`
+            Referer: trailer.referer
           }
         })
-        this.setStorage(undefined, undefined, this.namespace)
       }
+
+      const preview = await getPreview(doubanId)
+      if (preview.data.length) {
+        this.setState({
+          epsThumbs: preview.data.reverse(),
+          epsThumbsHeader: {
+            Referer: preview.referer
+          }
+        })
+      }
+
+      this.setStorage(this.namespace)
+      this.upload()
     }
   }
 
-  /**
-   * staff数据
-   */
-  fetchPersons = () => {
-    return monoStore.fetchPersons({
-      subjectId: this.subjectId
-    })
+  /** 从donban匹配条目, 并获取预告视频 */
+  fetchGameFromDouban = async (cn: string, jp: string) => {
+    if (this.x18) return
+
+    const q = cn || jp
+    if (q) {
+      const result = await search(q, 'game')
+      const doubanId = matchGame(q, result)
+
+      const videos = await getVideo(doubanId, 'game')
+      if (videos.data.length) {
+        this.setState({
+          videos: videos.data,
+          epsThumbsHeader: {
+            Referer: videos.referer
+          }
+        })
+      }
+
+      const previews = await getPreview(doubanId, 'game')
+      if (previews.data.length) {
+        this.setState({
+          epsThumbs: previews.data,
+          epsThumbsHeader: {
+            Referer: previews.referer
+          }
+        })
+      }
+
+      this.setStorage(this.namespace)
+      this.upload()
+    }
+  }
+
+  upload = () => {
+    setTimeout(() => {
+      update(`douban_${this.subjectId}`, {
+        videos: this.state.videos,
+        epsThumbs: this.state.epsThumbs,
+        epsThumbsHeader: this.state.epsThumbsHeader
+      })
+    }, 0)
   }
 }

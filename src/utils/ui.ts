@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 09:06:46
+ * @Last Modified time: 2022-06-21 16:03:41
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -96,7 +96,7 @@ export function alert(content: string, title: string = '提示') {
  * @param {*} duration
  */
 export function info(
-  content: string = '网络错误',
+  content: string | number = '网络错误',
   duration: number = 2.4,
   onClose = () => {},
   mask = false

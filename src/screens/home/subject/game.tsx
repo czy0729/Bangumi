@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:28:47
+ * @Last Modified time: 2022-06-23 01:46:32
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Touchable, Flex, Image, Text, Iconfont } from '@components'
+import { Touchable, Flex, Expand, Image, Text, Iconfont } from '@components'
 import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
@@ -167,7 +167,7 @@ class Game extends React.Component {
     if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.id) return null
 
     return (
-      <View style={_.mt.lg}>
+      <Expand style={_.mt.lg} ratio={1.2}>
         <SectionTitle
           style={_.container.wind}
           right={
@@ -189,7 +189,7 @@ class Game extends React.Component {
           </>
         )}
         <PreventTouchPlaceholder />
-      </View>
+      </Expand>
     )
   }
 }

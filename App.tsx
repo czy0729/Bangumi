@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-11 09:36:36
+ * @Last Modified time: 2022-06-21 15:23:59
  */
 import React, { useEffect } from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
 import Stacks from '@src/navigations'
-import { DeepLink, NavigationContainer } from '@components'
+import { DeepLink, NavigationContainer, DEV } from '@components'
 import { HoldMenuProvider } from '@components/@/react-native-hold-menu'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
@@ -41,6 +41,7 @@ export default function App() {
         <DeepLink />
         <AppCommon />
       </Provider>
+      <DEV />
     </SafeAreaProvider>
   )
 }

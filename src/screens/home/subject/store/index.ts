@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:12:53
+ * @Last Modified time: 2022-06-23 04:37:45
  */
 import { userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -58,7 +58,7 @@ class ScreenSubject extends Action {
     // API条目信息
     const data = await this.fetchSubject()
     queue([
-      () => this.fetchThirdParty(data), // bangumi-data数据扩展
+      () => this.fetchThirdParty(data), // bangumi-data 数据扩展
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
       () => this.fetchEpsData(), // 单集播放源

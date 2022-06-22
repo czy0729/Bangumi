@@ -2,21 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:46:03
+ * @Last Modified time: 2022-06-23 01:36:50
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Image, Flex, Text, Iconfont, Heatmap } from '@components'
+import { Flex, Text, Iconfont, Heatmap } from '@components'
 import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { showImageViewer } from '@utils/ui'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
-import IconHidden from './icon/hidden'
-
-const thumbWidth = 160 * _.ratio
-const thumbHeight = thumbWidth * 0.56
+import IconHidden from '../icon/hidden'
+import Video from './video'
+import Preview from './preview'
+import { THUMB_WIDTH } from './ds'
 
 class Thumbs extends React.Component {
   state = {
@@ -40,8 +38,14 @@ class Thumbs extends React.Component {
 
     const initialRenderNums = _.isPad
       ? 5
-      : Math.floor(_.window.contentWidth / thumbWidth) + 1
+      : Math.floor(_.window.contentWidth / THUMB_WIDTH) + 1
     return epsThumbs.filter((item, index) => index < initialRenderNums)
+  }
+
+  get videos() {
+    const { $ } = this.context
+    const { videos } = $.state
+    return videos
   }
 
   render() {
@@ -51,8 +55,8 @@ class Thumbs extends React.Component {
     if (showThumbs === -1) return null
 
     const { $ } = this.context
-    const { epsThumbs, epsThumbsHeader } = $.state
-    if (!epsThumbs.length) return null
+    const { epsThumbs, epsThumbsHeader, videos } = $.state
+    if (!epsThumbs.length && !videos.length) return null
 
     const { scrolled } = this.state
     const thumbs = epsThumbs.map(item => ({
@@ -84,27 +88,17 @@ class Thumbs extends React.Component {
             scrollEventThrottle={80}
             onScroll={scrolled ? undefined : this.onScroll}
           >
+            {this.videos.map(item => (
+              <Video key={item.cover} item={item} epsThumbsHeader={epsThumbsHeader} />
+            ))}
             {this.data
               .filter((item, index) => index <= 12)
               .map((item, index) => (
-                <Image
-                  key={item}
-                  style={[styles.image, !!index && _.ml.sm]}
-                  src={item}
-                  size={thumbWidth}
-                  height={thumbHeight}
-                  radius
-                  headers={epsThumbsHeader}
-                  onPress={() => {
-                    t('条目.预览', {
-                      subjectId: $.subjectId
-                    })
-
-                    showImageViewer(
-                      thumbs.filter((item, index) => index < 12),
-                      index
-                    )
-                  }}
+                <Preview
+                  item={item}
+                  index={index}
+                  thumbs={thumbs}
+                  epsThumbsHeader={epsThumbsHeader}
                 />
               ))}
           </ScrollView>
@@ -117,7 +111,7 @@ class Thumbs extends React.Component {
               align='right'
               onPress={() => open(epsThumbsHeader.Referer)}
             >
-              图片来源自 {reference}
+              数据来源自 {reference}
             </Text>
             <Iconfont
               style={_.ml.xs}
@@ -135,9 +129,3 @@ class Thumbs extends React.Component {
 }
 
 export default obc(Thumbs)
-
-const styles = _.create({
-  image: {
-    overflow: 'hidden'
-  }
-})

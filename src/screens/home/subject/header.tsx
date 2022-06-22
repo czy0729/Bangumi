@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 17:16:34
+ * @Last Modified time: 2022-06-23 01:45:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,8 +48,8 @@ function Header(props, { $ }) {
         <SMB />
         <Tags />
         <Summary />
-        <Game />
         <Thumbs />
+        <Game />
         <Info />
         <Rating />
         <Character />
