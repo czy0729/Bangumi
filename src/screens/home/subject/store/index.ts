@@ -15,9 +15,7 @@ import Action from './action'
 import { EXCLUDE_STATE } from './ds'
 
 class ScreenSubject extends Action {
-  /**
-   * 初始化
-   */
+  /** 初始化 */
   init = async () => {
     // 是否需要更新数据
     const { _loaded } = this.state
@@ -46,9 +44,7 @@ class ScreenSubject extends Action {
     }
   }
 
-  /**
-   * 访问私有cdn, 加速未缓存条目首屏数据渲染
-   */
+  /** 访问私有cdn, 加速未缓存条目首屏数据渲染 */
   onHeaderRefresh = async () => {
     // 因为有cdn, 下面2个用户相关的接口可以提前
     this.fetchSubjectFormCDN()
@@ -66,9 +62,7 @@ class ScreenSubject extends Action {
     ])
 
     // 敏感条目不再返回数据, 而旧接口staff也错乱, 主动请求网页的staff数据
-    if (data?.code === 404) {
-      this.fetchPersons()
-    }
+    if (data?.code === 404) this.fetchPersons()
 
     return data
   }

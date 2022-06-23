@@ -7,14 +7,19 @@
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp } from './utils'
 
-export function get(key: string) {
-  return `https://bangumi-app-db.5t5.top/v1/get/${key}`
+export async function get(key: string) {
+  // @ts-ignore
+  const { data } = await axios({
+    method: 'get',
+    url: `https://bangumi-app-db.5t5.top/v1/get/${key}`
+  })
+
+  if (data?.code === 200) return data?.data
+
+  return null
 }
 
 export async function update(key: string, value: object) {
-  // @ts-ignore
-  axios.defaults.withCredentials = false
-
   // @ts-ignore
   const { data } = await axios({
     method: 'post',

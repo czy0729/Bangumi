@@ -18,7 +18,7 @@ import {
   getPreview,
   getTrailer
 } from '@utils/douban'
-import { update } from '@utils/kv'
+import { get, update } from '@utils/kv'
 import { SITES } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import Computed from './computed'
@@ -59,17 +59,19 @@ export default class Fetch extends Computed {
     return subjectStore.fetchSubjectFormCDN(this.subjectId)
   }
 
-  /**
-   * 装载第三方数据
-   */
-  fetchThirdParty = async data => {
+  /** 装载第三方数据 */
+  fetchThirdParty = async (data: { name: string }) => {
+    // 先检测云端数据
+    const needUpdate = await this.getThirdParty()
+    if (!needUpdate) return
+
+    // 若匹配到 bangumi-data 数据, 使用其中的 sites 数据进行对应平台 api 查找缩略图
     const item = bangumiData.find(
       item =>
         item.id == this.subjectId ||
         item.j === HTMLDecode(data.name) ||
         item.c === HTMLDecode(data.name)
     )
-
     if (item) {
       const _item = unzipBangumiData(item)
       this.setState({
@@ -84,8 +86,9 @@ export default class Fetch extends Computed {
       }, 0)
     }
 
+    // 若没有匹配到, 在豆瓣查找
     if ((!item && this.type === '动画') || this.type === '三次元') {
-      this.fetchEpsThumbsFromDouban(this.cn, this.jp)
+      this.fetchMovieFromDouban(this.cn, this.jp)
     } else if (this.type === '游戏') {
       this.fetchGameFromDouban(this.cn, this.jp)
     }
@@ -157,113 +160,104 @@ export default class Fetch extends Computed {
 
     try {
       // bilibili
-      try {
-        if (this.bilibiliSite.id) {
-          const url = getBangumiUrl(this.bilibiliSite)
+      if (this.bilibiliSite.id) {
+        const url = getBangumiUrl(this.bilibiliSite)
+        const { _response } = await xhrCustom({
+          url
+        })
+        const match = _response.match(/"season_id":(\d+)/)
+        if (match) {
+          const seasonId = match[1]
           const { _response } = await xhrCustom({
-            url
+            url: `https://api.bilibili.com/pgc/web/season/section?season_id=${seasonId}`
           })
-          const match = _response.match(/"season_id":(\d+)/)
-          if (match) {
-            const seasonId = match[1]
-            const { _response } = await xhrCustom({
-              url: `https://api.bilibili.com/pgc/web/season/section?season_id=${seasonId}`
-            })
-            const { message, result } = JSON.parse(_response)
-            if (message === 'success' && result?.main_section?.episodes) {
-              this.setState({
-                epsThumbs: Array.from(
-                  new Set(
-                    result.main_section.episodes.map(
-                      item =>
-                        `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
-                    )
+          const { message, result } = JSON.parse(_response)
+          if (message === 'success' && result?.main_section?.episodes) {
+            this.setState({
+              epsThumbs: Array.from(
+                new Set(
+                  result.main_section.episodes.map(
+                    item =>
+                      `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
                   )
-                ),
-                epsThumbsHeader: {
-                  Referer: 'https://www.bilibili.com/'
-                }
-              })
-              this.setStorage(this.namespace)
-            }
+                )
+              ),
+              epsThumbsHeader: {
+                Referer: 'https://www.bilibili.com/'
+              }
+            })
+            this.setStorage(this.namespace)
+            this.updateThirdParty()
           }
         }
-      } catch (error) {
-        //
       }
 
       // 优酷
-      try {
-        if (this.state.epsThumbs.length < 12 && this.youkuSite.id) {
-          const url = getBangumiUrl(this.youkuSite)
+      if (this.state.epsThumbs.length < 12 && this.youkuSite.id) {
+        const url = getBangumiUrl(this.youkuSite)
+        const { _response } = await xhrCustom({
+          url
+        })
+        const match = _response.match(/showid:"(\d+)"/)
+        if (match) {
+          const showid = match[1]
           const { _response } = await xhrCustom({
-            url
+            url: `https://list.youku.com/show/module?id=${showid}&tab=point&callback=jQuery`
           })
-          const match = _response.match(/showid:"(\d+)"/)
-          if (match) {
-            const showid = match[1]
-            const { _response } = await xhrCustom({
-              url: `https://list.youku.com/show/module?id=${showid}&tab=point&callback=jQuery`
-            })
-            this.setState({
-              epsThumbs: Array.from(
-                new Set(
-                  (
-                    decodeURIComponent(_response)
-                      .replace(/\\\/>/g, '/>')
-                      .replace(/(\\"|"\\)/g, '"')
-                      .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
-                  )
-                    .map(item => {
-                      const match = item.match(/src="(.+?)"/)
-                      if (match) {
-                        return match[1]
-                          .replace(/\\\//g, '/')
-                          .replace('http://', 'https://')
-                      }
-                      return ''
-                    })
-                    .filter(item => !!item)
+          this.setState({
+            epsThumbs: Array.from(
+              new Set(
+                (
+                  decodeURIComponent(_response)
+                    .replace(/\\\/>/g, '/>')
+                    .replace(/(\\"|"\\)/g, '"')
+                    .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
                 )
-              ),
-              epsThumbsHeader: {
-                Referer: 'https://list.youku.com/'
-              }
-            })
-            this.setStorage(this.namespace)
-          }
+                  .map(item => {
+                    const match = item.match(/src="(.+?)"/)
+                    if (match) {
+                      return match[1]
+                        .replace(/\\\//g, '/')
+                        .replace('http://', 'https://')
+                    }
+                    return ''
+                  })
+                  .filter(item => !!item)
+              )
+            ),
+            epsThumbsHeader: {
+              Referer: 'https://list.youku.com/'
+            }
+          })
+          this.setStorage(this.namespace)
+          this.updateThirdParty()
         }
-      } catch (error) {
-        //
       }
 
       // 爱奇艺
-      try {
-        if (this.state.epsThumbs.length < 12 && this.iqiyiSite.id) {
-          const url = getBangumiUrl(this.iqiyiSite)
-          const { _response } = await xhrCustom({
-            url
-          })
+      if (this.state.epsThumbs.length < 12 && this.iqiyiSite.id) {
+        const url = getBangumiUrl(this.iqiyiSite)
+        const { _response } = await xhrCustom({
+          url
+        })
 
-          const match = HTMLTrim(_response, true).match(/data-jpg-img="(.+?)"/g)
-          if (match) {
-            this.setState({
-              epsThumbs: Array.from(
-                new Set(
-                  match
-                    .map(item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
-                    .filter((item, index) => !!index)
-                )
-              ),
-              epsThumbsHeader: {
-                Referer: 'https://www.iqiyi.com/'
-              }
-            })
-            this.setStorage(this.namespace)
-          }
+        const match = HTMLTrim(_response, true).match(/data-jpg-img="(.+?)"/g)
+        if (match) {
+          this.setState({
+            epsThumbs: Array.from(
+              new Set(
+                match
+                  .map(item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
+                  .filter((item, index) => !!index)
+              )
+            ),
+            epsThumbsHeader: {
+              Referer: 'https://www.iqiyi.com/'
+            }
+          })
+          this.setStorage(this.namespace)
+          this.updateThirdParty()
         }
-      } catch (error) {
-        //
       }
 
       // qq网站没有截屏, 不找
@@ -275,7 +269,7 @@ export default class Fetch extends Computed {
       ) {
         const cn = bangumiData?.titleTranslate?.['zh-Hans']?.[0]
         const jp = bangumiData.title
-        this.fetchEpsThumbsFromDouban(cn, jp)
+        this.fetchMovieFromDouban(cn, jp)
       }
     } catch (error) {
       console.error('Subject', 'fetchEpsThumbs', error)
@@ -283,7 +277,7 @@ export default class Fetch extends Computed {
   }
 
   /** 从donban匹配条目, 并获取官方剧照信息 */
-  fetchEpsThumbsFromDouban = async (cn: string, jp: string) => {
+  fetchMovieFromDouban = async (cn: string, jp: string) => {
     if (this.x18) return
 
     const q = cn || jp
@@ -312,7 +306,7 @@ export default class Fetch extends Computed {
       }
 
       this.setStorage(this.namespace)
-      this.upload()
+      this.updateThirdParty()
     }
   }
 
@@ -346,11 +340,39 @@ export default class Fetch extends Computed {
       }
 
       this.setStorage(this.namespace)
-      this.upload()
+      this.updateThirdParty()
     }
   }
 
-  upload = () => {
+  /** 下载预数据 */
+  getThirdParty = async () => {
+    try {
+      const data = await get(`douban_${this.subjectId}`)
+      if (!data) return true
+
+      const { ts, videos = [], epsThumbs = [], epsThumbsHeader = {} } = data
+      if (
+        videos.length + epsThumbs.length <= 2 ||
+        getTimestamp() - ts >= 60 * 60 * 24 * 7
+      ) {
+        return true
+      }
+
+      this.setState({
+        videos,
+        epsThumbs,
+        epsThumbsHeader
+      })
+      this.setStorage(this.namespace)
+
+      return false
+    } catch (error) {
+      return true
+    }
+  }
+
+  /** 上传预数据 */
+  updateThirdParty = () => {
     setTimeout(() => {
       update(`douban_${this.subjectId}`, {
         videos: this.state.videos,
