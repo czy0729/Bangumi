@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:45:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-25 15:22:32
+ * @Last Modified time: 2022-06-25 03:37:26
  */
 const PinYin = {
   a: '\u554a\u963f\u9515',
@@ -480,9 +480,7 @@ export function arraySearch(str) {
  * @returns {string} 结果
  */
 export function getPinYinFirstCharacter(str, length = 1, split, uppercase = true) {
-  if (!str) {
-    return ''
-  }
+  if (!str) return ''
 
   split = split || ' ';
   uppercase = uppercase || false;

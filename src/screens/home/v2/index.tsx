@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 15:27:40
+ * @Last Modified time: 2022-06-25 03:03:26
  */
 import React from 'react'
 import { useFocusEffect } from '@react-navigation/native'
@@ -33,7 +33,7 @@ const Home = (props, { $, navigation }) => {
   return useObserver(() => (
     <>
       <StatusBarEvents backgroundColor='transparent' />
-      <Page style={IOS ? _.container.bg : _.container.plain}>
+      <Page style={_.ios(_.container.bg, _.container.plain)}>
         {$.isLogin ? (
           <>
             <Header />

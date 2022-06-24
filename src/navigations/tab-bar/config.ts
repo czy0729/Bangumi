@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-10 02:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 04:13:11
+ * @Last Modified time: 2022-06-25 03:05:08
  */
+import { IconfontNames } from '@types'
+
 type RoutesConfig = {
   [key: string]: {
-    icon: string
+    icon: IconfontNames
     size?: number
     label: string
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 13:01:30
+ * @Last Modified time: 2022-06-25 03:37:00
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -154,7 +154,7 @@ export default class ScreenHomeV2 extends store {
    * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
    * cloudfare请求太快会被拒绝
    */
-  initFetch = async refresh => {
+  initFetch = async (refresh?) => {
     const res = Promise.all([
       userStore.fetchUserCollection(),
       userStore.fetchUserProgress()
@@ -199,15 +199,13 @@ export default class ScreenHomeV2 extends store {
   }
 
   onHeaderRefresh = () => {
-    if (this.tabsLabel === '游戏') {
-      return this.fetchDoingGames(true)
-    }
+    if (this.tabsLabel === '游戏') return this.fetchDoingGames(true)
     return this.initFetch(true)
   }
 
   onFooterRefresh = () => this.fetchDoingGames()
 
-  fetchDoingGames = refresh => {
+  fetchDoingGames = (refresh?) => {
     const { username } = this.usersInfo
     return collectionStore.fetchUserCollections(
       {

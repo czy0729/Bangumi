@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 14:02:43
+ * @Last Modified time: 2022-06-25 04:21:01
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -181,7 +181,10 @@ class User extends store {
     /**
      * 个人设置
      */
-    userSetting: INIT_USER_SETTING
+    userSetting: INIT_USER_SETTING,
+
+    /** 登录是否过期 */
+    outdate: false
   })
 
   init = async () => {
@@ -249,6 +252,11 @@ class User extends store {
   /** 表单提交唯一码 */
   @computed get formhash() {
     return this.state.formhash
+  }
+
+  /** 登录是否过期 */
+  @computed get outdate() {
+    return this.state.outdate
   }
 
   /**
@@ -375,7 +383,7 @@ class User extends store {
    * @param {*} subjectId
    * @param {*} userId
    */
-  fetchUserProgress = async (subjectId, userId = this.myUserId) => {
+  fetchUserProgress = async (subjectId?, userId = this.myUserId) => {
     const config = {
       url: API_USER_PROGRESS(userId),
       data: {},
@@ -657,7 +665,8 @@ class User extends store {
         accessToken: INIT_ACCESS_TOKEN,
         userCookie: INIT_USER_COOKIE,
         setCookie: '',
-        userInfo: INIT_USER_INFO
+        userInfo: INIT_USER_INFO,
+        outdate: false
       })
       this.setStorage('accessToken', undefined, NAMESPACE)
       this.setStorage('userCookie', undefined, NAMESPACE)
@@ -691,7 +700,8 @@ class User extends store {
    */
   updateUserCookie = (userCookie = INIT_USER_COOKIE) => {
     this.setState({
-      userCookie
+      userCookie,
+      outdate: false
     })
     this.setStorage('userCookie', undefined, NAMESPACE)
   }
@@ -713,6 +723,12 @@ class User extends store {
     //   accessToken: this.state.accessToken,
     //   userCookie: this.state.userCookie
     // })
+  }
+
+  setOutdate = () => {
+    this.setState({
+      outdate: true
+    })
   }
 
   // -------------------- action --------------------
@@ -746,14 +762,7 @@ class User extends store {
     const res = RakuenStore.fetchNotify()
     const { setCookie = '', html } = await res
     if (html.includes('抱歉，当前操作需要您') && !DEV) {
-      // confirm(
-      //   '检测到登录状态好像过期了, 是否登出? 注意若使用了科学上网, 请保证App在使用过程中始终保持在同一网段, 否则很容易触发源站登出逻辑, 可尝试把软件加入白名单',
-      //   () => {
-      //     this.updateUserCookie()
-      //   }
-      // )
-      // return res
-      this.updateUserCookie()
+      this.setOutdate()
     }
 
     const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)

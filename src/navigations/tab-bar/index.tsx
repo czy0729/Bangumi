@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 04:13:16
+ * @Last Modified time: 2022-06-25 04:16:24
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
-import { BlurView } from '@_'
+import { BlurView, LoginNotice } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
@@ -17,8 +17,10 @@ function TabBar({ state, descriptors, navigation }) {
   if (focusedOptions.tabBarVisible === false) return null
 
   const styles = memoStyles()
+  const currentRouteName = state?.routes?.[state?.index]?.name
   return (
     <Flex style={styles.tabBar} align='start'>
+      {currentRouteName === 'Home' && <LoginNotice navigation={navigation} />}
       {IOS && <BlurView style={styles.blurView} />}
       {state.routes.map((route, index) => {
         const isFocused = state.index === index

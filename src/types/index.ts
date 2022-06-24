@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 17:02:38
+ * @Last Modified time: 2022-06-25 03:05:15
  */
 import React from 'react'
 import {
@@ -92,6 +92,7 @@ export type IconfontNames =
   | IoniconsIconsNames
   | `md-${MaterialIconsNames}`
   | 'trophy'
+  | 'home'
 
 /** ==================== Utils ==================== */
 /** 用于在 vscode 里面注释能直接显示展开的 type */
