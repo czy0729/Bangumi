@@ -107,23 +107,22 @@ function CDN() {
             />
             <ItemSettingBlock.Item
               style={_.ml.md}
-              title='OneDrive'
-              information={'高级会员开放\n作者私有付费'}
-              active={cdn && origin === 'OneDrive'}
+              title='jsDelivr'
+              information={'数据会出现滞后性\n免费开放'}
+              active={cdn && origin === 'jsDelivr'}
               onPress={async () => {
-                if (cdn && origin === 'OneDrive') return
-                if (!systemStore.advance) return info('此域名仅对高级会员开放')
+                if (cdn && origin === 'jsDelivr') return
 
                 t('设置.切换', {
                   title: 'CDN加速',
                   checked: !cdn,
-                  origin: 'OneDrive'
+                  origin: 'jsDelivr'
                 })
 
                 if (!cdn) systemStore.switchSetting('cdn')
                 systemStore.setSetting(
                   'cdnOrigin',
-                  MODEL_SETTING_CDN_ORIGIN.getValue('OneDrive')
+                  MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr')
                 )
 
                 setTimeout(() => {
@@ -181,7 +180,7 @@ function CDN() {
                   onPress={() =>
                     alert(
                       `此域名为用户 @magma 提供，支持所有封面图，并自带缩放压缩、webp、稳定CDN加速
-                      \n作者与其达成了某种约定，因流量是需要自费的，目前仅对历史打赏达到[${ADVANCE_CDN}]元的高级会员开放测试，恳请谅解
+                      \n作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${ADVANCE_CDN}元] 的高级会员开放测试，恳请谅解
                       \n目前初上线需要监控流量数据，后续会根据观察到的使用量，可能会放宽限制
                       \n科普: 目前OSS 1G的费用不低于0.2元，1个用户首次访问10-20个路径的页面，封面图可能会产生50-100MB的流量
                       \nPS: 若漏算了历史打赏金额的，可以私信作者修正`,
@@ -381,22 +380,23 @@ function CDN() {
           {deprecated && (
             <ItemSettingBlock style={_.mt._md}>
               <ItemSettingBlock.Item
-                title='jsDelivr'
-                information='免费开放'
-                active={cdn && origin === 'jsDelivr'}
+                title='OneDrive'
+                information={'网络服务故障，待修复\n作者私有付费'}
+                active={cdn && origin === 'OneDrive'}
                 onPress={async () => {
-                  if (cdn && origin === 'jsDelivr') return
+                  if (cdn && origin === 'OneDrive') return
+                  if (!systemStore.advance) return info('此域名仅对高级会员开放')
 
                   t('设置.切换', {
                     title: 'CDN加速',
                     checked: !cdn,
-                    origin: 'jsDelivr'
+                    origin: 'OneDrive'
                   })
 
                   if (!cdn) systemStore.switchSetting('cdn')
                   systemStore.setSetting(
                     'cdnOrigin',
-                    MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr')
+                    MODEL_SETTING_CDN_ORIGIN.getValue('OneDrive')
                   )
 
                   setTimeout(() => {

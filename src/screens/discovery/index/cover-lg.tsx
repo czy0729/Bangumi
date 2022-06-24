@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-18 11:39:46
+ * @Last Modified time: 2022-06-25 02:46:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,17 +10,18 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Text } from '@components'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
-import { matchCoverUrl } from '@utils'
+import { matchCoverUrl, getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { linearColor } from './ds'
 
 function CoverLg({ title, src, cn, data }, { navigation }) {
-  rerender('Discovery.CoverLg')
+  global.rerender('Discovery.CoverLg')
 
   const styles = memoStyles()
-  const { coverRadius } = systemStore.setting
+  const { coverRadius, cdnOrigin } = systemStore.setting
+  const isUseCDN = cdnOrigin === 'magma'
   const isMusic = title === '音乐'
   return (
     <View
@@ -33,11 +34,12 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
     >
       <Cover
         style={styles.touch}
-        src={matchCoverUrl(src, false, '')}
+        src={isUseCDN ? matchCoverUrl(src, false, '') : getCoverLarge(src)}
         size={styles.cover.width}
         height={isMusic ? styles.cover.width : styles.cover.height}
         radius
         placeholder={false}
+        cdn={isUseCDN}
         onPress={() => {
           t('发现.跳转', {
             to: 'Subject',
@@ -79,7 +81,7 @@ export default obc(CoverLg)
 
 const memoStyles = _.memoStyles(() => ({
   item: {
-    marginTop: _.space,
+    marginTop: _.md,
     marginHorizontal: _.windSm,
     borderRadius: _.radiusMd,
     backgroundColor: _.colorBg,
@@ -103,7 +105,7 @@ const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 2,
     right: _._wind - 2,
-    bottom: _.space - 2,
+    bottom: _.md - 2,
     left: _._wind - 2,
     opacity: 0.92
   },

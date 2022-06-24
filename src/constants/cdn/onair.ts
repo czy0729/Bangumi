@@ -6,21 +6,34 @@
  */
 import dayjs from 'dayjs'
 import { SubjectId } from '@types'
+import { HOST_CDN } from '../constants'
 import { getFolder } from './utils'
 import { HOST_CDN_STATIC } from './ds'
 
-const HOST_ONAIR = `${HOST_CDN_STATIC}/bangumi-onair`
-
 /** 每日放送, https://github.com/ekibot/bangumi-onair */
 export const CDN_ONAIR = () =>
-  `https://raw.githubusercontent.com/ekibot/bangumi-onair/master/calendar.json?t=${getTimestamp()}`
+  `${HOST_CDN}/gh/ekibot/bangumi-onair@master/calendar.json?t=${getTimestamp()}` as const
 
 /** 单集数据源, https://github.com/ekibot/bangumi-onair */
-export const CDN_EPS = (subjectId: SubjectId) =>
+export const CDN_EPS = subjectId =>
+  `${HOST_CDN}/gh/ekibot/bangumi-onair@master/onair/${getFolder(
+    subjectId,
+    1000
+  )}/${subjectId}.json?t=${getTimestamp()}` as const
+
+/** @deprecated */
+const HOST_ONAIR = `${HOST_CDN_STATIC}/bangumi-onair` as const
+
+/** @deprecated 每日放送, https://github.com/ekibot/bangumi-onair */
+export const _CDN_ONAIR = () =>
+  `https://raw.githubusercontent.com/ekibot/bangumi-onair/master/calendar.json?t=${getTimestamp()}` as const
+
+/** @deprecated 单集数据源, https://github.com/ekibot/bangumi-onair */
+export const _CDN_EPS = (subjectId: SubjectId) =>
   `${HOST_ONAIR}/onair/${getFolder(
     subjectId,
     1000
-  )}/${subjectId}.json?t=${getTimestamp()}`
+  )}/${subjectId}.json?t=${getTimestamp()}` as const
 
 function trim(str = '') {
   return str.replace(/^\s+|\s+$/gm, '')
