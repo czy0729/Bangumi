@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 16:03:41
+ * @Last Modified time: 2022-06-25 04:32:04
  */
-import { NativeModules, Alert, Vibration } from 'react-native'
+import { NativeModules, Alert } from 'react-native'
+import * as Haptics from 'expo-haptics'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
@@ -26,10 +27,10 @@ export function loading(text = 'Loading...', time = 0) {
 /** 轻震动反馈 */
 export function feedback() {
   const { vibration } = getSystemStoreAsync().setting
-  if (!vibration) return false
+  if (!vibration) return
 
   if (DEV) console.info('vibration')
-  return Vibration.vibrate(IOS ? 1 : 4)
+  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
 }
 
 /**
