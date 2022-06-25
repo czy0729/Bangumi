@@ -1,32 +1,27 @@
 /*
  * 手风琴
+ *
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 10:54:07
+ * @Last Modified time: 2022-06-25 16:18:33
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
 import { runAfter } from '@utils'
-import { ViewStyle, ReactNode } from '@types'
 import { styles } from './styles'
+import { Props as AccordionProps } from './types'
 
-type Props = {
-  /** ViewStyle */
-  style?: ViewStyle
-
-  /** 是否展开 */
-  expand: boolean
-
-  /** 收起后是否销毁 */
-  lazy?: boolean
-
-  children: ReactNode
-}
+export { AccordionProps }
 
 const minHeight = 48
 
-export const Accordion = ({ style, expand = false, lazy = true, children }: Props) => {
+export const Accordion = ({
+  style,
+  expand = false,
+  lazy = true,
+  children
+}: AccordionProps) => {
   const [show, setShow] = useState(lazy ? expand : true)
   const expanded = useRef(expand)
   const [h, setH] = useState(0)
