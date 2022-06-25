@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 16:36:00
+ * @Last Modified time: 2022-06-25 17:29:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,13 +15,8 @@ export default obc(
   ({ index = 0, subjectId = 0, subject = {}, epStatus = '' }, { $, navigation }) => {
     // rerender('Home.Item', subject.name_cn || subject.name)
 
-    if (index >= 3) return null
-
     const { _mounted } = $.state
-    if (index >= LIMIT_HEAVY && !_mounted) {
-      const styles = memoStylesLazy()
-      return <View style={styles.lazy} />
-    }
+    if (index >= LIMIT_HEAVY && !_mounted) return <View style={memoStylesLazy().lazy} />
 
     const styles = memoStyles()
     const { expand } = $.$Item(subjectId)

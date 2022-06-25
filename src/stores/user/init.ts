@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-10 16:01:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 15:40:08
+ * @Last Modified time: 2022-06-25 18:08:59
  */
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { SubjectType } from '@types'
+import { Images, SubjectType } from '@types'
 
 export const NAMESPACE = 'User'
 
@@ -21,7 +21,7 @@ export const INIT_ACCESS_TOKEN = {
 }
 
 export const INIT_USER_INFO = {
-  avatar: {},
+  avatar: {} as Images,
   id: 0,
   nickname: '',
   sign: '',

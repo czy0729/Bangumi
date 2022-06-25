@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 13:57:35
+ * @Last Modified time: 2022-06-25 18:07:36
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -108,7 +108,10 @@ class System extends store {
 
   /** 基本设置 */
   @computed get setting() {
-    return this.state.setting
+    return {
+      ...this.state.setting,
+      imageTransition: false
+    }
   }
 
   /** 发布版本 */

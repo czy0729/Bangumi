@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 05:33:54
+ * @Last Modified time: 2022-06-25 18:08:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,7 @@ function UI() {
       vibration,
       coverThings,
       coverRadius,
-      imageTransition,
+      // imageTransition,
       ripple,
       speech,
       avatarRound,
@@ -339,7 +339,7 @@ function UI() {
           </ItemSettingBlock>
 
           {/* 图片渐出动画 */}
-          <ItemSetting
+          {/* <ItemSetting
             show={IOS}
             hd='图片渐出动画'
             ft={
@@ -358,7 +358,7 @@ function UI() {
             }
           >
             <Heatmap id='设置.切换' title='图片渐出动画' />
-          </ItemSetting>
+          </ItemSetting> */}
 
           {/* 点击水纹效果 */}
           <ItemSetting
