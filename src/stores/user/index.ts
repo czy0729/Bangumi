@@ -1,11 +1,12 @@
 /*
  * 用户 (自己)
- *  - accessToken和登录时在webview里获取cookie是两套登录状态, 暂时只能分开维护
- *  - 一般cookie没多久就过期了
+ *  - accessToken 和登录时在 webview 里获取 cookie 是两套登录状态, 暂时只能分开维护
+ *  - 一般 cookie 没多久就过期了
+ *
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 04:21:01
+ * @Last Modified time: 2022-06-25 15:54:22
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -13,38 +14,45 @@ import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import {
+  API_ACCESS_TOKEN,
+  API_EP_STATUS,
+  API_SUBJECT_UPDATE_WATCHED,
+  API_USER_COLLECTION,
+  API_USER_COLLECTIONS,
+  API_USER_COLLECTIONS_STATUS,
+  API_USER_INFO,
+  API_USER_PROGRESS,
   APP_ID,
   APP_SECRET,
   APP_USERID_IOS_AUTH,
   APP_USERID_TOURIST,
   DEV,
   HOST,
+  HTML_ACTION_ERASE_COLLECTION,
+  HTML_PM,
+  HTML_PM_CREATE,
+  HTML_PM_DETAIL,
+  HTML_PM_OUT,
+  HTML_PM_PARAMS,
+  HTML_USERS,
+  HTML_USER_SETTING,
   IOS,
   LIST_EMPTY,
   URL_OAUTH_REDIRECT,
-  VERSION_GOOGLE
+  VERSION_GOOGLE,
+  getOTA
 } from '@constants'
 import {
-  API_ACCESS_TOKEN,
-  API_USER_INFO,
-  API_USER_COLLECTION,
-  API_USER_PROGRESS,
-  API_EP_STATUS,
-  API_SUBJECT_UPDATE_WATCHED,
-  API_USER_COLLECTIONS,
-  API_USER_COLLECTIONS_STATUS
-} from '@constants/api'
-import {
-  HTML_USERS,
-  HTML_ACTION_ERASE_COLLECTION,
-  HTML_PM,
-  HTML_PM_OUT,
-  HTML_PM_DETAIL,
-  HTML_PM_CREATE,
-  HTML_PM_PARAMS,
-  HTML_USER_SETTING
-} from '@constants/html'
-import { getOTA } from '@constants/cdn'
+  CollectionStatusCn,
+  EpId,
+  EpStatus,
+  Id,
+  ListEmpty,
+  StoreConstructor,
+  SubjectId,
+  SubjectType,
+  UserId
+} from '@types'
 import RakuenStore from '../rakuen'
 import {
   NAMESPACE,
@@ -60,132 +68,89 @@ import {
   cheerioPMParams,
   cheerioUserSetting
 } from './common'
+import { CollectionsItem, CollectionsStatusItem, PmItem, PmParamsItem } from './types'
 
-class User extends store {
-  state = observable({
-    /**
-     * 授权信息
-     */
-    accessToken: INIT_ACCESS_TOKEN,
+const state = {
+  /** 授权信息 */
+  accessToken: INIT_ACCESS_TOKEN,
 
-    /**
-     * 自己用户信息
-     */
-    userInfo: INIT_USER_INFO,
+  /** 自己用户信息 */
+  userInfo: {
+    ...INIT_USER_INFO,
+    _loaded: 0
+  },
 
-    /**
-     * 用户cookie (请求HTML用)
-     */
-    userCookie: INIT_USER_COOKIE,
+  /** 用户 cookie (请求html用) */
+  userCookie: INIT_USER_COOKIE,
 
-    /**
-     * 是html中后续在请求头中获取的更新cookie的标志
-     * 会随请求一直更新, 并带上请求防止一段时候后掉登录
-     */
-    setCookie: '',
+  /**
+   * 是html中后续在请求头中获取的更新cookie的标志
+   * 会随请求一直更新, 并带上请求防止一段时候后掉登录
+   */
+  setCookie: '',
 
-    /**
-     * hm.js请求cookie, 区分唯一用户, 一旦获取通常不再变更
-     */
-    hmCookie: '',
+  /** @deprecated hm.js 请求 cookie , 区分唯一用户, 一旦获取通常不再变更 */
+  hmCookie: '',
 
-    /**
-     * 在看收藏
-     */
-    userCollection: LIST_EMPTY,
+  /** 在看收藏 */
+  userCollection: LIST_EMPTY,
 
-    /**
-     * 收视进度 (章节)
-     * @param {*} subjectId
-     * {
-     *   [epId]: '看过'
-     * }
-     */
-    userProgress: {
-      0: {}
-    },
+  /** 收视进度 (章节) */
+  userProgress: {
+    0: {}
+  },
 
-    /**
-     * 用户收藏概览
-     *  - 每种状态最多25条数据
-     * @param {*} scope
-     * @param {*} userId
-     */
-    userCollections: {
-      _: (scope = DEFAULT_SCOPE, userId) => `${scope}|${userId || this.myUserId}`,
-      0: LIST_EMPTY
-    },
+  /** 用户收藏概览 */
+  userCollections: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 某用户信息
-     * @param {*} userId
-     */
-    usersInfo: {
-      _: userId => userId || this.myUserId,
-      0: INIT_USER_INFO
-    },
+  /** 某用户信息 */
+  usersInfo: {
+    0: INIT_USER_INFO
+  },
 
-    /**
-     * 用户收藏统计
-     *  - 每种状态条目的数量
-     * @param {*} userId
-     */
-    userCollectionsStatus: {
-      _: userId => userId || this.myUserId,
-      0: {}
-    },
+  /** 用户收藏统计 (每种状态条目的数量) */
+  userCollectionsStatus: {
+    0: []
+  },
 
-    /**
-     * 用户介绍
-     * @param {*} userId
-     */
-    users: {
-      _: userId => userId || this.myUserId,
-      0: ''
-    },
+  /** 用户介绍 */
+  users: {
+    0: ''
+  },
 
-    /**
-     * 短信收信
-     */
-    pmIn: LIST_EMPTY,
+  /** 短信收信 */
+  pmIn: LIST_EMPTY,
 
-    /**
-     * 短信发信
-     */
-    pmOut: LIST_EMPTY,
+  /** 短信发信 */
+  pmOut: LIST_EMPTY,
 
-    /**
-     * 短信详情
-     * @param {*} id
-     */
-    pmDetail: {
-      0: LIST_EMPTY
-    },
+  /** 短信详情 */
+  pmDetail: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 新短信参数
-     * @param {*} userId
-     */
-    pmParams: {
-      0: {}
-    },
+  /** 新短信参数 */
+  pmParams: {
+    0: {}
+  },
 
-    /**
-     * 登出地址
-     */
-    logout: '',
+  /** 登出地址 */
+  logout: '',
 
-    /** 表单提交唯一码 */
-    formhash: '',
+  /** 表单提交唯一码 */
+  formhash: '',
 
-    /**
-     * 个人设置
-     */
-    userSetting: INIT_USER_SETTING,
+  /** 个人设置 */
+  userSetting: INIT_USER_SETTING,
 
-    /** 登录是否过期 */
-    outdate: false
-  })
+  /** 登录是否过期 */
+  outdate: false
+}
+
+class UserStore extends store implements StoreConstructor<typeof state> {
+  state = observable(state)
 
   init = async () => {
     await this.readStorage(
@@ -220,15 +185,36 @@ class User extends store {
       setTimeout(() => {
         try {
           this.doCheckCookie()
-        } catch (error) {
-          // do nothing
-        }
+        } catch (error) {}
       }, 4000)
     }
     return true
   }
 
   // -------------------- get --------------------
+  /** 授权信息 (api) */
+  @computed get accessToken() {
+    return this.state.accessToken
+  }
+
+  /** 用户 cookie (html) */
+  @computed get userCookie() {
+    return this.state.userCookie
+  }
+
+  /**
+   * 是html中后续在请求头中获取的更新cookie的标志
+   * 会随请求一直更新, 并带上请求防止一段时候后掉登录
+   */
+  @computed get setCookie() {
+    return this.state.setCookie
+  }
+
+  /** @deprecated hm.js 请求 cookie , 区分唯一用户, 一旦获取通常不再变更 */
+  @computed get hmCookie() {
+    return this.state.hmCookie
+  }
+
   /** 自己用户信息 */
   @computed get userInfo() {
     return this.state.userInfo
@@ -239,6 +225,94 @@ class User extends store {
     return this.state.userCollection
   }
 
+  /** 表单提交唯一码 */
+  @computed get formhash() {
+    return this.state.formhash
+  }
+
+  /** 短信收信 */
+  @computed get pmIn() {
+    return this.state.pmIn
+  }
+
+  /** 短信发信 */
+  @computed get pmOut() {
+    return this.state.pmOut
+  }
+
+  /** 个人设置 */
+  @computed get userSetting() {
+    return this.state.userSetting
+  }
+
+  /** 登录是否过期 */
+  @computed get outdate() {
+    return this.state.outdate
+  }
+
+  /** 某用户信息 */
+  usersInfo(userId?: UserId) {
+    return computed<typeof INIT_USER_INFO>(() => {
+      const { usersInfo } = this.state
+      const key = userId || this.myUserId
+      return usersInfo[key] || INIT_USER_INFO
+    }).get()
+  }
+
+  /** 用户介绍 */
+  users(userId?: UserId) {
+    return computed<string>(() => {
+      const { users } = this.state
+      const key = userId || this.myUserId
+      return users[key] || ''
+    }).get()
+  }
+
+  /** 收视进度 (章节) */
+  userProgress(subjectId: SubjectId) {
+    return computed<{
+      [K: EpId]: CollectionStatusCn
+    }>(() => {
+      const { userProgress } = this.state
+      return userProgress[subjectId] || {}
+    }).get()
+  }
+
+  /** 用户收藏概览 (每种状态最多25条数据) */
+  userCollections(scope = DEFAULT_SCOPE, userId: UserId) {
+    return computed<ListEmpty<CollectionsItem>>(() => {
+      const { userCollections } = this.state
+      const key = `${scope}|${userId || this.myUserId}`
+      return userCollections[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 用户收藏统计 (每种状态条目的数量) */
+  userCollectionsStatus(userId: UserId) {
+    return computed<CollectionsStatusItem[]>(() => {
+      const { userCollectionsStatus } = this.state
+      const key = userId || this.myUserId
+      return userCollectionsStatus[key] || []
+    }).get()
+  }
+
+  /** 短信详情 */
+  pmDetail(id: Id) {
+    return computed<ListEmpty<PmItem>>(() => {
+      const { pmDetail } = this.state
+      return pmDetail[id] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 新短信参数 */
+  pmParams(userId: UserId) {
+    return computed<PmParamsItem>(() => {
+      const { pmParams } = this.state
+      return pmParams[userId] || {}
+    }).get()
+  }
+
+  // -------------------- computed --------------------
   /** 自己用户Id */
   @computed get myUserId() {
     return this.userInfo.id || this.accessToken.user_id
@@ -247,27 +321,6 @@ class User extends store {
   /** 自己用户Id (改过用户名后) */
   @computed get myId() {
     return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
-  }
-
-  /** 表单提交唯一码 */
-  @computed get formhash() {
-    return this.state.formhash
-  }
-
-  /** 登录是否过期 */
-  @computed get outdate() {
-    return this.state.outdate
-  }
-
-  /**
-   * 某用户信息
-   * @param {*} userId
-   */
-  usersInfo(userId?: string | number): typeof INIT_USER_INFO {
-    return computed(() => {
-      const { usersInfo } = this.state
-      return usersInfo[userId || this.myUserId] || INIT_USER_INFO
-    }).get()
   }
 
   /** 用户空间地址 */
@@ -280,30 +333,22 @@ class User extends store {
     return this.pmIn.list.findIndex(item => item.new) !== -1
   }
 
-  /**
-   * 开发者
-   */
+  /** 是否开发者 */
   @computed get isDeveloper() {
     return this.myUserId == 456208
   }
 
-  /**
-   * 取API是否登录
-   */
+  /** 是否登录 (api) */
   @computed get isLogin() {
     return !!this.accessToken.access_token
   }
 
-  /**
-   * 取Web是否登录
-   */
+  /** 是否登录 (web) */
   @computed get isWebLogin() {
     return !!this.userCookie.cookie
   }
 
-  /**
-   * 限制内容展示
-   */
+  /** 是否限制内容展示, 用于审核 */
   @computed get isLimit() {
     if (!VERSION_GOOGLE) return false
     if (IOS || !VERSION_GOOGLE) return false
@@ -322,8 +367,8 @@ class User extends store {
    * 获取授权信息
    * @param {*} code 回调获取的 code
    */
-  fetchAccessToken = code =>
-    this.fetch(
+  fetchAccessToken = (code: string) => {
+    return this.fetch(
       {
         method: 'POST',
         url: API_ACCESS_TOKEN(),
@@ -342,13 +387,11 @@ class User extends store {
         namespace: NAMESPACE
       }
     )
+  }
 
-  /**
-   * 用户信息
-   * @param {*} userId
-   */
-  fetchUserInfo = (userId = this.myUserId) =>
-    this.fetch(
+  /** 用户信息 */
+  fetchUserInfo = (userId: UserId = this.myUserId) => {
+    return this.fetch(
       {
         url: API_USER_INFO(userId),
         info: '用户信息'
@@ -359,13 +402,11 @@ class User extends store {
         namespace: NAMESPACE
       }
     )
+  }
 
-  /**
-   * 获取某人的在看收藏
-   * @param {*} userId
-   */
-  fetchUserCollection = (userId = this.myUserId) =>
-    this.fetch(
+  /** 获取某人的在看收藏 */
+  fetchUserCollection = (userId: UserId = this.myUserId) => {
+    return this.fetch(
       {
         url: `${API_USER_COLLECTION(userId)}?cat=all_watching`,
         info: '在看收藏'
@@ -377,16 +418,15 @@ class User extends store {
         namespace: NAMESPACE
       }
     )
+  }
 
-  /**
-   * 获取某人的收视进度
-   * @param {*} subjectId
-   * @param {*} userId
-   */
+  /** 获取某人的收视进度 */
   fetchUserProgress = async (subjectId?, userId = this.myUserId) => {
     const config = {
       url: API_USER_PROGRESS(userId),
-      data: {},
+      data: {} as {
+        subject_id?: SubjectId
+      },
       retryCb: () => this.fetchUserProgress(subjectId, userId),
       info: '收视进度'
     }
@@ -432,12 +472,11 @@ class User extends store {
     return res
   }
 
-  /**
-   * 获取用户收藏概览
-   * @param {*} scope
-   * @param {*} userId
-   */
-  fetchUserCollections = async (scope = DEFAULT_SCOPE, userId = this.myUserId) => {
+  /** 获取用户收藏概览 */
+  fetchUserCollections = async (
+    scope: SubjectType = DEFAULT_SCOPE,
+    userId: UserId = this.myUserId
+  ) => {
     const config = {
       url: API_USER_COLLECTIONS(scope, userId),
       data: {
@@ -467,6 +506,7 @@ class User extends store {
 
     const key = 'userCollections'
     const stateKey = `${scope}|${userId}`
+
     this.setState({
       [key]: {
         [stateKey]: collections
@@ -476,12 +516,9 @@ class User extends store {
     return res
   }
 
-  /**
-   * 获取某用户信息
-   * @param {*} userId
-   */
-  fetchUsersInfo = (userId = this.myUserId) =>
-    this.fetch(
+  /** 获取某用户信息 */
+  fetchUsersInfo = (userId: UserId = this.myUserId) => {
+    return this.fetch(
       {
         url: API_USER_INFO(userId),
         info: '某用户信息'
@@ -492,13 +529,11 @@ class User extends store {
         namespace: NAMESPACE
       }
     )
+  }
 
-  /**
-   * 获取用户收藏统计
-   * @param {*} userId
-   */
-  fetchUserCollectionsStatus = (userId = this.myUserId) =>
-    this.fetch(
+  /** 获取用户收藏统计 */
+  fetchUserCollectionsStatus = (userId: UserId = this.myUserId) => {
+    return this.fetch(
       {
         url: API_USER_COLLECTIONS_STATUS(userId),
         info: '用户收藏统计'
@@ -509,12 +544,12 @@ class User extends store {
         namespace: NAMESPACE
       }
     )
+  }
 
-  /**
-   * 用户介绍
-   * @param {*} userId
-   */
-  fetchUsers = async ({ userId } = {}) => {
+  /** 用户介绍 */
+  fetchUsers = async (config: { userId?: UserId }) => {
+    const { userId } = config || {}
+
     // -------------------- 请求HTML --------------------
     const raw = await fetchHTML({
       url: `!${HTML_USERS(userId)}`
@@ -535,21 +570,13 @@ class User extends store {
       })
     }
 
-    return Promise.resolve(users)
+    return users
   }
 
-  /**
-   * 短信
-   * @param {*} key pmIn | pmOut
-   */
-  fetchPM = async (refresh, key = 'pmIn') => {
+  /** 短信 */
+  fetchPM = async (refresh?: boolean, key: 'pmIn' | 'pmOut' = 'pmIn') => {
     const { list, pagination } = this[key]
-    let page
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
+    const page = refresh ? 1 : pagination.page + 1
 
     const HTML = await fetchHTML({
       url: key === 'pmOut' ? HTML_PM_OUT(page) : HTML_PM(page)
@@ -562,17 +589,18 @@ class User extends store {
       },
       _loaded: getTimestamp()
     }
+
     this.setState({
       [key]: data
     })
     this.setStorage(key, undefined, NAMESPACE)
-    return Promise.resolve(data)
+
+    return data
   }
 
-  /**
-   * 短信详情
-   */
-  fetchPMDetail = async ({ id }) => {
+  /** 短信详情 */
+  fetchPMDetail = async (config: { id?: Id }) => {
+    const { id } = config || {}
     const raw = await fetchHTML({
       url: HTML_PM_DETAIL(id),
       raw: true
@@ -604,17 +632,19 @@ class User extends store {
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
-    return Promise.resolve(data)
+
+    return data
   }
 
-  /**
-   * 新短信参数
-   */
-  fetchPMParams = async ({ userId }) => {
+  /** 新短信参数 */
+  fetchPMParams = async (config: { userId?: Id }) => {
+    const { userId } = config || {}
+
     const HTML = await fetchHTML({
       url: HTML_PM_PARAMS(userId)
     })
     const key = 'pmParams'
+
     const data = {
       ...cheerioPMParams(HTML),
       _loaded: getTimestamp()
@@ -624,12 +654,11 @@ class User extends store {
         [userId]: data
       }
     })
-    return Promise.resolve(data)
+
+    return data
   }
 
-  /**
-   * 个人设置
-   */
+  /** 个人设置 */
   fetchUserSetting = async () => {
     const HTML = await fetchHTML({
       url: HTML_USER_SETTING()
@@ -644,22 +673,12 @@ class User extends store {
     this.setState({
       [key]: data
     })
-    return Promise.resolve(data)
+    return data
   }
 
-  // -------------------- page --------------------
-  /**
-   * 登出
-   */
+  // -------------------- method --------------------
+  /** 登出 */
   logout = () => {
-    // const { logout } = this.state
-    // if (logout) {
-    //   xhr({
-    //     method: 'GET',
-    //     url: logout
-    //   })
-    // }
-
     setTimeout(() => {
       this.setState({
         accessToken: INIT_ACCESS_TOKEN,
@@ -675,10 +694,7 @@ class User extends store {
     }, 0)
   }
 
-  /**
-   * 更新accessToken
-   * @param {*} accessToken
-   */
+  /** 更新 accessToken */
   updateAccessToken = (accessToken = INIT_ACCESS_TOKEN) => {
     this.clearState('accessToken', {})
     this.setState({
@@ -694,10 +710,7 @@ class User extends store {
     this.setStorage('accessToken', undefined, NAMESPACE)
   }
 
-  /**
-   * 更新用户cookie
-   * @param {*} data
-   */
+  /** 更新用户 cookie */
   updateUserCookie = (userCookie = INIT_USER_COOKIE) => {
     this.setState({
       userCookie,
@@ -706,16 +719,15 @@ class User extends store {
     this.setStorage('userCookie', undefined, NAMESPACE)
   }
 
-  updateHmCookie = hmCookie => {
+  /** @deprecated */
+  updateHmCookie = (hmCookie: string) => {
     this.setState({
       hmCookie
     })
     this.setStorage('hmCookie', undefined, NAMESPACE)
   }
 
-  /**
-   * 打印游客登录sercet
-   */
+  /** 打印游客登录 sercet */
   logTourist = () => {
     // if (LOG_LEVEL <= 0) return
     // log({
@@ -725,6 +737,7 @@ class User extends store {
     // })
   }
 
+  /** 设置授权信息过期提示 */
   setOutdate = () => {
     this.setState({
       outdate: true
@@ -732,26 +745,26 @@ class User extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 更新收视进度
-   */
-  doUpdateEpStatus = async ({ id, status }) =>
-    fetch({
+  /** 更新收视进度 */
+  doUpdateEpStatus = async (config: { id: EpId; status: EpStatus }) => {
+    const { id, status } = config || {}
+    return fetch({
       url: API_EP_STATUS(id, status),
       method: 'POST'
     })
+  }
 
-  /**
-   * 批量更新收视进度
-   */
-  doUpdateSubjectWatched = async ({ subjectId, sort }) =>
-    fetch({
+  /** 批量更新收视进度 */
+  doUpdateSubjectWatched = async (config: { subjectId: SubjectId; sort: number }) => {
+    const { subjectId, sort } = config || {}
+    return fetch({
       url: API_SUBJECT_UPDATE_WATCHED(subjectId),
       method: 'POST',
       data: {
         watched_eps: sort
       }
     })
+  }
 
   /**
    * 检测cookie有没有过期
@@ -759,8 +772,8 @@ class User extends store {
    *  - setCookie是html中后续在请求头中获取的更新cookie的标志
    */
   doCheckCookie = async () => {
-    const res = RakuenStore.fetchNotify()
-    const { setCookie = '', html } = await res
+    const data = await RakuenStore.fetchNotify()
+    const { setCookie = '', html } = data
     if (html.includes('抱歉，当前操作需要您') && !DEV) {
       this.setOutdate()
     }
@@ -768,7 +781,7 @@ class User extends store {
     const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
     if (Array.isArray(matchLogout) && matchLogout[1]) {
       this.setState({
-        logout: `${HOST}/logout${matchLogout[1]}`,
+        // logout: `${HOST}/logout${matchLogout[1]}`,
         formhash: matchLogout[1].replace('/', '')
       })
       this.setStorage('formhash', undefined, NAMESPACE)
@@ -780,26 +793,42 @@ class User extends store {
       })
       this.setStorage('setCookie', undefined, NAMESPACE)
     }
-    return res
+
+    return data
   }
 
-  /**
-   * 删除收藏
-   */
-  doEraseCollection = async ({ subjectId, formhash }, success, fail) =>
-    xhr(
+  /** 删除收藏 */
+  doEraseCollection = async (
+    config: {
+      subjectId: SubjectId
+      formhash: string
+    },
+    success?: () => any,
+    fail?: () => any
+  ) => {
+    const { subjectId, formhash } = config || {}
+    return xhr(
       {
         url: HTML_ACTION_ERASE_COLLECTION(subjectId, formhash)
       },
       success,
       fail
     )
+  }
 
-  /**
-   * 发短信
-   */
-  doPM = async (data, success, fail) =>
-    xhr(
+  /** 发短信 */
+  doPM = async (
+    data: {
+      msg_title: string
+      msg_body: string
+      formhash: string
+      msg_receivers: string
+      submit: '发送' | '回复'
+    },
+    success?: () => any,
+    fail?: () => any
+  ) => {
+    return xhr(
       {
         url: HTML_PM_CREATE(),
         data
@@ -807,12 +836,21 @@ class User extends store {
       success,
       fail
     )
+  }
 
-  /**
-   * 更新个人设置
-   */
-  doUpdateUserSetting = async (data, success, fail) =>
-    xhr(
+  /** 更新个人设置 */
+  doUpdateUserSetting = async (
+    data: {
+      formhash: string
+      nickname: string
+      sign_input: string
+      newbio: string
+      timeoffsetnew: string
+    },
+    success?: () => any,
+    fail?: () => any
+  ) => {
+    return xhr(
       {
         url: HTML_USER_SETTING(),
         data: {
@@ -823,9 +861,7 @@ class User extends store {
       success,
       fail
     )
+  }
 }
 
-const Store = new User()
-Store.setup()
-
-export default Store
+export default new UserStore()

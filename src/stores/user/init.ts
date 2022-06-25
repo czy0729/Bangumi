@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-10 16:01:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-10 11:28:05
+ * @Last Modified time: 2022-06-25 15:40:08
  */
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { SubjectType } from '@types'
 
 export const NAMESPACE = 'User'
 
-// -------------------- default --------------------
-export const DEFAULT_SCOPE = MODEL_SUBJECT_TYPE.getLabel('动画')
+export const DEFAULT_SCOPE = MODEL_SUBJECT_TYPE.getLabel<SubjectType>('动画')
 
-// -------------------- init --------------------
 export const INIT_ACCESS_TOKEN = {
   access_token: '',
   expires_in: 604800,

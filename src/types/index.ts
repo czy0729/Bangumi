@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 09:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 03:05:15
+ * @Last Modified time: 2022-06-25 15:52:46
  */
 import React from 'react'
 import {
@@ -18,22 +18,30 @@ import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { EventKeys } from '@constants/events'
 import {
-  SubjectType,
-  SubjectTypeValue,
-  SubjectTypeCn,
+  CollectionStatus,
+  CollectionStatusCn,
+  CollectionStatusValue,
   EpStatus,
+  EpStatusCn,
   RatingStatus,
+  SubjectType,
+  SubjectTypeCn,
+  SubjectTypeValue,
   TimeLineScope,
   TimeLineScopeCn
 } from '@constants/model/types'
 
 export {
   EventKeys,
-  SubjectType,
-  SubjectTypeValue,
-  SubjectTypeCn,
+  CollectionStatus,
+  CollectionStatusCn,
+  CollectionStatusValue,
   EpStatus,
+  EpStatusCn,
   RatingStatus,
+  SubjectType,
+  SubjectTypeCn,
+  SubjectTypeValue,
   TimeLineScope,
   TimeLineScopeCn
 }
@@ -170,7 +178,7 @@ export type IReactComponent<P = any> =
   | React.ClassicComponentClass<P>
 
 /** 统一列表对象 */
-export type ListEmpty<T> = {
+export type ListEmpty<T = any> = {
   list: T[]
   pagination: {
     page: number
@@ -185,3 +193,10 @@ export type Fn = (arg?: any, arg2?: any) => any
 
 /** 选择函数 */
 export type SelectFn = <T, K>(arg1: T, arg2: K) => T | K
+
+/** StoreConstructor */
+export type StoreConstructor<T extends Record<string, unknown>> = {
+  [K in keyof T]: any
+} & {
+  state: T
+}
