@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 13:51:38
+ * @Last Modified time: 2022-06-25 19:01:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,6 +76,7 @@ export default ic(Store, RakuenGroup)
 
 const styles = _.create({
   pagination: {
-    paddingVertical: _.sm
+    paddingTop: _.sm,
+    paddingBottom: _.md
   }
 })

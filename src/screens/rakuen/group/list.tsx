@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 09:30:38
+ * @Last Modified time: 2022-06-25 19:10:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Mesume, Heatmap } from '@components'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { appNavigate, correctAgo } from '@utils/app'
@@ -14,7 +15,7 @@ import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
+import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
 
 function List({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -33,7 +34,7 @@ function List({ style }, { $, navigation }) {
 
   return (
     <View style={style}>
-      {list.map(({ title, href, replies, time, userName }, index) => {
+      {list.map(({ title, href, replies, time, userName, userId }, index) => {
         const topicId = href.replace('/group/topic/', 'group/')
         const readed = $.readed(topicId)
         const isReaded = !!readed.time
@@ -95,12 +96,20 @@ function List({ style }, { $, navigation }) {
                   </Text>
                 )}
               </Text>
-              <Text style={_.mt.sm} type='sub' size={12}>
-                {correctAgo(time)} /{' '}
-                <Text size={12} bold>
+              <Flex style={_.mt.sm}>
+                <Avatar
+                  navigation={navigation}
+                  size={18}
+                  src={API_AVATAR(userId)}
+                  userId={userId}
+                />
+                <Text style={_.ml.sm} size={12} bold>
                   {userName}
                 </Text>
-              </Text>
+                <Text style={_.ml.xs} type='sub' size={12}>
+                  {correctAgo(time)}
+                </Text>
+              </Flex>
             </View>
             {!index && <Heatmap id='小组.跳转' />}
           </Touchable>

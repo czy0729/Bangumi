@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-02-25 12:31:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 22:24:39
+ * @Last Modified time: 2022-06-26 04:07:49
  */
 import React from 'react'
 import { PaginationList } from '@_'
 import { _ } from '@stores'
 import { pad } from '@utils'
 import { obc } from '@utils/decorators'
-import data from '@assets/json/group'
+import data from '@assets/json/group.json'
 import Filter from './filter'
 import Item from './item'
 

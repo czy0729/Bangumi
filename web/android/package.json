@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "postinstall": "patch-package",
     "38": "mv ./node_modules ../SDK && mv ../SDK/38/node_modules ./ && mv ../SDK/node_modules ../SDK/39 && cp ./package.json ./web/ios/package.json && cp ./web/android/package.json ./package.json",
     "39": "mv ./node_modules ../SDK && mv ../SDK/39/node_modules ./ && mv ../SDK/node_modules ../SDK/38 && cp ./package.json ./web/android/package.json && cp ./web/ios/package.json ./package.json",
+    "postinstall": "patch-package",
     "start": "EXPO_USE_EXOTIC=0 expo start",
     "start:offline": "EXPO_USE_EXOTIC=0 expo start --lan --offline",
     "kill": "sudo purge",
@@ -28,7 +28,7 @@
     "@react-navigation/native-stack": "5.x",
     "@react-navigation/stack": "5.x",
     "babel-preset-expo": "9.0.2",
-    "bangumi-data": "^0.3.83",
+    "bangumi-data": "0.3.91",
     "cheerio-without-node-native": "0.20.2",
     "crypto-js": "3.1.9-1",
     "dayjs": "1.10.8",
@@ -39,7 +39,6 @@
     "expo-constants": "9.1.1",
     "expo-file-system": "9.0.1",
     "expo-font": "8.2.1",
-    "expo-haptics": "8.2.1",
     "expo-keep-awake": "8.2.1",
     "expo-linear-gradient": "8.2.1",
     "expo-linking": "1.0.1",
@@ -53,8 +52,8 @@
     "mobx": "4.9.2",
     "mobx-react": "5.4.3",
     "mobx-react-lite": "2.0.7",
-    "patch-package": "^6.4.7",
-    "postinstall-postinstall": "^2.1.0",
+    "patch-package": "6.4.7",
+    "postinstall-postinstall": "2.1.0",
     "prop-types": "15.8.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -75,7 +74,7 @@
     "react-native-render-html": "4.1.1",
     "react-native-restart": "0.0.14",
     "react-native-safe-area-context": "3.1.9",
-    "react-native-safe-area-view": "^1.1.1",
+    "react-native-safe-area-view": "1.1.1",
     "react-native-screens": "3.11.1",
     "react-native-smb": "0.2.4",
     "react-native-tab-view": "2.14.3",
@@ -85,12 +84,15 @@
     "rn-fetch-blob": "0.12.0"
   },
   "resolutions": {
+    "@types/react": "16.9.35",
+    "react": "17.0.2",
+    "react-native": "0.62.2",
     "react-native-safe-area-view": "1.1.1"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
     "@react-native-community/eslint-config": "3.0.1",
-    "@types/crypto-js": "^4.1.1",
+    "@types/crypto-js": "4.1.1",
     "@types/react": "16.9.35",
     "@types/react-native": "0.63.2",
     "@typescript-eslint/eslint-plugin": "4.33.0",

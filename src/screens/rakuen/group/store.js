@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:14:29
+ * @Last Modified time: 2022-06-25 19:10:30
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -69,14 +69,11 @@ export default class ScreenGroup extends store {
 
   @computed get groupThumb() {
     const { cover } = this.groupInfo
-    if (cover) {
-      return cover
-    }
+    if (cover) return cover
 
     const { _title } = this.params
-    if (_title) {
-      return rakuenStore.groupThumb(_title)
-    }
+    if (_title) return rakuenStore.groupThumb(_title)
+
     return ''
   }
 
@@ -94,9 +91,7 @@ export default class ScreenGroup extends store {
   // -------------------- page --------------------
   prev = async () => {
     const { page } = this.state
-    if (page === 1) {
-      return
-    }
+    if (page === 1) return
 
     t('小组.上一页', {
       page: page - 1,
@@ -185,9 +180,7 @@ export default class ScreenGroup extends store {
    */
   doJoin = async () => {
     const { joinUrl } = this.groupInfo
-    if (!joinUrl) {
-      return false
-    }
+    if (!joinUrl) return false
 
     t('小组.加入', {
       groupId: this.groupId
@@ -211,9 +204,7 @@ export default class ScreenGroup extends store {
    */
   doBye = async () => {
     const { byeUrl } = this.groupInfo
-    if (!byeUrl) {
-      return false
-    }
+    if (!byeUrl) return false
 
     t('小组.退出', {
       groupId: this.groupId
