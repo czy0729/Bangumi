@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
-import { BlurView, LoginNotice } from '@_'
+import { BlurView } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
@@ -17,10 +17,8 @@ function TabBar({ state, descriptors, navigation }) {
   if (focusedOptions.tabBarVisible === false) return null
 
   const styles = memoStyles()
-  const currentRouteName = state?.routes?.[state?.index]?.name
   return (
     <Flex style={styles.tabBar} align='start'>
-      {currentRouteName === 'Home' && <LoginNotice navigation={navigation} />}
       {IOS && <BlurView style={styles.blurView} />}
       {state.routes.map((route, index) => {
         const isFocused = state.index === index

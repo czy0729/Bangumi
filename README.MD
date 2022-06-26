@@ -25,6 +25,10 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 [安卓 APK 下载](https://github.com/czy0729/Bangumi/releases)
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="64">](https://f-droid.org/packages/com.czy0729.bangumi)
+
 Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互斥，只能建议之前使用此渠道的用户卸载后使用其他渠道
 
 [AltStore 侧载](https://www.yuque.com/chenzhenyu-k0epm/znygb4/qw4xr3) | [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.io/@bgm-ios-test/bangumi-pro)
@@ -54,11 +58,22 @@ Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互�
 
 ## Update
 
-v6.4.2 - 2022/06/07
+v6.5.0 - 2022/06/26
+
+没有太多新功能，修复了若干已知问题，算是一个定期维护的版本
+
+—— 优化 ——
+
+- [x] [条目] 优化了预览图搜索逻辑 (不仅限于动画)
+- [x] 优化登录状态过期后的表现, 使用底部提示框代替强制退出 (主动登出除外)
+- [x] 部分页面使用头像 API 加速渲染 (后续版本会继续使用新 API 去替代旧数据的获取)
 
 —— 修复 ——
 
-- [x] 修复了若干已知问题
+- [x] [排行榜] 修复后面页数会导致闪退的问题
+- [x] [iOS] 优化长列表下拉刷新指示器的位置
+- [x] [iOS] 震动反馈使用了新库实现 (不会再突兀震动)
+- [x] 作者的 OneDrive 服务坏掉了，但是 jsDelivr 复活了，所以暂时互相替换使用
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
@@ -129,16 +144,18 @@ npm config set registry https://registry.npmjs.org
 
 国内环境，首次下载包有可能会异常地慢
 
+因用了很多旧的依赖包，里面的包版本依赖混乱，为了不出错请使用 yarn 安装
+
 ```bash
 git clone https://github.com/czy0729/Bangumi
 cd ./Bangumi
-npm install
+yarn
 ```
 
 ** 启动 **
 
 ```bash
-npm start // [iOS] 之后点击在浏览器打开的Expo Developer Tools，点击 Run on iOS simulator
+npm start // [iOS] 之后点击在浏览器打开的 Expo Developer Tools，点击 Run on iOS simulator
 
 // or
 

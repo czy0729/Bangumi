@@ -11,7 +11,7 @@ import { privacy } from '@utils'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import { Track } from '@components'
-import { StatusBarEvents, Auth, NavigationBarEvents } from '@_'
+import { StatusBarEvents, Auth, NavigationBarEvents, LoginNotice } from '@_'
 import { _ } from '@stores'
 import { IOS } from '@constants'
 import Header from './header'
@@ -45,6 +45,7 @@ const Home = (props, { $, navigation }) => {
           <Auth />
         )}
       </Page>
+      <LoginNotice navigation={navigation} />
       <NavigationBarEvents />
       <Heatmaps />
     </>
