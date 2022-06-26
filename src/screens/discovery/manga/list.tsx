@@ -1,21 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2019-06-23 02:20:58
+ * @Date: 2021-01-09 01:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:37:38
+ * @Last Modified time: 2022-06-26 15:02:40
  */
 import React from 'react'
-import { ListView, Loading } from '@components'
+import { Loading, ListView } from '@components'
 import { Filter } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { VERSION_ANIME } from '@constants/cdn'
+import { getVersion, VERSION_MANGA } from '@constants/cdn'
 import Item from './item'
 import ItemGrid from './item-grid'
 import { filterDS } from './ds'
 
-export default
-@obc
 class List extends React.Component {
   connectRef = ref => {
     const { $ } = this.context
@@ -32,11 +30,19 @@ class List extends React.Component {
     const { $ } = this.context
     const { layout } = $.state
     if (layout === 'list') return <Item pickIndex={item} index={index} />
+
     return <ItemGrid pickIndex={item} index={index} num={this.num} />
   }
 
   renderFilter() {
-    return <Filter filterDS={filterDS} lastUpdate={VERSION_ANIME} />
+    return (
+      <Filter
+        filterDS={filterDS}
+        name='漫画'
+        type='Manga'
+        lastUpdate={getVersion('VERSION_MANGA', VERSION_MANGA)}
+      />
+    )
   }
 
   render() {
@@ -68,6 +74,8 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)
 
 export function keyExtractor(item) {
   return String(item)

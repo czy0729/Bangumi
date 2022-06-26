@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 04:32:04
+ * @Last Modified time: 2022-06-26 05:14:42
  */
-import { NativeModules, Alert } from 'react-native'
+import { NativeModules, Alert, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
@@ -30,7 +30,12 @@ export function feedback() {
   if (!vibration) return
 
   if (DEV) console.info('vibration')
-  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+
+  if (IOS) {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+  } else {
+    Vibration.vibrate(4)
+  }
 }
 
 /**

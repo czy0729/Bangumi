@@ -2,20 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:45:00
+ * @Last Modified time: 2022-06-26 15:03:41
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { Filter } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { VERSION_WENKU } from '@constants/cdn'
+import { getVersion, VERSION_WENKU } from '@constants/cdn'
 import Item from './item'
 import ItemGrid from './item-grid'
 import { filterDS } from './ds'
 
-export default
-@obc
 class List extends React.Component {
   connectRef = ref => {
     const { $ } = this.context
@@ -32,12 +30,18 @@ class List extends React.Component {
     const { $ } = this.context
     const { layout } = $.state
     if (layout === 'list') return <Item pickIndex={item} index={index} />
+
     return <ItemGrid pickIndex={item} index={index} num={this.num} />
   }
 
   renderFilter() {
     return (
-      <Filter filterDS={filterDS} name='文库' type='文库' lastUpdate={VERSION_WENKU} />
+      <Filter
+        filterDS={filterDS}
+        name='文库'
+        type='文库'
+        lastUpdate={getVersion('VERSION_WENKU', VERSION_WENKU)}
+      />
     )
   }
 
@@ -70,6 +74,8 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)
 
 export function keyExtractor(item) {
   return String(item)

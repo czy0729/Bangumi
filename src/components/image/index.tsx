@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 18:10:15
+ * @Last Modified time: 2022-06-26 15:36:41
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -267,6 +267,7 @@ export const Image = observer(
     getSize = () => {
       const { autoSize } = this.props
       const { uri } = this.state
+
       if (typeof uri !== 'string' || typeof autoSize !== 'number') return
 
       const cb = (width: number, height: number) => {
@@ -281,6 +282,7 @@ export const Image = observer(
           w = autoSize
           h = Math.floor((autoSize / width) * height)
         }
+
         this.setState({
           width: w,
           height: h

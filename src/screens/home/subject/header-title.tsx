@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-23 02:28:21
+ * @Last Modified time: 2022-06-26 15:13:57
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -45,7 +45,7 @@ const HeaderTitle = memo(({ common, score, type, cn, jp, titleLabel }) => {
           )}
         </Text>
         {score ? (
-          <Stars value={score} />
+          <Stars style={_.mt.xxs} value={score} />
         ) : (
           <Text style={_.mt.xxs} size={10} type='sub' numberOfLines={1}>
             {cnjp(jp, cn)}

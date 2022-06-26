@@ -39,6 +39,7 @@
     "expo-constants": "9.1.1",
     "expo-file-system": "9.0.1",
     "expo-font": "8.2.1",
+    "expo-haptics": "8.2.1",
     "expo-keep-awake": "8.2.1",
     "expo-linear-gradient": "8.2.1",
     "expo-linking": "1.0.1",
@@ -59,6 +60,7 @@
     "react-dom": "17.0.2",
     "react-native": "0.62.2",
     "react-native-android-keyboard-adjust": "1.2.0",
+    "react-native-collapsible": "1.6.0",
     "react-native-device-info": "8.5.0",
     "react-native-draggable-grid": "2.1.4",
     "react-native-exception-handler": "2.10.10",
@@ -86,6 +88,7 @@
   "resolutions": {
     "@types/react": "16.9.35",
     "react": "17.0.2",
+    "react-devtools-core": "4.23.0",
     "react-native": "0.62.2",
     "react-native-safe-area-view": "1.1.1"
   },

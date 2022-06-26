@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 20:00:19
+ * @Last Modified time: 2022-06-26 16:39:41
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
@@ -17,10 +17,10 @@ export { PaginationListProps }
 export const PaginationList = ({
   data,
   limit = 24,
-  onPage = () => {},
+  onPage,
   ...other
 }: PaginationListProps) => {
-  const [list, setList] = useState<ListEmpty<any>>({
+  const [list, setList] = useState<ListEmpty>({
     list: [],
     pagination: {
       page: 1,
@@ -42,7 +42,7 @@ export const PaginationList = ({
         pageTotal: next.length >= limit * page ? 100 : page + 1
       }
     })
-    onPage(next)
+    if (typeof onPage === 'function') onPage(next)
   }, [data, limit, list, onPage])
 
   useEffect(() => {
@@ -55,7 +55,8 @@ export const PaginationList = ({
       },
       _loaded: getTimestamp()
     })
-    onPage(list)
+    if (typeof onPage === 'function') onPage(list)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.length, onPage])
 
