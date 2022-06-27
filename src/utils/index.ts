@@ -6,5 +6,6 @@
  */
 export * from './utils'
 export * from './app'
+export * from './html'
 export * from './storage'
 export * from './match'

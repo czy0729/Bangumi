@@ -3,30 +3,33 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-10 15:22:10
+ * @Last Modified time: 2022-06-27 13:58:10
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
-import { APP_ID, LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
-import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
-import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
+import { getTimestamp, HTMLTrim, HTMLDecode } from '@utils'
+import store from '@utils/store'
+import { fetchHTML, xhrCustom } from '@utils/fetch'
+import { put, read } from '@utils/db'
 import {
+  API_SUBJECT,
+  API_SUBJECT_EP,
+  APP_ID,
+  CDN_MONO,
+  CDN_SUBJECT,
   HTML_EP,
   HTML_MONO_VOICES,
   HTML_MONO_WORKS,
   HTML_SUBJECT,
-  HTML_SUBJECT_COMMENTS,
   HTML_SUBJECT_CATALOGS,
+  HTML_SUBJECT_COMMENTS,
   HTML_SUBJECT_RATING,
+  HTML_SUBJECT_WIKI_COVER,
   HTML_SUBJECT_WIKI_EDIT,
-  HTML_SUBJECT_WIKI_COVER
-} from '@constants/html'
-import { getTimestamp } from '@utils'
-import { HTMLTrim, HTMLDecode } from '@utils/html'
-import store from '@utils/store'
-import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { put, read } from '@utils/db'
-import { MonoId, SubjectId } from '@types'
+  LIMIT_LIST_COMMENTS,
+  LIST_EMPTY
+} from '@constants'
+import { MonoId, StoreConstructor, SubjectId } from '@types'
 import UserStore from '../user'
 import {
   NAMESPACE,
@@ -49,178 +52,189 @@ import {
   cheerioWikiCovers
 } from './common'
 import {
+  Subject,
   FetchMonoVoices,
   FetchMonoWorks,
   MonoCommentsItem,
-  SubjectComments
+  SubjectComments,
+  SubjectFormHTML,
+  SubjectFormCDN
 } from './types'
 
-class Subject extends store {
+/**
+ * @update 2022/04/06 subject和subjectFormHTML根据id最后一位拆开10个key存放
+ *         避免JSON.stringify后长度太长, 存(取)本地不能
+ */
+const state = {
   /**
-   * @update 2022/04/06 subject和subjectFormHTML根据id最后一位拆开10个key存放
-   *         避免JSON.stringify后长度太长, 存(取)本地不能
+   * 条目
+   * @param {*} subjectId
    */
-  state = observable({
-    /**
-     * 条目
-     * @param {*} subjectId
-     */
-    subject0: {},
-    subject1: {},
-    subject2: {},
-    subject3: {},
-    subject4: {},
-    subject5: {},
-    subject6: {},
-    subject7: {},
-    subject8: {},
-    subject9: {},
+  subject0: {},
+  subject1: {},
+  subject2: {},
+  subject3: {},
+  subject4: {},
+  subject5: {},
+  subject6: {},
+  subject7: {},
+  subject8: {},
+  subject9: {},
 
-    /**
-     * 条目HTML
-     * @param {*} subjectId
-     */
-    subjectFormHTML0: {},
-    subjectFormHTML1: {},
-    subjectFormHTML2: {},
-    subjectFormHTML3: {},
-    subjectFormHTML4: {},
-    subjectFormHTML5: {},
-    subjectFormHTML6: {},
-    subjectFormHTML7: {},
-    subjectFormHTML8: {},
-    subjectFormHTML9: {},
+  /**
+   * 条目HTML
+   * @param {*} subjectId
+   */
+  subjectFormHTML0: {},
+  subjectFormHTML1: {},
+  subjectFormHTML2: {},
+  subjectFormHTML3: {},
+  subjectFormHTML4: {},
+  subjectFormHTML5: {},
+  subjectFormHTML6: {},
+  subjectFormHTML7: {},
+  subjectFormHTML8: {},
+  subjectFormHTML9: {},
 
-    /**
-     * 条目CDN自维护数据
-     * 用于条目首次渲染加速
-     * @param {*} subjectId
-     */
-    subjectFormCDN: {
-      0: INIT_SUBJECT_FROM_CDN_ITEM
-    },
+  /**
+   * 条目CDN自维护数据
+   * 用于条目首次渲染加速
+   * @param {*} subjectId
+   */
+  subjectFormCDN: {
+    0: INIT_SUBJECT_FROM_CDN_ITEM
+  },
 
-    /**
-     * [待废弃] 条目章节
-     * @param {*} subjectId
-     */
-    subjectEp: {
-      0: {}
-    },
+  /**
+   * [待废弃] 条目章节
+   * @param {*} subjectId
+   */
+  subjectEp: {
+    0: {}
+  },
 
-    /**
-     * 包含条目的目录
-     * @param {*} subjectId
-     */
-    subjectCatalogs: {
-      0: LIST_EMPTY
-    },
+  /**
+   * 包含条目的目录
+   * @param {*} subjectId
+   */
+  subjectCatalogs: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 条目吐槽箱
-     * @param {*} subjectId
-     */
-    subjectComments: {
-      0: LIST_EMPTY
-    },
+  /**
+   * 条目吐槽箱
+   * @param {*} subjectId
+   */
+  subjectComments: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 章节内容
-     * @param {*} epId
-     */
-    epFormHTML: {
-      0: ''
-    },
+  /**
+   * 章节内容
+   * @param {*} epId
+   */
+  epFormHTML: {
+    0: ''
+  },
 
-    /**
-     * 人物
-     * @param {*} monoId
-     */
-    mono: {
-      0: INIT_MONO
-    },
+  /**
+   * 人物
+   * @param {*} monoId
+   */
+  mono: {
+    0: INIT_MONO
+  },
 
-    /**
-     * 人物吐槽箱
-     * @param {*} monoId
-     */
-    monoComments: {
-      0: LIST_EMPTY // <INIT_MONO_COMMENTS_ITEM>
-    },
+  /**
+   * 人物吐槽箱
+   * @param {*} monoId
+   */
+  monoComments: {
+    0: LIST_EMPTY // <INIT_MONO_COMMENTS_ITEM>
+  },
 
-    /**
-     * 人物CDN自维护数据
-     * 用于人物首次渲染加速
-     * @param {*} monoId
-     */
-    monoFormCDN: {
-      0: INIT_MONO
-    },
+  /**
+   * 人物CDN自维护数据
+   * 用于人物首次渲染加速
+   * @param {*} monoId
+   */
+  monoFormCDN: {
+    0: INIT_MONO
+  },
 
-    /**
-     * 人物作品
-     * @param {*} monoId
-     * https://bgm.tv/person/8138/works
-     */
-    monoWorks: {
-      0: INIT_MONO_WORKS
-    },
+  /**
+   * 人物作品
+   * @param {*} monoId
+   * https://bgm.tv/person/8138/works
+   */
+  monoWorks: {
+    0: INIT_MONO_WORKS
+  },
 
-    /**
-     * 人物角色列表
-     * @param {*} monoId
-     * https://bgm.tv/person/8138/works/voice
-     */
-    monoVoices: {
-      0: INIT_MONO_WORKS
-    },
+  /**
+   * 人物角色列表
+   * @param {*} monoId
+   * https://bgm.tv/person/8138/works/voice
+   */
+  monoVoices: {
+    0: INIT_MONO_WORKS
+  },
 
-    /**
-     * 好友评分列表
-     */
-    rating: {
-      _: (subjectId = 0, status = DEFAULT_RATING_STATUS, isFriend = false) =>
-        `${subjectId}|${status}|${isFriend}`,
-      0: {
-        ...LIST_EMPTY,
-        counts: {
-          wishes: 0,
-          collections: 0,
-          doings: 0,
-          on_hold: 0,
-          dropped: 0
-        }
-      }
-    },
-
-    /**
-     * wiki修订历史
-     */
-    wiki: {
-      0: INIT_SUBJECT_WIKI
-    },
-
-    /**
-     * 自定义源头数据
-     */
-    origin: {
-      base: {},
-      custom: {
-        anime: [],
-        hanime: [],
-        manga: [],
-        wenku: [],
-        music: [],
-        game: [],
-        real: []
+  /**
+   * 好友评分列表
+   */
+  rating: {
+    _: (subjectId = 0, status = DEFAULT_RATING_STATUS, isFriend = false) =>
+      `${subjectId}|${status}|${isFriend}`,
+    0: {
+      ...LIST_EMPTY,
+      counts: {
+        wishes: 0,
+        collections: 0,
+        doings: 0,
+        on_hold: 0,
+        dropped: 0
       }
     }
-  })
+  },
 
-  init = () =>
-    this.readStorage(
+  /**
+   * wiki修订历史
+   */
+  wiki: {
+    0: INIT_SUBJECT_WIKI
+  },
+
+  /**
+   * 自定义源头数据
+   */
+  origin: {
+    base: {},
+    custom: {
+      anime: [],
+      hanime: [],
+      manga: [],
+      wenku: [],
+      music: [],
+      game: [],
+      real: []
+    }
+  }
+}
+
+class SubjectStore
+  extends store
+  implements
+    StoreConstructor<
+      Omit<typeof state, `subject${number}` | `subjectFormHTML${number}`>
+    >
+{
+  state = observable(state)
+
+  init = () => {
+    return this.readStorage(
       [
-        // subject 拆store
+        // subject 拆 store
         'subject0',
         'subject1',
         'subject2',
@@ -232,7 +246,7 @@ class Subject extends store {
         'subject8',
         'subject9',
 
-        // subjectFormHTML 拆store
+        // subjectFormHTML 拆 store
         'subjectFormHTML0',
         'subjectFormHTML1',
         'subjectFormHTML2',
@@ -256,11 +270,12 @@ class Subject extends store {
       ],
       NAMESPACE
     )
+  }
 
   // -------------------- get --------------------
   /** 条目, 合并 subject 0-9 */
-  subject(subjectId) {
-    return computed(() => {
+  subject(subjectId: SubjectId) {
+    return computed<Subject>(() => {
       if (!subjectId) return INIT_SUBJECT
 
       const str = String(subjectId)
@@ -270,8 +285,8 @@ class Subject extends store {
   }
 
   /** 条目 (HTML), 合并 subject 0-9 */
-  subjectFormHTML(subjectId) {
-    return computed(() => {
+  subjectFormHTML(subjectId: SubjectId) {
+    return computed<SubjectFormHTML>(() => {
       if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
 
       const str = String(subjectId)
@@ -283,9 +298,9 @@ class Subject extends store {
     }).get()
   }
 
-  /** 条目 (CDN), 合并 subject 0-9 */
-  subjectFormCDN(subjectId) {
-    return computed(() => {
+  /** 条目 (CDN) */
+  subjectFormCDN(subjectId: SubjectId) {
+    return computed<SubjectFormCDN>(() => {
       return this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM
     }).get()
   }
@@ -303,6 +318,17 @@ class Subject extends store {
       return this.state.monoComments[monoId] || LIST_EMPTY
     }).get()
   }
+
+  // subjectCatalogs() {}
+  // subjectEp() {}
+  // epFormHTML() {}
+  // mono() {}
+  // monoFormCDN() {}
+  // monoWorks() {}
+  // monoVoices() {}
+  // rating() {}
+  // wiki() {}
+  // origin() {}
 
   // -------------------- fetch --------------------
   /**
@@ -838,7 +864,4 @@ class Subject extends store {
   }
 }
 
-const Store = new Subject()
-Store.setup()
-
-export default Store
+export default new SubjectStore()

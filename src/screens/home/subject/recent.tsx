@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Text, Heatmap } from '@components'
+import { Flex, Text, Heatmap, devLog } from '@components'
 import { SectionTitle, Avatar, Stars, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
@@ -97,7 +97,7 @@ export default obc((props, { $, navigation }) => {
     _who = _who.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
   }
   if (!_who.length) return null
-
+  devLog($.subjectFormCDN)
   return (
     <Recent
       navigation={navigation}
