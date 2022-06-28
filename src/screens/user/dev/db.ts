@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-27 11:32:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-27 15:39:31
+ * @Last Modified time: 2022-06-29 05:24:04
  */
 import Constants from 'expo-constants'
 import { xhrCustom as xhr } from '@utils/fetch'
@@ -46,10 +46,10 @@ export async function oauth() {
     showLog: false
   })
 
-  log(res)
+  console.info(res)
   const { access_token } = JSON.parse(res._response)
   accessToken = access_token
-  log(`🗃  oauth ${access_token}`)
+  console.info(`🗃  oauth ${access_token}`)
   return accessToken
 }
 
@@ -82,7 +82,7 @@ export async function read({ path }) {
       sha,
       content: Base64.atob(content)
     }
-    log(`🗃  read ${path}`)
+    console.info(`🗃  read ${path}`)
   }
 
   return files[path]
@@ -122,7 +122,7 @@ export async function add({ path, content, message }) {
     content
   }
 
-  log(`🗃  add ${path}`)
+  console.info(`🗃  add ${path}`)
   return files[path]
 }
 
@@ -132,7 +132,13 @@ export async function add({ path, content, message }) {
  *
  *  - 提示, content不允许携带中文, 请先escape或encode
  */
-export async function update({ path, content, sha, message }) {
+export async function update(args: {
+  path: string
+  content: string
+  sha: string
+  message?: string
+}) {
+  const { path, content, sha, message } = args || {}
   if (content === files[path].content) {
     return files[path]
   }
@@ -166,14 +172,15 @@ export async function update({ path, content, sha, message }) {
     content
   }
 
-  log(`🗃  update ${path}`)
+  console.info(`🗃  update ${path}`)
   return files[path]
 }
 
 /**
  * 自动写入
  */
-export async function put({ path, content, message }) {
+export async function put(args: { path: string; content: string; message?: string }) {
+  const { path, content, message } = args || {}
   try {
     /**
      * 获取access_token
@@ -190,7 +197,7 @@ export async function put({ path, content, message }) {
       ? update({ path, content, sha, message })
       : add({ path, content, message })
   } catch (error) {
-    warn('utils/db', 'put', error)
+    console.error('utils/db', 'put', error)
     return false
   }
 }

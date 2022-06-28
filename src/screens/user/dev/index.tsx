@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 00:14:45
+ * @Last Modified time: 2022-06-29 04:39:59
  */
 import React from 'react'
 import { ScrollView, Header } from '@components'
 import { _, userStore } from '@stores'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import { initXsbRelationOTA } from '@constants/cdn'
+import { NavigationProps } from '@types'
 import Base from './base'
 import ScreenOrientation from './screen-orientation'
 import UpdateTourist from './update-tourist'
@@ -16,7 +17,7 @@ import UpdateAdvance from './update-advance'
 import UsersAdvance from './users-advance'
 import Detail from './detail'
 
-const DEV = ({ navigation }) => {
+const DEV = ({ navigation }: NavigationProps) => {
   useRunAfter(() => {
     initXsbRelationOTA()
   })
@@ -29,11 +30,11 @@ const DEV = ({ navigation }) => {
         contentContainerStyle={_.container.bottom}
         scrollToTop
       >
-        {userStore.isDeveloper && <Base navigation={navigation} />}
+        {userStore.isDeveloper && <Base />}
         <ScreenOrientation />
         {userStore.isDeveloper && (
           <>
-            <UpdateTourist navigation={navigation} />
+            <UpdateTourist />
             <UpdateAdvance navigation={navigation} />
             <UsersAdvance navigation={navigation} />
           </>

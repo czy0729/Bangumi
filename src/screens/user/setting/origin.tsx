@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:11:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 19:40:42
+ * @Last Modified time: 2022-06-29 04:35:25
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { NavigationProps } from '@types'
 
-function Origin({ navigation }) {
+function Origin({ navigation }: NavigationProps) {
   return (
     <ItemSetting
       hd='源头'

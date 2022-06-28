@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 13:13:45
+ * @Last Modified time: 2022-06-29 04:50:47
  */
 import React from 'react'
 import Progress from '@ant-design/react-native/lib/progress'
@@ -144,7 +144,7 @@ export const ItemFriends = ob(
               style={styles.progress}
               barStyle={styles.bar}
               wrapWidth={wrapWidth}
-              percent={percent}
+              percent={Number(percent)}
             />
           </Flex.Item>
           <Text style={styles.hobby} size={12} type='sub'>

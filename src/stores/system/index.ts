@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 04:13:26
+ * @Last Modified time: 2022-06-29 06:21:48
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -41,7 +41,8 @@ import {
   SettingQualityCn,
   SettingTransitionCn,
   SettingUserGridNumCn,
-  StoreConstructor
+  StoreConstructor,
+  UserId
 } from '@types'
 
 const state = {
@@ -50,6 +51,11 @@ const state = {
 
   /** 高级会员 */
   advance: false,
+
+  /** 高级会员详情 */
+  advanceDetail: {
+    _loaded: 0
+  },
 
   /** 基本设置 */
   setting: INIT_SETTING,
@@ -121,6 +127,11 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     return this.state.advance
   }
 
+  /** 高级会员详情 */
+  @computed get advanceDetail() {
+    return this.state.advanceDetail
+  }
+
   /** 是否显示图片预览 */
   @computed get imageViewer() {
     return this.state.imageViewer
@@ -147,9 +158,28 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     return true
   }
 
+  /** 是否高级用户 */
+  isAdvance(userId: UserId, userName?: string) {
+    return computed<boolean>(() => {
+      let flag = false
+      if (userId) flag = userId in this.advanceDetail
+      if (!flag && userName) flag = userName in this.advanceDetail
+      return flag
+    }).get()
+  }
+
   init = async () => {
     await this.readStorage(
-      ['ota', 'advance', 'setting', 'release', 'dev', 'devEvent', 'iosUGCAgree'],
+      [
+        'ota',
+        'advance',
+        'advanceDetail',
+        'setting',
+        'release',
+        'dev',
+        'devEvent',
+        'iosUGCAgree'
+      ],
       NAMESPACE
     )
 
@@ -165,6 +195,11 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         rendered: true
       })
+
+      const now = getTimestamp()
+      if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24) {
+        this.fetchAdvanceDetail()
+      }
     }, 8000)
 
     return true
@@ -253,8 +288,18 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
       const { _response } = await xhrCustom({
         url: `${GITHUB_ADVANCE}?t=${getTimestamp()}`
       })
-      const advanceUserMap = JSON.parse(_response)
-      return advanceUserMap[myId] || advanceUserMap[myUserId]
+      const data = JSON.parse(_response)
+
+      const key = 'advanceDetail'
+      this.setState({
+        [key]: {
+          ...data,
+          _loaded: getTimestamp()
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+
+      return data[myId] || data[myUserId]
     } catch (error) {
       return 0
     }

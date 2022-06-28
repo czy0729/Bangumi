@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 17:24:30
+ * @Last Modified time: 2022-06-29 06:53:43
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -52,6 +52,7 @@ export default class ScreenZone extends store {
   })
 
   scrollY = new Animated.Value(0)
+
   y = 0
 
   init = async () => {
@@ -212,6 +213,15 @@ export default class ScreenZone extends store {
 
   @computed get h_fixed() {
     return _.parallaxImageHeight - H_HEADER
+  }
+
+  @computed get advanceDetail() {
+    if (!userStore.isDeveloper) return ''
+    return systemStore.advanceDetail[this.userId || this.username]
+  }
+
+  @computed get isAdvance() {
+    return systemStore.isAdvance(this.userId, this.username)
   }
 
   // -------------------- fetch --------------------

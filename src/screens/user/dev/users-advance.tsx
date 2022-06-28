@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 12:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-01 13:37:55
+ * @Last Modified time: 2022-06-29 05:24:27
  */
 import React, { useState, useCallback } from 'react'
 import { ScrollView, Text, Touchable } from '@components'
@@ -12,9 +12,10 @@ import { getTimestamp, asc, desc } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { queue } from '@utils/fetch'
 import { info } from '@utils/ui'
+import { NavigationProps } from '@types'
 import { read } from './db'
 
-function UsersAdvance(props, { navigation }) {
+function UsersAdvance({ navigation }: NavigationProps) {
   const [show, setShow] = useState(false)
   const [list, setList] = useState([])
 

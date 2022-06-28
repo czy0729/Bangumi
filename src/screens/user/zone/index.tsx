@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:25:24
+ * @Last Modified time: 2022-06-29 06:27:04
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -18,9 +18,6 @@ import Store from './store'
 
 const title = '空间'
 
-export default
-@inject(Store)
-@obc
 class Zone extends React.Component {
   async componentDidMount() {
     const { $ } = this.context
@@ -77,3 +74,5 @@ class Zone extends React.Component {
     )
   }
 }
+
+export default inject(Store)(obc(Zone))

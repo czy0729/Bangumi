@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 07:22:29
+ * @Last Modified time: 2022-06-29 04:28:56
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -46,6 +46,7 @@ function Contact({ navigation }) {
             t('设置.跳转', {
               to: 'Qiafan'
             })
+
             navigation.push('Qiafan')
           }}
         >

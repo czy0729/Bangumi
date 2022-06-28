@@ -4,13 +4,14 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-27 13:42:51
+ * @Last Modified time: 2022-06-29 04:35:09
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { EventKeys } from '@constants/events'
+import { Override } from './utils'
 
 /** 图标 (iOS Style) */
 export type IoniconsIconsNames = keyof typeof IoniconsIcons
@@ -40,6 +41,14 @@ export type Navigation = {
   getRootState?: (arg0?: any) => any
   setOptions?: (params?: object) => any
 }
+
+/**  带 navigation 定义的 props */
+export type NavigationProps<T = {}> = Override<
+  {
+    navigation: Navigation
+  },
+  T
+>
 
 /** 埋点名称 */
 export { EventKeys }

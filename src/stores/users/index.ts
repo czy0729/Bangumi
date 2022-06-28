@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 15:55:18
+ * @Last Modified time: 2022-06-29 04:44:02
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -18,6 +18,7 @@ import {
   HTML_USERS_BLOGS,
   HTML_USERS_CATALOGS
 } from '@constants/html'
+import { UserId } from '@types'
 import userStore from '../user'
 import { NAMESPACE, INIT_USERS } from './init'
 import {
@@ -139,6 +140,12 @@ class Users extends store {
     const { list } = this.friends()
     list.forEach(item => (map[item.userId] = item))
     return map
+  }
+
+  /** 用户介绍 */
+  users(userId?: UserId) {
+    const key = userId || userStore.myId
+    return computed<typeof INIT_USERS>(() => this.state.users[key] || INIT_USERS).get()
   }
 
   catalogs(userId = userStore.myId, isCollect) {

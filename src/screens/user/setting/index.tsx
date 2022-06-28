@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 07:50:42
+ * @Last Modified time: 2022-06-29 04:35:26
  */
 import React from 'react'
 import { Header, Page, ScrollView, Flex } from '@components'
@@ -10,6 +10,7 @@ import { IconTouchable, NavigationBarEvents } from '@_'
 import { _, systemStore } from '@stores'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
+import { NavigationProps } from '@types'
 import Block from './block'
 import Tip from './tip'
 import Version from './version'
@@ -32,7 +33,7 @@ import Storage from './storage'
 import System from './system'
 import DangerZone from './danger-zone'
 
-const Setting = ({ navigation }) => {
+const Setting = ({ navigation }: NavigationProps) => {
   useRunAfter(() => {
     systemStore.fetchAdvance()
   })
@@ -44,7 +45,7 @@ const Setting = ({ navigation }) => {
         <NavigationBarEvents />
         <ScrollView contentContainerStyle={styles.container}>
           <Block>
-            <Version navigation={navigation} />
+            <Version />
           </Block>
           <Block>
             <Tip>基本</Tip>
