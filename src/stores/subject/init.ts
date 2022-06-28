@@ -6,14 +6,15 @@
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
-import { SubjectType } from '@constants/model/types'
-import { ListEmpty } from '@types'
+import { RatingStatus, SubjectType } from '@types'
 
 /** 命名空间 */
 export const NAMESPACE = 'Subject'
 
 /** 看过 */
-export const DEFAULT_RATING_STATUS = MODEL_RATING_STATUS.getValue('看过')
+export const DEFAULT_RATING_STATUS = MODEL_RATING_STATUS.getValue(
+  '看过'
+) as RatingStatus
 
 /** 条目 */
 export const INIT_SUBJECT = {
@@ -141,6 +142,9 @@ export const INIT_MONO = {
   voice: [],
 
   /** 最近参与 */
+  works: [],
+
+  /** 最近参与 */
   workes: [],
 
   /** 出演 */
@@ -170,34 +174,9 @@ export const INIT_MONO_WORKS_ITEM = {
 
 /** 制作人员职位 */
 export const INIT_MONO_WORKS = {
-  ...(LIST_EMPTY as ListEmpty<typeof INIT_MONO_WORKS_ITEM>),
+  ...LIST_EMPTY,
   filters: []
 }
-
-/** 角色出演项 */
-export const INIT_MONO_VOICES_ITEM = {
-  cover: '',
-  id: '',
-  name: '',
-  nameCn: '',
-  subject: []
-}
-
-/** 角色出演 */
-export const INIT_MONO_VOICES = {
-  ...(LIST_EMPTY as ListEmpty<typeof INIT_MONO_VOICES_ITEM>),
-  filters: []
-}
-
-export const INIT_MONO_VOICES_SUBJECT_ITEM = {
-  cover: '',
-  id: '',
-  name: '',
-  nameCn: '',
-  staff: '' // 职位: 主角 | 配角 | 客串 | ...
-}
-
-export const INIT_MONO_COMMENTS_ITEM = {}
 
 /** wiki */
 export const INIT_SUBJECT_WIKI = {

@@ -8,7 +8,7 @@
  */
 
 /** 任意 ID */
-export type Id = number // number | string
+export type Id = number | string
 
 /** 条目 ID */
 export type SubjectId = Id
@@ -105,3 +105,6 @@ export type Rating = Partial<{
   score: number
   count: Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10, number>
 }>
+
+/** HTML 结构文字 */
+export type HTMLText = string

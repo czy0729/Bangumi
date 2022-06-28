@@ -73,3 +73,6 @@ export type IReactComponent<P = any> =
 
 /** 取 Model 联合类型 */
 export type ModelValueOf<T extends readonly any[], K extends string> = T[number][K]
+
+/** 普通对象 */
+export type AnyObject = Record<string, unknown>

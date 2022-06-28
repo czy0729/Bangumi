@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-10 13:48:12
+ * @Last Modified time: 2022-06-29 02:03:42
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -17,7 +17,7 @@ import {
 } from '@utils/match'
 import { HOST } from '@constants'
 import { HTML_MONO } from '@constants/html'
-import { MonoId } from '@types'
+import { AnyObject, MonoId } from '@types'
 import { analysisComments } from '../rakuen/common'
 import { INIT_MONO } from './init'
 
@@ -33,7 +33,7 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
   let matchHTML
 
   // 人物信息
-  const mono = {
+  const mono: typeof INIT_MONO = {
     ...INIT_MONO
   }
   let monoComments = [] // 人物吐槽箱
@@ -199,7 +199,7 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
         const type = node ? String(node[0].attrs.class).substring(30, 31) : ''
 
         // 20210216 适配第二个声优, 第三个不适配了
-        const cast2 = {}
+        const cast2: AnyObject = {}
         node = findTreeNode(children, 'ul > li > a')
         if (node) {
           const cast = node?.[1]?.attrs?.title || ''

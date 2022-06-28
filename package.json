@@ -14,6 +14,7 @@
     "ios": "react-native run-ios",
     "kill": "sudo purge",
     "kill:node": "ps -ef |grep node|awk 'NR==1 {print $2}'|xargs kill -15",
+    "pk": "pkill node",
     "top": "top -s 4 -o rsize"
   },
   "dependencies": {

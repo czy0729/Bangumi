@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-10 14:28:11
+ * @Last Modified time: 2022-06-29 02:03:36
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -68,7 +68,7 @@ export async function fetchRakuen({ scope, type } = {}) {
  * 分析留言层信息
  * @param {*} HTML
  */
-export function analysisComments(HTML, reverse) {
+export function analysisComments(HTML, reverse?) {
   const comments = []
   if (!HTML) return comments
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-27 13:58:10
+ * @Last Modified time: 2022-06-28 17:13:52
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -29,7 +29,15 @@ import {
   LIMIT_LIST_COMMENTS,
   LIST_EMPTY
 } from '@constants'
-import { MonoId, StoreConstructor, SubjectId } from '@types'
+import {
+  EpId,
+  HTMLText,
+  MonoId,
+  PersonId,
+  RatingStatus,
+  StoreConstructor,
+  SubjectId
+} from '@types'
 import UserStore from '../user'
 import {
   NAMESPACE,
@@ -52,13 +60,18 @@ import {
   cheerioWikiCovers
 } from './common'
 import {
+  Mono,
+  MonoComments,
+  MonoVoices,
+  MonoWorks,
+  Origin,
+  Rating,
   Subject,
-  FetchMonoVoices,
-  FetchMonoWorks,
-  MonoCommentsItem,
+  SubjectCatalogs,
   SubjectComments,
+  SubjectFormCDN,
   SubjectFormHTML,
-  SubjectFormCDN
+  Wiki
 } from './types'
 
 /**
@@ -66,10 +79,7 @@ import {
  *         避免JSON.stringify后长度太长, 存(取)本地不能
  */
 const state = {
-  /**
-   * 条目
-   * @param {*} subjectId
-   */
+  /** 条目 */
   subject0: {},
   subject1: {},
   subject2: {},
@@ -81,10 +91,7 @@ const state = {
   subject8: {},
   subject9: {},
 
-  /**
-   * 条目HTML
-   * @param {*} subjectId
-   */
+  /** 条目 (HTML) */
   subjectFormHTML0: {},
   subjectFormHTML1: {},
   subjectFormHTML2: {},
@@ -96,96 +103,58 @@ const state = {
   subjectFormHTML8: {},
   subjectFormHTML9: {},
 
-  /**
-   * 条目CDN自维护数据
-   * 用于条目首次渲染加速
-   * @param {*} subjectId
-   */
+  /** 条目 (CDN) */
   subjectFormCDN: {
     0: INIT_SUBJECT_FROM_CDN_ITEM
   },
 
-  /**
-   * [待废弃] 条目章节
-   * @param {*} subjectId
-   */
+  /** @deprecated 条目章节 */
   subjectEp: {
     0: {}
   },
 
-  /**
-   * 包含条目的目录
-   * @param {*} subjectId
-   */
+  /** 包含条目的目录 */
   subjectCatalogs: {
     0: LIST_EMPTY
   },
 
-  /**
-   * 条目吐槽箱
-   * @param {*} subjectId
-   */
+  /** 条目吐槽箱 */
   subjectComments: {
     0: LIST_EMPTY
   },
 
-  /**
-   * 章节内容
-   * @param {*} epId
-   */
+  /** 章节内容 */
   epFormHTML: {
     0: ''
   },
 
-  /**
-   * 人物
-   * @param {*} monoId
-   */
+  /** 人物 */
   mono: {
     0: INIT_MONO
   },
 
-  /**
-   * 人物吐槽箱
-   * @param {*} monoId
-   */
+  /** 人物吐槽箱 */
   monoComments: {
-    0: LIST_EMPTY // <INIT_MONO_COMMENTS_ITEM>
+    0: LIST_EMPTY
   },
 
-  /**
-   * 人物CDN自维护数据
-   * 用于人物首次渲染加速
-   * @param {*} monoId
-   */
+  /** 人物 (CDN) */
   monoFormCDN: {
     0: INIT_MONO
   },
 
-  /**
-   * 人物作品
-   * @param {*} monoId
-   * https://bgm.tv/person/8138/works
-   */
+  /** 人物作品 */
   monoWorks: {
     0: INIT_MONO_WORKS
   },
 
-  /**
-   * 人物角色列表
-   * @param {*} monoId
-   * https://bgm.tv/person/8138/works/voice
-   */
+  /** 人物饰演的角色 */
   monoVoices: {
     0: INIT_MONO_WORKS
   },
 
-  /**
-   * 好友评分列表
-   */
+  /** 好友评分列表 */
   rating: {
-    _: (subjectId = 0, status = DEFAULT_RATING_STATUS, isFriend = false) =>
-      `${subjectId}|${status}|${isFriend}`,
     0: {
       ...LIST_EMPTY,
       counts: {
@@ -198,16 +167,12 @@ const state = {
     }
   },
 
-  /**
-   * wiki修订历史
-   */
+  /** wiki修订历史 */
   wiki: {
     0: INIT_SUBJECT_WIKI
   },
 
-  /**
-   * 自定义源头数据
-   */
+  /** 自定义源头数据 */
   origin: {
     base: {},
     custom: {
@@ -305,6 +270,20 @@ class SubjectStore
     }).get()
   }
 
+  /** @deprecated 条目章节 */
+  subjectEp(subjectId: SubjectId) {
+    return computed(() => {
+      return this.state.subjectEp[subjectId] || {}
+    }).get()
+  }
+
+  /** 包含条目的目录 */
+  subjectCatalogs(subjectId: SubjectId) {
+    return computed<SubjectCatalogs>(() => {
+      return this.state.subjectCatalogs[subjectId] || LIST_EMPTY
+    }).get()
+  }
+
   /** 条目吐槽箱 */
   subjectComments(subjectId: SubjectId) {
     return computed<SubjectComments>(() => {
@@ -312,30 +291,86 @@ class SubjectStore
     }).get()
   }
 
+  /** 章节内容 */
+  epFormHTML(epId: EpId) {
+    return computed<HTMLText>(() => {
+      return this.state.epFormHTML[epId] || ''
+    }).get()
+  }
+
+  /** 章节内容 */
+  mono(monoId: MonoId) {
+    return computed<Mono>(() => {
+      return this.state.mono[monoId] || INIT_MONO
+    }).get()
+  }
+
   /** 人物吐槽箱 */
   monoComments(monoId: MonoId) {
-    return computed<MonoCommentsItem>(() => {
+    return computed<MonoComments>(() => {
       return this.state.monoComments[monoId] || LIST_EMPTY
     }).get()
   }
 
-  // subjectCatalogs() {}
-  // subjectEp() {}
-  // epFormHTML() {}
-  // mono() {}
-  // monoFormCDN() {}
-  // monoWorks() {}
-  // monoVoices() {}
-  // rating() {}
-  // wiki() {}
-  // origin() {}
+  /** 人物 (CDN), 用于人物首次渲染加速 */
+  monoFormCDN(monoId: MonoId) {
+    return computed<Mono>(() => {
+      return this.state.monoFormCDN[monoId] || INIT_MONO
+    }).get()
+  }
+
+  /** 人物作品 */
+  monoWorks(monoId: MonoId) {
+    return computed<MonoWorks>(() => {
+      return this.state.monoWorks[monoId] || INIT_MONO_WORKS
+    }).get()
+  }
+
+  /** 人物饰演的角色 */
+  monoVoices(monoId: MonoId) {
+    return computed<MonoVoices>(() => {
+      return this.state.monoVoices[monoId] || INIT_MONO_WORKS
+    }).get()
+  }
+
+  /** 好友评分列表 */
+  rating(
+    subjectId: SubjectId,
+    status: RatingStatus = DEFAULT_RATING_STATUS,
+    isFriend: boolean = false
+  ) {
+    return computed<Rating>(() => {
+      const key = `${subjectId}|${status}|${isFriend}`
+      return (
+        this.state.rating[key] || {
+          ...LIST_EMPTY,
+          counts: {
+            wishes: 0,
+            collections: 0,
+            doings: 0,
+            on_hold: 0,
+            dropped: 0
+          }
+        }
+      )
+    }).get()
+  }
+
+  /** wiki修订历史 */
+  wiki(subjectId: SubjectId) {
+    return computed<Wiki>(() => {
+      return this.state.wiki[subjectId] || INIT_SUBJECT_WIKI
+    }).get()
+  }
+
+  /** 自定义源头数据 */
+  @computed get origin(): Origin {
+    return this.state.origin
+  }
 
   // -------------------- fetch --------------------
-  /**
-   * 条目信息
-   * @param {*} subjectId
-   */
-  fetchSubject = subjectId => {
+  /** 条目信息 */
+  fetchSubject = (subjectId: SubjectId) => {
     const str = String(subjectId)
     const last = str.charAt(str.length - 1)
     return this.fetch(
@@ -354,12 +389,8 @@ class SubjectStore
     )
   }
 
-  /**
-   * 网页获取条目信息
-   * @param {*} subjectId
-   * @param {*} cdn 是否请求自建cdn
-   */
-  fetchSubjectFormHTML = async subjectId => {
+  /** 网页获取条目信息 */
+  fetchSubjectFormHTML = async (subjectId: SubjectId) => {
     const HTML = await fetchHTML({
       url: HTML_SUBJECT(subjectId)
     })
@@ -378,14 +409,11 @@ class SubjectStore
     })
 
     this.setStorage(key, undefined, NAMESPACE)
-    return Promise.resolve(data)
+    return data
   }
 
-  /**
-   * CDN获取条目信息
-   * @param {*} subjectId
-   */
-  fetchSubjectFormCDN = async subjectId => {
+  /** CDN获取条目信息 */
+  fetchSubjectFormCDN = async (subjectId: SubjectId) => {
     try {
       const { _response } = await xhrCustom({
         url: CDN_SUBJECT(subjectId)
@@ -401,19 +429,15 @@ class SubjectStore
           [subjectId]: data
         }
       })
-      return Promise.resolve(data)
+      return data
     } catch (error) {
-      console.error('subjectStore', 'fetchSubjectFormCDN', 404)
-      return Promise.resolve(INIT_SUBJECT_FROM_CDN_ITEM)
+      return INIT_SUBJECT_FROM_CDN_ITEM
     }
   }
 
-  /**
-   * 章节数据
-   * @param {*} subjectId
-   */
-  fetchSubjectEp = subjectId =>
-    this.fetch(
+  /** @deprecated 章节数据 */
+  fetchSubjectEp = (subjectId: SubjectId) => {
+    return this.fetch(
       {
         url: API_SUBJECT_EP(subjectId),
         info: '章节数据'
@@ -424,12 +448,16 @@ class SubjectStore
         namespace: NAMESPACE
       }
     )
+  }
 
-  /**
-   * 包含条目的目录
-   * @param {*} subjectId
-   */
-  fetchSubjectCatalogs = async ({ subjectId }, refresh) => {
+  /** 包含条目的目录 */
+  fetchSubjectCatalogs = async (
+    args: {
+      subjectId: SubjectId
+    },
+    refresh?: boolean
+  ) => {
+    const { subjectId } = args || {}
     const key = 'subjectCatalogs'
     const limit = 15
     const { list, pagination } = this[key](subjectId)
@@ -456,22 +484,22 @@ class SubjectStore
     return this[key](subjectId)
   }
 
-  /**
-   * 网页获取留言
-   * @param {*} subjectId
-   * @param {*} refresh 是否重新获取
-   * @param {*} reverse 是否倒序
-   */
-  fetchSubjectComments = async ({ subjectId }, refresh, reverse) => {
+  /** 网页获取留言 */
+  fetchSubjectComments = async (
+    args: {
+      subjectId: SubjectId
+    },
+    refresh?: boolean,
+    reverse?: boolean
+  ) => {
+    const { subjectId } = args || {}
     const { list, pagination, _reverse } = this.subjectComments(subjectId)
     let page // 下一页的页码
 
     // @notice 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
     // 点击倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
     let isReverse = reverse
-    if (!isReverse && !refresh) {
-      isReverse = _reverse
-    }
+    if (!isReverse && !refresh) isReverse = _reverse
 
     if (isReverse) {
       if (refresh) {
@@ -564,15 +592,13 @@ class SubjectStore
         }
       }
     })
+
     this.setStorage(key, undefined, NAMESPACE)
     return res
   }
 
-  /**
-   * 章节内容
-   * @param {*} epId
-   */
-  fetchEpFormHTML = async epId => {
+  /** 章节内容 */
+  fetchEpFormHTML = async (epId: EpId) => {
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
       url: `!${HTML_EP(epId)}`
@@ -593,12 +619,15 @@ class SubjectStore
     return res
   }
 
-  /**
-   * 人物信息和吐槽箱
-   * 为了提高体验, 吐槽箱做模拟分页加载效果, 逻辑与超展开回复一致
-   * @param {*} monoId
-   */
-  fetchMono = async ({ monoId }, refresh) => {
+  /** 人物信息和吐槽箱 (为了提高体验, 吐槽箱做模拟分页加载效果, 逻辑与超展开回复一致) */
+  fetchMono = async (
+    args: {
+      monoId: MonoId
+    },
+    refresh?: boolean
+  ) => {
+    const { monoId } = args || {}
+
     let res
     const monoKey = 'mono'
     const commentsKey = 'monoComments'
@@ -657,11 +686,8 @@ class SubjectStore
     return res
   }
 
-  /**
-   * CDN获取人物信息
-   * @param {*} subjectId
-   */
-  fetchMonoFormCDN = async monoId => {
+  /** CDN获取人物信息 */
+  fetchMonoFormCDN = async (monoId: MonoId) => {
     try {
       const { _response } = await xhrCustom({
         url: CDN_MONO(
@@ -680,15 +706,21 @@ class SubjectStore
           [monoId]: data
         }
       })
-      return Promise.resolve(data)
+      return data
     } catch (error) {
-      console.error('subjectStore', 'fetchMonoFormCDN', 404)
-      return Promise.resolve(INIT_MONO)
+      return INIT_MONO
     }
   }
 
   /** 人物作品 */
-  fetchMonoWorks: FetchMonoWorks = async (args, refresh) => {
+  fetchMonoWorks = async (
+    args: {
+      monoId: PersonId
+      position?: string
+      order?: 'date' | 'rank' | 'title'
+    },
+    refresh?: boolean
+  ) => {
     const { monoId, position, order } = args || {}
     const key = 'monoWorks'
     const limit = 24
@@ -718,7 +750,7 @@ class SubjectStore
   }
 
   /** 人物角色 */
-  fetchMonoVoices: FetchMonoVoices = async args => {
+  fetchMonoVoices = async (args: { monoId: PersonId; position?: string }) => {
     const { monoId, position } = args || {}
     const key = 'monoVoices'
     const html = await fetchHTML({
@@ -743,13 +775,21 @@ class SubjectStore
     return this[key](monoId)
   }
 
-  /**
-   * 所有人评分
-   */
+  /** 所有人评分 */
   fetchRating = async (
-    { subjectId = 0, status = DEFAULT_RATING_STATUS, isFriend = false } = {},
-    refresh
+    args: {
+      subjectId: SubjectId
+      status: RatingStatus
+      isFriend?: boolean
+    },
+    refresh?: boolean
   ) => {
+    const {
+      subjectId = 0,
+      status = DEFAULT_RATING_STATUS,
+      isFriend = false
+    } = args || {}
+
     const key = 'rating'
     const stateKey = `${subjectId}|${status}|${isFriend}`
     const limit = 20
@@ -778,10 +818,9 @@ class SubjectStore
     return this[key](subjectId, status, isFriend)
   }
 
-  /**
-   * wiki修订历史
-   */
-  fetchWiki = async ({ subjectId }) => {
+  /** wiki修订历史 */
+  fetchWiki = async (args: { subjectId: SubjectId }) => {
+    const { subjectId } = args || {}
     const key = 'wiki'
     const htmlEdit = await fetchHTML({
       url: HTML_SUBJECT_WIKI_EDIT(subjectId)
@@ -806,10 +845,8 @@ class SubjectStore
   }
 
   // -------------------- page --------------------
-  /**
-   * 更新源头数据
-   */
-  updateOrigin = data => {
+  /** 更新源头数据 */
+  updateOrigin = (data: Origin) => {
     const key = 'origin'
     this.setState({
       [key]: data
@@ -817,9 +854,7 @@ class SubjectStore
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 上传源头数据到云端
-   */
+  /** 上传源头数据到云端 */
   uploadOrigin = () => {
     const { id } = UserStore.userInfo
     const { origin } = this.state
@@ -829,9 +864,7 @@ class SubjectStore
     })
   }
 
-  /**
-   * 恢复源头数据
-   */
+  /** 恢复源头数据 */
   downloadOrigin = async () => {
     const { id } = UserStore.userInfo
     const { content } = await read({

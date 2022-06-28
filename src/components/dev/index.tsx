@@ -24,25 +24,27 @@ const logs = observable([])
 
 /** 调试窗口打印 (手机实机开发用) */
 export function devLog(...args) {
-  runInAction(() => {
-    args.reverse().forEach(data => {
-      logs.unshift({
-        date: date('H:i:s', getTimestamp()),
-        data: typeof data === 'object' ? JSON.stringify(data, null, 4) : String(data)
+  setTimeout(() => {
+    runInAction(() => {
+      args.reverse().forEach(data => {
+        logs.unshift({
+          date: date('H:i:s', getTimestamp()),
+          data: typeof data === 'object' ? JSON.stringify(data, null, 4) : String(data)
+        })
       })
-    })
 
-    // if (interval) {
-    //   clearInterval(interval)
-    //   interval = null
-    // } else {
-    //   interval = setInterval(() => {
-    //     runInAction(() => {
-    //       logs.clear()
-    //     })
-    //   }, 20000)
-    // }
-  })
+      // if (interval) {
+      //   clearInterval(interval)
+      //   interval = null
+      // } else {
+      //   interval = setInterval(() => {
+      //     runInAction(() => {
+      //       logs.clear()
+      //     })
+      //   }, 20000)
+      // }
+    })
+  }, 0)
 }
 
 export const DEV = observer(() => {

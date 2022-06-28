@@ -6,19 +6,20 @@
  */
 import { SubjectType, SubjectTypeCn, SubjectTypeValue } from '@constants/model/types'
 import {
+  AnyObject,
   Avatar,
   Collection,
   Cover,
   CoverCrt,
   DeepPartial,
+  HTMLText,
   Id,
   Images,
   ImagesAvatar,
   ImagesCrt,
   ListEmpty,
   Override,
-  PersonId,
-  Rating,
+  Rating as RatingType,
   SubjectId,
   UrlBlog,
   UrlEp,
@@ -127,7 +128,7 @@ export type Subject = DeepPartial<{
   name: string
   name_cn: string
   rank: number
-  rating: Rating
+  rating: RatingType
   staff: Staff[]
   summary: string
   topic: Topic[]
@@ -205,7 +206,7 @@ export type SubjectFormCDN = DeepPartial<{
   type: SubjectTypeValue
   name: string
   image: Cover<'m'>
-  rating: Rating
+  rating: RatingType
   summary: string
   info: string
   collection: Collection
@@ -265,13 +266,25 @@ export type SubjectFormCDN = DeepPartial<{
   lock: string
 }>
 
+/** 包含条目的目录 */
+export type SubjectCatalogs = ListEmpty<
+  Partial<{
+    id: Id
+    title: string
+    userId: UserId
+    userName: string
+    avatar: Avatar<'s'>
+    time: string
+  }>
+>
+
 /** 公共回复参数 */
 type SubjectCommentsAttrs = {
-  id: string
+  id: Id
   time: string
   floor: string
   avatar: string
-  userId: string
+  userId: UserId
   userName: string
   userSign: string
   replySub: string
@@ -289,51 +302,147 @@ type SubjectCommentsItem = Override<
 
 /** 条目回复 */
 export type SubjectComments = Override<
-  ListEmpty<SubjectCommentsItem>,
+  ListEmpty<DeepPartial<SubjectCommentsItem>>,
   {
     _reverse?: boolean
   }
 >
 
+/** 人物 */
+export type Mono = DeepPartial<{
+  name: string
+  nameCn: string
+  cover: CoverCrt<'m'>
+  info: HTMLText
+  detail: string
+
+  /** 声优有此值 */
+  voice: {
+    href: `/character/${Id}`
+    name: string
+    nameCn: string
+    cover: Cover<'s'>
+    subjectHref: `/subject/${SubjectId}`
+    subjectName: string
+    subjectNameCn: string
+    subjectCover: Cover<'g'>
+    staff: string
+  }[]
+
+  /** 废弃 */
+  workes: AnyObject[]
+
+  /** 虚拟角色有此值 */
+  jobs: {
+    href: `/subject/${SubjectId}`
+    name: string
+    nameCn: string
+    cover: Cover<'g'>
+    staff: string
+    case: string
+    castHref: string
+    castTag: string
+    castCover: string
+    cast2: AnyObject
+    type: SubjectTypeValue
+  }[]
+
+  /** 真实人物或组织有此值 */
+  works: {
+    href: `/subject/${SubjectId}`
+    name: string
+    cover: Cover<'g'>
+    staff: string
+    type: SubjectTypeValue
+  }[]
+
+  collectUrl: `${string}?gh=${string}`
+  eraseCollectUrl: `${string}?gh=${string}`
+  _loaded: number
+}>
+
 /** 角色回复 */
-export type MonoCommentsItem = SubjectComments
+export type MonoComments = SubjectComments
 
-/** 制作人员职位项 */
-export type MonoWorksItem = {
-  id: string
-  cover: string
+/** 人物作品 */
+export type MonoWorks = ListEmpty<
+  Partial<{
+    id: `/subject/${SubjectId}`
+    cover: Cover<'c'>
+    name: string
+    nameCn: string
+    tip: string
+    position: string[]
+    score: string
+    total: string
+    rank: string
+    collected: boolean
+    type: SubjectType
+  }>
+>
+
+/** 人物作品 */
+export type MonoVoices = ListEmpty<
+  Partial<{
+    id: Id
+    name: string
+    nameCn: string
+    cover: CoverCrt<'s'>
+    subject: {
+      id: SubjectId
+      name: string
+      nameCn: string
+      cover: Cover<'g'>
+      staff: string
+    }[]
+  }>
+>
+
+/** 好友评分列表 */
+export type Rating = ListEmpty<{
+  id: UserId
+  avatar: Avatar<'l'>
   name: string
-  nameCn: string
-  tip: string
-  position: string[]
-  score: string
-  total: string
-  rank: string
-  collected: boolean
-  type: SubjectType
-}
+  time: string
+  star: number
+  comment: string
+}>
 
-/** 角色列表项 */
-export type MonoVoicesItem = {
-  cover: string
-  id: string
-  name: string
-  nameCn: string
-  subject: any[]
-}
+/** wiki修订历史 */
+export type Wiki = DeepPartial<{
+  edits: {
+    id: number
+    time: string
+    userId: UserId
+    userName: string
+    comment: string
+    sub: string
+  }[]
+  covers: {
+    id: number
+    cover: Cover<'m'>
+    userId: UserId
+    userName: string
+  }[]
+}>
 
-/** 人物作品列表 */
-export type FetchMonoWorks = (
-  args: {
-    monoId: PersonId
-    position?: string
-    order?: 'date' | 'rank' | 'title'
-  },
-  refresh?: boolean
-) => Promise<ListEmpty<MonoWorksItem>>
-
-/** 人物角色列表 */
-export type FetchMonoVoices = (args: {
-  monoId: PersonId
-  position?: string
-}) => Promise<ListEmpty<MonoVoicesItem>>
+/** 自定义源头数据 */
+export type Origin = DeepPartial<{
+  base: Record<
+    string,
+    {
+      active: boolean
+    }
+  >
+  custom: Record<
+    'anime' | 'hanime' | 'manga' | 'wenku' | 'music' | 'game' | 'real',
+    {
+      id: string
+      uuid: string
+      name: string
+      url: string
+      sort: any
+      active: number
+    }
+  >
+}>
