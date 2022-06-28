@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 18:07:36
+ * @Last Modified time: 2022-06-29 04:13:26
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -12,20 +12,18 @@ import { info } from '@utils/ui'
 import { put, read } from '@utils/db'
 import {
   DEV,
-  IOS,
+  GITHUB_ADVANCE,
   GITHUB_DATA,
   GITHUB_RELEASE_REPOS,
-  GITHUB_ADVANCE,
-  VERSION_GITHUB_RELEASE
-} from '@constants'
-import {
-  MODEL_SETTING_QUALITY,
-  MODEL_SETTING_TRANSITION,
-  MODEL_SETTING_INITIAL_PAGE,
+  IOS,
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
-  MODEL_SETTING_USER_GRID_NUM
-} from '@constants/model'
+  MODEL_SETTING_INITIAL_PAGE,
+  MODEL_SETTING_QUALITY,
+  MODEL_SETTING_TRANSITION,
+  MODEL_SETTING_USER_GRID_NUM,
+  VERSION_GITHUB_RELEASE
+} from '@constants'
 import UserStore from '../user'
 import {
   NAMESPACE,
@@ -35,42 +33,119 @@ import {
   INIT_RELEASE,
   INIT_IMAGE_VIEWER
 } from './init'
+import {
+  AnyObject,
+  SettingHomeLayoutCn,
+  SettingHomeSortingCn,
+  SettingInitialPageCn,
+  SettingQualityCn,
+  SettingTransitionCn,
+  SettingUserGridNumCn,
+  StoreConstructor
+} from '@types'
 
-class System extends store {
-  state = observable({
-    /** 云端配置数据 */
-    ota: {},
+const state = {
+  /** 云端配置数据 */
+  ota: {},
 
-    /** 高级会员 */
-    advance: false,
+  /** 高级会员 */
+  advance: false,
 
-    /** 基本设置 */
-    setting: INIT_SETTING,
+  /** 基本设置 */
+  setting: INIT_SETTING,
 
-    /** 发布版本 */
-    release: INIT_RELEASE,
+  /** 发布版本 */
+  release: INIT_RELEASE,
 
-    /** 是否显示图片预览 */
-    imageViewer: INIT_IMAGE_VIEWER,
+  /** 是否显示图片预览 */
+  imageViewer: INIT_IMAGE_VIEWER,
 
-    /** @deprecated 是否wifi */
-    wifi: false,
+  /** @deprecated 是否 wifi */
+  wifi: false,
 
-    /** 是否开发环境 */
-    dev: false,
+  /** 是否开发环境 */
+  dev: false,
 
-    /** 是否显示埋点统计 */
-    devEvent: INIT_DEV_EVENT,
+  /** 是否显示埋点统计 */
+  devEvent: INIT_DEV_EVENT,
 
-    /** @deprecated iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
-    iosUGCAgree: false,
+  /** @deprecated iOS 首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
+  iosUGCAgree: false,
 
-    /** 用于标记APP启动后是否进入静止期 */
-    rendered: false,
+  /** 用于标记 APP 启动后是否进入静止期 */
+  rendered: false,
 
-    /** 用于在bangumi-oss ota hash更新后, 强制刷新APP内所有封面 */
-    hashSubjectOTALoaded: 0
-  })
+  /** 用于在 bangumi-oss ota hash 更新后, 强制刷新 APP 内所有封面 */
+  hashSubjectOTALoaded: 0
+}
+
+class SystemStore extends store implements StoreConstructor<typeof state> {
+  state = observable(state)
+
+  // -------------------- get --------------------
+  /** 是否开发环境 */
+  @computed get dev() {
+    return this.state.dev
+  }
+
+  /** 基本设置 */
+  @computed get setting() {
+    return {
+      ...this.state.setting,
+      imageTransition: false
+    }
+  }
+
+  /** 发布版本 */
+  @computed get release() {
+    return this.state.release
+  }
+
+  /** @deprecated 是否 wifi */
+  @computed get wifi() {
+    return this.state.wifi
+  }
+
+  /** @deprecated iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
+  @computed get iosUGCAgree() {
+    return this.state.iosUGCAgree
+  }
+
+  /** 是否显示埋点统计 */
+  @computed get devEvent() {
+    return this.state.devEvent
+  }
+
+  /** 高级会员 */
+  @computed get advance() {
+    return this.state.advance
+  }
+
+  /** 是否显示图片预览 */
+  @computed get imageViewer() {
+    return this.state.imageViewer
+  }
+
+  /** 用于标记 APP 启动后是否进入静止期 */
+  @computed get rendered() {
+    return this.state.rendered
+  }
+
+  /** 云端配置数据 */
+  @computed get ota(): AnyObject {
+    return this.state.ota
+  }
+
+  /** 用于在 bangumi-oss ota hash 更新后, 强制刷新 APP 内所有封面 */
+  @computed get hashSubjectOTALoaded() {
+    return this.state.hashSubjectOTALoaded
+  }
+
+  // -------------------- computed --------------------
+  /** @deprecated iOS 首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
+  @computed get isUGCAgree() {
+    return true
+  }
 
   init = async () => {
     await this.readStorage(
@@ -90,64 +165,13 @@ class System extends store {
       this.setState({
         rendered: true
       })
-    }, 10000)
+    }, 8000)
 
     return true
-  }
-
-  // -------------------- get --------------------
-  /** iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
-  @computed get isUGCAgree() {
-    return true
-  }
-
-  /** 是否开发环境 */
-  @computed get dev() {
-    return this.state.dev
-  }
-
-  /** 基本设置 */
-  @computed get setting() {
-    return {
-      ...this.state.setting,
-      imageTransition: false
-    }
-  }
-
-  /** 发布版本 */
-  @computed get release() {
-    return this.state.release
-  }
-
-  /** @deprecated 是否wifi */
-  @computed get wifi() {
-    return this.state.wifi
-  }
-
-  /** 是否显示埋点统计 */
-  @computed get devEvent() {
-    return this.state.devEvent
-  }
-
-  /** 高级会员 */
-  @computed get advance() {
-    return this.state.advance
-  }
-
-  /** 是否显示图片预览 */
-  @computed get imageViewer() {
-    return this.state.imageViewer
-  }
-
-  /** 用于标记APP启动后是否进入静止期 */
-  @computed get rendered() {
-    return this.state.rendered
   }
 
   // -------------------- fetch --------------------
-  /*
-   * 检查云端数据
-   */
+  /** 检查云端数据 */
   fetchOTA = async () => {
     let res
     try {
@@ -160,15 +184,11 @@ class System extends store {
         ota
       })
       this.setStorage('ota', undefined, NAMESPACE)
-    } catch (error) {
-      // do nothing
-    }
+    } catch (error) {}
     return res
   }
 
-  /*
-   * 检查新版本
-   */
+  /** 检查新版本 */
   fetchRelease = async () => {
     let res
     try {
@@ -179,7 +199,7 @@ class System extends store {
       const { browser_download_url: downloadUrl } = assets[0]
       const { name: currentVersion } = this.state.release
       if (githubVersion !== (currentVersion || VERSION_GITHUB_RELEASE)) {
-        // iOS不允许提示更新
+        // iOS 不允许提示更新
         if (!IOS) {
           setTimeout(() => {
             info('有新版本, 可到设置里下载')
@@ -195,15 +215,11 @@ class System extends store {
         })
         this.setStorage('release', undefined, NAMESPACE)
       }
-    } catch (error) {
-      // do nothing
-    }
+    } catch (error) {}
     return res
   }
 
-  /**
-   * 判断是否高级用户
-   */
+  /** 判断是否高级用户 */
   fetchAdvance = async () => {
     if (this.advance) return true
 
@@ -223,13 +239,12 @@ class System extends store {
         })
         this.setStorage(key, undefined, NAMESPACE)
       }
-    } catch (error) {
-      console.error(NAMESPACE, 'fetchAdvance', error)
-    }
+    } catch (error) {}
 
     return true
   }
 
+  /** 请求自己的打赏信息 */
   fetchAdvanceDetail = async () => {
     const { myId, myUserId } = UserStore
     if (!myId || !myUserId) return false
@@ -246,10 +261,8 @@ class System extends store {
   }
 
   // -------------------- page --------------------
-  /**
-   * 设置`图片质量`
-   */
-  setQuality = label => {
+  /** 设置 `图片质量` */
+  setQuality = (label: SettingQualityCn) => {
     const quality = MODEL_SETTING_QUALITY.getValue(label)
     if (quality) {
       const key = 'setting'
@@ -263,10 +276,8 @@ class System extends store {
     }
   }
 
-  /**
-   * 设置`切页动画`
-   */
-  setTransition = label => {
+  /** 设置 `切页动画` */
+  setTransition = (label: SettingTransitionCn) => {
     const transition = MODEL_SETTING_TRANSITION.getValue(label)
     if (transition) {
       const key = 'setting'
@@ -280,10 +291,8 @@ class System extends store {
     }
   }
 
-  /**
-   * 设置`启动页`
-   */
-  setInitialPage = label => {
+  /** 设置 `启动页` */
+  setInitialPage = (label: SettingInitialPageCn) => {
     const initialPage = MODEL_SETTING_INITIAL_PAGE.getValue(label)
     if (initialPage) {
       const key = 'setting'
@@ -297,10 +306,8 @@ class System extends store {
     }
   }
 
-  /**
-   * 设置`首页布局`
-   */
-  setHomeLayout = label => {
+  /** 设置 `首页布局` */
+  setHomeLayout = (label: SettingHomeLayoutCn) => {
     const homeLayout = MODEL_SETTING_HOME_LAYOUT.getValue(label)
     if (homeLayout) {
       const key = 'setting'
@@ -314,10 +321,8 @@ class System extends store {
     }
   }
 
-  /**
-   * 设置`首页排序`
-   */
-  setHomeSorting = label => {
+  /** 设置 `首页排序` */
+  setHomeSorting = (label: SettingHomeSortingCn) => {
     const homeSorting = MODEL_SETTING_HOME_SORTING.getValue(label)
     if (homeSorting) {
       const key = 'setting'
@@ -331,13 +336,13 @@ class System extends store {
     }
   }
 
-  /**
-   * 设置`首页功能块`
-   */
-  setHomeRenderTabs = label => {
+  /** 设置 `首页功能块` */
+  setHomeRenderTabs = (
+    label: 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User'
+  ) => {
     const { homeRenderTabs } = this.setting
 
-    let data
+    let data: string[]
     if (homeRenderTabs.includes(label)) {
       data = homeRenderTabs.filter(item => item !== label)
     } else {
@@ -361,10 +366,8 @@ class System extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 设置`方格数量`
-   */
-  setUserGridNum = label => {
+  /** 设置 `方格数量` */
+  setUserGridNum = (label: SettingUserGridNumCn) => {
     const userGridNum = MODEL_SETTING_USER_GRID_NUM.getValue(label)
     if (userGridNum) {
       const key = 'setting'
@@ -378,10 +381,8 @@ class System extends store {
     }
   }
 
-  /**
-   * 切换
-   */
-  switchSetting = switchKey => {
+  /** 切换 */
+  switchSetting = (switchKey: keyof typeof INIT_SETTING) => {
     const key = 'setting'
     this.setState({
       [key]: {
@@ -392,10 +393,8 @@ class System extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 对指定设置直接赋值 (暂用于永久隐藏条目页面板块)
-   */
-  setSetting = (switchKey?: string, value: any = true) => {
+  /** 对指定设置直接赋值 (暂用于永久隐藏条目页面板块) */
+  setSetting = (switchKey: keyof typeof INIT_SETTING, value: any = true) => {
     const key = 'setting'
     this.setState({
       [key]: {
@@ -406,9 +405,7 @@ class System extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 条目页面重置布局
-   */
+  /** 条目页面重置布局 */
   resetSubjectLayout = () => {
     const key = 'setting'
     this.setState({
@@ -420,9 +417,7 @@ class System extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 恢复默认设置
-   */
+  /** 恢复默认设置 */
   resetSetting = () => {
     const key = 'setting'
     this.setState({
@@ -431,9 +426,7 @@ class System extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 上传当前设置到云端
-   */
+  /** 上传当前设置到云端 */
   uploadSetting = () => {
     const { id } = UserStore.userInfo
     return put({
@@ -442,18 +435,14 @@ class System extends store {
     })
   }
 
-  /**
-   * 恢复到云端的设置
-   */
+  /** 恢复到云端的设置 */
   downloadSetting = async () => {
     const { id } = UserStore.userInfo
     const { content } = await read({
       path: `setting/${id}.json`
     })
 
-    if (!content) {
-      return false
-    }
+    if (!content) return false
 
     try {
       const setting = JSON.parse(content)
@@ -471,11 +460,8 @@ class System extends store {
     }
   }
 
-  /**
-   * 显示ImageViewer
-   * @param {*} imageUrls Image Source
-   */
-  showImageViewer = (imageUrls = [], index) => {
+  /** 显示 ImageViewer */
+  showImageViewer = (imageUrls: any[] = [], index: number) => {
     this.setState({
       imageViewer: {
         visible: true,
@@ -485,18 +471,14 @@ class System extends store {
     })
   }
 
-  /**
-   * 隐藏ImageViewer
-   */
+  /** 隐藏 ImageViewer */
   closeImageViewer = () => {
     this.setState({
       imageViewer: INIT_IMAGE_VIEWER
     })
   }
 
-  /**
-   * 切换开发模式
-   */
+  /** 切换开发模式 */
   toggleDev = () => {
     const { dev } = this.state
     const key = 'dev'
@@ -506,10 +488,10 @@ class System extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 切换显示埋点统计
-   */
-  toggleDevEvent = (value = 'enabled') => {
+  /** 切换显示埋点统计 */
+  toggleDevEvent = (
+    value: 'enabled' | 'grid' | 'text' | 'sum' | 'mini' = 'enabled'
+  ) => {
     const { devEvent } = this.state
     const key = 'devEvent'
     this.setState({
@@ -521,10 +503,8 @@ class System extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 同意社区指导原则
-   */
-  updateUGCAgree = value => {
+  /** 同意社区指导原则 */
+  updateUGCAgree = (value: boolean = true) => {
     const key = 'iosUGCAgree'
     this.setState({
       [key]: value
@@ -533,7 +513,4 @@ class System extends store {
   }
 }
 
-const Store = new System()
-Store.setup()
-
-export default Store
+export default new SystemStore()

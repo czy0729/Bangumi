@@ -1,10 +1,11 @@
 /*
  * 字典
+ * @Todo: 使用TS枚举重构
  *
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 17:01:40
+ * @Last Modified time: 2022-06-29 04:07:07
  */
 import { IOS } from '../constants'
 
@@ -474,7 +475,7 @@ export const BROWSER_SORT = [
 export const MODEL_BROWSER_SORT = new Model(BROWSER_SORT)
 
 /** [设置] 首页收藏布局 */
-export const MODEL_SETTING_HOME_LAYOUT = new Model([
+export const SETTING_HOME_LAYOUT = [
   {
     label: '列表',
     value: 'list'
@@ -483,10 +484,13 @@ export const MODEL_SETTING_HOME_LAYOUT = new Model([
     label: '网格',
     value: 'grid'
   }
-])
+] as const
+
+/** [设置] 首页收藏布局 */
+export const MODEL_SETTING_HOME_LAYOUT = new Model(SETTING_HOME_LAYOUT)
 
 /** [设置] 首页收藏排序 */
-export const MODEL_SETTING_HOME_SORTING = new Model([
+export const SETTING_HOME_SORTING = [
   {
     label: 'APP',
     value: 'default'
@@ -499,10 +503,13 @@ export const MODEL_SETTING_HOME_SORTING = new Model([
     label: '网页',
     value: 'web'
   }
-])
+] as const
+
+/** [设置] 首页收藏排序 */
+export const MODEL_SETTING_HOME_SORTING = new Model(SETTING_HOME_SORTING)
 
 /** [设置] 启动页面 */
-export const MODEL_SETTING_INITIAL_PAGE = new Model([
+export const SETTING_INITIAL_PAGE = [
   {
     label: '发现',
     value: 'Discovery'
@@ -527,10 +534,13 @@ export const MODEL_SETTING_INITIAL_PAGE = new Model([
     label: '小圣杯',
     value: 'Tinygrail'
   }
-])
+] as const
+
+/** [设置] 启动页面 */
+export const MODEL_SETTING_INITIAL_PAGE = new Model(SETTING_INITIAL_PAGE)
 
 /** [设置] 图片质量 */
-export const MODEL_SETTING_QUALITY = new Model([
+export const SETTING_QUALITY = [
   {
     label: '默认',
     value: 'default'
@@ -547,7 +557,10 @@ export const MODEL_SETTING_QUALITY = new Model([
     label: '低',
     value: 'mini'
   }
-])
+] as const
+
+/** [设置] 图片质量 */
+export const MODEL_SETTING_QUALITY = new Model(SETTING_QUALITY)
 
 /** [设置] 字号 */
 export const MODEL_SETTING_FONTSIZEADJUST = new Model([
@@ -574,7 +587,7 @@ export const MODEL_SETTING_FONTSIZEADJUST = new Model([
 ])
 
 /** [设置] 用户空间网格个数 */
-export const MODEL_SETTING_USER_GRID_NUM = new Model([
+export const SETTING_USER_GRID_NUM = [
   {
     label: '3',
     value: '3'
@@ -587,10 +600,13 @@ export const MODEL_SETTING_USER_GRID_NUM = new Model([
     label: '5',
     value: '5'
   }
-])
+] as const
+
+/** [设置] 用户空间网格个数 */
+export const MODEL_SETTING_USER_GRID_NUM = new Model(SETTING_USER_GRID_NUM)
 
 /** [设置] 切页动画 */
-export const MODEL_SETTING_TRANSITION = new Model([
+export const SETTING_TRANSITION = [
   {
     label: '水平',
     value: 'horizontal'
@@ -603,7 +619,10 @@ export const MODEL_SETTING_TRANSITION = new Model([
     label: '居中缩放',
     value: 'scale'
   }
-])
+] as const
+
+/** [设置] 切页动画 */
+export const MODEL_SETTING_TRANSITION = new Model(SETTING_TRANSITION)
 
 /** [设置] 同步设置 */
 export const MODEL_SETTING_SYNC = new Model([

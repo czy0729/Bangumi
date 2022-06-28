@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 15:33:23
+ * @Last Modified time: 2022-06-29 04:14:43
  */
 import { ModelValueOf } from '@types'
 import {
@@ -14,6 +14,12 @@ import {
   RAKUEN_TYPE,
   RATING_STATUS,
   SEARCH_CAT,
+  SETTING_HOME_LAYOUT,
+  SETTING_HOME_SORTING,
+  SETTING_INITIAL_PAGE,
+  SETTING_QUALITY,
+  SETTING_TRANSITION,
+  SETTING_USER_GRID_NUM,
   SUBJECT_TYPE,
   TAG_ORDERBY,
   TIMELINE_SCOPE,
@@ -31,6 +37,12 @@ export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE, 'value'>
 export type RakuenType = ModelValueOf<typeof RAKUEN_TYPE, 'value'>
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS, 'value'>
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT, 'value'>
+export type SettingHomeLayoutCn = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'label'>
+export type SettingHomeSortingCn = ModelValueOf<typeof SETTING_HOME_SORTING, 'label'>
+export type SettingInitialPageCn = ModelValueOf<typeof SETTING_INITIAL_PAGE, 'label'>
+export type SettingQualityCn = ModelValueOf<typeof SETTING_QUALITY, 'label'>
+export type SettingTransitionCn = ModelValueOf<typeof SETTING_TRANSITION, 'label'>
+export type SettingUserGridNumCn = ModelValueOf<typeof SETTING_USER_GRID_NUM, 'label'>
 export type SubjectType = ModelValueOf<typeof SUBJECT_TYPE, 'label'>
 export type SubjectTypeCn = ModelValueOf<typeof SUBJECT_TYPE, 'title'>
 export type SubjectTypeValue = ModelValueOf<typeof SUBJECT_TYPE, 'value'>
