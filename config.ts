@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 17:52:03
+ * @Last Modified time: 2022-06-30 00:50:22
  */
 /** 日志级别 2 所有, 1 只输出错误和警告, 0 不输出 (开发用) */
 export const LOG_LEVEL = 0
@@ -25,7 +25,7 @@ export const TEXT_ONLY = DEV ? !DEV : false // : false 是为了打包后的apk�
 
 /** 路由覆盖配置 */
 export default {
-  initialRouteName: 'Discovery', // HomeTab Discovery Subject Tinygrail BilibiliSync
+  initialRouteName: 'User', // HomeTab Discovery Subject Tinygrail BilibiliSync
   initialRouteParams: {
     // subjectId: 296870 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/367355' // group/366561

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 15:23:59
+ * @Last Modified time: 2022-06-30 00:44:03
  */
 import React, { useEffect } from 'react'
+import { LogBox } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
 import Stacks from '@src/navigations'
@@ -14,6 +15,8 @@ import { AppCommon } from '@_'
 import { _ } from '@stores'
 import { useCachedResources, useOrientation, useGlobalMount } from '@utils/hooks'
 import theme from '@styles/theme'
+
+LogBox.ignoreAllLogs(true)
 
 export default function App() {
   // 加载图标等资源

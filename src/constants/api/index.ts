@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 04:21:46
+ * @Last Modified time: 2022-06-30 01:09:52
  */
 import { EpId, MonoId, SubjectId, UserId } from '@types'
 import { HOST } from '../constants'
@@ -18,7 +18,7 @@ export * from './tinygrail'
 export const API_HOST = 'https://api.bgm.tv'
 
 /** 瓷砖进度接口 */
-export const API_MOSAIC_TILE = (username: string, type = 'progress') =>
+export const API_MOSAIC_TILE = (username: UserId, type = 'progress') =>
   `https://bangumi-mosaic-tile.now.sh/users/${username}/timelines/${type}.json`
 
 /** oauth 获取 access_token */
