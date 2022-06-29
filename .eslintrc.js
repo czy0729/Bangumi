@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 10:14:42
+ * @Last Modified time: 2022-06-29 16:24:50
  */
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser', // babel-eslint | @typescript-eslint/parser
+  parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint/eslint-plugin', 'prettier'],
   extends: ['@react-native-community', 'prettier'],
   ignorePatterns: [
@@ -26,6 +26,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/no-unused-vars': [2, { ignoreRestSiblings: true }],
+    // '@typescript-eslint/no-explicit-any': 'warn',
     'max-len': ['error', 200],
     'no-shadow': 0, // 允许相同变量名
     'prefer-const': ['error', { ignoreReadBeforeAssign: true }],

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 20:02:20
+ * @Last Modified time: 2022-06-29 20:20:24
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
@@ -324,7 +324,7 @@ export function cheerioWiki(HTML) {
       merge: getList('#wiki_wiki-merge li'),
       crt: getList('#wiki_wiki-crt li'),
       prsn: getList('#wiki_wiki-prsn li'),
-      ep: getList('#wiki_wiki-ep li', 'ep'),
+      ep: getList('#wiki_wiki-ep li'),
       relation: getList('#wiki_wiki-subject-relation li'),
       subjectPerson: getList('#wiki_wiki-subject-person li'),
       subjectCrt: getList('#wiki_wiki-subject-crt li')

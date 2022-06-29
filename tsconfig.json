@@ -2,90 +2,36 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@_": [
-        "src/screens/_"
-      ],
-      "@_/*": [
-        "src/screens/_/*"
-      ],
-      "@assets": [
-        "src/assets"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ],
-      "@components": [
-        "src/components"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@constants": [
-        "src/constants"
-      ],
-      "@constants/*": [
-        "src/constants/*"
-      ],
-      "@screens": [
-        "src/screens"
-      ],
-      "@screens/*": [
-        "src/screens/*"
-      ],
-      "@stores": [
-        "src/stores"
-      ],
-      "@stores/*": [
-        "src/stores/*"
-      ],
-      "@styles": [
-        "src/styles"
-      ],
-      "@styles/*": [
-        "src/styles/*"
-      ],
-      "@tinygrail": [
-        "src/screens/tinygrail"
-      ],
-      "@tinygrail/*": [
-        "src/screens/tinygrail/*"
-      ],
-      "@types": [
-        "src/types"
-      ],
-      "@types/*": [
-        "src/types/*"
-      ],
-      "@utils": [
-        "src/utils"
-      ],
-      "@utils/*": [
-        "src/utils/*"
-      ],
-      "@src": [
-        "src"
-      ],
-      "@src/*": [
-        "src/*"
-      ],
-      "@": [
-        "./"
-      ],
-      "@/*": [
-        "./*"
-      ]
+      "@_": ["src/screens/_"],
+      "@_/*": ["src/screens/_/*"],
+      "@assets": ["src/assets"],
+      "@assets/*": ["src/assets/*"],
+      "@components": ["src/components"],
+      "@components/*": ["src/components/*"],
+      "@constants": ["src/constants"],
+      "@constants/*": ["src/constants/*"],
+      "@screens": ["src/screens"],
+      "@screens/*": ["src/screens/*"],
+      "@stores": ["src/stores"],
+      "@stores/*": ["src/stores/*"],
+      "@styles": ["src/styles"],
+      "@styles/*": ["src/styles/*"],
+      "@tinygrail": ["src/screens/tinygrail"],
+      "@tinygrail/*": ["src/screens/tinygrail/*"],
+      "@types": ["src/types"],
+      "@types/*": ["src/types/*"],
+      "@utils": ["src/utils"],
+      "@utils/*": ["src/utils/*"],
+      "@src": ["src"],
+      "@src/*": ["src/*"],
+      "@": ["./"],
+      "@/*": ["./*"]
     },
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "react-native",
-    "types": [
-      "react",
-      "react-native"
-    ],
-    "lib": [
-      "DOM",
-      "ESNext"
-    ],
+    "types": ["react", "react-native"],
+    "lib": ["DOM", "ESNext"],
     "moduleResolution": "node",
     "noEmit": true,
     "resolveJsonModule": true,
@@ -95,12 +41,6 @@
     "emitDecoratorMetadata": true,
     "target": "ESNext"
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "android",
-    "src/assets",
-    "web"
-  ],
+  "exclude": ["node_modules", "dist", "android", "src/assets", "web"],
   "extends": "expo/tsconfig.base"
 }

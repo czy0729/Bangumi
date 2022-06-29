@@ -2,10 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-05-26 12:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 00:47:37
+ * @Last Modified time: 2022-06-29 16:53:27
  */
 import { ListEmpty } from '@types'
-import { INIT_HOME, INIT_ONAIR_ITEM, INIT_USER_ONAIR_ITEM } from './init'
+import { INIT_HOME, INIT_ONAIR_ITEM } from './init'
+
+export type OnAirUser = {
+  weekDayCN: string
+  timeCN: string
+}
 
 export type State = {
   /** 每日放送 */
@@ -35,6 +40,6 @@ export type State = {
    * onAir 读取数据时, 需要用本数据覆盖原数据
    */
   onAirUser: {
-    [subjectId: number]: typeof INIT_USER_ONAIR_ITEM
+    [subjectId: number]: OnAirUser
   }
 }

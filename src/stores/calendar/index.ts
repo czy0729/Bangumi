@@ -1,49 +1,46 @@
 /*
  * 时间表, 发现页信息聚合
+ *
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 23:46:44
+ * @Last Modified time: 2022-06-29 16:53:56
  */
 import { observable, computed, toJS } from 'mobx'
-import { getTimestamp } from '@utils'
+import { getTimestamp, HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import {
-  HOST,
-  LIST_EMPTY,
   API_CALENDAR,
+  CDN_DISCOVERY_HOME,
   CDN_ONAIR,
-  CDN_DISCOVERY_HOME
+  HOST,
+  LIST_EMPTY
 } from '@constants'
-import { SubjectId } from '@types'
+import { StoreConstructor, SubjectId } from '@types'
 import { NAMESPACE, INIT_HOME, INIT_USER_ONAIR_ITEM } from './init'
 import { cheerioToday } from './common'
-import { State } from './types'
+import { OnAirUser, State } from './types'
 
-class Calendar extends store {
-  state = observable<State>({
-    /** 每日放送 */
-    calendar: LIST_EMPTY,
+const state: State = {
+  /** 每日放送 */
+  calendar: LIST_EMPTY,
 
-    /** 发现页信息聚合 */
-    home: INIT_HOME,
+  /** 发现页信息聚合 */
+  home: INIT_HOME,
 
-    /** @deprecated 发现页信息聚合 (CDN) */
-    homeFromCDN: INIT_HOME,
+  /** @deprecated 发现页信息聚合 (CDN) */
+  homeFromCDN: INIT_HOME,
 
-    /** ekibun的线上爬虫数据 */
-    onAir: {},
+  /** ekibun的线上爬虫数据 */
+  onAir: {},
 
-    /**
-     * 用户自定义放送时间
-     * onAir读取数据时, 需要用本数据覆盖原数据
-     */
-    onAirUser: {}
-  })
+  /** 用户自定义放送时间, onAir读取数据时, 需要用本数据覆盖原数据 */
+  onAirUser: {}
+}
 
-  init = () => this.readStorage(Object.keys(this.state), NAMESPACE)
+class CalendarStore extends store implements StoreConstructor<typeof state> {
+  state = observable(state)
 
   // -------------------- get --------------------
   /** 每日放送, 结合onAir和用户自定义放送时间覆盖原数据 */
@@ -147,16 +144,18 @@ class Calendar extends store {
 
   /** 用户自定义放送时间 */
   onAirUser(subjectId: SubjectId): typeof INIT_USER_ONAIR_ITEM {
-    return computed(() => {
+    return computed<OnAirUser>(() => {
       const { onAirUser } = this.state
       return onAirUser[subjectId] || INIT_USER_ONAIR_ITEM
     }).get()
   }
 
+  init = () => this.readStorage(Object.keys(this.state), NAMESPACE)
+
   // -------------------- fetch --------------------
   /** 每日放送 */
-  fetchCalendar = () =>
-    this.fetch(
+  fetchCalendar = () => {
+    return this.fetch(
       {
         url: API_CALENDAR(),
         info: '每日放送'
@@ -168,6 +167,7 @@ class Calendar extends store {
         namespace: NAMESPACE
       }
     )
+  }
 
   /** 发现页信息聚合 */
   fetchHome = async () => {
@@ -198,9 +198,7 @@ class Calendar extends store {
 
         item.children.forEach(({ children }, idx) => {
           // 第一个是标签栏, 排除掉
-          if (idx === 0) {
-            return
-          }
+          if (idx === 0) return
 
           node =
             findTreeNode(children, 'a > div|style~background') ||
@@ -269,10 +267,9 @@ class Calendar extends store {
       })
 
       this.setStorage(key, undefined, NAMESPACE)
-      return Promise.resolve(data)
+      return data
     } catch (error) {
-      global.warn('calendarStore', 'fetchHomeFromCDN')
-      return Promise.resolve(INIT_HOME)
+      return INIT_HOME
     }
   }
 
@@ -324,9 +321,7 @@ class Calendar extends store {
       this.clearState(key, data)
       this.setStorage(key, undefined, NAMESPACE)
       this._fetchOnAir = true
-    } catch (error) {
-      console.warn('[CalendarStore] fetchOnAir', error)
-    }
+    } catch (error) {}
   }
 
   /** 更新用户自定义放送时间 */
@@ -359,4 +354,4 @@ class Calendar extends store {
   }
 }
 
-export default new Calendar()
+export default new CalendarStore()

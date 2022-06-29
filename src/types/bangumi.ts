@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-27 13:55:29
+ * @Last Modified time: 2022-06-29 19:55:18
  */
 
 /** 任意 ID */
@@ -68,6 +68,9 @@ export type Cover<S extends 'l' | 'c' | 'm' | 's' | 'g' = 'm'> =
 /** 角色封面地址 */
 export type CoverCrt<S extends 'l' | 'm' | 's' | 'g' = 'g'> =
   `${UrlStatic}/crt/${S}/${string}.jpg?r=${number}`
+
+/** 用户上传的图片 */
+export type CoverPhoto<S extends 'g' = 'g'> = `${UrlStatic}/photo/${S}/${string}.jpg`
 
 /** 图片结构 */
 export type Images = Partial<{
