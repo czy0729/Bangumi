@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 16:45:26
+ * @Last Modified time: 2022-06-30 02:20:42
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
@@ -30,8 +30,7 @@ export function cheerioCharacters(HTML) {
           .replace('/ ', '')
         return safeObject({
           id: $a.attr('href').replace('/character/', ''),
-          cover:
-            cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
+          cover: cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
           name: name || nameCn,
           nameCn: nameCn || name,
           replies: $li.find('small.na').text().trim().replace(/\(|\)/g, ''),
@@ -39,9 +38,7 @@ export function cheerioCharacters(HTML) {
           info: $li.find('div.crt_info span.tip').text().trim(),
           actorId: String($actorA.attr('href') || '').replace('/person/', ''),
           actorCover:
-            actorCover !== '/img/info_only.png'
-              ? String(actorCover).split('?')[0]
-              : '',
+            actorCover !== '/img/info_only.png' ? String(actorCover).split('?')[0] : '',
           actor: $actorA.text().trim(),
           actorCn: $li.find('div.actorBadge small.grey').first().text().trim()
         })
@@ -65,8 +62,7 @@ export function cheerioPersons(HTML) {
         const cover = $li.find('img.avatar').attr('src')
         return safeObject({
           id: $a.attr('href').replace('/character/', ''),
-          cover:
-            cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
+          cover: cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
           name,
           nameCn,
           replies: $li.find('small.na').text().trim(),

@@ -12,6 +12,7 @@
 node_modules/
 dist/
 android1/
+web/test/
 gradle.properties
 yarn.lock
 
