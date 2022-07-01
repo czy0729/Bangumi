@@ -3,92 +3,107 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 12:17:12
+ * @Last Modified time: 2022-07-02 00:44:37
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
-import { HTML_TAG, HTML_RANK, HTML_BROSWER } from '@constants/html'
-import { BrowserSort } from '@constants/model/types'
+import { LIST_EMPTY, HTML_TAG, HTML_RANK, HTML_BROSWER } from '@constants'
+import {
+  BrowserSort,
+  RankAnimeFilter,
+  RankBookFilter,
+  RankGameFilter,
+  RankRealFilter,
+  StoreConstructor,
+  SubjectType,
+  TagOrder
+} from '@types'
 import { NAMESPACE, DEFAULT_TYPE } from './init'
 import { analysisTags, analysiRank } from './common'
-import { FetchBrowser } from './types'
+import { Browser, Rank, Tag } from './types'
 
-class Tag extends store {
-  state = observable({
-    /** 标签列表 */
-    tag: {
-      0: LIST_EMPTY
-    },
+const state = {
+  /** 标签条目 */
+  tag: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 排行榜
-     * @param {*} type
-     */
-    rank: {
-      _: (type = DEFAULT_TYPE, page = 1, filter = '', airtime = '') =>
-        `${type}|${page}|${filter}|${airtime}`,
-      0: LIST_EMPTY // <INIT_RANK_ITEM>
-    },
+  /** 排行榜 */
+  rank: {
+    0: LIST_EMPTY
+  },
 
-    /** 索引 */
-    browser: {
-      0: LIST_EMPTY
-    }
-  })
+  /** 索引 */
+  browser: {
+    0: LIST_EMPTY
+  }
+}
 
-  init = () => this.readStorage(['tag', 'rank', 'browser'], NAMESPACE)
+class TagStore extends store implements StoreConstructor<typeof state> {
+  state = observable(state)
 
   // -------------------- get --------------------
-  /**
-   * 标签列表
-   * @param {*} text    标签
-   * @param {*} type
-   * @param {*} airtime
-   */
-  tag(text = '', type = DEFAULT_TYPE, airtime = '') {
-    return computed(() => {
+  /** 标签条目 */
+  tag(text: string = '', type: SubjectType = DEFAULT_TYPE, airtime: string = '') {
+    return computed<Tag>(() => {
       const key = `${text.replace(/ /g, '+')}|${type}|${airtime}`
       return this.state.tag[key] || LIST_EMPTY
     }).get()
   }
 
-  /**
-   * 索引
-   * @param {*} type
-   * @param {*} airtime
-   * @param {*} sort
-   */
-  browser(type = DEFAULT_TYPE, airtime: any = '', sort: BrowserSort = '') {
-    return computed(() => {
+  /** 排行榜 */
+  rank(
+    type: SubjectType = DEFAULT_TYPE,
+    page: number = 1,
+    filter: RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter = '',
+    airtime: string = ''
+  ) {
+    return computed<Rank>(() => {
+      const key = `${type}|${page}|${filter}|${airtime}`
+      return this.state.rank[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 索引 */
+  browser(
+    type: SubjectType = DEFAULT_TYPE,
+    airtime: string = '',
+    sort: BrowserSort = ''
+  ) {
+    return computed<Browser>(() => {
       const key = `${type}|${airtime}|${sort}`
       return this.state.browser[key] || LIST_EMPTY
     }).get()
   }
 
-  // -------------------- fetch --------------------
-  /**
-   * 标签结果
-   * @param {*} text 关键字
-   * @param {*} type 类型
-   * @param {*} order 排序
-   * @param {*} refresh 是否刷新
-   */
-  fetchTag = async (
-    { text = '', type = DEFAULT_TYPE, order, airtime = '' } = {},
-    refresh
-  ) => {
-    const _text = text.replace(/ /g, '+')
+  init = () => {
+    return this.readStorage(['tag', 'rank', 'browser'], NAMESPACE)
+  }
 
+  // -------------------- fetch --------------------
+  /** 标签条目 */
+  fetchTag = async (
+    args: {
+      /** 关键字 */
+      text: string
+
+      /** 类型 */
+      type?: SubjectType
+
+      /** 排序 */
+      order?: TagOrder
+
+      /** 时间 */
+      airtime?: string
+    },
+    refresh?: boolean
+  ) => {
+    const { text = '', type = DEFAULT_TYPE, order, airtime = '' } = args || {}
+    const _text = text.replace(/ /g, '+')
     const { list, pagination } = this.tag(_text, type, airtime)
-    let page // 下一页的页码
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
+    const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
@@ -116,25 +131,19 @@ class Tag extends store {
     return res
   }
 
-  /**
-   * 排行榜 (与标签相似, 所以共用逻辑)
-   * @param {*} type 类型
-   * @param {*} filter 类型2
-   * 动画: tv | web | ova | movie | misc
-   * 书籍: comic | novel | illustration | misc
-   * 音乐: [null]
-   * 游戏: pc | mac | ps4 | xbox_one | ns | will_u | ps3 | xbox360
-   * | wii | psv | 3ds | nds | psp | ps2 | xbox | ps | fc | gba | gb |
-   * 三次元: jp | en | cn | misc
-   *
-   * @param {*} airtime 2020-1960
-   */
-  fetchRank = async ({
-    type = DEFAULT_TYPE,
-    filter = '',
-    airtime = '',
-    page = 1
-  } = {}) => {
+  /** 排行榜 (与标签相似, 所以共用逻辑) */
+  fetchRank = async (args: {
+    /** 类型 */
+    type?: SubjectType
+
+    /** 筛选类型 */
+    filter?: RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter
+
+    /** 2024-1960 */
+    airtime?: string
+    page?: number
+  }) => {
+    const { type = DEFAULT_TYPE, filter = '', airtime = '', page = 1 } = args || {}
     const key = 'rank'
     const res = fetchHTML({
       url: HTML_RANK(type, 'rank', page, filter, airtime)
@@ -165,10 +174,15 @@ class Tag extends store {
    * @param {*} args
    * @param {*} refresh
    */
-  fetchBrowser: FetchBrowser = async (
-    { type = DEFAULT_TYPE, airtime, sort } = {},
-    refresh
+  fetchBrowser = async (
+    args: {
+      type?: SubjectType
+      airtime?: string
+      sort?: BrowserSort
+    },
+    refresh?: boolean
   ) => {
+    const { type = DEFAULT_TYPE, airtime, sort } = args || {}
     const { list, pagination } = this.browser(type, airtime, sort)
     const page = refresh ? 1 : pagination.page + 1
 
@@ -199,7 +213,4 @@ class Tag extends store {
   }
 }
 
-const Store = new Tag()
-Store.setup()
-
-export default Store
+export default new TagStore()

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-28 17:13:52
+ * @Last Modified time: 2022-07-01 22:06:50
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -196,47 +196,6 @@ class SubjectStore
 {
   state = observable(state)
 
-  init = () => {
-    return this.readStorage(
-      [
-        // subject 拆 store
-        'subject0',
-        'subject1',
-        'subject2',
-        'subject3',
-        'subject4',
-        'subject5',
-        'subject6',
-        'subject7',
-        'subject8',
-        'subject9',
-
-        // subjectFormHTML 拆 store
-        'subjectFormHTML0',
-        'subjectFormHTML1',
-        'subjectFormHTML2',
-        'subjectFormHTML3',
-        'subjectFormHTML4',
-        'subjectFormHTML5',
-        'subjectFormHTML6',
-        'subjectFormHTML7',
-        'subjectFormHTML8',
-        'subjectFormHTML9',
-
-        // other
-        'subjectComments',
-        'subjectCatalogs',
-        'mono',
-        'monoComments',
-        'monoWorks',
-        'monoVoices',
-        'rating',
-        'origin'
-      ],
-      NAMESPACE
-    )
-  }
-
   // -------------------- get --------------------
   /** 条目, 合并 subject 0-9 */
   subject(subjectId: SubjectId) {
@@ -366,6 +325,47 @@ class SubjectStore
   /** 自定义源头数据 */
   @computed get origin(): Origin {
     return this.state.origin
+  }
+
+  init = () => {
+    return this.readStorage(
+      [
+        // subject 拆 store
+        'subject0',
+        'subject1',
+        'subject2',
+        'subject3',
+        'subject4',
+        'subject5',
+        'subject6',
+        'subject7',
+        'subject8',
+        'subject9',
+
+        // subjectFormHTML 拆 store
+        'subjectFormHTML0',
+        'subjectFormHTML1',
+        'subjectFormHTML2',
+        'subjectFormHTML3',
+        'subjectFormHTML4',
+        'subjectFormHTML5',
+        'subjectFormHTML6',
+        'subjectFormHTML7',
+        'subjectFormHTML8',
+        'subjectFormHTML9',
+
+        // other
+        'subjectComments',
+        'subjectCatalogs',
+        'mono',
+        'monoComments',
+        'monoWorks',
+        'monoVoices',
+        'rating',
+        'origin'
+      ],
+      NAMESPACE
+    )
   }
 
   // -------------------- fetch --------------------

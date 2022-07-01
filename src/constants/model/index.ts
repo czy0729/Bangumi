@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 17:24:49
+ * @Last Modified time: 2022-07-01 23:30:28
  */
 import { IOS } from '../constants'
 
@@ -730,7 +730,7 @@ export const TAG_ORDERBY = [
 export const MODEL_TAG_ORDERBY = new Model(TAG_ORDERBY)
 
 /** 动画筛选 */
-export const MODEL_RANK_ANIME_FILTER = new Model([
+export const RANK_ANIME_FILTER = [
   {
     label: '全部',
     value: ''
@@ -755,10 +755,13 @@ export const MODEL_RANK_ANIME_FILTER = new Model([
     label: '其他',
     value: 'misc'
   }
-])
+] as const
+
+/** 动画筛选 */
+export const MODEL_RANK_ANIME_FILTER = new Model(RANK_ANIME_FILTER)
 
 /** 书籍筛选 */
-export const MODEL_RANK_BOOK_FILTER = new Model([
+export const RANK_BOOK_FILTER = [
   {
     label: '全部',
     value: ''
@@ -779,10 +782,13 @@ export const MODEL_RANK_BOOK_FILTER = new Model([
     label: '其他',
     value: 'misc'
   }
-])
+] as const
+
+/** 书籍筛选 */
+export const MODEL_RANK_BOOK_FILTER = new Model(RANK_BOOK_FILTER)
 
 /** 游戏筛选 */
-export const MODEL_RANK_GAME_FILTER = new Model([
+export const RANK_GAME_FILTER = [
   {
     label: '全部',
     value: ''
@@ -871,10 +877,13 @@ export const MODEL_RANK_GAME_FILTER = new Model([
     label: 'FC',
     value: 'fc'
   }
-])
+] as const
+
+/** 游戏筛选 */
+export const MODEL_RANK_GAME_FILTER = new Model(RANK_GAME_FILTER)
 
 /** 三次元筛选 */
-export const MODEL_RANK_REAL_FILTER = new Model([
+export const RANK_REAL_FILTER = [
   {
     label: '全部',
     value: ''
@@ -895,7 +904,10 @@ export const MODEL_RANK_REAL_FILTER = new Model([
     label: '其他',
     value: 'misc'
   }
-])
+] as const
+
+/** 三次元筛选 */
+export const MODEL_RANK_REAL_FILTER = new Model(RANK_REAL_FILTER)
 
 /** [小圣杯] 股类型 */
 export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model([

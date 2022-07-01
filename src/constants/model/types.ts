@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 17:24:49
+ * @Last Modified time: 2022-07-01 23:40:28
  */
 import { ModelValueOf } from '@types'
 import {
@@ -13,6 +13,10 @@ import {
   RAKUEN_SCOPE,
   RAKUEN_SCROLL_DIRECTION,
   RAKUEN_TYPE,
+  RANK_ANIME_FILTER,
+  RANK_BOOK_FILTER,
+  RANK_GAME_FILTER,
+  RANK_REAL_FILTER,
   RATING_STATUS,
   SEARCH_CAT,
   SETTING_HOME_LAYOUT,
@@ -40,6 +44,10 @@ export type RakuenScrollDirection = ModelValueOf<
   'value'
 >
 export type RakuenType = ModelValueOf<typeof RAKUEN_TYPE, 'value'>
+export type RankAnimeFilter = ModelValueOf<typeof RANK_ANIME_FILTER, 'value'>
+export type RankBookFilter = ModelValueOf<typeof RANK_BOOK_FILTER, 'value'>
+export type RankGameFilter = ModelValueOf<typeof RANK_GAME_FILTER, 'value'>
+export type RankRealFilter = ModelValueOf<typeof RANK_REAL_FILTER, 'value'>
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS, 'value'>
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT, 'value'>
 export type SettingHomeLayoutCn = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'label'>

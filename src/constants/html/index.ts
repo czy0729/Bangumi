@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 17:12:57
+ * @Last Modified time: 2022-07-02 00:40:49
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -21,7 +21,11 @@ import {
   SearchCat,
   SubjectType,
   TimeLineScope,
-  TimeLineType
+  TimeLineType,
+  RankAnimeFilter,
+  RankBookFilter,
+  RankGameFilter,
+  RankRealFilter
 } from '../model/types'
 import { RakuenReplyType } from './types'
 
@@ -170,7 +174,7 @@ export const HTML_RANK = (
   type: SubjectType = 'anime',
   order: TagOrder = 'rank',
   page: number = 1,
-  filter?: string,
+  filter?: RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter,
   airtime?: string
 ) =>
   `${HOST}/${type}/browser${filter ? `/${filter}` : ''}${

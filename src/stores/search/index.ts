@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 18:55:47
+ * @Last Modified time: 2022-07-01 18:56:35
  */
 import { observable, computed } from 'mobx'
 import Constants from 'expo-constants'
@@ -21,6 +21,7 @@ const state = {
     0: LIST_EMPTY
   },
 
+  /** @deprecated 超展开搜索 */
   searchRakuen: {
     0: LIST_EMPTY
   }
