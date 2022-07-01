@@ -3,80 +3,101 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:50:13
+ * @Last Modified time: 2022-07-02 02:00:37
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhr } from '@utils/fetch'
-import { HOST, LIST_EMPTY } from '@constants'
-import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import {
-  HTML_SAY,
+  HOST,
   HTML_ACTION_TIMELINE_REPLY,
-  HTML_ACTION_TIMELINE_SAY
-} from '@constants/html'
+  HTML_ACTION_TIMELINE_SAY,
+  HTML_SAY,
+  LIST_EMPTY,
+  MODEL_TIMELINE_SCOPE
+} from '@constants'
+import { Id, StoreConstructor, TimeLineScope, TimeLineType, UserId } from '@types'
 import userStore from '../user'
 import { NAMESPACE, DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
 import { fetchTimeline, analysisSay, analysisFormHash } from './common'
+import { Hidden, Say, Timeline } from './types'
 
-class Timeline extends store {
-  state = observable({
-    /**
-     * 自己的时间胶囊
-     * @param {*} scope
-     * @param {*} type
-     */
-    timeline: {
-      _: (scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) => `${scope}|${type}`,
-      0: LIST_EMPTY
-    },
+const state = {
+  /** 时间胶囊 */
+  timeline: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 其他人的时间胶囊
-     * @param {*} userId
-     */
-    usersTimeline: {
-      _: userId => userId || userStore.myUserId,
-      0: LIST_EMPTY
-    },
+  /** 其他人的时间胶囊 */
+  usersTimeline: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 吐槽
-     * @param {*} id
-     */
-    say: {
-      0: LIST_EMPTY // <INIT_SAY_ITEM>
-    },
+  /** 吐槽 */
+  say: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 吐槽表单授权码
-     */
-    formhash: '',
+  /** 吐槽表单授权码 */
+  formhash: '',
 
-    /** 隐藏TA */
-    hidden: {}
-  })
-
-  init = () => this.readStorage(['timeline', 'say', 'hidden'], NAMESPACE)
-
-  // -------------------- computed --------------------
   /** 隐藏TA */
-  @computed get hidden() {
+  hidden: {}
+}
+
+class TimelineStore extends store implements StoreConstructor<typeof state> {
+  state = observable(state)
+
+  // -------------------- get --------------------
+  /** 时间胶囊 */
+  timeline(scope: TimeLineScope = DEFAULT_SCOPE, type: TimeLineType = DEFAULT_TYPE) {
+    return computed<Timeline>(() => {
+      const key = `${scope}|${type}`
+      return this.state.timeline[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 其他人的时间胶囊 */
+  usersTimeline(userId?: UserId) {
+    return computed<Timeline>(() => {
+      const key = userId || userStore.myUserId
+      return this.state.usersTimeline[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 吐槽 */
+  say(id: Id) {
+    return computed<Say>(() => {
+      return this.state.say[id] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 吐槽表单授权码 */
+  @computed get formhash() {
+    return this.state.formhash
+  }
+
+  /** 隐藏 TA */
+  @computed get hidden(): Hidden {
     return this.state.hidden
   }
 
+  init = () => {
+    return this.readStorage(['timeline', 'say', 'hidden'], NAMESPACE)
+  }
+
   // -------------------- fetch --------------------
-  /**
-   * 获取自己的时间胶囊
-   * @todo 10个种类, 每个种类都有差别, 甚至出现分不清种类的情况, 影响较大时再优化
-   * @param {*} scope 范围
-   * @param {*} type 类型
-   */
+  /** 获取自己视角的时间胶囊 */
   fetchTimeline = async (
-    { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE, userId } = {},
-    refresh
+    args: {
+      scope?: TimeLineScope
+      type?: TimeLineType
+      userId?: UserId
+    },
+    refresh?: boolean
   ) => {
+    const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE, userId } = args || {}
     const timeline = this.timeline(scope, type)
     const res = fetchTimeline(
       {
@@ -90,7 +111,6 @@ class Timeline extends store {
     )
     const data = await res
 
-    // -------------------- 缓存 --------------------
     const key = 'timeline'
     const stateKey = `${scope}|${type}`
     this.setState({
@@ -103,16 +123,18 @@ class Timeline extends store {
     return data
   }
 
-  /**
-   * 获取其他人的时间胶囊
-   * @todo 10个种类, 每个种类都有差别, 甚至出现分不清种类的情况, 影响较大时再优化
-   */
+  /** 获取他人视角的时间胶囊 */
   fetchUsersTimeline = async (
-    { userId = userStore.myUserId, type = DEFAULT_TYPE } = {},
-    refresh
+    args: {
+      userId?: UserId
+      type?: TimeLineType
+    },
+    refresh?: boolean
   ) => {
+    const { userId = userStore.myUserId, type = DEFAULT_TYPE } = args || {}
+
     // 范围是自己返回的是某个人的请求地址
-    const scope = MODEL_TIMELINE_SCOPE.getValue('自己')
+    const scope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己')
     const res = fetchTimeline(
       { scope, type, userId },
       refresh,
@@ -120,7 +142,6 @@ class Timeline extends store {
       userStore.usersInfo(userId)
     )
 
-    // -------------------- 缓存 --------------------
     const data = await res
     const key = 'usersTimeline'
     const stateKey = userId
@@ -133,10 +154,9 @@ class Timeline extends store {
     return res
   }
 
-  /**
-   * 标签
-   */
-  fetchSay = async ({ userId = 0, id = 0 } = {}) => {
+  /** 吐槽 */
+  fetchSay = async (args: { userId: UserId; id: Id }) => {
+    const { userId = 0, id = 0 } = args || {}
     const html = await fetchHTML({
       url: HTML_SAY(userId, id)
     })
@@ -161,10 +181,7 @@ class Timeline extends store {
     return data
   }
 
-  /**
-   * 吐槽表单授权码
-   * https://bgm.tv/timeline?type=say
-   */
+  /** 吐槽表单授权码 (https://bgm.tv/timeline?type=say) */
   fetchFormHash = async () => {
     const html = await fetchHTML({
       url: `${HOST}/timeline?type=say`
@@ -178,23 +195,16 @@ class Timeline extends store {
     return formhash
   }
 
-  // -------------------- page --------------------
-  /**
-   * 更新隐藏某人动态的截止时间
-   * @param {*} hash
-   * @param {*} day
-   */
-  updateHidden = (hash, day = 1) => {
-    if (!hash) {
-      return false
-    }
+  // -------------------- methods --------------------
+  /** 更新隐藏某人动态的截止时间 */
+  updateHidden = (hash?: UserId, day: number = 1) => {
+    if (!hash) return false
 
     const key = 'hidden'
-    const data = this.state[key]
     if (day) {
       this.setState({
         [key]: {
-          ...data,
+          ...this.state[key],
           [hash]: getTimestamp() + day * 24 * 60 * 60
         }
       })
@@ -207,10 +217,16 @@ class Timeline extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 回复吐槽
-   */
-  doReply = async ({ id, content, formhash }, success) => {
+  /** 回复吐槽 */
+  doReply = async (
+    args: {
+      id: Id
+      content: string
+      formhash: string
+    },
+    success?: () => any
+  ) => {
+    const { id, content, formhash } = args || {}
     xhr(
       {
         url: HTML_ACTION_TIMELINE_REPLY(id),
@@ -224,10 +240,15 @@ class Timeline extends store {
     )
   }
 
-  /**
-   * 新吐槽
-   */
-  doSay = async ({ content, formhash }, success) => {
+  /** 新吐槽 */
+  doSay = async (
+    args: {
+      content: string
+      formhash: string
+    },
+    success?: () => any
+  ) => {
+    const { content, formhash } = args || {}
     xhr(
       {
         url: HTML_ACTION_TIMELINE_SAY(),
@@ -242,7 +263,4 @@ class Timeline extends store {
   }
 }
 
-const Store = new Timeline()
-Store.setup()
-
-export default Store
+export default new TimelineStore()

@@ -2,27 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-08 19:19:36
+ * @Last Modified time: 2022-07-02 02:00:09
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import { cheerio, HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import { fetchHTML } from '@utils/fetch'
-import { HOST, HOST_NAME } from '@constants'
+import { HOST, HOST_NAME, LIST_EMPTY } from '@constants'
 import { HTML_TIMELINE } from '@constants/html'
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
+import { TimeLineScope, TimeLineType, UserId } from '@types'
+import { Timeline } from './types'
 
-/**
- * @param {*} config
- * @param {*} refresh
- * @param {*} timelineDS
- * @param {*} userInfo
- */
+/** 请求时间胶囊 */
 export async function fetchTimeline(
-  { scope, type, userId } = {},
-  refresh,
-  { list, pagination } = {},
-  userInfo
+  args: {
+    scope?: TimeLineScope
+    type?: TimeLineType
+    userId?: UserId
+  } = {},
+  refresh?: boolean,
+  prevTimeline?: Timeline,
+  userInfo?: any
 ) {
+  const { scope, type, userId } = args || {}
+  const { list, pagination } = prevTimeline || LIST_EMPTY
+
   // 计算下一页的页码
   const page = refresh ? 1 : pagination.page + 1
 
@@ -177,7 +181,7 @@ export async function fetchTimeline(
 
         // 时间
         node = findTreeNode(children, 'p|text&class=date')
-        let time = node
+        const time = node
           ? String(node[0].text[0])
               .replace('小时', '时')
               .replace('分钟', '分')
