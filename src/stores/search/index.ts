@@ -2,53 +2,69 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-06 10:59:27
+ * @Last Modified time: 2022-07-01 18:55:47
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import Constants from 'expo-constants'
-import { getTimestamp } from '@utils'
-import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
+import { getTimestamp, HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
-import { HTML_SEARCH, HTML_RAKUEN_SEARCH } from '@constants/html'
+import { LIST_EMPTY, HTML_SEARCH, HTML_RAKUEN_SEARCH } from '@constants'
+import { SearchCat, StoreConstructor } from '@types'
 import { NAMESPACE, DEFAULT_CAT, INIT_SEARCH_ITEM } from './init'
 import { cheerioSearchRakuen } from './common'
+import { Search } from './types'
 
-class Search extends store {
-  state = observable({
-    /**
-     * 搜索
-     * @param {*} text    搜索关键字
-     * @param {*} cat
-     * @param {*} ?legacy
-     */
-    search: {
-      _: (text, cat = DEFAULT_CAT, legacy) => {
-        const _text = text.replace(/ /g, '+')
-        let key = `${_text}|${cat}`
-        if (legacy) key += '|legacy'
-        return key
-      },
-      0: LIST_EMPTY // <INIT_SEARCH_ITEM>
-    },
+const state = {
+  /** 搜索 */
+  search: {
+    0: LIST_EMPTY
+  },
 
-    searchRakuen: {
-      0: LIST_EMPTY
-    }
-  })
+  searchRakuen: {
+    0: LIST_EMPTY
+  }
+}
 
-  init = () => this.readStorage(['search'], NAMESPACE)
+class SearchStore extends store implements StoreConstructor<typeof state> {
+  state = observable(state)
+
+  UA = ''
+
+  /** 搜索 */
+  search(text: string, cat: SearchCat = DEFAULT_CAT, legacy?: any) {
+    return computed<Search>(() => {
+      const _text = text.replace(/ /g, '+')
+      let key = `${_text}|${cat}`
+      if (legacy) key += '|legacy'
+      return this.state.search[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** @deprecated 超展开搜索 */
+  searchRakuen(q: string) {
+    return computed(() => {
+      return this.state.searchRakuen[q] || LIST_EMPTY
+    }).get()
+  }
+
+  init = () => {
+    return this.readStorage(['search'], NAMESPACE)
+  }
 
   // -------------------- fetch --------------------
-  /**
-   * 搜索
-   * @param {*} text    关键字
-   * @param {*} cat     类型
-   * @param {*} legacy  1为精准匹配
-   * @param {*} refresh 是否刷新
-   */
-  fetchSearch = async ({ text = '', cat = DEFAULT_CAT, legacy = '' } = {}, refresh) => {
+  /** 搜索 */
+  fetchSearch = async (
+    args: {
+      text: string
+      cat?: SearchCat
+
+      /** legacy  1 为精准匹配 */
+      legacy?: any
+    },
+    refresh?: boolean
+  ) => {
+    const { text = '', cat = DEFAULT_CAT, legacy = '' } = args || {}
     const _text = text.replace(/ /g, '+')
     const { list, pagination } = this.search(_text, cat, legacy)
     const page = refresh ? 1 : pagination.page + 1
@@ -214,16 +230,14 @@ class Search extends store {
 
     const key = 'search'
     let stateKey = `${_text}|${cat}`
-    if (legacy) {
-      stateKey += '|legacy'
-    }
+    if (legacy) stateKey += '|legacy'
     this.setState({
       [key]: {
         [stateKey]: {
           list: refresh ? search : [...list, ...search],
           pagination: {
             page,
-            pageTotal: parseInt(pageTotal)
+            pageTotal: Number(pageTotal)
           },
           _loaded: getTimestamp()
         }
@@ -234,20 +248,17 @@ class Search extends store {
     return res
   }
 
-  /**
-   * 超展开搜索
-   */
-  UA = ''
-  fetchSearchRakuen = async ({ q } = {}, refresh) => {
+  /** @deprecated 超展开搜索 */
+  fetchSearchRakuen = async (args: { q: string }, refresh?: boolean) => {
+    const { q } = args || {}
+
     try {
       const key = 'searchRakuen'
       const limit = 10 // ?有时1页是10个有时是11个
       const { list, pagination } = this[key](q)
       const page = refresh ? 1 : pagination.page + 1
 
-      if (!this.UA) {
-        this.UA = await Constants.getWebViewUserAgentAsync()
-      }
+      if (!this.UA) this.UA = await Constants.getWebViewUserAgentAsync()
       const { _response } = await xhrCustom({
         url: HTML_RAKUEN_SEARCH(q, page),
         headers: {
@@ -274,16 +285,12 @@ class Search extends store {
 
       return this[key](q)
     } catch (error) {
-      warn('searchStore', 'fetchSearchRakuen', 404)
-      return Promise.resolve({
+      return {
         ...LIST_EMPTY,
         _loaded: getTimestamp()
-      })
+      }
     }
   }
 }
 
-const Store = new Search()
-Store.setup()
-
-export default Store
+export default new SearchStore()
