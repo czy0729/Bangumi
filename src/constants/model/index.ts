@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 04:07:07
+ * @Last Modified time: 2022-07-01 17:24:49
  */
 import { IOS } from '../constants'
 
@@ -660,8 +660,8 @@ export const MODEL_SETTING_CDN_ORIGIN = new Model([
   }
 ])
 
-/** [设置] 切页动画 */
-export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
+/** [设置] 楼层导航条方向 */
+export const RAKUEN_SCROLL_DIRECTION = [
   {
     label: '隐藏',
     value: 'none'
@@ -678,7 +678,10 @@ export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
     label: '右侧',
     value: 'right'
   }
-])
+] as const
+
+/** [设置] 楼层导航条方向 */
+export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model(RAKUEN_SCROLL_DIRECTION)
 
 /** 收藏排序 */
 export const COLLECTIONS_ORDERBY = [

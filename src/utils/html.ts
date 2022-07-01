@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:54:46
+ * @Last Modified time: 2022-07-01 05:05:07
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './thirdParty/html-parser'
@@ -219,7 +219,7 @@ export function removeCF(HTML: string = '') {
 }
 
 /** cheerio.load */
-export function cheerio(target: any, remove = true) {
+export function cheerio(target: any, remove: boolean | object = true) {
   if (typeof target === 'string') {
     if (remove) {
       return cheerioRN.load(removeCF(target), {

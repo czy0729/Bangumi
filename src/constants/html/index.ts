@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 16:04:21
+ * @Last Modified time: 2022-07-01 17:12:57
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -115,10 +115,10 @@ export const HTML_RAKUEN_HOT = () => HOST
 export const HTML_TOPIC = (topicId: TopicId) => `${HOST}/rakuen/topic/${topicId}`
 
 /** 小组详情 */
-export const HTML_GROUP_INFO = (groupId: string) => `${HOST}/group/${groupId}`
+export const HTML_GROUP_INFO = (groupId: Id) => `${HOST}/group/${groupId}`
 
 /** 小组帖子列表 */
-export const HTML_GROUP = (groupId: string, page: number = 1) =>
+export const HTML_GROUP = (groupId: Id, page: number = 1) =>
   `${HOST}/group/${groupId}/forum?page=${page}`
 
 /** 我的小组 */

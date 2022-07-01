@@ -3,16 +3,18 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 13:47:55
+ * @Last Modified time: 2022-07-01 17:27:55
  */
 import { observable, computed } from 'mobx'
-import { getTimestamp } from '@utils'
+import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
-import { HTMLTrim } from '@utils/html'
 import { put, read } from '@utils/db'
 import { getUserStoreAsync } from '@utils/async'
-import { HOST, LIST_EMPTY, LIMIT_LIST } from '@constants'
+import store from '@utils/store'
 import {
+  CDN_RAKUEN,
+  CDN_RAKUEN_USER_TOPICS,
+  HOST,
   HTML_ACTION_BLOG_REPLY,
   HTML_ACTION_RAKUEN_REPLY,
   HTML_BLOG,
@@ -23,10 +25,21 @@ import {
   HTML_NOTIFY,
   HTML_RAKUEN_HOT,
   HTML_REVIEWS,
-  HTML_TOPIC
-} from '@constants/html'
-import { CDN_RAKUEN, CDN_RAKUEN_USER_TOPICS } from '@constants/cdn'
-import store from '@utils/store'
+  HTML_TOPIC,
+  LIMIT_LIST,
+  LIST_EMPTY
+} from '@constants'
+import {
+  CoverGroup,
+  Id,
+  RakuenScope,
+  RakuenScrollDirection,
+  RakuenType,
+  StoreConstructor,
+  SubjectId,
+  TopicId,
+  UserId
+} from '@types'
 import {
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
@@ -50,195 +63,259 @@ import {
   cheerioTopic,
   fetchRakuen
 } from './common'
+import {
+  Board,
+  Comments,
+  Group,
+  GroupInfo,
+  Mine,
+  Notify,
+  Rakuen,
+  Readed,
+  Reviews,
+  Topic,
+  UserTopicsFormCDN
+} from './types'
+import { RakuenReplyType } from '@constants/html/types'
 
-class Rakuen extends store {
-  state = observable({
-    /**
-     * 超展开列表
-     * @param {*} scope 范围
-     * @param {*} type  类型
-     */
-    rakuen: {
-      _: (scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) => `${scope}|${type}`,
-      0: LIST_EMPTY // <INIT_RAKUEN_ITEM>
-    },
+const state = {
+  /** 超展开列表 */
+  rakuen: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 帖子历史查看信息
-     * @param {*} topicId
-     */
-    readed: {
-      0: INIT_READED_ITEM
-    },
+  /** 帖子历史查看信息 */
+  readed: {
+    0: INIT_READED_ITEM
+  },
 
-    /**
-     * 帖子内容
-     * @param {*} topicId
-     */
-    topic: {
-      0: INIT_TOPIC
-    },
+  /** 帖子内容 */
+  topic: {
+    0: INIT_TOPIC
+  },
 
-    /**
-     * 云端帖子内容
-     * @param {*} topicId
-     */
-    cloudTopic: {
-      0: INIT_TOPIC
-    },
+  /** 帖子回复 */
+  comments: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 帖子回复
-     * @param {*} topicId
-     */
-    comments: {
-      0: LIST_EMPTY // <INIT_COMMENTS_ITEM>
-    },
+  /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
+  topicFormCDN: {
+    0: INIT_TOPIC
+  },
 
-    /**
-     * 帖子内容CDN自维护数据
-     * 用于帖子首次渲染加速
-     * @param {*} topicId
-     */
-    topicFormCDN: {
-      0: INIT_TOPIC
-    },
+  /** 云端帖子内容 */
+  cloudTopic: {
+    0: INIT_TOPIC
+  },
 
-    /**
-     * 电波提醒
-     */
-    notify: INIT_NOTIFY,
+  /** 电波提醒 */
+  notify: INIT_NOTIFY,
 
-    /**
-     * 超展开设置
-     */
-    setting: INIT_SETTING,
+  /** 超展开设置 */
+  setting: INIT_SETTING,
 
-    /**
-     * 本地收藏
-     * @param {*} topicId
-     */
-    favor: {
-      0: false
-    },
+  /** 是否本地收藏 */
+  favor: {
+    0: false
+  },
 
-    /**
-     * 小组信息
-     * @param {*} groupId
-     */
-    groupInfo: {
-      0: INIT_GROUP_INFO
-    },
+  /** 小组帖子列表 */
+  group: {
+    0: INIT_GROUP_ITEM
+  },
 
-    /**
-     * 小组帖子列表
-     * @param {*} groupId
-     * @param {*} page
-     */
-    group: {
-      _: (groupId, page = 1) => `${groupId}|${page}`,
-      0: INIT_GROUP_ITEM
-    },
+  /** 小组信息 */
+  groupInfo: {
+    0: INIT_GROUP_INFO
+  },
 
-    /**
-     * 小组缩略图缓存
-     * @param {*} name
-     */
-    groupThumb: {
-      0: ''
-    },
+  /** 小组缩略图缓存 */
+  groupThumb: {
+    0: ''
+  },
 
-    /**
-     * 我的小组
-     */
-    mine: LIST_EMPTY, // <INIT_MINE_ITEM>
+  /** 我的小组 */
+  mine: LIST_EMPTY,
 
-    /**
-     * 日志内容
-     * @param {*} blogId
-     */
-    blog: {
-      0: INIT_TOPIC
-    },
+  /** 日志内容 */
+  blog: {
+    0: INIT_TOPIC
+  },
 
-    /**
-     * 日志回复
-     * @param {*} blogId
-     */
-    blogComments: {
-      0: LIST_EMPTY // <INIT_COMMENTS_ITEM>
-    },
+  /** 日志回复 */
+  blogComments: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 用户的超展开
-     */
-    userTopicsFormCDN: {
-      0: LIST_EMPTY
-    },
+  /** 用户历史超展开帖子 (CDN) */
+  userTopicsFormCDN: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 条目讨论版
-     */
-    board: {
-      0: LIST_EMPTY
-    },
+  /** 条目帖子列表 */
+  board: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 条目讨论版
-     */
-    reviews: {
-      0: LIST_EMPTY
-    },
+  /** 条目讨论版 */
+  reviews: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 超展开热门
-     */
-    hot: LIST_EMPTY
-  })
+  /** 超展开热门 */
+  hot: LIST_EMPTY
+}
 
-  init = () =>
-    this.readStorage(
-      [
-        'blog',
-        'cloudTopic',
-        'comments',
-        'favor',
-        'groupInfo',
-        'groupThumb',
-        'hot',
-        'mine',
-        'notify',
-        'rakuen',
-        'readed',
-        'setting',
-        'topic'
-      ],
-      NAMESPACE
-    )
+class RakuenStore extends store implements StoreConstructor<typeof state> {
+  state = observable(state)
 
   // -------------------- get --------------------
+  /** 超展开列表 */
+  rakuen(scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) {
+    return computed<Rakuen>(() => {
+      const key = `${scope}|${type}`
+      return this.state.rakuen[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 帖子历史查看信息 */
+  readed(topicId: TopicId) {
+    return computed<Readed>(() => {
+      return this.state.readed[topicId] || INIT_READED_ITEM
+    }).get()
+  }
+
+  /** 帖子内容 */
+  topic(topicId: TopicId) {
+    return computed<Topic>(() => {
+      return this.state.topic[topicId] || INIT_TOPIC
+    }).get()
+  }
+
+  /** 帖子回复 */
+  comments(topicId: TopicId) {
+    return computed<Comments>(() => {
+      return this.state.comments[topicId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
+  topicFormCDN(topicId: TopicId) {
+    return computed<Topic>(() => {
+      return this.state.topicFormCDN[topicId] || INIT_TOPIC
+    }).get()
+  }
+
+  /** 云端帖子内容 */
+  cloudTopic(topicId: TopicId) {
+    return computed<Topic>(() => {
+      return this.state.cloudTopic[topicId] || INIT_TOPIC
+    }).get()
+  }
+
   /** 电波提醒 */
-  @computed get notify() {
+  @computed get notify(): Notify {
     return this.state.notify
   }
 
+  /** 超展开设置 */
+  @computed get setting() {
+    return this.state.setting
+  }
+
+  /** 是否本地收藏 */
+  favor(topicId: TopicId) {
+    return computed<boolean>(() => {
+      return this.state.favor[topicId] || false
+    }).get()
+  }
+
+  /** 小组帖子列表 */
+  group(groupId: Id, page: number = 1) {
+    return computed<Group>(() => {
+      const key = `${groupId}|${page}`
+      return this.state.group[key] || INIT_GROUP_ITEM
+    }).get()
+  }
+
+  /** 小组信息 */
+  groupInfo(groupId: Id) {
+    return computed<GroupInfo>(() => {
+      return this.state.groupInfo[groupId] || INIT_GROUP_INFO
+    }).get()
+  }
+
+  /** 小组缩略图缓存 */
+  groupThumb(name: string) {
+    return computed<CoverGroup<'l'>>(() => {
+      return this.state.groupThumb[name] || ''
+    }).get()
+  }
+
+  /** 我的小组 */
+  @computed get mine(): Mine {
+    return this.state.mine || LIST_EMPTY
+  }
+
+  /** 日志内容 */
+  blog(blogId: Id) {
+    return computed<Topic>(() => {
+      return this.state.blog[blogId] || INIT_TOPIC
+    }).get()
+  }
+
+  /** 日志回复 */
+  blogComments(blogId: Id) {
+    return computed<Comments>(() => {
+      return this.state.blogComments[blogId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 用户历史超展开帖子 (CDN) */
+  userTopicsFormCDN(userId: UserId) {
+    return computed<UserTopicsFormCDN>(() => {
+      return this.state.userTopicsFormCDN[userId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 条目帖子列表 */
+  board(subjectId: SubjectId) {
+    return computed<Board>(() => {
+      return this.state.board[subjectId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 条目讨论版 */
+  reviews(subjectId: SubjectId) {
+    return computed<Reviews>(() => {
+      return this.state.reviews[subjectId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 超展开热门 */
+  @computed get hot(): Rakuen {
+    return this.state.hot || LIST_EMPTY
+  }
+
+  /** @deprecated 日志内容 (CDN) */
   blogFormCDN() {
     return INIT_TOPIC
   }
 
+  // -------------------- computed --------------------
+  /** 收藏的帖子 */
   @computed get favorTopic() {
     const { favor, topic, cloudTopic } = this.state
     const data = {
       ...cloudTopic,
       _favor: favor
     }
-    Object.keys(topic)
-      .filter(topicId => {
-        // 不知道哪里有问题, 有时会出现undefined的key值, 过滤掉
-        if (!topicId.includes('group/') || topicId.includes('undefined')) {
-          return false
-        }
 
+    Object.keys(topic)
+      .filter((topicId: TopicId) => {
+        // 不知道哪里有问题, 有时会出现undefined的key值, 过滤掉
+        if (!topicId.includes('group/') || topicId.includes('undefined')) return false
         return this.favor(topicId)
       })
       .sort((a, b) => b.localeCompare(a))
@@ -259,11 +336,25 @@ class Rakuen extends store {
     return data
   }
 
-  /**
-   * 超展开设置
-   */
-  @computed get setting() {
-    return this.state.setting
+  init = () => {
+    return this.readStorage(
+      [
+        'blog',
+        'cloudTopic',
+        'comments',
+        'favor',
+        'groupInfo',
+        'groupThumb',
+        'hot',
+        'mine',
+        'notify',
+        'rakuen',
+        'readed',
+        'setting',
+        'topic'
+      ],
+      NAMESPACE
+    )
   }
 
   // -------------------- fetch --------------------
@@ -273,12 +364,17 @@ class Rakuen extends store {
    * 为了提高体验, 做模拟分页加载效果
    */
   fetchRakuen = async (
-    { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE } = {},
-    refresh
+    args: {
+      scope?: RakuenScope
+      type?: RakuenType
+    },
+    refresh?: boolean
   ) => {
-    let res
+    const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE } = args || {}
+
     const key = 'rakuen'
     const stateKey = `${scope}|${type}`
+    let res
 
     // 制造分页数据
     if (refresh) {
@@ -319,10 +415,9 @@ class Rakuen extends store {
     return res
   }
 
-  /**
-   * 获取帖子内容和留言
-   */
-  fetchTopic = async ({ topicId = 0 }) => {
+  /** 获取帖子内容和留言 */
+  fetchTopic = async (args: { topicId: TopicId }) => {
+    const { topicId } = args || {}
     const HTML = await fetchHTML({
       url: HTML_TOPIC(topicId)
     })
@@ -360,17 +455,14 @@ class Rakuen extends store {
     this.setStorage(commentsKey, undefined, NAMESPACE)
     this.updateGroupThumb(topic.group, topic.groupThumb)
 
-    return Promise.resolve({
+    return {
       topic,
       comments
-    })
+    }
   }
 
-  /**
-   * CDN获取人物信息
-   * @param {*} subjectId
-   */
-  fetchTopicFormCDN = async topicId => {
+  /** CDN 获取帖子信息 */
+  fetchTopicFormCDN = async (topicId: TopicId) => {
     try {
       const { _response } = await xhrCustom({
         url: CDN_RAKUEN(topicId)
@@ -386,10 +478,9 @@ class Rakuen extends store {
           [topicId]: data
         }
       })
-      return Promise.resolve(data)
+      return data
     } catch (error) {
-      warn('rakuenStore', 'fetchTopicFormCDN', 404)
-      return Promise.resolve(INIT_TOPIC)
+      return INIT_TOPIC
     }
   }
 
@@ -397,7 +488,7 @@ class Rakuen extends store {
    * 电波提醒
    * @param {*} analysis 是否分析回复内容
    */
-  fetchNotify = async (analysis = false) => {
+  fetchNotify = async (analysis: boolean = false) => {
     const res = fetchHTML({
       url: HTML_NOTIFY(),
       raw: true
@@ -418,24 +509,18 @@ class Rakuen extends store {
     const clearHTML = HTML.match(
       /<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/
     )
-    if (clearHTML) {
-      clearHref = clearHTML[1]
-    }
+    if (clearHTML) clearHref = clearHTML[1]
 
     // 未读数
     const countHTML = HTML.match(/<span id="notify_count">(.+?)<\/span>/)
-    if (countHTML) {
-      unread = parseInt(countHTML[1])
-    }
+    if (countHTML) unread = parseInt(countHTML[1])
 
     // 回复内容
     if (analysis) {
       const listHTML = HTML.match(
         /<div id="comment_list">(.+?)<\/div><\/div><\/div><div id="footer"/
       )
-      if (listHTML) {
-        list = cheerioNotify(listHTML[1])
-      }
+      if (listHTML) list = cheerioNotify(listHTML[1])
     }
 
     const key = 'notify'
@@ -455,10 +540,9 @@ class Rakuen extends store {
     }
   }
 
-  /**
-   * 小组信息
-   */
-  fetchGroupInfo = async ({ groupId = 0 }) => {
+  /** 小组信息 */
+  fetchGroupInfo = async (args: { groupId: Id }) => {
+    const { groupId = 0 } = args || {}
     const html = await fetchHTML({
       url: HTML_GROUP_INFO(groupId)
     })
@@ -475,16 +559,16 @@ class Rakuen extends store {
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return Promise.resolve(groupInfo)
+    return groupInfo
   }
 
-  /**
-   * 小组帖子列表
-   */
-  fetchGroup = async ({ groupId, page }) => {
+  /** 小组帖子列表 */
+  fetchGroup = async (args: { groupId: Id; page?: number }) => {
+    const { groupId, page = 1 } = args || {}
     const html = await fetchHTML({
       url: HTML_GROUP(groupId, page)
     })
+
     const group = analysisGroup(html)
     this.setState({
       group: {
@@ -495,13 +579,12 @@ class Rakuen extends store {
       }
     })
 
-    return Promise.resolve(group)
+    return group
   }
 
-  /**
-   * 小组帖子列表
-   */
-  fetchBoard = async ({ subjectId }) => {
+  /** 条目帖子列表 */
+  fetchBoard = async (args: { subjectId: SubjectId }) => {
+    const { subjectId } = args || {}
     const key = 'board'
     const html = await fetchHTML({
       url: HTML_BOARD(subjectId)
@@ -520,16 +603,15 @@ class Rakuen extends store {
     return this.board(subjectId)
   }
 
-  /**
-   * 条目影评列表 (日志)
-   */
-  fetchReviews = async ({ subjectId }) => {
-    const key = 'reviews'
+  /** 条目影评列表 (日志) */
+  fetchReviews = async (args: { subjectId: SubjectId }) => {
+    const { subjectId } = args || {}
     const html = await fetchHTML({
       url: HTML_REVIEWS(subjectId)
     })
 
     const data = cheerioReviews(html)
+    const key = 'reviews'
     this.setState({
       [key]: {
         [subjectId]: {
@@ -542,16 +624,14 @@ class Rakuen extends store {
     return this.reviews(subjectId)
   }
 
-  /**
-   * 我的小组
-   */
+  /** 我的小组 */
   fetchMine = async () => {
-    const key = 'mine'
-
     const html = await fetchHTML({
       url: HTML_GROUP_MINE()
     })
     const { list } = cheerioMine(html)
+
+    const key = 'mine'
     this.setState({
       [key]: {
         list,
@@ -567,10 +647,9 @@ class Rakuen extends store {
     return this[key]
   }
 
-  /**
-   * 获取日志内容和留言
-   */
-  fetchBlog = async ({ blogId = 0 }) => {
+  /** 获取日志内容和留言 */
+  fetchBlog = async (args: { blogId: Id }) => {
+    const { blogId } = args || {}
     const HTML = await fetchHTML({
       url: HTML_BLOG(blogId)
     })
@@ -607,19 +686,17 @@ class Rakuen extends store {
     })
     this.setStorage(commentsKey, undefined, NAMESPACE)
 
-    return Promise.resolve({
+    return {
       blog,
       blogComments
-    })
+    }
   }
 
+  /** @deprecated 日志内容 (CDN) */
   fetchBlogFormCDN = () => {}
 
-  /**
-   * CDN获取用户历史超展开帖子
-   * @param {*} userId
-   */
-  fetchUserTopicsFormCDN = async userId => {
+  /** CDN 获取用户历史超展开帖子 */
+  fetchUserTopicsFormCDN = async (userId: UserId) => {
     try {
       const { _response } = await xhrCustom({
         url: CDN_RAKUEN_USER_TOPICS(userId)
@@ -650,26 +727,23 @@ class Rakuen extends store {
           [userId]: data
         }
       })
-      return Promise.resolve(data)
+      return data
     } catch (error) {
-      warn('rakuenStore', 'fetchUserTopicsFormCDN', 404)
-      return Promise.resolve({
+      return {
         ...LIST_EMPTY,
         _loaded: getTimestamp()
-      })
+      }
     }
   }
 
-  /**
-   * 超展开热门数据
-   */
+  /** 超展开热门数据 */
   fetchRakuenHot = async () => {
-    const key = 'hot'
-
     const html = await fetchHTML({
       url: HTML_RAKUEN_HOT()
     })
     const list = cheerioHot(html)
+
+    const key = 'hot'
     this.setState({
       [key]: {
         list,
@@ -686,9 +760,7 @@ class Rakuen extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 清除电波提醒未读
-   */
+  /** 清除电波提醒未读 */
   doClearNotify = async () => {
     const { clearHref } = this.notify
     if (clearHref) {
@@ -708,10 +780,15 @@ class Rakuen extends store {
     }
   }
 
-  /**
-   * 回复帖子 | 回复帖子子回复
-   */
-  doReply = async ({ topicId, type = 'group/topic', ...other }, success) => {
+  /** 回复帖子 | 回复帖子子回复 */
+  doReply = async (
+    args: {
+      topicId: TopicId
+      type?: RakuenReplyType
+    },
+    success?: () => any
+  ) => {
+    const { topicId, type = 'group/topic', ...other } = args || {}
     xhr(
       {
         url: HTML_ACTION_RAKUEN_REPLY(topicId, type),
@@ -726,10 +803,9 @@ class Rakuen extends store {
     )
   }
 
-  /**
-   * 删除回复
-   */
-  doDeleteReply = async ({ url }, success) => {
+  /** 删除回复 */
+  doDeleteReply = async (args: { url: string }, success?: () => any) => {
+    const { url } = args || {}
     xhr(
       {
         url
@@ -738,10 +814,9 @@ class Rakuen extends store {
     )
   }
 
-  /**
-   * 回复日志
-   */
-  doReplyBlog = async ({ blogId, ...other }, success) => {
+  /** 回复日志 */
+  doReplyBlog = async (args: { blogId: TopicId }, success?: () => any) => {
+    const { blogId, ...other } = args || {}
     xhr(
       {
         url: HTML_ACTION_BLOG_REPLY(blogId),
@@ -756,10 +831,9 @@ class Rakuen extends store {
     )
   }
 
-  /**
-   * 删除日志回复
-   */
-  doDeleteReplyBlog = async ({ url }, success) => {
+  /** 删除日志回复 */
+  doDeleteReplyBlog = async (args: { url: string }, success?: () => any) => {
+    const { url } = args || {}
     xhr(
       {
         url
@@ -774,7 +848,7 @@ class Rakuen extends store {
    * @param {*} topicId 帖子Id
    * @param {Int} replies 回复数
    */
-  updateTopicReaded = (topicId, replies = 0) => {
+  updateTopicReaded = (topicId: TopicId, replies: number = 0) => {
     const readed = this.readed(topicId)
     const key = 'readed'
     const time = getTimestamp()
@@ -790,10 +864,8 @@ class Rakuen extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 设置`楼层导航条方向`
-   */
-  setScrollDirection = scrollDirection => {
+  /** 设置`楼层导航条方向` */
+  setScrollDirection = (scrollDirection: RakuenScrollDirection) => {
     const key = 'setting'
     this.setState({
       [key]: {
@@ -804,10 +876,8 @@ class Rakuen extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 切换
-   */
-  switchSetting = switchKey => {
+  /** 切换 */
+  switchSetting = (switchKey: keyof typeof INIT_SETTING) => {
     const key = 'setting'
     this.setState({
       [key]: {
@@ -818,15 +888,10 @@ class Rakuen extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 添加屏蔽关键字
-   * @param {string} keyword
-   */
-  addBlockKeyword = keyword => {
+  /** 添加屏蔽关键字 */
+  addBlockKeyword = (keyword: string) => {
     const { blockKeywords } = this.setting
-    if (blockKeywords.includes(keyword)) {
-      return
-    }
+    if (blockKeywords.includes(keyword)) return
 
     const key = 'setting'
     this.setState({
@@ -838,11 +903,8 @@ class Rakuen extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 删除屏蔽关键字
-   * @param {string} keyword
-   */
-  deleteBlockKeyword = keyword => {
+  /** 删除屏蔽关键字 */
+  deleteBlockKeyword = (keyword: string) => {
     const { blockKeywords } = this.setting
     const key = 'setting'
     this.setState({
@@ -858,11 +920,9 @@ class Rakuen extends store {
    * 添加屏蔽小组
    * @param {string} group 小组名字
    */
-  addBlockGroup = group => {
+  addBlockGroup = (group: string) => {
     const { blockGroups } = this.setting
-    if (blockGroups.includes(group)) {
-      return
-    }
+    if (blockGroups.includes(group)) return
 
     const key = 'setting'
     this.setState({
@@ -878,7 +938,7 @@ class Rakuen extends store {
    * 删除屏蔽小组
    * @param {string} group 小组名字
    */
-  deleteBlockGroup = group => {
+  deleteBlockGroup = (group: string) => {
     const { blockGroups } = this.setting
     const key = 'setting'
     this.setState({
@@ -894,11 +954,9 @@ class Rakuen extends store {
    * 添加屏蔽用户
    * @param {string} userNameSpace `${userName}@${userId}`
    */
-  addBlockUser = userNameSpace => {
+  addBlockUser = (userNameSpace: string) => {
     const { blockUserIds } = this.setting
-    if (blockUserIds.includes(userNameSpace)) {
-      return
-    }
+    if (blockUserIds.includes(userNameSpace)) return
 
     const key = 'setting'
     this.setState({
@@ -914,7 +972,7 @@ class Rakuen extends store {
    * 删除屏蔽用户
    * @param {string} userNameSpace `${userName}@${userId}`
    */
-  deleteBlockUser = userNameSpace => {
+  deleteBlockUser = (userNameSpace: string) => {
     const { blockUserIds } = this.setting
     const key = 'setting'
     this.setState({
@@ -926,10 +984,8 @@ class Rakuen extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 设置是否收藏
-   */
-  setFavor = (topicId, isFover) => {
+  /** 设置是否收藏*/
+  setFavor = (topicId: TopicId, isFover: boolean) => {
     const key = 'favor'
     this.setState({
       [key]: {
@@ -939,10 +995,8 @@ class Rakuen extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 更新小组缩略图
-   */
-  updateGroupThumb = (name, thumb) => {
+  /** 更新小组缩略图 */
+  updateGroupThumb = (name: string, thumb: string) => {
     const key = 'groupThumb'
     this.setState({
       [key]: {
@@ -952,9 +1006,7 @@ class Rakuen extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 上传收藏帖子到云端
-   */
+  /** 上传收藏帖子到云端 */
   uploadFavorTopic = () => {
     const { id } = getUserStoreAsync().userInfo
     return put({
@@ -963,17 +1015,13 @@ class Rakuen extends store {
     })
   }
 
-  /**
-   * 同步云端收藏帖子
-   */
+  /** 同步云端收藏帖子 */
   downloadFavorTopic = async () => {
     const { id } = getUserStoreAsync().userInfo
     const { content } = await read({
       path: `topic/${id}.json`
     })
-    if (!content) {
-      return false
-    }
+    if (!content) return false
 
     try {
       const { favor } = this.state
@@ -994,9 +1042,7 @@ class Rakuen extends store {
     }
   }
 
-  /**
-   * 上传当前设置到云端
-   */
+  /** 上传当前设置到云端 */
   uploadSetting = () => {
     const { id } = getUserStoreAsync().userInfo
     return put({
@@ -1010,18 +1056,14 @@ class Rakuen extends store {
     })
   }
 
-  /**
-   * 恢复到云端的设置
-   */
+  /** 恢复到云端的设置 */
   downloadSetting = async () => {
     const { id } = getUserStoreAsync().userInfo
     const { content } = await read({
       path: `rakuen-setting/${id}.json`
     })
 
-    if (!content) {
-      return false
-    }
+    if (!content) return false
 
     try {
       const setting = JSON.parse(content)
@@ -1060,7 +1102,4 @@ class Rakuen extends store {
   }
 }
 
-const Store = new Rakuen()
-Store.setup()
-
-export default Store
+export default new RakuenStore()

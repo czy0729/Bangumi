@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-25 09:10:01
+ * @Last Modified time: 2022-07-01 17:06:57
  */
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE,
   MODEL_RAKUEN_SCROLL_DIRECTION
-} from '@constants/model'
+} from '@constants'
+import { RakuenScope, RakuenType } from '@types'
 
 export const NAMESPACE = 'Rakuen'
+
 export const LIMIT_LIST_COMMENTS = 20
 
-// -------------------- default --------------------
-export const DEFAULT_SCOPE = MODEL_RAKUEN_SCOPE.getValue('全局聚合')
-export const DEFAULT_TYPE = MODEL_RAKUEN_TYPE.getValue('全部')
+export const DEFAULT_SCOPE = MODEL_RAKUEN_SCOPE.getValue<RakuenScope>('全局聚合')
 
-// -------------------- init --------------------
+export const DEFAULT_TYPE = MODEL_RAKUEN_TYPE.getValue<RakuenType>('全部')
+
 export const INIT_RAKUEN_ITEM = {
   group: '', // 小组名称
   groupHref: '', // 小组地址

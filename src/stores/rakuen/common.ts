@@ -2,17 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 02:03:36
+ * @Last Modified time: 2022-07-01 17:29:58
  */
-import { safeObject, trim } from '@utils'
+import {
+  HTMLDecode,
+  HTMLToTree,
+  HTMLTrim,
+  cheerio,
+  findTreeNode,
+  safeObject,
+  trim
+} from '@utils'
 import { getCoverSmall } from '@utils/app'
 import { fetchHTML } from '@utils/fetch'
-import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode, cheerio } from '@utils/html'
 import { matchAvatar, matchUserId } from '@utils/match'
-import { HTML_RAKUEN } from '@constants/html'
+import { HTML_RAKUEN } from '@constants'
+import { RakuenScope, RakuenType } from '@types'
 import { INIT_TOPIC, INIT_COMMENTS_ITEM, INIT_BLOG } from './init'
 
-export async function fetchRakuen({ scope, type } = {}) {
+export async function fetchRakuen(args: { scope: RakuenScope; type: RakuenType }) {
+  const { scope, type } = args || {}
+
   // -------------------- 请求HTML --------------------
   const res = fetchHTML({
     url: HTML_RAKUEN(scope, type)
@@ -391,9 +401,7 @@ export function cheerioTopic(HTML) {
           })
         })
         .get() || []
-  } catch (ex) {
-    warn('stores/rakuen/common.js', 'cheerioTopic', ex)
-  }
+  } catch (ex) {}
 
   return {
     topic,
@@ -504,9 +512,7 @@ export function cheerioBlog(HTML) {
           })
         })
         .get() || []
-  } catch (ex) {
-    warn('stores/rakuen/common.js', 'cheerioBlog', ex)
-  }
+  } catch (ex) {}
 
   return {
     blog,
