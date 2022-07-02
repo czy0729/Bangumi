@@ -1,24 +1,26 @@
 /*
+ * 用户 (他人视角)
+ *
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 04:44:02
+ * @Last Modified time: 2022-07-02 13:41:25
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
 import {
   HTML_FRIENDS,
   HTML_USERS,
-  HTML_USERS_CHARCTER,
-  HTML_USERS_PERSON,
-  HTML_USERS_MONO_RECENTS,
   HTML_USERS_BLOGS,
-  HTML_USERS_CATALOGS
-} from '@constants/html'
-import { UserId } from '@types'
+  HTML_USERS_CATALOGS,
+  HTML_USERS_CHARCTER,
+  HTML_USERS_MONO_RECENTS,
+  HTML_USERS_PERSON,
+  LIST_EMPTY
+} from '@constants'
+import { StoreConstructor, UserId } from '@types'
 import userStore from '../user'
 import { NAMESPACE, INIT_USERS } from './init'
 import {
@@ -29,76 +31,140 @@ import {
   cheerioBlogs,
   cheerioCatalogs
 } from './common'
+import {
+  Blogs,
+  Catalogs,
+  Characters,
+  Friend,
+  Friends,
+  FriendsMap,
+  MyFriendsMap,
+  Persons,
+  Recents,
+  Users
+} from './types'
 
-class Users extends store {
-  state = observable({
-    /**
-     * 好友列表
-     * @param {*} userId
-     */
-    friends: {
-      _: userId => userId || userStore.myId,
-      0: LIST_EMPTY // <INIT_FRIENDS_ITEM>
-    },
+const state = {
+  /** 好友列表 */
+  friends: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 我的好友userId哈希映射
-     */
-    myFriendsMap: {},
+  /** 我的好友 userId 哈希映射 */
+  myFriendsMap: {
+    _loaded: 0
+  },
 
-    /**
-     * 用户介绍
-     * @param {*} userId
-     */
-    users: {
-      _: userId => userId || userStore.myId,
-      0: INIT_USERS
-    },
+  /** 用户信息 */
+  users: {
+    0: INIT_USERS
+  },
 
-    /**
-     * 用户收藏的虚拟角色
-     * @param {*} userId
-     */
-    characters: {
-      _: userId => userId || userStore.myId,
-      0: LIST_EMPTY // <INIT_CHARACTER>
-    },
+  /** 用户收藏的虚拟角色 */
+  characters: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 用户收藏的现实人物
-     * @param {*} userId
-     */
-    persons: {
-      _: userId => userId || userStore.myId,
-      0: LIST_EMPTY // <INIT_CHARACTER>
-    },
+  /** 用户收藏的现实人物 */
+  persons: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 我收藏人物的最近作品
-     */
-    recents: LIST_EMPTY, // INIT_RECENTS_ITEM
+  /** 我收藏人物的最近作品 */
+  recents: LIST_EMPTY,
 
-    /**
-     * 用户日志
-     * @param {*} userId
-     */
-    blogs: {
-      _: userId => userId || userStore.myId,
-      0: LIST_EMPTY // <INIT_BLOGS>
-    },
+  /** 用户日志 */
+  blogs: {
+    0: LIST_EMPTY
+  },
 
-    /**
-     * 用户目录
-     * @param {*} userId
-     */
-    catalogs: {
-      // [userId]: LIST_EMPTY<INIT_CATALOGS>
-    },
-    catalogsCollect: {
-      // [userId]: LIST_EMPTY<INIT_CATALOGS>
-    }
-  })
+  /** 用户目录 */
+  catalogs: {
+    0: LIST_EMPTY
+  },
 
+  /** 用户收藏的目录 */
+  catalogsCollect: {
+    0: LIST_EMPTY
+  }
+}
+
+class UsersStore
+  extends store
+  implements StoreConstructor<Omit<typeof state, 'catalogsCollect'>>
+{
+  state = observable(state)
+
+  // -------------------- get --------------------
+  /** 好友列表 */
+  friends(userId?: UserId) {
+    return computed<Friends>(() => {
+      const key = userId || userStore.myId
+      return this.state.friends[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 我的好友 userId 哈希映射 */
+  @computed get myFriendsMap(): MyFriendsMap {
+    return this.state.myFriendsMap
+  }
+
+  /** 用户信息 */
+  users(userId?: UserId) {
+    return computed<Users>(() => {
+      const key = userId || userStore.myId
+      return this.state.users[key] || INIT_USERS
+    }).get()
+  }
+
+  /** 用户收藏的虚拟角色 */
+  characters(userId?: UserId) {
+    return computed<Characters>(() => {
+      const key = userId || userStore.myId
+      return this.state.characters[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 用户收藏的现实人物 */
+  persons(userId?: UserId) {
+    return computed<Persons>(() => {
+      const key = userId || userStore.myId
+      return this.state.persons[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 我收藏人物的最近作品 */
+  @computed get recents(): Recents {
+    return this.state.recents
+  }
+
+  /** 用户日志 */
+  blogs(userId?: UserId) {
+    return computed<Blogs>(() => {
+      const key = userId || userStore.myId
+      return this.state.blogs[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 用户目录 */
+  catalogs(userId?: UserId, isCollect?: boolean) {
+    return computed<Catalogs>(() => {
+      const key = `catalogs${isCollect ? 'Collect' : ''}`
+      const _userId = userId || userStore.myId
+      return this.state[key][_userId] || LIST_EMPTY
+    }).get()
+  }
+
+  // -------------------- computed --------------------
+  /** 好友对象 */
+  @computed get friendsMap(): FriendsMap {
+    const { list } = this.friends()
+    const map = {}
+    list.forEach(item => (map[item.userId] = item))
+    return map
+  }
+
+  // -------------------- mounted --------------------
   init = async () => {
     const res = this.readStorage(
       [
@@ -131,51 +197,25 @@ class Users extends store {
     return res
   }
 
-  // -------------------- get --------------------
-  /**
-   * 好友对象
-   */
-  @computed get friendsMap() {
-    const map = {}
-    const { list } = this.friends()
-    list.forEach(item => (map[item.userId] = item))
-    return map
-  }
-
-  /** 用户介绍 */
-  users(userId?: UserId) {
-    const key = userId || userStore.myId
-    return computed<typeof INIT_USERS>(() => this.state.users[key] || INIT_USERS).get()
-  }
-
-  catalogs(userId = userStore.myId, isCollect) {
-    const key = `catalogs${isCollect ? 'Collect' : ''}`
-    return computed(() => this.state[key][userId] || LIST_EMPTY).get()
-  }
-
   // -------------------- fetch --------------------
-  /**
-   * 好友列表
-   * @param {*} userId
-   */
-  fetchFriends = async ({ userId = userStore.myId } = {}) => {
-    const key = 'friends'
+  /** 好友列表 */
+  fetchFriends = async (args?: { userId?: UserId }) => {
+    const { userId = userStore.myId } = args || {}
     const html = await fetchHTML({
       url: `!${HTML_FRIENDS(userId)}`
     })
     const friends = cheerioFriends(html)
 
     // - 20201124 缓存好友上一次历史名字
-    friends.forEach(item => {
+    friends.forEach((item: Friend) => {
       const lastItem = this.friendsMap[item.userId]
       const lastUserName = lastItem?.lastUserName
-      if (lastUserName && lastUserName === item.userName) {
-        return
-      }
+      if (lastUserName && lastUserName === item.userName) return
 
       item.lastUserName = lastItem?.userName || item.userName
     })
 
+    const key = 'friends'
     this.setState({
       [key]: {
         [userId]: {
@@ -191,7 +231,7 @@ class Users extends store {
       const myFriendsMap = {
         _loaded: getTimestamp()
       }
-      friends.forEach(item => (myFriendsMap[item.userId] = true))
+      friends.forEach((item: Friend) => (myFriendsMap[item.userId] = true))
 
       const key = 'myFriendsMap'
       this.setState({
@@ -200,24 +240,22 @@ class Users extends store {
       this.setStorage(key, undefined, NAMESPACE)
     }
 
-    return Promise.resolve(friends)
+    return friends
   }
 
-  /**
-   * 用户
-   * @param {*} userId
-   */
-  fetchUsers = async ({ userId = userStore.myId } = {}) => {
+  /** 用户 */
+  fetchUsers = async (args?: { userId?: UserId }) => {
+    const { userId = userStore.myId } = args || {}
     const html = await fetchHTML({
       url: HTML_USERS(userId)
     })
 
-    const key = 'users'
     const users = cheerioUsers(html)
     const data = {
       ...users,
       _loaded: getTimestamp()
     }
+    const key = 'users'
     this.setState({
       [key]: {
         [userId]: data
@@ -225,27 +263,20 @@ class Users extends store {
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return Promise.resolve(data)
+    return data
   }
 
-  /**
-   * 用户收藏的虚拟角色
-   */
-  fetchCharacters = async ({ userId = userStore.myId } = {}, refresh) => {
+  /** 用户收藏的虚拟角色 */
+  fetchCharacters = async (args?: { userId?: UserId }, refresh?: boolean) => {
+    const { userId = userStore.myId } = args || {}
     const { list, pagination } = this.characters(userId)
-    let page
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
-
+    const page = refresh ? 1 : pagination.page + 1
     const html = await fetchHTML({
       url: HTML_USERS_CHARCTER(userId, page)
     })
     const data = cheerioCharacters(html)
 
-    let characters
+    let characters: Characters
     if (refresh) {
       characters = {
         list: data.list,
@@ -274,24 +305,17 @@ class Users extends store {
     return characters
   }
 
-  /**
-   * 用户收藏的现实人物
-   */
-  fetchPersons = async ({ userId = userStore.myId } = {}, refresh) => {
+  /** 用户收藏的现实人物 */
+  fetchPersons = async (args?: { userId?: UserId }, refresh?: boolean) => {
+    const { userId = userStore.myId } = args || {}
     const { list, pagination } = this.persons(userId)
-    let page
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
-
+    const page = refresh ? 1 : pagination.page + 1
     const html = await fetchHTML({
       url: HTML_USERS_PERSON(userId, page)
     })
     const data = cheerioCharacters(html)
 
-    let persons
+    let persons: Persons
     if (refresh) {
       persons = {
         list: data.list,
@@ -320,25 +344,16 @@ class Users extends store {
     return persons
   }
 
-  /**
-   * 我收藏人物的最近作品
-   */
-  fetchRecents = async refresh => {
+  /** 我收藏人物的最近作品 */
+  fetchRecents = async (refresh?: boolean) => {
     const { list, pagination } = this.recents
-    let page
-
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
-
+    const page = refresh ? 1 : pagination.page + 1
     const html = await fetchHTML({
       url: HTML_USERS_MONO_RECENTS(page)
     })
     const data = cheerioRecents(html)
 
-    let recents
+    let recents: Recents
     if (refresh) {
       recents = {
         list: data.list,
@@ -365,10 +380,9 @@ class Users extends store {
     return recents
   }
 
-  /**
-   * 用户日志
-   */
-  fetchBlogs = async ({ userId = userStore.myId } = {}, refresh) => {
+  /** 用户日志 */
+  fetchBlogs = async (args?: { userId?: UserId }, refresh?: boolean) => {
+    const { userId = userStore.myId } = args || {}
     const key = 'blogs'
     const limit = 10
     const { list, pagination } = this[key](userId)
@@ -395,10 +409,15 @@ class Users extends store {
     return this[key](userId)
   }
 
-  /**
-   * 用户日志
-   */
-  fetchCatalogs = async ({ userId = userStore.myId, isCollect } = {}, refresh) => {
+  /** 用户目录 */
+  fetchCatalogs = async (
+    args?: {
+      userId?: UserId
+      isCollect?: boolean
+    },
+    refresh?: boolean
+  ) => {
+    const { userId = userStore.myId, isCollect } = args || {}
     const key = 'catalogs'
     const limit = 30
     const { list, pagination } = this[key](userId, isCollect)
@@ -426,7 +445,4 @@ class Users extends store {
   }
 }
 
-const Store = new Users()
-Store.setup()
-
-export default Store
+export default new UsersStore()

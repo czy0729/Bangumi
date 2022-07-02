@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 15:50:16
+ * @Last Modified time: 2022-07-02 10:31:38
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -31,7 +31,7 @@ export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
  * 节流
  * @param {*} callback
  */
-export function throttle(callback: () => void, delay = 400) {
+export function throttle(callback: (arg?: any) => void, delay = 400) {
   let timeoutID: number
   let lastExec = 0
 

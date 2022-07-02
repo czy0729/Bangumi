@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 08:08:12
+ * @Last Modified time: 2022-07-02 02:03:17
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { runAfter } from '@utils'
@@ -29,10 +29,8 @@ import smbStore from './smb'
 // @todo 查明init被调用2次的原因
 let inited = false
 
-class Stores {
-  /**
-   * 保证所有子Store初始化和加载缓存
-   */
+class GlobalStores {
+  /** 保证所有子Store初始化和加载缓存 */
   async init() {
     try {
       if (!DEV && inited) return false
@@ -51,7 +49,7 @@ class Stores {
       ])
       await res
 
-      // [异步加载]非重要Stores
+      // [异步加载] 非重要Stores
       runAfter(() => {
         smbStore.init()
         calendarStore.init()
@@ -66,7 +64,6 @@ class Stores {
 
       return res
     } catch (error) {
-      warn('stores', 'init', error)
       return false
     }
   }
@@ -91,9 +88,7 @@ class Stores {
     return this[key]
   }
 
-  /**
-   * 清除缓存
-   */
+  /** 清除缓存 */
   async clearStorage() {
     await AsyncStorage.clear()
 
@@ -109,9 +104,7 @@ class Stores {
     return true
   }
 
-  /**
-   * 登出
-   */
+  /** 登出 */
   logout(navigation) {
     confirm(
       `确定${i18n.logout()}?`,
@@ -124,7 +117,6 @@ class Stores {
   }
 }
 
-const GloablStores = new Stores()
 const _ = themeStore
 
 export {
@@ -146,4 +138,4 @@ export {
   usersStore
 }
 
-export default GloablStores
+export default new GlobalStores()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 16:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 05:42:31
+ * @Last Modified time: 2022-07-02 10:32:08
  */
 import { ToastAndroid } from 'react-native'
 import { getTimestamp, throttle, titleCase, toFixed } from '@utils'
@@ -19,25 +19,25 @@ import { INIT_CHARACTERS_ITEM } from './init'
  * @param {*} stars
  */
 export function calculateRate(rate = 0, rank = 0, stars = 0) {
-  if (rank < 501 && rate > 0) {
-    return (601 - rank) * 0.005 * rate
-  }
+  if (rank < 501 && rate > 0) return (601 - rank) * 0.005 * rate
   return stars * 2
+}
+
+function _info(message) {
+  info(message, 0.4)
 }
 
 /**
  * 批量请求时用的提示
  * @param {*} message
  */
-function _info(message) {
-  info(message, 0.4)
-}
 export const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)
+
+const defaultToCharacterKeys = Object.keys(INIT_CHARACTERS_ITEM)
 
 /**
  * 把服务器的返回结果后处理成APP内使用的结构
  */
-const defaultToCharacterKeys = Object.keys(INIT_CHARACTERS_ITEM)
 export function toCharacter(item, keys = defaultToCharacterKeys) {
   const data = {
     _loaded: getTimestamp()

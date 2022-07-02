@@ -1,9 +1,10 @@
+// @ts-nocheck
 /*
  * 小圣杯
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-01 06:21:24
+ * @Last Modified time: 2022-07-02 10:33:33
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate } from '@utils'
