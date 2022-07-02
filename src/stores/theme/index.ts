@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 02:19:30
+ * @Last Modified time: 2022-07-03 02:38:57
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -105,10 +105,10 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   /** @deprecated */
   readonly header = _.header
 
-  /** [待重构] 头部高度 (顶部<Tab>) */
+  /** @tofixed 头部高度 (顶部<Tab>) */
   readonly appBarHeight = _.appBarHeight
 
-  /** [待重构] 整个头部高度 (状态栏高度 + 头部高度) */
+  /** @tofixed 整个头部高度 (状态栏高度 + 头部高度) */
   readonly headerHeight = _.headerHeight
 
   /** 标签页的标签栏高度 */
@@ -138,6 +138,8 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
   /** 绿 (边框) */
   readonly colorSuccessBorder = _.colorSuccessBorder
+
+  /** @deprecated 阴影 */
   readonly colorShadow = _.colorShadow
 
   /** 边框 (dark) */
@@ -958,20 +960,21 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 
   /**
-   * 生成记忆 styles 函数
-   *  - 支持 key 名为 current 的对象懒计算
+   * 生成 APP 内能动态切换主题的, 记忆 styles 的核心函数
+   *  - 所有需要动态切换的样式都应通过此函数包裹样式后导出到组件里面使用
+   *  - @deprecated 支持 key 名为 current (指 useRef) 的对象懒计算
    */
   memoStyles = <T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>>(
-    styles: () => T,
+    styles: (currentThemeStore?: any) => T,
     dev: boolean = false
   ): (() => T) => {
     const item = getMemoStylesId()
 
     return () => {
       /**
-       * 原理: 通过闭包使每一个组件里面的 StyleSheet.create 都被记忆
-       * 只有全局影响样式的设置 (mode | tMode | deepDark | orientation) 改变了
-       * 才会重新 StyleSheet.create, 配合 mobx 的 observer 触发全局样式替换重新渲染
+       * 通过闭包使每一个组件里面的 StyleSheet.create 都被缓存
+       * 当会影响到全局样式的设置 (mode | tMode | deepDark | orientation) 改变了
+       * 会重新调用 StyleSheet.create, 配合 mobx -> observer 触发重新渲染
        * */
       if (
         !item._mode ||
@@ -986,7 +989,9 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
         item._deepDark = this.deepDark
         item._orientation = this.orientation
 
-        const computedStyles: any = styles()
+        const computedStyles: any = styles(this)
+
+        /** @deprecated current 逻辑复杂用不上, 请勿再使用次特性 */
         if (computedStyles.current) {
           const { current, ...otherStyles } = computedStyles
           item._styles = StyleSheet.create(otherStyles)
