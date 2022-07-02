@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-27 13:34:05
+ * @Last Modified time: 2022-07-02 23:51:56
  */
 import React from 'react'
 import {
@@ -41,12 +41,18 @@ export type Source =
       }
     }
 
-/** 用于在 vscode 里面注释能直接显示展开的 type */
-export type Expand<T> = T extends infer O
-  ? {
-      [K in keyof O]: O[K]
-    }
-  : never
+/**
+ * 用于在 vscode 里面注释能直接显示展开的 type
+ * https://stackoverflow.com/questions/57683303/how-can-i-see-the-full-expanded-contract-of-a-typescript-type/57683652#57683652
+ * */
+export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never
+
+/** 用于在 vscode 里面注释能直接显示展开的扩展 type */
+export type ExpandRecursively<T> = T extends object
+  ? T extends infer O
+    ? { [K in keyof O]: ExpandRecursively<O[K]> }
+    : never
+  : T
 
 /** 复写 type */
 export type Override<P, S> = Expand<Omit<P, keyof S> & S>

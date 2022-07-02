@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:29:57
+ * @Last Modified time: 2022-07-03 02:12:50
  */
 import _ from '@styles'
+import { MemoStylesItem } from './types'
 
 export type themeWindowType = {
   width: number
@@ -17,7 +18,6 @@ export const NAMESPACE = 'Theme'
 
 export const DEFAULT_MODE = 'light'
 
-// green: 绿涨红跌 | red: 红涨绿跌 | web: 网页一致
 export const DEFAULT_TINYGRAIL_MODE = 'green'
 
 export const DEFAULT_TINYGRAIL_THEME_MODE = 'dark'
@@ -43,7 +43,7 @@ export const STYLES_LIGHT = {
   colorSub: _.colorSub,
   colorDisabled: _.colorDisabled,
   colorIcon: _.colorIcon
-}
+} as const
 
 export const STYLES_DARK = {
   colorMain: _._colorMain,
@@ -66,13 +66,12 @@ export const STYLES_DARK = {
   colorSub: _._colorSub,
   colorDisabled: _._colorDisabled,
   colorIcon: _._colorIcon
-}
+} as const
 
-/**
- * 生成记忆styles的标识
- */
 let _memoStylesId = 0
-export function getMemoStylesId() {
+
+/** 生成记忆styles的标识 */
+export function getMemoStylesId(): MemoStylesItem {
   _memoStylesId += 1
   return {
     _id: _memoStylesId,
@@ -80,6 +79,7 @@ export function getMemoStylesId() {
     _tMode: '',
     _flat: '',
     _deepDark: '',
+    _orientation: '',
     _styles: ''
   }
 }

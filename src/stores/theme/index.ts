@@ -1,8 +1,10 @@
 /*
+ * 样式
+ *
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:34:04
+ * @Last Modified time: 2022-07-03 02:19:30
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -11,7 +13,7 @@ import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
 import _, { fontSize } from '@styles'
-import { ColorValue, SelectFn } from '@types'
+import { SelectFn, StoreConstructor } from '@types'
 import systemStore from '../system'
 import {
   NAMESPACE,
@@ -22,93 +24,160 @@ import {
   STYLES_DARK,
   getMemoStylesId
 } from './init'
+import { Color, Mode, Orientation, TinygrailMode } from './types'
 
-class Theme extends store {
+const state = {
+  mode: DEFAULT_MODE,
+  orientation: ORIENTATION_PORTRAIT,
+  window: _.window,
+  wind: _.wind,
+  landscapeWindow: _.landscapeWindow,
+  landscapeWind: _.landscapeWind,
+  landscapeWindowSm: _.landscapeWindowSm,
+  landscapeWindSm: _.landscapeWindSm,
+  fontSizeAdjust: 0,
+  ...STYLES_LIGHT,
+  tinygrailMode: DEFAULT_TINYGRAIL_MODE,
+  tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE
+}
+
+class ThemeStore extends store implements StoreConstructor<typeof state> {
   constructor() {
     super()
 
+    /** @deprecated 让 _ 上的所有属性都能通过 ThemeStore 访问到 */
     Object.keys(_).forEach(key => {
       if (!(key in this)) this[key] = _[key]
     })
   }
 
-  /** TS fixed */
+  /** -------------------- store -------------------- */
+  state = observable(state)
+
+  /** -------------------- 设备 -------------------- */
+  /** 是否平板 */
   readonly isPad = _.isPad
 
+  /** 平板放大比例 */
   readonly ratio = _.ratio
+
+  /** -------------------- 统一布局单位 -------------------- */
+  /** 超小 */
   readonly xs = _.xs
+
+  /** 小 */
   readonly sm = _.sm
+
+  /** 中 */
   readonly md = _.md
+
+  /** 大 */
   readonly lg = _.lg
+
+  /** @deprecated 底部留空 */
   readonly bottom = _.bottom
+
+  /** 圆角超小 */
   readonly radiusXs = _.radiusXs
+
+  /** 圆角小 */
   readonly radiusSm = _.radiusSm
+
+  /** 圆角中 */
   readonly radiusMd = _.radiusMd
+
+  /** 圆角大 */
   readonly radiusLg = _.radiusLg
+
+  /** 垂直窗口两翼宽度 (最小固定值) */
   readonly _wind = _._wind
 
+  /** -------------------- 组件高度 -------------------- */
+  /** 状态栏高度 */
   readonly statusBarHeight = _.statusBarHeight
+
+  /** 底部 <bottomTab> 高度 */
   readonly tabBarHeight = _.tabBarHeight
+
+  /** 带标签栏的头部高度 */
   readonly tabsHeaderHeight = _.tabsHeaderHeight
 
-  /** 单独头部高度 */
+  /** @deprecated */
   readonly header = _.header
+
+  /** [待重构] 头部高度 (顶部<Tab>) */
   readonly appBarHeight = _.appBarHeight
+
+  /** [待重构] 整个头部高度 (状态栏高度 + 头部高度) */
   readonly headerHeight = _.headerHeight
+
+  /** 标签页的标签栏高度 */
   readonly tabsHeight = _.tabsHeight
+
+  /** 文字行高自动放大比例 */
   readonly lineHeightRatio = _.lineHeightRatio
 
-  /** 颜色 */
+  /** -------------------- 颜色 -------------------- */
+  /** 蓝 (最浅) */
   readonly colorPrimaryLight = _.colorPrimaryLight
+
+  /** 橙 (最浅带透明通道) */
   readonly colorWarningLight = _.colorWarningLight
+
+  /** 绿 (最浅带透明通道) */
   readonly colorSuccessLight = _.colorSuccessLight
+
+  /** 粉 (边框) */
   readonly colorMainBorder = _.colorMainBorder
+
+  /** 蓝 (边框) */
   readonly colorPrimaryBorder = _.colorPrimaryBorder
+
+  /** 橙 (边框) */
   readonly colorWarningBorder = _.colorWarningBorder
+
+  /** 绿 (边框) */
   readonly colorSuccessBorder = _.colorSuccessBorder
   readonly colorShadow = _.colorShadow
 
-  /** 黑暗主题颜色 */
+  /** 边框 (dark) */
   readonly _colorBorder = _._colorBorder
+
+  /** 次要文字 (dark) */
   readonly _colorSub = _._colorSub
 
+  /** 强制白天白色 */
+  readonly __colorPlain__ = _.colorPlain
+
+  /** 强制白天背景色 */
+  readonly __colorBg__ = _.colorBg
+
+  /** -------------------- 工具类 -------------------- */
+  /** margin-top (工具类) */
   readonly mt = _.mt
+
+  /** margin-right (工具类) */
   readonly mr = _.mr
+
+  /** margin-bottom (工具类) */
   readonly mb = _.mb
+
+  /** margin-left (工具类) */
   readonly ml = _.ml
+
+  /** 阴影 (工具类) */
   readonly shadow = _.shadow
+
+  /** @deprecated 垂直缩小 (工具类) */
   readonly short = _.short
 
-  /** 缩短引用 */
+  /** -------------------- 缩短引用 -------------------- */
   readonly absoluteFill = StyleSheet.absoluteFill
   readonly create = StyleSheet.create
   readonly flatten = StyleSheet.flatten
   readonly hairlineWidth = StyleSheet.hairlineWidth
 
-  /** store */
-  state = observable({
-    mode: DEFAULT_MODE,
-
-    // orientation
-    orientation: ORIENTATION_PORTRAIT,
-    window: _.window,
-    wind: _.wind,
-    landscapeWindow: _.landscapeWindow,
-    landscapeWind: _.landscapeWind,
-    landscapeWindowSm: _.landscapeWindowSm,
-    landscapeWindSm: _.landscapeWindSm,
-
-    // font
-    fontSizeAdjust: 0,
-
-    // colors
-    ...STYLES_LIGHT,
-
-    // tinygrail
-    tinygrailMode: DEFAULT_TINYGRAIL_MODE,
-    tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE
-  })
-
+  /** -------------------- mounted -------------------- */
   init = async () => {
     // 遗漏问题, 版本前有部分用户安卓9启用了跟随系统设置, 需要排除掉
     if (this.autoColorScheme) {
@@ -135,272 +204,348 @@ class Theme extends store {
     return true
   }
 
-  // -------------------- layout styles --------------------
+  /** -------------------- get -------------------- */
+  /** 当前设备方向 */
   @computed get orientation() {
-    return this.state.orientation
+    return this.state.orientation as Orientation
   }
 
+  /** 水平窗口布局常用值 */
+  @computed get landscapeWindow() {
+    return this.state.landscapeWindow
+  }
+
+  /** 水平窗口 (窄) 布局常用值 */
+  @computed get landscapeWindowSm() {
+    return this.state.landscapeWindowSm
+  }
+
+  /** 水平窗口两翼宽度 (平板的两翼宽度会放大) */
+  @computed get landscapeWind() {
+    return this.state.landscapeWind
+  }
+
+  /** 水平窗口 (窄) 两翼宽度 */
+  @computed get landscapeWindSm() {
+    return this.state.landscapeWindSm
+  }
+
+  /** 主题模式 */
+  @computed get mode() {
+    return this.state.mode as Mode
+  }
+
+  /** 主题模式 (小圣杯) */
+  @computed get tinygrailMode() {
+    return this.state.tinygrailMode as TinygrailMode
+  }
+
+  /** 主题颜色 (小圣杯) */
+  @computed get tinygrailThemeMode() {
+    return this.state.tinygrailThemeMode
+  }
+
+  /** 粉 (主题色) */
+  @computed get colorMain() {
+    return this.state.colorMain as Color<'colorMain'>
+  }
+
+  /** 粉 (最浅) */
+  @computed get colorMainLight() {
+    return this.state.colorMainLight as Color<'colorMainLight'>
+  }
+
+  /** 蓝 */
+  @computed get colorPrimary() {
+    return this.state.colorPrimary as Color<'colorPrimary'>
+  }
+
+  /** 绿 */
+  @computed get colorSuccess() {
+    return this.state.colorSuccess as Color<'colorSuccess'>
+  }
+
+  /** 黄 */
+  @computed get colorYellow() {
+    return this.state.colorYellow as Color<'colorYellow'>
+  }
+
+  /** 橙 */
+  @computed get colorWarning() {
+    return this.state.colorWarning as Color<'colorWarning'>
+  }
+
+  /** 白 */
+  @computed get colorPlain() {
+    return this.state.colorPlain as Color<'colorPlain'>
+  }
+
+  /** 白 (RGB) */
+  @computed get colorPlainRaw() {
+    return this.state.colorPlainRaw as Color<'colorPlainRaw'>
+  }
+
+  /** 次要 */
+  @computed get colorWait() {
+    return this.state.colorWait as Color<'colorWait'>
+  }
+
+  /** 红 */
+  @computed get colorDanger() {
+    return this.state.colorDanger as Color<'colorDanger'>
+  }
+
+  /** @deprecated 头像旁边的文字 */
+  @computed get colorAvatar() {
+    return this.state.colorAvatar as Color<'colorAvatar'>
+  }
+
+  /** 背景 */
+  @computed get colorBg() {
+    return this.state.colorBg as Color<'colorBg'>
+  }
+
+  /** 边框 */
+  @computed get colorBorder() {
+    return this.state.colorBorder as Color<'colorBorder'>
+  }
+
+  /** 最深 (文字) */
+  @computed get colorTitle() {
+    return this.state.colorTitle as Color<'colorTitle'>
+  }
+
+  /** 最深 (文字, RGB) */
+  @computed get colorTitleRaw() {
+    return this.state.colorTitleRaw as Color<'colorTitleRaw'>
+  }
+
+  /** 主要 (文字) */
+  @computed get colorDesc() {
+    return this.state.colorDesc as Color<'colorDesc'>
+  }
+
+  /** 次要 (文字) */
+  @computed get colorSub() {
+    return this.state.colorSub as Color<'colorSub'>
+  }
+
+  /** 禁用 (文字) */
+  @computed get colorDisabled() {
+    return this.state.colorDisabled as Color<'colorDisabled'>
+  }
+
+  /** 图标 (文字) */
+  @computed get colorIcon() {
+    return this.state.colorIcon as Color<'colorIcon'>
+  }
+
+  /** @deprecated 高亮 */
+  @computed get colorHighLight() {
+    return this.state.colorHighLight as Color<'colorHighLight'>
+  }
+
+  /** 设置里动态调整的文字单位 */
+  @computed get fontSizeAdjust() {
+    return this.state.fontSizeAdjust
+  }
+
+  /** -------------------- computed -------------------- */
+  /** 是否水平方向 */
   @computed get isLandscape() {
     return this.orientation === ORIENTATION_LANDSCAPE
   }
 
+  /** 垂直窗口布局常用值 */
   @computed get window() {
-    return this.isLandscape ? this.state.landscapeWindow : this.state.window
+    return this.isLandscape ? this.landscapeWindow : this.state.window
   }
 
-  @computed get wind(): number {
-    return this.isLandscape ? this.state.landscapeWind : this.state.wind
+  /** 垂直窗口两翼宽度 (平板的两翼宽度会放大) */
+  @computed get wind() {
+    return this.isLandscape ? this.landscapeWind : this.state.wind
   }
 
+  /** 是否手机水平 */
   @computed get isMobileLanscape() {
     return !this.isPad && this.isLandscape
   }
 
+  /** 垂直窗口 (窄) 布局常用值 */
   @computed get windowSm() {
-    return this.isMobileLanscape ? this.state.landscapeWindowSm : this.window
+    return this.isMobileLanscape ? this.landscapeWindowSm : this.window
   }
 
+  /** 垂直窗口 (窄) 两翼宽度 */
   @computed get windSm() {
-    return this.isMobileLanscape ? this.state.landscapeWindSm : this.wind
+    return this.isMobileLanscape ? this.landscapeWindSm : this.wind
   }
 
-  // -------------------- mode styles --------------------
-  @computed get mode() {
-    return this.state.mode
-  }
-
+  /** 是否黑暗模式 */
   @computed get isDark() {
     return this.mode === 'dark'
   }
 
+  /** 是否黑暗模式跟随系统 */
   @computed get autoColorScheme() {
     return systemStore.setting.autoColorScheme
   }
 
-  @computed get colorMain(): ColorValue {
-    return this.state.colorMain
-  }
-
-  @computed get colorMainLight(): ColorValue {
-    return this.state.colorMainLight
-  }
-
-  @computed get colorPrimary(): ColorValue {
-    return this.state.colorPrimary
-  }
-
-  @computed get colorSuccess(): ColorValue {
-    return this.state.colorSuccess
-  }
-
-  @computed get colorYellow(): ColorValue {
-    return this.state.colorYellow
-  }
-
-  @computed get colorWarning(): ColorValue {
-    return this.state.colorWarning
-  }
-
-  @computed get colorPlainRaw() {
-    return this.state.colorPlainRaw
-  }
-
-  @computed get colorPlain(): ColorValue {
-    return this.state.colorPlain
-  }
-
-  @computed get __colorPlain__(): ColorValue {
-    return _.colorPlain
-  }
-
-  @computed get __colorBg__(): ColorValue {
-    return _.colorBg
-  }
-
-  @computed get colorWait(): ColorValue {
-    return this.state.colorWait
-  }
-
-  @computed get colorDanger() {
-    return this.state.colorDanger
-  }
-
-  @computed get colorAvatar() {
-    return this.state.colorAvatar
-  }
-
-  @computed get colorBg(): ColorValue {
-    return this.state.colorBg
-  }
-
-  @computed get colorBorder(): ColorValue {
-    return this.state.colorBorder
-  }
-
-  @computed get colorTitleRaw() {
-    return this.state.colorTitleRaw
-  }
-
-  @computed get colorTitle(): ColorValue {
-    return this.state.colorTitle
-  }
-
-  @computed get colorDesc(): ColorValue {
-    return this.state.colorDesc
-  }
-
-  @computed get colorSub(): ColorValue {
-    return this.state.colorSub
-  }
-
-  @computed get colorDisabled(): ColorValue {
-    return this.state.colorDisabled
-  }
-
-  @computed get colorIcon(): ColorValue {
-    return this.state.colorIcon
-  }
-
-  @computed get colorHighLight(): ColorValue {
-    return this.state.colorHighLight
-  }
-
+  /** 是否纯黑 */
   @computed get deepDark() {
     return systemStore.setting.deepDark
   }
 
+  /** 一层 (dark) */
   @computed get _colorDarkModeLevel1() {
     return this.deepDark
       ? _._colorThemeDeepDark.colorDarkModeLevel1
       : _._colorDarkModeLevel1
   }
 
+  /**  一层 Hex (dark) */
   @computed get _colorDarkModeLevel1Hex() {
     return this.deepDark
       ? _._colorThemeDeepDark.colorDarkModeLevel1Hex
       : _._colorDarkModeLevel1Hex
   }
 
-  @computed get _colorDarkModeLevel2(): ColorValue {
+  /** 二层 (dark) */
+  @computed get _colorDarkModeLevel2() {
     return this.deepDark
       ? _._colorThemeDeepDark.colorDarkModeLevel2
       : _._colorDarkModeLevel2
   }
 
+  /** 白 (dark) */
   @computed get _colorPlain() {
     return this.deepDark ? _._colorThemeDeepDark.colorPlain : _._colorPlain
   }
 
+  /** 白 Hex (dark) */
   @computed get _colorPlainHex() {
     return this.deepDark ? _._colorThemeDeepDark.colorPlainHex : _._colorPlainHex
   }
 
+  /** 次要 (dark) */
   @computed get _colorWait() {
     return this.deepDark ? _._colorThemeDeepDark.colorWait : _._colorWait
   }
 
+  /** 背景 (dark) */
   @computed get _colorBg() {
     return this.deepDark ? _._colorThemeDeepDark.colorBg : _._colorBg
   }
 
+  /** 一层 (dark, RGB) */
   @computed get _colorDarkModeLevel1Raw() {
     return this.deepDark
       ? _._colorThemeDeepDark.colorDarkModeLevel1Raw
       : _._colorDarkModeLevel1Raw
   }
 
+  /** 白 (dark, RGB) */
   @computed get _colorPlainRaw() {
     return this.deepDark ? _._colorThemeDeepDark.colorPlainRaw : _._colorPlainRaw
   }
 
-  // -------------------- tinygrail --------------------
-  @computed get tinygrailThemeMode() {
-    return this.state.tinygrailThemeMode
-  }
-
+  /** 是否黑暗模式 (小圣杯) */
   @computed get isTinygrailDark() {
     return this.tinygrailThemeMode === 'dark'
   }
 
+  /** 是否主题绿色模式 (小圣杯) */
   @computed get isGreen() {
-    return this.state.tinygrailMode === DEFAULT_TINYGRAIL_MODE
+    return this.tinygrailMode === DEFAULT_TINYGRAIL_MODE
   }
 
+  /** 是否主题网页模式 (小圣杯) */
   @computed get isWeb() {
-    return this.state.tinygrailMode === 'web'
+    return this.tinygrailMode === 'web'
   }
 
+  /** 买入 */
   @computed get colorBid() {
     if (this.isWeb) return _.colorBidWeb
     if (this.isGreen) return this.isTinygrailDark ? _.colorBid : _._colorBid
     return this.isTinygrailDark ? _.colorAsk : _._colorAsk
   }
 
+  /** 买入深度 */
   @computed get colorDepthBid() {
     if (this.isWeb) return _.colorDepthBidWeb
     if (this.isGreen) return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
     return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
   }
 
+  /** 卖出 */
   @computed get colorAsk() {
     if (this.isWeb) return _.colorAskWeb
     if (this.isGreen) return this.isTinygrailDark ? _.colorAsk : _._colorAsk
     return this.isTinygrailDark ? _.colorBid : _._colorBid
   }
 
+  /** 卖出深度 */
   @computed get colorDepthAsk() {
     if (this.isWeb) return _.colorDepthAskWeb
     if (this.isGreen) return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
     return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
   }
 
+  /** 白 (小圣杯) */
   @computed get colorTinygrailPlain() {
     return this.isTinygrailDark ? _.colorTinygrailPlain : _._colorTinygrailPlain
   }
 
+  /** 蓝 (小圣杯) */
   @computed get colorTinygrailPrimary() {
     return this.isTinygrailDark ? _.colorTinygrailPrimary : _._colorTinygrailPrimary
   }
 
+  /** 背景 (小圣杯) */
   @computed get colorTinygrailBg() {
     return this.isTinygrailDark ? _.colorTinygrailBg : _._colorTinygrailBg
   }
 
+  /** 容器 (小圣杯) */
   @computed get colorTinygrailContainer() {
     return this.isTinygrailDark ? _.colorTinygrailContainer : _._colorTinygrailContainer
   }
 
+  /** 容器 Hex (小圣杯) */
   @computed get colorTinygrailContainerHex() {
     return this.isTinygrailDark
       ? _.colorTinygrailContainerHex
       : _._colorTinygrailContainerHex
   }
 
+  /** 边框 (小圣杯) */
   @computed get colorTinygrailBorder() {
     return this.isTinygrailDark ? _.colorTinygrailBorder : _._colorTinygrailBorder
   }
 
+  /** 图标 (小圣杯) */
   @computed get colorTinygrailIcon() {
     return this.isTinygrailDark ? _.colorTinygrailIcon : _._colorTinygrailIcon
   }
 
+  /** 文字 (小圣杯) */
   @computed get colorTinygrailText() {
     return this.isTinygrailDark ? _.colorTinygrailText : _._colorTinygrailText
   }
 
+  /** 激活 (小圣杯) */
   @computed get colorTinygrailActive() {
     return this.isTinygrailDark ? _.colorTinygrailActive : _._colorTinygrailActive
   }
 
-  /**
-   * User和Zone页面上方用的可变高度块的高度限制属性
-   */
+  /** User 和 Zone 页面上方用的可变高度块的高度限制属性 */
   @computed get parallaxImageHeight() {
     if (this.isMobileLanscape) return 200
     return Math.min(Number(this.window.width * 0.68), this.device(288, 380))
   }
 
-  // -------------------- tool styles --------------------
+  /** 容器 (工具类) */
   @computed get container() {
     return StyleSheet.create({
       /**
@@ -438,9 +583,7 @@ class Theme extends store {
           : this.select('transparent', this.colorPlain)
       },
 
-      /**
-       * 普通布局
-       */
+      /** 普通布局 */
       flex: {
         flex: 1
       },
@@ -507,117 +650,137 @@ class Theme extends store {
     })
   }
 
-  @computed get fontSizeAdjust() {
-    return this.state.fontSizeAdjust
-  }
-
+  /** 计算动态文字大小 */
   fontSize(pt: number) {
     return computed(() => fontSize(pt, this.fontSizeAdjust)).get()
   }
 
+  /** 6 号字 */
   @computed get fontSize6() {
     return this.fontSize(6)
   }
 
+  /** 7 号字 */
   @computed get fontSize7() {
     return this.fontSize(7)
   }
 
+  /** 8 号字 */
   @computed get fontSize8() {
     return this.fontSize(8)
   }
 
+  /** 9 号字 */
   @computed get fontSize9() {
     return this.fontSize(9)
   }
 
+  /** 10 号字 */
   @computed get fontSize10() {
     return this.fontSize(10)
   }
 
+  /** 11 号字 */
   @computed get fontSize11() {
     return this.fontSize(11)
   }
 
+  /** 12 号字 */
   @computed get fontSize12() {
     return this.fontSize(12)
   }
 
+  /** 13 号字 */
   @computed get fontSize13() {
     return this.fontSize(13)
   }
 
+  /** 14 号字 */
   @computed get fontSize14() {
     return this.fontSize(14)
   }
 
+  /** 15 号字 */
   @computed get fontSize15() {
     return this.fontSize(15)
   }
 
+  /** 16 号字 */
   @computed get fontSize16() {
     return this.fontSize(16)
   }
 
+  /** 17 号字 */
   @computed get fontSize17() {
     return this.fontSize(17)
   }
 
+  /** 18 号字 */
   @computed get fontSize18() {
     return this.fontSize(18)
   }
 
+  /** 19 号字 */
   @computed get fontSize19() {
     return this.fontSize(19)
   }
 
+  /** 20 号字 */
   @computed get fontSize20() {
     return this.fontSize(20)
   }
 
+  /** 21 号字 */
   @computed get fontSize21() {
     return this.fontSize(21)
   }
 
+  /** 22 号字 */
   @computed get fontSize22() {
     return this.fontSize(22)
   }
 
+  /** 23 号字 */
   @computed get fontSize23() {
     return this.fontSize(23)
   }
 
+  /** 24 号字 */
   @computed get fontSize24() {
     return this.fontSize(24)
   }
 
+  /** 25 号字 */
   @computed get fontSize25() {
     return this.fontSize(25)
   }
 
+  /** 26 号字 */
   @computed get fontSize26() {
     return this.fontSize(26)
   }
 
+  /** 27 号字 */
   @computed get fontSize27() {
     return this.fontSize(27)
   }
 
+  /** 28 号字 */
   @computed get fontSize28() {
     return this.fontSize(28)
   }
 
+  /** 29 号字 */
   @computed get fontSize29() {
     return this.fontSize(29)
   }
 
+  /** 30 号字 */
   @computed get fontSize30() {
     return this.fontSize(30)
   }
 
-  /**
-   * RenderHTML 的 baseFontStyle 通用封装
-   */
+  /** <RenderHTML> baseFontStyle 通用封装 */
   @computed get baseFontStyle() {
     return computed(() => ({
       sm: {
@@ -631,73 +794,45 @@ class Theme extends store {
     })).get()
   }
 
-  /**
-   * @deprecated 已废弃
-   */
+  /** @deprecated 是否扁平模式 */
   @computed get flat() {
     return true
   }
 
   // -------------------- page --------------------
-  /**
-   * 设备选择
-   * 平板设备使用第二个值
-   */
+  /** 设备选择, 平板设备使用第二个值 */
   device: SelectFn = (mobileValue, padValue) => (this.isPad ? padValue : mobileValue)
 
-  /**
-   * 平台选择
-   * 安卓平台使用第二个值
-   */
+  /** 平台选择, 安卓平台使用第二个值 */
   ios: SelectFn = (iosValue, androidValue) => (IOS ? iosValue : androidValue)
 
-  /**
-   * 主题选择
-   * 黑暗模式使用第二个值
-   */
+  /** 主题选择, 黑暗模式使用第二个值 */
   select: SelectFn = (lightValue, darkValue) => (this.isDark ? darkValue : lightValue)
 
-  /**
-   * 方向选择
-   * 水平方向使用第二个值
-   */
+  /** 方向选择, 水平方向使用第二个值 */
   portrait: SelectFn = (portaitValue, landscapeValue) =>
     this.isLandscape ? landscapeValue : portaitValue
 
-  /**
-   * 自适应计数
-   * 只支持number, 手机垂直布局使用原始值, 横屏+1, 平板再+1
-   */
+  /** 自适应计数, 只支持 number, 手机垂直布局使用原始值, 横屏 +1, 平板再 +1 */
   num = (num = 0) => {
     if (this.isLandscape) num += 1
     if (this.isPad) num += 1
     return num
   }
 
-  /**
-   * 手机 * 1, 平板 * ratio
-   * @param {*} px
-   */
+  /** 手机 * 1, 平板 * ratio */
   r = (px: number = 0) => this.ratio * px
 
-  /**
-   * 黑暗模式下
-   * 非深黑模式使用第二个值
-   */
+  /** 黑暗模式下, 非深黑模式使用第二个值 */
   deep: SelectFn = (deepDarkValue, darkValue) =>
     this.deepDark ? deepDarkValue : darkValue
 
-  /**
-   * 小圣杯主题选择
-   * 白天模式使用第二个值
-   */
+  /** 小圣杯主题选择, 白天模式使用第二个值 */
   tSelect: SelectFn = (lightValue, darkValue) =>
     this.isTinygrailDark ? lightValue : darkValue
 
-  /**
-   * 切换模式
-   */
-  toggleMode = (mode?: 'dark' | 'light') => {
+  /** 切换主题模式 */
+  toggleMode = (mode?: Mode) => {
     const key = 'mode'
     if (mode === 'light') {
       this.setState({
@@ -737,20 +872,16 @@ class Theme extends store {
     androidDayNightToggle(this.isDark)
   }
 
-  /**
-   * 切换方向
-   */
-  toggleOrientation = orientation => {
+  /** 切换方向 */
+  toggleOrientation = (orientation: Orientation) => {
     this.setState({
       orientation,
       ..._.getAppLayout()
     })
   }
 
-  /**
-   * 格子布局分拆工具函数
-   */
-  grid = (num = 3) => {
+  /** 格子布局分拆工具函数 */
+  grid = (num: number = 3) => {
     const marginLeft = this.device(14, 24)
     const width = Math.floor((this.window.contentWidth - (num - 1) * marginLeft) / num)
     return {
@@ -760,9 +891,7 @@ class Theme extends store {
     }
   }
 
-  /**
-   * 切换小圣杯主题模式
-   */
+  /** 切换小圣杯主题模式 */
   toggleTinygrailThemeMode = () => {
     const key = 'tinygrailThemeMode'
     this.setState({
@@ -771,10 +900,8 @@ class Theme extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 切换小圣杯涨跌颜色
-   */
-  toggleTinygrailMode = (type?: 'web' | 'green' | 'red') => {
+  /** 切换小圣杯涨跌颜色 */
+  toggleTinygrailMode = (type?: TinygrailMode) => {
     const { tinygrailMode } = this.state
     const key = 'tinygrailMode'
     this.setState({
@@ -783,10 +910,8 @@ class Theme extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 改变整体字号
-   */
-  changeFontSizeAdjust = (fontSizeAdjust = 0) => {
+  /** 改变整体字号 */
+  changeFontSizeAdjust = (fontSizeAdjust: number = 0) => {
     const key = 'fontSizeAdjust'
     this.setState({
       [key]: parseInt(String(fontSizeAdjust))
@@ -794,9 +919,7 @@ class Theme extends store {
     this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /**
-   * 安卓改变底部菜单颜色
-   */
+  /** 安卓改变底部菜单颜色 */
   changeNavigationBarColor = () => {
     if (IOS) return
 
@@ -815,32 +938,28 @@ class Theme extends store {
         androidDayNightToggle(this.isDark)
       })
     } catch (error) {
-      console.warn('[ThemeStore] changeNavigationBarColor', error)
+      console.error('[ThemeStore] changeNavigationBarColor', error)
     }
   }
 
-  /**
-   * 小圣杯模块, 安卓改变底部菜单颜色
-   */
+  /** 小圣杯模块, 安卓改变底部菜单颜色 */
   changeNavigationBarColorTinygrail = () => {
     if (IOS) return
 
     try {
       InteractionManager.runAfterInteractions(() => {
+        // @ts-ignore
         changeNavigationBarColor(this.colorTinygrailContainerHex, !this.isTinygrailDark)
         androidDayNightToggle(this.isTinygrailDark)
       })
     } catch (error) {
-      console.warn('[ThemeStore] changeNavigationBarColorTinygrail', error)
+      console.error('[ThemeStore] changeNavigationBarColorTinygrail', error)
     }
   }
 
   /**
-   * 生成记忆styles函数
-   * 原理: 通过闭包使每一个组件里面的StyleSheet.create都被记忆
-   * 只有全局影响样式的设置改变了, 才会重新StyleSheet.create, 配合mobx的observer触发重新渲染
-   *
-   *  - 支持key名为current的对象懒计算
+   * 生成记忆 styles 函数
+   *  - 支持 key 名为 current 的对象懒计算
    */
   memoStyles = <T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>>(
     styles: () => T,
@@ -849,6 +968,11 @@ class Theme extends store {
     const item = getMemoStylesId()
 
     return () => {
+      /**
+       * 原理: 通过闭包使每一个组件里面的 StyleSheet.create 都被记忆
+       * 只有全局影响样式的设置 (mode | tMode | deepDark | orientation) 改变了
+       * 才会重新 StyleSheet.create, 配合 mobx 的 observer 触发全局样式替换重新渲染
+       * */
       if (
         !item._mode ||
         !item._styles ||
@@ -862,7 +986,7 @@ class Theme extends store {
         item._deepDark = this.deepDark
         item._orientation = this.orientation
 
-        const computedStyles = styles(this)
+        const computedStyles: any = styles()
         if (computedStyles.current) {
           const { current, ...otherStyles } = computedStyles
           item._styles = StyleSheet.create(otherStyles)
@@ -871,7 +995,7 @@ class Theme extends store {
           item._styles = StyleSheet.create(computedStyles)
         }
 
-        if (dev) log(item)
+        if (dev) console.info(item)
       }
 
       return item._styles as T
@@ -879,6 +1003,4 @@ class Theme extends store {
   }
 }
 
-const Store = new Theme()
-
-export default Store
+export default new ThemeStore()

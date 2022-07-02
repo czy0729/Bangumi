@@ -1,9 +1,10 @@
 /*
- * 管理全局Stores和放置系统级别状态
+ * 管理全局 Stores 和放置系统级别状态
+ *
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 02:03:17
+ * @Last Modified time: 2022-07-02 13:46:15
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { runAfter } from '@utils'
@@ -16,6 +17,7 @@ import discoveryStore from './discovery'
 import monoStore from './mono'
 import rakuenStore from './rakuen'
 import searchStore from './search'
+import smbStore from './smb'
 import subjectStore from './subject'
 import systemStore from './system'
 import tagStore from './tag'
@@ -24,7 +26,7 @@ import timelineStore from './timeline'
 import tinygrailStore from './tinygrail'
 import userStore from './user'
 import usersStore from './users'
-import smbStore from './smb'
+import { Navigation } from '@types'
 
 // @todo 查明init被调用2次的原因
 let inited = false
@@ -68,23 +70,14 @@ class GlobalStores {
     }
   }
 
-  // -------------------- page --------------------
-  /**
-   * 添加页面Store
-   * @param {*} key
-   * @param {*} store
-   */
-  add(key, store) {
-    if (!this[key] || DEV) {
-      this[key] = store
-    }
+  // -------------------- methods --------------------
+  /** 添加页面 Store */
+  add(key: string, store: any) {
+    if (!this[key] || DEV) this[key] = store
   }
 
-  /**
-   * 获取页面Store
-   * @param {*} key
-   */
-  get(key) {
+  /** 获取页面Store */
+  get(key: string) {
     return this[key]
   }
 
@@ -105,12 +98,14 @@ class GlobalStores {
   }
 
   /** 登出 */
-  logout(navigation) {
+  logout(navigation: Navigation) {
     confirm(
       `确定${i18n.logout()}?`,
-      async () => {
-        await userStore.logout()
-        navigation.popToTop()
+      () => {
+        userStore.logout()
+        setTimeout(() => {
+          navigation.popToTop()
+        }, 0)
       },
       '提示'
     )

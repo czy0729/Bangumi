@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:25:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-24 16:58:57
+ * @Last Modified time: 2022-07-02 23:53:33
  */
 import { ColorRaw } from './types'
 
@@ -104,7 +104,7 @@ export const colorPlainRaw = colorPlain.match(regColor) as ColorRaw<typeof color
 
 export const colorTitleRaw = colorTitle.match(regColor) as ColorRaw<typeof colorTitle>
 
-/**  粉 (最浅) */
+/** 粉 (最浅) */
 export const colorMainLight = 'rgb(255, 244, 244)'
 
 /** 粉 (最浅边框) */

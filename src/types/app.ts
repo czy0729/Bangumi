@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 04:35:09
+ * @Last Modified time: 2022-07-02 13:45:57
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -38,6 +38,7 @@ export type Navigation = {
   push?: (path: Paths, params?: object) => any
   navigate?: (path: Paths) => any
   goBack?: (arg0?: any) => any
+  popToTop?: (arg0?: any) => any
   getRootState?: (arg0?: any) => any
   setOptions?: (params?: object) => any
 }
