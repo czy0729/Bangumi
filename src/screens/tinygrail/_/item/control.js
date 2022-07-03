@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:15:42
+ * @Last Modified time: 2022-07-03 16:04:36
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { IconTouchable } from '@_'
 import { tinygrailStore, _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { confirm } from '@utils/ui'
 import Popover from '../popover'
 import StockPreview from '../stock-preview'
 
@@ -48,18 +48,9 @@ function Control(props) {
           color={_.colorTinygrailPlain}
           size={18}
           withoutFeedback={withoutFeedback}
-          onPress={() =>
-            Alert.alert('警告', '周六取消需要收取手续费, 确定取消?', [
-              {
-                text: '取消',
-                style: 'cancel'
-              },
-              {
-                text: '确定',
-                onPress: () => onAuctionCancel(id)
-              }
-            ])
-          }
+          onPress={() => {
+            confirm('周六取消需要收取手续费, 确定取消?', () => onAuctionCancel(id))
+          }}
         />
       )}
       {!isAuction && <StockPreview {...props} style={styles.stockPreview} _loaded />}

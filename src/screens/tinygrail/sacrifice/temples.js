@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:09:41
+ * @Last Modified time: 2022-07-03 19:15:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,8 +17,6 @@ const event = {
   id: '资产重组.圣殿图查看'
 }
 
-export default
-@obc
 class Temples extends React.Component {
   get myTemple() {
     const { $ } = this.context
@@ -107,11 +105,7 @@ class Temples extends React.Component {
   //     )}\n共派息 ${toFixed(rateBonus + templeRateBonus, 1)}`
   //   }
 
-  //   Alert.alert('小圣杯助手', message, [
-  //     {
-  //       text: '知道了'
-  //     }
-  //   ])
+  //   alert(message, '小圣杯助手')
   // }
 
   render() {
@@ -191,6 +185,8 @@ class Temples extends React.Component {
     return memoStyles()
   }
 }
+
+export default obc(Temples)
 
 const memoStyles = _.memoStyles(() => ({
   container: {

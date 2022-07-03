@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:03:07
+ * @Last Modified time: 2022-07-03 15:51:18
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
+import { confirm } from '@utils/ui'
 import { HOST, EVENT } from '@constants'
 
 const avatarWidth = 32
@@ -110,18 +111,9 @@ function Item(
           {!!erase && (
             <Touchable
               style={[styles.reply, _.mr.sm]}
-              onPress={() =>
-                Alert.alert('警告', '确定删除回复?', [
-                  {
-                    text: '取消',
-                    style: 'cancel'
-                  },
-                  {
-                    text: '确定',
-                    onPress: () => $.doDeleteReply(erase)
-                  }
-                ])
-              }
+              onPress={() => {
+                confirm('确定删除回复?', () => $.doDeleteReply(erase))
+              }}
             >
               <Text type='icon' size={11}>
                 删除
@@ -209,18 +201,9 @@ function Item(
                     {!!item.erase && (
                       <Touchable
                         style={[styles.reply, _.mr.sm]}
-                        onPress={() =>
-                          Alert.alert('警告', '确定删除回复?', [
-                            {
-                              text: '取消',
-                              style: 'cancel'
-                            },
-                            {
-                              text: '确定',
-                              onPress: () => $.doDeleteReply(item.erase)
-                            }
-                          ])
-                        }
+                        onPress={() => {
+                          confirm('确定删除回复?', () => $.doDeleteReply(item.erase))
+                        }}
                       >
                         <Text type='icon' size={11}>
                           删除

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 14:32:22
+ * @Last Modified time: 2022-07-03 05:48:43
  */
 export type Props = {
   id?: number
@@ -18,7 +18,7 @@ export type State = {
   expand: any[]
 
   /** 是否正在新建目录, 目录编辑 */
-  create: boolean
+  create: boolean | string
   title: string
   desc: string
 

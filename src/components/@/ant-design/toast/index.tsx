@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:32:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 04:49:38
+ * @Last Modified time: 2022-07-03 20:30:18
  */
 import React from 'react'
 import Portal from '@ant-design/react-native/lib/portal'
@@ -34,44 +34,19 @@ export default {
   show(content: string, duration?: number, mask?: boolean) {
     return notice(content, 'info', duration, () => {}, mask)
   },
-  info(
-    content: string,
-    duration?: number,
-    onClose?: () => void,
-    mask?: boolean
-  ) {
+  info(content: string, duration?: number, onClose?: () => void, mask?: boolean) {
     return notice(content, 'info', duration, onClose, mask)
   },
-  success(
-    content: string,
-    duration?: number,
-    onClose?: () => void,
-    mask?: boolean
-  ) {
+  success(content: string, duration?: number, onClose?: () => void, mask?: boolean) {
     return notice(content, 'success', duration, onClose, mask)
   },
-  fail(
-    content: string,
-    duration?: number,
-    onClose?: () => void,
-    mask?: boolean
-  ) {
+  fail(content: string, duration?: number, onClose?: () => void, mask?: boolean) {
     return notice(content, 'fail', duration, onClose, mask)
   },
-  offline(
-    content: string,
-    duration?: number,
-    onClose?: () => void,
-    mask?: boolean
-  ) {
+  offline(content: string, duration?: number, onClose?: () => void, mask?: boolean) {
     return notice(content, 'offline', duration, onClose, mask)
   },
-  loading(
-    content: string,
-    duration?: number,
-    onClose?: () => void,
-    mask?: boolean
-  ) {
+  loading(content: string, duration?: number, onClose?: () => void, mask?: boolean) {
     return notice(content, 'loading', duration, onClose, mask)
   }
 }

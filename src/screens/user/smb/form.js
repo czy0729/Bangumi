@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 04:04:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 22:21:37
+ * @Last Modified time: 2022-07-03 20:26:50
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
@@ -12,6 +12,7 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { memo, obc } from '@utils/decorators'
+import { s2tAsync } from '@utils/async'
 
 const defaultProps = {
   styles: {},
@@ -262,24 +263,24 @@ const Form = memo(
                 style={_.ml._xs}
                 name='md-info-outline'
                 size={16}
-                onPress={() =>
+                onPress={() => {
                   Alert.alert(
-                    '自定义跳转',
-                    `自定义第三方跳转规则。点击文件复制地址，长按跳转。
+                    s2tAsync('自定义跳转'),
+                    s2tAsync(`自定义第三方跳转规则。点击文件复制地址，长按跳转。
                     \n[IP] = 主机:端口\n[USERNAME] = 用户\n[PASSWORD] = 密码\n[PATH] = 目录路径\n[FILE] = 文件路径
-                    \n推荐播放安装nPlayer，支持 nplayer-smb:// 前缀的直接跳转。\n目前已知只有smb 1.0协议可以直接播放，2.0会被强制关闭连接，待解决。`,
+                    \n推荐播放安装nPlayer，支持 nplayer-smb:// 前缀的直接跳转。\n目前已知只有smb 1.0协议可以直接播放，2.0会被强制关闭连接，待解决。`),
                     [
                       {
-                        text: '已知问题和详细教程',
+                        text: s2tAsync('已知问题和详细教程'),
                         onPress: () => {}
                       },
                       {
-                        text: '确定',
+                        text: s2tAsync('确定'),
                         onPress: () => {}
                       }
                     ]
                   )
-                }
+                }}
               />
             </Flex>
             <Flex.Item>

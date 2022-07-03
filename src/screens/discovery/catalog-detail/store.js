@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 17:21:02
+ * @Last Modified time: 2022-07-03 06:01:02
  */
-import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { _, discoveryStore, collectionStore, subjectStore, userStore } from '@stores'
 import { desc } from '@utils'
@@ -201,19 +200,10 @@ export default class ScreenCatalogDetail extends store {
       return
     }
 
-    Alert.alert(
-      '复制目录',
+    confirm(
       '复制当前目录成为自己的目录, 此操作会大量消耗服务器资源, 请勿滥用, 确定?',
-      [
-        {
-          text: '取消',
-          style: 'cancel'
-        },
-        {
-          text: '确定',
-          onPress: () => this.doCopy(navigation)
-        }
-      ]
+      () => this.doCopy(navigation),
+      '复制目录'
     )
   }
 

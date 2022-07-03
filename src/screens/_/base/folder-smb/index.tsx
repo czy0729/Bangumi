@@ -4,15 +4,15 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 14:34:35
+ * @Last Modified time: 2022-07-03 05:57:01
  */
 import React, { useState } from 'react'
-import { Alert, View, Linking } from 'react-native'
+import { View, Linking } from 'react-native'
 import { Flex, Image, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { copy, desc } from '@utils'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
+import { info, alert } from '@utils/ui'
 import { getUrl } from './utils'
 import { ICONS_ASSETS, SORT_ORDER } from './ds'
 import { memoStyles } from './styles'
@@ -71,12 +71,7 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
                   onLongPress={async () => {
                     const link = getUrl(smb, folder, item.name)
                     if (!(await Linking.canOpenURL(link))) {
-                      Alert.alert('本机不支持打开此链接', link, [
-                        {
-                          text: '确定',
-                          onPress: () => {}
-                        }
-                      ])
+                      alert(link, '本机不支持打开此链接')
                       return
                     }
                     Linking.openURL(link)

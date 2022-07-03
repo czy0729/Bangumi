@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:32:08
+ * @Last Modified time: 2022-07-03 16:02:40
  */
 import React from 'react'
-import { BackHandler, View, Alert, StatusBar } from 'react-native'
+import { BackHandler, View, StatusBar } from 'react-native'
 import { computed } from 'mobx'
 import { Flex, Text, Button, Iconfont } from '@components'
 import Modal from '@components/@/ant-design/modal'
@@ -20,7 +20,7 @@ import {
   setStorage
 } from '@utils'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
+import { info, alert } from '@utils/ui'
 import { IOS } from '@constants'
 import { calculateRate } from '../utils'
 import SearchInput from './search-input'
@@ -52,8 +52,6 @@ const hitSlop = {
   left: 6
 }
 
-export default
-@obc
 class CharactersModal extends React.Component {
   static defaultProps = {
     title: '',
@@ -290,7 +288,9 @@ class CharactersModal extends React.Component {
     }
   }
 
-  onAlert = () => Alert.alert('使用说明', this.alert)
+  onAlert = () => {
+    alert(this.alert, '使用说明')
+  }
 
   // -------------------- fetch --------------------
   initFetch = async () => {
@@ -1077,6 +1077,8 @@ class CharactersModal extends React.Component {
     return memoStyles()
   }
 }
+
+export default obc(CharactersModal)
 
 const memoStyles = _.memoStyles(() => ({
   modal: {

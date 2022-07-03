@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-30 09:06:47
+ * @Last Modified time: 2022-07-03 19:52:47
  */
 import React from 'react'
-import { Animated, View, Alert } from 'react-native'
+import { Animated, View } from 'react-native'
 import { Flex, Iconfont, Text, Heatmap } from '@components'
 import { Popover, IconBack, Avatar } from '@_'
 import { _ } from '@stores'
@@ -13,7 +13,7 @@ import { open, copy } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { confirm, info } from '@utils/ui'
 import { IOS, HOST } from '@constants'
 import Head from './head'
 import { H_HEADER, H_RADIUS_LINE } from './store'
@@ -206,18 +206,7 @@ function ParallaxImage(props, { $, navigation }) {
                 break
 
               case '解除好友':
-                setTimeout(() => {
-                  Alert.alert('警告', '确定解除好友?', [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: () => $.doDisconnect()
-                    }
-                  ])
-                }, 400)
+                confirm('确定解除好友?', () => $.doDisconnect())
                 break
 
               default:

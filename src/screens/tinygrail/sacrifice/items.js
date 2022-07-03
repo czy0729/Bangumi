@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-03-08 21:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 09:28:26
+ * @Last Modified time: 2022-07-03 18:47:35
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 import { computed } from 'mobx'
 import { Flex, Text, Image, Touchable } from '@components'
 import { IconTouchable } from '@_'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
-import { info } from '@utils/ui'
+import { info, confirm } from '@utils/ui'
 import CharactersModal from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 
@@ -111,19 +111,14 @@ class Items extends React.Component {
                 return
               }
 
-              Alert.alert('小圣杯助手', '确定消耗10点固定资产使用混沌魔方?', [
-                {
-                  text: '取消',
-                  style: 'cancel'
-                },
-                {
-                  text: '确定',
-                  onPress: () =>
-                    $.doUse({
-                      title: '混沌魔方'
-                    })
-                }
-              ])
+              confirm(
+                '确定消耗10点固定资产使用混沌魔方?',
+                () =>
+                  $.doUse({
+                    title: '混沌魔方'
+                  }),
+                '小圣杯助手'
+              )
             }}
           >
             <Flex style={_.mr.sm} align='start'>

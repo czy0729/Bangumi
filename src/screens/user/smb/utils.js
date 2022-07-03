@@ -3,13 +3,12 @@
  * @Author: czy0729
  * @Date: 2022-03-28 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-05 06:00:42
+ * @Last Modified time: 2022-07-03 19:51:53
  */
-import { Alert } from 'react-native'
 import SMBClient from 'react-native-smb'
 import { asc, desc } from '@utils'
 import { queue } from '@utils/fetch'
-import { info, loading } from '@utils/ui'
+import { alert, info, loading } from '@utils/ui'
 
 export const icons = {
   file: require('@assets/cloud/file.png'),
@@ -41,12 +40,7 @@ export function smbList(config = {}) {
 
         if (!data?.success) {
           smbClient = null
-          Alert.alert('连接失败', `[${data.errorCode}] ${data.message}`, [
-            {
-              text: '确定',
-              onPress: () => {}
-            }
-          ])
+          alert(`[${data.errorCode}] ${data.message}`, '连接失败')
         }
       }
     )
@@ -79,12 +73,7 @@ function _smbList(path = '') {
         smbClient.disconnect(() => console.log('Disconnect'))
         smbClient = null
 
-        Alert.alert('连接失败', `[${data.errorCode}] ${data.message}`, [
-          {
-            text: '确定',
-            onPress: () => {}
-          }
-        ])
+        alert(`[${data.errorCode}] ${data.message}`, '连接失败')
         resolve(false)
         return
       }

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:33:59
+ * @Last Modified time: 2022-07-03 06:04:19
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { memo, obc } from '@utils/decorators'
+import { alert } from '@utils/ui'
 
 const defaultProps = {
   navigation: {},
@@ -110,9 +111,9 @@ const Chart = memo(
           <Touchable
             style={styles.deviation}
             onPress={() =>
-              Alert.alert(
-                '标准差',
-                '0-1 异口同声\n1.15 基本一致\n1.3 略有分歧\n1.45 莫衷一是\n1.6 各执一词\n1.75 你死我活'
+              alert(
+                '0-1 异口同声\n1.15 基本一致\n1.3 略有分歧\n1.45 莫衷一是\n1.6 各执一词\n1.75 你死我活',
+                '标准差'
               )
             }
           >

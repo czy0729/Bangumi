@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:09:44
+ * @Last Modified time: 2022-07-03 18:44:56
  */
-import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore, systemStore } from '@stores'
@@ -12,6 +11,7 @@ import { urlStringify, getTimestamp, formatNumber, toFixed, runAfter } from '@ut
 import store from '@utils/store'
 import { info, feedback } from '@utils/ui'
 import { queue, t } from '@utils/fetch'
+import { alert, confirm } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import {
   HOST,
@@ -266,11 +266,7 @@ export default class ScreenTinygrail extends store {
       if (Tax) message += `, 个人所得税${_Tax}, 税后${_AfterTax}`
       if (Daily) message += `, 签到奖励${Daily}`
 
-      Alert.alert('股息预测', message, [
-        {
-          text: '知道了'
-        }
-      ])
+      alert(message, '股息预测')
     } catch (error) {
       info('获取股息预测失败')
     }
@@ -424,28 +420,24 @@ export default class ScreenTinygrail extends store {
     }
   }
 
-  doSend = () =>
-    Alert.alert('小圣杯助手', '是否给作者发送10000cc?', [
-      {
-        text: '取消',
-        style: 'cancel'
-      },
-      {
-        text: '确定',
-        onPress: async () => {
-          const { State, Value, Message } = await tinygrailStore.doSend()
-          feedback()
+  doSend = () => {
+    confirm(
+      '是否给作者发送10000cc?',
+      async () => {
+        const { State, Value, Message } = await tinygrailStore.doSend()
+        feedback()
 
-          if (State === 0) {
-            info(Value)
-            await tinygrailStore.fetchAssets()
-            this.caculateChange()
-          } else {
-            info(Message)
-          }
+        if (State === 0) {
+          info(Value)
+          await tinygrailStore.fetchAssets()
+          this.caculateChange()
+        } else {
+          info(Message)
         }
-      }
-    ])
+      },
+      '小圣杯助手'
+    )
+  }
 
   /**
    * 登出

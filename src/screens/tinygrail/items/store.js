@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:41:37
+ * @Last Modified time: 2022-07-03 18:46:30
  */
-import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { toFixed } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
+import { info, feedback, alert } from '@utils/ui'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 
 export default class ScreenTinygrailItems extends store {
@@ -70,19 +69,14 @@ export default class ScreenTinygrailItems extends store {
       })
 
       if (State === 0) {
-        Alert.alert(
-          '小圣杯助手',
+        alert(
           typeof Value === 'string'
             ? Value
             : `获得${Value.Name}x${Value.Amount}，当前价${toFixed(
                 Value.CurrentPrice,
                 2
               )}，价值${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
-          [
-            {
-              text: '知道了'
-            }
-          ]
+          '小圣杯助手'
         )
 
         tinygrailStore.fetchUserLogs(monoId)

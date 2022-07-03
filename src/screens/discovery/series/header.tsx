@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:46:17
+ * @Last Modified time: 2022-07-03 20:24:25
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -11,6 +11,7 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { confirm } from '@utils/ui'
+import { s2tAsync } from '@utils/async'
 
 function Header(props, { $, navigation }) {
   return (
@@ -36,16 +37,18 @@ function Header(props, { $, navigation }) {
             size={19}
             onPress={() =>
               Alert.alert(
-                '关联系列',
-                // eslint-disable-next-line max-len
-                `此功能目前为实验性质。\n目的为便捷查找是否存在未收藏的关联番剧。\n使用了你「在看」和「看过」的收藏数据，通过条目的关联数据计算出结果。\n为了控制请求数，所以并没有一次性循环请求关联到底。\n举例说当一部有四季的番剧，你只收藏过第一季，那就最多只能索引到第三季，所以你收藏的条目越多，关联范围越广。\n请至少手动滚动到底一次，条目信息才会补全。\n为了防止滥用，目前此功能非高级会员仅会对「在看」和「看过」的前100条数据进行关联计算，高级会员支持500条。`,
+                s2tAsync('关联系列'),
+                s2tAsync(
+                  // eslint-disable-next-line max-len
+                  `此功能目前为实验性质。\n目的为便捷查找是否存在未收藏的关联番剧。\n使用了你「在看」和「看过」的收藏数据，通过条目的关联数据计算出结果。\n为了控制请求数，所以并没有一次性循环请求关联到底。\n举例说当一部有四季的番剧，你只收藏过第一季，那就最多只能索引到第三季，所以你收藏的条目越多，关联范围越广。\n请至少手动滚动到底一次，条目信息才会补全。\n为了防止滥用，目前此功能非高级会员仅会对「在看」和「看过」的前100条数据进行关联计算，高级会员支持500条。`
+                ),
                 [
                   {
-                    text: '关于会员',
+                    text: s2tAsync('关于会员'),
                     onPress: () => navigation.push('Qiafan')
                   },
                   {
-                    text: '确定',
+                    text: s2tAsync('确定'),
                     onPress: () => {}
                   }
                 ]

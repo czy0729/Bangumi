@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-14 06:33:04
+ * @Last Modified time: 2022-07-03 19:14:40
  */
-import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
 import { setStorage, getStorage, getTimestamp, formatNumber, toFixed } from '@utils'
 import store from '@utils/store'
 import { queue, t, xhrCustom } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
+import { alert, info, feedback } from '@utils/ui'
 import { API_TINYGRAIL_STAR } from '@constants/api'
 import { getXsbRelationOTA } from '@constants/cdn'
 import { decimal, calculateRate } from '@tinygrail/_/utils'
@@ -343,18 +342,13 @@ export default class ScreenTinygrailSacrifice extends store {
       return
     }
 
-    Alert.alert(
-      '小圣杯助手',
+    alert(
       isSale
         ? `融资完成！获得资金 ${formatNumber(Value.Balance)}`
         : `融资完成！获得资金 ${formatNumber(Value.Balance)} ${
             Value.Items.length ? '掉落道具' : ''
           } ${Value.Items.map(item => `「${item.Name}」×${item.Count}`).join(' ')}`,
-      [
-        {
-          text: '知道了'
-        }
-      ]
+      '小圣杯助手'
     )
     this.setState({
       loading: false
@@ -502,11 +496,7 @@ export default class ScreenTinygrailSacrifice extends store {
       return
     }
 
-    Alert.alert('小圣杯助手', '星之力转化完成', [
-      {
-        text: '知道了'
-      }
-    ])
+    alert('星之力转化完成', '小圣杯助手')
     this.setState({
       loading: false,
       starForcesValue: 0
@@ -538,19 +528,14 @@ export default class ScreenTinygrailSacrifice extends store {
       })
 
       if (State === 0) {
-        Alert.alert(
-          '小圣杯助手',
+        alert(
           typeof Value === 'string'
             ? Value
             : `获得${Value.Name}x${Value.Amount}，当前价${toFixed(
                 Value.CurrentPrice,
                 2
               )}，价值${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
-          [
-            {
-              text: '知道了'
-            }
-          ]
+          '小圣杯助手'
         )
 
         tinygrailStore.fetchUserLogs(monoId || this.monoId)

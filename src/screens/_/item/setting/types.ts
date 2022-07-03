@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:56:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 18:40:53
+ * @Last Modified time: 2022-07-03 05:30:04
  */
 import { TouchableProps, TextType } from '@components'
 import { Override, ViewStyle, ReactNode, TextStyle, IconfontNames } from '@types'
@@ -12,7 +12,7 @@ export type Props = Override<
   {
     style?: ViewStyle
     show?: boolean
-    hd?: string
+    hd?: ReactNode | string
     ft?: ReactNode | string
     arrow?: boolean
     arrowStyle?: TextStyle

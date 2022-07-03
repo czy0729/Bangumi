@@ -40,12 +40,11 @@ const Blog = memo(
         {showBlog && (
           <>
             <Expand style={_.mt.sm} ratio={1.2}>
-              {blog.map((item, index) => (
+              {blog.map(item => (
                 <ItemArticle
                   key={item.id}
                   style={styles.item}
                   navigation={navigation}
-                  index={index}
                   avatar={item.user.avatar.small}
                   title={item.title}
                   summary={item.summary.replace(/\r\n/g, '').trim()}

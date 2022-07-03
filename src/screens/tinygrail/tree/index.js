@@ -2,25 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 17:14:48
+ * @Last Modified time: 2022-07-03 19:16:01
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { Header, Page, Flex, Loading, Text } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { alert, info } from '@utils/ui'
 import i18n from '@constants/i18n'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
 
-export default
-@inject(Store)
-@obc
 class TinygrailTree extends React.Component {
   state = {
     refreshing: false
@@ -32,14 +28,10 @@ class TinygrailTree extends React.Component {
   }
 
   onAlert = () => {
-    Alert.alert(
-      '小圣杯助手',
+    alert(
+      // eslint-disable-next-line max-len
       `1. 单击方格展开功能菜单, 长按隐藏方格\n2. 本功能处于实验性阶段, 不保证能正常渲染, 不正常请尝试刷新或者在讨论组等${i18n.contact()}作者\n3. 计算的数据只供参考, 不排除会出现不准确丢失的情况\n4. 因角色数量可能导致流量变大, 页面当有缓存数据不会自动刷新, 请点击旁边的按钮刷新\n5. 部分数据可能毫无意义, 只是顺便调出来, 还请自己把握(bgm38)`,
-      [
-        {
-          text: '知道了'
-        }
-      ]
+      '小圣杯助手'
     )
   }
 
@@ -181,6 +173,8 @@ class TinygrailTree extends React.Component {
     return memoStyles()
   }
 }
+
+export default inject(Store)(obc(TinygrailTree))
 
 const memoStyles = _.memoStyles(() => ({
   container: {

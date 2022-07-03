@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 09:26:40
+ * @Last Modified time: 2022-07-03 20:23:38
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -19,9 +19,9 @@ import {
 import cnData from '@assets/json/cn.json'
 import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { Navigation, EventType, SubjectId } from '@types'
+import { AnyObject, EventType, Navigation, Paths, SubjectId } from '@types'
 import { t } from './fetch'
-import { getSystemStoreAsync } from './async'
+import { getSystemStoreAsync, s2tAsync } from './async'
 import { getStorage, setStorage } from './storage'
 import { rerender, globalLog, globalWarn } from './dev'
 
@@ -281,7 +281,13 @@ export function fixedBgmUrl(url = '') {
  * 判断是否bgm的链接, 若是返回页面信息, 否则返回false
  * @param {*} url
  */
-export function matchBgmLink(url = '') {
+export function matchBgmLink(url = ''):
+  | false
+  | {
+      route: Paths
+      params?: AnyObject
+      app?: boolean
+    } {
   try {
     const _url = fixedBgmUrl(url)
 
@@ -291,7 +297,7 @@ export function matchBgmLink(url = '') {
       if (route && params) {
         const [key, value] = params.split(':')
         return {
-          route,
+          route: route as Paths,
           params: {
             [key]: value
           },
@@ -861,7 +867,7 @@ export async function privacy() {
 
   const params = [
     {
-      text: '隐私保护政策',
+      text: s2tAsync('隐私保护政策'),
       onPress: () => {
         WebBrowser.openBrowserAsync(URL_PRIVACY, {
           enableBarCollapsing: true,
@@ -874,7 +880,7 @@ export async function privacy() {
       }
     },
     {
-      text: '不同意并退出',
+      text: s2tAsync('不同意并退出'),
       onPress: () => {
         BackHandler.exitApp()
 
@@ -884,7 +890,7 @@ export async function privacy() {
       }
     },
     {
-      text: '同意',
+      text: s2tAsync('同意'),
       onPress: () => {
         setStorage(PRIVACY_STATE, 1)
       }
@@ -892,9 +898,9 @@ export async function privacy() {
   ]
 
   return Alert.alert(
-    '隐私保护政策',
-    `请你务必审慎阅读、充分理解“隐私保护政策”各条款。
-    \n如你同意，请点击“同意”开始使用服务。如你不同意，很遗憾本应用无法为你提供服务。`,
+    s2tAsync('隐私保护政策'),
+    s2tAsync(`请你务必审慎阅读、充分理解“隐私保护政策”各条款。
+    \n如你同意，请点击“同意”开始使用服务。如你不同意，很遗憾本应用无法为你提供服务。`),
     params
   )
 }

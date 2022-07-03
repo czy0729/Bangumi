@@ -2,23 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:16:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:00:55
+ * @Last Modified time: 2022-07-03 18:20:24
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { Header, Page } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { alert } from '@utils/ui'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
 
-export default
-@inject(Store)
-@obc
 class TinygrailAdvanceBid extends React.Component {
   componentDidMount() {
     const { $ } = this.context
@@ -43,14 +40,9 @@ class TinygrailAdvanceBid extends React.Component {
               onPress={() => {
                 t('买一推荐.提示')
 
-                Alert.alert(
-                  '当前计算方式',
+                alert(
                   '从持仓列表里面查找\n第一买单股数 > 0\n第一买单价 / Math.min(500, rank) 时的实际股息 = 分数',
-                  [
-                    {
-                      text: '知道了'
-                    }
-                  ]
+                  '当前计算方式'
                 )
               }}
             />
@@ -73,6 +65,8 @@ class TinygrailAdvanceBid extends React.Component {
     return memoStyles()
   }
 }
+
+export default inject(Store)(obc(TinygrailAdvanceBid))
 
 const memoStyles = _.memoStyles(() => ({
   container: {

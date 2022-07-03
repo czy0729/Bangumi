@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:34:45
+ * @Last Modified time: 2022-07-03 18:42:52
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { Button } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { confirm } from '@utils/ui'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
 
 const dataMore = ['重新授权', '粘贴板', '意见反馈', '设置']
@@ -45,16 +45,7 @@ function Btns(props, { $, navigation }) {
                 break
 
               case '每周分红':
-                Alert.alert('警告', '确定领取每周分红? (每周日0点刷新)', [
-                  {
-                    text: '取消',
-                    style: 'cancel'
-                  },
-                  {
-                    text: '确定',
-                    onPress: $.doGetBonusWeek
-                  }
-                ])
+                confirm('确定领取每周分红? (每周日0点刷新)', $.doGetBonusWeek)
                 break
 
               case '每日签到':

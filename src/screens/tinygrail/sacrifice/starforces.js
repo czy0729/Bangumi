@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-03-07 02:43:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:30:37
+ * @Last Modified time: 2022-07-03 19:11:45
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 import { Flex, Input, Text, Button, Slider as CompSlider, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
+import { confirm } from '@utils/ui'
 import Rank from '@tinygrail/_/rank'
 
 function StarForces({ style }, { $ }) {
@@ -59,33 +60,20 @@ function StarForces({ style }, { $ }) {
             </Flex.Item>
             <View style={[styles.btnSubmit, _.ml.md]}>
               <Button
-                style={{
-                  height: 36
-                }}
+                style={styles.btnAsk}
                 type='ask'
                 radius={false}
                 loading={loading}
                 onPress={() => {
-                  if (loading) {
-                    return
-                  }
+                  if (loading) return
 
-                  Alert.alert(
-                    '小圣杯助手',
+                  confirm(
                     `消耗固定资产 ${formatNumber(
                       starForcesValue,
                       0
                     )} 灌注星之力, 确定?`,
-                    [
-                      {
-                        text: '取消',
-                        style: 'cancel'
-                      },
-                      {
-                        text: '确定',
-                        onPress: () => $.doStarForces()
-                      }
-                    ]
+                    () => $.doStarForces(),
+                    '小圣杯助手'
                   )
                 }}
               >
@@ -184,5 +172,8 @@ const memoStyles = _.memoStyles(() => ({
   },
   btnSubmit: {
     width: 72
+  },
+  btnAsk: {
+    height: 36
   }
 }))

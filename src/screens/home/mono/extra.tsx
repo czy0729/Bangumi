@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 04:28:54
+ * @Last Modified time: 2022-07-03 06:02:44
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { IconHeader } from '@_'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { confirm } from '@utils/ui'
 import Favor from './favor'
 
 const defaultProps = {
@@ -28,18 +28,9 @@ const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
     return (
       <Touchable
         style={_.container.touch}
-        onPress={() =>
-          Alert.alert('提示', '花费10000cc启动ICO?', [
-            {
-              text: '取消',
-              style: 'cancel'
-            },
-            {
-              text: '确定',
-              onPress: () => doICO(navigation)
-            }
-          ])
-        }
+        onPress={() => {
+          confirm('花费10000cc启动ICO?', () => doICO(navigation))
+        }}
       >
         <Flex style={_.mr.sm}>
           <IconHeader name='trophy' size={18} />

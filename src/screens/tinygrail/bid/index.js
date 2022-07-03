@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:29:05
+ * @Last Modified time: 2022-07-03 18:30:11
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { Header, Page, Flex, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
@@ -13,13 +12,11 @@ import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Tabs from '@tinygrail/_/tabs-v2'
 import ToolBar from '@tinygrail/_/tool-bar'
+import { confirm } from '@utils/ui'
 import List from './list'
 import Store from './store'
 import { tabs, sortDS } from './ds'
 
-export default
-@inject(Store)
-@obc
 class TinygrailBid extends React.Component {
   componentDidMount() {
     const { $ } = this.context
@@ -73,22 +70,13 @@ class TinygrailBid extends React.Component {
             <IconTouchable
               name='md-cancel-presentation'
               color={_.colorTinygrailPlain}
-              onPress={() =>
-                Alert.alert(
-                  '小圣杯助手',
+              onPress={() => {
+                confirm(
                   `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
-                  [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: () => $.onBatchCancel()
-                    }
-                  ]
+                  () => $.onBatchCancel(),
+                  '小圣杯助手'
                 )
-              }
+              }}
             />
           )}
         />
@@ -120,6 +108,8 @@ class TinygrailBid extends React.Component {
     )
   }
 }
+
+export default inject(Store)(obc(TinygrailBid))
 
 const styles = _.create({
   labelText: {

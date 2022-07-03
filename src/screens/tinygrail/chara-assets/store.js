@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 10:52:52
+ * @Last Modified time: 2022-07-03 18:36:10
  */
-import { Alert, Clipboard } from 'react-native'
+import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { confirm, info, feedback } from '@utils/ui'
+import { alert, confirm, info, feedback } from '@utils/ui'
 import { relation, levelList, sortList, SORT_HYD } from '@tinygrail/_/utils'
 import { namespace } from './ds'
 
@@ -94,20 +94,13 @@ export default class ScreenTinygrailCharaAssets extends store {
         }
       })
 
-      Alert.alert(
-        '小圣杯助手',
+      alert(
         `本次刮刮乐：${items
           .map(item => `${item.name}x${item.num}`)
           .join('，')}，价值${toFixed(total, 2)}`,
-        [
-          {
-            text: '知道了'
-          }
-        ]
+        '小圣杯助手'
       )
-    } catch (error) {
-      // do nothing
-    }
+    } catch (error) {}
     return res
   }
 
@@ -457,15 +450,7 @@ export default class ScreenTinygrailCharaAssets extends store {
         }
 
         if (errorIds.length) {
-          Alert.alert(
-            '小圣杯助手',
-            `共有 (${errorIds.length}) 个角色 (${action}) 失败`,
-            [
-              {
-                text: '知道了'
-              }
-            ]
-          )
+          alert(`共有 (${errorIds.length}) 个角色 (${action}) 失败`, '小圣杯助手')
         } else {
           info('操作完成')
         }
@@ -527,11 +512,7 @@ export default class ScreenTinygrailCharaAssets extends store {
         }
 
         if (errorIds.length) {
-          Alert.alert('小圣杯助手', `共有 (${errorIds.length}) 个角色 (挂卖单) 失败`, [
-            {
-              text: '知道了'
-            }
-          ])
+          alert(`共有 (${errorIds.length}) 个角色 (挂卖单) 失败`, '小圣杯助手')
         } else {
           info('操作完成')
         }

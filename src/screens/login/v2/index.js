@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 22:22:16
+ * @Last Modified time: 2022-07-03 06:09:36
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import {
@@ -23,7 +23,7 @@ import { _, userStore, usersStore, rakuenStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open, urlStringify } from '@utils'
 import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
+import { info, feedback, confirm } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT, URL_PRIVACY } from '@constants'
 import i18n from '@constants/i18n'
@@ -534,19 +534,10 @@ class LoginV2 extends React.Component {
       <Preview
         onLogin={this.onPreviewLogin}
         onTour={() =>
-          Alert.alert(
-            '提示',
+          confirm(
             `将使用开发者的测试账号, 提供大部分功能预览, 确定${i18n.login()}? (可以在设置里面退出${i18n.login()})`,
-            [
-              {
-                text: '取消',
-                style: 'cancel'
-              },
-              {
-                text: '确定',
-                onPress: this.onTour
-              }
-            ]
+            this.onTour,
+            '提示'
           )
         }
       />
@@ -604,20 +595,13 @@ class LoginV2 extends React.Component {
                   to: 'Signup'
                 })
 
-                Alert.alert(
-                  '提示',
+                confirm(
                   // eslint-disable-next-line max-len
                   '声明: 本APP的性质为第三方，只提供显示数据和简单的操作，没有修复和改变源站业务的能力。 \n\n在移动端浏览器注册会经常遇到验证码错误，碰到错误建议在浏览器里使用 [电脑版UA]，再不行推荐使用电脑Chrome注册。 \n\n注册后会有 [激活码] 发到邮箱，测试过只会发送一次，请务必在激活有效时间内激活，否则这个注册账号就废了。输入激活码前，看见下方的文字改变了再填入，提示服务不可用的请务必等到浏览器加载条完成，不然永远都会说激活码错误。\n\n作者只能帮大家到这里了。',
-                  [
-                    {
-                      text: '取消',
-                      type: 'cancel'
-                    },
-                    {
-                      text: '前往注册',
-                      onPress: () => open('https://bgm.tv/signup')
-                    }
-                  ]
+                  () => open('https://bgm.tv/signup'),
+                  '提示',
+                  () => {},
+                  '前往注册'
                 )
               }}
             >

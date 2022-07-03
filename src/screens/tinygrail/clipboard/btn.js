@@ -2,20 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-11-30 20:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:11:00
+ * @Last Modified time: 2022-07-03 18:37:38
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { Flex, Button } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { confirm } from '@utils/ui'
 
 function Btn(props, { $ }) {
   const styles = memoStyles()
   const ids = $.list.list.filter(item => !!item.icoId).map(item => item.icoId)
-  if (!ids.length) {
-    return null
-  }
+  if (!ids.length) return null
 
   return (
     <Flex style={styles.wrap} justify='center'>
@@ -23,19 +21,10 @@ function Btn(props, { $ }) {
         style={styles.btn}
         type='bid'
         onPress={() => {
-          Alert.alert(
-            '小圣杯助手',
+          confirm(
             `对列表中 ${ids.length} 个ICO角色进行注资各5000, 确定?`,
-            [
-              {
-                text: '取消',
-                style: 'cancel'
-              },
-              {
-                text: '确定',
-                onPress: () => $.batchICO(ids)
-              }
-            ]
+            () => $.batchICO(ids),
+            '小圣杯助手'
           )
         }}
       >

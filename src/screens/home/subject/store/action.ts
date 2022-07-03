@@ -11,8 +11,7 @@ import { appNavigate, getBangumiUrl, getCoverMedium, cnjp } from '@utils/app'
 import { feedback, info, showActionSheet, loading } from '@utils/ui'
 import { find as findAnime } from '@utils/subject/anime'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { SITES } from '@constants'
-import { MODEL_EP_STATUS } from '@constants/model'
+import { SITES, MODEL_EP_STATUS } from '@constants'
 import {
   SITE_AGEFANS,
   SITE_MANHUADB,
@@ -21,6 +20,7 @@ import {
   SITE_XUNBO
 } from '@constants/site'
 import i18n from '@constants/i18n'
+import { EpStatus } from '@types'
 import { replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import { NAMESPACE } from './ds'
@@ -547,7 +547,7 @@ export default class Action extends Fetch {
       // 未收藏不能更改进度
       const { status = { name: '未收藏' } } = this.collection
       if (status.name !== '未收藏') {
-        const status = MODEL_EP_STATUS.getValue(value)
+        const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
         if (status) {
           t('条目.章节菜单操作', {
             title: '更新收视进度',

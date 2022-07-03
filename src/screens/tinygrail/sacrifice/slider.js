@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:30:13
+ * @Last Modified time: 2022-07-03 19:09:38
  */
 import React from 'react'
-import { View, Alert } from 'react-native'
+import { View } from 'react-native'
 import {
   Flex,
   Input,
@@ -19,6 +19,7 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { formatNumber, lastDate } from '@utils'
 import { obc } from '@utils/decorators'
+import { confirm } from '@utils/ui'
 
 function Slider({ style }, { $ }) {
   const styles = memoStyles()
@@ -73,27 +74,14 @@ function Slider({ style }, { $ }) {
             </Flex.Item>
             <View style={[styles.btnSubmit, _.ml.md]}>
               <Button
-                style={{
-                  height: 36
-                }}
+                style={styles.btnAsk}
                 type='ask'
                 radius={false}
                 loading={loading}
                 onPress={() => {
-                  if (loading) {
-                    return
-                  }
+                  if (loading) return
 
-                  Alert.alert('小圣杯助手', `确定献祭 ${amount}股?`, [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: () => $.doSacrifice()
-                    }
-                  ])
+                  confirm(`确定献祭 ${amount}股?`, () => $.doSacrifice(), '小圣杯助手')
                 }}
               >
                 确定
@@ -103,23 +91,12 @@ function Slider({ style }, { $ }) {
           <Flex style={_.mt.sm}>
             <Touchable
               onPress={() => {
-                if (loading) {
-                  return
-                }
+                if (loading) return
 
-                Alert.alert(
-                  '小圣杯助手',
+                confirm(
                   `当前角色测试献祭效率至少需要先献祭 (${$.testAmount}) 股, 确定?`,
-                  [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: () => $.doTestSacrifice()
-                    }
-                  ]
+                  () => $.doTestSacrifice(),
+                  '小圣杯助手'
                 )
               }}
             >
@@ -141,7 +118,7 @@ function Slider({ style }, { $ }) {
           </Flex>
           <Flex style={[styles.slider, _.mt.sm]}>
             <Flex.Item>
-              <View style={{ width: '100%' }}>
+              <View style={_.container.block}>
                 <CompSlider
                   value={amount}
                   step={1}
@@ -215,6 +192,9 @@ const memoStyles = _.memoStyles(() => ({
   },
   btnSubmit: {
     width: 72
+  },
+  btnAsk: {
+    height: 36
   },
   switch: {
     marginRight: -8,

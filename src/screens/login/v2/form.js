@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 22:22:49
+ * @Last Modified time: 2022-07-03 06:05:46
  */
 import React from 'react'
-import { Alert, View, Image as RNImage } from 'react-native'
+import { View, Image as RNImage } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import {
   Flex,
@@ -21,13 +21,12 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { alert } from '@utils/ui'
 import { HOST, HOST_2, HOST_3 } from '@constants'
 import i18n from '@constants/i18n'
 
 const data = [HOST, HOST_2, HOST_3]
 
-export default
-@ob
 class Form extends React.Component {
   static defaultProps = {
     host: '',
@@ -69,14 +68,8 @@ class Form extends React.Component {
       name: 'host'
     })
 
-    Alert.alert(
-      '提示',
-      `三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n${i18n.login()}建议优先使用 bgm.tv，出现问题再尝试 bangumi.tv，最后尝试 chii.in。`,
-      [
-        {
-          text: '知道了'
-        }
-      ]
+    alert(
+      `三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n${i18n.login()}建议优先使用 bgm.tv，出现问题再尝试 bangumi.tv，最后尝试 chii.in。`
     )
   }
 
@@ -85,14 +78,8 @@ class Form extends React.Component {
       name: 'ua'
     })
 
-    Alert.alert(
-      '提示',
-      `假如您频繁掉授权状态，不妨试试把这个选项勾上，通常${i18n.login()}状态生存时间为7天。 \n\n这是个不稳定的选项，若${i18n.login()}正常不建议勾上，可能会遇到预测不能的状况。`,
-      [
-        {
-          text: '知道了'
-        }
-      ]
+    alert(
+      `假如您频繁掉授权状态，不妨试试把这个选项勾上，通常${i18n.login()}状态生存时间为7天。 \n\n这是个不稳定的选项，若${i18n.login()}正常不建议勾上，可能会遇到预测不能的状况。`
     )
   }
 
@@ -319,6 +306,8 @@ class Form extends React.Component {
     return memoStyles()
   }
 }
+
+export default ob(Form)
 
 const memoStyles = _.memoStyles(() => ({
   form: {

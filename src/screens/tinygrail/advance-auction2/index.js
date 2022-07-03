@@ -2,23 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:49:46
+ * @Last Modified time: 2022-07-03 18:15:15
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import { Header, Page } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { alert } from '@utils/ui'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store, { sortDS } from './store'
 
-export default
-@inject(Store)
-@obc
 class TinygrailAdvanceAuction2 extends React.Component {
   componentDidMount() {
     const { $ } = this.context
@@ -45,14 +42,9 @@ class TinygrailAdvanceAuction2 extends React.Component {
                   type: 2
                 })
 
-                Alert.alert(
-                  '当前计算方式',
+                alert(
                   '从英灵殿里面查找前 2000 条\n数量 > 80\n若当前 rank > 500 按 500 时的实际股息 / 竞拍底价 * 100 = 分数',
-                  [
-                    {
-                      text: '知道了'
-                    }
-                  ]
+                  '当前计算方式'
                 )
               }}
             />
@@ -79,6 +71,8 @@ class TinygrailAdvanceAuction2 extends React.Component {
     return memoStyles()
   }
 }
+
+export default inject(Store)(obc(TinygrailAdvanceAuction2))
 
 const memoStyles = _.memoStyles(() => ({
   container: {

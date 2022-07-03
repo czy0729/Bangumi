@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:31:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-06 06:22:38
+ * @Last Modified time: 2022-07-03 19:50:03
  */
 import React, { useState } from 'react'
-import { Alert, View, Linking } from 'react-native'
+import { View, Linking } from 'react-native'
 import { Flex, Image, Text, Touchable, Iconfont } from '@components'
 import { Cover, Rank, Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { copy, desc } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
-import { info } from '@utils/ui'
+import { alert, info } from '@utils/ui'
 import { IMG_DEFAULT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { icons } from './utils'
@@ -225,12 +225,7 @@ const Item = memo(
                             item.name
                           )
                           if (!(await Linking.canOpenURL(link))) {
-                            Alert.alert('本机不支持打开此链接', link, [
-                              {
-                                text: '确定',
-                                onPress: () => {}
-                              }
-                            ])
+                            alert(link, '本机不支持打开此链接')
                             return
                           }
                           Linking.openURL(link)

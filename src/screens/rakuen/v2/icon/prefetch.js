@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:59:58
+ * @Last Modified time: 2022-07-03 15:53:47
  */
 import React from 'react'
-import { Alert } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@_'
 import { obc } from '@utils/decorators'
+import { confirm } from '@utils/ui'
 import { _ } from '@stores'
 
 function IconPrefetch(props, { $ }) {
@@ -18,16 +18,7 @@ function IconPrefetch(props, { $ }) {
     return (
       <Touchable
         onPress={() => {
-          Alert.alert('提示', '确定取消预读取?', [
-            {
-              text: '取消',
-              style: 'cancel'
-            },
-            {
-              text: '确定',
-              onPress: $.cancelPrefetch
-            }
-          ])
+          confirm('确定取消预读取?', $.cancelPrefetch)
         }}
       >
         <Flex>

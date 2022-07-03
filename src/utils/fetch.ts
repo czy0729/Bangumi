@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 14:24:39
+ * @Last Modified time: 2022-07-03 05:32:45
  */
 import {
   APP_ID,
@@ -15,7 +15,7 @@ import {
   IOS,
   UA
 } from '@constants/constants'
-import { Fn } from '@types'
+import { AnyObject, Fn } from '@types'
 import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
 import { urlStringify, sleep, getTimestamp } from './utils'
@@ -43,9 +43,7 @@ const HEADERS_DEFAULT = {
 type FetchAPIArgs = {
   method?: 'GET' | 'POST'
   url: string
-  data?: {
-    [key: string]: any
-  }
+  data?: AnyObject
   retryCb?: any
   info?: string
   noConsole?: boolean
@@ -78,9 +76,7 @@ export default async function fetchAPI(
       'User-Agent': UA
     }
   }
-  const body: {
-    [key: string]: any
-  } = {
+  const body: AnyObject = {
     app_id: APP_ID,
     ...data
   }
@@ -118,9 +114,10 @@ export default async function fetchAPI(
       // 正常情况没有code, 错误情况例如空的时候, 返回 { code: 400, err: '...' }
       if (json && json.error) {
         if (json.error === 'invalid_token') {
-          UIInfo('登录过期')
-          userStore.logout()
+          // UIInfo('登录过期')
+          userStore.setOutdate()
         }
+
         return Promise.resolve({
           code: json.code,
           error: json.error,
@@ -140,9 +137,7 @@ export default async function fetchAPI(
 
         const key = `${url}|${urlStringify(data)}`
         _retry[key] = (_retry[key] || 0) + 1
-        if (_retry[key] < FETCH_RETRY) {
-          return retryCb()
-        }
+        if (_retry[key] < FETCH_RETRY) return retryCb()
       }
 
       UIInfo(`${info}请求失败`)
@@ -153,12 +148,8 @@ export default async function fetchAPI(
 type FetchHTMLArgs = {
   method?: 'GET' | 'POST'
   url: string
-  data?: {
-    [key: string]: any
-  }
-  headers?: {
-    [key: string]: any
-  }
+  data?: AnyObject
+  headers?: AnyObject
   cookie?: string
   raw?: boolean
 }
@@ -280,9 +271,7 @@ export async function fetchHTML(
 type XHRArgs = {
   method?: 'GET' | 'POST'
   url: string
-  data?: {
-    [key: string]: any
-  }
+  data?: AnyObject
   noConsole?: boolean
 }
 

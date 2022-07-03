@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 18:03:58
+ * @Last Modified time: 2022-07-03 05:54:55
  */
 import React from 'react'
-import { Alert, BackHandler, ScrollView, View } from 'react-native'
+import { BackHandler, ScrollView, View } from 'react-native'
 import { computed } from 'mobx'
 import { Touchable, Flex, Text, Iconfont, Input, Divider, Empty } from '@components'
 import Modal from '@components/@/ant-design/modal'
@@ -16,7 +16,7 @@ import { _, userStore, usersStore, discoveryStore, collectionStore } from '@stor
 import { getTimestamp, setStorage, getStorage, asc, desc } from '@utils'
 import { ob } from '@utils/decorators'
 import { queue, t } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
+import { info, feedback, confirm } from '@utils/ui'
 import { HTMLDecode } from '@utils/html'
 import i18n from '@constants/i18n'
 import { Cover } from '../cover'
@@ -46,7 +46,7 @@ export const FolderManageModal = ob(
       onClose: Function.prototype
     }
 
-    state = {
+    state: State = {
       visible: false,
       expand: [],
       create: false,
@@ -147,9 +147,7 @@ export const FolderManageModal = ob(
       if (!refresh) {
         const data = discoveryStore.catalogDetail(id)
         const { _loaded } = data
-        if (_loaded && getTimestamp() - _loaded <= 300) {
-          return true
-        }
+        if (_loaded && getTimestamp() - _loaded <= 300) return true
       }
 
       await discoveryStore.fetchCatalogDetail({
@@ -229,28 +227,19 @@ export const FolderManageModal = ob(
         return
       }
 
-      Alert.alert('警告', '移出会同时删除目录评价, 确定?', [
-        {
-          text: '取消',
-          style: 'cancel'
-        },
-        {
-          text: '确定',
-          onPress: () => {
-            discoveryStore.doCatalogDeleteRelate(
-              {
-                erase: find.erase
-              },
-              () => {
-                info('已移出')
-                feedback()
-                this.fetchCatalogDetail(item.id, true)
-                this.t('onToggle:out')
-              }
-            )
+      confirm('移出会同时删除目录评价, 确定?', () => {
+        discoveryStore.doCatalogDeleteRelate(
+          {
+            erase: find.erase
+          },
+          () => {
+            info('已移出')
+            feedback()
+            this.fetchCatalogDetail(item.id, true)
+            this.t('onToggle:out')
           }
-        }
-      ])
+        )
+      })
     }
 
     /**
@@ -273,35 +262,23 @@ export const FolderManageModal = ob(
             return
           }
 
-          setTimeout(() => {
-            Alert.alert(
-              '警告',
-              `删除目录[${item.title}], 操作将抹掉所有关联数据以及用户留言, 是否要继续?`,
-              [
+          confirm(
+            `删除目录[${item.title}], 操作将抹掉所有关联数据以及用户留言, 是否要继续?`,
+            () => {
+              discoveryStore.doCatalogDelete(
                 {
-                  text: '取消',
-                  style: 'cancel'
+                  catalogId: item.id,
+                  formhash: this.formhash || userStore.formhash
                 },
-                {
-                  text: '确定',
-                  onPress: () => {
-                    discoveryStore.doCatalogDelete(
-                      {
-                        catalogId: item.id,
-                        formhash: this.formhash || userStore.formhash
-                      },
-                      () => {
-                        info('已删除')
-                        feedback()
-                        this.fetchCatalogs()
-                        this.t('onControl:delete')
-                      }
-                    )
-                  }
+                () => {
+                  info('已删除')
+                  feedback()
+                  this.fetchCatalogs()
+                  this.t('onControl:delete')
                 }
-              ]
-            )
-          }, 240)
+              )
+            }
+          )
           break
 
         default:
@@ -371,7 +348,7 @@ export const FolderManageModal = ob(
 
       discoveryStore.doCatalogEdit(
         {
-          catalogId: create,
+          catalogId: create as string,
           formhash: this.formhash || userStore.formhash,
           title: title || '',
           desc: desc || ''
@@ -467,30 +444,19 @@ export const FolderManageModal = ob(
           break
 
         case '移出':
-          setTimeout(() => {
-            Alert.alert('警告', '确定移出目录?', [
+          confirm('确定移出目录?', () => {
+            discoveryStore.doCatalogDeleteRelate(
               {
-                text: '取消',
-                style: 'cancel'
+                erase: item.erase
               },
-              {
-                text: '确定',
-                onPress: () => {
-                  discoveryStore.doCatalogDeleteRelate(
-                    {
-                      erase: item.erase
-                    },
-                    () => {
-                      info('已移出')
-                      feedback()
-                      this.fetchCatalogDetail(pItem.id, true)
-                      this.t('onSubjectControl:remove')
-                    }
-                  )
-                }
+              () => {
+                info('已移出')
+                feedback()
+                this.fetchCatalogDetail(pItem.id, true)
+                this.t('onSubjectControl:remove')
               }
-            ])
-          }, 240)
+            )
+          })
           break
 
         default:
@@ -595,7 +561,7 @@ export const FolderManageModal = ob(
           modify,
           formhash,
           content: content || '',
-          order: order || '0'
+          order: String(order || '0')
         },
         () => {
           feedback()
@@ -907,7 +873,7 @@ export const FolderManageModal = ob(
                       />
                       <Input
                         style={[this.styles.textarea, _.mt.md]}
-                        defaultValue={order == '0' ? '' : order}
+                        defaultValue={String(order == '0' ? '' : order)}
                         keyboardType='number-pad'
                         placeholder='输入排序 (数字越小越前)'
                         onChangeText={this.onOrder}

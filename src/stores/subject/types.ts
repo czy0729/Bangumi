@@ -122,7 +122,7 @@ export type Subject = DeepPartial<{
   blog: Blog[]
   collection: Collection
   crt: Crt[]
-  eps: string
+  eps: any[]
   id: SubjectId
   images: Images
   name: string

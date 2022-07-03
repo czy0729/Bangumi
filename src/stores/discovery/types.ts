@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 21:04:04
+ * @Last Modified time: 2022-07-03 05:44:09
  */
 import {
   Avatar,
@@ -59,7 +59,7 @@ export type CatalogDetail = DeepPartial<{
   content: string
   joinUrl: string
   byeUrl: string
-  _loaded: string
+  _loaded: number
 }>
 
 /** 标签 */

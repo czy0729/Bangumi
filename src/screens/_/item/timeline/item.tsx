@@ -6,12 +6,13 @@
  * @Last Modified time: 2022-06-19 12:04:56
  */
 import React, { useMemo, useCallback } from 'react'
-import { ScrollView, View, Alert } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { Flex, Katakana, Text, Iconfont, Touchable, Expand } from '@components'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
+import { confirm } from '@utils/ui'
 import { HOST_NAME, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import { Avatar, Cover, Stars, Name, Popover } from '../../base'
 import { DEFAULT_PROPS, AVATAR_WIDTH, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
@@ -54,20 +55,9 @@ const Item = memo(
       (url, passParams?) => appNavigate(url, navigation, passParams, event),
       []
     )
-    const onClear = useCallback(
-      () =>
-        Alert.alert('警告', '确定删除?', [
-          {
-            text: '取消',
-            style: 'cancel'
-          },
-          {
-            text: '确定',
-            onPress: () => onDelete(clearHref)
-          }
-        ]),
-      [clearHref]
-    )
+    const onClear = useCallback(() => {
+      confirm('确定删除?', () => onDelete(clearHref))
+    }, [clearHref])
 
     // useMemo组件都不传依赖参数, 时间胶囊数据性质就是一次性, 没有更新需求
     const renderAvatar = useMemo(

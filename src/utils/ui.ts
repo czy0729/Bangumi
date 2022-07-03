@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 05:14:42
+ * @Last Modified time: 2022-07-03 16:10:34
  */
 import { NativeModules, Alert, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -38,18 +38,13 @@ export function feedback() {
   }
 }
 
-/**
- * 确定框
- * @param {*} content
- * @param {*} onPress
- * @param {*} title
- * @param {*} onCancelPress
- */
+/** 确定框 */
 export function confirm(
   content: string,
   onPress = () => {},
   title = '警告',
-  onCancelPress = () => {}
+  onCancelPress = () => {},
+  confirmText: string = '确定'
 ) {
   const params = [
     {
@@ -58,25 +53,27 @@ export function confirm(
       onPress: onCancelPress
     },
     {
-      text: s2tAsync('确定'),
+      text: s2tAsync(confirmText),
       onPress
     }
   ]
 
   // iOS 有时候在 popover 里面询问, 会触发屏幕假死, 需要延迟一下让菜单消失了再执行
   if (IOS) {
-    return setTimeout(() => {
+    setTimeout(() => {
       Alert.alert(s2tAsync(title), s2tAsync(content), params)
     }, 80)
+    return
   }
 
-  return Alert.alert(s2tAsync(title), s2tAsync(content), params)
+  Alert.alert(s2tAsync(title), s2tAsync(content), params)
+  return
 }
 
 /**
  * 提示
  * @param {*} content
- * @param {*} title
+ * @param {*} title default: '提示'
  */
 export function alert(content: string, title: string = '提示') {
   const params = [
