@@ -1,41 +1,31 @@
 /*
  * @Author: czy0729
- * @Date: 2019-10-14 22:46:45
+ * @Date: 2022-07-04 13:00:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:18:37
+ * @Last Modified time: 2022-07-04 13:11:02
  */
 import React from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
+import { TouchableWithoutFeedback, Insets } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, titleCase } from '@utils'
-import { memo, obc } from '@utils/decorators'
-import { IOS } from '@constants'
-import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants/model'
+import { memo } from '@utils/decorators'
+import { IOS, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
+import { DEFAULT_PROPS, HIT_SLOP } from './ds'
 
-const defaultProps = {
-  styles: {},
-  list: [],
-  readedTime: 0,
-  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧'),
-  reverse: false,
-  isWebLogin: false,
-  onPress: Function.prototype
-}
-const hitSlop = {
-  top: 0,
-  right: 2,
-  bottom: 0,
-  left: 2
+type PassProps = {
+  hitSlop: Insets
+  onPress?: () => any
+  onPressIn?: () => any
 }
 
-const TouchScroll = memo(
+export const TouchScroll = memo(
   ({ styles, list, readedTime, scrollDirection, isWebLogin, onPress }) => {
-    rerender('Topic.TouchScroll.Main')
+    global.rerender('Topic.TouchScroll.Main')
 
     const showFloor = [
-      parseInt(list.length * 0.33333),
-      parseInt(list.length * 0.66666),
+      Math.floor(list.length * 0.33333),
+      Math.floor(list.length * 0.66666),
       list.length - 1
     ]
 
@@ -43,8 +33,8 @@ const TouchScroll = memo(
       scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') ||
       scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左侧')
 
-    const passProps = {
-      hitSlop
+    const passProps: PassProps = {
+      hitSlop: HIT_SLOP
     }
     if (IOS) {
       passProps.onPress = () => onPress(-1)
@@ -72,24 +62,20 @@ const TouchScroll = memo(
           let isNew = false
 
           if (readedTime) {
-            if (getTimestamp(item.time) > readedTime) {
-              isNew = true
-            }
+            if (getTimestamp(item.time) > readedTime) isNew = true
 
             if (!isNew) {
               if (item.sub) {
                 item.sub.forEach(i => {
-                  if (getTimestamp(i.time) > readedTime) {
-                    isNew = true
-                  }
+                  if (getTimestamp(i.time) > readedTime) isNew = true
                 })
               }
             }
           }
 
           const showFloorText = showFloor.includes(index)
-          const passProps = {
-            hitSlop
+          const passProps: PassProps = {
+            hitSlop: HIT_SLOP
           }
           if (IOS) {
             passProps.onPress = () => onPress(index)
@@ -124,85 +110,9 @@ const TouchScroll = memo(
       </Flex>
     )
   },
-  defaultProps,
-  ({ list, ...other }) => ({
+  DEFAULT_PROPS,
+  ({ list, ...other }: { list: any[] }) => ({
     list: list.length,
     ...other
   })
 )
-
-export default obc(({ onPress }, { $ }) => {
-  rerender('Topic.TouchScroll')
-
-  const { scrollDirection } = $.setting
-  const { list } = $.comments
-  if (
-    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('隐藏') ||
-    !list.length
-  ) {
-    return null
-  }
-
-  const { _time: readedTime } = $.readed
-  return (
-    <TouchScroll
-      styles={memoStyles()}
-      list={list}
-      readedTime={readedTime}
-      scrollDirection={scrollDirection}
-      reverse={$.state.reverse}
-      isWebLogin={$.isWebLogin}
-      onPress={onPress}
-    />
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  containerRight: {
-    position: 'absolute',
-    top: _.headerHeight,
-    right: 0,
-    bottom: 40,
-    width: 16 * _.ratio,
-    backgroundColor: _.colorPlain
-  },
-  containerLeft: {
-    position: 'absolute',
-    top: _.headerHeight,
-    left: 0,
-    bottom: 40,
-    width: 16 * _.ratio,
-    backgroundColor: _.colorPlain
-  },
-  containerBottom: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 40,
-    width: '100%',
-    height: 24 * _.ratio,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-  },
-  notLogin: {
-    bottom: 0,
-    height: 32 * _.ratio,
-    paddingBottom: 8
-  },
-  itemVertical: {
-    width: 16 * _.ratio,
-    height: '100%'
-  },
-  itemHorizontal: {
-    width: '100%',
-    height: '100%'
-  },
-  itemNew: {
-    backgroundColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
-  },
-  itemText: {
-    minHeight: 24 * _.ratio
-  },
-  text: {
-    width: '100%'
-  }
-}))

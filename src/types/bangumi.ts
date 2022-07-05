@@ -4,20 +4,20 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 06:22:55
+ * @Last Modified time: 2022-07-05 15:51:55
  */
 
 /** 任意 ID */
 export type Id = number | string
 
 /** 条目 ID */
-export type SubjectId = Id
+export type SubjectId = number | string
 
 /** 章节 ID */
-export type EpId = Id
+export type EpId = number | string
 
 /** 用户 ID */
-export type UserId = Id
+export type UserId = number | string
 
 /** 真实人物 ID */
 export type PersonId = `person/${Id}`
@@ -77,28 +77,28 @@ export type CoverGroup<S extends 'l' | 's' = 's'> =
 export type CoverPhoto<S extends 'g' = 'g'> = `${UrlStatic}/photo/${S}/${string}.jpg`
 
 /** 图片结构 */
-export type Images = Partial<{
+export type Images = {
   large: Cover<'l'>
   common: Cover<'c'>
   medium: Cover<'m'>
   small: Cover<'s'>
   grid: Cover<'g'>
-}>
+}
 
 /** 用户头像图片结构 */
-export type ImagesAvatar = Partial<{
+export type ImagesAvatar = {
   large?: Avatar<'l'>
   medium: Avatar<'m'>
   small: Avatar<'s'>
-}>
+}
 
 /** 角色图片结构 */
-export type ImagesCrt = Partial<{
+export type ImagesCrt = {
   large: CoverCrt<'l'>
   medium: CoverCrt<'m'>
   small: CoverCrt<'s'>
   grid: CoverCrt<'g'>
-}>
+}
 
 /** 收藏数 */
 export type Collection = Record<
@@ -107,11 +107,11 @@ export type Collection = Record<
 >
 
 /** 评分 */
-export type Rating = Partial<{
+export type Rating = {
   total: number
   score: number
   count: Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10, number>
-}>
+}
 
 /** HTML 结构文字 */
 export type HTMLText = string

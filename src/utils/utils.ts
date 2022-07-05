@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 10:31:38
+ * @Last Modified time: 2022-07-04 15:32:49
  */
 import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -553,4 +553,9 @@ export function similar(s: string, t: string, f?: number) {
   }
   const res = 1 - d[n][m] / l
   return res.toFixed(f)
+}
+
+export function factory<T>(type: { new (): T }): T {
+  const instance = new type()
+  return instance
 }

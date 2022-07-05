@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:23:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 17:34:46
+ * @Last Modified time: 2022-07-05 22:10:14
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
 import { EXCLUDE_STATE } from './ds'
-import { Params } from './types'
+import { EpsData, Params } from './types'
+import { Sites } from '@types'
 
 export default class State extends Store {
   params: Params
@@ -34,19 +35,25 @@ export default class State extends Store {
 
       /** 动画类型 */
       type: ''
+    } as {
+      sites: {
+        site: Sites
+        id: string
+      }[]
+      type: string
     },
 
     /** 播放源 */
     epsData: {
       _loaded: false
-    },
+    } as EpsData,
 
     /** 缩略图 */
     epsThumbs: [],
 
     /** 缩略图请求 header */
     epsThumbsHeader: {} as {
-      Referer?: any
+      Referer?: string
     },
 
     /** 视频 */

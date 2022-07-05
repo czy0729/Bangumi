@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 04:39:41
+ * @Last Modified time: 2022-07-05 23:05:37
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -161,12 +161,12 @@ export const GITHUB_ADVANCE =
 /** 占位底图 */
 export const IMG_EMPTY = {
   uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQMAAAC6caSPAAAAA1BMVEX///+nxBvIAAAAKklEQVR42u3BgQAAAADDoPtTH2AK1QAAAAAAAAAAAAAAAAAAAAAAAACAOE+wAAFrRnPdAAAAAElFTkSuQmCC'
-}
+} as const
 
 /** 占位底图 (黑) */
 export const IMG_EMPTY_DARK = {
   uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQMAAAC6caSPAAAAA1BMVEU+PkC+lq+tAAAAKklEQVR42u3BgQAAAADDoPtTH2AK1QAAAAAAAAAAAAAAAAAAAAAAAACAOE+wAAFrRnPdAAAAAElFTkSuQmCC'
-}
+} as const
 
 /** 空头像 */
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
@@ -272,7 +272,7 @@ export const DATA_AIRTIME = [
   '1982',
   '1981',
   '1980'
-]
+] as const
 
 /** 月份数组 */
 export const DATA_MONTH = [
@@ -289,7 +289,7 @@ export const DATA_MONTH = [
   '10',
   '11',
   '12'
-]
+] as const
 
 /** 索引年数组 */
 export const DATA_BROWSER_AIRTIME = [
@@ -369,7 +369,7 @@ export const DATA_BROWSER_AIRTIME = [
   '1951',
   '1950',
   '1949'
-]
+] as const
 
 /** 索引时间月数组 */
 export const DATA_BROWSER_MONTH = [
@@ -385,7 +385,7 @@ export const DATA_BROWSER_MONTH = [
   '10',
   '11',
   '12'
-]
+] as const
 
 /** 字母表数组 */
 export const DATA_ALPHABET = [
@@ -415,7 +415,7 @@ export const DATA_ALPHABET = [
   'X',
   'Y',
   'Z'
-]
+] as const
 
 /** 1亿 */
 export const B = 100000000
@@ -424,7 +424,7 @@ export const B = 100000000
 export const M = 10000
 
 /** 允许显示的源头 */
-export const SITES = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
+export const SITES = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku'] as const
 
 /** 所有源头 */
 export const SITES_DS = [
@@ -439,7 +439,7 @@ export const SITES_DS = [
   'mgtv',
   'nicovideo',
   'netflix'
-]
+] as const
 
 /** [待废弃] 制造 [已收藏] 前面的占位 */
 export const COLLECTION_INDENT = PAD ? '　　    ' : '　　   '

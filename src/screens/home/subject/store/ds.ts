@@ -67,4 +67,4 @@ export const SORT_RELATION_DESC = {
   游戏: 40,
   三次元: 30,
   其他: -10
-}
+} as const

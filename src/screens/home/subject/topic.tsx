@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 18:12:44
+ * @Last Modified time: 2022-07-04 15:47:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { memo, obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import IconTopic from './icon/topic'
 import IconHidden from './icon/hidden'
+import { Ctx } from './types'
 
 const defaultProps = {
   navigation: {},
@@ -74,7 +75,7 @@ const Topic = memo(
   defaultProps
 )
 
-export default obc((props, { $, navigation }) => {
+export default obc((props, { $, navigation }: Ctx) => {
   global.rerender('Subject.Topic')
 
   const { showTopic } = systemStore.setting

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 06:56:23
+ * @Last Modified time: 2022-07-05 23:00:09
  */
 declare namespace global {
   /** 是否开发模式 */

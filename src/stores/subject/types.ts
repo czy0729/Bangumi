@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-27 13:57:51
+ * @Last Modified time: 2022-07-05 21:32:33
  */
-import { SubjectType, SubjectTypeCn, SubjectTypeValue } from '@constants/model/types'
+import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
   AnyObject,
   Avatar,
@@ -18,6 +18,7 @@ import {
   ImagesAvatar,
   ImagesCrt,
   ListEmpty,
+  Loaded,
   Override,
   Rating as RatingType,
   SubjectId,
@@ -115,6 +116,22 @@ type Staff = {
   url: UrlMono
 }
 
+type Ep = {
+  id: Id
+  url: UrlEp
+
+  /** 章节类型 0: TV 1: SP */
+  type: 0 | 1
+  sort: number
+  name: string
+  name_cn: string
+  duration: string
+  airdate: string
+  comment: number
+  desc: string
+  status: 'Air' | 'NA'
+}
+
 /** 条目 */
 export type Subject = DeepPartial<{
   air_date: string
@@ -122,7 +139,7 @@ export type Subject = DeepPartial<{
   blog: Blog[]
   collection: Collection
   crt: Crt[]
-  eps: any[]
+  eps: Ep[]
   id: SubjectId
   images: Images
   name: string
@@ -134,7 +151,7 @@ export type Subject = DeepPartial<{
   topic: Topic[]
   type: SubjectTypeValue
   url: UrlSubject
-  _loaded: number
+  _loaded: Loaded
 }>
 
 /** 条目 (HTML) */
@@ -151,7 +168,7 @@ export type SubjectFormHTML = DeepPartial<{
     id: Id
     image: Cover<'m'>
     title: string
-    type: SubjectTypeCn
+    type: string
     url: UrlSubject
   }[]
   friend: {
@@ -197,7 +214,7 @@ export type SubjectFormHTML = DeepPartial<{
   }[]
   lock: string
   formhash: string
-  _loaded: number
+  _loaded: Loaded
 }>
 
 /** 条目 (CDN) */
@@ -214,19 +231,7 @@ export type SubjectFormCDN = DeepPartial<{
     name: string
     count: string
   }[]
-  eps: {
-    id: Id
-    url: UrlEp
-    type: any
-    sort: number
-    name: string
-    name_cn: string
-    duration: string
-    airdate: string
-    comment: number
-    desc: string
-    status: string
-  }[]
+  eps: Ep[]
   crt: {
     id: Id
     image: CoverCrt<'g'>
@@ -243,7 +248,7 @@ export type SubjectFormCDN = DeepPartial<{
     id: Id
     image: Cover<'m'>
     title: string
-    type: SubjectTypeCn
+    type: string
     url: UrlSubject
   }[]
   disc: {
@@ -264,6 +269,7 @@ export type SubjectFormCDN = DeepPartial<{
     image: Cover<'m'>
   }[]
   lock: string
+  _loaded: Loaded
 }>
 
 /** 包含条目的目录 */
@@ -289,6 +295,7 @@ type SubjectCommentsAttrs = {
   userSign: string
   replySub: string
   message: string
+  star: string | number
 }
 
 /** 回复项 */
@@ -358,7 +365,7 @@ export type Mono = DeepPartial<{
 
   collectUrl: `${string}?gh=${string}`
   eraseCollectUrl: `${string}?gh=${string}`
-  _loaded: number
+  _loaded: Loaded
 }>
 
 /** 角色回复 */
@@ -424,25 +431,4 @@ export type Wiki = DeepPartial<{
     userId: UserId
     userName: string
   }[]
-}>
-
-/** 自定义源头数据 */
-export type Origin = DeepPartial<{
-  base: Record<
-    string,
-    {
-      active: boolean
-    }
-  >
-  custom: Record<
-    'anime' | 'hanime' | 'manga' | 'wenku' | 'music' | 'game' | 'real',
-    {
-      id: string
-      uuid: string
-      name: string
-      url: string
-      sort: any
-      active: number
-    }
-  >
 }>

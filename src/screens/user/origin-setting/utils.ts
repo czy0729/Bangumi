@@ -9,25 +9,34 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 16:49:55
+ * @Last Modified time: 2022-07-05 20:02:51
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
 import { s2t } from '@utils/thirdParty/cn-char'
 import {
   SITE_AGEFANS,
-  // SITE_XUNBO,
   SITE_WNACG,
   SITE_MANGABZ,
   SITE_MANHUA1234,
   SITE_WK8,
   SITE_77MH
-  // SITE_RRYS
-} from '@constants/site'
-import { SubjectId } from '@types'
+} from '@constants'
+import { Origin, SubjectId } from '@types'
+
+type Types = 'anime' | 'hanime' | 'manga' | 'wenku' | 'music' | 'game' | 'real'
+
+export type OriginItem = {
+  id: string
+  name: string
+  url: string
+  sort: number
+  active: number
+  desc?: string
+}
 
 /** 获取APP自维护设置数据 */
-export function getBaseOriginConfig() {
+export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
   return {
     anime: [
       {
@@ -201,22 +210,19 @@ export function getBaseOriginConfig() {
   }
 }
 
-/**
- * 获取设置数据
- */
+/** 获取设置数据 */
+export function getOriginConfig(userOriginSetting: Origin): Record<Types, OriginItem>
 export function getOriginConfig(
-  userOriginSetting: {
-    base?: any
-    custom?: any
-  } = {},
-  pickType
-) {
+  userOriginSetting: Origin,
+  pickType: Types
+): OriginItem[]
+export function getOriginConfig(userOriginSetting: Origin, pickType?: Types): unknown {
   const { base = {}, custom = {} } = toJS(userOriginSetting)
   const mergeConfig = getBaseOriginConfig()
 
   // 合并用户自定义和APP自维护数据
-  Object.keys(mergeConfig).forEach(type => {
-    if (pickType && pickType !== type) return
+  Object.keys(mergeConfig).forEach((type: Types) => {
+    if (typeof pickType !== 'undefined' && pickType !== type) return
 
     const self = mergeConfig[type]
 
@@ -226,13 +232,14 @@ export function getOriginConfig(
         // 只合并 sort 和 active
         const customBaseItem = base[item.id]
         if (customBaseItem.sort !== undefined) item.sort = customBaseItem.sort
+        // @ts-ignore
         if (customBaseItem.active !== undefined) item.active = customBaseItem.active
       }
     })
 
     // 把用户自定义的推进对应type数组里
     if (Array.isArray(custom?.[type])) {
-      custom[type].forEach(item => {
+      custom[type].forEach((item: OriginItem) => {
         self.push(item)
       })
     }
@@ -243,7 +250,9 @@ export function getOriginConfig(
       .sort((a, b) => desc(a.active, b.active))
   })
 
-  return pickType ? mergeConfig[pickType] : mergeConfig
+  if (typeof pickType !== 'undefined' && pickType) return mergeConfig[pickType]
+
+  return mergeConfig
 }
 
 export function replaceOriginUrl(

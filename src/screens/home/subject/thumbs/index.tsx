@@ -15,6 +15,7 @@ import IconHidden from '../icon/hidden'
 import Video from './video'
 import Preview from './preview'
 import { THUMB_WIDTH } from './ds'
+import { Ctx } from '../types'
 
 class Thumbs extends React.Component {
   state = {
@@ -31,7 +32,7 @@ class Thumbs extends React.Component {
   }
 
   get data() {
-    const { $ } = this.context
+    const { $ } = this.context as Ctx
     const { epsThumbs } = $.state
     const { scrolled } = this.state
     if (scrolled) return epsThumbs
@@ -43,7 +44,7 @@ class Thumbs extends React.Component {
   }
 
   get videos() {
-    const { $ } = this.context
+    const { $ } = this.context as Ctx
     const { videos } = $.state
     return videos
   }
@@ -54,7 +55,7 @@ class Thumbs extends React.Component {
     const { showThumbs } = systemStore.setting
     if (showThumbs === -1) return null
 
-    const { $ } = this.context
+    const { $ } = this.context as Ctx
     const { epsThumbs, epsThumbsHeader, videos } = $.state
     if (!epsThumbs.length && !videos.length) return null
 

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 02:38:57
+ * @Last Modified time: 2022-07-04 12:57:46
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -129,6 +129,9 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
   /** 粉 (边框) */
   readonly colorMainBorder = _.colorMainBorder
+
+  /** 粉 (最浅边框) */
+  readonly colorMainLightBorder = _.colorMainLightBorder
 
   /** 蓝 (边框) */
   readonly colorPrimaryBorder = _.colorPrimaryBorder

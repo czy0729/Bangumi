@@ -2,40 +2,38 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-23 04:40:05
+ * @Last Modified time: 2022-07-05 22:05:06
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
-import { getTimestamp } from '@utils'
-import { HTMLDecode, HTMLTrim } from '@utils/html'
-import { xhrCustom } from '@utils/fetch'
-import { getBangumiUrl, unzipBangumiData } from '@utils/app'
 import {
-  search,
-  matchGame,
-  getVideo,
-  matchMovie,
+  HTMLDecode,
+  HTMLTrim,
+  getBangumiUrl,
+  getTimestamp,
+  unzipBangumiData
+} from '@utils'
+import { xhrCustom } from '@utils/fetch'
+import {
   getPreview,
-  getTrailer
+  getTrailer,
+  getVideo,
+  matchGame,
+  matchMovie,
+  search
 } from '@utils/douban'
 import { get, update } from '@utils/kv'
-import { SITES } from '@constants'
-import { CDN_EPS } from '@constants/cdn'
+import { CDN_EPS, SITES } from '@constants'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
 
 export default class Fetch extends Computed {
-  /**
-   * 条目信息
-   */
+  /** 条目信息 */
   fetchSubject = () => {
     return subjectStore.fetchSubject(this.subjectId)
   }
 
-  /**
-   * 网页的条目信息,
-   * 书籍只有网页端有数据源, 需要初始值
-   */
+  /** 网页的条目信息 (书籍只有网页端有数据源, 需要初始值) */
   fetchSubjectFormHTML = async () => {
     const res = subjectStore.fetchSubjectFormHTML(this.subjectId)
     const data = await res
@@ -49,9 +47,7 @@ export default class Fetch extends Computed {
     return res
   }
 
-  /**
-   * 私有CDN的条目信息
-   */
+  /** 私有 CDN 的条目信息 */
   fetchSubjectFormCDN = async () => {
     const { setting } = systemStore
     const { _loaded } = this.subjectFormHTML
@@ -61,10 +57,6 @@ export default class Fetch extends Computed {
 
   /** 装载第三方数据 */
   fetchThirdParty = async (data: { name: string }) => {
-    // 先检测云端数据
-    const needUpdate = await this.getThirdParty()
-    if (!needUpdate) return
-
     // 若匹配到 bangumi-data 数据, 使用其中的 sites 数据进行对应平台 api 查找缩略图
     const item = bangumiData.find(
       item =>
@@ -72,15 +64,23 @@ export default class Fetch extends Computed {
         item.j === HTMLDecode(data.name) ||
         item.c === HTMLDecode(data.name)
     )
+    let _item
+
     if (item) {
-      const _item = unzipBangumiData(item)
+      _item = unzipBangumiData(item)
       this.setState({
         bangumiInfo: {
           sites: _item.sites,
           type: _item.type
         }
       })
+    }
 
+    // 先检测云端数据
+    const needUpdate = await this.getThirdParty()
+    if (!needUpdate) return
+
+    if (item) {
       setTimeout(() => {
         this.fetchEpsThumbs(_item)
       }, 0)
@@ -94,17 +94,13 @@ export default class Fetch extends Computed {
     }
   }
 
-  /**
-   * 用户收藏信息
-   */
+  /** 用户收藏信息 */
   fetchCollection = () => {
     return collectionStore.fetchCollection(this.subjectId)
   }
 
-  /**
-   * 条目留言
-   */
-  fetchSubjectComments = (refresh, reverse?) => {
+  /** 条目留言 */
+  fetchSubjectComments = (refresh?: boolean, reverse?: boolean) => {
     return subjectStore.fetchSubjectComments(
       {
         subjectId: this.subjectId
@@ -114,9 +110,7 @@ export default class Fetch extends Computed {
     )
   }
 
-  /**
-   * 获取单集播放源
-   */
+  /** 获取单集播放源 */
   fetchEpsData = async () => {
     if (this.type === '动画') {
       try {
@@ -145,9 +139,7 @@ export default class Fetch extends Computed {
     }
   }
 
-  /**
-   * staff数据
-   */
+  /** staff 数据 */
   fetchPersons = () => {
     return monoStore.fetchPersons({
       subjectId: this.subjectId

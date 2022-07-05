@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:03:11
+ * @Last Modified time: 2022-07-05 20:15:08
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { VERSION_GAME, CDN_STATIC_GAME, getOTA } from '@constants/cdn'

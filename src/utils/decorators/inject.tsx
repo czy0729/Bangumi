@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 15:29:49
+ * @Last Modified time: 2022-07-04 15:26:22
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
 import { DEV } from '@/config'
 import { contextTypes } from '@constants/constants'
-import { Navigation, StoreType, StoreInstance } from '@types'
+import { Navigation } from '@types'
 import { urlStringify } from '../index'
 import observer from './observer'
 
@@ -35,7 +35,7 @@ type State = {
  * @param {*} param { cache: 是否缓存 }
  */
 const Inject =
-  (Store: StoreType, { cache = true }: Params = {}) =>
+  (Store, { cache = true }: Params = {}) =>
   ComposedComponent =>
     observer(
       class InjectComponent extends React.Component<Props, State> {
@@ -50,25 +50,13 @@ const Inject =
           super(props)
 
           const { route } = props
-          const params = {}
-          const paramsWithoutPlaceholder = {}
-          Object.keys(route.params || {}).forEach(key => {
-            params[key] = route.params[key]
-
-            // 后期对页面跳转传递数据进行了优化, 排除params里面_开头的key, 如_name, _image
-            if (key.indexOf('_') !== 0)
-              paramsWithoutPlaceholder[key] = route.params[key]
-          })
-
-          // 初始化页面Store, storeKey约定为路由名字+参数(排除_开头的key)的序列化
-          const screenKey = `${route.name}?${urlStringify(paramsWithoutPlaceholder)}`
-          this.$ = Stores.get(screenKey)
+          const key = getScreenKey(route)
+          this.$ = Stores.get(key)
           if (!this.$ || DEV) {
-            this.$ = new Store() // 新建store
-            this.$.params = params // 把navigation的页面参数插入store方便使用
+            this.$ = new Store()
+            this.$.params = route.params || {} // 把navigation的页面参数插入store方便使用
           }
-
-          if (cache) Stores.add(screenKey, this.$)
+          if (cache) Stores.add(key, this.$)
         }
 
         state = {
@@ -76,7 +64,7 @@ const Inject =
         }
 
         /** 页面独立状态机引用 */
-        $?: StoreInstance
+        $
 
         getChildContext() {
           const { navigation } = this.props
@@ -119,3 +107,14 @@ const Inject =
     )
 
 export default Inject
+
+function getScreenKey(route) {
+  const params = {}
+
+  // 后期对页面跳转传递数据进行了优化, 排除 params 里面 _ 开头的 key, 如 _name, _image
+  Object.keys(route.params || {}).forEach(key => {
+    if (key.indexOf('_') !== 0) params[key] = route.params[key]
+  })
+
+  return `${route.name}?${urlStringify(params)}`
+}

@@ -4,14 +4,15 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 13:45:57
+ * @Last Modified time: 2022-07-05 19:45:56
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { EventKeys } from '@constants/events'
-import { Override } from './utils'
+import { DeepPartial, Override } from './utils'
+import { SITES } from '@constants'
 
 /** 图标 (iOS Style) */
 export type IoniconsIconsNames = keyof typeof IoniconsIcons
@@ -85,3 +86,31 @@ export type StoreType = any
 
 /** @todo */
 export type StoreInstance = any
+
+/** 允许显示的源头 */
+export type Sites = typeof SITES[number]
+
+/** data._loaded */
+export type Loaded = false | number
+
+/** 自定义源头数据 */
+export type Origin = DeepPartial<{
+  base: Record<
+    string,
+    {
+      active: boolean
+      sort: any
+    }
+  >
+  custom: Record<
+    'anime' | 'hanime' | 'manga' | 'wenku' | 'music' | 'game' | 'real',
+    {
+      id: string
+      uuid: string
+      name: string
+      url: string
+      sort: any
+      active: number
+    }[]
+  >
+}>

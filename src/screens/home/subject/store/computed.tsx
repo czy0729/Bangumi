@@ -1,26 +1,32 @@
-// @ts-nocheck
 /*
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:57:30
+ * @Last Modified time: 2022-07-05 23:04:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { computed } from 'mobx'
 import {
   _,
-  collectionStore,
   calendarStore,
+  collectionStore,
   discoveryStore,
+  monoStore,
   subjectStore,
   systemStore,
   userStore,
-  usersStore,
-  monoStore
+  usersStore
 } from '@stores'
-import { getTimestamp, asc, desc, HTMLDecode } from '@utils'
-import { findSubjectCn, getOnAir, x18 } from '@utils/app'
+import {
+  HTMLDecode,
+  asc,
+  desc,
+  findSubjectCn,
+  getOnAir,
+  getTimestamp,
+  x18
+} from '@utils'
 import { find as findAnime } from '@utils/subject/anime'
 import { find as findManga } from '@utils/subject/manga'
 import { find as findWenku } from '@utils/subject/wenku'
@@ -36,7 +42,8 @@ import {
   URL_DEFAULT_AVATAR,
   getOTA
 } from '@constants'
-import { getOriginConfig } from '../../../user/origin-setting/utils'
+import { Id, Sites, SubjectTypeCn } from '@types'
+import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
 import { NAMESPACE, INIT_RATING, SORT_RELATION_DESC } from './ds'
 
@@ -49,7 +56,7 @@ export default class Computed extends State {
 
   /** 页面唯一命名空间 */
   @computed get namespace() {
-    return `${NAMESPACE}|${this.subjectId}`
+    return `${NAMESPACE}|${this.subjectId}` as const
   }
 
   /** 是否敏感条目 */
@@ -83,9 +90,9 @@ export default class Computed extends State {
     return undefined
   }
 
-  /** bgm网址 */
+  /** bgm 网址 */
   @computed get url() {
-    return `${HOST}/subject/${this.subjectId}`
+    return `${HOST}/subject/${this.subjectId}` as const
   }
 
   /** 是否登录 */
@@ -114,19 +121,18 @@ export default class Computed extends State {
   }
 
   /**
-   * 条目留言
-   * 筛选逻辑
+   * 条目留言, 筛选逻辑
    *  - 主动设置屏蔽默认头像用户相关信息
    *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
    */
   @computed get subjectComments() {
     const subjectComments = subjectStore.subjectComments(this.subjectId)
     if (!this.showComment || this.showComment === -1) {
-      const { pageTotal } = subjectComments.pagination || 1
+      const { pageTotal } = subjectComments.pagination
       return {
         list: [],
         pagination: {
-          page: pageTotal,
+          page: pageTotal || 1,
           pageTotal
         },
         _reverse: subjectComments._reverse,
@@ -175,9 +181,7 @@ export default class Computed extends State {
     return userStore.userProgress(this.subjectId)
   }
 
-  /**
-   * 条目类型中文
-   */
+  /** 条目类型中文 */
   @computed get type() {
     const { _loaded, type } = this.subject
     if (!_loaded) {
@@ -185,12 +189,10 @@ export default class Computed extends State {
       return _type
     }
 
-    return MODEL_SUBJECT_TYPE.getTitle(type)
+    return MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   }
 
-  /**
-   * Ep偏移
-   */
+  /** @deprecated Ep 偏移 */
   @computed get ningMoeEpOffset() {
     const { eps = [] } = this.subject
     return (
@@ -200,25 +202,20 @@ export default class Computed extends State {
     )
   }
 
-  /**
-   * 章节正版播放源
-   */
+  /** 章节正版播放源 */
   @computed get onlinePlayActionSheetData() {
     const { epsData } = this.state
-    const data = []
-    SITES.forEach(item => {
+    const data: (Sites | '取消')[] = []
+    SITES.forEach((item: Sites) => {
       if (epsData[item] && Object.keys(epsData[item]).length) {
         data.push(item)
       }
     })
     data.push('取消')
-
     return data
   }
 
-  /**
-   * 条目动作
-   */
+  /** 条目动作 */
   @computed get action() {
     switch (this.type) {
       case '音乐':
@@ -230,36 +227,28 @@ export default class Computed extends State {
     }
   }
 
-  /**
-   * 是否限制用户(防审核)
-   */
+  /** 是否限制用户 (防审核) */
   @computed get isLimit() {
     return userStore.isLimit
   }
 
-  /**
-   * 是否网站用户评分
-   */
+  /** 是否网站用户评分 */
   @computed get hideScore() {
     return systemStore.setting.hideScore
   }
 
-  /**
-   * 用户自定义源头
-   */
+  /** 用户自定义源头 */
   @computed get userOrigins() {
     return getOriginConfig(subjectStore.origin, 'anime')
   }
 
-  /**
-   * 动画和三次元源头
-   */
+  /** 动画和三次元源头 */
   @computed get onlineOrigins() {
-    const data = []
+    const data: (OriginItem | Sites)[] = []
 
     if (['动画'].includes(this.type)) {
       if (systemStore?.ota?.X18 && this.isLogin) {
-        let flagX18
+        let flagX18: boolean
         if (this.x18) flagX18 = true
         if (!flagX18) {
           flagX18 = this.tags.some(item => item.name.includes('里番'))
@@ -304,31 +293,23 @@ export default class Computed extends State {
     return data
   }
 
-  /**
-   * 漫画源头
-   */
+  /** 漫画源头 */
   @computed get onlineComicOrigins() {
     const type = this.titleLabel.includes('小说') ? 'wenku' : 'manga'
     return getOriginConfig(subjectStore.origin, type).filter(item => item.active)
   }
 
-  /**
-   * 音乐源头
-   */
+  /** 音乐源头 */
   @computed get onlineDiscOrigins() {
     return getOriginConfig(subjectStore.origin, 'music').filter(item => item.active)
   }
 
-  /**
-   * 游戏源头
-   */
+  /** 游戏源头 */
   @computed get onlineGameOrigins() {
     return getOriginConfig(subjectStore.origin, 'game').filter(item => item.active)
   }
 
-  /**
-   * 是否PS游戏, 跳转psnine查看奖杯
-   */
+  /** 是否PS游戏, 跳转psnine查看奖杯 */
   @computed get isPS() {
     return (
       this.type === '游戏' &&
@@ -338,38 +319,29 @@ export default class Computed extends State {
     )
   }
 
-  /**
-   * 第三方动画信息
-   */
+  /** 第三方动画信息 */
   @computed get animeInfo() {
     if (this.type !== '动画') return null
-
     return findAnime(this.subjectId)
   }
 
-  /**
-   * 第三方游戏信息
-   */
+  /** 第三方游戏信息 */
   @computed get gameInfo() {
     if (this.type !== '游戏') return null
-
     return findGame(this.subjectId)
   }
 
-  /**
-   * Hentai条目第三方信息
-   */
+  /** Hentai 条目第三方信息 */
   @computed get hentaiInfo() {
     if (this.type !== '动画' && !this.x18) return null
-
     return findHentai(this.subjectId)
   }
 
-  /**
-   * 漫画或文库是否有源头
-   */
-  _manga = null
-  _wenku = null
+  _manga: ReturnType<typeof findManga> = null
+
+  _wenku: ReturnType<typeof findWenku> = null
+
+  /** 漫画或文库是否有源头 */
   @computed get source() {
     if (this.type !== '书籍') return false
 
@@ -388,25 +360,18 @@ export default class Computed extends State {
     }
   }
 
-  /**
-   * 筛选章节构造数据, 每100章节一个选项
-   */
+  /** 筛选章节构造数据, 每 100 章节一个选项 */
   @computed get filterEpsData() {
     const data = ['从 1 起']
-    if (this.eps.length < 100) {
-      return data
-    }
+    if (this.eps.length < 100) return data
 
-    const count = parseInt(this.eps.length / 100)
-    for (let i = 1; i <= count; i += 1) {
-      data.push(`从 ${i * 100} 开始`)
-    }
+    const count = Math.floor(this.eps.length / 100)
+    for (let i = 1; i <= count; i += 1) data.push(`从 ${i * 100} 开始`)
+
     return data
   }
 
-  /**
-   * 全站人员状态数字
-   */
+  /** 全站人员状态数字 */
   @computed get status() {
     const {
       wish = 0,
@@ -415,7 +380,10 @@ export default class Computed extends State {
       on_hold: onHold = 0,
       dropped = 0
     } = this.subjectCollection
-    const status = []
+    const status: {
+      status: '' | 'wish' | 'collect' | 'doing' | 'onHold' | 'dropped'
+      text: string
+    }[] = []
     if (wish) {
       status.push({
         status: 'wish',
@@ -457,9 +425,7 @@ export default class Computed extends State {
     return status
   }
 
-  /**
-   * 上映时间 (用于标识未上映)
-   */
+  /** 上映时间 (用于标识未上映) */
   @computed get release() {
     return (
       this.info.match(
@@ -468,9 +434,7 @@ export default class Computed extends State {
     )
   }
 
-  /**
-   * 发布时间 (用于显示在 title label)
-   */
+  /** 发布时间 (用于显示在 title label) */
   @computed get year() {
     return (
       (
@@ -481,17 +445,12 @@ export default class Computed extends State {
     )
   }
 
-  /**
-   * 封面图宽度
-   */
+  /** 封面图宽度 */
   @computed get imageWidth() {
     return IMG_WIDTH_LG * (_.isPad ? 1.4 : 1.2) * (this.type === '音乐' ? 1.2 : 1)
   }
 
-  /**
-   * 封面图高度
-   * 音乐类型条目为正方形
-   */
+  /** 封面图高度, 音乐类型条目为正方形 */
   @computed get imageHeight() {
     return this.type === '音乐'
       ? this.imageWidth
@@ -499,9 +458,7 @@ export default class Computed extends State {
   }
 
   // -------------------- cdn fallback --------------------
-  /**
-   * 封面占位
-   */
+  /** 封面占位 */
   @computed get coverPlaceholder() {
     const { _image, _imageForce } = this.params
     return (
@@ -513,17 +470,13 @@ export default class Computed extends State {
     )
   }
 
-  /**
-   * 日文名
-   */
+  /** 日文名 */
   @computed get jp() {
     const { _jp } = this.params
     return HTMLDecode(this.subject.name || _jp || this.subjectFormCDN.name)
   }
 
-  /**
-   * 中文名
-   */
+  /** 中文名 */
   @computed get cn() {
     const { _cn } = this.params
     return HTMLDecode(
@@ -531,17 +484,13 @@ export default class Computed extends State {
     )
   }
 
-  /**
-   * 条目类型(Api值)
-   */
+  /** 条目类型 (Api值) */
   @computed get subjectType() {
     if (this.subject._loaded) return this.subject.type
     return this.subjectFormCDN.type
   }
 
-  /**
-   * 网站用户评分
-   */
+  /** 网站用户评分 */
   @computed get rating() {
     if (this.subject._loaded) {
       return {
@@ -560,25 +509,19 @@ export default class Computed extends State {
     return INIT_RATING
   }
 
-  /**
-   * 是否锁定条目
-   */
+  /** 是否锁定条目 */
   @computed get lock() {
     if (this.subjectFormHTML._loaded) return this.subjectFormHTML.lock
     return this.subjectFormCDN.lock
   }
 
-  /**
-   * 各状态评分人数
-   */
+  /** 各状态评分人数 */
   @computed get subjectCollection() {
     if (this.subject._loaded) return this.subject.collection || {}
     return this.subjectFormCDN.collection || {}
   }
 
-  /**
-   * 章节数据
-   */
+  /** 章节数据 */
   @computed get eps() {
     if (this.subject._loaded) {
       // type = 1 SP的排后面
@@ -588,9 +531,7 @@ export default class Computed extends State {
     return this.subjectFormCDN.eps || []
   }
 
-  /**
-   * 经过计算后传递到<Eps>的data
-   */
+  /** 经过计算后传递到 <Eps> 的 data */
   @computed get toEps() {
     const { epsReverse, filterEps } = this.state
 
@@ -602,30 +543,21 @@ export default class Computed extends State {
     return epsReverse ? this.eps.map(item => item).reverse() : this.eps
   }
 
-  /**
-   * 音乐曲目数据
-   */
+  /** 音乐曲目数据 */
   @computed get disc() {
-    if (this.subjectFormHTML._loaded) {
-      return this.subjectFormHTML.disc || []
-    }
+    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.disc || []
     return this.subjectFormCDN.disc || []
   }
 
-  /**
-   * 详情
-   */
+  /** 详情 */
   @computed get summary() {
-    if (this.subject._loaded) {
-      return this.subject.summary
-    }
+    if (this.subject._loaded) return this.subject.summary
+
     const { _summary = '' } = this.params
     return this.subjectFormCDN.summary || _summary
   }
 
-  /**
-   * 标签
-   */
+  /** 标签 */
   @computed get tags() {
     const data =
       (this.subjectFormHTML._loaded
@@ -634,9 +566,7 @@ export default class Computed extends State {
     return data.filter(item => !!item.name).filter((item, index) => index < 20)
   }
 
-  /**
-   * 网页版详情
-   */
+  /** 网页版详情 */
   @computed get info() {
     if (this.subjectFormHTML._loaded) return this.subjectFormHTML.info
     return this.subjectFormCDN.info
@@ -646,9 +576,7 @@ export default class Computed extends State {
   //   return monoStore.characters(this.subjectId)
   // }
 
-  /**
-   * 关联人物
-   */
+  /** 关联人物 */
   @computed get crt() {
     if (this.subject._loaded) {
       // const actorCoverMap = {}
@@ -679,9 +607,7 @@ export default class Computed extends State {
     return this.subjectFormCDN.crt || []
   }
 
-  /**
-   * 制作人员
-   */
+  /** 制作人员 */
   @computed get staff() {
     if (this.subject._loaded) {
       const { staff } = this.subject
@@ -716,11 +642,14 @@ export default class Computed extends State {
     return this.subjectFormCDN.staff || []
   }
 
-  /**
-   * 关联条目
-   */
+  /** 关联条目 */
   @computed get relations() {
-    let data = []
+    let data: {
+      id: any
+      image: any
+      name: any
+      desc: any
+    }[] = []
     if (this.subject._loaded) {
       data = (this.subjectFormHTML.relations || []).map(
         ({ id, image, title, type }) => ({
@@ -744,32 +673,22 @@ export default class Computed extends State {
     )
   }
 
-  /**
-   * 单行本
-   */
+  /** 单行本 */
   @computed get comic() {
-    if (this.subject._loaded) {
-      return this.subjectFormHTML.comic || []
-    }
+    if (this.subject._loaded) return this.subjectFormHTML.comic || []
     return this.subjectFormCDN.comic || []
   }
 
-  /**
-   * 猜你喜欢
-   */
+  /** 猜你喜欢 */
   @computed get like() {
-    if (this.subject._loaded) {
-      return this.subjectFormHTML.like || []
-    }
+    if (this.subject._loaded) return this.subjectFormHTML.like || []
     return this.subjectFormCDN.like || []
   }
 
-  /**
-   * 条目类别
-   */
+  /** 条目类别 */
   @computed get titleLabel() {
     // bangumiInfo 只有动画的数据
-    const label = MODEL_SUBJECT_TYPE.getTitle(this.subjectType)
+    const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(this.subjectType)
     if (label === '动画') {
       const { bangumiInfo } = this.state
       const _label =
@@ -785,26 +704,29 @@ export default class Computed extends State {
     return this.subjectFormHTML.type || label || ''
   }
 
-  /**
-   * bilibili放送信息
-   */
-  @computed get bilibiliSite() {
+  /** bilibili 放送信息 */
+  @computed get bilibiliSite(): {
+    site?: Sites
+    id?: string
+  } {
     const { bangumiInfo } = this.state
     return bangumiInfo?.sites?.find(item => item.site === 'bilibili') || {}
   }
 
-  /**
-   * 爱奇艺放送信息
-   */
-  @computed get iqiyiSite() {
+  /** 爱奇艺放送信息 */
+  @computed get iqiyiSite(): {
+    site?: Sites
+    id?: string
+  } {
     const { bangumiInfo } = this.state
     return bangumiInfo?.sites?.find(item => item.site === 'iqiyi') || {}
   }
 
-  /**
-   * 优酷放送信息
-   */
-  @computed get youkuSite() {
+  /** 优酷放送信息 */
+  @computed get youkuSite(): {
+    site?: Sites
+    id?: string
+  } {
     const { bangumiInfo } = this.state
     return bangumiInfo?.sites?.find(item => item.site === 'youku') || {}
   }
@@ -818,29 +740,21 @@ export default class Computed extends State {
     return relations.find(item => item.type === '前传')
   }
 
-  /**
-   * 续集
-   */
+  /** 续集 */
   @computed get subjectAfter() {
     const { relations = [] } = this.subjectFormHTML
     return relations.find(item => item.type === '续集')
   }
 
-  /**
-   * 系列
-   */
+  /** 系列 */
   @computed get subjectSeries() {
     const { relations = [] } = this.subjectFormHTML
     return relations?.[0]?.type === '系列' ? relations[0] : null
   }
 
-  /**
-   * 动画化
-   */
+  /** 动画化 */
   @computed get subjectAnime() {
-    if (!(this.titleLabel || '').includes('系列')) {
-      return null
-    }
+    if (!(this.titleLabel || '').includes('系列')) return null
 
     const { relations = [] } = this.subjectFormHTML
     const find = relations.find(item => item.type === '动画' || item.type === '其他')
@@ -855,51 +769,41 @@ export default class Computed extends State {
     return null
   }
 
-  /**
-   * 高清资源
-   */
+  /** @deprecated 高清资源 */
   @computed get hd() {
     const { HD = [] } = getOTA()
-    if (HD.includes(Number(this.subjectId))) {
-      return this.subjectId
-    }
+
+    // @ts-ignore
+    if (HD.includes(Number(this.subjectId))) return this.subjectId
 
     // 若为单行本则还需要找到系列, 用系列id查询
     if (this.subjectSeries) {
       const { id } = this.subjectSeries
-      if (HD.includes(Number(id))) {
-        return id
-      }
+
+      // @ts-ignore
+      if (HD.includes(Number(id))) return id
     }
 
     return false
   }
 
-  /**
-   * 计算本条目存在在多少个自己创建的目录里面
-   */
+  /** 计算本条目存在在多少个自己创建的目录里面 */
   @computed get catalogs() {
     return usersStore.catalogs()
   }
 
-  /**
-   * 目录详情
-   */
-  catalogDetail(id) {
+  /** 目录详情 */
+  catalogDetail(id: Id) {
     return computed(() => discoveryStore.catalogDetail(id)).get()
   }
 
-  /**
-   * 是否存在在目录中
-   */
+  /** 是否存在在目录中 */
   @computed get catalogIncludes() {
     const { list } = this.catalogs
     let num = 0
     list.forEach(item => {
       const { list } = this.catalogDetail(item.id)
-      if (list.some(i => i.id == this.subjectId)) {
-        num += 1
-      }
+      if (list.some(i => i.id == this.subjectId)) num += 1
     })
 
     return num
