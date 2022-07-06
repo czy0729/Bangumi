@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:32:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:35:28
+ * @Last Modified time: 2022-07-06 03:08:36
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconPS(props, { $ }) {
+function IconPS(props, { $ }: Ctx) {
   if (!$.isPS) return null
 
   return (

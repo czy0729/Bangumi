@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:32:00
+ * @Last Modified time: 2022-07-06 03:05:23
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 
-function IconEp(props, { $, navigation }) {
+function IconEp(props, { $, navigation }: Ctx) {
   const { epsThumbs, epsThumbsHeader, filterEps } = $.state
   return (
     <IconTouchable

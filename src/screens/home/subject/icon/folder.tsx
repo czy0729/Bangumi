@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-05-27 10:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:44:47
+ * @Last Modified time: 2022-07-06 03:05:29
  */
 import React from 'react'
 import { Flex, Text, Heatmap } from '@components'
 import { IconTouchable, FolderManageModal } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconFolder(props, { $ }) {
+function IconFolder(props, { $ }: Ctx) {
   const { folder } = $.state
   const isInclude = !!$.catalogIncludes
   return (

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:59:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 09:35:09
+ * @Last Modified time: 2022-07-06 03:08:46
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconReverse as CompIconReverse } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconReverse(props, { $ }) {
+function IconReverse(props, { $ }: Ctx) {
   const { epsReverse } = $.state
   return (
     <CompIconReverse

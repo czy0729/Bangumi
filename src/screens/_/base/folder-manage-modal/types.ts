@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 05:48:43
+ * @Last Modified time: 2022-07-06 03:06:48
  */
+import { SubjectId } from '@types'
+
 export type Props = {
-  id?: number
+  id?: SubjectId
   defaultExpand?: number
   defaultEditItem?: null | object
   visible?: boolean

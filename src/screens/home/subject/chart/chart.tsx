@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 06:04:19
+ * @Last Modified time: 2022-07-06 23:34:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
-import { memo, obc } from '@utils/decorators'
+import { memo } from '@utils/decorators'
 import { alert } from '@utils/ui'
+import { getHeight, getDeviation, getDispute } from './utils'
 
 const defaultProps = {
   navigation: {},
@@ -20,10 +21,10 @@ const defaultProps = {
   total: 0,
   count: {},
   score: 0,
-  toRating: Function.prototype
+  toRating: () => {}
 }
 
-const Chart = memo(
+export default memo(
   ({ navigation, styles, friend, rating, total, count, score, toRating }) => {
     global.rerender('Subject.Rating.Chart.Main')
 
@@ -137,125 +138,3 @@ const Chart = memo(
   },
   defaultProps
 )
-
-export default obc((props, { $, navigation }) => {
-  global.rerender('Subject.Rating.Chart')
-
-  const { total, count, score } = $.rating
-  return (
-    <Chart
-      navigation={navigation}
-      styles={memoStyles()}
-      friend={$.subjectFormHTML.friend}
-      rating={$.collection.rating}
-      total={total}
-      count={count}
-      score={score}
-      toRating={$.toRating}
-    />
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  total: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 12,
-    right: -4
-  },
-  chart: {
-    marginTop: _.md,
-    marginHorizontal: -4
-  },
-  item: {
-    height: 112 * _.ratio,
-    paddingBottom: _.xs,
-    marginTop: -_.md
-  },
-  itemFill: {
-    position: 'absolute',
-    left: '50%',
-    width: _.device(6, 8),
-    marginLeft: _.device(-3, -4),
-    backgroundColor: _.select(_.colorWait, _._colorSub),
-    borderRadius: _.device(6, 4)
-  },
-  itemFillActive: {
-    backgroundColor: _.colorWarning
-  },
-  count: {
-    position: 'absolute',
-    zIndex: 1,
-    right: 0,
-    left: 0,
-    marginBottom: 4
-  },
-  friend: {
-    paddingLeft: _.xs,
-    marginLeft: -_.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  deviation: {
-    paddingLeft: _.xs,
-    marginRight: -_.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-}))
-
-/**
- * 比例柱子高度
- * @param {*} total
- * @param {*} current
- */
-const min = 0.04
-function getHeight(total, current) {
-  if (!total || !current) return 0
-  let percent = current / total
-  if (percent > 0 && percent < min) percent = min
-  return `${Math.min(percent * 1.44 || min, 0.9) * 100}%`
-}
-
-/**
- * 计算标准差
- * @param {*} total
- * @param {*} count
- * @param {*} score
- */
-function getDeviation(total, count, score) {
-  if (total == 0) return 0
-
-  const scores = Object.values(count).reverse()
-  return calculateSD(scores, score, total)
-}
-
-/**
- * 计算标准差
- * @param {*} scores
- * @param {*} score
- * @param {*} n
- */
-function calculateSD(scores, score, n) {
-  let sd = 0
-  scores.forEach((item, index) => {
-    if (item === 0) return
-    sd += (10 - index - score) * (10 - index - score) * item
-  })
-  return Math.sqrt(sd / n)
-}
-
-/**
- * 计算争议度
- * @param {*} deviation
- */
-function getDispute(deviation) {
-  if (deviation === 0) return '-'
-  if (deviation < 1) return '异口同声'
-  if (deviation < 1.15) return '基本一致'
-  if (deviation < 1.3) return '略有分歧'
-  if (deviation < 1.45) return '莫衷一是'
-  if (deviation < 1.6) return '各执一词'
-  if (deviation < 1.75) return '你死我活'
-  return '厨黑大战'
-}

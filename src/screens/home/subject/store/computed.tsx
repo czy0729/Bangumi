@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 23:04:46
+ * @Last Modified time: 2022-07-06 03:07:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -343,7 +343,7 @@ export default class Computed extends State {
 
   /** 漫画或文库是否有源头 */
   @computed get source() {
-    if (this.type !== '书籍') return false
+    if (this.type !== '书籍') return null
 
     this._manga = findManga(this.subjectId)
     this._wenku = findWenku(this.subjectId)

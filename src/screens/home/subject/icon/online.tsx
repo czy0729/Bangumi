@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 05:54:42
+ * @Last Modified time: 2022-07-06 03:08:19
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
 const ORIGINS_MANAGE = '源头管理'
 
-function IconOnline(props, { $, navigation }) {
+function IconOnline(props, { $, navigation }: Ctx) {
   if ($.isLimit) return null
 
   return (

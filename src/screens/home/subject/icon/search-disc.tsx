@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-08-31 18:58:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:04:56
+ * @Last Modified time: 2022-07-06 03:08:55
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconSearchDisc(props, { $ }) {
+function IconSearchDisc(props, { $ }: Ctx) {
   return (
     <Popover
       style={styles.touch}

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:13:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-13 13:06:15
+ * @Last Modified time: 2022-07-06 03:05:01
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconReverse } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconComment(props, { $ }) {
+function IconComment(props, { $ }: Ctx) {
   const { _reverse } = $.subjectComments
   return (
     <IconReverse

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:21:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-03 21:10:06
+ * @Last Modified time: 2022-07-06 03:05:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,9 @@ import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconEpFilter(props, { $ }) {
+function IconEpFilter(props, { $ }: Ctx) {
   const { filterEps } = $.state
   const showFilter = $.eps.length >= 160 // 32 * 5 = 160
   return (

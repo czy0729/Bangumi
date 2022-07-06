@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-04-06 19:39:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:40:58
+ * @Last Modified time: 2022-07-06 03:10:27
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 import styles from './styles'
 
-function IconTopic(props, { $, navigation }) {
+function IconTopic(props, { $, navigation }: Ctx) {
   const { showTopic } = systemStore.setting
   if (!showTopic) return null
 

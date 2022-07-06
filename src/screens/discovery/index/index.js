@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:07:23
+ * @Last Modified time: 2022-07-06 02:40:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,7 +49,9 @@ const Discovery = ({ isFocused }, { $ }) => {
   })
 }
 
-export default ic(Store, Discovery)
+export default ic(Store, Discovery, {
+  listenIsFocused: true
+})
 
 function keyExtractor(item) {
   return item.type

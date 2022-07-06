@@ -1,9 +1,10 @@
 /*
  * 封装应用主要功能实现的装饰器
+ *
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-04 15:26:22
+ * @Last Modified time: 2022-07-06 02:45:31
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
@@ -14,35 +15,33 @@ import { Navigation } from '@types'
 import { urlStringify } from '../index'
 import observer from './observer'
 
-type Params = {
+type Config = {
   /** 页面 store 是否缓存 */
   cache?: boolean
+
+  /** 页面是否监听聚焦 */
+  listenIsFocused?: boolean
 }
 
-type Props = {
-  /** 路由对象 */
-  navigation: Navigation
-}
-
-type State = {
+type WrapComponentProps = {
   /** 页面是否在最顶 */
   isFocused?: boolean
 }
 
-/**
- * App HOC
- * @param {*} Store 页面状态
- * @param {*} param { cache: 是否缓存 }
- */
-const Inject =
-  (Store, { cache = true }: Params = {}) =>
-  ComposedComponent =>
-    observer(
-      class InjectComponent extends React.Component<Props, State> {
+type Props = {
+  navigation: Navigation
+}
+
+/** App inject store HOC */
+const Inject = (Store, config?: Config) => {
+  const { cache = true, listenIsFocused = false } = config || {}
+  return (WrapComponent: React.ComponentType<WrapComponentProps>) => {
+    return observer(
+      class InjectComponent extends React.Component<Props> {
         /** @deprecated */
         static navigationOptions =
           /** @ts-ignore */
-          ComposedComponent.navigationOptions
+          WrapComponent.navigationOptions
 
         static childContextTypes = contextTypes
 
@@ -59,7 +58,7 @@ const Inject =
           if (cache) Stores.add(key, this.$)
         }
 
-        state = {
+        state: WrapComponentProps = {
           isFocused: true
         }
 
@@ -76,7 +75,7 @@ const Inject =
         }
 
         onWillFocus = () => {
-          if (!this.state.isFocused) {
+          if (listenIsFocused && !this.state.isFocused) {
             this.setState({
               isFocused: true
             })
@@ -84,27 +83,37 @@ const Inject =
         }
 
         onWillBlur = () => {
-          if (this.state.isFocused) {
+          if (listenIsFocused && this.state.isFocused) {
             this.setState({
               isFocused: false
             })
           }
         }
 
+        get passProps() {
+          if (!listenIsFocused) return {}
+          return {
+            isFocused: this.state.isFocused
+          }
+        }
+
         render() {
-          const { isFocused } = this.state
           return (
             <>
-              <ComposedComponent isFocused={isFocused} />
-              <NavigationEvents
-                onWillFocus={this.onWillFocus}
-                onWillBlur={this.onWillBlur}
-              />
+              <WrapComponent {...this.passProps} />
+              {listenIsFocused && (
+                <NavigationEvents
+                  onWillFocus={this.onWillFocus}
+                  onWillBlur={this.onWillBlur}
+                />
+              )}
             </>
           )
         }
       }
     )
+  }
+}
 
 export default Inject
 

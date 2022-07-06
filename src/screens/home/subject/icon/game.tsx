@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-24 08:12:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:21:45
+ * @Last Modified time: 2022-07-06 03:07:02
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconGame(props, { $ }) {
+function IconGame(props, { $ }: Ctx) {
   if (!$.titleLabel.includes('游戏')) return null
 
   return (

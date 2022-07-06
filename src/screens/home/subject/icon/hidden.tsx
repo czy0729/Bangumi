@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-20 14:44:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 06:03:38
+ * @Last Modified time: 2022-07-06 03:07:13
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -10,8 +10,9 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { confirm, info } from '@utils/ui'
+import { Ctx } from '../types'
 
-function IconHidden({ name, value }, { $ }) {
+function IconHidden({ name, value }, { $ }: Ctx) {
   if (!name || !value) return null
 
   return (

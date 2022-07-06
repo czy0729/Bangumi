@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:45:58
+ * @Last Modified time: 2022-07-06 00:16:10
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { cnjp } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 import styles from './styles'
 
-function IconCatalog(props, { $, navigation }) {
+function IconCatalog(props, { $, navigation }: Ctx) {
   return (
     <Touchable
       style={styles.touch}

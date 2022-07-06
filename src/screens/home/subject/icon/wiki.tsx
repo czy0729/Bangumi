@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-07-12 13:36:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:44:03
+ * @Last Modified time: 2022-07-06 03:10:48
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 import styles from './styles'
 
-function IconWiki(props, { $, navigation }) {
+function IconWiki(props, { $, navigation }: Ctx) {
   const { showInfo } = systemStore.setting
   if (!showInfo) return null
 

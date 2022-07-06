@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 07:48:42
+ * @Last Modified time: 2022-07-06 03:09:01
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconSearch(props, { $ }) {
+function IconSearch(props, { $ }: Ctx) {
   if ($.isLimit) return null
 
   return (

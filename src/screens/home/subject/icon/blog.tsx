@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-07-15 19:15:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:23:09
+ * @Last Modified time: 2022-07-06 00:15:48
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 import styles from './styles'
 
-function IconBlog(props, { $, navigation }) {
+function IconBlog(props, { $, navigation }: Ctx) {
   const { showBlog } = systemStore.setting
   if (!showBlog) return null
 

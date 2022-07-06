@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:23:33
+ * @Last Modified time: 2022-07-06 03:03:56
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 import styles from './styles'
 
-function IconCharacter(props, { $, navigation }) {
+function IconCharacter(props, { $, navigation }: Ctx) {
   const { showCharacter } = systemStore.setting
   if (!showCharacter) return null
   return (

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:25:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:40:06
+ * @Last Modified time: 2022-07-06 03:10:20
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 import styles from './styles'
 
-function IconStaff(props, { $, navigation }) {
+function IconStaff(props, { $, navigation }: Ctx) {
   const { showStaff } = systemStore.setting
   if (!showStaff) return null
 

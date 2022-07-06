@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:37:03
+ * @Last Modified time: 2022-07-06 03:09:44
  */
 import React from 'react'
 import { IconTouchable } from '@_'
@@ -13,8 +13,19 @@ import { t } from '@utils/fetch'
 import { loading } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { HOST, HOST_CDN, CDN_OSS_SUBJECT } from '@constants'
+import { Override } from '@types'
+import { Ctx } from '../types'
 
-function IconShare({ $, navigation, color }) {
+function IconShare({
+  $,
+  navigation,
+  color
+}: Override<
+  Ctx,
+  {
+    color?: any
+  }
+>) {
   return (
     <IconTouchable
       style={_.mr.xs}

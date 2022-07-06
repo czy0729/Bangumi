@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:35:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 12:33:17
+ * @Last Modified time: 2022-07-06 03:07:08
  */
 import React from 'react'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconHD(props, { $, navigation }) {
+function IconHD(props, { $, navigation }: Ctx) {
   if ($.isLimit || !$.hd) return null
 
   return (
