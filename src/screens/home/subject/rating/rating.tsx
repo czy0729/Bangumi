@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 23:34:53
+ * @Last Modified time: 2022-07-09 16:43:19
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ const defaultProps = {
   showRating: true
 }
 
-export default memo(({ styles, hideScore, showRating }) => {
+const Rating = memo(({ styles, hideScore, showRating }) => {
   global.rerender('Subject.Rating.Main')
 
   const [showScore, setShowScore] = useState(!hideScore)
@@ -47,3 +47,5 @@ export default memo(({ styles, hideScore, showRating }) => {
     </View>
   )
 }, defaultProps)
+
+export default Rating

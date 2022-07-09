@@ -83,6 +83,7 @@
     "react-native-unimodules": "0.12.0",
     "react-native-webview": "11.0.0",
     "react-navigation": "3.0.9",
+    "recyclerlistview": "^4.0.1",
     "rn-fetch-blob": "0.12.0"
   },
   "resolutions": {

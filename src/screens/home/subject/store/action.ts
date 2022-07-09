@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 23:16:48
+ * @Last Modified time: 2022-07-10 04:17:08
  */
 import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
 import {
@@ -361,7 +361,7 @@ export default class Action extends Fetch {
   }
 
   /** 去用户评分页面 */
-  toRating = (navigation: Navigation, from?: string, status?: RatingStatus) => {
+  toRating = (navigation: Navigation, from?: string, status?: '' | RatingStatus) => {
     t('条目.跳转', {
       to: 'Rating',
       from,

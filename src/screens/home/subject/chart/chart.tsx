@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 23:34:30
+ * @Last Modified time: 2022-07-09 16:38:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ const defaultProps = {
   toRating: () => {}
 }
 
-export default memo(
+const Chart = memo(
   ({ navigation, styles, friend, rating, total, count, score, toRating }) => {
     global.rerender('Subject.Rating.Chart.Main')
 
@@ -138,3 +138,5 @@ export default memo(
   },
   defaultProps
 )
+
+export default Chart

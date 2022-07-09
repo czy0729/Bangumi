@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-06-08 22:14:06
+ * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:20:24
+ * @Last Modified time: 2022-07-09 16:36:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,11 @@ import Progress from '@ant-design/react-native/lib/progress'
 import { Flex, Text, Input, Button, Heatmap } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
-import { obc, memo } from '@utils/decorators'
-import IconSearch from './icon/search'
-import IconManga from './icon/manga'
-import IconWenku from './icon/wenku'
-import IconHD from './icon/hd'
+import { memo } from '@utils/decorators'
+import IconSearch from '../icon/search'
+import IconManga from '../icon/manga'
+import IconWenku from '../icon/wenku'
+import IconHD from '../icon/hd'
 
 const defaultProps = {
   styles: {},
@@ -25,9 +25,9 @@ const defaultProps = {
   status: {
     name: '未收藏'
   },
-  onChangeText: Function.prototype,
-  doUpdateBookEp: Function.prototype,
-  doUpdateNext: Function.prototype
+  onChangeText: () => {},
+  doUpdateBookEp: () => {},
+  doUpdateNext: () => {}
 }
 
 const BookEp = memo(
@@ -169,75 +169,4 @@ const BookEp = memo(
   defaultProps
 )
 
-export default obc((props, { $ }) => {
-  global.rerender('Subject.BookEp')
-
-  return (
-    <BookEp
-      styles={memoStyles()}
-      chap={$.state.chap}
-      vol={$.state.vol}
-      book={$.subjectFormHTML.book}
-      comicLength={$.comic.length}
-      status={$.collection.status}
-      onChangeText={$.changeText}
-      doUpdateBookEp={$.doUpdateBookEp}
-      doUpdateNext={$.doUpdateNext}
-    />
-  )
-})
-
-const labelWidth = 48 * _.ratio
-const inputWidth = 120 * _.ratio
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    height: 120 * _.ratio,
-    paddingHorizontal: _.wind,
-    marginTop: _.lg
-  },
-  label: {
-    width: labelWidth
-  },
-  input: {
-    width: inputWidth,
-    height: _.device(34, 48)
-  },
-  inputRaw: {
-    height: 34 * _.ratio,
-    paddingVertical: 0,
-    paddingHorizontal: _.sm + 2,
-    color: _.colorSub,
-    fontWeight: 'bold',
-    ..._.device(_.fontSize13, _.fontSize15)
-  },
-  total: {
-    position: 'absolute',
-    zIndex: 100,
-    top: _.device(8, 10),
-    right: 12 * _.ratio
-  },
-  btn: {
-    width: 56 * _.ratio,
-    height: _.device(32, 48)
-  },
-  btnPlus: {
-    width: 40 * _.ratio,
-    height: _.device(34, 48)
-  },
-  btnText: _.device(_.fontSize13, _.fontSize18),
-  progressWrap: {
-    width: inputWidth,
-    marginLeft: labelWidth + _.sm,
-    marginBottom: 4
-  },
-  progress: {
-    backgroundColor: 'transparent',
-    borderRadius: 4
-  },
-  bar: {
-    backgroundColor: 'transparent',
-    borderBottomColor: _.colorPrimary,
-    borderBottomWidth: 4,
-    borderRadius: 4
-  }
-}))
+export default BookEp

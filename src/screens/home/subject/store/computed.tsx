@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:07:48
+ * @Last Modified time: 2022-07-10 04:17:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ import {
   URL_DEFAULT_AVATAR,
   getOTA
 } from '@constants'
-import { Id, Sites, SubjectTypeCn } from '@types'
+import { Id, RatingStatus, Sites, SubjectTypeCn } from '@types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
 import { NAMESPACE, INIT_RATING, SORT_RELATION_DESC } from './ds'
@@ -381,30 +381,30 @@ export default class Computed extends State {
       dropped = 0
     } = this.subjectCollection
     const status: {
-      status: '' | 'wish' | 'collect' | 'doing' | 'onHold' | 'dropped'
+      status: '' | RatingStatus
       text: string
     }[] = []
     if (wish) {
       status.push({
-        status: 'wish',
+        status: 'wishes',
         text: `${wish}想${this.action}`
       })
     }
     if (collect) {
       status.push({
-        status: 'collect',
+        status: 'collections',
         text: `${collect}${this.action}过`
       })
     }
     if (doing) {
       status.push({
-        status: 'doing',
+        status: 'doings',
         text: `${doing}在${this.action}`
       })
     }
     if (onHold) {
       status.push({
-        status: 'onHold',
+        status: 'on_hold',
         text: `${onHold}搁置`
       })
     }

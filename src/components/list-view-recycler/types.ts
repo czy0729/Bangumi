@@ -13,9 +13,29 @@ export type ListViewRecyclerProps<T = any> = Override<
     layoutProvider?: never
     dataProvider?: never
     rowRenderer?: never
-    data: ListEmpty<T>
+    data: Override<
+      ListEmpty<T>,
+      {
+        _filter?: any
+      }
+    >
     keyExtractor: (item: object) => string | number | boolean
     renderItem: (args: { item: T; index: number }) => ReactNode
     ListHeaderComponent?: ReactNode
+
+    // <Footer />
+    footerEmptyDataComponent?: any
+    footerEmptyDataText?: any
+    footerFailureComponent?: any
+    footerFailureText?: any
+    footerNoMoreDataComponent?: any
+    footerRefreshingComponent?: any
+    footerRefreshingText?: any
+    footerTextType?: any
+    showMesume?: any
+
+    // methods
+    onHeaderRefresh?: any
+    onFooterRefresh?: any
   }
 >

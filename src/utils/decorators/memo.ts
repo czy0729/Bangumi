@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 15:36:25
+ * @Last Modified time: 2022-07-10 03:55:47
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
-import { IReactComponent } from '@types'
 
 function compareLog(prev, next) {
   const unsameKeys = []
@@ -95,15 +94,14 @@ function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
  * @param {*} dev
  * @returns Component
  */
-export default function memo<T extends IReactComponent>(
+export default function memo<P, T extends React.FunctionComponent<P>>(
   Component: T,
-  defaultProps?: object,
+  defaultProps?: P,
   customCompareFn?:
     | boolean
     | ((targetProps?: Record<string, unknown>) => boolean | object),
   dev?: boolean
 ): T {
-  // @ts-ignore
   if (defaultProps) Component.defaultProps = defaultProps
 
   // 支持第三个参数为dev: true
@@ -114,12 +112,6 @@ export default function memo<T extends IReactComponent>(
   return React.memo(Component, (prevProps, nextProps) =>
     typeof customCompareFn === 'function'
       ? memoCompare(customCompareFn(prevProps), customCompareFn(nextProps), null, _dev)
-      : memoCompare(
-          prevProps,
-          nextProps,
-          // @ts-ignore
-          Component.defaultProps,
-          _dev
-        )
+      : memoCompare(prevProps, nextProps, Component.defaultProps, _dev)
   )
 }

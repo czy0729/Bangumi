@@ -2,32 +2,37 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-08 08:18:05
+ * @Last Modified time: 2022-07-09 16:42:44
  */
 import React from 'react'
-import { ListView, ListViewRecycler } from '@components'
+import {
+  ListView
+  // ListViewRecycler
+} from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
+// import { IOS } from '@constants'
 import Header from '../header'
+import { Ctx } from '../types'
 import { REFRESH_CONTROL_PROPS, renderItem } from './utils'
 
-function List({ onScroll }, { $ }) {
+function List({ onScroll }, { $ }: Ctx) {
   global.rerender('Subject.List')
 
-  if (!IOS) {
-    return (
-      <ListViewRecycler
-        style={_.container.bottom}
-        keyExtractor={keyExtractor}
-        data={$.subjectComments}
-        ListHeaderComponent={<Header />}
-        renderItem={renderItem}
-        onScroll={onScroll}
-      />
-    )
-  }
+  // if (!IOS) {
+  //   return (
+  //     <ListViewRecycler
+  //       style={_.container.bottom}
+  //       keyExtractor={keyExtractor}
+  //       data={$.subjectComments}
+  //       ListHeaderComponent={<Header />}
+  //       renderItem={renderItem}
+  //       onScroll={onScroll}
+  //       onFooterRefresh={$.fetchSubjectComments}
+  //     />
+  //   )
+  // }
 
   return (
     <ListView

@@ -8,11 +8,10 @@ import React from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap } from '@components'
 import { SectionTitle, ItemArticle } from '@_'
-import { _, systemStore } from '@stores'
-import { memo, obc } from '@utils/decorators'
-import { URL_DEFAULT_AVATAR } from '@constants'
-import IconBlog from './icon/blog'
-import IconHidden from './icon/hidden'
+import { _ } from '@stores'
+import { memo } from '@utils/decorators'
+import IconBlog from '../icon/blog'
+import IconHidden from '../icon/hidden'
 
 const defaultProps = {
   navigation: {},
@@ -72,39 +71,4 @@ const Blog = memo(
   defaultProps
 )
 
-export default obc((props, { $, navigation }) => {
-  global.rerender('Subject.Blog')
-
-  const { showBlog } = systemStore.setting
-  if (showBlog === -1) return null
-
-  const { blog } = $.subject
-  let _blog = blog || []
-  if ($.filterDefault || $.isLimit) {
-    _blog = _blog.filter(item => {
-      if (item?.user?.avatar?.small.includes(URL_DEFAULT_AVATAR)) return false
-      return true
-    })
-  }
-  if (!_blog.length) return null
-
-  return (
-    <Blog
-      navigation={navigation}
-      styles={memoStyles()}
-      showBlog={showBlog}
-      subjectId={$.subjectId}
-      blog={_blog}
-      onSwitchBlock={$.switchBlock}
-    />
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  sectionTitle: {
-    paddingHorizontal: _.wind
-  },
-  item: {
-    paddingLeft: _.wind
-  }
-}))
+export default Blog
