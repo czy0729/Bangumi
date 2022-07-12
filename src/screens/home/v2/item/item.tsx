@@ -8,8 +8,6 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Collapsible, Heatmap } from '@components'
 import { memo } from '@utils/decorators'
-import { Navigation, SubjectId } from '@types'
-import { StoreType } from '../types'
 import Cover from './cover'
 import Title from './title'
 import OnAir from './onair'
@@ -17,22 +15,7 @@ import Eps from './eps'
 import Count from './count'
 import ToolBar from './tool-bar'
 import Progress from './progress'
-import { memoStyles } from './styles'
-import { TITLE_HIT_SLOPS } from './ds'
-
-const DEFAULT_PROPS = {
-  navigation: {} as Navigation,
-  styles: {} as ReturnType<typeof memoStyles>,
-  subject: {} as any,
-  subjectId: 0 as SubjectId,
-  epStatus: '' as any,
-  heatMap: false,
-  expand: false as any,
-  epsCount: 0,
-  isTop: false,
-  isFirst: false,
-  onItemPress: (() => {}) as StoreType['onItemPress']
-}
+import { DEFAULT_PROPS, TITLE_HIT_SLOPS } from './ds'
 
 const Item = memo(
   ({

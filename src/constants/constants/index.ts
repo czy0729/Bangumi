@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 23:05:37
+ * @Last Modified time: 2022-07-12 08:59:41
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -204,8 +204,10 @@ export const LIST_EMPTY = {
     page: 0,
     pageTotal: 0
   },
-  _list: [], // 用于某些方法制造分页效果
-  _loaded: false
+
+  /** 用于某些方法制造分页效果 */
+  _list: [],
+  _loaded: false as boolean | number
 }
 
 /** 用于制造分页数据 */

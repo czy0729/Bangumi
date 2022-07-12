@@ -4,8 +4,9 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 15:51:55
+ * @Last Modified time: 2022-07-12 09:53:32
  */
+import { SubjectTypeValue } from '@constants/model/types'
 
 /** 任意 ID */
 export type Id = number | string
@@ -115,3 +116,19 @@ export type Rating = {
 
 /** HTML 结构文字 */
 export type HTMLText = string
+
+/** 条目基本结构 */
+export type Subject = Partial<{
+  id: SubjectId
+  url: UrlSubject
+  type: SubjectTypeValue
+  name: string
+  name_cn: string
+  summary: string
+  eps: number
+  eps_count: number
+  air_date: string
+  air_weekday: number
+  images: Images
+  collection: Collection
+}>

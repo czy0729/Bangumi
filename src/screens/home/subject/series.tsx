@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:48:50
+ * @Last Modified time: 2022-07-12 15:55:44
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -12,7 +12,7 @@ import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 
-const coverWidth = _.device(32, 40) * _.ratio
+const coverWidth = _.r(_.device(28, 40))
 const coverHeight = coverWidth * 1.4
 const defaultProps = {
   navigation: {},

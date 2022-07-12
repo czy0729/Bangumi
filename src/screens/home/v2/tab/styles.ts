@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-19 16:16:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:18:19
+ * @Last Modified time: 2022-07-12 10:07:07
  */
 import { _ } from '@stores'
-import { H_TABBAR } from '../store'
+import { H_TABBAR } from '../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   tabBar: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 15:48:25
+ * @Last Modified time: 2022-07-12 17:25:07
  */
 import dayjs from 'dayjs'
 import axios from '@utils/thirdParty/axios'
@@ -10,18 +10,19 @@ import { getTimestamp, urlStringify } from '@utils'
 import { safe, queue } from '@utils/fetch'
 import { APP_ID, UA } from '@constants/constants'
 import {
-  Collection as SubjectCollection,
+  Collection as BaseCollection,
   CollectionStatusValue,
   DeepPartial,
   Images,
   ListEmpty,
   Rating,
+  Subject as BaseSubject,
   SubjectId,
   SubjectTypeValue,
-  UrlSubject,
   UserId
 } from '@types'
 import { getUserStoreAsync } from './async'
+import { devLog } from '@components'
 
 type Collection = {
   data: {
@@ -55,7 +56,7 @@ type Subject = {
   infobox: any[]
   rating: Rating
   total_episodes: number
-  collection: SubjectCollection
+  collection: BaseCollection
   id: SubjectId
   eps: number
   volumes: number
@@ -71,26 +72,21 @@ type UserCollection = ListEmpty<
     ep_status: number
     vol_status: number
     lasttouch: number
-    subject: {
-      id: SubjectId
-      url: UrlSubject
-      type: SubjectTypeValue
-      name: string
-      name_cn: string
-      summary: string
-      eps: number
-      eps_count: number
-      air_date: string
-      air_weekday: number
-      images: Images
-    }
-    collection: {
-      doing: number
-    }
+    subject: BaseSubject
   }>
 >
 
 const HOST_API_V0 = 'https://api.bgm.tv/v0'
+
+const API_COLLECTION = (
+  userId: UserId,
+  subjectType: SubjectTypeValue,
+  page = 1,
+  limit = 100
+) =>
+  `${HOST_API_V0}/users/${userId}/collections?subject_type=${subjectType}&type=3&${limit}=100&offset=${
+    (page - 1) * limit
+  }` as const
 
 export async function request<T>(url: string, data?: object): Promise<T> {
   // @ts-ignore
@@ -179,9 +175,16 @@ export async function fetchSubjectV0(config) {
   }
 }
 
-export async function fetchCollectionV0(config: {
+/** 缓存条目请求结果 */
+const COLLECTION_SUBJECT_CACHE: {
+  [subjectId: SubjectId]: BaseSubject
+} = {}
+
+/** 获取在看收藏 */
+export async function fetchCollectionV0(args: {
   userId: UserId
 }): Promise<UserCollection> {
+  const { userId } = args || {}
   const data: UserCollection = {
     list: [],
     pagination: {
@@ -192,48 +195,82 @@ export async function fetchCollectionV0(config: {
   }
 
   try {
-    const collection = await request<Collection>(
-      `${HOST_API_V0}/users/${config.userId}/collections?subject_type=2&type=3&limit=100`
-    )
+    const all = []
 
-    if (Array.isArray(collection?.data)) {
+    // 动画请求最多2页
+    let collection = await request<Collection>(API_COLLECTION(userId, '2'))
+    if (Array.isArray(collection?.data)) all.push(...collection.data)
+
+    if (collection?.total > 100) {
+      collection = await request<Collection>(API_COLLECTION(userId, '2', 2))
+      if (Array.isArray(collection?.data)) all.push(...collection.data)
+    }
+
+    // 书籍1页
+    collection = await request<Collection>(API_COLLECTION(userId, '1'))
+    if (Array.isArray(collection?.data)) all.push(...collection.data)
+
+    // 三次元1页
+    collection = await request<Collection>(API_COLLECTION(userId, '6'))
+    if (Array.isArray(collection?.data)) all.push(...collection.data)
+
+    if (all.length) {
       const fetchs = []
-      collection.data.forEach((item, index) => {
+      all.forEach((item, index) => {
         fetchs.push(async () => {
-          const subject = await request<Subject>(
-            `${HOST_API_V0}/subjects/${item.subject_id}`
-          )
-          if (subject?.id) {
-            const cItem = collection.data[index]
+          const cItem = all[index]
+
+          // 有缓存就不请求
+          if (COLLECTION_SUBJECT_CACHE[item.subject_id]) {
+            const subject = COLLECTION_SUBJECT_CACHE[item.subject_id]
             data.list.push({
               name: subject.name_cn || subject.name,
               subject_id: subject.id,
               ep_status: cItem.ep_status,
               vol_status: cItem.vol_status,
               lasttouch: dayjs(cItem.updated_at).valueOf() / 1000,
-              subject: {
+              subject
+            })
+          } else {
+            const subject = await request<Subject>(
+              `${HOST_API_V0}/subjects/${item.subject_id}`
+            )
+
+            if (subject?.id) {
+              const _subject: BaseSubject = {
                 id: subject.id,
                 url: `//lain.bgm.tv/subject/${subject.id}`,
                 type: cItem.subject_type,
                 name: subject.name,
                 name_cn: subject.name_cn,
-                summary: '', // subject.summary
+                summary: '',
                 eps: subject.eps,
                 eps_count: subject.total_episodes,
                 air_date: subject.date,
                 air_weekday: dayjs(subject.date).day() || 0,
-                images: subject.images
-              },
-              collection: {
-                doing: subject.collection.doing
+                images: subject.images,
+                collection: subject.collection
               }
-            })
-            return true
+
+              // 缓存条目结果
+              COLLECTION_SUBJECT_CACHE[item.subject_id] = _subject
+              data.list.push({
+                name: _subject.name_cn || _subject.name,
+                subject_id: _subject.id,
+                ep_status: cItem.ep_status,
+                vol_status: cItem.vol_status,
+                lasttouch: dayjs(cItem.updated_at).valueOf() / 1000,
+                subject: _subject
+              })
+              return true
+            }
           }
+
           return false
         })
       })
 
+      devLog(`fetchs: ${fetchs.length}`)
       await queue(fetchs)
     }
     return data

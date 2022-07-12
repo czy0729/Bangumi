@@ -1,25 +1,23 @@
 /*
+ * 本地化
+ *  - 写入本地动作会有合并逻辑和时间间隔，目的是避免短时间过度写入
+ *
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 02:10:52
+ * @Last Modified time: 2022-07-12 10:50:12
  */
-// @ts-ignore
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { DEV } from '@/config'
 import { queue } from './utils'
 
-// 本地化字符串大于此值会延迟合并再写入
+/** 本地化字符串大于此值会延迟合并再写入 */
 const LAZY_SET_STORAGE_SIZE = 2048
 
-// 延迟写入间隔
-const LAZY_SET_STORAGE_INTERVAL = 60000
+/** 延迟写入间隔 */
+const LAZY_SET_STORAGE_INTERVAL = DEV ? 6000 : 60000
 
-/**
- * 读取数据
- * @version 190321 1.0
- * @param {*} key
- */
+/** 读取数据 */
 export async function getStorage(key: string) {
   try {
     if (!key) return null
@@ -33,12 +31,7 @@ export async function getStorage(key: string) {
 
 const setStorageLazyMap = {}
 
-/**
- * 保存数据到本地, 并且会对大于 LAZY_SET_STORAGE_SIZE 的操作进行延迟合并保存到本地
- * @version 211112 2.0
- * @param {*} key
- * @param {*} data
- */
+/** 保存数据到本地 (会对大于 LAZY_SET_STORAGE_SIZE 的操作进行延迟合并保存到本地) */
 export async function setStorage(key: string, data: any) {
   if (!key) return
 
@@ -59,13 +52,10 @@ export async function setStorage(key: string, data: any) {
   }
 }
 
-/**
- * 数据较大的键, 合并没必要的多次写入
- * @version 211112
- */
 let setStorageInterval: number
 if (setStorageInterval) clearInterval(setStorageInterval)
 
+/** 数据较大的键, 合并没必要的多次写入 */
 setStorageInterval = setInterval(async () => {
   const keys = Object.keys(setStorageLazyMap)
   if (!keys.length) return

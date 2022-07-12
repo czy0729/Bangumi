@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 00:52:34
+ * @Last Modified time: 2022-07-12 13:45:41
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -206,7 +206,7 @@ export default class Store {
    * @param {*} value
    * @param {*} namespace 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
-  setStorage = (key, value?, namespace?) => {
+  setStorage = (key: string, value?: any, namespace?: any) => {
     // 只传了一个参数时, 第一个参数作为 namespace
     if (value === undefined && namespace === undefined) {
       let _key = key || this.namespace || this.getName()
@@ -225,16 +225,33 @@ export default class Store {
 
   /**
    * 读取本地缓存
-   * @param {*} *key
-   * @param {*} value
-   * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
+   * @param {*} key
+   * @param {*} namespace 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
+   * @param {*} defaultValue
    */
-  getStorage = async (key, namesapce, defaultValue = {}) => {
-    let _key = namesapce || this.namesapce || this.getName()
+  getStorage = async (
+    key: string,
+    namespace?: string,
+    defaultValue?: any
+  ): Promise<any> => {
+    // 只传了一个参数时, 第一个参数作为 namespace
+    if (namespace === undefined && defaultValue === undefined) {
+      let _key = key || this.namespace || this.getName()
+      _key += '|state'
+      return (
+        JSON.parse(await AsyncStorage.getItem(_key)) ||
+        (defaultValue === undefined ? {} : defaultValue)
+      )
+    }
+
+    let _key = namespace || this.namespace || this.getName()
     if (key) _key += `|${key}`
     _key += '|state'
 
-    return JSON.parse(await AsyncStorage.getItem(_key)) || defaultValue
+    return (
+      JSON.parse(await AsyncStorage.getItem(_key)) ||
+      (defaultValue === undefined ? {} : defaultValue)
+    )
   }
 
   /**
@@ -258,10 +275,8 @@ export default class Store {
     return state
   }
 
-  /**
-   * 代替this.setStorage(undefined, undefined, namespace)
-   */
-  saveStorage = namespace => {
+  /** 代替 this.setStorage(undefined, undefined, namespace) */
+  saveStorage = (namespace: string) => {
     if (!(namespace || this.namespace)) return false
     this.setStorage(undefined, undefined, namespace || this.namespace)
   }
@@ -273,11 +288,11 @@ export default class Store {
    * @param  {String} key 保存值的键值
    * @return {Object}
    */
-  toJS = key => toJS(this.state[key] || this.state)
+  toJS = (key: string): object => toJS(this.state[key] || this.state)
 
   /**
-   * 取类名
-   * @notice apk打包后类名会丢失, 请勿在非dev情况下调用
+   * @deprecated 取类名
+   * @issue apk打包后类名会丢失, 请勿在非dev情况下调用
    */
   getName = () => {
     let s = this.constructor.toString()

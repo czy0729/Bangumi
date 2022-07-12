@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:11:24
+ * @Last Modified time: 2022-07-12 18:51:30
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLTrim, HTMLDecode } from '@utils'
@@ -98,7 +98,7 @@ const state = {
   /** @deprecated hm.js 请求 cookie , 区分唯一用户, 一旦获取通常不再变更 */
   hmCookie: '',
 
-  /** 在看收藏 */
+  /** @deprecated 在看收藏 */
   userCollection: LIST_EMPTY,
 
   /** 在看收藏 (新 API, 取代 userCollection) */
@@ -230,7 +230,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     return this.state.userInfo
   }
 
-  /** 在看收藏 */
+  /** @deprecated 在看收藏 */
   @computed get userCollection(): UserCollection {
     return this.state.userCollection
   }
@@ -419,7 +419,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     )
   }
 
-  /** 获取某人的在看收藏 */
+  /** @deprecated 获取某人的在看收藏 */
   fetchUserCollection = (userId: UserId = this.myUserId) => {
     return this.fetch(
       {
@@ -457,9 +457,8 @@ class UserStore extends store implements StoreConstructor<typeof state> {
       retryCb: () => this.fetchUserProgress(subjectId, userId),
       info: '收视进度'
     }
-    if (subjectId) {
-      config.data.subject_id = subjectId
-    }
+    if (subjectId) config.data.subject_id = subjectId
+
     const res = fetch(config)
     const data = await res
 
@@ -471,9 +470,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
       // 扁平化
       _data.forEach(item => {
-        if (!item.eps) {
-          return
-        }
+        if (!item.eps) return
 
         const userProgress = {
           _loaded: 1
@@ -496,6 +493,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
       })
     }
     this.setStorage('userProgress', undefined, NAMESPACE)
+
     return res
   }
 

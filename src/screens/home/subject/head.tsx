@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:28:24
+ * @Last Modified time: 2022-07-12 16:25:48
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -82,7 +82,6 @@ const Head = memo(
       `${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`
     ]
 
-    if (year) tops.push(year)
     if (titleLabel) tops.push(titleLabel)
     tops = tops.join(' · ')
 
@@ -97,7 +96,7 @@ const Head = memo(
 
     // 主标题大小
     let size =
-      (cn.length > 32 ? 11 : cn.length > 24 ? 12 : cn.length > 16 ? 13 : 16) +
+      (cn.length > 32 ? 12 : cn.length > 24 ? 13 : cn.length > 16 ? 13 : 16) +
       (PAD === 2 ? 4 : 2)
 
     if (showRelation && hasRelation) size = Math.max(11, size - 2)
@@ -136,22 +135,8 @@ const Head = memo(
             }}
           >
             <View>
-              {!!top && (
-                <Text
-                  type='sub'
-                  size={topSize}
-                  numberOfLines={2}
-                  onLongPress={() => {
-                    Clipboard.setString(top)
-                    info(`已复制 ${top}`)
-                  }}
-                >
-                  {tops}
-                </Text>
-              )}
               {!subjectSeries && (
                 <Text
-                  style={!!bottom && _.mt.xs}
                   size={size}
                   lineHeight={size + 1}
                   bold
@@ -161,6 +146,26 @@ const Head = memo(
                   }}
                 >
                   {bottom}
+                  {!!year && (
+                    <Text size={size - 3} lineHeight={size + 1}>
+                      {' '}
+                      ({year})
+                    </Text>
+                  )}
+                </Text>
+              )}
+              {!!top && (
+                <Text
+                  style={!!bottom && _.mt.xs}
+                  type='sub'
+                  size={topSize}
+                  numberOfLines={2}
+                  onLongPress={() => {
+                    Clipboard.setString(top)
+                    info(`已复制 ${top}`)
+                  }}
+                >
+                  {tops}
                 </Text>
               )}
               <Heatmap id='条目.复制标题' />

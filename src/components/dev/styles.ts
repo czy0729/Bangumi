@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 16:08:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 21:21:45
+ * @Last Modified time: 2022-07-12 17:26:45
  */
 import { _ } from '@stores'
 
@@ -29,7 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: _.sm,
     left: _.sm,
     bottom: _.lg,
-    height: 240,
+    height: 120,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     borderWidth: _.hairlineWidth,
     borderColor: 'rgba(255, 255, 255, 0.2)',

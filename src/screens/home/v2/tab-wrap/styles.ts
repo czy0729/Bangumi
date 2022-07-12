@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-19 16:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:31:24
+ * @Last Modified time: 2022-07-12 10:07:13
  */
 import { _ } from '@stores'
 import { ViewStyle } from '@types'
-import { H_TABBAR } from '../store'
+import { H_TABBAR } from '../ds'
 
 export const memoStyles = _.memoStyles(() => {
   const tabs: ViewStyle = {

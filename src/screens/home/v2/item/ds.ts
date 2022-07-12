@@ -2,9 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-12 15:07:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-12 15:12:18
+ * @Last Modified time: 2022-07-12 10:15:13
  */
 import { _ } from '@stores'
+import { Navigation, Subject, SubjectId } from '@types'
+import { StoreType } from '../types'
+import { memoStyles } from './styles'
 
 export const LIMIT_HEAVY = _.device(8, 16)
 
@@ -25,3 +28,28 @@ export const WEEK_DAY_MAP = {
   6: '六',
   7: '日'
 } as const
+
+/** index.tsx */
+export type Props = {
+  index: number
+  subjectId: SubjectId
+  subject: Subject
+
+  /** 看到多少集 */
+  epStatus: string | number
+}
+
+/** item.tsx */
+export const DEFAULT_PROPS = {
+  navigation: {} as Navigation,
+  styles: {} as ReturnType<typeof memoStyles>,
+  subject: {} as Subject,
+  subjectId: 0 as SubjectId,
+  epStatus: '' as string | number,
+  heatMap: false,
+  expand: false,
+  epsCount: 0,
+  isTop: false,
+  isFirst: false,
+  onItemPress: (() => {}) as StoreType['onItemPress']
+}

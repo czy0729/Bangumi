@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 03:03:26
+ * @Last Modified time: 2022-07-12 14:09:53
  */
 import React from 'react'
 import { useFocusEffect } from '@react-navigation/native'
@@ -16,6 +16,7 @@ import { _ } from '@stores'
 import { IOS } from '@constants'
 import Header from './header'
 import Tab from './tab-wrap'
+import Tips from './tips'
 import Modal from './modal'
 import Heatmaps from './heatmaps'
 import Store from './store'
@@ -38,8 +39,9 @@ const Home = (props, { $, navigation }) => {
           <>
             <Header />
             {$.state._loaded && <Tab length={$.tabs.length} />}
-            <Track title='首页' hm={[`?id=${$.userId}`, 'Home']} />
+            <Tips />
             <Modal />
+            <Track title='首页' hm={[`?id=${$.userId}`, 'Home']} />
           </>
         ) : (
           <Auth />

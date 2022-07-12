@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 18:30:04
+ * @Last Modified time: 2022-07-12 10:06:28
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -11,7 +11,7 @@ import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { SettingHomeLayout } from '@types'
 import Grid from '../grid'
 import { Ctx } from '../types'
-import { TABS_WITH_GAME as TABS } from '../store'
+import { TABS_WITH_GAME as TABS } from '../ds'
 import List from './list'
 import { memoStyles } from './styles'
 

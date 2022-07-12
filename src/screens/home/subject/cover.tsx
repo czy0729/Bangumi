@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:31:52
+ * @Last Modified time: 2022-07-12 16:09:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { getCoverLarge, matchCoverUrl } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
+import { Ctx } from './types'
 
 const srcLoaded = {}
 
@@ -34,7 +35,7 @@ class Cover extends React.Component<{
   }
 
   get src() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { _imageForce } = $.params
     const { image } = this.props
     const src = _imageForce || matchCoverUrl(image) || IMG_DEFAULT
@@ -50,7 +51,7 @@ class Cover extends React.Component<{
     global.rerender('Subject.Cover')
 
     const { coverRadius } = systemStore.setting
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { image, placeholder } = this.props
     return (
       <View
@@ -117,7 +118,7 @@ const memoStyles = _.memoStyles(() => ({
   container: {
     position: 'absolute',
     zIndex: 1,
-    top: _.md + 2,
+    top: _.md + 6,
     left: _.wind
   },
   placeholder: {

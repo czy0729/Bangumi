@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 18:11:32
+ * @Last Modified time: 2022-07-12 09:00:15
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -91,7 +91,7 @@ export type StoreInstance = any
 export type Sites = typeof SITES[number]
 
 /** data._loaded */
-export type Loaded = false | number
+export type Loaded = boolean | number
 
 /** 自定义源头数据 */
 export type Origin = DeepPartial<{
