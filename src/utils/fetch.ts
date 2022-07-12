@@ -386,7 +386,8 @@ export function xhrCustom(
 
 /**
  * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
- * @param {*} fetchs
+ * @param {*} fetchs fetchFn[]
+ * @param {*} num default: 2
  */
 export async function queue(fetchs = [], num = 2) {
   if (!fetchs.length) return false

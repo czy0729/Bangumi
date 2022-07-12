@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 23:40:28
+ * @Last Modified time: 2022-07-11 18:29:35
  */
 import { ModelValueOf } from '@types'
 import {
@@ -50,7 +50,9 @@ export type RankGameFilter = ModelValueOf<typeof RANK_GAME_FILTER, 'value'>
 export type RankRealFilter = ModelValueOf<typeof RANK_REAL_FILTER, 'value'>
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS, 'value'>
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT, 'value'>
+export type SettingHomeLayout = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'value'>
 export type SettingHomeLayoutCn = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'label'>
+export type SettingHomeSorting = ModelValueOf<typeof SETTING_HOME_SORTING, 'value'>
 export type SettingHomeSortingCn = ModelValueOf<typeof SETTING_HOME_SORTING, 'label'>
 export type SettingInitialPageCn = ModelValueOf<typeof SETTING_INITIAL_PAGE, 'label'>
 export type SettingQualityCn = ModelValueOf<typeof SETTING_QUALITY, 'label'>

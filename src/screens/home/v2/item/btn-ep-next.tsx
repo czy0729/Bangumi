@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:01:14
+ * @Last Modified time: 2022-07-11 17:44:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Iconfont, Touchable, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
-function BtnEpNext({ index, subjectId }, { $ }) {
+function BtnEpNext({ subjectId, isFirst }, { $ }) {
   const { sort } = $.nextWatchEp(subjectId)
   if (!sort) return null
 
@@ -22,7 +22,7 @@ function BtnEpNext({ index, subjectId }, { $ }) {
           <Text type='sub'>{sort}</Text>
         </View>
       </Flex>
-      {index === 1 && <Heatmap right={26} id='首页.观看下一章节' />}
+      {isFirst && <Heatmap right={26} id='首页.观看下一章节' />}
     </Touchable>
   )
 }

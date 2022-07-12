@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-12 15:12:05
+ * @Last Modified time: 2022-07-11 17:06:48
  */
 import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import { WEEK_DAY_MAP } from './ds'
 
 function Title({ subject, subjectId }, { $ }) {

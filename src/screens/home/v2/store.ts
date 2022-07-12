@@ -2,12 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 03:37:00
+ * @Last Modified time: 2022-07-11 17:14:10
  */
-import React from 'react'
 import { observable, computed } from 'mobx'
-import Modal from '@ant-design/react-native/lib/modal'
-import { Text } from '@components'
 import {
   _,
   userStore,
@@ -16,39 +13,63 @@ import {
   calendarStore,
   systemStore
 } from '@stores'
-import { open, runAfter, getTimestamp, sleep, asc, desc, copy } from '@utils'
-import { t, queue } from '@utils/fetch'
 import {
-  x18,
+  HTMLDecode,
   appNavigate,
-  getCoverMedium,
+  asc,
+  copy,
+  desc,
   getBangumiUrl,
+  getCoverMedium,
   getOnAir,
-  unzipBangumiData
-} from '@utils/app'
+  getTimestamp,
+  open,
+  runAfter,
+  sleep,
+  unzipBangumiData,
+  x18
+} from '@utils'
+import { t, queue } from '@utils/fetch'
 import store from '@utils/store'
-import { HTMLDecode } from '@utils/html'
 import { feedback, info } from '@utils/ui'
 import { find } from '@utils/subject/anime'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
-import { IOS, DEV, SITES_DS } from '@constants'
 import {
-  MODEL_SUBJECT_TYPE,
-  MODEL_EP_STATUS,
-  MODEL_COLLECTION_STATUS,
+  DEV,
   MODEL_COLLECTIONS_ORDERBY,
-  MODEL_SETTING_INITIAL_PAGE,
+  MODEL_COLLECTION_STATUS,
+  MODEL_EP_STATUS,
+  MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
-  MODEL_SETTING_HOME_LAYOUT
-} from '@constants/model'
-import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS } from '@constants/site'
+  MODEL_SETTING_INITIAL_PAGE,
+  MODEL_SUBJECT_TYPE,
+  SITES_DS,
+  SITE_AGEFANS,
+  SITE_RRYS,
+  SITE_XUNBO
+} from '@constants'
+import {
+  CollectionsOrder,
+  CollectionStatus,
+  EpId,
+  EpStatus,
+  Navigation,
+  SettingHomeSorting,
+  SubjectId,
+  SubjectType,
+  SubjectTypeValue
+} from '@types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { getOriginConfig, replaceOriginUrl } from '../../user/origin-setting/utils'
 
+/** 列表布局 ep 按钮最大数量 */
 const PAGE_LIMIT_LIST = 4 * 8
+
+/** 网格布局 ep 按钮最大数量 */
 const PAGE_LIMIT_GRID = 4 * 6
 
-const tabs = [
+/** 基本 Tabs */
+const TABS = [
   {
     key: 'all',
     title: '全部'
@@ -67,26 +88,35 @@ const tabs = [
   }
 ] as const
 
-export const tabsWithGame = [
-  ...tabs,
+/** 带游戏类型的 Tabs */
+export const TABS_WITH_GAME = [
+  ...TABS,
   {
     key: 'game',
     title: '游戏'
   }
 ] as const
 
+/** <Tabs> 组件高度 */
 export const H_TABBAR = 48
-export const OFFSET_LISTVIEW = IOS ? _.headerHeight + H_TABBAR : 0
 
-const namespace = 'ScreenHomeV2'
-const colorDark = {
-  color: _.colorDark
-}
-const initItem = {
+/** <Tabs> 上面的 <BlurView> 预留高度 (iOS 用) */
+export const OFFSET_LISTVIEW = _.ios(_.headerHeight + H_TABBAR, 0)
+
+/** 唯一命名空间 */
+const NAMESPACE = 'ScreenHomeV2'
+
+// const colorDark = {
+//   color: _.colorDark
+// }
+
+const INIT_ITEM = {
   expand: false,
   doing: false
 }
-const excludeState = {
+
+/** 不参与本地化的 state */
+const EXCLUDE_STATE = {
   modal: {
     title: '',
     desc: ''
@@ -100,24 +130,46 @@ const excludeState = {
   isFocused: true,
   _mounted: false // 延迟加载标记
 }
-const day = new Date().getDay()
-const pinYinFirstCharacter = {}
+
+/** 今天星期值 */
+const DAY = new Date().getDay()
+
+/** 缓存 getPinYinFirstCharacter() 的计算结果 */
+const PIN_YIN_FIRST_CHARACTER = {}
+
+/** 是否初始化 */
 let inited
 
 export default class ScreenHomeV2 extends store {
   state = observable({
-    visible: false, // <Modal>可见性
-    subjectId: 0, // <Modal>当前条目Id
-    page: 0, // <Tabs>当前页数
-    top: [], // <Item>置顶记录
+    /** <Modal> 可见性 */
+    visible: false,
+
+    /** <Modal> 当前使用的条目Id */
+    subjectId: 0,
+
+    /** <Tabs> 当前页数 */
+    page: 0,
+
+    /** <Item> 置顶记录 */
+    top: [],
+
+    /** 每个 <Item> 的状态 */
     item: {
-      // [subjectId]: initItem // 每个<Item>的状态
+      // [subjectId]: INIT_ITEM
     },
+
+    /** 格子布局当前选中的条目Id */
     current: 0,
-    ...excludeState,
-    _loaded: false // 本地数据读取完成
+
+    /** 不参与本地化的 state */
+    ...EXCLUDE_STATE,
+
+    /** 本地数据读取完成 */
+    _loaded: false
   })
 
+  /** 初始化 */
   init = async () => {
     if (inited) return
 
@@ -139,80 +191,81 @@ export default class ScreenHomeV2 extends store {
     return true
   }
 
+  /** 初始化状态 */
   initStore = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = await this.getStorage(undefined, NAMESPACE)
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
     return state
   }
 
-  /**
-   * 被动请求
-   * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
-   * cloudfare请求太快会被拒绝
-   */
-  initFetch = async (refresh?) => {
+  /** 被动请求, 由于 Bangumi 没提供一次性查询多个章节信息的 API, 暂时每项都发一次请求, cloudfare 请求太快会被拒绝 */
+  initFetch = async (refresh?: boolean) => {
     const res = Promise.all([
-      userStore.fetchUserCollection(),
-      userStore.fetchUserProgress()
+      // userStore.fetchUserCollection(),
+      // userStore.fetchUserProgress()
+      // userStore.fetchCollection()
     ])
-    const data = await res
+    // const data = await res
 
-    setTimeout(() => {
-      if (data[0] && !DEV) {
-        const fetchs = []
-        const now = getTimestamp()
+    // setTimeout(() => {
+    //   if (data[0] && !DEV) {
+    //     const fetchs = []
+    //     const now = getTimestamp()
 
-        this.sortList(data[0]).forEach(({ subject_id, ep_status }) => {
-          const { _loaded } = this.subject(subject_id)
-          let flag
+    //     this.sortList(data[0]).forEach(({ subject_id, ep_status }) => {
+    //       const { _loaded } = this.subject(subject_id)
+    //       let flag
 
-          // 强制刷新或没有数据强制请求
-          if (refresh || !_loaded) {
-            flag = true
-          } else if (
-            systemStore.setting.homeSortSink && // 下沉模式
-            this.onAirCustom(subject_id).isExist && // 需要有放送数据
-            now - _loaded >= 60 * 15 && // 请求间隔大于15分钟
-            ep_status <= 28 // 长篇也不被动请求
-          ) {
-            flag = true
-          }
+    //       // 强制刷新或没有数据强制请求
+    //       if (refresh || !_loaded) {
+    //         flag = true
+    //       } else if (
+    //         systemStore.setting.homeSortSink && // 下沉模式
+    //         this.onAirCustom(subject_id).isExist && // 需要有放送数据
+    //         now - _loaded >= 60 * 15 && // 请求间隔大于15分钟
+    //         ep_status <= 28 // 长篇也不被动请求
+    //       ) {
+    //         flag = true
+    //       }
 
-          if (flag) {
-            fetchs.push(async () => {
-              if (DEV) console.info('initFetch', subject_id)
-              await sleep(240)
-              return subjectStore.fetchSubject(subject_id)
-            })
-          }
-        })
+    //       if (flag) {
+    //         fetchs.push(async () => {
+    //           if (DEV) console.info('initFetch', subject_id)
+    //           await sleep(240)
+    //           return subjectStore.fetchSubject(subject_id)
+    //         })
+    //       }
+    //     })
 
-        queue(fetchs, 1)
-      }
-    }, 240)
+    //     queue(fetchs, 1)
+    //   }
+    // }, 240)
 
     return res
   }
 
+  /** 下拉刷新 */
   onHeaderRefresh = () => {
     if (this.tabsLabel === '游戏') return this.fetchDoingGames(true)
     return this.initFetch(true)
   }
 
+  /** 下一页 */
   onFooterRefresh = () => this.fetchDoingGames()
 
-  fetchDoingGames = (refresh?) => {
+  /** 请求在玩的游戏 */
+  fetchDoingGames = (refresh?: boolean) => {
     const { username } = this.usersInfo
     return collectionStore.fetchUserCollections(
       {
         userId: username || this.userId,
-        subjectType: MODEL_SUBJECT_TYPE.getLabel('游戏'),
-        type: MODEL_COLLECTION_STATUS.getValue('在看'),
-        order: MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间'),
+        subjectType: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('游戏'),
+        type: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>('在看'),
+        order: MODEL_COLLECTIONS_ORDERBY.getValue<CollectionsOrder>('收藏时间'),
         tag: ''
       },
       refresh
@@ -220,93 +273,81 @@ export default class ScreenHomeV2 extends store {
   }
 
   // -------------------- get --------------------
+  /** <Tabs> data */
   @computed get tabs() {
     const { showGame } = systemStore.setting
-    return showGame ? tabsWithGame : tabs
+    return showGame ? TABS_WITH_GAME : TABS
   }
 
-  @computed get title() {
-    const { page } = this.state
-    const { title } = tabs[page]
-    return title
-  }
-
-  @computed get backgroundColor() {
-    return _.select(_.colorPlain, _._colorDarkModeLevel1)
-  }
-
+  /** 启动页 */
   @computed get initialPage() {
     return systemStore.setting.initialPage
   }
 
+  /** 章节热力图 */
   @computed get heatMap() {
     return systemStore.setting.heatMap
   }
 
+  /** 首页收藏布局 */
   @computed get homeLayout() {
     return systemStore.setting.homeLayout
   }
 
+  /** 首页收藏排序 */
   @computed get homeSorting() {
     return systemStore.setting.homeSorting
   }
 
+  /** 首页条目显示搜索源头 */
   @computed get homeOrigin() {
     return systemStore.setting.homeOrigin
   }
 
-  @computed get itemShadow() {
-    return IOS ? true : systemStore.setting.itemShadow
-  }
-
+  /** 自己用户 Id */
   @computed get myUserId() {
     return userStore.myUserId
   }
 
+  /** 自己用户信息 Id */
   @computed get userId() {
     return userStore.userInfo.username || userStore.myUserId
   }
 
+  /** 用户信息 */
   @computed get usersInfo() {
     return userStore.usersInfo(this.myUserId)
   }
 
+  /** 当前 <Tabs> label */
   @computed get tabsLabel() {
     const { page } = this.state
     return this.tabs[page].title
   }
 
-  /**
-   * <Item />
-   */
-  $Item(subjectId) {
-    return computed(() => this.state.item[subjectId] || initItem).get()
+  /** 每个 <Item> 的状态 */
+  $Item(subjectId: SubjectId) {
+    return computed(() => this.state.item[subjectId] || INIT_ITEM).get()
   }
 
-  /**
-   * 用户是否登录
-   */
+  /** 是否登录 (api) */
   @computed get isLogin() {
     return userStore.isLogin
   }
 
-  /**
-   * 用户信息
-   */
+  /** 自己用户信息 */
   @computed get userInfo() {
     return userStore.userInfo
   }
 
-  /**
-   * 用户收藏
-   */
+  /** 在看的用户收藏 */
   @computed get userCollection() {
     const { filter } = this.state
     const _filter = filter.toUpperCase()
 
     const userCollection = {
-      ...userStore.userCollection,
-      list: userStore.userCollection.list.filter(item => {
+      ...userStore.collection,
+      list: userStore.collection.list.filter(item => {
         if (!filter.length) return true
 
         const cn = (
@@ -319,14 +360,14 @@ export default class ScreenHomeV2 extends store {
 
         // 支持每个字符首拼音筛选
         if (/^[a-zA-Z]+$/.test(_filter) && cn) {
-          if (!pinYinFirstCharacter[cn]) {
-            pinYinFirstCharacter[cn] = getPinYinFirstCharacter(cn, cn.length).replace(
-              / /g,
-              ''
-            )
+          if (!PIN_YIN_FIRST_CHARACTER[cn]) {
+            PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
+              cn,
+              cn.length
+            ).replace(/ /g, '')
           }
 
-          if (pinYinFirstCharacter[cn].includes(_filter)) return true
+          if (PIN_YIN_FIRST_CHARACTER[cn].includes(_filter)) return true
         }
 
         return false
@@ -343,6 +384,7 @@ export default class ScreenHomeV2 extends store {
     return userCollection
   }
 
+  /** 在玩的游戏 */
   @computed get games() {
     const { filter } = this.state
     const _filter = filter.toUpperCase()
@@ -356,27 +398,21 @@ export default class ScreenHomeV2 extends store {
     return {
       ...userCollections,
       list: userCollections.list.filter(item => {
-        if (!filter.length) {
-          return true
-        }
+        if (!filter.length) return true
 
         const cn = (item.nameCn || item.name || '').toUpperCase()
-        if (cn.includes(_filter)) {
-          return true
-        }
+        if (cn.includes(_filter)) return true
 
         // 支持每个字符首拼音筛选
         if (/^[a-zA-Z]+$/.test(_filter) && cn) {
-          if (!pinYinFirstCharacter[cn]) {
-            pinYinFirstCharacter[cn] = getPinYinFirstCharacter(cn, cn.length).replace(
-              / /g,
-              ''
-            )
+          if (!PIN_YIN_FIRST_CHARACTER[cn]) {
+            PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
+              cn,
+              cn.length
+            ).replace(/ /g, '')
           }
 
-          if (pinYinFirstCharacter[cn].includes(_filter)) {
-            return true
-          }
+          if (PIN_YIN_FIRST_CHARACTER[cn].includes(_filter)) return true
         }
 
         return false
@@ -384,9 +420,7 @@ export default class ScreenHomeV2 extends store {
     }
   }
 
-  /**
-   * 置顶
-   */
+  /** 置顶的映射 */
   @computed get topMap() {
     const { top } = this.state
     const topMap = {}
@@ -394,10 +428,8 @@ export default class ScreenHomeV2 extends store {
     return topMap
   }
 
-  /**
-   * 列表当前数据
-   */
-  currentUserCollection(title) {
+  /** 列表当前数据 */
+  currentUserCollection(title: typeof TABS_WITH_GAME[number]['title']) {
     return computed(() => {
       if (title === '游戏') return this.games
 
@@ -405,7 +437,7 @@ export default class ScreenHomeV2 extends store {
         ...this.userCollection
       }
 
-      const type = MODEL_SUBJECT_TYPE.getValue(title)
+      const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
       if (type) {
         userCollection.list = userCollection.list.filter(
           item => item?.subject?.type == type
@@ -414,7 +446,8 @@ export default class ScreenHomeV2 extends store {
 
       userCollection.list = this.sortList(
         userCollection.list,
-        this.topMap // @tofixed 暂时直接调用一下, 以强制触发置顶排序更新
+        // @ts-ignore 暂时直接调用一下, 以强制触发置顶排序更新
+        this.topMap
       )
       return userCollection
     }).get()
@@ -452,9 +485,9 @@ export default class ScreenHomeV2 extends store {
               weightMap[subjectId] = 1001
             } else if (this.isNextDay(subjectId)) {
               weightMap[subjectId] = 1000
-            } else if (day === 0) {
+            } else if (DAY === 0) {
               weightMap[subjectId] = 100 - weekDay
-            } else if (weekDay >= day) {
+            } else if (weekDay >= DAY) {
               weightMap[subjectId] = 100 - weekDay
             } else {
               weightMap[subjectId] = 10 - weekDay
@@ -500,7 +533,7 @@ export default class ScreenHomeV2 extends store {
           .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
           .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       } catch (error) {
-        console.warn(`[${namespace}] sortList`, error)
+        console.error(`[${NAMESPACE}] sortList`, error)
 
         // fallback
         return list
@@ -510,24 +543,18 @@ export default class ScreenHomeV2 extends store {
     }).get()
   }
 
-  /**
-   * 用户条目收视进度
-   */
-  userProgress(subjectId) {
+  /** 用户条目收视进度 */
+  userProgress(subjectId: SubjectId) {
     return computed(() => userStore.userProgress(subjectId)).get()
   }
 
-  /**
-   * 条目信息
-   */
-  subject(subjectId) {
+  /** 条目信息 */
+  subject(subjectId: SubjectId) {
     return computed(() => subjectStore.subject(subjectId)).get()
   }
 
-  /**
-   * 条目章节数据
-   */
-  eps(subjectId) {
+  /** 条目章节数据 */
+  eps(subjectId: SubjectId) {
     try {
       return computed(() => {
         const eps = this.subject(subjectId).eps || []
@@ -553,15 +580,13 @@ export default class ScreenHomeV2 extends store {
         return eps
       }).get()
     } catch (error) {
-      warn(namespace, 'eps', error)
+      console.error(NAMESPACE, 'eps', error)
       return []
     }
   }
 
-  /**
-   * 条目下一个未看章节
-   */
-  nextWatchEp(subjectId) {
+  /** 条目下一个未看章节 */
+  nextWatchEp(subjectId: SubjectId) {
     try {
       return computed(() => {
         const eps = this.eps(subjectId) || []
@@ -569,54 +594,50 @@ export default class ScreenHomeV2 extends store {
         const index = eps.findIndex(
           item => item.type === 0 && userProgress[item.id] !== '看过'
         )
-        if (index === -1) {
-          return {}
-        }
+        if (index === -1) return {}
         return eps[index]
       }).get()
     } catch (error) {
-      warn(namespace, 'nextWatchEp', error)
+      console.error(NAMESPACE, 'nextWatchEp', error)
       return {}
     }
   }
 
+  /** 首页收藏排序 */
   @computed get sortOnAir() {
-    return this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('放送')
+    return (
+      this.homeSorting ===
+      MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('放送')
+    )
   }
 
-  onAirCustom(subjectId) {
+  /** 云端 onAir 和自定义 onAir 组合判断 */
+  onAirCustom(subjectId: SubjectId) {
     return computed(() =>
       getOnAir(calendarStore.onAir[subjectId], calendarStore.onAirUser(subjectId))
     ).get()
   }
 
-  /**
-   * 是否放送中
-   */
-  isToday(subjectId) {
+  /** 是否放送中 */
+  isToday(subjectId: SubjectId) {
     return computed(() => {
       const { weekDay, isExist } = this.onAirCustom(subjectId)
       if (!isExist) return false
-      return weekDay === day
+      return weekDay === DAY
     }).get()
   }
 
-  /**
-   * 是否明天放送
-   */
-  isNextDay(subjectId) {
+  /** 是否明天放送 */
+  isNextDay(subjectId: SubjectId) {
     return computed(() => {
       const { weekDay, isExist } = this.onAirCustom(subjectId)
       if (!isExist) return false
-      return day === 6 ? weekDay === 0 : day === weekDay - 1
+      return DAY === 6 ? weekDay === 0 : DAY === weekDay - 1
     }).get()
   }
 
-  /**
-   * bangumi-data数据扩展
-   * @param {*} subjectId
-   */
-  bangumiInfo(subjectId) {
+  /** bangumi-data 数据扩展 */
+  bangumiInfo(subjectId: SubjectId) {
     return computed(() => {
       const { name_cn, name } = this.subject(subjectId)
       return unzipBangumiData(
@@ -631,12 +652,13 @@ export default class ScreenHomeV2 extends store {
     }).get()
   }
 
-  onlineOrigins(subjectId) {
+  /** 在线源头数据 */
+  onlineOrigins(subjectId: SubjectId) {
     return computed(() => {
       const { type } = this.subject(subjectId)
       const data = []
 
-      if (type === 2) {
+      if (Number(type) === 2) {
         getOriginConfig(subjectStore.origin, 'anime')
           .filter(item => item.active)
           .forEach(item => {
@@ -644,7 +666,7 @@ export default class ScreenHomeV2 extends store {
           })
       }
 
-      if (type === 6) {
+      if (Number(type) === 6) {
         getOriginConfig(subjectStore.origin, 'real')
           .filter(item => item.active)
           .forEach(item => {
@@ -655,6 +677,7 @@ export default class ScreenHomeV2 extends store {
       const bangumiInfo = this.bangumiInfo(subjectId)
       const { sites = [] } = bangumiInfo
       sites
+        // @ts-ignore
         .filter(item => SITES_DS.includes(item.site))
         .forEach(item => {
           data.push(item.site)
@@ -664,10 +687,8 @@ export default class ScreenHomeV2 extends store {
     }).get()
   }
 
-  /**
-   * 存在没有看的正常章节
-   */
-  hasNewEp(subjectId) {
+  /** 是否存在没有看的章节 */
+  hasNewEp(subjectId: SubjectId) {
     const eps = this.eps(subjectId)
     const progress = this.userProgress(subjectId)
     return eps.some(
@@ -675,8 +696,9 @@ export default class ScreenHomeV2 extends store {
     )
   }
 
-  // -------------------- page --------------------
-  onChange = page => {
+  // -------------------- methods --------------------
+  /** 标签页切换 */
+  onChange = (page: number) => {
     t('首页.标签页切换', {
       page
     })
@@ -684,7 +706,7 @@ export default class ScreenHomeV2 extends store {
     if (page === 4) {
       this.setState({
         page,
-        grid: initItem.grid
+        grid: EXCLUDE_STATE.grid
       })
       this.fetchDoingGames(true)
     } else {
@@ -693,15 +715,15 @@ export default class ScreenHomeV2 extends store {
       })
     }
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   /**
-   * 显示收藏管理<Modal>
+   * 显示收藏管理 <Modal>
    * @param {*} subjectId
-   * @param {*} model 游戏没有主动请求条目数据, 需要手动传递标题
+   * @param {*} modal 游戏没有主动请求条目数据, 需要手动传递标题
    */
-  showManageModal = (subjectId, modal) => {
+  showManageModal = (subjectId: SubjectId, modal?: typeof EXCLUDE_STATE.modal) => {
     t('首页.显示收藏管理', {
       subjectId
     })
@@ -709,24 +731,20 @@ export default class ScreenHomeV2 extends store {
     this.setState({
       visible: true,
       subjectId,
-      modal: modal || initItem.modal
+      modal: modal || EXCLUDE_STATE.modal
     })
   }
 
-  /**
-   * 隐藏收藏管理<Modal>
-   */
+  /** 隐藏收藏管理 <Modal> */
   closeManageModal = () => {
     this.setState({
       visible: false,
-      modal: initItem.modal
+      modal: EXCLUDE_STATE.modal
     })
   }
 
-  /**
-   * <Item>展开或收起
-   */
-  itemToggleExpand = subjectId => {
+  /** 展开或收起 <Item> */
+  itemToggleExpand = (subjectId: SubjectId) => {
     t('首页.展开或收起条目', {
       subjectId
     })
@@ -740,13 +758,11 @@ export default class ScreenHomeV2 extends store {
         }
       }
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * <Item>置顶或取消置顶
-   */
-  itemToggleTop = (subjectId, isTop) => {
+  /** 置顶或取消置顶 <Item> */
+  itemToggleTop = (subjectId: SubjectId, isTop?: boolean) => {
     t('首页.置顶或取消置顶', {
       subjectId,
       isTop
@@ -768,12 +784,10 @@ export default class ScreenHomeV2 extends store {
     this.setState({
       top: _top
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 全部展开 (书籍不要展开, 展开就收不回去了)
-   */
+  /** 全部展开 (书籍不展开, 展开就收不回去了) */
   expandAll = () => {
     t('首页.全部展开')
 
@@ -790,23 +804,19 @@ export default class ScreenHomeV2 extends store {
     this.setState({
       item
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 全部关闭
-   */
+  /** 全部关闭 */
   closeAll = () => {
     t('首页.全部关闭')
 
     this.clearState('item')
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 选择布局
-   */
-  selectLayout = title => {
+  /** @deprecated 选择布局 */
+  selectLayout = (title: string) => {
     t('首页.选择布局', {
       title
     })
@@ -814,34 +824,37 @@ export default class ScreenHomeV2 extends store {
     this.setState({
       grid: title === '方格布局'
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 格子布局条目选择
-   */
-  selectGirdSubject = (subjectId, grid) => {
+  /** 格子布局条目选择 */
+  selectGirdSubject = (subjectId: SubjectId, grid?: typeof EXCLUDE_STATE.grid) => {
     t('首页.格子布局条目选择', {
       subjectId
     })
 
     this.setState({
       current: subjectId,
-      grid: grid || initItem.grid
+      grid: grid || EXCLUDE_STATE.grid
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 底部TabBar再次点击滚动到顶并刷新数据
-   */
   scrollToIndex = {}
-  connectRef = (ref, index) => {
+
+  /** 底部 <TabBar> 再次点击滚动到顶并刷新数据 */
+  connectRef = (
+    ref: {
+      scrollToIndex: any
+    },
+    index: string | number
+  ) => {
     if (!this.scrollToIndex[index] && ref?.scrollToIndex) {
       this.scrollToIndex[index] = ref?.scrollToIndex
     }
   }
 
+  /** 刷新并返回到顶部 */
   onRefreshThenScrollTop = () => {
     try {
       const { page } = this.state
@@ -858,15 +871,12 @@ export default class ScreenHomeV2 extends store {
         })
       }
     } catch (error) {
-      warn('Home', 'onRefreshThenScrollTop', error)
+      console.error('Home', 'onRefreshThenScrollTop', error)
     }
   }
 
-  /**
-   * 在线源头选择
-   * @params {*} label
-   */
-  onlinePlaySelected = (label, subjectId) => {
+  /** 在线源头选择 */
+  onlinePlaySelected = (label: string, subjectId: SubjectId) => {
     const { name_cn, name, type } = this.subject(subjectId)
 
     t('首页.搜索源', {
@@ -880,8 +890,8 @@ export default class ScreenHomeV2 extends store {
 
       // AGE动漫，有自维护id数据，优先匹配
       if (label === 'AGE动漫') {
-        if (find(subjectId).aid) {
-          url = `${SITE_AGEFANS()}/detail/${find(subjectId).aid}`
+        if (find(subjectId).ageId) {
+          url = `${SITE_AGEFANS()}/detail/${find(subjectId).ageId}`
         }
       }
 
@@ -936,11 +946,22 @@ export default class ScreenHomeV2 extends store {
 
       if (url) open(url)
     } catch (error) {
-      warn(namespace, 'onlinePlaySelected', error)
+      console.error(NAMESPACE, 'onlinePlaySelected', error)
     }
   }
 
-  onItemPress = (navigation, subjectId, subject) => {
+  /** 跳转到条目页面 */
+  onItemPress = (
+    navigation: Navigation,
+    subjectId: SubjectId,
+    subject: {
+      name: any
+      name_cn: any
+      images: {
+        medium: any
+      }
+    }
+  ) => {
     t('首页.跳转', {
       to: 'Subject',
       from: 'list'
@@ -955,39 +976,37 @@ export default class ScreenHomeV2 extends store {
     })
   }
 
-  onItemLongPress = subjectId => {
-    const { top } = this.state
-    const isTop = top.indexOf(subjectId) !== -1
-    const data = [
-      {
-        text: <Text style={colorDark}>全部展开</Text>,
-        onPress: () =>
-          setTimeout(() => {
-            this.expandAll()
-          }, 40)
-      },
-      {
-        text: <Text style={colorDark}>全部收起</Text>,
-        onPress: this.closeAll
-      },
-      {
-        text: <Text style={colorDark}>置顶</Text>,
-        onPress: () => this.itemToggleTop(subjectId, true)
-      }
-    ]
-    if (isTop) {
-      data.push({
-        text: <Text style={colorDark}>取消置顶</Text>,
-        onPress: () => this.itemToggleTop(subjectId, false)
-      })
-    }
-    Modal.operation(data)
-  }
+  // onItemLongPress = (subjectId: SubjectId) => {
+  //   const { top } = this.state
+  //   const isTop = top.indexOf(subjectId) !== -1
+  //   const data = [
+  //     {
+  //       text: <Text style={colorDark}>全部展开</Text>,
+  //       onPress: () =>
+  //         setTimeout(() => {
+  //           this.expandAll()
+  //         }, 40)
+  //     },
+  //     {
+  //       text: <Text style={colorDark}>全部收起</Text>,
+  //       onPress: this.closeAll
+  //     },
+  //     {
+  //       text: <Text style={colorDark}>置顶</Text>,
+  //       onPress: () => this.itemToggleTop(subjectId, true)
+  //     }
+  //   ]
+  //   if (isTop) {
+  //     data.push({
+  //       text: <Text style={colorDark}>取消置顶</Text>,
+  //       onPress: () => this.itemToggleTop(subjectId, false)
+  //     })
+  //   }
+  //   Modal.operation(data)
+  // }
 
-  /**
-   * 设置应用初始页面
-   */
-  updateInitialPage = navigation => {
+  /** 设置应用初始页面 */
+  updateInitialPage = (navigation: Navigation) => {
     if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {
       return this.init()
     }
@@ -997,17 +1016,16 @@ export default class ScreenHomeV2 extends store {
     }
   }
 
-  onFilterChange = filter => {
+  /** 页面筛选文字变化 */
+  onFilterChange = (filter: string) => {
     this.setState({
       filter: filter.trim()
     })
   }
 
   // -------------------- action --------------------
-  /**
-   * 观看下一章节
-   */
-  doWatchedNextEp = async subjectId => {
+  /** 观看下一章节 */
+  doWatchedNextEp = async (subjectId: SubjectId) => {
     const state = this.$Item(subjectId)
     if (state.doing) {
       return
@@ -1045,15 +1063,13 @@ export default class ScreenHomeV2 extends store {
     })
   }
 
-  /**
-   * 更新书籍下一个章节
-   */
-  doUpdateNext = async (subjectId, epStatus, volStatus) => {
+  /** 更新书籍下一个章节 */
+  doUpdateNext = (subjectId: SubjectId, epStatus?: string, volStatus?: string) => {
     t('首页.更新书籍下一个章节', {
       subjectId
     })
 
-    await collectionStore.doUpdateSubjectEp(
+    collectionStore.doUpdateSubjectEp(
       {
         subjectId,
         watchedEps: epStatus,
@@ -1068,10 +1084,10 @@ export default class ScreenHomeV2 extends store {
     )
   }
 
-  /**
-   * 管理收藏
-   */
-  doUpdateCollection = async values => {
+  /** 管理收藏 */
+  doUpdateCollection = async (
+    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
+  ) => {
     t('首页.管理收藏', {
       subjectId: values.subjectId
     })
@@ -1079,18 +1095,30 @@ export default class ScreenHomeV2 extends store {
     await collectionStore.doUpdateCollection(values)
     feedback()
 
-    if (values.status !== MODEL_COLLECTION_STATUS.getValue('在看')) {
+    if (values.status !== MODEL_COLLECTION_STATUS.getValue<EpStatus>('在看')) {
       userStore.fetchUserCollection()
     }
 
     this.closeManageModal()
   }
 
-  /**
-   * 章节菜单操作
-   */
-  doEpsSelect = async (value, item, subjectId, navigation) => {
-    const status = MODEL_EP_STATUS.getValue(value)
+  /** 章节菜单操作 */
+  doEpsSelect = async (
+    value: string,
+    item: {
+      id: any
+      sort: number
+      url: any
+      name: any
+      name_cn: any
+      duration: any
+      airdate: any
+      desc: any
+    },
+    subjectId: SubjectId,
+    navigation: Navigation
+  ) => {
+    const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
     if (status) {
       t('首页.章节菜单操作', {
         title: '更新收视进度',
@@ -1165,22 +1193,27 @@ export default class ScreenHomeV2 extends store {
     }
   }
 
-  /**
-   * 章节按钮长按
-   */
-  doEpsLongPress = async ({ id }, subjectId) => {
+  /** 章节按钮长按 */
+  doEpsLongPress = async (
+    {
+      id
+    }: {
+      id: EpId
+    },
+    subjectId: SubjectId
+  ) => {
     t('首页.章节按钮长按', {
       subjectId
     })
 
     const userProgress = this.userProgress(subjectId)
-    let status
+    let status: EpStatus
     if (userProgress[id]) {
       // 已观看 -> 撤销
-      status = MODEL_EP_STATUS.getValue('撤销')
+      status = MODEL_EP_STATUS.getValue<EpStatus>('撤销')
     } else {
       // 未观看 -> 看过
-      status = MODEL_EP_STATUS.getValue('看过')
+      status = MODEL_EP_STATUS.getValue<EpStatus>('看过')
     }
 
     await userStore.doUpdateEpStatus({

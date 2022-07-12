@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-25 12:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 02:11:23
+ * @Last Modified time: 2022-07-10 07:58:15
  */
 import { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import {
   CollectionStatusCn,
+  DeepPartial,
   Images,
+  ListEmpty,
   SubjectId,
   SubjectType,
   SubjectTypeCn,
@@ -15,6 +17,32 @@ import {
   UrlSubject,
   UserId
 } from '@types'
+
+export type UserCollection = ListEmpty<
+  DeepPartial<{
+    name: string
+    subject_id: SubjectId
+    ep_status: number
+    vol_status: number
+    lasttouch: number
+    subject: {
+      id: SubjectId
+      url: UrlSubject
+      type: SubjectTypeValue
+      name: string
+      name_cn: string
+      summary: string
+      eps: number
+      eps_count: number
+      air_date: string
+      air_weekday: number
+      images: Images
+    }
+    collection: {
+      doing: number
+    }
+  }>
+>
 
 export type CollectionsItem = {
   list: {

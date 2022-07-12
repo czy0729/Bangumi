@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 16:55:21
+ * @Last Modified time: 2022-07-11 18:10:16
  */
 import { FlatListProps } from 'react-native'
 import { Override, Fn, ReactNode, ViewStyle, ListEmpty } from '@types'
@@ -16,7 +16,7 @@ export type Props = Override<
     keyExtractor?: (item?: object, index?: number) => string
 
     /** APP 约定列表数据结构 */
-    data?: ListEmpty<any>
+    data?: ListEmpty
 
     /** 与 data 结构一致, https://www.react-native.cn/docs/sectionlist#section */
     sections?: any

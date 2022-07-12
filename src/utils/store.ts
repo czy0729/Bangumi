@@ -202,7 +202,7 @@ export default class Store {
 
   /**
    * 存入本地缓存
-   * @param {*} *key
+   * @param {*} key
    * @param {*} value
    * @param {*} namespace 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */

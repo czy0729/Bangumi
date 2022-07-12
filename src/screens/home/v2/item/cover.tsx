@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:44:04
+ * @Last Modified time: 2022-07-11 17:43:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { SubjectTypeCn } from '@types'
 
-function Cover({ index, subjectId, subject }, { $, navigation }) {
+function Cover({ subjectId, subject, isFirst }, { $, navigation }) {
   const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   return (
     <View>
@@ -27,7 +27,7 @@ function Cover({ index, subjectId, subject }, { $, navigation }) {
         onPress={() => $.onItemPress(navigation, subjectId, subject)}
         // onLongPress={() => $.onItemLongPress(subjectId)}
       />
-      {index === 1 && (
+      {isFirst && (
         <>
           <Heatmap bottom={68} id='首页.全部展开' transparent />
           <Heatmap bottom={34} id='首页.全部关闭' transparent />

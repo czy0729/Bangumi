@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-04 12:57:46
+ * @Last Modified time: 2022-07-11 17:37:54
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -59,7 +59,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   readonly isPad = _.isPad
 
   /** 平板放大比例 */
-  readonly ratio = _.ratio
+  // readonly ratio = _.ratio
 
   /** -------------------- 统一布局单位 -------------------- */
   /** 超小 */
@@ -118,6 +118,9 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   readonly lineHeightRatio = _.lineHeightRatio
 
   /** -------------------- 颜色 -------------------- */
+  /** 黑 */
+  readonly colorDark = _.colorDark
+
   /** 蓝 (最浅) */
   readonly colorPrimaryLight = _.colorPrimaryLight
 

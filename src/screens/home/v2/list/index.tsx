@@ -2,23 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 16:56:18
+ * @Last Modified time: 2022-07-11 18:30:04
  */
 import React from 'react'
 import { Loading } from '@components'
 import { obc } from '@utils/decorators'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
+import { SettingHomeLayout } from '@types'
 import Grid from '../grid'
-import { tabsWithGame as TABS } from '../store'
+import { Ctx } from '../types'
+import { TABS_WITH_GAME as TABS } from '../store'
 import List from './list'
 import { memoStyles } from './styles'
 
-export default obc(({ title = '全部' }, { $ }) => {
+export default obc(({ title = '全部' }, { $ }: Ctx) => {
   global.rerender('Home.List')
 
   if (!$.userCollection._loaded) return <Loading />
 
-  const isGrid = $.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
+  const isGrid =
+    $.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
   if (isGrid) return <Grid title={title} />
 
   const { page, isFocused } = $.state

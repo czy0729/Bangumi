@@ -6,12 +6,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 13:15:13
+ * @Last Modified time: 2022-07-11 17:11:24
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLTrim, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
+import { fetchCollectionV0 } from '@utils/fetch.v0'
 import {
   API_ACCESS_TOKEN,
   API_EP_STATUS,
@@ -67,7 +68,13 @@ import {
   cheerioPMParams,
   cheerioUserSetting
 } from './common'
-import { CollectionsItem, CollectionsStatusItem, PmItem, PmParamsItem } from './types'
+import {
+  CollectionsItem,
+  CollectionsStatusItem,
+  PmItem,
+  PmParamsItem,
+  UserCollection
+} from './types'
 
 const state = {
   /** 授权信息 */
@@ -93,6 +100,9 @@ const state = {
 
   /** 在看收藏 */
   userCollection: LIST_EMPTY,
+
+  /** 在看收藏 (新 API, 取代 userCollection) */
+  collection: LIST_EMPTY,
 
   /** 收视进度 (章节) */
   userProgress: {
@@ -159,6 +169,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
         'pmDetail',
         'pmIn',
         'pmOut',
+        'collection',
         'userCollection',
         'userCollectionsStatus',
         'userCookie',
@@ -220,8 +231,13 @@ class UserStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 在看收藏 */
-  @computed get userCollection() {
+  @computed get userCollection(): UserCollection {
     return this.state.userCollection
+  }
+
+  /** 在看收藏 (新 API, 取代 userCollection) */
+  @computed get collection(): UserCollection {
+    return this.state.collection
   }
 
   /** 表单提交唯一码 */
@@ -419,8 +435,20 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     )
   }
 
+  /** 获取在看收藏 (新 API, 取代 userCollection) */
+  fetchCollection = async (userId: UserId = this.myId) => {
+    const collection = await fetchCollectionV0({
+      userId
+    })
+    this.setState({
+      collection
+    })
+    this.setStorage('collection', undefined, NAMESPACE)
+    return collection
+  }
+
   /** 获取某人的收视进度 */
-  fetchUserProgress = async (subjectId?, userId = this.myUserId) => {
+  fetchUserProgress = async (subjectId?: SubjectId, userId: UserId = this.myUserId) => {
     const config = {
       url: API_USER_PROGRESS(userId),
       data: {} as {

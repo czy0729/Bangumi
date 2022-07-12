@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:34:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:45:02
+ * @Last Modified time: 2022-07-11 17:44:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,14 +13,14 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import CountBook from './count-book'
 import CountVideo from './count-video'
 
-function Count({ index, subjectId, subject, epStatus }, { $ }) {
+function Count({ subjectId, subject, epStatus, isFirst }, { $ }) {
   const label = MODEL_SUBJECT_TYPE.getTitle(subject.type)
   if (label === '游戏') return null
 
   if (label === '书籍') {
     return (
       <View style={styles.count}>
-        <CountBook index={index} subjectId={subjectId} />
+        <CountBook subjectId={subjectId} isFirst={isFirst} />
       </View>
     )
   }
@@ -28,7 +28,7 @@ function Count({ index, subjectId, subject, epStatus }, { $ }) {
   return (
     <Touchable style={styles.count} onPress={() => $.itemToggleExpand(subjectId)}>
       <CountVideo epStatus={epStatus} subjectId={subjectId} subject={subject} />
-      {index === 1 && <Heatmap right={44} bottom={5} id='首页.展开或收起条目' />}
+      {isFirst && <Heatmap right={44} bottom={5} id='首页.展开或收起条目' />}
     </Touchable>
   )
 }

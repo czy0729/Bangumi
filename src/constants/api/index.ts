@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-30 01:09:52
+ * @Last Modified time: 2022-07-10 11:30:39
  */
 import { EpId, MonoId, SubjectId, UserId } from '@types'
 import { HOST } from '../constants'
@@ -16,6 +16,9 @@ export * from './tinygrail'
 
 /** bgm api 域名 */
 export const API_HOST = 'https://api.bgm.tv'
+
+/** bgm 新 api 域名 */
+export const API_V0 = `${API_HOST}/v0` as const
 
 /** 瓷砖进度接口 */
 export const API_MOSAIC_TILE = (username: UserId, type = 'progress') =>
@@ -35,7 +38,7 @@ export const API_USER_INFO = (userId: UserId) => `${API_HOST}/user/${userId}`
  * @query responseGroup 'medium' | 'small'
  */
 export const API_USER_COLLECTION = (userId: UserId) =>
-  `${API_HOST}/user/${userId}/collection`
+  `${API_HOST}/user/${userId}/collection` as const
 
 /**
  * 用户收藏概览
@@ -45,11 +48,11 @@ export const API_USER_COLLECTION = (userId: UserId) =>
 export const API_USER_COLLECTIONS = (
   subjectType: SubjectType = 'anime',
   userId: UserId
-) => `${API_HOST}/user/${userId}/collections/${subjectType}`
+) => `${API_HOST}/user/${userId}/collections/${subjectType}` as const
 
 /** 用户收藏统计 */
 export const API_USER_COLLECTIONS_STATUS = (userId: UserId) =>
-  `${API_HOST}/user/${userId}/collections/status`
+  `${API_HOST}/user/${userId}/collections/status` as const
 
 /**
  * 用户收视进度
@@ -57,7 +60,7 @@ export const API_USER_COLLECTIONS_STATUS = (userId: UserId) =>
  * @query subject_id 条目ID 获取指定条目收视进度
  */
 export const API_USER_PROGRESS = (userId: UserId) =>
-  `${API_HOST}/user/${userId}/progress`
+  `${API_HOST}/user/${userId}/progress` as const
 
 /**
  * 条目信息

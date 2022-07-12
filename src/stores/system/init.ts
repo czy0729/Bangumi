@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 05:59:18
+ * @Last Modified time: 2022-07-11 18:29:45
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -15,6 +15,7 @@ import {
   MODEL_SETTING_CDN_ORIGIN
 } from '@constants/model'
 import { radiusMd } from '@styles'
+import { SettingHomeLayout } from '@types'
 
 export const NAMESPACE = 'System'
 
@@ -225,7 +226,7 @@ export const INIT_SETTING = {
   homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'],
 
   /** 首页收藏布局 */
-  homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'),
+  homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表'),
 
   /** 首页收藏排序 */
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'),

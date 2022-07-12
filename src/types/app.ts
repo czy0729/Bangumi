@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 19:45:56
+ * @Last Modified time: 2022-07-11 18:11:32
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -71,7 +71,7 @@ export type ListEmpty<T = any> = {
     pageTotal: number
   }
   _list?: T[]
-  _loaded: boolean | number
+  _loaded: Loaded
 }
 
 /** T: 传入 state 的所有 keys, 约束把所有 key 都可以通过 this[key] 访问 */

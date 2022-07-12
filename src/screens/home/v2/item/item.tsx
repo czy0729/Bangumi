@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 17:24:24
+ * @Last Modified time: 2022-07-11 17:45:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Collapsible, Heatmap } from '@components'
 import { memo } from '@utils/decorators'
+import { Navigation, SubjectId } from '@types'
+import { StoreType } from '../types'
 import Cover from './cover'
 import Title from './title'
 import OnAir from './onair'
@@ -15,27 +17,27 @@ import Eps from './eps'
 import Count from './count'
 import ToolBar from './tool-bar'
 import Progress from './progress'
+import { memoStyles } from './styles'
 import { TITLE_HIT_SLOPS } from './ds'
 
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  index: 0,
-  subject: {},
-  subjectId: 0,
-  epStatus: '',
+const DEFAULT_PROPS = {
+  navigation: {} as Navigation,
+  styles: {} as ReturnType<typeof memoStyles>,
+  subject: {} as any,
+  subjectId: 0 as SubjectId,
+  epStatus: '' as any,
   heatMap: false,
-  expand: false,
+  expand: false as any,
   epsCount: 0,
   isTop: false,
-  onItemPress: () => {}
+  isFirst: false,
+  onItemPress: (() => {}) as StoreType['onItemPress']
 }
 
 const Item = memo(
   ({
     navigation,
     styles,
-    index,
     subject,
     subjectId,
     epStatus,
@@ -43,6 +45,7 @@ const Item = memo(
     expand,
     epsCount,
     isTop,
+    isFirst,
     onItemPress
   }) => {
     global.rerender('Home.Item.Main', subject.name_cn || subject.name)
@@ -50,7 +53,7 @@ const Item = memo(
     return (
       <View style={heatMap && expand ? styles.itemWithHeatMap : styles.item}>
         <Flex style={styles.hd}>
-          <Cover index={index} subjectId={subjectId} subject={subject} />
+          <Cover subjectId={subjectId} subject={subject} isFirst={isFirst} />
           <Flex.Item style={styles.content}>
             <Touchable
               style={styles.title}
@@ -68,36 +71,36 @@ const Item = memo(
             <View>
               <Flex style={styles.info}>
                 <Count
-                  index={index}
                   subjectId={subjectId}
                   subject={subject}
                   epStatus={epStatus}
+                  isFirst={isFirst}
                 />
                 <Flex.Item />
                 <ToolBar
-                  index={index}
                   subjectId={subjectId}
                   subject={subject}
                   isTop={isTop}
+                  isFirst={isFirst}
                 />
               </Flex>
               <Progress epStatus={epStatus} subject={subject} />
             </View>
           </Flex.Item>
-          {index === 1 && (
+          {isFirst && (
             <View>
               <Heatmap id='首页.置顶或取消置顶' />
             </View>
           )}
         </Flex>
         <Collapsible key={String(epsCount)} collapsed={!expand}>
-          <Eps index={index} subjectId={subjectId} />
+          <Eps subjectId={subjectId} isFirst={isFirst} />
         </Collapsible>
         {isTop && <View style={styles.dot} />}
       </View>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
 
 export default Item
