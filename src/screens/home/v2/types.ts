@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-11 16:50:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 15:18:44
+ * @Last Modified time: 2022-07-15 17:31:14
  */
 import { factory } from '@utils'
 import { Loaded, Navigation, Subject, SubjectId } from '@types'
@@ -35,6 +35,7 @@ export type ExcludeState = {
     total: number
   }
   filter: string
+  filterPage: number
   isFocused: boolean
 
   /** 延迟加载标记 */

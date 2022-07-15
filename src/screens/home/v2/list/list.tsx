@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 17:08:33
+ * @Last Modified time: 2022-07-15 17:34:36
  */
 import React from 'react'
 import { PaginationList2 as ListView } from '@_'
@@ -37,7 +37,7 @@ const List = memo(
         data={data.list}
         limit={10}
         scrollToTop={scrollToTop}
-        ListHeaderComponent={<Filter length={length} />}
+        ListHeaderComponent={<Filter title={title} length={length} />}
         renderItem={renderItem}
         footerEmptyDataComponent={emptyComponent}
         footerNoMoreDataComponent={emptyComponent}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-14 18:42:24
+ * @Last Modified time: 2022-07-15 17:55:11
  */
 import { observable, computed } from 'mobx'
 import {
@@ -114,7 +114,7 @@ export default class ScreenHomeV2 extends store {
     if (progress.fetching) return
 
     let flag = refresh
-    let { _loaded } = this.userCollection
+    let { _loaded } = this.collection
     if (typeof _loaded !== 'number') _loaded = 0
     if (getTimestamp() - _loaded > 60 * 60) flag = true
 
@@ -277,83 +277,74 @@ export default class ScreenHomeV2 extends store {
   }
 
   /** 在看的用户收藏 */
-  @computed get userCollection() {
-    const { filter } = this.state
-    const _filter = filter.toUpperCase()
-
-    const userCollection = {
-      ...userStore.collection,
-      list: userStore.collection.list.filter(item => {
-        if (!filter.length) return true
-
-        const cn = (
-          item?.subject?.name_cn ||
-          item.name ||
-          item?.subject?.name ||
-          ''
-        ).toUpperCase()
-        if (cn.includes(_filter)) return true
-
-        // 支持每个字符首拼音筛选
-        if (/^[a-zA-Z]+$/.test(_filter) && cn) {
-          if (!PIN_YIN_FIRST_CHARACTER[cn]) {
-            PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
-              cn,
-              cn.length
-            ).replace(/ /g, '')
-          }
-
-          if (PIN_YIN_FIRST_CHARACTER[cn].includes(_filter)) return true
-        }
-
-        return false
-      })
-    }
-
+  @computed get collection() {
     if (userStore.isLimit) {
       return {
-        ...userCollection,
-        list: userCollection.list.filter(item => !x18(item.subject_id))
+        ...userStore.collection,
+        list: userStore.collection.list.filter(item => !x18(item.subject_id))
       }
     }
 
-    return userCollection
+    return userStore.collection
   }
 
-  /** 在玩的游戏 */
-  @computed get games() {
-    const { filter } = this.state
-    const _filter = filter.toUpperCase()
+  /** 当前列表有过滤 */
+  isFilter(title: TabLabel) {
+    return computed(() => {
+      const { filter, filterPage } = this.state
+      if (filterPage >= 0 && filterPage <= this.tabs.length) {
+        return this.tabs[filterPage].title === title && !!filter
+      }
 
-    const { username } = this.usersInfo
-    const userCollections = collectionStore.userCollections(
-      username || this.userId,
-      MODEL_SUBJECT_TYPE.getLabel('游戏'),
-      MODEL_COLLECTION_STATUS.getValue('在看')
-    )
-    return {
-      ...userCollections,
-      list: userCollections.list.filter(item => {
-        if (!filter.length) return true
+      return false
+    }).get()
+  }
 
-        const cn = (item.nameCn || item.name || '').toUpperCase()
-        if (cn.includes(_filter)) return true
+  /** 列表当前数据 */
+  currentCollection(title: TabLabel) {
+    return computed(() => {
+      if (title === '游戏') return this.games
 
-        // 支持每个字符首拼音筛选
-        if (/^[a-zA-Z]+$/.test(_filter) && cn) {
-          if (!PIN_YIN_FIRST_CHARACTER[cn]) {
-            PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
-              cn,
-              cn.length
-            ).replace(/ /g, '')
+      const data = {
+        ...this.collection
+      }
+
+      const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
+      if (type) data.list = data.list.filter(item => item?.subject?.type == type)
+
+      if (this.isFilter(title)) {
+        const { filter } = this.state
+        const _filter = filter.toUpperCase()
+        data.list = data.list.filter(item => {
+          if (!filter.length) return true
+
+          const cn = (
+            item?.subject?.name_cn ||
+            item.name ||
+            item?.subject?.name ||
+            ''
+          ).toUpperCase()
+          if (cn.includes(_filter)) return true
+
+          // 支持每个字符首拼音筛选
+          if (/^[a-zA-Z]+$/.test(_filter) && cn) {
+            if (!PIN_YIN_FIRST_CHARACTER[cn]) {
+              PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
+                cn,
+                cn.length
+              ).replace(/ /g, '')
+            }
+
+            if (PIN_YIN_FIRST_CHARACTER[cn].includes(_filter)) return true
           }
 
-          if (PIN_YIN_FIRST_CHARACTER[cn].includes(_filter)) return true
-        }
+          return false
+        })
+      }
 
-        return false
-      })
-    }
+      data.list = this.sortList(data.list)
+      return data
+    }).get()
   }
 
   /** 置顶的映射 */
@@ -362,27 +353,6 @@ export default class ScreenHomeV2 extends store {
     const topMap = {}
     top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
     return topMap
-  }
-
-  /** 列表当前数据 */
-  currentUserCollection(title: TabLabel) {
-    return computed(() => {
-      if (title === '游戏') return this.games
-
-      const userCollection = {
-        ...this.userCollection
-      }
-
-      const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
-      if (type) {
-        userCollection.list = userCollection.list.filter(
-          item => item?.subject?.type == type
-        )
-      }
-
-      userCollection.list = this.sortList(userCollection.list)
-      return userCollection
-    }).get()
   }
 
   /**
@@ -476,6 +446,42 @@ export default class ScreenHomeV2 extends store {
           .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       }
     }).get()
+  }
+
+  /** 在玩的游戏 */
+  @computed get games() {
+    const { filter } = this.state
+    const _filter = filter.toUpperCase()
+
+    const { username } = this.usersInfo
+    const userCollections = collectionStore.userCollections(
+      username || this.userId,
+      MODEL_SUBJECT_TYPE.getLabel('游戏'),
+      MODEL_COLLECTION_STATUS.getValue('在看')
+    )
+    return {
+      ...userCollections,
+      list: userCollections.list.filter(item => {
+        if (!filter.length) return true
+
+        const cn = (item.nameCn || item.name || '').toUpperCase()
+        if (cn.includes(_filter)) return true
+
+        // 支持每个字符首拼音筛选
+        if (/^[a-zA-Z]+$/.test(_filter) && cn) {
+          if (!PIN_YIN_FIRST_CHARACTER[cn]) {
+            PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
+              cn,
+              cn.length
+            ).replace(/ /g, '')
+          }
+
+          if (PIN_YIN_FIRST_CHARACTER[cn].includes(_filter)) return true
+        }
+
+        return false
+      })
+    }
   }
 
   /** 用户条目收视进度 */
@@ -754,7 +760,7 @@ export default class ScreenHomeV2 extends store {
     t('首页.全部展开')
 
     const item = {}
-    this.userCollection.list.forEach(({ subject_id: subjectId, subject }) => {
+    this.collection.list.forEach(({ subject_id: subjectId, subject }) => {
       const type = MODEL_SUBJECT_TYPE.getTitle(subject.type)
       if (type !== '书籍') {
         item[subjectId] = {
@@ -970,8 +976,10 @@ export default class ScreenHomeV2 extends store {
 
   /** 页面筛选文字变化 */
   onFilterChange = (filter: string) => {
+    const { page } = this.state
     this.setState({
-      filter: filter.trim()
+      filter: filter.trim(),
+      filterPage: page
     })
   }
 

@@ -11,7 +11,7 @@ import { memoStyles } from './styles'
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   connectRef: (() => {}) as (ref: any) => ReturnType<StoreType['connectRef']>,
-  data: LIST_EMPTY as ReturnType<StoreType['currentUserCollection']>,
+  data: LIST_EMPTY as ReturnType<StoreType['currentCollection']>,
   title: '' as TabLabel,
   scrollToTop: false,
   onHeaderRefresh: (() => {}) as StoreType['onHeaderRefresh'],

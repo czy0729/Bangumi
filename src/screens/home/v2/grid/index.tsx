@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 21:37:16
+ * @Last Modified time: 2022-07-15 17:53:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,14 +56,14 @@ class Grid extends React.Component<{
   renderInfo() {
     const { $ } = this.context
     const { title } = this.props
-    if (!$.userCollection._loaded) return <Loading />
+    if (!$.collection._loaded) return <Loading />
 
     const { current, grid } = $.state
-    const userCollection = $.currentUserCollection(title)
+    const collection = $.currentCollection(title)
     const isGame = title === '游戏'
     const find = isGame
       ? grid
-      : userCollection.list.find(item => item.subject_id === current)
+      : collection.list.find(item => item.subject_id === current)
     return (
       <View style={isGame ? this.styles.gameInfo : this.styles.info}>
         {find ? (
@@ -82,7 +82,7 @@ class Grid extends React.Component<{
   renderList() {
     const { $ } = this.context
     const { title } = this.props
-    const userCollection = $.currentUserCollection(title)
+    const collection = $.currentCollection(title)
     const numColumns = _.isMobileLanscape ? 9 : _.device(4, 5)
     return (
       <ListView
@@ -90,7 +90,7 @@ class Grid extends React.Component<{
         ref={this.connectRef}
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
-        data={userCollection}
+        data={collection}
         numColumns={numColumns}
         footerNoMoreDataComponent={<View />}
         footerNoMoreDataText=''
@@ -104,7 +104,7 @@ class Grid extends React.Component<{
     global.rerender('Home.Grid')
 
     const { $ } = this.context
-    if (!$.userCollection._loaded) return <Loading />
+    if (!$.collection._loaded) return <Loading />
 
     return (
       <View style={this.styles.container}>

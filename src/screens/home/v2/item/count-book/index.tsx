@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:08:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:44:12
+ * @Last Modified time: 2022-07-15 17:53:07
  */
 import React from 'react'
 import { Flex, Heatmap, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import BtnBookNext from './btn-book-next'
+import { Ctx } from '../../types'
+import BtnBookNext from '../btn-book-next'
+import { Props } from './types'
 
-function CountBook({ subjectId, isFirst }, { $ }) {
-  const { list = [] } = $.userCollection
-  const { ep_status: epStatus, vol_status: volStatus } = list.find(
-    item => item.subject_id === subjectId
-  )
+function CountBook({ subjectId, isFirst }: Props, { $ }: Ctx) {
+  const { list = [] } = $.collection
+  const { ep_status: epStatus, vol_status: volStatus } =
+    list.find(item => item.subject_id === subjectId) || {}
   return (
     <Flex>
       <Text type='primary' size={16}>

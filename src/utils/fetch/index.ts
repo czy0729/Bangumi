@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 05:32:45
+ * @Last Modified time: 2022-07-15 19:36:48
  */
 import {
   APP_ID,
@@ -16,13 +16,13 @@ import {
   UA
 } from '@constants/constants'
 import { AnyObject, Fn } from '@types'
-import fetch from './thirdParty/fetch-polyfill'
-import md5 from './thirdParty/md5'
-import { urlStringify, sleep, getTimestamp } from './utils'
-import { getUserStoreAsync } from './async'
-import { info as UIInfo, loading } from './ui'
-import { log } from './dev'
-import { hm, ua, err, t } from './track'
+import fetch from '../thirdParty/fetch-polyfill'
+import md5 from '../thirdParty/md5'
+import { urlStringify, sleep, getTimestamp } from '../utils'
+import { getUserStoreAsync } from '../async'
+import { info as UIInfo, loading } from '../ui'
+import { log } from '../dev'
+import { hm, ua, err, t } from '../track'
 
 export { hm, ua, err, t }
 

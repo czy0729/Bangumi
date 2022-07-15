@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-14 12:44:22
+ * @Last Modified time: 2022-07-15 19:46:57
  */
 import dayjs from 'dayjs'
 import { devLog } from '@components'
@@ -29,7 +29,7 @@ import {
   SubjectTypeValue,
   UserId
 } from '@types'
-import { getUserStoreAsync } from './async'
+import { getUserStoreAsync } from '../async'
 // import { get, set } from './cache-manager'
 
 type Subject = {
@@ -239,14 +239,14 @@ export async function fetchCollectionV0(args: {
       all.forEach((item, index) => {
         const cItem = all[index]
         const subject: BaseSubject = {
-          id: cItem.subject.id,
-          url: `//lain.bgm.tv/subject/${cItem.subject.id}`,
+          id: cItem.subject_id,
+          url: `//lain.bgm.tv/subject/${cItem.subject_id}`,
           type: cItem.subject_type,
           name: cItem.subject.name,
           name_cn: cItem.subject.name_cn,
           summary: '',
           eps: cItem.subject.eps,
-          eps_count: cItem.subject.total_episodes,
+          eps_count: cItem.subject.total_episodes || cItem.subject.eps,
           air_date: cItem.subject.date,
           air_weekday: dayjs(cItem.subject.date).day() || 0,
           images: cItem.subject.images,

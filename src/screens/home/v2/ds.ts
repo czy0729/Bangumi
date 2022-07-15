@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-12 09:57:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 14:07:41
+ * @Last Modified time: 2022-07-15 17:33:55
  */
 import { _ } from '@stores'
 import { ExcludeState, State, InitItem, PinYinFirstCharacter } from './types'
@@ -31,6 +31,7 @@ export const EXCLUDE_STATE: ExcludeState = {
     total: 0
   },
   filter: '',
+  filterPage: -1,
   isFocused: true,
   _mounted: false
 }

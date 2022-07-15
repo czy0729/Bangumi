@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-14 18:03:54
+ * @Last Modified time: 2022-07-15 17:53:13
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -18,7 +18,7 @@ import { memoStyles } from './styles'
 export default obc(({ title = '全部' }, { $ }: Ctx) => {
   global.rerender('Home.List')
 
-  if (!$.userCollection._loaded) return <Loading />
+  if (!$.collection._loaded) return <Loading />
 
   const isGrid =
     $.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
@@ -31,7 +31,7 @@ export default obc(({ title = '全部' }, { $ }: Ctx) => {
     <List
       connectRef={ref => $.connectRef(ref, index)}
       styles={styles}
-      data={$.currentUserCollection(title)}
+      data={$.currentCollection(title)}
       title={title}
       scrollToTop={isFocused && TABS[page].title === title}
       onHeaderRefresh={$.onHeaderRefresh}

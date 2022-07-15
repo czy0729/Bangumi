@@ -2,38 +2,48 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 21:28:31
+ * @Last Modified time: 2022-07-15 19:57:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Input, Iconfont } from '@components'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { memoStyles } from './styles'
 import { Ctx } from '../types'
-
-type Props = {
-  length: number
-}
+import { memoStyles } from './styles'
+import { Props } from './types'
 
 class Filter extends React.Component<Props> {
   state = {
     focus: false
   }
 
-  onFocus = () =>
+  onFocus = () => {
     this.setState({
       focus: true
     })
+  }
 
-  onBlur = () =>
+  onBlur = () => {
     this.setState({
       focus: false
     })
+  }
 
   get show() {
     const { setting } = systemStore
     return setting.homeFilter
+  }
+
+  get filter() {
+    const { $ }: Ctx = this.context
+    const { filterPage } = $.state
+    if (filterPage >= 0 && filterPage <= $.tabs.length) {
+      const { filter } = $.state
+      const { title } = this.props
+      if (title === $.tabs[filterPage].title) return filter
+    }
+    return ''
   }
 
   render() {
@@ -42,7 +52,6 @@ class Filter extends React.Component<Props> {
     global.rerender('Home.Filter')
 
     const { $ }: Ctx = this.context
-    const { filter } = $.state
     const { length } = this.props
     const { focus } = this.state
     return (
@@ -50,12 +59,12 @@ class Filter extends React.Component<Props> {
         <Input
           style={this.styles.input}
           clearButtonMode='never'
-          value={filter}
+          value={this.filter}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           onChangeText={$.onFilterChange}
         />
-        {!focus && !filter && (
+        {!focus && !this.filter && (
           <Flex
             style={this.styles.icon}
             justify='center'

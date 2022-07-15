@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 15:08:12
+ * @Last Modified time: 2022-07-15 21:05:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Eps, Cover } from '@_'
 import { _ } from '@stores'
+import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { EpStatus, Subject, SubjectId } from '@types'
 import { memoStyles } from './styles'
+import { Ctx } from '../types'
 
 class GridInfo extends React.Component<{
   subjectId?: SubjectId
@@ -108,7 +110,7 @@ class GridInfo extends React.Component<{
     if (this.label === '游戏') return null
 
     if (this.label === '书籍') {
-      const { list = [] } = $.userCollection
+      const { list = [] } = $.collection
       const { ep_status: epStatus, vol_status: volStatus } = list.find(
         item => item.subject_id === subjectId
       )
@@ -161,7 +163,7 @@ class GridInfo extends React.Component<{
   render() {
     global.rerender('Home.GridInfo')
 
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { subjectId, subject } = this.props
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
@@ -172,6 +174,11 @@ class GridInfo extends React.Component<{
     const imageWidth = _.isMobileLanscape ? 60 : 84
     const imageHeight = imageWidth * 1.4
     const onAirStyle = _.isMobileLanscape ? _.mt.xs : _.mt.sm
+
+    const _subject = $.subject(subjectId)
+    const title = HTMLDecode(
+      cnjp(_subject?.name_cn || subject.name_cn, _subject?.name || subject.name)
+    )
     return (
       <Flex style={this.styles.item} align='start'>
         <View>
@@ -197,8 +204,8 @@ class GridInfo extends React.Component<{
           <Touchable onPress={this.onPress}>
             <Flex align='start'>
               <Flex.Item>
-                <Text numberOfLines={1} bold>
-                  {HTMLDecode(subject.name_cn || subject.name)}
+                <Text numberOfLines={eps.length >= 14 ? 1 : 2} bold>
+                  {title}
                 </Text>
               </Flex.Item>
             </Flex>
