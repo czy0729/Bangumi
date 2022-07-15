@@ -8,11 +8,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-12 18:51:30
  */
-import { observable, computed } from 'mobx'
+import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, HTMLTrim, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
-import { fetchCollectionV0 } from '@utils/fetch.v0'
+import { fetchCollectionSingleV0, fetchCollectionV0 } from '@utils/fetch.v0'
 import {
   API_ACCESS_TOKEN,
   API_EP_STATUS,
@@ -447,6 +447,28 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     return collection
   }
 
+  /** 获取并更新单个在看收藏 */
+  fetchCollectionSingle = async (subjectId: SubjectId, userId: UserId = this.myId) => {
+    const data = await fetchCollectionSingleV0({
+      userId,
+      subjectId
+    })
+    if (!data) return false
+
+    const index = this.collection.list.findIndex(
+      item => item.subject_id === data.subject_id
+    )
+    if (index === -1) return false
+
+    const collection = toJS(this.collection)
+    collection.list[index] = data
+    this.setState({
+      collection
+    })
+    this.setStorage('collection', undefined, NAMESPACE)
+    return true
+  }
+
   /** 获取某人的收视进度 */
   fetchUserProgress = async (subjectId?: SubjectId, userId: UserId = this.myUserId) => {
     const config = {
@@ -767,6 +789,20 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     this.setState({
       outdate: true
     })
+  }
+
+  /** 删掉在看收藏的条目信息 */
+  removeCollection = (subjectId: SubjectId) => {
+    const index = this.collection.list.findIndex(item => item.subject_id === subjectId)
+    if (index === -1) return false
+
+    const collection = toJS(this.collection)
+    collection.list.splice(index, 1)
+    this.setState({
+      collection
+    })
+    this.setStorage('collection', undefined, NAMESPACE)
+    return true
   }
 
   // -------------------- action --------------------

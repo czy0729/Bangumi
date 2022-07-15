@@ -2,19 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:34:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:44:00
+ * @Last Modified time: 2022-07-14 18:46:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import CountBook from './count-book'
-import CountVideo from './count-video'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
+import CountBook from '../count-book'
+import CountVideo from '../count-video'
+import { Ctx } from '../../types'
+import { Props } from './types'
 
-function Count({ subjectId, subject, epStatus, isFirst }, { $ }) {
-  const label = MODEL_SUBJECT_TYPE.getTitle(subject.type)
+function Count({ subjectId, subject, epStatus, isFirst }: Props, { $ }: Ctx) {
+  const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   if (label === '游戏') return null
 
   if (label === '书籍') {

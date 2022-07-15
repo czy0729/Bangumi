@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 16:01:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-12 15:13:35
+ * @Last Modified time: 2022-07-14 18:34:54
  */
 import React from 'react'
 import CompProgress from '@ant-design/react-native/lib/progress'
@@ -12,11 +12,8 @@ import { _ } from '@stores'
 
 function Progress({ epStatus, subject }) {
   const styles = memoStyles()
-  const percent = Math.floor(
-    subject.eps_count
-      ? (Math.floor(epStatus || 0) / Math.floor(subject.eps_count)) * 100
-      : 0
-  )
+  const count = subject.eps || subject.eps_count || 0
+  const percent = Math.floor(count ? (Number(epStatus || 0) / Number(count)) * 100 : 0)
   return (
     <CompProgress
       style={styles.progress}

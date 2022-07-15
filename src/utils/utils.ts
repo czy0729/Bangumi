@@ -148,12 +148,12 @@ export function pick(obj: object, arr: string[]) {
  * @param obj
  * @param arr
  */
-export function omit(obj: object, arr: string[]): object {
+export function omit<T extends object, U extends string[]>(obj: T, arr: U) {
   return Object.keys(obj).reduce(
     // eslint-disable-next-line no-sequences
     (acc, curr) => (arr.indexOf(curr) === -1 && (acc[curr] = obj[curr]), acc),
     {}
-  )
+  ) as Omit<Readonly<T>, Readonly<U>[number]>
 }
 
 /**

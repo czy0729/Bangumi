@@ -11,8 +11,8 @@ import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icon
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { EventKeys } from '@constants/events'
-import { DeepPartial, Override } from './utils'
 import { SITES } from '@constants'
+import { DeepPartial, Override } from './utils'
 
 /** 图标 (iOS Style) */
 export type IoniconsIconsNames = keyof typeof IoniconsIcons

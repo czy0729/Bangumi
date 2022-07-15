@@ -5,14 +5,14 @@
  * @Last Modified time: 2022-07-11 18:27:25
  */
 import { LIST_EMPTY } from '@constants'
-import { StoreType } from '../types'
+import { StoreType, TabLabel } from '../types'
 import { memoStyles } from './styles'
 
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   connectRef: (() => {}) as (ref: any) => ReturnType<StoreType['connectRef']>,
   data: LIST_EMPTY as ReturnType<StoreType['currentUserCollection']>,
-  title: '',
+  title: '' as TabLabel,
   scrollToTop: false,
   onHeaderRefresh: (() => {}) as StoreType['onHeaderRefresh'],
   onFooterRefresh: undefined as StoreType['onFooterRefresh']

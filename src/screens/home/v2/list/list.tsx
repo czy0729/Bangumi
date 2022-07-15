@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-06-20 17:08:33
  */
 import React from 'react'
-import { ListView } from '@components'
+import { PaginationList2 as ListView } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import Filter from '../filter'
@@ -15,8 +15,8 @@ import { DEFAULT_PROPS } from './ds'
 
 const List = memo(
   ({
+    // connectRef,
     styles,
-    connectRef,
     data,
     title,
     scrollToTop,
@@ -25,21 +25,23 @@ const List = memo(
   }) => {
     global.rerender('Home.List.Main')
 
-    const emptyComponent = <Empty title={title} length={data.list.length} />
+    const { length } = data.list
+    const emptyComponent = <Empty title={title} length={length} />
     return (
       <ListView
-        ref={connectRef}
+        // ref={connectRef}
         style={styles.listView}
         contentContainerStyle={styles.contentContainerStyle}
-        keyExtractor={keyExtractor}
-        data={data}
         progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
-        ListHeaderComponent={<Filter />}
-        footerNoMoreDataText=''
+        keyExtractor={keyExtractor}
+        data={data.list}
+        limit={10}
+        scrollToTop={scrollToTop}
+        ListHeaderComponent={<Filter length={length} />}
+        renderItem={renderItem}
         footerEmptyDataComponent={emptyComponent}
         footerNoMoreDataComponent={emptyComponent}
-        scrollToTop={scrollToTop}
-        renderItem={renderItem}
+        footerNoMoreDataText=''
         onHeaderRefresh={onHeaderRefresh}
         onFooterRefresh={onFooterRefresh}
       />

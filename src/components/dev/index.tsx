@@ -20,10 +20,13 @@ import { Text } from '../text'
 import { memoStyles } from './styles'
 
 const logs = observable([])
-// let interval
+
+let interval: number
 
 /** 调试窗口打印 (手机实机开发用) */
-export function devLog(...args) {
+export function devLog(...args: any) {
+  if (!DEV) return
+
   setTimeout(() => {
     runInAction(() => {
       args.reverse().forEach(data => {
@@ -33,16 +36,16 @@ export function devLog(...args) {
         })
       })
 
-      // if (interval) {
-      //   clearInterval(interval)
-      //   interval = null
-      // } else {
-      //   interval = setInterval(() => {
-      //     runInAction(() => {
-      //       logs.clear()
-      //     })
-      //   }, 20000)
-      // }
+      if (interval) {
+        clearInterval(interval)
+        interval = null
+      } else {
+        interval = setInterval(() => {
+          runInAction(() => {
+            logs.clear()
+          })
+        }, 60000)
+      }
     })
   }, 0)
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:45:15
+ * @Last Modified time: 2022-07-14 18:45:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,6 +63,7 @@ const Item = memo(
                 <ToolBar
                   subjectId={subjectId}
                   subject={subject}
+                  epStatus={epStatus}
                   isTop={isTop}
                   isFirst={isFirst}
                 />

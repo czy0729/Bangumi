@@ -6,12 +6,17 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Input, Iconfont } from '@components'
-import { systemStore } from '@stores'
+import { Flex, Text, Input, Iconfont } from '@components'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { memoStyles } from './styles'
+import { Ctx } from '../types'
 
-class Filter extends React.Component {
+type Props = {
+  length: number
+}
+
+class Filter extends React.Component<Props> {
   state = {
     focus: false
   }
@@ -36,8 +41,9 @@ class Filter extends React.Component {
 
     global.rerender('Home.Filter')
 
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { filter } = $.state
+    const { length } = this.props
     const { focus } = this.state
     return (
       <View style={this.styles.filter}>
@@ -57,6 +63,11 @@ class Filter extends React.Component {
             pointerEvents='none'
           >
             <Iconfont name='md-search' size={18} />
+            {!!length && (
+              <Text style={_.ml.xs} type='icon' bold size={15}>
+                {length}
+              </Text>
+            )}
           </Flex>
         )}
       </View>

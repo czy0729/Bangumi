@@ -2,24 +2,26 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:44:38
+ * @Last Modified time: 2022-07-14 18:13:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Touchable, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
 
-function BtnEpNext({ subjectId, isFirst }, { $ }) {
+function BtnEpNext({ subjectId, epStatus, isFirst }, { $ }: Ctx) {
   const { sort } = $.nextWatchEp(subjectId)
   if (!sort) return null
 
+  const countFixed = $.countFixed(subjectId, epStatus)
   return (
     <Touchable style={styles.touch} onPress={() => $.doWatchedNextEp(subjectId)}>
       <Flex style={styles.btn} justify='center'>
         <Iconfont style={styles.icon} name='md-check-circle-outline' size={19} />
         <View style={styles.text}>
-          <Text type='sub'>{sort}</Text>
+          <Text type='sub'>{Math.max(sort, countFixed + 1)}</Text>
         </View>
       </Flex>
       {isFirst && <Heatmap right={26} id='首页.观看下一章节' />}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 18:12:12
+ * @Last Modified time: 2022-07-14 18:42:24
  */
 import { observable, computed } from 'mobx'
 import {
@@ -72,7 +72,6 @@ import {
   TABS_WITH_GAME
 } from './ds'
 import { TabLabel } from './types'
-import { devLog } from '@components'
 
 /** 是否初始化 */
 let inited: boolean
@@ -143,10 +142,7 @@ export default class ScreenHomeV2 extends store {
     // 请求间隔至少为15分钟
     if (getTimestamp() - _loaded >= 60 * (15 + index)) flag = true
 
-    if (flag) {
-      devLog(`subjectId: ${subjectId}, index: ${index}`)
-      return subjectStore.fetchSubject(subjectId)
-    }
+    if (flag) return subjectStore.fetchSubject(subjectId)
 
     return true
   }
@@ -540,6 +536,27 @@ export default class ScreenHomeV2 extends store {
       console.error(NAMESPACE, 'nextWatchEp', error)
       return {}
     }
+  }
+
+  /** 猜测条目当前看到的集数 */
+  countFixed(subjectId: SubjectId, epStatus: number | string) {
+    return computed(() => {
+      // 不能直接用 API 给的 epStatus, 会把 SP 都加上
+      // 需要根据 userProgress 和 eps 排除掉 SP 算
+      const epsMap = {}
+      this.eps(subjectId).forEach(item => {
+        if (item.type !== 1) epsMap[item.id] = true // 排除 SP
+      })
+
+      let count = 0
+      Object.keys(this.userProgress(subjectId)).forEach(item => {
+        if (epsMap[item] && this.userProgress(subjectId)[item] === '看过') count += 1
+      })
+
+      // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
+      // epStatus=1 的时候, 优先使用 count
+      return Number(epStatus == 1 ? count || epStatus : epStatus || count)
+    }).get()
   }
 
   /** 放送顺序 */
@@ -962,9 +979,10 @@ export default class ScreenHomeV2 extends store {
   /** 观看下一章节 */
   doWatchedNextEp = async (subjectId: SubjectId) => {
     const state = this.$Item(subjectId)
-    if (state.doing) {
-      return
-    }
+    if (state.doing) return
+
+    // 更新最新章节数据
+    await userStore.fetchUserProgress(subjectId)
 
     t('首页.观看下一章节', {
       subjectId
@@ -983,10 +1001,6 @@ export default class ScreenHomeV2 extends store {
       id,
       status: MODEL_EP_STATUS.getValue('看过')
     })
-    feedback()
-
-    // userStore.fetchUserCollection()
-    userStore.fetchUserProgress(subjectId)
 
     this.setState({
       item: {
@@ -996,6 +1010,10 @@ export default class ScreenHomeV2 extends store {
         }
       }
     })
+    feedback()
+
+    userStore.fetchCollectionSingle(subjectId)
+    userStore.fetchUserProgress(subjectId)
   }
 
   /** 更新书籍下一个章节 */
@@ -1012,9 +1030,7 @@ export default class ScreenHomeV2 extends store {
       },
       () => {
         feedback()
-
-        // userStore.fetchUserCollection()
-        userStore.fetchUserProgress()
+        userStore.fetchCollectionSingle(subjectId)
       }
     )
   }
@@ -1030,8 +1046,9 @@ export default class ScreenHomeV2 extends store {
     await collectionStore.doUpdateCollection(values)
     feedback()
 
+    // 不是在看的话要删掉对应条目信息
     if (values.status !== MODEL_COLLECTION_STATUS.getValue<EpStatus>('在看')) {
-      // userStore.fetchUserCollection()
+      userStore.removeCollection(values.subjectId)
     }
 
     this.closeManageModal()
@@ -1068,7 +1085,7 @@ export default class ScreenHomeV2 extends store {
       })
       feedback()
 
-      // userStore.fetchUserCollection()
+      userStore.fetchCollectionSingle(subjectId)
       userStore.fetchUserProgress(subjectId)
     }
 
@@ -1097,7 +1114,7 @@ export default class ScreenHomeV2 extends store {
       })
       feedback()
 
-      // userStore.fetchUserCollection()
+      userStore.fetchCollectionSingle(subjectId)
       userStore.fetchUserProgress(subjectId)
     }
 
@@ -1157,7 +1174,7 @@ export default class ScreenHomeV2 extends store {
     })
     feedback()
 
-    // userStore.fetchUserCollection()
+    userStore.fetchCollectionSingle(subjectId)
     userStore.fetchUserProgress(subjectId)
   }
 }
