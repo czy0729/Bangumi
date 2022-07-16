@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-10 04:54:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 07:59:12
+ * @Last Modified time: 2022-07-16 15:42:59
  */
 import CryptoJS from 'crypto-js'
 import { APP_ID } from '@constants/constants'
@@ -13,7 +13,7 @@ export function set(data: object | string) {
 }
 
 /** 解密字符串 */
-export function get(content: string): object | string {
+export function get<T extends object | string>(content: string): T {
   const bytes = CryptoJS.AES.decrypt(content.toString(), APP_ID)
   return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
 }

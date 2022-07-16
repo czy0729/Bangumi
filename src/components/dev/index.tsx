@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 10:21:13
+ * @Last Modified time: 2022-07-16 15:08:58
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -64,7 +64,7 @@ export const DEV = observer(() => {
                 {item.date}
               </Text>
               <Flex.Item style={_.ml.sm}>
-                <Text size={12} lineHeight={13} bold>
+                <Text size={12} lineHeight={13} bold selectable>
                   {item.data}
                 </Text>
               </Flex.Item>

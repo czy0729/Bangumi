@@ -4,21 +4,18 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:33:56
+ * @Last Modified time: 2022-07-16 16:05:24
  */
 import Constants from 'expo-constants'
-import { xhrCustom as xhr } from './fetch'
-import { log } from './dev'
-import Base64 from './thirdParty/base64'
+import Crypto from '../crypto'
+import { xhrCustom as xhr } from '../fetch'
+import Base64 from '../thirdParty/base64'
+import { log } from '../dev'
 
-const oauthData = {
-  grant_type: 'password',
-  username: '9157449+hjbgjuh555@user.noreply.gitee.com',
-  password: '123qweasdzxc',
-  client_id: '3f59c13289f7b2402732801970499fc3dc93938c66746bf4f85523862d880275',
-  client_secret: '40e0957e4f5d291b30e2cf2e3fd1352e93a6491256d2a92931cba7a847ad32cc',
-  scope: 'projects user_info'
-}
+const oauthData = Crypto.get<object>(
+  // eslint-disable-next-line max-len
+  'U2FsdGVkX1+2Hf/JvbnfvOEdqz5ayd5qAAcIjXSSMc8yHARLhUWTUgLL0prbV6o2QEOp1xRe5OVIr1+SFUb1T610pgaGCNnChIAxe3V6PKvOjYTmjGpp9wwWunmuR3HgIUzoNydW37XAONnhIoifG3BIR4ZzzDgxE4xKVSIYUTYjgKCmVkyzDRA6f+i0lUAve5YUmjb1xp5rORzJK5nCHrdUiDuzOf//FnKCVXCLMuYflrgcLRfVblZvVI975ODFGhV6oTMSNb3bKpBDZTF/0F3MsN5l5SA90+4WQBZfYFLYXs3OqdPuEyrspSYJHF/w7DUOKzjfLQBw899UFtAG1Gf1d5gSl72b/xJWy4JfCTZdUNu/Gij3E3ASlY8IX/TEQNna468/goYWCRKZKbVWl4vW9Aw0eEb9YXwpCvooFlo='
+)
 
 const repoData = {
   owner: 'hjbgjuh555',

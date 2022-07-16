@@ -2,20 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-02-27 11:32:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 05:24:04
+ * @Last Modified time: 2022-07-16 16:02:11
  */
 import Constants from 'expo-constants'
+import Crypto from '@utils/crypto'
 import { xhrCustom as xhr } from '@utils/fetch'
 import Base64 from '@utils/thirdParty/base64'
 
-const oauthData = {
-  grant_type: 'password',
-  username: '8691935+a296377710@user.noreply.gitee.com',
-  password: '123qweasdzxc',
-  client_id: '8147145b834d171b9497012d3ae8a8732e974ad44f34b498648aef52a6155b5c',
-  client_secret: '39b06b299ea03da64d4479e0f22277aba879934351b7ed6570c2ecb5658e06d4',
-  scope: 'projects user_info'
-}
+const oauthData = Crypto.get<object>(
+  // eslint-disable-next-line max-len
+  'U2FsdGVkX19fLWKIpcMloDjdAz++NCIuNnc4GAf/tZF9WpcAWWGZaXujErTngZ1aYg487rZ6AAR+ve0ayzlTvw5nl1m4VNVazEzJNFuJCEVYNYCl7UY93qrYaJft7uwzLOAiJyCdFSzgnmJQLKKQ8QZZf2iLaBrwqnginL/lpVY6puBnmBQyKPKT/e+LtNKjjxItXQXbK7eEpcilLK/vmVdWKTUfbaJARriu3zpIw2ARh5C61hZKcerUwzmpaBagv77hPhR0E9JaHP2lVDiE5JcvQ5eDoLGtsDVenRSuS88v1CDjPE3XEM0hm05oUa0AQB0FBKgUayOszrf8NjSSAjJESpSFiikapkYUhz6lYWoYOrx6ZCdgn2U2auwSBp8sJqYY+VeHRSfESxrd9cAgAQJcxMdmbW53OBUn2+Oz1h4='
+)
 
 const repoData = {
   owner: 'a296377710',

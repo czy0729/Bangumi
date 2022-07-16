@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 14:08:03
+ * @Last Modified time: 2022-07-16 14:36:44
  */
-import { Ep, SubjectFormHTML } from '@stores/subject/types'
+import { Crt, Ep, Staff, SubjectFormHTML } from '@stores/subject/types'
 import {
   Collection,
   Cover,
@@ -75,6 +75,8 @@ export const EXCLUDE_STATE = {
       collection: Collection
       summary: string
       rating: Rating
+      character: Crt[]
+      staff: Staff[]
       titleLabel: string
       _loaded: Loaded
     }

@@ -71,7 +71,7 @@ type Topic = {
 }
 
 /** 角色 */
-type Crt = {
+export type Crt = {
   actors: {
     id: Id
     images: ImagesCrt
@@ -95,7 +95,7 @@ type Crt = {
 }
 
 /** 工作人员 */
-type Staff = {
+export type Staff = {
   collects: number
   comment: number
   id: Id

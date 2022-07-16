@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 14:03:33
+ * @Last Modified time: 2022-07-16 14:38:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -617,7 +617,7 @@ export default class Computed extends State {
       )
     }
 
-    return this.subjectFormCDN.crt || []
+    return this.subjectFromOSS.character || this.subjectFormCDN.crt || []
   }
 
   /** 制作人员 */
@@ -652,7 +652,7 @@ export default class Computed extends State {
         })
       )
     }
-    return this.subjectFormCDN.staff || []
+    return this.subjectFromOSS.staff || this.subjectFormCDN.staff || []
   }
 
   /** 关联条目 */

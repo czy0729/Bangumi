@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 14:14:13
+ * @Last Modified time: 2022-07-16 14:40:35
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -417,6 +417,8 @@ export default class Fetch extends Computed {
         collection: this.subjectCollection,
         summary: this.summary,
         rating: this.rating,
+        character: this.crt,
+        staff: this.staff,
         titleLabel: this.titleLabel
       })
     }, 10000)
