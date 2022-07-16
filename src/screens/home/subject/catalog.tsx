@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:33:11
+ * @Last Modified time: 2022-07-16 13:54:04
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -115,8 +115,7 @@ export default obc((props, { $, navigation }) => {
   const { showCatalog } = systemStore.setting
   if (showCatalog === -1) return null
 
-  const { catalog } = $.subjectFormHTML
-  let _catalog = catalog || []
+  let _catalog = $.catalog
   if ($.filterDefault || $.isLimit) {
     _catalog = _catalog.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
   }
@@ -144,6 +143,7 @@ const memoStyles = _.memoStyles(() => ({
     marginBottom: -_.md
   },
   item: {
+    minWidth: 96,
     marginRight: _.md,
     borderRadius: _.radiusSm,
     overflow: 'hidden'

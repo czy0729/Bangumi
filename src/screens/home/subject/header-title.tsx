@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 15:13:57
+ * @Last Modified time: 2022-07-16 13:50:27
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,6 +10,7 @@ import { Cover, Stars } from '@_'
 import { cnjp } from '@utils'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
+import { Ctx } from './types'
 
 const imgWidth = 28
 const imgHeight = imgWidth * 1.28
@@ -56,12 +57,12 @@ const HeaderTitle = memo(({ common, score, type, cn, jp, titleLabel }) => {
   )
 }, defaultProps)
 
-export default ob(({ $ }) => {
+export default ob(({ $ }: Ctx) => {
   global.rerender('Subject.HeaderTitle')
 
   return (
     <HeaderTitle
-      common={$.subject.images?.common}
+      common={$.coverPlaceholder || $.subject.images?.common}
       score={$.rating.score}
       type={$.type}
       cn={$.cn}

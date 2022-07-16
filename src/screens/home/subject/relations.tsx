@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:49:01
+ * @Last Modified time: 2022-07-16 14:02:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconHidden from './icon/hidden'
+import { Ctx } from './types'
 
 const coverWidth = 80
 const coverHeight = coverWidth * 1.4
@@ -73,7 +74,7 @@ const Relations = memo(
   defaultProps
 )
 
-export default obc((props, { $, navigation }) => {
+export default obc((props, { $, navigation }: Ctx) => {
   global.rerender('Subject.Relations')
 
   const { showRelations } = systemStore.setting

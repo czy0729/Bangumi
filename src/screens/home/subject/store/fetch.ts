@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 07:39:54
+ * @Last Modified time: 2022-07-16 14:14:13
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -11,7 +11,8 @@ import {
   HTMLTrim,
   getBangumiUrl,
   getTimestamp,
-  unzipBangumiData
+  unzipBangumiData,
+  omit
 } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import {
@@ -46,6 +47,34 @@ export default class Fetch extends Computed {
     return data
   }
 
+  /** 装载云端条目缓存数据 */
+  fetchSubjectFromOSS = async () => {
+    if (this.subjectFormHTML._loaded) return
+
+    try {
+      const data = await get(`subject_${this.subjectId}`)
+
+      // 云端没有数据存在, 本地计算后上传
+      if (!data) {
+        this.updateSubjectThirdParty()
+        return
+      }
+
+      const { ts, ...subject } = data
+      const _loaded = getTimestamp()
+      if (typeof subject === 'object' && !Array.isArray(subject)) {
+        this.setState({
+          subject: {
+            ...subject,
+            _loaded
+          }
+        })
+      }
+
+      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateSubjectThirdParty()
+    } catch (error) {}
+  }
+
   /** 私有 CDN 的条目信息 */
   fetchSubjectFormCDN = async () => {
     const { setting } = systemStore
@@ -53,9 +82,6 @@ export default class Fetch extends Computed {
     if (!setting.cdn || _loaded) return true
     return subjectStore.fetchSubjectFormCDN(this.subjectId)
   }
-
-  /** 装载条目云端缓存数据 */
-  fetchSubjectFromOSS = async () => {}
 
   /** 装载第三方数据 */
   fetchThirdParty = async (data: { name: string }) => {
@@ -363,6 +389,37 @@ export default class Fetch extends Computed {
     } catch (error) {
       return true
     }
+  }
+
+  /** 上传条目预数据 */
+  updateSubjectThirdParty = () => {
+    setTimeout(() => {
+      const { _loaded, formhash } = this.subjectFormHTML
+
+      // formhash 是登录并且可操作条目的用户的必有值
+      if (!_loaded || !formhash) return
+
+      update(`subject_${this.subjectId}`, {
+        ...omit(this.subjectFormHTML, [
+          'type',
+          'watchedEps',
+          'friend',
+          'who',
+          'formhash',
+          '_loaded'
+        ]),
+        id: this.subjectId,
+        type: this.subject.type,
+        name: this.jp,
+        name_cn: this.cn,
+        image: this.subject.images?.common,
+        eps: this.eps,
+        collection: this.subjectCollection,
+        summary: this.summary,
+        rating: this.rating,
+        titleLabel: this.titleLabel
+      })
+    }, 10000)
   }
 
   /** 上传预数据 */

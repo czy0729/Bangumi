@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-23 02:00:16
+ * @Last Modified time: 2022-07-16 10:21:13
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -21,7 +21,7 @@ import { memoStyles } from './styles'
 
 const logs = observable([])
 
-let interval: number
+// let interval: number
 
 /** 调试窗口打印 (手机实机开发用) */
 export function devLog(...args: any) {
@@ -36,16 +36,16 @@ export function devLog(...args: any) {
         })
       })
 
-      if (interval) {
-        clearInterval(interval)
-        interval = null
-      } else {
-        interval = setInterval(() => {
-          runInAction(() => {
-            logs.clear()
-          })
-        }, 60000)
-      }
+      // if (interval) {
+      //   clearInterval(interval)
+      //   interval = null
+      // } else {
+      //   interval = setInterval(() => {
+      //     runInAction(() => {
+      //       logs.clear()
+      //     })
+      //   }, 60000)
+      // }
     })
   }, 0)
 }

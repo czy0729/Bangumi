@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 02:18:33
+ * @Last Modified time: 2022-07-16 14:07:53
  */
 import { userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -30,12 +30,13 @@ class ScreenSubject extends Action {
         _loaded: needFetch ? current : _loaded
       })
 
+      // 装载条目云端缓存数据
+      this.fetchSubjectFromOSS()
+
       if (needFetch) return this.onHeaderRefresh()
 
       return true
     } catch (error) {
-      console.error('Subject', 'init', error)
-
       this.setState({
         ...EXCLUDE_STATE,
         _loaded: needFetch ? current : _loaded
@@ -44,27 +45,31 @@ class ScreenSubject extends Action {
     }
   }
 
-  /** 访问私有cdn, 加速未缓存条目首屏数据渲染 */
+  /** 访问私有 cdn, 加速未缓存条目首屏数据渲染 */
   onHeaderRefresh = async () => {
-    // 因为有cdn, 下面2个用户相关的接口可以提前
-    this.fetchSubjectFormCDN()
-    this.fetchCollection() // 用户每集收看进度
-    userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
+    // 因为有 cdn, 下面 2 个用户相关的接口可以提前
+    if (!this.state.subject._loaded) this.fetchSubjectFormCDN()
 
-    // API条目信息
+    // 用户每集收看进度
+    this.fetchCollection()
+
+    // 用户收藏状态
+    userStore.fetchUserProgress(this.subjectId)
+
+    // API 条目信息
     const data = await this.fetchSubject()
     queue([
       () => this.fetchThirdParty(data), // 装载第三方数据
       () => this.fetchSubjectComments(true), // 吐槽
-      () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
+      () => this.fetchSubjectFormHTML(), // 条目 API 没有的网页额外数据
       () => this.fetchEpsData(), // 单集播放源
       () => this.rendered() // 有时候没有触发成功, 强制触发
     ])
 
-    // 敏感条目不再返回数据, 而旧接口staff也错乱, 主动请求网页的staff数据
+    // 敏感条目不再返回数据, 而旧接口 staff 也错乱, 主动请求网页的 staff 数据
     if (data?.code === 404) this.fetchPersons()
 
-    return data
+    return true
   }
 }
 

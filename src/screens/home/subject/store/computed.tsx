@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 16:00:53
+ * @Last Modified time: 2022-07-16 14:03:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -118,6 +118,11 @@ export default class Computed extends State {
   /** 条目 CDN 自维护数据 */
   @computed get subjectFormCDN() {
     return subjectStore.subjectFormCDN(this.subjectId)
+  }
+
+  /** 条目云端缓存数据 */
+  @computed get subjectFromOSS() {
+    return this.state.subject
   }
 
   /**
@@ -464,6 +469,7 @@ export default class Computed extends State {
     return (
       _imageForce ||
       _image ||
+      this.subjectFromOSS.image ||
       this.subjectFormCDN.image ||
       this.subject?.images?.medium ||
       ''
@@ -473,21 +479,26 @@ export default class Computed extends State {
   /** 日文名 */
   @computed get jp() {
     const { _jp } = this.params
-    return HTMLDecode(this.subject.name || _jp || this.subjectFormCDN.name)
+    return HTMLDecode(
+      this.subject.name || _jp || this.subjectFromOSS.name || this.subjectFormCDN.name
+    )
   }
 
   /** 中文名 */
   @computed get cn() {
     const { _cn } = this.params
     return HTMLDecode(
-      this.subject.name_cn || _cn || findSubjectCn(this.jp, this.subjectId)
+      this.subject.name_cn ||
+        _cn ||
+        this.subjectFromOSS.name_cn ||
+        findSubjectCn(this.jp, this.subjectId)
     )
   }
 
   /** 条目类型 (Api值) */
   @computed get subjectType() {
     if (this.subject._loaded) return this.subject.type
-    return this.subjectFormCDN.type
+    return this.subjectFromOSS.type || this.subjectFormCDN.type
   }
 
   /** 网站用户评分 */
@@ -496,6 +507,13 @@ export default class Computed extends State {
       return {
         ...INIT_RATING,
         ...this.subject.rating
+      }
+    }
+
+    if (this.subjectFromOSS.rating) {
+      return {
+        ...INIT_RATING,
+        ...this.subjectFromOSS.rating
       }
     }
 
@@ -512,22 +530,21 @@ export default class Computed extends State {
   /** 是否锁定条目 */
   @computed get lock() {
     if (this.subjectFormHTML._loaded) return this.subjectFormHTML.lock
-    return this.subjectFormCDN.lock
+    return this.subjectFromOSS.lock || this.subjectFormCDN.lock
   }
 
   /** 各状态评分人数 */
   @computed get subjectCollection() {
     if (this.subject._loaded) return this.subject.collection || {}
-    return this.subjectFormCDN.collection || {}
+    return this.subjectFromOSS.collection || this.subjectFormCDN.collection || {}
   }
 
   /** 章节数据 */
   @computed get eps() {
     if (this.subject._loaded) {
-      // type = 1 SP的排后面
       return (this.subject.eps || []).sort((a, b) => asc(a, b, item => item.type))
     }
-
+    if (this.subjectFromOSS.eps?.length) return this.subjectFromOSS.eps || []
     return this.subjectFormCDN.eps || []
   }
 
@@ -546,15 +563,19 @@ export default class Computed extends State {
   /** 音乐曲目数据 */
   @computed get disc() {
     if (this.subjectFormHTML._loaded) return this.subjectFormHTML.disc || []
+    if (this.subjectFromOSS.disc?.length) return this.subjectFromOSS.disc || []
     return this.subjectFormCDN.disc || []
   }
 
   /** 详情 */
   @computed get summary() {
     if (this.subject._loaded) return this.subject.summary
-
-    const { _summary = '' } = this.params
-    return this.subjectFormCDN.summary || _summary
+    return (
+      this.subjectFromOSS.summary ||
+      this.subjectFormCDN.summary ||
+      this.params._summary ||
+      ''
+    )
   }
 
   /** 标签 */
@@ -562,27 +583,19 @@ export default class Computed extends State {
     const data =
       (this.subjectFormHTML._loaded
         ? this.subjectFormHTML.tags
-        : this.subjectFormCDN.tags) || []
+        : this.subjectFromOSS.tags || this.subjectFormCDN.tags) || []
     return data.filter(item => !!item.name).filter((item, index) => index < 20)
   }
 
   /** 网页版详情 */
   @computed get info() {
     if (this.subjectFormHTML._loaded) return this.subjectFormHTML.info
-    return this.subjectFormCDN.info
+    return this.subjectFromOSS.info || this.subjectFormCDN.info || ''
   }
-
-  // @computed get characters() {
-  //   return monoStore.characters(this.subjectId)
-  // }
 
   /** 关联人物 */
   @computed get crt() {
     if (this.subject._loaded) {
-      // const actorCoverMap = {}
-      // this.characters.list.forEach(item => {
-      //   if (item.actorCover) actorCoverMap[item.actorId] = item.actorCover
-      // })
       const { crt } = this.subject
       return (crt || []).map(
         ({
@@ -660,12 +673,14 @@ export default class Computed extends State {
         })
       )
     } else {
-      data = (this.subjectFormCDN.relations || []).map(item => ({
-        id: item.id,
-        image: item.image,
-        name: item.title,
-        desc: item.type
-      }))
+      data = (this.subjectFromOSS.relations || this.subjectFormCDN.relations || []).map(
+        item => ({
+          id: item.id,
+          image: item.image,
+          name: item.title,
+          desc: item.type
+        })
+      )
     }
 
     return data.sort((a, b) =>
@@ -675,13 +690,15 @@ export default class Computed extends State {
 
   /** 单行本 */
   @computed get comic() {
-    if (this.subject._loaded) return this.subjectFormHTML.comic || []
+    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.comic || []
+    if (this.subjectFromOSS.comic?.length) return this.subjectFromOSS.comic || []
     return this.subjectFormCDN.comic || []
   }
 
   /** 猜你喜欢 */
   @computed get like() {
-    if (this.subject._loaded) return this.subjectFormHTML.like || []
+    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.like || []
+    if (this.subjectFromOSS.like?.length) return this.subjectFromOSS.like || []
     return this.subjectFormCDN.like || []
   }
 
@@ -698,10 +715,16 @@ export default class Computed extends State {
         'TV'
       if (_label === '动画') return 'TV'
       if (_label === '剧场版') return 'MOVIE'
-      return _label || ''
+      return _label || this.subjectFromOSS.titleLabel || ''
     }
 
-    return this.subjectFormHTML.type || label || ''
+    return this.subjectFormHTML.type || label || this.subjectFromOSS.titleLabel || ''
+  }
+
+  /** 包含的目录 */
+  @computed get catalog() {
+    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.catalog || []
+    return this.subjectFromOSS.catalog || []
   }
 
   /** bilibili 放送信息 */
@@ -731,33 +754,38 @@ export default class Computed extends State {
     return bangumiInfo?.sites?.find(item => item.site === 'youku') || {}
   }
 
+  /** 关联数据 (原始) */
+  @computed get subjectRelations() {
+    const { relations = [], _loaded } = this.subjectFormHTML
+    if (_loaded) return relations
+    return this.subjectFromOSS.relations || []
+  }
+
   /**
    * 关联: 前传和续集, 或系列: 若为单行本, relations第一项则为系列
    * 前传
    */
   @computed get subjectPrev() {
-    const { relations = [] } = this.subjectFormHTML
-    return relations.find(item => item.type === '前传')
+    return this.subjectRelations.find(item => item.type === '前传')
   }
 
   /** 续集 */
   @computed get subjectAfter() {
-    const { relations = [] } = this.subjectFormHTML
-    return relations.find(item => item.type === '续集')
+    return this.subjectRelations.find(item => item.type === '续集')
   }
 
   /** 系列 */
   @computed get subjectSeries() {
-    const { relations = [] } = this.subjectFormHTML
-    return relations?.[0]?.type === '系列' ? relations[0] : null
+    return this.subjectRelations?.[0]?.type === '系列' ? this.subjectRelations[0] : null
   }
 
   /** 动画化 */
   @computed get subjectAnime() {
     if (!(this.titleLabel || '').includes('系列')) return null
 
-    const { relations = [] } = this.subjectFormHTML
-    const find = relations.find(item => item.type === '动画' || item.type === '其他')
+    const find = this.subjectRelations.find(
+      item => item.type === '动画' || item.type === '其他'
+    )
 
     // 部分条目维护不够好, 动画化条目标签为其他, 若日文名字相等都认为是动画化
     if (
@@ -805,7 +833,6 @@ export default class Computed extends State {
       const { list } = this.catalogDetail(item.id)
       if (list.some(i => i.id == this.subjectId)) num += 1
     })
-
     return num
   }
 }

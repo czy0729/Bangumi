@@ -2,8 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 05:24:18
+ * @Last Modified time: 2022-07-16 14:08:03
  */
+import { Ep, SubjectFormHTML } from '@stores/subject/types'
+import {
+  Collection,
+  Cover,
+  Loaded,
+  Override,
+  Rating,
+  SubjectId,
+  SubjectTypeValue
+} from '@types'
+
 /** 唯一命名空间 */
 export const NAMESPACE = 'ScreenSubject'
 
@@ -46,7 +57,28 @@ export const EXCLUDE_STATE = {
   translateResult: [],
 
   /** 曲目名字翻译缓存 */
-  discTranslateResult: []
+  discTranslateResult: [],
+
+  /** 云端缓存的条目信息 */
+  subject: {} as Override<
+    Omit<
+      SubjectFormHTML,
+      'type' | 'watchedEps' | 'friend' | 'who' | 'formhash' | '_loaded'
+    >,
+    {
+      id: SubjectId
+      type: SubjectTypeValue
+      name: string
+      name_cn: string
+      image: Cover<'c'>
+      eps: Ep[]
+      collection: Collection
+      summary: string
+      rating: Rating
+      titleLabel: string
+      _loaded: Loaded
+    }
+  >
 }
 
 /** 关联模块排序优先级 (按描述) */
@@ -54,6 +86,7 @@ export const SORT_RELATION_DESC = {
   动画: 110,
   续集: 100,
   前传: 90,
+  主线故事: 82,
   剧场版: 81,
   番外篇: 80,
   相同世界观: 79,

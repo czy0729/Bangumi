@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 21:32:33
+ * @Last Modified time: 2022-07-16 13:04:42
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -116,7 +116,7 @@ type Staff = {
   url: UrlMono
 }
 
-type Ep = {
+export type Ep = {
   id: Id
   url: UrlEp
 
