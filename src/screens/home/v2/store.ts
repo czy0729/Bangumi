@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:16:57
+ * @Last Modified time: 2022-07-17 03:13:12
  */
 import { observable, computed } from 'mobx'
 import {
@@ -18,6 +18,7 @@ import {
   asc,
   copy,
   desc,
+  feedback,
   getBangumiUrl,
   getCoverMedium,
   getOnAir,
@@ -25,11 +26,11 @@ import {
   open,
   queue,
   unzipBangumiData,
-  x18
+  x18,
+  info
 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { feedback, info } from '@utils/ui'
 import { find } from '@utils/subject/anime'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import {
@@ -58,7 +59,11 @@ import {
   SubjectTypeValue
 } from '@types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { getOriginConfig, replaceOriginUrl } from '../../user/origin-setting/utils'
+import {
+  getOriginConfig,
+  replaceOriginUrl,
+  OriginItem
+} from '../../user/origin-setting/utils'
 import {
   DAY,
   EXCLUDE_STATE,
@@ -111,7 +116,10 @@ export default class ScreenHomeV2 extends store {
   /** 初始化请求 */
   initFetch = async (refresh: boolean = false) => {
     const { progress } = this.state
-    if (progress.fetching) return
+    if (progress.fetching) {
+      info('正在刷新条目信息，请稍后再操作')
+      return
+    }
 
     let flag = refresh
     let { _loaded } = this.collection
@@ -120,11 +128,9 @@ export default class ScreenHomeV2 extends store {
 
     if (flag) {
       const data = await Promise.all([
-        // userStore.fetchUserCollection()
         userStore.fetchCollection(),
         userStore.fetchUserProgress()
       ])
-
       return this.fetchSubjectsQueue(data[0].list)
     }
 
@@ -618,7 +624,7 @@ export default class ScreenHomeV2 extends store {
   onlineOrigins(subjectId: SubjectId) {
     return computed(() => {
       const { type } = this.subject(subjectId)
-      const data = []
+      const data: (OriginItem | string)[] = []
 
       if (Number(type) === 2) {
         getOriginConfig(subjectStore.origin, 'anime')
@@ -865,7 +871,9 @@ export default class ScreenHomeV2 extends store {
 
       // 匹配用户自定义源头
       if (!url) {
-        const find = this.onlineOrigins(subjectId).find(item => item.name === label)
+        const find = this.onlineOrigins(subjectId).find(item =>
+          typeof item === 'object' ? item.name === label : false
+        ) as OriginItem
         if (find) {
           if (label === '萌番组' && find.id) {
             copy(HTMLDecode(name_cn || name))

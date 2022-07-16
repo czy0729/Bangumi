@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 18:29:35
+ * @Last Modified time: 2022-07-17 03:56:26
  */
 import { ModelValueOf } from '@types'
 import {
@@ -19,6 +19,7 @@ import {
   RANK_REAL_FILTER,
   RATING_STATUS,
   SEARCH_CAT,
+  SETTING_HOME_GRID_COVER_LAYOUT,
   SETTING_HOME_LAYOUT,
   SETTING_HOME_SORTING,
   SETTING_INITIAL_PAGE,
@@ -52,6 +53,14 @@ export type RatingStatus = ModelValueOf<typeof RATING_STATUS, 'value'>
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT, 'value'>
 export type SettingHomeLayout = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'value'>
 export type SettingHomeLayoutCn = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'label'>
+export type SettingHomeGridCoverLayout = ModelValueOf<
+  typeof SETTING_HOME_GRID_COVER_LAYOUT,
+  'value'
+>
+export type SettingHomeGridCoverLayoutCn = ModelValueOf<
+  typeof SETTING_HOME_GRID_COVER_LAYOUT,
+  'label'
+>
 export type SettingHomeSorting = ModelValueOf<typeof SETTING_HOME_SORTING, 'value'>
 export type SettingHomeSortingCn = ModelValueOf<typeof SETTING_HOME_SORTING, 'label'>
 export type SettingInitialPageCn = ModelValueOf<typeof SETTING_INITIAL_PAGE, 'label'>

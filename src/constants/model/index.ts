@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 23:30:28
+ * @Last Modified time: 2022-07-17 03:33:02
  */
 import { IOS } from '../constants'
 
@@ -488,6 +488,23 @@ export const SETTING_HOME_LAYOUT = [
 
 /** [设置] 首页收藏布局 */
 export const MODEL_SETTING_HOME_LAYOUT = new Model(SETTING_HOME_LAYOUT)
+
+/** [设置] 首页收藏网格布局时，条目封面形状 */
+export const SETTING_HOME_GRID_COVER_LAYOUT = [
+  {
+    label: '正方形',
+    value: 'square'
+  },
+  {
+    label: '长方形',
+    value: 'rectangle'
+  }
+] as const
+
+/** [设置] 首页收藏网格布局时，条目封面形状 */
+export const MODEL_SETTING_HOME_GRID_COVER_LAYOUT = new Model(
+  SETTING_HOME_GRID_COVER_LAYOUT
+)
 
 /** [设置] 首页收藏排序 */
 export const SETTING_HOME_SORTING = [

@@ -236,7 +236,7 @@ export async function fetchCollectionSingleV0(args: {
       collection: cItem.subject.collection
     }
 
-    const collection = {
+    return {
       name: subject.name_cn || subject.name,
       subject_id: subject.id,
       ep_status: cItem.ep_status,
@@ -244,8 +244,6 @@ export async function fetchCollectionSingleV0(args: {
       lasttouch: dayjs(cItem.updated_at).valueOf() / 1000,
       subject
     }
-    // devLog(collection)
-    return collection
   } catch (error) {
     return null
   }

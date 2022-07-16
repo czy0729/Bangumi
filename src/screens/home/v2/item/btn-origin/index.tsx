@@ -2,25 +2,33 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:56:03
+ * @Last Modified time: 2022-07-17 03:17:43
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
+import { styles } from './styles'
+import { Props } from './types'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
 
-function BtnOrigin({ subjectId, isTop }, { $ }) {
+function BtnOrigin({ subjectId, isTop }: Props, { $ }: Ctx) {
   if ($.homeOrigin === -1) return null
 
-  let origins = []
+  let origins: string[] = []
   if ($.homeOrigin === true) {
     origins = $.onlineOrigins(subjectId).map(item =>
       typeof item === 'object' ? item.name : item
     )
   }
 
-  const data = [isTop ? '取消置顶' : '置顶', ...origins, '全部展开', '全部收起']
+  const subject = $.subject(subjectId)
+  const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
+  const data = [isTop ? '取消置顶' : '置顶', ...origins]
+  if (['动画', '三次元'].includes(title)) data.push('全部展开', '全部收起')
+
   return (
     <Popover
       style={styles.touch}
@@ -62,18 +70,3 @@ function BtnOrigin({ subjectId, isTop }, { $ }) {
 }
 
 export default obc(BtnOrigin)
-
-const styles = _.create({
-  touch: {
-    marginRight: _.device(10, _.sm),
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  btn: {
-    width: 34,
-    height: 34
-  },
-  icon: {
-    marginBottom: -1
-  }
-})

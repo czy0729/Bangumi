@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 18:29:45
+ * @Last Modified time: 2022-07-17 03:40:57
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -12,10 +12,15 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_USER_GRID_NUM,
-  MODEL_SETTING_CDN_ORIGIN
+  MODEL_SETTING_CDN_ORIGIN,
+  MODEL_SETTING_HOME_GRID_COVER_LAYOUT
 } from '@constants/model'
 import { radiusMd } from '@styles'
-import { SettingHomeLayout } from '@types'
+import {
+  SettingHomeGridCoverLayout,
+  SettingHomeLayout,
+  SettingHomeSorting
+} from '@types'
 
 export const NAMESPACE = 'System'
 
@@ -228,8 +233,12 @@ export const INIT_SETTING = {
   /** 首页收藏布局 */
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表'),
 
+  /** 首页收藏网格布局时，条目封面形状 */
+  homeGridCoverLayout:
+    MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getValue<SettingHomeGridCoverLayout>('正方形'),
+
   /** 首页收藏排序 */
-  homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'),
+  homeSorting: MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('APP'),
 
   /** 发现页自定义菜单 */
   discoveryMenu: [...INIT_DISCOVERY_MENU],

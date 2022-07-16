@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 21:05:26
+ * @Last Modified time: 2022-07-17 04:08:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -171,7 +171,7 @@ class GridInfo extends React.Component<{
 
     const eps = $.eps(subjectId)
     const numberOfLines = _.isMobileLanscape ? 12 : _.device(7, 8)
-    const imageWidth = _.isMobileLanscape ? 60 : 84
+    const imageWidth = _.isMobileLanscape ? 60 : this.styles.cover.width
     const imageHeight = imageWidth * 1.4
     const onAirStyle = _.isMobileLanscape ? _.mt.xs : _.mt.sm
 
@@ -200,7 +200,7 @@ class GridInfo extends React.Component<{
             </Text>
           ) : null}
         </View>
-        <Flex.Item style={_.device(_.ml.wind, _.ml.md)}>
+        <Flex.Item style={this.styles.info}>
           <Touchable onPress={this.onPress}>
             <Flex align='start'>
               <Flex.Item>

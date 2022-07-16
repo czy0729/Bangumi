@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 04:07:12
+ * @Last Modified time: 2022-07-17 03:48:37
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, SegmentedControl, Heatmap } from '@components'
@@ -10,7 +10,12 @@ import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { MODEL_SETTING_HOME_LAYOUT, MODEL_SETTING_HOME_SORTING } from '@constants/model'
+import {
+  MODEL_SETTING_HOME_GRID_COVER_LAYOUT,
+  MODEL_SETTING_HOME_LAYOUT,
+  MODEL_SETTING_HOME_SORTING
+} from '@constants'
+import { SettingHomeGridCoverLayout } from '@types'
 import styles from './styles'
 
 const homeSortingInformation = {
@@ -24,8 +29,15 @@ function Home() {
   const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => {
-    const { homeLayout, homeSorting, homeSortSink, showGame, homeFilter, homeOrigin } =
-      systemStore.setting
+    const {
+      homeLayout,
+      homeGridCoverLayout,
+      homeSorting,
+      homeSortSink,
+      showGame,
+      homeFilter,
+      homeOrigin
+    } = systemStore.setting
     return (
       <>
         <ItemSetting hd='进度' arrow highlight onPress={setTrue} />
@@ -63,6 +75,41 @@ function Home() {
             />
             <Heatmap id='设置.切换' title='首页布局' />
           </ItemSettingBlock>
+
+          {/* 封面形状 */}
+          <ItemSetting
+            hd='封面形状'
+            information='开启网格布局时条目封面形状'
+            ft={
+              <SegmentedControl
+                style={styles.segmentedControl}
+                size={12}
+                values={MODEL_SETTING_HOME_GRID_COVER_LAYOUT.data.map(
+                  ({ label }) => label
+                )}
+                selectedIndex={MODEL_SETTING_HOME_GRID_COVER_LAYOUT.data.findIndex(
+                  item => item.value === homeGridCoverLayout
+                )}
+                onValueChange={label => {
+                  if (label) {
+                    t('设置.切换', {
+                      title: '封面形状',
+                      label
+                    })
+
+                    systemStore.setSetting(
+                      'homeGridCoverLayout',
+                      MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getValue<SettingHomeGridCoverLayout>(
+                        label
+                      )
+                    )
+                  }
+                }}
+              />
+            }
+          >
+            <Heatmap id='设置.切换' title='显示搜索源头按钮' />
+          </ItemSetting>
 
           {/* 排序 */}
           <ItemSettingBlock style={_.mt.sm} title='排序'>

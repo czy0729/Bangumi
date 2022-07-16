@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 17:53:26
+ * @Last Modified time: 2022-07-17 03:24:21
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Loading, ListView, Flex, Text, Mesume } from '@components'
+import { Loading, Flex, Text, Mesume } from '@components'
+import { PaginationList2 as ListView } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
@@ -87,10 +88,11 @@ class Grid extends React.Component<{
     return (
       <ListView
         key={`${_.orientation}${numColumns}`}
-        ref={this.connectRef}
+        // ref={this.connectRef}
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
-        data={collection}
+        data={collection.list}
+        limit={20}
         numColumns={numColumns}
         footerNoMoreDataComponent={<View />}
         footerNoMoreDataText=''
