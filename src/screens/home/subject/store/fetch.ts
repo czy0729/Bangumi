@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 22:05:06
+ * @Last Modified time: 2022-07-16 07:39:54
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -35,8 +35,7 @@ export default class Fetch extends Computed {
 
   /** 网页的条目信息 (书籍只有网页端有数据源, 需要初始值) */
   fetchSubjectFormHTML = async () => {
-    const res = subjectStore.fetchSubjectFormHTML(this.subjectId)
-    const data = await res
+    const data = await subjectStore.fetchSubjectFormHTML(this.subjectId)
 
     const { watchedEps, book } = data
     this.setState({
@@ -44,7 +43,7 @@ export default class Fetch extends Computed {
       chap: book.chap || '0',
       vol: book.vol || '0'
     })
-    return res
+    return data
   }
 
   /** 私有 CDN 的条目信息 */
@@ -54,6 +53,9 @@ export default class Fetch extends Computed {
     if (!setting.cdn || _loaded) return true
     return subjectStore.fetchSubjectFormCDN(this.subjectId)
   }
+
+  /** 装载条目云端缓存数据 */
+  fetchSubjectFromOSS = async () => {}
 
   /** 装载第三方数据 */
   fetchThirdParty = async (data: { name: string }) => {

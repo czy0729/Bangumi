@@ -1,14 +1,13 @@
-/* eslint-disable no-await-in-loop, no-restricted-syntax */
 /*
  * @Author: czy0729
  * @Date: 2020-11-30 16:16:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 20:48:00
+ * @Last Modified time: 2022-07-16 08:23:47
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { getTimestamp, copy } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
@@ -58,9 +57,7 @@ export default class ScreenTinygrailClipboard extends store {
   @computed get list() {
     const { ids } = this.state
     return relation({
-      list: ids
-        .map(id => tinygrailStore.characters(id))
-        .filter(item => item.id !== 0),
+      list: ids.map(id => tinygrailStore.characters(id)).filter(item => item.id !== 0),
       pagination: {
         page: 1,
         pageTotal: 1
@@ -76,12 +73,12 @@ export default class ScreenTinygrailClipboard extends store {
       return
     }
 
-    Clipboard.setString(
+    copy(
       this.list.list
         .map(item => `https://bgm.tv/character/${item.id}\n${item.name}`)
-        .join('\n')
+        .join('\n'),
+      `已复制 ${this.list.list.length} 个角色的分享链接`
     )
-    info(`已复制 ${this.list.list.length} 个角色的分享链接`)
   }
 
   batchICO = async ids => {

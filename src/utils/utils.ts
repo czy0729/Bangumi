@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-04 15:32:49
+ * @Last Modified time: 2022-07-16 07:51:05
  */
-import { Clipboard, InteractionManager, PromiseTask, SimpleTask } from 'react-native'
+import { InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
 import { DEV } from '@/config'
@@ -154,14 +154,6 @@ export function omit<T extends object, U extends string[]>(obj: T, arr: U) {
     (acc, curr) => (arr.indexOf(curr) === -1 && (acc[curr] = obj[curr]), acc),
     {}
   ) as Omit<Readonly<T>, Readonly<U>[number]>
-}
-
-/**
- * 复制到剪贴板
- * @param {*} str
- */
-export function copy(str: string) {
-  return Clipboard.setString(str)
 }
 
 /**

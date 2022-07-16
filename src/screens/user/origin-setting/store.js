@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:07:09
+ * @Last Modified time: 2022-07-16 08:19:42
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
@@ -370,8 +370,7 @@ export default class ScreenOriginSetting extends store {
       const { test } = types.find(item => item.type === type)
       const _url = replaceOriginUrl(url, test)
 
-      copy(_url)
-      info('已复制地址', 1)
+      copy(_url, '已复制地址', 1)
       setTimeout(() => {
         open(_url)
       }, 1600)

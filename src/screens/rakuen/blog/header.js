@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:20:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 21:27:50
+ * @Last Modified time: 2022-07-16 08:17:43
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
 import { copy, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import { HOST } from '@constants'
 import HeaderTitle from './header-title'
 
@@ -39,13 +38,11 @@ function Header({ y, fixed }, { $, navigation }) {
                 break
 
               case '复制链接':
-                copy(url)
-                info('已复制链接')
+                copy(url, '已复制链接')
                 break
 
               case '复制分享':
-                copy(`【链接】${$.title} | Bangumi番组计划\n${url}`)
-                info('已复制分享文案')
+                copy(`【链接】${$.title} | Bangumi番组计划\n${url}`, '已复制分享文案')
                 break
 
               default:

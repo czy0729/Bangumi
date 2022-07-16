@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 16:10:34
+ * @Last Modified time: 2022-07-16 08:19:23
  */
-import { NativeModules, Alert, Vibration } from 'react-native'
+import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
@@ -183,4 +183,23 @@ export function androidDayNightToggle(isDark?: boolean) {
   if (IOS) return
 
   NativeModules.DayNight.setDarkMode(isDark ? 2 : 1)
+}
+
+/**
+ * 复制到剪贴板
+ * @param val
+ * @param message
+ * @param ms
+ */
+export function copy(val: any, message: boolean | string = true, ms?: number) {
+  const string = String(val)
+  Clipboard.setString(string)
+
+  if (message === true) {
+    info(`已复制 ${string}`, ms)
+  } else if (typeof message === 'string') {
+    info(message, ms)
+  }
+
+  feedback()
 }

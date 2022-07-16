@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:36:10
+ * @Last Modified time: 2022-07-16 08:23:04
  */
-import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { toFixed, getTimestamp } from '@utils'
+import { toFixed, getTimestamp, copy } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { alert, confirm, info, feedback } from '@utils/ui'
@@ -546,12 +545,12 @@ export default class ScreenTinygrailCharaAssets extends store {
       }
     }
 
-    Clipboard.setString(
+    copy(
       items
         .map(item => `https://bgm.tv/character/${item.monoId || item.id}\n${item.name}`)
-        .join('\n')
+        .join('\n'),
+      `已复制 ${items.length} 个角色的分享链接`
     )
-    info(`已复制 ${items.length} 个角色的分享链接`)
     this.toggleBatchEdit()
   }
 }

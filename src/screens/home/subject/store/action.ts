@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 04:17:08
+ * @Last Modified time: 2022-07-16 08:16:24
  */
 import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
 import {
@@ -116,7 +116,6 @@ export default class Action extends Fetch {
         if (find) {
           if (key === '萌番组' && find.id) {
             copy(this.cn || this.jp)
-            info('已复制条目名')
             setTimeout(() => {
               open(find.url)
             }, 1600)
@@ -179,8 +178,7 @@ export default class Action extends Fetch {
       }
 
       if (url) {
-        copy(url)
-        info('已复制地址')
+        copy(url, '已复制地址')
         setTimeout(() => {
           open(url)
         }, 1600)
@@ -212,8 +210,7 @@ export default class Action extends Fetch {
       }
 
       if (url) {
-        copy(url)
-        info('已复制地址')
+        copy(url, '已复制地址')
         setTimeout(() => {
           open(url)
         }, 1600)
@@ -245,8 +242,7 @@ export default class Action extends Fetch {
       }
 
       if (url) {
-        copy(url)
-        info('已复制地址')
+        copy(url, '已复制地址')
         setTimeout(() => {
           open(url)
         }, 1600)
@@ -278,8 +274,7 @@ export default class Action extends Fetch {
       }
 
       if (url) {
-        copy(url)
-        info('已复制地址')
+        copy(url, '已复制地址')
         setTimeout(() => {
           open(url)
         }, 1600)
@@ -298,8 +293,7 @@ export default class Action extends Fetch {
     })
 
     const url = `${SITE_MANHUADB()}/manhua/${mangaId}`
-    copy(url)
-    info('已复制地址')
+    copy(url, '已复制地址')
 
     setTimeout(() => {
       open(url)
@@ -315,8 +309,7 @@ export default class Action extends Fetch {
     })
 
     const url = `${SITE_WK8()}/novel/${Math.floor(wenkuId / 1000)}/${wenkuId}/index.htm`
-    copy(url)
-    info('已复制地址')
+    copy(url, '已复制地址')
 
     setTimeout(() => {
       open(url)

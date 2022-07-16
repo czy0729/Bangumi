@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 16:25:48
+ * @Last Modified time: 2022-07-16 08:22:10
  */
 import React from 'react'
-import { View, Clipboard } from 'react-native'
+import { View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
 import { ScoreTag, Tag } from '@_'
 import { _, systemStore } from '@stores'
-import { toFixed, cnjp, getTimestamp } from '@utils'
+import { toFixed, cnjp, getTimestamp, copy } from '@utils'
 import { obc, memo } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { PAD } from '@constants'
-import Cover from './cover'
-import Series from './series'
+import Cover from '../cover'
+import Series from '../series'
 
 const defaultProps = {
   styles: {},
@@ -140,10 +139,7 @@ const Head = memo(
                   size={size}
                   lineHeight={size + 1}
                   bold
-                  onLongPress={() => {
-                    Clipboard.setString(bottom)
-                    info(`已复制 ${bottom}`)
-                  }}
+                  onLongPress={() => copy(bottom)}
                 >
                   {bottom}
                   {!!year && (
@@ -160,10 +156,7 @@ const Head = memo(
                   type='sub'
                   size={topSize}
                   numberOfLines={2}
-                  onLongPress={() => {
-                    Clipboard.setString(top)
-                    info(`已复制 ${top}`)
-                  }}
+                  onLongPress={() => copy(top)}
                 >
                   {tops}
                 </Text>

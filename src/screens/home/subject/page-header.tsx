@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 17:26:50
+ * @Last Modified time: 2022-07-16 08:15:35
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { copy, cnjp, open } from '@utils'
+import { copy, cnjp, open, info } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import HeaderTitle from './header-title'
 import IconShare from './icon/share'
 
@@ -39,13 +38,14 @@ function Header({ fixed }, { $, navigation }) {
               setTimeout(() => {
                 switch (key) {
                   case '复制链接':
-                    copy($.url)
-                    info('已复制链接')
+                    copy($.url, '已复制链接')
                     break
 
                   case '复制分享':
-                    copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`)
-                    info('已复制分享文案')
+                    copy(
+                      `【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`,
+                      '已复制分享文案'
+                    )
                     break
 
                   case '重置布局':

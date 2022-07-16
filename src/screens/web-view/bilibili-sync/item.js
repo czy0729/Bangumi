@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-24 15:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 09:42:49
+ * @Last Modified time: 2022-07-16 08:21:01
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -159,8 +159,7 @@ const Item = memo(
                   text={bili.comment}
                   onPress={() => {
                     if (!review?.content) return
-                    copy(review?.content)
-                    info('已复制')
+                    copy(review?.content, '已复制')
                   }}
                 />
               </Flex.Item>

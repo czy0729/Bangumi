@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:31:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 19:50:03
+ * @Last Modified time: 2022-07-16 08:20:23
  */
 import React, { useState } from 'react'
 import { View, Linking } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { copy, desc } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
-import { alert, info } from '@utils/ui'
+import { alert } from '@utils/ui'
 import { IMG_DEFAULT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { icons } from './utils'
@@ -177,10 +177,7 @@ const Item = memo(
             <View style={[styles.folder, styles.folderList]}>
               <Touchable
                 onPress={() => setShowFolder(!showFolder)}
-                onLongPress={() => {
-                  copy(path.join('/'))
-                  info('已复制smb地址')
-                }}
+                onLongPress={() => copy(path.join('/'), '已复制smb地址')}
               >
                 <Flex align='start'>
                   <Image
@@ -208,15 +205,12 @@ const Item = memo(
                       <Touchable
                         key={item.name}
                         style={styles.item}
-                        onPress={() => {
+                        onPress={() =>
                           copy(
-                            url(smb.sharedFolder, folder.path, folder.name, item.name)
+                            url(smb.sharedFolder, folder.path, folder.name, item.name),
+                            '已复制smb地址'
                           )
-                          info('已复制smb地址')
-                          console.log(
-                            url(smb.sharedFolder, folder.path, folder.name, item.name)
-                          )
-                        }}
+                        }
                         onLongPress={async () => {
                           const link = url(
                             smb.sharedFolder,

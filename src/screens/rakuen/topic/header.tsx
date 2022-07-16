@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 10:17:05
+ * @Last Modified time: 2022-07-16 08:18:02
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -41,13 +41,11 @@ function Header({ fixed }, { $, navigation }) {
                   break
 
                 case '复制链接':
-                  copy(url)
-                  info('已复制链接')
+                  copy(url, '已复制链接')
                   break
 
                 case '复制分享':
-                  copy(`【链接】${$.title} | Bangumi番组计划\n${url}`)
-                  info('已复制分享文案')
+                  copy(`【链接】${$.title} | Bangumi番组计划\n${url}`, '已复制分享文案')
                   break
 
                 case '举报':

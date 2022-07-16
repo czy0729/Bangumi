@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 17:55:11
+ * @Last Modified time: 2022-07-16 08:16:57
  */
 import { observable, computed } from 'mobx'
 import {
@@ -869,7 +869,6 @@ export default class ScreenHomeV2 extends store {
         if (find) {
           if (label === '萌番组' && find.id) {
             copy(HTMLDecode(name_cn || name))
-            info('已复制条目名')
             setTimeout(() => {
               open(find.url)
             }, 1600)

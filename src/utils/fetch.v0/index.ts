@@ -2,142 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 19:46:57
+ * @Last Modified time: 2022-07-16 07:34:46
  */
 import dayjs from 'dayjs'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { devLog } from '@components'
-import axios from '@utils/thirdParty/axios'
-import {
-  getTimestamp,
-  // omit,
-  urlStringify
-} from '@utils'
-import {
-  safe
-  // queue
-} from '@utils/fetch'
-import { APP_ID, UA } from '@constants/constants'
-import {
-  Collection as BaseCollection,
-  CollectionStatusValue,
-  DeepPartial,
-  Images,
-  ListEmpty,
-  Rating,
-  Subject as BaseSubject,
-  SubjectId,
-  SubjectTypeValue,
-  UserId
-} from '@types'
-import { getUserStoreAsync } from '../async'
-// import { get, set } from './cache-manager'
+import { getTimestamp } from '@utils'
+import { Subject as BaseSubject, SubjectId, UserId } from '@types'
+// import { get, set } from '../cache-manager'
+import { request } from './utils'
+import { API_COLLECTIONS, API_COLLECTION, HOST_API_V0 } from './ds'
+import { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
 
-type Subject = {
-  date: string
-  platform: string
-  images: Images
-  summary: string
-  name: string
-  name_cn: string
-  tags: {
-    name: string
-    count: number
-  }[]
-  infobox: any[]
-  rating: Rating
-  total_episodes: number
-  collection: BaseCollection
-  id: SubjectId
-  eps: number
-  volumes: number
-  locked: boolean
-  nsfw: boolean
-  type: CollectionStatusValue
-}
-
-type CollectionItem = {
-  updated_at: string
-  comment: string
-  tags: string[]
-  subject_id: SubjectId
-  ep_status: number
-  vol_status: number
-  subject_type: SubjectTypeValue
-  type: CollectionStatusValue
-  rate: number
-  private: boolean
-  subject: Subject
-}
-
-type Collection = {
-  data: CollectionItem[]
-  total: number
-  limit: number
-  offset: number
-}
-
-type UserCollectionItem = {
-  name: string
-  subject_id: SubjectId
-  ep_status: number
-  vol_status: number
-  lasttouch: number
-  subject: BaseSubject
-}
-
-type UserCollection = ListEmpty<DeepPartial<UserCollectionItem>>
-
-const HOST_API_V0 = 'https://api.bgm.tv/v0'
-
-const API_COLLECTIONS = (
-  userId: UserId,
-  subjectType: SubjectTypeValue,
-  page = 1,
-  limit = 100
-) =>
-  `${HOST_API_V0}/users/${userId}/collections?subject_type=${subjectType}&type=3&limit=${limit}&offset=${
-    (page - 1) * limit
-  }` as const
-
-const API_COLLECTION = (userId: UserId, subjectId: SubjectId) =>
-  `${HOST_API_V0}/users/${userId}/collections/${subjectId}` as const
-
-export async function request<T>(url: string, data?: object): Promise<T> {
-  // @ts-ignore
-  axios.defaults.withCredentials = false
-
-  try {
-    const { accessToken } = getUserStoreAsync()
-
-    // 随机数防止接口CDN缓存
-    url += `${url.includes('?') ? '&' : '?'}${urlStringify({
-      app_id: APP_ID,
-      state: getTimestamp()
-    })}`
-
-    const method = typeof data === 'object' ? 'post' : 'get'
-    const config: any = {
-      method,
-      url,
-      headers: {
-        Authorization: `${accessToken.token_type} ${accessToken.access_token}`,
-        'User-Agent': UA
-      }
-    }
-    if (method === 'post') {
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      config.data = urlStringify(data)
-    }
-
-    // @ts-ignore
-    const { data: responseData } = await axios(config)
-    return safe(responseData) as T
-  } catch (ex) {
-    return {} as T
-  }
-}
-
-export async function fetchSubjectV0(config) {
+/** 获取条目信息 */
+export async function fetchSubjectV0(config: { url: string }) {
   const subjectId = Number(config.url.split('/subject/')[1])
   const subject = await request<any>(`${HOST_API_V0}/subjects/${subjectId}`)
   const eps = await request<any>(`${HOST_API_V0}/episodes?subject_id=${subjectId}`)
@@ -189,7 +67,8 @@ export async function fetchSubjectV0(config) {
   }
 }
 
-async function fetchCollectionAll(userId) {
+/** 获取所有类型的在看收藏 */
+async function fetchCollectionAll(userId: UserId) {
   const all: Collection['data'] = []
 
   // 动画请求最多3页
@@ -233,7 +112,7 @@ export async function fetchCollectionV0(args: {
 
   try {
     const all = await fetchCollectionAll(userId)
-    devLog(`fetchv0 | all.length: ${all.length}`)
+    // devLog(`fetchv0 | all.length: ${all.length}`)
 
     if (all.length) {
       all.forEach((item, index) => {
@@ -365,7 +244,7 @@ export async function fetchCollectionSingleV0(args: {
       lasttouch: dayjs(cItem.updated_at).valueOf() / 1000,
       subject
     }
-    devLog(collection)
+    // devLog(collection)
     return collection
   } catch (error) {
     return null

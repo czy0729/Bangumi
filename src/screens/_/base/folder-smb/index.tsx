@@ -4,15 +4,14 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 05:57:01
+ * @Last Modified time: 2022-07-16 08:13:11
  */
 import React, { useState } from 'react'
 import { View, Linking } from 'react-native'
 import { Flex, Image, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
-import { copy, desc } from '@utils'
+import { copy, desc, alert } from '@utils'
 import { obc } from '@utils/decorators'
-import { info, alert } from '@utils/ui'
 import { getUrl } from './utils'
 import { ICONS_ASSETS, SORT_ORDER } from './ds'
 import { memoStyles } from './styles'
@@ -30,10 +29,7 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
     <View style={[styles.folder, styles.folderList]}>
       <Touchable
         onPress={() => setShowFolder(!showFolder)}
-        onLongPress={() => {
-          copy(path.join('/'))
-          info('已复制smb地址')
-        }}
+        onLongPress={() => copy(path.join('/'), '已复制smb地址')}
       >
         <Flex align='start'>
           <Image
@@ -63,11 +59,7 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
                 <Touchable
                   key={item.name}
                   style={styles.item}
-                  onPress={() => {
-                    copy(getUrl(smb, folder, item.name))
-                    info('已复制smb地址')
-                    console.log(getUrl(smb, folder, item.name))
-                  }}
+                  onPress={() => copy(getUrl(smb, folder, item.name), '已复制smb地址')}
                   onLongPress={async () => {
                     const link = getUrl(smb, folder, item.name)
                     if (!(await Linking.canOpenURL(link))) {

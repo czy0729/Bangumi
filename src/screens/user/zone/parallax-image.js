@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 19:52:47
+ * @Last Modified time: 2022-07-16 08:20:46
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -13,7 +13,7 @@ import { open, copy } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { confirm, info } from '@utils/ui'
+import { confirm } from '@utils/ui'
 import { IOS, HOST } from '@constants'
 import Head from './head'
 import { H_HEADER, H_RADIUS_LINE } from './store'
@@ -175,13 +175,11 @@ function ParallaxImage(props, { $, navigation }) {
                 break
 
               case '复制链接':
-                copy(url)
-                info('已复制链接')
+                copy(url, '已复制链接')
                 break
 
               case '复制分享':
-                copy(`【链接】${userName} | Bangumi番组计划\n${url}`)
-                info('已复制分享文案')
+                copy(`【链接】${userName} | Bangumi番组计划\n${url}`, '已复制分享文案')
                 break
 
               case '发短信':

@@ -54,7 +54,7 @@ class ScreenSubject extends Action {
     // API条目信息
     const data = await this.fetchSubject()
     queue([
-      () => this.fetchThirdParty(data), // bangumi-data 数据扩展
+      () => this.fetchThirdParty(data), // 装载第三方数据
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
       () => this.fetchEpsData(), // 单集播放源

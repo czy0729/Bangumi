@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:14:40
+ * @Last Modified time: 2022-07-16 08:22:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,8 +51,7 @@ class LoginAssist extends React.Component {
   copy = () => {
     t('辅助登录.复制')
 
-    copy(code)
-    info('已复制')
+    copy(code, '已复制')
   }
 
   onChangeText = result => {
