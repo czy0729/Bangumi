@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 20:22:47
+ * @Last Modified time: 2022-07-18 21:34:26
  */
 import dayjs from 'dayjs'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { devLog } from '@components'
 import { getTimestamp } from '@utils'
 import { Subject as BaseSubject, SubjectId, UserId } from '@types'
+import { getSystemStoreAsync } from '../async'
 // import { get, set } from '../cache-manager'
 import { request } from './utils'
 import { API_COLLECTIONS, API_COLLECTION, HOST_API_V0 } from './ds'
@@ -75,14 +76,18 @@ async function fetchCollectionAll(userId: UserId) {
   let collection = await request<Collection>(API_COLLECTIONS(userId, '2'))
   if (Array.isArray(collection?.data)) all.push(...collection.data)
 
-  if (collection?.total > 100) {
-    collection = await request<Collection>(API_COLLECTIONS(userId, '2', 2))
-    if (Array.isArray(collection?.data)) all.push(...collection.data)
-  }
+  // 高级会员才开放3页
+  const systemStore = getSystemStoreAsync()
+  if (systemStore.advance) {
+    if (collection?.total > 100) {
+      collection = await request<Collection>(API_COLLECTIONS(userId, '2', 2))
+      if (Array.isArray(collection?.data)) all.push(...collection.data)
+    }
 
-  if (collection?.total > 200) {
-    collection = await request<Collection>(API_COLLECTIONS(userId, '2', 3))
-    if (Array.isArray(collection?.data)) all.push(...collection.data)
+    if (collection?.total > 200) {
+      collection = await request<Collection>(API_COLLECTIONS(userId, '2', 3))
+      if (Array.isArray(collection?.data)) all.push(...collection.data)
+    }
   }
 
   // 书籍1页

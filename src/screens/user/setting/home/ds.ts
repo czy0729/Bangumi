@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 11:56:46
+ * @Last Modified time: 2022-07-18 21:44:33
  */
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 
@@ -25,6 +25,9 @@ export const TEXTS = {
     grid: {
       title: '网格'
     }
+  },
+  homeListLimit: {
+    hd: '列表显示最大收藏数'
   },
   homeGridCoverLayout: {
     hd: '封面形状',

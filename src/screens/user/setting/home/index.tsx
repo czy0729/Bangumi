@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:05:55
+ * @Last Modified time: 2022-07-18 21:46:48
  */
 import React from 'react'
-import { ActionSheet, SwitchPro, SegmentedControl, Heatmap } from '@components'
+import { ActionSheet, SwitchPro, SegmentedControl, Heatmap, Text } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { useBoolean, useObserver } from '@utils/hooks'
@@ -86,9 +86,20 @@ function Home({ filter }) {
             <Heatmap id='设置.切换' title='首页布局' />
           </ItemSettingBlock>
 
+          {/* 列表显示最大收藏数 */}
+          <ItemSetting
+            show={shows.homeListLimit}
+            ft={
+              <Text size={13} bold>
+                {systemStore.advance ? '当前300 (非会员100)' : '当前100 (会员300)'}
+              </Text>
+            }
+            {...TEXTS.homeListLimit}
+          />
+
           {/* 封面形状 */}
           <ItemSetting
-            show={shows.homeGridCoverLayout}
+            show={shows.homeGridCoverLayout && currentHomeLayout === 'grid'}
             ft={
               <SegmentedControl
                 style={styles.segmentedControl}
