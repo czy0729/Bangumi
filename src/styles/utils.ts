@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:55:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 04:07:21
+ * @Last Modified time: 2022-07-17 17:12:16
  */
 import { lineHeightRatio } from './layout'
 
@@ -10,9 +10,9 @@ import { lineHeightRatio } from './layout'
 export const fontSizeAdjust = 0
 
 /** 计算动态文字大小 */
-export function fontSize(pt: number, fontSizeAdjust = 0) {
+export function fontSize(pt: number, fontSizeAdjust: number = 0) {
   return {
-    fontSize: Math.floor(pt + fontSizeAdjust),
-    lineHeight: Math.floor((pt + fontSizeAdjust) * lineHeightRatio)
+    fontSize: Math.floor(pt + Number(fontSizeAdjust)),
+    lineHeight: Math.floor((pt + Number(fontSizeAdjust)) * lineHeightRatio)
   }
 }

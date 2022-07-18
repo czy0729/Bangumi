@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 03:33:02
+ * @Last Modified time: 2022-07-17 16:46:30
  */
 import { IOS } from '../constants'
 
@@ -580,7 +580,7 @@ export const SETTING_QUALITY = [
 export const MODEL_SETTING_QUALITY = new Model(SETTING_QUALITY)
 
 /** [设置] 字号 */
-export const MODEL_SETTING_FONTSIZEADJUST = new Model([
+export const SETTING_FONTSIZEADJUST = [
   {
     label: '-1',
     value: '-1'
@@ -601,7 +601,10 @@ export const MODEL_SETTING_FONTSIZEADJUST = new Model([
     label: '+4',
     value: '+4'
   }
-])
+] as const
+
+/** [设置] 字号 */
+export const MODEL_SETTING_FONTSIZEADJUST = new Model(SETTING_FONTSIZEADJUST)
 
 /** [设置] 用户空间网格个数 */
 export const SETTING_USER_GRID_NUM = [

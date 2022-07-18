@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:16:08
+ * @Last Modified time: 2022-07-17 15:39:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,17 @@ import {
 export { IItemSettingBlock, ItemSettingBlockProps, ItemSettingBlockItemProps }
 
 const ItemSettingBlock: IItemSettingBlock = ob(
-  ({ style, title, information, informationType = 'sub', size = 16, children }) => {
+  ({
+    style,
+    show = true,
+    title,
+    information,
+    informationType = 'sub',
+    size = 16,
+    children
+  }) => {
+    if (!show) return null
+
     const styles = memoStyles()
     return (
       <View style={[styles.container, style]}>

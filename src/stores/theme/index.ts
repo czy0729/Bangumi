@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 13:46:36
+ * @Last Modified time: 2022-07-17 17:13:25
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -13,7 +13,7 @@ import store from '@utils/store'
 import { androidDayNightToggle } from '@utils/ui'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
 import _, { fontSize } from '@styles'
-import { SelectFn, StoreConstructor } from '@types'
+import { SelectFn, SettingFontsizeadjust, StoreConstructor } from '@types'
 import systemStore from '../system'
 import {
   NAMESPACE,
@@ -254,108 +254,108 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 粉 (主题色) */
-  @computed get colorMain() {
-    return this.state.colorMain as Color<'colorMain'>
+  @computed get colorMain(): Color<'colorMain'> {
+    return this.state.colorMain
   }
 
   /** 粉 (最浅) */
-  @computed get colorMainLight() {
-    return this.state.colorMainLight as Color<'colorMainLight'>
+  @computed get colorMainLight(): Color<'colorMainLight'> {
+    return this.state.colorMainLight
   }
 
   /** 蓝 */
-  @computed get colorPrimary() {
-    return this.state.colorPrimary as Color<'colorPrimary'>
+  @computed get colorPrimary(): Color<'colorPrimary'> {
+    return this.state.colorPrimary
   }
 
   /** 绿 */
-  @computed get colorSuccess() {
-    return this.state.colorSuccess as Color<'colorSuccess'>
+  @computed get colorSuccess(): Color<'colorSuccess'> {
+    return this.state.colorSuccess
   }
 
   /** 黄 */
-  @computed get colorYellow() {
-    return this.state.colorYellow as Color<'colorYellow'>
+  @computed get colorYellow(): Color<'colorYellow'> {
+    return this.state.colorYellow
   }
 
   /** 橙 */
-  @computed get colorWarning() {
-    return this.state.colorWarning as Color<'colorWarning'>
+  @computed get colorWarning(): Color<'colorWarning'> {
+    return this.state.colorWarning
   }
 
   /** 白 */
-  @computed get colorPlain() {
-    return this.state.colorPlain as Color<'colorPlain'>
+  @computed get colorPlain(): Color<'colorPlain'> {
+    return this.state.colorPlain
   }
 
   /** 白 (RGB) */
-  @computed get colorPlainRaw() {
-    return this.state.colorPlainRaw as Color<'colorPlainRaw'>
+  @computed get colorPlainRaw(): Color<'colorPlainRaw'> {
+    return this.state.colorPlainRaw
   }
 
   /** 次要 */
-  @computed get colorWait() {
-    return this.state.colorWait as Color<'colorWait'>
+  @computed get colorWait(): Color<'colorWait'> {
+    return this.state.colorWait
   }
 
   /** 红 */
-  @computed get colorDanger() {
-    return this.state.colorDanger as Color<'colorDanger'>
+  @computed get colorDanger(): Color<'colorDanger'> {
+    return this.state.colorDanger
   }
 
   /** @deprecated 头像旁边的文字 */
-  @computed get colorAvatar() {
-    return this.state.colorAvatar as Color<'colorAvatar'>
+  @computed get colorAvatar(): Color<'colorAvatar'> {
+    return this.state.colorAvatar
   }
 
   /** 背景 */
-  @computed get colorBg() {
-    return this.state.colorBg as Color<'colorBg'>
+  @computed get colorBg(): Color<'colorBg'> {
+    return this.state.colorBg
   }
 
   /** 边框 */
-  @computed get colorBorder() {
-    return this.state.colorBorder as Color<'colorBorder'>
+  @computed get colorBorder(): Color<'colorBorder'> {
+    return this.state.colorBorder
   }
 
   /** 最深 (文字) */
-  @computed get colorTitle() {
-    return this.state.colorTitle as Color<'colorTitle'>
+  @computed get colorTitle(): Color<'colorTitle'> {
+    return this.state.colorTitle
   }
 
   /** 最深 (文字, RGB) */
-  @computed get colorTitleRaw() {
-    return this.state.colorTitleRaw as Color<'colorTitleRaw'>
+  @computed get colorTitleRaw(): Color<'colorTitleRaw'> {
+    return this.state.colorTitleRaw
   }
 
   /** 主要 (文字) */
-  @computed get colorDesc() {
-    return this.state.colorDesc as Color<'colorDesc'>
+  @computed get colorDesc(): Color<'colorDesc'> {
+    return this.state.colorDesc
   }
 
   /** 次要 (文字) */
-  @computed get colorSub() {
-    return this.state.colorSub as Color<'colorSub'>
+  @computed get colorSub(): Color<'colorSub'> {
+    return this.state.colorSub
   }
 
   /** 禁用 (文字) */
-  @computed get colorDisabled() {
-    return this.state.colorDisabled as Color<'colorDisabled'>
+  @computed get colorDisabled(): Color<'colorDisabled'> {
+    return this.state.colorDisabled
   }
 
   /** 图标 (文字) */
-  @computed get colorIcon() {
-    return this.state.colorIcon as Color<'colorIcon'>
+  @computed get colorIcon(): Color<'colorIcon'> {
+    return this.state.colorIcon
   }
 
   /** @deprecated 高亮 */
-  @computed get colorHighLight() {
-    return this.state.colorHighLight as Color<'colorHighLight'>
+  @computed get colorHighLight(): Color<'colorHighLight'> {
+    return this.state.colorHighLight
   }
 
   /** 设置里动态调整的文字单位 */
   @computed get fontSizeAdjust() {
-    return this.state.fontSizeAdjust
+    return Number(this.state.fontSizeAdjust)
   }
 
   /** -------------------- computed -------------------- */
@@ -829,7 +829,10 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 手机 * 1, 平板 * ratio */
-  r = (px: number = 0) => this.ratio * px
+  r = (px: number = 0) => {
+    // @ts-ignore
+    return this.ratio * px
+  }
 
   /** 黑暗模式下, 非深黑模式使用第二个值 */
   deep: SelectFn = (deepDarkValue, darkValue) =>
@@ -919,10 +922,10 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 改变整体字号 */
-  changeFontSizeAdjust = (fontSizeAdjust: number = 0) => {
+  changeFontSizeAdjust = (fontSizeAdjust: SettingFontsizeadjust = '0') => {
     const key = 'fontSizeAdjust'
     this.setState({
-      [key]: parseInt(String(fontSizeAdjust))
+      [key]: Number(fontSizeAdjust)
     })
     this.setStorage(key, undefined, NAMESPACE)
   }

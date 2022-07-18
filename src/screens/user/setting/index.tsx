@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 04:35:26
+ * @Last Modified time: 2022-07-18 15:00:19
  */
-import React from 'react'
-import { Header, Page, ScrollView, Flex } from '@components'
+import React, { useState } from 'react'
+import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
 import { IconTouchable, NavigationBarEvents } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
 import { NavigationProps } from '@types'
@@ -32,62 +32,80 @@ import Contact from './contact'
 import Storage from './storage'
 import System from './system'
 import DangerZone from './danger-zone'
+import { date } from '@utils'
 
 const Setting = ({ navigation }: NavigationProps) => {
+  const [filter, setFilter] = useState('')
   useRunAfter(() => {
     systemStore.fetchAdvance()
   })
 
-  return useObserver(() => (
-    <>
-      <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />
-      <Page style={_.select(_.container.bg, _.container.plain)}>
-        <NavigationBarEvents />
-        <ScrollView contentContainerStyle={styles.container}>
-          <Block>
-            <Version />
-          </Block>
-          <Block>
-            <Tip>基本</Tip>
-            <Theme navigation={navigation} />
-            <UI />
-            <Custom />
-            <CDN />
-            <Route />
-            <Katakana />
-            <Origin navigation={navigation} />
-          </Block>
-          <Block>
-            <Tip>模块</Tip>
-            <Home />
-            <Rakuen navigation={navigation} />
-            <User />
-            <UserSetting navigation={navigation} />
-            <Subject />
-            <Tinygrail />
-          </Block>
-          <Block>
-            <Tip>{i18n.contact()}</Tip>
-            <Contact navigation={navigation} />
-            <Zhinan navigation={navigation} />
-          </Block>
-          <Block>
-            <Tip>系统</Tip>
-            <Storage />
-            <System navigation={navigation} />
-            <DangerZone navigation={navigation} />
-          </Block>
-          <Flex style={_.mt.md} justify='center'>
-            <IconTouchable
-              style={styles.transparent}
-              name='md-more-horiz'
-              onPress={() => navigation.push('DEV')}
-            />
-          </Flex>
-        </ScrollView>
-      </Page>
-    </>
-  ))
+  return useObserver(() => {
+    const ts = String(userStore.userCookie.userAgent).match(/(\d{10})/g)
+    return (
+      <>
+        <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />
+        <Page style={_.select(_.container.bg, _.container.plain)}>
+          <NavigationBarEvents />
+          <ScrollView contentContainerStyle={styles.container}>
+            <Block>
+              <Input
+                style={styles.input}
+                placeholder='搜索'
+                defaultValue={filter}
+                onChangeText={setFilter}
+              />
+            </Block>
+            <Block>
+              <Version filter={filter} />
+            </Block>
+            <Block>
+              <Tip>基本</Tip>
+              <Theme navigation={navigation} filter={filter} />
+              <UI filter={filter} />
+              <Custom filter={filter} />
+              <CDN filter={filter} />
+              <Route filter={filter} />
+              <Katakana filter={filter} />
+              <Origin navigation={navigation} filter={filter} />
+            </Block>
+            <Block>
+              <Tip>模块</Tip>
+              <Home filter={filter} />
+              <Rakuen navigation={navigation} filter={filter} />
+              <User filter={filter} />
+              <UserSetting navigation={navigation} filter={filter} />
+              <Subject filter={filter} />
+              <Tinygrail filter={filter} />
+            </Block>
+            <Block>
+              <Tip>{i18n.contact()}</Tip>
+              <Contact navigation={navigation} filter={filter} />
+              <Zhinan navigation={navigation} filter={filter} />
+            </Block>
+            <Block>
+              <Tip>系统</Tip>
+              <Storage filter={filter} />
+              <System navigation={navigation} filter={filter} />
+              <DangerZone navigation={navigation} filter={filter} />
+            </Block>
+            {!!ts?.[0] && (
+              <Text style={_.mt.xs} size={10} type='icon' bold align='center'>
+                last logged on: {date('y-m-d H:i', ts[0])}
+              </Text>
+            )}
+            <Flex style={_.mt.lg} justify='center'>
+              <IconTouchable
+                style={styles.transparent}
+                name='md-more-horiz'
+                onPress={() => navigation.push('DEV')}
+              />
+            </Flex>
+          </ScrollView>
+        </Page>
+      </>
+    )
+  })
 }
 
 export default Setting
@@ -99,5 +117,12 @@ const styles = _.create({
   },
   transparent: {
     opacity: 0
+  },
+  input: {
+    paddingTop: 11,
+    paddingBottom: 13,
+    paddingHorizontal: 16,
+    ..._.fontSize16,
+    backgroundColor: 'transparent'
   }
 })

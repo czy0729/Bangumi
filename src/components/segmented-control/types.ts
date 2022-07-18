@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-06-04 22:34:09
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-06-04 22:34:09
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-07-18 11:19:49
  */
 import { ViewStyle, TextStyle, ColorValue } from '@types'
 import { TextType } from '../text'
@@ -14,7 +14,7 @@ export type Props = {
   activeFontStyle?: TextStyle
   type?: TextType
   size?: number
-  values?: string[]
+  values?: string[] | readonly string[]
   selectedIndex?: number
   enabled?: boolean
   tintColor?: ColorValue
