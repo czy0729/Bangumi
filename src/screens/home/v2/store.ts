@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 03:13:12
+ * @Last Modified time: 2022-07-18 21:12:15
  */
 import { observable, computed } from 'mobx'
 import {
@@ -124,14 +124,29 @@ export default class ScreenHomeV2 extends store {
     let flag = refresh
     let { _loaded } = this.collection
     if (typeof _loaded !== 'number') _loaded = 0
-    if (getTimestamp() - _loaded > 60 * 60) flag = true
+    if (getTimestamp() - _loaded > 60 * 60 || !this.collection.list.length) flag = true
 
+    // 需要刷新数据
     if (flag) {
       const data = await Promise.all([
         userStore.fetchCollection(),
         userStore.fetchUserProgress()
       ])
-      return this.fetchSubjectsQueue(data[0].list)
+      if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
+
+      // 可能是 access_token 过期了, 需要重新刷新 access_token
+      if (userStore.isWebLogin) {
+        const success = await userStore.reOauth()
+
+        // oauth 成功后重新刷新数据
+        if (success) {
+          const data = await Promise.all([
+            userStore.fetchCollection(),
+            userStore.fetchUserProgress()
+          ])
+          if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
+        }
+      }
     }
 
     return true

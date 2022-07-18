@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 18:49:59
+ * @Last Modified time: 2022-07-18 20:10:47
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLTrim } from '@utils'
@@ -341,7 +341,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
       [
         'blog',
         'cloudTopic',
-        // 'comments',
+        'comments',
         'favor',
         'groupInfo',
         'groupThumb',
@@ -350,8 +350,8 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         'notify',
         'rakuen',
         'readed',
-        'setting'
-        // 'topic'
+        'setting',
+        'topic'
       ],
       NAMESPACE
     )

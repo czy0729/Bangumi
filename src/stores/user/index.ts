@@ -6,13 +6,15 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 18:51:30
+ * @Last Modified time: 2022-07-18 21:05:55
  */
 import { observable, computed, toJS } from 'mobx'
-import { getTimestamp, HTMLTrim, HTMLDecode } from '@utils'
+import cheerio from 'cheerio-without-node-native'
+import { HTMLDecode, HTMLTrim, getTimestamp, loading, urlStringify, info } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { fetchCollectionSingleV0, fetchCollectionV0 } from '@utils/fetch.v0'
+import axios from '@utils/thirdParty/axios'
 import {
   API_ACCESS_TOKEN,
   API_EP_STATUS,
@@ -55,12 +57,12 @@ import {
 } from '@types'
 import RakuenStore from '../rakuen'
 import {
-  NAMESPACE,
   DEFAULT_SCOPE,
   INIT_ACCESS_TOKEN,
-  INIT_USER_INFO,
   INIT_USER_COOKIE,
-  INIT_USER_SETTING
+  INIT_USER_INFO,
+  INIT_USER_SETTING,
+  NAMESPACE
 } from './init'
 import {
   cheerioPM,
@@ -440,9 +442,14 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     const collection = await fetchCollectionV0({
       userId
     })
+
+    // 这样可能是 access_token 过期了, 需要主动刷新 access_token
+    if (!collection.list.length && this.collection.list.length >= 2) return null
+
     this.setState({
       collection
     })
+
     this.setStorage('collection', undefined, NAMESPACE)
     return collection
   }
@@ -922,6 +929,113 @@ class UserStore extends store implements StoreConstructor<typeof state> {
       success,
       fail
     )
+  }
+
+  /** 当前获取 access_token 重试次数 */
+  oauthRetryCount: number = 0
+
+  /** 存放 loading.hide */
+  hide: any
+
+  /** 获取授权表单码 */
+  reOauth = async () => {
+    this.hide = loading('正在重新授权...')
+
+    // @ts-ignore
+    axios.defaults.withCredentials = false
+
+    // @ts-ignore
+    const { data } = await axios({
+      method: 'get',
+      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+      headers: {
+        'User-Agent': this.userCookie.userAgent,
+        Cookie: this.userCookie.cookie
+      }
+    })
+
+    const formhash = cheerio.load(data)('input[name=formhash]').attr('value')
+    return this.authorize(formhash)
+  }
+
+  /** 授权获取 code */
+  authorize = async formhash => {
+    // @ts-ignore
+    axios.defaults.withCredentials = false
+
+    // @ts-ignore
+    const { request } = await axios({
+      method: 'post',
+      maxRedirects: 0,
+      validateStatus: null,
+      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': this.userCookie.userAgent,
+        Cookie: this.userCookie.cookie
+      },
+      data: urlStringify({
+        formhash,
+        redirect_uri: '',
+        client_id: APP_ID,
+        submit: '授权'
+      })
+    })
+
+    const code = request?.responseURL?.split('=').slice(1).join('=')
+    try {
+      return this.getAccessToken(code)
+    } catch (error) {
+      this.oauthRetryCount += 1
+      if (this.oauthRetryCount >= 6) {
+        if (typeof this.hide === 'function') {
+          this.hide()
+          this.hide = null
+        }
+        info('重新授权失败，请重新登录')
+        this.logout()
+        return false
+      }
+      return this.getAccessToken(code)
+    }
+  }
+
+  /** code 获取 access_token */
+  getAccessToken = async code => {
+    // @ts-ignore
+    axios.defaults.withCredentials = false
+
+    // @ts-ignore
+    const { status, data } = await axios({
+      method: 'post',
+      maxRedirects: 0,
+      validateStatus: null,
+      url: `${HOST}/oauth/access_token`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': this.userCookie.userAgent
+      },
+      data: urlStringify({
+        grant_type: 'authorization_code',
+        client_id: APP_ID,
+        client_secret: APP_SECRET,
+        code,
+        redirect_uri: URL_OAUTH_REDIRECT,
+        state: getTimestamp()
+      })
+    })
+
+    if (status !== 200) {
+      throw new TypeError(status)
+    }
+
+    this.oauthRetryCount = 0
+    if (typeof this.hide === 'function') {
+      this.hide()
+      this.hide = null
+    }
+    this.updateAccessToken(data)
+    return true
   }
 }
 
