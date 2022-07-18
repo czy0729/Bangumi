@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 16:05:41
+ * @Last Modified time: 2022-07-18 18:50:06
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp } from '../utils'
@@ -28,7 +28,7 @@ export async function update(key: string, value: object) {
   // @ts-ignore
   const { data } = await axios({
     method: 'post',
-    url: '${HOST}/v1/update',
+    url: `${HOST}/v1/update`,
     data: {
       key,
       value: {

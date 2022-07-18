@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 17:11:39
+ * @Last Modified time: 2022-07-18 17:35:04
  */
 import {
   ListEmpty,
@@ -11,7 +11,8 @@ import {
   HTMLText,
   UserId,
   Id,
-  CoverGroup
+  CoverGroup,
+  Loaded
 } from '@types'
 
 /** 超展开列表 */
@@ -57,7 +58,7 @@ export type Topic = {
   userSign: string
   tip: string
   close: string
-  _loaded: number
+  _loaded: Loaded
 }
 
 /** 帖子回复 */

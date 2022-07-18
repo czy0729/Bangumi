@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 00:40:49
+ * @Last Modified time: 2022-07-18 17:31:22
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -328,7 +328,7 @@ export const HTML_WIKI = () => `${HOST}/wiki`
  * [post_uid]      456208
  */
 export const HTML_ACTION_RAKUEN_REPLY = (
-  topicId: TopicId,
+  topicId: string | number,
   type: RakuenReplyType = 'group/topic'
 ) => `${HOST}/${type}/${topicId}/new_reply?ajax=1`
 

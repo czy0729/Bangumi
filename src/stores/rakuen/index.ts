@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 17:27:55
+ * @Last Modified time: 2022-07-18 18:49:59
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLTrim } from '@utils'
@@ -201,7 +201,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
-  topicFormCDN(topicId: TopicId) {
+  topicFormCDN(topicId: string | number) {
     return computed<Topic>(() => {
       return this.state.topicFormCDN[topicId] || INIT_TOPIC
     }).get()
@@ -341,7 +341,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
       [
         'blog',
         'cloudTopic',
-        'comments',
+        // 'comments',
         'favor',
         'groupInfo',
         'groupThumb',
@@ -350,8 +350,8 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         'notify',
         'rakuen',
         'readed',
-        'setting',
-        'topic'
+        'setting'
+        // 'topic'
       ],
       NAMESPACE
     )
@@ -462,7 +462,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** CDN 获取帖子信息 */
-  fetchTopicFormCDN = async (topicId: TopicId) => {
+  fetchTopicFormCDN = async (topicId: string | number) => {
     try {
       const { _response } = await xhrCustom({
         url: CDN_RAKUEN(topicId)
@@ -783,10 +783,15 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   /** 回复帖子 | 回复帖子子回复 */
   doReply = async (
     args: {
-      topicId: TopicId
+      topicId: string | number
       type?: RakuenReplyType
+      content?: string
+      formhash?: string
+      related?: any
+      sub_reply_uid?: any
+      post_uid?: any
     },
-    success?: () => any
+    success?: (arg?: any) => any
   ) => {
     const { topicId, type = 'group/topic', ...other } = args || {}
     xhr(

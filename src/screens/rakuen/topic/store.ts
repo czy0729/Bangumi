@@ -4,17 +4,21 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-09 21:56:57
+ * @Last Modified time: 2022-07-18 18:55:21
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { Comments, Topic } from '@stores/rakuen/types'
+import { getTimestamp, omit } from '@utils'
 import store from '@utils/store'
 import { removeHTMLTag, HTMLDecode } from '@utils/html'
 import { info, feedback, loading } from '@utils/ui'
 import { t, baiduTranslate } from '@utils/fetch'
+import { get, update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IOS, HOST, URL_DEFAULT_AVATAR } from '@constants'
+import { AnyObject, Loaded, TopicId } from '@types'
+import { Params } from './types'
 
 const namespace = 'ScreenTopic'
 const excludeState = {
@@ -24,23 +28,37 @@ const excludeState = {
   replySub: '', // 存放bgm特有的子回复配置字符串
   message: '', // 存放子回复html
   translateResult: [], // 翻译缓存
-  translateResultFloor: {} // 楼层翻译缓存
+  translateResultFloor: {}, // 楼层翻译缓存
+  topic: {
+    _loaded: 0
+  } as Topic,
+  comments: {
+    list: [],
+    pagination: {
+      page: 0,
+      pageTotal: 0
+    },
+    _list: [],
+    _loaded: 0
+  } as Comments
 }
 
 export default class ScreenTopic extends store {
+  params: Params
+
   state = observable({
     ...excludeState,
     expands: [], // 展开的子楼层id
     filterMe: false,
     filterFriends: false,
     reverse: false,
-    _loaded: false
+    _loaded: false as Loaded
   })
 
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60
     const commonState = (await this.getStorage(undefined, namespace)) || {}
 
     try {
@@ -52,8 +70,10 @@ export default class ScreenTopic extends store {
         _loaded: needFetch ? current : _loaded
       })
 
+      this.fetchTopicFromOSS()
+
       if (needFetch) {
-        this.fetchTopicFromCDN()
+        if (!this.state.topic._loaded) this.fetchTopicFromCDN()
 
         // 章节需要请求章节详情
         if (this.isEp) this.fetchEpFormHTML()
@@ -74,10 +94,11 @@ export default class ScreenTopic extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchTopic = () =>
-    rakuenStore.fetchTopic({
+  fetchTopic = () => {
+    return rakuenStore.fetchTopic({
       topicId: this.topicId
     })
+  }
 
   fetchEpFormHTML = () => {
     const epId = this.topicId.replace('ep/', '')
@@ -97,11 +118,74 @@ export default class ScreenTopic extends store {
     return rakuenStore.fetchTopicFormCDN(this.topicId.replace('group/', ''))
   }
 
+  /** 装载云端帖子缓存数据 */
+  fetchTopicFromOSS = async () => {
+    if (this.topic._loaded) return
+
+    try {
+      const data = await get(`topic_${this.topicId.replace('/', '_')}`)
+
+      // 云端没有数据存在, 本地计算后上传
+      if (!data) {
+        this.updateTopicThirdParty()
+        return
+      }
+
+      const { ts, topic, comments } = data
+      const _loaded = getTimestamp()
+      if (typeof topic === 'object' && typeof comments === 'object') {
+        this.setState({
+          topic: {
+            ...topic,
+            _loaded: getTimestamp()
+          },
+          comments: {
+            ...comments,
+            _loaded: getTimestamp()
+          }
+        })
+      }
+
+      if (_loaded - ts >= 60 * 60 * 2) this.updateTopicThirdParty()
+    } catch (error) {}
+  }
+
+  /** 上传帖子预数据 */
+  updateTopicThirdParty = () => {
+    setTimeout(() => {
+      const { _loaded, formhash } = this.topic
+
+      // formhash 是登录并且可操作条目的用户的必有值
+      if (!_loaded || !formhash) return
+
+      try {
+        update(`topic_${this.topicId.replace('/', '_')}`, {
+          topic: omit(this.topic, ['formhash', 'lastview', 'close', '_loaded']),
+          comments: {
+            ...this.comments,
+            list: this.comments.list
+              .filter((item, index) => index < 16)
+              .map(item => ({
+                ...omit(item, ['replySub', 'erase', 'message', 'sub']),
+                message: decoder(item.message),
+                sub: item.sub
+                  .filter((i, idx) => idx < 8)
+                  .map(i => ({
+                    ...omit(i, ['replySub', 'erase', 'message']),
+                    message: decoder(i.message)
+                  }))
+              }))
+          }
+        })
+      } catch (error) {}
+    }, 10000)
+  }
+
   // -------------------- get --------------------
   @computed get topicId() {
     const { topicId = '' } = this.params
-    if (!topicId) return '0'
-    return topicId.split('#')?.[0] || ''
+    if (!topicId) return '0' as TopicId
+    return (topicId.split('#')?.[0] || '') as TopicId
   }
 
   /**
@@ -122,6 +206,8 @@ export default class ScreenTopic extends store {
   }
 
   @computed get topicFormCDN() {
+    const { topic } = this.state
+    if (topic._loaded) return topic
     return rakuenStore.topicFormCDN(this.topicId.replace('group/', ''))
   }
 
@@ -135,7 +221,9 @@ export default class ScreenTopic extends store {
     const { filterDefault } = systemStore.setting
 
     const comments = rakuenStore.comments(this.topicId)
-    let list = reverse ? comments.list.reverse() : comments.list
+    const _comments = comments._loaded ? comments : this.state.comments
+
+    let list = reverse ? _comments.list.reverse() : _comments.list
     if (filterDefault || this.isLimit) {
       list = list
         .filter(item => !item.avatar?.includes(URL_DEFAULT_AVATAR))
@@ -148,7 +236,7 @@ export default class ScreenTopic extends store {
     // 只显示自己参与评论
     if (filterMe) {
       return {
-        ...comments,
+        ..._comments,
         list: list.filter(item => {
           if (item.sub.findIndex(i => i.userId === this.myId) !== -1) {
             return true
@@ -165,7 +253,7 @@ export default class ScreenTopic extends store {
     // 只显示好友相关评论
     if (filterFriends) {
       return {
-        ...comments,
+        ..._comments,
         list: list.filter(item => {
           if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) {
             return true
@@ -180,7 +268,7 @@ export default class ScreenTopic extends store {
     }
 
     return {
-      ...comments,
+      ..._comments,
       list
     }
   }
@@ -562,7 +650,7 @@ export default class ScreenTopic extends store {
         formhash
       },
       responseText => {
-        let res = {}
+        let res: AnyObject = {}
         try {
           res = JSON.parse(responseText)
         } catch (error) {
@@ -617,7 +705,7 @@ export default class ScreenTopic extends store {
         post_uid: postUid
       },
       responseText => {
-        let res = {}
+        let res: AnyObject = {}
         try {
           res = JSON.parse(responseText)
         } catch (error) {
