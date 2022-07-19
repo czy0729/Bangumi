@@ -59,7 +59,7 @@ class Filter extends React.Component<Props> {
         <Input
           style={this.styles.input}
           clearButtonMode='never'
-          value={this.filter}
+          defaultValue={this.filter}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           onChangeText={$.onFilterChange}

@@ -3,9 +3,8 @@
  * @Author: czy0729
  * @Date: 2021-04-12 15:29:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-12 16:51:35
+ * @Last Modified time: 2022-07-19 10:15:54
  */
-import { getSystemStoreAsync } from '../../async'
 import sc from './sc.json'
 import tc from './tc.json'
 

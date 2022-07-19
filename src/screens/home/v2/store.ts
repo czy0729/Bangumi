@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 21:12:15
+ * @Last Modified time: 2022-07-19 15:28:49
  */
 import { observable, computed } from 'mobx'
 import {
@@ -17,17 +17,19 @@ import {
   appNavigate,
   asc,
   copy,
+  debounce,
   desc,
   feedback,
   getBangumiUrl,
   getCoverMedium,
   getOnAir,
   getTimestamp,
+  info,
   open,
   queue,
+  t2s,
   unzipBangumiData,
-  x18,
-  info
+  x18
 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
@@ -65,7 +67,7 @@ import {
   OriginItem
 } from '../../user/origin-setting/utils'
 import {
-  DAY,
+  // DAY,
   EXCLUDE_STATE,
   INIT_ITEM,
   NAMESPACE,
@@ -309,18 +311,6 @@ export default class ScreenHomeV2 extends store {
     return userStore.collection
   }
 
-  /** 当前列表有过滤 */
-  isFilter(title: TabLabel) {
-    return computed(() => {
-      const { filter, filterPage } = this.state
-      if (filterPage >= 0 && filterPage <= this.tabs.length) {
-        return this.tabs[filterPage].title === title && !!filter
-      }
-
-      return false
-    }).get()
-  }
-
   /** 列表当前数据 */
   currentCollection(title: TabLabel) {
     return computed(() => {
@@ -330,16 +320,22 @@ export default class ScreenHomeV2 extends store {
         ...this.collection
       }
 
+      // 过滤条目类型
       const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
       if (type) data.list = data.list.filter(item => item?.subject?.type == type)
 
+      // 若当前Tab有文字过滤
       if (this.isFilter(title)) {
         const { filter } = this.state
-        const _filter = filter.toUpperCase()
+
+        // 转大写和简体
+        const _filter = t2s(filter.toUpperCase())
         data.list = data.list.filter(item => {
           if (!filter.length) return true
 
+          // 暂时只用中文名来过滤 (忽略日文优先设置)
           const cn = (
+            this.subject(item.subject_id).name_cn ||
             item?.subject?.name_cn ||
             item.name ||
             item?.subject?.name ||
@@ -368,14 +364,6 @@ export default class ScreenHomeV2 extends store {
     }).get()
   }
 
-  /** 置顶的映射 */
-  @computed get topMap() {
-    const { top } = this.state
-    const topMap = {}
-    top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
-    return topMap
-  }
-
   /**
    * 列表排序
    * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
@@ -402,6 +390,7 @@ export default class ScreenHomeV2 extends store {
 
         // 放送顺序: 根据今天星期几, 每天递减, 放送中的番剧优先
         if (this.sortOnAir) {
+          const day = new Date().getDay()
           list.forEach(item => {
             const { subject_id: subjectId } = item
             const { weekDay, isExist } = this.onAirCustom(subjectId)
@@ -411,9 +400,9 @@ export default class ScreenHomeV2 extends store {
               weightMap[subjectId] = 1001
             } else if (this.isNextDay(subjectId)) {
               weightMap[subjectId] = 1000
-            } else if (DAY === 0) {
+            } else if (day === 0) {
               weightMap[subjectId] = 100 - weekDay
-            } else if (weekDay >= DAY) {
+            } else if (weekDay >= day) {
               weightMap[subjectId] = 100 - weekDay
             } else {
               weightMap[subjectId] = 10 - weekDay
@@ -467,6 +456,26 @@ export default class ScreenHomeV2 extends store {
           .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       }
     }).get()
+  }
+
+  /** 当前列表有过滤 */
+  isFilter(title: TabLabel) {
+    return computed(() => {
+      const { filter, filterPage } = this.state
+      if (filterPage >= 0 && filterPage <= this.tabs.length) {
+        return this.tabs[filterPage].title === title && !!filter
+      }
+
+      return false
+    }).get()
+  }
+
+  /** 置顶的映射 */
+  @computed get topMap() {
+    const { top } = this.state
+    const topMap = {}
+    top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
+    return topMap
   }
 
   /** 在玩的游戏 */
@@ -606,7 +615,9 @@ export default class ScreenHomeV2 extends store {
     return computed(() => {
       const { weekDay, isExist } = this.onAirCustom(subjectId)
       if (!isExist) return false
-      return weekDay === DAY
+
+      const day = new Date().getDay()
+      return weekDay === day
     }).get()
   }
 
@@ -615,7 +626,9 @@ export default class ScreenHomeV2 extends store {
     return computed(() => {
       const { weekDay, isExist } = this.onAirCustom(subjectId)
       if (!isExist) return false
-      return DAY === 6 ? weekDay === 0 : DAY === weekDay - 1
+
+      const day = new Date().getDay()
+      return day === 6 ? weekDay === 0 : day === weekDay - 1
     }).get()
   }
 
@@ -997,13 +1010,13 @@ export default class ScreenHomeV2 extends store {
   }
 
   /** 页面筛选文字变化 */
-  onFilterChange = (filter: string) => {
+  onFilterChange = debounce((filter: string) => {
     const { page } = this.state
     this.setState({
       filter: filter.trim(),
       filterPage: page
     })
-  }
+  }, 800)
 
   /** -------------------- action -------------------- */
   /** 观看下一章节 */

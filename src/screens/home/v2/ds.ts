@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-12 09:57:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 17:33:55
+ * @Last Modified time: 2022-07-19 15:28:55
  */
 import { _ } from '@stores'
 import { ExcludeState, State, InitItem, PinYinFirstCharacter } from './types'
@@ -91,9 +91,6 @@ export const OFFSET_LISTVIEW = _.ios(_.headerHeight + H_TABBAR, 0)
 
 /** 唯一命名空间 */
 export const NAMESPACE = 'ScreenHomeV2'
-
-/** 今天星期值 */
-export const DAY = new Date().getDay()
 
 /** 缓存 getPinYinFirstCharacter() 的计算结果 */
 export const PIN_YIN_FIRST_CHARACTER: PinYinFirstCharacter = {}
