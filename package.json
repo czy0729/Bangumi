@@ -9,7 +9,7 @@
     "android": "react-native run-android --no-jetifier",
     "clean": "cd android && ./gradlew clean",
     "build": "cd android && ./gradlew assembleRelease",
-    "build:ios": "expo build:ios -c",
+    "build:ios": "expo build:ios",
     "open": "open ./android/app/build/outputs/apk/release/",
     "ios": "react-native run-ios",
     "kill": "sudo purge",

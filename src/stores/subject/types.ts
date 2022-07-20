@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 13:04:42
+ * @Last Modified time: 2022-07-20 14:38:08
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -346,11 +346,16 @@ export type Mono = DeepPartial<{
     nameCn: string
     cover: Cover<'g'>
     staff: string
-    case: string
+    cast: string
     castHref: string
     castTag: string
     castCover: string
-    cast2: AnyObject
+    cast2: {
+      cast: string
+      castCover: string
+      castHref: string
+      castTag: string
+    }
     type: SubjectTypeValue
   }[]
 

@@ -3,63 +3,92 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 04:25:59
+ * @Last Modified time: 2022-07-20 19:43:52
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
-import { open, desc } from '@utils'
+import {
+  HTMLDecode,
+  cnjp,
+  desc,
+  feedback,
+  info,
+  loading,
+  open,
+  removeHTMLTag,
+  omit,
+  getTimestamp
+} from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t, baiduTranslate } from '@utils/fetch'
-import { HTMLDecode, removeHTMLTag } from '@utils/html'
-import { info, feedback, loading } from '@utils/ui'
-import { cnjp } from '@utils/app'
+import { get, update } from '@utils/kv'
 import { HOST } from '@constants'
+import { Mono, MonoComments } from '@stores/subject/types'
+import { Id } from '@types'
+import { Params } from './types'
 
 export default class ScreenMono extends store {
+  params: Params
+
   state = observable({
     checkTinygrail: false,
     expands: [], // 展开的子楼层id
     translateResult: [], // 翻译缓存
     translateResultDetail: [],
-    translateResultFloor: {} // 楼层翻译缓存
+    translateResultFloor: {}, // 楼层翻译缓存
+    mono: {
+      _loaded: 0
+    } as Mono,
+    comments: {
+      list: [],
+      pagination: {
+        page: 0,
+        pageTotal: 0
+      },
+      _loaded: 0
+    } as MonoComments
   })
 
   init = () => {
-    this.fetchMonoFormCDN()
+    this.fetchMonoFromOSS()
 
     // 设置开启小圣杯和是虚拟人物
     if (this.tinygrail && this.monoId.includes('character/')) {
       return Promise.all([this.fetchMono(true), this.fetchChara()])
     }
+
     return this.fetchMono(true)
   }
 
-  onHeaderRefresh = () => this.fetchMono(true)
+  /** 下拉刷新 */
+  onHeaderRefresh = () => {
+    return this.fetchMono(true)
+  }
 
   // -------------------- fetch --------------------
-  fetchMono = refresh =>
-    subjectStore.fetchMono(
+  /** 人物信息和吐槽箱 */
+  fetchMono = (refresh: boolean = false) => {
+    return subjectStore.fetchMono(
       {
         monoId: this.monoId
       },
       refresh
     )
+  }
 
+  /** 角色信息 */
   fetchChara = async () => {
     if (!this.monoId.includes('character/')) return false
 
-    const res = tinygrailStore.fetchCharacters([this.id])
-    await res
+    const data = await tinygrailStore.fetchCharacters([this.id])
     this.setState({
       checkTinygrail: true
     })
 
-    return res
+    return data
   }
 
-  /**
-   * 私有CDN的条目信息
-   */
+  /** 私有 CDN 的条目信息 */
   fetchMonoFormCDN = async () => {
     const { setting } = systemStore
     const { _loaded } = this.mono
@@ -68,87 +97,170 @@ export default class ScreenMono extends store {
     return subjectStore.fetchMonoFormCDN(this.monoId)
   }
 
-  // -------------------- get --------------------
-  @computed get monoId() {
-    const { monoId } = this.params
-    return monoId || ''
+  /** 装载云端人物缓存数据 */
+  fetchMonoFromOSS = async () => {
+    if (this.mono._loaded) return
+
+    try {
+      const data = await get(`mono_${this.monoId.replace('/', '_')}`)
+
+      // 云端没有数据存在, 本地计算后上传
+      if (!data) {
+        this.updateMonoThirdParty()
+        return
+      }
+
+      const { ts, mono, comments } = data
+      const _loaded = getTimestamp()
+      if (typeof mono === 'object' && typeof comments === 'object') {
+        this.setState({
+          mono: {
+            ...mono,
+            _loaded: getTimestamp()
+          },
+          comments: {
+            ...comments,
+            _loaded: getTimestamp()
+          }
+        })
+      }
+
+      if (_loaded - ts >= 60 * 60 * 7) this.updateMonoThirdParty()
+    } catch (error) {}
   }
 
+  /** 更新人物缓存数据 */
+  updateMonoThirdParty = () => {
+    setTimeout(() => {
+      const { _loaded } = this.mono
+
+      // formhash 是登录并且可操作条目的用户的必有值
+      if (!_loaded) return
+
+      update(`mono_${this.monoId.replace('/', '_')}`, {
+        mono: omit(this.mono, ['collectUrl', 'eraseCollectUrl', '_loaded']),
+        comments: {
+          list: this.monoComments.list
+            .filter(item => !!item.userId)
+            .filter((item, index) => index < 8)
+            .map(item => ({
+              ...omit(item, ['replySub']),
+              sub: item.sub
+                .filter(i => !!i.userId)
+                .filter((i, idx) => idx < 8)
+                .map(i => omit(i, ['replySub']))
+            })),
+          pagination: this.monoComments.pagination
+        }
+      })
+    }, 10000)
+  }
+
+  // -------------------- get --------------------
+  /** 人物 id (包含角色, 工作人员) */
+  @computed get monoId() {
+    const { monoId } = this.params
+    return monoId
+  }
+
+  /** 数字 id */
   @computed get id() {
     return this.monoId.split('/')?.[1] || ''
   }
 
+  /** 人物网页链接 */
   @computed get url() {
     return `${HOST}/${this.monoId}`
   }
 
+  /** 人物信息 */
   @computed get mono() {
     return subjectStore.mono(this.monoId)
   }
 
+  /** 人物留言 */
   @computed get monoComments() {
+    const { comments } = this.state
+    if (comments._loaded) return comments
     return subjectStore.monoComments(this.monoId)
   }
 
+  /** 人物信息 (CDN) */
   @computed get monoFormCDN() {
+    const { mono } = this.state
+    if (mono._loaded) return mono
     return subjectStore.monoFormCDN(this.monoId)
   }
 
+  /** 角色信息 */
   @computed get chara() {
+    // @ts-ignore
     return tinygrailStore.characters(this.monoId.replace('character/', ''))
   }
 
+  /** 是否开启小圣杯功能 */
   @computed get tinygrail() {
     return systemStore.setting.tinygrail
   }
 
+  /** 是否可以进行 ICO */
   @computed get canICO() {
     const { checkTinygrail } = this.state
     return this.monoId.includes('character/') && checkTinygrail && !this.chara._loaded
   }
 
+  /** 显示在上方的名字 */
   @computed get nameTop() {
     return cnjp(this.cn, this.jp) || ''
   }
 
+  /** 显示在下方的名字 */
   @computed get nameBottom() {
     const text = cnjp(this.jp, this.cn)
     return text !== this.nameTop ? text : ''
   }
 
   // -------------------- get: cdn fallback --------------------
+  /** 日文名 */
   @computed get jp() {
     const { _jp } = this.params
     return HTMLDecode(this.mono.name || _jp || this.monoFormCDN.name)
   }
 
+  /** 中文名 */
   @computed get cn() {
     const { _name } = this.params
     return HTMLDecode(this.mono.nameCn || _name || this.monoFormCDN.nameCn)
   }
 
+  /** 人物大图 */
   @computed get cover() {
     return this.mono.cover || this.monoFormCDN.cover
   }
 
+  /** 人物简介 */
   @computed get info() {
     return this.mono.info || this.monoFormCDN.info
   }
 
+  /** 人物详情 */
   @computed get detail() {
     return this.mono.detail || this.monoFormCDN.detail
   }
 
+  /** 人物出演 */
   @computed get voices() {
     if (this.mono._loaded) return this.mono.voice || []
-    return this.monoFormCDN.voices || []
+    return this.monoFormCDN.voice || []
   }
 
+  /** 人物相关作品 */
   @computed get works() {
     if (this.mono._loaded) return this.mono.works || []
     return this.monoFormCDN.works || []
   }
 
+  /** 人物相关工作 */
   @computed get jobs() {
     return ((this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || []).sort(
       (a, b) => desc(a, b, item => (item.type == 2 ? 99 : Number(item.type)))
@@ -156,14 +268,16 @@ export default class ScreenMono extends store {
   }
 
   // -------------------- page --------------------
-  onMore = () =>
-    open(
+  /** 人物更多资料点击 */
+  onMore = () => {
+    return open(
       `https://mzh.moegirl.org.cn/index.php?title=${encodeURIComponent(
         this.cn || this.jp
       )}&mobileaction=toggle_view_mobile`
     )
-
-  toggleExpand = id => {
+  }
+  /** 展开回复子楼层 */
+  toggleExpand = (id: Id) => {
     const { expands } = this.state
     this.setState({
       expands: expands.includes(id)
@@ -173,14 +287,10 @@ export default class ScreenMono extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 收藏人物
-   */
+  /** 收藏人物 */
   doCollect = async () => {
     const { collectUrl } = this.mono
-    if (!collectUrl) {
-      return false
-    }
+    if (!collectUrl) return false
 
     t('人物.收藏人物', {
       monoId: this.monoId
@@ -196,14 +306,10 @@ export default class ScreenMono extends store {
     return this.fetchMono(true)
   }
 
-  /**
-   * 取消收藏人物
-   */
+  /** 取消收藏人物 */
   doEraseCollect = async () => {
     const { eraseCollectUrl } = this.mono
-    if (!eraseCollectUrl) {
-      return false
-    }
+    if (!eraseCollectUrl) return false
 
     t('人物.取消收藏人物', {
       monoId: this.monoId
@@ -219,9 +325,7 @@ export default class ScreenMono extends store {
     return this.fetchMono(true)
   }
 
-  /**
-   * 开启ICO
-   */
+  /** 开启 ICO */
   doICO = async navigation => {
     t('人物.启动ICO', {
       monoId: this.monoId
@@ -242,12 +346,11 @@ export default class ScreenMono extends store {
     this.fetchChara()
   }
 
-  /**
-   * 翻译内容
-   */
+  /** 翻译内容 */
   doTranslate = async (key = 'translateResult', content) => {
     if (this.state[key].length) return
 
+    // @ts-ignore TODO:
     t('人物.翻译内容', {
       monoId: this.monoId
     })
@@ -267,7 +370,6 @@ export default class ScreenMono extends store {
         this.setState({
           [key]: trans_result
         })
-        // info('翻译成功')
         return
       }
       info('翻译失败, 请重试')
@@ -277,13 +379,12 @@ export default class ScreenMono extends store {
     }
   }
 
-  /**
-   * 翻译楼层
-   */
+  /** 翻译楼层 */
   doTranslateFloor = async (floorId, msg) => {
     const { translateResultFloor } = this.state
     if (translateResultFloor[floorId]) return
 
+    // @ts-ignore TODO:
     t('人物.翻译内容', {
       floorId
     })

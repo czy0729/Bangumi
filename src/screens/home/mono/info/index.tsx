@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 15:28:33
+ * @Last Modified time: 2022-07-20 19:36:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,13 +27,14 @@ import Detail from '../detail'
 import Voice from '../voice'
 import Works from '../works'
 import Jobs from '../jobs'
+import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Info(props, { $, navigation }) {
+function Info(props, { $, navigation }: Ctx) {
   global.rerender('Mono.Info')
 
   const styles = memoStyles()
-  const maxSize = _.window.contentWidth * 0.5 * _.ratio
+  const maxSize = _.r(_.window.contentWidth * 0.5)
   const isCharacter = $.monoId.includes('character/')
 
   // 安卓端 autoSize 对 API 不起作用

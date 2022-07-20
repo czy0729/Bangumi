@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 14:05:48
+ * @Last Modified time: 2022-07-20 19:33:16
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -357,8 +357,8 @@ class SubjectStore
         // other
         'subjectComments',
         'subjectCatalogs',
-        'mono',
-        'monoComments',
+        // 'mono',
+        // 'monoComments',
         'monoWorks',
         'monoVoices',
         'rating',

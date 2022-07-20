@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:14:33
+ * @Last Modified time: 2022-07-19 16:51:53
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -12,12 +12,11 @@ import { t } from '@utils/fetch'
 import HeaderTitle from './header-title'
 import Extra from './extra'
 
-function Header({ y, fixed }, { $, navigation }) {
+function Header({ fixed }, { $, navigation }) {
   return (
     <CompHeader
       mode='transition'
       statusBarEventsType='Topic'
-      y={y}
       fixed={fixed}
       title='人物'
       hm={[$.url, 'Mono']}

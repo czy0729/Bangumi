@@ -5,9 +5,9 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 11:30:39
+ * @Last Modified time: 2022-07-20 19:37:02
  */
-import { EpId, MonoId, SubjectId, UserId } from '@types'
+import { EpId, Id, SubjectId, UserId } from '@types'
 import { HOST } from '../constants'
 import { EpStatus, SubjectType } from '../model/types'
 import { CollectionAction } from './types'
@@ -132,7 +132,7 @@ export const API_AVATAR = (username?: string | number) =>
 
 /** v0 api: 角色图  */
 export const API_MONO_COVER = (
-  monoId?: MonoId,
+  monoId?: Id,
   type: 'small' | 'grid' | 'large' | 'medium' = 'medium',
   monoType: 'characters' | 'persons' = 'characters'
 ) => `${API_HOST}/v0/${monoType}/${monoId}/image?type=${type}`

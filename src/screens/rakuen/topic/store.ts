@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 18:55:21
+ * @Last Modified time: 2022-07-20 19:38:21
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
@@ -48,9 +48,17 @@ export default class ScreenTopic extends store {
 
   state = observable({
     ...excludeState,
-    expands: [], // 展开的子楼层id
+
+    /** 展开的子楼层id */
+    expands: [],
+
+    /** 评论是否只看我 */
     filterMe: false,
+
+    /** 评论是否只看好友 */
     filterFriends: false,
+
+    /** 评论是否倒序 */
     reverse: false,
     _loaded: false as Loaded
   })

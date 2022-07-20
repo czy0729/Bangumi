@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:34:08
+ * @Last Modified time: 2022-07-20 14:34:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { appNavigate, cnjp } from '@utils/app'
 import SectionRight from './section-right'
-import { coverWidth, coverHeight } from './jobs'
+import { COVER_WIDTH, COVER_HEIGHT } from './ds'
 
 const event = {
   id: '人物.跳转',
@@ -113,8 +113,8 @@ const Voice = memo(({ navigation, styles, style, voices }) => {
                   <Cover
                     style={_.ml.sm}
                     src={item.subjectCover}
-                    size={coverWidth * 0.88}
-                    height={coverHeight * 0.88}
+                    size={COVER_WIDTH * 0.88}
+                    height={COVER_HEIGHT * 0.88}
                     radius
                     shadow
                     onPress={onPressSubject}
