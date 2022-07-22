@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 12:38:22
+ * @Last Modified time: 2022-07-21 19:51:12
  */
 import React from 'react'
 import { Page } from '@components'
@@ -13,8 +13,9 @@ import ToolBar from './tool-bar'
 import List from './list'
 import Pagination from './pagination'
 import Store from './store'
+import { Ctx } from './types'
 
-const Rank = (props, { $ }) => {
+const Rank = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

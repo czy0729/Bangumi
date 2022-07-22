@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 12:07:47
+ * @Last Modified time: 2022-07-22 15:41:01
  */
 import {
   EventType,
@@ -25,7 +25,7 @@ export type Props = {
   tip?: string
   rank?: number | string
   score?: number | string
-  total?: number
+  total?: number | string
   comments?: string
   collection?: string
   collected?: boolean

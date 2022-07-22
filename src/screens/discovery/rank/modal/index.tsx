@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2020-04-21 10:22:02
+ * @Date: 2022-07-22 14:35:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-21 14:28:25
+ * @Last Modified time: 2022-07-22 15:27:15
  */
 import React from 'react'
 import { ManageModal } from '@_'
@@ -10,18 +10,16 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 function Modal(props, { $ }: Ctx) {
-  global.rerender('Home.Modal')
-
-  const { visible, subjectId, modal } = $.state
+  const { visible, subjectId, title, desc } = $.state.modal
   const { name, name_cn: nameCn } = $.subject(subjectId)
   return (
     <ManageModal
       visible={visible}
       subjectId={subjectId}
-      title={nameCn || name || modal.title}
-      desc={name || modal.desc}
+      title={nameCn || name || title}
+      desc={name || desc}
       onSubmit={$.doUpdateCollection}
-      onClose={$.closeManageModal}
+      onClose={$.onCloseManageModal}
     />
   )
 }

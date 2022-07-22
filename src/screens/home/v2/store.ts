@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-19 15:28:49
+ * @Last Modified time: 2022-07-21 14:27:48
  */
 import { observable, computed } from 'mobx'
 import {
@@ -58,7 +58,8 @@ import {
   Subject,
   SubjectId,
   SubjectType,
-  SubjectTypeValue
+  SubjectTypeValue,
+  RatingStatus
 } from '@types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
@@ -1090,7 +1091,7 @@ export default class ScreenHomeV2 extends store {
     feedback()
 
     // 不是在看的话要删掉对应条目信息
-    if (values.status !== MODEL_COLLECTION_STATUS.getValue<EpStatus>('在看')) {
+    if (values.status !== MODEL_COLLECTION_STATUS.getValue<RatingStatus>('在看')) {
       userStore.removeCollection(values.subjectId)
     }
 

@@ -1,70 +1,27 @@
-// @ts-nocheck
 /*
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 13:45:58
+ * @Last Modified time: 2022-07-22 15:45:38
  */
 import { observable, computed } from 'mobx'
-import { tagStore, userStore, collectionStore } from '@stores'
-import { x18 } from '@utils'
+import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
+import { x18, info, feedback } from '@utils'
 import store from '@utils/store'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { HTML_RANK } from '@constants/html'
-
-const namespace = 'ScreenRank'
-const defaultType = MODEL_SUBJECT_TYPE.getLabel('动画')
-const excludeState = {
-  show: true // 是否显示列表, 制造切页效果
-}
+import { MODEL_SUBJECT_TYPE, HTML_RANK } from '@constants'
+import { Override, SubjectId, SubjectType, SubjectTypeCn } from '@types'
+import { Rank } from '@stores/tag/types'
+import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 
 export default class ScreenRank extends store {
-  state = observable({
-    page: 0,
-
-    // type
-    currentPage: {
-      all: 1,
-      anime: 1,
-      book: 1,
-      game: 1,
-      music: 1,
-      real: 1
-    },
-
-    // input
-    ipt: {
-      all: '1',
-      anime: '1',
-      book: '1',
-      game: '1',
-      music: '1',
-      real: '1'
-    },
-
-    // filter
-    type: defaultType,
-    filter: '',
-    airtime: '',
-    month: '',
-
-    // toolbar
-    list: true,
-    fixed: false,
-    fixedPagination: false,
-    collected: true,
-
-    ...excludeState,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(undefined, NAMESPACE)) || {}
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
@@ -72,7 +29,13 @@ export default class ScreenRank extends store {
   }
 
   // -------------------- get --------------------
-  @computed get rank() {
+  /** 排行榜 */
+  @computed get rank(): Override<
+    Rank,
+    {
+      _filter?: number
+    }
+  > {
     const { type, filter, airtime, month, currentPage } = this.state
     const rank = tagStore.rank(
       type,
@@ -80,25 +43,24 @@ export default class ScreenRank extends store {
       filter,
       month ? `${airtime}-${month}` : airtime
     )
+
     if (userStore.isLimit) {
       let _filter = 0
-      const list = rank.list.filter(item => {
-        const filter = x18(item.id)
-        if (filter) _filter += 1
-        return !filter
-      })
       return {
         ...rank,
-        list,
+        list: rank.list.filter(item => {
+          const filter = x18(item.id)
+          if (filter) _filter += 1
+          return !filter
+        }),
         _filter
       }
     }
 
-    return {
-      ...rank
-    }
+    return rank
   }
 
+  /** 过滤数据 */
   @computed get list() {
     const { collected } = this.state
     if (collected) return this.rank
@@ -109,6 +71,7 @@ export default class ScreenRank extends store {
     }
   }
 
+  /** 网页端地址 */
   @computed get url() {
     const { currentPage, type, filter, airtime } = this.state
     return HTML_RANK(type, 'rank', currentPage[type], filter, airtime)
@@ -118,37 +81,41 @@ export default class ScreenRank extends store {
     return collectionStore.userCollectionsMap
   }
 
+  /** 条目信息 */
+  subject(subjectId: SubjectId) {
+    return computed(() => subjectStore.subject(subjectId)).get()
+  }
+
   // -------------------- fetch --------------------
-  fetchRank = (refresh?: boolean) => {
+  /** 获取排行榜 */
+  fetchRank = () => {
     const { currentPage, type, filter, airtime, month } = this.state
-    return tagStore.fetchRank(
-      {
-        type,
-        filter,
-        airtime: month ? `${airtime}-${month}` : airtime,
-        page: currentPage[type]
-      },
-      refresh
-    )
+    return tagStore.fetchRank({
+      type,
+      filter,
+      airtime: month ? `${airtime}-${month}` : airtime,
+      page: currentPage[type]
+    })
   }
 
   // -------------------- page --------------------
   /** 类型选择 */
-  onTypeSelect = type => {
+  onTypeSelect = (type: SubjectTypeCn) => {
     t('排行榜.类型选择', {
       type
     })
 
     this.setState({
       show: false,
-      type: MODEL_SUBJECT_TYPE.getLabel(type),
+      type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(type),
       filter: ''
     })
+
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }, 40)
 
     this.fetchRank()
@@ -164,11 +131,12 @@ export default class ScreenRank extends store {
       show: false,
       filter: filter === '全部' ? '' : filterData.getValue(filter)
     })
+
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }, 40)
 
     this.fetchRank()
@@ -194,11 +162,12 @@ export default class ScreenRank extends store {
         [type]: '1'
       }
     })
+
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }, 40)
 
     this.fetchRank()
@@ -228,11 +197,12 @@ export default class ScreenRank extends store {
         [type]: '1'
       }
     })
+
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }, 40)
 
     this.fetchRank()
@@ -249,11 +219,12 @@ export default class ScreenRank extends store {
       show: false,
       list: !list
     })
+
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }, 40)
   }
 
@@ -262,17 +233,14 @@ export default class ScreenRank extends store {
     this.setState({
       [key]: !this.state[key]
     })
-    console.log(key, this.state)
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
   /** 上一页 */
   onPrev = () => {
     const { currentPage, type, ipt } = this.state
     const page = currentPage[type]
-    if (currentPage[type] === 1) {
-      return
-    }
+    if (currentPage[type] === 1) return
 
     t('排行榜.上一页', {
       type,
@@ -290,11 +258,12 @@ export default class ScreenRank extends store {
         [type]: String(page - 1)
       }
     })
+
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }, 40)
 
     this.fetchRank()
@@ -320,11 +289,12 @@ export default class ScreenRank extends store {
         [type]: String(page + 1)
       }
     })
+
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }, 40)
 
     this.fetchRank()
@@ -367,13 +337,36 @@ export default class ScreenRank extends store {
         [type]: String(_ipt)
       }
     })
+
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }, 40)
 
     this.fetchRank()
+  }
+
+  /** 管理收藏 */
+  doUpdateCollection = async (
+    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
+  ) => {
+    await collectionStore.doUpdateCollection(values)
+    feedback()
+
+    // // 不是在看的话要删掉对应条目信息
+    // if (values.status !== MODEL_COLLECTION_STATUS.getValue<RatingStatus>('在看')) {
+    //   userStore.removeCollection(values.subjectId)
+    // }
+
+    this.onCloseManageModal()
+  }
+
+  /** 隐藏收藏管理框 */
+  onCloseManageModal = () => {
+    this.setState({
+      modal: EXCLUDE_STATE.modal
+    })
   }
 }

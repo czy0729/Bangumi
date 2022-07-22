@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:49:52
+ * @Last Modified time: 2022-07-22 15:51:04
  */
 import { ViewStyle, ReactNode } from '@types'
 
@@ -10,7 +10,7 @@ export type Props = {
   style?: ViewStyle
 
   /** 菜单项 */
-  data?: string[]
+  data?: string[] | readonly string[]
 
   /** 菜单位置 (iOS only) */
   placement?: string

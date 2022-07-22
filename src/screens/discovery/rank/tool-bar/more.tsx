@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:18:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 06:05:03
+ * @Last Modified time: 2022-07-22 15:51:22
  */
 import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function More(props, { $ }) {
+function More(props, { $ }: Ctx) {
   const { list, fixed, fixedPagination, collected } = $.state
   return (
     <ToolBar.Popover

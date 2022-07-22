@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-30 02:19:03
+ * @Last Modified time: 2022-07-21 14:27:08
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -36,12 +36,12 @@ import {
   CollectionStatus,
   CollectionStatusCn,
   CollectionsOrder,
-  EpStatus,
   StoreConstructor,
   SubjectId,
   SubjectType,
   SubjectTypeCn,
-  UserId
+  UserId,
+  RatingStatus
 } from '@types'
 import userStore from '../user'
 import {
@@ -498,7 +498,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
   /** 条目管理 */
   doUpdateCollection = (args: {
     subjectId: SubjectId
-    status?: EpStatus
+    status?: RatingStatus
     tags?: string
     comment?: string
     rating?: string | number

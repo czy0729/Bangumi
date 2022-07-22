@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 15:50:05
+ * @Last Modified time: 2022-07-21 14:28:24
  */
 import { RatingStatus, SubjectId } from '@types'
 
@@ -17,7 +17,7 @@ export type Props = {
     rating: number
     tags: string
     status: RatingStatus
-    privacy: string | boolean
+    privacy: 0 | 1
     comment: string
   }) => any
   onClose?: () => any
