@@ -15,7 +15,7 @@ export type Props = {
   simple?: boolean
 
   /** 分数 */
-  value?: number
+  value?: number | string
 
   /** 字体大小 */
   size?: number

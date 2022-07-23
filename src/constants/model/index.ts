@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 16:46:30
+ * @Last Modified time: 2022-07-23 15:25:47
  */
 import { IOS } from '../constants'
 
@@ -27,7 +27,7 @@ class Model {
    * @param {*} value
    */
   getLabel<T = string | false>(value: any): T {
-    const find = this.data.find(item => item.value == value || item.title === value)
+    const find = this.data.find(item => item.value == value || item.title == value)
     return find ? find.label : false
   }
 
@@ -36,7 +36,7 @@ class Model {
    * @param {*} label
    */
   getValue<T = string | false>(label: any): T {
-    const find = this.data.find(item => item.label == label || item.title === label)
+    const find = this.data.find(item => item.label == label || item.title == label)
     return find ? find.value : false
   }
 
@@ -177,7 +177,7 @@ export const RATING_STATUS = [
 export const MODEL_RATING_STATUS = new Model(RATING_STATUS)
 
 /** 收藏隐私 */
-export const MODEL_PRIVATE = new Model([
+export const PRIVATE = [
   {
     label: '公开',
     value: '0'
@@ -186,7 +186,10 @@ export const MODEL_PRIVATE = new Model([
     label: '私密',
     value: '1'
   }
-])
+] as const
+
+/** 收藏隐私 */
+export const MODEL_PRIVATE = new Model(PRIVATE)
 
 export const TIMELINE_SCOPE = [
   {

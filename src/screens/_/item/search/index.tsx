@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 12:08:05
+ * @Last Modified time: 2022-07-23 14:25:01
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -20,7 +20,6 @@ export const ItemSearch = ob(
     name,
     nameCn,
     cover,
-    type,
     typeCn,
     tip,
     rank,
@@ -30,7 +29,8 @@ export const ItemSearch = ob(
     collection,
     collected,
     position,
-    event
+    event,
+    onManagePress
   }: ItemSearchProps) => {
     global.rerender('Component.ItemSearch')
 
@@ -43,7 +43,6 @@ export const ItemSearch = ob(
         name={name}
         nameCn={nameCn}
         cover={cover}
-        type={type}
         typeCn={typeCn}
         tip={tip}
         rank={rank}
@@ -54,6 +53,7 @@ export const ItemSearch = ob(
         collected={collected}
         position={position}
         event={event}
+        onManagePress={onManagePress}
       />
     )
   }

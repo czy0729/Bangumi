@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 15:45:38
+ * @Last Modified time: 2022-07-23 16:44:18
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -13,6 +13,7 @@ import { MODEL_SUBJECT_TYPE, HTML_RANK } from '@constants'
 import { Override, SubjectId, SubjectType, SubjectTypeCn } from '@types'
 import { Rank } from '@stores/tag/types'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { ToolBarKeys } from './types'
 
 export default class ScreenRank extends store {
   state = observable(STATE)
@@ -77,10 +78,6 @@ export default class ScreenRank extends store {
     return HTML_RANK(type, 'rank', currentPage[type], filter, airtime)
   }
 
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
-  }
-
   /** 条目信息 */
   subject(subjectId: SubjectId) {
     return computed(() => subjectStore.subject(subjectId)).get()
@@ -88,27 +85,32 @@ export default class ScreenRank extends store {
 
   // -------------------- fetch --------------------
   /** 获取排行榜 */
-  fetchRank = () => {
+  fetchRank = async () => {
     const { currentPage, type, filter, airtime, month } = this.state
-    return tagStore.fetchRank({
+    const data = await tagStore.fetchRank({
       type,
       filter,
       airtime: month ? `${airtime}-${month}` : airtime,
       page: currentPage[type]
     })
+
+    // 延迟获取收藏中的条目的具体收藏状态
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue(
+        data.list
+          .filter(item => item.collected)
+          .map(item => String(item.id).replace('/subject/', ''))
+      )
+    }, 160)
+
+    return data
   }
 
   // -------------------- page --------------------
-  /** 类型选择 */
-  onTypeSelect = (type: SubjectTypeCn) => {
-    t('排行榜.类型选择', {
-      type
-    })
-
+  /** 隐藏后延迟显示列表 (用于重置滚动位置) */
+  resetScrollView = () => {
     this.setState({
-      show: false,
-      type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(type),
-      filter: ''
+      show: false
     })
 
     setTimeout(() => {
@@ -117,7 +119,19 @@ export default class ScreenRank extends store {
       })
       this.setStorage(NAMESPACE)
     }, 40)
+  }
 
+  /** 类型选择 */
+  onTypeSelect = (type: SubjectTypeCn) => {
+    t('排行榜.类型选择', {
+      type
+    })
+
+    this.setState({
+      type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(type),
+      filter: ''
+    })
+    this.resetScrollView()
     this.fetchRank()
   }
 
@@ -128,17 +142,9 @@ export default class ScreenRank extends store {
     })
 
     this.setState({
-      show: false,
       filter: filter === '全部' ? '' : filterData.getValue(filter)
     })
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 40)
-
+    this.resetScrollView()
     this.fetchRank()
   }
 
@@ -150,7 +156,6 @@ export default class ScreenRank extends store {
 
     const { type, currentPage, ipt } = this.state
     this.setState({
-      show: false,
       airtime: airtime === '全部' ? '' : airtime,
       month: '',
       currentPage: {
@@ -162,14 +167,7 @@ export default class ScreenRank extends store {
         [type]: '1'
       }
     })
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 40)
-
+    this.resetScrollView()
     this.fetchRank()
   }
 
@@ -186,7 +184,6 @@ export default class ScreenRank extends store {
     })
 
     this.setState({
-      show: false,
       month: month === '全部' ? '' : month,
       currentPage: {
         ...currentPage,
@@ -197,14 +194,7 @@ export default class ScreenRank extends store {
         [type]: '1'
       }
     })
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 40)
-
+    this.resetScrollView()
     this.fetchRank()
   }
 
@@ -216,20 +206,13 @@ export default class ScreenRank extends store {
     })
 
     this.setState({
-      show: false,
       list: !list
     })
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 40)
+    this.resetScrollView()
   }
 
   /** 工具栏 */
-  onToggleToolbar = (key: 'list' | 'fixed' | 'fixedPagination' | 'collected') => {
+  onToggleToolbar = (key: ToolBarKeys) => {
     this.setState({
       [key]: !this.state[key]
     })
@@ -248,7 +231,6 @@ export default class ScreenRank extends store {
     })
 
     this.setState({
-      show: false,
       currentPage: {
         ...currentPage,
         [type]: page - 1
@@ -258,14 +240,7 @@ export default class ScreenRank extends store {
         [type]: String(page - 1)
       }
     })
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 40)
-
+    this.resetScrollView()
     this.fetchRank()
   }
 
@@ -279,7 +254,6 @@ export default class ScreenRank extends store {
     })
 
     this.setState({
-      show: false,
       currentPage: {
         ...currentPage,
         [type]: page + 1
@@ -289,14 +263,7 @@ export default class ScreenRank extends store {
         [type]: String(page + 1)
       }
     })
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 40)
-
+    this.resetScrollView()
     this.fetchRank()
   }
 
@@ -331,20 +298,12 @@ export default class ScreenRank extends store {
         ...currentPage,
         [type]: _ipt
       },
-      show: false,
       ipt: {
         ...ipt,
         [type]: String(_ipt)
       }
     })
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 40)
-
+    this.resetScrollView()
     this.fetchRank()
   }
 
@@ -355,18 +314,48 @@ export default class ScreenRank extends store {
     await collectionStore.doUpdateCollection(values)
     feedback()
 
-    // // 不是在看的话要删掉对应条目信息
-    // if (values.status !== MODEL_COLLECTION_STATUS.getValue<RatingStatus>('在看')) {
-    //   userStore.removeCollection(values.subjectId)
-    // }
+    const { subjectId } = this.state.modal
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue([subjectId])
+    }, 400)
 
     this.onCloseManageModal()
+  }
+
+  /** 显示收藏管理框 */
+  onShowManageModal = args => {
+    const { subjectId, title, desc, status, typeCn } = args || {}
+
+    let action = '看'
+    if (typeCn === '书籍') action = '读'
+    if (typeCn === '音乐') action = '听'
+    if (typeCn === '游戏') action = '玩'
+
+    this.setState({
+      modal: {
+        visible: true,
+        subjectId,
+        title,
+        desc,
+        status: status || '',
+        action
+      }
+    })
   }
 
   /** 隐藏收藏管理框 */
   onCloseManageModal = () => {
     this.setState({
-      modal: EXCLUDE_STATE.modal
+      modal: {
+        visible: false
+      }
     })
+
+    // 等到关闭动画完成后再重置
+    setTimeout(() => {
+      this.setState({
+        modal: EXCLUDE_STATE.modal
+      })
+    }, 400)
   }
 }

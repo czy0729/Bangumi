@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 15:45:54
+ * @Last Modified time: 2022-07-23 15:04:29
  */
 import React from 'react'
 import { ScrollView, Flex, Loading, Empty, Heatmap } from '@components'
@@ -34,7 +34,7 @@ class List extends React.Component {
         {this.list.length ? (
           this.list.map((item, index) => {
             const id = String(item.id).replace('/subject/', '')
-            const collection = collectionStore.statusName(id)
+            const collection = collectionStore.collectionStatus(id)
             return (
               <>
                 <ItemSearch
@@ -45,6 +45,7 @@ class List extends React.Component {
                   event={EVENT_LIST}
                   typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)}
                   {...item}
+                  onManagePress={$.onShowManageModal}
                 />
                 {index === 1 && <Heatmap id='排行榜.跳转' />}
               </>

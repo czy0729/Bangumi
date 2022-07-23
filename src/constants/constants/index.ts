@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 14:16:17
+ * @Last Modified time: 2022-07-23 13:55:13
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -192,7 +192,7 @@ export const IMG_WIDTH_SM = parseInt(String(RATIO * 72))
 export const IMG_HEIGHT_SM = h(IMG_WIDTH_SM)
 
 /** 封面宽度 (大) */
-export const IMG_WIDTH_LG = parseInt(String(IMG_WIDTH * 1.28))
+export const IMG_WIDTH_LG = parseInt(String(IMG_WIDTH * 1.34))
 
 /** 封面高度 (大) */
 export const IMG_HEIGHT_LG = h(IMG_WIDTH_LG)

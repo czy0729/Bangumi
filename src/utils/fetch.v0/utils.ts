@@ -2,17 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 07:33:28
+ * @Last Modified time: 2022-07-23 12:27:12
  */
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import { APP_ID, UA } from '@constants/constants'
 import { getUserStoreAsync } from '../async'
+import { Config } from './types'
 
 export async function request<T>(url: string, data?: object): Promise<T> {
   // @ts-ignore
   axios.defaults.withCredentials = false
+
+  // @ts-ignore
+  axios.defaults.timeout = 8000
 
   try {
     const { accessToken } = getUserStoreAsync()
@@ -24,7 +28,7 @@ export async function request<T>(url: string, data?: object): Promise<T> {
     })}`
 
     const method = typeof data === 'object' ? 'post' : 'get'
-    const config: any = {
+    const config: Config = {
       method,
       url,
       headers: {

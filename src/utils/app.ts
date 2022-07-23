@@ -558,8 +558,8 @@ const typeMap = {
   搁置: 'wait',
   抛弃: 'disabled'
 }
-export function getType(label) {
-  return typeMap[label] || 'plain'
+export function getType(label: string, defaultType: string = 'plain') {
+  return typeMap[label] || defaultType
 }
 
 /**

@@ -1,9 +1,9 @@
-/* eslint-disable no-inner-declarations, camelcase, no-undef, no-eval */
+/* eslint-disable no-undef, no-eval */
 /*
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 02:43:40
+ * @Last Modified time: 2022-07-22 18:32:06
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -287,15 +287,11 @@ export default class ScreenComic extends store {
           })
         )
         const urlScript = `title='${title}';images=${images}.map(it=>it.replace('$/$', '${mark}').replace('https://', '${SITE_COMIC123()}/pic-dmzj/'))`
-        href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(
-          urlScript
-        )}`
+        href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(urlScript)}`
       } else {
         const images = HTML.match(/var z_img='(.+?)';/)[1]
         const urlScript = `title='${title}';images=JSON.parse('${images}').map(it=>'https://img.detatu.com/'+it)`
-        href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(
-          urlScript
-        )}`
+        href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(urlScript)}`
       }
     }
 

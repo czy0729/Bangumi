@@ -36,13 +36,13 @@ export const Stars = ob(
     return (
       <Flex style={style}>
         {NUMS.map(item => {
-          if (value / 2 >= item) {
+          if (Number(value) / 2 >= item) {
             return (
               <Iconfont key={item} name='md-star' size={size} color={_.colorWarning} />
             )
           }
 
-          if (value / 2 >= item - 0.5) {
+          if (Number(value) / 2 >= item - 0.5) {
             return (
               <View key={item}>
                 <Iconfont name='md-star' size={size} color={_.colorBorder} />

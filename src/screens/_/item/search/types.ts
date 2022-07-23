@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 15:41:01
+ * @Last Modified time: 2022-07-23 16:42:57
  */
 import {
   EventType,
   Id,
   Navigation,
-  SubjectType,
+  RatingStatus,
+  SubjectId,
+  // SubjectType,
   SubjectTypeCn,
   ViewStyle
 } from '@types'
@@ -20,7 +22,7 @@ export type Props = {
   name?: string
   nameCn?: string
   cover?: string
-  type?: SubjectType
+  // type?: SubjectType
   typeCn?: SubjectTypeCn
   tip?: string
   rank?: number | string
@@ -29,6 +31,13 @@ export type Props = {
   comments?: string
   collection?: string
   collected?: boolean
-  position?: string
+  position?: any
   event?: EventType
+  onManagePress?: (args: {
+    subjectId: SubjectId
+    title: string
+    desc: string
+    status: RatingStatus
+    typeCn: SubjectTypeCn
+  }) => any
 }

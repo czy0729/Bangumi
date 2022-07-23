@@ -16,3 +16,5 @@ export type Ctx = {
   $: StoreType
   navigation?: Navigation
 }
+
+export type ToolBarKeys = 'list' | 'fixed' | 'fixedPagination' | 'collected'

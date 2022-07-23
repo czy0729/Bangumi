@@ -14,5 +14,5 @@ export type Props = {
   size?: number
 
   /** 分数 */
-  value?: number
+  value?: number | string
 }

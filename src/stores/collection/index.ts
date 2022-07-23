@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-21 14:27:08
+ * @Last Modified time: 2022-07-24 02:42:50
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -13,10 +13,12 @@ import {
   findTreeNode,
   getTimestamp,
   sleep,
-  trim
+  trim,
+  queue
 } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
+import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
 import { info } from '@utils/ui'
 import {
   API_COLLECTION,
@@ -51,6 +53,7 @@ import {
   DEFAULT_ORDER
 } from './init'
 import { Collection, MosaicTile, UserCollections, UserCollectionsMap } from './types'
+import { UserCollectionItem } from '@utils/fetch.v0/types'
 
 const state = {
   /** 条目收藏信息 */
@@ -68,9 +71,14 @@ const state = {
     0: []
   },
 
-  /** 所有收藏条目状态 */
+  /** @deprecated 所有收藏条目状态 */
   userCollectionsMap: {
     0: '看过' as const
+  },
+
+  /** 条目的收藏状态, 替代 userCollectionsMap */
+  collectionStatus: {
+    0: '看过'
   },
 
   /** 瓷砖进度 */
@@ -108,9 +116,16 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
-  /** 所有收藏条目状态 */
+  /** @deprecated 所有收藏条目状态 */
   @computed get userCollectionsMap(): UserCollectionsMap {
     return this.state.userCollectionsMap
+  }
+
+  /** 条目的收藏状态, 替代 userCollectionsMap */
+  collectionStatus(subjectId: SubjectId) {
+    return computed<CollectionStatusCn | ''>(() => {
+      return this.state.collectionStatus[subjectId] || ''
+    }).get()
   }
 
   /** 瓷砖进度 */
@@ -438,6 +453,52 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     return this[key]
   }
 
+  /** 条目的收藏状态 */
+  fetchCollectionStatusQueue = async (subjectIds: SubjectId[] = []) => {
+    if (!userStore.isLogin || !subjectIds.length) return {}
+
+    const results: UserCollectionItem[] = []
+    const fetchs = []
+    subjectIds.forEach(subjectId => {
+      // 请求频率优化
+      // subjectIds 长度等于1时, 都会请求
+      // subjectIds 长度大于1时, 当前有记录为 [看过 | 搁置 | 抛弃] 时不重新请求
+      if (
+        subjectIds.length === 1 ||
+        !['看过', '搁置', '抛弃'].includes(this.collectionStatus(subjectId))
+      ) {
+        fetchs.push(async () => {
+          const collection = await fetchCollectionSingleV0({
+            subjectId,
+            userId: userStore.myId
+          })
+          if (collection) results.push(collection)
+        })
+      }
+    })
+    await queue(fetchs, 2)
+
+    const data = {}
+    results.forEach(result => {
+      if (result?.subject_id && result?.type) {
+        data[result.subject_id] = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
+          result.type
+        )
+        // devLog(
+        //   `${result.subject_id} ${data[result.subject_id]} ${result.subject.name_cn}`
+        // )
+      }
+    })
+
+    const key = 'collectionStatus'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return data
+  }
+
   // -------------------- methods --------------------
   /** 只本地化自己的收藏概览 */
   setUserCollectionsStroage = () => {
@@ -502,7 +563,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     tags?: string
     comment?: string
     rating?: string | number
-    privacy?: 0 | 1
+    privacy?: 0 | 1 | '0' | '1'
   }) => {
     const { subjectId, status, tags, comment, rating, privacy } = args || {}
     return new Promise(async resolve => {

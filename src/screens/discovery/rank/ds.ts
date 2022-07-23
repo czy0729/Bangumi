@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 14:58:32
+ * @Last Modified time: 2022-07-23 16:52:14
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import {
@@ -10,6 +10,7 @@ import {
   RankBookFilter,
   RankGameFilter,
   RankRealFilter,
+  RatingStatus,
   SubjectType
 } from '@types'
 
@@ -26,7 +27,9 @@ export const EXCLUDE_STATE = {
     visible: false,
     subjectId: 0,
     title: '',
-    desc: ''
+    desc: '',
+    status: '' as '' | RatingStatus,
+    action: '听' as '看' | '玩' | '听' | '读'
   }
 }
 

@@ -29,7 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: _.sm,
     left: _.sm,
     bottom: _.lg,
-    height: 240,
+    height: 120,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     borderWidth: _.hairlineWidth,
     borderColor: 'rgba(255, 255, 255, 0.2)',

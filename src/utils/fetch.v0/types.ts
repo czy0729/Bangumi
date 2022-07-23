@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:29:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 07:31:24
+ * @Last Modified time: 2022-07-23 00:20:09
  */
 import {
   Collection as BaseCollection,
@@ -15,6 +15,17 @@ import {
   SubjectId,
   SubjectTypeValue
 } from '@types'
+
+export type Config = {
+  method: 'get' | 'post'
+  url: string
+  headers: {
+    Authorization: string
+    'User-Agent': string
+    'Content-Type'?: string
+  }
+  data?: string
+}
 
 type Subject = {
   date: string
@@ -63,6 +74,7 @@ export type Collection = {
 export type UserCollectionItem = {
   name: string
   subject_id: SubjectId
+  type: CollectionStatusValue
   ep_status: number
   vol_status: number
   lasttouch: number

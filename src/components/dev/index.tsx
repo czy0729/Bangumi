@@ -21,7 +21,7 @@ import { memoStyles } from './styles'
 
 const logs = observable([])
 
-// let interval: number
+let interval: number
 
 /** 调试窗口打印 (手机实机开发用) */
 export function devLog(...args: any) {
@@ -36,16 +36,16 @@ export function devLog(...args: any) {
         })
       })
 
-      // if (interval) {
-      //   clearInterval(interval)
-      //   interval = null
-      // } else {
-      //   interval = setInterval(() => {
-      //     runInAction(() => {
-      //       logs.clear()
-      //     })
-      //   }, 60000)
-      // }
+      if (interval) {
+        clearInterval(interval)
+        interval = null
+      } else {
+        interval = setInterval(() => {
+          runInAction(() => {
+            logs.clear()
+          })
+        }, 10000)
+      }
     })
   }, 0)
 }

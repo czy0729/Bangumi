@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 21:34:26
+ * @Last Modified time: 2022-07-23 12:37:20
  */
 import dayjs from 'dayjs'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -10,7 +10,6 @@ import { devLog } from '@components'
 import { getTimestamp } from '@utils'
 import { Subject as BaseSubject, SubjectId, UserId } from '@types'
 import { getSystemStoreAsync } from '../async'
-// import { get, set } from '../cache-manager'
 import { request } from './utils'
 import { API_COLLECTIONS, API_COLLECTION, HOST_API_V0 } from './ds'
 import { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
@@ -244,6 +243,7 @@ export async function fetchCollectionSingleV0(args: {
     return {
       name: subject.name_cn || subject.name,
       subject_id: subject.id,
+      type: cItem.type,
       ep_status: cItem.ep_status,
       vol_status: cItem.vol_status,
       lasttouch: dayjs(cItem.updated_at).valueOf() / 1000,

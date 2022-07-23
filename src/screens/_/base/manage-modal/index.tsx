@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 16:51:47
+ * @Last Modified time: 2022-07-23 16:59:31
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -14,8 +14,8 @@ import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
-import { MODEL_PRIVATE } from '@constants/model'
-import { RatingStatus } from '@types'
+import { MODEL_PRIVATE } from '@constants'
+import { Private, RatingStatus } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
 import { STORAGE_KEY } from './ds'
@@ -31,6 +31,7 @@ export const ManageModal = ob(
       subjectId: 0,
       title: '',
       desc: '',
+      status: '',
       action: '看',
       onSubmit: () => {},
       onClose: () => {}
@@ -45,13 +46,14 @@ export const ManageModal = ob(
       showTags: true,
       comment: '',
       status: '' as RatingStatus,
-      privacy: MODEL_PRIVATE.getValue('公开')
+      privacy: MODEL_PRIVATE.getValue<Private>('公开')
     }
 
     commentRef
 
     async componentDidMount() {
-      const privacy = (await getStorage(STORAGE_KEY)) || MODEL_PRIVATE.getValue('公开')
+      const privacy =
+        (await getStorage(STORAGE_KEY)) || MODEL_PRIVATE.getValue<Private>('公开')
       this.setState({
         showTags: systemStore.setting.showTags === true,
         privacy
@@ -64,12 +66,13 @@ export const ManageModal = ob(
     }
 
     async UNSAFE_componentWillReceiveProps(nextProps) {
-      const { visible, subjectId } = nextProps
+      const { visible, status, subjectId } = nextProps
       if (visible) {
         if (!this.props.visible) {
           this.setState({
             loading: false,
-            focus: false
+            focus: false,
+            status
           })
 
           const {
@@ -77,14 +80,14 @@ export const ManageModal = ob(
             tag = [],
             comment,
             private: privacy,
-            status = {}
+            status: _status = {}
           } = await collectionStore.fetchCollection(subjectId)
 
           const state: any = {
             rating,
             tags: tag.join(' '),
             comment,
-            status: status.type
+            status: _status.type
           }
           if (privacy !== undefined) state.privacy = privacy
 

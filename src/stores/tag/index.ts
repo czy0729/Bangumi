@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 00:44:37
+ * @Last Modified time: 2022-07-22 23:56:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -145,28 +145,28 @@ class TagStore extends store implements StoreConstructor<typeof state> {
   }) => {
     const { type = DEFAULT_TYPE, filter = '', airtime = '', page = 1 } = args || {}
     const key = 'rank'
-    const res = fetchHTML({
+    const raw = await fetchHTML({
       url: HTML_RANK(type, 'rank', page, filter, airtime)
     })
-    const raw = await res
     const list = analysiRank(raw)
 
     const stateKey = `${type}|${page}|${filter}|${airtime}`
+    const data: Rank = {
+      list,
+      pagination: {
+        page: 1,
+        pageTotal: 1
+      },
+      _loaded: getTimestamp()
+    }
     this.setState({
       [key]: {
-        [stateKey]: {
-          list,
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
-          _loaded: getTimestamp()
-        }
+        [stateKey]: data
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return res
+    return data
   }
 
   /**
