@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:10:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 11:10:51
+ * @Last Modified time: 2022-07-25 20:44:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { cnjp } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
 import { Cover, Stars, Rank } from '../../base'
+import Collection from './collection'
 import { HIT_SLOP, DEFAULT_PROPS } from './ds'
 
 const Item = memo(
@@ -32,13 +33,12 @@ const Item = memo(
     aid,
     wid,
     mid,
-    isCollect,
+    // isCollect,
     isRectangle,
     event
   }) => {
     global.rerender('Component.ItemCollectionsGrid.Main')
 
-    const _collection = collection || (isCollect ? '已收藏' : '')
     const onPress = () => {
       const { id: eventId, data: eventData } = event
       const subjectId = String(id).replace('/subject/', '')
@@ -93,13 +93,7 @@ const Item = memo(
           >
             {cnjp(nameCn, name)}
           </Text>
-          {!!(airtime || _collection) && (
-            <Text style={_.mt.xs} size={11} type='sub' bold align='center'>
-              {airtime}
-              {!!(airtime && _collection) && ' · '}
-              {_collection}
-            </Text>
-          )}
+          <Collection collection={collection} typeCn={typeCn} airtime={airtime} />
           {!!score && (
             <Flex style={_.mt.sm} justify='center'>
               <Rank style={_.mr.xs} value={rank} size={9} />

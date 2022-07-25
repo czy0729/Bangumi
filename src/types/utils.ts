@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 02:14:04
+ * @Last Modified time: 2022-07-25 19:39:44
  */
 import React from 'react'
 import {
@@ -23,6 +23,13 @@ export type TextStyle = StyleProp<RNTextStyle>
 
 /** <Image> StyleProp */
 export type ImageStyle = StyleProp<RNImageStyle>
+
+/** 格子布局分拆工具函数返回样式 */
+export type GridStyle = {
+  width: number
+  height: number
+  marginLeft: number
+}
 
 /** React.ReactNode */
 export type ReactNode = React.ReactNode

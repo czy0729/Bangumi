@@ -215,6 +215,7 @@ export const Cover = ob(
         textOnly={textOnly}
         fallback={fallback}
         {...other}
+        // onPress={() => copy(_src)}
       />
     )
   }

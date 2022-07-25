@@ -134,7 +134,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
   }
 
   // -------------------- computed --------------------
-  /** 获取指定条目收藏状态名 */
+  /** @deprecated 获取指定条目收藏状态名 */
   statusName(subjectId: SubjectId) {
     return computed<CollectionStatusCn | ''>(() => {
       const collection = this.collection(subjectId) as any
