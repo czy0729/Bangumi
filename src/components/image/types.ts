@@ -88,8 +88,15 @@ export type Props = Override<
 >
 
 export type State = {
+  /** 加载是否已经失败 */
   error: boolean
+
+  /** 图片加载实际地址 */
   uri: Source
+
+  /** 图片当前宽度 */
   width: number
+
+  /** 图片当前高度 */
   height: number
 }

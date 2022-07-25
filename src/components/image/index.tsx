@@ -22,17 +22,23 @@ import {
 } from '@components/@/react-native-expo-image-cache'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { getCoverMedium, getTimestamp } from '@utils'
-import { showImageViewer } from '@utils/ui'
+import { getCoverMedium, getTimestamp, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
-import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT, TEXT_ONLY } from '@constants'
-import { MODEL_SETTING_QUALITY } from '@constants/model'
+import {
+  EVENT,
+  HOST,
+  IMG_EMPTY,
+  IMG_EMPTY_DARK,
+  IOS,
+  MODEL_SETTING_QUALITY,
+  TEXT_ONLY
+} from '@constants'
 import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import CompImage from './image'
-import { checkError451, setError451 } from './utils'
+import { checkError451, setError451, checkError404, setError404 } from './utils'
 import { memoStyles } from './styles'
 import { Props as ImageProps, State } from './types'
 
@@ -44,7 +50,7 @@ const DEFAULT_HEADERS = {
 }
 
 /** 最大失败重试次数 */
-const MAX_ERROR_COUNT = 5
+const MAX_ERROR_COUNT = 4
 
 /** 重试间隔 */
 const RETRY_DISTANCE = 3000
@@ -57,7 +63,7 @@ const OSS_MEGMA_PREFIX = '/bgm_poster'
 
 export const Image = observer(
   class ImageComponent extends React.Component<ImageProps, State> {
-    static defaultProps = {
+    static defaultProps: ImageProps = {
       style: undefined,
       imageStyle: undefined,
       src: undefined,
@@ -82,7 +88,7 @@ export const Image = observer(
       onError: undefined
     }
 
-    state = {
+    state: State = {
       error: false,
       uri: undefined,
       width: 0,
@@ -90,6 +96,7 @@ export const Image = observer(
     }
 
     errorCount = 0
+
     timeoutId = null
 
     async componentDidMount() {
@@ -121,13 +128,11 @@ export const Image = observer(
       if (this.timeoutId) clearTimeout(this.timeoutId)
     }
 
-    /**
-     * 缓存图片
-     */
+    /** 缓存图片 */
     cache = async src => {
-      let res
-      let uri
-      let qualityLevel
+      let res: Promise<string>
+      let uri: string
+      let qualityLevel: string
       if (this.props.quality) {
         const label = MODEL_SETTING_QUALITY.getLabel(systemStore.setting.quality)
         switch (label) {
@@ -148,9 +153,7 @@ export const Image = observer(
         }
       }
 
-      /**
-       * @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
-       */
+      /** @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存? */
       if (IOS) {
         try {
           if (typeof src === 'string') {
@@ -191,9 +194,6 @@ export const Image = observer(
               _src.includes(OSS_MEGMA_PREFIX) &&
               path === undefined
             ) {
-              // setTimeout(() => {
-              //   this.retry(src)
-              // }, RETRY_DISTANCE)
               this.onError()
             } else {
               this.setState({
@@ -206,7 +206,7 @@ export const Image = observer(
         }
       } else {
         if (!IOS && typeof src === 'string') {
-          if (checkError451(src)) {
+          if (checkError451(src) || checkError404(src)) {
             this.recoveryToBgmCover()
             return
           }
@@ -232,9 +232,7 @@ export const Image = observer(
       return res
     }
 
-    /**
-     * 图片是不是会下载失败, 当错误次数大于MAX_ERROR_COUNT就认为是错误
-     */
+    /** 图片是不是会下载失败, 当错误次数大于 MAX_ERROR_COUNT 就认为是错误 */
     retry = (src: string) => {
       if (this.errorCount < MAX_ERROR_COUNT) {
         this.timeoutId = setTimeout(() => {
@@ -247,9 +245,7 @@ export const Image = observer(
       }
     }
 
-    /**
-     * 选择图片质量
-     */
+    /** 选择图片质量 */
     getQuality = (uri: string, qualityLevel = 'default') => {
       if (!uri) return ''
       if (qualityLevel === 'default') return uri
@@ -261,9 +257,7 @@ export const Image = observer(
       return uri
     }
 
-    /**
-     * 获取远程图片宽高
-     */
+    /** 获取远程图片宽高 */
     getSize = () => {
       const { autoSize } = this.props
       const { uri } = this.state
@@ -292,9 +286,7 @@ export const Image = observer(
       RNImage.getSize(uri, cb)
     }
 
-    /**
-     * 加载失败
-     */
+    /** 加载失败 */
     onError = async () => {
       const { src } = this.props
       if (
@@ -302,7 +294,7 @@ export const Image = observer(
         src.includes(OSS_MEGMA_PREFIX) &&
         this.errorCount < MAX_ERROR_COUNT
       ) {
-        if (checkError451(src)) {
+        if (checkError451(src) || checkError404(src)) {
           this.recoveryToBgmCover()
           return
         }
@@ -345,11 +337,17 @@ export const Image = observer(
           }
         }, 0)
         return
+      } else if (typeof src === 'string' && src.includes(OSS_MEGMA_PREFIX)) {
+        // 失败次数达到最大值, 回退到 bgm 源头
+        setError404(src)
+        this.recoveryToBgmCover()
+        return
       }
 
       this.comitError()
     }
 
+    /** 其他源头回退到 bgm 源头 */
     recoveryToBgmCover = () => {
       const { src } = this.props
       if (typeof src !== 'string') return
