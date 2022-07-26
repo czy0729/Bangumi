@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 11:51:42
+ * @Last Modified time: 2022-07-26 05:37:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,6 @@ import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import Item from './item'
 import ItemLine from './item-line'
-import { marginLeft, showPrevDay } from './store'
 
 let day = new Date().getDay()
 if (day === 0) {
@@ -73,12 +72,14 @@ function List(props, { $ }) {
                 subjectId: i.id,
                 images: i.images,
                 name: cnjp(i.name_cn, i.name),
+                desc: cnjp(i.name, i.name_cn),
                 score: i.rating && i.rating.score,
                 air,
                 timeCN
               }
 
               if ($.isList) {
+                const showPrevDay = new Date().getHours() < 12
                 const linePosition = section.index === (showPrevDay ? 1 : 0)
 
                 // 当前时间在番组播放之前
@@ -138,7 +139,7 @@ function renderSectionHeader({ section: { title } }) {
         _.container.plain,
         {
           paddingVertical: _.md,
-          paddingLeft: marginLeft
+          paddingLeft: _.device(_._wind, _.md)
         }
       ]}
       size={14}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 02:55:59
+ * @Last Modified time: 2022-07-26 05:12:28
  */
 export * from './app-common'
 export * from './auth'
@@ -21,6 +21,7 @@ export * from './login'
 export * from './login-notice'
 export * from './logo'
 export * from './logo-header'
+export * from './manage'
 export * from './manage-modal'
 export * from './name'
 export * from './navigation-bar-events'

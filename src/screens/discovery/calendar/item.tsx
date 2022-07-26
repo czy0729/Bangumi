@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text } from '@components'
 import { Cover, Stars } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, collectionStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -109,7 +109,7 @@ export default obc(
     global.rerender('Calendar.Item')
 
     const { type } = $.state
-    const collection = $.userCollectionsMap[subjectId]
+    const collection = collectionStore.collectionStatus(subjectId)
     if (type === 'collect' && !collection) return null
 
     const { air, timeCN: onAirTimeCN } = $.onAir[subjectId] || {}

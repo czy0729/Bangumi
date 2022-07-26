@@ -1,32 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2020-04-10 16:13:18
+ * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 01:42:58
+ * @Last Modified time: 2022-07-26 05:38:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text } from '@components'
-import { Cover, Tag, Stars } from '@_'
-import { _, systemStore } from '@stores'
-import { memo, obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
+import { Cover, Stars, Manage } from '@_'
+import { _ } from '@stores'
+import { HTMLDecode } from '@utils'
+import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
-
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  hideScore: false,
-  subjectId: 0,
-  name: '',
-  images: {},
-  air: '',
-  timeCN: '2359',
-  expand: false,
-  collection: undefined,
-  onToggleExpand: Function.prototype
-}
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { DEFAULT_PROPS } from './ds'
 
 const ItemLine = memo(
   ({
@@ -35,13 +22,15 @@ const ItemLine = memo(
     hideScore,
     subjectId,
     name,
+    desc,
     images,
     air,
     timeCN,
     expand,
     collection,
     score,
-    onToggleExpand
+    onToggleExpand,
+    onShowManageModal
   }) => {
     global.rerender('Calendar.ItemLine.Main')
 
@@ -69,8 +58,8 @@ const ItemLine = memo(
           <>
             <View style={styles.image}>
               <Cover
-                width={IMG_WIDTH_SM}
-                height={IMG_HEIGHT_SM}
+                width={IMG_WIDTH}
+                height={IMG_HEIGHT}
                 src={images.medium}
                 radius
                 shadow
@@ -88,13 +77,13 @@ const ItemLine = memo(
                     <Flex.Item>
                       <Katakana.Provider
                         itemStyle={styles.katakanas}
-                        size={14}
+                        size={13}
                         lineHeight={15}
                         numberOfLines={3}
                       >
                         <Katakana
                           type='desc'
-                          size={14}
+                          size={13}
                           lineHeight={15}
                           numberOfLines={3}
                           bold
@@ -104,22 +93,28 @@ const ItemLine = memo(
                       </Katakana.Provider>
                     </Flex.Item>
                   </Flex>
-                  {!!collection && (
-                    <Flex style={_.mt.sm}>
-                      <Tag value={collection} />
-                    </Flex>
-                  )}
                 </View>
                 <Flex>
                   {!!air && (
                     <Text style={_.mr.sm} type='sub' size={13} bold>
-                      更新至第{air}话
+                      至第{air}话
                     </Text>
                   )}
                   {showScore && <Stars simple value={score} type='desc' size={13} />}
                 </Flex>
               </Flex>
             </Flex.Item>
+            <Manage
+              style={_.mt.z}
+              collection={collection}
+              onPress={() => {
+                onShowManageModal({
+                  subjectId,
+                  title: HTMLDecode(name),
+                  desc
+                })
+              }}
+            />
           </>
         )}
       </Flex>
@@ -150,60 +145,7 @@ const ItemLine = memo(
 
     return <View style={_.container.block}>{content}</View>
   },
-  defaultProps
+  DEFAULT_PROPS
 )
 
-export default obc(
-  ({ subjectId, images = {}, name, air, timeCN, score }, { $, navigation }) => {
-    global.rerender('Calendar.ItemLine')
-
-    const { type, expand } = $.state
-    const collection = $.userCollectionsMap[subjectId]
-    if ((type === 'collect' && !collection) || (!expand && !timeCN)) return null
-
-    return (
-      <ItemLine
-        navigation={navigation}
-        styles={memoStyles()}
-        hideScore={systemStore.setting.hideScore}
-        subjectId={subjectId}
-        name={name}
-        images={images}
-        air={air}
-        timeCN={timeCN}
-        expand={expand}
-        collection={collection}
-        score={score}
-        onToggleExpand={$.onToggleExpand}
-      />
-    )
-  }
-)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    width: '100%',
-    paddingVertical: 12
-  },
-  time: {
-    width: 72 * _.ratio,
-    paddingLeft: _._wind,
-    marginTop: 2
-  },
-  image: {
-    width: IMG_WIDTH_SM
-  },
-  body: {
-    width: '100%',
-    height: IMG_HEIGHT_SM - 4,
-    paddingTop: 2,
-    paddingRight: _.wind
-  },
-  katakanas: {
-    marginTop: -10
-  },
-  undetermined: {
-    zIndex: 1,
-    paddingVertical: _.sm
-  }
-}))
+export default ItemLine

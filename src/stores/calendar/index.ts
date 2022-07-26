@@ -20,7 +20,7 @@ import {
 import { StoreConstructor, SubjectId } from '@types'
 import { NAMESPACE, INIT_HOME, INIT_USER_ONAIR_ITEM } from './init'
 import { cheerioToday } from './common'
-import { OnAirUser, State } from './types'
+import { Calendar, OnAirUser, State } from './types'
 
 const state: State = {
   /** 每日放送 */
@@ -44,7 +44,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
 
   // -------------------- get --------------------
   /** 每日放送, 结合onAir和用户自定义放送时间覆盖原数据 */
-  @computed get calendar() {
+  @computed get calendar(): Calendar {
     const data = {
       list: [
         {

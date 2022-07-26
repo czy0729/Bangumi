@@ -53,6 +53,7 @@ export type RankBookFilter = ModelValueOf<typeof RANK_BOOK_FILTER, 'value'>
 export type RankGameFilter = ModelValueOf<typeof RANK_GAME_FILTER, 'value'>
 export type RankRealFilter = ModelValueOf<typeof RANK_REAL_FILTER, 'value'>
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS, 'value'>
+export type RatingStatusCn = ModelValueOf<typeof RATING_STATUS, 'label'>
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT, 'value'>
 export type SettingFontsizeadjust = ModelValueOf<typeof SETTING_FONTSIZEADJUST, 'value'>
 export type SettingHomeLayout = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'value'>

@@ -10,28 +10,11 @@ import { ob } from '@utils/decorators'
 import Type from './type'
 import IconLayout from './icon-layout'
 
-let type
-let isList
-
-function Extra({ $ }) {
-  // 缓存最近一次确定值
-  if ($) {
-    isList = $.isList
-    type = $.state.type
-  }
-
-  const currentType = $?.state.type === undefined ? type : $?.state.type
+function Extra({ type, isList, loaded, onChange, onPress }) {
   return (
     <Flex>
-      <Type
-        key={String(currentType === undefined)}
-        type={currentType}
-        onChange={$?.onToggleType}
-      />
-      <IconLayout
-        isList={$?.isList === undefined ? isList : $?.isList}
-        onPress={$?.onSwitchLayout}
-      />
+      {!!loaded && <Type type={type} onChange={onChange} />}
+      <IconLayout isList={isList} onPress={onPress} />
     </Flex>
   )
 }

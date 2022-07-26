@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-24 02:43:49
+ * @Last Modified time: 2022-07-26 05:14:17
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -10,9 +10,8 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_WIDTH_LG, IMG_HEIGHT_LG, MODEL_RATING_STATUS } from '@constants'
-import { Tag, Cover, Stars, Rank } from '../../base'
+import { Tag, Cover, Stars, Rank, Manage } from '../../base'
 import Title from './title'
-import Manage from './manage'
 import { DEFAULT_PROPS } from './ds'
 import { RatingStatus } from '@types'
 

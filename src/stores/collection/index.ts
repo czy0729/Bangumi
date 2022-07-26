@@ -54,6 +54,7 @@ import {
 } from './init'
 import { Collection, MosaicTile, UserCollections, UserCollectionsMap } from './types'
 import { UserCollectionItem } from '@utils/fetch.v0/types'
+import { devLog } from '@components'
 
 const state = {
   /** 条目收藏信息 */
@@ -473,6 +474,8 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
             userId: userStore.myId
           })
           if (collection) results.push(collection)
+
+          devLog(subjectId)
         })
       }
     })

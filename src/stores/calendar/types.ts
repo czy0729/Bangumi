@@ -4,7 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-06-29 16:53:27
  */
-import { ListEmpty } from '@types'
+import {
+  Images,
+  ListEmpty,
+  Loaded,
+  Rating,
+  SubjectId,
+  SubjectTypeValue,
+  UrlSubject
+} from '@types'
 import { INIT_HOME, INIT_ONAIR_ITEM } from './init'
 
 export type OnAirUser = {
@@ -42,4 +50,38 @@ export type State = {
   onAirUser: {
     [subjectId: number]: OnAirUser
   }
+}
+
+export type Calendar = {
+  list: {
+    items: {
+      id: SubjectId
+      url: UrlSubject
+      type: SubjectTypeValue
+      name: string
+      name_cn: string
+      summary: string
+      air_date: string
+      air_weekday: string | number
+      rating: Rating
+      rank: string | number
+      images: Images
+      collection: {
+        doing: string | number
+      }
+      air: string | number
+      timeCN: string
+    }[]
+    weekday: {
+      en: string
+      cn: string
+      ja: string
+      id: number
+    }
+  }[]
+  pagination: {
+    page: number
+    pageTotal: number
+  }
+  _loaded: Loaded
 }

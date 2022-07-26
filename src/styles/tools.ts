@@ -94,6 +94,9 @@ export const h = StyleSheet.create({
 
 /** margin-top (工具类) */
 export const mt = StyleSheet.create({
+  z: {
+    marginTop: 0
+  },
   xxs: {
     marginTop: 2
   },

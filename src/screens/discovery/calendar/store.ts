@@ -2,48 +2,59 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 01:01:02
+ * @Last Modified time: 2022-07-26 05:33:18
  */
 import { observable, computed } from 'mobx'
-import { _, calendarStore, userStore, collectionStore } from '@stores'
+import { calendarStore, subjectStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
-
-const num = _.device(3, 4)
-export const marginLeft = _.device(_._wind, _.md)
-export const imageWidth =
-  (_.window.contentWidth - marginLeft * _.device(num + 1, num - 1)) / num
-export const imageHeight = imageWidth * 1.4
-export const showPrevDay = new Date().getHours() < 12
-
-const namespace = 'ScreenCalendar'
+import { SubjectId } from '@types'
+import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { feedback, getTimestamp } from '@utils'
 
 export default class ScreenCalendar extends store {
-  state = observable({
-    layout: 'list', // list | grid
-    type: 'all', // all | collect
-    expand: false,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(undefined, NAMESPACE)) || {}
     this.setState({
       ...state,
       _loaded: true
     })
 
-    return queue([
-      () => calendarStore.fetchOnAir(),
-      () => calendarStore.fetchCalendar()
-    ])
+    await queue([() => calendarStore.fetchOnAir(), () => calendarStore.fetchCalendar()])
+    this.fetchCollectionsQueue()
+  }
+
+  fetchCollectionsQueue = () => {
+    const { _lastQueue } = this.state
+    if (getTimestamp() - _lastQueue <= 24 * 60 * 60) return
+
+    setTimeout(async () => {
+      try {
+        const subjectIds = []
+        this.calendar.list.forEach(item => {
+          item.items.forEach(i => {
+            subjectIds.push(i.id)
+          })
+        })
+        await collectionStore.fetchCollectionStatusQueue(subjectIds)
+
+        this.setState({
+          _lastQueue: getTimestamp()
+        })
+        this.setStorage(NAMESPACE)
+      } catch (error) {}
+    }, 2000)
   }
 
   // -------------------- get --------------------
+  /** 用户自定义放送时间 */
   @computed get onAir() {
     return calendarStore.onAir
   }
 
+  /** 每日放送, 结合onAir和用户自定义放送时间覆盖原数据 */
   @computed get calendar() {
     const { list } = calendarStore.calendar
     return {
@@ -70,15 +81,12 @@ export default class ScreenCalendar extends store {
     }
   }
 
-  @computed get userCollection() {
-    return userStore.userCollection
-  }
-
   @computed get sections() {
     let day = new Date().getDay()
     if (day === 0) day = 7
 
     const { list } = this.calendar
+    const showPrevDay = new Date().getHours() < 12
     const shift = day - (showPrevDay ? 2 : 1)
 
     return list
@@ -91,19 +99,19 @@ export default class ScreenCalendar extends store {
       }))
   }
 
+  /** 是否列表 */
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
   }
 
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
+  /** 条目信息 */
+  subject(subjectId: SubjectId) {
+    return computed(() => subjectStore.subject(subjectId)).get()
   }
 
   // -------------------- page --------------------
-  /**
-   * 切换布局
-   */
+  /** 切换布局 */
   onSwitchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
     t('每日放送.切换布局', {
@@ -113,9 +121,10 @@ export default class ScreenCalendar extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 切换类型 */
   onToggleType = label => {
     const { type } = this.state
     const isAll = type === 'all'
@@ -127,14 +136,61 @@ export default class ScreenCalendar extends store {
     this.setState({
       type: type === 'all' ? 'collect' : 'all'
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 切换展开 */
   onToggleExpand = () => {
     const { expand } = this.state
     this.setState({
       expand: !expand
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
+  }
+
+  /** 显示收藏管理框 */
+  onShowManageModal = args => {
+    const { subjectId, title, desc, status } = args || {}
+    this.setState({
+      modal: {
+        visible: true,
+        subjectId,
+        title,
+        desc,
+        status: status || '',
+        action: '看'
+      }
+    })
+  }
+
+  /** 隐藏收藏管理框 */
+  onCloseManageModal = () => {
+    this.setState({
+      modal: {
+        visible: false
+      }
+    })
+
+    // 等到关闭动画完成后再重置
+    setTimeout(() => {
+      this.setState({
+        modal: EXCLUDE_STATE.modal
+      })
+    }, 400)
+  }
+
+  /** 管理收藏 */
+  doUpdateCollection = async (
+    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
+  ) => {
+    await collectionStore.doUpdateCollection(values)
+    feedback()
+
+    const { subjectId } = this.state.modal
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue([subjectId])
+    }, 400)
+
+    this.onCloseManageModal()
   }
 }

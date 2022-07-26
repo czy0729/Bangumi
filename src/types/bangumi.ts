@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 09:53:32
+ * @Last Modified time: 2022-07-26 04:49:53
  */
 import { SubjectTypeValue } from '@constants/model/types'
 
@@ -132,3 +132,6 @@ export type Subject = Partial<{
   images: Images
   collection: Collection
 }>
+
+/** 动词 */
+export type Actions = '看' | '玩' | '听' | '读'

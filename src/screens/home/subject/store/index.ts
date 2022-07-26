@@ -8,7 +8,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-16 14:07:53
  */
-import { userStore } from '@stores'
+import { collectionStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { queue } from '@utils/fetch'
 import Action from './action'
@@ -33,7 +33,11 @@ class ScreenSubject extends Action {
       // 装载条目云端缓存数据
       this.fetchSubjectFromOSS()
 
-      if (needFetch) return this.onHeaderRefresh()
+      if (needFetch) {
+        // 手动刷新全局条目收藏状态
+        collectionStore.fetchCollectionStatusQueue([this.subjectId])
+        return this.onHeaderRefresh()
+      }
 
       return true
     } catch (error) {
