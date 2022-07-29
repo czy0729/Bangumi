@@ -50,10 +50,10 @@ const DEFAULT_HEADERS = {
 }
 
 /** 最大失败重试次数 */
-const MAX_ERROR_COUNT = 4
+const MAX_ERROR_COUNT = 3
 
 /** 重试间隔 */
-const RETRY_DISTANCE = 3000
+const RETRY_DISTANCE = 2000
 
 /** bgm 封面域名 */
 const OSS_BGM = 'https://lain.bgm.tv'

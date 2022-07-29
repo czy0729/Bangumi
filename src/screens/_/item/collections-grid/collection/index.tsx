@@ -45,7 +45,7 @@ function Collection({ collection, typeCn, airtime }) {
   return (
     <Flex style={_.mt.xs} justify='center'>
       <Iconfont name={icon} size={size} color={_[`color${titleCase(type)}`]} />
-      <Text style={_.ml.xs} size={11} type={type} bold align='center'>
+      <Text style={_.ml.xs} size={11} lineHeight={13} type={type} bold align='center'>
         {_collection}
         {!!airtime && ` · ${airtime}`}
       </Text>

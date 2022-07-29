@@ -2,45 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 12:27:56
+ * @Last Modified time: 2022-07-27 05:42:31
  */
 import { observable, computed } from 'mobx'
-import { tagStore, userStore, collectionStore } from '@stores'
+import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
+import { x18, feedback, info } from '@utils'
 import store from '@utils/store'
-import { x18 } from '@utils/app'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE, HTML_BROSWER, MODEL_BROWSER_SORT } from '@constants'
-import { BrowserSort, SubjectType } from '@constants/model/types'
-
-const date = new Date()
-const namespace = 'ScreenBrowser'
-const excludeState = {
-  sort: '' as BrowserSort,
-
-  /** 是否显示列表, 制造切页效果 */
-  show: true
-}
+import { SubjectType } from '@constants/model/types'
+import { SubjectId } from '@types'
+import { NAMESPACE, STATE, EXCLUDE_STATE, DATE } from './ds'
 
 export default class ScreenBrowser extends store {
-  state = observable({
-    type: MODEL_SUBJECT_TYPE.getLabel('动画') as SubjectType,
-    airtime: date.getFullYear(),
-    month: date.getMonth() + 1,
-    layout: 'list', // list | grid
-    fixed: false,
-    collected: true,
-    ...excludeState,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(undefined, NAMESPACE)) || {}
     this.setState({
       ...state,
-      airtime: state.airtime || date.getFullYear(),
-      month: state.month || date.getMonth() + 1,
-      ...excludeState,
+      airtime: state.airtime || DATE.getFullYear(),
+      month: state.month || DATE.getMonth() + 1,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
@@ -50,12 +33,16 @@ export default class ScreenBrowser extends store {
     return true
   }
 
-  onHeaderRefresh = () => this.fetchBrowser(true)
+  /** 下拉刷新 */
+  onHeaderRefresh = () => {
+    return this.fetchBrowser(true)
+  }
 
   // -------------------- fetch --------------------
-  fetchBrowser = refresh => {
+  /** 获取索引 */
+  fetchBrowser = async (refresh: boolean) => {
     const { type, sort } = this.state
-    return tagStore.fetchBrowser(
+    const data = await tagStore.fetchBrowser(
       {
         type,
         airtime: this.airtime,
@@ -63,14 +50,27 @@ export default class ScreenBrowser extends store {
       },
       refresh
     )
+
+    // 延迟获取收藏中的条目的具体收藏状态
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue(
+        data.list
+          .filter(item => item.collected)
+          .map(item => String(item.id).replace('/subject/', ''))
+      )
+    }, 160)
+
+    return data
   }
 
   // -------------------- get --------------------
+  /** 日期 */
   @computed get airtime() {
     const { airtime, month } = this.state
-    return month ? `${airtime}-${month}` : airtime
+    return month ? `${airtime}-${month}` : String(airtime)
   }
 
+  /** 索引 */
   @computed get browser() {
     const { type, sort } = this.state
     const browser = tagStore.browser(type, this.airtime, sort)
@@ -81,15 +81,18 @@ export default class ScreenBrowser extends store {
         if (filter) _filter += 1
         return !filter
       })
+
       return {
         ...browser,
         list,
         _filter
       }
     }
+
     return browser
   }
 
+  /** 条件索引 */
   @computed get list() {
     const { collected } = this.state
     if (collected) return this.browser
@@ -100,60 +103,66 @@ export default class ScreenBrowser extends store {
     }
   }
 
+  /** 索引网址 */
   @computed get url() {
     const { type, sort } = this.state
     return HTML_BROSWER(type as SubjectType, this.airtime, 1, sort)
   }
 
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
-  }
-
+  /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
   }
 
+  /** 条目信息 */
+  subject(subjectId: SubjectId) {
+    return computed(() => subjectStore.subject(subjectId)).get()
+  }
+
   // -------------------- page --------------------
+  /** 隐藏后延迟显示列表 (用于重置滚动位置) */
+  resetScrollView = () => {
+    this.setState({
+      show: false
+    })
+
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+      this.setStorage(NAMESPACE)
+    }, 40)
+  }
+
+  /** 类型选择 */
   onTypeSelect = type => {
     t('索引.类型选择', {
       type
     })
 
     this.setState({
-      show: false,
       type: MODEL_SUBJECT_TYPE.getLabel(type)
     })
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 0)
-
+    this.resetScrollView()
     this.fetchBrowser(true)
   }
 
+  /** 年选择 */
   onAirdateSelect = airtime => {
     t('索引.年选择', {
       airtime
     })
 
     this.setState({
-      show: false,
       airtime: airtime === '全部' ? '' : airtime,
       month: ''
     })
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 0)
-
+    this.resetScrollView()
     this.fetchBrowser(true)
   }
 
+  /** 月选择 */
   onMonthSelect = month => {
     const { airtime } = this.state
     if (!airtime) {
@@ -166,19 +175,13 @@ export default class ScreenBrowser extends store {
     })
 
     this.setState({
-      show: false,
       month: month === '全部' ? '' : month
     })
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 0)
-
+    this.resetScrollView()
     this.fetchBrowser(true)
   }
 
+  /** 前一年 */
   onAirdatePrev = () => {
     const { airtime, month } = this.state
     if (!airtime) {
@@ -188,7 +191,6 @@ export default class ScreenBrowser extends store {
 
     if (!month) {
       this.setState({
-        show: false,
         airtime: airtime - 1
       })
     } else {
@@ -201,22 +203,16 @@ export default class ScreenBrowser extends store {
         _month -= 1
       }
       this.setState({
-        show: false,
         airtime: _airtime,
         month: _month
       })
     }
 
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 0)
-
+    this.resetScrollView()
     this.fetchBrowser(true)
   }
 
+  /** 后一年 */
   onAirdateNext = () => {
     const { airtime, month } = this.state
     if (!airtime) {
@@ -226,7 +222,6 @@ export default class ScreenBrowser extends store {
 
     if (!month) {
       this.setState({
-        show: false,
         airtime: airtime + 1
       })
     } else {
@@ -239,44 +234,29 @@ export default class ScreenBrowser extends store {
         _month += 1
       }
       this.setState({
-        show: false,
         airtime: _airtime,
         month: _month
       })
     }
 
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 0)
-
+    this.resetScrollView()
     this.fetchBrowser(true)
   }
 
+  /** 排序选择 */
   onOrderSelect = label => {
     // t('索引.排序选择', {
     //   sort
     // })
 
     this.setState({
-      show: false,
       sort: MODEL_BROWSER_SORT.getValue(label)
     })
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 0)
-
+    this.resetScrollView()
     this.fetchBrowser(true)
   }
 
-  /**
-   * 切换布局
-   */
+  /** 切换布局 */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
     t('索引.切换布局', {
@@ -286,24 +266,78 @@ export default class ScreenBrowser extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 切换固定 (工具条) */
   onToggleFixed = () => {
     const { fixed } = this.state
 
     this.setState({
       fixed: !fixed
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 切换显示收藏 (工具条) */
   onToggleCollected = () => {
     const { collected } = this.state
 
     this.setState({
       collected: !collected
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
+  }
+
+  /** 管理收藏 */
+  doUpdateCollection = async (
+    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
+  ) => {
+    await collectionStore.doUpdateCollection(values)
+    feedback()
+
+    const { subjectId } = this.state.modal
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue([subjectId])
+    }, 400)
+
+    this.onCloseManageModal()
+  }
+
+  /** 显示收藏管理框 */
+  onShowManageModal = args => {
+    const { subjectId, title, desc, status, typeCn } = args || {}
+
+    let action = '看'
+    if (typeCn === '书籍') action = '读'
+    if (typeCn === '音乐') action = '听'
+    if (typeCn === '游戏') action = '玩'
+
+    this.setState({
+      modal: {
+        visible: true,
+        subjectId,
+        title,
+        desc,
+        status: status || '',
+        action
+      }
+    })
+  }
+
+  /** 隐藏收藏管理框 */
+  onCloseManageModal = () => {
+    this.setState({
+      modal: {
+        visible: false
+      }
+    })
+
+    // 等到关闭动画完成后再重置
+    setTimeout(() => {
+      this.setState({
+        modal: EXCLUDE_STATE.modal
+      })
+    }, 400)
   }
 }

@@ -187,29 +187,29 @@ class TagStore extends store implements StoreConstructor<typeof state> {
     const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
-    const res = fetchHTML({
+    const raw = await fetchHTML({
       url: HTML_BROSWER(type, airtime, page, sort)
     })
-    const raw = await res
     const { pageTotal, tag } = analysisTags(raw, page, pagination)
 
     const key = 'browser'
     const stateKey = `${type}|${airtime}|${sort}`
+    const data = {
+      list: refresh ? tag : [...list, ...tag],
+      pagination: {
+        page,
+        pageTotal: parseInt(pageTotal)
+      },
+      _loaded: getTimestamp()
+    }
     this.setState({
       [key]: {
-        [stateKey]: {
-          list: refresh ? tag : [...list, ...tag],
-          pagination: {
-            page,
-            pageTotal: parseInt(pageTotal)
-          },
-          _loaded: getTimestamp()
-        }
+        [stateKey]: data
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return res
+    return data
   }
 }
 
