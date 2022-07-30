@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 12:10:31
+ * @Last Modified time: 2022-07-30 13:35:54
  */
 import React from 'react'
 import { Input } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { MODEL_SEARCH_CAT } from '@constants/model'
+import { MODEL_SEARCH_CAT } from '@constants'
+import { SearchCatCn } from '@types'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function SearchBar(props, { $, navigation }) {
+function SearchBar(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { cat, value } = $.state
-  const label = MODEL_SEARCH_CAT.getLabel(cat)
+  const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>(cat)
   return (
     <Input
       style={[styles.searchIpt, ['人物', '用户'].includes(label) && styles.radius]}
@@ -29,17 +31,3 @@ function SearchBar(props, { $, navigation }) {
 }
 
 export default obc(SearchBar)
-
-const memoStyles = _.memoStyles(() => ({
-  searchIpt: {
-    height: 34 * _.ratio,
-    paddingHorizontal: _._wind,
-    ..._.fontSize(_.device(12, 14)),
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderRadius: 0
-  },
-  radius: {
-    borderTopRightRadius: 34 * _.ratio,
-    borderBottomRightRadius: 34 * _.ratio
-  }
-}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 18:56:35
+ * @Last Modified time: 2022-07-30 13:05:04
  */
 import { observable, computed } from 'mobx'
 import Constants from 'expo-constants'
@@ -32,7 +32,7 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
 
   UA = ''
 
-  /** 搜索 */
+  /** 搜索结果 */
   search(text: string, cat: SearchCat = DEFAULT_CAT, legacy?: any) {
     return computed<Search>(() => {
       const _text = text.replace(/ /g, '+')

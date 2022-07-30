@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:23:59
+ * @Last Modified time: 2022-07-30 13:32:54
  */
 import React from 'react'
 import { Page, Flex } from '@components'
@@ -17,8 +17,9 @@ import BtnSubmit from './btn-submit'
 import History from './history'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
 
-const Search = (props, { $ }) => {
+const Search = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

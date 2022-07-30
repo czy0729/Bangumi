@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 12:08:21
+ * @Last Modified time: 2022-07-30 13:37:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function BtnSubmit(props, { $, navigation }) {
-  const styles = memoStyles()
+function BtnSubmit(props, { $, navigation }: Ctx) {
   return (
     <View style={_.ml.sm}>
       <Button
@@ -28,12 +29,3 @@ function BtnSubmit(props, { $, navigation }) {
 }
 
 export default obc(BtnSubmit)
-
-const memoStyles = _.memoStyles(() => ({
-  btn: {
-    width: _.r(68),
-    height: _.r(34),
-    borderRadius: _.r(34),
-    overflow: 'hidden'
-  }
-}))

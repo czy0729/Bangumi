@@ -2,59 +2,47 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 21:12:45
+ * @Last Modified time: 2022-07-30 13:19:22
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore } from '@stores'
+import { info, x18 } from '@utils'
 import store from '@utils/store'
-import { x18 } from '@utils/app'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants/model'
-import { HTML_SEARCH } from '@constants/html'
-
-const namespace = 'ScreenSearch'
-const initCat = MODEL_SEARCH_CAT.getValue('动画')
-const initLegacy = MODEL_SEARCH_LEGACY.getValue('精确')
-const excludeState = {
-  value: '',
-  searching: false
-}
+import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY, HTML_SEARCH } from '@constants'
+import { Navigation, SearchCat, SearchCatCn, SearchLegacy } from '@types'
+import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { Params } from './types'
 
 export default class ScreenSearch extends store {
-  state = observable({
-    history: [],
-    cat: initCat,
-    legacy: initLegacy, // 是否精准查询
-    ...excludeState,
-    _loaded: false
-  })
+  params: Params
+
+  state = observable(STATE)
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
     this.initState()
-    return res
+    return true
   }
 
   // -------------------- get --------------------
+  /** 搜索结果 */
   search() {
     const { cat, legacy, value } = this.state
     return computed(() => {
       const search = searchStore.search(value, cat, legacy)
-      if (userStore.isLimit) {
-        return {
-          ...search,
-          list: search.list.filter(item => !x18(item.id))
-        }
+      if (!userStore.isLimit) return search
+
+      return {
+        ...search,
+        list: search.list.filter(item => !x18(item.id))
       }
-      return search
     }).get()
   }
 
@@ -62,6 +50,7 @@ export default class ScreenSearch extends store {
     return collectionStore.userCollectionsMap
   }
 
+  /** 搜索具体网址 */
   @computed get url() {
     const { value = '', cat, legacy = '' } = this.state
     const _text = value.replace(/ /g, '+')
@@ -69,22 +58,21 @@ export default class ScreenSearch extends store {
     return url
   }
 
+  /** 当前是否在搜索用户 */
   @computed get isUser() {
     const { cat } = this.state
-    const label = MODEL_SEARCH_CAT.getLabel(cat)
+    const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>(cat)
     return label === '用户'
   }
 
   // -------------------- page --------------------
-  /**
-   * 处理初始参数
-   */
+  /** 处理初始参数 */
   initState = () => {
     setTimeout(() => {
       const { _type, _value, type, value } = this.params
       if (type || _type) {
         this.setState({
-          cat: MODEL_SEARCH_CAT.getValue(type || _type)
+          cat: MODEL_SEARCH_CAT.getValue<SearchCat>(type || _type)
         })
       }
 
@@ -92,15 +80,16 @@ export default class ScreenSearch extends store {
         this.setState({
           value: String(value || _value)
         })
-        this.setStorage(undefined, undefined, namespace)
+        this.setStorage(NAMESPACE)
         this.doSearch()
       }
     }, 40)
   }
 
-  onSelect = label => {
+  /** 切换类型 */
+  onSelect = (label: string) => {
     const { cat } = this.state
-    const nextCat = MODEL_SEARCH_CAT.getValue(label)
+    const nextCat = MODEL_SEARCH_CAT.getValue<SearchCat>(label)
     if (nextCat !== cat) {
       t('搜索.切换类型', {
         cat: nextCat
@@ -109,18 +98,17 @@ export default class ScreenSearch extends store {
       this.setState({
         cat: nextCat
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
 
       const { value } = this.state
-      if (value) {
-        this.doSearch()
-      }
+      if (value) this.doSearch()
     }
   }
 
-  onLegacySelect = label => {
+  /** 切换细分类型 */
+  onLegacySelect = (label: string) => {
     const { legacy } = this.state
-    const nextLegacy = MODEL_SEARCH_LEGACY.getValue(label)
+    const nextLegacy = MODEL_SEARCH_LEGACY.getValue<SearchLegacy>(label)
     if (nextLegacy !== legacy) {
       t('搜索.切换细分类型', {
         legacy: nextLegacy
@@ -129,15 +117,14 @@ export default class ScreenSearch extends store {
       this.setState({
         legacy: nextLegacy
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
 
       const { value } = this.state
-      if (value) {
-        this.doSearch()
-      }
+      if (value) this.doSearch()
     }
   }
 
+  /** 输入框改变 */
   onChange = ({ nativeEvent }) => {
     const { text } = nativeEvent
     this.setState({
@@ -145,7 +132,8 @@ export default class ScreenSearch extends store {
     })
   }
 
-  selectHistory = value => {
+  /** 选择历史 */
+  selectHistory = (value: string) => {
     t('搜索.选择历史', {
       value
     })
@@ -155,7 +143,8 @@ export default class ScreenSearch extends store {
     })
   }
 
-  deleteHistory = value => {
+  /** 删除历史 */
+  deleteHistory = (value: string) => {
     t('搜索.删除历史', {
       value
     })
@@ -164,10 +153,11 @@ export default class ScreenSearch extends store {
     this.setState({
       history: history.filter(item => item !== value)
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSubmit = navigation => {
+  /** 提交 */
+  onSubmit = (navigation?: Navigation) => {
     if (this.isUser) {
       const { value } = this.state
       if (!value) return info('请输入完整的用户Id')
@@ -181,7 +171,8 @@ export default class ScreenSearch extends store {
   }
 
   // -------------------- action --------------------
-  doSearch = async refresh => {
+  /** 搜索 */
+  doSearch = async (refresh?: boolean) => {
     const { history, cat, legacy, value } = this.state
     if (value === '') {
       info('请输入内容')
@@ -194,18 +185,16 @@ export default class ScreenSearch extends store {
     })
 
     const _history = [...history]
-    if (!history.includes(value)) {
-      _history.unshift(value)
-    }
+    if (!history.includes(value)) _history.unshift(value)
+
     if (refresh) {
-      if (_history.length > 10) {
-        _history.pop()
-      }
+      if (_history.length > 10) _history.pop()
+
       this.setState({
         history: _history,
         searching: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }
 
     try {
@@ -221,10 +210,8 @@ export default class ScreenSearch extends store {
       info('请稍候再查询')
     }
 
-    if (refresh) {
-      this.setState({
-        searching: false
-      })
-    }
+    this.setState({
+      searching: false
+    })
   }
 }

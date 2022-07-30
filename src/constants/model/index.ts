@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 15:25:47
+ * @Last Modified time: 2022-07-30 12:52:41
  */
 import { IOS } from '../constants'
 
@@ -425,7 +425,7 @@ export const SEARCH_CAT = [
 export const MODEL_SEARCH_CAT = new Model(SEARCH_CAT)
 
 /** 搜索细度 */
-export const MODEL_SEARCH_LEGACY = new Model([
+export const SEARCH_LEGACY = [
   {
     label: '模糊',
     value: ''
@@ -434,7 +434,10 @@ export const MODEL_SEARCH_LEGACY = new Model([
     label: '精确',
     value: '1'
   }
-])
+] as const
+
+/** 搜索细度 */
+export const MODEL_SEARCH_LEGACY = new Model(SEARCH_LEGACY)
 
 /** 文章站点 */
 export const NEWS = IOS

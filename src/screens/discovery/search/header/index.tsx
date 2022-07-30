@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:21:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:07:52
+ * @Last Modified time: 2022-07-30 13:40:42
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
+function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title='搜索'

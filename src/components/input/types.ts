@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 15:34:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 15:35:36
+ * @Last Modified time: 2022-07-30 15:39:31
  */
 import { TextInputProps } from 'react-native'
 import { Override, ColorValue, ViewStyle } from '@types'
@@ -38,3 +38,7 @@ export type Props = Override<
     onChangeText?: (text: string) => any
   }
 >
+
+export type State = {
+  value: string
+}

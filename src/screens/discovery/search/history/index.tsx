@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 12:09:12
+ * @Last Modified time: 2022-07-30 13:41:42
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function History(props, { $ }) {
+function History(props, { $ }: Ctx) {
   const { history, value } = $.state
   if (value !== '') return null
 
@@ -19,7 +21,7 @@ function History(props, { $ }) {
     <View style={_.mt.sm}>
       {history.map(item => (
         <View key={item} style={styles.item}>
-          <Flex style={[styles.content, !_.flat && styles.border]}>
+          <Flex style={styles.content}>
             <Flex.Item>
               <Text size={15} bold onPress={() => $.selectHistory(item)}>
                 {item}
@@ -38,22 +40,3 @@ function History(props, { $ }) {
 }
 
 export default obc(History)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingHorizontal: _.wind
-  },
-  content: {
-    paddingVertical: _.sm
-  },
-  border: {
-    borderBottomWidth: _.hairlineWidth,
-    borderBottomColor: _.colorBorder
-  },
-  close: {
-    padding: _.sm,
-    marginLeft: _.md,
-    borderRadius: 20,
-    overflow: 'hidden'
-  }
-}))

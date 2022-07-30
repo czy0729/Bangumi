@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 22:05:08
+ * @Last Modified time: 2022-07-30 15:44:30
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -17,13 +17,15 @@ import { Iconfont } from '../iconfont'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import { Props as InputProps, State } from './types'
+
+export { InputProps }
 
 /** 一行的大概高度 */
-const initInputHeight = 18
+const INPUT_LINE_HEIGHT = 18
 
 export const Input = observer(
-  class InputComponent extends React.Component<Props> {
+  class InputComponent extends React.Component<InputProps, State> {
     static defaultProps = {
       style: undefined,
       multiline: false,
@@ -32,8 +34,8 @@ export const Input = observer(
       colorClear: undefined,
       autoFocus: false,
       placeholderTextColor: undefined,
-      onChange: Function.prototype,
-      onChangeText: Function.prototype
+      onChange: () => {},
+      onChangeText: () => {}
     }
 
     state = {
@@ -91,6 +93,14 @@ export const Input = observer(
       onChange(evt)
     }
 
+    onSubmitEditing = e => {
+      const { onSubmitEditing } = this.props
+      if (typeof onSubmitEditing === 'function') {
+        onSubmitEditing(e)
+        this.onBlur()
+      }
+    }
+
     clear = () => {
       const { onChange, onChangeText } = this.props
       onChange({
@@ -139,7 +149,7 @@ export const Input = observer(
         ...other
       } = this.props
       if (multiline) {
-        const containerHeight = initInputHeight * numberOfLines + 18
+        const containerHeight = INPUT_LINE_HEIGHT * numberOfLines + 18
         return (
           <View style={this.styles.container}>
             <TouchableWithoutFeedback onPress={this.onFocus}>
@@ -196,6 +206,7 @@ export const Input = observer(
             cursorColor={_.colorMain}
             {...other}
             onChange={this.onChange}
+            onSubmitEditing={this.onSubmitEditing}
           />
           {showClear && this.renderClear()}
         </View>

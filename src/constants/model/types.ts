@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 11:01:10
+ * @Last Modified time: 2022-07-30 13:06:05
  */
 import { ModelValueOf } from '@types'
 import {
@@ -20,6 +20,7 @@ import {
   RANK_REAL_FILTER,
   RATING_STATUS,
   SEARCH_CAT,
+  SEARCH_LEGACY,
   SETTING_FONTSIZEADJUST,
   SETTING_HOME_GRID_COVER_LAYOUT,
   SETTING_HOME_LAYOUT,
@@ -55,6 +56,8 @@ export type RankRealFilter = ModelValueOf<typeof RANK_REAL_FILTER, 'value'>
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS, 'value'>
 export type RatingStatusCn = ModelValueOf<typeof RATING_STATUS, 'label'>
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT, 'value'>
+export type SearchCatCn = ModelValueOf<typeof SEARCH_CAT, 'label'>
+export type SearchLegacy = ModelValueOf<typeof SEARCH_LEGACY, 'value'>
 export type SettingFontsizeadjust = ModelValueOf<typeof SETTING_FONTSIZEADJUST, 'value'>
 export type SettingHomeLayout = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'value'>
 export type SettingHomeLayoutCn = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'label'>
