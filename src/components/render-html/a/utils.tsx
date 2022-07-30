@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 05:35:40
+ * @Last Modified time: 2022-07-30 15:59:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,7 +64,7 @@ function getRawChildrenText(passProps) {
 
     return ''
   } catch (error) {
-    console.info('getRawChildrenText error', error)
+    console.error('getRawChildrenText error', error)
     return ''
   }
 }

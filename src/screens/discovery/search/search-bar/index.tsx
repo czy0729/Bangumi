@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 13:35:54
+ * @Last Modified time: 2022-07-30 17:49:42
  */
 import React from 'react'
 import { Input } from '@components'
@@ -24,7 +24,9 @@ function SearchBar(props, { $, navigation }: Ctx) {
       returnKeyLabel='搜索'
       placeholder={$.isUser ? '输入完整的用户Id' : '输入关键字'}
       autoFocus
-      onChange={$.onChange}
+      onChangeText={$.onChangeText}
+      onFocus={$.onFocus}
+      onBlur={$.onBlur}
       onSubmitEditing={() => $.onSubmit(navigation)}
     />
   )

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:19:11
+ * @Last Modified time: 2022-07-30 15:57:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
-import { TextStyle, ViewStyle } from '@types'
+import { TextStyle } from '@types'
 import HTML from '../@/react-native-render-html'
 import { a } from '../@/react-native-render-html/src/HTMLRenderers'
 import { BgmText, bgmMap } from '../bgm-text'
@@ -34,49 +34,13 @@ import {
   hackFixedHTMLTags,
   hackMatchMediaLink
 } from './utils'
+import { SPAN_MARK } from './ds'
+import { Props as RenderHtmlProps } from './types'
 
-type Props = {
-  /** 容器样式 */
-  style?: ViewStyle
-
-  /** 基本字体样式 */
-  baseFontStyle?: TextStyle
-
-  /** 链接字体样式 */
-  linkStyle?: TextStyle
-
-  /** 内嵌图片最大宽度 */
-  imagesMaxWidth?: number
-
-  /** HTML */
-  html?: string
-
-  /** 是否自动加载显示图片 */
-  autoShowImage?: boolean
-
-  /** 是否使用 <A> 渲染内嵌链接 */
-  matchLink?: boolean
-
-  /** 是否对内嵌片假名使用片假名终结者模块 */
-  katakana?: boolean
-
-  /** 复写内嵌链接点击回调 */
-  onLinkPress?: (href?: string) => any
-
-  /** 框架不支持图片的时候, 点击图片后回调 */
-  onImageFallback?: (src?: string) => any
-}
-
-// 一些超展开内容文本样式的标记
-const spanMark = {
-  mask: 'background-color:#555;',
-  bold: 'font-weight:bold;',
-  lineThrough: 'line-through;',
-  hidden: 'visibility:hidden;'
-}
+export { RenderHtmlProps }
 
 export const RenderHtml = observer(
-  class RenderHtmlComponent extends React.Component<Props> {
+  class RenderHtmlComponent extends React.Component<RenderHtmlProps> {
     static defaultProps = {
       style: undefined,
       baseFontStyle: {},
@@ -85,8 +49,8 @@ export const RenderHtml = observer(
       html: '',
       autoShowImage: false,
       matchLink: false,
-      onLinkPress: Function.prototype,
-      onImageFallback: Function.prototype
+      onLinkPress: () => {},
+      onImageFallback: () => {}
     }
 
     state = {
@@ -110,16 +74,13 @@ export const RenderHtml = observer(
     }
 
     componentDidCatch(error) {
-      console.info('@/components/render-html', 'componentDidCatch', error)
-
       this.setState({
         error: true
       })
+      console.error('@/components/render-html', 'componentDidCatch', error)
     }
 
-    /**
-     * 生成render-html配置
-     */
+    /** 生成 render-html 配置 */
     generateConfig = (imagesMaxWidth, baseFontStyle, linkStyle, matchLink) => ({
       imagesMaxWidth: _.window.width,
       baseFontStyle: {
@@ -162,7 +123,7 @@ export const RenderHtml = observer(
           try {
             // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
             // 防剧透字
-            if (style.includes(spanMark.mask)) {
+            if (style.includes(SPAN_MARK.mask)) {
               const text = []
               const target = rawChildren[0]
               if (target) {
@@ -208,7 +169,7 @@ export const RenderHtml = observer(
             }
 
             // 删除字
-            if (style.includes(spanMark.lineThrough)) {
+            if (style.includes(SPAN_MARK.lineThrough)) {
               const target = rawChildren[0]
               const text =
                 (target &&
@@ -231,7 +192,7 @@ export const RenderHtml = observer(
             }
 
             // 隐藏字
-            if (style.includes(spanMark.hidden)) {
+            if (style.includes(SPAN_MARK.hidden)) {
               const target = rawChildren[0]
               const text = (target && target.data) || ''
               return (

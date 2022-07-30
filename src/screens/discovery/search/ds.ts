@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 12:47:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 13:42:41
+ * @Last Modified time: 2022-07-30 16:58:35
  */
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
 import { SearchCat, SearchLegacy } from '@types'
@@ -15,7 +15,8 @@ export const DEFAULT_LEGACY = MODEL_SEARCH_LEGACY.getValue<SearchLegacy>('精确
 
 export const EXCLUDE_STATE = {
   value: '',
-  searching: false
+  searching: false,
+  focus: false
 }
 
 export const STATE = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-08 07:54:04
+ * @Last Modified time: 2022-07-30 17:41:38
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -24,6 +24,7 @@ export * from './flex'
 export * from './header'
 export * from './header-placeholder'
 export * from './heatmap'
+export * from './highlight'
 export * from './horizontal-list'
 export * from './iconfont'
 export * from './image'

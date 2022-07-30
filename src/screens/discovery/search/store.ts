@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 13:19:22
+ * @Last Modified time: 2022-07-30 18:01:14
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore } from '@stores'
@@ -65,6 +65,15 @@ export default class ScreenSearch extends store {
     return label === '用户'
   }
 
+  /** 是否显示推荐词 */
+  @computed get showAdvance() {
+    const { focus, cat } = this.state
+    if (!focus || cat === 'mono_all' || cat === 'user' || this.search().list.length)
+      return false
+
+    return true
+  }
+
   // -------------------- page --------------------
   /** 处理初始参数 */
   initState = () => {
@@ -125,11 +134,15 @@ export default class ScreenSearch extends store {
   }
 
   /** 输入框改变 */
-  onChange = ({ nativeEvent }) => {
-    const { text } = nativeEvent
-    this.setState({
+  onChangeText = (text: string) => {
+    const state: {
+      value: string
+      focus?: boolean
+    } = {
       value: text
-    })
+    }
+    if (text) state.focus = true
+    this.setState(state)
   }
 
   /** 选择历史 */
@@ -168,6 +181,28 @@ export default class ScreenSearch extends store {
     }
 
     return this.doSearch(true)
+  }
+
+  onAdvance = (text: string, navigation?: Navigation) => {
+    this.setState({
+      value: text,
+      focus: false
+    })
+    this.onSubmit(navigation)
+  }
+
+  /** 获得焦点 */
+  onFocus = () => {
+    this.setState({
+      focus: true
+    })
+  }
+
+  /** 失去焦点 */
+  onBlur = () => {
+    this.setState({
+      focus: true
+    })
   }
 
   // -------------------- action --------------------

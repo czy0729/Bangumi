@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 13:41:42
+ * @Last Modified time: 2022-07-30 18:05:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -18,7 +17,7 @@ function History(props, { $ }: Ctx) {
 
   const styles = memoStyles()
   return (
-    <View style={_.mt.sm}>
+    <View>
       {history.map(item => (
         <View key={item} style={styles.item}>
           <Flex style={styles.content}>
