@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 11:59:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:52:43
+ * @Last Modified time: 2022-07-30 03:13:39
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -21,7 +21,7 @@ function FloorText({ time, floor }) {
         #
       </Text>
       <Text type='sub' size={10} lineHeight={12}>
-        {floor.replace('#', '')}
+        {String(floor).replace('#', '')}
       </Text>
     </Flex>
   )

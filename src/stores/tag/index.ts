@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 23:56:54
+ * @Last Modified time: 2022-07-30 12:06:50
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -106,29 +106,29 @@ class TagStore extends store implements StoreConstructor<typeof state> {
     const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
-    const res = fetchHTML({
+    const raw = await fetchHTML({
       url: HTML_TAG(_text, type, order, page, airtime)
     })
-    const raw = await res
     const { pageTotal, tag } = analysisTags(raw, page, pagination)
 
     const key = 'tag'
     const stateKey = `${_text}|${type}|${airtime}`
+    const data = {
+      list: refresh ? tag : [...list, ...tag],
+      pagination: {
+        page,
+        pageTotal: parseInt(pageTotal)
+      },
+      _loaded: getTimestamp()
+    }
     this.setState({
       [key]: {
-        [stateKey]: {
-          list: refresh ? tag : [...list, ...tag],
-          pagination: {
-            page,
-            pageTotal: parseInt(pageTotal)
-          },
-          _loaded: getTimestamp()
-        }
+        [stateKey]: data
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return res
+    return data
   }
 
   /** 排行榜 (与标签相似, 所以共用逻辑) */

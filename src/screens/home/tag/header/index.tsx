@@ -1,17 +1,18 @@
 /*
  * @Author: czy0729
- * @Date: 2022-03-15 18:36:50
+ * @Date: 2022-07-30 11:02:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 10:17:01
+ * @Last Modified time: 2022-07-30 11:02:47
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
+function Header(props, { $ }: Ctx) {
   const { type, tag } = $.params
   return (
     <CompHeader

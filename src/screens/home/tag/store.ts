@@ -2,65 +2,50 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 16:06:02
+ * @Last Modified time: 2022-07-30 12:18:42
  */
 import { observable, computed } from 'mobx'
-import { tagStore, collectionStore } from '@stores'
+import { tagStore, collectionStore, subjectStore } from '@stores'
+import { feedback, info } from '@utils/ui'
 import store from '@utils/store'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { MODEL_TAG_ORDERBY } from '@constants'
-import { HTML_TAG } from '@constants/html'
-import { SubjectType, TagOrder } from '@constants/model/types'
-
-const namespace = 'ScreenTag'
-const defaultOrder = MODEL_TAG_ORDERBY.getValue('名称')
+import { MODEL_TAG_ORDERBY, HTML_TAG } from '@constants'
+import { SubjectId, TagOrder } from '@types'
+import { NAMESPACE, STATE, EXCLUDE_STATE, DEFAULT_ORDER } from './ds'
+import { Params } from './types'
 
 export default class ScreenTag extends store {
-  params: {
-    airtime?: string
-    type?: SubjectType
-    tag?: string
-  }
+  params: Params
 
-  state = observable({
-    order: defaultOrder as TagOrder,
-    airtime: '',
-    month: '',
-    hide: false, // 用于列表置顶
-    list: true,
-    fixed: false,
-    collected: true,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(undefined, NAMESPACE)) || {}
     const _state = {
       ...state,
 
       // order 慎用排名排序, 不然列表数据几乎没区别
       order:
-        state.order === MODEL_TAG_ORDERBY.getValue('排名') ? defaultOrder : state.order,
-      airtime: '',
-      month: '',
-      hide: false,
+        state.order === MODEL_TAG_ORDERBY.getValue<TagOrder>('排名')
+          ? DEFAULT_ORDER
+          : state.order,
+      ...EXCLUDE_STATE,
       _loaded: true
     }
+
     const { airtime } = this.params
-    if (airtime) {
-      _state.airtime = airtime
-    }
+    if (airtime) _state.airtime = airtime
     this.setState(_state)
 
     return this.fetchTag(true)
   }
 
   // -------------------- fetch --------------------
-  fetchTag = refresh => {
+  /** 标签条目 */
+  fetchTag = async (refresh?: boolean) => {
     const { type, tag } = this.params
     const { order, airtime, month } = this.state
-    return tagStore.fetchTag(
+    const data = await tagStore.fetchTag(
       {
         text: tag,
         type,
@@ -69,15 +54,41 @@ export default class ScreenTag extends store {
       },
       refresh
     )
+
+    // 延迟获取收藏中的条目的具体收藏状态
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue(
+        data.list
+          .filter(item => item.collected)
+          .map(item => String(item.id).replace('/subject/', ''))
+      )
+    }, 160)
+
+    return data
+  }
+
+  /** 下拉刷新 */
+  onHeaderRefresh = () => {
+    return this.fetchTag(true)
+  }
+
+  /** 加载更多 */
+  onFooterRefresh = () => {
+    // 网页判断不了还有没有下一页, 假如长度小于一页24个, 不请求
+    if (this.tag.list.length < 24) return false
+
+    return this.fetchTag()
   }
 
   // -------------------- get --------------------
+  /** 标签条目 */
   @computed get tag() {
     const { type, tag } = this.params
     const { airtime, month } = this.state
     return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
   }
 
+  /** 过滤列表 */
   @computed get list() {
     const { collected } = this.state
     if (collected) return this.tag
@@ -88,10 +99,7 @@ export default class ScreenTag extends store {
     }
   }
 
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
-  }
-
+  /** 网页端地址 */
   @computed get url() {
     const { type, tag } = this.params
     const { order = '', airtime, month } = this.state
@@ -104,7 +112,27 @@ export default class ScreenTag extends store {
     )
   }
 
+  /** 条目信息 */
+  subject(subjectId: SubjectId) {
+    return computed(() => subjectStore.subject(subjectId)).get()
+  }
+
   // -------------------- page --------------------
+  /** 隐藏后延迟显示列表 (用于重置滚动位置) */
+  resetScrollView = () => {
+    this.setState({
+      hide: true
+    })
+
+    setTimeout(() => {
+      this.setState({
+        hide: false
+      })
+      this.setStorage(NAMESPACE)
+    }, 40)
+  }
+
+  /** 排序选择 */
   onOrderSelect = async label => {
     t('用户标签.排序选择', {
       label
@@ -114,18 +142,11 @@ export default class ScreenTag extends store {
       order: MODEL_TAG_ORDERBY.getValue(label)
     })
     await this.fetchTag(true)
-    this.setStorage(undefined, undefined, namespace)
 
-    this.setState({
-      hide: true
-    })
-    setTimeout(() => {
-      this.setState({
-        hide: false
-      })
-    }, 0)
+    this.resetScrollView()
   }
 
+  /** 年选择 */
   onAirdateSelect = async airtime => {
     t('用户标签.年选择', {
       airtime
@@ -136,18 +157,11 @@ export default class ScreenTag extends store {
       month: ''
     })
     await this.fetchTag(true)
-    this.setStorage(undefined, undefined, namespace)
 
-    this.setState({
-      hide: true
-    })
-    setTimeout(() => {
-      this.setState({
-        hide: false
-      })
-    }, 0)
+    this.resetScrollView()
   }
 
+  /** 月选择 */
   onMonthSelect = async month => {
     const { airtime } = this.state
     if (airtime === '') {
@@ -163,18 +177,11 @@ export default class ScreenTag extends store {
       month: month === '全部' ? '' : month
     })
     await this.fetchTag(true)
-    this.setStorage(undefined, undefined, namespace)
 
-    this.setState({
-      hide: true
-    })
-    setTimeout(() => {
-      this.setState({
-        hide: false
-      })
-    }, 0)
+    this.resetScrollView()
   }
 
+  /** 切换布局 */
   onToggleList = () => {
     const { list } = this.state
     t('用户标签.切换布局', {
@@ -184,33 +191,78 @@ export default class ScreenTag extends store {
     this.setState({
       list: !list
     })
-    this.setStorage(undefined, undefined, namespace)
-
-    this.setState({
-      hide: true
-    })
-    setTimeout(() => {
-      this.setState({
-        hide: false
-      })
-    }, 0)
+    this.resetScrollView()
   }
 
+  /** 切换固定 */
   onToggleFixed = () => {
     const { fixed } = this.state
 
     this.setState({
       fixed: !fixed
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 切换显示收藏 */
   onToggleCollected = () => {
     const { collected } = this.state
 
     this.setState({
       collected: !collected
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
+  }
+
+  /** 管理收藏 */
+  doUpdateCollection = async (
+    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
+  ) => {
+    await collectionStore.doUpdateCollection(values)
+    feedback()
+
+    const { subjectId } = this.state.modal
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue([subjectId])
+    }, 400)
+
+    this.onCloseManageModal()
+  }
+
+  /** 显示收藏管理框 */
+  onShowManageModal = args => {
+    const { subjectId, title, desc, status, typeCn } = args || {}
+
+    let action = '看'
+    if (typeCn === '书籍') action = '读'
+    if (typeCn === '音乐') action = '听'
+    if (typeCn === '游戏') action = '玩'
+
+    this.setState({
+      modal: {
+        visible: true,
+        subjectId,
+        title,
+        desc,
+        status: status || '',
+        action
+      }
+    })
+  }
+
+  /** 隐藏收藏管理框 */
+  onCloseManageModal = () => {
+    this.setState({
+      modal: {
+        visible: false
+      }
+    })
+
+    // 等到关闭动画完成后再重置
+    setTimeout(() => {
+      this.setState({
+        modal: EXCLUDE_STATE.modal
+      })
+    }, 400)
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 16:10:50
+ * @Last Modified time: 2022-07-30 04:14:54
  */
 import React from 'react'
 import { Page } from '@components'
@@ -11,9 +11,11 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import ToolBar from './tool-bar'
 import List from './list'
+import Modal from './modal'
 import Store from './store'
+import { Ctx } from './types'
 
-const Tag = (props, { $ }) => {
+const Tag = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -26,6 +28,7 @@ const Tag = (props, { $ }) => {
         <Page>
           {fixed && <ToolBar />}
           {_loaded && <List />}
+          <Modal />
         </Page>
       </>
     )

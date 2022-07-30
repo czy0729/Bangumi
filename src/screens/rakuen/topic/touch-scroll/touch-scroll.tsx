@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:00:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-04 13:11:02
+ * @Last Modified time: 2022-07-30 03:12:11
  */
 import React from 'react'
 import { TouchableWithoutFeedback, Insets } from 'react-native'
@@ -99,7 +99,7 @@ export const TouchScroll = memo(
                       type={isNew ? _.select('plain', 'icon') : 'icon'}
                       align='center'
                     >
-                      {String(list[index].floor).replace('#', '')}
+                      {String(list[index]?.floor).replace('#', '')}
                     </Text>
                   )}
                 </Flex>

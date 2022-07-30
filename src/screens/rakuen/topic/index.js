@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 17:30:27
+ * @Last Modified time: 2022-07-30 03:12:16
  */
 import React, { useState, useRef, useCallback } from 'react'
 import { Page, Loading } from '@components'
@@ -37,7 +37,7 @@ const Topic = (props, { $ }) => {
 
   const scrollTo = useCallback((index = 0) => {
     const { list } = $.comments
-    info(list[index].floor, 0.8)
+    info(list[index]?.floor, 0.8)
 
     try {
       listViewRef.current?.scrollToIndex({
@@ -67,7 +67,7 @@ const Topic = (props, { $ }) => {
     }
 
     const { list } = $.comments
-    info(list[index].floor, 0.8)
+    info(list[index]?.floor, 0.8)
 
     try {
       listViewRef.current?.scrollToIndex({
