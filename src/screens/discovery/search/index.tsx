@@ -17,6 +17,7 @@ import BtnSubmit from './btn-submit'
 import Advance from './advance'
 import History from './history'
 import List from './list'
+import Modal from './modal'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -48,6 +49,7 @@ const Search = (props, { $, navigation }: Ctx) => {
           )}
           <History />
           <List />
+          <Modal />
         </Page>
       </>
     )

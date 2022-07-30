@@ -9,7 +9,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG, MODEL_RATING_STATUS } from '@constants'
+import { IMG_WIDTH, IMG_WIDTH_LG, IMG_HEIGHT_LG, MODEL_RATING_STATUS } from '@constants'
 import { Tag, Cover, Stars, Rank, Manage } from '../../base'
 import Title from './title'
 import { DEFAULT_PROPS } from './ds'
@@ -63,8 +63,8 @@ const Item = memo(
           <Cover
             src={cover}
             placeholder={!isMono}
-            width={IMG_WIDTH_LG}
-            height={isMono ? IMG_WIDTH_LG : IMG_HEIGHT_LG}
+            width={isMono ? IMG_WIDTH : IMG_WIDTH_LG}
+            height={isMono ? IMG_WIDTH : IMG_HEIGHT_LG}
             radius
             shadow
             type={typeCn}
@@ -83,23 +83,24 @@ const Item = memo(
               <Flex.Item>
                 <Title name={name} nameCn={nameCn} comments={comments} />
               </Flex.Item>
-              <Manage
-                collection={collection}
-                typeCn={typeCn}
-                onPress={() => {
-                  if (isMono) return
+              {!isMono && (
+                <Manage
+                  collection={collection}
+                  typeCn={typeCn}
+                  onPress={() => {
+                    if (isMono) return
 
-                  onManagePress({
-                    subjectId: String(id).replace('/subject/', ''),
-                    title: nameCn,
-                    desc: name,
-                    status: MODEL_RATING_STATUS.getValue<RatingStatus>(collection),
-                    typeCn
-                  })
-                }}
-              />
+                    onManagePress({
+                      subjectId: String(id).replace('/subject/', ''),
+                      title: nameCn,
+                      desc: name,
+                      status: MODEL_RATING_STATUS.getValue<RatingStatus>(collection),
+                      typeCn
+                    })
+                  }}
+                />
+              )}
               {/* <Flex style={_.mt.xxs}>
-                {!!_collection && <Tag style={_.ml.sm} value={_collection} />}
                 {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
                 {!!type && (
                   <Tag style={_.ml.sm} value={MODEL_SUBJECT_TYPE.getTitle(type)} />

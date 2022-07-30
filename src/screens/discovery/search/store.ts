@@ -5,12 +5,12 @@
  * @Last Modified time: 2022-07-30 18:01:14
  */
 import { observable, computed } from 'mobx'
-import { searchStore, userStore, collectionStore } from '@stores'
-import { info, x18 } from '@utils'
+import { searchStore, userStore, collectionStore, subjectStore } from '@stores'
+import { feedback, info, x18 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY, HTML_SEARCH } from '@constants'
-import { Navigation, SearchCat, SearchCatCn, SearchLegacy } from '@types'
+import { Navigation, SearchCat, SearchCatCn, SearchLegacy, SubjectId } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { Params } from './types'
 
@@ -31,6 +31,11 @@ export default class ScreenSearch extends store {
     return true
   }
 
+  /** 下拉刷新 */
+  onHeaderRefresh = () => {
+    return this.doSearch(true)
+  }
+
   // -------------------- get --------------------
   /** 搜索结果 */
   search() {
@@ -44,10 +49,6 @@ export default class ScreenSearch extends store {
         list: search.list.filter(item => !x18(item.id))
       }
     }).get()
-  }
-
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
   }
 
   /** 搜索具体网址 */
@@ -72,6 +73,11 @@ export default class ScreenSearch extends store {
       return false
 
     return true
+  }
+
+  /** 条目信息 */
+  subject(subjectId: SubjectId) {
+    return computed(() => subjectStore.subject(subjectId)).get()
   }
 
   // -------------------- page --------------------
@@ -233,7 +239,7 @@ export default class ScreenSearch extends store {
     }
 
     try {
-      await searchStore.fetchSearch(
+      const data = await searchStore.fetchSearch(
         {
           cat,
           legacy,
@@ -241,6 +247,15 @@ export default class ScreenSearch extends store {
         },
         refresh
       )
+
+      // 延迟获取收藏中的条目的具体收藏状态
+      setTimeout(() => {
+        collectionStore.fetchCollectionStatusQueue(
+          data.list
+            .filter(item => item.collected)
+            .map(item => String(item.id).replace('/subject/', ''))
+        )
+      }, 160)
     } catch (ex) {
       info('请稍候再查询')
     }
@@ -248,5 +263,57 @@ export default class ScreenSearch extends store {
     this.setState({
       searching: false
     })
+  }
+
+  /** 管理收藏 */
+  doUpdateCollection = async (
+    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
+  ) => {
+    await collectionStore.doUpdateCollection(values)
+    feedback()
+
+    const { subjectId } = this.state.modal
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue([subjectId])
+    }, 400)
+
+    this.onCloseManageModal()
+  }
+
+  /** 显示收藏管理框 */
+  onShowManageModal = args => {
+    const { subjectId, title, desc, status, typeCn } = args || {}
+
+    let action = '看'
+    if (typeCn === '书籍') action = '读'
+    if (typeCn === '音乐') action = '听'
+    if (typeCn === '游戏') action = '玩'
+
+    this.setState({
+      modal: {
+        visible: true,
+        subjectId,
+        title,
+        desc,
+        status: status || '',
+        action
+      }
+    })
+  }
+
+  /** 隐藏收藏管理框 */
+  onCloseManageModal = () => {
+    this.setState({
+      modal: {
+        visible: false
+      }
+    })
+
+    // 等到关闭动画完成后再重置
+    setTimeout(() => {
+      this.setState({
+        modal: EXCLUDE_STATE.modal
+      })
+    }, 400)
   }
 }

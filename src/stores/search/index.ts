@@ -71,11 +71,10 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
     const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
-    const res = fetchHTML({
+    const raw = await fetchHTML({
       url: HTML_SEARCH(_text, cat, page, legacy),
       cookie: `; chii_searchDateLine=${getTimestamp() - 60};` // 搜索不加这个会无条件返回错误
     })
-    const raw = await res
     const HTML = HTMLTrim(raw)
     if (HTML.includes('秒内只能进行一次搜索')) return Promise.reject()
 
@@ -232,21 +231,23 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
     const key = 'search'
     let stateKey = `${_text}|${cat}`
     if (legacy) stateKey += '|legacy'
+
+    const data = {
+      list: refresh ? search : [...list, ...search],
+      pagination: {
+        page,
+        pageTotal: Number(pageTotal)
+      },
+      _loaded: getTimestamp()
+    }
     this.setState({
       [key]: {
-        [stateKey]: {
-          list: refresh ? search : [...list, ...search],
-          pagination: {
-            page,
-            pageTotal: Number(pageTotal)
-          },
-          _loaded: getTimestamp()
-        }
+        [stateKey]: data
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return res
+    return data
   }
 
   /** @deprecated 超展开搜索 */
