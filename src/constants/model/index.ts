@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 12:52:41
+ * @Last Modified time: 2022-07-31 18:08:25
  */
 import { IOS } from '../constants'
 
@@ -362,7 +362,7 @@ export const MODEL_RAKUEN_TYPE_MONO = new Model([
 ])
 
 /** 人物排序 */
-export const MODEL_MONO_WORKS_ORDERBY = new Model([
+export const MONO_WORKS_ORDERBY = [
   {
     label: '名称',
     value: 'title'
@@ -375,7 +375,10 @@ export const MODEL_MONO_WORKS_ORDERBY = new Model([
     label: '排名',
     value: 'rank'
   }
-])
+] as const
+
+/** 人物排序 */
+export const MODEL_MONO_WORKS_ORDERBY = new Model(MONO_WORKS_ORDERBY)
 
 /** 搜索类型 */
 export const SEARCH_CAT = [

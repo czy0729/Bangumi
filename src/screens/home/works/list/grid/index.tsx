@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2022-07-27 05:26:59
+ * @Date: 2022-07-31 18:42:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-27 05:28:32
+ * @Last Modified time: 2022-07-31 18:52:21
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -11,30 +11,33 @@ import { MODEL_SUBJECT_TYPE } from '@constants'
 import { obc } from '@utils/decorators'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
+import { matchYear } from '@utils'
 
 const EVENT = {
-  id: '索引.跳转',
+  id: '作品.跳转',
   data: {
     type: 'grid'
   }
-}
+} as const
 
-function Grid({ item, index }, { $, navigation }: Ctx) {
-  const { type } = $.state
+function Grid({ item, index }, { navigation }: Ctx) {
   const id = String(item.id).replace('/subject/', '')
   const collection = collectionStore.collectionStatus(id)
-  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   const numColumns = _.portrait(3, 5)
   return (
     <ItemCollectionsGrid
-      style={(_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left}
+      style={[
+        (_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left,
+        index < numColumns && _.mt.sm
+      ]}
       navigation={navigation}
       num={numColumns}
-      collection={collection}
       event={EVENT}
       {...item}
-      isCollect={item.collected}
-      isRectangle={typeCn === '音乐'}
+      airtime={matchYear(item.tip)}
+      id={id}
+      collection={collection}
+      typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)}
     />
   )
 }

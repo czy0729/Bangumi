@@ -11,7 +11,7 @@ import { titleCase } from '@utils'
 import { ob } from '@utils/decorators'
 
 function Collection({ collection, typeCn, airtime }) {
-  if (!collection) return null
+  if (!collection && !airtime) return null
 
   let icon
   let type: any = 'icon'
@@ -44,10 +44,18 @@ function Collection({ collection, typeCn, airtime }) {
 
   return (
     <Flex style={_.mt.xs} justify='center'>
-      <Iconfont name={icon} size={size} color={_[`color${titleCase(type)}`]} />
-      <Text style={_.ml.xs} size={11} lineHeight={13} type={type} bold align='center'>
+      {!!_collection && (
+        <Iconfont
+          style={_.mr.xs}
+          name={icon}
+          size={size}
+          color={_[`color${titleCase(type)}`]}
+        />
+      )}
+      <Text size={11} lineHeight={13} type={type} bold align='center'>
         {_collection}
-        {!!airtime && ` · ${airtime}`}
+        {!!_collection && !!airtime && ' · '}
+        {airtime}
       </Text>
     </Flex>
   )

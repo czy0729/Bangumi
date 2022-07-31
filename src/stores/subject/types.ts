@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-20 14:38:08
+ * @Last Modified time: 2022-07-31 18:39:57
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -377,20 +377,25 @@ export type Mono = DeepPartial<{
 export type MonoComments = SubjectComments
 
 /** 人物作品 */
-export type MonoWorks = ListEmpty<
-  Partial<{
-    id: `/subject/${SubjectId}`
-    cover: Cover<'c'>
-    name: string
-    nameCn: string
-    tip: string
-    position: string[]
-    score: string
-    total: string
-    rank: string
-    collected: boolean
-    type: SubjectType
-  }>
+export type MonoWorks = Override<
+  ListEmpty<
+    Partial<{
+      id: `/subject/${SubjectId}`
+      cover: Cover<'c'>
+      name: string
+      nameCn: string
+      tip: string
+      position: string[]
+      score: string
+      total: string
+      rank: string
+      collected: boolean
+      type: SubjectType
+    }>
+  >,
+  {
+    filters?: any
+  }
 >
 
 /** 人物作品 */

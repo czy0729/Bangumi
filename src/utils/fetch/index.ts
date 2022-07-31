@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 19:36:48
+ * @Last Modified time: 2022-07-31 19:56:40
  */
 import {
   APP_ID,
@@ -172,7 +172,7 @@ export async function fetchHTML(
     cookie,
     raw = false
   }: FetchHTMLArgs = {} as FetchHTMLArgs
-) {
+): Promise<string> {
   const isGet = method === 'GET'
 
   // 拦截瞬间多次完全同样的请求

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-20 19:33:16
+ * @Last Modified time: 2022-07-31 20:07:13
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -543,7 +543,7 @@ class SubjectStore
             /<a href="\?page=(\d+)" class="p">10<\/a><a href="\?page=2" class="p">&rsaquo;&rsaquo;<\/a>/
           )
         if (pageHTML) {
-          pageTotal = pageHTML[1]
+          pageTotal = Number(pageHTML[1])
         } else {
           pageTotal = 1
         }
@@ -731,22 +731,24 @@ class SubjectStore
       url: HTML_MONO_WORKS(monoId, position, order, page)
     })
     const { list: _list, filters } = cheerioMonoWorks(html)
+
+    const data: MonoWorks = {
+      list: refresh ? _list : [...list, ..._list],
+      pagination: {
+        page,
+        pageTotal: _list.length === limit ? 100 : page
+      },
+      filters,
+      _loaded: getTimestamp()
+    }
     this.setState({
       [key]: {
-        [monoId]: {
-          list: refresh ? _list : [...list, ..._list],
-          pagination: {
-            page,
-            pageTotal: _list.length === limit ? 100 : page
-          },
-          filters,
-          _loaded: getTimestamp()
-        }
+        [monoId]: data
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return this[key](monoId)
+    return data
   }
 
   /** 人物角色 */

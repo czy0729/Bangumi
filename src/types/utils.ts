@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-25 19:39:44
+ * @Last Modified time: 2022-07-31 18:26:07
  */
 import React from 'react'
 import {
@@ -85,7 +85,10 @@ export type IReactComponent<P = any> =
   | React.ClassicComponentClass<P>
 
 /** 取 Model 联合类型 */
-export type ModelValueOf<T extends readonly any[], K extends string> = T[number][K]
+export type ModelValueOf<
+  T extends readonly any[],
+  K extends string = 'value'
+> = T[number][K]
 
 /** 普通对象 */
 export type AnyObject = Record<string, unknown>
