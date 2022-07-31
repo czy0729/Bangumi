@@ -135,7 +135,7 @@ export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '', prefix = 'bgm_poster') => {
 
   if (!CDN_MAGMA) {
     CDN_MAGMA = Crypto.get(
-      'U2FsdGVkX1+S8gwWkhCK40YiqSJWzA2theNahdzlVnwOlyz+ZiaJLOv6qkJeCRPv'
+      'U2FsdGVkX1+8XichzWKyMJq48Ovm7Py40o5JPSjNIH/MqOGILJbEY+ZBXG+d7TM5JHxxP0vuinOgBs4qCt7pyQ=='
     ) as string
   }
   if (!CDN_MAGMA) return mediumSrc
