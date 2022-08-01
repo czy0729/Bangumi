@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 08:26:03
+ * @Last Modified time: 2022-08-01 22:37:25
  */
 import { observable, computed, toJS } from 'mobx'
 import { smbStore, subjectStore, collectionStore, userStore } from '@stores'
@@ -122,7 +122,7 @@ export default class ScreenSmb extends store {
 
   // -------------------- get --------------------
   @computed get data() {
-    return smbStore.data.data
+    return smbStore.data
   }
 
   @computed get isLogin() {
