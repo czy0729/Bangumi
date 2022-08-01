@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 17:34:36
+ * @Last Modified time: 2022-08-01 20:46:36
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { PaginationList2 as ListView } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
@@ -27,6 +27,15 @@ const List = memo(
 
     const { length } = data.list
     const emptyComponent = <Empty title={title} length={length} />
+    const _renderItem = useCallback(
+      ({ item, index }) =>
+        renderItem({
+          item,
+          index,
+          title
+        }),
+      [title]
+    )
     return (
       <ListView
         // ref={connectRef}
@@ -38,7 +47,7 @@ const List = memo(
         limit={10}
         scrollToTop={scrollToTop}
         ListHeaderComponent={<Filter title={title} length={length} />}
-        renderItem={renderItem}
+        renderItem={_renderItem}
         footerEmptyDataComponent={emptyComponent}
         footerNoMoreDataComponent={emptyComponent}
         footerNoMoreDataText=''

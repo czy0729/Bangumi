@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-14 18:45:53
+ * @Last Modified time: 2022-08-01 20:04:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ const Item = memo(
     styles,
     subject,
     subjectId,
+    title,
     epStatus,
     heatMap,
     expand,
@@ -46,7 +47,7 @@ const Item = memo(
             >
               <Flex align='start'>
                 <Flex.Item>
-                  <Title subjectId={subjectId} subject={subject} />
+                  <Title subjectId={subjectId} subject={subject} title={title} />
                 </Flex.Item>
                 <OnAir subjectId={subjectId} />
               </Flex>

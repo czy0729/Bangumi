@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-12 15:07:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-14 17:20:26
+ * @Last Modified time: 2022-08-01 19:55:45
  */
 import { _ } from '@stores'
 import { Navigation, Subject, SubjectId } from '@types'
-import { StoreType } from '../types'
+import { StoreType, TabLabel } from '../types'
 import { memoStyles } from './styles'
 
 export const LIMIT_HEAVY = _.device(8, 16)
@@ -34,6 +34,7 @@ export type Props = {
   index: number
   subjectId: SubjectId
   subject: Subject
+  title?: TabLabel
 
   /** 看到多少集 */
   epStatus: string | number
@@ -45,6 +46,7 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   subject: {} as Subject,
   subjectId: 0 as SubjectId,
+  title: '' as TabLabel,
 
   /** 看到多少集 */
   epStatus: '' as string | number,

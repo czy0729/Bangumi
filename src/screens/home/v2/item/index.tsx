@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 20:23:35
+ * @Last Modified time: 2022-08-01 19:56:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { memoStylesLazy, memoStyles } from './styles'
 
 export default obc(
   (
-    { index = 0, subjectId = 0, subject = {}, epStatus = '' }: Props,
+    { index = 0, subjectId = 0, subject = {}, title, epStatus = '' }: Props,
     { $, navigation }: Ctx
   ) => {
     global.rerender('Home.Item', subject.name_cn || subject.name)
@@ -29,6 +29,7 @@ export default obc(
         styles={memoStyles()}
         subject={subject}
         subjectId={subjectId}
+        title={title}
         epStatus={epStatus}
         heatMap={$.heatMap}
         expand={expand}

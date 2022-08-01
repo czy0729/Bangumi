@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-21 14:27:48
+ * @Last Modified time: 2022-08-01 21:09:51
  */
 import { observable, computed } from 'mobx'
 import {
@@ -312,6 +312,13 @@ export default class ScreenHomeV2 extends store {
     return userStore.collection
   }
 
+  @computed get filter() {
+    const { filter } = this.state
+
+    // 转大写和简体
+    return t2s(filter.toUpperCase())
+  }
+
   /** 列表当前数据 */
   currentCollection(title: TabLabel) {
     return computed(() => {
@@ -330,7 +337,6 @@ export default class ScreenHomeV2 extends store {
         const { filter } = this.state
 
         // 转大写和简体
-        const _filter = t2s(filter.toUpperCase())
         data.list = data.list.filter(item => {
           if (!filter.length) return true
 
@@ -342,10 +348,10 @@ export default class ScreenHomeV2 extends store {
             item?.subject?.name ||
             ''
           ).toUpperCase()
-          if (cn.includes(_filter)) return true
+          if (cn.includes(this.filter)) return true
 
           // 支持每个字符首拼音筛选
-          if (/^[a-zA-Z]+$/.test(_filter) && cn) {
+          if (/^[a-zA-Z]+$/.test(this.filter) && cn) {
             if (!PIN_YIN_FIRST_CHARACTER[cn]) {
               PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
                 cn,
@@ -353,7 +359,7 @@ export default class ScreenHomeV2 extends store {
               ).replace(/ /g, '')
             }
 
-            if (PIN_YIN_FIRST_CHARACTER[cn].includes(_filter)) return true
+            if (PIN_YIN_FIRST_CHARACTER[cn].includes(this.filter)) return true
           }
 
           return false
