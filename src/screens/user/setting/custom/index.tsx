@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 12:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:05:52
+ * @Last Modified time: 2022-08-01 07:20:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,14 +29,20 @@ function Custom({ filter }) {
     return (
       <>
         {/* 定制 */}
-        <ItemSetting hd='定制' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='定制' arrow highlight filter={filter} onPress={setTrue} />
 
         <ActionSheet show={state} height={filter ? 400 : 680} onClose={setFalse}>
           {/* 优先中文 */}
-          <ItemSettingBlock show={shows.cnFirst} style={_.mt.sm} {...TEXTS.cnFirst}>
+          <ItemSettingBlock
+            show={shows.cnFirst}
+            style={_.mt.sm}
+            filter={filter}
+            {...TEXTS.cnFirst}
+          >
             <ItemSettingBlock.Item
               title='开启'
               active={cnFirst}
+              filter={filter}
               onPress={() => {
                 if (cnFirst) return
 
@@ -59,6 +65,7 @@ function Custom({ filter }) {
               style={_.ml.md}
               title='关闭'
               active={!cnFirst}
+              filter={filter}
               onPress={() => {
                 if (!cnFirst) return
 
@@ -81,10 +88,16 @@ function Custom({ filter }) {
           </ItemSettingBlock>
 
           {/* 章节讨论热力图 */}
-          <ItemSettingBlock show={shows.heatMap} style={_.mt.sm} {...TEXTS.heatMap}>
+          <ItemSettingBlock
+            show={shows.heatMap}
+            style={_.mt.sm}
+            filter={filter}
+            {...TEXTS.heatMap}
+          >
             <ItemSettingBlock.Item
               title='开启'
               active={heatMap}
+              filter={filter}
               onPress={() => {
                 if (heatMap) return
 
@@ -121,6 +134,7 @@ function Custom({ filter }) {
               style={_.ml.md}
               title='关闭'
               active={!heatMap}
+              filter={filter}
               onPress={() => {
                 if (!heatMap) return
 
@@ -173,6 +187,7 @@ function Custom({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.s2t}
           >
             <Heatmap id='设置.切换' title='繁体' />
@@ -195,6 +210,7 @@ function Custom({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.hideScore}
           >
             <Heatmap id='设置.切换' title='隐藏评分' />
@@ -217,6 +233,7 @@ function Custom({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.filterDefault}
           >
             <Heatmap id='设置.切换' title='屏蔽默认头像用户相关信息' />
@@ -240,6 +257,7 @@ function Custom({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.filter18x}
           >
             <Heatmap id='设置.切换' title='屏蔽敏感内容' />

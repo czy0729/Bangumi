@@ -55,19 +55,21 @@ function UI({ filter }) {
     return (
       <>
         {/* 画面 */}
-        <ItemSetting hd='画面' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='画面' arrow highlight filter={filter} onPress={setTrue} />
 
         <ActionSheet show={state} height={filter ? 400 : 680} onClose={setFalse}>
           {/* 封面拟物 */}
           <ItemSettingBlock
             show={shows.coverThings}
             style={_.mt.sm}
+            filter={filter}
             {...TEXTS.coverThings}
           >
             <ItemSettingBlock.Item
               itemStyle={styles.item}
               title='开启'
               active={coverThings}
+              filter={filter}
               onPress={() => {
                 if (coverThings) return
 
@@ -121,6 +123,7 @@ function UI({ filter }) {
               itemStyle={styles.item}
               title='关闭'
               active={!coverThings}
+              filter={filter}
               onPress={() => {
                 if (!coverThings) return
 
@@ -151,10 +154,12 @@ function UI({ filter }) {
           <ItemSettingBlock
             show={shows.coverRadius}
             style={_.mt.sm}
+            filter={filter}
             {...TEXTS.coverRadius.setting}
           >
             <ItemSettingBlock.Item
               active={coverRadius === _.radiusXs}
+              filter={filter}
               onPress={() => {
                 if (coverRadius === _.radiusXs) return
 
@@ -180,6 +185,7 @@ function UI({ filter }) {
             <ItemSettingBlock.Item
               style={_.ml.md}
               active={coverRadius === _.radiusSm}
+              filter={filter}
               onPress={() => {
                 if (coverRadius === _.radiusSm) return
 
@@ -205,6 +211,7 @@ function UI({ filter }) {
             <ItemSettingBlock.Item
               style={_.ml.md}
               active={coverRadius === _.radiusMd}
+              filter={filter}
               onPress={() => {
                 if (coverRadius === _.radiusMd) return
 
@@ -231,10 +238,16 @@ function UI({ filter }) {
           </ItemSettingBlock>
 
           {/* 看板娘吐槽 */}
-          <ItemSettingBlock show={shows.speech} style={_.mt.sm} {...TEXTS.speech}>
+          <ItemSettingBlock
+            show={shows.speech}
+            style={_.mt.sm}
+            filter={filter}
+            {...TEXTS.speech}
+          >
             <ItemSettingBlock.Item
               title='开启'
               active={speech}
+              filter={filter}
               onPress={() => {
                 if (speech) return
 
@@ -260,6 +273,7 @@ function UI({ filter }) {
               style={_.ml.md}
               title='关闭'
               active={!speech}
+              filter={filter}
               onPress={() => {
                 if (!speech) return
 
@@ -280,10 +294,12 @@ function UI({ filter }) {
           <ItemSettingBlock
             show={shows.avatarRound}
             style={_.mt.sm}
+            filter={filter}
             {...TEXTS.avatarRound.setting}
           >
             <ItemSettingBlock.Item
               active={avatarRound}
+              filter={filter}
               onPress={() => {
                 if (avatarRound) return
 
@@ -301,6 +317,7 @@ function UI({ filter }) {
             <ItemSettingBlock.Item
               style={_.ml.md}
               active={!avatarRound}
+              filter={filter}
               onPress={() => {
                 if (!avatarRound) return
 
@@ -322,6 +339,7 @@ function UI({ filter }) {
           <ItemSettingBlock
             show={shows.fontSize}
             style={styles.fontBlock}
+            filter={filter}
             {...TEXTS.fontSize}
           >
             <ScrollView contentContainerStyle={styles.fontScroll} horizontal>
@@ -331,6 +349,7 @@ function UI({ filter }) {
                   style={!!index && _.ml.sm}
                   title={item.label}
                   active={_.fontSizeAdjust == Number(item.value)}
+                  filter={filter}
                   onPress={() => {
                     if (_.fontSizeAdjust == Number(item.value)) return
 
@@ -370,6 +389,7 @@ function UI({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.ripple}
           >
             <Heatmap id='设置.切换' title='点击水纹' />
@@ -398,6 +418,7 @@ function UI({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.transition}
           >
             <Heatmap id='设置.切换' title='切页动画' />
@@ -420,6 +441,7 @@ function UI({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.vibration}
           >
             <Heatmap id='设置.切换' title='震动' />

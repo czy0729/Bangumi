@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 14:18:34
+ * @Last Modified time: 2022-08-01 07:19:09
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -26,7 +26,7 @@ function Contact({ navigation, filter }) {
         <ItemSetting
           show={shows.say}
           arrow
-          highlight
+          filter={filter}
           onPress={() => {
             t('设置.跳转', {
               to: 'Say'
@@ -49,6 +49,7 @@ function Contact({ navigation, filter }) {
           highlight
           information={systemStore.advance && '已收到巨款，您已成为高级会员，感谢支持'}
           informationType='success'
+          filter={filter}
           onPress={() => {
             t('设置.跳转', {
               to: 'Qiafan'

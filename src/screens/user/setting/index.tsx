@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:00:19
+ * @Last Modified time: 2022-08-01 17:53:39
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
 import { IconTouchable, NavigationBarEvents } from '@_'
 import { _, systemStore, userStore } from '@stores'
+import { date } from '@utils'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
 import { NavigationProps } from '@types'
@@ -32,7 +33,7 @@ import Contact from './contact'
 import Storage from './storage'
 import System from './system'
 import DangerZone from './danger-zone'
-import { date } from '@utils'
+import { styles } from './styles'
 
 const Setting = ({ navigation }: NavigationProps) => {
   const [filter, setFilter] = useState('')
@@ -109,20 +110,3 @@ const Setting = ({ navigation }: NavigationProps) => {
 }
 
 export default Setting
-
-const styles = _.create({
-  container: {
-    paddingTop: _.sm,
-    paddingBottom: _.md
-  },
-  transparent: {
-    opacity: 0
-  },
-  input: {
-    paddingTop: 11,
-    paddingBottom: 13,
-    paddingHorizontal: 16,
-    ..._.fontSize16,
-    backgroundColor: 'transparent'
-  }
-})

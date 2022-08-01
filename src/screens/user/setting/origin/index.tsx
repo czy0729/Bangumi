@@ -26,6 +26,7 @@ function Origin({
     <ItemSetting
       arrow
       highlight
+      filter={filter}
       onPress={() => {
         t('设置.跳转', {
           title: '自定义源头',

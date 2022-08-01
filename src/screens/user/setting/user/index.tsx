@@ -25,7 +25,7 @@ function User({ filter }) {
     const { userGridNum } = systemStore.setting
     return (
       <>
-        <ItemSetting hd='时光机' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='时光机' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} onClose={setFalse}>
           {/* 网格布局个数 */}
           <ItemSetting
@@ -49,6 +49,7 @@ function User({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.userGridNum}
           >
             <Heatmap id='设置.切换' title='网格布局个数' />

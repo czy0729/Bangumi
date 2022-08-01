@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:56:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 05:30:04
+ * @Last Modified time: 2022-08-01 07:17:01
  */
 import { TouchableProps, TextType } from '@components'
 import { Override, ViewStyle, ReactNode, TextStyle, IconfontNames } from '@types'
@@ -20,6 +20,7 @@ export type Props = Override<
     arrowSize?: number
     information?: string
     informationType?: TextType
+    filter?: string
     thumb?: string
     children?: any
     onPress?: (event?: any) => any

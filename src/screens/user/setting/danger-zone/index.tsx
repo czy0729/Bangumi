@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:08:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 14:57:31
+ * @Last Modified time: 2022-08-01 07:22:43
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -32,6 +32,7 @@ function DangerZone({ navigation, filter }) {
           }
           arrow
           highlight
+          filter={filter}
           onPress={() => {
             t('设置.退出登陆')
             Stores.logout(navigation)

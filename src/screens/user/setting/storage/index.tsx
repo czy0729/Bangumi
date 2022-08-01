@@ -94,7 +94,7 @@ function Storage({ filter }) {
 
     return (
       <>
-        <ItemSetting hd='缓存' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='缓存' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} onClose={setFalse}>
           {/* 清除数据缓存 */}
           <ItemSetting
@@ -106,6 +106,7 @@ function Storage({ filter }) {
             }
             arrow
             highlight
+            filter={filter}
             onPress={clearStorage}
             {...TEXTS.clearStorage}
             hd={`清除数据${i18n.cache()}`}
@@ -118,6 +119,7 @@ function Storage({ filter }) {
             show={shows.clearImages}
             arrow
             highlight
+            filter={filter}
             onPress={clearImages}
             {...TEXTS.clearImages}
             hd={`清除图片${i18n.cache()}`}
@@ -130,6 +132,7 @@ function Storage({ filter }) {
             show={shows.clearAll}
             arrow
             highlight
+            filter={filter}
             onPress={clearAll}
             {...TEXTS.clearAll}
             hd={`清除全部${i18n.cache()}`}

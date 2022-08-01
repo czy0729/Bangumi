@@ -33,7 +33,7 @@ function Katakana({ filter }) {
     return (
       <>
         {/* 翻译 */}
-        <ItemSetting hd='翻译' arrow highlight onPress={setTrue}>
+        <ItemSetting hd='翻译' arrow highlight filter={filter} onPress={setTrue}>
           <Heatmap id='设置.切换' title='片假名终结者' />
         </ItemSetting>
 
@@ -42,22 +42,35 @@ function Katakana({ filter }) {
           <ItemSettingBlock
             show={shows.engine}
             style={_.mt.sm}
+            filter={filter}
             {...TEXTS.engine.setting}
           >
-            <ItemSettingBlock.Item active onPress={() => {}} {...TEXTS.engine.baidu} />
+            <ItemSettingBlock.Item
+              active
+              filter={filter}
+              onPress={() => {}}
+              {...TEXTS.engine.baidu}
+            />
             <ItemSettingBlock.Item
               style={_.ml.md}
               active={false}
+              filter={filter}
               onPress={() => {}}
               {...TEXTS.engine.google}
             />
           </ItemSettingBlock>
 
           {/* 片假名终结者 */}
-          <ItemSettingBlock show={shows.katakana} style={_.mt.sm} {...TEXTS.katakana}>
+          <ItemSettingBlock
+            show={shows.katakana}
+            style={_.mt.sm}
+            filter={filter}
+            {...TEXTS.katakana}
+          >
             <ItemSettingBlock.Item
               title='关闭'
               active={!katakana}
+              filter={filter}
               onPress={() => {
                 if (!katakana) return
                 onToggle()
@@ -71,6 +84,7 @@ function Katakana({ filter }) {
               style={_.ml.md}
               title='开启'
               active={katakana}
+              filter={filter}
               onPress={() => {
                 if (katakana) return
                 onToggle()

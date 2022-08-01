@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:26:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 04:06:57
+ * @Last Modified time: 2022-08-01 17:50:33
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
 
 function Block({ children }) {
   const styles = memoStyles()
@@ -19,16 +19,3 @@ function Block({ children }) {
 }
 
 export default ob(Block)
-
-const memoStyles = _.memoStyles(() => ({
-  block: {
-    marginVertical: _.sm,
-    marginHorizontal: _.wind,
-    backgroundColor: _.select(_.colorPlain, _.colorBg),
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
-  },
-  padding: {
-    paddingBottom: _.sm
-  }
-}))

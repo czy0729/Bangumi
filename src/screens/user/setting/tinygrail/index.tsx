@@ -36,6 +36,7 @@ function Tinygrail({ filter }) {
           }
           arrow
           highlight
+          filter={filter}
           onPress={setTrue}
         />
         <ActionSheet show={state} onClose={setFalse}>
@@ -55,6 +56,7 @@ function Tinygrail({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.tinygrail}
           >
             <Heatmap id='设置.切换' title='小圣杯' />
@@ -89,6 +91,7 @@ function Tinygrail({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.tinygrailMode}
           >
             <Heatmap id='设置.切换' title='小圣杯涨跌色' />

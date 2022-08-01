@@ -27,15 +27,21 @@ function Theme({ navigation, filter }) {
     return (
       <>
         {/* 主题 */}
-        <ItemSetting hd='主题' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='主题' arrow highlight filter={filter} onPress={setTrue} />
 
         <ActionSheet show={state} onClose={setFalse}>
           {/* 主题 */}
-          <ItemSettingBlock style={_.mt.sm} show={shows.theme} {...TEXTS.theme.setting}>
+          <ItemSettingBlock
+            style={_.mt.sm}
+            show={shows.theme}
+            filter={filter}
+            {...TEXTS.theme.setting}
+          >
             <ItemSettingBlock.Item
               icon='ios-sunny'
               iconColor={_.colorYellow}
               active={!_.isDark}
+              filter={filter}
               onPress={async () => {
                 if (!_.isDark) return
 
@@ -62,6 +68,7 @@ function Theme({ navigation, filter }) {
               icon='ios-moon'
               iconColor={_.colorYellow}
               active={_.isDark && deepDark}
+              filter={filter}
               onPress={async () => {
                 if (_.isDark && deepDark) return
 
@@ -88,6 +95,7 @@ function Theme({ navigation, filter }) {
               icon='ios-moon'
               iconColor={_.colorYellow}
               active={_.isDark && !deepDark}
+              filter={filter}
               onPress={async () => {
                 if (_.isDark && !deepDark) return
 
@@ -128,6 +136,7 @@ function Theme({ navigation, filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.autoColorScheme}
           >
             <Heatmap id='设置.切换' title='跟随系统' />

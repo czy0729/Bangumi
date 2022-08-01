@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-30 17:33:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 18:10:29
+ * @Last Modified time: 2022-08-01 07:08:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { t2s } from '@utils'
 import { Text } from '../text'
 import { Props as HighlightProps } from './types'
@@ -14,9 +15,14 @@ export { HighlightProps }
 
 export const Highlight = observer(
   ({ style, value = '', type, size, lineHeight, bold, children, ...other }) => {
-    if (typeof children !== 'string' || !value) {
+    const props = {
+      size,
+      lineHeight,
+      bold
+    }
+    if (typeof children !== 'string' || !value || typeof value !== 'string') {
       return (
-        <Text style={style} type={type} {...other}>
+        <Text style={style} type={type} {...props} {...other}>
           {children}
         </Text>
       )
@@ -26,17 +32,12 @@ export const Highlight = observer(
     const index = children.toLocaleUpperCase().indexOf(_value)
     if (index === -1) {
       return (
-        <Text style={style} type={type} {...other}>
+        <Text style={style} type={type} {...props} {...other}>
           {children}
         </Text>
       )
     }
 
-    const props = {
-      size,
-      lineHeight,
-      bold
-    }
     const left = children.slice(0, index)
     const middle = children.slice(index, index + _value.length)
     const right = children.slice(index + _value.length)
@@ -48,7 +49,7 @@ export const Highlight = observer(
           </Text>
         )}
         {!!middle && (
-          <Text type='main' {...props}>
+          <Text type={_.select('main', 'warning')} {...props}>
             {middle}
           </Text>
         )}

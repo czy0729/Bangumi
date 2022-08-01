@@ -42,7 +42,13 @@ function System({ navigation, filter }) {
     return (
       <>
         {/* 同步设置 */}
-        <ItemSetting hd={`同步${i18n.setting()}`} arrow highlight onPress={setTrue} />
+        <ItemSetting
+          hd={`同步${i18n.setting()}`}
+          arrow
+          highlight
+          filter={filter}
+          onPress={setTrue}
+        />
         <ActionSheet show={state} onClose={setFalse}>
           {/* 同步设置 */}
           <ItemSettingBlock
@@ -50,6 +56,7 @@ function System({ navigation, filter }) {
             style={_.mt.sm}
             title={`同步${i18n.setting()}`}
             information={`同步${i18n.setting()}和超展开${i18n.setting()}`}
+            filter={filter}
           >
             <ItemSettingBlock.Item
               icon='md-ios-share'
@@ -67,6 +74,7 @@ function System({ navigation, filter }) {
                   : (!userStore.isLogin || !userStore.userInfo.id) &&
                     `需${i18n.login()}`
               }
+              filter={filter}
               onPress={() => {
                 t('设置.恢复默认设置', {
                   label: '下载'
@@ -99,6 +107,7 @@ function System({ navigation, filter }) {
               information={
                 (!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`
               }
+              filter={filter}
               onPress={() => {
                 t('设置.恢复默认设置', {
                   label: '上传'
@@ -128,6 +137,7 @@ function System({ navigation, filter }) {
               style={_.ml.md}
               icon='md-refresh'
               title={`恢复${i18n.initial()}`}
+              filter={filter}
               onPress={() => {
                 t('设置.恢复默认设置', {
                   label: '恢复默认'
@@ -146,7 +156,11 @@ function System({ navigation, filter }) {
           </ItemSettingBlock>
 
           {/* 同步收藏的帖子 */}
-          <ItemSetting show={shows.settingTopic} {...TEXTS.settingTopic} />
+          <ItemSetting
+            show={shows.settingTopic}
+            filter={filter}
+            {...TEXTS.settingTopic}
+          />
         </ActionSheet>
 
         {/* 网络探针 */}
@@ -154,6 +168,7 @@ function System({ navigation, filter }) {
           show={shows.serverStatus}
           arrow
           highlight
+          filter={filter}
           onPress={() => {
             t('设置.跳转', {
               title: '网络探针',

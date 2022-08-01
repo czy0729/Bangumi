@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 12:59:20
+ * @Last Modified time: 2022-08-01 07:17:05
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Iconfont } from '@components'
+import { Touchable, Flex, Text, Highlight, Iconfont } from '@components'
 import { _ } from '@stores'
 import { showImageViewer } from '@utils/ui'
 import { ob } from '@utils/decorators'
@@ -28,6 +28,7 @@ export const ItemSetting = ob(
     information,
     informationType = 'sub',
     thumb,
+    filter,
     children,
     onPress,
     ...other
@@ -40,9 +41,9 @@ export const ItemSetting = ob(
         <Flex>
           <Flex.Item>
             <Flex>
-              <Text type='title' size={16} bold>
+              <Highlight type='title' size={16} bold value={filter}>
                 {hd}
-              </Text>
+              </Highlight>
               {!!thumb && (
                 <Touchable
                   style={_.ml.sm}
@@ -66,14 +67,15 @@ export const ItemSetting = ob(
         </Flex>
         <Flex>
           {!!information && (
-            <Text
+            <Highlight
               style={styles.information}
               type={informationType}
               size={12}
               lineHeight={13}
+              value={filter}
             >
               {information}
-            </Text>
+            </Highlight>
           )}
         </Flex>
         {children}

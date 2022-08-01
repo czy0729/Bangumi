@@ -31,13 +31,14 @@ function Zhinan({ navigation, filter }) {
 
     return (
       <>
-        <ItemSetting hd='更多' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='更多' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} onClose={setFalse}>
           {/* 项目帖子 */}
           <ItemSetting
             show={shows.topic}
             arrow
             highlight
+            filter={filter}
             onPress={() =>
               appNavigate(URL_FEEDBACK, navigation, undefined, {
                 id: '设置.跳转'
@@ -57,6 +58,7 @@ function Zhinan({ navigation, filter }) {
             arrowIcon='md-open-in-new'
             arrowSize={18}
             highlight
+            filter={filter}
             onPress={() =>
               appNavigate(GITHUB_PROJECT, undefined, undefined, {
                 id: '设置.跳转'
@@ -75,6 +77,7 @@ function Zhinan({ navigation, filter }) {
             arrowIcon='md-open-in-new'
             arrowSize={18}
             highlight
+            filter={filter}
             onPress={() => {
               t('设置.跳转', {
                 title: '个人设置',
@@ -97,6 +100,7 @@ function Zhinan({ navigation, filter }) {
             arrowIcon='md-open-in-new'
             arrowSize={18}
             highlight
+            filter={filter}
             onPress={() => {
               t('设置.跳转', {
                 title: '当前开发中',
@@ -119,6 +123,7 @@ function Zhinan({ navigation, filter }) {
             arrowIcon='md-open-in-new'
             arrowSize={18}
             highlight
+            filter={filter}
             onPress={() => {
               t('设置.跳转', {
                 title: '开发计划',
@@ -141,6 +146,7 @@ function Zhinan({ navigation, filter }) {
             arrowIcon='md-open-in-new'
             arrowSize={18}
             highlight
+            filter={filter}
             onPress={() => {
               t('设置.跳转', {
                 title: '隐私保护政策',

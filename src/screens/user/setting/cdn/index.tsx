@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:09:49
+ * @Last Modified time: 2022-08-01 19:00:14
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
-import { ActionSheet, Flex, Text, SwitchPro, Heatmap } from '@components'
+import { ActionSheet, Flex, Text, SwitchPro, Heatmap, Highlight } from '@components'
 import { clearCache } from '@components/image/image'
 import { IconTouchable } from '@_'
 import { ItemSetting, ItemSettingBlock, Cover } from '@_'
@@ -72,16 +72,22 @@ function CDN({ filter }) {
             </Text>
           }
           arrow
-          highlight
+          filter={filter}
           onPress={setTrue}
         />
 
         <ActionSheet height={filter ? 400 : 680} show={state} onClose={setFalse}>
           {/* 封面加速 */}
-          <ItemSettingBlock show={shows.cover} style={_.mt.sm} {...TEXTS.cover.setting}>
+          <ItemSettingBlock
+            show={shows.cover}
+            style={_.mt.sm}
+            filter={filter}
+            {...TEXTS.cover.setting}
+          >
             {/* lain */}
             <ItemSettingBlock.Item
               active={!cdn}
+              filter={filter}
               onPress={async () => {
                 if (!cdn) return
 
@@ -104,6 +110,7 @@ function CDN({ filter }) {
             <ItemSettingBlock.Item
               style={_.ml.md}
               active={cdn && origin === 'jsDelivr'}
+              filter={filter}
               onPress={async () => {
                 if (cdn && origin === 'jsDelivr') return
 
@@ -132,6 +139,7 @@ function CDN({ filter }) {
           <ItemSettingBlock show={shows.cover} style={_.mt._md}>
             <ItemSettingBlock.Item
               active={cdn && origin === 'magma'}
+              filter={filter}
               onPress={async () => {
                 if (cdn && origin === 'magma') return
                 if (!systemStore.advance) return info('此域名仅对高级会员开放')
@@ -187,7 +195,12 @@ function CDN({ filter }) {
           </ItemSettingBlock>
 
           {/* 测试 */}
-          <ItemSettingBlock show={shows.test} style={_.mt.md} {...TEXTS.test}>
+          <ItemSettingBlock
+            show={shows.test}
+            style={_.mt.md}
+            filter={filter}
+            {...TEXTS.test}
+          >
             {test ? (
               <>
                 <Flex.Item>
@@ -199,9 +212,15 @@ function CDN({ filter }) {
                       cdn={false}
                       radius
                     />
-                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
+                    <Highlight
+                      style={_.mt.sm}
+                      type='sub'
+                      size={10}
+                      align='center'
+                      filter={filter}
+                    >
                       不使用: {pings.lain || 0}ms
-                    </Text>
+                    </Highlight>
                   </Flex>
                 </Flex.Item>
                 <Flex.Item style={_.ml.md}>
@@ -356,6 +375,7 @@ function CDN({ filter }) {
           <ItemSettingBlock
             show={shows.deprecated}
             style={_.mt.md}
+            filter={filter}
             {...TEXTS.deprecated.setting}
           >
             <Text
@@ -375,6 +395,7 @@ function CDN({ filter }) {
             <ItemSettingBlock style={_.mt._md}>
               <ItemSettingBlock.Item
                 active={cdn && origin === 'OneDrive'}
+                filter={filter}
                 onPress={async () => {
                   if (cdn && origin === 'OneDrive') return
                   if (!systemStore.advance) return info('此域名仅对高级会员开放')
@@ -400,6 +421,7 @@ function CDN({ filter }) {
               <ItemSettingBlock.Item
                 style={_.ml.md}
                 active={cdn && origin === 'fastly'}
+                filter={filter}
                 onPress={async () => {
                   if (cdn && origin === 'fastly') return
 
@@ -442,6 +464,7 @@ function CDN({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.cdnAvatar}
           />
         </ActionSheet>

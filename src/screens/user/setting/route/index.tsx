@@ -6,7 +6,15 @@
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { ActionSheet, Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
+import {
+  ActionSheet,
+  Touchable,
+  Flex,
+  Highlight,
+  Text,
+  Iconfont,
+  Heatmap
+} from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
@@ -49,14 +57,14 @@ function Route({ filter }) {
     const showRakuen = homeRenderTabs.includes('Rakuen')
     return (
       <>
-        <ItemSetting hd='底栏' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='底栏' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} onClose={setFalse}>
           {/* 功能块 */}
           {shows.blocks && (
             <View style={styles.blocks}>
-              <Text type='title' size={16} bold>
-                功能块
-              </Text>
+              <Highlight type='title' size={16} bold value={filter}>
+                {TEXTS.blocks.setting}
+              </Highlight>
               <Text style={_.mt.sm} type='sub' size={12}>
                 点击切换是否显示，切换后需要重新启动才能生效
               </Text>
@@ -71,9 +79,14 @@ function Route({ filter }) {
                           size={18}
                         />
                       </View>
-                      <Text type={showDiscovery ? undefined : 'icon'} size={11} bold>
-                        发现
-                      </Text>
+                      <Highlight
+                        type={showDiscovery ? undefined : 'icon'}
+                        size={11}
+                        bold
+                        value={filter}
+                      >
+                        {TEXTS.blocks.discovery}
+                      </Highlight>
                       {!showDiscovery && <View style={styles.disabledLine} />}
                     </Flex>
                   </Touchable>
@@ -88,9 +101,14 @@ function Route({ filter }) {
                           size={19}
                         />
                       </View>
-                      <Text type={showTimeline ? undefined : 'icon'} size={11} bold>
-                        时间胶囊
-                      </Text>
+                      <Highlight
+                        type={showTimeline ? undefined : 'icon'}
+                        size={11}
+                        bold
+                        value={filter}
+                      >
+                        {TEXTS.blocks.timeline}
+                      </Highlight>
                       {!showTimeline && <View style={styles.disabledLine} />}
                     </Flex>
                   </Touchable>
@@ -106,9 +124,9 @@ function Route({ filter }) {
                           size={21}
                         />
                       </View>
-                      <Text size={11} bold>
-                        进度
-                      </Text>
+                      <Highlight size={11} bold value={filter}>
+                        {TEXTS.blocks.home}
+                      </Highlight>
                     </Flex>
                   </Touchable>
                 </Flex.Item>
@@ -123,9 +141,14 @@ function Route({ filter }) {
                           size={17}
                         />
                       </View>
-                      <Text type={showRakuen ? undefined : 'icon'} size={11} bold>
-                        超展开
-                      </Text>
+                      <Highlight
+                        type={showRakuen ? undefined : 'icon'}
+                        size={11}
+                        bold
+                        value={filter}
+                      >
+                        {TEXTS.blocks.rakuen}
+                      </Highlight>
                       {!showRakuen && <View style={styles.disabledLine} />}
                     </Flex>
                   </Touchable>
@@ -140,9 +163,9 @@ function Route({ filter }) {
                           size={21}
                         />
                       </View>
-                      <Text size={11} bold>
-                        时光机
-                      </Text>
+                      <Highlight size={11} bold value={filter}>
+                        {TEXTS.blocks.user}
+                      </Highlight>
                     </Flex>
                   </Touchable>
                 </Flex.Item>
@@ -154,9 +177,9 @@ function Route({ filter }) {
           {/* 启动页 */}
           {shows.initialPage && (
             <View style={styles.blocks}>
-              <Text type='title' size={16} bold>
-                启动页
-              </Text>
+              <Highlight type='title' size={16} bold value={filter}>
+                {TEXTS.initialPage.setting}
+              </Highlight>
               <Flex style={styles.tabs}>
                 <Flex.Item>
                   <Touchable onPress={() => setInitialPage('发现')}>
@@ -168,9 +191,14 @@ function Route({ filter }) {
                           size={18}
                         />
                       </View>
-                      <Text type={showDiscovery ? undefined : 'icon'} size={11} bold>
-                        发现
-                      </Text>
+                      <Highlight
+                        type={showDiscovery ? undefined : 'icon'}
+                        size={11}
+                        bold
+                        value={filter}
+                      >
+                        {TEXTS.initialPage.discovery}
+                      </Highlight>
                     </Flex>
                   </Touchable>
                   <Flex style={styles.activeBar} justify='center'>
@@ -187,9 +215,14 @@ function Route({ filter }) {
                           size={19}
                         />
                       </View>
-                      <Text type={showTimeline ? undefined : 'icon'} size={11} bold>
-                        时间胶囊
-                      </Text>
+                      <Highlight
+                        type={showTimeline ? undefined : 'icon'}
+                        size={11}
+                        bold
+                        value={filter}
+                      >
+                        {TEXTS.initialPage.timeline}
+                      </Highlight>
                     </Flex>
                   </Touchable>
                   <Flex style={styles.activeBar} justify='center'>
@@ -207,9 +240,9 @@ function Route({ filter }) {
                           size={21}
                         />
                       </View>
-                      <Text size={11} bold>
-                        进度
-                      </Text>
+                      <Highlight size={11} bold value={filter}>
+                        {TEXTS.initialPage.home}
+                      </Highlight>
                     </Flex>
                   </Touchable>
                   <Flex style={styles.activeBar} justify='center'>
@@ -227,9 +260,14 @@ function Route({ filter }) {
                           size={17}
                         />
                       </View>
-                      <Text type={showRakuen ? undefined : 'icon'} size={11} bold>
-                        超展开
-                      </Text>
+                      <Highlight
+                        type={showRakuen ? undefined : 'icon'}
+                        size={11}
+                        bold
+                        value={filter}
+                      >
+                        {TEXTS.initialPage.rakuen}
+                      </Highlight>
                     </Flex>
                   </Touchable>
                   <Flex style={styles.activeBar} justify='center'>
@@ -246,9 +284,9 @@ function Route({ filter }) {
                           size={21}
                         />
                       </View>
-                      <Text size={11} bold>
-                        时光机
-                      </Text>
+                      <Highlight size={11} bold value={filter}>
+                        {TEXTS.initialPage.timeline}
+                      </Highlight>
                     </Flex>
                     <Flex style={styles.activeBar} justify='center'>
                       {initialPage === 'User' && <View style={styles.activeLine} />}
@@ -269,9 +307,9 @@ function Route({ filter }) {
                               size={16}
                             />
                           </View>
-                          <Text size={11} bold>
-                            小圣杯
-                          </Text>
+                          <Highlight size={11} bold value={filter}>
+                            {TEXTS.initialPage.tinygrail}
+                          </Highlight>
                         </Flex>
                         <Flex style={styles.activeBar} justify='center'>
                           {initialPage === 'Tinygrail' && (

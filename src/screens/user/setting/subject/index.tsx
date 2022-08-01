@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-07-18 15:06:32
  */
 import React from 'react'
-import { ActionSheet, Text, SegmentedControl, Heatmap } from '@components'
+import { ActionSheet, SegmentedControl, Heatmap, Highlight } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { useBoolean, useObserver } from '@utils/hooks'
@@ -25,7 +25,7 @@ function Subject({ filter }) {
     const { setting } = systemStore
     return (
       <>
-        <ItemSetting hd='条目' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='条目' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} height={filter ? 400 : 680} onClose={setFalse}>
           {/* 其他用户收藏数量 */}
           <ItemSetting
@@ -46,6 +46,7 @@ function Subject({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.showCount}
           >
             <Heatmap id='设置.切换' title='条目.其他用户收藏数量' />
@@ -70,6 +71,7 @@ function Subject({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.showEpInput}
           >
             <Heatmap id='设置.切换' title='条目.进度输入框' />
@@ -94,6 +96,7 @@ function Subject({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.showCustomOnair}
             information={`收藏状态为在看的动画，章节的右下方，${i18n.initial()}值为线上放送时间，手动更改后首页收藏排序以此为准`}
           >
@@ -103,14 +106,15 @@ function Subject({ filter }) {
           {/* 页面布局 */}
           {shows.layout && (
             <>
-              <Text
+              <Highlight
                 style={[_.container.wind, _.mt.md, _.mb.sm]}
                 type='sub'
                 size={12}
                 lineHeight={13}
+                value={filter}
               >
                 {TEXTS.layout.text}
-              </Text>
+              </Highlight>
               {Object.keys(DATA).map((item: keyof typeof DATA) => {
                 const title = DATA[item]
                 const value = setting[item]
@@ -139,6 +143,7 @@ function Subject({ filter }) {
                         }}
                       />
                     }
+                    filter={filter}
                   >
                     <Heatmap id='设置.切换' title={`条目.${title}`} />
                   </ItemSetting>

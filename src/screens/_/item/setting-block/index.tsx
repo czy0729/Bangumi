@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 15:39:31
+ * @Last Modified time: 2022-08-01 07:17:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { Flex, Highlight } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import Item from './item'
@@ -27,6 +27,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     information,
     informationType = 'sub',
     size = 16,
+    filter,
     children
   }) => {
     if (!show) return null
@@ -35,14 +36,20 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     return (
       <View style={[styles.container, style]}>
         {!!title && (
-          <Text type='title' size={size} bold>
+          <Highlight type='title' size={size} bold value={filter}>
             {title}
-          </Text>
+          </Highlight>
         )}
         {!!information && (
-          <Text style={_.mt.xs} type={informationType} size={12} lineHeight={14}>
+          <Highlight
+            style={_.mt.xs}
+            type={informationType}
+            size={12}
+            lineHeight={14}
+            value={filter}
+          >
             {information}
-          </Text>
+          </Highlight>
         )}
         <Flex style={_.mt.md}>{children}</Flex>
       </View>

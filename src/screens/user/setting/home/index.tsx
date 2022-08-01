@@ -46,17 +46,19 @@ function Home({ filter }) {
       MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表')
     return (
       <>
-        <ItemSetting hd='进度' arrow highlight onPress={setTrue} />
+        <ItemSetting hd='进度' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} height={filter ? 400 : 680} onClose={setFalse}>
           {/* 布局 */}
           <ItemSettingBlock
             show={shows.homeLayout}
             style={_.mt.sm}
+            filter={filter}
             {...TEXTS.homeLayout.setting}
           >
             <ItemSettingBlock.Item
               icon='md-menu'
               active={homeLayout === currentHomeLayout}
+              filter={filter}
               onPress={() => {
                 if (homeLayout === currentHomeLayout) return
 
@@ -72,6 +74,7 @@ function Home({ filter }) {
               style={_.ml.md}
               icon='md-grid-view'
               active={homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')}
+              filter={filter}
               onPress={() => {
                 if (homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')) return
 
@@ -94,6 +97,7 @@ function Home({ filter }) {
                 {systemStore.advance ? '当前300 (非会员100)' : '当前100 (会员300)'}
               </Text>
             }
+            filter={filter}
             {...TEXTS.homeListLimit}
           />
 
@@ -125,6 +129,7 @@ function Home({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.homeGridCoverLayout}
           >
             <Heatmap id='设置.切换' title='封面形状' />
@@ -134,6 +139,7 @@ function Home({ filter }) {
           <ItemSettingBlock
             show={shows.homeSorting}
             style={_.mt.sm}
+            filter={filter}
             {...TEXTS.homeSorting}
           >
             {SETTING_HOME_SORTING.map((item, index) => (
@@ -142,6 +148,7 @@ function Home({ filter }) {
                 title={item.label}
                 information={HOME_SORTING_INFORMATION[item.label]}
                 active={homeSorting === item.value}
+                filter={filter}
                 onPress={() => {
                   if (homeSorting === item.value) return
 
@@ -177,6 +184,7 @@ function Home({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.homeOrigin}
           >
             <Heatmap id='设置.切换' title='显示搜索源头按钮' />
@@ -203,6 +211,7 @@ function Home({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.homeSortSink}
           >
             <Heatmap id='设置.切换' title='自动下沉' />
@@ -225,6 +234,7 @@ function Home({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.showGame}
           >
             <Heatmap id='设置.切换' title='显示游戏' />
@@ -247,6 +257,7 @@ function Home({ filter }) {
                 }}
               />
             }
+            filter={filter}
             {...TEXTS.homeFilter}
           >
             <Heatmap id='设置.切换' title='显示列表搜索框' />

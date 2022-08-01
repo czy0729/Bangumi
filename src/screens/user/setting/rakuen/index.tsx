@@ -20,6 +20,7 @@ function Rakuen({ navigation, filter }) {
     <ItemSetting
       arrow
       highlight
+      filter={filter}
       onPress={() => {
         t('设置.跳转', {
           title: '超展开',

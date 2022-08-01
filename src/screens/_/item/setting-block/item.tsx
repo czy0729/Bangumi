@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:14:48
+ * @Last Modified time: 2022-08-01 19:03:33
  */
 import React from 'react'
-import { Touchable, Flex, Iconfont, Text } from '@components'
+import { Touchable, Flex, Iconfont, Highlight } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
@@ -23,6 +23,7 @@ const ItemSettingBlockItem = ob(
     title,
     information,
     informationType = 'sub',
+    filter,
     children,
     onPress = () => {}
   }: ItemSettingBlockItemProps) => {
@@ -46,19 +47,20 @@ const ItemSettingBlockItem = ob(
                 size={20}
               />
             )}
-            <Text size={15} align='center'>
+            <Highlight size={15} align='center' value={filter}>
               {title}
-            </Text>
+            </Highlight>
             {!!information && (
-              <Text
+              <Highlight
                 style={_.mt.xs}
                 type={informationType}
                 size={10}
                 lineHeight={11}
                 align='center'
+                value={filter}
               >
                 {information}
-              </Text>
+              </Highlight>
             )}
             {children}
           </Flex>

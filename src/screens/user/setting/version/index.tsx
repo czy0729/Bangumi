@@ -50,6 +50,7 @@ function Version({ filter }) {
           </Text>
         )
       }
+      filter={filter}
       onPress={() =>
         appNavigate(URL_RELEASE, undefined, undefined, {
           id: '设置.跳转'
