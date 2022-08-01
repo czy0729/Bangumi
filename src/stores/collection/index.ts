@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-24 02:42:50
+ * @Last Modified time: 2022-08-01 22:34:34
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -19,6 +19,7 @@ import {
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
+import { UserCollectionItem } from '@utils/fetch.v0/types'
 import { info } from '@utils/ui'
 import {
   API_COLLECTION,
@@ -53,8 +54,6 @@ import {
   DEFAULT_ORDER
 } from './init'
 import { Collection, MosaicTile, UserCollections, UserCollectionsMap } from './types'
-import { UserCollectionItem } from '@utils/fetch.v0/types'
-import { devLog } from '@components'
 
 const state = {
   /** 条目收藏信息 */
@@ -474,8 +473,6 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
             userId: userStore.myId
           })
           if (collection) results.push(collection)
-
-          devLog(subjectId)
         })
       }
     })
@@ -487,9 +484,6 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
         data[result.subject_id] = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
           result.type
         )
-        // devLog(
-        //   `${result.subject_id} ${data[result.subject_id]} ${result.subject.name_cn}`
-        // )
       }
     })
 

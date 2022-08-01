@@ -2,21 +2,26 @@
  * @Author: czy0729
  * @Date: 2022-07-30 16:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 18:06:33
+ * @Last Modified time: 2022-08-01 22:58:36
  */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Highlight, Touchable, Iconfont } from '@components'
 import { asc, t2s } from '@utils'
 import { useObserver } from '@utils/hooks'
-import substrings from '@assets/json/substrings.json'
+import anime from '@assets/json/substrings.json'
+import book from '@assets/json/substrings-book.json'
+import game from '@assets/json/substrings-game.json'
 import { memoStyles } from './styles'
 
 const history = {}
-let cns: string[]
+let animeCns: string[]
+let bookCns: string[]
+let gameCns: string[]
 
-function Advance({ navigation, value, onSubmit }) {
+function Advance({ navigation, cat, value, onSubmit }) {
   const [result, setResult] = useState([])
+  const substrings = useRef({})
 
   useEffect(() => {
     const _value = t2s(value.toLocaleUpperCase()).trim()
@@ -25,13 +30,29 @@ function Advance({ navigation, value, onSubmit }) {
       return
     }
 
-    if (value && !cns) {
-      cns = Object.keys(substrings).sort((a, b) => asc(a.length, b.length))
+    if (value && cat === 'subject_1' && !bookCns) {
+      bookCns = Object.keys(book).sort((a, b) => asc(a.length, b.length))
+    } else if (value && cat === 'subject_4' && !gameCns) {
+      gameCns = Object.keys(game).sort((a, b) => asc(a.length, b.length))
+    } else if (value && !animeCns) {
+      animeCns = Object.keys(anime).sort((a, b) => asc(a.length, b.length))
     }
 
     if (history[_value]) {
       setResult(history[_value])
       return
+    }
+
+    let cns = []
+    if (value && cat === 'subject_1') {
+      cns = bookCns
+      substrings.current = book
+    } else if (value && cat === 'subject_4') {
+      cns = gameCns
+      substrings.current = game
+    } else if (value) {
+      cns = animeCns
+      substrings.current = anime
     }
 
     const _result = []
@@ -41,7 +62,7 @@ function Advance({ navigation, value, onSubmit }) {
     })
     setResult(_result)
     history[_value] = _result
-  }, [value])
+  }, [cat, value])
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -64,7 +85,7 @@ function Advance({ navigation, value, onSubmit }) {
                 style={styles.open}
                 onPress={() =>
                   navigation.push('Subject', {
-                    subjectId: substrings[item]
+                    subjectId: substrings.current[item]
                   })
                 }
               >

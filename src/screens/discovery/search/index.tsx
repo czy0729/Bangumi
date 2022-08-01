@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 18:01:24
+ * @Last Modified time: 2022-08-01 22:46:18
  */
 import React from 'react'
 import { Page, Flex } from '@components'
@@ -27,7 +27,7 @@ const Search = (props, { $, navigation }: Ctx) => {
   })
 
   return useObserver(() => {
-    const { value } = $.state
+    const { cat, value } = $.state
     return (
       <>
         <Header />
@@ -43,6 +43,7 @@ const Search = (props, { $, navigation }: Ctx) => {
           {$.showAdvance && (
             <Advance
               navigation={navigation}
+              cat={cat}
               value={value}
               onSubmit={(text: string) => $.onAdvance(text, navigation)}
             />
