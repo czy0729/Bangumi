@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:41:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:00:54
+ * @Last Modified time: 2022-08-02 15:50:16
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -20,7 +20,7 @@ export default obc(IconFavor)
 const styles = _.create({
   icon: {
     position: 'absolute',
-    right: 17,
+    right: 15,
     bottom: 17
   }
 })

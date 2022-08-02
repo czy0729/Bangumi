@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:18:02
+ * @Last Modified time: 2022-08-02 12:41:27
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
 import { copy, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import { HOST } from '@constants'
-import HeaderTitle from './header-title'
-import IconFavor from './icon/favor'
+import HeaderTitle from '../header-title'
+import IconFavor from '../icon/favor'
+import { Ctx } from '../types'
 
-function Header({ fixed }, { $, navigation }) {
+function Header({ fixed }, { $, navigation }: Ctx) {
   const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
     <CompHeader
@@ -29,17 +29,13 @@ function Header({ fixed }, { $, navigation }) {
         <Flex>
           <IconFavor $={$} />
           <CompHeader.Popover
-            data={['浏览器查看', '复制链接', '复制分享', '举报']}
+            data={['浏览器打开', '复制链接', '复制分享', '举报', `帖子 · ${$.topicId}`]}
             onSelect={key => {
               t('帖子.右上角菜单', {
                 key
               })
 
               switch (key) {
-                case '浏览器查看':
-                  open(url)
-                  break
-
                 case '复制链接':
                   copy(url, '已复制链接')
                   break
@@ -53,6 +49,7 @@ function Header({ fixed }, { $, navigation }) {
                   break
 
                 default:
+                  open(url)
                   break
               }
             }}

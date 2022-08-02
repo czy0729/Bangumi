@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 15:59:43
+ * @Last Modified time: 2022-08-02 16:48:47
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _, systemStore, subjectStore, rakuenStore } from '@stores'
-import { runAfter } from '@utils'
+import { _, systemStore, subjectStore, rakuenStore, userStore } from '@stores'
+import { runAfter, HTMLDecode } from '@utils'
 import { navigationReference } from '@utils/app'
-import { HOST, IOS } from '@constants'
+import { HOST, IOS, API_COVER, API_AVATAR } from '@constants'
 import { ReactNode } from '@types'
 import { Touchable } from '../../touchable'
 import { Flex } from '../../flex'
@@ -99,9 +99,7 @@ export function getACSearch({ style, passProps, params, onPress }) {
   }
 }
 
-/**
- * 条目媒体块
- */
+/** 条目媒体块 */
 export function getSubject({ passProps, params, href, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
@@ -123,15 +121,23 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
       const image = images.common
       if (image) {
         const styles = memoStyles()
-        const top = name_cn || name || text || ''
-        const bottom = text !== top && text !== href ? text : name || name_cn || ''
+        const top = HTMLDecode(name_cn || name || text || '')
+        const bottom = HTMLDecode(
+          text !== top && text !== href ? text : name || name_cn || ''
+        )
         const showScore = !systemStore.setting.hideScore && score
         const showBottom = bottom && bottom !== top
         return (
-          <Flex style={styles.wrap}>
+          <View style={styles.wrap}>
             <Touchable onPress={onLinkPress}>
               <Flex style={styles.body}>
-                <Cover src={image} size={48} radius textOnly={false} />
+                <Cover
+                  src={API_COVER(subjectId)}
+                  size={48}
+                  radius
+                  textOnly={false}
+                  headers={userStore.requestHeaders}
+                />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
                     {top}{' '}
@@ -169,21 +175,19 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
                 </View>
               </Flex>
             </Touchable>
-          </Flex>
+          </View>
         )
       }
     }
   }
 }
 
-/**
- * 帖子媒体块
- */
+/** 帖子媒体块 */
 export function getTopic({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { topicId } = params
-    const { avatar, group, time, userName, _loaded } =
+    const { userId, group, time, userName, _loaded } =
       // @ts-ignore
       rakuenStore.topic(topicId)
     if (!_loaded) {
@@ -195,17 +199,18 @@ export function getTopic({ passProps, params, onLinkPress }) {
       const { list } =
         // @ts-ignore
         rakuenStore.comments(topicId)
-      if (avatar && group && userName) {
+      if (userId && group && userName) {
         let reply = 0
         list.forEach(item => {
           reply += 1
           if (item?.sub?.length) reply += item.sub.length
         })
+
         return (
-          <Flex style={styles.wrap}>
+          <View style={styles.wrap}>
             <Touchable onPress={onLinkPress}>
               <Flex style={styles.body}>
-                <Avatar src={avatar} size={48} radius textOnly={false} />
+                <Avatar src={API_AVATAR(userId)} size={48} radius textOnly={false} />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
                     {text}{' '}
@@ -230,16 +235,14 @@ export function getTopic({ passProps, params, onLinkPress }) {
                 </View>
               </Flex>
             </Touchable>
-          </Flex>
+          </View>
         )
       }
     }
   }
 }
 
-/**
- * 人物媒体块
- */
+/** 人物媒体块 */
 export function getMono({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
@@ -256,7 +259,7 @@ export function getMono({ passProps, params, onLinkPress }) {
       if (cover) {
         const bottom = nameCn === text ? name : nameCn
         return (
-          <Flex style={styles.wrap}>
+          <View style={styles.wrap}>
             <Touchable onPress={onLinkPress}>
               <Flex style={styles.body}>
                 <Cover
@@ -287,7 +290,7 @@ export function getMono({ passProps, params, onLinkPress }) {
                 </View>
               </Flex>
             </Touchable>
-          </Flex>
+          </View>
         )
       }
     }

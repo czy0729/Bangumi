@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 21:05:55
+ * @Last Modified time: 2022-08-02 16:47:20
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -40,6 +40,7 @@ import {
   HTML_USER_SETTING,
   IOS,
   LIST_EMPTY,
+  UA,
   URL_OAUTH_REDIRECT,
   VERSION_GOOGLE,
   getOTA
@@ -377,6 +378,14 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     const { id } = this.userInfo
     if (!id || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH) return true
     return false
+  }
+
+  /** api.v0 需要使用的 headers */
+  @computed get requestHeaders() {
+    return {
+      Authorization: `${this.accessToken.token_type} ${this.accessToken.access_token}`,
+      'User-Agent': UA
+    }
   }
 
   // -------------------- fetch --------------------

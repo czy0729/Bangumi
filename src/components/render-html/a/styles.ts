@@ -1,13 +1,14 @@
 /*
  * @Author: czy0729
  * @Date: 2022-05-13 05:17:37
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-05-13 05:17:37
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-02 16:15:32
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   wrap: {
+    maxWidth: _.window.contentWidth - (_.sm + 36) * 2,
     paddingTop: 10,
     paddingRight: 4,
     paddingBottom: 2

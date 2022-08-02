@@ -11,7 +11,7 @@ import Extra from './extra'
 import { Ctx } from './types'
 
 function Header(props, { $ }: Ctx) {
-  const { type } = $.state
+  const { type, _loaded } = $.state
   return (
     <CompHeader
       title='每日放送'
@@ -20,7 +20,7 @@ function Header(props, { $ }: Ctx) {
         <Extra
           type={type}
           isList={$.isList}
-          loaded={$.state._loaded}
+          loaded={_loaded}
           onChange={$.onToggleType}
           onPress={$.onSwitchLayout}
         />

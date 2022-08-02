@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 16:00:51
+ * @Last Modified time: 2022-08-02 14:08:31
  */
-import lazyac from 'lazy-aho-corasick'
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep, HTMLDecode } from '@utils'
+import { acSearch, getSubStrings } from '@utils/ac-search'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/cn-char'
-import hash from '@utils/thirdParty/hash'
 import { DEV, IOS, PAD } from '@constants'
-import substrings from '@assets/json/substrings.json'
 
 export const padFontSizeIncrease = PAD === 2 ? 3 : 2
+
 export const padLineHeightIncrease = PAD === 2 ? 10 : 4
+
 export const regs = {
   bgm: /\(bgm|\)/g,
   divQ: /<div class="quote"><q>/g,
@@ -61,7 +61,7 @@ export function fixedBaseFontStyle(baseFontStyle = {}) {
   return _baseFontStyle
 }
 
-export function hackFixedHTMLTags(html) {
+export function hackFixedHTMLTags(html: string) {
   let _html = html
 
   /**
@@ -138,7 +138,7 @@ export function hackFixedHTMLTags(html) {
   return HTMLDecode(_html).replace(regs.whiteTags, '&lt;')
 }
 
-function removeHTMLTag(str) {
+function removeHTMLTag(str: string) {
   return String(str)
     .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
     .replace(/[ | ]*\n/g, '\n') // 去除行尾空白
@@ -150,7 +150,7 @@ function removeHTMLTag(str) {
  * 匹配bgm部分页面链接, 把这些链接变成Media块, 与行内文字独立
  * @param {*} html
  */
-export function hackMatchMediaLink(html) {
+export function hackMatchMediaLink(html: string) {
   const { matchLink, acSearch: acSearchSetting } = rakuenStore.setting
 
   let _html = html
@@ -181,6 +181,7 @@ export function hackMatchMediaLink(html) {
 
     const acData = acSearch(removeHTMLTag(htmlNoTags))
     if (Array.isArray(acData)) {
+      const substrings = getSubStrings()
       acData.forEach((item, index) => {
         _html = _html.replace(item, `###${index}###`)
       })
@@ -196,12 +197,11 @@ export function hackMatchMediaLink(html) {
   return _html
 }
 
-/**
- * 列队请求条目信息
- */
 const ids = []
 const loadedIds = []
 let loading = false
+
+/** 列队请求条目信息 */
 export async function fetchMediaQueue(type?, id?) {
   if (type && id) {
     if (
@@ -249,38 +249,4 @@ export async function fetchMediaQueue(type?, id?) {
       loading = false
     }
   }
-}
-
-/**
- * AC自动机
- * https://github.com/theLAZYmd/aho-corasick
- */
-const cache = {}
-let trie
-let trieInit
-export function acSearch(str) {
-  if (!trie) {
-    // 初始化需要好几秒, 需要触发后延迟初始化, 待下一次再用
-    if (!trieInit) {
-      trieInit = true
-      setTimeout(() => {
-        trie = new lazyac(
-          // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
-          Object.keys(substrings),
-          {
-            allowDuplicates: false
-          }
-        )
-      }, 4000)
-    }
-    return str
-  }
-
-  const _hash = hash(str)
-  if (cache[_hash]) return cache[_hash]
-
-  cache[_hash] = trie.search(str).sort((a, b) => b.length - a.length)
-  // .map(item => item.replace(/&nbsp/g, ' '))
-  // console.log(cache[_hash], str.replace(/ /g, '&nbsp'))
-  return cache[_hash]
 }
