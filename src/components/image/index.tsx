@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 15:36:41
+ * @Last Modified time: 2022-08-02 16:59:26
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -50,10 +50,10 @@ const DEFAULT_HEADERS = {
 }
 
 /** 最大失败重试次数 */
-const MAX_ERROR_COUNT = 3
+const MAX_ERROR_COUNT = 1
 
 /** 重试间隔 */
-const RETRY_DISTANCE = 2000
+const RETRY_DISTANCE = 1000
 
 /** bgm 封面域名 */
 const OSS_BGM = 'https://lain.bgm.tv'
