@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-23 01:42:41
+ * @Last Modified time: 2022-08-04 04:46:48
  */
 import { _ } from '@stores'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
@@ -31,7 +31,7 @@ export const styles = _.create({
   },
   title: {
     width: THUMB_WIDTH,
-    padding: _.xs,
-    opacity: 0.64
+    padding: _.sm,
+    opacity: 0.8
   }
 })

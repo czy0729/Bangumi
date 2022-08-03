@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-23 04:00:32
+ * @Last Modified time: 2022-08-04 04:46:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,10 @@ import { ob } from '@utils/decorators'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
 import { styles } from './styles'
 
-function Video({ item, epsThumbsHeader }) {
+function Video({ item, epsThumbsHeader, showTitle }) {
   const { showCharacter } = systemStore.setting
   if (!showCharacter) return null
+
   return (
     <View key={item.cover} style={_.mr.sm}>
       <Image
@@ -35,9 +36,11 @@ function Video({ item, epsThumbsHeader }) {
           </Flex>
         </Touchable>
       </View>
-      {/* <Text style={styles.title} size={10} numberOfLines={1} align='center'>
-        {item.title}
-      </Text> */}
+      {showTitle && !!item.title && (
+        <Text style={styles.title} size={11} bold numberOfLines={3} align='center'>
+          {item.title}
+        </Text>
+      )}
     </View>
   )
 }

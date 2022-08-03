@@ -5,13 +5,13 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 17:31:18
+ * @Last Modified time: 2022-08-04 05:42:04
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { runAfter, pick, omit, sleep, simpleTime, date } from '@utils'
+import { pick, omit, sleep, simpleTime, date } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
 import { ScrollToTop } from '../scroll-to-top'
@@ -63,18 +63,14 @@ export const ListView = observer(
       this.updateRefreshState(data)
 
       if (lazy) {
-        runAfter(async () => {
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              const { rendered } = this.state
-              if (!rendered) {
-                this.setState({
-                  rendered: true
-                })
-              }
-            }, 160)
-          })
-        })
+        setTimeout(() => {
+          const { rendered } = this.state
+          if (!rendered) {
+            this.setState({
+              rendered: true
+            })
+          }
+        }, 800)
       }
     }
 

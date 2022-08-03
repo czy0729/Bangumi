@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 14:38:05
+ * @Last Modified time: 2022-08-03 13:35:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,8 @@ import {
   findSubjectCn,
   getOnAir,
   getTimestamp,
-  x18
+  x18,
+  removeHTMLTag
 } from '@utils'
 import { find as findAnime } from '@utils/subject/anime'
 import { find as findManga } from '@utils/subject/manga'
@@ -447,6 +448,13 @@ export default class Computed extends State {
           /<li><span>(发售日|放送开始|上映年度|上映时间|开始|发行日期|连载开始): <\/span>(.+?)<\/li>/
         )?.[2] || ''
       ).match(/(\d{4})/)?.[0] || ''
+    )
+  }
+
+  /** 艺术家 */
+  @computed get artist() {
+    return removeHTMLTag(
+      this.info.match(/<li><span>艺术家: <\/span>(.+?)<\/li>/)?.[1] || ''
     )
   }
 

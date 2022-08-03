@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 05:05:07
+ * @Last Modified time: 2022-08-04 06:28:38
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './thirdParty/html-parser'
@@ -219,15 +219,19 @@ export function removeCF(HTML: string = '') {
 }
 
 /** cheerio.load */
-export function cheerio(target: any, remove: boolean | object = true) {
+export function cheerio(
+  target: any,
+  remove: boolean | object = true,
+  decodeEntities: boolean = false
+) {
   if (typeof target === 'string') {
     if (remove) {
       return cheerioRN.load(removeCF(target), {
-        decodeEntities: false
+        decodeEntities
       })
     }
     return cheerioRN.load(target, {
-      decodeEntities: false
+      decodeEntities
     })
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 14:40:35
+ * @Last Modified time: 2022-08-04 06:20:56
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -23,6 +23,7 @@ import {
   matchMovie,
   search
 } from '@utils/douban'
+import { search as searchMV } from '@utils/bilibili'
 import { get, update } from '@utils/kv'
 import { CDN_EPS, SITES } from '@constants'
 import Computed from './computed'
@@ -119,6 +120,11 @@ export default class Fetch extends Computed {
       this.fetchMovieFromDouban(this.cn, this.jp)
     } else if (this.type === '游戏') {
       this.fetchGameFromDouban(this.cn, this.jp)
+    } else if (this.type === '音乐') {
+      // 此方法需要用到 subjectFromHTML.info 需要延迟一下
+      setTimeout(() => {
+        this.fetchMVFromBilibili(this.cn, this.jp, this.artist)
+      }, 2000)
     }
   }
 
@@ -358,6 +364,22 @@ export default class Fetch extends Computed {
           }
         })
       }
+
+      this.setStorage(this.namespace)
+      this.updateThirdParty()
+    }
+  }
+
+  /** 从 bilibili 匹配音乐 MV */
+  fetchMVFromBilibili = async (cn: string, jp: string, artist: string) => {
+    const videos = await searchMV(cn || jp, artist)
+    if (videos.length) {
+      this.setState({
+        videos,
+        epsThumbsHeader: {
+          Referer: 'https://m.bilibili.com'
+        }
+      })
 
       this.setStorage(this.namespace)
       this.updateThirdParty()

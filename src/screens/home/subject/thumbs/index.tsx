@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-23 01:36:50
+ * @Last Modified time: 2022-08-04 04:54:07
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -49,6 +49,30 @@ class Thumbs extends React.Component {
     return videos
   }
 
+  get title() {
+    const { $ } = this.context as Ctx
+    if ($.type === '音乐') return 'MV'
+    if ($.type === '三次元') return '剧照'
+    return '预览'
+  }
+
+  get reference() {
+    const { $ } = this.context as Ctx
+    const { epsThumbsHeader } = $.state
+    if (epsThumbsHeader?.Referer?.includes('douban.com')) return 'douban.com'
+    if (epsThumbsHeader?.Referer?.includes('bilibili.com')) return 'bilibili.com'
+    return ''
+  }
+
+  get thumbs() {
+    const { $ } = this.context as Ctx
+    const { epsThumbs, epsThumbsHeader } = $.state
+    return epsThumbs.map(item => ({
+      url: item.split('@')[0], // 参数: bilibili 为 @, youku 没有, iqiyi 看不懂不作处理
+      headers: epsThumbsHeader
+    }))
+  }
+
   render() {
     global.rerender('Subject.Thumbs')
 
@@ -60,23 +84,15 @@ class Thumbs extends React.Component {
     if (!epsThumbs.length && !videos.length) return null
 
     const { scrolled } = this.state
-    const thumbs = epsThumbs.map(item => ({
-      url: item.split('@')[0], // 参数: bilibili为@, youku没有, iqiyi看不懂不作处理
-      headers: epsThumbsHeader
-    }))
-    const title = $.type === '三次元' ? '剧照' : '预览'
-    const reference = epsThumbsHeader?.Referer?.includes('movie.douban.com')
-      ? 'douban.com'
-      : ''
     return (
       <View style={[_.mt.lg, !showThumbs && _.short]}>
         <SectionTitle
           style={_.container.wind}
-          right={!showThumbs && <IconHidden name={title} value='showThumbs' />}
+          right={!showThumbs && <IconHidden name={this.title} value='showThumbs' />}
           icon={!showThumbs && 'md-navigate-next'}
           onPress={() => $.onSwitchBlock('showThumbs')}
         >
-          {title}
+          {this.title}
         </SectionTitle>
         {showThumbs && (
           <ScrollView
@@ -90,7 +106,12 @@ class Thumbs extends React.Component {
             onScroll={scrolled ? undefined : this.onScroll}
           >
             {this.videos.map(item => (
-              <Video key={item.cover} item={item} epsThumbsHeader={epsThumbsHeader} />
+              <Video
+                key={item.cover}
+                item={item}
+                epsThumbsHeader={epsThumbsHeader}
+                showTitle={$.type === '音乐'}
+              />
             ))}
             {this.data
               .filter((item, index) => index <= 12)
@@ -98,13 +119,13 @@ class Thumbs extends React.Component {
                 <Preview
                   item={item}
                   index={index}
-                  thumbs={thumbs}
+                  thumbs={this.thumbs}
                   epsThumbsHeader={epsThumbsHeader}
                 />
               ))}
           </ScrollView>
         )}
-        {showThumbs && !!reference && (
+        {showThumbs && !!this.reference && (
           <Flex style={[_.container.wind, _.mt.md]} justify='end'>
             <Text
               size={10}
@@ -112,7 +133,7 @@ class Thumbs extends React.Component {
               align='right'
               onPress={() => open(epsThumbsHeader.Referer)}
             >
-              数据来源自 {reference}
+              数据来源自 {this.reference}
             </Text>
             <Iconfont
               style={_.ml.xs}
