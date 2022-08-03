@@ -223,7 +223,7 @@ export default obc((props, { $, navigation }) => {
       tags={$.tags}
       animeTags={$.animeInfo?.tags}
       hentaiTags={$.hentaiInfo?.tags}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

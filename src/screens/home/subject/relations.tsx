@@ -86,7 +86,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       showRelations={showRelations}
       subjectId={$.subjectId}
       relations={$.relations}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

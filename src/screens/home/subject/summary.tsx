@@ -93,7 +93,7 @@ export default obc((props, { $ }) => {
       showSummary={showSummary}
       translateResult={$.state.translateResult}
       content={$.summary.replace(/\r\n\r\n/g, '\r\n')}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

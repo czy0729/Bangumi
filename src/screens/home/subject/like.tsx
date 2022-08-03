@@ -80,7 +80,7 @@ export default obc((props, { $, navigation }) => {
       showLike={systemStore.setting.showLike}
       subjectId={$.subjectId}
       like={$.like}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

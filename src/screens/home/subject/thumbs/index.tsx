@@ -74,7 +74,7 @@ class Thumbs extends React.Component {
           style={_.container.wind}
           right={!showThumbs && <IconHidden name={title} value='showThumbs' />}
           icon={!showThumbs && 'md-navigate-next'}
-          onPress={() => $.switchBlock('showThumbs')}
+          onPress={() => $.onSwitchBlock('showThumbs')}
         >
           {title}
         </SectionTitle>

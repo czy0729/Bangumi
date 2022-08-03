@@ -99,7 +99,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       showTopic={showTopic}
       subjectId={$.subjectId}
       topic={_topic}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

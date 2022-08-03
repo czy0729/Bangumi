@@ -78,7 +78,7 @@ export default obc((props, { $, navigation }) => {
       showStaff={systemStore.setting.showStaff}
       subjectId={$.subjectId}
       staff={$.staff}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

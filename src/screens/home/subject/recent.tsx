@@ -105,7 +105,7 @@ export default obc((props, { $, navigation }) => {
       subjectId={$.subjectId}
       who={_who}
       hideScore={$.hideScore}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

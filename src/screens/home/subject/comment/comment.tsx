@@ -2,27 +2,23 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 15:34:55
+ * @Last Modified time: 2022-08-03 10:33:52
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Text, Heatmap } from '@components'
 import { SectionTitle } from '@_'
-import { _, systemStore } from '@stores'
-import { memo, obc } from '@utils/decorators'
-import RateSegement from './rate-segment'
-import IconComment from './icon/comment'
-import IconHidden from './icon/hidden'
+import { _ } from '@stores'
+import { memo } from '@utils/decorators'
+import RateSegement from '../rate-segment'
+import IconComment from '../icon/comment'
+import IconHidden from '../icon/hidden'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  showComment: true,
-  pageTotal: 0,
-  onSwitchBlock: Function.prototype
-}
-
-const Comment = memo(({ showComment, pageTotal, onSwitchBlock }) => {
+const Comment = memo(({ showComment, pageTotal, total, onSwitchBlock }) => {
   global.rerender('Subject.Comment.Main')
 
+  const comment =
+    pageTotal <= 1 ? total : 20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)
   return (
     <>
       <SectionTitle
@@ -50,28 +46,12 @@ const Comment = memo(({ showComment, pageTotal, onSwitchBlock }) => {
       >
         吐槽{' '}
         <Text size={12} type='sub' lineHeight={24}>
-          {20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)}+
+          {comment}+
         </Text>
       </SectionTitle>
       <Heatmap bottom={32} id='条目.跳转' from='吐槽' />
     </>
   )
-}, defaultProps)
+}, DEFAULT_PROPS)
 
-export default obc((props, { $ }) => {
-  global.rerender('Subject.Comment')
-
-  const { showComment } = systemStore.setting
-  if (showComment === -1) return <View style={_.mt.lg} />
-
-  const {
-    pagination: { pageTotal = 0 }
-  } = $.subjectComments
-  return (
-    <Comment
-      showComment={showComment}
-      pageTotal={pageTotal}
-      onSwitchBlock={$.switchBlock}
-    />
-  )
-})
+export default Comment

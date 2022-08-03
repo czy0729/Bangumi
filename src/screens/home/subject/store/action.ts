@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:16:24
+ * @Last Modified time: 2022-08-03 11:09:52
  */
 import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
 import {
@@ -376,7 +376,7 @@ export default class Action extends Fetch {
   }
 
   /** 展开收起功能块 */
-  switchBlock = (key: Parameters<typeof systemStore.switchSetting>[0]) => {
+  onSwitchBlock = (key: Parameters<typeof systemStore.switchSetting>[0]) => {
     t('条目.展开收起功能块', {
       key
     })

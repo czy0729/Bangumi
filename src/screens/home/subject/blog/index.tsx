@@ -35,7 +35,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       showBlog={showBlog}
       subjectId={$.subjectId}
       blog={_blog}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

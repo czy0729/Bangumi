@@ -178,7 +178,7 @@ class Game extends React.Component {
             )
           }
           icon={!showGameInfo && 'md-navigate-next'}
-          onPress={() => $.switchBlock('showGameInfo')}
+          onPress={() => $.onSwitchBlock('showGameInfo')}
         >
           游戏
         </SectionTitle>

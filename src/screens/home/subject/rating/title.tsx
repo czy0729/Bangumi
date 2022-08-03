@@ -49,7 +49,7 @@ function Title({ showScore }, { $ }) {
         )
       }
       icon={!showRating && 'md-navigate-next'}
-      onPress={() => $.switchBlock('showRating')}
+      onPress={() => $.onSwitchBlock('showRating')}
     >
       评分{' '}
       {showScore && (

@@ -127,7 +127,7 @@ export default obc((props, { $, navigation }) => {
       styles={memoStyles()}
       showCatalog={showCatalog}
       catalog={_catalog}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

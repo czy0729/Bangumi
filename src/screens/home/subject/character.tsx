@@ -100,7 +100,7 @@ export default obc((props, { $, navigation }) => {
       showCharacter={showCharacter}
       subjectId={$.subjectId}
       crt={$.crt}
-      onSwitchBlock={$.switchBlock}
+      onSwitchBlock={$.onSwitchBlock}
     />
   )
 })

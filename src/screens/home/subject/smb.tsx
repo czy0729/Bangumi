@@ -28,7 +28,7 @@ function SMB(props, { $ }) {
       <SectionTitle
         right={showSMB ? <IconSMB /> : <IconHidden name='本地' value='showSMB' />}
         icon={!showSMB && 'md-navigate-next'}
-        onPress={() => $.switchBlock('showSMB')}
+        onPress={() => $.onSwitchBlock('showSMB')}
       >
         本地
       </SectionTitle>
