@@ -1,6 +1,10 @@
-// @flow
-// Inspired by: https://github.com/davidchambers/Base64.js/blob/master/base64.js
-
+/*
+ * @Doc: https://github.com/davidchambers/Base64.js/blob/master/base64.js
+ * @Author: czy0729
+ * @Date: 2022-08-03 08:54:08
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2022-08-03 08:54:08
+ */
 const chars =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
 const Base64 = {

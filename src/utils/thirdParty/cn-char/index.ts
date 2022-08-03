@@ -1,9 +1,10 @@
 /*
+ * 繁体简体互转
  * @Doc: https://github.com/RobinQu/simplebig/blob/master/index.js
  * @Author: czy0729
  * @Date: 2021-04-12 15:29:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-19 10:15:54
+ * @Last Modified time: 2022-08-03 09:00:03
  */
 import sc from './sc.json'
 import tc from './tc.json'

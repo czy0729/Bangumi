@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * HTML5 Parser By Sam Blowes
  *

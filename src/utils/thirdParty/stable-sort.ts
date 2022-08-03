@@ -1,12 +1,10 @@
 /*
- * https://github.com/zhanhb/stable-sort/blob/master/stable-sort.js
- *
+ * @Doc https://github.com/zhanhb/stable-sort/blob/master/stable-sort.js
  * @Author: czy0729
  * @Date: 2021-11-22 03:08:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-22 03:16:55
+ * @Last Modified time: 2022-08-03 08:56:07
  */
-'use strict'
 
 // stable sort
 ;(function (Object, Array) {
@@ -77,6 +75,7 @@
       expando
         .split('')
         .sort(function (a, b) {
+          // @ts-ignore
           return (a === 'o') - (b === 'o')
         })
         .join('') !==

@@ -1,5 +1,10 @@
-/**
- * @Doc https://github.com/nicopolyptic/treemap
+// @ts-nocheck
+/*
+ * https://github.com/nicopolyptic/treemap
+ * @Author: czy0729
+ * @Date: 2022-08-03 08:54:34
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-03 08:55:01
  */
 let treemap = {}
 

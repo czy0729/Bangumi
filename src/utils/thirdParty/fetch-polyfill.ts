@@ -1,5 +1,9 @@
-/**
- * https://github.com/robinpowered/react-native-fetch-polyfill/blob/master/fetch-polyfill.js
+/*
+ * @Doc: https://github.com/robinpowered/react-native-fetch-polyfill/blob/master/fetch-polyfill.js
+ * @Author: czy0729
+ * @Date: 2022-08-03 08:58:45
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2022-08-03 08:58:45
  */
 var self = this || global
 
@@ -55,6 +59,8 @@ export default function fetchPolyfill(input, init) {
         statusText: xhr.statusText,
         headers: parseHeaders(xhr.getAllResponseHeaders() || '')
       }
+
+      // @ts-ignore
       options.url =
         'responseURL' in xhr
           ? xhr.responseURL
@@ -84,6 +90,7 @@ export default function fetchPolyfill(input, init) {
     })
 
     xhr.send(
+      // @ts-ignore
       typeof request._bodyInit === 'undefined' ? null : request._bodyInit
     )
   })
