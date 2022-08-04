@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 18:33:43
+ * @Last Modified time: 2022-08-04 17:27:26
  */
 import { ModelValueOf } from '@types'
 import {
@@ -41,6 +41,7 @@ export type CollectionStatus = ModelValueOf<typeof COLLECTION_STATUS>
 export type CollectionStatusCn = ModelValueOf<typeof COLLECTION_STATUS, 'label'>
 export type CollectionStatusValue = ModelValueOf<typeof COLLECTION_STATUS, 'title'>
 export type CollectionsOrder = ModelValueOf<typeof COLLECTIONS_ORDERBY>
+export type CollectionsOrderCn = ModelValueOf<typeof COLLECTIONS_ORDERBY, 'label'>
 export type EpStatus = ModelValueOf<typeof EP_STATUS>
 export type EpStatusCn = ModelValueOf<typeof EP_STATUS, 'label'>
 export type MonoWorksOrderby = ModelValueOf<typeof MONO_WORKS_ORDERBY>

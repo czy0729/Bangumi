@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-21 00:47:55
+ * @Last Modified time: 2022-08-04 16:47:23
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
-import { runAfter } from '@utils'
+import { runAfter, feedback } from '@utils'
 import { info, confirm } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { URL_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
@@ -427,10 +427,11 @@ export default class ScreenRakuen extends store {
     })
   }
 
+  scrollToIndex = {}
+
   /**
    * 底部TabBar再次点击滚动到顶并刷新数据
    */
-  scrollToIndex = {}
   connectRef = (ref, index) => {
     this.scrollToIndex[index] = ref?.scrollToIndex
   }
@@ -443,12 +444,16 @@ export default class ScreenRakuen extends store {
           screen: 'Rakuen'
         })
 
-        this.onHeaderRefresh()
         this.scrollToIndex[page]({
           animated: true,
           index: 0,
           viewOffset: 8000
         })
+        setTimeout(() => {
+          feedback()
+        }, 400)
+
+        this.onHeaderRefresh()
       }
     } catch (error) {
       warn('Rakuen', 'onRefreshThenScrollTop', error)

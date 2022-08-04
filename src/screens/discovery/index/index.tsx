@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 02:40:54
+ * @Last Modified time: 2022-08-04 16:52:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Page, StatusBarEvents, ListView, Track, Heatmap } from '@components'
+import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -18,9 +19,13 @@ import Store from './store'
 
 const title = '发现'
 
-const Discovery = ({ isFocused }, { $ }) => {
+const Discovery = ({ isFocused }, { $, navigation }) => {
   useRunAfter(() => {
     $.init()
+
+    navigation.addListener(`${EVENT_APP_TAB_PRESS}|Discovery`, () => {
+      $.onRefreshThenScrollTop()
+    })
   })
 
   return useObserver(() => {
@@ -38,8 +43,6 @@ const Discovery = ({ isFocused }, { $ }) => {
           renderItem={renderItem}
           scrollToTop={isFocused}
           scrollEnabled={!dragging}
-          // onHeaderRefresh={dragging ? undefined : $.init}
-          // onFooterRefresh={$.fetchHome}
         />
         <LinkModal />
         <Track title={title} hm={['discovery', 'Discovery']} />

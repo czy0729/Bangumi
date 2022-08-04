@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 20:46:36
+ * @Last Modified time: 2022-08-04 16:34:41
  */
 import React, { useCallback } from 'react'
 import { PaginationList2 as ListView } from '@_'
@@ -15,7 +15,7 @@ import { DEFAULT_PROPS } from './ds'
 
 const List = memo(
   ({
-    // connectRef,
+    connectRef,
     styles,
     data,
     title,
@@ -38,7 +38,7 @@ const List = memo(
     )
     return (
       <ListView
-        // ref={connectRef}
+        connectRef={connectRef}
         style={styles.listView}
         contentContainerStyle={styles.contentContainerStyle}
         progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}

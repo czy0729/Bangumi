@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 01:21:09
+ * @Last Modified time: 2022-08-04 16:43:56
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -137,10 +137,11 @@ export default class ScreenTimeline extends store {
     }
   }
 
+  scrollToLocation = {}
+
   /**
    * 底部TabBar再次点击滚动到顶并刷新数据
    */
-  scrollToLocation = {}
   connectRef = (ref, index) => {
     this.scrollToLocation[index] = ref?.scrollToLocation
   }
@@ -153,7 +154,6 @@ export default class ScreenTimeline extends store {
           screen: 'Timeline'
         })
 
-        this.onHeaderRefresh()
         this.scrollToLocation[page]({
           animated: true,
           itemIndex: 0,
@@ -161,9 +161,14 @@ export default class ScreenTimeline extends store {
           viewOffset: 800,
           viewPosition: 0
         })
+        setTimeout(() => {
+          feedback()
+        }, 400)
+
+        this.onHeaderRefresh()
       }
     } catch (error) {
-      warn('Timeline', 'onRefreshThenScrollTop', error)
+      console.error('Timeline', 'onRefreshThenScrollTop', error)
     }
   }
 

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 18:26:07
+ * @Last Modified time: 2022-08-04 16:05:21
  */
 import React from 'react'
 import {
@@ -73,7 +73,7 @@ export type DeepPartial<T> = {
 export type ValueOf<T> = T[keyof T]
 
 /** 任意函数 */
-export type Fn = (arg?: any, arg2?: any) => any
+export type Fn = (arg?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => any
 
 /** 选择函数 */
 export type SelectFn = <T, K>(arg1: T, arg2: K) => T | K

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 21:09:51
+ * @Last Modified time: 2022-08-04 16:38:30
  */
 import { observable, computed } from 'mobx'
 import {
@@ -872,12 +872,16 @@ export default class ScreenHomeV2 extends store {
           screen: 'Home'
         })
 
-        this.onHeaderRefresh()
         this.scrollToIndex[page]({
           animated: true,
           index: 0,
           viewOffset: 8000
         })
+        setTimeout(() => {
+          feedback()
+        }, 400)
+
+        this.onHeaderRefresh()
       }
     } catch (error) {
       console.error('Home', 'onRefreshThenScrollTop', error)

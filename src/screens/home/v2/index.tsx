@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 14:09:53
+ * @Last Modified time: 2022-08-04 16:33:36
  */
 import React from 'react'
 import { useFocusEffect } from '@react-navigation/native'
 import { Page } from '@components'
+import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { privacy } from '@utils'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -20,11 +21,16 @@ import Tips from './tips'
 import Modal from './modal'
 import Heatmaps from './heatmaps'
 import Store from './store'
+import { Ctx } from './types'
 
-const Home = (props, { $, navigation }) => {
+const Home = (props, { $, navigation }: Ctx) => {
   useRunAfter(() => {
     if (!IOS && !$.isLogin) privacy()
     $.updateInitialPage(navigation)
+
+    navigation.addListener(`${EVENT_APP_TAB_PRESS}|Home`, () => {
+      $.onRefreshThenScrollTop()
+    })
   })
 
   useFocusEffect(() => {

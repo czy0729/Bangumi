@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 04:23:58
+ * @Last Modified time: 2022-08-04 16:18:58
  */
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
@@ -14,6 +14,7 @@ import { urlStringify } from '@utils'
 import navigationsParams from '@/config'
 import TabBar from './tab-bar'
 
+/** 多少个 TabBar 页面 */
 export const SCREENS_TOTAL = Object.keys(Screens).length
 
 const defaultScreenOptions = {
@@ -34,6 +35,7 @@ function BottomTabNavigator() {
     return (
       <Tab.Navigator
         initialRouteName={initialRouteName}
+        // @ts-ignore
         tabBar={props => <TabBar {...props} />}
       >
         {homeRenderTabs.includes('Discovery') && (
