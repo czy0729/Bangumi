@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 07:51:05
+ * @Last Modified time: 2022-08-04 17:55:46
  */
 import { InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -63,7 +63,7 @@ export function throttle(callback: (arg?: any) => void, delay = 400) {
  * @param {*} fn
  * @param {*} ms
  */
-export function debounce(fn, ms = 400) {
+export function debounce(fn, ms = 400): typeof fn {
   let timeout = null // 创建一个标记用来存放定时器的返回值
   return function () {
     clearTimeout(timeout) // 每当用户输入的时候把前一个 setTimeout clear 掉

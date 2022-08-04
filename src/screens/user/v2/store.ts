@@ -2,26 +2,39 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 14:52:37
+ * @Last Modified time: 2022-08-04 17:56:29
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
-import { debounce } from '@utils'
+import { debounce, x18, feedback, info } from '@utils'
 import store from '@utils/store'
-import { x18 } from '@utils/app'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
-import { IOS } from '@constants'
 import {
+  IOS,
   MODEL_SUBJECT_TYPE,
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY
-} from '@constants/model'
+} from '@constants'
+import {
+  CollectionsOrder,
+  CollectionsOrderCn,
+  CollectionStatus,
+  CollectionStatusCn,
+  SubjectType,
+  SubjectTypeCn
+} from '@types'
+import { NAMESPACE, EXCLUDE_STATE, STATE } from './ds'
+import { Params } from './types'
 
 export const H_RADIUS_LINE = _.radiusLg
-export const H_HEADER = (IOS ? 88 : 80) + H_RADIUS_LINE // fixed后带背景的头部高度
-export const H_TABBAR = 48 * _.ratio // TabBar高度
+
+/** fixed 后带背景的头部高度 */
+export const H_HEADER = (IOS ? 88 : 80) + H_RADIUS_LINE
+
+/** TabBar 高度 */
+export const H_TABBAR = _.r(48)
+
 export const H_FILTER = 36 + 2 * _.md
 
 export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
@@ -31,16 +44,8 @@ export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
 export const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
 export const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
 
-const namespace = 'ScreenUser'
-const excludeState = {
-  isFocused: true,
-  showFilter: false,
-  fixed: false,
-  filter: '',
-  fliterInputText: '',
-  fetching: false
-}
 const pinYinFirstCharacter = {}
+
 function testPinYinFirstCharacter(text, filter) {
   // 支持每个字符首拼音筛选
   if (/^[a-zA-Z]+$/.test(filter) && text) {
@@ -58,26 +63,17 @@ function testPinYinFirstCharacter(text, filter) {
 }
 
 export default class ScreenUser extends store {
-  state = observable({
-    subjectType: defaultSubjectType,
-    order: defaultOrder,
-    list: true,
-    showYear: true,
-    tag: '',
-    page: 2, // <Tabs>当前页数
-    ...excludeState,
-    _loaded: false
-  })
+  params: Params
+
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
-
-    let res
 
     // 用户信息
     await this.fetchUsersInfo()
@@ -87,31 +83,31 @@ export default class ScreenUser extends store {
 
     // 用户收藏记录
     const { order } = this.state
-    if (MODEL_COLLECTIONS_ORDERBY.getLabel(order) !== '网站评分')
+    if (MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) !== '网站评分') {
       this.fetchUserCollections(true)
+    }
+
+    // 用户信息 (他人视角)
     this.fetchUsers()
-    return res
+
+    return true
   }
 
   // -------------------- fetch --------------------
-  /**
-   * 用户信息 (自己视角)
-   */
-  fetchUsersInfo = () => userStore.fetchUsersInfo(this.userId)
+  /** 用户信息 (自己视角) */
+  fetchUsersInfo = () => {
+    return userStore.fetchUsersInfo(this.userId)
+  }
 
-  /**
-   * 用户信息 (他人视角)
-   */
-  fetchUsers = () =>
-    usersStore.fetchUsers({
+  /** 用户信息 (他人视角) */
+  fetchUsers = () => {
+    return usersStore.fetchUsers({
       userId: this.userId
     })
+  }
 
-  /**
-   * 普通的收藏请求
-   * @param {*} refresh
-   */
-  fetchUserCollectionsNormal = refresh => {
+  /** 用户收藏概览 (HTML, 全部) */
+  fetchUserCollectionsNormal = (refresh: boolean = false) => {
     const { subjectType, order, tag } = this.state
     return collectionStore.fetchUserCollections(
       {
@@ -125,9 +121,7 @@ export default class ScreenUser extends store {
     )
   }
 
-  /**
-   * 网站评分需要递归请求完所有数据, 再通过本地排序显示
-   */
+  /** 网站评分需要递归请求完所有数据, 再通过本地排序显示 */
   fetchUserCollectionsByScore = async () => {
     const { pagination } = await this.fetchUserCollectionsNormal(true)
     const { pageTotal } = pagination
@@ -143,23 +137,20 @@ export default class ScreenUser extends store {
     return true
   }
 
-  /**
-   * 收藏统一请求入口
-   * @param {*} refresh
-   */
-  fetchUserCollections = async refresh => {
+  /** 收藏统一请求入口 */
+  fetchUserCollections = async (refresh: boolean = false) => {
     const { order } = this.state
-    return MODEL_COLLECTIONS_ORDERBY.getLabel(order) === '网站评分'
+    return MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) === '网站评分'
       ? this.fetchUserCollectionsByScore()
       : this.fetchUserCollectionsNormal(refresh)
   }
 
-  /**
-   * 当前Tab一直请求到最后, 用于页内搜索
-   */
-  fetchUntilTheEnd = async (lastSubjectType, lastType, isNext) => {
-    if (!this.isTabActive(lastSubjectType, lastType))
-      return console.info('fetchUntilTheEnd abort')
+  /** 当前 Tab 一直请求到最后, 用于页内搜索 */
+  fetchUntilTheEnd = async (lastSubjectType, lastType, isNext: boolean = false) => {
+    if (!this.isTabActive(lastSubjectType, lastType)) {
+      console.info('fetchUntilTheEnd abort')
+      return
+    }
 
     const { subjectType, page } = this.state
     const { key: type } = tabs[page]
@@ -184,21 +175,18 @@ export default class ScreenUser extends store {
       fetching: true
     })
     await this.fetchUserCollections()
+
     return this.fetchUntilTheEnd(lastSubjectType, lastType, true)
   }
 
-  /**
-   * 若在搜索模式下, 请求到底, 否则正常请求
-   */
-  fetchIsNeedToEnd = refresh => {
+  /** 若在搜索模式下, 请求到底, 否则正常请求 */
+  fetchIsNeedToEnd = (refresh: boolean = false) => {
     const { showFilter, filter, subjectType, page } = this.state
     if (showFilter && filter) return this.fetchUntilTheEnd(subjectType, tabs[page].key)
     return this.fetchUserCollections(refresh)
   }
 
-  /**
-   * 若在搜索模式下, 刷新并请求到底, 否则正常请求
-   */
+  /** 若在搜索模式下, 刷新并请求到底, 否则正常请求 */
   fetchIsNeedRefreshToEnd = async () => {
     const { showFilter, filter, subjectType, page } = this.state
     if (showFilter && filter) {
@@ -209,95 +197,76 @@ export default class ScreenUser extends store {
   }
 
   // -------------------- get --------------------
-  /**
-   * 我的用户Id
-   */
+  /** 我的用户 Id */
   @computed get myUserId() {
     return userStore.myUserId
   }
 
-  /**
-   * 用户原始userId (数字)
-   */
+  /** * 用户原始 userId (数字) */
   @computed get userId() {
     const { userId } = this.params
     return userId || this.myUserId
   }
 
-  /**
-   * 用户自定义唯一userId
-   */
+  /** 用户自定义唯一 userId */
   @computed get username() {
     return this.usersInfo.username || this.userId
   }
 
-  /**
-   * 用户信息
-   */
+  /** 用户信息 */
   @computed get usersInfo() {
     return userStore.usersInfo(this.userId)
   }
 
-  /**
-   * 用户签名, 用户获取自定义数据
-   */
+  /** 用户签名, 用户获取自定义数据 */
   @computed get sign() {
     return usersStore.users(this.userId)?.sign || ''
   }
 
-  /**
-   * 自定义头像
-   */
+  /** 自定义头像 */
   @computed get avatar() {
     const avatars = this.sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     const src = avatars ? String(avatars[1]).trim() : ''
     return /(jpg|jpeg|png|bmp|gif)$/.test(src) ? src : ''
   }
 
-  /**
-   * 自定义背景
-   */
+  /** 自定义背景 */
   @computed get bg() {
     const bgs = this.sign.match(/\[bg\](.+?)\[\/bg\]/)
     return bgs ? String(bgs[1]).trim() : ''
   }
 
-  /**
-   * 当前类型key
-   */
+  /** 当前类型 key */
   @computed get type() {
     const { page } = this.state
-    return MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
+    return MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(tabs[page].title)
   }
 
-  /**
-   * 当前类型label
-   */
+  /** 当前类型 label */
   @computed get label() {
     const { page } = this.state
     return tabs[page].title
   }
 
-  /**
-   * 条目动作
-   */
+  /** 条目动作 */
   @computed get action() {
     const { subjectType } = this.state
-    switch (MODEL_SUBJECT_TYPE.getTitle(subjectType)) {
+    switch (MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)) {
       case '书籍':
         return '读'
+
       case '音乐':
         return '听'
+
       case '游戏':
         return '玩'
+
       default:
         return '看'
     }
   }
 
-  /**
-   * 各个tab条目计数
-   */
+  /** 各个 tab 条目计数 */
   @computed get counts() {
     const counts = {
       动画: {},
@@ -311,7 +280,9 @@ export default class ScreenUser extends store {
     if (data.length) {
       data.forEach(item => {
         item.collects.forEach(i => {
-          const type = MODEL_COLLECTION_STATUS.getLabel(i.status.type)
+          const type = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
+            i.status.type
+          )
           counts[item.name_cn][type] = i.count
         })
       })
@@ -330,10 +301,11 @@ export default class ScreenUser extends store {
    * @param {*} isBetween 前后tab也算当前
    * @returns
    */
-  isTabActive(subjectType, type, isBetween) {
+  isTabActive(subjectType: SubjectType, type, isBetween: boolean = false) {
     return computed(() => {
       const { subjectType: _subjectType, page } = this.state
-      if (!subjectType === _subjectType) return false
+      if (subjectType !== _subjectType) return false
+
       if (isBetween) {
         return (
           tabs[page]?.key === type ||
@@ -345,7 +317,8 @@ export default class ScreenUser extends store {
     }).get()
   }
 
-  isFiltering(subjectType, type) {
+  /** 是否应用筛选中 */
+  isFiltering(subjectType: SubjectType, type) {
     return computed(() => {
       if (!this.isTabActive(subjectType, type)) return false
 
@@ -360,7 +333,7 @@ export default class ScreenUser extends store {
    * @param {*} type
    * @returns
    */
-  userCollections(subjectType, type) {
+  userCollections(subjectType: SubjectType, type) {
     return computed(() => {
       // eslint-disable-next-line prefer-const
       let { list, ...other } = collectionStore.userCollections(
@@ -392,6 +365,7 @@ export default class ScreenUser extends store {
     }).get()
   }
 
+  /** 用户收藏概览的标签 (HTML) */
   userCollectionsTags(subjectType, type) {
     return computed(() =>
       collectionStore.userCollectionsTags(this.username, subjectType, type)
@@ -400,21 +374,26 @@ export default class ScreenUser extends store {
 
   // -------------------- page --------------------
   scrollToIndex = {}
+
   scrollToOffset = {}
 
   /**
-   * 收集ListView.scrollToIndex引用
+   * 收集 ListView.scrollToIndex 引用
    * @param {*} ref
    * @param {*} index
    */
-  connectRef = (ref, index) => {
+  connectRef = (
+    ref: {
+      scrollToIndex: any
+      scrollToOffset: any
+    },
+    index: string | number
+  ) => {
     this.scrollToIndex[index] = ref?.scrollToIndex
     this.scrollToOffset[index] = ref?.scrollToOffset
   }
 
-  /**
-   * 刷新到顶
-   */
+  /** 刷新到顶 */
   onRefreshThenScrollTop = () => {
     try {
       const { page } = this.state
@@ -423,23 +402,24 @@ export default class ScreenUser extends store {
           screen: 'User'
         })
 
-        this.fetchIsNeedToEnd(true)
         this.scrollToIndex[page]({
           animated: true,
           index: 0,
           viewOffset: 8000
         })
+        setTimeout(() => {
+          feedback()
+        }, 400)
+
+        this.fetchIsNeedToEnd(true)
       }
     } catch (error) {
-      warn('User', 'onRefreshThenScrollTop', error)
+      console.error('User', 'onRefreshThenScrollTop', error)
     }
   }
 
-  /**
-   * 标签页切换
-   * @param {*} page
-   */
-  onChange = page => {
+  /** 标签页切换 */
+  onChange = (page: number) => {
     t('我的.标签页切换', {
       page
     })
@@ -449,56 +429,47 @@ export default class ScreenUser extends store {
       tag: ''
     })
     this.fetchIsNeedToEnd(true)
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 条目类型选择
-   * @param {*} title
-   */
-  onSelectSubjectType = title => {
+  /** 条目类型选择 */
+  onSelectSubjectType = (title: SubjectTypeCn) => {
     t('我的.类型选择', {
       title
     })
 
     const { subjectType } = this.state
-    const nextSubjectType = MODEL_SUBJECT_TYPE.getLabel(title)
+    const nextSubjectType = MODEL_SUBJECT_TYPE.getLabel<SubjectType>(title)
     if (nextSubjectType !== subjectType) {
       this.setState({
         subjectType: nextSubjectType,
         tag: ''
       })
       this.fetchIsNeedRefreshToEnd()
-      this.setStorage(namespace)
+      this.setStorage(NAMESPACE)
     }
   }
 
-  /**
-   * 排序选择
-   * @param {*} label
-   */
-  onOrderSelect = async label => {
+  /** 排序选择 */
+  onOrderSelect = async (label: CollectionsOrderCn) => {
     t('我的.排序选择', {
       label
     })
 
     this.setState({
-      order: MODEL_COLLECTIONS_ORDERBY.getValue(label)
+      order: MODEL_COLLECTIONS_ORDERBY.getValue<CollectionsOrder>(label)
     })
     this.fetchIsNeedRefreshToEnd()
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 标签选择
-   * @param {*} label
-   */
-  onTagSelect = label => {
+  /** 标签选择 */
+  onTagSelect = (label: string) => {
     t('我的.筛选选择', {
       label
     })
 
-    let tag
+    let tag: string
     if (label === '重置') {
       tag = ''
     } else {
@@ -509,12 +480,10 @@ export default class ScreenUser extends store {
       tag
     })
     this.fetchIsNeedRefreshToEnd()
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 布局选择
-   */
+  /** 布局选择 */
   onToggleList = () => {
     const { list } = this.state
     t('我的.布局选择', {
@@ -524,30 +493,30 @@ export default class ScreenUser extends store {
     this.setState({
       list: !list
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 固定切换 (工具条) */
   onToggleFixed = () => {
     const { fixed } = this.state
 
     this.setState({
       fixed: !fixed
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 是否显示条目年份 (工具条) */
   onToggleShowYear = () => {
     const { showYear } = this.state
 
     this.setState({
       showYear: !showYear
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 展开收起搜索栏
-   */
+  /** 展开收起搜索栏 */
   onToggleFilter = () => {
     const { showFilter } = this.state
     if (!showFilter) {
@@ -577,18 +546,16 @@ export default class ScreenUser extends store {
     }
   }
 
-  /**
-   * 同步更新filterInputText, 异步更新filter
-   * @param {*} filter
-   */
-  onFilterChange = filter => {
+  /** 同步更新 filterInputText, 异步更新 filter */
+  onFilterChange = (filter: string) => {
     const _filter = filter.trim()
     this.setState({
       fliterInputText: _filter
     })
     this._onFilterChange(_filter)
   }
-  _onFilterChange = debounce(filter => {
+
+  _onFilterChange = debounce((filter: string) => {
     this.setState({
       filter
     })
