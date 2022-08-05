@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-06 10:10:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 10:39:38
+ * @Last Modified time: 2022-08-05 06:34:49
  */
 import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function More({ onToggleList }, { $ }) {
+function More({ onToggleList }, { $ }: Ctx) {
   const { list, showYear } = $.state
   return (
     <ToolBar.Popover

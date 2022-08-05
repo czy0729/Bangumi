@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 07:12:26
+ * @Last Modified time: 2022-08-05 07:24:18
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -10,17 +10,21 @@ import { ItemCollections, ItemCollectionsGrid } from '@_'
 import { _, systemStore } from '@stores'
 import { matchYear, keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
-import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
-import { tabs } from './store'
+import { IOS, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
+import { CollectionStatus, SubjectTypeCn } from '@types'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
-class List extends React.Component {
+class List extends React.Component<Props> {
   state = {
     // @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
     // 暂时使用重新渲染的办法解决列表变换置顶问题
     hide: false
   }
 
+  // @ts-ignore
   UNSAFE_componentWillReceiveProps({ subjectType }) {
     if (subjectType !== this.props.subjectType) {
       this.setState({
@@ -35,10 +39,10 @@ class List extends React.Component {
     }
   }
 
-  connectRef = ref => {
-    const { $ } = this.context
+  connectRef = (ref: { scrollToIndex: any; scrollToOffset: any }) => {
+    const { $ }: Ctx = this.context
     const { title } = this.props
-    const index = tabs.findIndex(item => item.title === title)
+    const index = TABS.findIndex((item: { title: string }) => item.title === title)
     return $.connectRef(ref, index)
   }
 
@@ -48,13 +52,13 @@ class List extends React.Component {
   }
 
   renderItem = ({ item, index }) => {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     const { page } = this.props
     const { list, subjectType, showYear } = $.state
     const event = {
       id: '我的.跳转'
     }
-    const typeCn = MODEL_SUBJECT_TYPE.getTitle(subjectType)
+    const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)
 
     if (list) {
       // {index === 0 && (
@@ -67,7 +71,7 @@ class List extends React.Component {
       //   />
       // )}
 
-      const { key } = tabs[page]
+      const { key } = TABS[page]
       return (
         <ItemCollections
           navigation={navigation}
@@ -99,28 +103,29 @@ class List extends React.Component {
   }
 
   render() {
-    rerender('User.List')
+    global.rerender('User.List')
 
     const { hide } = this.state
     if (hide) return null
 
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { page, title, ...other } = this.props
     const { subjectType, list, isFocused } = $.state
     const userCollections = $.userCollections(
       subjectType,
-      MODEL_COLLECTION_STATUS.getValue(title)
+      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(title)
     )
 
     const { _loaded } = userCollections
-    if (!_loaded)
+    if (!_loaded) {
       return <Loading style={IOS ? _.container.plain : _.container._plain} />
+    }
 
     const numColumns = list ? undefined : this.userGridNum
-    const tab = tabs[page]
+    const tab = TABS[page]
     return (
       <ListView
-        key={`${_.orientation}${$.subjectType}${numColumns}`}
+        key={`${_.orientation}${numColumns}`}
         ref={this.connectRef}
         keyExtractor={keyExtractor}
         style={this.styles.listView}
@@ -143,20 +148,3 @@ class List extends React.Component {
 }
 
 export default obc(List)
-
-const H_TOOLBAR = 42 * _.ratio
-const memoStyles = _.memoStyles(() => ({
-  listView: {
-    zIndex: 0
-  },
-  list: {
-    paddingBottom: _.bottom,
-    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight - H_TOOLBAR
-  },
-  grid: {
-    paddingLeft: _.wind - _._wind - _.device(0, 8),
-    paddingRight: _.wind - _._wind,
-    paddingBottom: _.bottom,
-    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight - H_TOOLBAR
-  }
-}))

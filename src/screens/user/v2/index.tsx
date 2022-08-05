@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 17:06:20
+ * @Last Modified time: 2022-08-05 07:19:11
  */
 import React from 'react'
 import { StatusBarEvents, Track } from '@components'
 import { Login } from '@_'
+import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { _, userStore } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -15,7 +16,6 @@ import Page from './page'
 import Heatmaps from './heatmaps'
 import Store from './store'
 import { Ctx } from './types'
-import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 
 const User = (props, { $, navigation }: Ctx) => {
   useRunAfter(() => {

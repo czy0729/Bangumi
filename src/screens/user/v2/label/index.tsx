@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-11-27 17:23:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 12:50:42
+ * @Last Modified time: 2022-08-04 21:55:55
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
+import { Ctx } from '../types'
 
-function Label({ title, focused }, { $ }) {
-  rerender('User.Label')
+function Label({ title, focused }, { $ }: Ctx) {
+  global.rerender('User.Label')
 
   const { subjectType } = $.state
-  const count = $.counts[MODEL_SUBJECT_TYPE.getTitle(subjectType)][title]
+  const count = $.counts[MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)][title]
   return (
     <Flex style={_.container.block} justify='center' align='start'>
       <Text type='title' size={13} bold={focused}>

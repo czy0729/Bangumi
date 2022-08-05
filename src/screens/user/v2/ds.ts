@@ -1,11 +1,16 @@
-import { MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
-
 /*
  * @Author: czy0729
  * @Date: 2022-08-04 17:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 17:18:05
+ * @Last Modified time: 2022-08-05 07:23:38
  */
+import { _ } from '@stores'
+import {
+  COLLECTION_STATUS,
+  IOS,
+  MODEL_COLLECTIONS_ORDERBY,
+  MODEL_SUBJECT_TYPE
+} from '@constants'
 import { CollectionsOrder, SubjectType } from '@types'
 
 export const NAMESPACE = 'ScreenUser'
@@ -37,3 +42,17 @@ export const STATE = {
   ...EXCLUDE_STATE,
   _loaded: false
 }
+
+export const H_RADIUS_LINE = _.radiusLg
+
+/** fixed 后带背景的头部高度 */
+export const H_HEADER = (IOS ? 88 : 80) + H_RADIUS_LINE
+
+/** TabBar 高度 */
+export const H_TABBAR = _.r(48)
+
+/** Tab data */
+export const TABS = COLLECTION_STATUS.map(item => ({
+  title: item.label,
+  key: item.value
+}))

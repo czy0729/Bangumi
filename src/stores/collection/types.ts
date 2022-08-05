@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-27 04:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-30 02:19:03
+ * @Last Modified time: 2022-08-05 06:36:45
  */
 import {
   CollectionStatus,
@@ -61,3 +61,9 @@ export type UserCollectionsMap = Record<SubjectId, CollectionStatusCn>
 
 /** 瓷砖进度 */
 export type MosaicTile = Record<string, number>
+
+/** 用户收藏概览的标签 (HTML) */
+export type UserCollectionsTags = {
+  tag: string
+  count: number
+}[]

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 22:34:34
+ * @Last Modified time: 2022-08-05 06:37:01
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -53,7 +53,13 @@ import {
   DEFAULT_COLLECTION_STATUS,
   DEFAULT_ORDER
 } from './init'
-import { Collection, MosaicTile, UserCollections, UserCollectionsMap } from './types'
+import {
+  Collection,
+  MosaicTile,
+  UserCollections,
+  UserCollectionsMap,
+  UserCollectionsTags
+} from './types'
 
 const state = {
   /** 条目收藏信息 */
@@ -110,7 +116,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     subjectType: SubjectType,
     type: CollectionStatus
   ) {
-    return computed<string[]>(() => {
+    return computed<UserCollectionsTags>(() => {
       const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
       return this.state.userCollectionsTags[key] || []
     }).get()

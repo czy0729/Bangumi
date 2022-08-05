@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-05-30 09:51:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 10:35:14
+ * @Last Modified time: 2022-08-05 06:34:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import ToolBar from './tool-bar'
+import ToolBar from '../tool-bar'
+import { Ctx } from '../types'
+import { styles } from './styles'
+import { Props } from './types'
 
-function FixedToolBar({ fixed, page, onToggleList }, { $ }) {
+function FixedToolBar({ fixed, page, onToggleList }: Props, { $ }: Ctx) {
   // 显示容器外固定工具条
   if (fixed) {
     if ($.state.fixed) {
@@ -34,12 +36,3 @@ function FixedToolBar({ fixed, page, onToggleList }, { $ }) {
 }
 
 export default obc(FixedToolBar)
-
-const styles = _.create({
-  fixed: {
-    marginTop: -2
-  },
-  placeholder: {
-    height: 70
-  }
-})

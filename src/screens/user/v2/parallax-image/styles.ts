@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:36:50
+ * @Last Modified time: 2022-08-05 07:20:46
  */
 import { _ } from '@stores'
-import { H_RADIUS_LINE } from '../store'
+import { H_RADIUS_LINE } from '../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   parallaxLine: {

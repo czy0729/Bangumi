@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-16 16:30:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:24:37
+ * @Last Modified time: 2022-08-05 07:24:25
  */
 import React from 'react'
 import { Animated } from 'react-native'
 import { Page } from '@components'
 import { obc } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
-import ParallaxImage from './parallax-image'
-import Tab from './tab'
-import { tabs } from './store'
+import ParallaxImage from '../parallax-image'
+import Tab from '../tab'
+import { TABS } from '../ds'
 
 class User extends React.Component {
   state = {
@@ -28,7 +28,7 @@ class User extends React.Component {
     const { subjectType, page } = $.state
     const { _loaded } = $.userCollections(
       subjectType,
-      MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
+      MODEL_COLLECTION_STATUS.getValue(TABS[page].title)
     )
     if (!_loaded) $.fetchUserCollections(true)
   }

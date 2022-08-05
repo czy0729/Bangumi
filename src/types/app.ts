@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:54:09
+ * @Last Modified time: 2022-08-05 08:01:08
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -29,6 +29,7 @@ export type IconfontNames =
   | IoniconsIconsNames
   | `md-${MaterialIconsNames}`
   | 'home'
+  | 'setting'
   | 'trophy'
 
 /** 所有页面路径名 */

@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:48:31
+ * @Last Modified time: 2022-08-05 08:00:42
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Text, Iconfont, Heatmap } from '@components'
 import { Popover, IconHeader, IconBack, Avatar } from '@_'
 import { _ } from '@stores'
-import { open } from '@utils'
-import { HTMLDecode } from '@utils/html'
+import { open, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { UserId, ViewStyle } from '@types'
 import Head from '../head'
-import { H_HEADER } from '../store'
+import { H_HEADER } from '../ds'
 import { DATA_ME, DATA_OTHER, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -42,7 +41,7 @@ export default memo(
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const parallaxStyle: {
-      transform: unknown[]
+      transform: any[]
     } = {
       transform: [
         {

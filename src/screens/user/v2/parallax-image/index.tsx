@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:34:06
+ * @Last Modified time: 2022-08-04 19:48:18
  */
 import React from 'react'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 import ParallaxImage from './parallax-image'
 import { memoStyles } from './styles'
 
-export default obc(({ scrollY, fixed }, { $, navigation }) => {
+export default obc(({ scrollY, fixed }, { $, navigation }: Ctx) => {
   global.rerender('User.ParallaxImage')
 
-  const { id, avatar = {}, nickname, username } = $.usersInfo
+  const { id, avatar, nickname, username } = $.usersInfo
   return (
     <ParallaxImage
       navigation={navigation}

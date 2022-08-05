@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 17:56:29
+ * @Last Modified time: 2022-08-05 07:26:30
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
 import { debounce, x18, feedback, info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import {
-  IOS,
   MODEL_SUBJECT_TYPE,
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY
@@ -24,43 +22,9 @@ import {
   SubjectType,
   SubjectTypeCn
 } from '@types'
-import { NAMESPACE, EXCLUDE_STATE, STATE } from './ds'
+import { NAMESPACE, EXCLUDE_STATE, STATE, H_HEADER, TABS } from './ds'
+import { testPinYinFirstCharacter } from './utils'
 import { Params } from './types'
-
-export const H_RADIUS_LINE = _.radiusLg
-
-/** fixed 后带背景的头部高度 */
-export const H_HEADER = (IOS ? 88 : 80) + H_RADIUS_LINE
-
-/** TabBar 高度 */
-export const H_TABBAR = _.r(48)
-
-export const H_FILTER = 36 + 2 * _.md
-
-export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
-  title: item.label,
-  key: item.value
-}))
-export const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
-export const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
-
-const pinYinFirstCharacter = {}
-
-function testPinYinFirstCharacter(text, filter) {
-  // 支持每个字符首拼音筛选
-  if (/^[a-zA-Z]+$/.test(filter) && text) {
-    if (!pinYinFirstCharacter[text]) {
-      pinYinFirstCharacter[text] = getPinYinFirstCharacter(text, text.length).replace(
-        / /g,
-        ''
-      )
-    }
-
-    if (pinYinFirstCharacter[text].includes(filter)) return true
-  }
-
-  return false
-}
 
 export default class ScreenUser extends store {
   params: Params
@@ -153,7 +117,7 @@ export default class ScreenUser extends store {
     }
 
     const { subjectType, page } = this.state
-    const { key: type } = tabs[page]
+    const { key: type } = TABS[page]
     const { pagination } = collectionStore.userCollections(
       this.username,
       subjectType,
@@ -182,7 +146,7 @@ export default class ScreenUser extends store {
   /** 若在搜索模式下, 请求到底, 否则正常请求 */
   fetchIsNeedToEnd = (refresh: boolean = false) => {
     const { showFilter, filter, subjectType, page } = this.state
-    if (showFilter && filter) return this.fetchUntilTheEnd(subjectType, tabs[page].key)
+    if (showFilter && filter) return this.fetchUntilTheEnd(subjectType, TABS[page].key)
     return this.fetchUserCollections(refresh)
   }
 
@@ -191,7 +155,7 @@ export default class ScreenUser extends store {
     const { showFilter, filter, subjectType, page } = this.state
     if (showFilter && filter) {
       await this.fetchUserCollections(true)
-      return this.fetchUntilTheEnd(subjectType, tabs[page].key)
+      return this.fetchUntilTheEnd(subjectType, TABS[page].key)
     }
     return this.fetchUserCollections(true)
   }
@@ -239,13 +203,13 @@ export default class ScreenUser extends store {
   /** 当前类型 key */
   @computed get type() {
     const { page } = this.state
-    return MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(tabs[page].title)
+    return MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(TABS[page].title)
   }
 
   /** 当前类型 label */
   @computed get label() {
     const { page } = this.state
-    return tabs[page].title
+    return TABS[page].title
   }
 
   /** 条目动作 */
@@ -308,12 +272,12 @@ export default class ScreenUser extends store {
 
       if (isBetween) {
         return (
-          tabs[page]?.key === type ||
-          tabs[page - 1]?.key === type ||
-          tabs[page + 1]?.key === type
+          TABS[page]?.key === type ||
+          TABS[page - 1]?.key === type ||
+          TABS[page + 1]?.key === type
         )
       }
-      return tabs[page]?.key === type
+      return TABS[page]?.key === type
     }).get()
   }
 
@@ -561,6 +525,6 @@ export default class ScreenUser extends store {
     })
 
     const { subjectType, page } = this.state
-    if (filter.length) this.fetchUntilTheEnd(subjectType, tabs[page].key)
+    if (filter.length) this.fetchUntilTheEnd(subjectType, TABS[page].key)
   }, 1200)
 }

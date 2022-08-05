@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 10:07:40
+ * @Last Modified time: 2022-08-05 07:24:35
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -12,21 +12,24 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import TabBarLeft from './tab-bar-left'
-import FixedToolBar from './fixed-tool-bar'
-import Label from './label'
-import List from './list'
-import { tabs, H_TABBAR, H_HEADER, H_RADIUS_LINE } from './store'
+import TabBarLeft from '../tab-bar-left'
+import FixedToolBar from '../fixed-tool-bar'
+import Label from '../label'
+import List from '../list'
+import { H_HEADER, H_TABBAR, TABS } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
-class Tab extends React.Component {
-  onIndexChange = index => {
-    const { $ } = this.context
+class Tab extends React.Component<Props> {
+  onIndexChange = (index: number) => {
+    const { $ }: Ctx = this.context
     const { onIndexChange } = this.props
     onIndexChange()
     $.onChange(index)
   }
 
-  onSelect = title => {
+  onSelect = (title: string) => {
     const { onSelectSubjectType } = this.props
     onSelectSubjectType(title)
   }
@@ -34,7 +37,7 @@ class Tab extends React.Component {
   renderScene = SceneMap(
     Object.assign(
       {},
-      ...tabs.map((item, index) => ({
+      ...TABS.map((item, index) => ({
         [item.key]: () => (
           <List
             page={index}
@@ -58,11 +61,11 @@ class Tab extends React.Component {
   )
 
   get navigationState() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { page } = $.state
     return {
       index: page,
-      routes: tabs
+      routes: TABS
     }
   }
 
@@ -114,7 +117,7 @@ class Tab extends React.Component {
   }
 
   render() {
-    rerender('User.Tab')
+    global.rerender('User.Tab')
 
     return (
       <>
@@ -141,49 +144,3 @@ class Tab extends React.Component {
 }
 
 export default obc(Tab)
-
-const memoStyles = _.memoStyles(() => {
-  const W_TAB_BAR_LEFT = 72 * _.ratio
-  const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5
-  const W_INDICATOR = 16 * _.ratio
-  return {
-    tabBarWrap: {
-      position: 'absolute',
-      zIndex: 2,
-      top: -H_RADIUS_LINE + 2,
-      right: 0,
-      left: 0
-    },
-    tabBar: {
-      paddingLeft: W_TAB_BAR_LEFT,
-      backgroundColor: _.select(
-        _.colorPlain,
-        _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-      ),
-      borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
-      borderBottomColor: _.colorBorder,
-      shadowOpacity: 0,
-      elevation: 0
-    },
-    tab: {
-      width: W_TAB,
-      height: 48 * _.ratio
-    },
-    label: {
-      padding: 0
-    },
-    indicator: {
-      width: W_INDICATOR,
-      height: 4,
-      marginLeft: (W_TAB - W_INDICATOR) / 2 + W_TAB_BAR_LEFT,
-      backgroundColor: _.colorMain,
-      borderRadius: 4
-    },
-    tabBarLeft: {
-      position: 'absolute',
-      zIndex: 100,
-      left: 0,
-      marginTop: 0
-    }
-  }
-})

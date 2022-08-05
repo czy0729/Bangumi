@@ -2,26 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-14 17:40:57
+ * @Last Modified time: 2022-08-04 18:31:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Touchable, Heatmap } from '@components'
 import { IconTouchable } from '@_'
+import { info } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { _, systemStore } from '@stores'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-const avatarSize = 88 * _.ratio
+const avatarSize = _.r(88)
 
-function Head({ style }, { $, navigation }) {
-  rerender('User.Head')
+function Head({ style }, { $, navigation }: Ctx) {
+  global.rerender('User.Head')
 
-  const { avatar = {}, nickname, id, username } = $.usersInfo
+  const { avatar, nickname, id, username } = $.usersInfo
   const { userId } = $.params
   const isMe = !userId || userId === $.myUserId
-  const src = $.avatar || avatar.large
+  const src = $.avatar || avatar?.large
   const showAdvance = isMe && systemStore.advance
   return (
     <Flex style={style} justify='center' direction='column'>
@@ -44,13 +46,7 @@ function Head({ style }, { $, navigation }) {
               navigation.push('UserSetting')
             }}
           />
-          <Heatmap
-            id='我的.跳转'
-            data={{
-              to: 'UserSetting',
-              alias: '个人设置'
-            }}
-          />
+          <Heatmap id='我的.跳转' to='UserSetting' alias='个人设置' />
         </View>
         {isMe && (
           <>
@@ -68,14 +64,7 @@ function Head({ style }, { $, navigation }) {
                   好友
                 </Text>
               </Touchable>
-              <Heatmap
-                right={-32}
-                id='我的.跳转'
-                data={{
-                  to: 'Friends',
-                  alias: '好友'
-                }}
-              />
+              <Heatmap right={-32} id='我的.跳转' to='Friends' alias='好友' />
             </View>
             <View style={styles.r2}>
               <Touchable
@@ -91,14 +80,7 @@ function Head({ style }, { $, navigation }) {
                   人物
                 </Text>
               </Touchable>
-              <Heatmap
-                right={-32}
-                id='我的.跳转'
-                data={{
-                  to: 'Character',
-                  alias: '角色'
-                }}
-              />
+              <Heatmap right={-32} id='我的.跳转' to='Character' alias='角色' />
             </View>
             <View style={styles.r3}>
               <Touchable
@@ -114,14 +96,7 @@ function Head({ style }, { $, navigation }) {
                   目录
                 </Text>
               </Touchable>
-              <Heatmap
-                right={-32}
-                id='我的.跳转'
-                data={{
-                  to: 'Catalogs',
-                  alias: '目录'
-                }}
-              />
+              <Heatmap right={-32} id='我的.跳转' to='Catalogs' alias='目录' />
             </View>
           </>
         )}
@@ -149,32 +124,3 @@ function Head({ style }, { $, navigation }) {
 }
 
 export default obc(Head)
-
-const rStyle = (top, left) => ({
-  position: 'absolute',
-  zIndex: 1,
-  top: (top - _.xs) * _.ratio + _.device(0, 4),
-  left: (left - _.sm) * _.ratio,
-  paddingVertical: _.xs,
-  paddingHorizontal: _.sm,
-  borderRadius: _.radiusSm,
-  overflow: 'hidden',
-  opacity: 0.8
-})
-
-const styles = _.create({
-  avatar: {
-    backgroundColor: _.__colorPlain__
-  },
-  r1: rStyle(16, 100),
-  r2: rStyle(52, 116),
-  r3: rStyle(88, 100),
-  advanceContainer: {
-    paddingLeft: _.sm * 2
-  },
-  advance: {
-    padding: 0,
-    paddingLeft: 2,
-    opacity: 0.64
-  }
-})
