@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 17:13:25
+ * @Last Modified time: 2022-08-05 10:37:43
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -550,7 +550,9 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   /** User 和 Zone 页面上方用的可变高度块的高度限制属性 */
   @computed get parallaxImageHeight() {
     if (this.isMobileLanscape) return 200
-    return Math.min(Number(this.window.width * 0.68), this.device(288, 380))
+
+    // Math.min(Number(this.window.width * 0.68), this.device(288, 380))
+    return Math.floor(this.window.width * 0.88)
   }
 
   /** 容器 (工具类) */

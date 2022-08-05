@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:20:46
+ * @Last Modified time: 2022-08-05 11:40:40
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -77,7 +77,7 @@ function ParallaxImage(props, { $, navigation }) {
     uri = uri.replace('http://', 'https://')
   }
 
-  const blurRadius = (IOS ? 2 : 1) - ($.bg ? 1 : 0)
+  const blurRadius = $.bg ? 0 : IOS ? 2 : 1
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
@@ -92,8 +92,9 @@ function ParallaxImage(props, { $, navigation }) {
           style={[
             styles.parallaxWrap,
             parallaxStyle,
+            // eslint-disable-next-line react-native/no-inline-styles
             {
-              backgroundColor: _.select('rgba(0, 0, 0, 0.48)', 'rgba(0, 0, 0, 0.64)'),
+              backgroundColor: 'rgba(0, 0, 0, 0.24)',
               opacity: $.scrollY.interpolate({
                 inputRange: [
                   -_.parallaxImageHeight,

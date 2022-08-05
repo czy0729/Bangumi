@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 06:53:43
+ * @Last Modified time: 2022-08-05 11:38:08
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -24,7 +24,7 @@ import { HTMLDecode } from '@utils/html'
 import { info, loading, feedback } from '@utils/ui'
 import { HOST } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/store'
+import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/ds'
 import { TABS, TABS_WITH_TINYGRAIL } from './ds'
 
 export { H_RADIUS_LINE, H_HEADER, H_TABBAR }

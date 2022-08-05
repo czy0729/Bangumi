@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:20:46
+ * @Last Modified time: 2022-08-05 11:34:37
  */
 import { _ } from '@stores'
 import { H_RADIUS_LINE } from '../ds'
@@ -47,7 +47,7 @@ export const styles = _.create({
     left: 0
   },
   parallaxMask: {
-    backgroundColor: 'rgba(0, 0, 0, 0.48)'
+    backgroundColor: 'rgba(0, 0, 0, 0.24)'
   },
   title: {
     position: 'absolute',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-10 16:01:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 19:48:12
+ * @Last Modified time: 2022-08-05 10:19:30
  */
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { ImagesAvatar, SubjectType } from '@types'
@@ -41,5 +41,6 @@ export const INIT_USER_SETTING = {
   sign: '',
   nickname: '',
   sign_input: '',
-  formhash: ''
+  formhash: '',
+  timeoffsetnew: ''
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 17:10:08
+ * @Last Modified time: 2022-08-05 11:29:08
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -10,6 +10,7 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
+import { API_SETU } from '@constants'
 
 const onlineBgsUrl = 'https://gitee.com/a296377710/bangumi/raw/master/bg.json'
 const regBg = /\[bg\](.+?)\[\/bg\]/
@@ -35,7 +36,7 @@ export default class ScreenUserSetting extends store {
       avatar: this.avatar
     })
 
-    this.fetchBgs()
+    this.fetchSetus()
     return res
   }
 
@@ -49,6 +50,27 @@ export default class ScreenUserSetting extends store {
       bgs
     })
     return bgs
+  }
+
+  fetchSetus = async () => {
+    const data = []
+    data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
+    data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
+    this.setState({
+      bgs: data
+        .filter(item => item.width * 1.28 >= item.height)
+        .map(item => item.urls.small)
+    })
+
+    data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
+    data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
+    this.setState({
+      bgs: data
+        .filter(item => item.width * 1.28 >= item.height)
+        .map(item => item.urls.small)
+    })
+
+    return data
   }
 
   fetchUserSetting = async () => {
@@ -98,13 +120,13 @@ export default class ScreenUserSetting extends store {
   }
 
   // -------------------- action --------------------
-  changeText = (key, value) => {
+  changeText = (key: string, value: string) => {
     this.setState({
       [key]: value
     })
   }
 
-  onSelectBg = bg => {
+  onSelectBg = (bg: string) => {
     this.setState({
       bg
     })
@@ -122,10 +144,12 @@ export default class ScreenUserSetting extends store {
       _sign += `[size=0][avatar]${avatar || ''}[/avatar][/size]`
     }
 
+    let _bg = bg || ''
+    if (_bg.includes('i.pixiv.re')) _bg = _bg.replace('/c/540x540_70', '')
     if (_sign.match(regBg)) {
-      _sign = _sign.replace(regBg, `[bg]${bg || ''}[/bg]`)
+      _sign = _sign.replace(regBg, `[bg]${_bg}[/bg]`)
     } else {
-      _sign += `[size=0][bg]${bg || ''}[/bg][/size]`
+      _sign += `[size=0][bg]${_bg}[/bg][/size]`
     }
 
     // 清除错误保存的历史数据
@@ -151,6 +175,10 @@ export default class ScreenUserSetting extends store {
         // 更新时光机的头像和背景
         usersStore.fetchUsers({
           userId: this.myUserId
+        })
+
+        this.setState({
+          bg: _bg
         })
       },
       () => {}
