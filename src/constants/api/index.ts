@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 10:31:09
+ * @Last Modified time: 2022-08-05 11:49:56
  */
 import { EpId, Id, SubjectId, UserId } from '@types'
 import { HOST } from '../constants'
@@ -141,5 +141,9 @@ export const API_MONO_COVER = (
   monoType: 'characters' | 'persons' = 'characters'
 ) => `${API_HOST}/v0/${monoType}/${monoId}/image?type=${type}`
 
+/** 随机 pixiv */
 export const API_SETU = (num: number = 20) =>
-  `https://api.lolicon.app/setu/v2?r18=0&num=${num}&size=small`
+  `https://api.lolicon.app/setu/v2?r18=0&num=${num}&size=small&dateAfter=1609459200000`
+
+/** 随机二次元头像 */
+export const API_RANDOM_AVATAR = () => `https://api.yimian.xyz/img?type=head`

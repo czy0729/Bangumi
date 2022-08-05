@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:38:08
+ * @Last Modified time: 2022-08-06 00:47:33
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -168,7 +168,7 @@ export default class ScreenZone extends store {
   @computed get bg() {
     const { sign = '' } = this.users
     const bgs = sign.match(/\[bg\](.+?)\[\/bg\]/)
-    return bgs ? String(bgs[1]).trim() : ''
+    return HTMLDecode(bgs ? String(bgs[1]).trim() : '')
   }
 
   /**
@@ -178,7 +178,7 @@ export default class ScreenZone extends store {
     const { sign = '' } = this.users
     const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     const src = avatars ? String(avatars[1]).trim() : ''
-    return /(jpg|jpeg|png|bmp|gif)$/.test(src) ? src : ''
+    return HTMLDecode(src)
   }
 
   /**

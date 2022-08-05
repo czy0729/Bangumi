@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:30:08
+ * @Last Modified time: 2022-08-06 01:04:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,13 @@ import {
   Image,
   Input,
   ScrollView,
+  SegmentedControl,
   Text,
   Touchable
 } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { open, confirm, feedback } from '@utils'
+import { open, confirm, arrGroup } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS, HOST_IMAGE_UPLOAD } from '@constants'
@@ -30,12 +31,12 @@ const headers = {
 
 class UserSetting extends React.Component {
   state = {
-    expand: true
+    expand: false
   }
 
   scrollTo: any = () => {}
 
-  onViewOrigin = (item, index) => {
+  onViewOrigin = (item: string, index: number) => {
     t('个人设置.查看原图', {
       index
     })
@@ -57,9 +58,7 @@ class UserSetting extends React.Component {
     })
 
     const { $ } = this.context
-    await $.fetchSetus()
-
-    feedback()
+    $.onRefresh()
   }
 
   renderPreview() {
@@ -135,7 +134,7 @@ class UserSetting extends React.Component {
                   placeholder='请填入昵称'
                   autoCapitalize='none'
                   showClear
-                  onChangeText={text => $.changeText('nickname', text)}
+                  onChangeText={text => $.onChangeText('nickname', text)}
                 />
               </Flex.Item>
             </Flex>
@@ -148,7 +147,7 @@ class UserSetting extends React.Component {
                   placeholder='请填入昵称'
                   autoCapitalize='none'
                   showClear
-                  onChangeText={text => $.changeText('sign_input', text)}
+                  onChangeText={text => $.onChangeText('sign_input', text)}
                 />
               </Flex.Item>
             </Flex>
@@ -161,7 +160,7 @@ class UserSetting extends React.Component {
                   placeholder='请填入网络地址'
                   autoCapitalize='none'
                   showClear
-                  onChangeText={text => $.changeText('avatar', text)}
+                  onChangeText={text => $.onChangeText('avatar', text)}
                 />
               </Flex.Item>
               <IconTouchable
@@ -185,7 +184,7 @@ class UserSetting extends React.Component {
                   placeholder='请填入网络地址'
                   autoCapitalize='none'
                   showClear
-                  onChangeText={text => $.changeText('bg', text)}
+                  onChangeText={text => $.onChangeText('bg', text)}
                 />
               </Flex.Item>
               <IconTouchable
@@ -214,19 +213,27 @@ class UserSetting extends React.Component {
     )
   }
 
+  renderTabs() {
+    const { $ } = this.context
+    const { selectedIndex } = $.state
+    const values = ['预设背景', '随机背景', '随机头像']
+    return (
+      <SegmentedControl
+        style={this.styles.segment}
+        values={values}
+        selectedIndex={selectedIndex}
+        onValueChange={title => $.onValueChange(values.indexOf(title))}
+      />
+    )
+  }
+
   renderOnlineBgs() {
     const { $ } = this.context
     const { bgs } = $.state
     return (
       <>
-        <Text>
-          推荐背景{' '}
-          <Text type='sub' size={12} lineHeight={14}>
-            长按可查看原图
-          </Text>
-        </Text>
-        <Flex style={_.mt.sm} wrap='wrap'>
-          {bgs.map((item, index) => (
+        <Flex wrap='wrap'>
+          {bgs.map((item: string, index: number) => (
             <Touchable
               key={index}
               style={[this.styles.bg, index % 2 === 1 && _.ml.md]}
@@ -234,6 +241,7 @@ class UserSetting extends React.Component {
               onLongPress={() => this.onViewOrigin(item, index)}
             >
               <Image
+                key={item}
                 src={item}
                 width={this.styles.image.width}
                 height={this.styles.image.height}
@@ -245,10 +253,64 @@ class UserSetting extends React.Component {
           ))}
         </Flex>
         <Text style={_.mt.md} align='center' size={12} bold type='sub'>
+          长按可查看原图
+        </Text>
+      </>
+    )
+  }
+
+  renderPixivs() {
+    const { $ } = this.context
+    const { pixivs } = $.state
+    return (
+      <>
+        <Flex wrap='wrap'>
+          {pixivs.map((item: string, index: number) => (
+            <Touchable
+              key={`${index}|${item}`}
+              style={[this.styles.bg, index % 2 === 1 && _.ml.md]}
+              onPress={() => $.onSelectBg(item)}
+              onLongPress={() =>
+                this.onViewOrigin(item.replace('/c/540x540_70', ''), index)
+              }
+            >
+              <Image
+                src={item}
+                width={this.styles.image.width}
+                height={this.styles.image.height}
+                headers={headers}
+                radius
+              />
+            </Touchable>
+          ))}
+        </Flex>
+        <Text style={_.mt.md} align='center' size={12} bold type='sub'>
           背景图保存后会替换成高清版本
         </Text>
       </>
     )
+  }
+
+  renderAvatars = () => {
+    const { $ } = this.context
+    const { avatars } = $.state
+    return arrGroup(avatars, 5).map((items, index) => (
+      <Flex key={index} justify='between'>
+        {items.map((item: string, idx: number) => (
+          <Image
+            key={`${idx}|${item}`}
+            style={_.mb.md}
+            src={item}
+            size={60}
+            radius={30}
+            border={_.__colorPlain__}
+            borderWidth={0}
+            shadow
+            onPress={() => $.onSelectAvatar(item)}
+          />
+        ))}
+      </Flex>
+    ))
   }
 
   renderRefresh() {
@@ -264,6 +326,8 @@ class UserSetting extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
+    const { selectedIndex } = $.state
     return (
       <View style={_.container.plain}>
         {this.renderPreview()}
@@ -273,7 +337,10 @@ class UserSetting extends React.Component {
           keyboardDismissMode='on-drag'
         >
           {this.renderForm()}
-          {this.renderOnlineBgs()}
+          {this.renderTabs()}
+          {selectedIndex === 0 && this.renderOnlineBgs()}
+          {selectedIndex === 1 && this.renderPixivs()}
+          {selectedIndex === 2 && this.renderAvatars()}
         </ScrollView>
         {this.renderRefresh()}
       </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-05 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:19:41
+ * @Last Modified time: 2022-08-06 00:54:32
  */
 import { _ } from '@stores'
 
@@ -76,6 +76,11 @@ export const memoStyles = _.memoStyles(() => {
     icon: {
       width: 40,
       height: 40
+    },
+    segment: {
+      width: _.r(_.window.contentWidth),
+      height: _.r(36),
+      marginBottom: _.md + 16
     }
   }
 })

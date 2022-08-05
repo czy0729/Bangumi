@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:29:08
+ * @Last Modified time: 2022-08-06 01:07:57
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { getTimestamp, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
-import { API_SETU } from '@constants'
+import { API_RANDOM_AVATAR, API_SETU } from '@constants'
 
+const namespace = 'ScreenUserSetting'
 const onlineBgsUrl = 'https://gitee.com/a296377710/bangumi/raw/master/bg.json'
 const regBg = /\[bg\](.+?)\[\/bg\]/
 const regAvatar = /\[avatar\](.+?)\[\/avatar\]/
@@ -24,23 +25,37 @@ export default class ScreenUserSetting extends store {
     sign_input: '',
     avatar: '',
     bg: '',
+    selectedIndex: 0,
     bgs: [],
+    pixivs: [],
+    avatars: [],
     _loaded: false
   })
 
   init = async () => {
-    const res = this.fetchUserSetting()
-    await res
+    const state = (await this.getStorage(namespace)) || {}
     this.setState({
-      bg: this.bg,
-      avatar: this.avatar
+      state
     })
 
-    this.fetchSetus()
-    return res
+    await this.onInit()
+    this.onRefresh()
+    return true
   }
 
   // -------------------- fetch --------------------
+  fetchUserSetting = async () => {
+    const data = await userStore.fetchUserSetting()
+    const { nickname = '', sign_input = '' } = data
+    this.setState({
+      nickname,
+      sign_input
+    })
+    this.setStorage(namespace)
+    return data
+  }
+
+  /** 预设背景 */
   fetchBgs = async () => {
     const bgs =
       (await fetch(`${onlineBgsUrl}?t=${getTimestamp()}`).then(response =>
@@ -49,15 +64,36 @@ export default class ScreenUserSetting extends store {
     this.setState({
       bgs
     })
+    this.setStorage(namespace)
     return bgs
   }
 
+  /** 随机头像 */
+  fetchAvatars = async () => {
+    const data = []
+    for (let i = 0; i < 10; i += 1) {
+      data.push(await fetch(API_RANDOM_AVATAR()).then(res => res.url))
+      if (i === 4) {
+        this.setState({
+          avatars: data
+        })
+      }
+    }
+
+    this.setState({
+      avatars: data
+    })
+    this.setStorage(namespace)
+    return data
+  }
+
+  /** 随机背景 */
   fetchSetus = async () => {
     const data = []
     data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
     data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
     this.setState({
-      bgs: data
+      pixivs: data
         .filter(item => item.width * 1.28 >= item.height)
         .map(item => item.urls.small)
     })
@@ -65,22 +101,35 @@ export default class ScreenUserSetting extends store {
     data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
     data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
     this.setState({
-      bgs: data
+      pixivs: data
         .filter(item => item.width * 1.28 >= item.height)
         .map(item => item.urls.small)
     })
-
+    this.setStorage(namespace)
     return data
   }
 
-  fetchUserSetting = async () => {
-    const data = await userStore.fetchUserSetting()
-    const { nickname = '', sign_input = '' } = data
+  onInit = async (resume: boolean = false) => {
+    await this.fetchUserSetting()
+
+    const { sign } = this.userSetting
+    const _bgs = sign.match(regBg)
+    const _avatars = sign.match(regAvatar)
     this.setState({
-      nickname,
-      sign_input
+      bg: HTMLDecode(String(_bgs ? String(_bgs[1]).trim() : '').replace(regFixed, '')),
+      avatar: HTMLDecode(
+        String(_avatars ? String(_avatars[1]).trim() : '').replace(regFixed, '')
+      )
     })
-    return data
+
+    if (resume) info('已还原')
+  }
+
+  onRefresh = () => {
+    const { selectedIndex } = this.state
+    if (selectedIndex === 0) return this.fetchBgs()
+    if (selectedIndex === 1) return this.fetchSetus()
+    if (selectedIndex === 2) return this.fetchAvatars()
   }
 
   // -------------------- get --------------------
@@ -107,7 +156,7 @@ export default class ScreenUserSetting extends store {
 
     const { sign } = this.userSetting
     const _bgs = sign.match(regBg)
-    return String(_bgs ? String(_bgs[1]).trim() : '').replace(regFixed, '')
+    return HTMLDecode(String(_bgs ? String(_bgs[1]).trim() : '').replace(regFixed, ''))
   }
 
   @computed get avatar() {
@@ -116,11 +165,13 @@ export default class ScreenUserSetting extends store {
 
     const { sign } = this.userSetting
     const _avatars = sign.match(regAvatar)
-    return String(_avatars ? String(_avatars[1]).trim() : '').replace(regFixed, '')
+    return HTMLDecode(
+      String(_avatars ? String(_avatars[1]).trim() : '').replace(regFixed, '')
+    )
   }
 
   // -------------------- action --------------------
-  changeText = (key: string, value: string) => {
+  onChangeText = (key: string, value: string) => {
     this.setState({
       [key]: value
     })
@@ -129,6 +180,12 @@ export default class ScreenUserSetting extends store {
   onSelectBg = (bg: string) => {
     this.setState({
       bg
+    })
+  }
+
+  onSelectAvatar = (avatar: string) => {
+    this.setState({
+      avatar
     })
   }
 
@@ -180,8 +237,23 @@ export default class ScreenUserSetting extends store {
         this.setState({
           bg: _bg
         })
+        this.setStorage(namespace)
       },
       () => {}
     )
+  }
+
+  onValueChange = (selectedIndex: number) => {
+    this.setState({
+      selectedIndex
+    })
+
+    if (
+      (selectedIndex === 0 && !this.state.bgs.length) ||
+      (selectedIndex === 1 && !this.state.pixivs.length) ||
+      (selectedIndex === 2 && !this.state.avatars.length)
+    ) {
+      this.onRefresh()
+    }
   }
 }
