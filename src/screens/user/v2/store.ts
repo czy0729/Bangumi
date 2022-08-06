@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:26:30
+ * @Last Modified time: 2022-08-06 02:40:07
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
-import { debounce, x18, feedback, info } from '@utils'
+import { debounce, x18, feedback, info, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
@@ -191,13 +191,13 @@ export default class ScreenUser extends store {
   @computed get avatar() {
     const avatars = this.sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     const src = avatars ? String(avatars[1]).trim() : ''
-    return /(jpg|jpeg|png|bmp|gif)$/.test(src) ? src : ''
+    return HTMLDecode(src)
   }
 
   /** 自定义背景 */
   @computed get bg() {
     const bgs = this.sign.match(/\[bg\](.+?)\[\/bg\]/)
-    return bgs ? String(bgs[1]).trim() : ''
+    return HTMLDecode(bgs ? String(bgs[1]).trim() : '')
   }
 
   /** 当前类型 key */
