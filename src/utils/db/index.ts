@@ -1,29 +1,20 @@
 /*
  * gitee as DB
+ *
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 16:05:24
+ * @Last Modified time: 2022-08-06 13:12:57
  */
 import Constants from 'expo-constants'
-import Crypto from '../crypto'
 import { xhrCustom as xhr } from '../fetch'
 import Base64 from '../thirdParty/base64'
 import { log } from '../dev'
+import { OAUTH_DATA, REPO_DATA } from './ds'
 
-const oauthData = Crypto.get<object>(
-  // eslint-disable-next-line max-len
-  'U2FsdGVkX1+2Hf/JvbnfvOEdqz5ayd5qAAcIjXSSMc8yHARLhUWTUgLL0prbV6o2QEOp1xRe5OVIr1+SFUb1T610pgaGCNnChIAxe3V6PKvOjYTmjGpp9wwWunmuR3HgIUzoNydW37XAONnhIoifG3BIR4ZzzDgxE4xKVSIYUTYjgKCmVkyzDRA6f+i0lUAve5YUmjb1xp5rORzJK5nCHrdUiDuzOf//FnKCVXCLMuYflrgcLRfVblZvVI975ODFGhV6oTMSNb3bKpBDZTF/0F3MsN5l5SA90+4WQBZfYFLYXs3OqdPuEyrspSYJHF/w7DUOKzjfLQBw899UFtAG1Gf1d5gSl72b/xJWy4JfCTZdUNu/Gij3E3ASlY8IX/TEQNna468/goYWCRKZKbVWl4vW9Aw0eEb9YXwpCvooFlo='
-)
-
-const repoData = {
-  owner: 'hjbgjuh555',
-  repo: 'bangumi-micro'
-}
-
+const FILE_CACHES = {}
 let accessToken = ''
 let ua = ''
-const files = {}
 
 /**
  * 密码模式
@@ -35,18 +26,19 @@ export async function oauth() {
   const res = await xhr({
     method: 'POST',
     url: 'https://gitee.com/oauth/token',
-    data: oauthData,
+    data: OAUTH_DATA,
     headers: {
       'User-Agent': ua,
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     showLog: false
   })
-
   log(res)
+
   const { access_token } = JSON.parse(res._response)
   accessToken = access_token
   log(`🗃  oauth ${access_token}`)
+
   return accessToken
 }
 
@@ -57,30 +49,29 @@ export async function oauth() {
  * @param {*} path
  */
 export async function read({ path }) {
-  if (!files[path]) {
+  if (!FILE_CACHES[path]) {
     if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
     const res = await xhr({
       method: 'GET',
-      url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
+      url: `https://gitee.com/api/v5/repos/${REPO_DATA.owner}/${REPO_DATA.repo}/contents/${path}`,
       headers: {
         'User-Agent': ua
       },
       showLog: false
     })
-    const { sha, content } = JSON.parse(res._response)
-    if (!sha) {
-      return {}
-    }
 
-    files[path] = {
+    const { sha, content } = JSON.parse(res._response)
+    if (!sha) return {}
+
+    FILE_CACHES[path] = {
       sha,
       content: Base64.atob(content)
     }
     log(`🗃  read ${path}`)
   }
 
-  return files[path]
+  return FILE_CACHES[path]
 }
 
 /**
@@ -92,7 +83,7 @@ export async function add({ path, content, message }) {
 
   const res = await xhr({
     method: 'POST',
-    url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
+    url: `https://gitee.com/api/v5/repos/${REPO_DATA.owner}/${REPO_DATA.repo}/contents/${path}`,
     data: {
       access_token: accessToken,
       content: Base64.btoa(content),
@@ -106,17 +97,15 @@ export async function add({ path, content, message }) {
   })
   const data = JSON.parse(res._response)
 
-  if (!data?.content?.sha) {
-    return false
-  }
+  if (!data?.content?.sha) return false
 
-  files[path] = {
+  FILE_CACHES[path] = {
     sha: data.content.sha,
     content
   }
 
   log(`🗃  add ${path}`)
-  return files[path]
+  return FILE_CACHES[path]
 }
 
 /**
@@ -126,13 +115,13 @@ export async function add({ path, content, message }) {
  *  - 提示, content不允许携带中文, 请先escape或encode
  */
 export async function update({ path, content, sha, message }) {
-  if (content === files[path].content) return files[path]
+  if (content === FILE_CACHES[path].content) return FILE_CACHES[path]
 
   if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
   const res = await xhr({
     method: 'PUT',
-    url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
+    url: `https://gitee.com/api/v5/repos/${REPO_DATA.owner}/${REPO_DATA.repo}/contents/${path}`,
     data: {
       access_token: accessToken,
       content: Base64.btoa(content),
@@ -149,18 +138,16 @@ export async function update({ path, content, sha, message }) {
   const data = JSON.parse(res._response)
   if (!data?.content?.sha) return false
 
-  files[path] = {
+  FILE_CACHES[path] = {
     sha: data.content.sha,
     content
   }
 
   log(`🗃  update ${path}`)
-  return files[path]
+  return FILE_CACHES[path]
 }
 
-/**
- * 自动写入
- */
+/** 自动写入 */
 export async function put({
   path,
   content,
@@ -174,9 +161,7 @@ export async function put({
     /**
      * 获取access_token
      */
-    if (!accessToken) {
-      await oauth()
-    }
+    if (!accessToken) await oauth()
 
     /**
      * 检查path是否存在
@@ -188,7 +173,6 @@ export async function put({
       ? update({ path, content, sha, message })
       : add({ path, content, message })
   } catch (error) {
-    // warn('utils/db', 'put', error)
     return false
   }
 }

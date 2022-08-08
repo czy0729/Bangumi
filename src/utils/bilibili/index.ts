@@ -4,33 +4,30 @@
  * @Author: czy0729
  * @Date: 2022-08-03 11:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 06:26:30
+ * @Last Modified time: 2022-08-06 13:09:15
  */
 import { similar } from '../utils'
 import { xhrCustom } from '../fetch'
 import { HTMLDecode } from '../html'
 import { t2s } from '../thirdParty/cn-char'
-import { devLog } from '@components'
 
 /** 搜索页 */
 const HTML_SEARCH = (q: string) => {
   return `https://search.bilibili.com/all?keyword=${q}`
 }
 
+/** 去除部分干扰匹配的文字 */
 const REG_FIXED =
   /ORIGINAL|SOUNDTRACK|SOUNDTRACKS|SOUND|TRACKS|TRACK|OST|CD|オリジナルサウンドトラック|剧场版|音乐集|游戏|原声集/g
 
-/**
- * 搜索
- * @param q
- */
+/** 搜索 */
 export async function search(q: string, artist: string) {
   let _q = q
   if (_q.length <= 10 && artist && artist.length <= 6) _q += ` ${artist}`
+
   const { _response } = await xhrCustom({
     url: HTML_SEARCH(_q)
   })
-  devLog(_q)
 
   try {
     let data: any
@@ -58,10 +55,9 @@ export async function search(q: string, artist: string) {
           cover: item.pic.indexOf('http') === 0 ? item.pic : `https:${item.pic}`,
           href: `https://m.bilibili.com/video/${item.bvid}`
         }))
-        .filter((item, index) => {
+        .filter((item: { title: string }) => {
           const title = item.title.toLocaleUpperCase().replace(REG_FIXED, '').trim()
 
-          if (index <= 2) devLog(title, _q)
           if (similar(title, _q) >= SIMILAR_RATE || title.includes(_q)) {
             return true
           }
@@ -85,5 +81,6 @@ export async function search(q: string, artist: string) {
     console.error(ex)
     return []
   }
+
   return []
 }

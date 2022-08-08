@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 13:43:12
+ * @Last Modified time: 2022-08-07 04:14:59
  */
 import {
   Avatar,
@@ -26,7 +26,7 @@ export type Friend = {
 }
 
 /** 好友列表 */
-export type Friends = ListEmpty<Partial<Friend>>
+export type Friends = ListEmpty<Friend>
 
 /** 好友对象 */
 export type FriendsMap = Record<UserId, Friend>
@@ -37,7 +37,7 @@ export type MyFriendsMap = Record<UserId, true | number> & {
 }
 
 /** 用户信息 */
-export type Users = Partial<{
+export type Users = {
   userId: UserId
   userName: string
   sign: HTMLText
@@ -54,7 +54,7 @@ export type Users = Partial<{
   disconnectUrl: string
   formhash: string
   _loaded: number
-}>
+}
 
 /** 用户收藏的虚拟角色 */
 export type Characters = ListEmpty<

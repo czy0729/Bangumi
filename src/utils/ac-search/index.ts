@@ -1,10 +1,11 @@
 /*
  * AC 自动机
+ *
  * @Doc: https://github.com/theLAZYmd/aho-corasick
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-02 14:14:50
+ * @Last Modified time: 2022-08-06 13:07:31
  */
 import lazyac from 'lazy-aho-corasick'
 import anime from '@assets/json/substrings.json'
@@ -18,6 +19,7 @@ const CACHE: {
   [hash: string]: string[]
 } = {}
 
+/** subject cn => subject id */
 const SUBSTRINGS: {
   [cn: string]: number
 } = {}
@@ -65,7 +67,7 @@ function initLazyac() {
             )
           )
 
-          // 把 subject name => subject id 插入 SUBSTRINGS
+          // 把 subject cn => subject id 插入 SUBSTRINGS
           cns.forEach((cn: string) => {
             SUBSTRINGS[cn] = anime[cn] || game[cn] || book[cn]
           })
@@ -107,6 +109,7 @@ export function acSearch(str: string) {
   return results
 }
 
+/** subject cn => subject id */
 export function getSubStrings() {
   return SUBSTRINGS
 }

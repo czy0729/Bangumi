@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 13:41:25
+ * @Last Modified time: 2022-08-07 04:08:59
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -243,7 +243,7 @@ class UsersStore
     return friends
   }
 
-  /** 用户 */
+  /** 用户信息 (他人视角) */
   fetchUsers = async (args?: { userId?: UserId }) => {
     const { userId = userStore.myId } = args || {}
     const html = await fetchHTML({

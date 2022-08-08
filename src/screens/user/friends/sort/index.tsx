@@ -2,26 +2,28 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:12:31
+ * @Last Modified time: 2022-08-07 08:28:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, SegmentedControl } from '@components'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-const typeDS = ['默认', '同步率', '最近']
+const typeDS = ['默认', '同步率', '最近'] as const
 
-function Sort({ $ }) {
-  const { sort } = $.state
+function Sort({ $ }: Ctx) {
+  const { sort, _loaded } = $.state
   return (
     <View>
       <SegmentedControl
+        key={String(_loaded)}
         style={styles.segment}
         size={11}
         values={typeDS}
         selectedIndex={sort === 'percent' ? 1 : sort === 'recent' ? 2 : 0}
-        onValueChange={$.sort}
+        onValueChange={$.onSort}
       />
       <Heatmap id='好友.排序' />
     </View>
@@ -29,11 +31,3 @@ function Sort({ $ }) {
 }
 
 export default ob(Sort)
-
-const styles = _.create({
-  segment: {
-    width: _.r(144),
-    height: _.r(28),
-    marginRight: _.xs
-  }
-})

@@ -74,7 +74,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   /** 大 */
   readonly lg = _.lg
 
-  /** @deprecated 底部留空 */
+  /** 底部留空 */
   readonly bottom = _.bottom
 
   /** 圆角超小 */

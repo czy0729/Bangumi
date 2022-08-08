@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 15:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-04 16:35:07
+ * @Last Modified time: 2022-08-07 09:14:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,15 +16,11 @@ const d1ts = 24 * 60 * 60
 const d3ts = 3 * d1ts
 
 export const UserStatus = observer(({ style, last, children }) => {
-  if (!last) {
-    return children
-  }
+  if (!last) return children
 
   const ts = getTimestamp()
   const distance = ts - last
-  if (distance > d3ts) {
-    return children
-  }
+  if (distance > d3ts) return children
 
   const styles = memoStyles()
   return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 05:27:45
+ * @Last Modified time: 2022-08-07 04:45:13
  */
 
 /** User */
@@ -14,6 +14,7 @@ export default {
   // 好友
   '好友.跳转': 'Friends.to',
   '好友.排序': 'Friends.sort',
+  '好友.右上角菜单': 'Friends.topRightMenu',
 
   // 我的
   '我的.跳转': 'User.to',

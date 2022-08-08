@@ -4,10 +4,9 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:00:57
+ * @Last Modified time: 2022-08-06 13:04:10
  */
-import { HOST_NAME, IOS } from '@constants/constants'
-import { HOST, HOST_CDN } from '@constants/constants'
+import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { Fn } from '@types'
 import { urlStringify } from '../utils'
 import { getUserStoreAsync } from '../async'

@@ -1,8 +1,10 @@
 /*
+ * 加密
+ *
  * @Author: czy0729
  * @Date: 2022-05-10 04:54:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 15:42:59
+ * @Last Modified time: 2022-08-06 13:05:24
  */
 import CryptoJS from 'crypto-js'
 import { APP_ID } from '@constants/constants'

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 23:43:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-02 13:06:04
+ * @Last Modified time: 2022-08-06 13:13:40
  */
 import { asc, similar, sleep } from '../utils'
 import { xhrCustom } from '../fetch'
@@ -12,6 +12,7 @@ import { cheerio } from '../html'
 import { DoubanId, Cat, SubType, SearchItem, VideoItem, TrailerItem } from './types'
 
 const HOST = 'https://www.douban.com'
+
 const HOST_MOVIE = 'https://movie.douban.com'
 
 /** 搜索页 */

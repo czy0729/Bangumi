@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 17:55:46
+ * @Last Modified time: 2022-08-07 09:00:55
  */
 import { InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -303,21 +303,42 @@ export function parseIOS8601(isostr: string, format = 'Y-m-d') {
   return date(format, timestamp)
 }
 
-/**
- * 返回timestamp
- */
+/** 返回 timestamp */
 export function getTimestamp(date = '') {
   const _date = trim(date)
   if (_date) return dayjs(_date).unix()
   return dayjs().unix()
 }
 
+/** xd xh xm xs ago => timestamp */
+export function getRecentTimestamp(recent: string) {
+  try {
+    let timestamp = 0
+    const d = recent.match(/\d+d/g)
+    if (d) timestamp += parseInt(d[0]) * 24 * 60 * 60
+
+    const h = recent.match(/\d+h/g)
+    if (h) timestamp += parseInt(h[0]) * 60 * 60
+
+    const m = recent.match(/\d+m/g)
+    if (m) timestamp += parseInt(m[0]) * 60
+
+    const s = recent.match(/\d+s/g)
+    if (s) timestamp += parseInt(s[0])
+
+    return timestamp
+  } catch (error) {
+    return 0
+  }
+}
+
+const _y = date('y', getTimestamp())
+
 /**
  * 返回最简单的时间表达
  * @version 190430 1.1
  * @return {String} *time 时间戳字符串
  */
-const _y = date('y', getTimestamp())
 export function simpleTime(time = '') {
   if (!time) return '-'
 

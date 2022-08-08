@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-05-04 16:24:25
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-05-04 16:24:25
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-07 09:11:17
  */
 import { _ } from '@stores'
 
@@ -25,5 +25,8 @@ export const memoStyles = _.memoStyles(() => ({
   },
   badgeWarning: {
     backgroundColor: _.colorWarning
+  },
+  badgeDisabled: {
+    backgroundColor: _.colorDisabled
   }
 }))

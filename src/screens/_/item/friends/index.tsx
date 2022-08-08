@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 04:50:47
+ * @Last Modified time: 2022-08-07 09:07:20
  */
 import React from 'react'
 import Progress from '@ant-design/react-native/lib/progress'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
+import { getRecentTimestamp, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Avatar } from '../../base'
+import Name from './name'
+import Counts from './counts'
 import { memoStyles } from './styles'
 import { Props as ItemFriendsProps } from './types'
 
@@ -29,13 +32,21 @@ export const ItemFriends = ob(
     doing,
     collect,
     wish,
+    onHold,
     dropped,
+    filter,
     event = EVENT,
-    children,
-    onHold
+    children
   }: ItemFriendsProps) => {
     const styles = memoStyles()
     const wrapWidth = _.window.contentWidth - 144
+
+    let last = 0
+    if (String(recent).includes('ago')) {
+      last = getTimestamp() - getRecentTimestamp(recent)
+    } else if (recent) {
+      last = getTimestamp(recent)
+    }
     return (
       <Touchable
         style={styles.container}
@@ -55,91 +66,31 @@ export const ItemFriends = ob(
         }}
       >
         <Flex>
-          <Avatar
-            navigation={navigation}
-            style={styles.image}
-            name={userName}
-            userId={userId}
-            src={avatar}
-          />
+          <UserStatus last={last}>
+            <Avatar
+              navigation={navigation}
+              style={styles.image}
+              name={userName}
+              userId={userId}
+              src={avatar}
+            />
+          </UserStatus>
           <Flex.Item style={styles.item}>
             <Flex>
               <Flex.Item>
-                <Text numberOfLines={1} bold>
-                  {userName}
-                </Text>
+                <Name userName={userName} filter={filter} />
               </Flex.Item>
               <Text style={_.ml.sm} size={13}>
                 {recent}
               </Text>
             </Flex>
-            <Flex style={styles.count}>
-              {!!collect && (
-                <>
-                  <Iconfont
-                    style={_.mr.xs}
-                    name='md-check'
-                    size={14}
-                    color={_.colorSub}
-                  />
-                  <Text style={_.mr.sm} size={11} type='sub'>
-                    {collect}
-                  </Text>
-                </>
-              )}
-              {!!wish && (
-                <>
-                  <Iconfont
-                    style={_.mr.xs}
-                    name='md-favorite'
-                    size={12}
-                    color={_.colorSub}
-                  />
-                  <Text style={_.mr.sm} size={11} type='sub'>
-                    {wish}
-                  </Text>
-                </>
-              )}
-              {!!doing && (
-                <>
-                  <Iconfont
-                    style={_.mr.xs}
-                    name='md-visibility'
-                    size={14}
-                    color={_.colorSub}
-                  />
-                  <Text style={_.mr.sm} size={11} type='sub'>
-                    {doing}
-                  </Text>
-                </>
-              )}
-              {!!onHold && (
-                <>
-                  <Iconfont
-                    style={_.mr.xs}
-                    name='md-visibility-off'
-                    size={13}
-                    color={_.colorSub}
-                  />
-                  <Text style={_.mr.sm} size={11} type='sub'>
-                    {onHold}
-                  </Text>
-                </>
-              )}
-              {!!dropped && (
-                <>
-                  <Iconfont
-                    style={_.mr.xs}
-                    name='md-delete-outline'
-                    size={14}
-                    color={_.colorSub}
-                  />
-                  <Text size={11} type='sub'>
-                    {dropped}
-                  </Text>
-                </>
-              )}
-            </Flex>
+            <Counts
+              wish={wish}
+              collect={collect}
+              doing={doing}
+              onHold={onHold}
+              dropped={dropped}
+            />
             <Progress
               style={styles.progress}
               barStyle={styles.bar}

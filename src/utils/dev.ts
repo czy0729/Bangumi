@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 12:00:55
+ * @Last Modified time: 2022-08-06 13:06:14
  */
 // import Toast from '@components/@/ant-design/toast'
 import { DEV, LOG_LEVEL } from '@/config'
@@ -68,14 +68,13 @@ export function now() {
 
 /**
  * 测试log
- *
  * @version 171024 0.1
  * @version 181101 1.0 测试环境才显示
  * @param {String} type  消息类型
  * @param {String} key   消息键
  * @param {Any}    value 消息值
  */
-export function log(type = '', key = '', value = '', ...other) {
+export function log(type: any = '', key: any = '', value: any = '', ...other) {
   if (LOG_LEVEL === 0) return
 
   const res: any[] = [now(), type]

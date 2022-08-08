@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 22:20:56
+ * @Last Modified time: 2022-08-07 07:43:00
  */
 import React from 'react'
 import { Highlight, Text } from '@components'
@@ -61,6 +61,7 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
       }
     }
   }
+
   return (
     <>
       <Highlight numberOfLines={2} bold value={value}>
