@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:04:49
+ * @Last Modified time: 2022-08-08 12:23:01
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { getStorage, setStorage, open } from '@utils'
-import { IOS, HOST_IMAGE_UPLOAD } from '@constants'
+import { IOS, HOST_IMAGE_UPLOAD, scrollViewResetProps } from '@constants'
 import { Text } from '../text'
 import { Bgm } from '../bgm'
 import { Flex } from '../flex'
@@ -580,9 +580,7 @@ export const FixedTextarea = observer(
             height: keyboardHeight + 1
           }}
           contentContainerStyle={this.styles.bgmContainer}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
+          {...scrollViewResetProps}
         >
           {showReplyHistory ? (
             <>

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 10:56:17
+ * @Last Modified time: 2022-08-08 12:26:22
  */
 import React, { useRef } from 'react'
 import { ScrollView as RNScrollView, ScrollViewProps } from 'react-native'
 import { Expand, Fn, ReactNode } from '@types'
 import { ScrollToTop } from '../scroll-to-top'
+import { scrollViewResetProps } from '@constants'
 
 type Props = Expand<
   ScrollViewProps & {
@@ -45,9 +46,7 @@ export const ScrollView = ({
       ref={ref}
       scrollIndicatorInsets={scrollIndicatorInsets}
       {...other}
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      overScrollMode='never'
+      {...scrollViewResetProps}
     >
       {children}
       {scrollToTop && <ScrollToTop scrollTo={scrollViewEl.current} />}

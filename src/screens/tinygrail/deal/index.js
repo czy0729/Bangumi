@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:08:48
+ * @Last Modified time: 2022-08-08 12:30:51
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -11,6 +11,7 @@ import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { scrollViewResetProps } from '@constants'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Header from './header'
 import Form from './form'
@@ -71,9 +72,7 @@ class TinygrailDeal extends React.Component {
               onRefresh={this.onRefresh}
             />
           }
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
+          {...scrollViewResetProps}
         >
           <Flex style={this.styles.form} align='start'>
             <Flex.Item>

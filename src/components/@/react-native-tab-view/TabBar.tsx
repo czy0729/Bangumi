@@ -23,6 +23,7 @@ import {
   Layout,
   Event
 } from 'react-native-tab-view/src/types'
+import { scrollViewResetProps } from '@constants'
 import TabBarItem from './TabBarItem'
 
 export type Props<T extends Route> = SceneRendererProps & {
@@ -360,11 +361,8 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
             keyboardShouldPersistTaps='handled'
             scrollEnabled={scrollEnabled}
             bounces={bounces}
-            alwaysBounceHorizontal={false}
             scrollsToTop={false}
-            showsHorizontalScrollIndicator={false}
-            automaticallyAdjustContentInsets={false}
-            overScrollMode='never'
+            {...scrollViewResetProps}
             contentContainerStyle={[
               styles.tabContent,
               scrollEnabled

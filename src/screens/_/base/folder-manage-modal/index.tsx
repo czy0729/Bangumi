@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 05:54:55
+ * @Last Modified time: 2022-08-08 12:28:06
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -18,6 +18,7 @@ import { ob } from '@utils/decorators'
 import { queue, t } from '@utils/fetch'
 import { info, feedback, confirm } from '@utils/ui'
 import { HTMLDecode } from '@utils/html'
+import { scrollViewResetProps } from '@constants'
 import i18n from '@constants/i18n'
 import { Cover } from '../cover'
 import { Popover } from '../popover'
@@ -653,12 +654,7 @@ export const FolderManageModal = ob(
       const { create, expand } = this.state
       const { list } = this.catalogs
       return (
-        <ScrollView
-          style={this.styles.scrollView}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
-        >
+        <ScrollView style={this.styles.scrollView} {...scrollViewResetProps}>
           {create === true
             ? this.renderCreate()
             : list

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 03:46:22
+ * @Last Modified time: 2022-08-08 12:29:59
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -19,7 +19,7 @@ import {
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { API_AVATAR } from '@constants'
+import { API_AVATAR, scrollViewResetProps } from '@constants'
 import Chat from './chat'
 
 const event = {
@@ -63,9 +63,7 @@ class Say extends React.Component {
           ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={_.container.bottom}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
+          {...scrollViewResetProps}
         >
           <Chat />
         </ScrollView>
@@ -101,9 +99,7 @@ class Say extends React.Component {
           ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={this.styles.list}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
+          {...scrollViewResetProps}
         >
           <Chat />
         </ScrollView>
@@ -120,9 +116,7 @@ class Say extends React.Component {
         style={this.styles.expand}
         contentContainerStyle={this.styles.contentContainerStyle}
         horizontal
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        overScrollMode='never'
+        {...scrollViewResetProps}
       >
         <Flex>
           <Text style={_.ml.sm} size={12} bold>
@@ -151,9 +145,7 @@ class Say extends React.Component {
         style={this.styles.users}
         contentContainerStyle={this.styles.contentContainerStyle}
         horizontal
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        overScrollMode='never'
+        {...scrollViewResetProps}
       >
         {$.users.map(item => (
           <Avatar

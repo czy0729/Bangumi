@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:18:34
+ * @Last Modified time: 2022-08-08 12:25:26
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { scrollViewResetProps } from '@constants'
 import { ViewStyle } from '@types'
 
 type Props = {
@@ -64,9 +65,8 @@ export const HorizontalList = observer(
           style={style}
           contentContainerStyle={contentContainerStyle}
           horizontal
-          showsHorizontalScrollIndicator={false}
           scrollEventThrottle={80}
-          overScrollMode='never'
+          {...scrollViewResetProps}
           onScroll={this.show ? undefined : this.onScroll}
         >
           {this.data.map(renderItem)}

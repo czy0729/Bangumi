@@ -12,7 +12,7 @@ import {
   View
 } from 'react-native'
 import _ from '@styles'
-import { IOS } from '@constants/constants'
+import { IOS, scrollViewResetProps } from '@constants/constants'
 import { Flex } from '../../../flex'
 import { WithTheme } from '../style'
 import TabBarStyles from './style'
@@ -246,14 +246,12 @@ export class DefaultTabBar extends React.PureComponent {
                   this._scrollView = scrollView
                 }}
                 horizontal
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
                 directionalLockEnabled
                 bounces={false}
                 scrollsToTop={false}
                 scrollEnabled={tabs.length > page}
                 keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-                overScrollMode='never'
+                {...scrollViewResetProps}
                 // renderToHardwareTextureAndroid
               >
                 <View

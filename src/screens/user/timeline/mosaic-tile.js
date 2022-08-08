@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-12 04:33:22
+ * @Last Modified time: 2022-08-08 12:31:48
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,6 +12,7 @@ import { date, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { scrollViewResetProps } from '@constants'
 
 const px = 12 * _.ratio
 const margin = 3 * _.ratio
@@ -106,9 +107,7 @@ function MosaicTile(props, { $ }) {
         <ScrollView
           contentContainerStyle={styles.contentContainerStyle}
           horizontal
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
+          {...scrollViewResetProps}
         >
           <View>
             <Flex style={styles.months}>

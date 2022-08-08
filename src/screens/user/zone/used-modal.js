@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:37:25
+ * @Last Modified time: 2022-08-08 12:32:35
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,7 +10,7 @@ import { Loading, Flex, Text, Image } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, timelineStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { hash, HOST_CDN, VERSIONS_AVATAR } from '@constants'
+import { hash, HOST_CDN, VERSIONS_AVATAR, scrollViewResetProps } from '@constants'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
 
 export default
@@ -115,9 +115,7 @@ class UsedModal extends React.Component {
       <ScrollView
         contentContainerStyle={this.styles.avatars}
         horizontal
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        overScrollMode='never'
+        {...scrollViewResetProps}
       >
         {avatar.map(item => (
           <Image
@@ -138,9 +136,7 @@ class UsedModal extends React.Component {
     return (
       <ScrollView
         contentContainerStyle={this.styles.names}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        overScrollMode='never'
+        {...scrollViewResetProps}
       >
         {name._loaded ? (
           name.list.length ? (

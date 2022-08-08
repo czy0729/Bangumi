@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 08:43:53
+ * @Last Modified time: 2022-08-08 12:28:07
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { desc, findSubjectCn } from '@utils'
 import { ob } from '@utils/decorators'
+import { scrollViewResetProps } from '@constants'
 import { Cover } from '../cover'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
 import { memoStyles } from './styles'
@@ -77,9 +78,7 @@ export const HorizontalList = ob(
             style={style}
             contentContainerStyle={this.styles.contentContainerStyle}
             horizontal
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            overScrollMode='never'
+            {...scrollViewResetProps}
             scrollEventThrottle={80}
             onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
           >

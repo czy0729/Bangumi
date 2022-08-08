@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:51:59
+ * @Last Modified time: 2022-08-08 12:32:00
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -10,6 +10,7 @@ import { RenderHtml } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
+import { scrollViewResetProps } from '@constants'
 import { TABS } from './ds'
 
 function About(props, { $, navigation }) {
@@ -28,9 +29,8 @@ function About(props, { $, navigation }) {
         return $.connectRef(ref, index)
       }}
       contentContainerStyle={styles.contentContainerStyle}
-      showsVerticalScrollIndicator={false}
-      overScrollMode='never'
       {...props}
+      {...scrollViewResetProps}
     >
       <View style={styles.page}>
         <RenderHtml

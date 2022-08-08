@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 13:54:04
+ * @Last Modified time: 2022-08-08 12:29:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
-import { URL_DEFAULT_AVATAR } from '@constants'
+import { scrollViewResetProps, URL_DEFAULT_AVATAR } from '@constants'
 import IconCatalog from './icon/catalog'
 import IconHidden from './icon/hidden'
 
@@ -51,9 +51,7 @@ const Catalog = memo(
               <ScrollView
                 contentContainerStyle={styles.contentContainerStyle}
                 horizontal
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
-                overScrollMode='never'
+                {...scrollViewResetProps}
               >
                 {catalog.map(item => (
                   <Touchable

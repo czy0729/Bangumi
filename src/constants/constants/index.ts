@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 13:55:13
+ * @Last Modified time: 2022-08-08 12:22:31
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -452,3 +452,11 @@ export const contextTypes = {
   navigation: PropTypes.object,
   route: PropTypes.object
 }
+
+export const scrollViewResetProps = {
+  alwaysBounceHorizontal: false,
+  alwaysBounceVertical: false,
+  overScrollMode: 'never',
+  showsHorizontalScrollIndicator: false,
+  showsVerticalScrollIndicator: false
+} as const

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 03:14:01
+ * @Last Modified time: 2022-08-08 12:30:30
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Touchable, Text, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { scrollViewResetProps } from '@constants'
 
 function ToolBar({
   style,
@@ -54,10 +55,7 @@ function ToolBar({
         <ScrollView
           contentContainerStyle={styles.contentContainerStyle}
           horizontal
-          alwaysBounceVertical={false}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
+          {...scrollViewResetProps}
         >
           {data.map(item => {
             const isActive = sort === item.value

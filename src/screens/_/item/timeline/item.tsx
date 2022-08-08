@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 12:04:56
+ * @Last Modified time: 2022-08-08 12:28:57
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,7 +13,12 @@ import { appNavigate, findSubjectCn, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
 import { confirm } from '@utils/ui'
-import { HOST_NAME, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
+import {
+  HOST_NAME,
+  IMG_WIDTH_SM,
+  IMG_HEIGHT_SM,
+  scrollViewResetProps
+} from '@constants'
 import { Avatar, Cover, Stars, Name, Popover } from '../../base'
 import { DEFAULT_PROPS, AVATAR_WIDTH, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
 import { matchSubjectId } from './utils'
@@ -264,9 +269,7 @@ const Item = memo(
           style={styles.scrollView}
           contentContainerStyle={styles.images}
           horizontal
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
+          {...scrollViewResetProps}
         >
           {images}
         </ScrollView>

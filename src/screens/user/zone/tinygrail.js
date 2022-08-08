@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-12 06:52:02
+ * @Last Modified time: 2022-08-08 12:32:14
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -12,6 +12,7 @@ import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
+import { scrollViewResetProps } from '@constants'
 import { TABS_WITH_TINYGRAIL } from './ds'
 
 function Tinygrail(props, { $, navigation }) {
@@ -25,9 +26,8 @@ function Tinygrail(props, { $, navigation }) {
         return $.connectRef(ref, index)
       }}
       contentContainerStyle={styles.contentContainerStyle}
-      showsVerticalScrollIndicator={false}
-      overScrollMode='never'
       {...props}
+      {...scrollViewResetProps}
     >
       <View style={styles.page}>
         <Text style={_.mt.lg}>

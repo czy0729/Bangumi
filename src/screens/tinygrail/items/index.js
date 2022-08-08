@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:17:05
+ * @Last Modified time: 2022-08-08 12:31:24
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import { Header, Page, Touchable, Flex, Image, Text, Iconfont } from '@component
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
+import { scrollViewResetProps } from '@constants'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
@@ -36,9 +37,7 @@ class TinygrailItems extends React.Component {
       <ScrollView
         style={_.container.flex}
         contentContainerStyle={_.container.bottom}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        overScrollMode='never'
+        {...scrollViewResetProps}
       >
         {list
           .sort((a, b) => (ITEMS_USED[b.name] || 0) - (ITEMS_USED[a.name] || 0))

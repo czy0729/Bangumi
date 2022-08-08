@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 16:59:31
+ * @Last Modified time: 2022-08-08 12:28:37
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -14,7 +14,7 @@ import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
-import { MODEL_PRIVATE } from '@constants'
+import { MODEL_PRIVATE, scrollViewResetProps } from '@constants'
 import { Private, RatingStatus } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
@@ -229,12 +229,7 @@ export const ManageModal = ob(
 
       const selected = this.state.tags.split(' ')
       return (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
-        >
+        <ScrollView horizontal {...scrollViewResetProps}>
           {tags.map(({ name, count }) => {
             const isSelected = selected.indexOf(name) !== -1
             return (

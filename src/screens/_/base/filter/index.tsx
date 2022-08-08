@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 10:14:44
+ * @Last Modified time: 2022-08-08 12:27:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,6 +12,7 @@ import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { scrollViewResetProps } from '@constants'
 import i18n from '@constants/i18n'
 import { EventKeys } from '@types'
 import { FilterSwitch } from '../filter-switch'
@@ -88,9 +89,7 @@ export const Filter = obc(
                       ref={scrollView => scrollToX(scrollView, item.data, state)}
                       style={styles.contentContainerStyle}
                       horizontal
-                      showsHorizontalScrollIndicator={false}
-                      showsVerticalScrollIndicator={false}
-                      overScrollMode='never'
+                      {...scrollViewResetProps}
                     >
                       {multiple ? (
                         <Flex style={styles.multiple} direction='column' align='start'>

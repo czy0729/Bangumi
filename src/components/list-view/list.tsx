@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 04:55:20
+ * @Last Modified time: 2022-08-08 12:26:37
  */
 import React from 'react'
 import { FlatList, SectionList, Animated } from 'react-native'
@@ -14,7 +14,15 @@ type PassProps = {
   ref?: Fn
   data?: ListEmpty
   sections?: any
+
+  /** https://reactnative.dev/blog/2021/09/01/preparing-your-app-for-iOS-15-and-android-12#overscroll-effect */
   overScrollMode: 'never'
+
+  /** https://reactnative.dev/docs/scrollview#alwaysbouncehorizontal-ios */
+  alwaysBounceHorizontal: false
+
+  /** https://reactnative.dev/docs/scrollview#alwaysbouncevertical-ios */
+  alwaysBounceVertical: false
 }
 
 const ASectionList = Animated.createAnimatedComponent(SectionList)
@@ -32,12 +40,9 @@ function List({
   const passProps: PassProps = {
     ref: connectRef,
     ...other,
-
-    /**
-     * overScrollMode='never'
-     * https://reactnative.dev/blog/2021/09/01/preparing-your-app-for-iOS-15-and-android-12#overscroll-effect
-     */
-    overScrollMode: 'never'
+    overScrollMode: 'never',
+    alwaysBounceHorizontal: false,
+    alwaysBounceVertical: false
   }
 
   if (sections) {

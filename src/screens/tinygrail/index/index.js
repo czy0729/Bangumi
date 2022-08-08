@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:06:27
+ * @Last Modified time: 2022-08-08 12:31:18
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -11,6 +11,7 @@ import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { scrollViewResetProps } from '@constants'
 import { refreshControlProps } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Auth from './auth'
@@ -70,9 +71,7 @@ class Tinygrail extends React.Component {
               onRefresh={this.onRefresh}
             />
           }
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          overScrollMode='never'
+          {...scrollViewResetProps}
         >
           <UM screen={title} />
           <StatusBarEvents backgroundColor='transparent' />

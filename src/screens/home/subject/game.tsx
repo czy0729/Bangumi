@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-23 01:46:32
+ * @Last Modified time: 2022-08-08 12:29:10
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,6 +13,7 @@ import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
+import { scrollViewResetProps } from '@constants'
 import { CDN_GAME } from '@constants/cdn'
 import IconPS from './icon/ps'
 import IconHidden from './icon/hidden'
@@ -56,9 +57,7 @@ class Game extends React.Component {
         style={_.mt.md}
         contentContainerStyle={_.container.wind}
         horizontal
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        overScrollMode='never'
+        {...scrollViewResetProps}
         scrollEventThrottle={80}
         onScroll={scrolled ? undefined : this.onScroll}
       >

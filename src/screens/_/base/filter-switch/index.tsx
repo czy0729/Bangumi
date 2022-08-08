@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 18:51:38
+ * @Last Modified time: 2022-08-08 12:27:38
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { getStorage, setStorage } from '@utils'
 import { obc } from '@utils/decorators'
+import { scrollViewResetProps } from '@constants'
 import { FLITER_SWITCH_LAST_PATH_KEY, FILTER_SWITCH_DS, PATH_MAP } from './ds'
 import { memoStyles } from './styles'
 import { Props as FilterSwitchProps } from './types'
@@ -38,9 +39,7 @@ export const FilterSwitch = obc(
           <ScrollView
             style={styles.contentContainerStyle}
             horizontal
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            overScrollMode='never'
+            {...scrollViewResetProps}
           >
             {FILTER_SWITCH_DS.map(item => {
               const isActive = name === item

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 04:54:07
+ * @Last Modified time: 2022-08-08 12:29:44
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { open } from '@utils'
+import { scrollViewResetProps } from '@constants'
 import IconHidden from '../icon/hidden'
 import Video from './video'
 import Preview from './preview'
@@ -99,9 +100,7 @@ class Thumbs extends React.Component {
             style={_.mt.md}
             contentContainerStyle={_.container.wind}
             horizontal
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            overScrollMode='never'
+            {...scrollViewResetProps}
             scrollEventThrottle={80}
             onScroll={scrolled ? undefined : this.onScroll}
           >
