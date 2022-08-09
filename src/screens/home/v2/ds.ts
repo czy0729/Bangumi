@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-12 09:57:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-19 15:28:55
+ * @Last Modified time: 2022-08-09 11:45:36
  */
 import { _ } from '@stores'
 import { ExcludeState, State, InitItem, PinYinFirstCharacter } from './types'
@@ -33,7 +33,7 @@ export const EXCLUDE_STATE: ExcludeState = {
   filter: '',
   filterPage: -1,
   isFocused: true,
-  _mounted: false
+  renderedTabsIndex: []
 }
 
 /** state */

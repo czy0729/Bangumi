@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 17:53:13
+ * @Last Modified time: 2022-08-09 11:43:39
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -34,6 +34,7 @@ export default obc(({ title = '全部' }, { $ }: Ctx) => {
       data={$.currentCollection(title)}
       title={title}
       scrollToTop={isFocused && TABS[page].title === title}
+      showItem={$.showItem(title)}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
     />

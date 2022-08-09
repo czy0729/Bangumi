@@ -2,18 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-11 17:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:47:10
+ * @Last Modified time: 2022-08-09 11:46:10
  */
 import { _ } from '@stores'
-
-export const memoStylesLazy = _.memoStyles(() => ({
-  lazy: {
-    height: 150,
-    backgroundColor: _.colorPlain,
-    borderBottomWidth: 8,
-    borderBottomColor: _.colorBg
-  }
-}))
 
 export const memoStyles = _.memoStyles(() => {
   const needWind = _.isMobileLanscape || _.isPad

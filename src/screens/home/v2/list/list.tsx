@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:11:09
+ * @Last Modified time: 2022-08-09 11:31:11
  */
 import React, { useCallback } from 'react'
 import { PaginationList2 as ListView } from '@_'
@@ -20,6 +20,7 @@ const List = memo(
     data,
     title,
     scrollToTop,
+    showItem,
     onHeaderRefresh,
     onFooterRefresh
   }) => {
@@ -27,15 +28,21 @@ const List = memo(
 
     const { length } = data.list
     const emptyComponent = <Empty title={title} length={length} />
+
     const _renderItem = useCallback(
-      ({ item, index }) =>
-        renderItem({
+      ({ item, index }) => {
+        // iOS 因为头顶毛玻璃的问题, 不能懒加载 Tab, 所以在 Item 渲染的时候控制是否渲染
+        // 安卓是懒加载, 所以可以一直显示
+        if (!showItem) return null
+        return renderItem({
           item,
           index,
           title
-        }),
-      [title]
+        })
+      },
+      [title, showItem]
     )
+
     return (
       <ListView
         connectRef={connectRef}

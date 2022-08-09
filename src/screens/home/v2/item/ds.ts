@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-12 15:07:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 19:55:45
+ * @Last Modified time: 2022-08-09 11:23:04
  */
 import { _ } from '@stores'
 import { Navigation, Subject, SubjectId } from '@types'
 import { StoreType, TabLabel } from '../types'
 import { memoStyles } from './styles'
 
-export const LIMIT_HEAVY = _.device(8, 16)
+// export const LIMIT_HEAVY = _.device(8, 16)
 
 export const TITLE_HIT_SLOPS = {
   top: _.device(8, 4),

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:38:30
+ * @Last Modified time: 2022-08-09 11:45:39
  */
 import { observable, computed } from 'mobx'
 import {
@@ -23,6 +23,7 @@ import {
   getBangumiUrl,
   getCoverMedium,
   getOnAir,
+  getPinYinFilterValue,
   getTimestamp,
   info,
   open,
@@ -34,8 +35,8 @@ import {
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { find } from '@utils/subject/anime'
-import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import {
+  IOS,
   MODEL_COLLECTIONS_ORDERBY,
   MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
@@ -74,7 +75,7 @@ import {
   NAMESPACE,
   PAGE_LIMIT_GRID,
   PAGE_LIMIT_LIST,
-  PIN_YIN_FIRST_CHARACTER,
+  // PIN_YIN_FIRST_CHARACTER,
   STATE,
   TABS,
   TABS_WITH_GAME
@@ -98,20 +99,16 @@ export default class ScreenHomeV2 extends store {
       this.initFetch()
     }
 
-    setTimeout(() => {
-      this.setState({
-        _mounted: true
-      })
-    }, 2000)
-
     return true
   }
 
   /** 初始化状态 */
   initStore = async () => {
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...state,
       ...EXCLUDE_STATE,
+      renderedTabsIndex: [state?.page || 0],
       _loaded: getTimestamp()
     })
   }
@@ -350,19 +347,7 @@ export default class ScreenHomeV2 extends store {
           ).toUpperCase()
           if (cn.includes(this.filter)) return true
 
-          // 支持每个字符首拼音筛选
-          if (/^[a-zA-Z]+$/.test(this.filter) && cn) {
-            if (!PIN_YIN_FIRST_CHARACTER[cn]) {
-              PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
-                cn,
-                cn.length
-              ).replace(/ /g, '')
-            }
-
-            if (PIN_YIN_FIRST_CHARACTER[cn].includes(this.filter)) return true
-          }
-
-          return false
+          return getPinYinFilterValue(cn, this.filter)
         })
       }
 
@@ -487,9 +472,6 @@ export default class ScreenHomeV2 extends store {
 
   /** 在玩的游戏 */
   @computed get games() {
-    const { filter } = this.state
-    const _filter = filter.toUpperCase()
-
     const { username } = this.usersInfo
     const userCollections = collectionStore.userCollections(
       username || this.userId,
@@ -499,24 +481,12 @@ export default class ScreenHomeV2 extends store {
     return {
       ...userCollections,
       list: userCollections.list.filter(item => {
-        if (!filter.length) return true
+        if (!this.filter.length) return true
 
         const cn = (item.nameCn || item.name || '').toUpperCase()
-        if (cn.includes(_filter)) return true
+        if (cn.includes(this.filter)) return true
 
-        // 支持每个字符首拼音筛选
-        if (/^[a-zA-Z]+$/.test(_filter) && cn) {
-          if (!PIN_YIN_FIRST_CHARACTER[cn]) {
-            PIN_YIN_FIRST_CHARACTER[cn] = getPinYinFirstCharacter(
-              cn,
-              cn.length
-            ).replace(/ /g, '')
-          }
-
-          if (PIN_YIN_FIRST_CHARACTER[cn].includes(_filter)) return true
-        }
-
-        return false
+        return getPinYinFilterValue(cn, this.filter)
       })
     }
   }
@@ -692,11 +662,22 @@ export default class ScreenHomeV2 extends store {
 
   /** 是否存在没有看的章节 */
   hasNewEp(subjectId: SubjectId) {
-    const eps = this.eps(subjectId)
-    const progress = this.userProgress(subjectId)
-    return eps.some(
-      item => item.status === 'Air' && item.type === 0 && !(item.id in progress)
-    )
+    return computed(() => {
+      const eps = this.eps(subjectId)
+      const progress = this.userProgress(subjectId)
+      return eps.some(
+        item => item.status === 'Air' && item.type === 0 && !(item.id in progress)
+      )
+    }).get()
+  }
+
+  /** 是否渲染 Item */
+  showItem(title: TabLabel) {
+    return computed(() => {
+      if (!IOS) return true
+      const index = this.tabs.findIndex(item => item.title === title)
+      return this.state.renderedTabsIndex.includes(index)
+    }).get()
   }
 
   /** -------------------- methods -------------------- */
@@ -706,18 +687,20 @@ export default class ScreenHomeV2 extends store {
       page
     })
 
-    if (page === 4) {
-      this.setState({
-        page,
-        grid: EXCLUDE_STATE.grid
-      })
-      this.fetchDoingGames(true)
-    } else {
-      this.setState({
-        page
-      })
+    const renderedTabsIndex = [...this.state.renderedTabsIndex]
+    if (!renderedTabsIndex.includes(page)) renderedTabsIndex.push(page)
+
+    const state: {
+      page: number
+      grid?: typeof EXCLUDE_STATE.grid
+      renderedTabsIndex: number[]
+    } = {
+      page,
+      renderedTabsIndex
     }
 
+    if (page === 4) state.grid = EXCLUDE_STATE.grid
+    this.setState(state)
     this.setStorage(NAMESPACE)
   }
 

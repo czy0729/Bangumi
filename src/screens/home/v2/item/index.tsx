@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 19:56:03
+ * @Last Modified time: 2022-08-09 11:22:56
  */
 import React from 'react'
-import { View } from 'react-native'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import Item from './item'
-import { LIMIT_HEAVY, Props } from './ds'
-import { memoStylesLazy, memoStyles } from './styles'
+import { Props } from './ds'
+import { memoStyles } from './styles'
 
 export default obc(
   (
@@ -19,10 +18,6 @@ export default obc(
   ) => {
     global.rerender('Home.Item', subject.name_cn || subject.name)
 
-    const { top, _mounted } = $.state
-    if (index >= LIMIT_HEAVY && !_mounted) return <View style={memoStylesLazy().lazy} />
-
-    const { expand } = $.$Item(subjectId)
     return (
       <Item
         navigation={navigation}
@@ -32,9 +27,9 @@ export default obc(
         title={title}
         epStatus={epStatus}
         heatMap={$.heatMap}
-        expand={expand}
+        expand={$.$Item(subjectId).expand}
         epsCount={$.eps(subjectId).length}
-        isTop={top.indexOf(subjectId) !== -1}
+        isTop={$.state.top.indexOf(subjectId) !== -1}
         isFirst={index === 0}
         onItemPress={$.onItemPress}
       />
