@@ -27,7 +27,8 @@ export let AnimatedIcon: any
 const ProviderComponent = ({
   children,
   theme: selectedTheme,
-  iconComponent
+  iconComponent,
+  paddingBottom
 }: HoldMenuProviderProps) => {
   if (iconComponent) AnimatedIcon = Animated.createAnimatedComponent(iconComponent)
 
@@ -54,9 +55,12 @@ const ProviderComponent = ({
     () => ({
       state,
       theme,
-      menuProps
+      menuProps,
+
+      // 底部手势功能线的高度
+      paddingBottom: (paddingBottom || 0) + 24
     }),
-    [state, theme, menuProps]
+    [state, theme, menuProps, paddingBottom]
   )
 
   return (
