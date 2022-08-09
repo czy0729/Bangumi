@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 06:26:45
+ * @Last Modified time: 2022-08-08 12:06:39
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -29,7 +29,8 @@ const Filter = memo(
         height: aHeight.current.interpolate({
           inputRange: [0, 1],
           outputRange: [0, 56]
-        })
+        }),
+        overflow: 'hidden'
       }),
       []
     )
@@ -55,6 +56,7 @@ const Filter = memo(
     }, [isTabActive, showFilter])
 
     return (
+      // @ts-ignore
       <Animated.View style={animatedStyles}>
         <View style={styles.container}>
           <Flex style={styles.filter} justify='center'>

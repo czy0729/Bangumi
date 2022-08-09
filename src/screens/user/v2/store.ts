@@ -6,7 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
-import { debounce, x18, feedback, info, HTMLDecode } from '@utils'
+import { debounce, x18, feedback, info, HTMLDecode, t2s } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
@@ -291,12 +291,7 @@ export default class ScreenUser extends store {
     }).get()
   }
 
-  /**
-   * 用户收藏
-   * @param {*} subjectType
-   * @param {*} type
-   * @returns
-   */
+  /** 用户收藏 */
   userCollections(subjectType: SubjectType, type) {
     return computed(() => {
       // eslint-disable-next-line prefer-const
@@ -309,7 +304,7 @@ export default class ScreenUser extends store {
       if (this.isTabActive(subjectType, type, true)) {
         const { filter } = this.state
         if (filter) {
-          const _filter = filter.toUpperCase()
+          const _filter = t2s(filter.toUpperCase())
           list = list.filter(item => {
             const cn = (item.nameCn || '').toUpperCase()
             const jp = (item.name || '').toUpperCase()

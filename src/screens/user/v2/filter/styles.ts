@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-08-05 05:39:58
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-08-05 05:39:58
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-09 10:35:42
  */
 import { _ } from '@stores'
 
@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: 56
   },
   filter: {
-    paddingTop: _.sm - 2,
+    paddingTop: _.sm - 4,
     paddingBottom: _.sm
   },
   wrap: {
@@ -38,6 +38,7 @@ export const memoStyles = _.memoStyles(() => ({
     top: 0,
     right: 0,
     width: 44,
-    height: 44
+    height: 44,
+    marginTop: -4
   }
 }))

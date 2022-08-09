@@ -2,17 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 12:19:02
+ * @Last Modified time: 2022-08-09 10:56:21
  */
 import { _ } from '@stores'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_HEIGHT } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
-  },
-  imgContainer: {
-    width: IMG_WIDTH
   },
   wrap: {
     paddingVertical: _.md,
@@ -29,9 +26,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
-  },
-  katakanas: {
-    marginTop: -6
   },
   collection: {
     position: 'absolute',
@@ -52,13 +46,5 @@ export const memoStyles = _.memoStyles(() => ({
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
-  },
-  tag: {
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    marginRight: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
   }
 }))

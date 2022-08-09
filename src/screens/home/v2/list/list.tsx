@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:34:41
+ * @Last Modified time: 2022-08-09 10:11:09
  */
 import React, { useCallback } from 'react'
 import { PaginationList2 as ListView } from '@_'
@@ -46,6 +46,7 @@ const List = memo(
         data={data.list}
         limit={10}
         scrollToTop={scrollToTop}
+        keyboardDismissMode='on-drag'
         ListHeaderComponent={<Filter title={title} length={length} />}
         renderItem={_renderItem}
         footerEmptyDataComponent={emptyComponent}

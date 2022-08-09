@@ -2,21 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 07:43:00
+ * @Last Modified time: 2022-08-09 10:02:58
  */
 import React from 'react'
 import { Highlight, Text } from '@components'
 import { _ } from '@stores'
-import { cnjp, HTMLDecode } from '@utils'
+import { cnjp, HTMLDecode, getPinYinFilterValue } from '@utils'
 import { obc } from '@utils/decorators'
-import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import { WEEK_DAY_MAP } from '../ds'
 import { Props } from './types'
-
-const PIN_YIN_FIRST_CHARACTER = {}
 
 function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
   const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
@@ -33,38 +30,12 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
     cnjp(_subject?.name_cn || subject.name_cn, _subject?.name || subject.name)
   )
 
-  let value = ''
-  if ($.isFilter(tabLabel)) {
-    if ($.filter) {
-      if (/^[a-zA-Z]+$/.test($.filter)) {
-        // 简单过滤掉不能获得拼音的字符
-        const _title = title.replace(
-          /~| |!|\?|;|:|"|&|\.|，|。|？|！|：|“|”|；|（|）/g,
-          ''
-        )
-        if (!PIN_YIN_FIRST_CHARACTER[_title]) {
-          PIN_YIN_FIRST_CHARACTER[_title] = getPinYinFirstCharacter(
-            _title,
-            _title.length
-          ).replace(/ /g, '')
-        }
-
-        const pinyin = PIN_YIN_FIRST_CHARACTER[_title]
-        if (typeof pinyin === 'string' && pinyin) {
-          const index = pinyin.indexOf($.filter)
-          if (index !== -1) {
-            value = _title.slice(index, index + $.filter.length)
-          }
-        }
-      } else if (!value) {
-        value = $.filter
-      }
-    }
-  }
+  let filterValue = ''
+  if ($.isFilter(tabLabel)) filterValue = getPinYinFilterValue(title, $.filter)
 
   return (
     <>
-      <Highlight numberOfLines={2} bold value={value}>
+      <Highlight numberOfLines={2} bold value={filterValue}>
         {title}
       </Highlight>
       {!!doing && (

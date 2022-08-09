@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 12:25:55
+ * @Last Modified time: 2022-08-08 16:26:57
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -38,6 +38,7 @@ export const ItemCollections = ob(
     isCatalog,
     isEditable,
     event,
+    filter,
     onEdit
   }: ItemCollectionsProps) => {
     global.rerender('Component.ItemCollections')
@@ -69,6 +70,7 @@ export const ItemCollections = ob(
         isCatalog={isCatalog}
         isEditable={isEditable}
         event={event}
+        filter={filter}
         onEdit={onEdit}
       />
     )

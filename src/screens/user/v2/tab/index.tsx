@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:24:35
+ * @Last Modified time: 2022-08-09 10:57:05
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -124,7 +124,7 @@ class Tab extends React.Component<Props> {
         <TabView
           key={_.orientation}
           lazy
-          lazyPreloadDistance={1}
+          lazyPreloadDistance={0}
           navigationState={this.navigationState}
           renderTabBar={this.renderTabBar}
           renderScene={this.renderScene}

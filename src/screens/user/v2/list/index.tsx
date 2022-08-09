@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:24:18
+ * @Last Modified time: 2022-08-08 16:10:46
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
-import { ItemCollections, ItemCollectionsGrid } from '@_'
+import { Loading, ListView, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { matchYear, keyExtractor } from '@utils'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { IOS, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
-import { CollectionStatus, SubjectTypeCn } from '@types'
+import { MODEL_COLLECTION_STATUS } from '@constants'
+import { CollectionStatus } from '@types'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
+import ItemList from './item-list'
+import ItemGrid from './item-grid'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
 class List extends React.Component<Props> {
   state = {
-    // @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
+    // @issue 列表的滚回顶部 scrollToLocation 不知道如何正确使用
     // 暂时使用重新渲染的办法解决列表变换置顶问题
     hide: false
   }
@@ -52,54 +53,19 @@ class List extends React.Component<Props> {
   }
 
   renderItem = ({ item, index }) => {
-    const { $, navigation }: Ctx = this.context
-    const { page } = this.props
-    const { list, subjectType, showYear } = $.state
-    const event = {
-      id: '我的.跳转'
-    }
-    const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)
-
+    const { $ }: Ctx = this.context
+    const { list } = $.state
     if (list) {
-      // {index === 0 && (
-      //   <Heatmap
-      //     id='我的.跳转'
-      //     data={{
-      //       to: 'Subject',
-      //       alias: '条目'
-      //     }}
-      //   />
-      // )}
-
-      const { key } = TABS[page]
+      const { page } = this.props
       return (
-        <ItemCollections
-          navigation={navigation}
-          index={index}
-          isDo={key === 'do'}
-          isDropped={key === 'dropped'}
-          isOnHold={key === 'on_hold'}
-          showLabel={false}
-          type={typeCn}
-          userCollection={$.label}
-          event={event}
-          {...item}
-        />
+        <>
+          <ItemList item={item} page={page} />
+          {index === 0 && <Heatmap id='我的.跳转' to='Subject' alias='条目' />}
+        </>
       )
     }
 
-    return (
-      <ItemCollectionsGrid
-        navigation={navigation}
-        index={index}
-        num={this.userGridNum}
-        type={typeCn}
-        userCollection={$.label}
-        event={event}
-        {...item}
-        airtime={showYear ? matchYear(item.tip) : false}
-      />
-    )
+    return <ItemGrid item={item} numColumns={this.userGridNum} />
   }
 
   render() {
@@ -116,9 +82,8 @@ class List extends React.Component<Props> {
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(title)
     )
 
-    const { _loaded } = userCollections
-    if (!_loaded) {
-      return <Loading style={IOS ? _.container.plain : _.container._plain} />
+    if (!userCollections._loaded) {
+      return <Loading style={_.ios(_.container.plain, _.container._plain)} />
     }
 
     const numColumns = list ? undefined : this.userGridNum
@@ -131,9 +96,10 @@ class List extends React.Component<Props> {
         style={this.styles.listView}
         contentContainerStyle={list ? this.styles.list : this.styles.grid}
         data={userCollections}
-        lazy={12}
         numColumns={numColumns}
         renderItem={this.renderItem}
+        keyboardDismissMode='on-drag'
+        lazy={12}
         animated
         scrollToTop={isFocused && tab.title === title}
         onFooterRefresh={$.fetchUserCollections}
