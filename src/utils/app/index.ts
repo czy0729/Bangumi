@@ -1,9 +1,10 @@
 /*
- * 项目相关
+ * 项目相关工具函数
+ *
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 10:59:39
+ * @Last Modified time: 2022-08-11 09:39:00
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -11,21 +12,32 @@ import { HTMLDecode } from '@utils/html'
 import { DEV } from '@/config'
 import { HOST, HOST_2, URL_PRIVACY, EVENT, IMG_DEFAULT } from '@constants/constants'
 import {
-  initHashSubjectOTA,
-  initHashAvatarOTA,
+  CDN_OSS_MAGMA_POSTER,
   CDN_OSS_SUBJECT,
-  CDN_OSS_MAGMA_POSTER
+  initHashAvatarOTA,
+  initHashSubjectOTA
 } from '@constants/cdn'
 import cnData from '@assets/json/cn.json'
 import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { AnyObject, EventType, Navigation, Paths, SubjectId } from '@types'
-import { t } from './fetch'
-import { getSystemStoreAsync, s2tAsync } from './async'
-import { getStorage, setStorage } from './storage'
-import { rerender, globalLog, globalWarn } from './dev'
-
-const HOST_IMAGE = '//lain.bgm.tv'
+import { getStorage, setStorage } from '../storage'
+import { getSystemStoreAsync, s2tAsync } from '../async'
+import { rerender, globalLog, globalWarn } from '../dev'
+import { t } from '../fetch'
+import { isNull, getSafeValue } from './utils'
+import {
+  CN_CACHES,
+  HOST_IMAGE,
+  NO_IMGS,
+  PRIVACY_STATE,
+  RANDOM_FACTOR,
+  SITE_MAP,
+  TYPE_MAP,
+  X18_DS,
+  X18_TITLE,
+  YEAR
+} from './ds'
 
 /** 启动 */
 export function bootApp() {
@@ -53,19 +65,13 @@ export function getSetting() {
   return getSystemStoreAsync().setting
 }
 
-const _a = Number(String(new Date().getSeconds()).slice(0, 1))
-
-/**
- * app 内使用时间因子作为随机数, 规避 Hermes 引擎 Array.sort 的卡死 bug
- * @param arr {Array}
- * @param key {String}
- */
+/** app 内使用时间因子作为随机数, 规避 Hermes 引擎 Array.sort 的卡死 bug */
 export function appRandom(arr: any[] = [], key: string = '') {
   const data = []
   arr.forEach(item => {
     if (item[key]) {
       const _b = Number(String(item[key]).slice(0, 1))
-      if (_a >= _b) {
+      if (RANDOM_FACTOR >= _b) {
         data.unshift(item)
       } else {
         data.push(item)
@@ -81,19 +87,11 @@ export function cnjp(cn: any, jp: any) {
   return HTMLDecode(cnFirst ? cn || jp : jp || cn)
 }
 
-function isNull(value: any) {
-  return value === undefined || value === ''
-}
-
-function getSafeValue(key, onAir, onAirUser) {
-  const userValue = onAirUser?.[key]
-  return isNull(userValue) ? onAir?.[key] : userValue
-}
-
-/**
- * 云端onAir和自定义onAir组合判断
- */
-export function getOnAir(onAir, onAirUser) {
+/** 云端 onAir 和自定义 onAir 组合判断 */
+export function getOnAir(
+  onAir: { [x: string]: any },
+  onAirUser: { [x: string]: any; weekDayCN?: string; timeCN?: string; _loaded?: any }
+) {
   const timeJP = getSafeValue('timeJP', onAir, onAirUser)
   const timeCN = getSafeValue('timeCN', onAir, onAirUser)
   const time = isNull(timeCN) ? timeJP : timeCN
@@ -113,10 +111,7 @@ export function getOnAir(onAir, onAirUser) {
   }
 }
 
-/**
- * 统一逻辑, 获取放送日函数
- * @param {*} item onAirItem
- */
+/** 统一逻辑, 获取放送日函数 */
 export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
   const weekDay =
     item?.weekDayCN == 0 ? item?.weekDayCN : item?.weekDayCN || item?.weekDayJP
@@ -126,7 +121,7 @@ export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
 /**
  * 是否敏感条目
  * @param {*} subjectId
- * @param {*} title     辅助检测, 有关键字则都认为是18x
+ * @param {*} title     辅助检测, 有关键字则都认为是 18x
  */
 export function x18(subjectId: SubjectId, title?: string) {
   if (!subjectId) return false
@@ -134,37 +129,19 @@ export function x18(subjectId: SubjectId, title?: string) {
     typeof subjectId === 'string'
       ? String(parseInt(subjectId.replace('/subject/', ''))) in x18data
       : String(subjectId) in x18data
-  if (!filter && title) filter = ['乳', '妻', '淫'].some(item => title.includes(item))
+  if (!filter && title) filter = X18_TITLE.some(item => title.includes(item))
   return filter
 }
 
-/**
- * 猜测是否敏感字符串
- */
-export function x18s(str) {
+/** 猜测是否敏感字符串 */
+export function x18s(str: string) {
   const _str = String(str).toLowerCase()
-  return [
-    '里',
-    '成',
-    '18',
-    'gal',
-    'bl',
-    '禁',
-    '拔',
-    '淫',
-    '兵',
-    '肉',
-    '伪',
-    'ntr',
-    '黄油'
-  ].some(item => _str.includes(item))
+  return X18_DS.some(item => _str.includes(item))
 }
 
-/**
- * 保存navigation引用
- * @param {*} navigation
- */
 let _navigationReference: Navigation | undefined
+
+/** 保存navigation引用 */
 export function navigationReference(navigation?: Navigation | undefined) {
   if (navigation) {
     _navigationReference = navigation
@@ -174,8 +151,6 @@ export function navigationReference(navigation?: Navigation | undefined) {
   return _navigationReference
 }
 
-const cache = {}
-
 /**
  * 查找条目中文名
  * @param {*} jp
@@ -184,22 +159,18 @@ const cache = {}
 export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
   if (!getSetting()?.cnFirst) return jp
 
-  if (cache[jp]) return cache[jp]
+  if (CN_CACHES[jp]) return CN_CACHES[jp]
 
-  /**
-   * @deprecated [已废弃] 若带id使用本地SUBJECT_CN加速查找
-   */
+  // @deprecated [已废弃] 若带 id 使用本地 SUBJECT_CN 加速查找
   if (subjectId) {
     const cn = cnData[subjectId]
     if (cn) {
-      cache[jp] = cn
+      CN_CACHES[jp] = cn
       return cn
     }
   }
 
-  /**
-   * 没有id则使用jp在bangumi-data里面匹配
-   */
+  // 没有 id 则使用jp在 bangumi-data 里面匹配
   const item = bangumiData.find(
     item => subjectId == item.id || item.j === HTMLDecode(jp)
   )
@@ -210,27 +181,22 @@ export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
         _item.titleTranslate['zh-Hans'] &&
         _item.titleTranslate['zh-Hans'][0]) ||
       jp
-    cache[jp] = cn
+    CN_CACHES[jp] = cn
     return cn
   }
 
-  cache[jp] = jp
+  CN_CACHES[jp] = jp
   return jp
 }
 
-/**
- * 修正和缩略ago时间
- * @param {*} time
- */
-const date = new Date()
-const y = date.getFullYear()
+/** 修正和缩略 ago 时间 */
 export function correctAgo(time = '') {
   let _time = time.replace('...', '')
   if (_time.indexOf(' ago') === -1) {
     _time = _time.replace('ago', ' ago')
   }
   return _time.includes('-')
-    ? _time.replace(`${y}-`, '')
+    ? _time.replace(`${YEAR}-`, '')
     : _time
         .replace('d', '天')
         .replace('h', '时')
@@ -240,18 +206,12 @@ export function correctAgo(time = '') {
         .replace(/ /g, '')
 }
 
-/**
- * keyExtractor
- * @param {*} item
- */
+/** keyExtractor */
 export function keyExtractor(item = { id: '' }) {
   return String(item.id)
 }
 
-/**
- * 修复链接
- * @param {*} url
- */
+/** 修复链接 */
 export function fixedBgmUrl(url = '') {
   try {
     let _url = url
@@ -277,10 +237,7 @@ export function fixedBgmUrl(url = '') {
   }
 }
 
-/**
- * 判断是否bgm的链接, 若是返回页面信息, 否则返回false
- * @param {*} url
- */
+/** 判断是否bgm的链接, 若是返回页面信息, 否则返回 false */
 export function matchBgmLink(url = ''):
   | false
   | {
@@ -453,18 +410,13 @@ export function matchBgmLink(url = ''):
   }
 }
 
-/**
- * 自动判断封面CDN地址
- * @param src
- * @param noDefault
- */
-const noImg = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
+/** 自动判断封面 CDN 地址 */
 export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string) {
   const { cdn, cdnOrigin } = getSetting()
   const fallback = noDefault ? '' : IMG_DEFAULT
 
   // 有些情况图片地址分析错误, 排除掉
-  if (noImg.includes(src)) return IMG_DEFAULT || fallback
+  if (NO_IMGS.includes(src)) return IMG_DEFAULT || fallback
 
   if (
     cdn &&
@@ -538,35 +490,13 @@ export function appNavigate(
   }
 }
 
-/**
- * 获取颜色type
- * @param {*} label
- */
-const typeMap = {
-  想看: 'main',
-  想玩: 'main',
-  想读: 'main',
-  想听: 'main',
-  看过: 'warning',
-  玩过: 'warning',
-  读过: 'warning',
-  听过: 'warning',
-  在看: 'primary',
-  在玩: 'primary',
-  在读: 'primary',
-  在听: 'primary',
-  搁置: 'wait',
-  抛弃: 'disabled'
-}
+/** 获取颜色 type */
 export function getType(label: string, defaultType: string = 'plain') {
-  return typeMap[label] || defaultType
+  return TYPE_MAP[label] || defaultType
 }
 
-/**
- * 获取评分中文
- * @param {*} score
- */
-export function getRating(score) {
+/** 获取评分中文 */
+export function getRating(score: number) {
   if (score === undefined) return false
   if (score >= 9.5) return '超神作'
   if (score >= 8.5) return '神作'
@@ -582,12 +512,10 @@ export function getRating(score) {
 
 /**
  * 获得在线播放地址
- * @param {*} item bangumiInfo数据项
+ * @param {*} item bangumiInfo 数据项
  */
-export function getBangumiUrl(item) {
-  if (!item) {
-    return ''
-  }
+export function getBangumiUrl(item: { site: any; id: any; url?: any }) {
+  if (!item) return ''
 
   const { site, id, url } = item
   switch (site) {
@@ -632,12 +560,8 @@ export function getBangumiUrl(item) {
   }
 }
 
-/**
- * 从cookies字符串中分析cookie值
- * @param {*} cookies
- * @param {*} name
- */
-export function getCookie(cookies = '', name) {
+/** 从 cookies 字符串中分析 cookie 值 */
+export function getCookie(cookies = '', name: string) {
   const list = cookies.split('; ')
   for (let i = 0; i < list.length; i += 1) {
     const arr = list[i].split('=')
@@ -647,12 +571,9 @@ export function getCookie(cookies = '', name) {
 }
 
 /**
- * bgm图片质量 g < s < m < c < l, 只用s, m(c), l
- * CDN开启下 <Avatar>组件会忽略s, 把s转成m(c)
- */
-/**
- * 获取低质量bgm图片
- * @param {*} src
+ * 获取低质量 bgm 图片
+ *  - bgm 图片质量 g < s < m < c < l, 只用s, m(c), l
+ *  - CDN开启下 Avatar 组件会忽略 s, 把 s 转成 m(c)
  */
 export function getCoverSmall(src = '') {
   if (
@@ -660,22 +581,16 @@ export function getCoverSmall(src = '') {
     src === '' ||
     src.includes('/photo/') ||
     !src.includes(HOST_IMAGE)
-  ) {
+  )
     return src
-  }
 
   return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/s/')
 }
 
-/**
- * 获取中质量bgm图片
- * @param {*} src
- */
+/** 获取中质量 bgm 图片 */
 export function getCoverMedium(src: any = '', mini: boolean = false) {
-  /**
-   * 角色图片因为是对头部划图的, 不要处理
-   * 用户图床也没有其他质量
-   */
+  // 角色图片因为是对头部划图的, 不要处理
+  // 用户图床也没有其他质量
   if (
     typeof src !== 'string' ||
     src === '' ||
@@ -694,10 +609,7 @@ export function getCoverMedium(src: any = '', mini: boolean = false) {
   return src.replace(/\/g\/|\/s\/|\/m\/|\/l\//, '/c/')
 }
 
-/**
- * 获取高质量bgm图片
- * @param {*} src
- */
+/** 获取高质量bgm图片 */
 export function getCoverLarge(src = '') {
   if (
     typeof src !== 'string' ||
@@ -711,10 +623,7 @@ export function getCoverLarge(src = '') {
   return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
 }
 
-/**
- * 小圣杯时间格式化
- * @param {*} time
- */
+/** 小圣杯时间格式化 */
 export function formatTime(time) {
   let times = (+new Date(time) - +new Date()) / 1000
   let day = 0
@@ -738,10 +647,7 @@ export function formatTime(time) {
   return `${day}d ago`
 }
 
-/**
- * 小圣杯计算ICO等级
- * @param {*} ico
- */
+/** 小圣杯计算ICO等级 */
 export function caculateICO(ico) {
   let level = 0
   let price = 10
@@ -773,11 +679,8 @@ export function caculateICO(ico) {
   }
 }
 
-/**
- * 小圣杯OSS修正
- * @param {*} str
- */
-export function tinygrailOSS(str, w = 150) {
+/** 小圣杯 OSS 修正 */
+export function tinygrailOSS(str: string, w = 150) {
   if (typeof str !== 'string' || str.includes('!w')) {
     return str
   }
@@ -794,12 +697,8 @@ export function tinygrailOSS(str, w = 150) {
   return str
 }
 
-/**
- * 修复时间
- * 2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03
- * @param {*} time
- */
-export function tinygrailFixedTime(time) {
+/** 修复时间 (2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03) */
+export function tinygrailFixedTime(time: any) {
   return (time || '').replace('T', ' ').split('+')[0].split('.')[0]
 }
 
@@ -820,19 +719,6 @@ export function tinygrailFixedTime(time) {
  *   [t: 'tv']
  * }
  */
-const sitesMap = {
-  a: 'acfun',
-  b: 'bilibili',
-  s: 'sohu',
-  y: 'youku',
-  q: 'qq',
-  i: 'iqiyi',
-  l: 'letv',
-  p: 'pptv',
-  m: 'mgtv',
-  ni: 'nicovideo',
-  n: 'netflix'
-}
 export function unzipBangumiData(
   item: { id?: any; s?: any; j?: string; c?: string; t?: string } = {}
 ) {
@@ -844,10 +730,11 @@ export function unzipBangumiData(
   ]
   Object.keys(item.s || {}).forEach(s =>
     sites.push({
-      site: sitesMap[s],
+      site: SITE_MAP[s],
       id: String(item.s[s])
     })
   )
+
   return {
     title: item.j,
     type: item.t || 'tv',
@@ -857,8 +744,6 @@ export function unzipBangumiData(
     }
   }
 }
-
-const PRIVACY_STATE = 'bangumi|privacy'
 
 /** 隐私条款弹窗 */
 export async function privacy() {
