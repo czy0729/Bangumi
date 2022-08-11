@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 06:10:35
+ * @Last Modified time: 2022-08-11 15:32:41
  */
 import React from 'react'
 import { Page } from '@components'
@@ -29,8 +29,8 @@ const Anitama = (props, { $ }) => {
           loaded={_loaded && show}
         >
           <List />
+          <Pagination />
         </Page>
-        <Pagination />
       </>
     )
   })
