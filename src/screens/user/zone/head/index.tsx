@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 06:53:19
+ * @Last Modified time: 2022-08-11 13:13:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,17 +27,20 @@ function Head({ style }, { $, navigation }) {
   const isFriend = !!disconnectUrl
   const userName = HTMLDecode(nickname || _name)
   const textType = _.select('plain', 'title')
+  const fallback =
+    typeof $.src === 'string' && !$.src.includes('//lain.bgm.tv/pic/user/l/')
   return (
     <Flex style={style} direction='column'>
       <View>
         <Image
           style={styles.avatar}
+          src={$.src}
           size={AVATAR_SIZE}
           radius={AVATAR_SIZE / 2}
           border={_.__colorPlain__}
           borderWidth={2}
           shadow
-          src={$.src}
+          fallback={fallback}
         />
         <Text style={styles.l1} type={textType} size={11}>
           {join || '- 加入'}

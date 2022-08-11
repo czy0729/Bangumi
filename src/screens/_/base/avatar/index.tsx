@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 08:03:58
+ * @Last Modified time: 2022-08-11 13:11:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,6 +54,7 @@ export const Avatar = ob(
     const { cdn, cdnAvatar, avatarRound, coverRadius } = systemStore.setting
     const { avatar } = userStore.usersInfo()
     const _size = _.r(size)
+    let fallback = false
 
     /**
      * 判断是否自己的头像, 若是不走CDN, 保证最新
@@ -148,13 +149,13 @@ export const Avatar = ob(
 
     const isUrl = typeof _src === 'string'
 
-    /**
-     * 强制使用/l/
-     * @date 20220512
-     */
+    // 强制使用/l/
     if (isUrl && _src.includes(USER_MEDIUM)) {
       _src = _src.replace(USER_MEDIUM, USER_LARGE)
     }
+
+    // @issue 有些第三方地址使用 rn-fast-image 不使用 fallback 都会直接加载失败
+    if (isUrl && !_src.includes(USER_LARGE)) fallback = true
 
     return (
       <Image
@@ -167,6 +168,7 @@ export const Avatar = ob(
         borderWidth={borderWidth}
         quality={false}
         placeholder={placeholder}
+        fallback={fallback}
         onPress={_onPress}
         onLongPress={onLongPress}
       />

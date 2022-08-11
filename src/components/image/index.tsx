@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-02 16:59:26
+ * @Last Modified time: 2022-08-11 13:03:13
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -26,7 +26,6 @@ import { getCoverMedium, getTimestamp, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import {
   EVENT,
-  HOST,
   IMG_EMPTY,
   IMG_EMPTY_DARK,
   IOS,
@@ -39,27 +38,17 @@ import { Flex } from '../flex'
 import { Text } from '../text'
 import CompImage from './image'
 import { checkError451, setError451, checkError404, setError404 } from './utils'
+import {
+  DEFAULT_HEADERS,
+  MAX_ERROR_COUNT,
+  RETRY_DISTANCE,
+  OSS_BGM,
+  OSS_MEGMA_PREFIX
+} from './ds'
 import { memoStyles } from './styles'
 import { Props as ImageProps, State } from './types'
 
 export { ImageProps }
-
-/** 默认请求头 */
-const DEFAULT_HEADERS = {
-  Referer: `${HOST}/`
-}
-
-/** 最大失败重试次数 */
-const MAX_ERROR_COUNT = 1
-
-/** 重试间隔 */
-const RETRY_DISTANCE = 1000
-
-/** bgm 封面域名 */
-const OSS_BGM = 'https://lain.bgm.tv'
-
-/** magma 域名图片后缀 */
-const OSS_MEGMA_PREFIX = '/bgm_poster'
 
 export const Image = observer(
   class ImageComponent extends React.Component<ImageProps, State> {

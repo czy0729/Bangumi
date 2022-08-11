@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:36:34
+ * @Last Modified time: 2022-08-11 13:12:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,7 @@ function Head({ style }, { $, navigation }: Ctx) {
   const isMe = !userId || userId === $.myUserId
   const src = $.avatar || avatar?.large
   const showAdvance = isMe && systemStore.advance
+  const fallback = typeof src === 'string' && !src.includes('//lain.bgm.tv/pic/user/l/')
   return (
     <Flex style={style} justify='center' direction='column'>
       <View>
@@ -32,12 +33,13 @@ function Head({ style }, { $, navigation }: Ctx) {
           <Image
             style={styles.avatar}
             key={src}
+            src={src}
             size={avatarSize}
             radius={avatarSize / 2}
             border={styles.avatar.backgroundColor}
             borderWidth={2}
             shadow
-            src={src}
+            fallback={fallback}
             onPress={() => {
               t('我的.跳转', {
                 to: 'UserSetting'
