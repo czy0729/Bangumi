@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:33:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:10:27
+ * @Last Modified time: 2022-08-12 06:44:51
  */
 import { _ } from '@stores'
 
@@ -58,6 +58,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.wind
   },
   textarea: {
+    minHeight: 48,
     paddingTop: 12,
     paddingHorizontal: 0,
     paddingBottom: 8,

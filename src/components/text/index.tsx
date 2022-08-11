@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 11:03:13
+ * @Last Modified time: 2022-08-11 14:13:08
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -34,7 +34,7 @@ function CompText(
   { lineHeightIncrease: contextLineHeightIncrease = 0 }: Context
 ) {
   const styles = memoStyles()
-  const _style: TextProps['style'][] = [styles.text]
+  const _style: TextProps['style'][] = []
 
   if (type) _style.push(styles[type])
   if (underline) _style.push(styles.underline)
@@ -52,9 +52,13 @@ function CompText(
   }
 
   if (align) _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
-  if (bold) _style.push(styles.bold)
   if (shadow) _style.push(styles.shadow)
   if (style) _style.push(style)
+
+  // 若需要设置字体, rn 环境下与 web 不同, 若 font-weight 设置是该字体没有支持的
+  // 依然不会显示成该字体, 所以需要在最后设置
+  _style.push(styles.text)
+  if (bold) _style.push(styles.bold)
 
   return (
     <RNText

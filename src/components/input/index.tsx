@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 15:44:30
+ * @Last Modified time: 2022-08-12 03:07:50
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -204,6 +204,7 @@ export const Input = observer(
             selectionColor={_.colorMain}
             // @ts-ignore
             cursorColor={_.colorMain}
+            textAlignVertical='center'
             {...other}
             onChange={this.onChange}
             onSubmitEditing={this.onSubmitEditing}

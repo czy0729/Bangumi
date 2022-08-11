@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 15:54:55
+ * @Last Modified time: 2022-08-12 05:17:23
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   modal: {
-    width: (_.window.width - 2 * _.wind) * _.ratio,
+    width: _.r(_.window.width - 2 * _.wind),
     maxWidth: _.device(408, 560),
     paddingTop: _.device(_.md + 2, 28),
     paddingHorizontal: _.device(0, _.sm),
@@ -29,7 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   tags: {
     width: '100%',
-    height: 54 * _.ratio,
+    height: _.r(54),
     paddingVertical: 12
   },
   tag: {
@@ -39,14 +39,14 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     borderWidth: _.select(1, 0),
     borderColor: _.colorBorder,
-    borderRadius: _.radiusXs
+    borderRadius: _.radiusSm
   },
   tagSelected: {
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2)
   },
   btnEye: {
-    width: 88 * _.ratio,
+    width: _.r(88),
     marginLeft: _.sm
   },
   touch: {
@@ -55,7 +55,12 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   touchTag: {
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  inputTags: {
+    height: 44,
+    paddingVertical: 0,
+    marginTop: _.md
   }
 }))

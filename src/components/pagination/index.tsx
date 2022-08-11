@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 23:07:12
+ * @Last Modified time: 2022-08-12 04:31:37
  */
 import React, { useState, useRef } from 'react'
 import { _ } from '@stores'
@@ -15,7 +15,9 @@ import { Iconfont } from '../iconfont'
 import { KeyboardSpacer } from '../keyboard-spacer'
 import { Heatmap } from '../heatmap'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import { Props as PaginationProps } from './types'
+
+export { PaginationProps }
 
 export const Pagination = ({
   style,
@@ -25,7 +27,7 @@ export const Pagination = ({
   onNext = () => {},
   onChange = () => {},
   onSearch = () => {}
-}: Props) => {
+}: PaginationProps) => {
   const [show, setShow] = useState(false)
   const inputRef = useRef(null)
   return useObserver(() => {

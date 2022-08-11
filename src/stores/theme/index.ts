@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 10:37:43
+ * @Last Modified time: 2022-08-11 17:07:08
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -213,6 +213,36 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** -------------------- get -------------------- */
+  /** 字体 */
+  @computed get fontFamily() {
+    return 'rhrm'
+  }
+
+  /** 字体 (粗) */
+  @computed get fontBoldFamily() {
+    return 'rhrb'
+  }
+
+  /** 字体样式 */
+  @computed get fontStyle() {
+    if (IOS) return {}
+
+    return {
+      fontFamily: this.fontFamily,
+      fontWeight: 'normal'
+    } as const
+  }
+
+  /** 字体样式 (粗)  */
+  @computed get fontBoldStyle() {
+    if (IOS) return {}
+
+    return {
+      fontFamily: this.fontBoldFamily,
+      fontWeight: 'normal'
+    } as const
+  }
+
   /** 当前设备方向 */
   @computed get orientation() {
     return this.state.orientation as Orientation

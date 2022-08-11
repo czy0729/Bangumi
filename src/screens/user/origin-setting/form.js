@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:11:58
+ * @Last Modified time: 2022-08-12 06:40:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,7 @@ const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
           )}
         </Text>
         <Input
-          style={_.mt.sm}
+          style={[styles.input, _.mt.sm]}
           defaultValue={String(name)}
           placeholder='菜单显示名称，唯一'
           onChangeText={isBase ? undefined : text => $.onChangeText('name', text)}
@@ -77,7 +77,7 @@ const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
           排序
         </Text>
         <Input
-          style={_.mt.sm}
+          style={[styles.input, _.mt.sm]}
           value={String(edit.item.sort)}
           placeholder='数字，越大越前，选填'
           keyboardType='number-pad'
@@ -121,5 +121,9 @@ const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     top: 4,
     right: 8
+  },
+  input: {
+    height: 44,
+    paddingVertical: 0
   }
 }))

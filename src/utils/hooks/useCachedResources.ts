@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 21:44:03
+ * @Last Modified time: 2022-08-11 10:47:03
  */
 import { useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
@@ -27,7 +27,9 @@ export default function useCachedResources() {
 
         // 加载bgm表情特殊字体
         await Font.loadAsync({
-          bgm: require('@assets/fonts/AppleColorEmoji.ttf')
+          bgm: require('@assets/fonts/AppleColorEmoji.ttf'),
+          rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.ttf'),
+          rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.ttf')
         })
       } catch (e) {
       } finally {

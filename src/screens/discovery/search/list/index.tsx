@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 15:32:11
+ * @Last Modified time: 2022-08-12 06:05:25
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -23,6 +23,7 @@ function List(props, { $ }) {
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={search}
+      keyboardDismissMode='on-drag'
       scrollToTop
       renderItem={({ item, index }) => {
         return (

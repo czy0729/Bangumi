@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 15:49:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 16:03:09
+ * @Last Modified time: 2022-08-12 05:16:25
  */
 import { _ } from '@stores'
 import { PAD } from '@constants'
@@ -73,7 +73,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   md: {
     width: '100%',
-    height: _.device(40, 56)
+    height: _.device(44, 56)
   },
 
   // text
@@ -81,8 +81,7 @@ export const memoStyles = _.memoStyles(() => ({
     fontSize: 14 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0)
   },
   textSm: {
-    fontSize: 12 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0),
-    fontWeight: 'bold'
+    fontSize: 12 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0)
   },
   textPlain: {
     color: _.colorDesc

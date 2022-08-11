@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 12:46:08
+ * @Last Modified time: 2022-08-11 17:04:17
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
@@ -52,6 +52,16 @@ export const updateHeader = ({
   const backgroundColor = backgroundColors[statusBarEventsType]
     ? backgroundColors[statusBarEventsType](fixed)
     : undefined
+
+  const _headerTitleStyle = [
+    {
+      fontSize: 15,
+      fontWeight: 'normal'
+    },
+    headerTitleStyle
+  ]
+  if (!IOS) _headerTitleStyle.push(_.fontStyle)
+
   const options = {
     // header
     headerTransparent: false,
@@ -67,13 +77,7 @@ export const updateHeader = ({
     // headerTitle
     headerTitle: mode ? '' : _title,
     headerTitleAlign: headerTitleAlign || (mode ? 'left' : 'center'),
-    headerTitleStyle: [
-      {
-        fontSize: 15,
-        fontWeight: 'normal'
-      },
-      headerTitleStyle
-    ],
+    headerTitleStyle: _headerTitleStyle,
     headerTintColor: color || _.colorTitle,
 
     // headerBack
@@ -129,7 +133,7 @@ export const updateHeader = ({
     options.headerTitleStyle = [
       ...options.headerTitleStyle,
       {
-        fontFamily: ''
+        fontFamily: _.fontFamily
       }
     ]
   }

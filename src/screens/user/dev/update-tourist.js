@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-27 12:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 16:57:08
+ * @Last Modified time: 2022-08-12 06:38:25
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -124,6 +124,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   input: {
     height: 40,
+    paddingVertical: 0,
     paddingHorizontal: _.device(_.sm, _.md),
     ..._.device(_.fontSize12, _.fontSize15),
     backgroundColor: _.colorBg

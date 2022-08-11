@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:28:37
+ * @Last Modified time: 2022-08-12 04:39:27
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -285,7 +285,7 @@ export const ManageModal = ob(
               <Flex style={this.styles.content} direction='column'>
                 <StarGroup value={rating} onChange={this.changeRating} />
                 <Input
-                  style={_.mt.md}
+                  style={this.styles.inputTags}
                   defaultValue={tags}
                   placeholder='我的标签'
                   returnKeyType='next'

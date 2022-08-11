@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:33:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-09 16:35:25
+ * @Last Modified time: 2022-08-11 14:01:24
  */
 import { _ } from '@stores'
 
@@ -27,7 +27,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 0,
     paddingHorizontal: _.sm + 2,
     color: _.colorSub,
-    fontWeight: 'bold',
+    fontWeight: '800',
     ..._.device(_.fontSize13, _.fontSize15)
   },
   total: {

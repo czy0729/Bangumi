@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 19:57:23
+ * @Last Modified time: 2022-08-11 14:01:27
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   input: {
     ..._.fontSize(16),
-    fontWeight: 'bold',
+    fontWeight: '800',
     textAlign: 'center',
     backgroundColor: _.select(_.colorBorder, _.colorPlain),
     borderRadius: 40

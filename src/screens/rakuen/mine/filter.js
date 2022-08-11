@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-31 02:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 22:26:39
+ * @Last Modified time: 2022-08-11 14:01:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,7 +68,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   input: {
     ..._.fontSize(16),
-    fontWeight: 'bold',
+    fontWeight: '800',
     textAlign: 'center',
     backgroundColor: _.select(_.colorBorder, _.colorPlain),
     borderRadius: 40

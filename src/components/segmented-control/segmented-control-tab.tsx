@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 22:53:41
+ * @Last Modified time: 2022-08-11 14:01:12
  */
 import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
@@ -71,6 +71,6 @@ const styles = _.create({
     borderRadius: 5
   },
   activeText: {
-    fontWeight: 'bold'
+    fontWeight: '800'
   }
 })

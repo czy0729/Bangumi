@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 01:15:18
+ * @Last Modified time: 2022-08-12 06:35:16
  */
 import React from 'react'
 import {
@@ -242,6 +242,7 @@ class RakuenSetting extends React.Component {
         <Flex style={this.styles.section}>
           <Flex.Item>
             <Input
+              style={this.styles.input}
               value={keyword}
               placeholder='输入关键字'
               returnKeyType='search'
@@ -340,5 +341,9 @@ const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.sm,
     paddingRight: _.sm,
     paddingLeft: _._wind
+  },
+  input: {
+    height: 44,
+    paddingVertical: 0
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 16:35:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 17:53:26
+ * @Last Modified time: 2022-08-12 03:18:10
  */
 import { _ } from '@stores'
 
@@ -38,9 +38,8 @@ export const styles = _.create({
   },
   input: {
     height: 44,
-    paddingTop: 11,
-    paddingBottom: 13,
-    paddingHorizontal: 16,
+    paddingVertical: 0,
+    paddingHorizontal: 17,
     ..._.fontSize16,
     backgroundColor: 'transparent'
   }

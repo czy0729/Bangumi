@@ -2,22 +2,32 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 10:52:35
+ * @Last Modified time: 2022-08-12 03:17:24
  */
+import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
 import { IOS } from '@constants'
+import { setDefaultProps } from './utils'
+
+if (!IOS) {
+  setDefaultProps(Text, _.fontStyle)
+  setDefaultProps(TextInput, _.fontStyle)
+}
 
 export const memoStyles = _.memoStyles(() => ({
-  /**
-   * base style
-   */
-  text: IOS
-    ? {
-        fontWeight: 'normal'
-      }
-    : {
-        fontFamily: ''
-      },
+  /** base style */
+  text: _.ios(
+    {
+      fontWeight: 'normal'
+    },
+    _.fontStyle
+  ),
+  bold: _.ios(
+    {
+      fontWeight: 'bold'
+    },
+    _.fontBoldStyle
+  ),
   underline: {
     textDecorationLine: 'underline',
     textDecorationColor: _.select(_.colorMain, _.colorSub)
@@ -28,9 +38,6 @@ export const memoStyles = _.memoStyles(() => ({
   alignRight: {
     textAlign: 'right'
   },
-  bold: {
-    fontWeight: 'bold'
-  },
   shadow: {
     textShadowOffset: {
       width: 1,
@@ -40,9 +47,7 @@ export const memoStyles = _.memoStyles(() => ({
     textShadowColor: 'rgba(0, 0, 0, 0.24)'
   },
 
-  /**
-   * theme color
-   */
+  /** theme color */
   plain: {
     color: _.colorPlain
   },
@@ -65,9 +70,7 @@ export const memoStyles = _.memoStyles(() => ({
     color: _.colorDanger
   },
 
-  /**
-   * font color
-   */
+  /** font color */
   title: {
     color: _.colorTitle
   },
@@ -87,9 +90,7 @@ export const memoStyles = _.memoStyles(() => ({
     color: _.colorAvatar
   },
 
-  /**
-   * tinygrail theme color
-   */
+  /** tinygrail theme color */
   bid: {
     color: _.colorBid
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 22:14:02
+ * @Last Modified time: 2022-08-12 05:22:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,7 +94,9 @@ const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.sm
   },
   ipt: {
-    padding: _.sm,
+    height: 44,
+    paddingHorizontal: 14,
+    paddingVertical: 0,
     color: _.colorDesc,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderWidth: 1,

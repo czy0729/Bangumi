@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 11:20:09
+ * @Last Modified time: 2022-08-11 11:16:58
  */
 import { s2t } from '@utils/thirdParty/cn-char'
 import { _ } from '@stores'
@@ -39,4 +39,23 @@ export function format(children) {
   }
 
   return children
+}
+
+/** set default props of any react-native components even Custom Component */
+export function setDefaultProps(Component, defaultProps) {
+  const componentRender = Component.render
+  if (!componentRender) {
+    Component.defaultProps = defaultProps
+    return
+  }
+
+  Component.render = (props, ref) => {
+    props = {
+      ...defaultProps,
+      ...props,
+      style: [defaultProps.style, props.style]
+    }
+
+    return componentRender.call(this, props, ref)
+  }
 }

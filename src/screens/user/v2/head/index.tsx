@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 13:12:05
+ * @Last Modified time: 2022-08-11 13:19:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -106,10 +106,7 @@ function Head({ style }, { $, navigation }: Ctx) {
       <Flex style={[_.mt.md, showAdvance && styles.advanceContainer]}>
         <Text type={_.select('plain', 'title')} bold>
           {nickname}
-          <Text type={_.select('plain', 'title')} bold>
-            {' '}
-            {username || id ? `@${username || id} ` : ''}
-          </Text>
+          {username || id ? ` @${username || id} ` : ''}
         </Text>
         {showAdvance && (
           <IconTouchable

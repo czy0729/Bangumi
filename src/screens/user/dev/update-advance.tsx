@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 10:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 06:07:01
+ * @Last Modified time: 2022-08-12 06:37:53
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -147,6 +147,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   input: {
     height: 40,
+    paddingVertical: 0,
     paddingHorizontal: _.device(_.sm, _.md),
     ..._.device(_.fontSize12, _.fontSize15),
     backgroundColor: _.colorBg

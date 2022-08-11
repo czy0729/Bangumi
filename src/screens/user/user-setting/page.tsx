@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 01:04:10
+ * @Last Modified time: 2022-08-12 06:53:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -90,6 +90,7 @@ class UserSetting extends React.Component {
               border={_.__colorPlain__}
               borderWidth={2}
               shadow
+              fallback
             />
             <Text style={_.mt.md} type={_.select('plain', 'title')} size={13}>
               {nickname}
@@ -127,7 +128,7 @@ class UserSetting extends React.Component {
           <>
             <Flex style={_.mt.md}>
               <Text>昵称</Text>
-              <Flex.Item style={_.ml.sm}>
+              <Flex.Item style={_.ml.md}>
                 <Input
                   style={this.styles.input}
                   defaultValue={nickname}
@@ -140,7 +141,7 @@ class UserSetting extends React.Component {
             </Flex>
             <Flex style={_.mt.md}>
               <Text>签名</Text>
-              <Flex.Item style={_.ml.sm}>
+              <Flex.Item style={_.ml.md}>
                 <Input
                   style={this.styles.input}
                   defaultValue={sign_input}
@@ -153,7 +154,7 @@ class UserSetting extends React.Component {
             </Flex>
             <Flex style={_.mt.md}>
               <Text>头像</Text>
-              <Flex.Item style={_.ml.sm}>
+              <Flex.Item style={_.ml.md}>
                 <Input
                   style={this.styles.input}
                   defaultValue={avatar}
@@ -177,7 +178,7 @@ class UserSetting extends React.Component {
             </Flex>
             <Flex style={[_.mt.md, _.mb.md]}>
               <Text>背景</Text>
-              <Flex.Item style={_.ml.sm}>
+              <Flex.Item style={_.ml.md}>
                 <Input
                   style={this.styles.input}
                   defaultValue={bg}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 11:46:16
+ * @Last Modified time: 2022-08-12 05:19:20
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -239,14 +239,14 @@ const memoStyles = _.memoStyles(() => ({
     marginTop: -8
   },
   item: {
-    paddingVertical: 2 * _.ratio,
-    paddingHorizontal: 6 * _.ratio,
-    marginRight: 8 * _.ratio,
-    marginBottom: 8 * _.ratio,
+    paddingVertical: _.r(2),
+    paddingHorizontal: _.r(8),
+    marginRight: _.r(8),
+    marginBottom: _.r(8),
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   selected: {
@@ -256,8 +256,8 @@ const memoStyles = _.memoStyles(() => ({
   split: {
     height: 16,
     width: 2,
-    marginLeft: 4 * _.ratio,
-    marginRight: 12 * _.ratio,
+    marginLeft: _.r(4),
+    marginRight: _.r(12),
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusXs,
     overflow: 'hidden'

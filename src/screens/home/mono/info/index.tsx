@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-20 19:36:29
+ * @Last Modified time: 2022-08-11 16:10:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,6 +59,7 @@ function Info(props, { $, navigation }: Ctx) {
             autoSize={maxSize}
             shadow
             imageViewer
+            fallback
             event={{
               id: '人物.封面图查看',
               data: {

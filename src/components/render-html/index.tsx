@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 15:57:15
+ * @Last Modified time: 2022-08-11 13:23:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
-import { TextStyle } from '@types'
+import { AnyObject, TextStyle } from '@types'
 import HTML from '../@/react-native-render-html'
 import { a } from '../@/react-native-render-html/src/HTMLRenderers'
 import { BgmText, bgmMap } from '../bgm-text'
@@ -36,6 +36,7 @@ import {
 } from './utils'
 import { SPAN_MARK } from './ds'
 import { Props as RenderHtmlProps } from './types'
+import { IOS } from '@constants'
 
 export { RenderHtmlProps }
 
@@ -318,11 +319,13 @@ export const RenderHtml = observer(
      * @issue iOS开发遇到奇怪bug, 文字太多当lineHeight大于15, 不显示?
      */
     get defaultBaseFontStyle() {
-      return {
+      const styles: AnyObject = {
         fontSize: 15 + _.fontSizeAdjust + (_.isPad ? padFontSizeIncrease : 0),
         lineHeight: 24 + (_.isPad ? padLineHeightIncrease : 0),
         color: _.colorTitle
       }
+      if (!IOS) styles.fontFamily = 'rhrm'
+      return styles
     }
 
     get setting() {

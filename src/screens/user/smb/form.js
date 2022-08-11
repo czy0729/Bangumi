@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 04:04:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 20:26:50
+ * @Last Modified time: 2022-08-12 06:51:46
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
@@ -286,7 +286,7 @@ const Form = memo(
             <Flex.Item>
               <Input
                 ref={ref => (urlRef.current = ref?.inputRef)}
-                style={styles.input}
+                style={[styles.input, styles.inputMultiline]}
                 value={url}
                 showClear
                 multiline
@@ -379,9 +379,14 @@ const memoStyles = _.memoStyles(() => ({
     width: 64
   },
   input: {
+    height: 44,
+    paddingVertical: 0,
     paddingRight: 32,
     paddingLeft: 0,
     backgroundColor: 'transparent'
+  },
+  inputMultiline: {
+    height: 120
   },
   touch: {
     marginHorizontal: _.sm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-05 05:39:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:35:42
+ * @Last Modified time: 2022-08-12 06:55:54
  */
 import { _ } from '@stores'
 
@@ -18,11 +18,12 @@ export const memoStyles = _.memoStyles(() => ({
     width: 248
   },
   input: {
+    height: 44,
+    paddingVertical: 0,
     ..._.fontSize(16),
-    fontWeight: 'bold',
     textAlign: 'center',
     backgroundColor: _.select('rgba(238, 238, 238, 0.8)', _._colorDarkModeLevel1),
-    borderRadius: 40
+    borderRadius: 44
   },
   icon: {
     position: 'absolute',
@@ -38,7 +39,6 @@ export const memoStyles = _.memoStyles(() => ({
     top: 0,
     right: 0,
     width: 44,
-    height: 44,
-    marginTop: -4
+    height: 44
   }
 }))

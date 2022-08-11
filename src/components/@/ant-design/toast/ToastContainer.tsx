@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:12:05
+ * @Last Modified time: 2022-08-11 16:33:27
  */
 import React from 'react'
 import { ActivityIndicator, Animated, Text, View, TouchableOpacity } from 'react-native'
@@ -10,7 +10,6 @@ import Icon, { IconNames } from '@ant-design/react-native/lib/icon'
 import { WithTheme, WithThemeStyles } from '@ant-design/react-native/lib/style'
 import ToastStyles, { ToastStyle } from '@ant-design/react-native/lib/toast/style/index'
 import { getThemeStoreAsync } from '@utils/async'
-import { IOS } from '@constants/constants'
 
 export interface ToastProps extends WithThemeStyles<ToastStyle> {
   content: string
@@ -145,12 +144,7 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
                   >
                     {iconDom}
                     <Text
-                      style={[
-                        !IOS && {
-                          fontFamily: ''
-                        },
-                        styles.content
-                      ]}
+                      style={[themeStore.fontStyle, styles.content]}
                       textBreakStrategy='simple'
                       numberOfLines={0}
                     >

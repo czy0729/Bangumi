@@ -3,63 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:24:45
+ * @Last Modified time: 2022-08-12 05:16:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { titleCase } from '@utils'
-import { ViewStyle, TextStyle, ReactNode } from '@types'
+import { ViewStyle, TextStyle } from '@types'
 import { Activity } from '../activity'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
+import { Props as ButtonProps } from './types'
 
-type Props = {
-  /** 按钮重置样式 */
-  style?: ViewStyle
-
-  /** 文字重置样式 */
-  styleText?: TextStyle
-
-  /** 预设主题 */
-  type?:
-    | 'plain'
-    | 'main'
-    | 'primary'
-    | 'warning'
-    | 'wait'
-    | 'disabled'
-    | 'bid'
-    | 'ask'
-    | 'ghostMain'
-    | 'ghostPrimary'
-    | 'ghostSuccess'
-    | 'ghostPlain'
-
-  /** 预设大小 */
-  size?: 'sm' | 'md'
-
-  /** 是否显示阴影 */
-  shadow?: boolean
-
-  /** 是否圆角 */
-  radius?: boolean
-
-  /** 是否显示加载指示器 */
-  loading?: boolean
-
-  /** 放在文字右边 */
-  extra?: ReactNode
-
-  /** 点击回调 */
-  onPress?: (arg0?: any) => any
-
-  /** 文字 */
-  children?: any
-}
+export { ButtonProps }
 
 export const Button = observer(
   ({
@@ -74,10 +33,11 @@ export const Button = observer(
     extra,
     onPress,
     ...other
-  }: Props) => {
+  }: ButtonProps) => {
     const styles = memoStyles()
     const wrapStyle: ViewStyle[] = [styles.button]
     const textStyle: TextStyle[] = [styles.text]
+    let textBold = false
 
     if (shadow && !_.isDark) wrapStyle.push(styles.shadow)
     if (type) {
@@ -85,8 +45,10 @@ export const Button = observer(
       textStyle.push(styles[`text${titleCase(type)}`])
     }
     if (size) {
+      const textSize = `text${titleCase(size)}`
       wrapStyle.push(styles[size])
-      textStyle.push(styles[`text${titleCase(size)}`])
+      textStyle.push(styles[textSize])
+      if (textSize === 'textSm') textBold = true
     }
     if (radius) wrapStyle.push(styles.radius)
     if (style) wrapStyle.push(style)
@@ -109,6 +71,7 @@ export const Button = observer(
             styleText
           ]}
           align='center'
+          bold={textBold}
           selectable={false}
         >
           {children}

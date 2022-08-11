@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 06:05:46
+ * @Last Modified time: 2022-08-12 03:22:51
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -311,27 +311,30 @@ export default ob(Form)
 
 const memoStyles = _.memoStyles(() => ({
   form: {
-    width: 300 * _.ratio,
+    width: _.r(300),
     paddingBottom: 200
   },
   input: {
-    height: _.device(44, 38) * _.ratio,
-    paddingHorizontal: _.device(_.sm, _.md),
+    height: 44,
+    paddingVertical: 0,
+    paddingHorizontal: 14,
     ..._.device(_.fontSize12, _.fontSize15),
-    backgroundColor: _.colorBg
+    backgroundColor: _.colorBg,
+    borderRadius: _.radiusSm
   },
   touchCaptcha: {
+    height: 44,
     marginLeft: _.sm,
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   captchaContainer: {
-    width: 118 * _.ratio,
-    height: _.device(40, 36) * _.ratio
+    width: 118,
+    height: 44
   },
   captcha: {
-    width: 118 * _.ratio,
-    height: _.device(40, 36) * _.ratio
+    width: 118,
+    height: 44
   },
   touch: {
     borderRadius: _.radiusSm,

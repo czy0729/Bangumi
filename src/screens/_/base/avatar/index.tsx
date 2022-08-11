@@ -4,22 +4,22 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 13:11:51
+ * @Last Modified time: 2022-08-12 06:49:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Image } from '@components'
 import { _, systemStore, userStore } from '@stores'
-import { getTimestamp } from '@utils'
-import { getCoverMedium } from '@utils/app'
+import { getTimestamp, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
+import { HOST_API_V0 } from '@utils/fetch.v0/ds'
 import { ob } from '@utils/decorators'
 import {
-  IOS,
-  HOST_CDN,
   CDN_OSS_AVATAR,
-  URL_DEFAULT_AVATAR,
-  IMG_DEFAULT
+  HOST_CDN,
+  IMG_DEFAULT,
+  IOS,
+  URL_DEFAULT_AVATAR
 } from '@constants'
 import { memoStyles } from './styles'
 import { Props as AvatarProps } from './types'
@@ -28,7 +28,11 @@ export { AvatarProps }
 
 /** 判断是否自己的头像, 一周才变化一次 */
 const ts = Math.floor(getTimestamp() / 604800)
+
+/** 中质量头像 */
 const USER_MEDIUM = '//lain.bgm.tv/pic/user/m/'
+
+/** 大质量头像 */
 const USER_LARGE = '//lain.bgm.tv/pic/user/l/'
 
 export const Avatar = ob(
@@ -54,6 +58,8 @@ export const Avatar = ob(
     const { cdn, cdnAvatar, avatarRound, coverRadius } = systemStore.setting
     const { avatar } = userStore.usersInfo()
     const _size = _.r(size)
+
+    // @issue 有些第三方地址使用 rn-fast-image 不使用 fallback 都会直接加载失败
     let fallback = false
 
     /**
@@ -114,8 +120,8 @@ export const Avatar = ob(
     }
 
     /**
-     * @notice 安卓gif图片不能直接设置borderRadius, 需要再包一层
-     * 然后就是bgm的默认图/icon.jpg根本不是jpg是gif
+     * @notice 安卓 gif 图片不能直接设置 borderRadius, 需要再包一层
+     * 然后就是 bgm 的默认图 /icon.jpg 根本不是 jpg 是 gif
      */
     if (!IOS && src && src.includes('/icon.jpg')) {
       const _style = [
@@ -149,13 +155,14 @@ export const Avatar = ob(
 
     const isUrl = typeof _src === 'string'
 
-    // 强制使用/l/
+    // 强制使用 /l/
     if (isUrl && _src.includes(USER_MEDIUM)) {
       _src = _src.replace(USER_MEDIUM, USER_LARGE)
     }
 
-    // @issue 有些第三方地址使用 rn-fast-image 不使用 fallback 都会直接加载失败
-    if (isUrl && !_src.includes(USER_LARGE)) fallback = true
+    if (isUrl && !_src.includes(USER_LARGE) && !_src.includes(HOST_API_V0)) {
+      fallback = true
+    }
 
     return (
       <Image
