@@ -69,13 +69,11 @@ import {
   OriginItem
 } from '../../user/origin-setting/utils'
 import {
-  // DAY,
   EXCLUDE_STATE,
   INIT_ITEM,
   NAMESPACE,
   PAGE_LIMIT_GRID,
   PAGE_LIMIT_LIST,
-  // PIN_YIN_FIRST_CHARACTER,
   STATE,
   TABS,
   TABS_WITH_GAME

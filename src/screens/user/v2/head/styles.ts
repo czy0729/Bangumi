@@ -20,7 +20,7 @@ const rStyle = (top: number, left: number): object => ({
 
 export const styles = _.create({
   avatar: {
-    backgroundColor: _.__colorPlain__
+    backgroundColor: 'rgba(255, 255, 255, 0.8)'
   },
   r1: rStyle(16, 100),
   r2: rStyle(52, 116),
@@ -31,6 +31,6 @@ export const styles = _.create({
   advance: {
     padding: 0,
     paddingLeft: 2,
-    opacity: 0.64
+    opacity: 0.8
   }
 })

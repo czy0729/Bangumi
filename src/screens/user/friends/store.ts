@@ -6,17 +6,14 @@
  */
 import { observable, computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
-import { desc, info } from '@utils'
+import { desc, info, getPinYinFilterValue } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
-import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import { HTML_FRIENDS } from '@constants'
 import { UserId } from '@types'
 import { sortByRecent } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { Params } from './types'
-
-const PIN_YIN_FIRST_CHARACTER = {}
 
 export default class ScreenFriends extends store {
   params: Params
@@ -95,19 +92,7 @@ export default class ScreenFriends extends store {
         const { userName } = item
         if (userName.includes(_filter)) return true
 
-        // 支持每个字符首拼音筛选
-        if (/^[a-zA-Z]+$/.test(_filter) && userName) {
-          if (!PIN_YIN_FIRST_CHARACTER[userName]) {
-            PIN_YIN_FIRST_CHARACTER[userName] = getPinYinFirstCharacter(
-              userName,
-              userName.length
-            ).replace(/ /g, '')
-          }
-
-          if (PIN_YIN_FIRST_CHARACTER[userName].includes(_filter)) return true
-        }
-
-        return false
+        return getPinYinFilterValue(userName, _filter)
       })
     }
 

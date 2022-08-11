@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, Text, Touchable, Heatmap } from '@components'
+import { Flex, Image, Text, Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { info } from '@utils'
 import { t } from '@utils/fetch'
@@ -34,7 +34,7 @@ function Head({ style }, { $, navigation }: Ctx) {
             key={src}
             size={avatarSize}
             radius={avatarSize / 2}
-            border={_.__colorPlain__}
+            border={styles.avatar.backgroundColor}
             borderWidth={2}
             shadow
             src={src}
@@ -48,7 +48,7 @@ function Head({ style }, { $, navigation }: Ctx) {
           />
           <Heatmap id='我的.跳转' to='UserSetting' alias='个人设置' />
         </View>
-        {isMe && (
+        {/* {isMe && (
           <>
             <View style={styles.r1}>
               <Touchable
@@ -99,12 +99,12 @@ function Head({ style }, { $, navigation }: Ctx) {
               <Heatmap right={-32} id='我的.跳转' to='Catalogs' alias='目录' />
             </View>
           </>
-        )}
+        )} */}
       </View>
       <Flex style={[_.mt.md, showAdvance && styles.advanceContainer]}>
-        <Text type={_.select('plain', 'title')}>
+        <Text type={_.select('plain', 'title')} bold>
           {nickname}
-          <Text type={_.select('plain', 'title')}>
+          <Text type={_.select('plain', 'title')} bold>
             {' '}
             {username || id ? `@${username || id} ` : ''}
           </Text>

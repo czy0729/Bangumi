@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-09 09:47:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:37:56
+ * @Last Modified time: 2022-08-10 18:47:12
  */
 import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 import { t2s } from '../thirdParty/cn-char'
@@ -42,7 +42,11 @@ export function getPinYinFilterValue(title: string, filter: string) {
       if (index !== -1) value = str.slice(index, index + filter.length)
     }
   } else if (!value) {
-    value = t2s(filter)
+    const _title = t2s(title.toLocaleUpperCase())
+    const _filter = t2s(filter)
+    if (_title.includes(_filter.toLocaleUpperCase())) {
+      value = _filter
+    }
   }
 
   return value

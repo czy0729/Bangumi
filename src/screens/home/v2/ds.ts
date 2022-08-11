@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-09 11:45:36
  */
 import { _ } from '@stores'
-import { ExcludeState, State, InitItem, PinYinFirstCharacter } from './types'
+import { ExcludeState, State, InitItem } from './types'
 
 /** 每个 <Item> 的状态 */
 export const INIT_ITEM: InitItem = {
@@ -91,6 +91,3 @@ export const OFFSET_LISTVIEW = _.ios(_.headerHeight + H_TABBAR, 0)
 
 /** 唯一命名空间 */
 export const NAMESPACE = 'ScreenHomeV2'
-
-/** 缓存 getPinYinFirstCharacter() 的计算结果 */
-export const PIN_YIN_FIRST_CHARACTER: PinYinFirstCharacter = {}

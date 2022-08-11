@@ -2,11 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 02:40:07
+ * @Last Modified time: 2022-08-10 18:48:14
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
-import { debounce, x18, feedback, info, HTMLDecode, t2s } from '@utils'
+import {
+  debounce,
+  x18,
+  feedback,
+  info,
+  HTMLDecode,
+  t2s,
+  getPinYinFilterValue
+} from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
@@ -23,7 +31,6 @@ import {
   SubjectTypeCn
 } from '@types'
 import { NAMESPACE, EXCLUDE_STATE, STATE, H_HEADER, TABS } from './ds'
-import { testPinYinFirstCharacter } from './utils'
 import { Params } from './types'
 
 export default class ScreenUser extends store {
@@ -291,6 +298,12 @@ export default class ScreenUser extends store {
     }).get()
   }
 
+  /** 过滤 */
+  @computed get filter() {
+    const { filter } = this.state
+    return t2s(filter.toUpperCase())
+  }
+
   /** 用户收藏 */
   userCollections(subjectType: SubjectType, type) {
     return computed(() => {
@@ -302,17 +315,15 @@ export default class ScreenUser extends store {
       )
 
       if (this.isTabActive(subjectType, type, true)) {
-        const { filter } = this.state
-        if (filter) {
-          const _filter = t2s(filter.toUpperCase())
+        if (this.filter) {
           list = list.filter(item => {
             const cn = (item.nameCn || '').toUpperCase()
             const jp = (item.name || '').toUpperCase()
-            if (cn.includes(_filter) || jp.includes(_filter)) return true
+            if (cn.includes(this.filter) || jp.includes(this.filter)) return true
 
             return (
-              testPinYinFirstCharacter(cn, _filter) ||
-              testPinYinFirstCharacter(jp, _filter)
+              getPinYinFilterValue(cn, this.filter) ||
+              getPinYinFilterValue(jp, this.filter)
             )
           })
         }

@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   segment: {
-    width: _.r(144),
+    width: _.r(168),
     height: _.r(28),
     marginRight: _.xs
   }
