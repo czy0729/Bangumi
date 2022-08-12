@@ -2,25 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:26:22
+ * @Last Modified time: 2022-08-12 10:52:41
  */
 import React, { useRef } from 'react'
-import { ScrollView as RNScrollView, ScrollViewProps } from 'react-native'
-import { Expand, Fn, ReactNode } from '@types'
-import { ScrollToTop } from '../scroll-to-top'
+import { ScrollView as RNScrollView } from 'react-native'
 import { scrollViewResetProps } from '@constants'
+import { ScrollToTop } from '../scroll-to-top'
+import { Props as ScrollViewProps } from './types'
 
-type Props = Expand<
-  ScrollViewProps & {
-    /** 是否启用点击顶部滚动到顶（安卓 only） */
-    scrollToTop?: boolean
-
-    /** 连接 ref.scrollTo */
-    connectRef?: (scrollTo: Fn) => any
-
-    children?: ReactNode
-  }
->
+export { ScrollViewProps }
 
 export const ScrollView = ({
   scrollToTop,
@@ -32,7 +22,7 @@ export const ScrollView = ({
   },
   children,
   ...other
-}: Props) => {
+}: ScrollViewProps) => {
   const scrollViewEl = useRef(null)
 
   let ref: React.LegacyRef<RNScrollView>

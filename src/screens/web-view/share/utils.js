@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:04:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:25:31
+ * @Last Modified time: 2022-08-12 11:16:18
  */
 export const html = `
 <!DOCTYPE html>
@@ -20,8 +20,10 @@ export const html = `
         padding: 0;
         margin: 0;
         box-sizing: border-box;
-        font-family: PingFang sc, Verdana, Helvetica Neue, Microsoft Yahei,
-        Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+        font-family: ResourceHanRoundedCN Medium, PingFang sc, BlinkMacSystemFont, -apple-system,
+        Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica,
+        Arial, sans-serif Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif,
+        WenQuanYi Micro Hei, sans-serif !important;
       }
       img {
         max-width: 100%;

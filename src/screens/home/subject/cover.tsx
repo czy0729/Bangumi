@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-12 16:09:25
+ * @Last Modified time: 2022-08-12 11:21:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -137,6 +137,6 @@ const memoStyles = _.memoStyles(() => ({
     },
     shadowOpacity: 0.12,
     shadowRadius: 6,
-    elevation: 16
+    elevation: 12
   }
 }))

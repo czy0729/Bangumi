@@ -12,9 +12,6 @@ export const memoStyles = _.memoStyles(() => ({
     ..._.container.item,
     paddingVertical: _.xs
   },
-  withoutAvatar: {
-    marginTop: -_.md
-  },
   scrollView: {
     marginTop: _.sm,
     marginRight: -40

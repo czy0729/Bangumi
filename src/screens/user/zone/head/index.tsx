@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 13:13:46
+ * @Last Modified time: 2022-08-12 11:04:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,10 +42,10 @@ function Head({ style }, { $, navigation }) {
           shadow
           fallback={fallback}
         />
-        <Text style={styles.l1} type={textType} size={11}>
+        <Text style={styles.l1} type={textType} size={11} bold>
           {join || '- 加入'}
         </Text>
-        <Text style={styles.l2} type={textType} size={11}>
+        <Text style={styles.l2} type={textType} size={11} bold>
           同步率 {isNaN(percent) ? '-' : percent}%
         </Text>
         <View style={styles.l3}>
@@ -58,7 +58,7 @@ function Head({ style }, { $, navigation }) {
               $.openUsedModal()
             }}
           >
-            <Text type={textType} size={11}>
+            <Text type={textType} size={11} bold>
               历史
             </Text>
           </Touchable>
@@ -77,7 +77,7 @@ function Head({ style }, { $, navigation }) {
               })
             }}
           >
-            <Text type={textType} size={11}>
+            <Text type={textType} size={11} bold>
               人物
             </Text>
           </Touchable>
@@ -96,7 +96,7 @@ function Head({ style }, { $, navigation }) {
               })
             }}
           >
-            <Text type={textType} size={11}>
+            <Text type={textType} size={11} bold>
               日志
             </Text>
           </Touchable>
@@ -115,7 +115,7 @@ function Head({ style }, { $, navigation }) {
               })
             }}
           >
-            <Text type={textType} size={11}>
+            <Text type={textType} size={11} bold>
               目录
             </Text>
           </Touchable>

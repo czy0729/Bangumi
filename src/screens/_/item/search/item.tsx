@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 05:14:17
+ * @Last Modified time: 2022-08-12 10:59:09
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -108,12 +108,7 @@ const Item = memo(
               </Flex> */}
             </Flex>
             {!!tip && (
-              <Text
-                style={_.mt.sm}
-                size={11}
-                lineHeight={13}
-                numberOfLines={position.length ? 2 : 3}
-              >
+              <Text style={_.mt.xs} size={11} lineHeight={13} numberOfLines={2}>
                 {tip}
               </Text>
             )}

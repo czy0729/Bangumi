@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:28:45
+ * @Last Modified time: 2022-08-12 11:10:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,8 +16,6 @@ import { saveBase64ImageToCameraRoll } from '@utils/android'
 import { IOS } from '@constants'
 import { html } from './utils'
 
-export default
-@ob
 class WebViewShare extends React.Component {
   state = {
     captured: false
@@ -113,6 +111,8 @@ class WebViewShare extends React.Component {
     )
   }
 }
+
+export default ob(WebViewShare)
 
 const styles = _.create({
   mask: {

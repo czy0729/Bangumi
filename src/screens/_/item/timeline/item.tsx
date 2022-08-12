@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 10:03:54
+ * @Last Modified time: 2022-08-12 10:48:56
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -314,6 +314,23 @@ const Item = memo(
               </Flex>
             </Flex.Item>
             <Flex align='start'>
+              {/* {imageLength === 0 && !!subjectId && (
+                <View style={_.ml.md}>
+                  <Cover
+                    src={API_COVER(subjectId)}
+                    size={IMG_WIDTH_SM / 2}
+                    height={IMG_HEIGHT_SM / 2}
+                    radius
+                    shadow
+                    headers={userStore.requestHeaders}
+                    onPress={() => {
+                      navigation.push('Subject', {
+                        subjectId
+                      })
+                    }}
+                  />
+                </View>
+              )} */}
               {imageLength === 1 && (
                 <View style={_.ml.md}>
                   <Cover
@@ -358,14 +375,7 @@ const Item = memo(
     }, [])
 
     return (
-      <Flex
-        style={[
-          _.flat && styles.item,
-          _.flat && !avatarSrc && styles.withoutAvatar,
-          style
-        ]}
-        align='start'
-      >
+      <Flex style={style} align='start'>
         {renderAvatar}
         {renderContent}
       </Flex>

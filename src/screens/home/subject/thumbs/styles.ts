@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 04:46:48
+ * @Last Modified time: 2022-08-12 11:33:30
  */
 import { _ } from '@stores'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
@@ -23,11 +23,11 @@ export const styles = _.create({
   touch: {
     width: THUMB_WIDTH,
     height: THUMB_HEIGHT,
-    opacity: 0.88
+    opacity: 0.92
   },
   icon: {
     fontSize: 40,
-    lineHeight: 40
+    lineHeight: _.ios(40, 56)
   },
   title: {
     width: THUMB_WIDTH,

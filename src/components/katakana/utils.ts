@@ -2,30 +2,34 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 21:37:25
+ * @Last Modified time: 2022-08-12 12:07:04
  */
 import { setStorage, getStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
+import { CACHE_KEY, CACHES } from './ds'
 
-const namespace = 'ComponentKatakana'
-const cacheKey = `${namespace}|cache`
 let cache = {
   マギカ: 'Magica'
 }
 
 export async function getCache() {
   try {
-    cache = (await getStorage(cacheKey)) || {
-      マギカ: 'Magica'
+    cache = {
+      ...CACHES,
+      ...(await getStorage(CACHE_KEY))
     }
     return true
   } catch (error) {
+    cache = {
+      ...CACHES
+    }
     return true
   }
 }
 
 const katakana =
   /[\u30A1-\u30FA\u30FD-\u30FF][\u3099\u309A\u30A1-\u30FF]*[\u3099\u309A\u30A1-\u30FA\u30FC-\u30FF]|[\uFF66-\uFF6F\uFF71-\uFF9D][\uFF65-\uFF9F]*[\uFF66-\uFF9F]/g
+
 export function matchKatakanas(str: string) {
   return str.match(katakana)
 }
@@ -61,12 +65,12 @@ async function doTranslate() {
     const text = jps.join('\n')
     jps = []
     const response = await baiduTranslate(text, 'en')
-    const { trans_result: transResult } = JSON.parse(response)
+    const { trans_result: transResult } = JSON.parse(response as string)
 
     if (Array.isArray(transResult)) {
       // [{ dst: 'Studio pulp', src: 'スタジオパルプ' }]
       transResult.forEach(item => (cache[item.src] = item.dst))
-      setStorage(cacheKey, cache)
+      setStorage(CACHE_KEY, cache)
     }
 
     cbs.forEach(cb => cb(cache))
@@ -85,10 +89,10 @@ export async function translateAll(str: string) {
     const needTranslate = match.filter(jp => !cache[jp])
     if (needTranslate.length) {
       const response = await baiduTranslate(needTranslate.join('\n'), 'en')
-      const { trans_result: transResult } = JSON.parse(response)
+      const { trans_result: transResult } = JSON.parse(response as string)
       if (Array.isArray(transResult)) {
         transResult.forEach(item => (cache[item.src] = item.dst))
-        setStorage(cacheKey, cache)
+        setStorage(CACHE_KEY, cache)
       }
     }
 

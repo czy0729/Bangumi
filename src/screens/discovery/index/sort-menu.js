@@ -2,12 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 20:17:53
+ * @Last Modified time: 2022-08-12 11:31:34
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
-import { Touchable, Flex, Text, SwitchPro, SegmentedControl } from '@components'
+import {
+  Touchable,
+  Flex,
+  Text,
+  SwitchPro,
+  SegmentedControl,
+  Iconfont
+} from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
@@ -96,6 +103,12 @@ const SortMenu = memo(
               <Flex.Item>
                 <Touchable style={styles.touch} onPress={onCancel}>
                   <Flex style={styles.btn} justify='center'>
+                    <Iconfont
+                      style={styles.btnIcon}
+                      name='md-close'
+                      size={16}
+                      color={_.__colorPlain__}
+                    />
                     <Text type='__plain__' bold size={11}>
                       取消
                     </Text>
@@ -105,6 +118,13 @@ const SortMenu = memo(
               <Flex.Item style={_.ml.md}>
                 <Touchable style={styles.touch} onPress={onSave}>
                   <Flex style={styles.btn} justify='center'>
+                    <Iconfont
+                      style={styles.btnIcon}
+                      name='md-radio-button-off'
+                      size={14}
+                      lineHeight={16}
+                      color={_.__colorPlain__}
+                    />
                     <Text type='__plain__' bold size={11}>
                       保存
                     </Text>
@@ -255,6 +275,12 @@ const memoStyles = _.memoStyles(() => ({
     height: _.r(36),
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: _.r(36)
+  },
+  btnIcon: {
+    position: 'absolute',
+    zIndex: 1,
+    left: 12,
+    top: 10
   },
   setting: {
     paddingHorizontal: _.sm,
