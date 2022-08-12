@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 12:46:13
+ * @Last Modified time: 2022-08-12 08:50:39
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -47,7 +47,7 @@ const Item = memo(
                 bold
                 right={
                   <Text type='sub' size={11} lineHeight={14}>
-                    {' '}
+                    {'  '}
                     {correctAgo(formatTime(time))}
                   </Text>
                 }

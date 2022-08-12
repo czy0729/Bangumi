@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-07-16 11:35:07
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-07-16 11:35:07
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-12 08:58:59
  */
 import { _ } from '@stores'
 
@@ -23,9 +23,6 @@ export const memoStyles = _.memoStyles(() => ({
   title: {
     minHeight: 90
   },
-  katakana: {
-    marginTop: -11
-  },
   series: {
     width: 168,
     paddingRight: _.sm,
@@ -36,5 +33,8 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     top: _.r(28),
     opacity: 0.6
+  },
+  katakana: {
+    marginTop: -4
   }
 }))

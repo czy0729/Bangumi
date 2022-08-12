@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:02:58
+ * @Last Modified time: 2022-08-12 09:04:07
  */
 import React from 'react'
-import { Highlight, Text } from '@components'
+import { Katakana, Highlight, Text } from '@components'
 import { _ } from '@stores'
 import { cnjp, HTMLDecode, getPinYinFilterValue } from '@utils'
 import { obc } from '@utils/decorators'
@@ -35,9 +35,17 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
 
   return (
     <>
-      <Highlight numberOfLines={2} bold value={filterValue}>
-        {title}
-      </Highlight>
+      {filterValue ? (
+        <Highlight numberOfLines={2} bold value={filterValue}>
+          {title}
+        </Highlight>
+      ) : (
+        <Katakana.Provider numberOfLines={2} bold>
+          <Katakana numberOfLines={2} bold>
+            {title}
+          </Katakana>
+        </Katakana.Provider>
+      )}
       {!!doing && (
         <Text style={_.mt.xs} type='sub' size={12}>
           {doing} 人在{action}

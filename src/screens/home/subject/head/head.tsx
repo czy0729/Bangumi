@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 11:46:27
+ * @Last Modified time: 2022-08-12 08:59:10
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Heatmap } from '@components'
+import { Flex, Text, Katakana, Heatmap } from '@components'
 import { ScoreTag, Tag } from '@_'
 import { _ } from '@stores'
 import { toFixed, cnjp, getTimestamp, copy } from '@utils'
@@ -97,7 +97,7 @@ const Head = memo(
             size={10}
             bold
           >
-            {release}上映
+            {release} 上映
           </Text>
         )}
         <View
@@ -116,31 +116,40 @@ const Head = memo(
           >
             <View>
               {!subjectSeries && (
-                <Text
-                  size={size}
-                  lineHeight={size + 1}
-                  bold
-                  onLongPress={() => copy(bottom)}
-                >
-                  {bottom}
-                  {!!year && (
-                    <Text size={size - 3} lineHeight={size + 1}>
-                      {' '}
-                      ({year})
-                    </Text>
-                  )}
-                </Text>
+                <Katakana.Provider size={size} lineHeight={size + 1} bold>
+                  <Katakana
+                    size={size}
+                    lineHeight={size + 1}
+                    bold
+                    onLongPress={() => copy(bottom)}
+                  >
+                    {bottom}
+                    {!!year && (
+                      <Text size={size - 3} lineHeight={size + 1}>
+                        {' '}
+                        ({year})
+                      </Text>
+                    )}
+                  </Katakana>
+                </Katakana.Provider>
               )}
               {!!top && (
-                <Text
+                <Katakana.Provider
                   style={!!bottom && _.mt.xs}
+                  itemStyle={styles.katakana}
                   type='sub'
                   size={topSize}
                   numberOfLines={2}
-                  onLongPress={() => copy(top)}
                 >
-                  {tops}
-                </Text>
+                  <Katakana
+                    type='sub'
+                    size={topSize}
+                    numberOfLines={2}
+                    onLongPress={() => copy(top)}
+                  >
+                    {tops}
+                  </Katakana>
+                </Katakana.Provider>
               )}
               <Heatmap id='条目.复制标题' />
             </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 11:04:31
+ * @Last Modified time: 2022-08-12 10:19:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -236,6 +236,10 @@ export const KatakanaProvider = observer(
       const { itemStyle, itemSecondStyle } = this.props
       return this.measuredKatakanas.map(item => {
         const isLineFirst = item.top === 0
+
+        // @TODO: 暂时不显示第二行, 位置把握不住, 待以后优化
+        if (!isLineFirst) return null
+
         return (
           <Text
             key={item.jp}
@@ -245,17 +249,18 @@ export const KatakanaProvider = observer(
                 top: item.top,
                 left: item.left,
                 minWidth: item.width,
-                marginTop: isLineFirst ? -9 : -3 // 这里还没解决好行高问题, 大概调到好看
+                marginTop: isLineFirst ? -11 : -3 // 这里还没解决好行高问题, 大概调到好看
               },
               itemStyle,
               !isLineFirst && itemSecondStyle
             ]}
-            size={10}
-            align='center'
             type={item.type}
-            bold={item.bold}
-            numberOfLines={1}
+            size={9}
+            lineHeight={9}
             lineHeightIncrease={0}
+            numberOfLines={1}
+            align='center'
+            bold={item.bold}
           >
             {item.en}
           </Text>

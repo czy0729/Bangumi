@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:28:57
+ * @Last Modified time: 2022-08-12 10:03:54
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -157,7 +157,7 @@ const Item = memo(
       if (!hasPosition) return null
 
       return (
-        <Text lineHeight={16}>
+        <Katakana.Provider lineHeight={16}>
           {!!p1Text && (
             <Name
               userId={userId}
@@ -179,12 +179,12 @@ const Item = memo(
           </Text>
           {renderP3}
           {!!p4Text && (
-            <Text type='sub' lineHeight={16}>
+            <Katakana type='sub' lineHeight={16}>
               {' '}
               {p4Text}
-            </Text>
+            </Katakana>
           )}
-        </Text>
+        </Katakana.Provider>
       )
     }, [])
 
