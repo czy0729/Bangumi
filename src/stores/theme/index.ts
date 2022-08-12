@@ -220,21 +220,25 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
   /** 字体 */
   @computed get fontFamily() {
-    if (this.customFontFamily) return ''
+    if (this.customFontFamily) return
     return 'rhrm'
   }
 
   /** 字体 (粗) */
   @computed get fontBoldFamily() {
-    if (this.customFontFamily) return ''
+    if (this.customFontFamily) return
     return 'rhrb'
   }
 
   /** 字体样式 */
   @computed get fontStyle() {
-    if (IOS) return {}
-
     if (this.customFontFamily) {
+      if (IOS) {
+        return {
+          fontWeight: 'normal'
+        } as const
+      }
+
       return {
         fontFamily: this.fontFamily,
         fontWeight: 'normal'
@@ -249,9 +253,13 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
   /** 字体样式 (粗)  */
   @computed get fontBoldStyle() {
-    if (IOS) return {}
-
     if (this.customFontFamily) {
+      if (IOS) {
+        return {
+          fontWeight: 'bold'
+        } as const
+      }
+
       return {
         fontFamily: this.fontBoldFamily,
         fontWeight: 'bold'

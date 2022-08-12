@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 17:04:17
+ * @Last Modified time: 2022-08-13 03:45:31
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
@@ -127,16 +127,13 @@ export const updateHeader = ({
   }
 
   // platform fixed
-  if (IOS) {
-  } else {
-    // 文字至少留一个fontFamily, 不然可能会触发文字截断bug
-    options.headerTitleStyle = [
-      ...options.headerTitleStyle,
-      {
-        fontFamily: _.fontFamily
-      }
-    ]
-  }
+  // 文字至少留一个fontFamily, 不然可能会触发文字截断bug
+  options.headerTitleStyle = [
+    ...options.headerTitleStyle,
+    {
+      fontFamily: _.fontFamily
+    }
+  ]
 
   navigation.setOptions(options)
 }

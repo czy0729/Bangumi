@@ -8,18 +8,8 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   /** base style */
-  text: _.ios(
-    {
-      fontWeight: 'normal'
-    },
-    _.fontStyle
-  ),
-  bold: _.ios(
-    {
-      fontWeight: 'bold'
-    },
-    _.fontBoldStyle
-  ),
+  text: _.fontStyle,
+  bold: _.fontBoldStyle,
   underline: {
     textDecorationLine: 'underline',
     textDecorationColor: _.select(_.colorMain, _.colorSub)

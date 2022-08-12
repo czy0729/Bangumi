@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 07:36:29
+ * @Last Modified time: 2022-08-13 03:41:21
  */
 import { _ } from '@stores'
 
@@ -46,12 +46,12 @@ export const memoStyles = _.memoStyles(() => ({
   },
   fontStyleCustom: {
     marginTop: _.sm - 2,
-    fontFamily: '',
+    fontFamily: _.ios(undefined, ''),
     fontWeight: 'normal'
   },
   fontStyleBoldCustom: {
     marginTop: _.sm - 2,
-    fontFamily: '',
+    fontFamily: _.ios(undefined, ''),
     fontWeight: 'bold'
   }
 }))

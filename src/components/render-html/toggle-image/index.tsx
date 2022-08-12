@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 13:17:16
+ * @Last Modified time: 2022-08-13 03:47:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -195,7 +195,7 @@ class ToggleImage extends React.Component<Props, State> {
         <Image
           {...this.props}
           autoSize={_autoSize}
-          radius
+          radius={_.radiusXs}
           fallback
           onLoadEnd={this.onLoadEnd}
           onError={this.onLoadEnd}

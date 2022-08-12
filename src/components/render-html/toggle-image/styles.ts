@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:41:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 06:54:27
+ * @Last Modified time: 2022-08-13 03:47:02
  */
 import { _ } from '@stores'
 
@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
   isLoad: {
     width: _.window.contentWidth * 0.64,
     height: _.r(64),
-    borderRadius: _.radiusSm,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   loading: {
@@ -29,7 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: _.r(64),
     borderWidth: 1,
     borderColor: _.colorBorder,
-    borderRadius: _.radiusSm,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   closeImageWrap: {
