@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 14:10:33
+ * @Last Modified time: 2022-08-12 08:17:35
  */
 import {
   IMG_HEIGHT_SM,
@@ -11,14 +11,19 @@ import {
   SETTING_TRANSITION
 } from '@constants'
 
-export const URL_BOOK = 'https://lain.bgm.tv/pic/cover/c/1e/7b/37782_OkkQ7.jpg'
-export const URL_MUSIC = 'https://lain.bgm.tv/pic/cover/c/c5/0f/325453_162n4.jpg'
-export const URL_GAME = 'https://lain.bgm.tv/pic/cover/c/60/d8/62229_SrxX4.jpg'
+export const URL_BOOK = 'https://lain.bgm.tv/pic/cover/c/6b/5d/360454_CQqJt.jpg'
+export const URL_MUSIC = 'https://lain.bgm.tv/pic/cover/c/68/f3/363071_LfafL.jpg'
+export const URL_GAME = 'https://lain.bgm.tv/pic/cover/c/ac/2f/368785_ukWkl.jpg'
 
 export const width = Math.floor(IMG_WIDTH_SM / 1.8)
 export const height = Math.floor(IMG_HEIGHT_SM / 1.8)
 
 export const TEXTS = {
+  font: {
+    title: '字体',
+    information:
+      '开启后会强制使用 Resource Han Rounded (思源幼圆) 字体，以便在各设备达到设计上面的 UI 统一'
+  },
   coverThings: {
     title: '封面拟物',
     information: '能确定类型的条目封面拟物化，增加区分度'

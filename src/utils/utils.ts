@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 11:11:31
+ * @Last Modified time: 2022-08-12 08:30:28
  */
 import { InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -10,6 +10,25 @@ import dayjs from 'dayjs'
 import { DEV } from '@/config'
 import { B, M } from '@constants/constants'
 import { info } from './ui'
+
+/** set default props of any react-native components even Custom Component */
+export function setDefaultProps(Component, defaultProps) {
+  const componentRender = Component.render
+  if (!componentRender) {
+    Component.defaultProps = defaultProps
+    return
+  }
+
+  Component.render = (props, ref) => {
+    props = {
+      ...defaultProps,
+      ...props,
+      style: [defaultProps.style, props.style]
+    }
+
+    return componentRender.call(this, props, ref)
+  }
+}
 
 /**
  * 排除null

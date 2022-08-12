@@ -2,17 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 03:17:24
+ * @Last Modified time: 2022-08-12 08:33:20
  */
-import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
-import { IOS } from '@constants'
-import { setDefaultProps } from './utils'
-
-if (!IOS) {
-  setDefaultProps(Text, _.fontStyle)
-  setDefaultProps(TextInput, _.fontStyle)
-}
 
 export const memoStyles = _.memoStyles(() => ({
   /** base style */

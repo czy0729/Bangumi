@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 10:47:03
+ * @Last Modified time: 2022-08-12 08:39:41
  */
 import { useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
+import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores from '@stores'
 import useBoolean from './useBoolean'
 import { bootApp } from '../app'
@@ -31,6 +32,8 @@ export default function useCachedResources() {
           rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.ttf'),
           rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.ttf')
         })
+
+        setComponentsDefaultProps()
       } catch (e) {
       } finally {
         setTrue()

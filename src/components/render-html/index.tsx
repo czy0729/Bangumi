@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 13:23:14
+ * @Last Modified time: 2022-08-12 08:21:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -324,7 +324,7 @@ export const RenderHtml = observer(
         lineHeight: 24 + (_.isPad ? padLineHeightIncrease : 0),
         color: _.colorTitle
       }
-      if (!IOS) styles.fontFamily = 'rhrm'
+      if (!IOS) styles.fontFamily = _.fontFamily
       return styles
     }
 

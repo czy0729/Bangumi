@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 02:12:50
+ * @Last Modified time: 2022-08-12 08:24:57
  */
 import _ from '@styles'
 import { MemoStylesItem } from './types'
@@ -80,6 +80,7 @@ export function getMemoStylesId(): MemoStylesItem {
     _flat: '',
     _deepDark: '',
     _orientation: '',
+    _customFontFamily: '',
     _styles: ''
   }
 }

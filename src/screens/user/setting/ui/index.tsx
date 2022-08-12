@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:07:00
+ * @Last Modified time: 2022-08-12 08:33:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,8 @@ import {
   SegmentedControl,
   Mesume,
   Heatmap,
-  ScrollView
+  ScrollView,
+  setComponentsDefaultProps
 } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
 import { ItemSetting, ItemSettingBlock, Cover, Avatar } from '@_'
@@ -47,7 +48,8 @@ function UI({ filter }) {
       ripple,
       speech,
       avatarRound,
-      transition
+      transition,
+      customFontFamily
       // imageTransition,
       // quality
     } = systemStore.setting
@@ -58,6 +60,85 @@ function UI({ filter }) {
         <ItemSetting hd='画面' arrow highlight filter={filter} onPress={setTrue} />
 
         <ActionSheet show={state} height={filter ? 400 : 680} onClose={setFalse}>
+          {/* 字体 */}
+          <ItemSettingBlock
+            show={shows.font}
+            style={_.mt.sm}
+            filter={filter}
+            {...TEXTS.font}
+          >
+            <ItemSettingBlock.Item
+              title='开启'
+              active={!customFontFamily}
+              filter={filter}
+              onPress={() => {
+                if (!customFontFamily) return
+
+                t('设置.切换', {
+                  title: '字体',
+                  checked: !customFontFamily
+                })
+
+                systemStore.switchSetting('customFontFamily')
+                setComponentsDefaultProps()
+              }}
+            >
+              <Text
+                overrideStyle={styles.fontStyleBold}
+                type='sub'
+                size={12}
+                align='center'
+                bold
+              >
+                Bangumi 番组计划
+              </Text>
+              <Text
+                overrideStyle={styles.fontStyle}
+                type='sub'
+                size={10}
+                align='center'
+              >
+                Abc ばんぐみ 123
+              </Text>
+            </ItemSettingBlock.Item>
+            <ItemSettingBlock.Item
+              style={_.ml.md}
+              title='关闭'
+              active={customFontFamily}
+              filter={filter}
+              onPress={() => {
+                if (customFontFamily) return
+
+                t('设置.切换', {
+                  title: '字体',
+                  checked: !customFontFamily
+                })
+
+                systemStore.switchSetting('customFontFamily')
+                setComponentsDefaultProps()
+              }}
+            >
+              <Text
+                overrideStyle={styles.fontStyleBoldCustom}
+                type='sub'
+                size={12}
+                align='center'
+                bold
+              >
+                Bangumi 番组计划
+              </Text>
+              <Text
+                overrideStyle={styles.fontStyleCustom}
+                type='sub'
+                size={10}
+                align='center'
+              >
+                Abc ばんぐみ 123
+              </Text>
+            </ItemSettingBlock.Item>
+            <Heatmap id='设置.切换' title='看板娘吐槽' />
+          </ItemSettingBlock>
+
           {/* 封面拟物 */}
           <ItemSettingBlock
             show={shows.coverThings}

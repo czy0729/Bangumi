@@ -3,22 +3,28 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 14:13:08
+ * @Last Modified time: 2022-08-12 08:35:02
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { PAD_INCREASE, computedLineHeight, format } from './utils'
+import {
+  PAD_INCREASE,
+  setComponentsDefaultProps,
+  computedLineHeight,
+  format
+} from './utils'
 import { memoStyles } from './styles'
 import { TextType, Props as TextProps, Context } from './types'
 
-export { TextType, TextProps }
+export { setComponentsDefaultProps, TextType, TextProps }
 
 function CompText(
   {
     style,
+    overrideStyle,
     type = 'desc',
     size = 14,
     lineHeight,
@@ -59,6 +65,7 @@ function CompText(
   // 依然不会显示成该字体, 所以需要在最后设置
   _style.push(styles.text)
   if (bold) _style.push(styles.bold)
+  if (overrideStyle) _style.push(overrideStyle)
 
   return (
     <RNText

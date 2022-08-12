@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 11:01:22
+ * @Last Modified time: 2022-08-12 07:28:51
  */
 import { TextProps } from 'react-native'
 import { Override, TextStyle, ReactNode } from '@types'
@@ -32,6 +32,9 @@ export type Props = Override<
   {
     /** 样式 */
     style?: TextStyle
+
+    /** 强制覆盖样式 */
+    overrideStyle?: TextStyle
 
     /** 预设主题色 */
     type?: TextType

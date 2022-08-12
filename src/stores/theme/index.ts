@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 17:07:08
+ * @Last Modified time: 2022-08-12 08:26:47
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -213,19 +213,33 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** -------------------- get -------------------- */
+  /** 是否不使用字体 */
+  @computed get customFontFamily() {
+    return systemStore.setting.customFontFamily
+  }
+
   /** 字体 */
   @computed get fontFamily() {
+    if (this.customFontFamily) return ''
     return 'rhrm'
   }
 
   /** 字体 (粗) */
   @computed get fontBoldFamily() {
+    if (this.customFontFamily) return ''
     return 'rhrb'
   }
 
   /** 字体样式 */
   @computed get fontStyle() {
     if (IOS) return {}
+
+    if (this.customFontFamily) {
+      return {
+        fontFamily: this.fontFamily,
+        fontWeight: 'normal'
+      } as const
+    }
 
     return {
       fontFamily: this.fontFamily,
@@ -236,6 +250,13 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   /** 字体样式 (粗)  */
   @computed get fontBoldStyle() {
     if (IOS) return {}
+
+    if (this.customFontFamily) {
+      return {
+        fontFamily: this.fontBoldFamily,
+        fontWeight: 'bold'
+      } as const
+    }
 
     return {
       fontFamily: this.fontBoldFamily,
@@ -1014,7 +1035,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     return () => {
       /**
        * 通过闭包使每一个组件里面的 StyleSheet.create 都被缓存
-       * 当会影响到全局样式的设置 (mode | tMode | deepDark | orientation) 改变了
+       * 当会影响到全局样式的设置 (mode | tMode | deepDark | orientation | customFontFamily) 改变了
        * 会重新调用 StyleSheet.create, 配合 mobx -> observer 触发重新渲染
        * */
       if (
@@ -1023,16 +1044,18 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
         item._mode !== this.mode ||
         item._tMode !== this.tinygrailThemeMode ||
         item._deepDark !== this.deepDark ||
-        item._orientation !== this.orientation
+        item._orientation !== this.orientation ||
+        item._customFontFamily !== this.customFontFamily
       ) {
         item._mode = this.mode
         item._tMode = this.tinygrailThemeMode
         item._deepDark = this.deepDark
         item._orientation = this.orientation
+        item._customFontFamily = this.customFontFamily
 
         const computedStyles: any = styles(this)
 
-        /** @deprecated current 逻辑复杂用不上, 请勿再使用次特性 */
+        /** @deprecated current 逻辑复杂用不上, 请勿再使用此特性 */
         if (computedStyles.current) {
           const { current, ...otherStyles } = computedStyles
           item._styles = StyleSheet.create(otherStyles)

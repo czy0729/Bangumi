@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 03:40:57
+ * @Last Modified time: 2022-08-12 07:32:30
  */
-import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
-  MODEL_SETTING_QUALITY,
-  MODEL_SETTING_TRANSITION,
-  MODEL_SETTING_INITIAL_PAGE,
+  MODEL_SETTING_CDN_ORIGIN,
+  MODEL_SETTING_HOME_GRID_COVER_LAYOUT,
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
+  MODEL_SETTING_INITIAL_PAGE,
+  MODEL_SETTING_QUALITY,
+  MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM,
-  MODEL_SETTING_CDN_ORIGIN,
-  MODEL_SETTING_HOME_GRID_COVER_LAYOUT
-} from '@constants/model'
+  VERSION_GITHUB_RELEASE
+} from '@constants'
 import { radiusMd } from '@styles'
 import {
   SettingHomeGridCoverLayout,
@@ -248,6 +248,9 @@ export const INIT_SETTING = {
 
   /** 发现菜单一列个数 */
   discoveryMenuNum: 5,
+
+  /** 是否不使用字体 */
+  customFontFamily: false,
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT
