@@ -2,57 +2,56 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:43:56
+ * @Last Modified time: 2022-08-14 07:52:08
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
-import { x18 } from '@utils/app'
+import { x18, feedback } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
-import { feedback } from '@utils/ui'
-import { URL_DEFAULT_AVATAR } from '@constants'
-import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-
-export const tabs = MODEL_TIMELINE_TYPE.data.map(item => ({
-  title: item.label
-}))
-export const H_TABBAR = 48
-
-const namespace = 'ScreenTimeline'
-const excludeState = {
-  isFocused: true
-}
+import {
+  IOS,
+  MODEL_TIMELINE_SCOPE,
+  MODEL_TIMELINE_TYPE,
+  URL_DEFAULT_AVATAR
+} from '@constants'
+import { TimeLineScope, TimeLineType, UserId } from '@types'
+import { NAMESPACE, EXCLUDE_STATE, STATE, TABS } from './ds'
+import { TabLabel } from './types'
 
 export default class ScreenTimeline extends store {
-  state = observable({
-    scope: MODEL_TIMELINE_SCOPE.getValue('全站'),
-    page: 0, // <Tabs>当前页数
-    ...excludeState,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
+      renderedTabsIndex: [state?.page || 0],
       _loaded: true
     })
 
     setTimeout(() => {
       this.fetchTimeline(true)
     }, 0)
-    return res
+    return true
   }
 
-  onHeaderRefresh = () => this.fetchTimeline(true)
+  onHeaderRefresh = () => {
+    return this.fetchTimeline(true)
+  }
 
   // -------------------- fetch --------------------
-  fetchTimeline = refresh => {
+  fetchTimeline = (refresh: boolean = false) => {
     const { scope, page } = this.state
-    const type = MODEL_TIMELINE_TYPE.getValue(tabs[page].title)
-    return timelineStore.fetchTimeline({ scope, type }, refresh)
+    const type = MODEL_TIMELINE_TYPE.getValue<TimeLineType>(TABS[page].title)
+    return timelineStore.fetchTimeline(
+      {
+        scope,
+        type
+      },
+      refresh
+    )
   }
 
   // -------------------- get --------------------
@@ -74,7 +73,7 @@ export default class ScreenTimeline extends store {
    *  - 主动设置屏蔽18x
    *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户和18x
    */
-  timeline(scope, type) {
+  timeline(scope: TimeLineScope, type: TimeLineType) {
     return computed(() => {
       const timeline = timelineStore.timeline(scope, type)
       const { filterDefault, filter18x } = systemStore.setting
@@ -106,46 +105,61 @@ export default class ScreenTimeline extends store {
     }).get()
   }
 
+  /** 是否渲染 Item */
+  showItem(title: TabLabel) {
+    return computed(() => {
+      if (!IOS) return true
+      const index = TABS.findIndex(item => item.title === title)
+      return this.state.renderedTabsIndex.includes(index)
+    }).get()
+  }
+
   // -------------------- page --------------------
-  onChange = page => {
+  /** 标签页切换 */
+  onChange = (page: number) => {
     const { scope } = this.state
     t('时间胶囊.标签页切换', {
       page,
       scope
     })
 
+    const renderedTabsIndex = [...this.state.renderedTabsIndex]
+    if (!renderedTabsIndex.includes(page)) renderedTabsIndex.push(page)
+
     this.setState({
-      page
+      page,
+      renderedTabsIndex
     })
     this.fetchTimeline(true)
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSelectScope = label => {
+  /** 切换类型 */
+  onSelectScope = (label: string) => {
     t('时间胶囊.切换类型', {
       label
     })
 
     const { scope } = this.state
-    const nextScope = MODEL_TIMELINE_SCOPE.getValue(label)
+    const nextScope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>(label)
     if (nextScope !== scope) {
       this.setState({
         scope: nextScope
       })
       this.fetchTimeline(true)
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }
   }
 
+  /** 保存滚动到顶方法的引用 */
   scrollToLocation = {}
 
-  /**
-   * 底部TabBar再次点击滚动到顶并刷新数据
-   */
-  connectRef = (ref, index) => {
+  /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
+  forwardRef = (ref: any, index: number) => {
     this.scrollToLocation[index] = ref?.scrollToLocation
   }
 
+  /** 刷新到顶 */
   onRefreshThenScrollTop = () => {
     try {
       const { page } = this.state
@@ -172,8 +186,9 @@ export default class ScreenTimeline extends store {
     }
   }
 
-  onHidden = (title, userId) => {
-    let day
+  /** 隐藏 */
+  onHidden = (title: string, userId: UserId) => {
+    let day: number
     if (title === '1天不看TA') {
       day = 1
     } else if (title === '3天不看TA') {
@@ -192,13 +207,9 @@ export default class ScreenTimeline extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 删除时间线
-   */
-  doDelete = async href => {
-    if (!href) {
-      return false
-    }
+  /** 删除时间线 */
+  doDelete = async (href: string) => {
+    if (!href) return false
 
     const { scope } = this.state
     t('时间胶囊.删除时间线', {

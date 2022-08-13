@@ -2,27 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:44:27
+ * @Last Modified time: 2022-08-14 07:55:22
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { Login, SectionHeader, ItemTimeline } from '@_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { keyExtractor } from '@utils/app'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
-import { TimeLineScope, TimeLineScopeCn } from '@types'
+import { TimeLineScope, TimeLineScopeCn, TimeLineType } from '@types'
 import ItemHeatmaps from '../item-heatmaps'
-import { tabs } from '../store'
+import { TABS } from '../ds'
+import { Ctx, TabLabel } from '../types'
 import { styles } from './styles'
 
 class List extends React.Component<{
   scope?: TimeLineScope
-  title?: string
+  title?: TabLabel
 }> {
   state = {
     /**
-     * @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
+     * @issue 列表的滚回顶部 scrollToLocation 不知道如何正确使用
      * 暂时使用重新渲染的办法解决列表变换置顶问题
      */
     hide: false
@@ -42,15 +43,15 @@ class List extends React.Component<{
     }
   }
 
-  connectRef = ref => {
-    const { $ } = this.context
+  forwardRef = (ref: any) => {
+    const { $ }: Ctx = this.context
     const { title } = this.props
-    const index = tabs.findIndex(item => item.title === title)
-    return $.connectRef(ref, index)
+    const index = TABS.findIndex(item => item.title === title)
+    return $.forwardRef(ref, index)
   }
 
   renderItem = ({ item, index }) => {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     const { scope, title } = this.props
     const event = {
       id: '时间胶囊.跳转',
@@ -76,7 +77,7 @@ class List extends React.Component<{
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { scope, page, isFocused } = $.state
     const { title } = this.props
     const label = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope)
@@ -85,19 +86,23 @@ class List extends React.Component<{
     const { hide } = this.state
     if (hide) return null
 
-    const timeline = $.timeline(scope, MODEL_TIMELINE_TYPE.getValue(title))
+    const timeline = $.timeline(
+      scope,
+      MODEL_TIMELINE_TYPE.getValue<TimeLineType>(title)
+    )
     if (!timeline._loaded) return <Loading />
 
+    if (!$.showItem(title)) return null
     return (
       <ListView
-        ref={this.connectRef}
+        ref={this.forwardRef}
         contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={timeline}
         sectionKey='date'
         stickySectionHeadersEnabled={false}
         progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
-        scrollToTop={isFocused && tabs[page].title === title}
+        scrollToTop={isFocused && TABS[page].title === title}
         renderSectionHeader={renderSectionHeader}
         renderItem={this.renderItem}
         onHeaderRefresh={$.onHeaderRefresh}

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:06:58
+ * @Last Modified time: 2022-08-14 07:04:08
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { LogoHeader, IconTabsHeader } from '@_'
 import { _ } from '@stores'
+import { info } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import i18n from '@constants/i18n'
+import { Ctx } from '../types'
 
-function Header(props, { $, navigation }) {
+function Header(props, { $, navigation }: Ctx) {
   return (
     <LogoHeader
       right={
