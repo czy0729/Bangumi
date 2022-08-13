@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:00:44
+ * @Last Modified time: 2022-08-14 05:41:28
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -14,34 +14,13 @@ import { info, feedback } from '@utils/ui'
 import { t2s } from '@utils/thirdParty/cn-char'
 import i18n from '@constants/i18n'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { MEDIA_SUBJECT } from './ds'
-
-const HOST_API = 'https://api.bgm.tv'
-
-const namespace = 'ScreenBilibili'
-const loaded = {}
+import { NAMESPACE, STATE, HOST_API, MEDIA_SUBJECT, LOADED } from './ds'
 
 export default class ScreenBilibiliSync extends store {
-  state = observable({
-    data: {
-      list: [],
-      _loaded: 0
-    },
-    reviews: {},
-    collections: {},
-    bottom: {
-      current: 0
-    },
-    hide: false,
-    hideWatched: false,
-    hideSame: false,
-    hideNotMatched: false,
-    privacy: false,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
       hide: !!state?.data?.list?.length,
@@ -51,7 +30,7 @@ export default class ScreenBilibiliSync extends store {
 
   fetchCollection = async subjectId => {
     const collections = {}
-    const data = await request(`${HOST_API}/collection/${subjectId}`)
+    const data: any = await request(`${HOST_API}/collection/${subjectId}`)
     if (data?.status) {
       collections[subjectId] = {
         status: data.status.type,
@@ -69,7 +48,7 @@ export default class ScreenBilibiliSync extends store {
     this.setState({
       collections
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   fetchCollections = async (subjectIds = []) => {
@@ -81,11 +60,11 @@ export default class ScreenBilibiliSync extends store {
     const collections = {}
     const fetchs = []
     subjectIds.forEach(subjectId => {
-      if (loaded[subjectId]) return
+      if (LOADED[subjectId]) return
 
-      loaded[subjectId] = true
+      LOADED[subjectId] = true
       fetchs.push(async () => {
-        const data = await request(`${HOST_API}/collection/${subjectId}`)
+        const data: any = await request(`${HOST_API}/collection/${subjectId}`)
         if (data?.status) {
           collections[subjectId] = {
             status: data.status.type,
@@ -108,7 +87,7 @@ export default class ScreenBilibiliSync extends store {
     this.setState({
       collections
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   // -------------------- get --------------------
@@ -173,14 +152,14 @@ export default class ScreenBilibiliSync extends store {
         loaded: getTimestamp()
       }
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   setReviews = reviews => {
     this.setState({
       reviews
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onBottom = mediaId => {
@@ -192,7 +171,7 @@ export default class ScreenBilibiliSync extends store {
         [mediaId]: current
       }
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onSubmit = async (subjectId, collectionData, epData) => {
@@ -220,7 +199,7 @@ export default class ScreenBilibiliSync extends store {
     this.setState({
       [key]: !this.state[key]
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onRefreshCollection = subjectId => {

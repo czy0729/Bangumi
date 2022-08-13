@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-24 15:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:21:01
+ * @Last Modified time: 2022-08-14 05:28:05
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,6 @@ import { Cover } from '@_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { memo, obc } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import Column from './column'

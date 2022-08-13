@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-04-26 16:58:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 08:49:58
+ * @Last Modified time: 2022-08-14 05:58:45
  */
 import { useState, useEffect } from 'react'
-import { MODEL_COLLECTION_STATUS } from '@constants/model'
+import { MODEL_COLLECTION_STATUS } from '@constants'
 
 export function getSelectStatus(bili, bgm) {
   const _bili = Number(bili || 0)

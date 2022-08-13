@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 12:37:20
+ * @Last Modified time: 2022-08-14 05:29:09
  */
 import dayjs from 'dayjs'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -14,6 +14,8 @@ import { getSystemStoreAsync } from '../async'
 import { request } from './utils'
 import { API_COLLECTIONS, API_COLLECTION, HOST_API_V0 } from './ds'
 import { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
+
+export { request }
 
 /** 获取条目信息 */
 export async function fetchSubjectV0(config: { url: string }) {
