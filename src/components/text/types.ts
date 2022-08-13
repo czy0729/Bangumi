@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 07:28:51
+ * @Last Modified time: 2022-08-13 05:20:15
  */
 import { TextProps } from 'react-native'
 import { Override, TextStyle, ReactNode } from '@types'
@@ -30,6 +30,8 @@ export type TextType =
 export type Props = Override<
   TextProps,
   {
+    forwardRef?: (ref?: any) => any
+
     /** 样式 */
     style?: TextStyle
 

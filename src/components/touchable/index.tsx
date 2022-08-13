@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 18:38:35
+ * @Last Modified time: 2022-08-13 15:32:21
  */
 import React from 'react'
 import {
@@ -43,7 +43,7 @@ export const Touchable = observer(
     ...other
   }: TouchableProps) => {
     /**
-     * @tofixed 安卓开发环境热使用RNGH的组件会导致 GestureHandler already initialized 问题, 暂时规避
+     * @tofixed 安卓开发环境热使用 RNGH 的组件会导致 GestureHandler already initialized 问题, 暂时规避
      */
     const _useRN = !IOS && DEV ? true : useRN
     const passProps = {

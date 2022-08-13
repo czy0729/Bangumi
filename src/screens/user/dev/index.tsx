@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 04:39:59
+ * @Last Modified time: 2022-08-13 04:37:10
  */
 import React from 'react'
-import { Popable } from 'react-native-popable'
-import { ScrollView, Header, Text } from '@components'
+import { ScrollView, Header } from '@components'
 import { _, userStore } from '@stores'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import { initXsbRelationOTA } from '@constants/cdn'
@@ -33,9 +32,6 @@ const DEV = ({ navigation }: NavigationProps) => {
       >
         {userStore.isDeveloper && <Base />}
         <ScreenOrientation />
-        <Popable content='See profile'>
-          <Text>123</Text>
-        </Popable>
         {userStore.isDeveloper && (
           <>
             <UpdateTourist />

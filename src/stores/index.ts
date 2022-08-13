@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 13:46:15
+ * @Last Modified time: 2022-08-13 05:36:51
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { runAfter } from '@utils'
@@ -24,6 +24,7 @@ import tagStore from './tag'
 import themeStore from './theme'
 import timelineStore from './timeline'
 import tinygrailStore from './tinygrail'
+import uiStore from './ui'
 import userStore from './user'
 import usersStore from './users'
 import { Navigation } from '@types'
@@ -129,6 +130,7 @@ export {
   themeStore,
   timelineStore,
   tinygrailStore,
+  uiStore,
   userStore,
   usersStore
 }

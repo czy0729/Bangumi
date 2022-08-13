@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-02 16:48:47
+ * @Last Modified time: 2022-08-13 06:15:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _, systemStore, subjectStore, rakuenStore, userStore } from '@stores'
 import { runAfter, HTMLDecode } from '@utils'
 import { navigationReference } from '@utils/app'
-import { HOST, IOS, API_COVER, API_AVATAR } from '@constants'
+import { IOS, API_COVER, API_AVATAR } from '@constants'
 import { ReactNode } from '@types'
 import { Touchable } from '../../touchable'
 import { Flex } from '../../flex'
@@ -18,6 +18,7 @@ import { Iconfont } from '../../iconfont'
 import { Cover } from '../cover'
 import { Avatar } from '../avatar'
 import { fetchMediaQueue } from '../utils'
+import ACText from './ac-text'
 import { memoStyles } from './styles'
 
 /**
@@ -48,7 +49,7 @@ export function filterChildren(
 /**
  * 获取html根节点文字
  */
-function getRawChildrenText(passProps) {
+export function getRawChildrenText(passProps) {
   try {
     const text = passProps?.rawChildren?.[0]?.data
     if (text) return text
@@ -69,32 +70,20 @@ function getRawChildrenText(passProps) {
   }
 }
 
-/**
- * AC自动机猜测条目文字
- */
+/** AC自动机猜测条目文字 */
 export function getACSearch({ style, passProps, params, onPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const navigation = navigationReference()
     const { subjectId } = params
     return (
-      <Text
+      <ACText
+        navigation={navigation}
         style={style}
-        selectable
-        underline
-        onPress={() => {
-          navigation
-            ? navigation.push('Subject', {
-                subjectId,
-                _cn: text
-              })
-            : onPress(null, `${HOST}/subject/${subjectId}`, {
-                _cn: text
-              })
-        }}
-      >
-        {text}
-      </Text>
+        subjectId={subjectId}
+        text={text}
+        onPress={onPress}
+      />
     )
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-02 14:08:31
+ * @Last Modified time: 2022-08-13 19:28:56
  */
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep, HTMLDecode } from '@utils'
@@ -180,14 +180,14 @@ export function hackMatchMediaLink(html: string) {
     const htmlNoTags = _html.replace(regs.quote, '').replace(regs.a, '')
 
     const acData = acSearch(removeHTMLTag(htmlNoTags))
-    if (Array.isArray(acData)) {
+    if (Array.isArray(acData) && acData.length) {
       const substrings = getSubStrings()
       acData.forEach((item, index) => {
-        _html = _html.replace(item, `###${index}###`)
+        _html = _html.replace(item, `##${index}##`)
       })
       acData.forEach((item, index) => {
         _html = _html.replace(
-          `###${index}###`,
+          `##${index}##`,
           `<a href="https://App/Subject/subjectId:${substrings[item]}">${item}</a>`
         )
       })

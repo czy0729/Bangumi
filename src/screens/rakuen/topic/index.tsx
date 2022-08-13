@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 14:07:19
+ * @Last Modified time: 2022-08-13 19:50:32
  */
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
+import { useIsFocused } from '@react-navigation/native'
 import { Page, Loading } from '@components'
 import { useOnScroll } from '@components/header/utils'
-import { ItemPost } from '@_'
-import { _ } from '@stores'
+import { ItemPost, TapListener } from '@_'
+import { _, uiStore } from '@stores'
 import { ic } from '@utils/decorators'
 import {
   useObserver,
-  useIsFocused,
+  useIsFocused as useIsFocusedRef,
   useRunAfter,
   useKeyboardAdjustResize
 } from '@utils/hooks'
@@ -29,9 +30,10 @@ const preRenderIndex = 8
 
 const Topic = (props, { $ }) => {
   const isFocused = useIsFocused()
+  const isFocusedRef = useIsFocusedRef()
   const { fixed, onScroll } = useOnScroll()
   const [rendered, setRendered] = useState(false)
-  const listViewRef = useRef(null)
+  const forwardRef = useRef(null)
   const fixedTextareaRef = useRef(null)
   const scrollFailCount = useRef(0)
 
@@ -40,7 +42,7 @@ const Topic = (props, { $ }) => {
     info(list[index]?.floor, 0.8)
 
     try {
-      listViewRef.current?.scrollToIndex({
+      forwardRef.current?.scrollToIndex({
         animated: false,
         index,
         viewOffset: 0
@@ -51,6 +53,13 @@ const Topic = (props, { $ }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  const onScrollFn = useCallback(
+    e => {
+      uiStore.closePopableSubject()
+      onScroll(e)
+    },
+    [onScroll]
+  )
   const onScrollTo = useCallback((index = 0) => {
     t('帖子.楼层跳转', {
       topicId: $.topicId,
@@ -59,7 +68,7 @@ const Topic = (props, { $ }) => {
 
     if (index === -1) {
       info('#1', 0.8)
-      listViewRef.current?.scrollToOffset({
+      forwardRef.current?.scrollToOffset({
         animated: true,
         offset: 0 - _.headerHeight
       })
@@ -70,7 +79,7 @@ const Topic = (props, { $ }) => {
     info(list[index]?.floor, 0.8)
 
     try {
-      listViewRef.current?.scrollToIndex({
+      forwardRef.current?.scrollToIndex({
         animated: true,
         index,
         viewOffset: 0 + _.headerHeight
@@ -164,25 +173,33 @@ const Topic = (props, { $ }) => {
     androidKeyboardAdjust('setAdjustResize')
 
     setTimeout(() => {
-      if (isFocused.current) setRendered(true)
+      if (isFocusedRef.current) setRendered(true)
     }, 400)
 
     await $.init()
+
     if ($.postId) onJumpTo()
   })
+
   useKeyboardAdjustResize()
+
+  useEffect(() => {
+    if (!isFocused) uiStore.closePopableSubject()
+  }, [isFocused])
 
   return useObserver(() => {
     return (
       <>
         <Header fixed={fixed} />
         <Page>
-          <List
-            listViewRef={listViewRef}
-            renderItem={renderItem}
-            onScroll={onScroll}
-            onScrollToIndexFailed={onScrollToIndexFailed}
-          />
+          <TapListener>
+            <List
+              forwardRef={forwardRef}
+              renderItem={renderItem}
+              onScroll={onScrollFn}
+              onScrollToIndexFailed={onScrollToIndexFailed}
+            />
+          </TapListener>
           <TouchScroll onPress={onScrollTo} />
           <Bottom fixedTextareaRef={fixedTextareaRef} />
         </Page>

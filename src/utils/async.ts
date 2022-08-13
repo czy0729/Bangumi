@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 11:04:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:15:35
+ * @Last Modified time: 2022-08-13 06:17:44
  */
 
 /** 同步取 UserStore */
@@ -20,6 +20,11 @@ export function getThemeStoreAsync() {
 /** 同步取 SystemStore */
 export function getSystemStoreAsync() {
   return require('../stores/system').default
+}
+
+/** 同步取 UIStore */
+export function getUIStoreAsync() {
+  return require('../stores/ui').default
 }
 
 /** 同步取 RakuenStore */

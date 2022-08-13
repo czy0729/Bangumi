@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:12:36
+ * @Last Modified time: 2022-08-13 18:25:55
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -48,7 +48,7 @@ function Item(
         >
           <Flex align='start'>
             <Flex.Item>
-              <Text bold>{title}</Text>
+              <Text bold>{title === 'undefined' ? '(此帖子已删除)' : title}</Text>
               <Text style={_.mt.sm} type='sub' size={12}>
                 {time.split(' ')[1]} /
                 <Text size={12} type='title' bold>

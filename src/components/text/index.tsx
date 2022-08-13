@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:35:02
+ * @Last Modified time: 2022-08-13 05:20:21
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -23,6 +23,7 @@ export { setComponentsDefaultProps, TextType, TextProps }
 
 function CompText(
   {
+    forwardRef,
     style,
     overrideStyle,
     type = 'desc',
@@ -69,6 +70,7 @@ function CompText(
 
   return (
     <RNText
+      ref={forwardRef}
       style={_style}
       allowFontScaling={false}
       selectable={selectable}

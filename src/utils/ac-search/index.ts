@@ -5,14 +5,17 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:07:31
+ * @Last Modified time: 2022-08-13 19:40:23
  */
 import lazyac from 'lazy-aho-corasick'
-import anime from '@assets/json/substrings.json'
-import game from '@assets/json/substrings-game.json'
-import book from '@assets/json/substrings-book.json'
-import { arrGroup } from '../utils'
+import addon from '@assets/json/substrings-addon.json' // 动画 (手动维护)
+import alias from '@assets/json/substrings-alias.json' // 动画 (别名)
+import anime from '@assets/json/substrings.json' // 动画
+import game from '@assets/json/substrings-game.json' // 游戏
+import book from '@assets/json/substrings-book.json' // 书籍
+import { arrGroup, desc } from '../utils'
 import hash from '../thirdParty/hash'
+import { DEV } from '@constants'
 
 /** 缓存搜索过的结果 */
 const CACHE: {
@@ -39,13 +42,23 @@ function initLazyac() {
     trieInit = true
 
     // 安卓环境一次性初始化太多词条会卡死, 所以下面做了分组初始化
-    const CNS = [...Object.keys(anime), ...Object.keys(game), ...Object.keys(book)]
+    const CNS = (
+      DEV
+        ? [...Object.keys(addon), ...Object.keys(alias), ...Object.keys(anime)]
+        : [
+            ...Object.keys(addon),
+            ...Object.keys(alias),
+            ...Object.keys(anime),
+            ...Object.keys(game),
+            ...Object.keys(book)
+          ]
+    )
       .filter(item => {
         // 过滤掉比较长的条目名字, 命中率很低
         if (item.length >= 10 || item.length <= 1) return false
 
         // 带特殊符号的通常用户很少手动输入, 命中率很低
-        if (/。|！|？|：|、|～|・|《|〈|（|「|&|~|:|“|-|!|;|·|'|\*|\?|\+/.test(item)) {
+        if (/。|！|？|：|、|～|・|《|〈|（|「|&|~|:|“|!|;|·|'|\*|\?|\+/.test(item)) {
           return false
         }
 
@@ -54,7 +67,7 @@ function initLazyac() {
       .sort((a: string, b: string) => a.localeCompare(b))
 
     setTimeout(() => {
-      const arrs = arrGroup(CNS, 500)
+      const arrs = arrGroup(CNS, 400)
       arrs.forEach((cns, index) => {
         setTimeout(() => {
           tries.push(
@@ -69,7 +82,7 @@ function initLazyac() {
 
           // 把 subject cn => subject id 插入 SUBSTRINGS
           cns.forEach((cn: string) => {
-            SUBSTRINGS[cn] = anime[cn] || game[cn] || book[cn]
+            SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn] || game[cn] || book[cn]
           })
 
           if (index === arrs.length - 1) trieInitDone = true
@@ -99,7 +112,10 @@ export function acSearch(str: string) {
     })
   })
 
-  results = results.sort((a: string, b: string) => b.localeCompare(a))
+  results = results.sort((a: string, b: string) => {
+    if (a.length !== b.length) return desc(a.length, b.length)
+    return b.localeCompare(a)
+  })
 
   if (trieInitDone) {
     CACHE[_hash] = results

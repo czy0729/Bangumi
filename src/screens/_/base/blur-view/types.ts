@@ -9,5 +9,7 @@ import { ViewStyle } from '@types'
 export type Props = {
   style?: ViewStyle
 
+  intensity?: number
+
   children?: any
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 05:12:28
+ * @Last Modified time: 2022-08-13 14:03:12
  */
 export * from './app-common'
 export * from './auth'
@@ -27,6 +27,7 @@ export * from './name'
 export * from './navigation-bar-events'
 export * from './pagination-list'
 export * from './pagination-list2'
+export * from './popable'
 export * from './popover'
 export * from './prevent-touch-placeholder'
 export * from './rank'
@@ -41,3 +42,4 @@ export * from './status-bar-placeholder'
 export * from './status-btn-group'
 export * from './stock-preview'
 export * from './tag'
+export * from './tap-listener'

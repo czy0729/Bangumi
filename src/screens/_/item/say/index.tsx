@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, RenderHtml, devLog } from '@components'
+import { Flex, Text, RenderHtml } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { obc } from '@utils/decorators'
@@ -34,7 +34,6 @@ export const ItemSay = obc(
     { navigation }
   ) => {
     const styles = memoStyles()
-    devLog(avatar)
     if (position === 'right') {
       return (
         <Flex key={index} style={showName ? _.mt.md : _.mt.sm} align='start'>

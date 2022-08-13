@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 09:19:47
+ * @Last Modified time: 2022-08-13 05:40:23
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -48,6 +48,10 @@ export function devLog(...args: any) {
       // }
     })
   }, 0)
+}
+
+export function devLogs(...args: any) {
+  devLog(args.join(', '))
 }
 
 export const DEV = observer(() => {

@@ -11,10 +11,10 @@ import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import Top from '../top'
 
-function List({ listViewRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }) {
+function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }) {
   return (
     <ListView
-      ref={listViewRef}
+      ref={forwardRef}
       style={_.container.content}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
