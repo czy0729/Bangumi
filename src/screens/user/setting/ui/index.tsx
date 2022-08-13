@@ -22,6 +22,7 @@ import { ItemSetting, ItemSettingBlock, Cover, Avatar } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { loadAppFontsAsync } from '@utils/hooks/useCachedResources'
 import {
   IMG_DEFAULT_AVATAR,
   IOS,
@@ -71,7 +72,7 @@ function UI({ filter }) {
               title='开启'
               active={!customFontFamily}
               filter={filter}
-              onPress={() => {
+              onPress={async () => {
                 if (!customFontFamily) return
 
                 t('设置.切换', {
@@ -79,6 +80,7 @@ function UI({ filter }) {
                   checked: !customFontFamily
                 })
 
+                await loadAppFontsAsync()
                 systemStore.switchSetting('customFontFamily')
                 setComponentsDefaultProps()
               }}

@@ -12,6 +12,24 @@ import Stores from '@stores'
 import useBoolean from './useBoolean'
 import { bootApp } from '../app'
 
+function loadBaseFontsAsync() {
+  return Font.loadAsync({
+    bgm: require('@assets/fonts/AppleColorEmoji.ttf')
+  })
+}
+
+let loadAppFontsAsyncLoaded: boolean
+
+export function loadAppFontsAsync() {
+  if (loadAppFontsAsyncLoaded) return true
+
+  loadAppFontsAsyncLoaded = true
+  return Font.loadAsync({
+    rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.ttf'),
+    rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.ttf')
+  })
+}
+
 export default function useCachedResources() {
   const { state, setTrue } = useBoolean(false)
   useEffect(() => {
@@ -24,14 +42,11 @@ export default function useCachedResources() {
         bootApp()
 
         // Stores初始化
-        await Stores.init()
+        const settings = await Stores.init()
 
-        // 加载bgm表情特殊字体
-        await Font.loadAsync({
-          bgm: require('@assets/fonts/AppleColorEmoji.ttf'),
-          rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.ttf'),
-          rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.ttf')
-        })
+        // 加载 bgm 表情特殊字体
+        await loadBaseFontsAsync()
+        if (settings && !settings.customFontFamily) await loadAppFontsAsync()
 
         setComponentsDefaultProps()
       } catch (e) {

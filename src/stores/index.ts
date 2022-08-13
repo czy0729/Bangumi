@@ -41,16 +41,15 @@ class GlobalStores {
       if (DEV) await userStore.init()
       inited = true
 
-      // [同步加载]APP最重要Stores
+      // [同步加载] APP 最重要 Stores
       await systemStore.init()
       await themeStore.init()
       await userStore.init()
-      const res = Promise.all([
+      await Promise.all([
         collectionStore.init(),
         subjectStore.init(),
         tinygrailStore.init()
       ])
-      await res
 
       // [异步加载] 非重要Stores
       runAfter(() => {
@@ -65,7 +64,7 @@ class GlobalStores {
         usersStore.init()
       })
 
-      return res
+      return systemStore.setting
     } catch (error) {
       return false
     }
