@@ -8,7 +8,7 @@ import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
 import { Popover as Pop, PopoverController } from 'react-native-modal-popover'
 import { _ } from '@stores'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { WithTheme } from '../style'
 import PopoverStyles from './style'
 
@@ -86,7 +86,7 @@ export default class Popover extends React.PureComponent {
           maxHeight: parseInt(_.window.height * 0.48),
           backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
         }}
-        {...scrollViewResetProps}
+        {...SCROLL_VIEW_RESET_PROPS}
       >
         {items}
       </ScrollView>

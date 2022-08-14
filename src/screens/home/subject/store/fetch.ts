@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 06:20:56
+ * @Last Modified time: 2022-08-14 09:47:47
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -30,8 +30,16 @@ import Computed from './computed'
 import { NAMESPACE } from './ds'
 
 export default class Fetch extends Computed {
-  /** 条目信息 */
+  /**
+   * 条目信息
+   * @opitimize 60s
+   */
   fetchSubject = () => {
+    const { _loaded } = this.subject
+    if (_loaded && getTimestamp() - Number(_loaded) < 60) {
+      return this.subject
+    }
+
     return subjectStore.fetchSubject(this.subjectId)
   }
 

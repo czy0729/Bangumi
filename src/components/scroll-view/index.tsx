@@ -6,7 +6,7 @@
  */
 import React, { useRef } from 'react'
 import { ScrollView as RNScrollView } from 'react-native'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
 import { Props as ScrollViewProps } from './types'
 
@@ -36,7 +36,7 @@ export const ScrollView = ({
       ref={ref}
       scrollIndicatorInsets={scrollIndicatorInsets}
       {...other}
-      {...scrollViewResetProps}
+      {...SCROLL_VIEW_RESET_PROPS}
     >
       {children}
       {scrollToTop && <ScrollToTop scrollTo={scrollViewEl.current} />}

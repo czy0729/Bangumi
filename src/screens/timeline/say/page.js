@@ -19,7 +19,7 @@ import {
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { API_AVATAR, scrollViewResetProps } from '@constants'
+import { API_AVATAR, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import Chat from './chat'
 
 const event = {
@@ -63,7 +63,7 @@ class Say extends React.Component {
           ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={_.container.bottom}
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
         >
           <Chat />
         </ScrollView>
@@ -99,7 +99,7 @@ class Say extends React.Component {
           ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={this.styles.list}
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
         >
           <Chat />
         </ScrollView>
@@ -116,7 +116,7 @@ class Say extends React.Component {
         style={this.styles.expand}
         contentContainerStyle={this.styles.contentContainerStyle}
         horizontal
-        {...scrollViewResetProps}
+        {...SCROLL_VIEW_RESET_PROPS}
       >
         <Flex>
           <Text style={_.ml.sm} size={12} bold>
@@ -145,7 +145,7 @@ class Say extends React.Component {
         style={this.styles.users}
         contentContainerStyle={this.styles.contentContainerStyle}
         horizontal
-        {...scrollViewResetProps}
+        {...SCROLL_VIEW_RESET_PROPS}
       >
         {$.users.map(item => (
           <Avatar

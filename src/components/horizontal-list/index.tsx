@@ -8,7 +8,7 @@ import React from 'react'
 import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ViewStyle } from '@types'
 
 type Props = {
@@ -66,7 +66,7 @@ export const HorizontalList = observer(
           contentContainerStyle={contentContainerStyle}
           horizontal
           scrollEventThrottle={80}
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
           onScroll={this.show ? undefined : this.onScroll}
         >
           {this.data.map(renderItem)}

@@ -12,7 +12,7 @@ import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
-import { scrollViewResetProps, URL_DEFAULT_AVATAR } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS, URL_DEFAULT_AVATAR } from '@constants'
 import IconCatalog from './icon/catalog'
 import IconHidden from './icon/hidden'
 
@@ -51,7 +51,7 @@ const Catalog = memo(
               <ScrollView
                 contentContainerStyle={styles.contentContainerStyle}
                 horizontal
-                {...scrollViewResetProps}
+                {...SCROLL_VIEW_RESET_PROPS}
               >
                 {catalog.map(item => (
                   <Touchable

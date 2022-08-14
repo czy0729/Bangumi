@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-05-11 04:44:47
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-05-11 04:44:47
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-14 09:20:58
  */
 
 /** Timeline */
@@ -15,6 +15,7 @@ export default {
   '时间胶囊.切换类型': 'Timeline.onSelectScope',
   '时间胶囊.隐藏': 'Timeline.onHidden',
   '时间胶囊.删除时间线': 'Timeline.doDelete',
+  '时间胶囊.缩略框': 'Timeline.popable',
 
   // 吐槽
   '吐槽.跳转': 'Say.to',

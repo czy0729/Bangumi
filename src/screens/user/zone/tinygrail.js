@@ -12,7 +12,7 @@ import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TABS_WITH_TINYGRAIL } from './ds'
 
 function Tinygrail(props, { $, navigation }) {
@@ -27,7 +27,7 @@ function Tinygrail(props, { $, navigation }) {
       }}
       contentContainerStyle={styles.contentContainerStyle}
       {...props}
-      {...scrollViewResetProps}
+      {...SCROLL_VIEW_RESET_PROPS}
     >
       <View style={styles.page}>
         <Text style={_.mt.lg}>

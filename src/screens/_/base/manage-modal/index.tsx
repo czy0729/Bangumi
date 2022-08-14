@@ -14,7 +14,7 @@ import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
-import { MODEL_PRIVATE, scrollViewResetProps } from '@constants'
+import { MODEL_PRIVATE, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Private, RatingStatus } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
@@ -229,7 +229,7 @@ export const ManageModal = ob(
 
       const selected = this.state.tags.split(' ')
       return (
-        <ScrollView horizontal {...scrollViewResetProps}>
+        <ScrollView horizontal {...SCROLL_VIEW_RESET_PROPS}>
           {tags.map(({ name, count }) => {
             const isSelected = selected.indexOf(name) !== -1
             return (

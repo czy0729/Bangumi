@@ -11,7 +11,7 @@ import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { refreshControlProps } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Auth from './auth'
@@ -71,7 +71,7 @@ class Tinygrail extends React.Component {
               onRefresh={this.onRefresh}
             />
           }
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
         >
           <UM screen={title} />
           <StatusBarEvents backgroundColor='transparent' />

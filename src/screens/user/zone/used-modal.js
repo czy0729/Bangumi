@@ -10,7 +10,7 @@ import { Loading, Flex, Text, Image } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, timelineStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { hash, HOST_CDN, VERSIONS_AVATAR, scrollViewResetProps } from '@constants'
+import { hash, HOST_CDN, VERSIONS_AVATAR, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
 
 export default
@@ -115,7 +115,7 @@ class UsedModal extends React.Component {
       <ScrollView
         contentContainerStyle={this.styles.avatars}
         horizontal
-        {...scrollViewResetProps}
+        {...SCROLL_VIEW_RESET_PROPS}
       >
         {avatar.map(item => (
           <Image
@@ -136,7 +136,7 @@ class UsedModal extends React.Component {
     return (
       <ScrollView
         contentContainerStyle={this.styles.names}
-        {...scrollViewResetProps}
+        {...SCROLL_VIEW_RESET_PROPS}
       >
         {name._loaded ? (
           name.list.length ? (

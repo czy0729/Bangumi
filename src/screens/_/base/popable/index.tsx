@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 19:44:54
+ * @Last Modified time: 2022-08-14 09:58:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,11 +72,17 @@ export const Popable = ({ subjectId, visible, x, y }) => {
                     align='start'
                   >
                     <View>
-                      <Text size={12} numberOfLines={2} bold>
+                      <Text size={12} lineHeight={13} numberOfLines={2} bold>
                         {textTop}
-                        {year ? ` (${year})` : ''}
+                        {year?.[0] && year?.[0] !== '0000' ? ` (${year[0]})` : ''}
                       </Text>
-                      <Text style={_.mt.xs} type='sub' size={10} numberOfLines={2}>
+                      <Text
+                        style={_.mt.xs}
+                        type='sub'
+                        size={10}
+                        lineHeight={11}
+                        numberOfLines={2}
+                      >
                         {textBottom}
                       </Text>
                     </View>

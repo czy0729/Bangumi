@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 11:42:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 12:18:14
+ * @Last Modified time: 2022-08-14 09:59:53
  */
 import { _ } from '@stores'
 import { memoStyles } from './styles'
@@ -36,7 +36,7 @@ export function getPosition(
   const style: Style = {}
 
   const { container } = memoStyles()
-  if (y - container.height - LINE_HEIGHT * 2 >= 0) {
+  if (y - container.height - LINE_HEIGHT * 3 >= 0) {
     position = 'top'
     style.top = y - container.height - LINE_HEIGHT
   } else {

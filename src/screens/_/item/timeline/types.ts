@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:50:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 21:25:10
+ * @Last Modified time: 2022-08-14 09:03:17
  */
 import { EventType, Navigation, SubjectId, UserId, ViewStyle } from '@types'
 
@@ -21,8 +21,8 @@ export type Props = {
     text: string
   }
   p3?: {
-    text: string
-    url: string
+    text: string[]
+    url: string[]
   }
   p4?: {
     text: string

@@ -10,7 +10,7 @@ import { RenderHtml } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TABS } from './ds'
 
 function About(props, { $, navigation }) {
@@ -30,7 +30,7 @@ function About(props, { $, navigation }) {
       }}
       contentContainerStyle={styles.contentContainerStyle}
       {...props}
-      {...scrollViewResetProps}
+      {...SCROLL_VIEW_RESET_PROPS}
     >
       <View style={styles.page}>
         <RenderHtml

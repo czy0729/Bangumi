@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 07:55:22
+ * @Last Modified time: 2022-08-14 09:33:55
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { Login, SectionHeader, ItemTimeline } from '@_'
-import { _ } from '@stores'
+import { _, uiStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
@@ -48,6 +48,10 @@ class List extends React.Component<{
     const { title } = this.props
     const index = TABS.findIndex(item => item.title === title)
     return $.forwardRef(ref, index)
+  }
+
+  onScroll = () => {
+    uiStore.closePopableSubject()
   }
 
   renderItem = ({ item, index }) => {
@@ -105,6 +109,7 @@ class List extends React.Component<{
         scrollToTop={isFocused && TABS[page].title === title}
         renderSectionHeader={renderSectionHeader}
         renderItem={this.renderItem}
+        onScroll={this.onScroll}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchTimeline}
       />

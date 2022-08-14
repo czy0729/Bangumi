@@ -10,7 +10,7 @@ import { Flex, Text, Heatmap } from '@components'
 import { SectionTitle, Avatar, Stars, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { memo, obc } from '@utils/decorators'
-import { scrollViewResetProps, URL_DEFAULT_AVATAR } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS, URL_DEFAULT_AVATAR } from '@constants'
 import IconHidden from './icon/hidden'
 
 const defaultProps = {
@@ -42,7 +42,7 @@ const Recent = memo(
               style={_.mt.md}
               contentContainerStyle={_.container.wind}
               horizontal
-              {...scrollViewResetProps}
+              {...SCROLL_VIEW_RESET_PROPS}
             >
               {who.map(item => (
                 <Flex key={item.userId} style={styles.item}>

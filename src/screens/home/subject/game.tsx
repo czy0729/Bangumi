@@ -13,7 +13,7 @@ import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { CDN_GAME } from '@constants/cdn'
 import IconPS from './icon/ps'
 import IconHidden from './icon/hidden'
@@ -57,7 +57,7 @@ class Game extends React.Component {
         style={_.mt.md}
         contentContainerStyle={_.container.wind}
         horizontal
-        {...scrollViewResetProps}
+        {...SCROLL_VIEW_RESET_PROPS}
         scrollEventThrottle={80}
         onScroll={scrolled ? undefined : this.onScroll}
       >

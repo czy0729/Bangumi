@@ -453,7 +453,7 @@ export const contextTypes = {
   route: PropTypes.object
 }
 
-export const scrollViewResetProps = {
+export const SCROLL_VIEW_RESET_PROPS = {
   alwaysBounceHorizontal: false,
   alwaysBounceVertical: false,
   overScrollMode: 'never',

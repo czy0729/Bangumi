@@ -11,7 +11,7 @@ import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Header from './header'
 import Form from './form'
@@ -72,7 +72,7 @@ class TinygrailDeal extends React.Component {
               onRefresh={this.onRefresh}
             />
           }
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
         >
           <Flex style={this.styles.form} align='start'>
             <Flex.Item>

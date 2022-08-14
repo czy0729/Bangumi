@@ -10,7 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { desc, findSubjectCn } from '@utils'
 import { ob } from '@utils/decorators'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Cover } from '../cover'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
 import { memoStyles } from './styles'
@@ -78,7 +78,7 @@ export const HorizontalList = ob(
             style={style}
             contentContainerStyle={this.styles.contentContainerStyle}
             horizontal
-            {...scrollViewResetProps}
+            {...SCROLL_VIEW_RESET_PROPS}
             scrollEventThrottle={80}
             onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
           >

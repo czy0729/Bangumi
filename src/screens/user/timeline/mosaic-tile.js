@@ -12,7 +12,7 @@ import { date, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 
 const px = 12 * _.ratio
 const margin = 3 * _.ratio
@@ -107,7 +107,7 @@ function MosaicTile(props, { $ }) {
         <ScrollView
           contentContainerStyle={styles.contentContainerStyle}
           horizontal
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
         >
           <View>
             <Flex style={styles.months}>

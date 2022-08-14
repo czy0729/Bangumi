@@ -11,7 +11,7 @@ import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { open } from '@utils'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconHidden from '../icon/hidden'
 import Video from './video'
 import Preview from './preview'
@@ -100,7 +100,7 @@ class Thumbs extends React.Component {
             style={_.mt.md}
             contentContainerStyle={_.container.wind}
             horizontal
-            {...scrollViewResetProps}
+            {...SCROLL_VIEW_RESET_PROPS}
             scrollEventThrottle={80}
             onScroll={scrolled ? undefined : this.onScroll}
           >

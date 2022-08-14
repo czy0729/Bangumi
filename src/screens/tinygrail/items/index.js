@@ -10,7 +10,7 @@ import { Header, Page, Touchable, Flex, Image, Text, Iconfont } from '@component
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
@@ -37,7 +37,7 @@ class TinygrailItems extends React.Component {
       <ScrollView
         style={_.container.flex}
         contentContainerStyle={_.container.bottom}
-        {...scrollViewResetProps}
+        {...SCROLL_VIEW_RESET_PROPS}
       >
         {list
           .sort((a, b) => (ITEMS_USED[b.name] || 0) - (ITEMS_USED[a.name] || 0))

@@ -1,27 +1,25 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 10:48:56
+ * @Last Modified time: 2022-08-14 09:38:58
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Katakana, Text, Iconfont, Touchable, Expand } from '@components'
-import { _ } from '@stores'
-import { appNavigate, findSubjectCn, getCoverMedium } from '@utils'
+import { _, uiStore, systemStore } from '@stores'
+import { appNavigate, findSubjectCn, getCoverMedium, confirm } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
-import { confirm } from '@utils/ui'
 import {
   HOST_NAME,
-  IMG_WIDTH_SM,
   IMG_HEIGHT_SM,
-  scrollViewResetProps
+  IMG_WIDTH_SM,
+  SCROLL_VIEW_RESET_PROPS
 } from '@constants'
 import { Avatar, Cover, Stars, Name, Popover } from '../../base'
-import { DEFAULT_PROPS, AVATAR_WIDTH, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
 import { matchSubjectId } from './utils'
+import { DEFAULT_PROPS, AVATAR_WIDTH, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
 
 const Item = memo(
   ({
@@ -58,10 +56,12 @@ const Item = memo(
 
     const onNavigate = useCallback(
       (url, passParams?) => appNavigate(url, navigation, passParams, event),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       []
     )
     const onClear = useCallback(() => {
       confirm('确定删除?', () => onDelete(clearHref))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [clearHref])
 
     // useMemo组件都不传依赖参数, 时间胶囊数据性质就是一次性, 没有更新需求
@@ -80,12 +80,13 @@ const Item = memo(
           )}
         </View>
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       []
     )
 
     // 位置3: 多个条目信息
     const renderP3 = useMemo(() => {
-      let $p3
+      let $p3: any | any[]
       if (p3Text.length > 1) {
         $p3 = []
         p3Text.forEach((item, index) => {
@@ -99,7 +100,18 @@ const Item = memo(
               type={isSubject ? 'main' : 'title'}
               lineHeight={16}
               bold
-              onPress={() =>
+              onPress={() => {
+                if (isSubject && subjectId && systemStore.setting.timelinePopable) {
+                  t('时间胶囊.缩略框', {
+                    to: 'Subject',
+                    subjectId
+                  })
+                  uiStore.showPopableSubject({
+                    subjectId
+                  })
+                  return
+                }
+
                 onNavigate(
                   url,
                   isSubject && {
@@ -109,7 +121,7 @@ const Item = memo(
                     _image: getCoverMedium(image[index] || '')
                   }
                 )
-              }
+              }}
             >
               {isSubject ? findSubjectCn(item, subjectId) : item}
             </Katakana>,
@@ -129,7 +141,18 @@ const Item = memo(
             type={isSubject ? 'main' : 'title'}
             lineHeight={16}
             bold
-            onPress={() =>
+            onPress={() => {
+              if (isSubject && subjectId && systemStore.setting.timelinePopable) {
+                t('时间胶囊.缩略框', {
+                  to: 'Subject',
+                  subjectId
+                })
+                uiStore.showPopableSubject({
+                  subjectId
+                })
+                return
+              }
+
               onNavigate(
                 !!p3Url.length && p3Url[0],
                 isSubject && {
@@ -139,7 +162,7 @@ const Item = memo(
                   _image: getCoverMedium((!!imageLength && image[0]) || '')
                 }
               )
-            }
+            }}
           >
             {isSubject
               ? findSubjectCn(!!p3Text.length && p3Text[0], subjectId)
@@ -149,6 +172,7 @@ const Item = memo(
       }
 
       return $p3
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const renderP = useMemo(() => {
@@ -186,6 +210,8 @@ const Item = memo(
           )}
         </Katakana.Provider>
       )
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const renderDesc = useMemo(() => {
@@ -194,17 +220,26 @@ const Item = memo(
         <>
           {!!subject && (
             <View style={_.mt.sm}>
+              {/* 1行: 单个条目 */}
               <Katakana.Provider>
                 <Katakana
                   type='main'
                   bold
                   onPress={() => {
-                    t(id, {
+                    const eventData = {
                       to: 'Subject',
                       subjectId,
                       ...data
-                    })
+                    }
+                    if (subjectId && systemStore.setting.timelinePopable) {
+                      t('时间胶囊.缩略框', eventData)
+                      uiStore.showPopableSubject({
+                        subjectId
+                      })
+                      return
+                    }
 
+                    t(id, eventData)
                     navigation.push('Subject', {
                       subjectId,
                       _cn: findSubjectCn(subject, subjectId),
@@ -227,6 +262,7 @@ const Item = memo(
           )}
         </>
       )
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const renderImages = useCallback(type => {
@@ -269,11 +305,12 @@ const Item = memo(
           style={styles.scrollView}
           contentContainerStyle={styles.images}
           horizontal
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
         >
           {images}
         </ScrollView>
       )
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const renderContent = useMemo(() => {
@@ -372,6 +409,7 @@ const Item = memo(
           </Flex>
         </Flex.Item>
       )
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

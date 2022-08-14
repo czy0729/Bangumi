@@ -18,7 +18,7 @@ import { ob } from '@utils/decorators'
 import { queue, t } from '@utils/fetch'
 import { info, feedback, confirm } from '@utils/ui'
 import { HTMLDecode } from '@utils/html'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { Cover } from '../cover'
 import { Popover } from '../popover'
@@ -654,7 +654,7 @@ export const FolderManageModal = ob(
       const { create, expand } = this.state
       const { list } = this.catalogs
       return (
-        <ScrollView style={this.styles.scrollView} {...scrollViewResetProps}>
+        <ScrollView style={this.styles.scrollView} {...SCROLL_VIEW_RESET_PROPS}>
           {create === true
             ? this.renderCreate()
             : list

@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { getStorage, setStorage, open } from '@utils'
-import { IOS, HOST_IMAGE_UPLOAD, scrollViewResetProps } from '@constants'
+import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Text } from '../text'
 import { Bgm } from '../bgm'
 import { Flex } from '../flex'
@@ -580,7 +580,7 @@ export const FixedTextarea = observer(
             height: keyboardHeight + 1
           }}
           contentContainerStyle={this.styles.bgmContainer}
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
         >
           {showReplyHistory ? (
             <>

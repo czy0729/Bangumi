@@ -12,7 +12,7 @@ import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { EventKeys } from '@types'
 import { FilterSwitch } from '../filter-switch'
@@ -89,7 +89,7 @@ export const Filter = obc(
                       ref={scrollView => scrollToX(scrollView, item.data, state)}
                       style={styles.contentContainerStyle}
                       horizontal
-                      {...scrollViewResetProps}
+                      {...SCROLL_VIEW_RESET_PROPS}
                     >
                       {multiple ? (
                         <Flex style={styles.multiple} direction='column' align='start'>

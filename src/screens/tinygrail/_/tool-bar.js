@@ -10,7 +10,7 @@ import { Flex, Touchable, Text, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 
 function ToolBar({
   style,
@@ -55,7 +55,7 @@ function ToolBar({
         <ScrollView
           contentContainerStyle={styles.contentContainerStyle}
           horizontal
-          {...scrollViewResetProps}
+          {...SCROLL_VIEW_RESET_PROPS}
         >
           {data.map(item => {
             const isActive = sort === item.value

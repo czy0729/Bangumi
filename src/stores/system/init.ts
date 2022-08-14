@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 07:32:30
+ * @Last Modified time: 2022-08-14 09:18:41
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -251,6 +251,9 @@ export const INIT_SETTING = {
 
   /** 是否不使用字体 */
   customFontFamily: false,
+
+  /** 时间胶囊点击条目显示 Popable */
+  timelinePopable: true,
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT

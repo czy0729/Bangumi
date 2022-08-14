@@ -10,7 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { getStorage, setStorage } from '@utils'
 import { obc } from '@utils/decorators'
-import { scrollViewResetProps } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { FLITER_SWITCH_LAST_PATH_KEY, FILTER_SWITCH_DS, PATH_MAP } from './ds'
 import { memoStyles } from './styles'
 import { Props as FilterSwitchProps } from './types'
@@ -39,7 +39,7 @@ export const FilterSwitch = obc(
           <ScrollView
             style={styles.contentContainerStyle}
             horizontal
-            {...scrollViewResetProps}
+            {...SCROLL_VIEW_RESET_PROPS}
           >
             {FILTER_SWITCH_DS.map(item => {
               const isActive = name === item

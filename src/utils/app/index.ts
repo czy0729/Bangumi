@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 09:39:00
+ * @Last Modified time: 2022-08-14 09:41:37
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -514,7 +514,7 @@ export function getRating(score: number) {
  * 获得在线播放地址
  * @param {*} item bangumiInfo 数据项
  */
-export function getBangumiUrl(item: { site: any; id: any; url?: any }) {
+export function getBangumiUrl(item: { site?: any; id?: any; url?: any }) {
   if (!item) return ''
 
   const { site, id, url } = item
