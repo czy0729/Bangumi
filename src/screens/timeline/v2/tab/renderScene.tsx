@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-14 07:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 07:16:01
+ * @Last Modified time: 2022-08-14 16:27:03
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -17,11 +17,15 @@ export default SceneMap(
   Object.assign(
     {},
     ...ROUTES.map((item, index) => ({
-      [item.key]: () =>
-        index === ROUTES.length - 1 ? (
+      [item.key]: () => {
+        if (!IOS) {
+          return <List title={item.title} />
+        }
+
+        return (
           <>
-            <List title={`${item.title}`} />
-            {IOS && (
+            <List title={item.title} />
+            {index === ROUTES.length - 1 && (
               <BlurView
                 style={[
                   memoStyles().blurView,
@@ -32,9 +36,8 @@ export default SceneMap(
               />
             )}
           </>
-        ) : (
-          <List title={`${item.title}`} />
         )
+      }
     }))
   )
 )

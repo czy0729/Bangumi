@@ -1,10 +1,11 @@
 /*
  * 获取手指最近一次点击相对于屏幕的坐标
  *
+ * @Doc: https://docs.swmansion.com/react-native-gesture-handler/docs/2.1.1/api/gestures/pan-gesture
  * @Author: czy0729
  * @Date: 2022-08-13 09:58:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 11:49:32
+ * @Last Modified time: 2022-08-14 16:47:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,10 +22,11 @@ export const TapListener = ({ children }) => {
   return useObserver(() => (
     <PanGestureHandler
       enabled
+      // 设置下面值, 使得这个容器不应该能激活手势, 只用来获取点击 x, y 坐标
       minPointers={1}
       maxPointers={1}
-      activeOffsetX={_.wind}
-      activeOffsetY={_.wind}
+      activeOffsetX={_.window.contentWidth}
+      activeOffsetY={_.window.contentWidth}
       onHandlerStateChange={(event: PanGestureHandlerStateChangeEvent) => {
         if (event.nativeEvent.state === (IOS ? State.FAILED : State.END)) {
           uiStore.setXY(

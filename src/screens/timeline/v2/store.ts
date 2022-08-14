@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 07:52:08
+ * @Last Modified time: 2022-08-14 16:52:35
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -13,6 +13,7 @@ import {
   IOS,
   MODEL_TIMELINE_SCOPE,
   MODEL_TIMELINE_TYPE,
+  TIMELINE_TYPE,
   URL_DEFAULT_AVATAR
 } from '@constants'
 import { TimeLineScope, TimeLineType, UserId } from '@types'
@@ -24,10 +25,14 @@ export default class ScreenTimeline extends store {
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)
+    let page = state?.page || 0
+    if (page >= 4) page = 0
+
     this.setState({
       ...state,
       ...EXCLUDE_STATE,
-      renderedTabsIndex: [state?.page || 0],
+      page,
+      renderedTabsIndex: [page],
       _loaded: true
     })
 
@@ -130,7 +135,10 @@ export default class ScreenTimeline extends store {
       page,
       renderedTabsIndex
     })
-    this.fetchTimeline(true)
+
+    if (!this.timeline(scope, TIMELINE_TYPE[page].value)._loaded) {
+      this.fetchTimeline(true)
+    }
     this.setStorage(NAMESPACE)
   }
 

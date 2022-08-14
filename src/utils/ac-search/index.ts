@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 19:40:23
+ * @Last Modified time: 2022-08-14 16:00:00
  */
 import lazyac from 'lazy-aho-corasick'
 import addon from '@assets/json/substrings-addon.json' // 动画 (手动维护)
@@ -15,7 +15,7 @@ import game from '@assets/json/substrings-game.json' // 游戏
 import book from '@assets/json/substrings-book.json' // 书籍
 import { arrGroup, desc } from '../utils'
 import hash from '../thirdParty/hash'
-import { DEV } from '@constants'
+import { DEV, IOS } from '@constants'
 
 /** 缓存搜索过的结果 */
 const CACHE: {
@@ -35,6 +35,9 @@ let trieInit: boolean
 
 /** 是否批量初始化完毕 */
 let trieInitDone: boolean
+
+/** 分片初始化时间间隔 */
+const trieInitDistance = IOS ? 2000 : 4000
 
 /** 初始化需要好几秒, 需要触发后延迟初始化, 待下一次再用 */
 function initLazyac() {
@@ -86,9 +89,9 @@ function initLazyac() {
           })
 
           if (index === arrs.length - 1) trieInitDone = true
-        }, 2000 * index)
+        }, trieInitDistance * index)
       })
-    }, 2000)
+    }, trieInitDistance)
   }
 }
 
