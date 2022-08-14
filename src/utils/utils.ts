@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:30:28
+ * @Last Modified time: 2022-08-14 12:58:09
  */
 import { InteractionManager, PromiseTask, SimpleTask } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -395,8 +395,8 @@ export function arrGroup(arr: string | any[], num: number = 40): any[] {
  * 首字母大写
  * @param {*} str
  */
-export function titleCase(str: string = '') {
-  return str.replace(/( |^)[a-z]/g, L => L.toUpperCase())
+export function titleCase(str: any = '') {
+  return String(str).replace(/( |^)[a-z]/g, L => L.toUpperCase())
 }
 
 /**

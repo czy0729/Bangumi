@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 22:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 23:09:58
+ * @Last Modified time: 2022-08-14 15:31:16
  */
 import { Id, UserId, EventType, ViewStyle } from '@types'
 
@@ -29,7 +29,7 @@ export type Props = {
   sub?: any[]
 
   /** 楼层 Id */
-  id?: string
+  id?: Id
 
   /** 作者 Id */
   authorId?: UserId

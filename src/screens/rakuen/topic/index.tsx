@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 19:50:32
+ * @Last Modified time: 2022-08-14 13:25:06
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
@@ -86,6 +86,21 @@ const Topic = (props, { $ }) => {
       })
     } catch (error) {
       console.error('topic/index.js', 'onScrollTo', error)
+
+      // 使用了分页 PaginationList 的情况下, 只能先去到最底层
+      try {
+        const str = String(error)
+        const maximum = str.match(/but maximum is (\d+)/)?.[1]
+        if (maximum) {
+          info(`#${maximum}`, 0.8)
+          forwardRef.current?.scrollToIndex({
+            animated: true,
+            index: Number(maximum),
+            viewOffset: 0 + _.headerHeight
+          })
+        }
+        // eslint-disable-next-line no-catch-shadow
+      } catch (error) {}
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -191,18 +206,18 @@ const Topic = (props, { $ }) => {
     return (
       <>
         <Header fixed={fixed} />
-        <Page>
-          <TapListener>
+        <TapListener>
+          <Page>
             <List
               forwardRef={forwardRef}
               renderItem={renderItem}
               onScroll={onScrollFn}
               onScrollToIndexFailed={onScrollToIndexFailed}
             />
-          </TapListener>
-          <TouchScroll onPress={onScrollTo} />
-          <Bottom fixedTextareaRef={fixedTextareaRef} />
-        </Page>
+            <TouchScroll onPress={onScrollTo} />
+            <Bottom fixedTextareaRef={fixedTextareaRef} />
+          </Page>
+        </TapListener>
         <Heatmaps />
       </>
     )

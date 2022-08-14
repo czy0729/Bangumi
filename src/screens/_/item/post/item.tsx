@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 23:18:42
+ * @Last Modified time: 2022-08-14 15:42:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -162,7 +162,7 @@ const Item = memo(
   },
   DEFAULT_PROPS,
   ({ sub, ...other }) => ({
-    sub: sub.length,
+    sub: (sub as any[]).length,
     ...other
   })
 )

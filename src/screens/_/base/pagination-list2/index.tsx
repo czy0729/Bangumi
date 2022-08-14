@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 07:34:19
+ * @Last Modified time: 2022-08-14 12:40:06
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
@@ -15,6 +15,7 @@ import { Props as PaginationList2Props } from './types'
 export { PaginationList2Props }
 
 export const PaginationList2 = ({
+  forwardRef,
   connectRef,
   data,
   limit = 24,
@@ -68,7 +69,7 @@ export const PaginationList2 = ({
 
   return (
     <ListView
-      ref={connectRef}
+      ref={forwardRef || connectRef}
       data={list}
       {...other}
       onFooterRefresh={onFooterRefresh}

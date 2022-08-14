@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:58:40
+ * @Last Modified time: 2022-08-14 13:28:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,75 +38,73 @@ export const Popable = ({ subjectId, visible, x, y }) => {
         caret={false}
         backgroundColor='transparent'
       >
-        <BlurView style={styles.container} intensity={_.select(64, 80)}>
-          {_loaded ? (
-            <Touchable
-              onPress={() => {
-                const navigation = navigationReference()
-                if (navigation) {
-                  uiStore.closePopableSubject()
-                  setTimeout(() => {
-                    navigation.push('Subject', {
-                      subjectId
-                    })
-                  }, 40)
-                }
-              }}
-            >
-              <Flex align='start'>
-                <Cover
-                  key={subjectId}
-                  style={styles.cover}
-                  src={images.medium}
-                  width={IMG_WIDTH}
-                  height={IMG_HEIGHT}
-                  borderWidth={_.hairlineWidth}
-                  shadow={false}
-                  textOnly={false}
-                />
-                <Flex.Item>
-                  <Flex
-                    style={styles.body}
-                    direction='column'
-                    justify='between'
-                    align='start'
-                  >
-                    <View>
-                      <Text size={12} lineHeight={13} numberOfLines={2} bold>
-                        {textTop}
-                        {year?.[0] && year?.[0] !== '0000' ? ` (${year[0]})` : ''}
-                      </Text>
-                      <Text
-                        style={_.mt.xs}
-                        type='sub'
-                        size={10}
-                        lineHeight={11}
-                        numberOfLines={2}
-                      >
-                        {textBottom}
-                      </Text>
-                    </View>
-                    <Flex>
-                      {!hideScore && !!score && (
-                        <>
-                          <Rank style={styles.rank} value={rank} />
-                          <Stars style={styles.stars} value={score} simple size={10} />
-                          {!!total && (
-                            <Text style={_.ml.xs} type='sub' size={10}>
-                              ({total}人评分)
-                            </Text>
-                          )}
-                        </>
-                      )}
+        {!!subjectId && (
+          <BlurView style={styles.container} intensity={_.select(64, 80)}>
+            {_loaded ? (
+              <Touchable
+                onPress={() => {
+                  const navigation = navigationReference()
+                  if (navigation) {
+                    uiStore.closePopableSubject()
+                    setTimeout(() => {
+                      navigation.push('Subject', {
+                        subjectId
+                      })
+                    }, 40)
+                  }
+                }}
+              >
+                <Flex align='start'>
+                  <Cover
+                    key={subjectId}
+                    style={styles.cover}
+                    src={images.medium}
+                    width={IMG_WIDTH}
+                    height={IMG_HEIGHT}
+                    borderWidth={_.hairlineWidth}
+                    shadow={false}
+                    textOnly={false}
+                  />
+                  <Flex.Item>
+                    <Flex
+                      style={styles.body}
+                      direction='column'
+                      justify='between'
+                      align='start'
+                    >
+                      <View>
+                        <Text size={12} lineHeight={13} numberOfLines={2} bold>
+                          {textTop}
+                          {year?.[0] && year?.[0] !== '0000' ? ` (${year[0]})` : ''}
+                        </Text>
+                        <Text
+                          style={_.mt.xs}
+                          type='sub'
+                          size={10}
+                          lineHeight={11}
+                          numberOfLines={2}
+                        >
+                          {textBottom}
+                        </Text>
+                      </View>
+                      <Flex>
+                        <Rank style={styles.rank} value={rank} />
+                        <Stars style={styles.stars} value={score} simple size={10} />
+                        {!!total && (
+                          <Text style={!hideScore && _.ml.xs} type='sub' size={10}>
+                            ({total}人评分)
+                          </Text>
+                        )}
+                      </Flex>
                     </Flex>
-                  </Flex>
-                </Flex.Item>
-              </Flex>
-            </Touchable>
-          ) : (
-            <Loading style={_.mt.sm} />
-          )}
-        </BlurView>
+                  </Flex.Item>
+                </Flex>
+              </Touchable>
+            ) : (
+              <Loading style={_.mt.sm} />
+            )}
+          </BlurView>
+        )}
       </Popover>
     )
   })

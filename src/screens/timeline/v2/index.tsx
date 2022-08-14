@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:28:18
+ * @Last Modified time: 2022-08-14 10:06:47
  */
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useIsFocused } from '@react-navigation/native'
 import { Page, Track } from '@components'
 import { StatusBarEvents, NavigationBarEvents, TapListener } from '@_'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
+import { uiStore } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -17,6 +19,8 @@ import Store from './store'
 import { Ctx } from './types'
 
 const Timeline = (props, { $, navigation }: Ctx) => {
+  const isFocused = useIsFocused()
+
   useRunAfter(() => {
     $.init()
 
@@ -24,6 +28,10 @@ const Timeline = (props, { $, navigation }: Ctx) => {
       $.onRefreshThenScrollTop()
     })
   })
+
+  useEffect(() => {
+    if (!isFocused) uiStore.closePopableSubject()
+  }, [isFocused])
 
   return useObserver(() => (
     <>

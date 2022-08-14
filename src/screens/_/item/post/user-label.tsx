@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-20 11:59:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 14:10:13
+ * @Last Modified time: 2022-08-14 15:42:52
  */
 import React from 'react'
 import { Text } from '@components'
 import { ob } from '@utils/decorators'
 
-function UserLabel({ isAuthor, isFriend, isLayer, userSign }) {
+function UserLabel({ isAuthor = false, isFriend = false, isLayer = false, userSign }) {
   return (
     <>
       {isAuthor && (

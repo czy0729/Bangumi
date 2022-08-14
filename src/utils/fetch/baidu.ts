@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 12:58:57
+ * @Last Modified time: 2022-08-14 12:45:22
  */
 import { APP_BAIDU_ID, APP_BAIDU_KEY } from '@constants/constants'
 import { urlStringify } from '../utils'
@@ -29,6 +29,6 @@ export async function baiduTranslate(query: string, to = 'zh') {
     })
     return _response
   } catch (error) {
-    return false
+    return ''
   }
 }

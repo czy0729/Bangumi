@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 13:58:17
+ * @Last Modified time: 2022-08-14 13:27:35
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -76,6 +76,14 @@ class UIStore extends store implements StoreConstructor<typeof state> {
         visible: false
       }
     })
+
+    setTimeout(() => {
+      this.setState({
+        popableSubject: {
+          subjectId: 0
+        }
+      })
+    }, 160)
   }
 
   setXY = (x = 0, y = 0) => {

@@ -12,7 +12,7 @@ import { info, confirm } from '@utils/ui'
 import { Popover } from '../../base'
 
 function IconExtra(
-  { id, replySub, erase, userId, userName, message, msg, showFixedTextare },
+  { id, replySub, erase, userId, userName, message = '', msg, showFixedTextare },
   { $ }
 ) {
   const data = []
