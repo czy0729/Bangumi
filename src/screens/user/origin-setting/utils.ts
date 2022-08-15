@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 20:02:51
+ * @Last Modified time: 2022-08-15 10:56:12
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -18,9 +18,9 @@ import {
   SITE_AGEFANS,
   SITE_WNACG,
   SITE_MANGABZ,
-  SITE_MANHUA1234,
-  SITE_WK8,
-  SITE_77MH
+  // SITE_MANHUA1234,
+  SITE_WK8
+  // SITE_77MH
 } from '@constants'
 import { Origin, SubjectId } from '@types'
 
@@ -52,6 +52,13 @@ export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
         url: 'https://www.scdmfun.cn/search/wd/[CN].html',
         sort: 0,
         active: 1
+      },
+      {
+        id: 'anime|omofun',
+        name: 'OmoFun',
+        url: 'https://omofun.tv/vod/search.html?wd=[CN]',
+        sort: 0,
+        active: 0
       },
       {
         id: 'anime|zzzfun',
@@ -96,13 +103,6 @@ export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
         sort: 0,
         active: 0
       }
-      // {
-      //   id: 'anime|xunbo',
-      //   name: '迅播动漫',
-      //   url: `${SITE_XUNBO()}/search.php?searchword=[CN]`,
-      //   sort: 0,
-      //   active: 0
-      // }
     ],
     hanime: [
       {
@@ -129,18 +129,18 @@ export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
         active: 1
       },
       {
-        id: 'manga|manhua1234',
-        name: 'manhua1234',
-        url: `${SITE_MANHUA1234()}/search/?keywords=[CN]`,
+        id: 'manga|moxmoe',
+        name: '[DL] Mox.moe',
+        url: `https://mox.moe/list.php?s=[CN]`,
         sort: 0,
         active: 1
       },
       {
-        id: 'manga|77mh',
-        name: '77mh',
-        url: `${SITE_77MH()}/m.php?k=[CN]`,
+        id: 'manga|dlraw',
+        name: '[DL] Dl-Raw',
+        url: `https://dl-raw.net/?s=[JP]`,
         sort: 0,
-        active: 1
+        active: 0
       }
     ],
     wenku: [
@@ -148,6 +148,13 @@ export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
         id: 'wenku|wk8',
         name: '轻小说文库',
         url: `${SITE_WK8()}/modules/article/search.php?searchtype=articlename&searchkey=[CN]`,
+        sort: 0,
+        active: 1
+      },
+      {
+        id: 'wenku|linovelib',
+        name: '哔哩轻小说',
+        url: `https://w.linovelib.com/S8/?searchkey=[CN]&searchtype=all`,
         sort: 0,
         active: 1
       }
@@ -173,6 +180,13 @@ export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
         url: 'https://search.bilibili.com/all?keyword=[JP]&from_source=nav_suggest_new&order=stow&duration=0&tids_1=3',
         sort: 0,
         active: 1
+      },
+      {
+        id: 'music|minimummusic',
+        name: '[DL] MinimumMusic',
+        url: 'https://minimummusic.com/?s=[JP]',
+        sort: 0,
+        active: 1
       }
     ],
     game: [
@@ -180,6 +194,13 @@ export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
         id: 'game|psnine',
         name: 'PSNINE',
         url: 'https://psnine.com/psngame?title=[CN]',
+        sort: 0,
+        active: 1
+      },
+      {
+        id: 'game|vgtime',
+        name: 'VGTIME',
+        url: 'https://www.vgtime.com/search/list.jhtml?keyword=[CN]',
         sort: 0,
         active: 1
       }
@@ -199,13 +220,6 @@ export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
         sort: 0,
         active: 1
       }
-      // {
-      //   id: 'real|rrys',
-      //   name: '人人影视',
-      //   url: `${SITE_RRYS()}/search?keyword=[CN]&type=resource`,
-      //   sort: 0,
-      //   active: 0
-      // }
     ]
   }
 }

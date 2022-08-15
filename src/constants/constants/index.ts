@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:22:31
+ * @Last Modified time: 2022-08-15 10:23:24
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -61,7 +61,7 @@ export const HOST_DMZJ = 'https://m.news.dmzj.com'
 export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
 
 /** 免费图床 */
-export const HOST_IMAGE_UPLOAD = 'https://www.hualigs.cn'
+export const HOST_IMAGE_UPLOAD = 'https://p.sda1.dev'
 
 /** [待废弃] 登录 v1.0 oauth 地址 */
 export const URL_OAUTH = `${HOST}/oauth/authorize` as const
