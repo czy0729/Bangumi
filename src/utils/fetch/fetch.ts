@@ -111,7 +111,7 @@ const LAST_FETCH_HTML = {}
  *  - chii_cookietime=2592000
  *  - 2021/01/17 拦截瞬间多次完全同样的请求
  */
-export async function fetchHTML(args: FetchHTMLArgs): Promise<string> {
+export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   const {
     method = 'GET',
     url,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 17:06:57
+ * @Last Modified time: 2022-08-15 12:48:39
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -75,6 +75,10 @@ export const INIT_NOTIFY = {
 export const INIT_SETTING = {
   matchLink: true, // 楼层正文链接显示成信息块
   acSearch: true, // 楼层正文内容猜测条目
+
+  /** 猜测条目点击显示 Popable */
+  acSearchPopable: true,
+
   quote: true, // 帖子展开引用
   quoteAvatar: true, // 帖子展开引用时, 尝试寻找用户名的头像
   isBlockDefaultUser: false, // 是否屏蔽默认头像用户帖子

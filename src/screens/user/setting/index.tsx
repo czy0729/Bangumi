@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 03:18:04
+ * @Last Modified time: 2022-08-15 13:43:33
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
@@ -20,6 +20,7 @@ import User from './user'
 import UserSetting from './user-setting'
 import Rakuen from './rakuen'
 import Subject from './subject'
+import Timeline from './timeline'
 import Theme from './theme'
 import Custom from './custom'
 import UI from './ui'
@@ -73,6 +74,7 @@ const Setting = ({ navigation }: NavigationProps) => {
             <Block>
               <Tip>模块</Tip>
               <Home filter={filter} />
+              <Timeline filter={filter} />
               <Rakuen navigation={navigation} filter={filter} />
               <User filter={filter} />
               <UserSetting navigation={navigation} filter={filter} />

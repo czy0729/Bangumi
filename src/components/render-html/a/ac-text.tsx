@@ -2,35 +2,26 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 11:19:06
+ * @Last Modified time: 2022-08-15 12:51:31
  */
-import React, { useRef } from 'react'
+import React from 'react'
 import { HOST } from '@constants'
-import { getUIStoreAsync } from '@utils/async'
+import { getUIStoreAsync, getRakuenStoreAsync } from '@utils/async'
 import { Text } from '../../text'
 
 function ACText({ navigation, style, subjectId, text, onPress }) {
-  const textRef = useRef(null)
   return (
     <Text
-      forwardRef={ref => (textRef.current = ref)}
       style={style}
       selectable
       underline
       onPress={() => {
-        if (textRef.current) {
-          textRef.current.measureInWindow(
-            (x: number, y: number, width: number, height: number) => {
-              const uiStore = getUIStoreAsync()
-              uiStore.showPopableSubject({
-                subjectId,
-                x,
-                y,
-                width,
-                height
-              })
-            }
-          )
+        const rakuenStore = getRakuenStoreAsync()
+        if (rakuenStore.setting.acSearchPopable) {
+          const uiStore = getUIStoreAsync()
+          uiStore.showPopableSubject({
+            subjectId
+          })
           return
         }
 

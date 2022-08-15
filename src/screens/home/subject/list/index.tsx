@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-09 16:42:44
+ * @Last Modified time: 2022-08-15 12:37:46
  */
 import React from 'react'
 import {
@@ -45,6 +45,7 @@ function List({ onScroll }, { $ }: Ctx) {
       removeClippedSubviews={false}
       scrollEventThrottle={16}
       scrollToTop
+      keyboardDismissMode='on-drag'
       footerEmptyDataComponent={$.footerEmptyDataComponent}
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={<Header />}

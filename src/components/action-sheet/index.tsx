@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-07 05:37:21
+ * @Last Modified time: 2022-08-15 13:25:02
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'

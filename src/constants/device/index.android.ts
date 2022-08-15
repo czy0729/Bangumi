@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-20 09:23:11
+ * @Last Modified time: 2022-08-15 12:35:37
  */
 import { Dimensions } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 
 /** 平板小 */
-export const PAD_LEVEL_1 = 616
+export const PAD_LEVEL_1 = 528 // 616
 
 /** 平板大 */
-export const PAD_LEVEL_2 = 900
+export const PAD_LEVEL_2 = 880
 
 const { width, height } = Dimensions.get('window')
 const minSide = Math.min(width, height)

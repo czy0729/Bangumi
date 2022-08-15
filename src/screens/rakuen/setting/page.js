@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:35:16
+ * @Last Modified time: 2022-08-15 13:02:23
  */
 import React from 'react'
 import {
@@ -12,11 +12,12 @@ import {
   Flex,
   SegmentedControl,
   Input,
+  Text,
   Touchable,
   Iconfont
 } from '@components'
 import { ItemSetting } from '@_'
-import { _, rakuenStore } from '@stores'
+import { _, rakuenStore, uiStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -27,8 +28,6 @@ import History from './history'
 
 const scrollDirectionDS = MODEL_RAKUEN_SCROLL_DIRECTION.data.map(item => item.label)
 
-export default
-@ob
 class RakuenSetting extends React.Component {
   state = {
     keyword: ''
@@ -53,12 +52,23 @@ class RakuenSetting extends React.Component {
     })
   }
 
+  onScroll = () => {
+    uiStore.closePopableSubject()
+  }
+
   get setting() {
     return rakuenStore.setting
   }
 
   renderTopic() {
-    const { matchLink, acSearch, quote, quoteAvatar, scrollDirection } = this.setting
+    const {
+      matchLink,
+      acSearch,
+      acSearchPopable,
+      quote,
+      quoteAvatar,
+      scrollDirection
+    } = this.setting
     return (
       <Block>
         <Tip>帖子</Tip>
@@ -81,7 +91,7 @@ class RakuenSetting extends React.Component {
           withoutFeedback
         />
         <ItemSetting
-          hd='[实验性] 楼层内容猜测条目'
+          hd='楼层内容猜测条目'
           information='使用条目词库对楼层文字进行猜测匹配，若匹配成功文字下方显示下划线，点击直接去到条目页面'
           ft={
             <SwitchPro
@@ -98,6 +108,42 @@ class RakuenSetting extends React.Component {
           }
           withoutFeedback
         />
+        <ItemSetting
+          hd='[实验性] 点击猜测条目先显示缩略信息'
+          information='若猜测命中关键字，为了不打断阅读帖子，会在图层上方先显示缩略信息，再次点击才会进入条目页面'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={acSearchPopable}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '猜测条目',
+                  checked: !acSearch
+                })
+                rakuenStore.switchSetting('acSearchPopable')
+              }}
+            />
+          }
+          withoutFeedback
+        />
+        <Flex style={this.styles.acSearchPopable}>
+          <Text size={13}>试一试∶</Text>
+          <Text size={13}>
+            <Text
+              size={13}
+              bold
+              underline
+              onPress={() => {
+                uiStore.showPopableSubject({
+                  subjectId: 364450
+                })
+              }}
+            >
+              石蒜
+            </Text>
+            物语是什么鬼翻译[bgm38]
+          </Text>
+        </Flex>
         <ItemSetting
           hd='展开引用'
           information='展开子回复中上一级的回复内容'
@@ -297,7 +343,10 @@ class RakuenSetting extends React.Component {
   render() {
     return (
       <Page style={_.select(_.container.bg, _.container.plain)}>
-        <ScrollView contentContainerStyle={this.styles.container}>
+        <ScrollView
+          contentContainerStyle={this.styles.container}
+          onScroll={this.onScroll}
+        >
           {this.renderTopic()}
           {this.renderList()}
           {this.renderCustom()}
@@ -311,6 +360,8 @@ class RakuenSetting extends React.Component {
     return memoStyles()
   }
 }
+
+export default ob(RakuenSetting)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
@@ -345,5 +396,10 @@ const memoStyles = _.memoStyles(() => ({
   input: {
     height: 44,
     paddingVertical: 0
+  },
+  acSearchPopable: {
+    paddingTop: _.sm,
+    paddingBottom: _.md,
+    paddingLeft: _._wind
   }
 }))

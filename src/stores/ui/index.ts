@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 13:27:35
+ * @Last Modified time: 2022-08-15 13:46:32
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { StoreConstructor } from '@types'
 import subjectStore from '../subject'
+import { getTimestamp } from '@utils'
 
 const state = {
   tapXY: {
@@ -18,6 +19,7 @@ const state = {
   popableSubject: {
     subjectId: 0,
     visible: false,
+    portalKey: 0,
     x: 0,
     y: 0
   }
@@ -84,6 +86,14 @@ class UIStore extends store implements StoreConstructor<typeof state> {
         }
       })
     }, 160)
+  }
+
+  updatePopableSubjectPortalKey = () => {
+    this.setState({
+      popableSubject: {
+        portalKey: getTimestamp() || this.popableSubject.portalKey
+      }
+    })
   }
 
   setXY = (x = 0, y = 0) => {

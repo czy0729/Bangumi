@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 16:35:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 03:18:10
+ * @Last Modified time: 2022-08-15 13:50:05
  */
 import { _ } from '@stores'
 
@@ -25,6 +25,15 @@ export default _.create({
   infor: {
     paddingTop: 56,
     marginLeft: -_.sm
+  },
+  acSearch: {
+    paddingLeft: _._wind,
+    marginTop: _.sm,
+    marginBottom: _.md
+  },
+  closePopablePlaceholder: {
+    width: '100%',
+    height: 160
   }
 })
 
