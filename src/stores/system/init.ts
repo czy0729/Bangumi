@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:18:41
+ * @Last Modified time: 2022-08-15 11:32:23
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -141,7 +141,7 @@ export const INIT_SETTING = {
   cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr'),
 
   /** 头像使用 CDN */
-  cdnAvatar: true,
+  cdnAvatar: false,
 
   /** 封面使用 CDN */
   cdnSubject: true,

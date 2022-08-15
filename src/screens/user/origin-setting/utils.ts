@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 10:56:12
+ * @Last Modified time: 2022-08-15 10:58:48
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -194,6 +194,13 @@ export function getBaseOriginConfig(): Record<Types, OriginItem[]> {
         id: 'game|psnine',
         name: 'PSNINE',
         url: 'https://psnine.com/psngame?title=[CN]',
+        sort: 0,
+        active: 1
+      },
+      {
+        id: 'game|gcore',
+        name: '机核GCORES',
+        url: 'https://www.gcores.com/search?keyword=[CN]&tab=all',
         sort: 0,
         active: 1
       },

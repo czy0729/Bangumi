@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 16:24:03
+ * @Last Modified time: 2022-08-15 11:32:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -98,7 +98,10 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
   @computed get setting() {
     return {
       ...this.state.setting,
-      imageTransition: false
+
+      /** 版本迭代后的禁用设置覆盖 */
+      imageTransition: false,
+      cdnAvatar: false
     }
   }
 

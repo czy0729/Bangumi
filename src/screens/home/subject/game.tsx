@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:29:10
+ * @Last Modified time: 2022-08-15 11:31:15
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -18,7 +18,7 @@ import { CDN_GAME } from '@constants/cdn'
 import IconPS from './icon/ps'
 import IconHidden from './icon/hidden'
 
-const thumbWidth = 160 * _.ratio
+const thumbWidth = _.r(160)
 const thumbHeight = thumbWidth * 0.56
 
 class Game extends React.Component {
@@ -183,7 +183,8 @@ class Game extends React.Component {
         </SectionTitle>
         {showGameInfo && (
           <>
-            {this.renderThumbs()}
+            {/* 暂时失效了 */}
+            {/* {this.renderThumbs()} */}
             {this.renderDetails()}
           </>
         )}
