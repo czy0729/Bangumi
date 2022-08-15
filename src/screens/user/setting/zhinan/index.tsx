@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 13:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:09:29
+ * @Last Modified time: 2022-08-16 02:39:54
  */
 import React from 'react'
 import { ActionSheet, Heatmap } from '@components'
@@ -39,11 +39,14 @@ function Zhinan({ navigation, filter }) {
             arrow
             highlight
             filter={filter}
-            onPress={() =>
-              appNavigate(URL_FEEDBACK, navigation, undefined, {
-                id: '设置.跳转'
-              })
-            }
+            onPress={() => {
+              setFalse()
+              setTimeout(() => {
+                appNavigate(URL_FEEDBACK, navigation, undefined, {
+                  id: '设置.跳转'
+                })
+              }, 160)
+            }}
             {...TEXTS.topic}
           >
             <Heatmap id='设置.跳转' to='Topic' alias='帖子' />

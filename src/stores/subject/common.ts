@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 02:03:42
+ * @Last Modified time: 2022-08-16 05:49:41
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -588,11 +588,7 @@ export function cheerioRating(HTML) {
       .map((index, element) => {
         const $li = cheerio(element)
         const $user = $li.find('a.avatar')
-        const avatar = $li
-          .find('.avatarNeue')
-          .attr('style')
-          .replace("background-image:url('//", '')
-          .split('?')[0]
+        const avatar = matchAvatar($li.find('.avatarNeue').attr('style'))
         const starText = $li.find('span.starlight').attr('class')
         const name = $user.text().trim()
         const time = $li.find('p.info').text().trim()

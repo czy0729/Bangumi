@@ -4,15 +4,14 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 10:10:47
+ * @Last Modified time: 2022-08-16 04:26:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
-import { matchCoverUrl } from '@utils/app'
+import { matchCoverUrl } from '@utils'
 import { ob } from '@utils/decorators'
-import { HOST_CDN } from '@constants'
 import { memoStyles } from './styles'
 import { Props as CoverProps } from './types'
 
@@ -58,13 +57,10 @@ export const Cover = ob(
       )
     }
 
-    const { hashSubjectOTALoaded, dev } = systemStore.state
+    const { hashSubjectOTALoaded } = systemStore.state
     const _src = cdn !== false ? matchCoverUrl(src, noDefault) : src
 
-    const imageStyle = [
-      style,
-      dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev
-    ]
+    const imageStyle = [style]
 
     const { coverThings, coverRadius } = systemStore.setting
     if (coverThings || useType) {

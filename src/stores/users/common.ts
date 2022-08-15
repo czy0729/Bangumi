@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-18 06:26:59
+ * @Last Modified time: 2022-08-16 05:49:51
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -18,11 +18,7 @@ export function cheerioFriends(HTML) {
       const $li = cheerio(element)
       const $a = $li.find('a.avatar')
       return safeObject({
-        avatar: $li
-          .find('.avatarNeue')
-          .attr('style')
-          .replace("background-image:url('//", '')
-          .split('?')[0],
+        avatar: matchAvatar($li.find('.avatarNeue').attr('style')),
         userId: $a.attr('href').replace('/user/', ''),
         userName: $a.text().trim()
       })

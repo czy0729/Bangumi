@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-15 13:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:11:52
+ * @Last Modified time: 2022-08-16 04:00:09
  */
 export const TEXTS = {
   timelinePopable: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 09:53:12
+ * @Last Modified time: 2022-08-16 04:41:18
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -132,7 +132,7 @@ export default memo(
 
       let uri = bg || bgAvatar || avatar.large
       if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
-      const blurRadius = uri === bg ? 0 : IOS ? 2 : 8
+      const blurRadius = uri === bg ? 0 : 8
       return (
         <>
           <Animated.Image

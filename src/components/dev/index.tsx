@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 06:10:21
+ * @Last Modified time: 2022-08-16 05:15:16
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -21,8 +21,6 @@ import { memoStyles } from './styles'
 
 const logs = observable([])
 
-let interval: number
-
 /** 调试窗口打印 (手机实机开发用) */
 export function devLog(...args: any) {
   if (!DEV) return
@@ -35,17 +33,6 @@ export function devLog(...args: any) {
           data: typeof data === 'object' ? JSON.stringify(data, null, 4) : String(data)
         })
       })
-
-      if (interval) {
-        clearInterval(interval)
-        interval = null
-      } else {
-        interval = setInterval(() => {
-          runInAction(() => {
-            logs.clear()
-          })
-        }, 20000)
-      }
     })
   }, 0)
 }
@@ -81,6 +68,22 @@ export const DEV = observer(() => {
           <Touchable style={styles.touch} onPress={() => DevSettings.reload()}>
             <Flex style={styles.icon} justify='center'>
               <Iconfont name='md-refresh' color={_.colorPlain} size={20} />
+            </Flex>
+          </Touchable>
+        </View>
+      )}
+      {!!logs.length && (
+        <View style={styles.clear}>
+          <Touchable
+            style={styles.clearTouch}
+            onPress={() => {
+              runInAction(() => {
+                logs.clear()
+              })
+            }}
+          >
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='md-close' color={_.__colorPlain__} size={20} />
             </Flex>
           </Touchable>
         </View>

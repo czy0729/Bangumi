@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-15 13:07:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:52:00
+ * @Last Modified time: 2022-08-16 03:57:36
  */
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useIsFocused } from '@react-navigation/native'
 import { ActionSheet, SwitchPro, Heatmap, Flex, Text, Touchable } from '@components'
 import { TapListener, ItemSetting } from '@_'
 import { systemStore, uiStore } from '@stores'
@@ -15,8 +16,16 @@ import commonStyles from '../styles'
 import { TEXTS } from './ds'
 
 function Timeline({ filter }) {
+  const isFocused = useIsFocused()
   const { state, setTrue, setFalse } = useBoolean(false)
   const shows = getShows(filter, TEXTS)
+
+  useEffect(() => {
+    if (!isFocused) {
+      setFalse()
+      uiStore.closePopableSubject()
+    }
+  }, [isFocused, setFalse])
 
   return useObserver(() => {
     if (!shows) return null
@@ -88,7 +97,28 @@ function Timeline({ filter }) {
               </Text>
             </Flex>
             <Flex style={commonStyles.acSearch}>
-              <Text size={13}>试一试∶</Text>
+              <Text size={13}>　　　　</Text>
+              <Text size={13}>
+                春菜{' '}
+                <Text type='sub' size={13} bold>
+                  想读
+                </Text>{' '}
+                <Text
+                  size={13}
+                  type='main'
+                  bold
+                  onPress={() => {
+                    uiStore.showPopableSubject({
+                      subjectId: 377599
+                    })
+                  }}
+                >
+                  さよなら絵梨
+                </Text>
+              </Text>
+            </Flex>
+            <Flex style={commonStyles.acSearch}>
+              <Text size={13}>　　　　</Text>
               <Text size={13}>
                 春菜{' '}
                 <Text type='sub' size={13} bold>
@@ -109,11 +139,11 @@ function Timeline({ filter }) {
               </Text>
             </Flex>
             <Flex style={commonStyles.acSearch}>
-              <Text size={13}>试一试∶</Text>
+              <Text size={13}>　　　　</Text>
               <Text size={13}>
                 春菜{' '}
                 <Text type='sub' size={13} bold>
-                  想听
+                  听过
                 </Text>{' '}
                 <Text
                   size={13}

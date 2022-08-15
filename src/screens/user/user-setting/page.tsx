@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 09:21:55
+ * @Last Modified time: 2022-08-16 04:41:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -277,7 +277,7 @@ class UserSetting extends React.Component {
               width={this.styles.image.width}
               height={this.styles.image.height}
               radius
-              blurRadius={IOS ? 2 : 8}
+              blurRadius={8}
               fallback
             />
             <Text style={this.styles.blurText} type='__plain__' bold align='center'>

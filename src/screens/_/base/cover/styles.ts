@@ -1,16 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2022-06-12 15:58:07
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-06-12 15:58:07
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-16 04:27:07
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  dev: {
-    borderWidth: 1,
-    borderColor: _.colorDanger
-  },
   mask: {
     position: 'absolute',
     zIndex: 1,

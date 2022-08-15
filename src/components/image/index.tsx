@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 09:56:13
+ * @Last Modified time: 2022-08-16 05:08:17
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -36,8 +36,15 @@ import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
 import { Flex } from '../flex'
 import { Text } from '../text'
+import { devLog } from '../dev'
 import CompImage from './image'
-import { checkError451, setError451, checkError404, setError404 } from './utils'
+import {
+  checkError451,
+  setError451,
+  checkError404,
+  setError404,
+  getDevStyles
+} from './utils'
 import {
   DEFAULT_HEADERS,
   MAX_ERROR_COUNT,
@@ -409,7 +416,7 @@ export const Image = observer(
       const container = []
       const image = []
 
-      // 以state里面的width和height优先
+      // 以 state 里面的 width 和 height 优先
       if (autoSize) {
         image.push({
           width: w || 160,
@@ -434,6 +441,7 @@ export const Image = observer(
         )
       }
 
+      // 圆角
       if (radius) {
         if (typeof radius === 'boolean') {
           const style = {
@@ -468,6 +476,8 @@ export const Image = observer(
         image.push(imageStyle)
       }
 
+      if (this.dev) image.push(getDevStyles(this.props.src, this._fallbacked))
+
       return {
         container,
         image
@@ -487,6 +497,10 @@ export const Image = observer(
     get borderRadius() {
       const { coverRadius } = systemStore.setting
       return coverRadius || _.radiusXs
+    }
+
+    get dev() {
+      return systemStore.state.dev
     }
 
     renderImage() {
@@ -623,6 +637,8 @@ export const Image = observer(
       } = this.props
       const { uri } = this.state
       let _onPress = onPress
+
+      // 需要调用 ImageViewer 弹窗
       if (imageViewer) {
         _onPress = () => {
           let _imageViewerSrc = imageViewerSrc
@@ -648,10 +664,30 @@ export const Image = observer(
         }
       }
 
-      if (_onPress || onLongPress) {
+      // 带点击事件
+      if (this.dev || _onPress || onLongPress) {
         return (
           <View style={this.computedStyle.container}>
-            <Touchable delay={delay} onPress={_onPress} onLongPress={onLongPress}>
+            <Touchable
+              delay={delay}
+              onPress={_onPress}
+              onLongPress={
+                this.dev
+                  ? () => {
+                      devLog(
+                        JSON.stringify(
+                          {
+                            ...this.props,
+                            ...this.state
+                          },
+                          null,
+                          2
+                        )
+                      )
+                    }
+                  : onLongPress
+              }
+            >
               {this.renderImage()}
             </Touchable>
           </View>

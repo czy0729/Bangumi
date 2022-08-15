@@ -19,6 +19,16 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden',
     opacity: 0.8
   },
+  clear: {
+    position: 'absolute',
+    zIndex: 1000,
+    left: _.wind,
+    bottom: 40
+  },
+  clearTouch: {
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
   icon: {
     width: 40,
     height: 40
@@ -29,7 +39,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: _.sm,
     left: _.sm,
     bottom: _.lg,
-    height: 120,
+    height: 320,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     borderWidth: _.hairlineWidth,
     borderColor: 'rgba(255, 255, 255, 0.2)',
