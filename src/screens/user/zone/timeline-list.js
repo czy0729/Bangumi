@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 17:28:47
+ * @Last Modified time: 2022-08-14 17:38:10
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -19,8 +19,6 @@ const event = {
   }
 }
 
-export default
-@obc
 class TimelineList extends React.Component {
   connectRef = ref => {
     const { $ } = this.context
@@ -47,7 +45,7 @@ class TimelineList extends React.Component {
 
   render() {
     const { $ } = this.context
-    if (!$.usersTimeline._loaded) return <Loading />
+    if (!$.usersTimeline._loaded) return <Loading style={styles.loading} />
 
     return (
       <ListView
@@ -66,3 +64,11 @@ class TimelineList extends React.Component {
     )
   }
 }
+
+export default obc(TimelineList)
+
+const styles = _.create({
+  loading: {
+    marginTop: _.window.height / 3
+  }
+})

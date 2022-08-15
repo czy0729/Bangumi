@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 13:00:44
+ * @Last Modified time: 2022-08-15 04:52:21
  */
 import React from 'react'
 import { Header } from '@components'
@@ -11,8 +11,9 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import Page from './page'
 import Check from './check'
 import Store from './store'
+import { Ctx } from './types'
 
-const UserSetting = (props, { $ }) => {
+const UserSetting = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 13:19:18
+ * @Last Modified time: 2022-08-15 09:53:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ function Head({ style }, { $, navigation }: Ctx) {
             borderWidth={2}
             shadow
             fallback={fallback}
+            fallbackSrc={avatar?.large}
             onPress={() => {
               t('我的.跳转', {
                 to: 'UserSetting'

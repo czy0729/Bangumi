@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:53:54
+ * @Last Modified time: 2022-08-15 09:21:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS, HOST_IMAGE_UPLOAD } from '@constants'
 import { memoStyles } from './styles'
+import { Ctx } from './types'
 
 const headers = {
   Referer: ''
@@ -51,50 +52,84 @@ class UserSetting extends React.Component {
   }
 
   onRefresh = async () => {
-    this.scrollTo({
-      x: 0,
-      y: 0,
-      animated: true
-    })
+    if (IOS) {
+      this.scrollTo({
+        x: 0,
+        y: 0,
+        animated: true
+      })
+    }
 
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.onRefresh()
   }
 
+  get avatar() {
+    const { $ }: Ctx = this.context
+    const { avatar } = $.usersInfo
+    return avatar?.large
+  }
+
+  get previewAvatarSrc() {
+    const { $ }: Ctx = this.context
+    const { avatar } = $.usersInfo
+    if (!$.state.avatar) {
+      return avatar?.large
+    }
+
+    return $.state.avatar || avatar?.large
+  }
+
+  get previewBgSrc() {
+    const { $ }: Ctx = this.context
+    const { avatar } = $.usersInfo
+    if (!$.state.bg) {
+      return this.previewAvatarSrc
+    }
+
+    return $.state.bg || $.state.avatar || avatar?.large
+  }
+
+  get blurRadius() {
+    const { $ }: Ctx = this.context
+    if ($.state.bg) return 0
+
+    return IOS ? 2 : 8
+  }
+
   renderPreview() {
-    const { $, navigation } = this.context
-    const { avatar = {}, nickname, id, username } = $.usersInfo
-    const bgSrc = $.bg || avatar.large
-    const avatarSrc = $.avatar || avatar.large
-    const blurRadius = bgSrc === avatar.large ? (IOS ? 2 : 1) : 0
+    const { $, navigation }: Ctx = this.context
+    const { nickname, id, username } = $.usersInfo
     return (
       <View style={_.mb.md}>
         <View style={this.styles.container}>
           <Image
-            key={bgSrc}
-            style={this.styles.avatar}
+            key={this.previewBgSrc}
+            style={this.styles.blurView}
+            src={this.previewBgSrc}
             headers={headers}
-            src={bgSrc}
             width={_.window.contentWidth}
             height={this.styles.preview.height}
-            blurRadius={blurRadius}
+            blurRadius={this.blurRadius}
+            fallback={!!this.blurRadius}
           />
           <Flex style={this.styles.mask} direction='column' justify='center'>
             <Image
-              key={avatarSrc}
-              style={_.mt.md}
+              key={this.previewAvatarSrc}
+              style={this.styles.avatar}
+              src={this.previewAvatarSrc}
               headers={headers}
-              src={avatarSrc}
-              size={76}
-              radius={38}
+              size={64}
+              radius={32}
               border={_.__colorPlain__}
-              borderWidth={2}
+              borderWidth={1.5}
+              placeholder={false}
               shadow
               fallback
             />
-            <Text style={_.mt.md} type={_.select('plain', 'title')} size={13}>
+            <Text style={_.mt.md} type={_.select('plain', 'title')} size={12}>
               {nickname}
-              <Text type={_.select('plain', 'title')} size={13}>
+              <Text type={_.select('plain', 'title')} size={12}>
                 {' '}
                 {username || id ? `@${username || id} ` : ''}
               </Text>
@@ -119,7 +154,7 @@ class UserSetting extends React.Component {
   }
 
   renderForm() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { nickname, sign_input, bg, avatar } = $.state
     const { expand } = this.state
     return (
@@ -204,10 +239,9 @@ class UserSetting extends React.Component {
         )}
         <Touchable style={this.styles.more} onPress={this.onExpand}>
           <Flex justify='center'>
-            <Iconfont
-              name={expand ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
-              size={_.device(24, 32)}
-            />
+            <Text style={[_.mt.sm, _.mb.sm]} size={13} type='sub' bold>
+              {expand ? '收起资料' : '展开资料'}
+            </Text>
           </Flex>
         </Touchable>
       </>
@@ -215,11 +249,12 @@ class UserSetting extends React.Component {
   }
 
   renderTabs() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { selectedIndex } = $.state
-    const values = ['预设背景', '随机背景', '随机头像']
+    const values = ['预设背景', '随机头像']
     return (
       <SegmentedControl
+        key={String($.state._loaded)}
         style={this.styles.segment}
         values={values}
         selectedIndex={selectedIndex}
@@ -229,15 +264,30 @@ class UserSetting extends React.Component {
   }
 
   renderOnlineBgs() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { bgs } = $.state
     return (
       <>
         <Flex wrap='wrap'>
+          <Touchable style={this.styles.bg} onPress={() => $.onSelectBg('')}>
+            <Image
+              key={this.previewAvatarSrc}
+              src={this.previewAvatarSrc}
+              headers={headers}
+              width={this.styles.image.width}
+              height={this.styles.image.height}
+              radius
+              blurRadius={IOS ? 2 : 8}
+              fallback
+            />
+            <Text style={this.styles.blurText} type='__plain__' bold align='center'>
+              头像毛玻璃
+            </Text>
+          </Touchable>
           {bgs.map((item: string, index: number) => (
             <Touchable
               key={index}
-              style={[this.styles.bg, index % 2 === 1 && _.ml.md]}
+              style={[this.styles.bg, index % 2 === 0 && _.ml.md]}
               onPress={() => $.onSelectBg(item)}
               onLongPress={() => this.onViewOrigin(item, index)}
             >
@@ -261,7 +311,7 @@ class UserSetting extends React.Component {
   }
 
   renderPixivs() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { pixivs } = $.state
     return (
       <>
@@ -293,23 +343,47 @@ class UserSetting extends React.Component {
   }
 
   renderAvatars = () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { avatars } = $.state
     return arrGroup(avatars, 5).map((items, index) => (
       <Flex key={index} justify='between'>
-        {items.map((item: string, idx: number) => (
-          <Image
-            key={`${idx}|${item}`}
-            style={_.mb.md}
-            src={item}
-            size={60}
-            radius={30}
-            border={_.__colorPlain__}
-            borderWidth={0}
-            shadow
-            onPress={() => $.onSelectAvatar(item)}
-          />
-        ))}
+        {items.map((item: string, idx: number) => {
+          if (index === 2 && idx === 4) {
+            return (
+              <Image
+                key={item}
+                style={_.mb.md}
+                src={this.avatar}
+                headers={headers}
+                size={60}
+                radius={30}
+                border={_.__colorPlain__}
+                borderWidth={0}
+                placeholder={false}
+                shadow
+                fallback
+                onPress={() => $.onSelectAvatar('')}
+              />
+            )
+          }
+
+          return (
+            <Image
+              key={item}
+              style={_.mb.md}
+              src={item}
+              headers={headers}
+              size={60}
+              radius={30}
+              border={_.__colorPlain__}
+              borderWidth={0}
+              placeholder={false}
+              shadow
+              fallback
+              onPress={() => $.onSelectAvatar(item)}
+            />
+          )
+        })}
       </Flex>
     ))
   }
@@ -327,7 +401,7 @@ class UserSetting extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { selectedIndex } = $.state
     return (
       <View style={_.container.plain}>
@@ -340,8 +414,8 @@ class UserSetting extends React.Component {
           {this.renderForm()}
           {this.renderTabs()}
           {selectedIndex === 0 && this.renderOnlineBgs()}
-          {selectedIndex === 1 && this.renderPixivs()}
-          {selectedIndex === 2 && this.renderAvatars()}
+          {/* {selectedIndex === 1 && this.renderPixivs()} */}
+          {selectedIndex === 1 && this.renderAvatars()}
         </ScrollView>
         {this.renderRefresh()}
       </View>

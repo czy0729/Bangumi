@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 19:48:18
+ * @Last Modified time: 2022-08-15 05:25:01
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -22,6 +22,7 @@ export default obc(({ scrollY, fixed }, { $, navigation }: Ctx) => {
       parallaxImageHeight={_.parallaxImageHeight}
       avatar={avatar}
       bg={$.bg}
+      bgAvatar={$.avatar}
       fixed={fixed}
       id={id}
       myUserId={$.myUserId}

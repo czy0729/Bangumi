@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 13:03:13
+ * @Last Modified time: 2022-08-15 09:56:13
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -275,6 +275,8 @@ export const Image = observer(
       RNImage.getSize(uri, cb)
     }
 
+    _fallbacked = false
+
     /** 加载失败 */
     onError = async () => {
       const { src } = this.props
@@ -333,7 +335,16 @@ export const Image = observer(
         return
       }
 
-      this.comitError()
+      const { fallbackSrc } = this.props
+      const { uri } = this.state
+      if (fallbackSrc && uri !== fallbackSrc && !this._fallbacked) {
+        this._fallbacked = true
+        this.setState({
+          uri: fallbackSrc
+        })
+      } else {
+        this.comitError()
+      }
     }
 
     /** 其他源头回退到 bgm 源头 */

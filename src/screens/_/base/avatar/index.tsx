@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:49:15
+ * @Last Modified time: 2022-08-15 10:08:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,6 +50,7 @@ export const Avatar = ob(
     round,
     radius,
     placeholder,
+    fallbackSrc,
     onPress,
     onLongPress
   }: AvatarProps) => {
@@ -146,6 +147,7 @@ export const Avatar = ob(
             radius={_radius}
             quality={false}
             placeholder={placeholder}
+            fallbackSrc={fallbackSrc || avatar?.large}
             onPress={_onPress}
             onLongPress={onLongPress}
           />
@@ -176,6 +178,7 @@ export const Avatar = ob(
         quality={false}
         placeholder={placeholder}
         fallback={fallback}
+        fallbackSrc={fallbackSrc || avatar?.large}
         onPress={_onPress}
         onLongPress={onLongPress}
       />

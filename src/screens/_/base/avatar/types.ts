@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-12 16:04:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-12 16:05:25
+ * @Last Modified time: 2022-08-15 09:51:30
  */
 import { ColorValue, EventType, Navigation, ViewStyle, Fn } from '@types'
 
@@ -45,6 +45,8 @@ export type Props = {
 
   /** 是否显示底色 */
   placeholder?: boolean
+
+  fallbackSrc?: string
 
   /** 点击回调, 会覆盖跳转到用户空间的事件 */
   onPress?: Fn

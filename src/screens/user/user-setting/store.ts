@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 01:07:57
+ * @Last Modified time: 2022-08-15 06:25:45
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -10,7 +10,8 @@ import { getTimestamp, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
-import { API_RANDOM_AVATAR, API_SETU } from '@constants'
+import { API_SETU } from '@constants'
+import { randomAvatars } from './ds'
 
 const namespace = 'ScreenUserSetting'
 const onlineBgsUrl = 'https://gitee.com/a296377710/bangumi/raw/master/bg.json'
@@ -35,7 +36,13 @@ export default class ScreenUserSetting extends store {
   init = async () => {
     const state = (await this.getStorage(namespace)) || {}
     this.setState({
-      state
+      avatar: state.avatar || '',
+      bg: state.bg || '',
+      selectedIndex: state.selectedIndex || 0,
+      bgs: state.bgs || [],
+      pixivs: state.pixivs || [],
+      avatars: state.avatars || [],
+      _loaded: getTimestamp()
     })
 
     await this.onInit()
@@ -70,21 +77,13 @@ export default class ScreenUserSetting extends store {
 
   /** 随机头像 */
   fetchAvatars = async () => {
-    const data = []
-    for (let i = 0; i < 10; i += 1) {
-      data.push(await fetch(API_RANDOM_AVATAR()).then(res => res.url))
-      if (i === 4) {
-        this.setState({
-          avatars: data
-        })
-      }
-    }
-
+    const avatars = randomAvatars()
     this.setState({
-      avatars: data
+      avatars
     })
+
     this.setStorage(namespace)
-    return data
+    return avatars
   }
 
   /** 随机背景 */
@@ -128,8 +127,8 @@ export default class ScreenUserSetting extends store {
   onRefresh = () => {
     const { selectedIndex } = this.state
     if (selectedIndex === 0) return this.fetchBgs()
-    if (selectedIndex === 1) return this.fetchSetus()
-    if (selectedIndex === 2) return this.fetchAvatars()
+    // if (selectedIndex === 1) return this.fetchSetus()
+    if (selectedIndex === 1) return this.fetchAvatars()
   }
 
   // -------------------- get --------------------
@@ -250,10 +249,12 @@ export default class ScreenUserSetting extends store {
 
     if (
       (selectedIndex === 0 && !this.state.bgs.length) ||
-      (selectedIndex === 1 && !this.state.pixivs.length) ||
-      (selectedIndex === 2 && !this.state.avatars.length)
+      // (selectedIndex === 1 && !this.state.pixivs.length) ||
+      (selectedIndex === 1 && !this.state.avatars.length)
     ) {
       this.onRefresh()
     }
+
+    this.setStorage(namespace)
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:34:37
+ * @Last Modified time: 2022-08-15 05:29:08
  */
 import { _ } from '@stores'
 import { H_RADIUS_LINE } from '../ds'
@@ -99,5 +99,8 @@ export const styles = _.create({
   icon: {
     width: 36,
     height: 36
+  },
+  avatar: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)'
   }
 })

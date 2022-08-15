@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:40:40
+ * @Last Modified time: 2022-08-15 09:52:29
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -72,12 +72,11 @@ function ParallaxImage(props, { $, navigation }) {
       uri = `https:${_image}`
     }
   }
-  uri = $.bg || uri
-  if (typeof uri === 'string') {
-    uri = uri.replace('http://', 'https://')
-  }
 
-  const blurRadius = $.bg ? 0 : IOS ? 2 : 1
+  uri = $.bg || $.avatar || uri
+  if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
+
+  const blurRadius = uri === $.bg ? 0 : IOS ? 2 : 8
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
@@ -125,7 +124,13 @@ function ParallaxImage(props, { $, navigation }) {
           ]}
         >
           <Flex style={styles.title} justify='center'>
-            <Avatar size={28} src={$.src} />
+            <Avatar
+              style={styles.avatar}
+              size={28}
+              src={$.src}
+              borderWidth={0}
+              fallbackSrc={avatar.large}
+            />
             <Text
               style={_.ml.sm}
               type={_.select('plain', 'title')}
@@ -222,10 +227,8 @@ function ParallaxImage(props, { $, navigation }) {
           <Heatmap
             right={170}
             id='空间.跳转'
-            data={{
-              to: 'WebBrowser',
-              alias: '浏览器'
-            }}
+            to='WebBrowser'
+            alias='浏览器'
             transparent
           />
         </Popover>
@@ -297,5 +300,8 @@ const memoStyles = _.memoStyles(() => ({
     width: 36,
     height: 36,
     marginRight: -2
+  },
+  avatar: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)'
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:11:38
+ * @Last Modified time: 2022-08-14 17:42:17
  */
 import React from 'react'
 import { Loading, ListView, Text, Heatmap } from '@components'
@@ -20,8 +20,6 @@ const event = {
   }
 }
 
-export default
-@obc
 class RakuenList extends React.Component {
   connectRef = ref => {
     const { $ } = this.context
@@ -65,7 +63,7 @@ class RakuenList extends React.Component {
     const { timeout } = $.state
     if (!$.userTopicsFormCDN._loaded) {
       return (
-        <Loading>
+        <Loading style={styles.loading}>
           {timeout && <Text style={_.mt.md}>查询超时，TA可能没有发过帖子</Text>}
         </Loading>
       )
@@ -105,6 +103,14 @@ class RakuenList extends React.Component {
     )
   }
 }
+
+export default obc(RakuenList)
+
+const styles = _.create({
+  loading: {
+    marginTop: _.window.height / 3
+  }
+})
 
 function keyExtractor(item) {
   return String(item.id)

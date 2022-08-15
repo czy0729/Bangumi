@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:30:31
+ * @Last Modified time: 2022-08-15 09:46:27
  */
 import { ColorValue, ImageProps } from 'react-native'
 import { Override, ViewStyle, ImageStyle, EventType, Source } from '@types'
@@ -75,6 +75,9 @@ export type Props = Override<
 
     /** 是否退回使用 rn 的 <Image> (安卓 only) */
     fallback?: boolean
+
+    /** 确定加载失败后若有值使用此地址 fallback */
+    fallbackSrc?: string
 
     /** 图片点击回调 */
     onPress?: (arg0?: any) => any

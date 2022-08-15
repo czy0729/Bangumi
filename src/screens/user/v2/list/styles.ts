@@ -1,14 +1,17 @@
 /*
  * @Author: czy0729
  * @Date: 2022-08-05 07:11:21
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-08-05 07:11:21
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-14 17:45:20
  */
 import { _ } from '@stores'
 
 const H_TOOLBAR = _.r(42)
 
 export const memoStyles = _.memoStyles(() => ({
+  loading: {
+    marginTop: _.window.height / 3
+  },
   listView: {
     zIndex: 0
   },

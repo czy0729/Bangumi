@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 16:10:46
+ * @Last Modified time: 2022-08-14 17:45:34
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -83,7 +83,11 @@ class List extends React.Component<Props> {
     )
 
     if (!userCollections._loaded) {
-      return <Loading style={_.ios(_.container.plain, _.container._plain)} />
+      return (
+        <Loading
+          style={[_.ios(_.container.plain, _.container._plain), this.styles.loading]}
+        />
+      )
     }
 
     const numColumns = list ? undefined : this.userGridNum

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 10:23:18
+ * @Last Modified time: 2022-08-14 17:43:29
  */
 import React from 'react'
 import {
@@ -26,9 +26,7 @@ const event = {
   id: '空间.跳转'
 }
 
-export default
-@obc
-class List extends React.Component {
+class BangumiList extends React.Component {
   connectRef = ref => {
     const { $ } = this.context
     const index = TABS.findIndex(item => item.title === '番剧')
@@ -81,7 +79,7 @@ class List extends React.Component {
 
   render() {
     const { $, navigation } = this.context
-    if (!$.userCollections._loaded) return <Loading />
+    if (!$.userCollections._loaded) return <Loading style={this.styles.loading} />
 
     const { expand } = $.state
     const sections = []
@@ -140,7 +138,12 @@ class List extends React.Component {
   }
 }
 
+export default obc(BangumiList)
+
 const memoStyles = _.memoStyles(() => ({
+  loading: {
+    marginTop: _.window.height / 3
+  },
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind,
     paddingBottom: _.bottom,

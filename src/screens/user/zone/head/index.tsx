@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 11:04:07
+ * @Last Modified time: 2022-08-15 09:49:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ function Head({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { _id, _name } = $.params
   const { originUid } = $.state
-  const { nickname, id, username } = $.usersInfo
+  const { avatar, nickname, id, username } = $.usersInfo
   const { join, percent, disconnectUrl } = $.users
   const userId = id || _id
   const isRename = !!username && !/d+/.test(username) && username != userId
@@ -41,6 +41,7 @@ function Head({ style }, { $, navigation }) {
           borderWidth={2}
           shadow
           fallback={fallback}
+          fallbackSrc={avatar?.large}
         />
         <Text style={styles.l1} type={textType} size={11} bold>
           {join || '- 加入'}

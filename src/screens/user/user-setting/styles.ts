@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-05 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:53:10
+ * @Last Modified time: 2022-08-15 09:23:52
  */
+import { DEV } from '@constants'
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
@@ -12,9 +13,7 @@ export const memoStyles = _.memoStyles(() => {
   const H_BGS = W_BGS * 0.88
   return {
     container: {
-      marginHorizontal: _.wind,
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
+      marginHorizontal: _.wind
     },
     mask: {
       position: 'absolute',
@@ -25,8 +24,14 @@ export const memoStyles = _.memoStyles(() => {
       left: 0,
       backgroundColor: 'rgba(0, 0, 0, 0.24)'
     },
+    blurView: {
+      backgroundColor: _.colorPlain,
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
+    },
     avatar: {
-      backgroundColor: _.__colorPlain__
+      marginTop: _.md,
+      backgroundColor: 'rgba(255, 255, 255, 0.8)'
     },
     contentContainerStyle: {
       paddingHorizontal: _.wind,
@@ -65,9 +70,9 @@ export const memoStyles = _.memoStyles(() => {
     },
     btn: {
       position: 'absolute',
-      zIndex: 1000,
+      zIndex: 1001,
       right: _.wind,
-      bottom: 64
+      bottom: DEV ? 240 : 64
     },
     touch: {
       backgroundColor: _.colorTitle,
@@ -83,6 +88,20 @@ export const memoStyles = _.memoStyles(() => {
       width: _.r(_.window.contentWidth),
       height: _.r(36),
       marginBottom: _.md + 16
+    },
+    blurText: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 64,
+      left: 0,
+      right: 0,
+      textShadowOffset: {
+        width: 1,
+        height: 1
+      },
+      textShadowRadius: 1,
+      textShadowColor: 'rgba(0, 0, 0, 0.24)',
+      opacity: 0.8
     }
   }
 })

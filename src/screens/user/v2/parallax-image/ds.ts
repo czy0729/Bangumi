@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:37:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 20:51:20
+ * @Last Modified time: 2022-08-15 05:25:19
  */
 import { Animated } from 'react-native'
 import { ImagesAvatar, Navigation, UserId } from '@types'
@@ -25,6 +25,7 @@ export const DEFAULT_PROPS = {
   parallaxImageHeight: 0 as number,
   avatar: {} as ImagesAvatar,
   bg: '' as string,
+  bgAvatar: '' as string,
   fixed: false as boolean,
   id: '' as UserId,
   myUserId: '' as UserId,
