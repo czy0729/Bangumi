@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 05:08:17
+ * @Last Modified time: 2022-08-16 06:10:15
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -54,6 +54,7 @@ import {
 } from './ds'
 import { memoStyles } from './styles'
 import { Props as ImageProps, State } from './types'
+import { Source } from '@types'
 
 export { ImageProps }
 
@@ -125,7 +126,7 @@ export const Image = observer(
     }
 
     /** 缓存图片 */
-    cache = async src => {
+    cache = async (src: Source) => {
       let res: Promise<string>
       let uri: string
       let qualityLevel: string
@@ -198,7 +199,7 @@ export const Image = observer(
             }
           }
         } catch (error) {
-          this.retry(src)
+          this.retry(src as string)
         }
       } else {
         if (!IOS && typeof src === 'string') {
@@ -208,7 +209,7 @@ export const Image = observer(
           }
         }
 
-        uri = src
+        uri = src as string
 
         if (typeof uri === 'string') {
           uri = this.getQuality(uri, qualityLevel)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 04:40:48
+ * @Last Modified time: 2022-08-16 06:27:59
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
-import { Flex, Iconfont, Text, Heatmap } from '@components'
+import { Flex, Iconfont, Touchable, Text, Heatmap } from '@components'
 import { Popover, IconBack, Avatar } from '@_'
 import { _ } from '@stores'
-import { open, copy } from '@utils'
+import { open, copy, info } from '@utils'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -23,6 +23,9 @@ function ParallaxImage(props, { $, navigation }) {
   const { _image, _name } = $.params
   const { fixed } = $.state
   const { avatar = {}, nickname, id, username } = $.usersInfo
+  const { disconnectUrl } = $.users
+  const isFriend = !!disconnectUrl
+
   const parallaxStyle = {
     transform: [
       {
@@ -164,75 +167,97 @@ function ParallaxImage(props, { $, navigation }) {
       <View style={[_.header.left, styles.btn]}>
         <IconBack navigation={navigation} color={_.__colorPlain__} />
       </View>
-      <View style={[_.header.right, styles.touch]}>
-        <Popover
-          data={data}
-          onSelect={key => {
-            t('空间.右上角菜单', {
-              key,
-              userId: $.userId
-            })
+      <Flex style={[_.header.right, styles.right]}>
+        {isFriend && (
+          <Touchable style={styles.touch} onPress={$.logFriendStatus}>
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='md-face' size={19} color={_.__colorPlain__} />
+            </Flex>
+          </Touchable>
+        )}
+        {$.isAdvance && (
+          <Touchable
+            style={[styles.touch, _.ml.xs]}
+            onPress={() => info(`TA 也是高级会员 ${$.advanceDetail}`)}
+          >
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='md-attach-money' color={_.__colorPlain__} />
+            </Flex>
+          </Touchable>
+        )}
+        <View style={styles.touch}>
+          <Popover
+            data={data}
+            onSelect={key => {
+              t('空间.右上角菜单', {
+                key,
+                userId: $.userId
+              })
 
-            const url = `${HOST}/user/${username}`
-            const userName = HTMLDecode(nickname || _name)
-            switch (key) {
-              case '浏览器查看':
-                open(url)
-                break
+              const url = `${HOST}/user/${username}`
+              const userName = HTMLDecode(nickname || _name)
+              switch (key) {
+                case '浏览器查看':
+                  open(url)
+                  break
 
-              case '复制链接':
-                copy(url, '已复制链接')
-                break
+                case '复制链接':
+                  copy(url, '已复制链接')
+                  break
 
-              case '复制分享':
-                copy(`【链接】${userName} | Bangumi番组计划\n${url}`, '已复制分享文案')
-                break
+                case '复制分享':
+                  copy(
+                    `【链接】${userName} | Bangumi番组计划\n${url}`,
+                    '已复制分享文案'
+                  )
+                  break
 
-              case '发短信':
-                navigation.push('PM', {
-                  userId: id, // 必须是数字id
-                  userName
-                })
-                break
+                case '发短信':
+                  navigation.push('PM', {
+                    userId: id, // 必须是数字id
+                    userName
+                  })
+                  break
 
-              case 'TA的收藏':
-                $.navigateToUser(navigation)
-                break
+                case 'TA的收藏':
+                  $.navigateToUser(navigation)
+                  break
 
-              case 'TA的好友':
-                navigation.push('Friends', {
-                  userId: username || id
-                })
-                break
+                case 'TA的好友':
+                  navigation.push('Friends', {
+                    userId: username || id
+                  })
+                  break
 
-              case '加为好友':
-                $.doConnect()
-                break
+                case '加为好友':
+                  $.doConnect()
+                  break
 
-              case '解除好友':
-                confirm('确定解除好友?', () => $.doDisconnect())
-                break
+                case '解除好友':
+                  confirm('确定解除好友?', () => $.doDisconnect())
+                  break
 
-              default:
-                break
-            }
-          }}
-        >
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont name='md-more-vert' color={_.__colorPlain__} />
-          </Flex>
-          <Heatmap id='空间.右上角菜单' />
-          <Heatmap right={62} id='空间.添加好友' transparent />
-          <Heatmap right={113} id='空间.解除好友' transparent />
-          <Heatmap
-            right={170}
-            id='空间.跳转'
-            to='WebBrowser'
-            alias='浏览器'
-            transparent
-          />
-        </Popover>
-      </View>
+                default:
+                  break
+              }
+            }}
+          >
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='md-more-vert' color={_.__colorPlain__} />
+            </Flex>
+            <Heatmap id='空间.右上角菜单' />
+            <Heatmap right={62} id='空间.添加好友' transparent />
+            <Heatmap right={113} id='空间.解除好友' transparent />
+            <Heatmap
+              right={170}
+              id='空间.跳转'
+              to='WebBrowser'
+              alias='浏览器'
+              transparent
+            />
+          </Popover>
+        </View>
+      </Flex>
     </>
   )
 }
@@ -275,6 +300,7 @@ const memoStyles = _.memoStyles(() => ({
   head: {
     marginTop: (_.parallaxImageHeight - 120) / 2
   },
+
   title: {
     position: 'absolute',
     left: '50%',
@@ -290,14 +316,16 @@ const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     marginTop: -8
   },
-  touch: {
+  right: {
     zIndex: 1,
-    marginTop: -6,
+    marginTop: -6
+  },
+  touch: {
     borderRadius: 20,
     overflow: 'hidden'
   },
   icon: {
-    width: 36,
+    width: 34,
     height: 36,
     marginRight: -2
   },

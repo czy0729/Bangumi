@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 17:38:10
+ * @Last Modified time: 2022-08-16 06:48:38
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
-import { SectionHeader, ItemTimeline } from '@_'
+import { TapListener, SectionHeader, ItemTimeline } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
@@ -48,19 +48,21 @@ class TimelineList extends React.Component {
     if (!$.usersTimeline._loaded) return <Loading style={styles.loading} />
 
     return (
-      <ListView
-        ref={this.connectRef}
-        contentContainerStyle={_.container.bottom}
-        keyExtractor={keyExtractor}
-        data={$.usersTimeline}
-        sectionKey='date'
-        stickySectionHeadersEnabled={false}
-        renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
-        animated
-        onFooterRefresh={() => $.fetchUsersTimeline()}
-        {...this.props}
-      />
+      <TapListener>
+        <ListView
+          ref={this.connectRef}
+          contentContainerStyle={_.container.bottom}
+          keyExtractor={keyExtractor}
+          data={$.usersTimeline}
+          sectionKey='date'
+          stickySectionHeadersEnabled={false}
+          renderSectionHeader={this.renderSectionHeader}
+          renderItem={this.renderItem}
+          animated
+          onFooterRefresh={() => $.fetchUsersTimeline()}
+          {...this.props}
+        />
+      </TapListener>
     )
   }
 }

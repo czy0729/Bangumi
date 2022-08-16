@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 05:15:16
+ * @Last Modified time: 2022-08-16 06:11:58
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { observable, runInAction } from 'mobx'
 import { _ } from '@stores'
 import { date, getTimestamp } from '@utils'
+import { getSystemStoreAsync } from '@utils/async'
 import { DEV as dev, IOS } from '@constants'
 import { ScrollView } from '../scroll-view'
 import { Flex } from '../flex'
@@ -23,7 +24,7 @@ const logs = observable([])
 
 /** 调试窗口打印 (手机实机开发用) */
 export function devLog(...args: any) {
-  if (!DEV) return
+  if (!DEV && !getSystemStoreAsync().state.dev) return
 
   setTimeout(() => {
     runInAction(() => {
@@ -42,7 +43,7 @@ export function devLogs(...args: any) {
 }
 
 export const DEV = observer(() => {
-  if (!dev) return null
+  if (!dev && !getSystemStoreAsync().state.dev) return null
 
   const styles = memoStyles()
   return (

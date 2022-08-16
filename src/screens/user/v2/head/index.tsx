@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 09:53:30
+ * @Last Modified time: 2022-08-16 06:33:18
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Heatmap } from '@components'
-import { IconTouchable } from '@_'
-import { info } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
@@ -21,10 +19,10 @@ function Head({ style }, { $, navigation }: Ctx) {
   global.rerender('User.Head')
 
   const { avatar, nickname, id, username } = $.usersInfo
-  const { userId } = $.params
-  const isMe = !userId || userId === $.myUserId
+  // const { userId } = $.params
+  // const isMe = !userId || userId === $.myUserId
   const src = $.avatar || avatar?.large
-  const showAdvance = isMe && systemStore.advance
+  // const showAdvance = isMe && systemStore.advance
   const fallback = typeof src === 'string' && !src.includes('//lain.bgm.tv/pic/user/l/')
   return (
     <Flex style={style} justify='center' direction='column'>
@@ -104,12 +102,12 @@ function Head({ style }, { $, navigation }: Ctx) {
           </>
         )} */}
       </View>
-      <Flex style={[_.mt.md, showAdvance && styles.advanceContainer]}>
+      <Flex style={_.mt.md}>
         <Text type={_.select('plain', 'title')} bold>
           {nickname}
-          {username || id ? ` @${username || id} ` : ''}
+          {username || id ? ` @${username || id}` : ''}
         </Text>
-        {showAdvance && (
+        {/* {showAdvance && (
           <IconTouchable
             style={styles.advance}
             color={_.__colorPlain__}
@@ -117,7 +115,7 @@ function Head({ style }, { $, navigation }: Ctx) {
             name='md-star'
             onPress={() => info('您是高级会员')}
           />
-        )}
+        )} */}
       </Flex>
     </Flex>
   )

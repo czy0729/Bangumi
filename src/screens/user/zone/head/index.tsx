@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 09:49:09
+ * @Last Modified time: 2022-08-16 06:27:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { memoStyles } from './styles'
-import { info } from '@utils/ui'
 
 const AVATAR_SIZE = _.r(88)
 
@@ -21,10 +20,9 @@ function Head({ style }, { $, navigation }) {
   const { _id, _name } = $.params
   const { originUid } = $.state
   const { avatar, nickname, id, username } = $.usersInfo
-  const { join, percent, disconnectUrl } = $.users
+  const { join, percent } = $.users
   const userId = id || _id
   const isRename = !!username && !/d+/.test(username) && username != userId
-  const isFriend = !!disconnectUrl
   const userName = HTMLDecode(nickname || _name)
   const textType = _.select('plain', 'title')
   const fallback =
@@ -138,19 +136,6 @@ function Head({ style }, { $, navigation }) {
           {isRename && (
             <Touchable style={styles.icon} onPress={$.toggleOriginUid}>
               <Iconfont name='md-compare-arrows' size={17} color={_.__colorPlain__} />
-            </Touchable>
-          )}
-          {isFriend && (
-            <Touchable style={styles.icon} onPress={$.logFriendStatus}>
-              <Iconfont name='md-face' size={14} color={_.__colorPlain__} />
-            </Touchable>
-          )}
-          {$.isAdvance && (
-            <Touchable
-              style={styles.icon}
-              onPress={() => info(`TA 也是高级会员${$.advanceDetail}`)}
-            >
-              <Iconfont name='md-star' size={15} color={_.__colorPlain__} />
             </Touchable>
           )}
         </Flex>

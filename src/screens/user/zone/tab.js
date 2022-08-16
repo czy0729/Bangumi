@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-08 03:03:41
+ * @Last Modified time: 2022-08-16 06:46:26
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -19,7 +19,6 @@ import RakuenList from './rakuen-list'
 import About from './about'
 import Tinygrail from './tinygrail'
 import { H_HEADER, H_RADIUS_LINE } from './store'
-import { TABS, TABS_WITH_TINYGRAIL } from './ds'
 
 class Tab extends React.Component {
   onIndexChange = index => {
@@ -108,21 +107,35 @@ class Tab extends React.Component {
     </Flex>
   )
 
-  renderTabBar = props => (
-    <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
-      <TabBar
-        {...props}
-        style={this.styles.tabBar}
-        tabStyle={this.styles.tab}
-        labelStyle={this.styles.label}
-        indicatorStyle={this.styles.indicator}
-        pressOpacity={1}
-        pressColor='transparent'
-        scrollEnabled
-        renderLabel={this.renderLabel}
-      />
-    </Animated.View>
-  )
+  renderTabBar = props => {
+    const { $ } = this.context
+    const width = _.window.width / $.tabs.length
+    return (
+      <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
+        <TabBar
+          {...props}
+          style={this.styles.tabBar}
+          tabStyle={[
+            this.styles.tab,
+            {
+              width
+            }
+          ]}
+          labelStyle={this.styles.label}
+          indicatorStyle={[
+            this.styles.indicator,
+            {
+              marginLeft: (width - this.styles.indicator.width) / 2
+            }
+          ]}
+          pressOpacity={1}
+          pressColor='transparent'
+          scrollEnabled
+          renderLabel={this.renderLabel}
+        />
+      </Animated.View>
+    )
+  }
 
   render() {
     return (
@@ -140,8 +153,7 @@ class Tab extends React.Component {
   }
 
   get styles() {
-    const { $ } = this.context
-    return $.tabs.length > 3 ? memoStylesWithTinygrail() : memoStyles()
+    return memoStyles()
   }
 }
 
@@ -169,60 +181,25 @@ const commonStyle = {
   }
 }
 
-const memoStyles = _.memoStyles(() => {
-  const W_INDICATOR = 16 * _.ratio
-  const W_TAB = _.window.width / TABS.length
-  return {
-    ...commonStyle,
-    tabBar: {
-      backgroundColor: _.select(
-        _.colorPlain,
-        _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-      ),
-      borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
-      borderBottomColor: _.colorBorder,
-      shadowOpacity: 0,
-      elevation: 0
-    },
-    tab: {
-      width: W_TAB,
-      height: 48
-    },
-    indicator: {
-      width: W_INDICATOR,
-      height: 4,
-      marginLeft: (W_TAB - W_INDICATOR) / 2,
-      backgroundColor: _.colorMain,
-      borderRadius: 4
-    }
+const memoStyles = _.memoStyles(() => ({
+  ...commonStyle,
+  tabBar: {
+    backgroundColor: _.select(
+      _.colorPlain,
+      _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+    ),
+    borderBottomWidth: _.select(_.hairlineWidth, 0),
+    borderBottomColor: _.colorBorder,
+    shadowOpacity: 0,
+    elevation: 0
+  },
+  tab: {
+    height: _.r(48)
+  },
+  indicator: {
+    width: _.r(16),
+    height: 4,
+    backgroundColor: _.colorMain,
+    borderRadius: 4
   }
-})
-
-const memoStylesWithTinygrail = _.memoStyles(() => {
-  const W_INDICATOR = 16 * _.ratio
-  const W_TAB_WITH_TINYGRAIL = _.window.width / TABS_WITH_TINYGRAIL.length
-  return {
-    ...commonStyle,
-    tabBar: {
-      backgroundColor: _.select(
-        _.colorPlain,
-        _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-      ),
-      borderBottomWidth: _.select(_.hairlineWidth, 0),
-      borderBottomColor: _.colorBorder,
-      shadowOpacity: 0,
-      elevation: 0
-    },
-    tab: {
-      width: W_TAB_WITH_TINYGRAIL,
-      height: 48 * _.ratio
-    },
-    indicator: {
-      width: W_INDICATOR,
-      height: 4,
-      marginLeft: (W_TAB_WITH_TINYGRAIL - W_INDICATOR) / 2,
-      backgroundColor: _.colorMain,
-      borderRadius: 4
-    }
-  }
-})
+}))
