@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:53:40
+ * @Last Modified time: 2022-08-16 14:27:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,6 +70,6 @@ const memoStyles = _.memoStyles(() => ({
     padding: 4,
     paddingRight: 8,
     backgroundColor: _.colorBg,
-    borderRadius: _.radiusXs
+    borderRadius: _.radiusSm
   }
 }))

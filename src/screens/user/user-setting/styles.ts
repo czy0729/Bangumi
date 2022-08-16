@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-05 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 09:23:52
+ * @Last Modified time: 2022-08-16 10:27:58
  */
 import { DEV } from '@constants'
 import { _ } from '@stores'
@@ -59,9 +59,9 @@ export const memoStyles = _.memoStyles(() => {
     example: {
       position: 'absolute',
       zIndex: 2,
-      right: _.wind + _.md,
+      right: _.wind + _.sm,
       bottom: _.sm,
-      opacity: 0.64
+      opacity: 0.5
     },
     more: {
       paddingBottom: _.md,

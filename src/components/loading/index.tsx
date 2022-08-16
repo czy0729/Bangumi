@@ -3,18 +3,30 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:28:54
+ * @Last Modified time: 2022-08-16 15:58:15
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { DEV, IOS } from '@constants'
+import { Spinner } from '../spinner'
 import { styles } from './styles'
 import { ILoading, ActivityIndicatorProps } from './types'
 
-const Raw = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
-  <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
-))
+const USED_SPINNER = !IOS || DEV
+
+const Raw = observer(
+  ({ spinnerStyle, color, size = 'small' }: ActivityIndicatorProps) =>
+    USED_SPINNER ? (
+      <Spinner style={[styles.spinner, spinnerStyle]} />
+    ) : (
+      <ActivityIndicator
+        color={color || _.select(_.colorSub, _.colorDesc)}
+        size={size}
+      />
+    )
+)
 
 const Mini = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   <View style={styles.mini}>
@@ -22,12 +34,14 @@ const Mini = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   </View>
 ))
 
-const Loading: ILoading = observer(({ style, color, size = 'small', children }) => (
-  <View style={[_.container.column, styles.loading, style]}>
-    <Raw color={color} size={size} />
-    {children}
-  </View>
-))
+const Loading: ILoading = observer(
+  ({ style, spinnerStyle, color, size = 'small', children }) => (
+    <View style={[_.container.column, styles.loading, style]}>
+      <Raw spinnerStyle={spinnerStyle} color={color} size={size} />
+      {children}
+    </View>
+  )
+)
 
 Loading.Raw = Raw
 

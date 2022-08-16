@@ -4,13 +4,20 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:41:37
+ * @Last Modified time: 2022-08-16 15:49:26
  */
 import { Alert, BackHandler } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
 import { DEV } from '@/config'
-import { HOST, HOST_2, URL_PRIVACY, EVENT, IMG_DEFAULT } from '@constants/constants'
+import {
+  EVENT,
+  HOST,
+  HOST_2,
+  IMG_DEFAULT,
+  IOS,
+  URL_PRIVACY
+} from '@constants/constants'
 import {
   CDN_OSS_MAGMA_POSTER,
   CDN_OSS_SUBJECT,
@@ -63,6 +70,18 @@ export function bootApp() {
 /** 获取设置 */
 export function getSetting() {
   return getSystemStoreAsync().setting
+}
+
+/** 获取背景的模糊值 (iOS 与安卓实际表现不同，需要分开判断) */
+export function getBlurRadius(uri?: string, bg?: string, avatarLarge?: string) {
+  if (uri === bg) return 0
+
+  if (IOS) {
+    if (avatarLarge === bg || !bg) return 10
+    return 48
+  }
+
+  return 8
 }
 
 /** app 内使用时间因子作为随机数, 规避 Hermes 引擎 Array.sort 的卡死 bug */

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 06:32:00
+ * @Last Modified time: 2022-08-16 15:56:19
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Text, Iconfont, Heatmap } from '@components'
 import { Popover, IconHeader, IconBack, Avatar } from '@_'
 import { _ } from '@stores'
-import { open, HTMLDecode } from '@utils'
+import { open, HTMLDecode, getBlurRadius } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -132,7 +132,7 @@ export default memo(
 
       let uri = bg || bgAvatar || avatar.large
       if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
-      const blurRadius = uri === bg ? 0 : 8
+
       return (
         <>
           <Animated.Image
@@ -140,7 +140,7 @@ export default memo(
             source={{
               uri
             }}
-            blurRadius={blurRadius}
+            blurRadius={getBlurRadius(uri, bg, avatar?.large)}
           />
           <Animated.View
             style={[

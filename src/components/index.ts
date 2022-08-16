@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 17:41:38
+ * @Last Modified time: 2022-08-16 12:04:04
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -49,6 +49,7 @@ export * from './scroll-to-top'
 export * from './scroll-view'
 export * from './segmented-control'
 export * from './slider'
+export * from './spinner'
 export * from './status-bar-events'
 export * from './switch'
 export * from './switch-pro'

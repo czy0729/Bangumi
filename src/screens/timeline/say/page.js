@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:29:59
+ * @Last Modified time: 2022-08-16 16:09:42
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import {
-  Page,
   FixedTextarea,
   Flex,
   Heatmap,
-  Touchable,
+  Iconfont,
+  Loading,
+  Page,
   Text,
-  Iconfont
+  Touchable
 } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
@@ -88,7 +88,7 @@ class Say extends React.Component {
     if (!_loaded) {
       return (
         <Flex style={_.container.screen} justify='center'>
-          <ActivityIndicator />
+          <Loading />
         </Flex>
       )
     }

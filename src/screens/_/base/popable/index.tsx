@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:44:30
+ * @Last Modified time: 2022-08-16 16:00:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -102,7 +102,7 @@ export const Popable = ({ subjectId, visible, portalKey, x, y }) => {
                   </Flex>
                 </Touchable>
               ) : (
-                <Loading style={_.mt.sm} />
+                <Loading style={_.mt.sm} spinnerStyle={styles.spinnerStyle} />
               )}
             </BlurView>
           )}

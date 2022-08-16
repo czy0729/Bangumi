@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 04:41:23
+ * @Last Modified time: 2022-08-16 16:03:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,8 @@ const headers = {
 
 class UserSetting extends React.Component {
   state = {
-    expand: false
+    expand: false,
+    more: false
   }
 
   scrollTo: any = () => {}
@@ -94,7 +95,7 @@ class UserSetting extends React.Component {
     const { $ }: Ctx = this.context
     if ($.state.bg) return 0
 
-    return IOS ? 2 : 8
+    return IOS ? ($.state.bg === '' && $.state.avatar ? 48 : 10) : 8
   }
 
   renderPreview() {
@@ -145,7 +146,7 @@ class UserSetting extends React.Component {
             }
           >
             <Text size={10} lineHeight={16} bold type='__plain__'>
-              [示例]
+              〔示例〕
             </Text>
           </Touchable>
         </View>
@@ -266,6 +267,7 @@ class UserSetting extends React.Component {
   renderOnlineBgs() {
     const { $ }: Ctx = this.context
     const { bgs } = $.state
+    const { more } = this.state
     return (
       <>
         <Flex wrap='wrap'>
@@ -277,34 +279,51 @@ class UserSetting extends React.Component {
               width={this.styles.image.width}
               height={this.styles.image.height}
               radius
-              blurRadius={8}
+              blurRadius={IOS ? ($.state.avatar ? 64 : 16) : 8}
               fallback
             />
             <Text style={this.styles.blurText} type='__plain__' bold align='center'>
               头像毛玻璃
             </Text>
           </Touchable>
-          {bgs.map((item: string, index: number) => (
-            <Touchable
-              key={index}
-              style={[this.styles.bg, index % 2 === 0 && _.ml.md]}
-              onPress={() => $.onSelectBg(item)}
-              onLongPress={() => this.onViewOrigin(item, index)}
-            >
-              <Image
-                key={item}
-                src={item}
-                width={this.styles.image.width}
-                height={this.styles.image.height}
-                headers={headers}
-                radius
-              />
-              {!index && <Heatmap id='个人设置.查看原图' />}
-            </Touchable>
-          ))}
+          {bgs
+            .filter((item, index) => {
+              if (more) return true
+              return index <= bgs.length / 2
+            })
+            .map((item: string, index: number) => (
+              <Touchable
+                key={index}
+                style={[this.styles.bg, index % 2 === 0 && _.ml.md]}
+                onPress={() => $.onSelectBg(item)}
+                onLongPress={() => this.onViewOrigin(item, index)}
+              >
+                <Image
+                  key={item}
+                  src={item}
+                  width={this.styles.image.width}
+                  height={this.styles.image.height}
+                  headers={headers}
+                  radius
+                />
+                {!index && <Heatmap id='个人设置.查看原图' />}
+              </Touchable>
+            ))}
         </Flex>
-        <Text style={_.mt.md} align='center' size={12} bold type='sub'>
-          长按可查看原图
+        <Touchable
+          style={[_.mt.md, _.mb.md]}
+          onPress={() => {
+            this.setState({
+              more: true
+            })
+          }}
+        >
+          <Text align='center' size={13} bold>
+            {more ? '没有更多了' : '点击加载更多'}
+          </Text>
+        </Touchable>
+        <Text style={_.mt.md} align='center' size={10} bold type='sub'>
+          长按可查看原图 (以上图来源自 pixiv)
         </Text>
       </>
     )
@@ -335,7 +354,7 @@ class UserSetting extends React.Component {
             </Touchable>
           ))}
         </Flex>
-        <Text style={_.mt.md} align='center' size={12} bold type='sub'>
+        <Text style={_.mt.md} align='center' size={10} bold type='sub'>
           背景图保存后会替换成高清版本
         </Text>
       </>
@@ -345,50 +364,61 @@ class UserSetting extends React.Component {
   renderAvatars = () => {
     const { $ }: Ctx = this.context
     const { avatars } = $.state
-    return arrGroup(avatars, 5).map((items, index) => (
-      <Flex key={index} justify='between'>
-        {items.map((item: string, idx: number) => {
-          if (index === 2 && idx === 4) {
-            return (
-              <Image
-                key={item}
-                style={_.mb.md}
-                src={this.avatar}
-                headers={headers}
-                size={60}
-                radius={30}
-                border={_.__colorPlain__}
-                borderWidth={0}
-                placeholder={false}
-                shadow
-                fallback
-                onPress={() => $.onSelectAvatar('')}
-              />
-            )
-          }
+    return (
+      <>
+        {arrGroup(avatars, 5).map((items, index) => (
+          <Flex key={index} justify='between'>
+            {items.map((item: string, idx: number) => {
+              if (index === 2 && idx === 4) {
+                return (
+                  <Image
+                    key={item}
+                    style={_.mb.md}
+                    src={this.avatar}
+                    headers={headers}
+                    size={60}
+                    radius={30}
+                    border={_.__colorPlain__}
+                    borderWidth={0}
+                    placeholder={false}
+                    shadow
+                    fallback
+                    onPress={() => $.onSelectAvatar('')}
+                  />
+                )
+              }
 
-          return (
-            <Image
-              key={item}
-              style={_.mb.md}
-              src={item}
-              headers={headers}
-              size={60}
-              radius={30}
-              border={_.__colorPlain__}
-              borderWidth={0}
-              placeholder={false}
-              shadow
-              fallback
-              onPress={() => $.onSelectAvatar(item)}
-            />
-          )
-        })}
-      </Flex>
-    ))
+              return (
+                <Image
+                  key={item}
+                  style={_.mb.md}
+                  src={item}
+                  headers={headers}
+                  size={60}
+                  radius={30}
+                  border={_.__colorPlain__}
+                  borderWidth={0}
+                  placeholder={false}
+                  shadow
+                  fallback
+                  onPress={() => $.onSelectAvatar(item)}
+                />
+              )
+            })}
+          </Flex>
+        ))}
+        <Text style={_.mt.md} align='center' size={10} bold type='sub'>
+          (以上图来源自 pixiv)
+        </Text>
+      </>
+    )
   }
 
   renderRefresh() {
+    const { $ }: Ctx = this.context
+    const { selectedIndex } = $.state
+    if (selectedIndex !== 1) return null
+
     return (
       <View style={this.styles.btn}>
         <Touchable style={this.styles.touch} onPress={this.onRefresh}>

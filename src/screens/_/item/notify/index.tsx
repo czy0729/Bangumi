@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 19:53:02
+ * @Last Modified time: 2022-08-16 16:20:29
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -33,6 +33,7 @@ export const ItemNotify = ob(
     return (
       <Flex style={styles.container} align='start'>
         <Avatar
+          key={String(avatar)}
           style={styles.image}
           navigation={navigation}
           userId={userId}

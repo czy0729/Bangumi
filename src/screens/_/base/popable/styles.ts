@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:31:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 11:44:23
+ * @Last Modified time: 2022-08-16 15:59:51
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT } from '@constants'
@@ -37,6 +37,9 @@ export const memoStyles = _.memoStyles(() => {
     },
     stars: {
       marginLeft: -2
+    },
+    spinnerStyle: {
+      marginTop: 0
     }
   }
 })

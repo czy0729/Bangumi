@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:39:52
+ * @Last Modified time: 2022-08-16 16:06:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { ScrollView, Pagination, Flex } from '@components'
+import { ScrollView, Pagination, Loading } from '@components'
 import { ItemBlog } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -64,9 +63,9 @@ class List extends React.Component {
                   ))}
                 </View>
               ) : (
-                <Flex style={this.styles.loading} justify='center'>
-                  <ActivityIndicator />
-                </Flex>
+                <View style={this.styles.container}>
+                  <Loading />
+                </View>
               )}
             </>
           )}
@@ -85,11 +84,6 @@ export default obc(List)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    minHeight: _.window.height
-  },
-  loading: {
-    paddingTop: _.md,
-    paddingBottom: 240,
     minHeight: _.window.height
   },
   pagination: {

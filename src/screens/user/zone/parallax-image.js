@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 06:27:59
+ * @Last Modified time: 2022-08-16 15:50:34
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Iconfont, Touchable, Text, Heatmap } from '@components'
 import { Popover, IconBack, Avatar } from '@_'
 import { _ } from '@stores'
-import { open, copy, info } from '@utils'
+import { open, copy, info, HTMLDecode, confirm, getBlurRadius } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { confirm } from '@utils/ui'
 import { IOS, HOST } from '@constants'
 import Head from './head'
 import { H_HEADER, H_RADIUS_LINE } from './store'
@@ -79,7 +77,6 @@ function ParallaxImage(props, { $, navigation }) {
   uri = $.bg || $.avatar || uri
   if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
 
-  const blurRadius = uri === $.bg ? 0 : 8
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
@@ -88,7 +85,7 @@ function ParallaxImage(props, { $, navigation }) {
           source={{
             uri
           }}
-          blurRadius={blurRadius}
+          blurRadius={getBlurRadius(uri, $.bg, avatar?.large)}
         />
         <Animated.View
           style={[
@@ -178,7 +175,9 @@ function ParallaxImage(props, { $, navigation }) {
         {$.isAdvance && (
           <Touchable
             style={[styles.touch, _.ml.xs]}
-            onPress={() => info(`TA 也是高级会员 ${$.advanceDetail}`)}
+            onPress={() =>
+              info(`TA 也是高级会员${$.advanceDetail ? ` ${$.advanceDetail}` : ''}`)
+            }
           >
             <Flex style={styles.icon} justify='center'>
               <Iconfont name='md-attach-money' color={_.__colorPlain__} />
