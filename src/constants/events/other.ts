@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 04:47:41
+ * @Last Modified time: 2022-08-16 18:50:49
  */
 
 /** Other */
@@ -15,6 +15,11 @@ export default {
   '其他.Linking': 'Other.deeplink',
   '其他.崩溃': 'Other.error',
   '其他.管理目录': 'Other.folderMange',
+  '其他.缩略框跳转': 'Other.popableTo',
+  '其他.设置': 'Other.Settings',
+
+  'AC搜索.缩略框': 'ACSearch.popable',
+  'AC搜索.跳转': 'ACSearch.to',
 
   // 辅助登陆
   '辅助登陆.复制': 'Assist.copy',

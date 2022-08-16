@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 16:00:00
+ * @Last Modified time: 2022-08-16 16:46:49
  */
 import lazyac from 'lazy-aho-corasick'
 import addon from '@assets/json/substrings-addon.json' // 动画 (手动维护)
@@ -16,6 +16,9 @@ import book from '@assets/json/substrings-book.json' // 书籍
 import { arrGroup, desc } from '../utils'
 import hash from '../thirdParty/hash'
 import { DEV, IOS } from '@constants'
+
+/** 忽略匹配的词 */
+const IGNORE_ITEMS = ['日常', 'PP']
 
 /** 缓存搜索过的结果 */
 const CACHE: {
@@ -58,7 +61,8 @@ function initLazyac() {
     )
       .filter(item => {
         // 过滤掉比较长的条目名字, 命中率很低
-        if (item.length >= 10 || item.length <= 1) return false
+        if (item.length >= 10 || item.length <= 1 || IGNORE_ITEMS.includes(item))
+          return false
 
         // 带特殊符号的通常用户很少手动输入, 命中率很低
         if (/。|！|？|：|、|～|・|《|〈|（|「|&|~|:|“|!|;|·|'|\*|\?|\+/.test(item)) {

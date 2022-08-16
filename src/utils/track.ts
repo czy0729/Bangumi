@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 08:57:56
+ * @Last Modified time: 2022-08-16 19:13:47
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import { DEV } from '@/config'
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import events, { EventKeys } from '@constants/events'
 import { urlStringify, getTimestamp, randomn } from './utils'
-import { getUserStoreAsync, getThemeStoreAsync } from './async'
+import { getUserStoreAsync, getThemeStoreAsync, getSystemStoreAsync } from './async'
 import { log } from './dev'
 
 const { UMAnalyticsModule } = NativeModules
@@ -57,6 +57,10 @@ export function hm(url?: string, screen?: string) {
       }
       const { isDark, isTinygrailDark } = getThemeStoreAsync()
       if (isDark) query.dark = 1
+
+      const { customFontFamily } = getSystemStoreAsync().setting
+      if (!customFontFamily) query.font = 1
+
       if (screen) {
         if (screen.includes('Tinygrail') && isTinygrailDark) query.tdark = 1
         query.s = screen
@@ -74,7 +78,7 @@ export function hm(url?: string, screen?: string) {
       currentUrl = u
     })
   } catch (error) {
-    console.warn('[track] hm', error)
+    console.error('[track] hm', error)
   }
 }
 
@@ -92,7 +96,7 @@ export function ua() {
       xhr(si, u)
     })
   } catch (error) {
-    console.warn('[track] u', error)
+    console.error('[track] ua', error)
   }
 }
 
@@ -182,6 +186,6 @@ export function t(
       }
     })
   } catch (error) {
-    console.warn('[track] t', error)
+    console.error('[track] t', error)
   }
 }

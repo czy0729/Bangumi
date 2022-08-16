@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 07:19:09
+ * @Last Modified time: 2022-08-16 19:17:03
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -50,6 +50,7 @@ function Contact({ navigation, filter }) {
           information={systemStore.advance && '已收到巨款，您已成为高级会员，感谢支持'}
           informationType='success'
           filter={filter}
+          ft='22-08-15'
           onPress={() => {
             t('设置.跳转', {
               to: 'Qiafan'
