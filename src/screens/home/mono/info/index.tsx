@@ -55,6 +55,7 @@ function Info(props, { $, navigation }: Ctx) {
         </Flex>
         <Flex style={_.mt.md} justify='center'>
           <Image
+            key={src}
             src={src}
             autoSize={maxSize}
             shadow
