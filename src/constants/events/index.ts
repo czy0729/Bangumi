@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 04:29:08
+ * @Last Modified time: 2022-08-19 05:06:31
  */
 import Discovery from './discovery'
 import Timeline from './timeline'
@@ -32,14 +32,15 @@ const events = {
 export default events
 
 type PageKeys =
-  | '首页'
-  | '条目'
   | '人物'
   | '发现'
-  | '时间胶囊'
-  | '我的'
   | '好友'
+  | '我的'
+  | '时间胶囊'
+  | '条目'
   | '用户日志'
+  | '用户目录'
+  | '首页'
 
 /** 埋点事件唯一键值 */
 export type EventKeys = keyof typeof events | PageKeys | ''

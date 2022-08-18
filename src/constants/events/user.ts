@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 04:48:16
+ * @Last Modified time: 2022-08-19 05:41:35
  */
 
 /** User */
@@ -69,5 +69,9 @@ export default {
 
   // 用户日志
   '用户日志.右上角菜单': 'UserBlogs.topRightMenu',
-  '用户日志.跳转': 'UserBlogs.to'
+  '用户日志.跳转': 'UserBlogs.to',
+
+  // 用户目录
+  '用户目录.右上角菜单': 'UserCatalogs.topRightMenu',
+  '用户目录.标签页切换': 'UserCatalogs.tabsChange'
 }

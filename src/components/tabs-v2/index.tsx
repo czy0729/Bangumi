@@ -2,40 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-08 03:03:17
+ * @Last Modified time: 2022-08-19 05:09:00
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import TabBar from '@components/@/react-native-tab-view/TabBar'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { _ } from '@stores'
-import { ColorValue, TextStyle } from '@types'
+import { TextStyle } from '@types'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { W_INDICATOR, memoStyles } from './styles'
+import { Props as TabsV2Props } from './types'
 
-type Route = {
-  key?: string
-  title?: string
-}
-
-type Label = {
-  route?: Route
-  focused?: boolean
-}
-
-type Props = {
-  routes: Route[]
-  tabBarLength?: number
-  page?: number
-  textColor?: ColorValue
-  backgroundColor?: ColorValue
-  borderBottomColor?: ColorValue
-  underlineColor?: ColorValue
-  renderItem?: (item: Route) => any
-  renderLabel?: (item: Label) => any
-  onChange?: (arg0: any) => any
-}
+export { TabsV2Props }
 
 export const TabsV2 = ({
   routes = [],
@@ -49,7 +29,7 @@ export const TabsV2 = ({
   renderLabel,
   onChange = () => {},
   ...other
-}: Props) => {
+}: TabsV2Props) => {
   const styles = memoStyles()
   const renderScene = useMemo(
     () =>
@@ -114,6 +94,7 @@ export const TabsV2 = ({
       lazyPreloadDistance={0}
       navigationState={{
         index: page,
+        // @ts-ignore
         routes
       }}
       renderTabBar={props => (
