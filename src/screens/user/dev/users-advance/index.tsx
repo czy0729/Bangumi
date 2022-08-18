@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-01 12:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 05:24:27
+ * @Last Modified time: 2022-08-19 03:31:28
  */
 import React, { useState, useCallback } from 'react'
 import { ScrollView, Text, Touchable } from '@components'
 import { ItemSetting, ItemFriends } from '@_'
-import { _, usersStore } from '@stores'
-import { getTimestamp, asc, desc } from '@utils'
+import { usersStore } from '@stores'
+import { info } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { queue } from '@utils/fetch'
-import { info } from '@utils/ui'
 import { NavigationProps } from '@types'
-import { read } from './db'
+import { read } from '../db'
+import { sortByRecent } from './utils'
+import { memoStyles } from './styles'
 
 function UsersAdvance({ navigation }: NavigationProps) {
   const [show, setShow] = useState(false)
@@ -80,54 +81,3 @@ function UsersAdvance({ navigation }: NavigationProps) {
 }
 
 export default UsersAdvance
-
-const memoStyles = _.memoStyles(() => ({
-  scrollView: {
-    height: 342,
-    marginTop: _.sm,
-    marginHorizontal: _.wind,
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))
-
-function sortByRecent(recentA, recentB) {
-  if (recentA.includes('-') && recentB.includes('-'))
-    return desc(getTimestamp(recentA), getTimestamp(recentB))
-
-  if (recentA.includes('-') && !recentB.includes('-')) return 1
-  if (!recentA.includes('-') && recentB.includes('-')) return -1
-
-  return asc(getRecentTimestamp(recentA), getRecentTimestamp(recentB))
-}
-
-function getRecentTimestamp(recent) {
-  try {
-    let timestamp = 0
-    const d = recent.match(/\d+d/g)
-    if (d) {
-      timestamp += parseInt(d[0]) * 24 * 60 * 60
-    }
-
-    const h = recent.match(/\d+h/g)
-    if (h) {
-      timestamp += parseInt(h[0]) * 60 * 60
-    }
-
-    const m = recent.match(/\d+m/g)
-    if (m) {
-      timestamp += parseInt(m[0]) * 60
-    }
-
-    const s = recent.match(/\d+s/g)
-    if (s) {
-      timestamp += parseInt(s[0])
-    }
-
-    return timestamp
-  } catch (error) {
-    return getTimestamp()
-  }
-}

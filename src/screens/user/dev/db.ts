@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-27 11:32:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 16:02:11
+ * @Last Modified time: 2022-08-19 04:04:43
  */
 import Constants from 'expo-constants'
 import Crypto from '@utils/crypto'
@@ -28,9 +28,7 @@ const files = {}
  * https://gitee.com/api/v5/oauth_doc#/list-item-2
  */
 export async function oauth() {
-  if (!ua) {
-    ua = await Constants.getWebViewUserAgentAsync()
-  }
+  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
   const res = await xhr({
     method: 'POST',
@@ -58,9 +56,7 @@ export async function oauth() {
  */
 export async function read({ path }) {
   if (!files[path]) {
-    if (!ua) {
-      ua = await Constants.getWebViewUserAgentAsync()
-    }
+    if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
     const res = await xhr({
       method: 'GET',
@@ -71,9 +67,7 @@ export async function read({ path }) {
       showLog: false
     })
     const { sha, content } = JSON.parse(res._response)
-    if (!sha) {
-      return {}
-    }
+    if (!sha) return {}
 
     files[path] = {
       sha,
@@ -90,9 +84,7 @@ export async function read({ path }) {
  * https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
  */
 export async function add({ path, content, message }) {
-  if (!ua) {
-    ua = await Constants.getWebViewUserAgentAsync()
-  }
+  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
   const res = await xhr({
     method: 'POST',
@@ -110,9 +102,7 @@ export async function add({ path, content, message }) {
   })
   const data = JSON.parse(res._response)
 
-  if (!data?.content?.sha) {
-    return false
-  }
+  if (!data?.content?.sha) return false
 
   files[path] = {
     sha: data.content.sha,
@@ -136,13 +126,9 @@ export async function update(args: {
   message?: string
 }) {
   const { path, content, sha, message } = args || {}
-  if (content === files[path].content) {
-    return files[path]
-  }
+  if (content === files[path].content) return files[path]
 
-  if (!ua) {
-    ua = await Constants.getWebViewUserAgentAsync()
-  }
+  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
   const res = await xhr({
     method: 'PUT',
@@ -160,9 +146,7 @@ export async function update(args: {
     showLog: false
   })
   const data = JSON.parse(res._response)
-  if (!data?.content?.sha) {
-    return false
-  }
+  if (!data?.content?.sha) return false
 
   files[path] = {
     sha: data.content.sha,

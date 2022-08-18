@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-02-27 16:26:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-01 12:22:53
+ * @Last Modified time: 2022-08-19 02:43:08
  */
-import React, { useState } from 'react'
+import React from 'react'
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { Touchable, Flex, Text } from '@components'
 import { _, systemStore, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { getHashSubjectOTA, getHashAvatarOTA, getXsbRelationOTA } from '@constants/cdn'
+import { getHashSubjectOTA, getHashAvatarOTA, getXsbRelationOTA } from '@constants'
 import hashSubject from '@assets/json/hash/subject.min.json'
 import hashAvatar from '@assets/json/hash/avatar.min.json'
+import Block from './block'
 
 function Detail() {
   return useObserver(() => {
@@ -74,49 +74,3 @@ function Detail() {
 }
 
 export default Detail
-
-function Block({ title, value = [], children }) {
-  const [open, setOpen] = useState(false)
-  return useObserver(() => {
-    const styles = memoStyles()
-    return (
-      <Flex style={[styles.code, _.mt.md]}>
-        <Flex.Item>
-          <Text size={12} lineHeight={16} selectable>
-            {!!title && (
-              <Text size={12} lineHeight={16} type='sub'>
-                {title}
-              </Text>
-            )}
-            {open && (
-              <>
-                {typeof value === 'string'
-                  ? value
-                  : value.map(item => `\n${JSON.stringify(item, null, 2)}`)}
-                {children}
-              </>
-            )}
-          </Text>
-        </Flex.Item>
-        {!open && (
-          <Touchable onPress={() => setOpen(true)}>
-            <Text>open</Text>
-          </Touchable>
-        )}
-      </Flex>
-    )
-  })
-}
-
-const memoStyles = _.memoStyles(() => ({
-  code: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.md,
-    marginHorizontal: _.wind,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-01 10:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:37:53
+ * @Last Modified time: 2022-08-19 03:17:10
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Input, Iconfont, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
+import { info } from '@utils'
 import { useObserver, useMount } from '@utils/hooks'
-import { info } from '@utils/ui'
 import { NavigationProps } from '@types'
-import { read, put } from './db'
+import { read, put } from '../db'
+import { memoStyles } from './styles'
 
 function UpdateAdvance({ navigation }: NavigationProps) {
   const [show, setShow] = useState(false)
@@ -138,23 +139,3 @@ function UpdateAdvance({ navigation }: NavigationProps) {
 }
 
 export default UpdateAdvance
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingTop: _.xs,
-    paddingHorizontal: _.wind,
-    paddingBottom: _.md
-  },
-  input: {
-    height: 40,
-    paddingVertical: 0,
-    paddingHorizontal: _.device(_.sm, _.md),
-    ..._.device(_.fontSize12, _.fontSize15),
-    backgroundColor: _.colorBg
-  },
-  segmentedControl: {
-    height: 40,
-    width: 120,
-    marginLeft: _.md
-  }
-}))

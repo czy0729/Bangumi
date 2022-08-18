@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-18 00:51:20
+ * @Last Modified time: 2022-08-19 04:03:37
  */
 import React from 'react'
 import { Text, Switch, Touchable } from '@components'
 import { ItemSetting } from '@_'
-import { _, systemStore, userStore } from '@stores'
+import { systemStore, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { memoStyles } from './styles'
 
 function Base() {
   return useObserver(() => {
@@ -59,14 +60,3 @@ function Base() {
 }
 
 export default Base
-
-const memoStyles = _.memoStyles(() => ({
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: _.device(0.8, 1.12)
-      }
-    ]
-  }
-}))
