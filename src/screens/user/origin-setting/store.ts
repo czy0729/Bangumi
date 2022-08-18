@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:19:42
+ * @Last Modified time: 2022-08-19 07:12:54
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
@@ -11,74 +11,7 @@ import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { getOriginConfig, replaceOriginUrl } from './utils'
-
-export const types = [
-  {
-    type: 'anime',
-    name: '动画',
-    test: {
-      CN: '擅长捉弄的高木同学 第三季',
-      JP: 'からかい上手の高木さん③',
-      ID: 347887
-    }
-  },
-  {
-    type: 'hanime',
-    name: 'H',
-    test: {
-      CN: '缘之空',
-      JP: 'ヨスガノソラ',
-      ID: 7157
-    }
-  },
-  {
-    type: 'manga',
-    name: '漫画',
-    test: {
-      CN: '蓦然回首',
-      JP: 'ルックバック',
-      ID: 342254
-    }
-  },
-  {
-    type: 'wenku',
-    name: '小说',
-    test: {
-      CN: '来自新世界',
-      JP: '新世界より',
-      ID: 37782
-    }
-  },
-  {
-    type: 'music',
-    name: '音乐',
-    test: {
-      CN: 'One Last Kiss',
-      JP: 'One Last Kiss',
-      ID: 321924
-    }
-  },
-  {
-    type: 'game',
-    name: '游戏',
-    test: {
-      CN: '艾尔登法环',
-      JP: 'ELDEN RING',
-      ID: 284100
-    }
-  },
-  {
-    type: 'real',
-    name: '三次元',
-    test: {
-      CN: '半泽直树 2',
-      JP: '半沢直樹 2',
-      ID: 108596
-    }
-  }
-]
-
-const namespace = 'ScreenOriginSetting'
+import { NAMESPACE, TYPES_DS } from './ds'
 
 export default class ScreenOriginSetting extends store {
   state = observable({
@@ -110,7 +43,7 @@ export default class ScreenOriginSetting extends store {
   })
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       data: toJS(subjectStore.origin),
       active: state?.active || false,
@@ -130,7 +63,7 @@ export default class ScreenOriginSetting extends store {
     this.setState({
       active: !active
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   updateOrigin = () => {
@@ -140,9 +73,7 @@ export default class ScreenOriginSetting extends store {
     }, 0)
   }
 
-  /**
-   * 展开编辑表单
-   */
+  /** 展开编辑表单 */
   openEdit = (type, item) => {
     this.setState({
       edit: {
@@ -156,9 +87,7 @@ export default class ScreenOriginSetting extends store {
     })
   }
 
-  /**
-   * 关闭并清空编辑表单
-   */
+  /** 关闭并清空编辑表单 */
   closeEdit = () => {
     this.setState({
       edit: {
@@ -177,9 +106,7 @@ export default class ScreenOriginSetting extends store {
     t('自定义源头.关闭表单')
   }
 
-  /**
-   * 输入框变化
-   */
+  /** 输入框变化 */
   onChangeText = (key, val) => {
     const { edit } = this.state
     let _val = val.trim()
@@ -196,9 +123,7 @@ export default class ScreenOriginSetting extends store {
     })
   }
 
-  /**
-   * 保存源头
-   */
+  /** 保存源头 */
   submitEdit = () => {
     const { edit, data } = this.state
     const { type, item } = edit
@@ -274,9 +199,7 @@ export default class ScreenOriginSetting extends store {
     })
   }
 
-  /**
-   * 停用源头
-   */
+  /** 停用源头 */
   disableItem = ({ id, uuid, type }) => {
     if (!type) return
 
@@ -309,9 +232,7 @@ export default class ScreenOriginSetting extends store {
     })
   }
 
-  /**
-   * 启用源头
-   */
+  /** 启用源头 */
   activeItem = ({ id, uuid, type }) => {
     if (!type) return
 
@@ -344,9 +265,7 @@ export default class ScreenOriginSetting extends store {
     })
   }
 
-  /**
-   * 删除自定义源头
-   */
+  /** 删除自定义源头 */
   deleteItem = ({ uuid, type }) => {
     if (!uuid || !type) return
 
@@ -360,14 +279,12 @@ export default class ScreenOriginSetting extends store {
     this.updateOrigin()
   }
 
-  /**
-   * 测试
-   */
+  /** 测试 */
   go = ({ type, url }) => {
     if (!type || !url) return
 
     try {
-      const { test } = types.find(item => item.type === type)
+      const { test } = TYPES_DS.find(item => item.type === type)
       const _url = replaceOriginUrl(url, test)
 
       copy(_url, '已复制地址', 1)

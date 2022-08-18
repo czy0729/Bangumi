@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 05:06:36
+ * @Last Modified time: 2022-08-19 07:29:27
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover, Tag } from '@_'
 import { _ } from '@stores'
+import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
-import { confirm } from '@utils/ui'
-import Form from './form'
+import Form from '../form'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-const Item = ({ type, id, uuid, active, name, url, sort }, { $ }) => {
-  const styles = memoStyles()
-
+const Item = ({ type, id, uuid, active, name, url, sort }, { $ }: Ctx) => {
   const actions = []
   const isBase = !!id
   const isActive = !!active
@@ -125,16 +125,3 @@ const Item = ({ type, id, uuid, active, name, url, sort }, { $ }) => {
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    marginVertical: _.md
-  },
-  touch: {
-    padding: _.sm,
-    marginRight: -_.sm
-  },
-  disabled: {
-    opacity: 0.5
-  }
-}))

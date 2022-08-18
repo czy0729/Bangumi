@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:51:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-23 19:45:05
+ * @Last Modified time: 2022-08-19 07:27:40
  */
 import React from 'react'
 import { Text, Button } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Form from './form'
+import Form from '../form'
+import { styles } from './styles'
+import { Ctx } from '../types'
 
-const Create = ({ type, name }, { $ }) => {
+const Create = ({ type, name }, { $ }: Ctx) => {
   const { edit } = $.state
   const isCreate = edit.type === type && edit.item.id === '' && edit.item.uuid === ''
   return isCreate ? (
@@ -18,12 +20,7 @@ const Create = ({ type, name }, { $ }) => {
       <Text style={_.mt.md} size={15} bold>
         添加{name}源头
       </Text>
-      <Form
-        style={_.mt.md}
-        name={edit.item.name}
-        url={edit.item.url}
-        sort={edit.item.sort}
-      />
+      <Form style={_.mt.md} name={edit.item.name} url={edit.item.url} />
     </>
   ) : (
     <Button
@@ -46,9 +43,3 @@ const Create = ({ type, name }, { $ }) => {
 }
 
 export default obc(Create)
-
-const styles = _.create({
-  btn: {
-    marginVertical: _.md
-  }
-})

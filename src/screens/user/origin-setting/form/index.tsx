@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:40:58
+ * @Last Modified time: 2022-08-19 07:29:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,13 @@ import { Flex, Text, Input } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
+const Form = (
+  { style = undefined, name = '', url = '', isBase = false },
+  { $ }: Ctx
+) => {
   const styles = memoStyles()
   const { edit } = $.state
   return (
@@ -104,26 +109,3 @@ const Form = ({ style, name = '', url = '', isBase = false }, { $ }) => {
 }
 
 export default obc(Form)
-
-const memoStyles = _.memoStyles(() => ({
-  form: {
-    padding: 12,
-    paddingRight: 8,
-    marginBottom: _.md,
-    backgroundColor: _.colorBg,
-    borderColor: _.colorBorder,
-    borderWidth: 1,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  close: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 4,
-    right: 8
-  },
-  input: {
-    height: 44,
-    paddingVertical: 0
-  }
-}))

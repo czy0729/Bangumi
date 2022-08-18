@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-04-12 11:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 05:27:28
+ * @Last Modified time: 2022-08-19 07:15:54
  */
 import React, { useState } from 'react'
 import { Flex, Text, SwitchPro } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _, userStore, subjectStore } from '@stores'
-import { info, confirm, loading, feedback } from '@utils/ui'
+import { info, confirm, loading, feedback } from '@utils'
 import { useMount } from '@utils/hooks'
 import { read } from '@utils/db'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
+import { styles } from './styles'
 
 const Cloud = ({ active, onToggle, onDownloaded }) => {
   const [settingLen, setSettingLen] = useState(0)
@@ -114,21 +115,3 @@ const Cloud = ({ active, onToggle, onDownloaded }) => {
 }
 
 export default Cloud
-
-const styles = _.create({
-  container: {
-    paddingHorizontal: 0,
-    marginBottom: _.md
-  },
-  setting: {
-    marginBottom: 40
-  },
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: _.device(0.8, 1.12)
-      }
-    ]
-  }
-})
