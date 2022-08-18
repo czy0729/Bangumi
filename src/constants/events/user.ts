@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 05:41:35
+ * @Last Modified time: 2022-08-19 05:44:24
  */
 
 /** User */
@@ -73,5 +73,6 @@ export default {
 
   // 用户目录
   '用户目录.右上角菜单': 'UserCatalogs.topRightMenu',
-  '用户目录.标签页切换': 'UserCatalogs.tabsChange'
+  '用户目录.标签页切换': 'UserCatalogs.tabsChange',
+  '用户目录.跳转': 'UserCatalogs.to'
 }
