@@ -167,7 +167,7 @@ export const INIT_SETTING = {
   /** 隐藏他人评分 */
   hideScore: false,
 
-  /** 图片渐出 */
+  /** @deprecated 图片渐出 */
   imageTransition: false,
 
   /** @deprecated [已废弃] iOS风格弹出菜单 */

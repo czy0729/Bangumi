@@ -4,12 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-05-28 02:31:28
  */
+import { setStorage, getStorage, showImageViewer } from '@utils'
+import { t } from '@utils/fetch'
 import { HOST_CDN } from '@constants'
 import { _ } from '@stores'
-import { setStorage, getStorage } from '@utils'
 
 const NAMESPACE = 'Component|Image'
+
 const CACHE_KEY_451 = `${NAMESPACE}|CACHE_ERROR_451`
+
 const CACHE_KEY_404 = `${NAMESPACE}|CACHE_ERROR_404`
 
 /** 记录 code=451 的图片 */
@@ -105,4 +108,25 @@ export function getDevStyles(src: any, fallback: boolean = false) {
   }
 
   return false
+}
+
+/** 调用 ImageViewer 弹窗 */
+export function imageViewerCallback({ imageViewerSrc, uri, src, headers, event }) {
+  return () => {
+    let _src = imageViewerSrc
+    if (typeof _src === 'string' && _src.indexOf('http') !== 0) _src = undefined
+
+    t(event?.id, {
+      from: '封面图',
+      ...event?.data
+    })
+
+    showImageViewer([
+      {
+        headers,
+        url: _src || uri,
+        _url: _src || src
+      }
+    ])
+  }
 }

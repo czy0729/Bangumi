@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 04:37:10
+ * @Last Modified time: 2022-08-18 00:51:42
  */
 import React from 'react'
 import { ScrollView, Header } from '@components'
@@ -30,7 +30,7 @@ const DEV = ({ navigation }: NavigationProps) => {
         contentContainerStyle={_.container.bottom}
         scrollToTop
       >
-        {userStore.isDeveloper && <Base />}
+        <Base />
         <ScreenOrientation />
         {userStore.isDeveloper && (
           <>

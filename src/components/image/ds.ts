@@ -4,11 +4,38 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-11 12:08:10
  */
-import { HOST } from '@constants'
+import { _ } from '@stores'
+import { EVENT, HOST, TEXT_ONLY } from '@constants'
 
 /** 默认请求头 */
 export const DEFAULT_HEADERS = {
   Referer: `${HOST}/`
+}
+
+/** 默认参数 */
+export const DEFAULT_PROPS = {
+  style: undefined,
+  imageStyle: undefined,
+  autoSize: 0,
+  border: false,
+  borderWidth: _.hairlineWidth,
+  cache: true,
+  delay: true,
+  event: EVENT,
+  headers: undefined,
+  height: undefined,
+  imageViewer: false,
+  imageViewerSrc: undefined,
+  placeholder: true,
+  quality: true,
+  radius: undefined,
+  shadow: false,
+  size: 40,
+  src: undefined,
+  textOnly: TEXT_ONLY,
+  onPress: undefined,
+  onLongPress: undefined,
+  onError: undefined
 }
 
 /** 最大失败重试次数 */

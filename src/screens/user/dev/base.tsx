@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-01 11:47:45
+ * @Last Modified time: 2022-08-18 00:51:20
  */
 import React from 'react'
 import { Text, Switch, Touchable } from '@components'
 import { ItemSetting } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 
 function Base() {
@@ -27,22 +27,27 @@ function Base() {
           }
           withoutFeedback
         />
-        <ItemSetting
-          hd='Track Points'
-          ft={
-            <Switch
-              style={styles.switch}
-              checked={devEvent.enabled}
-              onChange={() => systemStore.toggleDevEvent('enabled')}
-            />
-          }
-          withoutFeedback
-        />
+        {userStore.isDeveloper && (
+          <ItemSetting
+            hd='Track Points'
+            ft={
+              <Switch
+                style={styles.switch}
+                checked={devEvent.enabled}
+                onChange={() => systemStore.toggleDevEvent('enabled')}
+              />
+            }
+            withoutFeedback
+          />
+        )}
         <ItemSetting
           hd='JS Exception Test'
           ft={
-            // eslint-disable-next-line no-undef
-            <Touchable onPress={() => yijianmaojiao()}>
+            <Touchable
+              onPress={() => {
+                throw new Error('JS Exception Test')
+              }}
+            >
               <Text>一键猫叫</Text>
             </Touchable>
           }
