@@ -2,30 +2,38 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 00:42:27
+ * @Last Modified time: 2022-08-19 04:31:58
  */
 import { observable, computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
 import store from '@utils/store'
-import { HTML_USERS_BLOGS } from '@constants/html'
+import { HTML_USERS_BLOGS } from '@constants'
+import { Params } from './types'
 
 export default class ScreenBlogs extends store {
+  params: Params
+
   state = observable({
     _loaded: false
   })
 
-  init = () => this.refresh()
+  init = () => {
+    return this.refresh()
+  }
 
   // -------------------- fetch --------------------
-  refresh = () => this.fetchBlogs(true)
+  refresh = () => {
+    return this.fetchBlogs(true)
+  }
 
-  fetchBlogs = refresh =>
-    usersStore.fetchBlogs(
+  fetchBlogs = (refresh: boolean = false) => {
+    return usersStore.fetchBlogs(
       {
         userId: this.userId
       },
       refresh
     )
+  }
 
   // -------------------- get --------------------
   @computed get userId() {

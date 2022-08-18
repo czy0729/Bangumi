@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 04:45:13
+ * @Last Modified time: 2022-08-19 04:48:16
  */
 
 /** User */
@@ -65,5 +65,9 @@ export default {
   '自定义源头.停用源头': 'OriginSetting.disableItem',
   '自定义源头.启用源头': 'OriginSetting.activeItem',
   '自定义源头.下载': 'OriginSetting.download',
-  '自定义源头.上传': 'OriginSetting.upload'
+  '自定义源头.上传': 'OriginSetting.upload',
+
+  // 用户日志
+  '用户日志.右上角菜单': 'UserBlogs.topRightMenu',
+  '用户日志.跳转': 'UserBlogs.to'
 }
