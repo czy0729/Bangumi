@@ -9,7 +9,7 @@ import { rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 import { TYPE_PAGE } from './ds'
-import { Params } from './types'
+import { Params, PMKeys } from './types'
 
 export default class ScreenNotify extends store {
   params: Params
@@ -39,7 +39,7 @@ export default class ScreenNotify extends store {
   }
 
   /** 短信 */
-  fetchPM = (refresh: boolean = false, key?: 'pmIn' | 'pmOut') => {
+  fetchPM = (refresh: boolean = false, key?: PMKeys) => {
     return userStore.fetchPM(refresh, key)
   }
 
@@ -60,6 +60,7 @@ export default class ScreenNotify extends store {
   }
 
   // -------------------- page --------------------
+  /** 标签页切换 */
   onTabsChange = (page: number) => {
     this.setState({
       page

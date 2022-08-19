@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 16:20:29
+ * @Last Modified time: 2022-08-20 05:58:34
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { appNavigate } from '@utils/app'
+import { _, timelineStore } from '@stores'
+import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Avatar, Name } from '../../base'
@@ -26,10 +26,18 @@ export const ItemNotify = ob(
     message,
     message2,
     href,
+    repeat,
     event = EVENT,
     children
   }: ItemNotifyProps) => {
     const styles = memoStyles()
+
+    let sayTitle: string
+    const notifyId = String(href).split('/status/')?.[1]
+    if (notifyId) {
+      const say = timelineStore.say(notifyId)
+      if (say.list.length) sayTitle = say.list[0]?.text
+    }
     return (
       <Flex style={styles.container} align='start'>
         <Avatar
@@ -51,7 +59,7 @@ export const ItemNotify = ob(
               lineHeight={1.8}
               type='main'
               bold
-              onPress={() =>
+              onPress={() => {
                 appNavigate(
                   href,
                   navigation,
@@ -60,12 +68,24 @@ export const ItemNotify = ob(
                   },
                   event
                 )
-              }
+              }}
             >
               {title}
             </Text>
             {message2}
+            {!!repeat && <Text lineHeight={1.8} bold>{`  x ${repeat + 1}`}</Text>}
           </Text>
+          {!!sayTitle && (
+            <Text
+              style={styles.desc}
+              type='sub'
+              size={11}
+              lineHeight={1.8}
+              numberOfLines={1}
+            >
+              描述：{sayTitle}
+            </Text>
+          )}
         </Flex.Item>
         {children}
       </Flex>

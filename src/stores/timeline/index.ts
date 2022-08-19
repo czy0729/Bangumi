@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 02:00:37
+ * @Last Modified time: 2022-08-20 05:49:24
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -69,7 +69,8 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
   /** 吐槽 */
   say(id: Id) {
     return computed<Say>(() => {
-      return this.state.say[id] || LIST_EMPTY
+      const sayId = String(id).split('#')[0]
+      return this.state.say[sayId] || LIST_EMPTY
     }).get()
   }
 
@@ -171,9 +172,10 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
     }
 
     const key = 'say'
+    const sayId = String(id).split('#')[0]
     this.setState({
       [key]: {
-        [id]: data
+        [sayId]: data
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

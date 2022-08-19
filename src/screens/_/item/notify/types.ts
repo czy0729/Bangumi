@@ -15,6 +15,7 @@ export type Props = {
   message?: string
   message2?: string
   href?: string
+  repeat?: number
   event?: EventType
   children?: any
 }
