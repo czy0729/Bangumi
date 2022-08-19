@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:46:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:43:53
+ * @Last Modified time: 2022-08-19 10:54:31
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import { Page, FixedTextarea, Input, Text, Loading } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Chat from './chat'
+import Chat from '../chat'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-export default
-@obc
 class PM extends React.Component {
   scrollView
+
   fixedTextarea
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init(this.scrollView)
   }
 
@@ -29,19 +30,19 @@ class PM extends React.Component {
   showFixedTextare = () => this.fixedTextarea.onFocus()
 
   onTitleChange = evt => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { nativeEvent } = evt
     const { text } = nativeEvent
     $.onTitleChange(text)
   }
 
   onSubmit = value => {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     return $.doSubmit(value, this.scrollView, navigation)
   }
 
   renderNewForm() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { userId, userName } = $.params
     if (!userId) return null
 
@@ -60,7 +61,7 @@ class PM extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { value } = $.state
     return (
       <Page style={_.container.screen}>
@@ -69,7 +70,6 @@ class PM extends React.Component {
             ref={this.connectRefScrollView}
             style={_.container.screen}
             contentContainerStyle={_.container.bottom}
-            scrollToTop
           >
             <Chat />
           </ScrollView>
@@ -95,15 +95,4 @@ class PM extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  form: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind
-  },
-  ipt: {
-    height: 48,
-    paddingVertical: 0,
-    paddingHorizontal: _.wind,
-    borderRadius: 0
-  }
-}))
+export default obc(PM)

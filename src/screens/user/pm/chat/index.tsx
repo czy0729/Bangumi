@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:01:57
+ * @Last Modified time: 2022-08-19 10:58:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { ItemSay } from '@_'
-import { _ } from '@stores'
+import { PmItem } from '@stores/user/types'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const event = {
+const EVENT = {
   id: '短信.跳转'
-}
+} as const
 
-function Chat(props, { $ }) {
+function Chat(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { list } = $.pmDetail
   return (
@@ -24,11 +26,11 @@ function Chat(props, { $ }) {
         {!!list.length && list[0].date}
       </Text>
       {list.map((item, index) => {
-        const prevItem = index === 0 ? {} : list[index - 1]
+        const prevItem = (index === 0 ? {} : list[index - 1]) as PmItem
         const isMe = item.userId === $.myId
         return (
           <ItemSay
-            event={event}
+            event={EVENT}
             index={index}
             position={isMe ? 'right' : 'left'}
             avatar={item.avatar}
@@ -45,10 +47,3 @@ function Chat(props, { $ }) {
 }
 
 export default obc(Chat)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind
-  }
-}))

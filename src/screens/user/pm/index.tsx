@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:04:45
+ * @Last Modified time: 2022-08-19 11:17:57
  */
 import React from 'react'
-import { Header } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver, useKeyboardAdjustResize } from '@utils/hooks'
+import Header from './header'
 import Page from './page'
 import Heatmaps from './heatmaps'
 import Store from './store'
+import { Ctx } from './types'
 
-const PM = (props, { $ }) => {
+const PM = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -20,7 +21,7 @@ const PM = (props, { $ }) => {
 
   return useObserver(() => (
     <>
-      <Header title='短信' hm={['pm', 'PM']} />
+      <Header />
       <Page />
       <Heatmaps />
     </>

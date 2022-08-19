@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 05:44:24
+ * @Last Modified time: 2022-08-19 11:20:26
  */
 
 /** User */
@@ -31,6 +31,7 @@ export default {
   '短信.显示评论框': 'PM.showFixedTextarea',
   '短信.回复短信': 'PM.doReply',
   '短信.新短信': 'PM.doCreate',
+  '短信.右上角菜单': 'PM.topRightMenu',
 
   // 设置
   '设置.跳转': 'Setting.to',

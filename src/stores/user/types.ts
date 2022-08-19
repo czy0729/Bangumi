@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 12:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 07:58:15
+ * @Last Modified time: 2022-08-19 10:56:58
  */
 import { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import {
@@ -80,6 +80,7 @@ export type PmItem = {
   userId: UserId
   content: string
   time: string
+  date?: string
 }
 
 export type PmParamsItem = {
