@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 21:34:19
+ * @Last Modified time: 2022-08-19 15:34:45
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
-import { HTML_NOTIFY } from '@constants/html'
+import { HTML_NOTIFY } from '@constants'
 
 function Header() {
   return (

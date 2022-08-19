@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:07:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 05:07:49
+ * @Last Modified time: 2022-08-19 17:05:01
  */
-import { ColorValue } from '@types'
+import { ColorValue, ViewStyle } from '@types'
 
 type Route = {
   key?: string
@@ -17,6 +17,7 @@ type Label = {
 }
 
 export type Props = {
+  style?: ViewStyle
   routes: Route[] | Readonly<Route[]>
   tabBarLength?: number
   page?: number

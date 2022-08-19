@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 22:05:38
+ * @Last Modified time: 2022-08-19 17:07:35
  */
 import React from 'react'
 import { ListView } from '@components'
 import { ItemNotify, ItemPM } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-const event = {
+const EVENT = {
   id: '电波提醒.跳转'
-}
+} as const
 
-function List({ id, title }, { $, navigation }) {
+function List({ id, title }, { $, navigation }: Ctx) {
   let props
   if (title === '提醒') {
     props = {
@@ -39,7 +40,7 @@ function List({ id, title }, { $, navigation }) {
         <ItemPM
           navigation={navigation}
           index={index}
-          event={event}
+          event={EVENT}
           onRefresh={key => $.fetchPM(true, key)}
           {...item}
         />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-10 22:01:16
+ * @Last Modified time: 2022-08-19 15:34:17
  */
 import React from 'react'
 import { Page } from '@components'
@@ -12,8 +12,9 @@ import Header from './header'
 import Tabs from './tabs'
 import Heatmaps from './heatmaps'
 import Store from './store'
+import { Ctx } from './types'
 
-const Notify = (props, { $ }) => {
+const Notify = (props, { $ }: Ctx) => {
   useRunAfter(async () => {
     await $.init()
     $.doClearNotify()
