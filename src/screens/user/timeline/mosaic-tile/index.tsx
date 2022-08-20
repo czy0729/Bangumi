@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:31:48
+ * @Last Modified time: 2022-08-20 15:59:33
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Touchable, Text, Heatmap } from '@components'
 import { _ } from '@stores'
-import { date, getTimestamp } from '@utils'
+import { date, getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { Ctx } from '../types'
+import { getDates } from './utils'
+import { memoStyles, PX, MARGIN } from './styles'
 
-const px = 12 * _.ratio
-const margin = 3 * _.ratio
-
-function MosaicTile(props, { $ }) {
+function MosaicTile(props, { $ }: Ctx) {
   const styles = memoStyles()
   const measureDays = {
     '01-25': 0,
@@ -38,7 +37,7 @@ function MosaicTile(props, { $ }) {
     const key = item.slice(5, item.length)
     if (key in measureDays && !measureDays[key]) {
       const m = parseInt(key.slice(0, 2))
-      measureDays[m] = parseInt(index / 7)
+      measureDays[m] = Math.floor(index / 7)
       delete measureDays[key]
     }
   })
@@ -58,7 +57,7 @@ function MosaicTile(props, { $ }) {
           style={[
             styles.day,
             {
-              top: px + margin
+              top: PX + MARGIN
             }
           ]}
           size={10}
@@ -70,7 +69,7 @@ function MosaicTile(props, { $ }) {
           style={[
             styles.day,
             {
-              top: (px + margin) * 3
+              top: (PX + MARGIN) * 3
             }
           ]}
           size={10}
@@ -82,7 +81,7 @@ function MosaicTile(props, { $ }) {
           style={[
             styles.day,
             {
-              top: (px + margin) * 5
+              top: (PX + MARGIN) * 5
             }
           ]}
           size={10}
@@ -94,7 +93,7 @@ function MosaicTile(props, { $ }) {
           style={[
             styles.day,
             {
-              top: (px + margin) * 7
+              top: (PX + MARGIN) * 7
             }
           ]}
           size={10}
@@ -117,7 +116,7 @@ function MosaicTile(props, { $ }) {
                   style={[
                     styles.month,
                     {
-                      left: (measureDays[item] || 0) * (px + margin) + 2
+                      left: (measureDays[item] || 0) * (PX + MARGIN) + 2
                     }
                   ]}
                   size={10}
@@ -162,60 +161,3 @@ function MosaicTile(props, { $ }) {
 }
 
 export default obc(MosaicTile)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.sm
-  },
-  months: {
-    height: 16 * _.ratio
-  },
-  month: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0
-  },
-  days: {
-    marginLeft: _.wind,
-    width: 16 * _.ratio,
-    height: '100%'
-  },
-  day: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    left: 0
-  },
-  contentContainerStyle: {
-    paddingRight: _.wind
-  },
-  items: {
-    minWidth: '100%',
-    height: (px + margin) * 7,
-    transform: [
-      {
-        rotateX: '180deg'
-      }
-    ]
-  },
-  item: {
-    width: px,
-    height: px,
-    marginRight: margin,
-    marginTop: margin,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  itemToday: {
-    borderWidth: 1,
-    borderColor: _.colorTitle
-  }
-}))
-
-function getDates(weeks = 52) {
-  const stime = new Date() - (new Date().getDay() + weeks * 7) * 24 * 60 * 60 * 1000
-  return new Array((weeks + 1) * 7)
-    .fill(0)
-    .map((_, i) => date('Y-m-d', new Date(stime + i * 24 * 60 * 60 * 1000) / 1000))
-    .reverse()
-}

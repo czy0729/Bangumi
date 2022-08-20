@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-20 10:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 11:21:38
+ * @Last Modified time: 2022-08-20 11:23:48
  */
 import { _ } from '@stores'
 
@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.bottom + _.lg
   },
   desc: {
-    width: '50%'
+    width: '52%'
   },
   btn: {
     position: 'absolute',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 02:05:24
+ * @Last Modified time: 2022-08-20 15:49:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,9 @@ import Header from './header'
 import MosaicTile from './mosaic-tile'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
 
-const UserTimeline = (props, { $ }) => {
+const UserTimeline = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -33,10 +34,7 @@ const UserTimeline = (props, { $ }) => {
             </>
           }
           renderItem={() => <View />}
-          onHeaderRefresh={async () => {
-            await $.fetchMosaicTile()
-            return $.fetchTimeline(true)
-          }}
+          onHeaderRefresh={$.onHeaderRefresh}
           onFooterRefresh={$.fetchTimeline}
         />
       </Page>

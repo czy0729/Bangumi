@@ -2,24 +2,26 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-11 17:22:32
+ * @Last Modified time: 2022-08-20 15:48:55
  */
 import { computed } from 'mobx'
 import { usersStore, collectionStore, timelineStore } from '@stores'
 import { date, getTimestamp, pad } from '@utils'
 import store from '@utils/store'
-import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-
-const scope = MODEL_TIMELINE_SCOPE.getValue('自己')
-const type = MODEL_TIMELINE_TYPE.getValue('收藏')
+import { DEFAULT_SCOPE, DEFAULT_TYPE } from './ds'
+import { Params } from './types'
 
 export default class ScreenUserTimeline extends store {
+  params: Params
+
   init = () => {
     if (this.userId) {
       this.fetchMosaicTile()
       setTimeout(async () => {
         if (!this.users._loaded) {
-          usersStore.fetchUsers(this.userId)
+          usersStore.fetchUsers({
+            userId: this.userId
+          })
         }
 
         await this.fetchTimeline(true)
@@ -40,23 +42,19 @@ export default class ScreenUserTimeline extends store {
 
   @computed get days() {
     const { join } = this.users
-    if (!join) {
-      return '-'
-    }
+    if (!join) return '-'
 
     const ts = getTimestamp(join.replace(' 加入', ''))
-    return parseInt((getTimestamp() - ts) / 24 / 60 / 60)
+    return Math.floor((getTimestamp() - ts) / 24 / 60 / 60)
   }
 
   @computed get mosaicTile() {
     return collectionStore.mosaicTile
   }
 
-  /**
-   * 原始时间线数据
-   */
+  /** 原始时间线数据 */
   @computed get timeline() {
-    const timeline = timelineStore.timeline(scope, type)
+    const timeline = timelineStore.timeline(DEFAULT_SCOPE, DEFAULT_TYPE)
     return {
       ...timeline,
       list: timeline.list.map(item => {
@@ -167,18 +165,28 @@ export default class ScreenUserTimeline extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchMosaicTile = () =>
-    collectionStore.fetchMosaicTile({
+  /** 瓷砖进度数据 */
+  fetchMosaicTile = () => {
+    return collectionStore.fetchMosaicTile({
       userId: this.userId
     })
+  }
 
-  fetchTimeline = refresh =>
-    timelineStore.fetchTimeline(
+  /** 获取自己视角的时间胶囊 */
+  fetchTimeline = (refresh: boolean = false) => {
+    return timelineStore.fetchTimeline(
       {
-        scope,
-        type,
+        scope: DEFAULT_SCOPE,
+        type: DEFAULT_TYPE,
         userId: this.userId
       },
       refresh
     )
+  }
+
+  /** 下拉刷新 */
+  onHeaderRefresh = async () => {
+    await this.fetchMosaicTile()
+    return this.fetchTimeline(true)
+  }
 }

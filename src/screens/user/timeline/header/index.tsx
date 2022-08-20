@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-16 02:01:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 02:06:23
+ * @Last Modified time: 2022-08-20 15:46:07
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { info } from '@utils'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
+function Header(props, { $ }: Ctx) {
   const { userName } = $.params
   return (
     <CompHeader

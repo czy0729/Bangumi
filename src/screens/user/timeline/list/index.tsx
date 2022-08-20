@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 12:45:08
+ * @Last Modified time: 2022-08-20 15:51:31
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Item from './item'
+import Item from '../item'
+import { memoStyles } from './styles'
+import { Ctx } from '../types'
 
-function List(props, { $ }) {
+function List(props, { $ }: Ctx) {
   const styles = memoStyles()
   return (
     <View style={styles.container}>
@@ -123,75 +125,3 @@ function List(props, { $ }) {
 }
 
 export default obc(List)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.r(32),
-    marginHorizontal: _.wind - _._wind
-  },
-  line: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: 1,
-    height: '100%',
-    marginLeft: _.r(-12),
-    backgroundColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
-    transform: [
-      {
-        translateX: _.r(-0.5)
-      }
-    ]
-  },
-  lineBottom: {
-    position: 'absolute',
-    zIndex: 1,
-    top: '50%',
-    left: 0,
-    width: 1,
-    height: '100%',
-    marginLeft: _.r(-12),
-    backgroundColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
-    transform: [
-      {
-        translateX: _.r(-0.5)
-      }
-    ]
-  },
-  nodeYear: {
-    position: 'absolute',
-    zIndex: 2,
-    top: '50%',
-    left: 0,
-    width: _.r(4),
-    height: _.r(4),
-    marginTop: _.r(-2),
-    marginLeft: _.r(-12),
-    backgroundColor: _.colorTitle,
-    borderRadius: _.r(2),
-    transform: [
-      {
-        translateX: _.r(-2)
-      }
-    ]
-  },
-  nodeMonth: {
-    position: 'absolute',
-    zIndex: 2,
-    top: _.r(22),
-    left: 0,
-    width: _.r(8),
-    height: _.r(8),
-    marginTop: _.r(-4),
-    marginLeft: _.r(-4),
-    backgroundColor: _.colorPlain,
-    borderWidth: 1,
-    borderColor: _.select(_.colorBorder, 'rgb(57, 57, 59)'),
-    borderRadius: _.r(4),
-    transform: [
-      {
-        translateX: _.r(-12)
-      }
-    ]
-  }
-}))
