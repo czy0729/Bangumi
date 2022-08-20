@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 03:46:04
+ * @Last Modified time: 2022-08-20 10:23:12
  */
 import React from 'react'
 import { Header, ScrollView, Divider, Flex, Text, Image } from '@components'
 import { _, userStore } from '@stores'
 import { open } from '@utils'
 import { useObserver } from '@utils/hooks'
+import { styles } from './styles'
 
 const Qiafan = () => {
   return useObserver(() => (
@@ -173,19 +174,3 @@ const Qiafan = () => {
 }
 
 export default Qiafan
-
-const styles = _.create({
-  mt80: {
-    marginTop: 80
-  },
-  mt120: {
-    marginTop: 120,
-    marginBottom: 20
-  },
-  mt160: {
-    marginTop: 160
-  },
-  mv20: {
-    marginVertical: 20
-  }
-})
