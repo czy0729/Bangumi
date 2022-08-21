@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 11:45:39
+ * @Last Modified time: 2022-08-21 09:17:23
  */
 import { observable, computed } from 'mobx'
 import {
@@ -473,19 +473,21 @@ export default class ScreenHomeV2 extends store {
     const { username } = this.usersInfo
     const userCollections = collectionStore.userCollections(
       username || this.userId,
-      MODEL_SUBJECT_TYPE.getLabel('游戏'),
-      MODEL_COLLECTION_STATUS.getValue('在看')
+      MODEL_SUBJECT_TYPE.getLabel<SubjectType>('游戏'),
+      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>('在看')
     )
     return {
       ...userCollections,
-      list: userCollections.list.filter(item => {
-        if (!this.filter.length) return true
+      list: userCollections.list
+        .filter(item => {
+          if (!this.filter.length) return true
 
-        const cn = (item.nameCn || item.name || '').toUpperCase()
-        if (cn.includes(this.filter)) return true
+          const cn = (item.nameCn || item.name || '').toUpperCase()
+          if (cn.includes(this.filter)) return true
 
-        return getPinYinFilterValue(cn, this.filter)
-      })
+          return getPinYinFilterValue(cn, this.filter)
+        })
+        .sort((a, b) => desc(a, b, item => this.topMap[item.id] || 0))
     }
   }
 
@@ -664,7 +666,10 @@ export default class ScreenHomeV2 extends store {
       const eps = this.eps(subjectId)
       const progress = this.userProgress(subjectId)
       return eps.some(
-        item => item.status === 'Air' && item.type === 0 && !(item.id in progress)
+        item =>
+          (item.status === 'Air' || item.status === 'Today') &&
+          item.type === 0 &&
+          !(item.id in progress)
       )
     }).get()
   }
