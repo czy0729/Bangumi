@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:11:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 07:17:38
+ * @Last Modified time: 2022-08-21 14:20:15
  */
 import { TextType } from '@components'
 import { ColorValue, IconfontNames, TextStyle, ViewStyle } from '@types'
@@ -31,6 +31,11 @@ export type ItemSettingBlockProps = {
   informationType?: TextType
   size?: number
   filter?: string
+  thumb?: {
+    url: string
+    _url?: string
+    headers?: object
+  }[]
   children?: any
 }
 

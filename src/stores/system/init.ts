@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 11:32:23
+ * @Last Modified time: 2022-08-21 08:47:13
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -275,5 +275,6 @@ export const INIT_RELEASE = {
 export const INIT_IMAGE_VIEWER = {
   visible: false,
   imageUrls: [],
-  index: 0
+  index: 0,
+  mini: false
 }

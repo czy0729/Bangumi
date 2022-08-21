@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:19:23
+ * @Last Modified time: 2022-08-21 08:46:11
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -141,11 +141,10 @@ export function showImageViewer(
     _url?: any
     headers?: object
   }[] = [],
-  index = 0
+  index: number = 0,
+  mini: boolean = false
 ) {
-  if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
-    return
-  }
+  if (!Array.isArray(imageUrls) || imageUrls.length === 0) return
 
   getSystemStoreAsync().showImageViewer(
     imageUrls.map(item => ({
@@ -159,7 +158,8 @@ export function showImageViewer(
           ? item._url.replace('http://', 'https://')
           : item._url
     })),
-    index
+    index,
+    mini
   )
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 18:39:57
+ * @Last Modified time: 2022-08-21 06:56:40
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -129,7 +129,7 @@ export type Ep = {
   airdate: string
   comment: number
   desc: string
-  status: 'Air' | 'NA'
+  status: 'Air' | 'Today' | 'NA'
 }
 
 /** 条目 */

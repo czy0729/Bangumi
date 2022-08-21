@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 07:17:05
+ * @Last Modified time: 2022-08-21 14:23:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,14 +46,8 @@ export const ItemSetting = ob(
               </Highlight>
               {!!thumb && (
                 <Touchable
-                  style={_.ml.sm}
-                  onPress={() =>
-                    showImageViewer([
-                      {
-                        url: thumb
-                      }
-                    ])
-                  }
+                  style={_.ml.xs}
+                  onPress={() => showImageViewer(thumb, 0, true)}
                 >
                   <Iconfont name='md-info-outline' size={16} />
                 </Touchable>

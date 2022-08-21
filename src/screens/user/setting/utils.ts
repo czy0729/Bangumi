@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-17 15:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:15:39
+ * @Last Modified time: 2022-08-21 08:31:25
  */
 import { t2s } from '@utils/thirdParty/cn-char'
 
@@ -58,4 +58,10 @@ export function getShows<T extends Record<string, object>>(
   if (Object.keys(shows).every(key => !shows[key])) return false
 
   return shows as Record<keyof T, boolean>
+}
+
+export function getYuqueThumbs(src: string[]) {
+  return src.map(item => ({
+    url: `https://cdn.nlark.com/yuque/${item}`
+  }))
 }

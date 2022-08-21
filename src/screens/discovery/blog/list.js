@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 16:06:52
+ * @Last Modified time: 2022-08-20 17:37:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,7 @@ class List extends React.Component {
     const { list, _loaded } = $.blog(type)
     return (
       <>
-        <ScrollView scrollToTop={type === $.type}>
+        <ScrollView scrollToTop={type === $.type} keyboardDismissMode='on-drag'>
           {show && (
             <>
               {_loaded ? (

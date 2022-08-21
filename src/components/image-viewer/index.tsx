@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 06:18:40
+ * @Last Modified time: 2022-08-21 09:06:42
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -18,18 +18,14 @@ import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
 import { Text } from '../text'
 import { styles } from './styles'
+import { Props as ImageViewerProps } from './types'
 
-type Props = {
-  index?: number
-  visible?: boolean
-  imageUrls?: any[]
-  onCancel?: (arg0?: any) => any
-}
+export { ImageViewerProps }
 
 const actionSheetDS = ['浏览器打开图片', '取消']
 
 export const ImageViewer = observer(
-  class ImageViewerComponent extends React.Component<Props> {
+  class ImageViewerComponent extends React.Component<ImageViewerProps> {
     static defaultProps = {
       index: 0,
       visible: false,
@@ -93,7 +89,7 @@ export const ImageViewer = observer(
     }
 
     render() {
-      const { index, visible, imageUrls, onCancel, ...other } = this.props
+      const { index, visible, imageUrls, mini, onCancel, ...other } = this.props
       return (
         <Modal
           visible={visible}
@@ -108,18 +104,25 @@ export const ImageViewer = observer(
             <View style={styles.activityIndicator}>
               <ActivityIndicator />
             </View>
-            <RNImageViewer
-              style={styles.viewer}
-              index={index}
-              imageUrls={imageUrls}
-              backgroundColor='transparent'
-              enableSwipeDown
-              menus={this.onMenus}
-              renderIndicator={this.renderIndicator}
-              onCancel={onCancel}
-              {...other}
-            />
-            <Touchable style={styles.close} useRN onPress={onCancel}>
+            <View style={[styles.viewerContainer, mini && styles.viewerMini]}>
+              <RNImageViewer
+                style={styles.viewer}
+                index={index}
+                imageUrls={imageUrls}
+                backgroundColor='transparent'
+                enableSwipeDown={!mini}
+                enableImageZoom={!mini}
+                menus={this.onMenus}
+                renderIndicator={this.renderIndicator}
+                onCancel={onCancel}
+                {...other}
+              />
+            </View>
+            <Touchable
+              style={mini ? styles.closeMini : styles.close}
+              useRN
+              onPress={onCancel}
+            >
               <Iconfont style={styles.iconfont} name='md-close' />
             </Touchable>
           </View>

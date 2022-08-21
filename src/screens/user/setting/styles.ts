@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 16:35:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:50:05
+ * @Last Modified time: 2022-08-21 06:25:18
  */
 import { _ } from '@stores'
 
@@ -16,7 +16,7 @@ export default _.create({
     ]
   },
   segmentedControl: {
-    height: _.r(28),
+    height: _.r(32),
     width: _.r(180)
   },
   test: {

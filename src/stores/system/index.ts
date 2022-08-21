@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 11:32:54
+ * @Last Modified time: 2022-08-21 08:46:40
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -509,12 +509,17 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 显示 ImageViewer */
-  showImageViewer = (imageUrls: unknown[] = [], index: number) => {
+  showImageViewer = (
+    imageUrls: unknown[] = [],
+    index: number,
+    mini: boolean = false
+  ) => {
     this.setState({
       imageViewer: {
         visible: true,
         imageUrls,
-        index
+        index,
+        mini
       }
     })
   }

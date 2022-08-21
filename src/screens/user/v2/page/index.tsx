@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-16 16:30:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:24:25
+ * @Last Modified time: 2022-08-20 17:27:49
  */
 import React from 'react'
 import { Animated } from 'react-native'
 import { Page } from '@components'
 import { obc } from '@utils/decorators'
-import { MODEL_COLLECTION_STATUS } from '@constants/model'
+import { MODEL_COLLECTION_STATUS } from '@constants'
+import { CollectionStatus, SubjectTypeCn } from '@types'
 import ParallaxImage from '../parallax-image'
 import Tab from '../tab'
 import { TABS } from '../ds'
+import { Ctx } from '../types'
 
 class User extends React.Component {
   state = {
@@ -21,20 +23,20 @@ class User extends React.Component {
 
   scrollY = new Animated.Value(0)
 
-  y = 0
+  y: number = 0
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { subjectType, page } = $.state
     const { _loaded } = $.userCollections(
       subjectType,
-      MODEL_COLLECTION_STATUS.getValue(TABS[page].title)
+      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(TABS[page].title)
     )
     if (!_loaded) $.fetchUserCollections(true)
   }
 
   updatePageOffset = (index = [-1, 1]) => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { page } = $.state
     const { fixed } = this.state
     const config = {
@@ -47,8 +49,14 @@ class User extends React.Component {
     })
   }
 
-  onScroll = e => {
-    const { $ } = this.context
+  onScroll = (e: {
+    nativeEvent: {
+      contentOffset: {
+        y: any
+      }
+    }
+  }) => {
+    const { $ }: Ctx = this.context
     const { fixed } = this.state
     const { y } = e.nativeEvent.contentOffset
     this.y = y
@@ -67,8 +75,8 @@ class User extends React.Component {
     }
   }
 
-  onSelectSubjectType = title => {
-    const { $ } = this.context
+  onSelectSubjectType = (title: SubjectTypeCn) => {
+    const { $ }: Ctx = this.context
     $.onSelectSubjectType(title)
   }
 
@@ -89,7 +97,7 @@ class User extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { page, _loaded } = $.state
     const { fixed } = this.state
     return (

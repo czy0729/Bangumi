@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 21:46:48
+ * @Last Modified time: 2022-08-21 14:21:43
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, SegmentedControl, Heatmap, Text } from '@components'
@@ -22,7 +22,7 @@ import {
   SettingHomeLayout,
   SettingHomeSorting
 } from '@types'
-import { getShows } from '../utils'
+import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
 import { HOME_SORTING_INFORMATION, VALUES, TEXTS } from './ds'
 
@@ -42,8 +42,7 @@ function Home({ filter }) {
       homeSorting,
       showGame
     } = systemStore.setting
-    const currentHomeLayout =
-      MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表')
+    const homeLayoutList = MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表')
     return (
       <>
         <ItemSetting hd='进度' arrow highlight filter={filter} onPress={setTrue} />
@@ -53,14 +52,18 @@ function Home({ filter }) {
             show={shows.homeLayout}
             style={_.mt.sm}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661062359544-87e2ab4e-ca1f-4e7e-8efb-ccadf891ccc0.png',
+              '0/2022/png/386799/1661062365513-c52a1484-e585-48e9-b672-8a0c547543b4.png'
+            ])}
             {...TEXTS.homeLayout.setting}
           >
             <ItemSettingBlock.Item
               icon='md-menu'
-              active={homeLayout === currentHomeLayout}
+              active={homeLayout === homeLayoutList}
               filter={filter}
               onPress={() => {
-                if (homeLayout === currentHomeLayout) return
+                if (homeLayout === homeLayoutList) return
 
                 t('设置.切换', {
                   title: '首页布局',
@@ -89,21 +92,9 @@ function Home({ filter }) {
             <Heatmap id='设置.切换' title='首页布局' />
           </ItemSettingBlock>
 
-          {/* 列表显示最大收藏数 */}
-          <ItemSetting
-            show={shows.homeListLimit}
-            ft={
-              <Text size={13} bold>
-                {systemStore.advance ? '当前300 (非会员100)' : '当前100 (会员300)'}
-              </Text>
-            }
-            filter={filter}
-            {...TEXTS.homeListLimit}
-          />
-
           {/* 封面形状 */}
           <ItemSetting
-            show={shows.homeGridCoverLayout && currentHomeLayout === 'grid'}
+            show={shows.homeGridCoverLayout && homeLayout !== homeLayoutList}
             ft={
               <SegmentedControl
                 style={styles.segmentedControl}
@@ -130,10 +121,27 @@ function Home({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661062400888-2f305de2-9e5a-40ac-a878-1294c4de40fa.png',
+              '0/2022/png/386799/1661062406213-0d748359-9e14-41e3-88a2-eeea58a1617c.png'
+            ])}
             {...TEXTS.homeGridCoverLayout}
           >
             <Heatmap id='设置.切换' title='封面形状' />
           </ItemSetting>
+
+          {/* 列表显示最大收藏数 */}
+          <ItemSetting
+            style={_.mb.md}
+            show={shows.homeListLimit}
+            ft={
+              <Text size={13} bold>
+                {systemStore.advance ? '当前300 (非会员100)' : '当前100 (会员300)'}
+              </Text>
+            }
+            filter={filter}
+            {...TEXTS.homeListLimit}
+          />
 
           {/* 排序 */}
           <ItemSettingBlock
@@ -185,6 +193,11 @@ function Home({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661061347638-6ba991c5-b296-43e6-8d95-2b3c9da920ab.png',
+              '0/2022/png/386799/1661061354378-cc1ece33-5a8c-419c-8e05-8559106ffb9d.png',
+              '0/2022/png/386799/1661060959608-f312593f-5512-4b75-9060-c9b0071ed6ce.png'
+            ])}
             {...TEXTS.homeOrigin}
           >
             <Heatmap id='设置.切换' title='显示搜索源头按钮' />
@@ -212,6 +225,10 @@ function Home({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661045651857-7de7e8b7-34ce-4810-b6bd-d61d35412124.png',
+              '0/2022/png/386799/1661045660979-be977cea-5eb2-45a7-8dd2-49ef4ec3966c.png'
+            ])}
             {...TEXTS.homeSortSink}
           >
             <Heatmap id='设置.切换' title='自动下沉' />
@@ -235,6 +252,10 @@ function Home({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661045149065-c6d393f9-8649-4239-a459-b9f8c99c3a50.png',
+              '0/2022/png/386799/1661045159272-5b09aea4-c609-4caa-b705-281d23026fa7.png'
+            ])}
             {...TEXTS.showGame}
           >
             <Heatmap id='设置.切换' title='显示游戏' />
@@ -258,6 +279,10 @@ function Home({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661060312559-a94c0975-3b5e-4623-bfd2-9e00aedc4e59.png',
+              '0/2022/png/386799/1661060318569-a7c55607-7a61-489f-ae6a-7bad94a6bb41.png'
+            ])}
             {...TEXTS.homeFilter}
           >
             <Heatmap id='设置.切换' title='显示列表搜索框' />

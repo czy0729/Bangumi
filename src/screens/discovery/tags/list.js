@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 03:23:16
+ * @Last Modified time: 2022-08-20 17:38:21
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -12,8 +12,6 @@ import Filter from './filter'
 import Item from './item'
 import { tabs } from './store'
 
-export default
-@obc
 class List extends React.Component {
   static defaultProps = {
     title: '全部'
@@ -54,6 +52,7 @@ class List extends React.Component {
             lazy={32}
             numColumns={numColumns}
             scrollToTop={tabs[page].key === id}
+            keyboardDismissMode='on-drag'
             renderItem={this.renderItem}
             onHeaderRefresh={this.onHeaderRefresh}
             onFooterRefresh={this.onFooterRefresh}
@@ -65,6 +64,8 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)
 
 function keyExtractor(item) {
   return `${item.title}|${item.nums}`
