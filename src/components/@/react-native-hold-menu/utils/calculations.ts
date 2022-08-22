@@ -19,7 +19,7 @@ export const calculateMenuHeight = (itemLength: number, separatorCount: number) 
     MenuItemHeight() * itemLength +
       (itemLength - 1) +
       separatorCount * styleGuide.spacing,
-    408
+    360
   )
 }
 

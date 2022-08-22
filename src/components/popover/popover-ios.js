@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-02 12:52:18
+ * @Last Modified time: 2022-08-22 11:59:51
  */
 import React, { useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
@@ -47,7 +47,7 @@ function Popover({ children, ...other }) {
         styles={styles.holdItem}
         items={items}
         activateOn='tap'
-        disableMove={false}
+        disableMove={items.length >= 10}
         closeOnTap
         hapticFeedback={IOS ? 'Light' : 'None'}
       >
