@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-09-26 07:16:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 13:23:19
+ * @Last Modified time: 2022-08-21 15:49:27
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { Iconfont } from '@components'
 import { _ } from '@stores'
 import { ColorValue, ViewStyle } from '@types'
+import { useObserver } from 'mobx-react-lite'
 
 type Props = {
   style?: ViewStyle
@@ -16,7 +17,7 @@ type Props = {
   color?: ColorValue
 }
 
-export const IconExpand = ({ style, expand = false, color = _.colorIcon }: Props) => {
+export const IconExpand = ({ style, expand = false, color }: Props) => {
   const rotate = useRef(new Animated.Value(expand ? 1 : 0))
   const styles = useMemo(
     () => [
@@ -44,9 +45,9 @@ export const IconExpand = ({ style, expand = false, color = _.colorIcon }: Props
     )
   }, [expand])
 
-  return (
+  return useObserver(() => (
     <Animated.View style={styles}>
-      <Iconfont name='md-navigate-next' size={22} color={color} />
+      <Iconfont name='md-navigate-next' size={22} color={color || _.colorIcon} />
     </Animated.View>
-  )
+  ))
 }

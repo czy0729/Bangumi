@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:19:40
+ * @Last Modified time: 2022-08-21 16:25:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,6 @@ const Info = memo(
               <Expand>
                 <RenderHtml
                   style={styles.info}
-                  baseFontStyle={styles.baseFontStyle}
                   html={html}
                   katakana
                   onLinkPress={href =>
@@ -104,10 +103,5 @@ const memoStyles = _.memoStyles(() => ({
   info: {
     paddingVertical: _.sm,
     paddingHorizontal: _.wind
-  },
-  baseFontStyle: {
-    fontSize: 14 + _.fontSizeAdjust,
-    lineHeight: 22,
-    color: _.colorTitle
   }
 }))

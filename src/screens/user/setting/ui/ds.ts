@@ -43,7 +43,8 @@ export const TEXTS = {
     }
   },
   speech: {
-    title: '看板娘吐槽'
+    title: '看板娘吐槽',
+    information: '通常在列表尾部出现表示已到底'
   },
   avatarRound: {
     setting: {

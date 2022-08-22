@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:06:45
+ * @Last Modified time: 2022-08-21 16:01:45
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, Heatmap } from '@components'
@@ -12,7 +12,7 @@ import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IS_BEFORE_ANDROID_10 } from '@constants'
-import { getShows } from '../utils'
+import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
 import { TEXTS } from './ds'
 
@@ -35,6 +35,11 @@ function Theme({ navigation, filter }) {
             style={_.mt.sm}
             show={shows.theme}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661068629567-49cdcbef-26cb-40f4-aff9-059427a8f27e.png',
+              '0/2022/png/386799/1661068632037-870a9c78-0478-4ce9-8696-c52812f70be0.png',
+              '0/2022/png/386799/1661068634586-b7c73edc-a671-4922-8f85-b04448aa4b9c.png'
+            ])}
             {...TEXTS.theme.setting}
           >
             <ItemSettingBlock.Item

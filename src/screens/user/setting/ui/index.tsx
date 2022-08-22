@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:33:58
+ * @Last Modified time: 2022-08-21 17:22:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,7 @@ import {
   SETTING_FONTSIZEADJUST,
   SETTING_TRANSITION
 } from '@constants'
-import { getShows } from '../utils'
+import { getShows, getYuqueThumbs } from '../utils'
 import commonStyles from '../styles'
 import { TEXTS, URL_BOOK, URL_MUSIC, URL_GAME, width, height } from './ds'
 import { memoStyles } from './styles'
@@ -66,6 +66,10 @@ function UI({ filter }) {
             show={shows.font}
             style={_.mt.sm}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661070600959-cfe3b7a7-696b-4325-a81e-fe3f58f99edf.png',
+              '0/2022/png/386799/1661070607888-446ff81c-6acf-4416-8a73-e2aca67932db.png'
+            ])}
             {...TEXTS.font}
           >
             <ItemSettingBlock.Item
@@ -146,6 +150,10 @@ function UI({ filter }) {
             show={shows.coverThings}
             style={_.mt.sm}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661071481482-cb9d38b1-1f09-4188-a13d-c10f5b6bbf75.png',
+              '0/2022/png/386799/1661071487013-ae69bffd-7e68-40be-a3d7-2ded444e7d3c.png'
+            ])}
             {...TEXTS.coverThings}
           >
             <ItemSettingBlock.Item
@@ -238,6 +246,11 @@ function UI({ filter }) {
             show={shows.coverRadius}
             style={_.mt.sm}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661071928529-37497a51-74f6-4024-adec-b7d3c7a06e8c.png',
+              '0/2022/png/386799/1661071931109-1464ee05-7d82-43a8-9fe1-14f214de16a3.png',
+              '0/2022/png/386799/1661071933774-201d5370-7fd0-4e97-91ac-cda5b4be45f7.png'
+            ])}
             {...TEXTS.coverRadius.setting}
           >
             <ItemSettingBlock.Item
@@ -325,6 +338,9 @@ function UI({ filter }) {
             show={shows.speech}
             style={_.mt.sm}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661072680253-59856506-ac70-44d7-bba3-fd34fb8ffef3.png'
+            ])}
             {...TEXTS.speech}
           >
             <ItemSettingBlock.Item
@@ -378,6 +394,10 @@ function UI({ filter }) {
             show={shows.avatarRound}
             style={_.mt.sm}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661073314717-f67e17c1-0ae4-4e19-b61a-4fdaf2eb4bdd.png',
+              '0/2022/png/386799/1661073326148-8687046a-026a-4217-a3b3-1209dc3470e2.png'
+            ])}
             {...TEXTS.avatarRound.setting}
           >
             <ItemSettingBlock.Item
@@ -423,6 +443,13 @@ function UI({ filter }) {
             show={shows.fontSize}
             style={styles.fontBlock}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661073553895-58817e4e-68c6-4236-9d4b-aef6a2d2eb6b.png',
+              '0/2022/png/386799/1661073556659-29544f2b-ddef-443f-8d0f-b8f562536bc6.png',
+              '0/2022/png/386799/1661073559152-353bcac8-6cd2-475b-8826-98288110e9cc.png',
+              '0/2022/png/386799/1661073561929-ef4508fd-a12b-4c38-bb93-a7d9b0021965.png',
+              '0/2022/png/386799/1661073564431-15d38cf2-04d1-4514-96cb-2f1c8ddea115.png'
+            ])}
             {...TEXTS.fontSize}
           >
             <ScrollView contentContainerStyle={styles.fontScroll} horizontal>

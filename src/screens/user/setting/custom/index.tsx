@@ -11,7 +11,7 @@ import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { getShows } from '../utils'
+import { getShows, getYuqueThumbs } from '../utils'
 import commonStyles from '../styles'
 import { TEXTS } from './ds'
 import { memoStyles } from './styles'
@@ -37,6 +37,10 @@ function Custom({ filter }) {
             show={shows.cnFirst}
             style={_.mt.sm}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661129866639-05608a0c-bc41-4065-b3c2-aa53bd63d327.png',
+              '0/2022/png/386799/1661129870321-251db53c-5a80-4d99-a32b-a31749c40b27.png'
+            ])}
             {...TEXTS.cnFirst}
           >
             <ItemSettingBlock.Item
@@ -92,6 +96,10 @@ function Custom({ filter }) {
             show={shows.heatMap}
             style={_.mt.sm}
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661129933349-1237edae-2c52-4724-bcb9-ff0ae77b3dfe.png',
+              '0/2022/png/386799/1661129928244-485360af-e293-4573-ad60-680a5b5b9c38.png'
+            ])}
             {...TEXTS.heatMap}
           >
             <ItemSettingBlock.Item
@@ -188,6 +196,10 @@ function Custom({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661132384882-626c4647-44c6-4462-8f6a-6faf757590c0.png',
+              '0/2022/png/386799/1661132388033-f8d5e64b-be21-4712-9c87-e15f340e9b98.png'
+            ])}
             {...TEXTS.s2t}
           >
             <Heatmap id='设置.切换' title='繁体' />
@@ -211,6 +223,10 @@ function Custom({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661132442436-448bd333-0fbc-4c7d-b411-044753cf9f47.png',
+              '0/2022/png/386799/1661132444558-4965411c-4319-4050-b63c-98a28a28ddb2.png'
+            ])}
             {...TEXTS.hideScore}
           >
             <Heatmap id='设置.切换' title='隐藏评分' />
@@ -234,6 +250,10 @@ function Custom({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661132417052-63f81f6b-30ab-4da7-a31f-3a6c927847d6.png',
+              '0/2022/png/386799/1661132420774-00900fe7-99c8-4d8d-bdd7-a23a9f7fec07.png'
+            ])}
             {...TEXTS.filterDefault}
           >
             <Heatmap id='设置.切换' title='屏蔽默认头像用户相关信息' />
