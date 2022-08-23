@@ -224,6 +224,9 @@ export const INIT_SETTING = {
   /** 首页条目显示搜索源头 */
   homeOrigin: false as LayoutValue,
 
+  /** 首页条目一直显示放送时间 */
+  homeOnAir: false,
+
   /** 首页已放送章节看完条目下沉 */
   homeSortSink: true,
 

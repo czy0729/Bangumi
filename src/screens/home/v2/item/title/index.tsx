@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 09:04:07
+ * @Last Modified time: 2022-08-23 15:47:00
  */
 import React from 'react'
 import { Katakana, Highlight, Text } from '@components'
-import { _ } from '@stores'
+import { systemStore, _ } from '@stores'
 import { cnjp, HTMLDecode, getPinYinFilterValue } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -21,7 +21,11 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
   const action = isBook ? '读' : '看'
 
   const { weekDay, isExist } = $.onAirCustom(subjectId)
-  const weekDayText = isExist ? ` · 周${WEEK_DAY_MAP[weekDay]}` : ''
+  const weekDayText = systemStore.setting.homeOnAir
+    ? ''
+    : isExist
+    ? ` · 周${WEEK_DAY_MAP[weekDay]}`
+    : ''
 
   const _subject = $.subject(subjectId)
   const doing = subject?.collection?.doing || _subject?.collection?.doing || 0

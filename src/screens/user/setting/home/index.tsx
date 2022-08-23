@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-22 12:34:51
+ * @Last Modified time: 2022-08-23 16:04:07
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, SegmentedControl, Heatmap, Text } from '@components'
@@ -38,6 +38,7 @@ function Home({ filter }) {
       homeGridCoverLayout,
       homeLayout,
       homeOrigin,
+      homeOnAir,
       homeSortSink,
       homeSorting,
       showGame
@@ -201,6 +202,33 @@ function Home({ filter }) {
             {...TEXTS.homeOrigin}
           >
             <Heatmap id='设置.切换' title='显示搜索源头按钮' />
+          </ItemSetting>
+
+          {/* 一直显示放送时间 */}
+          <ItemSetting
+            show={shows.homeOnAir}
+            ft={
+              <SwitchPro
+                style={styles.switch}
+                value={homeOnAir}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '一直显示放送时间',
+                    checked: !homeOnAir
+                  })
+
+                  systemStore.switchSetting('homeOnAir')
+                }}
+              />
+            }
+            filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661241773996-701bcab2-3841-4f04-be90-7fb7b6baaf6a.png',
+              '0/2022/png/386799/1661241775968-cd2588bb-32e4-46d9-b59e-786c82c46cd8.png'
+            ])}
+            {...TEXTS.homeOnAir}
+          >
+            <Heatmap id='设置.切换' title='一直显示放送时间' />
           </ItemSetting>
 
           {/* 条目自动下沉 */}

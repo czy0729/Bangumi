@@ -43,6 +43,10 @@ export const TEXTS = {
     information: '收藏项右侧按钮组显示菜单按钮\n全部 = 基本操作菜单 + 源头数据菜单',
     search: VALUES
   },
+  homeOnAir: {
+    hd: '一直显示放送时间',
+    information: '不开启时只有在条目今天或者明天放送时才显示具体放送时间'
+  },
   homeSortSink: {
     hd: '条目自动下沉',
     information: '当条目没有未观看的已放送章节时，自动下沉到底'
