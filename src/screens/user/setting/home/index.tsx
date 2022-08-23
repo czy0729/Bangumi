@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 14:21:43
+ * @Last Modified time: 2022-08-22 12:34:51
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, SegmentedControl, Heatmap, Text } from '@components'
@@ -152,7 +152,7 @@ function Home({ filter }) {
           >
             {SETTING_HOME_SORTING.map((item, index) => (
               <ItemSettingBlock.Item
-                style={!!index && _.ml.md}
+                style={!!index && _.ml.sm}
                 title={item.label}
                 information={HOME_SORTING_INFORMATION[item.label]}
                 active={homeSorting === item.value}

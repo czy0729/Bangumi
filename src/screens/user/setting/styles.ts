@@ -22,10 +22,6 @@ export default _.create({
   test: {
     marginTop: -8
   },
-  infor: {
-    paddingTop: 56,
-    marginLeft: -_.sm
-  },
   acSearch: {
     paddingLeft: _._wind,
     marginTop: _.sm,

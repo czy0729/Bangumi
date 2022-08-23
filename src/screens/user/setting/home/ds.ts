@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 21:44:33
+ * @Last Modified time: 2022-08-22 12:35:17
  */
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 
 export const HOME_SORTING_INFORMATION = {
-  APP: '放送中未看 > 放送中 > 明天 > 本季未完结 > 网页',
+  APP: '未看 > 放送中 > 明天 > 本季 > 网页',
   放送: '放送中 > 明天放送 > 网页',
-  网页: '与网页bgm.tv一致'
+  网页: '与网页 bgm.tv 一致'
 } as const
 
 export const VALUES = ['全部', '基本', '隐藏'] as const

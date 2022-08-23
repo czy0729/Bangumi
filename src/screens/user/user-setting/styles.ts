@@ -22,7 +22,9 @@ export const memoStyles = _.memoStyles(() => {
       right: 0,
       bottom: 0,
       left: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.24)'
+      backgroundColor: 'rgba(0, 0, 0, 0.24)',
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
     },
     blurView: {
       backgroundColor: _.colorPlain,

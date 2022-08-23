@@ -56,7 +56,7 @@ export const DEV = observer(() => {
                 {item.date}
               </Text>
               <Flex.Item style={_.ml.sm}>
-                <Text size={12} lineHeight={13} bold selectable>
+                <Text type='__plain__' size={12} lineHeight={13} bold selectable>
                   {item.data}
                 </Text>
               </Flex.Item>

@@ -21,11 +21,13 @@ export type Props = Override<
     information?: string
     informationType?: TextType
     filter?: string
-    thumb?: {
-      url: string
-      _url?: string
-      headers?: object
-    }[]
+    thumb?:
+      | false
+      | {
+          url: string
+          _url?: string
+          headers?: object
+        }[]
     children?: any
     onPress?: (event?: any) => any
   }

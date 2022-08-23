@@ -30,6 +30,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     size = 16,
     filter,
     thumb,
+    align,
     children
   }) => {
     if (!show) return null
@@ -63,7 +64,9 @@ const ItemSettingBlock: IItemSettingBlock = ob(
             {information}
           </Highlight>
         )}
-        <Flex style={_.mt.md}>{children}</Flex>
+        <Flex style={_.mt.md} align={align}>
+          {children}
+        </Flex>
       </View>
     )
   }

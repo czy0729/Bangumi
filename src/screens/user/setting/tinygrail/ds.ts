@@ -7,7 +7,8 @@
 export const TEXTS = {
   tinygrail: {
     hd: '小圣杯',
-    information: '人物卡片交易玩法'
+    information:
+      '人物卡片交易玩法（玩法已死，目前你也可以当成是每天的人物抽奖刮刮乐，人物塔图收集玩法罢了）'
   },
   tinygrailMode: {
     hd: '涨跌色',

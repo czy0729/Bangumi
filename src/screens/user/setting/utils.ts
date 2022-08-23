@@ -60,7 +60,9 @@ export function getShows<T extends Record<string, object>>(
   return shows as Record<keyof T, boolean>
 }
 
-export function getYuqueThumbs(src: string[]) {
+export function getYuqueThumbs(src: string[] | readonly string[] | false) {
+  if (!src) return false
+
   return src.map(item => ({
     url: `https://cdn.nlark.com/yuque/${item}`
   }))

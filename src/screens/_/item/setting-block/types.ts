@@ -31,11 +31,14 @@ export type ItemSettingBlockProps = {
   informationType?: TextType
   size?: number
   filter?: string
-  thumb?: {
-    url: string
-    _url?: string
-    headers?: object
-  }[]
+  thumb?:
+    | false
+    | {
+        url: string
+        _url?: string
+        headers?: object
+      }[]
+  align?: any
   children?: any
 }
 

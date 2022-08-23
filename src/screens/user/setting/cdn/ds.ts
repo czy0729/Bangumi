@@ -22,15 +22,11 @@ export const TEXTS = {
   cover: {
     setting: {
       title: '封面加速',
-      information: '使用特定CDN域名加速访问，切换后可能需要重新启动才能生效'
+      information: '使用特定 CDN 域名加速访问，切换后可能需要重新启动才能生效'
     },
     lain: {
       title: 'lain.bgm.tv',
       information: '不使用加速\n稳定但没清晰加成'
-    },
-    jsDelivr: {
-      title: 'jsDelivr',
-      information: '数据会出现滞后性\n免费开放'
     },
     magma: {
       title: 'Magma',
@@ -39,23 +35,27 @@ export const TEXTS = {
   },
   test: {
     title: '测试',
-    information: '有ms并不代表能顺利加载图片，只是ping后立马返回结果的时间'
+    information: '有 ms 并不代表能顺利加载图片，只是 ping 后立马返回结果的时间'
   },
   deprecated: {
     setting: {
       title: '旧版本域'
     },
+    jsDelivr: {
+      title: 'jsDelivr',
+      information: '免费开放\n目前可能已失效'
+    },
     oneDrive: {
       title: 'OneDrive',
-      information: '网络服务故障，待修复\n作者私有付费'
+      information: '已失效\n请尽快设置到别的域'
     },
     fastly: {
       title: 'fastly',
-      information: '免费开放\n理论上与 jsDelivr 一样'
+      information: '免费开放\n目前可能已失效'
     }
   },
   cdnAvatar: {
     hd: '头像加速',
-    information: '[待废弃] 其他用户头像使用清晰快照，但不会实时更新'
+    information: '[已废弃] 不再生效'
   }
 } as const

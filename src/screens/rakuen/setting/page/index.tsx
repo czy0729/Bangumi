@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:02:23
+ * @Last Modified time: 2022-08-22 17:38:22
  */
 import React from 'react'
 import {
@@ -18,17 +18,22 @@ import {
 } from '@components'
 import { ItemSetting } from '@_'
 import { _, rakuenStore, uiStore } from '@stores'
+import { info } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
-import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants/model'
-import Block from '../../user/setting/block'
-import Tip from '../../user/setting/tip'
-import History from './history'
+import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
+import { Navigation } from '@types'
+import Block from '../../../user/setting/block'
+import Tip from '../../../user/setting/tip'
+import History from './../history'
+import { memoStyles } from './styles'
+import { getYuqueThumbs } from './utils'
 
 const scrollDirectionDS = MODEL_RAKUEN_SCROLL_DIRECTION.data.map(item => item.label)
 
-class RakuenSetting extends React.Component {
+class RakuenSetting extends React.Component<{
+  navigation: Navigation
+}> {
   state = {
     keyword: ''
   }
@@ -74,7 +79,7 @@ class RakuenSetting extends React.Component {
         <Tip>帖子</Tip>
         <ItemSetting
           hd='楼层链接显示成信息块'
-          information='若楼层出现特定页面链接，使用不同的UI代替'
+          information='若楼层出现特定页面链接，使用不同的 UI 代替'
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -89,6 +94,10 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
+          thumb={getYuqueThumbs([
+            '0/2022/png/386799/1661155814563-74ea244f-c48c-49d2-8fa0-be0bc220724e.png',
+            '0/2022/png/386799/1661155854261-970ecf62-6eaa-4b0f-b280-347233ada8f1.png'
+          ])}
         />
         <ItemSetting
           hd='楼层内容猜测条目'
@@ -107,10 +116,14 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
+          thumb={getYuqueThumbs([
+            '0/2022/png/386799/1661156697962-47872ab9-dd71-40e7-84c6-842d014fa85e.png',
+            '0/2022/png/386799/1661156404852-5419bd25-408e-49b3-9e0a-57b480b54ecf.png'
+          ])}
         />
         <ItemSetting
-          hd='[实验性] 点击猜测条目先显示缩略信息'
-          information='若猜测命中关键字，为了不打断阅读帖子，会在图层上方先显示缩略信息，再次点击才会进入条目页面'
+          hd='[实验性] 猜测条目先显示缩略信息'
+          information='若猜测命中关键字，为了不打断阅读，会在图层上方先显示缩略信息，再次点击才会进入条目页面'
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -125,6 +138,10 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
+          thumb={getYuqueThumbs([
+            '0/2022/png/386799/1661157003238-c24ee52e-85ba-43b1-81fb-71e2596c6562.png',
+            '0/2022/png/386799/1661157009090-307ff23e-1734-4914-8c8e-1537faa7e9f9.png'
+          ])}
         />
         <Flex style={this.styles.acSearchPopable}>
           <Text size={13}>试一试∶</Text>
@@ -161,6 +178,10 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
+          thumb={getYuqueThumbs([
+            '0/2022/png/386799/1661157694142-917c49b1-96f4-4d51-9cdc-a39ea80a4de5.png',
+            '0/2022/png/386799/1661157697155-91a59c53-a075-423b-8116-717583a7f5f2.png'
+          ])}
         />
         {quote && (
           <ItemSetting
@@ -179,10 +200,13 @@ class RakuenSetting extends React.Component {
               />
             }
             withoutFeedback
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661157853356-0ecf0000-acd2-4faf-acfb-9804498ee85c.png',
+              '0/2022/png/386799/1661157856095-60c6b420-8aba-406b-8c82-97a8360c84c1.png'
+            ])}
           />
         )}
         <ItemSetting
-          border
           hd='楼层直达条'
           ft={
             <SegmentedControl
@@ -204,6 +228,9 @@ class RakuenSetting extends React.Component {
               }}
             />
           }
+          thumb={getYuqueThumbs([
+            '0/2022/png/386799/1661159480188-a1279dab-0af3-4985-ba54-cda3581a5cbf.png'
+          ])}
         />
       </Block>
     )
@@ -362,44 +389,3 @@ class RakuenSetting extends React.Component {
 }
 
 export default ob(RakuenSetting)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingTop: _.sm,
-    paddingBottom: _.bottom
-  },
-  segmentedControl: {
-    height: 28 * _.ratio,
-    width: 164 * _.ratio
-  },
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: _.device(0.8, 1.12)
-      }
-    ]
-  },
-  icon: {
-    width: 36,
-    height: 36
-  },
-  information: {
-    maxWidth: '80%',
-    marginTop: _.xs
-  },
-  section: {
-    paddingVertical: _.sm,
-    paddingRight: _.sm,
-    paddingLeft: _._wind
-  },
-  input: {
-    height: 44,
-    paddingVertical: 0
-  },
-  acSearchPopable: {
-    paddingTop: _.sm,
-    paddingBottom: _.md,
-    paddingLeft: _._wind
-  }
-}))

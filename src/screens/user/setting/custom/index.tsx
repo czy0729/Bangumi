@@ -59,9 +59,9 @@ function Custom({ filter }) {
               }}
             >
               <Text style={_.mt.xs} type='sub' size={11} lineHeight={13} align='center'>
-                例：看过 ep.1 始まりの物語{'\n'}
+                看过 ep.1 始まりの物語{'\n'}
                 <Text type='sub' size={11} lineHeight={13} underline>
-                  劇場版 魔法少女小圆
+                  魔法少女小圆
                 </Text>
               </Text>
             </ItemSettingBlock.Item>
@@ -82,9 +82,9 @@ function Custom({ filter }) {
               }}
             >
               <Text style={_.mt.xs} type='sub' size={11} lineHeight={13} align='center'>
-                例：看过 ep.1 始まりの物語{'\n'}
+                看过 ep.1 始まりの物語{'\n'}
                 <Text type='sub' size={11} lineHeight={13} underline>
-                  劇場版 魔法少女まどか☆マギカ
+                  魔法少女まどか☆マギカ
                 </Text>
               </Text>
             </ItemSettingBlock.Item>

@@ -82,6 +82,7 @@ function CDN({ filter }) {
             show={shows.cover}
             style={_.mt.sm}
             filter={filter}
+            align='start'
             {...TEXTS.cover.setting}
           >
             {/* lain */}
@@ -106,38 +107,9 @@ function CDN({ filter }) {
               {...TEXTS.cover.lain}
             />
 
-            {/* jsDelivr */}
+            {/* Magma */}
             <ItemSettingBlock.Item
               style={_.ml.md}
-              active={cdn && origin === 'jsDelivr'}
-              filter={filter}
-              onPress={async () => {
-                if (cdn && origin === 'jsDelivr') return
-
-                t('设置.切换', {
-                  title: 'CDN加速',
-                  checked: !cdn,
-                  origin: 'jsDelivr'
-                })
-
-                if (!cdn) systemStore.switchSetting('cdn')
-                systemStore.setSetting(
-                  'cdnOrigin',
-                  MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr')
-                )
-
-                setTimeout(() => {
-                  clearCache()
-                }, 0)
-              }}
-              {...TEXTS.cover.jsDelivr}
-            />
-            <Heatmap id='设置.切换' title='CDN加速' />
-          </ItemSettingBlock>
-
-          {/* Magma */}
-          <ItemSettingBlock show={shows.cover} style={_.mt._md}>
-            <ItemSettingBlock.Item
               active={cdn && origin === 'magma'}
               filter={filter}
               onPress={async () => {
@@ -174,24 +146,25 @@ function CDN({ filter }) {
               }}
               {...TEXTS.cover.magma}
             />
-            <Flex.Item style={_.ml.md}>
-              <View style={styles.infor}>
-                <IconTouchable
-                  name='md-info-outline'
-                  size={18}
-                  onPress={() =>
-                    alert(
-                      `此域名为用户 @magma 提供，支持所有封面图，并自带缩放压缩、webp、稳定CDN加速
+
+            <View style={_.ml.xs}>
+              <IconTouchable
+                name='md-info-outline'
+                size={18}
+                onPress={() =>
+                  alert(
+                    `此域名为用户 @magma 提供，支持非 NSFW 封面图（NSFW 会回滚到 bgm），并自带缩放压缩、webp、稳定CDN加速
                       \n作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${ADVANCE_CDN}元] 的高级会员开放测试，恳请谅解
                       \n目前初上线需要监控流量数据，后续会根据观察到的使用量，可能会放宽限制
                       \n科普: 目前OSS 1G的费用不低于0.2元，1个用户首次访问10-20个路径的页面，封面图可能会产生50-100MB的流量
                       \nPS: 若漏算了历史打赏金额的，可以私信作者修正`,
-                      '关于Magma'
-                    )
-                  }
-                />
-              </View>
-            </Flex.Item>
+                    '关于Magma'
+                  )
+                }
+              />
+            </View>
+
+            <Heatmap id='设置.切换' title='CDN加速' />
           </ItemSettingBlock>
 
           {/* 测试 */}
@@ -384,8 +357,8 @@ function CDN({ filter }) {
               type='sub'
               onPress={() => setDeprecated(!deprecated)}
             >
-              [待废弃]
-              因国内访问困难无法恢复，v6.2.5以后不再维护，功能保留，若你的网络依然能访问可以考虑使用，
+              [待废弃] 因国内访问困难无法恢复，v6.2.5
+              以后不再维护，功能保留，若你的网络依然能访问可以考虑使用，
               <Text size={12} type='warning'>
                 点击{deprecated ? '收起' : '展开'}
               </Text>
@@ -393,7 +366,62 @@ function CDN({ filter }) {
           </ItemSettingBlock>
           {shows.deprecated && deprecated && (
             <ItemSettingBlock style={_.mt._md}>
+              {/* jsDelivr */}
               <ItemSettingBlock.Item
+                active={cdn && origin === 'jsDelivr'}
+                filter={filter}
+                onPress={async () => {
+                  if (cdn && origin === 'jsDelivr') return
+
+                  t('设置.切换', {
+                    title: 'CDN加速',
+                    checked: !cdn,
+                    origin: 'jsDelivr'
+                  })
+
+                  if (!cdn) systemStore.switchSetting('cdn')
+                  systemStore.setSetting(
+                    'cdnOrigin',
+                    MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr')
+                  )
+
+                  setTimeout(() => {
+                    clearCache()
+                  }, 0)
+                }}
+                {...TEXTS.deprecated.jsDelivr}
+              />
+
+              {/* fastly */}
+              <ItemSettingBlock.Item
+                style={_.ml.sm}
+                active={cdn && origin === 'fastly'}
+                filter={filter}
+                onPress={async () => {
+                  if (cdn && origin === 'fastly') return
+
+                  t('设置.切换', {
+                    title: 'CDN加速',
+                    checked: !cdn,
+                    origin: 'fastly'
+                  })
+
+                  if (!cdn) systemStore.switchSetting('cdn')
+                  systemStore.setSetting(
+                    'cdnOrigin',
+                    MODEL_SETTING_CDN_ORIGIN.getValue('fastly')
+                  )
+
+                  setTimeout(() => {
+                    clearCache()
+                  }, 0)
+                }}
+                {...TEXTS.deprecated.fastly}
+              />
+
+              {/* onedrive */}
+              <ItemSettingBlock.Item
+                style={_.ml.sm}
                 active={cdn && origin === 'OneDrive'}
                 filter={filter}
                 onPress={async () => {
@@ -417,31 +445,6 @@ function CDN({ filter }) {
                   }, 0)
                 }}
                 {...TEXTS.deprecated.oneDrive}
-              />
-              <ItemSettingBlock.Item
-                style={_.ml.md}
-                active={cdn && origin === 'fastly'}
-                filter={filter}
-                onPress={async () => {
-                  if (cdn && origin === 'fastly') return
-
-                  t('设置.切换', {
-                    title: 'CDN加速',
-                    checked: !cdn,
-                    origin: 'fastly'
-                  })
-
-                  if (!cdn) systemStore.switchSetting('cdn')
-                  systemStore.setSetting(
-                    'cdnOrigin',
-                    MODEL_SETTING_CDN_ORIGIN.getValue('fastly')
-                  )
-
-                  setTimeout(() => {
-                    clearCache()
-                  }, 0)
-                }}
-                {...TEXTS.deprecated.fastly}
               />
             </ItemSettingBlock>
           )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:01:35
+ * @Last Modified time: 2022-08-22 15:54:29
  */
 import React, { useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
@@ -12,7 +12,7 @@ import { useObserver } from '@utils/hooks'
 import Page from './page'
 import { uiStore } from '@stores'
 
-const RakuenSetting = () => {
+const RakuenSetting = ({ navigation }) => {
   const isFocused = useIsFocused()
   useEffect(() => {
     if (!isFocused) uiStore.closePopableSubject()
@@ -22,7 +22,7 @@ const RakuenSetting = () => {
     <>
       <Header title='超展开设置' hm={['rakuen/settings', 'RakuenSetting']} />
       <TapListener>
-        <Page />
+        <Page navigation={navigation} />
       </TapListener>
     </>
   ))

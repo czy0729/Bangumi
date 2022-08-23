@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 02:39:48
+ * @Last Modified time: 2022-08-22 15:53:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
 
-function History({ navigation, style, data = [], onDelete = Function.prototype }) {
+function History({ navigation, style, data = [], onDelete = () => {} }: any) {
   const styles = memoStyles()
   if (!data.length) {
     return (
@@ -63,24 +64,3 @@ function History({ navigation, style, data = [], onDelete = Function.prototype }
 }
 
 export default ob(History)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _._wind,
-    paddingBottom: _.sm
-  },
-  item: {
-    paddingRight: _.sm
-  },
-  content: {
-    marginTop: _.sm
-  },
-  touch: {
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  icon: {
-    width: 36,
-    height: 36
-  }
-}))
