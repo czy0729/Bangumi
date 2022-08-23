@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 19:00:14
+ * @Last Modified time: 2022-08-23 19:24:30
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -10,25 +10,31 @@ import { ActionSheet, Flex, Text, SwitchPro, Heatmap, Highlight } from '@compone
 import { clearCache } from '@components/image/image'
 import { IconTouchable } from '@_'
 import { ItemSetting, ItemSettingBlock, Cover } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
+import { info, alert, confirm } from '@utils'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t, ping } from '@utils/fetch'
-import { info, alert } from '@utils/ui'
-import { MODEL_SETTING_CDN_ORIGIN, CDN_OSS_MAGMA_POSTER } from '@constants'
+import { MODEL_SETTING_CDN_ORIGIN, CDN_OSS_MAGMA_POSTER, ADVANCE_CDN } from '@constants'
 import { getShows } from '../utils'
 import styles from '../styles'
 import {
-  ADVANCE_CDN,
   IMG_HEIGHT,
   IMG_WIDTH,
   TEXTS,
   URL_FASTLY,
   URL_JSDELIVR,
   URL_LAIN,
-  URL_LAIN_NEW,
   URL_ONEDRIVE
 } from './ds'
 import { Pings } from './types'
+import { SettingCDNOrigin, SettingCDNOriginCn } from '@types'
+
+function waitToResetCDN() {
+  setTimeout(() => {
+    const result = systemStore.resetCDN()
+    if (result) info('CDN 试用结束')
+  }, 60 * 1000 * 10)
+}
 
 function CDN({ filter }) {
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -58,7 +64,7 @@ function CDN({ filter }) {
     if (!shows) return null
 
     const { cdn, cdnOrigin, cdnAvatar } = systemStore.setting
-    const origin = MODEL_SETTING_CDN_ORIGIN.getLabel(cdnOrigin)
+    const origin = MODEL_SETTING_CDN_ORIGIN.getLabel<SettingCDNOriginCn>(cdnOrigin)
     const label = []
     if (!cdn) label.push('关闭')
     return (
@@ -114,12 +120,30 @@ function CDN({ filter }) {
               filter={filter}
               onPress={async () => {
                 if (cdn && origin === 'magma') return
-                if (!systemStore.advance) return info('此域名仅对高级会员开放')
+
+                if (!systemStore.advance) {
+                  confirm(
+                    '此域名对达到条件的高级会员开放，当前开放试用，10 分钟后或下次启动后会还原，是否试用？',
+                    () => {
+                      if (!cdn) systemStore.switchSetting('cdn')
+                      systemStore.setSetting(
+                        'cdnOrigin',
+                        MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma')
+                      )
+                      waitToResetCDN()
+
+                      t('其他.试用CDN', {
+                        id: userStore.myId
+                      })
+                    }
+                  )
+                  return
+                }
 
                 // 获取历史打赏金额
                 const value = await systemStore.fetchAdvanceDetail()
                 if (value == 1) {
-                  info('你是长期高级会员，暂时允许开启')
+                  info('你是老打赏用户或特殊关照会员，允许开启')
                 } else {
                   const [, amount] = String(value).split('|')
                   if (Number(amount || 0) < ADVANCE_CDN) {
@@ -137,7 +161,7 @@ function CDN({ filter }) {
                 if (!cdn) systemStore.switchSetting('cdn')
                 systemStore.setSetting(
                   'cdnOrigin',
-                  MODEL_SETTING_CDN_ORIGIN.getValue('magma')
+                  MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma')
                 )
 
                 setTimeout(() => {
@@ -151,16 +175,16 @@ function CDN({ filter }) {
               <IconTouchable
                 name='md-info-outline'
                 size={18}
-                onPress={() =>
+                onPress={() => {
                   alert(
                     `此域名为用户 @magma 提供，支持非 NSFW 封面图（NSFW 会回滚到 bgm），并自带缩放压缩、webp、稳定CDN加速
                       \n作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${ADVANCE_CDN}元] 的高级会员开放测试，恳请谅解
-                      \n目前初上线需要监控流量数据，后续会根据观察到的使用量，可能会放宽限制
-                      \n科普: 目前OSS 1G的费用不低于0.2元，1个用户首次访问10-20个路径的页面，封面图可能会产生50-100MB的流量
-                      \nPS: 若漏算了历史打赏金额的，可以私信作者修正`,
+                      \n科普: 目前 OSS 1G 的费用因有各种回流等策略，资费不低于 0.2 元，1 个用户首次访问 10-20 个路径的页面，封面图可能会产生 50-100MB 的流量
+                      \n为什么需要？因官方图片第二档质量不够清晰，而最高质量又过大，如果直接使用最大图片，一来会浪费大量流量，二来就算手机再强也会随着程序使用而崩溃
+                      \nPS: 若漏算了历史打赏金额的，可私信作者修正`,
                     '关于Magma'
                   )
-                }
+                }}
               />
             </View>
 
@@ -265,7 +289,7 @@ function CDN({ filter }) {
           )}
 
           {/* 新番 */}
-          {shows.test && test && (
+          {/* {shows.test && test && (
             <>
               <ItemSettingBlock>
                 <Flex.Item>
@@ -342,7 +366,7 @@ function CDN({ filter }) {
                 <Flex.Item style={_.ml.md} />
               </ItemSettingBlock>
             </>
-          )}
+          )} */}
 
           {/* 旧版本域 */}
           <ItemSettingBlock

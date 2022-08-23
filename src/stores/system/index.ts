@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 08:46:40
+ * @Last Modified time: 2022-08-23 19:16:36
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -11,11 +11,13 @@ import store from '@utils/store'
 import { info } from '@utils/ui'
 import { put, read } from '@utils/db'
 import {
+  ADVANCE_CDN,
   DEV,
   GITHUB_ADVANCE,
   GITHUB_DATA,
   GITHUB_RELEASE_REPOS,
   IOS,
+  MODEL_SETTING_CDN_ORIGIN,
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_INITIAL_PAGE,
@@ -35,6 +37,7 @@ import {
 } from './init'
 import {
   AnyObject,
+  SettingCDNOrigin,
   SettingHomeLayoutCn,
   SettingHomeSortingCn,
   SettingInitialPageCn,
@@ -188,12 +191,14 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
 
     // 检查新版本
     this.fetchOTA()
-    if (!DEV) {
-      setTimeout(() => {
-        this.fetchRelease()
-      }, 4000)
-    }
 
+    // 优先度: 高
+    setTimeout(() => {
+      this.resetCDN()
+      if (!DEV) this.fetchRelease()
+    }, 4000)
+
+    // 优先度: 中
     setTimeout(() => {
       this.setState({
         rendered: true
@@ -309,6 +314,33 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
   }
 
   // -------------------- page --------------------
+  /** 还原 CDN */
+  resetCDN = () => {
+    try {
+      if (this.advance) {
+        const { myId, myUserId } = UserStore
+        const value = this.advanceDetail[myId] || this.advanceDetail[myUserId]
+        if (value == 1) return false
+
+        const [, amount] = String(value).split('|')
+        if (Number(amount || 0) >= ADVANCE_CDN) return false
+      }
+
+      const { cdn, cdnOrigin } = this.setting
+      if (
+        cdn &&
+        cdnOrigin === MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma')
+      ) {
+        this.switchSetting('cdn')
+        return true
+      }
+
+      return false
+    } catch (error) {
+      return false
+    }
+  }
+
   /** 设置 `图片质量` */
   setQuality = (label: SettingQualityCn) => {
     const quality = MODEL_SETTING_QUALITY.getValue(label)

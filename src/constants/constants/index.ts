@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 16:38:37
+ * @Last Modified time: 2022-08-23 19:15:28
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -128,6 +128,9 @@ export const IS_BEFORE_ANDROID_10 = !IOS && Platform.Version < 29
 
 /** [待废弃] Bangumi 字眼在 App 内的显示 */
 export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'
+
+/** 高级会员不限制达到金额 */
+export const ADVANCE_CDN = 10
 
 /** 小圣杯 App ID */
 export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec'

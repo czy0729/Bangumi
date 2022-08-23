@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 06:31:05
+ * @Last Modified time: 2022-08-23 16:35:34
  */
 import { IOS } from '../constants'
 
@@ -670,7 +670,7 @@ export const MODEL_SETTING_SYNC = new Model([
 ])
 
 /** [设置] CDN 源头 */
-export const MODEL_SETTING_CDN_ORIGIN = new Model([
+export const SETTING_CDN_ORIGIN = [
   {
     label: 'fastly',
     value: 'fastly'
@@ -687,7 +687,10 @@ export const MODEL_SETTING_CDN_ORIGIN = new Model([
     label: 'magma',
     value: 'magma'
   }
-])
+] as const
+
+/** [设置] CDN 源头 */
+export const MODEL_SETTING_CDN_ORIGIN = new Model(SETTING_CDN_ORIGIN)
 
 /** [设置] 楼层导航条方向 */
 export const RAKUEN_SCROLL_DIRECTION = [

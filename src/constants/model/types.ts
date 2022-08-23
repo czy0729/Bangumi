@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 17:27:26
+ * @Last Modified time: 2022-08-23 16:52:24
  */
 import { ModelValueOf } from '@types'
 import {
@@ -22,6 +22,7 @@ import {
   RATING_STATUS,
   SEARCH_CAT,
   SEARCH_LEGACY,
+  SETTING_CDN_ORIGIN,
   SETTING_FONTSIZEADJUST,
   SETTING_HOME_GRID_COVER_LAYOUT,
   SETTING_HOME_LAYOUT,
@@ -79,6 +80,8 @@ export type SettingInitialPageCn = ModelValueOf<typeof SETTING_INITIAL_PAGE, 'la
 export type SettingQualityCn = ModelValueOf<typeof SETTING_QUALITY, 'label'>
 export type SettingTransitionCn = ModelValueOf<typeof SETTING_TRANSITION, 'label'>
 export type SettingUserGridNumCn = ModelValueOf<typeof SETTING_USER_GRID_NUM, 'label'>
+export type SettingCDNOrigin = ModelValueOf<typeof SETTING_CDN_ORIGIN>
+export type SettingCDNOriginCn = ModelValueOf<typeof SETTING_CDN_ORIGIN, 'label'>
 export type SubjectType = ModelValueOf<typeof SUBJECT_TYPE, 'label'>
 export type SubjectTypeCn = ModelValueOf<typeof SUBJECT_TYPE, 'title'>
 export type SubjectTypeValue = ModelValueOf<typeof SUBJECT_TYPE>

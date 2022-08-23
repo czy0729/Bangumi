@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 09:04:12
+ * @Last Modified time: 2022-08-23 19:19:21
  */
 import { _ } from '@stores'
 
@@ -16,8 +16,6 @@ export const URL_ONEDRIVE = 'https://bangumi.stdcdn.com/subject/c/t/TfOdAB.jpg'
 export const IMG_WIDTH = Math.floor((_.window.contentWidth - 2 * _.sm) / 3)
 export const IMG_HEIGHT = Math.floor(IMG_WIDTH * 1.44)
 
-export const ADVANCE_CDN = 10
-
 export const TEXTS = {
   cover: {
     setting: {
@@ -30,12 +28,12 @@ export const TEXTS = {
     },
     magma: {
       title: 'Magma',
-      information: '条件开放\n@magma 提供的高速付费域'
+      information: '条件开放，支持试用中\n@magma 提供的高速付费域'
     }
   },
   test: {
     title: '测试',
-    information: '有 ms 并不代表能顺利加载图片，只是 ping 后立马返回结果的时间'
+    information: '有 ms 并不代表能顺利加载，只是 ping 后立马返回结果的时间'
   },
   deprecated: {
     setting: {
