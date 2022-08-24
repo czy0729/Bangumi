@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 16:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 18:18:33
+ * @Last Modified time: 2022-08-24 18:36:50
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { asc, t2s } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import anime from '@assets/json/substrings.json'
+import alias from '@assets/json/substrings-alias.json'
 import book from '@assets/json/substrings-book.json'
 import game from '@assets/json/substrings-game.json'
 import { memoStyles } from './styles'
@@ -36,7 +37,10 @@ function Advance({ navigation, cat, value, onSubmit }) {
     } else if (value && cat === 'subject_4' && !gameCns) {
       gameCns = Object.keys(game).sort((a, b) => asc(a.length, b.length))
     } else if (value && !animeCns) {
-      animeCns = Object.keys(anime).sort((a, b) => asc(a.length, b.length))
+      animeCns = Object.keys({
+        ...alias,
+        ...anime
+      }).sort((a, b) => asc(a.length, b.length))
     }
 
     if (history[_value]) {
@@ -53,7 +57,10 @@ function Advance({ navigation, cat, value, onSubmit }) {
       substrings.current = game
     } else if (value) {
       cns = animeCns
-      substrings.current = anime
+      substrings.current = {
+        ...alias,
+        ...anime
+      }
     }
 
     const _result = []

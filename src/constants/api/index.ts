@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:49:56
+ * @Last Modified time: 2022-08-24 18:32:12
  */
 import { EpId, Id, SubjectId, UserId } from '@types'
 import { HOST } from '../constants'
@@ -127,8 +127,8 @@ export const API_COLLECTION_ACTION = (
 ) => `${API_HOST}/collection/${subjectId}/${action}`
 
 /** v0 api: 条目封面 */
-export const API_COVER = (subjectId: SubjectId) =>
-  `${API_HOST}/v0/subjects/${subjectId}/image?type=common`
+export const API_COVER = (subjectId: SubjectId, type: string = 'common') =>
+  `${API_HOST}/v0/subjects/${subjectId}/image?type=${type}`
 
 /** v0 api: 用户头像 */
 export const API_AVATAR = (username: string | number) =>
