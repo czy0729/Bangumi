@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 04:38:04
+ * @Last Modified time: 2022-08-24 17:00:00
  */
 
 /** Discovery */
@@ -88,6 +88,8 @@ export default {
   '搜索.删除历史': 'Search.deleteHistory',
   '搜索.搜索': 'Search.doSearch',
   '搜索.切换细分类型': 'Search.onLegacySelect',
+  '搜索.模糊查询点击': 'Search.onAdvance',
+  '搜索.模糊查询跳转': 'Search.advanceTo',
 
   // 标签索引
   '标签索引.跳转': 'Tags.to',

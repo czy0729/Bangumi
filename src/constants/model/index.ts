@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 16:35:34
+ * @Last Modified time: 2022-08-24 17:43:59
  */
 import { IOS } from '../constants'
 
@@ -404,7 +404,7 @@ export const SEARCH_CAT = [
   },
   {
     label: '三次元',
-    value: 'subject_5'
+    value: 'subject_6'
   },
   {
     label: '人物',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 18:01:14
+ * @Last Modified time: 2022-08-24 18:04:10
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -55,8 +55,7 @@ export default class ScreenSearch extends store {
   @computed get url() {
     const { value = '', cat, legacy = '' } = this.state
     const _text = value.replace(/ /g, '+')
-    const url = HTML_SEARCH(_text, cat, 1, legacy)
-    return url
+    return HTML_SEARCH(encodeURIComponent(_text), cat, 1, legacy)
   }
 
   /** 当前是否在搜索用户 */
@@ -69,8 +68,9 @@ export default class ScreenSearch extends store {
   /** 是否显示推荐词 */
   @computed get showAdvance() {
     const { focus, cat } = this.state
-    if (!focus || cat === 'mono_all' || cat === 'user' || this.search().list.length)
+    if (!focus || cat === 'mono_all' || cat === 'user' || this.search().list.length) {
       return false
+    }
 
     return true
   }

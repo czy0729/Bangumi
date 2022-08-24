@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:21:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 13:40:42
+ * @Last Modified time: 2022-08-24 18:04:32
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -22,6 +22,7 @@ function Header(props, { $ }: Ctx) {
           onSelect={key => {
             if (key === '浏览器查看') {
               t('搜索.右上角菜单', { key })
+
               open($.url)
             }
           }}
