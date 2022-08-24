@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 13:50:27
+ * @Last Modified time: 2022-08-25 06:20:13
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,6 +10,7 @@ import { Cover, Stars } from '@_'
 import { cnjp } from '@utils'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
+import { IS_IOS_5_6_7_8 } from '@styles'
 import { Ctx } from './types'
 
 const imgWidth = 28
@@ -76,6 +77,6 @@ const styles = _.create({
   container: {
     marginLeft: -_.sm,
     marginRight: _.lg,
-    marginBottom: _.ios(-4, 0)
+    marginBottom: _.ios(IS_IOS_5_6_7_8 ? 0 : -4, 0)
   }
 })

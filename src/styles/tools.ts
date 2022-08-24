@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 11:12:34
+ * @Last Modified time: 2022-08-25 06:33:22
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
@@ -21,7 +21,8 @@ import {
   radiusMd,
   statusBarHeight,
   headerHeight,
-  tabsHeaderHeight
+  tabsHeaderHeight,
+  IS_IOS_5_6_7_8
 } from './layout'
 import { colorPlain, colorBorder, colorShadow } from './colors'
 import { fontSize } from './utils'
@@ -291,12 +292,12 @@ export const input = StyleSheet.create({
 export const header = StyleSheet.create({
   left: {
     position: 'absolute',
-    top: IOS ? statusBarHeight + 8 : statusBarHeight + 12,
+    top: IOS ? statusBarHeight + (IS_IOS_5_6_7_8 ? 12 : 8) : statusBarHeight + 12,
     left: 4
   },
   right: {
     position: 'absolute',
-    top: IOS ? statusBarHeight + 8 : statusBarHeight + 12,
+    top: IOS ? statusBarHeight + (IS_IOS_5_6_7_8 ? 12 : 8) : statusBarHeight + 12,
     right: 8
   }
 } as const)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-04 17:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:23:38
+ * @Last Modified time: 2022-08-25 06:28:02
  */
 import { _ } from '@stores'
 import {
@@ -11,6 +11,7 @@ import {
   MODEL_COLLECTIONS_ORDERBY,
   MODEL_SUBJECT_TYPE
 } from '@constants'
+import { IS_IOS_5_6_7_8 } from '@styles'
 import { CollectionsOrder, SubjectType } from '@types'
 
 export const NAMESPACE = 'ScreenUser'
@@ -46,7 +47,7 @@ export const STATE = {
 export const H_RADIUS_LINE = _.radiusLg
 
 /** fixed 后带背景的头部高度 */
-export const H_HEADER = (IOS ? 88 : 80) + H_RADIUS_LINE
+export const H_HEADER = (IOS ? (IS_IOS_5_6_7_8 ? 68 : 88) : 80) + H_RADIUS_LINE
 
 /** TabBar 高度 */
 export const H_TABBAR = _.r(48)

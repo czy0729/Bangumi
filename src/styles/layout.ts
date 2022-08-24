@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:34:47
+ * @Last Modified time: 2022-08-25 06:21:05
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 import { IOS } from '@constants/constants'
 import { PAD, PAD_LEVEL_2, RATIO } from '@constants/device'
+
+export const IS_IOS_5_6_7_8 = /iPhone (5|6|7|8).+?/gi.test(Constants.deviceName)
 
 // -------------------- 设备 --------------------
 /** 是否平板 */
@@ -71,10 +73,16 @@ export const statusBarHeight = Constants.statusBarHeight
 /** [待重构] 头部高度 (顶部<Tab>) */
 export const appBarHeight = IOS ? Constants.statusBarHeight : 56
 
-/** [待重构] 整个头部高度 (状态栏高度 + 头部高度) */
-export const headerHeight = PAD
-  ? Math.max(appBarHeight + statusBarHeight, 80)
-  : appBarHeight + statusBarHeight
+/**
+ * 整个头部高度 (状态栏高度 + 头部高度)
+ *  - iOS 8 以前的设备 statusBarHeight 获取不好, 需要手动添加一个固定高度
+ *  - Pad 固定最大 80
+ *  - 安卓没影响
+ * */
+export const headerHeight =
+  (PAD
+    ? Math.max(appBarHeight + statusBarHeight, 80)
+    : appBarHeight + statusBarHeight) + (IOS ? (IS_IOS_5_6_7_8 ? 28 : 0) : 0)
 
 /** 标签页的标签栏高度 */
 export const tabsHeight = 42
@@ -82,8 +90,12 @@ export const tabsHeight = 42
 /** 带标签栏的头部高度 */
 export const tabsHeaderHeight = headerHeight + tabsHeight
 
-/** 底部 <bottomTab> 高度 */
-export const tabBarHeight = 50 // 标签栏高度
+/**
+ * 底部 BottomTab 高度
+ *  - iOS 8 以前的设备没有底部的黑横条 bar 高度, 需要减掉
+ *  - 安卓没影响
+ * */
+export const tabBarHeight = 50 + (IOS ? (IS_IOS_5_6_7_8 ? 4 : 20) : 0)
 
 /** [待废弃] 底部留空 */
 export const bottom = tabBarHeight + lg

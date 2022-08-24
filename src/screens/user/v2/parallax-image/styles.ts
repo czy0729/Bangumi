@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 06:35:17
+ * @Last Modified time: 2022-08-25 06:34:25
  */
 import { _ } from '@stores'
+import { IS_IOS_5_6_7_8 } from '@styles'
 import { H_RADIUS_LINE } from '../ds'
 
 export const memoStyles = _.memoStyles(() => ({
@@ -63,13 +64,13 @@ export const styles = _.create({
   back: {
     ..._.header.left,
     zIndex: 1,
-    marginTop: _.ios(-7, -4)
+    marginTop: _.ios(IS_IOS_5_6_7_8 ? -6 : -7, -4)
   },
   menu: {
     ..._.header.left,
     zIndex: 1,
     padding: _.sm,
-    marginTop: _.ios(-16, -12),
+    marginTop: _.ios(IS_IOS_5_6_7_8 ? -14 : -16, -12),
     marginLeft: -4,
     opacity: 0.88
   },
@@ -82,14 +83,14 @@ export const styles = _.create({
   timeline: {
     ..._.header.right,
     zIndex: 1,
-    marginTop: _.ios(-6, -4),
+    marginTop: _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
     marginRight: _.device(40, 54),
     opacity: 0.88
   },
   setting: {
     ..._.header.right,
     zIndex: 1,
-    marginTop: _.ios(-6, -4),
+    marginTop: _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
     opacity: 0.88
   },
   touch: {
