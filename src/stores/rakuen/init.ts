@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 12:48:39
+ * @Last Modified time: 2022-08-24 15:34:34
  */
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE,
   MODEL_RAKUEN_SCROLL_DIRECTION
 } from '@constants'
-import { RakuenScope, RakuenType } from '@types'
+import { RakuenScope, RakuenScrollDirection, RakuenType } from '@types'
 
 export const NAMESPACE = 'Rakuen'
 
@@ -73,21 +73,44 @@ export const INIT_NOTIFY = {
 }
 
 export const INIT_SETTING = {
-  matchLink: true, // 楼层正文链接显示成信息块
-  acSearch: true, // 楼层正文内容猜测条目
+  /** 楼层正文链接显示成信息块 */
+  matchLink: true,
+
+  /** 楼层正文内容猜测条目 */
+  acSearch: true,
 
   /** 猜测条目点击显示 Popable */
   acSearchPopable: true,
 
-  quote: true, // 帖子展开引用
-  quoteAvatar: true, // 帖子展开引用时, 尝试寻找用户名的头像
-  isBlockDefaultUser: false, // 是否屏蔽默认头像用户帖子
-  blockKeywords: [], // 自定义屏蔽关键字 string
-  blockGroups: [], // 屏蔽的小组 string
-  blockUserIds: [], // 屏蔽的用户 `${userName}@${userId}`
-  filterDelete: true, // 过滤用户删除的楼层
-  isMarkOldTopic: true, // 标记坟贴
-  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') // 帖子楼层滚动导航条方向
+  /** 帖子展开引用 */
+  quote: true,
+
+  /** 帖子展开引用时, 尝试寻找用户名的头像 */
+  quoteAvatar: true,
+
+  /** 楼层是否使用宽模式显示内容 */
+  wide: false,
+
+  /** 是否屏蔽默认头像用户帖子 */
+  isBlockDefaultUser: false,
+
+  /** 自定义屏蔽关键字 string[] */
+  blockKeywords: [],
+
+  /** 屏蔽的小组 string[] */
+  blockGroups: [],
+
+  /** 屏蔽的用户 `${userName}@${userId}`[] */
+  blockUserIds: [],
+
+  /** 过滤用户删除的楼层 */
+  filterDelete: true,
+
+  /** 标记坟贴 */
+  isMarkOldTopic: true,
+
+  /** 帖子楼层滚动导航条方向 */
+  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('右侧')
 }
 
 export const INIT_GROUP_INFO = {

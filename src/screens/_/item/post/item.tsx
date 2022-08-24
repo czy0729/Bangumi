@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 15:42:56
+ * @Last Modified time: 2022-08-24 15:53:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,8 @@ import FloorText from './floor-text'
 import IconExtra from './icon-extra'
 import ItemSub from './sub'
 import { DEFAULT_PROPS, IMAGES_MAX_WIDTH, EXPAND_NUMS } from './ds'
+
+const AVATAR_SIZE = 36
 
 const Item = memo(
   ({
@@ -67,7 +69,7 @@ const Item = memo(
           navigation={navigation}
           userId={userId}
           name={userName}
-          size={36}
+          size={AVATAR_SIZE}
           src={avatar}
           event={event}
         />

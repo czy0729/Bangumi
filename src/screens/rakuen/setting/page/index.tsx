@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-22 17:38:22
+ * @Last Modified time: 2022-08-24 15:57:00
  */
 import React from 'react'
 import {
@@ -72,11 +72,14 @@ class RakuenSetting extends React.Component<{
       acSearchPopable,
       quote,
       quoteAvatar,
+      wide,
       scrollDirection
     } = this.setting
     return (
       <Block>
         <Tip>帖子</Tip>
+
+        {/* 楼层链接显示成信息块 */}
         <ItemSetting
           hd='楼层链接显示成信息块'
           information='若楼层出现特定页面链接，使用不同的 UI 代替'
@@ -99,6 +102,8 @@ class RakuenSetting extends React.Component<{
             '0/2022/png/386799/1661155854261-970ecf62-6eaa-4b0f-b280-347233ada8f1.png'
           ])}
         />
+
+        {/* 楼层内容猜测条目 */}
         <ItemSetting
           hd='楼层内容猜测条目'
           information='使用条目词库对楼层文字进行猜测匹配，若匹配成功文字下方显示下划线，点击直接去到条目页面'
@@ -121,6 +126,8 @@ class RakuenSetting extends React.Component<{
             '0/2022/png/386799/1661156404852-5419bd25-408e-49b3-9e0a-57b480b54ecf.png'
           ])}
         />
+
+        {/* 猜测条目先显示缩略信息 */}
         <ItemSetting
           hd='[实验性] 猜测条目先显示缩略信息'
           information='若猜测命中关键字，为了不打断阅读，会在图层上方先显示缩略信息，再次点击才会进入条目页面'
@@ -161,6 +168,8 @@ class RakuenSetting extends React.Component<{
             物语是什么鬼翻译[bgm38]
           </Text>
         </Flex>
+
+        {/* 展开引用 */}
         <ItemSetting
           hd='展开引用'
           information='展开子回复中上一级的回复内容'
@@ -183,6 +192,8 @@ class RakuenSetting extends React.Component<{
             '0/2022/png/386799/1661157697155-91a59c53-a075-423b-8116-717583a7f5f2.png'
           ])}
         />
+
+        {/* 显示引用头像 */}
         {quote && (
           <ItemSetting
             hd='显示引用头像'
@@ -206,6 +217,31 @@ class RakuenSetting extends React.Component<{
             ])}
           />
         )}
+
+        {/* 楼层内容使用加宽版展示 */}
+        <ItemSetting
+          hd='楼层内容加宽展示'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={wide}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '加宽展示',
+                  checked: !wide
+                })
+                rakuenStore.switchSetting('wide')
+              }}
+            />
+          }
+          withoutFeedback
+          thumb={getYuqueThumbs([
+            '0/2022/png/386799/1661327786769-cd143b43-e267-4648-af34-179efbe052af.png',
+            '0/2022/png/386799/1661327416446-79d19833-ed5c-4a44-a86e-06c00e83f12d.png'
+          ])}
+        />
+
+        {/* 楼层直达条 */}
         <ItemSetting
           hd='楼层直达条'
           ft={

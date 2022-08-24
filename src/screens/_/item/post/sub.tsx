@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 23:09:33
+ * @Last Modified time: 2022-08-24 15:54:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,6 +44,7 @@ const defaultProps = {
   postUsersMap: {},
   quote: true,
   quoteAvatar: true,
+  wide: false,
   readedTime: 0,
   replySub: '',
   showFixedTextare: false,
@@ -75,6 +76,7 @@ const ItemSub = memo(
     postUsersMap,
     quote,
     quoteAvatar,
+    wide,
     readedTime,
     replySub,
     showFixedTextare,
@@ -180,6 +182,13 @@ const ItemSub = memo(
           <FloorText time={time} floor={floor} />
           <View style={_.mt.xs}>
             <RenderHtml
+              style={
+                // eslint-disable-next-line react-native/no-inline-styles
+                wide && {
+                  marginTop: 4,
+                  marginLeft: -(avatarWidth + styles.subContent.marginLeft + 4)
+                }
+              }
               baseFontStyle={_.baseFontStyle.md}
               imagesMaxWidth={imagesMaxWidthSub}
               html={msg}
@@ -193,7 +202,17 @@ const ItemSub = memo(
               </Text>
             )}
             {showQuoteAvatar && (
-              <Flex style={styles.quoteUserRound}>
+              <Flex
+                style={[
+                  styles.quoteUserRound,
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  wide && {
+                    top: 15,
+                    left: 11,
+                    marginLeft: -(avatarWidth + styles.subContent.marginLeft + 4)
+                  }
+                ]}
+              >
                 <Avatar
                   navigation={navigation}
                   size={13}
@@ -247,7 +266,7 @@ export default obc(
     if (isBlockUser(userId, userName, replySub)) return null
 
     const { translateResultFloor } = $.state
-    const { blockKeywords, quote, quoteAvatar } = rakuenStore.setting
+    const { blockKeywords, quote, quoteAvatar, wide } = rakuenStore.setting
     return (
       <ItemSub
         navigation={navigation}
@@ -267,6 +286,7 @@ export default obc(
         postUsersMap={$.postUsersMap}
         quote={quote}
         quoteAvatar={quoteAvatar}
+        wide={wide}
         readedTime={readedTime}
         replySub={replySub}
         showFixedTextare={showFixedTextare}
@@ -302,7 +322,7 @@ const memoStyles = _.memoStyles(() => ({
   },
   quoteUserRound: {
     position: 'absolute',
-    top: 10,
+    top: 12,
     left: 12,
     zIndex: 1,
     padding: 2,
