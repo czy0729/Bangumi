@@ -194,7 +194,6 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
 
     // 优先度: 高
     setTimeout(() => {
-      this.resetCDN()
       if (!DEV) this.fetchRelease()
     }, 4000)
 
@@ -208,6 +207,8 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
       if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24) {
         this.fetchAdvanceDetail()
       }
+
+      this.resetCDN()
     }, 8000)
 
     return true

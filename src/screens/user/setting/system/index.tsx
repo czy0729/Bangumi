@@ -7,7 +7,7 @@
 import React, { useState } from 'react'
 import { ActionSheet, Heatmap } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
-import { _, userStore, systemStore, rakuenStore } from '@stores'
+import { _, userStore, systemStore, rakuenStore, calendarStore } from '@stores'
 import { useObserver, useMount, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { confirm, info, loading, feedback } from '@utils/ui'
@@ -55,7 +55,7 @@ function System({ navigation, filter }) {
             show={shows.setting}
             style={_.mt.sm}
             title={`同步${i18n.setting()}`}
-            information={`同步${i18n.setting()}和超展开${i18n.setting()}`}
+            information={`同步${i18n.setting()}、超展开${i18n.setting()}、自定义放送数据`}
             filter={filter}
           >
             <ItemSettingBlock.Item
@@ -86,15 +86,19 @@ function System({ navigation, filter }) {
 
                 setTimeout(() => {
                   confirm('确定恢复到云端的设置?', async () => {
-                    let hide = loading('下载设置(1/2)...')
+                    let hide = loading('下载设置(1/3)...')
                     const flag = await systemStore.downloadSetting()
                     hide()
 
-                    hide = loading('超展开设置(2/2)...')
+                    hide = loading('超展开设置(2/3)...')
                     await rakuenStore.downloadSetting()
                     hide()
-                    feedback()
 
+                    hide = loading('自定义放送数据(3/3)')
+                    await calendarStore.downloadSetting()
+                    hide()
+
+                    feedback()
                     info(flag ? '已恢复' : '下载设置失败')
                   })
                 }, 160)
@@ -119,15 +123,19 @@ function System({ navigation, filter }) {
 
                 setTimeout(() => {
                   confirm('确定上传当前设置到云端?', async () => {
-                    let hide = loading('上传设置(1/2)...')
+                    let hide = loading('上传设置(1/3)...')
                     const flag = await systemStore.uploadSetting()
                     hide()
 
-                    hide = loading('超展开设置(2/2)...')
+                    hide = loading('超展开设置(2/3)...')
                     await rakuenStore.uploadSetting()
                     hide()
-                    feedback()
 
+                    hide = loading('自定义放送数据(3/3)')
+                    await calendarStore.uploadSetting()
+                    hide()
+
+                    feedback()
                     info(flag ? '已上传' : '上传失败，云服务异常，请待作者修复')
                   })
                 }, 160)
@@ -144,12 +152,15 @@ function System({ navigation, filter }) {
                 })
 
                 setTimeout(() => {
-                  confirm(`确定恢复${i18n.initial()}值?`, () => {
-                    systemStore.resetSetting()
-                    setTimeout(() => {
-                      info('已恢复')
-                    }, 160)
-                  })
+                  confirm(
+                    `仅会恢复${i18n.initial()}设置，不包含超展开设置和自定义放送数据，确定?`,
+                    () => {
+                      systemStore.resetSetting()
+                      setTimeout(() => {
+                        info('已恢复')
+                      }, 160)
+                    }
+                  )
                 }, 160)
               }}
             />

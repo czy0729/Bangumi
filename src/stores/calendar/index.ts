@@ -10,6 +10,7 @@ import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import store from '@utils/store'
+import { put, read } from '@utils/db'
 import {
   API_CALENDAR,
   CDN_DISCOVERY_HOME,
@@ -18,6 +19,7 @@ import {
   LIST_EMPTY
 } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
+import UserStore from '../user'
 import { NAMESPACE, INIT_HOME, INIT_USER_ONAIR_ITEM } from './init'
 import { cheerioToday } from './common'
 import { Calendar, OnAirUser, State } from './types'
@@ -351,6 +353,44 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
     const key = 'onAirUser'
     this.clearState(key, _onAirUser)
     this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /** 上传用户自定义放送数据到云端 */
+  uploadSetting = () => {
+    if (!Object.keys(this.state.onAirUser).length) return false
+
+    const { id } = UserStore.userInfo
+    return put({
+      path: `onair-user/${id}.json`,
+      content: JSON.stringify(this.state.onAirUser)
+    })
+  }
+
+  /** 恢复到云端的用户自定义放送数据 */
+  downloadSetting = async () => {
+    const { id } = UserStore.userInfo
+    const { content } = await read({
+      path: `onair-user/${id}.json`
+    })
+
+    if (!content) return false
+
+    try {
+      const onAirUser = JSON.parse(content)
+      const key = 'onAirUser'
+
+      // 本地的最优先
+      this.setState({
+        [key]: {
+          ...onAirUser,
+          ...this.state.onAirUser
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+      return true
+    } catch (error) {
+      return false
+    }
   }
 }
 

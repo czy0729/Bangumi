@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 19:46:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 18:03:35
+ * @Last Modified time: 2022-08-24 14:56:48
  */
 import React from 'react'
 import { HeaderPlaceholder, Flex } from '@components'
@@ -15,14 +15,14 @@ import { Props as LogoHeaderProps } from './types'
 
 export { LogoHeaderProps }
 
-export const LogoHeader = ob(({ left, right }: LogoHeaderProps) => {
+export const LogoHeader = ob(({ left, right, path }: LogoHeaderProps) => {
   return (
     <>
       <HeaderPlaceholder />
       <Flex style={styles.header} justify='center'>
         <Flex style={styles.side}>{left}</Flex>
         <Flex style={styles.logo} justify='center'>
-          <Logo />
+          <Logo path={path} />
         </Flex>
         <Flex style={styles.side} justify='end'>
           {right}

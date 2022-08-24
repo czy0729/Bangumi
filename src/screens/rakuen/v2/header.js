@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 23:27:19
+ * @Last Modified time: 2022-08-24 14:58:36
  */
 import React from 'react'
 import { LogoHeader } from '@_'
@@ -12,7 +12,13 @@ import IconGroup from './icon/group'
 import IconMore from './icon/more'
 
 function Header() {
-  return <LogoHeader left={<IconGroup />} right={<IconMore style={_.ml.sm} />} />
+  return (
+    <LogoHeader
+      left={<IconGroup />}
+      right={<IconMore style={_.ml.sm} />}
+      path='RakuenSetting'
+    />
+  )
 }
 
 export default obc(Header)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:08:38
+ * @Last Modified time: 2022-08-24 15:01:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ function IconFavor({ $ }) {
   return (
     <View>
       <SegmentedControl
+        key={String($.state._loaded)}
         style={styles.segment}
         size={11}
         values={['收藏', '缓存']}
