@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 10:07:55
+ * @Last Modified time: 2022-08-25 19:50:17
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -186,9 +186,9 @@ export default class ScreenMono extends store {
 
   /** 人物留言 */
   @computed get monoComments() {
-    const { comments } = this.state
-    if (comments._loaded) return comments
-    return subjectStore.monoComments(this.monoId)
+    const monoComments = subjectStore.monoComments(this.monoId)
+    if (monoComments._loaded) return monoComments
+    return this.state.comments
   }
 
   /** 人物信息 (CDN) */
