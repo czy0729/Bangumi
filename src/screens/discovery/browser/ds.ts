@@ -12,7 +12,7 @@ export const DATE = new Date()
 export const NAMESPACE = 'ScreenBrowser'
 
 export const EXCLUDE_STATE = {
-  sort: '' as BrowserSort,
+  sort: 'date' as BrowserSort,
 
   /** 是否显示列表, 制造切页效果 */
   show: true,
