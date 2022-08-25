@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 04:26:59
+ * @Last Modified time: 2022-08-25 21:51:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ export const Cover = ob(
     bodyStyle,
     angleStyle,
     src,
+    imageViewerSrc,
     size,
     height,
     noDefault,
@@ -57,10 +58,13 @@ export const Cover = ob(
       )
     }
 
+    const imageStyle = [style]
     const { hashSubjectOTALoaded } = systemStore.state
     const _src = cdn !== false ? matchCoverUrl(src, noDefault) : src
-
-    const imageStyle = [style]
+    let _imageViewerSrc = imageViewerSrc
+    if (_imageViewerSrc && typeof _src === 'string' && _src.includes('/bgm_poster')) {
+      _imageViewerSrc = _src
+    }
 
     const { coverThings, coverRadius } = systemStore.setting
     if (coverThings || useType) {
@@ -90,6 +94,7 @@ export const Cover = ob(
               style={[imageStyle, styles.image]}
               src={_src}
               size={w}
+              imageViewerSrc={imageViewerSrc}
               border
               textOnly={textOnly}
               fallback={fallback}
@@ -115,6 +120,7 @@ export const Cover = ob(
             <Image
               style={[imageStyle, styles.image, styles.bookRadius]}
               src={_src}
+              imageViewerSrc={imageViewerSrc}
               size={w}
               height={h}
               border
@@ -143,6 +149,7 @@ export const Cover = ob(
             <Image
               style={imageStyle}
               src={_src}
+              imageViewerSrc={imageViewerSrc}
               textOnly={textOnly}
               fallback={fallback}
               {...other}
@@ -189,6 +196,7 @@ export const Cover = ob(
             <Image
               style={[imageStyle, styles.image]}
               src={_src}
+              imageViewerSrc={imageViewerSrc}
               size={w}
               border
               textOnly={textOnly}
@@ -206,6 +214,7 @@ export const Cover = ob(
         key={hashSubjectOTALoaded}
         style={imageStyle}
         src={_src}
+        imageViewerSrc={imageViewerSrc}
         size={size}
         height={height}
         textOnly={textOnly}
