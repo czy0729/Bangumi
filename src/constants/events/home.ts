@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 06:39:15
+ * @Last Modified time: 2022-08-25 08:54:17
  */
 
 /** Home */
@@ -33,6 +33,8 @@ export default {
   '人物.取消收藏人物': 'Mono.doEraseCollect',
   '人物.封面图查看': 'Mono.imageView',
   '人物.启动ICO': 'Mono.ico',
+  '人物.翻译内容': 'Mono.doTranslate',
+  '人物.更多资料': 'Mono.onMore',
 
   // 条目
   '条目.查看': 'Subject.view',

@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-01-04 04:32:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 05:35:22
+ * @Last Modified time: 2022-08-25 17:21:31
  */
 import React from 'react'
 import { View } from 'react-native'
 import { RenderHtml, Expand, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function Content(props, { $, navigation }) {
-  rerender('Mono.Content')
+function Content(props, { $, navigation }: Ctx) {
+  global.rerender('Mono.Content')
 
   if (!$.detail) return null
 
-  const styles = memoStyles()
   const { translateResultDetail } = $.state
   return (
     <View style={styles.content}>
@@ -57,16 +58,3 @@ function Content(props, { $, navigation }) {
 }
 
 export default obc(Content)
-
-const memoStyles = _.memoStyles(() => ({
-  content: {
-    paddingHorizontal: _.xs,
-    marginTop: _.md
-  },
-  iconTranslate: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: -4
-  }
-}))

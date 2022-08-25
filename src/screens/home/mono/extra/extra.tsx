@@ -2,26 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 06:02:44
+ * @Last Modified time: 2022-08-25 19:25:28
  */
 import React from 'react'
 import { IconHeader } from '@_'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
-import { memo, ob } from '@utils/decorators'
+import { confirm } from '@utils'
+import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { confirm } from '@utils/ui'
-import Favor from './favor'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  navigation: {},
-  monoId: '',
-  canICO: false,
-  icoUsers: undefined,
-  doICO: Function.prototype
-}
-
-const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
+export default memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
   global.rerender('Mono.Extra.Main')
 
   if (canICO) {
@@ -68,23 +60,4 @@ const Extra = memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
       <Heatmap right={30} id='人物.跳转' to='TinygrailDeal' alias='交易' />
     </IconHeader>
   )
-}, defaultProps)
-
-export default ob(({ $, navigation }) => {
-  global.rerender('Mono.Extra')
-
-  return (
-    <>
-      {$.monoId.includes('character') && $.tinygrail && (
-        <Extra
-          navigation={navigation}
-          monoId={$.monoId}
-          canICO={$.canICO}
-          doICO={$.doICO}
-          icoUsers={$.chara.users}
-        />
-      )}
-      <Favor $={$} />
-    </>
-  )
-})
+}, DEFAULT_PROPS)

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-04-25 19:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-08-18 17:57:21
+ * @Last Modified time: 2022-08-25 17:27:30
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function SectionRight({ event, text, to }, { $, navigation }) {
-  rerender('Mono.SectionRight')
+function SectionRight({ event, text, to }, { $, navigation }: Ctx) {
+  global.rerender('Mono.SectionRight')
 
   return (
     <Touchable
@@ -38,12 +39,3 @@ function SectionRight({ event, text, to }, { $, navigation }) {
 }
 
 export default obc(SectionRight)
-
-const styles = _.create({
-  touch: {
-    paddingLeft: _.xs,
-    marginRight: _.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-})

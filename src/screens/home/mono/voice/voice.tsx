@@ -1,35 +1,22 @@
 /*
  * @Author: czy0729
- * @Date: 2019-06-02 22:34:52
+ * @Date: 2022-08-25 17:32:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-20 14:34:28
+ * @Last Modified time: 2022-08-25 19:12:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Image, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@_'
 import { _ } from '@stores'
-import { memo, obc } from '@utils/decorators'
-import { appNavigate, cnjp } from '@utils/app'
-import SectionRight from './section-right'
-import { COVER_WIDTH, COVER_HEIGHT } from './ds'
+import { appNavigate, cnjp } from '@utils'
+import { memo } from '@utils/decorators'
+import SectionRight from '../section-right'
+import { COVER_WIDTH, COVER_HEIGHT } from '../ds'
+import { DEFAULT_PROPS, EVENT, IMAGE_WIDTH } from './ds'
 
-const event = {
-  id: '人物.跳转',
-  data: {
-    from: '最近演出角色'
-  }
-}
-const imgWidth = 40 * _.ratio
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  style: {},
-  voices: []
-}
-
-const Voice = memo(({ navigation, styles, style, voices }) => {
-  rerender('Mono.Voice.Main')
+export default memo(({ navigation, styles, style, voices }) => {
+  global.rerender('Mono.Voice.Main')
 
   return (
     <View style={[styles.container, style]}>
@@ -37,14 +24,8 @@ const Voice = memo(({ navigation, styles, style, voices }) => {
         style={styles.section}
         right={
           <>
-            <SectionRight event={event} text='更多角色' to='Voices' />
-            <Heatmap
-              id='人物.跳转'
-              data={{
-                to: 'Voices',
-                alias: '更多角色'
-              }}
-            />
+            <SectionRight event={EVENT} text='更多角色' to='Voices' />
+            <Heatmap id='人物.跳转' to='Voices' alias='更多角色' />
           </>
         }
       >
@@ -63,25 +44,26 @@ const Voice = memo(({ navigation, styles, style, voices }) => {
                 _cn: item.nameCn,
                 _image: item.cover
               },
-              event
+              EVENT
             )
 
           const subjectTop = cnjp(item.subjectNameCn, item.subjectName)
           const subjectBottom = cnjp(item.subjectName, item.subjectNameCn)
           const onPressSubject = () =>
-            appNavigate(item.subjectHref, navigation, {}, event)
+            appNavigate(item.subjectHref, navigation, {}, EVENT)
           return (
             <Flex key={item.href} style={styles.item} align='start'>
+              {/* @ts-ignore */}
               <Flex flex={1} align='start'>
                 <Image
                   src={item.cover}
-                  size={imgWidth}
+                  size={IMAGE_WIDTH}
                   radius
                   shadow
                   onPress={onPress}
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Touchable style={_.mt.xs} onPress={onPress}>
+                  <Touchable style={_.mt.xxs} onPress={onPress}>
                     <Text size={12} bold>
                       {nameTop}
                     </Text>
@@ -96,9 +78,10 @@ const Voice = memo(({ navigation, styles, style, voices }) => {
                   </Flex>
                 </Flex.Item>
               </Flex>
-              <Flex style={_.ml.md} flex={1.44} align='start'>
+              {/* @ts-ignore */}
+              <Flex style={_.ml.md} flex={1.5} align='start'>
                 <Flex.Item>
-                  <Touchable style={_.mt.xs} onPress={onPressSubject}>
+                  <Touchable style={_.mt.xxs} onPress={onPressSubject}>
                     <Text size={12} align='right' bold>
                       {subjectTop}
                     </Text>
@@ -124,42 +107,8 @@ const Voice = memo(({ navigation, styles, style, voices }) => {
             </Flex>
           )
         })}
-        <Heatmap
-          id='人物.跳转'
-          data={{
-            from: '最近演出角色'
-          }}
-        />
+        <Heatmap id='人物.跳转' from='最近演出角色' />
       </View>
     </View>
   )
-}, defaultProps)
-
-export default obc(({ style }, { $, navigation }) => {
-  rerender('Mono.Voice')
-
-  if (!$.voices.length) return null
-
-  return (
-    <Voice
-      styles={memoStyles()}
-      navigation={navigation}
-      style={style}
-      voices={$.voices}
-    />
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    paddingBottom: _.md
-  },
-  section: {
-    paddingRight: _.wind - _._wind
-  },
-  item: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  }
-}))
+}, DEFAULT_PROPS)

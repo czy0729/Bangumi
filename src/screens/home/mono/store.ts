@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-20 19:43:52
+ * @Last Modified time: 2022-08-25 10:07:55
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -12,19 +12,19 @@ import {
   cnjp,
   desc,
   feedback,
+  getTimestamp,
   info,
   loading,
-  open,
-  removeHTMLTag,
   omit,
-  getTimestamp
+  open,
+  removeHTMLTag
 } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t, baiduTranslate } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { HOST } from '@constants'
 import { Mono, MonoComments } from '@stores/subject/types'
-import { Id } from '@types'
+import { Id, Navigation } from '@types'
 import { Params } from './types'
 
 export default class ScreenMono extends store {
@@ -32,10 +32,16 @@ export default class ScreenMono extends store {
 
   state = observable({
     checkTinygrail: false,
-    expands: [], // 展开的子楼层id
-    translateResult: [], // 翻译缓存
+
+    /** 展开的子楼层 id */
+    expands: [],
+
+    /** 翻译缓存 */
+    translateResult: [],
     translateResultDetail: [],
-    translateResultFloor: {}, // 楼层翻译缓存
+
+    /** 楼层翻译缓存 */
+    translateResultFloor: {},
     mono: {
       _loaded: 0
     } as Mono,
@@ -270,6 +276,10 @@ export default class ScreenMono extends store {
   // -------------------- page --------------------
   /** 人物更多资料点击 */
   onMore = () => {
+    t('人物.更多资料', {
+      monoId: this.monoId
+    })
+
     return open(
       `https://mzh.moegirl.org.cn/index.php?title=${encodeURIComponent(
         this.cn || this.jp
@@ -326,7 +336,7 @@ export default class ScreenMono extends store {
   }
 
   /** 开启 ICO */
-  doICO = async navigation => {
+  doICO = async (navigation: Navigation) => {
     t('人物.启动ICO', {
       monoId: this.monoId
     })
@@ -347,15 +357,14 @@ export default class ScreenMono extends store {
   }
 
   /** 翻译内容 */
-  doTranslate = async (key = 'translateResult', content) => {
+  doTranslate = async (key = 'translateResult', content: any) => {
     if (this.state[key].length) return
 
-    // @ts-ignore TODO:
     t('人物.翻译内容', {
       monoId: this.monoId
     })
 
-    let hide
+    let hide: () => void
     try {
       hide = loading()
       const response = await baiduTranslate(
@@ -380,16 +389,15 @@ export default class ScreenMono extends store {
   }
 
   /** 翻译楼层 */
-  doTranslateFloor = async (floorId, msg) => {
+  doTranslateFloor = async (floorId: string | number, msg: string) => {
     const { translateResultFloor } = this.state
     if (translateResultFloor[floorId]) return
 
-    // @ts-ignore TODO:
     t('人物.翻译内容', {
       floorId
     })
 
-    let hide
+    let hide: () => void
     try {
       hide = loading()
       const response = await baiduTranslate(removeHTMLTag(msg.replace(/<br>/g, '\n')))

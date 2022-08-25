@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-19 16:51:53
+ * @Last Modified time: 2022-08-25 19:26:02
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
 import { copy, cnjp, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import HeaderTitle from './header-title'
-import Extra from './extra'
+import HeaderTitle from '../header-title'
+import Extra from '../extra'
+import { Ctx } from '../types'
 
-function Header({ fixed }, { $, navigation }) {
+function Header({ fixed }, { $, navigation }: Ctx) {
   return (
     <CompHeader
       mode='transition'

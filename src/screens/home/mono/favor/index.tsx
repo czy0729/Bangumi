@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-11-27 07:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 04:28:26
+ * @Last Modified time: 2022-08-25 19:26:54
  */
 import React from 'react'
 import { Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function Favor({ $ }) {
-  rerender('Mono.Favor')
+function Favor({ $ }: Ctx) {
+  global.rerender('Mono.Favor')
 
   const { collectUrl, eraseCollectUrl } = $.mono
   if (collectUrl) {
@@ -36,11 +38,3 @@ function Favor({ $ }) {
 }
 
 export default ob(Favor)
-
-const styles = _.create({
-  touch: {
-    paddingHorizontal: _.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-})
