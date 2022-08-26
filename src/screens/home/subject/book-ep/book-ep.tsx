@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-09 16:36:50
+ * @Last Modified time: 2022-08-26 11:07:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,22 +15,9 @@ import IconSearch from '../icon/search'
 import IconManga from '../icon/manga'
 import IconWenku from '../icon/wenku'
 import IconHD from '../icon/hd'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  styles: {},
-  chap: '',
-  vol: '',
-  book: {},
-  comicLength: 0,
-  status: {
-    name: '未收藏'
-  },
-  onChangeText: () => {},
-  doUpdateBookEp: () => {},
-  doUpdateNext: () => {}
-}
-
-const BookEp = memo(
+export default memo(
   ({
     styles,
     chap,
@@ -75,7 +62,7 @@ const BookEp = memo(
                       style={styles.inputRaw}
                       keyboardType='numeric'
                       value={chap}
-                      placeholder={book.chap || '0'}
+                      placeholder={String(book.chap) || '0'}
                       clearButtonMode='never'
                       returnKeyType='done'
                       returnKeyLabel='更新'
@@ -118,7 +105,7 @@ const BookEp = memo(
                       style={styles.inputRaw}
                       keyboardType='numeric'
                       value={vol}
-                      placeholder={book.vol || '0'}
+                      placeholder={String(book.vol) || '0'}
                       clearButtonMode='never'
                       returnKeyType='done'
                       returnKeyLabel='更新'
@@ -166,7 +153,5 @@ const BookEp = memo(
       </View>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default BookEp

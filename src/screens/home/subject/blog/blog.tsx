@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:20:08
+ * @Last Modified time: 2022-08-26 11:02:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,17 +12,9 @@ import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import IconBlog from '../icon/blog'
 import IconHidden from '../icon/hidden'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  showBlog: true,
-  subjectId: 0,
-  blog: [],
-  onSwitchBlock: Function.prototype
-}
-
-const Blog = memo(
+export default memo(
   ({ navigation, styles, showBlog, subjectId, blog, onSwitchBlock }) => {
     global.rerender('Subject.Blog.Main')
 
@@ -68,7 +60,5 @@ const Blog = memo(
       </View>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default Blog

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:59:10
+ * @Last Modified time: 2022-08-26 11:32:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import Cover from '../cover'
 import Series from '../series'
 import { DEFAULT_PROPS } from './ds'
 
-const Head = memo(
+export default memo(
   ({
     styles,
     showRelation,
@@ -133,7 +133,7 @@ const Head = memo(
                   </Katakana>
                 </Katakana.Provider>
               )}
-              {!!top && (
+              {!!top && top !== bottom && (
                 <Katakana.Provider
                   style={!!bottom && _.mt.xs}
                   itemStyle={styles.katakana}
@@ -174,5 +174,3 @@ const Head = memo(
   },
   DEFAULT_PROPS
 )
-
-export default Head

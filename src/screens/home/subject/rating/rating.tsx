@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-09 16:43:19
+ * @Last Modified time: 2022-08-26 11:37:27
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -12,14 +12,10 @@ import { memo } from '@utils/decorators'
 import Chart from '../chart'
 import IconHidden from '../icon/hidden'
 import Title from './title'
+import { styles } from './styles'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  styles: {},
-  hideScore: false,
-  showRating: true
-}
-
-const Rating = memo(({ styles, hideScore, showRating }) => {
+export default memo(({ hideScore, showRating }) => {
   global.rerender('Subject.Rating.Main')
 
   const [showScore, setShowScore] = useState(!hideScore)
@@ -46,6 +42,4 @@ const Rating = memo(({ styles, hideScore, showRating }) => {
       )}
     </View>
   )
-}, defaultProps)
-
-export default Rating
+}, DEFAULT_PROPS)

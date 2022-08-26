@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-03 10:33:52
+ * @Last Modified time: 2022-08-26 11:18:39
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
@@ -14,7 +14,7 @@ import IconComment from '../icon/comment'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
-const Comment = memo(({ showComment, pageTotal, total, onSwitchBlock }) => {
+export default memo(({ showComment, pageTotal, total, onSwitchBlock }) => {
   global.rerender('Subject.Comment.Main')
 
   const comment =
@@ -53,5 +53,3 @@ const Comment = memo(({ showComment, pageTotal, total, onSwitchBlock }) => {
     </>
   )
 }, DEFAULT_PROPS)
-
-export default Comment

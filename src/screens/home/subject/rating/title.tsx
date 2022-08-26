@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-11 15:34:56
+ * @Last Modified time: 2022-08-26 11:34:29
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -11,8 +11,9 @@ import { SectionTitle, Rank } from '@_'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 
-function Title({ showScore }, { $ }) {
+function Title({ showScore }, { $ }: Ctx) {
   global.rerender('Subject.Rating.Title')
 
   const { showRating } = systemStore.setting
@@ -71,7 +72,7 @@ const styles = _.create({
     overflow: 'hidden'
   },
   rank: {
-    minWidth: 44 * _.ratio,
+    minWidth: _.r(44),
     marginLeft: _.xs
   }
 })

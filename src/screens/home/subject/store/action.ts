@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-03 11:09:52
+ * @Last Modified time: 2022-08-26 09:49:54
  */
 import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
 import {
@@ -442,7 +442,7 @@ export default class Action extends Fetch {
   /** 章节菜单操作 */
   doEpsSelect = async (
     value: string,
-    item: {
+    item: Partial<{
       url: any
       id: Id
       sort: number
@@ -452,7 +452,7 @@ export default class Action extends Fetch {
       airdate: any
       desc: any
       type: number
-    },
+    }>,
     navigation?: Navigation
   ) => {
     try {
@@ -699,7 +699,11 @@ export default class Action extends Fetch {
   }
 
   /** 章节按钮长按 */
-  doEpsLongPress = async ({ id }) => {
+  doEpsLongPress = async ({
+    id
+  }: Partial<{
+    id: Id
+  }>) => {
     t('条目.章节按钮长按', {
       subjectId: this.subjectId
     })

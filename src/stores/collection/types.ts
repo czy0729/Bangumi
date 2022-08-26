@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-27 04:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 06:36:45
+ * @Last Modified time: 2022-08-26 11:05:59
  */
 import {
   CollectionStatus,
@@ -20,8 +20,8 @@ import {
 /** 条目收藏信息 */
 export type Collection = DeepPartial<{
   status: {
-    type: CollectionStatus
-    name: CollectionStatusCn
+    type: CollectionStatus | ''
+    name: CollectionStatusCn | '未收藏'
     id: CollectionStatusValue
   }
   rating: number

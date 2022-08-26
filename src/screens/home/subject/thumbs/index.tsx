@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:29:44
+ * @Last Modified time: 2022-08-26 11:38:25
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -33,7 +33,7 @@ class Thumbs extends React.Component {
   }
 
   get data() {
-    const { $ } = this.context as Ctx
+    const { $ }: Ctx = this.context
     const { epsThumbs } = $.state
     const { scrolled } = this.state
     if (scrolled) return epsThumbs
@@ -45,20 +45,20 @@ class Thumbs extends React.Component {
   }
 
   get videos() {
-    const { $ } = this.context as Ctx
+    const { $ }: Ctx = this.context
     const { videos } = $.state
     return videos
   }
 
   get title() {
-    const { $ } = this.context as Ctx
+    const { $ }: Ctx = this.context
     if ($.type === '音乐') return 'MV'
     if ($.type === '三次元') return '剧照'
     return '预览'
   }
 
   get reference() {
-    const { $ } = this.context as Ctx
+    const { $ }: Ctx = this.context
     const { epsThumbsHeader } = $.state
     if (epsThumbsHeader?.Referer?.includes('douban.com')) return 'douban.com'
     if (epsThumbsHeader?.Referer?.includes('bilibili.com')) return 'bilibili.com'
@@ -66,7 +66,7 @@ class Thumbs extends React.Component {
   }
 
   get thumbs() {
-    const { $ } = this.context as Ctx
+    const { $ }: Ctx = this.context
     const { epsThumbs, epsThumbsHeader } = $.state
     return epsThumbs.map(item => ({
       url: item.split('@')[0], // 参数: bilibili 为 @, youku 没有, iqiyi 看不懂不作处理
@@ -80,7 +80,7 @@ class Thumbs extends React.Component {
     const { showThumbs } = systemStore.setting
     if (showThumbs === -1) return null
 
-    const { $ } = this.context as Ctx
+    const { $ }: Ctx = this.context
     const { epsThumbs, epsThumbsHeader, videos } = $.state
     if (!epsThumbs.length && !videos.length) return null
 

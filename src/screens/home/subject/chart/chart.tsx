@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-09 16:38:59
+ * @Last Modified time: 2022-08-26 11:17:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,19 +12,9 @@ import { toFixed } from '@utils'
 import { memo } from '@utils/decorators'
 import { alert } from '@utils/ui'
 import { getHeight, getDeviation, getDispute } from './utils'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  friend: {},
-  rating: 0,
-  total: 0,
-  count: {},
-  score: 0,
-  toRating: () => {}
-}
-
-const Chart = memo(
+export default memo(
   ({ navigation, styles, friend, rating, total, count, score, toRating }) => {
     global.rerender('Subject.Rating.Chart.Main')
 
@@ -41,6 +31,8 @@ const Chart = memo(
             .reverse()
             .map((item, index) => {
               const height = getHeight(total, count[item])
+
+              // @ts-ignore
               const isActive = rating == item
               return (
                 <Flex.Item key={item} style={index > 0 && _.ml.xs}>
@@ -136,7 +128,5 @@ const Chart = memo(
       </>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default Chart

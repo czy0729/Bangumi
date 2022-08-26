@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 04:18:16
+ * @Last Modified time: 2022-08-26 11:08:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import IconFolder from '../icon/folder'
 import IconClose from '../icon/close'
 import { RATE, DEFAULT_PROPS } from './ds'
 
-const Box = memo(
+export default memo(
   ({
     styles,
     navigation,
@@ -152,5 +152,3 @@ const Box = memo(
   },
   DEFAULT_PROPS
 )
-
-export default Box

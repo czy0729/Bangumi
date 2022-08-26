@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 04:45:46
+ * @Last Modified time: 2022-08-26 11:38:42
  */
 import React from 'react'
 import { Image } from '@components'
 import { _, systemStore } from '@stores'
+import { showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
-import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
 import { styles } from './styles'
 
-function Preview({ item, index, thumbs, epsThumbsHeader }, { $ }) {
+function Preview({ item, index, thumbs, epsThumbsHeader }, { $ }: Ctx) {
   const { showCharacter } = systemStore.setting
   if (!showCharacter) return null
 

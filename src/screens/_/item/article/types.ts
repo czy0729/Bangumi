@@ -16,6 +16,6 @@ export type Props = {
   nickname?: string
   userId?: UserId
   timestamp?: string | number
-  replies?: string
+  replies?: string | number
   url?: string
 }
