@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 20:07:13
+ * @Last Modified time: 2022-08-26 12:29:55
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
-import { getTimestamp, HTMLTrim, HTMLDecode } from '@utils'
+import { getTimestamp, HTMLTrim, HTMLDecode, cheerio } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
@@ -494,7 +494,7 @@ class SubjectStore
   ) => {
     const { subjectId } = args || {}
     const { list, pagination, _reverse } = this.subjectComments(subjectId)
-    let page // 下一页的页码
+    let page: number // 下一页的页码
 
     // @notice 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
     // 点击倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
@@ -502,12 +502,8 @@ class SubjectStore
     if (!isReverse && !refresh) isReverse = _reverse
 
     if (isReverse) {
-      if (refresh) {
-        // @issue 官网某些条目留言不知道为什么会多出一页空白
-        page = pagination.pageTotal - 1
-      } else {
-        page = pagination.page - 1
-      }
+      // @issue 官网某些条目留言不知道为什么会多出一页空白
+      page = refresh ? pagination.pageTotal - 1 : pagination.page - 1
     } else if (refresh) {
       page = 1
     } else {
@@ -515,28 +511,26 @@ class SubjectStore
     }
 
     // -------------------- 请求HTML --------------------
-    const res = fetchHTML({
+    const raw = await fetchHTML({
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
-    const raw = await res
     const html = raw.replace(/ {2}|&nbsp;/g, ' ').replace(/\n/g, '')
     const commentsHTML = html.match(
       /<div id="comment_box">(.+?)<\/div><\/div><div class="section_line clear">/
     )
 
     // -------------------- 分析HTML --------------------
-    // @todo 使用新的HTML解释函数重写
-    const comments = []
     let { pageTotal = 0 } = pagination
+    const comments = []
     if (commentsHTML) {
       /**
        * 总页数
-       *
-       * [1] 超过10页的, 有总页数
-       * [2] 少于10页的, 需要读取最后一个分页按钮获取页数
-       * [3] 只有1页, 没有分页按钮
+       *  - [1] 超过10页的, 有总页数
+       *  - [2] 少于10页的, 需要读取最后一个分页按钮获取页数
+       *  - [3] 只有1页, 没有分页按钮
        */
       if (page === 1) {
+        // @todo 使用新的HTML解释函数重写
         const pageHTML =
           html.match(/<span class="p_edge">\( \d+ \/ (\d+) \)<\/span>/) ||
           html.match(
@@ -545,7 +539,15 @@ class SubjectStore
         if (pageHTML) {
           pageTotal = Number(pageHTML[1])
         } else {
-          pageTotal = 1
+          // @todo
+          const pageHTML =
+            html.match(/<div class="page_inner">(.+?)<\/div>/g)?.[0] || ''
+          if (pageHTML) {
+            const $ = cheerio(pageHTML)
+            pageTotal = $('div.page_inner > a.p').length || 1
+          } else {
+            pageTotal = 1
+          }
         }
       }
 
@@ -553,10 +555,8 @@ class SubjectStore
       let items = commentsHTML[1].split('<div class="item clearit">')
       items.shift()
 
-      if (isReverse) {
-        items = items.reverse()
-      }
-      items.forEach((item, index) => {
+      if (isReverse) items = items.reverse()
+      items.forEach((item: string, index: number) => {
         const userId = item.match(
           /<div class="text"><a href="\/user\/(.+?)" class="l">/
         )
@@ -579,22 +579,23 @@ class SubjectStore
 
     // -------------------- 缓存 --------------------
     const key = 'subjectComments'
-    this.setState({
-      [key]: {
-        [subjectId]: {
-          list: refresh ? comments : [...list, ...comments],
-          pagination: {
-            page,
-            pageTotal: pageTotal
-          },
-          _loaded: getTimestamp(),
-          _reverse: isReverse
-        }
+    const data = {
+      [subjectId]: {
+        list: refresh ? comments : [...list, ...comments],
+        pagination: {
+          page,
+          pageTotal: pageTotal
+        },
+        _loaded: getTimestamp(),
+        _reverse: isReverse
       }
+    }
+    this.setState({
+      [key]: data
     })
 
     this.setStorage(key, undefined, NAMESPACE)
-    return res
+    return data
   }
 
   /** 章节内容 */
