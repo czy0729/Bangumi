@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 17:00:00
+ * @Last Modified time: 2022-08-26 14:03:25
  */
 
 /** Discovery */
@@ -132,6 +132,7 @@ export default {
 
   // 新番档期
   '新番档期.跳转': 'Staff.to',
+  '新番档期.右上角菜单': 'Staff.topRightMenu',
 
   // Hentai
   'Hentai.跳转': 'Hentai.to',

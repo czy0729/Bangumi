@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:27:18
+ * @Last Modified time: 2022-08-26 14:04:00
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -21,12 +21,15 @@ function Header() {
           data={['浏览器查看']}
           onSelect={key => {
             if (key === '浏览器查看') {
-              t('新番.右上角菜单', { key })
+              t('新番档期.右上角菜单', {
+                key
+              })
+
               open(`${HOST}/user/lilyurey/index`)
             }
           }}
         >
-          <Heatmap id='新番.右上角菜单' />
+          <Heatmap id='新番档期.右上角菜单' />
         </CompHeader.Popover>
       )}
     />
