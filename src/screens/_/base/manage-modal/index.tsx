@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 04:39:27
+ * @Last Modified time: 2022-08-26 13:03:10
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -15,7 +15,7 @@ import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { MODEL_PRIVATE, SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Private, RatingStatus } from '@types'
+import { Private, PrivateCn } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
 import { STORAGE_KEY } from './ds'
@@ -26,7 +26,7 @@ export { ManageModalProps }
 
 export const ManageModal = ob(
   class ManageModalComponent extends React.Component<ManageModalProps, State> {
-    static defaultProps = {
+    static defaultProps: ManageModalProps = {
       visible: false,
       subjectId: 0,
       title: '',
@@ -37,7 +37,7 @@ export const ManageModal = ob(
       onClose: () => {}
     }
 
-    state = {
+    state: State = {
       focus: false,
       loading: true,
       fetching: false,
@@ -45,7 +45,7 @@ export const ManageModal = ob(
       tags: '',
       showTags: true,
       comment: '',
-      status: '' as RatingStatus,
+      status: '',
       privacy: MODEL_PRIVATE.getValue<Private>('公开')
     }
 
@@ -141,8 +141,10 @@ export const ManageModal = ob(
 
     togglePrivacy = () => {
       const { privacy } = this.state
-      const label = MODEL_PRIVATE.getLabel(privacy)
-      const _privacy = MODEL_PRIVATE.getValue(label === '公开' ? '私密' : '公开')
+      const label = MODEL_PRIVATE.getLabel<PrivateCn>(privacy)
+      const _privacy = MODEL_PRIVATE.getValue<Private>(
+        label === '公开' ? '私密' : '公开'
+      )
       this.setState({
         privacy: _privacy
       })
@@ -205,6 +207,20 @@ export const ManageModal = ob(
       return _.device(5, 6)
     }
 
+    renderInputTags() {
+      const { tags } = this.state
+      return (
+        <Input
+          style={this.styles.inputTags}
+          defaultValue={tags}
+          placeholder='我的标签'
+          returnKeyType='next'
+          onChangeText={text => this.changeText('tags', text)}
+          onSubmitEditing={this.onSubmitEditing}
+        />
+      )
+    }
+
     renderTags() {
       const { fetching } = this.state
       if (fetching) {
@@ -257,10 +273,70 @@ export const ManageModal = ob(
       )
     }
 
+    renderInputComment() {
+      const { comment } = this.state
+      return (
+        <Input
+          ref={ref => (this.commentRef = ref)}
+          style={_.mt.xs}
+          defaultValue={comment}
+          placeholder='吐槽点什么'
+          multiline
+          numberOfLines={this.numberOfLines}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          onChangeText={text => this.changeText('comment', text)}
+        />
+      )
+    }
+
+    renderStatusBtnGroup() {
+      const { action } = this.props
+      const { status } = this.state
+      return (
+        <StatusBtnGroup
+          style={_.mt.md}
+          value={status}
+          action={action}
+          onSelect={this.changeStatus}
+        />
+      )
+    }
+
+    renderSubmit() {
+      const { privacy } = this.state
+      const label = MODEL_PRIVATE.getLabel<PrivateCn>(privacy)
+      return (
+        <Flex style={_.mt.md}>
+          <Flex.Item>
+            <Button type='main' onPress={this.onSubmit}>
+              更新
+            </Button>
+          </Flex.Item>
+          <Button
+            style={this.styles.btnEye}
+            type={label === '公开' ? 'ghostMain' : 'ghostPlain'}
+            extra={
+              label === '私密' && (
+                <Iconfont
+                  style={_.ml.xs}
+                  color={_.colorSub}
+                  size={16}
+                  name='md-visibility-off'
+                />
+              )
+            }
+            onPress={this.togglePrivacy}
+          >
+            {label}
+          </Button>
+        </Flex>
+      )
+    }
+
     render() {
-      const { visible, title, desc, action, onClose } = this.props
-      const { focus, loading, rating, tags, comment, status, privacy } = this.state
-      const label = MODEL_PRIVATE.getLabel(privacy)
+      const { visible, title, desc, onClose } = this.props
+      const { focus, loading, rating } = this.state
       return (
         <Modal
           style={[this.styles.modal, focus && this.styles.focus]}
@@ -278,62 +354,17 @@ export const ManageModal = ob(
           <Text style={_.mt.sm} type='sub' size={13} align='center'>
             {desc}
           </Text>
-          <Flex style={[this.styles.wrap, _.mt.sm]} justify='center'>
+          <Flex style={this.styles.wrap} justify='center'>
             {loading ? (
               <ActivityIndicator size='small' />
             ) : (
               <Flex style={this.styles.content} direction='column'>
                 <StarGroup value={rating} onChange={this.changeRating} />
-                <Input
-                  style={this.styles.inputTags}
-                  defaultValue={tags}
-                  placeholder='我的标签'
-                  returnKeyType='next'
-                  onChangeText={text => this.changeText('tags', text)}
-                  onSubmitEditing={this.onSubmitEditing}
-                />
+                {this.renderInputTags()}
                 <Flex style={this.styles.tags}>{this.renderTags()}</Flex>
-                <Input
-                  ref={ref => (this.commentRef = ref)}
-                  style={_.mt.xs}
-                  defaultValue={comment}
-                  placeholder='吐槽点什么'
-                  multiline
-                  numberOfLines={this.numberOfLines}
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  onChangeText={text => this.changeText('comment', text)}
-                />
-                <StatusBtnGroup
-                  style={_.mt.md}
-                  value={status}
-                  action={action}
-                  onSelect={this.changeStatus}
-                />
-                <Flex style={_.mt.md}>
-                  <Flex.Item>
-                    <Button type='main' onPress={this.onSubmit}>
-                      更新
-                    </Button>
-                  </Flex.Item>
-                  <Button
-                    style={this.styles.btnEye}
-                    type={label === '公开' ? 'ghostMain' : 'ghostPlain'}
-                    extra={
-                      label === '私密' && (
-                        <Iconfont
-                          style={_.ml.xs}
-                          color={_.colorSub}
-                          size={16}
-                          name='md-visibility-off'
-                        />
-                      )
-                    }
-                    onPress={this.togglePrivacy}
-                  >
-                    {label}
-                  </Button>
-                </Flex>
+                {this.renderInputComment()}
+                {this.renderStatusBtnGroup()}
+                {this.renderSubmit()}
               </Flex>
             )}
           </Flex>

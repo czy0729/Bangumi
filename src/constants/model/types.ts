@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 16:52:24
+ * @Last Modified time: 2022-08-26 12:40:49
  */
 import { ModelValueOf } from '@types'
 import {
@@ -48,6 +48,7 @@ export type EpStatusCn = ModelValueOf<typeof EP_STATUS, 'label'>
 export type MonoWorksOrderby = ModelValueOf<typeof MONO_WORKS_ORDERBY>
 export type MonoWorksOrderbyCn = ModelValueOf<typeof MONO_WORKS_ORDERBY, 'label'>
 export type Private = ModelValueOf<typeof PRIVATE>
+export type PrivateCn = ModelValueOf<typeof PRIVATE, 'label'>
 export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE>
 export type RakuenScrollDirection = ModelValueOf<
   typeof RAKUEN_SCROLL_DIRECTION,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 05:17:23
+ * @Last Modified time: 2022-08-26 13:03:03
  */
 import { _ } from '@stores'
 
@@ -19,7 +19,8 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: -Math.floor(_.window.height * 0.32)
   },
   wrap: {
-    minHeight: _.device(380, 448)
+    minHeight: _.device(380, 448),
+    marginTop: _.sm
   },
   content: {
     width: '100%',

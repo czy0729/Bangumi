@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 09:49:54
+ * @Last Modified time: 2022-08-26 13:10:02
  */
 import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
 import {
@@ -344,7 +344,8 @@ export default class Action extends Fetch {
   /** 筛选分数 */
   filterScores = (label: string) => {
     t('条目.筛选分数', {
-      subjectId: this.subjectId
+      subjectId: this.subjectId,
+      label
     })
 
     this.setState({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:08:37
+ * @Last Modified time: 2022-08-26 12:55:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -96,7 +96,7 @@ export default memo(
                 }
               >
                 {btnText}
-                {!!last && ` ${last}`}
+                {!!last && ` · ${last}`}
               </Button>
             </Flex.Item>
             {!!rating && (

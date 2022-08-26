@@ -17,7 +17,7 @@ export type Props = {
     subjectId: SubjectId
     rating: number
     tags: string
-    status: RatingStatus
+    status: RatingStatus | ''
     privacy: 0 | 1 | '0' | '1'
     comment: string
   }) => any

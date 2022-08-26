@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:32:24
+ * @Last Modified time: 2022-08-26 13:08:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { PAD } from '@constants'
 import Cover from '../cover'
 import Series from '../series'
 import { DEFAULT_PROPS } from './ds'
+import { t } from '@utils/fetch'
 
 export default memo(
   ({
@@ -41,7 +42,7 @@ export default memo(
     const top = cnjp(jp, cn)
     const bottom = cnjp(cn, jp)
 
-    const { images = {} } = subject
+    const { id, images = {} } = subject
 
     // 是否未上映
     let showRelease: boolean
@@ -121,7 +122,13 @@ export default memo(
                     size={size}
                     lineHeight={size + 1}
                     bold
-                    onLongPress={() => copy(bottom)}
+                    onLongPress={() => {
+                      t('条目.复制标题', {
+                        subjectId: id
+                      })
+
+                      copy(bottom)
+                    }}
                   >
                     {bottom}
                     {!!year && (
@@ -145,7 +152,13 @@ export default memo(
                     type='sub'
                     size={topSize}
                     numberOfLines={2}
-                    onLongPress={() => copy(top)}
+                    onLongPress={() => {
+                      t('条目.复制标题', {
+                        subjectId: id
+                      })
+
+                      copy(top)
+                    }}
                   >
                     {tops}
                   </Katakana>
