@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-06 03:06:48
  */
-import { SubjectId } from '@types'
+import { Id, SubjectId } from '@types'
 
 export type Props = {
   id?: SubjectId
-  defaultExpand?: number
+  defaultExpand?: Id
   defaultEditItem?: null | object
   visible?: boolean
   title?: string

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 04:05:52
+ * @Last Modified time: 2022-08-26 15:34:56
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -10,10 +10,11 @@ import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { HOST } from '@constants'
-import IconCopy from './icon-copy'
-import IconFavor from './icon-favor'
+import IconCopy from '../icon-copy'
+import IconFavor from '../icon-favor'
+import { Ctx } from '../types'
 
-function Header({ fixed }, { $, navigation }) {
+function Header({ fixed }, { $, navigation }: Ctx) {
   const { title, joinUrl, byeUrl } = $.catalogDetail
   return (
     <CompHeader

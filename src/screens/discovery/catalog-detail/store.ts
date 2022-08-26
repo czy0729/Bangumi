@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 06:01:02
+ * @Last Modified time: 2022-08-26 15:32:18
  */
 import { observable, computed } from 'mobx'
 import { _, discoveryStore, collectionStore, subjectStore, userStore } from '@stores'
@@ -13,26 +13,20 @@ import { t, fetchHTML, queue } from '@utils/fetch'
 import { removeHTMLTag } from '@utils/html'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
-
-const namespace = 'ScreenCatalogDetail'
-const excludeState = {
-  visible: false,
-  defaultEditItem: null
-}
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { Params } from './types'
+import { Navigation } from '@types'
 
 export default class ScreenCatalogDetail extends store {
-  state = observable({
-    layout: 'list', // list | grid
-    sort: 0,
-    ...excludeState,
-    _loaded: false
-  })
+  params: Params
+
+  state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
@@ -40,15 +34,14 @@ export default class ScreenCatalogDetail extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchCatalogDetail = () =>
-    discoveryStore.fetchCatalogDetail({
+  /** 目录详情 */
+  fetchCatalogDetail = () => {
+    return discoveryStore.fetchCatalogDetail({
       id: this.catalogId
     })
+  }
 
-  /**
-   * 批量获取条目评分
-   * 目录没有评分, 需要在详情里面获取
-   */
+  /** 批量获取条目评分 (目录没有评分, 需要在详情里面获取) */
   fetchSubjectQueue = () => {
     const { list } = this.catalogDetail
     confirm(
@@ -68,11 +61,13 @@ export default class ScreenCatalogDetail extends store {
   }
 
   // -------------------- get --------------------
+  /** 目录 id */
   @computed get catalogId() {
     const { catalogId = '' } = this.params
     return catalogId
   }
 
+  /** 目录详情 */
   @computed get catalogDetail() {
     const { sort } = this.state
     const catalogDetail = discoveryStore.catalogDetail(this.catalogId)
@@ -97,6 +92,7 @@ export default class ScreenCatalogDetail extends store {
     }
   }
 
+  /** 目录是否已收藏 */
   @computed get isCollect() {
     const { byeUrl } = this.catalogDetail
     return !!byeUrl
@@ -106,32 +102,31 @@ export default class ScreenCatalogDetail extends store {
     return collectionStore.userCollectionsMap
   }
 
+  /** 隐藏分数? */
   @computed get hideScore() {
     const { _hideScore } = this.params
     return _hideScore
   }
 
-  /**
-   * 是否自己创建的目录
-   */
+  /** 是否自己创建的目录 */
   @computed get isSelf() {
     const { joinUrl, byeUrl } = this.catalogDetail
     return userStore.isLogin && !joinUrl && !byeUrl
   }
 
+  /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
   }
 
+  /** 网格布局个数 */
   @computed get gridNum() {
     return _.portrait(3, 5)
   }
 
   // -------------------- page --------------------
-  /**
-   * 收藏或取消目录
-   */
+  /** 收藏或取消目录 */
   toggleCollect = () => {
     const { byeUrl } = this.catalogDetail
     if (byeUrl) {
@@ -142,10 +137,8 @@ export default class ScreenCatalogDetail extends store {
     this.doCollect()
   }
 
-  /**
-   * 排序
-   */
-  sort = title => {
+  /** 排序 */
+  sort = (title: string) => {
     const sort = title === '评分' ? 2 : title === '时间' ? 1 : 0
     t('目录详情.排序', {
       sort
@@ -154,13 +147,11 @@ export default class ScreenCatalogDetail extends store {
     this.setState({
       sort
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 编辑自己的目录
-   */
-  onEdit = modify => {
+  /** 编辑自己的目录 */
+  onEdit = (modify: string) => {
     const { list } = this.catalogDetail
     const item = list.find(i => i.modify == modify)
     if (!item) {
@@ -180,9 +171,7 @@ export default class ScreenCatalogDetail extends store {
     }
   }
 
-  /**
-   * 关闭编辑目录
-   */
+  /** 关闭编辑目录 */
   onClose = () => {
     this.setState({
       visible: false,
@@ -190,10 +179,8 @@ export default class ScreenCatalogDetail extends store {
     })
   }
 
-  /**
-   * 复制他人的目录
-   */
-  onCopy = navigation => {
+  /** 复制他人的目录 */
+  onCopy = (navigation: Navigation) => {
     const { formhash } = userStore
     if (!formhash) {
       info(`请先${i18n.login()}`)
@@ -207,9 +194,9 @@ export default class ScreenCatalogDetail extends store {
     )
   }
 
+  /** 切换布局 */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
-
     t('目录详情.切换布局', {
       layout: _layout
     })
@@ -217,18 +204,14 @@ export default class ScreenCatalogDetail extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   // -------------------- action --------------------
-  /**
-   * 收藏目录
-   */
+  /** 收藏目录 */
   doCollect = async () => {
     const { joinUrl } = this.catalogDetail
-    if (!joinUrl) {
-      return false
-    }
+    if (!joinUrl) return false
 
     t('目录详情.收藏', {
       catalogId: this.catalogId
@@ -244,14 +227,10 @@ export default class ScreenCatalogDetail extends store {
     return this.fetchCatalogDetail()
   }
 
-  /**
-   * 取消收藏目录
-   */
+  /** 取消收藏目录 */
   doErase = async () => {
     const { byeUrl } = this.catalogDetail
-    if (!byeUrl) {
-      return false
-    }
+    if (!byeUrl) return false
 
     t('目录详情.取消收藏', {
       catalogId: this.catalogId
@@ -267,10 +246,8 @@ export default class ScreenCatalogDetail extends store {
     return this.fetchCatalogDetail()
   }
 
-  /**
-   * 复制目录
-   */
-  doCopy = async navigation => {
+  /** 复制目录 */
+  doCopy = async (navigation: Navigation) => {
     const { formhash } = userStore
     const { title, content } = this.catalogDetail
 
@@ -295,7 +272,7 @@ export default class ScreenCatalogDetail extends store {
               await queue(
                 list.map(
                   (item, index) => () =>
-                    new Promise(resolve => {
+                    new Promise<void>(resolve => {
                       info(`${index + 1} / ${list.length}`)
                       discoveryStore.doCatalogAddRelate(
                         {

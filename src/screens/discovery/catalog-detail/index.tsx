@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-22 23:33:23
+ * @Last Modified time: 2022-08-26 15:47:48
  */
 import React from 'react'
 import { Page, ListView } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { FolderManageModal } from '@_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import { ic } from '@utils/decorators'
-import { keyExtractor } from '@utils/app'
 import { TEXT_18X } from '@constants/text'
 import Header from './header'
 import Info from './info'
 import Item from './item'
 import Store from './store'
+import { Ctx } from './types'
 
-const CatalogDetail = (props, { $ }) => {
+const CatalogDetail = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -47,7 +48,7 @@ const CatalogDetail = (props, { $ }) => {
           />
         </Page>
         <FolderManageModal
-          id={$.subjectId}
+          // id={$.catalogId}
           visible={visible}
           defaultExpand={$.catalogId}
           defaultEditItem={defaultEditItem}

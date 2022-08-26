@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 22:34:40
+ * @Last Modified time: 2022-08-26 15:56:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,14 +19,17 @@ import {
   Heatmap
 } from '@components'
 import { _ } from '@stores'
+import { getCoverLarge, appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { getCoverLarge, appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const layoutDS = ['列表', '网格']
-const sortDS = ['默认', '时间', '评分']
+const LAYOUT_DS = ['列表', '网格'] as const
 
-function Info(props, { $, navigation }) {
+const SORT_DS = ['默认', '时间', '评分'] as const
+
+function Info(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { sort } = $.state
   const { title, avatar, content, progress, nickname, userId, time, _loaded } =
@@ -41,9 +44,9 @@ function Info(props, { $, navigation }) {
         <Flex style={_.mt.lg} justify='center'>
           <Image
             src={getCoverLarge(avatar)}
-            size={80 * _.ratio}
+            size={_.r(80)}
             shadow
-            placholder={false}
+            placeholder={false}
             imageViewer
             event={{
               id: '目录详情.封面图查看',
@@ -92,7 +95,8 @@ function Info(props, { $, navigation }) {
           </Text>
         </Flex.Item>
         <Text type='sub' size={12}>
-          进度 {progress.replace('/', ' / ')}
+          进度{'  '}
+          {progress.replace('/', ' / ')}
         </Text>
       </Flex>
       <Flex style={_.mt.lg}>
@@ -100,7 +104,6 @@ function Info(props, { $, navigation }) {
           <Button
             style={styles.btn}
             styleText={_.fontSize11}
-            size='mini'
             type='plain'
             onPress={$.fetchSubjectQueue}
           >
@@ -112,14 +115,14 @@ function Info(props, { $, navigation }) {
             <SegmentedControl
               style={styles.layout}
               size={11}
-              values={layoutDS}
+              values={LAYOUT_DS}
               selectedIndex={$.isList ? 0 : 1}
               onValueChange={$.switchLayout}
             />
             <SegmentedControl
               style={styles.sort}
               size={11}
-              values={sortDS}
+              values={SORT_DS}
               selectedIndex={sort || 0}
               onValueChange={$.sort}
             />
@@ -137,25 +140,3 @@ function Info(props, { $, navigation }) {
 }
 
 export default obc(Info)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    minHeight: 248
-  },
-  loading: {
-    height: 120
-  },
-  layout: {
-    width: _.r(82),
-    height: _.r(22),
-    marginRight: _.sm + 2
-  },
-  sort: {
-    width: _.r(128),
-    height: _.r(22)
-  },
-  btn: {
-    width: _.r(82),
-    height: _.r(22)
-  }
-}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 05:44:09
+ * @Last Modified time: 2022-08-26 15:46:22
  */
 import {
   Avatar,
@@ -11,6 +11,7 @@ import {
   DeepPartial,
   Id,
   ListEmpty,
+  Loaded,
   SubjectId,
   SubjectTypeCn,
   UserId
@@ -36,7 +37,7 @@ export type Catalog = DeepPartial<{
 }>
 
 /** 目录详情 */
-export type CatalogDetail = DeepPartial<{
+export type CatalogDetail = {
   list: {
     id: Id
     image: Cover<'c'>
@@ -59,8 +60,8 @@ export type CatalogDetail = DeepPartial<{
   content: string
   joinUrl: string
   byeUrl: string
-  _loaded: number
-}>
+  _loaded: Loaded
+}
 
 /** 标签 */
 export type Tags = ListEmpty<{

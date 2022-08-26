@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 14:03:25
+ * @Last Modified time: 2022-08-26 15:25:53
  */
 
 /** Discovery */
@@ -55,6 +55,7 @@ export default {
   '目录详情.排序': 'CatalogDetail.sort',
   '目录详情.管理': 'CatalogDetail.manage',
   '目录详情.复制': 'CatalogDetail.doCopy',
+  '目录详情.切换布局': 'CatalogDetail.switchLayout',
 
   // 收藏的人物
   '收藏的人物.跳转': 'Character.to',

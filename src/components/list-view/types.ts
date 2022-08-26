@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:12:23
+ * @Last Modified time: 2022-08-26 15:43:34
  */
 import { FlatListProps } from 'react-native'
 import { Override, Fn, ReactNode, ViewStyle, ListEmpty } from '@types'
@@ -19,7 +19,15 @@ export type Props = Override<
     animated?: boolean
 
     /** APP 约定列表数据结构 */
-    data?: ListEmpty
+    data?: Override<
+      ListEmpty,
+      {
+        pagination?: {
+          page: number
+          pageTotal: number
+        }
+      }
+    >
 
     /** 与 data 结构一致, https://www.react-native.cn/docs/sectionlist#section */
     sections?: any
