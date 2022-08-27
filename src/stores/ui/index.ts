@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 16:02:55
+ * @Last Modified time: 2022-08-28 00:55:30
  */
 import { observable, computed } from 'mobx'
 import { feedback, getTimestamp } from '@utils'
@@ -133,7 +133,7 @@ class UIStore extends store implements StoreConstructor<typeof state> {
 
   /** 显示全局条目管理 Modal */
   showManageModal = (
-    { subjectId, title, desc, status, action = '看' },
+    { subjectId, title, desc = '', status, action = '看' },
     screen = '',
     submitCallback?: (values?: SubmitManageModalValues) => any
   ) => {

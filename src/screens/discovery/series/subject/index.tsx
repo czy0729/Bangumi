@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 00:35:05
+ * @Last Modified time: 2022-08-28 00:58:44
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text, Loading } from '@components'
-import { Cover, Rank, Stars, Tag } from '@_'
-import { _ } from '@stores'
+import { Cover, Rank, Stars, Manage } from '@_'
+import { _, uiStore, collectionStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
+import { CollectionStatusCn } from '@types'
 import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
@@ -78,13 +78,29 @@ function Subject({ style = undefined, id }, { $, navigation }: Ctx) {
           </Flex>
         </Flex>
       </Flex.Item>
-      <View style={styles.tagWrap}>
-        <Tag
-          style={styles.tag}
-          value={MODEL_COLLECTION_STATUS.getLabel(String(collection?.type))}
-          size={11}
-        />
-      </View>
+      <Manage
+        style={styles.manage}
+        collection={
+          collectionStore.collectionStatus(id) ||
+          MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
+            String(collection?.type)
+          ) ||
+          ''
+        }
+        onPress={() => {
+          uiStore.showManageModal(
+            {
+              subjectId: id,
+              title: subject.name,
+              status: collection?.type
+            },
+            '关联系列',
+            () => {
+              collectionStore.fetchCollectionStatusQueue([id])
+            }
+          )
+        }}
+      />
     </Flex>
   )
 }
