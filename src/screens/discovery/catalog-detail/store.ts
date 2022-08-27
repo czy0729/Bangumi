@@ -6,16 +6,16 @@
  */
 import { observable, computed } from 'mobx'
 import { _, discoveryStore, collectionStore, subjectStore, userStore } from '@stores'
-import { desc } from '@utils'
+import { desc, opitimize, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info, feedback, confirm } from '@utils/ui'
 import { t, fetchHTML, queue } from '@utils/fetch'
 import { removeHTMLTag } from '@utils/html'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
+import { Navigation } from '@types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
-import { Navigation } from '@types'
 
 export default class ScreenCatalogDetail extends store {
   params: Params
@@ -35,26 +35,59 @@ export default class ScreenCatalogDetail extends store {
 
   // -------------------- fetch --------------------
   /** 目录详情 */
-  fetchCatalogDetail = () => {
-    return discoveryStore.fetchCatalogDetail({
-      id: this.catalogId
-    })
+  fetchCatalogDetail = async () => {
+    if (!opitimize(this.catalogDetail, 120)) {
+      await discoveryStore.fetchCatalogDetail({
+        id: this.catalogId
+      })
+    }
+
+    this.fetchCollectionStatusQueue()
+    return this.catalogDetail
   }
 
-  /** 批量获取条目评分 (目录没有评分, 需要在详情里面获取) */
-  fetchSubjectQueue = () => {
+  /** 延迟获取收藏中的条目的具体收藏状态 */
+  fetchCollectionStatusQueue = () => {
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue(
+        this.catalogDetail.list.filter(item => item.isCollect).map(item => item.id)
+      )
+    }, 160)
+  }
+
+  /** 批量获取条目评分 (目录没有条目的当前评分, 需要额外获取) */
+  fetchSubjectsQueue = () => {
     const { list } = this.catalogDetail
     confirm(
       `更新 ${list.length} 个条目的评分?`,
-      () => {
+      async () => {
         const fetchs = []
-        this.catalogDetail.list.forEach(({ id }, index) => {
-          fetchs.push(() => {
-            info(`${index + 1} / ${list.length}`)
-            return subjectStore.fetchSubject(id)
+        this.catalogDetail.list.forEach(({ id }) => {
+          fetchs.push(async () => {
+            await subjectStore.fetchSubject(id, 'small')
+            this.setState({
+              progress: {
+                current: this.state.progress.current + 1
+              }
+            })
           })
         })
-        queue(fetchs, 1)
+
+        if (fetchs.length) {
+          this.setState({
+            progress: {
+              fetching: true,
+              message: '更新条目信息',
+              current: 1,
+              total: fetchs.length
+            }
+          })
+        }
+
+        await queue(fetchs, 2)
+        this.setState({
+          progress: EXCLUDE_STATE.progress
+        })
       },
       '提示'
     )
@@ -69,8 +102,9 @@ export default class ScreenCatalogDetail extends store {
 
   /** 目录详情 */
   @computed get catalogDetail() {
-    const { sort } = this.state
     const catalogDetail = discoveryStore.catalogDetail(this.catalogId)
+    const { sort } = this.state
+
     let list = catalogDetail.list.map(item => ({
       ...item,
       score: subjectStore.subject(item.id)?.rating?.score || 0,
@@ -79,13 +113,19 @@ export default class ScreenCatalogDetail extends store {
 
     if (sort === 1) {
       // 时间
-      list = list.sort((a, b) => b.info.localeCompare(a.info))
+      list = list.sort((a, b) => {
+        return desc(
+          getTimestamp((String(a.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日'),
+          getTimestamp((String(b.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日')
+        )
+      })
     } else if (sort === 2) {
       // 分数
       list = list.sort((a, b) =>
         desc(a, b, item => (item.rank ? 10000 - item.rank : item.score))
       )
     }
+
     return {
       ...catalogDetail,
       list
@@ -96,10 +136,6 @@ export default class ScreenCatalogDetail extends store {
   @computed get isCollect() {
     const { byeUrl } = this.catalogDetail
     return !!byeUrl
-  }
-
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
   }
 
   /** 隐藏分数? */

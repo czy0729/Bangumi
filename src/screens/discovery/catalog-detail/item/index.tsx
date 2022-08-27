@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:50:11
+ * @Last Modified time: 2022-08-27 14:29:19
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { ItemCollections, ItemCollectionsGrid } from '@_'
 import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
 import { CatalogItem, Ctx } from '../types'
+import { collectionStore, uiStore } from '@stores'
 
 const EVENT = {
   id: '目录详情.跳转'
@@ -27,7 +28,7 @@ function Item(
 ) {
   const id = String(item.id).match(/\d+/)[0]
   const nameCn = findSubjectCn(item.title, item.id)
-  const collection = $.userCollectionsMap[id]
+  const collection = collectionStore.collectionStatus(id)
 
   if ($.isList) {
     return (
@@ -51,6 +52,9 @@ function Item(
           hideScore={$.hideScore}
           isEditable={$.isSelf}
           onEdit={$.onEdit}
+          onManagePress={args => {
+            uiStore.showManageModal(args, '目录详情')
+          }}
         />
         {!index && <Heatmap id='目录详情.跳转' />}
       </>

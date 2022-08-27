@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 13:03:10
+ * @Last Modified time: 2022-08-27 14:14:45
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -347,7 +347,7 @@ export const ManageModal = ob(
             </Text>
           }
           transparent
-          maskClosable
+          maskClosable={false}
           closable
           onClose={onClose}
         >

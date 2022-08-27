@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 16:27:11
+ * @Last Modified time: 2022-08-26 20:19:42
  */
 import { EVENT } from '@constants'
 import { Navigation } from '@types'
@@ -36,5 +36,6 @@ export const DEFAULT_PROPS = {
   isEditable: false as Props['isEditable'],
   event: EVENT as Props['event'],
   filter: '' as Props['filter'],
-  onEdit: (() => {}) as Props['onEdit']
+  onEdit: (() => {}) as Props['onEdit'],
+  onManagePress: undefined as Props['onManagePress']
 } as const

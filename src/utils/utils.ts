@@ -11,6 +11,9 @@ import { DEV } from '@/config'
 import { B, M } from '@constants/constants'
 import { info } from './ui'
 
+const customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
+
 /** set default props of any react-native components even Custom Component */
 export function setDefaultProps(Component, defaultProps) {
   const componentRender = Component.render
@@ -322,10 +325,18 @@ export function parseIOS8601(isostr: string, format = 'Y-m-d') {
   return date(format, timestamp)
 }
 
-/** 返回 timestamp */
-export function getTimestamp(date = '') {
+/**
+ * 返回 timestamp
+ * @doc https://dayjs.fenxianglu.cn/category/parse.html#%E5%AD%97%E7%AC%A6%E4%B8%B2-%E6%A0%BC%E5%BC%8F
+ * @params {string} date
+ * @params {string} format
+ * */
+export function getTimestamp(date = '', format?: string) {
   const _date = trim(date)
-  if (_date) return dayjs(_date).unix()
+  if (_date) {
+    if (format) return dayjs(_date, format).unix()
+    return dayjs(_date).unix()
+  }
   return dayjs().unix()
 }
 

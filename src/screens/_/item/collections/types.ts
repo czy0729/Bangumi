@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:22:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 16:26:39
+ * @Last Modified time: 2022-08-26 20:44:49
  */
-import { EventType, Navigation, SubjectId, SubjectTypeCn } from '@types'
+import { EventType, Navigation, RatingStatus, SubjectId, SubjectTypeCn } from '@types'
 
 export type Props = {
   navigation?: Navigation
@@ -33,4 +33,11 @@ export type Props = {
   event?: EventType
   filter?: string
   onEdit?: (modify?: string) => any
+  onManagePress?: (args: {
+    subjectId: SubjectId
+    title: string
+    desc: string
+    status: RatingStatus
+    typeCn: SubjectTypeCn
+  }) => any
 }

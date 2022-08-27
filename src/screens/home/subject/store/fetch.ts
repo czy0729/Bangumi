@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:47:47
+ * @Last Modified time: 2022-08-27 13:40:35
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -12,7 +12,8 @@ import {
   getBangumiUrl,
   getTimestamp,
   unzipBangumiData,
-  omit
+  omit,
+  opitimize
 } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import {
@@ -35,8 +36,7 @@ export default class Fetch extends Computed {
    * @opitimize 60s
    */
   fetchSubject = () => {
-    const { _loaded } = this.subject
-    if (_loaded && getTimestamp() - Number(_loaded) < 60) {
+    if (this.subject._responseGroup !== 'large' && opitimize(this.subject, 60)) {
       return this.subject
     }
 

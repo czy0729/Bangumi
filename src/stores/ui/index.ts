@@ -2,26 +2,41 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:46:32
+ * @Last Modified time: 2022-08-27 14:31:36
  */
 import { observable, computed } from 'mobx'
+import { feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
-import { StoreConstructor } from '@types'
+import { t } from '@utils/fetch'
+import { Actions, RatingStatus, StoreConstructor, SubjectId } from '@types'
 import subjectStore from '../subject'
-import { getTimestamp } from '@utils'
+import collectionStore from '../collection'
 
 const state = {
+  /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
   tapXY: {
     x: 0,
     y: 0
   },
 
+  /** 条目缩略信息弹出层 */
   popableSubject: {
     subjectId: 0,
     visible: false,
     portalKey: 0,
     x: 0,
     y: 0
+  },
+
+  /** 全局条目管理 Modal */
+  manageModal: {
+    visible: false,
+    subjectId: 0,
+    title: '',
+    desc: '',
+    status: '' as '' | RatingStatus,
+    action: '看' as Actions,
+    screen: ''
   }
 }
 
@@ -36,6 +51,21 @@ class UIStore extends store implements StoreConstructor<typeof state> {
     return this.state.popableSubject
   }
 
+  @computed get manageModal() {
+    return this.state.manageModal
+  }
+
+  /** ==================== tapXY ==================== */
+  setXY = (x = 0, y = 0) => {
+    this.setState({
+      tapXY: {
+        x,
+        y
+      }
+    })
+  }
+
+  /** ==================== popableSubject ==================== */
   showPopableSubject = ({ subjectId }) => {
     const { _loaded } = subjectStore.subject(subjectId)
     if (!_loaded) subjectStore.fetchSubject(subjectId)
@@ -96,12 +126,54 @@ class UIStore extends store implements StoreConstructor<typeof state> {
     })
   }
 
-  setXY = (x = 0, y = 0) => {
+  /** ==================== manageModal ==================== */
+  showManageModal = (
+    { subjectId, title, desc, status, action = '看' },
+    screen = ''
+  ) => {
     this.setState({
-      tapXY: {
-        x,
-        y
+      manageModal: {
+        visible: true,
+        subjectId: subjectId || 0,
+        title: title || '',
+        desc: desc || '',
+        status: status || '',
+        action: action || '看',
+        screen: screen || ''
       }
+    })
+  }
+
+  closeManageModal = () => {
+    if (!this.state.manageModal.visible) return
+
+    this.setState({
+      manageModal: {
+        visible: false
+      }
+    })
+  }
+
+  submitManageModal = async (values: {
+    subjectId: SubjectId
+    status?: RatingStatus | ''
+    tags?: string
+    comment?: string
+    rating?: string | number
+    privacy?: 0 | 1 | '0' | '1'
+  }) => {
+    const { visible, screen } = this.state.manageModal
+    if (!visible) return
+
+    await collectionStore.doUpdateCollection(values)
+    feedback()
+
+    collectionStore.fetchCollectionStatusQueue([values.subjectId])
+    this.closeManageModal()
+
+    t('其他.管理条目', {
+      subjectId: values.subjectId,
+      screen
     })
   }
 }

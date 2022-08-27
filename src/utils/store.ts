@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 16:59:07
+ * @Last Modified time: 2022-08-27 13:51:42
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -129,13 +129,13 @@ export default class Store {
    * 请求并入Store, 入Store成功会设置标志位_loaded=date()
    * 请求失败后会在1秒后递归重试
    * @version 190420 v1.2
-   * @param {String|Object} *fetchConfig
-   * @param {String|Array}  *stateKey           入Store的key (['a', 'b']表示this.state.a.b)
+   * @param {String|Object} fetchConfig
+   * @param {String|Array}  stateKey            入Store的key (['a', 'b']表示this.state.a.b)
    * @param {*}             otherConfig.list    是否把响应的数组转化为LIST_EMPTY结构
    * @param {*}             otherConfig.storage 是否本地化
    * @return {Promise}
    */
-  fetch = async (fetchConfig, stateKey, otherConfig = {}) => {
+  fetch = async (fetchConfig, stateKey?, otherConfig = {}) => {
     const { list, storage, namespace } = otherConfig
     let _fetchConfig = {}
     if (typeof fetchConfig === 'object') {
@@ -150,8 +150,8 @@ export default class Store {
     const res = fetch(_fetchConfig)
     let data = await res
 
-    /* ===== @todo start 20220216 以下旧API不再响应敏感条目, 暂时使用请求网页代替 ===== */
-    if (_fetchConfig?.info === '条目信息')
+    /* ===== @todo start 20220216 以下旧 API 不再响应敏感条目, 暂时使用请求网页代替 ===== */
+    if (_fetchConfig?.info === '条目信息') {
       switch (_fetchConfig?.info) {
         case '条目信息':
           if (!data?.id) data = await fetchSubjectV0(fetchConfig)
@@ -160,7 +160,9 @@ export default class Store {
         default:
           break
       }
+    }
     /* ===== @todo end ===== */
+
     let _data
     if (Array.isArray(data)) {
       if (list) {
@@ -185,7 +187,7 @@ export default class Store {
           [stateKey[1]]: _data
         }
       })
-    } else {
+    } else if (stateKey) {
       const initState = this.state[stateKey]
       this.setState({
         [stateKey]: _data || initState

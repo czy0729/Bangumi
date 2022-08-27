@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 12:29:55
+ * @Last Modified time: 2022-08-27 13:51:52
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
-import { getTimestamp, HTMLTrim, HTMLDecode, cheerio } from '@utils'
+import { getTimestamp, HTMLTrim, HTMLDecode, cheerio, omit } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
@@ -61,6 +61,7 @@ import {
   cheerioWikiCovers
 } from './common'
 import {
+  ApiSubjectResponse,
   Mono,
   MonoComments,
   MonoVoices,
@@ -74,35 +75,7 @@ import {
   Wiki
 } from './types'
 
-/**
- * @update 2022/04/06 subject和subjectFormHTML根据id最后一位拆开10个key存放
- *         避免JSON.stringify后长度太长, 存(取)本地不能
- */
 const state = {
-  /** 条目 */
-  subject0: {},
-  subject1: {},
-  subject2: {},
-  subject3: {},
-  subject4: {},
-  subject5: {},
-  subject6: {},
-  subject7: {},
-  subject8: {},
-  subject9: {},
-
-  /** 条目 (HTML) */
-  subjectFormHTML0: {},
-  subjectFormHTML1: {},
-  subjectFormHTML2: {},
-  subjectFormHTML3: {},
-  subjectFormHTML4: {},
-  subjectFormHTML5: {},
-  subjectFormHTML6: {},
-  subjectFormHTML7: {},
-  subjectFormHTML8: {},
-  subjectFormHTML9: {},
-
   /** 条目 (CDN) */
   subjectFormCDN: {
     0: INIT_SUBJECT_FROM_CDN_ITEM
@@ -187,23 +160,33 @@ const state = {
   }
 }
 
-class SubjectStore
-  extends store
-  implements
-    StoreConstructor<
-      Omit<typeof state, `subject${number}` | `subjectFormHTML${number}`>
-    >
-{
+/**
+ * @date 2022/04/06 subject 和 subjectFormHTML 根据 id 最后 2 位拆开 100 个 key 存放
+ * 避免 JSON.stringify 后长度太长, 无法本地化
+ */
+for (let i = 0; i < 100; i += 1) {
+  /** 条目 */
+  state[`subject${i}`] = {}
+
+  /** 条目 (HTML) */
+  state[`subjectFormHTML${i}`] = {}
+}
+
+function getInt(subjectId) {
+  const str = String(subjectId)
+  return Number(str.slice(str.length - 2, str.length))
+}
+
+class SubjectStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
   // -------------------- get --------------------
-  /** 条目, 合并 subject 0-9 */
+  /** 条目, 合并 subject 0-99 */
   subject(subjectId: SubjectId) {
     return computed<Subject>(() => {
       if (!subjectId) return INIT_SUBJECT
 
-      const str = String(subjectId)
-      const last = str.charAt(str.length - 1)
+      const last = getInt(subjectId)
       return this.state?.[`subject${last}`]?.[subjectId] || INIT_SUBJECT
     }).get()
   }
@@ -213,8 +196,7 @@ class SubjectStore
     return computed<SubjectFormHTML>(() => {
       if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
 
-      const str = String(subjectId)
-      const last = str.charAt(str.length - 1)
+      const last = getInt(subjectId)
       return (
         this.state?.[`subjectFormHTML${last}`]?.[subjectId] ||
         INIT_SUBJECT_FROM_HTML_ITEM
@@ -329,64 +311,69 @@ class SubjectStore
 
   init = () => {
     return this.readStorage(
-      [
-        // subject 拆 store
-        'subject0',
-        'subject1',
-        'subject2',
-        'subject3',
-        'subject4',
-        'subject5',
-        'subject6',
-        'subject7',
-        'subject8',
-        'subject9',
-
-        // subjectFormHTML 拆 store
-        'subjectFormHTML0',
-        'subjectFormHTML1',
-        'subjectFormHTML2',
-        'subjectFormHTML3',
-        'subjectFormHTML4',
-        'subjectFormHTML5',
-        'subjectFormHTML6',
-        'subjectFormHTML7',
-        'subjectFormHTML8',
-        'subjectFormHTML9',
-
-        // other
-        'subjectComments',
-        'subjectCatalogs',
-        // 'mono',
-        // 'monoComments',
-        'monoWorks',
-        'monoVoices',
-        'rating',
-        'origin'
-      ],
+      Object.keys(state).filter(
+        key =>
+          ![
+            'subjectFormCDN',
+            'subjectEp',
+            'epFormHTML',
+            'monoFormCDN',
+            'monoWorks',
+            'monoVoices',
+            'rating',
+            'wiki'
+          ].includes(key)
+      ),
       NAMESPACE
     )
   }
 
   // -------------------- fetch --------------------
   /** 条目信息 */
-  fetchSubject = (subjectId: SubjectId) => {
-    const str = String(subjectId)
-    const last = str.charAt(str.length - 1)
-    return this.fetch(
-      {
-        url: API_SUBJECT(subjectId),
-        data: {
-          responseGroup: 'large'
-        },
-        info: '条目信息'
+  fetchSubject = async (
+    subjectId: SubjectId,
+    responseGroup: 'small' | 'medium' | 'large' = 'large'
+  ): Promise<ApiSubjectResponse> => {
+    const data = await this.fetch({
+      url: API_SUBJECT(subjectId),
+      data: {
+        responseGroup
       },
-      [`subject${last}`, subjectId],
-      {
-        storage: true,
-        namespace: NAMESPACE
+      info: '条目信息'
+    })
+    const last = getInt(subjectId)
+    const key = `subject${last}`
+
+    // eps 只有在 large 的时候才是数组数据, 才能进行保存
+    if (responseGroup === 'large') {
+      this.setState({
+        [key]: {
+          [subjectId]: {
+            ...this.subject(subjectId),
+            ...data,
+            _responseGroup: 'large',
+            _loaded: getTimestamp()
+          }
+        }
+      })
+    } else {
+      const _data = {
+        ...this.subject(subjectId),
+        ...omit(data, ['eps']),
+        _responseGroup: responseGroup,
+        _loaded: getTimestamp()
       }
-    )
+      if (_data.eps && typeof _data.eps !== 'object') _data.eps = []
+
+      this.setState({
+        [key]: {
+          [subjectId]: _data
+        }
+      })
+    }
+
+    this.setStorage(key, undefined, NAMESPACE)
+    return data
   }
 
   /** 网页获取条目信息 */
@@ -395,8 +382,7 @@ class SubjectStore
       url: HTML_SUBJECT(subjectId)
     })
 
-    const str = String(subjectId)
-    const last = str.charAt(str.length - 1)
+    const last = getInt(subjectId)
     const key = `subjectFormHTML${last}`
     const data = {
       ...cheerioSubjectFormHTML(HTML),
@@ -442,11 +428,7 @@ class SubjectStore
         url: API_SUBJECT_EP(subjectId),
         info: '章节数据'
       },
-      ['subjectEp', subjectId],
-      {
-        storage: true,
-        namespace: NAMESPACE
-      }
+      ['subjectEp', subjectId]
     )
   }
 
@@ -747,7 +729,6 @@ class SubjectStore
         [monoId]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
 
     return data
   }
@@ -773,7 +754,6 @@ class SubjectStore
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
 
     return this[key](monoId)
   }
@@ -816,7 +796,6 @@ class SubjectStore
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
 
     return this[key](subjectId, status, isFriend)
   }

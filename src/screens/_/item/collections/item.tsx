@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:56:13
+ * @Last Modified time: 2022-08-26 20:53:18
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils/html'
+import { HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
-import { Tag, Cover } from '../../base'
+import { IMG_WIDTH, IMG_HEIGHT, MODEL_RATING_STATUS } from '@constants'
+import { RatingStatus } from '@types'
+import { Cover, Manage } from '../../base'
 import { IconTouchable } from '../../icon/touchable'
 import Title from './title'
 import Bottom from './bottom'
@@ -35,25 +36,22 @@ const Item = memo(
     cover,
     type,
     modify,
-    showLabel,
+    // showLabel,
     hideScore,
     isDo,
     isOnHold,
     isDropped,
-    isCollect,
+    // isCollect,
     isCatalog,
     isEditable,
     event,
     filter,
-    onEdit
+    onEdit,
+    onManagePress
   }) => {
     global.rerender('Component.ItemCollections.Main')
 
-    const hasTip = !!tip
-    const hasComment = !!comments
-    const isHidden = tags.includes('自己可见')
-    const _collection = collection || (isCollect ? '已收藏' : '')
-
+    const typeCn = type
     return (
       <Touchable
         style={[_.container.plain, styles.container]}
@@ -93,27 +91,33 @@ const Item = memo(
               align='start'
             >
               <Flex align='start'>
-                {!!_collection && <Tag style={styles.collection} value={_collection} />}
                 <Flex.Item>
-                  <Title
-                    name={name}
-                    nameCn={nameCn}
-                    filter={filter}
-                    collection={collection}
-                    isCollect={isCollect}
-                  />
+                  <Title name={name} nameCn={nameCn} filter={filter} />
                 </Flex.Item>
                 <Flex style={_.mt.xxs}>
-                  {isHidden && (
+                  {tags.includes('自己可见') && (
                     <Flex style={styles.hidden} justify='center'>
                       <Iconfont name='md-visibility-off' color={_.colorSub} size={11} />
                     </Flex>
                   )}
-                  {/* {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />} */}
-                  {showLabel && !!type && <Tag style={_.ml.sm} value={type} />}
                 </Flex>
+                {!!onManagePress && (
+                  <Manage
+                    collection={collection}
+                    typeCn={typeCn}
+                    onPress={() => {
+                      onManagePress({
+                        subjectId: String(id).replace('/subject/', ''),
+                        title: nameCn,
+                        desc: name,
+                        status: MODEL_RATING_STATUS.getValue<RatingStatus>(collection),
+                        typeCn
+                      })
+                    }}
+                  />
+                )}
               </Flex>
-              {hasTip && (
+              {!!tip && (
                 <Text style={_.mt.sm} size={11} numberOfLines={2}>
                   {HTMLDecode(tip)}
                 </Text>
@@ -134,8 +138,8 @@ const Item = memo(
             <Flex>
               <Flex.Item>
                 <Flex>
-                  {hasComment && (
-                    <Text style={[styles.comments, _.mt.md]} size={13} lineHeight={15}>
+                  {!!comments && (
+                    <Text style={styles.comments} size={13} lineHeight={15}>
                       {comments}
                     </Text>
                   )}

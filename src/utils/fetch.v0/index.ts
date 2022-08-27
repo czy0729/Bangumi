@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 05:29:09
+ * @Last Modified time: 2022-08-27 13:50:56
  */
 import dayjs from 'dayjs'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,22 +22,21 @@ export async function fetchSubjectV0(config: { url: string }) {
   const subjectId = Number(config.url.split('/subject/')[1])
   const subject = await request<any>(`${HOST_API_V0}/subjects/${subjectId}`)
   const eps = await request<any>(`${HOST_API_V0}/episodes?subject_id=${subjectId}`)
-
   const data = {
     id: subjectId,
     url: `https://bgm.tv/subject/${subjectId}`,
-    type: subject.type,
-    name: subject.name,
-    name_cn: subject.name_cn,
-    summary: subject.summary,
+    type: subject?.type,
+    name: subject?.name,
+    name_cn: subject?.name_cn,
+    summary: subject?.summary,
     eps: eps?.data || [],
-    eps_count: subject.eps,
-    air_date: subject.date,
+    eps_count: subject?.eps,
+    air_date: subject?.date,
     // air_weekday: 2,
-    rating: subject.rating,
-    rank: subject.rating.rank,
-    images: subject.images,
-    collection: subject.collection,
+    rating: subject?.rating,
+    rank: subject?.rating?.rank,
+    images: subject?.images,
+    collection: subject?.collection,
     crt: [],
     staff: [],
     blog: [],

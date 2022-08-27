@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-08-08 16:32:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 10:29:11
+ * @Last Modified time: 2022-08-26 20:21:23
  */
 import React from 'react'
 import { Flex, Katakana, Highlight } from '@components'
 import { cnjp, HTMLDecode, getPinYinFilterValue } from '@utils'
 import { ob } from '@utils/decorators'
 
-function Title({ name, nameCn, filter, collection, isCollect }) {
+function Title({ name, nameCn, filter }) {
   const hasName = !!name
-  const label = collection || (isCollect ? '已收藏' : '')
-  const indent = label ? (collection ? '　　 ' : '　　　') : ''
-  const left = `${indent}${HTMLDecode(cnjp(nameCn, name))} `
+  const left = `${HTMLDecode(cnjp(nameCn, name))} `
   const right = HTMLDecode(cnjp(name, nameCn))
 
   let filterValue = ''

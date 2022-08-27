@@ -133,7 +133,7 @@ export type Ep = {
 }
 
 /** 条目 */
-export type Subject = DeepPartial<{
+export type Subject = {
   air_date: string
   air_weekday: number
   blog: Blog[]
@@ -151,8 +151,9 @@ export type Subject = DeepPartial<{
   topic: Topic[]
   type: SubjectTypeValue
   url: UrlSubject
+  _responseGroup: 'small' | 'medium' | 'large'
   _loaded: Loaded
-}>
+}
 
 /** 条目 (HTML) */
 export type SubjectFormHTML = DeepPartial<{
@@ -442,3 +443,38 @@ export type Wiki = DeepPartial<{
     userName: string
   }[]
 }>
+
+export type ApiSubjectResponse = {
+  id: SubjectId
+  url: UrlSubject
+  type: SubjectTypeValue
+  name: string
+  name_cn: string
+  summary: string
+
+  /** responseGroup: large */
+  eps?: Ep[]
+  eps_count: number
+  air_date: string
+
+  /** responseGroup: medium */
+  air_weekday?: number
+  rating: RatingType
+  rank: number
+  images: Images
+  collection: Collection
+
+  /** responseGroup: medium */
+  crt?: Crt
+
+  /** responseGroup: medium */
+  staff?: Staff
+
+  /** responseGroup: large */
+  topic?: Topic
+
+  /** responseGroup: large */
+  blog?: Blog
+
+  _loaded: Loaded
+}

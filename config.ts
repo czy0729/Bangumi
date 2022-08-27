@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 13:37:56
+ * @Last Modified time: 2022-08-27 14:27:24
  */
 /** 日志级别 2 所有, 1 只输出错误和警告, 0 不输出 (开发用) */
 export const LOG_LEVEL = 0
@@ -33,11 +33,11 @@ export default {
     // subjectId: 296870 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/367355' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
-    // monoId: 'person/2481' // character/70323 person/5745
+    // monoId: 'character/106821' // character/70323 person/5745
     // id: 240929
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448
-    // catalogId: 35176
+    // catalogId: 39516
     // groupId: 'fillgrids' // fillgrids
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '无职转生 ～在异世界认真地活下去～'

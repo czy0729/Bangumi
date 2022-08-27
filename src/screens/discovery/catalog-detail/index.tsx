@@ -16,6 +16,7 @@ import { TEXT_18X } from '@constants/text'
 import Header from './header'
 import Info from './info'
 import Item from './item'
+import Tips from './tips'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -46,6 +47,7 @@ const CatalogDetail = (props, { $ }: Ctx) => {
             onScroll={onScroll}
             onHeaderRefresh={$.fetchCatalogDetail}
           />
+          <Tips />
         </Page>
         <FolderManageModal
           // id={$.catalogId}

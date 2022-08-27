@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 06:37:01
+ * @Last Modified time: 2022-08-27 14:03:27
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -586,7 +586,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
   /** 条目管理 */
   doUpdateCollection = (args: {
     subjectId: SubjectId
-    status?: RatingStatus
+    status?: RatingStatus | ''
     tags?: string
     comment?: string
     rating?: string | number

@@ -105,7 +105,7 @@ function Info(props, { $, navigation }: Ctx) {
             style={styles.btn}
             styleText={_.fontSize11}
             type='plain'
-            onPress={$.fetchSubjectQueue}
+            onPress={$.fetchSubjectsQueue}
           >
             更新分数
           </Button>

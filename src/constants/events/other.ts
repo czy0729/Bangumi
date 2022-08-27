@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 19:22:27
+ * @Last Modified time: 2022-08-27 14:28:28
  */
 
 /** Other */
@@ -18,6 +18,7 @@ export default {
   '其他.缩略框跳转': 'Other.popableTo',
   '其他.设置': 'Other.Settings',
   '其他.试用CDN': 'Other.cdnMagma',
+  '其他.管理条目': 'Other.manageSubject',
 
   'AC搜索.缩略框': 'ACSearch.popable',
   'AC搜索.跳转': 'ACSearch.to',

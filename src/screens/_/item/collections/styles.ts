@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:56:21
+ * @Last Modified time: 2022-08-27 14:25:14
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT } from '@constants'
@@ -20,6 +20,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   comments: {
     padding: _.sm,
+    marginTop: _.md,
     marginBottom: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: _.select(_.hairlineWidth, 0),
@@ -27,15 +28,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: 0
-  },
   edit: {
     marginTop: _.sm,
-    marginRight: -_.xs
+    marginRight: -12
   },
   hidden: {
     width: 28,

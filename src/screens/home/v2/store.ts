@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 09:17:23
+ * @Last Modified time: 2022-08-27 14:03:27
  */
 import { observable, computed } from 'mobx'
 import {
@@ -60,7 +60,8 @@ import {
   SubjectId,
   SubjectType,
   SubjectTypeValue,
-  RatingStatus
+  RatingStatus,
+  Id
 } from '@types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
@@ -155,11 +156,17 @@ export default class ScreenHomeV2 extends store {
   fetchSubject = (subjectId: SubjectId, index: number = 0) => {
     let flag = false
 
-    let { _loaded } = this.subject(subjectId)
+    const subject = this.subject(subjectId)
+    let { _loaded } = subject
     if (typeof _loaded !== 'number') _loaded = 0
 
     // 请求间隔至少为15分钟
-    if (getTimestamp() - _loaded >= 60 * (15 + index)) flag = true
+    if (
+      subject?._responseGroup !== 'large' ||
+      getTimestamp() - _loaded >= 60 * (15 + index)
+    ) {
+      flag = true
+    }
 
     if (flag) return subjectStore.fetchSubject(subjectId)
 
@@ -534,7 +541,9 @@ export default class ScreenHomeV2 extends store {
   }
 
   /** 条目下一个未看章节 */
-  nextWatchEp(subjectId: SubjectId) {
+  nextWatchEp(subjectId: SubjectId): {
+    id?: Id
+  } {
     try {
       return computed(() => {
         const eps = this.eps(subjectId) || []

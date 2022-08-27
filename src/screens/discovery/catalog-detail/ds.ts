@@ -11,7 +11,15 @@ export const EXCLUDE_STATE = {
   visible: false,
 
   /** 正在编辑的目录项 */
-  defaultEditItem: null
+  defaultEditItem: null,
+
+  /** 进度条 */
+  progress: {
+    fetching: false,
+    message: '',
+    current: 0,
+    total: 0
+  }
 }
 
 export const STATE = {

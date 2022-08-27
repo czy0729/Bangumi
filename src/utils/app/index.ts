@@ -28,6 +28,7 @@ import cnData from '@assets/json/cn.json'
 import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { AnyObject, EventType, Navigation, Paths, SubjectId } from '@types'
+import { getTimestamp } from '../utils'
 import { getStorage, setStorage } from '../storage'
 import { getSystemStoreAsync, s2tAsync } from '../async'
 import { rerender, globalLog, globalWarn } from '../dev'
@@ -82,6 +83,12 @@ export function getBlurRadius(uri?: string, bg?: string, avatarLarge?: string) {
   }
 
   return 8
+}
+
+/** 简单控制请求频率工具函数, 若不需要发请求返回 true */
+export function opitimize(data: any, s = 60) {
+  if (!data?._loaded) return false
+  return getTimestamp() - Number(data?._loaded || 0) < s
 }
 
 /** app 内使用时间因子作为随机数, 规避 Hermes 引擎 Array.sort 的卡死 bug */
