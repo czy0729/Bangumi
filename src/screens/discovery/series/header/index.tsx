@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 20:24:25
+ * @Last Modified time: 2022-08-27 22:13:13
  */
 import React from 'react'
 import { Alert } from 'react-native'
 import { Header as CompHeader, Flex } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
-import { confirm } from '@utils/ui'
 import { s2tAsync } from '@utils/async'
+import { Ctx } from '../types'
 
-function Header(props, { $, navigation }) {
+function Header(props, { $, navigation }: Ctx) {
   return (
     <CompHeader
       title='关联系列'

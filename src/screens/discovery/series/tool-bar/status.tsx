@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-05 12:00:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 12:02:02
+ * @Last Modified time: 2022-08-28 00:40:29
  */
 import React from 'react'
 import { ToolBar } from '@components'
 import { obc } from '@utils/decorators'
-import { DATA_STATUS } from '../store'
+import { DATA_STATUS } from '../ds'
 
 function Status(props, { $ }) {
   const { status } = $.state

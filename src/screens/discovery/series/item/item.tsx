@@ -1,23 +1,17 @@
 /*
  * @Author: czy0729
- * @Date: 2022-04-16 05:40:46
+ * @Date: 2022-08-28 00:26:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-20 16:43:33
+ * @Last Modified time: 2022-08-28 00:34:39
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _ } from '@stores'
 import { asc } from '@utils'
-import { memo, obc } from '@utils/decorators'
-import Subject from './subject'
+import { memo } from '@utils/decorators'
+import Subject from '../subject'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  styles: {},
-  data: [],
-  subjects: {}
-}
-
-const Item = memo(({ styles, data, subjects }) => {
+export default memo(({ styles, data, subjects }) => {
   if (!data.length) return null
 
   // 以最小的subjectId作为pid
@@ -39,20 +33,4 @@ const Item = memo(({ styles, data, subjects }) => {
       )}
     </View>
   )
-}, defaultProps)
-
-export default obc(({ item }, { $ }) => {
-  const data = $.filterData(item)
-  return <Item styles={memoStyles()} data={data} subjects={$.subjects(data)} />
-})
-
-const memoStyles = _.memoStyles(() => ({
-  sub: {
-    marginTop: -_.sm,
-    paddingLeft: _.wind + 24,
-    paddingBottom: _.md
-  },
-  subItem: {
-    paddingVertical: _.md
-  }
-}))
+}, DEFAULT_PROPS)

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 18:32:12
+ * @Last Modified time: 2022-08-27 21:56:11
  */
 import { EpId, Id, SubjectId, UserId } from '@types'
 import { HOST } from '../constants'
@@ -22,7 +22,7 @@ export const API_V0 = `${API_HOST}/v0` as const
 
 /** 瓷砖进度接口 */
 export const API_MOSAIC_TILE = (username: UserId, type = 'progress') =>
-  `https://bangumi-mosaic-tile.now.sh/users/${username}/timelines/${type}.json`
+  `https://bangumi-mosaic-tile.aho.im/users/${username}/timelines/${type}.json`
 
 /** oauth 获取 access_token */
 export const API_ACCESS_TOKEN = () => `${HOST}/oauth/access_token`

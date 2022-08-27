@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-20 10:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 11:17:14
+ * @Last Modified time: 2022-08-27 21:57:29
  */
 import { subjectStore } from '@stores'
 import {
@@ -95,9 +95,9 @@ export function getSitesList() {
         loading: false
       },
       {
-        title: 'https://bangumi-mosaic-tile.now.sh',
+        title: 'https://bangumi-mosaic-tile.aho.im',
         desc: '进度瓷砖 Api',
-        url: 'https://bangumi-mosaic-tile.now.sh',
+        url: 'https://bangumi-mosaic-tile.aho.im',
         msg: [],
         loading: false
       },

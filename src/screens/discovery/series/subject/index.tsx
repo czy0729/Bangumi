@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:29:27
+ * @Last Modified time: 2022-08-28 00:35:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,10 +10,11 @@ import { Flex, Text, Loading } from '@components'
 import { Cover, Rank, Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
-import { MODEL_COLLECTION_STATUS } from '@constants/model'
+import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
+import { memoStyles } from './styles'
+import { Ctx } from '../types'
 
-function Subject({ style, id }, { $, navigation }) {
+function Subject({ style = undefined, id }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const subject = $.subject(id)
   if (subject._loaded === 0) {
@@ -61,7 +62,7 @@ function Subject({ style, id }, { $, navigation }) {
           </Text>
           <Flex style={_.mt.sm}>
             <Rank value={subject.rank} />
-            <Stars style={_.mr.xs} value={subject.score} color='warning' simple />
+            <Stars style={_.mr.xs} value={subject.score} simple />
             {!!subject.date && (
               <Text size={11} type='sub'>
                 {!!(subject.rank || subject.score) && ' / '}
@@ -89,25 +90,3 @@ function Subject({ style, id }, { $, navigation }) {
 }
 
 export default obc(Subject)
-
-const memoStyles = _.memoStyles(() => ({
-  loading: {
-    height: 120
-  },
-  item: {
-    paddingHorizontal: _.wind,
-    paddingVertical: _.md + 8
-  },
-  body: {
-    height: IMG_HEIGHT_SM,
-    paddingLeft: _.md
-  },
-  tagWrap: {
-    width: 40,
-    marginTop: 1,
-    marginLeft: _.sm
-  },
-  tag: {
-    width: 40
-  }
-}))

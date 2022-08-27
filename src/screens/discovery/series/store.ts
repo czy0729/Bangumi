@@ -2,52 +2,25 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 11:45:00
+ * @Last Modified time: 2022-08-28 00:41:45
  */
 import { observable, computed, toJS } from 'mobx'
 import { userStore, systemStore } from '@stores'
-import { getTimestamp, cnjp, asc, desc } from '@utils'
+import { getTimestamp, cnjp, asc, desc, info } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { info } from '@utils/ui'
-import { MODEL_RANK_ANIME_FILTER } from '@constants/model'
 import i18n from '@constants/i18n'
+import {
+  NAMESPACE,
+  HOST_API_V0,
+  RELATIONS,
+  SUBJECT_TYPE,
+  SUBJECT_ITEM,
+  LIMIT,
+  DISTANCE
+} from './ds'
 
-export const DATA_SORT = ['默认', '关联数', '新放送', '评分']
-export const DATA_FILTER = MODEL_RANK_ANIME_FILTER.data.map(item => item.label)
-export const DATA_STATUS = ['全部', '未收藏', '看过', '在看', '未看完']
-
-const HOST_API_V0 = 'https://api.bgm.tv/v0'
-const RELATIONS = [
-  '前传',
-  '续集',
-  '番外篇',
-  '主线故事',
-  '相同世界观',
-  '不同世界观'
-  // '衍生',
-  // '角色出演',
-  // '不同演绎',
-]
-const SUBJECT_TYPE = 2
-const SUBJECT_ITEM = {
-  id: 0,
-  name: '',
-  name_cn: '',
-  image: '',
-  date: '',
-  total_episodes: 0,
-  platform: '',
-  rank: 0,
-  score: 0,
-  total: 0,
-  _loaded: 0
-}
-const LIMIT = 100
-const DISTANCE = 60 * 60 * 24
-
-const namespace = 'ScreenSeries'
 const excludeState = {
   fetching: false,
   message: '',
@@ -74,7 +47,7 @@ export default class ScreenSeries extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       ...excludeState,
@@ -82,7 +55,7 @@ export default class ScreenSeries extends store {
     })
 
     if (!this.state.data.length) {
-      this.fetchSeries()
+      // this.fetchSeries()
     } else {
       this.calculateData()
     }
@@ -132,7 +105,7 @@ export default class ScreenSeries extends store {
     const _data = []
 
     // 看过
-    let data = await request(
+    let data = await request<any>(
       `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=2&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) {
@@ -161,7 +134,7 @@ export default class ScreenSeries extends store {
     })
 
     // 在看最多请求1页
-    data = await request(
+    data = await request<any>(
       `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=3&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
@@ -182,7 +155,7 @@ export default class ScreenSeries extends store {
       ...excludeState
     })
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
     return true
   }
 
@@ -193,19 +166,19 @@ export default class ScreenSeries extends store {
     const _data = []
 
     // 想看
-    let data = await request(
+    let data = await request<any>(
       `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=1&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
 
     // 搁置
-    data = await request(
+    data = await request<any>(
       `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=4&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
 
     // 抛弃
-    data = await request(
+    data = await request<any>(
       `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=5&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
@@ -223,7 +196,7 @@ export default class ScreenSeries extends store {
         }))
     })
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   /**
@@ -267,7 +240,7 @@ export default class ScreenSeries extends store {
     )
 
     this.clearState('relations', relations)
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
     return true
   }
 
@@ -334,7 +307,7 @@ export default class ScreenSeries extends store {
       })
     }, 1600)
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
     return true
   }
 
@@ -355,7 +328,7 @@ export default class ScreenSeries extends store {
 
       loaded[subjectId] = true
       fetchs.push(async () => {
-        const data = await request(`${HOST_API_V0}/subjects/${subjectId}`)
+        const data = await request<any>(`${HOST_API_V0}/subjects/${subjectId}`)
         if (!data?.id) return false
 
         this.setState({
@@ -379,7 +352,7 @@ export default class ScreenSeries extends store {
     })
 
     await queue(fetchs, 2)
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
 
     return true
   }
@@ -583,7 +556,7 @@ export default class ScreenSeries extends store {
     this.setState({
       fixed: !fixed
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onSortSelect = title => {
@@ -598,7 +571,7 @@ export default class ScreenSeries extends store {
     this.setState({
       sort: title
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onFilterSelect = title => {
@@ -612,7 +585,7 @@ export default class ScreenSeries extends store {
     this.setState({
       filter: title
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onAirtimeSelect = title => {
@@ -626,7 +599,7 @@ export default class ScreenSeries extends store {
     this.setState({
       airtime: title
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onStatusSelect = title => {
@@ -640,6 +613,6 @@ export default class ScreenSeries extends store {
     this.setState({
       status: title
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

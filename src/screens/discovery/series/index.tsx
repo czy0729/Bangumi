@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:17:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 12:23:04
+ * @Last Modified time: 2022-08-27 22:12:59
  */
 import React from 'react'
 import { Page } from '@components'
@@ -15,8 +15,9 @@ import ToolBar from './tool-bar'
 import Item from './item'
 import Tips from './tips'
 import Store from './store'
+import { Ctx } from './types'
 
-const Series = (props, { $ }) => {
+const Series = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -32,6 +33,7 @@ const Series = (props, { $ }) => {
             key={$.state.sort}
             contentContainerStyle={_.container.bottom}
             data={$.data}
+            limit={6}
             ListHeaderComponent={!fixed && <ToolBar />}
             renderItem={({ item }) => <Item item={item} />}
             onPage={$.onPage}
