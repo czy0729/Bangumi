@@ -60,6 +60,7 @@ import {
   UserCollectionsMap,
   UserCollectionsTags
 } from './types'
+import { devLog } from '@components'
 
 const state = {
   /** 条目收藏信息 */
@@ -85,6 +86,11 @@ const state = {
   /** 条目的收藏状态, 替代 userCollectionsMap */
   collectionStatus: {
     0: '看过'
+  },
+
+  /** 条目的收藏状态最后一次请求时间戳, 对应 collectionStatus, 共同维护 */
+  _collectionStatusLastFetchMS: {
+    0: 0
   },
 
   /** 瓷砖进度 */
@@ -127,6 +133,11 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     return this.state.userCollectionsMap
   }
 
+  /** 瓷砖进度 */
+  @computed get mosaicTile(): MosaicTile {
+    return this.state.mosaicTile
+  }
+
   /** 条目的收藏状态, 替代 userCollectionsMap */
   collectionStatus(subjectId: SubjectId) {
     return computed<CollectionStatusCn | ''>(() => {
@@ -134,9 +145,11 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
-  /** 瓷砖进度 */
-  @computed get mosaicTile(): MosaicTile {
-    return this.state.mosaicTile
+  /** 条目的收藏状态最后一次请求时间戳, 对应 collectionStatus, 共同维护 */
+  _collectionStatusLastFetchMS(subjectId: SubjectId) {
+    return computed<number>(() => {
+      return this.state._collectionStatusLastFetchMS[subjectId] || 0
+    }).get()
   }
 
   // -------------------- computed --------------------
@@ -459,19 +472,25 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     return this[key]
   }
 
-  /** 条目的收藏状态 */
+  /**
+   * 全局管理单独条目的收藏状态
+   *  - [1] 需要登录
+   *  - [2] subjectIds 长度 = 1 时, 都会请求
+   *  - [3] subjectIds 长度 > 1 时, 当前有记录为 [看过 | 搁置 | 抛弃] 时不重新请求
+   *  - [4] 批量请求时, 若条件通过, 条目重请求依然有 1 小时的间隔
+   * */
   fetchCollectionStatusQueue = async (subjectIds: SubjectId[] = []) => {
-    if (!userStore.isLogin || !subjectIds.length) return {}
+    if (!userStore.isLogin || !subjectIds.length) return {} // [1]
 
+    const collectionStatusLastFetchMS = {}
     const results: UserCollectionItem[] = []
     const fetchs = []
+    const now = getTimestamp()
     subjectIds.forEach(subjectId => {
-      // 请求频率优化
-      // subjectIds 长度等于1时, 都会请求
-      // subjectIds 长度大于1时, 当前有记录为 [看过 | 搁置 | 抛弃] 时不重新请求
       if (
-        subjectIds.length === 1 ||
-        !['看过', '搁置', '抛弃'].includes(this.collectionStatus(subjectId))
+        subjectIds.length === 1 || // [2]
+        (!['看过', '搁置', '抛弃'].includes(this.collectionStatus(subjectId)) && // [3]
+          now - this._collectionStatusLastFetchMS(subjectId) >= 60 * 60) // [4]
       ) {
         fetchs.push(async () => {
           const collection = await fetchCollectionSingleV0({
@@ -479,6 +498,9 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
             userId: userStore.myId
           })
           if (collection) results.push(collection)
+
+          collectionStatusLastFetchMS[subjectId] = getTimestamp()
+          devLog(`queue: ${subjectId}`)
         })
       }
     })
@@ -495,10 +517,12 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
 
     const key = 'collectionStatus'
     this.setState({
-      [key]: data
+      [key]: data,
+      _collectionStatusLastFetchMS: collectionStatusLastFetchMS
     })
-    this.setStorage(key, undefined, NAMESPACE)
 
+    this.setStorage(key, undefined, NAMESPACE)
+    this.setStorage('_collectionStatusLastFetchMS', undefined, NAMESPACE)
     return data
   }
 
