@@ -14,10 +14,11 @@ function More({ onToggleList }, { $ }: Ctx) {
   const { list, showYear } = $.state
   return (
     <ToolBar.Popover
-      data={[
-        `布局（${list ? '列表' : '网格'}）`,
-        `年份（${showYear ? '显示' : '隐藏'}）`
-      ]}
+      data={
+        list
+          ? [`布局（列表）`]
+          : [`布局（网格）`, `年份（${showYear ? '显示' : '隐藏'}）`]
+      }
       icon='md-more-vert'
       iconColor={_.colorDesc}
       iconSize={20}

@@ -347,7 +347,7 @@ export const ManageModal = ob(
             </Text>
           }
           transparent
-          maskClosable={false}
+          maskClosable
           closable
           onClose={onClose}
         >

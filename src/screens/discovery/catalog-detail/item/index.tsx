@@ -10,7 +10,7 @@ import { ItemCollections, ItemCollectionsGrid } from '@_'
 import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
 import { CatalogItem, Ctx } from '../types'
-import { collectionStore, uiStore } from '@stores'
+import { collectionStore } from '@stores'
 
 const EVENT = {
   id: '目录详情.跳转'
@@ -52,9 +52,7 @@ function Item(
           hideScore={$.hideScore}
           isEditable={$.isSelf}
           onEdit={$.onEdit}
-          onManagePress={args => {
-            uiStore.showManageModal(args, '目录详情')
-          }}
+          onManagePress={$.onManagePress}
         />
         {!index && <Heatmap id='目录详情.跳转' />}
       </>

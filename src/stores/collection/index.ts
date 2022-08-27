@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 14:03:27
+ * @Last Modified time: 2022-08-27 17:31:49
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -580,6 +580,32 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     if (userId === userStore.userInfo.username || userId === userStore.myUserId) {
       this.setUserCollectionsStroage()
     }
+  }
+
+  /** 主动删除列表中一个条目数据 */
+  removeOneInUserCollections = (args: {
+    userId: UserId
+    subjectType: SubjectType
+    type: CollectionStatus
+    subjectId: SubjectId
+  }) => {
+    const { userId, subjectType, type, subjectId } = args || {}
+    if (!subjectId) return false
+
+    const key = 'userCollections'
+    const stateKey = `${userId}|${subjectType}|${type}`
+    const data = this.userCollections(userId, subjectType, type)
+    this.setState({
+      [key]: {
+        [stateKey]: {
+          ...data,
+          list: data.list.filter(item => item.id != subjectId)
+        }
+      }
+    })
+
+    this.setStorage(key, undefined, NAMESPACE)
+    return true
   }
 
   // -------------------- action --------------------

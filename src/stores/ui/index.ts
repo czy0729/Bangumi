@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 14:31:36
+ * @Last Modified time: 2022-08-27 16:02:55
  */
 import { observable, computed } from 'mobx'
 import { feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { Actions, RatingStatus, StoreConstructor, SubjectId } from '@types'
+import { Actions, RatingStatus, StoreConstructor } from '@types'
 import subjectStore from '../subject'
 import collectionStore from '../collection'
+import { SubmitManageModalValues } from './types'
 
 const state = {
   /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
@@ -127,9 +128,14 @@ class UIStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** ==================== manageModal ==================== */
+  /** 存放提交全局条目管理后的回调 */
+  _manageModalSubmitCallback: (values?: SubmitManageModalValues) => any
+
+  /** 显示全局条目管理 Modal */
   showManageModal = (
     { subjectId, title, desc, status, action = '看' },
-    screen = ''
+    screen = '',
+    submitCallback?: (values?: SubmitManageModalValues) => any
   ) => {
     this.setState({
       manageModal: {
@@ -142,8 +148,13 @@ class UIStore extends store implements StoreConstructor<typeof state> {
         screen: screen || ''
       }
     })
+
+    if (typeof submitCallback === 'function') {
+      this._manageModalSubmitCallback = submitCallback
+    }
   }
 
+  /** 关闭全局条目管理 Modal */
   closeManageModal = () => {
     if (!this.state.manageModal.visible) return
 
@@ -152,29 +163,29 @@ class UIStore extends store implements StoreConstructor<typeof state> {
         visible: false
       }
     })
+    this._manageModalSubmitCallback = null
   }
 
-  submitManageModal = async (values: {
-    subjectId: SubjectId
-    status?: RatingStatus | ''
-    tags?: string
-    comment?: string
-    rating?: string | number
-    privacy?: 0 | 1 | '0' | '1'
-  }) => {
+  /** 提交全局条目管理 Modal */
+  submitManageModal = async (values: SubmitManageModalValues) => {
     const { visible, screen } = this.state.manageModal
     if (!visible) return
-
-    await collectionStore.doUpdateCollection(values)
-    feedback()
-
-    collectionStore.fetchCollectionStatusQueue([values.subjectId])
-    this.closeManageModal()
 
     t('其他.管理条目', {
       subjectId: values.subjectId,
       screen
     })
+    await collectionStore.doUpdateCollection(values)
+    feedback()
+
+    try {
+      if (typeof this._manageModalSubmitCallback === 'function') {
+        this._manageModalSubmitCallback(values)
+      }
+    } catch (error) {}
+
+    this.closeManageModal()
+    collectionStore.fetchCollectionStatusQueue([values.subjectId])
   }
 }
 

@@ -5,7 +5,14 @@
  * @Last Modified time: 2022-08-26 15:32:18
  */
 import { observable, computed } from 'mobx'
-import { _, discoveryStore, collectionStore, subjectStore, userStore } from '@stores'
+import {
+  _,
+  discoveryStore,
+  collectionStore,
+  subjectStore,
+  userStore,
+  uiStore
+} from '@stores'
 import { desc, opitimize, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info, feedback, confirm } from '@utils/ui'
@@ -341,5 +348,9 @@ export default class ScreenCatalogDetail extends store {
         }
       }
     )
+  }
+
+  onManagePress = args => {
+    uiStore.showManageModal(args, '目录详情')
   }
 }

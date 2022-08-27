@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:55:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:31:51
+ * @Last Modified time: 2022-08-27 16:23:37
  */
 import React from 'react'
 import { ItemCollections } from '@_'
@@ -34,6 +34,7 @@ function ItemList({ item, page }, { $, navigation }: Ctx) {
       isOnHold={type === 'on_hold'}
       event={EVENT}
       filter={filter}
+      onManagePress={$.onManagePress}
     />
   )
 }

@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-10 18:48:14
+ * @Last Modified time: 2022-08-27 17:27:50
  */
 import { observable, computed } from 'mobx'
-import { _, userStore, collectionStore, usersStore } from '@stores'
+import { _, userStore, collectionStore, usersStore, uiStore } from '@stores'
 import {
-  debounce,
-  x18,
-  feedback,
-  info,
   HTMLDecode,
+  debounce,
+  feedback,
+  getPinYinFilterValue,
+  info,
   t2s,
-  getPinYinFilterValue
+  x18
 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
@@ -117,7 +117,11 @@ export default class ScreenUser extends store {
   }
 
   /** 当前 Tab 一直请求到最后, 用于页内搜索 */
-  fetchUntilTheEnd = async (lastSubjectType, lastType, isNext: boolean = false) => {
+  fetchUntilTheEnd = async (
+    lastSubjectType: SubjectType,
+    lastType: CollectionStatus,
+    isNext: boolean = false
+  ) => {
     if (!this.isTabActive(lastSubjectType, lastType)) {
       console.info('fetchUntilTheEnd abort')
       return
@@ -272,7 +276,11 @@ export default class ScreenUser extends store {
    * @param {*} isBetween 前后tab也算当前
    * @returns
    */
-  isTabActive(subjectType: SubjectType, type, isBetween: boolean = false) {
+  isTabActive(
+    subjectType: SubjectType,
+    type: CollectionStatus,
+    isBetween: boolean = false
+  ) {
     return computed(() => {
       const { subjectType: _subjectType, page } = this.state
       if (subjectType !== _subjectType) return false
@@ -289,7 +297,7 @@ export default class ScreenUser extends store {
   }
 
   /** 是否应用筛选中 */
-  isFiltering(subjectType: SubjectType, type) {
+  isFiltering(subjectType: SubjectType, type: CollectionStatus) {
     return computed(() => {
       if (!this.isTabActive(subjectType, type)) return false
 
@@ -305,7 +313,7 @@ export default class ScreenUser extends store {
   }
 
   /** 用户收藏 */
-  userCollections(subjectType: SubjectType, type) {
+  userCollections(subjectType: SubjectType, type: CollectionStatus) {
     return computed(() => {
       // eslint-disable-next-line prefer-const
       let { list, ...other } = collectionStore.userCollections(
@@ -336,7 +344,7 @@ export default class ScreenUser extends store {
   }
 
   /** 用户收藏概览的标签 (HTML) */
-  userCollectionsTags(subjectType, type) {
+  userCollectionsTags(subjectType: SubjectType, type: CollectionStatus) {
     return computed(() =>
       collectionStore.userCollectionsTags(this.username, subjectType, type)
     ).get()
@@ -533,4 +541,18 @@ export default class ScreenUser extends store {
     const { subjectType, page } = this.state
     if (filter.length) this.fetchUntilTheEnd(subjectType, TABS[page].key)
   }, 1200)
+
+  onManagePress = args => {
+    uiStore.showManageModal(args, '时光机', values => {
+      // 状态不相同需要手动更新列表数据
+      if (this.type && values?.status && this.type !== values?.status) {
+        collectionStore.removeOneInUserCollections({
+          userId: this.username,
+          subjectType: this.state.subjectType,
+          type: this.type,
+          subjectId: values.subjectId
+        })
+      }
+    })
+  }
 }
