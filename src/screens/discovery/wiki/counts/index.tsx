@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 05:44:32
+ * @Last Modified time: 2022-08-27 21:14:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,9 +10,11 @@ import { ScrollView, Text } from '@components'
 import { PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { labelDS } from './store'
+import { LABEL_DS } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Counts(props, { $ }) {
+function Counts(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { coverRadius } = systemStore.setting
   const { counts, lastCounts = [] } = $.wiki
@@ -31,7 +33,7 @@ function Counts(props, { $ }) {
               parseInt(lastCounts[index].replace(/,/g, ''))
           return (
             <View
-              key={labelDS[index]}
+              key={LABEL_DS[index]}
               style={[
                 styles.count,
                 {
@@ -40,7 +42,7 @@ function Counts(props, { $ }) {
               ]}
             >
               <Text size={13} bold>
-                {labelDS[index]}
+                {LABEL_DS[index]}
               </Text>
               <Text style={_.mt.xs} type='main' bold>
                 {item}
@@ -60,21 +62,3 @@ function Counts(props, { $ }) {
 }
 
 export default obc(Counts)
-
-const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingHorizontal: _.wind,
-    paddingLeft: _.wind - _.sm,
-    minHeight: 56 * _.ratio
-  },
-  count: {
-    padding: _.device(_.sm, _.md),
-    marginTop: _.sm,
-    marginLeft: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
-    borderWidth: _.hairlineWidth,
-    borderColor: _.colorBorder,
-    overflow: 'hidden'
-  }
-}))

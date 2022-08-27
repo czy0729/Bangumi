@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-13 00:05:10
+ * @Last Modified time: 2022-08-27 21:08:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,9 @@ import Counts from './counts'
 import Cate from './cate'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
 
-const Wiki = (props, { $ }) => {
+const Wiki = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

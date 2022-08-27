@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:25:53
+ * @Last Modified time: 2022-08-27 21:17:25
  */
 
 /** Discovery */
@@ -139,5 +139,8 @@ export default {
   'Hentai.跳转': 'Hentai.to',
   'Hentai.选择': 'Hentai.onSelect',
   'Hentai.到顶': 'Hentai.scrollToTop',
-  'Hentai.切换布局': 'Hentai.switchLayout'
+  'Hentai.切换布局': 'Hentai.switchLayout',
+
+  // 维基人
+  '维基人.右上角菜单': 'Wiki.topRightMenu'
 }

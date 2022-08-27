@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 17:31:49
+ * @Last Modified time: 2022-08-27 19:36:46
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -60,7 +60,6 @@ import {
   UserCollectionsMap,
   UserCollectionsTags
 } from './types'
-import { devLog } from '@components'
 
 const state = {
   /** 条目收藏信息 */
@@ -500,7 +499,6 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
           if (collection) results.push(collection)
 
           collectionStatusLastFetchMS[subjectId] = getTimestamp()
-          devLog(`queue: ${subjectId}`)
         })
       }
     })

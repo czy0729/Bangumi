@@ -2,47 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-10 13:36:07
+ * @Last Modified time: 2022-08-27 21:29:45
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
-
-export const labelDS = [
-  '全部条目',
-  '动画',
-  '书籍',
-  '音乐',
-  '游戏',
-  '三次元',
-  '章节',
-  '角色',
-  '人物',
-  '编辑'
-]
-export const topDS = ['编辑', '关联', '入库']
-export const typeDS = ['条目', '锁定', '合并', '角色', '人物', '章节']
-export const relationDS = ['条目关联', '人物关联', '角色关联']
-export const lastDS = ['全部', '动画', '书籍', '音乐', '游戏', '三次元']
-
-const namespace = 'ScreenWiki'
-const keys = {
-  '0|0': 'all',
-  '0|1': 'lock',
-  '0|2': 'merge',
-  '0|3': 'crt',
-  '0|4': 'prsn',
-  '0|5': 'ep',
-  '1|0': 'relation',
-  '1|1': 'subjectPerson',
-  '1|2': 'subjectCrt',
-  '2|0': 'all',
-  '2|1': 'anime',
-  '2|2': 'book',
-  '2|3': 'music',
-  '2|4': 'game',
-  '2|5': 'real'
-}
+import { NAMESPACE, KEYS, TOP_DS, TYPE_DS, RELATION_DS, LAST_DS } from './ds'
 
 export default class ScreenWiki extends store {
   state = observable({
@@ -54,7 +19,7 @@ export default class ScreenWiki extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
+    const res = this.getStorage(NAMESPACE)
     const state = await res
     this.setState({
       ...state,
@@ -75,15 +40,15 @@ export default class ScreenWiki extends store {
     let selectedIndex
     if (top === 1) {
       key = 'relation'
-      values = relationDS
+      values = RELATION_DS
       selectedIndex = relation
     } else if (top === 2) {
       key = 'last'
-      values = lastDS
+      values = LAST_DS
       selectedIndex = last
     } else {
       key = 'type'
-      values = typeDS
+      values = TYPE_DS
       selectedIndex = type
     }
 
@@ -97,17 +62,17 @@ export default class ScreenWiki extends store {
   @computed get list() {
     const { timeline = {}, last: wikiLast = {} } = this.wiki
     const { top, type, relation, last } = this.state
-    if (top === 0) return timeline[keys[`${top}|${type}`]] || []
-    if (top === 1) return timeline[keys[`${top}|${relation}`]] || []
-    return wikiLast[keys[`${top}|${last}`]] || []
+    if (top === 0) return timeline[KEYS[`${top}|${type}`]] || []
+    if (top === 1) return timeline[KEYS[`${top}|${relation}`]] || []
+    return wikiLast[KEYS[`${top}|${last}`]] || []
   }
 
   // -------------------- page --------------------
   onChangeTop = title => {
     this.setState({
-      top: topDS.findIndex(item => item === title)
+      top: TOP_DS.findIndex(item => item === title)
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onChangeSub = title => {
@@ -115,6 +80,6 @@ export default class ScreenWiki extends store {
     this.setState({
       [key]: values.findIndex(item => item === title)
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

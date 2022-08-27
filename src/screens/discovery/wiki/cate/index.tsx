@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 15:02:18
+ * @Last Modified time: 2022-08-27 21:16:05
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { topDS } from './store'
+import { TOP_DS } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Cate(props, { $ }) {
+function Cate(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { top } = $.state
   return (
@@ -18,7 +19,7 @@ function Cate(props, { $ }) {
       <SegmentedControl
         style={styles.segment}
         size={11}
-        values={topDS}
+        values={TOP_DS}
         selectedIndex={top}
         onValueChange={$.onChangeTop}
       />
@@ -35,12 +36,3 @@ function Cate(props, { $ }) {
 }
 
 export default obc(Cate)
-
-const memoStyles = _.memoStyles(() => ({
-  segment: {
-    width: _.window.width - _.wind * 2,
-    height: 32 * _.ratio,
-    marginLeft: _.wind,
-    marginTop: _.sm + 2
-  }
-}))
