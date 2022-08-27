@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 20:53:18
+ * @Last Modified time: 2022-08-27 18:27:31
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -77,8 +77,8 @@ const Item = memo(
         <Flex style={styles.wrap} align='start'>
           <Cover
             src={cover}
-            width={IMG_WIDTH}
-            height={IMG_HEIGHT}
+            width={IMG_WIDTH * 1.1}
+            height={IMG_HEIGHT * 1.1}
             radius
             shadow
             type={type}
@@ -139,7 +139,7 @@ const Item = memo(
               <Flex.Item>
                 <Flex>
                   {!!comments && (
-                    <Text style={styles.comments} size={13} lineHeight={15}>
+                    <Text style={styles.comments} size={14} lineHeight={17}>
                       {comments}
                     </Text>
                   )}

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 13:51:52
+ * @Last Modified time: 2022-08-27 19:29:28
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -497,9 +497,10 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
     const html = raw.replace(/ {2}|&nbsp;/g, ' ').replace(/\n/g, '')
-    const commentsHTML = html.match(
-      /<div id="comment_box">(.+?)<\/div><\/div><div class="section_line clear">/
-    )
+    const commentsHTML =
+      html
+        .split('<div id="comment_box">')?.[1]
+        .split('</div></div><div class="section_line clear"')?.[0] || ''
 
     // -------------------- 分析HTML --------------------
     let { pageTotal = 0 } = pagination
@@ -534,7 +535,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       }
 
       // 留言
-      let items = commentsHTML[1].split('<div class="item clearit">')
+      let items = commentsHTML.split('<div class="item clearit">')
       items.shift()
 
       if (isReverse) items = items.reverse()

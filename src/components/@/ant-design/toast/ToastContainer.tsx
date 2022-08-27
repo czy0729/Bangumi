@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 16:33:27
+ * @Last Modified time: 2022-08-27 18:23:54
  */
 import React from 'react'
 import { ActivityIndicator, Animated, Text, View, TouchableOpacity } from 'react-native'
@@ -139,7 +139,11 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
                       iconDom ? styles.iconToast : styles.textToast,
                       themeStore.deepDark && {
                         backgroundColor: themeStore._colorDarkModeLevel2
-                      }
+                      },
+                      themeStore.deepDark &&
+                        type === 'loading' && {
+                          backgroundColor: themeStore._colorDarkModeLevel1
+                        }
                     ]}
                   >
                     {iconDom}

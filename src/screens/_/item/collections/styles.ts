@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 14:25:14
+ * @Last Modified time: 2022-08-27 18:27:43
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT } from '@constants'
@@ -16,7 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind
   },
   content: {
-    height: IMG_HEIGHT
+    height: IMG_HEIGHT * 1.1
   },
   comments: {
     padding: _.sm,
