@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:58:51
+ * @Last Modified time: 2022-08-28 16:33:37
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -82,6 +82,7 @@ export default class ScreenGame extends store {
   }
 
   // -------------------- page --------------------
+  /** 筛选选择 */
   onSelect = (type, value) => {
     const { query } = this.state
 
@@ -117,6 +118,8 @@ export default class ScreenGame extends store {
   }
 
   scrollToOffset = null
+
+  /** 到顶 */
   scrollToTop = () => {
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
@@ -129,9 +132,7 @@ export default class ScreenGame extends store {
     }
   }
 
-  /**
-   * 切换布局
-   */
+  /** 切换布局 */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
     t('游戏.切换布局', {
@@ -144,6 +145,7 @@ export default class ScreenGame extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
+  /** 展开 */
   onExpand = () => {
     const { expand } = this.state
     this.setState({

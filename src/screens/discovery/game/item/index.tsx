@@ -2,30 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 06:47:44
+ * @Last Modified time: 2022-08-28 15:47:13
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap, HorizontalList, Image } from '@components'
 import { _ } from '@stores'
 import { Tag, Cover, Stars, Rank } from '@_'
+import { x18, HTMLDecode, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
-import { x18 } from '@utils/app'
-import { pick } from '@utils/subject/game'
 import { t } from '@utils/fetch'
-import { HTMLDecode } from '@utils/html'
-import { showImageViewer } from '@utils/ui'
+import { pick } from '@utils/subject/game'
 import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
-import { CDN_GAME } from '@constants/cdn'
+import { Ctx } from '../types'
+import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
+import { fixed, getThumbs } from './utils'
+import { memoStyles } from './styles'
 
-const thumbWidth = _.device(114, parseInt(_.window.contentWidth * 0.4))
-const thumbHeight = parseInt(thumbWidth * 0.56)
-function fixed(image) {
-  if (image.includes('m/')) return image
-  return `m/${image}`
-}
-
-function Item({ index, pickIndex }, { $, navigation }) {
+function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const isFirst = index === 0
   const {
@@ -45,7 +39,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
   } = pick(pickIndex)
   const thumbs = getThumbs(id, length)
   const cover = image ? `//lain.bgm.tv/pic/cover/${fixed(image)}.jpg` : IMG_DEFAULT
-  let tip = [
+  let tip: any = [
     platform.join('、'),
     time,
     timeCn && timeCn !== time ? `中文 ${timeCn}` : ''
@@ -75,7 +69,6 @@ function Item({ index, pickIndex }, { $, navigation }) {
     >
       <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
         <Cover
-          style={styles.image}
           src={cover}
           width={IMG_WIDTH_LG}
           height={IMG_HEIGHT_LG}
@@ -124,8 +117,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
                     style={[!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md]}
                     key={item}
                     src={item}
-                    size={thumbWidth}
-                    height={thumbHeight}
+                    size={THUMB_WIDTH}
+                    height={THUMB_HEIGHT}
                     radius
                     onPress={() => {
                       showImageViewer(
@@ -148,36 +141,3 @@ function Item({ index, pickIndex }, { $, navigation }) {
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind
-  },
-  wrap: {
-    paddingVertical: _.md
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  content: {
-    flex: 1,
-    minHeight: IMG_HEIGHT_LG,
-    marginLeft: _._wind
-  },
-  body: {
-    marginRight: _.wind
-  },
-  thumbs: {
-    marginTop: _.md,
-    height: thumbHeight
-  }
-}))
-
-function getThumbs(subjectId, length) {
-  if (typeof length !== 'number') {
-    return []
-  }
-
-  return new Array(length).fill().map((item, index) => CDN_GAME(subjectId, index))
-}

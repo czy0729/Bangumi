@@ -2,27 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:25:26
+ * @Last Modified time: 2022-08-28 15:46:31
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { ViewStyle } from '@types'
+import { Props as HorizontalListProps } from './types'
 
-type Props = {
-  style: ViewStyle
-  contentContainerStyle: ViewStyle
-  data: any[]
-
-  /** 未滑动的情况下，最多显示多少项 */
-  initialRenderNums?: number
-  renderItem?: (arg0: any) => any
-}
+export { HorizontalListProps }
 
 export const HorizontalList = observer(
-  class HorizontalListComponent extends React.Component<Props> {
+  class HorizontalListComponent extends React.Component<HorizontalListProps> {
     static defaultProps = {
       data: [],
       initialRenderNums: 3
