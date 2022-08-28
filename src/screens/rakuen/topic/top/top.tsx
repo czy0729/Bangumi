@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 21:23:32
+ * @Last Modified time: 2022-08-28 13:57:43
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -17,37 +17,16 @@ import {
 } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { simpleTime } from '@utils'
-import { memo, obc } from '@utils/decorators'
-import { findSubjectCn, appNavigate } from '@utils/app'
-import { HTMLDecode } from '@utils/html'
+import { simpleTime, findSubjectCn, appNavigate, HTMLDecode } from '@utils'
+import { memo } from '@utils/decorators'
 import { HOST } from '@constants'
-import Content from './content'
-import Ep from './ep'
-import SectionTitle from './section-title'
-import Milestone from './milestone'
+import Content from '../content'
+import Ep from '../ep'
+import SectionTitle from '../section-title'
+import Milestone from '../milestone'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  topicId: '',
-  title: '',
-  time: '',
-  replies: '',
-  group: '',
-  groupHref: '',
-  groupThumb: '',
-  avatar: '',
-  userId: '',
-  userName: '',
-  userSign: '',
-  html: '',
-  commentsLoaded: false,
-  monoId: '',
-  isMono: false
-}
-
-const Top = memo(
+export default memo(
   ({
     navigation,
     styles,
@@ -65,9 +44,10 @@ const Top = memo(
     html,
     commentsLoaded,
     monoId,
-    isMono
+    isMono,
+    delete: topicDelete
   }) => {
-    rerender('Topic.Top.Main')
+    global.rerender('Topic.Top.Main')
 
     const [lines, setLines] = useState(1)
     const setLines2 = useCallback(() => setLines(2), [])
@@ -78,7 +58,7 @@ const Top = memo(
         from: '#1',
         topicId
       }
-    }
+    } as const
 
     // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
     const groupPress = isMono
@@ -166,6 +146,11 @@ const Top = memo(
             </Flex>
           )}
           <Content />
+          {topicDelete && (
+            <Text style={_.mb.md} size={15} lineHeight={18} bold align='center'>
+              数据库中没有查询到指定话题{'\n'}话题可能正在审核或已被删除
+            </Text>
+          )}
         </View>
         <Divider />
         <Ep />
@@ -174,64 +159,5 @@ const Top = memo(
       </>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default obc((props, { $, navigation }) => {
-  rerender('Topic.Top')
-
-  const { _replies } = $.params
-  const { _loaded } = $.comments
-  return (
-    <Top
-      navigation={navigation}
-      styles={memoStyles()}
-      topicId={$.topicId}
-      title={$.title}
-      time={$.time}
-      replies={_replies}
-      group={$.group}
-      groupHref={$.groupHref}
-      groupThumb={$.groupThumb}
-      avatar={$.avatar}
-      userId={$.userId}
-      userName={$.userName}
-      userSign={$.userSign}
-      html={$.html}
-      commentsLoaded={!!_loaded}
-      monoId={$.monoId}
-      isMono={$.isMono}
-    />
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.wind
-  },
-  groupWrap: {
-    minHeight: 32 * _.ratio,
-    marginTop: _.sm,
-    marginBottom: _.xs
-  },
-  groupLabel: {
-    overflow: 'hidden',
-    maxWidth: '100%',
-    padding: 4,
-    paddingRight: 10,
-    marginRight: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs
-  },
-  userWrap: {
-    height: 42 * _.ratio,
-    marginTop: _.sm
-  },
-  katakana: {
-    marginTop: -12
-  },
-  loading: {
-    height: 240 * _.ratio
-  }
-}))

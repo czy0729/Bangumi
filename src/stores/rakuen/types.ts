@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 17:35:04
+ * @Last Modified time: 2022-08-28 13:50:44
  */
 import {
   ListEmpty,
@@ -58,6 +58,7 @@ export type Topic = {
   userSign: string
   tip: string
   close: string
+  delete: boolean
   _loaded: Loaded
 }
 

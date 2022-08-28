@@ -51,7 +51,8 @@ export const INIT_TOPIC = {
   userName: '', // 作者名称
   userSign: '', // 作者签名
   tip: '', // 存在即代表需要加入小组才能回复
-  close: '' // 存在即代表主题被关闭
+  close: '', // 存在即代表主题被关闭
+  delete: false // 帖子已删除
 }
 
 export const INIT_COMMENTS_ITEM = {

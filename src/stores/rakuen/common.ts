@@ -336,7 +336,10 @@ export function cheerioTopic(HTML) {
       userName: $user.text().trim(),
       userSign: HTMLDecode($('div.postTopic span.tip_j').text().trim()),
       tip: $('#reply_wrapper span.tip.rr').text().trim(),
-      close: $('div.row_state span.tip_j').text().trim()
+      close: $('div.row_state span.tip_j').text().trim(),
+      delete: HTML.includes(
+        '<p class="text">数据库中没有查询到指定话题，话题可能正在审核或已被删除。</p>'
+      )
     })
 
     // 回复

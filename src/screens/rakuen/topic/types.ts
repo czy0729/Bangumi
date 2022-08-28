@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 17:25:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-02 12:36:26
+ * @Last Modified time: 2022-08-28 13:24:11
  */
 import { factory } from '@utils'
 import { Navigation, TopicId, UserId } from '@types'
@@ -28,4 +28,5 @@ export type Params = {
   _groupThumb?: string
   _url?: string
   _noFetch?: boolean
+  _replies?: string
 }

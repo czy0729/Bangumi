@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 00:55:30
+ * @Last Modified time: 2022-08-28 14:28:16
  */
 import { observable, computed } from 'mobx'
 import { feedback, getTimestamp } from '@utils'
@@ -57,6 +57,7 @@ class UIStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** ==================== tapXY ==================== */
+  /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
   setXY = (x = 0, y = 0) => {
     this.setState({
       tapXY: {
@@ -67,9 +68,10 @@ class UIStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** ==================== popableSubject ==================== */
+  /** 显示条目缩略信息弹出层 */
   showPopableSubject = ({ subjectId }) => {
-    const { _loaded } = subjectStore.subject(subjectId)
-    if (!_loaded) subjectStore.fetchSubject(subjectId)
+    const { id, _loaded } = subjectStore.subject(subjectId)
+    if (!_loaded || !id) subjectStore.fetchSubject(subjectId)
 
     if (this.popableSubject.visible) {
       this.closePopableSubject()
@@ -101,6 +103,7 @@ class UIStore extends store implements StoreConstructor<typeof state> {
     }, 80)
   }
 
+  /** 关闭条目缩略信息弹出层 */
   closePopableSubject = () => {
     if (!this.state.popableSubject.visible) return
 
@@ -119,6 +122,7 @@ class UIStore extends store implements StoreConstructor<typeof state> {
     }, 160)
   }
 
+  /** 因为弹出层使用了 Portal, 所以主动刷新 key 可以使弹出层永远在最顶层 */
   updatePopableSubjectPortalKey = () => {
     this.setState({
       popableSubject: {

@@ -17,6 +17,8 @@ export default {
   '其他.管理目录': 'Other.folderMange',
   '其他.缩略框跳转': 'Other.popableTo',
   '其他.设置': 'Other.Settings',
+  '其他.超展开设置': 'Other.RakuenSettings',
+  '其他.条目设置': 'Other.SubjectSettings',
   '其他.试用CDN': 'Other.cdnMagma',
   '其他.管理条目': 'Other.manageSubject',
 

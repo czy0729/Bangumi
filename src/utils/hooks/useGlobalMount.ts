@@ -28,18 +28,37 @@ export default function useGlobalMount() {
       try {
         const lastMs = (await getStorage(CACHE_KEY)) || 0
         const now = getTimestamp()
-        if (now - lastMs >= 24 * 60 * 60) {
-          t('其他.设置', {
-            ...omit(systemStore.setting, ['homeRenderTabs', 'discoveryMenu']),
-            ...omit(rakuenStore.setting, [
-              'blockKeywords',
-              'blockGroups',
-              'blockUserIds'
-            ])
+        if (now - lastMs >= 60 * 60 * 24) {
+          const settings = omit(systemStore.setting, [
+            'homeRenderTabs',
+            'discoveryMenu'
+          ])
+          Object.keys(settings).forEach(key => {
+            if (settings[key] === true) {
+              settings[key] = 1
+            } else if (settings[key] === false) {
+              settings[key] = 0
+            }
           })
+          t('其他.设置', settings)
+
+          const rakuenSettings = omit(rakuenStore.setting, [
+            'blockKeywords',
+            'blockGroups',
+            'blockUserIds'
+          ])
+          Object.keys(rakuenSettings).forEach(key => {
+            if (rakuenSettings[key] === true) {
+              rakuenSettings[key] = 1
+            } else if (rakuenSettings[key] === false) {
+              rakuenSettings[key] = 0
+            }
+          })
+          t('其他.超展开设置', rakuenSettings)
+
           setStorage(CACHE_KEY, now)
         }
       } catch (error) {}
-    }, 20000)
+    }, 12000)
   })
 }
