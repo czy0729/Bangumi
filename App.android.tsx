@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-04-28 10:53:59
  */
-import '@utils/thirdParty/stable-sort'
+// import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
 import { enableScreens } from 'react-native-screens'

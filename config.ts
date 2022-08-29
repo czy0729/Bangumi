@@ -28,7 +28,7 @@ export const TEXT_ONLY = DEV ? !DEV : false // : false 是为了打包后的apk�
 
 /** 路由覆盖配置 */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab Discovery Subject Tinygrail BilibiliSync
+  initialRouteName: 'Discovery', // HomeTab Discovery Subject Tinygrail BilibiliSync
   initialRouteParams: {
     // subjectId: 296870 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/367355' // group/366561
