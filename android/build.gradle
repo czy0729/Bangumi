@@ -2,10 +2,11 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "29.0.2"
+        buildToolsVersion = "29.0.3"
         minSdkVersion = 21
         compileSdkVersion = 29
         targetSdkVersion = 29
+        ndkVersion = "20.1.5948944"
     }
     repositories {
         maven{ url "https://maven.aliyun.com/nexus/content/groups/public/" }
@@ -14,7 +15,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.3")
+        classpath("com.android.tools.build:gradle:4.1.0")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -25,18 +26,22 @@ allprojects {
     repositories {
         mavenLocal()
         maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url("$rootDir/../node_modules/react-native/android")
+          // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+          url("$rootDir/../node_modules/react-native/android")
         }
         maven {
-            // Android JSC is installed from npm
-            url("$rootDir/../node_modules/jsc-android/dist")
+          // Android JSC is installed from npm
+          url("$rootDir/../node_modules/jsc-android/dist")
         }
+
         maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url "https://maven.aliyun.com/nexus/content/repositories/jcenter" }
+        maven { url 'https://www.jitpack.io' }
+        // maven { url 'https://dl.bintray.com/umsdk/release' }
+        // maven { url 'https://status.bintray.com/umsdk/release' }
+        maven { url 'https://jcenter.bintray.com/umsdk/release' }
+
         google()
         jcenter()
-        maven { url 'https://www.jitpack.io' }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }

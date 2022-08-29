@@ -126,6 +126,8 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", true);
 
 android {
+  ndkVersion rootProject.ext.ndkVersion
+
   dexOptions {
     javaMaxHeapSize "3g"
   }
