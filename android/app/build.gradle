@@ -125,6 +125,11 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", true);
 
+/**
+ * Architectures to build native code for in debug.
+ */
+def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
+
 android {
   ndkVersion rootProject.ext.ndkVersion
 
@@ -133,11 +138,6 @@ android {
   }
 
   compileSdkVersion rootProject.ext.compileSdkVersion
-
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
 
   defaultConfig {
     applicationId "com.czy0729.bangumi"
@@ -152,7 +152,7 @@ android {
       reset()
       enable enableSeparateBuildPerCPUArchitecture
       universalApk true  // If true, also generate a universal APK
-      include "armeabi-v7a", "arm64-v8a" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+      include "armeabi-v7a", "arm64-v8a", "x86_64" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
     }
   }
   signingConfigs {
@@ -181,6 +181,11 @@ android {
     debug {
       // signingConfig signingConfigs.debug
       signingConfig signingConfigs.release
+      if (nativeArchitectures) {
+        ndk {
+          abiFilters nativeArchitectures.split(',')
+        }
+      }
     }
     release {
       // Caution! In production, you need to generate your own keystore file.
@@ -204,7 +209,7 @@ android {
       // For each separate APK per architecture, set a unique version code as described here:
       // https://developer.android.com/studio/build/configure-apk-splits.html
       // def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
-      def versionCodes = ["armeabi-v7a": 1, "arm64-v8a": 2]
+      def versionCodes = ["armeabi-v7a": 1, "arm64-v8a": 2, "x86_64": 3]
       def abi = output.getFilter(OutputFile.ABI)
       if (abi != null) {
         // null for the universal-debug, universal-release variants
@@ -219,9 +224,9 @@ dependencies {
   implementation "com.facebook.react:react-native:+"  // From node_modules
   implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-  implementation 'com.umeng.umsdk:common:2.0.0' // 基础组件
+  implementation 'com.umeng.umsdk:common:2.0.0'
   implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-  implementation 'com.umeng.umsdk:analytics:8.0.0' // 统计
+  implementation 'com.umeng.umsdk:analytics:8.0.0'
 
   // 如果你需要支持GIF动图
   implementation "com.facebook.fresco:animated-gif:2.0.0"
@@ -253,7 +258,7 @@ dependencies {
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
 task copyDownloadableDepsToLibs(type: Copy) {
-  from configurations.compile
+  from configurations.implementation
   into 'libs'
 }
 
