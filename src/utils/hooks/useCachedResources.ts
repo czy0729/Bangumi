@@ -7,6 +7,7 @@
 import { useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
+import { devLog } from '@components'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores from '@stores'
 import useBoolean from './useBoolean'
@@ -50,6 +51,7 @@ export default function useCachedResources() {
 
         setComponentsDefaultProps()
       } catch (e) {
+        devLog(String(e))
       } finally {
         setTrue()
 

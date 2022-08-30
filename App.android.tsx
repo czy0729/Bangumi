@@ -7,6 +7,7 @@
 import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
+import { LogBox } from 'react-native'
 import { enableScreens } from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
@@ -24,6 +25,8 @@ import {
 } from '@utils/hooks'
 import { androidKeyboardAdjust } from '@utils/ui'
 import theme from '@styles/theme'
+
+LogBox.ignoreAllLogs(true)
 
 export default function App() {
   // 加载图标等资源
