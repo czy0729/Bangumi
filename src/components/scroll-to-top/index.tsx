@@ -3,16 +3,19 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 15:30:49
+ * @Last Modified time: 2022-09-01 01:29:17
  */
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import Portal from '@ant-design/react-native/lib/portal'
 import { _, systemStore } from '@stores'
-import { IOS } from '@constants'
+import { IOS, WSA } from '@constants'
 import { Touchable } from '../touchable'
+import { Flex } from '../flex'
+import { Iconfont } from '../iconfont'
 import { scrollToTopCallback } from './utils'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 import { Props as ScrollToToPropsp } from './types'
 
 export { ScrollToToPropsp, scrollToTopCallback }
@@ -26,6 +29,35 @@ const ScrollToTop = observer(
     onPress
   }: ScrollToToPropsp) => {
     if ((IOS || !isFocused) && !systemStore.dev) return null
+
+    const styles = memoStyles()
+
+    // 子系统使用右下方固定位置按钮代替顶部点击
+    if (WSA) {
+      return (
+        <View style={styles.scrollToTop}>
+          <Touchable
+            style={styles.touch}
+            onPress={() => {
+              if (onPress) {
+                onPress()
+                return
+              }
+
+              scrollToTopCallback({
+                scrollTo,
+                scrollToIndex,
+                scrollToLocation
+              })
+            }}
+          >
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='md-vertical-align-top' color={_.colorSub} size={20} />
+            </Flex>
+          </Touchable>
+        </View>
+      )
+    }
 
     return (
       <Portal>

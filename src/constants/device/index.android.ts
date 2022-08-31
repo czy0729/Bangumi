@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 04:10:40
+ * @Last Modified time: 2022-09-01 02:10:32
  */
 import { Platform, Dimensions } from 'react-native'
 import DeviceInfo from 'react-native-device-info'

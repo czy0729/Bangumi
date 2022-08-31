@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:06:06
+ * @Last Modified time: 2022-09-01 00:37:07
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -18,7 +18,7 @@ function MenuItem(
   const num = _.portrait(2, 4)
   return (
     <Touchable
-      style={[styles.container, _.isLandscape && index % num === 0 && styles.left]}
+      style={[styles.container, index % num === 0 && styles.left]}
       onPress={() => {
         t('小圣杯.跳转', {
           to: pathname,
@@ -46,22 +46,23 @@ export default obc(MenuItem)
 
 const memoStyles = _.memoStyles(() => {
   const num = _.portrait(2, 4)
-  const { width, marginLeft } = _.grid(num)
+  const margin = _.md
+  const width = (_.window.width - _.wind * 2 - _.md * (num - 1)) / num
   return {
     container: {
-      marginVertical: marginLeft / 2.1,
-      marginLeft,
+      marginBottom: margin,
+      marginLeft: margin,
       borderRadius: _.radiusSm,
       overflow: 'hidden'
     },
-    block: {
-      width,
-      height: width * 0.39,
-      paddingLeft: 20,
-      backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)
-    },
     left: {
       marginLeft: 0
+    },
+    block: {
+      width,
+      height: width * _.device(0.39, 0.34),
+      paddingLeft: 20,
+      backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)
     },
     icon: {
       position: 'absolute',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:31:18
+ * @Last Modified time: 2022-09-01 00:52:34
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -22,9 +22,6 @@ import Store from './store'
 
 const title = '小圣杯'
 
-export default
-@inject(Store)
-@obc
 class Tinygrail extends React.Component {
   state = {
     refreshing: false
@@ -90,9 +87,12 @@ class Tinygrail extends React.Component {
   }
 }
 
+export default inject(Store)(obc(Tinygrail))
+
 const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
+    paddingHorizontal: _.wind,
     backgroundColor: _.colorTinygrailContainer
   },
   contentContainerStyle: {

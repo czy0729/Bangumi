@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:52:34
+ * @Last Modified time: 2022-09-01 01:13:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { WSA, MODEL_SUBJECT_TYPE } from '@constants'
 import Header from './header'
 import List from './list'
 import LinkModal from './link-modal'
@@ -41,7 +41,7 @@ const Discovery = ({ isFocused }, { $, navigation }) => {
           data={home}
           ListHeaderComponent={<Header />}
           renderItem={renderItem}
-          scrollToTop={isFocused}
+          scrollToTop={isFocused || WSA}
           scrollEnabled={!dragging}
         />
         <LinkModal />

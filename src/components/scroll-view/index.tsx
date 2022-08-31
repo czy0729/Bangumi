@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 10:52:41
+ * @Last Modified time: 2022-09-01 01:16:55
  */
 import React, { useRef } from 'react'
 import { ScrollView as RNScrollView } from 'react-native'
@@ -32,14 +32,16 @@ export const ScrollView = ({
     ref = ref => connectRef(ref?.scrollTo)
   }
   return (
-    <RNScrollView
-      ref={ref}
-      scrollIndicatorInsets={scrollIndicatorInsets}
-      {...other}
-      {...SCROLL_VIEW_RESET_PROPS}
-    >
-      {children}
+    <>
+      <RNScrollView
+        ref={ref}
+        scrollIndicatorInsets={scrollIndicatorInsets}
+        {...other}
+        {...SCROLL_VIEW_RESET_PROPS}
+      >
+        {children}
+      </RNScrollView>
       {scrollToTop && <ScrollToTop scrollTo={scrollViewEl.current} />}
-    </RNScrollView>
+    </>
   )
 }

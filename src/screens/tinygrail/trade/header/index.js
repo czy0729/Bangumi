@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-20 10:04:04
+ * @Last Modified time: 2022-09-01 00:59:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -135,9 +135,8 @@ export default obc(Header, {
 const memoStyles = _.memoStyles(() => ({
   container: {
     zIndex: 1,
-    paddingTop: _.space,
-    paddingHorizontal: _._wind,
-    paddingBottom: _.sm
+    paddingVertical: _.sm,
+    paddingHorizontal: _._wind
   },
   avatar: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-31 15:21:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 15:38:53
+ * @Last Modified time: 2022-09-01 01:28:10
  */
 import { devLogs } from '../dev'
 import { Props } from './types'
@@ -21,12 +21,12 @@ export function scrollToTopCallback({
         animated: true
       })
     } catch (error) {
-      devLogs('ScrollToTop', 'scrollTo', error)
+      devLogs('ScrollToTop', 'scrollTo', String(error))
     }
     return
   }
 
-  if (scrollToIndex) {
+  if (scrollToIndex || scrollToLocation) {
     try {
       scrollToIndex({
         animated: true,
@@ -34,7 +34,7 @@ export function scrollToTopCallback({
         viewOffset: 8000
       })
     } catch (error) {
-      devLogs('ScrollToTop', 'scrollToIndex', error)
+      devLogs('ScrollToTop', 'scrollToIndex', String(error))
 
       try {
         scrollToLocation({
@@ -45,7 +45,7 @@ export function scrollToTopCallback({
           viewPosition: 0
         })
       } catch (ex) {
-        devLogs('ScrollToTop', 'scrollToLocation', ex)
+        devLogs('ScrollToTop', 'scrollToLocation', String(ex))
       }
     }
   }

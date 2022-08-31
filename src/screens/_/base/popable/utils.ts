@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 11:42:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:59:53
+ * @Last Modified time: 2022-09-01 02:03:14
  */
 import { _ } from '@stores'
 import { memoStyles } from './styles'
@@ -39,14 +39,13 @@ export function getPosition(
   if (y - container.height - LINE_HEIGHT * 3 >= 0) {
     position = 'top'
     style.top = y - container.height - LINE_HEIGHT
+    if (_.isPad) style.top -= 32
   } else {
     position = 'bottom'
-    style.top = y + LINE_HEIGHT * 1.2
+    style.top = y + (_.isPad ? 0 : LINE_HEIGHT * 1.2)
   }
 
-  if (_.isPad) {
-    style.left = x
-  } else if (x >= _.window.width / 2) {
+  if (x >= _.window.width / 2) {
     style.right = MOBILE_MARGIN_RIGHT
   } else {
     style.left = MOBILE_MARGIN_LEFT

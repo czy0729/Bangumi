@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:09:24
+ * @Last Modified time: 2022-09-01 00:57:00
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { Avatar, IconBack, IconTouchable } from '@_'
 import { _ } from '@stores'
@@ -31,135 +30,124 @@ function Header(props, { $, navigation }) {
 
   const { subject, r } = $.relation
   return (
-    <View>
-      {_.isPad && (
-        <IconBack
-          style={styles.backIsPad}
-          navigation={navigation}
-          color={_.colorTinygrailPlain}
-        />
-      )}
-      <Flex style={styles.container}>
-        <Flex.Item>
-          <Flex>
-            {!_.isPad && (
-              <IconBack
-                style={styles.back}
-                navigation={navigation}
-                color={_.colorTinygrailPlain}
-              />
-            )}
-            {!!icon && (
-              <Avatar
-                style={styles.avatar}
-                src={tinygrailOSS(icon)}
-                size={40}
-                borderColor='transparent'
-                name={name}
-                onPress={() => {
-                  t('交易.跳转', {
-                    to: 'Mono',
-                    monoId: $.monoId
-                  })
-
-                  navigation.push('Mono', {
-                    monoId: `character/${$.monoId}`,
-                    _name: name
-                  })
-                }}
-              />
-            )}
-            <Flex.Item style={_.ml.sm}>
-              <Flex>
-                <Rank value={rank} />
-                <Text
-                  type='tinygrailPlain'
-                  size={name.length > 12 ? 11 : name.length > 8 ? 13 : 14}
-                  numberOfLines={1}
-                  lineHeight={13}
-                  bold
-                >
-                  {name}
-                </Text>
-                <Text style={_.ml.xs} type='ask' size={11} bold lineHeight={13}>
-                  lv{level}
-                </Text>
-                <Text
-                  style={_.ml.xs}
-                  type={color}
-                  size={12}
-                  lineHeight={13}
-                  align='center'
-                  bold
-                >
-                  {fluctuationText}
-                </Text>
-              </Flex>
-              <Text style={_.mt.xxs} type='tinygrailText' size={12}>
-                #{$.monoId} / +{toFixed(rate, 1)} (
-                {Number(toFixed(calculateRate(rate, rank, stars), 1))})
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
+    <Flex style={styles.container}>
+      <Flex.Item>
         <Flex>
-          <IconTouchable
-            name='md-workspaces-outline'
+          <IconBack
+            style={styles.back}
+            navigation={navigation}
             color={_.colorTinygrailPlain}
-            onPress={() => {
-              t('交易.跳转', {
-                to: 'TinygrailSacrifice',
-                monoId: $.monoId
-              })
-
-              const { form, monoId } = $.params
-              if (form === 'sacrifice') {
-                navigation.goBack()
-                return
-              }
-
-              navigation.push('TinygrailSacrifice', {
-                monoId,
-                form: 'deal'
-              })
-            }}
           />
-          <IconTouchable
-            name='md-waterfall-chart'
-            color={_.colorTinygrailPlain}
-            onPress={() => {
-              t('交易.跳转', {
-                to: 'TinygrailTrade',
-                monoId: $.monoId
-              })
-
-              const { form, monoId } = $.params
-              if (form === 'trade') {
-                navigation.goBack()
-                return
-              }
-
-              navigation.push('TinygrailTrade', {
-                monoId,
-                form: 'deal'
-              })
-            }}
-          />
-          {!!subject && (
-            <IconTouchable
-              name='md-compare-arrows'
-              color={_.colorTinygrailPlain}
+          {!!icon && (
+            <Avatar
+              style={styles.avatar}
+              src={tinygrailOSS(icon)}
+              size={40}
+              borderColor='transparent'
+              name={name}
               onPress={() => {
-                navigation.push('TinygrailRelation', {
-                  ids: r,
-                  name: `${subject} (${r.length})`
+                t('交易.跳转', {
+                  to: 'Mono',
+                  monoId: $.monoId
+                })
+
+                navigation.push('Mono', {
+                  monoId: `character/${$.monoId}`,
+                  _name: name
                 })
               }}
             />
           )}
+          <Flex.Item style={_.ml.sm}>
+            <Flex>
+              <Rank value={rank} />
+              <Text
+                type='tinygrailPlain'
+                size={name.length > 12 ? 11 : name.length > 8 ? 13 : 14}
+                numberOfLines={1}
+                lineHeight={13}
+                bold
+              >
+                {name}
+              </Text>
+              <Text style={_.ml.xs} type='ask' size={11} bold lineHeight={13}>
+                lv{level}
+              </Text>
+              <Text
+                style={_.ml.xs}
+                type={color}
+                size={12}
+                lineHeight={13}
+                align='center'
+                bold
+              >
+                {fluctuationText}
+              </Text>
+            </Flex>
+            <Text style={_.mt.xxs} type='tinygrailText' size={12}>
+              #{$.monoId} / +{toFixed(rate, 1)} (
+              {Number(toFixed(calculateRate(rate, rank, stars), 1))})
+            </Text>
+          </Flex.Item>
         </Flex>
+      </Flex.Item>
+      <Flex>
+        <IconTouchable
+          name='md-workspaces-outline'
+          color={_.colorTinygrailPlain}
+          onPress={() => {
+            t('交易.跳转', {
+              to: 'TinygrailSacrifice',
+              monoId: $.monoId
+            })
+
+            const { form, monoId } = $.params
+            if (form === 'sacrifice') {
+              navigation.goBack()
+              return
+            }
+
+            navigation.push('TinygrailSacrifice', {
+              monoId,
+              form: 'deal'
+            })
+          }}
+        />
+        <IconTouchable
+          name='md-waterfall-chart'
+          color={_.colorTinygrailPlain}
+          onPress={() => {
+            t('交易.跳转', {
+              to: 'TinygrailTrade',
+              monoId: $.monoId
+            })
+
+            const { form, monoId } = $.params
+            if (form === 'trade') {
+              navigation.goBack()
+              return
+            }
+
+            navigation.push('TinygrailTrade', {
+              monoId,
+              form: 'deal'
+            })
+          }}
+        />
+        {!!subject && (
+          <IconTouchable
+            name='md-compare-arrows'
+            color={_.colorTinygrailPlain}
+            onPress={() => {
+              navigation.push('TinygrailRelation', {
+                ids: r,
+                name: `${subject} (${r.length})`
+              })
+            }}
+          />
+        )}
       </Flex>
-    </View>
+    </Flex>
   )
 }
 
@@ -167,10 +155,8 @@ export default obc(Header)
 
 const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingRight: _.isPad ? _.wind - _._wind : 8,
-    paddingTop: 12,
-    paddingBottom: _.sm,
-    paddingLeft: _._wind
+    paddingVertical: _.sm,
+    paddingHorizontal: _._wind
   },
   back: {
     marginLeft: -8

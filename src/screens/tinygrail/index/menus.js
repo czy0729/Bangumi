@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:19:40
+ * @Last Modified time: 2022-09-01 00:51:41
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -12,12 +12,11 @@ import MenuItem from './menu-item'
 import Assets from './assets'
 
 function Menus(props, { $ }) {
-  const styles = memoStyles()
   const bids = $.list('bid').list.length
   const asks = $.list('asks').list.length
   const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
-    <Flex style={styles.container} wrap='wrap'>
+    <Flex style={_.mt.sm} wrap='wrap'>
       <MenuItem
         index={0}
         title='热门榜单'
@@ -152,9 +151,3 @@ function Menus(props, { $ }) {
 }
 
 export default obc(Menus)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingHorizontal: _.isLandscape ? _.wind : 0
-  }
-}))
