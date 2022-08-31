@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 01:54:10
+ * @Last Modified time: 2022-08-31 16:02:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,6 @@ import { memo, obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-const gridStyles = _.grid()
 const hitSlop = {
   top: _.device(2, 4),
   right: _.device(4, 4),
@@ -22,6 +21,7 @@ const hitSlop = {
 }
 const defaultProps = {
   navigation: {},
+  styles: {},
   hideScore: false,
   style: {},
   subjectId: 0,
@@ -36,6 +36,7 @@ const defaultProps = {
 const Item = memo(
   ({
     navigation,
+    styles,
     hideScore,
     style,
     subjectId,
@@ -73,8 +74,8 @@ const Item = memo(
     return (
       <View style={[styles.item, style]}>
         <Cover
-          width={gridStyles.width}
-          height={gridStyles.height}
+          width={styles.cover.width}
+          height={styles.cover.height}
           src={images.medium}
           radius
           shadow
@@ -116,6 +117,7 @@ export default obc(
     return (
       <Item
         navigation={navigation}
+        styles={memoStyles()}
         hideScore={systemStore.setting.hideScore}
         style={style}
         subjectId={subjectId}
@@ -130,10 +132,17 @@ export default obc(
   }
 )
 
-const styles = _.create({
-  item: {
-    width: gridStyles.width,
-    marginLeft: gridStyles.marginLeft,
-    marginBottom: _.md
+const memoStyles = _.memoStyles(() => {
+  const gridStyles = _.grid()
+  return {
+    item: {
+      width: gridStyles.width,
+      marginLeft: gridStyles.marginLeft,
+      marginBottom: _.md
+    },
+    cover: {
+      width: gridStyles.width,
+      height: gridStyles.height
+    }
   }
 })

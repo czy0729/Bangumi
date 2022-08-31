@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:33:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:44:51
+ * @Last Modified time: 2022-08-31 20:17:37
  */
 import { _ } from '@stores'
 
@@ -85,7 +85,7 @@ export const memoStyles = _.memoStyles(() => ({
   send: {
     width: 36,
     height: 36,
-    marginTop: _.device(0, _.xs)
+    marginTop: _.platforms(0, 0, _.device(0, _.xs), 0)
   },
   touchSource: {
     padding: _.xs,

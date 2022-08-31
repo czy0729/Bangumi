@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 12:40:49
+ * @Last Modified time: 2022-08-31 14:28:33
  */
 import { ModelValueOf } from '@types'
 import {
@@ -10,6 +10,7 @@ import {
   COLLECTIONS_ORDERBY,
   COLLECTION_STATUS,
   EP_STATUS,
+  EP_TYPE,
   MONO_WORKS_ORDERBY,
   PRIVATE,
   RAKUEN_SCOPE,
@@ -43,6 +44,8 @@ export type CollectionStatusCn = ModelValueOf<typeof COLLECTION_STATUS, 'label'>
 export type CollectionStatusValue = ModelValueOf<typeof COLLECTION_STATUS, 'title'>
 export type CollectionsOrder = ModelValueOf<typeof COLLECTIONS_ORDERBY>
 export type CollectionsOrderCn = ModelValueOf<typeof COLLECTIONS_ORDERBY, 'label'>
+export type EpType = ModelValueOf<typeof EP_TYPE>
+export type EpTypeCn = ModelValueOf<typeof EP_TYPE, 'label'>
 export type EpStatus = ModelValueOf<typeof EP_STATUS>
 export type EpStatusCn = ModelValueOf<typeof EP_STATUS, 'label'>
 export type MonoWorksOrderby = ModelValueOf<typeof MONO_WORKS_ORDERBY>

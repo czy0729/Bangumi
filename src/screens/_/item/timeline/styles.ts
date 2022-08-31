@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:19:10
+ * @Last Modified time: 2022-08-31 18:47:11
  */
 import { _ } from '@stores'
 import { AVATAR_WIDTH } from './ds'
@@ -23,7 +23,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   avatar: {
     width: _.r(AVATAR_WIDTH),
-    marginTop: 18,
+    marginTop: _.r(18),
     marginLeft: _.wind
   },
   content: {

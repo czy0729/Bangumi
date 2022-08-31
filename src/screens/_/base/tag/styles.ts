@@ -1,15 +1,15 @@
 /*
  * @Author: czy0729
  * @Date: 2022-06-13 21:11:27
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-06-13 21:11:27
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-08-31 19:03:16
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   tag: {
-    minWidth: 28,
-    minHeight: 16,
+    minWidth: _.r(28),
+    minHeight: _.r(16),
     paddingRight: 2,
     paddingVertical: 1,
     paddingLeft: 1,

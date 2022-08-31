@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 06:18:40
+ * @Last Modified time: 2022-08-31 17:21:59
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,7 +10,6 @@ import { Avatar } from '@_'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
 import { IMG_DEFAULT_AVATAR } from '@constants'
-import { IS_IOS_5_6_7_8 } from '@styles'
 
 const imgWidth = 28
 const defaultProps = {
@@ -67,7 +66,7 @@ export default ob(({ $, navigation }) => {
 
 const styles = _.create({
   container: {
-    marginTop: _.ios(IS_IOS_5_6_7_8 ? -8 : 4, 0),
+    marginTop: _.platforms(4, -8, 0, -14),
     marginLeft: -_.sm,
     marginRight: _.lg
   }

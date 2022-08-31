@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:23:01
+ * @Last Modified time: 2022-08-31 20:14:12
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { getStorage, setStorage, open } from '@utils'
-import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
 import { Text } from '../text'
 import { Bgm } from '../bgm'
 import { Flex } from '../flex'
@@ -570,14 +570,14 @@ export const FixedTextarea = observer(
         history,
         replyHistory
       } = this.state
-      // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
+      // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
       if (!IOS && !showBgm) return null
-      if (!showTextarea || !keyboardHeight) return null
+      if (!showTextarea || (!WSA && !keyboardHeight)) return null
 
       return (
         <ScrollView
           style={{
-            height: keyboardHeight + 1
+            height: (WSA ? 280 : keyboardHeight) + 1
           }}
           contentContainerStyle={this.styles.bgmContainer}
           {...SCROLL_VIEW_RESET_PROPS}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 16:08:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 10:18:56
+ * @Last Modified time: 2022-08-31 17:26:33
  */
 import { _ } from '@stores'
 
@@ -10,8 +10,8 @@ export const memoStyles = _.memoStyles(() => ({
   dev: {
     position: 'absolute',
     zIndex: 1000,
-    right: _.wind,
-    bottom: 64
+    right: _._wind,
+    bottom: 196
   },
   touch: {
     backgroundColor: _.colorTitle,
@@ -22,8 +22,8 @@ export const memoStyles = _.memoStyles(() => ({
   clear: {
     position: 'absolute',
     zIndex: 1000,
-    left: _.wind,
-    bottom: 40
+    left: _._wind,
+    bottom: _.r(40)
   },
   clearTouch: {
     borderRadius: 20,

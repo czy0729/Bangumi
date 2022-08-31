@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 15:49:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 05:16:25
+ * @Last Modified time: 2022-08-31 19:11:11
  */
 import { _ } from '@stores'
 import { PAD } from '@constants'
@@ -73,7 +73,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   md: {
     width: '100%',
-    height: _.device(44, 56)
+    height: _.device(44, 50)
   },
 
   // text

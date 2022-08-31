@@ -2,28 +2,29 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 08:40:52
+ * @Last Modified time: 2022-08-31 14:25:07
  */
 import { _ } from '@stores'
 import { pick } from '@utils'
+import { Fn, SubjectId, ViewStyle } from '@types'
 
-export const defaultProps = {
-  style: {},
-  subjectId: 0,
-  layoutWidth: 0,
-  marginRight: 0,
-  numbersOfLine: 8,
-  lines: 4,
-  pagination: false,
-  canPlay: false,
-  login: false,
-  advance: false,
-  eps: [],
-  userProgress: {},
-  grid: false,
+export const DEFAULT_PROPS = {
+  style: {} as ViewStyle,
+  subjectId: 0 as SubjectId,
+  layoutWidth: 0 as number,
+  marginRight: 0 as number,
+  numbersOfLine: 8 as number,
+  lines: 4 as number,
+  pagination: false as boolean,
+  canPlay: false as boolean,
+  login: false as boolean,
+  advance: false as boolean,
+  eps: [] as any[],
+  userProgress: {} as any,
+  grid: false as boolean,
   orientation: _.orientation,
-  onSelect: Function.prototype,
-  onLongPress: Function.prototype
+  onSelect: (() => {}) as Fn,
+  onLongPress: (() => {}) as Fn
 }
 
 export const buttonDefaultProps = {
@@ -35,7 +36,7 @@ export const buttonDefaultProps = {
   props: {
     width: 0,
     margin: 0,
-    ...pick(defaultProps, [
+    ...pick(DEFAULT_PROPS, [
       'subjectId',
       'numbersOfLine',
       'canPlay',

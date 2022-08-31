@@ -2,9 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-20 09:22:42
+ * @Last Modified time: 2022-08-31 04:11:04
  */
 import { Platform, Dimensions } from 'react-native'
+
+/** 是否 WSA 子系统 */
+export const WSA = false
 
 /** 平板小 */
 export const PAD_LEVEL_1 = 616

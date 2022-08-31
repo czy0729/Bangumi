@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 06:11:58
+ * @Last Modified time: 2022-08-31 19:45:54
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -39,6 +39,14 @@ export function devLog(...args: any) {
 }
 
 export function devLogs(...args: any) {
+  devLog(args.join(', '))
+}
+
+let _limit = 0
+
+export function devLogLimit(...args: any) {
+  _limit += 1
+  if (_limit >= 8) return
   devLog(args.join(', '))
 }
 

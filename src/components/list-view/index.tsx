@@ -5,16 +5,19 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 05:42:04
+ * @Last Modified time: 2022-08-31 15:48:35
  */
 import React from 'react'
-import { RefreshControl } from 'react-native'
+import { RefreshControl, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { pick, omit, sleep, simpleTime, date } from '@utils'
-import { LIST_EMPTY } from '@constants'
+import { LIST_EMPTY, WSA } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
-import { ScrollToTop } from '../scroll-to-top'
+import { ScrollToTop, scrollToTopCallback } from '../scroll-to-top'
+import { Touchable } from '../touchable'
+import { Flex } from '../flex'
+import { Iconfont } from '../iconfont'
 import List from './list'
 import Footer from './footer'
 import { REFRESH_STATE } from './ds'
@@ -332,7 +335,29 @@ export const ListView = observer(
 
     renderScrollToTop() {
       const { scrollToTop } = this.props
+
       if (!scrollToTop) return null
+
+      // 子系统使用右下方固定位置按钮代替顶部点击
+      if (WSA) {
+        return (
+          <View style={this.styles.scrollToTop}>
+            <Touchable
+              style={this.styles.touch}
+              onPress={() => {
+                scrollToTopCallback({
+                  scrollToIndex: this.scrollToIndex,
+                  scrollToLocation: this.scrollToLocation
+                })
+              }}
+            >
+              <Flex style={this.styles.icon} justify='center'>
+                <Iconfont name='md-vertical-align-top' color={_.colorSub} size={20} />
+              </Flex>
+            </Touchable>
+          </View>
+        )
+      }
 
       return (
         <ScrollToTop

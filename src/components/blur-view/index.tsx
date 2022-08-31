@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 18:08:23
+ * @Last Modified time: 2022-08-31 19:31:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,20 +12,21 @@ import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { matchCoverUrl } from '@utils/app'
 import { IOS } from '@constants'
-import { Expand, ViewStyle } from '@types'
 import { Image } from '../image'
 import { styles } from './styles'
+import { Props as BlurViewProps } from './types'
 
-type Props = Expand<{
-  style?: ViewStyle
-  src?: string
-  tint?: 'default' | 'light' | 'dark'
-  intensity?: number
-  children?: any
-}>
+export { BlurViewProps }
 
 export const BlurView = observer(
-  ({ style, src, tint = 'light', intensity = 100, children }: Props) => {
+  ({
+    style,
+    src,
+    tint = 'light',
+    intensity = 100,
+    blurRadius = 16,
+    children
+  }: BlurViewProps) => {
     if (!src) return null
 
     const _src = matchCoverUrl(src)
@@ -54,7 +55,7 @@ export const BlurView = observer(
           imageStyle={styles.image}
           src={_src}
           fadeDuration={80}
-          blurRadius={16}
+          blurRadius={blurRadius}
           textOnly={false}
           fallback
         />

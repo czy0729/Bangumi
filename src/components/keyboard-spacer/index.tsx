@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 12:17:35
+ * @Last Modified time: 2022-08-31 20:01:19
  */
 import {
   UIManager,
@@ -17,14 +17,10 @@ import {
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { IOS } from '@constants'
-import { ViewStyle } from '@types'
 import { styles } from './styles'
+import { Props as KeyboardSpacerProps } from './types'
 
-type Props = {
-  style?: ViewStyle
-  topSpacing?: number
-  onToggle?: (toggle?: boolean, keyboardSpace?: number) => any
-}
+export { KeyboardSpacerProps }
 
 // 注意如果要在Android上使用此动画，则需要在代码中启用
 if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -45,7 +41,7 @@ const defaultAnimation = {
   }
 }
 
-export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Props> {
+export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<KeyboardSpacerProps> {
   static propTypes = {
     topSpacing: PropTypes.number,
     onToggle: PropTypes.func
@@ -79,9 +75,7 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Pr
   }
 
   updateKeyboardSpace = event => {
-    if (!event.endCoordinates) {
-      return
-    }
+    if (!event.endCoordinates) return
 
     let animationConfig: any = defaultAnimation
     if (Platform.OS === 'ios') {

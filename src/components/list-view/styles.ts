@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:00:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 04:00:57
+ * @Last Modified time: 2022-08-31 17:27:03
  */
 import { _ } from '@stores'
 
@@ -28,6 +28,22 @@ export const memoStyles = _.memoStyles(() => ({
   },
   footerNoMore: {
     padding: 8
+  },
+  scrollToTop: {
+    position: 'absolute',
+    zIndex: 1000,
+    right: _._wind,
+    bottom: _.r(64)
+  },
+  touch: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+    borderRadius: 20,
+    overflow: 'hidden',
+    opacity: 0.8
+  },
+  icon: {
+    width: 40,
+    height: 40
   }
 }))
 

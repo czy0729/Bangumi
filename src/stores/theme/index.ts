@@ -4,16 +4,16 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 06:24:43
+ * @Last Modified time: 2022-08-31 13:53:02
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
+import { androidDayNightToggle } from '@utils'
 import store from '@utils/store'
-import { androidDayNightToggle } from '@utils/ui'
-import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
-import _, { fontSize } from '@styles'
-import { SelectFn, SettingFontsizeadjust, StoreConstructor } from '@types'
+import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE, WSA, PAD } from '@constants'
+import _, { fontSize, IS_IOS_5_6_7_8 } from '@styles'
+import { AnyObject, SelectFn, SettingFontsizeadjust, StoreConstructor } from '@types'
 import systemStore from '../system'
 import {
   NAMESPACE,
@@ -21,9 +21,9 @@ import {
   DEFAULT_TINYGRAIL_MODE,
   DEFAULT_TINYGRAIL_THEME_MODE,
   STYLES_LIGHT,
-  STYLES_DARK,
-  getMemoStylesId
+  STYLES_DARK
 } from './init'
+import { getMemoStyles, getMemoStylesHash } from './utils'
 import { Color, Mode, Orientation, TinygrailMode } from './types'
 
 const state = {
@@ -38,7 +38,8 @@ const state = {
   fontSizeAdjust: 0,
   ...STYLES_LIGHT,
   tinygrailMode: DEFAULT_TINYGRAIL_MODE,
-  tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE
+  tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
+  wsaLayoutChanged: 0
 }
 
 class ThemeStore extends store implements StoreConstructor<typeof state> {
@@ -213,6 +214,16 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** -------------------- get -------------------- */
+  /**
+   * WSA 子系统窗口可以随意改变, 每次改变这个值会自动 +1
+   * 配合 memoStyles 会因为 hash 改变了, 从而重新生成新的 styles
+   * 最终所有受到布局变动而影响到样式的组件会重新渲染
+   * */
+  @computed get wsaLayoutChanged() {
+    if (!WSA) return 0
+    return this.state.wsaLayoutChanged
+  }
+
   /** 是否不使用字体 */
   @computed get customFontFamily() {
     return systemStore.setting.customFontFamily
@@ -608,9 +619,8 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
   /** User 和 Zone 页面上方用的可变高度块的高度限制属性 */
   @computed get parallaxImageHeight() {
-    if (this.isMobileLanscape) return 200
-
-    // Math.min(Number(this.window.width * 0.68), this.device(288, 380))
+    if (WSA || PAD) return 336
+    if (this.isMobileLanscape) return 240
     return Math.floor(this.window.contentWidth * 0.88)
   }
 
@@ -878,6 +888,17 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   /** 主题选择, 黑暗模式使用第二个值 */
   select: SelectFn = (lightValue, darkValue) => (this.isDark ? darkValue : lightValue)
 
+  /** 目前支持的所有平台选择 */
+  platforms = (ios: any, ios_5678: any, android: any, wsa: any) => {
+    if (IOS) {
+      if (IS_IOS_5_6_7_8) return ios_5678
+      return ios
+    } else if (WSA) {
+      return wsa
+    }
+    return android
+  }
+
   /** 方向选择, 水平方向使用第二个值 */
   portrait: SelectFn = (portaitValue, landscapeValue) =>
     this.isLandscape ? landscapeValue : portaitValue
@@ -950,6 +971,15 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
       orientation,
       ..._.getAppLayout()
     })
+  }
+
+  /** 主动更新 window layout */
+  updateLayout() {
+    const state: AnyObject = {
+      ..._.getAppLayout()
+    }
+    if (WSA) state.wsaLayoutChanged = this.wsaLayoutChanged + 1
+    this.setState(state)
   }
 
   /** 格子布局分拆工具函数 */
@@ -1038,28 +1068,23 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     styles: (currentThemeStore?: any) => T,
     dev: boolean = false
   ): (() => T) => {
-    const item = getMemoStylesId()
-
+    const item = getMemoStyles()
     return () => {
       /**
        * 通过闭包使每一个组件里面的 StyleSheet.create 都被缓存
        * 当会影响到全局样式的设置 (mode | tMode | deepDark | orientation | customFontFamily) 改变了
        * 会重新调用 StyleSheet.create, 配合 mobx -> observer 触发重新渲染
        * */
-      if (
-        !item._mode ||
-        !item._styles ||
-        item._mode !== this.mode ||
-        item._tMode !== this.tinygrailThemeMode ||
-        item._deepDark !== this.deepDark ||
-        item._orientation !== this.orientation ||
-        item._customFontFamily !== this.customFontFamily
-      ) {
-        item._mode = this.mode
-        item._tMode = this.tinygrailThemeMode
-        item._deepDark = this.deepDark
-        item._orientation = this.orientation
-        item._customFontFamily = this.customFontFamily
+      const hash = getMemoStylesHash([
+        this.mode,
+        this.tinygrailThemeMode,
+        this.deepDark,
+        this.orientation,
+        this.customFontFamily,
+        this.wsaLayoutChanged
+      ])
+      if (!item._styles || !item._hash || item._hash !== hash) {
+        item._hash = hash
 
         const computedStyles: any = styles(this)
 

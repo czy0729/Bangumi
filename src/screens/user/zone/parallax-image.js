@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 15:50:34
+ * @Last Modified time: 2022-08-31 18:45:10
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -161,7 +161,7 @@ function ParallaxImage(props, { $, navigation }) {
           <View style={styles.parallaxLine} />
         </Animated.View>
       </View>
-      <View style={[_.header.left, styles.btn]}>
+      <View style={[_.header.left, styles.back]}>
         <IconBack navigation={navigation} color={_.__colorPlain__} />
       </View>
       <Flex style={[_.header.right, styles.right]}>
@@ -299,7 +299,6 @@ const memoStyles = _.memoStyles(() => ({
   head: {
     marginTop: (_.parallaxImageHeight - 120) / 2
   },
-
   title: {
     position: 'absolute',
     left: '50%',
@@ -311,13 +310,13 @@ const memoStyles = _.memoStyles(() => ({
       }
     ]
   },
-  btn: {
+  back: {
     zIndex: 1,
-    marginTop: -8
+    marginTop: _.platforms(-8, -8, -8, 0)
   },
   right: {
     zIndex: 1,
-    marginTop: -6
+    marginTop: _.platforms(-6, -6, -6, 0)
   },
   touch: {
     borderRadius: 20,

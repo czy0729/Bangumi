@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 10:53:59
+ * @Last Modified time: 2022-08-30 21:48:31
  */
 import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
@@ -15,15 +15,18 @@ import Stacks from '@src/navigations'
 import { DEV, NavigationContainer, DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
+
 import {
   useCachedResources,
   useKeepAwake,
   useOrientation,
   useMount,
   useErrorHandlerAndroid,
-  useGlobalMount
+  useGlobalMount,
+  useDimensions
 } from '@utils/hooks'
 import { androidKeyboardAdjust } from '@utils/ui'
+import { WSA } from '@constants'
 import theme from '@styles/theme'
 
 LogBox.ignoreAllLogs(true)
@@ -52,6 +55,14 @@ export default function App() {
 
   // App启动稳定后统一做的操作
   useGlobalMount()
+
+  // WSA 子系统窗口是可以随意改变大小的
+  const { window } = useDimensions()
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (WSA) _.updateLayout()
+    })
+  }, [window])
 
   if (!isLoadingComplete) return null
 

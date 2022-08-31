@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 05:57:19
+ * @Last Modified time: 2022-08-31 17:30:41
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
 import { BlurView } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { IOS } from '@constants'
+import { IOS, WSA } from '@constants'
 import { Navigation } from '@types'
 import { routesConfig } from './config'
 import { memoStyles } from './styles'
@@ -40,6 +40,7 @@ function TabBar({
     <Flex style={styles.tabBar} align='start'>
       {IOS && <BlurView style={styles.blurView} />}
       {state.routes.map((route: Route, index: number) => {
+        const isHorizontal = WSA || _.isPad || _.isLandscape
         const isFocused = state.index === index
         const config = routesConfig[route.name]
         return (
@@ -73,7 +74,7 @@ function TabBar({
           >
             <Flex
               style={styles.item}
-              direction={_.isLandscape ? undefined : 'column'}
+              direction={isHorizontal ? undefined : 'column'}
               justify='center'
             >
               <Flex style={styles.icon} justify='center'>
@@ -85,7 +86,7 @@ function TabBar({
               </Flex>
               {isFocused && (
                 <Text
-                  style={_.isLandscape && _.ml.sm}
+                  style={isHorizontal && _.ml.sm}
                   type={isFocused ? 'main' : 'desc'}
                   size={12}
                 >

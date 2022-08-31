@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:56:01
+ * @Last Modified time: 2022-08-31 14:56:54
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
@@ -10,6 +10,7 @@ import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Text } from '../text'
 import { Props } from './types'
+import { WSA } from '@constants'
 
 type TransitionProps = Pick<Props, 'fixed' | 'title' | 'headerTitle'>
 
@@ -59,7 +60,7 @@ const memoStyles = _.memoStyles(() => ({
     bottom: 8,
     left: 56,
     right: 72,
-    minHeight: 20 * 1.28
+    minHeight: WSA ? 40 : 20 * 1.28
   },
   text: {
     marginBottom: _.ios(0, 10),

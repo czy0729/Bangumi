@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-04 16:22:00
+ * @Last Modified time: 2022-08-31 15:30:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,18 +11,20 @@ import Portal from '@ant-design/react-native/lib/portal'
 import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
 import { Touchable } from '../touchable'
+import { scrollToTopCallback } from './utils'
 import { styles } from './styles'
+import { Props as ScrollToToPropsp } from './types'
 
-type Props = {
-  isFocused?: boolean
-  scrollTo?: (arg0?: any) => any
-  scrollToIndex?: (arg0?: any) => any
-  scrollToLocation?: (arg0?: any) => any
-  onPress?: (arg0?: any) => any
-}
+export { ScrollToToPropsp, scrollToTopCallback }
 
 const ScrollToTop = observer(
-  ({ isFocused = true, scrollTo, scrollToIndex, scrollToLocation, onPress }: Props) => {
+  ({
+    isFocused = true,
+    scrollTo,
+    scrollToIndex,
+    scrollToLocation,
+    onPress
+  }: ScrollToToPropsp) => {
     if ((IOS || !isFocused) && !systemStore.dev) return null
 
     return (
@@ -37,42 +39,11 @@ const ScrollToTop = observer(
               return
             }
 
-            if (scrollTo) {
-              try {
-                scrollTo({
-                  x: 0,
-                  y: 0,
-                  animated: true
-                })
-              } catch (error) {
-                console.warn('ScrollToTop', 'scrollTo', error)
-              }
-              return
-            }
-
-            if (scrollToIndex) {
-              try {
-                scrollToIndex({
-                  animated: true,
-                  index: 0,
-                  viewOffset: 8000
-                })
-              } catch (error) {
-                console.warn('ScrollToTop', 'scrollToIndex', error)
-
-                try {
-                  scrollToLocation({
-                    animated: true,
-                    itemIndex: 0,
-                    sectionIndex: 0,
-                    viewOffset: 800,
-                    viewPosition: 0
-                  })
-                } catch (ex) {
-                  console.warn('ScrollToTop', 'scrollToLocation', ex)
-                }
-              }
-            }
+            scrollToTopCallback({
+              scrollTo,
+              scrollToIndex,
+              scrollToLocation
+            })
           }}
         />
       </Portal>

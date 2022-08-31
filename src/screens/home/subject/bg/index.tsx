@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 23:34:20
+ * @Last Modified time: 2022-08-31 19:30:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,8 @@ export default obc((props, { $ }: Ctx) => {
   global.rerender('Subject.Bg')
 
   const styles = memoStyles()
-  const { images = {} } = $.subject
-  const src = $.coverPlaceholder || images.common
+  const { images } = $.subject
+  const src = $.coverPlaceholder || images?.common
   if (typeof src !== 'string') return <View style={styles.bg} />
 
   return <Bg style={styles.bg} src={src} />

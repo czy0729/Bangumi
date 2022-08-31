@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-25 07:46:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 08:04:49
+ * @Last Modified time: 2022-08-31 15:02:38
  */
 import { _ } from '@stores'
-import { IS_IOS_5_6_7_8 } from '@styles'
 
 export const styles = _.create({
   container: {
     height: 28,
-    marginTop: _.ios(IS_IOS_5_6_7_8 ? -6 : 2, 0),
+    marginTop: _.platforms(2, -6, 0, -4),
     marginLeft: -_.sm,
     marginRight: _.lg
   },

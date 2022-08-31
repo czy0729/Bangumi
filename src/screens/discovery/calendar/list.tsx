@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 05:37:38
+ * @Last Modified time: 2022-08-31 16:11:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -119,7 +119,8 @@ export default obc(List)
 
 const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
-    paddingHorizontal: _.wind - _._wind
+    paddingRight: _.wind - _._wind,
+    paddingLeft: _.wind - _.device(_._wind, _._wind + 8)
   },
   row: {
     width: '100%'
@@ -139,7 +140,7 @@ function renderSectionHeader({ section: { title } }) {
         _.container.plain,
         {
           paddingVertical: _.md,
-          paddingLeft: _.device(_._wind, _.md)
+          paddingLeft: _._wind
         }
       ]}
       size={14}

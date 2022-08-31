@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 04:03:37
+ * @Last Modified time: 2022-08-31 19:06:05
  */
 import React from 'react'
 import { Text, Switch, Touchable } from '@components'

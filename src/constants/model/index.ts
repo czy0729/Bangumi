@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 17:43:59
+ * @Last Modified time: 2022-08-31 14:28:04
  */
 import { IOS } from '../constants'
 
@@ -106,7 +106,7 @@ export const EP_STATUS = [
 export const MODEL_EP_STATUS = new Model(EP_STATUS)
 
 /** 章节类型 */
-export const MODEL_EP_TYPE = new Model([
+export const EP_TYPE = [
   {
     label: '普通',
     value: '1'
@@ -115,7 +115,10 @@ export const MODEL_EP_TYPE = new Model([
     label: 'SP',
     value: '0'
   }
-])
+] as const
+
+/** 章节类型 */
+export const MODEL_EP_TYPE = new Model(EP_TYPE)
 
 /** 收藏状态 */
 export const COLLECTION_STATUS = [

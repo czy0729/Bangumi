@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 06:21:05
+ * @Last Modified time: 2022-08-31 18:59:36
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 import { IOS } from '@constants/constants'
-import { PAD, PAD_LEVEL_2, RATIO } from '@constants/device'
+import { WSA, PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from '@constants/device'
 
 export const IS_IOS_5_6_7_8 = /iPhone (5|6|7|8).+?/gi.test(Constants.deviceName)
 
@@ -33,22 +33,22 @@ export const {
 export const { hairlineWidth } = StyleSheet
 
 /** 超小 */
-export const xs = isPad ? 8 : 4
+export const xs = isPad ? 6 : 4
 
 /** 小 */
-export const sm = isPad ? 12 : 8
+export const sm = isPad ? 10 : 8
 
 /** 中 */
-export const md = isPad ? 24 : 16
+export const md = isPad ? 20 : 16
 
 /** 大 */
-export const lg = isPad ? 48 : 32
+export const lg = isPad ? 40 : 32
 
 /** 垂直 */
 export const space = isPad ? 24 : 20
 
 /** 文字行高自动放大比例 */
-export const lineHeightRatio = 1.32
+export const lineHeightRatio = 1.28
 
 // -------------------- 圆角 --------------------
 /** 圆角超小 */
@@ -68,10 +68,12 @@ export const radiusLg = 16
 export const logoWidth = 124 * ratio
 
 /** 状态栏高度 */
-export const statusBarHeight = Constants.statusBarHeight
+export const statusBarHeight = WSA ? 0 : Constants.statusBarHeight
 
-/** [待重构] 头部高度 (顶部<Tab>) */
-export const appBarHeight = IOS ? Constants.statusBarHeight : 56
+/** [待重构] 头部高度 (顶部 Tab) */
+export const appBarHeight = IOS
+  ? statusBarHeight
+  : 56 - (WSA ? Constants.statusBarHeight : 0)
 
 /**
  * 整个头部高度 (状态栏高度 + 头部高度)
@@ -100,14 +102,19 @@ export const tabBarHeight = 50 + (IOS ? (IS_IOS_5_6_7_8 ? 4 : 20) : 0)
 /** [待废弃] 底部留空 */
 export const bottom = tabBarHeight + lg
 
-/** 获取 App 布局参数 */
+/** 计算 App 布局参数 */
 export function getAppLayout() {
   const { width, height } = Dimensions.get('window')
-  const maxWidthPadLevel1 = 586
-  const maxWidthPadLevel2 = 708
+
+  // WSA 子系统因在 window 上屏幕 ratio 都为 1, 并没有高清模式，所以用最小值就可以
+  // 平板设备乘以一个小于 1 的值可以让中间区域两侧一定保留一定的距离
+  const maxWidthPadLevel1 = WSA ? PAD_LEVEL_1 : PAD_LEVEL_1 * 0.88
+  const maxWidthPadLevel2 = WSA ? PAD_LEVEL_2 : PAD_LEVEL_2 * 0.78
+
+  // 手机垂直窗口 (比例最高的模式) 两侧固定留 16pt
   const portraitMobileWind = 16
 
-  // portrait
+  // 垂直窗口
   const portraitWidth = Math.min(width, height)
   const portraitHeight = Math.max(width, height)
   const portraitMaxWidth = isPad
@@ -127,7 +134,7 @@ export function getAppLayout() {
     ? Math.floor((window.width - window.contentWidth) / 2)
     : portraitMobileWind // 两翼
 
-  // landscape
+  // 水平窗口值
   const landscapeWidth = Math.max(width, height)
   const landscapeHeight = Math.min(width, height)
   const landscapeMaxWidth = isPad
@@ -145,7 +152,7 @@ export function getAppLayout() {
     (landscapeWindow.width - landscapeWindow.contentWidth) / 2
   )
 
-  // landscape small
+  // 页面收窄的水平窗口值 (用于部分使用正常水平模式依然觉得布局很长的页面)
   const landscapeMaxWidthSm = isPad
     ? landscapeWidth >= PAD_LEVEL_2
       ? maxWidthPadLevel2

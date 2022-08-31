@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 05:24:43
+ * @Last Modified time: 2022-08-31 15:11:05
  */
 import { _ } from '@stores'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
   item: {
     width: '100%',
     paddingVertical: 12,
-    paddingRight: _.wind
+    paddingRight: _._wind
   },
   time: {
     width: _.r(72),

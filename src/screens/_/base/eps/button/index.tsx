@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:46:46
+ * @Last Modified time: 2022-08-31 19:24:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Popover, Button as CompButton, Menu } from '@components'
 import { _, systemStore } from '@stores'
 import { memo, ob } from '@utils/decorators'
-import { IOS } from '@constants'
+import { IOS, WSA } from '@constants'
 import { buttonDefaultProps as defaultProps } from '../ds'
 import { getType, getPopoverData, getComment } from './utils'
 import { memoStyles } from './styles'
@@ -64,7 +64,7 @@ const Main = memo(
       marginBottom: margin - 2
     }
     const style = {
-      marginRight: !_.isLandscape && !_.isPad && isSide ? 0 : margin,
+      marginRight: !_.isLandscape && !_.isPad && !WSA && isSide ? 0 : margin,
       marginBottom: 6
     }
     return (
@@ -89,7 +89,7 @@ const Main = memo(
               style={[
                 styles.bar,
                 {
-                  opacity: (item.comment - min / 1.68) / max // 1.68是比率, 增大少回复与高回复的透明度幅度
+                  opacity: (item.comment - min / 1.68) / max // 1.68 是比率, 增大少回复与高回复的透明度幅度
                 }
               ]}
             />

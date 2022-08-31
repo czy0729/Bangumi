@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 13:08:48
+ * @Last Modified time: 2022-08-31 14:07:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ export default memo(
     const top = cnjp(jp, cn)
     const bottom = cnjp(cn, jp)
 
-    const { id, images = {} } = subject
+    const { id, images } = subject
 
     // 是否未上映
     let showRelease: boolean
@@ -85,7 +85,7 @@ export default memo(
     const left = imageWidth + _.wind + _.device(12, 20)
     return (
       <View style={styles.container}>
-        <Cover image={images.common} placeholder={coverPlaceholder} />
+        <Cover image={images?.common} placeholder={coverPlaceholder} />
         {showRelease && (
           <Text
             style={[
@@ -105,14 +105,14 @@ export default memo(
           style={[
             styles.content,
             {
-              minHeight: imageHeight - 20,
+              minHeight: imageHeight - _.r(20),
               paddingLeft: left
             }
           ]}
         >
           <View
             style={{
-              minHeight: imageHeight - _.device(68, 120)
+              minHeight: imageHeight - _.r(68)
             }}
           >
             <View>
