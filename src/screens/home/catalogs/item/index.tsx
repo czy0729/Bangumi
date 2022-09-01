@@ -2,31 +2,29 @@
  * @Author: czy0729
  * @Date: 2022-03-15 00:51:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 00:56:11
+ * @Last Modified time: 2022-09-01 09:20:46
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { ItemCatalog } from '@_'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 
-const event = {
+const EVENT = {
   id: '条目目录.跳转'
-}
+} as const
 
-function Item({ item, index }, { navigation }) {
+function Item({ item, index }) {
   return (
     <ItemCatalog
-      navigation={navigation}
-      event={event}
+      event={EVENT}
       isUser
       id={item.id}
       name={item.userName}
       title={item.title}
-      last={item.time}
     >
       {!index && <Heatmap id='条目目录.跳转' />}
     </ItemCatalog>
   )
 }
 
-export default obc(Item)
+export default ob(Item)
