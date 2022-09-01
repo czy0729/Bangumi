@@ -2,19 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:50:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:54:39
+ * @Last Modified time: 2022-09-01 10:53:35
  */
 import React from 'react'
 import { ListView, Loading, Heatmap } from '@components'
 import { _ } from '@stores'
-import { keyExtractor } from '@utils/app'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { MODEL_RATING_STATUS } from '@constants/model'
-import Item from './item'
-import { routes } from './store'
+import { MODEL_RATING_STATUS } from '@constants'
+import { RatingStatus } from '@types'
+import Item from '../item'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function List({ title }, { $ }) {
-  const status = MODEL_RATING_STATUS.getValue(title)
+function List({ title }, { $ }: Ctx) {
+  const status = MODEL_RATING_STATUS.getValue<RatingStatus>(title)
   const data = $.rating(status)
   if (!data._loaded) return <Loading />
 
@@ -29,7 +32,7 @@ function List({ title }, { $ }) {
       keyExtractor={keyExtractor}
       data={data}
       numColumns={numColumns}
-      scrollToTop={routes[page].title === title}
+      scrollToTop={TABS[page].title === title}
       renderItem={renderItem}
       onEndReachedThreshold={0.2}
       onHeaderRefresh={() => $.fetchRating(true)}
@@ -48,12 +51,3 @@ function renderItem({ item, index }) {
     </>
   )
 }
-
-const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingHorizontal: _.wind,
-    paddingTop: _.space,
-    paddingBottom: _.bottom,
-    minHeight: _.window.height
-  }
-}))

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 14:26:01
+ * @Last Modified time: 2022-09-01 10:31:30
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -34,6 +34,7 @@ import {
   HTMLText,
   MonoId,
   Origin,
+  Override,
   PersonId,
   RatingStatus,
   StoreConstructor,
@@ -280,7 +281,14 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     status: RatingStatus = DEFAULT_RATING_STATUS,
     isFriend: boolean = false
   ) {
-    return computed<Rating>(() => {
+    return computed<
+      Override<
+        Rating,
+        {
+          counts: Record<RatingStatus, number>
+        }
+      >
+    >(() => {
       const key = `${subjectId}|${status}|${isFriend}`
       return (
         this.state.rating[key] || {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 08:54:17
+ * @Last Modified time: 2022-09-01 10:37:44
  */
 
 /** Home */
@@ -109,5 +109,6 @@ export default {
   // 用户评分
   '用户评分.跳转': 'Rating.to',
   '用户评分.标签页切换': 'Rating.tabsChange',
-  '用户评分.切换类型': 'Rating.toggleFilter'
+  '用户评分.切换类型': 'Rating.toggleFilter',
+  '用户评分.右上角菜单': 'Rating.topRightMenu'
 }

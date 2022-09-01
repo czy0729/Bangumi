@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-17 14:27:08
+ * @Last Modified time: 2022-09-01 10:44:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,25 +11,19 @@ import { Avatar, Stars } from '@_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const event = {
+const EVENT = {
   id: '用户评分.跳转'
-}
+} as const
 
-function Item({ id, avatar, name, time, star, comment }, { navigation }) {
+function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
   const styles = memoStyles()
   return (
     <View style={styles.container}>
       <Flex>
-        <Avatar
-          navigation={navigation}
-          event={event}
-          userId={id}
-          src={avatar}
-          border
-          radius
-          shadow
-        />
+        <Avatar navigation={navigation} event={EVENT} userId={id} src={avatar} radius />
         <Flex.Item style={_.ml.sm}>
           <Text size={12} bold>
             {name}
@@ -53,19 +47,3 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }) {
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    width: _.portrait('50%', '33%'),
-    paddingVertical: _.sm + 2
-  },
-  comment: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
-    marginTop: _.sm,
-    marginRight: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))

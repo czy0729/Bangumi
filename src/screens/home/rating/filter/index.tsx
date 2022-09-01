@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-07-28 22:28:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 10:59:30
+ * @Last Modified time: 2022-09-01 10:35:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, SegmentedControl } from '@components'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function Filter({ $ }) {
+function Filter({ $ }: Ctx) {
   const { isFriend } = $.state
   return (
     <View>
@@ -27,11 +28,3 @@ function Filter({ $ }) {
 }
 
 export default ob(Filter)
-
-const styles = _.create({
-  segment: {
-    width: _.r(88),
-    height: _.r(28),
-    marginRight: _.xs
-  }
-})

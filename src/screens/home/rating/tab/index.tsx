@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-08 03:03:26
+ * @Last Modified time: 2022-09-01 10:49:35
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -11,29 +11,31 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
-import List from './list'
-import { routes } from './store'
+import List from '../list'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const statusMap = {
+const STATUS_MAP = {
   wishes: 'wish',
   collections: 'collect',
   doings: 'doing',
   on_hold: 'onHold',
   dropped: 'dropped'
-}
+} as const
 
-function Tab(props, { $ }) {
+function Tab(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { page } = $.state
   const renderScene = SceneMap(
     Object.assign(
       {},
-      ...routes.map(item => ({
+      ...TABS.map(item => ({
         [item.key]: () => <List title={item.title} />
       }))
     )
   )
+
   return (
     <>
       <TabView
@@ -42,7 +44,7 @@ function Tab(props, { $ }) {
         lazyPreloadDistance={0}
         navigationState={{
           index: page,
-          routes
+          routes: TABS
         }}
         renderTabBar={props => (
           <TabBar
@@ -55,7 +57,7 @@ function Tab(props, { $ }) {
             pressOpacity={1}
             pressColor='transparent'
             renderLabel={({ route, focused }) => {
-              const count = $.counts[route.key] || $.params[statusMap[route.key]]
+              const count = $.counts[route.key] || $.params[STATUS_MAP[route.key]]
               return (
                 <Flex style={_.container.block} justify='center'>
                   <Text type='title' size={13} bold={focused}>
@@ -86,35 +88,3 @@ function Tab(props, { $ }) {
 }
 
 export default obc(Tab)
-
-const memoStyles = _.memoStyles(() => {
-  const W_TAB = _.window.width / routes.length
-  const W_INDICATOR = 16
-  return {
-    tabBar: {
-      backgroundColor: IOS
-        ? 'transparent'
-        : _.select('transparent', _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
-      borderBottomWidth: _.select(
-        IOS ? 0 : _.hairlineWidth,
-        _.deepDark ? 0 : _.hairlineWidth
-      ),
-      borderBottomColor: _.colorBorder,
-      elevation: 0
-    },
-    tab: {
-      width: W_TAB,
-      height: 48
-    },
-    label: {
-      padding: 0
-    },
-    indicator: {
-      width: W_INDICATOR,
-      height: 4,
-      marginLeft: (W_TAB - W_INDICATOR) / 2,
-      backgroundColor: _.colorMain,
-      borderRadius: 4
-    }
-  }
-})

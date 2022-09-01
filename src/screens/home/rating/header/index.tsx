@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 12:48:39
+ * @Last Modified time: 2022-09-01 10:37:47
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -10,9 +10,10 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import Filter from './filter'
+import Filter from '../filter'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
+function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title={$.params?.name || '用户评分'}
