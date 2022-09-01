@@ -3,17 +3,19 @@
  * @Date: 2020-05-21 16:37:42
  * @Last Modified by: czy0729
  * @Last Modified time: 2020-05-21 16:41:48
- *
- * @Params: subjectId {Int}
- * @Params: name      {String}
  */
 import { computed } from 'mobx'
 import { monoStore } from '@stores'
 import store from '@utils/store'
-import { HTML_SUBJECT_CHARACTERS } from '@constants/html'
+import { HTML_SUBJECT_CHARACTERS } from '@constants'
+import { Params } from './types'
 
 export default class ScreenCharacters extends store {
-  init = () => this.fetchCharacters()
+  params: Params
+
+  init = () => {
+    return this.fetchCharacters()
+  }
 
   // -------------------- get --------------------
   @computed get subjectId() {
@@ -21,6 +23,7 @@ export default class ScreenCharacters extends store {
     return subjectId
   }
 
+  /** 更多角色 */
   @computed get characters() {
     return monoStore.characters(this.subjectId)
   }
@@ -30,8 +33,10 @@ export default class ScreenCharacters extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchCharacters = () =>
-    monoStore.fetchCharacters({
+  /** 更多角色 */
+  fetchCharacters = () => {
+    return monoStore.fetchCharacters({
       subjectId: this.subjectId
     })
+  }
 }
