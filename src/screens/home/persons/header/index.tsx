@@ -9,8 +9,9 @@ import { Header as CompHeader, Heatmap } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
+function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title={$.params?.name ? `${$.params.name}的制作人员` : '更多制作人员'}

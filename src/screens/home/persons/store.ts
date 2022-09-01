@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:37:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:40:58
- *
- * @Params: subjectId {Int}
- * @Params: name      {String}
+ * @Last Modified time: 2022-09-01 10:13:41
  */
 import { computed } from 'mobx'
 import { monoStore } from '@stores'
 import store from '@utils/store'
-import { HTML_SUBJECT_PERSONS } from '@constants/html'
+import { HTML_SUBJECT_PERSONS } from '@constants'
+import { Params } from './types'
 
 export default class ScreenPersons extends store {
-  init = () => this.fetchPersons()
+  params: Params
+
+  init = () => {
+    return this.fetchPersons()
+  }
 
   // -------------------- get --------------------
   @computed get subjectId() {
@@ -21,6 +23,7 @@ export default class ScreenPersons extends store {
     return subjectId
   }
 
+  /** 更多制作人员 */
   @computed get persons() {
     return monoStore.persons(this.subjectId)
   }
@@ -30,8 +33,10 @@ export default class ScreenPersons extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchPersons = () =>
-    monoStore.fetchPersons({
+  /** 更多制作人员 */
+  fetchPersons = () => {
+    return monoStore.fetchPersons({
       subjectId: this.subjectId
     })
+  }
 }

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:06:56
+ * @Last Modified time: 2022-09-01 10:10:13
  */
 import Discovery from './discovery'
 import Timeline from './timeline'
@@ -39,6 +39,7 @@ type PageKeys =
   | '新番'
   | '时间胶囊'
   | '更多角色'
+  | '制作人员'
   | '条目'
   | '条目目录'
   | '用户日志'
