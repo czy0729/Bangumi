@@ -2,25 +2,24 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:56:20
+ * @Last Modified time: 2022-09-01 12:12:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, HorizontalList, Divider } from '@components'
 import { Cover } from '@_'
 import { _ } from '@stores'
-import { simpleTime } from '@utils'
+import { simpleTime, getCoverLarge, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
-import { showImageViewer } from '@utils/ui'
-import { getCoverLarge } from '@utils/app'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { Ctx } from '../types'
 
-const coverWidth = IMG_WIDTH * 1.28 * _.ratio
-const coverHeight = IMG_HEIGHT * 1.28 * _.ratio
+const COVER_WIDTH = _.r(IMG_WIDTH * 1.28)
+const COVER_HEIGHT = _.r(IMG_HEIGHT * 1.28)
 
 class List extends React.Component {
   renderCovers() {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     const { covers } = $.wiki
     if (!covers?.length) return null
 
@@ -34,8 +33,8 @@ class List extends React.Component {
           <View key={cover} style={!!index && _.ml.md}>
             <Cover
               src={cover}
-              size={coverWidth}
-              height={coverHeight}
+              size={COVER_WIDTH}
+              height={COVER_HEIGHT}
               radius
               onPress={() => {
                 showImageViewer(
@@ -72,7 +71,7 @@ class List extends React.Component {
   }
 
   renderEdits() {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     const { edits } = $.wiki
     if (!edits?.length) return null
 

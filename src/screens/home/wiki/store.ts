@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-07-12 09:55:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:54:04
+ * @Last Modified time: 2022-09-01 12:08:25
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
 import store from '@utils/store'
 import { HOST } from '@constants'
+import { Params } from './types'
 
 export default class ScreenSubjectWiki extends store {
-  init = () =>
-    subjectStore.fetchWiki({
+  params: Params
+
+  init = () => {
+    return subjectStore.fetchWiki({
       subjectId: this.subjectId
     })
+  }
 
   // -------------------- get --------------------
   @computed get subjectId() {
@@ -25,6 +29,7 @@ export default class ScreenSubjectWiki extends store {
     return subjectStore.subject(this.subjectId)
   }
 
+  /** wiki 修订历史 */
   @computed get wiki() {
     return subjectStore.wiki(this.subjectId)
   }

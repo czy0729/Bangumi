@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-12 09:55:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:55:00
+ * @Last Modified time: 2022-09-01 12:10:34
  */
 import React from 'react'
 import { Page } from '@components'
@@ -11,8 +11,9 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
 
-const Wiki = (props, { $ }) => {
+const SubjectWiki = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -27,4 +28,4 @@ const Wiki = (props, { $ }) => {
   ))
 }
 
-export default ic(Store, Wiki)
+export default ic(Store, SubjectWiki)

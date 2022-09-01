@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:31:30
+ * @Last Modified time: 2022-09-01 12:08:36
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -305,7 +305,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
-  /** wiki修订历史 */
+  /** wiki 修订历史 */
   wiki(subjectId: SubjectId) {
     return computed<Wiki>(() => {
       return this.state.wiki[subjectId] || INIT_SUBJECT_WIKI
