@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-16 23:44:40
+ * @Last Modified time: 2022-09-01 13:54:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -90,7 +90,7 @@ export const ItemBlog = obc(
               <Flex style={_.mt.sm}>
                 <Flex.Item />
                 <Text style={styles.tags} size={13}>
-                  tags: {tags.join(' ')}
+                  tags: {typeof tags === 'string' ? tags : tags.join(' ')}
                 </Text>
               </Flex>
             )}

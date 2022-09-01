@@ -18,5 +18,5 @@ export type Props = {
   subject?: string
   time?: string
   replies?: string
-  tags?: string[]
+  tags?: string[] | string
 }

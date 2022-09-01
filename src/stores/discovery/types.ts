@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:46:22
+ * @Last Modified time: 2022-09-01 13:53:00
  */
 import {
   Avatar,
@@ -78,10 +78,11 @@ export type Blog = DeepPartial<{
     time: string
     replies: string
     content: string
-    username: UserId
+    username: string
     subject: string
     tags: string
   }[]
+  _loaded: Loaded
 }>
 
 /** 频道聚合 */

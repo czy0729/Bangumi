@@ -2,34 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:04:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 21:57:46
+ * @Last Modified time: 2022-09-01 13:47:16
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
+import { info, x18s } from '@utils'
 import store from '@utils/store'
-import { x18s } from '@utils/app'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-
-export const tabs = [
-  {
-    title: '全部',
-    key: 'all'
-  },
-  ...MODEL_SUBJECT_TYPE.data.map(item => ({
-    title: item.title,
-    key: item.label
-  }))
-]
-const namespace = 'ScreenDiscoveryBlog'
+import { SubjectType } from '@types'
+import { NAMESPACE, TABS } from './ds'
 
 export default class ScreenDiscoveryBlog extends store {
   state = observable({
-    page: 0, // tab的page
-    show: true, // 是否显示列表, 制造切页效果
+    /** tab 的 page */
+    page: 0,
 
-    // 当前页数
+    /** 是否显示列表, 制造切页效果 */
+    show: true,
+
+    /** 当前页数 */
     currentPage: {
       all: 1,
       anime: 1,
@@ -39,7 +30,7 @@ export default class ScreenDiscoveryBlog extends store {
       real: 1
     },
 
-    // 输入框值
+    /** 输入框值 */
     ipt: {
       all: '1',
       anime: '1',
@@ -52,7 +43,7 @@ export default class ScreenDiscoveryBlog extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
+    const res = this.getStorage(NAMESPACE)
     const state = await res
     this.setState({
       ...state,
@@ -64,6 +55,7 @@ export default class ScreenDiscoveryBlog extends store {
   }
 
   // -------------------- fetch --------------------
+  /** 全站日志 */
   fetchBlog = () => {
     const { currentPage } = this.state
     return discoveryStore.fetchBlog({
@@ -75,10 +67,11 @@ export default class ScreenDiscoveryBlog extends store {
   // -------------------- get --------------------
   get type() {
     const { page } = this.state
-    return tabs[page].key
+    return TABS[page].key
   }
 
-  blog(type) {
+  /** 全站日志 */
+  blog(type: SubjectType | 'all') {
     const { currentPage } = this.state
     return computed(() => {
       const blog = discoveryStore.blog(type, currentPage[type])
@@ -93,33 +86,30 @@ export default class ScreenDiscoveryBlog extends store {
   }
 
   // -------------------- page --------------------
-  onTabChange = page => {
-    if (page === this.state.page) {
-      return
-    }
+  /** 标签页切换 */
+  onTabChange = (page: number) => {
+    if (page === this.state.page) return
 
     t('全站日志.标签页切换')
     this.setState({
       page
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
     this.tabChangeCallback(page)
   }
 
-  tabChangeCallback = page => {
-    const { key } = tabs[page]
+  /** 标签页切换回调 */
+  tabChangeCallback = (page: number) => {
+    const { key } = TABS[page]
     const { _loaded } = this.blog(key)
-    if (!_loaded) {
-      this.fetchBlog()
-    }
+    if (!_loaded) this.fetchBlog()
   }
 
+  /** 上一页 */
   prev = () => {
     const { currentPage, ipt } = this.state
     const page = currentPage[this.type]
-    if (currentPage[this.type] === 1) {
-      return
-    }
+    if (currentPage[this.type] === 1) return
 
     t('全站日志.上一页', {
       type: this.type,
@@ -143,10 +133,11 @@ export default class ScreenDiscoveryBlog extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }, 400)
   }
 
+  /** 下一页 */
   next = () => {
     const { currentPage, ipt } = this.state
     const page = currentPage[this.type]
@@ -172,10 +163,11 @@ export default class ScreenDiscoveryBlog extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }, 400)
   }
 
+  /** 页码输入框改变 */
   onChange = ({ nativeEvent }) => {
     const { text } = nativeEvent
     const { ipt } = this.state
@@ -187,6 +179,7 @@ export default class ScreenDiscoveryBlog extends store {
     })
   }
 
+  /** 页码跳转 */
   doSearch = () => {
     const { currentPage, ipt } = this.state
     const _ipt = ipt[this.type] === '' ? 1 : parseInt(ipt[this.type])
@@ -217,7 +210,7 @@ export default class ScreenDiscoveryBlog extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }, 400)
   }
 }

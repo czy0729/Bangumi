@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:44:49
+ * @Last Modified time: 2022-09-01 13:16:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLDecode } from '@utils'
@@ -161,7 +161,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 全站日志 */
-  blog(type: '' | SubjectType = '', page: number = 1) {
+  blog(type: SubjectType | 'all' | '' = '', page: number = 1) {
     return computed<Blog>(() => {
       const key = `${type}|${page}`
       return this.state.blog[key] || INIT_BLOG_ITEM
