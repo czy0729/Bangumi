@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-01-08 07:39:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 00:56:07
+ * @Last Modified time: 2022-09-01 14:01:56
  */
 import React from 'react'
 import { Flex } from '@components'
 import { ob } from '@utils/decorators'
-import Type from './type'
-import IconLayout from './icon-layout'
+import Type from '../type'
+import IconLayout from '../icon-layout'
 
 function Extra({ type, isList, loaded, onChange, onPress }) {
   return (

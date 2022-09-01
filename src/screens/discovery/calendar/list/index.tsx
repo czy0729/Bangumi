@@ -2,40 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 16:11:55
+ * @Last Modified time: 2022-09-01 14:05:17
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ListView, Flex, Text, Iconfont, Heatmap } from '@components'
 import { SectionHeader } from '@_'
 import { _ } from '@stores'
-import { date, cnjp, getTimestamp } from '@utils'
+import { date, cnjp, getTimestamp, keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { keyExtractor } from '@utils/app'
-import Item from './item'
-import ItemLine from './item-line'
+import Item from '../item'
+import ItemLine from '../item-line'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 let day = new Date().getDay()
-if (day === 0) {
-  day = 7
-}
+if (day === 0) day = 7
 
-function Line() {
-  const styles = memoStyles()
-  return (
-    <Flex>
-      <Flex.Item style={styles.line} />
-      <Iconfont name='md-access-time' color={_.colorMain} size={16} />
-      <Text style={_.ml.xs} type='main' bold>
-        {date('H:i', getTimestamp())}
-      </Text>
-      <Flex.Item style={styles.line} />
-      <Heatmap id='每日放送.跳转' />
-    </Flex>
-  )
-}
-
-function List(props, { $ }) {
+function List(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { layout } = $.state
   const numColumns = $.isList ? undefined : 3
@@ -117,22 +101,6 @@ function List(props, { $ }) {
 
 export default obc(List)
 
-const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingRight: _.wind - _._wind,
-    paddingLeft: _.wind - _.device(_._wind, _._wind + 8)
-  },
-  row: {
-    width: '100%'
-  },
-  line: {
-    height: 1,
-    marginVertical: _.md,
-    marginHorizontal: _._wind,
-    backgroundColor: _.colorMain
-  }
-}))
-
 function renderSectionHeader({ section: { title } }) {
   return (
     <SectionHeader
@@ -147,5 +115,20 @@ function renderSectionHeader({ section: { title } }) {
     >
       {title}
     </SectionHeader>
+  )
+}
+
+function Line() {
+  const styles = memoStyles()
+  return (
+    <Flex>
+      <Flex.Item style={styles.line} />
+      <Iconfont name='md-access-time' color={_.colorMain} size={16} />
+      <Text style={_.ml.xs} type='main' bold>
+        {date('H:i', getTimestamp())}
+      </Text>
+      <Flex.Item style={styles.line} />
+      <Heatmap id='每日放送.跳转' />
+    </Flex>
   )
 }

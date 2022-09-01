@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-27 05:42:31
+ * @Last Modified time: 2022-09-01 13:59:09
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -10,15 +10,14 @@ import { x18, feedback, info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE, HTML_BROSWER, MODEL_BROWSER_SORT } from '@constants'
-import { SubjectType } from '@constants/model/types'
-import { SubjectId } from '@types'
+import { SubjectId, SubjectType } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE, DATE } from './ds'
 
 export default class ScreenBrowser extends store {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, NAMESPACE)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
       airtime: state.airtime || DATE.getFullYear(),

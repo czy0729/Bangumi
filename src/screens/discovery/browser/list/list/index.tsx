@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:24:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-27 05:26:54
+ * @Last Modified time: 2022-09-01 13:56:48
  */
 import React from 'react'
 import { ItemSearch } from '@_'
@@ -17,7 +17,7 @@ const EVENT = {
   data: {
     type: 'list'
   }
-}
+} as const
 
 function List({ item }, { $, navigation }: Ctx) {
   const { type } = $.state

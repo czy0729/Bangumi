@@ -2,38 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 16:02:29
+ * @Last Modified time: 2022-09-01 14:12:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text } from '@components'
 import { Cover, Stars } from '@_'
-import { _, systemStore, collectionStore } from '@stores'
-import { memo, obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
+import { _ } from '@stores'
+import { HTMLDecode } from '@utils'
+import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { DEFAULT_PROPS, HIT_SLOP } from './ds'
 
-const hitSlop = {
-  top: _.device(2, 4),
-  right: _.device(4, 4),
-  bottom: _.device(10, 4),
-  left: _.device(4, 4)
-}
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  hideScore: false,
-  style: {},
-  subjectId: 0,
-  name: '',
-  images: {},
-  score: '',
-  collection: '',
-  air: '',
-  timeCN: '2359'
-}
-
-const Item = memo(
+export default memo(
   ({
     navigation,
     styles,
@@ -81,7 +62,7 @@ const Item = memo(
           shadow
           onPress={onPress}
         />
-        <Touchable style={_.mt.sm} hitSlop={hitSlop} withoutFeedback onPress={onPress}>
+        <Touchable style={_.mt.sm} hitSlop={HIT_SLOP} withoutFeedback onPress={onPress}>
           <Text size={13} lineHeight={15} numberOfLines={2} bold>
             {HTMLDecode(name)}
           </Text>
@@ -102,47 +83,5 @@ const Item = memo(
       </View>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default obc(
-  ({ style, subjectId, name, images, score, timeCN }, { $, navigation }) => {
-    global.rerender('Calendar.Item')
-
-    const { type } = $.state
-    const collection = collectionStore.collectionStatus(subjectId)
-    if (type === 'collect' && !collection) return null
-
-    const { air, timeCN: onAirTimeCN } = $.onAir[subjectId] || {}
-    return (
-      <Item
-        navigation={navigation}
-        styles={memoStyles()}
-        hideScore={systemStore.setting.hideScore}
-        style={style}
-        subjectId={subjectId}
-        name={name}
-        images={images}
-        score={score}
-        collection={collection}
-        air={air}
-        timeCN={onAirTimeCN || timeCN}
-      />
-    )
-  }
-)
-
-const memoStyles = _.memoStyles(() => {
-  const gridStyles = _.grid()
-  return {
-    item: {
-      width: gridStyles.width,
-      marginLeft: gridStyles.marginLeft,
-      marginBottom: _.md
-    },
-    cover: {
-      width: gridStyles.width,
-      height: gridStyles.height
-    }
-  }
-})

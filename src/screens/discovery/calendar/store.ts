@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 05:33:18
+ * @Last Modified time: 2022-09-01 14:13:41
  */
 import { observable, computed } from 'mobx'
 import { calendarStore, subjectStore, collectionStore } from '@stores'
+import { feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { SubjectId } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
-import { feedback, getTimestamp } from '@utils'
 
 export default class ScreenCalendar extends store {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, NAMESPACE)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
       _loaded: true
@@ -26,6 +26,7 @@ export default class ScreenCalendar extends store {
     this.fetchCollectionsQueue()
   }
 
+  /** 全局管理单独条目的收藏状态 */
   fetchCollectionsQueue = () => {
     const { _lastQueue } = this.state
     if (getTimestamp() - _lastQueue <= 24 * 60 * 60) return
@@ -81,6 +82,7 @@ export default class ScreenCalendar extends store {
     }
   }
 
+  /** SectionList sections */
   @computed get sections() {
     let day = new Date().getDay()
     if (day === 0) day = 7

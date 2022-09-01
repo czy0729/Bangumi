@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 04:40:24
+ * @Last Modified time: 2022-09-01 14:02:14
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
 import { obc } from '@utils/decorators'
-import Extra from './extra'
-import { Ctx } from './types'
+import Extra from '../extra'
+import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
   const { type, _loaded } = $.state

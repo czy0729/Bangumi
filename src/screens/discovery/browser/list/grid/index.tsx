@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:26:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-27 05:28:32
+ * @Last Modified time: 2022-09-01 13:56:54
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -17,7 +17,7 @@ const EVENT = {
   data: {
     type: 'grid'
   }
-}
+} as const
 
 function Grid({ item, index }, { $, navigation }: Ctx) {
   const { type } = $.state

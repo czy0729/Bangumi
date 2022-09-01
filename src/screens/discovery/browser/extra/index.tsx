@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-03 04:41:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 07:43:13
+ * @Last Modified time: 2022-09-01 14:00:35
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconLayout } from '@_'
 import { ob } from '@utils/decorators'
+import { StoreType } from '../types'
+import { ViewStyle } from '@types'
 
-let isList
+let isList: boolean
 
-function Extra({ $, style }) {
+function Extra({ $, style }: { $: StoreType; style?: ViewStyle }) {
   // 缓存最近一次的isList
   if ($) isList = $?.isList
 
@@ -25,7 +27,7 @@ function Extra({ $, style }) {
     <IconLayout
       style={style}
       list={currenIsList}
-      onPress={$?.switchLayout || Function.prototype}
+      onPress={$?.switchLayout || (() => {})}
     >
       <Heatmap right={30} id='索引.切换布局' />
     </IconLayout>

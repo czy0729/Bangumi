@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-04 12:18:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 12:23:39
+ * @Last Modified time: 2022-09-01 13:58:34
  */
 import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_BROWSER_SORT } from '@constants'
+import { Ctx } from '../types'
 
-function Sort(props, { $ }) {
+function Sort(props, { $ }: Ctx) {
   const { sort } = $.state
   return (
     <ToolBar.Popover

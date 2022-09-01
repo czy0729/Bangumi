@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-26 22:57:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 23:07:12
+ * @Last Modified time: 2022-09-01 13:58:54
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { BrowserSort, RatingStatus, SubjectType } from '@constants/model/types'
+import { BrowserSort, RatingStatus, SubjectType } from '@types'
 
 export const DATE = new Date()
 
