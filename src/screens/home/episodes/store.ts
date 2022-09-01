@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-10-17 17:00:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-07 07:20:03
+ * @Last Modified time: 2022-09-01 09:53:30
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
 import store from '@utils/store'
 import { HOST } from '@constants'
+import { Params } from './types'
 
 export default class ScreenEpisodes extends store {
-  init = () => subjectStore.fetchSubject(this.subjectId)
+  params: Params
+
+  init = () => {
+    return subjectStore.fetchSubject(this.subjectId)
+  }
 
   // -------------------- get --------------------
   @computed get subjectId() {
@@ -22,12 +27,13 @@ export default class ScreenEpisodes extends store {
     return subjectStore.subject(this.subjectId)
   }
 
+  /** 条目章节 */
   @computed get eps() {
     if (this.subject._loaded) {
       const { filterEps = 0 } = this.params
-      if (filterEps)
+      if (filterEps) {
         return (this.subject.eps || []).filter((item, index) => index > filterEps)
-
+      }
       return this.subject.eps || []
     }
 

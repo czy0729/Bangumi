@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 01:52:14
+ * @Last Modified time: 2022-09-01 10:04:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { toJS } from 'mobx'
 import { ScrollView, Flex, Text, Image, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
-import { desc, cnjp } from '@utils'
+import { desc, cnjp, HTMLDecode, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HTMLDecode } from '@utils/html'
-import { showImageViewer } from '@utils/ui'
+import { memoStyles } from './styles'
+import { Ctx } from '../types'
 
-const imageWidth = 104 * _.ratio
-const imageHeight = imageWidth * 0.56
+const IMAGE_WIDTH = _.r(104)
+const IMAGE_HEIGHT = IMAGE_WIDTH * 0.56
 
-function List(props, { $, navigation }) {
+function List(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
 
   // sp排在正常章节后面, 已播放优先
@@ -80,8 +80,8 @@ function List(props, { $, navigation }) {
               <View style={_.ml.sm}>
                 <Image
                   src={epsThumbs[index]}
-                  size={imageWidth}
-                  height={imageHeight}
+                  size={IMAGE_WIDTH}
+                  height={IMAGE_HEIGHT}
                   radius
                   headers={epsThumbsHeader}
                   onPress={() =>
@@ -105,24 +105,3 @@ function List(props, { $, navigation }) {
 }
 
 export default obc(List)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingVertical: _.sm + 2,
-    paddingHorizontal: _.wind
-  },
-  status: {
-    width: 6,
-    height: 6,
-    marginTop: 6 * _.ratio,
-    marginRight: _.sm,
-    backgroundColor: _.colorSub,
-    borderRadius: 3
-  },
-  statusSuccess: {
-    backgroundColor: _.colorSuccess
-  },
-  statusPrimary: {
-    backgroundColor: _.colorPrimary
-  }
-}))
