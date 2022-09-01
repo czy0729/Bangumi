@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 06:09:04
+ * @Last Modified time: 2022-09-01 12:17:15
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
+import { info } from '@utils'
 import store from '@utils/store'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { MODEL_NEWS } from '@constants/model'
+import { MODEL_NEWS } from '@constants'
+import { Id } from '@types'
 
 const namespace = 'ScreenAnitama'
 const excludeState = {
@@ -52,6 +53,7 @@ export default class ScreenAnitama extends store {
   }
 
   // -------------------- fetch --------------------
+  /** 资讯 */
   fetchList = () => {
     const { page, type } = this.state
     const label = MODEL_NEWS.getLabel(type)
@@ -65,6 +67,7 @@ export default class ScreenAnitama extends store {
   }
 
   // -------------------- get --------------------
+  /** 资讯 */
   @computed get article() {
     const { page, type } = this.state
     const label = MODEL_NEWS.getLabel(type)
@@ -90,6 +93,7 @@ export default class ScreenAnitama extends store {
   }
 
   // -------------------- page --------------------
+  /** 前一页 */
   prev = () => {
     const { page } = this.state
     if (page == 1) return
@@ -115,6 +119,7 @@ export default class ScreenAnitama extends store {
     }, 400)
   }
 
+  /** 下一页 */
   next = () => {
     const { page } = this.state
 
@@ -139,7 +144,8 @@ export default class ScreenAnitama extends store {
     }, 400)
   }
 
-  toggleType = label => {
+  /** 切换站点 */
+  toggleType = (label: string) => {
     this.setState({
       type: MODEL_NEWS.getValue(label),
       ...excludeState
@@ -149,6 +155,7 @@ export default class ScreenAnitama extends store {
     this.fetchList()
   }
 
+  /** 分页输入框改变 */
   onChange = ({ nativeEvent }) => {
     const { text } = nativeEvent
     this.setState({
@@ -156,7 +163,8 @@ export default class ScreenAnitama extends store {
     })
   }
 
-  pushHistory = aid => {
+  /** 记录文章已看过 */
+  pushHistory = (aid: Id) => {
     const { history } = this.state
     if (!history.includes(aid)) {
       this.setState({
@@ -167,6 +175,7 @@ export default class ScreenAnitama extends store {
   }
 
   // -------------------- action --------------------
+  /** 页码跳转 */
   doSearch = () => {
     const { ipt } = this.state
     const _ipt = ipt === '' ? 1 : parseInt(ipt)

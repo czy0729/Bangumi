@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-20 15:05:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 17:42:49
+ * @Last Modified time: 2022-09-01 12:25:14
  */
-import { HTMLTrim } from '@utils/html'
+import { HTMLTrim } from '@utils'
 import { SDK } from '@constants'
 
-/**
- * 访问静态html年鉴注入代码
- */
+/** 访问静态html年鉴注入代码 */
 export const injectedStaticJavaScript = HTMLTrim(`(function(){
   setTimeout(() => {
     /* webview的postMessage不是马上生效的 */

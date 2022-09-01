@@ -3,26 +3,23 @@
  * @Author: czy0729
  * @Date: 2019-08-18 22:44:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 21:37:03
+ * @Last Modified time: 2022-09-01 12:25:57
  */
-const widthSubject = '30vw'
-const widthSubjectSm = '28vw'
-const widthMono = '20vw'
-const heightMono = `${20 * 1.32}vw`
+const W_SUBJECT = '30vw'
+const W_SUBJECT_SM = '28vw'
+const W_MONO = '20vw'
+const H_MONO = `${20 * 1.32}vw`
 
-/**
- * 样式遍历加上important
- * @param {*} style
- */
-function important(style) {
+/** 样式遍历加上important */
+function important(style: string) {
   return style.replace(/;/g, ' !important;')
 }
 
 /**
  * 为了美观
- * 1. 修改条目宽度, 每行达到3个
- * 2. 修改人物宽度, 每行达到4个
- * 3. 隐藏部分样式, 使页面更沉浸
+ *  - 1. 修改条目宽度, 每行达到3个
+ *  - 2. 修改人物宽度, 每行达到4个
+ *  - 3. 隐藏部分样式, 使页面更沉浸
  */
 export default {
   2020: important(`
@@ -34,15 +31,15 @@ export default {
     /* 频道 */
     .channelStatsWrapper .columnGrid ul.grid li span.cover,
     .channelStatsWrapper .columnGrid ul.grid li span.cover span.overlay {
-      width: ${widthSubject};
-      height: ${widthSubject};
-      background-size: ${widthSubject};
+      width: ${W_SUBJECT};
+      height: ${W_SUBJECT};
+      background-size: ${W_SUBJECT};
     }
 
     /* 人物 */
     .columnGrid ul.grid li.avatar {
-      width: ${widthMono};
-      height: ${heightMono};
+      width: ${W_MONO};
+      height: ${H_MONO};
     }
 
     /* 标签 */
@@ -56,14 +53,14 @@ export default {
     /* 频道 */
     .channelStatsWrapper .columnGrid ul.grid li span.cover,
     .channelStatsWrapper .columnGrid ul.grid li span.cover span.overlay {
-      width: ${widthSubject};
-      height: ${widthSubject};
-      background-size: ${widthSubject};
+      width: ${W_SUBJECT};
+      height: ${W_SUBJECT};
+      background-size: ${W_SUBJECT};
     }
     /* 人物 */
     .columnGrid ul.grid li.avatar {
-      width: ${widthMono};
-      height: ${heightMono};
+      width: ${W_MONO};
+      height: ${H_MONO};
     }
     /* 标签 */
     #chl_crt span.tags,
@@ -76,14 +73,14 @@ export default {
     /* 频道 */
     .channelStatsWrapper .columnGrid ul.grid li span.cover,
     .channelStatsWrapper .columnGrid ul.grid li span.cover span.overlay {
-      width: ${widthSubject};
-      height: ${widthSubject};
-      background-size: ${widthSubject};
+      width: ${W_SUBJECT};
+      height: ${W_SUBJECT};
+      background-size: ${W_SUBJECT};
     }
     /* 人物 */
     .columnGrid ul.grid li.avatar {
-      width: ${widthMono};
-      height: ${heightMono};
+      width: ${W_MONO};
+      height: ${H_MONO};
     }
   `),
   2016: important(`
@@ -110,9 +107,9 @@ export default {
       margin: 0 0 0 8px;
     }
     .channelStatsWrapper .columnGrid ul.grid li span.cover {
-      width: ${widthSubject};
-      height: ${widthSubject};
-      background-size: ${widthSubject};
+      width: ${W_SUBJECT};
+      height: ${W_SUBJECT};
+      background-size: ${W_SUBJECT};
     }
     .channelStatsWrapper .columns {
       margin-top: 0;
@@ -134,8 +131,8 @@ export default {
     }
     /* 人物 */
     .columnGrid ul.grid li.avatar {
-      width: ${widthMono};
-      height: ${heightMono};
+      width: ${W_MONO};
+      height: ${H_MONO};
     }
     /* 帖子 */
     .channelStatsWrapper div.topicRank ul li span.cover {
@@ -205,9 +202,9 @@ export default {
       font-size: 28px;
     }
     .channelStatsWrapper .columnGrid ul.grid li span.cover {
-      width: ${widthSubjectSm};
-      height: ${widthSubjectSm};
-      background-size: ${widthSubjectSm};
+      width: ${W_SUBJECT_SM};
+      height: ${W_SUBJECT_SM};
+      background-size: ${W_SUBJECT_SM};
       border: 0;
     }
     .channelStatsWrapper .columnGrid h3,
@@ -233,12 +230,12 @@ export default {
     }
     /* 人物 */
     .columnGrid ul.grid li.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
     }
     .columnGrid ul.grid li span.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
       background-size: contain;
     }
     .columnGrid ul.grid li.avatar span.title,
@@ -286,9 +283,9 @@ export default {
       margin-right: 8px;
     }
     .channelStatsWrapper .columnGrid ul.grid li span.cover {
-      width: ${widthSubjectSm};
-      height: ${widthSubjectSm};
-      background-size: ${widthSubjectSm};
+      width: ${W_SUBJECT_SM};
+      height: ${W_SUBJECT_SM};
+      background-size: ${W_SUBJECT_SM};
     }
     /* 关注榜 */
     .channelStatsWrapper ul.listRank li,
@@ -310,12 +307,12 @@ export default {
     }
     /* 人物 */
     .columnGrid ul.grid li.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
     }
     .columnGrid ul.grid li span.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
       background-size: contain;
     }
     .columnGrid ul.grid li.avatar span.title,
@@ -345,9 +342,9 @@ export default {
       margin: 8px;
     }
     .channelStatsWrapper .columnGrid ul.grid li span.cover {
-      width: ${widthSubjectSm};
-      height: ${widthSubjectSm};
-      background-size: ${widthSubjectSm};
+      width: ${W_SUBJECT_SM};
+      height: ${W_SUBJECT_SM};
+      background-size: ${W_SUBJECT_SM};
       border: 0;
     }
     /* 榜单 */
@@ -364,12 +361,12 @@ export default {
     }
     /* 人物 */
     .columnGrid ul.grid li.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
     }
     .columnGrid ul.grid li span.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
       background-size: contain;
     }
     .columnGrid ul.grid li.avatar span.title,
@@ -403,9 +400,9 @@ export default {
       margin: 8px;
     }
     .channelStatsWrapper .columnGrid ul.grid li span.cover {
-      width: ${widthSubjectSm};
-      height: ${widthSubjectSm};
-      background-size: ${widthSubjectSm};
+      width: ${W_SUBJECT_SM};
+      height: ${W_SUBJECT_SM};
+      background-size: ${W_SUBJECT_SM};
     }
     /* 榜单 */
     .channelStatsWrapper ul.listRank li {
@@ -421,12 +418,12 @@ export default {
     }
     /* 人物 */
     .columnGrid ul.grid li.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
     }
     .columnGrid ul.grid li span.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
       background-size: contain;
     }
     .columnGrid ul.grid li.avatar span.title,
@@ -458,9 +455,9 @@ export default {
       padding: 0 8px;
     }
     .channelStatsWrapper .columnGrid ul.grid li span.cover {
-      width: ${widthSubjectSm};
-      height: ${widthSubjectSm};
-      background-size: ${widthSubjectSm};
+      width: ${W_SUBJECT_SM};
+      height: ${W_SUBJECT_SM};
+      background-size: ${W_SUBJECT_SM};
     }
     /* 章节 */
     .channelStatsWrapper ul.listRank li {
@@ -476,9 +473,9 @@ export default {
     }
     /* 人物 */
     .channelStatsWrapper .columnGrid ul.grid li span.avatar {
-      width: ${widthMono};
-      height: ${widthMono};
-      background-size: ${widthMono};
+      width: ${W_MONO};
+      height: ${W_MONO};
+      background-size: ${W_MONO};
     }
     .channelStatsWrapper .columnGrid ul.grid li span.avatar span.overlay {
       width: 100%;
@@ -508,8 +505,8 @@ export default {
       margin-right: 20px;
     }
     ul.chartTopList li img.cover {
-      width: ${widthSubjectSm};
-      height: ${widthSubjectSm};
+      width: ${W_SUBJECT_SM};
+      height: ${W_SUBJECT_SM};
     }
     ul.chartSecList li {
       width: 50%;

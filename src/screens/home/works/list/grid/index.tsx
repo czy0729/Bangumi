@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:42:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 18:52:21
+ * @Last Modified time: 2022-09-01 12:13:51
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -20,10 +20,9 @@ const EVENT = {
   }
 } as const
 
-function Grid({ item, index }, { navigation }: Ctx) {
+function Grid({ item, index, numColumns }, { navigation }: Ctx) {
   const id = String(item.id).replace('/subject/', '')
   const collection = collectionStore.collectionStatus(id)
-  const numColumns = _.portrait(3, 5)
   return (
     <ItemCollectionsGrid
       style={[

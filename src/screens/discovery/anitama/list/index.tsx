@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:19:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 06:05:31
+ * @Last Modified time: 2022-09-01 12:19:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,10 +11,12 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 const title = '资讯'
 
-function List(props, { $ }) {
+function List(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { show } = $.state
   const { list } = $.article
@@ -77,29 +79,3 @@ function List(props, { $ }) {
 }
 
 export default obc(List)
-
-const memoStyles = _.memoStyles(() => {
-  const width = _.window.width - _.wind * 2
-  return {
-    container: {
-      minHeight: _.window.height
-    },
-    item: {
-      paddingTop: _.md,
-      paddingBottom: _.sm,
-      paddingHorizontal: _._wind,
-      marginVertical: _.md,
-      marginHorizontal: _.wind,
-      backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
-    },
-    cover: {
-      width,
-      height: width * 0.56
-    },
-    info: {
-      paddingVertical: _.md
-    }
-  }
-})

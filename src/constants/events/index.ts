@@ -33,9 +33,10 @@ export default events
 
 type PageKeys =
   | '人物'
+  | '制作人员'
   | '发现'
   | '好友'
-  | '制作人员'
+  | '年鉴'
   | '我的'
   | '新番'
   | '时间胶囊'

@@ -3,36 +3,47 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 07:41:36
+ * @Last Modified time: 2022-09-01 12:24:41
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import WebView from '@components/@/web-view'
 import { Track, StatusBarEvents, Loading, Text, Heatmap } from '@components'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { open, appNavigate, info, removeCF } from '@utils'
 import { ob } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
-import { info } from '@utils/ui'
 import { fetchHTML } from '@utils/fetch'
-import { removeCF } from '@utils/html'
 import { HOST } from '@constants'
+import { Navigation } from '@types'
 import resetStyle from './reset-style'
 import { injectedStaticJavaScript } from './utils'
+import { styles } from './styles'
 
 const originWhitelist = ['*']
+
 const lightContentYears = ['2020', '2016', '2015', '2012', '2011']
+
 const htmlCache = {}
 
-class Award extends React.Component {
+class Award extends React.Component<{
+  navigation: Navigation
+  route?: {
+    params?: {
+      uri?: string
+    }
+  }
+}> {
   state = {
     loading: true,
     redirectCount: 0,
     html: ''
   }
 
-  loaded = false // 是否已到达目的页面
-  redirectCount = 0 // 跳转次数
+  /** 是否已到达目的页面 */
+  loaded = false
+
+  /** 跳转次数 */
+  redirectCount = 0
 
   componentDidMount() {
     if (htmlCache[this.year]) {
@@ -109,6 +120,7 @@ class Award extends React.Component {
             )
           }
           break
+
         default:
           break
       }
@@ -134,9 +146,7 @@ class Award extends React.Component {
 
   get barStyle() {
     const { loading } = this.state
-    if (!loading && lightContentYears.includes(this.year)) {
-      return 'dark-content'
-    }
+    if (!loading && lightContentYears.includes(this.year)) return 'dark-content'
     return 'light-content'
   }
 
@@ -193,24 +203,3 @@ class Award extends React.Component {
 }
 
 export default ob(Award)
-
-const backgroundColor = 'rgb(0, 0, 0)'
-const styles = StyleSheet.create({
-  container: {
-    ..._.container.flex,
-    backgroundColor
-  },
-  loading: {
-    ...StyleSheet.absoluteFill,
-    zIndex: 1,
-    backgroundColor
-  },
-  extra: {
-    ..._.mt.sm,
-    opacity: 0.6
-  },
-  webview: {
-    paddingTop: _.statusBarHeight,
-    backgroundColor
-  }
-})

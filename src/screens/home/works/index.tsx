@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 19:04:23
+ * @Last Modified time: 2022-09-01 12:13:05
  */
 import React from 'react'
 import { Page } from '@components'
@@ -13,8 +13,9 @@ import ToolBar from './tool-bar'
 import List from './list'
 import Modal from './modal'
 import Store from './store'
+import { Ctx } from './types'
 
-const Works = (props, { $ }) => {
+const Works = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
