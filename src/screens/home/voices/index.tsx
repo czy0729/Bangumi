@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 20:48:12
+ * @Last Modified time: 2022-09-01 11:11:34
  */
 import React from 'react'
 import { Page } from '@components'
@@ -12,8 +12,9 @@ import Header from './header'
 import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
 
-const Voices = (props, { $ }) => {
+const Voices = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

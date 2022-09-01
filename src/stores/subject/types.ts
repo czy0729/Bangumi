@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 06:56:40
+ * @Last Modified time: 2022-09-01 11:10:51
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -400,20 +400,31 @@ export type MonoWorks = Override<
 >
 
 /** 人物作品 */
-export type MonoVoices = ListEmpty<
-  Partial<{
-    id: Id
-    name: string
-    nameCn: string
-    cover: CoverCrt<'s'>
-    subject: {
-      id: SubjectId
+export type MonoVoices = Override<
+  ListEmpty<
+    Partial<{
+      id: Id
       name: string
       nameCn: string
-      cover: Cover<'g'>
-      staff: string
+      cover: CoverCrt<'s'>
+      subject: {
+        id: SubjectId
+        name: string
+        nameCn: string
+        cover: Cover<'g'>
+        staff: string
+      }[]
+    }>
+  >,
+  {
+    filters?: {
+      title: string
+      data: {
+        title: string
+        value: string
+      }[]
     }[]
-  }>
+  }
 >
 
 /** 好友评分列表 */

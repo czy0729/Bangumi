@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 10:32:10
+ * @Last Modified time: 2022-09-01 11:07:41
  */
 import React from 'react'
 import { Heatmap, ToolBar as CompToolBar } from '@components'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function ToolBar(props, { $ }) {
+function ToolBar(props, { $ }: Ctx) {
   const { position } = $.state
   const { filters } = $.monoVoices
   return (
