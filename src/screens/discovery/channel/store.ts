@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:04:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 17:32:59
+ * @Last Modified time: 2022-09-02 14:26:28
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { HTML_CHANNEL } from '@constants/html'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { HTML_CHANNEL, MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectType, SubjectTypeCn } from '@types'
+import { Params } from './types'
 
 export default class ScreenChannel extends store {
+  params: Params
+
   state = observable({
-    type: ''
+    type: '' as SubjectType
   })
 
   init = () => {
@@ -29,9 +32,10 @@ export default class ScreenChannel extends store {
   }
 
   @computed get typeCn() {
-    return MODEL_SUBJECT_TYPE.getTitle(this.type)
+    return MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(this.type)
   }
 
+  /** 频道聚合 */
   @computed get channel() {
     return discoveryStore.channel(this.type)
   }
@@ -45,13 +49,15 @@ export default class ScreenChannel extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchChannel = () =>
-    discoveryStore.fetchChannel({
+  /** 频道聚合 */
+  fetchChannel = () => {
+    return discoveryStore.fetchChannel({
       type: this.type
     })
+  }
 
   // -------------------- page --------------------
-  toggleType = type => {
+  toggleType = (type: SubjectType) => {
     this.setState({
       type
     })

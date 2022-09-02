@@ -2,25 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:54:21
+ * @Last Modified time: 2022-09-02 14:40:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Katakana, Text } from '@components'
 import { SectionTitle, Cover, Tag } from '@_'
 import { _ } from '@stores'
+import { findSubjectCn, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { findSubjectCn } from '@utils/app'
-import { HTMLDecode } from '@utils/html'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { Ctx } from '../types'
+import { COVER_WIDTH_SM, COVER_HEIGHT_SM, COVER_HEIGHT, COVER_WIDTH } from './ds'
+import { memoStyles } from './styles'
 
-export const imgWidth = IMG_WIDTH * 1.2
-export const imgHeight = IMG_HEIGHT * 1.2
-export const imgWidthSm = 72 * _.ratio
-export const imgHeightSm = imgWidthSm * 1.28
-
-function Rank(props, { $, navigation }) {
+function Rank(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { rankTop, rank } = $.channel
   return (
@@ -51,8 +47,8 @@ function Rank(props, { $, navigation }) {
               <Flex align='start'>
                 <Cover
                   src={item.cover}
-                  width={imgWidth}
-                  height={imgHeight}
+                  width={COVER_WIDTH}
+                  height={COVER_HEIGHT}
                   radius
                   shadow
                   type={$.typeCn}
@@ -129,8 +125,8 @@ function Rank(props, { $, navigation }) {
                   <Flex align='start'>
                     <Cover
                       src={item.cover}
-                      width={imgWidthSm}
-                      height={imgHeightSm}
+                      width={COVER_WIDTH_SM}
+                      height={COVER_HEIGHT_SM}
                       radius
                       shadow
                       type={$.typeCn}
@@ -183,36 +179,3 @@ function Rank(props, { $, navigation }) {
 }
 
 export default obc(Rank)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    width: '100%',
-    paddingHorizontal: _.wind
-  },
-  itemLg: {
-    width: '100%',
-    paddingVertical: _.sm,
-    paddingHorizontal: _.wind,
-    marginBottom: 4
-  },
-  image: {
-    width: imgWidth
-  },
-  item: {
-    width: '48%',
-    paddingVertical: _.sm,
-    marginBottom: 4
-  },
-  content: {
-    height: imgHeight - 2 * _.xs
-  },
-  imageSm: {
-    width: imgWidthSm
-  },
-  contentSm: {
-    height: imgHeightSm
-  },
-  itemMarginLeft: {
-    marginLeft: '4%'
-  }
-}))

@@ -2,25 +2,27 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-06 06:44:49
+ * @Last Modified time: 2022-09-02 14:29:18
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
+import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { findSubjectCn } from '@utils/app'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Discuss(props, { $, navigation }) {
+function Discuss(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { discuss } = $.channel
   return (
     <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>最新讨论</SectionTitle>
       <View style={_.mt.sm}>
-        {discuss.map((item, index) => (
+        {discuss.map(item => (
           <Touchable
             key={item.id}
             style={styles.item}
@@ -42,7 +44,7 @@ function Discuss(props, { $, navigation }) {
               })
             }}
           >
-            <View style={[styles.wrap, index !== 0 && !_.flat && styles.border]}>
+            <View style={styles.wrap}>
               <Flex style={styles.content}>
                 <Flex.Item>
                   <Text size={15} bold>
@@ -81,23 +83,3 @@ function Discuss(props, { $, navigation }) {
 }
 
 export default obc(Discuss)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingLeft: _.wind
-  },
-  wrap: {
-    paddingRight: _.wind - _._wind
-  },
-  content: {
-    paddingVertical: _.md,
-    paddingRight: _._wind
-  },
-  border: {
-    borderTopWidth: _.hairlineWidth,
-    borderColor: _.colorBorder
-  },
-  katakanas: {
-    marginTop: -4
-  }
-}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 17:27:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-02 09:28:49
+ * @Last Modified time: 2022-09-02 14:39:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,8 +11,10 @@ import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Tags(props, { $, navigation }) {
+function Tags(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { tags } = $.channel
   return (
@@ -48,20 +50,3 @@ function Tags(props, { $, navigation }) {
 }
 
 export default obc(Tags)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingHorizontal: _.wind,
-    marginTop: 12
-  },
-  tag: {
-    paddingVertical: 2,
-    paddingHorizontal: 4,
-    marginRight: 8,
-    marginBottom: 12,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs
-  }
-}))

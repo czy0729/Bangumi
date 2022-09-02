@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 16:59:43
+ * @Last Modified time: 2022-09-02 14:23:35
  */
 import React from 'react'
 import { Page, ScrollView } from '@components'
@@ -16,8 +16,9 @@ import Blog from './blog'
 import Discuss from './discuss'
 import Tags from './tags'
 import Store from './store'
+import { Ctx } from './types'
 
-const Channel = (props, { $ }) => {
+const Channel = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

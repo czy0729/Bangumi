@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:54:53
+ * @Last Modified time: 2022-09-02 14:31:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Katakana, Text } from '@components'
 import { SectionTitle, Cover } from '@_'
 import { _ } from '@stores'
+import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { findSubjectCn } from '@utils/app'
-import { imgWidthSm, imgHeightSm } from './rank'
+import { imgWidthSm, imgHeightSm } from '../rank'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Friends(props, { $, navigation }) {
+function Friends(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { friends } = $.channel
   return (
@@ -92,22 +94,3 @@ function Friends(props, { $, navigation }) {
 }
 
 export default obc(Friends)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    width: '100%',
-    paddingHorizontal: _.wind,
-    marginTop: _.sm
-  },
-  item: {
-    width: '47.5%',
-    paddingVertical: _.sm,
-    marginBottom: 4
-  },
-  itemMarginLeft: {
-    marginLeft: '5%'
-  },
-  image: {
-    width: imgWidthSm
-  }
-}))

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:55:36
+ * @Last Modified time: 2022-09-02 14:32:46
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { Ctx } from '../types'
 
-function Header(props, { $, navigation }) {
+function Header(props, { $, navigation }: Ctx) {
   return (
     <CompHeader
       title={`${$.typeCn}频道`}
