@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 21:45:02
+ * @Last Modified time: 2022-09-03 04:15:18
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { _ } from '@stores'
-import { open } from '@utils'
-import { appNavigate, correctAgo } from '@utils/app'
+import { open, info, appNavigate, correctAgo } from '@utils'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
+import { TopicId } from '@types'
 
-function List(props, { $, navigation }) {
+function List(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { list, _loaded } = $.board
   if (_loaded && !list.length) {
@@ -32,7 +33,7 @@ function List(props, { $, navigation }) {
   return (
     <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
       {list.map(({ title, href, replies, time, userName }, index) => {
-        const topicId = href.replace('/subject/topic/', 'subject/')
+        const topicId = href.replace('/subject/topic/', 'subject/') as TopicId
         const readed = $.readed(topicId)
         const isReaded = !!readed.time
         const replyText = `+${replies.replace(' replies', '')}`
@@ -41,7 +42,7 @@ function List(props, { $, navigation }) {
             key={href}
             style={[styles.item, isReaded && styles.readed]}
             onPress={() => {
-              if (replies > LIMIT_TOPIC_PUSH) {
+              if (Number(replies) > LIMIT_TOPIC_PUSH) {
                 const url = `${HOST}${href}`
                 t('讨论版.跳转', {
                   to: 'WebBrowser',
@@ -96,23 +97,3 @@ function List(props, { $, navigation }) {
 }
 
 export default obc(List)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingLeft: _.wind - _._wind + _.md
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind - _._wind + _.md
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  readed: {
-    backgroundColor: _.colorBg
-  },
-  empty: {
-    minHeight: 240
-  }
-}))

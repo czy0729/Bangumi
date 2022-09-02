@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 21:45:03
+ * @Last Modified time: 2022-09-03 04:07:06
  */
 import React from 'react'
 import { Page } from '@components'
@@ -11,8 +11,9 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
 
-const Board = (props, { $ }) => {
+const Board = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

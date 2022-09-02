@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 04:40:57
+ * @Last Modified time: 2022-09-03 04:11:35
  */
 
 /** Rakuen */
@@ -82,5 +82,6 @@ export default {
   '帖子搜索.搜索': 'RakuenSearch.doSearch',
 
   // 讨论版
-  '讨论版.跳转': 'Board.to'
+  '讨论版.跳转': 'Board.to',
+  '讨论版.右上角菜单': 'Board.topRightMenu'
 }
