@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 22:20:08
+ * @Last Modified time: 2022-09-03 04:30:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,8 +18,10 @@ import {
 } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function Info(props, { $ }) {
+function Info(props, { $ }: Ctx) {
   const { _title } = $.params
   const { title, content, create, _loaded } = $.groupInfo
   return (
@@ -32,9 +34,9 @@ function Info(props, { $ }) {
         <Flex style={_.mt.md} justify='center'>
           <Image
             src={$.groupThumb}
-            size={80 * _.ratio}
+            size={_.r(80)}
             shadow
-            placholder={false}
+            placeholder={false}
             imageViewer
             event={{
               id: '小组.封面图查看',
@@ -63,12 +65,3 @@ function Info(props, { $ }) {
 }
 
 export default obc(Info)
-
-const styles = _.create({
-  container: {
-    minHeight: 328
-  },
-  loading: {
-    height: 200
-  }
-})

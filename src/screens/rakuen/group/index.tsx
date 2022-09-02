@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 16:27:29
+ * @Last Modified time: 2022-09-03 04:32:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,24 +15,26 @@ import Header from './header'
 import Info from './info'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
+import { styles } from './styles'
 
-const heatmaps = {
+const HEAT_MAPS = {
   prev: '小组.上一页',
   next: '小组.下一页',
   search: '小组.页码跳转'
-}
+} as const
 
-const RakuenGroup = (props, { $ }) => {
+const RakuenGroup = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
 
-  const { y, fixed, onScroll } = useOnScroll()
+  const { fixed, onScroll } = useOnScroll()
   return useObserver(() => {
     const { show } = $.state
     return (
       <>
-        <Header y={y} fixed={fixed} />
+        <Header fixed={fixed} />
         <Page>
           <ScrollView
             contentContainerStyle={_.container.bottom}
@@ -57,7 +59,7 @@ const RakuenGroup = (props, { $ }) => {
           <Pagination
             style={styles.pagination}
             input={$.state.ipt}
-            heatmaps={heatmaps}
+            heatmaps={HEAT_MAPS}
             onPrev={$.prev}
             onNext={$.next}
             onChange={$.onChange}
@@ -73,10 +75,3 @@ const RakuenGroup = (props, { $ }) => {
 }
 
 export default ic(Store, RakuenGroup)
-
-const styles = _.create({
-  pagination: {
-    paddingTop: _.sm,
-    paddingBottom: _.ios(_.md, _.sm)
-  }
-})

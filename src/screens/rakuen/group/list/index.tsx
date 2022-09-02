@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 19:10:04
+ * @Last Modified time: 2022-09-03 04:35:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { open } from '@utils'
-import { appNavigate, correctAgo } from '@utils/app'
+import { open, info, HTMLDecode, appNavigate, correctAgo } from '@utils'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
+import { TopicId } from '@types'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function List({ style }, { $, navigation }) {
+function List({ style = undefined }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { title: group } = $.groupInfo
   const { list, _loaded } = $.group
@@ -35,16 +35,16 @@ function List({ style }, { $, navigation }) {
   return (
     <View style={style}>
       {list.map(({ title, href, replies, time, userName, userId }, index) => {
-        const topicId = href.replace('/group/topic/', 'group/')
+        const topicId = href.replace('/group/topic/', 'group/') as TopicId
         const readed = $.readed(topicId)
         const isReaded = !!readed.time
 
         // 处理 (+30) +10 样式
         const replyText = `+${replies}`
-        let replyAdd
+        let replyAdd: {}
         if (isReaded) {
-          if (replies > readed.replies) {
-            replyAdd = `+${replies - readed.replies}`
+          if (Number(replies) > readed.replies) {
+            replyAdd = `+${Number(replies) - readed.replies}`
           }
         }
         return (
@@ -52,7 +52,7 @@ function List({ style }, { $, navigation }) {
             key={href}
             style={[styles.item, isReaded && styles.readed]}
             onPress={() => {
-              if (replies > LIMIT_TOPIC_PUSH) {
+              if (Number(replies) > LIMIT_TOPIC_PUSH) {
                 const url = `${HOST}${href}`
                 t('小组.跳转', {
                   to: 'WebBrowser',
@@ -120,23 +120,3 @@ function List({ style }, { $, navigation }) {
 }
 
 export default obc(List)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingLeft: _.wind - _._wind + _.md
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  readed: {
-    backgroundColor: _.colorBg
-  },
-  empty: {
-    minHeight: 240
-  }
-}))

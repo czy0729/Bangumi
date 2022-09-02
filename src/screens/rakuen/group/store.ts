@@ -3,18 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 19:10:30
+ * @Last Modified time: 2022-09-03 04:29:30
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
+import { info, feedback } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
 import { HOST } from '@constants'
+import { Params } from './types'
+import { TopicId } from '@types'
 
-const namespace = 'ScreenGroup'
+const NAMESPACE = 'ScreenGroup'
 
 export default class ScreenGroup extends store {
+  params: Params
+
   state = observable({
     page: 1,
     show: true,
@@ -24,7 +28,7 @@ export default class ScreenGroup extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, this.key)
+    const state = await this.getStorage(this.key)
     this.setState({
       ...state,
       _loaded: true
@@ -35,11 +39,14 @@ export default class ScreenGroup extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchGroupInfo = () =>
-    rakuenStore.fetchGroupInfo({
+  /** 小组信息 */
+  fetchGroupInfo = () => {
+    return rakuenStore.fetchGroupInfo({
       groupId: this.groupId
     })
+  }
 
+  /** 小组帖子列表 */
   fetchGroup = () => {
     const { page } = this.state
     return rakuenStore.fetchGroup({
@@ -55,18 +62,21 @@ export default class ScreenGroup extends store {
   }
 
   @computed get key() {
-    return `${namespace}|${this.groupId}`
+    return `${NAMESPACE}|${this.groupId}`
   }
 
+  /** 小组信息 */
   @computed get groupInfo() {
     return rakuenStore.groupInfo(this.groupId)
   }
 
+  /** 小组帖子列表 */
   @computed get group() {
     const { page } = this.state
     return rakuenStore.group(this.groupId, page)
   }
 
+  /** 小组缩略图缓存 */
   @computed get groupThumb() {
     const { cover } = this.groupInfo
     if (cover) return cover
@@ -81,14 +91,13 @@ export default class ScreenGroup extends store {
     return `${HOST}/group/${this.groupId}`
   }
 
-  /**
-   * 帖子历史查看记录
-   */
-  readed(topicId) {
+  /** 帖子历史查看记录 */
+  readed(topicId: TopicId) {
     return computed(() => rakuenStore.readed(topicId)).get()
   }
 
   // -------------------- page --------------------
+  /** 上一页 */
   prev = async () => {
     const { page } = this.state
     if (page === 1) return
@@ -113,6 +122,7 @@ export default class ScreenGroup extends store {
     }, 400)
   }
 
+  /** 下一页 */
   next = async () => {
     const { page } = this.state
     t('小组.下一页', {
@@ -135,6 +145,7 @@ export default class ScreenGroup extends store {
     }, 400)
   }
 
+  /** 页码输入框改变 */
   onChange = ({ nativeEvent }) => {
     const { text } = nativeEvent
     this.setState({
@@ -142,11 +153,13 @@ export default class ScreenGroup extends store {
     })
   }
 
-  onItemPress = (topicId, replies) => {
+  /** 更新帖子历史查看信息 */
+  onItemPress = (topicId: TopicId, replies: any) => {
     rakuenStore.updateTopicReaded(topicId, replies)
   }
 
   // -------------------- action --------------------
+  /** 页码跳转 */
   doSearch = () => {
     const { ipt } = this.state
     const _ipt = ipt === '' ? 1 : parseInt(ipt)
@@ -175,9 +188,7 @@ export default class ScreenGroup extends store {
     }, 400)
   }
 
-  /**
-   * 加入小组
-   */
+  /** 加入小组 */
   doJoin = async () => {
     const { joinUrl } = this.groupInfo
     if (!joinUrl) return false
@@ -199,9 +210,7 @@ export default class ScreenGroup extends store {
     return this.fetchGroupInfo()
   }
 
-  /**
-   * 退出小组
-   */
+  /** 退出小组 */
   doBye = async () => {
     const { byeUrl } = this.groupInfo
     if (!byeUrl) return false
