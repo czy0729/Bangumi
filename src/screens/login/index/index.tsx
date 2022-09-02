@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:17:38
+ * @Last Modified time: 2022-09-02 17:28:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,8 @@ import { hm, t } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
 import { SDK, APP_ID, HOST, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
+import { Navigation } from '@types'
+import { memoStyles } from './styles'
 
 const title = '登录V1'
 const uri = `${URL_OAUTH}?${urlStringify({
@@ -36,13 +38,15 @@ const uri = `${URL_OAUTH}?${urlStringify({
   redirect_uri: URL_OAUTH_REDIRECT
 })}`
 
-export default
-@ob
-class Login extends React.Component {
+class Login extends React.Component<{
+  navigation: Navigation
+}> {
   state = {
     clicked: false,
     refreshed: false
   }
+
+  ref
 
   componentDidMount() {
     hm('login', 'Login')
@@ -54,7 +58,7 @@ class Login extends React.Component {
   }
 
   onLogin = () => {
-    t('授权登录.登录')
+    t('授权登陆.登陆')
 
     this.setState({
       clicked: true
@@ -97,7 +101,7 @@ class Login extends React.Component {
   }
 
   onError = () => {
-    t('授权登录.网络问题')
+    t('授权登陆.错误')
 
     info('网络似乎出了点问题')
     this.setState({
@@ -106,7 +110,7 @@ class Login extends React.Component {
   }
 
   onOtherPage = () => {
-    t('授权登录.乱逛')
+    t('授权登陆.乱逛')
 
     info('授权过程中不要随便乱逛>.<')
     this.setState({
@@ -128,12 +132,14 @@ class Login extends React.Component {
   /**
    * 要传递v=1区分版本, 当iOS端v=2的时候, html都不使用https
    */
-  updateUserCookie = ({ userAgent, cookie }) =>
-    userStore.updateUserCookie({
+  updateUserCookie = ({ userAgent, cookie }) => {
+    // @ts-ignore
+    return userStore.updateUserCookie({
       userAgent,
       cookie,
       v: 0
     })
+  }
 
   doLogin = async ({ href = '' } = {}) => {
     const { navigation } = this.props
@@ -153,7 +159,7 @@ class Login extends React.Component {
     feedback()
     navigation.popToTop()
 
-    t('授权登录.成功')
+    t('授权登陆.成功')
   }
 
   renderPreview() {
@@ -280,7 +286,7 @@ class Login extends React.Component {
     const { clicked } = this.state
     return (
       <View style={_.container.plain}>
-        <UM screen={title} />
+        <UM title={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <StatusBarPlaceholder />
         <View style={_.container.flex}>
@@ -289,18 +295,18 @@ class Login extends React.Component {
         <Heatmap
           right={_.wind}
           bottom={_.bottom + 120}
-          id='授权登录.登录'
+          id='授权登陆.登陆'
           transparent
         />
         <Heatmap
           right={_.wind + 31}
           bottom={_.bottom + 86}
-          id='授权登录.成功'
+          id='授权登陆.成功'
           transparent
         />
-        <Heatmap right={_.wind} bottom={_.bottom + 86} id='授权登录.错误' transparent />
-        <Heatmap right={_.wind} bottom={_.bottom + 52} id='授权登录.乱逛' transparent />
-        <Heatmap id='授权登录' screen='LoginV1' />
+        <Heatmap right={_.wind} bottom={_.bottom + 86} id='授权登陆.错误' transparent />
+        <Heatmap right={_.wind} bottom={_.bottom + 52} id='授权登陆.乱逛' transparent />
+        <Heatmap id='授权登陆' screen='LoginV1' />
       </View>
     )
   }
@@ -310,13 +316,4 @@ class Login extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  bottomContainer: {
-    width: 320 * _.ratio,
-    height: 400
-  },
-  loading: {
-    width: 320 * _.ratio,
-    height: 64
-  }
-}))
+export default ob(Login)

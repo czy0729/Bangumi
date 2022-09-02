@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 06:09:36
+ * @Last Modified time: 2022-09-03 04:01:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,21 +20,33 @@ import {
 } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { _, userStore, usersStore, rakuenStore } from '@stores'
-import { getTimestamp, setStorage, getStorage, open, urlStringify } from '@utils'
+import {
+  confirm,
+  feedback,
+  getStorage,
+  getTimestamp,
+  info,
+  open,
+  setStorage,
+  urlStringify
+} from '@utils'
 import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
-import { info, feedback, confirm } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT, URL_PRIVACY } from '@constants'
 import i18n from '@constants/i18n'
+import { Navigation } from '@types'
 import Preview from './preview'
 import Form from './form'
+import { memoStyles } from './styles'
 
 const title = '登录'
 const namespace = 'LoginV2'
 const AUTH_RETRY_COUNT = 10
 
-class LoginV2 extends React.Component {
+class LoginV2 extends React.Component<{
+  navigation: Navigation
+}> {
   state = {
     host: HOST,
     clicked: false,
@@ -51,7 +63,9 @@ class LoginV2 extends React.Component {
   userAgent = ''
   formhash = ''
   lastCaptcha = ''
-  cookie = {}
+  cookie: {
+    chii_auth?: string
+  } = {}
   code = ''
   accessToken = {}
   retryCount = 0
@@ -59,7 +73,13 @@ class LoginV2 extends React.Component {
   codeRef
 
   async componentDidMount() {
-    const state = {}
+    const state: {
+      host?: string
+      email?: string
+      password?: string
+      isCommonUA?: boolean
+    } = {}
+
     const host = await getStorage(`${namespace}|host`)
     if (host) state.host = host
 
@@ -75,14 +95,13 @@ class LoginV2 extends React.Component {
     this.setState(state, () => {
       this.reset()
     })
+
     hm('login/v2', 'LoginV2')
   }
 
-  /**
-   * 游客访问
-   */
+  /** 游客访问 */
   onTour = async () => {
-    t('登录.游客访问')
+    t('登陆.游客访问')
 
     try {
       info('正在从github获取游客cookie...')
@@ -107,24 +126,21 @@ class LoginV2 extends React.Component {
       feedback()
       navigation.popToTop()
     } catch (error) {
-      warn(namespace, 'onTour', error)
+      console.error(namespace, 'onTour', error)
       info(`${i18n.login()}状态过期, 请稍后再试`)
     }
   }
 
-  /**
-   * 显示登录表单
-   */
-  onPreviewLogin = () =>
+  /** 显示登录表单 */
+  onPreviewLogin = () => {
     this.setState({
       clicked: true
     })
+  }
 
-  /**
-   * 登录最终失败
-   */
-  loginFail = async info => {
-    t('登录.错误')
+  /** 登录最终失败 */
+  loginFail = async (info: string) => {
+    t('登陆.错误')
 
     this.setState({
       loading: false,
@@ -133,9 +149,7 @@ class LoginV2 extends React.Component {
     this.reset()
   }
 
-  /**
-   * 登录流程
-   */
+  /** 登录流程 */
   onLogin = async () => {
     const { email, password, captcha } = this.state
     if (!email || !password || !captcha) {
@@ -145,7 +159,7 @@ class LoginV2 extends React.Component {
 
     try {
       if (this.lastCaptcha !== captcha) {
-        t('登录.登录')
+        t('登陆.登陆')
 
         if (typeof this?.codeRef?.inputRef?.blur === 'function') {
           this.codeRef.inputRef.blur()
@@ -185,14 +199,12 @@ class LoginV2 extends React.Component {
         return
       }
 
-      warn('login/v2/index.js', 'onLogin', ex)
+      console.error('login/v2/index.js', 'onLogin', ex)
       this.onLogin()
     }
   }
 
-  /**
-   * 随机生成一个UserAgent
-   */
+  /** 随机生成一个 UserAgent */
   getUA = async () => {
     const { isCommonUA } = this.state
     if (isCommonUA) {
@@ -210,13 +222,14 @@ class LoginV2 extends React.Component {
     return res
   }
 
-  /**
-   * 获取表单hash
-   */
+  /** 获取表单 hash */
   getFormHash = async () => {
     const { host } = this.state
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
+
+    // @ts-ignore
     const { data, headers } = await axios({
       method: 'get',
       url: `${host}/login`,
@@ -232,9 +245,7 @@ class LoginV2 extends React.Component {
     return true
   }
 
-  /**
-   * 获取验证码
-   */
+  /** 获取验证码 */
   getCaptcha = async () => {
     this.setState({
       base64: ''
@@ -242,7 +253,10 @@ class LoginV2 extends React.Component {
 
     const { host } = this.state
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
+
+    // @ts-ignore
     const { request } = await axios({
       method: 'get',
       url: `${host}/signup/captcha?${getTimestamp()}`,
@@ -261,9 +275,7 @@ class LoginV2 extends React.Component {
     return true
   }
 
-  /**
-   * 密码登录
-   */
+  /** 密码登录 */
   login = async () => {
     this.setState({
       loading: true,
@@ -272,7 +284,10 @@ class LoginV2 extends React.Component {
 
     const { host, email, password, captcha } = this.state
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
+
+    // @ts-ignore
     const { data, headers } = await axios({
       method: 'post',
       url: `${host}/FollowTheRabbit`,
@@ -302,9 +317,7 @@ class LoginV2 extends React.Component {
     return true
   }
 
-  /**
-   * 获取授权表单码
-   */
+  /** 获取授权表单码 */
   oauth = async () => {
     this.setState({
       info: '获取授权表单码...(2/5)'
@@ -312,7 +325,10 @@ class LoginV2 extends React.Component {
 
     const { host } = this.state
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
+
+    // @ts-ignore
     const { data } = await axios({
       method: 'get',
       url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
@@ -327,9 +343,7 @@ class LoginV2 extends React.Component {
     return true
   }
 
-  /**
-   * 授权获取code
-   */
+  /** 授权获取code */
   authorize = async () => {
     this.setState({
       info: '授权中...(3/5)'
@@ -337,7 +351,10 @@ class LoginV2 extends React.Component {
 
     const { host } = this.state
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
+
+    // @ts-ignore
     const { request } = await axios({
       method: 'post',
       maxRedirects: 0,
@@ -361,9 +378,7 @@ class LoginV2 extends React.Component {
     return true
   }
 
-  /**
-   * code获取access_token
-   */
+  /** code 获取 access_token */
   getAccessToken = async () => {
     this.setState({
       info: '授权成功, 获取token中...(4/5)'
@@ -371,7 +386,10 @@ class LoginV2 extends React.Component {
 
     const { host } = this.state
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
+
+    // @ts-ignore
     const { status, data } = await axios({
       method: 'post',
       maxRedirects: 0,
@@ -399,10 +417,7 @@ class LoginV2 extends React.Component {
     return true
   }
 
-  /**
-   * 更新responseHeader的set-cookie
-   * @param {*} setCookie
-   */
+  /** 更新 responseHeader 的 set-cookie */
   updateCookie = (setCookie = '') => {
     const setCookieKeys = [
       '__cfduid',
@@ -421,9 +436,7 @@ class LoginV2 extends React.Component {
     })
   }
 
-  /**
-   * 入库
-   */
+  /** 入库 */
   inStore = async () => {
     this.setState({
       info: `${i18n.login()}成功, 正在请求个人信息...(5/5)`
@@ -439,7 +452,7 @@ class LoginV2 extends React.Component {
 
     feedback()
     navigation.popToTop()
-    t('登录.成功')
+    t('登陆.成功')
 
     queue(
       [
@@ -452,9 +465,7 @@ class LoginV2 extends React.Component {
     )
   }
 
-  /**
-   *
-   */
+  /** 重设 */
   reset = async () => {
     this.cookie = {}
     this.setState({
@@ -467,20 +478,22 @@ class LoginV2 extends React.Component {
     await this.getCaptcha()
   }
 
-  onFocus = () =>
+  /** 输入框 focus */
+  onFocus = () => {
     this.setState({
       focus: true
     })
+  }
 
-  onBlur = () =>
+  /** 输入框 blur */
+  onBlur = () => {
     this.setState({
-      // focus: false
+      focus: false
     })
+  }
 
-  /**
-   * 输入框变化
-   */
-  onChange = (evt, type) => {
+  /** 输入框变化 */
+  onChange = (evt: { nativeEvent: any }, type: any) => {
     const { nativeEvent } = evt
     const { text } = nativeEvent
     this.setState({
@@ -489,17 +502,15 @@ class LoginV2 extends React.Component {
     })
   }
 
-  /**
-   * 切换登录域名
-   */
-  onSelect = host => {
+  /** 切换登录域名 */
+  onSelect = (host: string) => {
     setStorage(`${namespace}|host`, host)
     this.setState(
       {
         host
       },
       () => {
-        t('登录.切换域名', {
+        t('登陆.切换域名', {
           host
         })
 
@@ -508,9 +519,7 @@ class LoginV2 extends React.Component {
     )
   }
 
-  /**
-   * 切换是否使用固定UA登录
-   */
+  /** 切换是否使用固定 UA 登录 */
   onUAChange = () => {
     const { isCommonUA } = this.state
     const next = !isCommonUA
@@ -591,7 +600,7 @@ class LoginV2 extends React.Component {
           <Flex style={this.styles.old} justify='around'>
             <Touchable
               onPress={() => {
-                t('登录.跳转', {
+                t('登陆.跳转', {
                   to: 'Signup'
                 })
 
@@ -616,11 +625,11 @@ class LoginV2 extends React.Component {
                   size={12}
                 />
               </Flex>
-              <Heatmap id='登录.跳转' to='Signup' alias='注册' />
+              <Heatmap id='登陆.跳转' to='Signup' alias='注册' />
             </Touchable>
             <Touchable
               onPress={() => {
-                t('登录.跳转', {
+                t('登陆.跳转', {
                   to: 'Privacy'
                 })
 
@@ -638,14 +647,14 @@ class LoginV2 extends React.Component {
                   size={12}
                 />
               </Flex>
-              <Heatmap id='登录.跳转' to='Privacy' alias='隐私保护政策' />
+              <Heatmap id='登陆.跳转' to='Privacy' alias='隐私保护政策' />
             </Touchable>
             <Text
               size={11}
               bold
               type='sub'
               onPress={() => {
-                t('登录.跳转', {
+                t('登陆.跳转', {
                   to: 'Login'
                 })
 
@@ -654,14 +663,14 @@ class LoginV2 extends React.Component {
               }}
             >
               旧版{i18n.login()}
-              <Heatmap id='登录.跳转' to='Login' alias='旧版登录' />
+              <Heatmap id='登陆.跳转' to='Login' alias='旧版登录' />
             </Text>
             <Text
               size={11}
               bold
               type='sub'
               onPress={() => {
-                t('登录.跳转', {
+                t('登陆.跳转', {
                   to: 'LoginAssist'
                 })
 
@@ -670,7 +679,7 @@ class LoginV2 extends React.Component {
               }}
             >
               辅助{i18n.login()}
-              <Heatmap id='登录.跳转' to='LoginAssist' alias='辅助登录' />
+              <Heatmap id='登陆.跳转' to='LoginAssist' alias='辅助登录' />
             </Text>
           </Flex>
         )}
@@ -681,15 +690,15 @@ class LoginV2 extends React.Component {
   render() {
     return (
       <View style={_.container.plain}>
-        <UM screen={title} />
+        <UM title={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <StatusBarPlaceholder />
         {this.renderContent()}
         <KeyboardSpacer topSpacing={_.ios(-120, 0)} />
-        <Heatmap id='登录.登录' right={_.wind} bottom={_.bottom + 120} transparent />
-        <Heatmap id='登录.成功' right={_.wind} bottom={_.bottom + 86} transparent />
-        <Heatmap id='登录.错误' right={_.wind} bottom={_.bottom + 52} transparent />
-        <Heatmap id='登录' screen='Login' />
+        <Heatmap id='登陆.登陆' right={_.wind} bottom={_.bottom + 120} transparent />
+        <Heatmap id='登陆.成功' right={_.wind} bottom={_.bottom + 86} transparent />
+        <Heatmap id='登陆.错误' right={_.wind} bottom={_.bottom + 52} transparent />
+        <Heatmap id='登陆' screen='Login' />
       </View>
     )
   }
@@ -700,24 +709,3 @@ class LoginV2 extends React.Component {
 }
 
 export default ob(LoginV2)
-
-const memoStyles = _.memoStyles(() => ({
-  old: {
-    position: 'absolute',
-    zIndex: 1,
-    bottom: _.bottom,
-    left: _.wind,
-    right: _.wind,
-    padding: _.sm
-  },
-  ps: {
-    position: 'absolute',
-    right: _.wind * 2,
-    bottom: _.bottom,
-    left: _.wind * 2
-  },
-  border: {
-    borderLeftWidth: 1,
-    borderColor: _.colorBorder
-  }
-}))

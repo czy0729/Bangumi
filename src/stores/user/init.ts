@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-10 16:01:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 10:19:30
+ * @Last Modified time: 2022-09-02 17:04:23
  */
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { ImagesAvatar, SubjectType } from '@types'
@@ -30,7 +30,12 @@ export const INIT_USER_INFO = {
   username: ''
 }
 
-export const INIT_USER_COOKIE = {
+export const INIT_USER_COOKIE: {
+  cookie: string
+  userAgent: string
+  v?: number
+  tourist?: number
+} = {
   cookie: '',
   userAgent: '',
   v: 0,

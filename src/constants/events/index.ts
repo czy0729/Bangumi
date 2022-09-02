@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:54:52
+ * @Last Modified time: 2022-09-03 04:01:47
  */
 import Discovery from './discovery'
 import Timeline from './timeline'
@@ -38,6 +38,7 @@ type PageKeys =
   | '好友'
   | '年鉴'
   | '我的'
+  | '授权登陆'
   | '新番'
   | '时间胶囊'
   | '更多角色'
@@ -46,6 +47,7 @@ type PageKeys =
   | '用户日志'
   | '用户目录'
   | '用户评分'
+  | '登陆'
   | '短信'
   | '章节'
   | '首页'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:22:27
+ * @Last Modified time: 2022-09-02 17:24:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,21 +18,22 @@ import {
   Heatmap
 } from '@components'
 import { _, userStore } from '@stores'
-import { copy, getTimestamp } from '@utils'
+import { copy, getTimestamp, info, feedback } from '@utils'
 import { ob } from '@utils/decorators'
 import { xhrCustom, t } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
+import { Navigation } from '@types'
+import { memoStyles } from './styles'
 
 const code = `JSON.stringify({
   userAgent: navigator.userAgent,
   cookie: document.cookie
 });`
 
-export default
-@ob
-class LoginAssist extends React.Component {
+class LoginAssist extends React.Component<{
+  navigation: Navigation
+}> {
   state = {
     result: '',
     loading: false,
@@ -49,7 +50,7 @@ class LoginAssist extends React.Component {
   accessToken = ''
 
   copy = () => {
-    t('辅助登录.复制')
+    t('辅助登陆.复制')
 
     copy(code, '已复制')
   }
@@ -71,7 +72,7 @@ class LoginAssist extends React.Component {
       return
     }
 
-    t('辅助登录.提交')
+    t('辅助登陆.提交')
 
     this.setState({
       loading: true,
@@ -142,6 +143,7 @@ class LoginAssist extends React.Component {
       await this.oauth()
       await this.authorize()
 
+      // @ts-ignore
       const { _response } = await this.getAccessToken()
       const accessToken = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)
@@ -208,6 +210,7 @@ class LoginAssist extends React.Component {
         }
       })
 
+      // @ts-ignore
       const { responseURL } = await res
       this.code = responseURL.split('=').slice(1).join('=')
       return res
@@ -264,6 +267,8 @@ class LoginAssist extends React.Component {
     })
 
     const { navigation } = this.props
+
+    // @ts-ignore
     userStore.updateUserCookie({
       cookie: `chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
       userAgent: this.userAgent,
@@ -316,7 +321,7 @@ class LoginAssist extends React.Component {
               >
                 点击复制
               </Text>
-              <Heatmap id='辅助登录.复制' />
+              <Heatmap id='辅助登陆.复制' />
             </View>
             <Text style={_.mt.md}>
               2. 使用电脑打开浏览器，访问 {HOST} (一定要是这个域名) 并{i18n.login()}。
@@ -337,7 +342,7 @@ class LoginAssist extends React.Component {
                 onChangeText={this.onChangeText}
                 onSubmitEditing={this.submit}
               />
-              <Heatmap id='辅助登录.提交' />
+              <Heatmap id='辅助登陆.提交' />
             </View>
             <Button
               style={_.mt.lg}
@@ -363,30 +368,4 @@ class LoginAssist extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: _.sm,
-    paddingHorizontal: _.wind,
-    paddingBottom: _.lg
-  },
-  code: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  copy: {
-    position: 'absolute',
-    top: _.sm,
-    right: _.sm,
-    padding: _.sm
-  },
-  input: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
-  }
-}))
+export default ob(LoginAssist)

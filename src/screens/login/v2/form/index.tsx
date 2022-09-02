@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 03:22:51
+ * @Last Modified time: 2022-09-03 03:48:46
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -19,25 +19,27 @@ import {
 } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
+import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { alert } from '@utils/ui'
 import { HOST, HOST_2, HOST_3 } from '@constants'
 import i18n from '@constants/i18n'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
-const data = [HOST, HOST_2, HOST_3]
+const data = [HOST, HOST_2, HOST_3] as const
 
-class Form extends React.Component {
+class Form extends React.Component<Props> {
   static defaultProps = {
     host: '',
-    forwardRef: Function.prototype,
-    onGetCaptcha: Function.prototype,
-    onFocus: Function.prototype,
-    onBlur: Function.prototype,
-    onChange: Function.prototype,
-    onSelect: Function.prototype,
-    onUAChange: Function.prototype,
-    onLogin: Function.prototype
+    forwardRef: () => {},
+    onGetCaptcha: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
+    onChange: () => {},
+    onSelect: () => {},
+    onUAChange: () => {},
+    onLogin: () => {}
   }
 
   state = {
@@ -56,15 +58,17 @@ class Form extends React.Component {
   }
 
   passwordRef
+
   codeRef
 
-  showConfig = () =>
-    this.setState({
+  showConfig = () => {
+    return this.setState({
       config: true
     })
+  }
 
   onNoticeHost = () => {
-    t('登录.配置提示', {
+    t('登陆.配置提示', {
       name: 'host'
     })
 
@@ -74,7 +78,7 @@ class Form extends React.Component {
   }
 
   onNoticeUA = () => {
-    t('登录.配置提示', {
+    t('登陆.配置提示', {
       name: 'ua'
     })
 
@@ -193,8 +197,8 @@ class Form extends React.Component {
             </Text>
             <Iconfont name='md-navigate-next' />
           </Flex>
-          <Heatmap id='登录.切换域名' />
-          <Heatmap bottom={-32} id='登录.配置提示' transparent />
+          <Heatmap id='登陆.切换域名' />
+          <Heatmap bottom={-32} id='登陆.配置提示' transparent />
         </Touchable>
       )
     }
@@ -214,7 +218,7 @@ class Form extends React.Component {
           </Flex.Item>
           <Touchable style={this.styles.touchIcon} onPress={this.onNoticeHost}>
             <Flex style={this.styles.icon} justify='center'>
-              <Iconfont name='md-info-outline' type='sub' size={18} />
+              <Iconfont name='md-info-outline' size={18} />
             </Flex>
           </Touchable>
         </Flex>
@@ -235,7 +239,7 @@ class Form extends React.Component {
           </Flex.Item>
           <Touchable style={this.styles.touchIcon} onPress={this.onNoticeUA}>
             <Flex style={this.styles.icon} justify='center'>
-              <Iconfont name='md-info-outline' type='sub' size={18} />
+              <Iconfont name='md-info-outline' size={18} />
             </Flex>
           </Touchable>
         </Flex>
@@ -308,48 +312,3 @@ class Form extends React.Component {
 }
 
 export default ob(Form)
-
-const memoStyles = _.memoStyles(() => ({
-  form: {
-    width: _.r(300),
-    paddingBottom: 200
-  },
-  input: {
-    height: 44,
-    paddingVertical: 0,
-    paddingHorizontal: 14,
-    ..._.device(_.fontSize12, _.fontSize15),
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusSm
-  },
-  touchCaptcha: {
-    height: 44,
-    marginLeft: _.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  captchaContainer: {
-    width: 118,
-    height: 44
-  },
-  captcha: {
-    width: 118,
-    height: 44
-  },
-  touch: {
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  content: {
-    paddingVertical: 4
-  },
-  touchIcon: {
-    marginLeft: _.md,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  icon: {
-    width: 36,
-    height: 36
-  }
-}))

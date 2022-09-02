@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-02 16:47:20
+ * @Last Modified time: 2022-09-03 03:59:17
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -758,7 +758,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 更新 accessToken */
-  updateAccessToken = (accessToken = INIT_ACCESS_TOKEN) => {
+  updateAccessToken = (accessToken: any = INIT_ACCESS_TOKEN) => {
     this.clearState('accessToken', {})
     this.setState({
       accessToken: {
