@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 23:05:24
+ * @Last Modified time: 2022-09-01 14:38:11
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -12,8 +12,9 @@ import Type from './type'
 import List from './list'
 import Pagination from './pagination'
 import Store from './store'
+import { Ctx } from './types'
 
-const Catalog = (props, { $ }) => {
+const Catalog = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

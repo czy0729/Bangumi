@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-16 23:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 06:21:41
+ * @Last Modified time: 2022-09-02 14:06:36
  */
 import { EventType, Id } from '@types'
 
@@ -15,11 +15,11 @@ export type Props = {
   userName?: string
   title?: string
   info?: string
-  book?: boolean
-  anime?: boolean
-  music?: boolean
-  game?: boolean
-  real?: boolean
+  book?: any
+  anime?: any
+  music?: any
+  game?: any
+  real?: any
 
   /** 最后更新时间 */
   time?: string

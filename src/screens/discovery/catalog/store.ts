@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 23:25:33
+ * @Last Modified time: 2022-09-02 14:15:26
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
+import { info, x18s } from '@utils'
 import store from '@utils/store'
-import { x18s } from '@utils/app'
-import { info } from '@utils/ui'
 import { t, queue } from '@utils/fetch'
+import { Id } from '@types'
 
-const namespace = 'ScreenCatalog'
+const NAMESPACE = 'ScreenCatalog'
 
 export default class ScreenCatalog extends store {
   state = observable({
-    type: '',
+    type: '' as '' | 'collect' | 'me',
     page: 1,
     show: true,
     ipt: '1',
@@ -24,7 +24,7 @@ export default class ScreenCatalog extends store {
 
   init = async () => {
     this.setState({
-      ...(await this.getStorage(undefined, namespace)),
+      ...(await this.getStorage(NAMESPACE)),
       _loaded: true
     })
 
@@ -32,24 +32,23 @@ export default class ScreenCatalog extends store {
   }
 
   // -------------------- fetch --------------------
+  /** 目录 */
   fetchCatalog = async () => {
     const { type, page } = this.state
-    const res = discoveryStore.fetchCatalog({
+    const data = await discoveryStore.fetchCatalog({
       type,
       page
     })
 
-    const data = await res
     queue(data.map(item => () => this.fetchCatalogDetail(item.id)))
 
-    return res
+    return data
   }
 
-  fetchCatalogDetail = async id => {
+  /** 目录详情 */
+  fetchCatalogDetail = async (id: Id) => {
     const { _loaded } = discoveryStore.catalogDetail(id)
-    if (_loaded) {
-      return true
-    }
+    if (_loaded) return true
 
     return discoveryStore.fetchCatalogDetail({
       id
@@ -57,6 +56,7 @@ export default class ScreenCatalog extends store {
   }
 
   // -------------------- get --------------------
+  /** 目录 */
   @computed get catalog() {
     const { type, page } = this.state
     const catalog = discoveryStore.catalog(type, page)
@@ -69,12 +69,14 @@ export default class ScreenCatalog extends store {
     return catalog
   }
 
-  catalogDetail(id) {
+  /** 目录详情 */
+  catalogDetail(id: Id) {
     return computed(() => discoveryStore.catalogDetail(id)).get()
   }
 
   // -------------------- page --------------------
-  onToggleType = async label => {
+  /** 切换类型 */
+  onToggleType = async (label: '热门' | '最新') => {
     const { type } = this.state
 
     // 是否热门
@@ -99,14 +101,13 @@ export default class ScreenCatalog extends store {
     this.setState({
       show: true
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 上一页 */
   onPrev = async () => {
     const { page } = this.state
-    if (page === 1) {
-      return
-    }
+    if (page === 1) return
 
     t('目录.上一页', {
       page: page - 1
@@ -123,10 +124,11 @@ export default class ScreenCatalog extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }, 400)
   }
 
+  /** 下一页 */
   onNext = async () => {
     const { page } = this.state
     t('目录.下一页', {
@@ -144,10 +146,11 @@ export default class ScreenCatalog extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }, 400)
   }
 
+  /** 页码输入框变化 */
   onChange = ({ nativeEvent }) => {
     const { text } = nativeEvent
     this.setState({
@@ -156,6 +159,7 @@ export default class ScreenCatalog extends store {
   }
 
   // -------------------- action --------------------
+  /** 页码跳转 */
   doSearch = () => {
     const { ipt } = this.state
     const _ipt = ipt === '' ? 1 : parseInt(ipt)
@@ -179,7 +183,7 @@ export default class ScreenCatalog extends store {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }, 400)
   }
 }

@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-04 22:54:13
+ * @Last Modified time: 2022-09-02 13:56:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, SegmentedControl } from '@components'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-const typeDS = ['最新', '热门']
-let type
+const TYPE_DS = ['最新', '热门'] as const
 
-function Type({ $ }) {
+let type: any
+
+function Type({ $ }: Ctx) {
   // 缓存最近一次确定值
   if ($) type = $.state.type
   const currentType = $?.state.type === undefined ? type : $?.state.type
@@ -24,7 +26,7 @@ function Type({ $ }) {
         key={String(currentType === undefined)}
         style={styles.segment}
         size={11}
-        values={typeDS}
+        values={TYPE_DS}
         selectedIndex={currentType === 'collect' ? 1 : 0}
         onValueChange={$?.onToggleType || (() => {})}
       />
@@ -34,10 +36,3 @@ function Type({ $ }) {
 }
 
 export default ob(Type)
-
-const styles = _.create({
-  segment: {
-    width: _.r(96),
-    height: _.r(28)
-  }
-})
