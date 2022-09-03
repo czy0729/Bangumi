@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 14:28:04
+ * @Last Modified time: 2022-09-03 05:04:23
  */
 import { IOS } from '../constants'
 
@@ -329,7 +329,7 @@ export const RAKUEN_TYPE = [
 export const MODEL_RAKUEN_TYPE = new Model(RAKUEN_TYPE)
 
 /** 小组范围 */
-export const MODEL_RAKUEN_TYPE_GROUP = new Model([
+export const RAKUEN_TYPE_GROUP = [
   {
     label: '全部', // 全部小组
     value: 'group'
@@ -346,10 +346,13 @@ export const MODEL_RAKUEN_TYPE_GROUP = new Model([
     label: '我回复', // 我回复的话题
     value: 'my_group&filter=reply'
   }
-])
+] as const
+
+/** 小组范围 */
+export const MODEL_RAKUEN_TYPE_GROUP = new Model(RAKUEN_TYPE_GROUP)
 
 /** 人物类型 */
-export const MODEL_RAKUEN_TYPE_MONO = new Model([
+export const RAKUEN_TYPE_MONO = [
   {
     label: '全部', // 全部人物
     value: 'mono'
@@ -362,7 +365,10 @@ export const MODEL_RAKUEN_TYPE_MONO = new Model([
     label: '现实', // 现实人物
     value: 'mono&filter=person'
   }
-])
+] as const
+
+/** 人物类型 */
+export const MODEL_RAKUEN_TYPE_MONO = new Model(RAKUEN_TYPE_MONO)
 
 /** 人物排序 */
 export const MONO_WORKS_ORDERBY = [

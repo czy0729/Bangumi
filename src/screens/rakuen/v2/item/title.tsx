@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:01:16
+ * @Last Modified time: 2022-09-03 11:03:53
  */
 import React from 'react'
 import { Text } from '@components'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-const oldGroupId = 354697 // 少于这个数字的, 为坟贴
+/** 少于这个数字的, 为坟贴 */
+const OLD_GROUP_ID = 354697
 
-function Title({ topicId, title, replyCount, isReaded, isGroup }, { $ }) {
+function Title({ topicId, title, replyCount, isReaded, isGroup }, { $ }: Ctx) {
   // 处理 (+30) +10 样式
   const replyText = `+${replyCount}`
-  let replyAdd
+  let replyAdd: {}
   if (isReaded) {
     const readed = $.readed(topicId)
     if (replyCount > readed.replies) {
@@ -25,7 +27,7 @@ function Title({ topicId, title, replyCount, isReaded, isGroup }, { $ }) {
   let isOldTopic = false
   if (isGroup) {
     const id = parseInt(topicId.substring(6))
-    if (id < oldGroupId) {
+    if (id < OLD_GROUP_ID) {
       isOldTopic = true
     }
   }

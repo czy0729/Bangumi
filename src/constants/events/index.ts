@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 04:31:40
+ * @Last Modified time: 2022-09-03 10:56:15
  */
 import Discovery from './discovery'
 import Timeline from './timeline'
@@ -51,6 +51,7 @@ type PageKeys =
   | '登陆'
   | '短信'
   | '章节'
+  | '超展开'
   | '首页'
 
 /** 埋点事件唯一键值 */

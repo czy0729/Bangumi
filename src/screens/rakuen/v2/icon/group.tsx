@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 18:07:20
+ * @Last Modified time: 2022-09-03 10:59:57
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTabsHeader } from '@_'
 import { _ } from '@stores'
+import { info } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import i18n from '@constants/i18n'
+import { Ctx } from '../types'
 
-function IconGroup(props, { $, navigation }) {
+function IconGroup(props, { $, navigation }: Ctx) {
   return (
     <IconTabsHeader
       style={[styles.icon, _.isPad && styles.iconPad]}

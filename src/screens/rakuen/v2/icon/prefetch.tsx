@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 15:53:47
+ * @Last Modified time: 2022-09-03 11:01:09
  */
 import React from 'react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@_'
+import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
-import { confirm } from '@utils/ui'
 import { _ } from '@stores'
+import { Ctx } from '../types'
 
-function IconPrefetch(props, { $ }) {
+function IconPrefetch(props, { $ }: Ctx) {
   const { prefetching, prefetchTotal, prefetchCurrent } = $.state
   if (prefetching) {
     return (
@@ -35,6 +36,7 @@ function IconPrefetch(props, { $ }) {
     <IconTabsHeader
       style={styles.icon}
       size={18}
+      // @ts-ignore
       name='download'
       position='right'
       onPress={$.prefetchConfirm}

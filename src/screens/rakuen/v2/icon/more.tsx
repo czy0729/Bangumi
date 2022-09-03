@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 15:00:20
+ * @Last Modified time: 2022-09-03 11:02:30
  */
 import React from 'react'
 import { Flex, Iconfont, Heatmap } from '@components'
@@ -11,15 +11,16 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HTML_NEW_TOPIC } from '@constants/html'
+import { HTML_NEW_TOPIC } from '@constants'
+import { Ctx } from '../types'
 
-const data = ['超展开设置', '收藏与缓存', '新讨论', '预读取帖子']
+const DATA = ['超展开设置', '收藏与缓存', '新讨论', '预读取帖子'] as const
 
-function IconMore({ style }, { $, navigation }) {
+function IconMore({ style }, { $, navigation }: Ctx) {
   return (
     <Popover
       style={[styles.touch, style]}
-      data={data}
+      data={DATA}
       onSelect={key => {
         t('超展开.右上角菜单', {
           key

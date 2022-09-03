@@ -2,26 +2,23 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 03:52:39
+ * @Last Modified time: 2022-09-03 11:08:21
  */
 import React from 'react'
-import {
-  Flex,
-  // Heatmap,
-  Iconfont
-} from '@components'
+import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
 function BtnPopover(
   { groupCn, groupHref, href, topicId, userId, userName, isGroup },
-  { $, navigation }
+  { $, navigation }: Ctx
 ) {
   const isSubject = topicId.includes('subject/')
 
   // 类别进入点击
-  let type
+  let type: string
   if (isGroup) {
     type = '小组'
   } else if (isSubject || topicId.includes('ep/')) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 17:29:58
+ * @Last Modified time: 2022-09-03 05:11:10
  */
 import {
   HTMLDecode,
@@ -17,10 +17,13 @@ import { getCoverSmall } from '@utils/app'
 import { fetchHTML } from '@utils/fetch'
 import { matchAvatar, matchUserId } from '@utils/match'
 import { HTML_RAKUEN } from '@constants'
-import { RakuenScope, RakuenType } from '@types'
+import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
 import { INIT_TOPIC, INIT_COMMENTS_ITEM, INIT_BLOG } from './init'
 
-export async function fetchRakuen(args: { scope: RakuenScope; type: RakuenType }) {
+export async function fetchRakuen(args: {
+  scope: RakuenScope
+  type: RakuenType | RakuenTypeMono | RakuenTypeGroup
+}) {
   const { scope, type } = args || {}
 
   // -------------------- 请求HTML --------------------

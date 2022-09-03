@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-02-10 02:55:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 13:49:43
+ * @Last Modified time: 2022-09-03 10:58:36
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function Label({ focused, model, label, value }, { $ }) {
+function Label({ focused, model, label, value }, { $ }: Ctx) {
   return (
     <Popover
       style={styles.label}
@@ -31,9 +32,3 @@ function Label({ focused, model, label, value }, { $ }) {
 }
 
 export default obc(Label)
-
-const styles = _.create({
-  label: {
-    width: '100%'
-  }
-})

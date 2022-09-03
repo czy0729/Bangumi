@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 13:50:45
+ * @Last Modified time: 2022-09-03 05:11:42
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLTrim } from '@utils'
@@ -35,6 +35,8 @@ import {
   RakuenScope,
   RakuenScrollDirection,
   RakuenType,
+  RakuenTypeGroup,
+  RakuenTypeMono,
   StoreConstructor,
   SubjectId,
   TopicId,
@@ -172,7 +174,10 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   // -------------------- get --------------------
   /** 超展开列表 */
-  rakuen(scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) {
+  rakuen(
+    scope = DEFAULT_SCOPE,
+    type: RakuenType | RakuenTypeMono | RakuenTypeGroup = DEFAULT_TYPE
+  ) {
     return computed<Rakuen>(() => {
       const key = `${scope}|${type}`
       return this.state.rakuen[key] || LIST_EMPTY
@@ -366,7 +371,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   fetchRakuen = async (
     args: {
       scope?: RakuenScope
-      type?: RakuenType
+      type?: RakuenType | RakuenTypeMono | RakuenTypeGroup
     },
     refresh?: boolean
   ) => {

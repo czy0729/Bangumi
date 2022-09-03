@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 17:22:30
+ * @Last Modified time: 2022-09-03 05:24:33
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -11,9 +11,10 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import i18n from '@constants/i18n'
 import Item from '../item'
+import { Ctx } from '../types'
 import { styles } from './styles'
 
-function List({ index }, { $ }) {
+function List({ index }, { $ }: Ctx) {
   global.rerender('Rakuen.List')
 
   const type = $.type(index)
@@ -45,7 +46,7 @@ function List({ index }, { $ }) {
 
 export default obc(List)
 
-function keyExtractor(item) {
+function keyExtractor(item: { href: any }) {
   return item.href
 }
 

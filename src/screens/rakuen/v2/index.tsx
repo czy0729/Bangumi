@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:46:50
+ * @Last Modified time: 2022-09-03 10:59:00
  */
 import React from 'react'
 import { Page, Track } from '@components'
@@ -14,8 +14,9 @@ import Header from './header'
 import Tab from './tab'
 import Heatmaps from './heapmaps'
 import Store from './store'
+import { Ctx } from './types'
 
-const Rakuen = (props, { $, navigation }) => {
+const Rakuen = (props, { $, navigation }: Ctx) => {
   useRunAfter(() => {
     $.init()
 

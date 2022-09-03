@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 17:31:22
+ * @Last Modified time: 2022-09-03 05:11:23
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -25,7 +25,9 @@ import {
   RankAnimeFilter,
   RankBookFilter,
   RankGameFilter,
-  RankRealFilter
+  RankRealFilter,
+  RakuenTypeMono,
+  RakuenTypeGroup
 } from '../model/types'
 import { RakuenReplyType } from './types'
 
@@ -105,8 +107,10 @@ export const HTML_TIMELINE = (
 }
 
 /** 超展开 */
-export const HTML_RAKUEN = (scope: RakuenScope, type: RakuenType) =>
-  `${HOST}/rakuen/${scope}?type=${type}`
+export const HTML_RAKUEN = (
+  scope: RakuenScope,
+  type: RakuenType | RakuenTypeMono | RakuenTypeGroup
+) => `${HOST}/rakuen/${scope}?type=${type}`
 
 /** @deprecated [已废弃] 超展开搜索 */
 export const HTML_RAKUEN_SEARCH = (q: string = '', page: number = 1) =>

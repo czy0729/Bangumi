@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:55:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:00:36
+ * @Last Modified time: 2022-09-03 11:10:57
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
+import { appNavigate, confirm } from '@utils'
 import { t } from '@utils/fetch'
-import { confirm } from '@utils/ui'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
+import { Ctx } from '../types'
 import Title from './title'
 import Detail from './detail'
 
@@ -31,7 +31,7 @@ function Content(
     isReaded,
     isGroup
   },
-  { $, navigation }
+  { $, navigation }: Ctx
 ) {
   // 帖子点击
   const go = () => {
