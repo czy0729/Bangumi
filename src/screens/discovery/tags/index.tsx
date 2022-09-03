@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:53:14
+ * @Last Modified time: 2022-09-03 13:04:20
  */
 import React from 'react'
 import { Page, Heatmap } from '@components'
@@ -12,8 +12,9 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import Tabs from './tabs'
 import Store from './store'
+import { Ctx } from './types'
 
-const Tags = (props, { $ }) => {
+const Tags = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

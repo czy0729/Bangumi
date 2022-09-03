@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:54:43
+ * @Last Modified time: 2022-09-03 12:24:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text } from '@components'
 import { _, discoveryStore } from '@stores'
+import { findSubjectCn, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
-import { findSubjectCn } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { EVENT, IMG_WIDTH } from '@constants'
 import { Cover } from '../../base'
@@ -67,7 +67,7 @@ export const ItemBlog = obc(
           )}
           <Flex.Item>
             <Text size={15} numberOfLines={2} bold>
-              {title}{' '}
+              {HTMLDecode(title)}{' '}
               {replies !== '+0' && (
                 <Text size={12} type='main' lineHeight={15} bold>
                   {replies}
@@ -84,7 +84,7 @@ export const ItemBlog = obc(
               </View>
             )}
             <Text style={_.mt.sm} size={13} numberOfLines={4} lineHeight={15}>
-              {content}
+              {HTMLDecode(content)}
             </Text>
             {!!tags.length && (
               <Flex style={_.mt.sm}>

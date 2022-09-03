@@ -2,17 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 17:38:21
+ * @Last Modified time: 2022-09-03 13:07:51
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Filter from './filter'
-import Item from './item'
-import { tabs } from './store'
+import { SubjectType } from '@types'
+import Filter from '../filter'
+import Item from '../item'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
 
-class List extends React.Component {
+class List extends React.Component<{
+  title: string
+  id: SubjectType
+}> {
   static defaultProps = {
     title: '全部'
   }
@@ -23,19 +28,19 @@ class List extends React.Component {
   }
 
   onHeaderRefresh = () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { id } = this.props
     return $.fetchList(id, true)
   }
 
   onFooterRefresh = () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { id } = this.props
     return $.fetchList(id)
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { id } = this.props
     const { page } = $.state
     const list = $.list(id)
@@ -51,7 +56,7 @@ class List extends React.Component {
             data={list}
             lazy={32}
             numColumns={numColumns}
-            scrollToTop={tabs[page].key === id}
+            scrollToTop={TABS[page].key === id}
             keyboardDismissMode='on-drag'
             renderItem={this.renderItem}
             onHeaderRefresh={this.onHeaderRefresh}
@@ -67,6 +72,6 @@ class List extends React.Component {
 
 export default obc(List)
 
-function keyExtractor(item) {
+function keyExtractor(item: { title: any; nums: any }) {
   return `${item.title}|${item.nums}`
 }

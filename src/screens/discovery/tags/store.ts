@@ -2,41 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 23:59:28
+ * @Last Modified time: 2022-09-03 13:03:46
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
+import { x18s } from '@utils'
 import store from '@utils/store'
-import { x18s } from '@utils/app'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { HTML_TAGS } from '@constants/html'
-
-export const tabs = MODEL_SUBJECT_TYPE.data.map(item => ({
-  title: item.title,
-  key: item.label
-}))
-
-const namespace = 'ScreenTags'
-const excludeState = {
-  ipt: '',
-  filter: '',
-  isFocused: true
-}
+import { HTML_TAGS } from '@constants'
+import { SubjectType } from '@types'
+import { EXCLUDE_STATE, NAMESPACE, STATE, TABS } from './ds'
 
 export default class ScreenTags extends store {
-  state = observable({
-    page: 0,
-    ...excludeState,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
@@ -46,7 +30,8 @@ export default class ScreenTags extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchList = (type, refresh) => {
+  /** 标签 */
+  fetchList = (type: SubjectType, refresh: boolean = false) => {
     const { filter } = this.state
     return discoveryStore.fetchTags(
       {
@@ -60,7 +45,7 @@ export default class ScreenTags extends store {
   // -------------------- get --------------------
   @computed get type() {
     const { page } = this.state
-    return tabs[page].key
+    return TABS[page].key
   }
 
   @computed get url() {
@@ -68,7 +53,8 @@ export default class ScreenTags extends store {
     return HTML_TAGS(this.type, page, filter)
   }
 
-  list(type) {
+  /** 标签 */
+  list(type: SubjectType) {
     return computed(() => {
       const { filter } = this.state
       const tags = discoveryStore.tags(type, filter)
@@ -83,27 +69,28 @@ export default class ScreenTags extends store {
   }
 
   // -------------------- page --------------------
-  onChange = page => {
+  /** 标签页切换 */
+  onChange = (page: number) => {
     if (page === this.state.page) return
 
     t('标签索引.标签页切换')
     this.setState({
       page
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
     this.tabChangeCallback(page)
   }
 
-  tabChangeCallback = page => {
-    const { key } = tabs[page]
+  /** 标签页切换回调 */
+  tabChangeCallback = (page: number) => {
+    const { key } = TABS[page]
     const { _loaded } = this.list(key)
 
-    if (!_loaded) {
-      this.fetchList(key, true)
-    }
+    if (!_loaded) this.fetchList(key, true)
   }
 
-  onFilterChange = ipt => {
+  /** 筛选输入框改变 */
+  onFilterChange = (ipt: string) => {
     const _ipt = ipt.trim()
     if (!_ipt) {
       this.setState({
@@ -118,6 +105,7 @@ export default class ScreenTags extends store {
     })
   }
 
+  /** 输入法键盘按钮提交 */
   onSubmitEditing = () => {
     const { ipt } = this.state
     if (ipt && ipt.length) {

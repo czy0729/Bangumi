@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 14:02:14
+ * @Last Modified time: 2022-09-03 12:22:47
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
@@ -16,6 +16,7 @@ function Header(props, { $ }: Ctx) {
     <CompHeader
       title='每日放送'
       hm={['calendar', 'Calendar']}
+      headerTitleAlign='left'
       headerRight={() => (
         <Extra
           type={type}

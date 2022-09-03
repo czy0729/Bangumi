@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:59:49
+ * @Last Modified time: 2022-09-03 13:15:52
  */
 import React from 'react'
 import { Touchable, Text, Flex, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Item({ type, name, nums, index }, { navigation }) {
+function Item({ type, name, nums, index }, { navigation }: Ctx) {
   const styles = memoStyles()
   const { coverRadius } = systemStore.setting
   let numsText = nums
@@ -45,7 +46,7 @@ function Item({ type, name, nums, index }, { navigation }) {
         <Text align='center' size={12} bold numberOfLines={3}>
           {tag}
         </Text>
-        <Text style={_.mt.xs} type='sub' align='center' size={11}>
+        <Text style={_.mt.xs} type='sub' align='center' size={10}>
           {numsText}
         </Text>
       </Flex>
@@ -55,21 +56,3 @@ function Item({ type, name, nums, index }, { navigation }) {
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => {
-  const { width, marginLeft } = _.grid(_.num(4))
-  return {
-    container: {
-      marginBottom: _.md,
-      marginLeft,
-      overflow: 'hidden',
-      borderWidth: _.hairlineWidth,
-      borderColor: _.colorBorder,
-      backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
-    },
-    item: {
-      width,
-      height: width
-    }
-  }
-})

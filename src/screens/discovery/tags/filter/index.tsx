@@ -2,31 +2,34 @@
  * @Author: czy0729
  * @Date: 2021-12-31 02:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:43:08
+ * @Last Modified time: 2022-09-03 13:05:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Iconfont } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 class Filter extends React.Component {
   state = {
     focus: false
   }
 
-  onFocus = () =>
+  onFocus = () => {
     this.setState({
       focus: true
     })
+  }
 
-  onBlur = () =>
+  onBlur = () => {
     this.setState({
       focus: false
     })
+  }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { ipt } = $.state
     const { focus } = this.state
     return (
@@ -43,7 +46,12 @@ class Filter extends React.Component {
           onSubmitEditing={$.onSubmitEditing}
         />
         {!focus && !ipt && (
-          <Flex style={this.styles.icon} justify='center' pointerEvents='none'>
+          <Flex
+            style={this.styles.icon}
+            justify='center'
+            // @ts-ignore
+            pointerEvents='none'
+          >
             <Iconfont name='md-search' size={18} />
           </Flex>
         )}
@@ -57,29 +65,3 @@ class Filter extends React.Component {
 }
 
 export default obc(Filter)
-
-const memoStyles = _.memoStyles(() => ({
-  filter: {
-    height: 64,
-    paddingVertical: 12,
-    paddingHorizontal: _.wind,
-    marginBottom: _._wind,
-    backgroundColor: _.colorBg
-  },
-  input: {
-    height: 40,
-    paddingVertical: 0,
-    ..._.fontSize16,
-    textAlign: 'center',
-    backgroundColor: _.select(_.colorBorder, _.colorPlain),
-    borderRadius: 40
-  },
-  icon: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  }
-}))
