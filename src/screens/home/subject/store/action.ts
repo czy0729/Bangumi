@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 13:10:02
+ * @Last Modified time: 2022-09-03 13:47:29
  */
 import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
 import {
@@ -770,7 +770,7 @@ export default class Action extends Fetch {
       subjectId: this.subjectId
     })
 
-    let hide
+    let hide: () => void
     try {
       hide = loading('请求中...')
       const response = await baiduTranslate(this.summary)
@@ -781,7 +781,6 @@ export default class Action extends Fetch {
         this.setState({
           translateResult
         })
-        // info('翻译成功')
         return
       }
       info('翻译失败, 请重试')

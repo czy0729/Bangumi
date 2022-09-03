@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 17:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 09:07:45
+ * @Last Modified time: 2022-09-03 13:24:01
  */
 import { _ } from '@stores'
 
@@ -36,17 +36,11 @@ export const styles = _.create({
   close: {
     position: 'absolute',
     zIndex: 3,
-    top: 40,
-    right: 0,
-    padding: 16
-  },
-  closeMini: {
-    position: 'absolute',
-    zIndex: 3,
     bottom: 32,
     left: '50%',
-    padding: 16,
-    marginLeft: -28
+    paddingVertical: 16,
+    paddingHorizontal: 48,
+    marginLeft: -60
   },
   iconfont: {
     color: '#fff'
