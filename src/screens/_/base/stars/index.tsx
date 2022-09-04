@@ -45,7 +45,11 @@ export const Stars = ob(
           if (Number(value) / 2 >= item - 0.5) {
             return (
               <View key={item}>
-                <Iconfont name='md-star' size={size} color={_.colorBorder} />
+                <Iconfont
+                  name='md-star'
+                  size={size}
+                  color={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.4)')}
+                />
                 <Iconfont
                   style={styles.half}
                   name='md-star-half'
@@ -57,7 +61,12 @@ export const Stars = ob(
           }
 
           return (
-            <Iconfont key={item} name='md-star' size={size} color={_.colorBorder} />
+            <Iconfont
+              key={item}
+              name='md-star'
+              size={size}
+              color={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.4)')}
+            />
           )
         })}
         <Text style={_.ml.xxs} type={type} size={size} lineHeight={size} bold>

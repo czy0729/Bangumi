@@ -71,7 +71,7 @@ const Filter = memo(
               />
               {isFiltering && (
                 <Flex style={styles.loading} justify='center'>
-                  <Loading.Raw color={_.colorSub} size={16} />
+                  <Loading.Mini color={_.colorSub} size={16} />
                 </Flex>
               )}
             </View>

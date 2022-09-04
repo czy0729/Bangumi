@@ -8,10 +8,10 @@ import React from 'react'
 import { Flex, Button, Heatmap } from '@components'
 import { Popover } from '@_'
 import { obc } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
+import { IOS, MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
-import { SubjectTypeCn } from '@types'
 
 function TabBarLeft({ onSelect }, { $ }: Ctx) {
   global.rerender('User.TabBarLeft')
@@ -21,7 +21,12 @@ function TabBarLeft({ onSelect }, { $ }: Ctx) {
   return (
     <Popover data={SUBJECT_TYPE.map(item => item.title)} onSelect={onSelect}>
       <Flex style={styles.tabBarLeft} justify='center'>
-        <Button style={styles.btn} styleText={styles.text} type='ghostMain' size='sm'>
+        <Button
+          style={styles.btn}
+          styleText={[styles.text, IOS && styles.textIOS]}
+          type='ghostMain'
+          size='sm'
+        >
           {MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)}
         </Button>
       </Flex>

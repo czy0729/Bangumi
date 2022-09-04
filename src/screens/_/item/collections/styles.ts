@@ -33,13 +33,15 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: -12
   },
   hidden: {
-    width: 28,
-    height: 16,
+    width: 32,
+    height: 18,
     paddingHorizontal: _.xs,
     paddingVertical: 1,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    marginTop: -1,
+    marginLeft: _.sm,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
-    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
+    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
   }
 }))

@@ -42,15 +42,16 @@ function Bottom({ score, rank, time, tags, hideScore, isDo, isOnHold, isDropped 
       )}
       {!!info.length && (
         <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>
-          {hasScore && !!info.length && '/ '}
           {info}
         </Text>
       )}
-      {tag.map((item: string) => (
-        <View key={item} style={styles.tag}>
-          <Text size={11}>{item}</Text>
-        </View>
-      ))}
+      {tag
+        .filter((item: any, index: number) => index < 3)
+        .map((item: string) => (
+          <View key={item} style={styles.tag}>
+            <Text size={11}>{item}</Text>
+          </View>
+        ))}
     </>
   )
 }

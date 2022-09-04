@@ -9,8 +9,9 @@
 import React from 'react'
 import { Flex, Button } from '@components'
 import { _ } from '@stores'
-import { MODEL_COLLECTION_STATUS } from '@constants/model'
-import { getType } from '@utils/app'
+import { getType } from '@utils'
+import { MODEL_COLLECTION_STATUS, COLLECTION_STATUS } from '@constants'
+import { CollectionStatusCn } from '@types'
 import { styles } from './styles'
 import { Props as StatusBtnGroupProps } from './types'
 
@@ -23,12 +24,12 @@ export const StatusBtnGroup = ({
   onSelect = () => {}
 }: StatusBtnGroupProps) => (
   <Flex style={style}>
-    {MODEL_COLLECTION_STATUS.data.map((item, index) => (
+    {COLLECTION_STATUS.map((item, index) => (
       <Flex.Item key={item.label}>
         <Button
           style={styles[`btn${index}`]}
           type={
-            MODEL_COLLECTION_STATUS.getLabel(value) === item.label
+            MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(value) === item.label
               ? getType(item.label)
               : _.select('plain', 'ghostPlain')
           }

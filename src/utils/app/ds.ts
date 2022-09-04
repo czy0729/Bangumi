@@ -56,7 +56,7 @@ export const TYPE_MAP = {
   在读: 'primary',
   在听: 'primary',
   搁置: 'wait',
-  抛弃: 'disabled'
+  抛弃: 'dropped'
 } as const
 
 /** 缩写对应的站点 */

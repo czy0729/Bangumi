@@ -97,7 +97,7 @@ const Item = memo(
                 <Flex style={_.mt.xxs}>
                   {tags.includes('自己可见') && (
                     <Flex style={styles.hidden} justify='center'>
-                      <Iconfont name='md-visibility-off' color={_.colorSub} size={11} />
+                      <Iconfont name='md-visibility-off' color={_.colorSub} size={13} />
                     </Flex>
                   )}
                 </Flex>

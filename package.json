@@ -7,6 +7,7 @@
     "build:ios": "expo build:ios",
     "clean": "cd android && ./gradlew clean",
     "k": "sudo purge",
+    "kill": "sudo purge",
     "kj": "ps -ef |grep java|awk 'NR==1 {print $2}'|xargs kill -15",
     "kn": "ps -ef |grep node|awk 'NR==1 {print $2}'|xargs kill -15",
     "open": "open ./android/app/build/outputs/apk/release/",

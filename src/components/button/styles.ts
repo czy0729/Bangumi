@@ -39,6 +39,9 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     opacity: 0.4
   },
+  dropped: {
+    backgroundColor: _.select(_.colorBg, 'rgb(96, 96, 96)')
+  },
   bid: {
     backgroundColor: _.colorBid
   },

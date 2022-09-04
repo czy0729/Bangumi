@@ -23,7 +23,7 @@ function Label({ title, focused }, { $ }: Ctx) {
         {title.replace('看', $.action)}
       </Text>
       {!!count && (
-        <Text type='sub' size={9} lineHeight={11} bold>
+        <Text type='sub' size={10} lineHeight={11} bold>
           {' '}
           {count}{' '}
         </Text>

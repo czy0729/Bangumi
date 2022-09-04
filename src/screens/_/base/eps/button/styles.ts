@@ -11,5 +11,8 @@ export const memoStyles = _.memoStyles(() => ({
     height: 4,
     backgroundColor: _.colorWarning,
     borderRadius: 4
+  },
+  textThrough: {
+    textDecorationLine: 'line-through'
   }
 }))

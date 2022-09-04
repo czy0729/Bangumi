@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 14:25:07
+ * @Last Modified time: 2022-09-04 03:40:36
  */
 import { _ } from '@stores'
-import { pick } from '@utils'
 import { Fn, SubjectId, ViewStyle } from '@types'
 
 export const DEFAULT_PROPS = {
@@ -25,30 +24,4 @@ export const DEFAULT_PROPS = {
   orientation: _.orientation,
   onSelect: (() => {}) as Fn,
   onLongPress: (() => {}) as Fn
-}
-
-export const buttonDefaultProps = {
-  // stores
-  styles: {},
-  heatMap: false,
-
-  // props
-  props: {
-    width: 0,
-    margin: 0,
-    ...pick(DEFAULT_PROPS, [
-      'subjectId',
-      'numbersOfLine',
-      'canPlay',
-      'login',
-      'advance',
-      'userProgress',
-      'onSelect',
-      'onLongPress'
-    ])
-  },
-  item: {},
-  eps: [],
-  isSp: false,
-  num: 0
 }

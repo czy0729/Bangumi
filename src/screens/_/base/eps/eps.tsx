@@ -14,7 +14,7 @@ import { EpTypeCn } from '@types'
 import { NormalButtons } from './normal-buttons'
 import { Carousel } from './carousel'
 import { DEFAULT_PROPS } from './ds'
-import { Props as EpsProps } from './types'
+import { Props } from './types'
 
 export default memo(
   ({
@@ -34,7 +34,7 @@ export default memo(
     orientation,
     onSelect,
     onLongPress
-  }: EpsProps) => {
+  }: Props) => {
     global.rerender('Eps.Main')
 
     const [width, setWidth] = useState(layoutWidth - marginRight)

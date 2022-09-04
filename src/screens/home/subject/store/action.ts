@@ -753,8 +753,9 @@ export default class Action extends Fetch {
           feedback()
           info('删除收藏成功')
 
-          this.fetchCollection()
-          userStore.fetchUserCollection()
+          setTimeout(() => {
+            this.fetchCollection()
+          }, 40)
         }
       )
     } catch (error) {

@@ -21,6 +21,7 @@ export type Props = {
     | 'warning'
     | 'wait'
     | 'disabled'
+    | 'dropped'
     | 'bid'
     | 'ask'
     | 'ghostMain'

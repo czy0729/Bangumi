@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-26 12:47:41
  */
-import { ViewStyle, RatingStatus } from '@types'
+import { ViewStyle, RatingStatus, CollectionStatus } from '@types'
 
 export type Props = {
   style?: ViewStyle
 
-  /** 默认值 */
-  value?: RatingStatus | ''
+  /** 默认值, 实际使用 CollectionStatus */
+  value?: CollectionStatus | RatingStatus | ''
 
   /** 动作替换词 */
   action?: '看' | '读' | '玩' | '听'
 
-  /** 选择回调 */
-  onSelect?: (value?: RatingStatus) => any
+  /** 选择回调, 实际使用 CollectionStatus */
+  onSelect?: (value?: CollectionStatus | RatingStatus) => any
 }

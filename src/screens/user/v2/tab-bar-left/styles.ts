@@ -23,11 +23,14 @@ export const memoStyles = _.memoStyles(() => ({
   },
   btn: {
     width: _.r(56),
-    height: _.r(22),
-    marginTop: 3,
+    height: _.ios(28, 22),
+    marginTop: _.ios(0, 3),
     borderRadius: _.r(16)
   },
   text: {
     width: _.r(56)
+  },
+  textIOS: {
+    lineHeight: 14
   }
 }))
