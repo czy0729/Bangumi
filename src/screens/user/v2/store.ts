@@ -78,9 +78,9 @@ export default class ScreenUser extends store {
   }
 
   /** 用户收藏概览 (HTML, 全部) */
-  fetchUserCollectionsNormal = (refresh: boolean = false) => {
+  fetchUserCollectionsNormal = async (refresh: boolean = false) => {
     const { subjectType, order, tag } = this.state
-    return collectionStore.fetchUserCollections(
+    const data = await collectionStore.fetchUserCollections(
       {
         subjectType,
         type: this.type,
@@ -90,6 +90,18 @@ export default class ScreenUser extends store {
       },
       refresh
     )
+
+    // 别人的空间
+    if (!this.isMe) {
+      // 延迟获取收藏中的条目的具体收藏状态
+      setTimeout(() => {
+        collectionStore.fetchCollectionStatusQueue(
+          data.list.filter(item => item.collected).map(item => item.id)
+        )
+      }, 160)
+    }
+
+    return data
   }
 
   /** 网站评分需要递归请求完所有数据, 再通过本地排序显示 */
@@ -186,6 +198,12 @@ export default class ScreenUser extends store {
   /** 用户自定义唯一 userId */
   @computed get username() {
     return this.usersInfo.username || this.userId
+  }
+
+  /** 是否自己 */
+  @computed get isMe() {
+    const { userId } = this.params
+    return !userId || (userId && userId === userStore.myId)
   }
 
   /** 用户信息 */
@@ -545,7 +563,7 @@ export default class ScreenUser extends store {
   onManagePress = args => {
     uiStore.showManageModal(args, '时光机', values => {
       // 状态不相同需要手动更新列表数据
-      if (this.type && values?.status && this.type !== values?.status) {
+      if (this.isMe && this.type && values?.status && this.type !== values?.status) {
         collectionStore.removeOneInUserCollections({
           userId: this.username,
           subjectType: this.state.subjectType,

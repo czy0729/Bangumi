@@ -216,7 +216,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
-    // 需要携带cookie请求, 不然会查询不到自己隐藏了的条目
+    // 需要携带 cookie 请求, 不然会查询不到自己隐藏了的条目
     const raw = await fetchHTML({
       url: HTML_USER_COLLECTIONS(userId, subjectType, type, order, tag, page)
     })
@@ -268,11 +268,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
           HTML.match(
             /<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
           ) || HTML.match(/(\d+)<\/a>([^>]*>&rsaquo)/)
-        if (pageHTML) {
-          pageTotal = pageHTML[1]
-        } else {
-          pageTotal = 1
-        }
+        pageTotal = pageHTML?.[1] || 1
       }
 
       const tree = HTMLToTree(userCollectionsHTML[1])
@@ -288,14 +284,13 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
           findTreeNode(children, 'a > span > img') ||
           findTreeNode(children, 'a > noscript > img')
         let cover = node ? node[0].attrs.src : ''
-        if (cover === '/img/info_only.png') {
-          cover = ''
-        }
+        if (cover === '/img/info_only.png') cover = ''
 
         // 标题
         node = findTreeNode(children, 'div > h3 > small')
         const name = node ? node[0].text[0] : ''
 
+        // 中文标题
         node = findTreeNode(children, 'div > h3 > a')
         const nameCn = node ? node[0].text[0] : ''
 
@@ -306,7 +301,6 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
         // 标签
         node = findTreeNode(children, 'div > p > span|class=tip')
         let tags = node ? trim(node[0].text[0].replace('标签: ', '')) : ''
-
         if (node?.[1]?.text?.[0]) tags = `${trim(node[1].text[0])} ${tags}`
 
         // 评论
@@ -317,8 +311,13 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
         node = findTreeNode(children, 'div > p > span|class=starstop-s > span')
         const score = node ? node[0].attrs.class.replace(/starlight stars/g, '') : ''
 
+        // 收藏时间
         node = findTreeNode(children, 'div > p > span|class=tip_j')
         const time = node ? node[0].text[0] : ''
+
+        // 是否收藏过 (针对自己看别人的时光机)
+        node = findTreeNode(children, 'div > div|class=collectBlock tip_i')
+        const collected = node ? true : false
 
         const data = {
           id,
@@ -329,7 +328,8 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
           tags,
           comments: HTMLDecode(trim(comments)),
           score,
-          time
+          time,
+          collected
         }
         userCollections.push(data)
       })

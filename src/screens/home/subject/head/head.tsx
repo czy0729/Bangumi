@@ -116,31 +116,29 @@ export default memo(
             }}
           >
             <View>
-              {!subjectSeries && (
-                <Katakana.Provider size={size} lineHeight={size + 1} bold>
-                  <Katakana
-                    size={size}
-                    lineHeight={size + 1}
-                    bold
-                    onLongPress={() => {
-                      t('条目.复制标题', {
-                        subjectId: id
-                      })
+              <Katakana.Provider size={size} lineHeight={size + 1} bold>
+                <Katakana
+                  size={size}
+                  lineHeight={size + 1}
+                  bold
+                  onLongPress={() => {
+                    t('条目.复制标题', {
+                      subjectId: id
+                    })
 
-                      copy(bottom)
-                    }}
-                  >
-                    {bottom}
-                    {!!year && (
-                      <Text size={size - 3} lineHeight={size + 1}>
-                        {' '}
-                        ({year})
-                      </Text>
-                    )}
-                  </Katakana>
-                </Katakana.Provider>
-              )}
-              {!!top && top !== bottom && (
+                    copy(bottom)
+                  }}
+                >
+                  {bottom}
+                  {!!year && (
+                    <Text size={size - 3} lineHeight={size + 1}>
+                      {' '}
+                      ({year})
+                    </Text>
+                  )}
+                </Katakana>
+              </Katakana.Provider>
+              {(!subjectSeries || (!!top && top !== bottom)) && (
                 <Katakana.Provider
                   style={!!bottom && _.mt.xs}
                   itemStyle={styles.katakana}

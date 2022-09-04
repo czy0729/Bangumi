@@ -243,7 +243,7 @@ export default memo(
               <IconBack navigation={navigation} color={_.__colorPlain__} />
             </View>
           )}
-          <View style={[isMe ? styles.menu : styles.more]}>
+          <View style={paramsUserId ? styles.more : isMe ? styles.menu : styles.more}>
             <Popover style={styles.touch} data={data} onSelect={onSelect}>
               <Flex style={styles.icon} justify='center'>
                 <Iconfont name='md-menu' color={_.__colorPlain__} />

@@ -54,6 +54,7 @@ export type UserCollections = ListEmpty<{
   comments: string
   score: string | number
   time: string
+  collected: boolean
 }>
 
 /** 所有收藏条目状态 */

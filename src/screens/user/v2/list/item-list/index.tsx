@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { ItemCollections } from '@_'
+import { collectionStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -34,6 +35,7 @@ function ItemList({ item, page }, { $, navigation }: Ctx) {
       isOnHold={type === 'on_hold'}
       event={EVENT}
       filter={filter}
+      collection={!$.isMe ? collectionStore.collectionStatus(item.id) : undefined}
       onManagePress={$.onManagePress}
     />
   )
