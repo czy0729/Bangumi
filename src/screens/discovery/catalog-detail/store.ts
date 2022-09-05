@@ -13,7 +13,7 @@ import {
   userStore,
   uiStore
 } from '@stores'
-import { desc, opitimize, getTimestamp } from '@utils'
+import { desc, opitimize, getTimestamp, sleep } from '@utils'
 import store from '@utils/store'
 import { info, feedback, confirm } from '@utils/ui'
 import { t, fetchHTML, queue } from '@utils/fetch'
@@ -71,7 +71,23 @@ export default class ScreenCatalogDetail extends store {
         const fetchs = []
         this.catalogDetail.list.forEach(({ id }) => {
           fetchs.push(async () => {
-            await subjectStore.fetchSubject(id, 'small')
+            const result = await subjectStore.fetchSubjectFromOSS(id)
+            if (!result) {
+              await subjectStore.fetchSubject(id, 'small')
+            } else {
+              // 由于之前失误没有把排名存到云端
+              const rank =
+                subjectStore.subject(id)?.rank ||
+                subjectStore.subjectFromOSS(id)?.rank ||
+                ''
+              if (!rank) {
+                await subjectStore.fetchSubject(id, 'small')
+              } else {
+                // 用于制作进度条加载效果
+                await sleep(80)
+              }
+            }
+
             this.setState({
               progress: {
                 current: this.state.progress.current + 1
@@ -112,11 +128,18 @@ export default class ScreenCatalogDetail extends store {
     const catalogDetail = discoveryStore.catalogDetail(this.catalogId)
     const { sort } = this.state
 
-    let list = catalogDetail.list.map(item => ({
-      ...item,
-      score: subjectStore.subject(item.id)?.rating?.score || 0,
-      rank: subjectStore.subject(item.id)?.rank || ''
-    }))
+    let list = catalogDetail.list.map(item => {
+      const { id } = item
+      return {
+        ...item,
+        score:
+          subjectStore.subject(id)?.rating?.score ||
+          subjectStore.subjectFromOSS(id)?.rating?.score ||
+          0,
+        rank:
+          subjectStore.subject(id)?.rank || subjectStore.subjectFromOSS(id)?.rank || ''
+      }
+    })
 
     if (sort === 1) {
       // 时间

@@ -447,6 +447,7 @@ export default class Fetch extends Computed {
         collection: this.subjectCollection,
         summary: this.summary,
         rating: this.rating,
+        rank: this.subject.rank || '',
         character: this.crt,
         staff: this.staff,
         titleLabel: this.titleLabel

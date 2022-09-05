@@ -75,8 +75,14 @@ import {
   SubjectFormHTML,
   Wiki
 } from './types'
+import { get } from '@utils/kv'
 
 const state = {
+  /** 条目 (云缓存) */
+  subjectFromOSS: {
+    0: INIT_SUBJECT
+  },
+
   /** 条目 (CDN) */
   subjectFormCDN: {
     0: INIT_SUBJECT_FROM_CDN_ITEM
@@ -202,6 +208,13 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
         this.state?.[`subjectFormHTML${last}`]?.[subjectId] ||
         INIT_SUBJECT_FROM_HTML_ITEM
       )
+    }).get()
+  }
+
+  /** 条目 (云缓存) */
+  subjectFromOSS(subjectId: SubjectId) {
+    return computed<Subject>(() => {
+      return this.state.subjectFromOSS[subjectId] || INIT_SUBJECT
     }).get()
   }
 
@@ -404,6 +417,42 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
 
     this.setStorage(key, undefined, NAMESPACE)
     return data
+  }
+
+  /** 装载云端条目缓存数据 */
+  fetchSubjectFromOSS = async (subjectId: SubjectId) => {
+    const now = getTimestamp()
+    const subject = this.subject(subjectId)
+
+    // 条目数据存在且比较新鲜, 不再请求, 应直接使用条目数据
+    if (subject._loaded && now - Number(subject._loaded) <= 60 * 60 * 24) {
+      return true
+    }
+
+    try {
+      const data = await get(`subject_${subjectId}`)
+      if (!data) return false
+
+      const { ts, ...oss } = data
+      if (typeof oss === 'object' && !Array.isArray(oss)) {
+        const key = 'subjectFromOSS'
+        this.setState({
+          [key]: {
+            [subjectId]: {
+              rating: oss.rating,
+              rank: oss.rank,
+              type: oss.type,
+              titleLabel: oss.titleLabel,
+              _loaded: ts
+            }
+          }
+        })
+        this.setStorage(key, undefined, NAMESPACE)
+        return true
+      }
+    } catch (error) {}
+
+    return false
   }
 
   /** CDN获取条目信息 */

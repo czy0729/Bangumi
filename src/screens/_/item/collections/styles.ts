@@ -16,7 +16,10 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind
   },
   content: {
-    height: IMG_HEIGHT * 1.1
+    height: IMG_HEIGHT * 1.1 - _.xs
+  },
+  tip: {
+    marginTop: 4
   },
   comments: {
     padding: _.sm,

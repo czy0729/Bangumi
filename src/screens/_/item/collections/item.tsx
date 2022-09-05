@@ -52,6 +52,10 @@ const Item = memo(
     global.rerender('Component.ItemCollections.Main')
 
     const typeCn = type
+
+    let justify
+    if (!isCatalog || (!comments && !isEditable)) justify = 'between'
+
     return (
       <Touchable
         style={[_.container.plain, styles.container]}
@@ -85,9 +89,9 @@ const Item = memo(
           />
           <Flex.Item style={[_.mt.xxs, _.ml.wind]}>
             <Flex
-              style={[!isCatalog && styles.content]}
+              style={!!justify && styles.content}
               direction='column'
-              justify={isCatalog ? undefined : 'between'}
+              justify={justify}
               align='start'
             >
               <Flex align='start'>
@@ -118,7 +122,7 @@ const Item = memo(
                 )}
               </Flex>
               {!!tip && (
-                <Text style={_.mt.sm} size={11} numberOfLines={2}>
+                <Text style={styles.tip} size={11} lineHeight={12} numberOfLines={2}>
                   {HTMLDecode(tip)}
                 </Text>
               )}

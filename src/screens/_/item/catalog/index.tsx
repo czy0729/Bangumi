@@ -90,7 +90,9 @@ export const ItemCatalog = obc(
               align='start'
             >
               <View>
-                <Text bold>{HTMLDecode(title)}</Text>
+                <Text bold numberOfLines={2}>
+                  {HTMLDecode(title)}
+                </Text>
                 {!!desc && desc !== title && (
                   <Text style={_.mt.sm} size={12} numberOfLines={2}>
                     {desc.replace(/\n/g, ' ')}
