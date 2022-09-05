@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, discoveryStore } from '@stores'
 import { lastDate, getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
@@ -39,21 +39,24 @@ export const ItemCatalog = obc(
       hideScore = false,
       children
     }: ItemCatalogProps,
-    { $, navigation }
+    { navigation }
   ) => {
     if (!isUser && !book && !anime && !music && !game && !real) return null
 
     const styles = memoStyles()
-    const {
-      list,
-      collect,
-      content,
-      avatar,
-      userId,
-      time: detailTime
-    } = $.catalogDetail(id)
+    let data
+    if (discoveryStore.catalogDetail(id)._loaded) {
+      data = discoveryStore.catalogDetail(id)
+    } else if (discoveryStore.catalogDetailFromOSS(id)._loaded) {
+      data = discoveryStore.catalogDetailFromOSS(id)
+    } else {
+      data = discoveryStore.catalogDetail(id)
+    }
 
-    const desc = HTMLDecode(removeHTMLTag(info || content))
+    const { list, collect, content, avatar, userId, time: detailTime } = data
+    let desc = info || content
+    if (desc) desc = HTMLDecode(removeHTMLTag(info || content))
+
     let dateText = ''
     if (time && !time.includes('创建于')) {
       dateText = `最后更新 ${lastDate(getTimestamp(time))}`

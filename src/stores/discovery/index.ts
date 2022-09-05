@@ -8,6 +8,7 @@ import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
+import { get } from '@utils/kv'
 import {
   HOST,
   HOST_ANITAMA,
@@ -54,6 +55,11 @@ const state = {
 
   /** 目录详情 */
   catalogDetail: {
+    0: INIT_CATELOG_DETAIL_ITEM
+  },
+
+  /** 目录详情 (云缓存) */
+  catalogDetailFromOSS: {
     0: INIT_CATELOG_DETAIL_ITEM
   },
 
@@ -152,6 +158,13 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
+  /** 目录详情 (云缓存) */
+  catalogDetailFromOSS(id: Id) {
+    return computed<CatalogDetail>(() => {
+      return this.state.catalogDetailFromOSS[id] || INIT_CATELOG_DETAIL_ITEM
+    }).get()
+  }
+
   /** 标签 */
   tags(type: SubjectType, filter?: string) {
     return computed<Tags>(() => {
@@ -228,9 +241,9 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
   init = () => {
     return this.readStorage(
       [
-        'ningMoeDetail',
         'catalog',
         'catalogDetail',
+        'catalogDetailFromOSS',
         'blog',
         'blogReaded',
         'channel',
@@ -415,6 +428,30 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
     this.setStorage(key, undefined, NAMESPACE)
 
     return data
+  }
+
+  /** 下载预数据 */
+  fetchCatalogDetailFromOSS = async (args: { id?: Id }) => {
+    try {
+      const { id } = args || {}
+      const data = await get(`catalog_${id}`)
+      if (!data) return false
+
+      const key = 'catalogDetailFromOSS'
+      this.setState({
+        [key]: {
+          [id]: {
+            ...data,
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+
+      return true
+    } catch (error) {
+      return false
+    }
   }
 
   /** 全站日志 */

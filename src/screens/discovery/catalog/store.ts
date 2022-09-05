@@ -9,6 +9,7 @@ import { discoveryStore, userStore } from '@stores'
 import { info, x18s } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
+import { update } from '@utils/kv'
 import { Id } from '@types'
 
 const NAMESPACE = 'ScreenCatalog'
@@ -47,12 +48,53 @@ export default class ScreenCatalog extends store {
 
   /** 目录详情 */
   fetchCatalogDetail = async (id: Id) => {
-    const { _loaded } = discoveryStore.catalogDetail(id)
-    if (_loaded) return true
+    if (
+      discoveryStore.catalogDetail(id)._loaded ||
+      discoveryStore.catalogDetailFromOSS(id)._loaded
+    ) {
+      return true
+    }
 
-    return discoveryStore.fetchCatalogDetail({
+    const result = await discoveryStore.fetchCatalogDetailFromOSS({
       id
     })
+    if (result) return true
+
+    const data = await discoveryStore.fetchCatalogDetail({
+      id
+    })
+    this.updateCatalogDetail({
+      ...data,
+      id
+    })
+
+    return true
+  }
+
+  /** 上传目录详情 */
+  updateCatalogDetail = data => {
+    setTimeout(() => {
+      const { id, title, avatar, nickname, userId, time, collect, list } = data
+      update(`catalog_${id}`, {
+        id,
+        title,
+        avatar,
+        nickname,
+        userId,
+        time,
+        collect,
+        list: list
+          .filter((item, index) => index < 100)
+          .map(item => ({
+            id: item.id,
+            image: item.image,
+            title: item.title,
+            type: item.type,
+            info: item.info,
+            comment: item.comment
+          }))
+      })
+    }, 2000)
   }
 
   // -------------------- get --------------------
@@ -67,11 +109,6 @@ export default class ScreenCatalog extends store {
       }
     }
     return catalog
-  }
-
-  /** 目录详情 */
-  catalogDetail(id: Id) {
-    return computed(() => discoveryStore.catalogDetail(id)).get()
   }
 
   // -------------------- page --------------------

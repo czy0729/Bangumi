@@ -2,25 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 14:00:59
+ * @Last Modified time: 2022-09-04 20:27:36
  */
 import { computed } from 'mobx'
 import { usersStore, discoveryStore } from '@stores'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
+import { update } from '@utils/kv'
 import { Id } from '@types'
 
 export default class ScreenStaff extends store {
-  init = async () => {
-    const { _loaded } = this.catalogs
-    if (!_loaded) return this.fetchCatalogs(true)
-    return true
+  init = () => {
+    return this.fetchCatalogs(true)
   }
 
   // -------------------- fetch --------------------
   /** 用户目录 */
   fetchCatalogs = async (refresh: boolean = false) => {
-    const res = usersStore.fetchCatalogs(
+    const data = await usersStore.fetchCatalogs(
       {
         userId: this.userId,
         isCollect: false
@@ -28,20 +27,61 @@ export default class ScreenStaff extends store {
       refresh
     )
 
-    const { list } = await res
+    const { list } = data
     queue(list.map(item => () => this.fetchCatalogDetail(item.id)))
 
-    return res
+    return data
   }
 
   /** 目录详情 */
   fetchCatalogDetail = async (id: Id) => {
-    const { _loaded } = discoveryStore.catalogDetail(id)
-    if (_loaded) return true
+    if (
+      discoveryStore.catalogDetail(id)._loaded ||
+      discoveryStore.catalogDetailFromOSS(id)._loaded
+    ) {
+      return true
+    }
 
-    return discoveryStore.fetchCatalogDetail({
+    const result = await discoveryStore.fetchCatalogDetailFromOSS({
       id
     })
+    if (result) return true
+
+    const data = await discoveryStore.fetchCatalogDetail({
+      id
+    })
+    this.updateCatalogDetail({
+      ...data,
+      id
+    })
+
+    return true
+  }
+
+  /** 上传目录详情 */
+  updateCatalogDetail = data => {
+    setTimeout(() => {
+      const { id, title, avatar, nickname, userId, time, collect, list } = data
+      update(`catalog_${id}`, {
+        id,
+        title,
+        avatar,
+        nickname,
+        userId,
+        time,
+        collect,
+        list: list
+          .filter((item, index) => index < 100)
+          .map(item => ({
+            id: item.id,
+            image: item.image,
+            title: item.title,
+            type: item.type,
+            info: item.info,
+            comment: item.comment
+          }))
+      })
+    }, 2000)
   }
 
   // -------------------- get --------------------
@@ -52,10 +92,5 @@ export default class ScreenStaff extends store {
   /** 用户目录 */
   @computed get catalogs() {
     return usersStore.catalogs(this.userId, false)
-  }
-
-  /** 目录详情 */
-  catalogDetail(id: Id) {
-    return computed(() => discoveryStore.catalogDetail(id)).get()
   }
 }

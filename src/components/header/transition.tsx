@@ -30,9 +30,9 @@ function Transition({ fixed, title, headerTitle }: TransitionProps) {
     const styles = memoStyles()
     return (
       <Animated.View style={[styles.view, wrapStyles]}>
-        <Animated.View style={[styles.body, bodyStyles]}>
+        <Animated.View style={[styles.body, title && styles.bodyTitle, bodyStyles]}>
           {headerTitle || (
-            <Text style={styles.text} size={15}>
+            <Text style={styles.text} size={15} numberOfLines={1}>
               {title}
             </Text>
           )}
@@ -62,7 +62,11 @@ const memoStyles = _.memoStyles(() => ({
     right: 72,
     minHeight: WSA ? 40 : 20 * 1.28
   },
+  bodyTitle: {
+    bottom: 6
+  },
   text: {
+    maxWidth: '84%',
     marginBottom: _.ios(0, 10),
     marginLeft: -8
   }
