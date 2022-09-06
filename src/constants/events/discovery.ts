@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:49:31
+ * @Last Modified time: 2022-09-06 22:04:30
  */
 
 /** Discovery */
@@ -44,6 +44,8 @@ export default {
   '目录.上一页': 'Catalog.prev',
   '目录.下一页': 'Catalog.next',
   '目录.页码跳转': 'Catalog.doSearch',
+  '目录.高级筛选': 'Catalog.onFilterChange',
+  '目录.切换锁定': 'Catalog.onToggleFixed',
   // '目录.提示': 'Catalog.alert',
 
   // 目录详情

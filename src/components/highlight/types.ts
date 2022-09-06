@@ -12,5 +12,7 @@ export type Props = Override<
   {
     /** 高亮文字 */
     value: string
+
+    t2s: boolean
   }
 >

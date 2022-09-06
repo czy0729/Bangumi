@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 06:35:34
+ * @Last Modified time: 2022-09-06 20:33:21
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Highlight, Touchable } from '@components'
 import { _, discoveryStore } from '@stores'
 import { lastDate, getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
@@ -35,8 +35,10 @@ export const ItemCatalog = obc(
       game,
       real,
       time,
+      last,
       isUser,
       hideScore = false,
+      filter,
       children
     }: ItemCatalogProps,
     { navigation }
@@ -44,25 +46,38 @@ export const ItemCatalog = obc(
     if (!isUser && !book && !anime && !music && !game && !real) return null
 
     const styles = memoStyles()
-    let data
-    if (discoveryStore.catalogDetail(id)._loaded) {
-      data = discoveryStore.catalogDetail(id)
-    } else if (discoveryStore.catalogDetailFromOSS(id)._loaded) {
-      data = discoveryStore.catalogDetailFromOSS(id)
+    const detail = discoveryStore.catalogDetail(id)
+    const oss = discoveryStore.catalogDetailFromOSS(id)
+
+    let data: any
+    if (detail._loaded) {
+      data = detail
+    } else if (oss._loaded) {
+      data = oss
     } else {
-      data = discoveryStore.catalogDetail(id)
+      data = detail
     }
 
     const { list, collect, content, avatar, userId, time: detailTime } = data
-    let desc = info || content
-    if (desc) desc = HTMLDecode(removeHTMLTag(info || content))
+    const _avatar = avatar || data?.avatar
+    const _userId = userId || data?.userId
+    const _name = HTMLDecode(name || userName || data?.nickname)
+    const _collect = collect || data?.collect
+    const _title = HTMLDecode(title || data?.title)
+    let _desc = HTMLDecode(
+      removeHTMLTag(info || content || data?.desc || oss?.info)
+    ).replace(/\n/g, ' ')
+    if (_desc === 'undefined') _desc = ''
 
     let dateText = ''
-    if (time && !time.includes('创建于')) {
+    if (last) {
+      dateText = `创建于 ${last}`
+    } else if (time && !time.includes('创建于')) {
       dateText = `最后更新 ${lastDate(getTimestamp(time))}`
     } else if (detailTime) {
       dateText = `创建于 ${lastDate(getTimestamp(detailTime))?.slice(0, 10)}`
     }
+
     return (
       <Touchable
         style={styles.container}
@@ -81,7 +96,7 @@ export const ItemCatalog = obc(
         }}
       >
         <Flex style={styles.wrap} align='start'>
-          <Covers list={list} />
+          <Covers list={list} total={oss?.total} />
           <Flex.Item>
             <Flex
               style={styles.content}
@@ -90,35 +105,35 @@ export const ItemCatalog = obc(
               align='start'
             >
               <View>
-                <Text bold numberOfLines={2}>
-                  {HTMLDecode(title)}
-                </Text>
-                {!!desc && desc !== title && (
-                  <Text style={_.mt.sm} size={12} numberOfLines={2}>
-                    {desc.replace(/\n/g, ' ')}
+                <Highlight bold numberOfLines={3} value={filter} t2s={false}>
+                  {_title}
+                </Highlight>
+                {!!_desc && _desc !== _title && (
+                  <Text style={_.mt.sm} size={11} numberOfLines={2}>
+                    {_desc}
                   </Text>
                 )}
-                {!!collect && (
+                {!!_collect && (
                   <Text style={_.mt.xs} size={10} lineHeight={14} type='sub' bold>
-                    {collect}人收藏
+                    {_collect}人收藏
                   </Text>
                 )}
               </View>
               <Flex style={_.mt.md}>
                 <Avatar
-                  key={avatar}
+                  key={_avatar}
                   style={_.mr.sm}
                   navigation={navigation}
                   size={AVATAR_WIDTH}
-                  userId={userId}
-                  name={name || userName}
-                  src={avatar}
+                  userId={_userId}
+                  name={_name}
+                  src={_avatar}
                   event={event}
                 />
                 <Flex.Item>
-                  {!!(name || userName) && (
+                  {!!_name && (
                     <Text style={_.mb.xxs} size={12} bold numberOfLines={1}>
-                      {HTMLDecode(name || userName)}
+                      {_name}
                     </Text>
                   )}
                   {!!dateText && (

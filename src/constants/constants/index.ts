@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 19:15:28
+ * @Last Modified time: 2022-09-06 21:40:36
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -110,10 +110,10 @@ export const APP_BAIDU_ID = '20200130000378695'
 export const APP_BAIDU_KEY = 'U92zpHIA8SkYXHrEaZ9O'
 
 /** APP 游客用户id [476179] 6907***59@qq.com | [474489] 2963***10@qq.com | [542389] say***02@163.com */
-export const APP_USERID_TOURIST = 474489
+export const APP_USERID_TOURIST = 700939
 
 /** APP 审核用户id */
-export const APP_USERID_IOS_AUTH = 474489
+export const APP_USERID_IOS_AUTH = 700939
 
 /** 是否 iOS */
 export const IOS = Platform.OS === 'ios'

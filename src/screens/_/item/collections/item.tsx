@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 18:27:31
+ * @Last Modified time: 2022-09-06 20:29:56
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -126,18 +126,16 @@ const Item = memo(
                   {HTMLDecode(tip)}
                 </Text>
               )}
-              <Flex style={_.mt.sm}>
-                <Bottom
-                  score={score}
-                  rank={rank}
-                  time={time}
-                  tags={tags}
-                  hideScore={hideScore}
-                  isDo={isDo}
-                  isOnHold={isOnHold}
-                  isDropped={isDropped}
-                />
-              </Flex>
+              <Bottom
+                score={score}
+                rank={rank}
+                time={time}
+                tags={tags}
+                hideScore={hideScore}
+                isDo={isDo}
+                isOnHold={isOnHold}
+                isDropped={isDropped}
+              />
             </Flex>
             <Flex>
               <Flex.Item>

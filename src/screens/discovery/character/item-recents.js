@@ -74,7 +74,7 @@ function ItemRecents(
                     </Katakana.Provider>
                   </Flex.Item>
                   <Flex style={_.mt.xxs}>
-                    {x18(id, name || nameJP) && <Tag style={_.ml.sm} value='H' />}
+                    {x18(id, name || nameJP) && <Tag style={_.ml.sm} value='NSFW' />}
                     {!!type && <Tag style={_.ml.sm} value={typeCn} />}
                   </Flex>
                 </Flex>

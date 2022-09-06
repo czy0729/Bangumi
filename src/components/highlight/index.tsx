@@ -2,19 +2,29 @@
  * @Author: czy0729
  * @Date: 2022-07-30 17:33:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:42:47
+ * @Last Modified time: 2022-09-06 19:41:15
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { t2s } from '@utils'
+import { t2s as t2sUtils } from '@utils'
 import { Text } from '../text'
 import { Props as HighlightProps } from './types'
 
 export { HighlightProps }
 
 export const Highlight = observer(
-  ({ style, value = '', type, size, lineHeight, bold, children, ...other }) => {
+  ({
+    style,
+    value = '',
+    type,
+    size,
+    lineHeight,
+    bold,
+    t2s = true,
+    children,
+    ...other
+  }) => {
     const props = {
       size,
       lineHeight,
@@ -28,7 +38,9 @@ export const Highlight = observer(
       )
     }
 
-    const _value = t2s(value.toLocaleUpperCase()).trim()
+    const _value = t2s
+      ? t2sUtils(value.toLocaleUpperCase()).trim()
+      : value.toLocaleUpperCase().trim()
     const index = children.toLocaleUpperCase().indexOf(_value)
     if (index === -1) {
       return (

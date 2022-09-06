@@ -2,24 +2,43 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 14:15:26
+ * @Last Modified time: 2022-09-06 22:06:09
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
-import { info, x18s } from '@utils'
+import { date, getTimestamp, HTMLDecode, info, removeHTMLTag, x18s } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 import { update } from '@utils/kv'
-import { Id } from '@types'
+import catalogs from '@assets/json/catalogs.json'
+import { Id, SubjectTypeCn } from '@types'
+import { TypeType, TypeLabel } from './types'
+import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, MODEL_SUBJECT_TYPE } from '@constants'
 
 const NAMESPACE = 'ScreenCatalog'
 
 export default class ScreenCatalog extends store {
   state = observable({
-    type: '' as '' | 'collect' | 'me',
+    type: 'advance' as TypeType,
     page: 1,
     show: true,
     ipt: '1',
+
+    /** 筛选类型 */
+    filterType: '不限',
+
+    /** 筛选时间 */
+    filterYear: '不限',
+
+    /** 筛选热词 */
+    filterKey: '不限',
+
+    /** 是否锁定筛选 */
+    fixedFilter: false,
+
+    /** 是否锁定分页器 */
+    fixedPagination: false,
+
     _loaded: false
   })
 
@@ -36,11 +55,16 @@ export default class ScreenCatalog extends store {
   /** 目录 */
   fetchCatalog = async () => {
     const { type, page } = this.state
-    const data = await discoveryStore.fetchCatalog({
-      type,
-      page
-    })
 
+    let data: any[]
+    if (type === 'advance') {
+      data = this.catalogAdvanceFilter.list
+    } else {
+      data = await discoveryStore.fetchCatalog({
+        type,
+        page
+      })
+    }
     queue(data.map(item => () => this.fetchCatalogDetail(item.id)))
 
     return data
@@ -74,17 +98,31 @@ export default class ScreenCatalog extends store {
   /** 上传目录详情 */
   updateCatalogDetail = data => {
     setTimeout(() => {
-      const { id, title, avatar, nickname, userId, time, collect, list } = data
+      const {
+        id,
+        title,
+        info,
+        content,
+        avatar,
+        nickname,
+        userId,
+        time,
+        collect,
+        list
+      } = data
+
+      const desc = HTMLDecode(removeHTMLTag(info || content))
       update(`catalog_${id}`, {
         id,
         title,
+        info: desc ? desc.slice(0, 40) : '',
         avatar,
         nickname,
         userId,
         time,
         collect,
         list: list
-          .filter((item, index) => index < 100)
+          .filter((item, index: number) => index < 3)
           .map(item => ({
             id: item.id,
             image: item.image,
@@ -92,15 +130,84 @@ export default class ScreenCatalog extends store {
             type: item.type,
             info: item.info,
             comment: item.comment
-          }))
+          })),
+        total: list.length
       })
     }, 2000)
   }
 
   // -------------------- get --------------------
+  /** 目录 (高级) */
+  @computed get catalogAdvance() {
+    return catalogs.map(item => {
+      // 计算这个目录大部分是什么类型的条目
+      let _type: string
+      if (item.r >= Math.max(item.a || 0, item.b || 0, item.m || 0, item.g || 0)) {
+        _type = 'real'
+      } else if (item.g >= Math.max(item.a || 0, item.b || 0, item.m || 0)) {
+        _type = 'game'
+      } else if (item.m >= Math.max(item.a || 0, item.b || 0)) {
+        _type = 'music'
+      } else if (item.b >= (item.a || 0)) {
+        _type = 'book'
+      } else {
+        _type = 'anime'
+      }
+
+      return {
+        id: item.i,
+        title: item.t,
+        last: item.d,
+        anime: item.a || 0,
+        book: item.b || 0,
+        music: item.m || 0,
+        game: item.g || 0,
+        real: item.r || 0,
+        _type
+      }
+    })
+  }
+
+  /** 目录筛选后 (高级) */
+  @computed get catalogAdvanceFilter() {
+    const { page, filterType, filterYear, filterKey } = this.state
+    let list = this.catalogAdvance
+    if (filterType && filterType !== '不限') {
+      list = list.filter(
+        item => MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item._type) === filterType
+      )
+    }
+
+    if (filterYear && filterYear !== '不限') {
+      if (filterYear === '近1年') {
+        const ts = getTimestamp()
+        const day = Number(`${Number(date('Y', ts)) - 1}${date('md', ts)}`)
+        list = list.filter(item => Number(item.last.replace(/-/g, '')) >= day)
+      } else if (filterYear === '近3年') {
+        const ts = getTimestamp()
+        const day = Number(`${Number(date('Y', ts)) - 3}${date('md', ts)}`)
+        list = list.filter(item => Number(item.last.replace(/-/g, '')) >= day)
+      } else {
+        list = list.filter(item => item.last.includes(filterYear))
+      }
+    }
+
+    if (filterKey && filterKey !== '不限') {
+      list = list.filter(item => item.title.includes(filterKey))
+    }
+
+    const limit = 10
+    return {
+      list: list.slice(limit * (page - 1), limit * page),
+      _loaded: true
+    }
+  }
+
   /** 目录 */
   @computed get catalog() {
     const { type, page } = this.state
+    if (type === 'advance') return this.catalogAdvanceFilter
+
     const catalog = discoveryStore.catalog(type, page)
     if (userStore.isLimit) {
       return {
@@ -111,24 +218,43 @@ export default class ScreenCatalog extends store {
     return catalog
   }
 
-  // -------------------- page --------------------
-  /** 切换类型 */
-  onToggleType = async (label: '热门' | '最新') => {
+  /** 是否限制显示 */
+  @computed get isLimit() {
     const { type } = this.state
+    if (type !== 'advance') return false
 
-    // 是否热门
-    const isCollect = type === 'collect'
+    if (!userStore.isLogin) return true
+
+    const { id } = userStore.userInfo
+    if (!id || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH) return true
+  }
+
+  // -------------------- page --------------------
+  /** 显示列表 */
+  onShow = () => {
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+      this.setStorage(NAMESPACE)
+    }, 400)
+  }
+
+  /** 切换类型 */
+  onToggleType = async (label: TypeLabel) => {
+    const { type } = this.state
     if (label) {
-      if (label === '热门' && isCollect) return
       if (label === '最新' && type === '') return
+      if (label === '热门' && type === 'collect') return
+      if (label === '高级' && type === 'advance') return
     }
 
     t('目录.切换类型', {
-      type: isCollect ? '最新' : '热门'
+      type: label
     })
 
     this.setState({
-      type: isCollect ? '' : 'collect',
+      type: label === '热门' ? 'collect' : label === '高级' ? 'advance' : '',
       page: 1,
       ipt: '1',
       show: false
@@ -156,13 +282,7 @@ export default class ScreenCatalog extends store {
       ipt: String(page - 1)
     })
     this.fetchCatalog()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 400)
+    this.onShow()
   }
 
   /** 下一页 */
@@ -178,13 +298,7 @@ export default class ScreenCatalog extends store {
       ipt: String(page + 1)
     })
     this.fetchCatalog()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 400)
+    this.onShow()
   }
 
   /** 页码输入框变化 */
@@ -192,6 +306,34 @@ export default class ScreenCatalog extends store {
     const { text } = nativeEvent
     this.setState({
       ipt: text
+    })
+  }
+
+  /** 高级筛选 */
+  onFilterChange = (key: string, value: string) => {
+    this.setState({
+      page: 1,
+      show: false,
+      ipt: '1',
+      [key]: value
+    })
+    this.onShow()
+    this.fetchCatalog()
+
+    t('目录.高级筛选', {
+      value: `${key}|${value}`
+    })
+  }
+
+  /** 切换锁定 */
+  onToggleFixed = (key: string) => {
+    this.setState({
+      [key]: !this.state[key]
+    })
+    this.setStorage(NAMESPACE)
+
+    t('目录.切换锁定', {
+      value: `${key}|${!this.state[key]}`
     })
   }
 

@@ -12,7 +12,7 @@ import { Cover } from '../../../base'
 import { WIDTH, CATALOG_WIDTH } from '../ds'
 import { memoStyles } from './styles'
 
-function Covers({ list }) {
+function Covers({ list, total = 0 }) {
   const styles = memoStyles()
   return (
     <View style={styles.catalog}>
@@ -45,7 +45,7 @@ function Covers({ list }) {
         {!!list.length && (
           <Flex style={styles.num} justify='center' align='center'>
             <Text size={13} bold>
-              +{list.length}
+              +{total || list.length}
             </Text>
           </Flex>
         )}

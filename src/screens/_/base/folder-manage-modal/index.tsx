@@ -148,7 +148,7 @@ export const FolderManageModal = ob(
       if (!refresh) {
         const data = discoveryStore.catalogDetail(id)
         const { _loaded } = data
-        if (_loaded && getTimestamp() - _loaded <= 300) return true
+        if (_loaded && getTimestamp() - Number(_loaded) <= 300) return true
       }
 
       await discoveryStore.fetchCatalogDetail({

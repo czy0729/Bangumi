@@ -78,7 +78,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
               </Flex.Item>
               <Flex style={_.mt.xxs}>
                 {!!collection && <Tag style={_.ml.sm} value={collection} />}
-                {x18(id) && <Tag style={_.ml.sm} value='H' />}
+                {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
               </Flex>
             </Flex>
             <Text style={_.mt.sm} size={11} lineHeight={14}>

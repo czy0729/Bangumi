@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:45:35
+ * @Last Modified time: 2022-09-06 20:31:12
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
@@ -32,8 +32,12 @@ function Bottom({ score, rank, time, tags, hideScore, isDo, isOnHold, isDropped 
     .filter((item: string) => !!item && item !== '自己可见')
     .filter((item: string, index: number) => index < 4)
 
+  if (!(!hideScore && hasScore) && !info.length && !tag.length) {
+    return <Flex style={_.mt.lg} />
+  }
+
   return (
-    <>
+    <Flex style={_.mt.sm}>
       {!hideScore && hasScore && (
         <>
           <Rank value={rank} />
@@ -52,7 +56,7 @@ function Bottom({ score, rank, time, tags, hideScore, isDo, isOnHold, isDropped 
             <Text size={11}>{item}</Text>
           </View>
         ))}
-    </>
+    </Flex>
   )
 }
 

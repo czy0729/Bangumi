@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:02:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 10:03:12
+ * @Last Modified time: 2022-09-06 18:59:00
  */
 import { _ } from '@stores'
 
@@ -31,7 +31,7 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   itemActive: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   },
   how: {
     position: 'absolute',

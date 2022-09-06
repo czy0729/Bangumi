@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 14:07:32
+ * @Last Modified time: 2022-09-06 19:47:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -175,7 +175,7 @@ export default memo(
                 {rating.score !== '' && (
                   <ScoreTag style={_.ml.sm} value={Number(rating.score)} />
                 )}
-                {x18 && <Tag style={_.ml.sm} size={13} value='H' />}
+                {x18 && <Tag style={_.ml.sm} size={13} value='NSFW' />}
               </>
             )}
           </Flex>

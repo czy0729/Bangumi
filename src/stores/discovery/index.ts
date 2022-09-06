@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:16:54
+ * @Last Modified time: 2022-09-06 20:35:43
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLDecode } from '@utils'
@@ -26,7 +26,7 @@ import {
   HTML_WIKI,
   LIST_EMPTY
 } from '@constants'
-import { Id, StoreConstructor, SubjectId, SubjectType } from '@types'
+import { Id, Override, StoreConstructor, SubjectId, SubjectType } from '@types'
 import {
   DEFAULT_TYPE,
   INIT_ANITAMA_TIMELINE_ITEM,
@@ -160,7 +160,15 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
 
   /** 目录详情 (云缓存) */
   catalogDetailFromOSS(id: Id) {
-    return computed<CatalogDetail>(() => {
+    return computed<
+      Override<
+        CatalogDetail,
+        {
+          info: string
+          total: number
+        }
+      >
+    >(() => {
       return this.state.catalogDetailFromOSS[id] || INIT_CATELOG_DETAIL_ITEM
     }).get()
   }

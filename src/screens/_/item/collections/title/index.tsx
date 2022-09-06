@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 16:32:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 20:21:23
+ * @Last Modified time: 2022-09-06 20:28:02
  */
 import React from 'react'
 import { Flex, Katakana, Highlight } from '@components'
@@ -11,7 +11,7 @@ import { ob } from '@utils/decorators'
 
 function Title({ name, nameCn, filter }) {
   const hasName = !!name
-  const left = `${HTMLDecode(cnjp(nameCn, name))} `
+  const left = HTMLDecode(cnjp(nameCn, name))
   const right = HTMLDecode(cnjp(name, nameCn))
 
   let filterValue = ''
@@ -20,7 +20,7 @@ function Title({ name, nameCn, filter }) {
     return (
       <Flex wrap='wrap' align='end'>
         <Highlight size={15} bold numberOfLines={1} value={filterValue}>
-          {left}
+          {left}{' '}
         </Highlight>
         {hasName && right !== left && (
           <Highlight
@@ -42,7 +42,7 @@ function Title({ name, nameCn, filter }) {
     <Flex wrap='wrap' align='end'>
       <Katakana.Provider size={15} numberOfLines={1}>
         <Katakana size={15} bold>
-          {left}
+          {left}{' '}
         </Katakana>
       </Katakana.Provider>
       {hasName && right !== left && (

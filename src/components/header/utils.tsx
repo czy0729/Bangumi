@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 03:45:31
+ * @Last Modified time: 2022-09-06 21:17:56
  */
 import React, { useState, useCallback } from 'react'
 import { _, systemStore } from '@stores'
@@ -58,6 +58,11 @@ export const updateHeader = ({
       fontSize: 15,
       fontWeight: 'normal'
     },
+    IOS &&
+      !!_title &&
+      headerTitleAlign === 'left' && {
+        marginLeft: -18
+      },
     headerTitleStyle
   ]
   if (!IOS) _headerTitleStyle.push(_.fontStyle)
