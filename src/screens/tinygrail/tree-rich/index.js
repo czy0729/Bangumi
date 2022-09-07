@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 03:09:53
+ * @Last Modified time: 2022-09-07 00:50:17
  */
 import React from 'react'
 import { Header, Page, Loading, Text } from '@components'
@@ -16,9 +16,6 @@ import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
 
-export default
-@inject(Store)
-@obc
 class TinygrailTree extends React.Component {
   state = {
     refreshing: false
@@ -133,6 +130,8 @@ class TinygrailTree extends React.Component {
     return memoStyles()
   }
 }
+
+export default inject(Store)(obc(TinygrailTree))
 
 const memoStyles = _.memoStyles(() => ({
   container: {

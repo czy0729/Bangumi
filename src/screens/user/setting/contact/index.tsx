@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 19:17:03
+ * @Last Modified time: 2022-09-07 15:23:38
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -27,6 +27,7 @@ function Contact({ navigation, filter }) {
           show={shows.say}
           arrow
           filter={filter}
+          highlight
           onPress={() => {
             t('设置.跳转', {
               to: 'Say'
@@ -60,6 +61,24 @@ function Contact({ navigation, filter }) {
           }}
         >
           <Heatmap id='设置.跳转' to='Qiafan' alias='投食' />
+        </ItemSetting>
+
+        {/* 赞助者 */}
+        <ItemSetting
+          show={shows.advance}
+          arrow
+          highlight
+          filter={filter}
+          {...TEXTS.advance}
+          onPress={() => {
+            t('设置.跳转', {
+              to: 'Sponsor'
+            })
+
+            navigation.push('Sponsor')
+          }}
+        >
+          <Heatmap id='设置.跳转' to='Sponsor' alias='赞助者' />
         </ItemSetting>
       </>
     )

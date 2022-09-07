@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 12:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 03:31:28
+ * @Last Modified time: 2022-09-07 04:20:03
  */
 import React, { useState, useCallback } from 'react'
 import { ScrollView, Text, Touchable } from '@components'

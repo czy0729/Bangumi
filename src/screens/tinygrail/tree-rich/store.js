@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 20:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:34:15
+ * @Last Modified time: 2022-09-07 01:10:48
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -18,9 +18,7 @@ import _ from '@styles'
 const H_TOOL_BAR = 44
 const namespace = 'ScreenTinygrailTreeRich'
 const key = '1/100'
-const defaultCaculateType = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getValue(
-  '周股息'
-)
+const defaultCaculateType = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getValue('周股息')
 
 export default class ScreenTinygrailTreeRich extends store {
   @observable state = {
@@ -90,9 +88,7 @@ export default class ScreenTinygrailTreeRich extends store {
 
           // 其他的占比不会大于3.2%
           weight:
-            filterTotal / currentTotal > 0.032
-              ? currentTotal * 0.032
-              : filterTotal,
+            filterTotal / currentTotal > 0.032 ? currentTotal * 0.032 : filterTotal,
           price: filterTotal,
           percent: filterTotal / total
         })

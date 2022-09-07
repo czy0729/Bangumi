@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 19:24:30
+ * @Last Modified time: 2022-09-07 15:33:33
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -78,6 +78,7 @@ function CDN({ filter }) {
             </Text>
           }
           arrow
+          highlight
           filter={filter}
           onPress={setTrue}
         />

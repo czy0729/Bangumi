@@ -3,8 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 22:06:37
+ * @Last Modified time: 2022-09-07 19:04:21
  */
+import { Paths } from '@types'
+
 /** 日志级别 (开发用): 2 所有, 1 只输出错误和警告, 0 不输出 */
 export const LOG_LEVEL = 0
 
@@ -28,8 +30,8 @@ export const FONT_FAMILY = true
 export const TEXT_ONLY = DEV ? !DEV : false // : false 是为了打包后的 apk 稳定显示图片
 
 /** 路由覆盖配置 */
-export default {
-  initialRouteName: 'HomeTab', // HomeTab Discovery Subject Tinygrail BilibiliSync
+const CONFIGS: Configs = {
+  initialRouteName: 'HomeTab',
   initialRouteParams: {
     // subjectId: 371546 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/372695' // group/366561
@@ -51,4 +53,11 @@ export default {
     // type: 'anime' // 'anime'
     // uri: 'https://bgm.tv/award/2019',
   }
+}
+
+export default CONFIGS
+
+type Configs = {
+  initialRouteName: Paths | 'HomeTab'
+  initialRouteParams: any
 }
