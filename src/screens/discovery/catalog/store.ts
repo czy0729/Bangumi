@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 22:06:09
+ * @Last Modified time: 2022-09-08 16:44:57
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -28,7 +28,7 @@ export default class ScreenCatalog extends store {
     filterType: '不限',
 
     /** 筛选时间 */
-    filterYear: '不限',
+    filterYear: '近1年',
 
     /** 筛选热词 */
     filterKey: '不限',

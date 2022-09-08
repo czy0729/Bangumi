@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 20:33:21
+ * @Last Modified time: 2022-09-08 16:42:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Highlight, Touchable } from '@components'
+import { Flex, Text, Highlight, Touchable, UserStatus } from '@components'
 import { _, discoveryStore } from '@stores'
 import { lastDate, getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
@@ -120,16 +120,19 @@ export const ItemCatalog = obc(
                 )}
               </View>
               <Flex style={_.mt.md}>
-                <Avatar
-                  key={_avatar}
-                  style={_.mr.sm}
-                  navigation={navigation}
-                  size={AVATAR_WIDTH}
-                  userId={_userId}
-                  name={_name}
-                  src={_avatar}
-                  event={event}
-                />
+                <View style={_.mr.sm}>
+                  <UserStatus userId={_userId}>
+                    <Avatar
+                      key={_avatar}
+                      navigation={navigation}
+                      size={AVATAR_WIDTH}
+                      userId={_userId}
+                      name={_name}
+                      src={_avatar}
+                      event={event}
+                    />
+                  </UserStatus>
+                </View>
                 <Flex.Item>
                   {!!_name && (
                     <Text style={_.mb.xxs} size={12} bold numberOfLines={1}>

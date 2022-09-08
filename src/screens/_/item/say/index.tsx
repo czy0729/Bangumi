@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:47:08
+ * @Last Modified time: 2022-09-08 17:28:48
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, RenderHtml } from '@components'
+import { Flex, Text, RenderHtml, UserStatus } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { obc } from '@utils/decorators'
@@ -55,16 +55,18 @@ export const ItemSay = obc(
             </Flex>
           </Flex.Item>
           <Flex style={styles.avatarWrapRight} justify='center'>
-            <Avatar
-              navigation={navigation}
-              src={avatar}
-              size={34}
-              userId={id}
-              name={name}
-              borderWidth={0}
-              round
-              event={event}
-            />
+            <UserStatus userId={id}>
+              <Avatar
+                navigation={navigation}
+                src={avatar}
+                size={34}
+                userId={id}
+                name={name}
+                borderWidth={0}
+                round
+                event={event}
+              />
+            </UserStatus>
           </Flex>
         </Flex>
       )
@@ -73,17 +75,19 @@ export const ItemSay = obc(
     return (
       <Flex key={index} style={showName ? _.mt.md : _.mt.sm} align='start'>
         <Flex style={styles.avatarWrapLeft} justify='center'>
-          <Avatar
-            navigation={navigation}
-            src={avatar}
-            size={34}
-            userId={id}
-            name={name}
-            round
-            borderWidth={0}
-            event={event}
-            onLongPress={onLongPress}
-          />
+          <UserStatus userId={id}>
+            <Avatar
+              navigation={navigation}
+              src={avatar}
+              size={34}
+              userId={id}
+              name={name}
+              round
+              borderWidth={0}
+              event={event}
+              onLongPress={onLongPress}
+            />
+          </UserStatus>
         </Flex>
         <Flex.Item style={styles.contentLeft}>
           <Flex direction='column' align='start'>

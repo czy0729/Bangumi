@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:00:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 01:10:37
+ * @Last Modified time: 2022-09-07 20:20:06
  */
 import { _ } from '@stores'
 
@@ -49,6 +49,7 @@ export const foolterStyles = _.create({
     minHeight: 240
   },
   noMore: {
-    padding: 8
+    padding: 8,
+    marginTop: _.lg
   }
 })

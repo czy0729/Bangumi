@@ -2,11 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 06:27:14
+ * @Last Modified time: 2022-09-08 19:00:12
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Image, Text, Iconfont, Heatmap } from '@components'
+import {
+  Touchable,
+  Flex,
+  Image,
+  Text,
+  Iconfont,
+  Heatmap,
+  getUserStatus
+} from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
@@ -27,20 +35,28 @@ function Head({ style }, { $, navigation }) {
   const textType = _.select('plain', 'title')
   const fallback =
     typeof $.src === 'string' && !$.src.includes('//lain.bgm.tv/pic/user/l/')
+  const userStatus = getUserStatus(userId)
   return (
     <Flex style={style} direction='column'>
       <View>
-        <Image
-          style={styles.avatar}
-          src={$.src}
-          size={AVATAR_SIZE}
-          radius={AVATAR_SIZE / 2}
-          border={_.__colorPlain__}
-          borderWidth={2}
-          shadow
-          fallback={fallback}
-          fallbackSrc={avatar?.large}
-        />
+        <View>
+          <Image
+            style={styles.avatar}
+            src={$.src}
+            size={AVATAR_SIZE}
+            radius={AVATAR_SIZE / 2}
+            border={_.__colorPlain__}
+            borderWidth={2}
+            shadow
+            fallback={fallback}
+            fallbackSrc={avatar?.large}
+          />
+          {!!userStatus && (
+            <Flex style={styles.status} justify='center'>
+              <View style={[styles.online, styles[`online${userStatus}`]]} />
+            </Flex>
+          )}
+        </View>
         <Text style={styles.l1} type={textType} size={11} bold>
           {join || '- 加入'}
         </Text>

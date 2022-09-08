@@ -21,39 +21,21 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: 0,
     left: 0,
     borderWidth: _.hairlineWidth,
-    borderColor: _.colorBorder
+    borderColor: _.select('rgba(0, 0, 0, 0.12)', 'rgba(255, 255, 255, 0.12)')
   },
   content: {
     width: '88%'
   },
-  dot: {
-    width: 4,
-    height: 4,
-    marginRight: _.xs,
-    borderRadius: 2
+  l1: {
+    backgroundColor: _.select('rgb(210, 210, 210)', 'rgb(12, 12, 12)')
   },
-  dot5: {
-    width: 6,
-    height: 6,
-    backgroundColor: _.colorYellow,
-    borderRadius: 3
+  l2: {
+    backgroundColor: _.select('rgb(222, 222, 222)', 'rgb(20, 20, 20)')
   },
-  dot4: {
-    width: 6,
-    height: 6,
-    backgroundColor: _.colorMain,
-    borderRadius: 3
+  l3: {
+    backgroundColor: _.select('rgb(238, 238, 238)', 'rgb(36, 36, 36)')
   },
-  dot3: {
-    width: 5,
-    height: 5,
-    backgroundColor: _.colorPrimary,
-    borderRadius: 2.5
-  },
-  dot2: {
-    backgroundColor: _.colorSuccess
-  },
-  dot1: {
-    backgroundColor: _.colorSub
+  l4: {
+    backgroundColor: _.select('rgb(255, 255, 255)', 'rgb(52, 52, 52)')
   }
 }))

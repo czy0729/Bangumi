@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 06:15:59
+ * @Last Modified time: 2022-09-08 16:32:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,10 +95,14 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
     const { subjectId } = params
     const {
       air_date,
-      images = {},
+      images = {
+        common: undefined
+      },
       name,
       name_cn,
-      rating = {},
+      rating = {
+        score: undefined
+      },
       _loaded
     } = subjectStore.subject(subjectId)
     if (!_loaded) {

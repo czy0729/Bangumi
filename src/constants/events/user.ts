@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 15:02:33
+ * @Last Modified time: 2022-09-08 19:12:16
  */
 
 /** User */
@@ -25,6 +25,7 @@ export default {
   '我的.排序选择': 'User.onOrderSelect',
   '我的.筛选选择': 'User.onFilterSelect',
   '我的.布局选择': 'User.toggleList',
+  '我的.在线状态': 'User.onlineStatus',
 
   // 短信
   '短信.跳转': 'PM.to',

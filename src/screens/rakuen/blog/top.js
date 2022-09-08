@@ -2,11 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 04:55:36
+ * @Last Modified time: 2022-09-08 18:20:05
  */
 import React from 'react'
 import { View } from 'react-native'
-import { HeaderPlaceholder, Flex, Text, RenderHtml, Divider } from '@components'
+import {
+  HeaderPlaceholder,
+  Flex,
+  Text,
+  UserStatus,
+  RenderHtml,
+  Divider
+} from '@components'
 import { Avatar, HorizontalList } from '@_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
@@ -39,14 +46,16 @@ function Top(props, { $, navigation }) {
         </Text>
         <Flex style={[styles.userWrap, _.mt.md]}>
           {!!$.avatar && (
-            <Avatar
-              navigation={navigation}
-              event={event}
-              size={40}
-              src={$.avatar}
-              userId={$.userId}
-              name={$.userName}
-            />
+            <UserStatus userId={$.userId}>
+              <Avatar
+                navigation={navigation}
+                event={event}
+                size={40}
+                src={$.avatar}
+                userId={$.userId}
+                name={$.userName}
+              />
+            </UserStatus>
           )}
           {!!$.userId && (
             <Flex.Item style={_.ml.sm}>

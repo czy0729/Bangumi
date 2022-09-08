@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 18:25:55
+ * @Last Modified time: 2022-09-08 18:29:39
  */
 import React from 'react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { View } from 'react-native'
+import { Flex, Text, Touchable, UserStatus, Iconfont } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -18,13 +19,17 @@ function Item(
   const styles = memoStyles()
   return (
     <Flex style={styles.container} align='start'>
-      <Avatar
-        style={styles.image}
-        navigation={navigation}
-        src={avatar}
-        userId={userId}
-        name={userName}
-      />
+      <View style={styles.image}>
+        <UserStatus userId={userId}>
+          <Avatar
+            navigation={navigation}
+            src={avatar}
+            userId={userId}
+            name={userName}
+          />
+        </UserStatus>
+      </View>
+
       <Flex.Item style={index !== 0 && !_.flat && styles.border}>
         <Touchable
           style={styles.item}

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 15:54:46
+ * @Last Modified time: 2022-09-08 17:22:34
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, RenderHtml } from '@components'
+import { Flex, Text, RenderHtml, UserStatus } from '@components'
 import { _, rakuenStore } from '@stores'
 import { getTimestamp, open } from '@utils'
 import { memo, obc } from '@utils/decorators'
@@ -140,15 +140,18 @@ const ItemSub = memo(
     const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
     return (
       <Flex style={[isNew && styles.itemNew, isJump && styles.itemJump]} align='start'>
-        <Avatar
-          style={_.mt.md}
-          navigation={navigation}
-          userId={userId}
-          name={userName}
-          src={avatar}
-          size={36}
-          event={event}
-        />
+        <View style={_.mt.md}>
+          <UserStatus userId={userId}>
+            <Avatar
+              navigation={navigation}
+              userId={userId}
+              name={userName}
+              src={avatar}
+              size={36}
+              event={event}
+            />
+          </UserStatus>
+        </View>
         <Flex.Item style={styles.subContent}>
           <Flex align='start'>
             <Flex.Item>

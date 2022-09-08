@@ -2,11 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:38:58
+ * @Last Modified time: 2022-09-08 15:43:57
  */
 import React, { useMemo, useCallback } from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Katakana, Text, Iconfont, Touchable, Expand } from '@components'
+import {
+  Flex,
+  Katakana,
+  Text,
+  Iconfont,
+  Touchable,
+  Expand,
+  UserStatus
+} from '@components'
 import { _, uiStore, systemStore } from '@stores'
 import { appNavigate, findSubjectCn, getCoverMedium, confirm } from '@utils'
 import { t } from '@utils/fetch'
@@ -69,14 +77,16 @@ const Item = memo(
       () => (
         <View style={styles.avatar}>
           {!!avatarSrc && (
-            <Avatar
-              navigation={navigation}
-              size={AVATAR_WIDTH}
-              userId={userId}
-              name={p1Text}
-              src={avatarSrc}
-              event={event}
-            />
+            <UserStatus userId={userId}>
+              <Avatar
+                navigation={navigation}
+                size={AVATAR_WIDTH}
+                userId={userId}
+                name={p1Text}
+                src={avatarSrc}
+                event={event}
+              />
+            </UserStatus>
           )}
         </View>
       ),

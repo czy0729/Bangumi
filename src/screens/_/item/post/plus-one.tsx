@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 14:27:42
+ * @Last Modified time: 2022-09-08 17:21:39
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, RenderHtml } from '@components'
+import { Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
@@ -27,15 +27,18 @@ function ItemPlusOne(
     <View style={styles.item}>
       <Flex>
         <Flex style={avatarRound ? styles.round : styles.rectangle}>
-          <Avatar
-            style={_.mr.xs}
-            navigation={navigation}
-            size={avatarWidth}
-            userId={userId}
-            name={userName}
-            src={avatar}
-            event={event}
-          />
+          <View style={_.mr.xs}>
+            <UserStatus userId={userId} mini>
+              <Avatar
+                navigation={navigation}
+                size={avatarWidth}
+                userId={userId}
+                name={userName}
+                src={avatar}
+                event={event}
+              />
+            </UserStatus>
+          </View>
           <Name userId={userId} size={10} bold>
             {HTMLDecode(userName)}
           </Name>

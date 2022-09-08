@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 04:32:15
+ * @Last Modified time: 2022-09-08 18:20:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,12 +36,7 @@ const RakuenGroup = (props, { $ }: Ctx) => {
       <>
         <Header fixed={fixed} />
         <Page>
-          <ScrollView
-            contentContainerStyle={_.container.bottom}
-            scrollEventThrottle={16}
-            scrollToTop
-            onScroll={onScroll}
-          >
+          <ScrollView scrollEventThrottle={16} scrollToTop onScroll={onScroll}>
             <Info />
             {show && (
               <View

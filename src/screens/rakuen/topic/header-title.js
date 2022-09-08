@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 17:21:59
+ * @Last Modified time: 2022-09-08 18:32:04
  */
 import React from 'react'
-import { Flex, Text } from '@components'
+import { Flex, Text, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { memo, ob } from '@utils/decorators'
@@ -27,13 +27,15 @@ const HeaderTitle = memo(({ navigation, avatar, userId, userName, title, group }
   return (
     <Flex style={styles.container}>
       {!!avatar && (
-        <Avatar
-          navigation={navigation}
-          size={imgWidth}
-          src={avatar}
-          userId={userId}
-          name={userName}
-        />
+        <UserStatus userId={userId}>
+          <Avatar
+            navigation={navigation}
+            size={imgWidth}
+            src={avatar}
+            userId={userId}
+            name={userName}
+          />
+        </UserStatus>
       )}
       <Flex.Item style={_.ml.sm}>
         <Text size={13} numberOfLines={1}>

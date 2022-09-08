@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:57:27
+ * @Last Modified time: 2022-09-07 20:20:33
  */
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -53,7 +53,7 @@ function Footer({
                 style={styles.text}
                 type={footerTextType}
                 size={13}
-                lineHeight={15}
+                lineHeight={17}
                 align='center'
               >
                 {footerFailureText}
@@ -79,7 +79,7 @@ function Footer({
                 style={[styles.text, _.mt.sm]}
                 type={footerTextType}
                 size={13}
-                lineHeight={15}
+                lineHeight={17}
                 align='center'
               >
                 {footerEmptyDataText}
@@ -99,7 +99,7 @@ function Footer({
               type={footerTextType}
               align='center'
               size={13}
-              lineHeight={15}
+              lineHeight={17}
             >
               {footerRefreshingText}
             </Text>
@@ -119,7 +119,7 @@ function Footer({
                 type={footerTextType}
                 align='center'
                 size={13}
-                lineHeight={15}
+                lineHeight={17}
               >
                 {filterText ? `已过滤${filterText}个敏感条目` : randomSpeech()}
               </Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 19:00:45
+ * @Last Modified time: 2022-09-08 15:29:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,7 +56,8 @@ function Chart({ navigation }) {
                 ? () => {
                     const userId = USERS_MAP[item.data]?.i || item.data
                     navigation.push('Zone', {
-                      userId
+                      userId,
+                      _name: USERS_MAP[item.data]?.n
                     })
 
                     t('赞助者.跳转', {

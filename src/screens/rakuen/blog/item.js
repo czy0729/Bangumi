@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 15:51:18
+ * @Last Modified time: 2022-09-08 18:19:31
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, RenderHtml } from '@components'
+import { Flex, Text, Touchable, UserStatus, RenderHtml } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
@@ -61,14 +61,17 @@ function Item(
       style={[styles.item, isNew && styles.itemNew, isJump && styles.itemJump]}
       align='start'
     >
-      <Avatar
-        style={styles.image}
-        navigation={navigation}
-        userId={userId}
-        name={userName}
-        src={avatar}
-        event={event}
-      />
+      <View style={styles.image}>
+        <UserStatus userId={userId}>
+          <Avatar
+            navigation={navigation}
+            userId={userId}
+            name={userName}
+            src={avatar}
+            event={event}
+          />
+        </UserStatus>
+      </View>
       <Flex.Item
         style={[styles.content, index !== 0 && !_.flat && styles.border, _.ml.sm]}
       >
@@ -150,14 +153,17 @@ function Item(
                 style={[isNew && styles.itemNew, isJump && styles.itemJump]}
                 align='start'
               >
-                <Avatar
-                  style={styles.subImage}
-                  navigation={navigation}
-                  userId={item.userId}
-                  name={item.userName}
-                  src={item.avatar}
-                  event={event}
-                />
+                <View style={styles.subImage}>
+                  <UserStatus userId={item.userId}>
+                    <Avatar
+                      navigation={navigation}
+                      userId={item.userId}
+                      name={item.userName}
+                      src={item.avatar}
+                      event={event}
+                    />
+                  </UserStatus>
+                </View>
                 <Flex.Item
                   style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}
                 >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 17:01:57
+ * @Last Modified time: 2022-09-08 18:23:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
-const imgHeight = 48 * _.ratio
+const imgHeight = 40 * _.ratio
 
 function Item({ id, cover, name, num }, { navigation }) {
   const styles = memoStyles()
@@ -33,7 +33,7 @@ function Item({ id, cover, name, num }, { navigation }) {
           <Cover size={imgHeight} src={cover} border radius shadow />
           <Flex.Item style={_.ml.sm}>
             <Flex style={styles.body} direction='column' align='start' justify='center'>
-              <Text size={12} numberOfLines={2} bold>
+              <Text size={11} numberOfLines={2} bold>
                 {name}
               </Text>
               <Text style={_.mt.xs} type='sub' size={10}>

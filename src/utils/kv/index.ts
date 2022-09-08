@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:14:22
+ * @Last Modified time: 2022-09-08 05:25:31
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp } from '../utils'
@@ -35,6 +35,31 @@ export async function update(key: string, value: object) {
         ...value,
         ts: getTimestamp()
       }
+    }
+  })
+
+  return data
+}
+
+export async function onlines() {
+  // @ts-ignore
+  const { data } = await axios({
+    method: 'get',
+    url: `${HOST}/v1/online/get`
+  })
+
+  if (data?.code === 200) return data?.data
+
+  return null
+}
+
+export async function report(userID: string | number) {
+  // @ts-ignore
+  const { data } = await axios({
+    method: 'post',
+    url: `${HOST}/v1/online/report`,
+    data: {
+      userID
     }
   })
 

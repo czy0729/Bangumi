@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 09:29:49
+ * @Last Modified time: 2022-09-08 18:16:21
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Text, Heatmap } from '@components'
+import { Flex, Text, Heatmap, UserStatus } from '@components'
 import { SectionTitle, Avatar, Stars, PreventTouchPlaceholder } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
@@ -39,19 +39,21 @@ export default memo(
             >
               {who.map(item => (
                 <Flex key={item.userId} style={styles.item}>
-                  <Avatar
-                    navigation={navigation}
-                    userId={item.userId}
-                    name={item.name}
-                    src={item.avatar}
-                    event={{
-                      id: '条目.跳转',
-                      data: {
-                        from: '用户动态',
-                        subjectId
-                      }
-                    }}
-                  />
+                  <UserStatus userId={item.userId}>
+                    <Avatar
+                      navigation={navigation}
+                      userId={item.userId}
+                      name={item.name}
+                      src={item.avatar}
+                      event={{
+                        id: '条目.跳转',
+                        data: {
+                          from: '用户动态',
+                          subjectId
+                        }
+                      }}
+                    />
+                  </UserStatus>
                   <View style={_.ml.sm}>
                     <Flex>
                       <Text size={13} bold>

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 04:35:07
+ * @Last Modified time: 2022-09-08 18:22:10
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Mesume, Heatmap } from '@components'
+import { Touchable, Flex, Text, Mesume, Heatmap, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { open, info, HTMLDecode, appNavigate, correctAgo } from '@utils'
@@ -97,16 +97,18 @@ function List({ style = undefined }, { $, navigation }: Ctx) {
                 )}
               </Text>
               <Flex style={_.mt.sm}>
-                <Avatar
-                  navigation={navigation}
-                  size={18}
-                  src={API_AVATAR(userId)}
-                  userId={userId}
-                />
+                <UserStatus userId={userId} mini>
+                  <Avatar
+                    navigation={navigation}
+                    size={18}
+                    src={API_AVATAR(userId)}
+                    userId={userId}
+                  />
+                </UserStatus>
                 <Text style={_.ml.sm} size={12} bold>
                   {userName}
                 </Text>
-                <Text style={_.ml.xs} type='sub' size={12}>
+                <Text style={_.ml.xs} type='sub' size={11} bold>
                   {correctAgo(time)}
                 </Text>
               </Flex>

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-18 11:42:17
+ * @Last Modified time: 2022-09-08 17:50:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Flex, Text } from '@components'
+import { Flex, Text, UserStatus } from '@components'
 import { Cover, Avatar } from '@_'
 import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils'
@@ -87,15 +87,17 @@ const CoverXs = memo(
             style={[styles.fixed, avatarRound && styles.avatarRound]}
             justify='center'
           >
-            <Avatar
-              navigation={navigation}
-              style={styles.avatar}
-              size={avatarSize}
-              src={avatar}
-              userId={data.userId}
-              name={data.userName}
-              borderColor='transparent'
-            />
+            <UserStatus userId={data.userId} mini>
+              <Avatar
+                navigation={navigation}
+                style={styles.avatar}
+                size={avatarSize}
+                src={avatar}
+                userId={data.userId}
+                name={data.userName}
+                borderColor='transparent'
+              />
+            </UserStatus>
           </Flex>
         )}
       </View>

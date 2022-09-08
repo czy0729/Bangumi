@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 08:47:13
+ * @Last Modified time: 2022-09-08 04:47:03
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -257,6 +257,9 @@ export const INIT_SETTING = {
 
   /** 时间胶囊点击条目显示 Popable */
   timelinePopable: true,
+
+  /** 是否公开使用在线状态 */
+  onlineStatus: false,
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT

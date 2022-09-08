@@ -15,9 +15,9 @@ import { t } from '@utils/fetch'
 import { HOST_API_V0 } from '@utils/fetch.v0/ds'
 import { ob } from '@utils/decorators'
 import {
+  AVATAR_DEFAULT,
   CDN_OSS_AVATAR,
   HOST_CDN,
-  IMG_DEFAULT,
   IOS,
   URL_DEFAULT_AVATAR
 } from '@constants'
@@ -83,7 +83,7 @@ export const Avatar = ob(
 
     // 若还是原始头像, 使用本地
     if ((userStore.isLimit && _src.includes(URL_DEFAULT_AVATAR)) || !_src) {
-      _src = IMG_DEFAULT
+      _src = AVATAR_DEFAULT
     }
 
     // 默认带圆角, 若大小的一半比设置的圆角还小, 为避免方形头像变成原型, 则覆盖成sm

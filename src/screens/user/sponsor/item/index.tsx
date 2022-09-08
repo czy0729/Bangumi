@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 19:03:15
+ * @Last Modified time: 2022-09-08 18:40:34
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { API_AVATAR } from '@constants'
 import { USERS_MAP } from '../ds'
 import { memoStyles } from './styles'
 
@@ -22,7 +21,20 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
     !isFilter &&
     !!data &&
     price >= 10 &&
-    (w * h) / (_.window.width * _.window.height) > 0.018
+    (w * h) / (_.window.width * _.window.height) > 0.016
+  const avatarSize = Math.min(64, parseInt(String(ratioHeight * 240)))
+
+  let backgroundStyle
+  if (price >= 200) {
+    backgroundStyle = styles.l4
+  } else if (price >= 50) {
+    backgroundStyle = styles.l3
+  } else if (price >= 20) {
+    backgroundStyle = styles.l2
+  } else if (price >= 10) {
+    backgroundStyle = styles.l1
+  }
+
   return (
     <View
       style={[
@@ -41,7 +53,8 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
               width: w,
               height: h,
               backgroundColor: _.colorPlain
-            }
+            },
+            backgroundStyle
           ]}
           direction='column'
           justify='center'
@@ -53,32 +66,34 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
               }}
               pointerEvents='none'
             >
-              <Avatar
-                src={API_AVATAR(USERS_MAP[data]?.i)}
-                size={parseInt(String(ratioHeight * 240))}
-                radius={parseInt(String(ratioHeight * 240 * 0.4))}
-                borderWidth={0}
-              />
+              <UserStatus
+                style={backgroundStyle}
+                userId={USERS_MAP[data]?.i || data}
+                mini={avatarSize < 32}
+              >
+                <Avatar
+                  src={
+                    USERS_MAP[data]?.a
+                      ? `https://lain.bgm.tv/pic/user/l/000/${USERS_MAP[data]?.a}.jpg`
+                      : ''
+                  }
+                  size={avatarSize}
+                  radius={avatarSize * 0.36}
+                  borderWidth={0}
+                />
+              </UserStatus>
             </View>
           )}
           <Flex style={styles.content} justify='center'>
-            {price >= 10 && (
-              <View
-                style={[
-                  styles.dot,
-                  price >= 10 && styles.dot1,
-                  price >= 20 && styles.dot2,
-                  price >= 50 && styles.dot3,
-                  price >= 100 && styles.dot4,
-                  price >= 200 && styles.dot5
-                ]}
-                pointerEvents='none'
-              />
-            )}
             <Text
-              size={Math.min(14, parseInt(String(10 * ratio)))}
-              numberOfLines={1}
+              size={
+                USERS_MAP[data]?.n?.length >= 8
+                  ? 10
+                  : Math.min(14, parseInt(String(11 * ratio)))
+              }
+              numberOfLines={2}
               bold
+              align='center'
               selectable={false}
             >
               {USERS_MAP[data]?.n}

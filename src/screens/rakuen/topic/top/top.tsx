@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 13:57:43
+ * @Last Modified time: 2022-09-08 18:32:43
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,8 @@ import {
   Text,
   Divider,
   Loading,
-  Heatmap
+  Heatmap,
+  UserStatus
 } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
@@ -116,14 +117,16 @@ export default memo(
           {isGroup && (
             <Flex style={styles.userWrap}>
               {!!avatar && (
-                <Avatar
-                  navigation={navigation}
-                  event={event}
-                  size={40}
-                  src={avatar}
-                  userId={userId}
-                  name={userName}
-                />
+                <UserStatus userId={userId}>
+                  <Avatar
+                    navigation={navigation}
+                    event={event}
+                    size={40}
+                    src={avatar}
+                    userId={userId}
+                    name={userName}
+                  />
+                </UserStatus>
               )}
               {!!userId && (
                 <Flex.Item style={_.ml.sm}>

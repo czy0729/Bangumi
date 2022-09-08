@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:27:28
+ * @Last Modified time: 2022-09-08 16:22:27
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex } from '@components'
+import { Flex, UserStatus } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import Avatar from './avatar'
@@ -38,7 +38,9 @@ export default memo(
       <View style={[_.container.item, styles.container, isReaded && styles.readed]}>
         <Flex align='start'>
           <View style={styles.avatar}>
-            <Avatar avatar={avatar} userName={userName} userId={userId} />
+            <UserStatus userId={userId}>
+              <Avatar avatar={avatar} userName={userName} userId={userId} />
+            </UserStatus>
           </View>
           <Flex.Item style={styles.wrap}>
             <Flex align='start'>

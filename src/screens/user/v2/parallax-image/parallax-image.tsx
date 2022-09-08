@@ -255,6 +255,7 @@ export default memo(
             <IconHeader
               name='md-timeline'
               color={_.__colorPlain__}
+              size={21}
               onPress={() => {
                 t('我的.跳转', {
                   to: 'UserTimeline'

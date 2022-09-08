@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 15:53:14
+ * @Last Modified time: 2022-09-08 17:15:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, RenderHtml } from '@components'
+import { Flex, Text, Touchable, RenderHtml, UserStatus } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { memo } from '@utils/decorators'
@@ -64,15 +64,17 @@ const Item = memo(
         style={[_.container.item, isNew && styles.itemNew, isJump && styles.itemJump]}
         align='start'
       >
-        <Avatar
-          style={styles.image}
-          navigation={navigation}
-          userId={userId}
-          name={userName}
-          size={AVATAR_SIZE}
-          src={avatar}
-          event={event}
-        />
+        <UserStatus userId={userId}>
+          <Avatar
+            style={styles.image}
+            navigation={navigation}
+            userId={userId}
+            name={userName}
+            size={AVATAR_SIZE}
+            src={avatar}
+            event={event}
+          />
+        </UserStatus>
         <Flex.Item style={[styles.content, contentStyle]}>
           <Flex align='start'>
             <Flex.Item>

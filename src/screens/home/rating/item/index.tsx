@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:44:16
+ * @Last Modified time: 2022-09-08 18:14:29
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { Flex, Text, UserStatus } from '@components'
 import { Avatar, Stars } from '@_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
@@ -23,12 +23,21 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
   return (
     <View style={styles.container}>
       <Flex>
-        <Avatar navigation={navigation} event={EVENT} userId={id} src={avatar} radius />
+        <UserStatus userId={id}>
+          <Avatar
+            navigation={navigation}
+            size={36}
+            event={EVENT}
+            userId={id}
+            src={avatar}
+            radius
+          />
+        </UserStatus>
         <Flex.Item style={_.ml.sm}>
           <Text size={12} bold>
             {name}
             <Text size={10} lineHeight={12} type='sub'>
-              {' '}
+              {'  '}
               {simpleTime(time).split(' ')[0]}
             </Text>
           </Text>
@@ -37,7 +46,7 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
       </Flex>
       {!!comment && (
         <Flex style={_.mt.xs}>
-          <Text style={styles.comment} size={_.device(12, 14)} lineHeight={15}>
+          <Text style={styles.comment} size={_.device(13, 14)} lineHeight={15}>
             {comment}
           </Text>
         </Flex>

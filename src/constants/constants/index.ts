@@ -182,6 +182,8 @@ export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 /** 默认图 */
 export const IMG_DEFAULT = require('@assets/images/default.png')
 
+export const AVATAR_DEFAULT = require('@assets/images/l.png')
+
 const h = w => parseInt(String(w * 1.4))
 
 /** 头像大小 */

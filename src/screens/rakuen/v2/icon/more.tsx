@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:02:30
+ * @Last Modified time: 2022-09-08 18:27:51
  */
 import React from 'react'
 import { Flex, Iconfont, Heatmap } from '@components'
@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants'
 import { Ctx } from '../types'
 
-const DATA = ['超展开设置', '收藏与缓存', '新讨论', '预读取帖子'] as const
+const DATA = ['超展开设置', '收藏、历史', '新讨论', '预读取帖子'] as const
 
 function IconMore({ style }, { $, navigation }: Ctx) {
   return (
@@ -27,7 +27,7 @@ function IconMore({ style }, { $, navigation }: Ctx) {
         })
 
         switch (key) {
-          case '收藏与缓存':
+          case '收藏、历史':
             navigation.push('RakuenHistory')
             break
 

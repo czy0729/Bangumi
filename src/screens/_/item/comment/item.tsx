@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:50:39
+ * @Last Modified time: 2022-09-08 16:54:19
  */
 import React from 'react'
-import { Flex, Text } from '@components'
+import { Flex, Text, UserStatus } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { correctAgo } from '@utils/app'
@@ -29,14 +29,16 @@ const Item = memo(
 
     return (
       <Flex style={[styles.item, style]} align='start'>
-        <Avatar
-          navigation={navigation}
-          style={styles.image}
-          userId={userId}
-          name={userName}
-          src={avatar}
-          event={event}
-        />
+        <UserStatus userId={userId}>
+          <Avatar
+            navigation={navigation}
+            style={styles.image}
+            userId={userId}
+            name={userName}
+            src={avatar}
+            event={event}
+          />
+        </UserStatus>
         <Flex.Item style={[styles.content, _.ml.sm]}>
           <Flex>
             <Flex.Item>

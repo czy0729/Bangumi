@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 05:58:34
+ * @Last Modified time: 2022-09-08 16:58:04
  */
 import React from 'react'
-import { Flex, Text } from '@components'
+import { Flex, Text, UserStatus } from '@components'
 import { _, timelineStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
@@ -40,15 +40,17 @@ export const ItemNotify = ob(
     }
     return (
       <Flex style={styles.container} align='start'>
-        <Avatar
-          key={String(avatar)}
-          style={styles.image}
-          navigation={navigation}
-          userId={userId}
-          name={userName}
-          src={avatar}
-          event={event}
-        />
+        <UserStatus userId={userId}>
+          <Avatar
+            key={String(avatar)}
+            style={styles.image}
+            navigation={navigation}
+            userId={userId}
+            name={userName}
+            src={avatar}
+            event={event}
+          />
+        </UserStatus>
         <Flex.Item style={styles.item}>
           <Name userId={userId} showFriend size={13} type='title' bold>
             {userName}

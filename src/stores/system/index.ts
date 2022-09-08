@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 19:16:36
+ * @Last Modified time: 2022-09-08 15:51:44
  */
 import { observable, computed } from 'mobx'
-import { getTimestamp } from '@utils'
+import { getTimestamp, info } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import store from '@utils/store'
-import { info } from '@utils/ui'
 import { put, read } from '@utils/db'
 import {
   ADVANCE_CDN,
@@ -26,15 +25,6 @@ import {
   MODEL_SETTING_USER_GRID_NUM,
   VERSION_GITHUB_RELEASE
 } from '@constants'
-import UserStore from '../user'
-import {
-  NAMESPACE,
-  INIT_SUBJECT_LAYOUT,
-  INIT_SETTING,
-  INIT_DEV_EVENT,
-  INIT_RELEASE,
-  INIT_IMAGE_VIEWER
-} from './init'
 import {
   AnyObject,
   SettingCDNOrigin,
@@ -47,6 +37,15 @@ import {
   StoreConstructor,
   UserId
 } from '@types'
+import UserStore from '../user'
+import {
+  NAMESPACE,
+  INIT_SUBJECT_LAYOUT,
+  INIT_SETTING,
+  INIT_DEV_EVENT,
+  INIT_RELEASE,
+  INIT_IMAGE_VIEWER
+} from './init'
 
 const state = {
   /** 云端配置数据 */

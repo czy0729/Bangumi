@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-16 23:33:06
+ * @Last Modified time: 2022-09-08 16:35:35
  */
 import React from 'react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
 import { date } from '@utils'
 import { appNavigate } from '@utils/app'
@@ -41,14 +41,16 @@ export const ItemArticle = ob(
     return (
       <Touchable style={style} onPress={() => appNavigate(url, navigation, {}, event)}>
         <Flex align='start'>
-          <Avatar
-            style={styles.image}
-            userId={userId}
-            name={nickname}
-            src={avatar}
-            event={event}
-            navigation={navigation}
-          />
+          <UserStatus userId={userId}>
+            <Avatar
+              style={styles.image}
+              userId={userId}
+              name={nickname}
+              src={avatar}
+              event={event}
+              navigation={navigation}
+            />
+          </UserStatus>
           <Flex.Item style={styles.item}>
             <Text bold>{HTMLDecode(title)}</Text>
             <Flex style={_.mt.xs}>

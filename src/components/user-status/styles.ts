@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-04 16:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 09:11:17
+ * @Last Modified time: 2022-09-08 17:20:16
  */
 import { _ } from '@stores'
 
@@ -11,22 +11,31 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 10,
     right: -3,
-    bottom: -3,
+    bottom: -4,
     width: 14,
     height: 14,
     backgroundColor: _.colorPlain,
     borderRadius: 14
   },
+  wrapMini: {
+    right: -2,
+    bottom: -3,
+    width: 10,
+    height: 10,
+    borderRadius: 10
+  },
   badge: {
     width: 8,
     height: 8,
-    backgroundColor: _.colorSuccess,
+    backgroundColor: 'rgb(9, 241, 117)',
     borderRadius: 8
+  },
+  badgeMini: {
+    width: 4,
+    height: 4,
+    borderRadius: 4
   },
   badgeWarning: {
     backgroundColor: _.colorWarning
-  },
-  badgeDisabled: {
-    backgroundColor: _.colorDisabled
   }
 }))

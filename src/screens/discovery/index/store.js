@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 17:04:18
+ * @Last Modified time: 2022-09-08 17:49:28
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,13 +12,11 @@ import {
   discoveryStore,
   usersStore
 } from '@stores'
-import { date, getTimestamp, appNavigate, appRandom } from '@utils'
+import { date, getTimestamp, appNavigate, appRandom, info } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
 import { matchBgmUrl } from '@utils/match'
-import { info } from '@utils/ui'
-import { DEV } from '@constants'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 
 const excludeState = {
   home: {
@@ -59,7 +57,7 @@ export default class ScreenDiscovery extends store {
       queue([
         () => this.fetchOnline(),
         () => {
-          if (!DEV && userStore.isWebLogin) return this.fetchChannel()
+          if (userStore.isWebLogin) return this.fetchChannel()
           return true
         },
         () => calendarStore.fetchOnAir(),

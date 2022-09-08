@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 09:07:20
+ * @Last Modified time: 2022-09-08 16:56:34
  */
 import React from 'react'
 import Progress from '@ant-design/react-native/lib/progress'
 import { Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
-import { getRecentTimestamp, getTimestamp } from '@utils'
+// import { getRecentTimestamp, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
@@ -41,12 +41,12 @@ export const ItemFriends = ob(
     const styles = memoStyles()
     const wrapWidth = _.window.contentWidth - 144
 
-    let last = 0
-    if (String(recent).includes('ago')) {
-      last = getTimestamp() - getRecentTimestamp(recent)
-    } else if (recent) {
-      last = getTimestamp(recent)
-    }
+    // let last = 0
+    // if (String(recent).includes('ago')) {
+    //   last = getTimestamp() - getRecentTimestamp(recent)
+    // } else if (recent) {
+    //   last = getTimestamp(recent)
+    // }
     return (
       <Touchable
         style={styles.container}
@@ -66,7 +66,7 @@ export const ItemFriends = ob(
         }}
       >
         <Flex>
-          <UserStatus last={last}>
+          <UserStatus userId={userId}>
             <Avatar
               navigation={navigation}
               style={styles.image}

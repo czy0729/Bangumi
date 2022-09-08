@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 03:59:17
+ * @Last Modified time: 2022-09-08 16:06:59
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -14,6 +14,7 @@ import { HTMLDecode, HTMLTrim, getTimestamp, loading, urlStringify, info } from 
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { fetchCollectionSingleV0, fetchCollectionV0 } from '@utils/fetch.v0'
+import { onlines, report } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
 import {
   API_ACCESS_TOKEN,
@@ -158,7 +159,10 @@ const state = {
   userSetting: INIT_USER_SETTING,
 
   /** 登录是否过期 */
-  outdate: false
+  outdate: false,
+
+  /** 在线用户最后上报时间集 */
+  onlines: {}
 }
 
 class UserStore extends store implements StoreConstructor<typeof state> {
@@ -181,7 +185,8 @@ class UserStore extends store implements StoreConstructor<typeof state> {
         'userInfo',
         'userProgress',
         'usersInfo',
-        'userSetting'
+        'userSetting',
+        'onlines'
       ],
       NAMESPACE
     )
@@ -330,13 +335,26 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
+  /** 在线用户最后上报时间集 */
+  onlines(userId: UserId) {
+    if (!userId) return 0
+
+    return computed<number>(() => {
+      const { onlines } = this.state
+      if (onlines[userId]) {
+        return Math.floor(Number(onlines[userId]) / 1000)
+      }
+      return 0
+    }).get()
+  }
+
   // -------------------- computed --------------------
-  /** 自己用户Id */
+  /** 自己用户 Id (数字) */
   @computed get myUserId() {
     return this.userInfo.id || this.accessToken.user_id
   }
 
-  /** 自己用户Id (改过用户名后) */
+  /** 自己用户 Id (改过后的) */
   @computed get myId() {
     return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
   }
@@ -737,6 +755,23 @@ class UserStore extends store implements StoreConstructor<typeof state> {
       [key]: data
     })
     return data
+  }
+
+  /** 在线用户最后上报时间集 */
+  fetchOnlines = async () => {
+    const result = await report('magma')
+    if (result?.code === 200) {
+      const data = await onlines()
+      if (typeof data === 'object') {
+        const key = 'onlines'
+        this.setState({
+          [key]: data
+        })
+        this.setStorage(key, undefined, NAMESPACE)
+        return data
+      }
+    }
+    return false
   }
 
   // -------------------- method --------------------
