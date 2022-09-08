@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 05:05:56
+ * @Last Modified time: 2022-09-08 19:47:13
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Image } from '@components'
-import { _, systemStore, userStore } from '@stores'
+import { _, systemStore, userStore, usersStore } from '@stores'
 import { getTimestamp, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST_API_V0 } from '@utils/fetch.v0/ds'
@@ -27,7 +27,7 @@ import { Props as AvatarProps } from './types'
 export { AvatarProps }
 
 /** 判断是否自己的头像, 一周才变化一次 */
-const ts = Math.floor(getTimestamp() / 604800)
+const TS = Math.floor(getTimestamp() / 604800)
 
 /** 中质量头像 */
 const USER_MEDIUM = '//lain.bgm.tv/pic/user/m/'
@@ -64,16 +64,18 @@ export const Avatar = ob(
     let fallback = false
 
     /**
-     * 判断是否自己的头像, 若是不走CDN, 保证最新
-     * 注意头像后面?r=xxx的参数不要去掉, 因头像地址每个人都唯一, 需要防止本地缓存
+     * 判断是否自己的头像, 若是不走 CDN, 保证最新
+     * 注意头像后面 ?r=xxx 的参数不要去掉, 因头像地址每个人都唯一, 需要防止本地缓存
      */
     const mSrc = getCoverMedium(src, true)
     let _src
     if (avatar?.medium) {
       const _1 = mSrc.split('?')[0].split('/m/')
       const _2 = getCoverMedium(avatar.medium, true).split('?')[0].split('/m/')
+
+      // 为自己
       if (_1[1] && _2[1] && _1[1] === _2[1]) {
-        _src = `${mSrc}?r=${ts}`
+        _src = usersStore.customAvatar || `${mSrc}?r=${TS}`
       }
     }
 

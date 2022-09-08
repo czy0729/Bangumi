@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 04:08:59
+ * @Last Modified time: 2022-09-08 19:44:48
  */
 import { observable, computed } from 'mobx'
-import { getTimestamp } from '@utils'
+import { getTimestamp, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import {
@@ -162,6 +162,18 @@ class UsersStore
     const map = {}
     list.forEach(item => (map[item.userId] = item))
     return map
+  }
+
+  /** 自定义的头像 */
+  @computed get customAvatar() {
+    try {
+      const sign = this.users()?.sign || ''
+      const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
+      const src = avatars ? String(avatars[1]).trim() : ''
+      return HTMLDecode(src)
+    } catch (error) {
+      return ''
+    }
   }
 
   // -------------------- mounted --------------------
