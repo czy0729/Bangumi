@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:06:39
+ * @Last Modified time: 2022-09-08 20:31:52
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -71,7 +71,7 @@ const Filter = memo(
               />
               {isFiltering && (
                 <Flex style={styles.loading} justify='center'>
-                  <Loading.Mini color={_.colorSub} size={16} />
+                  <Loading.Normal color={_.colorSub} size={16} />
                 </Flex>
               )}
             </View>

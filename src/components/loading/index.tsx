@@ -28,6 +28,10 @@ const Raw = observer(
     )
 )
 
+const Normal = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
+  <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
+))
+
 const Mini = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   <View style={styles.mini}>
     <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
@@ -44,6 +48,8 @@ const Loading: ILoading = observer(
 )
 
 Loading.Raw = Raw
+
+Loading.Normal = Normal
 
 Loading.Mini = Mini
 

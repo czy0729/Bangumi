@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 17:27:50
+ * @Last Modified time: 2022-09-08 20:30:15
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore, uiStore } from '@stores'
@@ -544,7 +544,7 @@ export default class ScreenUser extends store {
 
   /** 同步更新 filterInputText, 异步更新 filter */
   onFilterChange = (filter: string) => {
-    const _filter = filter.trim()
+    const _filter = String(filter).trim()
     this.setState({
       fliterInputText: _filter
     })
@@ -552,12 +552,14 @@ export default class ScreenUser extends store {
   }
 
   _onFilterChange = debounce((filter: string) => {
-    this.setState({
-      filter
-    })
+    try {
+      this.setState({
+        filter
+      })
 
-    const { subjectType, page } = this.state
-    if (filter.length) this.fetchUntilTheEnd(subjectType, TABS[page].key)
+      const { subjectType, page } = this.state
+      if (filter.length) this.fetchUntilTheEnd(subjectType, TABS[page].key)
+    } catch (error) {}
   }, 1200)
 
   onManagePress = args => {

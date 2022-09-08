@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 16:32:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 20:28:02
+ * @Last Modified time: 2022-09-08 20:39:55
  */
 import React from 'react'
 import { Flex, Katakana, Highlight } from '@components'
@@ -20,7 +20,7 @@ function Title({ name, nameCn, filter }) {
     return (
       <Flex wrap='wrap' align='end'>
         <Highlight size={15} bold numberOfLines={1} value={filterValue}>
-          {left}{' '}
+          {`${left} `}
         </Highlight>
         {hasName && right !== left && (
           <Highlight

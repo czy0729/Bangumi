@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 16:06:59
+ * @Last Modified time: 2022-09-08 20:14:50
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -759,7 +759,9 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
   /** 在线用户最后上报时间集 */
   fetchOnlines = async () => {
-    const result = await report('magma')
+    if (!this.myId) return false
+
+    const result = await report(this.myId)
     if (result?.code === 200) {
       const data = await onlines()
       if (typeof data === 'object') {

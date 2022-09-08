@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 15:51:44
+ * @Last Modified time: 2022-09-08 20:16:23
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, info } from '@utils'
@@ -208,6 +208,10 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
       }
 
       this.resetCDN()
+
+      if (this.setting.onlineStatus) {
+        UserStore.fetchOnlines()
+      }
     }, 8000)
 
     return true

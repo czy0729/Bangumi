@@ -5,12 +5,12 @@
  * @Last Modified time: 2022-08-16 19:05:34
  */
 import { _, userStore, calendarStore, systemStore, rakuenStore } from '@stores'
-import { getTimestamp, omit } from '../utils'
+import { arrGroup, getTimestamp, omit } from '../utils'
 import { t, ua } from '../fetch'
 import { setStorage, getStorage } from '../storage'
 import useMount from './useMount'
 
-const CACHE_KEY = 'utils|hooks|useGlobalMount'
+const CACHE_KEY = 'utils|hooks|useGlobalMountV2'
 
 export default function useGlobalMount() {
   useMount(() => {
@@ -33,14 +33,21 @@ export default function useGlobalMount() {
             'homeRenderTabs',
             'discoveryMenu'
           ])
-          Object.keys(settings).forEach(key => {
+          const keys = Object.keys(settings)
+          keys.forEach(key => {
             if (settings[key] === true) {
               settings[key] = 1
             } else if (settings[key] === false) {
               settings[key] = 0
             }
           })
-          t('其他.设置', settings)
+          arrGroup(keys, 10).forEach((arr, index) => {
+            setTimeout(() => {
+              const data = {}
+              arr.forEach((key: string) => (data[key] = settings[key]))
+              t('其他.设置', data)
+            }, 1000 * index)
+          })
 
           const rakuenSettings = omit(rakuenStore.setting, [
             'blockKeywords',

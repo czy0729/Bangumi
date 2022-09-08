@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-29 06:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 19:00:36
+ * @Last Modified time: 2022-09-08 20:13:56
  */
 import { _ } from '@stores'
 
@@ -73,12 +73,12 @@ export const memoStyles = _.memoStyles(() => ({
     height: 18,
     padding: 0,
     backgroundColor: 'rgba(255, 255, 255, 0.92)',
-    borderRadius: 9
+    borderRadius: 18
   },
   online: {
-    width: 14,
-    height: 14,
-    borderRadius: 7
+    width: _.ios(14, 13),
+    height: _.ios(14, 13),
+    borderRadius: _.ios(14, 13)
   },
   onlineSuccess: {
     backgroundColor: 'rgb(9, 241, 117)'

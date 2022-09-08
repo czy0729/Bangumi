@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 21:03:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 05:41:32
+ * @Last Modified time: 2022-09-08 20:13:03
  */
 import { _ } from '@stores'
 
@@ -21,15 +21,15 @@ export const styles = _.create({
     height: 18,
     padding: 0,
     backgroundColor: 'rgba(255, 255, 255, 0.92)',
-    borderRadius: 9
+    borderRadius: 18
   },
   edit: {
-    marginLeft: 1
+    marginLeft: _.ios(1, 0)
   },
   online: {
-    width: 14,
-    height: 14,
+    width: _.ios(14, 13),
+    height: _.ios(14, 13),
     backgroundColor: 'rgb(9, 241, 117)',
-    borderRadius: 7
+    borderRadius: _.ios(14, 13)
   }
 })
