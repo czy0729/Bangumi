@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-14 12:58:09
  */
-import { InteractionManager, PromiseTask, SimpleTask } from 'react-native'
+import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
 import { DEV } from '@/config'
-import { B, M } from '@constants/constants'
+import { B, M, IOS } from '@constants/constants'
 import { info } from './ui'
 
 const customParseFormat = require('dayjs/plugin/customParseFormat')
@@ -54,7 +54,7 @@ export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
  * @param {*} callback
  */
 export function throttle(callback: (arg?: any) => void, delay = 400) {
-  let timeoutID: number
+  let timeoutID: any
   let lastExec = 0
 
   function wrapper() {
@@ -210,10 +210,14 @@ export function open(url: any): boolean {
     return false
   }
 
-  WebBrowser.openBrowserAsync(url, {
-    enableBarCollapsing: true,
-    showInRecents: true
-  })
+  if (IOS) {
+    WebBrowser.openBrowserAsync(url, {
+      enableBarCollapsing: true,
+      showInRecents: true
+    })
+  } else {
+    Linking.openURL(url)
+  }
 
   if (DEV) console.info(url)
 

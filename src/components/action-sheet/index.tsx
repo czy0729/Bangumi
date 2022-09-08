@@ -6,8 +6,9 @@
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'
+import { useObserver } from 'mobx-react-lite'
 import { _ } from '@stores'
-import { useObserver, useBackHandler } from '@utils/hooks'
+import { useBackHandler } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Portal } from '../portal'
 import { ScrollView } from '../scroll-view'

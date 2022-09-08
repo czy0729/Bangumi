@@ -7,7 +7,7 @@
 import { useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
-import { devLog } from '@components'
+import { devLog } from '@components/dev'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores from '@stores'
 import useBoolean from './useBoolean'

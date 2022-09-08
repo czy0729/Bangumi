@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 16:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 18:36:50
+ * @Last Modified time: 2022-09-08 23:35:55
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -17,59 +17,61 @@ import game from '@assets/json/substrings-game.json'
 import { memoStyles } from './styles'
 
 const history = {}
-let animeCns: string[]
-let bookCns: string[]
-let gameCns: string[]
+let animeCns: string[] = []
+let bookCns: string[] = []
+let gameCns: string[] = []
 
 function Advance({ navigation, cat, value, onSubmit }) {
   const [result, setResult] = useState([])
   const substrings = useRef({})
 
   useEffect(() => {
-    const _value = t2s(value.toLocaleUpperCase()).trim()
-    if (!_value) {
-      setResult([])
-      return
-    }
-
-    if (value && cat === 'subject_1' && !bookCns) {
-      bookCns = Object.keys(book).sort((a, b) => asc(a.length, b.length))
-    } else if (value && cat === 'subject_4' && !gameCns) {
-      gameCns = Object.keys(game).sort((a, b) => asc(a.length, b.length))
-    } else if (value && !animeCns) {
-      animeCns = Object.keys({
-        ...alias,
-        ...anime
-      }).sort((a, b) => asc(a.length, b.length))
-    }
-
-    if (history[_value]) {
-      setResult(history[_value])
-      return
-    }
-
-    let cns = []
-    if (value && cat === 'subject_1') {
-      cns = bookCns
-      substrings.current = book
-    } else if (value && cat === 'subject_4') {
-      cns = gameCns
-      substrings.current = game
-    } else if (value) {
-      cns = animeCns
-      substrings.current = {
-        ...alias,
-        ...anime
+    try {
+      const _value = t2s(value.toLocaleUpperCase()).trim()
+      if (!_value) {
+        setResult([])
+        return
       }
-    }
 
-    const _result = []
-    cns.forEach(item => {
-      if (_result.length >= 8) return
-      if (item.toLocaleUpperCase().includes(_value)) _result.push(item)
-    })
-    setResult(_result)
-    history[_value] = _result
+      if (value && cat === 'subject_1' && !bookCns.length) {
+        bookCns = Object.keys(book).sort((a, b) => asc(a.length, b.length))
+      } else if (value && cat === 'subject_4' && !gameCns.length) {
+        gameCns = Object.keys(game).sort((a, b) => asc(a.length, b.length))
+      } else if (value && !animeCns.length) {
+        animeCns = Object.keys({
+          ...alias,
+          ...anime
+        }).sort((a, b) => asc(a.length, b.length))
+      }
+
+      if (history[_value]) {
+        setResult(history[_value])
+        return
+      }
+
+      let cns = []
+      if (value && cat === 'subject_1') {
+        cns = bookCns
+        substrings.current = book
+      } else if (value && cat === 'subject_4') {
+        cns = gameCns
+        substrings.current = game
+      } else if (value) {
+        cns = animeCns
+        substrings.current = {
+          ...alias,
+          ...anime
+        }
+      }
+
+      const _result = []
+      cns.forEach(item => {
+        if (_result.length >= 8) return
+        if (item.toLocaleUpperCase().includes(_value)) _result.push(item)
+      })
+      setResult(_result)
+      history[_value] = _result
+    } catch (error) {}
   }, [cat, value])
 
   return useObserver(() => {

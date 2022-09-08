@@ -15,7 +15,6 @@ import Stacks from '@src/navigations'
 import { DEV, NavigationContainer, DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
-
 import {
   useCachedResources,
   useKeepAwake,

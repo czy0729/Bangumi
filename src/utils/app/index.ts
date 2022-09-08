@@ -7,7 +7,6 @@
  * @Last Modified time: 2022-08-16 15:49:26
  */
 import { Alert, BackHandler } from 'react-native'
-import * as WebBrowser from 'expo-web-browser'
 import { HTMLDecode } from '@utils/html'
 import { DEV } from '@/config'
 import {
@@ -28,7 +27,7 @@ import cnData from '@assets/json/cn.json'
 import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { AnyObject, EventType, Navigation, Paths, SubjectId } from '@types'
-import { getTimestamp } from '../utils'
+import { getTimestamp, open } from '../utils'
 import { getStorage, setStorage } from '../storage'
 import { getSystemStoreAsync, s2tAsync } from '../async'
 import { rerender, globalLog, globalWarn } from '../dev'
@@ -492,7 +491,7 @@ export function appNavigate(
           ...data
         })
 
-        WebBrowser.openBrowserAsync(_url)
+        open(_url)
       }
       return false
     }
@@ -511,7 +510,7 @@ export function appNavigate(
     })
     return true
   } catch (error) {
-    globalWarn('utils/app', 'appNavigate')
+    console.error('utils/app', 'appNavigate')
     return false
   }
 }
@@ -780,10 +779,7 @@ export async function privacy() {
     {
       text: s2tAsync('隐私保护政策'),
       onPress: () => {
-        WebBrowser.openBrowserAsync(URL_PRIVACY, {
-          enableBarCollapsing: true,
-          showInRecents: true
-        })
+        open(URL_PRIVACY)
 
         setTimeout(() => {
           privacy()

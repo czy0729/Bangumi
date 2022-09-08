@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-01 01:28:10
  */
-import { devLogs } from '../dev'
 import { Props } from './types'
 
 /** 统一封装尝试滚动到顶 */
@@ -21,7 +20,7 @@ export function scrollToTopCallback({
         animated: true
       })
     } catch (error) {
-      devLogs('ScrollToTop', 'scrollTo', String(error))
+      console.error('ScrollToTop', 'scrollTo', error)
     }
     return
   }
@@ -34,7 +33,7 @@ export function scrollToTopCallback({
         viewOffset: 8000
       })
     } catch (error) {
-      devLogs('ScrollToTop', 'scrollToIndex', String(error))
+      console.error('ScrollToTop', 'scrollToIndex', String(error))
 
       try {
         scrollToLocation({
@@ -45,7 +44,7 @@ export function scrollToTopCallback({
           viewPosition: 0
         })
       } catch (ex) {
-        devLogs('ScrollToTop', 'scrollToLocation', String(ex))
+        console.error('ScrollToTop', 'scrollToLocation', String(ex))
       }
     }
   }
