@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 00:58:44
+ * @Last Modified time: 2022-09-11 01:54:03
  */
 import React from 'react'
 import { Flex, Text, Loading } from '@components'
@@ -33,8 +33,9 @@ function Subject({ style = undefined, id }, { $, navigation }: Ctx) {
     eps.push('未观看')
   }
   if (subject?.eps) eps.push(`总 ${subject?.eps} 话`)
-  if (subject?.total_episodes && subject?.total_episodes !== subject?.eps)
+  if (subject?.total_episodes && subject?.total_episodes !== subject?.eps) {
     eps.push(`共 ${subject?.total_episodes} 章节`)
+  }
 
   const platform = subject.platform && subject.platform !== 'TV' && subject.platform
   return (

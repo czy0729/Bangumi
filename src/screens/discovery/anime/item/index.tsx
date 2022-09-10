@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 01:11:17
+ * @Last Modified time: 2022-09-11 02:10:23
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
-import { _ } from '@stores'
-import { Tag, Cover, Stars, Rank } from '@_'
+import { collectionStore, uiStore, _ } from '@stores'
+import { Tag, Cover, Stars, Rank, Manage } from '@_'
+import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
-import { x18 } from '@utils/app'
 import { pick } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT, MODEL_COLLECTION_STATUS } from '@constants'
+import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
@@ -70,10 +71,24 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   </Text>
                 </Text>
               </Flex.Item>
-              <Flex style={_.mt.xxs}>
-                {!!collection && <Tag style={_.ml.sm} value={collection} />}
-                {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
-              </Flex>
+              {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
+              <Manage
+                collection={collectionStore.collectionStatus(id) || collection || ''}
+                onPress={() => {
+                  uiStore.showManageModal(
+                    {
+                      subjectId: id,
+                      title: cn,
+                      status:
+                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
+                    },
+                    '关联系列',
+                    () => {
+                      collectionStore.fetchCollectionStatusQueue([id])
+                    }
+                  )
+                }}
+              />
             </Flex>
             <Text style={_.mt.sm} size={11} lineHeight={14}>
               {tip}
