@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 17:49:28
+ * @Last Modified time: 2022-09-10 10:14:39
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,46 +12,23 @@ import {
   discoveryStore,
   usersStore
 } from '@stores'
-import { date, getTimestamp, appNavigate, appRandom, info } from '@utils'
+import { date, getTimestamp, appNavigate, appRandom, info, matchBgmUrl } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
-import { matchBgmUrl } from '@utils/match'
-import { MODEL_SUBJECT_TYPE } from '@constants'
-
-const excludeState = {
-  home: {
-    list: MODEL_SUBJECT_TYPE.data.map(item => ({
-      type: item.label
-    })),
-    pagination: {
-      page: 1,
-      pageTotal: 1
-    },
-    _loaded: getTimestamp()
-  },
-  visible: false,
-  dragging: false,
-  expand: false,
-  link: ''
-}
-const namespace = 'ScreenDiscovery'
+import { SUBJECT_TYPE } from '@constants'
+import { Navigation, SubjectType } from '@types'
+import { NAMESPACE, EXCLUDE_STATE, STATE, MenuMapType } from './ds'
 
 export default class ScreenDiscovery extends store {
-  state = observable({
-    showBlockTrain: true,
-    ...excludeState,
-    _loaded: true
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     const { showBlockTrain } = state
     this.setState({
       showBlockTrain,
-      ...excludeState
+      ...EXCLUDE_STATE
     })
-
-    // if (systemStore.setting.cdn) calendarStore.fetchHomeFromCDN()
 
     setTimeout(() => {
       queue([
@@ -70,11 +47,15 @@ export default class ScreenDiscovery extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchOnline = () => discoveryStore.fetchOnline()
+  /** 在线人数 */
+  fetchOnline = () => {
+    return discoveryStore.fetchOnline()
+  }
 
+  /** 频道聚合 */
   fetchChannel = () => {
-    queue(
-      MODEL_SUBJECT_TYPE.data.map(
+    return queue(
+      SUBJECT_TYPE.map(
         item => () =>
           discoveryStore.fetchChannel({
             type: item.label
@@ -85,52 +66,60 @@ export default class ScreenDiscovery extends store {
   }
 
   // -------------------- get --------------------
+  /** 自己用户信息 */
   @computed get userInfo() {
     return userStore.userInfo
   }
 
+  /** 发现页信息聚合 */
   @computed get home() {
-    // const { setting } = systemStore
-    // if (setting.cdn) return calendarStore.homeFromCDN
     return calendarStore.home
   }
 
+  /** 随机打乱 */
   @computed get ramdonHome() {
     return {
       ...this.home,
-      anime: appRandom(this.home.anime, 'subjectId'),
-      book: appRandom(this.home.book, 'subjectId'),
-      game: appRandom(this.home.game, 'subjectId'),
-      music: appRandom(this.home.music, 'subjectId'),
-      real: appRandom(this.home.real, 'subjectId')
+      anime: appRandom(this.home.anime, 'info'),
+      book: appRandom(this.home.book, 'info'),
+      game: appRandom(this.home.game, 'info'),
+      music: appRandom(this.home.music, 'info'),
+      real: appRandom(this.home.real, 'info')
     }
   }
 
+  /** 今日上映 - 部。共 - 人收看今日番组 */
   @computed get today() {
     const { today } = calendarStore.home
     return today
   }
 
+  /** 是否限制内容展示的用户 */
   @computed get isLimit() {
     return userStore.isLimit
   }
 
+  /** 在线人数 */
   @computed get online() {
     return discoveryStore.online || systemStore.ota.online
   }
 
+  /** 好友对象 */
   @computed get friendsMap() {
     return usersStore.friendsMap
   }
 
-  friendsChannel(type) {
+  /** 好友的频道聚合信息 */
+  friendsChannel(type: SubjectType) {
     return computed(() => discoveryStore.channel(type).friends).get()
   }
 
+  /** ekibun 的线上爬虫数据 */
   @computed get onAir() {
     return calendarStore.onAir
   }
 
+  /** 放送数据 */
   @computed get calendar() {
     const { list } = calendarStore.calendar
     const _list = list.map(item => ({
@@ -143,8 +132,8 @@ export default class ScreenDiscovery extends store {
             air,
 
             /**
-             * @fixed 20210217 bangumi的每日放送是以日本放送日作为分组, 所以时间应以日本时间为主
-             * 避免刚好+1小时时差导致周几错误
+             * @fixed 20210217 bangumi 的每日放送是以日本放送日作为分组, 所以时间应以日本时间为主
+             * 避免刚好 +1 小时时差导致周几错误
              */
             timeCN: timeCN || timeJP || '2359'
           }
@@ -166,6 +155,7 @@ export default class ScreenDiscovery extends store {
     return calendar.reverse()
   }
 
+  /** 今日放送数据 */
   @computed get todayBangumi() {
     try {
       const time = date('Hi', getTimestamp())
@@ -187,44 +177,49 @@ export default class ScreenDiscovery extends store {
     }
   }
 
+  /** 发现页自定义菜单 */
   @computed get discoveryMenu() {
     const { setting } = systemStore
-    return setting.discoveryMenu
+    return setting.discoveryMenu as MenuMapType[]
   }
 
+  /** 发现页今日放送 */
   @computed get discoveryTodayOnair() {
     const { setting } = systemStore
     return setting.discoveryTodayOnair
   }
 
+  /** 发现菜单一列个数 */
   @computed get discoveryMenuNum() {
     const { setting } = systemStore
     return setting.discoveryMenuNum
   }
 
   // -------------------- action --------------------
+  /** 展开菜单 */
   openMenu = () => {
     this.setState({
       expand: true
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 收起菜单 */
   closeMenu = () => {
     this.setState({
       expand: false
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 底部TabBar再次点击滚动到顶并刷新数据
-   */
-  scrollToIndex
-  connectRef = ref => {
+  scrollToIndex: any
+
+  /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
+  connectRef = (ref: { scrollToIndex: any }) => {
     this.scrollToIndex = ref?.scrollToIndex
   }
 
+  /** 刷新到顶 */
   onRefreshThenScrollTop = () => {
     try {
       if (typeof this.scrollToIndex === 'function') {
@@ -240,10 +235,11 @@ export default class ScreenDiscovery extends store {
         })
       }
     } catch (error) {
-      warn('Discovery', 'onRefreshThenScrollTop', error)
+      console.error('Discovery', 'onRefreshThenScrollTop', error)
     }
   }
 
+  /** 切换识别剪贴板的弹窗 */
   toggleLinkModal = () => {
     const { visible } = this.state
     this.setState({
@@ -251,44 +247,15 @@ export default class ScreenDiscovery extends store {
     })
   }
 
-  toggleDragging = () => {
-    const { dragging } = this.state
-    try {
-      if (!dragging) {
-        this.scrollToIndex({
-          animated: true,
-          index: 0,
-          viewOffset: 8000
-        })
-      }
-    } catch (error) {
-      warn('Discovery', 'toggleDragging', error)
-    }
-
-    this.setState({
-      dragging: !dragging
-    })
-  }
-
-  toggleBlockTrain = () => {
-    const { showBlockTrain } = this.state
-    this.setState({
-      showBlockTrain: !showBlockTrain
-    })
-    this.setStorage(undefined, undefined, namespace)
-  }
-
-  saveDiscoveryMenu = discoveryMenu => {
-    systemStore.setSetting('discoveryMenu', discoveryMenu)
-  }
-
-  onChangeText = link => {
+  /** 识别剪贴板的弹窗中的输入框 */
+  onChangeText = (link: string) => {
     this.setState({
       link
     })
   }
 
-  onLinkSubmit = navigation => {
+  /** 剪贴板提交 */
+  onLinkSubmit = (navigation: Navigation) => {
     let { link } = this.state
     if (!link.length) {
       info('请输入链接')
@@ -315,5 +282,39 @@ export default class ScreenDiscovery extends store {
     t('发现.剪贴板', {
       link
     })
+  }
+
+  /** 切换是否拖拽中 */
+  toggleDragging = () => {
+    const { dragging } = this.state
+    try {
+      if (!dragging) {
+        this.scrollToIndex({
+          animated: true,
+          index: 0,
+          viewOffset: 8000
+        })
+      }
+    } catch (error) {
+      console.error('Discovery', 'toggleDragging', error)
+    }
+
+    this.setState({
+      dragging: !dragging
+    })
+  }
+
+  /** 是否显示年鉴 2021 的动画 */
+  toggleBlockTrain = () => {
+    const { showBlockTrain } = this.state
+    this.setState({
+      showBlockTrain: !showBlockTrain
+    })
+    this.setStorage(NAMESPACE)
+  }
+
+  /** 更新菜单的自定义配置 */
+  saveDiscoveryMenu = discoveryMenu => {
+    systemStore.setSetting('discoveryMenu', discoveryMenu)
   }
 }

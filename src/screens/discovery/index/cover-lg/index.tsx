@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 02:46:55
+ * @Last Modified time: 2022-09-10 08:10:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,13 +10,14 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Text } from '@components'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
-import { matchCoverUrl, getCoverLarge } from '@utils'
+import { matchCoverUrl, getCoverLarge, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { linearColor } from './ds'
+import { linearColor } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function CoverLg({ title, src, cn, data }, { navigation }) {
+function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
   global.rerender('Discovery.CoverLg')
 
   const styles = memoStyles()
@@ -58,7 +59,12 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
           })
         }}
       />
-      <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
+      <LinearGradient
+        style={styles.linear}
+        // @ts-ignore
+        colors={linearColor}
+        pointerEvents='none'
+      />
       <View style={styles.desc} pointerEvents='none'>
         <Text type={_.select('plain', 'desc')} bold>
           {data.info}
@@ -78,39 +84,3 @@ function CoverLg({ title, src, cn, data }, { navigation }) {
 }
 
 export default obc(CoverLg)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    marginTop: _.md,
-    marginHorizontal: _.windSm,
-    borderRadius: _.radiusMd,
-    backgroundColor: _.colorBg,
-    overflow: 'hidden',
-    ..._.shadow
-  },
-  cover: {
-    width: _.windowSm.contentWidth,
-    height: _.windowSm.contentWidth * 1.38
-  },
-  linear: {
-    position: 'absolute',
-    zIndex: 1,
-    height: 96,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    marginBottom: -0.5
-  },
-  desc: {
-    position: 'absolute',
-    zIndex: 2,
-    right: _._wind - 2,
-    bottom: _.md - 2,
-    left: _._wind - 2,
-    opacity: 0.92
-  },
-  touch: {
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
-  }
-}))

@@ -2,24 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 17:45:19
+ * @Last Modified time: 2022-09-10 11:03:41
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Page, StatusBarEvents, ListView, Track, Heatmap } from '@components'
+import { useFocusEffect } from '@react-navigation/native'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
+import { Page, StatusBarEvents, Track, Heatmap } from '@components'
 import { _ } from '@stores'
+import { androidDayNightToggle } from '@utils'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
-import { WSA, MODEL_SUBJECT_TYPE } from '@constants'
-import Header from './header'
 import List from './list'
 import LinkModal from './link-modal'
 import Store from './store'
+import { Ctx } from './types'
 
 const title = '发现'
 
-const Discovery = ({ isFocused }, { $, navigation }) => {
+const Discovery = ({ isFocused }, { $, navigation }: Ctx) => {
   useRunAfter(() => {
     $.init()
 
@@ -28,43 +28,21 @@ const Discovery = ({ isFocused }, { $, navigation }) => {
     })
   })
 
-  return useObserver(() => {
-    const { home, dragging } = $.state
-    return (
-      <Page>
-        <StatusBarEvents backgroundColor='transparent' />
-        <ListView
-          ref={$.connectRef}
-          style={_.container.flex}
-          contentContainerStyle={_.container.bottom}
-          keyExtractor={keyExtractor}
-          data={home}
-          ListHeaderComponent={<Header />}
-          renderItem={renderItem}
-          scrollToTop={isFocused || WSA}
-          scrollEnabled={!dragging}
-        />
-        <LinkModal />
-        <Track title={title} hm={['discovery', 'Discovery']} />
-        <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
-      </Page>
-    )
+  useFocusEffect(() => {
+    androidDayNightToggle(_.isDark)
   })
+
+  return useObserver(() => (
+    <Page>
+      <StatusBarEvents backgroundColor='transparent' />
+      <List isFocused={isFocused} />
+      <LinkModal />
+      <Track title={title} hm={['discovery', 'Discovery']} />
+      <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
+    </Page>
+  ))
 }
 
 export default ic(Store, Discovery, {
   listenIsFocused: true
 })
-
-function keyExtractor(item) {
-  return item.type
-}
-
-function renderItem({ item }) {
-  return (
-    <View>
-      <List {...item} />
-      <Heatmap id='发现.跳转' from={MODEL_SUBJECT_TYPE.getTitle(item.type)} />
-    </View>
-  )
-}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 05:22:40
+ * @Last Modified time: 2022-09-10 07:32:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,9 +11,10 @@ import { Flex, Touchable, Text, Input } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { memoStyles } from './styles'
 
 export default obc(
-  class extends React.Component {
+  class LinkModal extends React.Component {
     componentDidMount() {
       const { $ } = this.context
       autorun(() => {
@@ -29,10 +30,10 @@ export default obc(
       })
     }
 
-    iptRef
+    iptRef: any
 
     render() {
-      rerender('Discovery.LinkModal')
+      global.rerender('Discovery.LinkModal')
 
       const { $, navigation } = this.context
       const { visible, link } = $.state
@@ -61,7 +62,7 @@ export default obc(
                   style={this.styles.ipt}
                   defaultValue={link}
                   placeholder='输入或粘贴 bgm.tv 的链接'
-                  clear
+                  showClear
                   onChangeText={$.onChangeText}
                   onSubmitEditing={() => $.onLinkSubmit(navigation)}
                 />
@@ -80,28 +81,3 @@ export default obc(
     }
   }
 )
-
-const memoStyles = _.memoStyles(() => ({
-  modal: {
-    width: _.windowSm.width - 2 * _.windSm,
-    maxWidth: 400,
-    marginBottom: _.windowSm.height * 0.4,
-    backgroundColor: _.select(_.colorBg, _.colorBg),
-    borderRadius: _.radiusMd
-  },
-  container: {
-    paddingVertical: _.md,
-    paddingHorizontal: _.sm
-  },
-  ipt: {
-    height: 44,
-    paddingHorizontal: 14,
-    paddingVertical: 0,
-    color: _.colorDesc,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.select(_.colorIcon, _.colorBorder),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))

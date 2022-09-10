@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 07:10:37
+ * @Last Modified time: 2022-09-09 22:33:16
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -11,12 +11,14 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
-import Award2021 from './award-2021'
+import Award2021 from '../award-2021'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
+const YEARS = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010] as const
 
-function Award(props, { navigation }) {
-  rerender('Discovery.Award')
+function Award(props, { navigation }: Ctx) {
+  global.rerender('Discovery.Award')
 
   const styles = memoStyles()
   const { coverRadius } = systemStore.setting
@@ -104,7 +106,7 @@ function Award(props, { navigation }) {
           placeholder={false}
         />
       </Touchable>
-      {years.map(item => (
+      {YEARS.map(item => (
         <Touchable
           key={item}
           style={[
@@ -149,51 +151,3 @@ function Award(props, { navigation }) {
 }
 
 export default obc(Award)
-
-const memoStyles = _.memoStyles(() => {
-  const width = _.device(128, 164)
-  const widthLg = width * 2 + 16
-  return {
-    container: {
-      paddingVertical: _.space,
-      paddingHorizontal: _.windSm
-    },
-    item2021: {
-      width: widthLg,
-      height: width,
-      marginRight: _.md,
-      backgroundColor: '#ebf3ec',
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
-    },
-    item2020: {
-      width: widthLg,
-      height: width,
-      marginRight: _.md,
-      backgroundColor: 'rgb(236, 243, 236)',
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
-    },
-    item2019: {
-      width: widthLg,
-      height: width,
-      paddingLeft: 20,
-      marginRight: _.md,
-      backgroundColor: 'rgb(54, 63, 69)',
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
-    },
-    item2018: {
-      width: widthLg,
-      height: width,
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
-    },
-    item: {
-      width,
-      height: width,
-      backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-      borderRadius: _.radiusMd
-    }
-  }
-})

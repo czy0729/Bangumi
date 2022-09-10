@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 05:24:33
+ * @Last Modified time: 2022-09-09 13:41:17
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
-import { Login } from '@_'
+import { Loading } from '@components'
+import { Login, PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import i18n from '@constants/i18n'
@@ -29,12 +29,13 @@ function List({ index }, { $ }: Ctx) {
 
   const { page, isFocused } = $.state
   return (
-    <ListView
-      ref={ref => $.connectRef(ref, index)}
-      contentContainerStyle={styles.contentContainerStyle}
+    <PaginationList2
+      key={type}
       keyExtractor={keyExtractor}
-      data={rakuen}
-      lazy={14}
+      connectRef={ref => $.connectRef(ref, index)}
+      contentContainerStyle={styles.contentContainerStyle}
+      data={rakuen.list}
+      limit={24}
       progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
       renderItem={renderItem}
       scrollToTop={isFocused && page === index}

@@ -2,19 +2,44 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 09:58:32
+ * @Last Modified time: 2022-09-09 22:09:38
  */
-import { IOS } from '@constants'
+import { _ } from '@stores'
+import { getTimestamp } from '@utils'
+import { IOS, SUBJECT_TYPE } from '@constants'
+import { MenuItemType } from './types'
 
-export type MenuItemType = {
-  key: string
-  name: string
-  text?: string
-  icon?: string
-  size?: number
+export const NAMESPACE = 'ScreenDiscovery'
+
+export const EXCLUDE_STATE = {
+  home: {
+    list: SUBJECT_TYPE.map(item => ({
+      type: item.label
+    })),
+    pagination: {
+      page: 1,
+      pageTotal: 1
+    },
+    _loaded: getTimestamp()
+  },
+  visible: false,
+  dragging: false,
+  expand: false,
+  link: ''
 }
 
-const menuMap = {
+export const STATE = {
+  showBlockTrain: true,
+  ...EXCLUDE_STATE,
+  _loaded: true
+}
+
+export const INITIAL_RENDER_NUMS_XS = _.device(
+  Math.floor(_.window.contentWidth / 80) + 1,
+  0
+)
+
+const MENU_MAP = {
   Rank: {
     key: 'Rank',
     name: '排行榜',
@@ -144,33 +169,30 @@ const menuMap = {
     name: '剪贴板',
     icon: 'md-link'
   }
-}
-export type MenuMapType = keyof typeof menuMap
+} as const
 
-/**
- * 根据设置自定义菜单构造菜单数据
- * @param {*} discoveryMenu
- * @returns
- */
+export type MenuMapType = keyof typeof MENU_MAP
+
+/** 根据设置自定义菜单构造菜单数据 */
 export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
   if (!discoveryMenu.length) return []
 
-  const _menuMap = { ...menuMap }
+  const menuMap = { ...MENU_MAP }
 
-  // 若discoveryMenu的key不存在在defaultMenu里, 需要过滤
+  // 若 discoveryMenu 的 key 不存在在 defaultMenu 里, 需要过滤
   let menus = []
   discoveryMenu.forEach(key => {
-    if (_menuMap[key]) {
-      menus.push(_menuMap[key])
-      delete _menuMap[key]
+    if (menuMap[key]) {
+      menus.push(menuMap[key])
+      delete menuMap[key]
     }
   })
 
-  // 若有新菜单, 在key=Open前插入
-  const newMenuKeys = Object.keys(_menuMap)
+  // 若有新菜单, 在 key=Open 前插入
+  const newMenuKeys = Object.keys(menuMap)
   if (newMenuKeys.length) {
     const openIndex = menus.findIndex(item => item.key === 'Open')
-    const newMenus = newMenuKeys.map(item => _menuMap[item])
+    const newMenus = newMenuKeys.map(item => menuMap[item])
     menus = [
       ...menus.slice(0, openIndex),
       ...newMenus,
@@ -187,4 +209,4 @@ export const linearColor = [
   'rgba(0, 0, 0, 0)',
   'rgba(0, 0, 0, 0.4)',
   'rgba(0, 0, 0, 0.82)'
-]
+] as const

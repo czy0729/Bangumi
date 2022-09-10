@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2020-11-19 10:51:04
+ * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 17:50:32
+ * @Last Modified time: 2022-09-10 07:08:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,26 +10,16 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Flex, Text, UserStatus } from '@components'
 import { Cover, Avatar } from '@_'
 import { _, systemStore } from '@stores'
-import { getCoverMedium } from '@utils'
-import { memo, obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
+import { getCoverMedium, HTMLDecode } from '@utils'
+import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { linearColor } from './ds'
+import { linearColor } from '../ds'
+import { DEFAULT_PROPS } from './ds'
+import { AVATAR_SIZE } from './styles'
 
-const avatarSize = 24
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  imageWidth: 0,
-  avatarRound: false,
-  title: '',
-  avatar: '',
-  data: {}
-}
-
-const CoverXs = memo(
+export default memo(
   ({ navigation, styles, imageWidth, avatarRound, title, avatar, data }) => {
-    rerender('Discovery.CoverXs.Main')
+    global.rerender('Discovery.CoverXs.Main')
 
     const { coverRadius } = systemStore.setting
     const isMusic = title === '音乐'
@@ -68,6 +58,7 @@ const CoverXs = memo(
           />
           <LinearGradient
             style={styles.linear}
+            // @ts-ignores
             colors={linearColor}
             pointerEvents='none'
           />
@@ -77,6 +68,7 @@ const CoverXs = memo(
             type={_.select('plain', 'title')}
             numberOfLines={2}
             bold
+            // @ts-ignores
             pointerEvents='none'
           >
             {HTMLDecode(data.name)}
@@ -91,7 +83,7 @@ const CoverXs = memo(
               <Avatar
                 navigation={navigation}
                 style={styles.avatar}
-                size={avatarSize}
+                size={AVATAR_SIZE}
                 src={avatar}
                 userId={data.userId}
                 name={data.userName}
@@ -103,67 +95,5 @@ const CoverXs = memo(
       </View>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default obc(({ title, avatar, data }, { navigation }) => {
-  rerender('Discovery.CoverXs')
-
-  const { avatarRound } = systemStore.setting
-  return (
-    <CoverXs
-      navigation={navigation}
-      styles={memoStyles()}
-      imageWidth={_.windowSm.contentWidth * _.device(0.34, 0.4) * 0.5625}
-      avatarRound={avatarRound}
-      title={title}
-      avatar={avatar}
-      data={data}
-    />
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    marginRight: _._wind + 2,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  linear: {
-    position: 'absolute',
-    zIndex: 1,
-    height: 64,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    marginBottom: -0.5,
-    borderBottomRightRadius: _.radiusSm,
-    borderBottomLeftRadius: _.radiusSm
-  },
-  desc: {
-    position: 'absolute',
-    zIndex: 2,
-    right: 2,
-    bottom: 3,
-    left: avatarSize + 1,
-    opacity: 0.92
-  },
-  fixed: {
-    position: 'absolute',
-    zIndex: 2,
-    bottom: 0,
-    left: 0,
-    width: 28,
-    height: 28,
-    marginLeft: -6,
-    marginBottom: -2,
-    backgroundColor: _.select(_.colorPlain, _.colorBg),
-    borderRadius: _.radiusSm + 2
-  },
-  avatar: {
-    backgroundColor: _.select(_.colorPlain, _.colorBg)
-  },
-  avatarRound: {
-    borderRadius: 28
-  }
-}))

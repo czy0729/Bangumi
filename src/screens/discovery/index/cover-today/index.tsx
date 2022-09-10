@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 01:13:11
+ * @Last Modified time: 2022-09-10 07:11:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,25 +10,15 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Text } from '@components'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
-import { getCoverMedium } from '@utils'
+import { getCoverMedium, HTMLDecode, cnjp } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
-import { cnjp } from '@utils/app'
-import { linearColor } from './ds'
+import { linearColor } from '../ds'
+import { Ctx } from '../types'
+import { WEEKDAY_CN } from './ds'
+import { memoStyles } from './styles'
 
-const weekdayCN = {
-  0: '日',
-  1: '一',
-  2: '二',
-  3: '三',
-  4: '四',
-  5: '五',
-  6: '六',
-  7: '日'
-}
-
-function CoverToday({ data }, { navigation }) {
-  rerender('Discovery.CoverToday')
+function CoverToday({ data }, { navigation }: Ctx) {
+  global.rerender('Discovery.CoverToday')
 
   const styles = memoStyles()
   return (
@@ -58,6 +48,7 @@ function CoverToday({ data }, { navigation }) {
         />
         <LinearGradient
           style={styles.linear}
+          // @ts-ignore
           colors={linearColor}
           pointerEvents='none'
         />
@@ -67,10 +58,11 @@ function CoverToday({ data }, { navigation }) {
             type={_.select('plain', 'title')}
             numberOfLines={1}
             bold
+            // @ts-ignore
             pointerEvents='none'
           >
             {data.timeCN.slice(0, 2)}:{data.timeCN.slice(2)} · 周
-            {weekdayCN[data.weekday]}
+            {WEEKDAY_CN[data.weekday]}
           </Text>
           <Text
             style={_.mt.xs}
@@ -78,6 +70,7 @@ function CoverToday({ data }, { navigation }) {
             type={_.select('plain', 'title')}
             numberOfLines={2}
             bold
+            // @ts-ignore
             pointerEvents='none'
           >
             {HTMLDecode(cnjp(data.name_cn, data.name))}
@@ -89,37 +82,3 @@ function CoverToday({ data }, { navigation }) {
 }
 
 export default obc(CoverToday)
-
-const memoStyles = _.memoStyles(() => {
-  const width = _.windowSm.contentWidth * _.device(0.28, 0.298)
-  const margin = _.device(_._wind, _.md)
-  return {
-    item: {
-      marginRight: margin,
-      backgroundColor: _.colorBg,
-      borderRadius: _.radiusSm,
-      overflow: 'hidden'
-    },
-    cover: {
-      width,
-      height: width * 1.38
-    },
-    linear: {
-      position: 'absolute',
-      zIndex: 1,
-      top: '50%',
-      right: 0,
-      bottom: 0,
-      left: 0,
-      marginBottom: -0.5
-    },
-    info: {
-      position: 'absolute',
-      zIndex: 2,
-      right: _.sm + 4,
-      bottom: _.sm + 2,
-      left: _.sm + 4,
-      opacity: 0.92
-    }
-  }
-})

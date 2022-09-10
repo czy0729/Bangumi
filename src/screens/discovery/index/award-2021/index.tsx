@@ -2,22 +2,24 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 07:11:35
+ * @Last Modified time: 2022-09-09 22:31:43
  */
 import React, { useState, useEffect } from 'react'
 import { InteractionManager, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { useIsFocused } from '@react-navigation/native'
 import { Image, Touchable, Text } from '@components'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { c } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 const jquery = 'https://unpkg.com/jquery@3.6.0/dist/jquery.slim.min.js'
 
-function Award2021(props, { $, navigation }) {
+function Award2021(props, { $, navigation }: Ctx) {
   const isFocused = useIsFocused()
   const [show, setShow] = useState(isFocused)
   useEffect(() => {
@@ -96,47 +98,3 @@ function Award2021(props, { $, navigation }) {
 }
 
 export default c(Award2021)
-
-const memoStyles = _.memoStyles(() => {
-  const height = _.device(128, 164)
-  const width = height * 2 + 16
-  return {
-    item2021: {
-      width: _.device(128, 164) * 2 + 16,
-      height: _.device(128, 164)
-    },
-    container: {
-      height,
-      marginRight: _.md,
-      backgroundColor: '#ebf3ec',
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
-    },
-    body: {
-      width,
-      height,
-      backgroundColor: '#c4cfa1',
-      opacity: 0.99
-    },
-    touch: {
-      position: 'absolute',
-      zIndex: 2,
-      right: 0,
-      bottom: 0,
-      borderRadius: _.radiusSm,
-      overflow: 'hidden'
-    },
-    switch: {
-      paddingVertical: 1,
-      margin: _.sm,
-      backgroundColor: '#3e4730',
-      borderRadius: _.radiusSm,
-      overflow: 'hidden',
-      opacity: 0.8
-    },
-    switchText: {
-      width: 32,
-      color: '#c4cfa1'
-    }
-  }
-})

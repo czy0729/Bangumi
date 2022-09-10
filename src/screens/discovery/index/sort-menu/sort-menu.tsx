@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2021-10-18 11:59:49
+ * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 10:15:15
+ * @Last Modified time: 2022-09-10 08:05:43
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -11,26 +11,16 @@ import { Touchable, Flex, Text, SwitchPro, SegmentedControl } from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
-import { memo, obc } from '@utils/decorators'
+import { confirm } from '@utils'
+import { memo } from '@utils/decorators'
 import { rerender } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { confirm } from '@utils/ui'
-import { IOS, ORIENTATION_PORTRAIT } from '@constants'
-import Btn from './btn'
-import { getMenus } from './ds'
+import { ORIENTATION_PORTRAIT } from '@constants'
+import Btn from '../btn'
+import { getMenus } from '../ds'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  styles: {},
-  orientation: _.orientation,
-  dragging: false,
-  discoveryMenu: [],
-  discoveryTodayOnair: true,
-  discoveryMenuNum: 4,
-  onToggle: Function.prototype,
-  onSubmit: Function.prototype
-}
-
-const SortMenu = memo(
+export default memo(
   ({
     styles,
     orientation,
@@ -48,7 +38,7 @@ const SortMenu = memo(
 
     const openIndex = menus.findIndex(item => item.key === 'Open')
     const renderItem = useCallback(
-      (item, index) => (
+      (item, index?: number) => (
         <View
           key={item.key}
           style={
@@ -96,12 +86,6 @@ const SortMenu = memo(
               <Flex.Item>
                 <Touchable style={styles.touch} onPress={onCancel}>
                   <Flex style={styles.btn} justify='center'>
-                    {/* <Iconfont
-                      style={styles.btnIcon}
-                      name='md-close'
-                      size={16}
-                      color={_.__colorPlain__}
-                    /> */}
                     <Text type='sub' bold size={11}>
                       取消
                     </Text>
@@ -111,13 +95,6 @@ const SortMenu = memo(
               <Flex.Item style={_.ml.md}>
                 <Touchable style={styles.touch} onPress={onSave}>
                   <Flex style={styles.btn} justify='center'>
-                    {/* <Iconfont
-                      style={styles.btnIcon}
-                      name='md-radio-button-off'
-                      size={14}
-                      lineHeight={16}
-                      color={_.__colorPlain__}
-                    /> */}
                     <Text type='__plain__' bold size={11}>
                       保存
                     </Text>
@@ -129,6 +106,7 @@ const SortMenu = memo(
                 name='md-refresh'
                 onPress={() => {
                   confirm('是否恢复默认菜单布局', () => {
+                    // @ts-ignore
                     setMenu(INIT_DISCOVERY_MENU)
                   })
                 }}
@@ -141,7 +119,7 @@ const SortMenu = memo(
               <SegmentedControl
                 style={styles.segmentedControl}
                 size={12}
-                values={[4, 5]}
+                values={['4', '5']}
                 selectedIndex={discoveryMenuNum === 4 ? 0 : 1}
                 onValueChange={label => {
                   t('设置.切换', {
@@ -179,7 +157,7 @@ const SortMenu = memo(
     )
 
     const isPortrait = orientation === ORIENTATION_PORTRAIT
-    let data
+    let data: any[]
     if (dragging) {
       data = [
         ...menus.slice(0, openIndex),
@@ -219,79 +197,5 @@ const SortMenu = memo(
       </View>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default obc((props, { $ }) => {
-  rerender('Discovery.SortMenu')
-
-  const styles = memoStyles()
-  return (
-    <View style={styles.container}>
-      <SortMenu
-        styles={styles}
-        orientation={_.orientation}
-        dragging={$.state.dragging}
-        discoveryMenu={$.discoveryMenu}
-        discoveryTodayOnair={$.discoveryTodayOnair}
-        discoveryMenuNum={$.discoveryMenuNum}
-        onToggle={$.toggleDragging}
-        onSubmit={$.saveDiscoveryMenu}
-      />
-    </View>
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingHorizontal: _.windSm,
-    minHeight: 100
-  },
-  transparent: {
-    opacity: _.select(0.6, 0.4)
-  },
-  text: {
-    marginTop: IOS ? _.sm : _.md,
-    marginLeft: _.md,
-    marginBottom: _.sm
-  },
-  btns: {
-    paddingHorizontal: _.sm,
-    marginTop: _.sm,
-    marginBottom: _.md
-  },
-  touch: {
-    borderRadius: _.r(36),
-    overflow: 'hidden'
-  },
-  btn: {
-    height: _.r(36),
-    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: _.r(36)
-  },
-  btnIcon: {
-    position: 'absolute',
-    zIndex: 1,
-    left: 12,
-    top: 10
-  },
-  setting: {
-    paddingHorizontal: _.sm,
-    marginVertical: _.sm
-  },
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: _.device(0.8, 1.12)
-      }
-    ]
-  },
-  segmentedControl: {
-    height: _.r(28),
-    width: _.r(128)
-  },
-  dragItem: {
-    height: (_.windowSm.width - 2 * _.windSm) / 4
-  }
-}))

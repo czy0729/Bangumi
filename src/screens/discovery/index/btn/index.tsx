@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-28 17:21:26
+ * @Last Modified time: 2022-09-10 07:24:53
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
 import { getLastPath } from '@screens/_/base/filter-switch'
-import { open } from '@utils'
+import { open, info, matchBgmUrl, appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { matchBgmUrl } from '@utils/match'
-import { appNavigate } from '@utils/app'
 import i18n from '@constants/i18n'
-import BtnMain from './btn-main'
+import BtnMain from '../btn-main'
+import { Ctx } from '../types'
 
-function Btn({ item }, { $, navigation }) {
-  rerender('Discovery.Btn')
+function Btn({ item }, { $, navigation }: Ctx) {
+  global.rerender('Discovery.Btn')
 
   const { dragging } = $.state
   const { username, id } = $.userInfo

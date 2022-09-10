@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-05 11:17:38
+ * @Last Modified time: 2022-09-10 07:33:04
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
@@ -10,9 +10,11 @@ import { SectionTitle as CompSectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function SectionTitle({ title, type }, { navigation }) {
-  rerender('Discovery.SectionTitle')
+function SectionTitle({ title, type }, { navigation }: Ctx) {
+  global.rerender('Discovery.SectionTitle')
 
   const styles = memoStyles()
   return (
@@ -45,16 +47,3 @@ function SectionTitle({ title, type }, { navigation }) {
 }
 
 export default obc(SectionTitle)
-
-const memoStyles = _.memoStyles(() => ({
-  section: {
-    marginTop: 24,
-    marginHorizontal: _.windSm
-  },
-  touch: {
-    paddingVertical: _.xs,
-    paddingLeft: _.md,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-}))

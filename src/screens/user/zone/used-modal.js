@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:32:35
+ * @Last Modified time: 2022-09-09 12:00:25
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -71,8 +71,9 @@ class UsedModal extends React.Component {
 
   checkUserAvatar = async () => {
     const { $ } = this.context
-    const { avatar = {} } = $.usersInfo
-    let _src = avatar.medium.split('?')[0]
+    const { avatar } = $.usersInfo
+    const { medium } = avatar || {}
+    let _src = String(medium || '').split('?')[0]
     if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
       _src = `https:${_src}`
     }

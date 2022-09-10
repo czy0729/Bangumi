@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 15:49:26
+ * @Last Modified time: 2022-09-10 08:28:46
  */
 import { Alert, BackHandler } from 'react-native'
 import { HTMLDecode } from '@utils/html'
@@ -95,8 +95,13 @@ export function appRandom(arr: any[] = [], key: string = '') {
   const data = []
   arr.forEach(item => {
     if (item[key]) {
-      const _b = Number(String(item[key]).slice(0, 1))
-      if (RANDOM_FACTOR >= _b) {
+      const str = String(String(item[key]).match(/\d+/g)?.[0] || 0)
+      let factor = 5
+      try {
+        factor = Number(str.slice(str.length - 1, str.length))
+      } catch (error) {}
+
+      if (RANDOM_FACTOR >= factor) {
         data.unshift(item)
       } else {
         data.push(item)

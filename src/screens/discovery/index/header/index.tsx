@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-15 20:14:44
+ * @Last Modified time: 2022-09-10 07:20:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
 import { StatusBarPlaceholder } from '@_'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Award from './award'
-import Today from './today'
-import SortMenu from './sort-menu'
+import Award from '../award'
+import Today from '../today'
+import SortMenu from '../sort-menu'
+import { memoStyles } from './styles'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
-  rerender('Discovery.Header')
+function Header(props, { $ }: Ctx) {
+  global.rerender('Discovery.Header')
 
   const styles = memoStyles()
   const { dragging } = $.state
@@ -52,14 +53,3 @@ function Header(props, { $ }) {
 }
 
 export default obc(Header)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingBottom: _.sm
-  },
-  wrap: {
-    paddingHorizontal: _.windSm + 2,
-    marginTop: _.md + 8,
-    marginBottom: _.xs
-  }
-}))
