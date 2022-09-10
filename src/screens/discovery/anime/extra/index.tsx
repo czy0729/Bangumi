@@ -2,17 +2,26 @@
  * @Author: czy0729
  * @Date: 2022-01-05 04:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:43:44
+ * @Last Modified time: 2022-09-10 17:24:28
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
 import { IconLayout, IconHeader } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Override } from '@types'
+import { Ctx, TitleType } from '../types'
 
-let isList
+type Props = Override<
+  Ctx,
+  {
+    title: TitleType
+  }
+>
 
-function Extra({ $, title = 'Anime' }) {
+let isList: any
+
+function Extra({ $, title = 'Anime' }: Props) {
   // 缓存最近一次的isList
   if ($) isList = $?.isList
 
@@ -21,21 +30,19 @@ function Extra({ $, title = 'Anime' }) {
 
   // 显示的icon类型
   const currenIsList = $?.isList === undefined ? isList : $?.isList
+
   return (
     <Flex style={_.mr.xs}>
       {showLayoutIcon && (
         <IconLayout
           style={_.mr.xs}
           list={currenIsList}
-          onPress={$?.switchLayout || Function.prototype}
+          onPress={$?.switchLayout || (() => {})}
         >
           <Heatmap right={30} id={`${title}.切换布局`} />
         </IconLayout>
       )}
-      <IconHeader
-        name='md-vertical-align-top'
-        onPress={$?.scrollToTop || Function.prototype}
-      >
+      <IconHeader name='md-vertical-align-top' onPress={$?.scrollToTop || (() => {})}>
         <Heatmap id={`${title}.到顶`} />
       </IconHeader>
     </Flex>

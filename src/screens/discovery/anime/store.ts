@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:57:12
+ * @Last Modified time: 2022-09-11 01:07:03
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -11,11 +11,15 @@ import store from '@utils/store'
 import { init, search } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
+import { Params } from './types'
 
-const namespace = 'ScreenAnime'
+const NAMESPACE = 'ScreenAnime'
+
 let _loaded = false
 
 export default class ScreenAnime extends store {
+  params: Params
+
   state = observable({
     query: {
       area: '日本',
@@ -35,7 +39,7 @@ export default class ScreenAnime extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded
@@ -54,7 +58,8 @@ export default class ScreenAnime extends store {
     collectionStore.fetchUserCollectionsQueue(false)
   }
 
-  search = passQuery => {
+  /** 动画本地数据查询 */
+  search = (passQuery?: any) => {
     const { query } = this.state
     const data = search(passQuery || query)
     this.setState({
@@ -63,6 +68,7 @@ export default class ScreenAnime extends store {
   }
 
   // -------------------- get --------------------
+  /** 是否中文优先 */
   @computed get cnFirst() {
     return systemStore.setting.cnFirst
   }
@@ -71,12 +77,14 @@ export default class ScreenAnime extends store {
     return collectionStore.userCollectionsMap
   }
 
+  /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
   }
 
   // -------------------- page --------------------
+  /** 初始化查询配置 */
   initQuery = (tags = []) => {
     const { query } = this.state
     this.setState({
@@ -88,7 +96,8 @@ export default class ScreenAnime extends store {
     })
   }
 
-  onSelect = (type, value, multiple = false) => {
+  /** 筛选选择 */
+  onSelect = (type: string, value: string, multiple = false) => {
     const { query } = this.state
     if (type === 'tags') {
       const { tags = [] } = query
@@ -125,7 +134,7 @@ export default class ScreenAnime extends store {
 
     setTimeout(() => {
       this.search()
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
       t('Anime.选择', {
         type,
         value,
@@ -134,7 +143,9 @@ export default class ScreenAnime extends store {
     }, 0)
   }
 
-  scrollToOffset = null
+  scrollToOffset: any = null
+
+  /** 到顶 */
   scrollToTop = () => {
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
@@ -147,9 +158,7 @@ export default class ScreenAnime extends store {
     }
   }
 
-  /**
-   * 切换布局
-   */
+  /** 切换布局 */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
     t('Anime.切换布局', {
@@ -159,14 +168,15 @@ export default class ScreenAnime extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 展开收起筛选 */
   onExpand = () => {
     const { expand } = this.state
     this.setState({
       expand: !expand
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

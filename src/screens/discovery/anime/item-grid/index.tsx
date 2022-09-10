@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 09:15:20
+ * @Last Modified time: 2022-09-10 18:00:00
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { pick } from '@utils/subject/anime'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const event = {
+const EVENT = {
   id: 'Anime.跳转'
-}
+} as const
 
-function ItemGrid({ index, pickIndex, num }, { $, navigation }) {
+function ItemGrid({ index, pickIndex, num }, { $, navigation }: Ctx) {
   const { id, ageId, image, cn, jp, score, begin, rank } = pick(pickIndex)
   if (!id) return null
 
@@ -25,7 +27,7 @@ function ItemGrid({ index, pickIndex, num }, { $, navigation }) {
     <ItemCollectionsGrid
       navigation={navigation}
       style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
-      event={event}
+      event={EVENT}
       num={num}
       id={id}
       aid={ageId}
@@ -35,15 +37,9 @@ function ItemGrid({ index, pickIndex, num }, { $, navigation }) {
       score={score}
       rank={rank}
       airtime={begin ? String(begin).slice(0, 7) : ''}
-      isCollection={collection}
+      collection={collection}
     />
   )
 }
 
 export default obc(ItemGrid)
-
-const memoStyles = _.memoStyles(() => ({
-  left: {
-    marginLeft: _.wind
-  }
-}))

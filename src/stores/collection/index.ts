@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 19:36:46
+ * @Last Modified time: 2022-09-11 01:07:36
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -26,6 +26,7 @@ import {
   API_COLLECTION_ACTION,
   API_MOSAIC_TILE,
   API_SUBJECT_UPDATE_WATCHED,
+  COLLECTION_STATUS,
   DEV,
   HTML_ACTION_SUBJECT_INTEREST_UPDATE,
   HTML_ACTION_SUBJECT_SET_WATCHED,
@@ -44,7 +45,8 @@ import {
   SubjectType,
   SubjectTypeCn,
   UserId,
-  RatingStatus
+  RatingStatus,
+  SubjectTypeValue
 } from '@types'
 import userStore from '../user'
 import {
@@ -60,6 +62,7 @@ import {
   UserCollectionsMap,
   UserCollectionsTags
 } from './types'
+import { devLog } from '@components'
 
 const state = {
   /** 条目收藏信息 */
@@ -369,11 +372,13 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
       const userId = username || userStore.myUserId
       if (!userId) return false
 
-      const subjectType = MODEL_SUBJECT_TYPE.getLabel(typeCn) as SubjectType
+      const subjectType = MODEL_SUBJECT_TYPE.getLabel<SubjectTypeValue>(
+        typeCn
+      ) as SubjectType
       const now = getTimestamp()
-      for (const item of MODEL_COLLECTION_STATUS.data) {
+      for (const item of COLLECTION_STATUS) {
         const { _loaded } = this.userCollections(userId, subjectType, item.value)
-        if (refresh || !_loaded || now - Number(_loaded) > 60 * 60) {
+        if (refresh || !_loaded || now - Number(_loaded) > 60 * 60 * 4) {
           if (showLoading) info(`[${item.value}] 用户收藏`)
           await this.fetchUserCollections(
             {
@@ -383,6 +388,11 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
             },
             true
           )
+          devLog({
+            userId,
+            subjectType,
+            type: item.value
+          })
           await sleep()
         }
       }
@@ -390,7 +400,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
       const userCollectionsMap = {
         ...this.state.userCollectionsMap
       }
-      for (const item of MODEL_COLLECTION_STATUS.data) {
+      for (const item of COLLECTION_STATUS) {
         const data = this.userCollections(userId, subjectType, item.value)
         const { pagination } = data
         const { page, pageTotal } = pagination
@@ -400,6 +410,11 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
           for (let i = page - 1; i < pageTotal; i += 1) {
             if (showLoading) info(`[${item.value}]: 页码${i + 1}`)
             await this.fetchUserCollections({
+              userId,
+              subjectType,
+              type: item.value
+            })
+            devLog({
               userId,
               subjectType,
               type: item.value

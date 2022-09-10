@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 19:50:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-25 20:44:03
+ * @Last Modified time: 2022-09-10 18:05:41
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -52,8 +52,10 @@ function Collection({ collection, typeCn, airtime }) {
           color={_[`color${titleCase(type)}`]}
         />
       )}
-      <Text size={11} lineHeight={13} type={type} bold align='center'>
-        {_collection}
+      <Text size={11} lineHeight={13} type='sub' bold align='center'>
+        <Text size={11} lineHeight={13} type={type} bold>
+          {_collection}
+        </Text>
         {!!_collection && !!airtime && ' · '}
         {airtime}
       </Text>

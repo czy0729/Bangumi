@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 06:11:18
+ * @Last Modified time: 2022-09-10 16:55:35
  */
 import {
   ANIME_AREA,
@@ -31,10 +31,10 @@ const ANIME_OFFICIAL_GROUP = []
 for (
   let i = 0, len = ANIME_OFFICIAL.length;
   i < len;
-  i += parseInt((ANIME_OFFICIAL.length + 1) / 2)
+  i += Math.floor((ANIME_OFFICIAL.length + 1) / 2)
 ) {
   ANIME_OFFICIAL_GROUP.push(
-    ANIME_OFFICIAL.slice(i, i + parseInt((ANIME_OFFICIAL.length + 1) / 2))
+    ANIME_OFFICIAL.slice(i, i + Math.floor((ANIME_OFFICIAL.length + 1) / 2))
   )
 }
 

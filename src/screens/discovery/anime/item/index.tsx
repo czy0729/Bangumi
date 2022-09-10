@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 06:46:21
+ * @Last Modified time: 2022-09-11 01:11:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,15 +13,16 @@ import { obc } from '@utils/decorators'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }) {
+function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const { id, ageId, image, cn, ep, type, status, begin, tags, official, score, rank } =
     pick(pickIndex)
   if (!id) return null
 
   const styles = memoStyles()
-  const isFirst = index === 0
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const _tags = String(tags).split(' ')
   const tip = [
@@ -50,16 +51,9 @@ function Item({ index, pickIndex }, { $, navigation }) {
         })
       }}
     >
-      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
+      <Flex align='start' style={styles.wrap}>
         <View style={styles.imgContainer}>
-          <Cover
-            style={styles.image}
-            src={cover}
-            width={IMG_WIDTH_LG}
-            height={IMG_HEIGHT_LG}
-            radius
-            shadow
-          />
+          <Cover src={cover} width={IMG_WIDTH} height={IMG_HEIGHT} radius shadow />
         </View>
         <Flex.Item style={_.ml.wind}>
           <Flex
@@ -104,26 +98,3 @@ function Item({ index, pickIndex }, { $, navigation }) {
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind
-  },
-  imgContainer: {
-    width: IMG_WIDTH_LG
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  content: {
-    height: IMG_HEIGHT_LG
-  },
-  body: {
-    width: '100%'
-  }
-}))

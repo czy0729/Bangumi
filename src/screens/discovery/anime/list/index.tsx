@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 14:50:18
+ * @Last Modified time: 2022-09-10 18:08:23
  */
 import React from 'react'
-import { ListView, Loading } from '@components'
-import { Filter } from '@_'
+import { Loading } from '@components'
+import { PaginationList2, Filter } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { getVersion, VERSION_ANIME } from '@constants/cdn'
-import Item from './item'
-import ItemGrid from './item-grid'
-import { filterDS } from './ds'
+import Item from '../item'
+import ItemGrid from '../item-grid'
+import { filterDS } from '../ds'
+import { Ctx } from '../types'
 
 class List extends React.Component {
-  connectRef = ref => {
-    const { $ } = this.context
+  connectRef = (ref: { scrollToOffset: any }) => {
+    const { $ }: Ctx = this.context
     if (ref && ref.scrollToOffset) $.scrollToOffset = ref.scrollToOffset
   }
 
@@ -27,7 +28,7 @@ class List extends React.Component {
   renderItem = ({ item, index }) => {
     if (index > 400) return null
 
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { layout } = $.state
     if (layout === 'list') return <Item pickIndex={item} index={index} />
 
@@ -35,16 +36,20 @@ class List extends React.Component {
   }
 
   renderFilter() {
+    const version = String(getVersion('VERSION_ANIME', VERSION_ANIME))
     return (
       <Filter
         filterDS={filterDS}
-        lastUpdate={getVersion('VERSION_ANIME', VERSION_ANIME)}
+        lastUpdate={`${version.slice(0, 4)}-${version.slice(4, 6)}-${version.slice(
+          6,
+          8
+        )}`}
       />
     )
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { _loaded, layout, data } = $.state
     if (!_loaded && !data._loaded) {
       return (
@@ -57,14 +62,14 @@ class List extends React.Component {
 
     const numColumns = $.isList ? undefined : this.num
     return (
-      <ListView
+      <PaginationList2
         key={`${layout}${numColumns}`}
-        ref={this.connectRef}
-        contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
+        connectRef={this.connectRef}
+        contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
-        data={data}
-        lazy={9}
+        data={data.list}
+        limit={24}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop
@@ -75,6 +80,6 @@ class List extends React.Component {
 
 export default obc(List)
 
-export function keyExtractor(item) {
+export function keyExtractor(item: any) {
   return String(item)
 }
