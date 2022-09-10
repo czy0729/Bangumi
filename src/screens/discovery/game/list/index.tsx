@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 16:28:38
+ * @Last Modified time: 2022-09-11 02:24:20
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -16,7 +16,7 @@ import { filterDS } from '../ds'
 import { Ctx } from '../types'
 
 class List extends React.Component {
-  connectRef = ref => {
+  connectRef = (ref: { scrollToOffset: any }) => {
     const { $ }: Ctx = this.context
     if (ref && ref.scrollToOffset) {
       $.scrollToOffset = ref.scrollToOffset
@@ -38,13 +38,14 @@ class List extends React.Component {
   }
 
   renderFilter() {
+    const version = String(getVersion('VERSION_GAME', VERSION_GAME))
     return (
       <Filter
         filterDS={filterDS}
         title='频道　'
         name='游戏'
         type='游戏'
-        lastUpdate={getVersion('VERSION_GAME', VERSION_GAME)}
+        lastUpdate={version}
       />
     )
   }
@@ -81,6 +82,6 @@ class List extends React.Component {
 
 export default obc(List)
 
-export function keyExtractor(item) {
+export function keyExtractor(item: any) {
   return String(item)
 }

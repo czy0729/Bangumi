@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 16:33:37
+ * @Last Modified time: 2022-09-11 02:18:35
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -11,7 +11,8 @@ import { init, search } from '@utils/subject/game'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
-const namespace = 'ScreenGame'
+const NAMESPACE = 'ScreenGame'
+
 let _loaded = false
 
 export default class ScreenGame extends store {
@@ -32,7 +33,7 @@ export default class ScreenGame extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
+    const res = this.getStorage(NAMESPACE)
     const state = await res
     this.setState({
       ...state,
@@ -53,6 +54,7 @@ export default class ScreenGame extends store {
     return res
   }
 
+  /** 游戏本地数据查询 */
   search = () => {
     const { query } = this.state
     const data = search(query)
@@ -62,6 +64,7 @@ export default class ScreenGame extends store {
   }
 
   // -------------------- get --------------------
+  /** 是否中文优先 */
   @computed get cnFirst() {
     return systemStore.setting.cnFirst
   }
@@ -70,11 +73,13 @@ export default class ScreenGame extends store {
     return collectionStore.userCollectionsMap
   }
 
+  /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
   }
 
+  /** 是否 Gal Game */
   @computed get isADV() {
     const { query } = this.state
     const { cate } = query
@@ -83,7 +88,7 @@ export default class ScreenGame extends store {
 
   // -------------------- page --------------------
   /** 筛选选择 */
-  onSelect = (type, value) => {
+  onSelect = (type: string, value: string) => {
     const { query } = this.state
 
     if (type === 'cate' && value === 'ADV') {
@@ -109,7 +114,7 @@ export default class ScreenGame extends store {
 
     setTimeout(() => {
       this.search()
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
       t('游戏.选择', {
         type,
         value
@@ -142,7 +147,7 @@ export default class ScreenGame extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   /** 展开 */
@@ -151,6 +156,6 @@ export default class ScreenGame extends store {
     this.setState({
       expand: !expand
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

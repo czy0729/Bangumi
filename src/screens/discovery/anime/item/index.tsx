@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 02:10:23
+ * @Last Modified time: 2022-09-11 02:35:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,7 +82,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                       status:
                         MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
                     },
-                    '关联系列',
+                    '找番剧',
                     () => {
                       collectionStore.fetchCollectionStatusQueue([id])
                     }

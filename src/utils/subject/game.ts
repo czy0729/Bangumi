@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 20:15:08
+ * @Last Modified time: 2022-09-11 02:40:07
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { VERSION_GAME, CDN_STATIC_GAME, getOTA } from '@constants/cdn'
@@ -16,16 +16,17 @@ export const GAME_FIRST = DATA_ALPHABET
 export const GAME_YEAR = ANIME_YEAR
 export const GAME_PLATFORM = [
   'PC',
-  'PS4',
-  'PS5',
   'NS',
+  'PS5',
+  'PS4',
+  'XSX|S',
+  'XB1',
   'PS3',
   'PS2',
   'PSV',
   'PSP',
   '3DS',
   'NDS',
-  'XB1',
   'X360',
   'iOS',
   'Android',
@@ -33,7 +34,6 @@ export const GAME_PLATFORM = [
   'Wii',
   'WiiU',
   'PS',
-  'XSX|S',
   'Xbox',
   'Stadia',
   'SFC',
@@ -47,6 +47,7 @@ export const GAME_PLATFORM = [
   'MD',
   'Arcade'
 ]
+
 export const GAME_CATE = [
   'ADV',
   '动作',
@@ -96,6 +97,7 @@ export const GAME_CATE = [
   '养成',
   '桌面'
 ]
+
 export const GAME_DEV = [
   'Nintendo',
   'Bandai Namco',
@@ -145,6 +147,7 @@ export const GAME_DEV = [
   'Bungie',
   '2K'
 ]
+
 export const GAME_DEV_ADV = [
   '戯画',
   'ALICESOFT',
@@ -167,6 +170,7 @@ export const GAME_DEV_ADV = [
   'シルキーズプラス',
   'ensemble'
 ]
+
 export const GAME_PUB = [
   'Nintendo',
   'Bandai Namco',
@@ -184,7 +188,9 @@ export const GAME_PUB = [
   '5pb.',
   'Nihon Falcom'
 ]
+
 export const GAME_SORT = ['发行', '排名', '外网评分', '外网热度', '随机', '名称']
+
 export const GAME_SORT_ADV = ['发行', '排名', '随机', '名称']
 
 /**

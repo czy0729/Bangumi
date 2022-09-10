@@ -2,18 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 15:47:13
+ * @Last Modified time: 2022-09-11 02:34:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap, HorizontalList, Image } from '@components'
-import { _ } from '@stores'
-import { Tag, Cover, Stars, Rank } from '@_'
+import { collectionStore, uiStore, _ } from '@stores'
+import { Tag, Cover, Stars, Rank, Manage } from '@_'
 import { x18, HTMLDecode, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { pick } from '@utils/subject/game'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
+import {
+  IMG_WIDTH_LG,
+  IMG_HEIGHT_LG,
+  IMG_DEFAULT,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
+import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
 import { fixed, getThumbs } from './utils'
@@ -21,7 +27,6 @@ import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const isFirst = index === 0
   const {
     id,
     title,
@@ -50,7 +55,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     tip.push(`${dev.join('、')} 开发`, `${publish.join('、')} 发行`)
   }
   tip.push(tag.join('、'))
-  tip = tip.filter(item => !!item).join(' / ')
+  tip = tip.filter((item: string) => !!item).join(' / ')
 
   const collection = $.userCollectionsMap[id]
   return (
@@ -67,7 +72,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         })
       }}
     >
-      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
+      <Flex align='start' style={styles.wrap}>
         <Cover
           src={cover}
           width={IMG_WIDTH_LG}
@@ -92,10 +97,27 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   )}
                 </Text>
               </Flex.Item>
-              <Flex style={_.mt.xxs}>
-                {!!collection && <Tag style={_.ml.sm} value={collection} />}
-                {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
-              </Flex>
+              {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
+              <Manage
+                collection={collectionStore.collectionStatus(id) || collection || ''}
+                typeCn='游戏'
+                onPress={() => {
+                  uiStore.showManageModal(
+                    {
+                      subjectId: id,
+                      title,
+                      desc: sub,
+                      status:
+                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                      action: '玩'
+                    },
+                    '找游戏',
+                    () => {
+                      collectionStore.fetchCollectionStatusQueue([id])
+                    }
+                  )
+                }}
+              />
             </Flex>
             <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
               {tip}

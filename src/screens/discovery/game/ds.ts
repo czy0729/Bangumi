@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 15:36:27
+ * @Last Modified time: 2022-09-11 02:39:20
  */
 import {
   GAME_FIRST,
@@ -55,7 +55,7 @@ export const filterDS = [
     data: GAME_SORT,
     always: true
   }
-]
+] as const
 
 export const advFilterDS = [
   {
@@ -86,4 +86,4 @@ export const advFilterDS = [
     data: GAME_SORT_ADV,
     always: true
   }
-]
+] as const
