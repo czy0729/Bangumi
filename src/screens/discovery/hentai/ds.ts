@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-02 08:50:06
+ * @Last Modified time: 2022-09-11 02:49:34
  */
 import {
   HENTAI_FIRST,
@@ -56,4 +56,4 @@ export const filterDS = [
     data: HENTAI_SORT,
     always: true
   }
-]
+] as const

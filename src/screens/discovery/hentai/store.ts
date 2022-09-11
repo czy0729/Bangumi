@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:59:00
+ * @Last Modified time: 2022-09-11 03:10:15
  */
 import { observable, computed } from 'mobx'
 import { userStore, systemStore, collectionStore } from '@stores'
@@ -11,11 +11,15 @@ import store from '@utils/store'
 import { init, search, getTagType, HENTAI_TAGS } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
+import { Params } from './types'
 
-const namespace = 'ScreenHentai'
+const NAMESPACE = 'ScreenHentai'
+
 let _loaded = false
 
 export default class ScreenHentai extends store {
+  params: Params
+
   state = observable({
     query: {
       first: '',
@@ -33,16 +37,14 @@ export default class ScreenHentai extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
+    const res = this.getStorage(NAMESPACE)
     const state = await res
     this.setState({
       ...state,
       _loaded
     })
 
-    if (!_loaded) {
-      await init()
-    }
+    if (!_loaded) await init()
 
     const { _tags = [] } = this.params
     if (_tags.length) {
@@ -59,7 +61,8 @@ export default class ScreenHentai extends store {
     return res
   }
 
-  search = passQuery => {
+  /** hentai 本地数据查询 */
+  search = (passQuery?: any) => {
     const { query } = this.state
     const data = search(passQuery || query)
     this.setState({
@@ -68,14 +71,17 @@ export default class ScreenHentai extends store {
   }
 
   // -------------------- get --------------------
+  /** 是否允许访问 */
   @computed get access() {
     return !userStore.isLimit && systemStore?.ota?.HENTAI
   }
 
+  /** 是否登录 (api) */
   @computed get isLogin() {
     return userStore.isLogin
   }
 
+  /** 是否中文优先 */
   @computed get cnFirst() {
     return systemStore.setting.cnFirst
   }
@@ -84,12 +90,14 @@ export default class ScreenHentai extends store {
     return collectionStore.userCollectionsMap
   }
 
+  /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
   }
 
   // -------------------- page --------------------
+  /** 初始化查询配置 */
   initQuery = (tags = []) => {
     this.setState({
       expand: true
@@ -106,7 +114,8 @@ export default class ScreenHentai extends store {
     })
   }
 
-  onSelect = (type, value) => {
+  /** 筛选选择 */
+  onSelect = (type: string, value: string) => {
     const { query } = this.state
     this.setState({
       query: {
@@ -117,7 +126,7 @@ export default class ScreenHentai extends store {
 
     setTimeout(() => {
       this.search()
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
       t('Hentai.选择', {
         type,
         value
@@ -125,7 +134,9 @@ export default class ScreenHentai extends store {
     }, 0)
   }
 
-  scrollToOffset = null
+  scrollToOffset: any = null
+
+  /** 到顶 */
   scrollToTop = () => {
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
@@ -138,9 +149,7 @@ export default class ScreenHentai extends store {
     }
   }
 
-  /**
-   * 切换布局
-   */
+  /** 切换布局 */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
     t('Hentai.切换布局', {
@@ -150,14 +159,15 @@ export default class ScreenHentai extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 展开收起筛选 */
   onExpand = () => {
     const { expand } = this.state
     this.setState({
       expand: !expand
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

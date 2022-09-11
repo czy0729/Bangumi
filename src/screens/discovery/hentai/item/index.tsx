@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-19 05:08:27
+ * @Last Modified time: 2022-09-11 12:31:28
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { Tag, Cover, Stars, Rank } from '@_'
+import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
-import { cnjp } from '@utils/app'
 import { HENTAI_TAGS, pick } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }) {
+function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const { id, hId, image, cn, jp, ep, air, tags, score, rank } = pick(pickIndex)
   if (!id) return null
 
@@ -44,7 +46,6 @@ function Item({ index, pickIndex }, { $, navigation }) {
       <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
         <View style={styles.imgContainer}>
           <Cover
-            style={styles.image}
             src={cover}
             width={IMG_WIDTH_LG}
             height={IMG_HEIGHT_LG}
@@ -99,37 +100,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind
-  },
-  imgContainer: {
-    width: IMG_WIDTH_LG
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  content: {
-    height: IMG_HEIGHT_LG
-  },
-  contentFlux: {
-    minHeight: IMG_HEIGHT_LG
-  },
-  body: {
-    width: '100%'
-  },
-  tag: {
-    marginTop: _.xs,
-    marginRight: _.sm
-  }
-}))
-
-function getType(state = {}, index) {
+function getType(state: any = {}, index: number): 'main' | undefined {
   const { chara, job, body, content } = state?.query
   const value = HENTAI_TAGS[index]
   return chara === value || job === value || body === value || content === value

@@ -45,7 +45,10 @@ class List extends React.Component {
         title='频道　'
         name='游戏'
         type='游戏'
-        lastUpdate={version}
+        lastUpdate={`${version.slice(0, 4)}-${version.slice(4, 6)}-${version.slice(
+          6,
+          8
+        )}`}
       />
     )
   }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 01:07:36
+ * @Last Modified time: 2022-09-11 12:34:55
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -62,7 +62,6 @@ import {
   UserCollectionsMap,
   UserCollectionsTags
 } from './types'
-import { devLog } from '@components'
 
 const state = {
   /** 条目收藏信息 */
@@ -388,11 +387,6 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
             },
             true
           )
-          devLog({
-            userId,
-            subjectType,
-            type: item.value
-          })
           await sleep()
         }
       }
@@ -410,11 +404,6 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
           for (let i = page - 1; i < pageTotal; i += 1) {
             if (showLoading) info(`[${item.value}]: 页码${i + 1}`)
             await this.fetchUserCollections({
-              userId,
-              subjectType,
-              type: item.value
-            })
-            devLog({
               userId,
               subjectType,
               type: item.value
