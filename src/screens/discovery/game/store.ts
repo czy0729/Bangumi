@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 02:18:35
+ * @Last Modified time: 2022-09-11 20:45:47
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -33,25 +33,24 @@ export default class ScreenGame extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(NAMESPACE)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded
     })
-
-    if (!_loaded) {
-      await init()
-    }
+    if (!_loaded) await init()
 
     _loaded = true
+
     this.setState({
       _loaded: true
     })
 
-    this.search()
     collectionStore.fetchUserCollectionsQueue(false, '游戏')
-    return res
+
+    setTimeout(() => {
+      this.search()
+    }, 80)
   }
 
   /** 游戏本地数据查询 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 00:57:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:29:38
+ * @Last Modified time: 2022-09-11 16:59:16
  */
 import React from 'react'
 import { Page } from '@components'
@@ -11,8 +11,9 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from '../anime/header'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
 
-const Manga = (props, { $ }) => {
+const Manga = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

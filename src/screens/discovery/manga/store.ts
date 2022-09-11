@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:59:10
+ * @Last Modified time: 2022-09-11 20:47:06
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -11,7 +11,8 @@ import { init, search } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
-const namespace = 'ScreenManga'
+const NAMESPACE = 'ScreenManga'
+
 let _loaded = false
 
 export default class ScreenManga extends store {
@@ -32,28 +33,27 @@ export default class ScreenManga extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded
     })
-
-    if (!_loaded) {
-      await init()
-    }
+    if (!_loaded) await init()
 
     _loaded = true
     this.setState({
       _loaded: true
     })
 
-    this.search()
     collectionStore.fetchUserCollectionsQueue(false, '书籍')
-    return res
+
+    setTimeout(() => {
+      this.search()
+    }, 80)
   }
 
-  search = passQuery => {
+  /** 漫画本地数据查询 */
+  search = (passQuery?: any) => {
     const { query } = this.state
     const data = search(passQuery || query)
     this.setState({
@@ -62,6 +62,7 @@ export default class ScreenManga extends store {
   }
 
   // -------------------- get --------------------
+  /** 是否允许访问 */
   @computed get cnFirst() {
     return systemStore.setting.cnFirst
   }
@@ -70,13 +71,15 @@ export default class ScreenManga extends store {
     return collectionStore.userCollectionsMap
   }
 
+  /** 是否中文优先 */
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
   }
 
   // -------------------- page --------------------
-  onSelect = (type, value, multiple = false) => {
+  /** 筛选选择 */
+  onSelect = (type: string, value: string, multiple = false) => {
     const { query } = this.state
     if (type === 'tags') {
       const { tags = [] } = query
@@ -113,7 +116,7 @@ export default class ScreenManga extends store {
 
     setTimeout(() => {
       this.search()
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
       t('Manga.选择', {
         type,
         value,
@@ -123,6 +126,8 @@ export default class ScreenManga extends store {
   }
 
   scrollToOffset = null
+
+  /** 到顶 */
   scrollToTop = () => {
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
@@ -135,9 +140,7 @@ export default class ScreenManga extends store {
     }
   }
 
-  /**
-   * 切换布局
-   */
+  /** 切换布局 */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
     t('Manga.切换布局', {
@@ -147,14 +150,15 @@ export default class ScreenManga extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 展开收起筛选 */
   onExpand = () => {
     const { expand } = this.state
     this.setState({
       expand: !expand
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

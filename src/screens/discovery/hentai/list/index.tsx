@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 15:06:03
+ * @Last Modified time: 2022-09-11 20:35:40
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -70,7 +70,7 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
         data={data.list}
-        limit={24}
+        limit={12}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop

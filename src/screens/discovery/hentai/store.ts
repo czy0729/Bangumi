@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 03:10:15
+ * @Last Modified time: 2022-09-11 20:45:55
  */
 import { observable, computed } from 'mobx'
 import { userStore, systemStore, collectionStore } from '@stores'
@@ -37,28 +37,27 @@ export default class ScreenHentai extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(NAMESPACE)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded
     })
-
     if (!_loaded) await init()
 
     const { _tags = [] } = this.params
-    if (_tags.length) {
-      this.initQuery(_tags)
-    }
+    if (_tags.length) this.initQuery(_tags)
 
     _loaded = true
+
     this.setState({
       _loaded: true
     })
 
-    this.search()
     collectionStore.fetchUserCollectionsQueue(false)
-    return res
+
+    setTimeout(() => {
+      this.search()
+    }, 80)
   }
 
   /** hentai 本地数据查询 */

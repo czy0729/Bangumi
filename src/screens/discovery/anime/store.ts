@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 01:07:03
+ * @Last Modified time: 2022-09-11 20:46:27
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -44,8 +44,8 @@ export default class ScreenAnime extends store {
       ...state,
       _loaded
     })
-
     if (!_loaded) await init()
+
     _loaded = true
     this.setState({
       _loaded: true
@@ -54,8 +54,11 @@ export default class ScreenAnime extends store {
     const { _tags = [] } = this.params
     if (_tags.length) this.initQuery(_tags)
 
-    this.search()
     collectionStore.fetchUserCollectionsQueue(false)
+
+    setTimeout(() => {
+      this.search()
+    }, 80)
   }
 
   /** 动画本地数据查询 */

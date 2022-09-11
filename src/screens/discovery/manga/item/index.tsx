@@ -2,26 +2,33 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-08 06:47:15
+ * @Last Modified time: 2022-09-11 21:19:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
-import { _ } from '@stores'
-import { Tag, Cover, Stars, Rank } from '@_'
+import { collectionStore, uiStore, _ } from '@stores'
+import { Tag, Cover, Stars, Rank, Manage } from '@_'
+import { cnjp, x18 } from '@utils'
 import { obc } from '@utils/decorators'
-import { x18 } from '@utils/app'
 import { pick } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
+import {
+  IMG_WIDTH_LG,
+  IMG_HEIGHT_LG,
+  IMG_DEFAULT,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
+import { CollectionStatus } from '@types'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }) {
+function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const { id, mangaId, status, author, tags, ep, cn, jp, image, begin, score, rank } =
     pick(pickIndex)
   if (!id) return null
 
   const styles = memoStyles()
-  const isFirst = index === 0
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const _tags = String(tags).split(' ')
   const tip = [
@@ -50,10 +57,9 @@ function Item({ index, pickIndex }, { $, navigation }) {
         })
       }}
     >
-      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
+      <Flex align='start' style={styles.wrap}>
         <View style={styles.imgContainer}>
           <Cover
-            style={styles.image}
             src={cover}
             width={IMG_WIDTH_LG}
             height={IMG_HEIGHT_LG}
@@ -72,18 +78,35 @@ function Item({ index, pickIndex }, { $, navigation }) {
               <Flex.Item>
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
-                    {$.cnFirst ? cn : jp}
+                    {cnjp(cn, jp)}
                   </Text>
                   <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
                     {' '}
-                    {$.cnFirst ? jp : cn}
+                    {cnjp(jp, cn)}
                   </Text>
                 </Text>
               </Flex.Item>
-              <Flex style={_.mt.xxs}>
-                {!!collection && <Tag style={_.ml.sm} value={collection} />}
-                {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
-              </Flex>
+              {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
+              <Manage
+                collection={collectionStore.collectionStatus(id) || collection || ''}
+                typeCn='书籍'
+                onPress={() => {
+                  uiStore.showManageModal(
+                    {
+                      subjectId: id,
+                      title: cnjp(cn, jp),
+                      desc: cnjp(jp, cn),
+                      status:
+                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                      action: '读'
+                    },
+                    '找漫画',
+                    () => {
+                      collectionStore.fetchCollectionStatusQueue([id])
+                    }
+                  )
+                }}
+              />
             </Flex>
             <Text style={_.mt.sm} size={11} lineHeight={14}>
               {tip}
@@ -108,32 +131,3 @@ function Item({ index, pickIndex }, { $, navigation }) {
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind
-  },
-  imgContainer: {
-    width: IMG_WIDTH_LG
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  content: {
-    height: IMG_HEIGHT_LG
-  },
-  body: {
-    width: '100%'
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: 0
-  }
-}))

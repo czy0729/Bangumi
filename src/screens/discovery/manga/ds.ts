@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:59:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 06:41:49
+ * @Last Modified time: 2022-09-11 21:05:48
  */
 import {
   MANGA_FIRST,
@@ -56,4 +56,4 @@ export const filterDS = [
     data: MANGA_SORT,
     always: true
   }
-]
+] as const

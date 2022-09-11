@@ -12,7 +12,6 @@
     "kn": "ps -ef |grep node|awk 'NR==1 {print $2}'|xargs kill -15",
     "open": "open ./android/app/build/outputs/apk/release/",
     "pk": "pkill node",
-    "postinstall": "patch-package",
     "r": "sudo shutdown -r now",
     "start": "EXPO_USE_EXOTIC=0 expo start",
     "start:offline": "EXPO_USE_EXOTIC=0 expo start --lan --offline",

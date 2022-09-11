@@ -2,18 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 12:31:28
+ * @Last Modified time: 2022-09-11 20:39:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
-import { _ } from '@stores'
-import { Tag, Cover, Stars, Rank } from '@_'
+import { collectionStore, uiStore, _ } from '@stores'
+import { Tag, Cover, Stars, Rank, Manage } from '@_'
 import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { HENTAI_TAGS, pick } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT } from '@constants'
+import {
+  IMG_WIDTH_LG,
+  IMG_HEIGHT_LG,
+  IMG_DEFAULT,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
+import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
@@ -22,7 +28,6 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   if (!id) return null
 
   const styles = memoStyles()
-  const isFirst = index === 0
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const tip = [ep ? `${ep}话` : '', air].filter(item => !!item).join(' / ')
   const collection = $.userCollectionsMap[id]
@@ -43,7 +48,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         })
       }}
     >
-      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
+      <Flex align='start' style={styles.wrap}>
         <View style={styles.imgContainer}>
           <Cover
             src={cover}
@@ -69,14 +74,31 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   </Text>
                 </Text>
               </Flex.Item>
-              <Flex>{!!collection && <Tag style={_.ml.sm} value={collection} />}</Flex>
+              <Manage
+                collection={collectionStore.collectionStatus(id) || collection || ''}
+                onPress={() => {
+                  uiStore.showManageModal(
+                    {
+                      subjectId: id,
+                      title: cnjp(cn, jp),
+                      desc: cnjp(jp, cn),
+                      status:
+                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
+                    },
+                    '找Hentai',
+                    () => {
+                      collectionStore.fetchCollectionStatusQueue([id])
+                    }
+                  )
+                }}
+              />
             </Flex>
             <Text style={_.mt.xs} size={11} lineHeight={14}>
               {tip}
             </Text>
             {$.isLogin && !!tags.length && (
               <Flex style={_.mt.sm} wrap='wrap'>
-                {tags.map(item => (
+                {tags.map((item: number) => (
                   <Tag
                     key={item}
                     style={styles.tag}
