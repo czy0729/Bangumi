@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 07:07:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-26 07:10:10
+ * @Last Modified time: 2022-09-12 15:41:33
  */
 import {
   WENKU_FIRST,
@@ -52,4 +52,4 @@ export const filterDS = [
     data: WENKU_SORT,
     always: true
   }
-]
+] as const

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-11 17:59:19
+ * @Last Modified time: 2022-09-12 16:13:29
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -11,7 +11,8 @@ import { init, search } from '@utils/subject/wenku'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
-const namespace = 'ScreenWenku'
+const NAMESPACE = 'ScreenWenku'
+
 let _loaded = false
 
 export default class ScreenWenku extends store {
@@ -32,27 +33,25 @@ export default class ScreenWenku extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded
     })
-
-    if (!_loaded) {
-      await init()
-    }
+    if (!_loaded) await init()
 
     _loaded = true
     this.setState({
       _loaded: true
     })
 
-    this.search()
     collectionStore.fetchUserCollectionsQueue(false, '书籍')
-    return res
+    setTimeout(() => {
+      this.search()
+    }, 80)
   }
 
+  /** 文库本地数据查询 */
   search = () => {
     const { query } = this.state
     const data = search(query)
@@ -62,6 +61,7 @@ export default class ScreenWenku extends store {
   }
 
   // -------------------- get --------------------
+  /** 是否中文优先 */
   @computed get cnFirst() {
     return systemStore.setting.cnFirst
   }
@@ -70,13 +70,15 @@ export default class ScreenWenku extends store {
     return collectionStore.userCollectionsMap
   }
 
+  /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
   }
 
   // -------------------- page --------------------
-  onSelect = (type, value) => {
+  /** 筛选选择 */
+  onSelect = (type: string, value: string) => {
     const { query } = this.state
     this.setState({
       query: {
@@ -87,7 +89,7 @@ export default class ScreenWenku extends store {
 
     setTimeout(() => {
       this.search()
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
       t('文库.选择', {
         type,
         value
@@ -96,6 +98,8 @@ export default class ScreenWenku extends store {
   }
 
   scrollToOffset = null
+
+  /** 到顶 */
   scrollToTop = () => {
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
@@ -108,9 +112,7 @@ export default class ScreenWenku extends store {
     }
   }
 
-  /**
-   * 切换布局
-   */
+  /** 切换布局 */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
     t('文库.切换布局', {
@@ -120,14 +122,15 @@ export default class ScreenWenku extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
+  /** 展开收起筛选 */
   onExpand = () => {
     const { expand } = this.state
     this.setState({
       expand: !expand
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }
