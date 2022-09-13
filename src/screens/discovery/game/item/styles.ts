@@ -30,5 +30,14 @@ export const memoStyles = _.memoStyles(() => ({
   thumbs: {
     marginTop: _.md,
     height: THUMB_HEIGHT
+  },
+  nums: {
+    width: THUMB_HEIGHT,
+    height: THUMB_HEIGHT,
+    marginRight: _._wind,
+    marginLeft: _.sm,
+    backgroundColor: _.colorBg,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))

@@ -390,7 +390,7 @@ export async function init() {
 export const SORT = {
   // 上映时间
   begin(a = {}, b = {}, key = 'b') {
-    return String(b[key] || '').localeCompare(String(a[key] || ''))
+    return getTimestamp(b[key]) - getTimestamp(a[key])
   },
 
   // 名称

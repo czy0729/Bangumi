@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 02:34:49
+ * @Last Modified time: 2022-09-13 21:41:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -132,8 +132,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           {!!thumbs.length && (
             <View style={styles.thumbs}>
               <HorizontalList
-                data={thumbs}
-                initialRenderNums={3}
+                data={thumbs.filter((item, index) => index < 2)}
                 renderItem={(item, index) => (
                   <Image
                     style={[!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md]}
@@ -152,6 +151,27 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                     }}
                   />
                 )}
+                renderNums={
+                  thumbs.length > 2 &&
+                  (() => (
+                    <Touchable
+                      onPress={() => {
+                        showImageViewer(
+                          thumbs.map(item => ({
+                            url: item
+                          })),
+                          2
+                        )
+                      }}
+                    >
+                      <Flex style={styles.nums} justify='center'>
+                        <Text size={15} bold>
+                          + {thumbs.length}
+                        </Text>
+                      </Flex>
+                    </Touchable>
+                  ))
+                }
               />
             </View>
           )}

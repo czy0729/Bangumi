@@ -1,0 +1,198 @@
+/*
+ * @Author: czy0729
+ * @Date: 2022-09-13 21:03:42
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-09-13 21:04:18
+ */
+import { DATA_ALPHABET } from '@constants/constants'
+import { ANIME_YEAR } from './../anime'
+
+export const GAME_FIRST = DATA_ALPHABET
+
+export const GAME_YEAR = ANIME_YEAR
+
+export const GAME_PLATFORM = [
+  'PC',
+  'NS',
+  'PS5',
+  'PS4',
+  'XSX|S',
+  'XB1',
+  'PS3',
+  'PS2',
+  'PSV',
+  'PSP',
+  '3DS',
+  'NDS',
+  'X360',
+  'iOS',
+  'Android',
+  'GBA',
+  'Wii',
+  'WiiU',
+  'PS',
+  'Xbox',
+  'Stadia',
+  'SFC',
+  'FC',
+  'GBC',
+  'GB',
+  'DC',
+  'NGC',
+  'Saturn',
+  'N64',
+  'MD',
+  'Arcade'
+] as const
+
+export const GAME_CATE = [
+  'ADV',
+  '动作',
+  '角色扮演',
+  '冒险',
+  '射击',
+  '策略',
+  '文字',
+  '第三人称',
+  '模拟',
+  '主视角',
+  '剧情',
+  '平台',
+  '解谜',
+  '音乐',
+  '独立',
+  '回合制',
+  '格斗',
+  '育成',
+  '恐怖',
+  '科幻',
+  '沙箱',
+  '生存',
+  '益智',
+  '多人',
+  '体育',
+  '竞速',
+  '即时战略',
+  '俯视角',
+  '开放世界',
+  '竞技',
+  '卡牌',
+  'MMO',
+  '派对',
+  '潜入',
+  '3D',
+  '健身',
+  '体感',
+  '塔防',
+  '弹幕',
+  'VR',
+  'MOBA',
+  'Roguelike',
+  '2D',
+  '横版',
+  'AR',
+  '养成',
+  '桌面'
+] as const
+
+export const GAME_DEV = [
+  'Nintendo',
+  'Bandai Namco',
+  'CAPCOM',
+  'Square Enix',
+  'Koei Tecmo',
+  'SEGA',
+  'Ubisoft',
+  'Atlus',
+  'Nihon Falcom',
+  'Game Freak',
+  'Konami',
+  'Intelligent Systems',
+  'Gust Co. Ltd.',
+  'Marvelous',
+  'Omega Force',
+  'LEVEL-5',
+  'Sony Interactive Entertainment',
+  'EA',
+  'Arc System Works',
+  '5pb.',
+  'Blizzard',
+  '日本一',
+  'Valve',
+  'Team Ninja',
+  'KID',
+  'Spike Chunsoft',
+  'Square',
+  'DOMO Studio',
+  'Compile Heart',
+  'Kojima Productions',
+  'Monolith Soft',
+  'AQUAPLUS',
+  'FromSoftware',
+  'DICE',
+  'tri-Ace',
+  'Otomate',
+  'SNK',
+  'Rockstar Games',
+  'Naughty Dog',
+  'Infinity Ward',
+  'Bethesda',
+  'CyberConnect2',
+  'KEY',
+  'BANPRESTO',
+  'HAL Laboratory',
+  'Bungie',
+  '2K'
+] as const
+
+export const GAME_DEV_ADV = [
+  '戯画',
+  'ALICESOFT',
+  'minori',
+  'あかべぇそふとすりぃ',
+  'SMEE',
+  'Campus',
+  'Key',
+  'ぱれっと',
+  'アトリエかぐや',
+  'あざらしそふと',
+  'Front Wing',
+  'Liar-soft',
+  'PULLTOP',
+  'あかべぇそふとつぅ',
+  'Innocent Grey',
+  'FAVORITE',
+  'Circus',
+  'NEKO WORKs',
+  'シルキーズプラス',
+  'ensemble'
+] as const
+
+export const GAME_PUB = [
+  'Nintendo',
+  'Bandai Namco',
+  'Square Enix',
+  'CAPCOM',
+  'Sony Interactive Entertainment',
+  'SEGA',
+  'Koei Tecmo',
+  'EA',
+  'Ubisoft',
+  'Konami',
+  'Atlus',
+  'Microsoft',
+  'Marvelous',
+  '5pb.',
+  'Nihon Falcom'
+] as const
+
+export const GAME_SORT = [
+  '发行',
+  '排名',
+  '外网评分',
+  '外网热度',
+  '随机',
+  '名称'
+] as const
+
+export const GAME_SORT_ADV = ['发行', '排名', '随机', '名称'] as const

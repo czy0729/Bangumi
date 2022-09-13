@@ -93,13 +93,12 @@ export default class ScreenGame extends store {
     if (type === 'cate' && value === 'ADV') {
       this.setState({
         query: {
+          ...query,
           first: '',
-          year: 2021,
           platform: '',
           cate: 'ADV',
           dev: '',
-          pub: '',
-          sort: ''
+          pub: ''
         }
       })
     } else {

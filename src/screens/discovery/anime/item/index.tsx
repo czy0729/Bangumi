@@ -13,7 +13,7 @@ import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { pick } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT, MODEL_COLLECTION_STATUS } from '@constants'
+import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -54,7 +54,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     >
       <Flex align='start' style={styles.wrap}>
         <View style={styles.imgContainer}>
-          <Cover src={cover} width={IMG_WIDTH} height={IMG_HEIGHT} radius shadow />
+          <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow />
         </View>
         <Flex.Item style={_.ml.wind}>
           <Flex

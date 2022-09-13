@@ -5,14 +5,14 @@
  * @Last Modified time: 2022-09-10 18:04:08
  */
 import { _ } from '@stores'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },
   imgContainer: {
-    width: IMG_WIDTH
+    width: IMG_WIDTH_LG
   },
   wrap: {
     paddingVertical: _.md,
@@ -23,7 +23,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    height: IMG_HEIGHT
+    height: IMG_HEIGHT_LG
   },
   body: {
     width: '100%'

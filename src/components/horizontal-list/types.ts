@@ -14,4 +14,5 @@ export type Props = {
   /** 未滑动的情况下，最多显示多少项 */
   initialRenderNums?: number
   renderItem?: Fn
+  renderNums?: Fn
 }

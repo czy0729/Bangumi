@@ -51,7 +51,7 @@ export const HorizontalList = observer(
     }
 
     render() {
-      const { style, contentContainerStyle, renderItem } = this.props
+      const { style, contentContainerStyle, renderItem, renderNums } = this.props
       return (
         <ScrollView
           style={style}
@@ -62,6 +62,7 @@ export const HorizontalList = observer(
           onScroll={this.show ? undefined : this.onScroll}
         >
           {this.data.map(renderItem)}
+          {typeof renderNums === 'function' && renderNums()}
         </ScrollView>
       )
     }
