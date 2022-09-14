@@ -5,17 +5,20 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 16:46:49
+ * @Last Modified time: 2022-09-15 07:20:14
  */
 import lazyac from 'lazy-aho-corasick'
-import addon from '@assets/json/substrings/addon.json'
-import alias from '@assets/json/substrings/alias.json'
-import anime from '@assets/json/substrings/anime.json'
-import game from '@assets/json/substrings/game.json'
-import book from '@assets/json/substrings/book.json'
+import { IOS } from '@constants'
 import { arrGroup, desc } from '../utils'
 import hash from '../thirdParty/hash'
-import { DEV, IOS } from '@constants'
+
+type Substrings = Record<string, number>
+
+let addon: Substrings = {}
+let alias: Substrings = {}
+let anime: Substrings = {}
+// let game: Substrings = {}
+// let book: Substrings = {}
 
 /** 忽略匹配的词 */
 const IGNORE_ITEMS = ['日常', 'PP']
@@ -47,20 +50,22 @@ function initLazyac() {
   if (!tries.length && !trieInit) {
     trieInit = true
 
+    addon = require('@assets/json/substrings/addon.json')
+    alias = require('@assets/json/substrings/alias.json')
+    anime = require('@assets/json/substrings/anime.json')
+    // game = require('@assets/json/substrings/game.json')
+    // book = require('@assets/json/substrings/book.json')
+
     // 安卓环境一次性初始化太多词条会卡死, 所以下面做了分组初始化
-    const CNS = (
-      DEV
-        ? [...Object.keys(addon), ...Object.keys(alias), ...Object.keys(anime)]
-        : [
-            ...Object.keys(addon),
-            ...Object.keys(alias),
-            ...Object.keys(anime),
-            ...Object.keys(game),
-            ...Object.keys(book)
-          ]
-    )
+    const CNS = [
+      ...Object.keys(addon),
+      ...Object.keys(alias),
+      ...Object.keys(anime)
+      // ...Object.keys(game),
+      // ...Object.keys(book)
+    ]
       .filter(item => {
-        // 过滤掉比较长的条目名字, 命中率很低
+        // 过滤掉比较长的条目名字), 命中率很低
         if (item.length >= 10 || item.length <= 1 || IGNORE_ITEMS.includes(item))
           return false
 
@@ -74,7 +79,7 @@ function initLazyac() {
       .sort((a: string, b: string) => a.localeCompare(b))
 
     setTimeout(() => {
-      const arrs = arrGroup(CNS, 400)
+      const arrs = arrGroup(CNS, 300)
       arrs.forEach((cns, index) => {
         setTimeout(() => {
           tries.push(
@@ -89,7 +94,8 @@ function initLazyac() {
 
           // 把 subject cn => subject id 插入 SUBSTRINGS
           cns.forEach((cn: string) => {
-            SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn] || game[cn] || book[cn]
+            SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn]
+            // || game[cn] || book[cn]
           })
 
           if (index === arrs.length - 1) trieInitDone = true
