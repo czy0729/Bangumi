@@ -8,14 +8,11 @@ import { CDN_GAME } from '@constants'
 import { SubjectId } from '@types'
 
 export function fixed(image: string | string[]) {
-  if (image.includes('m/')) return image
   return `m/${image}`
 }
 
 export function getThumbs(subjectId: SubjectId, length: number) {
-  if (typeof length !== 'number') {
-    return []
-  }
+  if (typeof length !== 'number') return []
 
   // @ts-ignore
   return new Array(length).fill().map((item, index) => CDN_GAME(subjectId, index))

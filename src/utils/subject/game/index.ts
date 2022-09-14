@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-13 21:26:22
+ * @Last Modified time: 2022-09-14 15:17:40
  */
 import { getTimestamp } from '../../index'
 import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
@@ -67,8 +67,8 @@ export function search(query: Query): SearchResult {
   init()
 
   // 查询指纹
+  const finger = JSON.stringify(query || {})
   const { first, year, platform, cate, dev, pub, sort } = query || {}
-  const finger = JSON.stringify(query)
 
   if (sort !== '随机' && SEARCH_CACHE[finger]) {
     return SEARCH_CACHE[finger]

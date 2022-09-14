@@ -87,4 +87,4 @@ export const filterDS = [
     data: ANIME_SORT,
     always: true
   }
-]
+] as const

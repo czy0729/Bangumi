@@ -22,7 +22,7 @@ import {
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
-import { fixed, getThumbs } from './utils'
+import { getThumbs } from './utils'
 import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
@@ -43,7 +43,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     length
   } = pick(pickIndex)
   const thumbs = getThumbs(id, length)
-  const cover = image ? `//lain.bgm.tv/pic/cover/${fixed(image)}.jpg` : IMG_DEFAULT
+  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   let tip: any = [
     platform.join('、'),
     time,
