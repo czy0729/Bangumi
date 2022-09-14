@@ -148,6 +148,8 @@ export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
   return weekDay === '' ? '' : weekDay
 }
 
+const X18_CACHE: Record<SubjectId, boolean> = {}
+
 /**
  * 是否敏感条目
  * @param {*} subjectId
@@ -155,12 +157,29 @@ export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
  */
 export function x18(subjectId: SubjectId, title?: string) {
   if (!subjectId) return false
-  let filter =
-    typeof subjectId === 'string'
-      ? String(parseInt(subjectId.replace('/subject/', ''))) in x18data
-      : String(subjectId) in x18data
-  if (!filter && title) filter = X18_TITLE.some(item => title.includes(item))
-  return filter
+
+  if (typeof subjectId === 'string') {
+    subjectId = Number(subjectId.replace('/subject/', ''))
+  }
+
+  if (subjectId in X18_CACHE) return X18_CACHE[subjectId]
+
+  const flag = x18data.includes(subjectId)
+  if (flag) {
+    X18_CACHE[subjectId] = true
+    return true
+  }
+
+  if (title) {
+    const flag = X18_TITLE.some(item => title.includes(item))
+    if (flag) {
+      X18_CACHE[subjectId] = true
+      return true
+    }
+  }
+
+  X18_CACHE[subjectId] = false
+  return false
 }
 
 /** 猜测是否敏感字符串 */

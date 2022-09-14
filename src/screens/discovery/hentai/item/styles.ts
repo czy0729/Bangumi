@@ -32,7 +32,7 @@ export const memoStyles = _.memoStyles(() => ({
     width: '100%'
   },
   tag: {
-    marginTop: _.xs,
-    marginRight: _.sm
+    marginTop: 6,
+    marginRight: 6
   }
 }))

@@ -106,6 +106,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                     value={HENTAI_TAGS[item]}
                   />
                 ))}
+                <Tag value={`+${tags.length}`} />
               </Flex>
             )}
             <Flex style={_.mt.md} wrap='wrap'>

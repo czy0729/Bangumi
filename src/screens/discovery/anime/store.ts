@@ -45,11 +45,7 @@ export default class ScreenAnime extends store {
       _loaded
     })
     if (!_loaded) await init()
-
     _loaded = true
-    this.setState({
-      _loaded: true
-    })
 
     const { _tags = [] } = this.params
     if (_tags.length) this.initQuery(_tags)
@@ -58,6 +54,9 @@ export default class ScreenAnime extends store {
 
     setTimeout(() => {
       this.search()
+      this.setState({
+        _loaded: true
+      })
     }, 80)
   }
 

@@ -8,6 +8,7 @@
  * 6. 自动选择Bangumi图片质量
  * 7. 联动ImageViewer
  * 8. 支持 @magma 提供的 [bgm_poster] 后缀
+ * 9. iOS 环境下, Expo 浏览暂时不使用 cacheV2
  *
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
@@ -78,7 +79,7 @@ export const Image = observer(
         return
       }
 
-      await this.cacheV2(src)
+      await this.cache(src)
       if (autoSize) {
         setTimeout(() => {
           this.getSize()
@@ -89,7 +90,7 @@ export const Image = observer(
     UNSAFE_componentWillReceiveProps(nextProps) {
       const { textOnly } = this.props
       if (textOnly) return
-      if (nextProps.src !== this.props.src) this.cacheV2(nextProps.src)
+      if (nextProps.src !== this.props.src) this.cache(nextProps.src)
     }
 
     componentWillUnmount() {
@@ -233,7 +234,7 @@ export const Image = observer(
       if (this._errorCount < MAX_ERROR_COUNT) {
         this._timeoutId = setTimeout(() => {
           this._errorCount += 1
-          this.cacheV2(src)
+          this.cache(src)
         }, 400)
       } else {
         this._timeoutId = null

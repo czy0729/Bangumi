@@ -21,7 +21,7 @@ const Game = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <>
       <Header title='找游戏' alias='游戏' hm={['game', 'Game']} />
-      <Page>
+      <Page loaded={$.state._loaded}>
         <List />
       </Page>
     </>

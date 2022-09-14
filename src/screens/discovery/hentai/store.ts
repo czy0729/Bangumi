@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 20:45:55
+ * @Last Modified time: 2022-09-14 17:43:53
  */
 import { observable, computed } from 'mobx'
 import { userStore, systemStore, collectionStore } from '@stores'
@@ -43,20 +43,18 @@ export default class ScreenHentai extends store {
       _loaded
     })
     if (!_loaded) await init()
+    _loaded = true
 
     const { _tags = [] } = this.params
     if (_tags.length) this.initQuery(_tags)
-
-    _loaded = true
-
-    this.setState({
-      _loaded: true
-    })
 
     collectionStore.fetchUserCollectionsQueue(false)
 
     setTimeout(() => {
       this.search()
+      this.setState({
+        _loaded: true
+      })
     }, 80)
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 03:10:39
+ * @Last Modified time: 2022-09-14 17:52:56
  */
 import React from 'react'
 import { Page, Text } from '@components'
@@ -23,7 +23,7 @@ const Hentai = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <>
       <Header title='找番剧' alias='Hentai' hm={['hentai', 'Hentai']} />
-      <Page>
+      <Page loaded={$.state._loaded}>
         {!$.access ? (
           <>
             <FilterSwitch name='Hentai' />

@@ -21,7 +21,7 @@ const Anime = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <>
       <Header />
-      <Page>
+      <Page loaded={$.state._loaded}>
         <List />
       </Page>
     </>

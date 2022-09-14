@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-14 15:19:19
+ * @Last Modified time: 2022-09-14 17:06:45
  */
 import { getTimestamp } from '../../index'
 import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
@@ -17,13 +17,9 @@ import {
   ANIME_STATUS,
   ANIME_TAGS,
   ANIME_OFFICIAL,
-  ANIME_SORT,
-  ANIME_HENTAI_CHARA,
-  ANIME_HENTAI_JOB,
-  ANIME_HENTAI_BODY,
-  ANIME_HENTAI_CONTENT
+  ANIME_SORT
 } from './ds'
-import { Item, Query, SearchResult, UnzipItem } from './types'
+import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 import { SubjectId } from '@types'
 
 export {
@@ -36,14 +32,10 @@ export {
   ANIME_STATUS,
   ANIME_TAGS,
   ANIME_OFFICIAL,
-  ANIME_SORT,
-  ANIME_HENTAI_CHARA,
-  ANIME_HENTAI_JOB,
-  ANIME_HENTAI_BODY,
-  ANIME_HENTAI_CONTENT
+  ANIME_SORT
 }
 
-const SEARCH_CACHE = {}
+const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let anime: Item[] = []
 let loaded: boolean = false
 

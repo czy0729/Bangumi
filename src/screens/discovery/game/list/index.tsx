@@ -9,7 +9,6 @@ import { Loading } from '@components'
 import { PaginationList2, Filter } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { getVersion, VERSION_GAME } from '@constants'
 import Item from '../item'
 import ItemGrid from '../item-grid'
 import { filterDS } from '../ds'
@@ -38,17 +37,13 @@ class List extends React.Component {
   }
 
   renderFilter() {
-    const version = String(getVersion('VERSION_GAME', VERSION_GAME))
     return (
       <Filter
         filterDS={filterDS}
         title='频道　'
         name='游戏'
         type='游戏'
-        lastUpdate={`${version.slice(0, 4)}-${version.slice(4, 6)}-${version.slice(
-          6,
-          8
-        )}`}
+        lastUpdate='2022-09'
       />
     )
   }
