@@ -8,8 +8,8 @@ import React from 'react'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import events from '@constants/events'
-import heatmapData from '@assets/json/heatmap.json'
-import heatmapEventData from '@assets/json/heatmap-event.json'
+import heatmapData from '@assets/json/heatmap/index.json'
+import heatmapEventData from '@assets/json/heatmap/event.json'
 import { Text } from '../text'
 
 export function PageText({ page, screen }) {

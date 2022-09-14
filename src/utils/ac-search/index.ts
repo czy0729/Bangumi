@@ -8,11 +8,11 @@
  * @Last Modified time: 2022-08-16 16:46:49
  */
 import lazyac from 'lazy-aho-corasick'
-import addon from '@assets/json/substrings-addon.json' // 动画 (手动维护)
-import alias from '@assets/json/substrings-alias.json' // 动画 (别名)
-import anime from '@assets/json/substrings.json' // 动画
-import game from '@assets/json/substrings-game.json' // 游戏
-import book from '@assets/json/substrings-book.json' // 书籍
+import addon from '@assets/json/substrings/addon.json'
+import alias from '@assets/json/substrings/alias.json'
+import anime from '@assets/json/substrings/anime.json'
+import game from '@assets/json/substrings/game.json'
+import book from '@assets/json/substrings/book.json'
 import { arrGroup, desc } from '../utils'
 import hash from '../thirdParty/hash'
 import { DEV, IOS } from '@constants'

@@ -4,14 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-01-11 05:54:54
  */
-let onairFallback = {
+const onairFallback = {
   type: [],
   data: {}
 }
 
 function getData() {
-  if (!onairFallback.type.length)
-    onairFallback = require('@assets/json/thirdParty/onair.min.json')
   return onairFallback
 }
 
