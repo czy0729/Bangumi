@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-12 16:13:29
+ * @Last Modified time: 2022-09-20 16:29:24
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -19,11 +19,12 @@ export default class ScreenWenku extends store {
   state = observable({
     query: {
       first: '',
-      year: 2021,
+      year: 2022,
       status: '',
       anime: '',
       cate: '',
       author: '',
+      tags: [],
       sort: '发行'
     },
     data: LIST_EMPTY,
@@ -53,11 +54,13 @@ export default class ScreenWenku extends store {
 
   /** 文库本地数据查询 */
   search = () => {
-    const { query } = this.state
-    const data = search(query)
-    this.setState({
-      data
-    })
+    setTimeout(() => {
+      const { query } = this.state
+      const data = search(query)
+      this.setState({
+        data
+      })
+    }, 80)
   }
 
   // -------------------- get --------------------
@@ -78,21 +81,48 @@ export default class ScreenWenku extends store {
 
   // -------------------- page --------------------
   /** 筛选选择 */
-  onSelect = (type: string, value: string) => {
+  onSelect = (type: string, value: string, multiple = false) => {
     const { query } = this.state
-    this.setState({
-      query: {
-        ...query,
-        [type]: value
+    if (type === 'tags') {
+      const { tags = [] } = query
+
+      if (multiple) {
+        // 标签支持多选
+        this.setState({
+          query: {
+            ...query,
+            tags:
+              value === ''
+                ? []
+                : tags.includes(value)
+                ? tags.filter(item => value !== item)
+                : [...tags, value]
+          }
+        })
+      } else {
+        this.setState({
+          query: {
+            ...query,
+            tags: value === '' ? [] : [value]
+          }
+        })
       }
-    })
+    } else {
+      this.setState({
+        query: {
+          ...query,
+          [type]: value
+        }
+      })
+    }
 
     setTimeout(() => {
       this.search()
       this.setStorage(NAMESPACE)
       t('文库.选择', {
         type,
-        value
+        value,
+        multiple
       })
     }, 0)
   }

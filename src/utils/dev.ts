@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:06:14
+ * @Last Modified time: 2022-09-20 17:17:29
  */
 // import Toast from '@components/@/ant-design/toast'
 import { DEV, LOG_LEVEL } from '@/config'
@@ -125,17 +125,13 @@ export function globalWarn(key, method) {
   log(`\x1b[40m\x1b[33m[${key}] ${method}\x1b[0m`)
 }
 
-/**
- * 字符串填充
- *
- * @version 171011 1.0
- * @param {*} str
- * @param {*} len
- */
-export function fill(str, len = 32) {
+/** 字符串填充 */
+export function fill(str: string, len: number = 32, mark: string = ' ') {
+  if (!len) return str
+
   let _str = str
   if (_str.length > len) return _str
 
-  for (let i = _str.length; i < len; i += 1) _str += ' '
+  for (let i = _str.length; i < len; i += 1) _str += mark
   return _str
 }

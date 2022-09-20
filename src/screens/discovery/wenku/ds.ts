@@ -11,8 +11,14 @@ import {
   WENKU_ANIME,
   WENKU_CATE,
   WENKU_AUTHOR,
-  WENKU_SORT
+  WENKU_SORT,
+  WENKU_TAGS
+  // WENKU_TAGS_MAP
 } from '@utils/subject/wenku'
+
+// 类型分组
+const WENKU_TAGS_GROUP = [[], []]
+WENKU_TAGS.forEach((item, index) => WENKU_TAGS_GROUP[index % 2 ? 1 : 0].push(item))
 
 export const filterDS = [
   {
@@ -45,6 +51,15 @@ export const filterDS = [
     title: '作者',
     type: 'author',
     data: WENKU_AUTHOR
+  },
+  {
+    title: '分类',
+    type: 'tags',
+    data: WENKU_TAGS_GROUP,
+    multiple: true,
+    multiSelect: true,
+    // nums: WENKU_TAGS_MAP,
+    always: true
   },
   {
     title: '排序',

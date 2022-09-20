@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-12 16:20:13
+ * @Last Modified time: 2022-09-20 16:44:00
  */
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2, Filter } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { getVersion, VERSION_WENKU } from '@constants'
 import Item from '../item'
 import ItemGrid from '../item-grid'
 import { filterDS } from '../ds'
@@ -36,18 +35,7 @@ class List extends React.Component {
   }
 
   renderFilter() {
-    const version = String(getVersion('VERSION_WENKU', VERSION_WENKU))
-    return (
-      <Filter
-        filterDS={filterDS}
-        name='文库'
-        type='文库'
-        lastUpdate={`${version.slice(0, 4)}-${version.slice(4, 6)}-${version.slice(
-          6,
-          8
-        )}`}
-      />
-    )
+    return <Filter filterDS={filterDS} name='文库' type='文库' lastUpdate='2022-09' />
   }
 
   render() {
@@ -71,7 +59,7 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
         data={data.list}
-        limit={12}
+        limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop

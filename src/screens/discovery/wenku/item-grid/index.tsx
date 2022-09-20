@@ -17,7 +17,7 @@ const EVENT = {
 } as const
 
 function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
-  const { id, wenkuId, image, cn, jp, score, rank, begin } = pick(pickIndex)
+  const { id, wenkuId, image, cn, score, rank, begin, update } = pick(pickIndex)
   if (!id) return null
 
   const styles = memoStyles()
@@ -32,11 +32,10 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       id={id}
       wid={wenkuId}
       cover={cover}
-      name={jp}
       nameCn={cn}
       score={score}
       rank={rank}
-      airtime={begin}
+      airtime={begin || update}
       collection={collection}
     />
   )

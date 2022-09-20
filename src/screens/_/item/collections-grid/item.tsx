@@ -23,6 +23,7 @@ const Item = memo(
     id,
     name,
     nameCn,
+    sub,
     cover,
     score,
     rank,
@@ -33,7 +34,6 @@ const Item = memo(
     aid,
     wid,
     mid,
-    // isCollect,
     isRectangle,
     event
   }) => {
@@ -94,6 +94,19 @@ const Item = memo(
             {cnjp(nameCn, name)}
           </Text>
           <Collection collection={collection} typeCn={typeCn} airtime={airtime} />
+          {!!sub && (
+            <Text
+              style={_.mt.xs}
+              size={11}
+              lineHeight={11}
+              type='sub'
+              align='center'
+              bold
+              numberOfLines={1}
+            >
+              {sub}
+            </Text>
+          )}
           {!!score && (
             <Flex style={_.mt.sm} justify='center'>
               <Rank style={_.mr.xs} value={rank} size={9} />

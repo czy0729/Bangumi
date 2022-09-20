@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-14 15:16:35
+ * @Last Modified time: 2022-09-20 17:36:53
  */
 import { getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
@@ -12,7 +12,7 @@ import { DATA_ALPHABET } from '@constants/constants'
 export const SORT = {
   // 上映时间
   begin(a = {}, b = {}, key = 'b') {
-    return (getTimestamp(b[key]) || 0) - (getTimestamp(a[key]) || 0)
+    return (getTimestamp(b[key] || '') || 0) - (getTimestamp(a[key] || '') || 0)
   },
 
   // 名称

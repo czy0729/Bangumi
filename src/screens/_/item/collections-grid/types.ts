@@ -13,6 +13,7 @@ export type Props = {
   id?: Id
   name?: string
   nameCn?: string
+  sub?: string
   cover?: string
   score?: string | number
   rank?: string | number

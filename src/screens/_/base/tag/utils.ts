@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-14 11:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 11:38:27
+ * @Last Modified time: 2022-09-21 00:50:53
  */
 export function getType(value: string) {
   switch (value) {
     case '动画':
     case '主角':
-    case '动画化':
       return 'main'
 
     case '书籍':
@@ -19,6 +18,7 @@ export function getType(value: string) {
     case '生效':
       return 'success'
 
+    case '动画化':
     case '音乐':
     case '客串':
     case 'H':

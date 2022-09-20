@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-12 16:24:55
+ * @Last Modified time: 2022-09-21 00:59:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { collectionStore, uiStore, _ } from '@stores'
 import { Tag, Cover, Stars, Rank, Manage } from '@_'
-import { cnjp, x18 } from '@utils'
+import { x18 } from '@utils'
+import { fill } from '@utils/dev'
 import { obc } from '@utils/decorators'
 import { pick } from '@utils/subject/wenku'
 import { t } from '@utils/fetch'
@@ -21,37 +22,45 @@ import {
 } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
+import Tags from './tags'
 import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const styles = memoStyles()
+  const { sort } = $.state.query
   const {
     id,
     wenkuId,
     image,
     cn,
-    jp,
     ep,
     status,
     begin,
+    update,
     score,
     rank,
     cate,
     author,
     len,
-    anime
+    hot,
+    up,
+    anime,
+    tags
   } = pick(pickIndex)
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const tip = [
-    String(ep).replace(/\(完结\)|第/g, ''),
+    ep,
     status ? '连载' : '完结',
-    begin,
+    begin || update,
     cate,
     author,
     len ? `${len}万字` : ''
   ]
-    .filter(item => !!item)
-    .join(' / ')
+  if (sort === '更新' && update) tip.push(`${update} 更新`)
+
+  const tipStr = tip.filter(item => !!item).join(' / ')
+  const hotStr = fill('', hot, '◆')
+  const upStr = fill('', up, '▲')
   const collection = $.userCollectionsMap[id]
   return (
     <Touchable
@@ -59,7 +68,6 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,
-          _jp: jp,
           _cn: cn,
           _image: cover,
           _wid: wenkuId
@@ -88,16 +96,10 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
             justify='between'
             align='start'
           >
-            <Flex align='start' style={styles.body}>
+            <Flex style={styles.body} align='start'>
               <Flex.Item>
-                <Text size={15} numberOfLines={2}>
-                  <Text size={15} bold>
-                    {cnjp(cn, jp)}
-                  </Text>
-                  <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
-                    {' '}
-                    {cnjp(jp, cn)}
-                  </Text>
+                <Text size={15} bold numberOfLines={2}>
+                  {cn}
                 </Text>
               </Flex.Item>
               {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
@@ -108,8 +110,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   uiStore.showManageModal(
                     {
                       subjectId: id,
-                      title: cnjp(cn, jp),
-                      desc: cnjp(jp, cn),
+                      title: cn,
                       status:
                         MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                       action: '读'
@@ -122,13 +123,32 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                 }}
               />
             </Flex>
-            <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
-              {tip}
+            <Text style={styles.tip} size={11} lineHeight={14} numberOfLines={3}>
+              {tipStr}
             </Text>
-            <Flex style={_.mt.md} wrap='wrap'>
+            {!!(hotStr || upStr) && (
+              <Flex style={styles.lv}>
+                <Flex.Item>
+                  {!!hotStr && (
+                    <Text size={10} bold type='sub'>
+                      热度　{hotStr}
+                    </Text>
+                  )}
+                </Flex.Item>
+                <Flex.Item>
+                  {!!upStr && (
+                    <Text size={10} bold type='sub'>
+                      趋势　{upStr}
+                    </Text>
+                  )}
+                </Flex.Item>
+              </Flex>
+            )}
+            <Flex style={_.mt.md}>
               <Rank value={rank} />
               <Stars style={_.mr.sm} value={score} simple />
-              {!!anime && <Tag value='动画化' />}
+              {!!anime && <Tag style={_.mr.sm} value='动画化' />}
+              <Tags value={tags} />
             </Flex>
           </Flex>
         </Flex.Item>

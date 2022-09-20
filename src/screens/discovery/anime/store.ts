@@ -40,10 +40,13 @@ export default class ScreenAnime extends store {
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)
-    this.setState({
+    const commitState = {
       ...state,
       _loaded
-    })
+    }
+    if (!Array.isArray(commitState.tags)) commitState.tags = []
+    this.setState(commitState)
+
     if (!_loaded) await init()
     _loaded = true
 

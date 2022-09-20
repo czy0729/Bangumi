@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:27:38
+ * @Last Modified time: 2022-09-20 16:45:38
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { getStorage, setStorage } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { FLITER_SWITCH_LAST_PATH_KEY, FILTER_SWITCH_DS, PATH_MAP } from './ds'
+import { FLITER_SWITCH_LAST_PATH_KEY, FILTER_SWITCH_DS, PATH_MAP, TOTAL } from './ds'
 import { memoStyles } from './styles'
 import { Props as FilterSwitchProps } from './types'
 
@@ -56,7 +56,17 @@ export const FilterSwitch = obc(
                         }
                   }
                 >
-                  <Text size={11}>{item}</Text>
+                  <Text size={11} bold>
+                    {item}
+                    {!!TOTAL[item] && (
+                      <Text
+                        type='sub'
+                        size={9}
+                        lineHeight={11}
+                        bold
+                      >{` ${TOTAL[item]}`}</Text>
+                    )}
+                  </Text>
                 </Touchable>
               )
             })}

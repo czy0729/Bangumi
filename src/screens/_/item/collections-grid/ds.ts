@@ -23,6 +23,7 @@ export const DEFAULT_PROPS = {
   id: 0 as Props['id'],
   name: '' as Props['name'],
   nameCn: '' as Props['nameCn'],
+  sub: '' as Props['sub'],
   cover: '' as Props['cover'],
   score: '' as Props['score'],
   rank: '' as Props['rank'],

@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-14 17:06:45
+ * @Last Modified time: 2022-09-20 01:23:44
  */
+import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
 import {
@@ -20,7 +21,6 @@ import {
   ANIME_SORT
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
-import { SubjectId } from '@types'
 
 export {
   SORT,
@@ -39,7 +39,7 @@ const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let anime: Item[] = []
 let loaded: boolean = false
 
-/** OTA 感觉体验不太好，而且容易出错，暂时使用本地版本 */
+/** v7.1.0 后取消 OTA */
 function getData() {
   return anime
 }
@@ -130,7 +130,7 @@ export function search(query: Query): SearchResult {
 
     // tags: '科幻 机战 悬疑 战斗 战争'
     if (match && tags.length) {
-      tags.forEach(tag => {
+      tags.forEach((tag: string) => {
         if (match) match = item.t?.includes(tag)
       })
     }

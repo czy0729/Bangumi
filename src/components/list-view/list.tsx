@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:26:37
+ * @Last Modified time: 2022-09-20 16:32:32
  */
 import React from 'react'
 import { FlatList, SectionList, Animated } from 'react-native'
@@ -26,6 +26,7 @@ type PassProps = {
 }
 
 const ASectionList = Animated.createAnimatedComponent(SectionList)
+
 const AFlatList = Animated.createAnimatedComponent(FlatList)
 
 function List({

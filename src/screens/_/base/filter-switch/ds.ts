@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 18:19:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 14:53:49
+ * @Last Modified time: 2022-09-20 16:45:13
  */
 export const FLITER_SWITCH_LAST_PATH_KEY = '@screens|base|FilterSwitch'
 
@@ -14,4 +14,8 @@ export const PATH_MAP = {
   游戏: 'Game',
   文库: 'Wenku',
   Hentai: 'Hentai'
+} as const
+
+export const TOTAL = {
+  文库: 2740
 } as const

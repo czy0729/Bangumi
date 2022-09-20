@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:27:16
+ * @Last Modified time: 2022-09-21 00:54:05
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
+import { info } from '@utils'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { EventKeys } from '@types'
@@ -38,11 +38,14 @@ export const Filter = obc(
       <View style={[styles.container, layout === 'grid' && _.mb.md]}>
         <FilterSwitch title={title} name={name} />
         {filterDS
-          .filter(item => expand || item.always)
+          .filter(item => {
+            // 配置永久展开 || 展开中 || 当前有选择
+            return item.always || expand || query[item.type]
+          })
           .map(item => {
             const state = query[item.type]
-            const multiple = ['类型', '制作'].includes(item.title)
-            const multiSelect = item.title === '类型'
+            const multiple = item.multiple || ['类型', '制作'].includes(item.title)
+            const multiSelect = item.multiSelect || item.title === '类型'
             return (
               <Flex
                 key={item.title}
@@ -93,29 +96,44 @@ export const Filter = obc(
                     >
                       {multiple ? (
                         <Flex style={styles.multiple} direction='column' align='start'>
-                          {item.data.map((i, idx) => (
+                          {item.data.map((i: any[], idx: React.Key) => (
                             <Flex key={idx} style={styles.contentContainerStyle}>
-                              {i.map(tag => (
-                                <Touchable
-                                  key={tag}
-                                  style={[
-                                    styles.item,
-                                    (typeof state === 'object'
-                                      ? state.includes(tag)
-                                      : state === tag) && styles.itemActive
-                                  ]}
-                                  hitSlop={HIT_SLOP}
-                                  onPress={() => $.onSelect(item.type, tag)}
-                                  onLongPress={
-                                    multiSelect
-                                      ? () => $.onSelect(item.type, tag, true)
-                                      : undefined
-                                  }
-                                >
-                                  <Text size={11}>{tag}</Text>
-                                  <Heatmap right={-1} id={eventId} value={tag} mini />
-                                </Touchable>
-                              ))}
+                              {i.map(tag => {
+                                const isActive =
+                                  typeof state === 'object'
+                                    ? state.includes(tag)
+                                    : state === tag
+                                return (
+                                  <Touchable
+                                    key={tag}
+                                    style={[
+                                      styles.item,
+                                      multiSelect && styles.itemMultiSelect,
+                                      isActive && styles.itemActive
+                                    ]}
+                                    hitSlop={HIT_SLOP}
+                                    onPress={() => $.onSelect(item.type, tag)}
+                                    onLongPress={
+                                      multiSelect
+                                        ? () => $.onSelect(item.type, tag, true)
+                                        : undefined
+                                    }
+                                  >
+                                    <Text size={11}>
+                                      {tag}
+                                      {!!item.nums && item.nums[tag] && (
+                                        <Text
+                                          type='sub'
+                                          size={9}
+                                          lineHeight={11}
+                                          bold
+                                        >{` ${item.nums[tag]}`}</Text>
+                                      )}
+                                    </Text>
+                                    <Heatmap right={-1} id={eventId} value={tag} mini />
+                                  </Touchable>
+                                )
+                              })}
                             </Flex>
                           ))}
                         </Flex>
@@ -126,7 +144,7 @@ export const Filter = obc(
                               {i18n.login()}后显示
                             </Text>
                           ) : (
-                            item.data.map(i => (
+                            item.data.map((i: string) => (
                               <Touchable
                                 key={i}
                                 style={[
@@ -138,7 +156,17 @@ export const Filter = obc(
                                 hitSlop={HIT_SLOP}
                                 onPress={() => $.onSelect(item.type, i)}
                               >
-                                <Text size={11}>{i}</Text>
+                                <Text size={11}>
+                                  {i}
+                                  {!!item.nums && item.nums[i] && (
+                                    <Text
+                                      type='sub'
+                                      size={9}
+                                      lineHeight={11}
+                                      bold
+                                    >{` ${item.nums[i]}`}</Text>
+                                  )}
+                                </Text>
                                 <Heatmap right={-1} id={eventId} value={i} mini />
                               </Touchable>
                             ))
@@ -176,7 +204,12 @@ export const Filter = obc(
   }
 )
 
-function scrollToX(scrollView, data, value, width = 50) {
+function scrollToX(
+  scrollView: ScrollView,
+  data: readonly any[],
+  value: any,
+  width = 50
+) {
   if (scrollView && value) {
     const index = data.findIndex(i => i == value)
     if (index >= 4) {

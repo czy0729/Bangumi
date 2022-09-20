@@ -20,6 +20,7 @@ export const ItemCollectionsGrid = ob(
     id,
     name,
     nameCn,
+    sub,
     cover,
     score,
     rank,
@@ -44,6 +45,7 @@ export const ItemCollectionsGrid = ob(
         id={id}
         name={name}
         nameCn={nameCn}
+        sub={sub}
         cover={cover}
         score={score}
         rank={rank}

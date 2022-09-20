@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:02:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 18:59:00
+ * @Last Modified time: 2022-09-21 00:48:53
  */
 import { _ } from '@stores'
 
@@ -32,6 +32,9 @@ export const memoStyles = _.memoStyles(() => ({
   },
   itemActive: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+  },
+  itemMultiSelect: {
+    marginRight: _.sm
   },
   how: {
     position: 'absolute',
