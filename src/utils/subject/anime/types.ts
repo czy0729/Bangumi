@@ -54,6 +54,7 @@ export type Item = {
   b: any
   s?: any
   r?: any
+  l?: any
   st?: any
   ty?: any
   ar?: any
@@ -74,6 +75,7 @@ export type UnzipItem = {
   begin: any
   score: any
   rank: any
+  total: any
 }
 
 export type SearchResult = {

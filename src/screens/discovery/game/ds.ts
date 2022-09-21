@@ -16,6 +16,18 @@ import {
   GAME_SORT_ADV
 } from '@utils/subject/game'
 
+// 类型分组
+const GAME_CATE_GROUP = [[], []]
+GAME_CATE.forEach((item, index) => GAME_CATE_GROUP[index % 2 ? 1 : 0].push(item))
+
+// 开发商分组
+const GAME_DEV_GROUP = [[], []]
+GAME_DEV.forEach((item, index) => GAME_DEV_GROUP[index % 2 ? 1 : 0].push(item))
+
+// 开发商分组
+const GAME_PUB_GROUP = [[], []]
+GAME_PUB.forEach((item, index) => GAME_PUB_GROUP[index % 2 ? 1 : 0].push(item))
+
 export const filterDS = [
   {
     title: '首字　',
@@ -36,18 +48,21 @@ export const filterDS = [
   {
     title: '类型　',
     type: 'cate',
-    data: GAME_CATE,
+    data: GAME_CATE_GROUP,
+    multiple: true,
     always: true
   },
   {
     title: '开发商',
     type: 'dev',
-    data: GAME_DEV
+    data: GAME_DEV_GROUP,
+    multiple: true
   },
   {
     title: '发行商',
     type: 'pub',
-    data: GAME_PUB
+    data: GAME_PUB_GROUP,
+    multiple: true
   },
   {
     title: '排序　',

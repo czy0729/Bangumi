@@ -24,8 +24,21 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
-  const { id, ageId, image, cn, ep, type, status, begin, tags, official, score, rank } =
-    pick(pickIndex)
+  const {
+    id,
+    ageId,
+    image,
+    cn,
+    ep,
+    type,
+    status,
+    begin,
+    tags,
+    official,
+    score,
+    rank,
+    total
+  } = pick(pickIndex)
   if (!id) return null
 
   const styles = memoStyles()
@@ -108,7 +121,12 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
               <Rank value={rank} />
-              <Stars style={_.mr.sm} value={score} simple />
+              <Stars style={_.mr.xs} value={score} simple />
+              {!!total && (
+                <Text style={_.mr.sm} type='sub' size={11} bold>
+                  ({total})
+                </Text>
+              )}
               <Flex.Item>
                 <Flex>
                   {_tags.map(item => (

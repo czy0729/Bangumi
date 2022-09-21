@@ -12,7 +12,10 @@ import { DATA_ALPHABET } from '@constants/constants'
 export const SORT = {
   // 上映时间
   begin(a = {}, b = {}, key = 'b') {
-    return (getTimestamp(b[key] || '') || 0) - (getTimestamp(a[key] || '') || 0)
+    return (
+      (getTimestamp(b[key] || '0000-00-00') || 0) -
+      (getTimestamp(a[key] || '0000-00-00') || 0)
+    )
   },
 
   // 名称
@@ -39,6 +42,11 @@ export const SORT = {
   // 分数, 也可用于数值比较
   score(a = {}, b = {}, key = 's') {
     return Number(b[key] || 0) - Number(a[key] || 0)
+  },
+
+  // 评分人数
+  total(a = {}, b = {}, key = 'l') {
+    return Number(b[key] || 0) - Number(a[key] || 0)
   }
 }
 
@@ -57,6 +65,7 @@ export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB'] as const
 export const ANIME_FIRST = DATA_ALPHABET
 
 export const ANIME_YEAR = [
+  2023,
   2022,
   2021,
   2020,
@@ -222,4 +231,4 @@ export const ANIME_OFFICIAL = [
   'Science SARU'
 ] as const
 
-export const ANIME_SORT = ['排名', '上映时间', '随机', '名称'] as const
+export const ANIME_SORT = ['排名', '上映时间', '评分人数', '随机', '名称'] as const

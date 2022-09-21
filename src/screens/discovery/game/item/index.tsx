@@ -40,6 +40,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     timeCn,
     score,
     rank,
+    total,
     length
   } = pick(pickIndex)
   const thumbs = getThumbs(id, length)
@@ -125,7 +126,12 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
             {!!(rank || score) && (
               <Flex style={_.mt.md} wrap='wrap'>
                 <Rank value={rank} />
-                <Stars style={_.mr.sm} value={score} simple />
+                <Stars style={_.mr.xs} value={score} simple />
+                {!!total && (
+                  <Text type='sub' size={11} bold>
+                    ({total})
+                  </Text>
+                )}
               </Flex>
             )}
           </View>

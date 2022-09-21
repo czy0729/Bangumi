@@ -18,5 +18,6 @@ export const PATH_MAP = {
 
 export const TOTAL = {
   番剧: 3268,
+  游戏: 2721,
   文库: 2740
 } as const

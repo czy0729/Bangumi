@@ -24,7 +24,7 @@ export default class ScreenGame extends store {
       cate: '',
       dev: '',
       pub: '',
-      sort: '发行时间'
+      sort: '排名'
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid

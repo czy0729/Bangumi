@@ -55,6 +55,7 @@ export type Item = {
   cn: any
   sc: any
   r: any
+  o: any
   v: any
   vs: any
   vc: any
@@ -75,6 +76,7 @@ export type UnzipItem = {
   timeCn: any
   score: any
   rank: any
+  total: any
   vid: any
   vgScore: any
   vgCount: any

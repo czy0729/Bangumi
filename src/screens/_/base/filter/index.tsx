@@ -89,7 +89,15 @@ export const Filter = obc(
                       <Text size={11}>{item.type === 'sort' ? '默认' : '全部'}</Text>
                     </Touchable>
                     <ScrollView
-                      ref={scrollView => scrollToX(scrollView, item.data, state)}
+                      ref={scrollView => {
+                        scrollToX(
+                          scrollView,
+                          item.data,
+                          state,
+                          ['制作', '开发商', '发行商'].includes(item.title) ? 80 : 50,
+                          item.multiple
+                        )
+                      }}
                       style={styles.contentContainerStyle}
                       horizontal
                       {...SCROLL_VIEW_RESET_PROPS}
@@ -208,10 +216,20 @@ function scrollToX(
   scrollView: ScrollView,
   data: readonly any[],
   value: any,
-  width = 50
+  width = 50,
+  mutiple = false
 ) {
   if (scrollView && value) {
-    const index = data.findIndex(i => i == value)
+    let index = 0
+    if (mutiple) {
+      data.forEach(items => {
+        const idx = items.findIndex(i => i == value)
+        if (idx > index) index = idx
+      })
+    } else {
+      index = data.findIndex(i => i == value)
+    }
+
     if (index >= 4) {
       setTimeout(() => {
         scrollView.scrollTo(

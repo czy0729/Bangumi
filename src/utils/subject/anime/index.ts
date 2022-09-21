@@ -154,6 +154,10 @@ export function search(query: Query): SearchResult {
       _list = _list.sort((a, b) => SORT.rating(data[a], data[b]))
       break
 
+    case '评分人数':
+      _list = _list.sort((a, b) => SORT.total(data[a], data[b]))
+      break
+
     case '随机':
       _list = _list.sort(() => SORT.random())
       break
@@ -192,7 +196,8 @@ export function unzip(item: Item): UnzipItem {
     image: item?.i || '',
     begin: item?.b || '',
     score: item?.s || 0,
-    rank: item?.r || 0
+    rank: item?.r || 0,
+    total: item?.l || 0
   }
 }
 

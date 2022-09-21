@@ -17,30 +17,14 @@ import {
 } from '@utils/subject/anime'
 
 // 类型分组
-const ANIME_TAGS_GROUP = [[], [], []]
-ANIME_TAGS.forEach((item, index) => {
-  const mod = index % 3
-  if (mod === 0) {
-    ANIME_TAGS_GROUP[0].push(item)
-  } else if (mod === 1) {
-    ANIME_TAGS_GROUP[1].push(item)
-  } else {
-    ANIME_TAGS_GROUP[2].push(item)
-  }
-})
+const ANIME_TAGS_GROUP = [[], []]
+ANIME_TAGS.forEach((item, index) => ANIME_TAGS_GROUP[index % 2 ? 1 : 0].push(item))
 
 // 制作分组
-const ANIME_OFFICIAL_GROUP = [[], [], []]
-ANIME_OFFICIAL.forEach((item, index) => {
-  const mod = index % 3
-  if (mod === 0) {
-    ANIME_OFFICIAL_GROUP[0].push(item)
-  } else if (mod === 1) {
-    ANIME_OFFICIAL_GROUP[1].push(item)
-  } else {
-    ANIME_OFFICIAL_GROUP[2].push(item)
-  }
-})
+const ANIME_OFFICIAL_GROUP = [[], []]
+ANIME_OFFICIAL.forEach((item, index) =>
+  ANIME_OFFICIAL_GROUP[index % 2 ? 1 : 0].push(item)
+)
 
 export const filterDS = [
   {

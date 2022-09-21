@@ -23,7 +23,7 @@ function fixed(image: string | string[]) {
 }
 
 function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
-  const { id, title, sub, cover: image, score, rank, time, timeCn } = pick(pickIndex)
+  const { id, title, sub, cover: image, score, rank, time } = pick(pickIndex)
   if (!id) return null
 
   const styles = memoStyles()
@@ -41,7 +41,7 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       nameCn={title}
       score={score}
       rank={rank}
-      airtime={timeCn || time}
+      airtime={time}
       collection={collection}
     />
   )

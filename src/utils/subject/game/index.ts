@@ -121,6 +121,10 @@ export function search(query: Query): SearchResult {
       _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 'sc', 'r'))
       break
 
+    case '评分人数':
+      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'o'))
+      break
+
     case '外网评分':
       _list.sort((a, b) => SORT.score(data[a], data[b], 'vs'))
       break
@@ -172,6 +176,7 @@ export function unzip(item: Item): UnzipItem {
     timeCn: item?.cn || '',
     score: item?.sc || 0,
     rank: item?.r || 0,
+    total: item?.o || 0,
     vid: item?.v || 0,
     vgScore: item?.vs || 0,
     vgCount: item?.vc || 0
