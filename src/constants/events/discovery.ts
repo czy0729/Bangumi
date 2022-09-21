@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 22:04:30
+ * @Last Modified time: 2022-09-22 03:56:40
  */
 
 /** Discovery */
@@ -129,6 +129,12 @@ export default {
   '游戏.选择': 'Game.onSelect',
   '游戏.到顶': 'Game.scrollToTop',
   '游戏.切换布局': 'Game.switchLayout',
+
+  // ADV
+  'ADV.跳转': 'ADV.to',
+  'ADV.选择': 'ADV.onSelect',
+  'ADV.到顶': 'ADV.scrollToTop',
+  'ADV.切换布局': 'ADV.switchLayout',
 
   // 推荐
   '推荐.跳转': 'Guess.to',

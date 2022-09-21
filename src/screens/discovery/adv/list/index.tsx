@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-06-23 02:20:58
+ * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:13:14
+ * @Last Modified time: 2022-09-22 04:12:59
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -17,7 +17,9 @@ import { Ctx } from '../types'
 class List extends React.Component {
   connectRef = (ref: { scrollToOffset: any }) => {
     const { $ }: Ctx = this.context
-    if (ref && ref.scrollToOffset) $.scrollToOffset = ref.scrollToOffset
+    if (ref && ref.scrollToOffset) {
+      $.scrollToOffset = ref.scrollToOffset
+    }
   }
 
   get num() {
@@ -35,7 +37,15 @@ class List extends React.Component {
   }
 
   renderFilter() {
-    return <Filter filterDS={filterDS} lastUpdate='2022-09' />
+    return (
+      <Filter
+        filterDS={filterDS}
+        title='频道　'
+        name='ADV'
+        type='ADV'
+        lastUpdate='2022-09'
+      />
+    )
   }
 
   render() {
@@ -54,12 +64,12 @@ class List extends React.Component {
     return (
       <PaginationList2
         key={`${layout}${numColumns}`}
-        keyExtractor={keyExtractor}
         connectRef={this.connectRef}
         contentContainerStyle={_.container.bottom}
+        keyExtractor={keyExtractor}
         numColumns={numColumns}
         data={data.list}
-        limit={12}
+        limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop

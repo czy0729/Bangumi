@@ -2,29 +2,26 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:14:40
+ * @Last Modified time: 2022-09-22 04:10:17
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, search } from '@utils/subject/game'
+import { init, search } from '@utils/subject/adv'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
-const NAMESPACE = 'ScreenGame'
+const NAMESPACE = 'ScreenADV'
 
 let _loaded = false
 
-export default class ScreenGame extends store {
+export default class ScreenADV extends store {
   state = observable({
     query: {
       first: '',
-      year: 2023,
-      platform: '',
-      cate: '',
+      year: 2022,
       dev: '',
-      pub: '',
-      sort: '发行'
+      sort: '评分人数'
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid
@@ -51,7 +48,7 @@ export default class ScreenGame extends store {
     }, 80)
   }
 
-  /** 游戏本地数据查询 */
+  /** ADV 本地数据查询 */
   search = () => {
     setTimeout(() => {
       const { query } = this.state
@@ -82,6 +79,7 @@ export default class ScreenGame extends store {
   /** 筛选选择 */
   onSelect = (type: string, value: string) => {
     const { query } = this.state
+
     this.setState({
       query: {
         ...query,
@@ -92,7 +90,7 @@ export default class ScreenGame extends store {
     setTimeout(() => {
       this.search()
       this.setStorage(NAMESPACE)
-      t('游戏.选择', {
+      t('ADV.选择', {
         type,
         value
       })
@@ -110,14 +108,14 @@ export default class ScreenGame extends store {
         animated: true
       })
 
-      t('游戏.到顶')
+      t('ADV.到顶')
     }
   }
 
   /** 切换布局 */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
-    t('游戏.切换布局', {
+    t('ADV.切换布局', {
       layout: _layout
     })
 

@@ -175,29 +175,6 @@ export const GAME_PUB = [
   'CyberConnect2'
 ] as const
 
-export const GAME_DEV_ADV = [
-  '戯画',
-  'ALICESOFT',
-  'minori',
-  'あかべぇそふとすりぃ',
-  'SMEE',
-  'Campus',
-  'Key',
-  'ぱれっと',
-  'アトリエかぐや',
-  'あざらしそふと',
-  'Front Wing',
-  'Liar-soft',
-  'PULLTOP',
-  'あかべぇそふとつぅ',
-  'Innocent Grey',
-  'FAVORITE',
-  'Circus',
-  'NEKO WORKs',
-  'シルキーズプラス',
-  'ensemble'
-] as const
-
 export const GAME_SORT = [
   '发行',
   '排名',
@@ -207,5 +184,3 @@ export const GAME_SORT = [
   '随机',
   '名称'
 ] as const
-
-export const GAME_SORT_ADV = ['发行', '排名', '随机', '名称'] as const

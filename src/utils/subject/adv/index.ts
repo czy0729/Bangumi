@@ -1,48 +1,32 @@
 /*
  * @Author: czy0729
- * @Date: 2021-05-05 03:29:05
+ * @Date: 2022-09-22 03:34:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:03:16
+ * @Last Modified time: 2022-09-22 04:06:11
  */
+import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
 import { SORT } from './../anime'
-import {
-  GAME_FIRST,
-  GAME_YEAR,
-  GAME_PLATFORM,
-  GAME_CATE,
-  GAME_DEV,
-  GAME_PUB,
-  GAME_SORT
-} from './ds'
+import { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_SORT } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
-import { SubjectId } from '@types'
 
-export {
-  GAME_FIRST,
-  GAME_YEAR,
-  GAME_PLATFORM,
-  GAME_CATE,
-  GAME_DEV,
-  GAME_PUB,
-  GAME_SORT
-}
+export { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_SORT }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
-let game: Item[] = []
+let adv: Item[] = []
 let loaded: boolean = false
 
 /** v7.1.0 后取消 OTA */
 function getData(): Item[] {
-  return game
+  return adv
 }
 
 /** 初始化数据 */
 export async function init() {
   if (loaded) return
 
-  game = require('@assets/json/thirdParty/game.min.json')
+  adv = require('@assets/json/thirdParty/adv.min.json')
   loaded = true
 }
 
@@ -64,7 +48,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, year, platform, cate, dev, pub, sort } = query || {}
+  const { first, year, dev, sort } = query || {}
 
   if (sort !== '随机' && SEARCH_CACHE[finger]) {
     return SEARCH_CACHE[finger]
@@ -86,19 +70,10 @@ export function search(query: Query): SearchResult {
     }
 
     // en: '2020-02-06'
-    if (match && year) match = yearReg.test(item.en || item.cn)
-
-    // pl: ['PS4', 'PC']
-    if (match && platform) match = item.pl?.includes(platform)
-
-    // ta: ['格斗', '角色扮演']
-    if (match && cate) match = item.ta?.includes(cate)
+    if (match && year) match = yearReg.test(item.en)
 
     // ta: ['格斗', '角色扮演']
     if (match && dev) match = item.d?.includes(dev)
-
-    // ta: ['格斗', '角色扮演']
-    if (match && pub) match = item.p?.includes(pub)
 
     if (match) _list.push(index)
   })
@@ -114,14 +89,6 @@ export function search(query: Query): SearchResult {
 
     case '评分人数':
       _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'o'))
-      break
-
-    case '外网评分':
-      _list.sort((a, b) => SORT.score(data[a], data[b], 'vs'))
-      break
-
-    case '外网热度':
-      _list.sort((a, b) => SORT.score(data[a], data[b], 'vc'))
       break
 
     case '随机':
@@ -156,20 +123,11 @@ export function unzip(item: Item): UnzipItem {
     id: item?.id || 0,
     length: item?.l || 0,
     title: item?.t || '',
-    sub: item?.s || '',
     cover: item?.c || '',
-    tag: item?.ta || [],
-    lang: item?.lg || [],
     dev: item?.d || [],
-    publish: item?.p || [],
-    platform: item?.pl || [],
     time: item?.en || '',
-    timeCn: item?.cn || '',
     score: item?.sc || 0,
     rank: item?.r || 0,
-    total: item?.o || 0,
-    vid: item?.v || 0,
-    vgScore: item?.vs || 0,
-    vgCount: item?.vc || 0
+    total: item?.o || 0
   }
 }
