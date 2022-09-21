@@ -23,12 +23,12 @@ export default class ScreenHentai extends store {
   state = observable({
     query: {
       first: '',
-      year: 2021,
+      year: 2022,
       chara: '',
       job: '',
       body: '',
       content: '',
-      sort: '上映时间'
+      sort: '评分人数'
     },
     data: LIST_EMPTY,
     layout: 'list', // list | grid
@@ -60,11 +60,13 @@ export default class ScreenHentai extends store {
 
   /** hentai 本地数据查询 */
   search = (passQuery?: any) => {
-    const { query } = this.state
-    const data = search(passQuery || query)
-    this.setState({
-      data
-    })
+    setTimeout(() => {
+      const { query } = this.state
+      const data = search(passQuery || query)
+      this.setState({
+        data
+      })
+    }, 80)
   }
 
   // -------------------- get --------------------

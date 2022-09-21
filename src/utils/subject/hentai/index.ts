@@ -115,6 +115,10 @@ export function search(query: Query): SearchResult {
       _list = _list.sort((a, b) => SORT.rating(data[a], data[b]))
       break
 
+    case '评分人数':
+      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'n'))
+      break
+
     case '随机':
       _list = _list.sort(() => SORT.random())
       break

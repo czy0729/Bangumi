@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-20 01:18:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 01:19:19
+ * @Last Modified time: 2022-09-22 04:20:23
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { desc } from '../../utils'
@@ -93,6 +93,7 @@ export const WENKU_AUTHOR = [
 export const WENKU_SORT = [
   '发行',
   '排名',
+  '评分人数',
   '热度',
   '趋势',
   '更新',

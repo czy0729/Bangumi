@@ -60,7 +60,7 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
         data={data.list}
-        limit={12}
+        limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop

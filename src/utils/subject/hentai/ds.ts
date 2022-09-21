@@ -11,7 +11,7 @@ export const HENTAI_FIRST = DATA_ALPHABET
 
 export const HENTAI_YEAR = ANIME_YEAR
 
-export const HENTAI_SORT = ['排名', '上映时间', '随机', '名称'] as const
+export const HENTAI_SORT = ['排名', '评分人数', '上映时间', '随机', '名称'] as const
 
 /** 人物 */
 export const HENTAI_CHARA = [

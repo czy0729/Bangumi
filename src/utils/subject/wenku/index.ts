@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-21 01:05:12
+ * @Last Modified time: 2022-09-22 04:20:56
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
@@ -116,6 +116,10 @@ export function search(query: Query): SearchResult {
     case '评分':
     case '排名':
       _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
+      break
+
+    case '评分人数':
+      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'k'))
       break
 
     case '热度':

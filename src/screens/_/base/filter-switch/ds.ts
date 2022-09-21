@@ -28,5 +28,6 @@ export const TOTAL = {
   番剧: 3268,
   游戏: 2721,
   ADV: 673,
-  文库: 2740
+  文库: 2740,
+  Hentai: 1036
 } as const

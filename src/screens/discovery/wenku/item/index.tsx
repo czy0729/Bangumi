@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-21 00:59:52
+ * @Last Modified time: 2022-09-22 04:23:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,6 +39,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     update,
     score,
     rank,
+    total,
     cate,
     author,
     len,
@@ -146,7 +147,12 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
             )}
             <Flex style={_.mt.md}>
               <Rank value={rank} />
-              <Stars style={_.mr.sm} value={score} simple />
+              <Stars style={_.mr.xs} value={score} simple />
+              {!!total && (
+                <Text style={_.mr.sm} type='sub' size={11} bold>
+                  ({total})
+                </Text>
+              )}
               {!!anime && <Tag style={_.mr.sm} value='动画化' />}
               <Tags value={tags} />
             </Flex>

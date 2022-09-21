@@ -39,6 +39,9 @@ export const FilterSwitch = obc(
           <ScrollView
             style={styles.contentContainerStyle}
             horizontal
+            ref={scrollView => {
+              scrollToX(scrollView, FILTER_SWITCH_DS, name)
+            }}
             {...SCROLL_VIEW_RESET_PROPS}
           >
             {FILTER_SWITCH_DS.map(item => {
@@ -76,3 +79,28 @@ export const FilterSwitch = obc(
     )
   }
 )
+
+function scrollToX(
+  scrollView: ScrollView,
+  data: readonly any[],
+  value: any,
+  width = 50
+) {
+  try {
+    if (scrollView && value) {
+      const index = data.findIndex(i => i == value)
+      if (index >= 5) {
+        setTimeout(() => {
+          scrollView.scrollTo(
+            {
+              x: (index - 2) * width,
+              y: 0,
+              animated: true
+            },
+            1
+          )
+        }, 80)
+      }
+    }
+  } catch (error) {}
+}

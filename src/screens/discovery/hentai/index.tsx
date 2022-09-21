@@ -28,7 +28,7 @@ const Hentai = (props, { $ }: Ctx) => {
           <>
             <FilterSwitch name='Hentai' />
             <Text style={_.mt.lg} align='center'>
-              此功能暂不开放
+              游客或您所在的用户组暂不开放此功能
             </Text>
           </>
         ) : (
