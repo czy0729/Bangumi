@@ -17,26 +17,30 @@ import {
 } from '@utils/subject/anime'
 
 // 类型分组
-const ANIME_TAGS_GROUP = []
-for (let i = 0, len = ANIME_TAGS.length; i < len; i += 15) {
-  ANIME_TAGS_GROUP.push(ANIME_TAGS.slice(i, i + 15))
-}
-let tag = ANIME_TAGS_GROUP[0].pop()
-ANIME_TAGS_GROUP[1] = [tag, ...ANIME_TAGS_GROUP[1]]
-tag = ANIME_TAGS_GROUP[1].pop()
-ANIME_TAGS_GROUP[2] = [tag, ...ANIME_TAGS_GROUP[2]]
+const ANIME_TAGS_GROUP = [[], [], []]
+ANIME_TAGS.forEach((item, index) => {
+  const mod = index % 3
+  if (mod === 0) {
+    ANIME_TAGS_GROUP[0].push(item)
+  } else if (mod === 1) {
+    ANIME_TAGS_GROUP[1].push(item)
+  } else {
+    ANIME_TAGS_GROUP[2].push(item)
+  }
+})
 
 // 制作分组
-const ANIME_OFFICIAL_GROUP = []
-for (
-  let i = 0, len = ANIME_OFFICIAL.length;
-  i < len;
-  i += Math.floor((ANIME_OFFICIAL.length + 1) / 2)
-) {
-  ANIME_OFFICIAL_GROUP.push(
-    ANIME_OFFICIAL.slice(i, i + Math.floor((ANIME_OFFICIAL.length + 1) / 2))
-  )
-}
+const ANIME_OFFICIAL_GROUP = [[], [], []]
+ANIME_OFFICIAL.forEach((item, index) => {
+  const mod = index % 3
+  if (mod === 0) {
+    ANIME_OFFICIAL_GROUP[0].push(item)
+  } else if (mod === 1) {
+    ANIME_OFFICIAL_GROUP[1].push(item)
+  } else {
+    ANIME_OFFICIAL_GROUP[2].push(item)
+  }
+})
 
 export const filterDS = [
   {
@@ -74,12 +78,15 @@ export const filterDS = [
   {
     title: '类型',
     type: 'tags',
-    data: ANIME_TAGS_GROUP
+    data: ANIME_TAGS_GROUP,
+    multiple: true,
+    multiSelect: true
   },
   {
     title: '制作',
     type: 'official',
-    data: ANIME_OFFICIAL_GROUP
+    data: ANIME_OFFICIAL_GROUP,
+    multiple: true
   },
   {
     title: '排序',

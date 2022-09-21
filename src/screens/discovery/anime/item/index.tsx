@@ -13,7 +13,12 @@ import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { pick } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG, IMG_DEFAULT, MODEL_COLLECTION_STATUS } from '@constants'
+import {
+  IMG_WIDTH_LG,
+  IMG_HEIGHT_LG,
+  IMG_DEFAULT,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -25,7 +30,9 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
 
   const styles = memoStyles()
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
-  const _tags = String(tags).split(' ')
+  const _tags = String(tags)
+    .split(' ')
+    .filter(item => !!item && item !== '暂无')
   const tip = [
     type === 'TV' ? '' : type,
     String(ep).replace(/\(完结\)|第/g, ''),
@@ -54,7 +61,13 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     >
       <Flex align='start' style={styles.wrap}>
         <View style={styles.imgContainer}>
-          <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow />
+          <Cover
+            src={cover}
+            width={IMG_WIDTH_LG}
+            height={IMG_HEIGHT_LG}
+            radius
+            shadow
+          />
         </View>
         <Flex.Item style={_.ml.wind}>
           <Flex
@@ -90,7 +103,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                 }}
               />
             </Flex>
-            <Text style={_.mt.sm} size={11} lineHeight={14}>
+            <Text size={11} lineHeight={14}>
               {tip}
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>

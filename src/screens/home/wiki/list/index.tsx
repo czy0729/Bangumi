@@ -7,11 +7,11 @@
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, HorizontalList, Divider } from '@components'
-import { Cover } from '@_'
+import { Avatar, Cover } from '@_'
 import { _ } from '@stores'
 import { simpleTime, getCoverLarge, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, API_AVATAR } from '@constants'
 import { Ctx } from '../types'
 
 const COVER_WIDTH = _.r(IMG_WIDTH * 1.28)
@@ -30,7 +30,15 @@ class List extends React.Component {
         data={covers}
         initialRenderNums={_.device(4, 8)}
         renderItem={({ cover, userId, userName }, index) => (
-          <View key={cover} style={!!index && _.ml.md}>
+          <View
+            key={cover}
+            style={[
+              {
+                width: COVER_WIDTH
+              },
+              !!index && _.ml.md
+            ]}
+          >
             <Cover
               src={cover}
               size={COVER_WIDTH}
@@ -46,23 +54,27 @@ class List extends React.Component {
               }}
             />
             <Flex style={_.mt.sm}>
-              <Text type='sub' size={12} lineHeight={14}>
-                by
-              </Text>
-              <Text
-                style={_.ml.xs}
-                size={13}
-                lineHeight={14}
-                bold
-                onPress={() =>
-                  navigation.push('Zone', {
-                    userId,
-                    _name: userName
-                  })
-                }
-              >
-                {userName || userId}
-              </Text>
+              <Avatar
+                navigation={navigation}
+                userId={userId}
+                src={API_AVATAR(userId)}
+                size={20}
+              />
+              <Flex.Item style={_.ml.sm}>
+                <Text
+                  size={11}
+                  bold
+                  numberOfLines={1}
+                  onPress={() => {
+                    navigation.push('Zone', {
+                      userId,
+                      _name: userName
+                    })
+                  }}
+                >
+                  {userName || userId}
+                </Text>
+              </Flex.Item>
             </Flex>
           </View>
         )}
@@ -77,36 +89,43 @@ class List extends React.Component {
 
     return (
       <View style={_.container.wind}>
-        {edits.map(({ id, comment, sub, time, userId, userName }) => (
+        {edits.map(({ id, comment, sub, time, userId, userName }, index) => (
           <View key={id} style={_.mt.sm}>
-            <Text type='main' lineHeight={15} bold>
-              {comment || '-'}
+            <Text lineHeight={15} bold>
+              〔{edits.length - index}〕{comment || '-'}
               {!!sub && (
-                <Text type='main' size={13} lineHeight={15} bold>
+                <Text size={13} lineHeight={15} bold>
                   {' '}
                   ({sub})
                 </Text>
               )}
             </Text>
             {!!(userName || userId) && (
-              <Flex style={_.mt.xs}>
-                <Text size={13} lineHeight={14} bold>
+              <Flex style={_.mt.sm}>
+                <Text style={_.ml.sm} size={12} lineHeight={13} bold>
                   {simpleTime(time)}
                 </Text>
-                <Text style={_.ml.xs} type='sub' size={12} lineHeight={14}>
+                <Text style={_.ml.xs} type='sub' size={12} lineHeight={13}>
                   by
                 </Text>
+                <Avatar
+                  style={_.ml.sm}
+                  navigation={navigation}
+                  userId={userId}
+                  src={API_AVATAR(userId)}
+                  size={20}
+                />
                 <Text
-                  style={_.ml.xs}
-                  size={13}
-                  lineHeight={14}
+                  style={_.ml.sm}
+                  size={12}
+                  lineHeight={13}
                   bold
-                  onPress={() =>
+                  onPress={() => {
                     navigation.push('Zone', {
                       userId,
                       _name: userName
                     })
-                  }
+                  }}
                 >
                   {userName || userId}
                 </Text>

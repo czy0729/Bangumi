@@ -65,11 +65,13 @@ export default class ScreenAnime extends store {
 
   /** 动画本地数据查询 */
   search = (passQuery?: any) => {
-    const { query } = this.state
-    const data = search(passQuery || query)
-    this.setState({
-      data
-    })
+    setTimeout(() => {
+      const { query } = this.state
+      const data = search(passQuery || query)
+      this.setState({
+        data
+      })
+    }, 80)
   }
 
   // -------------------- get --------------------
