@@ -50,7 +50,9 @@ export const PaginationList2 = ({
     })
     lastPage.current = page + 1
 
-    if (typeof onPage === 'function') onPage(next)
+    if (typeof onPage === 'function') {
+      onPage(data.slice(page * limit, (page + 1) * limit))
+    }
   }, [data, limit, list, onPage])
 
   useEffect(() => {

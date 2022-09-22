@@ -21,7 +21,7 @@ const Manga = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <>
       <Header title='找漫画' alias='Manga' hm={['manga', 'Manga']} />
-      <Page>
+      <Page loaded={$.state._loaded}>
         <List />
       </Page>
     </>

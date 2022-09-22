@@ -23,6 +23,22 @@ export async function get(key: string) {
   return null
 }
 
+/** 批量获取 */
+export async function gets(keys: string[]) {
+  // @ts-ignore
+  const { data } = await axios({
+    method: 'post',
+    url: `${HOST}/v1/get`,
+    data: {
+      keys
+    }
+  })
+
+  if (data?.code === 200) return data?.data
+
+  return null
+}
+
 /** 更新 */
 export async function update(key: string, value: object) {
   // @ts-ignore

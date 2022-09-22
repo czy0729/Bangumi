@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 21:19:58
+ * @Last Modified time: 2022-09-22 23:28:16
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Heatmap } from '@components'
+import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
 import { collectionStore, uiStore, _ } from '@stores'
 import { Tag, Cover, Stars, Rank, Manage } from '@_'
-import { cnjp, x18 } from '@utils'
+import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
 import {
   IMG_WIDTH_LG,
@@ -24,32 +23,43 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
-  const { id, mangaId, status, author, tags, ep, cn, jp, image, begin, score, rank } =
-    pick(pickIndex)
-  if (!id) return null
-
   const styles = memoStyles()
+  const {
+    id,
+    mid,
+    author,
+    title,
+    cates,
+    ep,
+    image,
+    score,
+    rank,
+    total,
+    status,
+    publish
+  } = $.pick(pickIndex)
+  if (!id) {
+    return (
+      <Flex style={styles.loading} justify='center'>
+        <Loading.Raw />
+      </Flex>
+    )
+  }
+
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
-  const _tags = String(tags).split(' ')
-  const tip = [
-    typeof ep === 'number' ? `第${ep}回` : ep,
-    status ? '完结' : '连载',
-    begin,
-    author
-  ]
-    .filter(item => !!item)
-    .join(' / ')
-  const collection = $.userCollectionsMap[id]
+  const _cates = String(cates).split(' ')
+  const tipStr = [status, publish, author, ep].filter(item => !!item).join(' / ')
+  const collection =
+    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
   return (
     <Touchable
       style={styles.container}
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,
-          _jp: jp,
-          _cn: cn,
+          _cn: title,
           _image: cover,
-          _mid: mangaId
+          _mid: mid
         })
 
         t('Manga.跳转', {
@@ -76,14 +86,8 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           >
             <Flex align='start' style={styles.body}>
               <Flex.Item>
-                <Text size={15} numberOfLines={2}>
-                  <Text size={15} bold>
-                    {cnjp(cn, jp)}
-                  </Text>
-                  <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
-                    {' '}
-                    {cnjp(jp, cn)}
-                  </Text>
+                <Text size={15} bold numberOfLines={2}>
+                  {title}
                 </Text>
               </Flex.Item>
               {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
@@ -94,8 +98,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   uiStore.showManageModal(
                     {
                       subjectId: id,
-                      title: cnjp(cn, jp),
-                      desc: cnjp(jp, cn),
+                      title,
                       status:
                         MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                       action: '读'
@@ -108,15 +111,20 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                 }}
               />
             </Flex>
-            <Text style={_.mt.sm} size={11} lineHeight={14}>
-              {tip}
+            <Text size={11} lineHeight={14}>
+              {tipStr}
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
               <Rank value={rank} />
-              <Stars style={_.mr.sm} value={score} simple />
+              <Stars style={_.mr.xs} value={score} simple />
+              {!!total && (
+                <Text style={_.mr.sm} type='sub' size={11} bold>
+                  ({total})
+                </Text>
+              )}
               <Flex.Item>
                 <Flex>
-                  {_tags.map(item => (
+                  {_cates.map(item => (
                     <Tag key={item} style={_.mr.sm} value={item} />
                   ))}
                 </Flex>

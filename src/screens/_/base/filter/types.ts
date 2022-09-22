@@ -23,4 +23,5 @@ export type Props = {
   name?: FilterSwitchName
   type?: string
   lastUpdate?: string
+  information?: string
 }

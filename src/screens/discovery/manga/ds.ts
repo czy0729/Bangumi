@@ -9,19 +9,20 @@ import {
   MANGA_YEAR,
   MANGA_STATUS,
   MANGA_TAGS,
-  MANGA_HD,
   MANGA_SORT
 } from '@utils/subject/manga'
 
-// 数组分组并弄好看
-const MANGA_TAGS_GROUP = []
-for (let i = 0, len = MANGA_TAGS.length; i < len; i += 15) {
-  MANGA_TAGS_GROUP.push(MANGA_TAGS.slice(i, i + 15))
-}
-let tag = MANGA_TAGS_GROUP[0].pop()
-MANGA_TAGS_GROUP[1] = [tag, ...MANGA_TAGS_GROUP[1]]
-tag = MANGA_TAGS_GROUP[1].pop()
-MANGA_TAGS_GROUP[2] = [tag, ...MANGA_TAGS_GROUP[2]]
+// 类型分组
+const MANGA_TAGS_GROUP = [[], [], []]
+MANGA_TAGS.forEach((item, index) => {
+  if (index % 3 === 0) {
+    MANGA_TAGS_GROUP[0].push(item)
+  } else if (index % 3 === 1) {
+    MANGA_TAGS_GROUP[1].push(item)
+  } else {
+    MANGA_TAGS_GROUP[2].push(item)
+  }
+})
 
 export const filterDS = [
   {
@@ -43,12 +44,9 @@ export const filterDS = [
   {
     title: '类型',
     type: 'tags',
-    data: MANGA_TAGS_GROUP
-  },
-  {
-    title: '源头',
-    type: 'hd',
-    data: MANGA_HD
+    data: MANGA_TAGS_GROUP,
+    multiple: true,
+    multiSelect: true
   },
   {
     title: '排序',

@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
-import { _ } from '@stores'
+import { collectionStore, _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { pick } from '@utils/subject/wenku'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
+import { IMG_DEFAULT } from '@constants'
 
 const EVENT = {
   id: '文库.跳转'
@@ -21,8 +22,6 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
   if (!id) return null
 
   const styles = memoStyles()
-  const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
-  const collection = $.userCollectionsMap[id]
   return (
     <ItemCollectionsGrid
       navigation={navigation}
@@ -31,12 +30,14 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       num={num}
       id={id}
       wid={wenkuId}
-      cover={cover}
+      cover={image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
       nameCn={cn}
       score={score}
       rank={rank}
       airtime={begin || update}
-      collection={collection}
+      collection={
+        collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
+      }
     />
   )
 }

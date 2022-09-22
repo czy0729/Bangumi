@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 18:19:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:09:03
+ * @Last Modified time: 2022-09-22 23:45:40
  */
 export const FLITER_SWITCH_LAST_PATH_KEY = '@screens|base|FilterSwitch'
 
@@ -28,6 +28,7 @@ export const TOTAL = {
   番剧: 3268,
   游戏: 2721,
   ADV: 673,
+  漫画: 7868,
   文库: 2740,
   Hentai: 1036
 } as const

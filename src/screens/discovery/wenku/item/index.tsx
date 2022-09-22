@@ -62,7 +62,8 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const tipStr = tip.filter(item => !!item).join(' / ')
   const hotStr = fill('', hot, '◆')
   const upStr = fill('', up, '▲')
-  const collection = $.userCollectionsMap[id]
+  const collection =
+    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
   return (
     <Touchable
       style={styles.container}
@@ -105,7 +106,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
               </Flex.Item>
               {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
               <Manage
-                collection={collectionStore.collectionStatus(id) || collection || ''}
+                collection={collection}
                 typeCn='书籍'
                 onPress={() => {
                   uiStore.showManageModal(

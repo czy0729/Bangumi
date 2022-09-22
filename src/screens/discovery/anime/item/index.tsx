@@ -91,10 +91,8 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           >
             <Flex align='start' style={styles.body}>
               <Flex.Item>
-                <Text size={15} numberOfLines={2}>
-                  <Text size={15} bold>
-                    {cn}
-                  </Text>
+                <Text size={15} bold numberOfLines={2}>
+                  {cn}
                 </Text>
               </Flex.Item>
               {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}

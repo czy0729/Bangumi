@@ -8,9 +8,9 @@
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Text, Touchable, Heatmap } from '@components'
+import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
-import { info } from '@utils'
+import { info, alert } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
@@ -27,7 +27,8 @@ export const Filter = obc(
       title = '频道',
       name = '番剧',
       type = 'Anime',
-      lastUpdate
+      lastUpdate,
+      information = ''
     }: FilterProps,
     { $ }
   ) => {
@@ -44,8 +45,8 @@ export const Filter = obc(
           })
           .map(item => {
             const state = query[item.type]
-            const multiple = item.multiple || ['类型', '制作'].includes(item.title)
-            const multiSelect = item.multiSelect || item.title === '类型'
+            const multiple = item.multiple
+            const multiSelect = item.multiSelect
             return (
               <Flex
                 key={item.title}
@@ -196,16 +197,21 @@ export const Filter = obc(
         </Flex>
         <Flex style={[_.container.wind, _.mt.md]}>
           <Flex.Item>
-            <Text size={10} type='sub'>
+            <Text size={11} type='sub' bold>
               {data.list.length} 条记录
               {!!query?.tags?.length && ` · ${query?.tags?.join(' · ')}`}
             </Text>
           </Flex.Item>
-          {!!lastUpdate && (
-            <Text size={10} type='sub'>
-              最后更新 {lastUpdate}
-            </Text>
-          )}
+          <Touchable onPress={() => alert(information, `关于找${name}`)}>
+            <Flex>
+              {!!lastUpdate && (
+                <Text style={_.mr.sm} size={11} type='sub' bold>
+                  最后更新 {lastUpdate}
+                </Text>
+              )}
+              <Iconfont name='md-info-outline' size={16} />
+            </Flex>
+          </Touchable>
         </Flex>
       </View>
     )

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 14:25:14
+ * @Last Modified time: 2022-09-22 23:02:12
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -90,22 +90,22 @@ export default class Store {
    * @version 190226 v1.0
    * @param {*} *state
    */
-  setState = action(state => {
+  setState = action((state: any, stateKey: string = 'state') => {
     Object.keys(state).forEach(key => {
       const data = state[key]
 
       // 键值不存在时需手动创建观察
-      if (!(key in this.state)) {
-        extendObservable(this.state, {
+      if (!(key in this[stateKey])) {
+        extendObservable(this[stateKey], {
           [key]: data
         })
       } else if (typeof data === 'object' && !Array.isArray(data)) {
-        this.state[key] = {
-          ...this.state[key],
+        this[stateKey][key] = {
+          ...this[stateKey][key],
           ...data
         }
       } else {
-        this.state[key] = data
+        this[stateKey][key] = data
       }
     })
   })
@@ -115,7 +115,7 @@ export default class Store {
    * @param {*} *key state的键值
    * @param {*} data 置换值
    */
-  clearState = action((key, data = {}) => {
+  clearState = action((key: string, data: any = {}) => {
     if (typeof this.state[key] === 'undefined') {
       extendObservable(this.state, {
         [key]: data

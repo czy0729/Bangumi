@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 20:47:06
+ * @Last Modified time: 2022-09-22 23:21:39
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, search } from '@utils/subject/manga'
+import { init, pick, search } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
+import { gets } from '@utils/kv'
 import { LIST_EMPTY } from '@constants'
+import { SubjectId } from '@types'
+import { OTAItemType } from './types'
 
 const NAMESPACE = 'ScreenManga'
 
@@ -19,14 +22,15 @@ export default class ScreenManga extends store {
   state = observable({
     query: {
       first: '',
-      year: 2021,
+      year: 2022,
       begin: '',
       status: '',
-      tags: [], // 已支持多选, 不过暂时不开放
+      tags: [],
       hd: '',
-      sort: '发行时间'
+      sort: '评分人数'
     },
     data: LIST_EMPTY,
+    subjects: {},
     layout: 'list', // list | grid
     expand: false,
     _loaded: false
@@ -39,26 +43,27 @@ export default class ScreenManga extends store {
       _loaded
     })
     if (!_loaded) await init()
-
     _loaded = true
-    this.setState({
-      _loaded: true
-    })
 
     collectionStore.fetchUserCollectionsQueue(false, '书籍')
 
+    this.search()
     setTimeout(() => {
-      this.search()
-    }, 80)
+      this.setState({
+        _loaded: true
+      })
+    }, 120)
   }
 
   /** 漫画本地数据查询 */
   search = (passQuery?: any) => {
-    const { query } = this.state
-    const data = search(passQuery || query)
-    this.setState({
-      data
-    })
+    setTimeout(() => {
+      const { query } = this.state
+      const data = search(passQuery || query)
+      this.setState({
+        data
+      })
+    }, 80)
   }
 
   // -------------------- get --------------------
@@ -75,6 +80,20 @@ export default class ScreenManga extends store {
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
+  }
+
+  subjectId(pickIndex: number): SubjectId {
+    return computed(() => {
+      const item = pick(pickIndex)
+      return item?.i || 0
+    }).get()
+  }
+
+  pick(pickIndex: number): OTAItemType {
+    return computed(() => {
+      const { subjects } = this.state
+      return subjects[`mox_${this.subjectId(pickIndex)}`] || {}
+    }).get()
   }
 
   // -------------------- page --------------------
@@ -160,5 +179,25 @@ export default class ScreenManga extends store {
       expand: !expand
     })
     this.setStorage(NAMESPACE)
+  }
+
+  /** 加载下一页 */
+  onPage = async (list: number[]) => {
+    if (!list.length) return
+
+    const keys = []
+    list.forEach(index => {
+      const subjectId = this.subjectId(index)
+      if (!subjectId || subjectId in this.state.subjects) return
+      keys.push(`mox_${subjectId}`)
+    })
+    if (!keys.length) return
+
+    const datas = await gets(keys)
+    if (datas) {
+      this.setState({
+        subjects: datas
+      })
+    }
   }
 }
