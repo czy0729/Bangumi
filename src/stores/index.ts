@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 05:36:51
+ * @Last Modified time: 2022-09-23 06:33:59
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { runAfter, confirm } from '@utils'
@@ -14,6 +14,7 @@ import calendarStore from './calendar'
 import collectionStore from './collection'
 import discoveryStore from './discovery'
 import monoStore from './mono'
+import otaStore from './ota'
 import rakuenStore from './rakuen'
 import searchStore from './search'
 import smbStore from './smb'
@@ -68,6 +69,7 @@ class GlobalStores {
         timelineStore.init()
         tagStore.init()
         usersStore.init()
+        otaStore.init()
       })
 
       return systemStore.setting
@@ -146,6 +148,7 @@ export {
   collectionStore,
   discoveryStore,
   monoStore,
+  otaStore,
   rakuenStore,
   searchStore,
   smbStore,

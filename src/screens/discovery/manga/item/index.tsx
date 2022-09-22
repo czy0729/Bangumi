@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 23:28:16
+ * @Last Modified time: 2022-09-23 06:42:17
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
-import { collectionStore, uiStore, _ } from '@stores'
+import { _, otaStore, collectionStore, uiStore } from '@stores'
 import { Tag, Cover, Stars, Rank, Manage } from '@_'
 import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
@@ -24,6 +24,7 @@ import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const styles = memoStyles()
+  const subjectId = otaStore.mangaSubjectId(pickIndex)
   const {
     id,
     mid,
@@ -37,7 +38,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     total,
     status,
     publish
-  } = $.pick(pickIndex)
+  } = otaStore.manga(subjectId)
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>

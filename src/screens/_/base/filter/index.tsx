@@ -33,7 +33,9 @@ export const Filter = obc(
     { $ }
   ) => {
     const styles = memoStyles()
-    const { query, data, layout, expand } = $.state
+    const { query, layout, expand } = $.state
+    const { length } = $.list || []
+    const total = $.total || length
     const eventId = `${type}.选择` as EventKeys
     return (
       <View style={[styles.container, layout === 'grid' && _.mb.md]}>
@@ -198,7 +200,7 @@ export const Filter = obc(
         <Flex style={[_.container.wind, _.mt.md]}>
           <Flex.Item>
             <Text size={11} type='sub' bold>
-              {data.list.length} 条记录
+              {total !== length ? `${length} (${total}) 条记录` : `${length} 条记录`}
               {!!query?.tags?.length && ` · ${query?.tags?.join(' · ')}`}
             </Text>
           </Flex.Item>

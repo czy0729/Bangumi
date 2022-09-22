@@ -2,17 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 23:21:39
+ * @Last Modified time: 2022-09-23 06:49:35
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, pick, search } from '@utils/subject/manga'
+import { init, search } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
-import { gets } from '@utils/kv'
 import { LIST_EMPTY } from '@constants'
-import { SubjectId } from '@types'
-import { OTAItemType } from './types'
+import { ADVANCE_LIMIT } from './ds'
 
 const NAMESPACE = 'ScreenManga'
 
@@ -30,8 +28,7 @@ export default class ScreenManga extends store {
       sort: '评分人数'
     },
     data: LIST_EMPTY,
-    subjects: {},
-    layout: 'list', // list | grid
+    layout: 'list',
     expand: false,
     _loaded: false
   })
@@ -82,18 +79,20 @@ export default class ScreenManga extends store {
     return layout === 'list'
   }
 
-  subjectId(pickIndex: number): SubjectId {
-    return computed(() => {
-      const item = pick(pickIndex)
-      return item?.i || 0
-    }).get()
+  /** 对应项搜索后总数 */
+  @computed get total() {
+    const { data } = this.state
+    return data.list.length
   }
 
-  pick(pickIndex: number): OTAItemType {
-    return computed(() => {
-      const { subjects } = this.state
-      return subjects[`mox_${this.subjectId(pickIndex)}`] || {}
-    }).get()
+  /** 对应项实际显示列表 */
+  @computed get list() {
+    const { data } = this.state
+    if (!systemStore.advance) {
+      return data.list.filter((item, index) => index < ADVANCE_LIMIT)
+    }
+
+    return data.list
   }
 
   // -------------------- page --------------------
@@ -179,25 +178,5 @@ export default class ScreenManga extends store {
       expand: !expand
     })
     this.setStorage(NAMESPACE)
-  }
-
-  /** 加载下一页 */
-  onPage = async (list: number[]) => {
-    if (!list.length) return
-
-    const keys = []
-    list.forEach(index => {
-      const subjectId = this.subjectId(index)
-      if (!subjectId || subjectId in this.state.subjects) return
-      keys.push(`mox_${subjectId}`)
-    })
-    if (!keys.length) return
-
-    const datas = await gets(keys)
-    if (datas) {
-      this.setState({
-        subjects: datas
-      })
-    }
   }
 }

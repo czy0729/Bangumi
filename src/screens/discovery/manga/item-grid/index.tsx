@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:01:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 21:09:19
+ * @Last Modified time: 2022-09-23 06:48:08
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
-import { collectionStore, _ } from '@stores'
+import { _, collectionStore, otaStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { Ctx } from '../types'
@@ -19,7 +19,8 @@ const EVENT = {
 
 function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { id, mid, image, title, score, rank, publish } = $.pick(pickIndex)
+  const subjectId = otaStore.mangaSubjectId(pickIndex)
+  const { id, mid, image, title, score, rank, publish } = otaStore.manga(subjectId)
   if (!id) {
     const gridStyles = _.grid(num)
     return (

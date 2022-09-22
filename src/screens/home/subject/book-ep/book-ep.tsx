@@ -33,6 +33,8 @@ export default memo(
 
     let textVol = book.totalVol
     if (textVol === '??' && comicLength) textVol = `?${comicLength}`
+
+    const canSubmit = !!status.name && status.name !== '未收藏'
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -48,106 +50,118 @@ export default memo(
           章节
         </SectionTitle>
         <Flex style={_.mt.md} align='start'>
-          {status.name === '未收藏' ? (
-            <Text type='sub'>收藏后开启管理</Text>
-          ) : (
-            <>
-              <Flex.Item>
-                <Flex>
-                  <Text style={styles.label} align='right'>
-                    Chap.
-                  </Text>
-                  <View style={[styles.input, _.ml.sm]}>
-                    <Input
-                      style={styles.inputRaw}
-                      keyboardType='numeric'
-                      value={chap}
-                      placeholder={String(book.chap) || '0'}
-                      clearButtonMode='never'
-                      returnKeyType='done'
-                      returnKeyLabel='更新'
-                      onChangeText={text => {
-                        const newText = text.replace(/[^\d]+/, '')
-                        onChangeText('chap', newText)
-                      }}
-                      onSubmitEditing={doUpdateBookEp}
-                    />
-                    {!!book.totalChap && (
-                      <Text style={styles.total} type='sub'>
-                        / {book.totalChap}
-                      </Text>
-                    )}
-                  </View>
-                  <Button
-                    style={[styles.btnPlus, _.ml.sm]}
-                    styleText={styles.btnText}
-                    type='ghostPrimary'
-                    onPress={() => doUpdateNext('chap')}
-                  >
-                    +
-                  </Button>
-                </Flex>
+          <Flex.Item>
+            <Flex>
+              <Text style={styles.label} align='right'>
+                Chap.
+              </Text>
+              <View style={[styles.input, _.ml.sm]}>
+                <Input
+                  style={styles.inputRaw}
+                  keyboardType='numeric'
+                  value={chap}
+                  placeholder={String(book.chap) || '0'}
+                  clearButtonMode='never'
+                  returnKeyType='done'
+                  returnKeyLabel='更新'
+                  onChangeText={
+                    canSubmit
+                      ? text => {
+                          const newText = text.replace(/[^\d]+/, '')
+                          onChangeText('chap', newText)
+                        }
+                      : undefined
+                  }
+                  onSubmitEditing={canSubmit ? doUpdateBookEp : undefined}
+                />
                 {!!book.totalChap && (
-                  <Flex style={styles.progressWrap}>
-                    <Progress
-                      style={styles.progress}
-                      barStyle={styles.bar}
-                      percent={(parseInt(chap) / parseInt(book.totalChap)) * 100}
-                    />
-                  </Flex>
-                )}
-                <Flex style={_.mt.sm}>
-                  <Text style={styles.label} align='right'>
-                    Vol.
+                  <Text style={styles.total} type='sub'>
+                    / {book.totalChap}
                   </Text>
-                  <View style={[styles.input, _.ml.sm]}>
-                    <Input
-                      style={styles.inputRaw}
-                      keyboardType='numeric'
-                      value={vol}
-                      placeholder={String(book.vol) || '0'}
-                      clearButtonMode='never'
-                      returnKeyType='done'
-                      returnKeyLabel='更新'
-                      onChangeText={text => {
-                        const newText = text.replace(/[^\d]+/, '')
-                        onChangeText('vol', newText)
-                      }}
-                      onSubmitEditing={doUpdateBookEp}
-                    />
-                    {!!textVol && (
-                      <Text style={styles.total} type='sub'>
-                        / {textVol}
-                      </Text>
-                    )}
-                  </View>
-                  <Button
-                    style={[styles.btnPlus, _.ml.sm]}
-                    styleText={styles.btnText}
-                    type='ghostPrimary'
-                    onPress={() => doUpdateNext('vol')}
-                  >
-                    +
-                  </Button>
-                  <Heatmap id='条目.更新书籍下一个章节' />
-                </Flex>
-                {!!book.totalVol && (
-                  <Flex style={styles.progressWrap}>
-                    <Progress
-                      style={styles.progress}
-                      barStyle={styles.bar}
-                      percent={(parseInt(vol) / parseInt(book.totalVol)) * 100}
-                    />
-                  </Flex>
                 )}
-              </Flex.Item>
-              <View style={_.ml.md}>
-                <Button style={styles.btn} type='ghostPrimary' onPress={doUpdateBookEp}>
-                  更新
-                </Button>
-                <Heatmap id='条目.更新书籍章节' />
               </View>
-            </>
+              {canSubmit && (
+                <Button
+                  style={[styles.btnPlus, _.ml.sm]}
+                  styleText={styles.btnText}
+                  type='ghostPrimary'
+                  onPress={() => doUpdateNext('chap')}
+                >
+                  +
+                </Button>
+              )}
+            </Flex>
+            {!!book.totalChap && (
+              <Flex style={styles.progressWrap}>
+                <Progress
+                  style={styles.progress}
+                  barStyle={styles.bar}
+                  percent={(parseInt(chap) / parseInt(book.totalChap)) * 100}
+                />
+              </Flex>
+            )}
+            <Flex style={_.mt.sm}>
+              <Text style={styles.label} align='right'>
+                Vol.
+              </Text>
+              <View style={[styles.input, _.ml.sm]}>
+                <Input
+                  style={styles.inputRaw}
+                  keyboardType='numeric'
+                  value={vol}
+                  placeholder={String(book.vol) || '0'}
+                  clearButtonMode='never'
+                  returnKeyType='done'
+                  returnKeyLabel='更新'
+                  onChangeText={
+                    canSubmit
+                      ? text => {
+                          const newText = text.replace(/[^\d]+/, '')
+                          onChangeText('vol', newText)
+                        }
+                      : undefined
+                  }
+                  onSubmitEditing={canSubmit ? doUpdateBookEp : undefined}
+                />
+                {!!textVol && (
+                  <Text style={styles.total} type='sub'>
+                    / {textVol}
+                  </Text>
+                )}
+              </View>
+              {canSubmit && (
+                <Button
+                  style={[styles.btnPlus, _.ml.sm]}
+                  styleText={styles.btnText}
+                  type='ghostPrimary'
+                  onPress={() => doUpdateNext('vol')}
+                >
+                  +
+                </Button>
+              )}
+              <Heatmap id='条目.更新书籍下一个章节' />
+            </Flex>
+            {!!book.totalVol && (
+              <Flex style={styles.progressWrap}>
+                <Progress
+                  style={styles.progress}
+                  barStyle={styles.bar}
+                  percent={(parseInt(vol) / parseInt(book.totalVol)) * 100}
+                />
+              </Flex>
+            )}
+          </Flex.Item>
+          {canSubmit ? (
+            <View style={_.ml.md}>
+              <Button style={styles.btn} type='ghostPrimary' onPress={doUpdateBookEp}>
+                更新
+              </Button>
+              <Heatmap id='条目.更新书籍章节' />
+            </View>
+          ) : (
+            <Text style={_.mt.sm} type='sub' size={13} bold>
+              收藏后才能进行管理
+            </Text>
           )}
         </Flex>
       </View>

@@ -12,6 +12,8 @@ import {
   MANGA_SORT
 } from '@utils/subject/manga'
 
+export const ADVANCE_LIMIT = 120
+
 // 类型分组
 const MANGA_TAGS_GROUP = [[], [], []]
 MANGA_TAGS.forEach((item, index) => {
