@@ -10,11 +10,11 @@ import {
   GAME_PLATFORM,
   GAME_CATE,
   GAME_DEV,
-  GAME_DEV_ADV,
   GAME_PUB,
-  GAME_SORT,
-  GAME_SORT_ADV
+  GAME_SORT
 } from '@utils/subject/game'
+
+export const ADVANCE_LIMIT = 100
 
 // 类型分组
 const GAME_CATE_GROUP = [[], []]
@@ -24,7 +24,7 @@ GAME_CATE.forEach((item, index) => GAME_CATE_GROUP[index % 2 ? 1 : 0].push(item)
 const GAME_DEV_GROUP = [[], []]
 GAME_DEV.forEach((item, index) => GAME_DEV_GROUP[index % 2 ? 1 : 0].push(item))
 
-// 开发商分组
+// 发行商分组
 const GAME_PUB_GROUP = [[], []]
 GAME_PUB.forEach((item, index) => GAME_PUB_GROUP[index % 2 ? 1 : 0].push(item))
 
@@ -87,18 +87,26 @@ export const advFilterDS = [
   {
     title: '类型　',
     type: 'cate',
-    data: GAME_CATE,
+    data: GAME_CATE_GROUP,
+    multiple: true,
     always: true
   },
   {
     title: '开发商',
     type: 'dev',
-    data: GAME_DEV_ADV
+    data: GAME_DEV_GROUP,
+    multiple: true
+  },
+  {
+    title: '发行商',
+    type: 'dev',
+    data: GAME_PUB_GROUP,
+    multiple: true
   },
   {
     title: '排序　',
     type: 'sort',
-    data: GAME_SORT_ADV,
+    data: GAME_SORT,
     always: true
   }
 ] as const

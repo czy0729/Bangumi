@@ -9,9 +9,10 @@ import store from '@utils/store'
 import { gets } from '@utils/kv'
 import { pick as animePick } from '@utils/subject/anime'
 import { pick as mangaPick } from '@utils/subject/manga'
+import { pick as gamePick } from '@utils/subject/game'
 import { StoreConstructor, SubjectId } from '@types'
 import { NAMESPACE } from './ds'
-import { AnimeItem, MangaItem } from './types'
+import { AnimeItem, GameItem, MangaItem } from './types'
 import { pick } from '@utils'
 
 const state = {
@@ -23,6 +24,11 @@ const state = {
   /** 找漫画 */
   manga: {
     mox_0: {}
+  },
+
+  /** 找游戏 */
+  game: {
+    game_0: {}
   }
 }
 
@@ -30,7 +36,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
   init = () => {
-    return this.readStorage(['anime', 'manga'], NAMESPACE)
+    return this.readStorage(['anime', 'manga', 'game'], NAMESPACE)
   }
 
   // -------------------- anime --------------------
@@ -140,6 +146,49 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
             'update',
             'hot'
           ])
+        }
+      })
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  // -------------------- game --------------------
+  game(subjectId: SubjectId) {
+    return computed<GameItem>(() => {
+      return this.state.game[`game_${subjectId}`] || {}
+    }).get()
+  }
+
+  gameSubjectId(pickIndex: number): SubjectId {
+    return computed(() => {
+      const item = gamePick(pickIndex)
+      return item?.i || 0
+    }).get()
+  }
+
+  onGamePage = async (list: number[]) => {
+    if (!list.length) return
+
+    const keys = []
+    list.forEach(index => {
+      const subjectId = this.gameSubjectId(index)
+      const key = `game_${subjectId}`
+      if (!subjectId || key in this.state.game) return
+      keys.push(key)
+    })
+    if (!keys.length) return
+
+    const datas = await gets(keys)
+    if (datas) {
+      const key = 'game'
+      const data = {}
+      Object.keys(datas).forEach(key => {
+        const item = datas[key]
+        if (item && typeof item === 'object') {
+          data[key] = item
         }
       })
       this.setState({

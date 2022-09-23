@@ -37,3 +37,21 @@ export type MangaItem = {
   update: string
   hot: number
 }
+
+export type GameItem = {
+  id: number
+  t: string
+  en: string
+  cn: string
+  c: string
+  sc?: number
+  r?: number
+  o?: number
+  l: number
+  ta: string[]
+  d: string[]
+  p: string[]
+  pl: string[]
+  vc?: number
+  vs?: number
+}

@@ -18,68 +18,56 @@ export type Query = {
   sort: any
 }
 
-/**
- * 转换压缩数据的 key 名
- * {
- *   t: '碧蓝幻想Versus',
- *   l: 13,
- *   s: 'グランブルーファンタジー ヴァーサス',
- *   vs: 8.1,
- *   vc: 102,
- *   ta: ['格斗', '角色扮演'],
- *   la: ['简中'],
- *   d: ['Arc System Works'],
- *   p: ['Cygames', 'SEGA'],
- *   pl: ['PS4', 'PC'],
- *   cn: '2020-02-06',
- *   en: '2020-02-06',
- *   id: 269406,
- *
- *   // 可能没有的键值, 使用默认值
- *   sc: 6.5,
- *   r: 4023
- * }
- */
 export type Item = {
-  id: any
-  l: any
-  t: any
-  s: any
-  c: any
-  ta: any
-  lg: any
-  d: any
-  p: any
-  pl: any
-  en: any
-  cn: any
-  sc: any
-  r: any
-  o: any
-  v: any
-  vs: any
-  vc: any
+  i: number
+  f: string
+  en: string
+  s?: number
+  r?: number
+  l: number
+  ta: number[]
+  d?: number[]
+  p?: number[]
+  pl: number[]
+  vs?: number
+  vc?: number
 }
 
+/**
+ * {
+ *   id: 62229,
+ *   t: '塞尔达传说 旷野之息',
+ *   en: '2017-03-03',
+ *   cn: '2018-02-01',
+ *   c: '60/d8/62229_SrxX4',
+ *   sc: 9.4,
+ *   r: 1,
+ *   o: 3455,
+ *   l: 8,
+ *   ta: ['动作', '沙箱', '冒险'],
+ *   d: ['Nintendo'],
+ *   p: ['Nintendo'],
+ *   pl: ['NS', 'WiiU'],
+ *   vc: 14843,
+ *   vs: 9.8,
+ * }
+ */
 export type UnzipItem = {
-  id: any
-  length: any
-  title: any
-  sub: any
-  cover: any
-  tag: any
-  lang: any
-  dev: any
-  publish: any
-  platform: any
-  time: any
-  timeCn: any
-  score: any
-  rank: any
-  total: any
-  vid: any
-  vgScore: any
-  vgCount: any
+  id: number
+  t: string
+  en: string
+  cn: string
+  c: string
+  sc?: number
+  r?: number
+  o?: number
+  l: number
+  ta: string[]
+  d: string[]
+  p: string[]
+  pl: string[]
+  vc?: number
+  vs?: number
 }
 
 export type SearchResult = {

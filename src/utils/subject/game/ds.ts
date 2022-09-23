@@ -18,9 +18,9 @@ export const GAME_PLATFORM = [
   'PS4',
   'XSX|S',
   'XB1',
+  'PSV',
   'PS3',
   'PS2',
-  'PSV',
   'PSP',
   '3DS',
   'NDS',
@@ -44,6 +44,13 @@ export const GAME_PLATFORM = [
   'MD',
   'Arcade'
 ] as const
+
+const GAME_PLATFORM_MAP = {}
+GAME_PLATFORM.forEach((item, index) => {
+  GAME_PLATFORM_MAP[item] = index
+})
+
+export { GAME_PLATFORM_MAP }
 
 export const GAME_CATE = [
   '动作',
@@ -95,6 +102,13 @@ export const GAME_CATE = [
   '桌面'
 ] as const
 
+const GAME_CATE_MAP = {}
+GAME_CATE.forEach((item, index) => {
+  GAME_CATE_MAP[item] = index
+})
+
+export { GAME_CATE_MAP }
+
 export const GAME_DEV = [
   'Nintendo',
   'Bandai Namco',
@@ -140,6 +154,13 @@ export const GAME_DEV = [
   'Tamsoft'
 ] as const
 
+const GAME_DEV_MAP = {}
+GAME_DEV.forEach((item, index) => {
+  GAME_DEV_MAP[item] = index
+})
+
+export { GAME_DEV_MAP }
+
 export const GAME_PUB = [
   'Nintendo',
   'Bandai Namco',
@@ -174,6 +195,13 @@ export const GAME_PUB = [
   'Otomate',
   'CyberConnect2'
 ] as const
+
+const GAME_PUB_MAP = {}
+GAME_PUB.forEach((item, index) => {
+  GAME_PUB_MAP[item] = index
+})
+
+export { GAME_PUB_MAP }
 
 export const GAME_SORT = [
   '发行',
