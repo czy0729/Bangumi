@@ -6,7 +6,6 @@
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
-import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
 import {
   SORT,
   REG_SEASONS,
@@ -17,13 +16,16 @@ import {
   ANIME_BEGIN,
   ANIME_STATUS,
   ANIME_TAGS,
+  ANIME_TAGS_MAP,
   ANIME_OFFICIAL,
+  ANIME_OFFICIAL_MAP,
   ANIME_SORT
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
   SORT,
+  REG_SEASONS,
   ANIME_AREA,
   ANIME_TYPE,
   ANIME_FIRST,
@@ -31,7 +33,9 @@ export {
   ANIME_BEGIN,
   ANIME_STATUS,
   ANIME_TAGS,
+  ANIME_TAGS_MAP,
   ANIME_OFFICIAL,
+  ANIME_OFFICIAL_MAP,
   ANIME_SORT
 }
 
@@ -53,15 +57,15 @@ export async function init() {
 }
 
 /** 根据 index 选一项 */
-export function pick(index: number): UnzipItem {
+export function pick(index: number): Item {
   init()
-  return unzip(getData()[index])
+  return getData()[index]
 }
 
 /** 根据条目 id 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
-  return unzip(getData().find(item => item.id == id))
+  return unzip(getData().find(item => item.i == id))
 }
 
 /** 只返回下标数组对象 */
@@ -106,11 +110,10 @@ export function search(query: Query): SearchResult {
     // type: 'TV'
     if (match && type) match = (item.ty || 'TV') === type
 
-    // cn: 'Code Geass 反叛的鲁路修 第二季'
-    if (match && first) match = first === getPinYinFirstCharacter(item.c)
+    if (match && first) match = first === item.f
 
     // begin: '2008-04-06'
-    if (match && year) match = yearReg.test(item.b)
+    if (match && year) match = yearReg.test(item.b || '')
     if (match && begin) {
       if (!item.b) {
         match = false
@@ -125,37 +128,47 @@ export function search(query: Query): SearchResult {
       }
     }
 
-    // status: '完结'
-    if (match && status) match = (item.st || '完结') === status
+    // status: undefined | 1 | 2
+    if (match && status) {
+      if (item.st === undefined) {
+        match = status === '完结'
+      } else if (item.st === 1) {
+        match = status === '连载'
+      } else if (item.st === 2) {
+        match = status === '未播放'
+      }
+    }
 
     // tags: '科幻 机战 悬疑 战斗 战争'
     if (match && tags.length) {
       tags.forEach((tag: string) => {
-        if (match) match = item.t?.includes(tag)
+        if (match) match = item.t?.includes(ANIME_TAGS_MAP[tag])
       })
     }
 
-    if (match && official) match = item.o?.includes(official)
+    if (match && official) {
+      match = item.o?.includes(ANIME_OFFICIAL_MAP[official])
+    }
 
     if (match) _list.push(index)
   })
 
   switch (sort) {
     case '上映时间':
-      _list = _list.sort((a, b) => SORT.begin(data[a], data[b]))
+      _list = _list.sort((a, b) => SORT.begin(data[a], data[b], 'b'))
       break
 
     case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b]))
+      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'f'))
       break
 
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(data[a], data[b]))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
       break
 
     case '评分人数':
-      _list = _list.sort((a, b) => SORT.total(data[a], data[b]))
+      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'l'))
       break
 
     case '随机':
@@ -180,8 +193,8 @@ export function search(query: Query): SearchResult {
   return result
 }
 
-/** 转换压缩数据的 key 名 */
-export function unzip(item: Item): UnzipItem {
+/** @deprecated  转换压缩数据的 key 名 */
+export function unzip(item: any): UnzipItem {
   return {
     id: item?.id || 0,
     ageId: item?.a || 0,
@@ -240,7 +253,7 @@ export function guess(
   return (
     data
       .map((item, index) => {
-        if (userCollectionsMap[item.id]) {
+        if (userCollectionsMap[item.i]) {
           return [index, reverse ? 100000 : 0]
         }
 

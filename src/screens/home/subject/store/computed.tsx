@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-03 13:35:58
+ * @Last Modified time: 2022-09-23 11:29:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -328,7 +328,8 @@ export default class Computed extends State {
   /** 第三方动画信息 */
   @computed get animeInfo() {
     if (this.type !== '动画') return null
-    return findAnime(this.subjectId)
+    // return findAnime(this.subjectId)
+    return null
   }
 
   /** 第三方游戏信息 */

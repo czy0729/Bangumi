@@ -16,6 +16,8 @@ import {
   ANIME_SORT
 } from '@utils/subject/anime'
 
+export const ADVANCE_LIMIT = 120
+
 // 类型分组
 const ANIME_TAGS_GROUP = [[], []]
 ANIME_TAGS.forEach((item, index) => ANIME_TAGS_GROUP[index % 2 ? 1 : 0].push(item))

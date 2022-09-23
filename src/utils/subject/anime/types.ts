@@ -20,44 +20,18 @@ export type Query = {
   sort: any
 }
 
-/**
- * 转换压缩数据的 key 名
- * {
- *   t: '碧蓝幻想Versus',
- *   l: 13,
- *   s: 'グランブルーファンタジー ヴァーサス',
- *   vs: 8.1,
- *   vc: 102,
- *   ta: ['格斗', '角色扮演'],
- *   la: ['简中'],
- *   d: ['Arc System Works'],
- *   p: ['Cygames', 'SEGA'],
- *   pl: ['PS4', 'PC'],
- *   cn: '2020-02-06',
- *   en: '2020-02-06',
- *   id: 269406,
- *
- *   // 可能没有的键值, 使用默认值
- *   sc: 6.5,
- *   r: 4023
- * }
- */
 export type Item = {
-  id: any
-  a: any
-  o: any
-  t: any
-  e: any
-  c: any
-  j: any
-  i: any
-  b: any
-  s?: any
-  r?: any
-  l?: any
-  st?: any
-  ty?: any
+  i: number
+  f: string
+  s?: number
+  r?: number
+  l?: number
+  ty?: string
+  t?: number[]
+  b?: string
   ar?: any
+  st?: number
+  o: number[]
 }
 
 export type UnzipItem = {

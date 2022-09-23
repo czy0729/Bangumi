@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 14:03:12
+ * @Last Modified time: 2022-09-23 11:27:21
  */
 export * from './app-common'
 export * from './auth'
@@ -42,4 +42,5 @@ export * from './status-bar-placeholder'
 export * from './status-btn-group'
 export * from './stock-preview'
 export * from './tag'
+export * from './tags'
 export * from './tap-listener'

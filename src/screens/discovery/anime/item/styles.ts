@@ -27,5 +27,11 @@ export const memoStyles = _.memoStyles(() => ({
   },
   body: {
     width: '100%'
+  },
+  tip: {
+    paddingRight: 24
+  },
+  loading: {
+    height: IMG_HEIGHT_LG
   }
 }))

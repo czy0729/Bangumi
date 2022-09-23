@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 02:35:07
+ * @Last Modified time: 2022-09-23 11:44:45
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Heatmap } from '@components'
-import { collectionStore, uiStore, _ } from '@stores'
-import { Tag, Cover, Stars, Rank, Manage } from '@_'
-import { x18 } from '@utils'
+import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
+import { _, otaStore, collectionStore, uiStore } from '@stores'
+import { Tag, Tags, Cover, Stars, Rank, Manage } from '@_'
+import { cnjp, x18 } from '@utils'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
 import {
   IMG_WIDTH_LG,
@@ -24,11 +23,14 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
+  const styles = memoStyles()
+  const subjectId = otaStore.animeSubjectId(pickIndex)
   const {
     id,
     ageId,
     image,
     cn,
+    jp,
     ep,
     type,
     status,
@@ -38,24 +40,30 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     score,
     rank,
     total
-  } = pick(pickIndex)
-  if (!id) return null
+  } = otaStore.anime(subjectId)
+  if (!id) {
+    return (
+      <Flex style={styles.loading} justify='center'>
+        <Loading.Raw />
+      </Flex>
+    )
+  }
 
-  const styles = memoStyles()
   const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const _tags = String(tags)
     .split(' ')
     .filter(item => !!item && item !== '暂无')
-  const tip = [
+  const tipStr = [
     type === 'TV' ? '' : type,
-    String(ep).replace(/\(完结\)|第/g, ''),
+    String(ep).replace(/\(完结\)|第|\[|\]/g, ''),
     status,
     begin,
-    official
+    official === '暂无' ? '' : official
   ]
     .filter(item => !!item)
     .join(' / ')
-  const collection = $.userCollectionsMap[id]
+  const collection =
+    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
   return (
     <Touchable
       style={styles.container}
@@ -92,17 +100,18 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
             <Flex align='start' style={styles.body}>
               <Flex.Item>
                 <Text size={15} bold numberOfLines={2}>
-                  {cn}
+                  {cnjp(cn, jp)}
                 </Text>
               </Flex.Item>
               {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
               <Manage
-                collection={collectionStore.collectionStatus(id) || collection || ''}
+                collection={collection}
                 onPress={() => {
                   uiStore.showManageModal(
                     {
                       subjectId: id,
-                      title: cn,
+                      title: cnjp(cn, jp),
+                      desc: cnjp(jp, cn),
                       status:
                         MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
                     },
@@ -114,10 +123,10 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                 }}
               />
             </Flex>
-            <Text size={11} lineHeight={14}>
-              {tip}
+            <Text style={styles.tip} size={11} lineHeight={14}>
+              {tipStr}
             </Text>
-            <Flex style={_.mt.md} wrap='wrap'>
+            <Flex style={_.mt.md}>
               <Rank value={rank} />
               <Stars style={_.mr.xs} value={score} simple />
               {!!total && (
@@ -125,13 +134,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   ({total})
                 </Text>
               )}
-              <Flex.Item>
-                <Flex>
-                  {_tags.map(item => (
-                    <Tag key={item} style={_.mr.sm} value={item} />
-                  ))}
-                </Flex>
-              </Flex.Item>
+              <Tags value={_tags} />
             </Flex>
           </Flex>
         </Flex.Item>

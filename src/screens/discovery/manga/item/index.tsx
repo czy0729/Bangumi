@@ -93,7 +93,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
               </Flex.Item>
               {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
               <Manage
-                collection={collectionStore.collectionStatus(id) || collection || ''}
+                collection={collection}
                 typeCn='书籍'
                 onPress={() => {
                   uiStore.showManageModal(
