@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 15:55:08
+ * @Last Modified time: 2022-09-25 04:14:53
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -36,6 +36,7 @@ export const DEFAULT_PROPS = {
   readedTime: '' as string,
   replySub: '' as Props['replySub'],
   showFixedTextare: (() => {}) as any,
+  expandNums: EXPAND_NUMS as number,
   sub: [] as Props['sub'],
   time: '' as Props['time'],
   translate: '' as any,

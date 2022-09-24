@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 22:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 15:31:16
+ * @Last Modified time: 2022-09-25 04:14:20
  */
 import { Id, UserId, EventType, ViewStyle } from '@types'
 
@@ -54,6 +54,9 @@ export type Props = {
 
   /** 是否自动检测媒体块 */
   matchLink?: boolean
+
+  /** 楼层自动折叠子回复数 */
+  expandNums?: number
 
   /** 传递显示回复弹窗的函数 */
   showFixedTextare?: () => any

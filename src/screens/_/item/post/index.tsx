@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 15:55:14
+ * @Last Modified time: 2022-09-25 04:15:43
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -38,6 +38,7 @@ export const ItemPost = obc(
       rendered,
       matchLink,
       showFixedTextare,
+      expandNums = EXPAND_NUMS,
       event
     }: ItemPostProps,
     { $, navigation }
@@ -64,7 +65,7 @@ export const ItemPost = obc(
     let isExpand
     if (expands !== undefined) {
       isExpand =
-        sub.length <= EXPAND_NUMS || (sub.length > EXPAND_NUMS && expands.includes(id))
+        sub.length <= expandNums || (sub.length > expandNums && expands.includes(id))
     } else {
       isExpand = true
     }
@@ -110,6 +111,7 @@ export const ItemPost = obc(
         readedTime={readedTime}
         replySub={replySub}
         showFixedTextare={showFixedTextare}
+        expandNums={expandNums}
         sub={sub}
         time={time}
         translate={translateResultFloor?.[id]}

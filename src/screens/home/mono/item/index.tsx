@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:19:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 17:25:42
+ * @Last Modified time: 2022-09-25 04:16:19
  */
 import React from 'react'
 import { ItemPost } from '@_'
@@ -26,6 +26,7 @@ function Item({ item, index }, { navigation }: Ctx) {
       index={index}
       event={EVENT}
       matchLink={false}
+      expandNums={2}
       {...item}
     />
   )

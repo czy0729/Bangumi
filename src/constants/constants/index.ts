@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 04:42:27
+ * @Last Modified time: 2022-09-25 04:10:20
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -224,7 +224,7 @@ export const LIST_EMPTY = {
 export const LIMIT_LIST = 100
 
 /** 用于制造分页数据 (评论) */
-export const LIMIT_LIST_COMMENTS = 50
+export const LIMIT_LIST_COMMENTS = 24
 
 /** 对评论数多的帖子进行网页跳转 */
 export const LIMIT_TOPIC_PUSH = 500

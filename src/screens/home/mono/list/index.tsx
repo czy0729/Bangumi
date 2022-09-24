@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:42:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 19:36:40
+ * @Last Modified time: 2022-09-25 04:17:23
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -22,7 +22,7 @@ function List({ renderItem, onScroll }, { $ }: Ctx) {
       scrollToTop
       ListHeaderComponent={<Info />}
       progressViewOffset={_.ios(_.statusBarHeight, 0)}
-      removeClippedSubviews={false}
+      removeClippedSubviews={$.list.length >= 100}
       renderItem={renderItem}
       onScroll={onScroll}
       onHeaderRefresh={$.onHeaderRefresh}

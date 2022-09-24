@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 19:50:17
+ * @Last Modified time: 2022-09-25 04:12:35
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -17,6 +17,7 @@ import {
   loading,
   omit,
   open,
+  opitimize,
   removeHTMLTag
 } from '@utils'
 import store from '@utils/store'
@@ -72,8 +73,15 @@ export default class ScreenMono extends store {
   }
 
   // -------------------- fetch --------------------
-  /** 人物信息和吐槽箱 */
+  /**
+   * 人物信息和吐槽箱
+   * @opitimize 1h
+   * */
   fetchMono = (refresh: boolean = false) => {
+    if (refresh && opitimize(this.mono, 60 * 60)) {
+      return true
+    }
+
     return subjectStore.fetchMono(
       {
         monoId: this.monoId
@@ -189,6 +197,11 @@ export default class ScreenMono extends store {
     const monoComments = subjectStore.monoComments(this.monoId)
     if (monoComments._loaded) return monoComments
     return this.state.comments
+  }
+
+  @computed get list() {
+    const { list } = this.monoComments
+    return list
   }
 
   /** 人物信息 (CDN) */

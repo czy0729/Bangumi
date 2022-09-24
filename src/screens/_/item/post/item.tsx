@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 17:15:44
+ * @Last Modified time: 2022-09-25 04:16:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import UserLabel from './user-label'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
 import ItemSub from './sub'
-import { DEFAULT_PROPS, IMAGES_MAX_WIDTH, EXPAND_NUMS } from './ds'
+import { DEFAULT_PROPS, IMAGES_MAX_WIDTH } from './ds'
 
 const AVATAR_SIZE = 36
 
@@ -42,6 +42,7 @@ const Item = memo(
     readedTime,
     replySub,
     showFixedTextare,
+    expandNums,
     sub,
     time,
     translate,
@@ -122,7 +123,7 @@ const Item = memo(
           <View style={styles.sub}>
             <Flex wrap='wrap'>
               {sub
-                .filter((item, index) => (isExpand ? true : index < EXPAND_NUMS))
+                .filter((item, index) => (isExpand ? true : index < expandNums))
                 .map(item => (
                   <ItemSub
                     key={item.id}
@@ -146,7 +147,7 @@ const Item = memo(
                   />
                 ))}
             </Flex>
-            {sub.length > EXPAND_NUMS && (
+            {sub.length > expandNums && (
               <Touchable onPress={() => onToggleExpand(id)}>
                 <Text
                   style={styles.expand}
@@ -155,7 +156,7 @@ const Item = memo(
                   align='center'
                   bold
                 >
-                  {isExpand ? '收起楼层' : `展开 ${sub.length - EXPAND_NUMS} 条回复`}
+                  {isExpand ? '收起楼层' : `展开 ${sub.length - expandNums} 条回复`}
                 </Text>
               </Touchable>
             )}
