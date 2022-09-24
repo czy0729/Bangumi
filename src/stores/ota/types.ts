@@ -118,3 +118,30 @@ export type WenkuItem = {
   hot: 0 | 1 | 2 | 3 | 4 | 5
   up: 0 | 1 | 2 | 3 | 4 | 5
 }
+
+/**
+ * hentai_285482: {
+ *   id: 285482,
+ *   h: 1812,
+ *   c: '异种族风俗娘评鉴指南',
+ *   i: 'dc/8a/285482_c5RRj',
+ *   s: 7.8,
+ *   r: 448,
+ *   n: 5675,
+ *   a: '2020-01-11',
+ *   e: 12,
+ *   t: [76, 77, 23, 22, 79, 18, 53]
+ * }
+ */
+export type HentaiItem = {
+  id: number
+  h: number
+  c: string
+  i: string
+  s: number
+  r: number
+  n: number
+  a: string
+  e: number
+  t: number[]
+}

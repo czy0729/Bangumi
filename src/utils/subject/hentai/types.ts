@@ -18,37 +18,14 @@ export type Query = {
   sort: any
 }
 
-/**
- * 转换压缩数据的key名
- * @param {*} item
- * {
- *   id: 25469,
- *   h: 22824,
- *   c: '风筝',
- *   j: 'A KITE',
- *   i: 'b5/75/25469_APhI3',
- *   n: 1247,
- *   a: '1998-02-25',
- *   e: 2,
- *
- *   // 可能没有的键值, 使用默认值
- *   [s: 7.6]
- *   [r: 766]
- *   [t: [13,73,54,26,41,78,48,53,55,1,50,10]]
- * }
- */
 export type Item = {
-  id: any
-  h: any
-  c: any
-  j: any
-  i: any
-  a: any
-  e: any
-  s?: any
-  r?: any
-  n?: any
-  t?: any
+  id: number
+  f?: string
+  s?: number
+  r?: number
+  n?: number
+  a: string
+  t: number[]
 }
 
 export type UnzipItem = {

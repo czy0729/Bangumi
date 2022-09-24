@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-14 17:11:52
+ * @Last Modified time: 2022-09-24 22:08:55
  */
 import { getTimestamp } from '../../index'
-import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
 import { SORT } from './../anime'
 import {
   HENTAI_FIRST,
@@ -15,7 +14,8 @@ import {
   HENTAI_JOB,
   HENTAI_BODY,
   HENTAI_CONTENT,
-  HENTAI_TAGS
+  HENTAI_TAGS,
+  HENTAI_TAGS_MAP
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 import { SubjectId } from '@types'
@@ -28,7 +28,8 @@ export {
   HENTAI_JOB,
   HENTAI_BODY,
   HENTAI_CONTENT,
-  HENTAI_TAGS
+  HENTAI_TAGS,
+  HENTAI_TAGS_MAP
 }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
@@ -44,14 +45,14 @@ function getData() {
 export async function init() {
   if (loaded) return
 
-  hentai = require('@assets/json/thirdParty/h.min.json').data
+  hentai = require('@assets/json/thirdParty/h.min.json')
   loaded = true
 }
 
 /** 根据 index 选一项 */
-export function pick(index: number): UnzipItem {
+export function pick(index: number): Item {
   init()
-  return unzip(getData()[index])
+  return getData()[index]
 }
 
 /** 根据条目 id 查询一项 */
@@ -79,25 +80,15 @@ export function search(query: Query): SearchResult {
   }
 
   const data = getData()
-  const tagsMap = {}
-  HENTAI_TAGS.forEach((item, index) => {
-    tagsMap[item] = index
-  })
   data.forEach((item, index) => {
     let match = true
 
-    // c: '风筝'
-    if (match && first) {
-      match = first === getPinYinFirstCharacter(item.c || item.j)
-    }
-
-    //  a: '1998-02-25'
+    if (match && first) match = first === item.f
     if (match && year) match = yearReg.test(item.a)
-
-    if (match && chara) match = item.t?.includes(tagsMap[chara])
-    if (match && job) match = item.t?.includes(tagsMap[job])
-    if (match && body) match = item.t?.includes(tagsMap[body])
-    if (match && content) match = item.t?.includes(tagsMap[content])
+    if (match && chara) match = item.t?.includes(HENTAI_TAGS_MAP[chara])
+    if (match && job) match = item.t?.includes(HENTAI_TAGS_MAP[job])
+    if (match && body) match = item.t?.includes(HENTAI_TAGS_MAP[body])
+    if (match && content) match = item.t?.includes(HENTAI_TAGS_MAP[content])
 
     if (match) _list.push(index)
   })
@@ -108,11 +99,11 @@ export function search(query: Query): SearchResult {
       break
 
     case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'c'))
+      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'f'))
       break
 
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(data[a], data[b]))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'f'))
       break
 
     case '评分人数':
@@ -142,7 +133,7 @@ export function search(query: Query): SearchResult {
 }
 
 /** 转换压缩数据的 key 名 */
-export function unzip(item: Item): UnzipItem {
+export function unzip(item: any): UnzipItem {
   return {
     id: item?.id || 0,
     hId: item?.h || 0,

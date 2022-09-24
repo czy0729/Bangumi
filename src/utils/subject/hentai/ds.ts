@@ -116,3 +116,10 @@ export const HENTAI_TAGS = [
   ...HENTAI_BODY, // 25-39
   ...HENTAI_CONTENT // 40-80+
 ] as const
+
+const HENTAI_TAGS_MAP = {}
+HENTAI_TAGS.forEach((item, index) => {
+  HENTAI_TAGS_MAP[item] = index
+})
+
+export { HENTAI_TAGS_MAP }

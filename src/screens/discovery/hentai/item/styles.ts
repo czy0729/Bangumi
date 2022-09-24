@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-11 12:25:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 12:25:48
+ * @Last Modified time: 2022-09-24 22:09:30
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
@@ -34,5 +34,12 @@ export const memoStyles = _.memoStyles(() => ({
   tag: {
     marginTop: 6,
     marginRight: 6
+  },
+  tip: {
+    paddingRight: 24,
+    marginTop: _.xs
+  },
+  loading: {
+    height: IMG_HEIGHT_LG
   }
 }))

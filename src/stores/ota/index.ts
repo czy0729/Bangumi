@@ -13,9 +13,10 @@ import { pick as mangaPick } from '@utils/subject/manga'
 import { pick as gamePick } from '@utils/subject/game'
 import { pick as advPick } from '@utils/subject/adv'
 import { pick as wenkuPick } from '@utils/subject/wenku'
+import { pick as hentaiPick } from '@utils/subject/hentai'
 import { StoreConstructor, SubjectId } from '@types'
 import { NAMESPACE } from './ds'
-import { ADVItem, AnimeItem, GameItem, MangaItem, WenkuItem } from './types'
+import { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
 
 const state = {
   /** 找番剧 */
@@ -36,6 +37,11 @@ const state = {
   /** 找文库 */
   wenku: {
     wk8_0: {}
+  },
+
+  /** 找 Hentai */
+  hentai: {
+    hentai_0: {}
   }
 }
 
@@ -43,7 +49,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
   init = () => {
-    return this.readStorage(['anime', 'manga', 'game', 'wenku'], NAMESPACE)
+    return this.readStorage(['anime', 'manga', 'game', 'wenku', 'hentai'], NAMESPACE)
   }
 
   // -------------------- anime --------------------
@@ -269,15 +275,60 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
     const keys = []
     list.forEach(index => {
       const subjectId = this.wenkuSubjectId(index)
-      if (!subjectId || this.wenku(subjectId).id) return
-
-      keys.push(`wk8_${subjectId}`)
+      const key = `wk8_${subjectId}`
+      if (!subjectId || key in this.state.wenku) return
+      keys.push(key)
     })
     if (!keys.length) return
 
     const datas = await gets(keys)
     if (datas) {
       const key = 'wenku'
+      const data = {}
+      Object.keys(datas).forEach(key => {
+        const item = datas[key]
+        if (item && typeof item === 'object') {
+          data[key] = item
+        } else {
+          data[key] = {}
+        }
+      })
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  // -------------------- hentai --------------------
+  hentai(subjectId: SubjectId) {
+    return computed<HentaiItem>(() => {
+      return this.state.hentai[`hentai_${subjectId}`] || {}
+    }).get()
+  }
+
+  hentaiSubjectId(pickIndex: number): SubjectId {
+    return computed(() => {
+      const item = hentaiPick(pickIndex)
+      return item?.id || 0
+    }).get()
+  }
+
+  onHentaiPage = async (list: number[]) => {
+    if (!list.length) return
+
+    const keys = []
+    list.forEach(index => {
+      const subjectId = this.hentaiSubjectId(index)
+      const key = `hentai_${subjectId}`
+      if (!subjectId || key in this.state.hentai) return
+      keys.push(key)
+    })
+    if (!keys.length) return
+
+    const datas = await gets(keys)
+    if (datas) {
+      const key = 'hentai'
       const data = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]

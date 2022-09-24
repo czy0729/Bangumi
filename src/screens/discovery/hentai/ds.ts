@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 02:49:34
+ * @Last Modified time: 2022-09-24 22:11:17
  */
 import {
   HENTAI_FIRST,
@@ -13,6 +13,14 @@ import {
   HENTAI_CONTENT,
   HENTAI_SORT
 } from '@utils/subject/hentai'
+
+export const ADVANCE_LIMIT = 80
+
+// 类型分组
+const HENTAI_CONTENT_GROUP = [[], []]
+HENTAI_CONTENT.forEach((item, index) =>
+  HENTAI_CONTENT_GROUP[index % 2 ? 1 : 0].push(item)
+)
 
 export const filterDS = [
   {
@@ -47,7 +55,8 @@ export const filterDS = [
   {
     title: '剧情',
     type: 'content',
-    data: HENTAI_CONTENT,
+    data: HENTAI_CONTENT_GROUP,
+    multiple: true,
     login: true
   },
   {
