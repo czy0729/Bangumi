@@ -35,21 +35,18 @@ import { memoStyles } from './styles'
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.gameSubjectId(pickIndex)
+  const game = otaStore.game(subjectId)
   const {
     id,
     t: title,
     c: image,
-    ta: tag = [],
-    d: dev = [],
-    p: publish = [],
-    pl: platform = [],
     en: time,
     cn: timeCn,
     sc: score,
     r: rank,
     o: total,
     l: length
-  } = otaStore.game(subjectId)
+  } = game
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -59,14 +56,21 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   }
 
   const thumbs = getThumbs(id, length)
-  const tip: any = [
+
+  const tag = toArray(game, 'ta')
+  const dev = toArray(game, 'd')
+  const publish = toArray(game, 'p')
+  const platform = toArray(game, 'pl')
+  const _dev = dev.map((item: any) => String(item).trim()).filter((item: any) => !!item)
+  const _publish = publish
+    .map((item: any) => String(item).trim())
+    .filter((item: any) => !!item)
+
+  const tip = [
     platform.join('、'),
     time,
     timeCn && timeCn !== time ? `中文 ${timeCn}` : ''
   ]
-
-  const _dev = dev.map(item => String(item).trim()).filter(item => !!item)
-  const _publish = publish.map(item => String(item).trim()).filter(item => !!item)
   if (_dev.join('、') === _publish.join('、')) {
     tip.push(_dev.join('、'))
   } else {
@@ -197,3 +201,9 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
 }
 
 export default obc(Item)
+
+function toArray(item = {}, key: string) {
+  return (
+    typeof item?.[key] === 'object' ? item?.[key] : [item?.[key] || undefined]
+  ).filter((item: any) => item !== undefined)
+}

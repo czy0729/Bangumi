@@ -49,7 +49,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     )
   }
 
-  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const _tags = String(tags)
     .split(' ')
     .filter(item => !!item && item !== '暂无')

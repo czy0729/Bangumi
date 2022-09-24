@@ -55,3 +55,21 @@ export type GameItem = {
   vc?: number
   vs?: number
 }
+
+export type ADVItem = {
+  id: number
+  t: string
+  en: string
+  cn?: undefined
+  c: string
+  sc?: number
+  r?: number
+  o?: number
+  l: number
+  ta?: undefined
+  d: string
+  p?: undefined
+  pl?: undefined
+  vc?: undefined
+  vs?: undefined
+}

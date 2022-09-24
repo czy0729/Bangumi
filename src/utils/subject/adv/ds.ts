@@ -56,4 +56,11 @@ export const ADV_DEV = [
   'プレカノ'
 ] as const
 
+const ADV_DEV_MAP = {}
+ADV_DEV.forEach((item, index) => {
+  ADV_DEV_MAP[item] = index
+})
+
+export { ADV_DEV_MAP }
+
 export const ADV_SORT = ['发行', '排名', '评分人数', '随机', '名称'] as const

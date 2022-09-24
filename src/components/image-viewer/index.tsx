@@ -11,9 +11,8 @@ import { Modal, View, StatusBar } from 'react-native'
 import RNImageViewer from 'react-native-image-zoom-viewer'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { open } from '@utils'
-import { showActionSheet } from '@utils/ui'
-import { IOS } from '@constants'
+import { open, showActionSheet } from '@utils'
+import { HOST_DOGE, IOS } from '@constants'
 import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
 import { Text } from '../text'
@@ -33,7 +32,7 @@ export const ImageViewer = observer(
       onCancel: () => {}
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: { visible: boolean }) {
       if (!IOS) StatusBar.setHidden(nextProps.visible)
     }
 
@@ -47,31 +46,30 @@ export const ImageViewer = observer(
       return this.renderMenus(imageUrls[index]._url || imageUrls[index].url, onCancel)
     }
 
-    renderMenus(url, onCancel) {
-      // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
+    renderMenus(url: string, onCancel: any) {
+      if (typeof url === 'string' && url.includes(HOST_DOGE)) return
+
       if (IOS) {
-        showActionSheet(actionSheetDS, index => {
+        // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
+        showActionSheet(actionSheetDS, (index: number) => {
           if (index === 0) {
-            const result = open(url)
-            if (result) {
-              onCancel()
-            }
+            // const result = open(url)
+            // if (result) onCancel()
+            open(url)
           }
         })
       } else {
-        // @issue 安卓的ActionSheet在这个Viewer的下面
+        // @issue 安卓的 ActionSheet 在这个 Viewer 的下面
         onCancel()
-        showActionSheet(actionSheetDS, index => {
-          if (index === 0) {
-            open(url)
-          }
+        showActionSheet(actionSheetDS, (index: number) => {
+          if (index === 0) open(url)
         })
       }
 
       return null
     }
 
-    renderIndicator = (currentIndex, allSize) => {
+    renderIndicator = (currentIndex: number, allSize: number) => {
       const { imageUrls } = this.props
       if (imageUrls.length <= 1) return null
 

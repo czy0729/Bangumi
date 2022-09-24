@@ -39,5 +39,11 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorBg,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  tip: {
+    paddingRight: 24
+  },
+  loading: {
+    height: IMG_HEIGHT_LG
   }
 }))

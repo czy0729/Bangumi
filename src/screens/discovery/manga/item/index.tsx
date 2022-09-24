@@ -47,7 +47,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     )
   }
 
-  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const _cates = String(cates).split(' ')
   const tipStr = [status, publish, author, ep].filter(item => !!item).join(' / ')
   const collection =

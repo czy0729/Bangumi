@@ -10,6 +10,7 @@ import store from '@utils/store'
 import { init, search } from '@utils/subject/adv'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
+import { ADVANCE_LIMIT } from './ds'
 
 const NAMESPACE = 'ScreenADV'
 
@@ -24,7 +25,7 @@ export default class ScreenADV extends store {
       sort: '评分人数'
     },
     data: LIST_EMPTY,
-    layout: 'list', // list | grid
+    layout: 'list',
     expand: false,
     _loaded: false
   })
@@ -40,12 +41,12 @@ export default class ScreenADV extends store {
 
     collectionStore.fetchUserCollectionsQueue(false, '游戏')
 
+    this.search()
     setTimeout(() => {
-      this.search()
       this.setState({
         _loaded: true
       })
-    }, 80)
+    }, 120)
   }
 
   /** ADV 本地数据查询 */
@@ -73,6 +74,22 @@ export default class ScreenADV extends store {
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
+  }
+
+  /** 对应项搜索后总数 */
+  @computed get total() {
+    const { data } = this.state
+    return data.list.length
+  }
+
+  /** 对应项实际显示列表 */
+  @computed get list() {
+    const { data } = this.state
+    if (!systemStore.advance) {
+      return data.list.filter((item, index) => index < ADVANCE_LIMIT)
+    }
+
+    return data.list
   }
 
   // -------------------- page --------------------

@@ -72,7 +72,7 @@ class List extends React.Component {
         keyExtractor={keyExtractor}
         numColumns={numColumns}
         data={data.list}
-        limit={6}
+        limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop

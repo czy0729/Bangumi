@@ -48,7 +48,6 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     anime,
     tags
   } = pick(pickIndex)
-  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const tip = [
     ep,
     status ? '连载' : '完结',
@@ -58,10 +57,11 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     len ? `${len}万字` : ''
   ]
   if (sort === '更新' && update) tip.push(`${update} 更新`)
-
   const tipStr = tip.filter(item => !!item).join(' / ')
   const hotStr = fill('', hot, '◆')
   const upStr = fill('', up, '▲')
+
+  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const collection =
     collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
   return (

@@ -16,15 +16,13 @@ export type Query = {
 }
 
 export type Item = {
-  t: any
-  l: any
-  d: any
-  en: any
-  id: any
-  c: any
-  sc: any
-  r: any
-  o: any
+  i: number
+  f?: string
+  en: string
+  s?: number
+  r?: number
+  l?: number
+  d: number
 }
 
 export type UnzipItem = {

@@ -193,7 +193,7 @@ export function search(query: Query): SearchResult {
   return result
 }
 
-/** @deprecated  转换压缩数据的 key 名 */
+/** @deprecated 转换压缩数据的 key 名 */
 export function unzip(item: any): UnzipItem {
   return {
     id: item?.id || 0,

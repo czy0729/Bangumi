@@ -6,12 +6,11 @@
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
-import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
 import { SORT } from './../anime'
-import { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_SORT } from './ds'
+import { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_DEV_MAP, ADV_SORT } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
-export { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_SORT }
+export { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_DEV_MAP, ADV_SORT }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let adv: Item[] = []
@@ -31,15 +30,15 @@ export async function init() {
 }
 
 /** 根据 index 选一项 */
-export function pick(index: number): UnzipItem {
+export function pick(index: number): Item {
   init()
-  return unzip(getData()[index])
+  return getData()[index]
 }
 
 /** 根据条目 id 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
-  return unzip(getData().find(item => item.id == id))
+  return unzip(getData().find(item => item.i == id))
 }
 
 /** 只返回下标数组对象 */
@@ -63,18 +62,9 @@ export function search(query: Query): SearchResult {
   const data = getData()
   data.forEach((item, index) => {
     let match = true
-
-    // t: '碧蓝幻想Versus'
-    if (match && first) {
-      match = first === getPinYinFirstCharacter(item.t)
-    }
-
-    // en: '2020-02-06'
+    if (match && first) match = item.f !== undefined && first === item.f
     if (match && year) match = yearReg.test(item.en)
-
-    // ta: ['格斗', '角色扮演']
-    if (match && dev) match = item.d?.includes(dev)
-
+    if (match && dev) match = item.d === ADV_DEV_MAP[dev]
     if (match) _list.push(index)
   })
 
@@ -84,11 +74,11 @@ export function search(query: Query): SearchResult {
       break
 
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 'sc', 'r'))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
       break
 
     case '评分人数':
-      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'o'))
+      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'l'))
       break
 
     case '随机':
@@ -117,8 +107,8 @@ export function search(query: Query): SearchResult {
   return result
 }
 
-/** 转换压缩数据的 key 名 */
-export function unzip(item: Item): UnzipItem {
+/** @deprecated 转换压缩数据的 key 名 */
+export function unzip(item: any): UnzipItem {
   return {
     id: item?.id || 0,
     length: item?.l || 0,

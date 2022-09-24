@@ -6,13 +6,20 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Heatmap, HorizontalList, Image } from '@components'
-import { collectionStore, uiStore, _ } from '@stores'
-import { Tag, Cover, Stars, Rank, Manage } from '@_'
-import { x18, HTMLDecode, showImageViewer } from '@utils'
+import {
+  Flex,
+  Text,
+  Touchable,
+  Heatmap,
+  HorizontalList,
+  Image,
+  Loading
+} from '@components'
+import { _, otaStore, collectionStore, uiStore } from '@stores'
+import { Cover, Stars, Rank, Manage } from '@_'
+import { HTMLDecode, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { pick } from '@utils/subject/adv'
 import {
   IMG_WIDTH_LG,
   IMG_HEIGHT_LG,
@@ -27,23 +34,34 @@ import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const styles = memoStyles()
+  const subjectId = otaStore.advSubjectId(pickIndex)
+  const game = otaStore.game(subjectId)
   const {
     id,
-    title,
-    cover: image,
-    dev,
-    time,
-    score,
-    rank,
-    length,
-    total
-  } = pick(pickIndex)
-  const thumbs = getThumbs(id, length)
-  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
-  let tip: any = [time, dev]
-  tip = tip.filter((item: string) => !!item).join(' / ')
+    t: title,
+    c: image,
+    en: time,
+    sc: score,
+    r: rank,
+    o: total,
+    l: length,
+    d: dev
+  } = game
+  if (!id) {
+    return (
+      <Flex style={styles.loading} justify='center'>
+        <Loading.Raw />
+      </Flex>
+    )
+  }
 
-  const collection = $.userCollectionsMap[id]
+  const thumbs = getThumbs(id, length)
+  const tip = [time, dev]
+  const tipStr = tip.filter((item: string) => !!item).join(' / ')
+  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+
+  const collection =
+    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
   return (
     <Touchable
       style={styles.container}
@@ -75,9 +93,8 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   {HTMLDecode(title)}
                 </Text>
               </Flex.Item>
-              {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
               <Manage
-                collection={collectionStore.collectionStatus(id) || collection || ''}
+                collection={collection}
                 typeCn='游戏'
                 onPress={() => {
                   uiStore.showManageModal(
@@ -96,20 +113,18 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                 }}
               />
             </Flex>
-            <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
-              {tip}
+            <Text style={styles.tip} size={11} lineHeight={14} numberOfLines={5}>
+              {tipStr}
             </Text>
-            {!!(rank || score) && (
-              <Flex style={_.mt.md} wrap='wrap'>
-                <Rank value={rank} />
-                <Stars style={_.mr.xs} value={score} simple />
-                {!!total && (
-                  <Text type='sub' size={11} bold>
-                    ({total})
-                  </Text>
-                )}
-              </Flex>
-            )}
+            <Flex style={_.mt.md} wrap='wrap'>
+              <Rank value={rank} />
+              <Stars style={_.mr.xs} value={score} simple />
+              {!!total && (
+                <Text style={_.mr.sm} type='sub' size={11} bold>
+                  ({total})
+                </Text>
+              )}
+            </Flex>
           </View>
           {!!thumbs.length && (
             <View style={styles.thumbs}>

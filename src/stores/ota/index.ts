@@ -5,15 +5,16 @@
  * @Last Modified time: 2022-09-23 06:41:56
  */
 import { observable, computed } from 'mobx'
+import { pick } from '@utils'
 import store from '@utils/store'
 import { gets } from '@utils/kv'
 import { pick as animePick } from '@utils/subject/anime'
 import { pick as mangaPick } from '@utils/subject/manga'
 import { pick as gamePick } from '@utils/subject/game'
+import { pick as advPick } from '@utils/subject/adv'
 import { StoreConstructor, SubjectId } from '@types'
 import { NAMESPACE } from './ds'
-import { AnimeItem, GameItem, MangaItem } from './types'
-import { pick } from '@utils'
+import { ADVItem, AnimeItem, GameItem, MangaItem } from './types'
 
 const state = {
   /** 找番剧 */
@@ -26,7 +27,7 @@ const state = {
     mox_0: {}
   },
 
-  /** 找游戏 */
+  /** 找游戏 | ADV */
   game: {
     game_0: {}
   }
@@ -155,9 +156,9 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
     }
   }
 
-  // -------------------- game --------------------
+  // -------------------- game | adv --------------------
   game(subjectId: SubjectId) {
-    return computed<GameItem>(() => {
+    return computed<GameItem | ADVItem>(() => {
       return this.state.game[`game_${subjectId}`] || {}
     }).get()
   }
@@ -169,12 +170,48 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
+  advSubjectId(pickIndex: number): SubjectId {
+    return computed(() => {
+      const item = advPick(pickIndex)
+      return item?.i || 0
+    }).get()
+  }
+
   onGamePage = async (list: number[]) => {
     if (!list.length) return
 
     const keys = []
     list.forEach(index => {
       const subjectId = this.gameSubjectId(index)
+      const key = `game_${subjectId}`
+      if (!subjectId || key in this.state.game) return
+      keys.push(key)
+    })
+    if (!keys.length) return
+
+    const datas = await gets(keys)
+    if (datas) {
+      const key = 'game'
+      const data = {}
+      Object.keys(datas).forEach(key => {
+        const item = datas[key]
+        if (item && typeof item === 'object') {
+          data[key] = item
+        }
+      })
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  onADVPage = async (list: number[]) => {
+    if (!list.length) return
+
+    const keys = []
+    list.forEach(index => {
+      const subjectId = this.advSubjectId(index)
       const key = `game_${subjectId}`
       if (!subjectId || key in this.state.game) return
       keys.push(key)

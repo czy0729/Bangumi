@@ -6,6 +6,8 @@
  */
 import { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_SORT } from '@utils/subject/adv'
 
+export const ADVANCE_LIMIT = 60
+
 // 类型分组
 const ADV_DEV_GROUP = [[], []]
 ADV_DEV.forEach((item, index) => ADV_DEV_GROUP[index % 2 ? 1 : 0].push(item))
