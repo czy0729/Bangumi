@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 17:11:51
+ * @Last Modified time: 2022-09-25 07:05:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,7 +64,7 @@ export const Popable = ({ subjectId, visible, portalKey, x, y }) => {
                     <Cover
                       key={subjectId}
                       style={styles.cover}
-                      src={images.medium}
+                      src={images?.medium}
                       width={IMG_WIDTH}
                       height={IMG_HEIGHT}
                       borderWidth={_.hairlineWidth}

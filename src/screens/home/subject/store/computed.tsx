@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 02:55:23
+ * @Last Modified time: 2022-09-25 07:06:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -697,7 +697,7 @@ export default class Computed extends State {
         }) => ({
           id,
           image: images.grid,
-          _image: images.medium,
+          _image: images?.medium,
           name: nameCn || name,
           nameJP: name,
           desc: actors?.[0]?.name || roleName,
@@ -734,7 +734,7 @@ export default class Computed extends State {
         ({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
           id,
           image: images.grid,
-          _image: images.medium,
+          _image: images?.medium,
           name: nameCn || name,
           nameJP: name,
           desc: jobs[0]

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 05:38:10
+ * @Last Modified time: 2022-09-25 07:05:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,7 +60,7 @@ const ItemLine = memo(
               <Cover
                 width={IMG_WIDTH}
                 height={IMG_HEIGHT}
-                src={images.medium}
+                src={images?.medium}
                 radius
                 shadow
               />
@@ -133,7 +133,7 @@ const ItemLine = memo(
               navigation.push('Subject', {
                 subjectId,
                 _cn: name,
-                _image: images.medium
+                _image: images?.medium
               })
             }}
           >

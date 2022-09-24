@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 14:12:11
+ * @Last Modified time: 2022-09-25 07:05:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,7 @@ export default memo(
       navigation.push('Subject', {
         subjectId,
         _cn: name,
-        _image: images.medium
+        _image: images?.medium
       })
     }
 
@@ -57,7 +57,7 @@ export default memo(
         <Cover
           width={styles.cover.width}
           height={styles.cover.height}
-          src={images.medium}
+          src={images?.medium}
           radius
           shadow
           onPress={onPress}

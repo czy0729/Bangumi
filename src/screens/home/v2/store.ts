@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 07:01:33
+ * @Last Modified time: 2022-09-25 07:06:09
  */
 import { observable, computed } from 'mobx'
 import {
@@ -1199,7 +1199,7 @@ export default class ScreenHomeV2 extends store {
         {
           _title: `ep${item.sort}.${item.name || item.name_cn}`,
           _group: subject.name || subject.name_cn,
-          _groupThumb: getCoverMedium((subject.images || {}).medium),
+          _groupThumb: getCoverMedium((subject.images || {})?.medium),
           _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
             item.desc || ''
           ).replace(/\r\n/g, '<br />')}`

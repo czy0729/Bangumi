@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 07:02:00
+ * @Last Modified time: 2022-09-25 07:05:53
  */
 import {
   otaStore,
@@ -483,7 +483,7 @@ export default class Action extends Fetch {
           {
             _title: `ep${item.sort}.${item.name || item.name_cn}`,
             _group: this.subject.name || this.subject.name_cn,
-            _groupThumb: getCoverMedium((this.subject.images || {}).medium),
+            _groupThumb: getCoverMedium((this.subject.images || {})?.medium),
             _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
               item.desc || ''
             ).replace(/\r\n/g, '<br />')}`

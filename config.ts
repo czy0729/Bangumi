@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 20:41:45
+ * @Last Modified time: 2022-09-25 03:28:09
  */
 import { Paths } from '@types'
 
@@ -36,7 +36,7 @@ const CONFIGS: Configs = {
     // subjectId: 371546 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/372695' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
-    // monoId: 'character/106821' // character/70323 person/5745
+    // monoId: 'person/2481' // character/70323 person/5745
     // id: 240929
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448
