@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 19:47:13
+ * @Last Modified time: 2022-09-25 03:26:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,14 +68,18 @@ export const Avatar = ob(
      * 注意头像后面 ?r=xxx 的参数不要去掉, 因头像地址每个人都唯一, 需要防止本地缓存
      */
     const mSrc = getCoverMedium(src, true)
-    let _src
+    let _src: any
     if (avatar?.medium) {
       const _1 = mSrc.split('?')[0].split('/m/')
       const _2 = getCoverMedium(avatar.medium, true).split('?')[0].split('/m/')
 
       // 为自己
       if (_1[1] && _2[1] && _1[1] === _2[1]) {
-        _src = usersStore.customAvatar || `${mSrc}?r=${TS}`
+        if (typeof mSrc === 'string' && mSrc.includes(URL_DEFAULT_AVATAR)) {
+          _src = `${mSrc}?r=${TS}`
+        } else {
+          _src = usersStore.customAvatar || `${mSrc}?r=${TS}`
+        }
       }
     }
 
