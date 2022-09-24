@@ -2,23 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 10:40:30
+ * @Last Modified time: 2022-09-24 23:16:31
  */
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle, PreventTouchPlaceholder } from '@_'
-import { _ } from '@stores'
+import { systemStore, _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HENTAI_TAGS } from '@utils/subject/hentai'
-import { pick } from '@utils/subject/onair'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import IconHidden from '../icon/hidden'
 import IconGame from '../icon/game'
 import { DEFAULT_PROPS } from './ds'
-
-let _expand = false
 
 export default memo(
   ({
@@ -27,35 +23,22 @@ export default memo(
     subjectId,
     subjectType,
     showTags,
+    subjectTagsExpand,
     tag,
     tags,
     animeTags,
     hentaiTags,
+    gameTags,
+    mangaTags,
+    wenkuTags,
     onSwitchBlock
   }) => {
     global.rerender('Subject.Tags.Main')
 
-    const [expand, setExpand] = useState(_expand)
-    const onExpand = useCallback(() => {
-      setExpand(!expand)
-      _expand = !expand
-    }, [expand])
-
-    const onAirText = pick(subjectId)
     const elTags = (
       <>
-        {!!onAirText && (
-          <Flex style={!expand && styles.onair}>
-            <Text style={_.mr.sm} size={13} type='sub' bold>
-              {onAirText}
-            </Text>
-            <View style={styles.split} />
-          </Flex>
-        )}
         {tags.map(({ name, count }, index) => {
           const isSelected = tag.includes(name)
-          // if (!isSelected && tags.length > 10 && count < 8) return null
-
           return (
             <Touchable
               key={index}
@@ -93,13 +76,14 @@ export default memo(
             </Touchable>
           )
         })}
-        {!!animeTags && (
+
+        {/* 动画 */}
+        {!!animeTags?.length && (
           <>
-            <View style={[!expand && _.mt.xs, styles.split]} />
-            <Text style={[!expand && _.mt.xxs, _.mr.sm]} size={13} type='sub'>
-              内容
+            <Text style={styles.badge} size={13} type='sub'>
+              第三方标签
             </Text>
-            {animeTags.split(' ').map(item => (
+            {animeTags.map((item: string) => (
               <Touchable
                 key={item}
                 style={styles.item}
@@ -119,13 +103,14 @@ export default memo(
             ))}
           </>
         )}
-        {!!hentaiTags.length && (
+
+        {/* Hentai */}
+        {!!hentaiTags?.length && (
           <>
-            <View style={styles.split} />
-            <Text style={_.mr.sm} size={13} type='sub'>
-              内容
+            <Text style={styles.badge} size={13} type='sub'>
+              第三方标签
             </Text>
-            {hentaiTags.map(item => (
+            {hentaiTags.map((item: string) => (
               <Touchable
                 key={item}
                 style={styles.item}
@@ -140,13 +125,95 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13}>{HENTAI_TAGS[item]}</Text>
+                <Text size={13}>{item}</Text>
+              </Touchable>
+            ))}
+          </>
+        )}
+
+        {/* 游戏 */}
+        {!!gameTags?.length && (
+          <>
+            <Text style={styles.badge} size={13} type='sub'>
+              第三方标签
+            </Text>
+            {gameTags.map((item: string) => (
+              <Touchable
+                key={item}
+                style={styles.item}
+                onPress={() => {
+                  t('条目.跳转', {
+                    to: 'Game',
+                    from: '标签',
+                    subjectId
+                  })
+                  navigation.push('Game', {
+                    _tags: [item]
+                  })
+                }}
+              >
+                <Text size={13}>{item}</Text>
+              </Touchable>
+            ))}
+          </>
+        )}
+
+        {/* 漫画 */}
+        {!!mangaTags?.length && (
+          <>
+            <Text style={styles.badge} size={13} type='sub'>
+              第三方标签
+            </Text>
+            {mangaTags.map((item: string) => (
+              <Touchable
+                key={item}
+                style={styles.item}
+                onPress={() => {
+                  t('条目.跳转', {
+                    to: 'Manga',
+                    from: '标签',
+                    subjectId
+                  })
+                  navigation.push('Manga', {
+                    _tags: [item]
+                  })
+                }}
+              >
+                <Text size={13}>{item}</Text>
+              </Touchable>
+            ))}
+          </>
+        )}
+
+        {/* 文库 */}
+        {!!wenkuTags?.length && (
+          <>
+            <Text style={styles.badge} size={13} type='sub'>
+              第三方标签
+            </Text>
+            {wenkuTags.map((item: string) => (
+              <Touchable
+                key={item}
+                style={styles.item}
+                onPress={() => {
+                  t('条目.跳转', {
+                    to: 'Wenku',
+                    from: '标签',
+                    subjectId
+                  })
+                  navigation.push('Wenku', {
+                    _tags: [item]
+                  })
+                }}
+              >
+                <Text size={13}>{item}</Text>
               </Touchable>
             ))}
           </>
         )}
       </>
     )
+
     const show = showTags && !!tags.length
     return (
       <View style={[_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md]}>
@@ -160,7 +227,7 @@ export default memo(
         </SectionTitle>
         {show && (
           <>
-            {expand ? (
+            {subjectTagsExpand ? (
               <View style={[_.container.wind, _.mt.sm]}>
                 <Flex wrap='wrap'>{elTags}</Flex>
                 <Heatmap id='条目.跳转' from='标签' />
@@ -178,10 +245,14 @@ export default memo(
         )}
         {show && (
           <View style={styles.more}>
-            <Touchable onPress={onExpand}>
+            <Touchable onPress={() => systemStore.switchSetting('subjectTagsExpand')}>
               <Flex justify='center'>
                 <Iconfont
-                  name={expand ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
+                  name={
+                    subjectTagsExpand
+                      ? 'md-keyboard-arrow-up'
+                      : 'md-keyboard-arrow-down'
+                  }
                   size={_.device(24, 32)}
                 />
               </Flex>

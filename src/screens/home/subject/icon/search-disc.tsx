@@ -11,15 +11,27 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function IconSearchDisc(props, { $ }: Ctx) {
+const ORIGINS_MANAGE = '源头管理'
+
+function IconSearchDisc(props, { $, navigation }: Ctx) {
   return (
     <Popover
       style={styles.touch}
       menuStyle={styles.menuStyle}
-      data={$.onlineDiscOrigins.map(item =>
-        typeof item === 'object' ? item.name : item
-      )}
-      onSelect={$.onlineDiscSelected}
+      data={[
+        ...$.onlineDiscOrigins.map(item =>
+          typeof item === 'object' ? item.name : item
+        ),
+        ORIGINS_MANAGE
+      ]}
+      onSelect={(title: string) => {
+        if (title === ORIGINS_MANAGE) {
+          navigation.push('OriginSetting')
+          return
+        }
+
+        $.onlineDiscSelected(title)
+      }}
     >
       <Flex style={styles.btn} justify='center'>
         <Iconfont name='md-airplay' size={18} />

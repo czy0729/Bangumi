@@ -113,7 +113,6 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   {HTMLDecode(title)}
                 </Text>
               </Flex.Item>
-              {/* {x18(id) && <Tag style={_.ml.sm} value='NSFW' />} */}
               <Manage
                 collection={collection}
                 typeCn='游戏'
@@ -151,7 +150,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           {!!thumbs.length && (
             <View style={styles.thumbs}>
               <HorizontalList
-                data={thumbs.filter((item, index) => index < 3)}
+                data={thumbs.filter((item, index) => index < 2)}
                 renderItem={(item, index) => (
                   <Image
                     style={[!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md]}
@@ -171,7 +170,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   />
                 )}
                 renderNums={
-                  thumbs2.length > 3 &&
+                  thumbs2.length > 2 &&
                   (() => (
                     <Touchable
                       onPress={() => {
@@ -179,7 +178,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                           thumbs2.map(item => ({
                             url: item
                           })),
-                          3
+                          2
                         )
                       }}
                     >

@@ -8,7 +8,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-27 13:52:39
  */
-import { collectionStore, userStore } from '@stores'
+import { collectionStore, otaStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { queue } from '@utils/fetch'
 import Action from './action'
@@ -63,7 +63,8 @@ class ScreenSubject extends Action {
     // API 条目信息
     const data = await this.fetchSubject()
     queue([
-      () => this.fetchThirdParty(data), // 装载第三方数据
+      () => this.fetchOTA(), // 装载第三方找条目数据
+      () => this.fetchThirdParty(data), // 装载第三方额外数据
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目 API 没有的网页额外数据
       () => this.fetchEpsData(), // 单集播放源
@@ -75,6 +76,15 @@ class ScreenSubject extends Action {
     if (data?.code === 404) this.fetchPersons()
 
     return true
+  }
+
+  /** 装载第三方找条目数据 */
+  fetchOTA = () => {
+    if (this.type === '游戏') {
+      const gameInfo = this.gameInfo
+      if (gameInfo?.i) otaStore.fetchGame(gameInfo.i)
+      return
+    }
   }
 }
 

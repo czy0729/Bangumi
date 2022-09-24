@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 01:23:44
+ * @Last Modified time: 2022-09-24 22:43:56
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
@@ -63,6 +63,12 @@ export function pick(index: number): Item {
 }
 
 /** 根据条目 id 查询一项 */
+export function findAnime(id: SubjectId): Item {
+  init()
+  return getData().find(item => item.i == id)
+}
+
+/** @deprecated 根据条目 id 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
   return unzip(getData().find(item => item.i == id))
@@ -237,7 +243,7 @@ export function guess(
 ) {
   const rates = {}
   Object.keys(userCollectionsMap).forEach(id => {
-    const subject = find(id)
+    const subject = find(id) as UnzipItem
     if (subject.id && subject.tags) {
       const type = userCollectionsMap[id]
       subject.tags.split(' ').forEach(tag => {

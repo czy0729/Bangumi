@@ -5,16 +5,13 @@
  * @Last Modified time: 2022-09-06 20:31:12
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
-import { Rank, Stars } from '../../../base'
-import { memoStyles } from './styles'
+import { Rank, Stars, Tags } from '../../../base'
 
 function Bottom({ score, rank, time, tags, hideScore, isDo, isOnHold, isDropped }) {
-  const styles = memoStyles()
   const hasScore = !!score
 
   let days: number
@@ -49,13 +46,7 @@ function Bottom({ score, rank, time, tags, hideScore, isDo, isOnHold, isDropped 
           {info}
         </Text>
       )}
-      {tag
-        .filter((item: any, index: number) => index < 3)
-        .map((item: string) => (
-          <View key={item} style={styles.tag}>
-            <Text size={11}>{item}</Text>
-          </View>
-        ))}
+      <Tags value={tag} />
     </Flex>
   )
 }

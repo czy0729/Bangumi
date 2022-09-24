@@ -56,6 +56,12 @@ export function pick(index: number): Item {
 }
 
 /** 根据条目 id 查询一项 */
+export function findHentai(id: SubjectId): Item {
+  init()
+  return getData().find(item => item.id == id)
+}
+
+/** @deprecated 根据条目 id 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
   return unzip(getData().find(item => item.id == id))
@@ -132,7 +138,7 @@ export function search(query: Query): SearchResult {
   return result
 }
 
-/** 转换压缩数据的 key 名 */
+/** @deprecated 转换压缩数据的 key 名 */
 export function unzip(item: any): UnzipItem {
   return {
     id: item?.id || 0,

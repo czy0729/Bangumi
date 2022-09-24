@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:38:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 10:40:04
+ * @Last Modified time: 2022-09-24 23:15:37
  */
 import { systemStore } from '@stores'
 import { Navigation } from '@types'
@@ -15,9 +15,13 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as $['subjectId'],
   subjectType: '' as $['subjectType'],
   showTags: true as typeof systemStore.setting.showTags,
+  subjectTagsExpand: true as typeof systemStore.setting.subjectTagsExpand,
   tag: [] as $['collection']['tag'],
   tags: [] as $['tags'],
-  animeTags: '' as $['animeInfo']['tags'],
-  hentaiTags: [] as $['hentaiInfo']['tags'],
+  animeTags: [] as $['animeTags'],
+  hentaiTags: [] as $['hentaiTags'],
+  gameTags: [] as $['gameTags'],
+  mangaTags: [] as $['mangaTags'],
+  wenkuTags: [] as $['wenkuTags'],
   onSwitchBlock: (() => {}) as $['onSwitchBlock']
 }

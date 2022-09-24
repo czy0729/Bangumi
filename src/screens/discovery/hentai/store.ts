@@ -8,7 +8,7 @@
 import { observable, computed } from 'mobx'
 import { userStore, systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, search, getTagType, HENTAI_TAGS } from '@utils/subject/hentai'
+import { init, search, getTagType, HENTAI_TAGS_MAP } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 import { Params } from './types'
@@ -119,12 +119,12 @@ export default class ScreenHentai extends store {
       expand: true
     })
 
-    tags.forEach(item => {
+    tags.forEach((item: string) => {
       const { query } = this.state
       this.setState({
         query: {
           ...query,
-          [getTagType(item)]: HENTAI_TAGS[item]
+          [getTagType(HENTAI_TAGS_MAP[item])]: item
         }
       })
     })

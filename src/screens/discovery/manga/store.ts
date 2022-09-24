@@ -11,12 +11,15 @@ import { init, search } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 import { ADVANCE_LIMIT } from './ds'
+import { Params } from './types'
 
 const NAMESPACE = 'ScreenManga'
 
 let _loaded = false
 
 export default class ScreenManga extends store {
+  params: Params
+
   state = observable({
     query: {
       first: '',
@@ -39,8 +42,12 @@ export default class ScreenManga extends store {
       ...state,
       _loaded
     })
+
     if (!_loaded) await init()
     _loaded = true
+
+    const { _tags = [] } = this.params
+    if (_tags.length) this.initQuery(_tags)
 
     collectionStore.fetchUserCollectionsQueue(false, '书籍')
 
@@ -96,6 +103,18 @@ export default class ScreenManga extends store {
   }
 
   // -------------------- page --------------------
+  /** 初始化查询配置 */
+  initQuery = (tags = []) => {
+    const { query } = this.state
+    this.setState({
+      expand: true,
+      query: {
+        ...query,
+        tags
+      }
+    })
+  }
+
   /** 筛选选择 */
   onSelect = (type: string, value: string, multiple = false) => {
     const { query } = this.state

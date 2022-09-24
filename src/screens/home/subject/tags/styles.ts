@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-08-26 10:34:25
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-08-26 10:34:25
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-09-24 23:23:07
  */
 import { _ } from '@stores'
 
@@ -15,6 +15,11 @@ export const memoStyles = _.memoStyles(() => ({
   },
   onair: {
     marginTop: -8
+  },
+  badge: {
+    height: 24,
+    paddingRight: _.md,
+    paddingLeft: _.sm
   },
   item: {
     paddingVertical: _.r(2),
@@ -31,15 +36,15 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
   },
-  split: {
-    height: 16,
-    width: 2,
-    marginLeft: _.r(4),
-    marginRight: _.r(12),
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
+  // split: {
+  //   height: 16,
+  //   width: 2,
+  //   marginLeft: _.r(4),
+  //   marginRight: _.r(12),
+  //   backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+  //   borderRadius: _.radiusXs,
+  //   overflow: 'hidden'
+  // },
   more: {
     paddingVertical: _.md,
     paddingHorizontal: 100,

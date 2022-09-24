@@ -34,7 +34,7 @@ import {
 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { find } from '@utils/subject/anime'
+// import { findAnime } from '@utils/subject/anime'
 import {
   IOS,
   MODEL_COLLECTIONS_ORDERBY,
@@ -894,14 +894,14 @@ export default class ScreenHomeV2 extends store {
     })
 
     try {
-      let url
+      let url: string
 
       // AGE动漫，有自维护id数据，优先匹配
-      if (label === 'AGE动漫') {
-        if (find(subjectId).ageId) {
-          url = `${SITE_AGEFANS()}/detail/${find(subjectId).ageId}`
-        }
-      }
+      // if (label === 'AGE动漫') {
+      //   if (find(subjectId).ageId) {
+      //     url = `${SITE_AGEFANS()}/detail/${find(subjectId).ageId}`
+      //   }
+      // }
 
       // 匹配用户自定义源头
       if (!url) {

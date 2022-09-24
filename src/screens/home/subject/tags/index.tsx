@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 10:37:53
+ * @Last Modified time: 2022-09-24 23:15:21
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -14,7 +14,7 @@ import Tags from './tags'
 export default obc((props, { $, navigation }: Ctx) => {
   global.rerender('Subject.Tags')
 
-  const { showTags } = systemStore.setting
+  const { showTags, subjectTagsExpand } = systemStore.setting
   if (showTags === -1) return null
 
   return (
@@ -24,10 +24,14 @@ export default obc((props, { $, navigation }: Ctx) => {
       subjectId={$.subjectId}
       subjectType={$.subjectType}
       showTags={showTags}
+      subjectTagsExpand={subjectTagsExpand}
       tag={$.collection.tag}
       tags={$.tags}
-      animeTags={$.animeInfo?.tags}
-      hentaiTags={$.hentaiInfo?.tags}
+      animeTags={$.animeTags}
+      hentaiTags={$.hentaiTags}
+      gameTags={$.gameTags}
+      mangaTags={$.mangaTags}
+      wenkuTags={$.wenkuTags}
       onSwitchBlock={$.onSwitchBlock}
     />
   )

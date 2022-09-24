@@ -36,6 +36,12 @@ export function pick(index: number): Item {
 }
 
 /** 根据条目 id 查询一项 */
+export function findADV(id: SubjectId): Item {
+  init()
+  return getData().find(item => item.i == id)
+}
+
+/** @deprecated 根据条目 id 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
   return unzip(getData().find(item => item.i == id))

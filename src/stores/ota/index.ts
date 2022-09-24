@@ -193,6 +193,31 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
+  fetchGame = async (subjectId: SubjectId) => {
+    if (!subjectId) return
+
+    const key = `game_${subjectId}`
+    if (!subjectId || key in this.state.game) return
+
+    const datas = await gets([key])
+    if (datas) {
+      const key = 'game'
+      const data = {}
+      Object.keys(datas).forEach(key => {
+        const item = datas[key]
+        if (item && typeof item === 'object') {
+          data[key] = item
+        } else {
+          data[key] = {}
+        }
+      })
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
   onGamePage = async (list: number[]) => {
     if (!list.length) return
 

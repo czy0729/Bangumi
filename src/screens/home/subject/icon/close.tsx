@@ -16,14 +16,18 @@ import { Ctx } from '../types'
 function IconClose(props, { $ }: Ctx) {
   const { status = { name: '未收藏' } } = $.collection
   const { formhash } = $.subjectFormHTML
-  const showErase = status.name !== '未收藏' && !!formhash
   return (
     <IconTouchable
       style={_.mr._sm}
       name='md-close'
       color={_.colorIcon}
       onPress={() => {
-        if (!showErase) {
+        if (status.name === '未收藏') {
+          info('当前未收藏')
+          return
+        }
+
+        if (!formhash) {
           info(`无法操作, 请检查${i18n.login()}状态`)
           return
         }

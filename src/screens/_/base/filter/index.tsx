@@ -228,29 +228,31 @@ function scrollToX(
   mutiple = false
 ) {
   try {
-    if (scrollView && value) {
-      let index = 0
-      if (mutiple) {
-        data.forEach(items => {
-          const idx = items.findIndex(i => i == value)
-          if (idx > index) index = idx
-        })
-      } else {
-        index = data.findIndex(i => i == value)
-      }
+    setTimeout(() => {
+      if (scrollView && value) {
+        let index = 0
+        if (mutiple) {
+          data.forEach(items => {
+            const idx = items.findIndex(i => i == value)
+            if (idx > index) index = idx
+          })
+        } else {
+          index = data.findIndex(i => i == value)
+        }
 
-      if (index >= 4) {
-        setTimeout(() => {
-          scrollView.scrollTo(
-            {
-              x: (index - 2) * width,
-              y: 0,
-              animated: true
-            },
-            1
-          )
-        }, 80)
+        if (index >= 4) {
+          setTimeout(() => {
+            scrollView.scrollTo(
+              {
+                x: (index - 2) * width,
+                y: 0,
+                animated: true
+              },
+              1
+            )
+          }, 80)
+        }
       }
-    }
+    }, 160)
   } catch (error) {}
 }

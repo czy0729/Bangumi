@@ -16,7 +16,7 @@ import {
 } from '@utils'
 import { t, baiduTranslate } from '@utils/fetch'
 import { feedback, info, showActionSheet, loading } from '@utils/ui'
-import { find as findAnime } from '@utils/subject/anime'
+// import { find as findAnime } from '@utils/subject/anime'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { SITES, MODEL_EP_STATUS } from '@constants'
 import {
@@ -101,12 +101,12 @@ export default class Action extends Fetch {
       let url: string
 
       // AGE动漫，有自维护id数据，优先匹配
-      if (key === 'AGE动漫') {
-        const { _aid } = this.params
-        if (_aid || findAnime(this.subjectId).ageId) {
-          url = `${SITE_AGEFANS()}/detail/${_aid || findAnime(this.subjectId).ageId}`
-        }
-      }
+      // if (key === 'AGE动漫') {
+      //   const { _aid } = this.params
+      //   if (_aid || findAnime(this.subjectId).ageId) {
+      //     url = `${SITE_AGEFANS()}/detail/${_aid || findAnime(this.subjectId).ageId}`
+      //   }
+      // }
 
       // 匹配用户自定义源头
       if (!url) {

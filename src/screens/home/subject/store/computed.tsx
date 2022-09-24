@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-23 11:29:55
+ * @Last Modified time: 2022-09-24 23:10:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,11 +28,12 @@ import {
   x18,
   removeHTMLTag
 } from '@utils'
-import { find as findAnime } from '@utils/subject/anime'
-import { find as findManga } from '@utils/subject/manga'
-import { find as findWenku } from '@utils/subject/wenku'
-import { find as findGame } from '@utils/subject/game'
-import { find as findHentai } from '@utils/subject/hentai'
+import { findAnime, ANIME_TAGS } from '@utils/subject/anime'
+import { findManga, MANGA_TAGS } from '@utils/subject/manga'
+import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
+import { findGame, GAME_CATE } from '@utils/subject/game'
+import { findADV } from '@utils/subject/adv'
+import { HENTAI_TAGS, findHentai } from '@utils/subject/hentai'
 import {
   HOST,
   IMG_HEIGHT_LG,
@@ -325,46 +326,116 @@ export default class Computed extends State {
     )
   }
 
-  /** 第三方动画信息 */
-  @computed get animeInfo() {
+  /** 第三方动画标签 */
+  @computed get animeTags() {
     if (this.type !== '动画') return null
-    // return findAnime(this.subjectId)
-    return null
+
+    const item = findAnime(this.subjectId)
+    if (Array.isArray(item?.t)) {
+      return item.t.map(item => ANIME_TAGS[item])
+    }
+    return []
+  }
+
+  /** 第三方 Hentai 标签 */
+  @computed get hentaiTags() {
+    if (this.type !== '动画' && !this.x18) return null
+
+    const item = findHentai(this.subjectId)
+    if (Array.isArray(item?.t)) {
+      return item.t.map(item => HENTAI_TAGS[item])
+    }
+    return []
   }
 
   /** 第三方游戏信息 */
   @computed get gameInfo() {
     if (this.type !== '游戏') return null
-    return findGame(this.subjectId)
+
+    const item = findGame(this.subjectId)
+    if (item?.i) {
+      return {
+        ...item,
+        isADV: false
+      }
+    }
+
+    const adv = findADV(this.subjectId)
+    if (adv?.i) {
+      return {
+        ...adv,
+        isADV: true
+      }
+    }
+
+    return null
   }
 
-  /** Hentai 条目第三方信息 */
-  @computed get hentaiInfo() {
-    if (this.type !== '动画' && !this.x18) return null
-    return findHentai(this.subjectId)
+  /** 第三方游戏标签 */
+  @computed get gameTags() {
+    if (!this.gameInfo || this.gameInfo?.isADV) return null
+
+    const tags = (this.gameInfo as { ta: number[] })?.ta
+    return tags.map(item => GAME_CATE[item])
   }
 
-  _manga: ReturnType<typeof findManga> = null
+  /** 第三方漫画信息 */
+  @computed get mangaInfo() {
+    if (this.type !== '书籍') return null
 
-  _wenku: ReturnType<typeof findWenku> = null
+    const item = findManga(this.subjectId)
+    if (item?.i) return item
+
+    return null
+  }
+
+  /** 第三方游漫画标签 */
+  @computed get mangaTags() {
+    if (!this.mangaInfo) return null
+
+    const tags = this.mangaInfo?.b || []
+    return tags.map(item => MANGA_TAGS[item])
+  }
+
+  /** 第三方文库信息 */
+  @computed get wenkuInfo() {
+    if (this.type !== '书籍') return null
+
+    const item = findWenku(this.subjectId)
+    if (item?.i) return item
+
+    return null
+  }
+
+  /** 第三方游文库标签 */
+  @computed get wenkuTags() {
+    if (!this.wenkuInfo) return null
+
+    const tags = this.wenkuInfo?.j || []
+    return tags.map(item => WENKU_TAGS[item])
+  }
 
   /** 漫画或文库是否有源头 */
   @computed get source() {
     if (this.type !== '书籍') return null
-
-    this._manga = findManga(this.subjectId)
-    this._wenku = findWenku(this.subjectId)
-
-    // 若为单行本则还需要找到系列, 用系列id查询
-    if (this.subjectSeries) {
-      const { id } = this.subjectSeries
-      if (!this._manga?.id) this._manga = findManga(id)
-      if (!this._wenku?.id) this._wenku = findWenku(id)
-    }
     return {
-      mangaId: this._manga.mangaId,
-      wenkuId: this._wenku.wenkuId
+      mangaId: 0,
+      wenkuId: 0
     }
+
+    // this._wenku = findWenku(this.subjectId)
+    // this._manga = findManga(this.subjectId)
+
+    // // 若为单行本则还需要找到系列, 用系列id查询
+    // if (this.subjectSeries) {
+    //   const { id } = this.subjectSeries
+    //   if (!this._manga?.id) this._manga = findManga(id)
+    //   if (!this._wenku?.id) this._wenku = findWenku(id)
+    // }
+    // return {
+    //   mangaId: this._manga.mangaId,
+    //   wenkuId: this._wenku.wenkuId
+    // }
   }
 
   /** 筛选章节构造数据, 每 100 章节一个选项 */

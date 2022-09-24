@@ -60,6 +60,12 @@ export function pick(index: number): Item {
 }
 
 /** 根据条目 id 查询一项 */
+export function findGame(id: SubjectId): Item {
+  init()
+  return getData().find(item => item.i == id)
+}
+
+/** @deprecated根据条目 id 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
   return unzip(getData().find(item => item.i == id))
@@ -154,7 +160,7 @@ export function search(query: Query): SearchResult {
   return result
 }
 
-/** 转换压缩数据的 key 名 */
+/** @deprecated转换压缩数据的 key 名 */
 export function unzip(item: any): any {
   return {
     id: item?.id || 0,

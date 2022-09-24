@@ -8,7 +8,7 @@ import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Touchable, Flex, Expand, Image, Text, Iconfont } from '@components'
 import { SectionTitle, PreventTouchPlaceholder } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, otaStore } from '@stores'
 import { open, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -35,19 +35,21 @@ class Game extends React.Component {
 
   get data() {
     const { $ }: Ctx = this.context
-    const { length } = $.gameInfo || {}
-    if (typeof length !== 'number') return []
+    const length = otaStore.game($.subjectId)?.l
+    if (typeof length !== 'number' || !length) return []
 
     return new Array(length).fill('').map((item, index) => CDN_GAME($.subjectId, index))
   }
 
   get isADV() {
     const { $ }: Ctx = this.context
-    const { tag } = $.gameInfo
-    return tag.includes('ADV')
+    const isADV = $.gameInfo?.isADV
+    return !!isADV
   }
 
   renderThumbs() {
+    if (!this.data?.length) return null
+
     const { $ }: Ctx = this.context
     const { scrolled } = this.state
     return (
@@ -87,53 +89,56 @@ class Game extends React.Component {
 
   renderDetails() {
     const { $ }: Ctx = this.context
-    const { title, sub, tag, platform, time, timeCn, dev, publish, vid } = $.gameInfo
+    const {
+      t: title,
+      ta: tag = [],
+      pl: platform = [],
+      en: time,
+      cn: timeCn,
+      d: dev,
+      p: publish
+    } = otaStore.game($.subjectId)
+    const _dev = (typeof dev === 'object' ? dev : [dev])
+      .map(item => String(item).trim())
+      .filter(item => !!item)
+    const _pub = (typeof publish === 'object' ? publish : [publish])
+      .map(item => String(item).trim())
+      .filter(item => !!item)
     return (
       <View style={[_.container.wind, _.mt.md]}>
-        {this.isADV && title !== sub && (
+        {!!title && (
           <Text lineHeight={22} selectable>
-            名称: {title}
+            名称∶{title}
           </Text>
         )}
-        {!!tag.length && (
+        {!!tag?.length && (
           <Text lineHeight={22} selectable>
-            类型: {tag.join('、')}
+            类型∶{tag.join('、')}
           </Text>
         )}
-        {!!platform.length && !this.isADV && (
+        {!!platform?.length && (
           <Text lineHeight={22} selectable>
-            平台: {platform.join('、')}
+            平台∶{platform.join('、')}
           </Text>
         )}
-        {!!time && !!timeCn && timeCn !== time && (
+        {!!_dev.length && (
           <Text lineHeight={22} selectable>
-            最早发售: {time}
+            开发商∶{_dev.join('、')}
           </Text>
         )}
-        {!!timeCn && !this.isADV && (
+        {!!_pub.length && !this.isADV && (
           <Text lineHeight={22} selectable>
-            中文发售: {timeCn}
+            发行商∶{_pub.join('、')}
           </Text>
         )}
-        {!!dev.length && (
+        {!!time && timeCn !== time && (
           <Text lineHeight={22} selectable>
-            开发商: {dev.join('、')}
+            最早发售∶{time}
           </Text>
         )}
-        {!!publish.length && !this.isADV && (
+        {!!timeCn && (
           <Text lineHeight={22} selectable>
-            发行商: {publish.join('、')}
-          </Text>
-        )}
-        {this.data.length > 1 && !!vid && !this.isADV && (
-          <Text
-            style={_.mt.xs}
-            size={10}
-            type='icon'
-            align='right'
-            onPress={() => open(`https://www.vgtime.com/game/${vid}.jhtml`)}
-          >
-            *信息来源自vgtime.com
+            中文发售∶{timeCn}
           </Text>
         )}
         <Touchable
@@ -161,7 +166,7 @@ class Game extends React.Component {
 
     const { showGameInfo } = systemStore.setting
     const { $ }: Ctx = this.context
-    if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.id) return null
+    if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.i) return null
 
     return (
       <Expand style={_.mt.lg} ratio={1.2}>
@@ -181,7 +186,6 @@ class Game extends React.Component {
         </SectionTitle>
         {showGameInfo && (
           <>
-            {/* 暂时失效了 */}
             {/* {this.renderThumbs()} */}
             {this.renderDetails()}
           </>

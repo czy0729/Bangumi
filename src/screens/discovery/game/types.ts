@@ -16,3 +16,7 @@ export type Ctx = {
   $: StoreType
   navigation?: Navigation
 }
+
+export type Params = {
+  _tags?: string[]
+}

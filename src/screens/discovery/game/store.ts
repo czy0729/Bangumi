@@ -11,12 +11,15 @@ import { init, search } from '@utils/subject/game'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 import { ADVANCE_LIMIT } from './ds'
+import { Params } from './types'
 
 const NAMESPACE = 'ScreenGame'
 
 let _loaded = false
 
 export default class ScreenGame extends store {
+  params: Params
+
   state = observable({
     query: {
       first: '',
@@ -41,6 +44,9 @@ export default class ScreenGame extends store {
     })
     if (!_loaded) await init()
     _loaded = true
+
+    const { _tags = [] } = this.params
+    if (_tags.length) this.initQuery(_tags)
 
     collectionStore.fetchUserCollectionsQueue(false, '游戏')
 
@@ -96,6 +102,18 @@ export default class ScreenGame extends store {
   }
 
   // -------------------- page --------------------
+  /** 初始化查询配置 */
+  initQuery = (tags = []) => {
+    const { query } = this.state
+    this.setState({
+      expand: true,
+      query: {
+        ...query,
+        cate: tags[0]
+      }
+    })
+  }
+
   /** 筛选选择 */
   onSelect = (type: string, value: string) => {
     const { query } = this.state
