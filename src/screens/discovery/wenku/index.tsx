@@ -21,7 +21,7 @@ const Wenku = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <>
       <Header title='找文库' alias='文库' hm={['wenku', 'Wenku']} />
-      <Page>
+      <Page loaded={$.state._loaded}>
         <List />
       </Page>
     </>

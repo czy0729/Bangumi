@@ -5,8 +5,7 @@
  * @Last Modified time: 2022-09-21 00:50:30
  */
 import React from 'react'
-import { _ } from '@stores'
-import { Tag } from '@_'
+import { Tags as CompTags } from '@_'
 import { desc } from '@utils'
 import { obc } from '@utils/decorators'
 
@@ -17,19 +16,20 @@ function Tags({ value }, { $ }) {
   const tags = value
     .split(' ')
     .sort((a, b) => desc(selected.includes(a), selected.includes(b)))
+  return <CompTags value={tags} />
 
-  return (
-    <>
-      {tags.map((item: string) => (
-        <Tag
-          key={item}
-          style={_.mr.sm}
-          value={item}
-          type={selected.includes(item) ? 'main' : undefined}
-        />
-      ))}
-    </>
-  )
+  // return (
+  //   <>
+  //     {tags.map((item: string) => (
+  //       <Tag
+  //         key={item}
+  //         style={_.mr.sm}
+  //         value={item}
+  //         type={selected.includes(item) ? 'main' : undefined}
+  //       />
+  //     ))}
+  //   </>
+  // )
 }
 
 export default obc(Tags)

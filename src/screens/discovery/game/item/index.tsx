@@ -56,6 +56,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   }
 
   const thumbs = getThumbs(id, length)
+  const thumbs2 = getThumbs(id, length, false)
 
   const tag = toArray(game, 'ta')
   const dev = toArray(game, 'd')
@@ -150,7 +151,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           {!!thumbs.length && (
             <View style={styles.thumbs}>
               <HorizontalList
-                data={thumbs.filter((item, index) => index < 2)}
+                data={thumbs.filter((item, index) => index < 3)}
                 renderItem={(item, index) => (
                   <Image
                     style={[!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md]}
@@ -161,7 +162,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                     radius
                     onPress={() => {
                       showImageViewer(
-                        thumbs.map(item => ({
+                        thumbs2.map(item => ({
                           url: item
                         })),
                         index
@@ -170,21 +171,21 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   />
                 )}
                 renderNums={
-                  thumbs.length > 2 &&
+                  thumbs2.length > 3 &&
                   (() => (
                     <Touchable
                       onPress={() => {
                         showImageViewer(
-                          thumbs.map(item => ({
+                          thumbs2.map(item => ({
                             url: item
                           })),
-                          2
+                          3
                         )
                       }}
                     >
                       <Flex style={styles.nums} justify='center'>
                         <Text size={15} bold>
-                          + {thumbs.length}
+                          + {thumbs2.length}
                         </Text>
                       </Flex>
                     </Touchable>

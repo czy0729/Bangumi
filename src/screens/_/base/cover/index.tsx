@@ -62,7 +62,7 @@ export const Cover = ob(
     const { hashSubjectOTALoaded } = systemStore.state
     const _src = cdn !== false ? matchCoverUrl(src, noDefault) : src
     let _imageViewerSrc = imageViewerSrc
-    if (_imageViewerSrc && typeof _src === 'string' && _src.includes('/bgm_poster')) {
+    if (_imageViewerSrc && typeof _src === 'string' && _src.includes('/bgm_thumb')) {
       _imageViewerSrc = _src
     }
 

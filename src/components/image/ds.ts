@@ -48,4 +48,4 @@ export const RETRY_DISTANCE = 1000
 export const OSS_BGM = 'https://lain.bgm.tv'
 
 /** magma 域名图片后缀 */
-export const OSS_MEGMA_PREFIX = '/bgm_poster'
+export const OSS_MEGMA_PREFIX = '/bgm_thumb'

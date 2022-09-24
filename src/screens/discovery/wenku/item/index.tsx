@@ -6,13 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Heatmap } from '@components'
-import { collectionStore, uiStore, _ } from '@stores'
+import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
+import { _, otaStore, collectionStore, uiStore } from '@stores'
 import { Tag, Cover, Stars, Rank, Manage } from '@_'
-import { x18 } from '@utils'
 import { fill } from '@utils/dev'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/subject/wenku'
 import { t } from '@utils/fetch'
 import {
   IMG_WIDTH_LG,
@@ -27,10 +25,10 @@ import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { sort } = $.state.query
+  const subjectId = otaStore.wenkuSubjectId(pickIndex)
   const {
     id,
-    wenkuId,
+    wid,
     image,
     cn,
     ep,
@@ -47,14 +45,23 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     up,
     anime,
     tags
-  } = pick(pickIndex)
+  } = otaStore.wenku(subjectId)
+  if (!id) {
+    return (
+      <Flex style={styles.loading} justify='center'>
+        <Loading.Raw />
+      </Flex>
+    )
+  }
+
+  const { sort } = $.state.query
   const tip = [
-    ep,
-    status ? '连载' : '完结',
+    status === 1 ? '完结' : '连载',
     begin || update,
     cate,
     author,
-    len ? `${len}万字` : ''
+    len ? `${len}万字` : '',
+    ep
   ]
   if (sort === '更新' && update) tip.push(`${update} 更新`)
   const tipStr = tip.filter(item => !!item).join(' / ')
@@ -72,7 +79,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           subjectId: id,
           _cn: cn,
           _image: cover,
-          _wid: wenkuId
+          _wid: wid
         })
 
         t('游戏.跳转', {
@@ -100,11 +107,10 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           >
             <Flex style={styles.body} align='start'>
               <Flex.Item>
-                <Text size={15} bold numberOfLines={2}>
+                <Text size={15} bold numberOfLines={3}>
                   {cn}
                 </Text>
               </Flex.Item>
-              {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
               <Manage
                 collection={collection}
                 typeCn='书籍'
@@ -125,7 +131,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                 }}
               />
             </Flex>
-            <Text style={styles.tip} size={11} lineHeight={14} numberOfLines={3}>
+            <Text style={styles.tip} size={11} lineHeight={14} numberOfLines={4}>
               {tipStr}
             </Text>
             {!!(hotStr || upStr) && (

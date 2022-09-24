@@ -12,9 +12,10 @@ import { pick as animePick } from '@utils/subject/anime'
 import { pick as mangaPick } from '@utils/subject/manga'
 import { pick as gamePick } from '@utils/subject/game'
 import { pick as advPick } from '@utils/subject/adv'
+import { pick as wenkuPick } from '@utils/subject/wenku'
 import { StoreConstructor, SubjectId } from '@types'
 import { NAMESPACE } from './ds'
-import { ADVItem, AnimeItem, GameItem, MangaItem } from './types'
+import { ADVItem, AnimeItem, GameItem, MangaItem, WenkuItem } from './types'
 
 const state = {
   /** 找番剧 */
@@ -30,6 +31,11 @@ const state = {
   /** 找游戏 | ADV */
   game: {
     game_0: {}
+  },
+
+  /** 找文库 */
+  wenku: {
+    wk8_0: {}
   }
 }
 
@@ -37,7 +43,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
   init = () => {
-    return this.readStorage(['anime', 'manga', 'game'], NAMESPACE)
+    return this.readStorage(['anime', 'manga', 'game', 'wenku'], NAMESPACE)
   }
 
   // -------------------- anime --------------------
@@ -89,6 +95,8 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
             'rank',
             'total'
           ])
+        } else {
+          data[key] = {}
         }
       })
       this.setState({
@@ -147,6 +155,8 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
             'update',
             'hot'
           ])
+        } else {
+          data[key] = {}
         }
       })
       this.setState({
@@ -197,6 +207,8 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
         const item = datas[key]
         if (item && typeof item === 'object') {
           data[key] = item
+        } else {
+          data[key] = {}
         }
       })
       this.setState({
@@ -226,6 +238,53 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
         const item = datas[key]
         if (item && typeof item === 'object') {
           data[key] = item
+        } else {
+          data[key] = {}
+        }
+      })
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  // -------------------- wenku --------------------
+  wenku(subjectId: SubjectId) {
+    return computed<WenkuItem>(() => {
+      return this.state.wenku[`wk8_${subjectId}`] || {}
+    }).get()
+  }
+
+  wenkuSubjectId(pickIndex: number): SubjectId {
+    return computed(() => {
+      const item = wenkuPick(pickIndex)
+      return item?.i || 0
+    }).get()
+  }
+
+  onWenkuPage = async (list: number[]) => {
+    if (!list.length) return
+
+    const keys = []
+    list.forEach(index => {
+      const subjectId = this.wenkuSubjectId(index)
+      if (!subjectId || this.wenku(subjectId).id) return
+
+      keys.push(`wk8_${subjectId}`)
+    })
+    if (!keys.length) return
+
+    const datas = await gets(keys)
+    if (datas) {
+      const key = 'wenku'
+      const data = {}
+      Object.keys(datas).forEach(key => {
+        const item = datas[key]
+        if (item && typeof item === 'object') {
+          data[key] = item
+        } else {
+          data[key] = {}
         }
       })
       this.setState({

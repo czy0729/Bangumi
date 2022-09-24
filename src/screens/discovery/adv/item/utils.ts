@@ -11,9 +11,13 @@ export function fixed(image: string | string[]) {
   return `m/${image}`
 }
 
-export function getThumbs(subjectId: SubjectId, length: number) {
+export function getThumbs(subjectId: SubjectId, length: number, thumb: boolean = true) {
   if (typeof length !== 'number') return []
 
-  // @ts-ignore
-  return new Array(length).fill().map((item, index) => CDN_GAME(subjectId, index))
+  return (
+    new Array(length)
+      // @ts-ignore
+      .fill()
+      .map((item, index) => CDN_GAME(subjectId, index, thumb))
+  )
 }

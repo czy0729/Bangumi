@@ -41,5 +41,8 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     top: 1 * _.lineHeightRatio,
     left: 0
+  },
+  loading: {
+    height: IMG_HEIGHT_LG
   }
 }))

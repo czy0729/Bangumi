@@ -46,7 +46,7 @@ function ItemGrid({ index, pickIndex, num }, { $, navigation }: Ctx) {
       num={num}
       id={id}
       aid={ageId}
-      cover={image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
+      cover={image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
       name={jp}
       nameCn={cn}
       score={score}

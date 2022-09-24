@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-20 16:16:15
  */
-import { Loaded, SubjectId } from '@types'
+import { Loaded } from '@types'
 
 export type Finger = string
 
@@ -21,58 +21,49 @@ export type Query = {
 
 export type Item = {
   /** SubjectId */
-  i: SubjectId
+  i: number
 
-  /** wenku8 id */
-  w: any
+  /** 首字 */
+  f?: string
 
-  /** 原先 1 表示已结束, 大部分都是 1, 所以现在 1 改为连载中 */
-  v?: any
+  /** 是否连载中 */
+  v?: number
 
   /** 是否动画化 */
-  m: any
+  m?: number
 
   /** 作者 */
-  a: any
-
-  /** 当前章节 */
-  e: any
-
-  /** 标题, v7.1 后中文与日文合并以减少容量 */
-  t: any
-
-  /** 封面 */
-  o: any
+  a?: number
 
   /** 开始连载时间 */
-  b: any
+  b: string
 
   /** 最后更新时间 */
-  u: any
+  u: string
 
   /** 所属文库方 */
-  c: any
+  c: number
 
   /** 热度 */
-  h: any
+  h: number
 
   /** 上升趋势 */
-  p?: any
+  p?: number
 
   /** 文字量 (万) */
-  l: any
+  l: number
 
   /** 分数 */
-  s: any
+  s?: number
 
   /** 排名 */
-  r: any
+  r?: number
 
   /** 打分人数 */
-  k: any
+  k?: number
 
   /** 分类 */
-  j: any
+  j?: number[]
 }
 
 export type UnzipItem = {

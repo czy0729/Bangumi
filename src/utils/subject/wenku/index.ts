@@ -6,7 +6,6 @@
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
-import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
 import { SORT } from '../anime'
 import {
   WENKU_FIRST,
@@ -14,10 +13,13 @@ import {
   WENKU_STATUS,
   WENKU_ANIME,
   WENKU_CATE,
+  WENKU_CATE_MAP,
   WENKU_AUTHOR,
+  WENKU_AUTHOR_MAP,
   WENKU_SORT,
+  WENKU_TAGS,
   WENKU_TAGS_MAP,
-  WENKU_TAGS
+  WENKU_TAGS_NUMS_MAP
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
@@ -27,10 +29,13 @@ export {
   WENKU_STATUS,
   WENKU_ANIME,
   WENKU_CATE,
+  WENKU_CATE_MAP,
   WENKU_AUTHOR,
+  WENKU_AUTHOR_MAP,
   WENKU_SORT,
+  WENKU_TAGS,
   WENKU_TAGS_MAP,
-  WENKU_TAGS
+  WENKU_TAGS_NUMS_MAP
 }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
@@ -67,50 +72,35 @@ export function search(query: Query): SearchResult {
   data.forEach((item, index) => {
     let match = true
 
-    // cn: '云之彼端约定之地'
-    if (match && first) match = first === getPinYinFirstCharacter(item.t)
-
-    // begin: 2009
-    if (match && year) match = yearReg.test(item.b || item.u || '')
-
-    // status: 1
-    if (match && status) match = status === '连载' ? item.v === 1 : !item.v
-
-    // tags: '科幻 机战 悬疑 战斗 战争'
+    if (match && first) match = first === item.f
+    if (match && year) match = yearReg.test(item.b || '0000')
+    if (match && status) match = status === '完结' ? item.v === 1 : !item.v
     if (match && tags.length) {
       tags.forEach((tag: string) => {
-        if (match) match = item.j?.includes(tag)
+        if (match) match = item.j?.includes(WENKU_TAGS_MAP[tag])
       })
     }
-
-    // anime: 1, 是否动画化
     if (match && anime) match = anime === '是' ? item.m === 1 : !item.m
-    if (match && author) match = item.a === author
-    if (match && cate) {
-      if (cate === '其他文库') {
-        match = item.c === undefined
-      } else {
-        match = item.c === cate
-      }
-    }
+    if (match && author) match = item.a === WENKU_AUTHOR_MAP[author]
+    if (match && cate) match = item.c === WENKU_CATE_MAP[author]
     if (match) _list.push(index)
   })
 
   switch (sort) {
     case '发行':
       _list = _list.sort((a, b) =>
-        String(data[b].b || data[b].u || '').localeCompare(data[a].b || data[a].u || '')
+        String(data[b].b || '0000').localeCompare(data[a].b || '0000')
       )
       break
 
     case '更新':
       _list = _list.sort((a, b) => {
-        return String(data[b].u || '').localeCompare(String(data[a].u || ''))
+        return String(data[b].u || '0000').localeCompare(String(data[a].u || '0000'))
       })
       break
 
     case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 't'))
+      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'f'))
       break
 
     case '评分':
@@ -159,9 +149,9 @@ export function search(query: Query): SearchResult {
 }
 
 /** 根据 index 选一项 */
-export function pick(index: number): UnzipItem {
+export function pick(index: number): Item {
   init()
-  return unzip(getData()[index])
+  return getData()[index]
 }
 
 /** 根据条目 id 查询一项 */
@@ -170,8 +160,8 @@ export function find(id: SubjectId): UnzipItem {
   return unzip(getData().find(item => item.i == id))
 }
 
-/** 转换压缩数据的 key 名 */
-export function unzip(item: Item) {
+/** @deprecated 转换压缩数据的 key 名 */
+export function unzip(item: any) {
   return {
     id: item?.i || 0,
     wenkuId: item?.w || 0,

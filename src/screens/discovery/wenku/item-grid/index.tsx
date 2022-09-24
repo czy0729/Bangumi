@@ -5,23 +5,39 @@
  * @Last Modified time: 2022-09-12 16:41:06
  */
 import React from 'react'
+import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
-import { collectionStore, _ } from '@stores'
+import { _, otaStore, collectionStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { pick } from '@utils/subject/wenku'
+import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
-import { IMG_DEFAULT } from '@constants'
 
 const EVENT = {
   id: '文库.跳转'
 } as const
 
 function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
-  const { id, wenkuId, image, cn, score, rank, begin, update } = pick(pickIndex)
-  if (!id) return null
-
   const styles = memoStyles()
+  const subjectId = otaStore.wenkuSubjectId(pickIndex)
+  const { id, wid, image, cn, score, rank, begin, update } = otaStore.wenku(subjectId)
+  if (!id) {
+    const gridStyles = _.grid(num)
+    return (
+      <Flex
+        style={{
+          width: gridStyles.width,
+          height: IMG_HEIGHT_LG,
+          marginBottom: gridStyles.marginLeft + _.xs,
+          marginLeft: gridStyles.marginLeft
+        }}
+        justify='center'
+      >
+        <Loading.Raw />
+      </Flex>
+    )
+  }
+
   return (
     <ItemCollectionsGrid
       navigation={navigation}
@@ -29,12 +45,12 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       event={EVENT}
       num={num}
       id={id}
-      wid={wenkuId}
-      cover={image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
+      wid={wid}
+      cover={image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
       nameCn={cn}
       score={score}
       rank={rank}
-      airtime={begin || update}
+      airtime={begin || update ? String(begin || update).slice(0, 7) : ''}
       collection={
         collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
       }

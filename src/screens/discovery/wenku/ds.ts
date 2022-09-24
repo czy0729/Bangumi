@@ -13,8 +13,10 @@ import {
   WENKU_AUTHOR,
   WENKU_SORT,
   WENKU_TAGS
-  // WENKU_TAGS_MAP
+  // WENKU_TAGS_NUMS_MAP
 } from '@utils/subject/wenku'
+
+export const ADVANCE_LIMIT = 100
 
 // 类型分组
 const WENKU_TAGS_GROUP = [[], []]
@@ -58,7 +60,7 @@ export const filterDS = [
     data: WENKU_TAGS_GROUP,
     multiple: true,
     multiSelect: true,
-    // nums: WENKU_TAGS_MAP,
+    // nums: WENKU_TAGS_NUMS_MAP,
     always: true
   },
   {

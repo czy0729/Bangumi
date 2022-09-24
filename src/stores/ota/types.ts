@@ -73,3 +73,48 @@ export type ADVItem = {
   vc?: undefined
   vs?: undefined
 }
+
+/**
+ * wk8_37782: {
+ *   cn: '来自新世界',
+ *   jp: '新世界より',
+ *   ep: '第二卷 下 解说 大森望',
+ *   update: '2015-03-11',
+ *   begin: '2008-01-23',
+ *   status: 1,
+ *   anime: 1,
+ *   cate: '讲谈社',
+ *   author: '贵志佑介',
+ *   score: 9,
+ *   rank: 7,
+ *   total: 1073,
+ *   image: '1e/7b/37782_OkkQ7',
+ *   id: 37782,
+ *   wid: 1827,
+ *   len: 36,
+ *   tags: '科幻 悬疑 冒险 末日 黑暗',
+ *   hot: 2,
+ *   up: 0
+ * }
+ */
+export type WenkuItem = {
+  cn: string
+  jp: string
+  ep: string
+  update: string
+  begin: string
+  status: 0 | 1
+  anime: 0 | 1
+  cate: string
+  author: string
+  score: number
+  rank: number
+  total: number
+  image: string
+  id: number
+  wid: number
+  len: number
+  tags: string
+  hot: 0 | 1 | 2 | 3 | 4 | 5
+  up: 0 | 1 | 2 | 3 | 4 | 5
+}
