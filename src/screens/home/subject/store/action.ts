@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 03:00:40
+ * @Last Modified time: 2022-09-25 07:02:00
  */
 import {
   otaStore,
@@ -22,6 +22,7 @@ import {
   info,
   loading,
   open,
+  saveCalenderEvent,
   showActionSheet
 } from '@utils'
 import { t, baiduTranslate } from '@utils/fetch'
@@ -537,6 +538,17 @@ export default class Action extends Fetch {
           })
         }, 320)
 
+        return
+      }
+
+      if (value === '添加提醒') {
+        saveCalenderEvent(item, cnjp(this.cn, this.jp), this.onAirCustom)
+
+        t('其他.添加日历', {
+          subjectId: this.subjectId,
+          sort: item?.sort || 0,
+          from: 'Subject'
+        })
         return
       }
 

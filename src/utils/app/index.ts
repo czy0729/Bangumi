@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 08:28:46
+ * @Last Modified time: 2022-09-25 06:53:08
  */
 import { Alert, BackHandler } from 'react-native'
-import { HTMLDecode } from '@utils/html'
+import dayjs from 'dayjs'
 import { DEV } from '@/config'
 import {
   EVENT,
@@ -28,10 +28,16 @@ import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { AnyObject, EventType, Navigation, Paths, SubjectId } from '@types'
 import { getTimestamp, open } from '../utils'
+import { info, confirm, feedback } from '../ui'
+import { HTMLDecode } from '../html'
 import { getStorage, setStorage } from '../storage'
 import { getSystemStoreAsync, s2tAsync } from '../async'
-import { rerender, globalLog, globalWarn } from '../dev'
 import { t } from '../fetch'
+import {
+  RNCalendarEventsRequestPermissions,
+  RNCalendarEventsSaveEvent
+} from '../android'
+import { rerender, globalLog, globalWarn } from '../dev'
 import { isNull, getSafeValue } from './utils'
 import {
   CN_CACHES,
@@ -834,4 +840,77 @@ export async function privacy() {
     \n如你同意，请点击“同意”开始使用服务。如你不同意，很遗憾本应用无法为你提供服务。`),
     params
   )
+}
+
+/** 添加放送日程到日历 (安卓 only) */
+export function saveCalenderEvent(
+  item: {
+    airdate?: string
+    sort?: number
+    duration?: string
+    url?: string
+  } = {},
+  subjectTitle: string = '',
+  onAirCustom: {
+    h?: string
+    m?: string
+  } = {}
+) {
+  setTimeout(async () => {
+    const data = await RNCalendarEventsRequestPermissions()
+    if (data !== 'authorized') {
+      info('权限不足')
+      return
+    }
+
+    const { airdate, sort = '', duration = '', url } = item
+    if (airdate) {
+      try {
+        const { h, m } = onAirCustom
+        let date = dayjs(`${airdate} ${h || '00'}:${m || '00'}:00`)
+        let dateEnd = dayjs(`${airdate} ${h || '00'}:${m || '00'}:00`)
+
+        if (typeof duration === 'string' && /^\d{2}:\d{2}:\d{2}$/g.test(duration)) {
+          const [h, i, s] = duration.split(':')
+          if (Number(h)) dateEnd = dateEnd.add(Number(h), 'hour')
+          if (Number(i)) dateEnd = dateEnd.add(Number(i), 'minute')
+          if (Number(s)) dateEnd = dateEnd.add(Number(s), 'second')
+        }
+
+        let title = ''
+        if (sort) title += `[ep.${sort}] `
+        title += subjectTitle || ''
+
+        const format = 'YYYY-MM-DDTHH:mm:ss.000[Z]'
+        confirm(
+          `${title}
+          \n${date.format(format).replace('T', ' ').replace('.000Z', '')} 到\n${dateEnd
+            .format(format)
+            .replace('T', ' ')
+            .replace('.000Z', '')}
+          \n确定添加到日历中吗？`,
+          async () => {
+            date = date.subtract(8, 'hours')
+            dateEnd = dateEnd.subtract(8, 'hours')
+            const calendarId = await RNCalendarEventsSaveEvent(title, {
+              startDate: date.format(format),
+              endDate: dateEnd.format(format),
+              notes: String(url).replace('http://', 'https://')
+            })
+            setTimeout(() => {
+              if (!calendarId) {
+                info('添加可能失败了，请检查')
+              } else {
+                feedback()
+                info('添加成功')
+              }
+            }, 240)
+          },
+          '放送提醒'
+        )
+      } catch (error) {
+        info('功能出错，请联系开发者')
+      }
+    }
+  }, 80)
 }

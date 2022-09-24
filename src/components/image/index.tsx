@@ -7,7 +7,7 @@
  * 5. 错误处理
  * 6. 自动选择Bangumi图片质量
  * 7. 联动ImageViewer
- * 8. 支持 @magma 提供的 [bgm_thumb] 后缀
+ * 8. 支持 @magma 提供的 [bgm_poster] 后缀
  * 9. iOS 环境下, Expo 浏览暂时不使用 cacheV2
  *
  * @Author: czy0729

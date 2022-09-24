@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 17:24:06
+ * @Last Modified time: 2022-09-25 07:00:38
  */
 
 /** Other */
@@ -21,6 +21,7 @@ export default {
   '其他.条目设置': 'Other.SubjectSettings',
   '其他.试用CDN': 'Other.cdnMagma',
   '其他.管理条目': 'Other.manageSubject',
+  '其他.添加日历': 'Other.saveCalenderEvent',
 
   'AC搜索.缩略框': 'ACSearch.popable',
   'AC搜索.跳转': 'ACSearch.to',

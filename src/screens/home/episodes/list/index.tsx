@@ -15,7 +15,7 @@ import { t } from '@utils/fetch'
 import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
-const IMAGE_WIDTH = _.r(104)
+const IMAGE_WIDTH = _.r(128)
 const IMAGE_HEIGHT = IMAGE_WIDTH * 0.56
 
 function List(props, { $, navigation }: Ctx) {

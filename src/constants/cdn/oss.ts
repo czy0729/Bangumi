@@ -120,7 +120,7 @@ export const CDN_OSS_SUBJECT = (src: any, cdnOrigin?: 'OneDrive' | 'fastly') => 
 let CDN_MAGMA: string
 
 /** MAGMA CDN */
-export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '', prefix = 'bgm_thumb') => {
+export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '', prefix = 'bgm_poster') => {
   if (
     typeof mediumSrc !== 'string' ||
     mediumSrc === '' ||

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:45:38
+ * @Last Modified time: 2022-09-25 06:55:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,8 +11,9 @@ import { Eps as CompEps } from '@_'
 import { _ } from '@stores'
 import { window } from '@styles'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Eps({ subjectId, isFirst }, { $, navigation }) {
+function Eps({ subjectId, isFirst }, { $, navigation }: Ctx) {
   return (
     <View style={styles.eps}>
       <CompEps
@@ -21,8 +22,10 @@ function Eps({ subjectId, isFirst }, { $, navigation }) {
         subjectId={subjectId}
         eps={$.eps(subjectId)}
         userProgress={$.userProgress(subjectId)}
-        onSelect={(value, item) => $.doEpsSelect(value, item, subjectId, navigation)}
-        onLongPress={item => $.doEpsLongPress(item, subjectId)}
+        onSelect={(value, item: any) =>
+          $.doEpsSelect(value, item, subjectId, navigation)
+        }
+        // onLongPress={(item: any) => $.doEpsLongPress(item, subjectId)}
       />
       {isFirst && (
         <>

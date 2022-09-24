@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 08:46:11
+ * @Last Modified time: 2022-09-25 06:50:06
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'

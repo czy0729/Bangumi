@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 03:01:41
+ * @Last Modified time: 2022-09-25 07:01:33
  */
 import { observable, computed } from 'mobx'
 import {
@@ -28,9 +28,11 @@ import {
   info,
   open,
   queue,
+  saveCalenderEvent,
   t2s,
   unzipBangumiData,
-  x18
+  x18,
+  cnjp
 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
@@ -1118,6 +1120,22 @@ export default class ScreenHomeV2 extends store {
     subjectId: SubjectId,
     navigation: Navigation
   ) => {
+    if (value === '添加提醒') {
+      const subject = this.subject(subjectId)
+      saveCalenderEvent(
+        item,
+        cnjp(subject.name_cn, subject.name),
+        this.onAirCustom(subjectId)
+      )
+
+      t('其他.添加日历', {
+        subjectId,
+        sort: item?.sort || 0,
+        from: 'Home'
+      })
+      return
+    }
+
     const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
     if (status) {
       t('首页.章节菜单操作', {
