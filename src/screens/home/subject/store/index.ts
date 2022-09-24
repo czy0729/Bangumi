@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 13:52:39
+ * @Last Modified time: 2022-09-25 02:58:31
  */
 import { collectionStore, otaStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -80,9 +80,13 @@ class ScreenSubject extends Action {
 
   /** 装载第三方找条目数据 */
   fetchOTA = () => {
+    if (this.type === '动画') {
+      if (this.animeInfo?.i) otaStore.fetchAnime(this.animeInfo.i)
+      return
+    }
+
     if (this.type === '游戏') {
-      const gameInfo = this.gameInfo
-      if (gameInfo?.i) otaStore.fetchGame(gameInfo.i)
+      if (this.gameInfo?.i) otaStore.fetchGame(this.gameInfo.i)
       return
     }
   }

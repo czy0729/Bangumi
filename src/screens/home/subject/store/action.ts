@@ -2,21 +2,29 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 13:47:29
+ * @Last Modified time: 2022-09-25 03:00:40
  */
-import { collectionStore, calendarStore, systemStore, userStore } from '@stores'
+import {
+  otaStore,
+  collectionStore,
+  calendarStore,
+  systemStore,
+  userStore
+} from '@stores'
 import {
   appNavigate,
   asc,
   cnjp,
   copy,
+  feedback,
   getBangumiUrl,
   getCoverMedium,
-  open
+  info,
+  loading,
+  open,
+  showActionSheet
 } from '@utils'
 import { t, baiduTranslate } from '@utils/fetch'
-import { feedback, info, showActionSheet, loading } from '@utils/ui'
-// import { find as findAnime } from '@utils/subject/anime'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { SITES, MODEL_EP_STATUS } from '@constants'
 import {
@@ -101,12 +109,15 @@ export default class Action extends Fetch {
       let url: string
 
       // AGE动漫，有自维护id数据，优先匹配
-      // if (key === 'AGE动漫') {
-      //   const { _aid } = this.params
-      //   if (_aid || findAnime(this.subjectId).ageId) {
-      //     url = `${SITE_AGEFANS()}/detail/${_aid || findAnime(this.subjectId).ageId}`
-      //   }
-      // }
+      if (key === 'AGE动漫') {
+        const aid = this.params._aid
+        if (aid) {
+          url = `${SITE_AGEFANS()}/detail/${aid}`
+        } else {
+          const item = otaStore.anime(this.subjectId)
+          if (item?.ageId) url = `${SITE_AGEFANS()}/detail/${item.ageId}`
+        }
+      }
 
       // 匹配用户自定义源头
       if (!url) {

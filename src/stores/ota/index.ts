@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-23 06:41:56
+ * @Last Modified time: 2022-09-25 02:58:22
  */
 import { observable, computed } from 'mobx'
 import { pick } from '@utils'
@@ -64,6 +64,31 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       const item = animePick(pickIndex)
       return item?.i || 0
     }).get()
+  }
+
+  fetchAnime = async (subjectId: SubjectId) => {
+    if (!subjectId) return
+
+    const key = `age_${subjectId}`
+    if (!subjectId || key in this.state.anime) return
+
+    const datas = await gets([key])
+    if (datas) {
+      const key = 'anime'
+      const data = {}
+      Object.keys(datas).forEach(key => {
+        const item = datas[key]
+        if (item && typeof item === 'object') {
+          data[key] = item
+        } else {
+          data[key] = {}
+        }
+      })
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
   }
 
   onAnimePage = async (list: number[]) => {

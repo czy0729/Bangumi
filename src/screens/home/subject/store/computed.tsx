@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 23:10:11
+ * @Last Modified time: 2022-09-25 02:55:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -326,13 +326,22 @@ export default class Computed extends State {
     )
   }
 
-  /** 第三方动画标签 */
-  @computed get animeTags() {
+  /** 第三方动画信息 */
+  @computed get animeInfo() {
     if (this.type !== '动画') return null
 
     const item = findAnime(this.subjectId)
-    if (Array.isArray(item?.t)) {
-      return item.t.map(item => ANIME_TAGS[item])
+    if (item?.i) return item
+
+    return null
+  }
+
+  /** 第三方动画标签 */
+  @computed get animeTags() {
+    if (!this.animeInfo) return null
+
+    if (Array.isArray(this.animeInfo?.t)) {
+      return this.animeInfo.t.map(item => ANIME_TAGS[item])
     }
     return []
   }
