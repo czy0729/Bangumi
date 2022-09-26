@@ -13,7 +13,7 @@ import { Ctx } from '../types'
 function IconCopy({ $, navigation }: Ctx) {
   return (
     <IconHeader
-      style={_.mr.xs}
+      style={_.mr.sm}
       name='md-filter-none'
       color={_.colorDesc}
       size={17}

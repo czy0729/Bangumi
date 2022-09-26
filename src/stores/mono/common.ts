@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-30 02:20:42
+ * @Last Modified time: 2022-09-26 11:56:21
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
@@ -51,22 +51,27 @@ export function cheerioCharacters(HTML) {
  * 分析更多制作人员
  * @param {*} HTML
  */
-export function cheerioPersons(HTML) {
+export function cheerioPersons(HTML: string) {
   const $ = cheerio(HTML)
   return (
     $('div.light_odd')
-      .map((index, element) => {
+      .map((index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('h2 > a')
         const [name, nameCn] = String($a.text().trim()).split('/')
         const cover = $li.find('img.avatar').attr('src')
+        const position = []
+        $li.find('span.badge_job').each((idx: number, ele: any) => {
+          const $item = cheerio(ele)
+          position.push($item.text().trim())
+        })
         return safeObject({
           id: $a.attr('href').replace('/character/', ''),
           cover: cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
           name,
           nameCn,
           replies: $li.find('small.na').text().trim(),
-          position: $li.find('span.badge_job').text().trim(),
+          position: position.join('、'),
           info: $li.find('div.crt_info span.tip').text().trim()
         })
       })

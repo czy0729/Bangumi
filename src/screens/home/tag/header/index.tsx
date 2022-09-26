@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 11:02:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 11:02:47
+ * @Last Modified time: 2022-09-26 20:44:54
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -10,13 +10,14 @@ import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
 import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
   const { type, tag } = $.params
   return (
     <CompHeader
-      title={tag || `${MODEL_SUBJECT_TYPE.getTitle(type)}标签`}
+      title={tag || `${MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)}标签`}
       alias='用户标签'
       hm={[$.url, 'Tag']}
       headerRight={() => (

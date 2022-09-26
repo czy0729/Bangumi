@@ -108,7 +108,7 @@ const Item = memo(
               </Flex> */}
             </Flex>
             {!!tip && (
-              <Text style={_.mt.xs} size={11} lineHeight={13} numberOfLines={2}>
+              <Text style={_.mt.xs} size={11} lineHeight={13} numberOfLines={3}>
                 {tip}
               </Text>
             )}

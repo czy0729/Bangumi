@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:04:20
+ * @Last Modified time: 2022-09-26 11:41:02
  */
 import React from 'react'
-import { Loading, ListView, Heatmap } from '@components'
-import { ItemVoice } from '@_'
+import { Loading, Heatmap } from '@components'
+import { PaginationList2, ItemVoice } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
@@ -21,10 +21,11 @@ function List(props, { $, navigation }: Ctx) {
   if (!_loaded) return <Loading />
 
   return (
-    <ListView
+    <PaginationList2
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
-      data={$.monoVoices}
+      data={$.monoVoices.list}
+      limit={6}
       scrollToTop
       renderItem={({ item, index }) => (
         <>

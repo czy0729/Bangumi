@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-16 22:51:04
+ * @Last Modified time: 2022-09-26 11:47:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Image } from '@components'
 import { _ } from '@stores'
+import { HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
-import { EVENT } from '@constants'
+import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { Cover, Tag } from '../../base'
-import { AVATAR_SIZE, COVER_WIDTH, COVER_HEIGHT } from './ds'
+import { AVATAR_SIZE } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemVoiceProps } from './types'
 
@@ -58,11 +58,11 @@ export const ItemVoice = ob(
                 }}
               />
               <Flex.Item style={_.ml.sm}>
-                <Text size={13} bold>
+                <Text size={12} bold>
                   {HTMLDecode(name)}
                 </Text>
                 {!!nameCn && nameCn !== name && (
-                  <Text style={_.mt.xs} size={11} type='sub'>
+                  <Text style={_.mt.xs} size={11} type='sub' lineHeight={12} bold>
                     {HTMLDecode(nameCn)}
                   </Text>
                 )}
@@ -72,22 +72,27 @@ export const ItemVoice = ob(
           <Flex.Item style={_.ml.sm} flex={3.2}>
             {subject.map((item, idx) => (
               <Flex key={item.id} style={idx !== 0 && _.mt.md} align='start'>
-                <Flex.Item style={_.mr.sm}>
-                  <Text align='right' size={13}>
+                <Flex.Item style={_.mr.md}>
+                  <Text align='right' size={12} bold>
                     {HTMLDecode(item.name)}
                   </Text>
-                  <Flex style={_.mt.xs} align='start'>
-                    <Flex.Item>
-                      <Text size={11} type='sub' align='right' lineHeight={14} bold>
-                        {HTMLDecode(item.nameCn)}
-                      </Text>
-                    </Flex.Item>
-                    <Tag style={styles.tag} value={item.staff} />
+                  <Text
+                    style={_.mt.xs}
+                    size={11}
+                    type='sub'
+                    align='right'
+                    lineHeight={12}
+                    bold
+                  >
+                    {HTMLDecode(item.nameCn)}
+                  </Text>
+                  <Flex style={_.mt.sm} justify='end'>
+                    <Tag value={item.staff} />
                   </Flex>
                 </Flex.Item>
                 <Cover
-                  size={COVER_WIDTH}
-                  height={COVER_HEIGHT}
+                  size={IMG_WIDTH}
+                  height={IMG_HEIGHT}
                   src={item.cover}
                   radius
                   shadow

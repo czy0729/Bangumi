@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 00:10:23
+ * @Last Modified time: 2022-09-26 12:01:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,8 +91,15 @@ export const ItemCharacter = obc(
                         )}
                       </Text>
                     </Flex.Item>
-                    {!!position && <Tag style={_.ml.sm} value={position} />}
+                    {!!position && position.length <= 16 && (
+                      <Tag style={_.ml.sm} value={position} />
+                    )}
                   </Flex>
+                  {!!position && position.length > 16 && (
+                    <Flex style={_.mt.sm}>
+                      <Tag value={position} align='left' />
+                    </Flex>
+                  )}
                   {!!info && (
                     <Text style={_.mt.xs} size={12}>
                       {HTMLDecode(info)}
@@ -119,7 +126,7 @@ export const ItemCharacter = obc(
                 }}
               >
                 <Flex>
-                  <Cover src={actorCover} size={32 * _.ratio} radius shadow />
+                  <Cover src={actorCover} size={_.r(32)} radius shadow />
                   <Flex.Item style={_.ml.sm}>
                     <Text size={12} numberOfLines={1} bold lineHeight={13}>
                       {actor}

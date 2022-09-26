@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:16:16
+ * @Last Modified time: 2022-09-26 11:51:49
  */
 import React from 'react'
-import { ListView } from '@components'
-import { ItemCharacter } from '@_'
+import { PaginationList2, ItemCharacter } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
@@ -18,10 +17,11 @@ const EVENT = {
 
 function List(props, { $ }: Ctx) {
   return (
-    <ListView
+    <PaginationList2
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
-      data={$.persons}
+      data={$.persons.list}
+      limit={16}
       renderItem={renderItem}
     />
   )

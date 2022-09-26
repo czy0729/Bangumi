@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 17:22:34
+ * @Last Modified time: 2022-09-26 23:30:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,9 @@ import UserLabel from './user-label'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
 import PlusOne from './plus-one'
+import Mark from './mark'
 import { isBlockUser } from './utils'
+import { REG_MARK } from './ds'
 
 const avatarWidth = 32
 const regPlus = /\+\d/
@@ -103,8 +105,20 @@ const ItemSub = memo(
           userId={userId}
           userName={userName}
           avatar={avatar}
-          time={time}
-          floor={floor}
+          url={url}
+          event={event}
+        />
+      )
+    }
+
+    if (rawMsg.length <= 8 && REG_MARK.test(rawMsg)) {
+      return (
+        <Mark
+          id={id}
+          message={msg}
+          userId={userId}
+          userName={userName}
+          avatar={avatar}
           url={url}
           event={event}
         />

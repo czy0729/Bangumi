@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 04:15:18
+ * @Last Modified time: 2022-09-26 21:32:20
  */
 import React from 'react'
-import { View } from 'react-native'
 import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
+import { Avatar } from '@_'
 import { _ } from '@stores'
 import { open, info, appNavigate, correctAgo } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
+import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 import { TopicId } from '@types'
@@ -32,7 +32,7 @@ function List(props, { $, navigation }: Ctx) {
 
   return (
     <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
-      {list.map(({ title, href, replies, time, userName }, index) => {
+      {list.map(({ title, href, replies, time, userId, userName }, index) => {
         const topicId = href.replace('/subject/topic/', 'subject/') as TopicId
         const readed = $.readed(topicId)
         const isReaded = !!readed.time
@@ -71,23 +71,37 @@ function List(props, { $, navigation }: Ctx) {
               }
             }}
           >
-            <View style={[styles.wrap, !!index && !_.flat && styles.border]}>
-              <Text size={15}>
-                {title}
-                {replyText !== '+0' && (
-                  <Text type={isReaded ? 'sub' : 'main'} size={12} lineHeight={15} bold>
-                    {' '}
-                    {replyText}
-                  </Text>
-                )}
-              </Text>
-              <Text style={_.mt.sm} type='sub' size={12}>
-                {correctAgo(time)} /{' '}
-                <Text size={12} bold>
-                  {userName}
+            <Flex style={styles.wrap} align='start'>
+              <Avatar
+                style={_.mr.sm}
+                navigation={navigation}
+                userId={userId}
+                name={userName}
+                src={API_AVATAR(userId)}
+              />
+              <Flex.Item>
+                <Text size={15}>
+                  {title}
+                  {replyText !== '+0' && (
+                    <Text
+                      type={isReaded ? 'sub' : 'main'}
+                      size={12}
+                      lineHeight={15}
+                      bold
+                    >
+                      {' '}
+                      {replyText}
+                    </Text>
+                  )}
                 </Text>
-              </Text>
-            </View>
+                <Text style={_.mt.xs} type='sub' size={12}>
+                  {correctAgo(time)} /{' '}
+                  <Text size={12} bold>
+                    {userName}
+                  </Text>
+                </Text>
+              </Flex.Item>
+            </Flex>
             {!index && <Heatmap id='讨论版.跳转' />}
           </Touchable>
         )

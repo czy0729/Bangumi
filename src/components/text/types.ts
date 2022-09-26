@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 05:20:15
+ * @Last Modified time: 2022-09-26 11:59:24
  */
 import { TextProps } from 'react-native'
 import { Override, TextStyle, ReactNode } from '@types'
@@ -54,7 +54,7 @@ export type Props = Override<
     lineHeightIncrease?: number
 
     /** 对齐 */
-    align?: 'center' | 'right'
+    align?: 'left' | 'center' | 'right'
 
     /** 是否加粗 */
     bold?: boolean

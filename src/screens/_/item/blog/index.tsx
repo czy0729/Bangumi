@@ -11,7 +11,7 @@ import { _, discoveryStore } from '@stores'
 import { findSubjectCn, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { EVENT, IMG_WIDTH } from '@constants'
+import { EVENT, IMG_WIDTH_SM } from '@constants'
 import { Cover } from '../../base'
 import { memoStyles } from './styles'
 import { Props as ItemBlogProps } from './types'
@@ -41,6 +41,7 @@ export const ItemBlog = obc(
     if (username) line.push(username)
     if (subject) line.push(findSubjectCn(subject, id))
     if (time) line.push(time)
+
     return (
       <Touchable
         style={[styles.container, style, readed && styles.readed]}
@@ -62,28 +63,35 @@ export const ItemBlog = obc(
         <Flex align='start' style={styles.wrap}>
           {!!cover && (
             <View style={styles.imgContainer}>
-              <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} radius shadow />
+              <Cover
+                src={cover}
+                width={IMG_WIDTH_SM}
+                height={IMG_WIDTH_SM}
+                radius
+                shadow
+              />
             </View>
           )}
           <Flex.Item>
-            <Text size={15} numberOfLines={2} bold>
-              {HTMLDecode(title)}{' '}
+            <Text size={16} numberOfLines={2} bold>
+              {HTMLDecode(title)}
               {replies !== '+0' && (
-                <Text size={12} type='main' lineHeight={15} bold>
+                <Text size={13} type='main' lineHeight={16} bold>
+                  {'  '}
                   {replies}
                 </Text>
               )}
             </Text>
             {!!line.length && (
-              <View style={_.mt.xs}>
-                <Katakana.Provider size={13}>
-                  <Katakana type='sub' size={13}>
-                    {line.join(' / ')}
+              <View style={_.mt.sm}>
+                <Katakana.Provider size={12} bold>
+                  <Katakana type='sub' size={12} bold>
+                    {line.join(' · ')}
                   </Katakana>
                 </Katakana.Provider>
               </View>
             )}
-            <Text style={_.mt.sm} size={13} numberOfLines={4} lineHeight={15}>
+            <Text style={_.mt.sm} size={13} lineHeight={16} numberOfLines={4}>
               {HTMLDecode(content)}
             </Text>
             {!!tags.length && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:18:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-15 23:02:30
+ * @Last Modified time: 2022-09-26 21:20:03
  */
 import React from 'react'
 import { Page, ScrollView } from '@components'
@@ -12,8 +12,9 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
 
-const Reviews = (props, { $ }) => {
+const Reviews = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

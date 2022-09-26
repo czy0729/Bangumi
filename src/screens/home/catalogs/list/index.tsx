@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-01 09:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 09:22:41
+ * @Last Modified time: 2022-09-26 20:55:53
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -18,6 +18,7 @@ function List(props, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={$.list}
+      lazy={4}
       renderItem={renderItem}
       scrollToTop
       onHeaderRefresh={() => $.fetchSubjectCatalogs(true)}

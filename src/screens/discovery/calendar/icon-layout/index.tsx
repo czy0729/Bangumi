@@ -12,7 +12,7 @@ import { ob } from '@utils/decorators'
 
 function IconLayout({ isList = true, onPress = () => {} }) {
   return (
-    <Icon style={_.ml.xxs} list={isList} size={20} onPress={onPress}>
+    <Icon style={_.ml.sm} list={isList} size={20} onPress={onPress}>
       <Heatmap right={30} id='每日放送.切换布局' />
     </Icon>
   )

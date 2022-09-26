@@ -12,7 +12,7 @@ import { HOST_CDN_STATIC } from './ds'
 
 /** 每日放送, https://github.com/ekibot/bangumi-onair */
 export const CDN_ONAIR = () =>
-  `${HOST_CDN}/gh/ekibot/bangumi-onair@master/calendar.json?t=${getTimestamp()}` as const
+  `${HOST_CDN}/gh/ekibot/bangumi-link@master/calendar.json?t=${getTimestamp()}` as const
 
 /** 单集数据源, https://github.com/ekibot/bangumi-onair */
 export const CDN_EPS = subjectId =>

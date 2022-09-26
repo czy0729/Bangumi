@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 13:53:02
+ * @Last Modified time: 2022-09-26 23:17:09
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -654,6 +654,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
           : this.select('transparent', this._colorPlain)
       },
       item: {
+        width: '100%',
         backgroundColor: this.colorPlain
       },
       _item: {

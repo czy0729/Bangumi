@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:14:46
+ * @Last Modified time: 2022-09-26 21:32:31
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Touchable, Flex, Text, Mesume, Heatmap } from '@components'
+import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { correctAgo } from '@utils/app'
+import { correctAgo } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function List({ style }, { $, navigation }) {
+function List(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { list, _loaded } = $.reviews
   if (_loaded && !list.length) {
@@ -27,7 +28,7 @@ function List({ style }, { $, navigation }) {
   }
 
   return (
-    <View style={style}>
+    <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
       {list.map(({ id, title, replies, time, avatar, userId, userName }, index) => (
         <Touchable
           key={id}
@@ -38,10 +39,7 @@ function List({ style }, { $, navigation }) {
             })
           }
         >
-          <Flex
-            style={[styles.wrap, !!index && !_.flat && styles.border]}
-            align='start'
-          >
+          <Flex style={styles.wrap} align='start'>
             <Avatar
               style={_.mr.sm}
               navigation={navigation}
@@ -59,7 +57,7 @@ function List({ style }, { $, navigation }) {
                   </Text>
                 )}
               </Text>
-              <Text style={_.mt.sm} type='sub' size={12}>
+              <Text style={_.mt.xs} type='sub' size={12}>
                 {correctAgo(time)} /{' '}
                 <Text size={12} bold>
                   {userName}
@@ -70,28 +68,8 @@ function List({ style }, { $, navigation }) {
           </Flex>
         </Touchable>
       ))}
-    </View>
+    </ScrollView>
   )
 }
 
 export default obc(List)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingLeft: _.wind - _._wind + _.md
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind - _._wind + _.md
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  readed: {
-    backgroundColor: _.colorBg
-  },
-  empty: {
-    minHeight: 240
-  }
-}))

@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:37:47
+ * @Last Modified time: 2022-09-26 20:30:11
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
-import { _ } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import Filter from '../filter'
 import { Ctx } from '../types'
+import { styles } from './styles'
 
 function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title={$.params?.name || '用户评分'}
       headerTitleAlign='left'
-      headerTitleStyle={_.ml._md}
+      headerTitleStyle={styles.title}
       alias='用户评分'
       hm={[$.url, 'Rating']}
       headerRight={() => (

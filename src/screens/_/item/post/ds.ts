@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 04:14:53
+ * @Last Modified time: 2022-09-26 23:24:57
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -15,6 +15,8 @@ const AVATAR_WIDTH = 32
 export const IMAGES_MAX_WIDTH = _.window.width - 2 * _.wind - AVATAR_WIDTH - _.sm
 
 export const EXPAND_NUMS = 4
+
+export const REG_MARK = /mark|mrak|cy|码|马|眼/i
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,

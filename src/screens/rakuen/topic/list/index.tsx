@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:14:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 12:46:35
+ * @Last Modified time: 2022-09-26 23:36:00
  */
 import React from 'react'
 import { ListView } from '@components'
 import { PaginationList2 } from '@_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { keyExtractor } from '@utils/app'
 import Top from '../top'
 import { Ctx } from '../types'
+// import { styles } from './styles'
 
 function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }: Ctx) {
   const { list } = $.comments
@@ -37,7 +38,14 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
   }
 
   if (list.length <= 96) {
-    return <ListView ref={forwardRef} data={$.comments} {...passProps} />
+    return (
+      <ListView
+        ref={forwardRef}
+        data={$.comments}
+        {...passProps}
+        // contentContainerStyle={styles.flexWrap}
+      />
+    )
   }
 
   return (

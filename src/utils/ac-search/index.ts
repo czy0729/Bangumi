@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-15 07:20:14
+ * @Last Modified time: 2022-09-26 21:42:35
  */
 import lazyac from 'lazy-aho-corasick'
 import { IOS } from '@constants'
@@ -78,30 +78,32 @@ function initLazyac() {
       })
       .sort((a: string, b: string) => a.localeCompare(b))
 
-    setTimeout(() => {
-      const arrs = arrGroup(CNS, 300)
-      arrs.forEach((cns, index) => {
-        setTimeout(() => {
-          tries.push(
-            new lazyac(
-              // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
-              cns,
-              {
-                allowDuplicates: false
-              }
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const arrs = arrGroup(CNS, 300)
+        arrs.forEach((cns, index) => {
+          setTimeout(() => {
+            tries.push(
+              new lazyac(
+                // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
+                cns,
+                {
+                  allowDuplicates: false
+                }
+              )
             )
-          )
 
-          // 把 subject cn => subject id 插入 SUBSTRINGS
-          cns.forEach((cn: string) => {
-            SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn]
-            // || game[cn] || book[cn]
-          })
+            // 把 subject cn => subject id 插入 SUBSTRINGS
+            cns.forEach((cn: string) => {
+              SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn]
+              // || game[cn] || book[cn]
+            })
 
-          if (index === arrs.length - 1) trieInitDone = true
-        }, trieInitDistance * index)
-      })
-    }, trieInitDistance)
+            if (index === arrs.length - 1) trieInitDone = true
+          }, trieInitDistance * index)
+        })
+      }, trieInitDistance)
+    })
   }
 }
 

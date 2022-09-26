@@ -43,8 +43,7 @@ export default class ScreenDiscoveryBlog extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(NAMESPACE)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       show: true,
@@ -105,6 +104,16 @@ export default class ScreenDiscoveryBlog extends store {
     if (!_loaded) this.fetchBlog()
   }
 
+  /** 切换列表显示，强制滑动到顶 */
+  onShow = () => {
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+      this.setStorage(NAMESPACE)
+    }, 400)
+  }
+
   /** 上一页 */
   prev = () => {
     const { currentPage, ipt } = this.state
@@ -128,13 +137,7 @@ export default class ScreenDiscoveryBlog extends store {
       }
     })
     this.fetchBlog()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 400)
+    this.onShow()
   }
 
   /** 下一页 */
@@ -158,13 +161,7 @@ export default class ScreenDiscoveryBlog extends store {
       }
     })
     this.fetchBlog()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 400)
+    this.onShow()
   }
 
   /** 页码输入框改变 */
@@ -205,12 +202,6 @@ export default class ScreenDiscoveryBlog extends store {
       }
     })
     this.fetchBlog()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(NAMESPACE)
-    }, 400)
+    this.onShow()
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 00:48:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 09:16:59
+ * @Last Modified time: 2022-09-26 20:40:29
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
+import { styles } from './styles'
 
 function Header(props, { $ }: Ctx) {
   return (
@@ -17,6 +18,7 @@ function Header(props, { $ }: Ctx) {
       title={$.params?.name ? `包含${$.params.name}的目录` : '条目目录'}
       alias='条目目录'
       hm={[$.url, 'SubjectCatalogs']}
+      headerTitleStyle={styles.title}
       headerRight={() => (
         <CompHeader.Popover
           data={['浏览器查看']}

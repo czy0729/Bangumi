@@ -159,7 +159,10 @@ export function cheerioBlog(HTML) {
         return safeObject({
           id: $a.attr('href').replace('/blog/', ''),
           title: $a.text().trim(),
-          cover: $li.find('span.pictureFrameGroup img').attr('src'),
+          cover: $li
+            .find('span.pictureFrameGroup img')
+            .attr('src')
+            .replace('/g/', '/l/'),
           time: String(times[times.length - 1]).replace('\n', ''),
           replies: $li.find('div.content .blue').text().trim().replace(/\(|\)/g, ''),
           content: `${$li.find('div.content').text().trim().split('...')[0]}...`,

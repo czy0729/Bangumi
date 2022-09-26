@@ -2,21 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 05:49:41
+ * @Last Modified time: 2022-09-26 11:12:22
  */
 import { safeObject } from '@utils'
-import { getCoverMedium } from '@utils/app'
-import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode, cheerio } from '@utils/html'
-import { fetchHTML } from '@utils/fetch'
 import {
-  matchSubjectId,
-  matchCover,
+  HTMLDecode,
+  HTMLToTree,
+  HTMLTrim,
+  cheerio,
+  findTreeNode,
+  getCoverMedium,
   matchAvatar,
-  matchUserId,
-  matchStar
-} from '@utils/match'
-import { HOST } from '@constants'
-import { HTML_MONO } from '@constants/html'
+  matchCover,
+  matchStar,
+  matchSubjectId,
+  matchUserId
+} from '@utils'
+import { fetchHTML } from '@utils/fetch'
+import { HOST, HTML_MONO } from '@constants'
 import { AnyObject, MonoId } from '@types'
 import { analysisComments } from '../rakuen/common'
 import { INIT_MONO } from './init'
@@ -135,29 +138,16 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
       /<h2 class="subtitle">最近参与<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
     )
     if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      tree.children.forEach(item => {
-        const { children } = item
-
-        node = findTreeNode(children, 'div > a|href&title')
-        const href = node ? node[0].attrs.href : ''
-        const name = node ? node[0].attrs.title : ''
-
-        node = findTreeNode(children, 'div > a > img')
-        const cover = node ? String(node[0].attrs.src).split('?')[0] : ''
-
-        node = findTreeNode(children, 'div > div > span')
-        const staff = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'div > div > h3 > span')
-        const type = node ? String(node[0].attrs.class).substring(30, 31) : ''
-
+      const $ = cheerio(matchHTML[1])
+      $('li.item').each((index: number, element: any) => {
+        const $row = cheerio(element)
+        const $a = $row.find('a.l')
         mono.works.push({
-          href,
-          name: HTMLDecode(name),
-          cover,
-          staff,
-          type
+          href: $a.attr('href'),
+          name: HTMLDecode($row.find('small.grey').text().trim() || $a.text().trim()),
+          cover: $row.find('img.cover').attr('src'),
+          staff: $row.find('span.badge_job').text().trim(),
+          type: $row.find('span.ico_subject_type').attr('class').substring(30, 31)
         })
       })
     }
