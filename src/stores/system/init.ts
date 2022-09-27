@@ -264,6 +264,9 @@ export const INIT_SETTING = {
   /** 条目标签是否展开 */
   subjectTagsExpand: true,
 
+  /** 图片是否开启新本地缓存策略 (iOS) */
+  iosImageCacheV2: false,
+
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT
 }

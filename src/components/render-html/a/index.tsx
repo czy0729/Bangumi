@@ -2,34 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-13 06:28:57
+ * @Last Modified time: 2022-09-27 23:41:34
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { matchBgmLink } from '@utils/app'
-import { ReactNode, TextStyle } from '@types'
 import { Text } from '../../text'
 import { getACSearch, getSubject, getTopic, getMono, filterChildren } from './utils'
-
-type Props = {
-  /** <a> 文字样式 */
-  style?: TextStyle
-
-  /** html 上的 <a> 的 attrs 参数 */
-  attrs?: {
-    href?: ''
-  }
-
-  /** render-html 链接组件传递的参数 */
-  passProps?: object
-
-  /** 点击回调 */
-  onPress?: (navigation?: null, href?: string) => any
-
-  /** 通常是文字或者嵌套的 <a> */
-  children?: ReactNode | ReactNode[]
-}
+import { Props } from './types'
 
 function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props) {
   const { matchLink, acSearch } = rakuenStore.setting
@@ -37,7 +18,7 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
   const { route, params = {}, app } = matchBgmLink(href) || {}
   const onLinkPress = () => onPress(null, href)
 
-  let el
+  let el: JSX.Element
   const args = {
     style,
     passProps,

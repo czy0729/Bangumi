@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 03:47:49
+ * @Last Modified time: 2022-09-27 17:15:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,58 +10,18 @@ import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _ } from '@stores'
 import { open } from '@utils'
-import axios from '@utils/thirdParty/axios'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
-import { Props as ImageProps } from '../../image/types'
 import { Touchable } from '../../touchable'
 import { Text } from '../../text'
 import { Iconfont } from '../../iconfont'
 import { memoStyles } from './styles'
-
-type Props = ImageProps & {
-  show?: boolean
-  onImageFallback?: (arg0?: any) => any
-}
-
-type State = {
-  show: boolean
-  loaded: boolean | number
-  size: string | number
-}
-
-const memoSize = {}
-function getSize(url): Promise<number> {
-  return new Promise(resolve => {
-    if (url in memoSize) {
-      resolve(memoSize[url])
-      return
-    }
-
-    axios
-      // @ts-ignore
-      .head(url)
-      .then(response => {
-        if (response?.status !== 200) {
-          memoSize[url] = 0
-          resolve(memoSize[url])
-          return
-        }
-
-        const length = response?.headers?.['content-length']
-        memoSize[url] = parseInt(String(length / 1024))
-        resolve(memoSize[url])
-      })
-      .catch(() => {
-        memoSize[url] = 0
-        resolve(memoSize[url])
-      })
-  })
-}
+import { getSize } from './utils'
+import { Props, State } from './types'
 
 class ToggleImage extends React.Component<Props, State> {
   static defaultProps = {
-    onImageFallback: Function.prototype
+    onImageFallback: () => {}
   }
 
   state = {
@@ -72,9 +32,9 @@ class ToggleImage extends React.Component<Props, State> {
 
   async componentDidMount() {
     const { src } = this.props
-    const size = await getSize(src)
+    const size = await getSize(src as string)
     this.setState({
-      size
+      size: size || '?'
     })
   }
 
@@ -85,15 +45,24 @@ class ToggleImage extends React.Component<Props, State> {
     })
   }
 
-  onLoadEnd = () =>
-    this.setState({
+  onLoadEnd = () => {
+    return this.setState({
       loaded: true
     })
+  }
+
+  get src() {
+    const { src } = this.props
+    if (typeof src !== 'string') return src
+    return src.replace(/ /g, '%20')
+  }
 
   get isIcon() {
-    const { src } = this.props
-    if (typeof src !== 'string') return false
-    if (src.includes('https://static.saraba1st.com/image/smiley/')) return true
+    if (typeof this.src !== 'string') return false
+
+    if (this.src.includes('https://static.saraba1st.com/image/smiley/')) {
+      return true
+    }
 
     const { size } = this.state
     if (typeof size === 'number' && size <= 50) return true
@@ -101,12 +70,12 @@ class ToggleImage extends React.Component<Props, State> {
 
   render() {
     // RN不使用第三方link包暂时不支持webp, 暂时使用浏览器跳转
-    const { src, onImageFallback } = this.props
+    const { onImageFallback } = this.props
     const { show, loaded, size } = this.state
 
     if (!this.isIcon) {
-      const isRemote = typeof src === 'string'
-      if (isRemote && src.includes('.webp')) {
+      const isRemote = typeof this.src === 'string'
+      if (isRemote && (this.src as string).includes('.webp')) {
         return (
           <Touchable style={this.styles.image} onPress={onImageFallback}>
             <Flex
@@ -125,7 +94,7 @@ class ToggleImage extends React.Component<Props, State> {
                   selectable
                   numberOfLines={1}
                 >
-                  {src}
+                  {this.src as string}
                 </Text>
               )}
             </Flex>
@@ -135,11 +104,11 @@ class ToggleImage extends React.Component<Props, State> {
 
       let ext = ''
       if (isRemote) {
-        ext = src.includes('.jpg')
+        ext = (this.src as string).includes('.jpg')
           ? 'jpg'
-          : src.includes('.png')
+          : (this.src as string).includes('.png')
           ? 'png'
-          : src.includes('.gif')
+          : (this.src as string).includes('.gif')
           ? 'gif'
           : ''
       }
@@ -156,7 +125,7 @@ class ToggleImage extends React.Component<Props, State> {
           <Touchable
             style={[this.styles.image, this.styles.isLoad]}
             onPress={this.toggleShow}
-            onLongPress={() => open(src)}
+            onLongPress={() => open(this.src as string)}
           >
             <Flex
               style={this.styles.imagePlaceholder}
@@ -169,12 +138,14 @@ class ToggleImage extends React.Component<Props, State> {
               {isRemote && (
                 <Text
                   style={this.styles.textSrc}
-                  size={10}
+                  size={9}
+                  lineHeight={10}
                   type='sub'
-                  selectable
-                  numberOfLines={1}
+                  align='center'
+                  // selectable
+                  numberOfLines={2}
                 >
-                  {src}
+                  {this.src as string}
                 </Text>
               )}
             </Flex>
@@ -183,7 +154,7 @@ class ToggleImage extends React.Component<Props, State> {
       }
     }
 
-    let _autoSize
+    let _autoSize: number | boolean
     if (typeof this.props.autoSize === 'number' && this.props.autoSize) {
       _autoSize = this.props.autoSize - _.sm
     }
@@ -200,23 +171,24 @@ class ToggleImage extends React.Component<Props, State> {
           onLoadEnd={this.onLoadEnd}
           onError={this.onLoadEnd}
         />
-        {!loaded && (
-          <>
-            <View style={this.styles.closeImageWrap}>
-              <Touchable onPress={this.toggleShow} onLongPress={() => open(src)}>
-                <Flex style={this.styles.closeImage} justify='center'>
-                  <Iconfont size={16} name='md-close' color={_.colorSub} />
-                </Flex>
-              </Touchable>
-            </View>
-            <Flex style={this.styles.loading} justify='center'>
-              <ActivityIndicator
-                size='small'
-                // @ts-ignore
-                color={_.colorIcon}
-              />
+        <View style={this.styles.closeImageWrap}>
+          <Touchable
+            onPress={this.toggleShow}
+            onLongPress={() => open(this.src as string)}
+          >
+            <Flex style={this.styles.closeImage} justify='center'>
+              <Iconfont size={16} name='md-close' color={_.colorIcon} />
             </Flex>
-          </>
+          </Touchable>
+        </View>
+        {!loaded && (
+          <Flex style={this.styles.loading} justify='center'>
+            <ActivityIndicator
+              size='small'
+              // @ts-ignore
+              color={_.colorIcon}
+            />
+          </Flex>
         )}
       </Flex>
     )

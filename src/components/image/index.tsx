@@ -13,7 +13,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-27 01:04:20
+ * @Last Modified time: 2022-09-27 17:15:23
  */
 import React from 'react'
 import { View, Image as RNImage, ImageProps as RNImageProps } from 'react-native'
@@ -102,8 +102,11 @@ export const Image = observer(
       if (this._timeoutId) clearTimeout(this._timeoutId)
     }
 
-    /** @deprecated 缓存图片 */
+    /** 缓存图片 */
     cache = async (src: Source) => {
+      const { iosImageCacheV2 } = systemStore.setting
+      if (IOS && iosImageCacheV2) return this.cacheV2(src)
+
       let res: Promise<string>
       let uri: string
 
@@ -178,6 +181,7 @@ export const Image = observer(
       return res
     }
 
+    /** 缓存图片 (使用系统默认图片策略) */
     cacheV2 = async (src: Source) => {
       let uri: string
       if (!IOS && typeof src === 'string') {
@@ -353,6 +357,7 @@ export const Image = observer(
 
     _commited = false
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     commitError = (info?: string) => {
       if (this._commited) return
 
@@ -367,7 +372,7 @@ export const Image = observer(
         }
       )
 
-      if (info) devLog(info)
+      // if (info) devLog(info)
     }
 
     get headers(): {} {
