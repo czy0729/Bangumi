@@ -51,7 +51,7 @@ function UI({ filter }) {
       avatarRound,
       transition,
       customFontFamily
-      // imageTransition,
+      // imageTransition
       // quality
     } = systemStore.setting
     const avatar = userStore.usersInfo()?.avatar?.large || IMG_DEFAULT_AVATAR
@@ -558,26 +558,28 @@ function UI({ filter }) {
           </ItemSetting>
 
           {/* 图片渐出动画 */}
-          {/* <ItemSetting
-            show={IOS}
-            hd='图片渐出动画'
-            ft={
-              <SwitchPro
-                style={commonStyles.switch}
-                value={imageTransition}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '图片渐出动画',
-                    checked: !imageTransition
-                  })
+          {/* {IOS && !IOS_IMAGE_CACHE_V2 && (
+            <ItemSetting
+              show={IOS}
+              hd='图片渐出动画'
+              ft={
+                <SwitchPro
+                  style={commonStyles.switch}
+                  value={imageTransition}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '图片渐出动画',
+                      checked: !imageTransition
+                    })
 
-                  systemStore.switchSetting('imageTransition')
-                }}
-              />
-            }
-          >
-            <Heatmap id='设置.切换' title='图片渐出动画' />
-          </ItemSetting> */}
+                    systemStore.switchSetting('imageTransition')
+                  }}
+                />
+              }
+            >
+              <Heatmap id='设置.切换' title='图片渐出动画' />
+            </ItemSetting>
+          )} */}
 
           {/* 图片质量 */}
           {/* <ItemSetting

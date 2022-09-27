@@ -10,7 +10,7 @@ import { Paths } from '@types'
 /** 日志级别 (开发用): 2 所有, 1 只输出错误和警告, 0 不输出 */
 export const LOG_LEVEL = 0
 
-/** 强制主题模式 (开发用): '' => 不控制 | true => 强制黑暗 | false => 强制白天 */
+/** 强制主题模式 (开发用): '': 不控制 | true: 强制黑暗 | false: 强制白天 */
 export const INIT_DEV_DARK = ''
 
 /** BottomTabNavigator 初始路由 */
@@ -25,6 +25,9 @@ export const DEV = global.__DEV__
 
 /** 是否带字体打包 */
 export const FONT_FAMILY = true
+
+/** 图片是否开启新本地缓存策略 (iOS) */
+export const IOS_IMAGE_CACHE_V2 = false
 
 /** 是否不显示图片 (开发用) */
 export const TEXT_ONLY = DEV ? !DEV : false // : false 是为了打包后的 apk 稳定显示图片

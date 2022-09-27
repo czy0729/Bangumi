@@ -13,18 +13,22 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 06:10:15
+ * @Last Modified time: 2022-09-27 01:04:20
  */
 import React from 'react'
 import { View, Image as RNImage, ImageProps as RNImageProps } from 'react-native'
-import {
-  CacheManager,
-  Image as AnimatedImage
-} from '@components/@/react-native-expo-image-cache'
 import { observer } from 'mobx-react'
+import {
+  CacheManager
+  // Image as AnimatedImage
+} from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
-import { IMG_EMPTY, IMG_EMPTY_DARK, IOS, MODEL_SETTING_QUALITY } from '@constants'
+import {
+  IOS
+  //  IMG_EMPTY, IMG_EMPTY_DARK
+} from '@constants'
+import { Source } from '@types'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
 import { Text } from '../text'
@@ -32,8 +36,10 @@ import { Touchable } from '../touchable'
 import { devLog } from '../dev'
 import CompImage from './image'
 import {
+  checkBgmEmoji,
   checkError404,
   checkError451,
+  fixedRemoteImageUrl,
   getDevStyles,
   imageViewerCallback,
   setError404,
@@ -41,15 +47,14 @@ import {
 } from './utils'
 import {
   DEFAULT_HEADERS,
+  DEFAULT_PROPS,
   MAX_ERROR_COUNT,
-  RETRY_DISTANCE,
   OSS_BGM,
   OSS_MEGMA_PREFIX,
-  DEFAULT_PROPS
+  RETRY_DISTANCE
 } from './ds'
 import { memoStyles } from './styles'
 import { Props as ImageProps, State } from './types'
-import { Source } from '@types'
 
 export { ImageProps }
 
@@ -87,7 +92,7 @@ export const Image = observer(
       }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: { src: Source }) {
       const { textOnly } = this.props
       if (textOnly) return
       if (nextProps.src !== this.props.src) this.cache(nextProps.src)
@@ -101,40 +106,15 @@ export const Image = observer(
     cache = async (src: Source) => {
       let res: Promise<string>
       let uri: string
-      let qualityLevel: string
-      if (this.props.quality) {
-        const label = MODEL_SETTING_QUALITY.getLabel(systemStore.setting.quality)
-        switch (label) {
-          case 'WiFi下高质量':
-            if (systemStore.wifi) qualityLevel = 'best'
-            break
 
-          case '高质量':
-            qualityLevel = 'best'
-            break
-
-          case '低质量':
-            qualityLevel = 'low'
-            break
-
-          default:
-            break
-        }
-      }
-
-      /** @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存? */
       if (IOS) {
         try {
           if (typeof src === 'string') {
-            let _src = src
-            if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
-              _src = `https:${_src}`
-            }
-            _src = this.getQuality(_src, qualityLevel)
+            const _src = fixedRemoteImageUrl(src)
 
             // 空地址不作处理
             if (_src === 'https:') {
-              this.commitError()
+              this.commitError('error: 1')
               return false
             }
 
@@ -144,7 +124,7 @@ export const Image = observer(
              * @issue to fixed
              */
             if (typeof _src === 'string' && _src.includes('https:/img/')) {
-              this.commitError()
+              this.commitError('error: 2')
               return false
             }
 
@@ -177,21 +157,15 @@ export const Image = observer(
           this.retry(src as string)
         }
       } else {
-        if (!IOS && typeof src === 'string') {
-          if (checkError451(src) || checkError404(src)) {
+        /** 安卓貌似自带缓存? */
+        if (typeof src === 'string') {
+          if (checkBgmEmoji(src) || checkError451(src) || checkError404(src)) {
             this.recoveryToBgmCover()
             return
           }
         }
 
-        uri = src as string
-
-        if (typeof uri === 'string') {
-          uri = this.getQuality(uri, qualityLevel)
-          if (uri.indexOf('https:') === -1 && uri.indexOf('http:') === -1) {
-            uri = `https:${uri}`
-          }
-        }
+        uri = fixedRemoteImageUrl(uri)
 
         // 空地址不作处理
         if (uri === 'https:') return false
@@ -207,7 +181,7 @@ export const Image = observer(
     cacheV2 = async (src: Source) => {
       let uri: string
       if (!IOS && typeof src === 'string') {
-        if (checkError451(src) || checkError404(src)) {
+        if (checkBgmEmoji(src) || checkError451(src) || checkError404(src)) {
           this.recoveryToBgmCover()
           return
         }
@@ -291,14 +265,14 @@ export const Image = observer(
     _fallbacked = false
 
     /** 加载失败 */
-    onError = async () => {
+    onError = async (error?: any) => {
       const { src } = this.props
       if (
         typeof src === 'string' &&
         src.includes(OSS_MEGMA_PREFIX) &&
         this._errorCount < MAX_ERROR_COUNT
       ) {
-        if (checkError451(src) || checkError404(src)) {
+        if (checkBgmEmoji(src) || checkError451(src) || checkError404(src)) {
           this.recoveryToBgmCover()
           return
         }
@@ -356,7 +330,7 @@ export const Image = observer(
           uri: fallbackSrc
         })
       } else {
-        this.commitError()
+        this.commitError(error)
       }
     }
 
@@ -379,7 +353,7 @@ export const Image = observer(
 
     _commited = false
 
-    commitError = () => {
+    commitError = (info?: string) => {
       if (this._commited) return
 
       this._commited = true
@@ -392,6 +366,8 @@ export const Image = observer(
           if (typeof onError === 'function') onError()
         }
       )
+
+      if (info) devLog(info)
     }
 
     get headers(): {} {
@@ -544,24 +520,24 @@ export const Image = observer(
       return <View style={this.computedStyle.image} />
     }
 
-    renderTransitionImage(headers, uri, other) {
-      return (
-        <AnimatedImage
-          style={[
-            this.computedStyle.image,
-            {
-              width: this.props.width || this.props.size
-            }
-          ]}
-          headers={headers}
-          tint={_.select('light', 'dark')}
-          preview={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
-          uri={uri}
-          onError={this.onError}
-          {...other}
-        />
-      )
-    }
+    // renderTransitionImage(uri, other) {
+    //   return (
+    //     <AnimatedImage
+    //       style={[
+    //         this.computedStyle.image,
+    //         {
+    //           width: this.props.width || this.props.size
+    //         }
+    //       ]}
+    //       uri={uri}
+    //       headers={this.headers}
+    //       tint={_.select('light', 'dark')}
+    //       preview={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
+    //       onError={this.onError}
+    //       {...other}
+    //     />
+    //   )
+    // }
 
     renderRemoteImage(uri, other) {
       const source: RNImageProps['source'] = {
@@ -641,9 +617,9 @@ export const Image = observer(
 
         if (typeof uri === 'string') {
           // IOS 使用了 CacheManager 管理图片, 请求时已加 headers, 所以组件就不需要再加了
-          if (IOS && systemStore.setting.imageTransition) {
-            return this.renderTransitionImage(headers, uri, other)
-          }
+          // if (IOS && systemStore.setting.imageTransition) {
+          //   return this.renderTransitionImage(uri, other)
+          // }
 
           // 获取图片的宽高中, 占位
           if (!IOS && autoSize && !this.state.width) return this.renderPlaceholder()

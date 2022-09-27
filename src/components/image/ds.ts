@@ -49,3 +49,6 @@ export const OSS_BGM = 'https://lain.bgm.tv'
 
 /** magma 域名图片后缀 */
 export const OSS_MEGMA_PREFIX = '/bgm_poster' // bgm_poster | bgm_thumb
+
+/** bgm 没有做本地化的不常用表情 */
+export const OSS_BGM_EMOJI_PREFIX = '/img/smiles/' // img/smiles/tv/14.gif | img/smiles/bgm/13.png

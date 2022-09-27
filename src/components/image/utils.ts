@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 02:31:28
+ * @Last Modified time: 2022-09-27 00:57:52
  */
 import { setStorage, getStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST_CDN } from '@constants'
 import { _ } from '@stores'
+import { OSS_BGM_EMOJI_PREFIX } from './ds'
 
 const NAMESPACE = 'Component|Image'
 
@@ -60,6 +61,12 @@ export function setError404(src: string) {
 export function checkError404(src: string): boolean {
   if (typeof src !== 'string') return false
   return !!CACHE_ERROR_404[src]
+}
+
+/** 检查是否 bgm 没有做本地化的不常用表情 */
+export function checkBgmEmoji(src: string): boolean {
+  if (typeof src !== 'string') return false
+  return src.includes(OSS_BGM_EMOJI_PREFIX)
 }
 
 /**
@@ -129,4 +136,20 @@ export function imageViewerCallback({ imageViewerSrc, uri, src, headers, event }
       }
     ])
   }
+}
+
+/** 修复远程图片地址 */
+export function fixedRemoteImageUrl(url: any) {
+  if (typeof url !== 'string') return url
+
+  let _url = url
+
+  // 协议
+  if (_url.indexOf('https:') === -1 && _url.indexOf('http:') === -1) {
+    _url = `https:${_url}`
+  }
+
+  // fixed: 2022-09-27, 去除 cf 无缘无故添加的前缀
+  // 类似 /cdn-cgi/mirage/xxx-xxx-1800/1280/(https://abc.com/123.jpg | img/smiles/tv/15.fig)
+  return _url.replace(/\/cdn-cgi\/mirage\/.+?\/\d+\//g, '')
 }
