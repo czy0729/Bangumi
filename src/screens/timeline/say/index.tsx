@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:03:49
+ * @Last Modified time: 2022-09-29 06:30:30
  */
 import React from 'react'
 import { ic } from '@utils/decorators'
@@ -11,11 +11,13 @@ import Header from './header'
 import Page from './page'
 import Heatmaps from './heatmaps'
 import Store from './store'
+import { Ctx } from './types'
 
-const Say = (props, { $ }) => {
+const Say = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
+
   useKeyboardAdjustResize()
 
   return useObserver(() => (

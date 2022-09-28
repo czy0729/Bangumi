@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-16 18:17:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 15:54:39
+ * @Last Modified time: 2022-09-29 06:33:43
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
 import { IconHeader } from '@_'
+import { alert } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { alert } from '@utils/ui'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
+function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title={$.params?.cn || 'HD'}

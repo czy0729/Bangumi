@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:18:15
+ * @Last Modified time: 2022-09-29 06:33:19
  */
 import { observable, computed } from 'mobx'
-import { open, copy } from '@utils'
+import { open, copy, info } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
-import { info } from '@utils/ui'
-import { HOST_MANGA } from '@constants'
-import { CDN_HD } from '@constants/cdn'
+import { HOST_MANGA, CDN_HD } from '@constants'
+import { Params } from './types'
 
 export default class ScreenHD extends store {
+  params: Params
+
   state = observable({
     data: [],
     _loaded: false

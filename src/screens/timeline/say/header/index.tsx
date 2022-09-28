@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:00:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 00:04:12
+ * @Last Modified time: 2022-09-29 06:29:33
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
+function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title={$.isNew ? '新吐槽' : '吐槽'}

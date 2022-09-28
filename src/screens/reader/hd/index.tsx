@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:22:34
+ * @Last Modified time: 2022-09-29 06:34:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,10 +14,12 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import { CDN_HD_OBJECT } from '@constants/cdn'
 import Header from './header'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
 const num = 3
 
-const HD = (props, { $ }) => {
+const HD = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -63,17 +65,3 @@ const HD = (props, { $ }) => {
 }
 
 export default ic(Store, HD)
-
-const memoStyles = _.memoStyles(() => {
-  const gridStyles = _.grid(num)
-  return {
-    contentContainerStyle: {
-      paddingBottom: _.bottom
-    },
-    item: {
-      width: gridStyles.width,
-      marginBottom: gridStyles.marginLeft,
-      marginLeft: gridStyles.marginLeft
-    }
-  }
-})

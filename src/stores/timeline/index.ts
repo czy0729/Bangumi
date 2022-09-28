@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 05:49:24
+ * @Last Modified time: 2022-09-29 06:15:34
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -156,7 +156,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 吐槽 */
-  fetchSay = async (args: { userId: UserId; id: Id }) => {
+  fetchSay = async (args: { userId?: UserId; id: Id }) => {
     const { userId = 0, id = 0 } = args || {}
     const html = await fetchHTML({
       url: HTML_SAY(userId, id)

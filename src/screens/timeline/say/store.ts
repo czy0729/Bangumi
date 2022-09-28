@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 03:41:57
+ * @Last Modified time: 2022-09-29 06:30:23
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -12,31 +12,28 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { HOST, IOS } from '@constants'
 import i18n from '@constants/i18n'
+import { Params } from './types'
+import { Navigation, UserId } from '@types'
 
 export default class ScreenSay extends store {
+  params: Params
+
   state = observable({
     value: '',
     _loaded: false
   })
 
-  init = async scrollView => {
-    if (this.isNew) {
-      return timelineStore.fetchFormHash()
-    }
+  init = async (scrollView?: any) => {
+    if (this.isNew) return timelineStore.fetchFormHash()
 
     const { _loaded } = this.say
-    if (_loaded) {
-      this.scrollToBottom(scrollView)
-    }
+    if (_loaded) this.scrollToBottom(scrollView)
 
-    const res = this.fetchSay()
-    await res
-
+    await this.fetchSay()
     timelineStore.fetchFormHash()
-    // this.fetchAvatars()
-    return res
   }
 
+  /** 吐槽 */
   fetchSay = () => {
     const { id } = this.params
     return timelineStore.fetchSay({
@@ -44,9 +41,7 @@ export default class ScreenSay extends store {
     })
   }
 
-  /**
-   * 根据noAvatarUserIds递归请求用户头像
-   */
+  /** @deprecated 根据 noAvatarUserIds 递归请求用户头像 */
   fetchAvatars = async () => {
     for (const item of this.noAvatarUserIds) {
       await userStore.fetchUsersInfo(item)
@@ -55,11 +50,13 @@ export default class ScreenSay extends store {
   }
 
   // -------------------- get --------------------
+  /** 是否创建 */
   @computed get isNew() {
     const { id } = this.params
     return !id
   }
 
+  /** 吐槽 */
   @computed get say() {
     const { id } = this.params
     return timelineStore.say(id)
@@ -86,18 +83,14 @@ export default class ScreenSay extends store {
     return userStore.userInfo
   }
 
-  usersInfo(id) {
+  usersInfo(id: UserId) {
     return computed(() => userStore.usersInfo(id)).get()
   }
 
-  /**
-   * 列表和缓存中都没有头像的用户id
-   */
+  /** 列表和缓存中都没有头像的用户 id */
   @computed get noAvatarUserIds() {
     const { _loaded, list } = this.say
-    if (!_loaded) {
-      return []
-    }
+    if (!_loaded) return []
 
     const data = []
     list.forEach(item => {
@@ -114,14 +107,17 @@ export default class ScreenSay extends store {
     return data.reverse()
   }
 
+  /** 是否登录 (web) */
   @computed get isWebLogin() {
     return userStore.isWebLogin
   }
 
+  /** 表单提交唯一码 */
   @computed get formhash() {
     return timelineStore.formhash
   }
 
+  /** 对应网址 */
   @computed get url() {
     const { userId, id } = this.params
     return this.isNew
@@ -130,10 +126,10 @@ export default class ScreenSay extends store {
   }
 
   // -------------------- page --------------------
-  /**
-   * 滚动到底
-   */
-  scrollToBottom = scrollView => {
+  /** 滚动到底 */
+  scrollToBottom = (scrollView: {
+    scrollToEnd: (arg0: { animated: boolean }) => void
+  }) => {
     if (scrollView && scrollView.scrollToEnd) {
       setTimeout(() => {
         scrollView.scrollToEnd({
@@ -143,9 +139,7 @@ export default class ScreenSay extends store {
     }
   }
 
-  /**
-   * 收起评论框
-   */
+  /** 收起评论框 */
   closeFixedTextarea = () => {
     t('吐槽.显示评论框')
 
@@ -156,13 +150,15 @@ export default class ScreenSay extends store {
     })
   }
 
-  onChange = value => {
+  /** 输入框变化 */
+  onChange = (value: string) => {
     this.setState({
       value
     })
   }
 
-  at = id => {
+  /** 长按 @ 某人 */
+  at = (id: UserId) => {
     t('吐槽.at', {
       id
     })
@@ -173,10 +169,8 @@ export default class ScreenSay extends store {
     })
   }
 
-  /**
-   * 失败后恢复上次的内容
-   */
-  recoveryContent = content => {
+  /** 失败后恢复上次的内容 */
+  recoveryContent = (content: string) => {
     t('吐槽.回复失败')
 
     info('操作失败，可能是cookie失效了')
@@ -191,10 +185,8 @@ export default class ScreenSay extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 提交
-   */
-  doSubmit = (content, scrollView, navigation) => {
+  /** 提交 */
+  doSubmit = (content: string, scrollView: any, navigation: Navigation) => {
     if (this.isNew) {
       if (!this.formhash) {
         info(`获取表单授权码失败, 请检查${i18n.login()}状态`)
@@ -214,10 +206,8 @@ export default class ScreenSay extends store {
     this.doReply(content, scrollView)
   }
 
-  /**
-   * 新吐槽
-   */
-  doSay = (content, navigation) => {
+  /** 新吐槽 */
+  doSay = (content: string, navigation: Navigation) => {
     t('吐槽.新吐槽')
 
     timelineStore.doSay(
@@ -225,27 +215,26 @@ export default class ScreenSay extends store {
         content,
         formhash: this.formhash
       },
+      // @ts-ignore
       responseText => {
         let res = {}
         try {
           res = JSON.parse(responseText)
-        } catch (error) {
-          // do nothing
-        }
+        } catch (error) {}
 
+        // @ts-ignore
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)
           return
         }
 
         const { onNavigationCallback } = this.params
-        if (onNavigationCallback) {
-          onNavigationCallback(true)
-        }
+        if (onNavigationCallback) onNavigationCallback(true)
 
         this.setState({
           value: ''
         })
+
         feedback()
         info('吐槽成功')
         navigation.goBack()
@@ -253,10 +242,8 @@ export default class ScreenSay extends store {
     )
   }
 
-  /**
-   * 回复吐槽
-   */
-  doReply = (content, scrollView) => {
+  /** 回复吐槽 */
+  doReply = (content: string, scrollView: any) => {
     t('吐槽.回复吐槽')
 
     const { id } = this.params
@@ -267,14 +254,14 @@ export default class ScreenSay extends store {
         content,
         formhash: list[0].formhash
       },
+      // @ts-ignore
       async responseText => {
         let res = {}
         try {
           res = JSON.parse(responseText)
-        } catch (error) {
-          // do nothing
-        }
+        } catch (error) {}
 
+        // @ts-ignore
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)
           return
@@ -283,6 +270,7 @@ export default class ScreenSay extends store {
         this.setState({
           value: ''
         })
+
         await this.fetchSay()
         feedback()
 

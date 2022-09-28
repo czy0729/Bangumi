@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 03:47:36
+ * @Last Modified time: 2022-09-29 06:29:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { ItemSay } from '@_'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const event = {
+const EVENT = {
   id: '吐槽.跳转'
-}
+} as const
 
-function Chat(props, { $ }) {
+function Chat(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { list } = $.say
   return (
@@ -30,7 +31,7 @@ function Chat(props, { $ }) {
         return (
           <ItemSay
             {...item}
-            event={event}
+            event={EVENT}
             position={isMe ? 'right' : 'left'}
             avatar={API_AVATAR(item.id)}
             showName={prevItem.name !== item.name}
@@ -43,10 +44,3 @@ function Chat(props, { $ }) {
 }
 
 export default obc(Chat)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind
-  }
-}))
