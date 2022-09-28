@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-23 14:42:25
+ * @Last Modified time: 2022-09-28 01:15:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Katakana, Image } from '@components'
 import { _ } from '@stores'
+import { HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Item({ index, avatar, name, id }, { navigation }) {
+function Item({ index, avatar, name, id }, { navigation }: Ctx) {
   const styles = memoStyles()
   const onPress = () => {
     t('收藏的人物.跳转', {
@@ -40,18 +42,3 @@ function Item({ index, avatar, name, id }, { navigation }) {
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => {
-  const num = _.portrait(5, 8)
-  const gridStyles = _.grid(num)
-  return {
-    item: {
-      width: gridStyles.width,
-      marginTop: _.space,
-      marginLeft: gridStyles.marginLeft
-    },
-    left: {
-      marginLeft: 0
-    }
-  }
-})

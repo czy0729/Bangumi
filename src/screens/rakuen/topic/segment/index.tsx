@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:14:20
+ * @Last Modified time: 2022-09-28 17:44:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { SegmentedControl, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function Segement(props, { $ }) {
-  rerender('Topic.Segement')
+function Segement(props, { $ }: Ctx) {
+  global.rerender('Topic.Segement')
 
   const { filterMe, filterFriends } = $.state
   const hasLogin = !!$.myId
@@ -38,7 +40,7 @@ function Segement(props, { $ }) {
         style={[
           styles.segmentedControl,
           {
-            width: segmentedControlDS.length * 56 * _.ratio
+            width: segmentedControlDS.length * _.r(56)
           }
         ]}
         size={11}
@@ -64,9 +66,3 @@ function Segement(props, { $ }) {
 }
 
 export default obc(Segement)
-
-const styles = _.create({
-  segmentedControl: {
-    height: _.r(28)
-  }
-})

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-10-05 15:14:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 11:27:17
+ * @Last Modified time: 2022-09-28 17:19:58
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont } from '@components'
 import { _, subjectStore } from '@stores'
+import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { cnjp } from '@utils/app'
-import { HTMLDecode } from '@utils/html'
+import { InferArray } from '@types'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Ep(props, { $, navigation }) {
-  const styles = memoStyles()
+function Ep(props, { $, navigation }: Ctx) {
   if (!$.groupHref?.includes('/subject/')) return null
 
   const subjectId = Number($.groupHref.replace('/subject/', ''))
@@ -23,13 +24,15 @@ function Ep(props, { $, navigation }) {
   const index = _eps.findIndex(item => item.url?.includes($.topicId))
   if (index === -1) return null
 
-  let prev
-  let next
+  type Ep = InferArray<typeof eps>
+  const styles = memoStyles()
+  let prev: Ep
+  let next: Ep
   if (index - 1 >= 0) prev = _eps[index - 1]
   if (index + 1 <= _eps.length - 1) next = _eps[index + 1]
   if (!(prev || next)) return null
 
-  const onPress = item => {
+  const onPress = (item: Ep) => {
     navigation.replace('Topic', {
       topicId: `ep/${item.url?.split('/ep/')[1]}`,
       _title: `${item.type === 1 ? 'sp' : 'ep'}${item.sort}.${cnjp(
@@ -38,6 +41,7 @@ function Ep(props, { $, navigation }) {
       )}`
     })
   }
+
   return (
     <Flex style={[_.container.inner, _.mr.xs]}>
       <Flex.Item>
@@ -87,22 +91,3 @@ function Ep(props, { $, navigation }) {
 }
 
 export default obc(Ep)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingTop: _.sm,
-    paddingBottom: _.sm + 4,
-    paddingHorizontal: _.md,
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusSm
-  },
-  left: {
-    marginTop: 2,
-    marginLeft: -2
-  },
-  right: {
-    marginTop: 2,
-    marginRight: -2
-  }
-}))

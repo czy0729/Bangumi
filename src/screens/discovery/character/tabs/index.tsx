@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:37:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-12 22:49:36
+ * @Last Modified time: 2022-09-28 00:19:35
  */
 import React from 'react'
 import { TabsV2 } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import List from './list'
+import List from '../list'
+import { Ctx } from '../types'
 
-function Tabs(props, { $ }) {
+function Tabs(props, { $ }: Ctx) {
   const { page } = $.state
   return (
     <TabsV2

@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-08 14:18:08
+ * @Last Modified time: 2022-09-28 17:34:15
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
 import { SectionTitle as CompSectionTitle, IconReverse } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Segment from './segment'
+import Segment from '../segment'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function SectionTitle(props, { $ }) {
-  rerender('Topic.SectionTitle')
+function SectionTitle(props, { $ }: Ctx) {
+  global.rerender('Topic.SectionTitle')
 
   const styles = memoStyles()
   const { list = [] } = $.comments
@@ -52,21 +54,3 @@ function SectionTitle(props, { $ }) {
 }
 
 export default obc(SectionTitle)
-
-const memoStyles = _.memoStyles(() => ({
-  title: {
-    paddingHorizontal: _.wind,
-    marginTop: _.lg,
-    marginBottom: _.md
-  },
-  reverse: {
-    transform: [
-      {
-        rotateX: '180deg'
-      }
-    ]
-  },
-  reverseIcon: {
-    marginLeft: _.md
-  }
-}))

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 08:01:08
+ * @Last Modified time: 2022-09-28 17:19:08
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -37,14 +37,35 @@ export type Paths = keyof typeof Screens
 
 /** react-navigation 路由对象 */
 export type Navigation = {
+  /** 前进 */
   push?: (path: Paths, params?: object) => any
+
+  /** 替换 */
+  replace?: (path: Paths, params?: object) => any
+
+  /** 跳转到 */
   navigate?: (path: Paths) => any
+
+  /** 后退 */
   goBack?: (arg0?: any) => any
+
+  /** 出栈到顶 */
   popToTop?: (arg0?: any) => any
+
+  /** 获取根部路由状态 */
   getRootState?: (arg0?: any) => any
+
+  /** 动态设置路由参数 */
   setOptions?: (params?: object) => any
-  emit?: (params?: object) => any
+
+  /** 订阅 */
   addListener?: (eventType: string, callback: () => any) => any
+
+  /** 触发订阅事件 */
+  emit?: (params?: object) => any
+
+  /** @deprecated 获取参数 */
+  getParam?: (arg0?: any) => any
 }
 
 /**  带 navigation 定义的 props */

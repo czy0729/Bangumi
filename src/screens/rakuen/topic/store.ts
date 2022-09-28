@@ -1,79 +1,46 @@
 /*
- * @Params: { _url, _title, _replies, _group, _groupThumb,
- *            _time, _avatar, _userName, _userId, _desc }
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 12:46:00
+ * @Last Modified time: 2022-09-28 18:20:44
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
-import { Comments, Topic } from '@stores/rakuen/types'
-import { getTimestamp, omit } from '@utils'
+import {
+  HTMLDecode,
+  feedback,
+  getTimestamp,
+  info,
+  loading,
+  omit,
+  removeHTMLTag
+} from '@utils'
 import store from '@utils/store'
-import { removeHTMLTag, HTMLDecode } from '@utils/html'
-import { info, feedback, loading } from '@utils/ui'
 import { t, baiduTranslate } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IOS, HOST, URL_DEFAULT_AVATAR } from '@constants'
-import { AnyObject, Loaded, TopicId } from '@types'
+import { RakuenReplyType } from '@constants/html/types'
+import { AnyObject, TopicId, UserId } from '@types'
+import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { Params } from './types'
-
-const namespace = 'ScreenTopic'
-const excludeState = {
-  showHeaderTitle: false,
-  placeholder: '', // 回复框placeholder
-  value: '', // 回复框value
-  replySub: '', // 存放bgm特有的子回复配置字符串
-  message: '', // 存放子回复html
-  translateResult: [], // 翻译缓存
-  translateResultFloor: {}, // 楼层翻译缓存
-  topic: {
-    _loaded: 0
-  } as Topic,
-  comments: {
-    list: [],
-    pagination: {
-      page: 0,
-      pageTotal: 0
-    },
-    _list: [],
-    _loaded: 0
-  } as Comments
-}
 
 export default class ScreenTopic extends store {
   params: Params
 
-  state = observable({
-    ...excludeState,
-
-    /** 展开的子楼层id */
-    expands: [],
-
-    /** 评论是否只看我 */
-    filterMe: false,
-
-    /** 评论是否只看好友 */
-    filterFriends: false,
-
-    /** 评论是否倒序 */
-    reverse: false,
-    _loaded: false as Loaded
-  })
+  state = observable(STATE)
 
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
     const needFetch = !_loaded || current - Number(_loaded) > 60
-    const commonState = (await this.getStorage(undefined, namespace)) || {}
+    const commonState = (await this.getStorage(NAMESPACE)) || {}
 
     try {
-      const state = (await this.getStorage(undefined, this.namespace)) || {}
+      const state = (await this.getStorage(this.namespace)) || {}
       this.setState({
         ...state,
-        ...excludeState,
+        ...EXCLUDE_STATE,
         reverse: commonState.reverse,
         _loaded: needFetch ? current : _loaded
       })
@@ -93,7 +60,7 @@ export default class ScreenTopic extends store {
       return true
     } catch (error) {
       this.setState({
-        ...excludeState,
+        ...EXCLUDE_STATE,
         reverse: commonState.reverse,
         _loaded: needFetch ? current : _loaded
       })
@@ -102,20 +69,20 @@ export default class ScreenTopic extends store {
   }
 
   // -------------------- fetch --------------------
+  /** 获取帖子内容和留言 */
   fetchTopic = () => {
     return rakuenStore.fetchTopic({
       topicId: this.topicId
     })
   }
 
+  /** 章节内容 */
   fetchEpFormHTML = () => {
     const epId = this.topicId.replace('ep/', '')
     return subjectStore.fetchEpFormHTML(epId)
   }
 
-  /**
-   * 私有CDN的帖子内容信息
-   */
+  /** 私有 CDN 的帖子内容信息 */
   fetchTopicFromCDN = () => {
     if (!this.topicId.includes('group/')) return false
 
@@ -190,29 +157,31 @@ export default class ScreenTopic extends store {
   }
 
   // -------------------- get --------------------
+  /** 帖子 id */
   @computed get topicId() {
     const { topicId = '' } = this.params
     if (!topicId) return '0' as TopicId
     return (topicId.split('#')?.[0] || '') as TopicId
   }
 
-  /**
-   * 需要跳转到的楼层id
-   */
+  /** 需要跳转到的楼层 id */
   @computed get postId() {
     const { topicId = '' } = this.params
     const [, postId] = topicId.split('#post_')
     return postId
   }
 
+  /** 本地化数据键名 */
   @computed get namespace() {
-    return `${namespace}|${this.topicId}`
+    return `${NAMESPACE}|${this.topicId}`
   }
 
+  /** 帖子内容 */
   @computed get topic() {
     return rakuenStore.topic(this.topicId)
   }
 
+  /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
   @computed get topicFormCDN() {
     const { topic } = this.state
     if (topic._loaded) return topic
@@ -281,6 +250,7 @@ export default class ScreenTopic extends store {
     }
   }
 
+  /** 我的回复数统计 */
   @computed get commentMeCount() {
     const { list } = rakuenStore.comments(this.topicId)
     return list.filter(item => {
@@ -291,6 +261,7 @@ export default class ScreenTopic extends store {
     }).length
   }
 
+  /** 好友的回复数统计 */
   @computed get commentFriendsCount() {
     const { list } = rakuenStore.comments(this.topicId)
     return list.filter(item => {
@@ -301,14 +272,17 @@ export default class ScreenTopic extends store {
     }).length
   }
 
+  /** 是否章节 */
   @computed get isEp() {
     return this.topicId.indexOf('ep/') === 0
   }
 
+  /** 是否人物 */
   @computed get isMono() {
     return this.topicId.indexOf('prsn/') === 0 || this.topicId.indexOf('crt/') === 0
   }
 
+  /** 人物 id */
   @computed get monoId() {
     if (this.topicId.indexOf('prsn/') === 0) {
       return this.topicId.replace('prsn/', 'person/')
@@ -321,50 +295,58 @@ export default class ScreenTopic extends store {
     return this.topicId
   }
 
+  /** 章节内容 */
   @computed get epFormHTML() {
     const epId = this.topicId.replace('ep/', '')
     return subjectStore.epFormHTML(epId)
   }
 
+  /** 是否登录 */
   @computed get isWebLogin() {
     return userStore.isWebLogin
   }
 
+  /** 是否已读 */
   @computed get readed() {
     return rakuenStore.readed(this.topicId)
   }
 
+  /** 自己用户 Id (改过后的) */
   @computed get myId() {
     return userStore.myId
   }
 
+  /** 我的好友 userId 哈希映射 */
   @computed get myFriendsMap() {
     return usersStore.myFriendsMap
   }
 
+  /** @deprecated iOS 首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
   @computed get isUGCAgree() {
     return systemStore.isUGCAgree
   }
 
+  /** 是否本地收藏 */
   @computed get isFavor() {
     return rakuenStore.favor(this.topicId)
   }
 
+  /** 超展开设置 */
   @computed get setting() {
     return rakuenStore.setting
   }
 
+  /** 是否限制内容展示, 用于审核 */
   @computed get isLimit() {
     return userStore.isLimit
   }
 
+  /** 过滤用户删除的楼层 */
   @computed get filterDelete() {
     return rakuenStore.setting.filterDelete
   }
 
-  /**
-   * 帖子里所有用户的映射
-   */
+  /** 帖子里所有用户的映射 */
   @computed get postUsersMap() {
     const postUsersMap = {}
     const { list } = rakuenStore.comments(this.topicId)
@@ -390,12 +372,8 @@ export default class ScreenTopic extends store {
     return postUsersMap
   }
 
-  /**
-   * 是否屏蔽用户
-   * @param {*} userId
-   * @param {*} userName
-   */
-  isBlockUser(userId, userName, replySub = '') {
+  /** 是否屏蔽用户 */
+  isBlockUser(userId: UserId, userName: string, replySub: string = '') {
     return computed(() => {
       const { blockUserIds } = rakuenStore.setting
       const findIndex = blockUserIds.findIndex(item => {
@@ -420,6 +398,7 @@ export default class ScreenTopic extends store {
   }
 
   // -------------------- get: cdn fallback --------------------
+  /** 帖子标题 */
   @computed get title() {
     // fixed
     return HTMLDecode(
@@ -430,13 +409,13 @@ export default class ScreenTopic extends store {
     )
   }
 
+  /** 帖子小组名 */
   @computed get group() {
-    if (this.isMono) {
-      return this.topic.title || this.params._title
-    }
+    if (this.isMono) return this.topic.title || this.params._title
     return this.topic.group || this.params._group || this.topicFormCDN.group || ''
   }
 
+  /** 帖子小组封面 */
   @computed get groupThumb() {
     const { _group, _groupThumb } = this.params
     if (_groupThumb) return _groupThumb
@@ -444,44 +423,47 @@ export default class ScreenTopic extends store {
     return this.topic.groupThumb || this.topicFormCDN.groupThumb || ''
   }
 
+  /** 帖子小组地址 */
   @computed get groupHref() {
     return this.topic.groupHref || this.topicFormCDN.groupHref || ''
   }
 
+  /** 发帖时间 */
   @computed get time() {
     return this.topic.time || this.topicFormCDN.time || ''
   }
 
+  /** 发帖人头像 */
   @computed get avatar() {
     return this.topic.avatar || this.params._avatar || this.topicFormCDN.avatar || ''
   }
 
-  @computed get userId() {
+  /** 发帖人用户 id */
+  @computed get userId(): UserId {
     return this.topic.userId || this.params._userId || this.topicFormCDN.userId || ''
   }
 
+  /** 发帖人用户名 */
   @computed get userName() {
     return HTMLDecode(
       this.topic.userName || this.params._userName || this.topicFormCDN.userName || ''
     )
   }
 
+  /** 发帖人个性签名 */
   @computed get userSign() {
     return this.topic.userSign || this.topicFormCDN.userSign || ''
   }
 
+  /** 帖子地址 */
   @computed get html() {
     // ep带上章节详情
-    if (this.isEp) {
-      return this.epFormHTML || this.params._desc
-    }
+    if (this.isEp) return this.epFormHTML || this.params._desc
     return this.topic.message || this.topicFormCDN.message || ''
   }
 
   // -------------------- page --------------------
-  /**
-   * 吐槽倒序
-   */
+  /** 吐槽倒序 */
   toggleReverseComments = () => {
     const { reverse } = this.state
     t('帖子.吐槽倒序', {
@@ -492,12 +474,10 @@ export default class ScreenTopic extends store {
     this.setState({
       reverse: !reverse
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 显示与我相关的回复
-   */
+  /** 显示与我相关的回复 */
   toggleFilterMe = () => {
     const { filterMe } = this.state
     t('帖子.与我相关', {
@@ -509,12 +489,10 @@ export default class ScreenTopic extends store {
       filterMe: !filterMe,
       filterFriends: false
     })
-    this.setStorage(undefined, undefined, this.namespace)
+    this.setStorage(this.namespace)
   }
 
-  /**
-   * 显示好友相关的回复
-   */
+  /** 显示好友相关的回复 */
   toggleFilterFriends = () => {
     const { filterFriends } = this.state
     t('帖子.好友相关', {
@@ -526,13 +504,11 @@ export default class ScreenTopic extends store {
       filterMe: false,
       filterFriends: !filterFriends
     })
-    this.setStorage(undefined, undefined, this.namespace)
+    this.setStorage(this.namespace)
   }
 
-  /**
-   * 显示评论框
-   */
-  showFixedTextarea = (placeholder, replySub, message) => {
+  /** 显示评论框 */
+  showFixedTextarea = (placeholder: any, replySub: any, message: any) => {
     t('帖子.显示评论框', {
       topicId: this.topicId
     })
@@ -544,9 +520,7 @@ export default class ScreenTopic extends store {
     })
   }
 
-  /**
-   * 收起评论框
-   */
+  /** 收起评论框 */
   closeFixedTextarea = () => {
     this.setState({
       placeholder: '',
@@ -555,19 +529,15 @@ export default class ScreenTopic extends store {
     })
   }
 
-  /**
-   * 输入框变化
-   */
-  onChange = value => {
+  /** 输入框变化 */
+  onChange = (value: string) => {
     this.setState({
       value
     })
   }
 
-  /**
-   * 失败后恢复上次的内容
-   */
-  recoveryContent = content => {
+  /** 失败后恢复上次的内容 */
+  recoveryContent = (content: string) => {
     t('帖子.回复失败', {
       topicId: this.topicId
     })
@@ -583,9 +553,7 @@ export default class ScreenTopic extends store {
     }, 160)
   }
 
-  /**
-   * 设置收藏
-   */
+  /** 设置收藏 */
   setFavor = () => {
     t('帖子.设置收藏', {
       topicId: this.topicId,
@@ -595,27 +563,25 @@ export default class ScreenTopic extends store {
     rakuenStore.setFavor(this.topicId, !this.isFavor)
   }
 
-  updateShowHeaderTitle = showHeaderTitle => {
+  updateShowHeaderTitle = (showHeaderTitle: boolean) => {
     this.setState({
       showHeaderTitle
     })
   }
 
-  toggleExpand = id => {
+  toggleExpand = (id: any) => {
     const { expands } = this.state
     this.setState({
       expands: expands.includes(id)
         ? expands.filter(item => item !== id)
         : [...expands, id]
     })
-    this.setStorage(undefined, undefined, this.namespace)
+    this.setStorage(this.namespace)
   }
 
   // -------------------- action --------------------
-  /**
-   * 提交回复
-   */
-  doSubmit = content => {
+  /** 提交回复 */
+  doSubmit = (content: string) => {
     let type
     if (this.topicId.includes('group/')) {
       type = 'group/topic'
@@ -640,10 +606,8 @@ export default class ScreenTopic extends store {
     this.doReply(content, type)
   }
 
-  /**
-   * 回复
-   */
-  doReply = (content, type) => {
+  /** 回复 */
+  doReply = (content: string, type: RakuenReplyType) => {
     t('帖子.回复', {
       topicId: this.topicId,
       sub: false
@@ -679,10 +643,8 @@ export default class ScreenTopic extends store {
     )
   }
 
-  /**
-   * 回复子回复
-   */
-  doReplySub = (content, type) => {
+  /** 回复子回复 */
+  doReplySub = (content: string, type: RakuenReplyType) => {
     t('帖子.回复', {
       topicId: this.topicId,
       sub: true
@@ -734,13 +696,9 @@ export default class ScreenTopic extends store {
     )
   }
 
-  /**
-   * 删除回复
-   */
-  doDeleteReply = url => {
-    if (!url) {
-      return
-    }
+  /** 删除回复 */
+  doDeleteReply = (url: string) => {
+    if (!url) return
 
     t('帖子.删除回复', {
       topicId: this.topicId
@@ -758,9 +716,7 @@ export default class ScreenTopic extends store {
     )
   }
 
-  /**
-   * 翻译内容
-   */
+  /** 翻译内容 */
   doTranslate = async () => {
     if (this.state.translateResult.length) return
 
@@ -793,9 +749,7 @@ export default class ScreenTopic extends store {
     }
   }
 
-  /**
-   * 翻译楼层
-   */
+  /** 翻译楼层 */
   doTranslateFloor = async (floorId, msg) => {
     const { translateResultFloor } = this.state
     if (translateResultFloor[floorId]) return

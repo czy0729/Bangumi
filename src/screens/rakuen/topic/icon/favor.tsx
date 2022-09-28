@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-10 11:13:05
+ * @Last Modified time: 2022-09-28 16:07:48
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function IconFavor({ $ }) {
+function IconFavor({ $ }: Ctx) {
   return (
     <IconHeader
       style={_.mr.xs}

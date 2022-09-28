@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:52:38
+ * @Last Modified time: 2022-09-28 01:38:48
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
-import Item from './item'
-import ItemRecents from './item-recents'
+import Item from '../item'
+import ItemRecents from '../item-recents'
+import { Ctx } from '../types'
 
-export default
-@obc
-class List extends React.Component {
+class List extends React.Component<{
+  id: any
+}> {
   static defaultProps = {
     title: '全部'
   }
@@ -34,7 +35,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { id } = this.props
     const list = $.list(id)
     if (!list._loaded) return <Loading />
@@ -56,3 +57,5 @@ class List extends React.Component {
     )
   }
 }
+
+export default obc(List)

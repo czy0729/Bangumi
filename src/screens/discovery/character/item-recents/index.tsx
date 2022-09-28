@@ -2,24 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 10:28:17
+ * @Last Modified time: 2022-09-28 01:12:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text, Heatmap } from '@components'
 import { Tag, Stars, Cover } from '@_'
 import { _ } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, HTMLDecode, x18 } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { x18 } from '@utils/app'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { MODEL_SUBJECT_TYPE, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
+import { SubjectTypeCn } from '@types'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 function ItemRecents(
   { index, id, cover, name, nameJP, type, info, star, starInfo, actors = [] },
-  { navigation }
+  { navigation }: Ctx
 ) {
   const styles = memoStyles()
   const isFirst = index === 0
@@ -35,7 +35,7 @@ function ItemRecents(
       _image: cover
     })
   }
-  const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
+  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
 
   const left = cnjp(name, nameJP)
   const right = cnjp(nameJP, name)
@@ -86,7 +86,7 @@ function ItemRecents(
               </View>
               {!!star && !!starInfo && (
                 <Flex style={_.mt.sm}>
-                  {!!star && <Stars style={_.mr.xs} value={star} color='warning' />}
+                  {!!star && <Stars style={_.mr.xs} value={star} />}
                   <Text style={_.mr.sm} type='sub' size={12}>
                     {starInfo}
                   </Text>
@@ -99,7 +99,7 @@ function ItemRecents(
               <Flex key={item.id} style={[actors.length > 1 && styles.actors, _.mt.md]}>
                 <Cover
                   src={item.avatar}
-                  size={40 * _.ratio}
+                  size={_.r(40)}
                   radius
                   shadow
                   onPress={() => {
@@ -132,23 +132,3 @@ function ItemRecents(
 }
 
 export default obc(ItemRecents)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    backgroundColor: _.colorPlain
-  },
-  imgContainer: {
-    width: IMG_WIDTH_LG,
-    marginRight: _.md + 4
-  },
-  wrap: {
-    paddingVertical: _.space
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  actors: {
-    width: '50%'
-  }
-}))

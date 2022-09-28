@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:38:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:06:29
+ * @Last Modified time: 2022-09-28 00:18:41
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import { Params } from './types'
 
-const namespace = 'ScreenCharacter'
+const NAMESPACE = 'ScreenCharacter'
 
 export default class ScreenCharacter extends store {
+  params: Params
+
   state = observable({
     page: 0,
     _loaded: true
@@ -23,14 +26,16 @@ export default class ScreenCharacter extends store {
     const { key } = this.tabs[page]
     const { _loaded } = this.list(key)
     if (!_loaded) return this.fetchList(key, true)
+
     return true
   }
 
   // -------------------- fetch --------------------
-  fetchList = (key, refresh) => {
+  fetchList = (key: string, refresh: boolean = false) => {
     switch (key) {
       case 'recents':
         return usersStore.fetchRecents(refresh)
+
       case 'persons':
         return usersStore.fetchPersons(
           {
@@ -38,6 +43,7 @@ export default class ScreenCharacter extends store {
           },
           refresh
         )
+
       default:
         return usersStore.fetchCharacters(
           {
@@ -84,12 +90,14 @@ export default class ScreenCharacter extends store {
     ]
   }
 
-  list(key) {
+  list(key: string) {
     switch (key) {
       case 'persons':
         return computed(() => usersStore.persons(this.userId)).get()
+
       case 'recents':
         return computed(() => usersStore.recents).get()
+
       default:
         return computed(() => usersStore.characters(this.userId)).get()
     }
@@ -100,20 +108,18 @@ export default class ScreenCharacter extends store {
   }
 
   // -------------------- page --------------------
-  onChange = page => {
-    if (page === this.state.page) {
-      return
-    }
+  onChange = (page: number) => {
+    if (page === this.state.page) return
 
     t('收藏的人物.标签页切换')
     this.setState({
       page
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(undefined, undefined, NAMESPACE)
     this.tabChangeCallback(page)
   }
 
-  tabChangeCallback = page => {
+  tabChangeCallback = (page: number) => {
     const { key } = this.tabs[page]
     const { _loaded } = this.list(key)
     if (!_loaded) {

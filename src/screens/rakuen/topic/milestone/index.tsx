@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-01-11 10:11:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-02-13 13:05:52
+ * @Last Modified time: 2022-09-28 17:32:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Milestone(props, { $ }) {
+function Milestone(props, { $ }: Ctx) {
   if ($.topicId !== 'group/366561') return null
 
   const styles = memoStyles()
@@ -36,22 +37,3 @@ function Milestone(props, { $ }) {
 }
 
 export default obc(Milestone)
-
-const memoStyles = _.memoStyles(() => {
-  const width = _.window.contentWidth - (_.wind - _._wind)
-  return {
-    container: {
-      height: 160,
-      marginTop: -_.md,
-      marginBottom: _.md,
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
-    },
-    body: {
-      width,
-      height: 160,
-      backgroundColor: '#000',
-      opacity: 0.99
-    }
-  }
-})

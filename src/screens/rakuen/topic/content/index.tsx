@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-11 08:48:52
+ * @Last Modified time: 2022-09-28 17:14:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, RenderHtml, Loading, Text, Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function Content(props, { $, navigation }) {
-  rerender('Topic.Content')
+function Content(props, { $, navigation }: Ctx) {
+  global.rerender('Topic.Content')
 
   const event = {
     id: '帖子.跳转',
@@ -21,7 +23,7 @@ function Content(props, { $, navigation }) {
       from: '#1',
       topicId: $.topicId
     }
-  }
+  } as const
 
   const { translateResult } = $.state
   const isGroup = $.topicId.includes('group/')
@@ -66,50 +68,17 @@ function Content(props, { $, navigation }) {
                   appNavigate(href, navigation, passProps, event)
                 }
               />
-              <Heatmap
-                bottom={133}
-                id='帖子.跳转'
-                data={{
-                  to: 'Blog',
-                  alias: '日志'
-                }}
-                transparent
-              />
+              <Heatmap bottom={133} id='帖子.跳转' to='Blog' alias='日志' transparent />
               <Heatmap
                 bottom={100}
                 id='帖子.跳转'
-                data={{
-                  to: 'CatalogDetail',
-                  alias: '目录'
-                }}
+                to='CatalogDetail'
+                alias='目录'
                 transparent
               />
-              <Heatmap
-                bottom={67}
-                id='帖子.跳转'
-                data={{
-                  to: 'Topic',
-                  alias: '帖子'
-                }}
-                transparent
-              />
-              <Heatmap
-                bottom={34}
-                id='帖子.跳转'
-                data={{
-                  to: 'Mono',
-                  alias: '人物'
-                }}
-                transparent
-              />
-              <Heatmap
-                id='帖子.跳转'
-                data={{
-                  to: 'WebBrowser',
-                  alias: '浏览器'
-                }}
-                transparent
-              />
+              <Heatmap bottom={67} id='帖子.跳转' to='Topic' alias='帖子' transparent />
+              <Heatmap bottom={34} id='帖子.跳转' to='Mono' alias='人物' transparent />
+              <Heatmap id='帖子.跳转' to='WebBrowser' alias='浏览器' transparent />
             </View>
           </>
         )
@@ -119,18 +88,3 @@ function Content(props, { $, navigation }) {
 }
 
 export default obc(Content)
-
-const styles = _.create({
-  html: {
-    minHeight: 120 * _.ratio
-  },
-  loading: {
-    height: 120 * _.ratio
-  },
-  iconTranslate: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: -4
-  }
-})

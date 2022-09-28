@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:02:13
+ * @Last Modified time: 2022-09-28 01:42:55
  */
 import React from 'react'
 import {
@@ -25,16 +25,16 @@ import ob from './ob'
 const defaultHeaderStyle = {}
 const withHeader =
   ({
-    title,
-    screen,
-    alias,
-    headerStyle,
-    headerTitleStyle,
-    iconBackColor,
-    defaultExtra,
+    title = undefined,
+    screen = undefined,
+    alias = undefined,
+    headerStyle = undefined,
+    headerTitleStyle = undefined,
+    iconBackColor = undefined,
+    defaultExtra = undefined,
     statusBarEvents = true,
-    hm,
-    withHeaderParams // function
+    hm = undefined,
+    withHeaderParams = undefined
   } = {}) =>
   ComposedComponent =>
     ob(

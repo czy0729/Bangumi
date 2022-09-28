@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-12 22:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 18:06:38
+ * @Last Modified time: 2022-09-28 00:20:04
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Header(props, { $ }) {
+function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title='用户人物'

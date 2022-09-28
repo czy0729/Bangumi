@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-09 21:55:43
+ * @Last Modified time: 2022-09-28 16:06:33
  */
 import React from 'react'
 import { FixedTextarea, Flex, Text } from '@components'
-import { _ } from '@stores'
-import { appNavigate } from '@utils/app'
+import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Bottom({ fixedTextareaRef }, { $, navigation }) {
+function Bottom({ fixedTextareaRef }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { placeholder, value } = $.state
   const { tip = '', close } = $.topic
@@ -51,30 +51,3 @@ function Bottom({ fixedTextareaRef }, { $, navigation }) {
 }
 
 export default obc(Bottom)
-
-const memoStyles = _.memoStyles(() => ({
-  fixedBottom: {
-    position: 'absolute',
-    zIndex: 1,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    paddingVertical: 12,
-    paddingHorizontal: _.wind,
-    marginBottom: -4,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    ...(IOS
-      ? {
-          paddingBottom: 32,
-          shadowColor: _.colorShadow,
-          shadowOffset: {
-            height: -2
-          },
-          shadowOpacity: 0.06,
-          shadowRadius: 6
-        }
-      : {
-          elevation: 8
-        })
-  }
-}))

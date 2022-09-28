@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-09 12:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-09 12:33:19
+ * @Last Modified time: 2022-09-28 00:22:05
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -18,12 +18,12 @@ function Heatmaps() {
         id='收藏的人物.标签页切换'
         transparent
       />
-      <Heatmap
+      {/* <Heatmap
         right={_.wind}
         bottom={_.window.height - _.tabsHeaderHeight - 12}
         id='收藏的人物.标签页点击'
         transparent
-      />
+      /> */}
     </>
   )
 }
