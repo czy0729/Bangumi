@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-26 16:58:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 05:58:45
+ * @Last Modified time: 2022-09-29 19:34:53
  */
 import { useState, useEffect } from 'react'
 import { MODEL_COLLECTION_STATUS } from '@constants'
@@ -51,7 +51,7 @@ export function getSelectEp(bili, bgm) {
 }
 
 export function useSelectEp(bili, bgm) {
-  const [data, setData] = useState(getSelectEp(bili, bgm).select)
+  const [data, setData] = useState<any>(getSelectEp(bili, bgm).select)
   useEffect(() => {
     setData(getSelectEp(bili, bgm).select)
   }, [bili, bgm])
@@ -68,7 +68,7 @@ export function getSelectScore(bili, bgm) {
 }
 
 export function useSelectScore(bili, bgm) {
-  const [data, setData] = useState(getSelectScore(bili, bgm).select)
+  const [data, setData] = useState<any>(getSelectScore(bili, bgm).select)
   useEffect(() => {
     setData(getSelectScore(bili, bgm).select)
   }, [bili, bgm])
@@ -85,7 +85,7 @@ export function getSelectComment(bili, bgm) {
 }
 
 export function useSelectComment(bili, bgm) {
-  const [data, setData] = useState(getSelectComment(bili, bgm).select)
+  const [data, setData] = useState<any>(getSelectComment(bili, bgm).select)
   useEffect(() => {
     setData(getSelectComment(bili, bgm).select)
   }, [bili, bgm])

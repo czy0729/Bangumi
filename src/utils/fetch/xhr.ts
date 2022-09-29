@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:04:10
+ * @Last Modified time: 2022-09-29 16:57:30
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { Fn } from '@types'
@@ -16,7 +16,11 @@ import { SHOW_LOG } from './ds'
 import { XHRArgs, XHRCustomArgs } from './types'
 
 /** @deprecated 带登录信息的 XMLHttpRequest */
-export function xhr(args: XHRArgs, success: Fn = () => {}, fail: Fn = () => {}) {
+export function xhr(
+  args: XHRArgs,
+  success: (responseText?: string, request?: any) => any = () => {},
+  fail: Fn = () => {}
+) {
   const { method = 'POST', url, data = {}, noConsole } = args || {}
   const userStore = getUserStoreAsync()
   const { cookie: userCookie, userAgent } = userStore.userCookie

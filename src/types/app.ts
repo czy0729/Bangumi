@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 17:19:08
+ * @Last Modified time: 2022-09-29 19:37:56
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -66,6 +66,9 @@ export type Navigation = {
 
   /** @deprecated 获取参数 */
   getParam?: (arg0?: any) => any
+
+  /** @deprecated 设置参数 */
+  setParams?: (arg0?: any) => any
 }
 
 /**  带 navigation 定义的 props */

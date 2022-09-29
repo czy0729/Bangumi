@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 05:11:42
+ * @Last Modified time: 2022-09-29 16:59:56
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLTrim } from '@utils'
@@ -825,7 +825,17 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 回复日志 */
-  doReplyBlog = async (args: { blogId: TopicId }, success?: () => any) => {
+  doReplyBlog = async (
+    args: {
+      blogId: TopicId
+      content?: string
+      formhash?: string
+      related?: any
+      sub_reply_uid?: any
+      post_uid?: any
+    },
+    success?: (responseText?: string, request?: any) => any
+  ) => {
     const { blogId, ...other } = args || {}
     xhr(
       {
