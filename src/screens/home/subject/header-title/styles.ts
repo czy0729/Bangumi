@@ -10,6 +10,6 @@ export const styles = _.create({
   container: {
     marginLeft: -_.sm,
     marginRight: _.lg,
-    marginBottom: _.platforms(-4, 0, 0, 8)
+    marginBottom: _.platforms(-2, 0, 0, 8)
   }
 })

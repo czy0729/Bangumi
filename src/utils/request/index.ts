@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2022-01-28 06:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 09:02:05
+ * @Last Modified time: 2022-09-29 21:07:00
  */
-import Axios from '@utils/thirdParty/axios'
 import axiosRetry from 'axios-retry'
+import Axios from '@utils/thirdParty/axios'
 
 const CancelToken = Axios.CancelToken
 

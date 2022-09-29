@@ -2,39 +2,24 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 19:29:36
+ * @Last Modified time: 2022-09-29 20:06:04
  */
 import { NativeModules, InteractionManager } from 'react-native'
-import { DEV } from '@/config'
+import { DEV, IOS_IPA } from '@/config'
 import { WSA } from '@constants/device'
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import events, { EventKeys } from '@constants/events'
-import { urlStringify, getTimestamp, randomn } from './utils'
-import { getUserStoreAsync, getThemeStoreAsync, getSystemStoreAsync } from './async'
-import { log } from './dev'
+import { urlStringify } from '../utils'
+import { getUserStoreAsync, getThemeStoreAsync, getSystemStoreAsync } from '../async'
+import { log } from '../dev'
+import { xhr } from './utils'
+import { SI_ANDROID, SI_ERROR, SI_IOS, SI_UV, SI_WSA } from './ds'
 
 const { UMAnalyticsModule } = NativeModules
 
 let lastQuery = ''
 let currentUrl = ''
 let currentQuery = ''
-
-function xhr(si: string, u: string) {
-  const url = `https://hm.baidu.com/hm.gif?${urlStringify({
-    rnd: randomn(10),
-    lt: getTimestamp(),
-    si,
-    v: '1.2.51',
-    api: '4_0',
-    u
-  })}`
-
-  const request = new XMLHttpRequest()
-  request.open('GET', url, true)
-  request.timeout = 1000
-  request.withCredentials = true
-  request.send(null)
-}
 
 /** HM@6.0 浏览统计 */
 export function hm(url?: string, screen?: string) {
@@ -51,6 +36,8 @@ export function hm(url?: string, screen?: string) {
       } = {
         v: VERSION_GITHUB_RELEASE
       }
+      if (IOS && IOS_IPA) query.ipa = 1
+
       const { isDark, isTinygrailDark } = getThemeStoreAsync()
       if (isDark) query.dark = 1
 
@@ -62,11 +49,7 @@ export function hm(url?: string, screen?: string) {
         query.s = screen
       }
 
-      const si = WSA
-        ? 'b0f22537130c960c2a12a184638f748a'
-        : IOS
-        ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
-        : '2dcb6644739ae08a1748c45fb4cea087'
+      const si = WSA ? SI_WSA : IOS ? SI_IOS : SI_ANDROID
       const queryStr = urlStringify(query)
       const u = `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${queryStr}`
       xhr(si, u)
@@ -89,7 +72,7 @@ export function ua() {
       const userStore = getUserStoreAsync()
       if (!userStore.isWebLogin) return
 
-      const si = 'a69e268f29c60e0429a711037f9c48b0'
+      const si = SI_UV
       const u = `${getUserStoreAsync().url}?v=${VERSION_GITHUB_RELEASE}`
       xhr(si, u)
     })
@@ -106,7 +89,7 @@ export function err(desc: string) {
     if (!desc) return
 
     const userStore = getUserStoreAsync()
-    const si = '00da9670516311c9b9014c067022f55c'
+    const si = SI_ERROR
     const u = `${userStore?.url}?${urlStringify({
       v: VERSION_GITHUB_RELEASE,
       d: desc,

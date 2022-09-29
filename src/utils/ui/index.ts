@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 06:50:06
+ * @Last Modified time: 2022-09-29 20:52:52
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
+import { DEV } from '@/config'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
-import { DEV } from '@/config'
 import { IOS } from '@constants/constants'
-import { getSystemStoreAsync, s2tAsync } from './async'
+import { getSystemStoreAsync, s2tAsync } from '../async'
 
 /** Loading */
-export function loading(text = 'Loading...', time = 0) {
+export function loading(text: string = 'Loading...', time: number = 0) {
   const toastId = Toast.loading(s2tAsync(text), time, () => {
     if (toastId) Portal.remove(toastId)
   })
@@ -70,11 +70,7 @@ export function confirm(
   return
 }
 
-/**
- * 提示
- * @param {*} content
- * @param {*} title default: '提示'
- */
+/** 提示 */
 export function alert(content: string, title: string = '提示') {
   const params = [
     {
@@ -93,11 +89,7 @@ export function alert(content: string, title: string = '提示') {
   return Alert.alert(s2tAsync(title), s2tAsync(content), params)
 }
 
-/**
- * 轻提示
- * @param {*} content
- * @param {*} duration
- */
+/** 轻提示 */
 export function info(
   content: string | number = '网络错误',
   duration: number = 2.4,
@@ -108,14 +100,12 @@ export function info(
 }
 
 /**
- * [待废弃] 显示ActionSheet
+ * @deprecated 显示 ActionSheet
  * https://rn.mobile.ant.design/components/action-sheet-cn/
- * @param {*} options
- * @param {*} callback
  */
 export function showActionSheet(
   options = [],
-  callback = Function.prototype,
+  callback = () => {},
   // @ts-ignore
   { title, message, cancelButtonIndex, destructiveButtonIndex } = {}
 ) {
@@ -131,10 +121,7 @@ export function showActionSheet(
   )
 }
 
-/**
- * 显示 ImageViewer
- * @param {*} imageUrls
- */
+/** 显示 ImageViewer */
 export function showImageViewer(
   imageUrls: {
     url?: any
@@ -166,7 +153,6 @@ export function showImageViewer(
 /**
  * 调整键盘模式
  * https://github.com/zubricky/react-native-android-keyboard-adjust
- * @param {String} fn 函数名 setAdjustPan | setAdjustResize
  */
 export function androidKeyboardAdjust(fn: 'setAdjustPan' | 'setAdjustResize') {
   if (IOS) return
@@ -175,22 +161,14 @@ export function androidKeyboardAdjust(fn: 'setAdjustPan' | 'setAdjustResize') {
   AndroidKeyboardAdjust[fn]()
 }
 
-/**
- * 安卓原生切换白天黑夜标志, 用于动态改变原生弹窗主题颜色
- * @param {*} isDark
- */
+/** 安卓原生切换白天黑夜标志, 用于动态改变原生弹窗主题颜色 */
 export function androidDayNightToggle(isDark?: boolean) {
   if (IOS) return
 
   NativeModules.DayNight.setDarkMode(isDark ? 2 : 1)
 }
 
-/**
- * 复制到剪贴板
- * @param val
- * @param message
- * @param ms
- */
+/** 复制到剪贴板 */
 export function copy(val: any, message: boolean | string = true, ms?: number) {
   const string = String(val)
   Clipboard.setString(string)

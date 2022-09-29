@@ -21,6 +21,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.md,
     paddingLeft: _.sm
   },
+  badgeExpand: {
+    paddingBottom: 8
+  },
   item: {
     paddingVertical: _.r(2),
     paddingHorizontal: _.r(8),

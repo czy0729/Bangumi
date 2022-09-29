@@ -35,6 +35,13 @@ export default memo(
   }) => {
     global.rerender('Subject.Tags.Main')
 
+    const elBadge = (
+      <Flex style={[styles.badge, subjectTagsExpand && styles.badgeExpand]}>
+        <Text size={13} type='sub'>
+          第三方标签
+        </Text>
+      </Flex>
+    )
     const elTags = (
       <>
         {tags.map(({ name, count }, index) => {
@@ -80,11 +87,7 @@ export default memo(
         {/* 动画 */}
         {!!animeTags?.length && (
           <>
-            <Flex style={styles.badge}>
-              <Text size={13} type='sub'>
-                第三方标签
-              </Text>
-            </Flex>
+            {elBadge}
             {animeTags.map((item: string) => (
               <Touchable
                 key={item}
@@ -109,11 +112,7 @@ export default memo(
         {/* Hentai */}
         {!!hentaiTags?.length && (
           <>
-            <Flex style={styles.badge}>
-              <Text size={13} type='sub'>
-                第三方标签
-              </Text>
-            </Flex>
+            {elBadge}
             {hentaiTags.map((item: string) => (
               <Touchable
                 key={item}
@@ -138,11 +137,7 @@ export default memo(
         {/* 游戏 */}
         {!!gameTags?.length && (
           <>
-            <Flex style={styles.badge}>
-              <Text size={13} type='sub'>
-                第三方标签
-              </Text>
-            </Flex>
+            {elBadge}
             {gameTags.map((item: string) => (
               <Touchable
                 key={item}
@@ -167,11 +162,7 @@ export default memo(
         {/* 漫画 */}
         {!!mangaTags?.length && (
           <>
-            <Flex style={styles.badge}>
-              <Text size={13} type='sub'>
-                第三方标签
-              </Text>
-            </Flex>
+            {elBadge}
             {mangaTags.map((item: string) => (
               <Touchable
                 key={item}
@@ -196,11 +187,7 @@ export default memo(
         {/* 文库 */}
         {!!wenkuTags?.length && (
           <>
-            <Flex style={styles.badge}>
-              <Text size={13} type='sub'>
-                第三方标签
-              </Text>
-            </Flex>
+            {elBadge}
             {wenkuTags.map((item: string) => (
               <Touchable
                 key={item}

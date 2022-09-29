@@ -3,15 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 06:28:38
+ * @Last Modified time: 2022-09-29 20:56:48
  */
 import cheerioRN from 'cheerio-without-node-native'
-import HTMLParser from './thirdParty/html-parser'
+import HTMLParser from './../thirdParty/html-parser'
 
-/**
- * 去除HTML
- * @version 170905 1.0
- */
+/** 去除 HTML */
 export function removeHTMLTag(str: any): string {
   return String(str)
     .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
@@ -20,10 +17,7 @@ export function removeHTMLTag(str: any): string {
     .replace(/ /gi, '') // 去掉
 }
 
-/**
- * HTML反转义
- * @param {*} str
- */
+/** HTML 反转义 */
 export function HTMLDecode(str: string = ''): string {
   if (str.length === 0) return ''
 
@@ -36,10 +30,7 @@ export function HTMLDecode(str: string = ''): string {
     .replace(/&quot;/g, '"')
 }
 
-/**
- * HTML转义
- * @param {*} str
- */
+/** HTML 转义 */
 export function HTMLEncode(str: string = ''): string {
   if (str.length === 0) return ''
 
@@ -52,10 +43,7 @@ export function HTMLEncode(str: string = ''): string {
     .replace(/"/g, '&quot;')
 }
 
-/**
- * HTML压缩
- * @param {*} str
- */
+/** HTML 压缩 */
 export function HTMLTrim(str: any = '', deep?: boolean) {
   if (typeof str !== 'string') return str
 
@@ -76,11 +64,11 @@ export function HTMLTrim(str: any = '', deep?: boolean) {
 }
 
 /**
- * [待废弃] html字符串转对象
+ * @deprecated html字符串转对象
  * @param {*} html
- * @param {*} cmd  是否生成cmd字符串(开发用)
+ * @param {*} cmd  是否生成 cmd 字符串(开发用)
  */
-export function HTMLToTree(html, cmd = true) {
+export function HTMLToTree(html: string, cmd = true) {
   const tree: any = {
     tag: 'root',
     attrs: {},
@@ -131,7 +119,7 @@ export function HTMLToTree(html, cmd = true) {
 }
 
 /**
- * [待废弃] tree查找
+ * @deprecated tree查找
  * ul > li > a|title
  * ul > li > a|title=123
  * ul > li > a|title=123&class=article
@@ -140,7 +128,7 @@ export function HTMLToTree(html, cmd = true) {
  * @param {*} cmd
  * @return {Array}
  */
-export function findTreeNode(children, cmd = '', defaultValue?) {
+export function findTreeNode(children: any, cmd: string = '', defaultValue?) {
   if (!cmd) return children
 
   const split = ' > '
@@ -211,7 +199,7 @@ export function findTreeNode(children, cmd = '', defaultValue?) {
  * 干掉 cloudfare 乱插的 dom
  * @param {*} HTML
  */
-export function removeCF(HTML: string = '') {
+export function removeCF(HTML: string = ''): string {
   return HTML.replace(
     /<script[^>]*>([\s\S](?!<script))*?<\/script>|<noscript[^>]*>([\s\S](?!<script))*?<\/noscript>|style="display:none;visibility:hidden;"/g,
     ''

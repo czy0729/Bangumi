@@ -4,38 +4,33 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 23:02:12
+ * @Last Modified time: 2022-09-29 20:59:09
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants/constants'
-import { getTimestamp } from './utils'
-import { setStorage } from './storage'
-import fetch from './fetch'
-import { fetchSubjectV0 } from './fetch.v0'
+import { getTimestamp } from '../utils'
+import { setStorage } from '../storage'
+import fetch from '../fetch'
+import { fetchSubjectV0 } from '../fetch.v0'
 
 configure({
   enforceActions: 'observed'
 })
 
 export default class Store {
-  /**
-   * @deprecated
-   * Store new后调用的方法
-   */
+  /** @deprecated Store new 后调用的方法 */
   setup = () => {
     this.initComputed()
   }
 
   /**
-   * 自动使用Store.state来遍历配置初始MobX的computed
-   * 所有state里的键值, 都可以通过this.key的方式调用而不需要this.state.key
+   * @deprecated 自动使用 Store.state 来遍历配置初始 MobX 的 computed
+   * 所有 state 里的键值, 都可以通过 this.key 的方式调用而不需要 this.state.key
    */
   initComputed = () => {
     Object.keys(this.state).forEach(key => {
-      /**
-       * 已有computed跳过
-       */
+      /** 已有 computed 跳过 */
       if (this[key] !== undefined) return
 
       /**
@@ -86,9 +81,9 @@ export default class Store {
   }
 
   /**
-   * 统一setState方法
+   * 统一 setState 方法
    * @version 190226 v1.0
-   * @param {*} *state
+   * @param {*} state
    */
   setState = action((state: any, stateKey: string = 'state') => {
     Object.keys(state).forEach(key => {
@@ -111,8 +106,8 @@ export default class Store {
   })
 
   /**
-   * 清除一个state
-   * @param {*} *key state的键值
+   * 清除一个 state
+   * @param {*} key state的键值
    * @param {*} data 置换值
    */
   clearState = action((key: string, data: any = {}) => {
@@ -126,16 +121,15 @@ export default class Store {
   })
 
   /**
-   * 请求并入Store, 入Store成功会设置标志位_loaded=date()
-   * 请求失败后会在1秒后递归重试
+   * 请求并入 Store, 入 Store 成功会设置标志位 _loaded=date()
+   * 请求失败后会在 1 秒后递归重试
    * @version 190420 v1.2
    * @param {String|Object} fetchConfig
    * @param {String|Array}  stateKey            入Store的key (['a', 'b']表示this.state.a.b)
    * @param {*}             otherConfig.list    是否把响应的数组转化为LIST_EMPTY结构
    * @param {*}             otherConfig.storage 是否本地化
-   * @return {Promise}
    */
-  fetch = async (fetchConfig, stateKey?, otherConfig = {}) => {
+  fetch = async (fetchConfig: any, stateKey?: string, otherConfig: any = {}) => {
     const { list, storage, namespace } = otherConfig
     let _fetchConfig = {}
     if (typeof fetchConfig === 'object') {
@@ -257,7 +251,7 @@ export default class Store {
   }
 
   /**
-   * 批量读取缓存并入库V2
+   * 批量读取缓存并入库 V2
    * @param {*} config    约定的配置
    * @param {*} namespace 命名空间
    */
@@ -284,7 +278,7 @@ export default class Store {
   }
 
   /**
-   * 将一个observableObject转化为javascript原生的对象
+   * 将一个 observableObject 转化为 javascript 原生的对象
    * Mobx: toJS(value: any, supportCycles?=true: boolean)
    * @version 170428 1.0
    * @param  {String} key 保存值的键值

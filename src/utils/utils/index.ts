@@ -2,20 +2,24 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 12:58:09
+ * @Last Modified time: 2022-09-29 21:05:39
  */
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
 import { DEV } from '@/config'
 import { B, M, IOS } from '@constants/constants'
-import { info } from './ui'
+import { AnyObject, Fn } from '@types'
+import { info } from '../ui'
 
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 
 /** set default props of any react-native components even Custom Component */
-export function setDefaultProps(Component, defaultProps) {
+export function setDefaultProps(
+  Component: { render: (props: any, ref: any) => any; defaultProps: AnyObject },
+  defaultProps?: AnyObject
+) {
   const componentRender = Component.render
   if (!componentRender) {
     Component.defaultProps = defaultProps
@@ -33,27 +37,18 @@ export function setDefaultProps(Component, defaultProps) {
   }
 }
 
-/**
- * 排除null
- * @param {*} value
- */
+/** 排除 null */
 export function isObject(value: any): boolean {
   return typeof value === 'object' && !!value
 }
 
-/**
- * 缩短 runAfterInteractions
- * @param {*} fn
- */
+/** 缩短 runAfterInteractions */
 export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
   return InteractionManager.runAfterInteractions(fn)
 }
 
-/**
- * 节流
- * @param {*} callback
- */
-export function throttle(callback: (arg?: any) => void, delay = 400) {
+/** 节流 */
+export function throttle(callback: (arg?: any) => void, delay: number = 400) {
   let timeoutID: any
   let lastExec = 0
 
@@ -80,12 +75,8 @@ export function throttle(callback: (arg?: any) => void, delay = 400) {
   return wrapper
 }
 
-/**
- * 防抖
- * @param {*} fn
- * @param {*} ms
- */
-export function debounce(fn, ms = 400): typeof fn {
+/** 防抖 */
+export function debounce(fn: Fn, ms: number = 400): typeof fn {
   let timeout = null // 创建一个标记用来存放定时器的返回值
   return function () {
     clearTimeout(timeout) // 每当用户输入的时候把前一个 setTimeout clear 掉
@@ -135,10 +126,7 @@ export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
   return 1
 }
 
-/**
- * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
- * @param {*} fetchs
- */
+/** 接口防并发请求问题严重, 暂时延迟一下, n 个请求一组 */
 export async function queue(fetchs: any[] = [], num: number = 2): Promise<boolean> {
   if (!fetchs.length) return false
 
@@ -152,11 +140,7 @@ export async function queue(fetchs: any[] = [], num: number = 2): Promise<boolea
   return true
 }
 
-/**
- * 对象中选择指定 key
- * @param obj
- * @param arr
- */
+/** 对象中选择指定 key */
 export function pick(obj: object, arr: string[]) {
   return arr.reduce(
     // eslint-disable-next-line no-sequences
@@ -165,11 +149,7 @@ export function pick(obj: object, arr: string[]) {
   )
 }
 
-/**
- * 对象中选择排除 key
- * @param obj
- * @param arr
- */
+/** 对象中选择排除 key */
 export function omit<T extends object, U extends string[]>(obj: T, arr: U) {
   return Object.keys(obj).reduce(
     // eslint-disable-next-line no-sequences
@@ -178,19 +158,12 @@ export function omit<T extends object, U extends string[]>(obj: T, arr: U) {
   ) as Omit<Readonly<T>, Readonly<U>[number]>
 }
 
-/**
- * 安全 toFixed
- * @param value
- * @param num
- */
+/** 安全 toFixed */
 export function toFixed(value: any, num: number = 2) {
   return Number(value || 0).toFixed(num)
 }
 
-/**
- * 安全对象
- * @param {*} object
- */
+/** 安全对象 */
 export function safeObject(object: any = {}) {
   Object.keys(object).forEach(key => {
     if (object[key] === undefined) {
@@ -200,10 +173,7 @@ export function safeObject(object: any = {}) {
   return object
 }
 
-/**
- * 浏览器打开网页
- * @param {*} url
- */
+/** 浏览器打开网页 */
 export function open(url: any): boolean {
   if (!url || typeof url !== 'string') {
     info('地址不合法')
@@ -224,12 +194,7 @@ export function open(url: any): boolean {
   return true
 }
 
-/**
- * url字符串化
- * @version 190221 1.0
- * @param {*} data
- * @param {*} encode
- */
+/** url 字符串化 */
 export function urlStringify(data: object, encode: boolean = true): string {
   if (!data) return ''
 
@@ -239,29 +204,17 @@ export function urlStringify(data: object, encode: boolean = true): string {
   return arr.join('&')
 }
 
-/**
- * 补零
- * @version 190301 1.0
- * @param {*} n
- */
+/** 补零 */
 export function pad(n: string | number) {
   return Number(n) < 10 ? `0${n}` : n
 }
 
-/**
- * 睡眠
- * @version 180417 1.0
- * @param {*} ms
- */
+/** 睡眠 */
 export function sleep(ms: number = 800): Promise<undefined> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-/**
- * 简易时间戳格式化函数
- * @param  {String} format    格式化格式
- * @param  {Int}    timestamp 时间戳
- */
+/** 简易时间戳格式化函数 */
 export function date(format?: string, timestamp?: any): string {
   // 假如第二个参数不存在，第一个参数作为timestamp
   if (!timestamp) {
@@ -314,10 +267,7 @@ export function date(format?: string, timestamp?: any): string {
   })
 }
 
-/**
- * IOS8601时间转换
- * @param {*} isostr
- */
+/** IOS8601 时间转换 */
 export function parseIOS8601(isostr: string, format = 'Y-m-d') {
   if (!isostr) return ''
 
@@ -332,8 +282,6 @@ export function parseIOS8601(isostr: string, format = 'Y-m-d') {
 /**
  * 返回 timestamp
  * @doc https://dayjs.fenxianglu.cn/category/parse.html#%E5%AD%97%E7%AC%A6%E4%B8%B2-%E6%A0%BC%E5%BC%8F
- * @params {string} date
- * @params {string} format
  * */
 export function getTimestamp(date = '', format?: string) {
   const _date = trim(date)
@@ -368,12 +316,8 @@ export function getRecentTimestamp(recent: string) {
 
 const _y = date('y', getTimestamp())
 
-/**
- * 返回最简单的时间表达
- * @version 190430 1.1
- * @return {String} *time 时间戳字符串
- */
-export function simpleTime(time = '') {
+/** 返回最简单的时间表达 */
+export function simpleTime(time: string = '') {
   if (!time) return '-'
 
   const _time = getTimestamp(time)
@@ -386,11 +330,7 @@ export function simpleTime(time = '') {
   return `${ymd} ${hi}`
 }
 
-/**
- * 数组分组
- * @param {*} arr
- * @param {*} num
- */
+/** 数组分组 */
 export function arrGroup(arr: string | any[], num: number = 40): any[] {
   const allData = []
   let currData = []
@@ -406,17 +346,12 @@ export function arrGroup(arr: string | any[], num: number = 40): any[] {
   return allData
 }
 
-/**
- * 首字母大写
- * @param {*} str
- */
+/** 首字母大写 */
 export function titleCase(str: any = '') {
   return String(str).replace(/( |^)[a-z]/g, L => L.toUpperCase())
 }
 
-/**
- * [待废弃] 颜色过渡
- */
+/** @deprecated 颜色过渡 */
 export function gradientColor(startRGB: any[], endRGB: any[], step: number) {
   const startR = startRGB[0]
   const startG = startRGB[1]
@@ -439,29 +374,19 @@ export function gradientColor(startRGB: any[], endRGB: any[], step: number) {
   return colorArr
 }
 
-/**
- * 去掉收尾空格
- * @param {*} str
- */
+/** 去掉头尾空格 */
 export function trim(str: string = '') {
   return str.replace(/^\s+|\s+$/gm, '')
 }
 
-/**
- * 生成n位随机整数
- * @param {*} n
- */
+/** 生成 n 位随机整数 */
 export function randomn(n: number) {
   if (n > 21) return null
 
   return Math.floor((Math.random() + 1) * Math.pow(10, n - 1))
 }
 
-/**
- * 区间随机
- * @param {*} start
- * @param {*} end
- */
+/** 区间随机 */
 export function random(start: number, end: number) {
   return Math.floor(Math.random() * (end - start + 1) + start)
 }
@@ -470,13 +395,13 @@ export function random(start: number, end: number) {
  * 数字分割加逗号
  * @version 160811 1.0
  * @version 160902 1.1 添加保留多少位小数
- * @version 160907 1.2 代码优化，金额少于1000时直接返回
- * @version 170103 1.3 判断n为0的情况
- * @param {Number} s 数字
- * @param {Int} n 保留多少位小数
- * @return {String}
+ * @version 160907 1.2 代码优化，金额少于 1000 时直接返回
+ * @version 170103 1.3 判断 n 为 0 的情况
+ * @param {*} s   数字
+ * @param {*} n   保留多少位小数
+ * @param {*} xsb 是否 xsb 模式
  */
-export function formatNumber(s: string | number, n = 2, xsb?: boolean) {
+export function formatNumber(s: string | number, n: number = 2, xsb?: boolean) {
   if (xsb) {
     if (s >= B) return `${formatNumber((s as number) / B, 1)}亿`
     if (s >= M) return `${formatNumber((s as number) / M, 1)}万`
@@ -504,15 +429,13 @@ export function formatNumber(s: string | number, n = 2, xsb?: boolean) {
   return t.split('').reverse().join('') + '.' + r
 }
 
-/**
- * 时间戳距离现在时间的描述
- */
-export function lastDate(timestamp: number, simple = true) {
+/** 时间戳距离现在时间的描述 */
+export function lastDate(timestamp: number, simple: boolean = true) {
   const getNumber = () => Math.floor(totalTime / _)
   const modTimestamp = () => totalTime % _
 
   let totalTime = getTimestamp() - timestamp
-  let _
+  let _: number
 
   _ = 60 * 60 * 24 * 365
   const years = getNumber()
@@ -547,10 +470,7 @@ export function lastDate(timestamp: number, simple = true) {
   return '刚刚'
 }
 
-/**
- * 清除搜索关键字的特殊字符
- * @param {*} str
- */
+/** 清除搜索关键字的特殊字符 */
 export function cleanQ(str: any) {
   return String(str).replace(/['!"#$%&\\'()*+,./:;<=>?@[\\\]^`{|}~']/g, ' ')
 }
@@ -602,6 +522,7 @@ export function similar(s: string, t: string, f?: number) {
   return res.toFixed(f)
 }
 
+/** 工厂辅助函数 */
 export function factory<T>(type: { new (): T }): T {
   const instance = new type()
   return instance

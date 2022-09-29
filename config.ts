@@ -26,6 +26,9 @@ export const DEV = global.__DEV__
 /** 是否带字体打包 */
 export const FONT_FAMILY = true
 
+/** 是否来源于 IPA (iOS) */
+export const IOS_IPA = true
+
 /** 图片是否开启新本地缓存策略 (iOS) */
 export const IOS_IMAGE_CACHE_V2 = false
 
