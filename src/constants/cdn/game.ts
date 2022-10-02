@@ -6,14 +6,11 @@
  * @Last Modified time: 2022-09-13 21:29:54
  */
 import { SubjectId } from '@types'
-import { get } from '@utils/crypto'
 import { HOST_CDN } from '../constants'
-import { HOST_CDN_STATIC, VERSION_GAME } from './ds'
+import { HOST_DOGE, HOST_CDN_STATIC, VERSION_GAME } from './ds'
 import { getFolder, getOTA } from './utils'
 
-export const HOST_DOGE = get(
-  'U2FsdGVkX1/PXY2zMa9hDyRFAFjsZXNSzJvNrxUaQ3gBWUMfsMwK2psySTo4/gKoeTo2WcMavXPewMdpH0G+AA=='
-) as string
+export { HOST_DOGE }
 
 /** 找游戏数据 */
 export const CDN_STATIC_GAME = () => {

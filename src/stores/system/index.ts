@@ -90,6 +90,45 @@ const state = {
 class SystemStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  init = async () => {
+    await this.readStorage(
+      [
+        'advance',
+        'advanceDetail',
+        'dev',
+        'devEvent',
+        'iosUGCAgree',
+        'ota',
+        'release',
+        'setting'
+      ],
+      NAMESPACE
+    )
+
+    // 优先度: 高
+    setTimeout(() => {
+      this.fetchOTA()
+      if (!DEV) this.fetchRelease()
+    }, 4000)
+
+    // 优先度: 中
+    setTimeout(() => {
+      this.setState({
+        rendered: true
+      })
+
+      const now = getTimestamp()
+      if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24) {
+        this.fetchAdvanceDetail()
+      }
+
+      this.resetCDN()
+      if (this.setting.onlineStatus) UserStore.fetchOnlines()
+    }, 8000)
+
+    return true
+  }
+
   // -------------------- get --------------------
   /** 是否开发环境 */
   @computed get dev() {
@@ -173,54 +212,10 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
-  init = async () => {
-    await this.readStorage(
-      [
-        'ota',
-        'advance',
-        'advanceDetail',
-        'setting',
-        'release',
-        'dev',
-        'devEvent',
-        'iosUGCAgree'
-      ],
-      NAMESPACE
-    )
-
-    // 检查新版本
-    this.fetchOTA()
-
-    // 优先度: 高
-    setTimeout(() => {
-      if (!DEV) this.fetchRelease()
-    }, 4000)
-
-    // 优先度: 中
-    setTimeout(() => {
-      this.setState({
-        rendered: true
-      })
-
-      const now = getTimestamp()
-      if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24) {
-        this.fetchAdvanceDetail()
-      }
-
-      this.resetCDN()
-
-      if (this.setting.onlineStatus) {
-        UserStore.fetchOnlines()
-      }
-    }, 8000)
-
-    return true
-  }
-
   // -------------------- fetch --------------------
   /** 检查云端数据 */
   fetchOTA = async () => {
-    let res
+    let res: Promise<any>
     try {
       res = fetch(`${GITHUB_DATA}?t=${getTimestamp()}`).then(response =>
         response.json()

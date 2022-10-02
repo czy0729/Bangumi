@@ -45,31 +45,30 @@ class GlobalStores {
     try {
       if (!DEV && inited) return false
 
-      if (DEV) await userStore.init()
+      // if (DEV) await userStore.init()
       inited = true
 
       // [同步加载] APP 最重要 Stores
       await systemStore.init()
       await themeStore.init()
       await userStore.init()
-      await Promise.all([
-        collectionStore.init(),
-        subjectStore.init(),
-        tinygrailStore.init()
-      ])
+      await collectionStore.init()
+      await collectionStore.init()
+      await subjectStore.init()
 
       // [异步加载] 非重要Stores
       runAfter(() => {
-        smbStore.init()
         calendarStore.init()
         discoveryStore.init()
         monoStore.init()
+        otaStore.init()
         rakuenStore.init()
         searchStore.init()
-        timelineStore.init()
+        smbStore.init()
         tagStore.init()
+        timelineStore.init()
+        tinygrailStore.init()
         usersStore.init()
-        otaStore.init()
       })
 
       return systemStore.setting

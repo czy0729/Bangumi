@@ -171,6 +171,7 @@ export default class Fetch extends Computed {
             }
           })
         })
+
         this.setState({
           epsData
         })

@@ -124,12 +124,24 @@ export default class Store {
    * 请求并入 Store, 入 Store 成功会设置标志位 _loaded=date()
    * 请求失败后会在 1 秒后递归重试
    * @version 190420 v1.2
-   * @param {String|Object} fetchConfig
-   * @param {String|Array}  stateKey            入Store的key (['a', 'b']表示this.state.a.b)
-   * @param {*}             otherConfig.list    是否把响应的数组转化为LIST_EMPTY结构
-   * @param {*}             otherConfig.storage 是否本地化
+   * @param {*} fetchConfig
+   * @param {*} stateKey     入Store的key (['a', 'b'] 表示 this.state.a.b)
+   * @param {*} otherConfig
    */
-  fetch = async (fetchConfig: any, stateKey?: string, otherConfig: any = {}) => {
+  fetch = async (
+    fetchConfig: any,
+    stateKey?: string | number | (string | number)[],
+    otherConfig: {
+      /** 本地化空间 */
+      namespace?: string
+
+      /** 是否本地化 */
+      storage?: boolean
+
+      /** 是否把响应的数组转化为 LIST_EMPTY 结构 */
+      list?: boolean
+    } = {}
+  ) => {
     const { list, storage, namespace } = otherConfig
     let _fetchConfig = {}
     if (typeof fetchConfig === 'object') {

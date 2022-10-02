@@ -6,14 +6,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-05-28 08:01:22
  */
+import { get } from '@utils/crypto'
+
 /** cdn | fastly | gcore | originfastly */
 export const HOST_CDN_FASTLY = 'https://fastly.jsdelivr.net'
 
-/** OneDrive */
+/** @deprecated OneDrive */
 export const HOST_CDN_ONEDRIVE = 'https://bangumi.stdcdn.com'
 
-/** OneDrive Static File */
+/** @deprecated OneDrive Static File */
 export const HOST_CDN_STATIC = 'https://bangumi-static.stdcdn.com'
+
+/** DogeCloud */
+export const HOST_DOGE = get(
+  'U2FsdGVkX1/PXY2zMa9hDyRFAFjsZXNSzJvNrxUaQ3gBWUMfsMwK2psySTo4/gKoeTo2WcMavXPewMdpH0G+AA=='
+) as string
 
 /** https://github.com/czy0729/Bangumi-Static */
 export const VERSION_STATIC = '20220306'
