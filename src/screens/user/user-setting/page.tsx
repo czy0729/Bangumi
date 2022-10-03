@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 16:03:33
+ * @Last Modified time: 2022-10-04 07:33:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,7 @@ import { _ } from '@stores'
 import { open, confirm, arrGroup } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { fixedRemote } from '@utils/user-setting'
 import { IOS, HOST_IMAGE_UPLOAD } from '@constants'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
@@ -74,21 +75,17 @@ class UserSetting extends React.Component {
   get previewAvatarSrc() {
     const { $ }: Ctx = this.context
     const { avatar } = $.usersInfo
-    if (!$.state.avatar) {
-      return avatar?.large
-    }
+    if (!$.state.avatar) return avatar?.large
 
-    return $.state.avatar || avatar?.large
+    return fixedRemote($.state.avatar, true) || avatar?.large
   }
 
   get previewBgSrc() {
     const { $ }: Ctx = this.context
     const { avatar } = $.usersInfo
-    if (!$.state.bg) {
-      return this.previewAvatarSrc
-    }
+    if (!$.state.bg) return this.previewAvatarSrc
 
-    return $.state.bg || $.state.avatar || avatar?.large
+    return fixedRemote($.state.bg) || fixedRemote($.state.avatar, true) || avatar?.large
   }
 
   get blurRadius() {
@@ -274,7 +271,7 @@ class UserSetting extends React.Component {
           <Touchable style={this.styles.bg} onPress={() => $.onSelectBg('')}>
             <Image
               key={this.previewAvatarSrc}
-              src={this.previewAvatarSrc}
+              src={fixedRemote(this.previewAvatarSrc)}
               headers={headers}
               width={this.styles.image.width}
               height={this.styles.image.height}
@@ -300,7 +297,7 @@ class UserSetting extends React.Component {
               >
                 <Image
                   key={item}
-                  src={item}
+                  src={fixedRemote(item)}
                   width={this.styles.image.width}
                   height={this.styles.image.height}
                   headers={headers}
@@ -392,7 +389,7 @@ class UserSetting extends React.Component {
                 <Image
                   key={item}
                   style={_.mb.md}
-                  src={item}
+                  src={fixedRemote(item, true)}
                   headers={headers}
                   size={60}
                   radius={30}

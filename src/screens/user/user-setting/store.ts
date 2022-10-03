@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 06:25:45
+ * @Last Modified time: 2022-10-04 07:17:46
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
-import { getTimestamp, HTMLDecode } from '@utils'
+import { getTimestamp, HTMLDecode, info, feedback } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
+import { randomAvatars } from '@utils/user-setting'
 import { API_SETU } from '@constants'
-import { randomAvatars } from './ds'
 
 const namespace = 'ScreenUserSetting'
 const onlineBgsUrl = 'https://gitee.com/a296377710/bangumi/raw/master/bg.json'

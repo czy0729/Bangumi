@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 00:47:33
+ * @Last Modified time: 2022-10-04 07:25:10
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -22,6 +22,7 @@ import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { info, loading, feedback } from '@utils/ui'
+import { fixedRemote } from '@utils/user-setting'
 import { HOST } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/ds'
@@ -168,7 +169,7 @@ export default class ScreenZone extends store {
   @computed get bg() {
     const { sign = '' } = this.users
     const bgs = sign.match(/\[bg\](.+?)\[\/bg\]/)
-    return HTMLDecode(bgs ? String(bgs[1]).trim() : '')
+    return fixedRemote(HTMLDecode(bgs ? String(bgs[1]).trim() : ''))
   }
 
   /**
@@ -178,7 +179,7 @@ export default class ScreenZone extends store {
     const { sign = '' } = this.users
     const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     const src = avatars ? String(avatars[1]).trim() : ''
-    return HTMLDecode(src)
+    return fixedRemote(HTMLDecode(src), true)
   }
 
   /**

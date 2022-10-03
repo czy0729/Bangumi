@@ -1,9 +1,10 @@
 /*
  * @Author: czy0729
- * @Date: 2022-08-15 04:47:02
+ * @Date: 2022-10-04 07:14:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 06:19:12
+ * @Last Modified time: 2022-10-04 07:14:35
  */
+/** 头像 */
 export const AVATARS = [
   '914fc63dd7295c20bd35c54763407c8a/0',
   '3561b018507ad99d73cc059f75bbfd94/1',
@@ -128,15 +129,51 @@ export const AVATARS = [
   '5850420aa26aee278ee948ff6cf59609/120'
 ] as const
 
-export function randomAvatars(n: number = 15) {
-  const min = 0
-  const max = AVATARS.length
-  const arr = []
-
-  while (arr.length < n) {
-    const index = Math.floor(Math.random() * (max - min) + min)
-    if (!arr.includes(index)) arr.push(index)
-  }
-
-  return arr.map(index => `https://p.sda1.dev/6/${AVATARS[index]}.jpg`)
-}
+/** 需要替换源的背景标识 */
+export const BGS = [
+  '99925222_p0_master1200.jpg',
+  '96061233_p0_master1200.jpg',
+  '95490521_p0_master1200.jpg',
+  '67867182_p0_master1200.jpg',
+  '89044801_p0_master1200.jpg',
+  '73205835_p0_master1200.jpg',
+  '94219763_p0_master1200.jpg',
+  '70352475_p0_master1200.jpg',
+  '21976983_p0_master1200.jpg',
+  '100341551_p0_master1200.jpg',
+  '100340405_p0_master1200.jpg',
+  '90781328_p0_master1200.jpg',
+  '83916421_p0_master1200.jpg',
+  '93615405_p0_master1200.jpg',
+  '90992369_p0_master1200.jpg',
+  '93428795_p0_master1200.jpg',
+  '92651861_p0_master1200.jpg',
+  '84661248_p0_master1200.jpg',
+  '80943778_p0_master1200.jpg',
+  '79546554_p0_master1200.jpg',
+  '79583539_p0_master1200.jpg',
+  '75222705_p0_master1200.jpg',
+  '87099069_p0_master1200.jpg',
+  '100163098_p0_master1200.jpg',
+  '100022190_p0_master1200.jpg',
+  '99978036_p0_master1200.jpg',
+  '99895380_p0_master1200.jpg',
+  '87926383_p0_master1200.jpg',
+  '99710643_p0_master1200.jpg',
+  '99328441_p0_master1200.jpg',
+  '75746651_p0_master1200.jpg',
+  '86992811_p0_master1200.jpg',
+  '67297337_p0_master1200.jpg',
+  '100445750_p0_master1200.jpg',
+  '78954079_p0_master1200.jpg',
+  '66952939_p0_master1200.jpg',
+  '98293770_p0_master1200.jpg',
+  '99629466_p0_master1200.jpg',
+  '84907990_p0_master1200.jpg',
+  '70059505_p0_master1200.jpg',
+  '79766575_p0_master1200.jpg',
+  '73955538_p0_master1200.jpg',
+  '94939415_p0_master1200.jpg',
+  'cfd262b8d2c2858a.png',
+  'tinygrail_wallpaper.png'
+] as const

@@ -4,12 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 19:44:48
+ * @Last Modified time: 2022-10-04 07:20:17
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
+import { fixedRemote } from '@utils/user-setting'
 import {
   HTML_FRIENDS,
   HTML_USERS,
@@ -170,7 +171,7 @@ class UsersStore
       const sign = this.users()?.sign || ''
       const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
       const src = avatars ? String(avatars[1]).trim() : ''
-      return HTMLDecode(src)
+      return fixedRemote(HTMLDecode(src), true)
     } catch (error) {
       return ''
     }

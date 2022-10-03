@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 20:30:15
+ * @Last Modified time: 2022-10-04 07:24:22
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore, uiStore } from '@stores'
@@ -17,6 +17,7 @@ import {
 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
+import { fixedRemote } from '@utils/user-setting'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_COLLECTION_STATUS,
@@ -220,13 +221,13 @@ export default class ScreenUser extends store {
   @computed get avatar() {
     const avatars = this.sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     const src = avatars ? String(avatars[1]).trim() : ''
-    return HTMLDecode(src)
+    return fixedRemote(HTMLDecode(src), true)
   }
 
   /** 自定义背景 */
   @computed get bg() {
     const bgs = this.sign.match(/\[bg\](.+?)\[\/bg\]/)
-    return HTMLDecode(bgs ? String(bgs[1]).trim() : '')
+    return fixedRemote(HTMLDecode(bgs ? String(bgs[1]).trim() : ''))
   }
 
   /** 当前类型 key */
