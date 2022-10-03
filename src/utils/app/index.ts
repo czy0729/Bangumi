@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 06:53:08
+ * @Last Modified time: 2022-10-03 11:34:29
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -23,10 +23,9 @@ import {
   initHashAvatarOTA,
   initHashSubjectOTA
 } from '@constants/cdn'
-import cnData from '@assets/json/cn.json'
-import x18data from '@assets/json/18x.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { AnyObject, EventType, Navigation, Paths, SubjectId } from '@types'
+import x18Data from '@assets/json/18x.json'
+import { AnyObject, BangumiData, EventType, Navigation, Paths, SubjectId } from '@types'
 import { getTimestamp, open } from '../utils'
 import { info, confirm, feedback } from '../ui'
 import { HTMLDecode } from '../html'
@@ -76,6 +75,28 @@ export function bootApp() {
 /** 获取设置 */
 export function getSetting() {
   return getSystemStoreAsync().setting
+}
+
+/** 查找条目中文名 */
+export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
+  if (!getSetting()?.cnFirst) return jp
+
+  if (CN_CACHES[jp]) return CN_CACHES[jp]
+
+  const item = (bangumiData as BangumiData).find(
+    // 没有 id 则使用 jp 在 bangumi-data 里面匹配
+    item => subjectId == item.id || item.j === HTMLDecode(jp)
+  )
+  if (item) {
+    const cn = item.c || ''
+    if (cn) {
+      CN_CACHES[jp] = cn
+      return CN_CACHES[jp]
+    }
+  }
+
+  CN_CACHES[jp] = jp
+  return CN_CACHES[jp]
 }
 
 /** 获取背景的模糊值 (iOS 与安卓实际表现不同，需要分开判断) */
@@ -170,7 +191,7 @@ export function x18(subjectId: SubjectId, title?: string) {
 
   if (subjectId in X18_CACHE) return X18_CACHE[subjectId]
 
-  const flag = x18data.includes(subjectId)
+  const flag = x18Data.includes(subjectId)
   if (flag) {
     X18_CACHE[subjectId] = true
     return true
@@ -204,44 +225,6 @@ export function navigationReference(navigation?: Navigation | undefined) {
       _navigationReference.push = _navigationReference.navigate
   }
   return _navigationReference
-}
-
-/**
- * 查找条目中文名
- * @param {*} jp
- * @param {*} subjectId
- */
-export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
-  if (!getSetting()?.cnFirst) return jp
-
-  if (CN_CACHES[jp]) return CN_CACHES[jp]
-
-  // @deprecated [已废弃] 若带 id 使用本地 SUBJECT_CN 加速查找
-  if (subjectId) {
-    const cn = cnData[subjectId]
-    if (cn) {
-      CN_CACHES[jp] = cn
-      return cn
-    }
-  }
-
-  // 没有 id 则使用jp在 bangumi-data 里面匹配
-  const item = bangumiData.find(
-    item => subjectId == item.id || item.j === HTMLDecode(jp)
-  )
-  if (item) {
-    const _item = unzipBangumiData(item)
-    const cn =
-      (_item.titleTranslate &&
-        _item.titleTranslate['zh-Hans'] &&
-        _item.titleTranslate['zh-Hans'][0]) ||
-      jp
-    CN_CACHES[jp] = cn
-    return cn
-  }
-
-  CN_CACHES[jp] = jp
-  return jp
 }
 
 /** 修正和缩略 ago 时间 */
