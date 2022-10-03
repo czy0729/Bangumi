@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 14:13:41
+ * @Last Modified time: 2022-10-03 12:41:32
  */
 import { observable, computed } from 'mobx'
+import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { calendarStore, subjectStore, collectionStore } from '@stores'
 import { feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
-import { SubjectId } from '@types'
+import { BangumiData, SubjectId } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 
 export default class ScreenCalendar extends store {
@@ -110,6 +111,13 @@ export default class ScreenCalendar extends store {
   /** 条目信息 */
   subject(subjectId: SubjectId) {
     return computed(() => subjectStore.subject(subjectId)).get()
+  }
+
+  /** 放送站点 */
+  sites(subjectId: SubjectId) {
+    return computed(() => {
+      return (bangumiData as BangumiData).find(item => item.id == subjectId)?.s || {}
+    }).get()
   }
 
   // -------------------- page --------------------

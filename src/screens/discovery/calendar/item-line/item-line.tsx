@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 07:05:42
+ * @Last Modified time: 2022-10-03 12:50:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,7 @@ const ItemLine = memo(
     expand,
     collection,
     score,
+    sites,
     onToggleExpand,
     onShowManageModal
   }) => {
@@ -36,6 +37,13 @@ const ItemLine = memo(
 
     const showScore = !hideScore && !!score
     const canPress = expand || (!expand && timeCN && timeCN !== '2359')
+
+    const s = []
+    if (sites.b) s.push('bilibili')
+    if (!sites.b && sites.bhmt) s.push('bilibili 港澳台')
+    if (sites.i) s.push('爱奇艺')
+    if (sites.q) s.push('腾讯视频')
+
     const content = (
       <Flex style={styles.item} align='start'>
         <View style={styles.time}>
@@ -77,23 +85,21 @@ const ItemLine = memo(
                     <Flex.Item>
                       <Katakana.Provider
                         itemStyle={styles.katakanas}
-                        size={13}
                         lineHeight={15}
                         numberOfLines={3}
                       >
-                        <Katakana
-                          type='desc'
-                          size={13}
-                          lineHeight={15}
-                          numberOfLines={3}
-                          bold
-                        >
+                        <Katakana type='desc' lineHeight={15} numberOfLines={3} bold>
                           {HTMLDecode(name)}
                         </Katakana>
                       </Katakana.Provider>
                     </Flex.Item>
                   </Flex>
                 </View>
+                {!!s.length && (
+                  <Text type='sub' size={13} bold>
+                    {s.join('、')}
+                  </Text>
+                )}
                 <Flex>
                   {!!air && (
                     <Text style={_.mr.sm} type='sub' size={13} bold>

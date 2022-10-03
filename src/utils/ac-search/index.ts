@@ -8,7 +8,6 @@
  * @Last Modified time: 2022-09-26 21:42:35
  */
 import lazyac from 'lazy-aho-corasick'
-import { IOS } from '@constants'
 import { arrGroup, desc } from '../utils'
 import hash from '../thirdParty/hash'
 
@@ -43,7 +42,7 @@ let trieInit: boolean
 let trieInitDone: boolean
 
 /** 分片初始化时间间隔 */
-const trieInitDistance = IOS ? 2000 : 4000
+const trieInitDistance = 1000
 
 /** 初始化需要好几秒, 需要触发后延迟初始化, 待下一次再用 */
 function initLazyac() {
@@ -80,26 +79,28 @@ function initLazyac() {
 
     requestAnimationFrame(() => {
       setTimeout(() => {
-        const arrs = arrGroup(CNS, 300)
+        const arrs = arrGroup(CNS, 500)
         arrs.forEach((cns, index) => {
           setTimeout(() => {
-            tries.push(
-              new lazyac(
-                // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
-                cns,
-                {
-                  allowDuplicates: false
-                }
+            requestAnimationFrame(() => {
+              tries.push(
+                new lazyac(
+                  // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
+                  cns,
+                  {
+                    allowDuplicates: false
+                  }
+                )
               )
-            )
 
-            // 把 subject cn => subject id 插入 SUBSTRINGS
-            cns.forEach((cn: string) => {
-              SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn]
-              // || game[cn] || book[cn]
+              // 把 subject cn => subject id 插入 SUBSTRINGS
+              cns.forEach((cn: string) => {
+                SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn]
+                // || game[cn] || book[cn]
+              })
+
+              if (index === arrs.length - 1) trieInitDone = true
             })
-
-            if (index === arrs.length - 1) trieInitDone = true
           }, trieInitDistance * index)
         })
       }, trieInitDistance)
