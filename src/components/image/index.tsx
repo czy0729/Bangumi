@@ -84,7 +84,12 @@ export const Image = observer(
         return
       }
 
-      await this.cache(src)
+      if (IOS) {
+        await this.cache(src)
+      } else {
+        await this.cacheV2(src)
+      }
+
       if (autoSize) {
         setTimeout(() => {
           this.getSize()
@@ -173,9 +178,11 @@ export const Image = observer(
         // 空地址不作处理
         if (uri === 'https:') return false
 
-        this.setState({
-          uri
-        })
+        if (uri) {
+          this.setState({
+            uri
+          })
+        }
       }
 
       return res
@@ -201,9 +208,12 @@ export const Image = observer(
       // 空地址不作处理
       if (uri === 'https:') return false
 
-      this.setState({
-        uri
-      })
+      if (uri) {
+        this.setState({
+          uri
+        })
+      }
+
       return true
     }
 
@@ -224,11 +234,6 @@ export const Image = observer(
     getQuality = (uri: string, qualityLevel = 'default') => {
       if (!uri) return ''
       if (qualityLevel === 'default') return uri
-
-      /** 已废弃 */
-      // if (qualityLevel === 'best') return getCoverLarge(uri)
-      // if (qualityLevel === 'low') return getCoverSmall(uri)
-
       return uri
     }
 
@@ -387,9 +392,7 @@ export const Image = observer(
         return headers
       }
 
-      if (typeof src === 'string' && src.includes('lain.')) {
-        return DEFAULT_HEADERS
-      }
+      if (typeof src === 'string' && src.includes('lain.')) return DEFAULT_HEADERS
 
       return {}
     }
