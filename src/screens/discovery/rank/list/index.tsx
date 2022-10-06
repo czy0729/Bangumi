@@ -16,7 +16,7 @@ import { styles } from './styles'
 
 function List(props, { $ }: Ctx) {
   const { show, list: _list, fixed, fixedPagination } = $.state
-  const { _loaded } = $.rank
+  const { _loaded } = $.list
   if (show && _loaded) {
     return (
       <ScrollView contentContainerStyle={styles.scrollView} scrollToTop>

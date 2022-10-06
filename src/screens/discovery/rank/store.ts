@@ -5,21 +5,24 @@
  * @Last Modified time: 2022-07-23 16:44:18
  */
 import { observable, computed } from 'mobx'
-import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
-import { x18, info, feedback } from '@utils'
+import { tagStore, collectionStore, subjectStore, userStore } from '@stores'
+import { info, feedback, getTimestamp, x18 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE, HTML_RANK } from '@constants'
-import { Override, SubjectId, SubjectType, SubjectTypeCn } from '@types'
-import { Rank } from '@stores/tag/types'
+import { get, update } from '@utils/kv'
+import { MODEL_SUBJECT_TYPE, HTML_RANK, LIST_EMPTY } from '@constants'
+import { SubjectId, SubjectType, SubjectTypeCn } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
-import { ToolBarKeys } from './types'
+import { StoreRank, ToolBarKeys } from './types'
+
+/** 若更新过则不会再主动更新 */
+const RANK_THIRD_PARTY_UPDATED = []
 
 export default class ScreenRank extends store {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, NAMESPACE)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
       ...EXCLUDE_STATE,
@@ -30,13 +33,14 @@ export default class ScreenRank extends store {
   }
 
   // -------------------- get --------------------
+  /** 排行榜云快照 */
+  @computed get otaRank() {
+    const { rank } = this.state
+    return rank[this.thirdPartyKey]
+  }
+
   /** 排行榜 */
-  @computed get rank(): Override<
-    Rank,
-    {
-      _filter?: number
-    }
-  > {
+  @computed get rank(): StoreRank {
     const { type, filter, airtime, month, currentPage } = this.state
     const rank = tagStore.rank(
       type,
@@ -63,6 +67,8 @@ export default class ScreenRank extends store {
 
   /** 过滤数据 */
   @computed get list() {
+    if (!this.rank._loaded) return this.otaRank || LIST_EMPTY
+
     const { collected } = this.state
     if (collected) return this.rank
 
@@ -83,9 +89,43 @@ export default class ScreenRank extends store {
     return computed(() => subjectStore.subject(subjectId)).get()
   }
 
+  @computed get thirdPartyKey() {
+    const { currentPage, type, filter, airtime, month } = this.state
+    const query = [
+      encodeURIComponent(type),
+      encodeURIComponent(filter),
+      encodeURIComponent(month ? `${airtime}-${month}` : airtime),
+      encodeURIComponent(currentPage[type])
+    ].join('_')
+    return `rank_${query}`
+  }
+
   // -------------------- fetch --------------------
   /** 获取排行榜 */
   fetchRank = async () => {
+    if (!this.otaRank && !this.rank._loaded) {
+      const data = await get(this.thirdPartyKey)
+      if (data) {
+        this.setState({
+          rank: {
+            [this.thirdPartyKey]: {
+              ...data,
+              _loaded: getTimestamp()
+            }
+          }
+        })
+      } else {
+        this.setState({
+          rank: {
+            [this.thirdPartyKey]: {
+              list: [],
+              _loaded: 0
+            }
+          }
+        })
+      }
+    }
+
     const { currentPage, type, filter, airtime, month } = this.state
     const data = await tagStore.fetchRank({
       type,
@@ -93,6 +133,12 @@ export default class ScreenRank extends store {
       airtime: month ? `${airtime}-${month}` : airtime,
       page: currentPage[type]
     })
+
+    if (data.list.length && this.thirdPartyKey in this.state.rank) {
+      const ts = this.otaRank?.ts || 0
+      const _loaded = getTimestamp()
+      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateRankThirdParty()
+    }
 
     // 延迟获取收藏中的条目的具体收藏状态
     setTimeout(() => {
@@ -102,8 +148,19 @@ export default class ScreenRank extends store {
           .map(item => String(item.id).replace('/subject/', ''))
       )
     }, 160)
-
     return data
+  }
+
+  /** 上传预数据 */
+  updateRankThirdParty = async () => {
+    if (RANK_THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+
+    setTimeout(() => {
+      update(this.thirdPartyKey, {
+        list: this.rank.list.map(({ collected, ...other }) => other)
+      })
+      RANK_THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+    }, 0)
   }
 
   // -------------------- page --------------------
@@ -136,7 +193,7 @@ export default class ScreenRank extends store {
   }
 
   /** 筛选选择 */
-  onFilterSelect = (filter, filterData) => {
+  onFilterSelect = (filter: string, filterData: { getValue: (arg0: any) => any }) => {
     t('排行榜.筛选选择', {
       filter
     })
@@ -149,7 +206,7 @@ export default class ScreenRank extends store {
   }
 
   /** 年选择 */
-  onAirdateSelect = airtime => {
+  onAirdateSelect = (airtime: string) => {
     t('排行榜.年选择', {
       airtime
     })
@@ -172,7 +229,7 @@ export default class ScreenRank extends store {
   }
 
   /** 月选择 */
-  onMonthSelect = month => {
+  onMonthSelect = (month: string) => {
     const { airtime, type, currentPage, ipt } = this.state
     if (airtime === '') {
       info('请先选择年')

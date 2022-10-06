@@ -44,6 +44,10 @@ const state = {
 class TagStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  init = () => {
+    return this.readStorage(['tag', 'rank', 'browser'], NAMESPACE)
+  }
+
   // -------------------- get --------------------
   /** 标签条目 */
   tag(text: string = '', type: SubjectType = DEFAULT_TYPE, airtime: string = '') {
@@ -76,10 +80,6 @@ class TagStore extends store implements StoreConstructor<typeof state> {
       const key = `${type}|${airtime}|${sort}`
       return this.state.browser[key] || LIST_EMPTY
     }).get()
-  }
-
-  init = () => {
-    return this.readStorage(['tag', 'rank', 'browser'], NAMESPACE)
   }
 
   // -------------------- fetch --------------------

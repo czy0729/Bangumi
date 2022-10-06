@@ -30,7 +30,10 @@ export const EXCLUDE_STATE = {
     desc: '',
     status: '' as '' | RatingStatus,
     action: '听' as '看' | '玩' | '听' | '读'
-  }
+  },
+
+  /** 云快照 */
+  rank: {}
 }
 
 export const STATE = {

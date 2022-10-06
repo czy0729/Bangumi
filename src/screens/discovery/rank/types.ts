@@ -5,7 +5,8 @@
  * @Last Modified time: 2022-07-21 19:50:47
  */
 import { factory } from '@utils'
-import { Navigation } from '@types'
+import { Rank } from '@stores/tag/types'
+import { Navigation, Override } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -18,3 +19,10 @@ export type Ctx = {
 }
 
 export type ToolBarKeys = 'list' | 'fixed' | 'fixedPagination' | 'collected'
+
+export type StoreRank = Override<
+  Rank,
+  {
+    _filter?: number
+  }
+>

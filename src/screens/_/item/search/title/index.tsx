@@ -28,9 +28,11 @@ function Title({ name, nameCn, comments }) {
         </Katakana.Provider>
       )}
       {!!bottom && bottom !== top && (
-        <Katakana type='sub' size={12} lineHeight={15} numberOfLines={1}>
-          {bottom}
-        </Katakana>
+        <Katakana.Provider type='sub' size={12} lineHeight={13} numberOfLines={1}>
+          <Katakana type='sub' size={12} lineHeight={13} numberOfLines={1}>
+            {bottom}
+          </Katakana>
+        </Katakana.Provider>
       )}
     </>
   )
