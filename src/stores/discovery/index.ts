@@ -142,6 +142,22 @@ const state = {
 class DiscoveryStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  init = () => {
+    return this.readStorage(
+      [
+        'catalog',
+        'catalogDetail',
+        'catalogDetailFromOSS',
+        'blog',
+        'blogReaded',
+        'channel',
+        'online',
+        'wiki'
+      ],
+      NAMESPACE
+    )
+  }
+
   // -------------------- get --------------------
   /** 目录 */
   catalog(type: '' | 'collect' | 'me' = '', page: number = 1) {
@@ -244,22 +260,6 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
     return computed<News>(() => {
       return this.state.anitamaTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
     }).get()
-  }
-
-  init = () => {
-    return this.readStorage(
-      [
-        'catalog',
-        'catalogDetail',
-        'catalogDetailFromOSS',
-        'blog',
-        'blogReaded',
-        'channel',
-        'online',
-        'wiki'
-      ],
-      NAMESPACE
-    )
   }
 
   // -------------------- fetch --------------------

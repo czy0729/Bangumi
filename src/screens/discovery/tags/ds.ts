@@ -16,7 +16,10 @@ export const TABS = SUBJECT_TYPE.map(item => ({
 export const EXCLUDE_STATE = {
   ipt: '',
   filter: '',
-  isFocused: true
+  isFocused: true,
+
+  /** 云快照 */
+  ota: {}
 }
 
 export const STATE = {
