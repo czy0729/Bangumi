@@ -6,12 +6,21 @@
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
-import { x18, feedback, info } from '@utils'
+import { x18, feedback, info, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE, HTML_BROSWER, MODEL_BROWSER_SORT } from '@constants'
+import { get, update } from '@utils/kv'
+import {
+  MODEL_SUBJECT_TYPE,
+  HTML_BROSWER,
+  MODEL_BROWSER_SORT,
+  LIST_EMPTY
+} from '@constants'
 import { SubjectId, SubjectType } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE, DATE } from './ds'
+
+/** 若更新过则不会再主动更新 */
+const THIRD_PARTY_UPDATED = []
 
 export default class ScreenBrowser extends store {
   state = observable(STATE)
@@ -26,10 +35,7 @@ export default class ScreenBrowser extends store {
       _loaded: true
     })
 
-    const { _loaded } = this.browser
-    if (!_loaded) return this.fetchBrowser(true)
-
-    return true
+    return this.fetchBrowser(true)
   }
 
   /** 下拉刷新 */
@@ -40,6 +46,8 @@ export default class ScreenBrowser extends store {
   // -------------------- fetch --------------------
   /** 获取索引 */
   fetchBrowser = async (refresh: boolean) => {
+    if (refresh) this.fetchThirdParty()
+
     const { type, sort } = this.state
     const data = await tagStore.fetchBrowser(
       {
@@ -50,6 +58,16 @@ export default class ScreenBrowser extends store {
       refresh
     )
 
+    if (
+      data.list.length &&
+      // 只有明确知道云快照没有这个 key 的数据, 才主动更新云快照数据
+      this.thirdPartyKey in this.state.ota
+    ) {
+      const ts = this.ota?.ts || 0
+      const _loaded = getTimestamp()
+      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+    }
+
     // 延迟获取收藏中的条目的具体收藏状态
     setTimeout(() => {
       collectionStore.fetchCollectionStatusQueue(
@@ -58,8 +76,47 @@ export default class ScreenBrowser extends store {
           .map(item => String(item.id).replace('/subject/', ''))
       )
     }, 160)
-
     return data
+  }
+
+  /** 获取云快照 */
+  fetchThirdParty = async () => {
+    if (!this.ota && !this.browser._loaded) {
+      const data = await get(this.thirdPartyKey)
+      if (!data) {
+        // 就算没有数据也插入 key, 用于判断是否需要更新云数据
+        this.setState({
+          ota: {
+            [this.thirdPartyKey]: {
+              list: [],
+              _loaded: 0
+            }
+          }
+        })
+        return
+      }
+
+      this.setState({
+        ota: {
+          [this.thirdPartyKey]: {
+            ...data,
+            _loaded: getTimestamp()
+          }
+        }
+      })
+    }
+  }
+
+  /** 上传预数据 */
+  updateThirdParty = async () => {
+    if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+
+    setTimeout(() => {
+      update(this.thirdPartyKey, {
+        list: this.browser.list.map(({ collected, ...other }) => other)
+      })
+      THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+    }, 0)
   }
 
   // -------------------- get --------------------
@@ -67,6 +124,12 @@ export default class ScreenBrowser extends store {
   @computed get airtime() {
     const { airtime, month } = this.state
     return month ? `${airtime}-${month}` : String(airtime)
+  }
+
+  /** 云快照 */
+  @computed get ota() {
+    const { ota } = this.state
+    return ota[this.thirdPartyKey]
   }
 
   /** 索引 */
@@ -93,6 +156,18 @@ export default class ScreenBrowser extends store {
 
   /** 条件索引 */
   @computed get list() {
+    if (!this.browser._loaded) {
+      return this.ota
+        ? {
+            ...this.ota,
+            pagination: {
+              page: 1,
+              pageTotal: 10
+            }
+          }
+        : LIST_EMPTY
+    }
+
     const { collected } = this.state
     if (collected) return this.browser
 
@@ -117,6 +192,16 @@ export default class ScreenBrowser extends store {
   /** 条目信息 */
   subject(subjectId: SubjectId) {
     return computed(() => subjectStore.subject(subjectId)).get()
+  }
+
+  @computed get thirdPartyKey() {
+    const { type, sort } = this.state
+    const query = [
+      encodeURIComponent(type),
+      encodeURIComponent(this.airtime),
+      encodeURIComponent(sort)
+    ].join('_')
+    return `browser_${query}`
   }
 
   // -------------------- page --------------------

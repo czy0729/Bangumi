@@ -33,7 +33,7 @@ export const EXCLUDE_STATE = {
   },
 
   /** 云快照 */
-  rank: {}
+  ota: {}
 }
 
 export const STATE = {

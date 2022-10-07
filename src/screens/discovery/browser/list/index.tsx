@@ -16,7 +16,7 @@ import Grid from './grid'
 
 function List(props, { $ }: Ctx) {
   const { show, layout, fixed } = $.state
-  const { _loaded } = $.browser
+  const { _loaded } = $.list
   if (!_loaded || !show) {
     return (
       <>

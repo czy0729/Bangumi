@@ -16,7 +16,7 @@ import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { StoreRank, ToolBarKeys } from './types'
 
 /** 若更新过则不会再主动更新 */
-const RANK_THIRD_PARTY_UPDATED = []
+const THIRD_PARTY_UPDATED = []
 
 export default class ScreenRank extends store {
   state = observable(STATE)
@@ -34,9 +34,9 @@ export default class ScreenRank extends store {
 
   // -------------------- get --------------------
   /** 排行榜云快照 */
-  @computed get otaRank() {
-    const { rank } = this.state
-    return rank[this.thirdPartyKey]
+  @computed get ota() {
+    const { ota } = this.state
+    return ota[this.thirdPartyKey]
   }
 
   /** 排行榜 */
@@ -67,7 +67,7 @@ export default class ScreenRank extends store {
 
   /** 过滤数据 */
   @computed get list() {
-    if (!this.rank._loaded) return this.otaRank || LIST_EMPTY
+    if (!this.rank._loaded) return this.ota || LIST_EMPTY
 
     const { collected } = this.state
     if (collected) return this.rank
@@ -103,28 +103,7 @@ export default class ScreenRank extends store {
   // -------------------- fetch --------------------
   /** 获取排行榜 */
   fetchRank = async () => {
-    if (!this.otaRank && !this.rank._loaded) {
-      const data = await get(this.thirdPartyKey)
-      if (data) {
-        this.setState({
-          rank: {
-            [this.thirdPartyKey]: {
-              ...data,
-              _loaded: getTimestamp()
-            }
-          }
-        })
-      } else {
-        this.setState({
-          rank: {
-            [this.thirdPartyKey]: {
-              list: [],
-              _loaded: 0
-            }
-          }
-        })
-      }
-    }
+    this.fetchThirdParty()
 
     const { currentPage, type, filter, airtime, month } = this.state
     const data = await tagStore.fetchRank({
@@ -134,10 +113,14 @@ export default class ScreenRank extends store {
       page: currentPage[type]
     })
 
-    if (data.list.length && this.thirdPartyKey in this.state.rank) {
-      const ts = this.otaRank?.ts || 0
+    if (
+      data.list.length &&
+      // 只有明确知道云快照没有这个 key 的数据, 才主动更新云快照数据
+      this.thirdPartyKey in this.state.ota
+    ) {
+      const ts = this.ota?.ts || 0
       const _loaded = getTimestamp()
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateRankThirdParty()
+      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
     }
 
     // 延迟获取收藏中的条目的具体收藏状态
@@ -151,15 +134,43 @@ export default class ScreenRank extends store {
     return data
   }
 
+  /** 获取排行榜云快照 */
+  fetchThirdParty = async () => {
+    if (!this.ota && !this.rank._loaded) {
+      const data = await get(this.thirdPartyKey)
+      if (!data) {
+        // 就算没有数据也插入 key, 用于判断是否需要更新云数据
+        this.setState({
+          ota: {
+            [this.thirdPartyKey]: {
+              list: [],
+              _loaded: 0
+            }
+          }
+        })
+        return
+      }
+
+      this.setState({
+        ota: {
+          [this.thirdPartyKey]: {
+            ...data,
+            _loaded: getTimestamp()
+          }
+        }
+      })
+    }
+  }
+
   /** 上传预数据 */
-  updateRankThirdParty = async () => {
-    if (RANK_THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+  updateThirdParty = async () => {
+    if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
 
     setTimeout(() => {
       update(this.thirdPartyKey, {
         list: this.rank.list.map(({ collected, ...other }) => other)
       })
-      RANK_THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+      THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
     }, 0)
   }
 
