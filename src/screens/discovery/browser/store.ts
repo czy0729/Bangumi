@@ -196,11 +196,7 @@ export default class ScreenBrowser extends store {
 
   @computed get thirdPartyKey() {
     const { type, sort } = this.state
-    const query = [
-      encodeURIComponent(type),
-      encodeURIComponent(this.airtime),
-      encodeURIComponent(sort)
-    ].join('_')
+    const query = [type, this.airtime, sort].join('_')
     return `browser_${query}`
   }
 

@@ -111,7 +111,7 @@ export default class ScreenTags extends store {
 
   @computed get thirdPartyKey() {
     const { filter } = this.state
-    const query = [encodeURIComponent(this.type), encodeURIComponent(filter)].join('_')
+    const query = [this.type, filter].join('_')
     return `tags_${query}`
   }
 

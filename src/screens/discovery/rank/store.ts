@@ -92,10 +92,10 @@ export default class ScreenRank extends store {
   @computed get thirdPartyKey() {
     const { currentPage, type, filter, airtime, month } = this.state
     const query = [
-      encodeURIComponent(type),
-      encodeURIComponent(filter),
-      encodeURIComponent(month ? `${airtime}-${month}` : airtime),
-      encodeURIComponent(currentPage[type])
+      type,
+      filter,
+      month ? `${airtime}-${month}` : airtime,
+      currentPage[type]
     ].join('_')
     return `rank_${query}`
   }

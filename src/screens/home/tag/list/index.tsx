@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 04:30:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 12:26:55
+ * @Last Modified time: 2022-10-08 05:27:45
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -17,7 +17,7 @@ import Grid from './grid'
 
 function List(props, { $ }: Ctx) {
   const { hide, fixed } = $.state
-  const { _loaded } = $.tag
+  const { _loaded } = $.list
   if (!_loaded || hide) {
     return (
       <>

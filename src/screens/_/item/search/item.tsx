@@ -100,15 +100,9 @@ const Item = memo(
                   }}
                 />
               )}
-              {/* <Flex style={_.mt.xxs}>
-                {x18(id, nameCn) && <Tag style={_.ml.sm} value='NSFW' />}
-                {!!type && (
-                  <Tag style={_.ml.sm} value={MODEL_SUBJECT_TYPE.getTitle(type)} />
-                )}
-              </Flex> */}
             </Flex>
             {!!tip && (
-              <Text style={_.mt.xs} size={11} lineHeight={13} numberOfLines={3}>
+              <Text size={11} lineHeight={13} numberOfLines={3}>
                 {tip}
               </Text>
             )}
