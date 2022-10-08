@@ -7,8 +7,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-03 05:04:23
  */
-import { IOS } from '../constants'
-
 type ModelItem = {
   label: string
   value: string
@@ -452,23 +450,20 @@ export const SEARCH_LEGACY = [
 export const MODEL_SEARCH_LEGACY = new Model(SEARCH_LEGACY)
 
 /** 文章站点 */
-export const NEWS = IOS
-  ? [
-      {
-        label: '动漫之家',
-        value: 'https://m.news.dmzj.com'
-      }
-    ]
-  : [
-      {
-        label: '动漫之家',
-        value: 'https://m.news.dmzj.com'
-      },
-      {
-        label: '机核GCORES',
-        value: 'https://www.gcores.com/news'
-      }
-    ]
+export const NEWS = [
+  {
+    label: '和邪社',
+    value: 'https://www.hexieshe.cn/category/news'
+  },
+  {
+    label: '机核GCORES',
+    value: 'https://www.gcores.com/news'
+  },
+  {
+    label: '动漫之家',
+    value: 'https://m.news.dmzj.com'
+  }
+] as const
 
 /** 文章站点 */
 export const MODEL_NEWS = new Model(NEWS)

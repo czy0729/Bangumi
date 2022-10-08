@@ -9,36 +9,39 @@ import { discoveryStore } from '@stores'
 import { info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { MODEL_NEWS } from '@constants'
+import { NEWS, MODEL_NEWS } from '@constants'
 import { Id } from '@types'
 
-const namespace = 'ScreenAnitama'
-const excludeState = {
+const NAMESPACE = 'ScreenAnitama'
+const EXCLUDE_STATE = {
   page: 1,
   ipt: '1'
 }
-let prevPage
+
+let prevPage: number
 
 export default class ScreenAnitama extends store {
   state = observable({
-    ...excludeState,
+    ...EXCLUDE_STATE,
     show: false,
     history: [],
-    type: MODEL_NEWS.data[0].value,
+    type: NEWS[0].value,
     _loaded: false
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
+
+    // 动漫之家 api 暂时挂了
+    if (state?.type === NEWS[2].value) state.type = NEWS[0].value
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       show: true,
       _loaded: true
     })
 
-    // App首次启动使用页码1, 再次进入页面使用之前的页码
+    // App 首次启动使用页码 1, 再次进入页面使用之前的页码
     if (!prevPage) {
       prevPage = this.state.page
     } else {
@@ -49,7 +52,7 @@ export default class ScreenAnitama extends store {
     }
 
     this.fetchList()
-    return res
+    return true
   }
 
   // -------------------- fetch --------------------
@@ -58,6 +61,9 @@ export default class ScreenAnitama extends store {
     const { page, type } = this.state
     const label = MODEL_NEWS.getLabel(type)
     switch (label) {
+      case '和邪社':
+        return discoveryStore.fetchHeXieSheTimeline(page)
+
       case '机核GCORES':
         return discoveryStore.fetchGCORESTimeline(page)
 
@@ -72,6 +78,9 @@ export default class ScreenAnitama extends store {
     const { page, type } = this.state
     const label = MODEL_NEWS.getLabel(type)
     switch (label) {
+      case '和邪社':
+        return discoveryStore.hexiesheTimeline(page)
+
       case '机核GCORES':
         return discoveryStore.gcoresTimeline(page)
 
@@ -81,11 +90,14 @@ export default class ScreenAnitama extends store {
   }
 
   @computed get url() {
-    const { page, type } = this.state
+    const { type } = this.state
     const label = MODEL_NEWS.getLabel(type)
     switch (label) {
+      case '和邪社':
+        return 'https://www.hexieshe.cn'
+
       case '机核GCORES':
-        return `https://www.gcores.com/news?page=${page}`
+        return 'https://www.gcores.com/news'
 
       default:
         return 'https://m.news.dmzj.com'
@@ -93,6 +105,21 @@ export default class ScreenAnitama extends store {
   }
 
   // -------------------- page --------------------
+  /** 隐藏后延迟显示列表 (用于重置滚动位置) */
+  resetScrollView = () => {
+    this.setState({
+      show: false
+    })
+
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+
+      this.setStorage(NAMESPACE)
+    }, 400)
+  }
+
   /** 前一页 */
   prev = () => {
     const { page } = this.state
@@ -105,18 +132,11 @@ export default class ScreenAnitama extends store {
 
     this.setState({
       page: _page,
-      show: false,
       ipt: String(_page)
     })
     prevPage = _page
     this.fetchList()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 400)
+    this.resetScrollView()
   }
 
   /** 下一页 */
@@ -130,28 +150,20 @@ export default class ScreenAnitama extends store {
 
     this.setState({
       page: _page,
-      show: false,
       ipt: String(_page)
     })
     prevPage = _page
     this.fetchList()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 400)
+    this.resetScrollView()
   }
 
   /** 切换站点 */
   toggleType = (label: string) => {
     this.setState({
       type: MODEL_NEWS.getValue(label),
-      ...excludeState
+      ...EXCLUDE_STATE
     })
-    this.setStorage(undefined, undefined, namespace)
-
+    this.setStorage(NAMESPACE)
     this.fetchList()
   }
 
@@ -170,7 +182,7 @@ export default class ScreenAnitama extends store {
       this.setState({
         history: [...history, aid]
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     }
   }
 
@@ -190,17 +202,10 @@ export default class ScreenAnitama extends store {
 
     this.setState({
       page: _ipt,
-      show: false,
       ipt: String(_ipt)
     })
     prevPage = _ipt
     this.fetchList()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 400)
+    this.resetScrollView()
   }
 }

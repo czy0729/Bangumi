@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
-      title='资讯'
+      title='二次元资讯'
       alias='Anitama'
       hm={['discovery/anitama', 'Anitama']}
       headerRight={() => (

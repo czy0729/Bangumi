@@ -41,13 +41,13 @@ export async function setStorage(key: string, data: any) {
 
   AsyncStorage.setItem(key, _data)
 
-  if (DEV) {
-    console.info(
-      'setStorage',
-      key,
-      `${(JSON.stringify(data).length / 1000).toFixed(2)}kb`
-    )
-  }
+  // if (DEV) {
+  //   console.info(
+  //     'setStorage',
+  //     key,
+  //     `${(JSON.stringify(data).length / 1000).toFixed(2)}kb`
+  //   )
+  // }
 }
 
 /** 数据较大的键, 合并没必要的多次写入 */

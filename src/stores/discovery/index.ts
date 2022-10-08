@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-06 20:35:43
  */
 import { observable, computed } from 'mobx'
-import { getTimestamp, HTMLDecode } from '@utils'
+import { cheerio, getTimestamp, HTMLDecode } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { get } from '@utils/kv'
@@ -122,6 +122,11 @@ const state = {
 
   /** 机核资讯 */
   gcoresTimeline: {
+    0: INIT_ANITAMA_TIMELINE_ITEM
+  },
+
+  /** 和邪社资讯 */
+  hexiesheTimeline: {
     0: INIT_ANITAMA_TIMELINE_ITEM
   },
 
@@ -243,6 +248,13 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
+  /** 机核资讯 */
+  hexiesheTimeline(page: number = 1) {
+    return computed<News>(() => {
+      return this.state.hexiesheTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
+    }).get()
+  }
+
   /** @deprecated 随机看看 */
   @computed get random() {
     return this.state.random
@@ -266,7 +278,6 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
   /** 动漫之家资讯 */
   fetchDMZJTimeline = async (page: number = 1) => {
     const url = 'https://m.news.dmzj.com'
-
     let data: any = INIT_ANITAMA_TIMELINE_ITEM
     try {
       const { _response } = await xhrCustom({
@@ -280,6 +291,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
           page: page + 1
         }
       })
+      console.info(_response)
 
       const key = 'dmzjTimeline'
       data = {
@@ -319,13 +331,10 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         url: `https://www.gcores.com/gapi/v1/originals?page[limit]=12&page[offset]=${
           (page - 1) * 12
           // eslint-disable-next-line max-len
-        }&sort=-published-at&include=category,user&filter[is-news]=1&filter[list-all]=0&fields[articles]=title,desc,is-published,thumb,app-cover,cover,comments-count,likes-count,bookmarks-count,is-verified,published-at,option-is-official,option-is-focus-showcase,duration,category,user&fields[videos]=title,desc,is-published,thumb,app-cover,cover,comments-count,likes-count,bookmarks-count,is-verified,published-at,option-is-official,option-is-focus-showcase,duration,category,user&fields[radios]=title,desc,is-published,thumb,app-cover,cover,comments-count,likes-count,bookmarks-count,is-verified,published-at,option-is-official,option-is-focus-showcase,duration,is-free,category,user`,
+        }&sort=-published-at&include=category,user&filter[is-news]=1&filter[list-all]=0&fields[articles]=title,desc,is-published,thumb,app-cover,cover,comments-count,likes-count,bookmarks-count,is-verified,published-at,option-is-official,option-is-focus-showcase,duration,category,user`,
         headers: {
           referer: 'https://www.gcores.com/news',
           'content-type': 'application/vnd.api+json'
-        },
-        data: {
-          page
         }
       })
 
@@ -352,7 +361,71 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
           [page]: data
         }
       })
-    } catch (error) {}
+    } catch (error) {
+      console.info(error)
+    }
+
+    return data
+  }
+
+  /** 动漫之家资讯 */
+  fetchHeXieSheTimeline = async (page: number = 1) => {
+    const url =
+      'https://www.hexieshe.cn/wp-admin/admin-ajax.php?action=zrz_load_more_posts'
+    let data: any = INIT_ANITAMA_TIMELINE_ITEM
+    try {
+      const { _response } = await xhrCustom({
+        method: 'POST',
+        url,
+        headers: {
+          referer: url,
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: {
+          type: 'catL12',
+          paged: page
+        }
+      })
+
+      // @ts-ignore
+      const $ = cheerio(JSON.parse(_response).msg)
+      data = {
+        list: $('.pos-r.cart-list')
+          .map((index: number, element: any) => {
+            const $li = cheerio(element)
+            const $a = $li.find('.entry-title a')
+
+            return {
+              aid: $a.attr('href').match(/\d+/g)?.[0],
+              url: $a.attr('href'),
+              author: $li.find('.users').text().trim(),
+              origin: '和邪社',
+              cover: {
+                url: $li
+                  .find('.thumb-in')
+                  .attr('style')
+                  .replace(/background-image:url\('|'\)/g, '')
+              },
+              title: $a.text().trim().replace(/#038;/g, ''),
+              intro: $li.find('.post-ex').text().trim().replace(/#038;/g, ''),
+              subtitle: `${$li.find('.list-category').text().trim()} · ${
+                $li.find('.timeago').text().trim().split(' ')[0]
+              }`.replace(/#038;/g, '')
+            }
+          })
+          .get(),
+        _loaded: getTimestamp()
+      }
+
+      const key = 'hexiesheTimeline'
+      this.setState({
+        [key]: {
+          [page]: data
+        }
+      })
+    } catch (error) {
+      console.info(error)
+    }
 
     return data
   }

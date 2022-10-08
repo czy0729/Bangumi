@@ -29,9 +29,7 @@ function Bottom({ score, rank, time, tags, hideScore, isDo, isOnHold, isDropped 
     .filter((item: string) => !!item && item !== '自己可见')
     .filter((item: string, index: number) => index < 4)
 
-  if (!(!hideScore && hasScore) && !info.length && !tag.length) {
-    return <Flex style={_.mt.lg} />
-  }
+  if (!(!hideScore && hasScore) && !info.length && !tag.length) return null
 
   return (
     <Flex style={_.mt.sm}>
