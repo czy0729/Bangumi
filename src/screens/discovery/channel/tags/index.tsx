@@ -16,7 +16,7 @@ import { memoStyles } from './styles'
 
 function Tags(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { tags } = $.channel
+  const { tags = [] } = $.channel
   return (
     <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>标签</SectionTitle>

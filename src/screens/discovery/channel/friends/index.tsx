@@ -12,13 +12,13 @@ import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { imgWidthSm, imgHeightSm } from '../rank'
+import { COVER_WIDTH_SM, COVER_HEIGHT_SM } from '../rank/ds'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Friends(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { friends } = $.channel
+  const { friends = [] } = $.channel
   return (
     <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>好友最近关注</SectionTitle>
@@ -47,8 +47,8 @@ function Friends(props, { $, navigation }: Ctx) {
               <View style={styles.image}>
                 <Cover
                   src={item.cover}
-                  width={imgWidthSm}
-                  height={imgHeightSm}
+                  width={COVER_WIDTH_SM}
+                  height={COVER_HEIGHT_SM}
                   radius
                   shadow
                   type={$.typeCn}

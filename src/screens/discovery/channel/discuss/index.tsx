@@ -17,7 +17,7 @@ import { memoStyles } from './styles'
 
 function Discuss(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { discuss } = $.channel
+  const { discuss = [] } = $.channel
   return (
     <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>最新讨论</SectionTitle>

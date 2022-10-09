@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 function Blog(props, { $ }: Ctx) {
-  const { blog } = $.channel
+  const { blog = [] } = $.channel
   return (
     <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>最近日志</SectionTitle>

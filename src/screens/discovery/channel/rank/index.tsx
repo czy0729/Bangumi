@@ -18,7 +18,7 @@ import { memoStyles } from './styles'
 
 function Rank(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { rankTop, rank } = $.channel
+  const { rankTop = [], rank = [] } = $.channel
   return (
     <View style={_.mt.md}>
       <SectionTitle style={_.container.wind}>关注榜</SectionTitle>
