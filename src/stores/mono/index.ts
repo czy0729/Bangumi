@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 04:08:55
+ * @Last Modified time: 2022-10-11 15:35:09
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -30,6 +30,10 @@ const state = {
 class MonoStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  init = () => {
+    return this.readStorage([], NAMESPACE)
+  }
+
   /** 更多角色 */
   characters(subjectId: SubjectId) {
     return computed<Characters>(() => {
@@ -42,10 +46,6 @@ class MonoStore extends store implements StoreConstructor<typeof state> {
     return computed<Persons>(() => {
       return this.state.persons[subjectId] || LIST_EMPTY
     }).get()
-  }
-
-  init = () => {
-    return this.readStorage(['characters', 'persons'], NAMESPACE)
   }
 
   // -------------------- fetch --------------------

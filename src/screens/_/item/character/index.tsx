@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 12:01:09
+ * @Last Modified time: 2022-10-11 16:31:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import { Tag, Cover } from '../../base'
 import { IMG_WIDTH } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemCharacterProps } from './types'
+import { cnjp } from '@utils'
 
 export { ItemCharacterProps }
 
@@ -31,10 +32,7 @@ export const ItemCharacter = obc(
       replies,
       position,
       info,
-      actorId,
-      actorCover,
-      actor,
-      actorCn,
+      actors = [],
       children
     }: ItemCharacterProps,
     { navigation }
@@ -56,7 +54,7 @@ export const ItemCharacter = obc(
     }
     return (
       <View style={styles.container}>
-        <Flex align='start' style={styles.wrap}>
+        <Flex style={styles.wrap} align='start'>
           <View style={styles.imgContainer}>
             {!!cover && (
               <Cover
@@ -74,17 +72,17 @@ export const ItemCharacter = obc(
               <Flex direction='column' justify='between' align='start'>
                 <View>
                   <Flex style={_.container.block} align='start'>
-                    <Flex.Item>
+                    <Flex.Item style={_.mr.md}>
                       <Text size={15} numberOfLines={2} bold>
                         {HTMLDecode(_nameCn)}
                         {name !== _nameCn && (
-                          <Text type='sub' size={13} lineHeight={15} bold>
+                          <Text type='sub' size={11} lineHeight={15} bold>
                             {' '}
                             {HTMLDecode(name)}
                           </Text>
                         )}
                         {!!replies && (
-                          <Text type='main' size={12} lineHeight={15} bold>
+                          <Text type='main' size={11} lineHeight={15} bold>
                             {' '}
                             {replies.replace(/\(|\)/g, '')}
                           </Text>
@@ -108,38 +106,45 @@ export const ItemCharacter = obc(
                 </View>
               </Flex>
             </Touchable>
-            {!!actorId && (
-              <Touchable
-                style={styles.touchActor}
-                onPress={() => {
-                  const monoId = String(actorId).includes('person')
-                    ? actorId
-                    : `person/${actorId}`
-                  t(event.id, {
-                    to: 'Mono',
-                    monoId
-                  })
+            <Flex wrap='wrap'>
+              {actors.map(item => {
+                const cn = cnjp(item.nameCn, item.name)
+                const jp = cnjp(item.name, item.nameCn)
+                return (
+                  <Touchable
+                    key={item.id}
+                    style={styles.touchActor}
+                    onPress={() => {
+                      const monoId = String(item.id).includes('person')
+                        ? item.id
+                        : `person/${item.id}`
+                      t(event.id, {
+                        to: 'Mono',
+                        monoId
+                      })
 
-                  navigation.push('Mono', {
-                    monoId
-                  })
-                }}
-              >
-                <Flex>
-                  <Cover src={actorCover} size={_.r(32)} radius shadow />
-                  <Flex.Item style={_.ml.sm}>
-                    <Text size={12} numberOfLines={1} bold lineHeight={13}>
-                      {actor}
-                    </Text>
-                    {!!actorCn && actorCn !== actor && (
-                      <Text size={11} type='sub' numberOfLines={1}>
-                        {actorCn}
-                      </Text>
-                    )}
-                  </Flex.Item>
-                </Flex>
-              </Touchable>
-            )}
+                      navigation.push('Mono', {
+                        monoId
+                      })
+                    }}
+                  >
+                    <Flex>
+                      <Cover src={item.cover} size={_.r(32)} radius shadow />
+                      <Flex.Item style={_.ml.sm}>
+                        <Text size={12} numberOfLines={1} bold lineHeight={13}>
+                          {cn}
+                        </Text>
+                        {!!jp && jp !== cn && (
+                          <Text size={11} type='sub' numberOfLines={1}>
+                            {jp}
+                          </Text>
+                        )}
+                      </Flex.Item>
+                    </Flex>
+                  </Touchable>
+                )
+              })}
+            </Flex>
           </Flex.Item>
         </Flex>
         {children}

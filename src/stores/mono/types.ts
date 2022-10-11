@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 03:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 04:08:36
+ * @Last Modified time: 2022-10-11 16:16:46
  */
 import { ListEmpty, Cover, CoverCrt, DeepPartial, Id } from '@types'
 
@@ -16,10 +16,12 @@ export type Characters = ListEmpty<
     replies: string
     position: string
     info: string
-    actorId: string
-    actorCover: CoverCrt<'s'>
-    actor: string
-    actorCn: string
+    actors: {
+      id: string
+      cover: CoverCrt<'s'>
+      name: string
+      nameCn: string
+    }[]
   }>
 >
 

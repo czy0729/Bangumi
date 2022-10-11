@@ -1,10 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2022-06-17 00:10:37
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-06-17 00:10:37
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-10-11 16:20:55
  */
-import { EventType, Id } from '@types'
+import { CoverCrt, EventType, Id } from '@types'
 
 export type Props = {
   event?: EventType
@@ -16,9 +16,11 @@ export type Props = {
   replies?: string
   position?: string
   info?: string
-  actorId?: string
-  actorCover?: string
-  actor?: string
-  actorCn?: string
+  actors?: {
+    id: string
+    cover: CoverCrt<'s'>
+    name: string
+    nameCn: string
+  }[]
   children?: any
 }

@@ -2,45 +2,49 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:56:21
+ * @Last Modified time: 2022-10-11 16:14:58
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
 
-/**
- * 分析更多角色
- * @param {*} HTML
- */
-export function cheerioCharacters(HTML) {
+/** 分析更多角色 */
+export function cheerioCharacters(HTML: string) {
   const $ = cheerio(HTML)
   return (
     $('div.light_odd')
-      .map((index, element) => {
+      .map((index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('> div.clearit > h2 > a')
-        const $actorA = $li.find('div.actorBadge a.l').first()
         const cover = $li.find('img.avatar').attr('src') || ''
-        const actorCover = $li.find('div.actorBadge img').attr('src') || ''
-
-        const name = $a.text().trim()
-        const nameCn = $li
-          .find('> div.clearit > h2 > span.tip')
-          .text()
-          .trim()
-          .replace('/ ', '')
         return safeObject({
           id: $a.attr('href').replace('/character/', ''),
           cover: cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
-          name: name || nameCn,
-          nameCn: nameCn || name,
+          name: $a.text().trim(),
+          nameCn: $li
+            .find('> div.clearit > h2 > span.tip')
+            .text()
+            .trim()
+            .replace('/ ', ''),
           replies: $li.find('small.na').text().trim().replace(/\(|\)/g, ''),
           position: $li.find('span.badge_job').text().trim(),
           info: $li.find('div.crt_info span.tip').text().trim(),
-          actorId: String($actorA.attr('href') || '').replace('/person/', ''),
-          actorCover:
-            actorCover !== '/img/info_only.png' ? String(actorCover).split('?')[0] : '',
-          actor: $actorA.text().trim(),
-          actorCn: $li.find('div.actorBadge small.grey').first().text().trim()
+          actors: $li
+            .find('.actorBadge')
+            .map((index: number, element: any) => {
+              const $a = cheerio(element)
+              const cover = String($a.find('img.avatar').attr('src') || '')
+              return {
+                id: String($a.find('a.avatar').attr('href') || '').replace(
+                  '/person/',
+                  ''
+                ),
+                cover:
+                  cover !== '/img/info_only.png' ? String(cover).split('?')?.[0] : '',
+                name: $a.find('small.grey').text().trim(),
+                nameCn: $a.find('a.l').text().trim()
+              }
+            })
+            .get()
         })
       })
       .get() || []

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 20:59:09
+ * @Last Modified time: 2022-10-11 15:35:07
  */
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
@@ -268,6 +268,8 @@ export default class Store {
    * @param {*} namespace 命名空间
    */
   readStorage = async (config: string[] = [], namespace: string) => {
+    if (!config.length) return true
+
     const data = await Promise.all(
       config.map(key => this.getStorage(key, namespace, this.state[key]))
     )

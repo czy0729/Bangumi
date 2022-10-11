@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 00:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 00:09:25
+ * @Last Modified time: 2022-10-11 16:29:46
  */
 import { _ } from '@stores'
 import { IMG_WIDTH } from './ds'
@@ -26,6 +26,7 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   touchActor: {
+    minWidth: 128,
     marginTop: _.md,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
