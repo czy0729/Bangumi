@@ -187,6 +187,26 @@ function getInt(subjectId) {
 class SubjectStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  init = () => {
+    return this.readStorage(
+      Object.keys(state).filter(
+        key =>
+          ![
+            'subjectFormCDN',
+            'subjectEp',
+            'subjectCatalogs',
+            'epFormHTML',
+            'monoFormCDN',
+            'monoWorks',
+            'monoVoices',
+            'rating',
+            'wiki'
+          ].includes(key)
+      ),
+      NAMESPACE
+    )
+  }
+
   // -------------------- get --------------------
   /** 条目, 合并 subject 0-99 */
   subject(subjectId: SubjectId) {
@@ -328,25 +348,6 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
   /** 自定义源头数据 */
   @computed get origin(): Origin {
     return this.state.origin
-  }
-
-  init = () => {
-    return this.readStorage(
-      Object.keys(state).filter(
-        key =>
-          ![
-            'subjectFormCDN',
-            'subjectEp',
-            'epFormHTML',
-            'monoFormCDN',
-            'monoWorks',
-            'monoVoices',
-            'rating',
-            'wiki'
-          ].includes(key)
-      ),
-      NAMESPACE
-    )
   }
 
   // -------------------- fetch --------------------
