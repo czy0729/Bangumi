@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 11:07:41
+ * @Last Modified time: 2022-10-11 19:52:22
  */
 import React from 'react'
 import { Heatmap, ToolBar as CompToolBar } from '@components'
@@ -11,7 +11,7 @@ import { Ctx } from '../types'
 
 function ToolBar(props, { $ }: Ctx) {
   const { position } = $.state
-  const { filters } = $.monoVoices
+  const { filters = [] } = $.monoVoices
   return (
     <CompToolBar>
       {filters.map(item => {

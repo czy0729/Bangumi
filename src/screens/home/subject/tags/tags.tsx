@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 23:16:31
+ * @Last Modified time: 2022-10-11 17:47:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -67,16 +67,17 @@ export default memo(
                 <Text
                   type={_.select('desc', isSelected ? 'main' : 'desc')}
                   size={13}
-                  bold={isSelected}
+                  bold
                 >
                   {name}
                 </Text>
                 <Text
-                  style={_.ml.xs}
-                  type={_.select('sub', isSelected ? 'main' : 'desc')}
-                  size={13}
-                  bold={isSelected}
+                  type={_.select('sub', isSelected ? 'main' : 'sub')}
+                  size={12}
+                  lineHeight={13}
+                  bold
                 >
+                  {' '}
                   {count}
                 </Text>
               </Flex>
@@ -103,7 +104,9 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13}>{item}</Text>
+                <Text size={13} bold>
+                  {item}
+                </Text>
               </Touchable>
             ))}
           </>
@@ -128,7 +131,9 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13}>{item}</Text>
+                <Text size={13} bold>
+                  {item}
+                </Text>
               </Touchable>
             ))}
           </>
@@ -153,7 +158,9 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13}>{item}</Text>
+                <Text size={13} bold>
+                  {item}
+                </Text>
               </Touchable>
             ))}
           </>
@@ -178,7 +185,9 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13}>{item}</Text>
+                <Text size={13} bold>
+                  {item}
+                </Text>
               </Touchable>
             ))}
           </>
@@ -203,7 +212,9 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13}>{item}</Text>
+                <Text size={13} bold>
+                  {item}
+                </Text>
               </Touchable>
             ))}
           </>

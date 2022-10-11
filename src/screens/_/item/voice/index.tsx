@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:47:26
+ * @Last Modified time: 2022-10-11 19:39:13
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Flex, Text, Image } from '@components'
+import { Expand, Flex, Text, Image } from '@components'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils'
+import { cnjp } from '@utils'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
@@ -32,10 +31,12 @@ export const ItemVoice = ob(
     children
   }: ItemVoiceProps) => {
     const styles = memoStyles()
+    const cn = cnjp(nameCn, name)
+    const jp = cnjp(name, nameCn)
     return (
-      <View style={[styles.item, style]}>
+      <Expand style={[styles.item, style]} ratio={2.2}>
         <Flex style={styles.wrap} align='start'>
-          <Flex.Item flex={2}>
+          <Flex.Item flex={1.8}>
             <Flex align='start'>
               <Image
                 size={AVATAR_SIZE}
@@ -59,64 +60,68 @@ export const ItemVoice = ob(
               />
               <Flex.Item style={_.ml.sm}>
                 <Text size={12} bold>
-                  {HTMLDecode(name)}
+                  {cn}
                 </Text>
-                {!!nameCn && nameCn !== name && (
+                {!!jp && jp !== cn && (
                   <Text style={_.mt.xs} size={11} type='sub' lineHeight={12} bold>
-                    {HTMLDecode(nameCn)}
+                    {jp}
                   </Text>
                 )}
               </Flex.Item>
             </Flex>
           </Flex.Item>
           <Flex.Item style={_.ml.sm} flex={3.2}>
-            {subject.map((item, idx) => (
-              <Flex key={item.id} style={idx !== 0 && _.mt.md} align='start'>
-                <Flex.Item style={_.mr.md}>
-                  <Text align='right' size={12} bold>
-                    {HTMLDecode(item.name)}
-                  </Text>
-                  <Text
-                    style={_.mt.xs}
-                    size={11}
-                    type='sub'
-                    align='right'
-                    lineHeight={12}
-                    bold
-                  >
-                    {HTMLDecode(item.nameCn)}
-                  </Text>
-                  <Flex style={_.mt.sm} justify='end'>
-                    <Tag value={item.staff} />
-                  </Flex>
-                </Flex.Item>
-                <Cover
-                  size={IMG_WIDTH}
-                  height={IMG_HEIGHT}
-                  src={item.cover}
-                  radius
-                  shadow
-                  onPress={() => {
-                    t(event.id, {
-                      ...event.data,
-                      to: 'Subject',
-                      subjectId: item.id
-                    })
+            {subject.map((item, idx) => {
+              const cn = cnjp(item.nameCn, item.name)
+              const jp = cnjp(item.name, item.nameCn)
+              return (
+                <Flex key={item.id} style={idx !== 0 && _.mt.md} align='start'>
+                  <Flex.Item style={_.mr.md}>
+                    <Text align='right' size={12} bold>
+                      {cn}
+                    </Text>
+                    <Text
+                      style={_.mt.xs}
+                      size={11}
+                      type='sub'
+                      align='right'
+                      lineHeight={12}
+                      bold
+                    >
+                      {jp}
+                    </Text>
+                    <Flex style={_.mt.sm} justify='end'>
+                      <Tag value={item.staff} />
+                    </Flex>
+                  </Flex.Item>
+                  <Cover
+                    size={IMG_WIDTH}
+                    height={IMG_HEIGHT}
+                    src={item.cover}
+                    radius
+                    shadow
+                    onPress={() => {
+                      t(event.id, {
+                        ...event.data,
+                        to: 'Subject',
+                        subjectId: item.id
+                      })
 
-                    navigation.push('Subject', {
-                      subjectId: item.id,
-                      _jp: item.name,
-                      _cn: item.nameCn,
-                      _image: item.cover
-                    })
-                  }}
-                />
-              </Flex>
-            ))}
+                      navigation.push('Subject', {
+                        subjectId: item.id,
+                        _jp: item.name,
+                        _cn: item.nameCn,
+                        _image: item.cover
+                      })
+                    }}
+                  />
+                </Flex>
+              )
+            })}
           </Flex.Item>
         </Flex>
         {children}
-      </View>
+      </Expand>
     )
   }
 )

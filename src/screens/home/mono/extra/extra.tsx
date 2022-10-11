@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 19:25:28
+ * @Last Modified time: 2022-10-11 17:39:55
  */
 import React from 'react'
 import { IconHeader } from '@_'
@@ -19,7 +19,7 @@ export default memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
   if (canICO) {
     return (
       <Touchable
-        style={_.container.touch}
+        style={[_.container.touch, _.mr.sm]}
         onPress={() => {
           confirm('花费10000cc启动ICO?', () => doICO(navigation))
         }}
@@ -34,7 +34,7 @@ export default memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
 
   return (
     <IconHeader
-      style={_.mr.xs}
+      style={_.mr.sm}
       name='trophy'
       size={18}
       onPress={() => {
