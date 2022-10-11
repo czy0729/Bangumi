@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 03:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 16:16:46
+ * @Last Modified time: 2022-10-11 16:50:34
  */
 import { ListEmpty, Cover, CoverCrt, DeepPartial, Id } from '@types'
 
@@ -33,7 +33,7 @@ export type Persons = ListEmpty<
     name: string
     nameCn: string
     replies: string
-    position: string
     info: string
+    positions: string[]
   }>
 >

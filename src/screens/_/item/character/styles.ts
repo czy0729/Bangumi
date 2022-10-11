@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 00:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 16:29:46
+ * @Last Modified time: 2022-10-11 17:02:06
  */
 import { _ } from '@stores'
 import { IMG_WIDTH } from './ds'
@@ -30,5 +30,9 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.md,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  position: {
+    marginTop: _.sm,
+    marginRight: _.sm
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 16:31:01
+ * @Last Modified time: 2022-10-11 17:12:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,15 +30,18 @@ export const ItemCharacter = obc(
       name,
       nameCn,
       replies,
-      position,
       info,
       actors = [],
+      positions = [],
+      position,
       children
     }: ItemCharacterProps,
     { navigation }
   ) => {
     const styles = memoStyles()
-    const _nameCn = String(nameCn || name).trim()
+    const cn = HTMLDecode(cnjp(nameCn, name)).trim()
+    const jp = HTMLDecode(cnjp(name, nameCn)).trim()
+    const _positions = positions.length ? positions : [position]
     const onPress = () => {
       const monoId = String(id).includes(type) ? id : `${type}/${id}`
       t(event.id, {
@@ -47,8 +50,8 @@ export const ItemCharacter = obc(
       })
       navigation.push('Mono', {
         monoId,
-        _name: _nameCn,
-        _jp: name,
+        _name: cn,
+        _jp: jp,
         _image: cover
       })
     }
@@ -74,11 +77,11 @@ export const ItemCharacter = obc(
                   <Flex style={_.container.block} align='start'>
                     <Flex.Item style={_.mr.md}>
                       <Text size={15} numberOfLines={2} bold>
-                        {HTMLDecode(_nameCn)}
-                        {name !== _nameCn && (
+                        {cn}
+                        {!!jp && jp !== cn && (
                           <Text type='sub' size={11} lineHeight={15} bold>
                             {' '}
-                            {HTMLDecode(name)}
+                            {jp}
                           </Text>
                         )}
                         {!!replies && (
@@ -89,15 +92,12 @@ export const ItemCharacter = obc(
                         )}
                       </Text>
                     </Flex.Item>
-                    {!!position && position.length <= 16 && (
-                      <Tag style={_.ml.sm} value={position} />
-                    )}
                   </Flex>
-                  {!!position && position.length > 16 && (
-                    <Flex style={_.mt.sm}>
-                      <Tag value={position} align='left' />
-                    </Flex>
-                  )}
+                  <Flex style={_.mt.sm} wrap='wrap'>
+                    {_positions.map(item => (
+                      <Tag key={item} style={styles.position} value={item} />
+                    ))}
+                  </Flex>
                   {!!info && (
                     <Text style={_.mt.xs} size={12}>
                       {HTMLDecode(info)}

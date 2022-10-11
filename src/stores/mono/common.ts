@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 16:14:58
+ * @Last Modified time: 2022-10-11 16:50:27
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
@@ -64,10 +64,10 @@ export function cheerioPersons(HTML: string) {
         const $a = $li.find('h2 > a')
         const [name, nameCn] = String($a.text().trim()).split('/')
         const cover = $li.find('img.avatar').attr('src')
-        const position = []
+        const positions = []
         $li.find('span.badge_job').each((idx: number, ele: any) => {
           const $item = cheerio(ele)
-          position.push($item.text().trim())
+          positions.push($item.text().trim())
         })
         return safeObject({
           id: $a.attr('href').replace('/character/', ''),
@@ -75,8 +75,8 @@ export function cheerioPersons(HTML: string) {
           name,
           nameCn,
           replies: $li.find('small.na').text().trim(),
-          position: position.join('、'),
-          info: $li.find('div.crt_info span.tip').text().trim()
+          info: $li.find('div.crt_info span.tip').text().trim(),
+          positions
         })
       })
       .get() || []
