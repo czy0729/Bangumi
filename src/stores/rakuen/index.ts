@@ -574,17 +574,18 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
       url: HTML_GROUP(groupId, page)
     })
 
-    const group = analysisGroup(html)
+    const list = analysisGroup(html)
+    const data = {
+      list: list || [],
+      _loaded: getTimestamp()
+    }
     this.setState({
       group: {
-        [`${groupId}|${page}`]: {
-          list: group || [],
-          _loaded: getTimestamp()
-        }
+        [`${groupId}|${page}`]: data
       }
     })
 
-    return group
+    return data
   }
 
   /** 条目帖子列表 */

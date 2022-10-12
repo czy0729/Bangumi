@@ -7,14 +7,18 @@
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
-import { info, feedback } from '@utils'
+import { info, feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
-import { HOST } from '@constants'
+import { get, update } from '@utils/kv'
+import { HOST, LIST_EMPTY } from '@constants'
 import { Params } from './types'
 import { TopicId } from '@types'
 
 const NAMESPACE = 'ScreenGroup'
+
+/** 若更新过则不会再主动更新 */
+const THIRD_PARTY_UPDATED = []
 
 export default class ScreenGroup extends store {
   params: Params
@@ -24,6 +28,9 @@ export default class ScreenGroup extends store {
     show: true,
     ipt: '1',
     history: [],
+
+    /** 云快照 */
+    ota: {},
     _loaded: false
   })
 
@@ -31,6 +38,7 @@ export default class ScreenGroup extends store {
     const state = await this.getStorage(this.key)
     this.setState({
       ...state,
+      ota: {},
       _loaded: true
     })
 
@@ -47,12 +55,66 @@ export default class ScreenGroup extends store {
   }
 
   /** 小组帖子列表 */
-  fetchGroup = () => {
+  fetchGroup = async () => {
+    this.fetchThirdParty()
+
     const { page } = this.state
-    return rakuenStore.fetchGroup({
+    const data = await rakuenStore.fetchGroup({
       groupId: this.groupId,
       page
     })
+
+    if (
+      data.list.length &&
+      // 只有明确知道云快照没有这个 key 的数据, 才主动更新云快照数据
+      this.thirdPartyKey in this.state.ota
+    ) {
+      const ts = this.ota?.ts || 0
+      const _loaded = getTimestamp()
+      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+    }
+
+    return data
+  }
+
+  /** 获取云快照 */
+  fetchThirdParty = async () => {
+    if (!this.ota && !this.group._loaded) {
+      const data = await get(this.thirdPartyKey)
+      if (!data) {
+        // 就算没有数据也插入 key, 用于判断是否需要更新云数据
+        this.setState({
+          ota: {
+            [this.thirdPartyKey]: {
+              list: [],
+              _loaded: 0
+            }
+          }
+        })
+        return
+      }
+
+      this.setState({
+        ota: {
+          [this.thirdPartyKey]: {
+            ...data,
+            _loaded: getTimestamp()
+          }
+        }
+      })
+    }
+  }
+
+  /** 上传预数据 */
+  updateThirdParty = async () => {
+    if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+
+    setTimeout(() => {
+      update(this.thirdPartyKey, {
+        list: this.group.list
+      })
+      THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+    }, 0)
   }
 
   // -------------------- get --------------------
@@ -73,7 +135,20 @@ export default class ScreenGroup extends store {
   /** 小组帖子列表 */
   @computed get group() {
     const { page } = this.state
-    return rakuenStore.group(this.groupId, page)
+    const group = rakuenStore.group(this.groupId, page)
+    if (!group._loaded) {
+      return this.ota
+        ? {
+            ...this.ota,
+            pagination: {
+              page: 1,
+              pageTotal: 10
+            }
+          }
+        : LIST_EMPTY
+    }
+
+    return group
   }
 
   /** 小组缩略图缓存 */
@@ -94,6 +169,18 @@ export default class ScreenGroup extends store {
   /** 帖子历史查看记录 */
   readed(topicId: TopicId) {
     return computed(() => rakuenStore.readed(topicId)).get()
+  }
+
+  /** 云快照 */
+  @computed get ota() {
+    const { ota } = this.state
+    return ota[this.thirdPartyKey]
+  }
+
+  @computed get thirdPartyKey() {
+    const { page } = this.state
+    const query = [this.groupId, page].join('_').replace('/', '_')
+    return `group_${query}`
   }
 
   // -------------------- page --------------------
