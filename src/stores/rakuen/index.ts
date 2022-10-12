@@ -172,6 +172,27 @@ const state = {
 class RakuenStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  init = () => {
+    return this.readStorage(
+      [
+        'blog',
+        'cloudTopic',
+        'comments',
+        'favor',
+        'groupInfo',
+        'groupThumb',
+        'hot',
+        'mine',
+        'notify',
+        'rakuen',
+        'readed',
+        'setting',
+        'topic'
+      ],
+      NAMESPACE
+    )
+  }
+
   // -------------------- get --------------------
   /** 超展开列表 */
   rakuen(
@@ -339,27 +360,6 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         }
       })
     return data
-  }
-
-  init = () => {
-    return this.readStorage(
-      [
-        'blog',
-        'cloudTopic',
-        'comments',
-        'favor',
-        'groupInfo',
-        'groupThumb',
-        'hot',
-        'mine',
-        'notify',
-        'rakuen',
-        'readed',
-        'setting',
-        'topic'
-      ],
-      NAMESPACE
-    )
   }
 
   // -------------------- fetch --------------------
