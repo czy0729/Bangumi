@@ -23,6 +23,7 @@ export default class ScreenBoard extends store {
 
   state = observable({
     history: [],
+
     /** 云快照 */
     ota: {},
     _loaded: false
