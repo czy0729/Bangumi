@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 19:07:00
+ * @Last Modified time: 2022-10-13 04:47:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import ScreenOrientation from './screen-orientation'
 import UpdateTourist from './update-tourist'
 import UpdateAdvance from './update-advance'
 import UsersAdvance from './users-advance'
+import UpdateKey from './update-key'
 import Detail from './detail'
 import { memoStyles } from './styles'
 
@@ -42,6 +43,7 @@ const DEV = ({ navigation }: NavigationProps) => {
                 <UpdateTourist />
                 <UpdateAdvance navigation={navigation} />
                 <UsersAdvance navigation={navigation} />
+                <UpdateKey />
               </>
             )}
           </View>

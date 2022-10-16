@@ -24,6 +24,6 @@ export const styles = _.create({
     minHeight: 120
   },
   loading: {
-    height: 120
+    height: 240
   }
 })

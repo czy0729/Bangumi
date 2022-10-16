@@ -8,14 +8,18 @@ import React from 'react'
 import { Page } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ic } from '@utils/decorators'
-import { useObserver, useKeyboardAdjustResize } from '@utils/hooks'
+import { useObserver, useKeyboardAdjustResize, useRunAfter } from '@utils/hooks'
 import Header from './header'
 import List from './list'
 import Heatmaps from './heatmaps'
 import Store from './store'
+import { Ctx } from './types'
 
-const Blog = () => {
+const Blog = (props, { $ }: Ctx) => {
   const { fixed, onScroll } = useOnScroll()
+  useRunAfter(async () => {
+    await $.init()
+  })
   useKeyboardAdjustResize()
 
   return useObserver(() => (

@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:09:12
+ * @Last Modified time: 2022-10-13 07:26:01
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
 import { IOS, HOST } from '@constants'
-import { removeHTMLTag, info, feedback } from '@utils'
+import { removeHTMLTag, info, feedback, getTimestamp, omit } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
+import { get, update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { Params } from './types'
 import { TopicId } from '@types'
+import { Params } from './types'
 
-const namespace = 'ScreenBlog'
+const NAMESPACE = 'ScreenBlog'
 
-const initState = {
+const EXCLUDE_STATE = {
   /** 回复框 placeholder */
   placeholder: '',
 
@@ -28,14 +29,20 @@ const initState = {
 
   /** 存放子回复 html */
   message: '',
+
+  /** 云快照 */
+  ota: {},
   showHeaderTitle: false
 }
+
+/** 若更新过则不会再主动更新 */
+const THIRD_PARTY_UPDATED = []
 
 export default class ScreenBlog extends store {
   params: Params
 
   state = observable({
-    ...initState,
+    ...EXCLUDE_STATE,
     _loaded: false
   })
 
@@ -43,7 +50,7 @@ export default class ScreenBlog extends store {
     const state = (await this.getStorage(this.namespace)) || {}
     this.setState({
       ...state,
-      ...initState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
@@ -52,10 +59,63 @@ export default class ScreenBlog extends store {
 
   // -------------------- fetch --------------------
   /** 获取日志内容和留言 */
-  fetchBlog = () => {
-    return rakuenStore.fetchBlog({
+  fetchBlog = async () => {
+    this.fetchThirdParty()
+
+    const { blog } = await rakuenStore.fetchBlog({
       blogId: this.blogId
     })
+
+    if (
+      blog.title &&
+      // 只有明确知道云快照没有这个 key 的数据, 才主动更新云快照数据
+      this.thirdPartyKey in this.state.ota
+    ) {
+      const ts = this.ota?.ts || 0
+      const _loaded = getTimestamp()
+      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+    }
+
+    return blog
+  }
+
+  /** 获取云快照 */
+  fetchThirdParty = async () => {
+    if (!this.ota && !this.blog._loaded) {
+      const data = await get(this.thirdPartyKey)
+      if (!data) {
+        // 就算没有数据也插入 key, 用于判断是否需要更新云数据
+        this.setState({
+          ota: {
+            [this.thirdPartyKey]: {
+              _loaded: 0
+            }
+          }
+        })
+        return
+      }
+
+      this.setState({
+        ota: {
+          [this.thirdPartyKey]: {
+            ...data,
+            _loaded: getTimestamp()
+          }
+        }
+      })
+    }
+  }
+
+  /** 上传预数据 */
+  updateThirdParty = async () => {
+    if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+
+    setTimeout(() => {
+      update(this.thirdPartyKey, {
+        ...omit(this.blog, ['formhash'])
+      })
+      THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+    }, 0)
   }
 
   // -------------------- get --------------------
@@ -73,17 +133,15 @@ export default class ScreenBlog extends store {
   }
 
   @computed get namespace() {
-    return `${namespace}|${this.blogId}`
+    return `${NAMESPACE}|${this.blogId}`
   }
 
   /** 日志内容 */
   @computed get blog() {
-    return rakuenStore.blog(this.blogId)
-  }
+    const blog = rakuenStore.blog(this.blogId)
+    if (!blog._loaded) return this.ota || {}
 
-  /** @deprecated 日志内容 (CDN) */
-  @computed get blogFormCDN() {
-    return rakuenStore.blogFormCDN()
+    return blog
   }
 
   /** 日志回复 */
@@ -115,35 +173,43 @@ export default class ScreenBlog extends store {
     return rakuenStore.setting
   }
 
+  /** 云快照 */
+  @computed get ota() {
+    const { ota } = this.state
+    return ota[this.thirdPartyKey]
+  }
+
+  @computed get thirdPartyKey() {
+    return `blog_${this.blogId}`
+  }
+
   // -------------------- get: cdn fallback --------------------
   @computed get title() {
-    return this.blog.title || this.params._title || this.blogFormCDN.title || ''
+    return this.blog.title || this.params._title || ''
   }
 
   @computed get time() {
-    return this.blog.time || this.blogFormCDN.time || this.params._time || ''
+    return this.blog.time || this.params._time || ''
   }
 
   @computed get avatar() {
-    return this.blog.avatar || this.params._avatar || this.blogFormCDN.avatar || ''
+    return this.blog.avatar || this.params._avatar || ''
   }
 
   @computed get userId() {
-    return this.blog.userId || this.params._userId || this.blogFormCDN.userId || ''
+    return this.blog.userId || this.params._userId || ''
   }
 
   @computed get userName() {
-    return (
-      this.blog.userName || this.params._userName || this.blogFormCDN.userName || ''
-    )
+    return this.blog.userName || this.params._userName || ''
   }
 
   @computed get userSign() {
-    return this.blog.userSign || this.blogFormCDN.userSign || ''
+    return this.blog.userSign || ''
   }
 
   @computed get html() {
-    return this.blog.message || this.blogFormCDN.message || ''
+    return this.blog.message || ''
   }
 
   @computed get isUGCAgree() {

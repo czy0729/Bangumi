@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 05:25:31
+ * @Last Modified time: 2022-10-13 04:55:45
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp } from '../utils'
@@ -40,17 +40,22 @@ export async function gets(keys: string[]) {
 }
 
 /** 更新 */
-export async function update(key: string, value: object) {
+export async function update(key: string, value: object, updateTS: boolean = true) {
   // @ts-ignore
   const { data } = await axios({
     method: 'post',
     url: `${HOST}/v1/update`,
     data: {
       key,
-      value: {
-        ...value,
-        ts: getTimestamp()
-      }
+      value: updateTS
+        ? {
+            ...value,
+            ts: getTimestamp()
+          }
+        : {
+            ts: getTimestamp(),
+            ...value
+          }
     }
   })
 

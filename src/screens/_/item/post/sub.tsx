@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 23:30:07
+ * @Last Modified time: 2022-10-13 05:16:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, RenderHtml, UserStatus } from '@components'
-import { _, rakuenStore } from '@stores'
+import { _, rakuenStore, systemStore } from '@stores'
 import { getTimestamp, open } from '@utils'
 import { memo, obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
@@ -96,6 +96,10 @@ const ItemSub = memo(
     const rawMsg = removeHTMLTag(msg)
     if (filterDelete && rawMsg.includes('内容已被用户删除')) return null
 
+    const isAuthor = authorId === userId
+    const isLayer = !isAuthor && uid === userId
+    const isFriend = myFriendsMap[userId]
+
     // +N的楼层, 只有表情的楼层
     if ((rawMsg.length <= 10 && regPlus.test(rawMsg)) || regBgm.test(msg.trim())) {
       return (
@@ -107,6 +111,9 @@ const ItemSub = memo(
           avatar={avatar}
           url={url}
           event={event}
+          isAuthor={isAuthor}
+          isFriend={isFriend}
+          isLayer={isLayer}
         />
       )
     }
@@ -143,10 +150,6 @@ const ItemSub = memo(
       '<span style="font-size:10px; line-height:10px;">[来自Bangumi for',
       '<span style="font-size:10px; line-height:20px;">[来自Bangumi for'
     )
-
-    const isAuthor = authorId === userId
-    const isLayer = !isAuthor && uid === userId
-    const isFriend = myFriendsMap[userId]
 
     const isNew = !!readedTime && getTimestamp(time) > readedTime
     const isJump = !!postId && postId === id
@@ -236,6 +239,7 @@ const ItemSub = memo(
                   userId={quoteUser.userId}
                   name={quoteUser.userName}
                   src={quoteUser.avatar}
+                  radius={systemStore.setting.avatarRound ? undefined : 4}
                   event={event}
                 />
                 <Text type={_.select('desc', 'sub')} size={12} bold>
@@ -339,8 +343,8 @@ const memoStyles = _.memoStyles(() => ({
   },
   quoteUserRound: {
     position: 'absolute',
-    top: 12,
-    left: 12,
+    top: 11,
+    left: 10.5,
     zIndex: 1,
     padding: 2,
     backgroundColor: _.colorBg

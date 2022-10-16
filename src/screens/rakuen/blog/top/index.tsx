@@ -12,7 +12,8 @@ import {
   Text,
   UserStatus,
   RenderHtml,
-  Divider
+  Divider,
+  Loading
 } from '@components'
 import { Avatar, HorizontalList } from '@_'
 import { _ } from '@stores'
@@ -25,7 +26,7 @@ import { styles } from './styles'
 
 function Top(props, { $, navigation }: Ctx) {
   // @ts-ignore
-  const { related = [] } = $.blog
+  const { related = [], _loaded } = $.blog
   const event = {
     id: '日志.跳转',
     data: {
@@ -33,6 +34,17 @@ function Top(props, { $, navigation }: Ctx) {
       blogId: $.blogId
     }
   } as const
+
+  if (!_loaded) {
+    return (
+      <>
+        <HeaderPlaceholder />
+        <Flex style={styles.loading} justify='center'>
+          <Loading />
+        </Flex>
+      </>
+    )
+  }
 
   return (
     <>

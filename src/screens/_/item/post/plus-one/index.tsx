@@ -2,27 +2,39 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 17:21:39
+ * @Last Modified time: 2022-10-13 05:17:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
-import { open } from '@utils'
+import { open, appNavigate, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
-import { HTMLDecode } from '@utils/html'
-import { Avatar, Name } from '../../base'
+import { Avatar, Name } from '../../../base'
+import UserLabel from '../user-label'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
-const avatarWidth = 20
+const AVATAR_WIDTH = 20
 
 function ItemPlusOne(
-  { id, message, userId, userName, avatar, url, event },
+  {
+    id,
+    message,
+    userId,
+    userName,
+    avatar,
+    url,
+    event,
+    isAuthor,
+    isFriend,
+    isLayer
+  }: Props,
   { navigation }
 ) {
   const styles = memoStyles()
   const { avatarRound } = systemStore.setting
-  const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+  const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm
   return (
     <View style={styles.item}>
       <Flex>
@@ -31,7 +43,7 @@ function ItemPlusOne(
             <UserStatus userId={userId} mini>
               <Avatar
                 navigation={navigation}
-                size={avatarWidth}
+                size={AVATAR_WIDTH}
                 userId={userId}
                 name={userName}
                 src={avatar}
@@ -42,6 +54,12 @@ function ItemPlusOne(
           <Name userId={userId} size={10} bold>
             {HTMLDecode(userName)}
           </Name>
+          <UserLabel
+            isAuthor={isAuthor}
+            isFriend={isFriend}
+            isLayer={isLayer}
+            lineHeight={10}
+          />
         </Flex>
         <RenderHtml
           style={_.ml.sm}
@@ -57,22 +75,3 @@ function ItemPlusOne(
 }
 
 export default obc(ItemPlusOne)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingRight: _.sm + 2,
-    paddingBottom: _.sm
-  },
-  round: {
-    padding: 4,
-    paddingRight: 12,
-    backgroundColor: _.colorBg,
-    borderRadius: 16
-  },
-  rectangle: {
-    padding: 4,
-    paddingRight: 8,
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusSm
-  }
-}))
