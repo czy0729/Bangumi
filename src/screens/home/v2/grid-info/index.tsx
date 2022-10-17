@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 04:08:24
+ * @Last Modified time: 2022-10-17 18:31:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -183,6 +183,7 @@ class GridInfo extends React.Component<{
       <Flex style={this.styles.item} align='start'>
         <View>
           <Cover
+            key={subjectId}
             size={imageWidth}
             height={imageHeight}
             src={subject?.images?.medium || ''}

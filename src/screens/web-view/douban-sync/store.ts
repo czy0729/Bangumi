@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:30:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 17:41:26
+ * @Last Modified time: 2022-10-17 18:24:39
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -39,13 +39,17 @@ export default class ScreenBilibiliSync extends store {
 
     const { data, progress } = this.state
     if (!data.list.length && !progress.fetching) {
-      this.fetchDouban()
+      this.fetchDouban('done', 1, false)
     }
   }
 
-  fetchDouban = async (status: DoubanStatus = 'done', page: number = 1) => {
+  fetchDouban = async (
+    status: DoubanStatus = 'done',
+    page: number = 1,
+    message: boolean = true
+  ) => {
     if (!this.doubanId) {
-      info('匹配豆瓣 ID 有误，请核实')
+      if (message) info('匹配豆瓣 ID 有误，请核实')
       return false
     }
 
@@ -276,6 +280,7 @@ export default class ScreenBilibiliSync extends store {
     this.setState({
       hide: !hide
     })
+    this.setStorage(NAMESPACE)
   }
 
   onPage = (page: any[]) => {

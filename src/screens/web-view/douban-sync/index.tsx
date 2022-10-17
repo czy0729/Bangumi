@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:48:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 15:35:43
+ * @Last Modified time: 2022-10-17 18:21:53
  */
 import React from 'react'
 import { Page } from '@components'
+import { runAfter } from '@utils'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -17,7 +18,9 @@ import { Ctx } from './types'
 
 const DoubanSync = (props, { $ }: Ctx) => {
   useMount(() => {
-    $.init()
+    runAfter(() => {
+      $.init()
+    })
   })
 
   return useObserver(() => (

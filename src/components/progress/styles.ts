@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 15:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 17:06:30
+ * @Last Modified time: 2022-10-17 18:27:31
  */
 import { _ } from '@stores'
 
@@ -18,7 +18,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select('#ffffff', _._colorDarkModeLevel2),
     elevation: _.select(16, 0),
     borderRadius: _.radiusSm,
-    overflow: 'hidden'
+    ..._.shadow
   },
   bar: {
     position: 'absolute',

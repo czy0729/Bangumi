@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-03 12:52:04
+ * @Last Modified time: 2022-10-17 18:16:27
  */
 import { Paths } from '@types'
 
@@ -27,22 +27,22 @@ export const DEV = global.__DEV__
 export const FONT_FAMILY = true
 
 /** 是否来源于 IPA (iOS) */
-export const IOS_IPA = true
+export const IOS_IPA = false
 
 /** 图片是否开启新本地缓存策略 (iOS) */
 export const IOS_IMAGE_CACHE_V2 = false
 
-/** 是否不显示图片 (开发用) */
-export const TEXT_ONLY = DEV ? !DEV : false // : false 是为了打包后的 apk 稳定显示图片
+/** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
+export const TEXT_ONLY = DEV ? !DEV : false
 
 /** 路由覆盖配置 */
 const CONFIGS: Configs = {
   initialRouteName: 'HomeTab',
   initialRouteParams: {
-    // subjectId: 371546 // anime: 296870, music: 302514, book: 267358, game: 137458
+    // subjectId: 349441 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/372695' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
-    // monoId: 'person/2481' // character/70323 person/5745
+    // monoId: 'person/5745' // character/70323 person/5745
     // id: 240929
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448
