@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-18 06:37:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 18:38:31
+ * @Last Modified time: 2022-10-17 17:58:43
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { WebView } from 'react-native-webview'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
 import Btn from '../btn'
 import {
@@ -59,6 +60,7 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
   const onRefresh = useCallback(() => {
     setMessage('检查状态中...')
     setKey(key + 1)
+    t('bili同步.获取数据')
   }, [key])
 
   return useObserver(() => {
@@ -86,7 +88,11 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
               {message}
             </Text>
             <Text style={_.mt.md} size={11} type='sub'>
-              因bilibili对鉴权信息做了保护加密，目前同步番剧需要通过在WebView内部发起带鉴权的请求，获得数据后通知APP。
+              若上方网页白屏请多刷新几次。
+            </Text>
+            <Text style={_.mt.sm} size={11} type='sub'>
+              因 bilibili
+              对鉴权信息做了保护加密，目前同步番剧需要通过在WebView内部发起带鉴权的请求，获得数据后通知APP。
             </Text>
             <Text style={_.mt.sm} size={11} type='sub'>
               完成同步前需要一直保持bilibil{i18n.login()}

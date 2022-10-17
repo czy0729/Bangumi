@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2022-09-29 19:17:46
+ * @Date: 2022-10-17 00:02:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 17:45:49
+ * @Last Modified time: 2022-10-17 17:42:40
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,13 @@ import { Cover } from '@_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { memo } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus, CollectionStatusCn } from '@types'
-import Column from '../column'
-import ColumnBgm from '../column-bgm'
-import ColumnSelect from '../column-select'
-import Btn from '../btn'
+import { CollectionStatusCn, CollectionStatus } from '@types'
+import Column from '../../bilibili-sync/column'
+import ColumnBgm from '../../bilibili-sync/column-bgm'
+import ColumnSelect from '../../bilibili-sync/column-select'
+import Btn from '../../bilibili-sync/btn'
 import {
   useSelectStatus,
   useSelectEp,
@@ -25,18 +26,19 @@ import {
   getSelectEp,
   getSelectScore,
   getSelectComment
-} from '../utils'
+} from '../../bilibili-sync/utils'
 import { BILIBILI_STATUS, HIT_SLOP, DEFAULT_PROPS } from './ds'
-import { t } from '@utils/fetch'
 
 export default memo(
   ({
     navigation,
     styles,
     item,
-    review,
     collection,
+    totalEps,
     hideSame,
+    noCommentUseCreateDate,
+    scoreMinuesOne,
     onRefreshCollection,
     onBottom,
     onSubmit
@@ -44,8 +46,17 @@ export default memo(
     const { subjectId } = item
     const isSubject = !!subjectId
     const isLoaded = !!collection?.loaded
-    const progress =
-      item.progress.replace('看到', '').replace('第', '').split(' ')?.[0] || ''
+
+    let progress = item.progress || ''
+    if (BILIBILI_STATUS[item.status] === '看过' && !progress && totalEps) {
+      progress = totalEps
+    }
+
+    const score = item.score
+      ? Number(item.score) * 2 - (scoreMinuesOne ? 1 : 0)
+      : item.score * 2
+    const create_time = String(item.create_time).split(' ')[0]
+    const content = noCommentUseCreateDate ? item.content || create_time : item.content
 
     // hooks
     const [loading, setLoading] = useState(false)
@@ -54,12 +65,9 @@ export default memo(
       collection?.status
     )
     const [selectEp, setSelectEp] = useSelectEp(progress, collection?.ep_status)
-    const [selectScore, setSelectScore] = useSelectScore(
-      review?.score,
-      collection?.rating
-    )
+    const [selectScore, setSelectScore] = useSelectScore(score, collection?.rating)
     const [selectComment, setSelectComment] = useSelectComment(
-      review?.content,
+      content,
       collection?.comment
     )
 
@@ -67,8 +75,8 @@ export default memo(
     const bili = {
       status: BILIBILI_STATUS[item.status] || '',
       ep: progress || '',
-      score: review?.score || '',
-      comment: review?.content || ''
+      score: item.score || '',
+      comment: content || ''
     }
     const bgm = {
       status:
@@ -91,17 +99,18 @@ export default memo(
     const next = {
       status: BILIBILI_STATUS[item.status],
       ep: getSelectEp(progress, collection?.ep_status).value as string | number,
-      score: getSelectScore(review?.score, collection?.rating).value,
-      comment: getSelectComment(review?.content, collection?.comment).value
+      score: getSelectScore(score, collection?.rating).value,
+      comment: getSelectComment(content, collection?.comment).value
     }
     const onPress = () => {
       if (!isSubject) return
       navigation.push('Subject', {
         subjectId,
         _image: item.cover,
-        _cn: item.title.replace('（僅限港澳台地區）', '')
+        _cn: item.title
       })
     }
+
     return (
       <Flex style={styles.item} align='start'>
         <Cover
@@ -116,6 +125,11 @@ export default memo(
             <Text bold numberOfLines={2} onPress={onPress}>
               {item.title}
             </Text>
+            {!!item.create_time && (
+              <Text style={_.mt.sm} size={11} type='sub' bold>
+                {item.create_time.slice(0, 16)}
+              </Text>
+            )}
             <Flex style={_.mt.md} align='start'>
               {/* side */}
               <View>
@@ -123,21 +137,24 @@ export default memo(
                 <Column style={_.mt.md} text='状态' type='sub' />
                 <Column style={_.mt.md} text='进度' type='sub' />
                 <Column style={_.mt.md} text='评分' type='sub' />
-                <Column style={_.mt.md} text='点评' type='sub' />
+                <Column style={_.mt.md} text='评论' type='sub' />
               </View>
 
-              {/* bilibili */}
+              {/* douban */}
               <Flex.Item style={_.ml.md}>
-                <Column text='bilibili' type='sub' />
+                <Column text='douban' type='sub' />
                 <Column style={_.mt.md} text={bili.status} />
                 <Column style={_.mt.md} text={bili.ep} />
-                <Column style={_.mt.md} text={bili.score} />
+                <Column
+                  style={_.mt.md}
+                  text={bili.score ? `${bili.score}★` : bili.score}
+                />
                 <Column
                   style={_.mt.md}
                   text={bili.comment}
                   onPress={() => {
-                    if (!review?.content) return
-                    copy(review?.content, '已复制')
+                    if (!item.content) return
+                    copy(item.content, '已复制')
                   }}
                 />
               </Flex.Item>
@@ -233,18 +250,18 @@ export default memo(
                     <Btn
                       text='详情'
                       onPress={() => {
-                        t('bili同步.详情')
-                        open(`https://www.bilibili.com/bangumi/media/md${item.id}`)
+                        t('豆瓣同步.详情')
+                        open(`https://m.douban.com/movie/subject/${item.id}`)
                       }}
                     />
                     <Btn
                       style={_.ml.sm}
                       text='搜索'
                       onPress={() => {
-                        t('bili同步.搜索')
+                        t('豆瓣同步.搜索')
                         navigation.push('Search', {
                           type: '动画',
-                          value: item.title.replace('（僅限港澳台地區）', '')
+                          value: item.title
                         })
                       }}
                     />
@@ -298,7 +315,7 @@ export default memo(
 
                       if (selectScore) {
                         flag.score = true
-                        collectionData.rating = next.score
+                        collectionData.rating = Number(next.score) || 0
                       }
                       if (selectComment) {
                         flag.comment = true

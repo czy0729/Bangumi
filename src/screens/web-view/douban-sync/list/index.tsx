@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2022-04-24 14:16:31
+ * @Date: 2022-10-17 00:02:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 16:32:25
+ * @Last Modified time: 2022-10-17 16:32:18
  */
 import React from 'react'
 import { PaginationList2 as PaginationList } from '@_'
@@ -18,6 +18,7 @@ function List(props, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       data={$.data}
       limit={12}
+      keyboardDismissMode='on-drag'
       ListHeaderComponent={<ToolBar />}
       renderItem={({ item }) => <Item item={item} />}
       onPage={$.onPage}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-09 22:09:38
+ * @Last Modified time: 2022-10-17 18:01:17
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -125,7 +125,8 @@ const MENU_MAP = {
   Netabare: {
     key: 'Netabare',
     name: 'netaba.re',
-    text: 'N'
+    text: 'N',
+    size: 18
   },
   Anitama: {
     key: 'Anitama',
@@ -140,11 +141,17 @@ const MENU_MAP = {
     size: 14,
     ios: false
   },
+  DoubanSync: {
+    key: 'DoubanSync',
+    name: '豆瓣同步',
+    text: 'D',
+    size: 18
+  },
   BilibiliSync: {
     key: 'BilibiliSync',
-    name: '同步',
-    icon: 'md-live-tv',
-    size: 23
+    name: 'bilibili 同步',
+    text: 'B',
+    size: 20
   },
   Series: {
     key: 'Series',

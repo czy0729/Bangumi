@@ -1,0 +1,36 @@
+/*
+ * @Author: czy0729
+ * @Date: 2022-10-17 00:02:09
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-10-17 16:38:25
+ */
+import { InferArray, Navigation } from '@types'
+import { StoreType as $ } from '../types'
+import { memoStyles } from './styles'
+
+export const BILIBILI_STATUS = {
+  1: '想看',
+  2: '在看',
+  3: '看过'
+} as const
+
+export const HIT_SLOP = {
+  top: 4,
+  right: 20,
+  bottom: 4,
+  left: 20
+} as const
+
+export const DEFAULT_PROPS = {
+  navigation: {} as Navigation,
+  styles: {} as ReturnType<typeof memoStyles>,
+  item: {} as InferArray<$['data']>,
+  collection: {} as ReturnType<$['collection']>,
+  totalEps: '' as string,
+  hideSame: false as $['state']['hideSame'],
+  noCommentUseCreateDate: false as $['state']['noCommentUseCreateDate'],
+  scoreMinuesOne: false as $['state']['scoreMinuesOne'],
+  onRefreshCollection: (() => {}) as $['onRefreshCollection'],
+  onBottom: (() => {}) as $['onBottom'],
+  onSubmit: (() => {}) as unknown as $['onSubmit']
+}

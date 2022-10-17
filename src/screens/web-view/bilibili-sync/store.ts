@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 05:41:28
+ * @Last Modified time: 2022-10-17 17:49:25
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
 import { getTimestamp, asc, desc } from '@utils'
 import store from '@utils/store'
-import { queue } from '@utils/fetch'
+import { queue, t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { info, feedback } from '@utils/ui'
 import { t2s } from '@utils/thirdParty/cn-char'
@@ -123,12 +123,12 @@ export default class ScreenBilibiliSync extends store {
     })
   }
 
-  onPage = page => {
+  onPage = (page: any[]) => {
     const subjectIds = page.filter(item => item.subjectId).map(item => item.subjectId)
     this.fetchCollections(subjectIds)
   }
 
-  setData = list => {
+  setData = (list: any[]) => {
     this.setState({
       data: {
         list: list.map(item => ({
@@ -153,6 +153,11 @@ export default class ScreenBilibiliSync extends store {
       }
     })
     this.setStorage(NAMESPACE)
+
+    t('bili同步.获取成功', {
+      length: list.length,
+      userId: this.userId
+    })
   }
 
   setReviews = reviews => {
@@ -172,6 +177,8 @@ export default class ScreenBilibiliSync extends store {
       }
     })
     this.setStorage(NAMESPACE)
+
+    t('bili同步.置底')
   }
 
   onSubmit = async (subjectId, collectionData, epData) => {
@@ -193,6 +200,8 @@ export default class ScreenBilibiliSync extends store {
 
     await this.fetchCollection(subjectId)
     feedback()
+
+    t('bili同步.同步')
   }
 
   onToggle = async key => {

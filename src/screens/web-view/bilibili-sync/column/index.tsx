@@ -17,7 +17,7 @@ function Column({
 }) {
   return (
     <Flex style={style}>
-      <Text size={11} type={!text ? 'sub' : type} onPress={onPress}>
+      <Text size={11} type={!text || text === '/' ? 'sub' : type} onPress={onPress}>
         {text || '__'}
       </Text>
       {right}

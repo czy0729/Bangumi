@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 07:00:38
+ * @Last Modified time: 2022-10-17 17:50:22
  */
 
 /** Other */
@@ -53,5 +53,24 @@ export default {
 
   // HD
   'HD.查看': 'HD.jump',
-  'HD.提示': 'HD.alert'
+  'HD.提示': 'HD.alert',
+
+  // bilibili 同步
+  'bili同步.关于': 'BiliSync.about',
+  'bili同步.获取数据': 'BiliSync.fetch',
+  'bili同步.获取成功': 'BiliSync.complete',
+  'bili同步.同步': 'BiliSync.onSubmit',
+  'bili同步.置底': 'BiliSync.onBottom',
+  'bili同步.详情': 'BiliSync.onDetail',
+  'bili同步.搜索': 'BiliSync.onSearch',
+
+  // 豆瓣同步
+  '豆瓣同步.检查': 'DoubanSync.open',
+  '豆瓣同步.关于': 'DoubanSync.about',
+  '豆瓣同步.获取数据': 'DoubanSync.fetch',
+  '豆瓣同步.获取成功': 'DoubanSync.complete',
+  '豆瓣同步.同步': 'DoubanSync.onSubmit',
+  '豆瓣同步.置底': 'DoubanSync.onBottom',
+  '豆瓣同步.详情': 'DoubanSync.onDetail',
+  '豆瓣同步.搜索': 'DoubanSync.onSearch'
 }
