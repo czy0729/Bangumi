@@ -245,7 +245,6 @@ export async function fetchMediaQueue(type?, id?) {
 
       fetchMediaQueue()
     } catch (error) {
-      console.info('fetchMediaQueue error', error, ids)
       loading = false
     }
   }

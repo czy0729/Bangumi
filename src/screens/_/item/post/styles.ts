@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-14 22:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 23:33:06
+ * @Last Modified time: 2022-10-18 04:18:39
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
+  item: {
+    width: _.window.width
+  },
   itemNew: {
     backgroundColor: _.colorMainLight
   },
@@ -39,9 +42,5 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusXs,
     overflow: 'hidden'
-  },
-  mark: {
-    marginTop: 4,
-    marginLeft: 14
   }
 }))

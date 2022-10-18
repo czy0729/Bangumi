@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-26 22:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 23:31:17
+ * @Last Modified time: 2022-10-18 04:12:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,8 @@ import { Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import { open, appNavigate, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { Avatar, Name } from '../../base'
+import { Avatar, Name } from '../../../base'
+import { memoStyles } from './styles'
 
 const avatarWidth = 20
 
@@ -53,22 +54,3 @@ function Mark(
 }
 
 export default obc(Mark)
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingRight: _.sm + 2,
-    paddingBottom: _.sm
-  },
-  round: {
-    padding: 4,
-    paddingRight: 12,
-    backgroundColor: _.colorBg,
-    borderRadius: 16
-  },
-  rectangle: {
-    padding: 4,
-    paddingRight: 8,
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusSm
-  }
-}))

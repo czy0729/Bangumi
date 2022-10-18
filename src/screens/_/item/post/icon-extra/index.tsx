@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-26 04:33:45
+ * @Last Modified time: 2022-10-18 04:45:54
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { _, rakuenStore } from '@stores'
+import { info, confirm } from '@utils'
 import { obc } from '@utils/decorators'
-import { info, confirm } from '@utils/ui'
-import { Popover } from '../../base'
+import { Popover } from '../../../base'
+import { styles } from './styles'
 
 function IconExtra(
   { id, replySub, erase, userId, userName, message = '', msg, showFixedTextare },
   { $ }
 ) {
   const data = []
-
-  // @todo 状态分离optimize
   if (replySub && !$.isLimit && $.showFixedTextarea) data.push('回复')
   if (erase && $.doDeleteReply) data.push('删除')
   data.push('屏蔽用户')
@@ -57,15 +56,3 @@ function IconExtra(
 }
 
 export default obc(IconExtra)
-
-const styles = _.create({
-  touch: {
-    marginVertical: -8,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  icon: {
-    width: 36,
-    height: 36
-  }
-})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 22:57:19
+ * @Last Modified time: 2022-10-18 04:16:19
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -60,7 +60,6 @@ export const ItemPost = obc(
     }
 
     // 展开子楼层
-    // @todo 状态分离optimize
     const { expands, translateResultFloor } = $.state
     let isExpand: boolean
     if (expands !== undefined) {

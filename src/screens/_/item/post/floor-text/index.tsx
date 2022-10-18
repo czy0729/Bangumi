@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-20 11:59:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 03:13:39
+ * @Last Modified time: 2022-10-18 04:08:43
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { simpleTime } from '@utils'
+import { memoStyles } from './styles'
 
 function FloorText({ time, floor }) {
   const styles = memoStyles()
@@ -17,7 +18,7 @@ function FloorText({ time, floor }) {
       <Text type='sub' size={10} lineHeight={12}>
         {simpleTime(time)}
       </Text>
-      <Text style={styles.floor} type='sub' size={10} lineHeight={12}>
+      <Text style={_.ml.sm} type='sub' size={10} lineHeight={12}>
         #
       </Text>
       <Text type='sub' size={10} lineHeight={12}>
@@ -28,12 +29,3 @@ function FloorText({ time, floor }) {
 }
 
 export default ob(FloorText)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    opacity: _.select(1, 0.64)
-  },
-  floor: {
-    marginLeft: _.sm
-  }
-}))

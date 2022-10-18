@@ -2,30 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 23:35:17
+ * @Last Modified time: 2022-10-18 04:17:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, RenderHtml, UserStatus } from '@components'
 import { _ } from '@stores'
-import {
-  open,
-  // removeHTMLTag,
-  appNavigate,
-  HTMLDecode
-} from '@utils'
+import { open, appNavigate, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { Avatar, Name } from '../../base'
-// import Mark from './mark'
 import UserLabel from './user-label'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
 import ItemSub from './sub'
-import {
-  DEFAULT_PROPS,
-  // REG_MARK,
-  IMAGES_MAX_WIDTH
-} from './ds'
+import { DEFAULT_PROPS, IMAGES_MAX_WIDTH } from './ds'
 
 const AVATAR_SIZE = 36
 
@@ -63,33 +53,13 @@ const Item = memo(
   }) => {
     global.rerender('Topic.Item.Main')
 
-    // const rawMsg = removeHTMLTag(msg)
-    // if (rawMsg.length <= 8 && REG_MARK.test(rawMsg)) {
-    //   return (
-    //     <Mark
-    //       style={styles.mark}
-    //       id={id}
-    //       message={msg}
-    //       userId={userId}
-    //       userName={userName}
-    //       avatar={avatar}
-    //       url={url}
-    //       event={event}
-    //     />
-    //   )
-    // }
-
     // 遗留问题, 给宣传语增加一点高度
     const _msg = msg.replace(
       '<span style="font-size:10px; line-height:10px;">[来自Bangumi for',
       '<span style="font-size:10px; line-height:20px;">[来自Bangumi for'
     )
     return (
-      <View
-        style={{
-          width: _.window.width
-        }}
-      >
+      <View style={styles.item}>
         <Flex
           style={[_.container.item, isNew && styles.itemNew, isJump && styles.itemJump]}
           align='start'
