@@ -2,24 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 13:39:38
+ * @Last Modified time: 2022-10-18 16:36:26
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { ColorValue, IconfontNames, ViewStyle } from '@types'
+import { styles } from './styles'
+import { Props as IconTouchableProps } from './types'
 
-type Props = {
-  style?: ViewStyle
-  name: IconfontNames
-  size?: number
-  color?: ColorValue
-  count?: number | string
-  withoutFeedback?: boolean
-  children?: any
-  onPress?: (event?: any) => any
-}
+export { IconTouchableProps }
 
 export const IconTouchable = ob(
   ({
@@ -31,7 +23,7 @@ export const IconTouchable = ob(
     withoutFeedback,
     children,
     onPress
-  }: Props) => {
+  }: IconTouchableProps) => {
     if (count) {
       return (
         <Touchable
@@ -62,11 +54,3 @@ export const IconTouchable = ob(
     )
   }
 )
-
-const styles = _.create({
-  icon: {
-    padding: _.sm,
-    borderRadius: 20,
-    overflow: 'hidden'
-  }
-})

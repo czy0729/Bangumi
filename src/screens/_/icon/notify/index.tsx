@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 22:13:21
+ * @Last Modified time: 2022-10-18 15:40:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,14 @@ import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { IconTabsHeader } from '../tabs-header'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import { Props as IconNotifyProps } from './types'
+
+export { IconNotifyProps }
 
 let isSetTimeout = false
 
 export const IconNotify = ob(
-  class IconNotifyComponent extends React.Component<Props> {
+  class IconNotifyComponent extends React.Component<IconNotifyProps> {
     static defaultProps = {
       event: EVENT
     }

@@ -12,6 +12,7 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
+import { Images } from '@types'
 import { Cover } from '../../base'
 import { memoStyles } from './styles'
 import { Props as ItemBangumiListProps } from './types'
@@ -23,7 +24,7 @@ export const ItemBangumiList = ob(
     navigation,
     style,
     subjectId,
-    images = {},
+    images = {} as Images,
     name,
     event = EVENT
   }: ItemBangumiListProps) => {
