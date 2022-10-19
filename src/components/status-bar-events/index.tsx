@@ -5,28 +5,17 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 11:50:11
+ * @Last Modified time: 2022-10-19 14:13:33
  */
 import React from 'react'
 import { StatusBar, StatusBarStyle } from 'react-native'
 import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import { _ } from '@stores'
-import { ColorValue } from '@types'
 import { NavigationEvents } from '../navigation/events'
+import { Props as StatusBarEventsProps, PassProps } from './types'
 
-type Props = {
-  tinygrail?: boolean
-  backgroundColor?: ColorValue
-  barStyle?: StatusBarStyle
-  translucent?: boolean
-  animated?: boolean
-  action?: 'onDidFocus' | 'onWillFocus' | 'onDidBlur' | 'onWillBlur'
-}
-type PassProps = {
-  onDidFocus: () => any
-  onWillFocus?: () => any
-}
+export { StatusBarEventsProps }
 
 export const StatusBarEvents = observer(
   ({
@@ -36,7 +25,7 @@ export const StatusBarEvents = observer(
     translucent = !IOS,
     animated = IOS,
     action = 'onDidFocus'
-  }: Props) => {
+  }: StatusBarEventsProps) => {
     let _barStyle: StatusBarStyle
     if (tinygrail) {
       _barStyle = barStyle

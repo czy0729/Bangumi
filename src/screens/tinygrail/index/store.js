@@ -2,26 +2,35 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:44:56
+ * @Last Modified time: 2022-10-18 16:43:33
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore, systemStore } from '@stores'
-import { urlStringify, getTimestamp, formatNumber, toFixed, runAfter } from '@utils'
+import {
+  alert,
+  confirm,
+  feedback,
+  formatNumber,
+  getTimestamp,
+  info,
+  runAfter,
+  toFixed,
+  urlStringify
+} from '@utils'
 import store from '@utils/store'
-import { info, feedback } from '@utils/ui'
 import { queue, t } from '@utils/fetch'
-import { alert, confirm } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import {
+  API_TINYGRAIL_LOGOUT,
+  API_TINYGRAIL_TEST,
+  DEV,
   HOST,
+  M,
   TINYGRAIL_APP_ID,
   TINYGRAIL_URL_OAUTH_REDIRECT,
-  M,
-  DEV
+  initXsbRelationOTA
 } from '@constants'
-import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
-import { initXsbRelationOTA } from '@constants/cdn'
 import i18n from '@constants/i18n'
 
 const namespace = 'ScreenTinygrail'
@@ -48,6 +57,7 @@ export default class ScreenTinygrail extends store {
   })
 
   formhash = ''
+
   errorCount = 0
 
   init = async () => {

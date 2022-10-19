@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 15:43:47
+ * @Last Modified time: 2022-10-19 13:20:40
  */
 import { useEffect } from 'react'
 import { BackHandler } from 'react-native'
-import { navigationReference } from '@utils/app'
-import { info } from '@utils/ui'
+import { navigationReference, info } from '@utils'
 
 let lastBackPressed: number
 

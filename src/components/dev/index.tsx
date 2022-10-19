@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 19:45:54
+ * @Last Modified time: 2022-10-19 13:50:40
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
 import { observer } from 'mobx-react'
-import { observable, runInAction } from 'mobx'
+import { runInAction } from 'mobx'
 import { _ } from '@stores'
-import { date, getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
 import { DEV as dev, IOS } from '@constants'
 import { ScrollView } from '../scroll-view'
@@ -18,37 +17,10 @@ import { Flex } from '../flex'
 import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
 import { Text } from '../text'
+import { logs, devLog, devLogs, devLogLimit } from './utils'
 import { memoStyles } from './styles'
 
-const logs = observable([])
-
-/** 调试窗口打印 (手机实机开发用) */
-export function devLog(...args: any) {
-  if (!DEV && !getSystemStoreAsync().state.dev) return
-
-  setTimeout(() => {
-    runInAction(() => {
-      args.reverse().forEach(data => {
-        logs.unshift({
-          date: date('H:i:s', getTimestamp()),
-          data: typeof data === 'object' ? JSON.stringify(data, null, 4) : String(data)
-        })
-      })
-    })
-  }, 0)
-}
-
-export function devLogs(...args: any) {
-  devLog(args.join(', '))
-}
-
-let _limit = 0
-
-export function devLogLimit(...args: any) {
-  _limit += 1
-  if (_limit >= 8) return
-  devLog(args.join(', '))
-}
+export { devLog, devLogs, devLogLimit }
 
 export const DEV = observer(() => {
   if (!dev && !getSystemStoreAsync().state.dev) return null

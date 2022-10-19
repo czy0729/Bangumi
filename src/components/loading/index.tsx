@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 15:58:15
+ * @Last Modified time: 2022-10-19 14:01:36
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
@@ -13,6 +13,8 @@ import { DEV, IOS } from '@constants'
 import { Spinner } from '../spinner'
 import { styles } from './styles'
 import { ILoading, ActivityIndicatorProps } from './types'
+
+export { ILoading, ActivityIndicatorProps }
 
 const USED_SPINNER = !IOS || DEV
 

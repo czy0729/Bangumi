@@ -2,21 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-12-13 11:22:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 13:10:25
+ * @Last Modified time: 2022-10-19 14:14:17
  */
 import React from 'react'
 import { Switch as RNSwitch } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { ColorValue, ViewStyle, Fn } from '@types'
+import { Props as SwitchProps } from './types'
 
-type Props = {
-  style?: ViewStyle
-  checked?: boolean
-  disabled?: boolean
-  color?: ColorValue
-  onChange?: Fn
-}
+export { SwitchProps }
 
 export const Switch = observer(
   ({
@@ -25,7 +19,7 @@ export const Switch = observer(
     disabled = false,
     color = _.colorBorder,
     onChange = () => {}
-  }: Props) => (
+  }: SwitchProps) => (
     <RNSwitch
       style={style}
       value={checked}

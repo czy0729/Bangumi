@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-08-16 10:57:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 16:24:38
+ * @Last Modified time: 2022-10-19 14:11:54
  */
-import { useObserver } from 'mobx-react-lite'
 import React, { useCallback, useEffect } from 'react'
 import { View, Image } from 'react-native'
 import Animated, {
@@ -15,12 +14,16 @@ import Animated, {
   withRepeat,
   withTiming
 } from 'react-native-reanimated'
+import { useObserver } from 'mobx-react-lite'
 import { _ } from '@stores'
 import { Flex } from '../flex'
 import { HALF_CIRCLE } from './ds'
 import { memoStyles } from './styles'
+import { Props as SpinnerProps } from './types'
 
-export const Spinner = ({ style, backgroundColor = 'transparent' }) => {
+export { SpinnerProps }
+
+export const Spinner = ({ style, backgroundColor = 'transparent' }: SpinnerProps) => {
   const rotation = useSharedValue(0)
   const startAnimation = useCallback(() => {
     rotation.value = 0

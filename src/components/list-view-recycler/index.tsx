@@ -3,12 +3,10 @@
  * @Author: czy0729
  * @Date: 2022-07-07 21:07:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-09 12:12:19
+ * @Last Modified time: 2022-10-19 14:01:08
  */
 import React, { useCallback } from 'react'
 import { RecyclerListView } from 'recyclerlistview'
-// import isEqual from 'lodash.isequal'
-// import { devLog } from '../dev'
 import Footer from '../list-view/footer'
 import { useRecycler, useFooterRefresh } from './utils'
 import { SCROLL_VIEW_PROPS, DIMENSION } from './ds'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:25:02
+ * @Last Modified time: 2022-10-19 13:17:54
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'
@@ -14,27 +14,16 @@ import { Portal } from '../portal'
 import { ScrollView } from '../scroll-view'
 import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
+import { Props as ActionSheetProps } from './types'
 
-type Props = {
-  /** 是否显示 */
-  show?: boolean
-
-  /** 高度，不会超过屏幕高度的88% */
-  height?: number
-
-  /** 关闭回调函数 */
-  onClose?: () => any
-
-  /** 内容 */
-  children: any
-}
+export { ActionSheetProps }
 
 export const ActionSheet = ({
   show = false,
   height = 400,
   onClose,
   children
-}: Props) => {
+}: ActionSheetProps) => {
   const [y] = useState(new Animated.Value(0))
   const [_show, _setShow] = useState(show)
 

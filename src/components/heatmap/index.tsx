@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 09:09:18
+ * @Last Modified time: 2022-10-19 13:57:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,23 +13,13 @@ import { systemStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import heatmapData from '@assets/json/heatmap/index.json'
 import heatmapEventData from '@assets/json/heatmap/event.json'
-import { EventKeys } from '@constants/events'
-import { EventType } from '@types'
 import { Text } from '../text'
 import { Control } from './control'
 import { PageText } from './page-text'
 import { memoStyles } from './styles'
+import { Props as HeatmapProps } from './types'
 
-type Props = {
-  [key: string]: string | number | boolean
-} & {
-  id?: EventKeys
-  right?: number
-  bottom?: number
-  transparent?: boolean
-  data?: EventType
-  mini?: boolean
-}
+export { HeatmapProps }
 
 const totalWithoutView = (heatmapData?.total || 0) - heatmapData['其他.查看']
 
@@ -49,7 +39,7 @@ const Heatmap = observer(
     alias,
     from,
     type
-  }: Props) => {
+  }: HeatmapProps) => {
     const { enabled, grid, text, sum, mini: devEventMini } = systemStore.devEvent
     if (!enabled || (!grid && !text && !sum && !devEventMini)) return null
 

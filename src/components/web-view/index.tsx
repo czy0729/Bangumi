@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 17:28:26
+ * @Last Modified time: 2022-10-19 14:21:57
  */
 import React from 'react'
 import RNWebView from '@components/@/web-view'
 import { KeyboardSpacer } from '../keyboard-spacer'
 
 export const WebView = class WebViewComponent extends React.Component<any> {
-  ref
-  stopLoading = Function.prototype
-  reload = Function.prototype
-  goBack = Function.prototype
+  ref: any
+
+  stopLoading = () => {}
+
+  reload = () => {}
+
+  goBack = () => {}
 
   render() {
     const { uri, ...other } = this.props as any

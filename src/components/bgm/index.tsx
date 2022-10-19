@@ -3,20 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-06 15:55:20
+ * @Last Modified time: 2022-10-19 13:40:14
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Source } from '@types'
 import { Image } from '../image'
+import { Props as BgmProps } from './types'
 
-type Props = {
-  /** 表情索引 */
-  index?: number
-
-  /** 表情大小 */
-  size?: number
-}
+export { BgmProps }
 
 let bgm: {
   [x: string]: Source
@@ -127,7 +122,7 @@ function init() {
   }
 }
 
-export const Bgm = observer(({ index = 1, size = 20, ...other }: Props) => {
+export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
   if (!bgm) init()
 
   return (

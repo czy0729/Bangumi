@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 13:21:03
+ * @Last Modified time: 2022-10-19 14:00:01
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -21,7 +21,7 @@ import { Props as ImageViewerProps } from './types'
 
 export { ImageViewerProps }
 
-const actionSheetDS = ['浏览器打开图片', '取消']
+const ACTION_SHEET_DS = ['浏览器打开图片', '取消'] as const
 
 export const ImageViewer = observer(
   class ImageViewerComponent extends React.Component<ImageViewerProps> {
@@ -51,7 +51,7 @@ export const ImageViewer = observer(
 
       if (IOS) {
         // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
-        showActionSheet(actionSheetDS, (index: number) => {
+        showActionSheet(ACTION_SHEET_DS, (index: number) => {
           if (index === 0) {
             // const result = open(url)
             // if (result) onCancel()
@@ -61,7 +61,7 @@ export const ImageViewer = observer(
       } else {
         // @issue 安卓的 ActionSheet 在这个 Viewer 的下面
         onCancel()
-        showActionSheet(actionSheetDS, (index: number) => {
+        showActionSheet(ACTION_SHEET_DS, (index: number) => {
           if (index === 0) open(url)
         })
       }

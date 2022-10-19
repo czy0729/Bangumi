@@ -3,41 +3,21 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 18:16:14
+ * @Last Modified time: 2022-10-19 14:03:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { ViewStyle, ReactNode } from '@types'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
+import { Props as MenuProps } from './types'
 
-type TitleItemType =
-  | string
-  | {
-      type?: string
-      title: ReactNode
-      disabled?: boolean
-    }
-
-type DataItemType =
-  | string
-  | {
-      type?: string
-      title?: string
-    }
-
-type Props = {
-  style?: ViewStyle
-  title?: TitleItemType[]
-  data?: DataItemType[]
-  onSelect?: (title?: string) => any
-}
+export { MenuProps }
 
 export const Menu = observer(
-  ({ style, title = [], data = [], onSelect = () => {} }: Props) => {
+  ({ style, title = [], data = [], onSelect = () => {} }: MenuProps) => {
     const styles = memoStyles()
     return (
       <View style={[styles.container, style]}>

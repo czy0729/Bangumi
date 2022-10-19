@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 20:52:52
+ * @Last Modified time: 2022-10-19 14:00:10
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -11,6 +11,7 @@ import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
 import { IOS } from '@constants/constants'
+import { Fn } from '@types'
 import { getSystemStoreAsync, s2tAsync } from '../async'
 
 /** Loading */
@@ -104,8 +105,8 @@ export function info(
  * https://rn.mobile.ant.design/components/action-sheet-cn/
  */
 export function showActionSheet(
-  options = [],
-  callback = () => {},
+  options = [] as string[] | readonly string[],
+  callback = (() => {}) as Fn,
   // @ts-ignore
   { title, message, cancelButtonIndex, destructiveButtonIndex } = {}
 ) {

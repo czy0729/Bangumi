@@ -3,22 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 11:04:02
+ * @Last Modified time: 2022-10-19 13:44:38
  */
 import React, { useState, useEffect } from 'react'
-import { TextProps } from 'react-native'
 import { getTimestamp } from '@utils'
-import { Override } from '@types'
 import { Text } from '../text'
+import { Props as CountDownProps } from './types'
 
-type Props = Override<
-  TextProps,
-  {
-    end: number
-  }
->
+export { CountDownProps }
 
-export const CountDown = ({ end, ...other }: Props) => {
+export const CountDown = ({ end, ...other }: CountDownProps) => {
   const [now, setNow] = useState(getTimestamp())
   useEffect(() => {
     const interval = setInterval(() => {

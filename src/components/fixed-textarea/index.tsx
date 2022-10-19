@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 20:14:12
+ * @Last Modified time: 2022-10-19 13:53:05
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -20,19 +20,12 @@ import { KeyboardSpacer } from '../keyboard-spacer'
 import { Touchable } from '../touchable'
 import { NAMESPACE, MAX_HISTORY_COUNT, SOURCE_FLAG, SOURCE_TEXT } from './ds'
 import { memoStyles } from './styles'
+import { Props as FixedTextareaProps } from './types'
 
-type Props = {
-  value?: string
-  placeholder?: string
-  simple?: boolean
-  source?: boolean
-  onClose?: (arg0?: any) => any
-  onChange?: (value: string) => any
-  onSubmit?: (value: string) => any
-}
+export { FixedTextareaProps }
 
 export const FixedTextarea = observer(
-  class FixedTextareaComponent extends React.Component<Props> {
+  class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     static defaultProps = {
       value: '',
       placeholder: '',

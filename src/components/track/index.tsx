@@ -4,27 +4,20 @@
  * @Author: czy0729
  * @Date: 2022-03-14 20:46:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 13:01:27
+ * @Last Modified time: 2022-10-19 14:16:29
  */
 import React from 'react'
 import { _ } from '@stores'
 import { useRunAfter } from '@utils/hooks'
 import { hm as utilsHM } from '@utils/fetch'
+import { EventKeys } from '@constants/events'
 import { Heatmap } from '../heatmap'
 import { UM } from './um'
+import { Props as TrackProps } from './types'
 
-type Props = {
-  /** 页面标题 */
-  title: string
+export { TrackProps }
 
-  /** 统计参数: [url地址, 对应页面key] */
-  hm?: [string] | [string, string]
-
-  /** 统计别名 */
-  alias?: string
-}
-
-export const Track = ({ title, hm, alias }: Props) => {
+export const Track = ({ title, hm, alias }: TrackProps) => {
   useRunAfter(() => {
     if (Array.isArray(hm)) utilsHM(...hm)
   })
@@ -33,7 +26,11 @@ export const Track = ({ title, hm, alias }: Props) => {
     <>
       {!!title && <UM title={title} />}
       {!!hm?.[1] && (
-        <Heatmap id={alias || title} screen={hm[1]} bottom={_.bottom + _.sm} />
+        <Heatmap
+          id={(alias || title) as EventKeys}
+          screen={hm[1]}
+          bottom={_.bottom + _.sm}
+        />
       )}
     </>
   )

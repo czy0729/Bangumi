@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-02 18:02:31
+ * @Last Modified time: 2022-10-19 14:06:19
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -16,23 +16,9 @@ import Animated, {
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { memoStyles } from './styles'
+import { Props as ProgressProps } from './types'
 
-type Props = {
-  /** 容器长度 */
-  width?: number
-
-  /** 是否显示 */
-  show?: boolean
-
-  /** 提示文字 */
-  message?: string
-
-  /** 当前计数 */
-  current: number
-
-  /** 总计数 */
-  total: number
-}
+export { ProgressProps }
 
 export const Progress = ({
   width = 200,
@@ -40,7 +26,7 @@ export const Progress = ({
   message = '请求中',
   current = 0,
   total = 1
-}: Props) => {
+}: ProgressProps) => {
   const w = useSharedValue(current / (total || 1))
   const barStyle = useAnimatedStyle(() => {
     return {
