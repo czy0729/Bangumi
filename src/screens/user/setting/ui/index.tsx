@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 17:22:00
+ * @Last Modified time: 2022-10-19 14:37:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -507,7 +507,7 @@ function UI({ filter }) {
 
           {/* 切页动画 */}
           <ItemSetting
-            show={shows.transition && !IOS}
+            show={shows.transition}
             ft={
               <SegmentedControl
                 style={commonStyles.segmentedControl}

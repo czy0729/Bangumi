@@ -21,7 +21,7 @@
 #### 步骤 3
 
 账号: bgm@tv.com
-密码: 123456
+密码: 12345678
 
 <img src="https://github.com/czy0729/Bangumi/blob/master/web/preview/test3.png" width="260" alt="test3" />
 
