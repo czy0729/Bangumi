@@ -13,21 +13,15 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-27 17:15:23
+ * @Last Modified time: 2022-10-21 15:09:51
  */
 import React from 'react'
 import { View, Image as RNImage, ImageProps as RNImageProps } from 'react-native'
 import { observer } from 'mobx-react'
-import {
-  CacheManager
-  // Image as AnimatedImage
-} from '@components/@/react-native-expo-image-cache'
+import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
-import {
-  IOS
-  //  IMG_EMPTY, IMG_EMPTY_DARK
-} from '@constants'
+import { IOS } from '@constants'
 import { Source } from '@types'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'

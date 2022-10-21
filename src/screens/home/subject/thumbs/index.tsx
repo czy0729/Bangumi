@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:38:25
+ * @Last Modified time: 2022-10-21 15:07:29
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { open } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import IconPreview from '../icon/preview'
 import IconHidden from '../icon/hidden'
 import Video from './video'
 import Preview from './preview'
@@ -89,7 +90,13 @@ class Thumbs extends React.Component {
       <View style={[_.mt.lg, !showThumbs && _.short]}>
         <SectionTitle
           style={_.container.wind}
-          right={!showThumbs && <IconHidden name={this.title} value='showThumbs' />}
+          right={
+            showThumbs ? (
+              <IconPreview data={$.state.epsThumbs} headers={epsThumbsHeader} />
+            ) : (
+              <IconHidden name={this.title} value='showThumbs' />
+            )
+          }
           icon={!showThumbs && 'md-navigate-next'}
           onPress={() => $.onSwitchBlock('showThumbs')}
         >
