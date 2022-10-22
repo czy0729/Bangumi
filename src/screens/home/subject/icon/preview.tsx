@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-21 13:06:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-21 13:25:34
+ * @Last Modified time: 2022-10-22 13:20:39
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
-import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -29,7 +28,8 @@ function IconPreview({ data, headers }, { $, navigation }: Ctx) {
 
         navigation.push('Preview', {
           subjectId: $.subjectId,
-          name: cnjp($.cn, $.jp),
+          cn: $.cn,
+          jp: $.jp,
           data,
           headers
         })

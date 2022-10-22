@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-21 15:07:29
+ * @Last Modified time: 2022-10-22 14:10:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -75,6 +75,17 @@ class Thumbs extends React.Component {
     }))
   }
 
+  renderRight() {
+    const { showThumbs } = systemStore.setting
+    const { $ }: Ctx = this.context
+    const { epsThumbsHeader } = $.state
+    if (!showThumbs) return <IconHidden name={this.title} value='showThumbs' />
+
+    if ($.isLimit) return null
+
+    return <IconPreview data={$.state.epsThumbs} headers={epsThumbsHeader} />
+  }
+
   render() {
     global.rerender('Subject.Thumbs')
 
@@ -90,13 +101,7 @@ class Thumbs extends React.Component {
       <View style={[_.mt.lg, !showThumbs && _.short]}>
         <SectionTitle
           style={_.container.wind}
-          right={
-            showThumbs ? (
-              <IconPreview data={$.state.epsThumbs} headers={epsThumbsHeader} />
-            ) : (
-              <IconHidden name={this.title} value='showThumbs' />
-            )
-          }
+          right={this.renderRight()}
           icon={!showThumbs && 'md-navigate-next'}
           onPress={() => $.onSwitchBlock('showThumbs')}
         >

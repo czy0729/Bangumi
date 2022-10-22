@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-21 12:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-21 13:25:55
+ * @Last Modified time: 2022-10-22 12:48:53
  */
 import { factory } from '@utils'
 import { Navigation, SubjectId } from '@types'
@@ -19,7 +19,8 @@ export type Ctx = {
 
 export type Params = {
   subjectId: SubjectId
-  name?: string
+  cn?: string
+  jp?: string
   data: string[]
   headers: any
 }

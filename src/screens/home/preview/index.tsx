@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-21 12:29:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-21 14:51:23
+ * @Last Modified time: 2022-10-22 13:15:50
  */
 import React from 'react'
 import { Page } from '@components'
@@ -21,7 +21,7 @@ const Preview = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <>
       <Header />
-      <Page>
+      <Page loaded={$.state._loaded}>
         <List />
       </Page>
     </>
