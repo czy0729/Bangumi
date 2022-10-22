@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 19:00:12
+ * @Last Modified time: 2022-10-22 01:45:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,14 +16,15 @@ import {
   getUserStatus
 } from '@components'
 import { _ } from '@stores'
+import { HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { memoStyles } from './styles'
+import { Ctx } from '../types'
 
 const AVATAR_SIZE = _.r(88)
 
-function Head({ style }, { $, navigation }) {
+function Head({ style }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { _id, _name } = $.params
   const { originUid } = $.state

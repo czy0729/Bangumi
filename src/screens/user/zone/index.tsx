@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 07:20:48
+ * @Last Modified time: 2022-10-22 11:03:58
  */
 import React, { useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
@@ -11,8 +11,9 @@ import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Page from './page'
 import Store from './store'
+import { Ctx } from './types'
 
-const Zone = (props, { $ }) => {
+const Zone = (props, { $ }: Ctx) => {
   const isFocused = useIsFocused()
 
   useRunAfter(() => {

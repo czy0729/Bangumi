@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-09 12:00:25
+ * @Last Modified time: 2022-10-22 09:34:41
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,12 +10,21 @@ import { Loading, Flex, Text, Image } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, timelineStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { hash, HOST_CDN, VERSIONS_AVATAR, SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { MODEL_TIMELINE_TYPE } from '@constants/model'
+import {
+  HOST_CDN,
+  MODEL_TIMELINE_TYPE,
+  SCROLL_VIEW_RESET_PROPS,
+  VERSIONS_AVATAR,
+  hash
+} from '@constants'
+import { TimeLineType } from '@types'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-export default
-@obc
-class UsedModal extends React.Component {
+class UsedModal extends React.Component<{
+  defaultAvatar?: string
+  visible?: boolean
+}> {
   static defaultProps = {
     title: '',
     visible: false
@@ -33,6 +42,7 @@ class UsedModal extends React.Component {
     ]
   }
 
+  // @ts-ignore
   UNSAFE_componentWillReceiveProps({ visible }) {
     if (visible && !this.state.name._loaded) {
       this.checkUsedName()
@@ -41,12 +51,12 @@ class UsedModal extends React.Component {
   }
 
   checkUsedName = async () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { id, username } = $.usersInfo
     const userId = username || id
     const data = {
       userId,
-      type: MODEL_TIMELINE_TYPE.getValue('吐槽')
+      type: MODEL_TIMELINE_TYPE.getValue<TimeLineType>('吐槽')
     }
     await timelineStore.fetchUsersTimeline(data, true)
     await timelineStore.fetchUsersTimeline(data)
@@ -70,7 +80,7 @@ class UsedModal extends React.Component {
   }
 
   checkUserAvatar = async () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { avatar } = $.usersInfo
     const { medium } = avatar || {}
     let _src = String(medium || '').split('?')[0]
@@ -88,9 +98,7 @@ class UsedModal extends React.Component {
       avatar: [this.props.defaultAvatar, ...sources]
     })
 
-    /**
-     * @todo 比较图片相似度
-     */
+    /** @todo 比较图片相似度 */
     // let loaded = 0
     // sources.forEach(async (item, index) => {
     //   const { _response } = await xhrCustom({
@@ -118,10 +126,10 @@ class UsedModal extends React.Component {
         horizontal
         {...SCROLL_VIEW_RESET_PROPS}
       >
-        {avatar.map(item => (
+        {avatar.map((item, index) => (
           <Image
+            key={index}
             style={_.mr.sm}
-            key={item}
             src={item}
             size={40}
             radius={20}
@@ -166,7 +174,7 @@ class UsedModal extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { visible } = this.props
     return (
       <Modal
@@ -191,32 +199,4 @@ class UsedModal extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  modal: {
-    width: (_.window.width - 2 * _.wind) * _.ratio,
-    maxWidth: 320 * _.ratio,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
-  },
-  content: {
-    paddingHorizontal: _.sm
-  },
-  avatars: {
-    minHeight: 40 * _.ratio,
-    paddingVertical: _.sm,
-    marginTop: _.sm
-  },
-  names: {
-    height: 240 * _.ratio,
-    paddingVertical: _.sm
-  },
-  item: {
-    paddingVertical: _.sm
-  },
-  date: {
-    width: 80 * _.ratio
-  },
-  empty: {
-    height: '100%'
-  }
-}))
+export default obc(UsedModal)

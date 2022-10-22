@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-04 07:25:10
+ * @Last Modified time: 2022-10-22 01:59:58
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,53 +17,35 @@ import {
   systemStore,
   rakuenStore
 } from '@stores'
+import { HTMLDecode, info, loading, feedback } from '@utils'
 import store from '@utils/store'
-import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
-import { HTMLDecode } from '@utils/html'
-import { info, loading, feedback } from '@utils/ui'
 import { fixedRemote } from '@utils/user-setting'
-import { HOST } from '@constants'
-import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
+import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
+import { Navigation, TimeLineScope, TimeLineType } from '@types'
 import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/ds'
-import { TABS, TABS_WITH_TINYGRAIL } from './ds'
+import { NAMESPACE, STATE, EXCLUDE_STATE, TABS, TABS_WITH_TINYGRAIL } from './ds'
+import { Params } from './types'
 
 export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
 
-const namespace = 'ScreenZone'
-const excludeState = {
-  visible: false,
-  timeout: false,
-  originUid: false,
-  fixed: false // 头部是否置顶
-}
-
 export default class ScreenZone extends store {
-  state = observable({
-    expand: {
-      在看: true,
-      看过: false,
-      想看: false,
-      搁置: false,
-      抛弃: false
-    },
-    page: 0,
-    ...excludeState,
-    _loaded: false
-  })
+  params: Params
+
+  state = observable(STATE)
 
   scrollY = new Animated.Value(0)
 
   y = 0
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
       page: this.fromTinygrail
         ? TABS_WITH_TINYGRAIL.findIndex(item => item.key === 'tinygrail')
         : 0,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
@@ -80,67 +62,44 @@ export default class ScreenZone extends store {
   }
 
   // -------------------- get --------------------
-  /**
-   * 标签页数据
-   */
+  /** 标签页数据 */
   @computed get tabs() {
     const { tinygrail } = systemStore.setting
     return tinygrail ? TABS_WITH_TINYGRAIL : TABS
   }
 
-  /**
-   * 从小圣杯模块跳转过来
-   */
+  /** 是否从小圣杯模块跳转过来 */
   @computed get fromTinygrail() {
     const { from } = this.params
     return from === 'tinygrail'
   }
 
-  /**
-   * 用户原始userId (数字)
-   */
+  /** 用户原始 userId (数字) */
   @computed get userId() {
     return this.params?.userId || ''
   }
 
-  /**
-   * 用户信息
-   */
+  /** 用户信息 */
   @computed get usersInfo() {
     return userStore.usersInfo(this.userId)
   }
 
-  /**
-   * 用户自定义唯一userId
-   */
+  /** 用户自定义唯一 userId */
   @computed get username() {
     return this.usersInfo.username
   }
 
-  /**
-   * 用户番剧收藏
-   */
+  /** 用户番剧收藏 */
   @computed get userCollections() {
-    const userCollections = userStore.userCollections(undefined, this.userId)
-    if (userStore.isLimit) {
-      return {
-        ...userCollections,
-        list: userCollections.list.filter(item => !x18(item.id))
-      }
-    }
-    return userCollections
+    return userStore.userCollections(undefined, this.userId)
   }
 
-  /**
-   * 用户时间胶囊
-   */
+  /** 用户时间胶囊 */
   @computed get usersTimeline() {
     return timelineStore.usersTimeline(this.userId)
   }
 
-  /**
-   * 用户历史帖子 (网页没有此功能, 数据为自行整理)
-   */
+  /** 用户历史帖子 (网页没有此功能, 数据为自行整理) */
   @computed get userTopicsFormCDN() {
     const { advance } = systemStore
     const { id, username } = this.usersInfo
@@ -156,25 +115,19 @@ export default class ScreenZone extends store {
     }
   }
 
-  /**
-   * 用户信息
-   */
+  /** 用户信息 */
   @computed get users() {
     return usersStore.users(this.userId)
   }
 
-  /**
-   * 自定义背景
-   */
+  /** 自定义背景 */
   @computed get bg() {
     const { sign = '' } = this.users
     const bgs = sign.match(/\[bg\](.+?)\[\/bg\]/)
     return fixedRemote(HTMLDecode(bgs ? String(bgs[1]).trim() : ''))
   }
 
-  /**
-   * 自定义头像
-   */
+  /** 自定义头像 */
   @computed get avatar() {
     const { sign = '' } = this.users
     const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
@@ -182,33 +135,28 @@ export default class ScreenZone extends store {
     return fixedRemote(HTMLDecode(src), true)
   }
 
-  /**
-   * 实际显示头像地址
-   */
+  /** 实际显示头像地址 */
   @computed get src() {
     const { _image } = this.params
-    const { avatar = {} } = this.usersInfo
-    return this.avatar || _image || avatar.large
+    const { avatar } = this.usersInfo
+    return this.avatar || _image || avatar?.large
   }
 
-  /**
-   * 小圣杯 / 用户资产
-   */
+  /** 小圣杯 / 用户资产 */
   @computed get userAssets() {
+    // @ts-ignore
     return tinygrailStore.userAssets(this.username)
   }
 
-  /**
-   * 小圣杯 / 总圣殿数
-   */
+  /** 小圣杯 / 总圣殿数 */
   @computed get templeTotal() {
+    // @ts-ignore
     return tinygrailStore.templeTotal(this.username)
   }
 
-  /**
-   * 小圣杯 / 总人物数
-   */
+  /** 小圣杯 / 总人物数 */
   @computed get charaTotal() {
+    // @ts-ignore
     return tinygrailStore.charaTotal(this.username)
   }
 
@@ -226,79 +174,69 @@ export default class ScreenZone extends store {
   }
 
   // -------------------- fetch --------------------
-  /**
-   * 用户信息 (自己视角)
-   */
-  fetchUsersInfo = () => userStore.fetchUsersInfo(this.userId)
+  /** 用户信息 (自己视角) */
+  fetchUsersInfo = () => {
+    return userStore.fetchUsersInfo(this.userId)
+  }
 
-  /**
-   * 用户信息 (他人视角)
-   */
-  fetchUsers = () =>
-    usersStore.fetchUsers({
+  /** 用户信息 (他人视角) */
+  fetchUsers = () => {
+    return usersStore.fetchUsers({
       userId: this.userId
     })
+  }
 
-  /**
-   * 用户番剧信息
-   */
-  fetchUserCollections = () => userStore.fetchUserCollections(undefined, this.userId)
+  /** 用户番剧信息 */
+  fetchUserCollections = () => {
+    return userStore.fetchUserCollections(undefined, this.userId)
+  }
 
-  /**
-   * 用户时间胶囊
-   */
-  fetchUsersTimeline = refresh =>
-    timelineStore.fetchUsersTimeline(
+  /** 用户时间胶囊 */
+  fetchUsersTimeline = (refresh: boolean = false) => {
+    return timelineStore.fetchUsersTimeline(
       {
         userId: this.userId
       },
       refresh
     )
+  }
 
-  /**
-   * 用户历史帖子
-   */
+  /** 用户历史帖子 */
   fetchUserTopicsFormCDN = () => {
     const { id, username } = this.usersInfo
     return rakuenStore.fetchUserTopicsFormCDN(username || id)
   }
 
-  /**
-   * 小圣杯 / 用户资产
-   */
-  fetchCharaAssets = () => tinygrailStore.fetchUserAssets(this.username)
+  /** 小圣杯 / 用户资产 */
+  fetchCharaAssets = () => {
+    return tinygrailStore.fetchUserAssets(this.username)
+  }
 
-  /**
-   * 小圣杯 / 总圣殿数
-   */
-  fetchTempleTotal = () => tinygrailStore.fetchTempleTotal(this.username)
+  /** 小圣杯 / 总圣殿数 */
+  fetchTempleTotal = () => {
+    return tinygrailStore.fetchTempleTotal(this.username)
+  }
 
-  /**
-   * 小圣杯 / 总人物数
-   */
-  fetchCharaTotal = () => tinygrailStore.fetchCharaTotal(this.username)
+  /** 小圣杯 / 总人物数 */
+  fetchCharaTotal = () => {
+    return tinygrailStore.fetchCharaTotal(this.username)
+  }
 
   // -------------------- page --------------------
   scrollToOffset = {}
+
   scrollTo = {}
 
-  /**
-   * 收集 ListView | ScrollView 引用
-   * @param {*} ref
-   * @param {*} index
-   */
-  connectRef = (ref, index) => {
+  /** 收集 ListView | ScrollView 引用 */
+  connectRef = (ref: any, index: number) => {
     this.scrollToOffset[index] = ref?.scrollToOffset
 
     // android: scrollResponderScrollTo, ios: scrollTo
     this.scrollTo[index] = ref?.scrollResponderScrollTo || ref?.scrollTo
   }
 
-  /**
-   * 使用合适的方法滚动到指定位置
-   * @param {*} index
-   */
-  updatePageOffset = (index = [-1, 1]) => {
+  /** 使用合适的方法滚动到指定位置 */
+  updatePageOffset = (index: number[] = [-1, 1]) => {
     const { page, fixed } = this.state
 
     const offset = fixed ? this.h_fixed : this.y
@@ -321,11 +259,14 @@ export default class ScreenZone extends store {
     })
   }
 
-  /**
-   * 滚动事件, 控制顶部背景是否固定
-   * @param {*} e
-   */
-  onScroll = e => {
+  /** 滚动事件, 控制顶部背景是否固定 */
+  onScroll = (e: {
+    nativeEvent: {
+      contentOffset: {
+        y: any
+      }
+    }
+  }) => {
     const { fixed } = this.state
     const { y } = e.nativeEvent.contentOffset
     this.y = y
@@ -345,11 +286,8 @@ export default class ScreenZone extends store {
     }
   }
 
-  /**
-   * 标签页切换
-   * @param {*} page
-   */
-  onTabChange = page => {
+  /** 标签页切换 */
+  onTabChange = (page: number) => {
     t('空间.标签页切换', {
       userId: this.userId,
       page
@@ -361,11 +299,8 @@ export default class ScreenZone extends store {
     this.onTabChangeCallback(page)
   }
 
-  /**
-   * 标签页切换后回调, 延迟请求对应页面数据
-   * @param {*} page
-   */
-  onTabChangeCallback = async page => {
+  /** 标签页切换后回调, 延迟请求对应页面数据 */
+  onTabChangeCallback = async (page: number) => {
     const { title } = this.tabs[page]
     if (title === '时间胶囊') {
       await this.fetchUsersTimeline(true)
@@ -383,9 +318,7 @@ export default class ScreenZone extends store {
     setTimeout(() => this.updatePageOffset([0]), 0)
   }
 
-  /**
-   * 若干秒后, 若用户帖子为空, 认为该用户没有发过帖子
-   */
+  /** 若干秒后, 若用户帖子为空, 认为该用户没有发过帖子 */
   checkUserTopicsIsTimeout = () => {
     setTimeout(() => {
       if (this.userTopicsFormCDN.list.length === 0) {
@@ -396,11 +329,8 @@ export default class ScreenZone extends store {
     }, 3600)
   }
 
-  /**
-   * 番剧展开分组
-   * @param {*} title
-   */
-  onToggleSection = title => {
+  /** 番剧展开分组 */
+  onToggleSection = (title: string) => {
     const { expand } = this.state
     t('空间.展开分组', {
       userId: this.userId,
@@ -414,44 +344,35 @@ export default class ScreenZone extends store {
         [title]: !expand[title]
       }
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 去用户的所有收藏页面
-   * @param {*} navigation
-   */
-  navigateToUser = navigation => {
+  /** 去用户的所有收藏页面 */
+  navigateToUser = (navigation: Navigation) => {
     const { _name } = this.params
-    const { avatar = {}, nickname, username } = this.usersInfo
+    const { avatar, nickname, username } = this.usersInfo
     navigation.push('User', {
       userId: username,
       _name: HTMLDecode(nickname || _name),
-      _image: avatar.large
+      _image: avatar?.large
     })
   }
 
-  /**
-   * 打开用户信息历史
-   */
+  /** 打开用户信息历史 */
   openUsedModal = () => {
     this.setState({
       visible: true
     })
   }
 
-  /**
-   * 关闭用户信息历史
-   */
+  /** 关闭用户信息历史 */
   closeUsedModal = () => {
     this.setState({
       visible: false
     })
   }
 
-  /**
-   * 切换用户原始Id
-   */
+  /** 切换用户原始 Id */
   toggleOriginUid = () => {
     const { originUid } = this.state
     this.setState({
@@ -459,15 +380,12 @@ export default class ScreenZone extends store {
     })
   }
 
-  /**
-   * 显示好友状态
-   *  - 在 timelineStore 查找添加好友的时间, 最多请求 3 页
-   */
+  /** 显示好友状态 (在 timelineStore 查找添加好友的时间, 最多请求 3 页) */
   logFriendStatus = async () => {
     const { username } = this.usersInfo
     const query = {
-      scope: MODEL_TIMELINE_SCOPE.getValue('自己'),
-      type: MODEL_TIMELINE_TYPE.getValue('好友')
+      scope: MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己'),
+      type: MODEL_TIMELINE_TYPE.getValue<TimeLineType>('好友')
     }
 
     const hide = loading('查询好友信息中...')
@@ -489,9 +407,7 @@ export default class ScreenZone extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 添加好友
-   */
+  /** 添加好友 */
   doConnect = async () => {
     t('空间.添加好友', {
       userId: this.userId
@@ -508,9 +424,7 @@ export default class ScreenZone extends store {
     }
   }
 
-  /**
-   * 解除好友
-   */
+  /** 解除好友 */
   doDisconnect = async () => {
     t('空间.解除好友', {
       userId: this.userId
@@ -527,10 +441,8 @@ export default class ScreenZone extends store {
     }
   }
 
-  /**
-   * 删除时间线
-   */
-  doDelete = async href => {
+  /** 删除时间线 */
+  doDelete = async (href: string) => {
     if (!href) return false
 
     const res = fetchHTML({
@@ -541,7 +453,6 @@ export default class ScreenZone extends store {
     feedback()
 
     this.fetchUsersTimeline(true)
-
     return res
   }
 }

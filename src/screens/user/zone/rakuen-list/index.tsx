@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 17:42:17
+ * @Last Modified time: 2022-10-22 10:45:53
  */
 import React from 'react'
 import { Loading, ListView, Text, Heatmap } from '@components'
@@ -10,25 +10,32 @@ import { SectionHeader } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import RakuenItem from './rakuen-item'
-import { TABS } from './ds'
+import { Fn } from '@types'
+import RakuenItem from '../rakuen-item'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-const event = {
+const EVENT = {
   id: '空间.跳转',
   data: {
     from: '超展开'
   }
-}
+} as const
 
-class RakuenList extends React.Component {
+class RakuenList extends React.Component<{
+  ListHeaderComponent: any
+  scrollEventThrottle: number
+  onScroll: Fn
+}> {
   connectRef = ref => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const index = TABS.findIndex(item => item.title === '超展开')
     return $.connectRef(ref, index)
   }
 
   toQiafan = () => {
-    const { navigation } = this.context
+    const { navigation }: Ctx = this.context
     t('空间.跳转', {
       from: '高级会员',
       to: 'Qiafan'
@@ -42,24 +49,16 @@ class RakuenList extends React.Component {
   )
 
   renderItem = ({ item, index }) => {
-    const { navigation } = this.context
+    const { navigation }: Ctx = this.context
     return (
-      <RakuenItem navigation={navigation} index={index} event={event} {...item}>
-        {!index && (
-          <Heatmap
-            id='空间.跳转'
-            data={{
-              to: 'Topic',
-              alias: '帖子'
-            }}
-          />
-        )}
+      <RakuenItem navigation={navigation} index={index} event={EVENT} {...item}>
+        {!index && <Heatmap id='空间.跳转' to='Topic' alias='帖子' />}
       </RakuenItem>
     )
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { timeout } = $.state
     if (!$.userTopicsFormCDN._loaded) {
       return (
@@ -69,6 +68,7 @@ class RakuenList extends React.Component {
       )
     }
 
+    // @ts-ignore
     const { _filter = 0 } = $.userTopicsFormCDN
     const ListFooterComponent =
       _filter > 0 ? (
@@ -105,12 +105,6 @@ class RakuenList extends React.Component {
 }
 
 export default obc(RakuenList)
-
-const styles = _.create({
-  loading: {
-    marginTop: _.window.height / 3
-  }
-})
 
 function keyExtractor(item) {
   return String(item.id)

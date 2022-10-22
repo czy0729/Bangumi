@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 17:43:29
+ * @Last Modified time: 2022-10-22 09:20:45
  */
 import React from 'react'
 import {
@@ -16,25 +16,31 @@ import {
 } from '@components'
 import { SectionHeader, ItemBangumiList } from '@_'
 import { _ } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { keyExtractor } from '@utils/app'
 import { t } from '@utils/fetch'
-import { TABS } from './ds'
+import { Fn, Navigation } from '@types'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const event = {
+const EVENT = {
   id: '空间.跳转'
-}
+} as const
 
-class BangumiList extends React.Component {
+class BangumiList extends React.Component<{
+  ListHeaderComponent: any
+  scrollEventThrottle: number
+  onScroll: Fn
+}> {
   connectRef = ref => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const index = TABS.findIndex(item => item.title === '番剧')
     return $.connectRef(ref, index)
   }
 
   renderSectionHeader = ({ section: { title, count } }) => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { expand } = $.state
     return (
       <Touchable style={this.styles.section} onPress={() => $.onToggleSection(title)}>
@@ -59,7 +65,7 @@ class BangumiList extends React.Component {
     )
   }
 
-  ListFooterComponent = ($, navigation) => (
+  ListFooterComponent = ($: Ctx['$'], navigation: Navigation) => (
     <Flex style={_.mt.lg} justify='center'>
       <Touchable
         style={this.styles.touch}
@@ -78,7 +84,7 @@ class BangumiList extends React.Component {
   )
 
   render() {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     if (!$.userCollections._loaded) return <Loading style={this.styles.loading} />
 
     const { expand } = $.state
@@ -116,7 +122,7 @@ class BangumiList extends React.Component {
                     subjectId={item.id}
                     images={item.images}
                     name={cnjp(item.name_cn, item.name)}
-                    event={event}
+                    event={EVENT}
                   />
                 ))}
               {title.includes('在看') && (
@@ -139,30 +145,3 @@ class BangumiList extends React.Component {
 }
 
 export default obc(BangumiList)
-
-const memoStyles = _.memoStyles(() => ({
-  loading: {
-    marginTop: _.window.height / 3
-  },
-  contentContainerStyle: {
-    paddingHorizontal: _.wind - _._wind,
-    paddingBottom: _.bottom,
-    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
-  },
-  sectionHeader: {
-    paddingHorizontal: _._wind,
-    backgroundColor: _.colorPlain
-  },
-  section: {
-    backgroundColor: _.colorBg
-  },
-  touch: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.md,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  arrow: {
-    marginRight: -3
-  }
-}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 18:49:20
+ * @Last Modified time: 2022-10-22 09:44:52
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -13,18 +13,20 @@ import { open, copy, info, HTMLDecode, confirm, getBlurRadius } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS, HOST } from '@constants'
-import Head from './head'
-import { H_HEADER, H_RADIUS_LINE } from './store'
+import Head from '../head'
+import { H_HEADER } from '../store'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function ParallaxImage(props, { $, navigation }) {
+function ParallaxImage(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { _image, _name } = $.params
   const { fixed } = $.state
-  const { avatar = {}, nickname, id, username } = $.usersInfo
+  const { avatar, nickname, id, username } = $.usersInfo
   const { disconnectUrl } = $.users
   const isFriend = !!disconnectUrl
 
-  const parallaxStyle = {
+  const parallaxStyle: any = {
     transform: [
       {
         translateY: $.scrollY.interpolate({
@@ -65,7 +67,7 @@ function ParallaxImage(props, { $, navigation }) {
     data.push('解除好友')
   }
 
-  let uri = avatar.large
+  let uri: any = avatar?.large
   if (_image) {
     if (_image?.indexOf('http') === 0) {
       uri = _image
@@ -129,7 +131,7 @@ function ParallaxImage(props, { $, navigation }) {
               size={28}
               src={$.src}
               borderWidth={0}
-              fallbackSrc={avatar.large}
+              fallbackSrc={avatar?.large}
             />
             <Text
               style={_.ml.sm}
@@ -262,72 +264,3 @@ function ParallaxImage(props, { $, navigation }) {
 }
 
 export default obc(ParallaxImage)
-
-const memoStyles = _.memoStyles(() => ({
-  parallax: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    left: 0
-  },
-  parallaxImage: {
-    marginTop: -8,
-    height: _.parallaxImageHeight + 8
-  },
-  parallaxWrap: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: -2,
-    left: 0
-  },
-  parallaxLine: {
-    position: 'absolute',
-    right: 0,
-    bottom: -1,
-    left: 0,
-    height: H_RADIUS_LINE,
-    backgroundColor: _.select(
-      _.colorPlain,
-      _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-    ),
-    borderTopLeftRadius: H_RADIUS_LINE,
-    borderTopRightRadius: H_RADIUS_LINE,
-    overflow: 'hidden'
-  },
-  head: {
-    marginTop: (_.parallaxImageHeight - 120) / 2
-  },
-  title: {
-    position: 'absolute',
-    left: '50%',
-    width: 240,
-    bottom: H_RADIUS_LINE + 14,
-    transform: [
-      {
-        translateX: -120
-      }
-    ]
-  },
-  back: {
-    zIndex: 1,
-    marginTop: _.platforms(-8, -8, -8, 0)
-  },
-  right: {
-    zIndex: 1,
-    marginTop: _.platforms(-6, -6, -6, 0)
-  },
-  touch: {
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  icon: {
-    width: 34,
-    height: 36,
-    marginRight: -2
-  },
-  avatar: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)'
-  }
-}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 06:46:26
+ * @Last Modified time: 2022-10-22 10:56:03
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -12,17 +12,25 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import ListHeader from './list-header'
-import BangumiList from './bangumi-list'
-import TimelineList from './timeline-list'
-import RakuenList from './rakuen-list'
-import About from './about'
-import Tinygrail from './tinygrail'
-import { H_HEADER, H_RADIUS_LINE } from './store'
+import { Fn } from '@types'
+import ListHeader from '../list-header'
+import BangumiList from '../bangumi-list'
+import TimelineList from '../timeline-list'
+import RakuenList from '../rakuen-list'
+import About from '../about'
+import Tinygrail from '../tinygrail'
+import { H_HEADER } from '../store'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-class Tab extends React.Component {
-  onIndexChange = index => {
-    const { $ } = this.context
+class Tab extends React.Component<{
+  scrollEventThrottle: number
+  onIndexChange: Fn
+  onScroll: Fn
+  onSwipeStart: Fn
+}> {
+  onIndexChange = (index: number) => {
+    const { $ }: Ctx = this.context
     const { onIndexChange } = this.props
     onIndexChange(index)
     $.onTabChange(index)
@@ -67,7 +75,7 @@ class Tab extends React.Component {
   })
 
   get navigationState() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { page } = $.state
     return {
       index: page,
@@ -76,7 +84,7 @@ class Tab extends React.Component {
   }
 
   get transform() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     return {
       transform: [
         {
@@ -108,7 +116,7 @@ class Tab extends React.Component {
   )
 
   renderTabBar = props => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const width = _.window.width / $.tabs.length
     return (
       <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
@@ -143,6 +151,7 @@ class Tab extends React.Component {
         key={_.orientation}
         lazy
         lazyPreloadDistance={1}
+        // @ts-ignore
         navigationState={this.navigationState}
         renderTabBar={this.renderTabBar}
         renderScene={this.renderScene}
@@ -158,48 +167,3 @@ class Tab extends React.Component {
 }
 
 export default obc(Tab)
-
-const commonStyle = {
-  tabBarWrap: {
-    position: 'absolute',
-    zIndex: 2,
-    top: -H_RADIUS_LINE + 2,
-    right: 0,
-    left: 0
-  },
-  label: {
-    padding: 0
-  },
-  labelText: {
-    width: '100%'
-  },
-  tabBarLeft: {
-    position: 'absolute',
-    zIndex: 3,
-    left: 0,
-    marginTop: 2
-  }
-}
-
-const memoStyles = _.memoStyles(() => ({
-  ...commonStyle,
-  tabBar: {
-    backgroundColor: _.select(
-      _.colorPlain,
-      _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-    ),
-    borderBottomWidth: _.select(_.hairlineWidth, 0),
-    borderBottomColor: _.colorBorder,
-    shadowOpacity: 0,
-    elevation: 0
-  },
-  tab: {
-    height: _.r(48)
-  },
-  indicator: {
-    width: _.r(16),
-    height: 4,
-    backgroundColor: _.colorMain,
-    borderRadius: 4
-  }
-}))

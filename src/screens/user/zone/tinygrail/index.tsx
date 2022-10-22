@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:32:14
+ * @Last Modified time: 2022-10-22 09:47:08
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
 import { Touchable, Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { HTMLDecode, formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HTMLDecode } from '@utils/html'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { TABS_WITH_TINYGRAIL } from './ds'
+import { TABS_WITH_TINYGRAIL } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Tinygrail(props, { $, navigation }) {
+function Tinygrail(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { assets, balance, lastIndex } = $.userAssets
   const { nickname } = $.usersInfo
@@ -53,13 +54,7 @@ function Tinygrail(props, { $, navigation }) {
             }}
           >
             <Text>查看TA的持仓</Text>
-            <Heatmap
-              id='空间.跳转'
-              data={{
-                to: 'TinygrailCharaAssets',
-                alias: '小圣杯持仓'
-              }}
-            />
+            <Heatmap id='空间.跳转' to='TinygrailCharaAssets' alias='小圣杯持仓' />
           </Touchable>
         </Flex>
       </View>
@@ -68,20 +63,3 @@ function Tinygrail(props, { $, navigation }) {
 }
 
 export default obc(Tinygrail)
-
-const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingTop: _.parallaxImageHeight + _.space * 2,
-    paddingHorizontal: _.wind,
-    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
-  },
-  page: {
-    minHeight: _.window.height - _.parallaxImageHeight
-  },
-  touch: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.md,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-}))

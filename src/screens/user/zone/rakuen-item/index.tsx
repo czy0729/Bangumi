@@ -2,22 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-10-22 19:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:11:38
+ * @Last Modified time: 2022-10-22 10:31:51
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 function Item(
-  { index, topicId, avatar, userName, title, group, date, time, userId, children },
-  { navigation }
+  { topicId, avatar, userName, title, group, date, time, userId, children },
+  { navigation }: Ctx
 ) {
   const styles = memoStyles()
   return (
     <Flex style={styles.container} align='start'>
-      <Flex.Item style={index !== 0 && !_.flat && styles.border}>
+      <Flex.Item>
         <Touchable
           style={styles.item}
           onPress={() => {
@@ -54,22 +56,3 @@ function Item(
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
-  },
-  image: {
-    marginRight: _.xs,
-    marginTop: _.md
-  },
-  item: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
-  }
-}))

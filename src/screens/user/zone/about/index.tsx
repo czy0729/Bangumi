@@ -2,18 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:32:00
+ * @Last Modified time: 2022-10-22 10:46:34
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
 import { RenderHtml } from '@components'
 import { _ } from '@stores'
+import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { TABS } from './ds'
+import { Fn } from '@types'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function About(props, { $, navigation }) {
+function About(
+  props: {
+    ListHeaderComponent: any
+    scrollEventThrottle: number
+    onScroll: Fn
+  },
+  { $, navigation }: Ctx
+) {
   const styles = memoStyles()
 
   // 去除APP内高清头像背景的代码
@@ -22,6 +32,7 @@ function About(props, { $, navigation }) {
       /<span style="font-size:0px; line-height:0px;">(.+?)<\/span>/g,
       ''
     ) || '(什么都没有)'
+
   return (
     <Animated.ScrollView
       ref={ref => {
@@ -57,14 +68,3 @@ function About(props, { $, navigation }) {
 }
 
 export default obc(About)
-
-const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingTop: _.parallaxImageHeight + _.space * 2,
-    paddingHorizontal: _.wind,
-    minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
-  },
-  page: {
-    minHeight: _.window.height - _.parallaxImageHeight
-  }
-}))
