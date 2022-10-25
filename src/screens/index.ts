@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-21 13:14:46
+ * @Last Modified time: 2022-10-25 15:36:04
  */
 // Login
 export { default as Login } from './login/index/index'
@@ -124,5 +124,5 @@ export { default as TinygrailValhall } from './tinygrail/valhall'
 export { default as BilibiliSync } from './web-view/bilibili-sync'
 export { default as DoubanSync } from './web-view/douban-sync'
 export { default as Share } from './web-view/share'
-export { default as Test } from './web-view/test'
+export { default as Playground } from './web-view/playground'
 export { default as WebView } from './web-view'

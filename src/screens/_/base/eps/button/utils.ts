@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-04 03:39:48
+ * @Last Modified time: 2022-10-25 16:56:02
  */
 import dayjs from 'dayjs'
-import { IOS } from '@constants'
+import { WSA } from '@constants'
 import { HTMLDecode } from '@utils'
 import { DEFAULT_PROPS } from './ds'
 
@@ -24,7 +24,7 @@ export function getPopoverData(
   )
 
   // 计算放送时间是否在今天以后
-  let canAddCalendar = !IOS && !userProgress[item.id] && !isSp
+  let canAddCalendar = !WSA && !userProgress[item.id] && !isSp
   try {
     if (canAddCalendar && item?.airdate) {
       canAddCalendar = String(item.airdate).localeCompare(today) !== -1
