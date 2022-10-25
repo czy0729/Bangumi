@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 14:57:36
+ * @Last Modified time: 2022-10-25 20:19:52
  */
 import { observable, computed } from 'mobx'
 import {
@@ -16,6 +16,8 @@ import {
   HTMLDecode,
   appNavigate,
   asc,
+  cnjp,
+  confirm,
   copy,
   debounce,
   desc,
@@ -32,7 +34,8 @@ import {
   t2s,
   unzipBangumiData,
   x18,
-  cnjp
+  sleep,
+  loading
 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
@@ -1026,6 +1029,35 @@ export default class ScreenHomeV2 extends store {
     })
   }, 800)
 
+  /** 菜单点击 */
+  onPopover = (label: string, subjectId: SubjectId) => {
+    switch (label) {
+      case '置顶':
+        this.itemToggleTop(subjectId, true)
+        break
+
+      case '取消置顶':
+        this.itemToggleTop(subjectId, false)
+        break
+
+      case '全部展开':
+        this.expandAll()
+        break
+
+      case '全部收起':
+        this.closeAll()
+        break
+
+      case '一键添加提醒':
+        this.doBatchSaveCalenderEvent(subjectId)
+        break
+
+      default:
+        this.onlinePlaySelected(label, subjectId)
+        break
+    }
+  }
+
   /** -------------------- action -------------------- */
   /** 观看下一章节 */
   doWatchedNextEp = async (subjectId: SubjectId) => {
@@ -1212,7 +1244,7 @@ export default class ScreenHomeV2 extends store {
     }
   }
 
-  /** 章节按钮长按 */
+  /** @deprecated 章节按钮长按 */
   doEpsLongPress = async (
     {
       id
@@ -1243,5 +1275,39 @@ export default class ScreenHomeV2 extends store {
 
     userStore.fetchCollectionSingle(subjectId)
     userStore.fetchUserProgress(subjectId)
+  }
+
+  /** 批量添加提醒 */
+  doBatchSaveCalenderEvent = async (subjectId: SubjectId) => {
+    const subject = this.subject(subjectId)
+    if (subject?.eps?.length) {
+      const eps = subject.eps.filter(item => item.type === 0 && item.status === 'NA')
+      if (!eps.length) {
+        info('已没有未放送的章节')
+        return
+      }
+
+      const title = cnjp(subject.name_cn, subject.name)
+      confirm(
+        `${title}
+      \n是否一键添加 ${eps.length} 个章节的提醒?`,
+        async () => {
+          const onAir = this.onAirCustom(subjectId)
+          const fns = eps.map(item => {
+            return async () => {
+              await sleep(80)
+              saveCalenderEvent(item, title, onAir, false)
+              return true
+            }
+          })
+
+          const fn = loading()
+          await queue(fns, 1)
+          fn()
+          info('已完成')
+          feedback()
+        }
+      )
+    }
   }
 }

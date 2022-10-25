@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-03 11:34:29
+ * @Last Modified time: 2022-10-25 19:47:02
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -825,7 +825,7 @@ export async function privacy() {
   )
 }
 
-/** 添加放送日程到日历 (安卓 only) */
+/** 添加放送日程到日历 */
 export function saveCalenderEvent(
   item: {
     airdate?: string
@@ -837,7 +837,8 @@ export function saveCalenderEvent(
   onAirCustom: {
     h?: string
     m?: string
-  } = {}
+  } = {},
+  showConfirm: boolean = true
 ) {
   setTimeout(async () => {
     const data = await RNCalendarEventsRequestPermissions()
@@ -865,21 +866,15 @@ export function saveCalenderEvent(
         title += subjectTitle || ''
 
         const format = 'YYYY-MM-DDTHH:mm:ss.000[Z]'
-        confirm(
-          `${title}
-          \n${date.format(format).replace('T', ' ').replace('.000Z', '')} 到\n${dateEnd
-            .format(format)
-            .replace('T', ' ')
-            .replace('.000Z', '')}
-          \n确定添加到日历中吗？`,
-          async () => {
-            date = date.subtract(8, 'hours')
-            dateEnd = dateEnd.subtract(8, 'hours')
-            const calendarId = await RNCalendarEventsSaveEvent(title, {
-              startDate: date.format(format),
-              endDate: dateEnd.format(format),
-              notes: String(url).replace('http://', 'https://')
-            })
+        const cb = async () => {
+          date = date.subtract(8, 'hours')
+          dateEnd = dateEnd.subtract(8, 'hours')
+          const calendarId = await RNCalendarEventsSaveEvent(title, {
+            startDate: date.format(format),
+            endDate: dateEnd.format(format),
+            notes: String(url).replace('http://', 'https://')
+          })
+          if (showConfirm) {
             setTimeout(() => {
               if (!calendarId) {
                 info('添加可能失败了，请检查')
@@ -888,9 +883,26 @@ export function saveCalenderEvent(
                 info('添加成功')
               }
             }, 240)
-          },
-          '放送提醒'
-        )
+          }
+        }
+
+        if (showConfirm) {
+          confirm(
+            `${title}
+            \n${date
+              .format(format)
+              .replace('T', ' ')
+              .replace('.000Z', '')} 到\n${dateEnd
+              .format(format)
+              .replace('T', ' ')
+              .replace('.000Z', '')}
+            \n确定添加到日历中吗？`,
+            cb,
+            '放送提醒'
+          )
+        } else {
+          cb()
+        }
       } catch (error) {
         info('功能出错，请联系开发者')
       }

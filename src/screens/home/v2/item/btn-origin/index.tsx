@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 03:17:43
+ * @Last Modified time: 2022-10-25 19:13:51
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -27,35 +27,23 @@ function BtnOrigin({ subjectId, isTop }: Props, { $ }: Ctx) {
   const subject = $.subject(subjectId)
   const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const data = [isTop ? '取消置顶' : '置顶', ...origins]
-  if (['动画', '三次元'].includes(title)) data.push('全部展开', '全部收起')
+  if (['动画', '三次元'].includes(title)) {
+    data.push('全部展开', '全部收起')
+
+    // 条目非 SP 章节有未播才显示此选项
+    if (
+      subject?.eps?.length &&
+      subject.eps.some(item => item.type === 0 && item.status === 'NA')
+    ) {
+      data.push('一键添加提醒')
+    }
+  }
 
   return (
     <Popover
       style={styles.touch}
       data={data}
-      onSelect={(label: string) => {
-        switch (label) {
-          case '置顶':
-            $.itemToggleTop(subjectId, true)
-            break
-
-          case '取消置顶':
-            $.itemToggleTop(subjectId, false)
-            break
-
-          case '全部展开':
-            $.expandAll()
-            break
-
-          case '全部收起':
-            $.closeAll()
-            break
-
-          default:
-            $.onlinePlaySelected(label, subjectId)
-            break
-        }
-      }}
+      onSelect={(label: string) => $.onPopover(label, subjectId)}
     >
       <Flex style={styles.btn} justify='center'>
         <Iconfont
