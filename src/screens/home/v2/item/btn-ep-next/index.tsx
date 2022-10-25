@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-14 18:13:07
+ * @Last Modified time: 2022-10-25 14:57:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Touchable, Text, Heatmap } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
+import { styles } from './styles'
 
 function BtnEpNext({ subjectId, epStatus, isFirst }, { $ }: Ctx) {
   const { sort } = $.nextWatchEp(subjectId)
@@ -30,26 +30,3 @@ function BtnEpNext({ subjectId, epStatus, isFirst }, { $ }: Ctx) {
 }
 
 export default obc(BtnEpNext)
-
-const styles = _.create({
-  touch: {
-    marginRight: 4,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  btn: {
-    height: 34,
-    paddingHorizontal: _.device(_.sm, _.md)
-  },
-  next: {
-    paddingLeft: _.sm,
-    paddingRight: 2
-  },
-  icon: {
-    marginTop: 2
-  },
-  text: {
-    marginBottom: -2,
-    marginLeft: _.xs
-  }
-})

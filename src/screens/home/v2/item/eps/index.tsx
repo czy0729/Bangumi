@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 06:55:51
+ * @Last Modified time: 2022-10-25 14:48:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { Eps as CompEps } from '@_'
-import { _ } from '@stores'
 import { window } from '@styles'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { styles } from './styles'
 
 function Eps({ subjectId, isFirst }, { $, navigation }: Ctx) {
   return (
@@ -39,9 +39,3 @@ function Eps({ subjectId, isFirst }, { $, navigation }: Ctx) {
 }
 
 export default obc(Eps)
-
-const styles = _.create({
-  eps: {
-    marginTop: _._wind
-  }
-})

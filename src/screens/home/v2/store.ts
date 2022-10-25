@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 07:06:09
+ * @Last Modified time: 2022-10-25 14:57:36
  */
 import { observable, computed } from 'mobx'
 import {
@@ -544,6 +544,7 @@ export default class ScreenHomeV2 extends store {
   /** 条目下一个未看章节 */
   nextWatchEp(subjectId: SubjectId): {
     id?: Id
+    sort?: number
   } {
     try {
       return computed(() => {

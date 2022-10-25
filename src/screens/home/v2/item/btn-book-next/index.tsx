@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:29:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-14 07:00:43
+ * @Last Modified time: 2022-10-25 14:45:05
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
+import { styles } from './styles'
 
-function BtnBookNext({ subjectId, epStatus, volStatus }, { $ }) {
+function BtnBookNext({ subjectId, epStatus, volStatus }, { $ }: Ctx) {
   return (
     <Touchable
       style={styles.touch}
@@ -23,18 +24,3 @@ function BtnBookNext({ subjectId, epStatus, volStatus }, { $ }) {
 }
 
 export default obc(BtnBookNext)
-
-const styles = _.create({
-  touch: {
-    marginLeft: _.device(0, 4),
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  btn: {
-    width: 34,
-    height: 34
-  },
-  icon: {
-    marginBottom: -1
-  }
-})

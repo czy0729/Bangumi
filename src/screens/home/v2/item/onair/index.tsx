@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-21 13:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 15:50:21
+ * @Last Modified time: 2022-10-25 14:57:11
  */
 import React from 'react'
 import { Text } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
 import { WEEK_DAY_MAP } from '../ds'
 import { styles } from './styles'
 
-function OnAir({ subjectId }, { $ }) {
+function OnAir({ subjectId }, { $ }: Ctx) {
   const isToday = $.isToday(subjectId)
   if (isToday) {
     const { h, m } = $.onAirCustom(subjectId)

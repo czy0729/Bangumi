@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:56:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:45:07
+ * @Last Modified time: 2022-10-25 14:46:16
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
+import { styles } from './styles'
 
-function BtnFavor({ subjectId, subject, isFirst }, { $ }) {
+function BtnFavor({ subjectId, subject, isFirst }, { $ }: Ctx) {
   return (
     <Touchable
       style={styles.touch}
@@ -29,15 +30,3 @@ function BtnFavor({ subjectId, subject, isFirst }, { $ }) {
 }
 
 export default obc(BtnFavor)
-
-const styles = _.create({
-  touch: {
-    marginRight: _.device(2, 4),
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  btn: {
-    width: 34,
-    height: 34
-  }
-})

@@ -41,6 +41,16 @@ class Game extends React.Component {
     return new Array(length).fill('').map((item, index) => CDN_GAME($.subjectId, index))
   }
 
+  get data2() {
+    const { $ }: Ctx = this.context
+    const length = otaStore.game($.subjectId)?.l
+    if (typeof length !== 'number' || !length) return []
+
+    return new Array(length)
+      .fill('')
+      .map((item, index) => CDN_GAME($.subjectId, index, false))
+  }
+
   get isADV() {
     const { $ }: Ctx = this.context
     const isADV = $.gameInfo?.isADV
@@ -75,7 +85,7 @@ class Game extends React.Component {
               })
 
               showImageViewer(
-                this.data.map(item => ({
+                this.data2.map(item => ({
                   url: item
                 })),
                 index
@@ -186,7 +196,7 @@ class Game extends React.Component {
         </SectionTitle>
         {showGameInfo && (
           <>
-            {/* {this.renderThumbs()} */}
+            {this.renderThumbs()}
             {this.renderDetails()}
           </>
         )}

@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-11 17:43:17
+ * @Last Modified time: 2022-10-25 14:46:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { Cover as CompCover } from '@_'
 import { obc } from '@utils/decorators'
-import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { IMG_HEIGHT, IMG_WIDTH, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
+import { Ctx } from '../../types'
 
-function Cover({ subjectId, subject, isFirst }, { $, navigation }) {
+function Cover({ subjectId, subject, isFirst }, { $, navigation }: Ctx) {
   const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   return (
     <View>
