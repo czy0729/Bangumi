@@ -825,6 +825,20 @@ export async function privacy() {
   )
 }
 
+/** 构建日历日程标题 */
+export function getCalenderEventTitle(
+  item: {
+    sort?: number
+  } = {},
+  subjectTitle: string = ''
+) {
+  const { sort = '' } = item
+  let title = ''
+  if (sort) title += `[ep.${sort}] `
+  title += subjectTitle || ''
+  return title
+}
+
 /** 添加放送日程到日历 */
 export function saveCalenderEvent(
   item: {
@@ -847,7 +861,7 @@ export function saveCalenderEvent(
       return
     }
 
-    const { airdate, sort = '', duration = '', url } = item
+    const { airdate, duration = '', url } = item
     if (airdate) {
       try {
         const { h, m } = onAirCustom
@@ -861,10 +875,7 @@ export function saveCalenderEvent(
           if (Number(s)) dateEnd = dateEnd.add(Number(s), 'second')
         }
 
-        let title = ''
-        if (sort) title += `[ep.${sort}] `
-        title += subjectTitle || ''
-
+        const title = getCalenderEventTitle(item, subjectTitle)
         const format = 'YYYY-MM-DDTHH:mm:ss.000[Z]'
         const cb = async () => {
           date = date.subtract(8, 'hours')

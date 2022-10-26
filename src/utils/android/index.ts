@@ -5,6 +5,7 @@
  * @Last Modified time: 2022-10-25 20:17:58
  */
 import * as Calendar from 'expo-calendar'
+import dayjs from 'dayjs'
 import { Fn } from '@types'
 
 const CALENDAR_TITLE = 'Bangumi番组计划'
@@ -32,7 +33,11 @@ export async function RNCalendarEventsRequestPermissions() {
       const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT)
       if (Array.isArray(calendars)) {
         const calendar = calendars.find(item => item.title === CALENDAR_TITLE)
-        if (!calendar) lastCalendarId = await createCalendar()
+        if (!calendar) {
+          lastCalendarId = await createCalendar()
+        } else {
+          lastCalendarId = calendar.id
+        }
       }
     }
     return 'authorized'
@@ -53,17 +58,11 @@ export async function RNCalendarEventsSaveEvent(
     notes = undefined
   } = {}
 ): Promise<string | boolean> {
-  const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT)
-  if (!Array.isArray(calendars)) return false
-
-  const calendar = calendars.find(item => item.title === CALENDAR_TITLE)
-  if (!calendar) return false
-
-  const calendarId = calendar.id
-  if (!calendarId) return false
+  const status = await RNCalendarEventsRequestPermissions()
+  if (status !== 'authorized' || !lastCalendarId) return false
 
   try {
-    return Calendar.createEventAsync(calendarId, {
+    return Calendar.createEventAsync(lastCalendarId, {
       title,
       startDate,
       endDate,
@@ -73,6 +72,22 @@ export async function RNCalendarEventsSaveEvent(
     lastCalendarId = ''
     return ''
   }
+}
+
+/**
+ * https://docs.expo.dev/versions/latest/sdk/calendar/#calendargeteventsasynccalendarids-startdate-enddate
+ */
+export async function RNCalendarGetEventsAsync(): Promise<string[]> {
+  if (!lastCalendarId) return []
+
+  const events = await Calendar.getEventsAsync(
+    [lastCalendarId],
+    new Date(dayjs().subtract(8, 'hours').format('YYYY-MM-DDTHH:mm:ss.000[Z]')),
+    new Date(
+      dayjs().subtract(8, 'hours').add(6, 'month').format('YYYY-MM-DDTHH:mm:ss.000[Z]')
+    )
+  )
+  return events.map(item => item.title)
 }
 
 async function getDefaultCalendarSource() {

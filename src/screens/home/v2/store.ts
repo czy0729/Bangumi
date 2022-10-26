@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 20:19:52
+ * @Last Modified time: 2022-10-25 20:39:00
  */
 import { observable, computed } from 'mobx'
 import {
@@ -28,17 +28,22 @@ import {
   getPinYinFilterValue,
   getTimestamp,
   info,
+  loading,
   open,
   queue,
   saveCalenderEvent,
+  sleep,
   t2s,
   unzipBangumiData,
   x18,
-  sleep,
-  loading
+  getCalenderEventTitle
 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
+import {
+  RNCalendarEventsRequestPermissions,
+  RNCalendarGetEventsAsync
+} from '@utils/android'
 import {
   IOS,
   MODEL_COLLECTIONS_ORDERBY,
@@ -49,29 +54,27 @@ import {
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SUBJECT_TYPE,
   SITES_DS,
-  SITE_AGEFANS,
-  SITE_RRYS,
-  SITE_XUNBO
+  SITE_AGEFANS
 } from '@constants'
 import {
   CollectionStatus,
   CollectionsOrder,
   EpId,
   EpStatus,
+  Id,
   Navigation,
+  RatingStatus,
   SettingHomeSorting,
   Subject,
   SubjectId,
   SubjectType,
-  SubjectTypeValue,
-  RatingStatus,
-  Id
+  SubjectTypeValue
 } from '@types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
+  OriginItem,
   getOriginConfig,
-  replaceOriginUrl,
-  OriginItem
+  replaceOriginUrl
 } from '../../user/origin-setting/utils'
 import {
   EXCLUDE_STATE,
@@ -941,16 +944,6 @@ export default class ScreenHomeV2 extends store {
             url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(cn)}&page=1`
             break
 
-          case '迅播动漫':
-            url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(cn)}`
-            break
-
-          case '人人影视':
-            url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
-              cn
-            )}&type=resource`
-            break
-
           default:
             item = sites.find(item => item.site === label)
             if (item) url = getBangumiUrl(item)
@@ -1287,26 +1280,37 @@ export default class ScreenHomeV2 extends store {
         return
       }
 
+      const data = await RNCalendarEventsRequestPermissions()
+      if (data !== 'authorized') {
+        info('权限不足')
+        return
+      }
+
       const title = cnjp(subject.name_cn, subject.name)
       confirm(
-        `${title}
-      \n是否一键添加 ${eps.length} 个章节的提醒?`,
+        `${title}\n是否一键添加 ${eps.length} 个章节的提醒?`,
         async () => {
           const onAir = this.onAirCustom(subjectId)
-          const fns = eps.map(item => {
-            return async () => {
-              await sleep(80)
-              saveCalenderEvent(item, title, onAir, false)
-              return true
+          const fns = []
+          const hide = loading()
+          const calendarTitles = await RNCalendarGetEventsAsync()
+          eps.forEach(item => {
+            // 日历中相同的标题不再添加日程
+            if (!calendarTitles.includes(getCalenderEventTitle(item, title))) {
+              fns.push(async () => {
+                await sleep(80)
+                saveCalenderEvent(item, title, onAir, false)
+                return true
+              })
             }
           })
 
-          const fn = loading()
           await queue(fns, 1)
-          fn()
+          hide()
           info('已完成')
           feedback()
-        }
+        },
+        '一键添加放送提醒'
       )
     }
   }
