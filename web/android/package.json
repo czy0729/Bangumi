@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "38": "mv ./node_modules ../SDK && mv ../SDK/38/node_modules ./ && mv ../SDK/node_modules ../SDK/39 && cp ./package.json ./web/ios/package.json && cp ./web/android/package.json ./package.json",
-    "39": "mv ./node_modules ../SDK && mv ../SDK/39/node_modules ./ && mv ../SDK/node_modules ../SDK/38 && cp ./package.json ./web/android/package.json && cp ./web/ios/package.json ./package.json",
+    "38": "sudo mv ./node_modules ../SDK && mv ../SDK/38/node_modules ./ && mv ../SDK/node_modules ../SDK/39 && cp ./package.json ./web/ios/package.json && cp ./web/android/package.json ./package.json",
+    "39": "sudo mv ./node_modules ../SDK && mv ../SDK/39/node_modules ./ && mv ../SDK/node_modules ../SDK/38 && cp ./package.json ./web/android/package.json && cp ./web/ios/package.json ./package.json",
     "android": "watchman watch-del '/Users/chen/Bangumi32' && watchman watch-project '/Users/chen/Bangumi32' && react-native run-android --no-jetifier",
     "build": "cd android && ./gradlew assembleRelease && cd .. && node web/rename.js",
     "build:ios": "expo build:ios -c",
@@ -40,6 +40,7 @@
     "expo": "38.0.0",
     "expo-asset": "8.1.7",
     "expo-blur": "8.1.2",
+    "expo-calendar": "~8.2.2",
     "expo-constants": "9.1.1",
     "expo-file-system": "9.0.1",
     "expo-font": "9.2.1",
@@ -64,7 +65,6 @@
     "react-dom": "17.0.2",
     "react-native": "0.66.4",
     "react-native-android-keyboard-adjust": "1.2.0",
-    "react-native-calendar-events": "^2.2.0",
     "react-native-collapsible": "1.6.0",
     "react-native-device-info": "8.5.0",
     "react-native-draggable-grid": "2.1.4",

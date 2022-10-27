@@ -7,7 +7,7 @@
  * @Last Modified time: 2022-09-23 06:33:59
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
-import { runAfter, confirm } from '@utils'
+import { confirm } from '@utils'
 import { DEV } from '@constants'
 import i18n from '@constants/i18n'
 import calendarStore from './calendar'
@@ -40,7 +40,7 @@ import { Navigation } from '@types'
 let inited = false
 
 class GlobalStores {
-  /** 保证所有子Store初始化和加载缓存 */
+  /** 保证所有子 Store 初始化和加载缓存 */
   async init() {
     try {
       if (!DEV && inited) return false
@@ -53,15 +53,14 @@ class GlobalStores {
       await themeStore.init()
       await userStore.init()
       await collectionStore.init()
-      await collectionStore.init()
       await subjectStore.init()
+      await calendarStore.init()
 
-      // [异步加载] 非重要Stores
-      runAfter(() => {
-        calendarStore.init()
+      // [异步加载] 非重要 Stores
+      requestAnimationFrame(() => {
         discoveryStore.init()
         monoStore.init()
-        otaStore.init()
+        // otaStore.init()
         rakuenStore.init()
         searchStore.init()
         smbStore.init()

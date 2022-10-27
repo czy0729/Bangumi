@@ -212,7 +212,7 @@ export default class Store {
    * 存入本地缓存
    * @param {*} key
    * @param {*} value
-   * @param {*} namespace 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
+   * @param {*} namespace 空间名其实一定要传递的, 不能依赖 this.getName, 打包后会丢失
    */
   setStorage = (key: string, value?: any, namespace?: any) => {
     // 只传了一个参数时, 第一个参数作为 namespace

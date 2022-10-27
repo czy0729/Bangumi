@@ -48,17 +48,63 @@ const state = {
 class OTAStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = () => {
-    return this.readStorage(['anime', 'manga', 'game', 'wenku', 'hentai'], NAMESPACE)
+  private _loaded = {
+    anime: false,
+    manga: false,
+    game: false,
+    wenku: false,
+    hentai: false
   }
 
-  // -------------------- anime --------------------
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    // console.log('OTAStore init', key)
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.save(key)
+  }
+
+  // -------------------- get --------------------
   anime(subjectId: SubjectId) {
+    this.init('anime')
     return computed<AnimeItem>(() => {
       return this.state.anime[`age_${subjectId}`] || {}
     }).get()
   }
 
+  manga(subjectId: SubjectId) {
+    this.init('manga')
+    return computed<MangaItem>(() => {
+      return this.state.manga[`mox_${subjectId}`] || {}
+    }).get()
+  }
+
+  game(subjectId: SubjectId) {
+    this.init('game')
+    return computed<GameItem | ADVItem>(() => {
+      return this.state.game[`game_${subjectId}`] || {}
+    }).get()
+  }
+
+  wenku(subjectId: SubjectId) {
+    this.init('wenku')
+    return computed<WenkuItem>(() => {
+      return this.state.wenku[`wk8_${subjectId}`] || {}
+    }).get()
+  }
+
+  hentai(subjectId: SubjectId) {
+    this.init('hentai')
+    return computed<HentaiItem>(() => {
+      return this.state.hentai[`hentai_${subjectId}`] || {}
+    }).get()
+  }
+
+  // -------------------- anime --------------------
   animeSubjectId(pickIndex: number): SubjectId {
     return computed(() => {
       const item = animePick(pickIndex)
@@ -87,7 +133,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -133,17 +179,11 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
   // -------------------- manga --------------------
-  manga(subjectId: SubjectId) {
-    return computed<MangaItem>(() => {
-      return this.state.manga[`mox_${subjectId}`] || {}
-    }).get()
-  }
-
   mangaSubjectId(pickIndex: number): SubjectId {
     return computed(() => {
       const item = mangaPick(pickIndex)
@@ -193,17 +233,11 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
   // -------------------- game | adv --------------------
-  game(subjectId: SubjectId) {
-    return computed<GameItem | ADVItem>(() => {
-      return this.state.game[`game_${subjectId}`] || {}
-    }).get()
-  }
-
   gameSubjectId(pickIndex: number): SubjectId {
     return computed(() => {
       const item = gamePick(pickIndex)
@@ -239,7 +273,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -270,7 +304,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -301,17 +335,11 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
   // -------------------- wenku --------------------
-  wenku(subjectId: SubjectId) {
-    return computed<WenkuItem>(() => {
-      return this.state.wenku[`wk8_${subjectId}`] || {}
-    }).get()
-  }
-
   wenkuSubjectId(pickIndex: number): SubjectId {
     return computed(() => {
       const item = wenkuPick(pickIndex)
@@ -346,17 +374,11 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
   // -------------------- hentai --------------------
-  hentai(subjectId: SubjectId) {
-    return computed<HentaiItem>(() => {
-      return this.state.hentai[`hentai_${subjectId}`] || {}
-    }).get()
-  }
-
   hentaiSubjectId(pickIndex: number): SubjectId {
     return computed(() => {
       const item = hentaiPick(pickIndex)
@@ -391,7 +413,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 }

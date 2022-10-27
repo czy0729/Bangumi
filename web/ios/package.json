@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "38": "mv ./node_modules ../SDK && mv ../SDK/38/node_modules ./ && mv ../SDK/node_modules ../SDK/39 && cp ./package.json ./web/ios/package.json && cp ./web/android/package.json ./package.json",
-    "39": "mv ./node_modules ../SDK && mv ../SDK/39/node_modules ./ && mv ../SDK/node_modules ../SDK/38 && cp ./package.json ./web/android/package.json && cp ./web/ios/package.json ./package.json",
+    "38": "sudo mv ./node_modules ../SDK && mv ../SDK/38/node_modules ./ && mv ../SDK/node_modules ../SDK/39 && cp ./package.json ./web/ios/package.json && cp ./web/android/package.json ./package.json",
+    "39": "sudo mv ./node_modules ../SDK && mv ../SDK/39/node_modules ./ && mv ../SDK/node_modules ../SDK/38 && cp ./package.json ./web/android/package.json && cp ./web/ios/package.json ./package.json",
     "android": "watchman watch-del '/Users/chen/Bangumi32' && watchman watch-project '/Users/chen/Bangumi32' && react-native run-android --no-jetifier",
     "build": "cd android && ./gradlew assembleRelease",
     "build:ios": "sudo expo build:ios",
@@ -42,6 +42,7 @@
     "expo": "^45.0.0",
     "expo-asset": "~8.5.0",
     "expo-blur": "~11.1.0",
+    "expo-calendar": "~10.2.0",
     "expo-constants": "~13.1.1",
     "expo-file-system": "~14.0.0",
     "expo-font": "~10.1.0",

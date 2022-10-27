@@ -34,15 +34,22 @@ const state: State = {
   /** @deprecated 发现页信息聚合 (CDN) */
   homeFromCDN: INIT_HOME,
 
-  /** ekibun的线上爬虫数据 */
+  /** ekibun 的线上爬虫数据 */
   onAir: {},
 
-  /** 用户自定义放送时间, onAir读取数据时, 需要用本数据覆盖原数据 */
+  /** 用户自定义放送时间, onAir 读取数据时, 需要用本数据覆盖原数据 */
   onAirUser: {}
 }
 
 class CalendarStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
+
+  init = () => {
+    return this.readStorage(
+      Object.keys(['calendar', 'home', 'onAir', 'onAirUser']),
+      NAMESPACE
+    )
+  }
 
   // -------------------- get --------------------
   /** 每日放送, 结合onAir和用户自定义放送时间覆盖原数据 */
@@ -151,8 +158,6 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
       return onAirUser[subjectId] || INIT_USER_ONAIR_ITEM
     }).get()
   }
-
-  init = () => this.readStorage(Object.keys(this.state), NAMESPACE)
 
   // -------------------- fetch --------------------
   /** 每日放送 */
@@ -268,7 +273,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
         }
       })
 
-      this.setStorage(key, undefined, NAMESPACE)
+      // this.setStorage(key, undefined, NAMESPACE)
       return data
     } catch (error) {
       return INIT_HOME

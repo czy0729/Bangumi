@@ -6,7 +6,7 @@
  */
 import * as Calendar from 'expo-calendar'
 import dayjs from 'dayjs'
-import { IOS } from '@constants'
+import { IOS } from '@constants/constants'
 
 const CALENDAR_TITLE = 'Bangumi番组计划'
 
