@@ -30,8 +30,19 @@ const state = {
 class MonoStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = () => {
-    return this.readStorage([], NAMESPACE)
+  private _loaded = {}
+
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('MonoStore /', key)
+
+    // this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   /** 更多角色 */
@@ -70,8 +81,6 @@ class MonoStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
-
     return this[key](subjectId)
   }
 
@@ -96,8 +105,6 @@ class MonoStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
-
     return this[key](subjectId)
   }
 }

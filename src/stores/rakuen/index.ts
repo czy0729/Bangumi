@@ -172,25 +172,33 @@ const state = {
 class RakuenStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = () => {
-    return this.readStorage(
-      [
-        'blog',
-        'cloudTopic',
-        'comments',
-        'favor',
-        'groupInfo',
-        'groupThumb',
-        'hot',
-        'mine',
-        'notify',
-        'rakuen',
-        'readed',
-        'setting',
-        'topic'
-      ],
-      NAMESPACE
-    )
+  private _loaded = {
+    blog: false,
+    cloudTopic: false,
+    comments: false,
+    favor: false,
+    groupInfo: false,
+    groupThumb: false,
+    hot: false,
+    mine: false,
+    notify: false,
+    rakuen: false,
+    readed: false,
+    setting: false,
+    topic: false
+  }
+
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('RakuenStore /', key)
+
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------
@@ -199,6 +207,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     scope = DEFAULT_SCOPE,
     type: RakuenType | RakuenTypeMono | RakuenTypeGroup = DEFAULT_TYPE
   ) {
+    this.init('rakuen')
     return computed<Rakuen>(() => {
       const key = `${scope}|${type}`
       return this.state.rakuen[key] || LIST_EMPTY
@@ -207,6 +216,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 帖子历史查看信息 */
   readed(topicId: TopicId) {
+    this.init('readed')
     return computed<Readed>(() => {
       return this.state.readed[topicId] || INIT_READED_ITEM
     }).get()
@@ -214,6 +224,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 帖子内容 */
   topic(topicId: TopicId) {
+    this.init('topic')
     return computed<Topic>(() => {
       return this.state.topic[topicId] || INIT_TOPIC
     }).get()
@@ -221,6 +232,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 帖子回复 */
   comments(topicId: TopicId) {
+    this.init('comments')
     return computed<Comments>(() => {
       return this.state.comments[topicId] || LIST_EMPTY
     }).get()
@@ -235,6 +247,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 云端帖子内容 */
   cloudTopic(topicId: TopicId) {
+    this.init('cloudTopic')
     return computed<Topic>(() => {
       return this.state.cloudTopic[topicId] || INIT_TOPIC
     }).get()
@@ -242,16 +255,19 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 电波提醒 */
   @computed get notify(): Notify {
+    this.init('notify')
     return this.state.notify
   }
 
   /** 超展开设置 */
   @computed get setting() {
+    this.init('setting')
     return this.state.setting
   }
 
   /** 是否本地收藏 */
   favor(topicId: TopicId) {
+    this.init('favor')
     return computed<boolean>(() => {
       return this.state.favor[topicId] || false
     }).get()
@@ -267,6 +283,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 小组信息 */
   groupInfo(groupId: Id) {
+    this.init('groupInfo')
     return computed<GroupInfo>(() => {
       return this.state.groupInfo[groupId] || INIT_GROUP_INFO
     }).get()
@@ -274,6 +291,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 小组缩略图缓存 */
   groupThumb(name: string) {
+    this.init('groupThumb')
     return computed<CoverGroup<'l'>>(() => {
       return this.state.groupThumb[name] || ''
     }).get()
@@ -281,11 +299,13 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 我的小组 */
   @computed get mine(): Mine {
+    this.init('mine')
     return this.state.mine || LIST_EMPTY
   }
 
   /** 日志内容 */
   blog(blogId: Id) {
+    this.init('blog')
     return computed<Topic>(() => {
       return this.state.blog[blogId] || INIT_TOPIC
     }).get()
@@ -321,6 +341,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 超展开热门 */
   @computed get hot(): Rakuen {
+    this.init('hot')
     return this.state.hot || LIST_EMPTY
   }
 
@@ -332,6 +353,10 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   // -------------------- computed --------------------
   /** 收藏的帖子 */
   @computed get favorTopic() {
+    this.init('favor')
+    this.init('topic')
+    this.init('cloudTopic')
+
     const { favor, topic, cloudTopic } = this.state
     const data = {
       ...cloudTopic,
@@ -415,7 +440,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         }
       })
     }
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return res
   }
@@ -440,7 +465,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(topicKey, undefined, NAMESPACE)
+    this.save(topicKey)
 
     // 缓存帖子回复
     const commentsKey = 'comments'
@@ -457,7 +482,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(commentsKey, undefined, NAMESPACE)
+    this.save(commentsKey)
     this.updateGroupThumb(topic.group, topic.groupThumb)
 
     return {
@@ -537,7 +562,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         _loaded: analysis ? getTimestamp() : _loaded
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return {
       setCookie,
@@ -562,7 +587,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return groupInfo
   }
@@ -648,7 +673,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         _loaded: getTimestamp()
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return this[key]
   }
@@ -673,7 +698,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(blogKey, undefined, NAMESPACE)
+    this.save(blogKey)
 
     // 缓存帖子回复
     const commentsKey = 'blogComments'
@@ -690,7 +715,6 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(commentsKey, undefined, NAMESPACE)
 
     return {
       blog,
@@ -760,7 +784,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         _loaded: getTimestamp()
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return this[key]
   }
@@ -782,7 +806,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
           clearHTML: ''
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -882,7 +906,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 设置`楼层导航条方向` */
@@ -894,7 +918,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         scrollDirection
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 切换 */
@@ -906,7 +930,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         [switchKey]: !this.setting[switchKey]
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 添加屏蔽关键字 */
@@ -921,7 +945,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         blockKeywords: [...blockKeywords, keyword]
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 删除屏蔽关键字 */
@@ -934,7 +958,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         blockKeywords: blockKeywords.filter(item => item !== keyword)
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /**
@@ -952,7 +976,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         blockGroups: [...blockGroups, group]
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /**
@@ -968,7 +992,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         blockGroups: blockGroups.filter(item => item !== group)
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /**
@@ -986,7 +1010,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         blockUserIds: [...blockUserIds, userNameSpace]
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /**
@@ -1002,7 +1026,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         blockUserIds: blockUserIds.filter(item => item !== userNameSpace)
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 设置是否收藏*/
@@ -1013,7 +1037,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         [topicId]: isFover
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 更新小组缩略图 */
@@ -1024,7 +1048,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         [name]: thumb
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 上传收藏帖子到云端 */
@@ -1055,8 +1079,8 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         cloudTopic
       })
 
-      this.setStorage('favor', undefined, NAMESPACE)
-      this.setStorage('cloudTopic', undefined, NAMESPACE)
+      this.save('favor')
+      this.save('cloudTopic')
       return true
     } catch (error) {
       return false
@@ -1114,7 +1138,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
           blockUserIds
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
       return true
     } catch (error) {
       console.info('rakuenStore downloadSetting', error)

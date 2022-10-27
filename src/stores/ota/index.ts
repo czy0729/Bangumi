@@ -59,13 +59,14 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    // console.log('OTAStore init', key)
+    console.log('OTAStore /', key)
+
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)
   }
 
   save = (key: keyof typeof this._loaded) => {
-    return this.save(key)
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------

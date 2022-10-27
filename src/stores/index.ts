@@ -59,9 +59,9 @@ class GlobalStores {
       // [异步加载] 非重要 Stores
       requestAnimationFrame(() => {
         discoveryStore.init()
-        monoStore.init()
+        // monoStore.init()
         // otaStore.init()
-        rakuenStore.init()
+        // rakuenStore.init()
         searchStore.init()
         smbStore.init()
         tagStore.init()
