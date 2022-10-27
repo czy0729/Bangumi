@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 19:47:02
+ * @Last Modified time: 2022-10-27 14:41:20
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -32,10 +32,7 @@ import { HTMLDecode } from '../html'
 import { getStorage, setStorage } from '../storage'
 import { getSystemStoreAsync, s2tAsync } from '../async'
 import { t } from '../fetch'
-import {
-  RNCalendarEventsRequestPermissions,
-  RNCalendarEventsSaveEvent
-} from '../android'
+import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../calendar'
 import { rerender, globalLog, globalWarn } from '../dev'
 import { isNull, getSafeValue } from './utils'
 import {
@@ -855,7 +852,7 @@ export function saveCalenderEvent(
   showConfirm: boolean = true
 ) {
   setTimeout(async () => {
-    const data = await RNCalendarEventsRequestPermissions()
+    const data = await calendarEventsRequestPermissions()
     if (data !== 'authorized') {
       info('权限不足')
       return
@@ -880,7 +877,7 @@ export function saveCalenderEvent(
         const cb = async () => {
           date = date.subtract(8, 'hours')
           dateEnd = dateEnd.subtract(8, 'hours')
-          const calendarId = await RNCalendarEventsSaveEvent(title, {
+          const calendarId = await calendarEventsSaveEvent(title, {
             startDate: date.format(format),
             endDate: dateEnd.format(format),
             notes: String(url).replace('http://', 'https://')

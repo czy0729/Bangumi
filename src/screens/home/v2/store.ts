@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 20:39:00
+ * @Last Modified time: 2022-10-27 14:55:15
  */
 import { observable, computed } from 'mobx'
 import {
@@ -41,9 +41,9 @@ import {
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import {
-  RNCalendarEventsRequestPermissions,
-  RNCalendarGetEventsAsync
-} from '@utils/android'
+  calendarEventsRequestPermissions,
+  calendarGetEventsAsync
+} from '@utils/calendar'
 import {
   IOS,
   MODEL_COLLECTIONS_ORDERBY,
@@ -1280,7 +1280,7 @@ export default class ScreenHomeV2 extends store {
         return
       }
 
-      const data = await RNCalendarEventsRequestPermissions()
+      const data = await calendarEventsRequestPermissions()
       if (data !== 'authorized') {
         info('权限不足')
         return
@@ -1288,17 +1288,17 @@ export default class ScreenHomeV2 extends store {
 
       const title = cnjp(subject.name_cn, subject.name)
       confirm(
-        `${title}\n是否一键添加 ${eps.length} 个章节的提醒?`,
+        `「${title}」\n是否一键添加 ${eps.length} 个章节的提醒?`,
         async () => {
           const onAir = this.onAirCustom(subjectId)
           const fns = []
           const hide = loading()
-          const calendarTitles = await RNCalendarGetEventsAsync()
+          const calendarTitles = await calendarGetEventsAsync()
           eps.forEach(item => {
             // 日历中相同的标题不再添加日程
             if (!calendarTitles.includes(getCalenderEventTitle(item, title))) {
               fns.push(async () => {
-                await sleep(80)
+                await sleep(IOS ? 80 : 480)
                 saveCalenderEvent(item, title, onAir, false)
                 return true
               })

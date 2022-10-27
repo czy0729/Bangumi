@@ -7,6 +7,7 @@ import org.unimodules.core.interfaces.Package;
 public class BasePackageList {
   public List<Package> getPackageList() {
     return Arrays.<Package>asList(
+        new expo.modules.calendar.CalendarPackage(),
         new expo.modules.constants.ConstantsPackage(),
         new expo.modules.errorrecovery.ErrorRecoveryPackage(),
         new expo.modules.filesystem.FileSystemPackage(),

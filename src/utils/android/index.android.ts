@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 07:57:36
+ * @Last Modified time: 2022-10-27 14:56:54
  */
 import { PermissionsAndroid } from 'react-native'
-import RNCalendarEvents from 'react-native-calendar-events'
 import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import CameraRoll from '@react-native-community/cameraroll'
@@ -68,28 +67,4 @@ async function hasAndroidPermission() {
 
   const status = await PermissionsAndroid.request(permission)
   return status === 'granted'
-}
-
-/**
- * Request calendar authorization. Authorization must be granted before accessing calendar events.
- * https://github.com/wmcmahan/react-native-calendar-events#requestpermissions
- */
-export async function RNCalendarEventsRequestPermissions() {
-  return RNCalendarEvents.requestPermissions(false)
-}
-
-/**
- * For both iOS and Android the pattern is simple; the event needs a title
- * as well as a startDate and endDate. The endDate should also be a date later than the startDate.
- * https://github.com/wmcmahan/react-native-calendar-events/wiki/Creating-basic-event#basic
- */
-export async function RNCalendarEventsSaveEvent(
-  title: string,
-  { startDate = undefined, endDate = undefined, notes = undefined } = {}
-) {
-  return RNCalendarEvents.saveEvent(title, {
-    startDate,
-    endDate: endDate || startDate,
-    notes
-  })
 }
