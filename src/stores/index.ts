@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-28 21:39:10
+ * @Last Modified time: 2022-10-29 04:25:40
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -45,30 +45,34 @@ class GlobalStores {
     try {
       if (!DEV && inited) return false
 
-      // if (DEV) await userStore.init()
       inited = true
 
-      // [同步加载] APP 最重要 Stores
+      // systemStore.init 和 themeStore.init 维持旧逻辑
       await systemStore.init()
       await themeStore.init()
-      await userStore.init()
-      await collectionStore.init()
-      await subjectStore.init()
-      // await calendarStore.init()
 
-      // [异步加载] 非重要 Stores
-      requestAnimationFrame(() => {
-        // discoveryStore.init()
-        // monoStore.init()
-        // otaStore.init()
-        // rakuenStore.init()
-        // searchStore.init()
-        smbStore.init()
-        // tagStore.init()
-        // timelineStore.init()
-        // tinygrailStore.init()
-        // usersStore.init()
-      })
+      // 其他 store 使用新的懒读取本地数据逻辑
+      // userStore
+      const userStoreKeys = [
+        'accessToken',
+        'formhash',
+        'userInfo',
+        'usersInfo',
+
+        // userCookie 一定要在 userInfo 和 usersInfo 之后
+        'userCookie',
+        'collection',
+        'userSetting'
+      ] as const
+      for (let i = 0; i < userStoreKeys.length; i += 1) {
+        await userStore.init(userStoreKeys[i])
+      }
+
+      // usersStore
+      const usersStoreKeys = ['users'] as const
+      for (let i = 0; i < usersStoreKeys.length; i += 1) {
+        await usersStore.init(usersStoreKeys[i])
+      }
 
       return systemStore.setting
     } catch (error) {

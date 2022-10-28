@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 01:08:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-01 22:03:48
+ * @Last Modified time: 2022-10-29 03:33:20
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -18,8 +18,24 @@ const state = {
 class SMBStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = () => this.readStorage(['data'], NAMESPACE)
+  private _loaded = {
+    data: false
+  }
 
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('SMBStore /', key)
+
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  // -------------------- get --------------------
   @computed get data() {
     return this.state.data.data
   }
@@ -54,7 +70,7 @@ class SMBStore extends store implements StoreConstructor<typeof state> {
         data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 }
 

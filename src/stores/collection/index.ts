@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 12:34:55
+ * @Last Modified time: 2022-10-29 02:59:57
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -101,9 +101,42 @@ const state = {
 class CollectionStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  private _loaded = {
+    collection: false,
+    userCollections: false,
+    userCollectionsTags: false,
+    userCollectionsMap: false,
+    collectionStatus: false,
+    _collectionStatusLastFetchMS: false,
+    mosaicTile: false
+  }
+
+  init = async (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('CollectionStore /', key)
+    this._loaded[key] = true
+    const data = await this.readStorage([key], NAMESPACE)
+
+    if (key === 'userCollectionsMap') {
+      if (!DEV) {
+        setTimeout(() => {
+          this.fetchUserCollectionsQueue()
+        }, 16000)
+      }
+    }
+
+    return data
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
+  }
+
   // -------------------- get --------------------
   /** 条目收藏信息 */
   collection(subjectId: SubjectId) {
+    this.init('collection')
     return computed<Collection>(() => {
       return this.state.collection[subjectId] || {}
     }).get()
@@ -111,6 +144,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
 
   /** 用户收藏概览 (HTML, 全部) */
   userCollections(userId: UserId, subjectType: SubjectType, type: CollectionStatus) {
+    this.init('userCollections')
     return computed<UserCollections>(() => {
       const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
       return this.state.userCollections[key] || LIST_EMPTY
@@ -123,6 +157,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     subjectType: SubjectType,
     type: CollectionStatus
   ) {
+    this.init('userCollectionsTags')
     return computed<UserCollectionsTags>(() => {
       const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
       return this.state.userCollectionsTags[key] || []
@@ -131,16 +166,19 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
 
   /** @deprecated 所有收藏条目状态 */
   @computed get userCollectionsMap(): UserCollectionsMap {
+    this.init('userCollectionsMap')
     return this.state.userCollectionsMap
   }
 
   /** 瓷砖进度 */
   @computed get mosaicTile(): MosaicTile {
+    this.init('mosaicTile')
     return this.state.mosaicTile
   }
 
   /** 条目的收藏状态, 替代 userCollectionsMap */
   collectionStatus(subjectId: SubjectId) {
+    this.init('collectionStatus')
     return computed<CollectionStatusCn | ''>(() => {
       return this.state.collectionStatus[subjectId] || ''
     }).get()
@@ -148,6 +186,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
 
   /** 条目的收藏状态最后一次请求时间戳, 对应 collectionStatus, 共同维护 */
   _collectionStatusLastFetchMS(subjectId: SubjectId) {
+    this.init('_collectionStatusLastFetchMS')
     return computed<number>(() => {
       return this.state._collectionStatusLastFetchMS[subjectId] || 0
     }).get()
@@ -163,17 +202,6 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
   }
 
   // -------------------- fetch --------------------
-  /** 初始化 */
-  init = () => {
-    if (!DEV) {
-      setTimeout(() => {
-        this.fetchUserCollectionsQueue()
-      }, 16000)
-    }
-
-    return this.readStorage(Object.keys(this.state), NAMESPACE)
-  }
-
   /** 获取指定条目收藏信息 */
   fetchCollection = (subjectId: SubjectId) => {
     return this.fetch(

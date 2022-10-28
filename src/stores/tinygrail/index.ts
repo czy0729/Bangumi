@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 00:17:43
+ * @Last Modified time: 2022-10-29 00:22:29
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -96,17 +96,37 @@ const state = {
   /** 全局人物数据 */
   characters: {},
 
-  /** 总览列表 */
+  /** 最高市值 */
   mvc: LIST_EMPTY,
+
+  /** 最大涨幅 */
   mrc: LIST_EMPTY,
+
+  /** 最大跌幅 */
   mfc: LIST_EMPTY,
+
+  /** ICO 最多资金 */
   mvi: LIST_EMPTY,
+
+  /** ICO 最高人气 */
   mpi: LIST_EMPTY,
+
+  /** ICO 最近活跃 */
   rai: LIST_EMPTY,
+
+  /** ICO 即将结束 */
   mri: LIST_EMPTY,
+
+  /** 最近活跃 */
   recent: LIST_EMPTY,
+
+  /** 新番市值 */
   tnbc: LIST_EMPTY,
+
+  /** 新番活跃 */
   nbc: LIST_EMPTY,
+
+  /** 最高股息 */
   msrc: LIST_EMPTY,
 
   /** 番市首富 */

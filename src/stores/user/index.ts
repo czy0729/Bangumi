@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 01:51:51
+ * @Last Modified time: 2022-10-29 04:13:07
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -168,55 +168,67 @@ const state = {
 class UserStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = async () => {
-    await this.readStorage(
-      [
-        'accessToken',
-        'formhash',
-        'pmDetail',
-        'pmIn',
-        'pmOut',
-        'collection',
-        'userCollection',
-        'userCollectionsStatus',
-        'userCookie',
-        'setCookie',
-        'hmCookie',
-        'userInfo',
-        'userProgress',
-        'usersInfo',
-        'userSetting',
-        'onlines'
-      ],
-      NAMESPACE
-    )
+  private _loaded = {
+    accessToken: false,
+    collection: false,
+    formhash: false,
+    hmCookie: false,
+    onlines: false,
+    pmDetail: false,
+    pmIn: false,
+    pmOut: false,
+    setCookie: false,
+    userCollection: false,
+    userCollectionsStatus: false,
+    userCookie: false,
+    userInfo: false,
+    userProgress: false,
+    userSetting: false,
+    usersInfo: false
+  }
 
-    if (this.isWebLogin) {
-      const { _loaded } = this.userInfo
+  init = async (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
 
-      // 用户信息被动刷新, 距离上次4小时候后才请求
-      if (!_loaded || getTimestamp() - _loaded > 60 * 60 * 4) {
-        this.fetchUserInfo()
-        this.fetchUsersInfo()
+    console.log('UserStore /', key)
+    this._loaded[key] = true
+    const data = await this.readStorage([key], NAMESPACE)
+
+    if (key === 'userCookie') {
+      if (this.isWebLogin) {
+        const { _loaded } = this.userInfo
+
+        // 用户信息被动刷新, 距离上次4小时候后才请求
+        if (!_loaded || getTimestamp() - _loaded > 60 * 60 * 4) {
+          this.fetchUserInfo()
+          this.fetchUsersInfo()
+        }
+
+        setTimeout(() => {
+          try {
+            this.doCheckCookie()
+          } catch (error) {}
+        }, 4000)
       }
-
-      setTimeout(() => {
-        try {
-          this.doCheckCookie()
-        } catch (error) {}
-      }, 4000)
     }
-    return true
+
+    return data
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------
   /** 授权信息 (api) */
   @computed get accessToken() {
+    this.init('accessToken')
     return this.state.accessToken
   }
 
   /** 用户 cookie (html) */
   @computed get userCookie() {
+    this.init('userCookie')
     return this.state.userCookie
   }
 
@@ -225,46 +237,55 @@ class UserStore extends store implements StoreConstructor<typeof state> {
    * 会随请求一直更新, 并带上请求防止一段时候后掉登录
    */
   @computed get setCookie() {
+    this.init('setCookie')
     return this.state.setCookie
   }
 
   /** @deprecated hm.js 请求 cookie , 区分唯一用户, 一旦获取通常不再变更 */
   @computed get hmCookie() {
+    this.init('hmCookie')
     return this.state.hmCookie
   }
 
   /** 自己用户信息 */
   @computed get userInfo() {
+    this.init('userInfo')
     return this.state.userInfo
   }
 
   /** @deprecated 在看收藏 */
   @computed get userCollection(): UserCollection {
+    this.init('userCollection')
     return this.state.userCollection
   }
 
   /** 在看收藏 (新 API, 取代 userCollection) */
   @computed get collection(): UserCollection {
+    this.init('collection')
     return this.state.collection
   }
 
   /** 表单提交唯一码 */
   @computed get formhash() {
+    this.init('formhash')
     return this.state.formhash
   }
 
   /** 短信收信 */
   @computed get pmIn() {
+    this.init('pmIn')
     return this.state.pmIn
   }
 
   /** 短信发信 */
   @computed get pmOut() {
+    this.init('pmOut')
     return this.state.pmOut
   }
 
   /** 个人设置 */
   @computed get userSetting() {
+    this.init('userSetting')
     return this.state.userSetting
   }
 
@@ -275,6 +296,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
   /** 某用户信息 */
   usersInfo(userId?: UserId) {
+    this.init('usersInfo')
     return computed<typeof INIT_USER_INFO>(() => {
       const { usersInfo } = this.state
       const key = userId || this.myUserId
@@ -293,6 +315,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
   /** 收视进度 (章节) */
   userProgress(subjectId: SubjectId) {
+    this.init('userProgress')
     return computed<{
       [K: EpId]: CollectionStatusCn
     }>(() => {
@@ -312,6 +335,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
   /** 用户收藏统计 (每种状态条目的数量) */
   userCollectionsStatus(userId: UserId) {
+    this.init('userCollectionsStatus')
     return computed<CollectionsStatusItem[]>(() => {
       const { userCollectionsStatus } = this.state
       const key = userId || this.myUserId
@@ -321,6 +345,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
   /** 短信详情 */
   pmDetail(id: Id) {
+    this.init('pmDetail')
     return computed<ListEmpty<PmItem>>(() => {
       const { pmDetail } = this.state
       return pmDetail[id] || LIST_EMPTY
@@ -337,6 +362,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
   /** 在线用户最后上报时间集 */
   onlines(userId: UserId) {
+    this.init('onlines')
     if (!userId) return 0
 
     return computed<number>(() => {

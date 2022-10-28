@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-28 21:45:48
+ * @Last Modified time: 2022-10-29 03:22:18
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -171,7 +171,7 @@ const state = {
  * @date 2022/04/06 subject 和 subjectFormHTML 根据 id 最后 2 位拆开 100 个 key 存放
  * 避免 JSON.stringify 后长度太长, 无法本地化
  */
-for (let i = 0; i < 100; i += 1) {
+for (let i = 0; i < 1000; i += 1) {
   /** 条目 */
   state[`subject${i}`] = {}
 
@@ -181,30 +181,34 @@ for (let i = 0; i < 100; i += 1) {
 
 function getInt(subjectId: SubjectId) {
   const str = String(subjectId)
-  return Number(str.slice(str.length - 2, str.length))
+  return Number(str.slice(str.length - 3, str.length))
 }
 
 class SubjectStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = () => {
-    return this.readStorage(
-      Object.keys(state).filter(
-        key =>
-          ![
-            'subjectFormCDN',
-            'subjectEp',
-            'subjectCatalogs',
-            'epFormHTML',
-            'monoFormCDN',
-            'monoWorks',
-            'monoVoices',
-            'rating',
-            'wiki'
-          ].includes(key)
-      ),
-      NAMESPACE
-    )
+  private _loaded = {
+    subjectFromOSS: false,
+    subjectComments: false,
+    mono: false,
+    origin: false
+  }
+
+  init = (
+    key: keyof typeof this._loaded | `subject${number}` | `subjectFormHTML${number}`
+  ) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('SubjectStore /', key)
+
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (
+    key: keyof typeof this._loaded | `subject${number}` | `subjectFormHTML${number}`
+  ) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------
@@ -214,7 +218,10 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       if (!subjectId) return INIT_SUBJECT
 
       const last = getInt(subjectId)
-      return this.state?.[`subject${last}`]?.[subjectId] || INIT_SUBJECT
+      const key = `subject${last}` as const
+      this.init(key)
+
+      return this.state?.[key]?.[subjectId] || INIT_SUBJECT
     }).get()
   }
 
@@ -224,15 +231,16 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
 
       const last = getInt(subjectId)
-      return (
-        this.state?.[`subjectFormHTML${last}`]?.[subjectId] ||
-        INIT_SUBJECT_FROM_HTML_ITEM
-      )
+      const key = `subjectFormHTML${last}` as const
+      this.init(key)
+
+      return this.state?.[key]?.[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
     }).get()
   }
 
   /** 条目 (云缓存) */
   subjectFromOSS(subjectId: SubjectId) {
+    this.init('subjectFromOSS')
     return computed<Subject>(() => {
       return this.state.subjectFromOSS[subjectId] || INIT_SUBJECT
     }).get()
@@ -261,6 +269,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
 
   /** 条目吐槽箱 */
   subjectComments(subjectId: SubjectId) {
+    this.init('subjectComments')
     return computed<SubjectComments>(() => {
       return this.state.subjectComments[subjectId] || LIST_EMPTY
     }).get()
@@ -275,6 +284,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
 
   /** 章节内容 */
   mono(monoId: MonoId) {
+    this.init('mono')
     return computed<Mono>(() => {
       return this.state.mono[monoId] || INIT_MONO
     }).get()
@@ -347,6 +357,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
 
   /** 自定义源头数据 */
   @computed get origin(): Origin {
+    this.init('origin')
     return this.state.origin
   }
 
@@ -364,7 +375,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       info: '条目信息'
     })
     const last = getInt(subjectId)
-    const key = `subject${last}`
+    const key = `subject${last}` as const
 
     // eps 只有在 large 的时候才是数组数据, 才能进行保存
     if (responseGroup === 'large') {
@@ -394,7 +405,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       })
     }
 
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
     return data
   }
 
@@ -405,7 +416,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     })
 
     const last = getInt(subjectId)
-    const key = `subjectFormHTML${last}`
+    const key = `subjectFormHTML${last}` as const
     const data = {
       ...cheerioSubjectFormHTML(HTML),
       _loaded: getTimestamp()
@@ -416,7 +427,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       }
     })
 
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
     return data
   }
 
@@ -448,7 +459,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
             }
           }
         })
-        this.setStorage(key, undefined, NAMESPACE)
+        this.save(key)
         return true
       }
     } catch (error) {}
@@ -519,7 +530,6 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
 
     return this[key](subjectId)
   }
@@ -635,7 +645,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       [key]: data
     })
 
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
     return data
   }
 
@@ -690,7 +700,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
           }
         }
       })
-      this.setStorage(monoKey, undefined, NAMESPACE)
+      this.save(monoKey)
 
       // 缓存吐槽箱
       this.setState({
@@ -706,7 +716,6 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
           }
         }
       })
-      this.setStorage(commentsKey, undefined, NAMESPACE)
     } else {
       // 加载下一页留言
       const monoComments = this.monoComments(monoId)
@@ -723,7 +732,6 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
           }
         }
       })
-      this.setStorage(commentsKey, undefined, NAMESPACE)
     }
     return res
   }
@@ -892,7 +900,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 上传源头数据到云端 */
@@ -927,7 +935,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
             custom: data.custom
           }
         })
-        this.setStorage(key, undefined, NAMESPACE)
+        this.save(key)
         return true
       }
 
