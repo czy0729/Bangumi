@@ -12,6 +12,7 @@ import {
   Id,
   ListEmpty,
   Loaded,
+  Override,
   SubjectId,
   SubjectTypeCn,
   UserId
@@ -62,6 +63,15 @@ export type CatalogDetail = {
   byeUrl: string
   _loaded: Loaded
 }
+
+/** 目录详情 (云缓存) */
+export type CatalogDetailFromOSS = Override<
+  CatalogDetail,
+  {
+    info: string
+    total: number
+  }
+>
 
 /** 标签 */
 export type Tags = ListEmpty<{

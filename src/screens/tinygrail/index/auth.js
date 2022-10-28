@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 00:22:57
+ * @Last Modified time: 2022-10-29 00:18:34
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -17,7 +17,7 @@ function Auth(props, { $, navigation }) {
   const { _loaded } = $.state
   const { nickname, avatar = {} } = $.userInfo
   return (
-    <Flex>
+    <Flex style={_.mb.sm}>
       <IconBack
         style={styles.back}
         navigation={navigation}

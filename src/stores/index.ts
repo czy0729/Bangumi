@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-23 06:33:59
+ * @Last Modified time: 2022-10-28 21:39:10
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -58,7 +58,7 @@ class GlobalStores {
 
       // [异步加载] 非重要 Stores
       requestAnimationFrame(() => {
-        discoveryStore.init()
+        // discoveryStore.init()
         // monoStore.init()
         // otaStore.init()
         // rakuenStore.init()
@@ -66,7 +66,7 @@ class GlobalStores {
         smbStore.init()
         // tagStore.init()
         // timelineStore.init()
-        tinygrailStore.init()
+        // tinygrailStore.init()
         // usersStore.init()
       })
 

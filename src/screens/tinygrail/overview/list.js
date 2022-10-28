@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:57:46
+ * @Last Modified time: 2022-10-29 00:15:30
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
+import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { obc } from '@utils/decorators'
@@ -26,18 +27,19 @@ function List({ id }, { $ }) {
 
   const { page } = $.state
   return (
-    <ListView
+    <PaginationList2
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
-      data={list}
-      windowSize={6}
-      initialNumToRender={24}
-      maxToRenderPerBatch={24}
-      updateCellsBatchingPeriod={24}
-      lazy={24}
+      data={list.list}
+      limit={24}
+      // windowSize={6}
+      // initialNumToRender={24}
+      // maxToRenderPerBatch={24}
+      // updateCellsBatchingPeriod={24}
+      // lazy={24}
       scrollToTop={tabs[page].key === id}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(id)}

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:12:33
+ * @Last Modified time: 2022-10-28 21:45:48
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -179,7 +179,7 @@ for (let i = 0; i < 100; i += 1) {
   state[`subjectFormHTML${i}`] = {}
 }
 
-function getInt(subjectId) {
+function getInt(subjectId: SubjectId) {
   const str = String(subjectId)
   return Number(str.slice(str.length - 2, str.length))
 }

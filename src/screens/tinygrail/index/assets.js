@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 00:36:50
+ * @Last Modified time: 2022-10-28 20:12:41
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -82,7 +82,7 @@ function Assets(props, { $ }) {
   }
 
   return (
-    <Flex>
+    <Flex style={styles.assets}>
       <Flex.Item>
         <Touchable style={styles.touch} onPress={$.toogleShort}>
           <Text type='tinygrailPlain' size={13} bold>
@@ -120,6 +120,11 @@ function Assets(props, { $ }) {
 export default obc(Assets)
 
 const memoStyles = _.memoStyles(() => ({
+  assets: {
+    minHeight: 56,
+    paddingBottom: 16,
+    marginTop: -20,
+  },
   touch: {
     paddingVertical: _.xs,
     paddingHorizontal: _.sm,

@@ -26,7 +26,7 @@ import {
   HTML_WIKI,
   LIST_EMPTY
 } from '@constants'
-import { Id, Override, StoreConstructor, SubjectId, SubjectType } from '@types'
+import { Id, StoreConstructor, SubjectId, SubjectType } from '@types'
 import {
   DEFAULT_TYPE,
   INIT_ANITAMA_TIMELINE_ITEM,
@@ -45,7 +45,16 @@ import {
   cheerioChannel,
   cheerioWiki
 } from './common'
-import { Blog, Catalog, CatalogDetail, Channel, News, Tags, Wiki } from './types'
+import {
+  Blog,
+  Catalog,
+  CatalogDetail,
+  CatalogDetailFromOSS,
+  Channel,
+  News,
+  Tags,
+  Wiki
+} from './types'
 
 const state = {
   /** 目录 */
@@ -147,25 +156,34 @@ const state = {
 class DiscoveryStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = () => {
-    return this.readStorage(
-      [
-        'catalog',
-        'catalogDetail',
-        'catalogDetailFromOSS',
-        'blog',
-        'blogReaded',
-        'channel',
-        'online',
-        'wiki'
-      ],
-      NAMESPACE
-    )
+  private _loaded = {
+    blog: false,
+    blogReaded: false,
+    catalog: false,
+    catalogDetail: false,
+    catalogDetailFromOSS: false,
+    channel: false,
+    online: false,
+    wiki: false
+  }
+
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('DiscoveryStore /', key)
+
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------
   /** 目录 */
   catalog(type: '' | 'collect' | 'me' = '', page: number = 1) {
+    this.init('catalog')
     return computed<Catalog>(() => {
       const key = `${type}|${page}`
       return this.state.catalog[key] || INIT_CATALOG_ITEM
@@ -174,6 +192,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
 
   /** 目录详情 */
   catalogDetail(id: Id) {
+    this.init('catalogDetail')
     return computed<CatalogDetail>(() => {
       return this.state.catalogDetail[id] || INIT_CATELOG_DETAIL_ITEM
     }).get()
@@ -181,15 +200,8 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
 
   /** 目录详情 (云缓存) */
   catalogDetailFromOSS(id: Id) {
-    return computed<
-      Override<
-        CatalogDetail,
-        {
-          info: string
-          total: number
-        }
-      >
-    >(() => {
+    this.init('catalogDetailFromOSS')
+    return computed<CatalogDetailFromOSS>(() => {
       return this.state.catalogDetailFromOSS[id] || INIT_CATELOG_DETAIL_ITEM
     }).get()
   }
@@ -204,6 +216,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
 
   /** 全站日志 */
   blog(type: SubjectType | 'all' | '' = '', page: number = 1) {
+    this.init('blog')
     return computed<Blog>(() => {
       const key = `${type}|${page}`
       return this.state.blog[key] || INIT_BLOG_ITEM
@@ -212,6 +225,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
 
   /** 日志查看历史 */
   blogReaded(blogId: Id) {
+    this.init('blogReaded')
     return computed<boolean>(() => {
       return this.state.blogReaded[blogId] || false
     }).get()
@@ -219,6 +233,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
 
   /** 频道聚合 */
   channel(type: SubjectType = 'anime') {
+    this.init('channel')
     return computed<Channel>(() => {
       return this.state.channel[type] || INIT_CHANNEL
     }).get()
@@ -226,11 +241,13 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
 
   /** 在线人数 */
   @computed get online() {
+    this.init('online')
     return this.state.online
   }
 
   /** 维基人 */
   @computed get wiki(): Wiki {
+    this.init('wiki')
     return this.state.wiki
   }
 
@@ -462,7 +479,6 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         [`${type}|${filter}`]: tags
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
 
     return tags
   }
@@ -484,7 +500,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
@@ -506,7 +522,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
@@ -527,7 +543,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
           }
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
 
       return true
     } catch (error) {
@@ -552,7 +568,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return list
   }
@@ -574,7 +590,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return this.channel(type)
   }
@@ -591,7 +607,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         [key]: parseInt(match[1])
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
 
     return this.online
@@ -611,7 +627,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         lastCounts: this[key].counts
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return this[key]
   }
@@ -657,7 +673,6 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         this.setState({
           [key]: random
         })
-        this.setStorage(key, undefined, NAMESPACE)
       }
 
       return random
@@ -700,7 +715,6 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
               [bgmId]: ningMoeDetail
             }
           })
-          this.setStorage(key, undefined, NAMESPACE)
         }
       }
 
@@ -737,7 +751,6 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
             [bgmId]: ningMoeDetail
           }
         })
-        this.setStorage(key, undefined, NAMESPACE)
       }
 
       return ningMoeDetail

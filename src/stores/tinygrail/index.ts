@@ -1,19 +1,15 @@
-// @ts-nocheck
 /*
  * 小圣杯
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 10:33:33
+ * @Last Modified time: 2022-10-29 00:17:43
  */
 import { observable, computed, toJS } from 'mobx'
-import { getTimestamp, toFixed, lastDate } from '@utils'
+import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
 import store from '@utils/store'
-import { HTMLDecode } from '@utils/html'
 import { queue, xhrCustom } from '@utils/fetch'
-import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
-import { SDK, LIST_EMPTY } from '@constants'
 import {
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_ASSETS,
@@ -66,12 +62,14 @@ import {
   API_TINYGRAIL_USER_TEMPLE_TOTAL,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
+  LIST_EMPTY,
+  SDK,
   TINYGRAIL_ASSETS_LIMIT
-} from '@constants/api'
+} from '@constants'
+import { ListEmpty, MonoId, StoreConstructor } from '@types'
 import UserStore from '../user'
 import {
   NAMESPACE,
-  INIT_CHARACTERS_ITEM,
   INIT_RICH,
   INIT_KLINE_ITEM,
   INIT_DEPTH_ITEM,
@@ -82,326 +80,526 @@ import {
   INIT_AUCTION_STATUS
 } from './init'
 import { throttleInfo, toCharacter, calculateRate } from './utils'
-import { defaultKey, defaultSort, paginationOnePage, storageKeys } from './ds'
+import { defaultKey, defaultSort, paginationOnePage } from './ds'
+import { Characters, ListKey } from './types'
 
-class Tinygrail extends store {
-  state = observable({
-    /**
-     * 授权cookie
-     */
-    cookie: '',
+const state = {
+  /** 授权 cookie */
+  cookie: '',
 
-    /**
-     * 高级会员
-     */
+  /** 高级会员 */
+  advance: false,
+
+  /** 用户唯一标识 */
+  hash: '',
+
+  /** 全局人物数据 */
+  characters: {},
+
+  /** 总览列表 */
+  mvc: LIST_EMPTY,
+  mrc: LIST_EMPTY,
+  mfc: LIST_EMPTY,
+  mvi: LIST_EMPTY,
+  mpi: LIST_EMPTY,
+  rai: LIST_EMPTY,
+  mri: LIST_EMPTY,
+  recent: LIST_EMPTY,
+  tnbc: LIST_EMPTY,
+  nbc: LIST_EMPTY,
+  msrc: LIST_EMPTY,
+
+  /** 番市首富 */
+  rich: {
+    ...INIT_RICH
+  },
+
+  /** K线 */
+  kline: {},
+
+  /** 深度图 */
+  depth: {},
+
+  /** 用户资产 */
+  assets: INIT_ASSETS,
+
+  /** 其他用户资产 */
+  userAssets: {},
+
+  /** 用户资产概览信息 */
+  charaAssets: {},
+
+  /** 我的挂单和交易记录 */
+  userLogs: {},
+
+  /** 我的买单 */
+  bid: LIST_EMPTY,
+
+  /** 我的卖单 */
+  asks: LIST_EMPTY,
+
+  /** 我的持仓 */
+  myCharaAssets: INIT_MY_CHARA_ASSETS,
+
+  /** 资金日志 */
+  balance: LIST_EMPTY,
+
+  /** 记录所有角色的头像 Map (用于没有头像的列表) */
+  iconsCache: {},
+
+  /** ICO 参与者 */
+  initial: {},
+
+  /** 董事会 */
+  users: {},
+
+  /** 用户圣殿 */
+  temple: {},
+
+  /** 用户所有角色信息 */
+  charaAll: {},
+
+  /** 角色圣殿 */
+  charaTemple: {},
+
+  /** 可拍卖信息 */
+  valhallChara: {},
+
+  /** 上周拍卖记录 */
+  auctionList: {},
+
+  /** 英灵殿 */
+  valhallList: LIST_EMPTY,
+
+  /** 我的道具 */
+  items: LIST_EMPTY,
+
+  /** 我的拍卖列表 */
+  auction: LIST_EMPTY,
+
+  /** 当前拍卖状态 */
+  auctionStatus: {},
+
+  /** 角色发行价 */
+  issuePrice: {},
+
+  /** 最近圣殿 */
+  templeLast: LIST_EMPTY,
+
+  /** 每周萌王 */
+  topWeek: LIST_EMPTY,
+
+  /** 检测用户有多少圣殿 */
+  templeTotal: {},
+
+  /** 检测用户有多少角色 */
+  charaTotal: {},
+
+  /** 卖一推荐 */
+  advanceList: LIST_EMPTY,
+
+  /** 买一推荐 */
+  advanceBidList: LIST_EMPTY,
+
+  /** 竞拍推荐 */
+  advanceAuctionList: LIST_EMPTY,
+
+  /** 竞拍推荐 (按固定资产) */
+  advanceAuctionList2: LIST_EMPTY,
+
+  /** 献祭推荐 */
+  advanceSacrificeList: LIST_EMPTY,
+
+  /** 低价股 */
+  advanceState: LIST_EMPTY,
+
+  /** 角色本地收藏 */
+  collected: {},
+
+  /** 通天塔(α) */
+  star: {},
+
+  /** 通天塔(α)记录 */
+  starLogs: LIST_EMPTY,
+
+  /** 幻想乡 */
+  fantasy: LIST_EMPTY,
+
+  /** @deprecated */
+  _webview: true,
+
+  /** StockPreview 展开/收起 */
+  _stockPreview: false
+}
+
+class TinygrailStore
+  extends store
+  implements StoreConstructor<Omit<typeof state, ListKey>>
+{
+  state = observable(state)
+
+  private _loaded = {
     advance: false,
+    advanceAuctionList2: false,
+    advanceAuctionList: false,
+    advanceBidList: false,
+    advanceList: false,
+    advanceSacrificeList: false,
+    advanceState: false,
+    asks: false,
+    assets: false,
+    auction: false,
+    balance: false,
+    bid: false,
+    charaAll: false,
+    charaAssets: false,
+    charaTemple: false,
+    characters: false,
+    collected: false,
+    cookie: false,
+    depth: false,
+    fantasy: false,
+    hash: false,
+    iconsCache: false,
+    issuePrice: false,
+    items: false,
+    kline: false,
+    mvi: false,
+    myCharaAssets: false,
+    nbc: false,
+    recent: false,
+    rich: false,
+    star: false,
+    temple: false,
+    topWeek: false,
+    userLogs: false,
+    valhallList: false
+  }
 
-    /**
-     * 用户唯一标识
-     */
-    hash: '',
+  init = (key: keyof typeof this._loaded | ListKey) => {
+    if (!key || this._loaded[key]) return true
 
-    /**
-     * 全局人物数据
-     * @param {*} monoId
-     */
-    characters: {
-      0: INIT_CHARACTERS_ITEM
-    },
+    console.log('TinygrailStore /', key)
 
-    /**
-     * 总览列表
-     */
-    mvc: LIST_EMPTY,
-    mrc: LIST_EMPTY,
-    mfc: LIST_EMPTY,
-    mvi: LIST_EMPTY,
-    mpi: LIST_EMPTY,
-    rai: LIST_EMPTY,
-    mri: LIST_EMPTY,
-    recent: LIST_EMPTY,
-    tnbc: LIST_EMPTY,
-    nbc: LIST_EMPTY,
-    msrc: LIST_EMPTY,
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
 
-    /**
-     * 番市首富
-     * @param {*} sort
-     */
-    rich: {
-      _: (sort = defaultSort) => sort,
-      0: LIST_EMPTY, // <INIT_RICH_ITEM>
-      ...INIT_RICH
-    },
-
-    /**
-     * K线
-     * @param {*} monoId
-     */
-    kline: {
-      0: INIT_KLINE_ITEM
-    },
-
-    /**
-     * 深度图
-     * @param {*} monoId
-     */
-    depth: {
-      0: INIT_DEPTH_ITEM
-    },
-
-    /**
-     * 用户资产
-     */
-    assets: INIT_ASSETS,
-
-    /**
-     * 其他用户资产
-     * @param {*} hash
-     */
-    userAssets: {
-      0: INIT_ASSETS
-    },
-
-    /**
-     * 用户资产概览信息
-     * @param {*} hash
-     */
-    charaAssets: {
-      0: INIT_CHARA_ASSETS
-    },
-
-    /**
-     * 我的挂单和交易记录
-     * @param {*} monoId
-     */
-    userLogs: {
-      0: INIT_USER_LOGS
-    },
-
-    /**
-     * 我的买单
-     */
-    bid: LIST_EMPTY,
-
-    /**
-     * 我的卖单
-     */
-    asks: LIST_EMPTY,
-
-    /**
-     * 我的持仓
-     */
-    myCharaAssets: INIT_MY_CHARA_ASSETS,
-
-    /**
-     * 资金日志
-     */
-    balance: LIST_EMPTY,
-
-    /**
-     * 记录所有角色的头像Map (用于没有头像的列表)
-     * @param {*} monoId
-     */
-    iconsCache: {
-      0: ''
-    },
-
-    /**
-     * ICO参与者
-     * @param {*} monoId
-     */
-    initial: {
-      0: LIST_EMPTY
-    },
-
-    /**
-     * 董事会
-     * @param {*} monoId
-     */
-    users: {
-      0: LIST_EMPTY
-    },
-
-    /**
-     * 用户圣殿
-     * @param {*} hash
-     */
-    temple: {
-      _: hash => hash || this.hash,
-      0: LIST_EMPTY // <INIT_TEMPLE_ITEM>
-    },
-
-    /**
-     * 用户所有角色信息
-     * @param {*} hash
-     */
-    charaAll: {
-      _: hash => hash || this.hash,
-      0: LIST_EMPTY // <INIT_CHATACTER_ITEM>
-    },
-
-    /**
-     * 角色圣殿
-     * @param {*} monoId
-     */
-    charaTemple: {
-      0: LIST_EMPTY
-    },
-
-    /**
-     * 可拍卖信息
-     * @param {*} monoId
-     */
-    valhallChara: {
-      0: {}
-    },
-
-    /**
-     * 上周拍卖记录
-     * @param {*} monoId
-     */
-    auctionList: {
-      0: LIST_EMPTY
-    },
-
-    /**
-     * 英灵殿
-     */
-    valhallList: LIST_EMPTY,
-
-    /**
-     * 我的道具
-     */
-    items: LIST_EMPTY,
-
-    /**
-     * 我的拍卖列表
-     */
-    auction: LIST_EMPTY,
-
-    /**
-     * 当前拍卖状态
-     * @param {*} monoId
-     */
-    auctionStatus: {
-      0: INIT_AUCTION_STATUS
-    },
-
-    /**
-     * 角色发行价
-     * @param {*} monoId
-     */
-    issuePrice: {
-      0: 0
-    },
-
-    /**
-     * 最近圣殿
-     */
-    templeLast: LIST_EMPTY,
-
-    /**
-     * 每周萌王
-     */
-    topWeek: LIST_EMPTY,
-
-    /**
-     * 检测用户有多少圣殿
-     * @param {*} hash
-     */
-    templeTotal: {
-      0: 0
-    },
-
-    /**
-     * 检测用户有多少角色
-     * @param {*} hash
-     */
-    charaTotal: {
-      0: 0
-    },
-
-    /**
-     * 卖一推荐
-     */
-    advanceList: LIST_EMPTY,
-
-    /**
-     * 买一推荐
-     */
-    advanceBidList: LIST_EMPTY,
-
-    /**
-     * 竞拍推荐
-     */
-    advanceAuctionList: LIST_EMPTY,
-
-    /**
-     * 竞拍推荐 (按固定资产)
-     */
-    advanceAuctionList2: LIST_EMPTY,
-
-    /**
-     * 献祭推荐
-     */
-    advanceSacrificeList: LIST_EMPTY,
-
-    /**
-     * 低价股
-     */
-    advanceState: LIST_EMPTY,
-
-    /**
-     * 角色本地收藏
-     * @param {*} monoId
-     */
-    collected: {
-      0: 0
-    },
-
-    /**
-     * 通天塔(α)
-     */
-    star: {
-      0: LIST_EMPTY
-    },
-
-    /**
-     * 通天塔(α)记录
-     */
-    starLogs: LIST_EMPTY,
-
-    /**
-     * 幻想乡
-     */
-    fantasy: LIST_EMPTY,
-
-    /**
-     * iOS此刻是否显示WebView
-     *  - 此bug在sdk37下已不存在
-     *  - 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
-     * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
-     * 会导致闪白屏, 这个非常不友好, 暂时只想到通过维护一个全局变量去决定是否渲染WebView
-     */
-    _webview: true,
-
-    /**
-     * StockPreview 展开/收起
-     */
-    _stockPreview: false
-  })
-
-  init = () => this.readStorage(storageKeys, NAMESPACE)
+  save = (key: keyof typeof this._loaded | ListKey) => {
+    return this.setStorage(key, undefined, NAMESPACE)
+  }
 
   // -------------------- get --------------------
-  list(key = defaultKey) {
-    return computed(() => this.state[key]).get() || LIST_EMPTY
+  /** 授权 cookie */
+  @computed get cookie() {
+    this.init('cookie')
+    return this.state.cookie
+  }
+
+  /** 高级会员 */
+  @computed get advance() {
+    this.init('advance')
+    return this.state.advance
+  }
+
+  /** 用户唯一标识 */
+  @computed get hash() {
+    this.init('hash')
+    return this.state.hash
+  }
+
+  /** 全局人物数据 */
+  characters(monoId: MonoId) {
+    this.init('characters')
+    return computed<Characters>(() => {
+      return this.state.characters[monoId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 番市首富 */
+  rich(sort = defaultSort) {
+    this.init('rich')
+    return computed<ListEmpty>(() => {
+      return this.state.rich[sort] || LIST_EMPTY
+    }).get()
+  }
+
+  /** K 线 */
+  kline(monoId: MonoId) {
+    this.init('kline')
+    return computed<typeof INIT_KLINE_ITEM>(() => {
+      return this.state.kline[monoId] || INIT_KLINE_ITEM
+    }).get()
+  }
+
+  /** 深度图 */
+  depth(monoId: MonoId) {
+    this.init('depth')
+    return computed<typeof INIT_DEPTH_ITEM>(() => {
+      return this.state.depth[monoId] || INIT_DEPTH_ITEM
+    }).get()
+  }
+
+  /** 用户资产 */
+  @computed get assets() {
+    this.init('assets')
+    return this.state.assets
+  }
+
+  /** 其他用户资产 */
+  userAssets(hash: string) {
+    return computed<typeof INIT_ASSETS>(() => {
+      return this.state.userAssets[hash] || INIT_ASSETS
+    }).get()
+  }
+
+  /** 用户资产概览信息 */
+  charaAssets(hash: string) {
+    this.init('charaAssets')
+    return computed<typeof INIT_CHARA_ASSETS>(() => {
+      return this.state.charaAssets[hash] || INIT_CHARA_ASSETS
+    }).get()
+  }
+
+  /** 我的挂单和交易记录 */
+  userLogs(monoId: MonoId) {
+    this.init('userLogs')
+    return computed<typeof INIT_USER_LOGS>(() => {
+      return this.state.userLogs[monoId] || INIT_USER_LOGS
+    }).get()
+  }
+
+  /** 我的买单 */
+  @computed get bid() {
+    this.init('bid')
+    return this.state.bid
+  }
+
+  /** 我的卖单 */
+  @computed get asks() {
+    this.init('asks')
+    return this.state.asks
+  }
+
+  /** 我的持仓 */
+  @computed get myCharaAssets() {
+    this.init('myCharaAssets')
+    return this.state.myCharaAssets
+  }
+
+  /** 资金日志 */
+  @computed get balance() {
+    this.init('balance')
+    return this.state.balance
+  }
+
+  /** 记录所有角色的头像 Map (用于没有头像的列表) */
+  iconsCache(monoId: MonoId) {
+    this.init('iconsCache')
+    return computed<string>(() => {
+      return this.state.iconsCache[monoId] || ''
+    }).get()
+  }
+
+  /** ICO 参与者 */
+  initial(monoId: MonoId) {
+    return computed<ListEmpty>(() => {
+      return this.state.initial[monoId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 董事会 */
+  users(monoId: MonoId) {
+    return computed<ListEmpty>(() => {
+      return this.state.users[monoId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 用户圣殿 */
+  temple(hash: string = this.hash) {
+    this.init('temple')
+    return computed<ListEmpty>(() => {
+      return this.state.temple[hash] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 用户所有角色信息 */
+  charaAll(hash: string = this.hash) {
+    this.init('charaAll')
+    return computed<ListEmpty>(() => {
+      return this.state.charaAll[hash] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 角色圣殿 */
+  charaTemple(monoId: MonoId) {
+    this.init('charaTemple')
+    return computed<ListEmpty>(() => {
+      return this.state.charaTemple[monoId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 可拍卖信息 */
+  valhallChara(monoId: MonoId) {
+    return computed<ListEmpty>(() => {
+      return this.state.valhallChara[monoId] || {}
+    }).get()
+  }
+
+  /** 上周拍卖记录 */
+  auctionList(monoId: MonoId) {
+    return computed<ListEmpty>(() => {
+      return this.state.auctionList[monoId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 英灵殿 */
+  @computed get valhallList() {
+    this.init('valhallList')
+    return this.state.valhallList
+  }
+
+  /** 我的道具 */
+  @computed get items() {
+    this.init('items')
+    return this.state.items
+  }
+
+  /** 我的拍卖列表 */
+  @computed get auction() {
+    this.init('auction')
+    return this.state.auction
+  }
+
+  /** 当前拍卖状态 */
+  auctionStatus(monoId: MonoId) {
+    return computed<typeof INIT_AUCTION_STATUS>(() => {
+      return this.state.auctionStatus[monoId] || INIT_AUCTION_STATUS
+    }).get()
+  }
+
+  /** 角色发行价 */
+  issuePrice(monoId: MonoId) {
+    this.init('issuePrice')
+    return computed<number>(() => {
+      return this.state.issuePrice[monoId] || 0
+    }).get()
+  }
+
+  /** 最近圣殿 */
+  @computed get templeLast() {
+    return this.state.templeLast
+  }
+
+  /** 每周萌王 */
+  @computed get topWeek() {
+    this.init('topWeek')
+    return this.state.topWeek
+  }
+
+  /** 检测用户有多少圣殿 */
+  templeTotal(hash: string) {
+    return computed<number>(() => {
+      return this.state.templeTotal[hash] || 0
+    }).get()
+  }
+
+  /** 检测用户有多少角色 */
+  charaTotal(hash: string) {
+    return computed<number>(() => {
+      return this.state.charaTotal[hash] || 0
+    }).get()
+  }
+
+  /** 卖一推荐 */
+  @computed get advanceList() {
+    this.init('advanceList')
+    return this.state.advanceList
+  }
+
+  /** 买一推荐 */
+  @computed get advanceBidList() {
+    this.init('advanceBidList')
+    return this.state.advanceBidList
+  }
+
+  /** 竞拍推荐 */
+  @computed get advanceAuctionList() {
+    this.init('advanceAuctionList')
+    return this.state.advanceAuctionList
+  }
+
+  /** 竞拍推荐 (按固定资产) */
+  @computed get advanceAuctionList2() {
+    this.init('advanceAuctionList2')
+    return this.state.advanceAuctionList2
+  }
+
+  /** 献祭推荐 */
+  @computed get advanceSacrificeList() {
+    this.init('advanceSacrificeList')
+    return this.state.advanceSacrificeList
+  }
+
+  /** 低价股 */
+  @computed get advanceState() {
+    this.init('advanceState')
+    return this.state.advanceState
+  }
+
+  /** 角色本地收藏 */
+  collected(monoId: MonoId) {
+    this.init('collected')
+    return computed<number>(() => {
+      return this.state.collected[monoId] || 0
+    }).get()
+  }
+
+  /** 通天塔(α) */
+  star(monoId: MonoId) {
+    this.init('star')
+    return computed<ListEmpty>(() => {
+      return this.state.star[monoId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 通天塔(α)记录 */
+  @computed get starLogs() {
+    return this.state.starLogs
+  }
+
+  /** 幻想乡 */
+  @computed get fantasy() {
+    this.init('fantasy')
+    return this.state.fantasy
   }
 
   /**
-   * 人物和圣殿合并成总览列表
+   * @deprecated iOS 此刻是否显示 WebView
+   *  - 此bug在 sdk37 下已不存在
+   *  - 新的 WKWebView 已代替老的 UIWebView, 但是当前版本新的有一个致命的问题,
+   * 页面发生切换动作时, 会导致 WebView 重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
+   * 会导致闪白屏, 这个非常不友好, 暂时只想到通过维护一个全局变量去决定是否渲染 WebView
    */
+  @computed get _webview() {
+    return this.state._webview
+  }
+
+  /** StockPreview 展开 / 收起 */
+  @computed get _stockPreview() {
+    return this.state._stockPreview
+  }
+
+  // -------------------- computed --------------------
+  /** 总览列表 */
+  list(key: ListKey = defaultKey) {
+    this.init(key)
+    return computed<Characters>(() => {
+      return this.state[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 人物和圣殿合并成总览列表 */
   @computed get mergeList() {
     const { chara } = this.myCharaAssets
     const temple = this.temple()
@@ -441,11 +639,14 @@ class Tinygrail extends store {
   }
 
   // -------------------- fetch --------------------
-  fetch = (url, isPost, data, showError) => {
-    log(`⚡️ ${url}`)
+  /** 小圣杯统一请求入口 */
+  // @ts-ignore
+  fetch = (url: string, isPost?: boolean, data?: any, showError?: boolean) => {
+    global.log(`⚡️ ${url}`)
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
-    const config = {
+    const config: any = {
       method: isPost ? 'POST' : 'GET',
       url,
       responseType: 'json',
@@ -455,14 +656,13 @@ class Tinygrail extends store {
     }
     if (data) config.data = data
 
+    // @ts-ignore
     return axios(config).catch(() => {
       if (showError) info('接口出错')
     })
   }
 
-  /**
-   * 判断是否高级用户
-   */
+  /** 判断是否高级用户 */
   fetchAdvance = async () => {
     if (this.advance) return true
     if (!UserStore.myId) return false
@@ -478,10 +678,10 @@ class Tinygrail extends store {
         this.setState({
           advance: true
         })
-        this.setStorage(key, undefined, NAMESPACE)
+        this.save(key)
       }
     } catch (error) {
-      warn(NAMESPACE, 'fetchAdvance', error)
+      console.error(NAMESPACE, 'fetchAdvance', error)
     }
     return true
   }
@@ -492,7 +692,7 @@ class Tinygrail extends store {
    *  - 20210306 optimize
    * @param {*} ids
    */
-  fetchCharacters = async ids => {
+  fetchCharacters = async (ids: any[]) => {
     const key = 'characters'
     const result = await this.fetch(API_TINYGRAIL_CHARA(parseInt(ids[0])))
 
@@ -513,7 +713,7 @@ class Tinygrail extends store {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
 
     return Promise.resolve(this.state[key])
@@ -524,7 +724,7 @@ class Tinygrail extends store {
    *  - 自行添加顺序index, 以支持二次排序显示
    *  - 20210306 optimize
    */
-  fetchList = async (key = defaultKey) => {
+  fetchList = async (key: ListKey = defaultKey) => {
     const result = await this.fetch(API_TINYGRAIL_LIST(key))
 
     if (result.data.State === 0) {
@@ -532,7 +732,7 @@ class Tinygrail extends store {
       const data = {
         ...LIST_EMPTY,
         list: (result.data.Value.Items || result.data.Value).map((item, index) => {
-          const character = toCharacter(item)
+          const character: any = toCharacter(item)
           const id = item.CharacterId || item.Id
           const { icon } = character
           if (icon) iconsCache[id] = icon
@@ -558,18 +758,16 @@ class Tinygrail extends store {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
 
     return Promise.resolve(this.state[key])
   }
 
-  /**
-   * 番市首富
-   */
+  /** 番市首富 */
   fetchRich = async (sort = defaultSort) => {
     const [page, limit] = sort.split('/')
-    const result = await this.fetch(API_TINYGRAIL_RICH(page, limit))
+    const result = await this.fetch(API_TINYGRAIL_RICH(Number(page), Number(limit)))
 
     let data = {
       ...LIST_EMPTY
@@ -602,18 +800,16 @@ class Tinygrail extends store {
         [sort]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * K线原始数据
-   */
-  fetchKline = async monoId => {
+  /** K 线原始数据 */
+  fetchKline = async (monoId: MonoId) => {
     const result = await this.fetch(API_TINYGRAIL_CHARTS(monoId), true)
 
-    const data = {
+    const data: any = {
       id: monoId,
       data: []
     }
@@ -639,18 +835,16 @@ class Tinygrail extends store {
         [monoId]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 深度图
-   */
-  fetchDepth = async monoId => {
+  /** 深度图 */
+  fetchDepth = async (monoId: MonoId) => {
     const result = await this.fetch(API_TINYGRAIL_DEPTH(monoId), true)
 
-    const data = {
+    const data: any = {
       ...INIT_DEPTH_ITEM
     }
     if (result.data.State === 0) {
@@ -671,14 +865,12 @@ class Tinygrail extends store {
         [monoId]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 用户唯一标识
-   */
+  /** 用户唯一标识 */
   fetchHash = async () => {
     const result = await this.fetch(API_TINYGRAIL_HASH())
 
@@ -691,14 +883,12 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 资产信息
-   */
+  /** 资产信息 */
   fetchAssets = async () => {
     const result = await this.fetch(API_TINYGRAIL_ASSETS())
 
@@ -719,15 +909,13 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 其他用户资产信息
-   */
-  fetchUserAssets = async hash => {
+  /** 其他用户资产信息 */
+  fetchUserAssets = async (hash: string) => {
     const result = await this.fetch(API_TINYGRAIL_ASSETS(hash))
 
     let data = {
@@ -753,13 +941,11 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
-  /**
-   * 用户资产概览信息
-   */
-  fetchCharaAssets = async hash => {
+  /** 用户资产概览信息 */
+  fetchCharaAssets = async (hash: string) => {
     const result = await this.fetch(API_TINYGRAIL_CHARA_ASSETS(hash))
 
-    const data = {
+    const data: any = {
       ...INIT_CHARA_ASSETS
     }
     if (result.data.State === 0) {
@@ -810,7 +996,7 @@ class Tinygrail extends store {
         [hash]: data
       }
     })
-    // this.setStorage(key, undefined, NAMESPACE)
+    // this.save(key)
 
     return Promise.resolve(data)
   }
@@ -848,7 +1034,7 @@ class Tinygrail extends store {
       const characters = {}
       const data = {
         list: result.data.Value.Items.map(item => {
-          const character = toCharacter(item, keys)
+          const character: any = toCharacter(item, keys)
           const {
             bonus,
             current,
@@ -887,15 +1073,13 @@ class Tinygrail extends store {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
 
     return Promise.resolve(this.state[key])
   }
 
-  /**
-   * 幻想乡 (逻辑同英灵殿)
-   */
+  /** 幻想乡 (逻辑同英灵殿) */
   fetchFantasyList = async () => {
     const key = 'fantasy'
     const result = await this.fetch(API_TINYGRAIL_FANTASY_LIST())
@@ -926,7 +1110,7 @@ class Tinygrail extends store {
       const characters = {}
       const data = {
         list: result.data.Value.Items.map(item => {
-          const character = toCharacter(item, keys)
+          const character: any = toCharacter(item, keys)
           const {
             bonus,
             current,
@@ -965,15 +1149,13 @@ class Tinygrail extends store {
       this.setState({
         [key]: data
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
 
     return Promise.resolve(this.state[key])
   }
 
-  /**
-   * 我的道具
-   */
+  /** 我的道具 */
   fetchItems = async () => {
     const result = await this.fetch(API_TINYGRAIL_ITEMS())
 
@@ -996,14 +1178,12 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 每周萌王
-   */
+  /** 每周萌王 */
   fetchTopWeek = async () => {
     const result = await this.fetch(API_TINYGRAIL_TOP_WEEK())
 
@@ -1043,14 +1223,12 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 检测用户有多少圣殿
-   */
+  /** 检测用户有多少圣殿 */
   fetchTempleTotal = async hash => {
     const result = await this.fetch(API_TINYGRAIL_USER_TEMPLE_TOTAL(hash))
     let total = 0
@@ -1067,10 +1245,8 @@ class Tinygrail extends store {
     return Promise.resolve(total)
   }
 
-  /**
-   * 检测用户有多少人物
-   */
-  fetchCharaTotal = async hash => {
+  /** 检测用户有多少人物 */
+  fetchCharaTotal = async (hash: string) => {
     const result = await this.fetch(API_TINYGRAIL_USER_CHARA_TOTAL(hash))
     let total = 0
     if (result.data.State === 0) {
@@ -1086,10 +1262,8 @@ class Tinygrail extends store {
     return Promise.resolve(total)
   }
 
-  /**
-   * 用户挂单和交易记录
-   */
-  fetchUserLogs = async monoId => {
+  /** 用户挂单和交易记录 */
+  fetchUserLogs = async (monoId: MonoId) => {
     const result = await this.fetch(API_TINYGRAIL_USER_CHARA(monoId))
 
     let data = {
@@ -1130,6 +1304,7 @@ class Tinygrail extends store {
           time: item.Begin,
           type: item.Type
         })),
+        // @ts-ignore
         sacrifices: result.data.Value.Sacrifices,
         _loaded: getTimestamp()
       }
@@ -1141,14 +1316,12 @@ class Tinygrail extends store {
         [monoId]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 我的买单
-   */
+  /** 我的买单 */
   fetchBid = async () => {
     const result = await this.fetch(API_TINYGRAIL_CHARA_BID())
 
@@ -1195,14 +1368,12 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 我的卖单
-   */
+  /** 我的卖单 */
   fetchAsks = async () => {
     const result = await this.fetch(API_TINYGRAIL_CHARA_ASKS())
 
@@ -1249,14 +1420,12 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 我的拍卖列表
-   */
+  /** 我的拍卖列表 */
   fetchAuction = async () => {
     const result = await this.fetch(API_TINYGRAIL_MY_AUCTION_LIST())
 
@@ -1298,21 +1467,19 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 当前拍卖状态
-   */
+  /** 当前拍卖状态 */
   fetchAuctionStatus = async monoId => {
     const result = await this.fetch(API_TINYGRAIL_AUCTION_STATUS(), true, [
       parseInt(monoId)
     ])
 
     const { State, Value } = result.data
-    let data = INIT_AUCTION_STATUS
+    let data: any = INIT_AUCTION_STATUS
     if (State === 0) {
       data = {
         state: Value[0] ? Value[0].State : 0,
@@ -1338,7 +1505,7 @@ class Tinygrail extends store {
     await this.fetchCharaAll() // 从这里获取自己的固定资产数量
     const result = await this.fetch(API_TINYGRAIL_MY_CHARA_ASSETS()) // 这个接口没有返回自己的固定资产数量
 
-    let data = {
+    let data: any = {
       ...INIT_MY_CHARA_ASSETS
     }
     if (result.data.State === 0) {
@@ -1415,15 +1582,13 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * ICO参与者
-   */
-  fetchInitial = async monoId => {
+  /** ICO 参与者 */
+  fetchInitial = async (monoId: MonoId) => {
     // TotalPages
     const result = await this.fetch(API_TINYGRAIL_INITIAL(monoId))
 
@@ -1458,9 +1623,7 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
-  /**
-   * 资金日志
-   */
+  /** 资金日志 */
   fetchBalance = async () => {
     const result = await this.fetch(API_TINYGRAIL_BALANCE())
 
@@ -1487,18 +1650,16 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 董事会
-   */
-  fetchUsers = async monoId => {
+  /** 董事会 */
+  fetchUsers = async (monoId: MonoId) => {
     const result = await this.fetch(API_TINYGRAIL_USERS(monoId))
 
-    let data = []
+    let data: any = []
     if (result.data.State === 0) {
       data = {
         ...LIST_EMPTY,
@@ -1527,9 +1688,7 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
-  /**
-   * 用户圣殿
-   */
+  /** 用户圣殿 */
   fetchTemple = async (hash = this.hash) => {
     const result = await this.fetch(API_TINYGRAIL_TEMPLE(hash))
 
@@ -1563,15 +1722,13 @@ class Tinygrail extends store {
       }
     })
     if (hash === this.hash) {
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 用户资产概览信息
-   */
+  /** 用户资产概览信息 */
   fetchCharaAll = async (hash = this.hash) => {
     const result = await this.fetch(API_TINYGRAIL_CHARA_ALL(hash))
 
@@ -1610,15 +1767,13 @@ class Tinygrail extends store {
       }
     })
     if (hash === this.hash) {
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 角色圣殿
-   */
+  /** 角色圣殿 */
   fetchCharaTemple = async (id = 0) => {
     const result = await this.fetch(API_TINYGRAIL_CHARA_TEMPLE(id))
 
@@ -1648,14 +1803,12 @@ class Tinygrail extends store {
         [id]: data
       }
     })
-    // this.setStorage(key, undefined, NAMESPACE)
+    // this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 可拍卖信息
-   */
+  /** 可拍卖信息 */
   fetchValhallChara = async (id = 0) => {
     const result = await this.fetch(API_TINYGRAIL_VALHALL_CHARA(id))
 
@@ -1679,9 +1832,7 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
-  /**
-   * 上周拍卖记录
-   */
+  /** 上周拍卖记录 */
   fetchAuctionList = async (id = 0) => {
     const result = await this.fetch(API_TINYGRAIL_AUCTION_LIST(id))
 
@@ -1714,9 +1865,7 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
-  /**
-   * 角色发行价
-   */
+  /** 角色发行价 */
   fetchIssuePrice = async (id = 0) => {
     // 发行价一旦有数据就不会改变, 不需要再请求
     if (this.issuePrice[id]) {
@@ -1737,17 +1886,15 @@ class Tinygrail extends store {
         [id]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 最近圣殿
-   */
-  fetchTempleLast = async refresh => {
+  /** 最近圣殿 */
+  fetchTempleLast = async (refresh: boolean = false) => {
     const { list, pagination } = this.templeLast
-    let page
+    let page: number
     if (refresh) {
       page = 1
     } else {
@@ -1755,7 +1902,7 @@ class Tinygrail extends store {
     }
 
     const result = await this.fetch(API_TINYGRAIL_TEMPLE_LAST(page))
-    let data = {
+    let data: any = {
       ...LIST_EMPTY
     }
     const { State, Value } = result.data
@@ -1793,10 +1940,7 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
-  /**
-   * 卖一推荐
-   * 从市场查找
-   */
+  /** 卖一推荐 (从市场查找) */
   fetchAdvanceList = async () => {
     let Value = []
     let result
@@ -1814,7 +1958,7 @@ class Tinygrail extends store {
       Value = [...Value, ...result.data.Value.Items]
     }
 
-    let data = {
+    let data: any = {
       ...LIST_EMPTY
     }
     let list = []
@@ -1850,6 +1994,7 @@ class Tinygrail extends store {
         await queue(
           list.map(item => () => {
             throttleInfo(
+              // @ts-ignore
               `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
             )
             return this.fetchDepth(item.id)
@@ -1885,7 +2030,7 @@ class Tinygrail extends store {
         }
         info('分析完毕')
       } catch (error) {
-        warn(NAMESPACE, 'fetchAdvanceList', error)
+        console.error(NAMESPACE, 'fetchAdvanceList', error)
       }
     }
 
@@ -1893,20 +2038,17 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 买一推荐
-   * 从自己持仓中查找
-   */
+  /** 买一推荐 (从自己持仓中查找) */
   fetchAdvanceBidList = async () => {
     await this.fetchMyCharaAssets()
     const { chara = LIST_EMPTY } = this.myCharaAssets
 
-    let data = {
+    let data: any = {
       ...LIST_EMPTY
     }
 
@@ -1918,6 +2060,7 @@ class Tinygrail extends store {
         await queue(
           list.map(item => () => {
             throttleInfo(
+              // @ts-ignore
               `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
             )
             return this.fetchDepth(item.id)
@@ -1964,7 +2107,7 @@ class Tinygrail extends store {
         }
         info('分析完毕')
       } catch (error) {
-        warn(NAMESPACE, 'fetchAdvanceBidList', error)
+        console.error(NAMESPACE, 'fetchAdvanceBidList', error)
       }
     }
 
@@ -1972,22 +2115,19 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 拍卖推荐
-   * 从英灵殿中查找
-   */
+  /** 拍卖推荐 (从英灵殿中查找) */
   fetchAdvanceAuctionList = async () => {
     const result = await this.fetch(
       API_TINYGRAIL_VALHALL_LIST(1, TINYGRAIL_ASSETS_LIMIT)
     )
     const { State, Value } = result.data
 
-    let data = {
+    let data: any = {
       ...LIST_EMPTY
     }
     if (State === 0) {
@@ -2024,22 +2164,19 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 拍卖推荐 (按假设角色是通天塔250名来计算)
-   * 从英灵殿中查找
-   */
+  /** 拍卖推荐 (按假设角色是通天塔250名来计算, 从英灵殿中查找) */
   fetchAdvanceAuctionList2 = async () => {
     const result = await this.fetch(
       API_TINYGRAIL_VALHALL_LIST(1, TINYGRAIL_ASSETS_LIMIT)
     )
     const { State, Value } = result.data
 
-    let data = {
+    let data: any = {
       ...LIST_EMPTY
     }
     if (State === 0) {
@@ -2080,15 +2217,12 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 献祭推荐
-   * 从自己持仓中查找
-   */
+  /** 献祭推荐 (从自己持仓中查找) */
   fetchAdvanceSacrificeList = async () => {
     await this.fetchMyCharaAssets()
     const { chara = LIST_EMPTY } = this.myCharaAssets
@@ -2111,7 +2245,7 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
@@ -2173,7 +2307,7 @@ class Tinygrail extends store {
     //       }
     //       info('分析完毕')
     //     } catch (error) {
-    //       warn(NAMESPACE, 'fetchAdvanceBidList', error)
+    //       console.error(NAMESPACE, 'fetchAdvanceBidList', error)
     //     }
     //   }
     // }
@@ -2181,14 +2315,11 @@ class Tinygrail extends store {
     // this.setState({
     //   [key]: data
     // })
-    // this.setStorage(key, undefined, NAMESPACE)
+    // this.save(key)
     // return Promise.resolve(data)
   }
 
-  /**
-   * 低价股
-   * 从市场查找
-   */
+  /** 低价股 (从市场查找) */
   fetchAdvanceState = async () => {
     const key = 'advanceState'
     await this.fetchValhallList()
@@ -2200,6 +2331,7 @@ class Tinygrail extends store {
         await queue(
           list.map(item => () => {
             throttleInfo(
+              // @ts-ignore
               `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
             )
             return this.fetchDepth(item.id)
@@ -2233,20 +2365,16 @@ class Tinygrail extends store {
         this.setState({
           [key]: data
         })
-        this.setStorage(key, undefined, NAMESPACE)
+        this.save(key)
       } catch (error) {
-        warn(NAMESPACE, 'fetchAdvanceState', error)
+        console.error(NAMESPACE, 'fetchAdvanceState', error)
       }
     }
 
     return Promise.resolve(this.state[key])
   }
 
-  /**
-   * 通天塔(α)
-   * @param {*} page
-   * @param {*} limit
-   */
+  /** 通天塔(α) */
   fetchStar = async (page = 1, limit = 50) => {
     const result = await this.fetch(API_TINYGRAIL_STAR(page, limit))
 
@@ -2280,16 +2408,12 @@ class Tinygrail extends store {
         [`${page}|${limit}`]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return Promise.resolve(data)
   }
 
-  /**
-   * 通天塔(α)记录
-   * @param {*} page
-   * @param {*} limit
-   */
+  /** 通天塔(α)记录 */
   fetchStarLogs = async (page = 1, limit = 100) => {
     const result = await this.fetch(API_TINYGRAIL_STAR_LOGS(page, limit))
 
@@ -2331,21 +2455,21 @@ class Tinygrail extends store {
     this.setState({
       cookie
     })
-    this.setStorage('cookie', undefined, NAMESPACE)
+    this.save('cookie')
   }
 
   updateIconsCache = iconsCache => {
     this.setState({
       iconsCache
     })
-    this.setStorage('iconsCache', undefined, NAMESPACE)
+    this.save('iconsCache')
   }
 
   updateCharacters = characters => {
     this.setState({
       characters
     })
-    this.setStorage('characters', undefined, NAMESPACE)
+    this.save('characters')
   }
 
   updateWebViewShow = show => {
@@ -2361,11 +2485,7 @@ class Tinygrail extends store {
     })
   }
 
-  /**
-   * 更新献祭少于500未成塔的数据
-   * @param {*} id
-   * @param {*} sacrifices
-   */
+  /** 更新献祭少于500未成塔的数据 */
   updateMyTemples = (id, sacrifices = 0) => {
     if (!this.hash || sacrifices > 500) {
       return
@@ -2394,21 +2514,16 @@ class Tinygrail extends store {
         [this.hash]: temple
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
-  /**
-   * 更新我的持仓角色
-   * @param {*} id
-   * @param {*} state
-   * @param {*} sacrifices
-   */
+  /** 更新我的持仓角色 */
   updateMyCharaAssets = (id, state, sacrifices) => {
     // 只有这里能检测到未献祭满500角色的圣殿资产变化, 需要联动圣殿资产里面的对应项
     this.updateMyTemples(id, sacrifices)
 
     const key = 'myCharaAssets'
-    const { chara = {} } = this[key]
+    const { chara = {} } = this[key] as any
     const { list = [] } = chara
     const index = list.findIndex(item => item.monoId === parseInt(id))
     if (index !== -1) {
@@ -2431,31 +2546,23 @@ class Tinygrail extends store {
           }
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
       return true
     }
     return false
   }
 
-  /**
-   * 批量根据角色id更新我的持仓角色
-   * @param {*} ids
-   */
+  /** 批量根据角色id更新我的持仓角色 */
   batchUpdateMyCharaAssetsByIds = async ids => {
     for (const id of ids) {
-      const { amount, sacrifices } = await this.fetchUserLogs(id)
+      const { amount, sacrifices } = (await this.fetchUserLogs(id)) as any
       this.updateMyCharaAssets(id, amount, sacrifices)
     }
   }
 
-  /**
-   * 批量根据角色id更新我的圣殿资产
-   * @param {*} ids
-   */
+  /** 批量根据角色id更新我的圣殿资产 */
   batchUpdateTemplesByIds = async ids => {
-    if (!this.hash) {
-      return
-    }
+    if (!this.hash) return
 
     const key = 'temple'
     const temple = toJS(this[key]())
@@ -2490,13 +2597,11 @@ class Tinygrail extends store {
           [this.hash]: temple
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
-  /**
-   * 切换是否显示角色股价预览
-   */
+  /** 切换是否显示角色股价预览 */
   toggleStockPreview = () => {
     const { _stockPreview } = this.state
     this.setState({
@@ -2504,11 +2609,8 @@ class Tinygrail extends store {
     })
   }
 
-  /**
-   * 切换收藏
-   * @param {*} monoId
-   */
-  toggleCollect = monoId => {
+  /** 切换收藏 */
+  toggleCollect = (monoId: MonoId) => {
     const { collected } = this.state
 
     const _collected = {
@@ -2524,13 +2626,11 @@ class Tinygrail extends store {
       collected: _collected
     })
 
-    this.setStorage('collected', undefined, NAMESPACE)
+    this.save('collected')
   }
 
   // -------------------- action --------------------
-  /**
-   * 买入
-   */
+  /** 买入 */
   doBid = async ({ monoId, price, amount, isIce }) => {
     const result = await this.fetch(
       API_TINYGRAIL_BID(monoId, price, amount, isIce),
@@ -2542,9 +2642,7 @@ class Tinygrail extends store {
     return false
   }
 
-  /**
-   * 卖出
-   */
+  /** 卖出 */
   doAsk = async ({ monoId, price, amount, isIce }) => {
     const result = await this.fetch(
       API_TINYGRAIL_ASK(monoId, price, amount, isIce),
@@ -2556,9 +2654,7 @@ class Tinygrail extends store {
     return false
   }
 
-  /**
-   * 取消买入
-   */
+  /** 取消买入 */
   doCancelBid = async ({ id }) => {
     const result = await this.fetch(API_TINYGRAIL_CANCEL_BID(id), true)
     if (result.data.State === 0) {
@@ -2567,9 +2663,7 @@ class Tinygrail extends store {
     return false
   }
 
-  /**
-   * 取消卖出
-   */
+  /** 取消卖出 */
   doCancelAsk = async ({ id }) => {
     const result = await this.fetch(API_TINYGRAIL_CANCEL_ASK(id), true)
     if (result.data.State === 0) {
@@ -2578,9 +2672,7 @@ class Tinygrail extends store {
     return false
   }
 
-  /**
-   * 参与ICO
-   */
+  /** 参与 ICO */
   doJoin = async ({ id, amount }) => {
     const result = await this.fetch(API_TINYGRAIL_JOIN(id, amount), true)
     if (result.data.State === 0) {
@@ -2589,9 +2681,7 @@ class Tinygrail extends store {
     return false
   }
 
-  /**
-   * 资产重组
-   */
+  /** 资产重组 */
   doSacrifice = async ({ monoId, amount, isSale }) => {
     const { data } = await this.fetch(
       API_TINYGRAIL_SACRIFICE(monoId, amount, isSale),
@@ -2600,9 +2690,7 @@ class Tinygrail extends store {
     return data
   }
 
-  /**
-   * 拍卖
-   */
+  /** 拍卖 */
   doAuction = async ({ monoId, price, amount }) => {
     const { data } = await this.fetch(
       API_TINYGRAIL_AUCTION(monoId, price, amount),
@@ -2611,17 +2699,13 @@ class Tinygrail extends store {
     return data
   }
 
-  /**
-   * 取消拍卖
-   */
+  /** 取消拍卖 */
   doAuctionCancel = async ({ id }) => {
     const { data } = await this.fetch(API_TINYGRAIL_AUCTION_CANCEL(id), true)
     return data
   }
 
-  /**
-   * 刮刮乐
-   */
+  /** 刮刮乐 */
   doLottery = async (isBonus2 = false) => {
     const { data } = await this.fetch(
       isBonus2 ? API_TINYGRAIL_SCRATCH2() : API_TINYGRAIL_SCRATCH(),
@@ -2630,41 +2714,31 @@ class Tinygrail extends store {
     return data
   }
 
-  /**
-   * 检测今天刮刮乐刮了多少次
-   */
+  /** 检测今天刮刮乐刮了多少次 */
   doCheckDaily = async () => {
     const { data } = await this.fetch(API_TINYGRAIL_DAILY_COUNT())
     return data
   }
 
-  /**
-   * 每周分红
-   */
+  /** 每周分红 */
   doBonus = async () => {
     const { data } = await this.fetch(API_TINYGRAIL_BONUS(), true)
     return data
   }
 
-  /**
-   * 每日签到
-   */
+  /** 每日签到 */
   doBonusDaily = async () => {
     const { data } = await this.fetch(API_TINYGRAIL_BONUS_DAILY(), true)
     return data
   }
 
-  /**
-   * 节日福利
-   */
+  /** 节日福利 */
   doBonusHoliday = async () => {
     const { data } = await this.fetch(API_TINYGRAIL_BONUS_HOLIDAY(), true)
     return data
   }
 
-  /**
-   * 新年快乐
-   */
+  /** 新年快乐 */
   doSend = async (count = 10000) => {
     const { data } = await this.fetch(
       `https://tinygrail.com/api/event/send/sukaretto/${count}`,
@@ -2673,9 +2747,7 @@ class Tinygrail extends store {
     return data
   }
 
-  /**
-   * 使用道具
-   */
+  /** 使用道具 */
   doMagic = async ({ monoId, type, toMonoId, amount, isTemple }) => {
     const { data } = await this.fetch(
       API_TINYGRAIL_MAGIC(monoId, type, toMonoId, amount, isTemple),
@@ -2684,37 +2756,33 @@ class Tinygrail extends store {
     return data
   }
 
-  /**
-   * 查询
-   */
+  /** 查询 */
   doSearch = ({ keyword }) => this.fetch(API_TINYGRAIL_SEARCH(keyword), true)
 
-  /**
-   * Link
-   */
+  /** Link */
   doLink = async ({ monoId, toMonoId }) => {
     const { data } = await this.fetch(API_TINYGRAIL_LINK(monoId, toMonoId), true)
     return data
   }
 
-  /**
-   * 启动ICO
-   */
+  /** 启动 ICO */
   doICO = async ({ monoId }) => {
     const { data } = await this.fetch(API_TINYGRAIL_INIT(monoId), true)
     return data
   }
 
-  /**
-   * 灌注星之力
-   */
+  /** 灌注星之力 */
   doStarForces = async ({ monoId, amount }) => {
     const { data } = await this.fetch(API_TINYGRAIL_CHARA_STAR(monoId, amount), true)
     return data
   }
 }
 
-const Store = new Tinygrail()
-Store.setup()
+const tinygrailStore = new TinygrailStore()
+setTimeout(() => {
+  tinygrailStore.init('cookie')
+  tinygrailStore.init('advance')
+  tinygrailStore.init('hash')
+}, 2000)
 
-export default Store
+export default tinygrailStore

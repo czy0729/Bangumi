@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-04 16:25:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 14:34:51
+ * @Last Modified time: 2022-10-29 00:19:33
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
@@ -14,7 +14,7 @@ import { TINYGRAIL_UPDATES_LOGS_URL, VERSION_TINYGRAIL_PLUGIN } from '@constants
 
 function Btns(props, { $, navigation }) {
   return (
-    <Flex style={_.mt.xs} justify='center'>
+    <Flex style={_.mb.md} justify='center'>
       <Touchable
         style={styles.touch}
         onPress={() => {
