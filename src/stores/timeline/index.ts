@@ -49,9 +49,29 @@ const state = {
 class TimelineStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  private _loaded = {
+    timeline: false,
+    say: false,
+    hidden: false
+  }
+
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('TimelineStore /', key)
+
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
+  }
+
   // -------------------- get --------------------
   /** 时间胶囊 */
   timeline(scope: TimeLineScope = DEFAULT_SCOPE, type: TimeLineType = DEFAULT_TYPE) {
+    this.init('timeline')
     return computed<Timeline>(() => {
       const key = `${scope}|${type}`
       return this.state.timeline[key] || LIST_EMPTY
@@ -68,6 +88,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
 
   /** 吐槽 */
   say(id: Id) {
+    this.init('say')
     return computed<Say>(() => {
       const sayId = String(id).split('#')[0]
       return this.state.say[sayId] || LIST_EMPTY
@@ -81,11 +102,8 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
 
   /** 隐藏 TA */
   @computed get hidden(): Hidden {
+    this.init('hidden')
     return this.state.hidden
-  }
-
-  init = () => {
-    return this.readStorage(['timeline', 'say', 'hidden'], NAMESPACE)
   }
 
   // -------------------- fetch --------------------
@@ -120,7 +138,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
       }
     })
 
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
     return data
   }
 
@@ -178,7 +196,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
         [sayId]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
@@ -213,7 +231,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
     } else {
       this.clearState(key, {})
     }
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return true
   }

@@ -54,7 +54,7 @@ class GlobalStores {
       await userStore.init()
       await collectionStore.init()
       await subjectStore.init()
-      await calendarStore.init()
+      // await calendarStore.init()
 
       // [异步加载] 非重要 Stores
       requestAnimationFrame(() => {
@@ -62,12 +62,12 @@ class GlobalStores {
         // monoStore.init()
         // otaStore.init()
         // rakuenStore.init()
-        searchStore.init()
+        // searchStore.init()
         smbStore.init()
-        tagStore.init()
-        timelineStore.init()
+        // tagStore.init()
+        // timelineStore.init()
         tinygrailStore.init()
-        usersStore.init()
+        // usersStore.init()
       })
 
       return systemStore.setting

@@ -32,8 +32,27 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
 
   UA = ''
 
+  private _loaded = {
+    search: false
+  }
+
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('SearchStore /', key)
+
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  // -------------------- get --------------------
   /** 搜索结果 */
   search(text: string, cat: SearchCat = DEFAULT_CAT, legacy?: any) {
+    this.init('search')
     return computed<Search>(() => {
       const _text = text.replace(/ /g, '+')
       let key = `${_text}|${cat}`
@@ -47,10 +66,6 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
     return computed(() => {
       return this.state.searchRakuen[q] || LIST_EMPTY
     }).get()
-  }
-
-  init = () => {
-    return this.readStorage(['search'], NAMESPACE)
   }
 
   // -------------------- fetch --------------------
@@ -245,7 +260,7 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
         [stateKey]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }

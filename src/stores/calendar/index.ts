@@ -44,16 +44,31 @@ const state: State = {
 class CalendarStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = () => {
-    return this.readStorage(
-      Object.keys(['calendar', 'home', 'onAir', 'onAirUser']),
-      NAMESPACE
-    )
+  private _loaded = {
+    calendar: false,
+    home: false,
+    onAir: false,
+    onAirUser: false
+  }
+
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('CalendarStore /', key)
+
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------
   /** 每日放送, 结合onAir和用户自定义放送时间覆盖原数据 */
   @computed get calendar(): Calendar {
+    this.init('calendar')
+
     const data = {
       list: [
         {
@@ -116,6 +131,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
 
   /** 发现页信息聚合 */
   @computed get home() {
+    this.init('home')
     return this.state.home
   }
 
@@ -126,6 +142,8 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
 
   /** 需要用户自定义放送时间覆盖原数据 */
   @computed get onAir() {
+    this.init('onAir')
+
     const { onAir, onAirUser } = this.state
     const keys = Object.keys(onAirUser)
     if (keys.length < 1) return onAir
@@ -153,6 +171,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
 
   /** 用户自定义放送时间 */
   onAirUser(subjectId: SubjectId): typeof INIT_USER_ONAIR_ITEM {
+    this.init('onAirUser')
     return computed<OnAirUser>(() => {
       const { onAirUser } = this.state
       return onAirUser[subjectId] || INIT_USER_ONAIR_ITEM
@@ -249,7 +268,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
         _loaded: getTimestamp()
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return res
   }
@@ -273,7 +292,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
         }
       })
 
-      // this.setStorage(key, undefined, NAMESPACE)
+      // this.save(key)
       return data
     } catch (error) {
       return INIT_HOME
@@ -326,7 +345,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
 
       const key = 'onAir'
       this.clearState(key, data)
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
       this._fetchOnAir = true
     } catch (error) {}
   }
@@ -346,7 +365,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 删除自定义放送时间 */
@@ -357,7 +376,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
 
     const key = 'onAirUser'
     this.clearState(key, _onAirUser)
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 上传用户自定义放送数据到云端 */
@@ -391,7 +410,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
           ...this.state.onAirUser
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
       return true
     } catch (error) {
       return false

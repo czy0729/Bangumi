@@ -96,9 +96,47 @@ class UsersStore
 {
   state = observable(state)
 
+  private _loaded = {
+    blogs: false,
+    catalogs: false,
+    catalogsCollect: false,
+    characters: false,
+    friends: false,
+    myFriendsMap: false,
+    persons: false,
+    recents: false,
+    users: false
+  }
+
+  init = async (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('UsersStore /', key)
+    this._loaded[key] = true
+    const data = await this.readStorage([key], NAMESPACE)
+
+    if (key === 'myFriendsMap') {
+      if (userStore.isLogin) {
+        const { _loaded } = this.myFriendsMap
+
+        /** 若登录了, 而且在2天内没更新过好友列表, 请求好友列表, 用于帖子楼层标记是否好友 */
+        if (!_loaded || getTimestamp() - _loaded > 2 * 60 * 60 * 24) {
+          this.fetchFriends()
+        }
+      }
+    }
+
+    return data
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
+  }
+
   // -------------------- get --------------------
   /** 好友列表 */
   friends(userId?: UserId) {
+    this.init('friends')
     return computed<Friends>(() => {
       const key = userId || userStore.myId
       return this.state.friends[key] || LIST_EMPTY
@@ -107,11 +145,13 @@ class UsersStore
 
   /** 我的好友 userId 哈希映射 */
   @computed get myFriendsMap(): MyFriendsMap {
+    this.init('myFriendsMap')
     return this.state.myFriendsMap
   }
 
   /** 用户信息 */
   users(userId?: UserId) {
+    this.init('users')
     return computed<Users>(() => {
       const key = userId || userStore.myId
       return this.state.users[key] || INIT_USERS
@@ -120,6 +160,7 @@ class UsersStore
 
   /** 用户收藏的虚拟角色 */
   characters(userId?: UserId) {
+    this.init('characters')
     return computed<Characters>(() => {
       const key = userId || userStore.myId
       return this.state.characters[key] || LIST_EMPTY
@@ -128,6 +169,7 @@ class UsersStore
 
   /** 用户收藏的现实人物 */
   persons(userId?: UserId) {
+    this.init('persons')
     return computed<Persons>(() => {
       const key = userId || userStore.myId
       return this.state.persons[key] || LIST_EMPTY
@@ -136,11 +178,13 @@ class UsersStore
 
   /** 我收藏人物的最近作品 */
   @computed get recents(): Recents {
+    this.init('recents')
     return this.state.recents
   }
 
   /** 用户日志 */
   blogs(userId?: UserId) {
+    this.init('blogs')
     return computed<Blogs>(() => {
       const key = userId || userStore.myId
       return this.state.blogs[key] || LIST_EMPTY
@@ -149,8 +193,9 @@ class UsersStore
 
   /** 用户目录 */
   catalogs(userId?: UserId, isCollect?: boolean) {
+    const key = `catalogs${isCollect ? 'Collect' : ''}` as const
+    this.init(key)
     return computed<Catalogs>(() => {
-      const key = `catalogs${isCollect ? 'Collect' : ''}`
       const _userId = userId || userStore.myId
       return this.state[key][_userId] || LIST_EMPTY
     }).get()
@@ -175,39 +220,6 @@ class UsersStore
     } catch (error) {
       return ''
     }
-  }
-
-  // -------------------- mounted --------------------
-  init = async () => {
-    const res = this.readStorage(
-      [
-        'friends',
-        'myFriendsMap',
-        'users',
-        'characters',
-        'persons',
-        'recents',
-        'blogs',
-        'catalogs',
-        'catalogsCollect'
-      ],
-      NAMESPACE
-    )
-    await res
-
-    if (userStore.isLogin) {
-      const { _loaded } = this.myFriendsMap
-
-      /**
-       * 若登录了, 而且在2天内没更新过好友列表, 请求好友列表
-       * 用于帖子楼层标记是否好友
-       */
-      if (!_loaded || getTimestamp() - _loaded > 2 * 60 * 60 * 24) {
-        this.fetchFriends()
-      }
-    }
-
-    return res
   }
 
   // -------------------- fetch --------------------
@@ -237,7 +249,7 @@ class UsersStore
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     // 自己要生成userId哈希映射
     if (userId === userStore.myId) {
@@ -250,7 +262,7 @@ class UsersStore
       this.setState({
         [key]: myFriendsMap
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
 
     return friends
@@ -274,7 +286,7 @@ class UsersStore
         [userId]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
@@ -313,7 +325,7 @@ class UsersStore
         [userId]: characters
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return characters
   }
@@ -352,7 +364,7 @@ class UsersStore
         [userId]: persons
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return persons
   }
@@ -388,7 +400,7 @@ class UsersStore
     this.setState({
       [key]: recents
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return recents
   }
@@ -417,7 +429,7 @@ class UsersStore
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return this[key](userId)
   }
@@ -452,7 +464,7 @@ class UsersStore
         }
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return this[key](userId, isCollect)
   }

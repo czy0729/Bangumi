@@ -44,13 +44,29 @@ const state = {
 class TagStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
-  init = () => {
-    return this.readStorage(['tag', 'rank', 'browser'], NAMESPACE)
+  private _loaded = {
+    tag: false,
+    rank: false,
+    browser: false
+  }
+
+  init = (key: keyof typeof this._loaded) => {
+    if (!key || this._loaded[key]) return true
+
+    console.log('TagStore /', key)
+
+    this._loaded[key] = true
+    return this.readStorage([key], NAMESPACE)
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------
   /** 标签条目 */
   tag(text: string = '', type: SubjectType = DEFAULT_TYPE, airtime: string = '') {
+    this.init('tag')
     return computed<Tag>(() => {
       const key = `${text.replace(/ /g, '+')}|${type}|${airtime}`
       return this.state.tag[key] || LIST_EMPTY
@@ -64,6 +80,7 @@ class TagStore extends store implements StoreConstructor<typeof state> {
     filter: RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter = '',
     airtime: string = ''
   ) {
+    this.init('rank')
     return computed<Rank>(() => {
       const key = `${type}|${page}|${filter}|${airtime}`
       return this.state.rank[key] || LIST_EMPTY
@@ -76,6 +93,7 @@ class TagStore extends store implements StoreConstructor<typeof state> {
     airtime: string = '',
     sort: BrowserSort = ''
   ) {
+    this.init('browser')
     return computed<Browser>(() => {
       const key = `${type}|${airtime}|${sort}`
       return this.state.browser[key] || LIST_EMPTY
@@ -126,7 +144,7 @@ class TagStore extends store implements StoreConstructor<typeof state> {
         [stateKey]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
@@ -164,7 +182,7 @@ class TagStore extends store implements StoreConstructor<typeof state> {
         [stateKey]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
@@ -207,7 +225,7 @@ class TagStore extends store implements StoreConstructor<typeof state> {
         [stateKey]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
