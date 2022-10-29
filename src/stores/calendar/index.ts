@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 16:53:56
+ * @Last Modified time: 2022-10-29 04:33:34
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
@@ -15,6 +15,7 @@ import {
   API_CALENDAR,
   CDN_DISCOVERY_HOME,
   CDN_ONAIR,
+  DEV,
   HOST,
   LIST_EMPTY
 } from '@constants'
@@ -54,7 +55,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('CalendarStore /', key)
+    if (DEV) console.info('CalendarStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

@@ -90,6 +90,17 @@ const state = {
 class SystemStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
+  private _loaded = {
+    advance: false,
+    advanceDetail: false,
+    dev: false,
+    devEvent: false,
+    iosUGCAgree: false,
+    ota: false,
+    release: false,
+    setting: false
+  }
+
   init = async () => {
     await this.readStorage(
       [
@@ -127,6 +138,10 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     }, 8000)
 
     return true
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------
@@ -225,7 +240,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         ota
       })
-      this.setStorage('ota', undefined, NAMESPACE)
+      this.save('ota')
     } catch (error) {}
     return res
   }
@@ -255,7 +270,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
         this.setState({
           release
         })
-        this.setStorage('release', undefined, NAMESPACE)
+        this.save('release')
       }
     } catch (error) {}
     return res
@@ -279,7 +294,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
         this.setState({
           advance: true
         })
-        this.setStorage(key, undefined, NAMESPACE)
+        this.save(key)
       }
     } catch (error) {}
 
@@ -304,7 +319,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
           _loaded: getTimestamp()
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
 
       return data[myId] || data[myUserId]
     } catch (error) {
@@ -351,7 +366,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
           quality
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -366,7 +381,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
           transition
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -381,7 +396,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
           initialPage
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -396,7 +411,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
           homeLayout
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -411,7 +426,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
           homeSorting
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -442,7 +457,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
         homeRenderTabs: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 设置 `方格数量` */
@@ -456,7 +471,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
           userGridNum
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     }
   }
 
@@ -469,7 +484,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
         [switchKey]: !this.setting[switchKey]
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 对指定设置直接赋值 (暂用于永久隐藏条目页面板块) */
@@ -481,7 +496,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
         [switchKey]: value
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 条目页面重置布局 */
@@ -493,7 +508,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
         ...INIT_SUBJECT_LAYOUT
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 恢复默认设置 */
@@ -502,7 +517,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     this.setState({
       [key]: INIT_SETTING
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 上传当前设置到云端 */
@@ -532,7 +547,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
           ...setting
         }
       })
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
       return true
     } catch (error) {
       return false
@@ -569,7 +584,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     this.setState({
       [key]: !dev
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 切换显示埋点统计 */
@@ -584,7 +599,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
         [value]: !devEvent[value]
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 同意社区指导原则 */
@@ -593,7 +608,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     this.setState({
       [key]: value
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 }
 

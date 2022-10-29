@@ -55,6 +55,43 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   /** -------------------- store -------------------- */
   state = observable(state)
 
+  private _loaded = {
+    mode: false,
+    tinygrailMode: false,
+    tinygrailThemeMode: false,
+    fontSizeAdjust: false
+  }
+
+  init = async () => {
+    // 遗漏问题, 版本前有部分用户安卓9启用了跟随系统设置, 需要排除掉
+    if (this.autoColorScheme) {
+      this.toggleMode(Appearance.getColorScheme())
+    } else {
+      const mode = await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
+      this.toggleMode(mode)
+    }
+
+    this.setState({
+      tinygrailMode: await this.getStorage(
+        'tinygrailMode',
+        NAMESPACE,
+        DEFAULT_TINYGRAIL_MODE
+      ),
+      tinygrailThemeMode: await this.getStorage(
+        'tinygrailThemeMode',
+        NAMESPACE,
+        DEFAULT_TINYGRAIL_MODE
+      ),
+      fontSizeAdjust: await this.getStorage('fontSizeAdjust', NAMESPACE, 0)
+    })
+
+    return true
+  }
+
+  save = (key: keyof typeof this._loaded) => {
+    return this.setStorage(key, undefined, NAMESPACE)
+  }
+
   /** -------------------- 设备 -------------------- */
   /** 是否平板 */
   readonly isPad = _.isPad
@@ -185,33 +222,6 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   readonly create = StyleSheet.create
   readonly flatten = StyleSheet.flatten
   readonly hairlineWidth = StyleSheet.hairlineWidth
-
-  /** -------------------- mounted -------------------- */
-  init = async () => {
-    // 遗漏问题, 版本前有部分用户安卓9启用了跟随系统设置, 需要排除掉
-    if (this.autoColorScheme) {
-      this.toggleMode(Appearance.getColorScheme())
-    } else {
-      const mode = await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
-      this.toggleMode(mode)
-    }
-
-    this.setState({
-      tinygrailMode: await this.getStorage(
-        'tinygrailMode',
-        NAMESPACE,
-        DEFAULT_TINYGRAIL_MODE
-      ),
-      tinygrailThemeMode: await this.getStorage(
-        'tinygrailThemeMode',
-        NAMESPACE,
-        DEFAULT_TINYGRAIL_MODE
-      ),
-      fontSizeAdjust: await this.getStorage('fontSizeAdjust', NAMESPACE, 0)
-    })
-
-    return true
-  }
 
   /** -------------------- get -------------------- */
   /**
@@ -961,7 +971,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
       })
     }
 
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
     this.changeNavigationBarColor()
     androidDayNightToggle(this.isDark)
   }
@@ -1000,7 +1010,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     this.setState({
       [key]: this.tSelect('light', 'dark')
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 切换小圣杯涨跌颜色 */
@@ -1010,7 +1020,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     this.setState({
       [key]: type === 'web' ? 'web' : tinygrailMode === 'green' ? 'red' : 'green'
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 改变整体字号 */
@@ -1019,7 +1029,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     this.setState({
       [key]: Number(fontSizeAdjust)
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
   }
 
   /** 安卓改变底部菜单颜色 */

@@ -17,9 +17,14 @@ import {
 } from '@constants'
 import { radiusMd } from '@styles'
 import {
+  SettingCDNOrigin,
   SettingHomeGridCoverLayout,
   SettingHomeLayout,
-  SettingHomeSorting
+  SettingHomeSorting,
+  SettingInitialPage,
+  SettingQuality,
+  SettingTransition,
+  SettingUserGridNum
 } from '@types'
 
 export const NAMESPACE = 'System'
@@ -138,7 +143,7 @@ export const INIT_SETTING = {
   cdn: false,
 
   /** CDN 源头 */
-  cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr'),
+  cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('jsDelivr'),
 
   /** 头像使用 CDN */
   cdnAvatar: false,
@@ -207,16 +212,16 @@ export const INIT_SETTING = {
   source: false,
 
   /** 用户空间网格个数 */
-  userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue('4'),
+  userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue<SettingUserGridNum>('4'),
 
   /** 启动页 */
-  initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'),
+  initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),
 
   /** @deprecated [已废弃] 图片质量 */
-  quality: MODEL_SETTING_QUALITY.getValue('默认'),
+  quality: MODEL_SETTING_QUALITY.getValue<SettingQuality>('默认'),
 
   /** 切页动画 */
-  transition: MODEL_SETTING_TRANSITION.getValue('水平'),
+  transition: MODEL_SETTING_TRANSITION.getValue<SettingTransition>('水平'),
 
   /** 首页列表搜索框 */
   homeFilter: true,
