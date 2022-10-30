@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-03 12:41:32
+ * @Last Modified time: 2022-10-30 21:10:44
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { calendarStore, subjectStore, collectionStore } from '@stores'
-import { feedback, getTimestamp } from '@utils'
+import { desc, feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { BangumiData, SubjectId } from '@types'
@@ -78,7 +78,7 @@ export default class ScreenCalendar extends store {
             }
           })
           // .filter(item => item.timeCN !== '2359') // 暂时把没有放送具体时间的番剧隐藏
-          .sort((a, b) => a.timeCN.localeCompare(b.timeCN))
+          .sort((a, b) => desc(String(a.timeCN || ''), String(b.timeCN || '')))
       }))
     }
   }

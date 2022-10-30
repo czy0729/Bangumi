@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 16:59:56
+ * @Last Modified time: 2022-10-30 21:18:02
  */
 import { observable, computed } from 'mobx'
-import { getTimestamp, HTMLTrim } from '@utils'
+import { desc, getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
 import { getUserStoreAsync } from '@utils/async'
@@ -370,7 +370,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
         if (!topicId.includes('group/') || topicId.includes('undefined')) return false
         return this.favor(topicId)
       })
-      .sort((a, b) => b.localeCompare(a))
+      .sort((a, b) => desc(String(b), String(a)))
       .forEach(topicId => {
         const target = topic[topicId] || cloudTopic[topicId]
         if (target) {

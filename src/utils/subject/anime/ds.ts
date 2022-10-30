@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 17:36:53
+ * @Last Modified time: 2022-10-30 20:58:20
  */
-import { getTimestamp } from '@utils'
+import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
 import { DATA_ALPHABET } from '@constants/constants'
 
@@ -20,8 +20,9 @@ export const SORT = {
 
   // 名称
   name(a = {}, b = {}, key = 'c') {
-    return getPinYinFirstCharacter(a[key] || '').localeCompare(
-      getPinYinFirstCharacter(b[key] || '')
+    return asc(
+      String(getPinYinFirstCharacter(a[key] || '')),
+      String(getPinYinFirstCharacter(b[key] || ''))
     )
   },
 

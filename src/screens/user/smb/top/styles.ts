@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-10-30 15:53:53
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-10-30 15:53:53
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-10-30 19:36:27
  */
 import { _ } from '@stores'
 
@@ -39,7 +39,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginLeft: -24,
     transform: [
       {
-        scale: 0.8
+        scale: 0.4
       }
     ]
   }

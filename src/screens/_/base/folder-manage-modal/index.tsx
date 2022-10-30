@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:28:06
+ * @Last Modified time: 2022-10-30 21:09:26
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -666,7 +666,9 @@ export const FolderManageModal = ob(
                   const detailB = this.catalogDetail(b.id)
                   const isInA = detailA?.list?.some(i => i.id == id)
                   const isInB = detailB?.list?.some(i => i.id == id)
-                  if (isInA && isInB) return b.time.localeCompare(a.time)
+                  if (isInA && isInB) {
+                    return desc(String(b.time || ''), String(a.time || ''))
+                  }
                   if (isInA && !isInB) return -1
                   return 1
                 })

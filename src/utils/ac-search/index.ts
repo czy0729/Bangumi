@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 21:42:35
+ * @Last Modified time: 2022-10-30 21:18:58
  */
 import lazyac from 'lazy-aho-corasick'
 import { arrGroup, desc } from '../utils'
@@ -75,7 +75,7 @@ function initLazyac() {
 
         return true
       })
-      .sort((a: string, b: string) => a.localeCompare(b))
+      .sort((a: string, b: string) => desc(String(a), String(b)))
 
     requestAnimationFrame(() => {
       setTimeout(() => {
@@ -130,7 +130,7 @@ export function acSearch(str: string) {
 
   results = results.sort((a: string, b: string) => {
     if (a.length !== b.length) return desc(a.length, b.length)
-    return b.localeCompare(a)
+    return desc(b, a)
   })
 
   if (trieInitDone) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 16:19:20
+ * @Last Modified time: 2022-10-30 21:24:03
  */
 import { observable, computed, toJS } from 'mobx'
 import { smbStore, subjectStore, collectionStore, userStore } from '@stores'
@@ -10,9 +10,9 @@ import { getTimestamp, sleep, desc, info, confirm } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectId } from '@types'
 import { smbList } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER } from './ds'
-import { SubjectId } from '@types'
 
 export default class ScreenSmb extends store {
   state = observable(STATE)
@@ -66,7 +66,6 @@ export default class ScreenSmb extends store {
             loading: `${index + 1} / ${this.subjectIds.length}`
           })
 
-          await sleep(40)
           if (this.isLogin) await collectionStore.fetchCollection(subjectId)
           const data = await subjectStore.fetchSubject(subjectId)
           if (data?.air_date === '0000-00-00') {
@@ -144,9 +143,12 @@ export default class ScreenSmb extends store {
     const list = []
     if (this.current?.list) {
       this.current.list
-        .sort((a, b) =>
-          desc(a.ids.length ? a.lastModified : '', b.ids.length ? b.lastModified : '')
-        )
+        .sort((a, b) => {
+          return desc(
+            String(a.ids.length ? a.lastModified : ''),
+            String(b.ids.length ? b.lastModified : '')
+          )
+        })
         .forEach(item => {
           if (item.ids.length) {
             item.ids.forEach(subjectId => {
@@ -171,14 +173,18 @@ export default class ScreenSmb extends store {
         const subjectA = this.subject(a.subjectId || '')
         const subjectB = this.subject(b.subjectId || '')
         return desc(
-          subjectA._loaded
-            ? (subjectA?.rating?.score || 0) +
-                (subjectA?.rank ? 10000 - subjectA?.rank : -10000)
-            : -9999,
-          subjectB._loaded
-            ? (subjectB?.rating?.score || 0) +
-                (subjectB?.rank ? 10000 - subjectB?.rank : -10000)
-            : -9999
+          Number(
+            subjectA._loaded
+              ? (subjectA?.rating?.score || 0) +
+                  (subjectA?.rank ? 10000 - subjectA?.rank : -10000)
+              : -9999
+          ),
+          Number(
+            subjectB._loaded
+              ? (subjectB?.rating?.score || 0) +
+                  (subjectB?.rank ? 10000 - subjectB?.rank : -10000)
+              : -9999
+          )
         )
       })
     }
@@ -186,22 +192,23 @@ export default class ScreenSmb extends store {
     if (sort === '评分人数') {
       return this.list.sort((a, b) => {
         return desc(
-          this.subject(a.subjectId || '')?.rating?.total || 0,
-          this.subject(b.subjectId || '')?.rating?.total || 0
+          Number(this.subject(a.subjectId || '')?.rating?.total || 0),
+          Number(this.subject(b.subjectId || '')?.rating?.total || 0)
         )
       })
     }
 
     if (sort === '目录修改时间') {
       return this.list.sort((a, b) => {
-        return String(b.lastModified || '').localeCompare(String(a.lastModified || ''))
+        return desc(String(b.lastModified || ''), String(a.lastModified || ''))
       })
     }
 
     // 时间
     return this.list.sort((a, b) => {
-      return String(this.airDate(b.subjectId || 0)).localeCompare(
-        this.airDate(a.subjectId || 0)
+      return desc(
+        String(this.airDate(b.subjectId || '')),
+        String(this.airDate(a.subjectId || ''))
       )
     })
   }
@@ -296,8 +303,9 @@ export default class ScreenSmb extends store {
   airDate(subjectId: SubjectId) {
     return computed(() => {
       const subject = this.subject(subjectId)
-      if (subject?._loaded && subject?.air_date && subject.air_date !== '0000-00-00')
+      if (subject?._loaded && subject?.air_date && subject.air_date !== '0000-00-00') {
         return subject.air_date
+      }
 
       const subjectFormHTML = subjectStore.subjectFormHTML(subjectId)
       if (subjectFormHTML?._loaded && typeof subjectFormHTML?.info) {

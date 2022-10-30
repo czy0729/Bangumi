@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:20:56
+ * @Last Modified time: 2022-10-30 21:20:54
  */
 import { SubjectId } from '@types'
-import { getTimestamp } from '../../index'
+import { desc, getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import {
   WENKU_FIRST,
@@ -88,14 +88,14 @@ export function search(query: Query): SearchResult {
 
   switch (sort) {
     case '发行':
-      _list = _list.sort((a, b) =>
-        String(data[b].b || '0000').localeCompare(data[a].b || '0000')
-      )
+      _list = _list.sort((a, b) => {
+        return desc(String(data[b].b || '0000'), String(data[a].b || '0000'))
+      })
       break
 
     case '更新':
       _list = _list.sort((a, b) => {
-        return String(data[b].u || '0000').localeCompare(String(data[a].u || '0000'))
+        return desc(String(data[b].u || '0000'), String(data[a].u || '0000'))
       })
       break
 

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:35:50
+ * @Last Modified time: 2022-10-30 21:15:52
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
-import { throttle, toFixed, formatNumber } from '@utils'
-import { info } from '@utils/ui'
+import { throttle, toFixed, formatNumber, desc, info } from '@utils'
 import { IOS, B, M } from '@constants'
 import { getXsbRelationOTA } from '@constants/cdn'
 
@@ -127,8 +126,8 @@ export function sortList(sort, direction, list) {
       )
 
     case SORT_HYD.value:
-      return list.sort(
-        (a, b) => (b.lastOrder || '').localeCompare(a.lastOrder || '') * base
+      return list.sort((a, b) =>
+        desc(String(b.lastOrder || String(a.lastOrder || '')) * base)
       )
 
     case SORT_SCJ.value:

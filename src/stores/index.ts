@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 15:37:54
+ * @Last Modified time: 2022-10-30 17:39:50
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -42,6 +42,7 @@ class GlobalStores {
       // systemStore.init 和 themeStore.init 维持旧逻辑
       await systemStore.init()
       await themeStore.init()
+      await smbStore.init('data')
 
       // 其他 store 使用新的懒读取本地数据逻辑
       const userStoreKeys = [

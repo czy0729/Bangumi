@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 10:14:39
+ * @Last Modified time: 2022-10-30 21:13:51
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,7 +12,15 @@ import {
   discoveryStore,
   usersStore
 } from '@stores'
-import { date, getTimestamp, appNavigate, appRandom, info, matchBgmUrl } from '@utils'
+import {
+  date,
+  getTimestamp,
+  appNavigate,
+  appRandom,
+  info,
+  matchBgmUrl,
+  desc
+} from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
 import { SUBJECT_TYPE } from '@constants'
@@ -139,7 +147,7 @@ export default class ScreenDiscovery extends store {
           }
         })
         .filter(item => item.timeCN !== '2359') // 暂时把没有放送具体时间的番剧隐藏
-        .sort((a, b) => a.timeCN.localeCompare(b.timeCN))
+        .sort((a, b) => desc(String(a.timeCN || ''), String(b.timeCN || '')))
     }))
 
     const calendar = []

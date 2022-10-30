@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 16:17:46
+ * @Last Modified time: 2022-10-30 20:25:14
  */
 import React, { useState } from 'react'
 import { View, Linking } from 'react-native'
@@ -94,7 +94,7 @@ export default memo(
 
                     <Text style={styles.desc} size={11} numberOfLines={2}>
                       {!!eps_count && `${eps_count}话 / `}
-                      {air_date}
+                      {air_date || '-'}
                     </Text>
 
                     <Flex style={styles.rating}>

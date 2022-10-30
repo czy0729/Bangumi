@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 16:56:02
+ * @Last Modified time: 2022-10-30 21:22:12
  */
 import dayjs from 'dayjs'
 import { WSA } from '@constants'
-import { HTMLDecode } from '@utils'
+import { desc, HTMLDecode } from '@utils'
 import { DEFAULT_PROPS } from './ds'
 
 const today = dayjs().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')
@@ -27,7 +27,7 @@ export function getPopoverData(
   let canAddCalendar = !WSA && !userProgress[item.id] && !isSp
   try {
     if (canAddCalendar && item?.airdate) {
-      canAddCalendar = String(item.airdate).localeCompare(today) !== -1
+      canAddCalendar = desc(String(item.airdate), today) !== -1
     }
   } catch (error) {
     canAddCalendar = false

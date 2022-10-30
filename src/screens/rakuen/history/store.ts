@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:33:54
+ * @Last Modified time: 2022-10-30 21:14:36
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
+import { desc, info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import i18n from '@constants/i18n'
 import { TopicId } from '@types'
 
@@ -49,7 +49,7 @@ export default class ScreenRakuenHistory extends store {
         if (favor) return this.isFavor(topicId)
         return true
       })
-      .sort((a, b) => b.localeCompare(a))
+      .sort((a, b) => desc(b, a))
   }
 
   @computed get sections() {

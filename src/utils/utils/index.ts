@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 21:05:39
+ * @Last Modified time: 2022-10-30 21:29:35
  */
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -88,6 +88,28 @@ export function debounce(fn: Fn, ms: number = 400): typeof fn {
 }
 
 /**
+ * Compare two strings. This comparison is not linguistically accurate, unlike
+ * String.prototype.localeCompare(), albeit stable.
+ * https://github.com/grantila/fast-string-compare
+ * @returns -1, 0 or 1
+ */
+export function compare(a: string, b: string) {
+  const lenA = a.length
+  const lenB = b.length
+  const minLen = lenA < lenB ? lenA : lenB
+  var i = 0
+  for (; i < minLen; ++i) {
+    const ca = a.charCodeAt(i)
+    const cb = b.charCodeAt(i)
+
+    if (ca > cb) return 1
+    else if (ca < cb) return -1
+  }
+  if (lenA === lenB) return 0
+  return lenA > lenB ? 1 : -1
+}
+
+/**
  * 排序正序辅助函数
  *  - 用于在安卓端开启低版本的 Hermes 后, Array.sort 需要严格区分返回 0 -1 1, 相同返回会出现不稳定的结果
  * @param a
@@ -102,6 +124,7 @@ export function asc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
     _b = fn(b)
   }
 
+  if (typeof _a === 'string' && typeof _b === 'string') return compare(_b, _a)
   if (_a === _b) return 0
   if (_a < _b) return -1
   return 1
@@ -121,6 +144,7 @@ export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
     _b = fn(b)
   }
 
+  if (typeof _a === 'string' && typeof _b === 'string') return compare(_a, _b)
   if (_a === _b) return 0
   if (_a > _b) return -1
   return 1
