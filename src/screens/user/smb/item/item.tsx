@@ -1,52 +1,22 @@
 /*
  * @Author: czy0729
- * @Date: 2022-03-28 22:31:15
+ * @Date: 2022-10-30 15:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:20:23
+ * @Last Modified time: 2022-10-30 16:17:46
  */
 import React, { useState } from 'react'
 import { View, Linking } from 'react-native'
 import { Flex, Image, Text, Touchable, Iconfont } from '@components'
 import { Cover, Rank, Stars, Tag } from '@_'
 import { _ } from '@stores'
-import { copy, desc } from '@utils'
-import { memo, obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
-import { alert } from '@utils/ui'
-import { IMG_DEFAULT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { icons } from './utils'
+import { copy, desc, HTMLDecode, alert } from '@utils'
+import { memo } from '@utils/decorators'
+import { IMG_DEFAULT, IMG_WIDTH, IMG_HEIGHT, MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
+import { ICONS } from '../ds'
+import { DEFAULT_PROPS, SORT_ORDER } from './ds'
 
-const defaultProps = {
-  navigation: {},
-  styles: {},
-  loaded: false,
-  subjectId: 0,
-  name: '',
-  name_cn: '',
-  images: {},
-  type: '',
-  eps_count: 0,
-  air_date: '',
-  rank: '',
-  rating: {},
-  collection: '',
-  folder: {},
-  smb: {},
-  url: Function.prototype
-}
-
-const sortOrder = {
-  folder: 110,
-  video: 100,
-  music: 90,
-  pic: 80,
-  zip: 70,
-  origin: 11,
-  file: 10
-}
-
-const Item = memo(
+export default memo(
   ({
     navigation,
     styles,
@@ -66,13 +36,14 @@ const Item = memo(
     url
   }) => {
     const [showFolder, setShowFolder] = useState(false)
-    const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
+    const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     const path = []
     if (showFolder) {
       path.push(smb.port ? `${smb.ip}:${smb.port}` : smb.ip, smb.sharedFolder)
     }
     if (folder.path) path.push(folder.path)
     if (subjectId || showFolder) path.push(folder.name)
+
     return (
       <View style={[_.container.plain, styles.container]}>
         <View style={styles.wrap}>
@@ -80,7 +51,6 @@ const Item = memo(
           <Flex align={loaded ? 'start' : 'center'}>
             {loaded ? (
               <Cover
-                style={styles.image}
                 src={images?.medium || IMG_DEFAULT}
                 width={IMG_WIDTH}
                 height={IMG_HEIGHT}
@@ -99,7 +69,7 @@ const Item = memo(
               />
             ) : (
               <Image
-                src={icons.folder}
+                src={ICONS.folder}
                 size={IMG_WIDTH}
                 placeholder={false}
                 resizeMode='contain'
@@ -109,7 +79,7 @@ const Item = memo(
               <View>
                 {loaded ? (
                   <>
-                    <Text itemStyle={styles.katakanas} size={15} numberOfLines={2}>
+                    <Text size={15} numberOfLines={2}>
                       {collection ? '　　 ' : ''}
                       <Text size={15} bold>
                         {HTMLDecode(name_cn || name)}
@@ -130,7 +100,7 @@ const Item = memo(
                     <Flex style={styles.rating}>
                       {!!rank && <Rank style={_.mr.sm} value={rank} />}
                       {!!rating?.score && (
-                        <Stars style={_.mr.sm} value={rating.score} color='warning' />
+                        <Stars style={_.mr.sm} value={rating.score} />
                       )}
                       {!!rating.total && (
                         <Text size={10} type='sub'>
@@ -182,7 +152,7 @@ const Item = memo(
                 <Flex align='start'>
                   <Image
                     style={_.mr.sm}
-                    src={icons.open}
+                    src={ICONS.open}
                     size={16}
                     placeholder={false}
                     resizeMode='contain'
@@ -199,7 +169,7 @@ const Item = memo(
                 {folder.list.length ? (
                   folder.list
                     .sort((a, b) =>
-                      desc(sortOrder[a.type] || 0, sortOrder[b.type] || 0)
+                      desc(SORT_ORDER[a.type] || 0, SORT_ORDER[b.type] || 0)
                     )
                     .map(item => (
                       <Touchable
@@ -227,7 +197,7 @@ const Item = memo(
                       >
                         <Flex align='start'>
                           <Image
-                            src={icons[item.type]}
+                            src={ICONS[item.type]}
                             size={16}
                             placeholder={false}
                             resizeMode='contain'
@@ -253,97 +223,5 @@ const Item = memo(
       </View>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default obc(({ subjectId, ...folder }, { $, navigation }) => {
-  const { _loaded, name, name_cn, images, type, eps_count, rank, rating } =
-    $.subject(subjectId)
-  const { status = { name: '' } } = $.collection(subjectId)
-  return (
-    <Item
-      navigation={navigation}
-      styles={memoStyles()}
-      loaded={_loaded}
-      subjectId={subjectId}
-      name={name}
-      name_cn={name_cn}
-      images={images}
-      type={type}
-      eps_count={eps_count}
-      air_date={$.airDate(subjectId)}
-      rank={rank}
-      rating={rating}
-      collection={status.name}
-      folder={folder}
-      smb={$.current.smb}
-      url={$.url}
-    />
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  body: {
-    marginTop: -1,
-    marginLeft: _.md
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: 0
-  },
-  desc: {
-    marginTop: 8
-  },
-  rating: {
-    marginTop: 12,
-    marginBottom: 4
-  },
-  up: {
-    marginTop: -3,
-    marginRight: -4,
-    marginLeft: _.xs
-  },
-  tag: {
-    paddingRight: 6,
-    paddingLeft: 6,
-    marginRight: _.sm,
-    marginBottom: _.sm
-  },
-  folder: {
-    paddingRight: 4,
-    paddingVertical: 5,
-    paddingLeft: 12,
-    marginTop: 13,
-    marginBottom: _.sm,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  folderRoot: {
-    marginRight: _._wind + _.md
-  },
-  folderList: {
-    paddingRight: 12,
-    paddingVertical: _.sm
-  },
-  path: {
-    paddingTop: 8,
-    marginTop: 8,
-    borderTopWidth: _.hairlineWidth,
-    borderColor: _.colorBorder
-  },
-  item: {
-    paddingVertical: _.xs
-  }
-}))

@@ -2,60 +2,32 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 22:37:25
+ * @Last Modified time: 2022-10-30 16:19:20
  */
 import { observable, computed, toJS } from 'mobx'
 import { smbStore, subjectStore, collectionStore, userStore } from '@stores'
-import { getTimestamp, sleep, desc } from '@utils'
+import { getTimestamp, sleep, desc, info, confirm } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
-import { info, confirm } from '@utils/ui'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { smbList, dictOrder } from './utils'
-
-export const ACTIONS_SORT = ['日期', '评分', '评分人数', '目录修改时间']
-export const ACTIONS_SMB = ['扫描', '编辑', '复制配置新建', '删除']
-
-const namespace = 'ScreenSmb'
-const excludeState = {
-  data: [],
-  loading: false,
-  tags: [],
-  expand: false,
-
-  // form
-  visible: false,
-  id: '',
-  name: '',
-  ip: '',
-  port: '',
-  username: '',
-  password: '',
-  sharedFolder: '',
-  workGroup: '',
-  path: '',
-  url: 'smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]'
-}
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { smbList } from './utils'
+import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER } from './ds'
+import { SubjectId } from '@types'
 
 export default class ScreenSmb extends store {
-  state = observable({
-    uuid: '',
-    sort: ACTIONS_SORT[0],
-    filter: '',
-    ...excludeState,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
   }
 
   // -------------------- fetch --------------------
+  /** 扫描 */
   connectSmb = async () => {
     const { smb } = this.current
     const list = await smbList(smb)
@@ -71,12 +43,13 @@ export default class ScreenSmb extends store {
         smbStore.updateData(data)
 
         this.fetchSubjects()
-        this.setStorage(undefined, undefined, namespace)
+        this.setStorage(NAMESPACE)
       }
     }
   }
 
-  fetchSubjects = async refresh => {
+  /** 批量请求条目信息 */
+  fetchSubjects = async (refresh: boolean = false) => {
     const { loading } = this.state
     if (loading) return
 
@@ -85,7 +58,7 @@ export default class ScreenSmb extends store {
     this.subjectIds.forEach((subjectId, index) => {
       const { _loaded } = this.subject(subjectId)
 
-      if (refresh || !_loaded || now - _loaded >= 60 * 60) {
+      if (refresh || !_loaded || now - Number(_loaded) >= 60 * 60) {
         fetchs.push(async () => {
           if (!this.state.loading) return
 
@@ -109,11 +82,13 @@ export default class ScreenSmb extends store {
       loading: true
     })
     await queue(fetchs, 1)
+
     this.setState({
       loading: false
     })
   }
 
+  /** 下拉刷新条目信息 */
   onHeaderRefresh = async () => {
     this.fetchSubjects()
     await sleep(400)
@@ -125,15 +100,18 @@ export default class ScreenSmb extends store {
     return smbStore.data
   }
 
+  /** 是否登录 (api) */
   @computed get isLogin() {
     return userStore.isLogin
   }
 
+  /** 当前的 SMB 目录 */
   @computed get current() {
     const { uuid } = this.state
     return this.data.find(item => item.smb.uuid === uuid)
   }
 
+  /** 当前的 SMB 目录匹配到的所有条目 id */
   @computed get subjectIds() {
     const ids = []
     if (this.current?.list) {
@@ -145,6 +123,7 @@ export default class ScreenSmb extends store {
     return ids
   }
 
+  /** SMB 数据 */
   @computed get smbs() {
     return this.data.map(item => {
       let name = item.smb.name
@@ -156,7 +135,8 @@ export default class ScreenSmb extends store {
     })
   }
 
-  subject(subjectId) {
+  /** 条目 */
+  subject(subjectId: SubjectId) {
     return computed(() => subjectStore.subject(subjectId)).get()
   }
 
@@ -258,7 +238,7 @@ export default class ScreenSmb extends store {
     })
   }
 
-  collection(subjectId) {
+  collection(subjectId: SubjectId) {
     return computed(() => collectionStore.collection(subjectId)).get()
   }
 
@@ -309,11 +289,11 @@ export default class ScreenSmb extends store {
 
   @computed get ACTIONS_TAGS() {
     return Object.keys(this.tagsCount).sort((a, b) =>
-      desc(dictOrder[a] || 0, dictOrder[b] || 0)
+      desc(DICT_ORDER[a] || 0, DICT_ORDER[b] || 0)
     )
   }
 
-  airDate(subjectId) {
+  airDate(subjectId: SubjectId) {
     return computed(() => {
       const subject = this.subject(subjectId)
       if (subject?._loaded && subject?.air_date && subject.air_date !== '0000-00-00')
@@ -331,7 +311,12 @@ export default class ScreenSmb extends store {
     }).get()
   }
 
-  url = (sharedFolder = '', folderPath = '', folderName = '', fileName = '') => {
+  url = (
+    sharedFolder: string = '',
+    folderPath: string = '',
+    folderName: string = '',
+    fileName: string = ''
+  ) => {
     return computed(() => {
       try {
         if (!this.current) return ''
@@ -363,7 +348,7 @@ export default class ScreenSmb extends store {
 
   onClose = () => {
     this.setState({
-      ...excludeState
+      ...EXCLUDE_STATE
     })
   }
 
@@ -374,15 +359,15 @@ export default class ScreenSmb extends store {
     this.setState({
       visible: true,
       id: smb.uuid,
-      name: smb.name || excludeState.name,
-      ip: smb.ip || excludeState.ip,
-      port: smb.port || excludeState.port,
-      username: smb.username || excludeState.username,
-      password: smb.password || excludeState.password,
-      sharedFolder: smb.sharedFolder || excludeState.sharedFolder,
-      workGroup: smb.workGroup || excludeState.workGroup,
-      path: smb.path || excludeState.path,
-      url: smb.url || excludeState.url
+      name: smb.name || EXCLUDE_STATE.name,
+      ip: smb.ip || EXCLUDE_STATE.ip,
+      port: smb.port || EXCLUDE_STATE.port,
+      username: smb.username || EXCLUDE_STATE.username,
+      password: smb.password || EXCLUDE_STATE.password,
+      sharedFolder: smb.sharedFolder || EXCLUDE_STATE.sharedFolder,
+      workGroup: smb.workGroup || EXCLUDE_STATE.workGroup,
+      path: smb.path || EXCLUDE_STATE.path,
+      url: smb.url || EXCLUDE_STATE.url
     })
   }
 
@@ -394,18 +379,18 @@ export default class ScreenSmb extends store {
       visible: true,
       id: '',
       name: '',
-      ip: smb.ip || excludeState.ip,
-      port: smb.port || excludeState.port,
-      username: smb.username || excludeState.username,
-      password: smb.password || excludeState.password,
-      sharedFolder: smb.sharedFolder || excludeState.sharedFolder,
-      workGroup: smb.workGroup || excludeState.workGroup,
-      path: smb.path || excludeState.path,
-      url: smb.url || excludeState.url
+      ip: smb.ip || EXCLUDE_STATE.ip,
+      port: smb.port || EXCLUDE_STATE.port,
+      username: smb.username || EXCLUDE_STATE.username,
+      password: smb.password || EXCLUDE_STATE.password,
+      sharedFolder: smb.sharedFolder || EXCLUDE_STATE.sharedFolder,
+      workGroup: smb.workGroup || EXCLUDE_STATE.workGroup,
+      path: smb.path || EXCLUDE_STATE.path,
+      url: smb.url || EXCLUDE_STATE.url
     })
   }
 
-  onChange = (key, val) => {
+  onChange = (key: string, val: string) => {
     this.setState({
       [key]: val
     })
@@ -448,7 +433,7 @@ export default class ScreenSmb extends store {
             path,
             port,
             workGroup,
-            url: url || excludeState.url
+            url: url || EXCLUDE_STATE.url
           },
           list: []
         },
@@ -456,7 +441,7 @@ export default class ScreenSmb extends store {
       ])
       this.setState({
         uuid,
-        ...excludeState
+        ...EXCLUDE_STATE
       })
     } else {
       data[index].smb.name = name
@@ -467,14 +452,14 @@ export default class ScreenSmb extends store {
       data[index].smb.path = path
       data[index].smb.port = port
       data[index].smb.workGroup = workGroup
-      data[index].smb.url = url || excludeState.url
+      data[index].smb.url = url || EXCLUDE_STATE.url
       smbStore.updateData(data)
       this.setState({
-        ...excludeState
+        ...EXCLUDE_STATE
       })
     }
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onDelete = () => {
@@ -487,20 +472,20 @@ export default class ScreenSmb extends store {
       uuid: data?.[0]?.smb?.uuid || ''
     })
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSwitch = (title, index) => {
+  onSwitch = (title: string, index?: number) => {
     const smb = this.smbs[index]
     this.setState({
       loading: false,
       uuid: smb.uuid
     })
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSelectTag = title => {
+  onSelectTag = (title: string) => {
     if (!title) return
 
     const { tags } = this.state
@@ -508,18 +493,18 @@ export default class ScreenSmb extends store {
       tags: tags.includes(title) ? [] : [title]
     })
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSelectSort = title => {
+  onSelectSort = (title: string) => {
     this.setState({
       sort: title
     })
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSelectSMB = title => {
+  onSelectSMB = (title: string) => {
     if (title === '扫描') {
       this.connectSmb()
       return

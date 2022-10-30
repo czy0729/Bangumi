@@ -9,7 +9,7 @@ import Constants from 'expo-constants'
 import { getTimestamp, HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { LIST_EMPTY, HTML_SEARCH, HTML_RAKUEN_SEARCH } from '@constants'
+import { LIST_EMPTY, HTML_SEARCH, HTML_RAKUEN_SEARCH, DEV } from '@constants'
 import { SearchCat, StoreConstructor } from '@types'
 import { NAMESPACE, DEFAULT_CAT, INIT_SEARCH_ITEM } from './init'
 import { cheerioSearchRakuen } from './common'
@@ -39,7 +39,7 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('SearchStore /', key)
+    if (DEV) console.info('SearchStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

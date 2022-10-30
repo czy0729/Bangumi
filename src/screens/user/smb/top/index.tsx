@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-07 02:59:25
+ * @Last Modified time: 2022-10-30 15:54:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,9 +10,11 @@ import { Flex, Touchable, Iconfont, Text, Loading } from '@components'
 import { Popover, Tag } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { ACTIONS_SORT, ACTIONS_SMB } from './store'
+import { ACTIONS_SORT, ACTIONS_SMB } from '../ds'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Top(props, { $ }) {
+function Top(props, { $ }: Ctx) {
   const smb = $.current?.smb
   if (!smb) return null
 
@@ -83,42 +85,3 @@ function Top(props, { $ }) {
 }
 
 export default obc(Top)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingTop: _.xs,
-    paddingHorizontal: _.wind,
-    paddingBottom: _.sm
-  },
-  popover: {
-    padding: _.sm,
-    marginLeft: _.sm,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  more: {
-    marginRight: -9
-  },
-  tags: {
-    paddingBottom: _.md,
-    paddingHorizontal: _.wind
-  },
-  touch: {
-    marginRight: _.sm,
-    marginBottom: _.sm,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  tag: {
-    paddingRight: 4,
-    paddingLeft: 4
-  },
-  loading: {
-    marginLeft: -24,
-    transform: [
-      {
-        scale: 0.8
-      }
-    ]
-  }
-}))

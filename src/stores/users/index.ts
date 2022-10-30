@@ -12,6 +12,7 @@ import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { fixedRemote } from '@utils/user-setting'
 import {
+  DEV,
   HTML_FRIENDS,
   HTML_USERS,
   HTML_USERS_BLOGS,
@@ -111,7 +112,8 @@ class UsersStore
   init = async (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('UsersStore /', key)
+    if (DEV) console.info('UsersStore /', key)
+
     this._loaded[key] = true
     const data = await this.readStorage([key], NAMESPACE)
 

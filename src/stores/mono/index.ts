@@ -9,7 +9,12 @@ import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import store from '@utils/store'
-import { LIST_EMPTY, HTML_SUBJECT_CHARACTERS, HTML_SUBJECT_PERSONS } from '@constants'
+import {
+  LIST_EMPTY,
+  HTML_SUBJECT_CHARACTERS,
+  HTML_SUBJECT_PERSONS,
+  DEV
+} from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
 import { NAMESPACE } from './init'
 import { cheerioCharacters, cheerioPersons } from './common'
@@ -35,7 +40,7 @@ class MonoStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('MonoStore /', key)
+    if (DEV) console.info('MonoStore /', key)
 
     // this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

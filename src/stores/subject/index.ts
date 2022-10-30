@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 03:22:18
+ * @Last Modified time: 2022-10-30 04:35:21
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -11,12 +11,14 @@ import { getTimestamp, HTMLTrim, HTMLDecode, cheerio, omit } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
+import { get } from '@utils/kv'
 import {
   API_SUBJECT,
   API_SUBJECT_EP,
   APP_ID,
   CDN_MONO,
   CDN_SUBJECT,
+  DEV,
   HTML_EP,
   HTML_MONO_VOICES,
   HTML_MONO_WORKS,
@@ -75,7 +77,6 @@ import {
   SubjectFormHTML,
   Wiki
 } from './types'
-import { get } from '@utils/kv'
 
 const state = {
   /** 条目 (云缓存) */
@@ -199,7 +200,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
   ) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('SubjectStore /', key)
+    if (DEV) console.info('SubjectStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)
@@ -212,7 +213,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
   }
 
   // -------------------- get --------------------
-  /** 条目, 合并 subject 0-99 */
+  /** 条目, 合并 subject 0-999 */
   subject(subjectId: SubjectId) {
     return computed<Subject>(() => {
       if (!subjectId) return INIT_SUBJECT
@@ -225,7 +226,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
-  /** 条目 (HTML), 合并 subject 0-9 */
+  /** 条目 (HTML), 合并 subject 0-999 */
   subjectFormHTML(subjectId: SubjectId) {
     return computed<SubjectFormHTML>(() => {
       if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM

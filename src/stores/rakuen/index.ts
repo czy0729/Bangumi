@@ -14,6 +14,7 @@ import store from '@utils/store'
 import {
   CDN_RAKUEN,
   CDN_RAKUEN_USER_TOPICS,
+  DEV,
   HOST,
   HTML_ACTION_BLOG_REPLY,
   HTML_ACTION_RAKUEN_REPLY,
@@ -29,6 +30,7 @@ import {
   LIMIT_LIST,
   LIST_EMPTY
 } from '@constants'
+import { RakuenReplyType } from '@constants/html/types'
 import {
   CoverGroup,
   Id,
@@ -78,7 +80,6 @@ import {
   Topic,
   UserTopicsFormCDN
 } from './types'
-import { RakuenReplyType } from '@constants/html/types'
 
 const state = {
   /** 超展开列表 */
@@ -191,7 +192,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('RakuenStore /', key)
+    if (DEV) console.info('RakuenStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 04:32:32
+ * @Last Modified time: 2022-10-30 15:37:54
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -74,7 +74,7 @@ class GlobalStores {
     if (!this[key] || DEV) this[key] = store
   }
 
-  /** 获取页面Store */
+  /** 获取页面 Store */
   get(key: string) {
     return this[key]
   }
@@ -87,7 +87,7 @@ class GlobalStores {
   }
 
   /** 以下为不需要清除的数据, 再次本地化 */
-  async restore() {
+  restore = async () => {
     /** 设置 */
     systemStore.save('setting')
     systemStore.save('advance')

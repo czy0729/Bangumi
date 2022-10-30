@@ -10,6 +10,7 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhr } from '@utils/fetch'
 import {
+  DEV,
   HOST,
   HTML_ACTION_TIMELINE_REPLY,
   HTML_ACTION_TIMELINE_SAY,
@@ -58,7 +59,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('TimelineStore /', key)
+    if (DEV) console.info('TimelineStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

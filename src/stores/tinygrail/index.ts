@@ -62,6 +62,7 @@ import {
   API_TINYGRAIL_USER_TEMPLE_TOTAL,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
+  DEV,
   LIST_EMPTY,
   SDK,
   TINYGRAIL_ASSETS_LIMIT
@@ -299,7 +300,7 @@ class TinygrailStore
   init = (key: keyof typeof this._loaded | ListKey) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('TinygrailStore /', key)
+    if (DEV) console.info('TinygrailStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

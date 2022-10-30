@@ -190,7 +190,8 @@ class UserStore extends store implements StoreConstructor<typeof state> {
   init = async (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('UserStore /', key)
+    if (DEV) console.info('UserStore /', key)
+
     this._loaded[key] = true
     const data = await this.readStorage([key], NAMESPACE)
 

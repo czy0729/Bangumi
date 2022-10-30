@@ -14,6 +14,7 @@ import { pick as gamePick } from '@utils/subject/game'
 import { pick as advPick } from '@utils/subject/adv'
 import { pick as wenkuPick } from '@utils/subject/wenku'
 import { pick as hentaiPick } from '@utils/subject/hentai'
+import { DEV } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
 import { NAMESPACE } from './ds'
 import { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
@@ -59,7 +60,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('OTAStore /', key)
+    if (DEV) console.info('OTAStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

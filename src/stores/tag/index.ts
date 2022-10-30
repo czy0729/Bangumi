@@ -9,7 +9,7 @@ import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
-import { LIST_EMPTY, HTML_TAG, HTML_RANK, HTML_BROSWER } from '@constants'
+import { LIST_EMPTY, HTML_TAG, HTML_RANK, HTML_BROSWER, DEV } from '@constants'
 import {
   BrowserSort,
   RankAnimeFilter,
@@ -53,7 +53,7 @@ class TagStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('TagStore /', key)
+    if (DEV) console.info('TagStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

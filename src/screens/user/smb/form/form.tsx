@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2022-04-01 04:04:19
+ * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 06:51:46
+ * @Last Modified time: 2022-10-30 07:01:38
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
@@ -11,28 +11,11 @@ import Modal from '@components/@/ant-design/modal'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { memo, obc } from '@utils/decorators'
+import { memo } from '@utils/decorators'
 import { s2tAsync } from '@utils/async'
+import { DEFAULT_PROPS } from './ds'
 
-const defaultProps = {
-  styles: {},
-  visible: false,
-  id: '',
-  name: '',
-  ip: '',
-  username: '',
-  password: '',
-  port: '',
-  sharedFolder: '',
-  path: '',
-  workGroup: '',
-  url: '',
-  onClose: Function.prototype,
-  onChange: Function.prototype,
-  onSubmit: Function.prototype
-}
-
-const Form = memo(
+export default memo(
   ({
     styles,
     visible,
@@ -323,85 +306,5 @@ const Form = memo(
       </Modal>
     )
   },
-  defaultProps
+  DEFAULT_PROPS
 )
-
-export default obc((props, { $ }) => {
-  const {
-    visible,
-    id,
-    name,
-    ip,
-    username,
-    password,
-    port,
-    sharedFolder,
-    path,
-    workGroup,
-    url
-  } = $.state
-  return (
-    <Form
-      styles={memoStyles()}
-      visible={visible}
-      id={id}
-      name={name}
-      ip={ip}
-      username={username}
-      password={password}
-      port={port}
-      sharedFolder={sharedFolder}
-      path={path}
-      workGroup={workGroup}
-      url={url}
-      onChange={$.onChange}
-      onClose={$.onClose}
-      onSubmit={$.onSubmit}
-    />
-  )
-})
-
-const memoStyles = _.memoStyles(() => ({
-  modal: {
-    width: _.r(_.window.contentWidth),
-    marginTop: -_.window.height * 0.24,
-    maxWidth: _.device(408, 560),
-    paddingTop: _.device(_.md + 2, 28),
-    paddingHorizontal: _.device(0, _.sm),
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
-  },
-  body: {
-    paddingHorizontal: 6,
-    paddingTop: _.md
-  },
-  label: {
-    width: 64
-  },
-  input: {
-    height: 44,
-    paddingVertical: 0,
-    paddingRight: 32,
-    paddingLeft: 0,
-    backgroundColor: 'transparent'
-  },
-  inputMultiline: {
-    height: 120
-  },
-  touch: {
-    marginHorizontal: _.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  btn: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.md
-  },
-  info: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 20,
-    marginTop: -20
-  }
-}))

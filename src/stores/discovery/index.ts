@@ -10,6 +10,7 @@ import store from '@utils/store'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { get } from '@utils/kv'
 import {
+  DEV,
   HOST,
   HOST_ANITAMA,
   HOST_NING_MOE,
@@ -170,7 +171,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    console.log('DiscoveryStore /', key)
+    if (DEV) console.info('DiscoveryStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)
