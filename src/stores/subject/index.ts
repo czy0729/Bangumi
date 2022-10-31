@@ -180,7 +180,7 @@ for (let i = 0; i < 1000; i += 1) {
   state[`subjectFormHTML${i}`] = {}
 }
 
-function getInt(subjectId: SubjectId) {
+export function getInt(subjectId: SubjectId) {
   const str = String(subjectId)
   return Number(str.slice(str.length - 3, str.length))
 }

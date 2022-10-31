@@ -33,7 +33,7 @@ allprojects {
           // Android JSC is installed from npm
           url("$rootDir/../node_modules/jsc-android/dist")
         }
-        maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
         maven { url "https://maven.aliyun.com/nexus/content/repositories/jcenter" }
         maven { url 'https://jcenter.bintray.com/umsdk/release' }
         mavenCentral {

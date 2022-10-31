@@ -19,7 +19,7 @@ import otaStore from './ota'
 import rakuenStore from './rakuen'
 import searchStore from './search'
 import smbStore from './smb'
-import subjectStore from './subject'
+import subjectStore, { getInt } from './subject'
 import systemStore from './system'
 import tagStore from './tag'
 import themeStore from './theme'
@@ -39,12 +39,21 @@ class GlobalStores {
 
       inited = true
 
-      // systemStore.init 和 themeStore.init 维持旧逻辑
+      /** systemStore.init 和 themeStore.init 维持旧逻辑 */
       await systemStore.init()
       await themeStore.init()
-      await smbStore.init('data')
 
-      // 其他 store 使用新的懒读取本地数据逻辑
+      /**
+       * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来
+       * 会显著提高 APP 使用体验，实际上不取出来也不会影响使用
+       */
+      // usersStore
+      const usersStoreKeys = ['users'] as const
+      for (let i = 0; i < usersStoreKeys.length; i += 1) {
+        await usersStore.init(usersStoreKeys[i])
+      }
+
+      // userStore
       const userStoreKeys = [
         'accessToken',
         'formhash',
@@ -58,10 +67,16 @@ class GlobalStores {
         await userStore.init(userStoreKeys[i])
       }
 
-      const usersStoreKeys = ['users'] as const
-      for (let i = 0; i < usersStoreKeys.length; i += 1) {
-        await usersStore.init(usersStoreKeys[i])
+      // subjectStoreKeys
+      const subjectStoreKeys: `subject${number}`[] = []
+      userStore.collection.list.forEach(item => {
+        subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
+      })
+      for (let i = 0; i < subjectStoreKeys.length; i += 1) {
+        await subjectStore.init(subjectStoreKeys[i])
       }
+
+      if (DEV) console.info('========== GlobalStores init ==========')
 
       return systemStore.setting
     } catch (error) {

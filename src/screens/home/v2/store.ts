@@ -102,7 +102,9 @@ export default class ScreenHomeV2 extends store {
       inited = true
 
       await this.initStore()
-      this.initFetch()
+      requestAnimationFrame(() => {
+        this.initFetch()
+      })
     }
 
     return true
@@ -130,32 +132,36 @@ export default class ScreenHomeV2 extends store {
     let flag = refresh
     let { _loaded } = this.collection
     if (typeof _loaded !== 'number') _loaded = 0
-    if (getTimestamp() - _loaded > 60 * 60 || !this.collection.list.length) flag = true
+    if (getTimestamp() - _loaded > 60 * 60 * 3 || !this.collection.list.length) {
+      flag = true
+    }
 
     // 需要刷新数据
     if (flag) {
-      const data = await Promise.all([
-        userStore.fetchCollection(),
-        userStore.fetchUserProgress()
-      ])
-      if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
+      if (await this.initQueue()) return true
 
       // 可能是 access_token 过期了, 需要重新刷新 access_token
       if (userStore.isWebLogin) {
-        const success = await userStore.reOauth()
-
         // oauth 成功后重新刷新数据
-        if (success) {
-          const data = await Promise.all([
-            userStore.fetchCollection(),
-            userStore.fetchUserProgress()
-          ])
-          if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
+        if (await userStore.reOauth()) {
+          t('其他.重新授权')
+          return this.initQueue()
         }
       }
     }
 
     return true
+  }
+
+  /** 初始化进度和条目等数据 */
+  initQueue = async () => {
+    const data = await Promise.all([
+      userStore.fetchCollection(),
+      userStore.fetchUserProgress()
+    ])
+    if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
+
+    return false
   }
 
   /** -------------------- fetch -------------------- */
@@ -183,11 +189,6 @@ export default class ScreenHomeV2 extends store {
   /** 队列请求条目信息 */
   fetchSubjectsQueue = async (list = []) => {
     const fetchs = this.sortList(list).map(({ subject_id }, index) => () => {
-      // this.setState({
-      //   progress: {
-      //     current: index + 1
-      //   }
-      // })
       return this.fetchSubject(subject_id, index)
     })
 
@@ -195,14 +196,12 @@ export default class ScreenHomeV2 extends store {
       this.setState({
         progress: {
           fetching: true
-          // message: '更新条目信息',
-          // current: 1,
-          // total: fetchs.length
         }
       })
     }
 
     await queue(fetchs, 1)
+    await sleep(40)
     this.setState({
       progress: EXCLUDE_STATE.progress
     })
@@ -1309,6 +1308,11 @@ export default class ScreenHomeV2 extends store {
           hide()
           info('已完成')
           feedback()
+
+          t('其他.批量添加日历', {
+            subjectId,
+            length: fns.length
+          })
         },
         '一键添加放送提醒'
       )

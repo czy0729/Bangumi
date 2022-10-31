@@ -47,34 +47,32 @@ Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互�
 - 超展开（帖吧）
 - 时光机（个人中心）、用户空间
 - 不限于搜索、排行榜、索引、目录、每日放送、年鉴、标签
+- 其他站点同步到 bgm 功能
 
 ### 特色功能
 
-- 大部分资源覆盖到自维护 [CDN](https://github.com/czy0729/Bangumi-Subject)，访问高速化
-- 图片使用 [CDN](https://github.com/czy0729/Bangumi-OSS)，有后处理，比源网站更快、质量更高、流量更小
+- 封面图片和大部分脱敏静态数据覆盖到自费国内 CDN 中间层，访问高速化
 - 当季番剧精准到单集网络播放源、漫画源查询，找番剧、文库、游戏、音乐
 - 番剧、游戏截图预览
 - [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏, App 独立设计 UI 和交互）
 
 ## Update
 
-v7.1.0 - 2022/09/25
+v7.2.3 - 2022/10/31
 
 —— 新增 ——
 
-- [x] [发现] 找条目功能重构 (更新了更多的数据、更合理的分类等，具体细节请进入页面使用查看)
-- [x] 条目未放送的章节按钮，支持添加放送提醒到手机日历 (暂安卓 only)
+- [x] [条目] 预览图的单独列表页面
 
 —— 优化 ——
 
-- [x] [人物] 以京都动画人物页面卡顿为基准，单独优化
-- [x] [条目] 标签增加了可以直接跳转到〔找条目〕对应筛选条件的逻辑
-- [x] 大量减少了打包到 APP 里面的静态数据，减少安卓内存溢出闪退
+- [x] [系统] 大幅缩短了冷启动时间（因为缓存的本地数据改成懒加载，可能会导致进入一个以往访问过的页面，不能马上显示完整
+- [x] [首页收藏] 章节支持批量添加日历提醒 （新使用了日历账号管理，并且 iOS 也支持此功能了）
+- [x] [iOS] 允许修改切页动画
 
 —— 修复 ——
 
-- [x] 修复了默认头像用户自定义 APP 头像后，所有默认头像都为自己的问题
-- [x] 修复了若干已知问题
+- [x] [安卓] 修复了找条目中【按名字排序】闪退；发现页面中【SMB 管理】闪退等问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
@@ -97,19 +95,7 @@ v7.1.0 - 2022/09/25
 
 ## PowerBy
 
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) [[Bangumi-Subject]](https://github.com/czy0729/Bangumi-Subject) 条目快照
-
 [![](https://data.jsdelivr.com/v1/package/gh/ekibot/bangumi-onair/badge)](https://www.jsdelivr.com/package/gh/ekibot/bangumi-onair) [[Bangumi-OnAir]](https://github.com/ekibot/bangumi-onair) [ekibun](https://github.com/ekibun) 的单集播放数据源
-
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Mono/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Mono) [[Bangumi-Mono]](https://github.com/czy0729/Bangumi-Mono)人物快照
-
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) [[Bangumi-OSS]](https://github.com/czy0729/Bangumi-OSS) 热门条目封面和活跃用户头像对象存储
-
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Rakuen/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Rakuen) [[Bangumi-Rakuen]](https://github.com/czy0729/Bangumi-Rakuen) 帖子快照
-
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Static/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Static) [[Bangumi-Static]](https://github.com/czy0729/Bangumi-Static) 聚合静态数据
-
-[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Game/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Game) [[Bangumi-Game]](https://github.com/czy0729/Bangumi-Game) 游戏条目扩展数据
 
 [[bangumi-mosaic-tile]](https://github.com/weizhenye/bangumi-mosaic-tile) [weizhenye](https://github.com/weizhenye) 的用户统计瓷砖库
 
@@ -173,6 +159,8 @@ react-native run-android // [android] 真机 usb 调试
 - 调试请保证给应用安装权限，允许悬浮窗权限
 
 - 遇到 spawnSync adb ENOENT，参考 [stackoverflow](https://stackoverflow.com/questions/38835931/react-native-adb-reverse-enoent)
+
+- 第一次就遇到打包失败，看看是不是遇到 read timeout 等问题，表示需要科学上网。明明前一天还能打包成功，后一天就失败，也可能是依赖包无法获取的问题，因为 gradlew 依赖包只有 24 小时的缓存时间，尝试使用 --offline 命令
 
 ** 补充常见错误，已在 mac M1 上调试成功 **
 

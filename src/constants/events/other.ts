@@ -22,6 +22,8 @@ export default {
   '其他.试用CDN': 'Other.cdnMagma',
   '其他.管理条目': 'Other.manageSubject',
   '其他.添加日历': 'Other.saveCalenderEvent',
+  '其他.批量添加日历': 'Other.batchSaveCalenderEvent',
+  '其他.重新授权': 'Other.reOauth',
 
   'AC搜索.缩略框': 'ACSearch.popable',
   'AC搜索.跳转': 'ACSearch.to',
