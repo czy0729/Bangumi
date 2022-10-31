@@ -78,12 +78,11 @@ v7.2.3 - 2022/10/31
 
 ## Preview
 
-![a1](https://user-images.githubusercontent.com/13514316/171143439-5e9c6c22-889d-4774-8c66-4316294d5019.png)
-![a2](https://user-images.githubusercontent.com/13514316/171143470-a982f725-2b86-4c8a-b1a3-f3a3b2b13060.png)
-![a3](https://user-images.githubusercontent.com/13514316/171143473-6589f342-9ff3-4f56-b2e4-9d6e1dfd15ca.png)
-![a4](https://user-images.githubusercontent.com/13514316/171143476-98756d3c-584e-44e4-bf4c-45c7ad9559d7.png)
-![a5](https://user-images.githubusercontent.com/13514316/171143480-a34e08ad-39f5-48fe-b362-73e25e190ef1.png)
-![a6](https://user-images.githubusercontent.com/13514316/171143482-215bc573-6701-4c60-b6dd-3185f0ce93dc.png)
+![1](https://user-images.githubusercontent.com/13514316/198988958-df666fd6-5bb7-478f-a3da-86c117c76fe8.png)
+![2](https://user-images.githubusercontent.com/13514316/198989007-41ce1f7a-db85-4357-808b-a3e7db23f56a.png)
+![3](https://user-images.githubusercontent.com/13514316/198989038-286494f3-8430-452b-a888-c9e9957c6025.png)
+![4](https://user-images.githubusercontent.com/13514316/198989049-a639753b-6bf8-478d-a77b-df8e12ccd247.png)
+![5](https://user-images.githubusercontent.com/13514316/198989028-65a2acf7-7d11-459f-ac80-60579fa946c8.png)
 
 ## 免责声明
 
