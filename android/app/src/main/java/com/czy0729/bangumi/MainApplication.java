@@ -25,9 +25,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nullable;
-import com.umeng.commonsdk.UMConfigure;
-import com.czy0729.bangumi.umeng.DplusReactPackage;
-import com.czy0729.bangumi.umeng.RNUMConfigure;
+// import com.umeng.commonsdk.UMConfigure;
+// import com.czy0729.bangumi.umeng.DplusReactPackage;
+// import com.czy0729.bangumi.umeng.RNUMConfigure;
 import com.czy0729.bangumi.daynight.DayNightPackage;
 import com.czy0729.bangumi.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
 
@@ -49,7 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
-      packages.add(new DplusReactPackage());
+      // packages.add(new DplusReactPackage());
       packages.add(new DayNightPackage());
       new AndroidKeyboardAdjustPackage();
       // packages.add(new RNFSPackage());

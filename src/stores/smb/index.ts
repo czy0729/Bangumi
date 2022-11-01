@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 01:08:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 03:33:20
+ * @Last Modified time: 2022-11-01 01:15:34
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -38,6 +38,7 @@ class SMBStore extends store implements StoreConstructor<typeof state> {
 
   // -------------------- get --------------------
   @computed get data() {
+    this.init('data')
     return this.state.data.data
   }
 

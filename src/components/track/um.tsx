@@ -11,7 +11,7 @@ import { NativeModules } from 'react-native'
 import { IOS } from '@constants'
 import { NavigationEvents } from '../navigation/events'
 
-const { UMAnalyticsModule } = NativeModules
+// const { UMAnalyticsModule } = NativeModules
 
 type Props = {
   /** 页面的名称 (中文) */
@@ -19,17 +19,5 @@ type Props = {
 }
 
 export function UM({ title = '' }: Props) {
-  if (IOS || !title) return null
-
-  return (
-    <NavigationEvents
-      onDidFocus={() => {
-        // setTimeout是保证页面开始记录是在上个页面结束之后才执行
-        setTimeout(() => UMAnalyticsModule.onPageStart(title), 0)
-      }}
-      onWillBlur={() => {
-        UMAnalyticsModule.onPageEnd(title)
-      }}
-    />
-  )
+  return null
 }

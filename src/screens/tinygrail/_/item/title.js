@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 22:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 06:00:10
+ * @Last Modified time: 2022-10-31 21:34:31
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import Rank from '../rank'
 
-function Title({ rank, name, level, bonus }) {
+function Title({ rank, name = '', level, bonus }) {
   return (
     <Flex wrap='wrap'>
       <Rank value={rank} />
