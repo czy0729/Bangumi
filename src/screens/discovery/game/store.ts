@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-22 04:14:40
  */
 import { observable, computed } from 'mobx'
-import { systemStore, collectionStore } from '@stores'
+import { systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/game'
 import { t } from '@utils/fetch'
@@ -28,7 +28,8 @@ export default class ScreenGame extends store {
       cate: '',
       dev: '',
       pub: '',
-      sort: '发行'
+      sort: '发行',
+      collected: ''
     },
     data: LIST_EMPTY,
     layout: 'list',
@@ -93,12 +94,24 @@ export default class ScreenGame extends store {
 
   /** 对应项实际显示列表 */
   @computed get list() {
-    const { data } = this.state
-    if (!systemStore.advance) {
-      return data.list.filter((item, index) => index < ADVANCE_LIMIT)
+    const { data, query } = this.state
+    let { list } = data
+
+    if (query.collected === '隐藏') {
+      list = list.filter(item => {
+        const subjectId = otaStore.gameSubjectId(item)
+        return !(
+          collectionStore.collectionStatus(subjectId) ||
+          this.userCollectionsMap[subjectId]
+        )
+      })
     }
 
-    return data.list
+    if (!systemStore.advance) {
+      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+    }
+
+    return list
   }
 
   // -------------------- page --------------------

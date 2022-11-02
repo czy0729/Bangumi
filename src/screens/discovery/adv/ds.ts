@@ -4,7 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-22 04:11:24
  */
-import { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_SORT } from '@utils/subject/adv'
+import {
+  ADV_COLLECTED,
+  ADV_DEV,
+  ADV_FIRST,
+  ADV_SORT,
+  ADV_YEAR
+} from '@utils/subject/adv'
 
 export const ADVANCE_LIMIT = 60
 
@@ -35,5 +41,10 @@ export const filterDS = [
     type: 'sort',
     data: ADV_SORT,
     always: true
+  },
+  {
+    title: '收藏',
+    type: 'collected',
+    data: ADV_COLLECTED
   }
 ] as const

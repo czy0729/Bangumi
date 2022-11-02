@@ -5,13 +5,14 @@
  * @Last Modified time: 2022-09-11 02:39:20
  */
 import {
-  GAME_FIRST,
-  GAME_YEAR,
-  GAME_PLATFORM,
   GAME_CATE,
+  GAME_COLLECTED,
   GAME_DEV,
+  GAME_FIRST,
+  GAME_PLATFORM,
   GAME_PUB,
-  GAME_SORT
+  GAME_SORT,
+  GAME_YEAR
 } from '@utils/subject/game'
 
 export const ADVANCE_LIMIT = 100
@@ -69,6 +70,11 @@ export const filterDS = [
     type: 'sort',
     data: GAME_SORT,
     always: true
+  },
+  {
+    title: '收藏',
+    type: 'collected',
+    data: GAME_COLLECTED
   }
 ] as const
 
@@ -108,5 +114,10 @@ export const advFilterDS = [
     type: 'sort',
     data: GAME_SORT,
     always: true
+  },
+  {
+    title: '收藏',
+    type: 'collected',
+    data: GAME_COLLECTED
   }
 ] as const

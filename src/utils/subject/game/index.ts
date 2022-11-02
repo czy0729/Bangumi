@@ -8,32 +8,34 @@ import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { SORT } from './../anime'
 import {
-  GAME_FIRST,
-  GAME_YEAR,
-  GAME_PLATFORM,
-  GAME_PLATFORM_MAP,
   GAME_CATE,
   GAME_CATE_MAP,
+  GAME_COLLECTED,
   GAME_DEV,
   GAME_DEV_MAP,
+  GAME_FIRST,
+  GAME_PLATFORM,
+  GAME_PLATFORM_MAP,
   GAME_PUB,
   GAME_PUB_MAP,
-  GAME_SORT
+  GAME_SORT,
+  GAME_YEAR
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
-  GAME_FIRST,
-  GAME_YEAR,
-  GAME_PLATFORM,
-  GAME_PLATFORM_MAP,
   GAME_CATE,
   GAME_CATE_MAP,
+  GAME_COLLECTED,
   GAME_DEV,
   GAME_DEV_MAP,
+  GAME_FIRST,
+  GAME_PLATFORM,
+  GAME_PLATFORM_MAP,
   GAME_PUB,
   GAME_PUB_MAP,
-  GAME_SORT
+  GAME_SORT,
+  GAME_YEAR
 }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}

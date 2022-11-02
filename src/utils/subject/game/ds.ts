@@ -5,11 +5,13 @@
  * @Last Modified time: 2022-09-13 21:04:18
  */
 import { DATA_ALPHABET } from '@constants/constants'
-import { ANIME_YEAR } from './../anime'
+import { ANIME_COLLECTED, ANIME_YEAR } from './../anime'
 
 export const GAME_FIRST = DATA_ALPHABET
 
 export const GAME_YEAR = ANIME_YEAR
+
+export const GAME_COLLECTED = ANIME_COLLECTED
 
 export const GAME_PLATFORM = [
   'PC',

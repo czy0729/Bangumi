@@ -7,10 +7,17 @@
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { SORT } from './../anime'
-import { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_DEV_MAP, ADV_SORT } from './ds'
+import {
+  ADV_COLLECTED,
+  ADV_DEV,
+  ADV_DEV_MAP,
+  ADV_FIRST,
+  ADV_SORT,
+  ADV_YEAR
+} from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
-export { ADV_FIRST, ADV_YEAR, ADV_DEV, ADV_DEV_MAP, ADV_SORT }
+export { ADV_COLLECTED, ADV_DEV, ADV_DEV_MAP, ADV_FIRST, ADV_SORT, ADV_YEAR }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let adv: Item[] = []

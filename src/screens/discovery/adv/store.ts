@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-22 04:10:17
  */
 import { observable, computed } from 'mobx'
-import { systemStore, collectionStore } from '@stores'
+import { systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/adv'
 import { t } from '@utils/fetch'
@@ -22,7 +22,8 @@ export default class ScreenADV extends store {
       first: '',
       year: 2022,
       dev: '',
-      sort: '评分人数'
+      sort: '评分人数',
+      collected: ''
     },
     data: LIST_EMPTY,
     layout: 'list',
@@ -84,12 +85,24 @@ export default class ScreenADV extends store {
 
   /** 对应项实际显示列表 */
   @computed get list() {
-    const { data } = this.state
-    if (!systemStore.advance) {
-      return data.list.filter((item, index) => index < ADVANCE_LIMIT)
+    const { data, query } = this.state
+    let { list } = data
+
+    if (query.collected === '隐藏') {
+      list = list.filter(item => {
+        const subjectId = otaStore.advSubjectId(item)
+        return !(
+          collectionStore.collectionStatus(subjectId) ||
+          this.userCollectionsMap[subjectId]
+        )
+      })
     }
 
-    return data.list
+    if (!systemStore.advance) {
+      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+    }
+
+    return list
   }
 
   // -------------------- page --------------------
