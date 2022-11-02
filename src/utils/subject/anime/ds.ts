@@ -255,3 +255,5 @@ ANIME_OFFICIAL.forEach((item, index) => {
 export { ANIME_OFFICIAL_MAP }
 
 export const ANIME_SORT = ['排名', '上映时间', '评分人数', '随机', '名称'] as const
+
+export const ANIME_COLLECTED = ['隐藏'] as const

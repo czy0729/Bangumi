@@ -25,7 +25,7 @@ function Grid(props, { $, navigation }: Ctx) {
   return (
     <Flex style={styles.grid} wrap='wrap' align='start'>
       {list.length ? (
-        list.map((item, index) => {
+        list.map((item, index: number) => {
           const id = String(item.id).replace('/subject/', '')
           const collection = collectionStore.collectionStatus(id)
           return (
@@ -38,6 +38,7 @@ function Grid(props, { $, navigation }: Ctx) {
               airtime={airtime === '' && matchYear(item.tip)}
               {...item}
               id={id}
+              typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)}
               collection={collection}
               isCollect={item.collected}
               isRectangle={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type) === '音乐'}

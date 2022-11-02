@@ -6,14 +6,15 @@
  */
 import {
   ANIME_AREA,
-  ANIME_TYPE,
-  ANIME_FIRST,
-  ANIME_YEAR,
   ANIME_BEGIN,
+  ANIME_COLLECTED,
+  ANIME_FIRST,
+  ANIME_OFFICIAL,
+  ANIME_SORT,
   ANIME_STATUS,
   ANIME_TAGS,
-  ANIME_OFFICIAL,
-  ANIME_SORT
+  ANIME_TYPE,
+  ANIME_YEAR
 } from '@utils/subject/anime'
 
 export const ADVANCE_LIMIT = 120
@@ -79,5 +80,10 @@ export const filterDS = [
     type: 'sort',
     data: ANIME_SORT,
     always: true
+  },
+  {
+    title: '收藏',
+    type: 'collected',
+    data: ANIME_COLLECTED
   }
 ] as const

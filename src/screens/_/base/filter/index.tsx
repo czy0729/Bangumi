@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-21 00:54:05
+ * @Last Modified time: 2022-11-01 20:42:44
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,8 +16,9 @@ import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { EventKeys } from '@types'
 import { FilterSwitch } from '../filter-switch'
-import { memoStyles } from './styles'
+import { scrollToX } from './utils'
 import { HIT_SLOP } from './ds'
+import { memoStyles } from './styles'
 import { Props as FilterProps } from './types'
 
 export const Filter = obc(
@@ -219,40 +220,3 @@ export const Filter = obc(
     )
   }
 )
-
-function scrollToX(
-  scrollView: ScrollView,
-  data: readonly any[],
-  value: any,
-  width = 50,
-  mutiple = false
-) {
-  try {
-    setTimeout(() => {
-      if (scrollView && value) {
-        let index = 0
-        if (mutiple) {
-          data.forEach(items => {
-            const idx = items.findIndex(i => i == value)
-            if (idx > index) index = idx
-          })
-        } else {
-          index = data.findIndex(i => i == value)
-        }
-
-        if (index >= 4) {
-          setTimeout(() => {
-            scrollView.scrollTo(
-              {
-                x: (index - 2) * width,
-                y: 0,
-                animated: true
-              },
-              1
-            )
-          }, 80)
-        }
-      }
-    }, 160)
-  } catch (error) {}
-}
