@@ -51,6 +51,7 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       score={score}
       rank={rank}
       airtime={begin || update ? String(begin || update).slice(0, 7) : ''}
+      typeCn='书籍'
       collection={
         collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
       }

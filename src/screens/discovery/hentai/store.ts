@@ -6,7 +6,7 @@
  * @Last Modified time: 2022-09-14 17:43:53
  */
 import { observable, computed } from 'mobx'
-import { userStore, systemStore, collectionStore } from '@stores'
+import { userStore, systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search, getTagType, HENTAI_TAGS_MAP } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
@@ -29,7 +29,8 @@ export default class ScreenHentai extends store {
       job: '',
       body: '',
       content: '',
-      sort: '评分人数'
+      sort: '评分人数',
+      collected: ''
     },
     data: LIST_EMPTY,
     layout: 'list',
@@ -104,12 +105,24 @@ export default class ScreenHentai extends store {
 
   /** 对应项实际显示列表 */
   @computed get list() {
-    const { data } = this.state
-    if (!systemStore.advance) {
-      return data.list.filter((item, index) => index < ADVANCE_LIMIT)
+    const { data, query } = this.state
+    let { list } = data
+
+    if (query.collected === '隐藏') {
+      list = list.filter(item => {
+        const subjectId = otaStore.hentaiSubjectId(item)
+        return !(
+          collectionStore.collectionStatus(subjectId) ||
+          this.userCollectionsMap[subjectId]
+        )
+      })
     }
 
-    return data.list
+    if (!systemStore.advance) {
+      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+    }
+
+    return list
   }
 
   // -------------------- page --------------------

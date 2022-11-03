@@ -9,24 +9,26 @@ import { desc, getTimestamp } from '../../index'
 import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
 import { SORT } from './../anime'
 import {
+  MANGA_COLLECTED,
   MANGA_FIRST,
-  MANGA_YEAR,
+  MANGA_HD,
+  MANGA_SORT,
   MANGA_STATUS,
   MANGA_TAGS,
   MANGA_TAGS_MAP,
-  MANGA_HD,
-  MANGA_SORT
+  MANGA_YEAR
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
+  MANGA_COLLECTED,
   MANGA_FIRST,
-  MANGA_YEAR,
+  MANGA_HD,
+  MANGA_SORT,
   MANGA_STATUS,
   MANGA_TAGS,
   MANGA_TAGS_MAP,
-  MANGA_HD,
-  MANGA_SORT
+  MANGA_YEAR
 }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}

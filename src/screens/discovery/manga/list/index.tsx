@@ -24,12 +24,12 @@ class List extends React.Component {
     return _.portrait(3, 5)
   }
 
-  renderItem = ({ item, index }) => {
+  renderItem = ({ item: pickIndex, index }) => {
     const { $ }: Ctx = this.context
     const { layout } = $.state
-    if (layout === 'list') return <Item pickIndex={item} index={index} />
+    if (layout === 'list') return <Item pickIndex={pickIndex} index={index} />
 
-    return <ItemGrid pickIndex={item} index={index} num={this.num} />
+    return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
   }
 
   renderFilter() {

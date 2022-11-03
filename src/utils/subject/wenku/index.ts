@@ -8,34 +8,36 @@ import { SubjectId } from '@types'
 import { desc, getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import {
-  WENKU_FIRST,
-  WENKU_YEAR,
-  WENKU_STATUS,
   WENKU_ANIME,
-  WENKU_CATE,
-  WENKU_CATE_MAP,
   WENKU_AUTHOR,
   WENKU_AUTHOR_MAP,
+  WENKU_CATE,
+  WENKU_CATE_MAP,
+  WENKU_COLLECTED,
+  WENKU_FIRST,
   WENKU_SORT,
+  WENKU_STATUS,
   WENKU_TAGS,
   WENKU_TAGS_MAP,
-  WENKU_TAGS_NUMS_MAP
+  WENKU_TAGS_NUMS_MAP,
+  WENKU_YEAR
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
-  WENKU_FIRST,
-  WENKU_YEAR,
-  WENKU_STATUS,
   WENKU_ANIME,
-  WENKU_CATE,
-  WENKU_CATE_MAP,
   WENKU_AUTHOR,
   WENKU_AUTHOR_MAP,
+  WENKU_CATE,
+  WENKU_CATE_MAP,
+  WENKU_COLLECTED,
+  WENKU_FIRST,
   WENKU_SORT,
+  WENKU_STATUS,
   WENKU_TAGS,
   WENKU_TAGS_MAP,
-  WENKU_TAGS_NUMS_MAP
+  WENKU_TAGS_NUMS_MAP,
+  WENKU_YEAR
 }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}

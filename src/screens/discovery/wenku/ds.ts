@@ -5,14 +5,15 @@
  * @Last Modified time: 2022-09-12 15:41:33
  */
 import {
-  WENKU_FIRST,
-  WENKU_YEAR,
-  WENKU_STATUS,
   WENKU_ANIME,
-  WENKU_CATE,
   WENKU_AUTHOR,
+  WENKU_CATE,
+  WENKU_COLLECTED,
+  WENKU_FIRST,
   WENKU_SORT,
-  WENKU_TAGS
+  WENKU_STATUS,
+  WENKU_TAGS,
+  WENKU_YEAR
   // WENKU_TAGS_NUMS_MAP
 } from '@utils/subject/wenku'
 
@@ -68,5 +69,10 @@ export const filterDS = [
     type: 'sort',
     data: WENKU_SORT,
     always: true
+  },
+  {
+    title: '收藏',
+    type: 'collected',
+    data: WENKU_COLLECTED
   }
 ] as const

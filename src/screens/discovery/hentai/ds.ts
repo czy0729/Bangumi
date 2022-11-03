@@ -5,13 +5,14 @@
  * @Last Modified time: 2022-09-24 22:11:17
  */
 import {
-  HENTAI_FIRST,
-  HENTAI_YEAR,
-  HENTAI_CHARA,
-  HENTAI_JOB,
   HENTAI_BODY,
+  HENTAI_CHARA,
+  HENTAI_COLLECTED,
   HENTAI_CONTENT,
-  HENTAI_SORT
+  HENTAI_FIRST,
+  HENTAI_JOB,
+  HENTAI_SORT,
+  HENTAI_YEAR
 } from '@utils/subject/hentai'
 
 export const ADVANCE_LIMIT = 80
@@ -64,5 +65,10 @@ export const filterDS = [
     type: 'sort',
     data: HENTAI_SORT,
     always: true
+  },
+  {
+    title: '收藏',
+    type: 'collected',
+    data: HENTAI_COLLECTED
   }
 ] as const

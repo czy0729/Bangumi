@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-20 16:29:24
  */
 import { observable, computed } from 'mobx'
-import { systemStore, collectionStore } from '@stores'
+import { systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/wenku'
 import { t } from '@utils/fetch'
@@ -29,7 +29,8 @@ export default class ScreenWenku extends store {
       cate: '',
       author: '',
       tags: [],
-      sort: '发行'
+      sort: '发行',
+      collected: ''
     },
     data: LIST_EMPTY,
     layout: 'list',
@@ -95,12 +96,24 @@ export default class ScreenWenku extends store {
 
   /** 对应项实际显示列表 */
   @computed get list() {
-    const { data } = this.state
-    if (!systemStore.advance) {
-      return data.list.filter((item, index) => index < ADVANCE_LIMIT)
+    const { data, query } = this.state
+    let { list } = data
+
+    if (query.collected === '隐藏') {
+      list = list.filter(item => {
+        const subjectId = otaStore.wenkuSubjectId(item)
+        return !(
+          collectionStore.collectionStatus(subjectId) ||
+          this.userCollectionsMap[subjectId]
+        )
+      })
     }
 
-    return data.list
+    if (!systemStore.advance) {
+      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+    }
+
+    return list
   }
 
   // -------------------- page --------------------

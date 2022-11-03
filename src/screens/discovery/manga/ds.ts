@@ -5,11 +5,12 @@
  * @Last Modified time: 2022-09-11 21:05:48
  */
 import {
+  MANGA_COLLECTED,
   MANGA_FIRST,
-  MANGA_YEAR,
+  MANGA_SORT,
   MANGA_STATUS,
   MANGA_TAGS,
-  MANGA_SORT
+  MANGA_YEAR
 } from '@utils/subject/manga'
 
 export const ADVANCE_LIMIT = 120
@@ -55,5 +56,10 @@ export const filterDS = [
     type: 'sort',
     data: MANGA_SORT,
     always: true
+  },
+  {
+    title: '收藏',
+    type: 'collected',
+    data: MANGA_COLLECTED
   }
 ] as const

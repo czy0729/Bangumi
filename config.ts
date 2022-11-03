@@ -37,7 +37,7 @@ export const TEXT_ONLY = DEV ? !DEV : false
 
 /** 路由覆盖配置 */
 const CONFIGS: Configs = {
-  initialRouteName: 'Anime',
+  initialRouteName: 'HomeTab',
   initialRouteParams: {
     // subjectId: 349441 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/372695' // group/366561

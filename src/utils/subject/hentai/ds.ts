@@ -5,11 +5,13 @@
  * @Last Modified time: 2022-09-14 16:53:41
  */
 import { DATA_ALPHABET } from '@constants/constants'
-import { ANIME_YEAR } from './../anime'
+import { ANIME_COLLECTED, ANIME_YEAR } from './../anime'
 
 export const HENTAI_FIRST = DATA_ALPHABET
 
 export const HENTAI_YEAR = ANIME_YEAR
+
+export const HENTAI_COLLECTED = ANIME_COLLECTED
 
 export const HENTAI_SORT = ['排名', '评分人数', '上映时间', '随机', '名称'] as const
 

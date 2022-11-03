@@ -7,29 +7,31 @@
 import { getTimestamp } from '../../index'
 import { SORT } from './../anime'
 import {
-  HENTAI_FIRST,
-  HENTAI_YEAR,
-  HENTAI_SORT,
-  HENTAI_CHARA,
-  HENTAI_JOB,
   HENTAI_BODY,
+  HENTAI_CHARA,
+  HENTAI_COLLECTED,
   HENTAI_CONTENT,
+  HENTAI_FIRST,
+  HENTAI_JOB,
+  HENTAI_SORT,
   HENTAI_TAGS,
-  HENTAI_TAGS_MAP
+  HENTAI_TAGS_MAP,
+  HENTAI_YEAR
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 import { SubjectId } from '@types'
 
 export {
-  HENTAI_FIRST,
-  HENTAI_YEAR,
-  HENTAI_SORT,
-  HENTAI_CHARA,
-  HENTAI_JOB,
   HENTAI_BODY,
+  HENTAI_CHARA,
+  HENTAI_COLLECTED,
   HENTAI_CONTENT,
+  HENTAI_FIRST,
+  HENTAI_JOB,
+  HENTAI_SORT,
   HENTAI_TAGS,
-  HENTAI_TAGS_MAP
+  HENTAI_TAGS_MAP,
+  HENTAI_YEAR
 }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}

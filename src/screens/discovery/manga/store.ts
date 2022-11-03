@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-23 06:49:35
  */
 import { observable, computed } from 'mobx'
-import { systemStore, collectionStore } from '@stores'
+import { systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
@@ -28,7 +28,8 @@ export default class ScreenManga extends store {
       status: '',
       tags: [],
       hd: '',
-      sort: '评分人数'
+      sort: '评分人数',
+      collected: ''
     },
     data: LIST_EMPTY,
     layout: 'list',
@@ -94,12 +95,24 @@ export default class ScreenManga extends store {
 
   /** 对应项实际显示列表 */
   @computed get list() {
-    const { data } = this.state
-    if (!systemStore.advance) {
-      return data.list.filter((item, index) => index < ADVANCE_LIMIT)
+    const { data, query } = this.state
+    let { list } = data
+
+    if (query.collected === '隐藏') {
+      list = list.filter(item => {
+        const subjectId = otaStore.mangaSubjectId(item)
+        return !(
+          collectionStore.collectionStatus(subjectId) ||
+          this.userCollectionsMap[subjectId]
+        )
+      })
     }
 
-    return data.list
+    if (!systemStore.advance) {
+      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+    }
+
+    return list
   }
 
   // -------------------- page --------------------

@@ -6,11 +6,13 @@
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { desc } from '../../utils'
-import { ANIME_YEAR } from '../anime'
+import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
 export const WENKU_FIRST = DATA_ALPHABET
 
 export const WENKU_YEAR = ANIME_YEAR
+
+export const WENKU_COLLECTED = ANIME_COLLECTED
 
 export const WENKU_STATUS = ['连载', '完结'] as const
 
