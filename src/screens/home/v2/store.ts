@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-27 14:55:15
+ * @Last Modified time: 2022-11-04 13:14:45
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,6 +12,7 @@ import {
   systemStore,
   userStore
 } from '@stores'
+import { getInt } from '@stores/subject'
 import {
   HTMLDecode,
   appNavigate,
@@ -102,9 +103,9 @@ export default class ScreenHomeV2 extends store {
       inited = true
 
       await this.initStore()
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         this.initFetch()
-      })
+      }, 4000)
     }
 
     return true
@@ -127,6 +128,15 @@ export default class ScreenHomeV2 extends store {
     if (progress.fetching) {
       info('正在刷新条目信息，请稍后再操作')
       return
+    }
+
+    // subjectStoreKeys
+    const subjectStoreKeys: `subject${number}`[] = []
+    userStore.collection.list.forEach(item => {
+      subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
+    })
+    for (let i = 0; i < subjectStoreKeys.length; i += 1) {
+      await subjectStore.init(subjectStoreKeys[i])
     }
 
     let flag = refresh

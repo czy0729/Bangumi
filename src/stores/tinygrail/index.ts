@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 00:22:29
+ * @Last Modified time: 2022-11-04 13:20:10
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -253,10 +253,7 @@ const state = {
   _stockPreview: false
 }
 
-class TinygrailStore
-  extends store
-  implements StoreConstructor<Omit<typeof state, ListKey>>
-{
+class TinygrailStore extends store implements StoreConstructor<typeof state> {
   state = observable(state)
 
   private _loaded = {
@@ -388,6 +385,61 @@ class TinygrailStore
     return computed<typeof INIT_USER_LOGS>(() => {
       return this.state.userLogs[monoId] || INIT_USER_LOGS
     }).get()
+  }
+
+  /** 最高市值 */
+  @computed get mvc() {
+    return this.state.mvc
+  }
+
+  /** 最大涨幅 */
+  @computed get mrc() {
+    return this.state.mrc
+  }
+
+  /** 最大跌幅 */
+  @computed get mfc() {
+    return this.state.mfc
+  }
+
+  /** ICO 最多资金 */
+  @computed get mvi() {
+    return this.state.mvi
+  }
+
+  /** ICO 最高人气 */
+  @computed get mpi() {
+    return this.state.mpi
+  }
+
+  /** ICO 最近活跃 */
+  @computed get rai() {
+    return this.state.rai
+  }
+
+  /** ICO 即将结束 */
+  @computed get mri() {
+    return this.state.mri
+  }
+
+  /** 最近活跃 */
+  @computed get recent() {
+    return this.state.recent
+  }
+
+  /** 新番市值 */
+  @computed get tnbc() {
+    return this.state.tnbc
+  }
+
+  /** 新番活跃 */
+  @computed get nbc() {
+    return this.state.nbc
+  }
+
+  /** 最高股息 */
+  @computed get msrc() {
+    return this.state.msrc
   }
 
   /** 我的买单 */
