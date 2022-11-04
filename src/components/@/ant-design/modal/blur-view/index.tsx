@@ -1,10 +1,8 @@
 /*
- * 毛玻璃
- *
  * @Author: czy0729
- * @Date: 2019-11-30 15:23:07
+ * @Date: 2022-11-04 11:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-04 11:57:49
+ * @Last Modified time: 2022-11-04 12:20:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,17 +11,18 @@ import { BlurView as ExpoBlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 import { Props as BlurViewProps } from './types'
 
 export { BlurViewProps }
 
 export const BlurView = ob(({ style, intensity = 100, children }: BlurViewProps) => {
+  const styles = memoStyles()
   if (IOS) {
     return (
       <ExpoBlurView
-        style={style}
-        tint={_.isDark ? 'dark' : 'default'}
+        style={[styles.blurView, style]}
+        tint={_.isDark ? 'dark' : 'light'}
         intensity={intensity}
       >
         {children}

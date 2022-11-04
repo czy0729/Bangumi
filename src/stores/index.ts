@@ -68,13 +68,13 @@ class GlobalStores {
       }
 
       // subjectStoreKeys
-      const subjectStoreKeys: `subject${number}`[] = []
-      userStore.collection.list.forEach(item => {
-        subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
-      })
-      for (let i = 0; i < subjectStoreKeys.length; i += 1) {
-        await subjectStore.init(subjectStoreKeys[i])
-      }
+      // const subjectStoreKeys: `subject${number}`[] = []
+      // userStore.collection.list.forEach(item => {
+      //   subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
+      // })
+      // for (let i = 0; i < subjectStoreKeys.length; i += 1) {
+      //   await subjectStore.init(subjectStoreKeys[i])
+      // }
 
       if (DEV) console.info('========== GlobalStores init ==========')
 

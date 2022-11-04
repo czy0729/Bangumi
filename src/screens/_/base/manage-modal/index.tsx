@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 14:14:45
+ * @Last Modified time: 2022-11-04 13:08:08
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -347,8 +347,9 @@ export const ManageModal = ob(
             </Text>
           }
           transparent
-          maskClosable
+          // blurView
           closable
+          maskClosable
           onClose={onClose}
         >
           <Text style={_.mt.sm} type='sub' size={13} align='center'>

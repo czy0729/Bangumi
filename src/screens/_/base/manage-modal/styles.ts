@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 14:21:08
+ * @Last Modified time: 2022-11-04 12:14:38
  */
 import { _ } from '@stores'
 
@@ -14,6 +14,11 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.device(0, _.sm),
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
+  },
+  container: {
+    width: _.r(_.window.width - 2 * _.wind),
+    maxWidth: _.device(408, 560),
+    paddingTop: 80
   },
   focus: {
     marginTop: -Math.floor(_.window.height * _.device(0.48, 0.24))

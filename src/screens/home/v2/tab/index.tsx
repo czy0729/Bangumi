@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 11:36:04
+ * @Last Modified time: 2022-11-04 10:00:39
  */
 import React from 'react'
 import TabBar from '@components/@/react-native-tab-view/TabBar'
@@ -13,8 +13,9 @@ import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Tab({ routes = [], renderScene }, { $ }: Ctx) {
+function Tab({ routes = [], renderScene }: Props, { $ }: Ctx) {
   global.rerender('Home.Tab')
 
   const styles = memoStyles()
@@ -28,6 +29,7 @@ function Tab({ routes = [], renderScene }, { $ }: Ctx) {
       lazyPreloadDistance={0}
       navigationState={{
         index: page,
+        // @ts-ignore
         routes
       }}
       renderTabBar={props => (

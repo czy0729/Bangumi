@@ -11,13 +11,14 @@ import { c } from '@utils/decorators'
 import { IOS } from '@constants'
 import Tab from '../tab'
 import List from '../list'
+import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 /**
  * 因为本组件使用useMemo后不能用mobx@4去observer
  * 所以只能在上面把routes的length传下来监听刷新
  */
-function TabWrap({ length }, { $ }) {
+function TabWrap({ length }, { $ }: Ctx) {
   global.rerender('Home.TabWrap')
 
   const styles = memoStyles()

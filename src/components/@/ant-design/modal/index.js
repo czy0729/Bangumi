@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:19:20
+ * @Last Modified time: 2022-11-04 12:20:57
  */
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
@@ -19,6 +19,8 @@ import { Flex, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { IOS } from '@constants'
 import { window } from '@styles'
+import { BlurView } from './blur-view'
+import { styles as _styles } from './styles'
 
 const maxHeight = StyleSheet.create({
   maxHeight: {
@@ -28,18 +30,18 @@ const maxHeight = StyleSheet.create({
 
 class AntmModal extends React.Component {
   static defaultProps = {
-    visible: false,
-    closable: false,
-    maskClosable: false,
-    style: {},
-    bodyStyle: {},
-    animationType: 'fade',
-    onClose() {},
-    footer: [],
-    transparent: false,
-    popup: false,
     animateAppear: true,
-    operation: false
+    animationType: 'fade',
+    bodyStyle: {},
+    closable: false,
+    footer: [],
+    maskClosable: false,
+    onClose() {},
+    operation: false,
+    popup: false,
+    style: {},
+    transparent: false,
+    visible: false
   }
   static alert = alert
   static operation = operation
@@ -49,220 +51,99 @@ class AntmModal extends React.Component {
     antLocale: PropTypes.object
   }
 
-  root
-
-  onFooterLayout = e => {
-    if (this.root) {
-      this.root.setNativeProps({
-        style: [{ paddingBottom: e.nativeEvent.layout.height }, maxHeight]
-      })
-    }
-  }
-
-  saveRoot = root => {
-    this.root = root
-  }
-
   render() {
     const {
-      title,
+      animateAppear,
+      blurView,
+      bodyStyle,
+      children,
       closable,
       footer,
-      children,
-      style,
-      animateAppear,
       maskClosable,
-      popup,
-      transparent,
-      visible,
+      onAnimationEnd,
       onClose,
-      bodyStyle,
-      onAnimationEnd
+      popup,
+      style,
+      title,
+      transparent,
+      visible
     } = this.props
 
-    // tslint:disable-next-line:variable-name
     const _locale = getComponentLocale(this.props, this.context, 'Modal', () => zhCN)
-
     return (
       <WithTheme styles={this.props.styles} themeStyles={modalStyles}>
         {styles => {
-          let btnGroupStyle = styles.buttonGroupV
-          let horizontalFlex = {}
-          if (footer && footer.length === 2 && !this.props.operation) {
-            btnGroupStyle = styles.buttonGroupH
-            horizontalFlex = { flex: 1 }
-          }
-          const buttonWrapStyle =
-            footer && footer.length === 2 ? styles.buttonWrapH : styles.buttonWrapV
-          let footerDom
-          if (footer && footer.length) {
-            const footerButtons = footer.map((button, i) => {
-              let buttonStyle = {}
-              if (this.props.operation) {
-                buttonStyle = styles.buttonTextOperation
-              }
-              if (button.style) {
-                buttonStyle = button.style
-                if (typeof buttonStyle === 'string') {
-                  const styleMap = {
-                    cancel: {},
-                    default: {},
-                    destructive: { color: 'red' }
-                  }
-                  buttonStyle = styleMap[buttonStyle] || {}
+          let animType = this.props.animationType
+
+          const closableDom = closable ? (
+            <View
+              style={[
+                styles.closeWrap,
+                {
+                  zIndex: 1,
+                  width: 36,
+                  height: 36,
+                  marginTop: -10,
+                  marginLeft: -4
                 }
-              }
-              const noneBorder =
-                footer && footer.length === 2 && i === 1 ? { borderRightWidth: 0 } : {}
-              const onPressFn = () => {
-                if (button.onPress) {
-                  button.onPress()
-                }
-                if (onClose) {
-                  onClose()
-                }
-              }
-              return (
-                <TouchableHighlight
-                  key={i}
-                  style={horizontalFlex}
-                  underlayColor='#ddd'
-                  onPress={onPressFn}
-                >
-                  <View style={[buttonWrapStyle, noneBorder]}>
-                    <Text
-                      style={[
-                        !IOS && {
-                          fontFamily: ''
-                        },
-                        styles.buttonText,
-                        buttonStyle
-                      ]}
-                      textBreakStrategy='simple'
-                      numberOfLines={0}
-                    >
-                      {button.text || `${_locale.buttonText}${i}`}
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-              )
-            })
-            footerDom = (
-              <View
-                style={[btnGroupStyle, styles.footer]}
-                onLayout={this.onFooterLayout}
+              ]}
+            >
+              <Touchable
+                style={{
+                  borderRadius: 20,
+                  overflow: 'hidden'
+                }}
+                onPress={onClose}
               >
-                {footerButtons}
-              </View>
-            )
+                <Flex
+                  style={{
+                    width: 36,
+                    height: 36
+                  }}
+                  justify='center'
+                >
+                  <Iconfont name='md-close' color={_.colorIcon} />
+                </Flex>
+              </Touchable>
+            </View>
+          ) : null
+          const bodyDom = (
+            <View style={maxHeight}>
+              {title ? (
+                <Text
+                  style={[
+                    !IOS && {
+                      fontFamily: ''
+                    },
+                    styles.header
+                  ]}
+                  textBreakStrategy='simple'
+                  numberOfLines={0}
+                >
+                  {title}
+                </Text>
+              ) : null}
+              <View style={[styles.body, bodyStyle]}>{children}</View>
+              {closableDom}
+            </View>
+          )
+          const wrapDom = children => {
+            return blurView ? <BlurView>{children}</BlurView> : children
           }
 
-          let animType = this.props.animationType
-          if (transparent) {
-            if (animType === 'slide') {
-              animType = 'slide-up'
-            }
-            const closableDom = closable ? (
-              <View
-                style={[
-                  styles.closeWrap,
-                  {
-                    zIndex: 1,
-                    width: 36,
-                    height: 36,
-                    marginTop: -10,
-                    marginLeft: -4
-                  }
-                ]}
-              >
-                <Touchable
-                  style={{
-                    borderRadius: 20,
-                    overflow: 'hidden'
-                  }}
-                  onPress={onClose}
-                >
-                  <Flex
-                    style={{
-                      width: 36,
-                      height: 36
-                    }}
-                    justify='center'
-                  >
-                    <Iconfont name='md-close' color={_.colorIcon} />
-                  </Flex>
-                </Touchable>
-              </View>
-            ) : null
-            return (
-              <View style={styles.container}>
-                <RCModal
-                  onClose={onClose}
-                  animationType={animType}
-                  wrapStyle={transparent ? styles.wrap : undefined}
-                  style={style ? [styles.innerContainer, style] : styles.innerContainer}
-                  visible={visible}
-                  onAnimationEnd={onAnimationEnd}
-                  animateAppear={animateAppear}
-                  maskClosable={maskClosable}
-                >
-                  <View style={maxHeight} ref={this.saveRoot}>
-                    {title ? (
-                      <Text
-                        style={[
-                          !IOS && {
-                            fontFamily: ''
-                          },
-                          styles.header
-                        ]}
-                        textBreakStrategy='simple'
-                        numberOfLines={0}
-                      >
-                        {title}
-                      </Text>
-                    ) : null}
-                    <View style={[styles.body, bodyStyle]}>{children}</View>
-                    {footerDom}
-                    {closableDom}
-                  </View>
-                </RCModal>
-              </View>
-            )
-          }
-          if (popup) {
-            let aType = 'SlideDown'
-            if (animType === 'slide-up') {
-              animType = 'slide-up'
-              aType = 'SlideUp'
-            } else {
-              animType = 'slide-down'
-            }
-            return (
-              <View style={styles.container}>
-                <RCModal
-                  onClose={onClose}
-                  animationType={animType}
-                  // tslint:disable-next-line:jsx-no-multiline-js
-                  style={[styles.popupContainer, styles[`popup${aType}`], style]}
-                  visible={visible}
-                  onAnimationEnd={onAnimationEnd}
-                  animateAppear={animateAppear}
-                  maskClosable={maskClosable}
-                >
-                  <View ref={this.saveRoot} style={bodyStyle}>
-                    {children}
-                  </View>
-                </RCModal>
-              </View>
-            )
-          }
-          if (animType === 'slide') {
-            animType = undefined
-          }
           return (
             <View style={styles.container}>
-              <RCModal visible={visible} animationType={animType} onClose={onClose}>
-                <View style={style}>{children}</View>
+              <RCModal
+                style={[styles.innerContainer, style, blurView && _styles.transparent]}
+                wrapStyle={transparent && styles.wrap}
+                visible={visible}
+                maskClosable={maskClosable}
+                animationType={animType}
+                animateAppear={animateAppear}
+                onAnimationEnd={onAnimationEnd}
+                onClose={onClose}
+              >
+                {wrapDom(bodyDom)}
               </RCModal>
             </View>
           )
