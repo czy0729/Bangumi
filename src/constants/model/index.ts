@@ -1,7 +1,6 @@
 /*
  * 字典
- * @Todo: 使用TS枚举重构
- *
+ * @Todo: 使用 TS 枚举重构
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
@@ -13,38 +12,70 @@ type ModelItem = {
   title?: string
 }
 
+const CACHE = {}
+
 class Model {
-  constructor(data: readonly ModelItem[]) {
+  constructor(data: readonly ModelItem[], key: string) {
     this.data = data
+    if (key) this.key = key
   }
 
   data: any = []
 
+  key: string
+
   /**
-   * 优先通过value找label
+   * 优先通过 value 找 label
    * @param {*} value
    */
   getLabel<T = string | false>(value: any): T {
-    const find = this.data.find(item => item.value == value || item.title == value)
-    return find ? find.label : false
+    const key = this.key ? `getLabel|${this.key}|${value}` : ''
+    if (key && key in CACHE) return CACHE[key]
+
+    const find = this.data.find(
+      (item: { value: any; title: any }) => item.value == value || item.title == value
+    )
+    const result = find ? find.label : false
+    if (!key) return result
+
+    CACHE[key] = result
+    return result
   }
 
   /**
-   * 优先通过label找value
+   * 优先通过 label 找 value
    * @param {*} label
    */
   getValue<T = string | false>(label: any): T {
-    const find = this.data.find(item => item.label == label || item.title == label)
-    return find ? find.value : false
+    const key = this.key ? `getValue|${this.key}|${label}` : ''
+    if (key && key in CACHE) return CACHE[key]
+
+    const find = this.data.find(
+      (item: { label: any; title: any }) => item.label == label || item.title == label
+    )
+    const result = find ? find.value : false
+    if (!key) return result
+
+    CACHE[key] = result
+    return result
   }
 
   /**
-   * 优先通过label找title
+   * 优先通过 label 找 title
    * @param {*} label
    */
   getTitle<T = string | false>(label: any): T {
-    const find = this.data.find(item => item.label == label || item.value == label)
-    return find ? find.title : false
+    const key = this.key ? `getTitle|${this.key}|${label}` : ''
+    if (key && key in CACHE) return CACHE[key]
+
+    const find = this.data.find(
+      (item: { label: any; value: any }) => item.label == label || item.value == label
+    )
+    const result = find ? find.title : false
+    if (!key) return result
+
+    CACHE[key] = result
+    return result
   }
 }
 
@@ -78,7 +109,7 @@ export const SUBJECT_TYPE = [
 ] as const
 
 /** 条目类型 */
-export const MODEL_SUBJECT_TYPE = new Model(SUBJECT_TYPE)
+export const MODEL_SUBJECT_TYPE = new Model(SUBJECT_TYPE, 'SUBJECT_TYPE')
 
 /** 章节状态 */
 export const EP_STATUS = [
@@ -101,7 +132,7 @@ export const EP_STATUS = [
 ] as const
 
 /** 章节状态 */
-export const MODEL_EP_STATUS = new Model(EP_STATUS)
+export const MODEL_EP_STATUS = new Model(EP_STATUS, 'EP_STATUS')
 
 /** 章节类型 */
 export const EP_TYPE = [
@@ -116,7 +147,7 @@ export const EP_TYPE = [
 ] as const
 
 /** 章节类型 */
-export const MODEL_EP_TYPE = new Model(EP_TYPE)
+export const MODEL_EP_TYPE = new Model(EP_TYPE, 'EP_TYPE')
 
 /** 收藏状态 */
 export const COLLECTION_STATUS = [
@@ -148,7 +179,7 @@ export const COLLECTION_STATUS = [
 ] as const
 
 /** 收藏状态 */
-export const MODEL_COLLECTION_STATUS = new Model(COLLECTION_STATUS)
+export const MODEL_COLLECTION_STATUS = new Model(COLLECTION_STATUS, 'COLLECTION_STATUS')
 
 /** 打分状态 */
 export const RATING_STATUS = [
@@ -175,7 +206,7 @@ export const RATING_STATUS = [
 ] as const
 
 /** 打分状态 */
-export const MODEL_RATING_STATUS = new Model(RATING_STATUS)
+export const MODEL_RATING_STATUS = new Model(RATING_STATUS, 'RATING_STATUS')
 
 /** 收藏隐私 */
 export const PRIVATE = [
@@ -190,7 +221,7 @@ export const PRIVATE = [
 ] as const
 
 /** 收藏隐私 */
-export const MODEL_PRIVATE = new Model(PRIVATE)
+export const MODEL_PRIVATE = new Model(PRIVATE, 'PRIVATE')
 
 export const TIMELINE_SCOPE = [
   {
@@ -208,7 +239,7 @@ export const TIMELINE_SCOPE = [
 ] as const
 
 /** 时间胶囊范围 */
-export const MODEL_TIMELINE_SCOPE = new Model(TIMELINE_SCOPE)
+export const MODEL_TIMELINE_SCOPE = new Model(TIMELINE_SCOPE, 'TIMELINE_SCOPE')
 
 export const TIMELINE_TYPE = [
   {
@@ -262,7 +293,7 @@ export const TIMELINE_TYPE = [
 ] as const
 
 /** 时间胶囊类型 */
-export const MODEL_TIMELINE_TYPE = new Model(TIMELINE_TYPE)
+export const MODEL_TIMELINE_TYPE = new Model(TIMELINE_TYPE, 'TIMELINE_TYPE')
 
 /** 超展开板块 */
 export const RAKUEN_SCOPE = [
@@ -293,7 +324,7 @@ export const RAKUEN_SCOPE = [
 ] as const
 
 /** 超展开板块 */
-export const MODEL_RAKUEN_SCOPE = new Model(RAKUEN_SCOPE)
+export const MODEL_RAKUEN_SCOPE = new Model(RAKUEN_SCOPE, 'RAKUEN_SCOPE')
 
 /** 超展开全局聚合类型 */
 export const RAKUEN_TYPE = [
@@ -324,49 +355,49 @@ export const RAKUEN_TYPE = [
 ] as const
 
 /** 超展开全局聚合类型 */
-export const MODEL_RAKUEN_TYPE = new Model(RAKUEN_TYPE)
+export const MODEL_RAKUEN_TYPE = new Model(RAKUEN_TYPE, 'RAKUEN_TYPE')
 
 /** 小组范围 */
 export const RAKUEN_TYPE_GROUP = [
   {
-    label: '全部', // 全部小组
+    label: '全部',
     value: 'group'
   },
   {
-    label: '已加入', // 小组话题
+    label: '已加入',
     value: 'my_group'
   },
   {
-    label: '我发表', // 我发表的话题
+    label: '我发表',
     value: 'my_group&filter=topic'
   },
   {
-    label: '我回复', // 我回复的话题
+    label: '我回复',
     value: 'my_group&filter=reply'
   }
 ] as const
 
 /** 小组范围 */
-export const MODEL_RAKUEN_TYPE_GROUP = new Model(RAKUEN_TYPE_GROUP)
+export const MODEL_RAKUEN_TYPE_GROUP = new Model(RAKUEN_TYPE_GROUP, 'RAKUEN_TYPE_GROUP')
 
 /** 人物类型 */
 export const RAKUEN_TYPE_MONO = [
   {
-    label: '全部', // 全部人物
+    label: '全部',
     value: 'mono'
   },
   {
-    label: '虚拟', // 虚拟角色
+    label: '虚拟',
     value: 'mono&filter=character'
   },
   {
-    label: '现实', // 现实人物
+    label: '现实',
     value: 'mono&filter=person'
   }
 ] as const
 
 /** 人物类型 */
-export const MODEL_RAKUEN_TYPE_MONO = new Model(RAKUEN_TYPE_MONO)
+export const MODEL_RAKUEN_TYPE_MONO = new Model(RAKUEN_TYPE_MONO, 'RAKUEN_TYPE_MONO')
 
 /** 人物排序 */
 export const MONO_WORKS_ORDERBY = [
@@ -385,7 +416,10 @@ export const MONO_WORKS_ORDERBY = [
 ] as const
 
 /** 人物排序 */
-export const MODEL_MONO_WORKS_ORDERBY = new Model(MONO_WORKS_ORDERBY)
+export const MODEL_MONO_WORKS_ORDERBY = new Model(
+  MONO_WORKS_ORDERBY,
+  'MONO_WORKS_ORDERBY'
+)
 
 /** 搜索类型 */
 export const SEARCH_CAT = [
@@ -432,7 +466,7 @@ export const SEARCH_CAT = [
 ] as const
 
 /** 搜索类型 */
-export const MODEL_SEARCH_CAT = new Model(SEARCH_CAT)
+export const MODEL_SEARCH_CAT = new Model(SEARCH_CAT, 'SEARCH_CAT')
 
 /** 搜索细度 */
 export const SEARCH_LEGACY = [
@@ -447,7 +481,7 @@ export const SEARCH_LEGACY = [
 ] as const
 
 /** 搜索细度 */
-export const MODEL_SEARCH_LEGACY = new Model(SEARCH_LEGACY)
+export const MODEL_SEARCH_LEGACY = new Model(SEARCH_LEGACY, 'SEARCH_LEGACY')
 
 /** 文章站点 */
 export const NEWS = [
@@ -466,7 +500,7 @@ export const NEWS = [
 ] as const
 
 /** 文章站点 */
-export const MODEL_NEWS = new Model(NEWS)
+export const MODEL_NEWS = new Model(NEWS, 'NEWS')
 
 /** 索引排序 */
 export const BROWSER_SORT = [
@@ -485,7 +519,7 @@ export const BROWSER_SORT = [
 ] as const
 
 /** 索引排序 */
-export const MODEL_BROWSER_SORT = new Model(BROWSER_SORT)
+export const MODEL_BROWSER_SORT = new Model(BROWSER_SORT, 'BROWSER_SORT')
 
 /** [设置] 首页收藏布局 */
 export const SETTING_HOME_LAYOUT = [
@@ -500,7 +534,10 @@ export const SETTING_HOME_LAYOUT = [
 ] as const
 
 /** [设置] 首页收藏布局 */
-export const MODEL_SETTING_HOME_LAYOUT = new Model(SETTING_HOME_LAYOUT)
+export const MODEL_SETTING_HOME_LAYOUT = new Model(
+  SETTING_HOME_LAYOUT,
+  'SETTING_HOME_LAYOUT'
+)
 
 /** [设置] 首页收藏网格布局时，条目封面形状 */
 export const SETTING_HOME_GRID_COVER_LAYOUT = [
@@ -516,7 +553,8 @@ export const SETTING_HOME_GRID_COVER_LAYOUT = [
 
 /** [设置] 首页收藏网格布局时，条目封面形状 */
 export const MODEL_SETTING_HOME_GRID_COVER_LAYOUT = new Model(
-  SETTING_HOME_GRID_COVER_LAYOUT
+  SETTING_HOME_GRID_COVER_LAYOUT,
+  'SETTING_HOME_GRID_COVER_LAYOUT'
 )
 
 /** [设置] 首页收藏排序 */
@@ -536,7 +574,10 @@ export const SETTING_HOME_SORTING = [
 ] as const
 
 /** [设置] 首页收藏排序 */
-export const MODEL_SETTING_HOME_SORTING = new Model(SETTING_HOME_SORTING)
+export const MODEL_SETTING_HOME_SORTING = new Model(
+  SETTING_HOME_SORTING,
+  'SETTING_HOME_SORTING'
+)
 
 /** [设置] 启动页面 */
 export const SETTING_INITIAL_PAGE = [
@@ -567,7 +608,10 @@ export const SETTING_INITIAL_PAGE = [
 ] as const
 
 /** [设置] 启动页面 */
-export const MODEL_SETTING_INITIAL_PAGE = new Model(SETTING_INITIAL_PAGE)
+export const MODEL_SETTING_INITIAL_PAGE = new Model(
+  SETTING_INITIAL_PAGE,
+  'SETTING_INITIAL_PAGE'
+)
 
 /** [设置] 图片质量 */
 export const SETTING_QUALITY = [
@@ -590,7 +634,7 @@ export const SETTING_QUALITY = [
 ] as const
 
 /** [设置] 图片质量 */
-export const MODEL_SETTING_QUALITY = new Model(SETTING_QUALITY)
+export const MODEL_SETTING_QUALITY = new Model(SETTING_QUALITY, 'SETTING_QUALITY')
 
 /** [设置] 字号 */
 export const SETTING_FONTSIZEADJUST = [
@@ -617,7 +661,10 @@ export const SETTING_FONTSIZEADJUST = [
 ] as const
 
 /** [设置] 字号 */
-export const MODEL_SETTING_FONTSIZEADJUST = new Model(SETTING_FONTSIZEADJUST)
+export const MODEL_SETTING_FONTSIZEADJUST = new Model(
+  SETTING_FONTSIZEADJUST,
+  'SETTING_FONTSIZEADJUST'
+)
 
 /** [设置] 用户空间网格个数 */
 export const SETTING_USER_GRID_NUM = [
@@ -636,7 +683,10 @@ export const SETTING_USER_GRID_NUM = [
 ] as const
 
 /** [设置] 用户空间网格个数 */
-export const MODEL_SETTING_USER_GRID_NUM = new Model(SETTING_USER_GRID_NUM)
+export const MODEL_SETTING_USER_GRID_NUM = new Model(
+  SETTING_USER_GRID_NUM,
+  'SETTING_USER_GRID_NUM'
+)
 
 /** [设置] 切页动画 */
 export const SETTING_TRANSITION = [
@@ -655,10 +705,13 @@ export const SETTING_TRANSITION = [
 ] as const
 
 /** [设置] 切页动画 */
-export const MODEL_SETTING_TRANSITION = new Model(SETTING_TRANSITION)
+export const MODEL_SETTING_TRANSITION = new Model(
+  SETTING_TRANSITION,
+  'SETTING_TRANSITION'
+)
 
 /** [设置] 同步设置 */
-export const MODEL_SETTING_SYNC = new Model([
+export const SETTING_SYNC = [
   {
     label: '恢复默认',
     value: 'default'
@@ -671,7 +724,10 @@ export const MODEL_SETTING_SYNC = new Model([
     label: '下载',
     value: 'download'
   }
-])
+] as const
+
+/** [设置] 同步设置 */
+export const MODEL_SETTING_SYNC = new Model(SETTING_SYNC, 'SETTING_SYNC')
 
 /** [设置] CDN 源头 */
 export const SETTING_CDN_ORIGIN = [
@@ -694,7 +750,10 @@ export const SETTING_CDN_ORIGIN = [
 ] as const
 
 /** [设置] CDN 源头 */
-export const MODEL_SETTING_CDN_ORIGIN = new Model(SETTING_CDN_ORIGIN)
+export const MODEL_SETTING_CDN_ORIGIN = new Model(
+  SETTING_CDN_ORIGIN,
+  'SETTING_CDN_ORIGIN'
+)
 
 /** [设置] 楼层导航条方向 */
 export const RAKUEN_SCROLL_DIRECTION = [
@@ -717,7 +776,10 @@ export const RAKUEN_SCROLL_DIRECTION = [
 ] as const
 
 /** [设置] 楼层导航条方向 */
-export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model(RAKUEN_SCROLL_DIRECTION)
+export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model(
+  RAKUEN_SCROLL_DIRECTION,
+  'RAKUEN_SCROLL_DIRECTION'
+)
 
 /** 收藏排序 */
 export const COLLECTIONS_ORDERBY = [
@@ -744,7 +806,10 @@ export const COLLECTIONS_ORDERBY = [
 ] as const
 
 /** 收藏排序 */
-export const MODEL_COLLECTIONS_ORDERBY = new Model(COLLECTIONS_ORDERBY)
+export const MODEL_COLLECTIONS_ORDERBY = new Model(
+  COLLECTIONS_ORDERBY,
+  'COLLECTIONS_ORDERBY'
+)
 
 /** 标签排序 */
 export const TAG_ORDERBY = [
@@ -763,7 +828,7 @@ export const TAG_ORDERBY = [
 ] as const
 
 /** 标签排序 */
-export const MODEL_TAG_ORDERBY = new Model(TAG_ORDERBY)
+export const MODEL_TAG_ORDERBY = new Model(TAG_ORDERBY, 'TAG_ORDERBY')
 
 /** 动画筛选 */
 export const RANK_ANIME_FILTER = [
@@ -794,7 +859,7 @@ export const RANK_ANIME_FILTER = [
 ] as const
 
 /** 动画筛选 */
-export const MODEL_RANK_ANIME_FILTER = new Model(RANK_ANIME_FILTER)
+export const MODEL_RANK_ANIME_FILTER = new Model(RANK_ANIME_FILTER, 'RANK_ANIME_FILTER')
 
 /** 书籍筛选 */
 export const RANK_BOOK_FILTER = [
@@ -821,7 +886,7 @@ export const RANK_BOOK_FILTER = [
 ] as const
 
 /** 书籍筛选 */
-export const MODEL_RANK_BOOK_FILTER = new Model(RANK_BOOK_FILTER)
+export const MODEL_RANK_BOOK_FILTER = new Model(RANK_BOOK_FILTER, 'RANK_BOOK_FILTER')
 
 /** 游戏筛选 */
 export const RANK_GAME_FILTER = [
@@ -916,7 +981,7 @@ export const RANK_GAME_FILTER = [
 ] as const
 
 /** 游戏筛选 */
-export const MODEL_RANK_GAME_FILTER = new Model(RANK_GAME_FILTER)
+export const MODEL_RANK_GAME_FILTER = new Model(RANK_GAME_FILTER, 'RANK_GAME_FILTER')
 
 /** 三次元筛选 */
 export const RANK_REAL_FILTER = [
@@ -943,10 +1008,10 @@ export const RANK_REAL_FILTER = [
 ] as const
 
 /** 三次元筛选 */
-export const MODEL_RANK_REAL_FILTER = new Model(RANK_REAL_FILTER)
+export const MODEL_RANK_REAL_FILTER = new Model(RANK_REAL_FILTER, 'RANK_REAL_FILTER')
 
 /** [小圣杯] 股类型 */
-export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model([
+export const TINYGRAIL_ASSETS_TYPE = [
   {
     label: '所有',
     value: 'all'
@@ -959,10 +1024,16 @@ export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model([
     label: '圣殿股',
     value: 'temple'
   }
-])
+] as const
+
+/** [小圣杯] 股类型 */
+export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model(
+  TINYGRAIL_ASSETS_TYPE,
+  'TINYGRAIL_ASSETS_TYPE'
+)
 
 /** [小圣杯] 工具条类型 */
-export const MODEL_TINYGRAIL_CACULATE_TYPE = new Model([
+export const TINYGRAIL_CACULATE_TYPE = [
   {
     label: '持仓价值',
     value: 'value'
@@ -1003,10 +1074,16 @@ export const MODEL_TINYGRAIL_CACULATE_TYPE = new Model([
     label: '新番奖励',
     value: 'bonus'
   }
-])
+] as const
+
+/** [小圣杯] 工具条类型 */
+export const MODEL_TINYGRAIL_CACULATE_TYPE = new Model(
+  TINYGRAIL_CACULATE_TYPE,
+  'TINYGRAIL_CACULATE_TYPE'
+)
 
 /** [小圣杯] 工具条圣殿类型 */
-export const MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE = new Model([
+export const TINYGRAIL_CACULATE_TEMPLE_TYPE = [
   {
     label: '持仓价值',
     value: 'value'
@@ -1023,10 +1100,16 @@ export const MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE = new Model([
     label: '持股数',
     value: 'amount'
   }
-])
+] as const
+
+/** [小圣杯] 工具条圣殿类型 */
+export const MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE = new Model(
+  TINYGRAIL_CACULATE_TEMPLE_TYPE,
+  'TINYGRAIL_CACULATE_TEMPLE_TYPE'
+)
 
 /** [小圣杯] 首富类型 */
-export const MODEL_TINYGRAIL_CACULATE_RICH_TYPE = new Model([
+export const TINYGRAIL_CACULATE_RICH_TYPE = [
   {
     label: '周股息',
     value: 'share'
@@ -1043,4 +1126,10 @@ export const MODEL_TINYGRAIL_CACULATE_RICH_TYPE = new Model([
     label: '初始资金',
     value: 'principal'
   }
-])
+] as const
+
+/** [小圣杯] 首富类型 */
+export const MODEL_TINYGRAIL_CACULATE_RICH_TYPE = new Model(
+  TINYGRAIL_CACULATE_RICH_TYPE,
+  'TINYGRAIL_CACULATE_RICH_TYPE'
+)
