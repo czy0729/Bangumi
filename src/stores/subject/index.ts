@@ -172,7 +172,7 @@ const state = {
  * @date 2022/04/06 subject 和 subjectFormHTML 根据 id 最后 2 位拆开 100 个 key 存放
  * 避免 JSON.stringify 后长度太长, 无法本地化
  */
-for (let i = 0; i < 100; i += 1) {
+for (let i = 0; i < 1000; i += 1) {
   /** 条目 */
   state[`subject${i}`] = {}
 
@@ -182,7 +182,7 @@ for (let i = 0; i < 100; i += 1) {
 
 export function getInt(subjectId: SubjectId) {
   const str = String(subjectId)
-  return Number(str.slice(str.length - 2, str.length))
+  return Number(str.slice(str.length - 3, str.length))
 }
 
 class SubjectStore extends store implements StoreConstructor<typeof state> {

@@ -155,10 +155,7 @@ export default class ScreenHomeV2 extends store {
 
   /** 初始化进度和条目等数据 */
   initQueue = async () => {
-    const data = await Promise.all([
-      userStore.fetchCollection(),
-      userStore.fetchUserProgress()
-    ])
+    const data = await Promise.all([userStore.fetchCollection()])
     if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
 
     return false
@@ -188,7 +185,8 @@ export default class ScreenHomeV2 extends store {
 
   /** 队列请求条目信息 */
   fetchSubjectsQueue = async (list = []) => {
-    const fetchs = this.sortList(list).map(({ subject_id }, index) => () => {
+    const fetchs = this.sortList(list).map(({ subject_id }, index) => async () => {
+      await userStore.fetchUserProgress(subject_id)
       return this.fetchSubject(subject_id, index)
     })
 
@@ -200,8 +198,7 @@ export default class ScreenHomeV2 extends store {
       })
     }
 
-    await queue(fetchs, 1)
-    await sleep(40)
+    await queue(fetchs, 2)
     this.setState({
       progress: EXCLUDE_STATE.progress
     })
