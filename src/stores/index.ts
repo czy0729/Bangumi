@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 17:39:50
+ * @Last Modified time: 2022-11-04 13:34:45
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -68,13 +68,13 @@ class GlobalStores {
       }
 
       // subjectStoreKeys
-      // const subjectStoreKeys: `subject${number}`[] = []
-      // userStore.collection.list.forEach(item => {
-      //   subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
-      // })
-      // for (let i = 0; i < subjectStoreKeys.length; i += 1) {
-      //   await subjectStore.init(subjectStoreKeys[i])
-      // }
+      const subjectStoreKeys: `subject${number}`[] = []
+      userStore.collection.list.forEach(item => {
+        subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
+      })
+      for (let i = 0; i < subjectStoreKeys.length; i += 1) {
+        await subjectStore.init(subjectStoreKeys[i])
+      }
 
       if (DEV) console.info('========== GlobalStores init ==========')
 
