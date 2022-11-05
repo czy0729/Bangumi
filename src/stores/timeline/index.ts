@@ -119,7 +119,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
   ) => {
     const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE, userId } = args || {}
     const timeline = this.timeline(scope, type)
-    const res = fetchTimeline(
+    const data = await fetchTimeline(
       {
         scope,
         type,
@@ -129,7 +129,6 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
       timeline,
       userStore.userInfo
     )
-    const data = await res
 
     const key = 'timeline'
     const stateKey = `${scope}|${type}`
@@ -139,7 +138,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
       }
     })
 
-    this.save(key)
+    if (scope === 'friend') this.save(key)
     return data
   }
 

@@ -5,6 +5,7 @@
  * @Last Modified time: 2022-08-16 03:56:30
  */
 import React, { useState } from 'react'
+import * as Device from 'expo-device'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
 import { IconTouchable, NavigationBarEvents } from '@_'
 import { _, systemStore, userStore } from '@stores'
@@ -94,7 +95,7 @@ const Setting = ({ navigation }: NavigationProps) => {
             </Block>
             {!!ts?.[0] && (
               <Text style={_.mt.xs} size={10} type='icon' bold align='center'>
-                last logged on: {date('y-m-d H:i', ts[0])}
+                last logged on: {date('y-m-d H:i', ts[0])}, {Device.modelName}
               </Text>
             )}
             <Flex style={_.mt.lg} justify='center'>

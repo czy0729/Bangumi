@@ -969,35 +969,6 @@ export default class ScreenHomeV2 extends store {
     })
   }
 
-  // onItemLongPress = (subjectId: SubjectId) => {
-  //   const { top } = this.state
-  //   const isTop = top.indexOf(subjectId) !== -1
-  //   const data = [
-  //     {
-  //       text: <Text style={colorDark}>全部展开</Text>,
-  //       onPress: () =>
-  //         setTimeout(() => {
-  //           this.expandAll()
-  //         }, 40)
-  //     },
-  //     {
-  //       text: <Text style={colorDark}>全部收起</Text>,
-  //       onPress: this.closeAll
-  //     },
-  //     {
-  //       text: <Text style={colorDark}>置顶</Text>,
-  //       onPress: () => this.itemToggleTop(subjectId, true)
-  //     }
-  //   ]
-  //   if (isTop) {
-  //     data.push({
-  //       text: <Text style={colorDark}>取消置顶</Text>,
-  //       onPress: () => this.itemToggleTop(subjectId, false)
-  //     })
-  //   }
-  //   Modal.operation(data)
-  // }
-
   /** 设置应用初始页面 */
   updateInitialPage = (navigation: Navigation) => {
     if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {

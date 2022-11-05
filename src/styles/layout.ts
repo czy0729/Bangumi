@@ -5,11 +5,12 @@
  * @Last Modified time: 2022-08-31 18:59:36
  */
 import { Dimensions, StyleSheet } from 'react-native'
+import * as Device from 'expo-device'
 import Constants from 'expo-constants'
 import { IOS } from '@constants/constants'
 import { WSA, PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from '@constants/device'
 
-export const IS_IOS_5_6_7_8 = /iPhone (5|6|7|8).+?/gi.test(Constants.deviceName)
+export const IS_IOS_5_6_7_8 = /iPhone (5|6|7|8).+?/gi.test(Device.modelName)
 
 // -------------------- 设备 --------------------
 /** 是否平板 */
