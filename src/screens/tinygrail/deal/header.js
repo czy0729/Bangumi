@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 00:57:00
+ * @Last Modified time: 2022-11-05 11:31:42
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -17,7 +17,7 @@ import { calculateRate } from '@tinygrail/_/utils'
 
 function Header(props, { $, navigation }) {
   const styles = memoStyles()
-  const { icon, name, fluctuation, rate, level, rank, stars } = $.chara
+  const { icon, name = '', fluctuation, rate, level, rank, stars } = $.chara
   let color = 'tinygrailPlain'
   let fluctuationText = ''
   if (fluctuation > 0) {

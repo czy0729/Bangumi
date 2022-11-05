@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-04 12:20:57
+ * @Last Modified time: 2022-11-05 23:02:29
  */
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import PropTypes from 'prop-types'
 import { WithTheme } from '@ant-design/react-native/lib/style'
 import { getComponentLocale } from '@ant-design/react-native/lib/_util/getLocale'
@@ -20,7 +21,8 @@ import { _ } from '@stores'
 import { IOS } from '@constants'
 import { window } from '@styles'
 import { BlurView } from './blur-view'
-import { styles as _styles } from './styles'
+import { Wrap } from './wrap'
+import { styles as overideStyles } from './styles'
 
 const maxHeight = StyleSheet.create({
   maxHeight: {
@@ -30,18 +32,19 @@ const maxHeight = StyleSheet.create({
 
 class AntmModal extends React.Component {
   static defaultProps = {
+    style: undefined,
+    bodyStyle: undefined,
     animateAppear: true,
     animationType: 'fade',
-    bodyStyle: {},
     closable: false,
     footer: [],
     maskClosable: false,
     onClose() {},
     operation: false,
     popup: false,
-    style: {},
     transparent: false,
-    visible: false
+    visible: false,
+    focus: false,
   }
   static alert = alert
   static operation = operation
@@ -53,9 +56,10 @@ class AntmModal extends React.Component {
 
   render() {
     const {
+      style,
+      bodyStyle,
       animateAppear,
       blurView,
-      bodyStyle,
       children,
       closable,
       footer,
@@ -63,10 +67,10 @@ class AntmModal extends React.Component {
       onAnimationEnd,
       onClose,
       popup,
-      style,
       title,
       transparent,
-      visible
+      visible,
+      focus
     } = this.props
 
     const _locale = getComponentLocale(this.props, this.context, 'Modal', () => zhCN)
@@ -132,20 +136,18 @@ class AntmModal extends React.Component {
           }
 
           return (
-            <View style={styles.container}>
-              <RCModal
-                style={[styles.innerContainer, style, blurView && _styles.transparent]}
-                wrapStyle={transparent && styles.wrap}
-                visible={visible}
-                maskClosable={maskClosable}
-                animationType={animType}
-                animateAppear={animateAppear}
-                onAnimationEnd={onAnimationEnd}
-                onClose={onClose}
-              >
-                {wrapDom(bodyDom)}
-              </RCModal>
-            </View>
+            <RCModal
+              style={[style, blurView && overideStyles.transparent]}
+              wrapStyle={overideStyles.center}
+              visible={visible}
+              maskClosable={maskClosable}
+              animationType={animType}
+              animateAppear={animateAppear}
+              onAnimationEnd={onAnimationEnd}
+              onClose={onClose}
+            >
+              <Wrap focus={focus}>{wrapDom(bodyDom)}</Wrap>
+            </RCModal>
           )
         }}
       </WithTheme>

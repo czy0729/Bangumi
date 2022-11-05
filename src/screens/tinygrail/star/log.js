@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 22:00:01
+ * @Last Modified time: 2022-11-05 11:31:46
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 
 function Item(
-  { monoId, name, icon, amount, rank = 0, oldRank = 0, userName, time },
+  { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time },
   { navigation }
 ) {
   const styles = memoStyles()
