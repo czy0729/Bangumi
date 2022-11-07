@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 20:53:58
+ * @Last Modified time: 2022-11-07 18:50:04
  */
 import React from 'react'
 import { Popover as CompPopover, PopoverProps, Menu } from '@components'
@@ -36,6 +36,7 @@ const Popover = ob(
   }
 )
 
+// @ts-ignore
 Popover.Old = ob(
   ({ data = [], menuStyle, onSelect = Function.prototype, children, ...other }) => {
     const popoverProps = IOS

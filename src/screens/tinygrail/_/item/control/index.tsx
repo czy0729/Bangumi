@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 16:04:36
+ * @Last Modified time: 2022-11-07 17:06:40
  */
 import React from 'react'
 import { IconTouchable } from '@_'
 import { tinygrailStore, _ } from '@stores'
+import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
-import { confirm } from '@utils/ui'
-import Popover from '../popover'
-import StockPreview from '../stock-preview'
+import Popover from '../../popover'
+import StockPreview from '../../stock-preview'
+import { styles } from './styles'
 
 function Control(props) {
   const {
@@ -39,6 +40,7 @@ function Control(props) {
     }
   }
   const auctioning = auctionText === '竞拍中'
+
   return (
     <>
       {isAuction && auctioning && (
@@ -69,15 +71,3 @@ function Control(props) {
 }
 
 export default obc(Control)
-
-const styles = _.create({
-  auctionCancel: {
-    paddingVertical: _.md,
-    paddingLeft: _.sm,
-    marginTop: 1.5
-  },
-  stockPreview: {
-    marginTop: -0.5,
-    marginRight: -12
-  }
-})

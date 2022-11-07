@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 17:58:54
+ * @Last Modified time: 2022-11-07 17:19:07
  */
 import React from 'react'
 import { Text } from '@components'
-import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
 
-function Rank({ style, size, value }) {
+function Rank({ style = undefined, size = 10, value = undefined }) {
   if (!value) return null
 
   const styles = memoStyles()
@@ -32,22 +32,4 @@ function Rank({ style, size, value }) {
   )
 }
 
-export default ob(Rank, {
-  size: 10
-})
-
-const memoStyles = _.memoStyles(() => ({
-  rank: {
-    minWidth: 30,
-    marginRight: _.xs,
-    color: _.__colorPlain__,
-    textShadowOffset: {
-      width: 1,
-      hegith: 1
-    },
-    textShadowRadius: 1,
-    textShadowColor: 'rgba(0, 0, 0, 0.48)',
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))
+export default ob(Rank)

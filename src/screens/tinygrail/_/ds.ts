@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-23 03:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 17:54:41
+ * @Last Modified time: 2022-11-07 18:33:49
  */
 export const VALHALL_PRICE = {}
 
@@ -15,4 +15,4 @@ export const ITEMS_DESC = {
     '消耗当前角色100点「固定资产」，对目标「星之力」造成20-200股随机伤害，受等级差倍率影响',
   鲤鱼之眼:
     '消耗当前角色100点「固定资产」，将「幻想乡」中100-300股转移到「英灵殿」，可能会让（33%-50%）目标股份转化为「星之力」'
-}
+} as const

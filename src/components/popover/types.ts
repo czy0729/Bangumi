@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 15:51:04
+ * @Last Modified time: 2022-11-07 18:49:21
  */
 import { ViewStyle, ReactNode } from '@types'
 
@@ -17,6 +17,8 @@ export type Props = {
 
   /** 菜单样式 (iOS only) */
   menuStyle?: ViewStyle
+
+  contentStyle?: ViewStyle
 
   /** 菜单 Node (iOS only) */
   overlay?: ReactNode

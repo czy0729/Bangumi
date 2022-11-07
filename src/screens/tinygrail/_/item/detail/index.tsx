@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:01:01
+ * @Last Modified time: 2022-11-07 17:26:52
  */
 import React from 'react'
 import { Text } from '@components'
@@ -13,17 +13,17 @@ import { ob } from '@utils/decorators'
 import { decimal, calculateRate, calculateTotalRate } from '@tinygrail/_/utils'
 import Stars from '@tinygrail/_/stars'
 
-const types = ['bid', 'asks', 'chara', 'merge']
-const colorMap = {
+const TYPES = ['bid', 'asks', 'chara', 'merge'] as const
+const COLOR_MAP = {
   bid: 'bid',
   asks: 'ask',
   chara: 'warning',
   ico: 'primary',
   auction: 'warning',
   merge: 'warning'
-}
+} as const
 
-let timezone = new Date().getTimezoneOffset() / -60
+let timezone: any = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) timezone = `0${timezone}`
 
 function Detail({
@@ -49,8 +49,8 @@ function Detail({
   const isAuction = type === 'auction'
   const isValhall = type === 'valhall'
 
-  let marketValueText // 总市场价
-  let totalText // 总量
+  let marketValueText: string // 总市场价
+  let totalText: string // 总量
   if (show || isICO) {
     if (marketValue) marketValueText = decimal(marketValue)
     if (total) totalText = decimal(total)
@@ -114,15 +114,15 @@ function Detail({
     if (starForces) extra3.push(`通天塔${decimal(starForces)}`) // 市场通天塔献祭量
   }
 
-  let icoUser
-  let icoHighlight
+  let icoUser: number
+  let icoHighlight: boolean
   if (users && users !== 'ico') {
     icoUser = users
     icoHighlight = Number(icoUser || 0) > 9 && Number(icoUser || 0) < 15
   }
 
-  let prevText
-  if (types.includes(type) && state) {
+  let prevText: {}
+  if (TYPES.includes(type) && state) {
     prevText = `${state}股`
   } else if (type === 'ico') {
     prevText = `注资${decimal(state)}`
@@ -133,7 +133,7 @@ function Detail({
     <>
       <Text style={_.mt.xs} type='tinygrailText' size={size} lineHeight={12}>
         {!!prevText && (
-          <Text type={colorMap[type]} size={size} bold lineHeight={12}>
+          <Text type={COLOR_MAP[type]} size={size} bold lineHeight={12}>
             {prevText}
             <Text type='tinygrailText' size={size} lineHeight={12}>
               {' / '}

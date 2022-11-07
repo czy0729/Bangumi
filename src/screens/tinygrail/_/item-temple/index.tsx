@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 09:27:08
+ * @Last Modified time: 2022-11-07 18:46:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Image } from '@components'
 import { _, systemStore } from '@stores'
 import { Avatar } from '@_'
-import { formatNumber } from '@utils'
-import { HTMLDecode } from '@utils/html'
-import { tinygrailOSS } from '@utils/app'
+import { formatNumber, HTMLDecode, tinygrailOSS } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
-import Rank from './rank'
+import { ColorValue, Navigation } from '@types'
+import Rank from '../rank'
+import { memoStyles } from './styles'
 
 function ItemTemple(
   {
@@ -24,7 +24,7 @@ function ItemTemple(
     assets,
     avatar,
     cover,
-    event,
+    event = EVENT,
     level,
     name,
     rank,
@@ -34,7 +34,11 @@ function ItemTemple(
     userId,
     onPress
   },
-  { navigation }
+  {
+    navigation
+  }: {
+    navigation: Navigation
+  }
 ) {
   const styles = memoStyles()
   const { avatarRound, coverRadius } = systemStore.setting
@@ -42,7 +46,7 @@ function ItemTemple(
   const isView = type === 'view' // 后来加的最近圣殿
   const _name = HTMLDecode(nickname || name)
 
-  let colorLevel
+  let colorLevel: ColorValue
   if (level === 3) {
     colorLevel = '#b169ff'
   } else if (level === 2) {
@@ -175,53 +179,4 @@ function ItemTemple(
   )
 }
 
-export default obc(ItemTemple, {
-  event: EVENT
-})
-
-const memoStyles = _.memoStyles(() => {
-  const { width, marginLeft } = _.grid(3)
-  const imageHeight = width * 1.28
-  const imageResizeWidth = width * 1.2
-  const imageResizeHeight = imageHeight * 1.2
-  return {
-    item: {
-      width,
-      marginTop: _.sm,
-      marginBottom: _.sm + 2,
-      marginLeft
-    },
-    avatar: {
-      backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-    },
-    wrap: {
-      width,
-      height: imageHeight,
-      borderRadius: _.radiusXs,
-      overflow: 'hidden'
-    },
-    image: {
-      position: 'absolute',
-      zIndex: 1,
-      top: 0,
-      left: 0,
-      marginLeft: -(imageResizeWidth - width) / 2,
-      backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-    },
-    imageResize: {
-      width: imageResizeWidth,
-      height: imageResizeHeight
-    },
-    fixed: {
-      position: 'absolute',
-      zIndex: 1,
-      top: 0,
-      left: 0,
-      width: 36,
-      height: 36,
-      marginTop: -36,
-      marginLeft: -6,
-      backgroundColor: _.colorTinygrailContainer
-    }
-  }
-})
+export default obc(ItemTemple)

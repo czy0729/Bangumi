@@ -2,16 +2,25 @@
  * @Author: czy0729
  * @Date: 2021-03-03 22:48:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:03:20
+ * @Last Modified time: 2022-11-07 17:15:09
  */
 import React from 'react'
 import { Avatar } from '@_'
-import { _, tinygrailStore } from '@stores'
-import { tinygrailOSS } from '@utils/app'
+import { tinygrailStore } from '@stores'
+import { tinygrailOSS } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { Navigation } from '@types'
+import { memoStyles } from './styles'
 
-function Icon({ id, monoId, name, icon, event }, { navigation }) {
+function Icon(
+  { id, monoId, name, icon, event },
+  {
+    navigation
+  }: {
+    navigation: Navigation
+  }
+) {
   const styles = memoStyles()
   const favor = tinygrailStore.collected(id)
   return (
@@ -38,10 +47,3 @@ function Icon({ id, monoId, name, icon, event }, { navigation }) {
 }
 
 export default obc(Icon)
-
-const memoStyles = _.memoStyles(() => ({
-  avatar: {
-    marginTop: _.md,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  }
-}))

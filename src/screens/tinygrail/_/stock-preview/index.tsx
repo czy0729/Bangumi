@@ -2,42 +2,44 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 16:26:08
+ * @Last Modified time: 2022-11-07 18:39:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { toFixed } from '@utils'
-import { caculateICO } from '@utils/app'
+import { toFixed, caculateICO } from '@utils'
 import { ob } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
+import { ViewStyle } from '@types'
+import { memoStyles } from './styles'
 
-const backgroundColorMap = {
+const BACKGROUND_COLOR_MAP = {
   0: '#aaa',
   1: _.colorBid,
   2: _.colorPrimary,
   3: '#ffdc51',
   4: _.colorWarning,
   5: _.colorMain
-}
+} as const
 
-export default
-@ob
-class StockPreview extends React.Component {
-  static defaultProps = {
-    style: undefined,
-    id: 0,
-    bids: 0,
-    asks: 0,
-    change: 0,
-    current: 0,
-    fluctuation: 0,
-    total: 0,
-    marketValue: 0,
-    users: 0,
-    _loaded: false
-  }
+const DEFAULT_PROPS = {
+  style: undefined,
+  id: 0,
+  bids: 0,
+  asks: 0,
+  change: 0,
+  current: 0,
+  fluctuation: 0,
+  total: 0,
+  marketValue: 0,
+  users: 0,
+  theme: 'dark',
+  _loaded: false
+} as const
+
+class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
+  static defaultProps = DEFAULT_PROPS
 
   renderICO() {
     const { total } = this.props
@@ -60,7 +62,7 @@ class StockPreview extends React.Component {
               this.styles.icoProcess,
               {
                 width: `${percent}%`,
-                backgroundColor: backgroundColorMap[level] || _.colorAsk
+                backgroundColor: BACKGROUND_COLOR_MAP[level] || _.colorAsk
               }
             ]}
           />
@@ -82,7 +84,7 @@ class StockPreview extends React.Component {
     if (users) return this.renderICO()
 
     const { _stockPreview: show } = tinygrailStore.state
-    const fluctuationStyle = [this.styles.fluctuation, _.ml.sm]
+    const fluctuationStyle: ViewStyle[] = [this.styles.fluctuation, _.ml.sm]
     if (fluctuation < 0) {
       fluctuationStyle.push(this.styles.danger)
     } else if (fluctuation > 0) {
@@ -201,7 +203,7 @@ class StockPreview extends React.Component {
                 </Flex>
               )}
               {show && !!asks && (
-                <Text style={[this.styles.small, _.ml.xs]} type='ask' size={10}>
+                <Text style={_.ml.xs} type='ask' size={10}>
                   {decimal(asks)}
                 </Text>
               )}
@@ -217,74 +219,4 @@ class StockPreview extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: 17,
-    paddingHorizontal: _.sm * _.ratio
-  },
-  absolute: {
-    position: 'absolute',
-    zIndex: 1,
-    right: 64 * _.ratio
-  },
-  fluctuation: {
-    minWidth: 56 * _.ratio,
-    paddingHorizontal: _.xs,
-    paddingBottom: 0.5,
-    borderRadius: 2,
-    overflow: 'hidden'
-  },
-  danger: {
-    backgroundColor: _.colorAsk
-  },
-  success: {
-    backgroundColor: _.colorBid
-  },
-  plain: {
-    backgroundColor: _.colorTinygrailIcon
-  },
-  floor: {
-    width: 64 * _.ratio
-  },
-  floorShowDetail: {
-    width: 24 * _.ratio
-  },
-  bids: {
-    height: 2,
-    backgroundColor: _.colorBid,
-    borderRadius: 2,
-    overflow: 'hidden'
-  },
-  asks: {
-    height: 2,
-    backgroundColor: _.colorAsk,
-    borderRadius: 2,
-    overflow: 'hidden'
-  },
-  ico: {
-    height: '100%',
-    maxHeight: 68,
-    paddingRight: _._wind
-  },
-  icoBar: {
-    width: 96 * _.ratio,
-    height: 16,
-    backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg),
-    borderRadius: 8,
-    overflow: 'hidden'
-  },
-  icoProcess: {
-    height: 16,
-    borderRadius: 8,
-    overflow: 'hidden'
-  },
-  iconText: {
-    position: 'absolute',
-    zIndex: 1,
-    left: 0,
-    right: _.sm
-  },
-  bottom: {
-    marginTop: 4
-  }
-}))
+export default ob(StockPreview)

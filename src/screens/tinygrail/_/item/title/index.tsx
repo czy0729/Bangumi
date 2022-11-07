@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-03-03 22:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-05 11:31:34
+ * @Last Modified time: 2022-11-07 17:15:45
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import Rank from '../rank'
+import Rank from '../../rank'
 
 function Title({ rank, name = '', level, bonus }) {
   return (

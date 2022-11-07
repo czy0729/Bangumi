@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 17:55:00
+ * @Last Modified time: 2022-11-07 18:55:41
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -16,11 +16,12 @@ import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { calculateRate } from '@tinygrail/_/utils'
 import Rank from '@tinygrail/_/rank'
+import { memoStyles } from './styles'
 
 function Item(props, { navigation }) {
   const styles = memoStyles()
   const {
-    event,
+    event = EVENT,
     assets,
     index,
     id,
@@ -160,36 +161,7 @@ function Item(props, { navigation }) {
 }
 
 Item.contextTypes = {
-  $: PropTypes.object,
   navigation: PropTypes.object
 }
 
-Item.defaultProps = {
-  event: EVENT,
-  assets: undefined
-}
-
 export default observer(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  active: {
-    backgroundColor: _.colorTinygrailActive
-  },
-  avatar: {
-    marginTop: _.md,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  item: {
-    paddingVertical: _.md,
-    paddingRight: _.wind,
-    paddingLeft: _.sm
-  },
-  border: {
-    borderTopColor: _.colorTinygrailBorder,
-    borderTopWidth: _.hairlineWidth
-  }
-}))

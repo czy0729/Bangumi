@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:48:45
+ * @Last Modified time: 2022-11-07 17:30:20
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -15,6 +15,8 @@ import Control from './control'
 import Detail from './detail'
 import Icon from './icon'
 import Title from './title'
+import { getOnPress } from './utils'
+import { memoStyles } from './styles'
 
 function Item(props, { $, navigation }) {
   const styles = memoStyles()
@@ -84,71 +86,6 @@ export default obc(Item, {
   event: EVENT,
   showMenu: true,
   withoutFeedback: false,
-  onAuctionCancel: Function.prototype,
-  onCollect: Function.prototype
+  onAuctionCancel: () => {},
+  onCollect: () => {}
 })
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  wrap: {
-    paddingRight: _.wind - _._wind
-  },
-  item: {
-    paddingVertical: _.md,
-    paddingLeft: _.sm,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))
-
-/**
- * 路由跳转复写
- * @param {*} charaId
- * @param {*} go
- * @param {*} navigation
- */
-function getOnPress(charaId, go, navigation, eventId, eventData) {
-  return () => {
-    let to
-    let params
-    switch (go) {
-      case 'K线':
-        to = 'TinygrailTrade'
-        break
-
-      case '买入':
-        to = 'TinygrailDeal'
-        params = {
-          type: 'bid'
-        }
-        break
-
-      case '卖出':
-        to = 'TinygrailDeal'
-        params = {
-          type: 'asks'
-        }
-        break
-
-      case '资产重组':
-        to = 'TinygrailSacrifice'
-        break
-
-      default:
-        return
-    }
-
-    t(eventId, {
-      to,
-      monoId: charaId,
-      ...eventData
-    })
-    navigation.push(to, {
-      monoId: `character/${charaId}`,
-      ...params
-    })
-  }
-}

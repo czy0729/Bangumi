@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:15:52
+ * @Last Modified time: 2022-11-07 17:22:12
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
@@ -28,7 +28,7 @@ export function calculateRate(rate = 0, rank = 0, stars = 0) {
  * 计算角色当前总股息
  * @param {*} item
  */
-export function calculateTotalRate(item, isBase) {
+export function calculateTotalRate(item, isBase: boolean = false) {
   const currentRate = isBase
     ? item.rate || 0
     : calculateRate(item.rate, item.rank, item.stars)
