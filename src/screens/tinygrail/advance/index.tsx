@@ -2,19 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 16:10:44
+ * @Last Modified time: 2022-11-08 05:33:51
  */
 import React from 'react'
 import { Header, Page } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
+import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { alert } from '@utils/ui'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
+import { Navigation } from '@types'
 import Menus from './menus'
+import { memoStyles } from './styles'
 
-class TinygrailAdvance extends React.Component {
+class TinygrailAdvance extends React.Component<{
+  navigation: Navigation
+}> {
   render() {
     const { navigation } = this.props
     return (
@@ -52,10 +56,3 @@ class TinygrailAdvance extends React.Component {
 }
 
 export default ob(TinygrailAdvance)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))

@@ -2,35 +2,37 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:14:34
+ * @Last Modified time: 2022-11-08 06:03:36
  */
 import React from 'react'
 import { Header, Page } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
+import { alert } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { alert } from '@utils/ui'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store, { sortDS } from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-class TinygrailAdvanceAuction extends React.Component {
+class TinygrailAdvanceAuction2 extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { level, sort } = $.state
     return (
       <>
         <StatusBarEvents />
         <Header
-          title='拍卖推荐'
-          hm={['tinygrail/advance-auction', 'TinygrailAdvanceAuction']}
+          title='拍卖推荐 B'
+          hm={['tinygrail/advance-auction2', 'TinygrailAdvanceAuction2']}
           statusBarEvents={false}
           statusBarEventsType='Tinygrail'
           headerRight={() => (
@@ -39,11 +41,11 @@ class TinygrailAdvanceAuction extends React.Component {
               color={_.colorTinygrailPlain}
               onPress={() => {
                 t('竞拍推荐.提示', {
-                  type: 1
+                  type: 2
                 })
 
                 alert(
-                  '从英灵殿里面查找前 2000 条\n可竞拍数量 > 80, \n实时股息 / 竞拍底价 * 100 = 分数',
+                  '从英灵殿里面查找前 2000 条\n数量 > 80\n若当前 rank > 500 按 500 时的实际股息 / 竞拍底价 * 100 = 分数',
                   '当前计算方式'
                 )
               }}
@@ -51,8 +53,8 @@ class TinygrailAdvanceAuction extends React.Component {
           )}
         />
         <Page style={this.styles.container}>
-          <StatusBarEvents />
           <ToolBar
+            style={_.mt._sm}
             level={level}
             levelMap={$.levelMap}
             data={sortDS}
@@ -72,11 +74,4 @@ class TinygrailAdvanceAuction extends React.Component {
   }
 }
 
-export default inject(Store)(obc(TinygrailAdvanceAuction))
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))
+export default inject(Store)(obc(TinygrailAdvanceAuction2))

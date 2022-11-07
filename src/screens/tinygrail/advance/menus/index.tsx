@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:41:12
+ * @Last Modified time: 2022-11-08 05:43:15
  */
 import React from 'react'
 import { Flex } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import MenuItem from './menu-item'
+import { Navigation } from '@types'
+import MenuItem from '../menu-item'
+import { memoStyles } from './styles'
 
-function Menus({ navigation }) {
+function Menus({ navigation }: { navigation: Navigation }) {
   const styles = memoStyles()
   return (
     <Flex style={styles.section} wrap='wrap'>
@@ -63,15 +64,3 @@ function Menus({ navigation }) {
 }
 
 export default obc(Menus)
-
-const memoStyles = _.memoStyles(() => ({
-  section: {
-    marginLeft: _.wind
-  },
-  bid: {
-    backgroundColor: _.colorDepthBid
-  },
-  ask: {
-    backgroundColor: _.colorDepthAsk
-  }
-}))

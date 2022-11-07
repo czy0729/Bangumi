@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 18:39:05
+ * @Last Modified time: 2022-11-08 05:28:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _, tinygrailStore } from '@stores'
 import { toFixed, caculateICO } from '@utils'
 import { ob } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
-import { ViewStyle } from '@types'
+import { Id, ViewStyle } from '@types'
 import { memoStyles } from './styles'
 
 const BACKGROUND_COLOR_MAP = {
@@ -25,7 +25,7 @@ const BACKGROUND_COLOR_MAP = {
 
 const DEFAULT_PROPS = {
   style: undefined,
-  id: 0,
+  id: 0 as Id,
   bids: 0,
   asks: 0,
   change: 0,
@@ -35,7 +35,7 @@ const DEFAULT_PROPS = {
   marketValue: 0,
   users: 0,
   theme: 'dark',
-  _loaded: false
+  _loaded: false as boolean
 } as const
 
 class StockPreview extends React.Component<typeof DEFAULT_PROPS> {

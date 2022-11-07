@@ -2,57 +2,47 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 17:22:12
+ * @Last Modified time: 2022-11-07 19:14:26
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
 import { throttle, toFixed, formatNumber, desc, info } from '@utils'
-import { IOS, B, M } from '@constants'
-import { getXsbRelationOTA } from '@constants/cdn'
+import { IOS, B, M, getXsbRelationOTA } from '@constants'
 
-/**
- * 计算角色当前股息
- *  - version 2021/03/05
- * @param {*} rate
- * @param {*} rank
- * @param {*} stars
- */
+/** 计算角色当前股息 */
 export function calculateRate(rate = 0, rank = 0, stars = 0) {
-  if (rank < 501 && rate > 0) {
-    return (601 - rank) * 0.005 * rate
-  }
+  if (rank < 501 && rate > 0) return (601 - rank) * 0.005 * rate
   return stars * 2
 }
 
-/**
- * 计算角色当前总股息
- * @param {*} item
- */
-export function calculateTotalRate(item, isBase: boolean = false) {
+/** 计算角色当前总股息 */
+export function calculateTotalRate(
+  item: {
+    rate: any
+    rank: any
+    stars: any
+    state: any
+    sacrifices: any
+    assets: any
+  },
+  isBase: boolean = false
+) {
   const currentRate = isBase
     ? item.rate || 0
     : calculateRate(item.rate, item.rank, item.stars)
   return ((item.state || 0) + (item.assets || item.sacrifices || 0)) * currentRate
 }
 
-/**
- * 数目缩略
- * @param {*} value
- */
-export function decimal(value) {
+/** 数目缩略 */
+export function decimal(value: number) {
   const _value = Math.abs(value)
   if (_value >= B) return `${value < 0 ? '-' : ''}${toFixed(_value / B, 1)}亿`
   if (_value >= M) return `${value < 0 ? '-' : ''}${toFixed(_value / M, 1)}万`
   return `${value < 0 ? '-' : ''}${formatNumber(_value, 0)}`
 }
 
-/**
- * 列表排序
- * @param {*} sort
- * @param {*} direction
- * @param {*} list
- */
-export function sortList(sort, direction, list) {
+/** 列表排序 */
+export function sortList(sort: string, direction: string, list: any[]) {
   const base = direction === 'down' ? 1 : -1
   switch (sort) {
     case SORT_SSGX.value:
@@ -126,8 +116,8 @@ export function sortList(sort, direction, list) {
       )
 
     case SORT_HYD.value:
-      return list.sort((a, b) =>
-        desc(String(b.lastOrder || String(a.lastOrder || '')) * base)
+      return list.sort(
+        (a, b) => desc(String(b.lastOrder || ''), String(a.lastOrder || '')) * base
       )
 
     case SORT_SCJ.value:
@@ -152,23 +142,13 @@ export function sortList(sort, direction, list) {
   }
 }
 
-/**
- * 等级筛选列表
- * @param {*} level
- * @param {*} list
- */
-export function levelList(level, list) {
-  if (level === undefined) {
-    return list
-  }
-
+/** 等级筛选列表 */
+export function levelList(level: string, list: any[]) {
+  if (level === undefined) return list
   return list.filter(item => item.level == level)
 }
 
-/**
- * 获取角色关联条目信息
- * @param {*} data
- */
+/** 获取角色关联条目信息 */
 export function relation(data) {
   const XSBRelationData = getXsbRelationOTA()
   return {
@@ -191,114 +171,115 @@ export function relation(data) {
 export const SORT_RK = {
   label: '通天塔',
   value: 'rk'
-}
+} as const
 
 export const SORT_XX = {
   label: '星星',
   value: 'xx'
-}
+} as const
 
 export const SORT_GF = {
   label: '股份',
   value: 'gf'
-}
+} as const
 
 export const SORT_SC = {
   label: '收藏',
   value: 'sc'
-}
+} as const
 
 export const SORT_GX = {
   label: '股息',
   value: 'gx'
-}
+} as const
 
 export const SORT_ZGX = {
   label: '总股息',
   value: 'zgx'
-}
+} as const
 
 export const SORT_SSGX = {
   label: '生效股息',
   value: 'ssgx'
-}
+} as const
 
 export const SORT_SSZGX = {
   label: '生效总股息',
   value: 'sszgx'
-}
+} as const
 
 export const SORT_GXB = {
   label: '流动股息比',
   value: 'gxb'
-}
+} as const
 
 export const SORT_SDGX = {
   label: '圣殿股息',
   value: 'sdgx'
-}
+} as const
 
 export const SORT_SDGXB = {
   label: '圣殿股息比',
   value: 'sdgxb'
-}
+} as const
 
 export const SORT_DJ = {
   label: '等级',
   value: 'dj'
-}
+} as const
 
 export const SORT_GDS = {
   label: '挂单',
   value: 'cgs'
-}
+} as const
 
 export const SORT_CGS = {
   label: '持股',
   value: 'cgs'
-}
+} as const
 
 export const SORT_GDZC = {
   label: '塔',
   value: 'gdzc'
-}
+} as const
 
 export const SORT_CCJZ = {
   label: '持仓价值',
   value: 'ccjz'
-}
+} as const
 
 export const SORT_HYD = {
   label: '活跃度',
   value: 'hyd'
-}
+} as const
 
 export const SORT_SCJ = {
   label: '市场价',
   value: 'scj'
-}
+} as const
 
 export const SORT_FHL = {
   label: '发行量',
   value: 'fhl'
-}
+} as const
 
 export const SORT_DQJ = {
   label: '当前价',
   value: 'dqj'
-}
+} as const
 
 export const SORT_DQZD = {
   label: '当前涨跌',
   value: 'dqzd'
-}
+} as const
 
 export const SORT_XFJL = {
   label: '新番奖励',
   value: 'xfjl'
-}
+} as const
 
-function _info(message) {
+function _info(message: string) {
   info(message, 0.4)
 }
+
 export const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)

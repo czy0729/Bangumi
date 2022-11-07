@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 17:06:40
+ * @Last Modified time: 2022-11-08 05:31:45
  */
 import React from 'react'
 import { IconTouchable } from '@_'
@@ -12,8 +12,9 @@ import { obc } from '@utils/decorators'
 import Popover from '../../popover'
 import StockPreview from '../../stock-preview'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Control(props) {
+function Control(props: Props) {
   const {
     _subject,
     _subjectId,
@@ -26,7 +27,7 @@ function Control(props) {
     state,
     end,
     withoutFeedback,
-    onAuctionCancel
+    onAuctionCancel = () => {}
   } = props
   const isICO = !!end
   const isAuction = type === 'auction'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 16:13:50
+ * @Last Modified time: 2022-11-08 05:49:49
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -15,15 +15,17 @@ import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
 class TinygrailAdvanceAsk extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { level } = $.state
     return (
       <>
@@ -67,10 +69,3 @@ class TinygrailAdvanceAsk extends React.Component {
 }
 
 export default inject(Store)(obc(TinygrailAdvanceAsk))
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))

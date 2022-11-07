@@ -10,13 +10,14 @@ import { Text, TextType } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
+import { AnyObject } from '@types'
 
-function Auction({ type, price, state, amount }) {
+function Auction({ type, price, state, amount }: AnyObject) {
   let auctionText = '竞拍中'
   let auctionTextColor: TextType = 'warning'
   let auctionSubText = ''
   if (type === 'auction') {
-    auctionSubText = `₵${price} / ${formatNumber(amount, 0)}`
+    auctionSubText = `₵${price} / ${formatNumber(amount as number, 0)}`
     if (state === 1) {
       auctionText = '成功'
       auctionTextColor = 'bid'
