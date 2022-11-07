@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 00:15:30
+ * @Last Modified time: 2022-11-07 16:02:08
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _ } from '@stores'
-import { keyExtractor } from '@utils/app'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 import { refreshControlProps } from '@tinygrail/styles'
-import { tabs } from './ds'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
 
-const event = {
+const EVENT = {
   id: '热门榜单.跳转'
-}
+} as const
 
-function List({ id }, { $ }) {
+function List({ id }, { $ }: Ctx) {
   const list = $.computedList(id)
   const { _loaded } = list
   if (!_loaded) {
@@ -35,12 +36,7 @@ function List({ id }, { $ }) {
       footerTextType='tinygrailText'
       data={list.list}
       limit={24}
-      // windowSize={6}
-      // initialNumToRender={24}
-      // maxToRenderPerBatch={24}
-      // updateCellsBatchingPeriod={24}
-      // lazy={24}
-      scrollToTop={tabs[page].key === id}
+      scrollToTop={TABS[page].key === id}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(id)}
     />
@@ -52,5 +48,5 @@ export default obc(List, {
 })
 
 function renderItem({ item, index }) {
-  return <Item index={index} event={event} {...item} />
+  return <Item index={index} event={EVENT} {...item} />
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-05 10:27:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 11:01:20
+ * @Last Modified time: 2022-11-07 15:07:55
  */
 import {
   SORT_RK,
@@ -10,9 +10,6 @@ import {
   SORT_SC,
   SORT_GX,
   SORT_SSGX,
-  // SORT_GXB,
-  // SORT_SDGX,
-  // SORT_SDGXB,
   SORT_DJ,
   SORT_HYD,
   SORT_SCJ,
@@ -22,15 +19,15 @@ import {
   SORT_XFJL
 } from '@tinygrail/_/utils'
 
-export const namespace = 'ScreenTinygrailOverview'
+export const NAMESPACE = 'ScreenTinygrailOverview'
 
+/** @deprecated */
 export const sortDS = [
   SORT_SC,
   SORT_GX,
   SORT_SSGX,
   SORT_RK,
   SORT_XX,
-  // SORT_SDGX,
   SORT_HYD,
   SORT_DQJ,
   SORT_SCJ,
@@ -38,10 +35,11 @@ export const sortDS = [
   SORT_DJ,
   SORT_XFJL,
   SORT_FHL
-  // SORT_GXB,
-  // SORT_SDGXB
-]
+] as const
 
+export const SORT_DS = sortDS
+
+/** @deprecated */
 export const tabs = [
   {
     title: '最近活跃',
@@ -63,4 +61,6 @@ export const tabs = [
     title: '最大跌幅',
     key: 'mfc'
   }
-]
+] as const
+
+export const TABS = tabs

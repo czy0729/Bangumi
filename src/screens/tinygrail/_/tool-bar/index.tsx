@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 00:39:26
+ * @Last Modified time: 2022-11-07 15:34:11
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -11,6 +11,8 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
 function ToolBar({
   style,
@@ -20,9 +22,9 @@ function ToolBar({
   levelMap = {},
   direction,
   renderLeft,
-  onSortPress = Function.prototype,
-  onLevelSelect = Function.prototype
-}) {
+  onSortPress = () => {},
+  onLevelSelect = () => {}
+}: Props) {
   const styles = memoStyles()
   const sum = Object.keys(levelMap).reduce((total, level) => total + levelMap[level], 0)
   const levelDS = [
@@ -91,21 +93,3 @@ function ToolBar({
 }
 
 export default ob(ToolBar)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _._wind,
-    height: 46 * _.ratio,
-    borderBottomWidth: _.hairlineWidth,
-    borderBottomColor: _.colorTinygrailBorder
-  },
-  contentContainerStyle: {
-    height: 44 * _.ratio,
-    paddingLeft: _.xs * _.ratio,
-    paddingRight: _._wind * _.ratio
-  },
-  item: {
-    height: 44 * _.ratio,
-    paddingHorizontal: 6 * _.ratio
-  }
-}))
