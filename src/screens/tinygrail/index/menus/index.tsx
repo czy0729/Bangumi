@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 00:51:41
+ * @Last Modified time: 2022-11-07 14:33:56
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import MenuItem from './menu-item'
-import Assets from './assets'
+import MenuItem from '../menu-item'
+import Assets from '../assets'
+import { Ctx } from '../types'
 
-function Menus(props, { $ }) {
+function Menus(props, { $ }: Ctx) {
   const bids = $.list('bid').list.length
   const asks = $.list('asks').list.length
   const auction = $.list('auction').list.filter(item => item.state === 0).length

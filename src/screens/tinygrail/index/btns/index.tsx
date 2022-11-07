@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:42:52
+ * @Last Modified time: 2022-11-07 14:05:28
  */
 import React from 'react'
 import { Button } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
+import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
-import { confirm } from '@utils/ui'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const dataMore = ['重新授权', '粘贴板', '意见反馈', '设置']
+const DATA_MORE = ['重新授权', '粘贴板', '意见反馈', '设置'] as const
 
-function Btns(props, { $, navigation }) {
+function Btns(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { loading, count = 0, _loaded } = $.state
   if (!_loaded) {
@@ -74,7 +76,7 @@ function Btns(props, { $, navigation }) {
       </Popover>
       <Popover
         style={[styles.touch, _.ml.sm]}
-        data={dataMore}
+        data={DATA_MORE}
         onSelect={title => {
           setTimeout(() => {
             switch (title) {
@@ -111,20 +113,3 @@ function Btns(props, { $, navigation }) {
 }
 
 export default obc(Btns)
-
-const memoStyles = _.memoStyles(() => ({
-  touch: {
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  btn: {
-    width: 64 * _.ratio,
-    height: 36 * _.ratio,
-    backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
-    borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
-  },
-  text: {
-    color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain),
-    ..._.fontSize13
-  }
-}))

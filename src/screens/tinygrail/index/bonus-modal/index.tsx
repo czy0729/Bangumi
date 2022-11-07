@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 05:13:42
+ * @Last Modified time: 2022-11-07 14:12:48
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
 import { Modal, Touchable, Flex, Text, Image, Button } from '@components'
 import { _ } from '@stores'
-import { toFixed } from '@utils'
+import { toFixed, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
-import { tinygrailOSS } from '@utils/app'
 import { IOS } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-export default
-@obc
-class BonusModal extends React.Component {
+class BonusModal extends React.Component<{
+  visible?: boolean
+}> {
   static defaultProps = {
     visible: false
   }
@@ -29,31 +30,30 @@ class BonusModal extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!IOS) {
-      StatusBar.setHidden(nextProps.visible)
-    }
+    if (!IOS) StatusBar.setHidden(nextProps.visible)
   }
 
   onBackAndroid = () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { visible } = this.props
     if (visible) {
       $.onCloseModal()
       return true
     }
+
     return false
   }
 
   get imageWidth() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { bonus } = $.state
     if (bonus.length <= 4) {
-      return parseInt(
+      return Math.floor(
         (Math.min(_.window.width - 2 * _.wind, 400) - 2 * _._wind - _.md) * 0.5
       )
     }
 
-    return parseInt(
+    return Math.floor(
       (Math.min(_.window.width - 2 * _.wind, 400) - 2 * (_._wind + _.md)) * 0.33
     )
   }
@@ -63,13 +63,13 @@ class BonusModal extends React.Component {
   }
 
   get total() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { bonus } = $.state
     return bonus.reduce((total, item) => total + item.Amount * item.CurrentPrice, 0)
   }
 
   render() {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     const { bonus, isBonus2, loadingBonus } = $.state
     const { visible } = this.props
     return (
@@ -162,32 +162,4 @@ class BonusModal extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  modal: {
-    width: _.window.width - 2 * _.wind,
-    maxWidth: 400,
-    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorBg__),
-    borderRadius: _.radiusMd
-  },
-  focus: {
-    marginTop: -parseInt(_.window.height * 0.56)
-  },
-  wrap: {
-    width: '100%',
-    maxWidth: _.window.maxWidth,
-    paddingBottom: _.sm,
-    marginTop: _.md
-  },
-  item: {
-    marginBottom: _.md
-  },
-  btn: {
-    width: 240,
-    backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
-    borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
-  },
-  text: {
-    width: 160,
-    color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain)
-  }
-}))
+export default obc(BonusModal)

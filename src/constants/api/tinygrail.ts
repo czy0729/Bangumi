@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-22 14:33:18
+ * @Last Modified time: 2022-11-07 13:52:00
  */
 import { Id } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -33,7 +33,7 @@ export const API_TINYGRAIL_CHARAS = () => `${API_HOST_TINYGRAIL}/api/chara/list`
 
 /** 热门列表 */
 export const API_TINYGRAIL_LIST = (
-  type: TinygrailType,
+  type: TinygrailType | 'bid' | 'asks' | 'auction',
   page: number = 1,
   limit: number = TINYGRAIL_LIMIT
 ) => `${API_HOST_TINYGRAIL}/api/chara/${type}/${page}/${limit}`

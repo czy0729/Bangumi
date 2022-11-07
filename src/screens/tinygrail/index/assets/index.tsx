@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-28 20:12:41
+ * @Last Modified time: 2022-11-07 14:03:17
  */
 import React from 'react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, TextType, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import { M } from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Assets(props, { $ }) {
+function Assets(props, { $ }: Ctx) {
   const styles = memoStyles()
   const {
     // loadingAssets,
@@ -24,8 +26,8 @@ function Assets(props, { $ }) {
   const { balance, lastIndex } = $.assets
 
   // 缩短
-  let _balance = balance
-  let _total = $.total
+  let _balance: any = balance
+  let _total: any = $.total
   if ($.short) {
     if (_balance > 1000) {
       _balance = `${toFixed(_balance / M, 1)}万`
@@ -47,9 +49,9 @@ function Assets(props, { $ }) {
   const changeBalance = currentBalance - lastBalance
   const changeTotal = currentTotal - lastTotal
 
-  let balanceChangeText
-  let balanceTextColor
-  let _changeBalance
+  let balanceChangeText: {}
+  let balanceTextColor: TextType
+  let _changeBalance: string
   if ($.short && Math.abs(changeBalance) >= 1000) {
     _changeBalance = `${toFixed(Math.abs(changeBalance) / M, 1)}万`
   } else {
@@ -64,9 +66,9 @@ function Assets(props, { $ }) {
     balanceTextColor = 'ask'
   }
 
-  let totalChangeText
-  let totalTextColor
-  let _changeTotal
+  let totalChangeText: {}
+  let totalTextColor: TextType
+  let _changeTotal: string
   if ($.short && Math.abs(changeTotal) >= 1000) {
     _changeTotal = `${toFixed(Math.abs(changeTotal) / M, 1)}万`
   } else {
@@ -118,18 +120,3 @@ function Assets(props, { $ }) {
 }
 
 export default obc(Assets)
-
-const memoStyles = _.memoStyles(() => ({
-  assets: {
-    minHeight: 56,
-    paddingBottom: 16,
-    marginTop: -20,
-  },
-  touch: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
-    marginLeft: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-}))

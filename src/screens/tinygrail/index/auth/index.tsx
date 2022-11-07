@@ -2,20 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 00:18:34
+ * @Last Modified time: 2022-11-07 14:06:33
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { IconBack, IconTouchable, Avatar } from '@_'
 import { _ } from '@stores'
-import { tinygrailOSS } from '@utils/app'
+import { tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
-import Btns from './btns'
+import Btns from '../btns'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Auth(props, { $, navigation }) {
+function Auth(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { _loaded } = $.state
-  const { nickname, avatar = {} } = $.userInfo
+  const { nickname, avatar } = $.userInfo
+
   return (
     <Flex style={_.mb.sm}>
       <IconBack
@@ -24,9 +27,9 @@ function Auth(props, { $, navigation }) {
         color={_.colorTinygrailPlain}
       />
       <Avatar
-        key={tinygrailOSS(avatar && avatar.large)}
+        key={tinygrailOSS(avatar?.large)}
         style={styles.avatar}
-        src={tinygrailOSS(avatar && avatar.large)}
+        src={tinygrailOSS(avatar?.large)}
         size={36}
         name={nickname}
         borderColor='transparent'
@@ -64,19 +67,3 @@ function Auth(props, { $, navigation }) {
 }
 
 export default obc(Auth)
-
-const memoStyles = _.memoStyles(() => ({
-  back: {
-    marginLeft: -8
-  },
-  avatar: {
-    marginLeft: _.xs,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  touch: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  }
-}))

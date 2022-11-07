@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-05-04 16:25:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 00:19:33
+ * @Last Modified time: 2022-11-07 14:12:27
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
+import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import { TINYGRAIL_UPDATES_LOGS_URL, VERSION_TINYGRAIL_PLUGIN } from '@constants'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function Btns(props, { $, navigation }) {
+function Btns(props, { $, navigation }: Ctx) {
   return (
     <Flex style={_.mb.md} justify='center'>
       <Touchable
@@ -77,12 +79,3 @@ function Btns(props, { $, navigation }) {
 }
 
 export default obc(Btns)
-
-const styles = _.create({
-  touch: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-})

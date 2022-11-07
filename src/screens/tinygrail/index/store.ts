@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 16:43:33
+ * @Last Modified time: 2022-11-07 14:00:12
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
@@ -32,11 +32,13 @@ import {
   initXsbRelationOTA
 } from '@constants'
 import i18n from '@constants/i18n'
+import { ListKey } from '@stores/tinygrail/types'
+import { Navigation } from '@types'
 
-const namespace = 'ScreenTinygrail'
-const errorStr = '/false'
-const maxErrorCount = 3
-const excludeState = {
+const NAMESPACE = 'ScreenTinygrail'
+const ERROR_STR = '/false'
+const MAX_ERROR_COUNT = 3
+const EXCLUDE_STATE = {
   loading: false,
   visible: false,
   count: 0,
@@ -52,7 +54,7 @@ export default class ScreenTinygrail extends store {
     currentTotal: 0,
     lastBalance: 0,
     lastTotal: 0,
-    ...excludeState,
+    ...EXCLUDE_STATE,
     _loaded: false
   })
 
@@ -64,10 +66,10 @@ export default class ScreenTinygrail extends store {
     tinygrailStore.fetchAdvance()
 
     // 初始化state
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: tinygrailStore.cookie ? getTimestamp() : false
     })
 
@@ -110,10 +112,8 @@ export default class ScreenTinygrail extends store {
     return res
   }
 
-  /**
-   * 获取买单卖单数量
-   */
-  fetchCount = refresh => {
+  /** 获取买单卖单数量 */
+  fetchCount = (refresh: boolean = false) => {
     const fetchs = []
     if (refresh || !this.list('bid')._loaded) {
       fetchs.push(() => tinygrailStore.fetchBid())
@@ -180,17 +180,16 @@ export default class ScreenTinygrail extends store {
     return isBonus2 ? 2000 * 2 ** count : 1000
   }
 
-  list(key = 'bid') {
+  list(key: ListKey = 'bid') {
     return computed(() => tinygrailStore.list(key)).get()
   }
 
   // -------------------- action --------------------
-  /**
-   * 小圣杯授权
-   */
   _doAuthFailCount = 0
+
+  /** 小圣杯授权 */
   doAuth = async () => {
-    let res
+    let res: any
     this.setState({
       loading: true
     })
@@ -211,7 +210,7 @@ export default class ScreenTinygrail extends store {
         loading: false,
         _loaded: getTimestamp()
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(NAMESPACE)
     } catch (error) {
       t('小圣杯.授权失败')
 
@@ -231,9 +230,7 @@ export default class ScreenTinygrail extends store {
     return res
   }
 
-  /**
-   * 预测股息
-   */
+  /** 预测股息 */
   doTest = async () => {
     if (!tinygrailStore.cookie) {
       info('请先授权')
@@ -243,7 +240,10 @@ export default class ScreenTinygrail extends store {
     t('小圣杯.预测股息')
 
     try {
+      // @ts-ignore
       axios.defaults.withCredentials = false
+
+      // @ts-ignore
       const res = axios({
         method: 'get',
         url: API_TINYGRAIL_TEST(),
@@ -282,10 +282,8 @@ export default class ScreenTinygrail extends store {
     }
   }
 
-  /**
-   * 刮刮乐
-   */
-  doLottery = async (navigation, isBonus2) => {
+  /** 刮刮乐 */
+  doLottery = async (navigation: Navigation, isBonus2: boolean = false) => {
     if (!tinygrailStore.cookie) {
       info('请先授权')
       return
@@ -322,9 +320,7 @@ export default class ScreenTinygrail extends store {
     }
   }
 
-  /**
-   * 每周分红
-   */
+  /** 每周分红 */
   doGetBonusWeek = async () => {
     if (!tinygrailStore.cookie) {
       info('请先授权')
@@ -358,9 +354,7 @@ export default class ScreenTinygrail extends store {
     }
   }
 
-  /**
-   * 每日签到
-   */
+  /** 每日签到 */
   doGetBonusDaily = async () => {
     if (!tinygrailStore.cookie) {
       info('请先授权')
@@ -394,9 +388,7 @@ export default class ScreenTinygrail extends store {
     }
   }
 
-  /**
-   * 节日福利
-   */
+  /** 节日福利 */
   doGetBonusHoliday = async () => {
     if (!tinygrailStore.cookie) {
       info('请先授权')
@@ -449,22 +441,23 @@ export default class ScreenTinygrail extends store {
     )
   }
 
-  /**
-   * 登出
-   */
-  logout = async () =>
-    axios({
+  /** 登出 */
+  logout = async () => {
+    // @ts-ignore
+    return axios({
       method: 'post',
       url: API_TINYGRAIL_LOGOUT()
     })
+  }
 
-  /**
-   * 获取授权表单码
-   */
+  /** 获取授权表单码 */
   oauth = async () => {
     const { cookie, userAgent } = this.userCookie
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
+
+    // @ts-ignore
     const res = axios({
       method: 'get',
       url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}`,
@@ -482,18 +475,19 @@ export default class ScreenTinygrail extends store {
     return res
   }
 
-  /**
-   * 授权
-   */
+  /** 授权 */
   authorize = async () => {
     const { cookie, userAgent } = this.userCookie
 
+    // @ts-ignore
     axios.defaults.withCredentials = false
+
+    // @ts-ignore
     const res = axios({
       method: 'post',
       maxRedirects: 0,
       validateStatus: null,
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}${errorStr}`,
+      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}${ERROR_STR}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Cookie: `chii_cookietime=2592000; ${cookie}`,
@@ -514,7 +508,7 @@ export default class ScreenTinygrail extends store {
     if (!responseURL.includes('code=')) {
       this.errorCount += 1
 
-      if (this.errorCount < maxErrorCount) {
+      if (this.errorCount < MAX_ERROR_COUNT) {
         return this.authorize()
       }
       return false
@@ -526,9 +520,7 @@ export default class ScreenTinygrail extends store {
     return res
   }
 
-  /**
-   * 资产金额UI变动
-   */
+  /** 资产金额 UI 变动 */
   caculateChange = () => {
     const { currentBalance, currentTotal } = this.state
     const { balance } = this.assets
@@ -539,12 +531,10 @@ export default class ScreenTinygrail extends store {
       lastBalance: currentBalance,
       lastTotal: currentTotal
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 开启/关闭缩略资金
-   */
+  /** 开启 / 关闭缩略资金 */
   toogleShort = () => {
     systemStore.switchSetting('xsbShort')
     t('小圣杯.缩略资金', {
@@ -552,10 +542,11 @@ export default class ScreenTinygrail extends store {
     })
   }
 
-  onShowModal = () =>
-    this.setState({
+  onShowModal = () => {
+    return this.setState({
       visible: true
     })
+  }
 
   onCloseModal = () => {
     this.setState({
@@ -570,9 +561,7 @@ export default class ScreenTinygrail extends store {
   }
 
   checkCount = async () => {
-    if (!tinygrailStore.cookie) {
-      return
-    }
+    if (!tinygrailStore.cookie) return
 
     const { State, Value } = await tinygrailStore.doCheckDaily()
     if (State === 0) {
