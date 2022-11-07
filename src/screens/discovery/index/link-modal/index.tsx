@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 07:32:01
+ * @Last Modified time: 2022-11-07 05:03:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { autorun } from 'mobx'
-import { Flex, Touchable, Text, Input } from '@components'
-import Modal from '@components/@/ant-design/modal'
+import { Modal, Flex, Touchable, Text, Input } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { memoStyles } from './styles'
@@ -41,14 +40,7 @@ export default obc(
         <Modal
           style={this.styles.modal}
           visible={visible}
-          title={
-            <Text type='title' size={16}>
-              剪贴板
-            </Text>
-          }
-          transparent
-          maskClosable
-          closable
+          title='剪贴板'
           onClose={$.toggleLinkModal}
         >
           <View style={this.styles.container}>

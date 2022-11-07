@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 07:01:38
+ * @Last Modified time: 2022-11-07 05:06:05
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
-import { Flex, Text, Input, Touchable } from '@components'
-import Modal from '@components/@/ant-design/modal'
+import { Modal, Flex, Text, Input, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -60,14 +59,7 @@ export default memo(
       <Modal
         style={styles.modal}
         visible={visible}
-        title={
-          <Text type='title' size={16}>
-            连接SMB服务
-          </Text>
-        }
-        transparent
-        maskClosable
-        closable
+        title='连接SMB服务'
         onClose={onClose}
       >
         <KeyboardAvoidingView style={styles.body} behavior='padding'>

@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-05 22:29:55
+ * @Last Modified time: 2022-11-07 04:30:23
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { Button, Flex, Input, Text, Touchable, Iconfont } from '@components'
+import { Modal, Button, Flex, Input, Text, Touchable, Iconfont } from '@components'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
@@ -17,7 +17,6 @@ import { MODEL_PRIVATE, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Private, PrivateCn } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
-import Modal from './modal'
 import { STORAGE_KEY } from './ds'
 import { memoStyles } from './styles'
 import { Props as ManageModalProps, State } from './types'

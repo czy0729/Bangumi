@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 16:02:40
+ * @Last Modified time: 2022-11-07 05:10:21
  */
 import React from 'react'
 import { BackHandler, View, StatusBar } from 'react-native'
 import { computed } from 'mobx'
-import { Flex, Text, Button, Iconfont } from '@components'
-import Modal from '@components/@/ant-design/modal'
+import { Modal, Flex, Text, Button, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _, tinygrailStore } from '@stores'
 import {
@@ -1054,14 +1053,8 @@ class CharactersModal extends React.Component {
       <Modal
         style={[this.styles.modal, focus && this.styles.focus]}
         visible={visible}
-        title={
-          <Text type='tinygrailPlain' bold>
-            {title}
-          </Text>
-        }
-        transparent
-        closable
-        maskClosable
+        title={title}
+        type='tinygrailPlain'
         onClose={this.onClose}
       >
         <Flex style={this.styles.wrap}>

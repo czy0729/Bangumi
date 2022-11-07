@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 08:32:15
+ * @Last Modified time: 2022-11-07 05:13:42
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
-import { Touchable, Flex, Text, Image, Button } from '@components'
-import Modal from '@components/@/ant-design/modal'
+import { Modal, Touchable, Flex, Text, Image, Button } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { obc } from '@utils/decorators'
@@ -77,14 +76,8 @@ class BonusModal extends React.Component {
       <Modal
         style={this.styles.modal}
         visible={visible}
-        title={
-          <Text type='tinygrailPlain' bold>
-            {isBonus2 && '幻想乡'}刮刮乐
-          </Text>
-        }
-        transparent
-        closable
-        maskClosable
+        title='刮刮乐'
+        type='tinygrailPlain'
         onClose={$.onCloseModal}
       >
         <View style={this.styles.wrap}>

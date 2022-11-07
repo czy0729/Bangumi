@@ -4,13 +4,21 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:09:26
+ * @Last Modified time: 2022-11-07 04:59:46
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
 import { computed } from 'mobx'
-import { Touchable, Flex, Text, Iconfont, Input, Divider, Empty } from '@components'
-import Modal from '@components/@/ant-design/modal'
+import {
+  Modal,
+  Touchable,
+  Flex,
+  Text,
+  Iconfont,
+  Input,
+  Divider,
+  Empty
+} from '@components'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _, userStore, usersStore, discoveryStore, collectionStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, asc, desc } from '@utils'
@@ -926,14 +934,7 @@ export const FolderManageModal = ob(
         <Modal
           style={this.styles.modal}
           visible={visible}
-          title={
-            <Text type='title' size={16}>
-              {title}
-            </Text>
-          }
-          transparent
-          maskClosable
-          closable
+          title={title}
           onClose={onClose}
         >
           {this.renderBtnCreate()}

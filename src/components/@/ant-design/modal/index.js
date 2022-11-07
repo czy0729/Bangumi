@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-05 23:02:29
+ * @Last Modified time: 2022-11-07 05:01:13
  */
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
@@ -16,7 +16,9 @@ import RCModal from '@ant-design/react-native/lib/modal/ModalView'
 import operation from '@ant-design/react-native/lib/modal/operation'
 import prompt from '@ant-design/react-native/lib/modal/prompt'
 import modalStyles from '@ant-design/react-native/lib/modal/style/index'
-import { Flex, Touchable, Iconfont } from '@components'
+import { Flex } from '../../../flex'
+import { Touchable } from '../../../touchable'
+import { Iconfont } from '../../../iconfont'
 import { _ } from '@stores'
 import { IOS } from '@constants'
 import { window } from '@styles'

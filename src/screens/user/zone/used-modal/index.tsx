@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 09:34:41
+ * @Last Modified time: 2022-11-07 05:07:27
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Loading, Flex, Text, Image } from '@components'
-import Modal from '@components/@/ant-design/modal'
+import { Modal, Loading, Flex, Text, Image } from '@components'
 import { _, timelineStore } from '@stores'
 import { obc } from '@utils/decorators'
 import {
@@ -180,10 +179,7 @@ class UsedModal extends React.Component<{
       <Modal
         style={this.styles.modal}
         visible={visible}
-        title={<Text type='title'>历史</Text>}
-        transparent
-        maskClosable
-        closable
+        title='历史'
         onClose={$.closeUsedModal}
       >
         <View style={this.styles.content}>
