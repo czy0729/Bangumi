@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:17:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:11:38
+ * @Last Modified time: 2022-11-08 20:43:01
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Btns(props, { $ }) {
+function Btns(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { type } = $.state
   const isBid = type === 'bid'

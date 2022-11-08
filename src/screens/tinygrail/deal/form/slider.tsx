@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:10:37
+ * @Last Modified time: 2022-11-08 20:43:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,9 @@ import { Flex, Input, Text, Slider as CompSlider, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Slider({ style }, { $ }) {
+function Slider({ style }, { $ }: Ctx) {
   const styles = memoStyles()
   const { value, amount, isIce } = $.state
   const { balance } = $.assets
@@ -65,7 +66,7 @@ function Slider({ style }, { $ }) {
           </Text>
         </Flex.Item>
         <Text type='tinygrailText' size={12}>
-          {parseInt($.max)}
+          {Number($.max)}
         </Text>
       </Flex>
       <Flex style={_.mt.md}>

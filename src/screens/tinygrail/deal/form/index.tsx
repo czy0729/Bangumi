@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:22:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:02:41
+ * @Last Modified time: 2022-11-08 20:45:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,10 @@ import Stepper from './stepper'
 import Slider from './slider'
 import Submit from './submit'
 
-function Form({ style }) {
+function Form() {
   const styles = memoStyles()
   return (
-    <View style={[styles.container, style]}>
+    <View style={styles.container}>
       <Btns />
       <Stepper style={_.mt.md} />
       <Slider style={_.mt.md} />

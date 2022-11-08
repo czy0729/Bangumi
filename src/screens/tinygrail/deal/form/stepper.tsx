@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:12:05
+ * @Last Modified time: 2022-11-08 20:44:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Stepper({ style }, { $ }) {
+function Stepper({ style }, { $ }: Ctx) {
   const styles = memoStyles()
   const { value } = $.state
   return (

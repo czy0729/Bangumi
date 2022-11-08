@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 00:56:42
+ * @Last Modified time: 2022-11-08 20:30:48
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -19,19 +19,16 @@ import Depth from './depth'
 import Logs from './logs'
 import Records from './records'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-const title = '交易'
-
-export default
-@inject(Store)
-@obc
 class TinygrailDeal extends React.Component {
   state = {
     refreshing: false
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
 
     hm(`tinygrail/deal/${$.monoId}`, 'TinygrailDeal')
@@ -43,7 +40,7 @@ class TinygrailDeal extends React.Component {
         refreshing: true
       },
       async () => {
-        const { $ } = this.context
+        const { $ }: Ctx = this.context
         await $.refresh()
 
         setTimeout(() => {
@@ -59,7 +56,7 @@ class TinygrailDeal extends React.Component {
     const { refreshing } = this.state
     return (
       <Page style={[_.container.flex, this.styles.dark]}>
-        <UM screen={title} />
+        <UM title='交易' />
         <StatusBarEvents />
         <StatusBarPlaceholder style={this.styles.dark} />
         <Header />
@@ -94,15 +91,4 @@ class TinygrailDeal extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  dark: {
-    backgroundColor: _.colorTinygrailContainer
-  },
-  form: {
-    paddingRight: _.wind - _._wind
-  },
-  depth: {
-    width: _.window.contentWidth * 0.44,
-    marginLeft: 18
-  }
-}))
+export default inject(Store)(obc(TinygrailDeal))

@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-05 11:31:42
+ * @Last Modified time: 2022-11-08 20:36:36
  */
 import React from 'react'
-import { Flex, Text } from '@components'
+import { Flex, Text, TextType } from '@components'
 import { Avatar, IconBack, IconTouchable } from '@_'
 import { _ } from '@stores'
-import { toFixed } from '@utils'
-import { tinygrailOSS } from '@utils/app'
+import { toFixed, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Rank from '@tinygrail/_/rank'
 import { calculateRate } from '@tinygrail/_/utils'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Header(props, { $, navigation }) {
+function Header(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { icon, name = '', fluctuation, rate, level, rank, stars } = $.chara
-  let color = 'tinygrailPlain'
+  let color: TextType = 'tinygrailPlain'
   let fluctuationText = ''
   if (fluctuation > 0) {
     color = 'bid'
@@ -152,23 +153,3 @@ function Header(props, { $, navigation }) {
 }
 
 export default obc(Header)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _._wind
-  },
-  back: {
-    marginLeft: -8
-  },
-  backIsPad: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 24,
-    left: _._wind
-  },
-  avatar: {
-    marginHorizontal: _.xs,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  }
-}))

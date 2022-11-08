@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:06:06
+ * @Last Modified time: 2022-11-08 19:43:28
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,13 +11,13 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { levelList, sortList, relation } from '@tinygrail/_/utils'
 
-const namespace = 'ScreenTinygrailValhall'
+const NAMESPACE = 'ScreenTinygrailValhall'
 
 export default class ScreenTinygrailValhall extends store {
   state = observable({
     level: '',
     sort: '',
-    direction: '',
+    direction: '' as '' | 'up' | 'down',
     go: '资产重组',
     _loaded: false
   })
@@ -25,26 +25,26 @@ export default class ScreenTinygrailValhall extends store {
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60
 
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded: needFetch ? current : _loaded
     })
 
-    if (needFetch) {
-      this.fetchValhallList()
-    }
-
-    return res
+    if (needFetch) this.fetchValhallList()
+    return state
   }
 
   // -------------------- fetch --------------------
-  fetchValhallList = () => tinygrailStore.fetchValhallList()
+  /** 英灵殿 */
+  fetchValhallList = () => {
+    return tinygrailStore.fetchValhallList()
+  }
 
   // -------------------- get --------------------
+  /** 英灵殿 */
   @computed get valhallList() {
     return relation(tinygrailStore.valhallList)
   }
@@ -52,9 +52,7 @@ export default class ScreenTinygrailValhall extends store {
   @computed get computedList() {
     const { sort, level, direction } = this.state
     const list = this.valhallList
-    if (!list._loaded) {
-      return list
-    }
+    if (!list._loaded) return list
 
     let _list = list
     if (level) {
@@ -84,7 +82,8 @@ export default class ScreenTinygrailValhall extends store {
   }
 
   // -------------------- page --------------------
-  onSelectGo = title => {
+  /** 设置前往 */
+  onSelectGo = (title: string) => {
     t('英灵殿.设置前往', {
       title
     })
@@ -92,10 +91,11 @@ export default class ScreenTinygrailValhall extends store {
     this.setState({
       go: title
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onLevelSelect = level => {
+  /** 筛选 */
+  onLevelSelect = (level: any) => {
     t('英灵殿.筛选', {
       level
     })
@@ -103,10 +103,11 @@ export default class ScreenTinygrailValhall extends store {
     this.setState({
       level
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSortPress = item => {
+  /** 排序 */
+  onSortPress = (item: string) => {
     const { sort, direction } = this.state
     if (item === sort) {
       let nextSort = item
@@ -139,6 +140,6 @@ export default class ScreenTinygrailValhall extends store {
       })
     }
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

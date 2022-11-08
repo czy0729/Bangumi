@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 18:02:12
+ * @Last Modified time: 2022-11-08 20:34:21
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, TextType, Touchable } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Depth({ style }, { $ }) {
+function Depth(props, { $ }: Ctx) {
   const { asks = [], bids = [], _loaded } = $.depth
   if (!_loaded) return null
 
   const styles = memoStyles()
   const { current, fluctuation } = $.chara
   const { bids: userBids, asks: userAsks } = $.userLogs
-  let color = 'tinygrailPlain'
+  let color: TextType = 'tinygrailPlain'
   if (fluctuation > 0) {
     color = 'bid'
   } else if (fluctuation < 0) {
@@ -47,7 +49,7 @@ function Depth({ style }, { $ }) {
   let calculateAsks = 0
   let filterCalculateAsks = 0
   return (
-    <View style={[styles.container, style]}>
+    <View style={styles.container}>
       <Flex style={styles.header}>
         <Flex.Item>
           <Text type='tinygrailText' size={11}>
@@ -167,54 +169,3 @@ function Depth({ style }, { $ }) {
 }
 
 export default obc(Depth)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.sm
-  },
-  header: {
-    paddingLeft: _.sm,
-    paddingRight: _.wind
-  },
-  list: {
-    minHeight: 128
-  },
-  current: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.sm
-  },
-  item: {
-    width: '100%',
-    paddingVertical: 5
-  },
-  depthBids: {
-    position: 'absolute',
-    zIndex: -1,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: _.colorDepthBid
-  },
-  depthAsks: {
-    position: 'absolute',
-    zIndex: -1,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: _.colorDepthAsk
-  },
-  dotBid: {
-    width: 5,
-    height: 5,
-    marginLeft: -5,
-    borderRadius: 5,
-    backgroundColor: _.colorBid
-  },
-  dotAsk: {
-    width: 5,
-    height: 5,
-    marginLeft: -5,
-    borderRadius: 5,
-    backgroundColor: _.colorAsk
-  }
-}))

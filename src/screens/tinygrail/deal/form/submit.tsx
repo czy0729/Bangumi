@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-12 11:40:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-09 18:03:02
+ * @Last Modified time: 2022-11-08 20:45:08
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function Submit({ style }, { $ }) {
+function Submit({ style }, { $ }: Ctx) {
   const styles = memoStyles()
   const { loading, isIce } = $.state
   return (

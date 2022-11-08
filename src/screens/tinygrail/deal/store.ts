@@ -2,117 +2,112 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:56:25
+ * @Last Modified time: 2022-11-08 20:43:36
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
-import { toFixed, getTimestamp } from '@utils'
+import { toFixed, getTimestamp, info, confirm, feedback } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
-import { info, confirm, feedback } from '@utils/ui'
-import { getXsbRelationOTA } from '@constants/cdn'
-
-const namespace = 'ScreenTinygrailDeal'
-const defaultType = 'bid'
-const excludeState = {
-  type: defaultType, // 买卖类型
-  value: 0, // 只能到一位小数
-  amount: 0, // 只能是整数
-  expand: false // 展开买卖记录
-}
+import { getXsbRelationOTA } from '@constants'
+import { Params } from './types'
+import { NAMESPACE, DEFAULT_TYPE, STATE, EXCLUDE_STATE } from './ds'
+import { MonoId } from '@types'
 
 export default class ScreenTinygrailDeal extends store {
-  state = observable({
-    ...excludeState,
-    isIce: false, // 是否冰山委托
-    _loaded: false
-  })
+  params: Params
 
-  prev = 0
+  state = observable(STATE)
+
+  prev: any = 0
 
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60
 
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
-    const { type = defaultType } = this.params
+    const state = await this.getStorage(NAMESPACE)
+    const { type = DEFAULT_TYPE } = this.params
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       type,
       _loaded: needFetch ? current : _loaded
     })
 
-    if (needFetch) {
-      return this.refresh()
-    }
+    if (needFetch) return this.refresh()
     return true
   }
 
-  refresh = () =>
-    queue([
-      () => this.fetchCharaThenInitForm([this.monoId]),
+  refresh = () => {
+    return queue([
+      () => this.fetchCharaThenInitForm(),
       () => tinygrailStore.fetchDepth(this.monoId),
       () => tinygrailStore.fetchAssets(),
       () => tinygrailStore.fetchUserLogs(this.monoId),
       () => tinygrailStore.fetchIssuePrice(this.monoId)
     ])
+  }
 
   fetchCharaThenInitForm = async () => {
-    const res = tinygrailStore.fetchCharacters([this.monoId])
-    await res
+    await tinygrailStore.fetchCharacters([this.monoId])
 
     this.initForm()
-    return res
+    return true
   }
 
   // -------------------- get --------------------
+  /** 小圣杯缩短资金数字显示 */
   @computed get short() {
     return systemStore.setting.xsbShort
   }
 
   @computed get monoId() {
     const { monoId = '' } = this.params
-    return monoId.replace('character/', '')
+    return monoId.replace('character/', '') as MonoId
   }
 
+  /** 全局人物数据 */
   @computed get chara() {
     return tinygrailStore.characters(this.monoId)
   }
 
+  /** 深度图 */
   @computed get depth() {
     return tinygrailStore.depth(this.monoId)
   }
 
+  /** 用户资产 */
   @computed get assets() {
     return tinygrailStore.assets
   }
 
+  /** 我的挂单和交易记录 */
   @computed get userLogs() {
     return tinygrailStore.userLogs(this.monoId)
   }
 
+  /** 是否买入 */
   @computed get isBid() {
     const { type } = this.state
     return type === 'bid'
   }
 
+  /** 当前可以买入的最大量 */
   @computed get max() {
     const { value } = this.state
     const { balance } = this.assets
     const { amount } = this.userLogs
-    if (this.isBid) {
-      return value == 0 ? 0 : parseInt(balance / value)
-    }
+    if (this.isBid) return value == 0 ? 0 : Math.floor(balance / value)
     return amount
   }
 
+  /** 角色发行价 */
   @computed get issuePrice() {
     return tinygrailStore.issuePrice(this.monoId)
   }
 
+  /** 关联角色 */
   @computed get relation() {
     const XSBRelationData = getXsbRelationOTA()
     const { s, r = [] } = XSBRelationData.data[this.monoId] || {}
@@ -124,9 +119,7 @@ export default class ScreenTinygrailDeal extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 挂单
-   */
+  /** 挂单 */
   doSubmit = () => {
     const { value, amount } = this.state
     if (!amount) {
@@ -151,6 +144,7 @@ export default class ScreenTinygrailDeal extends store {
     this.doSubmitConfirm()
   }
 
+  /** 挂单 */
   doSubmitConfirm = async () => {
     const { value, amount, isIce } = this.state
     t('交易.挂单', {
@@ -164,7 +158,7 @@ export default class ScreenTinygrailDeal extends store {
 
     // 拆单
     const splits = splitAmount(amount)
-    let result
+    let result: any
 
     for (const item of splits) {
       result = await tinygrailStore[this.isBid ? 'doBid' : 'doAsk']({
@@ -191,10 +185,8 @@ export default class ScreenTinygrailDeal extends store {
     this.refresh()
   }
 
-  /**
-   * 取消挂单
-   */
-  doCancel = async (type, id) => {
+  /** 取消挂单 */
+  doCancel = async (type: string, id: any) => {
     t('交易.取消挂单', {
       monoId: this.monoId,
       type
@@ -215,10 +207,8 @@ export default class ScreenTinygrailDeal extends store {
     this.refresh()
   }
 
-  /**
-   * 一键取消买卖挂单
-   */
-  doCancelAll = async type => {
+  /** 一键取消买卖挂单 */
+  doCancelAll = async (type: string) => {
     t('交易.一键取消挂单', {
       monoId: this.monoId,
       type
@@ -243,14 +233,10 @@ export default class ScreenTinygrailDeal extends store {
   }
 
   // -------------------- page --------------------
-  /**
-   * 初始化表单数据
-   */
+  /** 初始化表单数据 */
   initForm = () => {
     const { value } = this.state
-    if (value) {
-      return
-    }
+    if (value) return
 
     const { current } = this.chara
     if (current) {
@@ -260,10 +246,8 @@ export default class ScreenTinygrailDeal extends store {
     }
   }
 
-  /**
-   * 切换买卖类型
-   */
-  toggleType = type => {
+  /** 切换买卖类型 */
+  toggleType = (type: string) => {
     t('交易.切换买卖类型', {
       monoId: this.monoId,
       type
@@ -286,19 +270,11 @@ export default class ScreenTinygrailDeal extends store {
     })
   }
 
-  /**
-   * 金额格式过滤
-   */
-  moneyNatural = v => {
+  /** 金额格式过滤 */
+  moneyNatural = (v: any) => {
     if (v && !/^(([1-9]\d*)|0)(\.\d{0,2}?)?$/.test(v)) {
-      if (v === '.') {
-        return '0.'
-      }
-
-      if (!v) {
-        return ''
-      }
-
+      if (v === '.') return '0.'
+      if (!v) return ''
       return this.prev
     }
 
@@ -306,10 +282,8 @@ export default class ScreenTinygrailDeal extends store {
     return v
   }
 
-  /**
-   * 金额变动
-   */
-  changeValue = (value, amount) => {
+  /** 金额变动 */
+  changeValue = (value: any, amount?: any) => {
     const { type } = this.state
     this.setState({
       value: this.moneyNatural(value),
@@ -317,24 +291,18 @@ export default class ScreenTinygrailDeal extends store {
     })
   }
 
-  /**
-   * 减少
-   */
+  /** 减少 */
   stepMinus = () => {
     const { value } = this.state
     let _value = parseFloat(this.moneyNatural(value)) - 0.1
-    if (_value < 0) {
-      _value = 0.1
-    }
+    if (_value < 0) _value = 0.1
 
     this.setState({
       value: toFixed(_value, 2)
     })
   }
 
-  /**
-   * 增加
-   */
+  /** 增加 */
   stepPlus = () => {
     const { value } = this.state
     const _value = parseFloat(this.moneyNatural(value)) + 0.1
@@ -344,28 +312,17 @@ export default class ScreenTinygrailDeal extends store {
     })
   }
 
-  /**
-   * 数量改变
-   */
-  changeAmount = amount => {
+  /** 数量改变 */
+  changeAmount = (amount: any) => {
     let _amount = parseInt(amount)
-
-    if (isNaN(_amount)) {
-      _amount = 0
-    }
-
-    if (_amount > this.max) {
-      _amount = this.max
-    }
-
+    if (isNaN(_amount)) _amount = 0
+    if (_amount > this.max) _amount = this.max
     this.setState({
       amount: _amount
     })
   }
 
-  /**
-   * 展开|收起买卖记录
-   */
+  /** 展开|收起买卖记录 */
   toggleExpand = () => {
     const { expand } = this.state
     t('交易.切换买卖类型', {
@@ -377,9 +334,7 @@ export default class ScreenTinygrailDeal extends store {
     })
   }
 
-  /**
-   * 切换冰山委托
-   */
+  /** 切换冰山委托 */
   switchIsIce = () => {
     const { isIce } = this.state
     t('交易.切换冰山', {
@@ -390,26 +345,11 @@ export default class ScreenTinygrailDeal extends store {
     this.setState({
       isIce: !isIce
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }
 
-/**
- * 交易拆单避税
- * @param {*} amount
- */
-function splitAmount(amount) {
+/** @deprecated 交易拆单避税 */
+function splitAmount(amount: number) {
   return [amount]
-
-  // let _amount = amount
-  // const splitAmounts = []
-  // const len = Math.ceil(_amount / 500)
-  // for (let i = 0; i < len; i += 1) {
-  //   const rest = _amount - 500
-  //   if (rest >= 100) splitAmounts.push(500)
-  //   else if (i < len - 1) splitAmounts.push(_amount - 100)
-  //   else splitAmounts.push(_amount)
-  //   _amount -= splitAmounts[i]
-  // }
-  // return splitAmounts
 }

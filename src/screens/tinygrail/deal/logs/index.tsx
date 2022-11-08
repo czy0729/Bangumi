@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-23 04:36:19
+ * @Last Modified time: 2022-11-08 20:40:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,12 +10,14 @@ import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Logs({ style }, { $ }) {
+function Logs(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { bids, asks } = $.userLogs
   return (
-    <Flex style={[styles.container, style]} align='start'>
+    <Flex style={styles.container} align='start'>
       <Flex.Item>
         <Flex
           style={{
@@ -117,20 +119,3 @@ function Logs({ style }, { $ }) {
 }
 
 export default obc(Logs)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    minHeight: 120,
-    paddingVertical: _.md,
-    paddingHorizontal: _.wind,
-    borderTopWidth: _.sm,
-    borderTopColor: _.colorTinygrailBg
-  },
-  item: {
-    width: '100%'
-  },
-  cancel: {
-    paddingVertical: _.sm,
-    paddingLeft: _.sm
-  }
-}))

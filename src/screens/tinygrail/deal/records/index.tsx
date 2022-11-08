@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:13:18
+ * @Last Modified time: 2022-11-08 20:42:28
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, info } from '@utils'
 import { obc } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 const LIMIT = 5
 
-function Records({ style }, { $ }) {
+function Records(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { expand } = $.state
   const { bidHistory, askHistory } = $.userLogs
   const needShowExpand = bidHistory.length > 10 || askHistory.length > 10
   return (
-    <View style={[styles.container, style]}>
+    <View style={styles.container}>
       <Flex align='start'>
         <Flex.Item>
           <Text style={_.mb.sm} type='bid' size={16}>
@@ -32,7 +33,6 @@ function Records({ style }, { $ }) {
             .filter((item, index) => (expand ? true : index < LIMIT))
             .map((item, index) => (
               <Touchable
-                // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 style={styles.item}
                 onPress={() => {
@@ -68,7 +68,6 @@ function Records({ style }, { $ }) {
             .filter((item, index) => (expand ? true : index < LIMIT))
             .map((item, index) => (
               <Touchable
-                // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 style={styles.item}
                 onPress={() => {
@@ -108,25 +107,3 @@ function Records({ style }, { $ }) {
 }
 
 export default obc(Records)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    minHeight: 120,
-    paddingTop: _.md,
-    paddingBottom: _.lg,
-    paddingHorizontal: _.wind,
-    borderTopWidth: _.sm,
-    borderTopColor: _.colorTinygrailBg
-  },
-  item: {
-    width: '100%',
-    paddingVertical: 6
-  },
-  cancel: {
-    paddingVertical: _.sm,
-    paddingLeft: _.sm
-  },
-  expand: {
-    paddingVertical: _.sm
-  }
-}))
