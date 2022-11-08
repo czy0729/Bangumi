@@ -1,9 +1,8 @@
-/* eslint-disable no-await-in-loop, no-restricted-syntax */
 /*
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 22:07:19
+ * @Last Modified time: 2022-11-09 06:13:51
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -24,8 +23,9 @@ import {
   SORT_XFJL,
   SORT_DJ
 } from '../_/utils'
+import { Params } from './types'
 
-export const sortDS = [
+export const SORT_DS = [
   SORT_SC,
   SORT_HYD,
   SORT_GX,
@@ -36,20 +36,23 @@ export const sortDS = [
   SORT_XFJL,
   SORT_GXB,
   SORT_SDGXB
-]
-const namespace = 'ScreenTinygrailRelation'
+] as const
+
+const NAMESPACE = 'ScreenTinygrailRelation'
 
 export default class ScreenTinygrailRelation extends store {
+  params: Params
+
   state = observable({
     level: '',
     sort: '',
-    direction: '',
+    direction: '' as '' | 'up' | 'down',
     go: '买入',
     _loaded: false
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded: false
@@ -69,9 +72,7 @@ export default class ScreenTinygrailRelation extends store {
   // -------------------- get --------------------
   @computed get list() {
     const { _loaded } = this.state
-    if (!_loaded) {
-      return LIST_EMPTY
-    }
+    if (!_loaded) return LIST_EMPTY
 
     const { ids } = this.params
     return relation({
@@ -85,7 +86,8 @@ export default class ScreenTinygrailRelation extends store {
   }
 
   // -------------------- page --------------------
-  onSelectGo = title => {
+  /** 设置前往 */
+  onSelectGo = (title: string) => {
     t('关联角色.设置前往', {
       title
     })
@@ -93,18 +95,19 @@ export default class ScreenTinygrailRelation extends store {
     this.setState({
       go: title
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onLevelSelect = level => {
+  onLevelSelect = (level: any) => {
     this.setState({
       level
     })
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSortPress = item => {
+  /** 排序 */
+  onSortPress = (item: string) => {
     const { sort, direction } = this.state
     if (item === sort) {
       let nextSort = item
@@ -137,6 +140,6 @@ export default class ScreenTinygrailRelation extends store {
       })
     }
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

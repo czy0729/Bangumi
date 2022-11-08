@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-11-05 12:14:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:22:16
+ * @Last Modified time: 2022-11-09 06:33:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
+import { tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
-import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Result({ style }, { $, navigation }) {
+function Result({ style }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { list } = $.state
   return (
     <View style={style}>
       {list.map((item, index) => (
-        // eslint-disable-next-line react/no-array-index-key
         <View key={index} style={styles.item}>
           <Flex style={[styles.wrap, index !== 0 && !_.flat && styles.border]}>
             {!!item.icon && (
@@ -81,26 +82,3 @@ function Result({ style }, { $, navigation }) {
 }
 
 export default obc(Result)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  item: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  wrap: {
-    paddingVertical: _.sm + 4,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorTinygrailBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  avatar: {
-    marginRight: _.sm,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  }
-}))

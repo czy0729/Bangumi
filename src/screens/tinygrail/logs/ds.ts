@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-03-06 05:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:51:19
+ * @Last Modified time: 2022-11-09 05:38:29
  */
-export const namespace = 'ScreenTinygrailLogs'
+export const NAMESPACE = 'ScreenTinygrailLogs'
 
-export const tabs = [
+export const TABS = [
   {
     title: '全部',
     key: 'all'
@@ -43,4 +43,4 @@ export const tabs = [
     title: '分红',
     key: 'award'
   }
-]
+] as const

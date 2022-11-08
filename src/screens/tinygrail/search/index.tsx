@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:37:42
+ * @Last Modified time: 2022-11-09 06:26:18
  */
 import React from 'react'
 import { Header, Page, Flex } from '@components'
@@ -13,18 +13,17 @@ import SearchBar from './search-bar'
 import History from './history'
 import Result from './result'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-export default
-@inject(Store)
-@obc
 class TinygrailSearch extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { list } = $.state
     return (
       <>
@@ -50,14 +49,4 @@ class TinygrailSearch extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  searchBar: {
-    paddingTop: _.xs,
-    paddingBottom: _.sm,
-    paddingHorizontal: _.wind
-  }
-}))
+export default inject(Store)(obc(TinygrailSearch))

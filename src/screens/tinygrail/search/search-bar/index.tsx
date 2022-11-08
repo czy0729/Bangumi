@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 16:48:09
+ * @Last Modified time: 2022-11-09 06:34:05
  */
 import React from 'react'
 import { Flex, Input, Touchable, Text, Activity } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function SearchBar(props, { $, navigation }) {
+function SearchBar(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { value, searching } = $.state
   return (
@@ -28,7 +30,6 @@ function SearchBar(props, { $, navigation }) {
       </Flex.Item>
       <Touchable
         style={_.ml.sm}
-        size='sm'
         onPress={() => {
           if (searching) return
           $.doSearch(navigation)
@@ -36,7 +37,7 @@ function SearchBar(props, { $, navigation }) {
       >
         <Flex style={styles.btn} justify='center'>
           {searching && (
-            <Flex style={_.scale}>
+            <Flex>
               <Activity />
             </Flex>
           )}
@@ -48,24 +49,3 @@ function SearchBar(props, { $, navigation }) {
 }
 
 export default obc(SearchBar)
-
-const memoStyles = _.memoStyles(() => ({
-  searchIpt: {
-    height: 34,
-    paddingHorizontal: _.wind,
-    fontSize: 14 + _.fontSizeAdjust,
-    color: _.colorTinygrailPlain,
-    backgroundColor: _.colorTinygrailContainer,
-    borderColor: _.colorTinygrailText,
-    borderWidth: 1,
-    borderRadius: 64
-  },
-  btn: {
-    width: 80,
-    height: 34,
-    borderRadius: 64,
-    backgroundColor: _.colorTinygrailContainer,
-    borderColor: _.colorTinygrailText,
-    borderWidth: 1
-  }
-}))

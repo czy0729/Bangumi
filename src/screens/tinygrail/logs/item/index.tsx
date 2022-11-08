@@ -2,23 +2,33 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 18:57:57
+ * @Last Modified time: 2022-11-09 05:58:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Text, Touchable, Iconfont, TextType } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { lastDate, getTimestamp, formatNumber } from '@utils'
-import { tinygrailOSS } from '@utils/app'
+import { lastDate, getTimestamp, formatNumber, tinygrailOSS } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { AnyObject, ColorValue, MonoId, Navigation, Paths } from '@types'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Item({ index, balance, desc, change, time, charaId }, { $, navigation }) {
+const ITEMS = ['买入', '卖出', '交易', '混沌魔方'] as const
+const ITEMS_2 = ['竞拍', 'ICO'] as const
+const ITEMS_3 = ['刮刮乐获奖'] as const
+
+function Item(
+  { index, balance, desc = '', change, time, charaId }: Props,
+  { $, navigation }: Ctx
+) {
   const styles = memoStyles()
   const { go } = $.state
   const isTop = index === 0
-  let color
+  let color: ColorValue
   if (change > 0) {
     color = _.colorBid
   } else if (change < 0) {
@@ -28,31 +38,31 @@ function Item({ index, balance, desc, change, time, charaId }, { $, navigation }
   }
 
   let onPress
-  let icons
-  if (['买入', '卖出', '交易', '混沌魔方'].some(item => desc.includes(item))) {
+  let icons: string
+  if (ITEMS.some(item => desc.includes(item))) {
     // 这些类型有charaId
     icons = $.icons(charaId)
     onPress = getOnPress(charaId, go, navigation)
-  } else if (['竞拍', 'ICO'].some(item => desc.includes(item))) {
+  } else if (ITEMS_2.some(item => desc.includes(item))) {
     icons = $.icons(charaId)
 
     // 竞拍、ICO根据#id
     const match = desc.match(/#\d+/g)
     if (match) {
-      onPress = getOnPress(match[0].replace('#', ''), go, navigation)
+      onPress = getOnPress(match[0].replace('#', '') as MonoId, go, navigation)
     }
-  } else if (['刮刮乐获奖'].some(item => desc.includes(item))) {
+  } else if (ITEMS_3.some(item => desc.includes(item))) {
     // 刮刮乐根据#id
     const match = desc.match(/#\d+/g)
     if (match) {
-      const charaId = match[0].replace('#', '')
+      const charaId = match[0].replace('#', '') as MonoId
       icons = $.icons(charaId)
       onPress = getOnPress(charaId, go, navigation)
     }
   }
 
-  let changeType
-  let changeNum
+  let changeType: TextType
+  let changeNum: string
   if (!change) {
     const match = desc.match(/\d+股/g)
     if (match && match.length) {
@@ -145,30 +155,10 @@ function Item({ index, balance, desc, change, time, charaId }, { $, navigation }
 
 export default obc(Item)
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  wrap: {
-    paddingRight: _.wind
-  },
-  item: {
-    paddingVertical: _.md
-  },
-  avatar: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  border: {
-    borderTopColor: _.colorTinygrailBorder,
-    borderTopWidth: _.hairlineWidth
-  }
-}))
-
-function getOnPress(charaId, go, navigation) {
+function getOnPress(charaId: MonoId, go: string, navigation: Navigation) {
   return () => {
-    let to
-    let params
+    let to: Paths
+    let params: AnyObject
     switch (go) {
       case 'K线':
         to = 'TinygrailTrade'

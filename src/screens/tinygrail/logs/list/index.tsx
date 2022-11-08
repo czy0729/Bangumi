@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:32:20
+ * @Last Modified time: 2022-11-09 05:47:52
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
-import { keyExtractor } from '@utils/app'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
-import Item from './item'
-import { tabs } from './ds'
+import { ListEmpty } from '@types'
+import Item from '../item'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
 
-function List({ title }, { $ }) {
+function List({ title = '全部' }, { $ }: Ctx) {
   if (!$.balance._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
-  let data
+  let data: ListEmpty
   switch (title) {
     case '刮刮乐':
       data = {
@@ -93,16 +95,14 @@ function List({ title }, { $ }) {
       maxToRenderPerBatch={24}
       updateCellsBatchingPeriod={24}
       lazy={24}
-      scrollToTop={tabs[page].title === title}
+      scrollToTop={TABS[page].title === title}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchBalance()}
     />
   )
 }
 
-export default obc(List, {
-  title: '全部'
-})
+export default obc(List)
 
 function renderItem({ item, index }) {
   return <Item index={index} {...item} />

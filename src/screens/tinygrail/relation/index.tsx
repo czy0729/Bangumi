@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:48:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:24:13
+ * @Last Modified time: 2022-11-09 06:16:56
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -12,24 +12,23 @@ import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
 import IconGo from '../_/icon-go'
 import List from './list'
-import Store, { sortDS } from './store'
+import Store, { SORT_DS } from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-export default
-@inject(Store)
-@obc
 class TinygrailRelation extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
   renderContentHeaderComponent() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { level, sort, direction } = $.state
     return (
       <ToolBar
         style={_.mt._sm}
-        data={sortDS}
+        data={SORT_DS}
         level={level}
         sort={sort}
         direction={direction}
@@ -40,7 +39,7 @@ class TinygrailRelation extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     return (
       <>
         <StatusBarEvents />
@@ -65,9 +64,4 @@ class TinygrailRelation extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))
+export default inject(Store)(obc(TinygrailRelation))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:35:38
+ * @Last Modified time: 2022-11-09 05:44:33
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -13,19 +13,17 @@ import Tabs from '@tinygrail/_/tabs-v2'
 import IconGo from '@tinygrail/_/icon-go'
 import List from './list'
 import Store from './store'
-import { tabs } from './ds'
+import { TABS } from './ds'
+import { Ctx } from './types'
 
-export default
-@inject(Store)
-@obc
 class TinygrailLogs extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { _loaded } = $.state
     return (
       <>
@@ -43,12 +41,16 @@ class TinygrailLogs extends React.Component {
           loadingColor={_.colorTinygrailText}
         >
           <Tabs
-            routes={tabs}
+            routes={TABS}
             tabBarLength={6}
-            renderItem={item => <List key={item.key} title={item.title} />}
+            renderItem={(item: typeof TABS[number]) => (
+              <List key={item.key} title={item.title} />
+            )}
           />
         </Page>
       </>
     )
   }
 }
+
+export default inject(Store)(obc(TinygrailLogs))

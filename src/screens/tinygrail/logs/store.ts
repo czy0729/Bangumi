@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:55:42
+ * @Last Modified time: 2022-11-09 05:41:49
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { namespace } from './ds'
+import { NAMESPACE } from './ds'
+import { MonoId } from '@types'
 
 export default class ScreenTinygrailLogs extends store {
   state = observable({
@@ -21,43 +22,42 @@ export default class ScreenTinygrailLogs extends store {
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60
 
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(undefined, NAMESPACE)
     this.setState({
       ...state,
       _loaded: needFetch ? current : _loaded
     })
-
-    if (needFetch) {
-      this.fetchBalance()
-    }
-
-    return res
+    if (needFetch) this.fetchBalance()
+    return state
   }
 
   // -------------------- fetch --------------------
-  fetchBalance = () => tinygrailStore.fetchBalance()
+  /** 资金日志 */
+  fetchBalance = () => {
+    return tinygrailStore.fetchBalance()
+  }
 
   // -------------------- get --------------------
+  /** 小圣杯缩短资金数字显示 */
   @computed get short() {
     return systemStore.setting.xsbShort
   }
 
+  /** 资金日志 */
   @computed get balance() {
     return tinygrailStore.balance
   }
 
-  icons(monoId) {
+  icons(monoId: MonoId) {
     return computed(() => tinygrailStore.iconsCache(monoId)).get()
   }
 
   // -------------------- page --------------------
-  onChange = page => {
-    if (page === this.state.page) {
-      return
-    }
+  /** 标签页切换 */
+  onChange = (page: number) => {
+    if (page === this.state.page) return
 
     t('资金日志.标签页切换', {
       page
@@ -66,11 +66,12 @@ export default class ScreenTinygrailLogs extends store {
     this.setState({
       page
     })
-    this.setStorage(undefined, undefined, namespace)
-    this.tabChangeCallback(page)
+    this.setStorage(NAMESPACE)
+    this.tabChangeCallback()
   }
 
-  onSelectGo = title => {
+  /** 设置前往 */
+  onSelectGo = (title: string) => {
     t('资金日志.设置前往', {
       title
     })
@@ -78,13 +79,11 @@ export default class ScreenTinygrailLogs extends store {
     this.setState({
       go: title
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
   tabChangeCallback = () => {
     const { _loaded } = this.balance
-    if (!_loaded) {
-      this.fetchBalance()
-    }
+    if (!_loaded) this.fetchBalance()
   }
 }
