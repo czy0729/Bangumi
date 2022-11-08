@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 14:45:54
+ * @Last Modified time: 2022-11-08 17:44:49
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { namespace, tabs } from './ds'
+import { ListKey } from '@stores/tinygrail/types'
+import { NAMESPACE, TABS } from './ds'
 
 export default class ScreenTinygrailICO extends store {
   state = observable({
@@ -20,10 +21,9 @@ export default class ScreenTinygrailICO extends store {
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60
 
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded: needFetch ? current : _loaded
@@ -31,25 +31,25 @@ export default class ScreenTinygrailICO extends store {
 
     if (needFetch) {
       const { page } = this.state
-      this.fetchList(tabs[page].key)
+      this.fetchList(TABS[page].key)
     }
 
-    return res
+    return state
   }
 
   // -------------------- fetch --------------------
-  fetchList = key => tinygrailStore.fetchList(key)
+  fetchList = (key: ListKey) => {
+    return tinygrailStore.fetchList(key)
+  }
 
   // -------------------- get --------------------
-  list(key = 'recent') {
+  list(key: ListKey = 'recent') {
     return computed(() => tinygrailStore.list(key)).get()
   }
 
   // -------------------- page --------------------
-  onChange = page => {
-    if (page === this.state.page) {
-      return
-    }
+  onChange = (page: number) => {
+    if (page === this.state.page) return
 
     t('ICO.标签页切换', {
       page
@@ -58,15 +58,13 @@ export default class ScreenTinygrailICO extends store {
     this.setState({
       page
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
     this.tabChangeCallback(page)
   }
 
-  tabChangeCallback = page => {
-    const { title, key } = tabs[page]
+  tabChangeCallback = (page: number) => {
+    const { title, key } = TABS[page]
     const { _loaded } = this.list(key)
-    if (!_loaded || title === '最近活跃') {
-      this.fetchList(key)
-    }
+    if (!_loaded || title === '最近活跃') this.fetchList(key)
   }
 }

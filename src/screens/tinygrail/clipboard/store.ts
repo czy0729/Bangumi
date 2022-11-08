@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-11-30 16:16:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:23:47
+ * @Last Modified time: 2022-11-08 17:16:34
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { getTimestamp, copy } from '@utils'
+import { getTimestamp, copy, info, feedback } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
+import { MonoId, Navigation } from '@types'
 import { throttleInfo, relation } from '../_/utils'
 
 export default class ScreenTinygrailClipboard extends store {
@@ -19,24 +19,18 @@ export default class ScreenTinygrailClipboard extends store {
     _loaded: false
   })
 
-  init = async navigation => {
+  init = async (navigation?: Navigation) => {
     const content = await Clipboard.getString()
-    if (!content) {
-      return
-    }
+    if (!content) return
 
     const matchs = String(content).match(/\d+/g)
     let ids = []
     if (matchs) {
       ids = matchs.map(item => Number(item)).filter(item => Number(item) > 100)
-      if (ids.length) {
-        Clipboard.setString('')
-      }
+      if (ids.length) Clipboard.setString('')
     }
 
-    if (!ids.length) {
-      return
-    }
+    if (!ids.length) return
 
     for (const id of ids) {
       throttleInfo(`${ids.findIndex(i => i === id) + 1} / ${ids.length}`)
@@ -48,9 +42,11 @@ export default class ScreenTinygrailClipboard extends store {
       _loaded: getTimestamp()
     })
 
-    navigation.setParams({
-      title: `粘贴板 (${this.list.list.length})`
-    })
+    if (navigation) {
+      navigation.setParams({
+        title: `粘贴板 (${this.list.list.length})`
+      })
+    }
   }
 
   // -------------------- get --------------------
@@ -81,7 +77,7 @@ export default class ScreenTinygrailClipboard extends store {
     )
   }
 
-  batchICO = async ids => {
+  batchICO = async (ids: MonoId[]) => {
     t('粘贴板.一键注资', {
       length: ids.length
     })

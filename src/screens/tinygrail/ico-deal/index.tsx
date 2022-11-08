@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:13:54
+ * @Last Modified time: 2022-11-08 18:26:44
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -15,17 +15,15 @@ import Info from './info'
 import Slider from './slider'
 import Initial from './initial'
 import Store from './store'
+import { Ctx } from './types'
 
-export default
-@inject(Store)
-@obc
 class TinygrailICODeal extends React.Component {
   state = {
     refreshing: false
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
@@ -35,8 +33,9 @@ class TinygrailICODeal extends React.Component {
         refreshing: true
       },
       async () => {
-        const { $ } = this.context
+        const { $ }: Ctx = this.context
         await $.refresh()
+
         setTimeout(() => {
           this.setState({
             refreshing: false
@@ -47,7 +46,7 @@ class TinygrailICODeal extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { refreshing } = this.state
     return (
       <>
@@ -79,3 +78,5 @@ class TinygrailICODeal extends React.Component {
     )
   }
 }
+
+export default inject(Store)(obc(TinygrailICODeal))

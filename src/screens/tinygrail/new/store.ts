@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 14:59:36
+ * @Last Modified time: 2022-11-08 19:36:18
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,14 +10,15 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { levelList, sortList, relation } from '@tinygrail/_/utils'
-import { namespace, tabs } from './ds'
+import { NAMESPACE, TABS } from './ds'
+import { ListKey } from '@stores/tinygrail/types'
 
 export default class ScreenTinygrailNew extends store {
   state = observable({
     page: 0,
     level: '',
     sort: '',
-    direction: '',
+    direction: '' as '' | 'up' | 'down',
     go: '卖出',
     _loaded: false
   })
@@ -25,33 +26,32 @@ export default class ScreenTinygrailNew extends store {
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60
 
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       _loaded: needFetch ? current : _loaded
     })
 
-    if (needFetch) {
-      this.fetchList(this.currentKey)
-    }
-
-    return res
+    if (needFetch) this.fetchList(this.currentKey)
+    return state
   }
 
   // -------------------- fetch --------------------
-  fetchList = key => tinygrailStore.fetchList(key)
+  fetchList = (key: ListKey) => {
+    return tinygrailStore.fetchList(key)
+  }
 
   // -------------------- get --------------------
+  /** 最高市值 */
   @computed get mvc() {
     return tinygrailStore.mvc
   }
 
   @computed get currentKey() {
     const { page } = this.state
-    return tabs[page].key
+    return TABS[page].key
   }
 
   @computed get levelMap() {
@@ -63,17 +63,15 @@ export default class ScreenTinygrailNew extends store {
     return data
   }
 
-  list(key = 'recent') {
+  list(key: ListKey = 'recent') {
     return computed(() => relation(tinygrailStore.list(key))).get()
   }
 
-  computedList(key) {
+  computedList(key: ListKey) {
     const { sort, level, direction } = this.state
     return computed(() => {
       const list = this.list(key)
-      if (!list._loaded) {
-        return list
-      }
+      if (!list._loaded) return list
 
       let _list = list
       if (level) {
@@ -95,10 +93,9 @@ export default class ScreenTinygrailNew extends store {
   }
 
   // -------------------- page --------------------
-  onChange = page => {
-    if (page === this.state.page) {
-      return
-    }
+  /** 标签页切换 */
+  onChange = (page: number) => {
+    if (page === this.state.page) return
 
     t('新番榜单.标签页切换', {
       page
@@ -106,14 +103,13 @@ export default class ScreenTinygrailNew extends store {
 
     this.setState({
       page
-      // sort: '',
-      // direction: ''
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
     this.tabChangeCallback(page)
   }
 
-  onSelectGo = title => {
+  /** 设置前往 */
+  onSelectGo = (title: string) => {
     t('新番榜单.设置前往', {
       title
     })
@@ -121,18 +117,17 @@ export default class ScreenTinygrailNew extends store {
     this.setState({
       go: title
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  tabChangeCallback = page => {
-    const { title, key } = tabs[page]
+  tabChangeCallback = (page: number) => {
+    const { title, key } = TABS[page]
     const { _loaded } = this.list(key)
-    if (!_loaded || title === '最近活跃') {
-      this.fetchList(key)
-    }
+    if (!_loaded || title === '最近活跃') this.fetchList(key)
   }
 
-  onLevelSelect = level => {
+  /** 筛选 */
+  onLevelSelect = (level: any) => {
     t('新番榜单.筛选', {
       level
     })
@@ -140,10 +135,11 @@ export default class ScreenTinygrailNew extends store {
     this.setState({
       level
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  onSortPress = item => {
+  /** 排序 */
+  onSortPress = (item: string) => {
     const { sort, direction } = this.state
     if (item === sort) {
       let nextSort = item
@@ -176,6 +172,6 @@ export default class ScreenTinygrailNew extends store {
       })
     }
 
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

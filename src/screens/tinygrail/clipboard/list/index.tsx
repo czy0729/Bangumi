@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:57:35
+ * @Last Modified time: 2022-11-08 17:38:13
  */
 import React from 'react'
 import { ListView } from '@components'
 import { _ } from '@stores'
-import { keyExtractor } from '@utils/app'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import Item from '../_/item'
+import Item from '../../_/item'
+import { Ctx } from '../types'
 
-const event = {
+const EVENT = {
   id: '粘贴板.跳转'
-}
+} as const
 
-function List(props, { $ }) {
+function List(props, { $ }: Ctx) {
   return (
     <ListView
       style={_.container.flex}
@@ -34,15 +35,12 @@ function List(props, { $ }) {
       lazy={24}
       scrollToTop
       renderItem={renderItem}
-      onHeaderRefresh={$.fetchValhallList}
     />
   )
 }
 
-export default obc(List, {
-  title: '全部'
-})
+export default obc(List)
 
 function renderItem({ item, index }) {
-  return <Item index={index} event={event} {...item} />
+  return <Item index={index} event={EVENT} {...item} />
 }

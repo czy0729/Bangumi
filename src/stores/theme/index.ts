@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 23:17:09
+ * @Last Modified time: 2022-11-08 19:00:24
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -737,7 +737,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
       h100: {
         height: '100%'
       }
-    })
+    } as const)
   }
 
   /** 计算动态文字大小 */

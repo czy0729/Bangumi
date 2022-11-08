@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:14:27
+ * @Last Modified time: 2022-11-08 18:59:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,10 @@ import { Flex, Input, Text, Button, Slider as CompSlider } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Slider({ style }, { $ }) {
+function Slider({ style }, { $ }: Ctx) {
   const styles = memoStyles()
   const { loading, amount } = $.state
   const { balance } = $.assets
@@ -23,16 +25,14 @@ function Slider({ style }, { $ }) {
             <Input
               style={styles.input}
               keyboardType='numeric'
-              value={String(parseInt(amount))}
+              value={String(amount)}
               onChangeText={$.changeAmount}
             />
           </View>
         </Flex.Item>
         <View style={[styles.btnSubmit, _.ml.md]}>
           <Button
-            style={{
-              height: 36
-            }}
+            style={styles.btnRoot}
             type='bid'
             radius={false}
             loading={loading}
@@ -42,12 +42,12 @@ function Slider({ style }, { $ }) {
           </Button>
         </View>
       </Flex>
-      <Flex style={[styles.slider, _.mt.sm]}>
-        <View style={{ width: '100%' }}>
+      <Flex style={styles.slider}>
+        <View style={_.container.block}>
           <CompSlider
             value={amount}
             min={5000}
-            max={balance < 5000 ? 5000 : parseInt(balance)}
+            max={balance < 5000 ? 5000 : Number(balance)}
             step={100}
             minimumTrackTintColor={_.colorBid}
             maximumTrackTintColor={_.colorTinygrailBorder}
@@ -70,33 +70,3 @@ function Slider({ style }, { $ }) {
 }
 
 export default obc(Slider)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingVertical: _.space,
-    paddingHorizontal: _.wind,
-    backgroundColor: _.colorTinygrailBg
-  },
-  inputWrap: {
-    paddingLeft: 4,
-    borderColor: _.colorTinygrailBorder,
-    borderWidth: 1
-  },
-  input: {
-    height: 34,
-    color: _.colorTinygrailPlain,
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 0
-  },
-  balance: {
-    marginTop: 16
-  },
-  slider: {
-    height: 40,
-    opacity: 0.8
-  },
-  btnSubmit: {
-    width: 96
-  }
-}))

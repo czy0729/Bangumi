@@ -2,20 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 16:39:55
+ * @Last Modified time: 2022-11-08 18:25:04
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore, systemStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { getTimestamp, info, feedback } from '@utils'
 import store from '@utils/store'
-import { info, feedback } from '@utils/ui'
 import { t } from '@utils/fetch'
+import { Params } from './types'
+import { Id } from '@types'
 
 export default class ScreenTinygrailICODeal extends store {
+  params: Params
+
   state = observable({
     loading: false,
-    amount: 5000 // 只能是整数
+
+    /** 只能是整数 */
+    amount: 5000,
+    _loaded: 0
   })
+
+  prev: any
 
   init = () => {
     const { _loaded } = this.state
@@ -26,9 +34,7 @@ export default class ScreenTinygrailICODeal extends store {
       _loaded: needFetch ? current : _loaded
     })
 
-    if (needFetch) {
-      return this.refresh()
-    }
+    if (needFetch) return this.refresh()
     return true
   }
 
@@ -49,7 +55,7 @@ export default class ScreenTinygrailICODeal extends store {
 
   @computed get monoId() {
     const { monoId = '' } = this.params
-    return monoId.replace('character/', '')
+    return monoId.replace('character/', '') as Id
   }
 
   @computed get chara() {
@@ -70,14 +76,10 @@ export default class ScreenTinygrailICODeal extends store {
   }
 
   // -------------------- action --------------------
-  /**
-   * 注资
-   */
+  /** 注资 */
   doSubmit = async () => {
     const { loading, amount } = this.state
-    if (loading) {
-      return
-    }
+    if (loading) return
 
     if (!amount || amount < 5000) {
       info('必须大于5000')
@@ -117,19 +119,11 @@ export default class ScreenTinygrailICODeal extends store {
   }
 
   // -------------------- page --------------------
-  /**
-   * 金额格式过滤
-   */
-  moneyNatural = v => {
+  /** 金额格式过滤 */
+  moneyNatural = (v: string) => {
     if (v && !/^(([1-9]\d*)|0)(\.\d{0,1}?)?$/.test(v)) {
-      if (v === '.') {
-        return '0.'
-      }
-
-      if (!v) {
-        return ''
-      }
-
+      if (v === '.') return '0.'
+      if (!v) return ''
       return this.prev
     }
 
@@ -137,16 +131,11 @@ export default class ScreenTinygrailICODeal extends store {
     return v
   }
 
-  /**
-   * 数量改变
-   */
-  changeAmount = amount => {
+  /** 数量改变 */
+  changeAmount = (amount: string) => {
     let _amount = parseInt(amount)
 
-    // eslint-disable-next-line no-restricted-globals
-    if (isNaN(_amount)) {
-      _amount = 0
-    }
+    if (isNaN(_amount)) _amount = 0
 
     this.setState({
       amount: _amount

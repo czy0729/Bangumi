@@ -2,31 +2,39 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:14:05
+ * @Last Modified time: 2022-11-08 18:38:38
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Image, Iconfont, Touchable, CountDown } from '@components'
 import { _ } from '@stores'
-import { formatNumber, getTimestamp } from '@utils'
+import {
+  caculateICO,
+  formatNumber,
+  getCoverLarge,
+  getTimestamp,
+  tinygrailOSS
+} from '@utils'
 import { obc } from '@utils/decorators'
-import { tinygrailOSS, getCoverLarge, caculateICO } from '@utils/app'
 import { t } from '@utils/fetch'
-import Bar from './bar'
+import Bar from '../bar'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 const maxSize = _.window.width / 3
 
-function Info(props, { $, navigation }) {
+function Info(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { icon, monoId, name, total, end = '' } = $.chara
   const { next, level, price, amount } = caculateICO($.chara)
   const endTime = getTimestamp(end.replace('T', ' '))
-  const event = {
+  const EVENT = {
     id: 'ICO交易.封面图查看',
     data: {
       monoId
     }
-  }
+  } as const
+
   return (
     <View style={styles.container}>
       {!!icon && (
@@ -36,10 +44,10 @@ function Info(props, { $, navigation }) {
             src={tinygrailOSS(getCoverLarge(icon))}
             autoSize={maxSize}
             shadow
-            placholder={false}
+            placeholder={false}
             imageViewer
             imageViewerSrc={tinygrailOSS(getCoverLarge(icon), 480)}
-            event={event}
+            event={EVENT}
           />
         </Flex>
       )}
@@ -89,14 +97,3 @@ function Info(props, { $, navigation }) {
 }
 
 export default obc(Info)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingTop: _.sm,
-    paddingHorizontal: _.wind,
-    paddingBottom: _.space
-  },
-  image: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  }
-}))

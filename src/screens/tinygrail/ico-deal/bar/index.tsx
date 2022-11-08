@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:52:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:13:58
+ * @Last Modified time: 2022-11-08 18:30:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,14 @@ import { Text } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { ob } from '@utils/decorators'
+import { ColorValue } from '@types'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Bar({ style, total, level, next }) {
+function Bar({ style, total = 0, level, next = 1 }: Props) {
   const styles = memoStyles()
   const percent = toFixed((total / next) * 100, 0)
-  let backgroundColor
+  let backgroundColor: ColorValue
   switch (level) {
     case 0:
       backgroundColor = '#aaa'
@@ -59,30 +62,3 @@ function Bar({ style, total, level, next }) {
 }
 
 export default ob(Bar)
-
-const memoStyles = _.memoStyles(() => ({
-  ico: {
-    height: 24
-  },
-  icoBar: {
-    width: '100%',
-    height: 24,
-    backgroundColor: _.colorBorder,
-    borderRadius: 12,
-    overflow: 'hidden'
-  },
-  icoBarDark: {
-    backgroundColor: _.colorTinygrailBorder
-  },
-  icoProcess: {
-    height: 24,
-    borderRadius: 12,
-    overflow: 'hidden'
-  },
-  iconText: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 3,
-    right: _.wind
-  }
-}))

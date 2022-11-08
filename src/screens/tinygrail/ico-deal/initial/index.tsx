@@ -2,25 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-09 17:07:51
+ * @Last Modified time: 2022-11-08 18:53:28
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Flex } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, tinygrailOSS } from '@utils'
 import { Avatar } from '@_'
-import { tinygrailOSS } from '@utils/app'
 import { obc } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Initial({ style }, { $, navigation }) {
+function Initial({ style }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { users } = $.chara
   const { list } = $.initial
-  const event = {
+  const EVENT = {
     id: 'ICO交易.跳转'
-  }
+  } as const
+
   return (
     <View style={[styles.container, style]}>
       <Text type='tinygrailPlain' size={12} lineHeight={16}>
@@ -31,7 +33,6 @@ function Initial({ style }, { $, navigation }) {
       </Text>
       <Flex style={_.mt.sm} wrap='wrap'>
         {list.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
           <Flex key={index} style={styles.item}>
             <Avatar
               style={styles.avatar}
@@ -41,7 +42,7 @@ function Initial({ style }, { $, navigation }) {
               userId={item.name}
               name={item.nickName}
               borderColor='transparent'
-              event={event}
+              event={EVENT}
             />
             <Flex.Item style={_.ml.sm}>
               <Flex>
@@ -64,22 +65,3 @@ function Initial({ style }, { $, navigation }) {
 }
 
 export default obc(Initial)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingHorizontal: _.wind,
-    paddingBottom: _.bottom
-  },
-  item: {
-    width: '47%',
-    paddingVertical: _.sm,
-    paddingRight: _.md,
-    marginRight: '3%'
-  },
-  avatar: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  rank: {
-    minWidth: 24
-  }
-}))

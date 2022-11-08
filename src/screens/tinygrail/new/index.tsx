@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 02:48:39
+ * @Last Modified time: 2022-11-08 19:35:50
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -12,26 +12,24 @@ import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Tabs from '@tinygrail/_/tabs-v2'
 import ToolBar from '@tinygrail/_/tool-bar'
 import IconGo from '@tinygrail/_/icon-go'
-import { sortDS } from '@tinygrail/overview/ds'
+import { SORT_DS } from '@tinygrail/overview/ds'
 import List from './list'
 import Store from './store'
-import { tabs } from './ds'
+import { TABS } from './ds'
+import { Ctx } from './types'
 
-export default
-@inject(Store)
-@obc
 class TinygrailNew extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
   renderContentHeaderComponent() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { level, sort, direction } = $.state
     return (
       <ToolBar
-        data={sortDS}
+        data={SORT_DS}
         level={level}
         levelMap={$.levelMap}
         sort={sort}
@@ -43,7 +41,7 @@ class TinygrailNew extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { _loaded } = $.state
     return (
       <>
@@ -57,7 +55,7 @@ class TinygrailNew extends React.Component {
         />
         <Page style={_.container.tinygrail} loaded={_loaded}>
           <Tabs
-            routes={tabs}
+            routes={TABS}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
             renderItem={item => <List key={item.key} id={item.key} />}
           />
@@ -66,3 +64,5 @@ class TinygrailNew extends React.Component {
     )
   }
 }
+
+export default inject(Store)(obc(TinygrailNew))

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:36:18
+ * @Last Modified time: 2022-11-08 18:24:32
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -67,7 +67,7 @@ import {
   SDK,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants'
-import { ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
+import { Id, ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
 import UserStore from '../user'
 import {
   NAMESPACE,
@@ -78,11 +78,13 @@ import {
   INIT_CHARA_ASSETS,
   INIT_USER_LOGS,
   INIT_MY_CHARA_ASSETS,
-  INIT_AUCTION_STATUS
+  INIT_AUCTION_STATUS,
+  INIT_CHARACTERS_ITEM
 } from './init'
 import { throttleInfo, toCharacter, calculateRate } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { Characters, ListKey } from './types'
+import { TinygrailMagic } from '@constants/api/types'
 
 const state = {
   /** 授权 cookie */
@@ -327,10 +329,10 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 全局人物数据 */
-  characters(monoId: MonoId) {
+  characters(monoId: MonoId | Id) {
     this.init('characters')
     return computed<Characters>(() => {
-      return this.state.characters[monoId] || LIST_EMPTY
+      return this.state.characters[monoId] || INIT_CHARACTERS_ITEM
     }).get()
   }
 
@@ -475,7 +477,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** ICO 参与者 */
-  initial(monoId: MonoId) {
+  initial(monoId: MonoId | Id) {
     return computed<ListEmpty>(() => {
       return this.state.initial[monoId] || LIST_EMPTY
     }).get()
@@ -667,7 +669,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   /** 总览列表 */
   list(key: ListKey = defaultKey) {
     this.init(key)
-    return computed<Characters>(() => {
+    return computed<ListEmpty<Characters>>(() => {
       return this.state[key] || LIST_EMPTY
     }).get()
   }
@@ -1661,7 +1663,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** ICO 参与者 */
-  fetchInitial = async (monoId: MonoId) => {
+  fetchInitial = async (monoId: Id) => {
     // TotalPages
     const result = await this.fetch(API_TINYGRAIL_INITIAL(monoId))
 
@@ -2819,7 +2821,19 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 使用道具 */
-  doMagic = async ({ monoId, type, toMonoId, amount, isTemple }) => {
+  doMagic = async ({
+    monoId,
+    type,
+    toMonoId,
+    amount,
+    isTemple
+  }: {
+    monoId?: MonoId
+    type?: TinygrailMagic
+    toMonoId?: Id
+    amount?: number
+    isTemple?: boolean
+  }) => {
     const { data } = await this.fetch(
       API_TINYGRAIL_MAGIC(monoId, type, toMonoId, amount, isTemple),
       true

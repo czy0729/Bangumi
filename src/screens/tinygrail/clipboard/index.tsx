@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:03:22
+ * @Last Modified time: 2022-11-08 17:15:59
  */
 import React from 'react'
 import { Header, Page, Flex } from '@components'
@@ -14,18 +14,17 @@ import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Btn from './btn'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-export default
-@inject(Store)
-@obc
 class TinygrailClipboard extends React.Component {
   async componentDidMount() {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     $.init(navigation)
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     return (
       <>
         <StatusBarEvents />
@@ -70,9 +69,4 @@ class TinygrailClipboard extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))
+export default inject(Store)(obc(TinygrailClipboard))

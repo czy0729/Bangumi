@@ -2,36 +2,35 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:31:24
+ * @Last Modified time: 2022-11-08 16:36:06
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Header, Page, Touchable, Flex, Image, Text, Iconfont } from '@components'
 import { _ } from '@stores'
+import { tinygrailOSS } from '@utils'
 import { inject, obc } from '@utils/decorators'
-import { tinygrailOSS } from '@utils/app'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-export default
-@inject(Store)
-@obc
 class TinygrailItems extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
   componentWillUnmount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.onCloseModal()
   }
 
   renderList() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { list } = $.items
     return (
       <ScrollView
@@ -41,7 +40,7 @@ class TinygrailItems extends React.Component {
       >
         {list
           .sort((a, b) => (ITEMS_USED[b.name] || 0) - (ITEMS_USED[a.name] || 0))
-          .map((item, index) => {
+          .map(item => {
             if (ITEMS_USED[item.name]) {
               return (
                 <Touchable
@@ -49,13 +48,7 @@ class TinygrailItems extends React.Component {
                   style={this.styles.item}
                   onPress={() => $.onShowModal(item.name)}
                 >
-                  <Flex
-                    style={[
-                      this.styles.wrap,
-                      index !== 0 && !_.flat && this.styles.border
-                    ]}
-                    align='start'
-                  >
+                  <Flex style={this.styles.wrap} align='start'>
                     <Image
                       style={this.styles.image}
                       size={36}
@@ -85,13 +78,7 @@ class TinygrailItems extends React.Component {
 
             return (
               <View key={item.id} style={this.styles.item}>
-                <Flex
-                  style={[
-                    this.styles.wrap,
-                    index !== 0 && !_.flat && this.styles.border
-                  ]}
-                  align='start'
-                >
+                <Flex style={this.styles.wrap} align='start'>
                   <Image
                     style={this.styles.image}
                     size={36}
@@ -118,7 +105,7 @@ class TinygrailItems extends React.Component {
   }
 
   renderModal() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { title, visible } = $.state
     return (
       <CharactersModal
@@ -153,24 +140,4 @@ class TinygrailItems extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  item: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  wrap: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorTinygrailBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  image: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  }
-}))
+export default inject(Store)(obc(TinygrailItems))

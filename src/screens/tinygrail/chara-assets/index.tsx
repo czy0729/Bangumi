@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:51:36
+ * @Last Modified time: 2022-11-08 16:04:53
  */
 import React from 'react'
 import { Page, Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
-import Header from './header'
 import ToolBar from '@tinygrail/_/tool-bar'
-import Tabs from '@tinygrail/_/TABS-v2'
+import Tabs from '@tinygrail/_/tabs-v2'
+import Header from './header'
 import List from './list'
 import Store from './store'
 import { TABS, SORT_DS } from './ds'

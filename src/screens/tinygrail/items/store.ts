@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:46:30
+ * @Last Modified time: 2022-11-08 16:29:43
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { toFixed } from '@utils'
+import { toFixed, info, feedback, alert } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info, feedback, alert } from '@utils/ui'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
+import { FnParams } from '@types'
 
 export default class ScreenTinygrailItems extends store {
   state = observable({
@@ -19,40 +19,44 @@ export default class ScreenTinygrailItems extends store {
     _loaded: false
   })
 
-  init = () => this.fetchItems()
+  init = () => {
+    return this.fetchItems()
+  }
 
   // -------------------- fetch --------------------
-  /**
-   * 道具
-   */
-  fetchItems = () => tinygrailStore.fetchItems()
+  /** 道具 */
+  fetchItems = () => {
+    return tinygrailStore.fetchItems()
+  }
 
   // -------------------- get --------------------
+  /** 我的道具 */
   @computed get items() {
     return tinygrailStore.items
   }
 
   // -------------------- page --------------------
-  onShowModal = title =>
-    this.setState({
+  onShowModal = (title: string) => {
+    return this.setState({
       title,
       visible: true
     })
+  }
 
-  onCloseModal = () =>
-    this.setState({
+  onCloseModal = () => {
+    return this.setState({
       visible: false
     })
+  }
 
   // -------------------- action --------------------
+  /** 使用道具 */
   doUse = async ({ title, monoId, toMonoId, amount, isTemple }) => {
     try {
       const type = ITEMS_TYPE[title]
-      if (!type) {
-        return false
-      }
+      if (!type) return false
 
-      const data = {
+      const data: FnParams<typeof tinygrailStore.doMagic> = {
         monoId,
         type
       }
@@ -62,7 +66,7 @@ export default class ScreenTinygrailItems extends store {
 
       const { State, Value, Message } = await tinygrailStore.doMagic(data)
       feedback()
-      t('我的道具.使用道具', {
+      t('我的道具.使用', {
         type: title,
         monoId,
         toMonoId

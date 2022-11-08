@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 05:01:13
+ * @Last Modified time: 2022-11-08 16:13:09
  */
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'

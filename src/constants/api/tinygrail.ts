@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:28:11
+ * @Last Modified time: 2022-11-08 18:23:45
  */
 import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -131,7 +131,7 @@ export const API_TINYGRAIL_BALANCE = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/200`
 
 /** ICO 参与者 */
-export const API_TINYGRAIL_INITIAL = (icoId, page = 1) =>
+export const API_TINYGRAIL_INITIAL = (icoId: Id, page = 1) =>
   `${API_HOST_TINYGRAIL}/api/chara/initial/users/${icoId}/${page}`
 
 /** 参与 ICO */

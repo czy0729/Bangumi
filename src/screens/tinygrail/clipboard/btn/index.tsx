@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-11-30 20:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:37:38
+ * @Last Modified time: 2022-11-08 17:35:13
  */
 import React from 'react'
 import { Flex, Button } from '@components'
-import { _ } from '@stores'
+import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
-import { confirm } from '@utils/ui'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Btn(props, { $ }) {
+function Btn(props, { $ }: Ctx) {
   const styles = memoStyles()
   const ids = $.list.list.filter(item => !!item.icoId).map(item => item.icoId)
   if (!ids.length) return null
@@ -35,17 +36,3 @@ function Btn(props, { $ }) {
 }
 
 export default obc(Btn)
-
-const memoStyles = _.memoStyles(() => ({
-  wrap: {
-    position: 'absolute',
-    zIndex: 1,
-    right: _.wind,
-    bottom: 32,
-    left: _.wind
-  },
-  btn: {
-    width: 104,
-    borderRadius: 48
-  }
-}))

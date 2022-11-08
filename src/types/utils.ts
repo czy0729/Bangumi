@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 09:47:47
+ * @Last Modified time: 2022-11-08 16:28:49
  */
 import React from 'react'
 import {
@@ -95,3 +95,6 @@ export type AnyObject = Record<string, unknown>
 
 /** 取数组项 */
 export type InferArray<T> = T extends (infer S)[] ? S : never
+
+/** 取函数第一个参数 */
+export type FnParams<T extends Fn> = Parameters<T>[0]
