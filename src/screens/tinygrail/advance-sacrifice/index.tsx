@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:19:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:27:25
+ * @Last Modified time: 2022-11-08 06:13:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,12 +15,14 @@ import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
 const title = '献祭推荐'
 
 class TinygrailAdvanceSacrifice extends React.Component {
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     $.init()
 
     navigation.setParams({
@@ -60,10 +62,3 @@ export default inject(Store)(
     withHeaderParams
   })(obc(TinygrailAdvanceSacrifice))
 )
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))

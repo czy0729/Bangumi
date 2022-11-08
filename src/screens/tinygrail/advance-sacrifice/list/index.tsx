@@ -1,30 +1,29 @@
 /*
  * @Author: czy0729
- * @Date: 2021-03-14 18:00:59
+ * @Date: 2020-01-25 20:20:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:32:01
+ * @Last Modified time: 2022-11-08 06:16:56
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
 import { _ } from '@stores'
-import { keyExtractor } from '@utils/app'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import ItemAdvance from '@tinygrail/_/item-advance'
+import ItemAdvance from '../../_/item-advance'
+import { Ctx } from '../types'
 
-function List(props, { $ }) {
-  const { _loaded } = $.computedList
-  if (!_loaded) {
-    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
-  }
+function List(props, { $ }: Ctx) {
+  const { _loaded } = $.advanceSacrificeList
+  if (!_loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
 
-  const event = {
-    id: '低价股.跳转',
+  const EVENT = {
+    id: '献祭推荐.跳转',
     data: {
       userId: $.myUserId
     }
-  }
+  } as const
   const renderItem = ({ item, index }) => (
-    <ItemAdvance index={index} event={event} {...item} />
+    <ItemAdvance index={index} event={EVENT} {...item} />
   )
 
   return (
@@ -36,7 +35,7 @@ function List(props, { $ }) {
         color: _.colorTinygrailText
       }}
       footerTextType='tinygrailText'
-      data={$.computedList}
+      data={$.advanceSacrificeList}
       windowSize={6}
       initialNumToRender={24}
       maxToRenderPerBatch={24}
@@ -44,11 +43,9 @@ function List(props, { $ }) {
       lazy={24}
       scrollToTop
       renderItem={renderItem}
-      onHeaderRefresh={() => $.fetchAdvanceState(true)}
+      onHeaderRefresh={$.fetchAdvanceSacrificeList}
     />
   )
 }
 
-export default obc(List, {
-  title: '全部'
-})
+export default obc(List)

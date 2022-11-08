@@ -2,29 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:30:11
+ * @Last Modified time: 2022-11-08 06:42:17
  */
 import React from 'react'
 import { Header, Page, Flex, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { confirm } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Tabs from '@tinygrail/_/tabs-v2'
 import ToolBar from '@tinygrail/_/tool-bar'
-import { confirm } from '@utils/ui'
 import List from './list'
 import Store from './store'
 import { tabs, sortDS } from './ds'
+import { styles } from './styles'
+import { Ctx } from './types'
 
 class TinygrailBid extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
-  getCount = route => {
-    const { $ } = this.context
+  getCount = (route: { key: string }) => {
+    const { $ }: Ctx = this.context
     switch (route.key) {
       case 'bid':
       case 'asks':
@@ -39,7 +41,7 @@ class TinygrailBid extends React.Component {
   }
 
   renderContentHeaderComponent() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { level, sort, direction } = $.state
     return (
       <ToolBar
@@ -55,7 +57,7 @@ class TinygrailBid extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { type = 'bid' } = $.params
     const { _loaded } = $.state
     return (
@@ -110,9 +112,3 @@ class TinygrailBid extends React.Component {
 }
 
 export default inject(Store)(obc(TinygrailBid))
-
-const styles = _.create({
-  labelText: {
-    width: '100%'
-  }
-})

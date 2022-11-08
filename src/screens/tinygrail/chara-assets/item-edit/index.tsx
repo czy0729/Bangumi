@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:52:32
+ * @Last Modified time: 2022-11-08 15:53:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,10 @@ import { Flex, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-function ItemEdit({ item, type, users, event }, { $ }) {
+function ItemEdit({ item, type, users, event }, { $ }: Ctx) {
   const { editing, editingIds } = $.state
   const { id, monoId, state } = item
   const isActive = editingIds[id]
@@ -22,7 +24,7 @@ function ItemEdit({ item, type, users, event }, { $ }) {
     >
       <Flex style={editing && styles.item}>
         {!!editing && (
-          <View style={[styles.icon, _.mr.sm]}>
+          <View style={styles.icon}>
             <Iconfont
               name={isActive ? 'md-radio-button-on' : 'md-radio-button-off'}
               color={isActive ? _.colorBid : _.colorTinygrailText}
@@ -46,16 +48,3 @@ function ItemEdit({ item, type, users, event }, { $ }) {
 }
 
 export default obc(ItemEdit)
-
-const styles = _.create({
-  item: {
-    paddingLeft: _.wind - _._wind + _.sm,
-    paddingRight: _.sm + 2
-  },
-  edit: {
-    paddingLeft: 0
-  },
-  icon: {
-    padding: _.sm
-  }
-})

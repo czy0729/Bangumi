@@ -2,28 +2,30 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:16:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 18:20:24
+ * @Last Modified time: 2022-11-08 06:10:17
  */
 import React from 'react'
 import { Header, Page } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
+import { alert } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { alert } from '@utils/ui'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
+import { Ctx } from './types'
+import { memoStyles } from './styles'
 
 class TinygrailAdvanceBid extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { level } = $.state
     return (
       <>
@@ -67,10 +69,3 @@ class TinygrailAdvanceBid extends React.Component {
 }
 
 export default inject(Store)(obc(TinygrailAdvanceBid))
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))

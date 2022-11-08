@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:46:53
+ * @Last Modified time: 2022-11-08 15:51:36
  */
 import React from 'react'
 import { Page, Touchable, Flex, Iconfont, Text } from '@components'
@@ -11,14 +11,16 @@ import { inject, obc } from '@utils/decorators'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Header from './header'
 import ToolBar from '@tinygrail/_/tool-bar'
-import Tabs from '@tinygrail/_/tabs-v2'
+import Tabs from '@tinygrail/_/TABS-v2'
 import List from './list'
 import Store from './store'
-import { tabs, sortDS } from './ds'
+import { TABS, SORT_DS } from './ds'
+import { styles } from './styles'
+import { Ctx } from './types'
 
 class TinygrailCharaAssets extends React.Component {
   async componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { form } = $.params
     if (form === 'lottery') {
       $.initFormLottery()
@@ -27,8 +29,8 @@ class TinygrailCharaAssets extends React.Component {
     }
   }
 
-  getCount = route => {
-    const { $ } = this.context
+  getCount = (route: { key: any }) => {
+    const { $ }: Ctx = this.context
     switch (route.key) {
       case 'chara':
         return $.myCharaAssets?.chara?.list?.length || 0
@@ -45,7 +47,7 @@ class TinygrailCharaAssets extends React.Component {
   }
 
   renderIncreaseBtn() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { editing } = $.state
     return (
       editing && (
@@ -59,13 +61,13 @@ class TinygrailCharaAssets extends React.Component {
   }
 
   renderContentHeaderComponent() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { page, level, sort, direction } = $.state
     if (page > 1) return undefined
 
     return (
       <ToolBar
-        data={sortDS}
+        data={SORT_DS}
         level={level}
         levelMap={$.levelMap}
         sort={sort}
@@ -77,7 +79,9 @@ class TinygrailCharaAssets extends React.Component {
     )
   }
 
-  renderItem = item => <List key={item.key} id={item.key} />
+  renderItem = item => {
+    return <List key={item.key} id={item.key} />
+  }
 
   renderLabel = ({ route, focused }) => (
     <Flex style={styles.labelText} justify='center'>
@@ -94,7 +98,7 @@ class TinygrailCharaAssets extends React.Component {
   )
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { _loaded } = $.state
     return (
       <>
@@ -106,7 +110,7 @@ class TinygrailCharaAssets extends React.Component {
           loadingColor={_.colorTinygrailText}
         >
           <Tabs
-            routes={tabs}
+            routes={TABS}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
             renderItem={this.renderItem}
             renderLabel={this.renderLabel}
@@ -118,14 +122,3 @@ class TinygrailCharaAssets extends React.Component {
 }
 
 export default inject(Store)(obc(TinygrailCharaAssets))
-
-const styles = _.create({
-  check: {
-    paddingHorizontal: 8,
-    height: 44,
-    marginTop: -2
-  },
-  labelText: {
-    width: '100%'
-  }
-})

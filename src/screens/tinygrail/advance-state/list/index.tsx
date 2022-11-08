@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2020-01-09 15:17:29
+ * @Date: 2021-03-14 18:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-15 17:31:52
+ * @Last Modified time: 2022-11-08 06:31:09
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -10,21 +10,20 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { obc } from '@utils/decorators'
 import ItemAdvance from '@tinygrail/_/item-advance'
+import { Ctx } from '../types'
 
-function List(props, { $ }) {
+function List(props, { $ }: Ctx) {
   const { _loaded } = $.computedList
-  if (!_loaded) {
-    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
-  }
+  if (!_loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
 
-  const event = {
-    id: '买一推荐.跳转',
+  const EVENT = {
+    id: '低价股.跳转',
     data: {
       userId: $.myUserId
     }
-  }
+  } as const
   const renderItem = ({ item, index }) => (
-    <ItemAdvance index={index} event={event} {...item} />
+    <ItemAdvance index={index} event={EVENT} {...item} />
   )
 
   return (
@@ -44,11 +43,9 @@ function List(props, { $ }) {
       lazy={24}
       scrollToTop
       renderItem={renderItem}
-      onHeaderRefresh={$.fetchAdvanceBidList}
+      onHeaderRefresh={() => $.fetchAdvanceState(true)}
     />
   )
 }
 
-export default obc(List, {
-  title: '全部'
-})
+export default obc(List)

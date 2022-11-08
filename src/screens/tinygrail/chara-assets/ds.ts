@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-05 16:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 07:09:55
+ * @Last Modified time: 2022-11-08 15:47:26
  */
 import {
   SORT_CCJZ,
@@ -24,9 +24,9 @@ import {
   SORT_ZGX
 } from '@tinygrail/_/utils'
 
-export const namespace = 'ScreenTinygrailCharaAssets'
+export const NAMESPACE = 'ScreenTinygrailCharaAssets'
 
-export const tabs = [
+export const TABS = [
   {
     title: '总览',
     key: 'merge'
@@ -43,9 +43,9 @@ export const tabs = [
     title: 'ICO',
     key: 'ico'
   }
-]
+] as const
 
-export const sortDS = [
+export const SORT_DS = [
   SORT_SC,
   SORT_GX,
   SORT_ZGX,
@@ -63,4 +63,27 @@ export const sortDS = [
   SORT_CCJZ,
   SORT_XFJL,
   SORT_FHL
-]
+] as const
+
+export const EXCLUDE_STATE = {
+  /** 是否批量选择中 */
+  editing: false,
+
+  /** 选中的角色id */
+  editingIds: {},
+
+  /** 批量动作 */
+  batchAction: '' as string
+} as const
+
+export const STATE = {
+  page: 1,
+  level: '',
+  sort: '',
+  direction: '' as '' | 'down' | 'up',
+  go: '卖出',
+  ...EXCLUDE_STATE,
+  _loaded: false
+}
+
+export const PER_BATCH_COUNT = 10

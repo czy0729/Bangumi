@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 19:14:26
+ * @Last Modified time: 2022-11-08 06:38:57
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
@@ -282,4 +282,6 @@ function _info(message: string) {
   info(message, 0.4)
 }
 
-export const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)
+export const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT) as (
+  info: string
+) => void

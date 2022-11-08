@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:57:27
+ * @Last Modified time: 2022-11-08 15:49:08
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
-import Item from './item'
-import { tabs } from './ds'
+import Item from '../item'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
 
-function List({ id }, { $ }) {
+function List({ id }, { $ }: Ctx) {
   const { ico, _loaded } = $.myCharaAssets
   if (!_loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
@@ -51,7 +52,7 @@ function List({ id }, { $ }) {
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={data}
-      scrollToTop={id === tabs[page].key}
+      scrollToTop={id === TABS[page].key}
       numColumns={numColumns}
       windowSize={6}
       initialNumToRender={24}

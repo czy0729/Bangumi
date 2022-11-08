@@ -1,9 +1,8 @@
-/* eslint-disable no-restricted-syntax, no-await-in-loop */
 /*
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 15:56:12
+ * @Last Modified time: 2022-11-08 06:41:15
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -12,13 +11,17 @@ import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { throttleInfo, levelList, sortList, relation } from '@tinygrail/_/utils'
 import { tabs } from './ds'
+import { Params, TabsKeys } from './types'
+import { Id } from '@types'
 
 export default class ScreenTinygrailBid extends store {
+  params: Params
+
   state = observable({
     page: 0,
     level: '',
     sort: '',
-    direction: '',
+    direction: '' as '' | 'up' | 'down',
     _loaded: false
   })
 
@@ -33,7 +36,7 @@ export default class ScreenTinygrailBid extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchList = key => {
+  fetchList = (key?: TabsKeys) => {
     if (key === 'bid') return tinygrailStore.fetchBid()
     if (key === 'asks') return tinygrailStore.fetchAsks()
     return tinygrailStore.fetchAuction()
@@ -52,9 +55,8 @@ export default class ScreenTinygrailBid extends store {
 
   @computed get canCancelCount() {
     if (this.currentTitle === '拍卖') {
-      return this.computedList(this.currentKey).list.filter(
-        item => item.state === 0
-      ).length
+      return this.computedList(this.currentKey).list.filter(item => item.state === 0)
+        .length
     }
     return this.computedList(this.currentKey).list.length
   }
@@ -63,24 +65,20 @@ export default class ScreenTinygrailBid extends store {
     const { list } = this.list(this.currentKey)
     const data = {}
     list.forEach(item =>
-      data[item.level || 1]
-        ? (data[item.level || 1] += 1)
-        : (data[item.level || 1] = 1)
+      data[item.level || 1] ? (data[item.level || 1] += 1) : (data[item.level || 1] = 1)
     )
     return data
   }
 
-  list(key = 'bid') {
+  list(key: TabsKeys = 'bid') {
     return computed(() => relation(tinygrailStore.list(key))).get()
   }
 
-  computedList(key) {
+  computedList(key: TabsKeys) {
     const { sort, level, direction } = this.state
     return computed(() => {
       const list = this.list(key)
-      if (!list._loaded) {
-        return list
-      }
+      if (!list._loaded) return list
 
       let _list = list
       if (level) {
@@ -102,10 +100,8 @@ export default class ScreenTinygrailBid extends store {
   }
 
   // -------------------- page --------------------
-  onChange = page => {
-    if (page === this.state.page) {
-      return
-    }
+  onChange = (page: number) => {
+    if (page === this.state.page) return
 
     t('我的委托.标签页切换', {
       page
@@ -119,21 +115,19 @@ export default class ScreenTinygrailBid extends store {
     this.tabChangeCallback(page)
   }
 
-  tabChangeCallback = page => {
+  tabChangeCallback = (page: number) => {
     const { key } = tabs[page]
     const { _loaded } = this.list(key)
-    if (!_loaded) {
-      this.fetchList(key)
-    }
+    if (!_loaded) this.fetchList(key)
   }
 
-  onLevelSelect = level => {
+  onLevelSelect = (level: any) => {
     this.setState({
       level
     })
   }
 
-  onSortPress = item => {
+  onSortPress = (item: string) => {
     const { sort, direction } = this.state
     if (item === sort) {
       let nextSort = item
@@ -176,10 +170,8 @@ export default class ScreenTinygrailBid extends store {
   }
 
   // -------------------- action --------------------
-  doAuctionCancel = async id => {
-    if (!id) {
-      return
-    }
+  doAuctionCancel = async (id: Id) => {
+    if (!id) return
 
     t('我的委托.取消拍卖', {
       id
@@ -207,7 +199,7 @@ export default class ScreenTinygrailBid extends store {
 
     for (const item of list) {
       throttleInfo(
-        `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
+        `${list.findIndex((i: { id: any }) => item.id === i.id) + 1} / ${list.length}`
       )
 
       // 请求角色挂单信息
@@ -243,9 +235,7 @@ export default class ScreenTinygrailBid extends store {
     })
 
     for (const item of list) {
-      throttleInfo(
-        `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
-      )
+      throttleInfo(`${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`)
       await tinygrailStore.doAuctionCancel({
         id: item.id
       })

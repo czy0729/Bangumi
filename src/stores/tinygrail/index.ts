@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 13:51:39
+ * @Last Modified time: 2022-11-08 15:36:18
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -67,7 +67,7 @@ import {
   SDK,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants'
-import { ListEmpty, MonoId, StoreConstructor } from '@types'
+import { ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
 import UserStore from '../user'
 import {
   NAMESPACE,
@@ -365,14 +365,14 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 其他用户资产 */
-  userAssets(hash: string) {
+  userAssets(hash: UserId) {
     return computed<typeof INIT_ASSETS>(() => {
       return this.state.userAssets[hash] || INIT_ASSETS
     }).get()
   }
 
   /** 用户资产概览信息 */
-  charaAssets(hash: string) {
+  charaAssets(hash: UserId) {
     this.init('charaAssets')
     return computed<typeof INIT_CHARA_ASSETS>(() => {
       return this.state.charaAssets[hash] || INIT_CHARA_ASSETS
@@ -489,7 +489,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 用户圣殿 */
-  temple(hash: string = this.hash) {
+  temple(hash: UserId = this.hash) {
     this.init('temple')
     return computed<ListEmpty>(() => {
       return this.state.temple[hash] || LIST_EMPTY
@@ -497,7 +497,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 用户所有角色信息 */
-  charaAll(hash: string = this.hash) {
+  charaAll(hash: UserId = this.hash) {
     this.init('charaAll')
     return computed<ListEmpty>(() => {
       return this.state.charaAll[hash] || LIST_EMPTY
@@ -571,14 +571,14 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 检测用户有多少圣殿 */
-  templeTotal(hash: string) {
+  templeTotal(hash: UserId) {
     return computed<number>(() => {
       return this.state.templeTotal[hash] || 0
     }).get()
   }
 
   /** 检测用户有多少角色 */
-  charaTotal(hash: string) {
+  charaTotal(hash: UserId) {
     return computed<number>(() => {
       return this.state.charaTotal[hash] || 0
     }).get()
@@ -988,7 +988,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 其他用户资产信息 */
-  fetchUserAssets = async (hash: string) => {
+  fetchUserAssets = async (hash: UserId) => {
     const result = await this.fetch(API_TINYGRAIL_ASSETS(hash))
 
     let data = {
@@ -1015,7 +1015,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 用户资产概览信息 */
-  fetchCharaAssets = async (hash: string) => {
+  fetchCharaAssets = async (hash: UserId) => {
     const result = await this.fetch(API_TINYGRAIL_CHARA_ASSETS(hash))
 
     const data: any = {
@@ -1319,7 +1319,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 检测用户有多少人物 */
-  fetchCharaTotal = async (hash: string) => {
+  fetchCharaTotal = async (hash: UserId) => {
     const result = await this.fetch(API_TINYGRAIL_USER_CHARA_TOTAL(hash))
     let total = 0
     if (result.data.State === 0) {
@@ -1762,7 +1762,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 用户圣殿 */
-  fetchTemple = async (hash = this.hash) => {
+  fetchTemple = async (hash: UserId = this.hash) => {
     const result = await this.fetch(API_TINYGRAIL_TEMPLE(hash))
 
     let data = {
@@ -2716,14 +2716,12 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 卖出 */
-  doAsk = async ({ monoId, price, amount, isIce }) => {
+  doAsk = async ({ monoId, price, amount, isIce }): Promise<any> => {
     const result = await this.fetch(
       API_TINYGRAIL_ASK(monoId, price, amount, isIce),
       true
     )
-    if (result.data.State === 0) {
-      return true
-    }
+    if (result.data.State === 0) return true
     return false
   }
 

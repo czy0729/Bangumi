@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-05 15:53:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 16:46:33
+ * @Last Modified time: 2022-11-08 06:34:07
  */
 import {
   SORT_GDS,
@@ -33,7 +33,7 @@ export const tabs = [
     title: '我的拍卖',
     key: 'auction'
   }
-]
+] as const
 
 export const sortDS = [
   SORT_SC,
@@ -49,4 +49,4 @@ export const sortDS = [
   SORT_DJ,
   SORT_XFJL,
   SORT_FHL
-]
+] as const

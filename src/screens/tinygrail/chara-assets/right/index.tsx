@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:52:40
+ * @Last Modified time: 2022-11-08 15:48:35
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -11,12 +11,15 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconGo from '@tinygrail/_/icon-go'
-import { tabs } from './ds'
+import { TABS } from '../ds'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-const data = ['批量献祭', '批量出售', '批量挂卖单', '批量分享']
-const dataICO = ['批量分享']
+const DATA = ['批量献祭', '批量出售', '批量挂卖单', '批量分享'] as const
 
-function IconRight({ $ }) {
+const DATA_ICO = ['批量分享'] as const
+
+function IconRight({ $ }: Ctx) {
   const { page, editing, batchAction } = $.state
   if (editing) {
     return (
@@ -57,14 +60,14 @@ function IconRight({ $ }) {
     )
   }
 
-  const { title } = tabs[page]
+  const { title } = TABS[page]
   return (
     <Flex>
       <IconGo $={$} />
       {title !== '圣殿' && (
         <Popover
           style={styles.icon}
-          data={title === 'ICO' ? dataICO : data}
+          data={title === 'ICO' ? DATA_ICO : DATA}
           onSelect={key => {
             t('我的持仓.右上角菜单', {
               key
@@ -81,11 +84,3 @@ function IconRight({ $ }) {
 }
 
 export default ob(IconRight)
-
-const styles = _.create({
-  icon: {
-    padding: _.sm,
-    paddingTop: _.sm,
-    paddingLeft: _.xs
-  }
-})

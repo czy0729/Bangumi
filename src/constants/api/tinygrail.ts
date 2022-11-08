@@ -5,9 +5,9 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 13:52:00
+ * @Last Modified time: 2022-11-08 15:28:11
  */
-import { Id } from '@types'
+import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
 
 /** 小圣杯 api 域名 */
@@ -65,11 +65,11 @@ export const API_TINYGRAIL_LOGOUT = () => `${API_HOST_TINYGRAIL}/api/account/log
 export const API_TINYGRAIL_HASH = () => `${API_HOST_TINYGRAIL}/api/account/recommend`
 
 /** 资产信息 */
-export const API_TINYGRAIL_ASSETS = (hash?: string) =>
+export const API_TINYGRAIL_ASSETS = (hash?: UserId) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets${hash ? `/${hash}` : ''}`
 
 /** 用户资产概览信息 */
-export const API_TINYGRAIL_CHARA_ASSETS = hash =>
+export const API_TINYGRAIL_CHARA_ASSETS = (hash: UserId) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets/${hash}/true`
 
 /** 用户角色挂单信息 */
@@ -151,11 +151,11 @@ export const API_TINYGRAIL_CHARA_TEMPLE = (monoId: Id) =>
   `${API_HOST_TINYGRAIL}/api/chara/temple/${monoId}`
 
 /** 用户所有角色信息 */
-export const API_TINYGRAIL_CHARA_ALL = (hash: string) =>
+export const API_TINYGRAIL_CHARA_ALL = (hash: UserId) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/${TINYGRAIL_ASSETS_LIMIT}`
 
 /** 用户所有圣殿信息 */
-export const API_TINYGRAIL_TEMPLE = (hash: string) =>
+export const API_TINYGRAIL_TEMPLE = (hash: UserId) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/${TINYGRAIL_ASSETS_LIMIT}`
 
 /** 最近圣殿 */
@@ -259,11 +259,11 @@ export const API_TINYGRAIL_MAGIC = (
 export const API_TINYGRAIL_TOP_WEEK = () => `${API_HOST_TINYGRAIL}/api/chara/topweek`
 
 /** 检测用户有多少圣殿 */
-export const API_TINYGRAIL_USER_TEMPLE_TOTAL = (hash: string) =>
+export const API_TINYGRAIL_USER_TEMPLE_TOTAL = (hash: UserId) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/1`
 
 /** 检测用户有多少人物 */
-export const API_TINYGRAIL_USER_CHARA_TOTAL = (hash: string) =>
+export const API_TINYGRAIL_USER_CHARA_TOTAL = (hash: UserId) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/1`
 
 /** 查询 */
