@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:48:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 13:58:00
+ * @Last Modified time: 2022-11-09 06:47:53
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 
-const namespace = 'ScreenTinygrailStar'
-const excludeState = {
+const NAMESPACE = 'ScreenTinygrailStar'
+const EXCLUD_ESTATE = {
   hover: 0
 }
 
@@ -18,15 +18,15 @@ export default class ScreenTinygrailStar extends store {
     page: 1,
     limit: 100,
     label: '全局',
-    ...excludeState,
+    ...EXCLUD_ESTATE,
     _loaded: false
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUD_ESTATE,
       _loaded: true
     })
 
@@ -36,16 +36,24 @@ export default class ScreenTinygrailStar extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchStar = (page, limit) => tinygrailStore.fetchStar(page, limit)
+  /** 通天塔(α) */
+  fetchStar = (page: number, limit: number) => {
+    return tinygrailStore.fetchStar(page, limit)
+  }
 
-  fetchStarLogs = () => tinygrailStore.fetchStarLogs(1, 100)
+  /** 通天塔(α)记录 */
+  fetchStarLogs = () => {
+    return tinygrailStore.fetchStarLogs(1, 100)
+  }
 
   // -------------------- get --------------------
+  /** 通天塔(α) */
   @computed get star() {
     const { page, limit } = this.state
     return tinygrailStore.star(`${page}|${limit}`)
   }
 
+  /** 通天塔(α)记录 */
   @computed get starLogs() {
     return tinygrailStore.starLogs
   }
@@ -53,29 +61,30 @@ export default class ScreenTinygrailStar extends store {
   @computed get mergeListMap() {
     const { list } = tinygrailStore.mergeList
     const map = {}
-    list.forEach(item => (map[item.id] = item))
+    list.forEach((item: any) => (map[item.id] = item))
     return map
   }
 
   // -------------------- page --------------------
-  setHover = id =>
-    this.setState({
+  setHover = (id: number) => {
+    return this.setState({
       hover: id
     })
+  }
 
-  setPage = async (page, limit) => {
+  setPage = async (page: number, limit: number) => {
     await this.fetchStar(page, limit)
     this.setState({
       page,
       limit
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  setLabel = label => {
+  setLabel = (label: string) => {
     this.setState({
       label
     })
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 }

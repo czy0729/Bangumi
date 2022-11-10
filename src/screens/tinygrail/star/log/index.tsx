@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-05 11:31:46
+ * @Last Modified time: 2022-11-09 07:04:42
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
-import { tinygrailOSS } from '@utils/app'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 function Item(
   { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time },
-  { navigation }
+  { navigation }: Ctx
 ) {
   const styles = memoStyles()
   const rankChange = oldRank - rank
@@ -53,6 +54,7 @@ function Item(
             <Text
               style={[
                 styles.rank,
+                // eslint-disable-next-line react-native/no-inline-styles
                 {
                   backgroundColor: rank <= 500 ? '#ffc107' : '#aaa'
                 }
@@ -109,40 +111,3 @@ function Item(
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    marginBottom: _.md,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  avatar: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  rank: {
-    minWidth: 30,
-    marginLeft: _.xs,
-    color: _.__colorPlain__,
-    textShadowOffset: {
-      width: 1,
-      hegith: 1
-    },
-    textShadowRadius: 1,
-    textShadowColor: 'rgba(0, 0, 0, 0.48)',
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  change: {
-    minWidth: 30,
-    paddingHorizontal: _.xs,
-    marginLeft: _.xs,
-    color: _.__colorPlain__,
-    textShadowOffset: {
-      width: 1,
-      hegith: 1
-    },
-    textShadowRadius: 1,
-    textShadowColor: 'rgba(0, 0, 0, 0.32)',
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))

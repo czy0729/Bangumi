@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 18:20:40
+ * @Last Modified time: 2022-11-11 01:47:40
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, Text } from '@components'
+import { Flex, Image, Text, TextType } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { B, M } from '@constants'
+import { memoStyles } from './styles'
 
 const area = _.window.width * _.window.height
 
@@ -37,9 +38,9 @@ function Item({
   const ratioHeight = (h / _.window.height) * 1.2
   const showAvatar = !!icon && (w * h) / area > 0.016
   const _percent = percent * 100
-  const textSize = parseInt(9 * ratio)
+  const textSize = Math.floor(9 * ratio)
 
-  let priceText
+  let priceText: string
   if (price > B) {
     priceText = `${toFixed(price / B, 1)}亿`
   } else if (price > M) {
@@ -53,9 +54,9 @@ function Item({
     backgroundColor = _.colorTinygrailBorder
   }
 
-  let left
-  let right
-  let textColor = 'tinygrailText'
+  let left: string
+  let right: string
+  let textColor: TextType = 'tinygrailText'
   if (label === '当前涨跌') {
     right = '%'
     if (fluctuation > 0) {
@@ -80,19 +81,23 @@ function Item({
       <Popover
         data={!id ? [] : [name, 'K线', '买入', '卖出', '资产重组', '隐藏']}
         placement='auto'
-        onSelect={title =>
-          onPress({
+        onSelect={title => {
+          if (typeof onPress !== 'function') return
+
+          return onPress({
             id,
             name,
             title
           })
-        }
-        onLongPress={() =>
-          onLongPress({
+        }}
+        onLongPress={() => {
+          if (typeof onLongPress !== 'function') return
+
+          return onLongPress({
             id,
             name
           })
-        }
+        }}
       >
         <Flex
           style={[
@@ -111,22 +116,22 @@ function Item({
               style={[
                 styles.image,
                 {
-                  marginBottom: parseInt(5.6 * ratio)
+                  marginBottom: Math.floor(5.6 * ratio)
                 }
               ]}
               src={icon}
-              size={parseInt(ratioHeight * 240)}
+              size={Math.floor(ratioHeight * 240)}
               height={
-                isTemple ? parseInt(ratioHeight * 320) : parseInt(ratioHeight * 240)
+                isTemple ? Math.floor(ratioHeight * 320) : Math.floor(ratioHeight * 240)
               }
-              radius={isTemple ? 4 : parseInt(ratioHeight * 120)}
+              radius={isTemple ? 4 : Math.floor(ratioHeight * 120)}
               placeholder={false}
               quality={false}
             />
           )}
           <Text
             type='tinygrailPlain'
-            size={Math.min(parseInt(11 * ratio), 15)}
+            size={Math.min(Math.floor(11 * ratio), 15)}
             numberOfLines={1}
             bold
             selectable={false}
@@ -135,7 +140,7 @@ function Item({
           </Text>
           <Text
             style={{
-              marginTop: parseInt(3 * ratio)
+              marginTop: Math.floor(3 * ratio)
             }}
             type='tinygrailText'
             size={Math.min(textSize, 14)}
@@ -156,19 +161,4 @@ function Item({
   )
 }
 
-export default ob(Item, {
-  onPress: Function.prototype,
-  onLongPress: Function.prototype
-})
-
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    position: 'absolute',
-    borderWidth: _.tSelect(1, _.hairlineWidth),
-    borderColor: _.colorTinygrailBorder,
-    overflow: 'hidden'
-  },
-  image: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  }
-}))
+export default ob(Item)

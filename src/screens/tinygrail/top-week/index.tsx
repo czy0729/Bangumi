@@ -2,34 +2,31 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 05:20:07
+ * @Last Modified time: 2022-11-09 06:42:28
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Header, Page, ScrollView, Flex, Text, Touchable } from '@components'
+import { Header, Page, ScrollView, Flex, Text, Touchable, TextType } from '@components'
 import { Avatar, IconHeader } from '@_'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, info, tinygrailOSS } from '@utils'
 import { inject, obc } from '@utils/decorators'
-import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import { M } from '@constants'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-export default
-@inject(Store)
-@obc
 class TinygrailTopWeek extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
-  renderItem = (item, index) => {
-    const { navigation } = this.context
-    let changeColor
+  renderItem = item => {
+    const { navigation }: Ctx = this.context
+    let changeColor: TextType
     if (item.rankChange === 'new') {
       changeColor = 'warning'
     } else if (item.rankChange < 0) {
@@ -38,28 +35,28 @@ class TinygrailTopWeek extends React.Component {
       changeColor = 'bid'
     }
 
-    let extraText
+    let extraText: string
     if (item.extra > M) {
       extraText = `${formatNumber(item.extra / M, 1)}万`
     } else {
       extraText = formatNumber(item.extra, 1)
     }
 
-    let extraChangeColor
+    let extraChangeColor: TextType
     if (item.extraChange < 0) {
       extraChangeColor = 'ask'
     } else {
       extraChangeColor = 'bid'
     }
 
-    let extraChangeText
+    let extraChangeText: string
     if (item.extraChange > M) {
       extraChangeText = `${formatNumber(item.extraChange / M, 1)}万`
     } else {
       extraChangeText = formatNumber(Math.abs(item.extraChange), 1)
     }
 
-    let typeChangeColor
+    let typeChangeColor: TextType
     if (item.typeChange < 0) {
       typeChangeColor = 'ask'
     } else {
@@ -68,7 +65,7 @@ class TinygrailTopWeek extends React.Component {
 
     return (
       <View key={item.id} style={this.styles.item}>
-        <Flex style={[this.styles.wrap, index !== 0 && !_.flat && this.styles.border]}>
+        <Flex style={this.styles.wrap}>
           <Avatar
             style={this.styles.avatar}
             src={tinygrailOSS(item.avatar)}
@@ -161,7 +158,7 @@ class TinygrailTopWeek extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { list } = $.topWeek
     return (
       <>
@@ -203,34 +200,4 @@ class TinygrailTopWeek extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  wrap: {
-    paddingVertical: _.sm + 4,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorTinygrailBorder,
-    borderTopWidth: _.hairlineWidth
-  },
-  avatar: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  rank: {
-    minWidth: 20,
-    marginRight: 6,
-    color: _.__colorPlain__,
-    textShadowOffset: {
-      width: 1,
-      hegith: 1
-    },
-    textShadowRadius: 1,
-    textShadowColor: 'rgba(0, 0, 0, 0.48)',
-    backgroundColor: '#ffc107',
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-}))
+export default inject(Store)(obc(TinygrailTopWeek))

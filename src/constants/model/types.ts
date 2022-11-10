@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 05:08:29
+ * @Last Modified time: 2022-11-11 00:52:48
  */
 import { ModelValueOf } from '@types'
 import {
@@ -37,7 +37,8 @@ import {
   SUBJECT_TYPE,
   TAG_ORDERBY,
   TIMELINE_SCOPE,
-  TIMELINE_TYPE
+  TIMELINE_TYPE,
+  TINYGRAIL_CACULATE_TYPE
 } from './index'
 
 export type BrowserSort = ModelValueOf<typeof BROWSER_SORT>
@@ -130,3 +131,9 @@ export type TimeLineScope = ModelValueOf<typeof TIMELINE_SCOPE>
 export type TimeLineScopeCn = ModelValueOf<typeof TIMELINE_SCOPE, 'label'>
 
 export type TimeLineType = ModelValueOf<typeof TIMELINE_TYPE>
+
+export type TinygrailCaculateType = ModelValueOf<typeof TINYGRAIL_CACULATE_TYPE>
+export type TinygrailCaculateTypeCn = ModelValueOf<
+  typeof TINYGRAIL_CACULATE_TYPE,
+  'label'
+>

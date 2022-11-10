@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:58:00
+ * @Last Modified time: 2022-11-09 06:38:24
  */
 import React from 'react'
 import { Header, Page, ListView } from '@components'
@@ -12,22 +12,21 @@ import { refreshControlProps } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ItemTemple from '@tinygrail/_/item-temple'
 import Store from './store'
+import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-const event = {
+const EVENT = {
   id: '最近圣殿.跳转'
-}
+} as const
 
-export default
-@inject(Store)
-@obc
 class TinygrailTemples extends React.Component {
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.onHeaderRefresh()
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { _loaded } = $.templeLast
     return (
       <>
@@ -71,17 +70,12 @@ class TinygrailTemples extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingHorizontal: _.wind - _._wind,
-    paddingBottom: _.bottom
-  }
-}))
+export default inject(Store)(obc(TinygrailTemples))
 
-function keyExtractor(item) {
+function keyExtractor(item: { id: any; userId: any }) {
   return `${item.id}|${item.userId}`
 }
 
 function renderItem({ item, index }) {
-  return <ItemTemple index={index} type='view' event={event} {...item} />
+  return <ItemTemple index={index} type='view' event={EVENT} {...item} />
 }

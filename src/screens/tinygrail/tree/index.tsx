@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-03 19:16:01
+ * @Last Modified time: 2022-11-11 01:30:26
  */
 import React from 'react'
 import { Header, Page, Flex, Loading, Text } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
+import { alert, info } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { alert, info } from '@utils/ui'
 import i18n from '@constants/i18n'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
+import { Ctx } from './types'
 
 class TinygrailTree extends React.Component {
   state = {
@@ -23,7 +24,7 @@ class TinygrailTree extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     $.init()
   }
 
@@ -36,7 +37,7 @@ class TinygrailTree extends React.Component {
   }
 
   onRefresh = async () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     this.setState({
       refreshing: true
     })
@@ -51,16 +52,14 @@ class TinygrailTree extends React.Component {
   }
 
   onShowMenu = ({ id, name, title }) => {
-    if (!id) {
-      return
-    }
+    if (!id) return
 
     t('资产分析.人物菜单', {
       key: title,
       id
     })
 
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     switch (title) {
       case 'K线':
         navigation.push('TinygrailTrade', {
@@ -104,7 +103,7 @@ class TinygrailTree extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { loading, caculateType, data } = $.state
     const { refreshing } = this.state
     return (
@@ -145,10 +144,10 @@ class TinygrailTree extends React.Component {
             </Flex>
           )}
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           <ToolBar style={_.mt._sm} />
           {loading ? (
-            <Loading style={this.styles.container} color={_.colorTinygrailText} />
+            <Loading style={_.container.tinygrail} color={_.colorTinygrailText} />
           ) : (
             <Chart
               data={data}
@@ -168,17 +167,6 @@ class TinygrailTree extends React.Component {
       </>
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
 
 export default inject(Store)(obc(TinygrailTree))
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))

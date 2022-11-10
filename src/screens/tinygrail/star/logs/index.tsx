@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 11:57:53
+ * @Last Modified time: 2022-11-09 07:01:59
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -12,13 +12,13 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { refreshControlProps } from '@tinygrail/styles'
-import Label from './label'
-import Log from './log'
+import Label from '../label'
+import Log from '../log'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const width = 256 * _.ratio
+const width = _.r(256)
 
-export default
-@obc
 class Logs extends React.Component {
   state = {
     show: false,
@@ -26,7 +26,7 @@ class Logs extends React.Component {
   }
 
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     navigation.setParams({
       extra: (
         <>
@@ -77,7 +77,7 @@ class Logs extends React.Component {
   renderItem = ({ item, index }) => <Log index={index} {...item} />
 
   render() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { show, x } = this.state
     return (
       <>
@@ -151,38 +151,4 @@ class Logs extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(() => ({
-  logs: {
-    position: 'absolute',
-    zIndex: 2,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  },
-  wrap: {
-    position: 'absolute',
-    zIndex: 3,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  },
-  mask: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)'
-  },
-  list: {
-    zIndex: 4,
-    width,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  contentContainerStyle: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.md
-  },
-  segment: {
-    width: _.r(96),
-    height: _.r(28)
-  }
-}))
+export default obc(Logs)

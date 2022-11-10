@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-03-12 14:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-06 11:12:15
+ * @Last Modified time: 2022-11-09 06:50:49
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
+import { styles } from './styles'
 
-const labelDS = ['全局', '持仓']
+const LABEL_DS = ['全局', '持仓'] as const
 
-function Label({ $ }) {
+function Label({ $ }: Ctx) {
   const { label } = $.state
   return (
     <SegmentedControl
@@ -20,19 +22,11 @@ function Label({ $ }) {
       tintColor={_.colorTinygrailContainer}
       backgroundColor={_.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)}
       size={11}
-      values={labelDS}
-      selectedIndex={labelDS.findIndex(item => item === label)}
+      values={LABEL_DS}
+      selectedIndex={LABEL_DS.findIndex(item => item === label)}
       onValueChange={$.setLabel}
     />
   )
 }
 
 export default obc(Label)
-
-const styles = _.create({
-  segment: {
-    width: _.r(96),
-    height: _.r(28),
-    marginRight: _.xs
-  }
-})

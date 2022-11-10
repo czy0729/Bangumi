@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-03-02 17:57:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-12 14:06:49
+ * @Last Modified time: 2022-11-09 06:56:01
  */
 import React from 'react'
 import { Text } from '@components'
 import { obc } from '@utils/decorators'
 import Btns from '@tinygrail/_/btns'
+import { Ctx } from '../types'
 
-function ToolBar(props, { $ }) {
+function ToolBar(props, { $ }: Ctx) {
   const { page, limit } = $.state
   return (
     <Btns>

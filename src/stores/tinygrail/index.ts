@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:04:20
+ * @Last Modified time: 2022-11-09 06:45:18
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -631,7 +631,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 通天塔(α) */
-  star(monoId: MonoId) {
+  star(monoId: string) {
     this.init('star')
     return computed<ListEmpty>(() => {
       return this.state.star[monoId] || LIST_EMPTY

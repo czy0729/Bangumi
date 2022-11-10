@@ -2,40 +2,38 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:34:12
+ * @Last Modified time: 2022-11-09 07:25:11
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { toFixed } from '@utils'
+import { toFixed, info, tinygrailOSS } from '@utils'
 import store from '@utils/store'
-import { tinygrailOSS } from '@utils/app'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import treemap from '@utils/thirdParty/treemap'
-import {
-  MODEL_TINYGRAIL_ASSETS_TYPE,
-  MODEL_TINYGRAIL_CACULATE_TYPE
-} from '@constants/model'
+import { MODEL_TINYGRAIL_ASSETS_TYPE, MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants'
 import _ from '@styles'
 import { VALHALL_PRICE } from '@tinygrail/_/ds'
+import { Params } from './types'
 
 const TINYGRAIL_VALHALL_ID = 'valhalla@tinygrail.com'
 const H_TOOL_BAR = 44
-const namespace = 'ScreenTinygrailTree'
-const defaultType = MODEL_TINYGRAIL_ASSETS_TYPE.getValue('所有')
-const defaultCaculateType = MODEL_TINYGRAIL_CACULATE_TYPE.getValue('周股息')
+const NAMESPACE = 'ScreenTinygrailTree'
+const DEFAULT_TYPE = MODEL_TINYGRAIL_ASSETS_TYPE.getValue('所有')
+const DEFAULT_CACULATE_TYPE = MODEL_TINYGRAIL_CACULATE_TYPE.getValue('周股息')
 
 export default class ScreenTinygrailTree extends store {
-  @observable state = {
-    type: defaultType,
-    caculateType: defaultCaculateType,
+  params: Params
+
+  state = observable({
+    type: DEFAULT_TYPE,
+    caculateType: DEFAULT_CACULATE_TYPE,
     loading: false,
     data: [],
     filterItems: []
-  }
+  })
 
   init = async () => {
-    const state = (await this.getStorage(undefined, namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
       loading: false,
@@ -52,6 +50,7 @@ export default class ScreenTinygrailTree extends store {
     this.setState({
       loading: true
     })
+
     await this.refresh()
     this.generateTreeMap()
     this.setState({
@@ -60,21 +59,21 @@ export default class ScreenTinygrailTree extends store {
   }
 
   // -------------------- fetch --------------------
-  refresh = () => Promise.all([this.fetchCharaAssets(), this.fetchTemple()])
+  refresh = () => {
+    return Promise.all([this.fetchCharaAssets(), this.fetchTemple()])
+  }
 
+  /** 用户资产概览信息 */
   fetchCharaAssets = () => {
     const { userName } = this.params
-    if (userName === TINYGRAIL_VALHALL_ID) {
-      return tinygrailStore.fetchValhallList()
-    }
+    if (userName === TINYGRAIL_VALHALL_ID) return tinygrailStore.fetchValhallList()
     return tinygrailStore.fetchCharaAll(userName)
   }
 
+  /** 用户圣殿 */
   fetchTemple = () => {
     const { userName } = this.params
-    if (userName === TINYGRAIL_VALHALL_ID) {
-      return false
-    }
+    if (userName === TINYGRAIL_VALHALL_ID) return false
     return tinygrailStore.fetchTemple(userName)
   }
 
@@ -91,9 +90,7 @@ export default class ScreenTinygrailTree extends store {
   @computed get charaAssets() {
     const { userName } = this.params
     if (userName === TINYGRAIL_VALHALL_ID) {
-      if (this.isTemple) {
-        return []
-      }
+      if (this.isTemple) return []
       return tinygrailStore.valhallList.list
     }
 
@@ -125,15 +122,11 @@ export default class ScreenTinygrailTree extends store {
   }
 
   // -------------------- page --------------------
-  /**
-   * 生成treemap数据
-   */
+  /** 生成 treemap 数据 */
   generateTreeMap = () => {
     try {
       const list = this.charaAssets
-      if (!list.length) {
-        return
-      }
+      if (!list.length) return
 
       const {
         total = 0,
@@ -143,16 +136,14 @@ export default class ScreenTinygrailTree extends store {
         nodes
       } = this.caculate()
       if (filterCount) {
+        // @ts-ignore
         nodes.push({
           id: 0,
           icon: '',
           data: `其他${filterCount}个角色`,
 
           // 其他的占比不会大于5%
-          weight:
-            filterTotal / currentTotal > 0.05
-              ? currentTotal * 0.05
-              : filterTotal,
+          weight: filterTotal / currentTotal > 0.05 ? currentTotal * 0.05 : filterTotal,
           price: filterTotal,
           percent: filterTotal / total
         })
@@ -168,9 +159,7 @@ export default class ScreenTinygrailTree extends store {
     }
   }
 
-  /**
-   * 计算
-   */
+  /** 计算 */
   caculate = () => {
     const { caculateType, filterItems } = this.state
     const list = this.charaAssets
@@ -189,9 +178,7 @@ export default class ScreenTinygrailTree extends store {
     let filterTotal = 0 // 过滤的总值
     const nodes = _list
       .filter(item => {
-        if (!currentTotal) {
-          return true
-        }
+        if (!currentTotal) return true
 
         const value = caculateValue(item, label, this.isTemple) // 面积
 
@@ -226,9 +213,7 @@ export default class ScreenTinygrailTree extends store {
     }
   }
 
-  /**
-   * 重置
-   */
+  /** 重置 */
   reset = () => {
     this.setState({
       filterItems: []
@@ -236,13 +221,9 @@ export default class ScreenTinygrailTree extends store {
     this.generateTreeMap()
   }
 
-  /**
-   * 隐藏|显示角色
-   */
+  /** 隐藏|显示角色 */
   onToggleItem = ({ id, name }) => {
-    if (id === 0) {
-      return
-    }
+    if (id === 0) return
 
     const { filterItems } = this.state
     const index = filterItems.findIndex(item => item.id === id)
@@ -255,10 +236,8 @@ export default class ScreenTinygrailTree extends store {
     this.generateTreeMap()
   }
 
-  /**
-   * 选择范围
-   */
-  onTypeSelect = type => {
+  /** 选择范围 */
+  onTypeSelect = (type: any) => {
     t('资产分析.选择范围', {
       type
     })
@@ -268,13 +247,11 @@ export default class ScreenTinygrailTree extends store {
       filterItems: []
     })
     this.generateTreeMap()
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 选择计算类型
-   */
-  onCaculateTypeSelect = caculateType => {
+  /** 选择计算类型 */
+  onCaculateTypeSelect = (caculateType: any) => {
     t('资产分析.选择计算类型', {
       type: caculateType
     })
@@ -284,12 +261,10 @@ export default class ScreenTinygrailTree extends store {
       filterItems: []
     })
     this.generateTreeMap()
-    this.setStorage(undefined, undefined, namespace)
+    this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 隐藏低持仓
-   */
+  /** 隐藏低持仓 */
   onHideLow = () => {
     this.setState({
       filterItems: this.charaAssets.filter(
@@ -300,30 +275,39 @@ export default class ScreenTinygrailTree extends store {
   }
 }
 
-/**
- * 计算列表的总值
- * @param {*} item
- * @param {*} label
- */
-function caculateTotal(list, label, isTemple) {
+/** 计算列表的总值 */
+function caculateTotal(
+  list: any[],
+  label: string | boolean,
+  isTemple: boolean = false
+) {
   let total = 0
   try {
     list.forEach(item => {
       total += caculateValue(item, label, isTemple)
     })
-  } catch (error) {
-    // do nothing
-  }
+  } catch (error) {}
   return total
 }
 
-/**
- * 计算单项的总值
- * isTemple===false && item.sacrifices 为合并
- * @param {*} item
- * @param {*} label
- */
-function caculateValue(item, label, isTemple) {
+/** 计算单项的总值 (isTemple===false && item.sacrifices 为合并) */
+function caculateValue(
+  item: {
+    sacrifices: number
+    id: string | number
+    state: number
+    current: number
+    rate: number
+    level: number
+    marketValue: any
+    total: any
+    change: any
+    fluctuation: number
+    bonus: any
+  },
+  label: string | boolean,
+  isTemple: boolean = false
+) {
   let value = 0
   try {
     switch (label) {
@@ -334,9 +318,7 @@ function caculateValue(item, label, isTemple) {
           // 所有, 合并
           value +=
             (item.state || 0) * (item.current || VALHALL_PRICE[item.id] || 10) +
-            item.sacrifices *
-              (item.current || VALHALL_PRICE[item.id] || 10) *
-              0.5
+            item.sacrifices * (item.current || VALHALL_PRICE[item.id] || 10) * 0.5
         } else {
           value += item.state * item.current
         }
@@ -393,19 +375,25 @@ function caculateValue(item, label, isTemple) {
       default:
         break
     }
-  } catch (error) {
-    // do nothing
-  }
+  } catch (error) {}
   return value
 }
 
-/**
- * treemap加权计算
- * @param {*} nodes
- */
-function treemapSquarify(nodes) {
+/** treemap 加权计算 */
+function treemapSquarify(
+  nodes: {
+    id: any
+    icon: any
+    data: any
+    weight: number
+    price: number
+    percent: number
+    fluctuation: any
+  }[]
+) {
   const data = []
   try {
+    // @ts-ignore
     treemap.squarify(
       {
         frame: {
@@ -416,7 +404,20 @@ function treemapSquarify(nodes) {
         },
         nodes
       },
-      (x, y, w, h, node) =>
+      (
+        x: number,
+        y: number,
+        w: number,
+        h: number,
+        node: {
+          id: any
+          icon: string
+          data: any
+          price: any
+          percent: any
+          fluctuation: any
+        }
+      ) =>
         data.push({
           id: node.id,
           icon: tinygrailOSS(node.icon),
@@ -430,8 +431,6 @@ function treemapSquarify(nodes) {
           h: parseFloat(toFixed(h, 3))
         })
     )
-  } catch (error) {
-    // do nothing
-  }
+  } catch (error) {}
   return data
 }

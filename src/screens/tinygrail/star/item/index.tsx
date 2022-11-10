@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:52:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 18:23:31
+ * @Last Modified time: 2022-11-09 07:09:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Image, Flex, Text } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
-import { tinygrailOSS } from '@utils/app'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
+function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { label } = $.state
   const isDisabled = label === '持仓' && !$.mergeListMap[id]
@@ -21,24 +22,24 @@ function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
     <View>
       <Touchable withoutFeedback onPress={() => $.setHover(id)}>
         <Image
-          style={[styles.avatar, isDisabled && styles.disabled]}
+          style={isDisabled && styles.disabled}
           src={tinygrailOSS(icon, 120)}
           size={imageWidth}
           radius={0}
           fadeDuration={300}
           placeholder={false}
-          borderColor='transparent'
+          border='transparent'
         />
       </Touchable>
       {hover && (
         <Touchable
           style={styles.hover}
           useRN
-          onPress={() =>
+          onPress={() => {
             navigation.push('TinygrailSacrifice', {
               monoId: `character/${id}`
             })
-          }
+          }}
         >
           <Flex style={_.container.flex} direction='column' justify='center'>
             <Text type='__plain__' size={13} bold align='center'>
@@ -65,19 +66,3 @@ function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
 }
 
 export default obc(Item)
-
-const memoStyles = _.memoStyles(() => ({
-  disabled: {
-    opacity: 0.1
-  },
-  hover: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    padding: _.sm,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)'
-  }
-}))

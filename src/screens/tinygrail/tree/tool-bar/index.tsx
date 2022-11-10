@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 06:37:00
+ * @Last Modified time: 2022-11-11 00:56:38
  */
 import React from 'react'
 import { Flex, Text, Iconfont } from '@components'
@@ -13,18 +13,20 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { B, M } from '@constants'
 import {
+  TINYGRAIL_ASSETS_TYPE,
+  TINYGRAIL_CACULATE_TYPE,
+  TINYGRAIL_CACULATE_TEMPLE_TYPE,
   MODEL_TINYGRAIL_ASSETS_TYPE,
-  MODEL_TINYGRAIL_CACULATE_TYPE,
-  MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE
-} from '@constants/model'
+  MODEL_TINYGRAIL_CACULATE_TYPE
+} from '@constants'
+import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-const typeData = MODEL_TINYGRAIL_ASSETS_TYPE.data.map(item => item.label)
-const caculateTypeData = MODEL_TINYGRAIL_CACULATE_TYPE.data.map(item => item.label)
-const caculateTempleTypeData = MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE.data.map(
-  item => item.label
-)
+const TYPE_DATA = TINYGRAIL_ASSETS_TYPE.map(item => item.label)
+const CACULATE_TYPE_DATA = TINYGRAIL_CACULATE_TYPE.map(item => item.label)
+const CACULATE_TEMPLE_TYPE_DATA = TINYGRAIL_CACULATE_TEMPLE_TYPE.map(item => item.label)
 
-function ToolBar({ style }, { $ }) {
+function ToolBar({ style }, { $ }: Ctx) {
   const styles = memoStyles()
   const { type, caculateType, total = 0, filterItems } = $.state
   const typeLabel = MODEL_TINYGRAIL_ASSETS_TYPE.getLabel(type)
@@ -40,7 +42,7 @@ function ToolBar({ style }, { $ }) {
   return (
     <Flex style={[styles.container, style]}>
       <Flex.Item flex={0.8}>
-        <Popover data={typeData} onSelect={title => $.onTypeSelect(title)}>
+        <Popover data={TYPE_DATA} onSelect={title => $.onTypeSelect(title)}>
           <Flex style={styles.item} justify='center'>
             <Text type='warning'>{typeLabel || '范围'}</Text>
             <Text style={_.ml.xs} type='warning' size={12}>
@@ -51,7 +53,7 @@ function ToolBar({ style }, { $ }) {
       </Flex.Item>
       <Flex.Item>
         <Popover
-          data={$.isTemple ? caculateTempleTypeData : caculateTypeData}
+          data={$.isTemple ? CACULATE_TEMPLE_TYPE_DATA : CACULATE_TYPE_DATA}
           onSelect={title => $.onCaculateTypeSelect(title)}
         >
           <Flex style={styles.item} justify='center'>
@@ -113,17 +115,3 @@ function ToolBar({ style }, { $ }) {
 }
 
 export default obc(ToolBar)
-
-const memoStyles = _.memoStyles(() => ({
-  container: {
-    height: 44 * _.ratio,
-    backgroundColor: _.colorTinygrailContainer
-  },
-  item: {
-    paddingVertical: _.md - 4,
-    paddingHorizontal: _.md
-  },
-  touchable: {
-    paddingHorizontal: _.lg
-  }
-}))
