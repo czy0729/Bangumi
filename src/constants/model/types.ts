@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 00:52:48
+ * @Last Modified time: 2022-11-11 02:07:26
  */
 import { ModelValueOf } from '@types'
 import {
@@ -38,6 +38,7 @@ import {
   TAG_ORDERBY,
   TIMELINE_SCOPE,
   TIMELINE_TYPE,
+  TINYGRAIL_CACULATE_RICH_TYPE,
   TINYGRAIL_CACULATE_TYPE
 } from './index'
 
@@ -135,5 +136,13 @@ export type TimeLineType = ModelValueOf<typeof TIMELINE_TYPE>
 export type TinygrailCaculateType = ModelValueOf<typeof TINYGRAIL_CACULATE_TYPE>
 export type TinygrailCaculateTypeCn = ModelValueOf<
   typeof TINYGRAIL_CACULATE_TYPE,
+  'label'
+>
+
+export type TinygrailCaculateRichType = ModelValueOf<
+  typeof TINYGRAIL_CACULATE_RICH_TYPE
+>
+export type TinygrailCaculateRichTypeCn = ModelValueOf<
+  typeof TINYGRAIL_CACULATE_RICH_TYPE,
   'label'
 >

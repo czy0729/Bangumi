@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 07:25:11
+ * @Last Modified time: 2022-11-11 02:15:45
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -29,6 +29,7 @@ export default class ScreenTinygrailTree extends store {
     caculateType: DEFAULT_CACULATE_TYPE,
     loading: false,
     data: [],
+    total: 0,
     filterItems: []
   })
 

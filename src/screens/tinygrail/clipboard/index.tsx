@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 17:15:59
+ * @Last Modified time: 2022-11-11 04:57:12
  */
 import React from 'react'
 import { Header, Page, Flex } from '@components'
@@ -14,7 +14,6 @@ import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Btn from './btn'
 import Store from './store'
-import { memoStyles } from './styles'
 import { Ctx } from './types'
 
 class TinygrailClipboard extends React.Component {
@@ -56,16 +55,12 @@ class TinygrailClipboard extends React.Component {
             </Flex>
           )}
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           <List />
           <Btn />
         </Page>
       </>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 

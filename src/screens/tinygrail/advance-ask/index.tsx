@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 05:49:49
+ * @Last Modified time: 2022-11-11 04:59:44
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -15,7 +15,6 @@ import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
-import { memoStyles } from './styles'
 import { Ctx } from './types'
 
 class TinygrailAdvanceAsk extends React.Component {
@@ -50,7 +49,7 @@ class TinygrailAdvanceAsk extends React.Component {
             />
           )}
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           <ToolBar
             style={_.mt._sm}
             level={level}
@@ -61,10 +60,6 @@ class TinygrailAdvanceAsk extends React.Component {
         </Page>
       </>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 

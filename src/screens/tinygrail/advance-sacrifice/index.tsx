@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:19:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:13:04
+ * @Last Modified time: 2022-11-11 04:58:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,6 @@ import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Store from './store'
-import { memoStyles } from './styles'
 import { Ctx } from './types'
 
 const title = '献祭推荐'
@@ -43,15 +42,11 @@ class TinygrailAdvanceSacrifice extends React.Component {
 
   render() {
     return (
-      <View style={this.styles.container}>
+      <View style={_.container.tinygrail}>
         <StatusBarEvents />
         <List />
       </View>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 

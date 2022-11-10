@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 05:33:51
+ * @Last Modified time: 2022-11-11 05:00:23
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -14,7 +14,6 @@ import { t } from '@utils/fetch'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import { Navigation } from '@types'
 import Menus from './menus'
-import { memoStyles } from './styles'
 
 class TinygrailAdvance extends React.Component<{
   navigation: Navigation
@@ -43,15 +42,11 @@ class TinygrailAdvance extends React.Component<{
             />
           )}
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           <Menus navigation={navigation} />
         </Page>
       </>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 

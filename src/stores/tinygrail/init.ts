@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:31:57
+ * @Last Modified time: 2022-11-11 05:16:38
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -68,7 +68,8 @@ export const INIT_KLINE_ITEM = {
     //   amount: 0,
     //   price: 0
     // }
-  ]
+  ],
+  _loaded: 0
 }
 
 export const INIT_DEPTH_ITEM = {
@@ -111,6 +112,7 @@ export const INIT_USER_LOGS = {
   asks: [],
   bidHistory: [],
   bids: [],
+  sacrifices: 0,
   _loaded: 0
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 00:56:38
+ * @Last Modified time: 2022-11-11 02:16:22
  */
 import React from 'react'
 import { Flex, Text, Iconfont } from '@components'
@@ -37,7 +37,7 @@ function ToolBar({ style }, { $ }: Ctx) {
   } else if (total > M) {
     totalText = `${toFixed(total / M, 1)}万`
   } else {
-    totalText = toFixed(parseFloat(total || 0), 1)
+    totalText = toFixed(total || 0, 1)
   }
   return (
     <Flex style={[styles.container, style]}>

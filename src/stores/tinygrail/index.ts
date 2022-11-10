@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:45:18
+ * @Last Modified time: 2022-11-11 06:14:18
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -485,7 +485,11 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
 
   /** 董事会 */
   users(monoId: MonoId) {
-    return computed<ListEmpty>(() => {
+    return computed<
+      ListEmpty & {
+        total?: number
+      }
+    >(() => {
       return this.state.users[monoId] || LIST_EMPTY
     }).get()
   }
@@ -516,7 +520,11 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
 
   /** 可拍卖信息 */
   valhallChara(monoId: MonoId) {
-    return computed<ListEmpty>(() => {
+    return computed<{
+      amount: number
+      price: number
+      _loaded: number
+    }>(() => {
       return this.state.valhallChara[monoId] || {}
     }).get()
   }
@@ -1849,7 +1857,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 角色圣殿 */
-  fetchCharaTemple = async (id = 0) => {
+  fetchCharaTemple = async (id: Id = 0) => {
     const result = await this.fetch(API_TINYGRAIL_CHARA_TEMPLE(id))
 
     let data = {
@@ -1884,7 +1892,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 可拍卖信息 */
-  fetchValhallChara = async (id = 0) => {
+  fetchValhallChara = async (id: Id = 0) => {
     const result = await this.fetch(API_TINYGRAIL_VALHALL_CHARA(id))
 
     let data = {}
@@ -1908,7 +1916,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** 上周拍卖记录 */
-  fetchAuctionList = async (id = 0) => {
+  fetchAuctionList = async (id: Id = 0) => {
     const result = await this.fetch(API_TINYGRAIL_AUCTION_LIST(id))
 
     let data = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:48:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:16:56
+ * @Last Modified time: 2022-11-11 04:56:11
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -13,7 +13,6 @@ import ToolBar from '../_/tool-bar'
 import IconGo from '../_/icon-go'
 import List from './list'
 import Store, { SORT_DS } from './store'
-import { memoStyles } from './styles'
 import { Ctx } from './types'
 
 class TinygrailRelation extends React.Component {
@@ -51,16 +50,12 @@ class TinygrailRelation extends React.Component {
           statusBarEventsType='Tinygrail'
           headerRight={() => <IconGo $={$} />}
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           {this.renderContentHeaderComponent()}
           <List />
         </Page>
       </>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 

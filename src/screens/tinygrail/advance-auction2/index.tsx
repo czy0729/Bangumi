@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:03:36
+ * @Last Modified time: 2022-11-11 04:59:00
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -15,7 +15,6 @@ import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store, { sortDS } from './store'
-import { memoStyles } from './styles'
 import { Ctx } from './types'
 
 class TinygrailAdvanceAuction2 extends React.Component {
@@ -52,7 +51,7 @@ class TinygrailAdvanceAuction2 extends React.Component {
             />
           )}
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           <ToolBar
             style={_.mt._sm}
             level={level}
@@ -67,10 +66,6 @@ class TinygrailAdvanceAuction2 extends React.Component {
         </Page>
       </>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 

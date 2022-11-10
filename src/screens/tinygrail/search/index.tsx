@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:26:18
+ * @Last Modified time: 2022-11-11 04:55:10
  */
 import React from 'react'
 import { Header, Page, Flex } from '@components'
@@ -34,7 +34,7 @@ class TinygrailSearch extends React.Component {
           statusBarEvents={false}
           statusBarEventsType='Tinygrail'
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           <Flex style={this.styles.searchBar}>
             <SearchBar />
           </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 18:46:34
+ * @Last Modified time: 2022-11-11 06:29:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,20 +19,20 @@ import { memoStyles } from './styles'
 
 function ItemTemple(
   {
-    style,
-    id,
+    style = undefined,
+    id = undefined,
     assets,
     avatar,
     cover,
-    event = EVENT,
+    event,
     level,
     name,
-    rank,
+    rank = undefined,
     nickname,
     sacrifices,
-    type,
-    userId,
-    onPress
+    type = undefined,
+    userId = undefined,
+    onPress = undefined
   },
   {
     navigation
@@ -42,7 +42,7 @@ function ItemTemple(
 ) {
   const styles = memoStyles()
   const { avatarRound, coverRadius } = systemStore.setting
-  const { id: eventId, data: eventData } = event
+  const { id: eventId, data: eventData } = event || EVENT
   const isView = type === 'view' // 后来加的最近圣殿
   const _name = HTMLDecode(nickname || name)
 

@@ -1,16 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2022-11-09 06:32:58
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-11-09 06:32:58
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2022-11-11 04:54:37
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  },
   item: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 16:36:06
+ * @Last Modified time: 2022-11-11 04:56:47
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -127,7 +127,7 @@ class TinygrailItems extends React.Component {
           statusBarEvents={false}
           statusBarEventsType='Tinygrail'
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           {this.renderList()}
           {this.renderModal()}
         </Page>

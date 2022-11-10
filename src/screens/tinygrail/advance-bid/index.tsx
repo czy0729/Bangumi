@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:16:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:10:17
+ * @Last Modified time: 2022-11-11 04:58:27
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -16,7 +16,6 @@ import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
 import { Ctx } from './types'
-import { memoStyles } from './styles'
 
 class TinygrailAdvanceBid extends React.Component {
   componentDidMount() {
@@ -50,7 +49,7 @@ class TinygrailAdvanceBid extends React.Component {
             />
           )}
         />
-        <Page style={this.styles.container}>
+        <Page style={_.container.tinygrail}>
           <ToolBar
             style={_.mt._sm}
             level={level}
@@ -61,10 +60,6 @@ class TinygrailAdvanceBid extends React.Component {
         </Page>
       </>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 

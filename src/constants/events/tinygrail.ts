@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:43:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-11 04:44:36
+ * @Last Modified time: 2022-11-11 05:39:35
  */
 
 /** Tinygrail */
@@ -105,6 +105,7 @@ export default {
   '资产重组.展开收起董事会': 'TSacrifice.toggleUsers',
   '资产重组.测试效率': 'TSacrifice.doTestSacrifice',
   '资产重组.灌注星之力': 'TSacrifice.doStarForces',
+  '资产重组.使用道具': 'TSacrifice.doUse',
 
   // 人物直达
   '人物直达.跳转': 'TSearch.to',
