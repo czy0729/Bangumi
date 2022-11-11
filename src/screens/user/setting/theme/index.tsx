@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 16:01:45
+ * @Last Modified time: 2022-11-12 05:18:26
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, Heatmap } from '@components'
@@ -63,6 +63,10 @@ function Theme({ navigation, filter }) {
                     navigation
                   })
                 }, 0)
+
+                setTimeout(() => {
+                  if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+                }, 40)
               }}
               {...TEXTS.theme.light}
             >
@@ -90,6 +94,10 @@ function Theme({ navigation, filter }) {
                     navigation
                   })
                 }, 0)
+
+                setTimeout(() => {
+                  if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+                }, 40)
               }}
               {...TEXTS.theme.deepDark}
             >
@@ -117,6 +125,10 @@ function Theme({ navigation, filter }) {
                     navigation
                   })
                 }, 0)
+
+                setTimeout(() => {
+                  if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+                }, 40)
               }}
               {...TEXTS.theme.dark}
             >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 14:06:33
+ * @Last Modified time: 2022-11-12 05:20:09
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -57,7 +57,13 @@ function Auth(props, { $, navigation }: Ctx) {
             name={_.tSelect('md-brightness-2', 'md-brightness-5')}
             color={_.colorTinygrailPlain}
             size={18}
-            onPress={_.toggleTinygrailThemeMode}
+            onPress={() => {
+              _.toggleTinygrailThemeMode()
+
+              setTimeout(() => {
+                if (_.tinygrailThemeMode !== _.mode) _.toggleMode()
+              }, 40)
+            }}
           />
         </Flex>
       </Flex.Item>

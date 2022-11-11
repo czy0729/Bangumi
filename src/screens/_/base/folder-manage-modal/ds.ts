@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 13:37:23
+ * @Last Modified time: 2022-11-12 04:33:34
  */
 import { _ } from '@stores'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 export const STORAGE_KEY = 'FolderManageModal|expand'
 
-export const WIDTH = (IMG_WIDTH / 1.6) * _.ratio
+export const WIDTH = _.r(IMG_WIDTH / 1.5)
 
-export const HEIGHT = (IMG_HEIGHT / 1.6) * _.ratio
+export const HEIGHT = _.r(IMG_HEIGHT / 1.5)
 
 export const CONTROL_DS = {
   root: ['修改', '删除'],
