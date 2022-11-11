@@ -45,6 +45,7 @@ import {
   calendarGetEventsAsync
 } from '@utils/calendar'
 import {
+  DEV,
   IOS,
   MODEL_COLLECTIONS_ORDERBY,
   MODEL_COLLECTION_STATUS,
@@ -96,7 +97,7 @@ export default class ScreenHomeV2 extends store {
 
   /** 初始化 */
   init = async () => {
-    if (inited) return
+    if (inited && !DEV) return
 
     if (this.isLogin) {
       inited = true
@@ -238,7 +239,7 @@ export default class ScreenHomeV2 extends store {
   }
 
   /** -------------------- computed -------------------- */
-  /** <Tabs> data */
+  /** Tabs data */
   @computed get tabs() {
     const { showGame } = systemStore.setting
     return showGame ? TABS_WITH_GAME : TABS
@@ -284,13 +285,13 @@ export default class ScreenHomeV2 extends store {
     return userStore.usersInfo(this.myUserId)
   }
 
-  /** 当前 <Tabs> label */
+  /** 当前 Tabs label */
   @computed get tabsLabel() {
     const { page } = this.state
     return this.tabs[page].title
   }
 
-  /** 每个 <Item> 的状态 */
+  /** 每个 Item 的状态 */
   $Item(subjectId: SubjectId) {
     return computed(() => this.state.item[subjectId] || INIT_ITEM).get()
   }
@@ -317,6 +318,7 @@ export default class ScreenHomeV2 extends store {
     return userStore.collection
   }
 
+  /** 过滤条件文字 */
   @computed get filter() {
     const { filter } = this.state
 
@@ -419,7 +421,7 @@ export default class ScreenHomeV2 extends store {
             .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
         }
 
-        // APP顺序
+        // APP 顺序
         list.forEach(item => {
           const { subject_id: subjectId } = item
           const progress = this.userProgress(subjectId)

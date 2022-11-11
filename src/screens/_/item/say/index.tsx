@@ -7,8 +7,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, RenderHtml, UserStatus } from '@components'
-import { _ } from '@stores'
-import { appNavigate } from '@utils/app'
+import { _, systemStore } from '@stores'
+import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Avatar, Name } from '../../base'
@@ -34,6 +34,7 @@ export const ItemSay = obc(
     { navigation }
   ) => {
     const styles = memoStyles()
+    const { coverRadius } = systemStore.setting
     if (position === 'right') {
       return (
         <Flex key={index} style={showName ? _.mt.md : _.mt.sm} align='start'>
@@ -54,7 +55,15 @@ export const ItemSay = obc(
               </View>
             </Flex>
           </Flex.Item>
-          <Flex style={styles.avatarWrapRight} justify='center'>
+          <Flex
+            style={[
+              styles.avatarWrapRight,
+              {
+                borderRadius: coverRadius + 4
+              }
+            ]}
+            justify='center'
+          >
             <UserStatus userId={id}>
               <Avatar
                 navigation={navigation}
@@ -63,7 +72,6 @@ export const ItemSay = obc(
                 userId={id}
                 name={name}
                 borderWidth={0}
-                round
                 event={event}
               />
             </UserStatus>
@@ -74,7 +82,15 @@ export const ItemSay = obc(
 
     return (
       <Flex key={index} style={showName ? _.mt.md : _.mt.sm} align='start'>
-        <Flex style={styles.avatarWrapLeft} justify='center'>
+        <Flex
+          style={[
+            styles.avatarWrapLeft,
+            {
+              borderRadius: coverRadius + 4
+            }
+          ]}
+          justify='center'
+        >
           <UserStatus userId={id}>
             <Avatar
               navigation={navigation}
@@ -82,7 +98,6 @@ export const ItemSay = obc(
               size={34}
               userId={id}
               name={name}
-              round
               borderWidth={0}
               event={event}
               onLongPress={onLongPress}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 07:13:44
+ * @Last Modified time: 2022-11-11 07:24:27
  */
 import React from 'react'
 import { BackHandler, View, StatusBar } from 'react-native'
@@ -574,7 +574,7 @@ class CharactersModal extends React.Component<{
 
   @computed get right() {
     const { title } = this.props
-    if (!title || this.isChaos) return null
+    if (!title || this.isChaos) return false
 
     const { search, leftItem, rightValue, isTemple } = this.state
     if (search) {
@@ -700,6 +700,10 @@ class CharactersModal extends React.Component<{
   }
 
   @computed get computedRight() {
+    if (!this.right) {
+      return this.right
+    }
+
     const { rightFilter } = this.state
     if (!rightFilter || !this.right?.list?.length) {
       return this.right
@@ -707,12 +711,12 @@ class CharactersModal extends React.Component<{
 
     return {
       ...this.right,
-      list: this.right.list.filter(item => lv(item) == rightFilter)
+      list: this.right?.list.filter(item => lv(item) == rightFilter)
     }
   }
 
   @computed get rightLevelMap() {
-    const { list } = this.right
+    const { list } = this.right || {}
     const data = {}
 
     try {
@@ -973,7 +977,7 @@ class CharactersModal extends React.Component<{
               </Text>
             )}
           </Flex.Item>
-          {this.right !== null && (
+          {this.right !== false && (
             <Flex.Item style={_.ml.sm}>
               {rightItem ? (
                 <ItemBottom

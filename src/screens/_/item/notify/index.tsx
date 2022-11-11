@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-08 16:58:04
  */
 import React from 'react'
-import { Flex, Text, UserStatus } from '@components'
+import { Flex, Text, Touchable, UserStatus } from '@components'
 import { _, timelineStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
@@ -55,34 +55,34 @@ export const ItemNotify = ob(
           <Name userId={userId} showFriend size={13} type='title' bold>
             {userName}
           </Name>
-          <Text style={_.mt.xs} lineHeight={1.8}>
-            {message}
-            <Text
-              lineHeight={1.8}
-              type='main'
-              bold
-              onPress={() => {
-                appNavigate(
-                  href,
-                  navigation,
-                  {
-                    _title: title
-                  },
-                  event
-                )
-              }}
-            >
-              {title}
+          <Touchable
+            style={_.mt.xs}
+            onPress={() => {
+              appNavigate(
+                href,
+                navigation,
+                {
+                  _title: title
+                },
+                event
+              )
+            }}
+          >
+            <Text lineHeight={18}>
+              {message}
+              <Text lineHeight={18} type='main' bold>
+                {title}
+              </Text>
+              {message2}
+              {!!repeat && <Text lineHeight={18} bold>{`  x ${repeat + 1}`}</Text>}
             </Text>
-            {message2}
-            {!!repeat && <Text lineHeight={1.8} bold>{`  x ${repeat + 1}`}</Text>}
-          </Text>
+          </Touchable>
           {!!sayTitle && (
             <Text
               style={styles.desc}
               type='sub'
               size={11}
-              lineHeight={1.8}
+              lineHeight={18}
               numberOfLines={1}
             >
               描述：{sayTitle}

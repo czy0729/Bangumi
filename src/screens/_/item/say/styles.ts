@@ -14,8 +14,7 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: 0,
     width: 40,
     height: 40,
-    backgroundColor: _.colorBg,
-    borderRadius: 20
+    backgroundColor: _.colorBg
   },
   avatarWrapRight: {
     position: 'absolute',
@@ -24,8 +23,7 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: 0,
     width: 40,
     height: 40,
-    backgroundColor: _.colorBg,
-    borderRadius: 20
+    backgroundColor: _.colorBg
   },
   contentLeft: {
     maxWidth: '88%',
