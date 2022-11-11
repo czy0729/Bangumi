@@ -18,9 +18,7 @@ export default SceneMap(
     {},
     ...ROUTES.map((item, index) => ({
       [item.key]: () => {
-        if (!IOS) {
-          return <List title={item.title} />
-        }
+        if (!IOS) return <List title={item.title} />
 
         return (
           <>

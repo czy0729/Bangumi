@@ -57,26 +57,26 @@ class List extends React.Component<{
   renderItem = ({ item, index }) => {
     const { $, navigation }: Ctx = this.context
     const { scope, title } = this.props
-    const event = {
+    const EVENT = {
       id: '时间胶囊.跳转',
       data: {
         scope,
         title
       }
-    }
+    } as const
 
     return (
-      <ItemTimeline
-        style={_.container._item}
-        navigation={navigation}
-        index={index}
-        {...item}
-        event={event}
-        onDelete={$.doDelete}
-        onHidden={$.onHidden}
-      >
-        <ItemHeatmaps index={index} />
-      </ItemTimeline>
+      <>
+        <ItemTimeline
+          style={_.container._item}
+          navigation={navigation}
+          {...item}
+          event={EVENT}
+          onDelete={$.doDelete}
+          onHidden={$.onHidden}
+        />
+        {index === 1 && <ItemHeatmaps />}
+      </>
     )
   }
 
