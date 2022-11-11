@@ -7,3 +7,5 @@
 export const D1_TS = 24 * 60 * 60
 
 export const D3_TS = 3 * D1_TS
+
+export const D7_TS = 7 * D1_TS

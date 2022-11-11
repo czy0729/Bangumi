@@ -16,3 +16,5 @@ export type Ctx = {
   $: StoreType
   navigation?: Navigation
 }
+
+export type Keys = 'anime' | 'hanime' | 'manga' | 'wenku' | 'music' | 'game' | 'real'

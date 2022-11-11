@@ -37,5 +37,8 @@ export const memoStyles = _.memoStyles(() => ({
   },
   badgeWarning: {
     backgroundColor: _.colorWarning
+  },
+  badgeDisabled: {
+    backgroundColor: _.colorDisabled
   }
 }))

@@ -12,7 +12,7 @@ import { getTimestamp } from '@utils'
 import { systemStore, userStore } from '@stores'
 import { Flex } from '../flex'
 import { getUserStatus } from './utils'
-import { D1_TS, D3_TS } from './ds'
+import { D1_TS, D3_TS, D7_TS } from './ds'
 import { memoStyles } from './styles'
 import { Props as UserStatusProps } from './types'
 
@@ -26,7 +26,7 @@ export const UserStatus = observer(
 
     const ts = getTimestamp()
     const distance = ts - lastTS
-    if (distance > D3_TS) return children
+    if (distance > D7_TS) return children
 
     const styles = memoStyles()
     return (
@@ -42,7 +42,9 @@ export const UserStatus = observer(
             style={[
               styles.badge,
               mini && styles.badgeMini,
-              distance >= D1_TS && styles.badgeWarning
+              distance >= D3_TS
+                ? styles.badgeDisabled
+                : distance >= D1_TS && styles.badgeWarning
             ]}
           />
         </Flex>
