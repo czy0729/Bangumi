@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 04:10:20
+ * @Last Modified time: 2022-11-12 05:23:26
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
+import * as Device from 'expo-device'
 import { PAD, RATIO } from '../device'
+
+/** 设备名字 */
+export const DEVICE_MODEL_NAME = Device.modelName
 
 /** 方向垂直 */
 export const ORIENTATION_PORTRAIT = 'PORTRAIT'

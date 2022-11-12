@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:53:05
+ * @Last Modified time: 2022-11-13 04:33:23
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -12,6 +12,7 @@ import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { getStorage, setStorage, open } from '@utils'
 import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
+import { BlurView } from '../@/ant-design/modal/blur-view'
 import { Text } from '../text'
 import { Bgm } from '../bgm'
 import { Flex } from '../flex'
@@ -48,7 +49,7 @@ export const FixedTextarea = observer(
       replyHistory: []
     }
 
-    ref
+    ref: { textAreaRef: any }
 
     selection = {
       start: this.props.value.length,
@@ -58,7 +59,7 @@ export const FixedTextarea = observer(
     async componentDidMount() {
       try {
         const showSource = (await getStorage(`${NAMESPACE}|showSource`)) || false
-        const history = (await getStorage(NAMESPACE)) || '15' // 15就是bgm38
+        const history = (await getStorage(NAMESPACE)) || '15' // 15 就是 bgm38
         const bgmHistory = history
           .split(',')
           .filter(item => item !== '')
@@ -75,7 +76,7 @@ export const FixedTextarea = observer(
       }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: { value: any }) {
       const { value } = nextProps
       if (value !== this.state.value) {
         this.setState({
@@ -84,7 +85,7 @@ export const FixedTextarea = observer(
       }
     }
 
-    connectRef = ref => (this.ref = ref)
+    connectRef = (ref: { textAreaRef: any }) => (this.ref = ref)
 
     onRefBlur = () => {
       try {
@@ -94,7 +95,7 @@ export const FixedTextarea = observer(
       } catch (error) {}
     }
 
-    onToggle = (isOpen, keyboardHeight) => {
+    onToggle = (isOpen: boolean, keyboardHeight: number) => {
       if (isOpen) {
         this.setState({
           showKeyboardSpacer: true,
@@ -135,7 +136,7 @@ export const FixedTextarea = observer(
       }, 0)
     }
 
-    onChange = value => {
+    onChange = (value: string) => {
       const { onChange } = this.props
       onChange(value)
 
@@ -155,13 +156,13 @@ export const FixedTextarea = observer(
       })
     }
 
-    onSelectionChange = event => {
+    onSelectionChange = (event: { nativeEvent: any }) => {
       const { nativeEvent } = event
       this.selection = nativeEvent.selection
     }
 
     // @todo 暂时没有对选择了一段文字的情况做判断
-    onAddSymbolText = symbol => {
+    onAddSymbolText = (symbol: string) => {
       this.textAreaFocus()
 
       try {
@@ -187,12 +188,12 @@ export const FixedTextarea = observer(
     }
 
     // 选择bgm表情
-    onSelectBgm = bgmIndex => {
+    onSelectBgm = (bgmIndex: number) => {
       const { value } = this.state
       const index = this.getSelection()
 
       // 插入值, 如(bgm38), bgm名称跟文件名偏移量是23
-      const left = `${value.slice(0, index)}(bgm${parseInt(bgmIndex) + 23})`
+      const left = `${value.slice(0, index)}(bgm${Number(bgmIndex) + 23})`
       const right = `${value.slice(index)}`
       this.setState({
         value: `${left}${right}`
@@ -240,7 +241,7 @@ export const FixedTextarea = observer(
     }
 
     // 设定光标位置
-    setSelection = start => {
+    setSelection = (start: number) => {
       const { textAreaRef } = this.ref
       setTimeout(() => {
         try {
@@ -294,7 +295,7 @@ export const FixedTextarea = observer(
     }
 
     // 本地化最近使用bgm
-    setRecentUseBgm = async bgmIndex => {
+    setRecentUseBgm = async (bgmIndex: number) => {
       let history = [...this.state.history]
       if (history.includes(bgmIndex)) {
         history = history.filter(item => item !== bgmIndex)
@@ -313,7 +314,7 @@ export const FixedTextarea = observer(
     }
 
     // 本地化最近的回复
-    setReplyHistory = async value => {
+    setReplyHistory = async (value: string) => {
       let replyHistory = [...this.state.replyHistory]
       if (replyHistory.includes(value)) {
         replyHistory = replyHistory.filter(item => item !== value)
@@ -537,7 +538,6 @@ export const FixedTextarea = observer(
                 onChange={this.onChange}
                 onSelectionChange={this.onSelectionChange}
               />
-              <View style={this.styles.fixedTextareaBorderBottom} />
             </Flex.Item>
             <Touchable style={this.styles.touchSend} onPress={this.onSubmit}>
               <Flex style={this.styles.send} justify='center'>
@@ -642,14 +642,14 @@ export const FixedTextarea = observer(
       return (
         <>
           {this.renderMask()}
-          <View style={this.styles.container}>
+          <BlurView style={this.styles.container}>
             <>
               {children}
               {this.renderToolBar()}
               {this.renderTextarea()}
               {this.renderContent()}
             </>
-          </View>
+          </BlurView>
           {!showKeyboardSpacer && (
             <View style={this.styles.hide}>
               <KeyboardSpacer onToggle={this.onToggle} />

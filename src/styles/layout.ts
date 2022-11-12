@@ -10,7 +10,7 @@ import Constants from 'expo-constants'
 import { IOS } from '@constants/constants'
 import { WSA, PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from '@constants/device'
 
-export const IS_IOS_5_6_7_8 = /iPhone (5|6|7|8).+?/gi.test(Device.modelName)
+export const IS_IOS_5_6_7_8 = !!String(Device.modelName).match(/iPhone (5|6|7|8|SE)/gi)
 
 // -------------------- 设备 --------------------
 /** 是否平板 */

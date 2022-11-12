@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 03:56:30
+ * @Last Modified time: 2022-11-12 05:23:34
  */
 import React, { useState } from 'react'
-import * as Device from 'expo-device'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
 import { IconTouchable, NavigationBarEvents } from '@_'
 import { _, systemStore, userStore } from '@stores'
@@ -36,6 +35,7 @@ import Storage from './storage'
 import System from './system'
 import DangerZone from './danger-zone'
 import { styles } from './styles'
+import { DEVICE_MODEL_NAME } from '@constants'
 
 const Setting = ({ navigation }: NavigationProps) => {
   const [filter, setFilter] = useState('')
@@ -95,7 +95,7 @@ const Setting = ({ navigation }: NavigationProps) => {
             </Block>
             {!!ts?.[0] && (
               <Text style={_.mt.xs} size={10} type='icon' bold align='center'>
-                last logged on: {date('y-m-d H:i', ts[0])}, {Device.modelName}
+                last logged on: {date('y-m-d H:i', ts[0])}, {DEVICE_MODEL_NAME}
               </Text>
             )}
             <Flex style={_.mt.lg} justify='center'>

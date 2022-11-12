@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-04 13:33:56
+ * @Last Modified time: 2022-11-12 05:32:36
  */
 import { observable, computed } from 'mobx'
 import {
@@ -46,6 +46,7 @@ import {
 } from '@utils/calendar'
 import {
   DEV,
+  DEVICE_MODEL_NAME,
   IOS,
   MODEL_COLLECTIONS_ORDERBY,
   MODEL_COLLECTION_STATUS,
@@ -55,7 +56,8 @@ import {
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SUBJECT_TYPE,
   SITES_DS,
-  SITE_AGEFANS
+  SITE_AGEFANS,
+  VERSION_GITHUB_RELEASE
 } from '@constants'
 import {
   CollectionStatus,
@@ -88,6 +90,7 @@ import {
   TABS_WITH_GAME
 } from './ds'
 import { TabLabel } from './types'
+import { update } from '@utils/kv'
 
 /** 是否初始化 */
 let inited: boolean
@@ -100,6 +103,7 @@ export default class ScreenHomeV2 extends store {
     if (inited && !DEV) return
 
     if (this.isLogin) {
+      this.initUser()
       inited = true
 
       await this.initStore()
@@ -160,6 +164,19 @@ export default class ScreenHomeV2 extends store {
     if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
 
     return false
+  }
+
+  /** 注册设备名 */
+  initUser = () => {
+    if (inited) return
+
+    setTimeout(() => {
+      if (!this.userId || !DEVICE_MODEL_NAME) return false
+      update(`u_${this.userId}`, {
+        d: DEVICE_MODEL_NAME,
+        v: VERSION_GITHUB_RELEASE
+      })
+    }, 8000)
   }
 
   /** -------------------- fetch -------------------- */

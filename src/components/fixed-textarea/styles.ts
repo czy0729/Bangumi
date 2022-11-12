@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:33:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 20:17:37
+ * @Last Modified time: 2022-11-13 04:34:01
  */
 import { _ } from '@stores'
 
@@ -14,7 +14,8 @@ export const memoStyles = _.memoStyles(() => ({
     left: 0
   },
   mask: {
-    height: _.window.height
+    height: _.window.height,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   container: {
     position: 'absolute',
@@ -25,9 +26,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingTop: 2,
     paddingBottom: _.ios(20, 0),
     marginBottom: -1,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderTopWidth: _.select(_.hairlineWidth, 0),
-    borderTopColor: _.colorBorder
+    backgroundColor: 'transparent',
+    border: 0,
+    borderRadius: 0
   },
   toolBar: {
     paddingVertical: _.sm,
@@ -55,7 +56,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.sm
   },
   textareaContainer: {
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.wind,
+    border: 0,
+    borderBottomColor: 'transparent'
   },
   textarea: {
     minHeight: 48,
@@ -66,14 +69,7 @@ export const memoStyles = _.memoStyles(() => ({
     color: _.colorDesc,
     fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-  },
-
-  // TextareaItem 下方有一根白色线修复不了, 用这个遮着
-  fixedTextareaBorderBottom: {
-    height: 2,
-    marginTop: -1,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+    backgroundColor: 'transparent'
   },
   touchSend: {
     marginTop: _.ios(8, 4),
