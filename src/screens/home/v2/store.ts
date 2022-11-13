@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-12 05:32:36
+ * @Last Modified time: 2022-11-13 05:39:22
  */
+import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
 import {
   calendarStore,
@@ -173,7 +174,12 @@ export default class ScreenHomeV2 extends store {
     setTimeout(() => {
       if (!this.userId || !DEVICE_MODEL_NAME) return false
       update(`u_${this.userId}`, {
-        d: DEVICE_MODEL_NAME,
+        b: Device.brand,
+        y: Device.deviceYearClass,
+        i: Device.modelId,
+        d: Device.modelName,
+        o: Device.osVersion,
+        m: Device.totalMemory,
         v: VERSION_GITHUB_RELEASE
       })
     }, 8000)

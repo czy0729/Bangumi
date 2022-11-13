@@ -1,0 +1,15 @@
+diff --git a/node_modules/@ant-design/react-native/lib/textarea-item/style/index.js b/node_modules/@ant-design/react-native/lib/textarea-item/style/index.js
+index 4730fb7..9082ed1 100644
+--- a/node_modules/@ant-design/react-native/lib/textarea-item/style/index.js
++++ b/node_modules/@ant-design/react-native/lib/textarea-item/style/index.js
+@@ -9,8 +9,8 @@ var _reactNative = require('react-native');
+ exports['default'] = function (theme) {
+     return _reactNative.StyleSheet.create({
+         container: {
+-            borderBottomWidth: theme.border_width_sm,
+-            borderBottomColor: theme.border_color_base
++            borderBottomWidth: 0,
++            borderBottomColor: 'transparent'
+         },
+         input: {
+             paddingHorizontal: theme.h_spacing_md,

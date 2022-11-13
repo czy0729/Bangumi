@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 18:23:54
+ * @Last Modified time: 2022-11-13 05:34:17
  */
 import React from 'react'
-import { ActivityIndicator, Animated, Text, View, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, Animated, View, TouchableOpacity } from 'react-native'
 import Icon, { IconNames } from '@ant-design/react-native/lib/icon'
 import { WithTheme, WithThemeStyles } from '@ant-design/react-native/lib/style'
 import ToastStyles, { ToastStyle } from '@ant-design/react-native/lib/toast/style/index'
 import { getThemeStoreAsync } from '@utils/async'
+import { BlurView } from './blur-view'
+import { Desc } from './desc'
 
 export interface ToastProps extends WithThemeStyles<ToastStyle> {
   content: string
@@ -86,6 +88,8 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
     return (
       <WithTheme styles={this.props.styles} themeStyles={ToastStyles}>
         {styles => {
+          const _ = getThemeStoreAsync()
+
           const iconType: {
             [key: string]: IconNames
           } = {
@@ -100,7 +104,7 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
               <ActivityIndicator
                 animating
                 style={styles.centering}
-                color='white'
+                color={_.isDark ? 'white' : 'gray'}
                 size='large'
               />
             )
@@ -111,13 +115,12 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
               <Icon
                 style={styles.image}
                 name={iconType[type]}
-                color='white'
+                color={_.isDark ? 'white' : 'gray'}
                 size={36}
               />
             )
           }
 
-          const themeStore = getThemeStoreAsync()
           return (
             <View
               style={styles.container}
@@ -133,28 +136,15 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
                     opacity: this.state.fadeAnim
                   }}
                 >
-                  <View
+                  <BlurView
                     style={[
                       styles.innerWrap,
-                      iconDom ? styles.iconToast : styles.textToast,
-                      themeStore.deepDark && {
-                        backgroundColor: themeStore._colorDarkModeLevel2
-                      },
-                      themeStore.deepDark &&
-                        type === 'loading' && {
-                          backgroundColor: themeStore._colorDarkModeLevel1
-                        }
+                      iconDom ? styles.iconToast : styles.textToast
                     ]}
                   >
                     {iconDom}
-                    <Text
-                      style={[themeStore.fontStyle, styles.content]}
-                      textBreakStrategy='simple'
-                      numberOfLines={0}
-                    >
-                      {content}
-                    </Text>
-                  </View>
+                    <Desc style={styles.content}>{content}</Desc>
+                  </BlurView>
                 </Animated.View>
               </TouchableOpacity>
             </View>
