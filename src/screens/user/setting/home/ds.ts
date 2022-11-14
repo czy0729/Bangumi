@@ -6,6 +6,13 @@
  */
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 
+export const HOME_COUNT_VIEW = {
+  A: '4 / 12',
+  B: '4 / 6 (12)',
+  C: '4 / 12 (6)',
+  D: '4 / 6 / 12'
+}
+
 export const HOME_SORTING_INFORMATION = {
   APP: '未看 > 放送中 > 明天 > 本季 > 网页',
   放送: '放送中 > 明天放送 > 网页',
@@ -33,6 +40,11 @@ export const TEXTS = {
     hd: '封面形状',
     information: '开启网格布局时条目封面形状',
     search: SETTING_HOME_GRID_COVER_LAYOUT.map(item => item.label).join()
+  },
+  homeCountView: {
+    title: '放送数字显示',
+    information: '自定义显示组合\n例：4 代表看到，6 代表已放送，12 代表总集数',
+    search: HOME_COUNT_VIEW
   },
   homeSorting: {
     title: '排序',

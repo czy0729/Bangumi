@@ -27,6 +27,7 @@ import {
   SEARCH_LEGACY,
   SETTING_CDN_ORIGIN,
   SETTING_FONTSIZEADJUST,
+  SETTING_HOME_COUNT_VIEW,
   SETTING_HOME_GRID_COVER_LAYOUT,
   SETTING_HOME_LAYOUT,
   SETTING_HOME_SORTING,
@@ -102,6 +103,13 @@ export type SettingHomeGridCoverLayoutCn = ModelValueOf<
   typeof SETTING_HOME_GRID_COVER_LAYOUT,
   'label'
 >
+
+export type SettingHomeCountView = ModelValueOf<typeof SETTING_HOME_COUNT_VIEW>
+export type SettingHomeCountViewCn = ModelValueOf<
+  typeof SETTING_HOME_COUNT_VIEW,
+  'label'
+>
+
 export type SettingHomeSorting = ModelValueOf<typeof SETTING_HOME_SORTING>
 export type SettingHomeSortingCn = ModelValueOf<typeof SETTING_HOME_SORTING, 'label'>
 

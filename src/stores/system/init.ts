@@ -6,6 +6,7 @@
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
+  MODEL_SETTING_HOME_COUNT_VIEW,
   MODEL_SETTING_HOME_GRID_COVER_LAYOUT,
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
@@ -18,6 +19,7 @@ import {
 import { radiusMd } from '@styles'
 import {
   SettingCDNOrigin,
+  SettingHomeCountView,
   SettingHomeGridCoverLayout,
   SettingHomeLayout,
   SettingHomeSorting,
@@ -175,7 +177,7 @@ export const INIT_SETTING = {
   /** @deprecated 图片渐出 */
   imageTransition: false,
 
-  /** @deprecated [已废弃] iOS风格弹出菜单 */
+  /** @deprecated [已废弃] iOS 风格弹出菜单 */
   iosMenu: false,
 
   /** @deprecated [已废弃] 首页收藏阴影 */
@@ -187,7 +189,7 @@ export const INIT_SETTING = {
   /** 点击水纹效果 (android) */
   ripple: false,
 
-  /** Bangumi娘话语 */
+  /** Bangumi 娘话语 */
   speech: true,
 
   /** 震动反馈 */
@@ -235,7 +237,7 @@ export const INIT_SETTING = {
   /** 首页已放送章节看完条目下沉 */
   homeSortSink: true,
 
-  /** 首页Tabs项 */
+  /** 首页 Tabs 项 */
   homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'],
 
   /** 首页收藏布局 */
@@ -244,6 +246,9 @@ export const INIT_SETTING = {
   /** 首页收藏网格布局时，条目封面形状 */
   homeGridCoverLayout:
     MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getValue<SettingHomeGridCoverLayout>('正方形'),
+
+  /** 首页放送数字显示 */
+  homeCountView: MODEL_SETTING_HOME_COUNT_VIEW.getValue<SettingHomeCountView>('A'),
 
   /** 首页收藏排序 */
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('APP'),

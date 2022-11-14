@@ -14,6 +14,7 @@ import {
   MODEL_SETTING_HOME_GRID_COVER_LAYOUT,
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
+  SETTING_HOME_COUNT_VIEW,
   SETTING_HOME_GRID_COVER_LAYOUT,
   SETTING_HOME_SORTING
 } from '@constants'
@@ -24,7 +25,7 @@ import {
 } from '@types'
 import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
-import { HOME_SORTING_INFORMATION, VALUES, TEXTS } from './ds'
+import { HOME_SORTING_INFORMATION, VALUES, TEXTS, HOME_COUNT_VIEW } from './ds'
 
 function Home({ filter }) {
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -34,11 +35,12 @@ function Home({ filter }) {
     if (!shows) return null
 
     const {
+      homeCountView,
       homeFilter,
       homeGridCoverLayout,
       homeLayout,
-      homeOrigin,
       homeOnAir,
+      homeOrigin,
       homeSortSink,
       homeSorting,
       showGame
@@ -144,6 +146,34 @@ function Home({ filter }) {
             {...TEXTS.homeListLimit}
           />
 
+          {/* 放送数字显示 */}
+          <ItemSettingBlock
+            show={shows.homeCountView}
+            style={_.mt.sm}
+            filter={filter}
+            {...TEXTS.homeCountView}
+          >
+            {SETTING_HOME_COUNT_VIEW.map((item, index) => (
+              <ItemSettingBlock.Item
+                style={!!index && _.ml.md}
+                title={item.label}
+                information={HOME_COUNT_VIEW[item.label]}
+                active={homeCountView === item.value}
+                filter={filter}
+                onPress={() => {
+                  if (homeCountView === item.value) return
+
+                  t('设置.切换', {
+                    title: '放送数字显示',
+                    label: item.label
+                  })
+                  systemStore.setHomeCountView(item.label)
+                }}
+              />
+            ))}
+            <Heatmap id='设置.切换' title='放送数字显示' />
+          </ItemSettingBlock>
+
           {/* 排序 */}
           <ItemSettingBlock
             show={shows.homeSorting}
@@ -153,7 +183,7 @@ function Home({ filter }) {
           >
             {SETTING_HOME_SORTING.map((item, index) => (
               <ItemSettingBlock.Item
-                style={!!index && _.ml.sm}
+                style={!!index && _.ml.md}
                 title={item.label}
                 information={HOME_SORTING_INFORMATION[item.label]}
                 active={homeSorting === item.value}

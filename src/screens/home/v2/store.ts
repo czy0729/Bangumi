@@ -589,6 +589,20 @@ export default class ScreenHomeV2 extends store {
     }
   }
 
+  /** 当前放送到的章节 */
+  currentOnAir(subjectId: SubjectId) {
+    try {
+      return (
+        this.eps(subjectId)
+          .reverse()
+          .find(item => item.type === 0 && item.status !== 'NA')?.sort || 0
+      )
+    } catch (error) {
+      console.error(NAMESPACE, 'nextWatchEp', error)
+      return 0
+    }
+  }
+
   /** 猜测条目当前看到的集数 */
   countFixed(subjectId: SubjectId, epStatus: number | string) {
     return computed(() => {

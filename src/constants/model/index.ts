@@ -557,6 +557,32 @@ export const MODEL_SETTING_HOME_GRID_COVER_LAYOUT = new Model(
   'SETTING_HOME_GRID_COVER_LAYOUT'
 )
 
+/** [设置] 放送数字显示 */
+export const SETTING_HOME_COUNT_VIEW = [
+  {
+    label: 'A',
+    value: 'A'
+  },
+  {
+    label: 'B',
+    value: 'B'
+  },
+  {
+    label: 'C',
+    value: 'C'
+  },
+  {
+    label: 'D',
+    value: 'D'
+  }
+] as const
+
+/** [设置] 放送数字显示 */
+export const MODEL_SETTING_HOME_COUNT_VIEW = new Model(
+  SETTING_HOME_COUNT_VIEW,
+  'SETTING_HOME_COUNT_VIEW'
+)
+
 /** [设置] 首页收藏排序 */
 export const SETTING_HOME_SORTING = [
   {

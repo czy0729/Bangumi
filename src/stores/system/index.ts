@@ -17,6 +17,7 @@ import {
   GITHUB_RELEASE_REPOS,
   IOS,
   MODEL_SETTING_CDN_ORIGIN,
+  MODEL_SETTING_HOME_COUNT_VIEW,
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_INITIAL_PAGE,
@@ -28,11 +29,19 @@ import {
 import {
   AnyObject,
   SettingCDNOrigin,
+  SettingHomeCountView,
+  SettingHomeCountViewCn,
+  SettingHomeLayout,
   SettingHomeLayoutCn,
+  SettingHomeSorting,
   SettingHomeSortingCn,
+  SettingInitialPage,
   SettingInitialPageCn,
+  SettingQuality,
   SettingQualityCn,
+  SettingTransition,
   SettingTransitionCn,
+  SettingUserGridNum,
   SettingUserGridNumCn,
   StoreConstructor,
   UserId
@@ -357,7 +366,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
 
   /** 设置 `图片质量` */
   setQuality = (label: SettingQualityCn) => {
-    const quality = MODEL_SETTING_QUALITY.getValue(label)
+    const quality = MODEL_SETTING_QUALITY.getValue<SettingQuality>(label)
     if (quality) {
       const key = 'setting'
       this.setState({
@@ -372,7 +381,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
 
   /** 设置 `切页动画` */
   setTransition = (label: SettingTransitionCn) => {
-    const transition = MODEL_SETTING_TRANSITION.getValue(label)
+    const transition = MODEL_SETTING_TRANSITION.getValue<SettingTransition>(label)
     if (transition) {
       const key = 'setting'
       this.setState({
@@ -387,7 +396,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
 
   /** 设置 `启动页` */
   setInitialPage = (label: SettingInitialPageCn) => {
-    const initialPage = MODEL_SETTING_INITIAL_PAGE.getValue(label)
+    const initialPage = MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>(label)
     if (initialPage) {
       const key = 'setting'
       this.setState({
@@ -402,7 +411,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
 
   /** 设置 `首页布局` */
   setHomeLayout = (label: SettingHomeLayoutCn) => {
-    const homeLayout = MODEL_SETTING_HOME_LAYOUT.getValue(label)
+    const homeLayout = MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>(label)
     if (homeLayout) {
       const key = 'setting'
       this.setState({
@@ -415,9 +424,25 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     }
   }
 
+  /** 设置 `首页放送数字显示` */
+  setHomeCountView = (label: SettingHomeCountViewCn) => {
+    const homeCountView =
+      MODEL_SETTING_HOME_COUNT_VIEW.getValue<SettingHomeCountView>(label)
+    if (homeCountView) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          homeCountView
+        }
+      })
+      this.save(key)
+    }
+  }
+
   /** 设置 `首页排序` */
   setHomeSorting = (label: SettingHomeSortingCn) => {
-    const homeSorting = MODEL_SETTING_HOME_SORTING.getValue(label)
+    const homeSorting = MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>(label)
     if (homeSorting) {
       const key = 'setting'
       this.setState({
@@ -462,7 +487,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
 
   /** 设置 `方格数量` */
   setUserGridNum = (label: SettingUserGridNumCn) => {
-    const userGridNum = MODEL_SETTING_USER_GRID_NUM.getValue(label)
+    const userGridNum = MODEL_SETTING_USER_GRID_NUM.getValue<SettingUserGridNum>(label)
     if (userGridNum) {
       const key = 'setting'
       this.setState({
