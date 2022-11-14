@@ -1,10 +1,10 @@
 /*
- * 毛玻璃
+ * 图片毛玻璃化，非毛玻璃容器
  * @Doc: https://docs.expo.io/versions/latest/sdk/blur-view/
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 19:31:52
+ * @Last Modified time: 2022-11-13 21:53:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
