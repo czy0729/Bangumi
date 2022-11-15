@@ -176,7 +176,8 @@ const Item = memo(
     )
   },
   DEFAULT_PROPS,
-  ({ styles }) => ({
+  ({ style, styles }) => ({
+    style,
     styles
   })
 )
