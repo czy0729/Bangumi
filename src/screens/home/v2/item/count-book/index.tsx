@@ -16,6 +16,9 @@ function CountBook({ subjectId, isFirst }: Props, { $ }: Ctx) {
   const { list = [] } = $.collection
   const { ep_status: epStatus, vol_status: volStatus } =
     list.find(item => item.subject_id === subjectId) || {}
+
+  const subject = $.subject(subjectId)
+  const chap = subject.eps_count || 0
   return (
     <Flex>
       <Text type='primary' size={16}>
@@ -23,6 +26,12 @@ function CountBook({ subjectId, isFirst }: Props, { $ }: Ctx) {
           Chap.{' '}
         </Text>
         {epStatus}
+        {!!chap && (
+          <Text type='sub' size={12} lineHeight={16}>
+            {' '}
+            / {chap}
+          </Text>
+        )}
       </Text>
       <BtnBookNext
         subjectId={subjectId}

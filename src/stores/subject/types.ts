@@ -140,6 +140,9 @@ export type Subject = {
   collection: Collection
   crt: Crt[]
   eps: Ep[]
+
+  /** 不建议使用，旧接口有此值，用于书籍总 Chap */
+  eps_count?: number
   id: SubjectId
   images: Images
   name: string

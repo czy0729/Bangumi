@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:33:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-13 04:34:01
+ * @Last Modified time: 2022-11-16 04:25:43
  */
 import { _ } from '@stores'
 
@@ -29,6 +29,11 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: 'transparent',
     border: 0,
     borderRadius: 0
+  },
+  plain: {
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    borderTopWidth: _.select(_.hairlineWidth, 0),
+    borderTopColor: _.colorBorder
   },
   toolBar: {
     paddingVertical: _.sm,

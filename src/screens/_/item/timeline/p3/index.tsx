@@ -14,7 +14,7 @@ import { HOST_NAME } from '@constants'
 import { matchSubjectId } from '../utils'
 
 function P3({ image, p3Text, p3Url, onNavigate }) {
-  let $p3: any | any[]
+  let $p3: any | any[] = null
   if (p3Text.length > 1) {
     $p3 = []
     p3Text.forEach((item: string, index: number) => {

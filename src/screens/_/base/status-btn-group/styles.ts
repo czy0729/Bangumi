@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   group: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }

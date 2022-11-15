@@ -42,6 +42,7 @@ class GlobalStores {
       /** systemStore.init 和 themeStore.init 维持旧逻辑 */
       await systemStore.init()
       await themeStore.init()
+      await smbStore.init('data')
 
       /**
        * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来

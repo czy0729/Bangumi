@@ -8,7 +8,7 @@ import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { _ } from '@stores'
 
-const margin = -Math.floor(_.window.height * _.device(0.44, 0.24))
+const margin = -Math.floor(_.window.height * _.device(_.ios(0.44, 0.38), 0.24))
 
 export const Wrap = ({ focus, children }) => {
   const wrapStyle = useAnimatedStyle(() => ({

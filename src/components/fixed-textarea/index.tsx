@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-13 04:33:23
+ * @Last Modified time: 2022-11-16 04:25:56
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -636,20 +636,30 @@ export const FixedTextarea = observer(
       )
     }
 
-    render() {
+    renderBody() {
       const { children } = this.props
+      return (
+        <>
+          {children}
+          {this.renderToolBar()}
+          {this.renderTextarea()}
+          {this.renderContent()}
+        </>
+      )
+    }
+
+    render() {
       const { showKeyboardSpacer } = this.state
       return (
         <>
           {this.renderMask()}
-          <BlurView style={this.styles.container}>
-            <>
-              {children}
-              {this.renderToolBar()}
-              {this.renderTextarea()}
-              {this.renderContent()}
-            </>
-          </BlurView>
+          {IOS ? (
+            <BlurView style={this.styles.container}>{this.renderBody()}</BlurView>
+          ) : (
+            <View style={[this.styles.container, this.styles.plain]}>
+              {this.renderBody()}
+            </View>
+          )}
           {!showKeyboardSpacer && (
             <View style={this.styles.hide}>
               <KeyboardSpacer onToggle={this.onToggle} />

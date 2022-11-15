@@ -8,6 +8,7 @@ import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { IOS } from '@constants'
 import MenuItem from '../menu-item'
 import Assets from '../assets'
 import { Ctx } from '../types'
@@ -17,7 +18,7 @@ function Menus(props, { $ }: Ctx) {
   const asks = $.list('asks').list.length
   const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
-    <Flex style={_.mt.sm} wrap='wrap'>
+    <Flex style={IOS && _.mt.sm} wrap='wrap'>
       <MenuItem
         index={0}
         title='热门榜单'

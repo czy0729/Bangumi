@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react-lite'
-import { BlurView as RNBlurView } from '@react-native-community/blur'
+// import { BlurView as RNBlurView } from '@react-native-community/blur'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { IOS } from '@constants'
@@ -32,12 +32,12 @@ export const BlurView = observer(
     }
 
     return (
-      <View style={style}>
-        <RNBlurView
+      <View style={[styles.blurView, style]}>
+        {/* <RNBlurView
           style={styles.absolute}
-          blurAmount={_.select(20, 32)}
+          blurAmount={_.select(20, 48)}
           overlayColor={_.select('rgba(255, 255, 255, 0.5)', 'rgba(0, 0, 0, 0.24)')}
-        />
+        /> */}
         {children}
       </View>
     )
