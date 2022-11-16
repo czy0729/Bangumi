@@ -414,7 +414,7 @@ export function cheerioSubjectFormHTML(HTML) {
     lock: $('div.tipIntro > div.inner > h3').text(),
 
     // hash 比如删除等网页操作需要
-    formhash: $('input[name=formhash]').attr('value')
+    formhash: String($('#collectBoxForm').attr('action')).split('?gh=')?.[1] || ''
   }
 }
 

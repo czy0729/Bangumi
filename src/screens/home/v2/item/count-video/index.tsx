@@ -34,7 +34,7 @@ function Count({ subjectId, subject, epStatus }: Props, { $ }: Ctx) {
       if (total !== current) right += ` / ${total}`
       break
     default:
-      right = `${current}`
+      right = `${total}`
       break
   }
 
