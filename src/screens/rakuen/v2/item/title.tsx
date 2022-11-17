@@ -10,7 +10,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 /** 少于这个数字的, 为坟贴 */
-const OLD_GROUP_ID = 354697
+const OLD_GROUP_ID = 367000
 
 function Title({ topicId, title, replyCount, isReaded, isGroup }, { $ }: Ctx) {
   // 处理 (+30) +10 样式
@@ -18,18 +18,14 @@ function Title({ topicId, title, replyCount, isReaded, isGroup }, { $ }: Ctx) {
   let replyAdd: {}
   if (isReaded) {
     const readed = $.readed(topicId)
-    if (replyCount > readed.replies) {
-      replyAdd = `+${replyCount - readed.replies}`
-    }
+    if (replyCount > readed.replies) replyAdd = `+${replyCount - readed.replies}`
   }
 
   // 标记坟贴
   let isOldTopic = false
   if (isGroup) {
     const id = parseInt(topicId.substring(6))
-    if (id < OLD_GROUP_ID) {
-      isOldTopic = true
-    }
+    if (id < OLD_GROUP_ID) isOldTopic = true
   }
 
   return (

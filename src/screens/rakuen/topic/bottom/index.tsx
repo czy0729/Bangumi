@@ -11,6 +11,8 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
+const MARKS = ['+1', 'mark', '(bgm38)'] as const
+
 function Bottom({ fixedTextareaRef }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { placeholder, value } = $.state
@@ -43,6 +45,7 @@ function Bottom({ fixedTextareaRef }, { $, navigation }: Ctx) {
       placeholder={placeholder ? `回复 ${placeholder}` : undefined}
       value={value}
       source
+      marks={MARKS}
       onChange={$.onChange}
       onClose={$.closeFixedTextarea}
       onSubmit={$.doSubmit}

@@ -138,7 +138,7 @@ export default class ScreenHomeV2 extends store {
     let flag = refresh
     let { _loaded } = this.collection
     if (typeof _loaded !== 'number') _loaded = 0
-    if (getTimestamp() - _loaded > 60 * 60 * 3 || !this.collection.list.length) {
+    if (getTimestamp() - _loaded > 60 * 60 * 24 || !this.collection.list.length) {
       flag = true
     }
 
@@ -194,7 +194,7 @@ export default class ScreenHomeV2 extends store {
     let { _loaded } = subject
     if (typeof _loaded !== 'number') _loaded = 0
 
-    // 请求间隔至少为15分钟
+    // 请求间隔至少为 15 分钟
     if (
       subject?._responseGroup !== 'large' ||
       getTimestamp() - _loaded >= 60 * (15 + index)

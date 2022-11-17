@@ -63,6 +63,17 @@ export const STATE = {
   /** 评论是否倒序 */
   reverse: false,
 
+  /** 收藏帖子 */
+  favor: {
+    /** 是否收藏帖子 */
+    favored: false,
+
+    /** 收藏帖子的人数 */
+    count: 0,
+
+    _loaded: 0 as Loaded
+  },
+
   /** 页面初始化 */
   _loaded: false as Loaded
 }

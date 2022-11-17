@@ -10,6 +10,7 @@ import { Page, Loading } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ItemPost, TapListener } from '@_'
 import { _, uiStore } from '@stores'
+import { info, androidKeyboardAdjust } from '@utils'
 import { ic } from '@utils/decorators'
 import {
   useObserver,
@@ -18,7 +19,6 @@ import {
   useKeyboardAdjustResize
 } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { info, androidKeyboardAdjust } from '@utils/ui'
 import Header from './header'
 import List from './list'
 import TouchScroll from './touch-scroll'
@@ -26,7 +26,7 @@ import Heatmaps from './heatmaps'
 import Bottom from './bottom'
 import Store from './store'
 
-const preRenderIndex = 8
+const PRE_RENDER_INDEX = 8
 
 const Topic = (props, { $ }) => {
   const isFocused = useIsFocused()
@@ -124,19 +124,27 @@ const Topic = (props, { $ }) => {
     if (_loaded) {
       try {
         let scrollIndex = 0
-        list.forEach((item, index) => {
-          if (scrollIndex) return
+        list.forEach(
+          (
+            item: {
+              id: any
+              sub: {
+                id: any
+              }[]
+            },
+            index: number
+          ) => {
+            if (scrollIndex) return
 
-          if (item.id === $.postId) {
-            scrollIndex = index
-          } else if (item.sub) {
-            item.sub.forEach(i => {
-              if (i.id === $.postId) {
-                scrollIndex = index
-              }
-            })
+            if (item.id === $.postId) {
+              scrollIndex = index
+            } else if (item.sub) {
+              item.sub.forEach((i: { id: any }) => {
+                if (i.id === $.postId) scrollIndex = index
+              })
+            }
           }
-        })
+        )
 
         if (scrollIndex) {
           scrollTo(scrollIndex)
@@ -155,17 +163,17 @@ const Topic = (props, { $ }) => {
       if (!$.postId) {
         if (!rendered) {
           // 渲染指示标记
-          if (index === preRenderIndex) return <Loading style={_.mt.md} />
-          if (index > preRenderIndex - 1) return null
+          if (index === PRE_RENDER_INDEX) return <Loading style={_.mt.md} />
+          if (index > PRE_RENDER_INDEX - 1) return null
         }
       }
 
-      const event = {
+      const EVENT = {
         id: '帖子.跳转',
         data: {
           topicId: $.topicId
         }
-      }
+      } as const
 
       return (
         <ItemPost
@@ -175,7 +183,7 @@ const Topic = (props, { $ }) => {
           {...item}
           rendered={rendered}
           showFixedTextare={onShowFixedTextarea}
-          event={event}
+          event={EVENT}
         />
       )
     },

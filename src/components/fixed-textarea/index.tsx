@@ -27,11 +27,12 @@ export { FixedTextareaProps }
 
 export const FixedTextarea = observer(
   class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
-    static defaultProps = {
+    static defaultProps: FixedTextareaProps = {
       value: '',
       placeholder: '',
       simple: false,
       source: false,
+      marks: [],
       onClose: () => {},
       onChange: () => {},
       onSubmit: () => {}
@@ -162,17 +163,20 @@ export const FixedTextarea = observer(
     }
 
     // @todo 暂时没有对选择了一段文字的情况做判断
-    onAddSymbolText = (symbol: string) => {
+    onAddSymbolText = (symbol: string, isText: boolean = false) => {
       this.textAreaFocus()
 
       try {
         const { value } = this.state
-        const index = this.getSelection()
+        const index = this.getSelection() || 0
 
         // 插入值, 如[s]光标位置[/s], [url=光标位置]链接描述[/url]
-        let left
-        let right
-        if (symbol === 'url') {
+        let left: string
+        let right: string
+        if (isText) {
+          left = `${value.slice(0, index)}${symbol}`
+          right = `${value.slice(index)}`
+        } else if (symbol === 'url') {
           left = `${value.slice(0, index)}[url=`
           right = `]链接描述[/url]${value.slice(index)}`
         } else {
@@ -227,7 +231,7 @@ export const FixedTextarea = observer(
 
     // 获取光标位置
     getSelection = () => {
-      // 失效?
+      // @todo 失效?
       // const ref = this.ref.textAreaRef
       // const selection = ref._lastNativeSelection || null
       // const { value } = this.state
@@ -259,7 +263,7 @@ export const FixedTextarea = observer(
     }
 
     showBgm = () => {
-      // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
+      // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
       if (IOS) {
         this.setState({
           showBgm: true,
@@ -294,7 +298,7 @@ export const FixedTextarea = observer(
       }, 0)
     }
 
-    // 本地化最近使用bgm
+    // 本地化最近使用 bgm
     setRecentUseBgm = async (bgmIndex: number) => {
       let history = [...this.state.history]
       if (history.includes(bgmIndex)) {
@@ -333,7 +337,7 @@ export const FixedTextarea = observer(
     }
 
     showReplyHistory = () => {
-      // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
+      // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
       if (IOS) {
         this.setState({
           showReplyHistory: true,
@@ -487,6 +491,23 @@ export const FixedTextarea = observer(
       )
     }
 
+    renderMarks() {
+      const { marks } = this.props
+      if (!marks?.length) return null
+
+      return marks.map((item: string) => (
+        <Touchable
+          key={item}
+          style={[this.styles.opacity, this.styles.toolBarBtn, _.mr.xs]}
+          onPress={() => this.onAddSymbolText(item, true)}
+        >
+          <Text type='sub' size={11} align='center'>
+            {item}
+          </Text>
+        </Touchable>
+      ))
+    }
+
     renderSource() {
       const { source } = this.props
       const { showTextarea, showSource } = this.state
@@ -495,11 +516,14 @@ export const FixedTextarea = observer(
       return (
         <Flex style={this.styles.source}>
           <Flex.Item>
-            {showSource && (
-              <Text style={this.styles.opacity} size={10} type='sub'>
-                [来自Bangumi for {IOS ? 'iOS' : 'android'}]
-              </Text>
-            )}
+            <Flex>
+              {showSource && (
+                <Text style={[this.styles.opacity, _.mr.sm]} size={10} type='sub'>
+                  [来自Bangumi for {IOS ? 'iOS' : 'android'}]
+                </Text>
+              )}
+              {this.renderMarks()}
+            </Flex>
           </Flex.Item>
           <Touchable style={this.styles.touchSource} onPress={this.toggleSource}>
             <Flex>

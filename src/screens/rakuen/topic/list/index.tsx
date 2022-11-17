@@ -19,7 +19,7 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
   const passProps = {
     style: _.container.content,
     contentContainerStyle: _.container.bottom,
-    keyExtractor: keyExtractor,
+    keyExtractor,
     lazy: $.postId ? undefined : 4,
     progressViewOffset: _.ios(_.statusBarHeight, 0),
     scrollEventThrottle: 16,
@@ -29,9 +29,9 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
     updateCellsBatchingPeriod: 120,
     scrollToTop: true,
     ListHeaderComponent: <Top />,
-    renderItem: renderItem,
-    onScroll: onScroll,
-    onScrollToIndexFailed: onScrollToIndexFailed,
+    renderItem,
+    onScroll,
+    onScrollToIndexFailed,
     onHeaderRefresh: $.fetchTopic,
     onFooterRefresh: $.fetchTopic,
     onEndReachedThreshold: 0.5
