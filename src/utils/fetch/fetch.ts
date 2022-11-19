@@ -5,13 +5,16 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 12:51:48
+ * @Last Modified time: 2022-11-19 07:47:02
  */
 import { APP_ID, UA } from '@constants/constants'
 import { AnyObject } from '@types'
 import fetch from '../thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp } from '../utils'
-import { info as UIInfo, loading } from '../ui'
+import {
+  // info as UIInfo,
+  loading
+} from '../ui'
 import { getUserStoreAsync } from '../async'
 import { log } from '../dev'
 import { safe } from './utils'
@@ -99,7 +102,7 @@ export async function fetchAPI(args: FetchAPIArgs) {
         if (RETRY_CACHE[key] < FETCH_RETRY) return retryCb()
       }
 
-      UIInfo(`${info}请求失败`)
+      // UIInfo(`${info}请求失败`)
       return Promise.reject(err)
     })
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-13 05:39:22
+ * @Last Modified time: 2022-11-19 10:58:14
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -593,7 +593,7 @@ export default class ScreenHomeV2 extends store {
   currentOnAir(subjectId: SubjectId) {
     try {
       return (
-        this.eps(subjectId)
+        (this.subject(subjectId).eps || [])
           .reverse()
           .find(item => item.type === 0 && item.status !== 'NA')?.sort || 0
       )
@@ -732,6 +732,35 @@ export default class ScreenHomeV2 extends store {
       if (!IOS) return true
       const index = this.tabs.findIndex(item => item.title === title)
       return this.state.renderedTabsIndex.includes(index)
+    }).get()
+  }
+
+  /** 显示数字组合 */
+  countRight(subjectId: SubjectId) {
+    return computed(() => {
+      const { homeCountView } = systemStore.setting
+      const current = this.currentOnAir(subjectId)
+      const subject = this.subject(subjectId)
+      const total = subject.eps?.length || subject?.eps_count || '?'
+      let right = ''
+      switch (homeCountView) {
+        case 'B':
+          right = `${current}`
+          if (total !== current) right += ` (${total})`
+          break
+        case 'C':
+          right = `${total}`
+          if (total !== current) right += ` (${current})`
+          break
+        case 'D':
+          right = `${current}`
+          if (total !== current) right += ` / ${total}`
+          break
+        default:
+          right = `${total}`
+          break
+      }
+      return right
     }).get()
   }
 

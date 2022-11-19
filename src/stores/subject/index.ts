@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-04 13:33:27
+ * @Last Modified time: 2022-11-19 09:04:40
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -385,6 +385,16 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
           [subjectId]: {
             ...this.subject(subjectId),
             ...data,
+
+            // 章节数据可能会很巨大, 减少储存用不上的数据
+            eps: (data?.eps || []).map((item: any) => {
+              if (item.name_cn) item.name = ''
+              return {
+                ...item,
+                duration: '',
+                desc: ''
+              }
+            }),
             _responseGroup: 'large',
             _loaded: getTimestamp()
           }
