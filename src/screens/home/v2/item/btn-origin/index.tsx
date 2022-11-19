@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 19:13:51
+ * @Last Modified time: 2022-11-19 12:34:53
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -14,7 +14,7 @@ import { Props } from './types'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 
-function BtnOrigin({ subjectId, isTop }: Props, { $ }: Ctx) {
+function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
   if ($.homeOrigin === -1) return null
 
   let origins: string[] = []

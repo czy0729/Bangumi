@@ -8,5 +8,5 @@ import { SubjectId } from '@types'
 
 export type Props = {
   subjectId: SubjectId
-  isTop: boolean
+  isTop?: boolean
 }

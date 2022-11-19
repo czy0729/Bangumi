@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 03:24:21
+ * @Last Modified time: 2022-11-19 11:55:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Loading, Flex, Text, Mesume } from '@components'
-import { PaginationList2 as ListView } from '@_'
-import { _ } from '@stores'
+import { PaginationList2 } from '@_'
+import { systemStore, _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import GridInfo from '../grid-info'
@@ -81,18 +81,18 @@ class Grid extends React.Component<{
   }
 
   renderList() {
+    const { homeGridCoverLayout } = systemStore.setting
     const { $ } = this.context
     const { title } = this.props
     const collection = $.currentCollection(title)
     const numColumns = _.isMobileLanscape ? 9 : _.device(4, 5)
     return (
-      <ListView
+      <PaginationList2
         key={`${_.orientation}${numColumns}`}
-        // ref={this.connectRef}
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={collection.list}
-        limit={20}
+        limit={homeGridCoverLayout === 'square' ? 20 : 16}
         numColumns={numColumns}
         footerNoMoreDataComponent={<View />}
         footerNoMoreDataText=''

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-04 03:39:30
+ * @Last Modified time: 2022-11-19 12:28:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,7 +60,7 @@ export default memo(
 
     const { min, max } = getComment(eps)
     const containerStyle = {
-      marginBottom: margin - 2
+      marginBottom: margin - 4
     }
     const style = {
       marginRight: !_.isLandscape && !_.isPad && !WSA && isSide ? 0 : margin,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-20 15:48:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-20 15:48:33
+ * @Last Modified time: 2022-11-19 11:57:42
  */
 import { _ } from '@stores'
 
@@ -22,12 +22,12 @@ export const memoStyles = _.memoStyles(() => {
     progress: {
       marginTop: 1,
       borderRadius: _.radiusXs,
-      backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+      backgroundColor: _.select('rgb(228, 228, 230)', _._colorDarkModeLevel2)
     },
     bar: {
       borderBottomWidth: 6,
       borderRadius: _.radiusXs,
-      borderColor: _.colorWarning
+      borderColor: _.colorPrimary
     }
   }
 })

@@ -69,7 +69,7 @@ const Item = memo(
                   isFirst={isFirst}
                 />
               </Flex>
-              <Progress epStatus={epStatus} subject={subject} />
+              <Progress epStatus={epStatus} subject={subject} epsCount={epsCount} />
             </View>
           </Flex.Item>
           {isFirst && (

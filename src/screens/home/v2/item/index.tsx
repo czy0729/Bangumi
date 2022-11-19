@@ -28,7 +28,7 @@ export default obc(
         epStatus={epStatus}
         heatMap={$.heatMap}
         expand={$.$Item(subjectId).expand}
-        epsCount={$.eps(subjectId).length}
+        epsCount={$.epsCount(subjectId)}
         isTop={$.state.top.indexOf(subjectId) !== -1}
         isFirst={index === 0}
         onItemPress={$.onItemPress}

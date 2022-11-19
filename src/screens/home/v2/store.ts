@@ -735,13 +735,26 @@ export default class ScreenHomeV2 extends store {
     }).get()
   }
 
+  /** 排除 SP 章节的长度 */
+  epsCount(subjectId: SubjectId) {
+    return computed(() => {
+      const subject = this.subject(subjectId)
+      if (subject?.eps_count) return subject.eps_count
+
+      if (subject?.eps && typeof subject.eps === 'object') {
+        return subject.eps.filter(item => item.type === 0).length
+      }
+
+      return 0
+    }).get()
+  }
+
   /** 显示数字组合 */
   countRight(subjectId: SubjectId) {
     return computed(() => {
       const { homeCountView } = systemStore.setting
       const current = this.currentOnAir(subjectId)
-      const subject = this.subject(subjectId)
-      const total = subject.eps?.length || subject?.eps_count || '?'
+      const total = this.epsCount(subjectId) || '?'
       let right = ''
       switch (homeCountView) {
         case 'B':

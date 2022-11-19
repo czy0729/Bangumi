@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-17 03:57:19
+ * @Last Modified time: 2022-11-19 11:29:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,11 +28,13 @@ function GridItem({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) 
 
   const { grid } = $.state
   const { subject_id: current } = grid || {}
+  const isActive = current === subjectId
+
+  const total = $.epsCount(subjectId)
   const percent = Math.min(
-    (Math.floor(epStatus || 0) / Math.floor(subject.eps_count || 24)) * 100,
+    (Math.floor(epStatus || 0) / Math.floor(total || 12)) * 100,
     100
   )
-  const isActive = current === subjectId
   return (
     <View style={styles.item}>
       <View style={isActive && styles.active}>
@@ -43,19 +45,19 @@ function GridItem({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) 
           shadow
           radius
           delay={false}
-          onPress={() =>
+          onPress={() => {
             $.selectGirdSubject(subjectId, {
               subject_id: subjectId,
               subject,
               ep_status: epStatus
             })
-          }
+          }}
         />
       </View>
       <Progress
         style={styles.progress}
         barStyle={styles.bar}
-        percent={percent}
+        percent={percent ? Math.max(percent, 8) : 0}
         unfilled
       />
     </View>

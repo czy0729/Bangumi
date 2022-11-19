@@ -9,9 +9,9 @@ import CompProgress from '@ant-design/react-native/lib/progress'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
-function Progress({ epStatus, subject }) {
+function Progress({ epStatus, subject, epsCount }) {
   const styles = memoStyles()
-  const count = subject.eps || subject.eps_count || 0
+  const count = epsCount || subject.eps || subject.eps_count || 0
   const percent = Math.floor(count ? (Number(epStatus || 0) / Number(count)) * 100 : 0)
   return (
     <CompProgress

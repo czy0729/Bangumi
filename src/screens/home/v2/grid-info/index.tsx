@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 18:31:02
+ * @Last Modified time: 2022-11-19 12:35:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Eps, Cover } from '@_'
 import { _ } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import { EpStatus, Subject, SubjectId } from '@types'
-import { memoStyles } from './styles'
+import BtnOrigin from '../item/btn-origin'
 import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 class GridInfo extends React.Component<{
   subjectId?: SubjectId
@@ -30,7 +30,7 @@ class GridInfo extends React.Component<{
   }
 
   onPress = () => {
-    const { navigation } = this.context
+    const { navigation }: Ctx = this.context
     const { subjectId, subject } = this.props
     t('首页.跳转', {
       to: 'Subject',
@@ -47,25 +47,25 @@ class GridInfo extends React.Component<{
   }
 
   onEpsSelect = (value, item) => {
-    const { $, navigation } = this.context
+    const { $, navigation }: Ctx = this.context
     const { subjectId } = this.props
     $.doEpsSelect(value, item, subjectId, navigation)
   }
 
   onEpsLongPress = item => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { subjectId } = this.props
     $.doEpsLongPress(item, subjectId)
   }
 
   onCheckPress = () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { subjectId } = this.props
     $.doWatchedNextEp(subjectId)
   }
 
   onStarPress = () => {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { subjectId } = this.props
     $.showManageModal(subjectId)
   }
@@ -76,7 +76,7 @@ class GridInfo extends React.Component<{
   }
 
   renderBtnNextEp() {
-    const { $ } = this.context
+    const { $ }: Ctx = this.context
     const { subjectId } = this.props
     const { sort } = $.nextWatchEp(subjectId)
     if (!sort) return null
@@ -94,8 +94,16 @@ class GridInfo extends React.Component<{
   }
 
   renderToolBar() {
+    const { $ }: Ctx = this.context
+    const { subjectId } = this.props
     return (
-      <Flex>
+      <Flex style={_.mt.xs}>
+        {(this.label === '动画' || this.label === '三次元') && (
+          <BtnOrigin
+            subjectId={subjectId}
+            isTop={$.state.top.indexOf(subjectId) !== -1}
+          />
+        )}
         {this.renderBtnNextEp()}
         <Touchable style={[this.styles.touchable, _.ml.sm]} onPress={this.onStarPress}>
           <Iconfont name='md-star-outline' size={19} />
@@ -105,8 +113,8 @@ class GridInfo extends React.Component<{
   }
 
   renderCount() {
-    const { $ } = this.context
-    const { subjectId, subject, epStatus } = this.props
+    const { $ }: Ctx = this.context
+    const { subjectId, epStatus } = this.props
     if (this.label === '游戏') return null
 
     if (this.label === '书籍') {
@@ -135,18 +143,18 @@ class GridInfo extends React.Component<{
     }
 
     return (
-      <Text type='primary' size={20}>
-        {epStatus || 1}
-        <Text type='sub' lineHeight={20}>
+      <Text type='primary' size={18}>
+        {epStatus || 0}
+        <Text type='sub' lineHeight={18}>
           {' '}
-          / {subject.eps_count || '?'}
+          / {$.countRight(subjectId)}
         </Text>
       </Text>
     )
   }
 
-  renderBookNextBtn(epStatus, volStatus) {
-    const { $ } = this.context
+  renderBookNextBtn(epStatus: any, volStatus: any) {
+    const { $ }: Ctx = this.context
     const { subjectId } = this.props
     return (
       <Touchable
@@ -170,7 +178,7 @@ class GridInfo extends React.Component<{
     const { h, m } = $.onAirCustom(subjectId)
 
     const eps = $.eps(subjectId)
-    const numberOfLines = _.isMobileLanscape ? 12 : _.device(7, 8)
+    const numberOfLines = _.isMobileLanscape ? 12 : _.device(6, 8)
     const imageWidth = _.isMobileLanscape ? 60 : this.styles.cover.width
     const imageHeight = imageWidth * 1.4
     const onAirStyle = _.isMobileLanscape ? _.mt.xs : _.mt.sm
@@ -205,7 +213,7 @@ class GridInfo extends React.Component<{
           <Touchable onPress={this.onPress}>
             <Flex align='start'>
               <Flex.Item>
-                <Text numberOfLines={eps.length >= 14 ? 1 : 2} bold>
+                <Text size={15} numberOfLines={eps.length >= 14 ? 1 : 2} bold>
                   {title}
                 </Text>
               </Flex.Item>
@@ -215,18 +223,19 @@ class GridInfo extends React.Component<{
             <Flex.Item>{this.renderCount()}</Flex.Item>
             {this.renderToolBar()}
           </Flex>
-          <Eps
-            style={_.mt.xs}
-            grid
-            numbersOfLine={numberOfLines}
-            lines={_.isMobileLanscape ? 1 : 3}
-            login={$.isLogin}
-            subjectId={subjectId}
-            eps={eps}
-            userProgress={$.userProgress(subjectId)}
-            onSelect={this.onEpsSelect}
-            onLongPress={this.onEpsLongPress}
-          />
+          <View style={this.styles.eps}>
+            <Eps
+              grid
+              numbersOfLine={numberOfLines}
+              lines={_.isMobileLanscape ? 1 : 3}
+              login={$.isLogin}
+              subjectId={subjectId}
+              eps={eps}
+              userProgress={$.userProgress(subjectId)}
+              onSelect={this.onEpsSelect}
+              onLongPress={this.onEpsLongPress}
+            />
+          </View>
         </Flex.Item>
       </Flex>
     )
