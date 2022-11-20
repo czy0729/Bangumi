@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 11:55:15
+ * @Last Modified time: 2022-11-20 11:23:18
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Loading, Flex, Text, Mesume } from '@components'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { systemStore, _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
-import GridInfo from '../grid-info'
+import Info from './info'
 import { keyExtractor, renderItem } from './utils'
-import { PREV_TEXT } from './ds'
 import { memoStyles } from './styles'
 
 class Grid extends React.Component<{
@@ -23,7 +23,13 @@ class Grid extends React.Component<{
     title: '全部'
   }
 
-  listView
+  listView: {
+    scrollToIndex: (arg0: {
+      animated: boolean
+      index: number
+      viewOffset: number
+    }) => void
+  }
 
   componentDidMount() {
     // iOS端不知道原因, 初次渲染会看见下拉刷新的文字
@@ -41,44 +47,6 @@ class Grid extends React.Component<{
   }
 
   connectRef = ref => (this.listView = ref)
-
-  renderEmpty() {
-    const { title } = this.props
-    return (
-      <Flex style={this.styles.noSelect} justify='center' direction='column'>
-        <Mesume size={80} />
-        <Text style={_.mt.sm} type='sub' align='center'>
-          请先点击下方{PREV_TEXT[title]}
-        </Text>
-      </Flex>
-    )
-  }
-
-  renderInfo() {
-    const { $ } = this.context
-    const { title } = this.props
-    if (!$.collection._loaded) return <Loading />
-
-    const { current, grid } = $.state
-    const collection = $.currentCollection(title)
-    const isGame = title === '游戏'
-    const find = isGame
-      ? grid
-      : collection.list.find(item => item.subject_id === current)
-    return (
-      <View style={isGame ? this.styles.gameInfo : this.styles.info}>
-        {find ? (
-          <GridInfo
-            subjectId={find.subject_id}
-            subject={find.subject}
-            epStatus={find.ep_status}
-          />
-        ) : (
-          this.renderEmpty()
-        )}
-      </View>
-    )
-  }
 
   renderList() {
     const { homeGridCoverLayout } = systemStore.setting
@@ -108,10 +76,24 @@ class Grid extends React.Component<{
     const { $ } = this.context
     if (!$.collection._loaded) return <Loading />
 
+    const { title } = this.props
     return (
       <View style={this.styles.container}>
-        {this.renderInfo()}
-        {this.renderList()}
+        <Info title={title} />
+        <View>
+          {_.isDark && (
+            <LinearGradient
+              style={this.styles.linear}
+              colors={[
+                `rgba(${_.colorPlainRaw.join()}, 1)`,
+                `rgba(${_.colorPlainRaw.join()}, 0.8)`,
+                `rgba(${_.colorPlainRaw.join()}, 0.32)`,
+                `rgba(${_.colorPlainRaw.join()}, 0)`
+              ]}
+            />
+          )}
+          {this.renderList()}
+        </View>
       </View>
     )
   }

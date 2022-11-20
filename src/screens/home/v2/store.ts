@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 10:58:14
+ * @Last Modified time: 2022-11-20 12:17:08
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -870,6 +870,7 @@ export default class ScreenHomeV2 extends store {
         _top.push(subjectId)
       }
     }
+
     this.setState({
       top: _top
     })

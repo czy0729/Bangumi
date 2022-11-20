@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 09:46:56
+ * @Last Modified time: 2022-11-20 12:17:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,27 +51,26 @@ class GridInfo extends React.Component<{
   render() {
     global.rerender('Home.GridInfo')
 
-    const { subjectId, epStatus } = this.props
+    const { $ } = this.context
+    const { subjectId, subject, epStatus } = this.props
+    const isTop = $.state.top.indexOf(subjectId) !== -1
     return (
       <Flex style={this.styles.item} align='start'>
         <View>
-          <Cover
-            subjectId={subjectId}
-            width={this.styles.cover.width}
-            onPress={this.onPress}
-          />
+          <Cover subjectId={subjectId} subject={subject} onPress={this.onPress} />
           <Onair subjectId={subjectId} />
         </View>
         <Flex.Item style={this.styles.info}>
-          <Title subjectId={subjectId} />
+          <Title subjectId={subjectId} subject={subject} />
           <Flex style={_.device(undefined, _.mt.sm)}>
             <Flex.Item>
-              <Count subjectId={subjectId} epStatus={epStatus} />
+              <Count subjectId={subjectId} subject={subject} epStatus={epStatus} />
             </Flex.Item>
-            <ToolBar subjectId={subjectId} />
+            <ToolBar subjectId={subjectId} subject={subject} />
           </Flex>
           <Eps subjectId={subjectId} />
         </Flex.Item>
+        {isTop && <View style={this.styles.dot} />}
       </Flex>
     )
   }

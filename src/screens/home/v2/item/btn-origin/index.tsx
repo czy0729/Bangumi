@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 12:34:53
+ * @Last Modified time: 2022-11-20 12:16:52
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -41,9 +41,12 @@ function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
 
   return (
     <Popover
+      key={subjectId}
       style={styles.touch}
       data={data}
-      onSelect={(label: string) => $.onPopover(label, subjectId)}
+      onSelect={(label: string) => {
+        $.onPopover(label, subjectId)
+      }}
     >
       <Flex style={styles.btn} justify='center'>
         <Iconfont

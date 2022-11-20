@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 08:49:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 09:16:10
+ * @Last Modified time: 2022-11-20 10:31:18
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -13,9 +13,11 @@ import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import BookNextBtn from '../book-next-btn'
 
-function Count({ subjectId, epStatus }, { $ }: Ctx) {
-  const subject = $.subject(subjectId)
-  const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
+function Count({ subjectId, subject = {}, epStatus }: any, { $ }: Ctx) {
+  const _subject = $.subject(subjectId)
+  const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(
+    _subject?.type || subject?.type
+  )
   if (label === '游戏') return null
 
   if (label === '书籍') {
