@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-20 13:57:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 12:11:30
+ * @Last Modified time: 2022-11-20 09:52:24
  */
 import { _ } from '@stores'
 import { memoStyles as gridItemMemoStyles } from '../grid-item/styles'
@@ -19,20 +19,6 @@ export const memoStyles = _.memoStyles(() => {
     },
     info: {
       marginLeft: _.device(itemStyles.item.marginLeft, _.md)
-    },
-    icon: {
-      marginBottom: -1
-    },
-    touchable: {
-      padding: _.sm
-    },
-    placeholder: {
-      marginBottom: -1.5,
-      marginLeft: _.sm
-    },
-    eps: {
-      paddingRight: _.xs,
-      marginTop: _.sm
     }
   }
 })

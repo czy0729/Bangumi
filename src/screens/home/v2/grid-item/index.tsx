@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 11:29:38
+ * @Last Modified time: 2022-11-20 08:35:17
  */
 import React from 'react'
 import { View } from 'react-native'
-import Progress from '@ant-design/react-native/lib/progress'
 import { Cover } from '@_'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -31,10 +30,17 @@ function GridItem({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) 
   const isActive = current === subjectId
 
   const total = $.epsCount(subjectId)
-  const percent = Math.min(
+  const totalPercent = Math.min(
     (Math.floor(epStatus || 0) / Math.floor(total || 12)) * 100,
     100
   )
+
+  const currentOnAir = $.currentOnAir(subjectId)
+  const currentPercent = Math.min(
+    (Math.floor(currentOnAir || 0) / Math.floor(total || 12)) * 100,
+    100
+  )
+
   return (
     <View style={styles.item}>
       <View style={isActive && styles.active}>
@@ -54,12 +60,24 @@ function GridItem({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) 
           }}
         />
       </View>
-      <Progress
-        style={styles.progress}
-        barStyle={styles.bar}
-        percent={percent ? Math.max(percent, 8) : 0}
-        unfilled
-      />
+      <View style={styles.progress}>
+        <View
+          style={[
+            styles.progressBar,
+            {
+              width: `${currentPercent ? Math.max(currentPercent, 10) : 0}%`
+            }
+          ]}
+        />
+        <View
+          style={[
+            styles.progressActive,
+            {
+              width: `${totalPercent ? Math.max(totalPercent, 10) : 0}%`
+            }
+          ]}
+        />
+      </View>
     </View>
   )
 }

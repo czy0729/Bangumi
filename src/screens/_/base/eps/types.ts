@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 08:07:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 08:36:36
+ * @Last Modified time: 2022-11-20 09:40:07
  */
 import { SubjectId, ViewStyle } from '@types'
 
@@ -52,5 +52,5 @@ export type Props = {
   onSelect?: (value?: string, item?: object, subjectId?: SubjectId) => void
 
   /** @deprecated 长按回调 */
-  onLongPress?: (value?: string, item?: object, subjectId?: SubjectId) => void
+  onLongPress?: (item?: object, subjectId?: SubjectId) => void
 }

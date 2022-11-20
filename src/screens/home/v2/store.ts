@@ -595,7 +595,7 @@ export default class ScreenHomeV2 extends store {
       return (
         (this.subject(subjectId).eps || [])
           .reverse()
-          .find(item => item.type === 0 && item.status !== 'NA')?.sort || 0
+          .find(item => item.type === 0 && item.status === 'Air')?.sort || 0
       )
     } catch (error) {
       console.error(NAMESPACE, 'nextWatchEp', error)

@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 12:35:52
+ * @Last Modified time: 2022-11-20 09:46:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable } from '@components'
-import { Eps, Cover } from '@_'
+import { Flex } from '@components'
 import { _ } from '@stores'
-import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants'
 import { EpStatus, Subject, SubjectId } from '@types'
-import BtnOrigin from '../item/btn-origin'
 import { Ctx } from '../types'
+import Cover from './cover'
+import Onair from './onair'
+import Title from './title'
+import Count from './count'
+import ToolBar from './tool-bar'
+import Eps from './eps'
 import { memoStyles } from './styles'
 
 class GridInfo extends React.Component<{
@@ -46,196 +48,29 @@ class GridInfo extends React.Component<{
     })
   }
 
-  onEpsSelect = (value, item) => {
-    const { $, navigation }: Ctx = this.context
-    const { subjectId } = this.props
-    $.doEpsSelect(value, item, subjectId, navigation)
-  }
-
-  onEpsLongPress = item => {
-    const { $ }: Ctx = this.context
-    const { subjectId } = this.props
-    $.doEpsLongPress(item, subjectId)
-  }
-
-  onCheckPress = () => {
-    const { $ }: Ctx = this.context
-    const { subjectId } = this.props
-    $.doWatchedNextEp(subjectId)
-  }
-
-  onStarPress = () => {
-    const { $ }: Ctx = this.context
-    const { subjectId } = this.props
-    $.showManageModal(subjectId)
-  }
-
-  get label() {
-    const { subject } = this.props
-    return MODEL_SUBJECT_TYPE.getTitle(subject.type)
-  }
-
-  renderBtnNextEp() {
-    const { $ }: Ctx = this.context
-    const { subjectId } = this.props
-    const { sort } = $.nextWatchEp(subjectId)
-    if (!sort) return null
-
-    return (
-      <Touchable style={this.styles.touchable} onPress={this.onCheckPress}>
-        <Flex justify='center'>
-          <Iconfont style={this.styles.icon} name='md-check-circle-outline' size={18} />
-          <View style={this.styles.placeholder}>
-            <Text type='sub'>{sort}</Text>
-          </View>
-        </Flex>
-      </Touchable>
-    )
-  }
-
-  renderToolBar() {
-    const { $ }: Ctx = this.context
-    const { subjectId } = this.props
-    return (
-      <Flex style={_.mt.xs}>
-        {(this.label === '动画' || this.label === '三次元') && (
-          <BtnOrigin
-            subjectId={subjectId}
-            isTop={$.state.top.indexOf(subjectId) !== -1}
-          />
-        )}
-        {this.renderBtnNextEp()}
-        <Touchable style={[this.styles.touchable, _.ml.sm]} onPress={this.onStarPress}>
-          <Iconfont name='md-star-outline' size={19} />
-        </Touchable>
-      </Flex>
-    )
-  }
-
-  renderCount() {
-    const { $ }: Ctx = this.context
-    const { subjectId, epStatus } = this.props
-    if (this.label === '游戏') return null
-
-    if (this.label === '书籍') {
-      const { list = [] } = $.collection
-      const { ep_status: epStatus, vol_status: volStatus } = list.find(
-        item => item.subject_id === subjectId
-      )
-      return (
-        <Flex justify='end'>
-          <Text type='primary' size={20}>
-            <Text type='primary' size={12} lineHeight={20}>
-              Chap.{' '}
-            </Text>
-            {epStatus}
-          </Text>
-          {this.renderBookNextBtn(epStatus + 1, volStatus)}
-          <Text style={_.ml.md} type='primary' size={20}>
-            <Text type='primary' size={12} lineHeight={20}>
-              Vol.{' '}
-            </Text>
-            {volStatus}
-          </Text>
-          {this.renderBookNextBtn(epStatus, volStatus + 1)}
-        </Flex>
-      )
-    }
-
-    return (
-      <Text type='primary' size={18}>
-        {epStatus || 0}
-        <Text type='sub' lineHeight={18}>
-          {' '}
-          / {$.countRight(subjectId)}
-        </Text>
-      </Text>
-    )
-  }
-
-  renderBookNextBtn(epStatus: any, volStatus: any) {
-    const { $ }: Ctx = this.context
-    const { subjectId } = this.props
-    return (
-      <Touchable
-        style={this.styles.touchable}
-        onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
-      >
-        <Flex justify='center'>
-          <Iconfont style={this.styles.icon} name='md-check-circle-outline' size={18} />
-        </Flex>
-      </Touchable>
-    )
-  }
-
   render() {
     global.rerender('Home.GridInfo')
 
-    const { $ }: Ctx = this.context
-    const { subjectId, subject } = this.props
-    const isToday = $.isToday(subjectId)
-    const isNextDay = $.isNextDay(subjectId)
-    const { h, m } = $.onAirCustom(subjectId)
-
-    const eps = $.eps(subjectId)
-    const numberOfLines = _.isMobileLanscape ? 12 : _.device(6, 8)
-    const imageWidth = _.isMobileLanscape ? 60 : this.styles.cover.width
-    const imageHeight = imageWidth * 1.4
-    const onAirStyle = _.isMobileLanscape ? _.mt.xs : _.mt.sm
-
-    const _subject = $.subject(subjectId)
-    const title = HTMLDecode(
-      cnjp(_subject?.name_cn || subject.name_cn, _subject?.name || subject.name)
-    )
+    const { subjectId, epStatus } = this.props
     return (
       <Flex style={this.styles.item} align='start'>
         <View>
           <Cover
-            key={subjectId}
-            size={imageWidth}
-            height={imageHeight}
-            src={subject?.images?.medium || ''}
-            radius
-            shadow
+            subjectId={subjectId}
+            width={this.styles.cover.width}
             onPress={this.onPress}
           />
-          {isToday ? (
-            <Text style={onAirStyle} type='success' align='center' size={12} bold>
-              {h}:{m}
-            </Text>
-          ) : isNextDay ? (
-            <Text style={onAirStyle} type='sub' align='center' size={12} bold>
-              明天{h}:{m}
-            </Text>
-          ) : null}
+          <Onair subjectId={subjectId} />
         </View>
         <Flex.Item style={this.styles.info}>
-          <Touchable onPress={this.onPress}>
-            <Flex align='start'>
-              <Flex.Item>
-                <Text size={15} numberOfLines={eps.length >= 14 ? 1 : 2} bold>
-                  {title}
-                </Text>
-              </Flex.Item>
-            </Flex>
-          </Touchable>
+          <Title subjectId={subjectId} />
           <Flex style={_.device(undefined, _.mt.sm)}>
-            <Flex.Item>{this.renderCount()}</Flex.Item>
-            {this.renderToolBar()}
+            <Flex.Item>
+              <Count subjectId={subjectId} epStatus={epStatus} />
+            </Flex.Item>
+            <ToolBar subjectId={subjectId} />
           </Flex>
-          <View style={this.styles.eps}>
-            <Eps
-              grid
-              numbersOfLine={numberOfLines}
-              lines={_.isMobileLanscape ? 1 : 3}
-              login={$.isLogin}
-              subjectId={subjectId}
-              eps={eps}
-              userProgress={$.userProgress(subjectId)}
-              onSelect={this.onEpsSelect}
-              onLongPress={this.onEpsLongPress}
-            />
-          </View>
+          <Eps subjectId={subjectId} />
         </Flex.Item>
       </Flex>
     )
