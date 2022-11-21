@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 07:37:36
+ * @Last Modified time: 2022-11-21 10:41:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,7 @@ import ToolBar from './tool-bar'
 import Eps from './eps'
 import { memoStyles } from './styles'
 import { Props } from './types'
+import { OnairProgress } from '@_'
 
 function GridInfo(
   { subjectId = 0, subject = {}, epStatus = '' }: Props,
@@ -53,12 +54,19 @@ function GridInfo(
       </View>
       <Flex.Item style={styles.info}>
         <Title subjectId={subjectId} subject={subject} />
-        <Flex style={_.device(undefined, _.mt.sm)}>
+        <Flex style={[_.isPad && _.mt.sm, _.mb.xs]}>
           <Flex.Item>
             <Count subjectId={subjectId} subject={subject} epStatus={epStatus} />
           </Flex.Item>
           <ToolBar subjectId={subjectId} subject={subject} />
         </Flex>
+        <OnairProgress
+          key={subjectId}
+          epStatus={epStatus}
+          current={$.currentOnAir(subjectId)}
+          total={$.epsCount(subjectId)}
+          height={6}
+        />
         <Eps subjectId={subjectId} />
       </Flex.Item>
       {isTop && <View style={styles.dot} />}

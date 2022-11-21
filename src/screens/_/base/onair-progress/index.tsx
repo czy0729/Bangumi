@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 10:17:37
+ * @Last Modified time: 2022-11-21 10:35:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ export const OnairProgress = ({
   height = 7
 }: OnairProgressProps) => {
   const totalPercent = Math.min(
-    (Math.floor(epStatus || 0) / Math.floor(total || defaultTotal)) * 100,
+    (Math.floor(Number(epStatus || 0)) / Math.floor(total || defaultTotal)) * 100,
     100
   )
   const currentPercent = Math.min(

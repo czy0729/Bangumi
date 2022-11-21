@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 09:33:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 07:40:24
+ * @Last Modified time: 2022-11-21 10:43:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,11 @@ function Eps({ subjectId }, { $, navigation }: Ctx) {
     <View style={styles.eps}>
       <CompEps
         grid
-        numbersOfLine={_.isMobileLanscape ? 12 : _.device(6, 8)}
+        numbersOfLine={
+          _.isMobileLanscape
+            ? 12
+            : _.device($.epsCount(subjectId, false) <= 12 ? 6 : 7, 8)
+        }
         lines={_.isMobileLanscape ? 1 : 3}
         login={$.isLogin}
         subjectId={subjectId}

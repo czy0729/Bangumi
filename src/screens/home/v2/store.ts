@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 08:44:42
+ * @Last Modified time: 2022-11-21 10:43:06
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -736,11 +736,14 @@ export default class ScreenHomeV2 extends store {
   }
 
   /** 排除 SP 章节的长度 */
-  epsCount(subjectId: SubjectId) {
+  epsCount(subjectId: SubjectId, filterZero: boolean = true) {
     return computed(() => {
       const subject = this.subject(subjectId)
       if (subject?.eps && typeof subject.eps === 'object') {
-        const { length } = subject.eps.filter(item => item.type === 0 && item.sort != 0)
+        const { length } = subject.eps.filter(item => {
+          if (filterZero) return item.type === 0 && item.sort != 0
+          item.type === 0
+        })
         if (length) return length
       }
 

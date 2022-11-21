@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:18:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 08:32:23
+ * @Last Modified time: 2022-11-21 10:33:32
  */
 export type Props = {
   /** 当前进度 */
-  epStatus: number
+  epStatus: number | string
 
   /** 当前放送到 */
   current: number
