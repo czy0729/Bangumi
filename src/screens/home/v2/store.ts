@@ -866,9 +866,7 @@ export default class ScreenHomeV2 extends store {
       _top.splice(index, 1)
 
       // 再置顶
-      if (isTop) {
-        _top.push(subjectId)
-      }
+      if (isTop) _top.push(subjectId)
     }
 
     this.setState({

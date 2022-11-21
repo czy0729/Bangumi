@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 09:19:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 11:38:21
+ * @Last Modified time: 2022-11-21 07:40:44
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -17,6 +17,8 @@ import BtnNextEp from '../btn-next-ep'
 import { styles } from './styles'
 
 function ToolBar({ subjectId, subject = {} }: any, { $ }: Ctx) {
+  global.rerender('Home.GridInfo.ToolBar')
+
   const _subject = $.subject(subjectId)
   const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(
     _subject.type || subject?.type

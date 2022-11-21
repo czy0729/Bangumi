@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 19:22:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 10:53:44
+ * @Last Modified time: 2022-11-21 07:04:13
  */
 import { _ } from '@stores'
 
@@ -31,14 +31,6 @@ export const memoStyles = _.memoStyles(() => {
       paddingBottom:
         _.ios(_.tabBarHeight + _.md, _.tabBarHeight + _.md - _.tabBarHeight) + height,
       paddingLeft: _.wind - _.sm - 2
-    },
-    linear: {
-      position: 'absolute',
-      zIndex: 1,
-      right: 0,
-      top: 0,
-      left: 0,
-      height: 24
     }
   }
 })

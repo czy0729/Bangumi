@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 09:07:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 09:28:35
+ * @Last Modified time: 2022-11-21 07:40:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,8 @@ import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function BtnNextEp({ subjectId }, { $ }: Ctx) {
+  global.rerender('Home.GridInfo.BtnNextEp')
+
   const { sort } = $.nextWatchEp(subjectId)
   if (!sort) return null
 

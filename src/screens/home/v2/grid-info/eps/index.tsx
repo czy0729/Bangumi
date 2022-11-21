@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 09:33:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 09:42:39
+ * @Last Modified time: 2022-11-21 07:40:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,8 @@ import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function Eps({ subjectId }, { $, navigation }: Ctx) {
+  global.rerender('Home.GridInfo.Eps')
+
   const eps = $.eps(subjectId)
   type Ep = InferArray<typeof eps>
 

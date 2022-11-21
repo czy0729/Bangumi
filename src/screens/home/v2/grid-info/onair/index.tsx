@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 08:26:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 09:22:10
+ * @Last Modified time: 2022-11-21 07:40:30
  */
 import React from 'react'
 import { Text } from '@components'
@@ -11,6 +11,8 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
 function Onair({ subjectId }, { $ }: Ctx) {
+  global.rerender('Home.GridInfo.Onair')
+
   const style = _.isMobileLanscape ? _.mt.xs : _.mt.md
   if ($.isToday(subjectId)) {
     const { h, m } = $.onAirCustom(subjectId)

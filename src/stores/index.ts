@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-04 13:34:45
+ * @Last Modified time: 2022-11-21 07:42:10
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -79,7 +79,7 @@ class GlobalStores {
         }
       }
 
-      if (DEV) console.info('========== GlobalStores init ==========')
+      // if (DEV) console.info('========== GlobalStores init ==========')
 
       return systemStore.setting
     } catch (error) {

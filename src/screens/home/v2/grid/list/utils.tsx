@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-19 21:18:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 21:19:42
+ * @Last Modified time: 2022-11-21 07:00:35
  */
 import React from 'react'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import GridItem from '../grid-item'
+import GridItem from '../../grid-item'
 
-export function keyExtractor(item) {
+export function keyExtractor(item: { subject_id: any; id: any }) {
   return String(item.subject_id || item.id)
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 11:15:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 11:33:42
+ * @Last Modified time: 2022-11-21 07:32:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,10 +11,12 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import GridInfo from '../../grid-info'
 import { Ctx } from '../../types'
-import { PREV_TEXT } from '../ds'
 import { memoStyles } from '../styles'
+import { PREV_TEXT } from './ds'
 
 function Info({ title }, { $ }: Ctx) {
+  global.rerender('Home.Grid.Info')
+
   if (!$.collection._loaded) return <Loading />
 
   const styles = memoStyles()
