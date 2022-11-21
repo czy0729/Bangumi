@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 12:17:08
+ * @Last Modified time: 2022-11-21 08:44:42
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -739,11 +739,12 @@ export default class ScreenHomeV2 extends store {
   epsCount(subjectId: SubjectId) {
     return computed(() => {
       const subject = this.subject(subjectId)
-      if (subject?.eps_count) return subject.eps_count
-
       if (subject?.eps && typeof subject.eps === 'object') {
-        return subject.eps.filter(item => item.type === 0).length
+        const { length } = subject.eps.filter(item => item.type === 0 && item.sort != 0)
+        if (length) return length
       }
+
+      if (subject?.eps_count) return subject.eps_count
 
       return 0
     }).get()

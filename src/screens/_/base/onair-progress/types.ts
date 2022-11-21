@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:18:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 07:25:29
+ * @Last Modified time: 2022-11-21 08:32:23
  */
 export type Props = {
   /** 当前进度 */
@@ -16,4 +16,6 @@ export type Props = {
 
   /** 总共多少集没有数据时, 默认使用的集数 */
   defaultTotal?: number
+
+  height?: number
 }

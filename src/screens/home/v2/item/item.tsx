@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-14 17:05:54
+ * @Last Modified time: 2022-11-21 08:31:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -69,7 +69,7 @@ const Item = memo(
                   isFirst={isFirst}
                 />
               </Flex>
-              <Progress epStatus={epStatus} subject={subject} epsCount={epsCount} />
+              <Progress subjectId={subjectId} epStatus={epStatus} />
             </View>
           </Flex.Item>
           {isFirst && (

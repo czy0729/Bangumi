@@ -2,25 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-01-21 16:01:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 14:49:10
+ * @Last Modified time: 2022-11-21 08:41:27
  */
 import React from 'react'
-import CompProgress from '@ant-design/react-native/lib/progress'
-import { ob } from '@utils/decorators'
-import { memoStyles } from './styles'
+import { OnairProgress } from '@_'
+import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
 
-function Progress({ epStatus, subject, epsCount }) {
-  const styles = memoStyles()
-  const count = epsCount || subject.eps || subject.eps_count || 0
-  const percent = Math.floor(count ? (Number(epStatus || 0) / Number(count)) * 100 : 0)
+function Progress({ epStatus, subjectId }, { $ }: Ctx) {
   return (
-    <CompProgress
-      style={styles.progress}
-      barStyle={styles.bar}
-      wrapWidth={styles.layout.width}
-      percent={percent}
+    <OnairProgress
+      epStatus={epStatus}
+      current={$.currentOnAir(subjectId)}
+      total={$.epsCount(subjectId)}
+      height={6}
     />
   )
 }
 
-export default ob(Progress)
+export default obc(Progress)
