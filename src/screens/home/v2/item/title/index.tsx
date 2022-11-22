@@ -40,12 +40,12 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
   return (
     <>
       {filterValue ? (
-        <Highlight numberOfLines={2} bold value={filterValue}>
+        <Highlight size={15} numberOfLines={2} bold value={filterValue}>
           {title}
         </Highlight>
       ) : (
-        <Katakana.Provider numberOfLines={2} bold>
-          <Katakana numberOfLines={2} bold>
+        <Katakana.Provider size={15} numberOfLines={2} bold>
+          <Katakana size={15} numberOfLines={2} bold>
             {title}
           </Katakana>
         </Katakana.Provider>

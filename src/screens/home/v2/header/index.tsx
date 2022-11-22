@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 17:29:43
+ * @Last Modified time: 2022-11-22 12:46:42
  */
 import React from 'react'
-import { Heatmap } from '@components'
-import { LogoHeader, IconNotify, IconTinygrail, IconTabsHeader } from '@_'
-import { _ } from '@stores'
+import { Flex, Heatmap } from '@components'
+import { LogoHeader, IconNotify, IconTabsHeader } from '@_'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { MENU_MAP } from '../../../discovery/index/ds'
 import { styles } from './styles'
 
 const EVENT = {
@@ -19,6 +20,9 @@ const EVENT = {
 function Header(props, { navigation }) {
   global.rerender('Home.Header')
 
+  const { homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
+  const left = MENU_MAP[homeTopLeftCustom]
+  const right = MENU_MAP[homeTopRightCustom]
   return (
     <LogoHeader
       left={
@@ -28,33 +32,36 @@ function Header(props, { navigation }) {
         </IconNotify>
       }
       right={
-        <>
-          <IconTinygrail
-            style={[styles.icon, _.mr.xs]}
-            navigation={navigation}
-            event={EVENT}
-          />
-          <IconTabsHeader
-            style={[styles.icon, _.mr.xs]}
-            name='md-search'
-            onPress={() => {
-              t('首页.跳转', {
-                to: 'Search'
-              })
-              navigation.push('Search')
-            }}
-          >
-            <Heatmap id='首页.跳转' to='Search' alias='搜索' />
-            <Heatmap
-              right={88}
-              bottom={-32}
-              id='首页.跳转'
-              to='Calendar'
-              alias='每日放送'
-              transparent
+        <Flex style={_.mr.xs}>
+          {!!left && (
+            <IconTabsHeader
+              style={[styles.icon, _.mr.xs]}
+              name={left.icon}
+              text={left.text}
+              size={(left.size || 23) - 1}
+              onPress={() => {
+                t('首页.跳转', {
+                  to: left.key
+                })
+                navigation.push(left.key)
+              }}
             />
-          </IconTabsHeader>
-        </>
+          )}
+          {!!right && (
+            <IconTabsHeader
+              style={[styles.icon, _.mr.xs]}
+              name={right.icon}
+              text={right.text}
+              size={(right.size || 23) - 1}
+              onPress={() => {
+                t('首页.跳转', {
+                  to: right.key
+                })
+                navigation.push(right.key)
+              }}
+            />
+          )}
+        </Flex>
       }
     />
   )

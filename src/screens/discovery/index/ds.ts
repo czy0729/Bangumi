@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 18:01:17
+ * @Last Modified time: 2022-11-22 05:31:04
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -39,7 +39,7 @@ export const INITIAL_RENDER_NUMS_XS = _.device(
   0
 )
 
-const MENU_MAP = {
+export const MENU_MAP = {
   Rank: {
     key: 'Rank',
     name: '排行榜',

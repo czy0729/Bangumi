@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 23:14:28
+ * @Last Modified time: 2022-11-22 05:48:39
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -252,6 +252,12 @@ export const INIT_SETTING = {
 
   /** 首页收藏排序 */
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('APP'),
+
+  /** 首页右上角自定义功能 (左) */
+  homeTopLeftCustom: 'Calendar',
+
+  /** 首页右上角自定义功能 (右) */
+  homeTopRightCustom: 'Search',
 
   /** 发现页自定义菜单 */
   discoveryMenu: [...INIT_DISCOVERY_MENU],

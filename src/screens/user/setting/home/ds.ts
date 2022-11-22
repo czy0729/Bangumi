@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-22 12:35:17
+ * @Last Modified time: 2022-11-22 04:27:35
  */
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 
@@ -34,7 +34,7 @@ export const TEXTS = {
     }
   },
   homeListLimit: {
-    hd: '列表显示最大收藏数'
+    hd: '列表最大收藏数'
   },
   homeGridCoverLayout: {
     hd: '封面形状',
@@ -45,6 +45,9 @@ export const TEXTS = {
     title: '放送数字显示',
     information: '自定义显示组合\n例：4 代表看到，6 代表已放送，12 代表总集数',
     search: HOME_COUNT_VIEW
+  },
+  homeCustom: {
+    hd: '右上角功能入口'
   },
   homeSorting: {
     title: '排序',

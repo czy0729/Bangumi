@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 16:04:07
+ * @Last Modified time: 2022-11-22 12:51:22
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, SegmentedControl, Heatmap, Text } from '@components'
@@ -26,6 +26,7 @@ import {
 import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
 import { HOME_SORTING_INFORMATION, VALUES, TEXTS, HOME_COUNT_VIEW } from './ds'
+import CustomBtn from './custom-btn'
 
 function Home({ filter }) {
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -139,7 +140,9 @@ function Home({ filter }) {
             show={shows.homeListLimit}
             ft={
               <Text size={13} bold>
-                {systemStore.advance ? '当前300 (非会员100)' : '当前100 (会员300)'}
+                {systemStore.advance
+                  ? '当前300 (非会员100，网页25)'
+                  : '当前100 (会员300，网页25)'}
               </Text>
             }
             filter={filter}
@@ -201,6 +204,17 @@ function Home({ filter }) {
             ))}
             <Heatmap id='设置.切换' title='首页排序' />
           </ItemSettingBlock>
+
+          {/* 右上角功能入口 */}
+          <ItemSetting
+            style={[_.mt.sm, _.mb.sm]}
+            show={shows.homeCustom}
+            ft={<CustomBtn />}
+            filter={filter}
+            {...TEXTS.homeCustom}
+          >
+            <Heatmap id='设置.切换' title='右上角功能入口' />
+          </ItemSetting>
 
           {/* 收藏项右侧菜单 */}
           <ItemSetting
