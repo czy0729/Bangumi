@@ -665,6 +665,10 @@ export const MODEL_SETTING_QUALITY = new Model(SETTING_QUALITY, 'SETTING_QUALITY
 /** [设置] 字号 */
 export const SETTING_FONTSIZEADJUST = [
   {
+    label: '-2',
+    value: '-2'
+  },
+  {
     label: '-1',
     value: '-1'
   },

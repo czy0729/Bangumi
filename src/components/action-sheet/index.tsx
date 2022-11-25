@@ -13,6 +13,8 @@ import { IOS } from '@constants'
 import { Portal } from '../portal'
 import { ScrollView } from '../scroll-view'
 import { Touchable } from '../touchable'
+import { Flex } from '../flex'
+import { Text } from '../text'
 import { memoStyles } from './styles'
 import { Props as ActionSheetProps } from './types'
 
@@ -120,6 +122,13 @@ export const ActionSheet = ({
             >
               {children}
             </ScrollView>
+            <Touchable onPress={onClose}>
+              <Flex style={styles.close} justify='center'>
+                <Text size={15} bold type='sub'>
+                  收起
+                </Text>
+              </Flex>
+            </Touchable>
           </Animated.View>
         </View>
       </Portal>

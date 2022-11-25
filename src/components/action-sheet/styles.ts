@@ -41,5 +41,10 @@ export const memoStyles = _.memoStyles(() => ({
   body: {
     paddingVertical: _.md,
     paddingHorizontal: _.wind - _._wind
+  },
+  close: {
+    paddingTop: _.md,
+    paddingBottom: _.ios(_.lg, _.md),
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   }
 }))

@@ -23,6 +23,6 @@ export const TEXTS = {
   },
   autoColorScheme: {
     hd: '跟随系统',
-    information: '启动App时黑白主题是否跟随系统'
+    information: '启动 App 时黑白主题是否跟随系统'
   }
 } as const

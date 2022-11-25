@@ -11,7 +11,7 @@ export const TEXTS = {
   },
   heatMap: {
     title: '章节讨论热力图',
-    information: '按钮下方显示不同透明度橙色条块，可快速了解讨论激烈程度'
+    information: '按钮下方不同透明度橙色条块，可快速了解讨论激烈程度'
   },
   s2t: {
     hd: '繁体'

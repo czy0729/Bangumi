@@ -149,6 +149,16 @@ function Home({ filter }) {
             {...TEXTS.homeListLimit}
           />
 
+          {/* 右上角功能入口 */}
+          <ItemSetting
+            show={shows.homeCustom}
+            ft={<CustomBtn />}
+            filter={filter}
+            {...TEXTS.homeCustom}
+          >
+            <Heatmap id='设置.切换' title='右上角功能入口' />
+          </ItemSetting>
+
           {/* 放送数字显示 */}
           <ItemSettingBlock
             show={shows.homeCountView}
@@ -204,17 +214,6 @@ function Home({ filter }) {
             ))}
             <Heatmap id='设置.切换' title='首页排序' />
           </ItemSettingBlock>
-
-          {/* 右上角功能入口 */}
-          <ItemSetting
-            style={[_.mt.sm, _.mb.sm]}
-            show={shows.homeCustom}
-            ft={<CustomBtn />}
-            filter={filter}
-            {...TEXTS.homeCustom}
-          >
-            <Heatmap id='设置.切换' title='右上角功能入口' />
-          </ItemSetting>
 
           {/* 收藏项右侧菜单 */}
           <ItemSetting
