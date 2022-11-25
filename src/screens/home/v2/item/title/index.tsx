@@ -17,8 +17,7 @@ import { Props } from './types'
 
 function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
   const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
-  const isBook = type === '书籍'
-  const action = isBook ? '读' : '看'
+  const action = type === '书籍' ? '读' : type === '游戏' ? '玩' : '看'
 
   const { weekDay, isExist } = $.onAirCustom(subjectId)
   const weekDayText = systemStore.setting.homeOnAir

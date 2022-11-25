@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:09:44
+ * @Last Modified time: 2022-11-25 04:39:57
  */
 import React from 'react'
 import { IconTouchable } from '@_'
@@ -35,9 +35,9 @@ function IconShare({
       onPress={async () => {
         if (!navigation) return
 
-        const { images = {} } = $.subject
-        let src = CDN_OSS_SUBJECT(getCoverMedium(images.common))
-        if (!src.includes(HOST_CDN)) src = getCoverLarge(images.common)
+        const { images } = $.subject
+        let src = CDN_OSS_SUBJECT(getCoverMedium(images?.common))
+        if (!src.includes(HOST_CDN)) src = getCoverLarge(images?.common)
 
         const hide = loading('下载封面中...')
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 09:04:40
+ * @Last Modified time: 2022-11-25 08:39:38
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -32,6 +32,7 @@ import {
   LIST_EMPTY
 } from '@constants'
 import {
+  Actions,
   EpId,
   HTMLText,
   MonoId,
@@ -165,12 +166,17 @@ const state = {
       game: [],
       real: []
     }
-  }
+  } as Origin,
+
+  /** 自定义跳转 */
+  actions: {} as Actions
 }
 
 /**
- * @date 2022/04/06 subject 和 subjectFormHTML 根据 id 最后 2 位拆开 100 个 key 存放
+ * subject 和 subjectFormHTML 根据 id 最后 2 位拆开 100 个 key 存放
  * 避免 JSON.stringify 后长度太长, 无法本地化
+ * 也能减少每次写入本地储存的量
+ * @date 2022/04/06
  */
 for (let i = 0; i < 1000; i += 1) {
   /** 条目 */
@@ -192,7 +198,8 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     subjectFromOSS: false,
     subjectComments: false,
     mono: false,
-    origin: false
+    origin: false,
+    actions: false
   }
 
   init = (
@@ -360,6 +367,14 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
   @computed get origin(): Origin {
     this.init('origin')
     return this.state.origin
+  }
+
+  /** 自定义跳转 */
+  actions(subjectId: SubjectId) {
+    this.init('actions')
+    return computed(() => {
+      return this.state.actions[subjectId] || []
+    }).get()
   }
 
   // -------------------- fetch --------------------
@@ -954,6 +969,15 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     } catch (error) {
       return false
     }
+  }
+
+  /** 更新跳转数据 */
+  updateActions = (data: Actions) => {
+    const key = 'actions'
+    this.setState({
+      [key]: data
+    })
+    this.save(key)
   }
 }
 

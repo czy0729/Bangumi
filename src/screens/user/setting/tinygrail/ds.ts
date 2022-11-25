@@ -13,5 +13,9 @@ export const TEXTS = {
   tinygrailMode: {
     hd: '涨跌色',
     search: '绿涨红跌, 红涨绿跌'
+  },
+  homeCustom: {
+    hd: '进度页右上角入口',
+    information: 'v7.3.2 后不再默认配置小圣杯入口\n若需要请手动设置'
   }
 } as const

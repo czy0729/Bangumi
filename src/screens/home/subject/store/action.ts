@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 07:05:53
+ * @Last Modified time: 2022-11-25 13:10:33
  */
 import {
   otaStore,
@@ -449,6 +449,30 @@ export default class Action extends Fetch {
       subjectId: this.subjectId
     })
     calendarStore.resetOnAirUser(this.subjectId)
+  }
+
+  /** 自定义跳转点击回调 */
+  onActionsPress = (title: string, navigation: Navigation) => {
+    if (title === '自定义跳转管理') {
+      navigation.push('Actions', {
+        subjectId: this.subjectId,
+        name: this.cn || this.jp
+      })
+      return true
+    }
+
+    const find = this.actions.find(item => item.name === title)
+    if (find) {
+      open(find.url, true)
+
+      t('其他.自定义跳转', {
+        from: 'Subject',
+        key: `${this.subjectId}|${find.name}|${find.url}`
+      })
+      return true
+    }
+
+    return false
   }
 
   // -------------------- action --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 07:11:49
+ * @Last Modified time: 2022-11-25 10:44:30
  */
 export const NAMESPACE = 'ScreenOriginSetting'
 
@@ -93,6 +93,13 @@ export const SITES_ANIME = [
     url: 'http://www.zzzfun.com/vod_search.html?wd=[CN]',
     sort: 0,
     active: 1
+  },
+  {
+    id: 'anime|pixivel',
+    name: 'pixivel.moe',
+    url: 'https://pixivel.moe/search?keyword=[JP]&mode=tag&features=sortpop',
+    sort: 0,
+    active: 0
   },
   {
     id: 'anime|libvio',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 10:26:30
+ * @Last Modified time: 2022-11-24 19:11:22
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -29,6 +29,7 @@ export default obc(({ size }: { size: number }, { $, navigation }: Ctx) => {
       subjectAfter={$.subjectAfter}
       subjectSeries={$.subjectSeries}
       subjectAnime={$.subjectAnime}
+      subjectDiff={$.subjectDiff}
     />
   )
 })

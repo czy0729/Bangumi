@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:29:35
+ * @Last Modified time: 2022-11-25 09:27:44
  */
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -198,13 +198,15 @@ export function safeObject(object: any = {}) {
 }
 
 /** 浏览器打开网页 */
-export function open(url: any): boolean {
+export function open(url: any, encode: boolean = false): boolean {
   if (!url || typeof url !== 'string') {
     info('地址不合法')
     return false
   }
 
-  if (IOS) {
+  if (encode) url = encodeURI(url)
+
+  if (IOS && url.indexOf('http') === 0) {
     WebBrowser.openBrowserAsync(url, {
       enableBarCollapsing: true,
       showInRecents: true

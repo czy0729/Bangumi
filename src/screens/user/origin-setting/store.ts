@@ -6,9 +6,8 @@
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
-import { getTimestamp, open, copy } from '@utils'
+import { getTimestamp, open, copy, info } from '@utils'
 import store from '@utils/store'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { getOriginConfig, replaceOriginUrl } from './utils'
 import { NAMESPACE, TYPES_DS } from './ds'

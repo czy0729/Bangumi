@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 12:16:52
+ * @Last Modified time: 2022-11-25 10:39:03
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -17,16 +17,19 @@ import { SubjectTypeCn } from '@types'
 function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
   if ($.homeOrigin === -1) return null
 
-  let origins: string[] = []
+  const origins: string[] = [...$.actions(subjectId).map(item => item.name)]
   if ($.homeOrigin === true) {
-    origins = $.onlineOrigins(subjectId).map(item =>
-      typeof item === 'object' ? item.name : item
+    origins.push(
+      ...$.onlineOrigins(subjectId).map(item =>
+        typeof item === 'object' ? item.name : item
+      )
     )
   }
 
   const subject = $.subject(subjectId)
   const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
-  const data = [isTop ? '取消置顶' : '置顶', ...origins]
+  const data = [...origins, isTop ? '取消置顶' : '置顶']
+
   if (['动画', '三次元'].includes(title)) {
     data.push('全部展开', '全部收起')
 

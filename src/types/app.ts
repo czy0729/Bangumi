@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 19:37:56
+ * @Last Modified time: 2022-11-24 17:41:00
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -12,6 +12,7 @@ import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { EventKeys } from '@constants/events'
 import { SITES } from '@constants'
+import { Id, SubjectId } from '@types'
 import { DeepPartial, Override } from './utils'
 
 /** 图标 (iOS Style) */
@@ -141,3 +142,15 @@ export type Origin = DeepPartial<{
     }[]
   >
 }>
+
+/** 自定义跳转数据 */
+export type Actions = Record<
+  SubjectId,
+  {
+    uuid: Id
+    name: string
+    url: string
+    sort: Id
+    active: number
+  }[]
+>

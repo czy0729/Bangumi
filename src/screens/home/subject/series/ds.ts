@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:03:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 10:11:30
+ * @Last Modified time: 2022-11-24 19:33:25
  */
 import { _, systemStore } from '@stores'
 import { Navigation } from '@types'
@@ -22,5 +22,6 @@ export const DEFAULT_PROPS = {
   subjectPrev: undefined as $['subjectPrev'],
   subjectAfter: undefined as $['subjectAfter'],
   subjectSeries: undefined as $['subjectSeries'],
-  subjectAnime: undefined as $['subjectAnime']
+  subjectAnime: undefined as $['subjectAnime'],
+  subjectDiff: undefined as $['subjectDiff']
 }

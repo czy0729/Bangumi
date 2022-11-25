@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 19:12:16
+ * @Last Modified time: 2022-11-25 13:01:47
  */
 
 /** User */
@@ -68,6 +68,14 @@ export default {
   '自定义源头.启用源头': 'OriginSetting.activeItem',
   '自定义源头.下载': 'OriginSetting.download',
   '自定义源头.上传': 'OriginSetting.upload',
+
+  // 自定义跳转
+  '自定义跳转.保存': 'Actions.submitEdit',
+  '自定义跳转.编辑表单': 'Actions.openEdit',
+  '自定义跳转.关闭表单': 'Actions.closeEdit',
+  '自定义跳转.停用': 'Actions.disableItem',
+  '自定义跳转.启用': 'Actions.activeItem',
+  '自定义跳转.删除': 'Actions.deleteItem',
 
   // 用户日志
   '用户日志.右上角菜单': 'UserBlogs.topRightMenu',

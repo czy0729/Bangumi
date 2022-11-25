@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 10:43:06
+ * @Last Modified time: 2022-11-25 13:10:36
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -72,7 +72,8 @@ import {
   Subject,
   SubjectId,
   SubjectType,
-  SubjectTypeValue
+  SubjectTypeValue,
+  SubjectTypeCn
 } from '@types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
@@ -739,17 +740,21 @@ export default class ScreenHomeV2 extends store {
   epsCount(subjectId: SubjectId, filterZero: boolean = true) {
     return computed(() => {
       const subject = this.subject(subjectId)
-      if (subject?.eps && typeof subject.eps === 'object') {
-        const { length } = subject.eps.filter(item => {
-          if (filterZero) return item.type === 0 && item.sort != 0
-          item.type === 0
-        })
-        if (length) return length
+      try {
+        if (subject?.eps && typeof subject.eps === 'object') {
+          const { length } = subject.eps.filter(item => {
+            if (filterZero) return item.type === 0 && item.sort != 0
+            item.type === 0
+          })
+          if (length) return length
+        }
+
+        if (subject?.eps_count) return subject.eps_count
+
+        return 0
+      } catch (error) {
+        return subject?.eps_count || 0
       }
-
-      if (subject?.eps_count) return subject.eps_count
-
-      return 0
     }).get()
   }
 
@@ -778,6 +783,19 @@ export default class ScreenHomeV2 extends store {
           break
       }
       return right
+    }).get()
+  }
+
+  /** 自定义跳转 */
+  actions(subjectId: SubjectId) {
+    return computed(() => {
+      const actions = subjectStore.actions(subjectId)
+      if (!actions.length) return actions
+
+      return subjectStore
+        .actions(subjectId)
+        .filter(item => item.active)
+        .sort((a, b) => desc(a.sort || 0, b.sort || 0))
     }).get()
   }
 
@@ -1049,7 +1067,8 @@ export default class ScreenHomeV2 extends store {
       _jp: subject.name,
       _cn: subject.name_cn || subject.name,
       _image: subject?.images?.medium || '',
-      _collection: '在看'
+      _collection: '在看',
+      _type: MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
     })
   }
 
@@ -1075,6 +1094,20 @@ export default class ScreenHomeV2 extends store {
 
   /** 菜单点击 */
   onPopover = (label: string, subjectId: SubjectId) => {
+    const actions = this.actions(subjectId)
+    if (actions.length) {
+      const find = actions.find(item => item.name === label)
+      if (find) {
+        open(find.url, true)
+
+        t('其他.自定义跳转', {
+          from: 'HomeTab',
+          key: `${subjectId}|${find.name}|${find.url}`
+        })
+        return
+      }
+    }
+
     switch (label) {
       case '置顶':
         this.itemToggleTop(subjectId, true)

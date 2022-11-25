@@ -10,6 +10,7 @@ import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import CustomBtn from '../home/custom-btn'
 import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
 import { TEXTS } from './ds'
@@ -107,6 +108,16 @@ function Tinygrail({ filter }) {
             {...TEXTS.tinygrailMode}
           >
             <Heatmap id='设置.切换' title='小圣杯涨跌色' />
+          </ItemSetting>
+
+          {/* 右上角功能入口 */}
+          <ItemSetting
+            show={shows.homeCustom}
+            ft={<CustomBtn />}
+            filter={filter}
+            {...TEXTS.homeCustom}
+          >
+            <Heatmap id='设置.切换' title='右上角功能入口' />
           </ItemSetting>
         </ActionSheet>
       </>

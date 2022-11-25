@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 07:06:03
+ * @Last Modified time: 2022-11-25 08:41:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -247,6 +247,17 @@ export default class Computed extends State {
   /** 用户自定义源头 */
   @computed get userOrigins() {
     return getOriginConfig(subjectStore.origin, 'anime')
+  }
+
+  /** 自定义跳转 */
+  @computed get actions() {
+    const actions = subjectStore.actions(this.subjectId)
+    if (!actions.length) return actions
+
+    return subjectStore
+      .actions(this.subjectId)
+      .filter(item => item.active)
+      .sort((a, b) => desc(a.sort || 0, b.sort || 0))
   }
 
   /** 动画和三次元源头 */
@@ -884,6 +895,11 @@ export default class Computed extends State {
       return find
     }
     return null
+  }
+
+  /** 不同演绎 */
+  @computed get subjectDiff() {
+    return this.subjectRelations.find(item => item.type === '不同演绎')
   }
 
   /** @deprecated 高清资源 */

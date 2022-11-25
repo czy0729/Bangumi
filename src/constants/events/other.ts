@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 17:50:22
+ * @Last Modified time: 2022-11-25 13:05:18
  */
 
 /** Other */
@@ -24,6 +24,7 @@ export default {
   '其他.添加日历': 'Other.saveCalenderEvent',
   '其他.批量添加日历': 'Other.batchSaveCalenderEvent',
   '其他.重新授权': 'Other.reOauth',
+  '其他.自定义跳转': 'Other.onAction',
 
   'AC搜索.缩略框': 'ACSearch.popable',
   'AC搜索.跳转': 'ACSearch.to',
