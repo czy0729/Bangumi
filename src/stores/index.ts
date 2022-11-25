@@ -68,6 +68,12 @@ class GlobalStores {
         await userStore.init(userStoreKeys[i])
       }
 
+      // calendarStore, 把这些值提前取出来是为了防止首次首页列表多次计算渲染
+      const calendarStoreKeys = ['onAir', 'onAirUser'] as const
+      for (let i = 0; i < calendarStoreKeys.length; i += 1) {
+        await calendarStore.init(calendarStoreKeys[i])
+      }
+
       if (!IOS) {
         // subjectStoreKeys
         const subjectStoreKeys: `subject${number}`[] = []

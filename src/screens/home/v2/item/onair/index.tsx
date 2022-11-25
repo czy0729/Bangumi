@@ -13,6 +13,12 @@ import { WEEK_DAY_MAP } from '../ds'
 import { styles } from './styles'
 
 function OnAir({ subjectId }, { $ }: Ctx) {
+  const current = $.currentOnAir(subjectId)
+  const total = $.epsCount(subjectId)
+
+  // 防止完结的番剧因放送数据更新不及时, 导致一直显示放送中的问题
+  if (current >= 8 && total >= 8 && current === total) return null
+
   const isToday = $.isToday(subjectId)
   if (isToday) {
     const { h, m } = $.onAirCustom(subjectId)
