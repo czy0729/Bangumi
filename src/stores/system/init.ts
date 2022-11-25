@@ -171,6 +171,9 @@ export const INIT_SETTING = {
   /** 章节热力图 */
   heatMap: true,
 
+  /** 打开外部浏览器前复制网址 */
+  openInfo: true,
+
   /** 隐藏他人评分 */
   hideScore: false,
 

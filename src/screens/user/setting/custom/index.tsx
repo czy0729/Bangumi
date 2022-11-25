@@ -24,7 +24,7 @@ function Custom({ filter }) {
     if (!shows) return null
 
     const styles = memoStyles()
-    const { s2t, hideScore, cnFirst, heatMap, filterDefault, filter18x } =
+    const { s2t, hideScore, openInfo, cnFirst, heatMap, filterDefault, filter18x } =
       systemStore.setting
     return (
       <>
@@ -203,6 +203,29 @@ function Custom({ filter }) {
             {...TEXTS.s2t}
           >
             <Heatmap id='设置.切换' title='繁体' />
+          </ItemSetting>
+
+          {/* 打开外部浏览器前复制网址 */}
+          <ItemSetting
+            show={shows.openInfo}
+            ft={
+              <SwitchPro
+                style={commonStyles.switch}
+                value={openInfo}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '复制网址',
+                    checked: !openInfo
+                  })
+
+                  systemStore.switchSetting('openInfo')
+                }}
+              />
+            }
+            filter={filter}
+            {...TEXTS.openInfo}
+          >
+            <Heatmap id='设置.切换' title='复制网址' />
           </ItemSetting>
 
           {/* 隐藏评分 */}

@@ -13,6 +13,10 @@ export const TEXTS = {
     title: '章节讨论热力图',
     information: '按钮下方不同透明度橙色条块，可快速了解讨论激烈程度'
   },
+  openInfo: {
+    hd: '打开外部浏览器前复制网址',
+    information: '开启会先停顿 300ms 再进行跳转'
+  },
   s2t: {
     hd: '繁体'
   },

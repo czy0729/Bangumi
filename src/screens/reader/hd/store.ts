@@ -9,6 +9,7 @@ import { open, copy, info } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { HOST_MANGA, CDN_HD } from '@constants'
+import { systemStore } from '@stores'
 import { Params } from './types'
 
 export default class ScreenHD extends store {
@@ -43,14 +44,12 @@ export default class ScreenHD extends store {
   }
 
   /**
-   * @param {*} item
-   *
    * {
    *   paeg: 170,
    *   vol: 1
    * }
    */
-  jump = item => {
+  jump = (item: { vol: any; page: number }) => {
     t('HD.查看', {
       val: `${this.subjectId}|${item.vol}`
     })
@@ -62,10 +61,14 @@ export default class ScreenHD extends store {
       this.subjectId
     }/${item.vol}/'+(i+1)+'.jpg')`
     const href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(urlScript)}`
-    copy(href, '已复制地址')
 
-    setTimeout(() => {
-      open(href)
-    }, 1600)
+    const { openInfo } = systemStore.setting
+    if (openInfo) copy(href, '已复制地址')
+    setTimeout(
+      () => {
+        open(href)
+      },
+      openInfo ? 1600 : 0
+    )
   }
 }

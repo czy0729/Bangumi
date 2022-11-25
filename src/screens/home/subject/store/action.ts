@@ -189,14 +189,22 @@ export default class Action extends Fetch {
         }
       }
 
-      if (url) {
-        copy(url, '已复制地址')
-        setTimeout(() => {
-          open(url)
-        }, 1600)
-      }
+      this.open(url)
     } catch (error) {
       console.error(NAMESPACE, 'onlinePlaySelected', error)
+    }
+  }
+
+  open = (url: string) => {
+    if (url) {
+      const { openInfo } = systemStore.setting
+      if (openInfo) copy(url, '已复制地址')
+      setTimeout(
+        () => {
+          open(url)
+        },
+        openInfo ? 1600 : 0
+      )
     }
   }
 
@@ -221,12 +229,7 @@ export default class Action extends Fetch {
         })
       }
 
-      if (url) {
-        copy(url, '已复制地址')
-        setTimeout(() => {
-          open(url)
-        }, 1600)
-      }
+      this.open(url)
     } catch (error) {
       console.error(NAMESPACE, 'onlineComicSelected', error)
     }
@@ -253,12 +256,7 @@ export default class Action extends Fetch {
         })
       }
 
-      if (url) {
-        copy(url, '已复制地址')
-        setTimeout(() => {
-          open(url)
-        }, 1600)
-      }
+      this.open(url)
     } catch (error) {
       console.error(NAMESPACE, 'onlineDiscSelected', error)
     }
@@ -285,12 +283,7 @@ export default class Action extends Fetch {
         })
       }
 
-      if (url) {
-        copy(url, '已复制地址')
-        setTimeout(() => {
-          open(url)
-        }, 1600)
-      }
+      this.open(url)
     } catch (error) {
       console.error(NAMESPACE, 'onlineGameSelected', error)
     }
@@ -305,11 +298,7 @@ export default class Action extends Fetch {
     })
 
     const url = `${SITE_MANHUADB()}/manhua/${mangaId}`
-    copy(url, '已复制地址')
-
-    setTimeout(() => {
-      open(url)
-    }, 1600)
+    this.open(url)
   }
 
   /** 去文库8 */
@@ -321,11 +310,7 @@ export default class Action extends Fetch {
     })
 
     const url = `${SITE_WK8()}/novel/${Math.floor(wenkuId / 1000)}/${wenkuId}/index.htm`
-    copy(url, '已复制地址')
-
-    setTimeout(() => {
-      open(url)
-    }, 1600)
+    this.open(url)
   }
 
   /** 前往 PSNINE 查看游戏奖杯 */

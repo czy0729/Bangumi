@@ -1141,12 +1141,6 @@ export default class ScreenHomeV2 extends store {
     const state = this.$Item(subjectId)
     if (state.doing) return
 
-    // 更新最新章节数据
-    await userStore.fetchUserProgress(subjectId)
-
-    t('首页.观看下一章节', {
-      subjectId
-    })
     this.setState({
       item: {
         [subjectId]: {
@@ -1154,6 +1148,12 @@ export default class ScreenHomeV2 extends store {
           doing: true
         }
       }
+    })
+
+    // 更新最新章节数据
+    await userStore.fetchUserProgress(subjectId)
+    t('首页.观看下一章节', {
+      subjectId
     })
 
     const { id } = this.nextWatchEp(subjectId)

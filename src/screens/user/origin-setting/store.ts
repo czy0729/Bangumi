@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-19 07:12:54
  */
 import { observable, computed, toJS } from 'mobx'
-import { subjectStore } from '@stores'
+import { subjectStore, systemStore } from '@stores'
 import { getTimestamp, open, copy, info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
@@ -285,11 +285,16 @@ export default class ScreenOriginSetting extends store {
     try {
       const { test } = TYPES_DS.find(item => item.type === type)
       const _url = replaceOriginUrl(url, test)
-
-      copy(_url, '已复制地址', 1)
-      setTimeout(() => {
-        open(_url)
-      }, 1600)
+      if (_url) {
+        const { openInfo } = systemStore.setting
+        if (openInfo) copy(_url, '已复制地址')
+        setTimeout(
+          () => {
+            open(_url)
+          },
+          openInfo ? 1600 : 0
+        )
+      }
     } catch (error) {
       info('网址解析出错, 请检查')
     }
