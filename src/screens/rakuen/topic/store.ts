@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 18:20:44
+ * @Last Modified time: 2022-11-28 06:55:03
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
@@ -24,6 +24,8 @@ import { RakuenReplyType } from '@constants/html/types'
 import { AnyObject, TopicId, UserId } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { Params } from './types'
+
+let loadedFavor = false
 
 export default class ScreenTopic extends store {
   params: Params
@@ -47,6 +49,11 @@ export default class ScreenTopic extends store {
 
       this.fetchTopicFromOSS()
 
+      if (!loadedFavor) {
+        rakuenStore.getFavor()
+        loadedFavor = true
+      }
+
       if (needFetch) {
         if (!this.state.topic._loaded) this.fetchTopicFromCDN()
 
@@ -57,6 +64,7 @@ export default class ScreenTopic extends store {
         const { _noFetch } = this.params
         if (!_noFetch) return this.fetchTopic()
       }
+
       return true
     } catch (error) {
       this.setState({
@@ -98,7 +106,7 @@ export default class ScreenTopic extends store {
     if (this.topic._loaded) return
 
     try {
-      const data = await get(`topic_${this.topicId.replace('/', '_')}`)
+      const data: any = await get(`topic_${this.topicId.replace('/', '_')}`)
 
       // 云端没有数据存在, 本地计算后上传
       if (!data) {
@@ -328,7 +336,12 @@ export default class ScreenTopic extends store {
 
   /** 是否本地收藏 */
   @computed get isFavor() {
-    return rakuenStore.favor(this.topicId)
+    return rakuenStore.favorV2(this.topicId)
+  }
+
+  /** 收藏人数 */
+  @computed get favorCount() {
+    return rakuenStore.favorCount(this.topicId)
   }
 
   /** 超展开设置 */
@@ -554,13 +567,35 @@ export default class ScreenTopic extends store {
   }
 
   /** 设置收藏 */
-  setFavor = () => {
-    t('帖子.设置收藏', {
-      topicId: this.topicId,
-      isFavor: !this.isFavor
-    })
+  setFavor = async () => {
+    const value = !this.isFavor
+    const result = await rakuenStore.setFavorV2(this.topicId, value)
+    if (result?.code === 200) {
+      t('帖子.设置收藏', {
+        topicId: this.topicId,
+        isFavor: value
+      })
 
-    rakuenStore.setFavor(this.topicId, !this.isFavor)
+      if (value) {
+        const data = {
+          avatar: this.avatar,
+          userId: this.userId,
+          userName: this.userName,
+          title: this.title,
+          group: this.group,
+          time: this.time
+        }
+        if (data.avatar?.includes('icon.jpg')) {
+          data.avatar = this.groupThumb
+        }
+        if (this.topicId.includes('ep/')) {
+          const temp = String(this.epFormHTML).match(/\/ 首播:(.+?)<\/span>/)?.[1]
+          if (temp) data.time = `首播:${temp}`
+        }
+
+        update(`favor_${this.topicId.replace('/', '_')}`, data)
+      }
+    }
   }
 
   updateShowHeaderTitle = (showHeaderTitle: boolean) => {

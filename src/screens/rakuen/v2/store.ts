@@ -6,8 +6,8 @@
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
-import store from '@utils/store'
 import { runAfter, feedback, info, confirm } from '@utils'
+import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
   LIMIT_TOPIC_PUSH,
@@ -176,7 +176,7 @@ export default class ScreenRakuen extends store {
 
   /** 是否收藏 */
   isFavor(topicId: TopicId) {
-    return computed(() => rakuenStore.favor(topicId)).get()
+    return computed(() => rakuenStore.favorV2(topicId)).get()
   }
 
   // -------------------- page --------------------

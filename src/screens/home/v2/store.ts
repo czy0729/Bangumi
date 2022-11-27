@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 13:10:36
+ * @Last Modified time: 2022-11-28 06:30:58
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -97,6 +97,9 @@ import { update } from '@utils/kv'
 /** 是否初始化 */
 let inited: boolean
 
+/** 是否授权中 */
+let reOauthing: boolean
+
 export default class ScreenHomeV2 extends store {
   state = observable(STATE)
 
@@ -149,10 +152,17 @@ export default class ScreenHomeV2 extends store {
 
       // 可能是 access_token 过期了, 需要重新刷新 access_token
       if (userStore.isWebLogin) {
-        // oauth 成功后重新刷新数据
-        if (await userStore.reOauth()) {
-          t('其他.重新授权')
-          return this.initQueue()
+        if (!reOauthing) {
+          reOauthing = true
+
+          // oauth 成功后重新刷新数据
+          if (await userStore.reOauth()) {
+            reOauthing = false
+
+            t('其他.重新授权')
+            return this.initQueue()
+          }
+          reOauthing = false
         }
       }
     }

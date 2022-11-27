@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 06:34:25
+ * @Last Modified time: 2022-11-28 07:18:22
  */
 import { _ } from '@stores'
 import { IS_IOS_5_6_7_8 } from '@styles'
@@ -84,7 +84,7 @@ export const styles = _.create({
     ..._.header.right,
     zIndex: 1,
     marginTop: _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
-    marginRight: _.device(40, 54),
+    marginRight: _.device(44, 54),
     opacity: 0.88
   },
   setting: {

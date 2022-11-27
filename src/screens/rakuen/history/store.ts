@@ -2,33 +2,39 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:14:36
+ * @Last Modified time: 2022-11-28 06:55:58
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
-import { desc, info } from '@utils'
+import { asc, desc, info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
 import { TopicId } from '@types'
+import { gets } from '@utils/kv'
 
 const NAMESPACE = 'ScreenRakuenHistory'
 
 export default class ScreenRakuenHistory extends store {
   state = observable({
     favor: false,
+    topics: {},
     _loaded: false
   })
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)
+    await rakuenStore.init('topic')
+    await rakuenStore.init('cloudTopic')
+
     this.setState({
       ...state,
       _loaded: true
     })
 
-    await rakuenStore.downloadFavorTopic()
-    this.sync()
+    rakuenStore.getFavor()
+    // await rakuenStore.downloadFavorTopic()
+    // this.sync()
 
     return state
   }
@@ -75,7 +81,24 @@ export default class ScreenRakuenHistory extends store {
 
   /** 是否收藏 */
   isFavor(topicId: TopicId) {
-    return computed(() => rakuenStore.favor(topicId)).get()
+    return computed(() => rakuenStore.favorV2(topicId)).get()
+  }
+
+  /** 收藏键值数组 */
+  @computed get list(): string[] {
+    const { favorV2 } = rakuenStore.state
+    const list = []
+    Object.keys(favorV2).map(key => {
+      if (favorV2[key]) list.push(key)
+    })
+    return list.sort((a, b) => asc(a, b))
+  }
+
+  /** 云端帖子数据 */
+  topic(key: string) {
+    return computed(() => {
+      return this.state.topics[`favor_${key.replace('/', '_')}`] || null
+    }).get()
   }
 
   // -------------------- page --------------------
@@ -98,16 +121,31 @@ export default class ScreenRakuenHistory extends store {
     this.setStorage(NAMESPACE)
   }
 
-  /** 同步到云 */
-  sync = async () => {
+  /** 加载一页云端帖子数据 */
+  onPage = async (data: string[]) => {
+    if (!data.length) return true
+
+    const keys = []
+    data.forEach(item => {
+      const key = `favor_${item.replace('/', '_')}`
+      keys.push(key)
+    })
+
+    if (!keys.length) return true
+    const datas = await gets(keys)
+    this.setState({
+      topics: datas
+    })
+    this.setStorage(NAMESPACE)
+  }
+
+  /** @deprecated 同步到云 */
+  sync = () => {
     if (!this.isLogin || !userStore.userInfo.id) {
       info(`云同步需先${i18n.login()}`)
       return
     }
 
-    const result = await rakuenStore.uploadFavorTopic()
-    if (result) {
-      // info('已同步到云')
-    }
+    rakuenStore.uploadFavorTopic()
   }
 }

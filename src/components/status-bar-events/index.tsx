@@ -30,7 +30,7 @@ export const StatusBarEvents = observer(
     if (tinygrail) {
       _barStyle = barStyle
     } else {
-      // 黑暗模式可以一直设置为light-content
+      // 黑暗模式可以一直设置为 light-content
       _barStyle = _.mode === 'light' ? barStyle : 'light-content'
     }
     const events = () => {

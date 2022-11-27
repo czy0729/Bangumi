@@ -1,25 +1,33 @@
 /*
  * @Author: czy0729
- * @Date: 2019-11-28 17:16:15
+ * @Date: 2022-11-28 05:50:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 07:20:51
+ * @Last Modified time: 2022-11-28 07:20:34
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, UserStatus, Iconfont } from '@components'
+import { Flex, Text, Touchable, UserStatus, Iconfont, Loading } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
+import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Item(
-  { index, topicId, avatar, userName, title, group, time = '', userId },
-  { $, navigation }: Ctx
-) {
+function ItemLazy({ item: topicId }, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const desc = [time.split(' ')?.[1], userName, group]
+  const topic = $.topic(topicId)
+  if (!topic) {
+    return (
+      <Flex style={styles.loading} justify='center'>
+        <Loading.Raw />
+      </Flex>
+    )
+  }
+
+  const { userId, avatar, userName, title, group, time } = topic
+  const desc = [time.includes('首播') ? time : simpleTime(time), userName, group]
     .filter(item => !!item)
     .join(' / ')
   return (
@@ -34,7 +42,7 @@ function Item(
           />
         </UserStatus>
       </View>
-      <Flex.Item style={index !== 0 && !_.flat && styles.border}>
+      <Flex.Item>
         <Touchable
           style={styles.item}
           onPress={() => {
@@ -77,4 +85,4 @@ function Item(
   )
 }
 
-export default obc(Item)
+export default obc(ItemLazy)

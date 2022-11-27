@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 09:29:51
+ * @Last Modified time: 2022-11-28 06:28:24
  */
 import { Paths } from '@types'
 
@@ -40,7 +40,7 @@ const CONFIGS: Configs = {
   initialRouteName: 'HomeTab',
   initialRouteParams: {
     // subjectId: 372217 // anime: 296870, music: 302514, book: 267358, game: 137458
-    // topicId: 'group/372695' // group/366561
+    // topicId: 'group/375042' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
     // monoId: 'person/5745' // character/70323 person/5745
     // id: 240929
