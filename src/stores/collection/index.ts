@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 02:59:57
+ * @Last Modified time: 2022-11-27 16:51:18
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -49,6 +49,7 @@ import {
   SubjectTypeValue
 } from '@types'
 import userStore from '../user'
+import { LOG_INIT } from '../ds'
 import {
   NAMESPACE,
   DEFAULT_SUBJECT_TYPE,
@@ -114,7 +115,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
   init = async (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('CollectionStore /', key)
+    if (DEV && LOG_INIT) console.info('CollectionStore /', key)
 
     this._loaded[key] = true
     const data = await this.readStorage([key], NAMESPACE)

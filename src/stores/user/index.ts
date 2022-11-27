@@ -58,6 +58,7 @@ import {
   UserId
 } from '@types'
 import RakuenStore from '../rakuen'
+import { LOG_INIT } from '../ds'
 import {
   DEFAULT_SCOPE,
   INIT_ACCESS_TOKEN,
@@ -190,7 +191,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
   init = async (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('UserStore /', key)
+    if (DEV && LOG_INIT) console.info('UserStore /', key)
 
     this._loaded[key] = true
     const data = await this.readStorage([key], NAMESPACE)

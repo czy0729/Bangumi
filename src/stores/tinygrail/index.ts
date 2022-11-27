@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:14:18
+ * @Last Modified time: 2022-11-27 16:57:55
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -69,6 +69,7 @@ import {
 } from '@constants'
 import { Id, ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
 import UserStore from '../user'
+import { LOG_INIT } from '../ds'
 import {
   NAMESPACE,
   INIT_RICH,
@@ -299,7 +300,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded | ListKey) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('TinygrailStore /', key)
+    if (DEV && LOG_INIT) console.info('TinygrailStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

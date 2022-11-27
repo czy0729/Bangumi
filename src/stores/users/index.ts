@@ -24,6 +24,7 @@ import {
 } from '@constants'
 import { StoreConstructor, UserId } from '@types'
 import userStore from '../user'
+import { LOG_INIT } from '../ds'
 import { NAMESPACE, INIT_USERS } from './init'
 import {
   cheerioFriends,
@@ -112,7 +113,7 @@ class UsersStore
   init = async (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('UsersStore /', key)
+    if (DEV && LOG_INIT) console.info('UsersStore /', key)
 
     this._loaded[key] = true
     const data = await this.readStorage([key], NAMESPACE)

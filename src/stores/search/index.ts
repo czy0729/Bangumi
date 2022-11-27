@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 13:05:04
+ * @Last Modified time: 2022-11-27 16:53:11
  */
 import { observable, computed } from 'mobx'
 import Constants from 'expo-constants'
@@ -11,6 +11,7 @@ import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { LIST_EMPTY, HTML_SEARCH, HTML_RAKUEN_SEARCH, DEV } from '@constants'
 import { SearchCat, StoreConstructor } from '@types'
+import { LOG_INIT } from '../ds'
 import { NAMESPACE, DEFAULT_CAT, INIT_SEARCH_ITEM } from './init'
 import { cheerioSearchRakuen } from './common'
 import { Search } from './types'
@@ -39,7 +40,7 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('SearchStore /', key)
+    if (DEV && LOG_INIT) console.info('SearchStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

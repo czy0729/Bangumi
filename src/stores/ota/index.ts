@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 02:58:22
+ * @Last Modified time: 2022-11-27 16:52:31
  */
 import { observable, computed } from 'mobx'
 import { pick } from '@utils'
@@ -16,6 +16,7 @@ import { pick as wenkuPick } from '@utils/subject/wenku'
 import { pick as hentaiPick } from '@utils/subject/hentai'
 import { DEV } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
+import { LOG_INIT } from '../ds'
 import { NAMESPACE } from './ds'
 import { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
 
@@ -60,7 +61,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('OTAStore /', key)
+    if (DEV && LOG_INIT) console.info('OTAStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

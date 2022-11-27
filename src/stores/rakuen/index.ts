@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:18:02
+ * @Last Modified time: 2022-11-27 16:52:54
  */
 import { observable, computed } from 'mobx'
-import { desc, getTimestamp, HTMLTrim } from '@utils'
+import { desc, getTimestamp, HTMLTrim, info } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
 import { getUserStoreAsync } from '@utils/async'
+import { collect, collectList } from '@utils/kv'
 import store from '@utils/store'
 import {
   CDN_RAKUEN,
@@ -44,6 +45,7 @@ import {
   TopicId,
   UserId
 } from '@types'
+import { LOG_INIT } from '../ds'
 import {
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
@@ -118,9 +120,19 @@ const state = {
   /** 超展开设置 */
   setting: INIT_SETTING,
 
-  /** 是否本地收藏 */
+  /** @deprecated 是否本地收藏 */
   favor: {
     0: false
+  },
+
+  /** 收藏 v2 */
+  favorV2: {
+    0: false
+  },
+
+  /** 收藏人数 v2 */
+  favorCount: {
+    0: 0
   },
 
   /** 小组帖子列表 */
@@ -178,6 +190,8 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     cloudTopic: false,
     comments: false,
     favor: false,
+    favorV2: false,
+    favorCount: false,
     groupInfo: false,
     groupThumb: false,
     hot: false,
@@ -192,7 +206,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('RakuenStore /', key)
+    if (DEV && LOG_INIT) console.info('RakuenStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)
@@ -349,6 +363,22 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   /** @deprecated 日志内容 (CDN) */
   blogFormCDN() {
     return INIT_TOPIC
+  }
+
+  /** 收藏 v2 */
+  favorV2(topicId: TopicId) {
+    this.init('favorV2')
+    return computed<boolean>(() => {
+      return this.state.favorV2[topicId] || false
+    }).get()
+  }
+
+  /** 收藏人数 v2 */
+  favorCount(topicId: TopicId) {
+    this.init('favorCount')
+    return computed<number>(() => {
+      return this.state.favorCount[topicId] || 0
+    }).get()
   }
 
   // -------------------- computed --------------------
@@ -1030,15 +1060,67 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     this.save(key)
   }
 
-  /** 设置是否收藏*/
-  setFavor = (topicId: TopicId, isFover: boolean) => {
+  /** @deprecated 设置是否收藏*/
+  setFavor = (topicId: TopicId, isFavor: boolean) => {
     const key = 'favor'
     this.setState({
       [key]: {
-        [topicId]: isFover
+        [topicId]: isFavor
       }
     })
     this.save(key)
+  }
+
+  /** 设置收藏 */
+  getFavor = async () => {
+    await this.init('favorV2')
+
+    const { myUserId } = getUserStoreAsync()
+    if (!myUserId) return null
+
+    const result = await collectList(myUserId)
+    if (result?.code === 200 && Array.isArray(result?.data)) {
+      const data = {}
+      result.data.forEach((item: { createTime: string; id: string }) => {
+        data[item.id] = true
+      })
+
+      const key = 'favorV2'
+      this.setState({
+        [key]: data
+      })
+      this.save(key)
+    }
+
+    return result
+  }
+
+  /** 设置收藏 */
+  setFavorV2 = async (topicId: TopicId, isFavor: boolean) => {
+    await this.init('favorV2')
+    await this.init('favorCount')
+
+    const { myUserId } = getUserStoreAsync()
+    if (!myUserId) {
+      info('请先登录')
+      return null
+    }
+
+    const result = await collect(myUserId, topicId, isFavor)
+    if (result?.code === 200) {
+      this.setState({
+        favorV2: {
+          [topicId]: isFavor
+        },
+        favorCount: {
+          [topicId]: result?.data?.total || 0
+        }
+      })
+      this.save('favorV2')
+      this.save('favorCount')
+    }
+
+    return result
   }
 
   /** 更新小组缩略图 */
@@ -1061,7 +1143,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     })
   }
 
-  /** 同步云端收藏帖子 */
+  /** @deprecated 同步云端收藏帖子 */
   downloadFavorTopic = async () => {
     const { id } = getUserStoreAsync().userInfo
     const { content } = await read({

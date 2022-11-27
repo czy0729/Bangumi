@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-04-07 01:08:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 03:33:20
+ * @Last Modified time: 2022-11-27 16:53:31
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { DEV } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
+import { LOG_INIT } from '../ds'
 import { NAMESPACE } from './init'
 
 const state = {
@@ -26,7 +27,7 @@ class SMBStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('SMBStore /', key)
+    if (DEV && LOG_INIT) console.info('SMBStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

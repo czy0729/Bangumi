@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 20:35:43
+ * @Last Modified time: 2022-11-27 16:51:39
  */
 import { observable, computed } from 'mobx'
 import { cheerio, getTimestamp, HTMLDecode } from '@utils'
@@ -28,6 +28,7 @@ import {
   LIST_EMPTY
 } from '@constants'
 import { Id, StoreConstructor, SubjectId, SubjectType } from '@types'
+import { LOG_INIT } from '../ds'
 import {
   DEFAULT_TYPE,
   INIT_ANITAMA_TIMELINE_ITEM,
@@ -171,7 +172,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('DiscoveryStore /', key)
+    if (DEV && LOG_INIT) console.info('DiscoveryStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

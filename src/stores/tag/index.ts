@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 12:06:50
+ * @Last Modified time: 2022-11-27 16:54:23
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,6 +20,7 @@ import {
   SubjectType,
   TagOrder
 } from '@types'
+import { LOG_INIT } from '../ds'
 import { NAMESPACE, DEFAULT_TYPE } from './init'
 import { analysisTags, analysiRank } from './common'
 import { Browser, Rank, Tag } from './types'
@@ -53,7 +54,7 @@ class TagStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('TagStore /', key)
+    if (DEV && LOG_INIT) console.info('TagStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

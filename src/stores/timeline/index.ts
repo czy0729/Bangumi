@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 06:15:34
+ * @Last Modified time: 2022-11-27 16:54:40
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,6 +20,7 @@ import {
 } from '@constants'
 import { Id, StoreConstructor, TimeLineScope, TimeLineType, UserId } from '@types'
 import userStore from '../user'
+import { LOG_INIT } from '../ds'
 import { NAMESPACE, DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
 import { fetchTimeline, analysisSay, analysisFormHash } from './common'
 import { Hidden, Say, Timeline } from './types'
@@ -59,7 +60,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
   init = (key: keyof typeof this._loaded) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('TimelineStore /', key)
+    if (DEV && LOG_INIT) console.info('TimelineStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 08:39:38
+ * @Last Modified time: 2022-11-27 16:54:01
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -44,6 +44,7 @@ import {
   SubjectId
 } from '@types'
 import UserStore from '../user'
+import { LOG_INIT } from '../ds'
 import {
   NAMESPACE,
   DEFAULT_RATING_STATUS,
@@ -207,7 +208,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
   ) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV) console.info('SubjectStore /', key)
+    if (DEV && LOG_INIT) console.info('SubjectStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)
