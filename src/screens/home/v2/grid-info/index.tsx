@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 10:41:14
+ * @Last Modified time: 2022-11-28 07:54:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
+// import { OnairProgress } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -19,7 +20,6 @@ import ToolBar from './tool-bar'
 import Eps from './eps'
 import { memoStyles } from './styles'
 import { Props } from './types'
-import { OnairProgress } from '@_'
 
 function GridInfo(
   { subjectId = 0, subject = {}, epStatus = '' }: Props,
@@ -60,13 +60,13 @@ function GridInfo(
           </Flex.Item>
           <ToolBar subjectId={subjectId} subject={subject} />
         </Flex>
-        <OnairProgress
+        {/* <OnairProgress
           key={subjectId}
           epStatus={epStatus}
           current={$.currentOnAir(subjectId)}
           total={$.epsCount(subjectId)}
           height={6}
-        />
+        /> */}
         <Eps subjectId={subjectId} />
       </Flex.Item>
       {isTop && <View style={styles.dot} />}

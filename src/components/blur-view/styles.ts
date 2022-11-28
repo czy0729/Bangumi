@@ -15,5 +15,8 @@ export const styles = _.create({
     left: 0,
     width: 'auto',
     height: 'auto'
+  },
+  mask: {
+    backgroundColor: 'rgba(0, 0, 0, 0.16)'
   }
 })
