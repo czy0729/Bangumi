@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 07:43:57
+ * @Last Modified time: 2022-12-06 06:52:03
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp } from '../utils'
@@ -52,15 +52,18 @@ export async function update(
     url: `${HOST}/v1/update`,
     data: {
       key,
-      value: updateTS
-        ? {
-            ...value,
-            ts: getTimestamp()
-          }
-        : {
-            ts: getTimestamp(),
-            ...value
-          }
+      value:
+        typeof value === 'string'
+          ? value
+          : updateTS
+          ? {
+              ...value,
+              ts: getTimestamp()
+            }
+          : {
+              ts: getTimestamp(),
+              ...value
+            }
     }
   })
 

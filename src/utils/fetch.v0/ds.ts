@@ -4,17 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-16 07:32:01
  */
-import { SubjectId, SubjectTypeValue, UserId } from '@types'
+import { CollectionStatusValue, SubjectId, SubjectTypeValue, UserId } from '@types'
 
 export const HOST_API_V0 = 'https://api.bgm.tv/v0'
 
 export const API_COLLECTIONS = (
   userId: UserId,
   subjectType: SubjectTypeValue,
-  page = 1,
-  limit = 100
+  page: number = 1,
+  limit: number = 100,
+  type: CollectionStatusValue = '3'
 ) =>
-  `${HOST_API_V0}/users/${userId}/collections?subject_type=${subjectType}&type=3&limit=${limit}&offset=${
+  `${HOST_API_V0}/users/${userId}/collections?subject_type=${subjectType}&type=${type}&limit=${limit}&offset=${
     (page - 1) * limit
   }` as const
 

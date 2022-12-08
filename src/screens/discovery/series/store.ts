@@ -55,15 +55,13 @@ export default class ScreenSeries extends store {
     })
 
     if (!this.state.data.length) {
-      // this.fetchSeries()
+      this.fetchSeries()
     } else {
       this.calculateData()
     }
   }
 
-  /**
-   * 组织请求构成关联系列数据
-   */
+  /** 组织请求构成关联系列数据 */
   fetchSeries = async () => {
     if (this.state.fetching) return false
 
@@ -72,23 +70,22 @@ export default class ScreenSeries extends store {
     // 先加载第一层关系数据
     await this.fetchCollections()
     await this.fetchRelations()
-    await this.calculateData()
+    this.calculateData()
 
     setTimeout(async () => {
       // 稍后加载第二层关系数据
       await this.fetchSubRelations()
-      await this.calculateData()
+      this.calculateData()
       this.fetchSomeSubjects()
 
       setTimeout(() => {
-        this.fetchOtherCollections() // 因为关联到的条目也可能存在其他收藏状态, 需要请求补全
+        // 因为关联到的条目也可能存在其他收藏状态, 需要请求补全
+        this.fetchOtherCollections()
       }, 4000)
     }, 1600)
   }
 
-  /**
-   * 在看和看过的收藏
-   */
+  /** 在看和看过的收藏 */
   fetchCollections = async () => {
     if (!this.userId) {
       info(`此功能依赖收藏数据，请先${i18n.login()}`, 4)
@@ -159,9 +156,7 @@ export default class ScreenSeries extends store {
     return true
   }
 
-  /**
-   * 想看、搁置和抛弃的收藏
-   */
+  /** 想看、搁置和抛弃的收藏 */
   fetchOtherCollections = async () => {
     const _data = []
 
@@ -199,9 +194,7 @@ export default class ScreenSeries extends store {
     this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 关联条目
-   */
+  /** 关联条目 */
   fetchRelations = async () => {
     const relations = {}
     const fetchs = []
@@ -244,9 +237,7 @@ export default class ScreenSeries extends store {
     return true
   }
 
-  /**
-   * 二级关联条目
-   */
+  /** 二级关联条目 */
   fetchSubRelations = async () => {
     const relations = {
       ...this.state.relations
@@ -311,9 +302,7 @@ export default class ScreenSeries extends store {
     return true
   }
 
-  /**
-   * 条目信息
-   */
+  /** 条目信息 */
   fetchSubjects = async (subjectIds = []) => {
     if (!subjectIds.length) return false
 
@@ -357,10 +346,7 @@ export default class ScreenSeries extends store {
     return true
   }
 
-  /**
-   * 条目信息是懒加载的
-   * 为了首次进入能比较好地使用, 预先加载部分条目数据
-   */
+  /** 条目信息是懒加载的 (为了首次进入能比较好地使用, 预先加载部分条目数据) */
   fetchSomeSubjects = () => {
     const { data } = this.state
     const subjectIds = []
@@ -376,9 +362,7 @@ export default class ScreenSeries extends store {
     this.fetchSubjects(subjectIds)
   }
 
-  /**
-   * 建立系列关系列表
-   */
+  /** 建立系列关系列表 */
   calculateData = () => {
     const { relations } = this.state
     const data = []
@@ -408,9 +392,7 @@ export default class ScreenSeries extends store {
     })
   }
 
-  /**
-   * 配合<PaginationList>的下一页
-   */
+  /** 配合 PaginationList 的下一页 */
   onPage = (list = []) => {
     const subjectIds = []
     list.forEach(item => {

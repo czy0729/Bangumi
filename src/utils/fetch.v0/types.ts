@@ -34,6 +34,8 @@ type Subject = {
   summary: string
   name: string
   name_cn: string
+  rank: number
+  score: number
   tags: {
     name: string
     count: number

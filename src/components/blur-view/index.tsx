@@ -10,7 +10,6 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
-import { _ } from '@stores'
 import { matchCoverUrl } from '@utils'
 import { IOS } from '@constants'
 import { Image } from '../image'
@@ -60,7 +59,7 @@ export const BlurView = observer(
           textOnly={false}
           fallback
         />
-        {_.isDark && <View style={[styles.mask, StyleSheet.absoluteFill]} />}
+        <View style={styles.mask} />
         {children}
       </View>
     )

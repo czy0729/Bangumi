@@ -74,6 +74,7 @@ export { default as UGCAgree } from './rakuen/ugc-agree'
 
 // User
 export { default as Actions } from './user/actions'
+export { default as Backup } from './user/backup'
 export { default as Blogs } from './user/blogs'
 export { default as Catalogs } from './user/catalogs'
 export { default as DEV } from './user/dev'
