@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-22 05:31:04
+ * @Last Modified time: 2022-12-08 15:37:52
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -152,6 +152,12 @@ export const MENU_MAP = {
     name: 'bilibili 同步',
     text: 'B',
     size: 20
+  },
+  Backup: {
+    key: 'Backup',
+    name: '本地备份',
+    text: 'CSV',
+    size: 14
   },
   Series: {
     key: 'Series',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-24 14:16:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-08 11:54:43
+ * @Last Modified time: 2022-12-13 12:37:59
  */
 import React from 'react'
 import { PaginationList2 as PaginationList } from '@_'
@@ -17,8 +17,9 @@ function List(props, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       data={$.data}
       limit={12}
+      footerEmptyDataText='没有获取到任何数据，请检查登录、授权状态，在进度页面下拉刷新重新授权或者重新登录再试试'
       renderItem={({ item }) => <Item item={item} />}
-      onPage={$.onPage}
+      onHeaderRefresh={$.fetchCollectionsAll}
     />
   )
 }

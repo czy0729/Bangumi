@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 13:01:47
+ * @Last Modified time: 2022-12-12 21:15:32
  */
 
 /** User */
@@ -87,5 +87,10 @@ export default {
   '用户目录.跳转': 'UserCatalogs.to',
 
   // 赞助者
-  '赞助者.跳转': 'Sponsor.to'
+  '赞助者.跳转': 'Sponsor.to',
+
+  // 本地备份
+  '本地备份.获取': 'Backup.get',
+  '本地备份.报错': 'Backup.catch',
+  '本地备份.导出': 'Backup.export'
 }

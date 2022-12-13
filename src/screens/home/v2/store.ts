@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 06:30:58
+ * @Last Modified time: 2022-12-08 15:35:40
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -772,8 +772,9 @@ export default class ScreenHomeV2 extends store {
   countRight(subjectId: SubjectId) {
     return computed(() => {
       const { homeCountView } = systemStore.setting
+      const subject = this.subject(subjectId)
       const current = this.currentOnAir(subjectId)
-      const total = this.epsCount(subjectId) || '?'
+      const total = subject?.eps_count || '??'
       let right = ''
       switch (homeCountView) {
         case 'B':

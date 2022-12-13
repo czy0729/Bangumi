@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-06 05:47:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-06 18:43:04
+ * @Last Modified time: 2022-12-13 12:32:30
  */
 export const NAMESPACE = 'ScreenActions'
 
@@ -19,8 +19,8 @@ export const EXCLUDE_STATE = {
 
 export const CSV_HEADS = [
   'ID',
-  // '封面',
-  // '网址',
+  '封面',
+  '网址',
   '类型',
   '中文',
   '日文',

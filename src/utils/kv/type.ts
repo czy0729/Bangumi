@@ -9,3 +9,9 @@ export type Result = {
   data: any
   message?: string
 }
+
+export type ResultTemp = {
+  data: {
+    downloadKey: string
+  }
+}

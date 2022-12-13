@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-06 06:52:03
+ * @Last Modified time: 2022-12-13 16:23:53
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp } from '../utils'
 import { HOST } from './ds'
-import { Result } from './type'
+import { Result, ResultTemp } from './type'
 
 /** 获取 */
 export async function get(key: string): Promise<Result> {
@@ -137,4 +137,24 @@ export async function collectList(userID: string | number): Promise<Result> {
   })
 
   return data
+}
+
+/** 临时文件 */
+export async function temp(fileName: string, fileContent: string): Promise<ResultTemp> {
+  // @ts-ignore
+  const { data } = await axios({
+    method: 'post',
+    url: `${HOST}/v1/temp/upload`,
+    data: {
+      fileName,
+      fileContent
+    }
+  })
+
+  return data
+}
+
+/** 下载文件 */
+export function download(downloadKey: string) {
+  return `${HOST}/v1/temp/download/${downloadKey}`
 }
