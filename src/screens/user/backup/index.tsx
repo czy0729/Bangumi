@@ -5,10 +5,11 @@
  * @Last Modified time: 2022-12-08 15:41:41
  */
 import React from 'react'
-import { Page } from '@components'
+import { Page, Loading } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import Header from './header'
+import Upload from './upload'
 import Cloud from './cloud'
 import List from './list'
 import Tips from './tips'
@@ -21,12 +22,14 @@ const Backup = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => {
+    const { progress } = $.state
     return (
       <>
         <Header />
-        <Page loaded={!$.state.progress.fetching}>
+        <Page>
+          <Upload />
           <Cloud />
-          <List />
+          {progress.fetching ? <Loading /> : <List />}
         </Page>
         <Tips />
       </>

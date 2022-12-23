@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:14:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-13 16:35:57
+ * @Last Modified time: 2022-12-20 23:08:57
  */
 import { computed, observable, toJS } from 'mobx'
 import { Parser } from 'json2csv'
+import csv2json from 'csvjson-csv2json'
 import { userStore } from '@stores'
-import { asc, date, getTimestamp, info, open } from '@utils'
+import { asc, date, feedback, getTimestamp, info, open } from '@utils'
 import store from '@utils/store'
 import { temp, download } from '@utils/kv'
 import { t } from '@utils/fetch'
@@ -23,11 +24,13 @@ import {
 import {
   CollectionStatusCn,
   CollectionStatusValue,
+  SubjectId,
   SubjectType,
   SubjectTypeCn,
   SubjectTypeValue
 } from '@types'
-import { NAMESPACE, LIMIT, EXCLUDE_STATE, CSV_HEADS } from './ds'
+import { NAMESPACE, LIMIT, EXCLUDE_STATE, CSV_HEADS, HOST_API } from './ds'
+import { actionStatus } from './utils'
 import { Item } from './types'
 
 export default class ScreenActions extends store {
@@ -38,7 +41,6 @@ export default class ScreenActions extends store {
     game: [] as Item[],
     real: [] as Item[],
     last: 0,
-    imports: [],
     includeUrl: false,
     includeImage: false,
     ...EXCLUDE_STATE,
@@ -81,14 +83,15 @@ export default class ScreenActions extends store {
           const subjectType = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(
             SUBJECT_TYPE[i].value
           )
-          const type = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
-            COLLECTION_STATUS[j].title
-          )
+
           current += 1
           this.setState({
             progress: {
               current,
-              message: `${subjectType} (${type}) `
+              message: `${subjectType} (${actionStatus(
+                COLLECTION_STATUS[j].title,
+                subjectType
+              )}) `
             }
           })
 
@@ -124,7 +127,6 @@ export default class ScreenActions extends store {
     const data = await request<Collection>(
       API_COLLECTIONS(this.userId, subjectType, page, LIMIT, type)
     )
-
     const key = MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType)
     if (Array.isArray(data?.data)) {
       const list = data.data.map(item => {
@@ -136,6 +138,7 @@ export default class ScreenActions extends store {
           vol_status: item.vol_status,
           comment: item.comment,
           tags: item.tags,
+          private: item.private,
           updated_at: item.updated_at,
           subject: {
             id: s?.id,
@@ -163,20 +166,18 @@ export default class ScreenActions extends store {
     return true
   }
 
+  /** 更新一项收藏信息 */
+  fetchCollection = async (subjectId: SubjectId) => {
+    console.log(subjectId)
+  }
+
   // -------------------- get --------------------
+  /** 当前用户 ID */
   @computed get userId() {
     return userStore.usersInfo(userStore.myUserId).username || userStore.myUserId
   }
 
-  @computed get data() {
-    if (this.state.progress.fetching) return []
-
-    const { anime, book, music, game, real } = this.state
-    return [...anime, ...book, ...music, ...game, ...real].sort((a, b) =>
-      asc(a.updated_at, b.updated_at)
-    )
-  }
-
+  /** 导出的 CSV */
   @computed get csv() {
     if (this.state.progress.fetching) return ''
 
@@ -207,7 +208,8 @@ export default class ScreenActions extends store {
         [CSV_HEADS[12]]: item.tags.join(' '),
         [CSV_HEADS[13]]: item.rate || '',
         [CSV_HEADS[14]]: item.comment || '',
-        [CSV_HEADS[15]]: item.updated_at
+        [CSV_HEADS[15]]: item.private ? '是' : '',
+        [CSV_HEADS[16]]: item.updated_at
       }
 
       const typeCn = row[CSV_HEADS[3]]
@@ -226,13 +228,66 @@ export default class ScreenActions extends store {
     return json2csvParser.parse(data)
   }
 
-  review() {
+  /** 导入的收藏项 */
+  upload(subjectId: SubjectId) {
     return computed(() => {
-      return ''
+      const { upload } = this.state
+      return upload[subjectId] || null
     }).get()
   }
 
+  /** 收藏列表 */
+  @computed get list() {
+    const { anime, book, music, game, real } = this.state
+    return [...anime, ...book, ...music, ...game, ...real]
+  }
+
+  /** 收藏列表映射 */
+  @computed get listMap() {
+    const map = {}
+    this.list.forEach(item => {
+      map[item.subject.id] = true
+    })
+    return map
+  }
+
+  /** 实际显示的信息列表 */
+  @computed get data() {
+    // 请求中不返回数据
+    if (this.state.progress.fetching) return []
+
+    const { upload } = this.state
+
+    // 导入模式
+    if (Object.keys(upload).length) {
+      const data: Item[] = []
+      Object.keys(upload).forEach(subjectId => {
+        // 导入的数据可能不在收藏中，需要创建新项用于同步成新收藏
+        if (!(subjectId in this.listMap)) {
+          data.push({
+            ...upload[subjectId],
+            type: '',
+            ep_status: '',
+            rate: '',
+            tags: [],
+            comment: ''
+          })
+        }
+      })
+      data.push(...this.list)
+
+      const { bottom } = this.state
+      return data
+        .sort((a, b) => asc(upload[a.subject.id] ? 0 : 1, upload[b.subject.id] ? 0 : 1))
+        .sort((a, b) => asc(bottom[a.subject.id] || 0, bottom[b.subject.id] || 0))
+    }
+
+    // 导出模式
+    return this.list.sort((a, b) => asc(a.updated_at, b.updated_at))
+  }
+
   // -------------------- action --------------------
+  /** 切换 CSV 导出设置 */
   onSetting = (key: 'includeUrl' | 'includeImage') => {
     this.setState({
       [key]: !this.state[key]
@@ -240,12 +295,7 @@ export default class ScreenActions extends store {
     this.setStorage(NAMESPACE)
   }
 
-  onRefreshCollection = () => {}
-
-  onBottom = () => {}
-
-  onSubmit = () => {}
-
+  /** 导出 CSV */
   onExport = async () => {
     if (!this.csv.length) {
       info('没有获取到收藏信息，请检查登录状态')
@@ -262,9 +312,105 @@ export default class ScreenActions extends store {
     }
 
     t('本地备份.导出', {
-      userId: this.userId,
-      length: this.csv.length
+      data: `${this.userId}|${this.csv.length}`
     })
     open(download(data.downloadKey))
+  }
+
+  /** 置底 (导入模式) */
+  onBottom = (subjectId: SubjectId) => {
+    const { bottom } = this.state
+    const current = bottom.current + 1
+    this.setState({
+      bottom: {
+        current,
+        [subjectId]: current
+      }
+    })
+    this.setStorage(NAMESPACE)
+
+    t('本地备份.置底')
+  }
+
+  /** 同步 (导入模式) */
+  onSubmit = async (subjectId: SubjectId, collectionData, epData) => {
+    if (!subjectId) return false
+
+    if (Object.keys(collectionData).length) {
+      await request(`${HOST_API}/collection/${subjectId}/update`, {
+        ...collectionData,
+        privacy: collectionData.privacy ? 1 : 0
+      })
+    }
+
+    if (Object.keys(epData).length) {
+      await request(`${HOST_API}/subject/${subjectId}/update/watched_eps`, {
+        watched_eps: epData.ep || 0
+      })
+    }
+
+    await this.fetchCollection(subjectId)
+    feedback()
+
+    t('本地备份.同步')
+  }
+
+  /** 切换显示导入 CSV 模态框 */
+  onToggleUpload = () => {
+    this.setState({
+      modal: !this.state.modal
+    })
+  }
+
+  /** 导入CSV (导入模式) */
+  onMessage = (text: string) => {
+    try {
+      const data = csv2json(text)
+      if (data.length) {
+        const upload: Record<SubjectId, Item> = {}
+        data.map((item: any) => {
+          if (item.ID) {
+            let type = item['状态']
+            if (type.includes('在')) type = '3'
+            else if (type.includes('想')) type = '1'
+            else if (type.includes('过')) type = '2'
+            else if (type.includes('搁置')) type = '4'
+            else if (type.includes('抛弃')) type = '5'
+
+            upload[item.ID] = {
+              type,
+              rate: item['我的评价'] || '',
+              ep_status: item['看到'] || '',
+              vol_status: '',
+              comment: item['我的简评'] || '',
+              tags: (item['标签'] || '').split(' '),
+              private: item['私密'] === '是',
+              updated_at: item['更新时间'] || '',
+              subject: {
+                id: item.ID,
+                date: item['放送'] || '',
+                eps: item['话数'] || '',
+                image: item['封面'] || '',
+                jp: item['日文'] || '',
+                cn: item['中文'] || '',
+                rank: item['排名'] || '',
+                score: item['评分'] || '',
+                type: MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(item['类型']) || '2'
+              }
+            }
+          }
+        })
+        this.setState({
+          upload
+        })
+        this.setStorage(NAMESPACE)
+        this.onToggleUpload()
+        t('本地备份.导入', {
+          data: `${this.userId}|${data.length}`
+        })
+      }
+    } catch (error) {
+      info('解析CSV出错，请重新导入')
+    }
   }
 }

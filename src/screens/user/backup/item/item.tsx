@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:17:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-08 15:02:10
+ * @Last Modified time: 2022-12-20 23:15:28
  */
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { Cover } from '@_'
@@ -19,84 +19,87 @@ import {
   MODEL_COLLECTION_STATUS,
   MODEL_SUBJECT_TYPE
 } from '@constants'
-import { CollectionStatusCn, SubjectTypeCn } from '@types'
+import { CollectionStatus, SubjectTypeCn } from '@types'
 import Column from '../column'
 import ColumnBgm from '../column-bgm'
 import ColumnSelect from '../column-select'
-// import Btn from '../btn'
+import Btn from '../btn'
 import {
   useSelectStatus,
   useSelectEp,
   useSelectScore,
-  useSelectComment
+  useSelectComment,
+  useSelectTags,
+  getSelectEp,
+  getSelectScore,
+  getSelectTags,
+  getSelectComment,
+  getSelectStatus,
+  actionStatus
 } from '../utils'
 import { DEFAULT_PROPS } from './ds'
 
-export default memo(({ navigation, styles, item, imports, collection }) => {
+export default memo(({ navigation, styles, item, upload, onBottom, onSubmit }) => {
   /** 是否同步导入模式 */
-  const isImport = !!imports.length
-
-  const { subject } = item
-  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
+  const isImport = !!upload
+  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.subject?.type)
 
   const progress = ''
   const hasEp = ['动画', '书籍', '三次元'].includes(typeCn)
 
   // hooks
-  // const [loading, setLoading] = useState(false)
-  const [selectStatus, setSelectStatus] = useSelectStatus('', collection?.status)
-  const [selectEp, setSelectEp] = useSelectEp(progress, collection?.ep_status)
-  const [selectScore, setSelectScore] = useSelectScore('', collection?.rating)
-  const [selectComment, setSelectComment] = useSelectComment('', collection?.comment)
+  const [loading, setLoading] = useState(false)
+  const [selectStatus, setSelectStatus] = useSelectStatus(item.type, upload?.type)
+  const [selectEp, setSelectEp] = useSelectEp(progress, upload?.ep_status)
+  const [selectScore, setSelectScore] = useSelectScore(item.rate, upload?.rate)
+  const [selectTags, setSelectTags] = useSelectTags(
+    item.tags.join(' '),
+    upload?.tags ? upload.tags.join(' ') : ''
+  )
+  const [selectComment, setSelectComment] = useSelectComment(
+    item.comment,
+    upload?.comment
+  )
 
-  // 隐藏进度一致
-  let status = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type) || ''
-  if (typeCn === '书籍') status = status.replace('看', '读')
-  else if (typeCn === '游戏') status = status.replace('看', '玩')
-  else if (typeCn === '音乐') status = status.replace('看', '听')
-
+  // 左
+  const status = item.type ? actionStatus(item.type, typeCn) : '未收藏'
   const a = {
     status,
-    ep: `${item.ep_status || 0} / ${subject.eps || '??'}`,
+    ep: `${item.ep_status || 0} / ${item.subject?.eps || '??'}`,
     score: item.rate || '',
     tags: item.tags.join(' ') || '',
     comment: item.comment || ''
   }
-  const b = {
-    status: '',
-    ep: '',
-    score: '',
-    tags: '',
-    comment: ''
-  }
 
-  // if (
-  //   a.status == b.status &&
-  //   a.ep == b.ep &&
-  //   a.score == b.score &&
-  //   a.comment == b.comment
-  // ) {
-  //   return null
-  // }
+  // 右
+  const uploadStatus = actionStatus(upload?.type, typeCn)
+  const b = {
+    status: uploadStatus,
+    ep: `${upload?.ep_status || 0} / ${upload?.subject?.eps || '??'}`,
+    score: upload?.rate || '',
+    tags: upload?.tags ? upload.tags.join(' ') : '',
+    comment: upload?.comment || ''
+  }
 
   // 若提交确认用的值
   const next = {
-    status: '',
-    ep: '',
-    score: '',
-    tags: '',
-    comment: ''
+    status: getSelectStatus(status, uploadStatus).value,
+    ep: getSelectEp(item.ep_status, upload?.ep_status).value,
+    score: getSelectScore(item.rate, upload?.rate).value,
+    tags: getSelectTags(item.tags.join(' '), upload?.tags ? upload.tags.join(' ') : '')
+      .value,
+    comment: getSelectComment(item.comment, upload?.comment).value
   }
   const onPress = () => {
     navigation.push('Subject', {
-      subjectId: subject.id
+      subjectId: item.subject?.id
     })
   }
 
   return (
     <Flex style={styles.item} align='start'>
       <Cover
-        src={subject.image}
+        src={item.subject?.image}
         width={isImport ? IMG_WIDTH_SM : IMG_WIDTH}
         height={isImport ? IMG_HEIGHT_SM : IMG_HEIGHT}
         radius
@@ -106,7 +109,7 @@ export default memo(({ navigation, styles, item, imports, collection }) => {
       <Flex.Item>
         <Flex style={styles.body} direction='column' align='start'>
           <Text bold numberOfLines={2} onPress={onPress}>
-            {cnjp(subject.cn, subject.jp)}
+            {cnjp(item.subject?.cn, item.subject?.jp)}
           </Text>
           <Flex style={_.mt.md} align='start'>
             {/* side */}
@@ -177,6 +180,7 @@ export default memo(({ navigation, styles, item, imports, collection }) => {
                 <ColumnBgm select={selectStatus} text={b.status} next={next.status} />
                 <ColumnBgm select={selectEp} text={b.ep} next={`${next.ep}话`} />
                 <ColumnBgm select={selectScore} text={b.score} next={next.score} />
+                <ColumnBgm select={selectTags} text={b.tags} next={next.tags} />
                 <ColumnBgm
                   select={selectComment}
                   text={b.comment}
@@ -196,13 +200,18 @@ export default memo(({ navigation, styles, item, imports, collection }) => {
                 />
                 <ColumnSelect
                   select={selectEp}
-                  disabled={next.ep === ''}
+                  disabled={!next.ep}
                   onPress={setSelectEp}
                 />
                 <ColumnSelect
                   select={selectScore}
                   disabled={!next.score}
                   onPress={setSelectScore}
+                />
+                <ColumnSelect
+                  select={selectTags}
+                  disabled={!next.tags}
+                  onPress={setSelectTags}
                 />
                 <ColumnSelect
                   select={selectComment}
@@ -214,27 +223,25 @@ export default memo(({ navigation, styles, item, imports, collection }) => {
           </Flex>
 
           {/* toolbar */}
-          {/* {isImport && (
+          {isImport && (
             <View style={styles.toolbar}>
               <Flex style={_.mt.md} justify='end'>
                 <Btn
                   text='置底'
                   onPress={() => {
-                    // onBottom(item.id)
+                    onBottom(item.subject?.id)
                   }}
                 />
                 <Btn
                   style={_.ml.md}
                   type='success'
-                  disabled={
-                    !isLoaded ||
-                    !(selectStatus || selectEp || selectScore || selectComment)
-                  }
+                  disabled={!(selectStatus || selectEp || selectScore || selectComment)}
                   loading={loading}
                   onPress={async () => {
                     const flag: {
                       status?: boolean
                       score?: boolean
+                      tags?: boolean
                       comment?: boolean
                       ep?: boolean
                     } = {}
@@ -242,8 +249,10 @@ export default memo(({ navigation, styles, item, imports, collection }) => {
                     const collectionData: {
                       status?: any
                       rating?: any
+                      tags?: any
                       comment?: any
                       ep?: any
+                      private?: any
                     } = {}
                     if (selectStatus) {
                       if (next.status === '想看') {
@@ -267,10 +276,15 @@ export default memo(({ navigation, styles, item, imports, collection }) => {
                       flag.score = true
                       collectionData.rating = next.score
                     }
+                    if (selectTags) {
+                      flag.tags = true
+                      collectionData.tags = next.tags
+                    }
                     if (selectComment) {
                       flag.comment = true
                       collectionData.comment = next.comment
                     }
+                    collectionData.private = item.private
 
                     const epData: {
                       ep?: any
@@ -281,7 +295,7 @@ export default memo(({ navigation, styles, item, imports, collection }) => {
                     }
 
                     setLoading(true)
-                    // await onSubmit(subjectId, collectionData, epData)
+                    await onSubmit(item.subject?.id, collectionData, epData)
                     setLoading(false)
 
                     if (flag.status) setSelectStatus(false)
@@ -292,7 +306,7 @@ export default memo(({ navigation, styles, item, imports, collection }) => {
                 />
               </Flex>
             </View>
-          )} */}
+          )}
         </Flex>
       </Flex.Item>
     </Flex>

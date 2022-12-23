@@ -18,22 +18,23 @@ export type Ctx = {
 }
 
 export type Item = {
-  type: CollectionStatusValue
-  rate: number
-  ep_status: number
-  vol_status: number
+  type: CollectionStatusValue | ''
+  rate: number | ''
+  ep_status: number | ''
+  vol_status: number | ''
   comment: string
   tags: string[]
+  private: boolean
   updated_at: string
   subject: {
     id: SubjectId
     date: string
-    eps: number
+    eps: number | ''
     image: string
     jp: string
     cn: string
-    rank: number
-    score: number
+    rank: number | ''
+    score: number | ''
     type: SubjectTypeValue
   }
 }

@@ -40,6 +40,7 @@
     "bangumi-data": "^0.3.88",
     "cheerio-without-node-native": "0.20.2",
     "crypto-js": "3.1.9-1",
+    "csvjson-csv2json": "^5.0.6",
     "dayjs": "1.10.8",
     "deepmerge": "4.2.2",
     "expo": "^45.0.0",

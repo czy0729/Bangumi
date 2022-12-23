@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-08 11:03:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-08 14:30:18
+ * @Last Modified time: 2022-12-20 23:14:28
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -16,8 +16,7 @@ export default obc(({ item }, { $, navigation }: Ctx) => {
       navigation={navigation}
       styles={memoStyles()}
       item={item}
-      imports={$.state.imports}
-      onRefreshCollection={$.onRefreshCollection}
+      upload={$.upload(item.subject?.id)}
       onBottom={$.onBottom}
       onSubmit={$.onSubmit}
     />

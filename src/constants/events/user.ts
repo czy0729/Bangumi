@@ -92,5 +92,8 @@ export default {
   // 本地备份
   '本地备份.获取': 'Backup.get',
   '本地备份.报错': 'Backup.catch',
-  '本地备份.导出': 'Backup.export'
+  '本地备份.导出': 'Backup.export',
+  '本地备份.导入': 'Backup.import',
+  '本地备份.置底': 'Backup.onBottom',
+  '本地备份.同步': 'Backup.onSubmit'
 }
