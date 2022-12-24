@@ -26,7 +26,8 @@ function Eps({ subjectId }, { $, navigation }: Ctx) {
         numbersOfLine={
           _.isMobileLanscape
             ? 12
-            : _.device($.epsCount(subjectId, false) <= 12 ? 6 : 7, 8)
+            : // : _.device($.epsCount(subjectId, false) <= 12 ? 6 : 7, 8)
+              _.device(7, 8)
         }
         lines={_.isMobileLanscape ? 1 : 3}
         login={$.isLogin}

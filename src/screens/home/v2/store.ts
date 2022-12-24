@@ -135,7 +135,7 @@ export default class ScreenHomeV2 extends store {
   initFetch = async (refresh: boolean = false) => {
     const { progress } = this.state
     if (progress.fetching) {
-      info('正在刷新条目信息，请稍后再操作')
+      info('正在刷新条目信息')
       return
     }
 
@@ -617,6 +617,14 @@ export default class ScreenHomeV2 extends store {
   /** 猜测条目当前看到的集数 */
   countFixed(subjectId: SubjectId, epStatus: number | string) {
     return computed(() => {
+      // 直接获取第一个看过章节的 sort
+      const eps = this.eps(subjectId)
+        .filter(item => item.type !== 1)
+        .reverse()
+      const userProgress = this.userProgress(subjectId)
+      const item = eps.find(item => userProgress[item.id] === '看过')
+      if (item) return item.sort
+
       // 不能直接用 API 给的 epStatus, 会把 SP 都加上
       // 需要根据 userProgress 和 eps 排除掉 SP 算
       const epsMap = {}
@@ -626,7 +634,9 @@ export default class ScreenHomeV2 extends store {
 
       let count = 0
       Object.keys(this.userProgress(subjectId)).forEach(item => {
-        if (epsMap[item] && this.userProgress(subjectId)[item] === '看过') count += 1
+        if (epsMap[item] && this.userProgress(subjectId)[item] === '看过') {
+          count += 1
+        }
       })
 
       // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
@@ -774,7 +784,11 @@ export default class ScreenHomeV2 extends store {
       const { homeCountView } = systemStore.setting
       const subject = this.subject(subjectId)
       const current = this.currentOnAir(subjectId)
-      const total = subject?.eps_count || '??'
+
+      // 二季度的番剧，首集非1开始的需要从所有章节里面获取最大集数
+      let total = subject?.eps_count || '??'
+      if (total !== '??' && Number(current) > Number(total)) total = current
+
       let right = ''
       switch (homeCountView) {
         case 'B':
