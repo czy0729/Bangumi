@@ -10,7 +10,7 @@ import { desc, getTimestamp, HTMLTrim, info } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
 import { getUserStoreAsync } from '@utils/async'
-import { collect, collectList } from '@utils/kv'
+import { collect, collectList, is } from '@utils/kv'
 import store from '@utils/store'
 import {
   CDN_RAKUEN,
@@ -1121,6 +1121,29 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     }
 
     return result
+  }
+
+  /** 检查帖子收藏 */
+  checkIsFavor = async (topicId: TopicId) => {
+    await this.init('favorCount')
+
+    const { myUserId } = getUserStoreAsync()
+    if (!myUserId) return false
+
+    const result = await is(myUserId, topicId)
+    if (result?.code === 200) {
+      if (result?.data?.total) {
+        this.setState({
+          favorCount: {
+            [topicId]: result.data.total || 0
+          }
+        })
+        this.save('favorCount')
+      }
+      return true
+    }
+
+    return false
   }
 
   /** 更新小组缩略图 */

@@ -58,7 +58,11 @@ export default class ScreenTopic extends store {
         if (!this.state.topic._loaded) this.fetchTopicFromCDN()
 
         // 章节需要请求章节详情
-        if (this.isEp) this.fetchEpFormHTML()
+        if (this.isEp) {
+          this.fetchEpFormHTML()
+        } else {
+          rakuenStore.checkIsFavor(this.topicId)
+        }
 
         // 本地帖子过来不主动请求
         const { _noFetch } = this.params
