@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 07:44:17
+ * @Last Modified time: 2022-12-26 04:53:53
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -302,7 +302,7 @@ export default class ScreenZone extends store {
   /** 标签页切换后回调, 延迟请求对应页面数据 */
   onTabChangeCallback = async (page: number) => {
     const { title } = this.tabs[page]
-    if (title === '时间胶囊') {
+    if (title === '时间线') {
       await this.fetchUsersTimeline(true)
     } else if (title === '超展开') {
       this.checkUserTopicsIsTimeout()

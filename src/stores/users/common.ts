@@ -48,6 +48,9 @@ export function cheerioUsers(HTML) {
       formhash = hash
     }
   }
+
+  const $gridItems = $('.gridStats .item')
+  const $chartItems = $('.horizontalChart li .count')
   return safeObject({
     userId,
     userName: $('div.headerAvatar + .inner > a').text().trim(),
@@ -73,7 +76,27 @@ export function cheerioUsers(HTML) {
     ),
     connectUrl: $('#connectFrd').attr('href'),
     disconnectUrl,
-    formhash
+    formhash,
+    userStats: {
+      total: $gridItems.eq(0).find('.num').text().trim(),
+      collect: $gridItems.eq(1).find('.num').text().trim(),
+      percent: $gridItems.eq(2).find('.num').text().trim(),
+      avg: $gridItems.eq(3).find('.num').text().trim(),
+      std: $gridItems.eq(4).find('.num').text().trim(),
+      scored: $gridItems.eq(5).find('.num').text().trim(),
+      chart: {
+        10: $chartItems.eq(0).text().trim().replace(/\(|\)/g, ''),
+        9: $chartItems.eq(1).text().trim().replace(/\(|\)/g, ''),
+        8: $chartItems.eq(2).text().trim().replace(/\(|\)/g, ''),
+        7: $chartItems.eq(3).text().trim().replace(/\(|\)/g, ''),
+        6: $chartItems.eq(4).text().trim().replace(/\(|\)/g, ''),
+        5: $chartItems.eq(5).text().trim().replace(/\(|\)/g, ''),
+        4: $chartItems.eq(6).text().trim().replace(/\(|\)/g, ''),
+        3: $chartItems.eq(7).text().trim().replace(/\(|\)/g, ''),
+        2: $chartItems.eq(8).text().trim().replace(/\(|\)/g, ''),
+        1: $chartItems.eq(9).text().trim().replace(/\(|\)/g, '')
+      }
+    }
   })
 }
 

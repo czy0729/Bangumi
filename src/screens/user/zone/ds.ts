@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 02:04:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 01:49:20
+ * @Last Modified time: 2022-12-26 04:35:29
  */
 export const NAMESPACE = 'ScreenZone'
 
@@ -34,7 +34,11 @@ export const TABS = [
     key: 'bangumi'
   },
   {
-    title: '时间胶囊',
+    title: '统计',
+    key: 'stats'
+  },
+  {
+    title: '时间线',
     key: 'timeline'
   },
   {

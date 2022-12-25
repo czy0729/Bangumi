@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 10:45:43
+ * @Last Modified time: 2022-12-26 04:50:57
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -29,7 +29,7 @@ class TimelineList extends React.Component<{
 }> {
   connectRef = ref => {
     const { $ }: Ctx = this.context
-    const index = TABS.findIndex(item => item.title === '时间胶囊')
+    const index = TABS.findIndex(item => item.title === '时间线')
     return $.connectRef(ref, index)
   }
 

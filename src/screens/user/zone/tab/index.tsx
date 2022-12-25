@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 10:56:03
+ * @Last Modified time: 2022-12-26 04:34:33
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -15,6 +15,7 @@ import { obc } from '@utils/decorators'
 import { Fn } from '@types'
 import ListHeader from '../list-header'
 import BangumiList from '../bangumi-list'
+import Stats from '../stats'
 import TimelineList from '../timeline-list'
 import RakuenList from '../rakuen-list'
 import About from '../about'
@@ -39,6 +40,13 @@ class Tab extends React.Component<{
   renderScene = SceneMap({
     bangumi: () => (
       <BangumiList
+        ListHeaderComponent={ListHeader}
+        scrollEventThrottle={16}
+        onScroll={this.props.onScroll}
+      />
+    ),
+    stats: () => (
+      <Stats
         ListHeaderComponent={ListHeader}
         scrollEventThrottle={16}
         onScroll={this.props.onScroll}

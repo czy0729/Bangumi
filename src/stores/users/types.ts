@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 04:14:59
+ * @Last Modified time: 2022-12-26 04:53:26
  */
 import {
   Avatar,
@@ -53,6 +53,26 @@ export type Users = {
   connectUrl: string
   disconnectUrl: string
   formhash: string
+  userStats: {
+    avg: string
+    chart: {
+      '1': string
+      '10': string
+      '2': string
+      '3': string
+      '4': string
+      '5': string
+      '6': string
+      '7': string
+      '8': string
+      '9': string
+    }
+    collect: string
+    percent: string
+    scored: string
+    std: string
+    total: string
+  }
   _loaded: number
 }
 

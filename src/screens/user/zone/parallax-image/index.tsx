@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 09:44:52
+ * @Last Modified time: 2022-12-26 04:48:35
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -77,7 +77,9 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
   }
 
   uri = $.bg || $.avatar || uri
-  if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
+  if (typeof uri === 'string') {
+    uri = uri.replace('http://', 'https://')
+  }
 
   return (
     <>

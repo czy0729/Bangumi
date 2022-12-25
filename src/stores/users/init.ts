@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-08 12:00:43
+ * @Last Modified time: 2022-12-26 04:53:02
  */
 export const NAMESPACE = 'Users'
 
@@ -27,7 +27,27 @@ export const INIT_USERS = {
   dropped: '',
   connectUrl: '',
   disconnectUrl: '',
-  formhash: ''
+  formhash: '',
+  userStats: {
+    avg: '',
+    chart: {
+      '1': '',
+      '10': '',
+      '2': '',
+      '3': '',
+      '4': '',
+      '5': '',
+      '6': '',
+      '7': '',
+      '8': '',
+      '9': ''
+    },
+    collect: '',
+    percent: '',
+    scored: '',
+    std: '',
+    total: ''
+  }
 }
 
 export const INIT_CHARACTERS = {
