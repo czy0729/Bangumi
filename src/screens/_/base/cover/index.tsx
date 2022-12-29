@@ -60,10 +60,24 @@ export const Cover = ob(
 
     const imageStyle = [style]
     const { hashSubjectOTALoaded } = systemStore.state
-    const _src = cdn !== false ? matchCoverUrl(src, noDefault) : src
+    let _src = cdn !== false ? matchCoverUrl(src, noDefault) : src
+
+    // 相册模式大图
     let _imageViewerSrc = imageViewerSrc
     if (_imageViewerSrc && typeof _src === 'string' && _src.includes('/bgm_poster')) {
       _imageViewerSrc = _src
+    }
+
+    // @update 2022/12/30 源站图片现在可以统一处理
+    if (typeof _src === 'string' && _src.includes('lain.bgm.tv')) {
+      _src = _src
+        // 使用新增的 r/400 前缀
+        .replace(
+          /lain.bgm.tv\/pic\/cover\/(g|s|c|m|l)\//,
+          'lain.bgm.tv/r/400/pic/cover/l/'
+        )
+        // 不使用 nxn 直接使用 r/400
+        .replace(/\/r\/\d+x\d+\//, '/r/400/')
     }
 
     const { coverThings, coverRadius } = systemStore.setting

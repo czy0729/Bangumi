@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   chart: {
+    paddingHorizontal: _.sm,
     marginTop: 56,
     marginHorizontal: -4
   },

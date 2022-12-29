@@ -231,12 +231,11 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
           node =
             findTreeNode(children, 'a > div|style~background') ||
             findTreeNode(children, 'a|style~background')
-          const cover = node
-            ? node[0].attrs.style.replace(
-                /background:#000 url\(|\) 50%|background-image:url\('|'\);/g,
-                ''
-              )
-            : ''
+
+          // @update 2022/12/30
+          let cover =
+            node?.[0]?.attrs?.style.match(/\/cover\/.+?\/(.+?).jpg/)?.[1] || ''
+          if (cover) cover = `https://lain.bgm.tv/pic/cover/l/${cover}.jpg`
 
           node = findTreeNode(children, 'a|href&title')
           const title = node ? node[0].attrs.title : ''
