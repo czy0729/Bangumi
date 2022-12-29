@@ -9,7 +9,7 @@ import { RatingStatus, TagOrder } from '@types'
 
 export const NAMESPACE = 'ScreenTag'
 
-export const DEFAULT_ORDER = MODEL_TAG_ORDERBY.getValue<TagOrder>('名称')
+export const DEFAULT_ORDER = MODEL_TAG_ORDERBY.getValue<TagOrder>('标注数')
 
 export const EXCLUDE_STATE = {
   /** 年 */

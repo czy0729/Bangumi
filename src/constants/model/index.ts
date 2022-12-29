@@ -844,8 +844,12 @@ export const MODEL_COLLECTIONS_ORDERBY = new Model(
 /** 标签排序 */
 export const TAG_ORDERBY = [
   {
+    label: '标注数',
+    value: 'collects'
+  },
+  {
     label: '名称',
-    value: ''
+    value: 'title'
   },
   {
     label: '日期',

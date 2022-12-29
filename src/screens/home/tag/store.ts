@@ -176,7 +176,7 @@ export default class ScreenTag extends store {
   /** 网页端地址 */
   @computed get url() {
     const { type, tag } = this.params
-    const { order = '', airtime, month } = this.state
+    const { order = 'collects', airtime, month } = this.state
     return HTML_TAG(
       encodeURIComponent(tag),
       type,
