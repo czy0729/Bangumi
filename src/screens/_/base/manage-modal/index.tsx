@@ -4,16 +4,16 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 04:30:23
+ * @Last Modified time: 2022-12-30 22:03:08
  */
 import React from 'react'
-import { BackHandler, ScrollView, View } from 'react-native'
+import { BackHandler, View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Modal, Button, Flex, Input, Text, Touchable, Iconfont } from '@components'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
-import { MODEL_PRIVATE, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { MODEL_PRIVATE } from '@constants'
 import { Private, PrivateCn } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
@@ -48,7 +48,7 @@ export const ManageModal = ob(
       privacy: MODEL_PRIVATE.getValue<Private>('公开')
     }
 
-    commentRef
+    commentRef: any
 
     async componentDidMount() {
       const privacy =
@@ -244,31 +244,38 @@ export const ManageModal = ob(
 
       const selected = this.state.tags.split(' ')
       return (
-        <ScrollView horizontal {...SCROLL_VIEW_RESET_PROPS}>
-          {tags.map(({ name, count }) => {
-            const isSelected = selected.indexOf(name) !== -1
-            return (
-              <Touchable
-                style={this.styles.touchTag}
-                key={name}
-                onPress={() => this.toggleTag(name)}
-              >
-                <Flex style={[this.styles.tag, isSelected && this.styles.tagSelected]}>
-                  <Text size={13} type={_.select('desc', isSelected ? 'main' : 'desc')}>
-                    {name}
-                  </Text>
-                  <Text
-                    style={_.ml.xs}
-                    type={_.select('sub', isSelected ? 'main' : 'desc')}
-                    size={13}
+        <Flex style={this.styles.tagsWrap} wrap='wrap'>
+          {tags
+            .filter((item, index) => index < 12)
+            .map(({ name, count }) => {
+              const isSelected = selected.indexOf(name) !== -1
+              return (
+                <Touchable
+                  style={this.styles.touchTag}
+                  key={name}
+                  onPress={() => this.toggleTag(name)}
+                >
+                  <Flex
+                    style={[this.styles.tag, isSelected && this.styles.tagSelected]}
                   >
-                    {count}
-                  </Text>
-                </Flex>
-              </Touchable>
-            )
-          })}
-        </ScrollView>
+                    <Text
+                      size={13}
+                      type={_.select('desc', isSelected ? 'main' : 'desc')}
+                    >
+                      {name}
+                    </Text>
+                    <Text
+                      style={_.ml.xs}
+                      type={_.select('sub', isSelected ? 'main' : 'desc')}
+                      size={13}
+                    >
+                      {count}
+                    </Text>
+                  </Flex>
+                </Touchable>
+              )
+            })}
+        </Flex>
       )
     }
 
