@@ -8,7 +8,7 @@
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
-import { DEV, IOS } from '@constants'
+import { DEV } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
 import calendarStore from './calendar'
@@ -74,15 +74,13 @@ class GlobalStores {
         await calendarStore.init(calendarStoreKeys[i])
       }
 
-      if (!IOS) {
-        // subjectStoreKeys
-        const subjectStoreKeys: `subject${number}`[] = []
-        userStore.collection.list.forEach(item => {
-          subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
-        })
-        for (let i = 0; i < subjectStoreKeys.length; i += 1) {
-          await subjectStore.init(subjectStoreKeys[i])
-        }
+      // subjectStoreKeys
+      const subjectStoreKeys: `subject${number}`[] = []
+      userStore.collection.list.forEach(item => {
+        subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
+      })
+      for (let i = 0; i < subjectStoreKeys.length; i += 1) {
+        await subjectStore.init(subjectStoreKeys[i])
       }
 
       // if (DEV) console.info('========== GlobalStores init ==========')

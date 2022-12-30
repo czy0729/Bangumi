@@ -397,7 +397,7 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         method: 'POST',
         url,
         headers: {
-          referer: url,
+          referer: 'https://www.hexieshe.cn/',
           'content-type': 'application/x-www-form-urlencoded'
         },
         data: {

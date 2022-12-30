@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:19:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:19:16
+ * @Last Modified time: 2022-12-30 21:28:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,17 +16,26 @@ import { memoStyles } from './styles'
 
 const title = '资讯'
 
-function List(props, { $ }: Ctx) {
+function List(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { show } = $.state
   const { list } = $.article
   const onPress = item => {
+    const { useWebView } = $.state
+    if (useWebView) {
+      navigation.push('WebBrowser', {
+        url: item.url,
+        title: item.title
+      })
+    } else {
+      open(item.url)
+    }
+
     t('Anitama.跳转', {
       to: 'WebBrowser',
-      url: item.url
+      url: item.url,
+      useWebView
     })
-
-    open(item.url)
     hm(item.url, title)
   }
 

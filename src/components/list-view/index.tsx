@@ -12,7 +12,7 @@ import { RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { pick, omit, sleep, simpleTime, date } from '@utils'
-import { LIST_EMPTY } from '@constants'
+import { IOS, LIST_EMPTY } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
 import { ScrollToTop } from '../scroll-to-top'
 import List from './list'
@@ -332,8 +332,7 @@ export const ListView = observer(
 
     renderScrollToTop() {
       const { scrollToTop } = this.props
-
-      if (!scrollToTop) return null
+      if (IOS || !scrollToTop) return null
 
       return (
         <ScrollToTop

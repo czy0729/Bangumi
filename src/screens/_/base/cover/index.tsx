@@ -78,6 +78,8 @@ export const Cover = ob(
         )
         // 不使用 nxn 直接使用 r/400
         .replace(/\/r\/\d+x\d+\//, '/r/400/')
+        // 不使用 r/800
+        .replace('/r/800/', '/r/400/')
     }
 
     const { coverThings, coverRadius } = systemStore.setting

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:17:15
+ * @Last Modified time: 2022-12-30 20:35:49
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
@@ -26,6 +26,7 @@ export default class ScreenAnitama extends store {
     show: false,
     history: [],
     type: NEWS[0].value,
+    useWebView: false,
     _loaded: false
   })
 
@@ -183,6 +184,21 @@ export default class ScreenAnitama extends store {
         history: [...history, aid]
       })
       this.setStorage(NAMESPACE)
+    }
+  }
+
+  /** 切换是否使用内置浏览器打开网页 */
+  toggleUseWebView = () => {
+    const value = !this.state.useWebView
+    this.setState({
+      useWebView: value
+    })
+    this.setStorage(NAMESPACE)
+
+    if (value) {
+      info('使用内置浏览器打开')
+    } else {
+      info('使用外部浏览器打开')
     }
   }
 
