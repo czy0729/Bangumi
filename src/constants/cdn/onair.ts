@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:43:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 11:42:30
+ * @Last Modified time: 2022-12-30 23:37:54
  */
 import dayjs from 'dayjs'
 import { SubjectId } from '@types'
@@ -12,7 +12,7 @@ import { HOST_DOGE, HOST_CDN_STATIC } from './ds'
 /** 每日放送, https://github.com/ekibot/bangumi-onair */
 export const CDN_ONAIR = () => {
   // return `${HOST_CDN}/gh/ekibot/bangumi-link@master/calendar.json?t=${getTimestamp()}` as const
-  return `${HOST_DOGE}/bangumi-onair/calendar.json` as const
+  return `${HOST_DOGE}/bangumi-onair/calendar.json?ts=${getTimestamp()}` as const
 }
 
 /** 单集数据源, https://github.com/ekibot/bangumi-onair */
