@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-30 22:03:56
+ * @Last Modified time: 2022-12-30 22:16:48
  */
 import { _ } from '@stores'
 
@@ -34,19 +34,19 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.isMobileLanscape ? -24 : 0
   },
   tagsWrap: {
-    height: _.r(120),
+    height: 104,
     overflow: 'hidden'
   },
   tags: {
     width: '100%',
-    minHeight: _.r(54),
+    minHeight: 54,
     paddingVertical: 12
   },
   tag: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
-    marginRight: _.sm,
-    marginBottom: _.sm,
+    paddingVertical: _.xs - 1,
+    paddingHorizontal: _.sm - 2,
+    marginRight: _.sm - 1,
+    marginBottom: _.sm - 1,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     borderWidth: _.select(1, 0),
     borderColor: _.colorBorder,

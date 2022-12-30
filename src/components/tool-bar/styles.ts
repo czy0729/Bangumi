@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 14:04:44
+ * @Last Modified time: 2022-12-30 23:01:08
  */
 import { _ } from '@stores'
 
@@ -42,6 +42,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginLeft: -6
   },
   transparentItem: {
+    marginRight: _.sm,
     backgroundColor: 'transparent'
   }
 }))

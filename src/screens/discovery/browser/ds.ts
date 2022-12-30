@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-26 22:57:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:58:54
+ * @Last Modified time: 2022-12-30 22:36:43
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { BrowserSort, RatingStatus, SubjectType } from '@types'
@@ -39,7 +39,7 @@ export const STATE = {
   airtime: DATE.getFullYear(),
 
   /** 月 */
-  month: DATE.getMonth() + 1,
+  month: (DATE.getMonth() + 1) as number | '不选择',
 
   /** 布局 list | grid */
   layout: 'list',

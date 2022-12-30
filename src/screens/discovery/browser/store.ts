@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:59:09
+ * @Last Modified time: 2022-12-30 22:55:40
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -123,7 +123,7 @@ export default class ScreenBrowser extends store {
   /** 日期 */
   @computed get airtime() {
     const { airtime, month } = this.state
-    return month ? `${airtime}-${month}` : String(airtime)
+    return month && month !== '不选择' ? `${airtime}-${month}` : String(airtime)
   }
 
   /** 云快照 */
@@ -235,8 +235,7 @@ export default class ScreenBrowser extends store {
     })
 
     this.setState({
-      airtime: airtime === '全部' ? '' : airtime,
-      month: ''
+      airtime: airtime === '全部' ? '' : airtime
     })
     this.resetScrollView()
     this.fetchBrowser(true)
@@ -269,12 +268,13 @@ export default class ScreenBrowser extends store {
       return
     }
 
+    console.log(month)
     if (!month) {
       this.setState({
-        airtime: airtime - 1
+        airtime: Number(airtime) - 1
       })
     } else {
-      let _airtime = airtime
+      let _airtime = Number(airtime)
       let _month = Number(month)
       if (month == 1) {
         _airtime -= 1
@@ -302,10 +302,10 @@ export default class ScreenBrowser extends store {
 
     if (!month) {
       this.setState({
-        airtime: airtime + 1
+        airtime: Number(airtime) + 1
       })
     } else {
-      let _airtime = airtime
+      let _airtime = Number(airtime)
       let _month = Number(month)
       if (month == 12) {
         _airtime += 1

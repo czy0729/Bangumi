@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-30 22:03:08
+ * @Last Modified time: 2022-12-30 22:17:55
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -89,9 +89,12 @@ export const ManageModal = ob(
             status: _status.type
           }
           if (privacy !== undefined) state.privacy = privacy
-
           this.setState(state)
         }
+
+        const { _loaded } = this.subjectFormHTML
+        const { showTags } = this.state
+        if (!_loaded || !showTags) this.fetchTags()
       }
     }
 
@@ -236,7 +239,7 @@ export const ManageModal = ob(
         return (
           <Touchable style={this.styles.touch} onPress={this.fetchTags}>
             <Text size={13} underline>
-              点击获取大家的标注
+              获取标注
             </Text>
           </Touchable>
         )
@@ -246,7 +249,7 @@ export const ManageModal = ob(
       return (
         <Flex style={this.styles.tagsWrap} wrap='wrap'>
           {tags
-            .filter((item, index) => index < 12)
+            .filter((item, index) => index < 15)
             .map(({ name, count }) => {
               const isSelected = selected.indexOf(name) !== -1
               return (
@@ -259,15 +262,16 @@ export const ManageModal = ob(
                     style={[this.styles.tag, isSelected && this.styles.tagSelected]}
                   >
                     <Text
-                      size={13}
+                      size={12}
+                      bold
                       type={_.select('desc', isSelected ? 'main' : 'desc')}
                     >
                       {name}
                     </Text>
                     <Text
                       style={_.ml.xs}
-                      type={_.select('sub', isSelected ? 'main' : 'desc')}
-                      size={13}
+                      type={_.select('sub', isSelected ? 'main' : 'sub')}
+                      size={12}
                     >
                       {count}
                     </Text>
