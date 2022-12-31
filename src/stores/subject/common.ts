@@ -61,12 +61,8 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
 
     // 封面
     // @issue
-    matchHTML =
-      HTML.match(/<img src="(.+?)" class="cover"\/>/) ||
-      HTML.match(/<img src="(.+?)" class="cover" \/>/)
-    if (matchHTML) {
-      mono.cover = String(matchHTML[1]).split('?')[0]
-    }
+    matchHTML = HTML.match(/<img src="(.+?)" class="cover"/)
+    if (matchHTML) mono.cover = String(matchHTML[1]).split('?')[0]
 
     // 各种详细
     matchHTML = HTML.match(/<ul id="infobox">(.+?)<\/ul>/)

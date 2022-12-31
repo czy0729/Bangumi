@@ -14,13 +14,13 @@ import { memoStyles } from './styles'
 
 function Chart({ count }) {
   const styles = memoStyles()
-  const max = Math.max(...Object.keys(count).map(item => Number(count[item] || 0)))
+  const max = Math.max(...Object.keys(count).map(item => Number(count?.[item] || 0)))
   return (
     <Flex style={styles.chart}>
-      {Object.keys(count)
+      {Object.keys(count || {})
         .reverse()
         .map((item, index) => {
-          const height = getHeight(max, count[item])
+          const height = getHeight(max, count?.[item])
           return (
             <Flex.Item key={item} style={index > 0 && _.ml.xs}>
               <Flex style={styles.item} justify='center' align='end'>
@@ -44,7 +44,7 @@ function Chart({ count }) {
                   align='center'
                   bold
                 >
-                  {count[item]}{' '}
+                  {count?.[item]}{' '}
                 </Text>
               </Flex>
               <Text style={_.mt.sm} size={12} bold type='title' align='center'>

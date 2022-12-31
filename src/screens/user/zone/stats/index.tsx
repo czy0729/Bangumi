@@ -16,7 +16,7 @@ import { memoStyles } from './styles'
 
 function Stats(props, { $ }: Ctx) {
   const styles = memoStyles()
-  const { userStats } = $.users
+  const userStats = ($.users?.userStats || {}) as any
   return (
     <Animated.ScrollView
       ref={ref => {
@@ -32,7 +32,7 @@ function Stats(props, { $ }: Ctx) {
           <Flex.Item>
             <View style={[styles.block, styles.blockMain]}>
               <Text size={20} bold>
-                {userStats.total}
+                {userStats?.total}
               </Text>
               <Text size={12} bold>
                 收藏
@@ -42,7 +42,7 @@ function Stats(props, { $ }: Ctx) {
           <Flex.Item>
             <View style={[styles.block, styles.blockSuccess]}>
               <Text size={20} bold>
-                {userStats.collect}
+                {userStats?.collect}
               </Text>
               <Text size={12} bold>
                 完成
@@ -52,7 +52,7 @@ function Stats(props, { $ }: Ctx) {
           <Flex.Item>
             <View style={[styles.block, styles.blockPrimary]}>
               <Text size={20} bold>
-                {userStats.percent}
+                {userStats?.percent}
               </Text>
               <Text size={12} bold>
                 完成率
@@ -64,7 +64,7 @@ function Stats(props, { $ }: Ctx) {
           <Flex.Item>
             <View style={[styles.block, styles.blockWarning]}>
               <Text size={20} bold>
-                {userStats.avg}
+                {userStats?.avg}
               </Text>
               <Text size={12} bold>
                 平均分
@@ -74,7 +74,7 @@ function Stats(props, { $ }: Ctx) {
           <Flex.Item>
             <View style={[styles.block, styles.blockPurple]}>
               <Text size={20} bold>
-                {userStats.std}
+                {userStats?.std}
               </Text>
               <Text size={12} bold>
                 标准差
@@ -84,7 +84,7 @@ function Stats(props, { $ }: Ctx) {
           <Flex.Item>
             <View style={[styles.block, styles.blockSky]}>
               <Text size={20} bold>
-                {userStats.scored}
+                {userStats?.scored}
               </Text>
               <Text size={12} bold>
                 评分数
@@ -92,7 +92,7 @@ function Stats(props, { $ }: Ctx) {
             </View>
           </Flex.Item>
         </Flex>
-        <Chart count={userStats.chart} />
+        <Chart count={userStats?.chart} />
       </View>
     </Animated.ScrollView>
   )
