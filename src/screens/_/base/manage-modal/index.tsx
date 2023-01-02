@@ -91,10 +91,6 @@ export const ManageModal = ob(
           if (privacy !== undefined) state.privacy = privacy
           this.setState(state)
         }
-
-        const { _loaded } = this.subjectFormHTML
-        const { showTags } = this.state
-        if (!_loaded || !showTags) this.fetchTags()
       }
     }
 

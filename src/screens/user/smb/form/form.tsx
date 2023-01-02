@@ -69,8 +69,8 @@ export default memo(
               <Input
                 ref={ref => (nameRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='选填'
-                value={name}
+                placeholder='选填，如2022S4'
+                defaultValue={name}
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('name', text)}
@@ -90,8 +90,8 @@ export default memo(
               <Input
                 ref={ref => (ipRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='必填，内网IP'
-                value={ip}
+                placeholder='必填，内网IP，如192.168.1.1'
+                defaultValue={ip}
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('ip', text)}
@@ -112,7 +112,7 @@ export default memo(
                 ref={ref => (usernameRef.current = ref?.inputRef)}
                 style={styles.input}
                 placeholder='选填'
-                value={username}
+                defaultValue={username}
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('username', text)}
@@ -133,7 +133,7 @@ export default memo(
                 ref={ref => (passwordRef.current = ref?.inputRef)}
                 style={styles.input}
                 placeholder='必填'
-                value={password}
+                defaultValue={password}
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('password', text)}
@@ -154,7 +154,7 @@ export default memo(
                 ref={ref => (sharedFolderRef.current = ref?.inputRef)}
                 style={styles.input}
                 placeholder='必填，通常为共享的顶层目录'
-                value={sharedFolder}
+                defaultValue={sharedFolder}
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('sharedFolder', text)}
@@ -174,8 +174,8 @@ export default memo(
               <Input
                 ref={ref => (pathRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='默认空，可填多个，英文逗号分割'
-                value={path}
+                placeholder='通常不填，可填多个，英文逗号分割'
+                defaultValue={path}
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('path', text)}
@@ -195,8 +195,8 @@ export default memo(
               <Input
                 ref={ref => (portRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='默认445'
-                value={port}
+                placeholder='默认 445'
+                defaultValue={port}
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('port', text)}
@@ -217,7 +217,7 @@ export default memo(
                 ref={ref => (workGroupRef.current = ref?.inputRef)}
                 style={styles.input}
                 placeholder='默认空，通常不填'
-                value={workGroup}
+                defaultValue={workGroup}
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('workGroup', text)}
@@ -243,7 +243,7 @@ export default memo(
                     s2tAsync('自定义跳转'),
                     s2tAsync(`自定义第三方跳转规则。点击文件复制地址，长按跳转。
                     \n[IP] = 主机:端口\n[USERNAME] = 用户\n[PASSWORD] = 密码\n[PATH] = 目录路径\n[FILE] = 文件路径
-                    \n推荐播放安装nPlayer，支持 nplayer-smb:// 前缀的直接跳转。\n目前已知只有smb 1.0协议可以直接播放，2.0会被强制关闭连接，待解决。`),
+                    \n推荐播放安装 VLC，直接使用 smb:// 能播；其次推荐 nPlayer，支持 nplayer-smb:// 前缀的直接跳转。\n目前已知只有 smb 1.0 协议可以直接播放，2.0会被强制关闭连接，待解决。`),
                     [
                       {
                         text: s2tAsync('已知问题和详细教程'),
@@ -262,7 +262,7 @@ export default memo(
               <Input
                 ref={ref => (urlRef.current = ref?.inputRef)}
                 style={[styles.input, styles.inputMultiline]}
-                value={url}
+                defaultValue={url}
                 showClear
                 multiline
                 numberOfLines={3}

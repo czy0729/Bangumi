@@ -9,7 +9,7 @@ import { View, Linking } from 'react-native'
 import { Flex, Image, Text, Touchable, Iconfont } from '@components'
 import { Cover, Rank, Stars, Tag } from '@_'
 import { _ } from '@stores'
-import { copy, desc, HTMLDecode, alert } from '@utils'
+import { copy, desc, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_DEFAULT, IMG_WIDTH, IMG_HEIGHT, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -188,10 +188,10 @@ export default memo(
                             folder.name,
                             item.name
                           )
-                          if (!(await Linking.canOpenURL(link))) {
-                            alert(link, '本机不支持打开此链接')
-                            return
-                          }
+                          // if (!(await Linking.canOpenURL(link))) {
+                          //   alert(link, '本机不支持打开此链接')
+                          //   return
+                          // }
                           Linking.openURL(link)
                         }}
                       >

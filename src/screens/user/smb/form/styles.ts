@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.r(_.window.contentWidth),
-    marginTop: -_.window.height * 0.24,
+    marginTop: -_.window.height * 0.2,
     maxWidth: _.device(408, 560),
     paddingTop: _.device(_.md + 2, 28),
     paddingHorizontal: _.device(0, _.sm),

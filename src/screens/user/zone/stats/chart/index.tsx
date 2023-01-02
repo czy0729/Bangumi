@@ -14,7 +14,9 @@ import { memoStyles } from './styles'
 
 function Chart({ count }) {
   const styles = memoStyles()
-  const max = Math.max(...Object.keys(count).map(item => Number(count?.[item] || 0)))
+  const max = Math.max(
+    ...Object.keys(count || {}).map(item => Number(count?.[item] || 0))
+  )
   return (
     <Flex style={styles.chart}>
       {Object.keys(count || {})
