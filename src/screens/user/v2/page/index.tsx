@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 16:30:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 17:27:49
+ * @Last Modified time: 2023-01-03 07:30:52
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -105,24 +105,10 @@ class User extends React.Component {
         {!!_loaded && (
           <>
             <Tab
-              scrollY={this.scrollY}
-              scrollEventThrottle={16}
               page={page}
-              onScroll={Animated.event(
-                [
-                  {
-                    nativeEvent: {
-                      contentOffset: {
-                        y: this.scrollY
-                      }
-                    }
-                  }
-                ],
-                {
-                  useNativeDriver: true,
-                  listener: this.onScroll
-                }
-              )}
+              scrollEventThrottle={16}
+              scrollY={this.scrollY}
+              onScroll={this.onScroll}
               onSwipeStart={this.onSwipeStart}
               onIndexChange={this.onIndexChange}
               onSelectSubjectType={this.onSelectSubjectType}

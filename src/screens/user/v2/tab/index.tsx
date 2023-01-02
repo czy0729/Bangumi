@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 10:57:05
+ * @Last Modified time: 2023-01-03 07:29:28
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -53,6 +53,7 @@ class Tab extends React.Component<Props> {
               </>
             }
             scrollEventThrottle={16}
+            scrollY={this.props.scrollY}
             onScroll={this.props.onScroll}
           />
         )

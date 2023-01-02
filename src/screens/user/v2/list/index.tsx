@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 17:45:34
+ * @Last Modified time: 2023-01-03 07:30:22
  */
 import React from 'react'
+import { Animated } from 'react-native'
 import { Loading, ListView, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
 import { keyExtractor } from '@utils'
@@ -75,7 +76,7 @@ class List extends React.Component<Props> {
     if (hide) return null
 
     const { $ }: Ctx = this.context
-    const { page, title, ...other } = this.props
+    const { page, title, scrollY, onScroll, ...other } = this.props
     const { subjectType, list, isFocused } = $.state
     const userCollections = $.userCollections(
       subjectType,
@@ -108,6 +109,21 @@ class List extends React.Component<Props> {
         scrollToTop={isFocused && tab.title === title}
         onFooterRefresh={$.fetchUserCollections}
         {...other}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: scrollY
+                }
+              }
+            }
+          ],
+          {
+            useNativeDriver: true,
+            listener: onScroll
+          }
+        )}
       />
     )
   }
