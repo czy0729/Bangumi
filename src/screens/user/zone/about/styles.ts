@@ -10,6 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     paddingTop: _.parallaxImageHeight + _.md * 2,
     paddingHorizontal: _.wind,
+    paddingBottom: _.bottom,
     minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
   },
   page: {

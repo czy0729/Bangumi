@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-26 04:50:57
+ * @Last Modified time: 2023-01-03 07:19:31
  */
 import React from 'react'
+import { Animated } from 'react-native'
 import { Loading, ListView } from '@components'
 import { TapListener, SectionHeader, ItemTimeline } from '@_'
 import { _ } from '@stores'
@@ -54,6 +55,7 @@ class TimelineList extends React.Component<{
     const { $ }: Ctx = this.context
     if (!$.usersTimeline._loaded) return <Loading style={styles.loading} />
 
+    const { onScroll } = this.props
     return (
       <TapListener>
         <ListView
@@ -68,6 +70,21 @@ class TimelineList extends React.Component<{
           animated
           onFooterRefresh={() => $.fetchUsersTimeline()}
           {...this.props}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: $.scrollY
+                  }
+                }
+              }
+            ],
+            {
+              useNativeDriver: true,
+              listener: onScroll
+            }
+          )}
         />
       </TapListener>
     )

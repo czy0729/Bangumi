@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-26 04:29:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-26 05:19:49
+ * @Last Modified time: 2023-01-03 07:17:30
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -17,6 +17,7 @@ import { memoStyles } from './styles'
 function Stats(props, { $ }: Ctx) {
   const styles = memoStyles()
   const userStats = ($.users?.userStats || {}) as any
+  const { onScroll } = props
   return (
     <Animated.ScrollView
       ref={ref => {
@@ -26,6 +27,21 @@ function Stats(props, { $ }: Ctx) {
       contentContainerStyle={styles.contentContainerStyle}
       {...props}
       {...SCROLL_VIEW_RESET_PROPS}
+      onScroll={Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: $.scrollY
+              }
+            }
+          }
+        ],
+        {
+          useNativeDriver: true,
+          listener: onScroll
+        }
+      )}
     >
       <View style={styles.page}>
         <Flex>

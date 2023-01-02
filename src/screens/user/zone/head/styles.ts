@@ -76,9 +76,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 18
   },
   online: {
-    width: _.ios(14, 13),
-    height: _.ios(14, 13),
-    borderRadius: _.ios(14, 13)
+    width: 13,
+    height: 13,
+    borderRadius: 13
   },
   onlineSuccess: {
     backgroundColor: 'rgb(9, 241, 117)'

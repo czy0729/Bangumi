@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 10:39:50
+ * @Last Modified time: 2023-01-03 07:15:55
  */
 import React from 'react'
-import { Animated, View } from 'react-native'
+import { View } from 'react-native'
 import { StatusBarEvents, Track } from '@components'
 import { NavigationBarEvents } from '@_'
 import { uiStore, _ } from '@stores'
@@ -49,21 +49,7 @@ class Zone extends React.Component {
         <NavigationBarEvents />
         <Tab
           scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    y: $.scrollY
-                  }
-                }
-              }
-            ],
-            {
-              useNativeDriver: true,
-              listener: this.onScroll
-            }
-          )}
+          onScroll={this.onScroll}
           onSwipeStart={this.onSwipeStart}
           onIndexChange={this.onIndexChange}
         />

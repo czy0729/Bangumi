@@ -36,7 +36,7 @@ function Head({ style }, { $, navigation }: Ctx) {
   const textType = _.select('plain', 'title')
   const fallback =
     typeof $.src === 'string' && !$.src.includes('//lain.bgm.tv/pic/user/l/')
-  const userStatus = getUserStatus(userId)
+  const userStatus = getUserStatus(username)
   return (
     <Flex style={style} direction='column'>
       <View>

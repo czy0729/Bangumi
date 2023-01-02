@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 10:46:34
+ * @Last Modified time: 2023-01-03 07:22:30
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -25,6 +25,7 @@ function About(
   { $, navigation }: Ctx
 ) {
   const styles = memoStyles()
+  const { onScroll } = props
 
   // 去除APP内高清头像背景的代码
   const sign =
@@ -42,6 +43,21 @@ function About(
       contentContainerStyle={styles.contentContainerStyle}
       {...props}
       {...SCROLL_VIEW_RESET_PROPS}
+      onScroll={Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: $.scrollY
+              }
+            }
+          }
+        ],
+        {
+          useNativeDriver: true,
+          listener: onScroll
+        }
+      )}
     >
       <View style={styles.page}>
         <RenderHtml

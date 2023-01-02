@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 10:45:53
+ * @Last Modified time: 2023-01-03 07:20:05
  */
 import React from 'react'
 import { Loading, ListView, Text, Heatmap } from '@components'
@@ -15,6 +15,7 @@ import RakuenItem from '../rakuen-item'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
 import { styles } from './styles'
+import { Animated } from 'react-native'
 
 const EVENT = {
   id: '空间.跳转',
@@ -85,6 +86,7 @@ class RakuenList extends React.Component<{
         </>
       ) : undefined
 
+    const { onScroll } = this.props
     return (
       <ListView
         ref={this.connectRef}
@@ -99,6 +101,21 @@ class RakuenList extends React.Component<{
         ListFooterComponent={ListFooterComponent}
         onFooterRefresh={$.fetchUsersTimeline}
         {...this.props}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: $.scrollY
+                }
+              }
+            }
+          ],
+          {
+            useNativeDriver: true,
+            listener: onScroll
+          }
+        )}
       />
     )
   }

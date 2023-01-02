@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 09:20:45
+ * @Last Modified time: 2023-01-03 07:15:23
  */
 import React from 'react'
+import { Animated } from 'react-native'
 import {
   Loading,
   ListView,
@@ -15,13 +16,14 @@ import {
   Heatmap
 } from '@components'
 import { SectionHeader, ItemBangumiList } from '@_'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { cnjp, keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Fn, Navigation } from '@types'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
+import U from './u'
 import { memoStyles } from './styles'
 
 const EVENT = {
@@ -66,27 +68,33 @@ class BangumiList extends React.Component<{
   }
 
   ListFooterComponent = ($: Ctx['$'], navigation: Navigation) => (
-    <Flex style={_.mt.lg} justify='center'>
-      <Touchable
-        style={this.styles.touch}
-        onPress={() => {
-          t('空间.跳转', {
-            to: 'User'
-          })
+    <>
+      <Flex style={_.mt.lg} justify='center'>
+        <Touchable
+          style={this.styles.touch}
+          onPress={() => {
+            t('空间.跳转', {
+              to: 'User'
+            })
 
-          $.navigateToUser(navigation)
-        }}
-      >
-        <Text>查看TA的所有收藏</Text>
-        <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
-      </Touchable>
-    </Flex>
+            $.navigateToUser(navigation)
+          }}
+        >
+          <Text type={_.select('desc', 'main')} bold>
+            查看TA的所有收藏
+          </Text>
+          <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
+        </Touchable>
+      </Flex>
+      {userStore.isDeveloper && <U username={$.usersInfo.username} />}
+    </>
   )
 
   render() {
     const { $, navigation }: Ctx = this.context
     if (!$.userCollections._loaded) return <Loading style={this.styles.loading} />
 
+    const { onScroll } = this.props
     const { expand } = $.state
     const sections = []
     $.userCollections.list.forEach(item => {
@@ -135,6 +143,21 @@ class BangumiList extends React.Component<{
         showFooter={false}
         ListFooterComponent={() => this.ListFooterComponent($, navigation)}
         {...this.props}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: $.scrollY
+                }
+              }
+            }
+          ],
+          {
+            useNativeDriver: true,
+            listener: onScroll
+          }
+        )}
       />
     )
   }

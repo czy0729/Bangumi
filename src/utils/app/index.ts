@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-27 14:41:20
+ * @Last Modified time: 2023-01-03 06:54:22
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -98,13 +98,13 @@ export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
 
 /** 获取背景的模糊值 (iOS 与安卓实际表现不同，需要分开判断) */
 export function getBlurRadius(uri?: string, bg?: string, avatarLarge?: string) {
+  if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
+  if (typeof bg === 'string') bg = bg.replace('http://', 'https://')
   if (uri === bg) return 0
-
   if (IOS) {
     if (avatarLarge === bg || !bg) return 10
     return 48
   }
-
   return 8
 }
 

@@ -245,6 +245,7 @@ export const EVENT = {
 /** 时间数组 */
 export const DATA_AIRTIME = [
   '全部',
+  '2023',
   '2022',
   '2021',
   '2020',
@@ -457,7 +458,7 @@ export const SITES_DS = [
   'netflix'
 ] as const
 
-/** [待废弃] 制造 [已收藏] 前面的占位 */
+/** @deprecated 制造 [已收藏] 前面的占位 */
 export const COLLECTION_INDENT = PAD ? '　　    ' : '　　   '
 
 /** App 页面通用 context */
@@ -465,7 +466,7 @@ export const contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object,
   route: PropTypes.object
-}
+} as const
 
 export const SCROLL_VIEW_RESET_PROPS = {
   alwaysBounceHorizontal: false,
