@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-26 01:01:52
  */
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, RenderHtml, Heatmap } from '@components'
 import { SectionTitle } from '@_'
@@ -18,6 +18,11 @@ import { DEFAULT_PROPS } from './ds'
 export default memo(
   ({ navigation, styles, subjectId, showInfo, info, onSwitchBlock }) => {
     global.rerender('Subject.Info.Main')
+
+    const [expand, setExpand] = useState(false)
+    const onExpand = useCallback(() => {
+      setExpand(true)
+    }, [setExpand])
 
     let html = info
     try {
@@ -39,10 +44,10 @@ export default memo(
         {showInfo && (
           <View>
             {!!info && (
-              <Expand>
+              <Expand onExpand={onExpand}>
                 <RenderHtml
                   style={styles.info}
-                  html={html}
+                  html={expand ? html : html.slice(0, 400)}
                   katakana
                   onLinkPress={href =>
                     appNavigate(

@@ -16,7 +16,13 @@ import { Iconfont } from '../iconfont'
 import { styles } from './styles'
 import { Props } from './types'
 
-export const Expand = ({ style, moreStyle, ratio = 1, children }: Props) => {
+export const Expand = ({
+  style,
+  moreStyle,
+  ratio = 1,
+  onExpand: onExpandCb,
+  children
+}: Props) => {
   const aHeight = useRef(new Animated.Value(0))
   const ratioHeight = _.r(216) * ratio
 
@@ -40,7 +46,18 @@ export const Expand = ({ style, moreStyle, ratio = 1, children }: Props) => {
     [height, ratioHeight, style]
   )
 
-  const onExpand = useCallback(() => setExpand(true), [])
+  const onExpand = useCallback(() => {
+    if (typeof onExpandCb === 'function') {
+      onExpandCb()
+
+      // 延后展开, 通知上层组件撤销懒加载
+      setTimeout(() => {
+        setExpand(true)
+      }, 400)
+    } else {
+      setExpand(true)
+    }
+  }, [onExpandCb])
   const onLayout = useCallback(
     event => {
       const { height } = event.nativeEvent.layout

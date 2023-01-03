@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-05-31 08:31:39
  */
-import { ViewStyle, ReactNode } from '@types'
+import { ViewStyle, ReactNode, Fn } from '@types'
 
 export type Props = {
   /** 容器样式 */
@@ -15,6 +15,9 @@ export type Props = {
 
   /** 比例 */
   ratio?: number
+
+  /** 展开回调 */
+  onExpand?: Fn
 
   children: ReactNode
 }
