@@ -44,51 +44,53 @@ function List(props, { $ }: Ctx) {
               <View>
                 <View style={styles.line} />
                 <View style={styles.nodeMonth} />
-                <Text size={20} lineHeight={32} type='title' bold>
-                  {parseInt(item.title.slice(5, 7))}月
-                </Text>
-                <Flex>
-                  {!!item.actions['看过'] && (
-                    <Text style={_.mr.sm} size={12} lineHeight={24} type='sub'>
-                      看过{' '}
-                      <Text size={12} lineHeight={24} type='main' bold>
-                        {item.actions['看过']}{' '}
+                <View style={styles.block}>
+                  <Text size={20} lineHeight={28} type='title' bold>
+                    {parseInt(item.title.slice(5, 7))}月
+                  </Text>
+                  <Flex>
+                    {!!item.actions['看过'] && (
+                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
+                        看过{' '}
+                        <Text size={13} lineHeight={20} type='main' bold>
+                          {item.actions['看过']}{' '}
+                        </Text>
                       </Text>
-                    </Text>
-                  )}
-                  {!!item.actions['在看'] && (
-                    <Text style={_.mr.sm} size={12} lineHeight={24} type='sub'>
-                      在看{' '}
-                      <Text size={12} lineHeight={24} type='main' bold>
-                        {item.actions['在看']}{' '}
+                    )}
+                    {!!item.actions['在看'] && (
+                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
+                        在看{' '}
+                        <Text size={13} lineHeight={20} type='main' bold>
+                          {item.actions['在看']}{' '}
+                        </Text>
                       </Text>
-                    </Text>
-                  )}
-                  {!!item.actions['想看'] && (
-                    <Text style={_.mr.sm} size={12} lineHeight={24} type='sub'>
-                      想看{' '}
-                      <Text size={12} lineHeight={24} type='main' bold>
-                        {item.actions['想看']}{' '}
+                    )}
+                    {!!item.actions['想看'] && (
+                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
+                        想看{' '}
+                        <Text size={13} lineHeight={20} type='main' bold>
+                          {item.actions['想看']}{' '}
+                        </Text>
                       </Text>
-                    </Text>
-                  )}
-                  {!!item.actions['搁置'] && (
-                    <Text style={_.mr.sm} size={12} lineHeight={24} type='sub'>
-                      搁置{' '}
-                      <Text size={12} lineHeight={24} type='main' bold>
-                        {item.actions['搁置']}{' '}
+                    )}
+                    {!!item.actions['搁置'] && (
+                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
+                        搁置{' '}
+                        <Text size={13} lineHeight={20} type='main' bold>
+                          {item.actions['搁置']}{' '}
+                        </Text>
                       </Text>
-                    </Text>
-                  )}
-                  {!!item.actions['抛弃'] && (
-                    <Text style={_.mr.sm} size={12} lineHeight={24} type='sub'>
-                      抛弃{' '}
-                      <Text size={12} lineHeight={24} type='main' bold>
-                        {item.actions['抛弃']}{' '}
+                    )}
+                    {!!item.actions['抛弃'] && (
+                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
+                        抛弃{' '}
+                        <Text size={13} lineHeight={20} type='main' bold>
+                          {item.actions['抛弃']}{' '}
+                        </Text>
                       </Text>
-                    </Text>
-                  )}
-                </Flex>
+                    )}
+                  </Flex>
+                </View>
               </View>
               <View>
                 {item.data.map(item => {

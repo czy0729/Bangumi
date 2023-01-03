@@ -174,6 +174,8 @@ export const Input = observer(
                   allowFontScaling={false}
                   placeholderTextColor={placeholderTextColor || _.colorDisabled}
                   {...other}
+                  // @ts-ignore
+                  cursorColor={_.colorMain}
                   onChange={this.onChange}
                 />
               </View>

@@ -75,5 +75,15 @@ export const memoStyles = _.memoStyles(() => ({
         translateX: _.r(-12)
       }
     ]
+  },
+  block: {
+    paddingTop: 4,
+    paddingHorizontal: _.md,
+    paddingBottom: 8,
+    backgroundColor: _.colorBg,
+    borderWidth: 1,
+    borderColor: 'rgba(254, 138, 149, 0.5)',
+    borderRadius: _.r(4),
+    overflow: 'hidden'
   }
 }))
