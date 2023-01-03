@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-19 15:51:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-21 02:01:20
+ * @Last Modified time: 2023-01-03 23:25:20
  */
 import { factory } from '@utils'
 import { Navigation, MonoId } from '@types'
@@ -22,4 +22,5 @@ export type Params = {
   _name: string
   _jp: string
   _image: string
+  _count: number
 }

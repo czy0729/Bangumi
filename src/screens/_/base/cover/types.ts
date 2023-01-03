@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 07:01:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 08:00:53
+ * @Last Modified time: 2023-01-03 20:03:31
  */
 import { ImageProps } from '@components'
 import { Override, ViewStyle, ImageStyle, SubjectTypeCn } from '@types'
@@ -35,7 +35,7 @@ export type Props = Override<
     noDefault?: boolean
 
     /** 条目类型 */
-    type?: SubjectTypeCn | '目录'
+    type?: SubjectTypeCn | '目录' | ''
 
     /** 强制是否使用拟物封面 */
     useType?: boolean

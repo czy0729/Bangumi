@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 16:10:59
+ * @Last Modified time: 2023-01-03 23:26:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,6 +41,8 @@ function Info(props, { $, navigation }: Ctx) {
   const src = IOS
     ? API_MONO_COVER($.id, 'large', isCharacter ? 'characters' : 'persons')
     : getCoverLarge($.cover)
+
+  const { _count } = $.params
   return (
     <>
       <HeaderPlaceholder />
@@ -121,7 +123,12 @@ function Info(props, { $, navigation }: Ctx) {
           </Touchable>
         }
       >
-        吐槽
+        吐槽{' '}
+        {!!_count && (
+          <Text size={12} type='sub' lineHeight={24}>
+            {_count}+
+          </Text>
+        )}
       </SectionTitle>
     </>
   )

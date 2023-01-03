@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 23:37:11
+ * @Last Modified time: 2023-01-03 19:59:33
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -22,6 +22,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       showCharacter={showCharacter}
       subjectId={$.subjectId}
       crt={$.crt}
+      crtCounts={$.subjectFormHTML.crtCounts}
       onSwitchBlock={$.onSwitchBlock}
     />
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-02 15:34:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-02 15:48:41
+ * @Last Modified time: 2023-01-03 20:01:19
  */
 import { TextProps } from 'react-native'
 import { Fn, ViewStyle } from '@types'
@@ -12,6 +12,9 @@ export type Props = {
 
   /** 数据 */
   data: any[]
+
+  /** 数据 id: number */
+  counts: Record<string, number>
 
   /** 封面宽度 */
   width?: number

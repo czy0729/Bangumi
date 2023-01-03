@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 11:10:51
+ * @Last Modified time: 2023-01-03 19:55:52
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -216,6 +216,7 @@ export type SubjectFormHTML = DeepPartial<{
     id: Id
     title: string
   }[]
+  crtCounts: Record<string, number>
   lock: string
   formhash: string
   _loaded: Loaded

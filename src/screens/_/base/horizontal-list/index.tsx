@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:28:07
+ * @Last Modified time: 2023-01-03 23:15:46
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { desc, findSubjectCn } from '@utils'
 import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { SubjectTypeCn } from '@types'
 import { Cover } from '../cover'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
 import { memoStyles } from './styles'
@@ -23,6 +24,7 @@ export const HorizontalList = ob(
   class HorizontalListComponent extends React.Component<HorizontalListProps> {
     static defaultProps = {
       data: [],
+      counts: {},
       width: 60,
       height: 60,
       quality: false,
@@ -62,6 +64,7 @@ export const HorizontalList = ob(
     render() {
       const {
         style,
+        counts,
         width,
         height,
         quality,
@@ -83,8 +86,9 @@ export const HorizontalList = ob(
             onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
           >
             {this.data.map((item, index) => {
+              const count = counts[item.id] || 0
               const desc = String(item.desc)
-              let typeCn = ''
+              let typeCn: SubjectTypeCn | '' = ''
               if (
                 (!desc.includes('演出') && desc.includes('曲')) ||
                 (!desc.includes('演出') && desc.includes('歌')) ||
@@ -98,7 +102,7 @@ export const HorizontalList = ob(
                 typeCn = '游戏'
               }
 
-              const size = (typeCn === '音乐' ? width * 1.1 : width) * _.ratio
+              const size = _.r(typeCn === '音乐' ? width * 1.1 : width)
               return (
                 <View
                   key={item.id}
@@ -107,13 +111,13 @@ export const HorizontalList = ob(
                       width: size
                     },
                     index !== 0 && {
-                      marginLeft: (typeCn === '音乐' ? 16 : 12) * _.ratio
+                      marginLeft: _.r(typeCn === '音乐' ? 16 : 12)
                     }
                   ]}
                 >
                   <Cover
                     size={size}
-                    height={height * _.ratio}
+                    height={_.r(height)}
                     src={item.image}
                     radius
                     shadow
@@ -128,7 +132,7 @@ export const HorizontalList = ob(
                   >
                     <Text
                       style={_.mt.sm}
-                      size={10}
+                      size={11}
                       numberOfLines={3}
                       ellipsizeMode={ellipsizeMode}
                       bold
@@ -151,12 +155,17 @@ export const HorizontalList = ob(
                           />
                         )}
                         <Flex.Item>
-                          <Text type='sub' size={10} numberOfLines={2}>
+                          <Text type='sub' size={10} numberOfLines={2} bold>
                             {item.desc}
                           </Text>
                         </Flex.Item>
                       </Flex>
                     </Touchable>
+                  )}
+                  {!!count && (
+                    <Text style={_.mt.xs} type='main' size={10} bold>
+                      +{count}
+                    </Text>
                   )}
                 </View>
               )

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:12:27
+ * @Last Modified time: 2023-01-03 23:18:13
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -78,7 +78,7 @@ export default class ScreenMono extends store {
    * @opitimize 1h
    * */
   fetchMono = (refresh: boolean = false) => {
-    if (refresh && opitimize(this.mono, 60 * 60)) {
+    if (refresh && opitimize(this.mono, 60 * 60) && this.monoComments.list.length) {
       return true
     }
 

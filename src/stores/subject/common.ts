@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:12:22
+ * @Last Modified time: 2023-01-03 19:59:09
  */
 import { safeObject } from '@utils'
 import {
@@ -282,6 +282,19 @@ export function cheerioSubjectFormHTML(HTML) {
     totalEps = $('div.prgText').text().trim().replace('/ ', '')
   }
 
+  const crtCounts = {}
+  $('#browserItemList li').each((index, element) => {
+    const $li = cheerio(element)
+    const id = String($li.find('a.avatar').attr('href')).replace('/character/', '')
+    const num =
+      $li
+        .find('small.rr')
+        .text()
+        .trim()
+        .replace(/\(|\)|\+/g, '') || 0
+    if (id && num) crtCounts[id] = Number(num)
+  })
+
   return {
     type,
     watchedEps: $('#watchedeps').attr('value') || 0,
@@ -405,6 +418,9 @@ export function cheerioSubjectFormHTML(HTML) {
           })
         })
         .get() || [],
+
+    // 角色的讨论数
+    crtCounts,
 
     // 锁定
     lock: $('div.tipIntro > div.inner > h3').text(),
