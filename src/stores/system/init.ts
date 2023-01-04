@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-22 05:48:39
+ * @Last Modified time: 2023-01-04 20:49:19
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -28,6 +28,7 @@ import {
   SettingTransition,
   SettingUserGridNum
 } from '@types'
+import { IOS_IMAGE_CACHE_V2 } from '../../../config'
 
 export const NAMESPACE = 'System'
 
@@ -284,7 +285,7 @@ export const INIT_SETTING = {
   subjectTagsExpand: true,
 
   /** 图片是否开启新本地缓存策略 (iOS) */
-  iosImageCacheV2: false,
+  iosImageCacheV2: IOS_IMAGE_CACHE_V2,
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT

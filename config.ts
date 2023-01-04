@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 06:28:24
+ * @Last Modified time: 2023-01-04 20:49:06
  */
 import { Paths } from '@types'
 
@@ -27,10 +27,10 @@ export const DEV = global.__DEV__
 export const FONT_FAMILY = true
 
 /** 是否来源于 IPA (iOS) */
-export const IOS_IPA = true
+export const IOS_IPA = false
 
 /** 图片是否开启新本地缓存策略 (iOS) */
-export const IOS_IMAGE_CACHE_V2 = false
+export const IOS_IMAGE_CACHE_V2 = IOS_IPA
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
 export const TEXT_ONLY = DEV ? !DEV : false
