@@ -61,6 +61,11 @@ export type ExpandRecursively<T> = T extends object
     : never
   : T
 
+/** 用于展平推到结果 */
+export type Flatten<T> = {
+  [K in keyof T]: T[K]
+}
+
 /** 复写 type */
 export type Override<P, S> = Expand<Omit<P, keyof S> & S>
 

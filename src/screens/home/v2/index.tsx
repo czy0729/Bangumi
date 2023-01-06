@@ -50,7 +50,10 @@ const Home = (props, { $, navigation }: Ctx) => {
             <Track title='首页' hm={[`?id=${$.userId}`, 'Home']} />
           </>
         ) : (
-          <Auth />
+          <>
+            <Auth />
+            <Track title='首页' hm={[`?id=${$.userId}&login=0`, 'Home']} />
+          </>
         )}
       </Page>
       <LoginNotice navigation={navigation} />
