@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-04 07:19:35
+ * @Last Modified time: 2023-01-07 22:12:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -69,13 +69,13 @@ export const Avatar = ob(
      */
     const mSrc = getCoverMedium(src, true)
     let _src: any
-    if (avatar?.medium) {
+    if (avatar?.medium && typeof mSrc === 'string') {
       const _1 = mSrc.split('?')[0].split('/m/')
       const _2 = getCoverMedium(avatar.medium, true).split('?')[0].split('/m/')
 
       // 为自己
       if (_1[1] && _2[1] && _1[1] === _2[1]) {
-        if (typeof mSrc === 'string' && mSrc.includes(URL_DEFAULT_AVATAR)) {
+        if (mSrc.includes(URL_DEFAULT_AVATAR)) {
           _src = `${mSrc}?r=${TS}`
         } else {
           _src = usersStore.customAvatar || `${mSrc}?r=${TS}`

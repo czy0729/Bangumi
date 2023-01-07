@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 08:43:01
+ * @Last Modified time: 2023-01-07 21:19:24
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -130,21 +130,19 @@ export async function devGetUsersInfo() {
   const USERS_MAP = {}
 
   await queue(
-    Object.keys(DS)
-      // .filter((item, index) => index >= 500 && index < 600)
-      .map((userId, index) => async () => {
-        const data = await usersStore.fetchUsers({
-          userId
-        })
-        console.log(index)
-
-        USERS_MAP[userId] = {
-          n: data.userName
-        }
-        if (data.avatar) USERS_MAP[userId].a = data.avatar
-        if (data.userId !== userId) USERS_MAP[userId].i = data.userId
-        return true
+    Object.keys(DS).map((userId, index) => async () => {
+      const data = await usersStore.fetchUsers({
+        userId
       })
+      console.info(index)
+
+      USERS_MAP[userId] = {
+        n: data.userName
+      }
+      if (data.avatar) USERS_MAP[userId].a = data.avatar
+      if (data.userId !== userId) USERS_MAP[userId].i = data.userId
+      return true
+    })
   )
   // log(USERS_MAP)
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 06:53:54
+ * @Last Modified time: 2023-01-07 22:08:59
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -68,7 +68,7 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
   }
 
   let uri: any = avatar?.large
-  if (_image) {
+  if (typeof _image === 'string') {
     if (_image?.indexOf('http') === 0) {
       uri = _image
     } else {
