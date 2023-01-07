@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-10-24 23:25:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 09:29:03
+ * @Last Modified time: 2023-01-07 08:48:23
  */
 import React from 'react'
 import { Text } from '@components'
 import { userStore } from '@stores'
 import { toFixed } from '@utils'
 import { obc } from '@utils/decorators'
-import userJson from '@assets/json/user.json'
 import { Ctx } from '../types'
+
+const userJson = {}
 
 function User({ style }, { $ }: Ctx) {
   const { username } = userStore.userInfo

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 18:52:17
+ * @Last Modified time: 2023-01-07 08:43:01
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
-import { _ } from '@stores'
-import { toFixed } from '@utils'
+import { _, usersStore } from '@stores'
+import { queue, toFixed } from '@utils'
 import treemap from '@utils/thirdParty/treemap'
 import { IOS } from '@constants'
 import { AnyObject } from '@types'
+import DS from '@assets/json/advance.json'
 import { LIST, FILTER_RATE } from './ds'
 
 export function timeDiff() {
@@ -123,4 +124,27 @@ function caculateTotal(nodes: any[]) {
   let total = 0
   nodes.forEach(item => (total += item.weight || 0))
   return total
+}
+
+export async function devGetUsersInfo() {
+  const USERS_MAP = {}
+
+  await queue(
+    Object.keys(DS)
+      // .filter((item, index) => index >= 500 && index < 600)
+      .map((userId, index) => async () => {
+        const data = await usersStore.fetchUsers({
+          userId
+        })
+        console.log(index)
+
+        USERS_MAP[userId] = {
+          n: data.userName
+        }
+        if (data.avatar) USERS_MAP[userId].a = data.avatar
+        if (data.userId !== userId) USERS_MAP[userId].i = data.userId
+        return true
+      })
+  )
+  // log(USERS_MAP)
 }

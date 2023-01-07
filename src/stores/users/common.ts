@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 05:49:51
+ * @Last Modified time: 2023-01-07 08:32:12
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -32,7 +32,10 @@ export function cheerioFriends(HTML) {
  */
 export function cheerioUsers(HTML) {
   const $ = cheerio(HTML)
-  const userId = $('.inner small.grey').text().replace('@', '')
+  const userId = $('.inner small.grey')
+    .text()
+    .replace('@', '')
+    .replace('报告 &nbsp;', '')
   const hobby = $('small.hot').text().match(/\d+/g)
 
   let disconnectUrl = ''
@@ -51,9 +54,19 @@ export function cheerioUsers(HTML) {
 
   const $gridItems = $('.gridStats .item')
   const $chartItems = $('.horizontalChart li .count')
+
+  let avatar = matchAvatar($('.headerAvatar .avatarNeue').attr('style'))
+  if (avatar === '//lain.bgm.tv/pic/user/l/icon.jpg') {
+    avatar = ''
+  } else {
+    avatar = avatar.split('/l/000/')?.[1]
+    if (avatar) avatar = avatar.split('.jpg')?.[0]
+  }
+
   return safeObject({
     userId,
     userName: $('div.headerAvatar + .inner > a').text().trim(),
+    avatar,
     sign: $('.bio').html() || '',
     join: $('span.tip').first().text(),
     hobby: hobby ? hobby[0] : '0',
