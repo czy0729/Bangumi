@@ -150,6 +150,9 @@ export const INIT_MONO = {
   /** 出演 */
   jobs: [],
 
+  /** 谁收藏了 */
+  collected: [],
+
   /** 加入收藏 */
   collectUrl: '',
 

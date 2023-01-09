@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 19:55:52
+ * @Last Modified time: 2023-01-10 06:04:57
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -371,6 +371,14 @@ export type Mono = DeepPartial<{
     cover: Cover<'g'>
     staff: string
     type: SubjectTypeValue
+  }[]
+
+  /** 谁收藏了 */
+  collected: {
+    avatar: Avatar<'l'>
+    name: string
+    userId: UserId
+    last: string
   }[]
 
   collectUrl: `${string}?gh=${string}`

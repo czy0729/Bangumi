@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 23:26:03
+ * @Last Modified time: 2023-01-10 06:08:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ import Detail from '../detail'
 import Voice from '../voice'
 import Works from '../works'
 import Jobs from '../jobs'
+import Collected from '../collected'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
@@ -96,6 +97,7 @@ function Info(props, { $, navigation }: Ctx) {
       <Voice style={_.mt.md} />
       <Works style={_.mt.md} />
       <Jobs style={_.mt.md} />
+      <Collected style={_.mt.md} />
       <SectionTitle
         style={styles.title}
         right={

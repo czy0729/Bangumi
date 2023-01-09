@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 19:59:09
+ * @Last Modified time: 2023-01-10 05:31:10
  */
 import { safeObject } from '@utils'
 import {
@@ -213,6 +213,23 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
           castCover,
           cast2,
           type
+        })
+      })
+    }
+
+    // 谁收藏了
+    mono.collected = []
+    matchHTML = HTML.match(/<\/h2><ul class="groupsLine">(.+?)<\/ul>/)
+    if (matchHTML) {
+      const $ = cheerio(matchHTML[1])
+      $('li.clearit').each((index: number, element: any) => {
+        const $row = cheerio(element)
+        const $a = $row.find('.innerWithAvatar .avatar')
+        mono.collected.push({
+          avatar: matchAvatar($row.find('span.avatarSize32').attr('style')),
+          name: HTMLDecode($a.text()),
+          userId: matchUserId($a.attr('href')),
+          last: $row.find('small.grey').text().trim()
         })
       })
     }
