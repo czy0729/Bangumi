@@ -61,6 +61,7 @@ function List(props, { $, navigation }: Ctx) {
                   height={styles.cover.height}
                   radius
                   shadow
+                  errorToHide
                 />
                 <View style={styles.info}>
                   <Text size={18} type='title' bold>

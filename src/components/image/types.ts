@@ -79,6 +79,9 @@ export type Props = Override<
     /** 确定加载失败后若有值使用此地址 fallback */
     fallbackSrc?: string
 
+    /** 确定加载失败后隐藏组件 */
+    errorToHide?: boolean
+
     /** 图片点击回调 */
     onPress?: (arg0?: any) => any
 

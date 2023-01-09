@@ -310,7 +310,6 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
           page: page + 1
         }
       })
-      console.info(_response)
 
       const key = 'dmzjTimeline'
       data = {
@@ -423,7 +422,10 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
                 url: $li
                   .find('.thumb-in')
                   .attr('style')
-                  .replace(/background-image:url\('|'\)/g, '')
+                  .replace(/background-image:url\('|'\)/g, ''),
+                headers: {
+                  Referer: 'https://www.hexieshe.cn/'
+                }
               },
               title: $a.text().trim().replace(/#038;/g, ''),
               intro: $li.find('.post-ex').text().trim().replace(/#038;/g, ''),

@@ -602,6 +602,7 @@ export const Image = observer(
         delay,
         cache,
         fadeDuration,
+        errorToHide,
         textOnly,
         onPress,
         onLongPress,
@@ -611,6 +612,8 @@ export const Image = observer(
       if (textOnly) return this.renderTextOnly()
 
       const { error, uri } = this.state
+      if (error && errorToHide) return null
+
       if (error) return this.renderError()
 
       if (typeof src === 'string' || typeof src === 'undefined') {
