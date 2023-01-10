@@ -14,20 +14,25 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 class PM extends React.Component {
-  scrollView
-
-  fixedTextarea
+  scrollView: any
 
   componentDidMount() {
     const { $ }: Ctx = this.context
     $.init(this.scrollView)
   }
 
-  connectRefScrollView = ref => (this.scrollView = ref)
+  componentWillUnmount() {
+    const { $ }: Ctx = this.context
+    $.scrollViewRef = null
+  }
 
-  connectRefFixedTextarea = ref => (this.fixedTextarea = ref)
-
-  showFixedTextare = () => this.fixedTextarea.onFocus()
+  connectRefScrollView = (ref: any) => {
+    if (ref) {
+      const { $ }: Ctx = this.context
+      $.scrollViewRef = ref
+      this.scrollView = ref
+    }
+  }
 
   onTitleChange = evt => {
     const { $ }: Ctx = this.context
@@ -77,7 +82,6 @@ class PM extends React.Component {
           <Loading />
         )}
         <FixedTextarea
-          ref={this.connectRefFixedTextarea}
           placeholder='回复'
           value={value}
           onChange={$.onChange}

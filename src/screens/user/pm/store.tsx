@@ -21,16 +21,23 @@ export default class ScreenPM extends store {
     _loaded: false
   })
 
+  scrollViewRef: any = null
+
   init = async (scrollView?: any) => {
+    if (scrollView) this.scrollViewRef = scrollView
+
     const { userId } = this.params
     if (userId) return this.fetchPMParams()
 
     const { _loaded } = this.pmDetail
-    if (_loaded) this.scrollToBottom(scrollView)
+    if (_loaded) this.scrollToBottom(this.scrollViewRef)
 
     await this.fetchPMDetail()
 
-    this.scrollToBottom(scrollView)
+    setTimeout(() => {
+      this.scrollToBottom(this.scrollViewRef)
+    }, 320)
+
     return true
   }
 
@@ -76,14 +83,33 @@ export default class ScreenPM extends store {
 
   // -------------------- page --------------------
   /** 滚动到底 */
-  scrollToBottom = scrollView => {
-    if (scrollView && scrollView.scrollToEnd) {
-      setTimeout(() => {
-        scrollView.scrollToEnd({
-          animated: false
-        })
-      }, 160)
-    }
+  scrollToBottom = (scrollView: any, animated = false) => {
+    try {
+      if (scrollView?.scrollToEnd) {
+        setTimeout(() => {
+          scrollView.scrollToEnd({
+            animated,
+            duration: 640
+          })
+        }, 160)
+      }
+    } catch (error) {}
+  }
+
+  /** 滚动到顶 */
+  scrollToTop = (scrollView: any, animated = false) => {
+    try {
+      if (scrollView?.scrollTo) {
+        setTimeout(() => {
+          scrollView.scrollTo({
+            x: 0,
+            y: 0,
+            animated,
+            duration: 640
+          })
+        }, 160)
+      }
+    } catch (error) {}
   }
 
   /** 收起评论框 */
