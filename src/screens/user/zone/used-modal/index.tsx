@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 05:07:27
+ * @Last Modified time: 2023-01-11 10:05:10
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -41,7 +41,6 @@ class UsedModal extends React.Component<{
     ]
   }
 
-  // @ts-ignore
   UNSAFE_componentWillReceiveProps({ visible }) {
     if (visible && !this.state.name._loaded) {
       this.checkUsedName()

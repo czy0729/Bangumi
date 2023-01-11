@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:00:10
+ * @Last Modified time: 2023-01-11 10:06:58
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -107,7 +107,7 @@ export function info(
 export function showActionSheet(
   options = [] as string[] | readonly string[],
   callback = (() => {}) as Fn,
-  // @ts-ignore
+  // @ts-expect-error
   { title, message, cancelButtonIndex, destructiveButtonIndex } = {}
 ) {
   ActionSheet.showActionSheetWithOptions(

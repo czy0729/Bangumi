@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 06:40:50
+ * @Last Modified time: 2023-01-11 10:00:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,6 @@ class QuoteText extends React.Component<{
     // 过滤掉<q>里面的div
     if (!IOS && Array.isArray(children) && children.length > 1) {
       return children.filter(
-        // @ts-ignore
         item => !(item?.[0]?.key && item[0].key.indexOf('View-') === 0)
       )
     }

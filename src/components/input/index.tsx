@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 03:07:50
+ * @Last Modified time: 2023-01-11 09:59:30
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -174,7 +174,7 @@ export const Input = observer(
                   allowFontScaling={false}
                   placeholderTextColor={placeholderTextColor || _.colorDisabled}
                   {...other}
-                  // @ts-ignore
+                  // @ts-expect-error
                   cursorColor={_.colorMain}
                   onChange={this.onChange}
                 />
@@ -204,7 +204,7 @@ export const Input = observer(
             clearButtonMode={this.clearButtonMode}
             placeholderTextColor={placeholderTextColor || _.colorDisabled}
             selectionColor={_.colorMain}
-            // @ts-ignore
+            // @ts-expect-error
             cursorColor={_.colorMain}
             textAlignVertical='center'
             {...other}

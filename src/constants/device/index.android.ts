@@ -8,7 +8,7 @@ import { Platform, Dimensions } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 
 /** 是否 WSA 子系统 */
-// @ts-ignore
+// @ts-expect-error
 export const WSA = String(Platform?.constants?.Model)
   .toLocaleLowerCase()
   .includes('subsystem')

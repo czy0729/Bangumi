@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 05:20:21
+ * @Last Modified time: 2023-01-11 10:01:02
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -77,7 +77,6 @@ function CompText(
       numberOfLines={0}
       {...other}
       textBreakStrategy='simple'
-      // @ts-ignore
       android_hyphenationFrequency='none'
     >
       {systemStore.setting.s2t ? format(children) : children}

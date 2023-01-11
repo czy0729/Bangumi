@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:40:28
+ * @Last Modified time: 2023-01-11 10:03:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -66,7 +66,7 @@ function Slider({ style }, { $ }: Ctx) {
                     style={styles.sacrifices}
                     type='ask'
                     size={12}
-                    // @ts-ignore
+                    // @ts-expect-error
                     pointerEvent='none'
                   >
                     已献祭{formatNumber(sacrifices, 0)}股

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 03:55:47
+ * @Last Modified time: 2023-01-11 10:06:02
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
@@ -108,7 +108,7 @@ export default function memo<P, T extends React.FunctionComponent<P>>(
   let _dev = dev
   if (typeof customCompareFn === 'boolean') _dev = customCompareFn
 
-  // @ts-ignore
+  // @ts-expect-error
   return React.memo(Component, (prevProps, nextProps) =>
     typeof customCompareFn === 'function'
       ? memoCompare(customCompareFn(prevProps), customCompareFn(nextProps), null, _dev)

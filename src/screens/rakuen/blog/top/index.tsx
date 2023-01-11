@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:18:13
+ * @Last Modified time: 2023-01-11 10:03:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,6 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Top(props, { $, navigation }: Ctx) {
-  // @ts-ignore
   const { related = [], _loaded } = $.blog
   const event = {
     id: '日志.跳转',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-09 22:35:36
+ * @Last Modified time: 2023-01-11 10:01:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,7 @@ function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
       />
       <LinearGradient
         style={styles.linear}
-        // @ts-ignore
+        // @ts-expect-error
         colors={linearColor}
         pointerEvents='none'
       />

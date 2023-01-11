@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 07:47:02
+ * @Last Modified time: 2023-01-11 10:06:13
  */
 import { APP_ID, UA } from '@constants/constants'
 import { AnyObject } from '@types'
@@ -66,7 +66,7 @@ export async function fetchAPI(args: FetchAPIArgs) {
     .then(response => {
       if (hide) hide()
 
-      // @ts-ignore
+      // @ts-expect-error
       return response.json()
     })
     .then(json => {
@@ -211,7 +211,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
       if (!isGet) log(method, 'success', _url, _config, res)
       if (hide) hide()
 
-      // @ts-ignore
+      // @ts-expect-error
       return Promise.resolve(raw ? res : res.text())
     })
     .catch(error => {

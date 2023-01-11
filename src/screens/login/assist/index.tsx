@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 17:24:30
+ * @Last Modified time: 2023-01-11 10:03:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -143,7 +143,7 @@ class LoginAssist extends React.Component<{
       await this.oauth()
       await this.authorize()
 
-      // @ts-ignore
+      // @ts-expect-error
       const { _response } = await this.getAccessToken()
       const accessToken = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)
@@ -210,7 +210,7 @@ class LoginAssist extends React.Component<{
         }
       })
 
-      // @ts-ignore
+      // @ts-expect-error
       const { responseURL } = await res
       this.code = responseURL.split('=').slice(1).join('=')
       return res
@@ -267,8 +267,6 @@ class LoginAssist extends React.Component<{
     })
 
     const { navigation } = this.props
-
-    // @ts-ignore
     userStore.updateUserCookie({
       cookie: `chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
       userAgent: this.userAgent,

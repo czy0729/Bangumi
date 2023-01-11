@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 16:57:30
+ * @Last Modified time: 2023-01-11 10:06:16
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { Fn } from '@types'
@@ -66,7 +66,7 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
     request.onreadystatechange = function () {
       if (this.readyState === 4) {
         if (this.status === 200 || this.status === 201) {
-          // @ts-ignore
+          // @ts-expect-error
           return resolve(this)
         }
         if (this.status === 404) reject(new TypeError('404'))

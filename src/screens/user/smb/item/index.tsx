@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:31:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 20:24:46
+ * @Last Modified time: 2023-01-11 10:04:36
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -17,7 +17,6 @@ export default obc(({ subjectId, ...folder }, { $, navigation }: Ctx) => {
     name_cn,
     images,
     type,
-    // @ts-ignore
     eps_count = 0,
     rank,
     rating

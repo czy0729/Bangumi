@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 04:39:57
+ * @Last Modified time: 2023-01-11 10:02:31
  */
 import React from 'react'
 import { IconTouchable } from '@_'
@@ -41,10 +41,10 @@ function IconShare({
 
         const hide = loading('下载封面中...')
 
-        // @ts-ignore
+        // @ts-expect-error
         axios.defaults.withCredentials = false
 
-        // @ts-ignore
+        // @ts-expect-error
         const { request } = await axios({
           method: 'get',
           url: src.replace('http://', 'https://'),

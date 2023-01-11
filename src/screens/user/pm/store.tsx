@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 11:19:58
+ * @Last Modified time: 2023-01-11 10:04:32
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -152,7 +152,7 @@ export default class ScreenPM extends store {
       return
     }
 
-    // @ts-ignore
+    // @ts-expect-error
     const { form = {} } = this.pmDetail
     if (!form?.formhash) {
       info('获取表单授权码失败, 需要别人回复过才能继续发送')
@@ -193,7 +193,7 @@ export default class ScreenPM extends store {
   doReply = (content, scrollView) => {
     t('短信.回复短信')
 
-    // @ts-ignore
+    // @ts-expect-error
     const { form = {} } = this.pmDetail
     userStore.doPM(
       {

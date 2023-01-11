@@ -78,7 +78,7 @@ export const ImageViewer = observer(
           style={styles.indicator}
           type='__plain__'
           align='center'
-          // @ts-ignore
+          // @ts-expect-error
           pointerEvents='none'
         >
           {currentIndex} / {allSize}

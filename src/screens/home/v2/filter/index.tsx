@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 19:57:39
+ * @Last Modified time: 2023-01-11 10:02:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,7 +68,7 @@ class Filter extends React.Component<Props> {
           <Flex
             style={this.styles.icon}
             justify='center'
-            // @ts-ignore
+            // @ts-expect-error
             pointerEvents='none'
           >
             <Iconfont name='md-search' size={18} />

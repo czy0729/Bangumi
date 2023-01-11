@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 12:27:12
+ * @Last Modified time: 2023-01-11 10:06:23
  */
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
@@ -12,10 +12,10 @@ import { getUserStoreAsync } from '../async'
 import { Config } from './types'
 
 export async function request<T>(url: string, data?: object): Promise<T> {
-  // @ts-ignore
+  // @ts-expect-error
   axios.defaults.withCredentials = false
 
-  // @ts-ignore
+  // @ts-expect-error
   axios.defaults.timeout = 8000
 
   try {
@@ -41,7 +41,7 @@ export async function request<T>(url: string, data?: object): Promise<T> {
       config.data = urlStringify(data)
     }
 
-    // @ts-ignore
+    // @ts-expect-error
     const { data: responseData } = await axios(config)
     return safe(responseData) as T
   } catch (ex) {

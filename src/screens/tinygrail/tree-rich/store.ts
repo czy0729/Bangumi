@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 20:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 02:09:19
+ * @Last Modified time: 2023-01-11 10:04:08
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -242,7 +242,7 @@ function caculateValue(
 function treemapSquarify(nodes) {
   const data = []
   try {
-    // @ts-ignore
+    // @ts-expect-error
     treemap.squarify(
       {
         frame: {

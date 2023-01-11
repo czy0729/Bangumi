@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 20:31:52
+ * @Last Modified time: 2023-01-11 10:04:47
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -56,7 +56,7 @@ const Filter = memo(
     }, [isTabActive, showFilter])
 
     return (
-      // @ts-ignore
+      // @ts-expect-error
       <Animated.View style={animatedStyles}>
         <View style={styles.container}>
           <Flex style={styles.filter} justify='center'>

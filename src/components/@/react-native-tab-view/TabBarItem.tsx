@@ -12,7 +12,7 @@ import { Scene, Route, NavigationState } from 'react-native-tab-view/src/types'
 import Animated from 'react-native-reanimated'
 import memoize from 'react-native-tab-view/src/memoize'
 
-// @ts-ignore
+// @ts-expect-error
 const AnimatedInterpolate = Animated.interpolateNode || Animated.interpolate
 
 type Props<T extends Route> = {
@@ -210,6 +210,7 @@ export default class TabBarItem<T extends Route> extends React.Component<Props<T
         testID={getTestID(scene)}
         accessible={getAccessible(scene)}
         accessibilityLabel={accessibilityLabel}
+        // @ts-expect-error
         accessibilityTraits={isFocused ? ['button', 'selected'] : 'button'}
         accessibilityComponentType='button'
         // accessibilityRole='tab'

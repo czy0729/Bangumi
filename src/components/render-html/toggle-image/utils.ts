@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-27 16:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-27 23:42:57
+ * @Last Modified time: 2023-01-11 10:00:46
  */
 import axios from '@utils/thirdParty/axios'
 
@@ -17,7 +17,7 @@ export function getSize(url: string): Promise<number> {
     }
 
     axios
-      // @ts-ignore
+      // @ts-expect-error
       .head(url)
       .then((response: { status: number; headers: { [x: string]: any } }) => {
         if (response?.status !== 200) {

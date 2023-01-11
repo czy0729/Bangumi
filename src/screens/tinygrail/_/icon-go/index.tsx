@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 18:43:50
+ * @Last Modified time: 2023-01-11 10:03:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -26,7 +26,7 @@ function IconGo({ $ }) {
     <Popover
       style={styles.touch}
       data={DATA}
-      // @ts-ignore
+      // @ts-expect-error
       hitSlop={HIT_SLOP}
       onSelect={$.onSelectGo}
     >

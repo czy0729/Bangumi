@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 07:20:05
+ * @Last Modified time: 2023-01-11 10:05:03
  */
 import React from 'react'
 import { Loading, ListView, Text, Heatmap } from '@components'
@@ -69,7 +69,7 @@ class RakuenList extends React.Component<{
       )
     }
 
-    // @ts-ignore
+    // @ts-expect-error
     const { _filter = 0 } = $.userTopicsFormCDN
     const ListFooterComponent =
       _filter > 0 ? (

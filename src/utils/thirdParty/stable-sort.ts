@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-11-22 03:08:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-03 08:56:07
+ * @Last Modified time: 2023-01-11 10:06:55
  */
 
 // stable sort
@@ -75,7 +75,7 @@
       expando
         .split('')
         .sort(function (a, b) {
-          // @ts-ignore
+          // @ts-expect-error
           return (a === 'o') - (b === 'o')
         })
         .join('') !==

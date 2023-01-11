@@ -103,11 +103,12 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
 
 /**
  * 功能留言板入口
- *  - 2020年: 19945783
- *  - 2021年: 23045125,25475042
- *  - 2022年: 27168016,29260639,29987675,31072870
+ * - [2020] 19945783
+ * - [2021] 23045125,25475042
+ * - [2022] 27168016,29260639,29987675,31072870
+ * - [2023] 32279369
  * */
-export const APP_ID_SAY_DEVELOP = '31072870'
+export const APP_ID_SAY_DEVELOP = '32279369'
 
 /** 小圣杯意见反馈入口 */
 export const APP_ID_SAY_TINYGRAIL = '19820034'
@@ -118,7 +119,12 @@ export const APP_BAIDU_ID = '20200130000378695'
 /** 百度翻译 App Key */
 export const APP_BAIDU_KEY = 'U92zpHIA8SkYXHrEaZ9O'
 
-/** APP 游客用户id [476179] 6907***59@qq.com | [474489] 2963***10@qq.com | [542389] say***02@163.com */
+/** APP 游客用户id
+ * - [476179] 6907***59@qq.com
+ * - [474489] 2963***10@qq.com
+ * - [542389] say***02@163.com
+ * - [700939]
+ * */
 export const APP_USERID_TOURIST = 700939
 
 /** APP 审核用户id */
@@ -132,10 +138,10 @@ export const UA = `czy0729/Bangumi/${VERSION_GITHUB_RELEASE} (${
   IOS ? 'iOS' : 'Android'
 })` as const
 
-/** 是否安卓10之前 */
+/** 是否安卓 10 之前 */
 export const IS_BEFORE_ANDROID_10 = !IOS && Platform.Version < 29
 
-/** [待废弃] Bangumi 字眼在 App 内的显示 */
+/** @deprecated Bangumi 字眼在 App 内的显示 */
 export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'
 
 /** 高级会员不限制达到金额 */
@@ -188,7 +194,7 @@ export const IMG_DEFAULT = require('@assets/images/default.png')
 
 export const AVATAR_DEFAULT = require('@assets/images/l.png')
 
-const h = w => parseInt(String(w * 1.4))
+const h = (w: any) => parseInt(String(w * 1.4))
 
 /** 头像大小 */
 export const IMG_AVATAR_WIDTH = 32
@@ -434,10 +440,10 @@ export const DATA_ALPHABET = [
   'Z'
 ] as const
 
-/** 1亿 */
+/** 1 亿 */
 export const B = 100000000
 
-/** 1万 */
+/** 1 万 */
 export const M = 10000
 
 /** 允许显示的源头 */
@@ -461,13 +467,14 @@ export const SITES_DS = [
 /** @deprecated 制造 [已收藏] 前面的占位 */
 export const COLLECTION_INDENT = PAD ? '　　    ' : '　　   '
 
-/** App 页面通用 context */
+/** 页面通用 context */
 export const contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object,
   route: PropTypes.object
 } as const
 
+/** 抹平 ScrollView 跨平台不同表现参数 */
 export const SCROLL_VIEW_RESET_PROPS = {
   alwaysBounceHorizontal: false,
   alwaysBounceVertical: false,

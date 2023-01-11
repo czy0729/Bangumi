@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 16:32:02
+ * @Last Modified time: 2023-01-11 09:59:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ export function filterChildren(
   const childrens = React.Children.toArray(children)
   const data = React.Children.toArray(children).filter(
     item =>
-      // @ts-ignore
+      // @ts-expect-error
       item?.type?.displayName === 'Text'
   )
   if (data.length) return data
@@ -39,7 +39,7 @@ export function filterChildren(
   return childrens
     .map(
       item =>
-        // @ts-ignore
+        // @ts-expect-error
         item?.props?.src
     )
     .filter(item => !!item)
@@ -179,18 +179,14 @@ export function getTopic({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { topicId } = params
-    const { userId, group, time, userName, _loaded } =
-      // @ts-ignore
-      rakuenStore.topic(topicId)
+    const { userId, group, time, userName, _loaded } = rakuenStore.topic(topicId)
     if (!_loaded) {
       setTimeout(() => {
         runAfter(() => fetchMediaQueue('topic', topicId))
       }, 2000)
     } else {
       const styles = memoStyles()
-      const { list } =
-        // @ts-ignore
-        rakuenStore.comments(topicId)
+      const { list } = rakuenStore.comments(topicId)
       if (userId && group && userName) {
         let reply = 0
         list.forEach(item => {
@@ -239,9 +235,7 @@ export function getMono({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { monoId } = params
-    const { cover, name, nameCn, _loaded } =
-      // @ts-ignore
-      subjectStore.mono(monoId)
+    const { cover, name, nameCn, _loaded } = subjectStore.mono(monoId)
     if (!_loaded) {
       setTimeout(() => {
         runAfter(() => fetchMediaQueue('mono', monoId))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 14:00:12
+ * @Last Modified time: 2023-01-11 10:03:53
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
@@ -240,10 +240,10 @@ export default class ScreenTinygrail extends store {
     t('小圣杯.预测股息')
 
     try {
-      // @ts-ignore
+      // @ts-expect-error
       axios.defaults.withCredentials = false
 
-      // @ts-ignore
+      // @ts-expect-error
       const res = axios({
         method: 'get',
         url: API_TINYGRAIL_TEST(),
@@ -443,7 +443,7 @@ export default class ScreenTinygrail extends store {
 
   /** 登出 */
   logout = async () => {
-    // @ts-ignore
+    // @ts-expect-error
     return axios({
       method: 'post',
       url: API_TINYGRAIL_LOGOUT()
@@ -454,10 +454,10 @@ export default class ScreenTinygrail extends store {
   oauth = async () => {
     const { cookie, userAgent } = this.userCookie
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const res = axios({
       method: 'get',
       url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}`,
@@ -479,10 +479,10 @@ export default class ScreenTinygrail extends store {
   authorize = async () => {
     const { cookie, userAgent } = this.userCookie
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const res = axios({
       method: 'post',
       maxRedirects: 0,

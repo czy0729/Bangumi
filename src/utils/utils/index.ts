@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 09:27:44
+ * @Last Modified time: 2023-01-11 10:07:04
  */
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -439,10 +439,10 @@ export function formatNumber(s: string | number, n: number = 2, xsb?: boolean) {
 
   s = parseFloat((s + '').replace(/[^\d.-]/g, '')).toFixed(n) + ''
 
-  // @ts-ignore
+  // @ts-expect-error
   if (s == 0) return Number(s).toFixed(n)
 
-  // @ts-ignore
+  // @ts-expect-error
   if (s < 1000) return Number(s).toFixed(n)
 
   const l = s.split('.')[0].split('').reverse(),

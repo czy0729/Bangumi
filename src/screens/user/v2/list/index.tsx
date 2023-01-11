@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 07:30:22
+ * @Last Modified time: 2023-01-11 10:04:51
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -26,7 +26,7 @@ class List extends React.Component<Props> {
     hide: false
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   UNSAFE_componentWillReceiveProps({ subjectType }) {
     if (subjectType !== this.props.subjectType) {
       this.setState({

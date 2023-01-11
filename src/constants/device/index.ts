@@ -23,7 +23,7 @@ let isPad = 0
 // 暂时认为长边 <= 短边 * 1.6, 且短边 >= PAD_LEVEL_1, 是平板
 if (
   (maxSide <= minSide * 1.6 && minSide >= PAD_LEVEL_1) ||
-  // @ts-ignore
+  // @ts-expect-error
   Platform.isPad
 ) {
   isPad = minSide >= PAD_LEVEL_2 ? 2 : 1

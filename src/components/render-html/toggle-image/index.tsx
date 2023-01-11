@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-27 17:15:06
+ * @Last Modified time: 2023-01-11 10:00:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -183,11 +183,7 @@ class ToggleImage extends React.Component<Props, State> {
         </View>
         {!loaded && (
           <Flex style={this.styles.loading} justify='center'>
-            <ActivityIndicator
-              size='small'
-              // @ts-ignore
-              color={_.colorIcon}
-            />
+            <ActivityIndicator size='small' color={_.colorIcon} />
           </Flex>
         )}
       </Flex>

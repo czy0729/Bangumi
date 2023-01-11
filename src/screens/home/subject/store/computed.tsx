@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 08:41:05
+ * @Last Modified time: 2023-01-11 10:02:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -906,14 +906,14 @@ export default class Computed extends State {
   @computed get hd() {
     const { HD = [] } = getOTA()
 
-    // @ts-ignore
+    // @ts-expect-error
     if (HD.includes(Number(this.subjectId))) return this.subjectId
 
     // 若为单行本则还需要找到系列, 用系列id查询
     if (this.subjectSeries) {
       const { id } = this.subjectSeries
 
-      // @ts-ignore
+      // @ts-expect-error
       if (HD.includes(Number(id))) return id
     }
 

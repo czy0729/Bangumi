@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 10:58:48
+ * @Last Modified time: 2023-01-11 10:04:27
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -102,7 +102,7 @@ export function getOriginConfig(userOriginSetting: Origin, pickType?: Keys): unk
         // 只合并 sort 和 active
         const customBaseItem = base[item.id]
         if (customBaseItem.sort !== undefined) item.sort = customBaseItem.sort
-        // @ts-ignore
+        // @ts-expect-error
         if (customBaseItem.active !== undefined) item.active = customBaseItem.active
       }
     })

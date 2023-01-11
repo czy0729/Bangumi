@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 17:28:11
+ * @Last Modified time: 2023-01-11 10:03:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -133,7 +133,6 @@ class Login extends React.Component<{
    * 要传递v=1区分版本, 当iOS端v=2的时候, html都不使用https
    */
   updateUserCookie = ({ userAgent, cookie }) => {
-    // @ts-ignore
     return userStore.updateUserCookie({
       userAgent,
       cookie,

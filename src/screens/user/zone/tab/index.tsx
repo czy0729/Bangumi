@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 07:12:00
+ * @Last Modified time: 2023-01-11 10:05:07
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -159,7 +159,7 @@ class Tab extends React.Component<{
         key={_.orientation}
         lazy
         lazyPreloadDistance={1}
-        // @ts-ignore
+        // @ts-expect-error
         navigationState={this.navigationState}
         renderTabBar={this.renderTabBar}
         renderScene={this.renderScene}

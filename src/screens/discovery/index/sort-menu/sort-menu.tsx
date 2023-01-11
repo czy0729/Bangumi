@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 08:05:43
+ * @Last Modified time: 2023-01-11 10:02:14
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -106,7 +106,7 @@ export default memo(
                 name='md-refresh'
                 onPress={() => {
                   confirm('是否恢复默认菜单布局', () => {
-                    // @ts-ignore
+                    // @ts-expect-error
                     setMenu(INIT_DISCOVERY_MENU)
                   })
                 }}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 02:15:45
+ * @Last Modified time: 2023-01-11 10:04:04
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -137,7 +137,7 @@ export default class ScreenTinygrailTree extends store {
         nodes
       } = this.caculate()
       if (filterCount) {
-        // @ts-ignore
+        // @ts-expect-error
         nodes.push({
           id: 0,
           icon: '',
@@ -394,7 +394,7 @@ function treemapSquarify(
 ) {
   const data = []
   try {
-    // @ts-ignore
+    // @ts-expect-error
     treemap.squarify(
       {
         frame: {

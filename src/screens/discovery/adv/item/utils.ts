@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 15:43:46
+ * @Last Modified time: 2023-01-11 10:01:36
  */
 import { CDN_GAME } from '@constants'
 import { SubjectId } from '@types'
@@ -16,7 +16,7 @@ export function getThumbs(subjectId: SubjectId, length: number, thumb: boolean =
 
   return (
     new Array(length)
-      // @ts-ignore
+      // @ts-expect-error
       .fill()
       .map((item, index) => CDN_GAME(subjectId, index, thumb))
   )

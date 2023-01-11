@@ -49,7 +49,7 @@ class Filter extends React.Component {
           <Flex
             style={this.styles.icon}
             justify='center'
-            // @ts-ignore
+            // @ts-expect-error
             pointerEvents='none'
           >
             <Iconfont name='md-search' size={18} />

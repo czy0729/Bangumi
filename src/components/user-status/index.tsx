@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 15:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:21:18
+ * @Last Modified time: 2023-01-11 10:01:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,7 @@ export const UserStatus = observer(
         <Flex
           style={[styles.wrap, mini && styles.wrapMini, style]}
           justify='center'
-          // @ts-ignore
+          // @ts-expect-error
           pointerEvents='none'
         >
           <View

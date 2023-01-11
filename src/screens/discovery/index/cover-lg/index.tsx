@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 08:10:22
+ * @Last Modified time: 2023-01-11 10:01:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,7 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
       />
       <LinearGradient
         style={styles.linear}
-        // @ts-ignore
+        // @ts-expect-error
         colors={linearColor}
         pointerEvents='none'
       />

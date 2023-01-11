@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 07:24:27
+ * @Last Modified time: 2023-01-11 10:03:45
  */
 import React from 'react'
 import { BackHandler, View, StatusBar } from 'react-native'
@@ -792,7 +792,7 @@ class CharactersModal extends React.Component<{
 
   renderFilter(filter, data, map, onSelect) {
     return (
-      // @ts-ignore
+      // @ts-expect-error
       <Popover.Old
         data={data}
         hitSlop={HIT_SLOP}

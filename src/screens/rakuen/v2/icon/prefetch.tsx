@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:01:09
+ * @Last Modified time: 2023-01-11 10:03:35
  */
 import React from 'react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
@@ -36,7 +36,7 @@ function IconPrefetch(props, { $ }: Ctx) {
     <IconTabsHeader
       style={styles.icon}
       size={18}
-      // @ts-ignore
+      // @ts-expect-error
       name='download'
       position='right'
       onPress={$.prefetchConfirm}

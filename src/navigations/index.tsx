@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:39:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:18:58
+ * @Last Modified time: 2023-01-11 10:01:15
  */
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
@@ -35,7 +35,7 @@ function BottomTabNavigator() {
     return (
       <Tab.Navigator
         initialRouteName={initialRouteName}
-        // @ts-ignore
+        // @ts-expect-error
         tabBar={props => <TabBar {...props} />}
       >
         {homeRenderTabs.includes('Discovery') && (

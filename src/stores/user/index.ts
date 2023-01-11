@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-29 04:13:07
+ * @Last Modified time: 2023-01-11 10:05:42
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -1015,10 +1015,10 @@ class UserStore extends store implements StoreConstructor<typeof state> {
   reOauth = async () => {
     this.hide = loading('正在重新授权...')
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { data } = await axios({
       method: 'get',
       url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
@@ -1034,10 +1034,10 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
   /** 授权获取 code */
   authorize = async formhash => {
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { request } = await axios({
       method: 'post',
       maxRedirects: 0,
@@ -1076,10 +1076,10 @@ class UserStore extends store implements StoreConstructor<typeof state> {
 
   /** code 获取 access_token */
   getAccessToken = async code => {
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { status, data } = await axios({
       method: 'post',
       maxRedirects: 0,

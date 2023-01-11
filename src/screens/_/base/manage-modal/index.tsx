@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-30 22:17:55
+ * @Last Modified time: 2023-01-11 10:01:27
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -110,7 +110,7 @@ export const ManageModal = ob(
     }
 
     changeText = (name, text) => {
-      // @ts-ignore
+      // @ts-expect-error
       this.setState({
         [name]: text
       })

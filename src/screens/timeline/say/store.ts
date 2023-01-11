@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 06:30:23
+ * @Last Modified time: 2023-01-11 10:03:39
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -236,14 +236,14 @@ export default class ScreenSay extends store {
         content,
         formhash: this.formhash
       },
-      // @ts-ignore
+      // @ts-expect-error
       responseText => {
         let res = {}
         try {
           res = JSON.parse(responseText)
         } catch (error) {}
 
-        // @ts-ignore
+        // @ts-expect-error
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)
           return
@@ -275,14 +275,14 @@ export default class ScreenSay extends store {
         content,
         formhash: list[0].formhash
       },
-      // @ts-ignore
+      // @ts-expect-error
       async responseText => {
         let res = {}
         try {
           res = JSON.parse(responseText)
         } catch (error) {}
 
-        // @ts-ignore
+        // @ts-expect-error
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)
           return

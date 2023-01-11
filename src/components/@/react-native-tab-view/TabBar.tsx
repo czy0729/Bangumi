@@ -379,7 +379,7 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
               }
             ])}
             ref={el => {
-              // @ts-ignore
+              // @ts-expect-error
               // this.scrollView = el?.getNode()
               this.scrollView = el
             }}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-06 18:13:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 21:31:07
+ * @Last Modified time: 2023-01-11 10:01:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ function Filter(props, { $ }: Ctx) {
                   item.key === 'filterKey' &&
                   !index &&
                   $.state.filterKey &&
-                  // @ts-ignore
+                  // @ts-expect-error
                   item.data.indexOf($.state.filterKey) >= 7
                 ) {
                   return (

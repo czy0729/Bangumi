@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 20:56:48
+ * @Last Modified time: 2023-01-11 10:06:38
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './../thirdParty/html-parser'
@@ -186,7 +186,6 @@ export function findTreeNode(children: any, cmd: string = '', defaultValue?) {
 
   const _find = []
   find.forEach(item => {
-    // @ts-ignore
     _find.push(...(findTreeNode(item.children, tags.join(split)) || []))
   })
   if (!_find.length) {

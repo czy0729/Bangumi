@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:57:55
+ * @Last Modified time: 2023-01-11 10:05:35
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -724,11 +724,11 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
 
   // -------------------- fetch --------------------
   /** 小圣杯统一请求入口 */
-  // @ts-ignore
+  // @ts-expect-error
   fetch = (url: string, isPost?: boolean, data?: any, showError?: boolean) => {
     global.log(`⚡️ ${url}`)
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
     const config: any = {
       method: isPost ? 'POST' : 'GET',
@@ -740,7 +740,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
     }
     if (data) config.data = data
 
-    // @ts-ignore
+    // @ts-expect-error
     return axios(config).catch(() => {
       if (showError) info('接口出错')
     })
@@ -1388,7 +1388,6 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
           time: item.Begin,
           type: item.Type
         })),
-        // @ts-ignore
         sacrifices: result.data.Value.Sacrifices,
         _loaded: getTimestamp()
       }
@@ -2076,7 +2075,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
         await queue(
           list.map(item => () => {
             throttleInfo(
-              // @ts-ignore
+              // @ts-expect-error
               `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
             )
             return this.fetchDepth(item.id)
@@ -2142,7 +2141,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
         await queue(
           list.map(item => () => {
             throttleInfo(
-              // @ts-ignore
+              // @ts-expect-error
               `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
             )
             return this.fetchDepth(item.id)
@@ -2413,7 +2412,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
         await queue(
           list.map(item => () => {
             throttleInfo(
-              // @ts-ignore
+              // @ts-expect-error
               `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
             )
             return this.fetchDepth(item.id)

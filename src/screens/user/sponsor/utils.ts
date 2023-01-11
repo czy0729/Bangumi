@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 21:19:24
+ * @Last Modified time: 2023-01-11 10:04:43
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -86,7 +86,7 @@ export function useTreemapSquarify() {
 
   const data = []
   try {
-    // @ts-ignore
+    // @ts-expect-error
     treemap.squarify(
       {
         frame: {

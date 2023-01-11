@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 19:00:24
+ * @Last Modified time: 2023-01-11 10:05:23
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -923,7 +923,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
   /** 手机 * 1, 平板 * ratio */
   r = (px: number = 0) => {
-    // @ts-ignore
+    // @ts-expect-error
     return this.ratio * px
   }
 
@@ -1038,7 +1038,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
     try {
       InteractionManager.runAfterInteractions(() => {
-        // @ts-ignore
+        // @ts-expect-error
         changeNavigationBarColor(
           this.select(
             _.colorPlainHex,
@@ -1061,7 +1061,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
     try {
       InteractionManager.runAfterInteractions(() => {
-        // @ts-ignore
+        // @ts-expect-error
         changeNavigationBarColor(this.colorTinygrailContainerHex, !this.isTinygrailDark)
         androidDayNightToggle(this.isTinygrailDark)
       })

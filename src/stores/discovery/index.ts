@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:51:39
+ * @Last Modified time: 2023-01-11 10:05:18
  */
 import { observable, computed } from 'mobx'
 import { cheerio, getTimestamp, HTMLDecode } from '@utils'
@@ -405,7 +405,6 @@ class DiscoveryStore extends store implements StoreConstructor<typeof state> {
         }
       })
 
-      // @ts-ignore
       const $ = cheerio(JSON.parse(_response).msg)
       data = {
         list: $('.pos-r.cart-list')

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 01:11:55
+ * @Last Modified time: 2023-01-11 09:59:38
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -250,7 +250,7 @@ export const ListView = observer(
       if (lazy && !rendered) return data.list.slice(0, lazy)
       return Array.isArray(data.list)
         ? data.list
-        : // @ts-ignore 这里是针对 mobx 的代理对象
+        : // @ts-expect-error 这里是针对 mobx 的代理对象
           data.list.slice()
     }
 
@@ -291,10 +291,10 @@ export const ListView = observer(
       ])
       const { sectionKey, sections, ...passProps } = props
       if (sectionKey || sections) {
-        // @ts-ignore
+        // @ts-expect-error
         passProps.sections = this.sections
       } else {
-        // @ts-ignore
+        // @ts-expect-error
         passProps.data = this.data
       }
       return <List {...this.commonProps} {...passProps} />

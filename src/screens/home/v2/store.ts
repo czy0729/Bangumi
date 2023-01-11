@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-08 15:35:40
+ * @Last Modified time: 2023-01-11 10:02:43
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -723,7 +723,7 @@ export default class ScreenHomeV2 extends store {
       const bangumiInfo = this.bangumiInfo(subjectId)
       const { sites = [] } = bangumiInfo
       sites
-        // @ts-ignore
+        // @ts-expect-error
         .filter(item => SITES_DS.includes(item.site))
         .forEach(item => {
           data.push(item.site)

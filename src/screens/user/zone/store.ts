@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-26 04:53:53
+ * @Last Modified time: 2023-01-11 10:04:59
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -144,19 +144,16 @@ export default class ScreenZone extends store {
 
   /** 小圣杯 / 用户资产 */
   @computed get userAssets() {
-    // @ts-ignore
     return tinygrailStore.userAssets(this.username)
   }
 
   /** 小圣杯 / 总圣殿数 */
   @computed get templeTotal() {
-    // @ts-ignore
     return tinygrailStore.templeTotal(this.username)
   }
 
   /** 小圣杯 / 总人物数 */
   @computed get charaTotal() {
-    // @ts-ignore
     return tinygrailStore.charaTotal(this.username)
   }
 

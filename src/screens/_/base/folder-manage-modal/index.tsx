@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 04:59:46
+ * @Last Modified time: 2023-01-11 10:01:19
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -503,7 +503,7 @@ export const FolderManageModal = ob(
 
     /** 改变文字 */
     onChange = (value: string, key = 'content') => {
-      // @ts-ignore
+      // @ts-expect-error
       this.setState({
         [key]: value
       })
@@ -907,7 +907,7 @@ export const FolderManageModal = ob(
                     </View>
                   )}
                   {!edit && !create && (
-                    // @ts-ignore
+                    // @ts-expect-error
                     <Popover.Old
                       style={this.styles.btnPopover}
                       data={data}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:17:26
+ * @Last Modified time: 2023-01-11 10:02:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,7 @@ export default memo(
             .map((item, index) => {
               const height = getHeight(total, count[item])
 
-              // @ts-ignore
+              // @ts-expect-error
               const isActive = rating == item
               return (
                 <Flex.Item key={item} style={index > 0 && _.ml.xs}>

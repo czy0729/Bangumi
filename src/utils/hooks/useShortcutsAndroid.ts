@@ -2,12 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 08:12:59
+ * @Last Modified time: 2023-01-11 10:07:13
  */
 import { useEffect } from 'react'
 import { NativeEventEmitter, Clipboard } from 'react-native'
-
-// @ts-ignore
 import Shortcuts from 'react-native-actions-shortcuts'
 import { navigationReference, appNavigate, getSetting } from '../app'
 import { matchBgmUrl } from '../match'
@@ -53,6 +51,7 @@ export default function useShortcutsAndroid() {
   }, [])
 
   useEffect(() => {
+    // @ts-expect-error
     const ShortcutsEmitter = new NativeEventEmitter(Shortcuts)
     const listener = item => {
       const navigation = navigationReference()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-07 02:43:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:38:21
+ * @Last Modified time: 2023-01-11 10:04:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,7 @@ function StarForces({ style }, { $ }: Ctx) {
                   style={styles.sacrifices}
                   type='ask'
                   size={12}
-                  // @ts-ignore
+                  // @ts-expect-error
                   pointerEvent='none'
                 >
                   {formatNumber(starForces, 0)}星之力

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-27 14:31:52
+ * @Last Modified time: 2023-01-11 10:05:49
  */
 import * as Calendar from 'expo-calendar'
 import dayjs from 'dayjs'
@@ -97,9 +97,9 @@ async function createCalendar() {
     title: CALENDAR_TITLE,
     color: 'pink',
     entityType: Calendar.EntityTypes.EVENT,
-    // @ts-ignore
+    // @ts-expect-error
     sourceId: defaultCalendarSource.id,
-    // @ts-ignore
+    // @ts-expect-error
     source: defaultCalendarSource,
     name: CALENDAR_NAME,
     ownerAccount: 'personal',

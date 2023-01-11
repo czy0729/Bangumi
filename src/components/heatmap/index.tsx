@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:57:30
+ * @Last Modified time: 2023-01-11 10:00:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -146,7 +146,7 @@ const Heatmap = observer(
   }
 )
 
-// @ts-ignore
+// @ts-expect-error
 Heatmap.Control = Control
 
 export { Heatmap }

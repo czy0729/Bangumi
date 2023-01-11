@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 07:08:41
+ * @Last Modified time: 2023-01-11 10:02:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ export default memo(
           />
           <LinearGradient
             style={styles.linear}
-            // @ts-ignores
+            // @ts-expect-error
             colors={linearColor}
             pointerEvents='none'
           />
@@ -68,7 +68,7 @@ export default memo(
             type={_.select('plain', 'title')}
             numberOfLines={2}
             bold
-            // @ts-ignores
+            // @ts-expect-error
             pointerEvents='none'
           >
             {HTMLDecode(data.name)}

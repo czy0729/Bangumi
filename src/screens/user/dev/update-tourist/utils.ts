@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 02:49:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 03:14:51
+ * @Last Modified time: 2023-01-11 10:04:14
  */
 import cheerio from 'cheerio-without-node-native'
 import { getTimestamp, urlStringify } from '@utils'
@@ -33,11 +33,11 @@ export async function getConfig() {
   const ua =
     'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
 
-  // @ts-ignore
+  // @ts-expect-error
   axios.defaults.withCredentials = false
 
   // get formhash
-  // @ts-ignore
+  // @ts-expect-error
   const { data, headers } = await axios({
     method: 'get',
     url: `${HOST}/login`,
@@ -48,7 +48,7 @@ export async function getConfig() {
   const cookie = getCookie(headers?.['set-cookie']?.[0])
 
   // get captcha
-  // @ts-ignore
+  // @ts-expect-error
   const { request } = await axios({
     method: 'get',
     url: `${HOST}/signup/captcha?${getTimestamp()}`,
@@ -68,11 +68,11 @@ export async function getConfig() {
 }
 
 export async function doLogin({ ua = '', cookie = '', formhash = '' }, captcha) {
-  // @ts-ignore
+  // @ts-expect-error
   axios.defaults.withCredentials = false
 
   // login web
-  // @ts-ignore
+  // @ts-expect-error
   const { headers } = await axios({
     method: 'post',
     url: `${HOST}/FollowTheRabbit`,
@@ -93,7 +93,7 @@ export async function doLogin({ ua = '', cookie = '', formhash = '' }, captcha) 
   })
 
   // oauth
-  // @ts-ignore
+  // @ts-expect-error
   const { data } = await axios({
     method: 'get',
     url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
@@ -104,7 +104,7 @@ export async function doLogin({ ua = '', cookie = '', formhash = '' }, captcha) 
   })
 
   // authorize
-  // @ts-ignore
+  // @ts-expect-error
   const { request } = await axios({
     method: 'post',
     maxRedirects: 0,
@@ -126,7 +126,7 @@ export async function doLogin({ ua = '', cookie = '', formhash = '' }, captcha) 
   // get access token
   let retryCount = 0
   async function retryGetAccessToken() {
-    // @ts-ignore
+    // @ts-expect-error
     const { status, data } = await axios({
       method: 'post',
       maxRedirects: 0,

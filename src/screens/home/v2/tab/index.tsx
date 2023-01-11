@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 03:05:23
+ * @Last Modified time: 2023-01-11 10:02:57
  */
 import React from 'react'
 import TabBar from '@components/@/react-native-tab-view/TabBar'
@@ -29,7 +29,7 @@ function Tab({ routes = [], renderScene }: Props, { $ }: Ctx) {
       lazyPreloadDistance={0}
       navigationState={{
         index: page,
-        // @ts-ignore
+        // @ts-expect-error
         routes
       }}
       renderTabBar={props => (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 05:09:00
+ * @Last Modified time: 2023-01-11 10:00:56
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -94,11 +94,10 @@ export const TabsV2 = ({
       lazyPreloadDistance={0}
       navigationState={{
         index: page,
-        // @ts-ignore
+        // @ts-expect-error
         routes
       }}
       renderTabBar={props => (
-        // @ts-ignore
         <TabBar
           {...props}
           style={tabBarStyle}

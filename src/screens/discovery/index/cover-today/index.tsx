@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 07:11:34
+ * @Last Modified time: 2023-01-11 10:01:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,7 @@ function CoverToday({ data }, { navigation }: Ctx) {
         />
         <LinearGradient
           style={styles.linear}
-          // @ts-ignore
+          // @ts-expect-error
           colors={linearColor}
           pointerEvents='none'
         />
@@ -58,7 +58,7 @@ function CoverToday({ data }, { navigation }: Ctx) {
             type={_.select('plain', 'title')}
             numberOfLines={1}
             bold
-            // @ts-ignore
+            // @ts-expect-error
             pointerEvents='none'
           >
             {data.timeCN.slice(0, 2)}:{data.timeCN.slice(2)} · 周
@@ -70,7 +70,7 @@ function CoverToday({ data }, { navigation }: Ctx) {
             type={_.select('plain', 'title')}
             numberOfLines={2}
             bold
-            // @ts-ignore
+            // @ts-expect-error
             pointerEvents='none'
           >
             {HTMLDecode(cnjp(data.name_cn, data.name))}

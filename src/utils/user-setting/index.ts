@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-15 04:47:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-04 07:35:44
+ * @Last Modified time: 2023-01-11 10:07:01
  */
 import { HOST_DOGE } from '@constants'
 import { AVATARS, BGS } from './ds'
@@ -39,7 +39,7 @@ export function fixedRemote(src: string, isAvatar: boolean = false): string {
         if (flag) return `${HOST_DOGE}/avatars/${last}`
       }
     } else {
-      // @ts-ignore
+      // @ts-expect-error
       if (last && BGS.includes(last)) return `${HOST_DOGE}/bgs/${last}`
     }
 

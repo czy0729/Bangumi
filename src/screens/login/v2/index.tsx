@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 04:01:59
+ * @Last Modified time: 2023-01-11 10:03:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -226,10 +226,10 @@ class LoginV2 extends React.Component<{
   getFormHash = async () => {
     const { host } = this.state
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { data, headers } = await axios({
       method: 'get',
       url: `${host}/login`,
@@ -253,10 +253,10 @@ class LoginV2 extends React.Component<{
 
     const { host } = this.state
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { request } = await axios({
       method: 'get',
       url: `${host}/signup/captcha?${getTimestamp()}`,
@@ -284,10 +284,10 @@ class LoginV2 extends React.Component<{
 
     const { host, email, password, captcha } = this.state
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { data, headers } = await axios({
       method: 'post',
       url: `${host}/FollowTheRabbit`,
@@ -325,10 +325,10 @@ class LoginV2 extends React.Component<{
 
     const { host } = this.state
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { data } = await axios({
       method: 'get',
       url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
@@ -351,10 +351,10 @@ class LoginV2 extends React.Component<{
 
     const { host } = this.state
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { request } = await axios({
       method: 'post',
       maxRedirects: 0,
@@ -386,10 +386,10 @@ class LoginV2 extends React.Component<{
 
     const { host } = this.state
 
-    // @ts-ignore
+    // @ts-expect-error
     axios.defaults.withCredentials = false
 
-    // @ts-ignore
+    // @ts-expect-error
     const { status, data } = await axios({
       method: 'post',
       maxRedirects: 0,

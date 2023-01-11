@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 02:58:31
+ * @Last Modified time: 2023-01-11 10:02:36
  */
 import { collectionStore, otaStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -72,7 +72,7 @@ class ScreenSubject extends Action {
     ])
 
     // 敏感条目不再返回数据, 而旧接口 staff 也错乱, 主动请求网页的 staff 数据
-    // @ts-ignore
+    // @ts-expect-error
     if (data?.code === 404) this.fetchPersons()
 
     return true

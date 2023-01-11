@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 01:29:17
+ * @Last Modified time: 2023-01-11 10:00:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,7 +83,7 @@ const ScrollToTop = observer(
   }
 )
 
-// @ts-ignore
+// @ts-expect-error
 ScrollToTop.scrollToTop = (
   fn: (arg0: { animated: boolean; index: number; viewOffset: number }) => void
 ) => {
