@@ -11,5 +11,11 @@ export const styles = _.create({
     paddingRight: _.sm,
     paddingBottom: _.xs,
     marginRight: _.sm
+  },
+  touch: {
+    paddingHorizontal: _.xs,
+    marginRight: -_.xs,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 })

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 23:18:13
+ * @Last Modified time: 2023-01-11 10:02:21
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -24,37 +24,14 @@ import store from '@utils/store'
 import { fetchHTML, t, baiduTranslate } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { HOST } from '@constants'
-import { Mono, MonoComments } from '@stores/subject/types'
 import { Id, Navigation } from '@types'
+import { STATE } from './ds'
 import { Params } from './types'
 
 export default class ScreenMono extends store {
   params: Params
 
-  state = observable({
-    checkTinygrail: false,
-
-    /** 展开的子楼层 id */
-    expands: [],
-
-    /** 翻译缓存 */
-    translateResult: [],
-    translateResultDetail: [],
-
-    /** 楼层翻译缓存 */
-    translateResultFloor: {},
-    mono: {
-      _loaded: 0
-    } as Mono,
-    comments: {
-      list: [],
-      pagination: {
-        page: 0,
-        pageTotal: 0
-      },
-      _loaded: 0
-    } as MonoComments
-  })
+  state = observable(STATE)
 
   init = () => {
     this.fetchMonoFromOSS()
@@ -213,7 +190,6 @@ export default class ScreenMono extends store {
 
   /** 角色信息 */
   @computed get chara() {
-    // @ts-ignore
     return tinygrailStore.characters(this.monoId.replace('character/', ''))
   }
 
