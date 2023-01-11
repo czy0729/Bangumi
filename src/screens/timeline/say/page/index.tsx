@@ -35,22 +35,27 @@ class Say extends React.Component {
 
   scrollView: any
 
-  fixedTextarea: any
-
   async componentDidMount() {
     const { $ }: Ctx = this.context
     await $.init(this.scrollView)
 
     setTimeout(() => {
       $.scrollToBottom(this.scrollView)
-    }, 160)
+    }, 320)
   }
 
-  connectRefScrollView = (ref: any) => (this.scrollView = ref)
+  componentWillUnmount() {
+    const { $ }: Ctx = this.context
+    $.scrollViewRef = null
+  }
 
-  connectRefFixedTextarea = (ref: any) => (this.fixedTextarea = ref)
-
-  showFixedTextare = () => this.fixedTextarea.onFocus()
+  connectRefScrollView = (ref: any) => {
+    if (ref) {
+      const { $ }: Ctx = this.context
+      $.scrollViewRef = ref
+      this.scrollView = ref
+    }
+  }
 
   onExpand = () => {
     this.setState({
@@ -70,10 +75,12 @@ class Say extends React.Component {
           {...SCROLL_VIEW_RESET_PROPS}
         >
           <Chat />
+          <Text style={[_.mt._md, _.ml.md]} type='sub'>
+            点击底部输入框录入吐槽内容
+          </Text>
         </ScrollView>
         {$.isWebLogin && (
           <FixedTextarea
-            ref={this.connectRefFixedTextarea}
             placeholder='新吐槽'
             simple
             value={value}
@@ -173,7 +180,6 @@ class Say extends React.Component {
     return (
       $.isWebLogin && (
         <FixedTextarea
-          ref={this.connectRefFixedTextarea}
           placeholder='回复吐槽, 长按头像@某人'
           simple
           value={value}

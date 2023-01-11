@@ -23,11 +23,15 @@ export default class ScreenSay extends store {
     _loaded: false
   })
 
+  scrollViewRef: any = null
+
   init = async (scrollView?: any) => {
+    if (scrollView) this.scrollViewRef = scrollView
+
     if (this.isNew) return timelineStore.fetchFormHash()
 
     const { _loaded } = this.say
-    if (_loaded) this.scrollToBottom(scrollView)
+    if (_loaded) this.scrollToBottom(this.scrollViewRef)
 
     await this.fetchSay()
     timelineStore.fetchFormHash()
@@ -127,16 +131,33 @@ export default class ScreenSay extends store {
 
   // -------------------- page --------------------
   /** 滚动到底 */
-  scrollToBottom = (scrollView: {
-    scrollToEnd: (arg0: { animated: boolean }) => void
-  }) => {
-    if (scrollView && scrollView.scrollToEnd) {
-      setTimeout(() => {
-        scrollView.scrollToEnd({
-          animated: false
-        })
-      }, 80)
-    }
+  scrollToBottom = (scrollView: any, animated = false) => {
+    try {
+      if (scrollView?.scrollToEnd) {
+        setTimeout(() => {
+          scrollView.scrollToEnd({
+            animated,
+            duration: 640
+          })
+        }, 160)
+      }
+    } catch (error) {}
+  }
+
+  /** 滚动到顶 */
+  scrollToTop = (scrollView: any, animated = false) => {
+    try {
+      if (scrollView?.scrollTo) {
+        setTimeout(() => {
+          scrollView.scrollTo({
+            x: 0,
+            y: 0,
+            animated,
+            duration: 640
+          })
+        }, 160)
+      }
+    } catch (error) {}
   }
 
   /** 收起评论框 */
