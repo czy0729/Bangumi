@@ -12,6 +12,11 @@ export const memoStyles = _.memoStyles(() => ({
     height: THUMB_HEIGHT,
     overflow: 'hidden'
   },
+  void: {
+    backgroundColor: _.colorBg,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
   title: {
     width: THUMB_WIDTH,
     paddingTop: _.sm

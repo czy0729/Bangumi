@@ -76,6 +76,9 @@ export const INIT_SUBJECT_LAYOUT = {
   /** 制作人员 */
   showStaff: true as LayoutValue,
 
+  /** 动漫巡礼信息 */
+  showAnitabi: true as LayoutValue,
+
   /** 关联 */
   showRelations: true as LayoutValue,
 

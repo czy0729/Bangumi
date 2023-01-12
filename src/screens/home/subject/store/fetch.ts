@@ -470,16 +470,26 @@ export default class Fetch extends Computed {
 
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
-    if (this.type !== '动画') return false
+    const { showAnitabi } = systemStore.setting
+    if (showAnitabi === -1 || !showAnitabi) return false
 
     const { _loaded } = this.state.anitabi
     if (_loaded && getTimestamp() - Number(_loaded) <= 60 * 60 * 24) return true
 
     try {
+      const key = `anitabi_${this.subjectId}`
+      const cloud = await get(key)
+      if (cloud?._loaded && getTimestamp() - Number(cloud?._loaded) <= 60 * 60 * 24) {
+        this.setState({
+          anitabi: cloud
+        })
+        return true
+      }
+
       const { _response } = await xhrCustom({
         url: API_ANITABI(this.subjectId)
       })
-      const data: AnitabiData = JSON.parse(_response)
+      const data: AnitabiData = _response.length ? JSON.parse(_response) : {}
 
       let anitabi: any
       if (!data?.litePoints?.length) {
@@ -501,6 +511,11 @@ export default class Fetch extends Computed {
         anitabi
       })
       this.setStorage(this.namespace)
+
+      setTimeout(() => {
+        update(key, anitabi)
+      }, 0)
+
       return true
     } catch (error) {
       return false

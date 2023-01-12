@@ -17,6 +17,7 @@ export const DATA = {
   showRating: '评分',
   showCharacter: '角色',
   showStaff: '制作人员',
+  showAnitabi: '取景地标',
   showRelations: '关联条目',
   showCatalog: '目录',
   showRecent: '动态',
@@ -61,6 +62,10 @@ export const THUMBS = {
   ],
   showStaff: false,
   showRelations: false,
+  showAnitabi: [
+    '0/2023/png/386799/1673548775309-cfad2c26-a0bf-4808-8846-7a4bc1a49ba8.png',
+    '0/2023/png/386799/1673565704431-39a95c3f-2911-4eff-bbbe-5f2862da9286.png'
+  ],
   showCatalog: [
     '0/2022/png/386799/1661210861856-595c3ace-d109-4c01-a39e-712515e2a99e.png',
     '0/2022/png/386799/1661211121070-5ab05df8-c5d3-460d-8535-72b1403cfae2.png'

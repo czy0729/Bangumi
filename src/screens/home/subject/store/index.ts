@@ -64,10 +64,10 @@ class ScreenSubject extends Action {
     queue([
       () => this.fetchOTA(), // 装载第三方找条目数据
       () => this.fetchThirdParty(data), // 装载第三方额外数据
+      () => this.fetchAnitabi(),
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目 API 没有的网页额外数据
       () => this.fetchEpsData(), // 单集播放源
-      () => this.fetchAnitabi(),
       () => this.rendered() // 有时候没有触发成功, 强制触发
     ])
 

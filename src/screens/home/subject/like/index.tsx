@@ -19,7 +19,7 @@ export default obc((props, { $, navigation }: Ctx) => {
   return (
     <Like
       navigation={navigation}
-      showLike={systemStore.setting.showLike}
+      showLike={showLike}
       subjectId={$.subjectId}
       like={$.like}
       onSwitchBlock={$.onSwitchBlock}
