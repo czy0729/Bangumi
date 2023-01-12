@@ -147,3 +147,7 @@ export const API_SETU = (num: number = 20) =>
 
 /** 随机二次元头像 */
 export const API_RANDOM_AVATAR = () => `https://api.yimian.xyz/img?type=head`
+
+/** 圣地巡游 */
+export const API_ANITABI = (subjectId: SubjectId) =>
+  `https://api.anitabi.cn/bangumi/${subjectId}/lite`

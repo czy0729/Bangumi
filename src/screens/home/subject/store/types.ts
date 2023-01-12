@@ -30,3 +30,29 @@ export type EpsData = Expand<
     _loaded: Loaded
   }
 >
+
+export type AnitabiData = {
+  id: SubjectId
+  city: string
+  title: string
+  cn: string
+  color: string
+  cover: `https://image.anitabi.cn/points/${number}/${string}.jpg?plan=h160`
+  geo: [number, number]
+  imagesLength: number
+  modified: number
+  pointsLength: number
+  zoom: number
+  litePoints: {
+    cn: string
+    ep: number
+    geo: [number, number]
+    id: string
+    image: `https://image.anitabi.cn/points/${number}/${string}.jpg?plan=h160`
+    name: string
+
+    /** 代表 ep 中的秒 */
+    s: number
+  }[]
+  _loaded?: Loaded
+}

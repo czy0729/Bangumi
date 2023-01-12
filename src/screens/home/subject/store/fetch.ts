@@ -26,9 +26,10 @@ import {
 } from '@utils/douban'
 import { search as searchMV } from '@utils/bilibili'
 import { get, update } from '@utils/kv'
-import { CDN_EPS, SITES } from '@constants'
+import { API_ANITABI, CDN_EPS, SITES } from '@constants'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
+import { AnitabiData } from './types'
 
 export default class Fetch extends Computed {
   /**
@@ -465,5 +466,44 @@ export default class Fetch extends Computed {
         epsThumbsHeader: this.state.epsThumbsHeader
       })
     }, 0)
+  }
+
+  /** 获取圣地巡游信息 */
+  fetchAnitabi = async () => {
+    if (this.type !== '动画') return false
+
+    const { _loaded } = this.state.anitabi
+    if (_loaded && getTimestamp() - Number(_loaded) <= 60 * 60 * 24) return true
+
+    try {
+      const { _response } = await xhrCustom({
+        url: API_ANITABI(this.subjectId)
+      })
+      const data: AnitabiData = JSON.parse(_response)
+
+      let anitabi: any
+      if (!data?.litePoints?.length) {
+        anitabi = {
+          _loaded: getTimestamp()
+        }
+        this.setState({
+          anitabi: {
+            _loaded: getTimestamp()
+          }
+        })
+      } else {
+        anitabi = {
+          ...data,
+          _loaded: getTimestamp()
+        }
+      }
+      this.setState({
+        anitabi
+      })
+      this.setStorage(this.namespace)
+      return true
+    } catch (error) {
+      return false
+    }
   }
 }

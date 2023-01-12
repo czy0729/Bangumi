@@ -23,7 +23,7 @@ class ScreenSubject extends Action {
     const needFetch = !_loaded || current - Number(_loaded) > 60
 
     try {
-      const state = (await this.getStorage(undefined, this.namespace)) || {}
+      const state = (await this.getStorage(this.namespace)) || {}
       this.setState({
         ...state,
         ...EXCLUDE_STATE,
@@ -32,7 +32,6 @@ class ScreenSubject extends Action {
 
       // 装载条目云端缓存数据
       this.fetchSubjectFromOSS()
-
       if (needFetch) {
         // 手动刷新全局条目收藏状态
         collectionStore.fetchCollectionStatusQueue([this.subjectId])
@@ -68,6 +67,7 @@ class ScreenSubject extends Action {
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目 API 没有的网页额外数据
       () => this.fetchEpsData(), // 单集播放源
+      () => this.fetchAnitabi(),
       () => this.rendered() // 有时候没有触发成功, 强制触发
     ])
 

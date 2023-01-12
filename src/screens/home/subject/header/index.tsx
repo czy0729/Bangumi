@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 10:51:44
+ * @Last Modified time: 2023-01-12 06:48:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading } from '@components'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
+import Anitabi from '../anitabi'
 import Bg from '../bg'
 import Head from '../head'
 import Lock from '../lock'
@@ -57,6 +58,7 @@ function Header(props, { $ }: Ctx) {
         <Staff />
         {rendered && (
           <>
+            <Anitabi />
             <Relations />
             <Comic />
             <Catalog />

@@ -11,9 +11,11 @@ import {
   Loaded,
   Override,
   Rating,
+  Sites,
   SubjectId,
   SubjectTypeValue
 } from '@types'
+import { AnitabiData, EpsData } from './types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = 'ScreenSubject'
@@ -81,6 +83,63 @@ export const EXCLUDE_STATE = {
       _loaded: Loaded
     }
   >
+}
+
+/** 页面 state */
+export const STATE = {
+  ...EXCLUDE_STATE,
+
+  /** 章节是否倒序 */
+  epsReverse: false,
+
+  /** 普通条目章节 */
+  watchedEps: '',
+
+  /** 筛选章节的开头 */
+  filterEps: 0,
+
+  /** 吐槽分数分组 */
+  filterScores: [],
+
+  /** bangumi-data 中找到的 item */
+  bangumiInfo: {
+    /** 动画在线地址 */
+    sites: [],
+
+    /** 动画类型 */
+    type: ''
+  } as {
+    sites: {
+      site: Sites
+      id: string
+    }[]
+    type: string
+  },
+
+  /** 播放源 */
+  epsData: {
+    _loaded: false
+  } as EpsData,
+
+  /** 缩略图 */
+  epsThumbs: [],
+
+  /** 缩略图请求 header */
+  epsThumbsHeader: {} as {
+    Referer?: string
+  },
+
+  /** 视频 */
+  videos: [],
+
+  /** 圣地巡游信息 */
+  anitabi: {
+    litePoints: [],
+    _loaded: false
+  } as AnitabiData,
+
+  /** 页面 store 初始化完成 */
+  _loaded: false as Loaded
 }
 
 /** 关联模块排序优先级 (按描述) */
