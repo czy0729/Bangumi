@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:54:01
+ * @Last Modified time: 2023-01-13 08:11:50
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -407,7 +407,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
               if (item.name_cn) item.name = ''
               return {
                 ...item,
-                duration: '',
+                // duration: '',
                 desc: ''
               }
             }),
