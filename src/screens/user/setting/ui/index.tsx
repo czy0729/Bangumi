@@ -60,7 +60,7 @@ function UI({ filter }) {
         {/* 画面 */}
         <ItemSetting hd='画面' arrow highlight filter={filter} onPress={setTrue} />
 
-        <ActionSheet show={state} height={filter ? 400 : 680} onClose={setFalse}>
+        <ActionSheet show={state} height={filter ? 400 : 760} onClose={setFalse}>
           {/* 字体 */}
           <ItemSettingBlock
             show={shows.font}

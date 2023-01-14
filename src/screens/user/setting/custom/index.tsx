@@ -31,7 +31,7 @@ function Custom({ filter }) {
         {/* 定制 */}
         <ItemSetting hd='定制' arrow highlight filter={filter} onPress={setTrue} />
 
-        <ActionSheet show={state} height={filter ? 400 : 680} onClose={setFalse}>
+        <ActionSheet show={state} height={filter ? 400 : 760} onClose={setFalse}>
           {/* 优先中文 */}
           <ItemSettingBlock
             show={shows.cnFirst}

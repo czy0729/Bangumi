@@ -49,6 +49,9 @@ export const TEXTS = {
   homeCustom: {
     hd: '右上角功能入口'
   },
+  homeEpStartAtLastWathed: {
+    hd: '长篇动画从最后看过开始显示'
+  },
   homeSorting: {
     title: '排序',
     search: HOME_SORTING_INFORMATION

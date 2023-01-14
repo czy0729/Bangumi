@@ -73,7 +73,8 @@ import {
   SubjectId,
   SubjectType,
   SubjectTypeValue,
-  SubjectTypeCn
+  SubjectTypeCn,
+  SettingHomeLayout
 } from '@types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
@@ -555,7 +556,9 @@ export default class ScreenHomeV2 extends store {
         const { length } = eps
 
         // 集数超过了1页的显示个数
-        const isGrid = this.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
+        const isGrid =
+          this.homeLayout ===
+          MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
         if (length > (isGrid ? PAGE_LIMIT_GRID : PAGE_LIMIT_LIST)) {
           const userProgress = this.userProgress(subjectId)
           const index = eps.findIndex(
@@ -567,9 +570,20 @@ export default class ScreenHomeV2 extends store {
             return eps.slice(length - PAGE_LIMIT_LIST - 1, length - 1)
           }
 
+          const { homeEpStartAtLastWathed } = systemStore.setting
+
+          // @ts-expect-error
+          if (homeEpStartAtLastWathed && typeof eps.findLastIndex === 'function') {
+            // @ts-expect-error
+            const lastIndex = eps.findLastIndex(
+              item => item.type === 0 && userProgress[item.id] === '看过'
+            )
+            return eps.slice(Math.max(lastIndex, 0), lastIndex + PAGE_LIMIT_LIST)
+          }
+
           // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
           // @notice 注意这里第一个值不能小于0, 不然会返回空
-          return eps.slice(index < 1 ? 0 : index - 1, index + PAGE_LIMIT_LIST - 1)
+          return eps.slice(Math.max(index - 1, 0), index + PAGE_LIMIT_LIST - 1)
         }
         return eps
       }).get()

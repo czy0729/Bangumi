@@ -44,13 +44,14 @@ function Home({ filter }) {
       homeOrigin,
       homeSortSink,
       homeSorting,
+      homeEpStartAtLastWathed,
       showGame
     } = systemStore.setting
     const homeLayoutList = MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表')
     return (
       <>
         <ItemSetting hd='进度' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} height={filter ? 400 : 680} onClose={setFalse}>
+        <ActionSheet show={state} height={filter ? 400 : 760} onClose={setFalse}>
           {/* 布局 */}
           <ItemSettingBlock
             show={shows.homeLayout}
@@ -245,6 +246,33 @@ function Home({ filter }) {
             {...TEXTS.homeOrigin}
           >
             <Heatmap id='设置.切换' title='显示搜索源头按钮' />
+          </ItemSetting>
+
+          {/* 长篇动画从最后看过开始显示 */}
+          <ItemSetting
+            show={shows.homeEpStartAtLastWathed}
+            ft={
+              <SwitchPro
+                style={styles.switch}
+                value={homeEpStartAtLastWathed}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '长篇动画从最后看过开始显示',
+                    checked: !homeEpStartAtLastWathed
+                  })
+
+                  systemStore.switchSetting('homeEpStartAtLastWathed')
+                }}
+              />
+            }
+            filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2023/png/386799/1673684120408-ee3db302-a9d2-41a3-bc53-56788d523839.png',
+              '0/2023/png/386799/1673684144406-ff53b877-e632-4c13-af16-b5daad4033ba.png'
+            ])}
+            {...TEXTS.homeEpStartAtLastWathed}
+          >
+            <Heatmap id='设置.切换' title='长篇动画从最后看过开始显示' />
           </ItemSetting>
 
           {/* 一直显示放送时间 */}

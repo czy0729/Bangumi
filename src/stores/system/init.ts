@@ -244,6 +244,9 @@ export const INIT_SETTING = {
   /** 首页已放送章节看完条目下沉 */
   homeSortSink: true,
 
+  /** 长篇动画从最后看过开始显示 */
+  homeEpStartAtLastWathed: true,
+
   /** 首页 Tabs 项 */
   homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'],
 

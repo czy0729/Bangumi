@@ -50,7 +50,11 @@ export const Input = observer(
 
     componentDidMount() {
       const { autoFocus } = this.props
-      if (autoFocus) this.onFocus()
+      if (autoFocus) {
+        setTimeout(() => {
+          this.onFocus()
+        }, 120)
+      }
     }
 
     inputRef: TextInput

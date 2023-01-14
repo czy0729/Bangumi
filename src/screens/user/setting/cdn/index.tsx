@@ -83,7 +83,7 @@ function CDN({ filter }) {
           onPress={setTrue}
         />
 
-        <ActionSheet height={filter ? 400 : 680} show={state} onClose={setFalse}>
+        <ActionSheet height={filter ? 400 : 760} show={state} onClose={setFalse}>
           {/* 封面加速 */}
           <ItemSettingBlock
             show={shows.cover}
