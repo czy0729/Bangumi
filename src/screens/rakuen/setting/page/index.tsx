@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 15:57:00
+ * @Last Modified time: 2023-01-14 19:07:07
  */
 import React from 'react'
 import {
@@ -21,7 +21,12 @@ import { _, rakuenStore, uiStore } from '@stores'
 import { info } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
+import {
+  MODEL_RAKUEN_SCROLL_DIRECTION,
+  MODEL_RAKUEN_SUB_EXPAND,
+  RAKUEN_SCROLL_DIRECTION,
+  RAKUEN_SUB_EXPAND
+} from '@constants'
 import { Navigation } from '@types'
 import Block from '../../../user/setting/block'
 import Tip from '../../../user/setting/tip'
@@ -29,7 +34,8 @@ import History from './../history'
 import { memoStyles } from './styles'
 import { getYuqueThumbs } from './utils'
 
-const scrollDirectionDS = MODEL_RAKUEN_SCROLL_DIRECTION.data.map(item => item.label)
+const scrollDirectionDS = RAKUEN_SCROLL_DIRECTION.map(item => item.label)
+const subExpandDS = RAKUEN_SUB_EXPAND.map(item => item.label)
 
 class RakuenSetting extends React.Component<{
   navigation: Navigation
@@ -73,6 +79,7 @@ class RakuenSetting extends React.Component<{
       quote,
       quoteAvatar,
       wide,
+      subExpand,
       scrollDirection
     } = this.setting
     return (
@@ -129,7 +136,7 @@ class RakuenSetting extends React.Component<{
 
         {/* 猜测条目先显示缩略信息 */}
         <ItemSetting
-          hd='[实验性] 猜测条目先显示缩略信息'
+          hd='猜测条目先显示缩略信息'
           information='若猜测命中关键字，为了不打断阅读，会在图层上方先显示缩略信息，再次点击才会进入条目页面'
           ft={
             <SwitchPro
@@ -241,6 +248,30 @@ class RakuenSetting extends React.Component<{
           ])}
         />
 
+        {/* 子楼层折叠 */}
+        <ItemSetting
+          hd='子楼层折叠'
+          information='子回复超过此值后折叠，需手动展开。0 代表一直折叠，因性能问题暂不提供不折叠。'
+          ft={
+            <SegmentedControl
+              style={this.styles.segmentedControl}
+              backgroundColor={_.select(_.colorBg, _.colorPlain)}
+              size={12}
+              values={subExpandDS}
+              selectedIndex={RAKUEN_SUB_EXPAND.findIndex(
+                item => item.value === subExpand
+              )}
+              onValueChange={title => {
+                t('超展开设置.切换', {
+                  title: '子楼层折叠',
+                  value: title
+                })
+                rakuenStore.setSubExpand(MODEL_RAKUEN_SUB_EXPAND.getValue(title))
+              }}
+            />
+          }
+        />
+
         {/* 楼层直达条 */}
         <ItemSetting
           hd='楼层直达条'
@@ -250,7 +281,7 @@ class RakuenSetting extends React.Component<{
               backgroundColor={_.select(_.colorBg, _.colorPlain)}
               size={12}
               values={scrollDirectionDS}
-              selectedIndex={MODEL_RAKUEN_SCROLL_DIRECTION.data.findIndex(
+              selectedIndex={RAKUEN_SCROLL_DIRECTION.findIndex(
                 item => item.value === scrollDirection
               )}
               onValueChange={title => {

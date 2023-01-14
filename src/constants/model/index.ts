@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 01:58:04
+ * @Last Modified time: 2023-01-14 19:05:07
  */
 type ModelItem = {
   label: string
@@ -810,6 +810,29 @@ export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model(
   RAKUEN_SCROLL_DIRECTION,
   'RAKUEN_SCROLL_DIRECTION'
 )
+
+/** [设置] 子楼层折叠 */
+export const RAKUEN_SUB_EXPAND = [
+  {
+    label: '0',
+    value: '0'
+  },
+  {
+    label: '2',
+    value: '2'
+  },
+  {
+    label: '4',
+    value: '4'
+  },
+  {
+    label: '8',
+    value: '8'
+  }
+] as const
+
+/** [设置] 子楼层折叠 */
+export const MODEL_RAKUEN_SUB_EXPAND = new Model(RAKUEN_SUB_EXPAND, 'RAKUEN_SUB_EXPAND')
 
 /** 收藏排序 */
 export const COLLECTIONS_ORDERBY = [

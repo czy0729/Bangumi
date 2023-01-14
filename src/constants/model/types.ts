@@ -15,6 +15,7 @@ import {
   PRIVATE,
   RAKUEN_SCOPE,
   RAKUEN_SCROLL_DIRECTION,
+  RAKUEN_SUB_EXPAND,
   RAKUEN_TYPE,
   RAKUEN_TYPE_GROUP,
   RAKUEN_TYPE_MONO,
@@ -65,6 +66,8 @@ export type Private = ModelValueOf<typeof PRIVATE>
 export type PrivateCn = ModelValueOf<typeof PRIVATE, 'label'>
 
 export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE>
+
+export type RakuenSubExpand = ModelValueOf<typeof RAKUEN_SUB_EXPAND, 'value'>
 
 export type RakuenScrollDirection = ModelValueOf<
   typeof RAKUEN_SCROLL_DIRECTION,

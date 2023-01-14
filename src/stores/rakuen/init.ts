@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 18:31:18
+ * @Last Modified time: 2023-01-14 18:58:35
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -93,6 +93,9 @@ export const INIT_SETTING = {
   /** 楼层是否使用宽模式显示内容 */
   wide: false,
 
+  /** 子楼层折叠 */
+  subExpand: '2',
+
   /** 是否屏蔽默认头像用户帖子 */
   isBlockDefaultUser: false,
 
@@ -110,6 +113,9 @@ export const INIT_SETTING = {
 
   /** 标记坟贴 */
   isMarkOldTopic: true,
+
+  /** 子楼层折叠 */
+  subFloorExpand: 2,
 
   /** 帖子楼层滚动导航条方向 */
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('右侧')

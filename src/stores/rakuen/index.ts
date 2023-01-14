@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:52:54
+ * @Last Modified time: 2023-01-14 19:02:02
  */
 import { observable, computed } from 'mobx'
 import { desc, getTimestamp, HTMLTrim, info } from '@utils'
@@ -37,6 +37,7 @@ import {
   Id,
   RakuenScope,
   RakuenScrollDirection,
+  RakuenSubExpand,
   RakuenType,
   RakuenTypeGroup,
   RakuenTypeMono,
@@ -935,6 +936,18 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
           time,
           _time: readed.time === 0 ? time : readed.time
         }
+      }
+    })
+    this.save(key)
+  }
+
+  /** 设置`子楼层折叠` */
+  setSubExpand = (subExpand: RakuenSubExpand) => {
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        subExpand
       }
     })
     this.save(key)

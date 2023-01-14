@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 04:16:19
+ * @Last Modified time: 2023-01-14 19:32:25
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -12,7 +12,6 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST } from '@constants'
 import Item from './item'
 import { isBlockUser } from './utils'
-import { EXPAND_NUMS } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemPostProps } from './types'
 
@@ -38,7 +37,7 @@ export const ItemPost = obc(
       rendered,
       matchLink,
       showFixedTextare,
-      expandNums = EXPAND_NUMS,
+      expandNums,
       event
     }: ItemPostProps,
     { $, navigation }
@@ -52,7 +51,7 @@ export const ItemPost = obc(
     if (isBlockUser(userId, userName, replySub)) return null
 
     // 屏蔽内容删除
-    const { filterDelete, blockKeywords } = rakuenStore.setting
+    const { filterDelete, blockKeywords, subExpand } = rakuenStore.setting
     let msg = decoder(message)
     if (filterDelete) {
       msg = decoder(message)
@@ -61,10 +60,12 @@ export const ItemPost = obc(
 
     // 展开子楼层
     const { expands, translateResultFloor } = $.state
+    const _expands = Number(expandNums || subExpand)
     let isExpand: boolean
-    if (expands !== undefined) {
+
+    if (_expands !== undefined) {
       isExpand =
-        sub.length <= expandNums || (sub.length > expandNums && expands.includes(id))
+        sub.length <= _expands || (sub.length > _expands && expands.includes(id))
     } else {
       isExpand = true
     }
@@ -110,7 +111,7 @@ export const ItemPost = obc(
         readedTime={readedTime}
         replySub={replySub}
         showFixedTextare={showFixedTextare}
-        expandNums={expandNums}
+        expandNums={_expands}
         sub={sub}
         time={time}
         translate={translateResultFloor?.[id]}

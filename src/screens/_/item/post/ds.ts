@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 04:33:27
+ * @Last Modified time: 2023-01-14 19:22:47
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -14,7 +14,7 @@ const AVATAR_WIDTH = 32
 
 export const IMAGES_MAX_WIDTH = _.window.width - 2 * _.wind - AVATAR_WIDTH - _.sm
 
-export const EXPAND_NUMS = 4
+export const EXPAND_NUMS = 3
 
 export const REG_MARK = /mark|mrak|cy|码|马|眼/i
 
@@ -38,7 +38,7 @@ export const DEFAULT_PROPS = {
   readedTime: '' as string,
   replySub: '' as Props['replySub'],
   showFixedTextare: (() => {}) as any,
-  expandNums: EXPAND_NUMS as number,
+  expandNums: undefined,
   sub: [] as Props['sub'],
   time: '' as Props['time'],
   translate: '' as any,
