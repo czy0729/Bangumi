@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-24 15:34:34
+ * @Last Modified time: 2023-01-14 18:31:18
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -23,6 +23,7 @@ export const INIT_RAKUEN_ITEM = {
   group: '', // 小组名称
   groupHref: '', // 小组地址
   avatar: '', // 作者头像
+  userId: '', // 作者 Id
   userName: '', // 作者名字
   title: '', // 超展开标题
   href: '', // 链接

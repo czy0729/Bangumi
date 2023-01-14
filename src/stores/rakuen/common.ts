@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 05:11:10
+ * @Last Modified time: 2023-01-14 18:30:12
  */
 import {
   HTMLDecode,
@@ -42,6 +42,7 @@ export async function fetchRakuen(args: {
         /background-image:url\('|'\)/g,
         ''
       )
+      const userId = item.children[0].children[0].attrs?.['data-user']
 
       const { children } = item.children[1]
       const title = children[0].text[0]
@@ -63,6 +64,7 @@ export async function fetchRakuen(args: {
       const data = {
         title: HTMLDecode(title),
         avatar,
+        userId,
         userName: HTMLDecode(item.children[0].attrs.title),
         href,
         replies,

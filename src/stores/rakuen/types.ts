@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 13:50:44
+ * @Last Modified time: 2023-01-14 18:33:14
  */
 import {
   ListEmpty,
@@ -21,6 +21,7 @@ export type Rakuen = ListEmpty<
     group: string
     groupHref: string
     avatar: Avatar<'l'>
+    userId: UserId
     userName: string
     title: string
     href: string

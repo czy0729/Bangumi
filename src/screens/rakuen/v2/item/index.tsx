@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:29:54
+ * @Last Modified time: 2023-01-14 18:32:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,7 @@ import { memoStyles } from './styles'
 
 export default obc(
   (
-    { index, avatar, userName, group, groupHref, href, title, time, replies },
+    { index, avatar, userId, userName, group, groupHref, href, title, time, replies },
     { $ }: Ctx
   ) => {
     global.rerender('Rakuen.Item')
@@ -38,12 +38,12 @@ export default obc(
 
     const { blockKeywords, blockGroups, blockUserIds, isBlockDefaultUser } = $.setting
     const groupCn = findSubjectCn(group)
-    const userId = getUserId(avatar)
+    const _userId = userId || getUserId(avatar)
     const replyCount = getReplyCount(replies)
     if (
       getIsBlockKeyword(blockKeywords, title) ||
       getIsBlockGroup(blockGroups, groupCn) ||
-      getIsBlockUser(blockUserIds, userName, userId) ||
+      getIsBlockUser(blockUserIds, userName, _userId) ||
       getIsAd(isBlockDefaultUser, avatar, replyCount)
     ) {
       return null
@@ -55,7 +55,7 @@ export default obc(
       <Item
         styles={styles}
         avatar={avatar}
-        userId={userId}
+        userId={_userId}
         userName={userName}
         group={group}
         groupHref={groupHref}
