@@ -28,6 +28,7 @@ const ScrollToTop = observer(
     scrollToLocation,
     onPress
   }: ScrollToToPropsp) => {
+    if (IOS) return null
     if ((IOS || !isFocused) && !systemStore.dev) return null
 
     const styles = memoStyles()

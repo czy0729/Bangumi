@@ -67,7 +67,7 @@ export const Image = observer(
 
     _timeoutId = null
 
-    async componentDidMount() {
+    componentDidMount() {
       const { src, cache, autoSize, textOnly } = this.props
       if (textOnly) return
 
@@ -78,17 +78,20 @@ export const Image = observer(
         return
       }
 
-      if (IOS) {
-        await this.cache(src)
-      } else {
-        await this.cacheV2(src)
-      }
+      /** 若同一时间存在大量低速度图片, 会把整个运行时卡住, 暂时使用 setTimeout 处理 */
+      setTimeout(async () => {
+        if (IOS) {
+          await this.cache(src)
+        } else {
+          await this.cacheV2(src)
+        }
 
-      if (autoSize) {
-        setTimeout(() => {
-          this.getSize()
-        }, 0)
-      }
+        if (autoSize) {
+          setTimeout(() => {
+            this.getSize()
+          }, 0)
+        }
+      }, 0)
     }
 
     UNSAFE_componentWillReceiveProps(nextProps: { src: Source }) {
@@ -220,15 +223,10 @@ export const Image = observer(
         }, 400)
       } else {
         this._timeoutId = null
-        this.onError()
+        setTimeout(() => {
+          this.onError()
+        }, 0)
       }
-    }
-
-    /** @deprecated 选择图片质量 */
-    getQuality = (uri: string, qualityLevel = 'default') => {
-      if (!uri) return ''
-      if (qualityLevel === 'default') return uri
-      return uri
     }
 
     _getSized = false
@@ -262,7 +260,9 @@ export const Image = observer(
         })
       }
 
-      RNImage.getSize(uri, cb)
+      setTimeout(() => {
+        RNImage.getSize(uri, cb)
+      }, 0)
     }
 
     _fallbacked = false
