@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-10 06:08:53
+ * @Last Modified time: 2023-01-14 20:11:41
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -26,7 +26,7 @@ function Collected(props, { $, navigation }: Ctx) {
   global.rerender('Mono.Collected')
 
   const { collected } = $.mono
-  if (!collected.length) return null
+  if (!collected?.length) return null
 
   return (
     <View style={_.mt.md}>
