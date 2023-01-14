@@ -163,7 +163,7 @@ export const HTML_SEARCH = (
 export const HTML_TAG = (
   text: string,
   type: SubjectType = 'anime',
-  order: TagOrder = '',
+  order: TagOrder | '' = '',
   page: number = 1,
   airtime?: string
 ) => {

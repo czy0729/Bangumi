@@ -90,6 +90,7 @@ export function cheerioUsers(HTML) {
     connectUrl: $('#connectFrd').attr('href'),
     disconnectUrl,
     formhash,
+    ban: $('.tipIntro .tip').text().trim(),
     userStats: {
       total: $gridItems.eq(0).find('.num').text().trim(),
       collect: $gridItems.eq(1).find('.num').text().trim(),

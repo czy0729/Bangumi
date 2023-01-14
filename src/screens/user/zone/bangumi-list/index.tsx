@@ -23,6 +23,7 @@ import { t } from '@utils/fetch'
 import { Fn, Navigation } from '@types'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
+import Lock from './lock'
 import U from './u'
 import { memoStyles } from './styles'
 
@@ -67,28 +68,40 @@ class BangumiList extends React.Component<{
     )
   }
 
-  ListFooterComponent = ($: Ctx['$'], navigation: Navigation) => (
-    <>
-      <Flex style={_.mt.lg} justify='center'>
-        <Touchable
-          style={this.styles.touch}
-          onPress={() => {
-            t('空间.跳转', {
-              to: 'User'
-            })
+  ListFooterComponent = ($: Ctx['$'], navigation: Navigation) => {
+    const { ban } = $.users
+    if (ban) {
+      return (
+        <>
+          <Lock text={ban} />
+          {userStore.isDeveloper && <U username={$.usersInfo.username} />}
+        </>
+      )
+    }
 
-            $.navigateToUser(navigation)
-          }}
-        >
-          <Text type={_.select('desc', 'main')} bold>
-            查看TA的所有收藏
-          </Text>
-          <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
-        </Touchable>
-      </Flex>
-      {userStore.isDeveloper && <U username={$.usersInfo.username} />}
-    </>
-  )
+    return (
+      <>
+        <Flex style={_.mt.lg} justify='center'>
+          <Touchable
+            style={this.styles.touch}
+            onPress={() => {
+              t('空间.跳转', {
+                to: 'User'
+              })
+
+              $.navigateToUser(navigation)
+            }}
+          >
+            <Text type={_.select('desc', 'main')} bold>
+              查看TA的所有收藏
+            </Text>
+            <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
+          </Touchable>
+        </Flex>
+        {userStore.isDeveloper && <U username={$.usersInfo.username} />}
+      </>
+    )
+  }
 
   render() {
     const { $, navigation }: Ctx = this.context

@@ -53,6 +53,7 @@ export type Users = {
   connectUrl: string
   disconnectUrl: string
   formhash: string
+  ban?: string
   userStats: {
     avg: string
     chart: {

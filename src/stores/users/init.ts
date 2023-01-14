@@ -28,6 +28,7 @@ export const INIT_USERS = {
   connectUrl: '',
   disconnectUrl: '',
   formhash: '',
+  ban: '',
   userStats: {
     avg: '',
     chart: {
