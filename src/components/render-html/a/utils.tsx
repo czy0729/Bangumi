@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 09:59:47
+ * @Last Modified time: 2023-01-14 18:17:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,9 +20,7 @@ import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
 import { memoStyles } from './styles'
 
-/**
- * @todo: 待优化, 安卓Text中一定要过滤非文字节点
- */
+/** @todo 待优化, 安卓Text中一定要过滤非文字节点 */
 export function filterChildren(
   children: ReactNode | ReactNode[]
 ): ReactNode | ReactNode[] {
@@ -45,9 +43,7 @@ export function filterChildren(
     .filter(item => !!item)
 }
 
-/**
- * 获取html根节点文字
- */
+/** 获取 html 根节点文字 */
 export function getRawChildrenText(passProps) {
   try {
     const text = passProps?.rawChildren?.[0]?.data
@@ -69,7 +65,7 @@ export function getRawChildrenText(passProps) {
   }
 }
 
-/** AC自动机猜测条目文字 */
+/** AC 自动机猜测条目文字 */
 export function getACSearch({ style, passProps, params, onPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
@@ -117,7 +113,7 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
         const bottom = HTMLDecode(
           text !== top && text !== href ? text : name || name_cn || ''
         )
-        const showScore = !systemStore.setting.hideScore && score
+        const showScore = !systemStore.setting.hideScore && !!score
         const showBottom = bottom && bottom !== top
         return (
           <View style={styles.wrap}>
