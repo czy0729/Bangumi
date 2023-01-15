@@ -64,7 +64,7 @@ export const StarGroup = ob(
       const { value } = this.state
       return (
         <>
-          <Flex style={[styles.desc, style]}>
+          <Flex style={style ? [styles.desc, style] : styles.desc}>
             {value !== 0 && (
               <>
                 <Text type='warning' size={16}>
@@ -94,7 +94,7 @@ export const StarGroup = ob(
               return (
                 <Touchable
                   key={item}
-                  style={[styles.touchStar, item > 1 && _.ml.sm]}
+                  style={item > 1 ? [styles.touchStar, _.ml.sm] : styles.touchStar}
                   onPress={() => this.change(item)}
                 >
                   <Iconfont

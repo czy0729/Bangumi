@@ -622,14 +622,14 @@ export const FolderManageModal = ob(
         <View style={this.styles.create}>
           <Text bold>新建目录</Text>
           <Input
-            style={[this.styles.textarea, _.mt.md]}
+            style={this.styles.textareaMd}
             defaultValue={title}
             placeholder='输入标题'
             showClear
             onChangeText={text => this.onChange(text, 'title')}
           />
           <TextareaItem
-            style={[this.styles.textarea, _.mt.md]}
+            style={this.styles.textareaMd}
             value={desc}
             placeholder='输入介绍'
             placeholderTextColor={_.colorDisabled}
@@ -708,14 +708,14 @@ export const FolderManageModal = ob(
               <View style={_.mb.sm}>
                 <Text bold>编辑目录</Text>
                 <Input
-                  style={[this.styles.textarea, _.mt.md]}
+                  style={this.styles.textareaMd}
                   defaultValue={item.title}
                   placeholder='输入标题'
                   showClear
                   onChangeText={text => this.onChange(text, 'title')}
                 />
                 <TextareaItem
-                  style={[this.styles.textarea, _.mt.md]}
+                  style={this.styles.textareaMd}
                   value={desc}
                   placeholder='输入介绍'
                   placeholderTextColor={_.colorDisabled}
@@ -878,7 +878,7 @@ export const FolderManageModal = ob(
                         onChange={this.onChange}
                       />
                       <Input
-                        style={[this.styles.textarea, _.mt.md]}
+                        style={this.styles.textareaMd}
                         defaultValue={String(order == '0' ? '' : order)}
                         keyboardType='number-pad'
                         placeholder='输入排序 (数字越小越前)'

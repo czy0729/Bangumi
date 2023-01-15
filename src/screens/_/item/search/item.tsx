@@ -43,7 +43,7 @@ const Item = memo(
     const justify = tip || position.length ? 'between' : 'start'
     return (
       <Touchable
-        style={[styles.container, style]}
+        style={style ? [styles.container, style] : styles.container}
         onPress={() => {
           appNavigate(
             String(id),

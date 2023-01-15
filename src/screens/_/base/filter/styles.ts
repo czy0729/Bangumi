@@ -6,26 +6,30 @@
  */
 import { _ } from '@stores'
 
-const vertical = 4
+const VERTICAL = 4
 
 export const memoStyles = _.memoStyles(() => ({
-  container: {
+  list: {
     paddingVertical: _.r(_.sm)
+  },
+  grid: {
+    paddingVertical: _.r(_.sm),
+    marginBottom: _.md
   },
   row: {
     paddingLeft: _.wind
   },
   multiple: {
-    marginVertical: -_.r(vertical)
+    marginVertical: -_.r(VERTICAL)
   },
   multipleTitle: {
     marginTop: _.r(8)
   },
   contentContainerStyle: {
-    paddingVertical: _.r(vertical)
+    paddingVertical: _.r(VERTICAL)
   },
   item: {
-    paddingVertical: vertical,
+    paddingVertical: VERTICAL,
     paddingHorizontal: _.r(12),
     borderRadius: _.r(12),
     overflow: 'hidden'
@@ -49,5 +53,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.md,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
+  },
+  ft: {
+    paddingHorizontal: _.wind,
+    marginTop: _.md
   }
 }))

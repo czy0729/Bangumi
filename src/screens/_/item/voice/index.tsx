@@ -34,7 +34,7 @@ export const ItemVoice = ob(
     const cn = cnjp(nameCn, name)
     const jp = cnjp(name, nameCn)
     return (
-      <Expand style={[styles.item, style]} ratio={2.2}>
+      <Expand style={style ? [styles.item, style] : styles.item} ratio={2.2}>
         <Flex style={styles.wrap} align='start'>
           <Flex.Item flex={1.8}>
             <Flex align='start'>

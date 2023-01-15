@@ -27,7 +27,7 @@ export const IconTouchable = ob(
     if (count) {
       return (
         <Touchable
-          style={[styles.icon, style]}
+          style={style ? [styles.icon, style] : styles.icon}
           withoutFeedback={withoutFeedback}
           onPress={onPress}
         >
@@ -44,7 +44,7 @@ export const IconTouchable = ob(
 
     return (
       <Touchable
-        style={[styles.icon, style]}
+        style={style ? [styles.icon, style] : styles.icon}
         withoutFeedback={withoutFeedback}
         onPress={onPress}
       >

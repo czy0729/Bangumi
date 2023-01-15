@@ -14,7 +14,7 @@ export { IconReverseProps }
 
 export const IconReverse = ob(
   ({ style, iconStyle, color, size, children, onPress }: IconReverseProps) => (
-    <Touchable style={[styles.touch, style]} onPress={onPress}>
+    <Touchable style={style ? [styles.touch, style] : styles.touch} onPress={onPress}>
       <Flex style={styles.btn} justify='center'>
         <Iconfont style={iconStyle} name='md-sort' size={size} color={color} />
       </Flex>

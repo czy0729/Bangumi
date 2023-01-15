@@ -32,7 +32,10 @@ const ItemSettingBlockItem = ob(
     const styles = memoStyles()
     return (
       <Flex.Item style={style}>
-        <Touchable style={[styles.touch, active && styles.active]} onPress={onPress}>
+        <Touchable
+          style={active ? [styles.touch, styles.active] : styles.touch}
+          onPress={onPress}
+        >
           <Flex
             style={[styles.body, itemStyle]}
             direction='column'

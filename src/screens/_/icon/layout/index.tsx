@@ -16,7 +16,7 @@ export { IconLayoutProps }
 export const IconLayout = ob(
   ({ style, list, size = 22, onPress, children }: IconLayoutProps) => (
     <IconTouchable
-      style={[styles.icon, style]}
+      style={style ? [styles.icon, style] : styles.icon}
       name={list ? 'md-grid-view' : 'md-menu'}
       color={_.colorTitle}
       size={size}

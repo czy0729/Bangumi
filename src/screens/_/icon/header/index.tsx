@@ -22,7 +22,7 @@ export const IconHeader = ob(
     onPress,
     children
   }: IconHeaderProps) => (
-    <Touchable style={[styles.icon, style]} onPress={onPress}>
+    <Touchable style={style ? [styles.icon, style] : styles.icon} onPress={onPress}>
       <Iconfont size={size} name={name} color={color} />
       {children}
     </Touchable>

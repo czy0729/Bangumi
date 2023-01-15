@@ -175,7 +175,7 @@ export const Avatar = ob(
     return (
       <Image
         key={isUrl ? _src : 'avatar'}
-        style={[style, dev && isUrl && _src.includes(HOST_CDN) && styles.dev]}
+        style={dev && isUrl && _src.includes(HOST_CDN) ? [style, styles.dev] : style}
         size={_size}
         src={_src}
         radius={_radius}

@@ -21,7 +21,7 @@ export const Rank = ob(({ style, size = 10, value }: RankProps) => {
   const styles = memoStyles()
   return (
     <Text
-      style={[styles.rank, style]}
+      style={style ? [styles.rank, style] : styles.rank}
       size={size}
       lineHeight={size + 1}
       bold

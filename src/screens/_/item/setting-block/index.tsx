@@ -37,7 +37,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
 
     const styles = memoStyles()
     return (
-      <View style={[styles.container, style]}>
+      <View style={style ? [styles.container, style] : styles.container}>
         {!!title && (
           <Flex>
             <Highlight type='title' size={size} bold value={filter}>

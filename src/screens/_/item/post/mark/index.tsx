@@ -23,7 +23,7 @@ function Mark(
   const { avatarRound } = systemStore.setting
   const imagesMaxWidthSub = _.window.width - _.wind - avatarWidth - _.sm
   return (
-    <Flex style={[styles.item, style]}>
+    <Flex style={style ? [styles.item, style] : styles.item}>
       <Flex style={avatarRound ? styles.round : styles.rectangle}>
         <View style={_.mr.sm}>
           <UserStatus userId={userId} mini>

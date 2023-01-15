@@ -78,14 +78,18 @@ export const ItemSetting = ob(
 
     if (onPress) {
       return (
-        <Touchable style={[styles.touchable, style]} onPress={onPress} {...other}>
+        <Touchable
+          style={style ? [styles.touchable, style] : styles.touchable}
+          onPress={onPress}
+          {...other}
+        >
           {content}
         </Touchable>
       )
     }
 
     return (
-      <View style={[styles.touchable, style]} {...other}>
+      <View style={style ? [styles.touchable, style] : styles.touchable} {...other}>
         {content}
       </View>
     )

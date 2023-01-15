@@ -9,7 +9,9 @@ import { IMG_HEIGHT } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingLeft: _.wind
+    flex: 1,
+    paddingLeft: _.wind,
+    backgroundColor: _.colorPlain
   },
   wrap: {
     paddingVertical: _.md,
@@ -47,5 +49,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
+  },
+  body: {
+    marginTop: 2,
+    marginLeft: _._wind
   }
 }))

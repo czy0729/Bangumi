@@ -191,7 +191,13 @@ export default memo(
               </Text>
             )}
             {showQuoteAvatar && (
-              <Flex style={[styles.quoteUserRound, wide && styles.quoteUserRoundWide]}>
+              <Flex
+                style={
+                  wide
+                    ? [styles.quoteUserRound, styles.quoteUserRoundWide]
+                    : styles.quoteUserRound
+                }
+              >
                 <Avatar
                   navigation={navigation}
                   size={13}

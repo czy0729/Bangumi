@@ -44,7 +44,7 @@ export const ItemBangumiList = ob(
       })
     }
     return (
-      <View style={[styles.item, style]}>
+      <View style={style ? [styles.item, style] : styles.item}>
         <Cover
           size={styles.item.width}
           src={images.small}

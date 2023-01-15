@@ -39,7 +39,7 @@ export const Filter = obc(
     const total = $.total || length
     const eventId = `${type}.选择` as EventKeys
     return (
-      <View style={[styles.container, layout === 'grid' && _.mb.md]}>
+      <View style={layout === 'grid' ? styles.grid : styles.list}>
         <FilterSwitch title={title} name={name} />
         {filterDS
           .filter(item => {
@@ -198,7 +198,7 @@ export const Filter = obc(
             </Text>
           </Touchable>
         </Flex>
-        <Flex style={[_.container.wind, _.mt.md]}>
+        <Flex style={styles.ft}>
           <Flex.Item>
             <Text size={11} type='sub' bold>
               {total !== length ? `${length} (${total}) 条记录` : `${length} 条记录`}

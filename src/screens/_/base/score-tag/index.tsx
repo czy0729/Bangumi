@@ -19,7 +19,7 @@ export { ScoreTagProps }
 export const ScoreTag = ob(({ style, value = 0 }: ScoreTagProps) => {
   const styles = memoStyles()
   return (
-    <Flex style={[styles.container, style]}>
+    <Flex style={style ? [styles.container, style] : styles.container}>
       <Text type={_.select('plain', 'main')} size={12}>
         {getRating(value)}
       </Text>

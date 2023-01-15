@@ -54,7 +54,11 @@ export const Manage = ob(
     if (typeCn === '游戏') _collection = _collection.replace('看', '玩')
 
     return (
-      <Touchable style={[styles.touch, style]} hitSlop={HIT_SLOP} onPress={onPress}>
+      <Touchable
+        style={style ? [styles.touch, style] : styles.touch}
+        hitSlop={HIT_SLOP}
+        onPress={onPress}
+      >
         <Flex style={styles.manage} direction='column'>
           <Iconfont name={icon} size={size} color={_[`color${titleCase(type)}`]} />
           <Text style={_.mt.xxs} type={type} size={11}>

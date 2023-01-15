@@ -28,7 +28,7 @@ const Item = memo(
     global.rerender('Item.ItemComment.Main', userName)
 
     return (
-      <Flex style={[styles.item, style]} align='start'>
+      <Flex style={style ? [styles.item, style] : styles.item} align='start'>
         <UserStatus userId={userId}>
           <Avatar
             navigation={navigation}
@@ -39,7 +39,7 @@ const Item = memo(
             event={event}
           />
         </UserStatus>
-        <Flex.Item style={[styles.content, _.ml.sm]}>
+        <Flex.Item style={styles.content}>
           <Flex>
             <Flex.Item>
               <Name
@@ -58,7 +58,7 @@ const Item = memo(
               </Name>
             </Flex.Item>
           </Flex>
-          <Stars style={[_.mt.xs, _.mb.xs]} value={star} />
+          <Stars style={styles.stars} value={star} />
           <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
             {comment}
           </Text>

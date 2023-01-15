@@ -69,13 +69,23 @@ export const StockPreview = ob(
       return (
         <Flex style={this.styles.ico}>
           <Text
-            style={[this.styles.iconText, this.isDark && this.styles.iconTextDark]}
+            style={
+              this.isDark
+                ? [this.styles.iconText, this.styles.iconTextDark]
+                : this.styles.iconText
+            }
             size={11}
             align='center'
           >
             lv.{level} {percent}%
           </Text>
-          <View style={[this.styles.icoBar, this.isDark && this.styles.icoBarDark]}>
+          <View
+            style={
+              this.isDark
+                ? [this.styles.icoBar, this.styles.icoBarDark]
+                : this.styles.icoBar
+            }
+          >
             <View
               style={[
                 this.styles.icoProcess,
@@ -156,7 +166,7 @@ export const StockPreview = ob(
       const hasNoChanged = (show ? realChange : fluctuationText) === '-%'
       return (
         <Touchable
-          style={[this.styles.container, style]}
+          style={style ? [this.styles.container, style] : this.styles.container}
           onPress={tinygrailStore.toggleStockPreview}
         >
           <Flex justify='end'>

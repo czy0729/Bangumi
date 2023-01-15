@@ -16,10 +16,14 @@ export const memoStyles = _.memoStyles(() => ({
   },
   content: {
     paddingVertical: _.md,
-    paddingRight: _.wind
+    paddingRight: _.wind,
+    marginLeft: _.sm
   },
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  stars: {
+    marginVertical: _.xs
   }
 }))

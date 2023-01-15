@@ -27,7 +27,7 @@ export const StatusBtnGroup = ob(
   }: StatusBtnGroupProps) => {
     const styles = memoStyles()
     return (
-      <Flex style={[styles.group, style]}>
+      <Flex style={style ? [styles.group, style] : styles.group}>
         {COLLECTION_STATUS.map(item => (
           <Flex.Item key={item.label}>
             <Button

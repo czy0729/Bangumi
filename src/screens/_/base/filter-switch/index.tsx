@@ -49,7 +49,7 @@ export const FilterSwitch = obc(
               return (
                 <Touchable
                   key={item}
-                  style={[styles.item, isActive && styles.itemActive]}
+                  style={isActive ? [styles.item, styles.itemActive] : styles.item}
                   onPress={
                     isActive
                       ? undefined

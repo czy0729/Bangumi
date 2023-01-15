@@ -22,7 +22,7 @@ export const SafeAreaView = ob(
     ...other
   }: SafeAreaViewProps) => (
     <RNSafeAreaView
-      style={[_.container.screen, style]}
+      style={style ? [_.container.screen, style] : _.container.screen}
       forceInset={forceInset}
       {...other}
     >

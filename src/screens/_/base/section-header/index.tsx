@@ -16,7 +16,7 @@ export const SectionHeader = ob(
   ({ style, type = 'title', size = 14, right, children }: SectionHeaderProps) => {
     const styles = memoStyles()
     return (
-      <Flex style={[styles.section, style]}>
+      <Flex style={style ? [styles.section, style] : styles.section}>
         <Flex.Item>
           <Text type={type} size={size} bold>
             {children}{' '}

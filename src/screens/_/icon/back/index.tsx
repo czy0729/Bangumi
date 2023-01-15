@@ -15,7 +15,10 @@ export { IconBackProps }
 
 export const IconBack = ob(
   ({ navigation, style, color = _.colorPlain }: IconBackProps) => (
-    <Touchable style={[styles.touch, style]} onPress={navigation.goBack}>
+    <Touchable
+      style={style ? [styles.touch, style] : styles.touch}
+      onPress={navigation.goBack}
+    >
       <Flex style={styles.icon} justify='center'>
         <Iconfont name='md-arrow-back' color={color} />
       </Flex>

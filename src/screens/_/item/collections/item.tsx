@@ -58,7 +58,7 @@ const Item = memo(
 
     return (
       <Touchable
-        style={[_.container.plain, styles.container]}
+        style={styles.container}
         onPress={() => {
           const { id: eventId, data: eventData } = event
           t(eventId, {
@@ -87,7 +87,7 @@ const Item = memo(
             shadow
             type={type}
           />
-          <Flex.Item style={[_.mt.xxs, _.ml.wind]}>
+          <Flex.Item style={styles.body}>
             <Flex
               style={!!justify && styles.content}
               direction='column'

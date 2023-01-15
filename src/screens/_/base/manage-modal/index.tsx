@@ -255,7 +255,11 @@ export const ManageModal = ob(
                   onPress={() => this.toggleTag(name)}
                 >
                   <Flex
-                    style={[this.styles.tag, isSelected && this.styles.tagSelected]}
+                    style={
+                      isSelected
+                        ? [this.styles.tag, this.styles.tagSelected]
+                        : this.styles.tag
+                    }
                   >
                     <Text
                       size={12}
