@@ -1,16 +1,16 @@
 /*
- *  <Katakana> 片假名上方显示英文
- *  - 可匹配嵌套<Text>内的片假名
+ * 在片假名上方显示英文
+ *  - 可匹配嵌套 <Text> 内的片假名
  *  - 百度翻译得到英文
- *  - 容器<Provider>统一管理英文需要插入的具体位置
+ *  - 容器 <Provider> 统一管理英文需要插入的具体位置
  *  - 本地缓存片假名=>英文的结果
  *  - 短时间合并多个翻译请求
- *  #todo 富文本内文字支持 (没有思路, 暂不支持)
+ *  - 富文本内文字支持
  *
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 11:04:19
+ * @Last Modified time: 2023-01-15 10:35:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'

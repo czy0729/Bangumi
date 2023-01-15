@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-14 16:03:31
+ * @Last Modified time: 2023-01-15 10:38:31
  */
 import React from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
@@ -40,7 +40,7 @@ const defaultProps = {
   onAnimationEnd: () => {},
   operation: false,
   popup: false,
-  title: '',
+  title: '' as any,
   transparent: false,
   visible: false,
   blurView: false,

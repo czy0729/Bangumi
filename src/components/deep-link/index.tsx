@@ -1,8 +1,9 @@
 /*
+ * 系统外部链接
  * @Author: czy0729
  * @Date: 2020-09-11 14:58:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:46:14
+ * @Last Modified time: 2023-01-15 10:25:13
  */
 import { useEffect } from 'react'
 import { Linking } from 'react-native'

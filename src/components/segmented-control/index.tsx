@@ -1,11 +1,9 @@
 /*
- * https://github.com/react-native-community/segmented-control/tree/master/js
- * iOS 13 Style UISegmentedControl Component for Android and Web
- *
+ * @Doc: https://github.com/react-native-community/segmented-control/tree/master/js
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:07:22
+ * @Last Modified time: 2023-01-15 10:40:18
  */
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Animated, Easing, View } from 'react-native'

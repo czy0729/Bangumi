@@ -1,10 +1,10 @@
 /*
- * RN渲染HTML v2
+ * RN 渲染 HTML v2
  * @Doc https://github.com/archriss/react-native-render-html
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 03:44:35
+ * @Last Modified time: 2023-01-15 10:39:55
  */
 import React from 'react'
 import { View } from 'react-native'

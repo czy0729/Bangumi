@@ -1,10 +1,10 @@
 /*
- * https://github.com/poberwong/react-native-switch-pro/blob/master/lib/index.js
- *
+ * 开关 V2
+ * @Doc: https://github.com/poberwong/react-native-switch-pro/blob/master/lib/index.js
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-09 13:26:17
+ * @Last Modified time: 2023-01-15 10:42:26
  */
 import React, { Component } from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'

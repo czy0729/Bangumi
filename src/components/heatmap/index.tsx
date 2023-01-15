@@ -1,10 +1,9 @@
 /*
- * 事件热力区域可视化
- *
+ * 开发用，事件热力区域可视化
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:00:26
+ * @Last Modified time: 2023-01-15 10:27:47
  */
 import React from 'react'
 import { View } from 'react-native'

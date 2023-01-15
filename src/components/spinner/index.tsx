@@ -1,8 +1,9 @@
 /*
+ * Loading 指示器 (新)
  * @Author: czy0729
  * @Date: 2022-08-16 10:57:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:11:54
+ * @Last Modified time: 2023-01-15 10:41:33
  */
 import React, { useCallback, useEffect } from 'react'
 import { View, Image } from 'react-native'

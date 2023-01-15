@@ -1,6 +1,5 @@
 /*
  * 手风琴
- *
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
@@ -14,7 +13,7 @@ import { Props as AccordionProps } from './types'
 
 export { AccordionProps }
 
-const minHeight = 48
+const MIN_HEIGHT = 48
 
 export const Accordion = ({
   style,
@@ -33,7 +32,7 @@ export const Accordion = ({
         height: h
           ? aH.current.interpolate({
               inputRange: [0, 1],
-              outputRange: [0, Math.max(h, minHeight)]
+              outputRange: [0, Math.max(h, MIN_HEIGHT)]
             })
           : 'auto'
       },

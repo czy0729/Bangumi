@@ -1,10 +1,10 @@
 /*
- * 图片查看器
+ * 图片相册查看器
  * @Doc: https://github.com/ascoders/react-native-image-viewer
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:00:01
+ * @Last Modified time: 2023-01-15 10:34:48
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'

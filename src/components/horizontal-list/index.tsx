@@ -1,8 +1,9 @@
 /*
+ * 通用水平移动列表
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 15:46:31
+ * @Last Modified time: 2023-01-15 10:30:52
  */
 import React from 'react'
 import { ScrollView } from 'react-native'

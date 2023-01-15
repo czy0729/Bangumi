@@ -1,4 +1,5 @@
 /*
+ * 动作面板
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
@@ -33,7 +34,7 @@ export const ActionSheet = ({
     _setShow(true)
 
     if (!IOS && !_.isDark) {
-      // 去除StatusBar的灰色背景
+      // 去除 StatusBar 的灰色背景
       StatusBar.setBackgroundColor('rgba(255, 255, 255, 0)', false)
     }
 

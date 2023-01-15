@@ -1,11 +1,11 @@
 /*
- * tabbar前面几个页面不会二次渲染
- * 需要使用NavigationEvents的订阅来改变StatusBar的颜色
+ * tabbar 前面几个页面不会二次渲染
+ * 需要使用 NavigationEvents 的订阅来改变 StatusBar 的颜色
  * @Doc: https://reactnavigation.org/docs/en/navigation-events.html
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:13:33
+ * @Last Modified time: 2023-01-15 10:41:48
  */
 import React from 'react'
 import { StatusBar, StatusBarStyle } from 'react-native'

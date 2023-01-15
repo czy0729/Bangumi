@@ -1,9 +1,9 @@
 /*
- * 收缩展开框
+ * 收缩与展开框
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-31 11:20:47
+ * @Last Modified time: 2023-01-15 10:27:03
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 05:16:07
+ * @Last Modified time: 2023-01-15 10:23:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ export const Button = observer(
         )}
         <Text
           style={[
-            // 部分安卓机不写具体width会导致文字显示不全
+            // 部分安卓机不写具体 width 会导致文字显示不全
             size === 'sm' && styles.androidFixed,
             textStyle,
             styleText

@@ -1,8 +1,9 @@
 /*
+ * 通用模态框
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 16:14:54
+ * @Last Modified time: 2023-01-15 10:37:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'

@@ -30,6 +30,7 @@ export type TextType =
 export type Props = Override<
   TextProps,
   {
+    /** 获取 ref  */
     forwardRef?: (ref?: any) => any
 
     /** 样式 */

@@ -1,9 +1,9 @@
 /*
- * App Header占位
+ * App Header 占位
  * @Author: czy0729
  * @Date: 2019-04-28 17:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:54:37
+ * @Last Modified time: 2023-01-15 10:27:42
  */
 import React from 'react'
 import { View } from 'react-native'

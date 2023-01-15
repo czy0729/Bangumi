@@ -5,20 +5,26 @@
  * @Last Modified time: 2022-08-12 08:32:47
  */
 import { Text, TextInput } from 'react-native'
-import { s2t } from '@utils/thirdParty/cn-char'
 import { _ } from '@stores'
-import { PAD, IOS } from '@constants'
 import { setDefaultProps } from '@utils'
+import { s2t } from '@utils/thirdParty/cn-char'
+import { PAD, IOS } from '@constants'
 
-export const PAD_INCREASE = PAD === 2 ? 4 : 2 // 平板设备统一放大单位
+/** 平板设备统一放大单位 */
+export const PAD_INCREASE = PAD === 2 ? 4 : 2
 
+/** 强制给内部组件注入默认参数 */
 export function setComponentsDefaultProps() {
   if (IOS) return
 
+  /** @ts-expect-error */
   setDefaultProps(Text, _.fontStyle)
+
+  /** @ts-expect-error */
   setDefaultProps(TextInput, _.fontStyle)
 }
 
+/** 文字自适应增加行高 */
 export function computedLineHeight(
   size?: number,
   lineHeight?: number,
@@ -38,14 +44,9 @@ export function computedLineHeight(
   }
 }
 
-export function format(children) {
-  if (typeof children === 'string') {
-    return s2t(children)
-  }
-
-  if (Array.isArray(children)) {
-    return children.map(item => format(item))
-  }
-
+/** 文字递归简转繁 */
+export function format(children: any) {
+  if (typeof children === 'string') return s2t(children)
+  if (Array.isArray(children)) return children.map(item => format(item))
   return children
 }

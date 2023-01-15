@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 20:01:19
+ * @Last Modified time: 2023-01-15 10:36:02
  */
 import {
   UIManager,
@@ -22,7 +22,7 @@ import { Props as KeyboardSpacerProps } from './types'
 
 export { KeyboardSpacerProps }
 
-// 注意如果要在Android上使用此动画，则需要在代码中启用
+// 注意如果要在 Android 上使用此动画，则需要在代码中启用
 if (UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true)
 }

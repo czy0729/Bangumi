@@ -1,8 +1,9 @@
 /*
+ * 通用选项卡
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:00:56
+ * @Last Modified time: 2023-01-15 10:42:57
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'

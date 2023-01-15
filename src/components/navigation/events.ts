@@ -1,11 +1,10 @@
 /*
  * react-navigation@3 [NavigationEvents] => react-navigation@6 [Navigation events]
- * https://reactnavigation.org/docs/navigation-events
- *
+ * @Doc: https://reactnavigation.org/docs/navigation-events
  * @Author: czy0729
  * @Date: 2022-03-07 14:45:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 12:18:52
+ * @Last Modified time: 2023-01-15 10:38:57
  */
 import { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'

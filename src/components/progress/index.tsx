@@ -1,8 +1,9 @@
 /*
+ * 进度条
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:06:19
+ * @Last Modified time: 2023-01-15 10:39:47
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'

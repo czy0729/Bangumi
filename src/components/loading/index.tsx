@@ -1,9 +1,9 @@
 /*
- * 5个竖条的Loading
+ * 5 个竖条的 Loading
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:01:36
+ * @Last Modified time: 2023-01-15 10:37:00
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'

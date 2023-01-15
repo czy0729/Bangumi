@@ -1,8 +1,9 @@
 /*
+ * 分页器
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 04:31:37
+ * @Last Modified time: 2023-01-15 10:39:15
  */
 import React, { useState, useRef } from 'react'
 import { _ } from '@stores'

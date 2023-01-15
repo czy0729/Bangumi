@@ -1,9 +1,9 @@
 /*
- * bgm表情已通过本地工具转换成一种字体，此组件为封装调用字体
+ * bgm 表情已通过本地工具转换成一种字体，此组件为封装调用字体
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:41:35
+ * @Last Modified time: 2023-01-15 10:22:39
  */
 import React from 'react'
 import { Text } from 'react-native'

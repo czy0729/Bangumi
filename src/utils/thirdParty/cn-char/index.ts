@@ -11,11 +11,12 @@ import tc from './tc.json'
 
 const s2tMemo = {}
 
-export function s2t(str) {
+/** 简转繁 */
+export function s2t(str: string) {
   var ret = '',
-    i,
-    len,
-    idx
+    i: number,
+    len: number,
+    idx: number
   str = str || this
   for (i = 0, len = str.length; i < len; i++) {
     var s = str.charAt(i)
@@ -31,11 +32,12 @@ export function s2t(str) {
   return ret
 }
 
-export function t2s(str) {
+/** 繁转简 */
+export function t2s(str: string) {
   var ret = '',
-    i,
-    len,
-    idx
+    i: number,
+    len: number,
+    idx: number
   str = str || this
   for (i = 0, len = str.length; i < len; i++) {
     idx = tc.indexOf(str.charAt(i))

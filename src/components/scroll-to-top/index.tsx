@@ -1,9 +1,9 @@
 /*
- * 安卓用，仿iOS点击头部列表滚动到顶
+ * 安卓用，仿 iOS 点击头部列表滚动到顶
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:00:50
+ * @Last Modified time: 2023-01-15 10:40:04
  */
 import React from 'react'
 import { View } from 'react-native'
