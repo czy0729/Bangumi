@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:39:15
+ * @Last Modified time: 2023-01-16 08:36:40
  */
 import React, { useState, useRef } from 'react'
 import { _ } from '@stores'
@@ -35,7 +35,7 @@ export const Pagination = ({
     const styles = memoStyles()
     return (
       <>
-        <Flex style={[styles.container, style]}>
+        <Flex style={style ? [styles.container, style] : styles.container}>
           <Flex.Item>
             <Touchable style={styles.touch} onPress={onPrev}>
               <Flex style={styles.pagination} justify='center'>

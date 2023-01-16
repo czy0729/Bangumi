@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:38:31
+ * @Last Modified time: 2023-01-16 08:12:53
  */
 import React from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
@@ -82,7 +82,7 @@ class AntmModal extends React.Component<Partial<typeof defaultProps>> {
         {styles => {
           return (
             <RCModal
-              style={[style, blurView && overideStyles.transparent]}
+              style={blurView ? [style, overideStyles.transparent] : style}
               wrapStyle={overideStyles.center}
               visible={visible}
               maskClosable={maskClosable}
@@ -96,14 +96,18 @@ class AntmModal extends React.Component<Partial<typeof defaultProps>> {
                   <View style={maxHeight}>
                     {title && (
                       <Text
-                        style={[!IOS && overideStyles.font, styles.header]}
+                        style={
+                          IOS ? styles.header : [overideStyles.font, styles.header]
+                        }
                         textBreakStrategy='simple'
                         numberOfLines={0}
                       >
                         {title}
                       </Text>
                     )}
-                    <View style={[styles.body, bodyStyle]}>{children}</View>
+                    <View style={bodyStyle ? [styles.body, bodyStyle] : styles.body}>
+                      {children}
+                    </View>
                     {closable && (
                       <View style={[styles.closeWrap, overideStyles.close]}>
                         <Touchable style={overideStyles.touch} onPress={onClose}>

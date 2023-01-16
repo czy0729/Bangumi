@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:03:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 06:34:30
+ * @Last Modified time: 2023-01-16 08:42:02
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -28,12 +28,13 @@ class MaskText extends React.Component<{
   render() {
     const { style, children } = this.props
     const { show } = this.state
+    const _style = style
+      ? [style, show ? this.styles.blockTextShow : this.styles.blockText]
+      : show
+      ? this.styles.blockTextShow
+      : this.styles.blockText
     return (
-      <Text
-        style={[style, show ? this.styles.blockTextShow : this.styles.blockText]}
-        selectable
-        onPress={this.toggle}
-      >
+      <Text style={_style} selectable onPress={this.toggle}>
         {children}
       </Text>
     )

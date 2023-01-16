@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-04 11:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-13 05:02:57
+ * @Last Modified time: 2023-01-16 08:13:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ export const BlurView = observer(
     if (IOS) {
       return (
         <ExpoBlurView
-          style={[styles.blurView, style]}
+          style={style ? [styles.blurView, style] : styles.blurView}
           tint={_.isDark ? 'dark' : 'light'}
           intensity={intensity}
         >
@@ -32,7 +32,7 @@ export const BlurView = observer(
     }
 
     return (
-      <View style={[styles.blurView, style]}>
+      <View style={style ? [styles.blurView, style] : styles.blurView}>
         {/* <RNBlurView
           style={styles.absolute}
           blurAmount={_.select(20, 48)}

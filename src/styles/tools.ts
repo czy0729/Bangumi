@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 06:33:22
+ * @Last Modified time: 2023-01-16 08:09:34
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
@@ -261,12 +261,12 @@ export const rotate = {
   ]
 } as const
 
-/** [待废弃] 垂直缩小 (工具类) */
+/** @deprecated 垂直缩小 (工具类) */
 export const short = {
   marginVertical: -md
 } as const
 
-/** [待废弃] */
+/** @deprecated */
 export const input = StyleSheet.create({
   base: {
     padding: 8,
@@ -288,7 +288,7 @@ export const input = StyleSheet.create({
   }
 } as const)
 
-/** [待废弃] */
+/** @deprecated */
 export const header = StyleSheet.create({
   left: {
     position: 'absolute',
@@ -302,7 +302,7 @@ export const header = StyleSheet.create({
   }
 } as const)
 
-/** [待废弃] */
+/** @deprecated */
 export const listViewProps = IOS
   ? {
       // contentInset: {
@@ -313,3 +313,8 @@ export const listViewProps = IOS
       }
     }
   : {}
+
+/** 安卓部分机型文字若不至少传递字体, 会出现文字截断现象 */
+export const androidTextFixedStyle = {
+  fontFamily: ''
+} as const

@@ -324,7 +324,10 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
     )
 
     return (
-      <Animated.View onLayout={this.handleLayout} style={[styles.tabBar, style]}>
+      <Animated.View
+        style={style ? [styles.tabBar, style] : styles.tabBar}
+        onLayout={this.handleLayout}
+      >
         <Animated.View
           pointerEvents='none'
           style={[

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:03:06
+ * @Last Modified time: 2023-01-16 08:36:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ export const Menu = observer(
   ({ style, title = [], data = [], onSelect = () => {} }: MenuProps) => {
     const styles = memoStyles()
     return (
-      <View style={[styles.container, style]}>
+      <View style={style ? [styles.container, style] : styles.container}>
         {title.length !== 0 && (
           <View style={styles.title}>
             {title.map((item, index) => (

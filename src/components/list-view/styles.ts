@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:00:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 20:20:06
+ * @Last Modified time: 2023-01-16 08:35:51
  */
 import { _ } from '@stores'
 
@@ -43,6 +43,11 @@ export const foolterStyles = _.create({
   },
   text: {
     maxWidth: _.window.contentWidth - 2 * _.md,
+    ..._.fontSize(14)
+  },
+  textMt: {
+    maxWidth: _.window.contentWidth - 2 * _.md,
+    marginTop: _.sm,
     ..._.fontSize(14)
   },
   empty: {

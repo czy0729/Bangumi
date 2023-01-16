@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:13:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-17 06:18:42
+ * @Last Modified time: 2023-01-16 08:39:05
  */
 import React from 'react'
-import { Text, Props } from '../../text'
+import { Text, TextProps } from '../../text'
 import { styles } from './styles'
 
-function HiddenText({ style, children, ...other }: Props) {
+function HiddenText({ style, children, ...other }: TextProps) {
   return (
-    <Text style={[style, styles.hidden]} selectable {...other}>
+    <Text style={style ? [style, styles.hidden] : styles.hidden} selectable {...other}>
       {children}
     </Text>
   )

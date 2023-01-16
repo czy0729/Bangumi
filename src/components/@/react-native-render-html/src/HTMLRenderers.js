@@ -1,8 +1,9 @@
+/* eslint-disable react-native/no-inline-styles */
 /*
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 12:53:05
+ * @Last Modified time: 2023-01-16 08:25:41
  */
 import React from 'react'
 import { TouchableOpacity, Text, View, Platform } from 'react-native'
@@ -13,6 +14,7 @@ import {
 import HTMLImage from 'react-native-render-html/src/HTMLImage'
 import WebView from '@components/@/web-view'
 import { IOS } from '@constants'
+import { androidTextFixedStyle } from '@styles'
 
 export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
   const style = _constructStyles({
@@ -33,12 +35,7 @@ export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
     return (
       <Text
         {...passProps}
-        style={[
-          !IOS && {
-            fontFamily: ''
-          },
-          style
-        ]}
+        style={[!IOS && androidTextFixedStyle, style]}
         onPress={onPress}
         key={key}
         textBreakStrategy='simple'
@@ -137,10 +134,11 @@ export function ul(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
               <Text
                 allowFontScaling={allowFontScaling}
                 style={[
-                  !IOS && {
-                    fontFamily: ''
-                  },
-                  { marginRight: 5, fontSize: baseFontSize }
+                  !IOS && androidTextFixedStyle,
+                  {
+                    marginRight: 5,
+                    fontSize: baseFontSize
+                  }
                 ]}
                 textBreakStrategy='simple'
                 numberOfLines={0}
@@ -204,10 +202,10 @@ export function pre(htlmAttribs, children, convertedCSSStyles, passProps) {
     <Text
       key={passProps.key}
       style={[
-        !IOS && {
-          fontFamily: ''
-        },
-        { fontFamily: Platform.OS === 'android' ? 'monospace' : 'Menlo' }
+        !IOS && androidTextFixedStyle,
+        {
+          fontFamily: Platform.OS === 'android' ? 'monospace' : 'Menlo'
+        }
       ]}
       textBreakStrategy='simple'
       numberOfLines={0}
@@ -222,10 +220,11 @@ export function br(htlmAttribs, children, convertedCSSStyles, passProps) {
     <Text
       allowFontScaling={passProps.allowFontScaling}
       style={[
-        !IOS && {
-          fontFamily: ''
-        },
-        { height: 1.2 * passProps.emSize, flex: 1 }
+        !IOS && androidTextFixedStyle,
+        {
+          height: 1.2 * passProps.emSize,
+          flex: 1
+        }
       ]}
       key={passProps.key}
       textBreakStrategy='simple'
@@ -247,12 +246,7 @@ export function textwrapper(
       selectable={selectable}
       allowFontScaling={allowFontScaling}
       key={key}
-      style={[
-        !IOS && {
-          fontFamily: ''
-        },
-        convertedCSSStyles
-      ]}
+      style={[!IOS && androidTextFixedStyle, convertedCSSStyles]}
       textBreakStrategy='simple'
       numberOfLines={0}
     >

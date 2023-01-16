@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:43:23
+ * @Last Modified time: 2023-01-16 08:47:48
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,7 +17,11 @@ import { IToolBar } from './types'
 const ToolBar: IToolBar = observer(({ style, children, ...other }) => {
   const styles = memoStyles()
   return (
-    <Flex style={[styles.toolBar, style]} justify='center' {...other}>
+    <Flex
+      style={style ? [styles.toolBar, style] : styles.toolBar}
+      justify='center'
+      {...other}
+    >
       {children}
     </Flex>
   )

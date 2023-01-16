@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:27:03
+ * @Last Modified time: 2023-01-16 08:29:12
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -93,7 +93,7 @@ export const Expand = ({
               `rgba(${_.colorPlainRaw.join()}, 1)`
             ]}
           />
-          <View style={[styles.more, moreStyle]}>
+          <View style={moreStyle ? [styles.more, moreStyle] : styles.more}>
             <Touchable onPress={onExpand}>
               <Flex justify='center'>
                 <Iconfont name='md-keyboard-arrow-down' size={_.device(24, 32)} />

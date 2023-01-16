@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import _ from '@styles'
+import _, { androidTextFixedStyle } from '@styles'
 import { IOS, SCROLL_VIEW_RESET_PROPS } from '@constants/constants'
 import { Flex } from '../../../flex'
 import { WithTheme } from '../style'
@@ -170,9 +170,7 @@ export class DefaultTabBar extends React.PureComponent {
           ) : (
             <Text
               style={[
-                !IOS && {
-                  fontFamily: ''
-                },
+                !IOS && androidTextFixedStyle,
                 {
                   color: textColor,
                   ...StyleSheet.flatten(styles.textStyle)

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-09 13:27:11
+ * @Last Modified time: 2023-01-16 08:23:19
  */
 import React, { PureComponent } from 'react'
 import { View, Text, ActivityIndicator, Dimensions } from 'react-native'
@@ -30,7 +30,10 @@ import {
 } from 'react-native-render-html/src/HTMLDefaultStyles'
 import htmlparser2 from 'htmlparser2'
 import { IOS } from '@constants'
+import { androidTextFixedStyle } from '@styles'
 import * as HTMLRenderers from './HTMLRenderers'
+
+const flexStyle = { flex: 1, alignItems: 'center' }
 
 export default class HTML extends PureComponent {
   // static propTypes = {
@@ -124,6 +127,7 @@ export default class HTML extends PureComponent {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async registerDOM(props = this.props, cb) {
     const { html, uri } = props
     if (html) {
@@ -291,6 +295,7 @@ export default class HTML extends PureComponent {
       tagsStyles,
       classesStyles
     } = props
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const RNElements = DOMNodes.map((node, nodeIndex) => {
       let { children, data } = node
       if (ignoreNodesFunction && ignoreNodesFunction(node, parentTag) === true) {
@@ -423,6 +428,7 @@ export default class HTML extends PureComponent {
         }
         return { ...parsedNode, nodeIndex }
       })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .map((parsedNode, nodeIndex) => {
         const { wrapper, attribs, tagName, children } = parsedNode
         if (wrapper === 'View' && attribs && this.wrapperHasTextChild(children)) {
@@ -484,6 +490,7 @@ export default class HTML extends PureComponent {
    */
   renderRNElements(
     RNElements,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     parentWrapper = 'root',
     parentIndex = 0,
     props = this.props
@@ -529,7 +536,8 @@ export default class HTML extends PureComponent {
 
           const childElements =
             children && children.length
-              ? children.map((child, childIndex) =>
+              ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                children.map((child, childIndex) =>
                   this.renderRNElements([child], wrapper, index, props)
                 )
               : false
@@ -565,9 +573,7 @@ export default class HTML extends PureComponent {
             <Text
               allowFontScaling={allowFontScaling}
               style={[
-                !IOS && {
-                  fontFamily: ''
-                },
+                !IOS && androidTextFixedStyle,
                 computeTextStyles(element, {
                   defaultTextStyles: this.defaultTextStyles,
                   tagsStyles,
@@ -624,7 +630,7 @@ export default class HTML extends PureComponent {
       return remoteLoadingView ? (
         remoteLoadingView(this.props, this.state)
       ) : (
-        <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={flexStyle}>
           <ActivityIndicator />
         </View>
       )
@@ -632,15 +638,11 @@ export default class HTML extends PureComponent {
       return remoteErrorView ? (
         remoteErrorView(this.props, this.state)
       ) : (
-        <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={flexStyle}>
           <Text
-            style={
-              !IOS && {
-                fontFamily: ''
-              }
-            }
+            // style={{ fontStyle: 'italic', fontSize: 16 }}
+            style={!IOS && androidTextFixedStyle}
             allowFontScaling={allowFontScaling}
-            style={{ fontStyle: 'italic', fontSize: 16 }}
             textBreakStrategy='simple'
             numberOfLines={0}
           >

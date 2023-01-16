@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 20:20:33
+ * @Last Modified time: 2023-01-16 08:35:58
  */
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { Flex } from '../flex'
 import { Mesume } from '../mesume'
 import { randomSpeech } from '../mesume/utils'
@@ -76,7 +76,7 @@ function Footer({
             <Flex style={styles.empty} direction='column' justify='center'>
               {showMesume && <Mesume size={80} />}
               <Text
-                style={[styles.text, _.mt.sm]}
+                style={styles.textMt}
                 type={footerTextType}
                 size={13}
                 lineHeight={17}
@@ -95,7 +95,7 @@ function Footer({
           <Flex style={styles.noMore} justify='center' direction='column'>
             <ActivityIndicator size='small' />
             <Text
-              style={[styles.text, _.mt.sm]}
+              style={styles.textMt}
               type={footerTextType}
               align='center'
               size={13}
@@ -115,7 +115,7 @@ function Footer({
             <Mesume size={80} />
             {systemStore.setting.speech && (
               <Text
-                style={[styles.text, _.mt.sm]}
+                style={styles.textMt}
                 type={footerTextType}
                 align='center'
                 size={13}

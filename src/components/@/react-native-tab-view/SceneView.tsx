@@ -1,11 +1,6 @@
 import * as React from 'react'
 import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native'
-import {
-  SceneRendererProps,
-  EventEmitterProps,
-  NavigationState,
-  Route
-} from './types'
+import { SceneRendererProps, EventEmitterProps, NavigationState, Route } from './types'
 
 type Props<T extends Route> = SceneRendererProps &
   EventEmitterProps & {
@@ -28,8 +23,7 @@ export default class SceneView<T extends Route> extends React.Component<
   static getDerivedStateFromProps(props: Props<Route>, state: State) {
     if (
       state.loading &&
-      Math.abs(props.navigationState.index - props.index) <=
-        props.lazyPreloadDistance
+      Math.abs(props.navigationState.index - props.index) <= props.lazyPreloadDistance
     ) {
       // Always render the route when it becomes focused
       return { loading: false }

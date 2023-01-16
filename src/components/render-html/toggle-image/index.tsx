@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:00:33
+ * @Last Modified time: 2023-01-16 08:47:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -160,7 +160,7 @@ class ToggleImage extends React.Component<Props, State> {
     }
     return (
       <Flex
-        style={[this.styles.image, !loaded && this.styles.isLoad]}
+        style={!loaded ? [this.styles.image, this.styles.isLoad] : this.styles.image}
         justify={this.isIcon ? 'start' : 'center'}
       >
         <Image

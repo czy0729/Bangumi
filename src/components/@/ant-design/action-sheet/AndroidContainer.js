@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, TouchableHighlight, View } from 'react-native'
 import Modal from '@ant-design/react-native/lib/modal/ModalView'
 import { IOS } from '@constants/constants'
+import { androidTextFixedStyle } from '@styles'
 import { WithTheme } from '../style'
 import ActionSheetStyles from './style/index'
 
@@ -38,12 +39,9 @@ class ActionSheetAndroid extends React.PureComponent {
           const titleMsg = !!title && (
             <View style={styles.title} key='0'>
               <Text
-                style={[
-                  !IOS && {
-                    fontFamily: ''
-                  },
-                  styles.titleText
-                ]}
+                style={
+                  IOS ? styles.titleText : [androidTextFixedStyle, styles.titleText]
+                }
                 textBreakStrategy='simple'
                 numberOfLines={0}
               >
@@ -52,20 +50,15 @@ class ActionSheetAndroid extends React.PureComponent {
             </View>
           )
           const content = options.map((item, index) => (
-            <View
-              key={index}
-              style={[cancelButtonIndex === index ? styles.cancelBtn : undefined]}
-            >
+            <View key={index} style={cancelButtonIndex === index && styles.cancelBtn}>
               <TouchableHighlight
-                style={[styles.btn]}
+                style={styles.btn}
                 underlayColor={theme.fill_tap}
                 onPress={() => this.confirm(index)}
               >
                 <Text
                   style={[
-                    !IOS && {
-                      fontFamily: ''
-                    },
+                    !IOS && androidTextFixedStyle,
                     destructiveButtonIndex === index
                       ? styles.destructiveBtn
                       : styles.btnText
@@ -98,11 +91,7 @@ class ActionSheetAndroid extends React.PureComponent {
                   {!!message && (
                     <View style={styles.message} key='1'>
                       <Text
-                        style={
-                          !IOS && {
-                            fontFamily: ''
-                          }
-                        }
+                        style={!IOS && androidTextFixedStyle}
                         textBreakStrategy='simple'
                         numberOfLines={0}
                       >

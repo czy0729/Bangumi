@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:34:48
+ * @Last Modified time: 2023-01-16 08:32:30
  */
 import React from 'react'
 import { Modal, View, StatusBar } from 'react-native'
@@ -102,7 +102,13 @@ export const ImageViewer = observer(
             <View style={styles.activityIndicator}>
               <ActivityIndicator />
             </View>
-            <View style={[styles.viewerContainer, mini && styles.viewerMini]}>
+            <View
+              style={
+                mini
+                  ? [styles.viewerContainer, styles.viewerMini]
+                  : styles.viewerContainer
+              }
+            >
               <RNImageViewer
                 style={styles.viewer}
                 index={index}

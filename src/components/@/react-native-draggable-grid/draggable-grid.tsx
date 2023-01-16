@@ -75,8 +75,8 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
 
   const assessGridSize = (event: IOnLayoutEvent) => {
     if (!hadInitBlockSize) {
-      let blockWidth = event.nativeEvent.layout.width / props.numColumns
-      let blockHeight = props.itemHeight || blockWidth
+      const blockWidth = event.nativeEvent.layout.width / props.numColumns
+      const blockHeight = props.itemHeight || blockWidth
       setBlockWidth(blockWidth)
       setBlockHeight(blockHeight)
       setGridLayout(event.nativeEvent.layout)
@@ -118,9 +118,9 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
     const rowCount = Math.ceil(props.data.length / props.numColumns)
     gridHeight.setValue(rowCount * blockHeight)
   }
-  function onBlockPress(itemIndex: number) {
-    props.onItemPress && props.onItemPress(items[itemIndex].itemData)
-  }
+  // function onBlockPress(itemIndex: number) {
+  //   props.onItemPress && props.onItemPress(items[itemIndex].itemData)
+  // }
   function onStartDrag(
     _: GestureResponderEvent,
     gestureState: PanResponderGestureState
@@ -367,11 +367,13 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
   }
   useEffect(() => {
     startDragStartAnimation()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeItemIndex])
   useEffect(() => {
     if (hadInitBlockSize) {
       initBlockPositions()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gridLayout])
   useEffect(() => {
     resetGridHeight()

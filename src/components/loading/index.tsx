@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:37:00
+ * @Last Modified time: 2023-01-16 08:36:15
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
@@ -21,7 +21,7 @@ const USED_SPINNER = !IOS || DEV
 const Raw = observer(
   ({ spinnerStyle, color, size = 'small' }: ActivityIndicatorProps) =>
     USED_SPINNER ? (
-      <Spinner style={[styles.spinner, spinnerStyle]} />
+      <Spinner style={spinnerStyle ? [styles.spinner, spinnerStyle] : styles.spinner} />
     ) : (
       <ActivityIndicator
         color={color || _.select(_.colorSub, _.colorDesc)}

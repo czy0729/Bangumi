@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:34:31
+ * @Last Modified time: 2023-01-16 08:37:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -166,7 +166,7 @@ export const Avatar = observer(
     const isUrl = typeof _src === 'string'
 
     /**
-     * 强制使用/l/
+     * 强制使用 /l/
      * @date 20220512
      */
     if (isUrl && _src.includes(USER_MEDIUM)) {
@@ -175,7 +175,7 @@ export const Avatar = observer(
     return (
       <Image
         key={isUrl ? _src : 'avatar'}
-        style={[style, dev && isUrl && _src.includes(HOST_CDN) && styles.dev]}
+        style={dev && isUrl && _src.includes(HOST_CDN) ? [style, styles.dev] : style}
         size={_size}
         src={_src}
         radius={_radius}

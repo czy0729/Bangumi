@@ -115,7 +115,10 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
     const { layout } = this.state
 
     return (
-      <GestureHandlerWrapper onLayout={this.handleLayout} style={[styles.pager, style]}>
+      <GestureHandlerWrapper
+        style={style ? [styles.pager, style] : styles.pager}
+        onLayout={this.handleLayout}
+      >
         {renderPager({
           navigationState,
           layout,
