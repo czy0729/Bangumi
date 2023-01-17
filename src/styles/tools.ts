@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:09:34
+ * @Last Modified time: 2023-01-18 02:49:59
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
@@ -263,7 +263,7 @@ export const rotate = {
 
 /** @deprecated 垂直缩小 (工具类) */
 export const short = {
-  marginVertical: -md
+  marginBottom: -sm
 } as const
 
 /** @deprecated */

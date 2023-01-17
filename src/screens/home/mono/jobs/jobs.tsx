@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-20 14:29:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 19:55:23
+ * @Last Modified time: 2023-01-16 13:56:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ const Jobs = memo(({ navigation, styles, style, jobs }) => {
   const radius = avatarRound ? COVER_WIDTH : _.radiusSm
   return (
     <Expand ratio={2.8}>
-      <View style={[styles.container, style]}>
+      <View style={style ? [styles.container, style] : styles.container}>
         <View>
           <SectionTitle>出演</SectionTitle>
           <Heatmap id='人物.跳转' from='出演' />
@@ -113,7 +113,7 @@ const Jobs = memo(({ navigation, styles, style, jobs }) => {
                     </Touchable>
                     {!!item?.cast2?.castCover && (
                       <Touchable
-                        style={[_.ml.md, _.mr.xs]}
+                        style={styles.castCover}
                         onPress={() =>
                           appNavigate(
                             item?.cast2?.castHref,

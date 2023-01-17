@@ -7,20 +7,18 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import Chart from '../chart'
 import IconHidden from '../icon/hidden'
 import Title from './title'
-import { styles } from './styles'
 import { DEFAULT_PROPS } from './ds'
 
-export default memo(({ hideScore, showRating }) => {
+export default memo(({ styles, hideScore, showRating }) => {
   global.rerender('Subject.Rating.Main')
 
   const [showScore, setShowScore] = useState(!hideScore)
   return (
-    <View style={[_.container.wind, _.mt.lg, !showRating && _.short]}>
+    <View style={showRating ? styles.container : styles.hide}>
       <Flex>
         <Flex.Item>
           <Title showScore={showScore} />

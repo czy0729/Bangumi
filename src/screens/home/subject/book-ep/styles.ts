@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:33:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 14:01:24
+ * @Last Modified time: 2023-01-16 14:02:03
  */
 import { _ } from '@stores'
 
@@ -19,6 +19,7 @@ export const memoStyles = _.memoStyles(() => ({
     width: LABEL_WIDTH
   },
   input: {
+    marginLeft: _.sm,
     width: INPUT_WIDTH,
     height: _.device(34, 48)
   },
@@ -41,6 +42,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: _.device(32, 48)
   },
   btnPlus: {
+    marginLeft: _.sm,
     width: _.r(40),
     height: _.device(34, 48)
   },

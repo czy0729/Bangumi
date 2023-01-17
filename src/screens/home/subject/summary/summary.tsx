@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 01:34:00
+ * @Last Modified time: 2023-01-18 02:27:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,21 +13,13 @@ import { memo } from '@utils/decorators'
 import IconTranslate from '../icon/translate'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
-import { styles } from './styles'
 
 export default memo(
-  ({ showSummary, translateResult, content, onSwitchBlock }) => {
+  ({ styles, showSummary, translateResult, content, onSwitchBlock }) => {
     global.rerender('Subject.Summary.Main')
 
     return (
-      <View
-        style={[
-          _.container.wind,
-          _.mt.sm,
-          showSummary && styles.container,
-          !showSummary && _.short
-        ]}
-      >
+      <View style={showSummary ? styles.container : styles.hide}>
         <SectionTitle
           right={
             showSummary ? (

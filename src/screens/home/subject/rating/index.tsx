@@ -8,6 +8,7 @@ import React from 'react'
 import { systemStore } from '@stores'
 import { ob } from '@utils/decorators'
 import Rating from './rating'
+import { memoStyles } from './styles'
 
 export default ob(() => {
   global.rerender('Subject.Rating')
@@ -15,5 +16,11 @@ export default ob(() => {
   const { showRating } = systemStore.setting
   if (showRating === -1) return null
 
-  return <Rating showRating={showRating} hideScore={systemStore.setting.hideScore} />
+  return (
+    <Rating
+      styles={memoStyles()}
+      showRating={showRating}
+      hideScore={systemStore.setting.hideScore}
+    />
+  )
 })

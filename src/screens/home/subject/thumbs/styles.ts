@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 04:28:52
+ * @Last Modified time: 2023-01-18 02:35:52
  */
 import { _ } from '@stores'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
 
 export const styles = _.create({
   image: {
+    height: THUMB_HEIGHT,
+    marginLeft: _.sm,
+    overflow: 'hidden'
+  },
+  imageSide: {
     height: THUMB_HEIGHT,
     overflow: 'hidden'
   },

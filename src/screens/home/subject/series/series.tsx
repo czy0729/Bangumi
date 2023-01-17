@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 19:33:34
+ * @Last Modified time: 2023-01-18 02:20:20
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -76,7 +76,7 @@ export default memo(
         <Flex>
           <Text size={13}>⤷</Text>
           <CompCover
-            style={[styles.cover, _.ml.sm]}
+            style={styles.cover}
             src={subjectSeries.image}
             size={COVER_WIDTH}
             height={COVER_HEIGHT}

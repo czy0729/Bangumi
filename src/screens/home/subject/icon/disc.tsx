@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:05:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:05:07
+ * @Last Modified time: 2023-01-17 07:34:18
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,7 +14,7 @@ import { Ctx } from '../types'
 function IconDisc(props, { $ }: Ctx) {
   return (
     <IconTouchable
-      style={[_.ml.sm, _.mr._sm]}
+      style={styles.disc}
       name='md-g-translate'
       size={18}
       onPress={$.doDiscTranslate}
@@ -25,3 +25,10 @@ function IconDisc(props, { $ }: Ctx) {
 }
 
 export default obc(IconDisc)
+
+const styles = _.create({
+  disc: {
+    marginLeft: _.sm,
+    marginRight: -_.sm
+  }
+})

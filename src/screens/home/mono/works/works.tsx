@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:12:34
+ * @Last Modified time: 2023-01-16 13:56:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ export default memo(({ navigation, styles, style, works }) => {
   global.rerender('Mono.Works.Main')
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={style ? [styles.container, style] : styles.container}>
       <SectionTitle
         style={styles.section}
         right={

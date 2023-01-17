@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 07:54:09
+ * @Last Modified time: 2023-01-18 02:39:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,7 +54,7 @@ function GridInfo(
       </View>
       <Flex.Item style={styles.info}>
         <Title subjectId={subjectId} subject={subject} />
-        <Flex style={[_.isPad && _.mt.sm, _.mb.xs]}>
+        <Flex style={_.isPad ? [_.mt.sm, _.mb.xs] : _.mb.xs}>
           <Flex.Item>
             <Count subjectId={subjectId} subject={subject} epStatus={epStatus} />
           </Flex.Item>

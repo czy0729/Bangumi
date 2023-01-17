@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:18:39
+ * @Last Modified time: 2023-01-17 06:46:41
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
 import { SectionTitle } from '@_'
-import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import RateSegement from '../rate-segment'
 import IconComment from '../icon/comment'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
-export default memo(({ showComment, pageTotal, total, onSwitchBlock }) => {
+export default memo(({ styles, showComment, pageTotal, total, onSwitchBlock }) => {
   global.rerender('Subject.Comment.Main')
 
   const comment =
@@ -22,15 +21,7 @@ export default memo(({ showComment, pageTotal, total, onSwitchBlock }) => {
   return (
     <>
       <SectionTitle
-        style={[
-          _.container.wind,
-          _.mt.lg,
-          showComment
-            ? {
-                paddingBottom: _.xs
-              }
-            : _.short
-        ]}
+        style={showComment ? styles.container : styles.hide}
         right={
           showComment ? (
             <>

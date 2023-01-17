@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 14:10:16
+ * @Last Modified time: 2023-01-18 02:49:40
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -98,7 +98,7 @@ class Thumbs extends React.Component {
 
     const { scrolled } = this.state
     return (
-      <View style={[_.mt.lg, !showThumbs && _.short]}>
+      <View style={!showThumbs ? [_.mt.lg, _.short] : _.mt.lg}>
         <SectionTitle
           style={_.container.wind}
           right={this.renderRight()}

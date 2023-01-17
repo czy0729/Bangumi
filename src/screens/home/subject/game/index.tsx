@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 00:46:37
+ * @Last Modified time: 2023-01-17 06:47:57
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -17,7 +17,7 @@ import IconPS from '../icon/ps'
 import IconHidden from '../icon/hidden'
 import { Ctx } from '../types'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 class Game extends React.Component {
   state = {
@@ -73,7 +73,7 @@ class Game extends React.Component {
       >
         {this.data.map((item, index) => (
           <Image
-            style={[styles.image, !!index && _.ml.sm]}
+            style={index ? this.styles.image : this.styles.imageSide}
             key={item}
             src={item}
             size={THUMB_WIDTH}
@@ -115,7 +115,7 @@ class Game extends React.Component {
       .map(item => String(item).trim())
       .filter(item => !!item)
     return (
-      <View style={[_.container.wind, _.mt.md]}>
+      <View style={this.styles.details}>
         {!!title && (
           <Text lineHeight={22} selectable>
             名称∶{title}
@@ -203,6 +203,10 @@ class Game extends React.Component {
         <PreventTouchPlaceholder />
       </Expand>
     )
+  }
+
+  get styles() {
+    return memoStyles()
   }
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:02:28
+ * @Last Modified time: 2023-01-16 13:59:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ export default memo(
     global.rerender('Subject.Blog.Main')
 
     return (
-      <View style={[_.mt.lg, !showBlog && _.short]}>
+      <View style={!showBlog ? [_.mt.lg, _.short] : _.mt.lg}>
         <SectionTitle
           style={styles.sectionTitle}
           right={showBlog ? <IconBlog /> : <IconHidden name='日志' value='showBlog' />}

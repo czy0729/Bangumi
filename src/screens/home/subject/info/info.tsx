@@ -32,7 +32,7 @@ export default memo(
     }
 
     return (
-      <View style={[showInfo && styles.container, _.mt.lg, !showInfo && _.short]}>
+      <View style={showInfo ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
           right={showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />}

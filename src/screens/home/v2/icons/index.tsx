@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:28:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 17:28:31
+ * @Last Modified time: 2023-01-18 02:41:43
  */
 import React from 'react'
 import { Flex } from '@components'
 import { IconNotify, IconTinygrail, IconTabsHeader } from '@_'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { styles } from './styles'
@@ -22,11 +22,7 @@ function Icons(props, { navigation }) {
   const { tinygrail } = systemStore.setting
   return (
     <Flex style={styles.icons}>
-      <IconNotify
-        style={[styles.icon, _.mr.sm]}
-        navigation={navigation}
-        event={EVENT}
-      />
+      <IconNotify style={styles.notify} navigation={navigation} event={EVENT} />
       {tinygrail ? (
         <IconTinygrail style={styles.icon} navigation={navigation} event={EVENT} />
       ) : (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 00:36:34
+ * @Last Modified time: 2023-01-17 06:47:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,7 +49,9 @@ export default memo(
                       return (
                         <View
                           key={i.href}
-                          style={[styles.item, idx % 2 === 0 && styles.odd]}
+                          style={
+                            idx % 2 === 0 ? [styles.item, styles.odd] : styles.item
+                          }
                         >
                           <Text
                             onPress={() =>

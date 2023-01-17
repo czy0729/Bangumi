@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 01:27:23
+ * @Last Modified time: 2023-01-18 02:17:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,13 +13,14 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconHidden from '../icon/hidden'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 export default memo(
   ({ navigation, showRelations, subjectId, relations, onSwitchBlock }) => {
     global.rerender('Subject.Relations.Main')
 
     return (
-      <View style={[_.mt.lg, !showRelations && _.short]}>
+      <View style={showRelations ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
           right={!showRelations && <IconHidden name='关联' value='showRelations' />}

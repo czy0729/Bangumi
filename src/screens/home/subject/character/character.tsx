@@ -20,7 +20,7 @@ export default memo(
     global.rerender('Subject.Character.Main')
 
     return (
-      <View style={[_.mt.lg, !showCharacter && _.short]}>
+      <View style={!showCharacter ? [_.mt.lg, _.short] : _.mt.lg}>
         <SectionTitle
           style={_.container.wind}
           right={

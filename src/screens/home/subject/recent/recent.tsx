@@ -20,7 +20,7 @@ export default memo(
     global.rerender('Subject.Recent.Main')
 
     return (
-      <View style={[_.mt.lg, showRecent ? _.mb.sm : _.short]}>
+      <View style={showRecent ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
           right={!showRecent && <IconHidden name='动态' value='showRecent' />}

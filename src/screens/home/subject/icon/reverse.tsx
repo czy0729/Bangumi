@@ -15,7 +15,7 @@ function IconReverse(props, { $ }: Ctx) {
   const { epsReverse } = $.state
   return (
     <CompIconReverse
-      style={[styles.touch, epsReverse && styles.reverse]}
+      style={epsReverse ? [styles.touch, styles.reverse] : styles.touch}
       color={epsReverse ? _.colorMain : _.colorIcon}
       onPress={$.toggleReverseEps}
     >

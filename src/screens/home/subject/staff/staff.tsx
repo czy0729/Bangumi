@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 01:37:05
+ * @Last Modified time: 2023-01-18 02:20:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ export default memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock })
   global.rerender('Subject.Staff.Main')
 
   return (
-    <View style={[_.mt.lg, !showStaff && _.short]}>
+    <View style={!showStaff ? [_.mt.lg, _.short] : _.mt.lg}>
       <SectionTitle
         style={_.container.wind}
         right={

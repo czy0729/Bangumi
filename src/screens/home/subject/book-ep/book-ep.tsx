@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:07:38
+ * @Last Modified time: 2023-01-16 14:02:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ export default memo(
               <Text style={styles.label} align='right'>
                 Chap.
               </Text>
-              <View style={[styles.input, _.ml.sm]}>
+              <View style={styles.input}>
                 <Input
                   style={styles.inputRaw}
                   keyboardType='numeric'
@@ -82,7 +82,7 @@ export default memo(
               </View>
               {canSubmit && (
                 <Button
-                  style={[styles.btnPlus, _.ml.sm]}
+                  style={styles.btnPlus}
                   styleText={styles.btnText}
                   type='ghostPrimary'
                   onPress={() => doUpdateNext('chap')}
@@ -104,7 +104,7 @@ export default memo(
               <Text style={styles.label} align='right'>
                 Vol.
               </Text>
-              <View style={[styles.input, _.ml.sm]}>
+              <View style={styles.input}>
                 <Input
                   style={styles.inputRaw}
                   keyboardType='numeric'
@@ -131,7 +131,7 @@ export default memo(
               </View>
               {canSubmit && (
                 <Button
-                  style={[styles.btnPlus, _.ml.sm]}
+                  style={styles.btnPlus}
                   styleText={styles.btnText}
                   type='ghostPrimary'
                   onPress={() => doUpdateNext('vol')}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 08:05:32
+ * @Last Modified time: 2023-01-16 13:54:42
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -16,7 +16,11 @@ export default memo(({ tinygrail, cover, nameTop, nameBottom }) => {
   global.rerender('Mono.HeaderTitle.Main')
 
   return (
-    <Flex style={[styles.container, tinygrail && styles.containerTinygrail]}>
+    <Flex
+      style={
+        tinygrail ? [styles.container, styles.containerTinygrail] : styles.container
+      }
+    >
       {!!cover && (
         <Cover
           size={styles.container.height}

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:05:23
+ * @Last Modified time: 2023-01-18 05:49:21
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -714,6 +714,14 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
       },
       wind: {
         paddingHorizontal: this.wind
+      },
+      windMtSm: {
+        paddingHorizontal: this.wind,
+        marginTop: _.sm
+      },
+      windMtMd: {
+        paddingHorizontal: this.wind,
+        marginTop: _.md
       },
       bottom: {
         paddingBottom: _.bottom

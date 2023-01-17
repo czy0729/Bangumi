@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 10:49:53
+ * @Last Modified time: 2023-01-18 02:37:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ export default memo(
     global.rerender('Subject.Topic.Main')
 
     return (
-      <View style={[_.mt.lg, !showTopic && _.short]}>
+      <View style={!showTopic ? [_.mt.lg, _.short] : _.mt.lg}>
         <SectionTitle
           style={_.container.wind}
           right={

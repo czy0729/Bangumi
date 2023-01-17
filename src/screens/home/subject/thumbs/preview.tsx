@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:38:42
+ * @Last Modified time: 2023-01-18 02:37:21
  */
 import React from 'react'
 import { Image } from '@components'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -21,7 +21,7 @@ function Preview({ item, index, thumbs, epsThumbsHeader }, { $ }: Ctx) {
   return (
     <Image
       key={item}
-      style={[styles.image, !!index && _.ml.sm]}
+      style={index ? styles.image : styles.imageSide}
       src={item}
       size={THUMB_WIDTH}
       height={THUMB_HEIGHT}

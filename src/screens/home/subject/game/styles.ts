@@ -6,8 +6,16 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   image: {
+    marginLeft: _.sm,
     overflow: 'hidden'
+  },
+  imageSide: {
+    overflow: 'hidden'
+  },
+  details: {
+    paddingHorizontal: _.wind,
+    marginTop: _.md
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 07:16:15
+ * @Last Modified time: 2023-01-18 02:40:51
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -49,7 +49,7 @@ function Header(props, { navigation }) {
           )}
           {!!right && (
             <IconTabsHeader
-              style={[styles.icon, _.mr.xs, _.ml.xs]}
+              style={styles.iconRight}
               name={right.icon}
               text={right.text}
               size={(right.size || 23) - 1}

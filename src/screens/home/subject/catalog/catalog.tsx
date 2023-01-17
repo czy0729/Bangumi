@@ -21,7 +21,7 @@ export default memo(({ navigation, styles, showCatalog, catalog, onSwitchBlock }
   global.rerender('Subject.Catalog.Main')
 
   return (
-    <View style={[_.mt.lg, !showCatalog && _.short]}>
+    <View style={!showCatalog ? [_.mt.lg, _.short] : _.mt.lg}>
       <SectionTitle
         style={_.container.wind}
         right={

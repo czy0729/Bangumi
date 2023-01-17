@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:01:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 19:37:41
+ * @Last Modified time: 2023-01-18 02:20:13
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   cover: {
+    marginLeft: _.sm,
     backgroundColor: _.select(_.colorBg, _.colorPlain)
   },
   relation: {

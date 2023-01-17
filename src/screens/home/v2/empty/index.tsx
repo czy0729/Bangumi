@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 17:23:55
+ * @Last Modified time: 2023-01-18 02:38:13
  */
 import React from 'react'
 import { Flex, Text, Mesume, Button } from '@components'
@@ -26,7 +26,7 @@ function Empty({ title, length }, { $, navigation }) {
   const { filter } = $.state
   return (
     <Flex
-      style={[styles.empty, !!length && styles.top]}
+      style={length ? styles.top : styles.empty}
       direction='column'
       justify='center'
     >

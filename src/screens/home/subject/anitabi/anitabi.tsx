@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-12 08:43:02
+ * @Last Modified time: 2023-01-18 05:50:11
  */
 import React, { useState } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -38,7 +38,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
       url: item.image.replace('h160', 'h360')
     }))
   return (
-    <View style={[_.mt.lg, !showAnitabi && _.short]}>
+    <View style={!showAnitabi ? [_.mt.lg, _.short] : _.mt.lg}>
       <SectionTitle
         style={_.container.wind}
         right={
@@ -75,7 +75,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
 
       {showAnitabi && (
         <>
-          <Flex style={[_.container.wind, _.mt.md]}>
+          <Flex style={_.container.windMtMd}>
             <Text size={11}>主要取景城市: </Text>
             <Text size={11} bold>
               {city}{' '}
@@ -108,11 +108,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
                     }}
                   />
                 ) : (
-                  <Flex
-                    style={[styles.image, styles.void]}
-                    direction='column'
-                    justify='center'
-                  >
+                  <Flex style={styles.void} direction='column' justify='center'>
                     <Text type='sub' size={16} bold>
                       {index + 1}
                     </Text>

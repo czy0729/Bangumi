@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-12 08:37:19
+ * @Last Modified time: 2023-01-18 05:50:17
  */
 import { _ } from '@stores'
 import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
@@ -13,6 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   void: {
+    height: THUMB_HEIGHT,
     backgroundColor: _.colorBg,
     borderRadius: _.radiusSm,
     overflow: 'hidden'

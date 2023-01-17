@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 10:14:08
+ * @Last Modified time: 2023-01-18 05:48:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,9 @@ export default memo(
     global.rerender('Subject.Tags.Main')
 
     const elBadge = (
-      <Flex style={[styles.badge, subjectTagsExpand && styles.badgeExpand]}>
+      <Flex
+        style={subjectTagsExpand ? [styles.badge, styles.badgeExpand] : styles.badge}
+      >
         <Text size={13} type='sub'>
           第三方标签
         </Text>
@@ -49,7 +51,7 @@ export default memo(
           return (
             <Touchable
               key={index}
-              style={[styles.item, isSelected && styles.selected]}
+              style={isSelected ? [styles.item, styles.selected] : styles.item}
               onPress={() => {
                 t('条目.跳转', {
                   to: 'Tag',
@@ -236,7 +238,7 @@ export default memo(
         {show && (
           <>
             {subjectTagsExpand ? (
-              <View style={[_.container.wind, _.mt.sm]}>
+              <View style={_.container.windMtSm}>
                 <Flex wrap='wrap'>{elTags}</Flex>
                 <Heatmap id='条目.跳转' from='标签' />
               </View>

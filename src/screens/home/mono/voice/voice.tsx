@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-25 17:32:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 19:12:16
+ * @Last Modified time: 2023-01-16 13:56:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ export default memo(({ navigation, styles, style, voices }) => {
   global.rerender('Mono.Voice.Main')
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={style ? [styles.container, style] : styles.container}>
       <SectionTitle
         style={styles.section}
         right={

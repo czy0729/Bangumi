@@ -18,7 +18,7 @@ export default memo(({ navigation, showLike, subjectId, like, onSwitchBlock }) =
   global.rerender('Subject.Like.Main')
 
   return (
-    <View style={[_.mt.lg, !showLike && _.short]}>
+    <View style={!showLike ? [_.mt.lg, _.short] : _.mt.lg}>
       <SectionTitle
         style={_.container.wind}
         right={!showLike && <IconHidden name='猜你喜欢' value='showLike' />}

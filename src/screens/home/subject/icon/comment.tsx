@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:13:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:05:01
+ * @Last Modified time: 2023-01-17 07:12:26
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -15,7 +15,7 @@ function IconComment(props, { $ }: Ctx) {
   const { _reverse } = $.subjectComments
   return (
     <IconReverse
-      style={[styles.touch, _reverse && styles.reverse]}
+      style={_reverse ? [styles.touch, styles.reverse] : styles.touch}
       color={_reverse ? _.colorMain : _.colorIcon}
       onPress={$.toggleReverseComments}
     >
