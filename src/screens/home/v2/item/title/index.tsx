@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 15:47:00
+ * @Last Modified time: 2023-01-18 07:26:22
  */
 import React from 'react'
 import { Katakana, Highlight, Text } from '@components'
@@ -36,15 +36,17 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
   let filterValue = ''
   if ($.isFilter(tabLabel)) filterValue = getPinYinFilterValue(title, $.filter)
 
+  const { length } = title
+  const size = length > 28 ? 12 : length > 20 ? 13 : 15
   return (
     <>
       {filterValue ? (
-        <Highlight size={15} numberOfLines={2} bold value={filterValue}>
+        <Highlight size={size} numberOfLines={2} bold value={filterValue}>
           {title}
         </Highlight>
       ) : (
-        <Katakana.Provider size={15} numberOfLines={2} bold>
-          <Katakana size={15} numberOfLines={2} bold>
+        <Katakana.Provider size={size} numberOfLines={2} bold>
+          <Katakana size={size} numberOfLines={2} bold>
             {title}
           </Katakana>
         </Katakana.Provider>

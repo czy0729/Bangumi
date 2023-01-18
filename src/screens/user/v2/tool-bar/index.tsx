@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 20:54:48
+ * @Last Modified time: 2023-01-18 06:53:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ function ToolBar({ page, onToggleList }, { $ }: Ctx) {
   const styles = memoStyles()
   const { list } = $.state
   return (
-    <View style={[styles.container, list && styles.list]}>
+    <View style={list ? [styles.container, styles.list] : styles.container}>
       <CompToolBar>
         <Sort />
         <Tag page={page} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:43
+ * @Last Modified time: 2023-01-18 07:20:40
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -24,6 +24,7 @@ import {
   desc,
   feedback,
   getBangumiUrl,
+  getCalenderEventTitle,
   getCoverMedium,
   getOnAir,
   getPinYinFilterValue,
@@ -36,8 +37,7 @@ import {
   sleep,
   t2s,
   unzipBangumiData,
-  x18,
-  getCalenderEventTitle
+  x18
 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
@@ -548,11 +548,18 @@ export default class ScreenHomeV2 extends store {
     return computed(() => subjectStore.subject(subjectId)).get()
   }
 
+  /** 条目章节数据 (排除 SP) */
+  epsNoSp(subjectId: SubjectId) {
+    return computed(() => {
+      return (this.subject(subjectId).eps || []).filter(item => item.type === 0)
+    }).get()
+  }
+
   /** 条目章节数据 */
   eps(subjectId: SubjectId) {
     try {
       return computed(() => {
-        const eps = this.subject(subjectId).eps || []
+        const eps = this.epsNoSp(subjectId)
         const { length } = eps
 
         // 集数超过了1页的显示个数
@@ -561,9 +568,7 @@ export default class ScreenHomeV2 extends store {
           MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
         if (length > (isGrid ? PAGE_LIMIT_GRID : PAGE_LIMIT_LIST)) {
           const userProgress = this.userProgress(subjectId)
-          const index = eps.findIndex(
-            item => item.type === 0 && userProgress[item.id] !== '看过'
-          )
+          const index = eps.findIndex(item => userProgress[item.id] !== '看过')
 
           // 找不到未看集数, 返回最后的数据
           if (index === -1) {
@@ -576,13 +581,13 @@ export default class ScreenHomeV2 extends store {
           if (homeEpStartAtLastWathed && typeof eps.findLastIndex === 'function') {
             // @ts-expect-error
             const lastIndex = eps.findLastIndex(
-              item => item.type === 0 && userProgress[item.id] === '看过'
+              item => userProgress[item.id] === '看过'
             )
             return eps.slice(Math.max(lastIndex, 0), lastIndex + PAGE_LIMIT_LIST)
           }
 
           // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
-          // @notice 注意这里第一个值不能小于0, 不然会返回空
+          // 注意这里第一个值不能小于0, 不然会返回空
           return eps.slice(Math.max(index - 1, 0), index + PAGE_LIMIT_LIST - 1)
         }
         return eps
@@ -600,11 +605,9 @@ export default class ScreenHomeV2 extends store {
   } {
     try {
       return computed(() => {
-        const eps = this.eps(subjectId) || []
+        const eps = this.epsNoSp(subjectId)
         const userProgress = this.userProgress(subjectId)
-        const index = eps.findIndex(
-          item => item.type === 0 && userProgress[item.id] !== '看过'
-        )
+        const index = eps.findIndex(item => userProgress[item.id] !== '看过')
         if (index === -1) return {}
         return eps[index]
       }).get()
@@ -618,9 +621,9 @@ export default class ScreenHomeV2 extends store {
   currentOnAir(subjectId: SubjectId) {
     try {
       return (
-        (this.subject(subjectId).eps || [])
+        this.epsNoSp(subjectId)
           .reverse()
-          .find(item => item.type === 0 && item.status === 'Air')?.sort || 0
+          .find(item => item.status === 'Air')?.sort || 0
       )
     } catch (error) {
       console.error(NAMESPACE, 'nextWatchEp', error)
@@ -750,13 +753,10 @@ export default class ScreenHomeV2 extends store {
   /** 是否存在没有看的章节 */
   hasNewEp(subjectId: SubjectId) {
     return computed(() => {
-      const eps = this.eps(subjectId)
       const progress = this.userProgress(subjectId)
-      return eps.some(
+      return this.epsNoSp(subjectId).some(
         item =>
-          (item.status === 'Air' || item.status === 'Today') &&
-          item.type === 0 &&
-          !(item.id in progress)
+          (item.status === 'Air' || item.status === 'Today') && !(item.id in progress)
       )
     }).get()
   }
@@ -1395,9 +1395,10 @@ export default class ScreenHomeV2 extends store {
 
   /** 批量添加提醒 */
   doBatchSaveCalenderEvent = async (subjectId: SubjectId) => {
-    const subject = this.subject(subjectId)
-    if (subject?.eps?.length) {
-      const eps = subject.eps.filter(item => item.type === 0 && item.status === 'NA')
+    const eps = this.epsNoSp(subjectId)
+    if (eps.length) {
+      const subject = this.subject(subjectId)
+      const eps = subject.eps.filter(item => item.status === 'NA')
       if (!eps.length) {
         info('已没有未放送的章节')
         return
