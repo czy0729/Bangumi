@@ -10,7 +10,7 @@ import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
-import { getStorage, setStorage, open } from '@utils'
+import { date, getStorage, setStorage, open, getTimestamp } from '@utils'
 import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
 import { BlurView } from '../@/ant-design/modal/blur-view'
 import { Text } from '../text'
@@ -438,6 +438,21 @@ export const FixedTextarea = observer(
         )
       }
 
+      if (text === '时间') {
+        return (
+          <Touchable
+            style={this.styles.toolBarBtn}
+            onPress={() => {
+              this.onAddSymbolText(`[${date('Y-m-d H:i', getTimestamp())}] `, true)
+            }}
+          >
+            <Text type='sub' size={size} align='center'>
+              {text}
+            </Text>
+          </Touchable>
+        )
+      }
+
       const isOpenInNew = text === '图床'
       return (
         <Touchable
@@ -474,7 +489,9 @@ export const FixedTextarea = observer(
           justify={simple ? undefined : 'between'}
         >
           {this.renderBtn('BGM')}
-          {!simple && (
+          {simple ? (
+            <>{this.renderBtn('时间')}</>
+          ) : (
             <>
               {this.renderBtn('加粗', 'b')}
               {this.renderBtn('斜体', 'i')}
@@ -483,9 +500,9 @@ export const FixedTextarea = observer(
               {this.renderBtn('剧透', 'mask')}
               {this.renderBtn('链接', 'url')}
               {this.renderBtn('图片', 'img')}
-              {this.renderBtn('图床', 'imgchr')}
             </>
           )}
+          {this.renderBtn('图床', 'imgchr')}
           {this.renderBtn('历史')}
         </Flex>
       )
