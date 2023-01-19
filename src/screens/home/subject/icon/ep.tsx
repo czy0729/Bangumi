@@ -7,6 +7,7 @@
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -15,6 +16,7 @@ function IconEp(props, { $, navigation }: Ctx) {
   const { epsThumbs, epsThumbsHeader, filterEps } = $.state
   return (
     <IconTouchable
+      style={_.ml.xs}
       name='md-menu'
       onPress={() => {
         t('条目.跳转', {

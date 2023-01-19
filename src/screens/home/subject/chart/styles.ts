@@ -18,7 +18,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginHorizontal: -4
   },
   item: {
-    height: _.r(112),
+    height: _.r(120),
     paddingBottom: _.xs,
     marginTop: -_.md
   },

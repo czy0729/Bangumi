@@ -95,27 +95,21 @@ export default memo(
       global.rerender('Eps.pages')
 
       let _eps = eps || []
-      let hasSp = false // 是否有SP
-      if (!advance) {
-        _eps = _eps.filter(item => {
-          const isNormal = MODEL_EP_TYPE.getLabel<EpTypeCn>(item.type) !== '普通'
-          if (!isNormal) hasSp = true
-          return isNormal
-        })
+      const hasSp = _eps.some(item => item.type == 1) // 是否有 SP
+      if (hasSp) {
+        _eps = _eps
+          // 保证 SP 排在普通章节后面
+          .sort((a, b) =>
+            asc(a, b, item =>
+              MODEL_EP_TYPE.getLabel<EpTypeCn>(String(item.type)) === '普通' ? 1 : 0
+            )
+          )
       }
 
-      _eps = _eps
-        // 保证SP排在普通章节后面
-        .sort((a, b) =>
-          asc(a, b, item =>
-            MODEL_EP_TYPE.getLabel<EpTypeCn>(item.type) === '普通' ? 1 : 0
-          )
-        )
-
       // SP可能会占用一格, 若eps当中存在sp, 每组要减1项避免换行
-      const arrNum = numbersOfLine * lines - (lines <= 3 ? 0 : hasSp ? 1 : 0)
+      const arrNum = numbersOfLine * lines - (lines <= 3 ? 0 : advance && hasSp ? 1 : 0)
       return arrGroup(_eps, arrNum)
-    }, [eps, advance, numbersOfLine, lines])
+    }, [eps, numbersOfLine, lines, advance])
 
     const onLayout = useCallback(
       ({ nativeEvent }) => {
@@ -144,7 +138,7 @@ export default memo(
       return (
         <View style={_style} onLayout={_onLayout}>
           {mounted ? (
-            pages.length === 1 ? (
+            pages.length <= 1 ? (
               <NormalButtons props={passProps} eps={pages[0]} />
             ) : (
               <Carousel props={passProps} epsGroup={pages} />

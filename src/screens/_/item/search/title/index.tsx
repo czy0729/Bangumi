@@ -15,7 +15,7 @@ function Title({ name, nameCn, comments }) {
   return (
     <>
       {!!(top || bottom) && (
-        <Katakana.Provider size={15} numberOfLines={2}>
+        <Katakana.Provider size={15} numberOfLines={2} bold>
           <Katakana size={15} bold>
             {top || bottom}
           </Katakana>
@@ -28,8 +28,8 @@ function Title({ name, nameCn, comments }) {
         </Katakana.Provider>
       )}
       {!!bottom && bottom !== top && (
-        <Katakana.Provider type='sub' size={12} lineHeight={13} numberOfLines={1}>
-          <Katakana type='sub' size={12} lineHeight={13} numberOfLines={1}>
+        <Katakana.Provider type='sub' size={12} lineHeight={13} bold numberOfLines={1}>
+          <Katakana type='sub' size={12} lineHeight={13} bold numberOfLines={1}>
             {bottom}
           </Katakana>
         </Katakana.Provider>

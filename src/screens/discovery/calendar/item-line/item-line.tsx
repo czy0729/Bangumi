@@ -85,10 +85,11 @@ const ItemLine = memo(
                     <Flex.Item>
                       <Katakana.Provider
                         itemStyle={styles.katakanas}
-                        lineHeight={15}
+                        size={15}
                         numberOfLines={3}
+                        bold
                       >
-                        <Katakana type='desc' lineHeight={15} numberOfLines={3} bold>
+                        <Katakana type='desc' size={15} numberOfLines={3} bold>
                           {HTMLDecode(name)}
                         </Katakana>
                       </Katakana.Provider>

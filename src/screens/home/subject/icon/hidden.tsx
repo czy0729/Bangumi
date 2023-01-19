@@ -37,6 +37,7 @@ export default obc(IconHidden)
 const styles = _.create({
   touch: {
     paddingVertical: 0,
-    marginRight: -_.sm
+    marginRight: -_.sm,
+    marginLeft: 4
   }
 })

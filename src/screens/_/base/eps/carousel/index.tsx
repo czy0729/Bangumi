@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:32:52
+ * @Last Modified time: 2023-01-20 07:41:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import AntCarousel from '@ant-design/react-native/lib/carousel'
 import { ob } from '@utils/decorators'
 import { NormalButtons } from '../normal-buttons'
-import { memoStyles } from './styles'
+import { memoStyles, paginationStyles } from './styles'
 
 export const Carousel = ob(({ props, epsGroup = [] }) => {
   const styles = memoStyles()
   return (
     <AntCarousel
       style={styles.carousel}
+      styles={paginationStyles}
       dotStyle={styles.dot}
       dotActiveStyle={styles.dotActive}
       infinite={false}

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 07:20:40
+ * @Last Modified time: 2023-01-19 05:06:29
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
 import {
+  _,
   calendarStore,
   collectionStore,
   subjectStore,
@@ -45,6 +46,7 @@ import {
   calendarEventsRequestPermissions,
   calendarGetEventsAsync
 } from '@utils/calendar'
+import { update } from '@utils/kv'
 import {
   DEV,
   DEVICE_MODEL_NAME,
@@ -93,7 +95,6 @@ import {
   TABS_WITH_GAME
 } from './ds'
 import { TabLabel } from './types'
-import { update } from '@utils/kv'
 
 /** 是否初始化 */
 let inited: boolean
@@ -192,7 +193,10 @@ export default class ScreenHomeV2 extends store {
         d: Device.modelName,
         o: Device.osVersion,
         m: Device.totalMemory,
-        v: VERSION_GITHUB_RELEASE
+        v: VERSION_GITHUB_RELEASE,
+        s: _.statusBarHeight,
+        h: _.headerHeight,
+        t: _.tabBarHeight
       })
     }, 8000)
   }

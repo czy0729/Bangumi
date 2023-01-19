@@ -18,7 +18,7 @@ function IconClose(props, { $ }: Ctx) {
   const { formhash } = $.subjectFormHTML
   return (
     <IconTouchable
-      style={_.mr._sm}
+      style={styles.touch}
       name='md-close'
       color={_.colorIcon}
       onPress={() => {
@@ -41,3 +41,10 @@ function IconClose(props, { $ }: Ctx) {
 }
 
 export default obc(IconClose)
+
+const styles = _.create({
+  touch: {
+    marginRight: -_.sm,
+    marginLeft: 3
+  }
+})

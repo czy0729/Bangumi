@@ -28,7 +28,8 @@ export default obc(IconReverse)
 
 const styles = _.create({
   touch: {
-    marginRight: -_.sm
+    marginRight: -_.sm,
+    marginLeft: 4
   },
   reverse: {
     transform: [

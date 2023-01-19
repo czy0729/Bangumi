@@ -23,7 +23,7 @@ export default memo(
       <>
         {!!total && (
           <Text style={styles.total} size={11} type='sub'>
-            {total}人评分
+            {total} 人评分
           </Text>
         )}
         <Flex style={styles.chart}>
@@ -121,7 +121,7 @@ export default memo(
               <Text size={12} lineHeight={12} type='sub'>
                 {getDispute(deviation)}{' '}
               </Text>
-              <Iconfont name='md-info-outline' size={16} />
+              <Iconfont style={_.ml.xs} name='md-info-outline' size={16} />
             </Flex>
           </Touchable>
         </Flex>

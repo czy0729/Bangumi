@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-04 12:02:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-13 21:57:58
+ * @Last Modified time: 2023-01-20 07:38:18
  */
 import { _ } from '@stores'
 
@@ -14,6 +14,9 @@ export const styles = _.create({
   },
   transparent: {
     backgroundColor: 'transparent'
+  },
+  title: {
+    paddingHorizontal: 24
   },
   close: {
     zIndex: 1,

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-26 04:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:28:47
+ * @Last Modified time: 2023-01-20 07:41:42
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   carousel: {
-    height: 242
+    height: 232
   },
   dot: {
     backgroundColor: _.colorPlain,
@@ -19,3 +19,9 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorDesc
   }
 }))
+
+export const paginationStyles = _.create({
+  pagination: {
+    marginLeft: -10
+  }
+})

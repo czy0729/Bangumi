@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:12:53
+ * @Last Modified time: 2023-01-20 07:38:11
  */
 import React from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
@@ -94,17 +94,19 @@ class AntmModal extends React.Component<Partial<typeof defaultProps>> {
               <Wrap focus={focus}>
                 {wrapDom(
                   <View style={maxHeight}>
-                    {title && (
-                      <Text
-                        style={
-                          IOS ? styles.header : [overideStyles.font, styles.header]
-                        }
-                        textBreakStrategy='simple'
-                        numberOfLines={0}
-                      >
-                        {title}
-                      </Text>
-                    )}
+                    <View style={overideStyles.title}>
+                      {title && (
+                        <Text
+                          style={
+                            IOS ? styles.header : [overideStyles.font, styles.header]
+                          }
+                          textBreakStrategy='simple'
+                          numberOfLines={0}
+                        >
+                          {title}
+                        </Text>
+                      )}
+                    </View>
                     <View style={bodyStyle ? [styles.body, bodyStyle] : styles.body}>
                       {children}
                     </View>

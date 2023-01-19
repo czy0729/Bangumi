@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Input, Iconfont } from '@components'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -71,11 +71,12 @@ class Filter extends React.Component<Props> {
             // @ts-expect-error
             pointerEvents='none'
           >
-            <Iconfont name='md-search' size={18} />
-            {!!length && (
-              <Text style={_.ml.xs} type='icon' bold size={15}>
+            {length ? (
+              <Text type='icon' bold size={15}>
                 {length}
               </Text>
+            ) : (
+              <Iconfont name='md-search' size={18} />
             )}
           </Flex>
         )}

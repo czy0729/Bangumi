@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 18:59:36
+ * @Last Modified time: 2023-01-19 05:05:02
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
@@ -82,10 +82,12 @@ export const appBarHeight = IOS
  *  - Pad 固定最大 80
  *  - 安卓没影响
  * */
-export const headerHeight =
+export const headerHeight = Math.max(
+  80,
   (PAD
     ? Math.max(appBarHeight + statusBarHeight, 80)
     : appBarHeight + statusBarHeight) + (IOS ? (IS_IOS_5_6_7_8 ? 28 : 0) : 0)
+)
 
 /** 标签页的标签栏高度 */
 export const tabsHeight = 42

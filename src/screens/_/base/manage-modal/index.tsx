@@ -355,7 +355,7 @@ export const ManageModal = ob(
           focus={focus}
           onClose={onClose}
         >
-          <Text style={_.mt.sm} type='sub' size={13} align='center'>
+          <Text style={_.mt.sm} type='sub' size={13} numberOfLines={1} align='center'>
             {desc}
           </Text>
           <Flex style={this.styles.wrap} justify='center'>
