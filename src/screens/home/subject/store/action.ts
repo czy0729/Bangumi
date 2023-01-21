@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 13:10:33
+ * @Last Modified time: 2023-01-20 10:14:25
  */
 import {
   otaStore,
@@ -397,6 +397,15 @@ export default class Action extends Fetch {
     if (!rendered) {
       this.setState({
         rendered: true
+      })
+    }
+  }
+
+  unrendered = () => {
+    const { rendered } = this.state
+    if (rendered) {
+      this.setState({
+        rendered: false
       })
     }
   }

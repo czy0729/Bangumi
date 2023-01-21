@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 11:31:11
+ * @Last Modified time: 2023-01-20 09:22:47
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 as ListView } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
@@ -28,7 +28,6 @@ const List = memo(
 
     const { length } = data.list
     const emptyComponent = <Empty title={title} length={length} />
-
     const _renderItem = useCallback(
       ({ item, index }) => {
         // iOS 因为头顶毛玻璃的问题, 不能懒加载 Tab, 所以在 Item 渲染的时候控制是否渲染
@@ -42,6 +41,10 @@ const List = memo(
       },
       [title, showItem]
     )
+    const ListHeaderComponent = useMemo(
+      () => <Filter title={title} length={length} />,
+      [title, length]
+    )
 
     return (
       <ListView
@@ -51,10 +54,10 @@ const List = memo(
         progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
         keyExtractor={keyExtractor}
         data={data.list}
-        limit={10}
+        limit={_.device(8, 12)}
         scrollToTop={scrollToTop}
         keyboardDismissMode='on-drag'
-        ListHeaderComponent={<Filter title={title} length={length} />}
+        ListHeaderComponent={ListHeaderComponent}
         renderItem={_renderItem}
         footerEmptyDataComponent={emptyComponent}
         footerNoMoreDataComponent={emptyComponent}

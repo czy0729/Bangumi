@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 10:16:48
+ * @Last Modified time: 2023-01-20 10:16:04
  */
 import React from 'react'
 import { Page, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useIsFocused, useObserver } from '@utils/hooks'
+import { useMount, useRunAfter, useIsFocused, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Header from './page-header'
@@ -31,6 +31,14 @@ const Subject = (props, { $ }: Ctx) => {
       subjectId: $.subjectId,
       type: $.type
     })
+  })
+
+  useMount(() => {
+    return () => {
+      setTimeout(() => {
+        $.unrendered()
+      }, 400)
+    }
   })
 
   const { fixed, onScroll } = useOnScroll()

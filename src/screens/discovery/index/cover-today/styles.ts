@@ -1,13 +1,13 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-10 07:11:16
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-10 07:11:16
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-01-20 12:14:13
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
-  const width = _.windowSm.contentWidth * _.device(0.28, 0.298)
+  const width = _.windowSm.contentWidth * _.device(0.26, 0.298)
   const margin = _.device(_._wind, _.md)
   return {
     item: {

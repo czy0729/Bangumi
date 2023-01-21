@@ -17,9 +17,10 @@ import {
   systemStore,
   rakuenStore
 } from '@stores'
-import { HTMLDecode, info, loading, feedback } from '@utils'
+import { HTMLDecode, info, loading, feedback, omit, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
+import { get, update } from '@utils/kv'
 import { fixedRemote } from '@utils/user-setting'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import { Navigation, TimeLineScope, TimeLineType } from '@types'
@@ -49,6 +50,9 @@ export default class ScreenZone extends store {
       _loaded: true
     })
 
+    this.fetchUsersFromOSS()
+    this.fetchUsers()
+
     if (this.fromTinygrail) {
       this.fetchCharaAssets()
       this.fetchTempleTotal()
@@ -57,7 +61,6 @@ export default class ScreenZone extends store {
       this.fetchUserCollections()
     }
 
-    this.fetchUsers()
     return this.fetchUsersInfo()
   }
 
@@ -117,7 +120,9 @@ export default class ScreenZone extends store {
 
   /** 用户信息 */
   @computed get users() {
-    return usersStore.users(this.userId)
+    const users = usersStore.users(this.userId)
+    if (users._loaded) return users
+    return this.state.users
   }
 
   /** 自定义背景 */
@@ -174,6 +179,32 @@ export default class ScreenZone extends store {
   /** 用户信息 (自己视角) */
   fetchUsersInfo = () => {
     return userStore.fetchUsersInfo(this.userId)
+  }
+
+  /** 装载云端数据 */
+  fetchUsersFromOSS = async () => {
+    if (this.users._loaded) return
+
+    try {
+      const data = await get(`zone_${this.userId}`)
+      if (!data) {
+        this.updateThirdParty()
+        return
+      }
+
+      const { ts, ...users } = data
+      const _loaded = getTimestamp()
+      if (typeof users === 'object' && !Array.isArray(users)) {
+        this.setState({
+          users: {
+            ...users,
+            _loaded
+          }
+        })
+      }
+
+      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+    } catch (error) {}
   }
 
   /** 用户信息 (他人视角) */
@@ -451,5 +482,22 @@ export default class ScreenZone extends store {
 
     this.fetchUsersTimeline(true)
     return res
+  }
+
+  /** 上传预数据 */
+  updateThirdParty = () => {
+    setTimeout(() => {
+      if (!this.userId || !this.users._loaded) return false
+
+      update(`zone_${this.userId}`, {
+        ...omit(this.users, [
+          'recent',
+          'connectUrl',
+          'disconnectUrl',
+          'formhash',
+          '_loaded'
+        ])
+      })
+    }, 10000)
   }
 }

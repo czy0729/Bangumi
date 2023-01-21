@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-12-26 04:35:29
  */
+import { INIT_USERS } from '@stores/users/init'
+
 export const NAMESPACE = 'ScreenZone'
 
 export const EXCLUDE_STATE = {
@@ -12,7 +14,13 @@ export const EXCLUDE_STATE = {
   originUid: false,
 
   /** 头部是否置顶 */
-  fixed: false
+  fixed: false,
+
+  /** 云端快照 */
+  users: {
+    ...INIT_USERS,
+    _loaded: false
+  }
 }
 
 export const STATE = {

@@ -1,15 +1,14 @@
 /*
  * 封装应用主要功能实现的装饰器
- *
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 02:45:31
+ * @Last Modified time: 2023-01-20 10:08:38
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
-import { DEV } from '@/config'
+// import { DEV } from '@/config'
 import { contextTypes } from '@constants/constants'
 import { Navigation } from '@types'
 import { urlStringify } from '../index'
@@ -51,7 +50,9 @@ const Inject = (Store, config?: Config) => {
           const { route } = props
           const key = getScreenKey(route)
           this.$ = Stores.get(key)
-          if (!this.$ || DEV) {
+
+          // if (!this.$ || DEV) {
+          if (!this.$) {
             this.$ = new Store()
             this.$.params = route.params || {} // 把navigation的页面参数插入store方便使用
           }
