@@ -25,9 +25,9 @@ export const HorizontalList = observer(
       scrolled: false
     }
 
-    onScroll = () => {
-      const { scrolled } = this.state
-      if (!scrolled) {
+    onScroll = evt => {
+      const { x } = evt.nativeEvent.contentOffset
+      if (x >= 20) {
         this.setState({
           scrolled: true
         })

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:24:41
+ * @Last Modified time: 2023-01-22 07:20:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,9 +19,9 @@ import resetStyle from './reset-style'
 import { injectedStaticJavaScript } from './utils'
 import { styles } from './styles'
 
-const originWhitelist = ['*']
+const originWhitelist = ['*'] as const
 
-const lightContentYears = ['2020', '2016', '2015', '2012', '2011']
+const lightContentYears = ['2022', '2020', '2016', '2015', '2012', '2011'] as const
 
 const htmlCache = {}
 
@@ -61,14 +61,20 @@ class Award extends React.Component<{
 
   fetch = async () => {
     try {
-      const html = await fetchHTML({
+      let html = await fetchHTML({
         url: `${HOST}/award/${this.year}`
       })
 
       // 抹除不必要的元素
-      const _html = `${removeCF(html)
-        .replace(/>\s+</g, '><')
-        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      if (this.year != '2022') html = removeCF(html)
+      html = html.replace(/>\s+</g, '><')
+
+      if (this.year != '2022') {
+        html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      }
+
+      html = `${html
+        .replace(/href="javascript:void\(0\)"/g, '')
         .replace(
           /<div id="headerNeue2">(.+?)<div id="awardWrapper"/g,
           '<div id="awardWrapper"'
@@ -81,9 +87,9 @@ class Award extends React.Component<{
         )}<style>${
         resetStyle[this.year]
       }</style><script>${injectedStaticJavaScript}</script>`
-      htmlCache[this.year] = _html
+      htmlCache[this.year] = html
       this.setState({
-        html: _html
+        html
       })
     } catch (error) {
       this.onError()
@@ -146,7 +152,10 @@ class Award extends React.Component<{
 
   get barStyle() {
     const { loading } = this.state
+
+    // @ts-expect-error
     if (!loading && lightContentYears.includes(this.year)) return 'dark-content'
+
     return 'light-content'
   }
 

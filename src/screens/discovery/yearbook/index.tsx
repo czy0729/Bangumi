@@ -10,6 +10,7 @@ import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import Award2022 from '../index/award-2022'
 import { YEARS } from './ds'
 import { memoStyles } from './styles'
 
@@ -22,6 +23,11 @@ const Yearbook = ({ navigation }) => {
         <Header title='Bangumi年鉴' hm={['discovery/yearbook', 'Yearbook']} />
         <Page>
           <ScrollView contentContainerStyle={styles.container} scrollToTop>
+            <Award2022
+              navigation={navigation}
+              width={styles.item2021.width}
+              height={styles.item2021.height}
+            />
             <Flex wrap='wrap'>
               <Touchable
                 style={styles.item2021}

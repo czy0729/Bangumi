@@ -15,7 +15,7 @@ import SortMenu from '../sort-menu'
 import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
-function Header(props, { $ }: Ctx) {
+function Header(props, { $, navigation }: Ctx) {
   global.rerender('Discovery.Header')
 
   const styles = memoStyles()
@@ -26,7 +26,7 @@ function Header(props, { $ }: Ctx) {
       <StatusBarPlaceholder />
       {!dragging && (
         <View>
-          <Award />
+          <Award navigation={navigation} />
           <Heatmap id='发现.跳转' to='Award' />
         </View>
       )}
