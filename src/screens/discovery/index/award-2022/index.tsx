@@ -282,6 +282,8 @@ function Award2022({
                   </html>`
                 }}
                 scrollEnabled={false}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 androidHardwareAccelerationDisabled
                 androidLayerType='software'
               />
