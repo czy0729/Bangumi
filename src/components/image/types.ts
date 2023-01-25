@@ -73,6 +73,9 @@ export type Props = Override<
     /** 开发模式，强制不显示图片 */
     textOnly?: boolean
 
+    /** 获取本地缓存地址的方法是否同步进行 */
+    sync?: boolean
+
     /** 是否退回使用 rn 的 <Image> (安卓 only) */
     fallback?: boolean
 

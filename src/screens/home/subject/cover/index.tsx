@@ -26,11 +26,9 @@ class Cover extends React.Component<Props> {
   onLoad = () => {
     if (typeof this.src === 'string') SRC_LOADED[this.src] = true
 
-    setTimeout(() => {
-      this.setState({
-        isLoaded: true
-      })
-    }, 80)
+    this.setState({
+      isLoaded: true
+    })
   }
 
   get src() {
@@ -44,6 +42,16 @@ class Cover extends React.Component<Props> {
   get isLoaded() {
     if (typeof this.src === 'string') return SRC_LOADED[this.src] || this.state.isLoaded
     return this.state.isLoaded
+  }
+
+  get event() {
+    const { $ }: Ctx = this.context
+    return {
+      id: '条目.封面图查看',
+      data: {
+        subjectId: $.subjectId
+      }
+    } as const
   }
 
   renderPlaceholder() {
@@ -87,13 +95,9 @@ class Cover extends React.Component<Props> {
         imageViewer
         imageViewerSrc={getCoverLarge(image || placeholder)}
         fadeDuration={0}
-        event={{
-          id: '条目.封面图查看',
-          data: {
-            subjectId: $.subjectId
-          }
-        }}
+        event={this.event}
         noDefault
+        sync
         onLoad={this.onLoad}
         textOnly={false}
       />

@@ -68,7 +68,7 @@ export const Image = observer(
     _timeoutId = null
 
     componentDidMount() {
-      const { src, cache, autoSize, textOnly } = this.props
+      const { src, cache, textOnly, sync } = this.props
       if (textOnly) return
 
       if (!cache) {
@@ -79,19 +79,13 @@ export const Image = observer(
       }
 
       /** 若同一时间存在大量低速度图片, 会把整个运行时卡住, 暂时使用 setTimeout 处理 */
-      setTimeout(async () => {
-        if (IOS) {
-          await this.cache(src)
-        } else {
-          await this.cacheV2(src)
-        }
-
-        if (autoSize) {
-          setTimeout(() => {
-            this.getSize()
-          }, 0)
-        }
-      }, 0)
+      if (sync) {
+        this.preCache()
+      } else {
+        setTimeout(() => {
+          this.preCache()
+        }, 0)
+      }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps: { src: Source }) {
@@ -102,6 +96,21 @@ export const Image = observer(
 
     componentWillUnmount() {
       if (this._timeoutId) clearTimeout(this._timeoutId)
+    }
+
+    preCache = async () => {
+      const { src, autoSize } = this.props
+      if (IOS) {
+        await this.cache(src)
+      } else {
+        await this.cacheV2(src)
+      }
+
+      if (autoSize) {
+        setTimeout(() => {
+          this.getSize()
+        }, 0)
+      }
     }
 
     /** 缓存图片 */

@@ -25,6 +25,10 @@ import { Props as FixedTextareaProps } from './types'
 
 export { FixedTextareaProps }
 
+/** iOS 内置键盘切换中、英文高度会变化
+ *  因为各种原因，后续就一直用最大的那个值作为高度 */
+let maxKeyboardHeight = 0
+
 export const FixedTextarea = observer(
   class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     static defaultProps: FixedTextareaProps = {
@@ -98,9 +102,18 @@ export const FixedTextarea = observer(
 
     onToggle = (isOpen: boolean, keyboardHeight: number) => {
       if (isOpen) {
+        let height = keyboardHeight - (IOS ? 24 : 0)
+        if (IOS) {
+          if (height > maxKeyboardHeight) {
+            maxKeyboardHeight = height
+          } else {
+            height = maxKeyboardHeight
+          }
+        }
+
         this.setState({
           showKeyboardSpacer: true,
-          keyboardHeight: keyboardHeight - (IOS ? 24 : 0)
+          keyboardHeight: height
         })
       }
     }
