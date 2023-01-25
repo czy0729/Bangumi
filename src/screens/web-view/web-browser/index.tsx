@@ -5,10 +5,11 @@
  * @Last Modified time: 2023-01-13 08:02:57
  */
 import React, { useState } from 'react'
-import { Header } from '@components'
+import { Flex, Header } from '@components'
 import WebView from '@components/@/web-view'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { open } from '@utils'
 
 const WebBrowser = ({ route }) => {
   const [key, setKey] = useState(0)
@@ -21,11 +22,22 @@ const WebBrowser = ({ route }) => {
       <Header
         title={title || '浏览器'}
         headerRight={() => (
-          <IconTouchable
-            name='md-refresh'
-            color={_.colorTitle}
-            onPress={() => setKey(key + 1)}
-          />
+          <Flex>
+            <IconTouchable
+              name='md-refresh'
+              color={_.colorTitle}
+              onPress={() => setKey(key + 1)}
+            />
+            <IconTouchable
+              style={_.ml.xs}
+              name='md-open-in-new'
+              color={_.colorTitle}
+              size={18}
+              onPress={() => {
+                open(url)
+              }}
+            />
+          </Flex>
         )}
       />
       <WebView
