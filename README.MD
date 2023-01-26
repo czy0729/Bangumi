@@ -9,6 +9,8 @@
   <img alt="issues" src="https://img.shields.io/github/issues/czy0729/Bangumi" />
 </p>
 
+[English](https://github.com/czy0729/Bangumi/README.en.MD)
+
 ---
 
 一个基于`React-Native`的 [Bangumi](https://bgm.tv) 第三方客户端
