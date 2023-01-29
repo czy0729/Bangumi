@@ -27,6 +27,7 @@ const Item = memo(
     nameCn,
     tip,
     rank,
+    simpleStars,
     score,
     tags,
     comments,
@@ -129,6 +130,7 @@ const Item = memo(
               <Bottom
                 score={score}
                 rank={rank}
+                simpleStars={simpleStars}
                 time={time}
                 tags={tags}
                 hideScore={hideScore}

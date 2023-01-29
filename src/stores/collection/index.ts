@@ -14,13 +14,14 @@ import {
   getTimestamp,
   sleep,
   trim,
-  queue
+  queue,
+  info
 } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
 import { UserCollectionItem } from '@utils/fetch.v0/types'
-import { info } from '@utils/ui'
+import { SORT } from '@utils/subject/anime'
 import {
   API_COLLECTION,
   API_COLLECTION_ACTION,
@@ -35,7 +36,6 @@ import {
   MODEL_COLLECTION_STATUS,
   MODEL_SUBJECT_TYPE
 } from '@constants'
-import rateData from '@assets/json/rate.json'
 import {
   CollectionStatus,
   CollectionStatusCn,
@@ -48,6 +48,7 @@ import {
   RatingStatus,
   SubjectTypeValue
 } from '@types'
+import subjectStore from '../subject'
 import userStore from '../user'
 import { LOG_INIT } from '../ds'
 import {
@@ -131,8 +132,8 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     return data
   }
 
-  save = (key: keyof typeof this._loaded) => {
-    return this.setStorage(key, undefined, NAMESPACE)
+  save = (key: keyof typeof this._loaded, data?: any) => {
+    return this.setStorage(key, data, NAMESPACE)
   }
 
   // -------------------- get --------------------
@@ -456,7 +457,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         userCollectionsMap
       })
-      this.setStorage('userCollectionsMap', userCollectionsMap, NAMESPACE)
+      this.save('userCollectionsMap', userCollectionsMap)
       return true
     } catch (error) {
       return false
@@ -498,7 +499,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
       data._loaded = getTimestamp()
 
       this.clearState(key, data)
-      this.setStorage(key, undefined, NAMESPACE)
+      this.save(key)
     } catch (error) {
       info('时间瓷砖数据生成中，请稍等一下再试')
     }
@@ -553,8 +554,8 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
       _collectionStatusLastFetchMS: collectionStatusLastFetchMS
     })
 
-    this.setStorage(key, undefined, NAMESPACE)
-    this.setStorage('_collectionStatusLastFetchMS', undefined, NAMESPACE)
+    this.save(key)
+    this.save('_collectionStatusLastFetchMS')
     return data
   }
 
@@ -571,7 +572,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
         data[key] = userCollections[key]
       }
     })
-    this.setStorage('userCollections', data, NAMESPACE)
+    this.save('userCollections', data)
   }
 
   /** 只本地化自己的收藏概览的看过的标签 */
@@ -583,18 +584,20 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
         data[key] = userCollectionsTags[key]
       }
     })
-    this.setStorage('userCollectionsTags', data, NAMESPACE)
+    this.save('userCollectionsTags', data)
   }
 
   /** 用户收藏按网站评分本地排序后入库 */
-  sortUserCollectionsByScore = (
+  sortUserCollectionsByScore = async (
     userId: UserId,
     subjectType: SubjectType,
     type: CollectionStatus
   ) => {
     const data = this.userCollections(userId, subjectType, type)
-    const list = data.list.sort(
-      (a, b) => Number(rateData[b.id] || 0) - Number(rateData[a.id] || 0)
+    const subjectIds = data.list.map(item => item.id)
+    await subjectStore.fetchRanks(subjectIds)
+    const list = data.list.sort((a, b) =>
+      SORT.rating(subjectStore.rank(a.id), subjectStore.rank(b.id), 's', 'r')
     )
 
     const key = 'userCollections'
@@ -636,7 +639,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
       }
     })
 
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
     return true
   }
 

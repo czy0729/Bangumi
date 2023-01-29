@@ -17,6 +17,7 @@ export const DEFAULT_PROPS = {
   nameCn: '' as Props['nameCn'],
   tip: '' as Props['tip'],
   rank: '' as Props['rank'],
+  simpleStars: false as Props['simpleStars'],
   score: '' as Props['score'],
   tags: '' as Props['tags'],
   comments: '' as Props['comments'],

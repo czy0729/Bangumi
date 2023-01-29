@@ -11,7 +11,17 @@ import { getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
 import { Rank, Stars, Tags } from '../../../base'
 
-function Bottom({ score, rank, time, tags, hideScore, isDo, isOnHold, isDropped }) {
+function Bottom({
+  score,
+  rank,
+  simpleStars,
+  time,
+  tags,
+  hideScore,
+  isDo,
+  isOnHold,
+  isDropped
+}) {
   const hasScore = !!score
 
   let days: number
@@ -29,15 +39,13 @@ function Bottom({ score, rank, time, tags, hideScore, isDo, isOnHold, isDropped 
     .filter((item: string) => !!item && item !== '自己可见')
     .filter((item: string, index: number) => index < 4)
 
-  if (!(!hideScore && hasScore) && !info.length && !tag.length) return null
+  if (!(!hideScore && hasScore) && !info.length && !tag.length && !rank) return null
 
   return (
     <Flex style={_.mt.sm}>
+      {!hideScore && !!rank && <Rank value={rank} />}
       {!hideScore && hasScore && (
-        <>
-          <Rank value={rank} />
-          <Stars style={_.mr.sm} value={score} />
-        </>
+        <Stars style={_.mr.sm} value={score} simple={simpleStars} />
       )}
       {!!info.length && (
         <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>

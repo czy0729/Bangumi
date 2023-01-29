@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { ItemCollections } from '@_'
-import { collectionStore } from '@stores'
+import { collectionStore, subjectStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -23,6 +23,14 @@ function ItemList({ item, page }, { $, navigation }: Ctx) {
   const { key: type } = TABS[page]
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)
   const filter = $.isTabActive(subjectType, type) ? $.state.filter : ''
+
+  let rankText = ''
+  if ($.isSortByScore) {
+    const rank = subjectStore.rank(item.id)
+    if (rank.s) rankText += rank.s
+    if (rank.r) rankText += ` #${rank.r}`
+  }
+
   return (
     <ItemCollections
       navigation={navigation}
@@ -35,6 +43,8 @@ function ItemList({ item, page }, { $, navigation }: Ctx) {
       isOnHold={type === 'on_hold'}
       event={EVENT}
       filter={filter}
+      simpleStars
+      rank={rankText}
       collection={!$.isMe ? collectionStore.collectionStatus(item.id) : undefined}
       onManagePress={$.onManagePress}
     />

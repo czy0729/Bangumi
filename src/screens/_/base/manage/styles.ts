@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   touch: {
+    height: 22,
     marginTop: -1,
     marginRight: -12,
     borderRadius: _.radiusSm,

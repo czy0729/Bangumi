@@ -7,12 +7,14 @@
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
-import { getTimestamp, HTMLTrim, HTMLDecode, cheerio, omit } from '@utils'
+import { getTimestamp, HTMLTrim, HTMLDecode, cheerio, omit, queue } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
+import { request } from '@utils/fetch.v0'
 import { put, read } from '@utils/db'
 import { get } from '@utils/kv'
 import {
+  API_HOST,
   API_SUBJECT,
   API_SUBJECT_EP,
   APP_ID,
@@ -71,6 +73,7 @@ import {
   MonoComments,
   MonoVoices,
   MonoWorks,
+  RankItem,
   Rating,
   Subject,
   SubjectCatalogs,
@@ -150,6 +153,15 @@ const state = {
     }
   },
 
+  /** 条目分数 (用于收藏按网站评分排序) */
+  rank: {
+    0: {
+      r: 0,
+      s: 0,
+      _loaded: 0
+    }
+  },
+
   /** wiki修订历史 */
   wiki: {
     0: INIT_SUBJECT_WIKI
@@ -199,6 +211,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     subjectFromOSS: false,
     subjectComments: false,
     mono: false,
+    rank: false,
     origin: false,
     actions: false
   }
@@ -215,9 +228,10 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
   }
 
   save = (
-    key: keyof typeof this._loaded | `subject${number}` | `subjectFormHTML${number}`
+    key: keyof typeof this._loaded | `subject${number}` | `subjectFormHTML${number}`,
+    data?: any
   ) => {
-    return this.setStorage(key, undefined, NAMESPACE)
+    return this.setStorage(key, data, NAMESPACE)
   }
 
   // -------------------- get --------------------
@@ -352,6 +366,20 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
             on_hold: 0,
             dropped: 0
           }
+        }
+      )
+    }).get()
+  }
+
+  /** 条目分数 (用于收藏按网站评分排序) */
+  rank(subjectId: SubjectId) {
+    this.init('rank')
+    return computed<RankItem>(() => {
+      return (
+        this.state.rank[subjectId] || {
+          r: undefined,
+          s: undefined,
+          _loaded: false
         }
       )
     }).get()
@@ -894,7 +922,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     return this[key](subjectId, status, isFriend)
   }
 
-  /** wiki修订历史 */
+  /** wiki 修订历史 */
   fetchWiki = async (args: { subjectId: SubjectId }) => {
     const { subjectId } = args || {}
     const key = 'wiki'
@@ -918,6 +946,43 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       }
     })
     return this[key](subjectId)
+  }
+
+  /** 获取条目分数值 */
+  fetchRanks = async (subjectIds: SubjectId[]) => {
+    const fetchs = []
+    const state = {}
+    const now = getTimestamp()
+    subjectIds.forEach(subjectId => {
+      const rank = this.rank(subjectId)
+      if (!rank._loaded || now - Number(rank._loaded) >= 24 * 60 * 60) {
+        fetchs.push(async () => {
+          try {
+            const data: any = await request(
+              `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
+            )
+            if (data?.rating) {
+              state[subjectId] = {
+                r: data.rating.rank || undefined,
+                s: data.rating.score || undefined,
+                _loaded: now
+              }
+            }
+          } catch (error) {}
+
+          return true
+        })
+      }
+    })
+
+    await queue(fetchs)
+    const key = 'rank'
+    this.setState({
+      [key]: state
+    })
+    this.save(key)
+
+    return true
   }
 
   // -------------------- page --------------------

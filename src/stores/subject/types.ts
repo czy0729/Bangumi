@@ -501,3 +501,9 @@ export type ApiSubjectResponse = {
 
   _loaded: Loaded
 }
+
+export type RankItem = {
+  r?: number
+  s?: number
+  _loaded: Loaded
+}

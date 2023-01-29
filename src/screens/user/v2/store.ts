@@ -5,15 +5,22 @@
  * @Last Modified time: 2022-10-04 07:24:22
  */
 import { observable, computed } from 'mobx'
-import { _, userStore, collectionStore, usersStore, uiStore } from '@stores'
+import {
+  _,
+  userStore,
+  collectionStore,
+  usersStore,
+  uiStore,
+  subjectStore
+} from '@stores'
 import {
   HTMLDecode,
   debounce,
   feedback,
   getPinYinFilterValue,
-  info,
   t2s,
-  x18
+  x18,
+  info
 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
@@ -33,6 +40,9 @@ import {
 } from '@types'
 import { NAMESPACE, EXCLUDE_STATE, STATE, H_HEADER, TABS } from './ds'
 import { Params } from './types'
+
+/** 用于记录 fetchUserCollectionsByScore 是否执行过 */
+const fetched: Record<string, boolean> = {}
 
 export default class ScreenUser extends store {
   params: Params
@@ -105,26 +115,41 @@ export default class ScreenUser extends store {
     return data
   }
 
-  /** 网站评分需要递归请求完所有数据, 再通过本地排序显示 */
+  /**
+   * 网站评分需要递归请求完所有数据, 再通过本地排序显示
+   * 为了防止多次请求, 一次生命周期同一组参数只会进行一次请求
+   * */
   fetchUserCollectionsByScore = async () => {
+    console.log('fetchUserCollectionsByScore')
+
+    const { subjectType } = this.state
+    const finger = JSON.stringify([this.username, subjectType, this.type])
+    if (fetched[finger]) return true
+
+    subjectStore.init('rank')
+    fetched[finger] = true
+
+    info('正在获取所有收藏')
     const { pagination } = await this.fetchUserCollectionsNormal(true)
     const { pageTotal } = pagination
     let { page } = pagination
     for (; page < pageTotal; page += 1) {
-      info(`排序中 ${page + 1} / ${pageTotal}`)
       await this.fetchUserCollectionsNormal()
     }
 
-    const { subjectType } = this.state
-    collectionStore.sortUserCollectionsByScore(this.username, subjectType, this.type)
+    info('正在获取所有评分, 实际排序会在之后呈现')
+    await collectionStore.sortUserCollectionsByScore(
+      this.username,
+      subjectType,
+      this.type
+    )
 
     return true
   }
 
   /** 收藏统一请求入口 */
   fetchUserCollections = async (refresh: boolean = false) => {
-    const { order } = this.state
-    return MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) === '网站评分'
+    return this.isSortByScore
       ? this.fetchUserCollectionsByScore()
       : this.fetchUserCollectionsNormal(refresh)
   }
@@ -367,6 +392,12 @@ export default class ScreenUser extends store {
     return computed(() =>
       collectionStore.userCollectionsTags(this.username, subjectType, type)
     ).get()
+  }
+
+  /** 是否根据网站评分排序 */
+  @computed get isSortByScore() {
+    const { order } = this.state
+    return MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) === '网站评分'
   }
 
   // -------------------- page --------------------

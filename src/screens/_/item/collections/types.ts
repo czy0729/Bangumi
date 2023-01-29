@@ -13,6 +13,7 @@ export type Props = {
   nameCn?: string
   tip?: string
   rank?: string | number
+  simpleStars?: boolean
   score?: string | number
   tags?: string
   comments?: string

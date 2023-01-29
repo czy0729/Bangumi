@@ -20,6 +20,7 @@ export const ItemCollections = ob(
     nameCn,
     tip,
     rank,
+    simpleStars,
     score,
     tags,
     comments,
@@ -53,6 +54,7 @@ export const ItemCollections = ob(
         nameCn={nameCn}
         tip={tip}
         rank={rank}
+        simpleStars={simpleStars}
         score={score}
         tags={tags}
         comments={comments}
