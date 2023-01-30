@@ -37,12 +37,10 @@ function Item({ from, data }, { $, navigation }: Ctx) {
     >
       <Flex>
         <CompCover
-          style={styles.cover}
           src={data.image || IMG_DEFAULT}
           size={COVER_WIDTH}
           height={COVER_HEIGHT}
           radius={_.radiusXs}
-          placeholder={false}
           fadeDuration={0}
           noDefault
         />

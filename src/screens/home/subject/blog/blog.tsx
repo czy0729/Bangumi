@@ -30,7 +30,7 @@ export default memo(
         </SectionTitle>
         {showBlog && (
           <>
-            <Expand style={_.mt.sm} ratio={1.2}>
+            <Expand style={_.mt.sm}>
               {blog.map(item => (
                 <ItemArticle
                   key={item.id}

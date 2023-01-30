@@ -87,7 +87,7 @@ export const HorizontalList = ob(
           >
             {this.data.map((item, index) => {
               const count = counts[item.id] || 0
-              const desc = String(item.desc)
+              const desc = String(item.desc || '')
               let typeCn: SubjectTypeCn | '' = ''
               if (
                 (!desc.includes('演出') && desc.includes('曲')) ||
@@ -102,13 +102,19 @@ export const HorizontalList = ob(
                 typeCn = '游戏'
               }
 
-              const size = _.r(typeCn === '音乐' ? width * 1.1 : width)
+              const w = _.r(typeCn === '音乐' ? width * 1.1 : width)
+
+              const title = findCn ? findSubjectCn(item.name, item.id) : item.name
+              const { length } = title
+              const size = length >= 16 ? 8 : length >= 10 ? 9 : length >= 5 ? 10 : 11
+
+              const descSize = desc.length >= 6 ? 9 : 10
               return (
                 <View
                   key={item.id}
                   style={[
                     {
-                      width: size
+                      width: w
                     },
                     index !== 0 && {
                       marginLeft: _.r(typeCn === '音乐' ? 16 : 12)
@@ -116,7 +122,7 @@ export const HorizontalList = ob(
                   ]}
                 >
                   <Cover
-                    size={size}
+                    size={w}
                     height={_.r(height)}
                     src={item.image}
                     radius
@@ -132,15 +138,15 @@ export const HorizontalList = ob(
                   >
                     <Text
                       style={_.mt.sm}
-                      size={11}
+                      size={size}
                       numberOfLines={3}
                       ellipsizeMode={ellipsizeMode}
                       bold
                     >
-                      {findCn ? findSubjectCn(item.name, item.id) : item.name}
+                      {title}
                     </Text>
                   </Touchable>
-                  {!!item.desc && (
+                  {!!desc && (
                     <Touchable
                       style={_.mt.xs}
                       onPress={() => (onSubPress || onPress)(item, typeCn)}
@@ -155,8 +161,8 @@ export const HorizontalList = ob(
                           />
                         )}
                         <Flex.Item>
-                          <Text type='sub' size={10} numberOfLines={2} bold>
-                            {item.desc}
+                          <Text type='sub' size={descSize} numberOfLines={2} bold>
+                            {desc}
                           </Text>
                         </Flex.Item>
                       </Flex>

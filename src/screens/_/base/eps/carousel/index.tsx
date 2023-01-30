@@ -22,8 +22,8 @@ export const Carousel = ob(({ props, epsGroup = [] }) => {
       infinite={false}
     >
       {epsGroup
-        // 渲染过多会卡顿, 暂时只取前5页
-        .filter((item, index) => index < 5)
+        // 渲染过多会卡顿, 暂时只取前 4 页
+        .filter((item, index) => index < 4)
         .map((eps, index) => (
           <View key={index}>
             <NormalButtons props={props} eps={eps} />

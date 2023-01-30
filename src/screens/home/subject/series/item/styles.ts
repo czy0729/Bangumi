@@ -7,9 +7,6 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  cover: {
-    backgroundColor: _.select(_.colorBg, _.colorPlain)
-  },
   touch: {
     paddingRight: _.xs,
     marginLeft: _.sm,

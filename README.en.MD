@@ -19,9 +19,9 @@ Android and iOS are compatible and consistent to the maximum extent.
 
 At present, mobile design first, no less than 90 pages have been developed, covering almost all pages of the website.
 
-This repo is my first developed APP and have no native development experience before.
+This repo is my first developed app and have no native development experience before.
 
-About this APP see more on [yuque](https://www.yuque.com/chenzhenyu-k0epm/znygb4).
+About this app see more on [yuque](https://www.yuque.com/chenzhenyu-k0epm/znygb4).
 
 ## Download
 
@@ -44,12 +44,12 @@ Because of bangumi is a totally chinese website, so there is no plan to translat
 - BBS
 - Users timelines
 - User center
-- More than search, rank, index, daily broadcast, yearbook, amd label
-- Other sites data synchronize
+- More than search, rank, index, daily broadcast, yearbook, and tags
+- Other sites watched data synchronize
 
 ### Enhanced
 
-- Cover picture and most static data cover the CDN
+- Cover picture and most static data thought self's CDN
 - The current season's dramas can be accurately queried from the network broadcast
 - Screenshot preview of subject
 
@@ -93,9 +93,11 @@ Because of bangumi is a totally chinese website, so there is no plan to translat
 
 ## Develop
 
-For various reasons since 2019, this repo current is building applications with Expo tools, iOS on [managed-workflow]https://docs.expo.dev/introduction/managed-vs-bare/#managed-workflow, and Android on bare-workflow.
+For various reasons since 2019, this repo current is building applications with Expo tools, iOS on [managed-workflow](https://docs.expo.dev/introduction/managed-vs-bare/#managed-workflow), and Android on bare-workflow.
 
-So is very easy to run on mac with command `npm start`, and watch result on Expo client, but very troublesome on windows.
+So is very easy to run on mac with command `npm start`, and watch result on Expo client.
+
+But very troublesome on windows, it is not recommended that you run on windows.
 
 ## Support
 

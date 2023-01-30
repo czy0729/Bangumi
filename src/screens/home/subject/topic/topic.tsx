@@ -32,7 +32,7 @@ export default memo(
         </SectionTitle>
         {showTopic && (
           <>
-            <Expand style={_.mt.sm} ratio={1.2}>
+            <Expand style={_.mt.sm}>
               {topic.map(item => (
                 <ItemArticle
                   key={item.id}

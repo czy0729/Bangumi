@@ -179,7 +179,7 @@ class Game extends React.Component {
     if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.i) return null
 
     return (
-      <Expand style={_.mt.lg} ratio={1.2}>
+      <Expand style={_.mt.lg}>
         <SectionTitle
           style={_.container.wind}
           right={
