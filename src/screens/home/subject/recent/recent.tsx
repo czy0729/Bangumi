@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 18:16:21
+ * @Last Modified time: 2023-01-30 09:50:29
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Text, Heatmap, UserStatus } from '@components'
 import { SectionTitle, Avatar, Stars, PreventTouchPlaceholder } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { useHorizontalLazy } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconHidden from '../icon/hidden'
 import { styles } from './styles'
@@ -19,6 +20,7 @@ export default memo(
   ({ navigation, subjectId, showRecent, who, hideScore, onSwitchBlock }) => {
     global.rerender('Subject.Recent.Main')
 
+    const { list, onScroll } = useHorizontalLazy(who)
     return (
       <View style={showRecent ? styles.container : styles.hide}>
         <SectionTitle
@@ -36,8 +38,10 @@ export default memo(
               contentContainerStyle={_.container.wind}
               horizontal
               {...SCROLL_VIEW_RESET_PROPS}
+              scrollEventThrottle={16}
+              onScroll={onScroll}
             >
-              {who.map(item => (
+              {list.map(item => (
                 <Flex key={item.userId} style={styles.item}>
                   <UserStatus userId={item.userId}>
                     <Avatar

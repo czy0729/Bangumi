@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:32:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-24 21:44:21
+ * @Last Modified time: 2023-01-30 10:23:58
  */
 // export { default as useShortcutsAndroid } from './useShortcutsAndroid'
 export { default as useBackHandler } from './useBackHandler'
@@ -10,7 +10,9 @@ export { default as useBoolean } from './useBoolean'
 export { default as useCachedResources } from './useCachedResources'
 export { default as useDimensions } from './useDimensions'
 export { default as useErrorHandlerAndroid } from './useErrorHandlerAndroid'
+export { default as useExpandLazy } from './useExpandLazy'
 export { default as useGlobalMount } from './useGlobalMount'
+export { default as useHorizontalLazy } from './useHorizontalLazy'
 export { default as useInitialURL } from './useInitialURL'
 export { default as useIsFocused } from './useIsFocused'
 export { default as useKeepAwake } from './useKeepAwake'

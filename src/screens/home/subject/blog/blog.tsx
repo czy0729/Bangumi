@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 13:59:41
+ * @Last Modified time: 2023-01-30 10:33:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Expand, Heatmap } from '@components'
 import { SectionTitle, ItemArticle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { useExpandLazy } from '@utils/hooks'
 import IconBlog from '../icon/blog'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
@@ -18,6 +19,7 @@ export default memo(
   ({ navigation, styles, showBlog, subjectId, blog, onSwitchBlock }) => {
     global.rerender('Subject.Blog.Main')
 
+    const { list, onExpand } = useExpandLazy(blog)
     return (
       <View style={!showBlog ? [_.mt.lg, _.short] : _.mt.lg}>
         <SectionTitle
@@ -30,8 +32,8 @@ export default memo(
         </SectionTitle>
         {showBlog && (
           <>
-            <Expand style={_.mt.sm}>
-              {blog.map(item => (
+            <Expand style={_.mt.sm} onExpand={onExpand}>
+              {list.map(item => (
                 <ItemArticle
                   key={item.id}
                   style={styles.item}

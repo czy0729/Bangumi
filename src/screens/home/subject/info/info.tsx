@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 01:01:52
+ * @Last Modified time: 2023-01-30 10:16:31
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,7 @@ export default memo(
 
     let html = info
     try {
-      html = decodeURIComponent(html)
+      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, 400)
     } catch (error) {
       console.error('home/subject/info.js', 'Info', error)
     }
@@ -47,7 +47,7 @@ export default memo(
               <Expand onExpand={onExpand}>
                 <RenderHtml
                   style={styles.info}
-                  html={expand ? html : html.slice(0, 400)}
+                  html={html}
                   katakana
                   onLinkPress={href =>
                     appNavigate(

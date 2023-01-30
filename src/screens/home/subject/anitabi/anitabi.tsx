@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 05:50:11
+ * @Last Modified time: 2023-01-30 09:57:55
  */
-import React, { useState } from 'react'
+import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Image, Text, Touchable } from '@components'
 import { PreventTouchPlaceholder, SectionTitle } from '@_'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { date, open, showImageViewer } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useHorizontalLazy } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
@@ -20,19 +21,12 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
   global.rerender('Subject.Anitabi.Main')
 
   const { city, pointsLength, imagesLength, litePoints } = data
-  const [scrolled, setScrolled] = useState(false)
+  const { list, onScroll } = useHorizontalLazy(
+    litePoints,
+    Math.floor(_.window.contentWidth / THUMB_WIDTH) + 1
+  )
 
-  let list: typeof litePoints
-  if (scrolled) {
-    list = litePoints
-  } else {
-    const initialRenderNums = _.isPad
-      ? 5
-      : Math.floor(_.window.contentWidth / THUMB_WIDTH) + 1
-    list = litePoints.filter((item, index) => index < initialRenderNums)
-  }
-
-  const thumbs = litePoints
+  const thumbs = list
     .filter(item => item.image)
     .map(item => ({
       url: item.image.replace('h160', 'h360')
@@ -92,7 +86,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
             horizontal
             {...SCROLL_VIEW_RESET_PROPS}
             scrollEventThrottle={80}
-            onScroll={scrolled ? undefined : () => setScrolled(true)}
+            onScroll={onScroll}
           >
             {list.map((item, index) => (
               <View key={item.id} style={_.mr.sm}>

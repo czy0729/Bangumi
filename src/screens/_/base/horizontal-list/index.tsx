@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 23:15:46
+ * @Last Modified time: 2023-01-30 10:58:31
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -102,11 +102,12 @@ export const HorizontalList = ob(
                 typeCn = '游戏'
               }
 
-              const w = _.r(typeCn === '音乐' ? width * 1.1 : width)
+              const isMusic = typeCn === '音乐'
+              const w = _.r(isMusic ? width * 1.16 : width)
 
               const title = findCn ? findSubjectCn(item.name, item.id) : item.name
               const { length } = title
-              const size = length >= 16 ? 8 : length >= 10 ? 9 : length >= 5 ? 10 : 11
+              const size = length >= 12 ? 9 : length >= 5 ? 10 : 11
 
               const descSize = desc.length >= 6 ? 9 : 10
               return (
@@ -117,7 +118,7 @@ export const HorizontalList = ob(
                       width: w
                     },
                     index !== 0 && {
-                      marginLeft: _.r(typeCn === '音乐' ? 16 : 12)
+                      marginLeft: _.r(isMusic ? 16 : 12)
                     }
                   ]}
                 >
@@ -125,7 +126,7 @@ export const HorizontalList = ob(
                     size={w}
                     height={_.r(height)}
                     src={item.image}
-                    radius
+                    radius={isMusic ? _.radiusSm : true}
                     shadow
                     quality={quality}
                     type={typeCn}

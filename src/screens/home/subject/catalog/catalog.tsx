@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 22:09:22
+ * @Last Modified time: 2023-01-30 09:33:52
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
+import { useHorizontalLazy } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconCatalog from '../icon/catalog'
 import IconHidden from '../icon/hidden'
@@ -20,6 +21,7 @@ import { DEFAULT_PROPS } from './ds'
 export default memo(({ navigation, styles, showCatalog, catalog, onSwitchBlock }) => {
   global.rerender('Subject.Catalog.Main')
 
+  const { list, onScroll } = useHorizontalLazy(catalog)
   return (
     <View style={!showCatalog ? [_.mt.lg, _.short] : _.mt.lg}>
       <SectionTitle
@@ -39,8 +41,10 @@ export default memo(({ navigation, styles, showCatalog, catalog, onSwitchBlock }
               contentContainerStyle={styles.contentContainerStyle}
               horizontal
               {...SCROLL_VIEW_RESET_PROPS}
+              scrollEventThrottle={16}
+              onScroll={onScroll}
             >
-              {catalog.map(item => (
+              {list.map(item => (
                 <Touchable
                   key={item.id}
                   style={styles.item}

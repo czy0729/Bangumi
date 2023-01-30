@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:37:35
+ * @Last Modified time: 2023-01-30 10:35:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Expand, Heatmap } from '@components'
 import { SectionTitle, ItemArticle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { useExpandLazy } from '@utils/hooks'
 import IconTopic from '../icon/topic'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
@@ -18,6 +19,7 @@ export default memo(
   ({ navigation, styles, showTopic, subjectId, topic, onSwitchBlock }) => {
     global.rerender('Subject.Topic.Main')
 
+    const { list, onExpand } = useExpandLazy(topic, 3)
     return (
       <View style={!showTopic ? [_.mt.lg, _.short] : _.mt.lg}>
         <SectionTitle
@@ -32,8 +34,8 @@ export default memo(
         </SectionTitle>
         {showTopic && (
           <>
-            <Expand style={_.mt.sm}>
-              {topic.map(item => (
+            <Expand style={_.mt.sm} onExpand={onExpand}>
+              {list.map(item => (
                 <ItemArticle
                   key={item.id}
                   style={styles.item}
