@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 13:40:35
+ * @Last Modified time: 2023-01-30 14:30:14
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -195,8 +195,13 @@ export default class Fetch extends Computed {
     if (this.state.epsThumbs.length >= 12) return
 
     try {
+      // 尝试从douban找
+      const cn = bangumiData?.titleTranslate?.['zh-Hans']?.[0]
+      const jp = bangumiData.title
+      await this.fetchMovieFromDouban(cn, jp)
+
       // bilibili
-      if (this.bilibiliSite.id) {
+      if (this.state.epsThumbs.length < 12 && this.bilibiliSite.id) {
         const url = getBangumiUrl(this.bilibiliSite)
         const { _response } = await xhrCustom({
           url
@@ -297,16 +302,6 @@ export default class Fetch extends Computed {
       }
 
       // qq网站没有截屏, 不找
-
-      // 尝试从douban找
-      if (
-        (!this.state.epsThumbsHeader.Referer && this.state.epsThumbs.length < 12) ||
-        this.state.epsThumbs.length === 0
-      ) {
-        const cn = bangumiData?.titleTranslate?.['zh-Hans']?.[0]
-        const jp = bangumiData.title
-        this.fetchMovieFromDouban(cn, jp)
-      }
     } catch (error) {
       console.error('Subject', 'fetchEpsThumbs', error)
     }
