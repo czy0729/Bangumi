@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:32:18
+ * @Last Modified time: 2023-01-30 13:39:25
  */
 import { observable, computed } from 'mobx'
 import {
@@ -137,7 +137,11 @@ export default class ScreenCatalogDetail extends store {
           subjectStore.subjectFromOSS(id)?.rating?.score ||
           0,
         rank:
-          subjectStore.subject(id)?.rank || subjectStore.subjectFromOSS(id)?.rank || ''
+          subjectStore.subject(id)?.rank || subjectStore.subjectFromOSS(id)?.rank || '',
+        total:
+          subjectStore.subject(id)?.rating?.total ||
+          subjectStore.subjectFromOSS(id)?.rating?.total ||
+          ''
       }
     })
 

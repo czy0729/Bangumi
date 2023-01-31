@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 05:25:27
+ * @Last Modified time: 2023-01-30 11:32:46
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
@@ -53,12 +53,14 @@ export const Manage = ob(
     if (typeCn === '书籍') _collection = _collection.replace('看', '读')
     if (typeCn === '游戏') _collection = _collection.replace('看', '玩')
 
+    let _styles
+    if (_collection) {
+      _styles = style ? [styles.touch, style] : styles.touch
+    } else {
+      _styles = style ? [styles.touchNoCollect, style] : styles.touchNoCollect
+    }
     return (
-      <Touchable
-        style={style ? [styles.touch, style] : styles.touch}
-        hitSlop={HIT_SLOP}
-        onPress={onPress}
-      >
+      <Touchable style={_styles} hitSlop={HIT_SLOP} onPress={onPress}>
         <Flex style={styles.manage} direction='column'>
           <Iconfont name={icon} size={size} color={_[`color${titleCase(type)}`]} />
           <Text style={_.mt.xxs} type={type} size={11}>

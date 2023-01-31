@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 20:31:12
+ * @Last Modified time: 2023-01-30 13:49:01
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -14,6 +14,7 @@ import { Rank, Stars, Tags } from '../../../base'
 function Bottom({
   score,
   rank,
+  total,
   simpleStars,
   time,
   tags,
@@ -45,7 +46,12 @@ function Bottom({
     <Flex style={_.mt.sm}>
       {!hideScore && !!rank && <Rank value={rank} />}
       {!hideScore && hasScore && (
-        <Stars style={_.mr.sm} value={score} simple={simpleStars} />
+        <Stars style={total ? _.mr.xs : _.mr.sm} value={score} simple={simpleStars} />
+      )}
+      {!hideScore && !!total && (
+        <Text style={_.mr.sm} type='sub' size={10}>
+          ({total}人评分)
+        </Text>
       )}
       {!!info.length && (
         <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>

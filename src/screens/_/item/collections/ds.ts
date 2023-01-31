@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 20:19:42
+ * @Last Modified time: 2023-01-30 13:44:30
  */
 import { EVENT } from '@constants'
 import { Navigation } from '@types'
@@ -17,8 +17,9 @@ export const DEFAULT_PROPS = {
   nameCn: '' as Props['nameCn'],
   tip: '' as Props['tip'],
   rank: '' as Props['rank'],
-  simpleStars: false as Props['simpleStars'],
   score: '' as Props['score'],
+  total: '' as Props['total'],
+  simpleStars: false as Props['simpleStars'],
   tags: '' as Props['tags'],
   comments: '' as Props['comments'],
   time: '' as Props['time'],
@@ -26,6 +27,7 @@ export const DEFAULT_PROPS = {
   userCollection: '' as Props['userCollection'],
   cover: '' as Props['cover'],
   type: '' as Props['type'],
+  numberOfLines: 2 as Props['numberOfLines'],
   modify: '' as Props['modify'],
   showLabel: true as Props['showLabel'],
   hideScore: false as Props['hideScore'],

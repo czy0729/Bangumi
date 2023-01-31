@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 18:32:43
+ * @Last Modified time: 2023-01-30 14:55:57
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -80,7 +80,7 @@ export default memo(
         <HeaderPlaceholder />
         <View style={styles.container}>
           <Milestone />
-          <Text type='title' size={20} bold>
+          <Text type='title' size={20} bold selectable>
             {title}
             {!!replies && (
               <Text type='main' size={12} lineHeight={26} bold>

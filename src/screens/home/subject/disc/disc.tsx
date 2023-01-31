@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-17 06:47:34
+ * @Last Modified time: 2023-01-30 14:56:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,7 @@ export default memo(
             <Expand>
               {disc.map((item, index) => (
                 <View key={item.title} style={!!index && _.mt.md}>
-                  <Text type='sub' size={16}>
+                  <Text type='sub' size={16} selectable>
                     {item.title}
                   </Text>
                   <View style={_.mt.sm}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 20:29:56
+ * @Last Modified time: 2023-01-30 13:45:52
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -27,8 +27,9 @@ const Item = memo(
     nameCn,
     tip,
     rank,
-    simpleStars,
     score,
+    total,
+    simpleStars,
     tags,
     comments,
     time,
@@ -37,6 +38,7 @@ const Item = memo(
     cover,
     type,
     modify,
+    numberOfLines,
     // showLabel,
     hideScore,
     isDo,
@@ -123,13 +125,19 @@ const Item = memo(
                 )}
               </Flex>
               {!!tip && (
-                <Text style={styles.tip} size={11} lineHeight={12} numberOfLines={2}>
+                <Text
+                  style={styles.tip}
+                  size={11}
+                  lineHeight={12}
+                  numberOfLines={numberOfLines}
+                >
                   {HTMLDecode(tip)}
                 </Text>
               )}
               <Bottom
                 score={score}
                 rank={rank}
+                total={total}
                 simpleStars={simpleStars}
                 time={time}
                 tags={tags}

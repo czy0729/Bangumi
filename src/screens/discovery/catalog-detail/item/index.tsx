@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 14:29:19
+ * @Last Modified time: 2023-01-30 13:47:51
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -45,6 +45,8 @@ function Item(
           comments={item.comment}
           score={item.score}
           rank={item.rank}
+          total={item.total}
+          numberOfLines={4}
           modify={item.modify}
           isCollect={item.isCollect}
           collection={collection}

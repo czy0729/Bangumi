@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:22:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 20:44:49
+ * @Last Modified time: 2023-01-30 13:44:16
  */
 import { EventType, Navigation, RatingStatus, SubjectId, SubjectTypeCn } from '@types'
 
@@ -13,8 +13,9 @@ export type Props = {
   nameCn?: string
   tip?: string
   rank?: string | number
-  simpleStars?: boolean
   score?: string | number
+  total?: string | number
+  simpleStars?: boolean
   tags?: string
   comments?: string
   time?: string
@@ -22,6 +23,7 @@ export type Props = {
   userCollection?: string
   cover?: string
   type?: SubjectTypeCn
+  numberOfLines?: number
   modify?: string
   showLabel?: boolean
   hideScore?: boolean

@@ -29,6 +29,7 @@ export const Button = observer(
     shadow = false,
     radius = true,
     loading = false,
+    bold = false,
     children,
     extra,
     onPress,
@@ -71,7 +72,7 @@ export const Button = observer(
             styleText
           ]}
           align='center'
-          bold={textBold}
+          bold={textBold || bold}
           selectable={false}
         >
           {children}

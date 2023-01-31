@@ -41,6 +41,9 @@ export type Props = {
   /** 是否显示加载指示器 */
   loading?: boolean
 
+  /** 强制文字加粗 */
+  bold?: boolean
+
   /** 放在文字右边 */
   extra?: any
 

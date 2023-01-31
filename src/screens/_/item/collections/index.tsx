@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 20:18:58
+ * @Last Modified time: 2023-01-30 13:45:20
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -20,8 +20,9 @@ export const ItemCollections = ob(
     nameCn,
     tip,
     rank,
-    simpleStars,
     score,
+    total,
+    simpleStars,
     tags,
     comments,
     time,
@@ -30,6 +31,7 @@ export const ItemCollections = ob(
     cover,
     type,
     modify,
+    numberOfLines,
     showLabel,
     hideScore,
     isDo,
@@ -54,8 +56,9 @@ export const ItemCollections = ob(
         nameCn={nameCn}
         tip={tip}
         rank={rank}
-        simpleStars={simpleStars}
         score={score}
+        total={total}
+        simpleStars={simpleStars}
         tags={tags}
         comments={comments}
         time={time}
@@ -63,6 +66,7 @@ export const ItemCollections = ob(
         userCollection={userCollection}
         cover={cover}
         type={type}
+        numberOfLines={numberOfLines}
         modify={modify}
         showLabel={showLabel}
         hideScore={hideScore}
