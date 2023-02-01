@@ -11,7 +11,7 @@ import { _, discoveryStore } from '@stores'
 import { findSubjectCn, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { EVENT, IMG_WIDTH_SM } from '@constants'
+import { EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import { Cover } from '../../base'
 import { memoStyles } from './styles'
 import { Props as ItemBlogProps } from './types'
@@ -66,32 +66,32 @@ export const ItemBlog = obc(
               <Cover
                 src={cover}
                 width={IMG_WIDTH_SM}
-                height={IMG_WIDTH_SM}
+                height={IMG_HEIGHT_SM}
                 radius
                 shadow
               />
             </View>
           )}
           <Flex.Item>
-            <Text size={16} numberOfLines={2} bold>
+            <Text size={15} numberOfLines={2} bold>
               {HTMLDecode(title)}
               {replies !== '+0' && (
-                <Text size={13} type='main' lineHeight={16} bold>
+                <Text size={12} type='main' lineHeight={15} bold>
                   {'  '}
                   {replies}
                 </Text>
               )}
             </Text>
             {!!line.length && (
-              <View style={_.mt.sm}>
-                <Katakana.Provider size={12} bold>
-                  <Katakana type='sub' size={12} bold>
+              <View style={_.mt.xs}>
+                <Katakana.Provider size={11} bold>
+                  <Katakana type='sub' size={11} bold>
                     {line.join(' · ')}
                   </Katakana>
                 </Katakana.Provider>
               </View>
             )}
-            <Text style={_.mt.sm} size={13} lineHeight={16} numberOfLines={4}>
+            <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={4}>
               {HTMLDecode(content)}
             </Text>
             {!!tags.length && (

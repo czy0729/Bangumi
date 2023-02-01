@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
-    minHeight: _.window.height
+    minHeight: _.window.height * 0.75
   },
   pagination: {
     marginTop: _.xs,
