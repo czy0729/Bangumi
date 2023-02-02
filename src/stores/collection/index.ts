@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:51:18
+ * @Last Modified time: 2023-02-02 20:28:12
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -639,6 +639,18 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
       }
     })
 
+    this.save(key)
+    return true
+  }
+
+  /** 移除一个条目的收藏状态 */
+  removeStatus = (subjectId: SubjectId) => {
+    const key = 'collectionStatus'
+    this.setState({
+      [key]: {
+        [subjectId]: ''
+      }
+    })
     this.save(key)
     return true
   }

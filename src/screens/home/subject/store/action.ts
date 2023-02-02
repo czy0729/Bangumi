@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-20 10:14:25
+ * @Last Modified time: 2023-02-02 20:29:41
  */
 import {
   otaStore,
@@ -795,6 +795,7 @@ export default class Action extends Fetch {
           info('删除收藏成功')
 
           setTimeout(() => {
+            collectionStore.removeStatus(this.subjectId)
             this.fetchCollection()
           }, 40)
         }
