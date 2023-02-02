@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-30 22:16:48
+ * @Last Modified time: 2023-02-02 15:55:41
  */
 import { _ } from '@stores'
 
@@ -34,7 +34,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.isMobileLanscape ? -24 : 0
   },
   tagsWrap: {
-    height: 104,
+    height: 80,
     overflow: 'hidden'
   },
   tags: {

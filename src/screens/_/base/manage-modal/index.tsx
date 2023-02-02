@@ -4,12 +4,21 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:01:27
+ * @Last Modified time: 2023-02-02 15:58:09
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { Modal, Button, Flex, Input, Text, Touchable, Iconfont } from '@components'
+import {
+  Modal,
+  ScrollView,
+  Button,
+  Flex,
+  Input,
+  Text,
+  Touchable,
+  Iconfont
+} from '@components'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
 import { ob } from '@utils/decorators'
@@ -243,10 +252,9 @@ export const ManageModal = ob(
 
       const selected = this.state.tags.split(' ')
       return (
-        <Flex style={this.styles.tagsWrap} wrap='wrap'>
-          {tags
-            .filter((item, index) => index < 15)
-            .map(({ name, count }) => {
+        <ScrollView style={this.styles.tagsWrap}>
+          <Flex wrap='wrap'>
+            {tags.map(({ name, count }) => {
               const isSelected = selected.indexOf(name) !== -1
               return (
                 <Touchable
@@ -279,7 +287,8 @@ export const ManageModal = ob(
                 </Touchable>
               )
             })}
-        </Flex>
+          </Flex>
+        </ScrollView>
       )
     }
 
@@ -288,7 +297,6 @@ export const ManageModal = ob(
       return (
         <Input
           ref={ref => (this.commentRef = ref)}
-          style={_.mt.xs}
           defaultValue={comment}
           placeholder='吐槽点什么'
           multiline

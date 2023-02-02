@@ -4,15 +4,16 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 11:14:09
+ * @Last Modified time: 2023-02-02 13:46:57
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
-import { EventKeys } from '@constants/events'
 import { SITES } from '@constants'
-import { Id, SubjectId } from '@types'
+import { EventKeys } from '@constants/events'
+import { SubjectTypeCn } from '@constants/model/types'
+import { Id, SubjectId } from './bangumi'
 import { DeepPartial, Override } from './utils'
 
 /** 图标 (iOS Style) */
@@ -39,20 +40,7 @@ export type Paths = keyof typeof Screens
 /** react-navigation 路由对象 */
 export type Navigation = {
   /** 前进 */
-  push?: ((path: Paths) => any) &
-    ((
-      path: 'Information',
-      params: {
-        /** 标题 */
-        title?: string
-
-        /** 正文 */
-        message: string[]
-
-        /** 提示会员 */
-        advance?: boolean
-      }
-    ) => any)
+  push?: NavigationPushType
 
   /** 替换 */
   replace?: (path: Paths, params?: object) => any
@@ -167,3 +155,24 @@ export type Actions = Record<
     active: number
   }[]
 >
+
+type NavigationPushType = ((path: Paths) => any) &
+  ((
+    path: 'Subject',
+    params: {
+      subjectId: SubjectId
+      _jp?: string
+      _cn?: string
+      _image?: string
+      _collection?: string
+      _type?: SubjectTypeCn
+    }
+  ) => any) &
+  ((
+    path: 'Information',
+    params: {
+      title?: string
+      message: string[]
+      advance?: boolean
+    }
+  ) => any)
