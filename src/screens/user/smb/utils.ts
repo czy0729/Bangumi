@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 22:48:55
+ * @Last Modified time: 2023-02-02 13:18:58
  */
 import SMBClient from 'react-native-smb'
 import { asc, desc, alert, info, loading } from '@utils'
@@ -102,41 +102,49 @@ function _smbList(path = '') {
           return () => {
             return new Promise<void>(rsl => {
               try {
-                smbClient.list(path ? `${path}/${item.name}` : item.name, data => {
-                  if (data?.success) {
-                    // list
-                    item.list = data.list
-                      .filter(
-                        item =>
-                          !item.hidden &&
-                          item.name !== '.' &&
-                          item.name !== '..' &&
-                          !item.name.includes('DS_Store')
-                      )
-                      .map(item => ({
-                        name: item.name,
-                        type: item.isDirectory ? 'folder' : getFileMediaType(item.name),
-                        lastModified: item.lastModified
-                      }))
-                      .sort((a, b) => asc(a.name, b.name))
-
-                    // subjects
-                    item.ids = data.list
-                      .filter(item =>
-                        /^\d+\.bgm(\.txt)?$/.test(item.name.toLocaleLowerCase())
-                      )
-                      .sort((a, b) => desc(a.name, b.name))
-                      .map(item =>
-                        Number(
-                          item.name.toLocaleLowerCase().replace(/(\.bgm)|(\.txt)/g, '')
+                smbClient.list(
+                  path ? `${path}/${item.name}` : item.name,
+                  // @ts-expect-error
+                  data => {
+                    if (data?.success) {
+                      // list
+                      item.list = data.list
+                        .filter(
+                          item =>
+                            !item.hidden &&
+                            item.name !== '.' &&
+                            item.name !== '..' &&
+                            !item.name.includes('DS_Store')
                         )
-                      )
+                        .map(item => ({
+                          name: item.name,
+                          type: item.isDirectory
+                            ? 'folder'
+                            : getFileMediaType(item.name),
+                          lastModified: item.lastModified
+                        }))
+                        .sort((a, b) => asc(a.name, b.name))
 
-                    // tags
-                    item.tags = matchTags(`${item.name} ${list[0]?.name || ''}`)
+                      // subjects
+                      item.ids = data.list
+                        .filter(item =>
+                          /^\d+\.bgm(\.txt)?$/.test(item.name.toLocaleLowerCase())
+                        )
+                        .sort((a, b) => desc(a.name, b.name))
+                        .map(item =>
+                          Number(
+                            item.name
+                              .toLocaleLowerCase()
+                              .replace(/(\.bgm)|(\.txt)/g, '')
+                          )
+                        )
+
+                      // tags
+                      item.tags = matchTags(`${item.name} ${list[0]?.name || ''}`)
+                    }
+                    rsl()
                   }
-                  rsl()
-                })
+                )
               } catch (error) {
                 rsl()
               }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:27
+ * @Last Modified time: 2023-02-02 12:51:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,6 @@ import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { memo } from '@utils/decorators'
-import { alert } from '@utils/ui'
 import { getHeight, getDeviation, getDispute } from './utils'
 import { DEFAULT_PROPS } from './ds'
 
@@ -103,12 +102,19 @@ export default memo(
           </Flex.Item>
           <Touchable
             style={styles.deviation}
-            onPress={() =>
-              alert(
-                '0-1 异口同声\n1.15 基本一致\n1.3 略有分歧\n1.45 莫衷一是\n1.6 各执一词\n1.75 你死我活',
-                '标准差'
-              )
-            }
+            onPress={() => {
+              navigation.push('Information', {
+                title: '标准差',
+                message: [
+                  '0-1 异口同声',
+                  '1.15 基本一致',
+                  '1.3 略有分歧',
+                  '1.45 莫衷一是',
+                  '1.6 各执一词',
+                  '1.75 你死我活'
+                ]
+              })
+            }}
           >
             <Flex>
               <Text size={12} type='sub'>

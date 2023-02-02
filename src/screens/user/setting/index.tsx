@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-12 05:23:34
+ * @Last Modified time: 2023-02-02 13:13:58
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
@@ -67,7 +67,7 @@ const Setting = ({ navigation }: NavigationProps) => {
               <Theme navigation={navigation} filter={filter} />
               <UI filter={filter} />
               <Custom filter={filter} />
-              <CDN filter={filter} />
+              <CDN navigation={navigation} filter={filter} />
               <Route filter={filter} />
               <Katakana filter={filter} />
               <Origin navigation={navigation} filter={filter} />

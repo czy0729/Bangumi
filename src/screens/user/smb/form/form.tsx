@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 05:06:05
+ * @Last Modified time: 2023-02-02 13:21:14
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
@@ -247,7 +247,9 @@ export default memo(
                     [
                       {
                         text: s2tAsync('已知问题和详细教程'),
-                        onPress: () => {}
+                        onPress: () => {
+                          open('https://www.yuque.com/chenzhenyu-k0epm/znygb4/rrb8zh')
+                        }
                       },
                       {
                         text: s2tAsync('确定'),

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-11-24 15:39:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 09:35:29
+ * @Last Modified time: 2023-02-02 13:00:36
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { alert } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Header(props, { $ }: Ctx) {
+function Header(props, { $, navigation }: Ctx) {
   const { name } = $.params
   return (
     <CompHeader
@@ -23,10 +22,14 @@ function Header(props, { $ }: Ctx) {
           name='md-info-outline'
           color={_.colorDesc}
           onPress={() => {
-            alert(
-              '目前为实验性。\n本功能对应到具体条目，通常用于给单独条目添加特定跳转。\n后续会开发云同步和共享功能，请慎重添加带个人信息隐私的链接。',
-              '自定义跳转'
-            )
+            navigation.push('Information', {
+              title: '自定义跳转',
+              message: [
+                '目前为实验性。',
+                '本功能对应到具体条目，通常用于给单独条目添加特定跳转。',
+                '后续会开发云同步和共享功能，请慎重添加带个人信息隐私的链接。'
+              ]
+            })
           }}
         />
       )}

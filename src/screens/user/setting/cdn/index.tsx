@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 15:33:33
+ * @Last Modified time: 2023-02-02 13:16:20
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { clearCache } from '@components/image/image'
 import { IconTouchable } from '@_'
 import { ItemSetting, ItemSettingBlock, Cover } from '@_'
 import { _, systemStore, userStore } from '@stores'
-import { info, alert, confirm } from '@utils'
+import { info, confirm } from '@utils'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t, ping } from '@utils/fetch'
 import { MODEL_SETTING_CDN_ORIGIN, CDN_OSS_MAGMA_POSTER, ADVANCE_CDN } from '@constants'
@@ -36,7 +36,7 @@ function waitToResetCDN() {
   }, 60 * 1000 * 10)
 }
 
-function CDN({ filter }) {
+function CDN({ navigation, filter }) {
   const { state, setTrue, setFalse } = useBoolean(false)
   const [test, setTest] = useState(false)
   const [deprecated, setDeprecated] = useState(false)
@@ -177,18 +177,22 @@ function CDN({ filter }) {
                 name='md-info-outline'
                 size={18}
                 onPress={() => {
-                  alert(
-                    `此域名为用户 @magma 提供，支持非 NSFW 封面图（NSFW 会回滚到 bgm），并自带缩放压缩、webp、稳定CDN加速
-                      \n作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${ADVANCE_CDN}元] 的高级会员开放测试，恳请谅解
-                      \n科普: 目前 OSS 1G 的费用因有各种回流等策略，资费不低于 0.2 元，1 个用户首次访问 10-20 个路径的页面，封面图可能会产生 50-100MB 的流量
-                      \n为什么需要？因官方图片第二档质量不够清晰，而最高质量又过大，如果直接使用最大图片，一来会浪费大量流量，二来就算手机再强也会随着程序使用而崩溃
-                      \nPS: 若漏算了历史打赏金额的，可私信作者修正`,
-                    '关于Magma'
-                  )
+                  setFalse()
+                  setTimeout(() => {
+                    navigation.push('Information', {
+                      title: '关于 Magma ',
+                      message: [
+                        '此域名为用户 @magma 提供，支持非 NSFW 封面图（NSFW 会回滚到 bgm），并自带缩放压缩、webp、稳定CDN加速。',
+                        `作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${ADVANCE_CDN}元] 的高级会员开放测试，恳请谅解。`,
+                        '科普: 目前 OSS 1G 的费用因有各种回流等策略，资费不低于 0.2 元，1 个用户首次访问 10-20 个路径的页面，封面图可能会产生 50-100MB 的流量。',
+                        '为什么需要？因官方图片第二档质量不够清晰，而最高质量又过大，如果直接使用最大图片，一来会浪费大量流量，二来就算手机再强也会随着程序使用而崩溃。',
+                        'PS: 若漏算了历史打赏金额的，可私信作者修正。'
+                      ]
+                    })
+                  }, 240)
                 }}
               />
             </View>
-
             <Heatmap id='设置.切换' title='CDN加速' />
           </ItemSettingBlock>
 
