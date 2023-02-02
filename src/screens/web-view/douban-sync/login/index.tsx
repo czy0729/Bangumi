@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 17:39:07
+ * @Last Modified time: 2023-02-02 10:56:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,7 @@ function Login(props, { $ }: Ctx) {
             defaultValue={doubanId}
             multiline
             numberOfLines={3}
-            placeholder='输入豆瓣用户空间地址或用户豆瓣ID'
+            placeholder='输入豆瓣用户空间地址或用户的豆瓣ID'
             onChangeText={$.onChange}
           />
           <Flex style={_.mt.md}>

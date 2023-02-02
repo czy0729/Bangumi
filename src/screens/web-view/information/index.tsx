@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-02 08:17:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 10:25:15
+ * @Last Modified time: 2023-02-02 10:44:49
  */
 import React from 'react'
 import { Page, Header, ScrollView, Text } from '@components'
@@ -20,16 +20,17 @@ const Information = ({ navigation, route }) => {
               {title}说明
             </Text>
           )}
-          {message.map((item: string, index: number) => (
-            <Text key={index} style={_.mt.md} size={16} lineHeight={18}>
-              {item
-                .replace(/\./g, '。')
-                .replace(/,/g, '，')
-                .replace(/\?/g, '？')
-                .replace(/\(/g, '「')
-                .replace(/\)/g, '」')}
-            </Text>
-          ))}
+          {message
+            .filter(item => !!item.trim())
+            .map((item: string, index: number) => (
+              <Text key={index} style={_.mt.md} size={16} lineHeight={18}>
+                {item
+                  .replace(/,/g, '，')
+                  .replace(/\?/g, '？')
+                  .replace(/\(/g, '「')
+                  .replace(/\)/g, '」')}
+              </Text>
+            ))}
           {!!advance && (
             <Text
               style={_.mt.lg}

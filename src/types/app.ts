@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 10:00:50
+ * @Last Modified time: 2023-02-02 11:14:09
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -44,7 +44,7 @@ export type Navigation = {
       path: 'Information',
       params: {
         /** 标题 */
-        title: string
+        title?: string
 
         /** 正文 */
         message: string[]

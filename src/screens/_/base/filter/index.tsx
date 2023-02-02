@@ -4,13 +4,13 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-01 20:42:44
+ * @Last Modified time: 2023-02-02 10:44:19
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
-import { info, alert } from '@utils'
+import { info } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
@@ -31,7 +31,7 @@ export const Filter = obc(
       lastUpdate,
       information = ''
     }: FilterProps,
-    { $ }
+    { $, navigation }
   ) => {
     const styles = memoStyles()
     const { query, layout, expand } = $.state
@@ -205,7 +205,15 @@ export const Filter = obc(
               {!!query?.tags?.length && ` · ${query?.tags?.join(' · ')}`}
             </Text>
           </Flex.Item>
-          <Touchable onPress={() => alert(information, `关于找${name}`)}>
+          <Touchable
+            onPress={() => {
+              navigation.push('Information', {
+                title: `找${name}`,
+                message: information.split('\n'),
+                advance: true
+              })
+            }}
+          >
             <Flex>
               {!!lastUpdate && (
                 <Text style={_.mr.sm} size={11} type='sub' bold>
