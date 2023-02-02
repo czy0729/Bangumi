@@ -6,10 +6,14 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 import Item from './item'
 import { memoStyles } from './styles'
 
-export default obc(({ item }, { $ }) => {
+export default obc(({ item }, { $ }: Ctx) => {
+  const { status } = $.state
+  if (status === '有关联系列' && item.length <= 1) return null
+
   const data = $.filterData(item)
   return <Item styles={memoStyles()} data={data} subjects={$.subjects(data)} />
 })

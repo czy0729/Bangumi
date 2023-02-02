@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-11 01:54:03
  */
 import React from 'react'
-import { Flex, Text, Loading } from '@components'
+import { Flex, Text, Loading, Touchable } from '@components'
 import { Cover, Rank, Stars, Manage } from '@_'
 import { _, uiStore, collectionStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -14,7 +14,7 @@ import { CollectionStatusCn } from '@types'
 import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
-function Subject({ style = undefined, id }, { $, navigation }: Ctx) {
+function Subject({ style = undefined, id, small = false }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const subject = $.subject(id)
   if (subject._loaded === 0) {
@@ -28,54 +28,62 @@ function Subject({ style = undefined, id }, { $, navigation }: Ctx) {
   const collection = $.collection(id)
   const eps = []
   if (collection?.ep) {
-    eps.push(`看到 ${collection.ep} 话`)
+    eps.push(`看到 ${collection.ep} `)
   } else if (collection) {
-    eps.push('未观看')
+    eps.push('看到 0')
   }
-  if (subject?.eps) eps.push(`总 ${subject?.eps} 话`)
+  if (subject?.eps) eps.push(` ${subject?.eps} 话`)
   if (subject?.total_episodes && subject?.total_episodes !== subject?.eps) {
     eps.push(`共 ${subject?.total_episodes} 章节`)
   }
 
   const platform = subject.platform && subject.platform !== 'TV' && subject.platform
+  const bottom = [
+    !!subject.total && `(${subject.total}人)`,
+    subject.date || '未放送',
+    platform
+  ].filter(item => !!item)
+
+  const { length } = subject.name
+  const size = length > 24 ? 11 : length > 16 ? 12 : length > 8 ? 13 : 14
+
+  const onPress = () => {
+    navigation.push('Subject', {
+      subjectId: subject.id,
+      _cn: subject.name,
+      _image: subject.image
+    })
+  }
   return (
     <Flex style={[styles.item, style]} align='start'>
       <Cover
         src={subject.image}
-        width={IMG_WIDTH_SM}
-        height={IMG_HEIGHT_SM}
+        width={small ? IMG_WIDTH_SM * 0.88 : IMG_WIDTH_SM}
+        height={small ? IMG_HEIGHT_SM * 0.88 : IMG_HEIGHT_SM}
         radius
-        onPress={() => {
-          navigation.push('Subject', {
-            subjectId: subject.id,
-            _cn: subject.name,
-            _image: subject.image
-          })
-        }}
+        onPress={onPress}
       />
       <Flex.Item>
-        <Flex style={styles.body} direction='column' justify='between' align='start'>
-          <Text size={13} bold numberOfLines={2}>
-            {subject.name}
-          </Text>
+        <Flex
+          style={small ? styles.bodySm : styles.body}
+          direction='column'
+          justify='between'
+          align='start'
+        >
+          <Touchable style={_.mr.sm} onPress={onPress}>
+            <Text size={size} bold numberOfLines={2}>
+              {subject.name}
+            </Text>
+          </Touchable>
           <Text size={11} bold>
             {eps.join(' / ')}
           </Text>
           <Flex style={_.mt.sm}>
-            <Rank value={subject.rank} />
+            <Rank style={_.mr.xs} value={subject.rank} />
             <Stars style={_.mr.xs} value={subject.score} simple />
-            {!!subject.date && (
-              <Text size={11} type='sub'>
-                {!!(subject.rank || subject.score) && ' / '}
-                {subject.date}
-              </Text>
-            )}
-            {!!platform && (
-              <Text size={11} type='sub'>
-                {!!(subject.rank || subject.score || subject.date) && ' / '}
-                {platform}
-              </Text>
-            )}
+            <Text size={11} type='sub'>
+              {bottom.join(' / ')}
+            </Text>
           </Flex>
         </Flex>
       </Flex.Item>

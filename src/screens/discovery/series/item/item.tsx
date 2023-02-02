@@ -14,8 +14,8 @@ import { DEFAULT_PROPS } from './ds'
 export default memo(({ styles, data, subjects }) => {
   if (!data.length) return null
 
-  // 以最小的subjectId作为pid
-  const id = Math.min(...data)
+  // 以最小的 subjectId 作为 pid
+  const id = Math.min(...(data as number[]))
   const sub = data.filter(item => item !== id)
   return (
     <View>
@@ -27,7 +27,7 @@ export default memo(({ styles, data, subjects }) => {
               asc(subjects[a]?.date || '9999-99-99', subjects[b]?.date || '9999-99-99')
             )
             .map(item => (
-              <Subject key={item} style={styles.subItem} id={item} />
+              <Subject key={item} style={styles.subItem} id={item} small />
             ))}
         </View>
       )}

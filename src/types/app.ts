@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 17:41:00
+ * @Last Modified time: 2023-02-02 10:00:50
  */
 import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
@@ -39,7 +39,20 @@ export type Paths = keyof typeof Screens
 /** react-navigation 路由对象 */
 export type Navigation = {
   /** 前进 */
-  push?: (path: Paths, params?: object) => any
+  push?: ((path: Paths) => any) &
+    ((
+      path: 'Information',
+      params: {
+        /** 标题 */
+        title: string
+
+        /** 正文 */
+        message: string[]
+
+        /** 提示会员 */
+        advance?: boolean
+      }
+    ) => any)
 
   /** 替换 */
   replace?: (path: Paths, params?: object) => any

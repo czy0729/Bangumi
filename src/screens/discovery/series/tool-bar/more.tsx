@@ -8,8 +8,9 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 
-function More(props, { $ }) {
+function More(props, { $ }: Ctx) {
   const { fixed } = $.state
   return (
     <ToolBar.Popover

@@ -13,10 +13,14 @@ export const memoStyles = _.memoStyles(() => ({
   },
   item: {
     paddingHorizontal: _.wind,
-    paddingVertical: _.md + 8
+    paddingVertical: 20
   },
   body: {
     height: IMG_HEIGHT_SM,
+    paddingLeft: _.md
+  },
+  bodySm: {
+    height: IMG_HEIGHT_SM * 0.88,
     paddingLeft: _.md
   },
   manage: {

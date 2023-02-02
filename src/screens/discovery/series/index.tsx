@@ -35,7 +35,7 @@ const Series = (props, { $ }: Ctx) => {
             data={$.data}
             limit={6}
             ListHeaderComponent={!fixed && <ToolBar />}
-            renderItem={({ item }) => <Item item={item} />}
+            renderItem={renderItem}
             onPage={$.onPage}
           />
           <Tips />
@@ -46,3 +46,7 @@ const Series = (props, { $ }: Ctx) => {
 }
 
 export default ic(Store, Series)
+
+function renderItem({ item }) {
+  return <Item item={item} />
+}

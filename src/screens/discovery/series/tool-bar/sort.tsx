@@ -9,8 +9,9 @@ import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { DATA_SORT } from '../ds'
+import { Ctx } from '../types'
 
-function Sort(props, { $ }) {
+function Sort(props, { $ }: Ctx) {
   const { sort } = $.state
   return (
     <ToolBar.Popover

@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   sub: {
     marginTop: -_.sm,
-    paddingLeft: _.wind + 24,
+    paddingLeft: _.wind + _.sm,
     paddingBottom: _.md
   },
   subItem: {

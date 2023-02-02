@@ -11,6 +11,7 @@ import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import i18n from '@constants/i18n'
+import { SubjectId } from '@types'
 import {
   NAMESPACE,
   HOST_API_V0,
@@ -303,7 +304,7 @@ export default class ScreenSeries extends store {
   }
 
   /** 条目信息 */
-  fetchSubjects = async (subjectIds = []) => {
+  fetchSubjects = async (subjectIds: SubjectId[] = []) => {
     if (!subjectIds.length) return false
 
     const now = getTimestamp()
@@ -368,13 +369,9 @@ export default class ScreenSeries extends store {
     const data = []
 
     Object.keys(relations)
-      .sort((a, b) => asc(a, b))
+      .sort((a, b) => desc(a, b))
       .forEach(id => {
-        const ids = [Number(id)]
-        relations[id].forEach(item => {
-          ids.push(item)
-        })
-
+        const ids = [Number(id), ...relations[id]]
         const find = ids.find(id => id in indexes)
         if (!find) {
           data.push(ids)
@@ -415,7 +412,7 @@ export default class ScreenSeries extends store {
     return this.state.collections.map(item => item.id)
   }
 
-  collection(subjectId) {
+  collection(subjectId: SubjectId) {
     return computed(() => {
       return (
         this.state.collections.find(item => item.id === subjectId) ||
@@ -424,7 +421,7 @@ export default class ScreenSeries extends store {
     }).get()
   }
 
-  collections(subjectIds) {
+  collections(subjectIds: SubjectId[]) {
     return computed(() => {
       const data = {}
       subjectIds.forEach(subjectId => {
@@ -436,13 +433,13 @@ export default class ScreenSeries extends store {
     }).get()
   }
 
-  subject(subjectId) {
+  subject(subjectId: SubjectId) {
     return computed(() => {
       return this.state.subjects[subjectId] || SUBJECT_ITEM
     }).get()
   }
 
-  subjects(subjectIds) {
+  subjects(subjectIds: SubjectId[]) {
     return computed(() => {
       const data = {}
       subjectIds.forEach(subjectId => {
@@ -452,7 +449,7 @@ export default class ScreenSeries extends store {
     }).get()
   }
 
-  filterData(item) {
+  filterData(item: SubjectId[]) {
     return computed(() => {
       const { filter, airtime, status } = this.state
 

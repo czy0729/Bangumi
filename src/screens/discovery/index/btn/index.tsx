@@ -7,7 +7,7 @@
 import React from 'react'
 import { Clipboard } from 'react-native'
 import { getLastPath } from '@screens/_/base/filter-switch'
-import { open, info, matchBgmUrl, appNavigate } from '@utils'
+import { info, matchBgmUrl, appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
@@ -40,7 +40,12 @@ function Btn({ item }, { $, navigation }: Ctx) {
                 return navigation.push(key)
               }
 
-              if (key === 'Netabare') return open('https://netaba.re/trending')
+              if (key === 'Netabare') {
+                return navigation.push('WebBrowser', {
+                  url: 'https://netaba.re/trending',
+                  title: '评分趋势'
+                })
+              }
 
               if (key === 'UserTimeline') {
                 return navigation.push(key, {
