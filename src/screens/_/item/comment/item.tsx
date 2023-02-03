@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 17:42:56
+ * @Last Modified time: 2023-02-03 19:07:06
  */
 import React from 'react'
 import { Flex, Iconfont, Text, UserStatus } from '@components'
@@ -62,6 +62,7 @@ const Item = memo(
             </Flex.Item>
             {!!popoverData && typeof onSelect === 'function' && (
               <Popover
+                key={userId}
                 style={styles.touch}
                 data={popoverData}
                 onSelect={title =>
@@ -89,9 +90,11 @@ const Item = memo(
               )}
             </Flex>
           )}
-          <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
-            {comment}
-          </Text>
+          {!!comment && (
+            <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
+              {comment}
+            </Text>
+          )}
         </Flex.Item>
       </Flex>
     )

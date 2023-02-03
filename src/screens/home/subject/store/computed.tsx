@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:00:03
+ * @Last Modified time: 2023-02-03 19:11:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -240,6 +240,8 @@ export default class Computed extends State {
         return '听'
       case '游戏':
         return '玩'
+      case '书籍':
+        return '读'
       default:
         return '看'
     }

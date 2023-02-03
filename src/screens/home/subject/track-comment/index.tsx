@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 17:04:16
+ * @Last Modified time: 2023-02-03 19:28:04
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Divider } from '@components'
 import { ItemComment } from '@_'
-import { systemStore, collectionStore, usersStore } from '@stores'
+import { _, systemStore, collectionStore, usersStore } from '@stores'
 import { getTimestamp, lastDate, titleCase } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatusCn } from '@types'
+import { CollectionStatusCn, UserId } from '@types'
+import { Ctx } from '../types'
 
 const POPOVER_DATA = {
   动画: ['取消动画特别关注'],
@@ -27,13 +28,17 @@ function TrackComment(props, { $, navigation }: Ctx) {
 
   if (!$.subjectTypeValue) return null
 
-  const userIds = systemStore.setting[`comment${titleCase($.subjectTypeValue)}`]
+  const userIds = systemStore.setting[
+    `comment${titleCase($.subjectTypeValue)}`
+  ] as UserId[]
   if (!userIds?.length) return null
 
-  const collection = collectionStore.usersSubjectCollection(userIds[0], $.subjectId)
-  if (!collection._loaded || !collection.update_at || !collection.type) return null
+  const items = userIds.filter(item => {
+    const collection = collectionStore.usersSubjectCollection(item, $.subjectId)
+    return !!(collection._loaded && collection.update_at && collection.type)
+  })
+  if (!items.length) return null
 
-  const userInfo = usersStore.usersInfo(userIds[0])
   const event = {
     id: '条目.跳转',
     data: {
@@ -41,24 +46,33 @@ function TrackComment(props, { $, navigation }: Ctx) {
       subjectId: $.subjectId
     }
   } as const
-
   return (
-    <>
-      <ItemComment
-        navigation={navigation}
-        event={event}
-        time={lastDate(getTimestamp(collection.update_at))}
-        avatar={userInfo.avatar}
-        userId={userIds[0]}
-        userName={userInfo.userName}
-        star={$.hideScore ? undefined : collection.rate}
-        status={MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(collection.type)}
-        comment={collection.comment}
-        popoverData={POPOVER_DATA[$.type]}
-        onSelect={$.onCancelTrackUsersCollection}
-      />
+    <View style={_.mt.sm}>
+      {items.map(item => {
+        const collection = collectionStore.usersSubjectCollection(item, $.subjectId)
+        const userInfo = usersStore.usersInfo(item)
+        const status = String(
+          MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(collection.type) || ''
+        ).replace('看', $.action) as CollectionStatusCn
+        return (
+          <ItemComment
+            key={item}
+            navigation={navigation}
+            event={event}
+            time={lastDate(getTimestamp(collection.update_at))}
+            avatar={userInfo.avatar}
+            userId={item}
+            userName={userInfo.userName}
+            star={$.hideScore ? undefined : collection.rate}
+            status={status}
+            comment={String(collection.comment).replace(/[\r\n]/g, '')}
+            popoverData={POPOVER_DATA[$.type]}
+            onSelect={$.onCancelTrackUsersCollection}
+          />
+        )
+      })}
       <Divider />
-    </>
+    </View>
   )
 }
 

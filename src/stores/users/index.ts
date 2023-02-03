@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:34:04
+ * @Last Modified time: 2023-02-03 19:00:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLDecode } from '@utils'
@@ -490,8 +490,14 @@ class UsersStore
 
   // -------------------- method --------------------
   /** 更新用户简短信息 */
-  updateUsersInfo = (item: { avatar: string; userId: UserId; userName: string }) => {
+  updateUsersInfo = async (item: {
+    avatar: string
+    userId: UserId
+    userName: string
+  }) => {
     const key = 'usersInfo'
+    await this.init(key)
+
     this.setState({
       [key]: {
         [item.userId]: {

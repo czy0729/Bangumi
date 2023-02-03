@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:43:39
+ * @Last Modified time: 2023-02-03 19:15:25
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -14,7 +14,8 @@ import {
   unzipBangumiData,
   omit,
   opitimize,
-  titleCase
+  titleCase,
+  queue
 } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import {
@@ -161,7 +162,16 @@ export default class Fetch extends Computed {
     const userIds = systemStore.setting[`comment${titleCase(this.subjectTypeValue)}`]
     if (!userIds?.length) return false
 
-    return collectionStore.fetchUsersCollection(userIds[0], this.subjectId)
+    const fetchs = []
+    const now = getTimestamp()
+    userIds.forEach(item => {
+      const collection = collectionStore.usersSubjectCollection(item, this.subjectId)
+      if (!collection._loaded || now - Number(collection._loaded) >= 60 * 60) {
+        fetchs.push(() => collectionStore.fetchUsersCollection(item, this.subjectId))
+      }
+    })
+
+    return queue(fetchs, 1)
   }
 
   /** 获取单集播放源 */

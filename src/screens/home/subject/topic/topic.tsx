@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 17:45:31
+ * @Last Modified time: 2023-02-03 19:03:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ export default memo(
   ({ navigation, styles, showTopic, subjectId, topic, onSwitchBlock }) => {
     global.rerender('Subject.Topic.Main')
 
-    const { list, onExpand } = useExpandLazy(topic, 3)
+    const { list, onExpand } = useExpandLazy(topic, 4)
     return (
       <View style={!showTopic ? [_.mt.lg, _.short] : _.mt.lg}>
         <SectionTitle

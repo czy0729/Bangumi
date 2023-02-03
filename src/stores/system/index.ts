@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 17:38:07
+ * @Last Modified time: 2023-02-03 19:42:59
  */
 import { observable, computed } from 'mobx'
-import { getTimestamp, info, titleCase } from '@utils'
+import { confirm, getTimestamp, info, titleCase } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import store from '@utils/store'
 import { put, read } from '@utils/db'
@@ -640,7 +640,34 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
   /** 追踪特定用户收藏相关信息 */
   trackUsersCollection = (userName: UserId, type: SubjectType = 'anime') => {
     const key = `comment${titleCase(type)}` as const
-    this.setSetting(key, [userName])
+    const value = [...(this.setting[key] || [])]
+    if (!value.includes(userName)) value.unshift(userName)
+
+    if (!this.advance && value.length > 1) {
+      confirm('非高级会员同类别最大支持 1 人，是否用此用户替代先前的特别关注？', () => {
+        this.setSetting(key, [userName])
+        info('已关注')
+        return true
+      })
+      return false
+    }
+
+    if (value.length > 5) {
+      confirm(
+        '高级会员同类别最大支持 5 人，当前已满 5 人，是否用此用户替代最早的特别关注？',
+        () => {
+          value.pop()
+          this.setSetting(key, value)
+          info('已关注')
+          return true
+        }
+      )
+      return false
+    }
+
+    this.setSetting(key, value)
+    info('已关注')
+    return true
   }
 
   /** 取消追踪特定用户收藏相关信息 */
@@ -648,6 +675,8 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     const key = `comment${titleCase(type)}` as const
     const value = (this.setting[key] || []).filter(item => item !== userName)
     this.setSetting(`comment${titleCase(type)}`, value)
+    info('已取消')
+    return true
   }
 }
 
