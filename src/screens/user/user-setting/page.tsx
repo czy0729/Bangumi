@@ -178,7 +178,7 @@ class UserSetting extends React.Component {
                 <Input
                   style={this.styles.input}
                   defaultValue={sign_input}
-                  placeholder='请填入昵称'
+                  placeholder='请填入签名'
                   autoCapitalize='none'
                   showClear
                   onChangeText={text => $.onChangeText('sign_input', text)}
