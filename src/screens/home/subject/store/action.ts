@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 20:29:41
+ * @Last Modified time: 2023-02-03 17:35:44
  */
 import {
   otaStore,
   collectionStore,
   calendarStore,
   systemStore,
-  userStore
+  userStore,
+  usersStore
 } from '@stores'
 import {
   appNavigate,
@@ -36,7 +37,7 @@ import {
   SITE_XUNBO
 } from '@constants/site'
 import i18n from '@constants/i18n'
-import { EpStatus, Id, Navigation, RatingStatus } from '@types'
+import { EpStatus, Id, Navigation, RatingStatus, UserId } from '@types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import { NAMESPACE } from './ds'
@@ -467,6 +468,42 @@ export default class Action extends Fetch {
     }
 
     return false
+  }
+
+  /** 追踪特定用户收藏相关信息 */
+  onTrackUsersCollection = (
+    title: string,
+    userData: {
+      avatar: string
+      userId: UserId
+      userName: string
+    }
+  ) => {
+    if (this.type && userData?.userId) {
+      const { avatar, userId, userName } = userData || {}
+      systemStore.trackUsersCollection(userId, this.subjectTypeValue)
+      usersStore.updateUsersInfo({
+        avatar,
+        userId,
+        userName
+      })
+      collectionStore.fetchUsersCollection(userId, this.subjectId)
+    }
+  }
+
+  /** 取消追踪特定用户收藏相关信息 */
+  onCancelTrackUsersCollection = (
+    title: string,
+    userData: {
+      avatar: string
+      userId: UserId
+      userName: string
+    }
+  ) => {
+    if (this.type && userData?.userId) {
+      const { userId } = userData || {}
+      systemStore.cancelTrackUsersCollection(userId, this.subjectTypeValue)
+    }
   }
 
   // -------------------- action --------------------

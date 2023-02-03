@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 08:31:14
+ * @Last Modified time: 2023-02-03 16:34:04
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLDecode } from '@utils'
@@ -25,7 +25,7 @@ import {
 import { StoreConstructor, UserId } from '@types'
 import userStore from '../user'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE, INIT_USERS } from './init'
+import { NAMESPACE, INIT_USERS, INIT_USERS_INFO } from './init'
 import {
   cheerioFriends,
   cheerioUsers,
@@ -44,7 +44,8 @@ import {
   MyFriendsMap,
   Persons,
   Recents,
-  Users
+  Users,
+  UsersInfo
 } from './types'
 
 const state = {
@@ -61,6 +62,11 @@ const state = {
   /** 用户信息 */
   users: {
     0: INIT_USERS
+  },
+
+  /** 用户简短信息 */
+  usersInfo: {
+    0: INIT_USERS_INFO
   },
 
   /** 用户收藏的虚拟角色 */
@@ -107,7 +113,8 @@ class UsersStore
     myFriendsMap: false,
     persons: false,
     recents: false,
-    users: false
+    users: false,
+    usersInfo: false
   }
 
   init = async (key: keyof typeof this._loaded) => {
@@ -158,6 +165,15 @@ class UsersStore
     return computed<Users>(() => {
       const key = userId || userStore.myId
       return this.state.users[key] || INIT_USERS
+    }).get()
+  }
+
+  /** 用户简短信息 */
+  usersInfo(userId?: UserId) {
+    this.init('usersInfo')
+    return computed<UsersInfo>(() => {
+      const key = userId
+      return this.state.usersInfo[key] || INIT_USERS_INFO
     }).get()
   }
 
@@ -470,6 +486,21 @@ class UsersStore
     this.save(key)
 
     return this[key](userId, isCollect)
+  }
+
+  // -------------------- method --------------------
+  /** 更新用户简短信息 */
+  updateUsersInfo = (item: { avatar: string; userId: UserId; userName: string }) => {
+    const key = 'usersInfo'
+    this.setState({
+      [key]: {
+        [item.userId]: {
+          ...item,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.save(key)
   }
 }
 

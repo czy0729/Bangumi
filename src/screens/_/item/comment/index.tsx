@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 12:48:23
+ * @Last Modified time: 2023-02-03 17:00:25
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -21,8 +21,11 @@ export const ItemComment = ob(
     userId,
     userName,
     star,
+    status,
     comment,
-    event
+    event,
+    popoverData,
+    onSelect
   }: ItemCommentProps) => (
     <Item
       navigation={navigation}
@@ -33,8 +36,11 @@ export const ItemComment = ob(
       userId={userId}
       userName={userName}
       star={star}
+      status={status}
       comment={comment}
       event={event}
+      popoverData={popoverData}
+      onSelect={onSelect}
     />
   )
 )

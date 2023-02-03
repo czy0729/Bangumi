@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:07:04
+ * @Last Modified time: 2023-02-03 12:58:57
  */
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -45,6 +45,12 @@ export function isObject(value: any): boolean {
 /** 缩短 runAfterInteractions */
 export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
   return InteractionManager.runAfterInteractions(fn)
+}
+
+/** 若有后续样式返回数组否则返回第一参数 (用于防止组件重渲染) */
+export function stl<T, K>(style: T, ...otherStyles: K[]) {
+  if (otherStyles.every(item => !item)) return style
+  return [style, ...otherStyles]
 }
 
 /** 节流 */
@@ -373,8 +379,10 @@ export function arrGroup(arr: string | any[], num: number = 40): any[] {
 }
 
 /** 首字母大写 */
-export function titleCase(str: any = '') {
-  return String(str).replace(/( |^)[a-z]/g, L => L.toUpperCase())
+export function titleCase<S>(str: S) {
+  return String(str || '').replace(/( |^)[a-z]/g, L =>
+    L.toUpperCase()
+  ) as S extends `${infer R}${infer T}` ? `${Uppercase<R>}${T}` : ''
 }
 
 /** @deprecated 颜色过渡 */

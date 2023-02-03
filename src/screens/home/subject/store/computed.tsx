@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 10:47:59
+ * @Last Modified time: 2023-02-03 16:00:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,7 +44,7 @@ import {
   URL_DEFAULT_AVATAR,
   getOTA
 } from '@constants'
-import { Id, RatingStatus, Sites, SubjectTypeCn } from '@types'
+import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
 import { NAMESPACE, INIT_RATING, SORT_RELATION_DESC } from './ds'
@@ -197,6 +197,17 @@ export default class Computed extends State {
     }
 
     return MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+  }
+
+  /** 条目类型 (数字) */
+  @computed get subjectType() {
+    if (this.subject._loaded) return this.subject.type
+    return this.subjectFromOSS.type || this.subjectFormCDN.type
+  }
+
+  /** 条目类型值 */
+  @computed get subjectTypeValue() {
+    return MODEL_SUBJECT_TYPE.getLabel<SubjectType>(this.subjectType)
   }
 
   /** @deprecated Ep 偏移 */
@@ -593,12 +604,6 @@ export default class Computed extends State {
         this.subjectFromOSS.name_cn ||
         findSubjectCn(this.jp, this.subjectId)
     )
-  }
-
-  /** 条目类型 (Api值) */
-  @computed get subjectType() {
-    if (this.subject._loaded) return this.subject.type
-    return this.subjectFromOSS.type || this.subjectFormCDN.type
   }
 
   /** 网站用户评分 */

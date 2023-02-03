@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 20:28:12
+ * @Last Modified time: 2023-02-03 16:52:28
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -19,7 +19,7 @@ import {
 } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
-import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
+import { request, fetchCollectionSingleV0 } from '@utils/fetch.v0'
 import { UserCollectionItem } from '@utils/fetch.v0/types'
 import { SORT } from '@utils/subject/anime'
 import {
@@ -27,6 +27,7 @@ import {
   API_COLLECTION_ACTION,
   API_MOSAIC_TILE,
   API_SUBJECT_UPDATE_WATCHED,
+  API_USERS_SUBJECT_COLLECTION,
   COLLECTION_STATUS,
   DEV,
   HTML_ACTION_SUBJECT_INTEREST_UPDATE,
@@ -40,13 +41,13 @@ import {
   CollectionStatus,
   CollectionStatusCn,
   CollectionsOrder,
+  RatingStatus,
   StoreConstructor,
   SubjectId,
   SubjectType,
   SubjectTypeCn,
-  UserId,
-  RatingStatus,
-  SubjectTypeValue
+  SubjectTypeValue,
+  UserId
 } from '@types'
 import subjectStore from '../subject'
 import userStore from '../user'
@@ -55,14 +56,16 @@ import {
   NAMESPACE,
   DEFAULT_SUBJECT_TYPE,
   DEFAULT_COLLECTION_STATUS,
-  DEFAULT_ORDER
+  DEFAULT_ORDER,
+  DEFAULT_USERS_SUBJECT_COLLECTION
 } from './init'
 import {
   Collection,
   MosaicTile,
   UserCollections,
   UserCollectionsMap,
-  UserCollectionsTags
+  UserCollectionsTags,
+  UsersSubjectCollection
 } from './types'
 
 const state = {
@@ -97,7 +100,12 @@ const state = {
   },
 
   /** 瓷砖进度 */
-  mosaicTile: {}
+  mosaicTile: {},
+
+  /** 特定用户特定条目的收藏信息 */
+  usersSubjectCollection: {
+    0: DEFAULT_USERS_SUBJECT_COLLECTION
+  }
 }
 
 class CollectionStore extends store implements StoreConstructor<typeof state> {
@@ -110,7 +118,8 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     userCollectionsMap: false,
     collectionStatus: false,
     _collectionStatusLastFetchMS: false,
-    mosaicTile: false
+    mosaicTile: false,
+    usersSubjectCollection: false
   }
 
   init = async (key: keyof typeof this._loaded) => {
@@ -192,6 +201,17 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     this.init('_collectionStatusLastFetchMS')
     return computed<number>(() => {
       return this.state._collectionStatusLastFetchMS[subjectId] || 0
+    }).get()
+  }
+
+  /** 特定用户特定条目的收藏信息 */
+  usersSubjectCollection(username: UserId, subjectId: SubjectId) {
+    this.init('usersSubjectCollection')
+    return computed<UsersSubjectCollection>(() => {
+      return (
+        this.state.usersSubjectCollection[`${username}|${subjectId}`] ||
+        DEFAULT_USERS_SUBJECT_COLLECTION
+      )
     }).get()
   }
 
@@ -557,6 +577,35 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     this.save(key)
     this.save('_collectionStatusLastFetchMS')
     return data
+  }
+
+  /** 获取对应用户的收藏 */
+  fetchUsersCollection = async (username: UserId, subjectId: SubjectId) => {
+    try {
+      const data: any = await request(API_USERS_SUBJECT_COLLECTION(username, subjectId))
+      if (data?.updated_at) {
+        const key = 'usersSubjectCollection'
+        const stateKey = `${username}|${subjectId}`
+        const item = {
+          rate: data?.rate || 0,
+          comment: data?.comment || '',
+          type: String(data?.type || ''),
+          update_at: data?.updated_at || '',
+          _loaded: getTimestamp()
+        }
+        this.setState({
+          [key]: {
+            [stateKey]: item
+          }
+        })
+        this.save(key)
+        return item
+      }
+
+      return false
+    } catch (error) {
+      return false
+    }
   }
 
   // -------------------- methods --------------------

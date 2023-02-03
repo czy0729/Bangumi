@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 13:56:02
+ * @Last Modified time: 2023-02-03 16:43:39
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -13,7 +13,8 @@ import {
   getTimestamp,
   unzipBangumiData,
   omit,
-  opitimize
+  opitimize,
+  titleCase
 } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import {
@@ -151,6 +152,16 @@ export default class Fetch extends Computed {
       refresh,
       reverse
     )
+  }
+
+  /** 特别关注 */
+  fetchTrackComments = () => {
+    if (!this.subjectTypeValue) return false
+
+    const userIds = systemStore.setting[`comment${titleCase(this.subjectTypeValue)}`]
+    if (!userIds?.length) return false
+
+    return collectionStore.fetchUsersCollection(userIds[0], this.subjectId)
   }
 
   /** 获取单集播放源 */

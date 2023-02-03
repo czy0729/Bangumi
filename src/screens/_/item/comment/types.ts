@@ -2,9 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:46:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 12:47:58
+ * @Last Modified time: 2023-02-03 16:59:47
  */
-import { EventType, Navigation, UserId, ViewStyle } from '@types'
+import {
+  CollectionStatusCn,
+  EventType,
+  Fn,
+  Navigation,
+  UserId,
+  ViewStyle
+} from '@types'
 
 export type Props = {
   navigation?: Navigation
@@ -14,6 +21,9 @@ export type Props = {
   userId?: UserId
   userName?: string
   star?: string | number
+  status?: CollectionStatusCn
   comment?: string
   event?: EventType
+  popoverData?: string[]
+  onSelect?: Fn
 }

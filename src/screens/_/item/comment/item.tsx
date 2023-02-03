@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 16:54:19
+ * @Last Modified time: 2023-02-03 17:42:56
  */
 import React from 'react'
-import { Flex, Text, UserStatus } from '@components'
+import { Flex, Iconfont, Text, UserStatus } from '@components'
 import { _ } from '@stores'
+import { stl, correctAgo } from '@utils'
 import { memo } from '@utils/decorators'
-import { correctAgo } from '@utils/app'
-import { Avatar, Stars, Name } from '../../base'
+import { Popover, Avatar, Stars, Name } from '../../base'
 import { DEFAULT_PROPS } from './ds'
 
 const Item = memo(
@@ -22,13 +22,16 @@ const Item = memo(
     userId,
     userName,
     star,
+    status,
     comment,
-    event
+    event,
+    popoverData,
+    onSelect
   }) => {
     global.rerender('Item.ItemComment.Main', userName)
 
     return (
-      <Flex style={style ? [styles.item, style] : styles.item} align='start'>
+      <Flex style={stl(styles.item, style)} align='start'>
         <UserStatus userId={userId}>
           <Avatar
             navigation={navigation}
@@ -50,15 +53,42 @@ const Item = memo(
                 right={
                   <Text type='sub' size={11} lineHeight={14}>
                     {'  '}
-                    {correctAgo(formatTime(time))}
+                    {String(time).includes('ago') ? correctAgo(formatTime(time)) : time}
                   </Text>
                 }
               >
                 {userName}
               </Name>
             </Flex.Item>
+            {!!popoverData && typeof onSelect === 'function' && (
+              <Popover
+                style={styles.touch}
+                data={popoverData}
+                onSelect={title =>
+                  onSelect(title, {
+                    avatar,
+                    userId,
+                    userName
+                  })
+                }
+              >
+                <Flex style={styles.icon} justify='center'>
+                  <Iconfont style={_.ml.md} name='md-more-vert' size={18} />
+                </Flex>
+              </Popover>
+            )}
           </Flex>
-          <Stars style={styles.stars} value={star} />
+          {!!(star || status) && (
+            <Flex style={styles.stars}>
+              <Stars value={star} />
+              {!!status && (
+                <Text type='sub' size={11}>
+                  {!!star && ' · '}
+                  {status}
+                </Text>
+              )}
+            </Flex>
+          )}
           <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
             {comment}
           </Text>
@@ -72,9 +102,8 @@ const Item = memo(
 export default Item
 
 /**
- * 由于爬出的html做了去除空格操作
+ * 由于爬出的 html 做了去除空格操作
  * 还原本来有操作的时间字符串
- * @param {*} str
  */
 function formatTime(str = '') {
   if (str.indexOf('ago') === -1) {

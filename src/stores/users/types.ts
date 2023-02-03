@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-26 04:53:26
+ * @Last Modified time: 2023-02-03 15:21:08
  */
 import {
   Avatar,
@@ -12,6 +12,7 @@ import {
   HTMLText,
   Id,
   ListEmpty,
+  Loaded,
   MonoId,
   SubjectTypeValue,
   UrlSubject,
@@ -75,6 +76,14 @@ export type Users = {
     total: string
   }
   _loaded: number
+}
+
+/** 用户简短信息 */
+export type UsersInfo = {
+  avatar: Avatar
+  userId: UserId
+  userName: string
+  _loaded: Loaded
 }
 
 /** 用户收藏的虚拟角色 */

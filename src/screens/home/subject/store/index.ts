@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:36
+ * @Last Modified time: 2023-02-03 16:44:05
  */
 import { collectionStore, otaStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -65,6 +65,7 @@ class ScreenSubject extends Action {
       () => this.fetchOTA(), // 装载第三方找条目数据
       () => this.fetchThirdParty(data), // 装载第三方额外数据
       () => this.fetchAnitabi(),
+      () => this.fetchTrackComments(),
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目 API 没有的网页额外数据
       () => this.fetchEpsData(), // 单集播放源

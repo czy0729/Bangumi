@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-12 06:48:55
+ * @Last Modified time: 2023-02-03 16:26:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ import Like from '../like'
 import Recent from '../recent'
 import Blog from '../blog'
 import Topic from '../topic'
+import TrackComment from '../track-comment'
 import Comment from '../comment'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -67,6 +68,7 @@ function Header(props, { $ }: Ctx) {
             <Topic />
             <Recent />
             <Comment />
+            <TrackComment />
           </>
         )}
         {!_loaded && (

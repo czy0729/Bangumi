@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 20:16:23
+ * @Last Modified time: 2023-02-03 17:38:07
  */
 import { observable, computed } from 'mobx'
-import { getTimestamp, info } from '@utils'
+import { getTimestamp, info, titleCase } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import store from '@utils/store'
 import { put, read } from '@utils/db'
@@ -44,6 +44,7 @@ import {
   SettingUserGridNum,
   SettingUserGridNumCn,
   StoreConstructor,
+  SubjectType,
   UserId
 } from '@types'
 import UserStore from '../user'
@@ -634,6 +635,19 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
       [key]: value
     })
     this.save(key)
+  }
+
+  /** 追踪特定用户收藏相关信息 */
+  trackUsersCollection = (userName: UserId, type: SubjectType = 'anime') => {
+    const key = `comment${titleCase(type)}` as const
+    this.setSetting(key, [userName])
+  }
+
+  /** 取消追踪特定用户收藏相关信息 */
+  cancelTrackUsersCollection = (userName: UserId, type: SubjectType = 'anime') => {
+    const key = `comment${titleCase(type)}` as const
+    const value = (this.setting[key] || []).filter(item => item !== userName)
+    this.setSetting(`comment${titleCase(type)}`, value)
   }
 }
 

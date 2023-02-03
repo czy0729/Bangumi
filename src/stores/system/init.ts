@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-04 20:49:19
+ * @Last Modified time: 2023-02-03 16:23:30
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -99,7 +99,7 @@ export const INIT_SUBJECT_LAYOUT = {
 
   /** 吐槽 */
   showComment: true as LayoutValue
-}
+} as const
 
 /** 发现页自定义菜单 */
 export const INIT_DISCOVERY_MENU = [
@@ -151,7 +151,7 @@ export const INIT_SETTING = {
   /** CDN 源头 */
   cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('jsDelivr'),
 
-  /** 头像使用 CDN */
+  /** @deprecated 头像使用 CDN */
   cdnAvatar: false,
 
   /** 封面使用 CDN */
@@ -169,7 +169,7 @@ export const INIT_SETTING = {
   /** 屏蔽默认头像用户相关信息 */
   filterDefault: false,
 
-  /** @deprecated [已废弃] 扁平化 */
+  /** @deprecated 扁平化 */
   flat: true,
 
   /** 章节热力图 */
@@ -184,7 +184,7 @@ export const INIT_SETTING = {
   /** @deprecated 图片渐出 */
   imageTransition: false,
 
-  /** @deprecated [已废弃] iOS 风格弹出菜单 */
+  /** @deprecated iOS 风格弹出菜单 */
   iosMenu: false,
 
   /** @deprecated [已废弃] 首页收藏阴影 */
@@ -226,7 +226,7 @@ export const INIT_SETTING = {
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),
 
-  /** @deprecated [已废弃] 图片质量 */
+  /** @deprecated 图片质量 */
   quality: MODEL_SETTING_QUALITY.getValue<SettingQuality>('默认'),
 
   /** 切页动画 */
@@ -292,6 +292,21 @@ export const INIT_SETTING = {
 
   /** 图片是否开启新本地缓存策略 (iOS) */
   iosImageCacheV2: IOS_IMAGE_CACHE_V2,
+
+  /** 追踪用户动画评论 ids */
+  commentAnime: [],
+
+  /** 追踪用户书籍评论 ids */
+  commentBook: [],
+
+  /** 追踪用户游戏评论 ids */
+  commentGame: [],
+
+  /** 追踪用户音乐评论 ids */
+  commentMusic: [],
+
+  /** 追踪用户三次元评论 ids */
+  commentReal: [],
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT

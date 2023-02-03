@@ -2,10 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:44:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 16:53:00
+ * @Last Modified time: 2023-02-03 16:59:31
  */
 import { EVENT } from '@constants'
-import { EventType, Navigation, UserId, ViewStyle } from '@types'
+import {
+  CollectionStatusCn,
+  EventType,
+  Fn,
+  Navigation,
+  UserId,
+  ViewStyle
+} from '@types'
 import { memoStyles } from './styles'
 
 export const DEFAULT_PROPS = {
@@ -17,6 +24,9 @@ export const DEFAULT_PROPS = {
   userId: '' as UserId,
   userName: '' as string,
   star: '' as string | number,
+  status: '' as CollectionStatusCn,
   comment: '' as string,
-  event: EVENT as EventType
+  event: EVENT as EventType,
+  popoverData: undefined as string[],
+  onSelect: undefined as Fn
 }

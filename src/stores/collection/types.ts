@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-27 04:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:05:59
+ * @Last Modified time: 2023-02-03 14:26:01
  */
 import {
   CollectionStatus,
@@ -14,7 +14,8 @@ import {
   SubjectId,
   UrlUser,
   UserId,
-  Cover
+  Cover,
+  Loaded
 } from '@types'
 
 /** 条目收藏信息 */
@@ -68,3 +69,12 @@ export type UserCollectionsTags = {
   tag: string
   count: number
 }[]
+
+/** 特定用户特定条目的收藏信息 */
+export type UsersSubjectCollection = {
+  rate: number
+  comment: string
+  type: CollectionStatusValue | ''
+  update_at: string
+  _loaded: Loaded
+}

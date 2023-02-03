@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-26 04:53:02
+ * @Last Modified time: 2023-02-03 15:20:47
  */
 export const NAMESPACE = 'Users'
 
@@ -49,6 +49,13 @@ export const INIT_USERS = {
     std: '',
     total: ''
   }
+}
+
+export const INIT_USERS_INFO = {
+  avatar: '',
+  userId: '',
+  userName: '',
+  _loaded: false
 }
 
 export const INIT_CHARACTERS = {

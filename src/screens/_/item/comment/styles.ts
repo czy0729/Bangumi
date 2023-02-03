@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:08
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-06-17 12:43:08
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-02-03 12:30:20
  */
 import { _ } from '@stores'
 
@@ -25,5 +25,14 @@ export const memoStyles = _.memoStyles(() => ({
   },
   stars: {
     marginVertical: _.xs
+  },
+  touch: {
+    marginVertical: -8,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  icon: {
+    width: 36,
+    height: 36
   }
 }))
