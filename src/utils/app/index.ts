@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 06:54:22
+ * @Last Modified time: 2023-02-04 10:35:29
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -916,4 +916,37 @@ export function saveCalenderEvent(
       }
     }
   }, 80)
+}
+
+/** 导出 ics 日程格式时间 */
+export function genICSCalenderEventDate(
+  item: {
+    airdate?: string
+    sort?: number
+    duration?: string
+    url?: string
+  } = {},
+  onAirCustom: {
+    h?: string
+    m?: string
+  } = {}
+) {
+  const { airdate, duration = '' } = item
+  const { h, m } = onAirCustom
+  let date = dayjs(`${airdate} ${h || '00'}:${m || '00'}:00`)
+  let dateEnd = dayjs(`${airdate} ${h || '00'}:${m || '00'}:00`)
+  if (typeof duration === 'string' && /^\d{2}:\d{2}:\d{2}$/g.test(duration)) {
+    const [h, i, s] = duration.split(':')
+    if (Number(h)) dateEnd = dateEnd.add(Number(h), 'hour')
+    if (Number(i)) dateEnd = dateEnd.add(Number(i), 'minute')
+    if (Number(s)) dateEnd = dateEnd.add(Number(s), 'second')
+  }
+
+  const format = 'YYYYMMDDTHHmmss[Z]'
+  date = date.subtract(8, 'hours')
+  dateEnd = dateEnd.subtract(8, 'hours')
+  return {
+    DTSTART: date.format(format),
+    DTEND: dateEnd.format(format)
+  }
 }

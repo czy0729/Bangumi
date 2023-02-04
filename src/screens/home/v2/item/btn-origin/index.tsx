@@ -38,7 +38,7 @@ function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
       subject?.eps?.length &&
       subject.eps.some(item => item.type === 0 && item.status === 'NA')
     ) {
-      data.push('一键添加提醒')
+      data.push('一键添加提醒', '导出放送日程ics')
     }
   }
 
