@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-12 05:23:26
+ * @Last Modified time: 2023-02-04 22:05:17
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -113,13 +113,7 @@ export const APP_ID_SAY_DEVELOP = '32279369'
 /** 小圣杯意见反馈入口 */
 export const APP_ID_SAY_TINYGRAIL = '19820034'
 
-/** 百度翻译 App ID */
-export const APP_BAIDU_ID = '20200130000378695'
-
-/** 百度翻译 App Key */
-export const APP_BAIDU_KEY = 'U92zpHIA8SkYXHrEaZ9O'
-
-/** APP 游客用户id
+/** APP 游客用户 id
  * - [476179] 6907***59@qq.com
  * - [474489] 2963***10@qq.com
  * - [542389] say***02@163.com

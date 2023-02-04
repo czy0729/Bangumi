@@ -2,14 +2,28 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 13:53:26
+ * @Last Modified time: 2023-02-04 22:09:47
  */
-import { APP_BAIDU_ID, APP_BAIDU_KEY } from '@constants/constants'
 import { asc, urlStringify } from '../utils'
 import { get, update } from '../kv'
+import Crypto from '../crypto'
 import md5 from '../thirdParty/md5'
 import hash from '../thirdParty/hash'
 import { xhrCustom } from './xhr'
+
+const s = new Date().getSeconds()
+
+/** 百度翻译 App ID */
+export const APP_BAIDU_ID =
+  s % 2
+    ? Crypto.get('U2FsdGVkX1/PgfGcvWiRli4uwkj4v2Zo5B8sxnVSCxZiKQt+z9eDURCS+EEvIomH')
+    : Crypto.get('U2FsdGVkX19bwyf/ZvZiDMdnB4nRHPF554e9ZN93Shthw9bUszYQFzU1qJ0WasgF')
+
+/** 百度翻译 App Key */
+export const APP_BAIDU_KEY =
+  s % 2
+    ? Crypto.get('U2FsdGVkX19JCU5rzLxwDrJa7LGfTMLpe7pqkqPEdxBg/biIEbr1M4OupcXN1kfS')
+    : Crypto.get('U2FsdGVkX19ba4ukVC6zTHsld0T9vUEVF3uPRuM9FsN4SWhMY/BiHywAMXfHvRIW')
 
 const CACHE_CHECK_LENGTH = 12
 
