@@ -27,7 +27,7 @@ import UI from './ui'
 import CDN from './cdn'
 import Tinygrail from './tinygrail'
 import Katakana from './katakana'
-import Origin from './origin'
+// import Origin from './origin'
 import Route from './route'
 import Home from './home'
 import Contact from './contact'
@@ -69,8 +69,8 @@ const Setting = ({ navigation }: NavigationProps) => {
               <Custom filter={filter} />
               <CDN navigation={navigation} filter={filter} />
               <Route filter={filter} />
-              <Katakana filter={filter} />
-              <Origin navigation={navigation} filter={filter} />
+              <Katakana navigation={navigation} filter={filter} />
+              {/* <Origin navigation={navigation} filter={filter} /> */}
             </Block>
             <Block>
               <Tip>模块</Tip>

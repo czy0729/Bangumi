@@ -2,24 +2,26 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 10:32:15
+ * @Last Modified time: 2023-02-04 21:35:08
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import IconActions from './actions'
 
 const ORIGINS_MANAGE = '源头管理'
 const ACTIONS_MANAGE = '自定义指令'
+const ICS_MANAGE = '导出放送日程ICS'
 
 function IconOnline(props, { $, navigation }: Ctx) {
-  // if ($.isLimit) return null
-
   const data = [...$.onlineOrigins, ORIGINS_MANAGE]
   if (!$.actions.length) data.push(ACTIONS_MANAGE)
+
+  const { exportICS } = systemStore.setting
+  if (exportICS) data.push(ICS_MANAGE)
 
   return (
     <>
@@ -37,6 +39,11 @@ function IconOnline(props, { $, navigation }: Ctx) {
               subjectId: $.subjectId,
               name: $.cn || $.jp
             })
+            return
+          }
+
+          if (title === ICS_MANAGE) {
+            $.doExportCalenderEventICS()
             return
           }
 

@@ -15,7 +15,7 @@ import { getShows, getYuqueThumbs } from '../utils'
 import { TEXTS } from './ds'
 import { styles } from './styles'
 
-function Katakana({ filter }) {
+function Katakana({ navigation, filter }) {
   const { state, setTrue, setFalse } = useBoolean(false)
   const onToggle = useCallback(() => {
     t('设置.切换', {
@@ -33,16 +33,37 @@ function Katakana({ filter }) {
     const { katakana, cnFirst } = systemStore.setting
     return (
       <>
-        {/* 翻译 */}
-        <ItemSetting hd='翻译' arrow highlight filter={filter} onPress={setTrue}>
+        {/* 其他 (之前是翻译, 已合并大部分功能于此项) */}
+        <ItemSetting hd='其他' arrow highlight filter={filter} onPress={setTrue}>
           <Heatmap id='设置.切换' title='片假名终结者' />
         </ItemSetting>
 
-        <ActionSheet show={state} height={filter ? 400 : 560} onClose={setFalse}>
+        <ActionSheet show={state} height={filter ? 400 : 760} onClose={setFalse}>
+          {/* 自定义源头 */}
+          <ItemSetting
+            arrow
+            highlight
+            filter={filter}
+            onPress={() => {
+              t('设置.跳转', {
+                title: '自定义源头',
+                to: 'OriginSetting'
+              })
+
+              setFalse()
+              setTimeout(() => {
+                navigation.push('OriginSetting')
+              }, 80)
+            }}
+            {...TEXTS.origin}
+          >
+            <Heatmap id='设置.跳转' to='OriginSetting' alias='自定义源头' />
+          </ItemSetting>
+
           {/* 翻译引擎 */}
           <ItemSettingBlock
             show={shows.engine}
-            style={_.mt.sm}
+            style={_.mt.md}
             filter={filter}
             {...TEXTS.engine.setting}
           >

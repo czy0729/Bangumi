@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 10:39:03
+ * @Last Modified time: 2023-02-04 20:48:01
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
+import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 import { Props } from './types'
-import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
 
 function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
-  if ($.homeOrigin === -1) return null
+  const { homeOrigin, exportICS } = systemStore.setting
+  if (homeOrigin === -1) return null
 
   const origins: string[] = [...$.actions(subjectId).map(item => item.name)]
-  if ($.homeOrigin === true) {
+  if (homeOrigin === true) {
     origins.push(
       ...$.onlineOrigins(subjectId).map(item =>
         typeof item === 'object' ? item.name : item
@@ -38,8 +40,10 @@ function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
       subject?.eps?.length &&
       subject.eps.some(item => item.type === 0 && item.status === 'NA')
     ) {
-      data.push('一键添加提醒', '导出放送日程ics')
+      data.push('一键添加提醒')
     }
+
+    if (subject?.eps?.length && exportICS) data.push('导出放送日程ICS')
   }
 
   return (

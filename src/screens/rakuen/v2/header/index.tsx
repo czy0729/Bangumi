@@ -16,7 +16,7 @@ function Header() {
     <LogoHeader
       left={<IconGroup />}
       right={<IconMore style={_.ml.sm} />}
-      path='RakuenSetting'
+      // path='RakuenSetting'
     />
   )
 }

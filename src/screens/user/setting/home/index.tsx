@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-22 12:51:22
+ * @Last Modified time: 2023-02-04 20:44:51
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, SegmentedControl, Heatmap, Text } from '@components'
@@ -45,6 +45,7 @@ function Home({ filter }) {
       homeSortSink,
       homeSorting,
       homeEpStartAtLastWathed,
+      exportICS,
       showGame
     } = systemStore.setting
     const homeLayoutList = MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表')
@@ -142,8 +143,8 @@ function Home({ filter }) {
             ft={
               <Text size={13} bold>
                 {systemStore.advance
-                  ? '当前300 (非会员100，网页25)'
-                  : '当前100 (会员300，网页25)'}
+                  ? '当前 300 项 (非会员 100，网页 25)'
+                  : '当前 100 项 (会员 300，网页 25)'}
               </Text>
             }
             filter={filter}
@@ -246,6 +247,34 @@ function Home({ filter }) {
             {...TEXTS.homeOrigin}
           >
             <Heatmap id='设置.切换' title='显示搜索源头按钮' />
+          </ItemSetting>
+
+          {/* 放送提醒菜单增加导出 ICS */}
+          <ItemSetting
+            show={shows.homeEpStartAtLastWathed}
+            ft={
+              <SwitchPro
+                style={styles.switch}
+                value={exportICS}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '导出ICS',
+                    checked: !exportICS
+                  })
+
+                  systemStore.switchSetting('exportICS')
+                }}
+              />
+            }
+            filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2023/png/386799/1675513866337-d4753afd-b998-4e5a-8955-faacfb3d9eae.png',
+              '0/2023/png/386799/1675513933249-3b66e0de-9c53-425d-a263-0e6047595196.png',
+              '0/2023/png/386799/1675513995664-4a1cfef0-66ed-47d5-8285-29df1534c1ee.png'
+            ])}
+            {...TEXTS.homeICS}
+          >
+            <Heatmap id='设置.切换' title='导出ICS' />
           </ItemSetting>
 
           {/* 长篇动画从最后看过开始显示 */}

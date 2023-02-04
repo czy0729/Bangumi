@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:06:47
+ * @Last Modified time: 2023-02-04 20:58:55
  */
 import axios from '@utils/thirdParty/axios'
 import { getTimestamp } from '../utils'
@@ -140,14 +140,19 @@ export async function collectList(userID: string | number): Promise<Result> {
 }
 
 /** 临时文件 */
-export async function temp(fileName: string, fileContent: string): Promise<ResultTemp> {
+export async function temp(
+  fileName: string,
+  fileContent: string,
+  fileExpire?: -1 | undefined
+): Promise<ResultTemp> {
   // @ts-expect-error
   const { data } = await axios({
     method: 'post',
     url: `${HOST}/v1/temp/upload`,
     data: {
       fileName,
-      fileContent
+      fileContent,
+      fileExpire
     }
   })
 

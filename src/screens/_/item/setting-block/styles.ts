@@ -22,7 +22,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorSuccess
   },
   body: {
-    height: 80,
+    height: 76,
     paddingHorizontal: _.xs
   }
 }))

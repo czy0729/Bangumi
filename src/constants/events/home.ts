@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:10:09
+ * @Last Modified time: 2023-02-04 21:34:58
  */
 
 /** Home */
@@ -25,6 +25,7 @@ export default {
   '首页.章节按钮长按': 'Home.doEpsLongPress',
   '首页.搜索源': 'Home.searchEp',
   '首页.再搜索': 'Home.goSearch',
+  '首页.导出日程': 'Home.ics',
 
   // 人物
   '人物.跳转': 'Mono.to',
@@ -69,6 +70,7 @@ export default {
   '条目.重置放送': 'Subject.resetOnAirUser',
   '条目.吐槽倒序': 'Subject.reverseComment',
   '条目.拼图分享': 'Subject.sharePoster',
+  '条目.导出日程': 'Subject.ics',
 
   // 章节
   '章节.跳转': 'Episodes.to',

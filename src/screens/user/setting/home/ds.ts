@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-22 04:27:35
+ * @Last Modified time: 2023-02-04 19:00:33
  */
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 
@@ -34,7 +34,7 @@ export const TEXTS = {
     }
   },
   homeListLimit: {
-    hd: '列表最大收藏数'
+    hd: '列表最大显示'
   },
   homeGridCoverLayout: {
     hd: '封面形状',
@@ -49,6 +49,10 @@ export const TEXTS = {
   homeCustom: {
     hd: '右上角功能入口'
   },
+  homeICS: {
+    hd: '放送提醒菜单增加导出 ICS',
+    information: 'ICS 文件是一种以通用日历格式保存的日历文件，利于跨设备日程同步'
+  },
   homeEpStartAtLastWathed: {
     hd: '长篇动画从最后看过开始显示'
   },
@@ -58,7 +62,8 @@ export const TEXTS = {
   },
   homeOrigin: {
     hd: '收藏项右侧菜单',
-    information: '收藏项右侧按钮组显示菜单按钮\n全部 = 基本操作菜单 + 源头数据菜单',
+    information:
+      '收藏项右侧按钮组显示菜单按钮\n全部 = 基本 (置顶、收起展开、提醒) + 源头数据菜单',
     search: VALUES
   },
   homeOnAir: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 19:23:35
+ * @Last Modified time: 2023-02-04 21:34:59
  */
 import {
   otaStore,
@@ -18,6 +18,7 @@ import {
   cnjp,
   copy,
   feedback,
+  genICSCalenderEventDate,
   getBangumiUrl,
   getCoverMedium,
   info,
@@ -28,6 +29,7 @@ import {
 } from '@utils'
 import { t, baiduTranslate } from '@utils/fetch'
 import { s2t } from '@utils/thirdParty/cn-char'
+import { download, temp } from '@utils/kv'
 import { SITES, MODEL_EP_STATUS } from '@constants'
 import {
   SITE_AGEFANS,
@@ -902,6 +904,68 @@ export default class Action extends Fetch {
     } catch (error) {
       if (hide) hide()
       info('翻译失败, 请重试')
+    }
+  }
+
+  /** 导出放送日程 ics */
+  doExportCalenderEventICS = async () => {
+    const eps = (this.subject.eps || []).filter(item => item.type === 0)
+    if (eps.length) {
+      const eps =
+        this.subject.eps.length >= 100
+          ? this.subject.eps.filter(item => item.status === 'NA')
+          : this.subject.eps
+      if (!eps.length) {
+        info('没有数据')
+        return
+      }
+
+      const onAir = this.onAirCustom
+      const ics = [
+        'BEGIN:VCALENDAR',
+        'PRODID:-//Bangumi//Anime Calendar//CN',
+        'VERSION:2.0',
+        'METHOD:PUBLISH',
+        'CALSCALE:GREGORIAN',
+        'X-WR-CALNAME:Bangumi放送日程',
+        'X-APPLE-CALENDAR-COLOR:#FE8A95'
+      ]
+      eps.forEach(item => {
+        const { DTSTART, DTEND } = genICSCalenderEventDate(item, onAir)
+
+        let desc = `https://bgm.tv/ep/${item.id}`
+        if (item.name_cn || item.name) desc += ` (${item.name_cn || item.name})`
+
+        ics.push(
+          'BEGIN:VEVENT',
+          `UID:${this.subjectId}-${item.id}`,
+          'TZID:Asia/Shanghai',
+          `DTSTART:${DTSTART}`,
+          `DTEND:${DTEND}`,
+          `SUMMARY:[ep.${item.sort}] ${cnjp(this.subject.name_cn, this.subject.name)}`,
+          `DESCRIPTION:${desc}`,
+          'TRANSP:OPAQUE',
+          'END:VEVENT'
+        )
+      })
+      ics.push('END:VCALENDAR')
+
+      const { data } = await temp(
+        `${this.userId}_${this.subjectId}.ics`,
+        ics.join('\n'),
+        -1
+      )
+      if (!data?.downloadKey) {
+        info('未知错误，生成ics失败，重试或联系作者')
+        return false
+      }
+
+      t('条目.导出日程', {
+        subjectId: this.subjectId,
+        userId: this.userId
+      })
+
+      open(download(data.downloadKey))
     }
   }
 }

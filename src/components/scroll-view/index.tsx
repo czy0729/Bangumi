@@ -21,6 +21,8 @@ export const ScrollView = ({
   scrollIndicatorInsets = {
     right: 1
   },
+  scrollEventThrottle,
+  onScroll,
   children,
   ...other
 }: ScrollViewProps) => {
@@ -32,11 +34,16 @@ export const ScrollView = ({
   } else if (connectRef) {
     ref = ref => connectRef(ref?.scrollTo)
   }
+
   return (
     <>
       <RNScrollView
         ref={ref}
         scrollIndicatorInsets={scrollIndicatorInsets}
+        scrollEventThrottle={
+          scrollEventThrottle === undefined && onScroll ? 16 : scrollEventThrottle
+        }
+        onScroll={onScroll}
         {...other}
         {...SCROLL_VIEW_RESET_PROPS}
       >

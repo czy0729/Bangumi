@@ -25,5 +25,9 @@ export const TEXTS = {
   cnFirst: {
     title: '优先中文',
     information: '若开启片假名终结者，建议还需要日语优先效果才会好'
+  },
+  origin: {
+    hd: '源头',
+    information: '给不同类型的条目，自定义通用跳转'
   }
 } as const

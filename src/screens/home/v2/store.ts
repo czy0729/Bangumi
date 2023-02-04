@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 10:34:38
+ * @Last Modified time: 2023-02-04 21:02:23
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -1173,7 +1173,7 @@ export default class ScreenHomeV2 extends store {
         this.doBatchSaveCalenderEvent(subjectId)
         break
 
-      case '导出放送日程ics':
+      case '导出放送日程ICS':
         this.doExportCalenderEventICS(subjectId)
         break
 
@@ -1497,11 +1497,17 @@ export default class ScreenHomeV2 extends store {
       })
       ics.push('END:VCALENDAR')
 
-      const { data } = await temp(`${this.userId}_${subjectId}}.ics`, ics.join('\n'))
+      const { data } = await temp(`${this.userId}_${subjectId}.ics`, ics.join('\n'), -1)
       if (!data?.downloadKey) {
         info('未知错误，生成ics失败，重试或联系作者')
         return false
       }
+
+      t('首页.导出日程', {
+        subjectId,
+        userId: this.userId
+      })
+
       open(download(data.downloadKey))
     }
   }
