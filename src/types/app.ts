@@ -4,17 +4,18 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 21:35:58
+ * @Last Modified time: 2023-02-06 19:37:20
  */
-import * as Screens from '@screens'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { SITES } from '@constants'
 import { EventKeys } from '@constants/events'
-import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
 import { Id, SubjectId } from './bangumi'
 import { DeepPartial, Override } from './utils'
+import { NavigationPushType, Paths } from './route'
+
+export { Paths }
 
 /** 图标 (iOS Style) */
 export type IoniconsIconsNames = keyof typeof IoniconsIcons
@@ -33,9 +34,6 @@ export type IconfontNames =
   | 'home'
   | 'setting'
   | 'trophy'
-
-/** 所有页面路径名 */
-export type Paths = keyof typeof Screens
 
 /** react-navigation 路由对象 */
 export type Navigation = {
@@ -155,44 +153,3 @@ export type Actions = Record<
     active: number
   }[]
 >
-
-type NavigationPushType = ((path: Paths) => any) &
-  ((
-    path: 'Subject',
-    params: {
-      subjectId: SubjectId
-      _jp?: string
-      _cn?: string
-      _image?: string
-      _collection?: string
-      _type?: SubjectTypeCn
-    }
-  ) => any) &
-  ((
-    path: 'Rating',
-    params: {
-      subjectId: SubjectId
-      status: RatingStatus | ''
-      name: string
-      wish: number
-      collect: number
-      doing: number
-      onHold: number
-      dropped: number
-    }
-  ) => any) &
-  ((
-    path: 'Actions',
-    params: {
-      subjectId: SubjectId
-      name: string
-    }
-  ) => any) &
-  ((
-    path: 'Information',
-    params: {
-      title: string
-      message: string[]
-      advance?: boolean
-    }
-  ) => any)

@@ -54,6 +54,7 @@ function IconShare({
 
         navigation.push('Share', {
           _subjectId: $.subjectId,
+          _type: $.type,
           _url: `${HOST}/subject/${$.subjectId}`,
           _cover: `data:image/jpg;base64,${request._response}`,
           _title: cnjp($.cn, $.jp),

@@ -2,47 +2,57 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:49:20
+ * @Last Modified time: 2023-02-06 19:56:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Header } from '@components'
 import WebView from '@components/@/web-view'
-import { SafeAreaView } from '@_'
+import { IconTouchable, SafeAreaView } from '@_'
 import { _ } from '@stores'
-import { loading, info, feedback } from '@utils'
+import { loading, info, feedback, getStorage, setStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { saveBase64ImageToCameraRoll } from '@utils/android'
 import { IOS } from '@constants'
 import { html } from './utils'
 import { styles } from './styles'
 
+const NAMESPACE = 'ScreenWebViewShare'
+
 class WebViewShare extends React.Component<{
   route: any
 }> {
   state = {
-    captured: false
+    captured: false,
+    dark: false
   }
 
   hide = null
 
   saved = false
 
-  componentDidMount() {
-    this.hide = loading('生成中...')
+  async componentDidMount() {
+    const dark: boolean = (await getStorage(`${NAMESPACE}|dark`)) || false
+    this.setState(
+      {
+        dark
+      },
+      () => {
+        if (!this.hide) this.hide = loading('生成中...')
+      }
+    )
   }
 
-  get source() {
-    const { route } = this.props
-    const { _url, _cover, _title, _content, _detail } = route.params || {}
-    return {
-      html: html
-        .replace(/\$url/g, _url)
-        .replace(/\$cover/g, _cover)
-        .replace(/\$title/g, _title)
-        .replace(/\$content/g, _content)
-        .replace(/\$detail/g, _detail)
-    }
+  onToggleTheme = () => {
+    const { dark } = this.state
+    if (!this.hide) this.hide = loading('生成中...')
+
+    const value = !dark
+    this.setState({
+      captured: false,
+      dark: value
+    })
+    setStorage(`${NAMESPACE}|dark`, value)
   }
 
   onMessage = async (event: { nativeEvent: { data: string } }) => {
@@ -91,23 +101,65 @@ class WebViewShare extends React.Component<{
     } catch (ex) {}
   }
 
+  get source() {
+    const { route } = this.props
+    const { _url, _type, _cover, _title, _content, _detail } = route.params || {}
+    const { dark } = this.state
+    return {
+      html: html(dark, _type)
+        .replace(/\$url/g, _url)
+        .replace(/\$cover/g, _cover)
+        .replace(/\$title/g, _title)
+        .replace(/\$content/g, _content)
+        .replace(/\$detail/g, _detail)
+    }
+  }
+
   render() {
     const { route } = this.props
-    const { captured } = this.state
+    const { captured, dark } = this.state
+    const backgroundColor = dark ? '#000' : '#fff'
     return (
       <>
         <Header
           title={IOS ? 'iOS暂请自行截屏' : '长按保存图片'}
           alias='条目分享'
           hm={[`share/subject/${route?.params?._subjectId}`, 'Share']}
+          headerRight={() => (
+            <IconTouchable
+              style={_.mr.xs}
+              name={dark ? 'ios-moon' : 'ios-sunny'}
+              size={20}
+              color={_.colorDesc}
+              onPress={this.onToggleTheme}
+            />
+          )}
         />
-        <SafeAreaView style={_.container.flex}>
+        <SafeAreaView
+          style={[
+            _.container.flex,
+            // eslint-disable-next-line react-native/no-inline-styles
+            {
+              backgroundColor: '#000'
+            }
+          ]}
+        >
           <WebView
+            key={String(dark)}
             originWhitelist={['*']}
             source={this.source}
             onMessage={this.onMessage}
           />
-          {!captured && <View style={styles.mask} />}
+          {!captured && (
+            <View
+              style={[
+                styles.mask,
+                {
+                  backgroundColor
+                }
+              ]}
+            />
+          )}
         </SafeAreaView>
       </>
     )
