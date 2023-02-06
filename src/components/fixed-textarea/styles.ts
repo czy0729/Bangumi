@@ -42,9 +42,17 @@ export const memoStyles = _.memoStyles(() => ({
   },
   toolBarBtn: {
     paddingVertical: 8,
-    paddingHorizontal: 5,
+    paddingHorizontal: 4,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  iconContainer: {
+    width: 20,
+    height: 20
+  },
+  iconText: {
+    marginRight: -2,
+    marginLeft: -2
   },
   bgmContainer: {
     paddingVertical: _.sm
@@ -77,9 +85,9 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: 'transparent'
   },
   touchSend: {
-    marginTop: _.ios(8, 4),
+    marginTop: _.ios(7, 4),
     marginLeft: _.sm,
-    marginRight: -4,
+    marginRight: -5,
     borderRadius: 20,
     overflow: 'hidden'
   },
@@ -99,7 +107,7 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 2,
     right: 4,
     bottom: _.md,
-    left: 2
+    left: 0
   },
   opacity: {
     opacity: 0.8

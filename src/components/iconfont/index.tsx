@@ -56,7 +56,7 @@ export const Iconfont = observer(
           },
           style
         ]}
-        name={`icon-${name}` as AppIconsNames}
+        name={(name.includes('icon') ? name : `icon-${name}`) as AppIconsNames}
         size={_size}
         color={color || _.colorIcon}
         {...other}

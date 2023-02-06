@@ -10,7 +10,7 @@ import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
-import { date, getStorage, setStorage, open, getTimestamp } from '@utils'
+import { date, getStorage, setStorage, open, getTimestamp, stl } from '@utils'
 import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
 import { BlurView } from '../@/ant-design/modal/blur-view'
 import { Text } from '../text'
@@ -28,6 +28,24 @@ export { FixedTextareaProps }
 /** iOS 内置键盘切换中、英文高度会变化
  *  因为各种原因，后续就一直用最大的那个值作为高度 */
 let maxKeyboardHeight = 0
+
+const BTN_ICONS = {
+  加粗: 'icon-bold',
+  斜体: 'icon-italic',
+  下划: 'icon-underline',
+  删除: 'icon-strikethrough',
+  剧透: 'icon-hide',
+  链接: 'icon-link',
+  图片: 'icon-image',
+  图床: 'icon-layer'
+} as const
+
+const BTN_TEXT = [
+  'icon-bold',
+  'icon-italic',
+  'icon-underline',
+  'icon-strikethrough'
+] as const
 
 export const FixedTextarea = observer(
   class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
@@ -54,7 +72,9 @@ export const FixedTextarea = observer(
       replyHistory: []
     }
 
-    ref: { textAreaRef: any }
+    ref: {
+      textAreaRef: any
+    }
 
     selection = {
       start: this.props.value.length,
@@ -63,13 +83,15 @@ export const FixedTextarea = observer(
 
     async componentDidMount() {
       try {
-        const showSource = (await getStorage(`${NAMESPACE}|showSource`)) || false
-        const history = (await getStorage(NAMESPACE)) || '15' // 15 就是 bgm38
+        const showSource: boolean =
+          (await getStorage(`${NAMESPACE}|showSource`)) || false
+        const history: string = (await getStorage(NAMESPACE)) || '15' // 15 就是 bgm38
         const bgmHistory = history
           .split(',')
           .filter(item => item !== '')
           .map(item => parseInt(item))
-        const replyHistory = (await getStorage(`${NAMESPACE}|replyHistory`)) || []
+        const replyHistory: string[] =
+          (await getStorage(`${NAMESPACE}|replyHistory`)) || []
 
         this.setState({
           showSource,
@@ -90,7 +112,9 @@ export const FixedTextarea = observer(
       }
     }
 
-    connectRef = (ref: { textAreaRef: any }) => (this.ref = ref)
+    connectRef = (ref: { textAreaRef: any }) => {
+      return (this.ref = ref)
+    }
 
     onRefBlur = () => {
       try {
@@ -156,12 +180,10 @@ export const FixedTextarea = observer(
 
       // 安卓设置过光标后, 继续打字光标会闪回到上次设置的地方, 需要重置
       try {
-        if (!IOS) {
-          if (typeof this.ref?.textAreaRef?.setNativeProps === 'function') {
-            this.ref.textAreaRef.setNativeProps({
-              selection: {}
-            })
-          }
+        if (!IOS && typeof this.ref?.textAreaRef?.setNativeProps === 'function') {
+          this.ref.textAreaRef.setNativeProps({
+            selection: {}
+          })
         }
       } catch (error) {}
 
@@ -175,7 +197,7 @@ export const FixedTextarea = observer(
       this.selection = nativeEvent.selection
     }
 
-    // @todo 暂时没有对选择了一段文字的情况做判断
+    /** @todo 暂时没有对选择了一段文字的情况做判断 */
     onAddSymbolText = (symbol: string, isText: boolean = false) => {
       this.textAreaFocus()
 
@@ -204,12 +226,12 @@ export const FixedTextarea = observer(
       } catch (error) {}
     }
 
-    // 选择bgm表情
+    /** 选择 bgm 表情 */
     onSelectBgm = (bgmIndex: number) => {
       const { value } = this.state
       const index = this.getSelection()
 
-      // 插入值, 如(bgm38), bgm名称跟文件名偏移量是23
+      // 插入值, 如 (bgm38), bgm 名称跟文件名偏移量是 23
       const left = `${value.slice(0, index)}(bgm${Number(bgmIndex) + 23})`
       const right = `${value.slice(index)}`
       this.setState({
@@ -219,7 +241,7 @@ export const FixedTextarea = observer(
       this.setRecentUseBgm(bgmIndex)
     }
 
-    // 提交 (完了要保存历史)
+    /** 提交, 之后保存历史 */
     onSubmit = () => {
       const { value } = this.state
       if (value === '') return
@@ -242,9 +264,8 @@ export const FixedTextarea = observer(
       })
     }
 
-    // 获取光标位置
+    /** 获取光标位置 (@todo 失效?) */
     getSelection = () => {
-      // @todo 失效?
       // const ref = this.ref.textAreaRef
       // const selection = ref._lastNativeSelection || null
       // const { value } = this.state
@@ -253,11 +274,10 @@ export const FixedTextarea = observer(
       //   index = selection.start
       // }
       // return index
-
       return this.selection.end
     }
 
-    // 设定光标位置
+    /** 设定光标位置 */
     setSelection = (start: number) => {
       const { textAreaRef } = this.ref
       setTimeout(() => {
@@ -275,6 +295,7 @@ export const FixedTextarea = observer(
       }, 0)
     }
 
+    /** 显示 bgm 表情选择块 */
     showBgm = () => {
       // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
       if (IOS) {
@@ -301,6 +322,7 @@ export const FixedTextarea = observer(
       }, 0)
     }
 
+    /** 隐藏 bgm 表情选择块 */
     hideBgm = () => {
       this.setState({
         showBgm: false
@@ -311,7 +333,7 @@ export const FixedTextarea = observer(
       }, 0)
     }
 
-    // 本地化最近使用 bgm
+    /** 本地化最近使用 bgm 表情 */
     setRecentUseBgm = async (bgmIndex: number) => {
       let history = [...this.state.history]
       if (history.includes(bgmIndex)) {
@@ -330,7 +352,7 @@ export const FixedTextarea = observer(
       setStorage(NAMESPACE, history.join())
     }
 
-    // 本地化最近的回复
+    /** 本地化最近的回复 */
     setReplyHistory = async (value: string) => {
       let replyHistory = [...this.state.replyHistory]
       if (replyHistory.includes(value)) {
@@ -410,23 +432,22 @@ export const FixedTextarea = observer(
     }
 
     renderBtn(text: string, symbol?: string) {
-      const size = _.window.width < 375 ? 10 : 11
+      const textSize = _.window.width < 375 ? 10 : 11
       if (text === 'BGM') {
         const { showBgm, showReplyHistory } = this.state
         return (
           <Touchable
-            style={this.styles.toolBarBtn}
+            style={[this.styles.toolBarBtn, _.ml.xs]}
             onPress={() => {
-              if (showBgm) {
-                this.hideBgm()
-              } else {
-                this.showBgm()
-              }
+              showBgm ? this.hideBgm() : this.showBgm()
             }}
           >
-            <Text type={showBgm && !showReplyHistory ? 'main' : 'sub'} size={size}>
-              {text}
-            </Text>
+            <Flex style={this.styles.iconContainer} justify='center'>
+              <Iconfont
+                name='icon-more-grid'
+                color={showBgm && !showReplyHistory ? _.colorMain : _.colorSub}
+              />
+            </Flex>
           </Touchable>
         )
       }
@@ -437,16 +458,16 @@ export const FixedTextarea = observer(
           <Touchable
             style={this.styles.toolBarBtn}
             onPress={() => {
-              if (showReplyHistory) {
-                this.hideReplyHistory()
-              } else {
-                this.showReplyHistory()
-              }
+              showReplyHistory ? this.hideReplyHistory() : this.showReplyHistory()
             }}
           >
-            <Text type={showReplyHistory ? 'main' : 'sub'} size={size} align='center'>
-              {text}
-            </Text>
+            <Flex style={this.styles.iconContainer} justify='center'>
+              <Iconfont
+                name='icon-history'
+                color={showReplyHistory ? _.colorMain : _.colorSub}
+                size={20}
+              />
+            </Flex>
           </Touchable>
         )
       }
@@ -459,7 +480,7 @@ export const FixedTextarea = observer(
               this.onAddSymbolText(`[${date('Y-m-d H:i', getTimestamp())}] `, true)
             }}
           >
-            <Text type='sub' size={size} align='center'>
+            <Text type='sub' size={textSize} align='center'>
               {text}
             </Text>
           </Touchable>
@@ -467,25 +488,26 @@ export const FixedTextarea = observer(
       }
 
       const isOpenInNew = text === '图床'
+      const iconName = BTN_ICONS[text]
       return (
         <Touchable
-          style={this.styles.toolBarBtn}
+          style={stl(
+            this.styles.toolBarBtn,
+            BTN_TEXT.includes(iconName) && this.styles.iconText
+          )}
           onPress={() => {
-            if (isOpenInNew) {
-              open(HOST_IMAGE_UPLOAD)
-            } else {
-              this.onAddSymbolText(symbol)
-            }
+            isOpenInNew ? open(HOST_IMAGE_UPLOAD) : this.onAddSymbolText(symbol)
           }}
         >
-          <Flex>
-            <Text type='sub' size={size} align='center'>
+          {iconName ? (
+            <Flex style={this.styles.iconContainer} justify='center'>
+              <Iconfont name={iconName} color={_.colorSub} size={18} />
+            </Flex>
+          ) : (
+            <Text type='sub' size={textSize} align='center'>
               {text}
             </Text>
-            {isOpenInNew && (
-              <Iconfont style={_.ml.xxs} name='md-open-in-new' size={size + 1} />
-            )}
-          </Flex>
+          )}
         </Touchable>
       )
     }
@@ -525,17 +547,31 @@ export const FixedTextarea = observer(
       const { marks } = this.props
       if (!marks?.length) return null
 
-      return marks.map((item: string) => (
-        <Touchable
-          key={item}
-          style={[this.styles.opacity, this.styles.toolBarBtn, _.mr.xs]}
-          onPress={() => this.onAddSymbolText(item, true)}
-        >
-          <Text type='sub' size={11} align='center'>
-            {item}
-          </Text>
-        </Touchable>
-      ))
+      const { showSource } = this.state
+      return marks
+        .filter((item, index) => index < (showSource ? 2 : 10))
+        .map((item: string) => (
+          <Touchable
+            key={item}
+            style={[this.styles.opacity, this.styles.toolBarBtn, _.mr.sm]}
+            onPress={() => this.onAddSymbolText(item, true)}
+          >
+            <Text type='sub' size={12} align='center'>
+              {item}
+            </Text>
+          </Touchable>
+        ))
+    }
+
+    renderCount() {
+      const { value } = this.state
+      if (!value.length) return null
+
+      return (
+        <Text style={_.mr.sm} type='sub' size={11} align='center'>
+          {value.length}
+        </Text>
+      )
     }
 
     renderSource() {
@@ -548,13 +584,14 @@ export const FixedTextarea = observer(
           <Flex.Item>
             <Flex>
               {showSource && (
-                <Text style={[this.styles.opacity, _.mr.sm]} size={10} type='sub'>
+                <Text style={[this.styles.opacity, _.mr.md]} size={11} type='sub'>
                   [来自Bangumi for {IOS ? 'iOS' : 'android'}]
                 </Text>
               )}
               {this.renderMarks()}
             </Flex>
           </Flex.Item>
+          {this.renderCount()}
           <Touchable style={this.styles.touchSource} onPress={this.toggleSource}>
             <Flex>
               <Iconfont
@@ -598,7 +635,7 @@ export const FixedTextarea = observer(
                 <Iconfont
                   name='md-send'
                   size={18}
-                  color={canSend ? _.colorMain : _.colorIcon}
+                  color={canSend ? _.colorMain : _.colorSub}
                 />
               </Flex>
             </Touchable>
