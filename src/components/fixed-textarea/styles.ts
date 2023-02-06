@@ -65,8 +65,17 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.md
   },
   replyHistory: {
-    paddingHorizontal: _.wind,
-    paddingVertical: _.sm
+    marginHorizontal: _.wind,
+    borderTopWidth: _.hairlineWidth,
+    borderTopColor: _.select('rgba(0, 0, 0, 0.1)', 'rgba(255, 255, 255, 0.1)')
+  },
+  replyHistoryItem: {
+    paddingVertical: 12
+  },
+  replyHistoryLock: {
+    paddingVertical: 12,
+    paddingHorizontal: 6,
+    marginLeft: 14
   },
   textareaContainer: {
     paddingHorizontal: _.wind,

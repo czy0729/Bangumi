@@ -10,7 +10,7 @@ import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
-import { date, getStorage, setStorage, open, getTimestamp, stl } from '@utils'
+import { date, getStorage, setStorage, open, getTimestamp, stl, desc } from '@utils'
 import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
 import { BlurView } from '../@/ant-design/modal/blur-view'
 import { Text } from '../text'
@@ -69,7 +69,8 @@ export const FixedTextarea = observer(
       showSource: false,
       keyboardHeight: 0,
       history: [],
-      replyHistory: []
+      replyHistory: [],
+      lockHistory: ''
     }
 
     ref: {
@@ -92,11 +93,14 @@ export const FixedTextarea = observer(
           .map(item => parseInt(item))
         const replyHistory: string[] =
           (await getStorage(`${NAMESPACE}|replyHistory`)) || []
+        const lockHistory: string[] =
+          (await getStorage(`${NAMESPACE}|lockHistory`)) || ''
 
         this.setState({
           showSource,
           history: bgmHistory,
-          replyHistory
+          replyHistory,
+          lockHistory
         })
       } catch (error) {
         console.error('fixed-textarea', 'componentDidMount', error)
@@ -361,14 +365,32 @@ export const FixedTextarea = observer(
       } else {
         replyHistory.unshift(value)
       }
+
       if (replyHistory.length > MAX_HISTORY_COUNT) {
         replyHistory = replyHistory.filter((item, index) => index < MAX_HISTORY_COUNT)
+      }
+
+      const { lockHistory } = this.state
+      if (lockHistory && !replyHistory.includes(lockHistory)) {
+        replyHistory.unshift(lockHistory)
       }
 
       this.setState({
         replyHistory
       })
       setStorage(`${NAMESPACE}|replyHistory`, replyHistory)
+    }
+
+    /** 锁定某个最近的回复, 不会被替代 */
+    lockHistory = (text: string) => {
+      if (!text) return false
+
+      const { lockHistory } = this.state
+      const value = lockHistory === text ? '' : text
+      this.setState({
+        lockHistory: value
+      })
+      setStorage(`${NAMESPACE}|lockHistory`, value)
     }
 
     showReplyHistory = () => {
@@ -634,7 +656,7 @@ export const FixedTextarea = observer(
               <Flex style={this.styles.send} justify='center'>
                 <Iconfont
                   name='md-send'
-                  size={18}
+                  size={16}
                   color={canSend ? _.colorMain : _.colorSub}
                 />
               </Flex>
@@ -652,7 +674,8 @@ export const FixedTextarea = observer(
         showReplyHistory,
         keyboardHeight,
         history,
-        replyHistory
+        replyHistory,
+        lockHistory
       } = this.state
       // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
       if (!IOS && !showBgm) return null
@@ -668,15 +691,34 @@ export const FixedTextarea = observer(
         >
           {showReplyHistory ? (
             <>
-              {replyHistory.map((item, index) => (
-                <Touchable
-                  key={index}
-                  style={this.styles.replyHistory}
-                  onPress={() => this.onChange(item)}
-                >
-                  <Text lineHeight={18}>{item}</Text>
-                </Touchable>
-              ))}
+              {replyHistory
+                .sort((a, b) =>
+                  desc(lockHistory === a ? 1 : 0, lockHistory === b ? 1 : 0)
+                )
+                .map((item, index) => (
+                  <Flex key={index} style={this.styles.replyHistory}>
+                    <Flex.Item>
+                      <Touchable
+                        style={this.styles.replyHistoryItem}
+                        onPress={() => this.onChange(item)}
+                      >
+                        <Text lineHeight={18}>{item}</Text>
+                      </Touchable>
+                    </Flex.Item>
+                    <Touchable
+                      style={this.styles.replyHistoryLock}
+                      onPress={() => {
+                        this.lockHistory(item)
+                      }}
+                    >
+                      <Iconfont
+                        name='md-vertical-align-top'
+                        color={lockHistory === item ? _.colorMain : _.colorSub}
+                        size={18}
+                      />
+                    </Touchable>
+                  </Flex>
+                ))}
             </>
           ) : (
             <>
