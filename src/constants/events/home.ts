@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 21:34:58
+ * @Last Modified time: 2023-02-06 21:47:24
  */
 
 /** Home */
@@ -70,6 +70,8 @@ export default {
   '条目.重置放送': 'Subject.resetOnAirUser',
   '条目.吐槽倒序': 'Subject.reverseComment',
   '条目.拼图分享': 'Subject.sharePoster',
+  '条目.特别关注': 'Subject.trackComment',
+  '条目.取消特别关注': 'Subject.cancelTrackComment',
   '条目.导出日程': 'Subject.ics',
 
   // 章节

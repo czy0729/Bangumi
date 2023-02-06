@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 21:02:23
+ * @Last Modified time: 2023-02-06 21:00:59
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -80,6 +80,7 @@ import {
   SettingHomeLayout
 } from '@types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
+import { IOS_IPA } from '@/config'
 import {
   OriginItem,
   getOriginConfig,
@@ -197,7 +198,9 @@ export default class ScreenHomeV2 extends store {
         v: VERSION_GITHUB_RELEASE,
         s: _.statusBarHeight,
         h: _.headerHeight,
-        t: _.tabBarHeight
+        t: _.tabBarHeight,
+        a: systemStore.isAdvance,
+        ipa: IOS_IPA
       })
     }, 8000)
   }

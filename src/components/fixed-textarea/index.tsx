@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-16 04:25:56
+ * @Last Modified time: 2023-02-06 21:54:51
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -25,7 +25,7 @@ import { Props as FixedTextareaProps } from './types'
 
 export { FixedTextareaProps }
 
-/** iOS 内置键盘切换中、英文高度会变化
+/** 内置键盘切换中、英文高度会变化
  *  因为各种原因，后续就一直用最大的那个值作为高度 */
 let maxKeyboardHeight = 0
 
@@ -131,12 +131,10 @@ export const FixedTextarea = observer(
     onToggle = (isOpen: boolean, keyboardHeight: number) => {
       if (isOpen) {
         let height = keyboardHeight - (IOS ? 24 : 0)
-        if (IOS) {
-          if (height > maxKeyboardHeight) {
-            maxKeyboardHeight = height
-          } else {
-            height = maxKeyboardHeight
-          }
+        if (height > maxKeyboardHeight) {
+          maxKeyboardHeight = height
+        } else {
+          height = maxKeyboardHeight
         }
 
         this.setState({

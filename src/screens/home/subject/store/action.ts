@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 21:34:59
+ * @Last Modified time: 2023-02-06 21:46:43
  */
 import {
   otaStore,
@@ -490,6 +490,12 @@ export default class Action extends Fetch {
         userName
       })
       collectionStore.fetchUsersCollection(userId, this.subjectId)
+
+      t('条目.特别关注', {
+        subjectId: this.subjectId,
+        type: this.subjectTypeValue,
+        userId
+      })
     }
   }
 
@@ -505,6 +511,12 @@ export default class Action extends Fetch {
     if (this.type && userData?.userId) {
       const { userId } = userData || {}
       systemStore.cancelTrackUsersCollection(userId, this.subjectTypeValue)
+
+      t('条目.取消特别关注', {
+        subjectId: this.subjectId,
+        type: this.subjectTypeValue,
+        userId
+      })
     }
   }
 
