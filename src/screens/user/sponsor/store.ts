@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-07 16:44:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 22:26:34
+ * @Last Modified time: 2023-02-06 20:55:20
  */
 import { computed, observable } from 'mobx'
 import { info } from '@utils'
@@ -23,7 +23,6 @@ export default class ScreeSponsor extends store {
       ...state,
       _loaded: true
     })
-
     return true
   }
 

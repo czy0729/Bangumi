@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-07 17:27:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 22:16:52
+ * @Last Modified time: 2023-02-06 20:24:27
  */
 import React from 'react'
 import { Text } from '@components'
@@ -22,7 +22,7 @@ function List() {
       limit={40}
       ListHeaderComponent={
         <Text style={[_.mt.sm, _.mb.md]} size={12} bold align='center'>
-          截止至 2023-01-07 共 {LIST.length} 人投食了，感谢你们的支持！
+          截止至 2023-02-06 共 {LIST.length} 人投食了，感谢你们的支持！
         </Text>
       }
       renderItem={renderItem}

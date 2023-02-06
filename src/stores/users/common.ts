@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 08:32:12
+ * @Last Modified time: 2023-02-06 20:44:35
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -59,7 +59,7 @@ export function cheerioUsers(HTML) {
   if (avatar === '//lain.bgm.tv/pic/user/l/icon.jpg') {
     avatar = ''
   } else {
-    avatar = avatar.split('/l/000/')?.[1]
+    avatar = avatar.split('/000/')?.[1]
     if (avatar) avatar = avatar.split('.jpg')?.[0]
   }
 

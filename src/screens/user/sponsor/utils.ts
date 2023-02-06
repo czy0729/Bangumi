@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:04:43
+ * @Last Modified time: 2023-02-06 20:47:32
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
 import { _, usersStore } from '@stores'
 import { queue, toFixed } from '@utils'
+import { update } from '@utils/kv'
 import treemap from '@utils/thirdParty/treemap'
 import { IOS } from '@constants'
 import { AnyObject } from '@types'
@@ -144,5 +145,6 @@ export async function devGetUsersInfo() {
       return true
     })
   )
-  // log(USERS_MAP)
+
+  update('sponsor_users_map', USERS_MAP)
 }
