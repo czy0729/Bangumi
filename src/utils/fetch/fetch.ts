@@ -11,10 +11,7 @@ import { APP_ID, UA } from '@constants/constants'
 import { AnyObject } from '@types'
 import fetch from '../thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp } from '../utils'
-import {
-  // info as UIInfo,
-  loading
-} from '../ui'
+import { loading } from '../ui'
 import { getUserStoreAsync } from '../async'
 import { log } from '../dev'
 import { safe } from './utils'

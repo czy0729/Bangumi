@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-06 12:54:53
  */
+import pLimit from 'p-limit'
 
 /**
  * 接口某些字段为空返回null, 影响到es6函数初始值的正常使用, 统一处理成空字符串
@@ -22,13 +23,6 @@ export function safe(data: { [x: string]: any }) {
 export async function queue(fetchs: any[] = [], num: any = 2) {
   if (!fetchs.length) return false
 
-  await Promise.all(
-    new Array(num).fill(0).map(async () => {
-      while (fetchs.length) {
-        await fetchs.shift()()
-      }
-    })
-  )
-
-  return true
+  const limit = pLimit(num)
+  return Promise.all(fetchs.map(fetch => limit(fetch)))
 }

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 12:58:57
+ * @Last Modified time: 2023-02-11 04:14:38
  */
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
+import pLimit from 'p-limit'
 import { DEV } from '@/config'
 import { B, M, IOS } from '@constants/constants'
 import { AnyObject, Fn } from '@types'
@@ -156,18 +157,16 @@ export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
   return 1
 }
 
-/** 接口防并发请求问题严重, 暂时延迟一下, n 个请求一组 */
-export async function queue(fetchs: any[] = [], num: number = 2): Promise<boolean> {
+/**
+ * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
+ * @param {*} fetchs fetchFn[]
+ * @param {*} num default: 2
+ */
+export async function queue(fetchs: any[] = [], num: any = 2) {
   if (!fetchs.length) return false
 
-  await Promise.all(
-    new Array(num).fill(0).map(async () => {
-      while (fetchs.length) {
-        await fetchs.shift()()
-      }
-    })
-  )
-  return true
+  const limit = pLimit(num)
+  return Promise.all(fetchs.map(fetch => limit(fetch)))
 }
 
 /** 对象中选择指定 key */

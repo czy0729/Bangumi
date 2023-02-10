@@ -199,7 +199,7 @@ export default class ScreenHomeV2 extends store {
         s: _.statusBarHeight,
         h: _.headerHeight,
         t: _.tabBarHeight,
-        a: systemStore.isAdvance,
+        a: systemStore.advance,
         ipa: IOS_IPA
       })
     }, 8000)
