@@ -1,7 +1,7 @@
 package com.czy0729.bangumi;
 
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.commonsdk.UMConfigure;
+// import com.umeng.analytics.MobclickAgent;
+// import com.umeng.commonsdk.UMConfigure;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -21,13 +21,13 @@ public class MainActivity extends ReactActivity {
 
     // 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
     // UMConfigure.setLogEnabled(true);
-    UMConfigure.setProcessEvent(true);
-    UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null); // Umeng | Google Play
+    // UMConfigure.setProcessEvent(true);
+    // UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null); // Umeng | Google Play
 
     // interval: 单位是毫秒，默认Session间隔时间是45秒
     // MobclickAgent.setDebugMode(true);
-    MobclickAgent.setSessionContinueMillis(45000);
-    MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
+    // MobclickAgent.setSessionContinueMillis(45000);
+    // MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
   }
 
 
@@ -53,11 +53,11 @@ public class MainActivity extends ReactActivity {
 
     public void onResume() {
       super.onResume();
-      MobclickAgent.onResume(this);
+      // MobclickAgent.onResume(this);
     }
 
     public void onPause() {
       super.onPause();
-      MobclickAgent.onPause(this);
+      // MobclickAgent.onPause(this);
     }
 }

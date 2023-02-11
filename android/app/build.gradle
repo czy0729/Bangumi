@@ -224,9 +224,9 @@ dependencies {
   implementation "com.facebook.react:react-native:+"  // From node_modules
   implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-  implementation 'com.umeng.umsdk:common:2.0.0'
-  implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-  implementation 'com.umeng.umsdk:analytics:8.0.0'
+  // implementation 'com.umeng.umsdk:common:2.0.0'
+  // implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+  // implementation 'com.umeng.umsdk:analytics:8.0.0'
 
   // 如果你需要支持GIF动图
   implementation "com.facebook.fresco:animated-gif:2.0.0"
