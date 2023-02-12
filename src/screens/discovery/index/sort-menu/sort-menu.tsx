@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:14
+ * @Last Modified time: 2023-02-13 05:36:37
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
-import { Touchable, Flex, Text, SwitchPro, SegmentedControl } from '@components'
+import { Touchable, Flex, Text, Iconfont } from '@components'
 import { IconTouchable } from '@_'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
 import { confirm } from '@utils'
 import { memo } from '@utils/decorators'
 import { rerender } from '@utils/dev'
-import { t } from '@utils/fetch'
 import { ORIENTATION_PORTRAIT } from '@constants'
 import Btn from '../btn'
 import { getMenus } from '../ds'
@@ -22,11 +21,11 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({
+    navigation,
     styles,
     orientation,
     dragging,
     discoveryMenu,
-    discoveryTodayOnair,
     discoveryMenuNum,
     onToggle,
     onSubmit
@@ -112,48 +111,33 @@ export default memo(
                 }}
               />
             </Flex>
-            <Flex style={styles.setting}>
-              <Flex.Item>
-                <Text>菜单每行个数</Text>
-              </Flex.Item>
-              <SegmentedControl
-                style={styles.segmentedControl}
-                size={12}
-                values={['4', '5']}
-                selectedIndex={discoveryMenuNum === 4 ? 0 : 1}
-                onValueChange={label => {
-                  t('设置.切换', {
-                    title: '发现菜单个数',
-                    label
-                  })
-
-                  systemStore.setSetting(
-                    'discoveryMenuNum',
-                    discoveryMenuNum === 4 ? 5 : 4
-                  )
-                }}
-              />
-            </Flex>
-            <Flex style={styles.setting}>
-              <Flex.Item>
-                <Text>今日放送</Text>
-              </Flex.Item>
-              <SwitchPro
-                style={styles.switch}
-                value={discoveryTodayOnair}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '发现今日放送',
-                    checked: !discoveryTodayOnair
-                  })
-
-                  systemStore.switchSetting('discoveryTodayOnair')
-                }}
-              />
-            </Flex>
+            <Touchable
+              style={_.mt.sm}
+              onPress={() => {
+                navigation.push('Setting', {
+                  open: 'Discovery'
+                })
+              }}
+            >
+              <Flex style={styles.setting}>
+                <Flex.Item>
+                  <Text>更多设置</Text>
+                </Flex.Item>
+                <Iconfont name='md-navigate-next' size={24} />
+              </Flex>
+            </Touchable>
           </>
         ),
-      [styles, dragging, discoveryTodayOnair, discoveryMenuNum, onCancel, onSave]
+      [
+        dragging,
+        navigation,
+        onCancel,
+        onSave,
+        styles.btn,
+        styles.btns,
+        styles.setting,
+        styles.touch
+      ]
     )
 
     const isPortrait = orientation === ORIENTATION_PORTRAIT

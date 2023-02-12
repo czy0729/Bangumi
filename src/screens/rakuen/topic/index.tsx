@@ -14,7 +14,7 @@ import { info, androidKeyboardAdjust } from '@utils'
 import { ic } from '@utils/decorators'
 import {
   useObserver,
-  useIsFocused as useIsFocusedRef,
+  useIsFocusedRef,
   useRunAfter,
   useKeyboardAdjustResize
 } from '@utils/hooks'

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 19:37:20
+ * @Last Modified time: 2023-02-13 05:19:09
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -12,7 +12,7 @@ import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector
 import { SITES } from '@constants'
 import { EventKeys } from '@constants/events'
 import { Id, SubjectId } from './bangumi'
-import { DeepPartial, Override } from './utils'
+import { AnyObject, DeepPartial, Override } from './utils'
 import { NavigationPushType, Paths } from './route'
 
 export { Paths }
@@ -75,6 +75,11 @@ export type Navigation = {
 export type NavigationProps<T = {}> = Override<
   {
     navigation: Navigation
+    route?: {
+      key: string
+      name: string
+      params: AnyObject
+    }
   },
   T
 >

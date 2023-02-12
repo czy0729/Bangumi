@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 19:40:48
+ * @Last Modified time: 2023-02-13 05:38:40
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -110,8 +110,9 @@ export const INIT_DISCOVERY_MENU = [
   'Calendar',
   'DiscoveryBlog',
   'Tags',
-  'Open',
   'Staff',
+  'Anitama',
+  'Open',
   'Search',
   'Tinygrail',
   'Guess',
@@ -119,10 +120,11 @@ export const INIT_DISCOVERY_MENU = [
   'Yearbook',
   'UserTimeline',
   'Netabare',
-  'Anitama',
   'Smb',
   'BilibiliSync',
+  'DoubanSync',
   'Series',
+  'Backup',
   'Character',
   'Catalogs',
   'Link'
@@ -277,6 +279,12 @@ export const INIT_SETTING = {
 
   /** 发现菜单一列个数 */
   discoveryMenuNum: 5,
+
+  /** 发现页看板娘 live-2d */
+  live2D: true,
+
+  /** 发现页看板娘 live-2d 点击发声 */
+  live2DVoice: true,
 
   /** 是否不使用字体 */
   customFontFamily: false,

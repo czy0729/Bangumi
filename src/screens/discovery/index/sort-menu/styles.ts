@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:35:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 07:36:02
+ * @Last Modified time: 2023-02-13 04:19:52
  */
 import { _ } from '@stores'
 
@@ -21,8 +21,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   btns: {
     paddingHorizontal: _.sm,
-    marginTop: _.sm,
-    marginBottom: _.md
+    marginVertical: _.md
   },
   touch: {
     borderRadius: _.r(36),

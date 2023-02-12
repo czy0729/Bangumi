@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 13:13:58
+ * @Last Modified time: 2023-02-13 05:27:29
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
@@ -20,6 +20,7 @@ import User from './user'
 import UserSetting from './user-setting'
 import Rakuen from './rakuen'
 import Subject from './subject'
+import Discovery from '../discovery'
 import Timeline from './timeline'
 import Theme from './theme'
 import Custom from './custom'
@@ -37,7 +38,7 @@ import DangerZone from './danger-zone'
 import { styles } from './styles'
 import { DEVICE_MODEL_NAME } from '@constants'
 
-const Setting = ({ navigation }: NavigationProps) => {
+const Setting = ({ navigation, route }: NavigationProps) => {
   const [filter, setFilter] = useState('')
   useRunAfter(() => {
     systemStore.fetchAdvance()
@@ -45,6 +46,7 @@ const Setting = ({ navigation }: NavigationProps) => {
 
   return useObserver(() => {
     const ts = String(userStore.userCookie.userAgent).match(/(\d{10})/g)
+    const { open } = route.params
     return (
       <>
         <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />
@@ -75,6 +77,7 @@ const Setting = ({ navigation }: NavigationProps) => {
             <Block>
               <Tip>模块</Tip>
               <Home filter={filter} />
+              <Discovery filter={filter} open={open === 'Discovery'} />
               <Timeline filter={filter} />
               <Rakuen navigation={navigation} filter={filter} />
               <User filter={filter} />

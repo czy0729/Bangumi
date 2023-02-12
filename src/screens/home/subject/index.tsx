@@ -8,7 +8,7 @@ import React from 'react'
 import { Page, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ic } from '@utils/decorators'
-import { useMount, useRunAfter, useIsFocused, useObserver } from '@utils/hooks'
+import { useMount, useRunAfter, useIsFocusedRef, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Header from './page-header'
@@ -19,7 +19,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 const Subject = (props, { $ }: Ctx) => {
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocusedRef()
   useRunAfter(async () => {
     setTimeout(() => {
       if (isFocused.current) $.rendered()

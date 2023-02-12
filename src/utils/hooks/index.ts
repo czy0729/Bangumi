@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:32:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 10:23:58
+ * @Last Modified time: 2023-02-13 03:46:02
  */
 // export { default as useShortcutsAndroid } from './useShortcutsAndroid'
 export { default as useBackHandler } from './useBackHandler'
@@ -15,6 +15,7 @@ export { default as useGlobalMount } from './useGlobalMount'
 export { default as useHorizontalLazy } from './useHorizontalLazy'
 export { default as useInitialURL } from './useInitialURL'
 export { default as useIsFocused } from './useIsFocused'
+export { default as useIsFocusedRef } from './useIsFocusedRef'
 export { default as useKeepAwake } from './useKeepAwake'
 export { default as useKeyboardAdjustResize } from './useKeyboardAdjustResize'
 export { default as useMount } from './useMount'

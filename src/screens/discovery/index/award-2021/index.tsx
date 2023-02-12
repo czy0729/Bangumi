@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-09 22:31:43
+ * @Last Modified time: 2023-02-13 03:49:57
  */
-import React, { useState, useEffect } from 'react'
-import { InteractionManager, View } from 'react-native'
+import React from 'react'
+import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { useIsFocused } from '@react-navigation/native'
 import { Image, Touchable, Text } from '@components'
 import { systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useIsFocused, useObserver } from '@utils/hooks'
 import { c } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
@@ -20,18 +19,7 @@ import { memoStyles } from './styles'
 const jquery = 'https://unpkg.com/jquery@3.6.0/dist/jquery.slim.min.js'
 
 function Award2021(props, { $, navigation }: Ctx) {
-  const isFocused = useIsFocused()
-  const [show, setShow] = useState(isFocused)
-  useEffect(() => {
-    // blur时要延迟到切页动画后再隐藏, focus时马上显示
-    if (!isFocused) {
-      InteractionManager.runAfterInteractions(() => {
-        setShow(isFocused)
-      })
-    } else {
-      setShow(isFocused)
-    }
-  }, [isFocused])
+  const show = useIsFocused()
 
   return useObserver(() => {
     const styles = memoStyles()

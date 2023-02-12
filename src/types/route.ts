@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 19:37:42
+ * @Last Modified time: 2023-02-13 05:11:59
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -62,5 +62,17 @@ export type NavigationPushType = ((path: Paths) => any) &
       _title: string
       _content: string
       _detail: string
+    }
+  ) => any) &
+  ((
+    path: 'Award',
+    params: {
+      uri: string
+    }
+  ) => any) &
+  ((
+    path: 'Setting',
+    params: {
+      open?: string
     }
   ) => any)

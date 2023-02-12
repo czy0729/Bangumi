@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-01-22 06:05:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-22 07:14:17
+ * @Last Modified time: 2023-02-13 03:46:41
  */
-import React, { useState, useEffect } from 'react'
-import { InteractionManager, View } from 'react-native'
+import React from 'react'
+import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { useIsFocused } from '@react-navigation/native'
 import { Touchable } from '@components'
 import { systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useIsFocused, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import { Navigation } from '@types'
@@ -25,18 +24,7 @@ function Award2022({
   width?: number
   height?: number
 }) {
-  const isFocused = useIsFocused()
-  const [show, setShow] = useState(isFocused)
-  useEffect(() => {
-    // blur 时要延迟到切页动画后再隐藏, focus 时马上显示
-    if (!isFocused) {
-      InteractionManager.runAfterInteractions(() => {
-        setShow(isFocused)
-      })
-    } else {
-      setShow(isFocused)
-    }
-  }, [isFocused])
+  const show = useIsFocused()
 
   return useObserver(() => {
     const styles = memoStyles()

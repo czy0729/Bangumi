@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-12 05:46:38
+ * @Last Modified time: 2023-02-13 05:31:36
  */
 import React from 'react'
 import { useFocusEffect } from '@react-navigation/native'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { Page, StatusBarEvents, Track, Heatmap } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { androidDayNightToggle } from '@utils'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -33,16 +33,19 @@ const Discovery = ({ isFocused }, { $, navigation }: Ctx) => {
     androidDayNightToggle(_.isDark)
   })
 
-  return useObserver(() => (
-    <Page>
-      <StatusBarEvents backgroundColor='transparent' />
-      <List isFocused={isFocused} />
-      <Mesume />
-      <LinkModal />
-      <Track title={title} hm={['discovery', 'Discovery']} />
-      <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
-    </Page>
-  ))
+  return useObserver(() => {
+    const { live2D } = systemStore.setting
+    return (
+      <Page>
+        <StatusBarEvents backgroundColor='transparent' />
+        <List isFocused={isFocused} />
+        {live2D && <Mesume dragging={$.state.dragging} />}
+        <LinkModal />
+        <Track title={title} hm={['discovery', 'Discovery']} />
+        <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
+      </Page>
+    )
+  })
 }
 
 export default ic(Store, Discovery, {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-20 12:15:40
+ * @Last Modified time: 2023-02-13 03:52:33
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -23,6 +23,8 @@ export const EXCLUDE_STATE = {
     _loaded: getTimestamp()
   },
   visible: false,
+
+  /** 菜单编辑中 */
   dragging: false,
   expand: false,
   link: ''
