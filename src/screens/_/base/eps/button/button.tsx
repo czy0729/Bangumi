@@ -45,7 +45,7 @@ export default memo(
       popoverProps = {
         overlay: (
           <Menu
-            title={[`ep${item.sort} · ${item.airdate}`]}
+            title={[`ep${item.sort} · ${item.airdate || item.duration}`]}
             data={popoverData}
             onSelect={value => onSelect(value, item)}
           />
