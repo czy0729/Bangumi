@@ -40,7 +40,7 @@ function Tinygrail({ filter }) {
           filter={filter}
           onPress={setTrue}
         />
-        <ActionSheet show={state} onClose={setFalse}>
+        <ActionSheet show={state} title='小圣杯' onClose={setFalse}>
           {/* 小圣杯 */}
           <ItemSetting
             show={shows.tinygrail}

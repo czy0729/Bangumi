@@ -38,7 +38,12 @@ function Katakana({ navigation, filter }) {
           <Heatmap id='设置.切换' title='片假名终结者' />
         </ItemSetting>
 
-        <ActionSheet show={state} height={filter ? 400 : 760} onClose={setFalse}>
+        <ActionSheet
+          show={state}
+          title='其他'
+          height={filter ? 400 : 640}
+          onClose={setFalse}
+        >
           {/* 自定义源头 */}
           <ItemSetting
             arrow

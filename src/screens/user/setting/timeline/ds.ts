@@ -6,6 +6,6 @@
  */
 export const TEXTS = {
   timelinePopable: {
-    hd: '[实验性] 点击条目名字先显示缩略信息'
+    hd: '点击条目名字先显示缩略信息'
   }
 } as const

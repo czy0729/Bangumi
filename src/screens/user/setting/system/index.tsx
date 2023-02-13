@@ -49,7 +49,7 @@ function System({ navigation, filter }) {
           filter={filter}
           onPress={setTrue}
         />
-        <ActionSheet show={state} onClose={setFalse}>
+        <ActionSheet show={state} title='同步' onClose={setFalse}>
           {/* 同步设置 */}
           <ItemSettingBlock
             show={shows.setting}

@@ -32,7 +32,7 @@ function Zhinan({ navigation, filter }) {
     return (
       <>
         <ItemSetting hd='更多' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} onClose={setFalse}>
+        <ActionSheet show={state} title='更多' onClose={setFalse}>
           {/* 项目帖子 */}
           <ItemSetting
             show={shows.topic}

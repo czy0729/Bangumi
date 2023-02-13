@@ -10,8 +10,8 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { getShows } from '../setting/utils'
-import styles from '../setting/styles'
+import { getShows } from '../utils'
+import styles from '../styles'
 import { TEXTS } from './ds'
 
 function Discovery({ filter, open = false }) {
@@ -26,7 +26,7 @@ function Discovery({ filter, open = false }) {
     return (
       <>
         <ItemSetting hd='发现' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} onClose={setFalse}>
+        <ActionSheet show={state} title='发现' onClose={setFalse}>
           {/* 菜单每行个数 */}
           <ItemSetting
             show={shows.discoveryMenuNum}

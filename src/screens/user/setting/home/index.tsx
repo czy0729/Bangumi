@@ -52,7 +52,12 @@ function Home({ filter }) {
     return (
       <>
         <ItemSetting hd='进度' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} height={filter ? 400 : 760} onClose={setFalse}>
+        <ActionSheet
+          show={state}
+          title='进度'
+          height={filter ? 400 : 760}
+          onClose={setFalse}
+        >
           {/* 布局 */}
           <ItemSettingBlock
             show={shows.homeLayout}

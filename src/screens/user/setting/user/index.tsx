@@ -26,7 +26,7 @@ function User({ filter }) {
     return (
       <>
         <ItemSetting hd='时光机' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} onClose={setFalse}>
+        <ActionSheet show={state} title='时光机' onClose={setFalse}>
           {/* 网格布局个数 */}
           <ItemSetting
             show={shows.userGridNum}

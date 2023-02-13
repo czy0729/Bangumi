@@ -26,7 +26,12 @@ function Subject({ filter }) {
     return (
       <>
         <ItemSetting hd='条目' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} height={filter ? 400 : 760} onClose={setFalse}>
+        <ActionSheet
+          show={state}
+          title='条目'
+          height={filter ? 400 : 760}
+          onClose={setFalse}
+        >
           {/* 其他用户收藏数量 */}
           <ItemSetting
             show={shows.showCount}

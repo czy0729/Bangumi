@@ -23,7 +23,8 @@ export { ActionSheetProps }
 
 export const ActionSheet = ({
   show = false,
-  height = 400,
+  height = 440,
+  title = '',
   onClose,
   children
 }: ActionSheetProps) => {
@@ -121,6 +122,11 @@ export const ActionSheet = ({
               ]}
               contentContainerStyle={_.container.bottom}
             >
+              {!!title && (
+                <Text style={_.mb.sm} size={12} bold type='sub' align='center'>
+                  {title}
+                </Text>
+              )}
               {children}
             </ScrollView>
             <Touchable onPress={onClose}>

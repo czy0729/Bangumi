@@ -29,7 +29,7 @@ function Theme({ navigation, filter }) {
         {/* 主题 */}
         <ItemSetting hd='主题' arrow highlight filter={filter} onPress={setTrue} />
 
-        <ActionSheet show={state} onClose={setFalse}>
+        <ActionSheet show={state} title='主题' onClose={setFalse}>
           {/* 主题 */}
           <ItemSettingBlock
             style={_.mt.sm}

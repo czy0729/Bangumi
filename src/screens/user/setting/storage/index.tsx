@@ -97,7 +97,7 @@ function Storage({ filter }) {
     return (
       <>
         <ItemSetting hd='缓存' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} onClose={setFalse}>
+        <ActionSheet show={state} title='缓存' onClose={setFalse}>
           {/* 清除数据缓存 */}
           <ItemSetting
             show={shows.clearStorage}

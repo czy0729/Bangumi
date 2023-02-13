@@ -47,6 +47,7 @@ function Timeline({ filter }) {
         />
         <ActionSheet
           show={state}
+          title='时间胶囊'
           onClose={() => {
             setFalse()
             uiStore.closePopableSubject()

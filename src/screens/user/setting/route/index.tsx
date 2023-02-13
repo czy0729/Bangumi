@@ -58,7 +58,7 @@ function Route({ filter }) {
     return (
       <>
         <ItemSetting hd='底栏' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} onClose={setFalse}>
+        <ActionSheet show={state} title='底栏' onClose={setFalse}>
           {/* 功能块 */}
           {shows.blocks && (
             <View style={styles.blocks}>

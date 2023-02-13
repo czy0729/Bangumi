@@ -20,7 +20,7 @@ import User from './user'
 import UserSetting from './user-setting'
 import Rakuen from './rakuen'
 import Subject from './subject'
-import Discovery from '../discovery'
+import Discovery from './discovery'
 import Timeline from './timeline'
 import Theme from './theme'
 import Custom from './custom'
@@ -46,7 +46,7 @@ const Setting = ({ navigation, route }: NavigationProps) => {
 
   return useObserver(() => {
     const ts = String(userStore.userCookie.userAgent).match(/(\d{10})/g)
-    const { open } = route.params
+    const open = route?.params?.open || ''
     return (
       <>
         <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />

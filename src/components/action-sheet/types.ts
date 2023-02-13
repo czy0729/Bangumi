@@ -11,6 +11,9 @@ export type Props = {
   /** 高度，不会超过屏幕高度的88% */
   height?: number
 
+  /** 标题 */
+  title?: string
+
   /** 关闭回调函数 */
   onClose?: () => any
 
