@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 16:33:57
+ * @Last Modified time: 2023-02-13 17:10:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,6 +37,11 @@ function Head({ style }, { $, navigation }: Ctx) {
   const fallback =
     typeof $.src === 'string' && !$.src.includes('//lain.bgm.tv/pic/user/l/')
   const userStatus = getUserStatus(username)
+
+  let activeText = '历史'
+  if ($.usersTimeline.list.length && $.usersTimeline.list?.[0]?.time) {
+    activeText = `${$.usersTimeline.list[0]?.time}活跃`
+  }
   return (
     <Flex style={style} direction='column'>
       <View>
@@ -75,7 +80,7 @@ function Head({ style }, { $, navigation }: Ctx) {
             }}
           >
             <Text type={textType} size={11} bold>
-              历史
+              {activeText}
             </Text>
           </Touchable>
           <Heatmap id='空间.历史' />

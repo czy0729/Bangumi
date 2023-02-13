@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:05:10
+ * @Last Modified time: 2023-02-13 17:11:39
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -178,7 +178,7 @@ class UsedModal extends React.Component<{
       <Modal
         style={this.styles.modal}
         visible={visible}
-        title='历史'
+        title='用户资料修改历史'
         onClose={$.closeUsedModal}
       >
         <View style={this.styles.content}>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:54:40
+ * @Last Modified time: 2023-02-13 17:07:16
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -155,14 +155,13 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
 
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己')
-    const res = fetchTimeline(
+    const data = await fetchTimeline(
       { scope, type, userId },
       refresh,
       this.usersTimeline(userId),
       userStore.usersInfo(userId)
     )
 
-    const data = await res
     const key = 'usersTimeline'
     const stateKey = userId
     this.setState({
@@ -171,7 +170,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
       }
     })
 
-    return res
+    return data
   }
 
   /** 吐槽 */
