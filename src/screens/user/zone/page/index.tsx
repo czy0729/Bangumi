@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 07:15:55
+ * @Last Modified time: 2023-02-13 16:34:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,13 @@ class Zone extends React.Component {
     }, 0)
   }
 
-  onScroll = e => {
+  onScroll = (e: {
+    nativeEvent: {
+      contentOffset: {
+        y: any
+      }
+    }
+  }) => {
     const { $ }: Ctx = this.context
     $.onScroll(e)
     uiStore.closePopableSubject()

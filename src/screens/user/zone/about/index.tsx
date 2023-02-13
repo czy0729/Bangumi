@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 07:22:30
+ * @Last Modified time: 2023-02-13 16:14:15
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -63,20 +63,16 @@ function About(
         <RenderHtml
           style={_.mt.lg}
           html={sign}
-          onLinkPress={href =>
-            appNavigate(
-              href,
-              navigation,
-              {},
-              {
-                id: '空间.跳转',
-                data: {
-                  from: '关于TA',
-                  userId: $.userId
-                }
+          onLinkPress={href => {
+            const event = {
+              id: '空间.跳转',
+              data: {
+                from: '关于TA',
+                userId: $.userId
               }
-            )
-          }
+            } as const
+            appNavigate(href, navigation, {}, event)
+          }}
         />
       </View>
     </Animated.ScrollView>

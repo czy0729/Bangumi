@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 01:45:43
+ * @Last Modified time: 2023-02-13 16:33:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -157,7 +157,6 @@ function Head({ style }, { $, navigation }: Ctx) {
           )}
         </Flex>
       </View>
-      {/* <User style={styles.r0} /> */}
     </Flex>
   )
 }

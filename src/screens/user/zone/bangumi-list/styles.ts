@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-10-22 02:00:43
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-10-22 02:00:43
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-02-13 16:04:59
  */
 import { _ } from '@stores'
 
@@ -14,21 +14,5 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.wind - _._wind,
     paddingBottom: _.bottom,
     minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
-  },
-  sectionHeader: {
-    paddingHorizontal: _._wind,
-    backgroundColor: _.colorPlain
-  },
-  section: {
-    backgroundColor: _.colorBg
-  },
-  touch: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.md,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  arrow: {
-    marginRight: -3
   }
 }))

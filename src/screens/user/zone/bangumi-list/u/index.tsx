@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-03 06:40:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 06:49:49
+ * @Last Modified time: 2023-02-13 16:10:42
  */
 import React, { useState } from 'react'
 import { Text } from '@components'
@@ -21,7 +21,7 @@ function U({ username }) {
     }
   })
 
-  return <Text style={_.ml.md}>{JSON.stringify(value, null, 2)}</Text>
+  return <Text style={[_.mt.md, _.ml.md]}>{JSON.stringify(value, null, 2)}</Text>
 }
 
 export default U

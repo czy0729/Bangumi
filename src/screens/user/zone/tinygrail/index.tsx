@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 07:23:19
+ * @Last Modified time: 2023-02-13 16:37:22
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -69,7 +69,9 @@ function Tinygrail(props, { $, navigation }: Ctx) {
               })
             }}
           >
-            <Text type={_.select('desc', 'main')} bold>查看TA的持仓</Text>
+            <Text type={_.select('desc', 'main')} bold>
+              查看TA的持仓
+            </Text>
             <Heatmap id='空间.跳转' to='TinygrailCharaAssets' alias='小圣杯持仓' />
           </Touchable>
         </Flex>

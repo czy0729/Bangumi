@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 22:08:59
+ * @Last Modified time: 2023-02-13 16:30:06
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -53,8 +53,8 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
       scale: $.scrollY.interpolate({
         inputRange: [-_.parallaxImageHeight, 0, _.parallaxImageHeight],
 
-        // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
-        // 当scrollY在0-h时, scale不变. 可以输入任意数量对应的值, 但必须是递增或者相等
+        // -h: 2, 0: 1, h: 1 当 scrollY 在 -h 到 0 时, scale 按照 2-1 的动画运动
+        // 当 scrollY 在 0-h 时, scale 不变. 可以输入任意数量对应的值, 但必须是递增或者相等
         outputRange: [2, 1, 1]
       })
     })
@@ -217,7 +217,7 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
 
                 case '发短信':
                   navigation.push('PM', {
-                    userId: id, // 必须是数字id
+                    userId: id,
                     userName
                   })
                   break
