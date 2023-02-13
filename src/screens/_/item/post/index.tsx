@@ -65,7 +65,7 @@ export const ItemPost = obc(
 
     if (_expands !== undefined) {
       isExpand =
-        sub.length <= _expands || (sub.length > _expands && expands.includes(id))
+        sub.length <= _expands || (sub.length > _expands && expands?.includes(id))
     } else {
       isExpand = true
     }
