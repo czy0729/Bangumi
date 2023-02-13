@@ -5,9 +5,10 @@
  * @Last Modified time: 2023-02-06 21:46:43
  */
 import {
-  otaStore,
-  collectionStore,
   calendarStore,
+  collectionStore,
+  otaStore,
+  rakuenStore,
   systemStore,
   userStore,
   usersStore
@@ -16,6 +17,7 @@ import {
   appNavigate,
   asc,
   cnjp,
+  confirm,
   copy,
   feedback,
   genICSCalenderEventDate,
@@ -472,6 +474,21 @@ export default class Action extends Fetch {
     return false
   }
 
+  /** 屏蔽用户 */
+  addBlockUser = (values: { avatar: string; userId: UserId; userName: string }) => {
+    confirm(
+      `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
+      () => {
+        t('条目.屏蔽用户', {
+          userId: values.userId
+        })
+
+        rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
+        info(`已屏蔽 ${values.userName}`)
+      }
+    )
+  }
+
   /** 追踪特定用户收藏相关信息 */
   onTrackUsersCollection = (
     title: string,
@@ -481,7 +498,14 @@ export default class Action extends Fetch {
       userName: string
     }
   ) => {
-    if (this.type && userData?.userId) {
+    if (!userData?.userId) return false
+
+    if (title === '屏蔽用户') {
+      this.addBlockUser(userData)
+      return
+    }
+
+    if (this.type) {
       const { avatar, userId, userName } = userData || {}
       systemStore.trackUsersCollection(userId, this.subjectTypeValue)
       usersStore.updateUsersInfo({

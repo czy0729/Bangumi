@@ -15,6 +15,7 @@ import { styles } from './styles'
 export default memo(({ navigation, avatar, userId, userName, title, group }) => {
   global.rerender('Topic.HeaderTitle.Main')
 
+  const texts = [userName || group, group].filter(item => !!item).join(' · ')
   return (
     <Flex style={styles.container}>
       {!!avatar && (
@@ -32,9 +33,9 @@ export default memo(({ navigation, avatar, userId, userName, title, group }) => 
         <Text size={13} numberOfLines={1}>
           {title}
         </Text>
-        {!!(userName || group) && (
+        {!!texts && (
           <Text type='sub' size={10} bold numberOfLines={1}>
-            {userName || group}
+            {texts}
           </Text>
         )}
       </Flex.Item>

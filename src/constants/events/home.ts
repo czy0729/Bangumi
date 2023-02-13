@@ -73,6 +73,7 @@ export default {
   '条目.特别关注': 'Subject.trackComment',
   '条目.取消特别关注': 'Subject.cancelTrackComment',
   '条目.导出日程': 'Subject.ics',
+  '条目.屏蔽用户': 'Subject.blockUser',
 
   // 章节
   '章节.跳转': 'Episodes.to',

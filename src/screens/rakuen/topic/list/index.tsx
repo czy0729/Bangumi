@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:14:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 23:36:00
+ * @Last Modified time: 2023-02-14 02:31:50
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -12,7 +12,6 @@ import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import Top from '../top'
 import { Ctx } from '../types'
-// import { styles } from './styles'
 
 function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }: Ctx) {
   const { list } = $.comments

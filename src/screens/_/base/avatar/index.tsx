@@ -130,7 +130,7 @@ export const Avatar = ob(
      * @notice 安卓 gif 图片不能直接设置 borderRadius, 需要再包一层
      * 然后就是 bgm 的默认图 /icon.jpg 根本不是 jpg 是 gif
      */
-    if (!IOS && src && src.includes('/icon.jpg')) {
+    if (!IOS && src && typeof src === 'string' && src.includes('/icon.jpg')) {
       const _style = [
         styles.avatar,
         {
@@ -184,7 +184,7 @@ export const Avatar = ob(
         quality={false}
         placeholder={placeholder}
         fallback={fallback}
-        fallbackSrc={fallbackSrc || src}
+        fallbackSrc={String(fallbackSrc || src)}
         onPress={_onPress}
         onLongPress={onLongPress}
       />

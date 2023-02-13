@@ -19,7 +19,9 @@ export type NavigationPushType = RouteActions &
   RouteCatalogs &
   RouteCharacter &
   RouteFriends &
+  RouteGroup &
   RouteInformation &
+  RouteMono &
   RoutePM &
   RouteRating &
   RouteSetting &
@@ -30,6 +32,21 @@ export type NavigationPushType = RouteActions &
   RouteWebBrowser &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteMono = (
+  path: 'Mono',
+  params: {
+    monoId: string
+  }
+) => any
+
+type RouteGroup = (
+  path: 'Group',
+  params: {
+    groupId: string
+    _title?: string
+  }
+) => any
 
 type RouteWebBrowser = (
   path: 'WebBrowser',

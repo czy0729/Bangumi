@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 10:07:25
+ * @Last Modified time: 2023-02-14 02:16:48
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
-import { Login, SectionHeader, ItemTimeline } from '@_'
+import { Login, SectionHeader } from '@_'
 import { _, uiStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import { TimeLineScope, TimeLineScopeCn, TimeLineType } from '@types'
-import ItemHeatmaps from '../item-heatmaps'
+import Item from '../item'
 import { TABS } from '../ds'
 import { Ctx, TabLabel } from '../types'
 import { styles } from './styles'
@@ -55,29 +55,8 @@ class List extends React.Component<{
   }
 
   renderItem = ({ item, index }) => {
-    const { $, navigation }: Ctx = this.context
     const { scope, title } = this.props
-    const EVENT = {
-      id: '时间胶囊.跳转',
-      data: {
-        scope,
-        title
-      }
-    } as const
-
-    return (
-      <>
-        <ItemTimeline
-          style={_.container._item}
-          navigation={navigation}
-          {...item}
-          event={EVENT}
-          onDelete={$.doDelete}
-          onHidden={$.onHidden}
-        />
-        {index === 1 && <ItemHeatmaps />}
-      </>
-    )
+    return <Item scope={scope} title={title} item={item} index={index} />
   }
 
   render() {

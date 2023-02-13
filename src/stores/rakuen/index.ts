@@ -1043,7 +1043,9 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
    * 添加屏蔽用户
    * @param {string} userNameSpace `${userName}@${userId}`
    */
-  addBlockUser = (userNameSpace: string) => {
+  addBlockUser = async (userNameSpace: string) => {
+    this.init('setting')
+
     const { blockUserIds } = this.setting
     if (blockUserIds.includes(userNameSpace)) return
 

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 16:30:06
+ * @Last Modified time: 2023-02-14 02:28:05
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Iconfont, Touchable, Text, Heatmap } from '@components'
 import { Popover, IconBack, Avatar } from '@_'
-import { _ } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { open, copy, info, HTMLDecode, confirm, getBlurRadius } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -66,6 +66,7 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
   } else if ($.users.disconnectUrl) {
     data.push('解除好友')
   }
+  data.push('屏蔽用户')
 
   let uri: any = avatar?.large
   if (typeof _image === 'string') {
@@ -190,6 +191,7 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
         )}
         <View style={styles.touch}>
           <Popover
+            key={id || username}
             data={data}
             onSelect={key => {
               t('空间.右上角菜单', {
@@ -238,6 +240,20 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
 
                 case '解除好友':
                   confirm('确定解除好友?', () => $.doDisconnect())
+                  break
+
+                case '屏蔽用户':
+                  if (username || id) {
+                    confirm(
+                      `屏蔽来自 ${userName}@${
+                        username || id
+                      } 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
+                      () => {
+                        rakuenStore.addBlockUser(`${userName}@${username || id}`)
+                        info(`已屏蔽 ${userName}`)
+                      }
+                    )
+                  }
                   break
 
                 default:

@@ -180,7 +180,7 @@ class RakuenSetting extends React.Component<{
         {/* 楼层中图片自动加载 */}
         <ItemSetting
           hd='楼层中图片自动加载'
-          information='不推荐使用，因为观察到用户上传的图片使用的图床都很慢，而且不压缩图片很大'
+          information={`对于大于 2M 的图片开启后依然不会自动加载\n不推荐使用，因为观察到用户使用的图床都很慢，而且不压缩图片很大`}
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -390,7 +390,7 @@ class RakuenSetting extends React.Component<{
     const { keyword } = this.state
     return (
       <Block>
-        <Tip>屏蔽关键字（对标题、正文内容生效）</Tip>
+        <Tip>屏蔽关键字（对超展开标题、帖子正文内容生效）</Tip>
         <History
           data={this.setting.blockKeywords}
           onDelete={item => {
@@ -439,10 +439,11 @@ class RakuenSetting extends React.Component<{
           />
         </Block>
         <Block>
-          <Tip>屏蔽用户（对发帖人、楼层主、条目评分留言人生效）</Tip>
+          <Tip>屏蔽用户（对条目评论、时间胶囊、超展开相关信息生效）</Tip>
           <History
             navigation={navigation}
             data={this.setting.blockUserIds}
+            showAvatar
             onDelete={item => {
               t('超展开设置.取消用户', {
                 item

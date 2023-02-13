@@ -303,15 +303,18 @@ export default class ScreenRakuen extends store {
         break
 
       case '屏蔽用户':
-        confirm(`确定${title}?`, () => {
-          t(eventId, {
-            title,
-            userName: values.userName
-          })
+        confirm(
+          `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
+          () => {
+            t(eventId, {
+              title,
+              userName: values.userName
+            })
 
-          rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
-          info(`已屏蔽 ${values.userName}`)
-        })
+            rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
+            info(`已屏蔽 ${values.userName}`)
+          }
+        )
         break
 
       default:

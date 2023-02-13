@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 18:32:00
+ * @Last Modified time: 2023-02-14 02:30:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import { obc } from '@utils/decorators'
-import { findSubjectCn } from '@utils'
+import { findSubjectCn, getIsBlockUser } from '@utils'
 import Item from './item'
 import { Ctx } from '../types'
 import { LIMIT_HEAVY } from './ds'
@@ -15,7 +15,6 @@ import {
   getIsAd,
   getIsBlockGroup,
   getIsBlockKeyword,
-  getIsBlockUser,
   getIsGroup,
   getReplyCount,
   getTopicId,

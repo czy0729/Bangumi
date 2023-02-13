@@ -9,9 +9,17 @@ import { View } from 'react-native'
 import { Flex, Touchable, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Avatar } from '@_'
 import { memoStyles } from './styles'
+import { API_AVATAR } from '@constants'
 
-function History({ navigation, style, data = [], onDelete = () => {} }: any) {
+function History({
+  navigation,
+  style,
+  data = [],
+  showAvatar = false,
+  onDelete = () => {}
+}: any) {
   const styles = memoStyles()
   if (!data.length) {
     return (
@@ -29,36 +37,43 @@ function History({ navigation, style, data = [], onDelete = () => {} }: any) {
 
   return (
     <View style={[styles.container, style]}>
-      {data.map(item => (
-        <View key={item} style={styles.item}>
-          <Flex style={styles.content}>
-            <Flex.Item>
-              <Text
-                size={15}
-                bold
-                onPress={() => {
-                  if (!navigation) return
+      {data.map(item => {
+        let userId = ''
+        try {
+          const [, _userId] = item.replace('@undefined', '').split('@')
+          if (_userId) userId = _userId
+        } catch (error) {}
 
-                  try {
-                    const [, userId] = item.replace('@undefined', '').split('@')
-                    if (userId)
-                      navigation.push('Zone', {
-                        userId
-                      })
-                  } catch (error) {}
-                }}
-              >
-                {item.replace('@undefined', '')}
-              </Text>
-            </Flex.Item>
-            <Touchable style={[styles.touch, _.ml.md]} onPress={() => onDelete(item)}>
-              <Flex style={styles.icon} justify='center'>
-                <Iconfont name='md-close' size={20} />
-              </Flex>
-            </Touchable>
-          </Flex>
-        </View>
-      ))}
+        return (
+          <View key={item} style={styles.item}>
+            <Flex style={styles.content}>
+              {showAvatar && !!userId && (
+                <Avatar style={_.mr.sm} src={API_AVATAR(userId)} size={24} />
+              )}
+              <Flex.Item>
+                <Text
+                  size={14}
+                  bold
+                  onPress={() => {
+                    if (!navigation) return
+
+                    navigation.push('Zone', {
+                      userId
+                    })
+                  }}
+                >
+                  {item.replace('@undefined', '')}
+                </Text>
+              </Flex.Item>
+              <Touchable style={[styles.touch, _.ml.md]} onPress={() => onDelete(item)}>
+                <Flex style={styles.icon} justify='center'>
+                  <Iconfont name='md-close' size={20} />
+                </Flex>
+              </Touchable>
+            </Flex>
+          </View>
+        )
+      })}
     </View>
   )
 }

@@ -38,7 +38,7 @@ class ToggleImage extends React.Component<Props, State> {
         size: size || '?'
       },
       () => {
-        if (rakuenStore.setting.autoLoadImage) {
+        if (rakuenStore.setting.autoLoadImage && size <= 2000) {
           this.setState({
             show: true
           })

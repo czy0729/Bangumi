@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 10:35:29
+ * @Last Modified time: 2023-02-14 02:35:34
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -25,7 +25,15 @@ import {
 } from '@constants/cdn'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import x18Data from '@assets/json/18x.json'
-import { AnyObject, BangumiData, EventType, Navigation, Paths, SubjectId } from '@types'
+import {
+  AnyObject,
+  BangumiData,
+  EventType,
+  Navigation,
+  Paths,
+  SubjectId,
+  UserId
+} from '@types'
 import { getTimestamp, open } from '../utils'
 import { info, confirm, feedback } from '../ui'
 import { HTMLDecode } from '../html'
@@ -67,6 +75,20 @@ export function bootApp() {
 
   initHashSubjectOTA()
   initHashAvatarOTA()
+}
+
+/** 处理屏蔽用户 */
+export function getIsBlockUser(
+  blockUserIds: string[],
+  userName: string,
+  userId: UserId
+) {
+  const findIndex = blockUserIds.findIndex(item => {
+    const [itemUserName, itemUserId] = item.split('@')
+    if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName
+    return itemUserId === userId
+  })
+  return findIndex !== -1
 }
 
 /** 获取设置 */
@@ -513,11 +535,14 @@ export function appNavigate(
       ...data
     })
 
-    navigation.push(route, {
-      _url,
-      ...params,
-      ...passParams
-    })
+    navigation.push(
+      route as any,
+      {
+        _url,
+        ...params,
+        ...passParams
+      } as any
+    )
     return true
   } catch (error) {
     console.error('utils/app', 'appNavigate')

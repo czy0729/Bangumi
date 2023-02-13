@@ -8,7 +8,7 @@ import React, { useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import { uiStore } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useRunAfter } from '@utils/hooks'
 import Page from './page'
 import Store from './store'
 import { Ctx } from './types'
@@ -24,7 +24,7 @@ const Zone = (props, { $ }: Ctx) => {
     if (!isFocused) uiStore.closePopableSubject()
   }, [isFocused])
 
-  return useObserver(() => <Page />)
+  return <Page />
 }
 
 export default ic(Store, Zone)
