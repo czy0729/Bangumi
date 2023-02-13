@@ -2,23 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 19:07:07
+ * @Last Modified time: 2023-02-14 03:33:58
  */
 import React from 'react'
-import {
-  Page,
-  ScrollView,
-  SwitchPro,
-  Flex,
-  SegmentedControl,
-  Input,
-  Text,
-  Touchable,
-  Iconfont
-} from '@components'
+import { Page, ScrollView, SwitchPro, Flex, SegmentedControl, Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, rakuenStore, uiStore } from '@stores'
-import { info } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
@@ -30,7 +19,7 @@ import {
 import { Navigation } from '@types'
 import Block from '../../../user/setting/block'
 import Tip from '../../../user/setting/tip'
-import History from './../history'
+import Blocks from '../blocks'
 import { memoStyles } from './styles'
 import { getYuqueThumbs } from './utils'
 
@@ -40,29 +29,6 @@ const subExpandDS = RAKUEN_SUB_EXPAND.map(item => item.label)
 class RakuenSetting extends React.Component<{
   navigation: Navigation
 }> {
-  state = {
-    keyword: ''
-  }
-
-  onChange = keyword => {
-    this.setState({
-      keyword: keyword.trim()
-    })
-  }
-
-  onSubmit = () => {
-    const { keyword } = this.state
-    if (!keyword.length) {
-      info('不能为空')
-      return
-    }
-
-    rakuenStore.addBlockKeyword(keyword)
-    this.setState({
-      keyword: ''
-    })
-  }
-
   onScroll = () => {
     uiStore.closePopableSubject()
   }
@@ -386,77 +352,8 @@ class RakuenSetting extends React.Component<{
     )
   }
 
-  renderCustom() {
-    const { keyword } = this.state
-    return (
-      <Block>
-        <Tip>屏蔽关键字（对超展开标题、帖子正文内容生效）</Tip>
-        <History
-          data={this.setting.blockKeywords}
-          onDelete={item => {
-            t('超展开设置.取消关键字', {
-              item
-            })
-            rakuenStore.deleteBlockKeyword(item)
-          }}
-        />
-        <Flex style={this.styles.section}>
-          <Flex.Item>
-            <Input
-              style={this.styles.input}
-              value={keyword}
-              placeholder='输入关键字'
-              returnKeyType='search'
-              returnKeyLabel='添加'
-              onChangeText={this.onChange}
-              onSubmitEditing={this.onSubmit}
-            />
-          </Flex.Item>
-          <Touchable style={_.ml.md} onPress={this.onSubmit}>
-            <Flex style={this.styles.icon} justify='center'>
-              <Iconfont name='md-add' size={24} />
-            </Flex>
-          </Touchable>
-        </Flex>
-      </Block>
-    )
-  }
-
-  renderBlock() {
-    const { navigation } = this.props
-    return (
-      <>
-        <Block>
-          <Tip>屏蔽小组 / 条目（对帖子所属小组名生效）</Tip>
-          <History
-            data={this.setting.blockGroups}
-            onDelete={item => {
-              t('超展开设置.取消关键字', {
-                item
-              })
-              rakuenStore.deleteBlockGroup(item)
-            }}
-          />
-        </Block>
-        <Block>
-          <Tip>屏蔽用户（对条目评论、时间胶囊、超展开相关信息生效）</Tip>
-          <History
-            navigation={navigation}
-            data={this.setting.blockUserIds}
-            showAvatar
-            onDelete={item => {
-              t('超展开设置.取消用户', {
-                item
-              })
-              rakuenStore.deleteBlockUser(item)
-            }}
-          />
-        </Block>
-      </>
-    )
-  }
-
   render() {
+    const { navigation } = this.props
     return (
       <Page style={_.select(_.container.bg, _.container.plain)}>
         <ScrollView
@@ -465,8 +362,7 @@ class RakuenSetting extends React.Component<{
         >
           {this.renderTopic()}
           {this.renderList()}
-          {this.renderCustom()}
-          {this.renderBlock()}
+          <Blocks navigation={navigation} />
         </ScrollView>
       </Page>
     )

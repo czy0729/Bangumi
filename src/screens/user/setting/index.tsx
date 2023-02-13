@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 05:27:29
+ * @Last Modified time: 2023-02-14 03:42:16
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
@@ -30,6 +30,7 @@ import Tinygrail from './tinygrail'
 import Katakana from './katakana'
 // import Origin from './origin'
 import Route from './route'
+import Blocks from './blocks'
 import Home from './home'
 import Contact from './contact'
 import Storage from './storage'
@@ -71,6 +72,7 @@ const Setting = ({ navigation, route }: NavigationProps) => {
               <Custom filter={filter} />
               <CDN navigation={navigation} filter={filter} />
               <Route filter={filter} />
+              <Blocks navigation={navigation} filter={filter} />
               <Katakana navigation={navigation} filter={filter} />
               {/* <Origin navigation={navigation} filter={filter} /> */}
             </Block>
