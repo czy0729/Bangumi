@@ -20,7 +20,7 @@ import { Avatar } from '@_'
 import { _ } from '@stores'
 import { simpleTime, findSubjectCn, appNavigate, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
-import { HOST } from '@constants'
+import { HOST, IMG_EMPTY, IMG_EMPTY_DARK } from '@constants'
 import Content from '../content'
 import Ep from '../ep'
 import SectionTitle from '../section-title'
@@ -93,13 +93,11 @@ export default memo(
             {!!group && (
               <Touchable onPress={groupPress}>
                 <Flex style={styles.groupLabel}>
-                  {!!groupThumb && (
-                    <Avatar
-                      style={isEp ? _.mr.sm : _.mr.xs}
-                      size={isEp ? 40 : 20}
-                      src={groupThumb}
-                    />
-                  )}
+                  <Avatar
+                    style={isEp ? _.mr.sm : _.mr.xs}
+                    size={isEp ? 40 : 20}
+                    src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
+                  />
                   <Text size={13} numberOfLines={1}>
                     {HTMLDecode(findSubjectCn(group))}
                   </Text>

@@ -20,5 +20,6 @@ export const DEFAULT_PROPS = {
   status: [] as $['status'],
   showCount: true as typeof systemStore.setting.showCount,
   showManageModel: (() => {}) as $['showManageModel'],
-  toRating: (() => {}) as $['toRating']
+  toRating: (() => {}) as $['toRating'],
+  outdate: false as boolean
 }

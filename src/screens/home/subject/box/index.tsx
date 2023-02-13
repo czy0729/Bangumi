@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-01-30 10:47:46
  */
 import React from 'react'
-import { systemStore } from '@stores'
+import { systemStore, userStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import Box from './box'
@@ -25,6 +25,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       showCount={systemStore.setting.showCount}
       showManageModel={$.showManageModel}
       toRating={$.toRating}
+      outdate={userStore.outdate}
     />
   )
 })

@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { _ } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { open } from '@utils'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
@@ -33,9 +33,18 @@ class ToggleImage extends React.Component<Props, State> {
   async componentDidMount() {
     const { src } = this.props
     const size = await getSize(src as string)
-    this.setState({
-      size: size || '?'
-    })
+    this.setState(
+      {
+        size: size || '?'
+      },
+      () => {
+        if (rakuenStore.setting.autoLoadImage) {
+          this.setState({
+            show: true
+          })
+        }
+      }
+    )
   }
 
   toggleShow = () => {
@@ -69,7 +78,7 @@ class ToggleImage extends React.Component<Props, State> {
   }
 
   render() {
-    // RN不使用第三方link包暂时不支持webp, 暂时使用浏览器跳转
+    // RN 不使用第三方 link 包暂时不支持 webp, 暂时使用浏览器跳转
     const { onImageFallback } = this.props
     const { show, loaded, size } = this.state
 

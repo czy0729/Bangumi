@@ -73,14 +73,15 @@ class RakuenSetting extends React.Component<{
 
   renderTopic() {
     const {
-      matchLink,
       acSearch,
       acSearchPopable,
+      autoLoadImage,
+      matchLink,
       quote,
       quoteAvatar,
-      wide,
+      scrollDirection,
       subExpand,
-      scrollDirection
+      wide
     } = this.setting
     return (
       <Block>
@@ -175,6 +176,26 @@ class RakuenSetting extends React.Component<{
             物语是什么鬼翻译[bgm38]
           </Text>
         </Flex>
+
+        {/* 楼层中图片自动加载 */}
+        <ItemSetting
+          hd='楼层中图片自动加载'
+          information='不推荐使用，因为观察到用户上传的图片使用的图床都很慢，而且不压缩图片很大'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={autoLoadImage}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '楼层中图片自动加载',
+                  checked: !autoLoadImage
+                })
+                rakuenStore.switchSetting('autoLoadImage')
+              }}
+            />
+          }
+          withoutFeedback
+        />
 
         {/* 展开引用 */}
         <ItemSetting

@@ -20,7 +20,11 @@ export type Props = {
   name?: string
 
   /** 头像地址 */
-  src?: string
+  src?:
+    | string
+    | {
+        uri: string
+      }
 
   /** 大小 */
   size?: number

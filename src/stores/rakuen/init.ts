@@ -117,6 +117,9 @@ export const INIT_SETTING = {
   /** 子楼层折叠 */
   subFloorExpand: 2,
 
+  /** 自动加载楼层中的图片 */
+  autoLoadImage: false,
+
   /** 帖子楼层滚动导航条方向 */
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('右侧')
 }

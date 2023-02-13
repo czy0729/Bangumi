@@ -26,7 +26,8 @@ export default memo(
     status,
     showCount,
     showManageModel,
-    toRating
+    toRating,
+    outdate
   }) => {
     global.rerender('Subject.Box.Main')
 
@@ -129,7 +130,7 @@ export default memo(
           <Heatmap id='条目.管理收藏' />
           <Heatmap right={56} transparent id='条目.显示收藏管理' />
         </Touchable>
-        {showCount && (
+        {showCount && !!status.length && (
           <View style={_.mt.md}>
             <Text size={statusSize} type='sub'>
               {status.map((item, index) => (
@@ -146,6 +147,11 @@ export default memo(
             </Text>
             <Heatmap id='条目.跳转' from='收藏' />
           </View>
+        )}
+        {outdate && (
+          <Text style={_.mt.md} size={statusSize} type='sub' bold>
+            检测到授权信息过期，请重新登录再进行收藏管理
+          </Text>
         )}
       </View>
     )

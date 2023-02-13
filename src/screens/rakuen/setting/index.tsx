@@ -8,9 +8,9 @@ import React, { useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import { Header } from '@components'
 import { TapListener } from '@_'
+import { uiStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Page from './page'
-import { uiStore } from '@stores'
 
 const RakuenSetting = ({ navigation }) => {
   const isFocused = useIsFocused()
