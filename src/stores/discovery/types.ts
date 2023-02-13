@@ -57,6 +57,7 @@ export type CatalogDetail = {
   nickname: string
   userId: UserId
   time: string
+  replyCount: number | ''
   collect: null | string
   content: string
   joinUrl: string

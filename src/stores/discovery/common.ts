@@ -139,6 +139,7 @@ export function analysisCatalogDetail(HTML) {
     time: time.replace('创建于 ', '').trim(),
     collect: collect.match(/\d+/) && collect.match(/\d+/)[0],
     content: $('div.line_detail > span.tip').html(),
+    replyCount: $('.timeline_img li.clearit').length,
     joinUrl,
     byeUrl
   }

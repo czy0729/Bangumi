@@ -16,7 +16,8 @@ import {
   Loading,
   SegmentedControl,
   Button,
-  Heatmap
+  Heatmap,
+  Touchable
 } from '@components'
 import { _ } from '@stores'
 import { getCoverLarge, appNavigate } from '@utils'
@@ -24,6 +25,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
+import { HOST } from '@constants'
 
 const LAYOUT_DS = ['列表', '网格'] as const
 
@@ -32,8 +34,17 @@ const SORT_DS = ['默认', '时间', '评分'] as const
 function Info(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { sort } = $.state
-  const { title, avatar, content, progress, nickname, userId, time, _loaded } =
-    $.catalogDetail
+  const {
+    title,
+    avatar,
+    content,
+    progress,
+    nickname,
+    userId,
+    time,
+    replyCount,
+    _loaded
+  } = $.catalogDetail
   return (
     <View style={styles.container}>
       <Header.Placeholder />
@@ -41,6 +52,36 @@ function Info(props, { $, navigation }: Ctx) {
         <Text size={20} bold>
           {title}
         </Text>
+        {!!(nickname || time) && (
+          <Flex style={_.mt.sm}>
+            <Text
+              type='title'
+              size={13}
+              lineHeight={15}
+              bold
+              onPress={() => {
+                t('目录详情.跳转', {
+                  to: 'Zone',
+                  catalogId: $.catalogId,
+                  userId
+                })
+
+                navigation.push('Zone', {
+                  userId,
+                  _id: userId,
+                  _name: nickname,
+                  _image: avatar
+                })
+              }}
+            >
+              {nickname}
+            </Text>
+            <Text type='sub' size={13} lineHeight={15} bold>
+              {nickname ? ` · ` : ''}
+              {time}
+            </Text>
+          </Flex>
+        )}
         {!!avatar && (
           <Flex style={_.mt.lg} justify='center'>
             <Image
@@ -69,33 +110,50 @@ function Info(props, { $, navigation }: Ctx) {
         )}
         <Flex style={_.mt.md}>
           <Flex.Item>
-            <Text type='sub' size={12}>
-              <Text
-                type='title'
-                size={12}
-                bold
+            <Flex>
+              <Touchable
                 onPress={() => {
+                  navigation.push('WebBrowser', {
+                    url: `${HOST}/index/${$.catalogId}/comments`,
+                    title: '目录留言'
+                  })
+
                   t('目录详情.跳转', {
-                    to: 'Zone',
+                    to: 'WebBrowser',
                     catalogId: $.catalogId,
                     userId
                   })
+                }}
+              >
+                <Text type='sub' size={12} bold>
+                  留言{replyCount ? ` (${replyCount})` : ''}
+                </Text>
+              </Touchable>
+              <Text type='sub' size={12} bold>
+                {' '}
+                ·{' '}
+              </Text>
+              <Touchable
+                onPress={() => {
+                  navigation.push('Catalogs', {
+                    userId
+                  })
 
-                  navigation.push('Zone', {
-                    userId,
-                    _id: userId,
-                    _name: nickname,
-                    _image: avatar
+                  t('目录详情.跳转', {
+                    to: 'Catalogs',
+                    catalogId: $.catalogId,
+                    userId
                   })
                 }}
               >
-                {nickname}
-              </Text>
-              {'  '}/ {time}
-            </Text>
+                <Text type='sub' size={12} bold>
+                  TA 的其他目录
+                </Text>
+              </Touchable>
+            </Flex>
           </Flex.Item>
-          <Text type='sub' size={12}>
-            进度{'  '}
+          <Text type='sub' size={12} bold>
+            完成度{'  '}
             {progress.replace('/', ' / ')}
           </Text>
         </Flex>

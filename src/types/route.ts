@@ -12,10 +12,10 @@ import { SubjectId, TopicId, UserId } from './bangumi'
 export type Paths = keyof typeof Screens
 
 /** 路由和参数约束 */
-export type NavigationPushType = ((path: Paths) => any) &
-  RouteActions &
+export type NavigationPushType = RouteActions &
   RouteAward &
   RouteBlogs &
+  RouteCatalogDetail &
   RouteCatalogs &
   RouteCharacter &
   RouteFriends &
@@ -26,7 +26,35 @@ export type NavigationPushType = ((path: Paths) => any) &
   RouteShare &
   RouteSubject &
   RouteTopic &
-  RouteUser
+  RouteUser &
+  RouteWebBrowser &
+  RouteZone &
+  ((path: Paths) => any)
+
+type RouteWebBrowser = (
+  path: 'WebBrowser',
+  params: {
+    url: string
+    title: string
+  }
+) => any
+
+type RouteZone = (
+  path: 'Zone',
+  params: {
+    userId: UserId
+    _id?: UserId
+    _name?: string
+    _image?: string
+  }
+) => any
+
+type RouteCatalogDetail = (
+  path: 'CatalogDetail',
+  params: {
+    catalogId: number
+  }
+) => any
 
 type RouteUser = (
   path: 'User',
@@ -53,8 +81,8 @@ type RouteTopic = (
 type RouteCatalogs = (
   path: 'Catalogs',
   params: {
-    /** 用户 ID */
-    userId: UserId
+    /** 用户 ID, 没有 ID 为自己 */
+    userId?: UserId
   }
 ) => any
 

@@ -8,12 +8,12 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   withCollect: {
-    paddingRight: _.sm,
+    paddingRight: _.xs,
     marginRight: _.xs
   },
   num: {
     position: 'absolute',
-    right: 3,
+    right: 4,
     bottom: 5
   }
 })

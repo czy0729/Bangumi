@@ -28,7 +28,7 @@ type UpdateHeaderProps = Expand<
   >
 >
 
-const headerTransitionHeight = 56
+const HEADER_TRANSITION_HEIGHT = 32
 
 export const updateHeader = ({
   // 必要
@@ -149,13 +149,13 @@ export const useOnScroll = () => {
   const onScroll = useCallback(
     ({ nativeEvent }) => {
       const { y } = nativeEvent.contentOffset
-      // if (y <= headerTransitionHeight) {
+      // if (y <= HEADER_TRANSITION_HEIGHT) {
       //   setY(y)
       // }
 
-      const offset = headerTransitionHeight
+      const offset = HEADER_TRANSITION_HEIGHT
       if ((fixed && y > offset) || (!fixed && y <= offset)) return
-      // setY(headerTransitionHeight)
+      // setY(HEADER_TRANSITION_HEIGHT)
       setFixed(y > offset)
     },
     [fixed]

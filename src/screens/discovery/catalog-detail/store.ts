@@ -42,8 +42,8 @@ export default class ScreenCatalogDetail extends store {
 
   // -------------------- fetch --------------------
   /** 目录详情 */
-  fetchCatalogDetail = async () => {
-    if (!opitimize(this.catalogDetail, 120)) {
+  fetchCatalogDetail = async (refresh: boolean = false) => {
+    if (refresh || !opitimize(this.catalogDetail, 120)) {
       await discoveryStore.fetchCatalogDetail({
         id: this.catalogId
       })
@@ -294,7 +294,7 @@ export default class ScreenCatalogDetail extends store {
     feedback()
     info('已收藏')
 
-    return this.fetchCatalogDetail()
+    return this.fetchCatalogDetail(true)
   }
 
   /** 取消收藏目录 */
@@ -313,7 +313,7 @@ export default class ScreenCatalogDetail extends store {
     feedback()
     info('已取消收藏')
 
-    return this.fetchCatalogDetail()
+    return this.fetchCatalogDetail(true)
   }
 
   /** 复制目录 */

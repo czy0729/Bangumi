@@ -30,7 +30,8 @@ export const INIT_CATELOG_DETAIL_ITEM = {
   nickname: '',
   userId: '',
   time: '',
-  content: ''
+  content: '',
+  replyCount: ''
 }
 
 export const INIT_BLOG_ITEM = {
