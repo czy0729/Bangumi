@@ -67,6 +67,7 @@ export const FixedTextarea = observer(
       showReplyHistory: false,
       showKeyboardSpacer: false,
       showSource: false,
+      showSourceText: true,
       keyboardHeight: 0,
       history: [],
       replyHistory: [],
@@ -86,7 +87,12 @@ export const FixedTextarea = observer(
       try {
         const showSource: boolean =
           (await getStorage(`${NAMESPACE}|showSource`)) || false
-        const history: string = (await getStorage(NAMESPACE)) || '15' // 15 就是 bgm38
+
+        let showSourceText: boolean = await getStorage(`${NAMESPACE}|showSourceText`)
+        if (typeof showSourceText !== 'boolean') showSourceText = true
+
+        // 15 就是 bgm38
+        const history: string = (await getStorage(NAMESPACE)) || '15'
         const bgmHistory = history
           .split(',')
           .filter(item => item !== '')
@@ -98,6 +104,7 @@ export const FixedTextarea = observer(
 
         this.setState({
           showSource,
+          showSourceText,
           history: bgmHistory,
           replyHistory,
           lockHistory
@@ -429,11 +436,20 @@ export const FixedTextarea = observer(
 
     toggleSource = () => {
       const { showSource } = this.state
-      const newShowSource = !showSource
+      const value = !showSource
       this.setState({
-        showSource: newShowSource
+        showSource: value
       })
-      setStorage(`${NAMESPACE}|showSource`, newShowSource)
+      setStorage(`${NAMESPACE}|showSource`, value)
+    }
+
+    toggleSourceText = () => {
+      const { showSourceText } = this.state
+      const value = !showSourceText
+      this.setState({
+        showSourceText: value
+      })
+      setStorage(`${NAMESPACE}|showSourceText`, value)
     }
 
     textAreaFocus = () => {
@@ -577,13 +593,16 @@ export const FixedTextarea = observer(
       const { marks } = this.props
       if (!marks?.length) return null
 
-      const { showSource } = this.state
+      const { showSource, showSourceText } = this.state
       return marks
-        .filter((item, index) => index < (showSource ? 2 : 10))
+        .filter((item, index) => {
+          if (!showSourceText) return index < (showSource ? 3 : 10)
+          return index < (showSource ? 2 : 10)
+        })
         .map((item: string) => (
           <Touchable
             key={item}
-            style={[this.styles.opacity, this.styles.toolBarBtn, _.mr.sm]}
+            style={[this.styles.opacity, this.styles.toolBarBtn, _.mr.md]}
             onPress={() => this.onAddSymbolText(item, true)}
           >
             <Text type='sub' size={12} align='center'>
@@ -606,17 +625,34 @@ export const FixedTextarea = observer(
 
     renderSource() {
       const { source } = this.props
-      const { showTextarea, showSource } = this.state
+      const { showTextarea, showSource, showSourceText } = this.state
       if (!source || !showTextarea) return null
 
       return (
         <Flex style={this.styles.source}>
           <Flex.Item>
             <Flex>
-              {showSource && (
-                <Text style={[this.styles.opacity, _.mr.md]} size={11} type='sub'>
+              {showSource && showSourceText && (
+                <Text style={this.styles.opacity} size={11} type='sub'>
                   [来自Bangumi for {IOS ? 'iOS' : 'android'}]
                 </Text>
+              )}
+              {showSource && (
+                <Touchable
+                  style={[
+                    this.styles.opacity,
+                    this.styles.toolBarBtnSm,
+                    _.mr.md,
+                    !showSourceText && _.ml._xs
+                  ]}
+                  onPress={this.toggleSourceText}
+                >
+                  <Iconfont
+                    name={showSourceText ? 'md-navigate-before' : 'md-navigate-next'}
+                    color={_.colorSub}
+                    size={18}
+                  />
+                </Touchable>
               )}
               {this.renderMarks()}
             </Flex>
@@ -642,17 +678,18 @@ export const FixedTextarea = observer(
       const { placeholder } = this.props
       const { value, showTextarea, showBgm } = this.state
       const canSend = value !== ''
+      const editing = showTextarea || showBgm
       return (
         <View style={this.styles.textareaContainer}>
           <Flex align='start'>
-            <Flex.Item>
+            <Flex.Item style={editing && this.styles.textareaBody}>
               <TextareaItem
                 ref={this.connectRef}
                 style={this.styles.textarea}
                 value={value}
                 placeholder={placeholder || '我要吐槽'}
                 placeholderTextColor={_.colorDisabled}
-                rows={showTextarea || showBgm ? 6 : 1}
+                rows={editing ? 8 : 1}
                 selectionColor={_.colorMain}
                 clear
                 onFocus={this.onFocus}

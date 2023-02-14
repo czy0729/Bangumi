@@ -46,6 +46,12 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
+  toolBarBtnSm: {
+    paddingVertical: 8,
+    paddingHorizontal: 2,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
   iconContainer: {
     width: 20,
     height: 20
@@ -82,8 +88,12 @@ export const memoStyles = _.memoStyles(() => ({
     border: 0,
     borderBottomColor: 'transparent'
   },
+  textareaBody: {
+    overflow: 'hidden'
+  },
   textarea: {
     minHeight: 48,
+    maxHeight: 152,
     paddingTop: 12,
     paddingHorizontal: 0,
     paddingBottom: 8,
