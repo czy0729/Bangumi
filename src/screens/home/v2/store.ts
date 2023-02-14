@@ -24,6 +24,7 @@ import {
   debounce,
   desc,
   feedback,
+  findLastIndex,
   genICSCalenderEventDate,
   getBangumiUrl,
   getCalenderEventTitle,
@@ -79,6 +80,7 @@ import {
   SubjectTypeCn,
   SettingHomeLayout
 } from '@types'
+import { Ep } from '@stores/subject/types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { IOS_IPA } from '@/config'
 import {
@@ -464,7 +466,7 @@ export default class ScreenHomeV2 extends store {
             .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
         }
 
-        // APP 顺序
+        // APP 顺序：未看 > 放送中 > 明天 > 本季 > 网页
         list.forEach(item => {
           const { subject_id: subjectId } = item
           const progress = this.userProgress(subjectId)
@@ -565,12 +567,12 @@ export default class ScreenHomeV2 extends store {
 
   /** 条目章节数据 */
   eps(subjectId: SubjectId) {
-    try {
-      return computed(() => {
+    return computed(() => {
+      try {
         const eps = this.epsNoSp(subjectId)
         const { length } = eps
 
-        // 集数超过了1页的显示个数
+        // 集数超过了 1 页的显示个数
         const isGrid =
           this.homeLayout ===
           MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
@@ -585,25 +587,34 @@ export default class ScreenHomeV2 extends store {
 
           const { homeEpStartAtLastWathed } = systemStore.setting
 
-          // @ts-expect-error
-          if (homeEpStartAtLastWathed && typeof eps.findLastIndex === 'function') {
+          if (homeEpStartAtLastWathed) {
+            let lastIndex: number
+
             // @ts-expect-error
-            const lastIndex = eps.findLastIndex(
-              item => userProgress[item.id] === '看过'
-            )
+            if (typeof eps.findLastIndex === 'function') {
+              // @ts-expect-error
+              lastIndex = eps.findLastIndex(
+                (item: Ep) => userProgress[item.id] === '看过'
+              )
+            } else {
+              lastIndex = findLastIndex(
+                eps,
+                (item: Ep) => userProgress[item.id] === '看过'
+              )
+            }
             return eps.slice(Math.max(lastIndex, 0), lastIndex + PAGE_LIMIT_LIST)
           }
 
-          // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
-          // 注意这里第一个值不能小于0, 不然会返回空
+          // 找到第 1 个未看过的集数, 返回 1 个看过的集数和剩余的集数
+          // 注意这里第一个值不能小于 0, 不然会返回空
           return eps.slice(Math.max(index - 1, 0), index + PAGE_LIMIT_LIST - 1)
         }
         return eps
-      }).get()
-    } catch (error) {
-      console.error(NAMESPACE, 'eps', error)
-      return []
-    }
+      } catch (error) {
+        console.error(NAMESPACE, 'eps', error)
+        return []
+      }
+    }).get()
   }
 
   /** 条目下一个未看章节 */

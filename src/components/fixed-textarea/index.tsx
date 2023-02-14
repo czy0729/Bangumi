@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 21:54:51
+ * @Last Modified time: 2023-02-14 04:57:59
  */
 import React from 'react'
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
@@ -500,9 +500,9 @@ export const FixedTextarea = observer(
               this.onAddSymbolText(`[${date('Y-m-d H:i', getTimestamp())}] `, true)
             }}
           >
-            <Text type='sub' size={textSize} align='center'>
-              {text}
-            </Text>
+            <Flex style={this.styles.iconContainer} justify='center'>
+              <Iconfont name='md-access-time' color={_.colorSub} size={20} />
+            </Flex>
           </Touchable>
         )
       }
@@ -538,11 +538,7 @@ export const FixedTextarea = observer(
 
       const { simple } = this.props
       return (
-        <Flex
-          style={this.styles.toolBar}
-          wrap='wrap'
-          justify={simple ? undefined : 'between'}
-        >
+        <Flex style={this.styles.toolBar} wrap='wrap' justify='between'>
           {this.renderBtn('BGM')}
           {simple ? (
             <>{this.renderBtn('时间')}</>
@@ -558,6 +554,20 @@ export const FixedTextarea = observer(
             </>
           )}
           {this.renderBtn('图床', 'imgchr')}
+          {/* 空占位 */}
+          {simple && (
+            <>
+              <View />
+              <View />
+              <View />
+              <View />
+              <View />
+              <View />
+              <View />
+              <View />
+              <View />
+            </>
+          )}
           {this.renderBtn('历史')}
         </Flex>
       )

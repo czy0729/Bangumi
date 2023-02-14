@@ -14,7 +14,7 @@ export const HOME_COUNT_VIEW = {
 }
 
 export const HOME_SORTING_INFORMATION = {
-  APP: '未看 > 放送中 > 明天 > 本季 > 网页',
+  APP: '当季放送 > 当季未看 > 未看 > 网页',
   放送: '放送中 > 明天放送 > 网页',
   网页: '与网页 bgm.tv 一致'
 } as const
@@ -58,6 +58,8 @@ export const TEXTS = {
   },
   homeSorting: {
     title: '排序',
+    information:
+      '若需要使当前没有能观看章节的番剧不靠前，建议打开下方的条目自动下沉设置',
     search: HOME_SORTING_INFORMATION
   },
   homeOrigin: {

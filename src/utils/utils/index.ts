@@ -560,3 +560,14 @@ export function factory<T>(type: { new (): T }): T {
   const instance = new type()
   return instance
 }
+
+/** findLastIndex */
+export function findLastIndex(arr: any[], callback: any, thisArg?: any) {
+  for (let index = arr.length - 1; index >= 0; index--) {
+    const value = arr[index]
+    if (callback.call(thisArg, value, index, arr)) {
+      return index
+    }
+  }
+  return -1
+}

@@ -203,7 +203,7 @@ function Home({ filter }) {
           >
             {SETTING_HOME_SORTING.map((item, index) => (
               <ItemSettingBlock.Item
-                style={!!index && _.ml.md}
+                style={!!index && _.ml.sm}
                 title={item.label}
                 information={HOME_SORTING_INFORMATION[item.label]}
                 active={homeSorting === item.value}
@@ -221,6 +221,37 @@ function Home({ filter }) {
             ))}
             <Heatmap id='设置.切换' title='首页排序' />
           </ItemSettingBlock>
+
+          {/* 条目自动下沉 */}
+          <ItemSetting
+            show={
+              shows.homeSortSink &&
+              homeSorting !==
+                MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
+            }
+            ft={
+              <SwitchPro
+                style={styles.switch}
+                value={homeSortSink}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '自动下沉',
+                    checked: !homeSortSink
+                  })
+
+                  systemStore.switchSetting('homeSortSink')
+                }}
+              />
+            }
+            filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661045651857-7de7e8b7-34ce-4810-b6bd-d61d35412124.png',
+              '0/2022/png/386799/1661045660979-be977cea-5eb2-45a7-8dd2-49ef4ec3966c.png'
+            ])}
+            {...TEXTS.homeSortSink}
+          >
+            <Heatmap id='设置.切换' title='自动下沉' />
+          </ItemSetting>
 
           {/* 收藏项右侧菜单 */}
           <ItemSetting
@@ -334,37 +365,6 @@ function Home({ filter }) {
             {...TEXTS.homeOnAir}
           >
             <Heatmap id='设置.切换' title='一直显示放送时间' />
-          </ItemSetting>
-
-          {/* 条目自动下沉 */}
-          <ItemSetting
-            show={
-              shows.homeSortSink &&
-              homeSorting !==
-                MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
-            }
-            ft={
-              <SwitchPro
-                style={styles.switch}
-                value={homeSortSink}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '自动下沉',
-                    checked: !homeSortSink
-                  })
-
-                  systemStore.switchSetting('homeSortSink')
-                }}
-              />
-            }
-            filter={filter}
-            thumb={getYuqueThumbs([
-              '0/2022/png/386799/1661045651857-7de7e8b7-34ce-4810-b6bd-d61d35412124.png',
-              '0/2022/png/386799/1661045660979-be977cea-5eb2-45a7-8dd2-49ef4ec3966c.png'
-            ])}
-            {...TEXTS.homeSortSink}
-          >
-            <Heatmap id='设置.切换' title='自动下沉' />
           </ItemSetting>
 
           {/* 游戏标签页 */}
