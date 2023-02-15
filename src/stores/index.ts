@@ -43,6 +43,7 @@ class GlobalStores {
       await systemStore.init()
       await themeStore.init()
       await smbStore.init('data')
+      await rakuenStore.init('blockedUsersTrack')
 
       /**
        * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来
@@ -137,6 +138,7 @@ class GlobalStores {
     /** 条目 */
     await subjectStore.init('origin')
     subjectStore.save('origin')
+    subjectStore.save('actions')
 
     /** 放送 */
     await calendarStore.init('onAirUser')

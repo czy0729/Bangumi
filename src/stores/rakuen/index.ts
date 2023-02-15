@@ -180,7 +180,12 @@ const state = {
   },
 
   /** 超展开热门 */
-  hot: LIST_EMPTY
+  hot: LIST_EMPTY,
+
+  /** 屏蔽用户的屏蔽次数追踪 */
+  blockedUsersTrack: {
+    0: 0
+  }
 }
 
 class RakuenStore extends store implements StoreConstructor<typeof state> {
@@ -201,7 +206,8 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     rakuen: false,
     readed: false,
     setting: false,
-    topic: false
+    topic: false,
+    blockedUsersTrack: false
   }
 
   init = (key: keyof typeof this._loaded) => {
@@ -379,6 +385,14 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     this.init('favorCount')
     return computed<number>(() => {
       return this.state.favorCount[topicId] || 0
+    }).get()
+  }
+
+  /** 屏蔽用户的屏蔽次数追踪 */
+  blockedUsersTrack(userId: UserId) {
+    this.init('blockedUsersTrack')
+    return computed<number>(() => {
+      return this.state.blockedUsersTrack[userId] || 0
     }).get()
   }
 
@@ -1265,6 +1279,17 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
       console.info('rakuenStore downloadSetting', error)
       return false
     }
+  }
+
+  /** 屏蔽用户的屏蔽次数 +1 */
+  trackBlockedUser = (userId: UserId) => {
+    const key = 'blockedUsersTrack'
+    this.setState({
+      [key]: {
+        [userId]: this.blockedUsersTrack(userId) + 1
+      }
+    })
+    this.save(key)
   }
 }
 

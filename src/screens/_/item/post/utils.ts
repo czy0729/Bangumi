@@ -7,8 +7,16 @@
 import { rakuenStore } from '@stores'
 import { UserId } from '@types'
 
+/** 处理屏蔽用户, 追踪计数 uuid */
+const BLOCKED_USER_UUID = {}
+
 /** 是否屏蔽用户 */
-export function isBlockUser(userId: UserId, userName: string, replySub = '') {
+export function isBlockUser(
+  userId: UserId,
+  userName: string,
+  replySub = '',
+  trackUUID?: string
+) {
   const { blockUserIds } = rakuenStore.setting
   const findIndex = blockUserIds.findIndex(item => {
     const [itemUserName, itemUserId] = item.split('@')
@@ -24,5 +32,16 @@ export function isBlockUser(userId: UserId, userName: string, replySub = '') {
     return itemUserId == userId || itemUserName === userName
   })
 
-  return findIndex !== -1
+  const isBlock = findIndex !== -1
+  if (isBlock && trackUUID) {
+    const key = `${userId}|${trackUUID}`
+    if (!BLOCKED_USER_UUID[key]) {
+      BLOCKED_USER_UUID[key] = 1
+      setTimeout(() => {
+        rakuenStore.trackBlockedUser(userId)
+      }, 0)
+    }
+  }
+
+  return isBlock
 }

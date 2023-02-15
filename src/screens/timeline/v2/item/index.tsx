@@ -18,7 +18,11 @@ function Item({ scope, title, item, index }, { $, navigation }: Ctx) {
   if (url.includes('/user/')) {
     const text = p1?.text || ''
     const { blockUserIds } = rakuenStore.setting
-    if (getIsBlockUser(blockUserIds, text, url.split('/user/')?.[1])) return null
+    if (
+      getIsBlockUser(blockUserIds, text, url.split('/user/')?.[1], `Timeline|${index}`)
+    ) {
+      return null
+    }
   }
 
   const EVENT = {

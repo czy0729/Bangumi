@@ -39,17 +39,17 @@ export default obc(
     const groupCn = findSubjectCn(group)
     const _userId = userId || getUserId(avatar)
     const replyCount = getReplyCount(replies)
+    const topicId = getTopicId(href)
     if (
       getIsBlockKeyword(blockKeywords, title) ||
       getIsBlockGroup(blockGroups, groupCn) ||
-      getIsBlockUser(blockUserIds, userName, _userId) ||
+      getIsBlockUser(blockUserIds, userName, _userId, `Rakuen|${topicId}|${index}`) ||
       getIsAd(isBlockDefaultUser, avatar, replyCount)
     ) {
       return null
     }
 
     const styles = memoStyles()
-    const topicId = getTopicId(href)
     return (
       <Item
         styles={styles}

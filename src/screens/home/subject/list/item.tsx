@@ -27,7 +27,9 @@ function Item(
   if (!rendered) return null
 
   const { blockUserIds } = rakuenStore.setting
-  if (getIsBlockUser(blockUserIds, userName, userId)) return null
+  if (getIsBlockUser(blockUserIds, userName, userId, `Subject|${$.subjectId}`)) {
+    return null
+  }
 
   const event = {
     id: '条目.跳转',

@@ -48,7 +48,7 @@ export const ItemPost = obc(
     if (!userId) return null
 
     // 屏蔽用户
-    if (isBlockUser(userId, userName, replySub)) return null
+    if (isBlockUser(userId, userName, replySub, `Topic|${id}`)) return null
 
     // 屏蔽内容删除
     const { filterDelete, blockKeywords, subExpand } = rakuenStore.setting

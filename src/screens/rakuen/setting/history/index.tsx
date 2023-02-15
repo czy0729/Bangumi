@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text, Iconfont } from '@components'
 import { Avatar } from '@_'
-import { _ } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
 import { memoStyles } from './styles'
@@ -60,6 +60,9 @@ function History({
           })
         }
 
+        let blockCount = 0
+        if (userId) blockCount = rakuenStore.blockedUsersTrack(userId)
+
         return (
           <View key={item} style={styles.item}>
             <Flex style={styles.content}>
@@ -67,14 +70,19 @@ function History({
                 <Avatar
                   style={_.mr.sm}
                   src={API_AVATAR(userId)}
-                  size={24}
+                  size={28}
                   onPress={onPress}
                 />
               )}
               <Flex.Item>
-                <Text size={14} bold onPress={onPress}>
+                <Text size={blockCount ? 13 : 14} bold onPress={onPress}>
                   {item.replace('@undefined', '')}
                 </Text>
+                {!!blockCount && (
+                  <Text style={_.mt.xxs} size={10} type='sub' bold>
+                    已屏蔽 {blockCount} 次
+                  </Text>
+                )}
               </Flex.Item>
               <Touchable style={[styles.touch, _.ml.md]} onPress={() => onDelete(item)}>
                 <Flex style={styles.icon} justify='center'>

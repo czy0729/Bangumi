@@ -38,7 +38,7 @@ import { getTimestamp, open } from '../utils'
 import { info, confirm, feedback } from '../ui'
 import { HTMLDecode } from '../html'
 import { getStorage, setStorage } from '../storage'
-import { getSystemStoreAsync, s2tAsync } from '../async'
+import { getRakuenStoreAsync, getSystemStoreAsync, s2tAsync } from '../async'
 import { t } from '../fetch'
 import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../calendar'
 import { rerender, globalLog, globalWarn } from '../dev'
@@ -77,18 +77,33 @@ export function bootApp() {
   initHashAvatarOTA()
 }
 
+/** 处理屏蔽用户, 追踪计数 uuid */
+const BLOCKED_USER_UUID = {}
+
 /** 处理屏蔽用户 */
 export function getIsBlockUser(
   blockUserIds: string[],
   userName: string,
-  userId: UserId
+  userId: UserId,
+  trackUUID?: string
 ) {
   const findIndex = blockUserIds.findIndex(item => {
     const [itemUserName, itemUserId] = item.split('@')
     if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName
     return itemUserId === userId
   })
-  return findIndex !== -1
+  const isBlock = findIndex !== -1
+  if (isBlock && trackUUID) {
+    const key = `${userId}|${trackUUID}`
+    if (!BLOCKED_USER_UUID[key]) {
+      BLOCKED_USER_UUID[key] = 1
+      setTimeout(() => {
+        getRakuenStoreAsync().trackBlockedUser(userId)
+      }, 0)
+    }
+  }
+
+  return isBlock
 }
 
 /** 获取设置 */
