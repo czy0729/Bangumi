@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 03:49:57
+ * @Last Modified time: 2023-02-15 22:40:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { HOST } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-const jquery = 'https://unpkg.com/jquery@3.6.0/dist/jquery.slim.min.js'
+const jquery = 'https://unpkg.com/jquery@3.6.0/dist/jquery.min.js'
 
 function Award2021(props, { $, navigation }: Ctx) {
   const show = useIsFocused()

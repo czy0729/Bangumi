@@ -10,7 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   stage: {
     position: 'absolute',
     zIndex: 1,
-    bottom: _.tabBarHeight,
+    bottom: _.ios(_.tabBarHeight, _.xs),
     right: 0,
     width: 128,
     height: 256,

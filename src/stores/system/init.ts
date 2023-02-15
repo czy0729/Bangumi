@@ -284,7 +284,7 @@ export const INIT_SETTING = {
   live2D: true,
 
   /** 发现页看板娘 live-2d 点击发声 */
-  live2DVoice: true,
+  live2DVoice: false,
 
   /** 是否不使用字体 */
   customFontFamily: false,
