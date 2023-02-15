@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:41:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-13 03:47:02
+ * @Last Modified time: 2023-02-15 06:22:16
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   image: {
-    marginVertical: 6
+    paddingVertical: 4
   },
   isLoad: {
     width: _.window.contentWidth * 0.64,
@@ -34,9 +34,9 @@ export const memoStyles = _.memoStyles(() => ({
   },
   closeImageWrap: {
     position: 'absolute',
-    zIndex: 2,
-    top: 4,
-    right: 4,
+    zIndex: 10,
+    top: 8,
+    right: 8,
     borderRadius: 12,
     overflow: 'hidden'
   },
@@ -44,7 +44,7 @@ export const memoStyles = _.memoStyles(() => ({
     width: 24,
     height: 24,
     borderRadius: 24,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     overflow: 'hidden'
   },
   textSrc: {

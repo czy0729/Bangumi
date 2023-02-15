@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:47:14
+ * @Last Modified time: 2023-02-15 06:22:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -74,7 +74,7 @@ class ToggleImage extends React.Component<Props, State> {
     }
 
     const { size } = this.state
-    if (typeof size === 'number' && size <= 50) return true
+    if (typeof size === 'number' && size <= 10) return true
   }
 
   render() {
@@ -167,35 +167,40 @@ class ToggleImage extends React.Component<Props, State> {
     if (typeof this.props.autoSize === 'number' && this.props.autoSize) {
       _autoSize = this.props.autoSize - _.sm
     }
+
     return (
-      <Flex
-        style={!loaded ? [this.styles.image, this.styles.isLoad] : this.styles.image}
-        justify={this.isIcon ? 'start' : 'center'}
-      >
-        <Image
-          {...this.props}
-          autoSize={_autoSize}
-          radius={_.radiusXs}
-          fallback
-          onLoadEnd={this.onLoadEnd}
-          onError={this.onLoadEnd}
-        />
-        <View style={this.styles.closeImageWrap}>
-          <Touchable
-            onPress={this.toggleShow}
-            onLongPress={() => open(this.src as string)}
-          >
-            <Flex style={this.styles.closeImage} justify='center'>
-              <Iconfont size={16} name='md-close' color={_.colorIcon} />
+      <View style={this.styles.image}>
+        <Flex
+          style={!loaded && this.styles.isLoad}
+          justify={this.isIcon ? 'start' : 'center'}
+        >
+          {show && (
+            <Image
+              {...this.props}
+              autoSize={_autoSize}
+              radius={_.radiusXs}
+              fallback
+              onLoadEnd={loaded ? undefined : this.onLoadEnd}
+              onError={loaded ? undefined : this.onLoadEnd}
+            />
+          )}
+          <View style={this.styles.closeImageWrap}>
+            <Touchable
+              onPress={this.toggleShow}
+              onLongPress={() => open(this.src as string)}
+            >
+              <Flex style={this.styles.closeImage} justify='center'>
+                <Iconfont size={16} name='md-close' color={_.colorIcon} />
+              </Flex>
+            </Touchable>
+          </View>
+          {!loaded && (
+            <Flex style={this.styles.loading} justify='center'>
+              <ActivityIndicator size='small' color={_.colorIcon} />
             </Flex>
-          </Touchable>
-        </View>
-        {!loaded && (
-          <Flex style={this.styles.loading} justify='center'>
-            <ActivityIndicator size='small' color={_.colorIcon} />
-          </Flex>
-        )}
-      </Flex>
+          )}
+        </Flex>
+      </View>
     )
   }
 

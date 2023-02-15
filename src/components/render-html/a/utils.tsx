@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 18:17:26
+ * @Last Modified time: 2023-02-15 06:07:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ import { Cover } from '../cover'
 import { Avatar } from '../avatar'
 import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
+import Rank from './rank'
 import { memoStyles } from './styles'
 
 /** @todo 待优化, 安卓Text中一定要过滤非文字节点 */
@@ -88,18 +89,21 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { subjectId } = params
+    const subject = subjectStore.subject(subjectId)
     const {
-      air_date,
       images = {
         common: undefined
       },
       name,
       name_cn,
       rating = {
-        score: undefined
+        score: undefined,
+        total: undefined
       },
+      rank,
       _loaded
-    } = subjectStore.subject(subjectId)
+    } = subject
+    let { air_date } = subject
     if (!_loaded) {
       setTimeout(() => {
         runAfter(() => fetchMediaQueue('subject', subjectId))
@@ -115,6 +119,7 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
         )
         const showScore = !systemStore.setting.hideScore && !!score
         const showBottom = bottom && bottom !== top
+        if (air_date === '0000-00-00') air_date = ''
         return (
           <View style={styles.wrap}>
             <Touchable onPress={onLinkPress}>
@@ -122,7 +127,7 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
                 <Cover
                   src={API_COVER(subjectId)}
                   size={48}
-                  radius
+                  radius={_.radiusSm}
                   textOnly={false}
                   headers={userStore.requestHeaders}
                 />
@@ -136,13 +141,19 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
                     )}
                   </Text>
                   {(showScore || showBottom) && (
-                    <Flex style={_.mt.xs}>
+                    <Flex style={_.mt.sm}>
                       {showScore && (
                         <Flex style={_.mr.xs}>
+                          <Rank value={rank} />
                           <Iconfont name='md-star' size={10} color={_.colorWarning} />
                           <Text style={_.ml.xxs} type='sub' size={10} bold>
                             {score}
                           </Text>
+                          {!!rating.total && (
+                            <Text style={_.ml.xs} type='sub' size={10} bold>
+                              ({rating.total})
+                            </Text>
+                          )}
                         </Flex>
                       )}
                       {showBottom && (
@@ -194,7 +205,12 @@ export function getTopic({ passProps, params, onLinkPress }) {
           <View style={styles.wrap}>
             <Touchable onPress={onLinkPress}>
               <Flex style={styles.body}>
-                <Avatar src={API_AVATAR(userId)} size={48} radius textOnly={false} />
+                <Avatar
+                  src={API_AVATAR(userId)}
+                  size={48}
+                  radius={_.radiusSm}
+                  textOnly={false}
+                />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
                     {text}{' '}
@@ -208,12 +224,13 @@ export function getTopic({ passProps, params, onLinkPress }) {
                     <Text
                       style={styles.bottom}
                       type='sub'
-                      size={10}
+                      size={9}
+                      lineHeight={10}
                       bold
-                      numberOfLines={1}
+                      numberOfLines={2}
                       selectable
                     >
-                      {reply}回复 · {group} · {userName}
+                      {reply} 回复 · {group} · {userName}
                     </Text>
                   </Flex>
                 </View>
@@ -239,18 +256,17 @@ export function getMono({ passProps, params, onLinkPress }) {
     } else {
       const styles = memoStyles()
       if (cover) {
+        /**
+         * https://lain.bgm.tv/r/400/pic/crt/l/fc/77/114888_crt_hd3gG.jpg ->
+         * https://lain.bgm.tv/pic/crt/g/fc/77/114888_crt_hd3gG.jpg
+         */
+        const gCover = cover.replace(/\/r\/\d+/g, '').replace(/\/(l|m)\//g, '/g/')
         const bottom = nameCn === text ? name : nameCn
         return (
           <View style={styles.wrap}>
             <Touchable onPress={onLinkPress}>
               <Flex style={styles.body}>
-                <Cover
-                  src={cover.replace('/m/', '/g/')}
-                  size={48}
-                  radius
-                  textOnly={false}
-                  quality={false}
-                />
+                <Cover src={gCover} size={48} radius textOnly={false} quality={false} />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
                     {text}

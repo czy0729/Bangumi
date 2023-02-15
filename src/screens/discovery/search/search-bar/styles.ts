@@ -10,7 +10,8 @@ export const memoStyles = _.memoStyles(() => ({
   searchIpt: {
     height: 40,
     paddingVertical: 0,
-    paddingHorizontal: _._wind,
+    paddingRight: 4,
+    paddingLeft: 12,
     ..._.fontSize12,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderRadius: 0

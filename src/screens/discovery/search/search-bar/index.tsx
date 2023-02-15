@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Input } from '@components'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants'
 import { SearchCatCn } from '@types'
@@ -18,7 +19,7 @@ function SearchBar(props, { $, navigation }: Ctx) {
   const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>(cat)
   return (
     <Input
-      style={[styles.searchIpt, ['人物', '用户'].includes(label) && styles.radius]}
+      style={stl(styles.searchIpt, ['人物', '用户'].includes(label) && styles.radius)}
       value={value}
       returnKeyType='search'
       returnKeyLabel='搜索'

@@ -61,6 +61,7 @@ export default ic(Store, Search)
 
 const styles = _.create({
   searchBar: {
+    marginTop: _.xs,
     paddingBottom: _.sm,
     paddingHorizontal: _.wind
   }
