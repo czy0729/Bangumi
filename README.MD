@@ -64,7 +64,7 @@ Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互�
 
 v7.8.0 - 2023/02/15
 
-[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/ww1hgenu9g6kb1gs?singleDoc#)
+[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/ww1hgenu9g6kb1gs?singleDoc)
 
 —— 新增 ——
 

@@ -7,8 +7,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { Touchable } from '@components'
 import { systemStore } from '@stores'
 import { useIsFocused, useObserver } from '@utils/hooks'
+import { IOS } from '@constants'
 import { memoStyles } from './styles'
 
 function Mesume({ dragging }) {
@@ -20,11 +22,22 @@ function Mesume({ dragging }) {
     const styles = memoStyles()
     const { live2DVoice } = systemStore.setting
     return (
-      <View style={styles.stage}>
-        <WebView
-          style={styles.webview}
-          source={{
-            html: `<!DOCTYPE html>
+      <>
+        {!IOS && (
+          <View style={styles.prevent}>
+            <Touchable
+              style={styles.touch}
+              ripple={false}
+              withoutFeedback
+              onPress={() => {}}
+            />
+          </View>
+        )}
+        <View style={styles.stage}>
+          <WebView
+            style={styles.webview}
+            source={{
+              html: `<!DOCTYPE html>
             <html lang="en">
               <head>
                 <meta charset="UTF-8" />
@@ -156,14 +169,15 @@ function Mesume({ dragging }) {
                 </script>
               </body>
             </html>`
-          }}
-          scrollEnabled={false}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          androidHardwareAccelerationDisabled
-          // androidLayerType='software'
-        />
-      </View>
+            }}
+            scrollEnabled={false}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            androidHardwareAccelerationDisabled
+            // androidLayerType='software'
+          />
+        </View>
+      </>
     )
   })
 }

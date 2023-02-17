@@ -7,9 +7,19 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  stage: {
+  prevent: {
     position: 'absolute',
     zIndex: 1,
+    bottom: _.ios(_.tabBarHeight, _.xs),
+    right: 0
+  },
+  touch: {
+    width: 132,
+    height: 256
+  },
+  stage: {
+    position: 'absolute',
+    zIndex: 10,
     bottom: _.ios(_.tabBarHeight, _.xs),
     right: 0,
     width: 128,
