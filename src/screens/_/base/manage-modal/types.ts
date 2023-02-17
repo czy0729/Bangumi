@@ -24,7 +24,7 @@ export type Props = {
   onClose?: () => any
 }
 
-export type State = {
+export type State = Partial<{
   focus: boolean
   loading: boolean
   fetching: boolean
@@ -32,6 +32,7 @@ export type State = {
   tags: string
   showTags: boolean
   comment: string
+  commentHistory: string[]
   status: '' | RatingStatus
   privacy: any
-}
+}>

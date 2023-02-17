@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 15:55:41
+ * @Last Modified time: 2023-02-18 04:25:23
  */
 import { _ } from '@stores'
 
@@ -73,5 +73,10 @@ export const memoStyles = _.memoStyles(() => ({
     height: 44,
     paddingVertical: 0,
     marginTop: _.md
+  },
+  comment: {
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))

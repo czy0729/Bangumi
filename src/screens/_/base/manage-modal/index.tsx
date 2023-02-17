@@ -4,29 +4,30 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 15:58:09
+ * @Last Modified time: 2023-02-18 04:43:59
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import {
-  Modal,
-  ScrollView,
   Button,
   Flex,
+  Iconfont,
   Input,
+  Modal,
+  ScrollView,
   Text,
-  Touchable,
-  Iconfont
+  Touchable
 } from '@components'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
-import { setStorage, getStorage } from '@utils'
+import { setStorage, getStorage, sleep } from '@utils'
 import { ob } from '@utils/decorators'
-import { MODEL_PRIVATE } from '@constants'
-import { Private, PrivateCn } from '@types'
+import { IOS, MODEL_PRIVATE } from '@constants'
+import { Private, PrivateCn, RatingStatus } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
-import { STORAGE_KEY } from './ds'
+import CommentHistory from './comment-history'
+import { NAMESPACE, MAX_HISTORY_COUNT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ManageModalProps, State } from './types'
 
@@ -53,6 +54,7 @@ export const ManageModal = ob(
       tags: '',
       showTags: true,
       comment: '',
+      commentHistory: [],
       status: '',
       privacy: MODEL_PRIVATE.getValue<Private>('公开')
     }
@@ -60,20 +62,33 @@ export const ManageModal = ob(
     commentRef: any
 
     async componentDidMount() {
-      const privacy =
-        (await getStorage(STORAGE_KEY)) || MODEL_PRIVATE.getValue<Private>('公开')
-      this.setState({
-        showTags: systemStore.setting.showTags === true,
-        privacy
-      })
-      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+      try {
+        const privacy =
+          (await getStorage(`${NAMESPACE}|privacy`)) ||
+          MODEL_PRIVATE.getValue<Private>('公开')
+        const commentHistory: string[] =
+          (await getStorage(`${NAMESPACE}|commentHistory`)) || []
+        this.setState({
+          showTags: systemStore.setting.showTags === true,
+          commentHistory,
+          privacy
+        })
+      } catch (error) {
+        console.error('manage-modal', 'componentDidMount', error)
+      }
+
+      if (!IOS) BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
     }
 
     componentWillUnmount() {
-      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+      if (!IOS) BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
     }
 
-    async UNSAFE_componentWillReceiveProps(nextProps) {
+    async UNSAFE_componentWillReceiveProps(nextProps: {
+      visible: any
+      status: any
+      subjectId: any
+    }) {
       const { visible, status, subjectId } = nextProps
       if (visible) {
         if (!this.props.visible) {
@@ -112,26 +127,25 @@ export const ManageModal = ob(
       return false
     }
 
-    changeRating = value => {
+    changeRating = (value: number) => {
       this.setState({
         rating: value
       })
     }
 
-    changeText = (name, text) => {
-      // @ts-expect-error
+    changeText = (name: 'tags' | 'comment', text: string) => {
       this.setState({
         [name]: text
       })
     }
 
-    changeStatus = status => {
+    changeStatus = (status: RatingStatus) => {
       this.setState({
         status
       })
     }
 
-    toggleTag = name => {
+    toggleTag = (name: string) => {
       const { tags } = this.state
       const selected = tags.split(' ')
       const index = selected.indexOf(name)
@@ -149,13 +163,11 @@ export const ManageModal = ob(
     togglePrivacy = () => {
       const { privacy } = this.state
       const label = MODEL_PRIVATE.getLabel<PrivateCn>(privacy)
-      const _privacy = MODEL_PRIVATE.getValue<Private>(
-        label === '公开' ? '私密' : '公开'
-      )
+      const value = MODEL_PRIVATE.getValue<Private>(label === '公开' ? '私密' : '公开')
       this.setState({
-        privacy: _privacy
+        privacy: value
       })
-      setStorage(STORAGE_KEY, _privacy)
+      setStorage(`${NAMESPACE}|privacy`, value)
     }
 
     fetchTags = async () => {
@@ -186,6 +198,8 @@ export const ManageModal = ob(
     onSubmit = async () => {
       const { subjectId, onSubmit } = this.props
       const { rating, tags, comment, status, privacy } = this.state
+      this.setCommentHistory(comment)
+
       await onSubmit({
         subjectId,
         rating,
@@ -196,12 +210,49 @@ export const ManageModal = ob(
       })
     }
 
+    setCommentHistory = (value: string) => {
+      if (!value) return
+
+      let commentHistory = [...this.state.commentHistory]
+      if (commentHistory.includes(value)) {
+        commentHistory = commentHistory.filter(item => item !== value)
+        commentHistory.unshift(value)
+      } else {
+        commentHistory.unshift(value)
+      }
+
+      if (commentHistory.length > MAX_HISTORY_COUNT) {
+        commentHistory = commentHistory.filter(
+          (item, index) => index < MAX_HISTORY_COUNT
+        )
+      }
+
+      this.setState({
+        commentHistory
+      })
+      setStorage(`${NAMESPACE}|commentHistory`, commentHistory)
+    }
+
     onSubmitEditing = () => {
       try {
         if (typeof this?.commentRef?.inputRef?.focus === 'function') {
           this.commentRef.inputRef.focus()
         }
       } catch (error) {}
+    }
+
+    onCommentChange = (text: string) => {
+      this.changeText('comment', text)
+    }
+
+    onShowHistory = () => {
+      try {
+        this.onBlur()
+        if (typeof this?.commentRef?.inputRef?.blur === 'function') {
+          this.commentRef.inputRef.blur()
+        }
+      } catch (error) {}
+      return sleep(240)
     }
 
     get subjectFormHTML() {
@@ -293,18 +344,29 @@ export const ManageModal = ob(
     }
 
     renderInputComment() {
-      const { comment } = this.state
+      const { comment, commentHistory } = this.state
       return (
-        <Input
-          ref={ref => (this.commentRef = ref)}
-          defaultValue={comment}
-          placeholder='吐槽点什么'
-          multiline
-          numberOfLines={this.numberOfLines}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          onChangeText={text => this.changeText('comment', text)}
-        />
+        <Flex style={this.styles.comment} align='end'>
+          <Flex.Item>
+            <Input
+              ref={ref => (this.commentRef = ref)}
+              defaultValue={comment}
+              placeholder='吐槽点什么'
+              multiline
+              numberOfLines={this.numberOfLines}
+              onFocus={this.onFocus}
+              onBlur={this.onBlur}
+              onChangeText={this.onCommentChange}
+            />
+          </Flex.Item>
+          {!comment && (
+            <CommentHistory
+              data={commentHistory}
+              onSelect={this.onCommentChange}
+              onShow={this.onShowHistory}
+            />
+          )}
+        </Flex>
       )
     }
 
@@ -356,31 +418,33 @@ export const ManageModal = ob(
       const { visible, title, desc, onClose } = this.props
       const { focus, loading, rating } = this.state
       return (
-        <Modal
-          style={this.styles.modal}
-          visible={visible}
-          title={title}
-          focus={focus}
-          onClose={onClose}
-        >
-          <Text style={_.mt.sm} type='sub' size={13} numberOfLines={1} align='center'>
-            {desc}
-          </Text>
-          <Flex style={this.styles.wrap} justify='center'>
-            {loading ? (
-              <ActivityIndicator size='small' />
-            ) : (
-              <Flex style={this.styles.content} direction='column'>
-                <StarGroup value={rating} onChange={this.changeRating} />
-                {this.renderInputTags()}
-                <Flex style={this.styles.tags}>{this.renderTags()}</Flex>
-                {this.renderInputComment()}
-                {this.renderStatusBtnGroup()}
-                {this.renderSubmit()}
-              </Flex>
-            )}
-          </Flex>
-        </Modal>
+        <>
+          <Modal
+            style={this.styles.modal}
+            visible={visible}
+            title={title}
+            focus={focus}
+            onClose={onClose}
+          >
+            <Text style={_.mt.sm} type='sub' size={13} numberOfLines={1} align='center'>
+              {desc}
+            </Text>
+            <Flex style={this.styles.wrap} justify='center'>
+              {loading ? (
+                <ActivityIndicator size='small' />
+              ) : (
+                <Flex style={this.styles.content} direction='column'>
+                  <StarGroup value={rating} onChange={this.changeRating} />
+                  {this.renderInputTags()}
+                  <Flex style={this.styles.tags}>{this.renderTags()}</Flex>
+                  {this.renderInputComment()}
+                  {this.renderStatusBtnGroup()}
+                  {this.renderSubmit()}
+                </Flex>
+              )}
+            </Flex>
+          </Modal>
+        </>
       )
     }
 
