@@ -525,10 +525,18 @@ export default class ScreenTopic extends store {
   }
 
   /** 显示评论框 */
-  showFixedTextarea = (placeholder: any, replySub: any, message: any) => {
+  showFixedTextarea = (username: string, replySub: any, message: any, msg?: string) => {
     t('帖子.显示评论框', {
       topicId: this.topicId
     })
+
+    let placeholder = ''
+    if (username) placeholder = `回复 ${username}：`
+    if (msg) {
+      let comment = removeHTMLTag(msg)
+      if (comment.length >= 64) comment = `${comment.slice(0, 64)}...`
+      placeholder += removeHTMLTag(comment)
+    }
 
     this.setState({
       placeholder,
@@ -621,7 +629,7 @@ export default class ScreenTopic extends store {
   // -------------------- action --------------------
   /** 提交回复 */
   doSubmit = (content: string) => {
-    let type
+    let type: RakuenReplyType
     if (this.topicId.includes('group/')) {
       type = 'group/topic'
     } else if (this.topicId.includes('subject/')) {

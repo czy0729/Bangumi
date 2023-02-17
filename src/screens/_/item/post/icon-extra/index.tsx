@@ -32,7 +32,7 @@ function IconExtra(
         }
 
         if (title === '回复') {
-          $.showFixedTextarea(userName, replySub, message)
+          $.showFixedTextarea(userName, replySub, message, msg)
           return showFixedTextare()
         }
 

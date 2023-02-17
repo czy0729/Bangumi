@@ -42,7 +42,7 @@ function Bottom({ fixedTextareaRef }, { $, navigation }: Ctx) {
   return (
     <FixedTextarea
       ref={fixedTextareaRef}
-      placeholder={placeholder ? `回复 ${placeholder}` : undefined}
+      placeholder={placeholder ? placeholder : undefined}
       value={value}
       source
       marks={MARKS}

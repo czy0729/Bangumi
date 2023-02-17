@@ -131,6 +131,9 @@ export const memoStyles = _.memoStyles(() => ({
   opacity: {
     opacity: 0.8
   },
+  transparent: {
+    opacity: 0
+  },
   hide: {
     display: 'none'
   }

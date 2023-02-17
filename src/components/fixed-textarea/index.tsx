@@ -83,6 +83,8 @@ export const FixedTextarea = observer(
       end: this.props.value.length
     }
 
+    _focused: boolean = false
+
     async componentDidMount() {
       try {
         const showSource: boolean =
@@ -129,8 +131,18 @@ export const FixedTextarea = observer(
 
     onRefBlur = () => {
       try {
-        if (typeof this.ref?.textAreaRef?.blur === 'function') {
+        if (typeof this.ref?.textAreaRef?.blur === 'function' && this._focused) {
           this.ref.textAreaRef.blur()
+          this._focused = false
+        }
+      } catch (error) {}
+    }
+
+    onRefFocus = () => {
+      try {
+        if (typeof this.ref?.textAreaRef?.focus === 'function') {
+          this.ref.textAreaRef.focus()
+          this._focused = true
         }
       } catch (error) {}
     }
@@ -146,7 +158,10 @@ export const FixedTextarea = observer(
 
         this.setState({
           showKeyboardSpacer: true,
-          keyboardHeight: height
+          keyboardHeight: IOS
+            ? // iOS 弹出第三方键盘会慢一拍, 但是可以肯定至少是 336 高度
+              Math.max(336, height)
+            : height
         })
       }
     }
@@ -159,7 +174,7 @@ export const FixedTextarea = observer(
       })
 
       setTimeout(() => {
-        this.textAreaFocus()
+        this.onRefFocus()
       }, 0)
     }
 
@@ -208,7 +223,7 @@ export const FixedTextarea = observer(
 
     /** @todo 暂时没有对选择了一段文字的情况做判断 */
     onAddSymbolText = (symbol: string, isText: boolean = false) => {
-      this.textAreaFocus()
+      this.onRefFocus()
 
       try {
         const { value } = this.state
@@ -338,7 +353,7 @@ export const FixedTextarea = observer(
       })
 
       setTimeout(() => {
-        this.textAreaFocus()
+        this.onRefFocus()
       }, 0)
     }
 
@@ -430,7 +445,7 @@ export const FixedTextarea = observer(
       })
 
       setTimeout(() => {
-        this.textAreaFocus()
+        this.onRefFocus()
       }, 0)
     }
 
@@ -450,14 +465,6 @@ export const FixedTextarea = observer(
         showSourceText: value
       })
       setStorage(`${NAMESPACE}|showSourceText`, value)
-    }
-
-    textAreaFocus = () => {
-      try {
-        if (typeof this.ref?.textAreaRef?.focus === 'function') {
-          this.ref.textAreaRef.focus()
-        }
-      } catch (error) {}
     }
 
     get value() {
