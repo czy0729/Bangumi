@@ -533,9 +533,9 @@ export default class ScreenTopic extends store {
     let placeholder = ''
     if (username) placeholder = `回复 ${username}：`
     if (msg) {
-      let comment = removeHTMLTag(msg)
+      let comment = HTMLDecode(removeHTMLTag(msg, false))
       if (comment.length >= 64) comment = `${comment.slice(0, 64)}...`
-      placeholder += removeHTMLTag(comment)
+      placeholder += comment
     }
 
     this.setState({
@@ -708,7 +708,8 @@ export default class ScreenTopic extends store {
         ''
       )
       _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
-        _message
+        _message,
+        false
       )}[/quote]\n${content}`
     }
     rakuenStore.doReply(
@@ -786,7 +787,6 @@ export default class ScreenTopic extends store {
         this.setState({
           translateResult
         })
-        // info('翻译成功')
         return
       }
       info('翻译失败, 请重试')
@@ -808,7 +808,9 @@ export default class ScreenTopic extends store {
     let hide
     try {
       hide = loading()
-      const response = await baiduTranslate(removeHTMLTag(msg.replace(/<br>/g, '\n')))
+      const response = await baiduTranslate(
+        removeHTMLTag(msg.replace(/<br>/g, '\n'), false)
+      )
       hide()
 
       const { trans_result: translateResult } = JSON.parse(response)

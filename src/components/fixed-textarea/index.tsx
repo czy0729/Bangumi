@@ -6,11 +6,20 @@
  * @Last Modified time: 2023-02-14 04:57:59
  */
 import React from 'react'
-import { ScrollView, View, TouchableWithoutFeedback } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
-import { date, getStorage, setStorage, open, getTimestamp, stl, desc } from '@utils'
+import {
+  date,
+  desc,
+  getStorage,
+  getTimestamp,
+  info,
+  open,
+  setStorage,
+  stl
+} from '@utils'
 import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
 import { BlurView } from '../@/ant-design/modal/blur-view'
 import { Text } from '../text'
@@ -19,7 +28,13 @@ import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
 import { KeyboardSpacer } from '../keyboard-spacer'
 import { Touchable } from '../touchable'
-import { NAMESPACE, MAX_HISTORY_COUNT, SOURCE_FLAG, SOURCE_TEXT } from './ds'
+import {
+  MAX_BGM_HISTORY_COUNT,
+  MAX_HISTORY_COUNT,
+  NAMESPACE,
+  SOURCE_FLAG,
+  SOURCE_TEXT
+} from './ds'
 import { memoStyles } from './styles'
 import { Props as FixedTextareaProps } from './types'
 
@@ -125,10 +140,12 @@ export const FixedTextarea = observer(
       }
     }
 
+    /** 保存 Textarea 引用 */
     connectRef = (ref: { textAreaRef: any }) => {
       return (this.ref = ref)
     }
 
+    /** Textarea.blur */
     onRefBlur = () => {
       try {
         if (typeof this.ref?.textAreaRef?.blur === 'function' && this._focused) {
@@ -138,6 +155,7 @@ export const FixedTextarea = observer(
       } catch (error) {}
     }
 
+    /** Textarea.focus */
     onRefFocus = () => {
       try {
         if (typeof this.ref?.textAreaRef?.focus === 'function') {
@@ -147,6 +165,42 @@ export const FixedTextarea = observer(
       } catch (error) {}
     }
 
+    /** 获取焦点回调 */
+    onFocus = () => {
+      this.setState({
+        showTextarea: true,
+        showBgm: false,
+        showReplyHistory: false
+      })
+
+      setTimeout(() => {
+        this.onRefFocus()
+      }, 0)
+    }
+
+    /** 失去焦点回调 */
+    onBlur = () => {
+      const { simple, onClose } = this.props
+      onClose()
+
+      this.setState({
+        showTextarea: false,
+        showBgm: false,
+        showReplyHistory: false,
+        showKeyboardSpacer: false
+      })
+
+      setTimeout(() => {
+        this.onRefBlur()
+        this.setState({
+          showTextarea: false,
+          showBgm: false
+        })
+        if (!simple) this.clear()
+      }, 0)
+    }
+
+    /** 展开 / 收起键盘 */
     onToggle = (isOpen: boolean, keyboardHeight: number) => {
       if (isOpen) {
         let height = keyboardHeight - (IOS ? 24 : 0)
@@ -166,38 +220,7 @@ export const FixedTextarea = observer(
       }
     }
 
-    onFocus = () => {
-      this.setState({
-        showTextarea: true,
-        showBgm: false,
-        showReplyHistory: false
-      })
-
-      setTimeout(() => {
-        this.onRefFocus()
-      }, 0)
-    }
-
-    onBlur = () => {
-      const { onClose } = this.props
-      onClose()
-
-      this.setState({
-        showTextarea: false,
-        showBgm: false,
-        showReplyHistory: false,
-        showKeyboardSpacer: false
-      })
-
-      setTimeout(() => {
-        this.onRefBlur()
-        this.setState({
-          showTextarea: false,
-          showBgm: false
-        })
-      }, 0)
-    }
-
+    /** 文字改变回调 */
     onChange = (value: string) => {
       const { onChange } = this.props
       onChange(value)
@@ -216,12 +239,13 @@ export const FixedTextarea = observer(
       })
     }
 
+    /** 光标改变回调 */
     onSelectionChange = (event: { nativeEvent: any }) => {
       const { nativeEvent } = event
       this.selection = nativeEvent.selection
     }
 
-    /** @todo 暂时没有对选择了一段文字的情况做判断 */
+    /** 模拟 BBCode 输入 */
     onAddSymbolText = (symbol: string, isText: boolean = false) => {
       this.onRefFocus()
 
@@ -229,6 +253,7 @@ export const FixedTextarea = observer(
         const { value } = this.state
         const index = this.getSelection() || 0
 
+        // @todo 暂时没有对选择了一段文字的情况做判断
         // 插入值, 如[s]光标位置[/s], [url=光标位置]链接描述[/url]
         let left: string
         let right: string
@@ -273,11 +298,11 @@ export const FixedTextarea = observer(
       const { onSubmit } = this.props
       onSubmit(this.value)
       this.setReplyHistory(value)
-
       this.clear()
       this.onBlur()
     }
 
+    /** 清空文字 */
     clear = () => {
       const { onClose } = this.props
       onClose()
@@ -286,6 +311,7 @@ export const FixedTextarea = observer(
         value: '',
         showTextarea: false
       })
+      this.setSelection(0)
     }
 
     /** 获取光标位置 (@todo 失效?) */
@@ -366,8 +392,8 @@ export const FixedTextarea = observer(
       } else {
         history.unshift(bgmIndex)
       }
-      if (history.length > MAX_HISTORY_COUNT) {
-        history = history.filter((item, index) => index < MAX_HISTORY_COUNT)
+      if (history.length > MAX_BGM_HISTORY_COUNT) {
+        history = history.filter((item, index) => index < MAX_BGM_HISTORY_COUNT)
       }
 
       this.setState({
@@ -413,6 +439,7 @@ export const FixedTextarea = observer(
       setStorage(`${NAMESPACE}|lockHistory`, value)
     }
 
+    /** 显示最近回复历史框 */
     showReplyHistory = () => {
       // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
       if (IOS) {
@@ -439,6 +466,7 @@ export const FixedTextarea = observer(
       }, 0)
     }
 
+    /** 收起最近回复历史框 */
     hideReplyHistory = () => {
       this.setState({
         showReplyHistory: false
@@ -449,6 +477,7 @@ export const FixedTextarea = observer(
       }, 0)
     }
 
+    /** 显示 / 隐藏右下角宣传文案 */
     toggleSource = () => {
       const { showSource } = this.state
       const value = !showSource
@@ -458,6 +487,7 @@ export const FixedTextarea = observer(
       setStorage(`${NAMESPACE}|showSource`, value)
     }
 
+    /** 显示 / 隐藏左下角宣传文案实际内容 */
     toggleSourceText = () => {
       const { showSourceText } = this.state
       const value = !showSourceText
@@ -465,6 +495,15 @@ export const FixedTextarea = observer(
         showSourceText: value
       })
       setStorage(`${NAMESPACE}|showSourceText`, value)
+    }
+
+    /** 检查草稿是否未发送, 收起输入框时保存草稿到回复历史中 */
+    checkIsNeedToSaveDraft = () => {
+      const { value } = this.state
+      if (value) {
+        this.setReplyHistory(value)
+        info('草稿已保存到历史回复中')
+      }
     }
 
     get value() {
@@ -691,6 +730,7 @@ export const FixedTextarea = observer(
           <Flex align='start'>
             <Flex.Item style={editing && this.styles.textareaBody}>
               <TextareaItem
+                key={String(showTextarea)}
                 ref={this.connectRef}
                 style={this.styles.textarea}
                 value={value}
@@ -814,9 +854,16 @@ export const FixedTextarea = observer(
 
       return (
         <View style={this.styles.maskContainer}>
-          <TouchableWithoutFeedback onPress={this.onBlur}>
+          <Touchable
+            withoutFeedback
+            onPress={() => {
+              const { simple } = this.props
+              if (!simple) this.checkIsNeedToSaveDraft()
+              this.onBlur()
+            }}
+          >
             <View style={this.styles.mask} />
-          </TouchableWithoutFeedback>
+          </Touchable>
         </View>
       )
     }

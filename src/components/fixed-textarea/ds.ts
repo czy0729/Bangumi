@@ -8,8 +8,11 @@ import { IOS } from '@constants'
 
 export const NAMESPACE = 'c-fixed-textarea'
 
-/** 最大常用bgm表情数量 */
-export const MAX_HISTORY_COUNT = 7
+/** 最大常用 bgm 表情数量 */
+export const MAX_BGM_HISTORY_COUNT = 7
+
+/** 最大回复历史数量 */
+export const MAX_HISTORY_COUNT = 20
 
 export const SOURCE_FLAG = '来自Bangumi for'
 

@@ -9,12 +9,15 @@ import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './../thirdParty/html-parser'
 
 /** 去除 HTML */
-export function removeHTMLTag(str: any): string {
-  return String(str)
+export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string {
+  const _str = String(str)
     .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
     .replace(/[ | ]*\n/g, '\n') // 去除行尾空白
     .replace(/\n[\s| | ]*\r/g, '\n') // 去除多余空行
-    .replace(/ /gi, '') // 去掉
+
+  if (!removeAllSpace) return _str
+
+  return _str.replace(/ /gi, '') // 去掉
 }
 
 /** HTML 反转义 */
