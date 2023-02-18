@@ -251,7 +251,7 @@ export const FixedTextarea = observer(
     }
 
     /** 选择 bgm 表情 */
-    onSelectBgm = (bgmIndex: number) => {
+    onSelectBgm = (bgmIndex: number, updateRecent: boolean = true) => {
       const { value } = this.state
       const index = this.getSelection()
 
@@ -262,7 +262,7 @@ export const FixedTextarea = observer(
         value: `${left}${right}`
       })
       this.setSelection(left.length)
-      this.setRecentUseBgm(bgmIndex)
+      if (updateRecent) this.setRecentUseBgm(bgmIndex)
     }
 
     /** 提交, 之后保存历史 */
@@ -780,7 +780,7 @@ export const FixedTextarea = observer(
               <Flex style={this.styles.bgms} wrap='wrap'>
                 {history.map((item, index) => (
                   <View key={index} style={this.styles.bgm}>
-                    <Touchable onPress={() => this.onSelectBgm(item)}>
+                    <Touchable onPress={() => this.onSelectBgm(item, false)}>
                       <Flex justify='center'>
                         <Bgm index={item} />
                       </Flex>
