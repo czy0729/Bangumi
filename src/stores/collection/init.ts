@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:48:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 14:28:16
+ * @Last Modified time: 2023-02-21 21:20:12
  */
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_COLLECTION_STATUS,
-  MODEL_COLLECTIONS_ORDERBY
+  MODEL_COLLECTIONS_ORDERBY,
+  LIST_EMPTY
 } from '@constants'
 import { UsersSubjectCollection } from './types'
 
@@ -28,3 +29,56 @@ export const DEFAULT_USERS_SUBJECT_COLLECTION = {
   update_at: '',
   _loaded: false
 } as UsersSubjectCollection
+
+const STATE = {
+  /** 条目收藏信息 */
+  collection: {
+    0: {}
+  },
+
+  /** 用户收藏概览 (HTML, 全部) */
+  userCollections: {
+    0: LIST_EMPTY
+  },
+
+  /** 用户收藏概览的标签 (HTML) */
+  userCollectionsTags: {
+    0: []
+  },
+
+  /** @deprecated 所有收藏条目状态 */
+  userCollectionsMap: {
+    0: '看过' as const
+  },
+
+  /** 条目的收藏状态, 替代 userCollectionsMap */
+  collectionStatus: {
+    0: '看过'
+  },
+
+  /** 条目的收藏状态最后一次请求时间戳, 对应 collectionStatus, 共同维护 */
+  _collectionStatusLastFetchMS: {
+    0: 0
+  },
+
+  /** 瓷砖进度 */
+  mosaicTile: {},
+
+  /** 特定用户特定条目的收藏信息 */
+  usersSubjectCollection: {
+    0: DEFAULT_USERS_SUBJECT_COLLECTION
+  }
+}
+
+export { STATE }
+
+export const LOADED = {
+  _collectionStatusLastFetchMS: false,
+  collection: false,
+  collectionStatus: false,
+  mosaicTile: false,
+  userCollections: false,
+  userCollectionsMap: false,
+  userCollectionsTags: false,
+  usersSubjectCollection: false
+}

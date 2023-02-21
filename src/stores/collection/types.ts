@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-05-27 04:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 14:26:01
+ * @Last Modified time: 2023-02-21 21:13:30
  */
 import {
   CollectionStatus,
   CollectionStatusCn,
   CollectionStatusValue,
+  Cover,
   DeepPartial,
   ImagesAvatar,
   ListEmpty,
+  Loaded,
   SubjectId,
   UrlUser,
-  UserId,
-  Cover,
-  Loaded
+  UserId
 } from '@types'
 
 /** 条目收藏信息 */
@@ -41,7 +41,7 @@ export type Collection = DeepPartial<{
     sign: string
     usergroup: number
   }
-  _loaded: number
+  _loaded: Loaded
 }>
 
 /** 用户收藏概览 (HTML, 全部) */

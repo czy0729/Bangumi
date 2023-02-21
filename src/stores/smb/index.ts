@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 01:08:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:53:31
+ * @Last Modified time: 2023-02-21 00:53:49
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -10,10 +10,11 @@ import { DEV } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
 import { LOG_INIT } from '../ds'
 import { NAMESPACE } from './init'
+import { SMB } from './types'
 
 const state = {
   data: {
-    data: []
+    data: [] as SMB
   }
 }
 

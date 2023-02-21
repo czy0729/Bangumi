@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 20:25:14
+ * @Last Modified time: 2023-02-21 20:48:20
  */
 import React, { useState } from 'react'
 import { View, Linking } from 'react-native'
 import { Flex, Image, Text, Touchable, Iconfont } from '@components'
-import { Cover, Rank, Stars, Tag } from '@_'
-import { _ } from '@stores'
-import { copy, desc, HTMLDecode } from '@utils'
+import { Cover, Manage, Rank, Stars, Tag } from '@_'
+import { _, uiStore, collectionStore } from '@stores'
+import { cnjp, copy, desc } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_DEFAULT, IMG_WIDTH, IMG_HEIGHT, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
+import Title from './title'
 import { ICONS } from '../ds'
 import { DEFAULT_PROPS, SORT_ORDER } from './ds'
 
@@ -22,11 +23,11 @@ export default memo(
     styles,
     subjectId,
     loaded,
-    name,
-    name_cn,
-    images,
+    jp,
+    cn,
+    image,
     type,
-    eps_count,
+    eps,
     air_date,
     rank,
     rating,
@@ -44,6 +45,11 @@ export default memo(
     if (folder.path) path.push(folder.path)
     if (subjectId || showFolder) path.push(folder.name)
 
+    let action = '看'
+    if (typeCn === '书籍') action = '读'
+    if (typeCn === '音乐') action = '听'
+    if (typeCn === '游戏') action = '玩'
+
     return (
       <View style={[_.container.plain, styles.container]}>
         <View style={styles.wrap}>
@@ -51,7 +57,7 @@ export default memo(
           <Flex align={loaded ? 'start' : 'center'}>
             {loaded ? (
               <Cover
-                src={images?.medium || IMG_DEFAULT}
+                src={image || IMG_DEFAULT}
                 width={IMG_WIDTH}
                 height={IMG_HEIGHT}
                 radius
@@ -60,9 +66,9 @@ export default memo(
                 onPress={() => {
                   navigation.push('Subject', {
                     subjectId,
-                    _name: name,
-                    _name_cn: name_cn,
-                    _image: images?.medium,
+                    _jp: jp,
+                    _cn: cn,
+                    _image: image,
                     _type: typeCn
                   })
                 }}
@@ -75,40 +81,49 @@ export default memo(
                 resizeMode='contain'
               />
             )}
+
             <Flex.Item style={styles.body}>
               <View>
                 {loaded ? (
-                  <>
-                    <Text size={15} numberOfLines={2}>
-                      {collection ? '　　 ' : ''}
-                      <Text size={15} bold>
-                        {HTMLDecode(name_cn || name)}
+                  <Flex align='start'>
+                    <Flex.Item>
+                      <Title name={jp} nameCn={cn} />
+                      <Text style={_.mt.sm} size={11} bold numberOfLines={2}>
+                        {!!eps && `${eps}话 / `}
+                        {air_date || '-'}
                       </Text>
-                      {!!name && name !== name_cn && (
-                        <Text type='sub' size={11} lineHeight={15} bold>
-                          {'  '}
-                          {HTMLDecode(name)}
-                        </Text>
-                      )}
-                    </Text>
-
-                    <Text style={styles.desc} size={11} numberOfLines={2}>
-                      {!!eps_count && `${eps_count}话 / `}
-                      {air_date || '-'}
-                    </Text>
-
-                    <Flex style={styles.rating}>
-                      {!!rank && <Rank style={_.mr.sm} value={rank} />}
-                      {!!rating?.score && (
-                        <Stars style={_.mr.sm} value={rating.score} />
-                      )}
-                      {!!rating.total && (
-                        <Text size={10} type='sub'>
-                          ({rating.total}人评分)
-                        </Text>
-                      )}
-                    </Flex>
-                  </>
+                      <Flex style={styles.rating}>
+                        {!!rank && <Rank style={_.mr.sm} value={rank} />}
+                        {!!rating?.score && (
+                          <Stars style={_.mr.sm} value={rating.score} />
+                        )}
+                        {!!rating.total && (
+                          <Text size={10} type='sub'>
+                            ({rating.total}人评分)
+                          </Text>
+                        )}
+                      </Flex>
+                    </Flex.Item>
+                    <Manage
+                      collection={collection}
+                      typeCn={typeCn}
+                      onPress={() => {
+                        uiStore.showManageModal(
+                          {
+                            subjectId,
+                            title: cnjp(jp, cn),
+                            desc: cnjp(cn, jp),
+                            status: collection,
+                            action
+                          },
+                          '关联系列',
+                          () => {
+                            collectionStore.fetchCollectionStatusQueue([subjectId])
+                          }
+                        )
+                      }}
+                    />
+                  </Flex>
                 ) : (
                   <Text size={15} bold>
                     {folder.name}
@@ -124,21 +139,18 @@ export default memo(
                 )}
 
                 {!showFolder && (
-                  <Flex style={styles.folderRoot}>
-                    <Touchable onPress={() => setShowFolder(!showFolder)}>
-                      <View style={styles.folder}>
-                        <Flex>
-                          <Text size={12} bold numberOfLines={1}>
-                            {path.join('/') || '/'}
-                          </Text>
-                          <Iconfont style={_.ml.xs} name='md-navigate-next' />
-                        </Flex>
-                      </View>
-                    </Touchable>
-                  </Flex>
+                  <Touchable onPress={() => setShowFolder(!showFolder)}>
+                    <Flex style={styles.folder}>
+                      <Flex.Item>
+                        <Text size={12} bold numberOfLines={2}>
+                          {path.join('/') || '/'}
+                        </Text>
+                      </Flex.Item>
+                      <Iconfont style={_.ml.xs} name='md-navigate-next' />
+                    </Flex>
+                  </Touchable>
                 )}
               </View>
-              {!!collection && <Tag style={styles.collection} value={collection} />}
             </Flex.Item>
           </Flex>
 
@@ -188,10 +200,6 @@ export default memo(
                             folder.name,
                             item.name
                           )
-                          // if (!(await Linking.canOpenURL(link))) {
-                          //   alert(link, '本机不支持打开此链接')
-                          //   return
-                          // }
                           Linking.openURL(link)
                         }}
                       >
@@ -211,6 +219,7 @@ export default memo(
                 ) : (
                   <Text size={10}>(空)</Text>
                 )}
+
                 {!!folder.list.length && (
                   <Text style={_.mt.sm} size={10} type='sub' align='right'>
                     点击复制地址，长按跳转

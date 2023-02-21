@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 13:18:58
+ * @Last Modified time: 2023-02-21 00:59:49
  */
 import SMBClient from 'react-native-smb'
 import { asc, desc, alert, info, loading } from '@utils'
@@ -37,7 +37,7 @@ export function smbList(
       config.workGroup,
       config.username,
       config.password,
-      data => {
+      (data: { success: any; errorCode: any; message: any }) => {
         console.log('Create', data)
 
         if (!data?.success) {
@@ -70,92 +70,115 @@ function _smbList(path = '') {
       return
     }
 
-    smbClient.list(path, async data => {
-      if (!data?.success) {
-        smbClient.disconnect(() => console.log('Disconnect'))
-        smbClient = null
+    smbClient.list(
+      path,
+      async (data: { success: any; errorCode: any; message: any; list: any[] }) => {
+        if (!data?.success) {
+          smbClient.disconnect(() => console.log('Disconnect'))
+          smbClient = null
 
-        alert(`[${data.errorCode}] ${data.message}`, '连接失败')
-        resolve(false)
-        return
-      }
+          alert(`[${data.errorCode}] ${data.message}`, '连接失败')
+          resolve(false)
+          return
+        }
 
-      const list = data.list
-        .filter(
-          item =>
-            !item.hidden && item.isDirectory && item.name !== '.' && item.name !== '..'
-        )
-        .map(item => ({
-          name: item.name,
-          lastModified: item.lastModified,
-          path,
+        const list = data.list
+          .filter(
+            item =>
+              !item.hidden &&
+              item.isDirectory &&
+              item.name !== '.' &&
+              item.name !== '..'
+          )
+          .map(item => ({
+            name: item.name,
+            lastModified: item.lastModified,
+            path,
 
-          // lazy
-          list: [],
-          ids: [],
-          tags: []
-        }))
+            // lazy
+            list: [],
+            ids: [],
+            tags: []
+          }))
 
-      const hide = loading('扫描目录中...')
-      await queue(
-        list.map(item => {
-          return () => {
-            return new Promise<void>(rsl => {
-              try {
-                smbClient.list(
-                  path ? `${path}/${item.name}` : item.name,
-                  // @ts-expect-error
-                  data => {
-                    if (data?.success) {
-                      // list
-                      item.list = data.list
-                        .filter(
-                          item =>
-                            !item.hidden &&
-                            item.name !== '.' &&
-                            item.name !== '..' &&
-                            !item.name.includes('DS_Store')
-                        )
-                        .map(item => ({
-                          name: item.name,
-                          type: item.isDirectory
-                            ? 'folder'
-                            : getFileMediaType(item.name),
-                          lastModified: item.lastModified
-                        }))
-                        .sort((a, b) => asc(a.name, b.name))
-
-                      // subjects
-                      item.ids = data.list
-                        .filter(item =>
-                          /^\d+\.bgm(\.txt)?$/.test(item.name.toLocaleLowerCase())
-                        )
-                        .sort((a, b) => desc(a.name, b.name))
-                        .map(item =>
-                          Number(
-                            item.name
-                              .toLocaleLowerCase()
-                              .replace(/(\.bgm)|(\.txt)/g, '')
+        const hide = loading('扫描目录中...')
+        await queue(
+          list.map(item => {
+            return () => {
+              return new Promise<void>(rsl => {
+                try {
+                  smbClient.list(
+                    path ? `${path}/${item.name}` : item.name,
+                    // @ts-expect-error
+                    (data: { success: any; list: any[] }) => {
+                      if (data?.success) {
+                        // list
+                        item.list = data.list
+                          .filter(
+                            item =>
+                              !item.hidden &&
+                              item.name !== '.' &&
+                              item.name !== '..' &&
+                              !item.name.includes('DS_Store')
                           )
-                        )
+                          .map(item => ({
+                            name: item.name,
+                            type: item.isDirectory
+                              ? 'folder'
+                              : getFileMediaType(item.name),
+                            lastModified: item.lastModified
+                          }))
+                          .sort((a, b) => asc(a.name, b.name))
 
-                      // tags
-                      item.tags = matchTags(`${item.name} ${list[0]?.name || ''}`)
+                        // subjects
+                        let ids = []
+                        if (typeof item.name === 'string') {
+                          const temp = item.name
+                            .toLocaleLowerCase()
+                            .match(/bangumi-\d+/g)
+                          if (temp) {
+                            temp.forEach(item => {
+                              const id = Number(item.replace('bangumi-', ''))
+                              if (id && !ids.includes(id)) ids.push(id)
+                            })
+                          }
+                        }
+
+                        if (!ids.length) {
+                          ids = data.list
+                            .filter(item =>
+                              /^\d+\.bgm(\.txt)?$/.test(item.name.toLocaleLowerCase())
+                            )
+                            .sort((a, b) => desc(a.name, b.name))
+                            .map(item =>
+                              Number(
+                                item.name
+                                  .toLocaleLowerCase()
+                                  .replace(/(\.bgm)|(\.txt)/g, '')
+                              )
+                            )
+                        }
+
+                        item.ids = ids
+
+                        // tags
+                        item.tags = matchTags(`${item.name} ${list[0]?.name || ''}`)
+                      }
+                      rsl()
                     }
-                    rsl()
-                  }
-                )
-              } catch (error) {
-                rsl()
-              }
-            })
-          }
-        })
-      )
-      hide()
+                  )
+                } catch (error) {
+                  rsl()
+                }
+              })
+            }
+          })
+        )
+        hide()
 
-      resolve(list)
-    })
+        resolve(list)
+      }
+    )
   })
 }
 

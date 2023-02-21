@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-10 06:04:57
+ * @Last Modified time: 2023-02-21 06:14:46
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -30,6 +30,13 @@ import {
   UrlUser,
   UserId
 } from '@types'
+import { LOADED } from './init'
+
+export type CacheKey =
+  | keyof typeof LOADED
+  | `subject${number}`
+  | `subjectFormHTML${number}`
+  | `subjectV2${number}`
 
 /** 日志 */
 type Blog = {
@@ -221,6 +228,28 @@ export type SubjectFormHTML = DeepPartial<{
   formhash: string
   _loaded: Loaded
 }>
+
+/** 条目 (new api) */
+export type SubjectV2 = {
+  id: SubjectId
+  date: string
+  image: Cover<'m'>
+  jp: string
+  cn: string
+  tags: {
+    name: string
+    count: number
+  }[]
+  rank: '' | number
+  rating: RatingType
+  collection: Collection
+  eps: '' | number
+  vol: '' | number
+  locked: boolean
+  nsfw: boolean
+  type: SubjectTypeValue
+  _loaded: Loaded
+}
 
 /** 条目 (CDN) */
 export type SubjectFormCDN = DeepPartial<{

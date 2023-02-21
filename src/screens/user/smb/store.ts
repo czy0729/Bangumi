@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:24:03
+ * @Last Modified time: 2023-02-21 21:13:01
  */
 import { observable, computed, toJS } from 'mobx'
 import { smbStore, subjectStore, collectionStore, userStore } from '@stores'
+import { SMB } from '@stores/smb/types'
 import { getTimestamp, sleep, desc, info, confirm } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectId } from '@types'
+import { InferArray, SubjectId, SubjectTypeCn } from '@types'
 import { smbList } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER } from './ds'
 
@@ -22,6 +23,16 @@ export default class ScreenSmb extends store {
     this.setState({
       ...state,
       ...EXCLUDE_STATE,
+      _loaded: false
+    })
+
+    await queue(
+      this.subjectIds.map(item => {
+        return () => subjectStore.initSubjectV2(item)
+      })
+    )
+
+    this.setState({
       _loaded: true
     })
   }
@@ -53,38 +64,43 @@ export default class ScreenSmb extends store {
     const { loading } = this.state
     if (loading) return
 
-    const fetchs = []
     const now = getTimestamp()
+    const subjectFetchs = []
+    const collectionFetchs = []
     this.subjectIds.forEach((subjectId, index) => {
-      const { _loaded } = this.subject(subjectId)
+      const { _loaded } = this.subjectV2(subjectId)
 
       if (refresh || !_loaded || now - Number(_loaded) >= 60 * 60) {
-        fetchs.push(async () => {
+        subjectFetchs.push(() => {
           if (!this.state.loading) return
 
           this.setState({
             loading: `${index + 1} / ${this.subjectIds.length}`
           })
 
-          if (this.isLogin) await collectionStore.fetchCollection(subjectId)
-          const data = await subjectStore.fetchSubject(subjectId)
-          if (data?.air_date === '0000-00-00') {
-            await subjectStore.fetchSubjectFormHTML(subjectId)
-          }
-
-          return data
+          return subjectStore.fetchSubjectV2(subjectId)
         })
+
+        if (this.isLogin) {
+          const { _loaded } = this.collection(subjectId)
+          if (refresh || !_loaded || now - Number(_loaded) >= 60 * 5) {
+            collectionFetchs.push(() => {
+              return collectionStore.fetchCollection(subjectId)
+            })
+          }
+        }
       }
     })
 
     this.setState({
       loading: true
     })
-    await queue(fetchs, 1)
+    await queue(subjectFetchs, 1)
 
     this.setState({
       loading: false
     })
+    queue(collectionFetchs)
   }
 
   /** 下拉刷新条目信息 */
@@ -107,7 +123,7 @@ export default class ScreenSmb extends store {
   /** 当前的 SMB 目录 */
   @computed get current() {
     const { uuid } = this.state
-    return this.data.find(item => item.smb.uuid === uuid)
+    return this.data.find(item => item.smb.uuid === uuid) as InferArray<SMB>
   }
 
   /** 当前的 SMB 目录匹配到的所有条目 id */
@@ -135,8 +151,8 @@ export default class ScreenSmb extends store {
   }
 
   /** 条目 */
-  subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
+  subjectV2(subjectId: SubjectId) {
+    return computed(() => subjectStore.subjectV2(subjectId)).get()
   }
 
   @computed get list() {
@@ -170,8 +186,8 @@ export default class ScreenSmb extends store {
     const { sort } = this.state
     if (sort === '评分') {
       return this.list.sort((a, b) => {
-        const subjectA = this.subject(a.subjectId || '')
-        const subjectB = this.subject(b.subjectId || '')
+        const subjectA = this.subjectV2(a.subjectId || '')
+        const subjectB = this.subjectV2(b.subjectId || '')
         return desc(
           Number(
             subjectA._loaded
@@ -192,8 +208,8 @@ export default class ScreenSmb extends store {
     if (sort === '评分人数') {
       return this.list.sort((a, b) => {
         return desc(
-          Number(this.subject(a.subjectId || '')?.rating?.total || 0),
-          Number(this.subject(b.subjectId || '')?.rating?.total || 0)
+          Number(this.subjectV2(a.subjectId || '')?.rating?.total || 0),
+          Number(this.subjectV2(b.subjectId || '')?.rating?.total || 0)
         )
       })
     }
@@ -214,12 +230,15 @@ export default class ScreenSmb extends store {
   }
 
   @computed get filterList() {
+    const { _loaded } = this.state
+    if (!_loaded) return []
+
     const { tags } = this.state
     if (!tags.length) return this.sortList
 
     return this.sortList.filter(item => {
       const { subjectId } = item
-      let flag
+      let flag: boolean
       if (tags.includes('条目')) {
         flag = !!subjectId
       } else if (tags.includes('文件夹')) {
@@ -230,15 +249,28 @@ export default class ScreenSmb extends store {
         flag = item.tags.some(tag => tags.includes(tag))
       }
 
+      // if (!flag) {
+      //   const { tags: subjectTags } = this.subjectV2(subjectId)
+      //   flag = subjectTags.some(item => item.name === tags[0])
+      // }
+
       if (!flag) {
-        const { type } = this.subject(subjectId)
-        const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
+        const { type } = this.subjectV2(subjectId)
+        const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
         flag = tags.includes(typeCn)
       }
 
       if (!flag) {
-        const { status = { name: '未收藏' } } = this.collection(subjectId)
-        flag = tags.includes(status.name)
+        flag = tags.includes(
+          collectionStore.collectionStatus(subjectId) ||
+            this.collection(subjectId)?.status?.name ||
+            '未收藏'
+        )
+      }
+
+      if (!flag && /\d{4}/.test(tags[0])) {
+        const { date } = this.subjectV2(subjectId)
+        flag = !!date && date.includes(tags[0])
       }
 
       return flag
@@ -250,7 +282,7 @@ export default class ScreenSmb extends store {
   }
 
   @computed get tagsCount() {
-    const tags = {
+    const data = {
       条目: 0,
       文件夹: 0
     }
@@ -258,53 +290,83 @@ export default class ScreenSmb extends store {
     this.list.forEach(item => {
       const { subjectId } = item
       if (!subjectId) {
-        tags['文件夹'] += 1
+        data['文件夹'] += 1
       } else {
-        tags['条目'] += 1
+        data['条目'] += 1
 
-        const { type } = this.subject(subjectId)
-        const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
+        const { type, date } = this.subjectV2(subjectId)
+        const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
         if (typeCn) {
-          if (!tags[typeCn]) {
-            tags[typeCn] = 1
+          if (!data[typeCn]) {
+            data[typeCn] = 1
           } else {
-            tags[typeCn] += 1
+            data[typeCn] += 1
           }
         }
 
+        if (typeof date === 'string') {
+          const year = date.match(/\d{4}/g)
+          if (year?.[0]) {
+            if (!data[year[0]]) {
+              data[year[0]] = 1
+            } else {
+              data[year[0]] += 1
+            }
+          }
+        }
+
+        // tags.forEach(item => {
+        //   if (
+        //     ['动画', '漫画', '书籍', '音乐', '三次元', '条目', '未收藏'].includes(
+        //       item.name
+        //     )
+        //   ) {
+        //     return
+        //   }
+
+        //   if (!data[item.name]) {
+        //     data[item.name] = 1
+        //   } else {
+        //     data[item.name] += 1
+        //   }
+        // })
+
         const { status = { name: '未收藏' } } = this.collection(subjectId)
         if (status.name) {
-          if (!tags[status.name]) {
-            tags[status.name] = 1
+          if (!data[status.name]) {
+            data[status.name] = 1
           } else {
-            tags[status.name] += 1
+            data[status.name] += 1
           }
         }
 
         item.tags.forEach(i => {
-          if (!tags[i]) {
-            tags[i] = 1
+          if (!data[i]) {
+            data[i] = 1
           } else {
-            tags[i] += 1
+            data[i] += 1
           }
         })
       }
     })
 
-    return tags
+    return data
   }
 
   @computed get ACTIONS_TAGS() {
     return Object.keys(this.tagsCount).sort((a, b) =>
-      desc(DICT_ORDER[a] || 0, DICT_ORDER[b] || 0)
+      desc(
+        DICT_ORDER[a] || this.tagsCount[a] || 0,
+        DICT_ORDER[b] || this.tagsCount[b] || 0
+      )
     )
   }
 
   airDate(subjectId: SubjectId) {
     return computed(() => {
-      const subject = this.subject(subjectId)
-      if (subject?._loaded && subject?.air_date && subject.air_date !== '0000-00-00') {
-        return subject.air_date
+      const subject = this.subjectV2(subjectId)
+      if (subject?._loaded && subject?.date && subject.date !== '0000-00-00') {
+        return subject.date
       }
 
       const subjectFormHTML = subjectStore.subjectFormHTML(subjectId)
@@ -490,6 +552,14 @@ export default class ScreenSmb extends store {
       uuid: smb.uuid
     })
 
+    this.setStorage(NAMESPACE)
+  }
+
+  onToggleTags = () => {
+    const { more } = this.state
+    this.setState({
+      more: !more
+    })
     this.setStorage(NAMESPACE)
   }
 

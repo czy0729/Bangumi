@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-13 08:11:50
+ * @Last Modified time: 2023-02-21 06:02:59
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -48,14 +48,17 @@ import {
 import UserStore from '../user'
 import { LOG_INIT } from '../ds'
 import {
-  NAMESPACE,
   DEFAULT_RATING_STATUS,
-  INIT_SUBJECT,
-  INIT_SUBJECT_FROM_HTML_ITEM,
-  INIT_SUBJECT_FROM_CDN_ITEM,
   INIT_MONO,
   INIT_MONO_WORKS,
-  INIT_SUBJECT_WIKI
+  INIT_SUBJECT,
+  INIT_SUBJECT_FROM_CDN_ITEM,
+  INIT_SUBJECT_FROM_HTML_ITEM,
+  INIT_SUBJECT_V2,
+  INIT_SUBJECT_WIKI,
+  LOADED,
+  NAMESPACE,
+  STATE
 } from './init'
 import {
   fetchMono,
@@ -69,6 +72,7 @@ import {
 } from './common'
 import {
   ApiSubjectResponse,
+  CacheKey,
   Mono,
   MonoComments,
   MonoVoices,
@@ -80,145 +84,21 @@ import {
   SubjectComments,
   SubjectFormCDN,
   SubjectFormHTML,
+  SubjectV2,
   Wiki
 } from './types'
-
-const state = {
-  /** 条目 (云缓存) */
-  subjectFromOSS: {
-    0: INIT_SUBJECT
-  },
-
-  /** 条目 (CDN) */
-  subjectFormCDN: {
-    0: INIT_SUBJECT_FROM_CDN_ITEM
-  },
-
-  /** @deprecated 条目章节 */
-  subjectEp: {
-    0: {}
-  },
-
-  /** 包含条目的目录 */
-  subjectCatalogs: {
-    0: LIST_EMPTY
-  },
-
-  /** 条目吐槽箱 */
-  subjectComments: {
-    0: LIST_EMPTY
-  },
-
-  /** 章节内容 */
-  epFormHTML: {
-    0: ''
-  },
-
-  /** 人物 */
-  mono: {
-    0: INIT_MONO
-  },
-
-  /** 人物吐槽箱 */
-  monoComments: {
-    0: LIST_EMPTY
-  },
-
-  /** 人物 (CDN) */
-  monoFormCDN: {
-    0: INIT_MONO
-  },
-
-  /** 人物作品 */
-  monoWorks: {
-    0: INIT_MONO_WORKS
-  },
-
-  /** 人物饰演的角色 */
-  monoVoices: {
-    0: INIT_MONO_WORKS
-  },
-
-  /** 好友评分列表 */
-  rating: {
-    0: {
-      ...LIST_EMPTY,
-      counts: {
-        wishes: 0,
-        collections: 0,
-        doings: 0,
-        on_hold: 0,
-        dropped: 0
-      }
-    }
-  },
-
-  /** 条目分数 (用于收藏按网站评分排序) */
-  rank: {
-    0: {
-      r: 0,
-      s: 0,
-      _loaded: 0
-    }
-  },
-
-  /** wiki修订历史 */
-  wiki: {
-    0: INIT_SUBJECT_WIKI
-  },
-
-  /** 自定义源头数据 */
-  origin: {
-    base: {},
-    custom: {
-      anime: [],
-      hanime: [],
-      manga: [],
-      wenku: [],
-      music: [],
-      game: [],
-      real: []
-    }
-  } as Origin,
-
-  /** 自定义跳转 */
-  actions: {} as Actions
-}
-
-/**
- * subject 和 subjectFormHTML 根据 id 最后 2 位拆开 100 个 key 存放
- * 避免 JSON.stringify 后长度太长, 无法本地化
- * 也能减少每次写入本地储存的量
- * @date 2022/04/06
- */
-for (let i = 0; i < 1000; i += 1) {
-  /** 条目 */
-  state[`subject${i}`] = {}
-
-  /** 条目 (HTML) */
-  state[`subjectFormHTML${i}`] = {}
-}
 
 export function getInt(subjectId: SubjectId) {
   const str = String(subjectId)
   return Number(str.slice(str.length - 3, str.length))
 }
 
-class SubjectStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
+class SubjectStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  private _loaded = {
-    subjectFromOSS: false,
-    subjectComments: false,
-    mono: false,
-    rank: false,
-    origin: false,
-    actions: false
-  }
+  private _loaded = LOADED
 
-  init = (
-    key: keyof typeof this._loaded | `subject${number}` | `subjectFormHTML${number}`
-  ) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('SubjectStore /', key)
@@ -227,10 +107,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (
-    key: keyof typeof this._loaded | `subject${number}` | `subjectFormHTML${number}`,
-    data?: any
-  ) => {
+  save = (key: CacheKey, data?: any) => {
     return this.setStorage(key, data, NAMESPACE)
   }
 
@@ -248,7 +125,7 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
-  /** 条目 (HTML), 合并 subject 0-999 */
+  /** 条目 (HTML), 合并 subjectFormHTML 0-999 */
   subjectFormHTML(subjectId: SubjectId) {
     return computed<SubjectFormHTML>(() => {
       if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
@@ -258,6 +135,26 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
       this.init(key)
 
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
+    }).get()
+  }
+
+  initSubjectV2 = async (subjectId: SubjectId) => {
+    const last = getInt(subjectId)
+    const key = `subjectV2${last}` as const
+    await this.init(key)
+    return key
+  }
+
+  /** 条目 (new api), 合并 subjectV2 0-999 */
+  subjectV2(subjectId: SubjectId) {
+    return computed<SubjectV2>(() => {
+      if (!subjectId) return INIT_SUBJECT_V2
+
+      const last = getInt(subjectId)
+      const key = `subjectV2${last}` as const
+      this.init(key)
+
+      return this.state?.[key]?.[subjectId] || INIT_SUBJECT_V2
     }).get()
   }
 
@@ -484,6 +381,61 @@ class SubjectStore extends store implements StoreConstructor<typeof state> {
 
     this.save(key)
     return data
+  }
+
+  /** 获取条目分数值 */
+  fetchSubjectV2 = async (subjectId: SubjectId) => {
+    try {
+      const key = await this.initSubjectV2(subjectId)
+      const data: any = await request(
+        `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
+      )
+
+      const now = getTimestamp()
+      if (!data?.id) {
+        this.setState({
+          [key]: {
+            [subjectId]: {
+              ...INIT_SUBJECT_V2,
+              _loaded: now
+            }
+          }
+        })
+        this.save(key)
+        return false
+      }
+
+      this.setState({
+        [key]: {
+          [subjectId]: {
+            id: data.id || '',
+            date: data.date || '',
+            image: data.images.medium || '',
+            jp: data.name || '',
+            cn: data.name_cn || '',
+            tags: data.tags || [],
+            rank: data?.rating?.rank || '',
+            rating: {
+              total: data?.rating?.total || '',
+              score: data?.rating?.score || '',
+              count: data?.rating?.count || {}
+            },
+            collection: data?.collection || {},
+            eps: data.eps || '',
+            vol: data.volumes || '',
+            locked: data.locked || false,
+            nsfw: data.nsfw || false,
+            type: data.type || '',
+            _loaded: now
+          }
+        }
+      })
+      this.save(key)
+    } catch (error) {
+      return false
+    }
+
+    return true
   }
 
   /** 装载云端条目缓存数据 */

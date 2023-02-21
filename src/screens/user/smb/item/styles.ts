@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-10-30 15:17:50
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-10-30 15:17:50
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-02-21 02:10:06
  */
 import { _ } from '@stores'
 
@@ -17,15 +17,6 @@ export const memoStyles = _.memoStyles(() => ({
   body: {
     marginTop: -1,
     marginLeft: _.md
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 1 * _.lineHeightRatio,
-    left: 0
-  },
-  desc: {
-    marginTop: 8
   },
   rating: {
     marginTop: 12,
@@ -53,9 +44,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorBorder,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
-  },
-  folderRoot: {
-    marginRight: _._wind + _.md
   },
   folderList: {
     paddingRight: 12,

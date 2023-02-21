@@ -2,24 +2,24 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:18:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 15:46:26
+ * @Last Modified time: 2023-02-21 05:41:25
  */
 import { Navigation, SubjectId } from '@types'
 import { StoreType as $ } from '../types'
 import { memoStyles } from './styles'
 
-type Subject = ReturnType<$['subject']>
+type Subject = ReturnType<$['subjectV2']>
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   subjectId: 0 as SubjectId,
   loaded: false as Subject['_loaded'],
-  name: '' as Subject['name'],
-  name_cn: '' as Subject['name_cn'],
-  images: {} as Subject['images'],
+  jp: '' as Subject['jp'],
+  cn: '' as Subject['cn'],
+  image: '' as Subject['image'],
   type: '' as Subject['type'],
-  eps_count: 0 as number,
+  eps: '' as number | '',
   air_date: '' as ReturnType<$['airDate']>,
   rank: 0 as Subject['rank'],
   rating: {} as Subject['rating'],

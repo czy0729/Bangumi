@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:52:28
+ * @Last Modified time: 2023-02-21 21:21:16
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -53,11 +53,13 @@ import subjectStore from '../subject'
 import userStore from '../user'
 import { LOG_INIT } from '../ds'
 import {
-  NAMESPACE,
-  DEFAULT_SUBJECT_TYPE,
   DEFAULT_COLLECTION_STATUS,
   DEFAULT_ORDER,
-  DEFAULT_USERS_SUBJECT_COLLECTION
+  DEFAULT_SUBJECT_TYPE,
+  DEFAULT_USERS_SUBJECT_COLLECTION,
+  LOADED,
+  NAMESPACE,
+  STATE
 } from './init'
 import {
   Collection,
@@ -68,61 +70,12 @@ import {
   UsersSubjectCollection
 } from './types'
 
-const state = {
-  /** 条目收藏信息 */
-  collection: {
-    0: {}
-  },
+class CollectionStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** 用户收藏概览 (HTML, 全部) */
-  userCollections: {
-    0: LIST_EMPTY
-  },
+  private _loaded = LOADED
 
-  /** 用户收藏概览的标签 (HTML) */
-  userCollectionsTags: {
-    0: []
-  },
-
-  /** @deprecated 所有收藏条目状态 */
-  userCollectionsMap: {
-    0: '看过' as const
-  },
-
-  /** 条目的收藏状态, 替代 userCollectionsMap */
-  collectionStatus: {
-    0: '看过'
-  },
-
-  /** 条目的收藏状态最后一次请求时间戳, 对应 collectionStatus, 共同维护 */
-  _collectionStatusLastFetchMS: {
-    0: 0
-  },
-
-  /** 瓷砖进度 */
-  mosaicTile: {},
-
-  /** 特定用户特定条目的收藏信息 */
-  usersSubjectCollection: {
-    0: DEFAULT_USERS_SUBJECT_COLLECTION
-  }
-}
-
-class CollectionStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    collection: false,
-    userCollections: false,
-    userCollectionsTags: false,
-    userCollectionsMap: false,
-    collectionStatus: false,
-    _collectionStatusLastFetchMS: false,
-    mosaicTile: false,
-    usersSubjectCollection: false
-  }
-
-  init = async (key: keyof typeof this._loaded) => {
+  init = async (key: keyof typeof LOADED) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('CollectionStore /', key)
@@ -141,7 +94,7 @@ class CollectionStore extends store implements StoreConstructor<typeof state> {
     return data
   }
 
-  save = (key: keyof typeof this._loaded, data?: any) => {
+  save = (key: keyof typeof LOADED, data?: any) => {
     return this.setStorage(key, data, NAMESPACE)
   }
 

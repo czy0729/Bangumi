@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 15:54:07
+ * @Last Modified time: 2023-02-21 20:45:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Iconfont, Text, Loading } from '@components'
-import { Popover, Tag } from '@_'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { ACTIONS_SORT, ACTIONS_SMB } from '../ds'
@@ -19,7 +19,7 @@ function Top(props, { $ }: Ctx) {
   if (!smb) return null
 
   const styles = memoStyles()
-  const { tags, loading } = $.state
+  const { tags, loading, more } = $.state
   const { name, ip, port, sharedFolder } = smb
   return (
     <>
@@ -53,22 +53,38 @@ function Top(props, { $ }: Ctx) {
         </Popover>
       </Flex>
       <Flex style={styles.tags} wrap='wrap'>
-        {$.ACTIONS_TAGS.map(
-          item =>
+        {$.ACTIONS_TAGS.filter(item =>
+          more ? true : $.tagsCount[item] >= 10 || tags.includes(item)
+        ).map(item => {
+          const isActive = tags.includes(item)
+          return (
             !!$.tagsCount[item] && (
               <Touchable
                 key={item}
                 style={styles.touch}
                 onPress={() => $.onSelectTag(item.split(' ')?.[0])}
               >
-                <Tag
+                <Text
                   style={styles.tag}
-                  type={tags.includes(item) ? 'main' : 'title'}
-                  value={`${item} ${$.tagsCount[item]}`}
-                />
+                  type={isActive ? 'main' : 'title'}
+                  size={11}
+                  bold
+                >
+                  {item}
+                  <Text type={isActive ? 'main' : 'sub'} size={10} lineHeight={11} bold>
+                    {' '}
+                    {$.tagsCount[item]}
+                  </Text>
+                </Text>
               </Touchable>
             )
-        )}
+          )
+        })}
+        <Touchable style={styles.touch} onPress={$.onToggleTags}>
+          <Text style={styles.tagMore} type='title' size={11} bold>
+            {more ? '收起' : '展开'}
+          </Text>
+        </Touchable>
       </Flex>
       {!!loading && (
         <Flex style={_.mb.sm} justify='center'>
