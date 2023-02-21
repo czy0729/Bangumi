@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 20:45:50
+ * @Last Modified time: 2023-02-22 02:56:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { ACTIONS_SORT, ACTIONS_SMB } from '../ds'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Top(props, { $ }: Ctx) {
+function Top(props, { $, navigation }: Ctx) {
   const smb = $.current?.smb
   if (!smb) return null
 
@@ -47,7 +47,7 @@ function Top(props, { $ }: Ctx) {
         <Popover
           style={[styles.popover, styles.more]}
           data={ACTIONS_SMB}
-          onSelect={$.onSelectSMB}
+          onSelect={title => $.onSelectSMB(title, navigation)}
         >
           <Iconfont name='md-more-vert' color={_.colorDesc} />
         </Popover>

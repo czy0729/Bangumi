@@ -2,16 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 21:13:01
+ * @Last Modified time: 2023-02-22 04:38:16
  */
 import { observable, computed, toJS } from 'mobx'
-import { smbStore, subjectStore, collectionStore, userStore } from '@stores'
+import {
+  collectionStore,
+  discoveryStore,
+  smbStore,
+  subjectStore,
+  userStore
+} from '@stores'
 import { SMB } from '@stores/smb/types'
 import { getTimestamp, sleep, desc, info, confirm } from '@utils'
 import store from '@utils/store'
-import { queue } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants'
-import { InferArray, SubjectId, SubjectTypeCn } from '@types'
+import { queue, t } from '@utils/fetch'
+import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
+import i18n from '@constants/i18n'
+import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
 import { smbList } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER } from './ds'
 
@@ -57,6 +64,10 @@ export default class ScreenSmb extends store {
         this.setStorage(NAMESPACE)
       }
     }
+
+    t('SMB.扫描', {
+      length: list.length
+    })
   }
 
   /** 批量请求条目信息 */
@@ -94,6 +105,10 @@ export default class ScreenSmb extends store {
 
     this.setState({
       loading: true
+    })
+
+    t('SMB.请求条目', {
+      length: subjectFetchs.length
     })
     await queue(subjectFetchs, 1)
 
@@ -439,6 +454,8 @@ export default class ScreenSmb extends store {
       path: smb.path || EXCLUDE_STATE.path,
       url: smb.url || EXCLUDE_STATE.url
     })
+
+    t('SMB.编辑')
   }
 
   onCopy = () => {
@@ -458,6 +475,8 @@ export default class ScreenSmb extends store {
       path: smb.path || EXCLUDE_STATE.path,
       url: smb.url || EXCLUDE_STATE.url
     })
+
+    t('SMB.复制')
   }
 
   onChange = (key: string, val: string) => {
@@ -530,6 +549,10 @@ export default class ScreenSmb extends store {
     }
 
     this.setStorage(NAMESPACE)
+
+    t('SMB.保存', {
+      create: index === -1
+    })
   }
 
   onDelete = () => {
@@ -543,6 +566,8 @@ export default class ScreenSmb extends store {
     })
 
     this.setStorage(NAMESPACE)
+
+    t('SMB.删除')
   }
 
   onSwitch = (title: string, index?: number) => {
@@ -553,6 +578,8 @@ export default class ScreenSmb extends store {
     })
 
     this.setStorage(NAMESPACE)
+
+    t('SMB.切换')
   }
 
   onToggleTags = () => {
@@ -561,6 +588,8 @@ export default class ScreenSmb extends store {
       more: !more
     })
     this.setStorage(NAMESPACE)
+
+    t('SMB.更多标签')
   }
 
   onSelectTag = (title: string) => {
@@ -572,6 +601,10 @@ export default class ScreenSmb extends store {
     })
 
     this.setStorage(NAMESPACE)
+
+    t('SMB.选择标签', {
+      title
+    })
   }
 
   onSelectSort = (title: string) => {
@@ -580,9 +613,13 @@ export default class ScreenSmb extends store {
     })
 
     this.setStorage(NAMESPACE)
+
+    t('SMB.排序', {
+      title
+    })
   }
 
-  onSelectSMB = (title: string) => {
+  onSelectSMB = (title: string, navigation?: Navigation) => {
     if (title === '扫描') {
       this.connectSmb()
       return
@@ -598,8 +635,95 @@ export default class ScreenSmb extends store {
       return
     }
 
+    if (title === '创建目录') {
+      confirm(
+        `以 ${this.current?.smb?.name} 为名字, 用当前筛选的条目来创建目录, 确定?`,
+        () => {
+          this.doCreateCatalog(navigation)
+        }
+      )
+      return
+    }
+
     if (title === '删除') {
       confirm('删除后无法恢复，确定？', this.onDelete)
     }
+  }
+
+  /** 创建目录 */
+  doCreateCatalog = async (navigation: Navigation) => {
+    const { formhash } = userStore
+    if (!formhash) {
+      info(`目录创建失败, 请检查${i18n.login()}状态`)
+      return
+    }
+
+    const { loading } = this.state
+    if (loading) {
+      info('正在获取数据中, 请待完成后再试')
+      return
+    }
+
+    // 创建目录
+    discoveryStore.doCatalogCreate(
+      {
+        formhash,
+        title: this.current?.smb?.name || '目录',
+        desc: `由 Bangumi for ${IOS ? 'iOS' : 'android'} SMB 功能自动创建`
+      },
+      (response, request) => {
+        if (request && request.responseURL) {
+          const match = request.responseURL.match(/\d+/g)
+          if (match && match[0]) {
+            info('创建成功, 开始导入条目数据...')
+
+            setTimeout(async () => {
+              const list = this.filterList
+              const catalogId = match[0]
+              const subjectIds = []
+              list.forEach(item => {
+                if (item.subjectId && !subjectIds.includes(item.subjectId)) {
+                  subjectIds.push(item.subjectId)
+                }
+              })
+
+              // 添加条目数据
+              await queue(
+                subjectIds.map((subjectId, index) => {
+                  return () =>
+                    new Promise<void>(resolve => {
+                      info(`${index + 1} / ${subjectIds.length}`)
+                      discoveryStore.doCatalogAddRelate(
+                        {
+                          catalogId,
+                          subjectId,
+                          formhash,
+                          noConsole: true
+                        },
+                        () => {
+                          resolve()
+                        }
+                      )
+                    })
+                }),
+                1
+              )
+
+              // 跳转到创建后的目录
+              navigation.push('CatalogDetail', {
+                catalogId
+              })
+              info('已完成')
+            }, 400)
+          } else {
+            info(`目录创建失败, 请检查${i18n.login()}状态`)
+          }
+        }
+      }
+    )
+
+    t('SMB.创建目录', {
+      length: this.filterList.length
+    })
   }
 }

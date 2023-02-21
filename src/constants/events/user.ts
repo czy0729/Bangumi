@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-12 21:15:32
+ * @Last Modified time: 2023-02-22 04:29:59
  */
 
 /** User */
@@ -95,5 +95,18 @@ export default {
   '本地备份.导出': 'Backup.export',
   '本地备份.导入': 'Backup.import',
   '本地备份.置底': 'Backup.onBottom',
-  '本地备份.同步': 'Backup.onSubmit'
+  '本地备份.同步': 'Backup.onSubmit',
+
+  // SMB
+  'SMB.扫描': 'SMB.connect',
+  'SMB.请求条目': 'SMB.fetchSubjects',
+  'SMB.编辑': 'SMB.onEdit',
+  'SMB.复制': 'SMB.onCopy',
+  'SMB.保存': 'SMB.onSubmit',
+  'SMB.删除': 'SMB.onDelete',
+  'SMB.切换': 'SMB.onSwitch',
+  'SMB.更多标签': 'SMB.onMoreTag',
+  'SMB.选择标签': 'SMB.onSelectTag',
+  'SMB.排序': 'SMB.onSelectSort',
+  'SMB.创建目录': 'SMB.createCatalog'
 }

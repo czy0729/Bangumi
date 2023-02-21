@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 20:29:58
+ * @Last Modified time: 2023-02-22 02:54:17
  */
 export const ACTIONS_SORT = ['日期', '评分', '评分人数', '目录修改时间'] as const
 
-export const ACTIONS_SMB = ['扫描', '编辑', '复制配置新建', '删除'] as const
+export const ACTIONS_SMB = ['扫描', '编辑', '复制配置新建', '创建目录', '删除'] as const
 
 export const NAMESPACE = 'ScreenSmb'
 

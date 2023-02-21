@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 08:13:11
+ * @Last Modified time: 2023-02-22 02:31:40
  */
 import React, { useState } from 'react'
 import { View, Linking } from 'react-native'
@@ -40,7 +40,12 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
             resizeMode='contain'
           />
           <Flex.Item>
-            <Text size={12} bold numberOfLines={showFolder ? undefined : 1}>
+            <Text
+              size={12}
+              lineHeight={14}
+              bold
+              numberOfLines={showFolder ? undefined : 1}
+            >
               {path.join('/') || '/'}
             </Text>
           </Flex.Item>
