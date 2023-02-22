@@ -17,10 +17,7 @@ export const PAD_INCREASE = PAD === 2 ? 4 : 2
 export function setComponentsDefaultProps() {
   if (IOS) return
 
-  /** @ts-expect-error */
   setDefaultProps(Text, _.fontStyle)
-
-  /** @ts-expect-error */
   setDefaultProps(TextInput, _.fontStyle)
 }
 

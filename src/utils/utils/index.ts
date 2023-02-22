@@ -2,40 +2,42 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-11 04:14:38
+ * @Last Modified time: 2023-02-22 18:32:58
  */
+import { ComponentType } from 'react'
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dayjs from 'dayjs'
+import dayjsCustomParseFormat from 'dayjs/plugin/customParseFormat'
 import pLimit from 'p-limit'
 import { DEV } from '@/config'
 import { B, M, IOS } from '@constants/constants'
-import { AnyObject, Fn } from '@types'
+import { Fn } from '@types'
 import { info } from '../ui'
 
-const customParseFormat = require('dayjs/plugin/customParseFormat')
-dayjs.extend(customParseFormat)
+dayjs.extend(dayjsCustomParseFormat)
 
-/** set default props of any react-native components even Custom Component */
-export function setDefaultProps(
-  Component: { render: (props: any, ref: any) => any; defaultProps: AnyObject },
-  defaultProps?: AnyObject
+/** 全局强制组件设置默认参数 */
+export function setDefaultProps<T extends ComponentType<any>>(
+  Component: T,
+  defaultProps?: Record<string, any>
 ) {
-  const componentRender = Component.render
+  const componentRender = Component.prototype.render
   if (!componentRender) {
     Component.defaultProps = defaultProps
-    return
+    return Component
   }
 
-  Component.render = (props, ref) => {
+  Component.prototype.render = function (props: { style: any }, ref: any) {
     props = {
       ...defaultProps,
       ...props,
-      style: [defaultProps.style, props.style]
+      style: [defaultProps?.style, props?.style]
     }
-
     return componentRender.call(this, props, ref)
   }
+
+  return Component
 }
 
 /** 排除 null */
@@ -170,21 +172,27 @@ export async function queue(fetchs: any[] = [], num: any = 2) {
 }
 
 /** 对象中选择指定 key */
-export function pick(obj: object, arr: string[]) {
+export function pick<T extends Record<string, any>, K extends keyof T>(
+  obj: T,
+  arr: K[]
+): Pick<T, K> {
   return arr.reduce(
     // eslint-disable-next-line no-sequences
     (acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc),
-    {}
+    {} as Pick<T, K>
   )
 }
 
 /** 对象中选择排除 key */
-export function omit<T extends object, U extends string[]>(obj: T, arr: U) {
-  return Object.keys(obj).reduce(
-    // eslint-disable-next-line no-sequences
-    (acc, curr) => (arr.indexOf(curr) === -1 && (acc[curr] = obj[curr]), acc),
-    {}
-  ) as Omit<Readonly<T>, Readonly<U>[number]>
+export function omit<T extends Record<string, any>, K extends keyof T>(
+  obj: T,
+  keys: K[]
+): Omit<T, K> {
+  return Object.keys(obj).reduce((acc, key) => {
+    if (keys.includes(key as K)) return acc
+
+    return { ...acc, [key]: obj[key] }
+  }, {} as Omit<T, K>)
 }
 
 /** 安全 toFixed */
@@ -195,9 +203,7 @@ export function toFixed(value: any, num: number = 2) {
 /** 安全对象 */
 export function safeObject(object: any = {}) {
   Object.keys(object).forEach(key => {
-    if (object[key] === undefined) {
-      object[key] = ''
-    }
+    if (object[key] === undefined) object[key] = ''
   })
   return object
 }
@@ -226,22 +232,24 @@ export function open(url: any, encode: boolean = false): boolean {
 }
 
 /** url 字符串化 */
-export function urlStringify(data: object, encode: boolean = true): string {
+export function urlStringify(
+  data?: Record<string, any>,
+  encode: boolean = true
+): string {
   if (!data) return ''
-
-  const arr = Object.keys(data).map(
-    key => `${key}=${encode ? encodeURIComponent(data[key]) : data[key]}`
+  const arr = Object.entries(data).map(
+    ([key, value]) => `${key}=${encode ? encodeURIComponent(value) : value}`
   )
   return arr.join('&')
 }
 
 /** 补零 */
-export function pad(n: string | number) {
-  return Number(n) < 10 ? `0${n}` : n
+export function pad(n: string | number): string {
+  return +n < 10 ? `0${n}` : `${n}`
 }
 
 /** 睡眠 */
-export function sleep(ms: number = 800): Promise<undefined> {
+export function sleep(ms: number = 800): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
@@ -315,12 +323,9 @@ export function parseIOS8601(isostr: string, format = 'Y-m-d') {
  * @doc https://dayjs.fenxianglu.cn/category/parse.html#%E5%AD%97%E7%AC%A6%E4%B8%B2-%E6%A0%BC%E5%BC%8F
  * */
 export function getTimestamp(date = '', format?: string) {
-  const _date = trim(date)
-  if (_date) {
-    if (format) return dayjs(_date, format).unix()
-    return dayjs(_date).unix()
-  }
-  return dayjs().unix()
+  const _date = date.trim()
+  const day = format ? dayjs(_date, format) : dayjs(_date)
+  return day.isValid() ? day.unix() : dayjs().unix()
 }
 
 /** xd xh xm xs ago => timestamp */
