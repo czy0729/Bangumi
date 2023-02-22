@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 17:49:25
+ * @Last Modified time: 2023-02-23 05:31:21
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -99,6 +99,7 @@ export default class ScreenBilibiliSync extends store {
     const { data, bottom } = this.state
     const { list } = data
     return list
+      .slice()
       .sort((a, b) => asc(bottom[a.id] || 0, bottom[b.id] || 0))
       .sort((a, b) => desc(a.subjectId ? 1 : 0, b.subjectId ? 1 : 0))
   }

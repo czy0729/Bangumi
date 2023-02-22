@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:28:44
+ * @Last Modified time: 2023-02-23 05:28:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ class Temples extends React.Component<{
     const { list } = $.charaTemple
     if (expand) {
       // 自己的排最前
-      return list.sort((a, b) => {
+      return list.slice().sort((a, b) => {
         let _a = 0
         let _b = 0
         if (a.name === $.hash) _a += 1

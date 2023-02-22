@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:56:47
+ * @Last Modified time: 2023-02-23 05:28:05
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -39,6 +39,7 @@ class TinygrailItems extends React.Component {
         {...SCROLL_VIEW_RESET_PROPS}
       >
         {list
+          .slice()
           .sort((a, b) => (ITEMS_USED[b.name] || 0) - (ITEMS_USED[a.name] || 0))
           .map(item => {
             if (ITEMS_USED[item.name]) {

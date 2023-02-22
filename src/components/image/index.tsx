@@ -13,7 +13,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-15 06:17:43
+ * @Last Modified time: 2023-02-23 03:13:07
  */
 import React from 'react'
 import { View, Image as RNImage, ImageProps as RNImageProps } from 'react-native'
@@ -392,7 +392,10 @@ export const Image = observer(
             ...(headers || {})
           }
         }
-        return headers
+
+        return {
+          ...headers
+        }
       }
 
       if (typeof src === 'string' && src.includes('lain.')) return DEFAULT_HEADERS
@@ -678,7 +681,7 @@ export const Image = observer(
     }
 
     render() {
-      const { src, imageViewer, imageViewerSrc, headers, event, onPress, onLongPress } =
+      const { src, imageViewer, imageViewerSrc, event, onPress, onLongPress } =
         this.props
       const { uri } = this.state
       let _onPress = onPress
@@ -689,7 +692,7 @@ export const Image = observer(
           imageViewerSrc,
           uri,
           src,
-          headers,
+          headers: this.headers,
           event
         })
       }

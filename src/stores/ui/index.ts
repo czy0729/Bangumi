@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 14:28:16
+ * @Last Modified time: 2023-02-23 03:51:40
  */
 import { observable, computed } from 'mobx'
 import { feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { Actions, RatingStatus, StoreConstructor } from '@types'
+import { RatingStatus, StoreConstructor } from '@types'
 import subjectStore from '../subject'
 import collectionStore from '../collection'
 import { SubmitManageModalValues } from './types'
@@ -36,7 +36,7 @@ const state = {
     title: '',
     desc: '',
     status: '' as '' | RatingStatus,
-    action: '看' as Actions,
+    action: '看' as '看' | '玩' | '听' | '读',
     screen: ''
   }
 }

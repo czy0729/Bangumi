@@ -4,9 +4,16 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 15:35:07
+ * @Last Modified time: 2023-02-23 03:06:01
  */
-import { configure, extendObservable, computed, action, toJS } from 'mobx'
+import {
+  action,
+  computed,
+  configure,
+  extendObservable,
+  isObservableArray,
+  toJS
+} from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants/constants'
 import { getTimestamp } from '../utils'
@@ -40,6 +47,7 @@ export default class Store {
        * }
        */
       if (this.state[key][0] === undefined) {
+        console.log(this, key)
         Object.defineProperty(this, key, {
           get() {
             return computed(() => this.state[key]).get()
@@ -86,22 +94,36 @@ export default class Store {
    * @param {*} state
    */
   setState = action((state: any, stateKey: string = 'state') => {
-    Object.keys(state).forEach(key => {
-      const data = state[key]
+    Object.entries(state).forEach(([key, item]) => {
+      const observerTarget = this[stateKey]
 
       // 键值不存在时需手动创建观察
-      if (!(key in this[stateKey])) {
-        extendObservable(this[stateKey], {
-          [key]: data
+      if (!(key in observerTarget)) {
+        extendObservable(observerTarget, {
+          [key]: item
         })
-      } else if (typeof data === 'object' && !Array.isArray(data)) {
-        this[stateKey][key] = {
-          ...this[stateKey][key],
-          ...data
-        }
-      } else {
-        this[stateKey][key] = data
+        return
       }
+
+      if (typeof item !== 'object') {
+        observerTarget[key] = item
+        return
+      }
+
+      if (!Array.isArray(item)) {
+        observerTarget[key] = {
+          ...observerTarget[key],
+          ...item
+        }
+        return
+      }
+
+      if (isObservableArray(observerTarget[key])) {
+        observerTarget[key].replace(item)
+        return
+      }
+
+      observerTarget[key] = item
     })
   })
 

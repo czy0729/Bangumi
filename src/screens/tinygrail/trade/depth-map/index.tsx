@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:50:08
+ * @Last Modified time: 2023-02-23 05:36:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,24 +52,27 @@ function DepthMap(props, { $ }: Ctx) {
       <Flex>
         <Flex.Item>
           <Flex>
-            {bids.reverse().map((item, index) => {
-              calculateBids += item.amount
-              return (
-                <Flex.Item key={index} style={styles.block}>
-                  <View
-                    style={[
-                      styles.bids,
-                      {
-                        height:
-                          ((bidsAmount - calculateBids) / (bidsAmount || 1)) *
-                            styles.block.height +
-                          4
-                      }
-                    ]}
-                  />
-                </Flex.Item>
-              )
-            })}
+            {bids
+              .slice()
+              .reverse()
+              .map((item, index) => {
+                calculateBids += item.amount
+                return (
+                  <Flex.Item key={index} style={styles.block}>
+                    <View
+                      style={[
+                        styles.bids,
+                        {
+                          height:
+                            ((bidsAmount - calculateBids) / (bidsAmount || 1)) *
+                              styles.block.height +
+                            4
+                        }
+                      ]}
+                    />
+                  </Flex.Item>
+                )
+              })}
           </Flex>
         </Flex.Item>
         <Flex.Item

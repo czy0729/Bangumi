@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:34:21
+ * @Last Modified time: 2023-02-23 05:15:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,6 +64,7 @@ function Depth(props, { $ }: Ctx) {
         <Flex style={styles.list} direction='column' justify='end'>
           {asks
             // 冰山挂单永远显示, 0优先, 之后小的优先
+            .slice()
             .sort((a, b) => (a.price || -10000000) - (b.price || -10000000))
             .filter((item, index) => {
               if (index < 5) return true
@@ -127,6 +128,7 @@ function Depth(props, { $ }: Ctx) {
         <View style={styles.list}>
           {bids
             // 0优先, 之后大的优先
+            .slice()
             .sort((a, b) => (b.price || 10000000) - (a.price || 10000000))
             .filter((item, index) => index < 5)
             .map((item, index) => {

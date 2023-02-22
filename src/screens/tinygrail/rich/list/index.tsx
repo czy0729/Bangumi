@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:54:16
+ * @Last Modified time: 2023-02-23 05:28:33
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -26,13 +26,15 @@ function List({ id, title = '全部' }, { $ }: Ctx) {
   let data = rich
   if (title === '股息') {
     data = toJS(rich)
-    data.list = data.list.sort((a, b) => parseInt(b.share) - parseInt(a.share))
+    data.list = data.list.slice().sort((a, b) => parseInt(b.share) - parseInt(a.share))
   } else if (title === '余额') {
     data = toJS(rich)
-    data.list = data.list.sort((a, b) => parseInt(b.total) - parseInt(a.total))
+    data.list = data.list.slice().sort((a, b) => parseInt(b.total) - parseInt(a.total))
   } else if (title === '初始') {
     data = toJS(rich)
-    data.list = data.list.sort((a, b) => parseInt(b.principal) - parseInt(a.principal))
+    data.list = data.list
+      .slice()
+      .sort((a, b) => parseInt(b.principal) - parseInt(a.principal))
   }
   return (
     <ListView

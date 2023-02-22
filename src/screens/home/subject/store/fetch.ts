@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 19:15:25
+ * @Last Modified time: 2023-02-23 05:35:21
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
@@ -350,7 +350,7 @@ export default class Fetch extends Computed {
       const preview = await getPreview(doubanId)
       if (preview.data.length) {
         this.setState({
-          epsThumbs: preview.data.reverse(),
+          epsThumbs: preview.data.slice().reverse(),
           epsThumbsHeader: {
             Referer: preview.referer
           }

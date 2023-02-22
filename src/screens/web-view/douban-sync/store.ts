@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:30:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 18:24:39
+ * @Last Modified time: 2023-02-23 05:31:46
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -106,7 +106,9 @@ export default class ScreenBilibiliSync extends store {
         this.onToggleHide()
         this.setState({
           data: {
-            list: this.collections.sort((a, b) => desc(a.create_time, b.create_time)),
+            list: this.collections
+              .slice()
+              .sort((a, b) => desc(a.create_time, b.create_time)),
             _loaded: getTimestamp()
           },
           progress: EXCLUDE_STATE.progress
@@ -243,6 +245,7 @@ export default class ScreenBilibiliSync extends store {
     const { data, bottom } = this.state
     const { list } = data
     return list
+      .slice()
       .sort((a, b) => asc(bottom[a.id] || 0, bottom[b.id] || 0))
       .sort((a, b) => desc(a.subjectId ? 1 : 0, b.subjectId ? 1 : 0))
   }

@@ -53,10 +53,12 @@ export const HorizontalList = ob(
       const { scrolled } = this.state
 
       // 没封面图的置后
-      if (!initialRenderNums || scrolled)
-        return data.sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
+      if (!initialRenderNums || scrolled) {
+        return data.slice().sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
+      }
 
       return data
+        .slice()
         .sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
         .filter((item, index) => index < initialRenderNums)
     }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-22 22:41:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 13:04:07
+ * @Last Modified time: 2023-02-23 05:28:56
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
@@ -46,6 +46,7 @@ export default class ScreenActions extends store {
   @computed get data() {
     const { data } = this.state
     return data.data
+      .slice()
       .sort((a, b) => desc(Number(a.sort) || 0, Number(b.sort) || 0))
       .sort((a, b) => desc(a.active, b.active))
   }

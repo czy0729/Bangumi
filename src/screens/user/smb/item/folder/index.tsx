@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 02:20:13
+ * @Last Modified time: 2023-02-23 05:31:04
  */
 import React from 'react'
 import { View, Linking } from 'react-native'
@@ -64,6 +64,7 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
         <View style={styles.path}>
           {folder.list.length ? (
             folder.list
+              .slice()
               .sort((a, b) => desc(SORT_ORDER[a.type] || 0, SORT_ORDER[b.type] || 0))
               .map(item => (
                 <Touchable

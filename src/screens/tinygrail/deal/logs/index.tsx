@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:40:11
+ * @Last Modified time: 2023-02-23 05:27:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ function Logs(props, { $ }: Ctx) {
         </Flex>
         {!bids.length && <Text type='tinygrailText'>-</Text>}
         {bids
+          .slice()
           .sort((a, b) => b.price - a.price)
           .map((item, index) => (
             <View key={index} style={styles.item}>
@@ -86,6 +87,7 @@ function Logs(props, { $ }: Ctx) {
         </Flex>
         {!asks.length && <Text type='tinygrailText'>-</Text>}
         {asks
+          .slice()
           .sort((a, b) => a.price - b.price)
           .map((item, index) => (
             <View key={index} style={styles.item}>

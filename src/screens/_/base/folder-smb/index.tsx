@@ -59,6 +59,7 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
         <View style={styles.path}>
           {folder.list.length ? (
             folder.list
+              .slice()
               .sort((a, b) => desc(SORT_ORDER[a.type] || 0, SORT_ORDER[b.type] || 0))
               .map(item => (
                 <Touchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-21 12:31:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 13:31:57
+ * @Last Modified time: 2023-02-23 05:34:53
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -59,7 +59,7 @@ export default class ScreenPreview extends store {
       const preview = await getPreview(doubanId, undefined, 40)
       if (preview.data.length) {
         this.setState({
-          epsThumbs: preview.data.reverse(),
+          epsThumbs: preview.data.slice().reverse(),
           epsThumbsHeader: {
             Referer: preview.referer
           }

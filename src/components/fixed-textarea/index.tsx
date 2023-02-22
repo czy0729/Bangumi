@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 04:57:59
+ * @Last Modified time: 2023-02-23 04:57:07
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -784,6 +784,7 @@ export const FixedTextarea = observer(
           {showReplyHistory ? (
             <>
               {replyHistory
+                .slice()
                 .sort((a, b) =>
                   desc(lockHistory === a ? 1 : 0, lockHistory === b ? 1 : 0)
                 )

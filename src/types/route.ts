@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 16:38:44
+ * @Last Modified time: 2023-02-23 05:12:01
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -27,6 +27,7 @@ export type NavigationPushType = RouteActions &
   RouteSetting &
   RouteShare &
   RouteSubject &
+  RouteTinygrail &
   RouteTopic &
   RouteUser &
   RouteWebBrowser &
@@ -88,6 +89,7 @@ type RouteTopic = (
     topicId: TopicId
     _title?: string
     _group?: string
+    _desc?: string
     _time?: string
     _avatar?: string
     _userName?: string
@@ -207,3 +209,5 @@ type RouteSetting = (
     open?: string
   }
 ) => any
+
+type RouteTinygrail = (path: `Tinygrail${string}`, params?: Record<string, any>) => any

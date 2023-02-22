@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 17:33:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:28:03
+ * @Last Modified time: 2023-02-23 05:02:46
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -25,7 +25,7 @@ export const Highlight = observer(
     t2s = true,
     children,
     ...other
-  }) => {
+  }: HighlightProps) => {
     const props = {
       size,
       lineHeight,

@@ -383,7 +383,9 @@ export const FolderManageModal = ob(
 
       switch (title) {
         case '置顶':
-          temp = detail.list.sort((a, b) => asc(a, b, item => Number(item.sort)))[0]
+          temp = detail.list
+            .slice()
+            .sort((a, b) => asc(a, b, item => Number(item.sort)))[0]
           order = Number(temp.order)
           if (Number.isNaN(order)) {
             order = 0
@@ -435,7 +437,9 @@ export const FolderManageModal = ob(
           break
 
         case '置底':
-          temp = detail.list.sort((a, b) => desc(a, b, item => Number(item.sort)))[0]
+          temp = detail.list
+            .slice()
+            .sort((a, b) => desc(a, b, item => Number(item.sort)))[0]
           order = Number(temp.order)
           if (Number.isNaN(order)) {
             order = 10
@@ -666,6 +670,7 @@ export const FolderManageModal = ob(
           {create === true
             ? this.renderCreate()
             : list
+                .slice()
                 .sort((a, b) => {
                   const { id, defaultExpand } = this.props
                   if (defaultExpand == a.id) return -1

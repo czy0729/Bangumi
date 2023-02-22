@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 02:28:56
+ * @Last Modified time: 2023-02-22 21:35:53
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -31,6 +31,7 @@ const state = {
   orientation: ORIENTATION_PORTRAIT,
   window: _.window,
   wind: _.wind,
+  _wind: _._wind,
   landscapeWindow: _.landscapeWindow,
   landscapeWind: _.landscapeWind,
   landscapeWindowSm: _.landscapeWindowSm,
@@ -431,6 +432,26 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   /** @deprecated 高亮 */
   @computed get colorHighLight(): Color<'colorHighLight'> {
     return this.state.colorHighLight
+  }
+
+  @computed get colorDarkModeLevel1(): Color<'colorDarkModeLevel1'> {
+    return this.state.colorDarkModeLevel1
+  }
+
+  @computed get colorDarkModeLevel1Raw(): Color<'colorDarkModeLevel1Raw'> {
+    return this.state.colorDarkModeLevel1Raw
+  }
+
+  @computed get colorDarkModeLevel1Hex(): Color<'colorDarkModeLevel1Hex'> {
+    return this.state.colorDarkModeLevel1Hex
+  }
+
+  @computed get colorDarkModeLevel2(): Color<'colorDarkModeLevel2'> {
+    return this.state.colorDarkModeLevel2
+  }
+
+  @computed get colorPlainHex(): Color<'colorPlainHex'> {
+    return this.state.colorPlainHex
   }
 
   /** 设置里动态调整的文字单位 */

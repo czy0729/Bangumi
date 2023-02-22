@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 00:41:45
+ * @Last Modified time: 2023-02-23 05:05:18
  */
 import { observable, computed, toJS } from 'mobx'
 import { userStore, systemStore } from '@stores'
@@ -141,6 +141,7 @@ export default class ScreenSeries extends store {
 
     this.setState({
       collections: _data
+        .slice()
         .sort((a, b) => desc(a.updated_at, b.updated_at))
         .map(item => ({
           id: item.subject_id,
@@ -183,6 +184,7 @@ export default class ScreenSeries extends store {
 
     this.setState({
       otherCollections: _data
+        .slice()
         .sort((a, b) => desc(a.updated_at, b.updated_at))
         .map(item => ({
           id: item.subject_id,
@@ -489,11 +491,11 @@ export default class ScreenSeries extends store {
   @computed get data() {
     const { data, sort } = this.state
     if (sort === '关联数') {
-      return data.sort((a, b) => desc(a.length, b.length))
+      return data.slice().sort((a, b) => desc(a.length, b.length))
     }
 
     if (sort === '新放送') {
-      return data.sort((a, b) => {
+      return data.slice().sort((a, b) => {
         const dateA = Math.max(
           ...a.map(item =>
             Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
@@ -509,7 +511,7 @@ export default class ScreenSeries extends store {
     }
 
     if (sort === '评分') {
-      return data.sort((a, b) => {
+      return data.slice().sort((a, b) => {
         const rankA = Math.min(...a.map(item => this.subject(item).rank || 9999))
         const rankB = Math.min(...b.map(item => this.subject(item).rank || 9999))
         return asc(rankA, rankB)

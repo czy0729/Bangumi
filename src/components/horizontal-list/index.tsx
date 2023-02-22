@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:30:52
+ * @Last Modified time: 2023-02-23 03:17:23
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -46,7 +46,7 @@ export const HorizontalList = observer(
 
     get data() {
       const { data } = this.props
-      if (this.show) return data
+      if (this.show) return data.slice()
 
       return data.filter((item, index) => index < this.initialRenderNums)
     }

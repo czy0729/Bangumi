@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:21
+ * @Last Modified time: 2023-02-23 05:10:39
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -257,9 +257,9 @@ export default class ScreenMono extends store {
 
   /** 人物相关工作 */
   @computed get jobs() {
-    return ((this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || []).sort(
-      (a, b) => desc(a, b, item => (item.type == 2 ? 99 : Number(item.type)))
-    )
+    return ((this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || [])
+      .slice()
+      .sort((a, b) => desc(a, b, item => (item.type == 2 ? 99 : Number(item.type))))
   }
 
   // -------------------- page --------------------

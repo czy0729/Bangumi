@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 13:39:25
+ * @Last Modified time: 2023-02-23 05:00:56
  */
 import { observable, computed } from 'mobx'
 import {
@@ -147,7 +147,7 @@ export default class ScreenCatalogDetail extends store {
 
     if (sort === 1) {
       // 时间
-      list = list.sort((a, b) => {
+      list = list.slice().sort((a, b) => {
         return desc(
           getTimestamp((String(a.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日'),
           getTimestamp((String(b.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日')
@@ -155,9 +155,11 @@ export default class ScreenCatalogDetail extends store {
       })
     } else if (sort === 2) {
       // 分数
-      list = list.sort((a, b) =>
-        desc(a, b, item => (item.rank ? 10000 - item.rank : item.score))
-      )
+      list = list
+        .slice()
+        .sort((a, b) =>
+          desc(a, b, item => (item.rank ? 10000 - item.rank : item.score))
+        )
     }
 
     return {

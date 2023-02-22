@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 06:55:03
+ * @Last Modified time: 2023-02-23 05:35:31
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
@@ -212,7 +212,7 @@ export default class ScreenTopic extends store {
     const comments = rakuenStore.comments(this.topicId)
     const _comments = comments._loaded ? comments : this.state.comments
 
-    let list = reverse ? _comments.list.reverse() : _comments.list
+    let list = reverse ? _comments.list.slice().reverse() : _comments.list
     if (filterDefault || this.isLimit) {
       list = list
         .filter(item => !item.avatar?.includes(URL_DEFAULT_AVATAR))

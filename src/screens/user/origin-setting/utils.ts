@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:04:27
+ * @Last Modified time: 2023-02-23 05:30:26
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -116,6 +116,7 @@ export function getOriginConfig(userOriginSetting: Origin, pickType?: Keys): unk
 
     // 排序
     mergeConfig[type] = self
+      .slice()
       .sort((a, b) => desc(a.sort, b.sort))
       .sort((a, b) => desc(a.active, b.active))
   })

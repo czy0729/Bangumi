@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:04:52
+ * @Last Modified time: 2023-02-23 05:05:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,9 +22,9 @@ function List(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
 
   // sp排在正常章节后面, 已播放优先
-  const eps = $.eps.sort((a, b) =>
-    desc(a, b, item => (item.status === 'NA' ? 0 : item.type || 10))
-  )
+  const eps = $.eps
+    .slice()
+    .sort((a, b) => desc(a, b, item => (item.status === 'NA' ? 0 : item.type || 10)))
   const epsThumbs = toJS($.params.epsThumbs || [])
   const { filterEps = 0, epsThumbsHeader = {} } = $.params
 

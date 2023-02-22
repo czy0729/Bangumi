@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 04:38:16
+ * @Last Modified time: 2023-02-23 05:30:33
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -174,6 +174,7 @@ export default class ScreenSmb extends store {
     const list = []
     if (this.current?.list) {
       this.current.list
+        .slice()
         .sort((a, b) => {
           return desc(
             String(a.ids.length ? a.lastModified : ''),
@@ -200,7 +201,7 @@ export default class ScreenSmb extends store {
   @computed get sortList() {
     const { sort } = this.state
     if (sort === '评分') {
-      return this.list.sort((a, b) => {
+      return this.list.slice().sort((a, b) => {
         const subjectA = this.subjectV2(a.subjectId || '')
         const subjectB = this.subjectV2(b.subjectId || '')
         return desc(
@@ -221,7 +222,7 @@ export default class ScreenSmb extends store {
     }
 
     if (sort === '评分人数') {
-      return this.list.sort((a, b) => {
+      return this.list.slice().sort((a, b) => {
         return desc(
           Number(this.subjectV2(a.subjectId || '')?.rating?.total || 0),
           Number(this.subjectV2(b.subjectId || '')?.rating?.total || 0)
@@ -230,13 +231,13 @@ export default class ScreenSmb extends store {
     }
 
     if (sort === '目录修改时间') {
-      return this.list.sort((a, b) => {
+      return this.list.slice().sort((a, b) => {
         return desc(String(b.lastModified || ''), String(a.lastModified || ''))
       })
     }
 
     // 时间
-    return this.list.sort((a, b) => {
+    return this.list.slice().sort((a, b) => {
       return desc(
         String(this.airDate(b.subjectId || '')),
         String(this.airDate(a.subjectId || ''))

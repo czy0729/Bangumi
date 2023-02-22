@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:38:57
+ * @Last Modified time: 2023-02-23 05:15:14
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
@@ -46,96 +46,120 @@ export function sortList(sort: string, direction: string, list: any[]) {
   const base = direction === 'down' ? 1 : -1
   switch (sort) {
     case SORT_SSGX.value:
-      return list.sort(
-        (a, b) =>
-          (calculateRate(b.rate, b.rank, b.stars) -
-            calculateRate(a.rate, a.rank, a.stars)) *
-          base
-      )
+      return list
+        .slice()
+        .sort(
+          (a, b) =>
+            (calculateRate(b.rate, b.rank, b.stars) -
+              calculateRate(a.rate, a.rank, a.stars)) *
+            base
+        )
 
     case SORT_SSZGX.value:
-      return list.sort((a, b) => (calculateTotalRate(b) - calculateTotalRate(a)) * base)
+      return list
+        .slice()
+        .sort((a, b) => (calculateTotalRate(b) - calculateTotalRate(a)) * base)
 
     case SORT_ZGX.value:
-      return list.sort(
-        (a, b) => (calculateTotalRate(b, true) - calculateTotalRate(a, true)) * base
-      )
+      return list
+        .slice()
+        .sort(
+          (a, b) => (calculateTotalRate(b, true) - calculateTotalRate(a, true)) * base
+        )
 
     case SORT_RK.value:
-      return list.sort((a, b) => ((a.rank || 0) - (b.rank || 0)) * base)
+      return list.slice().sort((a, b) => ((a.rank || 0) - (b.rank || 0)) * base)
 
     case SORT_XX.value:
-      return list.sort((a, b) => ((b.stars || 0) - (a.stars || 0)) * base)
+      return list.slice().sort((a, b) => ((b.stars || 0) - (a.stars || 0)) * base)
 
     case SORT_GF.value:
-      return list.sort((a, b) => ((b.amount || 0) - (a.amount || 0)) * base)
+      return list.slice().sort((a, b) => ((b.amount || 0) - (a.amount || 0)) * base)
 
     case SORT_SC.value:
-      return list.sort((a, b) => {
+      return list.slice().sort((a, b) => {
         const aCollected = tinygrailStore.collected(a.id || 0)
         const bCollected = tinygrailStore.collected(b.id || 0)
         return (bCollected - aCollected) * base
       })
 
     case SORT_GX.value:
-      return list.sort((a, b) => ((b.rate || 0) - (a.rate || 0)) * base)
+      return list.slice().sort((a, b) => ((b.rate || 0) - (a.rate || 0)) * base)
 
     case SORT_GXB.value:
-      return list.sort(
-        (a, b) =>
-          ((b.rate || 0) / (b.current || 10) - (a.rate || 0) / (a.current || 10)) * base
-      )
+      return list
+        .slice()
+        .sort(
+          (a, b) =>
+            ((b.rate || 0) / (b.current || 10) - (a.rate || 0) / (a.current || 10)) *
+            base
+        )
 
     case SORT_SDGX.value:
-      return list.sort(
-        (a, b) =>
-          ((b.rate || 0) * (b.level || 0) - (a.rate || 0) * (a.level || 0)) * base
-      )
+      return list
+        .slice()
+        .sort(
+          (a, b) =>
+            ((b.rate || 0) * (b.level || 0) - (a.rate || 0) * (a.level || 0)) * base
+        )
 
     case SORT_SDGXB.value:
-      return list.sort(
-        (a, b) =>
-          (((b.rate || 0) * (b.level || 0)) / (b.current || 10) -
-            ((a.rate || 0) * (a.level || 0)) / (a.current || 10)) *
-          base
-      )
+      return list
+        .slice()
+        .sort(
+          (a, b) =>
+            (((b.rate || 0) * (b.level || 0)) / (b.current || 10) -
+              ((a.rate || 0) * (a.level || 0)) / (a.current || 10)) *
+            base
+        )
 
     case SORT_DJ.value:
-      return list.sort((a, b) => ((b.level || 1) - (a.level || 1)) * base)
+      return list.slice().sort((a, b) => ((b.level || 1) - (a.level || 1)) * base)
 
     case SORT_CGS.value:
-      return list.sort((a, b) => ((b.state || 0) - (a.state || 0)) * base)
+      return list.slice().sort((a, b) => ((b.state || 0) - (a.state || 0)) * base)
 
     case SORT_GDZC.value:
-      return list.sort((a, b) => ((b.sacrifices || 0) - (a.sacrifices || 0)) * base)
+      return list
+        .slice()
+        .sort((a, b) => ((b.sacrifices || 0) - (a.sacrifices || 0)) * base)
 
     case SORT_CCJZ.value:
-      return list.sort(
-        (a, b) =>
-          ((b.state || 0) * (b.current || 0) - (a.state || 0) * (a.current || 0)) * base
-      )
+      return list
+        .slice()
+        .sort(
+          (a, b) =>
+            ((b.state || 0) * (b.current || 0) - (a.state || 0) * (a.current || 0)) *
+            base
+        )
 
     case SORT_HYD.value:
-      return list.sort(
-        (a, b) => desc(String(b.lastOrder || ''), String(a.lastOrder || '')) * base
-      )
+      return list
+        .slice()
+        .sort(
+          (a, b) => desc(String(b.lastOrder || ''), String(a.lastOrder || '')) * base
+        )
 
     case SORT_SCJ.value:
-      return list.sort((a, b) => ((b.marketValue || 0) - (a.marketValue || 0)) * base)
+      return list
+        .slice()
+        .sort((a, b) => ((b.marketValue || 0) - (a.marketValue || 0)) * base)
 
     case SORT_FHL.value:
-      return list.sort((a, b) => ((b.total || 0) - (a.total || 0)) * base)
+      return list.slice().sort((a, b) => ((b.total || 0) - (a.total || 0)) * base)
 
     case SORT_DQJ.value:
-      return list.sort((a, b) => ((b.current || 0) - (a.current || 0)) * base)
+      return list.slice().sort((a, b) => ((b.current || 0) - (a.current || 0)) * base)
 
     case SORT_DQZD.value:
-      return list.sort((a, b) => ((b.fluctuation || 0) - (a.fluctuation || 0)) * base)
+      return list
+        .slice()
+        .sort((a, b) => ((b.fluctuation || 0) - (a.fluctuation || 0)) * base)
 
     case SORT_XFJL.value:
-      return list.sort(
-        (a, b) => (parseInt(b.bonus || 0) - parseInt(a.bonus || 0)) * base
-      )
+      return list
+        .slice()
+        .sort((a, b) => (parseInt(b.bonus || 0) - parseInt(a.bonus || 0)) * base)
 
     default:
       return list

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:47:25
+ * @Last Modified time: 2023-02-23 05:28:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,6 +46,7 @@ function AuctionList({ style }, { $ }: Ctx) {
       {!!list.length &&
         showLogs &&
         list
+          .slice()
           .sort((a, b) => b.price - a.price)
           .map(item => {
             const isSuccess = item.state === 1

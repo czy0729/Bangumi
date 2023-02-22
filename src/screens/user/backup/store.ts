@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:14:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-20 23:08:57
+ * @Last Modified time: 2023-02-23 05:29:01
  */
 import { computed, observable, toJS } from 'mobx'
 import { Parser } from 'json2csv'
@@ -278,12 +278,13 @@ export default class ScreenActions extends store {
 
       const { bottom } = this.state
       return data
+        .slice()
         .sort((a, b) => asc(upload[a.subject.id] ? 0 : 1, upload[b.subject.id] ? 0 : 1))
         .sort((a, b) => asc(bottom[a.subject.id] || 0, bottom[b.subject.id] || 0))
     }
 
     // 导出模式
-    return this.list.sort((a, b) => asc(a.updated_at, b.updated_at))
+    return this.list.slice().sort((a, b) => asc(a.updated_at, b.updated_at))
   }
 
   // -------------------- action --------------------

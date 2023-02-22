@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:24:05
+ * @Last Modified time: 2023-02-23 05:14:38
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -40,7 +40,7 @@ export default class ScreenMine extends store {
   @computed get mine() {
     return {
       ...rakuenStore.mine,
-      list: rakuenStore.mine.list.sort((a, b) => desc(a, b, item => item.num))
+      list: rakuenStore.mine.list.slice().sort((a, b) => desc(a, b, item => item.num))
     }
   }
 

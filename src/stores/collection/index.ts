@@ -598,9 +598,11 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     const data = this.userCollections(userId, subjectType, type)
     const subjectIds = data.list.map(item => item.id)
     await subjectStore.fetchRanks(subjectIds)
-    const list = data.list.sort((a, b) =>
-      SORT.rating(subjectStore.rank(a.id), subjectStore.rank(b.id), 's', 'r')
-    )
+    const list = data.list
+      .slice()
+      .sort((a, b) =>
+        SORT.rating(subjectStore.rank(a.id), subjectStore.rank(b.id), 's', 'r')
+      )
 
     const key = 'userCollections'
     const stateKey = `${userId}|${subjectType}|${type}`

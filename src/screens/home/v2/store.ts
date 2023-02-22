@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 21:00:59
+ * @Last Modified time: 2023-02-23 05:35:26
  */
 import * as Device from 'expo-device'
 import { observable, computed } from 'mobx'
@@ -424,9 +424,9 @@ export default class ScreenHomeV2 extends store {
         this.homeSorting ===
         MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
       ) {
-        return list.sort((a, b) =>
-          desc(a, b, item => this.topMap[item.subject_id] || 0)
-        )
+        return list
+          .slice()
+          .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       }
 
       try {
@@ -462,6 +462,7 @@ export default class ScreenHomeV2 extends store {
           })
 
           return list
+            .slice()
             .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
             .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
         }
@@ -492,6 +493,7 @@ export default class ScreenHomeV2 extends store {
         })
 
         return list
+          .slice()
           .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
           .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       } catch (error) {
@@ -499,6 +501,7 @@ export default class ScreenHomeV2 extends store {
 
         // fallback
         return list
+          .slice()
           .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
           .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       }
@@ -641,6 +644,7 @@ export default class ScreenHomeV2 extends store {
     try {
       return (
         this.epsNoSp(subjectId)
+          .slice()
           .reverse()
           .find(item => item.status === 'Air')?.sort || 0
       )
@@ -1337,7 +1341,8 @@ export default class ScreenHomeV2 extends store {
       const eps = (this.eps(subjectId) || [])
         .filter(i => i.type === 0)
         .sort((a, b) => asc(a, b, item => item.sort || 0))
-      let sort
+      let sort: number
+
       if (eps?.[0]?.sort < 10) {
         // [0].sort从小于10开始的番剧都认为是非多季番, 直接使用正常sort去更新
         sort = Math.max(item.sort - 1, 0)

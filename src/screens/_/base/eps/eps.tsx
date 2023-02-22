@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-31 14:21:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 19:29:59
+ * @Last Modified time: 2023-02-23 04:58:07
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -97,8 +97,9 @@ export default memo(
       let _eps = eps || []
       const hasSp = _eps.some(item => item.type == 1) // 是否有 SP
       if (hasSp) {
+        // 保证 SP 排在普通章节后面
         _eps = _eps
-          // 保证 SP 排在普通章节后面
+          .slice()
           .sort((a, b) =>
             asc(a, b, item =>
               MODEL_EP_TYPE.getLabel<EpTypeCn>(String(item.type)) === '普通' ? 1 : 0

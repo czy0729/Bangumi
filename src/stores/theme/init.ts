@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 12:58:35
+ * @Last Modified time: 2023-02-22 21:33:55
  */
 import _ from '@styles'
 import { MemoStylesItem } from './types'
@@ -23,49 +23,59 @@ export const DEFAULT_TINYGRAIL_MODE = 'green'
 export const DEFAULT_TINYGRAIL_THEME_MODE = 'dark'
 
 export const STYLES_LIGHT = {
-  colorMain: _.colorMain,
-  colorMainLight: _.colorMainLight,
-  colorPrimary: _.colorPrimary,
-  colorSuccess: _.colorSuccess,
-  colorYellow: _.colorYellow,
-  colorWarning: _.colorWarning,
-  colorDanger: _.colorDanger,
   colorAvatar: _.colorAvatar,
-  colorPlainRaw: _.colorPlainRaw,
-  colorPlain: _.colorPlain,
-  colorWait: _.colorWait,
   colorBg: _.colorBg,
   colorBorder: _.colorBorder,
-  colorHighLight: _.colorHighLight,
-  colorTitleRaw: _.colorTitleRaw,
-  colorTitle: _.colorTitle,
+  colorDanger: _.colorDanger,
+  colorDarkModeLevel1: _._colorDarkModeLevel1,
+  colorDarkModeLevel1Hex: _._colorDarkModeLevel1Hex,
+  colorDarkModeLevel1Raw: _._colorDarkModeLevel1Raw,
+  colorDarkModeLevel2: _._colorDarkModeLevel2,
   colorDesc: _.colorDesc,
-  colorSub: _.colorSub,
   colorDisabled: _.colorDisabled,
-  colorIcon: _.colorIcon
+  colorHighLight: _.colorHighLight,
+  colorIcon: _.colorIcon,
+  colorMain: _.colorMain,
+  colorMainLight: _.colorMainLight,
+  colorPlain: _.colorPlain,
+  colorPlainHex: _.colorPlainHex,
+  colorPlainRaw: _.colorPlainRaw,
+  colorPrimary: _.colorPrimary,
+  colorSub: _.colorSub,
+  colorSuccess: _.colorSuccess,
+  colorTitle: _.colorTitle,
+  colorTitleRaw: _.colorTitleRaw,
+  colorWait: _.colorWait,
+  colorWarning: _.colorWarning,
+  colorYellow: _.colorYellow
 } as const
 
 export const STYLES_DARK = {
-  colorMain: _._colorMain,
-  colorMainLight: _._colorMainLight,
-  colorPrimary: _._colorPrimary,
-  colorSuccess: _._colorSuccess,
-  colorYellow: _._colorYellow,
-  colorWarning: _._colorWarning,
-  colorDanger: _.colorDanger,
   colorAvatar: _.colorAvatar,
-  colorPlainRaw: _._colorPlainRaw,
-  colorPlain: _._colorPlain,
-  colorWait: _._colorWait,
   colorBg: _._colorBg,
   colorBorder: _._colorBorder,
-  colorHighLight: _._colorHighLight,
-  colorTitleRaw: _._colorTitleRaw,
-  colorTitle: _._colorTitle,
+  colorDanger: _.colorDanger,
+  colorDarkModeLevel1: _._colorDarkModeLevel1,
+  colorDarkModeLevel1Hex: _._colorDarkModeLevel1Hex,
+  colorDarkModeLevel1Raw: _._colorDarkModeLevel1Raw,
+  colorDarkModeLevel2: _._colorDarkModeLevel2,
   colorDesc: _._colorDesc,
-  colorSub: _._colorSub,
   colorDisabled: _._colorDisabled,
-  colorIcon: _._colorIcon
+  colorHighLight: _._colorHighLight,
+  colorIcon: _._colorIcon,
+  colorMain: _._colorMain,
+  colorMainLight: _._colorMainLight,
+  colorPlain: _._colorPlain,
+  colorPlainHex: _._colorPlainHex,
+  colorPlainRaw: _._colorPlainRaw,
+  colorPrimary: _._colorPrimary,
+  colorSub: _._colorSub,
+  colorSuccess: _._colorSuccess,
+  colorTitle: _._colorTitle,
+  colorTitleRaw: _._colorTitleRaw,
+  colorWait: _._colorWait,
+  colorWarning: _._colorWarning,
+  colorYellow: _._colorYellow
 } as const
 
 let _memoStylesId = 0

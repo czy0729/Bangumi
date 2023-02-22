@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 08:24:54
+ * @Last Modified time: 2023-02-23 05:30:06
  */
 import { observable, computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
@@ -97,13 +97,17 @@ export default class ScreenFriends extends store {
     }
 
     if (sort === 'percent') {
-      list = list.sort((a, b) => desc(a, b, item => this.users(item.userId)?.percent))
+      list = list
+        .slice()
+        .sort((a, b) => desc(a, b, item => this.users(item.userId)?.percent))
     }
 
     if (sort === 'recent') {
-      list = list.sort((a, b) =>
-        sortByRecent(this.users(a.userId).recent, this.users(b.userId).recent)
-      )
+      list = list
+        .slice()
+        .sort((a, b) =>
+          sortByRecent(this.users(a.userId).recent, this.users(b.userId).recent)
+        )
     }
 
     return {

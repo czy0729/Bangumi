@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:39
+ * @Last Modified time: 2023-02-23 05:35:50
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -70,12 +70,15 @@ export default class ScreenSay extends store {
     const { list } = this.say
     const map = {}
     const users = []
-    list.reverse().forEach(item => {
-      if (!map[item.id]) {
-        users.push(item)
-        map[item.id] = true
-      }
-    })
+    list
+      .slice()
+      .reverse()
+      .forEach(item => {
+        if (!map[item.id]) {
+          users.push(item)
+          map[item.id] = true
+        }
+      })
     return users
   }
 

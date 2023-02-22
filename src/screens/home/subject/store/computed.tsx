@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 19:11:25
+ * @Last Modified time: 2023-02-23 05:35:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -269,6 +269,7 @@ export default class Computed extends State {
 
     return subjectStore
       .actions(this.subjectId)
+      .slice()
       .filter(item => item.active)
       .sort((a, b) => desc(a.sort || 0, b.sort || 0))
   }
@@ -649,7 +650,9 @@ export default class Computed extends State {
   /** 章节数据 */
   @computed get eps() {
     if (this.subject._loaded) {
-      return (this.subject.eps || []).sort((a, b) => asc(a, b, item => item.type))
+      return (this.subject.eps || [])
+        .slice()
+        .sort((a, b) => asc(a, b, item => item.type))
     }
     if (this.subjectFromOSS.eps?.length) return this.subjectFromOSS.eps || []
     return this.subjectFormCDN.eps || []
@@ -661,7 +664,7 @@ export default class Computed extends State {
 
     if (filterEps) {
       const eps = this.eps.filter((item, index) => index > filterEps)
-      return epsReverse ? eps.reverse() : eps
+      return epsReverse ? eps.slice().reverse() : eps
     }
 
     return epsReverse ? this.eps.map(item => item).reverse() : this.eps
@@ -790,9 +793,11 @@ export default class Computed extends State {
       )
     }
 
-    return data.sort((a, b) =>
-      desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0)
-    )
+    return data
+      .slice()
+      .sort((a, b) =>
+        desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0)
+      )
   }
 
   /** 单行本 */
