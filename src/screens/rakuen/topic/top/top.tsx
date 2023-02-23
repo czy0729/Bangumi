@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 14:55:57
+ * @Last Modified time: 2023-02-23 22:51:02
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -147,7 +147,7 @@ export default memo(
             </Flex>
           )}
           <Content />
-          {topicDelete && (
+          {!!topicDelete && (
             <Text style={_.mb.md} size={15} lineHeight={18} bold align='center'>
               数据库中没有查询到指定话题{'\n'}话题可能正在审核或已被删除
             </Text>

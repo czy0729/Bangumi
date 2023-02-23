@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:41:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-15 06:22:16
+ * @Last Modified time: 2023-02-23 23:03:02
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   image: {
-    paddingVertical: 4
+    paddingVertical: 4,
+    marginBottom: 4
   },
   isLoad: {
     width: _.window.contentWidth * 0.64,
     height: _.r(64),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
+    borderRadius: _.radiusXs
   },
   loading: {
     position: 'absolute',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 18:30:12
+ * @Last Modified time: 2023-02-23 22:52:52
  */
 import {
   HTMLDecode,
@@ -305,7 +305,7 @@ export function cheerioNotify(HTML) {
  * @param {*} HTML
  */
 export function cheerioTopic(HTML) {
-  let topic = INIT_TOPIC
+  let topic: any = INIT_TOPIC
   let comments = []
 
   try {
@@ -422,7 +422,7 @@ export function cheerioTopic(HTML) {
  * @param {*} HTML
  */
 export function cheerioBlog(HTML) {
-  let blog = INIT_BLOG
+  let blog: any = INIT_BLOG
   let blogComments = []
 
   try {

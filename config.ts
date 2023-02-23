@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 04:04:48
+ * @Last Modified time: 2023-02-23 23:05:07
  */
 import { Paths } from '@types'
 
@@ -33,7 +33,7 @@ export const IOS_IPA = false
 export const IOS_IMAGE_CACHE_V2 = IOS_IPA
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? !DEV : false
+export const TEXT_ONLY = DEV ? DEV : false
 
 /** 路由覆盖配置 */
 const CONFIGS: Configs = {
