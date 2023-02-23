@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-18 04:25:23
+ * @Last Modified time: 2023-02-23 13:06:38
  */
 import { _ } from '@stores'
 
@@ -34,7 +34,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.isMobileLanscape ? -24 : 0
   },
   tagsWrap: {
-    height: 80,
+    height: _.select(84, 80),
     overflow: 'hidden'
   },
   tags: {
@@ -56,10 +56,6 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2)
   },
-  btnEye: {
-    width: _.r(88),
-    marginLeft: 12
-  },
   touch: {
     padding: _.xs,
     borderRadius: _.radiusSm,
@@ -72,11 +68,26 @@ export const memoStyles = _.memoStyles(() => ({
   inputTags: {
     height: 44,
     paddingVertical: 0,
-    marginTop: _.md
+    marginTop: _.md,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   },
   comment: {
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
+    borderWidth: _.select(_.hairlineWidth, 0),
+    borderColor: _.colorBorder,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  input: {
+    borderWidth: 0
+  },
+  btn: {
+    borderRadius: _.radiusSm
+  },
+  btnPrivacy: {
+    width: _.r(88),
+    marginLeft: 12,
+    borderRadius: _.radiusSm
   }
 }))

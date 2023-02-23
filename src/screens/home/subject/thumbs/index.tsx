@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 02:39:59
+ * @Last Modified time: 2023-02-23 06:26:44
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -37,7 +37,7 @@ class Thumbs extends React.Component {
     const { $ }: Ctx = this.context
     const { epsThumbs } = $.state
     const { scrolled } = this.state
-    if (scrolled) return epsThumbs
+    if (scrolled) return epsThumbs.slice()
 
     const initialRenderNums = _.isPad
       ? 5
@@ -48,7 +48,7 @@ class Thumbs extends React.Component {
   get videos() {
     const { $ }: Ctx = this.context
     const { videos } = $.state
-    return videos
+    return videos.slice()
   }
 
   get title() {
@@ -71,7 +71,9 @@ class Thumbs extends React.Component {
     const { epsThumbs, epsThumbsHeader } = $.state
     return epsThumbs.map(item => ({
       url: item.split('@')[0], // 参数: bilibili 为 @, youku 没有, iqiyi 看不懂不作处理
-      headers: epsThumbsHeader
+      headers: {
+        ...epsThumbsHeader
+      }
     }))
   }
 

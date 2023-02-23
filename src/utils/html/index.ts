@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:06:38
+ * @Last Modified time: 2023-02-23 19:51:55
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './../thirdParty/html-parser'
@@ -20,30 +20,39 @@ export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string 
   return _str.replace(/ /gi, '') // 去掉
 }
 
+const DECODE_SPECIAL_CHARS = {
+  '&amp;': '&',
+  '&lt;': '<',
+  '&gt;': '>',
+  '&nbsp;': ' ',
+  '&#39;': "'",
+  '&quot;': '"'
+} as const
+
 /** HTML 反转义 */
 export function HTMLDecode(str: string = ''): string {
   if (str.length === 0) return ''
 
-  return str
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&#39;/g, "'")
-    .replace(/&quot;/g, '"')
+  return str.replace(
+    /(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g,
+    match => DECODE_SPECIAL_CHARS[match]
+  )
 }
+
+const ENCODE_SPECIAL_CHARS = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  ' ': '&nbsp;',
+  "'": '&#39;',
+  '"': '&quot;'
+} as const
 
 /** HTML 转义 */
 export function HTMLEncode(str: string = ''): string {
   if (str.length === 0) return ''
 
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/ /g, '&nbsp;')
-    .replace(/'/g, '&#39;')
-    .replace(/"/g, '&quot;')
+  return str.replace(/[&<>"' ]/g, match => ENCODE_SPECIAL_CHARS[match])
 }
 
 /** HTML 压缩 */

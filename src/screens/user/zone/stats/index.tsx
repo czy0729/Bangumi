@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-26 04:29:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 07:17:30
+ * @Last Modified time: 2023-02-23 12:17:45
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -47,30 +47,30 @@ function Stats(props, { $ }: Ctx) {
         <Flex>
           <Flex.Item>
             <View style={[styles.block, styles.blockMain]}>
-              <Text size={20} bold>
+              <Text type='__plain__' size={20} bold>
                 {userStats?.total}
               </Text>
-              <Text size={12} bold>
+              <Text type='__plain__' size={12} bold>
                 收藏
               </Text>
             </View>
           </Flex.Item>
           <Flex.Item>
             <View style={[styles.block, styles.blockSuccess]}>
-              <Text size={20} bold>
+              <Text type='__plain__' size={20} bold>
                 {userStats?.collect}
               </Text>
-              <Text size={12} bold>
+              <Text type='__plain__' size={12} bold>
                 完成
               </Text>
             </View>
           </Flex.Item>
           <Flex.Item>
             <View style={[styles.block, styles.blockPrimary]}>
-              <Text size={20} bold>
+              <Text type='__plain__' size={20} bold>
                 {userStats?.percent}
               </Text>
-              <Text size={12} bold>
+              <Text type='__plain__' size={12} bold>
                 完成率
               </Text>
             </View>
@@ -79,30 +79,30 @@ function Stats(props, { $ }: Ctx) {
         <Flex>
           <Flex.Item>
             <View style={[styles.block, styles.blockWarning]}>
-              <Text size={20} bold>
+              <Text type='__plain__' size={20} bold>
                 {userStats?.avg}
               </Text>
-              <Text size={12} bold>
+              <Text type='__plain__' size={12} bold>
                 平均分
               </Text>
             </View>
           </Flex.Item>
           <Flex.Item>
             <View style={[styles.block, styles.blockPurple]}>
-              <Text size={20} bold>
+              <Text type='__plain__' size={20} bold>
                 {userStats?.std}
               </Text>
-              <Text size={12} bold>
+              <Text type='__plain__' size={12} bold>
                 标准差
               </Text>
             </View>
           </Flex.Item>
           <Flex.Item>
             <View style={[styles.block, styles.blockSky]}>
-              <Text size={20} bold>
+              <Text type='__plain__' size={20} bold>
                 {userStats?.scored}
               </Text>
-              <Text size={12} bold>
+              <Text type='__plain__' size={12} bold>
                 评分数
               </Text>
             </View>

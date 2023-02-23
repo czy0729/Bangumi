@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-14 16:20:24
+ * @Last Modified time: 2023-02-23 12:43:55
  */
 import React from 'react'
 import { Flex, Button } from '@components'
 import { _ } from '@stores'
-import { getType } from '@utils'
+import { getType, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS, COLLECTION_STATUS } from '@constants'
 import { CollectionStatusCn } from '@types'
@@ -27,10 +27,11 @@ export const StatusBtnGroup = ob(
   }: StatusBtnGroupProps) => {
     const styles = memoStyles()
     return (
-      <Flex style={style ? [styles.group, style] : styles.group}>
+      <Flex style={stl(styles.group, style)}>
         {COLLECTION_STATUS.map(item => (
           <Flex.Item key={item.label}>
             <Button
+              style={styles.btn}
               type={
                 MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(value) ===
                 item.label

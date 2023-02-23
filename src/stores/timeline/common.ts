@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 02:00:09
+ * @Last Modified time: 2023-02-23 12:35:20
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import { cheerio, HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
@@ -10,7 +10,7 @@ import { fetchHTML } from '@utils/fetch'
 import { HOST, HOST_NAME, LIST_EMPTY } from '@constants'
 import { HTML_TIMELINE } from '@constants/html'
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
-import { TimeLineScope, TimeLineType, UserId } from '@types'
+import { TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
 import { Timeline } from './types'
 
 /** 请求时间胶囊 */
@@ -31,16 +31,15 @@ export async function fetchTimeline(
   const page = refresh ? 1 : pagination.page + 1
 
   // -------------------- 请求HTML --------------------
-  const res = fetchHTML({
+  const raw = await fetchHTML({
     url: HTML_TIMELINE(scope, type, userInfo?.username || userId, page)
   })
-  const raw = await res
   const HTML = HTMLTrim(raw).match(/<div id="timeline">(.+?)<div id="tmlPager">/)
 
   // -------------------- 分析HTML --------------------
   const timeline = []
   if (HTML) {
-    const isSelf = MODEL_TIMELINE_SCOPE.getLabel(scope) === '自己'
+    const isSelf = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope) === '自己'
     const tree = HTMLToTree(HTML[1])
 
     let node

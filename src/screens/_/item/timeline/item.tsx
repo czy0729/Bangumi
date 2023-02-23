@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 20:08:04
+ * @Last Modified time: 2023-02-23 12:36:21
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -72,6 +72,7 @@ const Item = memo(
     } else if (p2Text?.includes('玩') || p4Text?.includes('游戏')) {
       type = '游戏'
     }
+
     return (
       <Flex style={style} align='start'>
         <Avatar

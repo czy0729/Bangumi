@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 05:19:09
+ * @Last Modified time: 2023-02-23 19:53:49
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -40,11 +40,11 @@ export type Navigation = {
   /** 前进 */
   push?: NavigationPushType
 
+  /** 跳转到 */
+  navigate?: NavigationPushType
+
   /** 替换 */
   replace?: (path: Paths, params?: object) => any
-
-  /** 跳转到 */
-  navigate?: (path: Paths) => any
 
   /** 后退 */
   goBack?: (arg0?: any) => any

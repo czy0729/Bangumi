@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-18 04:43:59
+ * @Last Modified time: 2023-02-23 13:06:37
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -255,11 +255,6 @@ export const ManageModal = ob(
       return sleep(240)
     }
 
-    get subjectFormHTML() {
-      const { subjectId } = this.props
-      return subjectStore.subjectFormHTML(subjectId)
-    }
-
     get numberOfLines() {
       if (!_.isPad && _.isLandscape) return 2
       return _.device(4, 6)
@@ -289,7 +284,8 @@ export const ManageModal = ob(
         )
       }
 
-      const { _loaded, tags } = this.subjectFormHTML
+      const { subjectId } = this.props
+      const { _loaded, tags } = subjectStore.subjectFormHTML(subjectId)
       const { showTags } = this.state
       if (!_loaded || !showTags) {
         return (
@@ -350,6 +346,7 @@ export const ManageModal = ob(
           <Flex.Item>
             <Input
               ref={ref => (this.commentRef = ref)}
+              style={this.styles.input}
               defaultValue={comment}
               placeholder='吐槽点什么'
               multiline
@@ -389,12 +386,12 @@ export const ManageModal = ob(
       return (
         <Flex style={_.mt.md}>
           <Flex.Item>
-            <Button type='main' onPress={this.onSubmit}>
+            <Button style={this.styles.btn} type='main' onPress={this.onSubmit}>
               更新
             </Button>
           </Flex.Item>
           <Button
-            style={this.styles.btnEye}
+            style={this.styles.btnPrivacy}
             type={label === '公开' ? 'ghostMain' : 'ghostPlain'}
             extra={
               label === '私密' && (

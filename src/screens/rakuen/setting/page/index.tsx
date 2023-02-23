@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 03:33:58
+ * @Last Modified time: 2023-02-23 06:27:51
  */
 import React from 'react'
 import { Page, ScrollView, SwitchPro, Flex, SegmentedControl, Text } from '@components'
@@ -33,10 +33,6 @@ class RakuenSetting extends React.Component<{
     uiStore.closePopableSubject()
   }
 
-  get setting() {
-    return rakuenStore.setting
-  }
-
   renderTopic() {
     const {
       acSearch,
@@ -48,7 +44,7 @@ class RakuenSetting extends React.Component<{
       scrollDirection,
       subExpand,
       wide
-    } = this.setting
+    } = rakuenStore.setting
     return (
       <Block>
         <Tip>帖子</Tip>
@@ -291,7 +287,7 @@ class RakuenSetting extends React.Component<{
   }
 
   renderList() {
-    const { filterDelete, isBlockDefaultUser, isMarkOldTopic } = this.setting
+    const { filterDelete, isBlockDefaultUser, isMarkOldTopic } = rakuenStore.setting
     return (
       <Block>
         <Tip>列表</Tip>

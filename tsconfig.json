@@ -39,7 +39,8 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "useDefineForClassFields": true
   },
   "exclude": ["node_modules", "dist", "android", "src/assets", "web"],
   "extends": "expo/tsconfig.base"

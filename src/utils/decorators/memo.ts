@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:06:02
+ * @Last Modified time: 2023-02-23 22:24:34
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
@@ -24,7 +24,7 @@ function compareLog(prev, next) {
       return
     }
 
-    // 不打印styles, 没意义
+    // 不打印 styles, 没意义
     if (unsameKeys[0]) {
       if (unsameKeys[0] === 'styles') {
         console.info('\n', '[update]', unsameKeys[0], '\n')
@@ -46,8 +46,8 @@ function compareLog(prev, next) {
 function mapKey(target, key, value) {
   if (key === 'navigation' || key === '_loaded' || typeof value === 'function') return
 
-  // 每次请求后, 不管数据源有没有变化, _loaded都会变化
-  // 只额外过滤第一层对象里面的_loaded, 避免影响是否更新判断
+  // 每次请求后, 不管数据源有没有变化, _loaded 都会变化
+  // 只额外过滤第一层对象里面的 _loaded, 避免影响是否更新判断
   if (value && typeof value === 'object' && '_loaded' in value) {
     const { _loaded, ...other } = value
     target[key] = other
@@ -59,7 +59,6 @@ function mapKey(target, key, value) {
 
 /**
  * 封装通用React.memo的第二参数
- *
  * @param {*} prevProps
  * @param {*} nextProps
  * @param {*} propsOrKeys
@@ -86,8 +85,7 @@ function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
 }
 
 /**
- * 封装通用React.memo
- *
+ * 封装通用 React.memo
  * @param {*} Component
  * @param {*} defaultProps
  * @param {*} customCompareFn | dev
@@ -104,7 +102,7 @@ export default function memo<P, T extends React.FunctionComponent<P>>(
 ): T {
   if (defaultProps) Component.defaultProps = defaultProps
 
-  // 支持第三个参数为dev: true
+  // 支持第三个参数为 dev: true
   let _dev = dev
   if (typeof customCompareFn === 'boolean') _dev = customCompareFn
 

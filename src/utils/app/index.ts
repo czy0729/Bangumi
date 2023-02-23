@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 02:35:34
+ * @Last Modified time: 2023-02-23 19:53:55
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -251,12 +251,13 @@ export function x18s(str: string) {
 
 let _navigationReference: Navigation | undefined
 
-/** 保存navigation引用 */
+/** 保存 navigation 引用 */
 export function navigationReference(navigation?: Navigation | undefined) {
   if (navigation) {
     _navigationReference = navigation
-    if (!_navigationReference.push)
+    if (!_navigationReference.push) {
       _navigationReference.push = _navigationReference.navigate
+    }
   }
   return _navigationReference
 }

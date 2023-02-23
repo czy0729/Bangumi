@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 17:15:05
+ * @Last Modified time: 2023-02-23 12:22:33
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -233,7 +233,7 @@ export default class ScreenZone extends store {
    * @opitimize 60s
    * */
   fetchUsersTimeline = (refresh: boolean = false) => {
-    if (opitimize(this.usersTimeline, 60)) {
+    if (refresh && opitimize(this.usersTimeline, 60)) {
       return this.usersTimeline
     }
 

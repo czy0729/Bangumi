@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:01:19
+ * @Last Modified time: 2023-02-23 06:22:41
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -142,7 +142,7 @@ export const FolderManageModal = ob(
         })
       }
 
-      const { list } = this.catalogs
+      const { list } = usersStore.catalogs()
       queue(list.map(item => () => this.fetchCatalogDetail(item.id, !loaded)))
       loaded = true
 
@@ -585,14 +585,6 @@ export const FolderManageModal = ob(
       )
     }
 
-    get userCollectionsMap() {
-      return collectionStore.userCollectionsMap
-    }
-
-    get catalogs() {
-      return usersStore.catalogs()
-    }
-
     catalogDetail(id) {
       return computed(() => ({
         ...discoveryStore.catalogDetail(id),
@@ -664,7 +656,7 @@ export const FolderManageModal = ob(
 
     renderList() {
       const { create, expand } = this.state
-      const { list } = this.catalogs
+      const { list } = usersStore.catalogs()
       return (
         <ScrollView style={this.styles.scrollView} {...SCROLL_VIEW_RESET_PROPS}>
           {create === true
@@ -828,7 +820,7 @@ export const FolderManageModal = ob(
             }
 
             const align = isEditing || i.comment ? 'start' : 'center'
-            const collection = this.userCollectionsMap[i.id]
+            const collection = collectionStore.userCollectionsMap[i.id]
             const indent = collection ? '　　　' : ''
             return (
               <Flex style={this.styles.subject} align={align}>

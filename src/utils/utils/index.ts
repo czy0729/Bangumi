@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 18:32:58
+ * @Last Modified time: 2023-02-23 22:21:02
  */
 import { ComponentType } from 'react'
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
@@ -86,11 +86,15 @@ export function throttle(callback: (arg?: any) => void, delay: number = 400) {
 
 /** 防抖 */
 export function debounce(fn: Fn, ms: number = 400): typeof fn {
-  let timeout = null // 创建一个标记用来存放定时器的返回值
+  // 创建一个标记用来存放定时器的返回值
+  let timeout = null
+
   return function () {
-    clearTimeout(timeout) // 每当用户输入的时候把前一个 setTimeout clear 掉
+    // 每当用户输入的时候把前一个 setTimeout clear 掉
+    clearTimeout(timeout)
     timeout = setTimeout(() => {
-      // 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
+      // 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的
+      // interval 间隔内如果还有字符输入的话就不会执行 fn 函数
       fn.apply(this, arguments)
     }, ms)
   }
@@ -99,7 +103,7 @@ export function debounce(fn: Fn, ms: number = 400): typeof fn {
 /**
  * Compare two strings. This comparison is not linguistically accurate, unlike
  * String.prototype.localeCompare(), albeit stable.
- * https://github.com/grantila/fast-string-compare
+ * @doc https://github.com/grantila/fast-string-compare
  * @returns -1, 0 or 1
  */
 export function compare(a: string, b: string) {
@@ -126,13 +130,8 @@ export function compare(a: string, b: string) {
  * @param fn
  */
 export function asc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
-  let _a = a
-  let _b = b
-  if (typeof fn === 'function') {
-    _a = fn(a)
-    _b = fn(b)
-  }
-
+  const _a = typeof fn === 'function' ? fn(a) : a
+  const _b = typeof fn === 'function' ? fn(b) : b
   if (typeof _a === 'string' && typeof _b === 'string') return compare(_b, _a)
   if (_a === _b) return 0
   if (_a < _b) return -1
@@ -146,13 +145,8 @@ export function asc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
  * @param fn
  */
 export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
-  let _a = a
-  let _b = b
-  if (typeof fn === 'function') {
-    _a = fn(a)
-    _b = fn(b)
-  }
-
+  const _a = typeof fn === 'function' ? fn(a) : a
+  const _b = typeof fn === 'function' ? fn(b) : b
   if (typeof _a === 'string' && typeof _b === 'string') return compare(_a, _b)
   if (_a === _b) return 0
   if (_a > _b) return -1
@@ -202,10 +196,9 @@ export function toFixed(value: any, num: number = 2) {
 
 /** 安全对象 */
 export function safeObject(object: any = {}) {
-  Object.keys(object).forEach(key => {
-    if (object[key] === undefined) object[key] = ''
-  })
-  return object
+  return Object.fromEntries(
+    Object.entries(object).map(([key, value]) => [key, value || ''])
+  )
 }
 
 /** 浏览器打开网页 */
@@ -255,55 +248,27 @@ export function sleep(ms: number = 800): Promise<void> {
 
 /** 简易时间戳格式化函数 */
 export function date(format?: string, timestamp?: any): string {
-  // 假如第二个参数不存在，第一个参数作为timestamp
+  // 假如第二个参数不存在，第一个参数作为 timestamp
   if (!timestamp) {
     timestamp = format
     format = 'Y-m-d H:i:s'
   }
 
-  const jsdate = timestamp ? new Date(timestamp * 1000) : new Date()
+  const now = timestamp ? new Date(timestamp * 1000) : new Date()
   const f = {
-    Y: function () {
-      return jsdate.getFullYear()
-    },
-    y: function () {
-      return (jsdate.getFullYear() + '').slice(2)
-    },
-    m: function () {
-      return pad(f.n())
-    },
-    d: function () {
-      return pad(f.j())
-    },
-    H: function () {
-      return pad(jsdate.getHours())
-    },
-    i: function () {
-      return pad(jsdate.getMinutes())
-    },
-    s: function () {
-      return pad(jsdate.getSeconds())
-    },
-    n: function () {
-      return jsdate.getMonth() + 1
-    },
-    j: function () {
-      return jsdate.getDate()
-    }
+    Y: (d: Date) => d.getFullYear(),
+    y: (d: Date) => (d.getFullYear() + '').slice(2),
+    m: (d: Date) => pad(f.n(d)),
+    d: (d: Date) => pad(f.j(d)),
+    H: (d: Date) => pad(d.getHours()),
+    i: (d: Date) => pad(d.getMinutes()),
+    s: (d: Date) => pad(d.getSeconds()),
+    n: (d: Date) => d.getMonth() + 1,
+    j: (d: Date) => d.getDate()
   }
-  return format.replace(/[\\]?([a-zA-Z])/g, function (t, s) {
-    let ret = ''
-    if (t != s) {
-      ret = s
-    } else {
-      if (f[s]) {
-        ret = f[s]()
-      } else {
-        ret = s
-      }
-    }
-    return ret
-  })
+  return format.replace(/[\\]?([a-zA-Z])/g, (t, s) =>
+    t != s ? s : f[s] ? f[s](now) : s
+  )
 }
 
 /** IOS8601 时间转换 */
@@ -367,26 +332,19 @@ export function simpleTime(time: string = '') {
 }
 
 /** 数组分组 */
-export function arrGroup(arr: string | any[], num: number = 40): any[] {
-  const allData = []
-  let currData = []
-
-  for (let i = 0; i < arr.length; i += 1) {
-    currData.push(arr[i])
-    if ((i != 0 && (i + 1) % num == 0) || i == arr.length - 1) {
-      allData.push(currData)
-      currData = []
-    }
-  }
-
-  return allData
+export function arrGroup<T>(arr: T[], num: number = 40): T[][] {
+  return Array.from(
+    {
+      length: Math.ceil(arr.length / num)
+    },
+    (_, i) => arr.slice(i * num, i * num + num)
+  )
 }
 
 /** 首字母大写 */
-export function titleCase<S>(str: S) {
-  return String(str || '').replace(/( |^)[a-z]/g, L =>
-    L.toUpperCase()
-  ) as S extends `${infer R}${infer T}` ? `${Uppercase<R>}${T}` : ''
+export function titleCase<S extends string>(str: S): Capitalize<S> {
+  const [first = '', ...rest] = String(str || '')
+  return `${first.toUpperCase()}${rest.join('')}` as Capitalize<S>
 }
 
 /** @deprecated 颜色过渡 */
@@ -467,45 +425,40 @@ export function formatNumber(s: string | number, n: number = 2, xsb?: boolean) {
   return t.split('').reverse().join('') + '.' + r
 }
 
+const LAST_DATE_UNITS = [
+  { name: '年', seconds: 60 * 60 * 24 * 365 },
+  { name: '月', seconds: 60 * 60 * 24 * 30 },
+  { name: '周', seconds: 60 * 60 * 24 * 7 },
+  { name: '天', seconds: 60 * 60 * 24 },
+  { name: '时', seconds: 60 * 60 },
+  { name: '分', seconds: 60 }
+] as const
+
 /** 时间戳距离现在时间的描述 */
-export function lastDate(timestamp: number, simple: boolean = true) {
-  const getNumber = () => Math.floor(totalTime / _)
-  const modTimestamp = () => totalTime % _
+export function lastDate(timestamp: number | string, simple: boolean = true) {
+  try {
+    if (!timestamp) return '刚刚'
 
-  let totalTime = getTimestamp() - timestamp
-  let _: number
+    let seconds = Math.floor(Date.now() / 1000 - Number(timestamp))
+    let str = ''
+    let hits = 0
+    for (const unit of LAST_DATE_UNITS) {
+      if (hits >= 2) break
 
-  _ = 60 * 60 * 24 * 365
-  const years = getNumber()
-  totalTime = modTimestamp()
+      const count = Math.floor(seconds / unit.seconds)
+      if (count > 0) {
+        const s = `${count}${unit.name}`
+        if (simple) return `${s}前`
 
-  _ = 60 * 60 * 24 * 30
-  const months = getNumber()
-  totalTime = modTimestamp()
-
-  if (years > 0) return simple ? `${years}年前` : `${years}年${months}月前`
-
-  _ = 60 * 60 * 24 * 7
-  const weeks = getNumber()
-  totalTime = modTimestamp()
-  if (months > 0) return simple ? `${months}月前` : `${months}月${weeks}周前`
-
-  _ = 60 * 60 * 24
-  const days = getNumber()
-  totalTime = modTimestamp()
-  if (weeks > 0) return simple ? `${weeks}周前` : `${weeks}周${days}天前`
-
-  _ = 60 * 60
-  const hours = getNumber()
-  totalTime = modTimestamp()
-  if (days > 0) return simple ? `${days}天前` : `${days}天${hours}时前`
-
-  _ = 60
-  const minutes = getNumber()
-  totalTime = modTimestamp()
-  if (hours > 0) return simple ? `${hours}时前` : `${hours}时${minutes}分前`
-  if (minutes > 0) return `${minutes}分前`
-  return '刚刚'
+        str += s
+        hits += 1
+        seconds -= count * unit.seconds
+      }
+    }
+    return str ? `${str}前` : '刚刚'
+  } catch (error) {
+    return '刚刚'
+  }
 }
 
 /** 清除搜索关键字的特殊字符 */
@@ -517,47 +470,26 @@ export function cleanQ(str: any) {
  * 字符串相似度
  * @param {*} s 字符串1
  * @param {*} t 字符串2
- * @param {*} f 相似度级别
+ * @param {*} f 保留多少位小数
  */
 export function similar(s: string, t: string, f?: number) {
   if (!s || !t) return 0
-
-  const l = s.length > t.length ? s.length : t.length
-  const n = s.length
-  const m = t.length
-  const d = []
-
-  f = f || 3
-  const min = (a, b, c) => (a < b ? (a < c ? a : c) : b < c ? b : c)
-
-  let i
-  let j
-  let si
-  let tj
-  let cost
-  if (n === 0) return m
-  if (m === 0) return n
-  for (i = 0; i <= n; i += 1) {
-    d[i] = []
-    d[i][0] = i
-  }
-  for (j = 0; j <= m; j += 1) {
-    d[0][j] = j
-  }
-  for (i = 1; i <= n; i += 1) {
-    si = s.charAt(i - 1)
-    for (j = 1; j <= m; j += 1) {
-      tj = t.charAt(j - 1)
-      if (si === tj) {
-        cost = 0
-      } else {
-        cost = 1
-      }
-      d[i][j] = min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost)
+  const n = s.length,
+    m = t.length,
+    l = Math.max(n, m)
+  if (n === 0 || m === 0) return l
+  const d = Array.from({ length: n + 1 }, (_, i) => [i])
+  d[0] = Array.from({ length: m + 1 }, (_, i) => i)
+  for (let i = 1; i <= n; i++) {
+    const si = s[i - 1]
+    for (let j = 1; j <= m; j++) {
+      const tj = t[j - 1]
+      const cost = si === tj ? 0 : 1
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost)
     }
   }
   const res = 1 - d[n][m] / l
-  return res.toFixed(f)
+  return parseFloat(res.toFixed(f))
 }
 
 /** 工厂辅助函数 */
