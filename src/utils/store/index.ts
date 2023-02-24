@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 03:06:01
+ * @Last Modified time: 2023-02-24 04:13:23
  */
 import {
   action,
@@ -23,6 +23,7 @@ import { fetchSubjectV0 } from '../fetch.v0'
 
 configure({
   enforceActions: 'observed'
+  // useProxies: 'never'
 })
 
 export default class Store {
@@ -285,8 +286,8 @@ export default class Store {
   }
 
   /**
-   * 批量读取缓存并入库 V2
-   * @param {*} config    约定的配置
+   * 批量读取缓存并入库
+   * @param {*} config 约定的配置
    * @param {*} namespace 命名空间
    */
   readStorage = async (config: string[] = [], namespace: string) => {
@@ -295,7 +296,6 @@ export default class Store {
     const data = await Promise.all(
       config.map(key => this.getStorage(key, namespace, this.state[key]))
     )
-
     const state = Object.assign(
       {},
       ...config.map((key, index) => ({
@@ -303,7 +303,6 @@ export default class Store {
       }))
     )
     this.setState(state)
-
     return state
   }
 

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-30 21:48:31
+ * @Last Modified time: 2023-02-24 17:31:19
  */
-import '@utils/thirdParty/stable-sort'
+// import '@utils/thirdParty/stable-sort'
 import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
@@ -15,6 +15,7 @@ import Stacks from '@src/navigations'
 import { DEV, NavigationContainer, DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
+import { androidKeyboardAdjust } from '@utils'
 import {
   useCachedResources,
   useKeepAwake,
@@ -24,9 +25,9 @@ import {
   useGlobalMount,
   useDimensions
 } from '@utils/hooks'
-import { androidKeyboardAdjust } from '@utils/ui'
 import { WSA } from '@constants'
 import theme from '@styles/theme'
+import { ANDROID_DEV_MENU } from './config'
 
 LogBox.ignoreAllLogs(true)
 
@@ -74,7 +75,7 @@ export default function App() {
         <AppCommon />
         <BackAndroid />
         <DeepLink />
-        <DEV />
+        {ANDROID_DEV_MENU && <DEV />}
       </Provider>
     </SafeAreaProvider>
   )

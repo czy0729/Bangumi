@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:47:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:49:04
+ * @Last Modified time: 2023-02-24 01:40:05
  */
 import { observable, runInAction } from 'mobx'
 import { date, getTimestamp } from '@utils'
@@ -17,14 +17,18 @@ export function devLog(...args: any) {
 
   setTimeout(() => {
     runInAction(() => {
-      args.reverse().forEach(data => {
-        logs.unshift({
-          date: date('H:i:s', getTimestamp()),
-          data: typeof data === 'object' ? JSON.stringify(data, null, 4) : String(data)
+      args
+        .slice()
+        .reverse()
+        .forEach(data => {
+          logs.unshift({
+            date: date('H:i:s', getTimestamp()),
+            data:
+              typeof data === 'object' ? JSON.stringify(data, null, 4) : String(data)
+          })
         })
-      })
     })
-  }, 0)
+  }, 40)
 }
 
 /** 调试窗口打印 (批量) */

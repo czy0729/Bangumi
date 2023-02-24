@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 22:21:02
+ * @Last Modified time: 2023-02-24 01:15:09
  */
 import { ComponentType } from 'react'
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
@@ -22,13 +22,15 @@ export function setDefaultProps<T extends ComponentType<any>>(
   Component: T,
   defaultProps?: Record<string, any>
 ) {
-  const componentRender = Component.prototype.render
+  // @ts-expect-error
+  const componentRender = Component.render
   if (!componentRender) {
     Component.defaultProps = defaultProps
     return Component
   }
 
-  Component.prototype.render = function (props: { style: any }, ref: any) {
+  // @ts-expect-error
+  Component.render = function (props: { style: any }, ref: any) {
     props = {
       ...defaultProps,
       ...props,
@@ -194,10 +196,10 @@ export function toFixed(value: any, num: number = 2) {
   return Number(value || 0).toFixed(num)
 }
 
-/** 安全对象 */
+/** 安全对象 (用于把请求中的 null 换成 undefined, 减少 ?. 语法出错) */
 export function safeObject(object: any = {}) {
   return Object.fromEntries(
-    Object.entries(object).map(([key, value]) => [key, value || ''])
+    Object.entries(object).map(([key, value]) => [key, value || undefined])
   )
 }
 

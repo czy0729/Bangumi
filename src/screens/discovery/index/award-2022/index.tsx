@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-22 06:05:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 03:46:41
+ * @Last Modified time: 2023-02-24 01:19:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Touchable } from '@components'
 import { systemStore } from '@stores'
 import { useIsFocused, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { HOST } from '@constants'
+import { HOST, TEXT_ONLY } from '@constants'
 import { Navigation } from '@types'
 import { memoStyles } from './styles'
 
@@ -61,27 +61,28 @@ function Award2022({
             })
           }}
         >
-          <View
-            style={[
-              styles.body,
-              {
-                width: width || styles.body.width,
-                height: height || styles.body.height
-              }
-            ]}
-            pointerEvents='none'
-          >
-            {show && (
-              <WebView
-                style={[
-                  styles.body,
-                  {
-                    width: width || styles.body.width,
-                    height: height || styles.body.height
-                  }
-                ]}
-                source={{
-                  html: `<!DOCTYPE html>
+          {!TEXT_ONLY && (
+            <View
+              style={[
+                styles.body,
+                {
+                  width: width || styles.body.width,
+                  height: height || styles.body.height
+                }
+              ]}
+              pointerEvents='none'
+            >
+              {show && (
+                <WebView
+                  style={[
+                    styles.body,
+                    {
+                      width: width || styles.body.width,
+                      height: height || styles.body.height
+                    }
+                  ]}
+                  source={{
+                    html: `<!DOCTYPE html>
                   <html lang="en">
                     <head>
                       <meta charset="UTF-8" />
@@ -268,15 +269,16 @@ function Award2022({
                       </div>
                     </body>
                   </html>`
-                }}
-                scrollEnabled={false}
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-                androidHardwareAccelerationDisabled
-                androidLayerType='software'
-              />
-            )}
-          </View>
+                  }}
+                  scrollEnabled={false}
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
+                  androidHardwareAccelerationDisabled
+                  androidLayerType='software'
+                />
+              )}
+            </View>
+          )}
         </Touchable>
       </View>
     )

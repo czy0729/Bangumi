@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-22 06:05:55
+ * @Last Modified time: 2023-02-24 01:19:28
  */
 import React, { useCallback, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -10,7 +10,7 @@ import { Touchable, Image, Text, Flex } from '@components'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { HOST } from '@constants'
+import { HOST, TEXT_ONLY } from '@constants'
 import Award2022 from '../award-2022'
 import Award2021 from '../award-2021'
 import { memoStyles } from './styles'
@@ -39,7 +39,7 @@ function Award({ navigation }) {
       >
         <Award2022 navigation={navigation} />
         <Award2021 />
-        {scrolled && (
+        {!TEXT_ONLY && scrolled && (
           <>
             <Touchable
               style={[

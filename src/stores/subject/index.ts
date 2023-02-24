@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 06:02:59
+ * @Last Modified time: 2023-02-24 16:35:28
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -107,6 +107,17 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
     return this.readStorage([key], NAMESPACE)
   }
 
+  initSubjectV2 = async (subjectIds: SubjectId[]) => {
+    const keys = {}
+    subjectIds.forEach(subjectId => (keys[`subjectV2${getInt(subjectId)}`] = true))
+
+    const cacheKeys = Object.keys(keys).filter(item => !this._loaded[item])
+    await this.readStorage(cacheKeys, NAMESPACE)
+
+    cacheKeys.forEach(item => (this._loaded[item] = true))
+    return cacheKeys as `subjectV2${number}`[]
+  }
+
   save = (key: CacheKey, data?: any) => {
     return this.setStorage(key, data, NAMESPACE)
   }
@@ -138,13 +149,6 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
     }).get()
   }
 
-  initSubjectV2 = async (subjectId: SubjectId) => {
-    const last = getInt(subjectId)
-    const key = `subjectV2${last}` as const
-    await this.init(key)
-    return key
-  }
-
   /** 条目 (new api), 合并 subjectV2 0-999 */
   subjectV2(subjectId: SubjectId) {
     return computed<SubjectV2>(() => {
@@ -152,7 +156,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
 
       const last = getInt(subjectId)
       const key = `subjectV2${last}` as const
-      this.init(key)
+      // this.init(key)
 
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT_V2
     }).get()
@@ -386,7 +390,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
   /** 获取条目分数值 */
   fetchSubjectV2 = async (subjectId: SubjectId) => {
     try {
-      const key = await this.initSubjectV2(subjectId)
+      const key = await this.initSubjectV2([subjectId])
       const data: any = await request(
         `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
       )
@@ -394,19 +398,19 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
       const now = getTimestamp()
       if (!data?.id) {
         this.setState({
-          [key]: {
+          [key[0]]: {
             [subjectId]: {
               ...INIT_SUBJECT_V2,
               _loaded: now
             }
           }
         })
-        this.save(key)
+        this.save(key[0])
         return false
       }
 
       this.setState({
-        [key]: {
+        [key[0]]: {
           [subjectId]: {
             id: data.id || '',
             date: data.date || '',
@@ -430,7 +434,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
           }
         }
       })
-      this.save(key)
+      this.save(key[0])
     } catch (error) {
       return false
     }

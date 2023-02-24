@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 02:54:17
+ * @Last Modified time: 2023-02-24 17:10:26
  */
 export const ACTIONS_SORT = ['日期', '评分', '评分人数', '目录修改时间'] as const
 
@@ -12,9 +12,11 @@ export const NAMESPACE = 'ScreenSmb'
 
 export const EXCLUDE_STATE = {
   data: [],
+  tags: [],
   loading: false,
   expand: false,
   more: false,
+  listComponentKey: 0,
 
   // form
   visible: false,
@@ -32,8 +34,7 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   uuid: '',
-  sort: ACTIONS_SORT[0] as typeof ACTIONS_SORT[number],
-  tags: [],
+  sort: ACTIONS_SORT[0] as (typeof ACTIONS_SORT)[number],
   filter: '',
   ...EXCLUDE_STATE,
   _loaded: false

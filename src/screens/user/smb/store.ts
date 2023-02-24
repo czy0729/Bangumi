@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:30:33
+ * @Last Modified time: 2023-02-24 17:28:47
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -33,45 +33,36 @@ export default class ScreenSmb extends store {
       _loaded: false
     })
 
-    await queue(
-      this.subjectIds.map(item => {
-        return () => subjectStore.initSubjectV2(item)
-      })
-    )
-
+    await smbStore.init('data')
+    await subjectStore.initSubjectV2(this.subjectIds)
+    await collectionStore.init('collection')
+    this.cacheList()
     this.setState({
       _loaded: true
     })
   }
 
+  memoList: any[] = []
+
+  memoTags: any[] = []
+
   // -------------------- fetch --------------------
-  /** 扫描 */
-  connectSmb = async () => {
-    const { smb } = this.current
-    const list = await smbList(smb)
-
-    if (list.length) {
-      const data = toJS(this.data)
-      const { uuid } = this.state
-      const index = data.findIndex(item => item.smb.uuid === uuid)
-
-      if (index !== -1) {
-        data[index].smb.loaded = getTimestamp()
-        data[index].list = list
-        smbStore.updateData(data)
-
-        this.fetchSubjects()
-        this.setStorage(NAMESPACE)
-      }
-    }
-
-    t('SMB.扫描', {
-      length: list.length
+  /** 更新数据 */
+  cacheList = () => {
+    this.memoList = this.filterList()
+    this.cacheTags()
+    this.setState({
+      listComponentKey: this.state.listComponentKey + 1
     })
   }
 
-  /** 批量请求条目信息 */
-  fetchSubjects = async (refresh: boolean = false) => {
+  /** 更新标签数据 */
+  cacheTags = () => {
+    this.memoTags = this.tagsActions()
+  }
+
+  /** 批量请求条目和收藏 */
+  fetchInfos = async (refresh: boolean = false) => {
     const { loading } = this.state
     if (loading) return
 
@@ -115,12 +106,39 @@ export default class ScreenSmb extends store {
     this.setState({
       loading: false
     })
-    queue(collectionFetchs)
+    return queue(collectionFetchs)
+  }
+
+  /** 扫描 */
+  connectSmb = async () => {
+    const { smb } = this.current
+    const list = await smbList(smb)
+
+    if (list.length) {
+      const data = toJS(this.data)
+      const { uuid } = this.state
+      const index = data.findIndex(item => item.smb.uuid === uuid)
+
+      if (index !== -1) {
+        data[index].smb.loaded = getTimestamp()
+        data[index].list = list
+        smbStore.updateData(data)
+
+        await this.fetchInfos()
+        this.cacheList()
+        this.setStorage(NAMESPACE)
+      }
+    }
+
+    t('SMB.扫描', {
+      length: list.length
+    })
   }
 
   /** 下拉刷新条目信息 */
   onHeaderRefresh = async () => {
-    this.fetchSubjects()
+    await this.fetchInfos()
+    this.cacheList()
     await sleep(400)
     return true
   }
@@ -165,14 +183,65 @@ export default class ScreenSmb extends store {
     })
   }
 
-  /** 条目 */
   subjectV2(subjectId: SubjectId) {
     return computed(() => subjectStore.subjectV2(subjectId)).get()
   }
 
-  @computed get list() {
+  collection(subjectId: SubjectId) {
+    return computed(() => collectionStore.collection(subjectId)).get()
+  }
+
+  airDate(subjectId: SubjectId) {
+    return computed(() => {
+      const subject = this.subjectV2(subjectId)
+      if (subject?._loaded && subject?.date && subject.date !== '0000-00-00') {
+        return subject.date
+      }
+
+      const subjectFormHTML = subjectStore.subjectFormHTML(subjectId)
+      if (subjectFormHTML?._loaded && typeof subjectFormHTML?.info === 'string') {
+        const match = subjectFormHTML.info.match(
+          /<li><span>(发售日|开始|开始时间|发行日期|连载时间|连载期间|连载日期|连载开始|発表期間|发表期间|発表号): <\/span>(.+?)<\/li>/
+        )
+        return match?.[2] || ''
+      }
+
+      return ''
+    }).get()
+  }
+
+  url = (
+    sharedFolder: string = '',
+    folderPath: string = '',
+    folderName: string = '',
+    fileName: string = ''
+  ) => {
+    return computed(() => {
+      try {
+        if (!this.current) return ''
+
+        // smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]
+        const { smb } = this.current
+        const path = []
+        if (sharedFolder) path.push(sharedFolder)
+        if (folderPath) path.push(folderPath)
+        if (folderName) path.push(folderName)
+        return smb.url
+          .replace(/\[USERNAME\]/g, smb.username)
+          .replace(/\[PASSWORD\]/g, smb.password)
+          .replace(/\[IP\]/g, smb.port ? `${smb.ip}:${smb.port}` : smb.ip)
+          .replace(/\[PATH\]/g, path.join('/'))
+          .replace(/\[FILE\]/g, fileName)
+      } catch (error) {
+        return ''
+      }
+    }).get()
+  }
+
+  // -------------------- page --------------------
+  list() {
     const list = []
-    if (this.current?.list) {
+    if (this.current?.list?.length) {
       this.current.list
         .slice()
         .sort((a, b) => {
@@ -190,7 +259,9 @@ export default class ScreenSmb extends store {
               })
             })
           } else {
-            list.push(item)
+            list.push({
+              ...item
+            })
           }
         })
     }
@@ -198,61 +269,64 @@ export default class ScreenSmb extends store {
     return list
   }
 
-  @computed get sortList() {
+  sortList() {
     const { sort } = this.state
     if (sort === '评分') {
-      return this.list.slice().sort((a, b) => {
-        const subjectA = this.subjectV2(a.subjectId || '')
-        const subjectB = this.subjectV2(b.subjectId || '')
-        return desc(
-          Number(
-            subjectA._loaded
-              ? (subjectA?.rating?.score || 0) +
-                  (subjectA?.rank ? 10000 - subjectA?.rank : -10000)
-              : -9999
-          ),
-          Number(
-            subjectB._loaded
-              ? (subjectB?.rating?.score || 0) +
-                  (subjectB?.rank ? 10000 - subjectB?.rank : -10000)
-              : -9999
+      return this.list()
+        .slice()
+        .sort((a, b) => {
+          const subjectA = this.subjectV2(a.subjectId || '')
+          const subjectB = this.subjectV2(b.subjectId || '')
+          return desc(
+            Number(
+              subjectA._loaded
+                ? (subjectA?.rating?.score || 0) +
+                    (subjectA?.rank ? 10000 - subjectA?.rank : -10000)
+                : -9999
+            ),
+            Number(
+              subjectB._loaded
+                ? (subjectB?.rating?.score || 0) +
+                    (subjectB?.rank ? 10000 - subjectB?.rank : -10000)
+                : -9999
+            )
           )
-        )
-      })
+        })
     }
 
     if (sort === '评分人数') {
-      return this.list.slice().sort((a, b) => {
-        return desc(
-          Number(this.subjectV2(a.subjectId || '')?.rating?.total || 0),
-          Number(this.subjectV2(b.subjectId || '')?.rating?.total || 0)
-        )
-      })
+      return this.list()
+        .slice()
+        .sort((a, b) => {
+          return desc(
+            Number(this.subjectV2(a.subjectId || '')?.rating?.total || 0),
+            Number(this.subjectV2(b.subjectId || '')?.rating?.total || 0)
+          )
+        })
     }
 
     if (sort === '目录修改时间') {
-      return this.list.slice().sort((a, b) => {
+      return this.list().sort((a, b) => {
         return desc(String(b.lastModified || ''), String(a.lastModified || ''))
       })
     }
 
     // 时间
-    return this.list.slice().sort((a, b) => {
-      return desc(
-        String(this.airDate(b.subjectId || '')),
-        String(this.airDate(a.subjectId || ''))
-      )
-    })
+    return this.list()
+      .slice()
+      .sort((a, b) => {
+        return desc(
+          String(this.airDate(b.subjectId || '')),
+          String(this.airDate(a.subjectId || ''))
+        )
+      })
   }
 
-  @computed get filterList() {
-    const { _loaded } = this.state
-    if (!_loaded) return []
-
+  filterList() {
     const { tags } = this.state
-    if (!tags.length) return this.sortList
+    if (!tags.length) return this.sortList()
 
-    return this.sortList.filter(item => {
+    return this.sortList().filter(item => {
       const { subjectId } = item
       let flag: boolean
       if (tags.includes('条目')) {
@@ -293,17 +367,13 @@ export default class ScreenSmb extends store {
     })
   }
 
-  collection(subjectId: SubjectId) {
-    return computed(() => collectionStore.collection(subjectId)).get()
-  }
-
-  @computed get tagsCount() {
+  tagsCount() {
     const data = {
       条目: 0,
       文件夹: 0
     }
 
-    this.list.forEach(item => {
+    this.list().forEach(item => {
       const { subjectId } = item
       if (!subjectId) {
         data['文件夹'] += 1
@@ -321,12 +391,12 @@ export default class ScreenSmb extends store {
         }
 
         if (typeof date === 'string') {
-          const year = date.match(/\d{4}/g)
-          if (year?.[0]) {
-            if (!data[year[0]]) {
-              data[year[0]] = 1
+          const year = date.slice(0, 4)
+          if (year) {
+            if (!data[year]) {
+              data[year] = 1
             } else {
-              data[year[0]] += 1
+              data[year] += 1
             }
           }
         }
@@ -369,63 +439,16 @@ export default class ScreenSmb extends store {
     return data
   }
 
-  @computed get ACTIONS_TAGS() {
-    return Object.keys(this.tagsCount).sort((a, b) =>
-      desc(
-        DICT_ORDER[a] || this.tagsCount[a] || 0,
-        DICT_ORDER[b] || this.tagsCount[b] || 0
+  tagsActions() {
+    const { tags, more } = this.state
+    const tagsCount = this.tagsCount()
+    return Object.keys(tagsCount)
+      .filter(item => (more ? true : tagsCount[item] >= 10 || tags.includes(item)))
+      .sort((a, b) =>
+        desc(DICT_ORDER[a] || tagsCount[a] || 0, DICT_ORDER[b] || tagsCount[b] || 0)
       )
-    )
   }
 
-  airDate(subjectId: SubjectId) {
-    return computed(() => {
-      const subject = this.subjectV2(subjectId)
-      if (subject?._loaded && subject?.date && subject.date !== '0000-00-00') {
-        return subject.date
-      }
-
-      const subjectFormHTML = subjectStore.subjectFormHTML(subjectId)
-      if (subjectFormHTML?._loaded && typeof subjectFormHTML?.info) {
-        const match = subjectFormHTML.info.match(
-          /<li><span>(发售日|开始|开始时间|发行日期|连载时间|连载期间|连载日期|连载开始|発表期間|发表期间|発表号): <\/span>(.+?)<\/li>/
-        )
-        return match?.[2] || ''
-      }
-
-      return ''
-    }).get()
-  }
-
-  url = (
-    sharedFolder: string = '',
-    folderPath: string = '',
-    folderName: string = '',
-    fileName: string = ''
-  ) => {
-    return computed(() => {
-      try {
-        if (!this.current) return ''
-
-        // smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]
-        const { smb } = this.current
-        const path = []
-        if (sharedFolder) path.push(sharedFolder)
-        if (folderPath) path.push(folderPath)
-        if (folderName) path.push(folderName)
-        return smb.url
-          .replace(/\[USERNAME\]/g, smb.username)
-          .replace(/\[PASSWORD\]/g, smb.password)
-          .replace(/\[IP\]/g, smb.port ? `${smb.ip}:${smb.port}` : smb.ip)
-          .replace(/\[PATH\]/g, path.join('/'))
-          .replace(/\[FILE\]/g, fileName)
-      } catch (error) {
-        return ''
-      }
-    }).get()
-  }
-
-  // -------------------- page --------------------
   onShow = () => {
     this.setState({
       visible: true
@@ -577,7 +600,7 @@ export default class ScreenSmb extends store {
       loading: false,
       uuid: smb.uuid
     })
-
+    this.cacheList()
     this.setStorage(NAMESPACE)
 
     t('SMB.切换')
@@ -588,6 +611,7 @@ export default class ScreenSmb extends store {
     this.setState({
       more: !more
     })
+    this.cacheTags()
     this.setStorage(NAMESPACE)
 
     t('SMB.更多标签')
@@ -600,7 +624,7 @@ export default class ScreenSmb extends store {
     this.setState({
       tags: tags.includes(title) ? [] : [title]
     })
-
+    this.cacheList()
     this.setStorage(NAMESPACE)
 
     t('SMB.选择标签', {
@@ -612,7 +636,7 @@ export default class ScreenSmb extends store {
     this.setState({
       sort: title
     })
-
+    this.cacheList()
     this.setStorage(NAMESPACE)
 
     t('SMB.排序', {
@@ -679,7 +703,7 @@ export default class ScreenSmb extends store {
             info('创建成功, 开始导入条目数据...')
 
             setTimeout(async () => {
-              const list = this.filterList
+              const list = this.memoList
               const catalogId = match[0]
               const subjectIds = []
               list.forEach(item => {

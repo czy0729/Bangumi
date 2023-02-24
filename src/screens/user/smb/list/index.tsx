@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:20:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 20:48:19
+ * @Last Modified time: 2023-02-24 17:14:08
  */
 import React from 'react'
 import { PaginationList } from '@_'
@@ -13,13 +13,13 @@ import Item from '../item'
 import { Ctx } from '../types'
 
 function List(props, { $ }: Ctx) {
-  const { uuid, sort, tags } = $.state
+  const { uuid, listComponentKey } = $.state
   return (
     <PaginationList
-      key={`${uuid}|${sort}|${tags.join()}|${$.current?.smb?.loaded}`}
+      key={`${uuid}|${listComponentKey}`}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
-      data={$.filterList}
+      data={$.memoList}
       ListHeaderComponent={<Top />}
       renderItem={renderItem}
       footerEmptyDataText={
