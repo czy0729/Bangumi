@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:36:15
+ * @Last Modified time: 2023-02-24 23:34:17
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
@@ -34,6 +34,12 @@ const Normal = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
 ))
 
+const Medium = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
+  <View style={styles.medium}>
+    <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
+  </View>
+))
+
 const Mini = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   <View style={styles.mini}>
     <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
@@ -52,6 +58,8 @@ const Loading: ILoading = observer(
 Loading.Raw = Raw
 
 Loading.Normal = Normal
+
+Loading.Medium = Medium
 
 Loading.Mini = Mini
 

@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-05-04 14:40:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 13:48:52
+ * @Last Modified time: 2023-02-24 23:35:08
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
   loading: {
     paddingBottom: _.md
+  },
+  medium: {
+    transform: [
+      {
+        scale: 0.8
+      }
+    ]
   },
   mini: {
     transform: [

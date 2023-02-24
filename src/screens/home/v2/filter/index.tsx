@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:46
+ * @Last Modified time: 2023-02-24 23:35:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Input, Iconfont } from '@components'
-import { systemStore } from '@stores'
+import { Flex, Text, Input, Iconfont, Loading } from '@components'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -52,6 +52,7 @@ class Filter extends React.Component<Props> {
     global.rerender('Home.Filter')
 
     const { $ }: Ctx = this.context
+    const { progress } = $.state
     const { length } = this.props
     const { focus } = this.state
     return (
@@ -71,6 +72,11 @@ class Filter extends React.Component<Props> {
             // @ts-expect-error
             pointerEvents='none'
           >
+            {progress.fetching && (
+              <View style={this.styles.loading}>
+                <Loading.Medium color={_.colorSub} size={16} />
+              </View>
+            )}
             {length ? (
               <Text type='icon' bold size={15}>
                 {length}

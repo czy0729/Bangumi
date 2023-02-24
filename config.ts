@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 17:41:05
+ * @Last Modified time: 2023-02-24 23:13:31
  */
 import { Paths } from '@types'
 
@@ -26,7 +26,7 @@ export const TEXT_ONLY = DEV ? !DEV : false
 /** ==================== 默认路由 ==================== */
 /** 路由覆盖配置 */
 const CONFIGS: Configs = {
-  initialRouteName: 'Discovery',
+  initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
     // subjectId: 115908 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/376561' // group/366561

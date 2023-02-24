@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-11 16:50:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 11:45:34
+ * @Last Modified time: 2023-02-24 23:19:19
  */
 import { factory } from '@utils'
 import { Loaded, Navigation, Subject, SubjectId } from '@types'
@@ -74,4 +74,4 @@ export type PinYinFirstCharacter = {
   [cn: string]: string
 }
 
-export type TabLabel = typeof TABS_WITH_GAME[number]['title']
+export type TabLabel = (typeof TABS_WITH_GAME)[number]['title']

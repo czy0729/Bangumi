@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:38:13
+ * @Last Modified time: 2023-02-24 23:25:28
  */
 import React from 'react'
 import { Flex, Text, Mesume, Button } from '@components'
@@ -10,6 +10,7 @@ import { randomSpeech } from '@components/mesume/utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { memoStyles } from './styles'
+import { Ctx } from '../types'
 
 const FOOTER_EMPTY_TEXT = {
   全部: '当前没有可管理的条目哦',
@@ -19,7 +20,7 @@ const FOOTER_EMPTY_TEXT = {
   游戏: '当前没有在玩的游戏哦'
 } as const
 
-function Empty({ title, length }, { $, navigation }) {
+function Empty({ title, length }, { $, navigation }: Ctx) {
   global.rerender('Home.Empty')
 
   const styles = memoStyles()
