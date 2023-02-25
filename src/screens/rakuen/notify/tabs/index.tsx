@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-21 17:57:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 05:16:33
+ * @Last Modified time: 2023-02-25 18:50:41
  */
 import React from 'react'
 import { TabsV2 } from '@components'
@@ -21,10 +21,14 @@ function Tabs(props, { $ }: Ctx) {
       routes={TABS}
       page={page}
       backgroundColor={_.colorPlain}
-      renderItem={item => <List id={item.key as TabsKey} />}
+      renderItem={renderItem}
       onChange={$.onTabsChange}
     />
   )
 }
 
 export default obc(Tabs)
+
+function renderItem(item) {
+  return <List id={item.key as TabsKey} />
+}
