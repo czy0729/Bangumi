@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 23:34:56
+ * @Last Modified time: 2023-02-28 04:49:15
  */
 import { computed } from 'mobx'
 import {
@@ -49,6 +49,14 @@ import { TabLabel } from '../types'
 import State from './state'
 
 export default class Computed extends State {
+  /** 置顶的映射 */
+  getTopMap() {
+    const { top } = this.state
+    const topMap = {}
+    top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
+    return topMap
+  }
+
   /** Tabs data */
   @computed get tabs() {
     const { showGame } = systemStore.setting
@@ -146,8 +154,7 @@ export default class Computed extends State {
       }
 
       if (title === '游戏') {
-        CacheManager.set(key, this.games)
-        return this.games
+        return CacheManager.set(key, this.games)
       }
 
       const data = {
@@ -181,8 +188,7 @@ export default class Computed extends State {
       }
 
       data.list = this.sortList(data.list)
-      CacheManager.set(key, data)
-      return data
+      return CacheManager.set(key, data)
     }).get()
   }
 
@@ -194,6 +200,8 @@ export default class Computed extends State {
     return computed(() => {
       if (!list.length) return []
 
+      const topMap = this.getTopMap()
+
       // 网页顺序: 不需要处理
       if (
         this.homeSorting ===
@@ -201,7 +209,7 @@ export default class Computed extends State {
       ) {
         return list
           .slice()
-          .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
+          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
       }
 
       try {
@@ -239,7 +247,7 @@ export default class Computed extends State {
           return list
             .slice()
             .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-            .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
+            .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
         }
 
         // APP 顺序：未看 > 放送中 > 明天 > 本季 > 网页
@@ -270,13 +278,13 @@ export default class Computed extends State {
         return list
           .slice()
           .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-          .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
+          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
       } catch (error) {
         // fallback
         return list
           .slice()
           .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
-          .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
+          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
       }
     }).get()
   }
@@ -293,14 +301,6 @@ export default class Computed extends State {
     }).get()
   }
 
-  /** 置顶的映射 */
-  @computed get topMap() {
-    const { top } = this.state
-    const topMap = {}
-    top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
-    return topMap
-  }
-
   /** 在玩的游戏 */
   @computed get games() {
     const { username } = this.usersInfo
@@ -309,6 +309,7 @@ export default class Computed extends State {
       MODEL_SUBJECT_TYPE.getLabel<SubjectType>('游戏'),
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>('在看')
     )
+    const topMap = this.getTopMap()
     return {
       ...userCollections,
       list: userCollections.list
@@ -320,7 +321,7 @@ export default class Computed extends State {
 
           return getPinYinFilterValue(cn, this.filter)
         })
-        .sort((a, b) => desc(a, b, item => this.topMap[item.id] || 0))
+        .sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
     }
   }
 
@@ -631,6 +632,16 @@ export default class Computed extends State {
         .actions(subjectId)
         .filter(item => item.active)
         .sort((a, b) => desc(a.sort || 0, b.sort || 0))
+    }).get()
+  }
+
+  /** 当前是否显示 ScrollToTop 组件 */
+  scrollToTop(title: TabLabel) {
+    if (IOS) return false
+
+    return computed(() => {
+      const { isFocused, page } = this.state
+      return isFocused && TABS_WITH_GAME[page].title === title
     }).get()
   }
 }

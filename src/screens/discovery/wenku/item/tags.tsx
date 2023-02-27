@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-21 00:33:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-21 00:50:30
+ * @Last Modified time: 2023-02-27 23:55:36
  */
 import React from 'react'
 import { Tags as CompTags } from '@_'
@@ -17,19 +17,6 @@ function Tags({ value }, { $ }) {
     .split(' ')
     .sort((a, b) => desc(selected.includes(a), selected.includes(b)))
   return <CompTags value={tags} />
-
-  // return (
-  //   <>
-  //     {tags.map((item: string) => (
-  //       <Tag
-  //         key={item}
-  //         style={_.mr.sm}
-  //         value={item}
-  //         type={selected.includes(item) ? 'main' : undefined}
-  //       />
-  //     ))}
-  //   </>
-  // )
 }
 
 export default obc(Tags)

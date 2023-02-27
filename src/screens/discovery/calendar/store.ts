@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:10:44
+ * @Last Modified time: 2023-02-28 02:50:39
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'

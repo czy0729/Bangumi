@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:39:48
+ * @Last Modified time: 2023-02-27 23:56:40
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -158,6 +158,10 @@ type RouteSubject = (
     _image?: string
     _collection?: string
     _type?: SubjectTypeCn
+
+    /** 找条目 */
+    _aid?: number
+    _wid?: number
   }
 ) => any
 

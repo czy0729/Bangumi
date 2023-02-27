@@ -2,22 +2,30 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:00:56
+ * @Last Modified time: 2023-02-28 02:39:00
  */
 import { observable, computed } from 'mobx'
 import {
   _,
-  discoveryStore,
   collectionStore,
+  discoveryStore,
   subjectStore,
-  userStore,
-  uiStore
+  uiStore,
+  userStore
 } from '@stores'
-import { desc, opitimize, getTimestamp, sleep } from '@utils'
+import {
+  confirm,
+  desc,
+  feedback,
+  getTimestamp,
+  info,
+  opitimize,
+  removeHTMLTag,
+  sleep
+} from '@utils'
 import store from '@utils/store'
-import { info, feedback, confirm } from '@utils/ui'
 import { t, fetchHTML, queue } from '@utils/fetch'
-import { removeHTMLTag } from '@utils/html'
+import CacheManager from '@utils/cache-manager'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
@@ -57,19 +65,18 @@ export default class ScreenCatalogDetail extends store {
   fetchCollectionStatusQueue = () => {
     setTimeout(() => {
       collectionStore.fetchCollectionStatusQueue(
-        this.catalogDetail.list.filter(item => item.isCollect).map(item => item.id)
+        this.list.filter(item => item.isCollect).map(item => item.id)
       )
     }, 160)
   }
 
   /** 批量获取条目评分 (目录没有条目的当前评分, 需要额外获取) */
   fetchSubjectsQueue = () => {
-    const { list } = this.catalogDetail
     confirm(
-      `更新 ${list.length} 个条目的评分?`,
+      `更新 ${this.list.length} 个条目的评分?`,
       async () => {
         const fetchs = []
-        this.catalogDetail.list.forEach(({ id }) => {
+        this.list.forEach(({ id }) => {
           fetchs.push(async () => {
             const result = await subjectStore.fetchSubjectFromOSS(id)
             if (!result) {
@@ -125,10 +132,19 @@ export default class ScreenCatalogDetail extends store {
 
   /** 目录详情 */
   @computed get catalogDetail() {
-    const catalogDetail = discoveryStore.catalogDetail(this.catalogId)
-    const { sort } = this.state
+    return discoveryStore.catalogDetail(this.catalogId)
+  }
 
-    let list = catalogDetail.list.map(item => {
+  /** 目录详情列表 */
+  @computed get list() {
+    const key = `${NAMESPACE}|${this.catalogId}`
+    if (this.state.progress.fetching) {
+      const data = CacheManager.get(key)
+      if (data) return data
+    }
+
+    const { sort } = this.state
+    const list = this.catalogDetail.list.map(item => {
       const { id } = item
       return {
         ...item,
@@ -145,27 +161,38 @@ export default class ScreenCatalogDetail extends store {
       }
     })
 
+    // 时间
     if (sort === 1) {
-      // 时间
-      list = list.slice().sort((a, b) => {
-        return desc(
-          getTimestamp((String(a.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日'),
-          getTimestamp((String(b.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日')
-        )
-      })
-    } else if (sort === 2) {
-      // 分数
-      list = list
-        .slice()
-        .sort((a, b) =>
-          desc(a, b, item => (item.rank ? 10000 - item.rank : item.score))
-        )
+      return CacheManager.set(
+        key,
+        list.slice().sort((a, b) => {
+          return desc(
+            getTimestamp(
+              (String(a.info).split(' / ')?.[0] || '').trim(),
+              'YYYY年M月D日'
+            ),
+            getTimestamp(
+              (String(b.info).split(' / ')?.[0] || '').trim(),
+              'YYYY年M月D日'
+            )
+          )
+        })
+      )
     }
 
-    return {
-      ...catalogDetail,
-      list
+    // 分数
+    if (sort === 2) {
+      return CacheManager.set(
+        key,
+        list
+          .slice()
+          .sort((a, b) =>
+            desc(a, b, item => (item.rank ? 10000 - item.rank : item.score))
+          )
+      )
     }
+
+    return CacheManager.set(key, list)
   }
 
   /** 目录是否已收藏 */
@@ -224,8 +251,7 @@ export default class ScreenCatalogDetail extends store {
 
   /** 编辑自己的目录 */
   onEdit = (modify: string) => {
-    const { list } = this.catalogDetail
-    const item = list.find(i => i.modify == modify)
+    const item = this.list.find(i => i.modify == modify)
     if (!item) {
       info(`目录不属于你或者${i18n.login()}状态失效了`)
       return
@@ -337,15 +363,14 @@ export default class ScreenCatalogDetail extends store {
             info('创建成功, 开始复制数据...')
 
             setTimeout(async () => {
-              const { list } = this.catalogDetail
               const catalogId = match[0]
 
               // 添加条目数据
               await queue(
-                list.map(
+                this.list.map(
                   (item, index) => () =>
                     new Promise<void>(resolve => {
-                      info(`${index + 1} / ${list.length}`)
+                      info(`${index + 1} / ${this.list.length}`)
                       discoveryStore.doCatalogAddRelate(
                         {
                           catalogId,

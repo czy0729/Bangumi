@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 13:47:51
+ * @Last Modified time: 2023-02-28 02:22:42
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -43,8 +43,11 @@ function Item(
           nameCn={nameCn}
           tip={item.info}
           comments={item.comment}
+          // @ts-expect-error
           score={item.score}
+          // @ts-expect-error
           rank={item.rank}
+          // @ts-expect-error
           total={item.total}
           numberOfLines={4}
           modify={item.modify}
@@ -70,7 +73,9 @@ function Item(
       name={item.title}
       nameCn={nameCn}
       cover={item.image}
+      // @ts-expect-error
       score={item.score}
+      // @ts-expect-error
       rank={item.rank}
       typeCn={item.type}
       collection={collection}

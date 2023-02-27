@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 16:56:34
+ * @Last Modified time: 2023-02-28 03:21:27
  */
 import React from 'react'
 import Progress from '@ant-design/react-native/lib/progress'
@@ -40,13 +40,6 @@ export const ItemFriends = ob(
   }: ItemFriendsProps) => {
     const styles = memoStyles()
     const wrapWidth = _.window.contentWidth - 144
-
-    // let last = 0
-    // if (String(recent).includes('ago')) {
-    //   last = getTimestamp() - getRecentTimestamp(recent)
-    // } else if (recent) {
-    //   last = getTimestamp(recent)
-    // }
     return (
       <Touchable
         style={styles.container}

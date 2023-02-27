@@ -4,16 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-26 00:14:09
+ * @Last Modified time: 2023-02-28 04:22:48
  */
-import {
-  action,
-  computed,
-  configure,
-  extendObservable,
-  isObservableArray,
-  toJS
-} from 'mobx'
+import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants/constants'
 import { getTimestamp } from '../utils'
@@ -22,73 +15,11 @@ import fetch from '../fetch'
 import { fetchSubjectV0 } from '../fetch.v0'
 
 configure({
-  enforceActions: 'observed',
-  useProxies: 'never'
+  enforceActions: 'observed'
+  // useProxies: 'never'
 })
 
 export default class Store {
-  /** @deprecated Store new 后调用的方法 */
-  setup = () => {
-    this.initComputed()
-  }
-
-  /**
-   * @deprecated 自动使用 Store.state 来遍历配置初始 MobX 的 computed
-   * 所有 state 里的键值, 都可以通过 this.key 的方式调用而不需要 this.state.key
-   */
-  initComputed = () => {
-    Object.keys(this.state).forEach(key => {
-      /** 已有 computed 跳过 */
-      if (this[key] !== undefined) return
-
-      /**
-       * 情况1
-       * @computed get userInfo() {
-       *   return this.state.userInfo
-       * }
-       */
-      if (this.state[key][0] === undefined) {
-        console.log(this, key)
-        Object.defineProperty(this, key, {
-          get() {
-            return computed(() => this.state[key]).get()
-          }
-        })
-        return
-      }
-
-      /**
-       * 情况3
-       * userCollections(scope = DEFAULT_SCOPE, userId = this.myUserId) {
-       *   return computed(
-       *     () => this.state.userCollections[`${scope}|${userId}`] || LIST_EMPTY
-       *   ).get()
-       * }
-       */
-      if (
-        typeof this.state[key] === 'object' &&
-        typeof this.state[key]._ === 'function'
-      ) {
-        this[key] = (...arg) => {
-          const id = this.state[key]._(...arg)
-          return computed(() => this.state[key][id] || this.state[key][0]).get()
-        }
-        return
-      }
-
-      /**
-       * 情况2
-       * subject(subjectId) {
-       *   return computed(
-       *     () => this.state.subject[subjectId] || INIT_SUBJECT
-       *   ).get()
-       * }
-       */
-      this[key] = (id = 0) =>
-        computed(() => this.state[key][id] || this.state[key][0]).get()
-    })
-  }
-
   /**
    * 统一 setState 方法
    * @version 190226 v1.0

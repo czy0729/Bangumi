@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:30:06
+ * @Last Modified time: 2023-02-28 03:55:13
  */
 import { observable, computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
-import { desc, info, getPinYinFilterValue } from '@utils'
+import { desc, getPinYinFilterValue, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
+import CacheManager from '@utils/cache-manager'
 import { HTML_FRIENDS } from '@constants'
 import { UserId } from '@types'
 import { sortByRecent } from './utils'
@@ -44,36 +45,53 @@ export default class ScreenFriends extends store {
 
   /** 好友列表 */
   fetchFriends = () => {
-    const { userId } = this.params
     return usersStore.fetchFriends({
-      userId
+      userId: this.userId
     })
   }
 
   /** 用户信息 (他人视角) */
   fetchUsers = () => {
-    const { userId } = this.params
     return usersStore.fetchUsers({
-      userId
+      userId: this.userId
     })
   }
 
   /** 批量获取所有好友信息 */
-  fetchUsersBatch = () => {
-    const { list } = this.friends
-    info('刷新中...')
+  fetchUsersBatch = async () => {
+    const { fetching } = this.state
+    if (fetching) return false
 
-    return queue(
-      list.map(
-        item => () =>
+    this.setState({
+      fetching: true
+    })
+
+    const fetchs = []
+    this.list.forEach((item, index) => {
+      const { _loaded } = this.users(item.userId)
+      if (!_loaded || getTimestamp() - Number(_loaded) >= 60 * (15 + index)) {
+        fetchs.push(() =>
           usersStore.fetchUsers({
             userId: item.userId
           })
-      )
-    )
+        )
+      }
+    })
+
+    await queue(fetchs)
+    this.setState({
+      fetching: false
+    })
+
+    return true
   }
 
   // -------------------- get --------------------
+  @computed get userId() {
+    const { userId } = this.params
+    return userId
+  }
+
   /** 用户信息 */
   users(userId: UserId) {
     return computed(() => usersStore.users(userId)).get()
@@ -81,12 +99,19 @@ export default class ScreenFriends extends store {
 
   /** 好友列表 */
   @computed get friends() {
-    const { userId } = this.params
-    const friends = usersStore.friends(userId)
+    return usersStore.friends(this.userId)
+  }
+
+  @computed get list() {
+    const key = `${NAMESPACE}|list|${this.userId}`
+    if (this.state.fetching) {
+      const data = CacheManager.get(key)
+      if (data) return CacheManager.get(key)
+    }
+
+    let { list } = this.friends
     const { filter, sort } = this.state
     const _filter = filter.toUpperCase()
-
-    let list = friends.list
     if (_filter.length) {
       list = list.filter(item => {
         const { userName } = item
@@ -110,10 +135,7 @@ export default class ScreenFriends extends store {
         )
     }
 
-    return {
-      ...friends,
-      list
-    }
+    return CacheManager.set(key, list)
   }
 
   /** 网址 */

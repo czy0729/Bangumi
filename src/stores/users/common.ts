@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 20:44:35
+ * @Last Modified time: 2023-02-28 03:22:47
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -58,35 +58,23 @@ export function cheerioUsers(HTML) {
   let avatar = matchAvatar($('.headerAvatar .avatarNeue').attr('style'))
   if (avatar === '//lain.bgm.tv/pic/user/l/icon.jpg') {
     avatar = ''
-  } else {
-    avatar = avatar.split('/000/')?.[1]
-    if (avatar) avatar = avatar.split('.jpg')?.[0]
   }
 
+  const counts = $('#anime .horizontalOptions').text().trim()
   return safeObject({
     userId,
-    userName: $('div.headerAvatar + .inner > a').text().trim(),
+    userName: $('.nameSingle .name a').text().trim(),
     avatar,
     sign: $('.bio').html() || '',
     join: $('span.tip').first().text(),
     hobby: hobby ? hobby[0] : '0',
     percent: parseFloat($('span.percent_text').text().replace('%', '')),
     recent: $('.timeline small.time').first().text(),
-    doing: parseInt(
-      $(`a[href='/anime/list/${userId}/do']`).text().replace('部在看', '')
-    ),
-    collect: parseInt(
-      $(`a[href='/anime/list/${userId}/collect']`).text().replace('部看过', '')
-    ),
-    wish: parseInt(
-      $(`a[href='/anime/list/${userId}/wish']`).text().replace('部想看', '')
-    ),
-    onHold: parseInt(
-      $(`a[href='/anime/list/${userId}/on_hold']`).text().replace('部搁置', '')
-    ),
-    dropped: parseInt(
-      $(`a[href='/anime/list/${userId}/dropped']`).text().replace('部抛弃', '')
-    ),
+    doing: Number(counts.match(/(\d+)部在看/)?.[1] || 0),
+    collect: Number(counts.match(/(\d+)部看过/)?.[1] || 0),
+    wish: Number(counts.match(/(\d+)部想看/)?.[1] || 0),
+    onHold: Number(counts.match(/(\d+)部搁置/)?.[1] || 0),
+    dropped: Number(counts.match(/(\d+)部抛弃/)?.[1] || 0),
     connectUrl: $('#connectFrd').attr('href'),
     disconnectUrl,
     formhash,

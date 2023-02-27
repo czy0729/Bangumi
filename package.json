@@ -13,7 +13,8 @@
     "start": "expo start",
     "start:offline": "EXPO_USE_EXOTIC=0 expo start --lan --offline",
     "top": "top -s 4 -o rsize",
-    "pub": "sudo mv ios ios1 && mv android android1 && eas update && mv ios1 ios && mv android1 android && yarn k"
+    "mv": "sudo yarn k && mv ios ios_ && mv android android_",
+    "re": "sudo mv ios_ ios && mv android_ android && yarn k"
   },
   "dependencies": {
     "@ant-design/react-native": "3.1.3",

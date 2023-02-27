@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 19:00:31
+ * @Last Modified time: 2023-02-28 03:06:37
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLDecode } from '@utils'
@@ -299,6 +299,7 @@ class UsersStore
       ...users,
       _loaded: getTimestamp()
     }
+
     const key = 'users'
     this.setState({
       [key]: {

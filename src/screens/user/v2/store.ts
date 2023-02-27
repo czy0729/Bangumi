@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-04 07:24:22
+ * @Last Modified time: 2023-02-28 03:57:00
  */
 import { observable, computed } from 'mobx'
 import {
@@ -120,8 +120,6 @@ export default class ScreenUser extends store {
    * 为了防止多次请求, 一次生命周期同一组参数只会进行一次请求
    * */
   fetchUserCollectionsByScore = async () => {
-    console.log('fetchUserCollectionsByScore')
-
     const { subjectType } = this.state
     const finger = JSON.stringify([this.username, subjectType, this.type])
     if (fetched[finger]) return true

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 07:37:33
+ * @Last Modified time: 2023-02-28 03:53:49
  */
 import React from 'react'
 import { Page, Heatmap } from '@components'
@@ -25,11 +25,11 @@ const Friends = (props, { $ }: Ctx) => {
     <>
       <Header />
       <Page>
+        <Filter />
         <PaginationList2
           keyExtractor={keyExtractor}
-          data={$.friends.list}
+          data={$.list}
           scrollToTop
-          ListHeaderComponent={<Filter />}
           renderItem={renderItem}
           onHeaderRefresh={$.onRefresh}
         />

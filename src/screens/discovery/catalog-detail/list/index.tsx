@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-06 15:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 15:37:29
+ * @Last Modified time: 2023-02-28 02:21:49
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -23,7 +23,7 @@ function List({ onScroll }, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       numColumns={numColumns}
-      data={$.catalogDetail.list}
+      data={$.list}
       limit={12}
       ListHeaderComponent={<Info />}
       renderItem={renderItem}
