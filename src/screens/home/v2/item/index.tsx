@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 11:22:56
+ * @Last Modified time: 2023-02-27 22:19:54
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -18,6 +18,8 @@ export default obc(
   ) => {
     global.rerender('Home.Item', subject.name_cn || subject.name)
 
+    const { top, progress } = $.state
+    const { fetchingSubjectId1, fetchingSubjectId2 } = progress
     return (
       <Item
         navigation={navigation}
@@ -29,8 +31,11 @@ export default obc(
         heatMap={$.heatMap}
         expand={$.$Item(subjectId).expand}
         epsCount={$.epsCount(subjectId)}
-        isTop={$.state.top.indexOf(subjectId) !== -1}
+        isTop={top.indexOf(subjectId) !== -1}
         isFirst={index === 0}
+        isRefreshing={
+          fetchingSubjectId1 === subjectId || fetchingSubjectId2 === subjectId
+        }
         onItemPress={$.onItemPress}
       />
     )

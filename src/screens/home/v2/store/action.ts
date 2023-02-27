@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:30:48
+ * @Last Modified time: 2023-02-27 22:11:48
  */
 import { collectionStore, userStore } from '@stores'
 import {
@@ -373,7 +373,7 @@ export default class Action extends Fetch {
     })
 
     // 更新最新章节数据
-    await userStore.fetchUserProgress(subjectId)
+    await this.fetchUserProgress(subjectId)
     t('首页.观看下一章节', {
       subjectId
     })
@@ -395,7 +395,7 @@ export default class Action extends Fetch {
     feedback()
 
     userStore.fetchCollectionSingle(subjectId)
-    userStore.fetchUserProgress(subjectId)
+    this.fetchUserProgress(subjectId)
   }
 
   /** 更新书籍下一个章节 */
@@ -485,7 +485,7 @@ export default class Action extends Fetch {
       feedback()
 
       userStore.fetchCollectionSingle(subjectId)
-      userStore.fetchUserProgress(subjectId)
+      this.fetchUserProgress(subjectId)
     }
 
     if (value === '看到') {
@@ -515,7 +515,7 @@ export default class Action extends Fetch {
       feedback()
 
       userStore.fetchCollectionSingle(subjectId)
-      userStore.fetchUserProgress(subjectId)
+      this.fetchUserProgress(subjectId)
     }
 
     // iOS是本集讨论, 安卓是(+N)...
@@ -575,7 +575,7 @@ export default class Action extends Fetch {
     feedback()
 
     userStore.fetchCollectionSingle(subjectId)
-    userStore.fetchUserProgress(subjectId)
+    this.fetchUserProgress(subjectId)
   }
 
   /** 批量添加提醒 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 11:15:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:52
+ * @Last Modified time: 2023-02-27 22:42:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,9 +24,7 @@ function Info({ title }, { $ }: Ctx) {
   const isGame = title === '游戏'
   const find = isGame
     ? grid
-    : $.currentCollection(title)
-        .list // @ts-expect-error
-        .find(item => item.subject_id === current)
+    : $.currentCollection(title).list.find(item => item.subject_id === current)
   return (
     <View style={isGame ? styles.gameInfo : styles.info}>
       {find ? (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:34:55
+ * @Last Modified time: 2023-02-27 23:34:56
  */
 import { computed } from 'mobx'
 import {
@@ -22,6 +22,7 @@ import {
   unzipBangumiData,
   x18
 } from '@utils'
+import CacheManager from '@utils/cache-manager'
 import {
   IOS,
   MODEL_COLLECTION_STATUS,
@@ -138,7 +139,16 @@ export default class Computed extends State {
   /** 列表当前数据 */
   currentCollection(title: TabLabel) {
     return computed(() => {
-      if (title === '游戏') return this.games
+      const key = `${NAMESPACE}|${title}`
+      if (this.state.progress.fetching) {
+        const data = CacheManager.get(key)
+        if (data) return CacheManager.get(key)
+      }
+
+      if (title === '游戏') {
+        CacheManager.set(key, this.games)
+        return this.games
+      }
 
       const data = {
         ...this.collection
@@ -171,6 +181,7 @@ export default class Computed extends State {
       }
 
       data.list = this.sortList(data.list)
+      CacheManager.set(key, data)
       return data
     }).get()
   }
@@ -261,8 +272,6 @@ export default class Computed extends State {
           .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
           .sort((a, b) => desc(a, b, item => this.topMap[item.subject_id] || 0))
       } catch (error) {
-        console.error(`[${NAMESPACE}] sortList`, error)
-
         // fallback
         return list
           .slice()

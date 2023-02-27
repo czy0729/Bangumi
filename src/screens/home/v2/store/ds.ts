@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:34:06
+ * @Last Modified time: 2023-02-27 22:15:53
  */
 import { ExcludeState, State, InitItem } from '../types'
 
@@ -28,6 +28,8 @@ export const EXCLUDE_STATE: ExcludeState = {
   },
   progress: {
     fetching: false,
+    fetchingSubjectId1: 0,
+    fetchingSubjectId2: 0,
     message: '',
     current: 0,
     total: 0

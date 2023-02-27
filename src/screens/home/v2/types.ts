@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-11 16:50:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 23:19:19
+ * @Last Modified time: 2023-02-27 22:15:51
  */
 import { factory } from '@utils'
 import { Loaded, Navigation, Subject, SubjectId } from '@types'
@@ -30,6 +30,8 @@ export type ExcludeState = {
   }
   progress: {
     fetching: boolean
+    fetchingSubjectId1: SubjectId
+    fetchingSubjectId2: SubjectId
     message: string
     current: number
     total: number

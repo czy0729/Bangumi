@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:30:35
+ * @Last Modified time: 2023-02-27 23:36:27
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -57,8 +57,8 @@ class ScreenHomeV2 extends Action {
 
   /** 初始化请求 */
   initFetch = async (refresh: boolean = false) => {
-    const { progress } = this.state
-    if (progress.fetching) {
+    const { fetching } = this.state.progress
+    if (fetching) {
       info('正在刷新条目信息')
       return
     }
@@ -72,7 +72,9 @@ class ScreenHomeV2 extends Action {
 
     // 需要刷新数据
     if (flag) {
-      if (await this.initQueue()) return true
+      if (await this.initQueue()) {
+        return true
+      }
 
       // 可能是 access_token 过期了, 需要重新刷新 access_token
       if (userStore.isWebLogin) {

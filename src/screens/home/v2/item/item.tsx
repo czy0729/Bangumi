@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 08:31:02
+ * @Last Modified time: 2023-02-27 22:21:05
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Collapsible, Heatmap } from '@components'
+import { Flex, Touchable, Collapsible, Heatmap, Loading } from '@components'
+import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import Cover from './cover'
 import Title from './title'
@@ -30,6 +31,7 @@ const Item = memo(
     epsCount,
     isTop,
     isFirst,
+    isRefreshing,
     onItemPress
   }) => {
     global.rerender('Home.Item.Main', subject.name_cn || subject.name)
@@ -50,6 +52,7 @@ const Item = memo(
                 <Flex.Item>
                   <Title subjectId={subjectId} subject={subject} title={title} />
                 </Flex.Item>
+                {isRefreshing && <Loading.Medium color={_.colorSub} size={16} />}
                 <OnAir subjectId={subjectId} />
               </Flex>
             </Touchable>

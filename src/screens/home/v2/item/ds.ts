@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-12 15:07:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:37:52
+ * @Last Modified time: 2023-02-27 22:19:11
  */
 import { _ } from '@stores'
 import { Navigation, Subject, SubjectId } from '@types'
@@ -48,10 +48,11 @@ export const DEFAULT_PROPS = {
 
   /** 看到多少集 */
   epStatus: '' as string | number,
-  heatMap: false,
-  expand: false,
-  epsCount: 0,
-  isTop: false,
-  isFirst: false,
+  heatMap: false as boolean,
+  expand: false as boolean,
+  epsCount: 0 as number,
+  isTop: false as boolean,
+  isFirst: false as boolean,
+  isRefreshing: false as boolean,
   onItemPress: (() => {}) as StoreType['onItemPress']
 }
