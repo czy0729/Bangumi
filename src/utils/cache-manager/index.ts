@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-07-14 09:48:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:10:23
+ * @Last Modified time: 2023-02-25 22:18:11
  */
 import { Override, Loaded, Subject, SubjectId } from '@types'
 import { getStorage, setStorage } from '../storage'
@@ -49,7 +49,7 @@ export async function get(key: Keys) {
 }
 
 /** 保存 */
-export function set<K extends Keys, T extends typeof CACHES[K]>(key: K, data: T) {
+export function set<K extends Keys, T extends (typeof CACHES)[K]>(key: K, data: T) {
   CACHES[key] = data
   return setStorage(getKey(key), CACHES[key])
 }

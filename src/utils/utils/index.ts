@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 01:15:09
+ * @Last Modified time: 2023-02-25 22:17:06
  */
 import { ComponentType } from 'react'
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
@@ -17,7 +17,12 @@ import { info } from '../ui'
 
 dayjs.extend(dayjsCustomParseFormat)
 
-/** 全局强制组件设置默认参数 */
+/**
+ * 全局强制组件设置默认参数
+ * @param Component 组件
+ * @param defaultProps 默认属性
+ * @returns 添加默认属性后的组件
+ */
 export function setDefaultProps<T extends ComponentType<any>>(
   Component: T,
   defaultProps?: Record<string, any>
@@ -42,7 +47,11 @@ export function setDefaultProps<T extends ComponentType<any>>(
   return Component
 }
 
-/** 排除 null */
+/**
+ * 判断是否为非空对象
+ * @param value 待判断的值
+ * @returns 如果是非空对象则返回 true, 否则返回 false
+ */
 export function isObject(value: any): boolean {
   return typeof value === 'object' && !!value
 }
@@ -125,11 +134,12 @@ export function compare(a: string, b: string) {
 }
 
 /**
- * 排序正序辅助函数
- *  - 用于在安卓端开启低版本的 Hermes 后, Array.sort 需要严格区分返回 0 -1 1, 相同返回会出现不稳定的结果
- * @param a
- * @param b
- * @param fn
+ * 正序比较函数, 可接受一个映射函数进行比较
+ * - 用于在安卓端开启低版本的 Hermes 后, Array.sort 需要严格区分返回 0 -1 1, 相同返回会出现不稳定的结果
+ * @param a 第一个比较项
+ * @param b 第二个比较项
+ * @param fn 映射函数, 将比较项转换后再进行比较
+ * @returns 如果a < b, 则返回 -1; 如果a = b, 则返回 0; 如果a > b, 则返回 1
  */
 export function asc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
   const _a = typeof fn === 'function' ? fn(a) : a
@@ -141,10 +151,11 @@ export function asc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
 }
 
 /**
- * 排序倒序辅助函数
- * @param a
- * @param b
- * @param fn
+ * 倒序比较函数, 可接受一个映射函数进行比较
+ * @param a 第一个比较项
+ * @param b 第二个比较项
+ * @param fn 映射函数, 将比较项转换后再进行比较
+ * @returns 如果a < b, 则返回 1; 如果a = b, 则返回 0; 如果a > b, 则返回 -1
  */
 export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
   const _a = typeof fn === 'function' ? fn(a) : a
@@ -156,12 +167,12 @@ export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
 }
 
 /**
- * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
- * @param {*} fetchs fetchFn[]
- * @param {*} num default: 2
+ * 并发请求
+ * @param {*} fetchs 请求数组
+ * @param {*} num 并发数, 默认为 2
  */
-export async function queue(fetchs: any[] = [], num: any = 2) {
-  if (!fetchs.length) return false
+export async function queue(fetchs: (() => Promise<any>)[] = [], num: number = 2) {
+  if (fetchs?.length === 0) return false
 
   const limit = pLimit(num)
   return Promise.all(fetchs.map(fetch => limit(fetch)))
@@ -232,6 +243,7 @@ export function urlStringify(
   encode: boolean = true
 ): string {
   if (!data) return ''
+
   const arr = Object.entries(data).map(
     ([key, value]) => `${key}=${encode ? encodeURIComponent(value) : value}`
   )
@@ -250,7 +262,7 @@ export function sleep(ms: number = 800): Promise<void> {
 
 /** 简易时间戳格式化函数 */
 export function date(format?: string, timestamp?: any): string {
-  // 假如第二个参数不存在，第一个参数作为 timestamp
+  // 假如第二个参数不存在, 第一个参数作为 timestamp
   if (!timestamp) {
     timestamp = format
     format = 'Y-m-d H:i:s'
@@ -273,23 +285,27 @@ export function date(format?: string, timestamp?: any): string {
   )
 }
 
-/** IOS8601 时间转换 */
-export function parseIOS8601(isostr: string, format = 'Y-m-d') {
+/**
+ * 将 ISO8601 格式的时间字符串转换为指定格式的日期字符串
+ * @param isostr ISO8601 格式的时间字符串
+ * @param format 日期格式字符串，默认为 'Y-m-d'
+ * @returns 指定格式的日期字符串
+ */
+export function parseIOS8601(isostr: string, format = 'Y-m-d'): string {
   if (!isostr) return ''
 
-  const parts = isostr.match(/\d+/g)
-  const timestamp =
-    new Date(
-      `${parts[0]}-${parts[1]}-${parts[2]} ${parts[3]}:${parts[4]}:${parts[5]}`
-    ).getTime() / 1000
-  return date(format, timestamp)
+  const [year, month, day, hour, minute, second] = isostr.trim().match(/\d+/g) ?? []
+  const timestamp = new Date(
+    `${year}-${month}-${day} ${hour}:${minute}:${second}`
+  ).getTime()
+  return date(format, timestamp / 1000)
 }
 
 /**
  * 返回 timestamp
  * @doc https://dayjs.fenxianglu.cn/category/parse.html#%E5%AD%97%E7%AC%A6%E4%B8%B2-%E6%A0%BC%E5%BC%8F
  * */
-export function getTimestamp(date = '', format?: string) {
+export function getTimestamp(date: string = '', format?: string) {
   const _date = date.trim()
   const day = format ? dayjs(_date, format) : dayjs(_date)
   return day.isValid() ? day.unix() : dayjs().unix()
@@ -393,7 +409,7 @@ export function random(start: number, end: number) {
  * 数字分割加逗号
  * @version 160811 1.0
  * @version 160902 1.1 添加保留多少位小数
- * @version 160907 1.2 代码优化，金额少于 1000 时直接返回
+ * @version 160907 1.2 代码优化, 金额少于 1000 时直接返回
  * @version 170103 1.3 判断 n 为 0 的情况
  * @param {*} s   数字
  * @param {*} n   保留多少位小数

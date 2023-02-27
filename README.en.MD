@@ -11,17 +11,7 @@
 
 ---
 
-An unofficial app client for [Bangumi](https://bgm.tv) based on `React-Native`.
-
-Bangumi is a chinese website used to manage the progress of watching subject (more than anime, even game, comic, music, tv show), like [MAL](https://myanimelist.net).
-
-Android and iOS are compatible and consistent to the maximum extent.
-
-At present, mobile design first, no less than 90 pages have been developed, covering almost all pages of the website.
-
-This repo is my first developed app and have no native development experience before.
-
-About this app see more on [yuque](https://www.yuque.com/chenzhenyu-k0epm/znygb4).
+This is a third-party [Bangumi](https://bgm.tv) client based on React-Native, supporting both Android and iOS while striving for consistency. Over 90 pages have been developed, covering all pages on the website. Bangumi is used for managing progress and discussing anime, music, dramas, games, like [MAL](https://myanimelist.net). This app was developed as an RN exercise, with the hope of learning more through the platform's data. For more information, visit the documentation on [Yuque](https://www.yuque.com/chenzhenyu-k0epm/znygb4).
 
 ## Download
 

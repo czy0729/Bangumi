@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 21:21:16
+ * @Last Modified time: 2023-02-26 03:08:35
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -47,7 +47,8 @@ import {
   SubjectType,
   SubjectTypeCn,
   SubjectTypeValue,
-  UserId
+  UserId,
+  CollectionStatusValue
 } from '@types'
 import subjectStore from '../subject'
 import userStore from '../user'
@@ -667,7 +668,7 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     tags?: string
     comment?: string
     rating?: string | number
-    privacy?: 0 | 1 | '0' | '1'
+    privacy?: 0 | 1
   }) => {
     const { subjectId, status, tags, comment, rating, privacy } = args || {}
     return new Promise(async resolve => {
@@ -685,7 +686,7 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
 
       // @todo 20220216 以下旧API不再响应敏感条目, 暂时使用请求网页代替
       if (data?.code === 404) {
-        const interest = MODEL_COLLECTION_STATUS.getTitle(status)
+        const interest = MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>(status)
         xhr(
           {
             url: HTML_ACTION_SUBJECT_INTEREST_UPDATE(subjectId, userStore.formhash),

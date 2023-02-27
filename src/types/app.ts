@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 19:53:49
+ * @Last Modified time: 2023-02-25 23:08:18
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -98,12 +98,12 @@ export type EventType = {
 /** 列表对象 */
 export type ListEmpty<T = any> = {
   list: T[]
-  pagination: {
+  pagination?: {
     page: number
     pageTotal: number
   }
   _list?: T[]
-  _loaded: Loaded
+  _loaded?: Loaded
 }
 
 /** T: 传入 state 的所有 keys, 约束把所有 key 都可以通过 this[key] 访问 */
@@ -120,7 +120,7 @@ export type StoreType = any
 export type StoreInstance = any
 
 /** 允许显示的源头 */
-export type Sites = typeof SITES[number]
+export type Sites = (typeof SITES)[number]
 
 /** data._loaded */
 export type Loaded = boolean | number
