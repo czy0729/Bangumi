@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-19 16:58:12
+ * @Last Modified time: 2023-02-27 20:35:20
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import { obc } from '@utils/decorators'
-import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
+import { MODEL_SETTING_INITIAL_PAGE } from '@constants'
 
 let rendered = false
 

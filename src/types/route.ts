@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:12:01
+ * @Last Modified time: 2023-02-27 20:39:48
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -24,6 +24,7 @@ export type NavigationPushType = RouteActions &
   RouteMono &
   RoutePM &
   RouteRating &
+  RouteSearch &
   RouteSetting &
   RouteShare &
   RouteSubject &
@@ -33,6 +34,14 @@ export type NavigationPushType = RouteActions &
   RouteWebBrowser &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteSearch = (
+  path: 'Search',
+  params: {
+    _type?: string
+    _value?: string
+  }
+) => any
 
 type RouteMono = (
   path: 'Mono',

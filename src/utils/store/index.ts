@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 04:13:23
+ * @Last Modified time: 2023-02-26 00:14:09
  */
 import {
   action,
@@ -235,18 +235,18 @@ export default class Store {
    * 存入本地缓存
    * @param {*} key
    * @param {*} value
-   * @param {*} namespace 空间名其实一定要传递的, 不能依赖 this.getName, 打包后会丢失
+   * @param {*} namespace 空间名其实一定要传递的
    */
   setStorage = (key: string, value?: any, namespace?: any) => {
     // 只传了一个参数时, 第一个参数作为 namespace
     if (value === undefined && namespace === undefined) {
-      let _key = key || this.namespace || this.getName()
+      let _key = key || this.namespace
       _key += '|state'
       const data = this.state
       return setStorage(_key, data)
     }
 
-    let _key = namespace || this.namespace || this.getName()
+    let _key = namespace || this.namespace
     if (key) _key += `|${key}`
     _key += '|state'
 
@@ -257,7 +257,7 @@ export default class Store {
   /**
    * 读取本地缓存
    * @param {*} key
-   * @param {*} namespace 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
+   * @param {*} namespace 空间名其实一定要传递的
    * @param {*} defaultValue
    */
   getStorage = async (
@@ -267,7 +267,7 @@ export default class Store {
   ): Promise<any> => {
     // 只传了一个参数时, 第一个参数作为 namespace
     if (namespace === undefined && defaultValue === undefined) {
-      let _key = key || this.namespace || this.getName()
+      let _key = key || this.namespace
       _key += '|state'
       return (
         JSON.parse(await AsyncStorage.getItem(_key)) ||
@@ -275,7 +275,7 @@ export default class Store {
       )
     }
 
-    let _key = namespace || this.namespace || this.getName()
+    let _key = namespace || this.namespace
     if (key) _key += `|${key}`
     _key += '|state'
 
@@ -320,19 +320,4 @@ export default class Store {
    * @return {Object}
    */
   toJS = (key: string): object => toJS(this.state[key] || this.state)
-
-  /**
-   * @deprecated 取类名
-   * @issue apk打包后类名会丢失, 请勿在非dev情况下调用
-   */
-  getName = () => {
-    let s = this.constructor.toString()
-    if (s.indexOf('function') == -1) return null
-
-    s = s.replace('function', '')
-    const idx = s.indexOf('(')
-    s = s.substring(0, idx)
-    s = s.replace(' ', '')
-    return s
-  }
 }
