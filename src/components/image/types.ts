@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 09:46:27
+ * @Last Modified time: 2023-02-28 19:04:48
  */
 import { ColorValue, ImageProps } from 'react-native'
 import { Override, ViewStyle, ImageStyle, EventType, Source } from '@types'
@@ -84,6 +84,9 @@ export type Props = Override<
 
     /** 确定加载失败后隐藏组件 */
     errorToHide?: boolean
+
+    /** 点击中动画缩放比例 */
+    scale?: number
 
     /** 图片点击回调 */
     onPress?: (arg0?: any) => any

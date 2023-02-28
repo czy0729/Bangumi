@@ -13,7 +13,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 03:13:07
+ * @Last Modified time: 2023-02-28 19:05:56
  */
 import React from 'react'
 import { View, Image as RNImage, ImageProps as RNImageProps } from 'react-native'
@@ -612,6 +612,7 @@ export const Image = observer(
         headers,
         event,
         delay,
+        scale,
         cache,
         fadeDuration,
         errorToHide,
@@ -651,11 +652,12 @@ export const Image = observer(
     }
 
     renderTouchabelImage(onPress) {
-      const { delay, onLongPress } = this.props
+      const { delay, scale, onLongPress } = this.props
       return (
         <View style={this.computedStyle.container}>
           <Touchable
             delay={delay}
+            scale={scale}
             onPress={onPress}
             onLongPress={
               this.dev

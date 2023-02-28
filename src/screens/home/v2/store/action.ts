@@ -206,7 +206,7 @@ export default class Action extends Fetch {
 
   scrollToIndex = {}
 
-  /** 底部 <TabBar> 再次点击滚动到顶并刷新数据 */
+  /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
   connectRef = (
     ref: {
       scrollToIndex: any
@@ -381,7 +381,7 @@ export default class Action extends Fetch {
     const { id } = this.nextWatchEp(subjectId)
     await userStore.doUpdateEpStatus({
       id,
-      status: MODEL_EP_STATUS.getValue('看过')
+      status: MODEL_EP_STATUS.getValue<EpStatus>('看过')
     })
 
     this.setState({

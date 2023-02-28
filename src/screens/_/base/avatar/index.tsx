@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 22:12:20
+ * @Last Modified time: 2023-02-28 19:22:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -154,6 +154,7 @@ export const Avatar = ob(
             quality={false}
             placeholder={placeholder}
             fallbackSrc={fallbackSrc || src}
+            scale={0.8}
             onPress={_onPress}
             onLongPress={onLongPress}
           />
@@ -185,6 +186,7 @@ export const Avatar = ob(
         placeholder={placeholder}
         fallback={fallback}
         fallbackSrc={String(fallbackSrc || src)}
+        scale={0.88}
         onPress={_onPress}
         onLongPress={onLongPress}
       />

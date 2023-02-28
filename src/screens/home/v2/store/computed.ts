@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 04:49:15
+ * @Last Modified time: 2023-02-28 07:18:51
  */
 import { computed } from 'mobx'
 import {
@@ -42,10 +42,10 @@ import {
 } from '@types'
 import { Ep } from '@stores/subject/types'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { OriginItem, getOriginConfig } from '../../../user/origin-setting/utils'
+import { OriginItem, getOriginConfig } from '@src/screens/user/origin-setting/utils'
 import { TABS, TABS_WITH_GAME } from '../ds'
-import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 import { TabLabel } from '../types'
+import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 import State from './state'
 
 export default class Computed extends State {
@@ -215,7 +215,7 @@ export default class Computed extends State {
       try {
         const { homeSortSink } = systemStore.setting
 
-        // 计算每一个条目看过ep的数量
+        // 计算每一个条目看过 ep 的数量
         const weightMap = {}
 
         // 放送顺序: 根据今天星期几, 每天递减, 放送中的番剧优先

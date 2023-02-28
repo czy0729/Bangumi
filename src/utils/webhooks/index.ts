@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-26 07:39:33
+ * @Last Modified time: 2023-02-28 07:15:20
  */
 import { InteractionManager } from 'react-native'
 import axios from '@utils/thirdParty/axios'
-import { MODEL_COLLECTION_STATUS } from '@constants'
+import { DEV, MODEL_COLLECTION_STATUS } from '@constants'
 import {
   WebHooksTypes,
   SubjectType as WebHooksSubjectType,
@@ -38,7 +38,10 @@ export const webhooks: WebHooksTypes = (type, data) => {
 
 /** 钩子: [收藏] 修改用户单个收藏 */
 export const webhooksUsersCollections = (values, subject, userInfo) => {
-  webhooks('users_collections', {
+  if (!DEV) return
+
+  const type = 'users_collections'
+  webhooks(type, {
     type: Number(
       MODEL_COLLECTION_STATUS.getTitle<WebHooksCollectionType>(values?.status)
     ) as WebHooksCollectionType,
@@ -70,7 +73,7 @@ export const webhooksUsersCollections = (values, subject, userInfo) => {
   })
 
   t('其他.Webhooks', {
-    type: 'users_collections',
+    type,
     subjectId: Number(subject?.id || 0),
     username: userInfo?.username || 0
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:50:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-21 18:39:55
+ * @Last Modified time: 2023-02-28 19:00:39
  */
 import { Insets } from 'react-native'
 import { ViewStyle } from '@types'
@@ -30,13 +30,16 @@ export type Props = {
 
   /**
    * iOS 端此值无变化
-   * 安卓端 <Touchable> 都使用了 react-native-gesture-handler 提供的封装
+   * 安卓端 Touchable 都使用了 react-native-gesture-handler 提供的封装
    * 有比 RN 提供的更快的反馈效果，若设置为 true 强制使用 RN 提供的 <Touchable>
    */
   useRN?: boolean
 
-  /** 涟漪状的背景（安卓 only） */
+  /** 涟漪状的背景（安卓 only）*/
   ripple?: boolean
+
+  /** 点击中动画缩放比例 */
+  scale?: number
 
   /** onPressOut 之后调用 */
   onPress?: (event?: any) => any

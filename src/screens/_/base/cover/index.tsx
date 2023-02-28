@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 20:03:32
+ * @Last Modified time: 2023-02-28 19:10:18
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, Text } from '@components'
+import { Flex, Image, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { matchCoverUrl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -224,19 +224,20 @@ export const Cover = ob(
       }
     }
 
+    const { onPress, onLongPress, ...passProps } = other
     return (
-      <Image
-        key={hashSubjectOTALoaded}
-        style={imageStyle}
-        src={_src}
-        imageViewerSrc={imageViewerSrc}
-        size={size}
-        height={height}
-        textOnly={textOnly}
-        fallback={fallback}
-        {...other}
-        // onPress={() => copy(_src)}
-      />
+      <Touchable key={hashSubjectOTALoaded} onPress={onPress} onLongPress={onLongPress}>
+        <Image
+          style={imageStyle}
+          src={_src}
+          imageViewerSrc={imageViewerSrc}
+          size={size}
+          height={height}
+          textOnly={textOnly}
+          fallback={fallback}
+          {...passProps}
+        />
+      </Touchable>
     )
   }
 )

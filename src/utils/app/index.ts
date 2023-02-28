@@ -265,16 +265,11 @@ export function navigationReference(navigation?: Navigation | undefined) {
 /** 修正和缩略 ago 时间 */
 export function correctAgo(time = '') {
   let _time = time.replace('...', '')
-  if (_time.indexOf(' ago') === -1) {
-    _time = _time.replace('ago', ' ago')
-  }
+  if (_time.indexOf(' ago') === -1) _time = _time.replace('ago', ' ago')
   return _time.includes('-')
     ? _time.replace(`${YEAR}-`, '')
     : _time
-        .replace('d', '天')
-        .replace('h', '时')
-        .replace('m', '分')
-        .replace('s', '秒')
+        .replace(/d|h|m|s/g, match => ({ d: '天', h: '时', m: '分', s: '秒' }[match]))
         .replace(' ago', '前')
         .replace(/ /g, '')
 }
@@ -288,22 +283,11 @@ export function keyExtractor(item = { id: '' }) {
 export function fixedBgmUrl(url = '') {
   try {
     let _url = url
-
-    // 补全协议
     if (!_url.includes('http://') && !_url.includes('https://')) {
       _url = `${HOST}${_url}`
     }
-
-    // HOST纠正为https
-    if (_url.includes('http://')) {
-      _url = _url.replace('http://', 'https://')
-    }
-
-    // bgm.tv 替换成 bangumi.tv
-    if (_url.includes(HOST_2)) {
-      _url = _url.replace(HOST_2, HOST)
-    }
-
+    _url.includes('http://') && (_url = _url.replace('http://', 'https://'))
+    _url.includes(HOST_2) && (_url = _url.replace(HOST_2, HOST))
     return _url
   } catch (error) {
     return url
@@ -779,7 +763,7 @@ export function tinygrailFixedTime(time: any) {
 }
 
 /**
- * bangumi-data的min转换成正常item
+ * bangumi-data 的 min 转换成正常 item
  * @param {*} item
  *
  * {

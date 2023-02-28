@@ -76,7 +76,7 @@ export function HTMLTrim(str: any = '', deep?: boolean) {
 }
 
 /**
- * @deprecated html字符串转对象
+ * @deprecated html 字符串转对象
  * @param {*} html
  * @param {*} cmd  是否生成 cmd 字符串(开发用)
  */
@@ -95,7 +95,7 @@ export function HTMLToTree(html: string, cmd = true) {
       const attrsMap = {}
       attrs.forEach(({ name, value, escaped }) => {
         // @issue 190507
-        // 带有cookie的请求经过cloudflare返回的html部分attr的属性被加上了data-cf前缀??? 醉了
+        // 带有 cookie 的请求经过 cloudflare 返回的 html 部分 attr 的属性被加上了 data-cf 前缀 ??? 醉了
         const _name = name.replace('data-cf', '')
         return (attrsMap[_name] = escaped || value)
       })
@@ -131,7 +131,7 @@ export function HTMLToTree(html: string, cmd = true) {
 }
 
 /**
- * @deprecated tree查找
+ * @deprecated tree 查找
  * ul > li > a|title
  * ul > li > a|title=123
  * ul > li > a|title=123&class=article

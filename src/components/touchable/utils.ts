@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-03 11:47:11
+ * @Last Modified time: 2023-02-28 19:40:13
  */
 import { _ } from '@stores'
 
@@ -24,12 +24,13 @@ export const styles = _.create({
   }
 })
 
+let isCalled = false
+let timer: number
+
 /**
  * 防止瞬间多次点击
  * @param {*} functionTobeCalled
  */
-let isCalled = false
-let timer: number
 export function callOnceInInterval(
   functionTobeCalled: (event?: any) => any,
   interval = 80
@@ -39,9 +40,7 @@ export function callOnceInInterval(
     clearTimeout(timer)
     timer = setTimeout(() => (isCalled = false), interval)
 
-    /**
-     * 把点击事件放在requestAnimationFrame里面, 在安卓上面是两个完全不同的体验
-     */
+    /** 把点击事件放在 requestAnimationFrame 里面, 在安卓上面是两个完全不同的体验 */
     return setTimeout(() => functionTobeCalled(), 0)
   }
 
@@ -49,7 +48,7 @@ export function callOnceInInterval(
 }
 
 /**
- * 分离出containerStyle
+ * 分离出 containerStyle
  * @param {*} styles
  */
 export function separateStyles(styles) {

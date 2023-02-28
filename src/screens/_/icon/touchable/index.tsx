@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 16:36:26
+ * @Last Modified time: 2023-02-28 19:19:01
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { styles } from './styles'
 import { Props as IconTouchableProps } from './types'
@@ -27,8 +28,9 @@ export const IconTouchable = ob(
     if (count) {
       return (
         <Touchable
-          style={style ? [styles.icon, style] : styles.icon}
+          style={stl(styles.icon, style)}
           withoutFeedback={withoutFeedback}
+          scale={0.8}
           onPress={onPress}
         >
           <Flex align='end'>
@@ -44,8 +46,9 @@ export const IconTouchable = ob(
 
     return (
       <Touchable
-        style={style ? [styles.icon, style] : styles.icon}
+        style={stl(styles.icon, style)}
         withoutFeedback={withoutFeedback}
+        scale={0.8}
         onPress={onPress}
       >
         <Iconfont name={name} size={size} color={color} />
