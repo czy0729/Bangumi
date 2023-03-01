@@ -38,6 +38,9 @@ export type Props = {
   /** 涟漪状的背景（安卓 only）*/
   ripple?: boolean
 
+  /** 是否使用缩放动画 */
+  animate?: boolean
+
   /** 点击中动画缩放比例 */
   scale?: number
 

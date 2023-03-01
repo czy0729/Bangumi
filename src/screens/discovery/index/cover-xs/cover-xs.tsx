@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:10
+ * @Last Modified time: 2023-03-02 00:46:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Flex, Text, UserStatus } from '@components'
+import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Cover, Avatar } from '@_'
 import { _, systemStore } from '@stores'
-import { getCoverMedium, HTMLDecode } from '@utils'
+import { getCoverMedium, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { linearColor } from '../ds'
@@ -26,20 +26,15 @@ export default memo(
     const imageHeight = imageWidth * 1.38
     return (
       <View>
-        <View
-          style={[
-            styles.item,
-            {
-              borderRadius: coverRadius
-            }
-          ]}
-        >
-          <Cover
-            src={getCoverMedium(data.cover)}
-            width={imageWidth}
-            height={isMusic ? imageWidth : imageHeight}
-            radius
-            placeholder={false}
+        <View style={styles.item}>
+          <Touchable
+            style={[
+              styles.touch,
+              {
+                borderRadius: coverRadius
+              }
+            ]}
+            animate
             onPress={() => {
               t('发现.跳转', {
                 to: 'Subject',
@@ -55,24 +50,32 @@ export default memo(
                 _image: data.cover
               })
             }}
-          />
-          <LinearGradient
-            style={styles.linear}
-            // @ts-expect-error
-            colors={linearColor}
-            pointerEvents='none'
-          />
-          <Text
-            style={styles.desc}
-            size={8}
-            type={_.select('plain', 'title')}
-            numberOfLines={2}
-            bold
-            // @ts-expect-error
-            pointerEvents='none'
           >
-            {HTMLDecode(data.name)}
-          </Text>
+            <Cover
+              src={getCoverMedium(data.cover)}
+              width={imageWidth}
+              height={isMusic ? imageWidth : imageHeight}
+              radius
+              placeholder={false}
+            />
+            <LinearGradient
+              style={stl(styles.linear, isMusic && styles.linearMusic)}
+              // @ts-expect-error
+              colors={linearColor}
+              pointerEvents='none'
+            />
+            <Text
+              style={styles.desc}
+              size={8}
+              type={_.select('plain', 'title')}
+              numberOfLines={2}
+              bold
+              // @ts-expect-error
+              pointerEvents='none'
+            >
+              {HTMLDecode(data.name)}
+            </Text>
+          </Touchable>
         </View>
         {!!avatar && (
           <Flex

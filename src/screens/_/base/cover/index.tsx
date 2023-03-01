@@ -7,7 +7,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, Text, Touchable } from '@components'
+import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { matchCoverUrl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -224,20 +224,18 @@ export const Cover = ob(
       }
     }
 
-    const { onPress, onLongPress, ...passProps } = other
     return (
-      <Touchable key={hashSubjectOTALoaded} onPress={onPress} onLongPress={onLongPress}>
-        <Image
-          style={imageStyle}
-          src={_src}
-          imageViewerSrc={imageViewerSrc}
-          size={size}
-          height={height}
-          textOnly={textOnly}
-          fallback={fallback}
-          {...passProps}
-        />
-      </Touchable>
+      <Image
+        key={hashSubjectOTALoaded}
+        style={imageStyle}
+        src={_src}
+        imageViewerSrc={imageViewerSrc}
+        size={size}
+        height={height}
+        textOnly={textOnly}
+        fallback={fallback}
+        {...other}
+      />
     )
   }
 )

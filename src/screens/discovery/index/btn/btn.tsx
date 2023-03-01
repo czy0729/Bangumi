@@ -60,7 +60,7 @@ const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
 
   if (onPress) {
     return (
-      <Touchable style={_.container.touch} useRN onPress={onPress}>
+      <Touchable style={_.container.touch} animate onPress={onPress}>
         {content}
         <Heatmap id='发现.跳转' to={key} alias={name} />
       </Touchable>

@@ -30,6 +30,7 @@ export const Touchable = observer(
     delayPressOut = 0,
     useRN = false,
     ripple,
+    animate,
     scale,
     onPress = () => {},
     children,
@@ -54,9 +55,11 @@ export const Touchable = observer(
 
     if (highlight) return <TouchableHighlight {...passProps} />
 
+    if (!_useRN && animate) return <TouchableAnimated {...passProps} scale={scale} />
+
     if (_useRN) return <TouchableOpacity {...passProps} />
 
     // 绝大部分情况会 return 这个
-    return <TouchableAnimated {...passProps} scale={scale} />
+    return <TouchableOpacity {...passProps} />
   }
 )

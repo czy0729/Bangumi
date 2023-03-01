@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 05:36:37
+ * @Last Modified time: 2023-03-02 00:52:50
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -83,7 +83,7 @@ export default memo(
           <>
             <Flex style={styles.btns} justify='end'>
               <Flex.Item>
-                <Touchable style={styles.touch} onPress={onCancel}>
+                <Touchable style={styles.touch} animate onPress={onCancel}>
                   <Flex style={styles.btn} justify='center'>
                     <Text type='sub' bold size={11}>
                       取消
@@ -92,7 +92,7 @@ export default memo(
                 </Touchable>
               </Flex.Item>
               <Flex.Item style={_.ml.md}>
-                <Touchable style={styles.touch} onPress={onSave}>
+                <Touchable style={styles.touch} animate onPress={onSave}>
                   <Flex style={styles.btn} justify='center'>
                     <Text type='__plain__' bold size={11}>
                       保存
@@ -103,6 +103,7 @@ export default memo(
               <IconTouchable
                 style={[_.ml.md, _.mr.sm]}
                 name='md-refresh'
+                color={_.colorDesc}
                 onPress={() => {
                   confirm('是否恢复默认菜单布局', () => {
                     // @ts-expect-error

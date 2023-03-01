@@ -156,6 +156,7 @@ type RouteSubject = (
     _jp?: string
     _cn?: string
     _image?: string
+    _imageForce?: string
     _collection?: string
     _type?: SubjectTypeCn
 

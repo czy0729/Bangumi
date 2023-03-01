@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:11:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-20 12:14:13
+ * @Last Modified time: 2023-03-02 00:45:18
  */
 import { _ } from '@stores'
 
@@ -11,9 +11,9 @@ export const memoStyles = _.memoStyles(() => {
   const margin = _.device(_._wind, _.md)
   return {
     item: {
-      marginRight: margin,
-      backgroundColor: _.colorBg,
-      borderRadius: _.radiusSm,
+      marginRight: margin
+    },
+    touch: {
       overflow: 'hidden'
     },
     cover: {

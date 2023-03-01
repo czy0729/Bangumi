@@ -10,13 +10,13 @@ export const memoStyles = _.memoStyles(() => {
   const height = _.device(128, 164)
   const width = height * 2 + 16
   return {
-    item2021: {
-      width: _.device(128, 164) * 2 + 16,
-      height: _.device(128, 164)
-    },
     container: {
       height,
-      marginRight: _.md,
+      marginRight: _.md
+    },
+    item2021: {
+      width: _.device(128, 164) * 2 + 16,
+      height: _.device(128, 164),
       backgroundColor: '#ebf3ec',
       borderRadius: _.radiusMd,
       overflow: 'hidden'

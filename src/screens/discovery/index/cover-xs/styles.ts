@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-09 22:37:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 06:53:11
+ * @Last Modified time: 2023-03-02 00:46:42
  */
 import { _ } from '@stores'
 
@@ -10,8 +10,10 @@ export const AVATAR_SIZE = 24
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
-    marginRight: _._wind + 2,
-    borderRadius: _.radiusSm,
+    marginRight: _._wind + 2
+  },
+  touch: {
+    backgroundColor: _.colorBg,
     overflow: 'hidden'
   },
   linear: {
@@ -24,6 +26,9 @@ export const memoStyles = _.memoStyles(() => ({
     marginBottom: -0.5,
     borderBottomRightRadius: _.radiusSm,
     borderBottomLeftRadius: _.radiusSm
+  },
+  linearMusic: {
+    bottom: -20
   },
   desc: {
     position: 'absolute',

@@ -8,9 +8,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Image } from '@components'
+import { Image, Touchable } from '@components'
 import { _, systemStore, userStore, usersStore } from '@stores'
-import { getTimestamp, getCoverMedium } from '@utils'
+import { getTimestamp, getCoverMedium, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST_API_V0 } from '@utils/fetch.v0/ds'
 import { ob } from '@utils/decorators'
@@ -174,22 +174,26 @@ export const Avatar = ob(
     }
 
     return (
-      <Image
-        key={isUrl ? _src : 'avatar'}
-        style={dev && isUrl && _src.includes(HOST_CDN) ? [style, styles.dev] : style}
-        size={_size}
-        src={_src}
-        radius={_radius}
-        border={borderColor}
-        borderWidth={borderWidth}
-        quality={false}
-        placeholder={placeholder}
-        fallback={fallback}
-        fallbackSrc={String(fallbackSrc || src)}
+      <Touchable
+        style={stl(style, dev && isUrl && _src.includes(HOST_CDN) && styles.dev)}
+        animate
         scale={0.88}
         onPress={_onPress}
         onLongPress={onLongPress}
-      />
+      >
+        <Image
+          key={isUrl ? _src : 'avatar'}
+          size={_size}
+          src={_src}
+          radius={_radius}
+          border={borderColor}
+          borderWidth={borderWidth}
+          quality={false}
+          placeholder={placeholder}
+          fallback={fallback}
+          fallbackSrc={String(fallbackSrc || src)}
+        />
+      </Touchable>
     )
   }
 )

@@ -49,7 +49,7 @@ function Award2022({
               height: height || styles.item2022.height
             }
           ]}
-          useRN
+          animate
           onPress={() => {
             t('发现.跳转', {
               to: 'Award',

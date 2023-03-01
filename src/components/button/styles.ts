@@ -72,7 +72,8 @@ export const memoStyles = _.memoStyles(() => ({
   // size
   sm: {
     width: _.device(32, 44),
-    height: _.device(32, 44)
+    height: _.device(32, 44),
+    borderRadius: _.radiusXs
   },
   md: {
     width: '100%',
@@ -135,7 +136,7 @@ export const memoStyles = _.memoStyles(() => ({
     elevation: 3
   },
   radius: {
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: _.ios(undefined, 'hidden')
   },
   scale: {

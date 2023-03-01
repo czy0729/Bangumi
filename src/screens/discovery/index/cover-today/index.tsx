@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:01:53
+ * @Last Modified time: 2023-03-02 00:45:12
  */
 import React from 'react'
 import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Text } from '@components'
+import { Text, Touchable } from '@components'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, HTMLDecode, cnjp } from '@utils'
@@ -22,14 +22,23 @@ function CoverToday({ data }, { navigation }: Ctx) {
 
   const styles = memoStyles()
   return (
-    <View>
-      <View
+    <View style={styles.item}>
+      <Touchable
         style={[
-          styles.item,
+          styles.touch,
           {
             borderRadius: systemStore.setting.coverRadius
           }
         ]}
+        animate
+        onPress={() => {
+          navigation.push('Subject', {
+            subjectId: data.id,
+            _jp: data.name,
+            _cn: data.name_cn,
+            _image: data?.images?.common
+          })
+        }}
       >
         <Cover
           src={getCoverMedium(data?.images?.common)}
@@ -37,14 +46,6 @@ function CoverToday({ data }, { navigation }: Ctx) {
           height={styles.cover.height}
           radius
           placeholder={false}
-          onPress={() => {
-            navigation.push('Subject', {
-              subjectId: data.id,
-              _jp: data.name,
-              _cn: data.name_cn,
-              _image: data?.images?.common
-            })
-          }}
         />
         <LinearGradient
           style={styles.linear}
@@ -76,7 +77,7 @@ function CoverToday({ data }, { navigation }: Ctx) {
             {HTMLDecode(cnjp(data.name_cn, data.name))}
           </Text>
         </View>
-      </View>
+      </Touchable>
     </View>
   )
 }

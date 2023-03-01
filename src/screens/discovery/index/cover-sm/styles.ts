@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-09 22:34:57
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-09 22:34:57
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-03-02 00:46:16
  */
 import { _ } from '@stores'
 
@@ -10,12 +10,11 @@ export const memoStyles = _.memoStyles(() => {
   const width = _.windowSm.contentWidth * _.device(0.34, 0.42)
   return {
     item: {
-      marginRight: _._wind + 2,
+      marginRight: _._wind + 2
+    },
+    touch: {
       backgroundColor: _.colorBg,
-      borderRadius: _.radiusSm,
-      overflow: 'hidden',
-      ..._.shadow,
-      elevation: 12
+      overflow: 'hidden'
     },
     cover: {
       width,
@@ -29,6 +28,9 @@ export const memoStyles = _.memoStyles(() => {
       bottom: 0,
       left: 0,
       marginBottom: -0.5
+    },
+    linearMusic: {
+      bottom: -32
     },
     desc: {
       position: 'absolute',

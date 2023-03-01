@@ -6,6 +6,7 @@
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
+import { DEV } from '@/config'
 import {
   ratio,
   xs,
@@ -238,7 +239,7 @@ export const shadow = {
     width: 1,
     height: 4
   },
-  shadowOpacity: 0.12,
+  shadowOpacity: DEV ? 0.12 : 0.12,
   shadowRadius: 6,
   elevation: 16
 } as const

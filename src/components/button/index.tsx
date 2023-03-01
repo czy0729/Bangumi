@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 09:13:25
+ * @Last Modified time: 2023-03-02 00:51:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,13 +45,13 @@ export const Button = observer(
       wrapStyle.push(styles[type])
       textStyle.push(styles[`text${titleCase(type)}`])
     }
+    if (radius) wrapStyle.push(styles.radius)
     if (size) {
       const textSize = `text${titleCase(size)}`
       wrapStyle.push(styles[size])
       textStyle.push(styles[textSize])
       if (textSize === 'textSm') textBold = true
     }
-    if (radius) wrapStyle.push(styles.radius)
     if (style) wrapStyle.push(style)
 
     const content = (
@@ -86,7 +86,7 @@ export const Button = observer(
 
     if (!loading && onPress) {
       return (
-        <Touchable style={wrapStyle} onPress={onPress} {...other}>
+        <Touchable style={wrapStyle} animate onPress={onPress} {...other}>
           {content}
         </Touchable>
       )
