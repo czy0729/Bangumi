@@ -31,6 +31,7 @@ const Yearbook = ({ navigation }) => {
             <Flex wrap='wrap'>
               <Touchable
                 style={styles.item2021}
+                animate
                 onPress={() => {
                   t('Bangumi年鉴.跳转', {
                     to: 'Award',
@@ -52,6 +53,7 @@ const Yearbook = ({ navigation }) => {
               </Touchable>
               <Touchable
                 style={styles.item2020}
+                animate
                 onPress={() => {
                   t('Bangumi年鉴.跳转', {
                     to: 'Award',
@@ -73,6 +75,7 @@ const Yearbook = ({ navigation }) => {
               </Touchable>
               <Touchable
                 style={styles.item2019}
+                animate
                 onPress={() => {
                   t('Bangumi年鉴.跳转', {
                     to: 'Award',
@@ -96,6 +99,7 @@ const Yearbook = ({ navigation }) => {
               </Touchable>
               <Touchable
                 style={styles.item2018}
+                animate
                 onPress={() => {
                   t('Bangumi年鉴.跳转', {
                     to: 'Award',
@@ -120,6 +124,7 @@ const Yearbook = ({ navigation }) => {
                 <Touchable
                   key={item}
                   style={_.container.touch}
+                  animate
                   onPress={() => {
                     t('Bangumi年鉴.跳转', {
                       to: 'Award',

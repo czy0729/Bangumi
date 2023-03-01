@@ -81,6 +81,7 @@ export const ItemCatalog = obc(
     return (
       <Touchable
         style={styles.container}
+        animate
         onPress={() => {
           const { id: eventId, data: eventData } = event
           t(eventId, {

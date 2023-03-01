@@ -41,7 +41,7 @@ export type Props = {
   /** 是否使用缩放动画 */
   animate?: boolean
 
-  /** 点击中动画缩放比例 */
+  /** 点击中动画缩放比例, 默认 0.95 */
   scale?: number
 
   /** onPressOut 之后调用 */

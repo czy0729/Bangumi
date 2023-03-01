@@ -10,7 +10,7 @@ import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
-import { info } from '@utils'
+import { info, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
@@ -78,7 +78,7 @@ export const Filter = obc(
                 <Flex.Item style={_.ml.md}>
                   <Flex align={multiple ? 'start' : 'center'}>
                     <Touchable
-                      style={[
+                      style={stl(
                         styles.item,
                         (typeof state === 'object'
                           ? state.length === 0
@@ -86,7 +86,7 @@ export const Filter = obc(
                         multiple && {
                           marginTop: _.r(4)
                         }
-                      ]}
+                      )}
                       hitSlop={HIT_SLOP}
                       onPress={() => $.onSelect(item.type, '')}
                     >
@@ -118,11 +118,11 @@ export const Filter = obc(
                                 return (
                                   <Touchable
                                     key={tag}
-                                    style={[
+                                    style={stl(
                                       styles.item,
                                       multiSelect && styles.itemMultiSelect,
                                       isActive && styles.itemActive
-                                    ]}
+                                    )}
                                     hitSlop={HIT_SLOP}
                                     onPress={() => $.onSelect(item.type, tag)}
                                     onLongPress={
@@ -159,12 +159,12 @@ export const Filter = obc(
                             item.data.map((i: string) => (
                               <Touchable
                                 key={i}
-                                style={[
+                                style={stl(
                                   styles.item,
                                   (typeof state === 'object'
                                     ? state.includes(i)
                                     : state === i) && styles.itemActive
-                                ]}
+                                )}
                                 hitSlop={HIT_SLOP}
                                 onPress={() => $.onSelect(item.type, i)}
                               >

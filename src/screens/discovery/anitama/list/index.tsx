@@ -48,6 +48,7 @@ function List(props, { $, navigation }: Ctx) {
               <Touchable
                 key={item.aid}
                 style={styles.item}
+                animate
                 onPress={() => onPress(item)}
               >
                 <Text align='right'>

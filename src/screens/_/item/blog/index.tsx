@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text } from '@components'
 import { _, discoveryStore } from '@stores'
-import { findSubjectCn, HTMLDecode } from '@utils'
+import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
@@ -44,7 +44,8 @@ export const ItemBlog = obc(
 
     return (
       <Touchable
-        style={[styles.container, style, readed && styles.readed]}
+        style={stl(styles.container, style, readed && styles.readed)}
+        animate
         onPress={() => {
           const { id: eventId, data: eventData } = event
           t(eventId, {

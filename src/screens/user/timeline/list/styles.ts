@@ -9,7 +9,8 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.r(32),
-    marginHorizontal: _.wind - _._wind
+    marginRight: _.wind,
+    marginLeft: _.wind - _._wind
   },
   line: {
     position: 'absolute',
@@ -79,11 +80,12 @@ export const memoStyles = _.memoStyles(() => ({
   block: {
     paddingTop: 4,
     paddingHorizontal: _.md,
-    paddingBottom: 8,
-    backgroundColor: _.colorBg,
+    paddingBottom: 10,
+    marginBottom: _.md,
+    backgroundColor: _.select(_.colorMainLight, _.colorBg),
     borderWidth: 1,
-    borderColor: 'rgba(254, 138, 149, 0.5)',
-    borderRadius: _.r(4),
+    borderColor: _.select(_.colorMain, 'rgba(254, 138, 149, 0.5)'),
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
 }))

@@ -74,6 +74,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   return (
     <Touchable
       style={styles.container}
+      animate
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,

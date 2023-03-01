@@ -14,11 +14,11 @@ function Title({ name, nameCn, comments }) {
   const bottom = cnjp(name, nameCn)
   const showBottom = !!bottom && bottom !== top
 
-  const { length } = top || bottom
-  const size = length >= 28 ? 12 : length >= 20 ? 13 : length >= 12 ? 14 : 15
+  const { length: lt } = top || bottom
+  const size = lt >= 28 ? 12 : lt >= 20 ? 13 : lt >= 12 ? 14 : 15
 
-  const { length: lengthBottom } = bottom
-  const sizeBottom = lengthBottom >= 24 ? 10 : lengthBottom >= 16 ? 11 : 12
+  const { length: lb } = bottom
+  const sizeBottom = lb >= 32 ? 9 : lb >= 24 ? 10 : lb >= 16 ? 11 : 12
   return (
     <>
       {!!(top || bottom) && (

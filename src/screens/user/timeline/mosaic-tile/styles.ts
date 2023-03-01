@@ -50,7 +50,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: PX,
     marginRight: MARGIN,
     marginTop: MARGIN,
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   itemToday: {

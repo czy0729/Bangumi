@@ -5,14 +5,14 @@
  * @Last Modified time: 2022-09-28 01:11:26
  */
 import { _ } from '@stores'
-import { IMG_WIDTH_LG } from '@constants'
+import { IMG_WIDTH } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     backgroundColor: _.colorPlain
   },
   imgContainer: {
-    width: IMG_WIDTH_LG,
+    width: IMG_WIDTH,
     marginRight: _.md + 4
   },
   wrap: {

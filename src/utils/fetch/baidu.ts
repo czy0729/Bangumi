@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 22:09:47
+ * @Last Modified time: 2023-03-02 02:12:49
  */
 import { asc, urlStringify } from '../utils'
 import { get, update } from '../kv'
@@ -22,7 +22,7 @@ export const APP_BAIDU_ID =
 /** 百度翻译 App Key */
 export const APP_BAIDU_KEY =
   s % 2
-    ? Crypto.get('U2FsdGVkX19JCU5rzLxwDrJa7LGfTMLpe7pqkqPEdxBg/biIEbr1M4OupcXN1kfS')
+    ? Crypto.get('U2FsdGVkX1+4+Bn6mVxpU2dYn05udk5XYq0OBQraqtuD7IpYvPtxCT9MaSIbga6c')
     : Crypto.get('U2FsdGVkX19ba4ukVC6zTHsld0T9vUEVF3uPRuM9FsN4SWhMY/BiHywAMXfHvRIW')
 
 const CACHE_CHECK_LENGTH = 12

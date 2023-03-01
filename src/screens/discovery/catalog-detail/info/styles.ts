@@ -8,10 +8,10 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
-    minHeight: 248
+    minHeight: _.window.contentWidth
   },
   loading: {
-    height: 120
+    height: 240
   },
   layout: {
     width: _.r(96),

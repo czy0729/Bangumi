@@ -7,7 +7,7 @@
 import React from 'react'
 import { Touchable, Text, Flex, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { formatNumber, HTMLDecode } from '@utils'
+import { formatNumber, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -23,13 +23,15 @@ function Item({ type, name, nums, index }, { navigation }: Ctx) {
   const tag = HTMLDecode(name)
   return (
     <Touchable
-      style={[
+      style={stl(
         styles.container,
         (_.isPad || _.isLandscape) && !(index % num) && _.container.left,
         {
           borderRadius: coverRadius
         }
-      ]}
+      )}
+      animate
+      scale={0.85}
       onPress={() => {
         t('标签索引.跳转', {
           to: 'Tag',

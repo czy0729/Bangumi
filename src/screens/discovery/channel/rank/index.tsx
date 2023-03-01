@@ -29,6 +29,7 @@ function Rank(props, { $, navigation }: Ctx) {
             <Touchable
               key={item.id}
               style={styles.itemLg}
+              animate
               onPress={() => {
                 t('频道.跳转', {
                   to: 'Subject',
@@ -107,6 +108,7 @@ function Rank(props, { $, navigation }: Ctx) {
                 style={[styles.item, index % 2 !== 0 && styles.itemMarginLeft]}
               >
                 <Touchable
+                  animate
                   onPress={() => {
                     t('频道.跳转', {
                       to: 'Subject',

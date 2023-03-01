@@ -31,7 +31,7 @@ export type Props = {
   comments?: string
   collection?: string
   collected?: boolean
-  position?: any
+  position?: string[]
   event?: EventType
   onManagePress?: (args: {
     subjectId: SubjectId

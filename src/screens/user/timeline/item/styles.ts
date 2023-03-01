@@ -36,19 +36,21 @@ export const memoStyles = _.memoStyles(() => ({
     width: WIDTH
   },
   subject: {
+    width: '100%',
     marginRight: _.sm,
     marginBottom: _.md
   },
   subjectHalf: {
-    maxWidth: _.r(160),
-    marginRight: _.sm,
+    width: '100%',
+    maxWidth: (_.window.contentWidth - 2 * _.sm) / 2,
+    paddingRight: _.sm,
     marginBottom: _.md
   },
   comment: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
+    paddingVertical: _.sm,
+    paddingHorizontal: 12,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
 }))

@@ -131,6 +131,7 @@ const ItemLine = memo(
       return (
         <View style={_.container.block}>
           <Touchable
+            animate
             onPress={() => {
               t('每日放送.跳转', {
                 to: 'Subject',

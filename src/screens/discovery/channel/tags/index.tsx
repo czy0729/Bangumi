@@ -25,6 +25,8 @@ function Tags(props, { $, navigation }: Ctx) {
           <Touchable
             key={item}
             style={styles.tag}
+            animate
+            scale={0.85}
             onPress={() => {
               t('频道.跳转', {
                 to: 'Tag',

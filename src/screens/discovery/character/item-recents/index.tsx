@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { cnjp, HTMLDecode, x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
+import { MODEL_SUBJECT_TYPE, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -22,7 +22,6 @@ function ItemRecents(
   { navigation }: Ctx
 ) {
   const styles = memoStyles()
-  const isFirst = index === 0
   const onPress = () => {
     t('收藏的人物.跳转', {
       to: 'Subject',
@@ -41,22 +40,23 @@ function ItemRecents(
   const right = cnjp(nameJP, name)
   return (
     <View style={styles.container}>
-      <Flex align='start' style={[styles.wrap, !isFirst && !_.flat && styles.border]}>
+      <Flex align='start' style={styles.wrap}>
         <View style={styles.imgContainer}>
           {!!cover && (
-            <Cover
-              src={cover}
-              width={IMG_WIDTH_LG}
-              height={IMG_HEIGHT_LG}
-              radius
-              shadow
-              type={typeCn}
-              onPress={onPress}
-            />
+            <Touchable animate onPress={onPress}>
+              <Cover
+                src={cover}
+                width={IMG_WIDTH}
+                height={IMG_HEIGHT}
+                radius
+                shadow
+                type={typeCn}
+              />
+            </Touchable>
           )}
         </View>
         <Flex.Item>
-          <Touchable onPress={onPress}>
+          <Touchable animate onPress={onPress}>
             <Flex direction='column' justify='between' align='start'>
               <View>
                 <Flex style={_.container.block} align='start'>
@@ -97,11 +97,8 @@ function ItemRecents(
           <Flex style={_.mt.sm} wrap='wrap'>
             {actors.map(item => (
               <Flex key={item.id} style={[actors.length > 1 && styles.actors, _.mt.md]}>
-                <Cover
-                  src={item.avatar}
-                  size={_.r(40)}
-                  radius
-                  shadow
+                <Touchable
+                  animate
                   onPress={() => {
                     t('收藏的人物.跳转', {
                       to: 'Mono',
@@ -112,7 +109,9 @@ function ItemRecents(
                       monoId: item.id
                     })
                   }}
-                />
+                >
+                  <Cover src={item.avatar} size={_.r(40)} radius />
+                </Touchable>
                 <Flex.Item style={_.ml.sm}>
                   <Text size={12} numberOfLines={1} bold>
                     {item.name}

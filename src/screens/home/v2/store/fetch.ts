@@ -28,10 +28,10 @@ export default class Fetch extends Computed {
     let { _loaded } = subject
     if (typeof _loaded !== 'number') _loaded = 0
 
-    // 请求间隔至少为 30 分钟
+    // 每个条目再次请求间隔以 4 小时为间隔 index 为递增
     if (
       subject?._responseGroup !== 'large' ||
-      getTimestamp() - _loaded >= 60 * (30 + index)
+      getTimestamp() - _loaded >= 60 * 60 * 4 * (index + 1)
     ) {
       flag = true
     }

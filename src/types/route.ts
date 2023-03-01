@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 23:56:40
+ * @Last Modified time: 2023-03-02 02:15:52
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
-import { SubjectId, TopicId, UserId } from './bangumi'
+import { Id, SubjectId, TopicId, UserId } from './bangumi'
 
 /** 所有页面路径名 */
 export type Paths = keyof typeof Screens
@@ -28,12 +28,21 @@ export type NavigationPushType = RouteActions &
   RouteSetting &
   RouteShare &
   RouteSubject &
+  RouteTag &
   RouteTinygrail &
   RouteTopic &
   RouteUser &
   RouteWebBrowser &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteTag = (
+  path: 'Tag',
+  params: {
+    type: string
+    tag: string
+  }
+) => any
 
 type RouteSearch = (
   path: 'Search',
@@ -97,6 +106,7 @@ type RouteTopic = (
   params: {
     topicId: TopicId
     _title?: string
+    _replies?: string
     _group?: string
     _desc?: string
     _time?: string
@@ -161,8 +171,10 @@ type RouteSubject = (
     _type?: SubjectTypeCn
 
     /** 找条目 */
-    _aid?: number
-    _wid?: number
+    _aid?: Id
+    _wid?: Id
+    _mid?: Id
+    _hid?: Id
   }
 ) => any
 

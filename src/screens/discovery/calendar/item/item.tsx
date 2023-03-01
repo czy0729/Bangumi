@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Touchable, Text } from '@components'
 import { Cover, Stars } from '@_'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils'
+import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { DEFAULT_PROPS, HIT_SLOP } from './ds'
@@ -39,31 +39,32 @@ export default memo(
     if (collection) middle.push(collection)
     middle = middle.join(' · ')
 
-    const onPress = () => {
-      t('每日放送.跳转', {
-        to: 'Subject',
-        subjectId
-      })
-
-      navigation.push('Subject', {
-        subjectId,
-        _cn: name,
-        _image: images?.medium
-      })
-    }
-
     return (
-      <View style={[styles.item, style]}>
-        <Cover
-          width={styles.cover.width}
-          height={styles.cover.height}
-          src={images?.medium}
-          radius
-          shadow
-          onPress={onPress}
-        />
-        <Touchable style={_.mt.sm} hitSlop={HIT_SLOP} withoutFeedback onPress={onPress}>
-          <Text size={13} lineHeight={15} numberOfLines={2} bold>
+      <View style={stl(styles.item, style)}>
+        <Touchable
+          animate
+          hitSlop={HIT_SLOP}
+          onPress={() => {
+            t('每日放送.跳转', {
+              to: 'Subject',
+              subjectId
+            })
+
+            navigation.push('Subject', {
+              subjectId,
+              _cn: name,
+              _image: images?.medium
+            })
+          }}
+        >
+          <Cover
+            width={styles.cover.width}
+            height={styles.cover.height}
+            src={images?.medium}
+            radius
+            shadow
+          />
+          <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={2} bold>
             {HTMLDecode(name)}
           </Text>
           {!!middle && (

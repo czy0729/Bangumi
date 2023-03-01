@@ -83,7 +83,7 @@ export default memo(
           <>
             <Flex style={styles.btns} justify='end'>
               <Flex.Item>
-                <Touchable style={styles.touch} animate onPress={onCancel}>
+                <Touchable style={styles.touch} onPress={onCancel}>
                   <Flex style={styles.btn} justify='center'>
                     <Text type='sub' bold size={11}>
                       取消
@@ -92,7 +92,7 @@ export default memo(
                 </Touchable>
               </Flex.Item>
               <Flex.Item style={_.ml.md}>
-                <Touchable style={styles.touch} animate onPress={onSave}>
+                <Touchable style={styles.touch} onPress={onSave}>
                   <Flex style={styles.btn} justify='center'>
                     <Text type='__plain__' bold size={11}>
                       保存

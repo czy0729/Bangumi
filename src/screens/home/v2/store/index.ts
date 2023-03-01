@@ -66,7 +66,9 @@ class ScreenHomeV2 extends Action {
     let flag = refresh
     let { _loaded } = this.collection
     if (typeof _loaded !== 'number') _loaded = 0
-    if (getTimestamp() - _loaded > 60 * 60 * 24 || !this.collection.list.length) {
+
+    // 6 天强制刷新一次
+    if (getTimestamp() - _loaded > 60 * 60 * 24 * 6 || !this.collection.list.length) {
       flag = true
     }
 

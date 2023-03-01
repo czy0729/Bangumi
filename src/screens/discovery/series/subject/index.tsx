@@ -8,6 +8,7 @@ import React from 'react'
 import { Flex, Text, Loading, Touchable } from '@components'
 import { Cover, Rank, Stars, Manage } from '@_'
 import { _, uiStore, collectionStore } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatusCn } from '@types'
@@ -47,70 +48,71 @@ function Subject({ style = undefined, id, small = false }, { $, navigation }: Ct
   const { length } = subject.name
   const size = length > 24 ? 11 : length > 16 ? 12 : length > 8 ? 13 : 14
 
-  const onPress = () => {
-    navigation.push('Subject', {
-      subjectId: subject.id,
-      _cn: subject.name,
-      _image: subject.image
-    })
-  }
   return (
-    <Flex style={[styles.item, style]} align='start'>
-      <Cover
-        src={subject.image}
-        width={small ? IMG_WIDTH_SM * 0.88 : IMG_WIDTH_SM}
-        height={small ? IMG_HEIGHT_SM * 0.88 : IMG_HEIGHT_SM}
-        radius
-        onPress={onPress}
-      />
-      <Flex.Item>
-        <Flex
-          style={small ? styles.bodySm : styles.body}
-          direction='column'
-          justify='between'
-          align='start'
-        >
-          <Touchable style={_.mr.sm} onPress={onPress}>
-            <Text size={size} bold numberOfLines={2}>
+    <Touchable
+      animate
+      onPress={() => {
+        navigation.push('Subject', {
+          subjectId: subject.id,
+          _cn: subject.name,
+          _image: subject.image
+        })
+      }}
+    >
+      <Flex style={stl(styles.item, style)} align='start'>
+        <Cover
+          src={subject.image}
+          width={small ? IMG_WIDTH_SM * 0.88 : IMG_WIDTH_SM}
+          height={small ? IMG_HEIGHT_SM * 0.88 : IMG_HEIGHT_SM}
+          radius
+        />
+        <Flex.Item>
+          <Flex
+            style={small ? styles.bodySm : styles.body}
+            direction='column'
+            justify='between'
+            align='start'
+          >
+            <Text style={_.mr.sm} size={size} bold numberOfLines={2}>
               {subject.name}
             </Text>
-          </Touchable>
-          <Text size={11} bold>
-            {eps.join(' / ')}
-          </Text>
-          <Flex style={_.mt.sm}>
-            <Rank style={_.mr.xs} value={subject.rank} />
-            <Stars style={_.mr.xs} value={subject.score} simple />
-            <Text size={11} type='sub'>
-              {bottom.join(' / ')}
+            <Text size={11} bold>
+              {eps.join(' / ')}
             </Text>
+            <Flex style={_.mt.sm}>
+              <Rank style={_.mr.xs} value={subject.rank} />
+              <Stars style={_.mr.xs} value={subject.score} simple />
+              <Text size={11} type='sub'>
+                {bottom.join(' / ')}
+              </Text>
+            </Flex>
           </Flex>
-        </Flex>
-      </Flex.Item>
-      <Manage
-        style={styles.manage}
-        collection={
-          collectionStore.collectionStatus(id) ||
-          MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
-            String(collection?.type)
-          ) ||
-          ''
-        }
-        onPress={() => {
-          uiStore.showManageModal(
-            {
-              subjectId: id,
-              title: subject.name,
-              status: collection?.type
-            },
-            '关联系列',
-            () => {
-              collectionStore.fetchCollectionStatusQueue([id])
-            }
-          )
-        }}
-      />
-    </Flex>
+        </Flex.Item>
+        <Manage
+          style={styles.manage}
+          collection={
+            collectionStore.collectionStatus(id) ||
+            MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
+              String(collection?.type)
+            ) ||
+            ''
+          }
+          onPress={() => {
+            uiStore.showManageModal(
+              {
+                subjectId: id,
+                title: subject.name,
+                status: collection?.type
+              },
+              '关联系列',
+              () => {
+                collectionStore.fetchCollectionStatusQueue([id])
+              }
+            )
+          }}
+        />
+      </Flex>
+    </Touchable>
   )
 }
 

@@ -7,13 +7,13 @@
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { appNavigate } from '@utils'
+import { appNavigate, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_WIDTH, IMG_WIDTH_LG, IMG_HEIGHT_LG, MODEL_RATING_STATUS } from '@constants'
+import { RatingStatus } from '@types'
 import { Tag, Cover, Stars, Rank, Manage } from '../../base'
 import Title from './title'
 import { DEFAULT_PROPS } from './ds'
-import { RatingStatus } from '@types'
 
 const Item = memo(
   ({
@@ -43,7 +43,8 @@ const Item = memo(
     const justify = tip || position.length ? 'between' : 'start'
     return (
       <Touchable
-        style={style ? [styles.container, style] : styles.container}
+        style={stl(styles.container, style)}
+        animate
         onPress={() => {
           appNavigate(
             String(id),
@@ -70,16 +71,16 @@ const Item = memo(
             type={typeCn}
           />
           <Flex
-            style={[
+            style={stl(
               styles.content,
               !!comments && styles.flux,
               isMusic && styles.musicContent
-            ]}
+            )}
             direction='column'
             justify={justify}
             align='start'
           >
-            <Flex align='start' style={_.container.w100}>
+            <Flex align='start' style={_.container.block}>
               <Flex.Item>
                 <Title name={name} nameCn={nameCn} comments={comments} />
               </Flex.Item>

@@ -189,12 +189,12 @@ function Info(props, { $, navigation }: Ctx) {
             </>
           )}
         </Flex>
-        {!_loaded && (
-          <Flex style={styles.loading} justify='center'>
-            <Loading />
-          </Flex>
-        )}
       </View>
+      {!_loaded && (
+        <Flex style={styles.loading} justify='center'>
+          <Loading />
+        </Flex>
+      )}
     </View>
   )
 }

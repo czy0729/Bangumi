@@ -26,6 +26,7 @@ function Discuss(props, { $, navigation }: Ctx) {
           <Touchable
             key={item.id}
             style={styles.item}
+            animate
             onPress={() => {
               t('频道.跳转', {
                 to: 'Topic',

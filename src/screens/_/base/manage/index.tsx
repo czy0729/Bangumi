@@ -7,7 +7,7 @@
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
-import { titleCase } from '@utils'
+import { stl, titleCase } from '@utils'
 import { ob } from '@utils/decorators'
 import { styles } from './styles'
 import { Props as ManageProps } from './types'
@@ -53,12 +53,9 @@ export const Manage = ob(
     if (typeCn === '书籍') _collection = _collection.replace('看', '读')
     if (typeCn === '游戏') _collection = _collection.replace('看', '玩')
 
-    let _styles
-    if (_collection) {
-      _styles = style ? [styles.touch, style] : styles.touch
-    } else {
-      _styles = style ? [styles.touchNoCollect, style] : styles.touchNoCollect
-    }
+    const _styles = _collection
+      ? stl(styles.touch, style)
+      : stl(styles.touchNoCollect, style)
     return (
       <Touchable style={_styles} hitSlop={HIT_SLOP} onPress={onPress}>
         <Flex style={styles.manage} direction='column'>
