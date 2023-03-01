@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 13:06:37
+ * @Last Modified time: 2023-03-01 08:57:51
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -37,6 +37,7 @@ export const ManageModal = ob(
   class ManageModalComponent extends React.Component<ManageModalProps, State> {
     static defaultProps: ManageModalProps = {
       visible: false,
+      disabled: false,
       subjectId: 0,
       title: '',
       desc: '',
@@ -381,12 +382,18 @@ export const ManageModal = ob(
     }
 
     renderSubmit() {
+      const { disabled } = this.props
       const { privacy } = this.state
       const label = MODEL_PRIVATE.getLabel<PrivateCn>(privacy)
       return (
         <Flex style={_.mt.md}>
           <Flex.Item>
-            <Button style={this.styles.btn} type='main' onPress={this.onSubmit}>
+            <Button
+              style={this.styles.btn}
+              type='main'
+              loading={disabled}
+              onPress={this.onSubmit}
+            >
               更新
             </Button>
           </Flex.Item>

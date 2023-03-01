@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 21:41:22
+ * @Last Modified time: 2023-03-01 09:04:29
  */
 import { Crt, Ep, Staff, SubjectFormHTML } from '@stores/subject/types'
 import {
@@ -43,6 +43,9 @@ export const EXCLUDE_STATE = {
   /** 是否显示管理模态框 */
   visible: false,
 
+  /** 是否提交请求中 */
+  disabled: false,
+
   /** 是否显示目录管理模态框 */
   folder: false,
 
@@ -82,7 +85,11 @@ export const EXCLUDE_STATE = {
       titleLabel: string
       _loaded: Loaded
     }
-  >
+  >,
+
+  /** Box 中按钮是否允许使用翻页动画 */
+  flip: false,
+  flipKey: 0
 }
 
 /** 页面 state */

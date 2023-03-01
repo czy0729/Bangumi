@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:23:20
+ * @Last Modified time: 2023-03-01 09:13:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,32 +56,35 @@ export const Button = observer(
 
     const content = (
       <Flex justify='center'>
-        {loading && (
+        {loading ? (
           <View style={styles.scale}>
             <Activity
               color={type === 'plain' ? 'rgb(128, 128, 128)' : 'white'}
               size='small'
             />
           </View>
+        ) : (
+          <>
+            <Text
+              style={[
+                // 部分安卓机不写具体 width 会导致文字显示不全
+                size === 'sm' && styles.androidFixed,
+                textStyle,
+                styleText
+              ]}
+              align='center'
+              bold={textBold || bold}
+              selectable={false}
+            >
+              {children}
+            </Text>
+            {extra}
+          </>
         )}
-        <Text
-          style={[
-            // 部分安卓机不写具体 width 会导致文字显示不全
-            size === 'sm' && styles.androidFixed,
-            textStyle,
-            styleText
-          ]}
-          align='center'
-          bold={textBold || bold}
-          selectable={false}
-        >
-          {children}
-        </Text>
-        {extra}
       </Flex>
     )
 
-    if (onPress) {
+    if (!loading && onPress) {
       return (
         <Touchable style={wrapStyle} onPress={onPress} {...other}>
           {content}

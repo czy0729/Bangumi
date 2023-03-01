@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 16:51:29
+ * @Last Modified time: 2023-03-01 09:03:10
  */
 import { RatingStatus, SubjectId } from '@types'
 
 export type Props = {
   visible?: boolean
+  disabled?: boolean
   subjectId?: SubjectId
   title?: string
   desc?: string

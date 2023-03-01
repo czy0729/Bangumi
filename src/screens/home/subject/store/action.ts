@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 03:16:42
+ * @Last Modified time: 2023-03-01 09:11:14
  */
 import {
   calendarStore,
@@ -544,6 +544,26 @@ export default class Action extends Fetch {
     }
   }
 
+  /** 状态按钮做动画前, 需要先设置开启 */
+  prepareFlip = () => {
+    this.setState({
+      flip: true
+    })
+  }
+
+  /** 状态按钮完全动画后, 需要设置关闭才能做下一次动画 */
+  afterFlip = () => {
+    const { flipKey } = this.state
+    this.setState({
+      flip: false
+    })
+    setTimeout(() => {
+      this.setState({
+        flipKey: flipKey + 1
+      })
+    }, 400)
+  }
+
   // -------------------- action --------------------
   /** 章节菜单操作 */
   doEpsSelect = async (
@@ -727,14 +747,23 @@ export default class Action extends Fetch {
     })
 
     try {
-      await collectionStore.doUpdateCollection(values)
-      feedback()
-
+      this.prepareFlip()
+      this.setState({
+        disabled: true
+      })
+      await collectionStore.doUpdateCollection({
+        ...values,
+        noConsole: true
+      })
       collectionStore.fetchCollection(this.subjectId)
       this.closeManageModal()
     } catch (error) {
       console.error(NAMESPACE, 'doUpdateCollection', error)
     }
+
+    this.setState({
+      disabled: false
+    })
   }
 
   /**
@@ -859,16 +888,19 @@ export default class Action extends Fetch {
     })
 
     try {
+      this.prepareFlip()
+      this.setState({
+        disabled: true
+      })
+
       await userStore.doEraseCollection(
         {
           subjectId: this.subjectId,
           formhash
         },
-        () => {}, // 因为删除后是302, 使用fail去触发
+        // 因为删除后是 302, 使用 fail 去触发
+        () => {},
         () => {
-          feedback()
-          info('删除收藏成功')
-
           setTimeout(() => {
             collectionStore.removeStatus(this.subjectId)
             this.fetchCollection()
@@ -878,6 +910,10 @@ export default class Action extends Fetch {
     } catch (error) {
       console.error(NAMESPACE, 'doEraseCollection', error)
     }
+
+    this.setState({
+      disabled: false
+    })
   }
 
   /** 翻译简介 */

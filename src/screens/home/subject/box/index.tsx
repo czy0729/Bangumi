@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 10:47:46
+ * @Last Modified time: 2023-03-01 08:30:33
  */
 import React from 'react'
 import { systemStore, userStore } from '@stores'
@@ -18,8 +18,6 @@ export default obc((props, { $, navigation }: Ctx) => {
     <Box
       styles={memoStyles()}
       navigation={navigation}
-      collection={$.collection}
-      collectionStatus={$.params._collection}
       isLogin={$.isLogin}
       status={$.status}
       showCount={systemStore.setting.showCount}

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-26 03:08:35
+ * @Last Modified time: 2023-03-01 09:10:22
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -669,8 +669,17 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     comment?: string
     rating?: string | number
     privacy?: 0 | 1
+    noConsole?: boolean
   }) => {
-    const { subjectId, status, tags, comment, rating, privacy } = args || {}
+    const {
+      subjectId,
+      status,
+      tags,
+      comment,
+      rating,
+      privacy,
+      noConsole = false
+    } = args || {}
     return new Promise(async resolve => {
       const data = await fetch({
         url: API_COLLECTION_ACTION(subjectId),
@@ -681,7 +690,8 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
           comment,
           rating,
           privacy
-        }
+        },
+        noConsole
       })
 
       // @todo 20220216 以下旧API不再响应敏感条目, 暂时使用请求网页代替

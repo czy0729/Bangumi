@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 15:49:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 19:11:11
+ * @Last Modified time: 2023-03-01 09:13:59
  */
 import { _ } from '@stores'
 import { PAD } from '@constants'
@@ -141,7 +141,7 @@ export const memoStyles = _.memoStyles(() => ({
   scale: {
     transform: [
       {
-        scale: 0.64
+        scale: 0.8
       }
     ]
   },
