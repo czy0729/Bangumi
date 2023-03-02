@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 17:30:41
+ * @Last Modified time: 2023-03-02 18:48:33
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -47,6 +47,8 @@ function TabBar({
           <Touchable
             key={route.name}
             style={style}
+            animate
+            scale={0.9}
             onPress={() => {
               const event = navigation.emit({
                 type: 'tabPress',

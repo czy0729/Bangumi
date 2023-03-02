@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-28 05:50:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 07:20:34
+ * @Last Modified time: 2023-03-02 17:27:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,39 +31,39 @@ function ItemLazy({ item: topicId }, { $, navigation }: Ctx) {
     .filter(item => !!item)
     .join(' / ')
   return (
-    <Flex style={styles.container} align='start'>
-      <View style={styles.image}>
-        <UserStatus userId={userId}>
-          <Avatar
-            navigation={navigation}
-            src={avatar}
-            userId={userId}
-            name={userName}
-          />
-        </UserStatus>
-      </View>
-      <Flex.Item>
-        <Touchable
-          style={styles.item}
-          onPress={() => {
-            t('本地帖子.跳转', {
-              to: 'Topic',
-              topicId
-            })
+    <Touchable
+      animate
+      onPress={() => {
+        t('本地帖子.跳转', {
+          to: 'Topic',
+          topicId
+        })
 
-            navigation.push('Topic', {
-              topicId,
-              _noFetch: true,
-              _title: title,
-              _group: group,
-              _time: time,
-              _avatar: avatar,
-              _userName: userName,
-              _userId: userId
-            })
-          }}
-        >
-          <Flex align='start'>
+        navigation.push('Topic', {
+          topicId,
+          _noFetch: true,
+          _title: title,
+          _group: group,
+          _time: time,
+          _avatar: avatar,
+          _userName: userName,
+          _userId: userId
+        })
+      }}
+    >
+      <Flex style={styles.container} align='start'>
+        <View style={styles.image}>
+          <UserStatus userId={userId}>
+            <Avatar
+              navigation={navigation}
+              src={avatar}
+              userId={userId}
+              name={userName}
+            />
+          </UserStatus>
+        </View>
+        <Flex.Item>
+          <Flex style={styles.item} align='start'>
             <Flex.Item>
               <Text bold>{title === 'undefined' ? '(此帖子已删除)' : title}</Text>
               <Text style={_.mt.sm} type='sub' size={11}>
@@ -79,9 +79,9 @@ function ItemLazy({ item: topicId }, { $, navigation }: Ctx) {
               />
             )}
           </Flex>
-        </Touchable>
-      </Flex.Item>
-    </Flex>
+        </Flex.Item>
+      </Flex>
+    </Touchable>
   )
 }
 

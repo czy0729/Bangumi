@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 02:15:52
+ * @Last Modified time: 2023-03-02 18:31:28
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -14,6 +14,7 @@ export type Paths = keyof typeof Screens
 /** 路由和参数约束 */
 export type NavigationPushType = RouteActions &
   RouteAward &
+  RouteBlog &
   RouteBlogs &
   RouteCatalogDetail &
   RouteCatalogs &
@@ -36,6 +37,13 @@ export type NavigationPushType = RouteActions &
   RouteWebBrowser &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteBlog = (
+  path: 'Blog',
+  params: {
+    blogId: Id
+  }
+) => any
 
 type RouteCharacters = (
   path: 'Characters',
@@ -126,6 +134,7 @@ type RouteTopic = (
     _avatar?: string
     _userName?: string
     _userId?: UserId
+    _noFetch?: boolean
   }
 ) => any
 
@@ -164,8 +173,11 @@ type RouteFriends = (
 type RoutePM = (
   path: 'PM',
   params: {
+    /** 已有 ID, 没有为新建 */
+    id?: Id
+
     /** 必须是数字 ID */
-    userId: number
+    userId?: number
 
     /** 用户昵称 (用于占位显示) */
     userName?: string

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 15:52:27
+ * @Last Modified time: 2023-03-02 19:30:01
  */
 import React from 'react'
 import { Text, Touchable, Iconfont, Flex } from '@components'
@@ -115,6 +115,8 @@ export const StarGroup = ob(
                 <Touchable
                   key={item}
                   style={item > 1 ? [styles.touchStar, _.ml.sm] : styles.touchStar}
+                  animate
+                  scale={0.9}
                   onPress={() => this.change(item)}
                 >
                   <Iconfont

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 00:51:00
+ * @Last Modified time: 2023-03-02 19:28:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -86,8 +86,8 @@ export const Button = observer(
 
     if (!loading && onPress) {
       return (
-        <Touchable style={wrapStyle} onPress={onPress} {...other}>
-          {content}
+        <Touchable animate onPress={onPress} {...other}>
+          <View style={wrapStyle}>{content}</View>
         </Touchable>
       )
     }

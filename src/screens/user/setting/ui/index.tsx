@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:37:08
+ * @Last Modified time: 2023-03-02 19:21:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,6 @@ import { t } from '@utils/fetch'
 import { loadAppFontsAsync } from '@utils/hooks/useCachedResources'
 import {
   IMG_DEFAULT_AVATAR,
-  IOS,
   SETTING_FONTSIZEADJUST,
   SETTING_TRANSITION
 } from '@constants'
@@ -46,7 +45,7 @@ function UI({ filter }) {
       vibration,
       coverThings,
       coverRadius,
-      ripple,
+      // ripple,
       speech,
       avatarRound,
       transition,
@@ -488,7 +487,7 @@ function UI({ filter }) {
           </ItemSettingBlock>
 
           {/* 点击水纹效果 */}
-          <ItemSetting
+          {/* <ItemSetting
             show={shows.ripple && !IOS}
             ft={
               <SwitchPro
@@ -508,7 +507,7 @@ function UI({ filter }) {
             {...TEXTS.ripple}
           >
             <Heatmap id='设置.切换' title='点击水纹' />
-          </ItemSetting>
+          </ItemSetting> */}
 
           {/* 切页动画 */}
           <ItemSetting

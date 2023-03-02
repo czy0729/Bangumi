@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 21:32:31
+ * @Last Modified time: 2023-03-02 18:31:34
  */
 import React from 'react'
 import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
@@ -33,11 +33,12 @@ function List(props, { $, navigation }: Ctx) {
         <Touchable
           key={id}
           style={styles.item}
-          onPress={() =>
+          animate
+          onPress={() => {
             navigation.push('Blog', {
               blogId: id
             })
-          }
+          }}
         >
           <Flex style={styles.wrap} align='start'>
             <Avatar

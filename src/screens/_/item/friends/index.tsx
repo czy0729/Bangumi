@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 03:21:27
+ * @Last Modified time: 2023-03-02 19:19:43
  */
 import React from 'react'
 import Progress from '@ant-design/react-native/lib/progress'
@@ -43,6 +43,7 @@ export const ItemFriends = ob(
     return (
       <Touchable
         style={styles.container}
+        animate
         onPress={() => {
           const { id, data = {} } = event
           t(id, {

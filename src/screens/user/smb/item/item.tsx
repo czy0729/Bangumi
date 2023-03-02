@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 02:28:55
+ * @Last Modified time: 2023-03-02 19:10:44
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,6 @@ export default memo(
               jp={jp}
               cn={cn}
             />
-
             <Flex.Item style={styles.body}>
               <View>
                 {loaded ? (

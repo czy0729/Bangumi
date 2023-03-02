@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-07-18 07:15:41
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-07-18 07:15:41
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-03-02 19:16:35
  */
 export const TEXTS = {
   theme: {
@@ -14,8 +14,8 @@ export const TEXTS = {
       title: '明亮'
     },
     deepDark: {
-      title: '纯黑',
-      information: 'AMOLED 更省电'
+      title: '纯黑'
+      // information: 'AMOLED 更省电'
     },
     dark: {
       title: '黑暗'

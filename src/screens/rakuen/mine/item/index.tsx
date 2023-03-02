@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:30:28
+ * @Last Modified time: 2023-03-02 17:29:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,8 @@ function Item({ id, cover, name, num }: any, { navigation }: Ctx) {
   return (
     <View style={styles.container}>
       <Touchable
+        animate
+        scale={0.92}
         onPress={() => {
           t('我的小组.跳转', {
             groupId: id

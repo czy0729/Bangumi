@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 19:42:59
+ * @Last Modified time: 2023-03-02 19:22:01
  */
 import { observable, computed } from 'mobx'
 import { confirm, getTimestamp, info, titleCase } from '@utils'
@@ -167,7 +167,8 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
 
       /** 版本迭代后的禁用设置覆盖 */
       imageTransition: false,
-      cdnAvatar: false
+      cdnAvatar: false,
+      ripple: false
     }
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-25 23:33:57
+ * @Last Modified time: 2023-03-02 17:31:38
  */
 import React from 'react'
 import { Flex, Text, Touchable, UserStatus } from '@components'
@@ -39,36 +39,37 @@ export const ItemNotify = ob(
       if (say.list.length) sayTitle = say.list[0]?.text
     }
     return (
-      <Flex style={styles.container} align='start'>
-        <UserStatus userId={userId}>
-          <Avatar
-            key={String(avatar)}
-            style={styles.image}
-            navigation={navigation}
-            userId={userId}
-            name={userName}
-            src={avatar}
-            event={event}
-          />
-        </UserStatus>
-        <Flex.Item style={styles.item}>
-          <Name userId={userId} showFriend size={13} type='title' bold>
-            {userName}
-          </Name>
-          <Flex style={_.mt.xs} align='start'>
-            <Flex.Item>
-              <Touchable
-                onPress={() => {
-                  appNavigate(
-                    href,
-                    navigation,
-                    {
-                      _title: title
-                    },
-                    event
-                  )
-                }}
-              >
+      <Touchable
+        animate
+        onPress={() => {
+          appNavigate(
+            href,
+            navigation,
+            {
+              _title: title
+            },
+            event
+          )
+        }}
+      >
+        <Flex style={styles.container} align='start'>
+          <UserStatus userId={userId}>
+            <Avatar
+              key={String(avatar)}
+              style={styles.image}
+              navigation={navigation}
+              userId={userId}
+              name={userName}
+              src={avatar}
+              event={event}
+            />
+          </UserStatus>
+          <Flex.Item style={styles.item}>
+            <Name userId={userId} showFriend size={13} type='title' bold>
+              {userName}
+            </Name>
+            <Flex style={_.mt.xs} align='start'>
+              <Flex.Item>
                 <Text lineHeight={18}>
                   {message}
                   <Text lineHeight={18} type='main' bold>
@@ -76,26 +77,26 @@ export const ItemNotify = ob(
                   </Text>
                   {message2}
                 </Text>
-              </Touchable>
-              {!!sayTitle && (
-                <Text
-                  style={styles.desc}
-                  type='sub'
-                  size={11}
-                  lineHeight={18}
-                  numberOfLines={1}
-                >
-                  描述：{sayTitle}
-                </Text>
-              )}
-            </Flex.Item>
-            <Flex style={styles.tag} justify='end'>
-              {!!repeat && <Tag value={`x${repeat + 1}`} />}
+                {!!sayTitle && (
+                  <Text
+                    style={styles.desc}
+                    type='sub'
+                    size={11}
+                    lineHeight={18}
+                    numberOfLines={1}
+                  >
+                    描述：{sayTitle}
+                  </Text>
+                )}
+              </Flex.Item>
+              <Flex style={styles.tag} justify='end'>
+                {!!repeat && <Tag value={`x${repeat + 1}`} />}
+              </Flex>
             </Flex>
-          </Flex>
-        </Flex.Item>
-        {children}
-      </Flex>
+          </Flex.Item>
+          {children}
+        </Flex>
+      </Touchable>
     )
   }
 )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 22:51:02
+ * @Last Modified time: 2023-03-02 18:34:53
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -61,18 +61,6 @@ export default memo(
       }
     } as const
 
-    // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
-    const groupPress = isMono
-      ? () => appNavigate(`${HOST}/${monoId}`, navigation, {}, event)
-      : () =>
-          appNavigate(
-            groupHref,
-            navigation,
-            {
-              _jp: group
-            },
-            event
-          )
     const isGroup = topicId.includes('group/')
     const isEp = topicId.includes('ep/')
     return (
@@ -91,7 +79,24 @@ export default memo(
           </Text>
           <Flex style={styles.groupWrap}>
             {!!group && (
-              <Touchable onPress={groupPress}>
+              <Touchable
+                animate
+                onPress={() => {
+                  if (isMono) {
+                    appNavigate(`${HOST}/${monoId}`, navigation, {}, event)
+                    return
+                  }
+
+                  appNavigate(
+                    groupHref,
+                    navigation,
+                    {
+                      _jp: group
+                    },
+                    event
+                  )
+                }}
+              >
                 <Flex style={styles.groupLabel}>
                   <Avatar
                     style={isEp ? _.mr.sm : _.mr.xs}

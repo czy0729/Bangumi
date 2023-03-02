@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 04:28:52
+ * @Last Modified time: 2023-03-02 18:41:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,28 +19,30 @@ function Video({ item, epsThumbsHeader, showTitle }) {
 
   return (
     <View key={item.cover} style={_.mr.sm}>
-      <Image
-        style={styles.image}
-        src={item.cover}
-        size={THUMB_WIDTH}
-        height={THUMB_HEIGHT}
-        radius
-        headers={epsThumbsHeader}
-      />
-      <View style={styles.play}>
-        <Touchable style={styles.touch} onPress={() => open(item.src || item.href)}>
-          <Flex style={styles.touch} justify='center'>
-            <Text style={styles.icon} type='__plain__'>
-              ▶
-            </Text>
-          </Flex>
-        </Touchable>
-      </View>
-      {showTitle && !!item.title && (
-        <Text style={styles.title} size={11} bold numberOfLines={3} align='center'>
-          {item.title}
-        </Text>
-      )}
+      <Touchable animate onPress={() => open(item.src || item.href)}>
+        <Image
+          style={styles.image}
+          src={item.cover}
+          size={THUMB_WIDTH}
+          height={THUMB_HEIGHT}
+          radius
+          headers={epsThumbsHeader}
+        />
+        <View style={styles.play}>
+          <View style={styles.touch}>
+            <Flex style={styles.touch} justify='center'>
+              <Text style={styles.icon} type='__plain__'>
+                ▶
+              </Text>
+            </Flex>
+          </View>
+        </View>
+        {showTitle && !!item.title && (
+          <Text style={styles.title} size={11} bold numberOfLines={3} align='center'>
+            {item.title}
+          </Text>
+        )}
+      </Touchable>
     </View>
   )
 }

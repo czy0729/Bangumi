@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 02:41:46
+ * @Last Modified time: 2023-03-02 18:47:23
  */
 import React from 'react'
-import { Image } from '@components'
+import { Image, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
@@ -19,14 +19,9 @@ function Preview({ item, index, thumbs, epsThumbsHeader }, { $ }: Ctx) {
   if (!showCharacter) return null
 
   return (
-    <Image
-      key={item}
+    <Touchable
       style={index ? styles.image : styles.imageSide}
-      src={item}
-      size={THUMB_WIDTH}
-      height={THUMB_HEIGHT}
-      radius
-      headers={epsThumbsHeader}
+      animate
       onPress={() => {
         t('条目.预览', {
           subjectId: $.subjectId
@@ -37,7 +32,16 @@ function Preview({ item, index, thumbs, epsThumbsHeader }, { $ }: Ctx) {
           index
         )
       }}
-    />
+    >
+      <Image
+        key={item}
+        src={item}
+        size={THUMB_WIDTH}
+        height={THUMB_HEIGHT}
+        radius
+        headers={epsThumbsHeader}
+      />
+    </Touchable>
   )
 }
 

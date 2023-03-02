@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 18:22:10
+ * @Last Modified time: 2023-03-02 17:22:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Mesume, Heatmap, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { open, info, HTMLDecode, appNavigate, correctAgo } from '@utils'
+import { open, info, HTMLDecode, appNavigate, correctAgo, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
@@ -50,7 +50,8 @@ function List({ style = undefined }, { $, navigation }: Ctx) {
         return (
           <Touchable
             key={href}
-            style={[styles.item, isReaded && styles.readed]}
+            style={stl(styles.item, isReaded && styles.readed)}
+            animate
             onPress={() => {
               if (Number(replies) > LIMIT_TOPIC_PUSH) {
                 const url = `${HOST}${href}`

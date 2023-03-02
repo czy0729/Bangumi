@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 02:30:32
+ * @Last Modified time: 2023-03-02 17:02:49
  */
 import React from 'react'
 import { View } from 'react-native'
+import { appNavigate, confirm, findSubjectCn, getIsBlockUser } from '@utils'
 import { obc } from '@utils/decorators'
-import { findSubjectCn, getIsBlockUser } from '@utils'
+import { t } from '@utils/fetch'
+import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import Item from './item'
 import { Ctx } from '../types'
 import { LIMIT_HEAVY } from './ds'
@@ -25,7 +27,7 @@ import { memoStyles } from './styles'
 export default obc(
   (
     { index, avatar, userId, userName, group, groupHref, href, title, time, replies },
-    { $ }: Ctx
+    { $, navigation }: Ctx
   ) => {
     global.rerender('Rakuen.Item')
 
@@ -56,7 +58,6 @@ export default obc(
         avatar={avatar}
         userId={_userId}
         userName={userName}
-        group={group}
         groupHref={groupHref}
         groupCn={groupCn}
         href={href}
@@ -66,6 +67,52 @@ export default obc(
         replyCount={replyCount}
         isReaded={!!$.readed(topicId).time}
         isGroup={getIsGroup(topicId)}
+        onPress={() => {
+          const go = () => {
+            appNavigate(
+              href,
+              navigation,
+              {
+                _title: title,
+                _replies: `+${replyCount}`,
+                _group: group,
+                _time: time,
+                _avatar: avatar,
+                _userName: userName,
+                _userId: userId
+              },
+              {
+                id: '超展开.跳转'
+              }
+            )
+
+            setTimeout(() => {
+              // 记录帖子查看历史详情
+              $.onItemPress(topicId, replyCount)
+            }, 400)
+          }
+
+          if (replyCount > LIMIT_TOPIC_PUSH) {
+            confirm(
+              '帖子内容基于网页分析, 帖子回复数过大可能会导致闪退, 仍使用App打开?',
+              () => go(),
+              undefined,
+              () => {
+                const url = `${HOST}${href}`
+                t('超展开.跳转', {
+                  to: 'WebBrowser',
+                  url
+                })
+                setTimeout(() => {
+                  open(url)
+                }, 800)
+              }
+            )
+            return
+          }
+
+          go()
+        }}
       />
     )
   }

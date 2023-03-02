@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:59:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:00:43
+ * @Last Modified time: 2023-03-02 19:00:35
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
-import { matchYear } from '@utils'
+import { matchYear, matchYearAndMonth } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -28,7 +28,13 @@ function ItemGrid({ item, numColumns }, { $, navigation }: Ctx) {
       userCollection={$.label}
       event={EVENT}
       {...item}
-      airtime={showYear ? matchYear(item.tip) : false}
+      airtime={
+        showYear
+          ? typeCn === '动画'
+            ? matchYearAndMonth(item.tip)
+            : matchYear(item.tip)
+          : false
+      }
     />
   )
 }

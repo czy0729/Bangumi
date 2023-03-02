@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:28:51
+ * @Last Modified time: 2023-03-02 17:02:44
  */
 import { _ } from '@stores'
+import { Fn } from '@types'
 import { memoStyles } from './styles'
 
 /** 限制首次渲染项数 */
@@ -18,7 +19,6 @@ export const DEFAULT_PROPS = {
   avatar: '' as string,
   userId: '' as string,
   userName: '' as string,
-  group: '' as string,
   groupHref: '' as string,
   groupCn: '' as string,
   href: '' as string,
@@ -27,5 +27,6 @@ export const DEFAULT_PROPS = {
   topicId: '' as string,
   replyCount: '' as string | number,
   isReaded: false as boolean,
-  isGroup: false as boolean
+  isGroup: false as boolean,
+  onPress: (() => {}) as Fn
 }

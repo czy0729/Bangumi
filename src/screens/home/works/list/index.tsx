@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:13:49
+ * @Last Modified time: 2023-03-02 14:50:54
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -11,8 +11,8 @@ import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils'
 import ToolBar from '../tool-bar'
 import { Ctx } from '../types'
-import ListLayout from './list'
-import Grid from './grid'
+import ListItem from './list'
+import GridItem from './grid'
 
 function List(props, { $ }: Ctx) {
   const { fixed, list } = $.state
@@ -30,23 +30,13 @@ function List(props, { $ }: Ctx) {
   return (
     <ListView
       key={`${_.orientation}${numColumns}`}
-      numColumns={numColumns}
-      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
       data={$.list}
+      numColumns={numColumns}
       scrollToTop
       ListHeaderComponent={!fixed && <ToolBar />}
-      renderItem={({ item, index }) => {
-        if (list) {
-          return (
-            <>
-              <ListLayout item={item} />
-              {!index && <Heatmap id='作品.跳转' />}
-            </>
-          )
-        }
-        return <Grid item={item} index={index} numColumns={numColumns} />
-      }}
+      renderItem={list ? renderListItem : renderGridItem}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchMonoWorks}
     />
@@ -54,3 +44,16 @@ function List(props, { $ }: Ctx) {
 }
 
 export default obc(List)
+
+function renderListItem({ item, index }) {
+  return (
+    <>
+      <ListItem item={item} />
+      {!index && <Heatmap id='作品.跳转' />}
+    </>
+  )
+}
+
+function renderGridItem({ item, index }) {
+  return <GridItem item={item} index={index} numColumns={_.portrait(3, 5)} />
+}

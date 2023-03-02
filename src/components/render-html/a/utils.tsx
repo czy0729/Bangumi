@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-15 06:07:32
+ * @Last Modified time: 2023-03-02 18:37:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -122,7 +122,7 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
         if (air_date === '0000-00-00') air_date = ''
         return (
           <View style={styles.wrap}>
-            <Touchable onPress={onLinkPress}>
+            <Touchable animate onPress={onLinkPress}>
               <Flex style={styles.body}>
                 <Cover
                   src={API_COVER(subjectId)}
@@ -203,7 +203,7 @@ export function getTopic({ passProps, params, onLinkPress }) {
 
         return (
           <View style={styles.wrap}>
-            <Touchable onPress={onLinkPress}>
+            <Touchable animate onPress={onLinkPress}>
               <Flex style={styles.body}>
                 <Avatar
                   src={API_AVATAR(userId)}
@@ -264,7 +264,7 @@ export function getMono({ passProps, params, onLinkPress }) {
         const bottom = nameCn === text ? name : nameCn
         return (
           <View style={styles.wrap}>
-            <Touchable onPress={onLinkPress}>
+            <Touchable animate onPress={onLinkPress}>
               <Flex style={styles.body}>
                 <Cover src={gCover} size={48} radius textOnly={false} quality={false} />
                 <View style={_.ml.sm}>

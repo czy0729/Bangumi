@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 20:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 19:13:47
+ * @Last Modified time: 2023-03-02 19:06:33
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -18,10 +18,10 @@ import { styles } from './styles'
 const AVATAR_SIZE = _.r(88)
 
 const HIT_SLOP = {
-  top: 40,
-  right: 24,
-  bottom: 24,
-  left: 40
+  top: 28,
+  right: 16,
+  bottom: 16,
+  left: 28
 } as const
 
 function CenterAvatar(props, { $, navigation }: Ctx) {
@@ -32,17 +32,8 @@ function CenterAvatar(props, { $, navigation }: Ctx) {
   return (
     <View style={_.mt.md}>
       <Heatmap id='我的.跳转' to='UserSetting' alias='个人设置' />
-      <Image
-        key={src}
-        style={styles.avatar}
-        src={src}
-        size={AVATAR_SIZE}
-        radius={AVATAR_SIZE / 2}
-        border={styles.avatar.backgroundColor}
-        borderWidth={2}
-        shadow
-        fallback={fallback}
-        fallbackSrc={avatar?.large}
+      <Touchable
+        animate
         onPress={() => {
           t('我的.跳转', {
             to: 'UserSetting'
@@ -50,10 +41,25 @@ function CenterAvatar(props, { $, navigation }: Ctx) {
 
           navigation.push('UserSetting')
         }}
-      />
+      >
+        <Image
+          key={src}
+          style={styles.avatar}
+          src={src}
+          size={AVATAR_SIZE}
+          radius={AVATAR_SIZE / 2}
+          border={styles.avatar.backgroundColor}
+          borderWidth={2}
+          shadow
+          fallback={fallback}
+          fallbackSrc={avatar?.large}
+        />
+      </Touchable>
       <View style={styles.status}>
         <Touchable
           hitSlop={HIT_SLOP}
+          animate
+          scale={0.9}
           onPress={() => {
             const { onlineStatus } = systemStore.setting
             const buttons = [

@@ -2,16 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 17:19:01
+ * @Last Modified time: 2023-03-02 16:25:15
  */
 import React, { useRef, useCallback } from 'react'
-import { Animated, Easing } from 'react-native'
+import { View } from 'react-native'
 import GenericTouchable, {
   TOUCHABLE_STATE
 } from 'react-native-gesture-handler/src/components/touchables/GenericTouchable'
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing
+} from 'react-native-reanimated'
+import { useObserver } from 'mobx-react-lite'
+import { stl } from '@utils'
+import { separateStyles } from './utils'
 
 const duration = 96
-const delay = 0
 
 function TouchableAnimated({
   style,
@@ -29,6 +37,9 @@ function TouchableAnimated({
   /** 动画准备开始的标志 */
   const timeoutStartRef = useRef(null)
 
+  /** 动画主动取消的标志 */
+  const timeoutCancelRef = useRef(null)
+
   /** 动画进行中 */
   const animatingRef = useRef(false)
 
@@ -38,51 +49,55 @@ function TouchableAnimated({
   /** 主动做动画受控模式 */
   const controlledRef = useRef(false)
 
-  /** 透明度 */
-  const opacityRef = useRef(new Animated.Value(1))
+  /** 缩放比例 */
+  const scaleRef = useSharedValue(1)
 
-  /** 缩放 */
-  const scaleRef = useRef(new Animated.Value(1))
+  /** 缩放转换的样式 */
+  const containerStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(scaleRef.value === 1 ? 1 : 0.72, {
+        duration,
+        easing: Easing.linear
+      }),
+      transform: [
+        {
+          scale: withTiming(scaleRef.value, {
+            duration,
+            easing: Easing.linear
+          })
+        }
+      ],
+      overflow: 'hidden'
+    }
+  })
 
   /** 结束动画 */
   const onAnimateEnd = useCallback(() => {
     setTimeout(() => {
-      Animated.timing(opacityRef.current, {
-        toValue: 1,
-        duration,
-        easing: Easing.inOut(Easing.quad),
-        useNativeDriver: true
-      }).start()
-      Animated.timing(scaleRef.current, {
-        toValue: 1,
-        duration,
-        easing: Easing.inOut(Easing.quad),
-        useNativeDriver: true
-      }).start()
-
+      if (timeoutCancelRef.current) {
+        clearTimeout(timeoutCancelRef.current)
+      }
+      scaleRef.value = 1
       animatedRef.current = true
       animatingRef.current = false
-    }, duration + delay)
-  }, [])
+    }, duration + 16)
+  }, [scaleRef])
 
   /** 开始动画 */
   const onAnimateStart = useCallback(() => {
-    Animated.timing(opacityRef.current, {
-      toValue: 0.72,
-      duration,
-      easing: Easing.inOut(Easing.quad),
-      useNativeDriver: true
-    }).start()
-    Animated.timing(scaleRef.current, {
-      toValue: scale,
-      duration,
-      easing: Easing.inOut(Easing.quad),
-      useNativeDriver: true
-    }).start()
-
+    scaleRef.value = scale
     animatedRef.current = false
     animatingRef.current = true
-  }, [scale, scaleRef])
+
+    // 如果动画开始若干秒后都没有进行取消动画, 主动取消, 防止没有触发事件导致一直缩放
+    if (timeoutCancelRef.current) {
+      clearTimeout(timeoutCancelRef.current)
+    }
+    timeoutCancelRef.current = setTimeout(() => {
+      timeoutCancelRef.current = null
+      if (!controlledRef.current) onAnimateEnd()
+    }, 1200)
+  }, [onAnimateEnd, scale, scaleRef])
 
   /** 触摸事件 */
   const onStateChange = useCallback(
@@ -92,7 +107,7 @@ function TouchableAnimated({
         timeoutStartRef.current = setTimeout(() => {
           timeoutStartRef.current = null
           if (!controlledRef.current && hitRef.current) onAnimateStart()
-        }, 240)
+        }, 40)
         return
       }
 
@@ -120,36 +135,26 @@ function TouchableAnimated({
       if (typeof onPress === 'function') onPress()
       onAnimateEnd()
       controlledRef.current = false
-    }, duration + delay)
+    }, duration + 16)
   }, [onAnimateStart, onAnimateEnd, onPress])
 
-  return (
-    <GenericTouchable
-      {...other}
-      style={[
-        style,
-        {
-          opacity: opacityRef.current
-        }
-      ]}
-      delayPressIn={delay}
-      delayPressOut={delay}
-      onStateChange={onStateChange}
-      onPress={_onPress}
-    >
-      <Animated.View
-        style={{
-          transform: [
-            {
-              scale: scaleRef.current
-            }
-          ]
-        }}
-      >
-        {children}
+  return useObserver(() => {
+    const _styles = separateStyles(style)
+    return (
+      <Animated.View style={stl(_styles.containerStyle, containerStyle)}>
+        <GenericTouchable
+          style={_styles.style}
+          {...other}
+          delayPressIn={64}
+          onStateChange={onStateChange}
+          onPressOut={onStateChange}
+          onPress={_onPress}
+        >
+          <View>{children}</View>
+        </GenericTouchable>
       </Animated.View>
-    </GenericTouchable>
-  )
+    )
+  })
 }
 
 export default TouchableAnimated

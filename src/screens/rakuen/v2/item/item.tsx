@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 16:22:27
+ * @Last Modified time: 2023-03-02 17:03:14
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, UserStatus } from '@components'
-import { _ } from '@stores'
+import { Touchable, Flex, UserStatus } from '@components'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import Avatar from './avatar'
 import Content from './content'
@@ -21,7 +21,6 @@ export default memo(
     avatar,
     userId,
     userName,
-    group,
     groupHref,
     groupCn,
     href,
@@ -30,12 +29,17 @@ export default memo(
     topicId,
     replyCount,
     isReaded,
-    isGroup
+    isGroup,
+    onPress
   }) => {
     global.rerender('Rakuen.Item.Main')
 
     return (
-      <View style={[_.container.item, styles.container, isReaded && styles.readed]}>
+      <Touchable
+        style={stl(styles.container, isReaded && styles.readed)}
+        animate
+        onPress={onPress}
+      >
         <Flex align='start'>
           <View style={styles.avatar}>
             <UserStatus userId={userId}>
@@ -46,10 +50,7 @@ export default memo(
             <Flex align='start'>
               <Flex.Item>
                 <Content
-                  avatar={avatar}
-                  group={group}
                   groupCn={groupCn}
-                  href={href}
                   title={title}
                   time={time}
                   topicId={topicId}
@@ -73,12 +74,7 @@ export default memo(
           </Flex.Item>
         </Flex>
         <IconFavor topicId={topicId} />
-        {/* <Heatmap
-          id='超展开.跳转'
-          to='Topic'
-          alias='帖子'
-        /> */}
-      </View>
+      </Touchable>
     )
   },
   DEFAULT_PROPS

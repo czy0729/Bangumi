@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:00:50
+ * @Last Modified time: 2023-03-02 18:27:32
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -33,34 +33,35 @@ export const ItemPM = ob(
   }: ItemPMProps) => {
     const styles = memoStyles()
     return (
-      <Flex style={styles.container} align='start'>
-        <Avatar
-          style={styles.image}
-          navigation={navigation}
-          userId={userId}
-          name={name}
-          src={avatar}
-          event={event}
-        />
-        <Flex.Item style={styles.item}>
-          <Touchable
-            onPress={() => {
-              t(event.id, {
-                to: 'PM',
-                ...event.data
-              })
+      <Touchable
+        animate
+        onPress={() => {
+          t(event.id, {
+            to: 'PM',
+            ...event.data
+          })
 
-              navigation.push('PM', {
-                id
-              })
+          navigation.push('PM', {
+            id
+          })
 
-              if (isNew) {
-                setTimeout(() => {
-                  onRefresh()
-                }, 4000)
-              }
-            }}
-          >
+          if (isNew) {
+            setTimeout(() => {
+              onRefresh()
+            }, 4000)
+          }
+        }}
+      >
+        <Flex style={styles.container} align='start'>
+          <Avatar
+            style={styles.image}
+            navigation={navigation}
+            userId={userId}
+            name={name}
+            src={avatar}
+            event={event}
+          />
+          <Flex.Item style={styles.item}>
             <Flex>
               <Flex.Item>
                 <Name
@@ -91,9 +92,9 @@ export const ItemPM = ob(
                 </Text>
               )}
             </Flex>
-          </Touchable>
-        </Flex.Item>
-      </Flex>
+          </Flex.Item>
+        </Flex>
+      </Touchable>
     )
   }
 )

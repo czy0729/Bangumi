@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 21:32:20
+ * @Last Modified time: 2023-03-02 17:21:13
  */
 import React from 'react'
 import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { open, info, appNavigate, correctAgo } from '@utils'
+import { open, info, appNavigate, correctAgo, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
+import { TopicId } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
-import { TopicId } from '@types'
 
 function List(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
@@ -40,7 +40,8 @@ function List(props, { $, navigation }: Ctx) {
         return (
           <Touchable
             key={href}
-            style={[styles.item, isReaded && styles.readed]}
+            style={stl(styles.item, isReaded && styles.readed)}
+            animate
             onPress={() => {
               if (Number(replies) > LIMIT_TOPIC_PUSH) {
                 const url = `${HOST}${href}`

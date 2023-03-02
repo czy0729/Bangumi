@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:42:26
+ * @Last Modified time: 2023-03-02 19:13:29
  */
 import React, { Component } from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
@@ -285,10 +285,12 @@ const styles = _.create({
 
 export const SwitchPro = observer(
   ({
-    circleColorActive,
-    circleColorInactive,
-    backgroundActive,
-    backgroundInactive,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    circleColorActive = undefined,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    circleColorInactive = undefined,
+    backgroundActive = undefined,
+    backgroundInactive = undefined,
     ...other
   }) => (
     <SwitchProComp

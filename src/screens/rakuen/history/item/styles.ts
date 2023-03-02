@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-29 17:36:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-29 17:36:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-03-02 17:24:38
  */
 import { _ } from '@stores'
 
@@ -19,10 +19,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.md,
     paddingLeft: _.sm,
     paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
   },
   favor: {
     marginTop: 1

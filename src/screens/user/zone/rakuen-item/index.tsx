@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 19:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 10:31:51
+ * @Last Modified time: 2023-03-02 19:05:39
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -22,6 +22,7 @@ function Item(
       <Flex.Item>
         <Touchable
           style={styles.item}
+          animate
           onPress={() => {
             t('空间.跳转', {
               to: 'Topic',

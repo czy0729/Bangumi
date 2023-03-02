@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 13:45:52
+ * @Last Modified time: 2023-03-02 18:53:25
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -62,6 +62,7 @@ const Item = memo(
     return (
       <Touchable
         style={styles.container}
+        animate
         onPress={() => {
           const { id: eventId, data: eventData } = event
           t(eventId, {

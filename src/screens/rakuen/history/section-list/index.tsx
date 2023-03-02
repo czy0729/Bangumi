@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-27 15:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 06:26:45
+ * @Last Modified time: 2023-03-02 17:28:26
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -34,6 +34,6 @@ function renderSectionHeader({ section: { title } }) {
   return <SectionHeader size={14}>{title}</SectionHeader>
 }
 
-function renderItem({ item, index }) {
-  return <Item index={index} {...item} />
+function renderItem({ item }) {
+  return <Item {...item} />
 }

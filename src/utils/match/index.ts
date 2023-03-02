@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 20:31:53
+ * @Last Modified time: 2023-03-02 19:18:36
  */
 import { UserId } from '@types'
+import { pad } from '../utils'
 
 /** 匹配头像地址 */
 export function matchAvatar(str: string = ''): string {
@@ -97,6 +98,18 @@ export function matchUserIdFromAvatar(str: string = ''): UserId {
 export function matchYear(str: string = ''): string {
   try {
     return str.match(/(\d{4})(年|-)/)?.[1]
+  } catch (error) {
+    return ''
+  }
+}
+
+/** 匹配年份 */
+export function matchYearAndMonth(str: string = ''): string {
+  try {
+    const data = [matchYear(str)]
+    const month = str.match(/(\d+)(月|-)/)?.[1]
+    if (month) data.push(pad(month))
+    return data.filter(item => !!item).join('-')
   } catch (error) {
     return ''
   }

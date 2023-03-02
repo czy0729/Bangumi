@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 11:55:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-22 05:18:42
+ * @Last Modified time: 2023-03-02 19:17:53
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -70,7 +70,7 @@ function Route({ filter }) {
               </Text>
               <Flex style={styles.tabs}>
                 <Flex.Item>
-                  <Touchable onPress={() => setHomeRenderTabs('Discovery')}>
+                  <Touchable animate onPress={() => setHomeRenderTabs('Discovery')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -92,7 +92,7 @@ function Route({ filter }) {
                   </Touchable>
                 </Flex.Item>
                 <Flex.Item>
-                  <Touchable onPress={() => setHomeRenderTabs('Timeline')}>
+                  <Touchable animate onPress={() => setHomeRenderTabs('Timeline')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -114,7 +114,7 @@ function Route({ filter }) {
                   </Touchable>
                 </Flex.Item>
                 <Flex.Item>
-                  <Touchable onPress={() => info('进度暂不允许关闭')}>
+                  <Touchable animate onPress={() => info('进度暂不允许关闭')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -131,7 +131,7 @@ function Route({ filter }) {
                   </Touchable>
                 </Flex.Item>
                 <Flex.Item>
-                  <Touchable onPress={() => setHomeRenderTabs('Rakuen')}>
+                  <Touchable animate onPress={() => setHomeRenderTabs('Rakuen')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -154,7 +154,7 @@ function Route({ filter }) {
                   </Touchable>
                 </Flex.Item>
                 <Flex.Item>
-                  <Touchable onPress={() => info('时光机暂不允许关闭')}>
+                  <Touchable animate onPress={() => info('时光机暂不允许关闭')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -182,7 +182,7 @@ function Route({ filter }) {
               </Highlight>
               <Flex style={styles.tabs}>
                 <Flex.Item>
-                  <Touchable onPress={() => setInitialPage('发现')}>
+                  <Touchable animate onPress={() => setInitialPage('发现')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -206,7 +206,7 @@ function Route({ filter }) {
                   </Flex>
                 </Flex.Item>
                 <Flex.Item>
-                  <Touchable onPress={() => setInitialPage('时间胶囊')}>
+                  <Touchable animate onPress={() => setInitialPage('时间胶囊')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -230,7 +230,7 @@ function Route({ filter }) {
                   </Flex>
                 </Flex.Item>
                 <Flex.Item>
-                  <Touchable onPress={() => setInitialPage('进度')}>
+                  <Touchable animate onPress={() => setInitialPage('进度')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -250,7 +250,7 @@ function Route({ filter }) {
                   </Flex>
                 </Flex.Item>
                 <Flex.Item>
-                  <Touchable onPress={() => setInitialPage('超展开')}>
+                  <Touchable animate onPress={() => setInitialPage('超展开')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -275,7 +275,7 @@ function Route({ filter }) {
                   </Flex>
                 </Flex.Item>
                 <Flex.Item>
-                  <Touchable onPress={() => setInitialPage('时光机')}>
+                  <Touchable animate onPress={() => setInitialPage('时光机')}>
                     <Flex style={styles.tab} justify='center' direction='column'>
                       <View style={styles.icon}>
                         <Iconfont
@@ -297,7 +297,7 @@ function Route({ filter }) {
                   <>
                     <View style={styles.split} />
                     <Flex.Item>
-                      <Touchable onPress={() => setInitialPage('小圣杯')}>
+                      <Touchable animate onPress={() => setInitialPage('小圣杯')}>
                         <Flex style={styles.tab} justify='center' direction='column'>
                           <View style={styles.icon}>
                             <Iconfont

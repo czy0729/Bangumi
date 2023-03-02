@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-04 07:33:55
+ * @Last Modified time: 2023-03-02 19:09:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ import {
 } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { open, confirm, arrGroup } from '@utils'
+import { open, confirm, arrGroup, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { fixedRemote } from '@utils/user-setting'
@@ -136,11 +136,11 @@ class UserSetting extends React.Component {
         </View>
         <View style={this.styles.example}>
           <Touchable
-            onPress={() =>
+            onPress={() => {
               navigation.push('Zone', {
                 userId: 'sukaretto'
               })
-            }
+            }}
           >
             <Text size={10} lineHeight={16} bold type='__plain__'>
               〔示例〕
@@ -268,7 +268,7 @@ class UserSetting extends React.Component {
     return (
       <>
         <Flex wrap='wrap'>
-          <Touchable style={this.styles.bg} onPress={() => $.onSelectBg('')}>
+          <Touchable style={this.styles.bg} animate onPress={() => $.onSelectBg('')}>
             <Image
               key={this.previewAvatarSrc}
               src={fixedRemote(this.previewAvatarSrc)}
@@ -291,7 +291,8 @@ class UserSetting extends React.Component {
             .map((item: string, index: number) => (
               <Touchable
                 key={index}
-                style={[this.styles.bg, index % 2 === 0 && _.ml.md]}
+                style={stl(this.styles.bg, index % 2 === 0 && _.ml.md)}
+                animate
                 onPress={() => $.onSelectBg(item)}
                 onLongPress={() => this.onViewOrigin(item, index)}
               >
@@ -335,7 +336,8 @@ class UserSetting extends React.Component {
           {pixivs.map((item: string, index: number) => (
             <Touchable
               key={`${index}|${item}`}
-              style={[this.styles.bg, index % 2 === 1 && _.ml.md]}
+              style={stl(this.styles.bg, index % 2 === 1 && _.ml.md)}
+              animate
               onPress={() => $.onSelectBg(item)}
               onLongPress={() =>
                 this.onViewOrigin(item.replace('/c/540x540_70', ''), index)
@@ -368,10 +370,38 @@ class UserSetting extends React.Component {
             {items.map((item: string, idx: number) => {
               if (index === 2 && idx === 4) {
                 return (
-                  <Image
+                  <Touchable
                     key={item}
                     style={_.mb.md}
-                    src={this.avatar}
+                    animate
+                    scale={0.9}
+                    onPress={() => $.onSelectAvatar('')}
+                  >
+                    <Image
+                      src={this.avatar}
+                      headers={headers}
+                      size={60}
+                      radius={30}
+                      border={_.__colorPlain__}
+                      borderWidth={0}
+                      placeholder={false}
+                      shadow
+                      fallback
+                    />
+                  </Touchable>
+                )
+              }
+
+              return (
+                <Touchable
+                  key={item}
+                  style={_.mb.md}
+                  animate
+                  scale={0.9}
+                  onPress={() => $.onSelectAvatar(item)}
+                >
+                  <Image
+                    src={fixedRemote(item, true)}
                     headers={headers}
                     size={60}
                     radius={30}
@@ -380,26 +410,8 @@ class UserSetting extends React.Component {
                     placeholder={false}
                     shadow
                     fallback
-                    onPress={() => $.onSelectAvatar('')}
                   />
-                )
-              }
-
-              return (
-                <Image
-                  key={item}
-                  style={_.mb.md}
-                  src={fixedRemote(item, true)}
-                  headers={headers}
-                  size={60}
-                  radius={30}
-                  border={_.__colorPlain__}
-                  borderWidth={0}
-                  placeholder={false}
-                  shadow
-                  fallback
-                  onPress={() => $.onSelectAvatar(item)}
-                />
+                </Touchable>
               )
             })}
           </Flex>

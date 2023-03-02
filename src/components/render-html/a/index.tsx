@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-27 23:41:34
+ * @Last Modified time: 2023-03-02 18:36:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
-import { matchBgmLink } from '@utils/app'
+import { matchBgmLink } from '@utils'
 import { Text } from '../../text'
 import { getACSearch, getSubject, getTopic, getMono, filterChildren } from './utils'
 import { Props } from './types'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 08:50:58
+ * @Last Modified time: 2023-03-02 19:25:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,7 @@ export default memo(
         >
           收藏
         </SectionTitle>
-        <Touchable style={styles.btn} onPress={onPress}>
+        <Touchable style={styles.btn} animate onPress={onPress}>
           <FlipBtn />
           <Heatmap id='条目.管理收藏' />
           <Heatmap right={56} transparent id='条目.显示收藏管理' />

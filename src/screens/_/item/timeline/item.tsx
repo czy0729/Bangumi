@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 12:36:21
+ * @Last Modified time: 2023-03-02 18:50:33
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -58,10 +57,12 @@ const Item = memo(
 
     const onNavigate = useCallback(
       (url, passParams?) => appNavigate(url, navigation, passParams, event),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       []
     )
     const onClear = useCallback(() => {
       confirm('确定删除?', () => onDelete(clearHref))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [clearHref])
 
     let type: SubjectTypeCn
@@ -134,7 +135,18 @@ const Item = memo(
             </Flex.Item>
             <Flex align='start'>
               {image.length === 1 && (
-                <View style={_.ml.md}>
+                <Touchable
+                  style={_.ml.md}
+                  animate
+                  onPress={() => {
+                    onNavigate(!!p3Url.length && p3Url[0], {
+                      _jp: !!p3Text.length && p3Text[0],
+                      _name: !!p3Text.length && p3Text[0],
+                      _image,
+                      _type: type
+                    })
+                  }}
+                >
                   <Cover
                     src={_image}
                     size={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
@@ -142,16 +154,8 @@ const Item = memo(
                     radius
                     shadow
                     type={type}
-                    onPress={() => {
-                      onNavigate(!!p3Url.length && p3Url[0], {
-                        _jp: !!p3Text.length && p3Text[0],
-                        _name: !!p3Text.length && p3Text[0],
-                        _image,
-                        _type: type
-                      })
-                    }}
                   />
-                </View>
+                </Touchable>
               )}
               {clearHref ? (
                 <Touchable style={styles.touch} onPress={onClear}>
