@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 22:11:48
+ * @Last Modified time: 2023-03-02 23:09:27
  */
 import { collectionStore, userStore } from '@stores'
 import {
@@ -357,6 +357,20 @@ export default class Action extends Fetch {
     }
   }
 
+  /** Eps 状态按钮做动画前, 需要先设置开启 */
+  prepareEpsFlip = (subjectId: SubjectId) => {
+    this.setState({
+      flip: subjectId
+    })
+  }
+
+  /** Eps 状态按钮完全动画后, 需要设置关闭才能做下一次动画 */
+  afterFlipEps = debounce(() => {
+    this.setState({
+      flip: 0
+    })
+  })
+
   /** -------------------- action -------------------- */
   /** 观看下一章节 */
   doWatchedNextEp = async (subjectId: SubjectId) => {
@@ -378,6 +392,8 @@ export default class Action extends Fetch {
       subjectId
     })
 
+    this.prepareEpsFlip(subjectId)
+
     const { id } = this.nextWatchEp(subjectId)
     await userStore.doUpdateEpStatus({
       id,
@@ -392,8 +408,6 @@ export default class Action extends Fetch {
         }
       }
     })
-    feedback()
-
     userStore.fetchCollectionSingle(subjectId)
     this.fetchUserProgress(subjectId)
   }
@@ -477,13 +491,13 @@ export default class Action extends Fetch {
         status
       })
 
+      this.prepareEpsFlip(subjectId)
+
       // 更新收视进度
       await userStore.doUpdateEpStatus({
         id: item.id,
         status
       })
-      feedback()
-
       userStore.fetchCollectionSingle(subjectId)
       this.fetchUserProgress(subjectId)
     }
@@ -508,17 +522,17 @@ export default class Action extends Fetch {
         sort = eps.findIndex(i => i.sort === item.sort)
       }
 
+      this.prepareEpsFlip(subjectId)
+
       await userStore.doUpdateSubjectWatched({
         subjectId,
         sort: sort === -1 ? item.sort : sort + 1
       })
-      feedback()
-
       userStore.fetchCollectionSingle(subjectId)
       this.fetchUserProgress(subjectId)
     }
 
-    // iOS是本集讨论, 安卓是(+N)...
+    // iOS 是本集讨论, 安卓是 (+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
       t('首页.章节菜单操作', {
         title: '本集讨论',

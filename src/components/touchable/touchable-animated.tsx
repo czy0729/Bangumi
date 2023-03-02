@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 17:19:01
+ * @Last Modified time: 2023-03-03 00:09:06
  */
 import React, { useRef, useCallback } from 'react'
 import { Animated, Easing } from 'react-native'
@@ -126,25 +126,26 @@ function TouchableAnimated({
   return (
     <GenericTouchable
       {...other}
-      style={[
-        style,
-        {
-          opacity: opacityRef.current
-        }
-      ]}
       delayPressIn={delay}
       delayPressOut={delay}
       onStateChange={onStateChange}
       onPress={_onPress}
     >
       <Animated.View
-        style={{
-          transform: [
-            {
-              scale: scaleRef.current
-            }
-          ]
-        }}
+        style={[
+          style,
+          {
+            opacity: opacityRef.current
+          },
+          {
+            transform: [
+              {
+                scale: scaleRef.current
+              }
+            ],
+            overflow: 'hidden'
+          }
+        ]}
       >
         {children}
       </Animated.View>

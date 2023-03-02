@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 14:48:08
+ * @Last Modified time: 2023-03-02 23:06:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,10 +22,11 @@ function Eps({ subjectId, isFirst }, { $, navigation }: Ctx) {
         subjectId={subjectId}
         eps={$.eps(subjectId)}
         userProgress={$.userProgress(subjectId)}
+        flip={$.state.flip === subjectId}
+        onFliped={$.afterFlipEps}
         onSelect={(value, item: any) =>
           $.doEpsSelect(value, item, subjectId, navigation)
         }
-        // onLongPress={(item: any) => $.doEpsLongPress(item, subjectId)}
       />
       {isFirst && (
         <>

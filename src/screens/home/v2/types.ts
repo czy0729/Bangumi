@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-11 16:50:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 22:15:51
+ * @Last Modified time: 2023-03-02 23:04:12
  */
 import { factory } from '@utils'
 import { Loaded, Navigation, Subject, SubjectId } from '@types'
@@ -40,6 +40,7 @@ export type ExcludeState = {
   filterPage: number
   isFocused: boolean
   renderedTabsIndex: number[]
+  flip: SubjectId
 }
 
 export type State = {

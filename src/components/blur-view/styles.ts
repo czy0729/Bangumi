@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-05-03 23:03:26
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-05-03 23:03:26
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-03-03 01:24:23
  */
 import { _ } from '@stores'
 
@@ -22,6 +22,6 @@ export const styles = _.create({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.24)'
+    backgroundColor: 'rgba(0, 0, 0, 0.32)'
   }
 })

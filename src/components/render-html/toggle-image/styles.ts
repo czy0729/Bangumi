@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:41:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 23:03:02
+ * @Last Modified time: 2023-03-03 01:23:27
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   image: {
-    paddingVertical: 4,
+    paddingVertical: _.ios(4, 0),
+    marginTop: 4,
     marginBottom: 4
   },
   isLoad: {

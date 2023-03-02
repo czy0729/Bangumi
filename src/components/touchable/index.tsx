@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 16:33:25
+ * @Last Modified time: 2023-03-03 00:03:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -36,7 +36,8 @@ export const Touchable = observer(
     children,
     ...other
   }: TouchableProps) => {
-    const _useRN = !IOS && DEV ? true : useRN
+    // const _useRN = !IOS && DEV ? true : useRN
+    const _useRN = useRN
     const passProps = {
       /** @todo 安卓开发环境热使用 RNGH 的组件会导致 GestureHandler already initialized 问题, 暂时规避 */
       useRN: _useRN,
