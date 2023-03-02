@@ -39,7 +39,11 @@ export const ItemArticle = ob(
     let time = date('y-m-d', timestamp)
     if (time.indexOf(`${Y}-`) !== -1) time = time.replace(`${Y}-`, '')
     return (
-      <Touchable style={style} onPress={() => appNavigate(url, navigation, {}, event)}>
+      <Touchable
+        style={style}
+        animate
+        onPress={() => appNavigate(url, navigation, {}, event)}
+      >
         <Flex align='start'>
           <UserStatus userId={userId}>
             <Avatar

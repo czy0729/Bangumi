@@ -48,6 +48,7 @@ export default memo(({ navigation, styles, showCatalog, catalog, onSwitchBlock }
                 <Touchable
                   key={item.id}
                   style={styles.item}
+                  animate
                   onPress={() => {
                     t('条目.跳转', {
                       to: 'CatalogDetail',

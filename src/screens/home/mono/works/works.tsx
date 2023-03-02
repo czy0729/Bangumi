@@ -36,41 +36,44 @@ export default memo(({ navigation, styles, style, works }) => {
       <View style={_.mt.md}>
         {works.map(item => {
           const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)
-          const onPress = () =>
-            appNavigate(
-              item.href,
-              navigation,
-              {
-                _jp: item.name,
-                _image: item.cover,
-                _type: type
-              },
-              EVENT
-            )
           return (
-            <Flex key={item.href} style={styles.item} align='start'>
-              <Cover
-                size={COVER_WIDTH}
-                height={COVER_HEIGHT}
-                src={item.cover}
-                radius
-                shadow
-                type={type}
-                onPress={onPress}
-              />
-              <Flex.Item style={styles.content}>
-                <Flex align='start'>
-                  <Flex.Item>
-                    <Touchable style={_.mt.xs} onPress={onPress}>
-                      <Text bold size={12}>
+            <Touchable
+              key={item.href}
+              animate
+              onPress={() => {
+                appNavigate(
+                  item.href,
+                  navigation,
+                  {
+                    _jp: item.name,
+                    _image: item.cover,
+                    _type: type
+                  },
+                  EVENT
+                )
+              }}
+            >
+              <Flex style={styles.item} align='start'>
+                <Cover
+                  size={COVER_WIDTH}
+                  height={COVER_HEIGHT}
+                  src={item.cover}
+                  radius
+                  shadow
+                  type={type}
+                />
+                <Flex.Item style={styles.content}>
+                  <Flex align='start'>
+                    <Flex.Item>
+                      <Text style={_.mt.xs} bold size={12}>
                         {findSubjectCn(item.name)}
                       </Text>
-                    </Touchable>
-                  </Flex.Item>
-                  <Tag style={styles.tag} value={item.staff} />
-                </Flex>
-              </Flex.Item>
-            </Flex>
+                    </Flex.Item>
+                    <Tag style={styles.tag} value={item.staff} />
+                  </Flex>
+                </Flex.Item>
+              </Flex>
+            </Touchable>
           )
         })}
         <Heatmap id='人物.跳转' from='最近参与' />

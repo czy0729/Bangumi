@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Heatmap } from '@components'
+import { Heatmap, Touchable } from '@components'
 import { Cover as CompCover } from '@_'
 import { obc } from '@utils/decorators'
 import { IMG_HEIGHT, IMG_WIDTH, MODEL_SUBJECT_TYPE } from '@constants'
@@ -17,16 +17,16 @@ function Cover({ subjectId, subject, isFirst }, { $, navigation }: Ctx) {
   const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   return (
     <View>
-      <CompCover
-        src={subject?.images?.medium || ''}
-        size={IMG_WIDTH}
-        height={IMG_HEIGHT}
-        radius
-        shadow
-        type={type}
-        onPress={() => $.onItemPress(navigation, subjectId, subject)}
-        // onLongPress={() => $.onItemLongPress(subjectId)}
-      />
+      <Touchable animate onPress={() => $.onItemPress(navigation, subjectId, subject)}>
+        <CompCover
+          src={subject?.images?.medium || ''}
+          size={IMG_WIDTH}
+          height={IMG_HEIGHT}
+          radius
+          shadow
+          type={type}
+        />
+      </Touchable>
       {isFirst && (
         <>
           <Heatmap bottom={68} id='首页.全部展开' transparent />

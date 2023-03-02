@@ -60,18 +60,13 @@ export const ItemCharacter = obc(
         <Flex style={styles.wrap} align='start'>
           <View style={styles.imgContainer}>
             {!!cover && (
-              <Cover
-                src={cover}
-                width={IMG_WIDTH}
-                height={IMG_WIDTH}
-                radius
-                shadow
-                onPress={onPress}
-              />
+              <Touchable animate scale={0.9} onPress={onPress}>
+                <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} radius shadow />
+              </Touchable>
             )}
           </View>
           <Flex.Item style={_.ml.wind}>
-            <Touchable style={styles.touch} onPress={onPress}>
+            <Touchable style={styles.touch} animate onPress={onPress}>
               <Flex direction='column' justify='between' align='start'>
                 <View>
                   <Flex style={_.container.block} align='start'>
@@ -106,7 +101,7 @@ export const ItemCharacter = obc(
                 </View>
               </Flex>
             </Touchable>
-            <Flex wrap='wrap'>
+            <Flex style={_.mt.sm} wrap='wrap'>
               {actors.map(item => {
                 const cn = cnjp(item.nameCn, item.name)
                 const jp = cnjp(item.name, item.nameCn)
@@ -114,6 +109,7 @@ export const ItemCharacter = obc(
                   <Touchable
                     key={item.id}
                     style={styles.touchActor}
+                    animate
                     onPress={() => {
                       const monoId = String(item.id).includes('person')
                         ? item.id

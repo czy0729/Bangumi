@@ -21,6 +21,7 @@ import {
   IOS,
   URL_DEFAULT_AVATAR
 } from '@constants'
+import { AnyObject, Fn } from '@types'
 import { memoStyles } from './styles'
 import { Props as AvatarProps } from './types'
 
@@ -102,13 +103,14 @@ export const Avatar = ob(
       _radius = _.radiusSm
     }
 
-    const _onPress = () => {
-      if (onPress) {
-        onPress()
-        return
-      }
+    let _onPress: Fn
+    if (onPress || (navigation && userId)) {
+      _onPress = () => {
+        if (onPress) {
+          onPress()
+          return
+        }
 
-      if (navigation && userId) {
         const { id, data = {} } = event
         t(id, {
           to: 'Zone',
@@ -173,27 +175,37 @@ export const Avatar = ob(
       fallback = true
     }
 
-    return (
-      <Touchable
-        style={stl(style, dev && isUrl && _src.includes(HOST_CDN) && styles.dev)}
-        animate
-        scale={0.88}
-        onPress={_onPress}
-        onLongPress={onLongPress}
-      >
-        <Image
-          key={isUrl ? _src : 'avatar'}
-          size={_size}
-          src={_src}
-          radius={_radius}
-          border={borderColor}
-          borderWidth={borderWidth}
-          quality={false}
-          placeholder={placeholder}
-          fallback={fallback}
-          fallbackSrc={String(fallbackSrc || src)}
-        />
-      </Touchable>
+    const containerStyle = stl(
+      style,
+      dev && isUrl && _src.includes(HOST_CDN) && styles.dev
     )
+    const passProps: AnyObject = {
+      key: isUrl ? _src : 'avatar',
+      size: _size,
+      src: _src,
+      radius: _radius,
+      border: borderColor,
+      borderWidth: borderWidth,
+      quality: false,
+      placeholder: placeholder,
+      fallback: fallback,
+      fallbackSrc: String(fallbackSrc || src)
+    }
+    if (_onPress || onLongPress) {
+      return (
+        <Touchable
+          style={containerStyle}
+          animate
+          scale={0.88}
+          onPress={_onPress}
+          onLongPress={onLongPress}
+        >
+          <Image {...passProps} />
+        </Touchable>
+      )
+    }
+
+    passProps.style = containerStyle
+    return <Image {...passProps} />
   }
 )

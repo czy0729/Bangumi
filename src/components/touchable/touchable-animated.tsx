@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 00:40:15
+ * @Last Modified time: 2023-03-02 14:32:50
  */
 import React, { useRef, useCallback } from 'react'
 import { View } from 'react-native'
@@ -96,7 +96,7 @@ function TouchableAnimated({
     timeoutCancelRef.current = setTimeout(() => {
       timeoutCancelRef.current = null
       if (!controlledRef.current) onAnimateEnd()
-    }, 1800)
+    }, 1200)
   }, [onAnimateEnd, scale, scaleRef])
 
   /** 触摸事件 */
@@ -145,7 +145,7 @@ function TouchableAnimated({
         <GenericTouchable
           style={_styles.style}
           {...other}
-          delayPressIn={40}
+          delayPressIn={64}
           onStateChange={onStateChange}
           onPressOut={onStateChange}
           onPress={_onPress}

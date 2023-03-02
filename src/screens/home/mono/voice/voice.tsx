@@ -35,75 +35,75 @@ export default memo(({ navigation, styles, style, voices }) => {
         {voices.map(item => {
           const nameTop = cnjp(item.nameCn, item.name)
           const nameBottom = cnjp(item.name, item.nameCn)
-          const onPress = () =>
-            appNavigate(
-              item.href,
-              navigation,
-              {
-                _jp: item.name,
-                _cn: item.nameCn,
-                _image: item.cover
-              },
-              EVENT
-            )
-
           const subjectTop = cnjp(item.subjectNameCn, item.subjectName)
           const subjectBottom = cnjp(item.subjectName, item.subjectNameCn)
-          const onPressSubject = () =>
-            appNavigate(item.subjectHref, navigation, {}, EVENT)
           return (
             <Flex key={item.href} style={styles.item} align='start'>
-              {/* @ts-ignore */}
-              <Flex flex={1} align='start'>
-                <Image
-                  src={item.cover}
-                  size={IMAGE_WIDTH}
-                  radius
-                  shadow
-                  onPress={onPress}
-                />
-                <Flex.Item style={_.ml.sm}>
-                  <Touchable style={_.mt.xxs} onPress={onPress}>
-                    <Text size={12} bold>
-                      {nameTop}
-                    </Text>
-                    {!!nameBottom && nameBottom !== nameTop && (
-                      <Text style={_.mt.xs} size={10} type='sub' bold>
-                        {nameBottom}
+              <Flex.Item>
+                <Touchable
+                  animate
+                  onPress={() => {
+                    appNavigate(
+                      item.href,
+                      navigation,
+                      {
+                        _jp: item.name,
+                        _cn: item.nameCn,
+                        _image: item.cover
+                      },
+                      EVENT
+                    )
+                  }}
+                >
+                  <Flex align='start'>
+                    <Image src={item.cover} size={IMAGE_WIDTH} radius shadow />
+                    <Flex.Item style={_.ml.sm}>
+                      <Text style={_.mt.xxs} size={12} bold>
+                        {nameTop}
                       </Text>
-                    )}
-                  </Touchable>
-                  <Flex style={_.mt.xs}>
-                    <Tag value={item.staff} />
+                      {!!nameBottom && nameBottom !== nameTop && (
+                        <Text style={_.mt.xs} size={10} type='sub' bold>
+                          {nameBottom}
+                        </Text>
+                      )}
+                      <Flex style={_.mt.xs}>
+                        <Tag value={item.staff} />
+                      </Flex>
+                    </Flex.Item>
                   </Flex>
-                </Flex.Item>
-              </Flex>
-              {/* @ts-ignore */}
-              <Flex style={_.ml.md} flex={1.5} align='start'>
-                <Flex.Item>
-                  <Touchable style={_.mt.xxs} onPress={onPressSubject}>
-                    <Text size={12} align='right' bold>
-                      {subjectTop}
-                    </Text>
-                    {!!subjectBottom && subjectBottom !== subjectTop && (
-                      <Text style={_.mt.xs} size={10} type='sub' align='right'>
-                        {subjectBottom}
+                </Touchable>
+              </Flex.Item>
+              <Flex.Item style={_.ml.sm} flex={1.5}>
+                <Touchable
+                  animate
+                  onPress={() => {
+                    appNavigate(item.subjectHref, navigation, {}, EVENT)
+                  }}
+                >
+                  <Flex align='start'>
+                    <Flex.Item>
+                      <Text style={_.mt.xxs} size={12} align='right' bold>
+                        {subjectTop}
                       </Text>
+                      {!!subjectBottom && subjectBottom !== subjectTop && (
+                        <Text style={_.mt.xs} size={10} type='sub' align='right'>
+                          {subjectBottom}
+                        </Text>
+                      )}
+                    </Flex.Item>
+                    {!!item.subjectCover && (
+                      <Cover
+                        style={_.ml.sm}
+                        src={item.subjectCover}
+                        size={COVER_WIDTH * 0.88}
+                        height={COVER_HEIGHT * 0.88}
+                        radius
+                        shadow
+                      />
                     )}
-                  </Touchable>
-                </Flex.Item>
-                {!!item.subjectCover && (
-                  <Cover
-                    style={_.ml.sm}
-                    src={item.subjectCover}
-                    size={COVER_WIDTH * 0.88}
-                    height={COVER_HEIGHT * 0.88}
-                    radius
-                    shadow
-                    onPress={onPressSubject}
-                  />
-                )}
-              </Flex>
+                  </Flex>
+                </Touchable>
+              </Flex.Item>
             </Flex>
           )
         })}

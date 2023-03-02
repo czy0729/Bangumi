@@ -37,6 +37,7 @@ function List(props, { $, navigation }: Ctx) {
       {eps.map((item, index) => (
         <Touchable
           key={item.id}
+          animate
           onPress={() => {
             t('章节.跳转', {
               to: 'Topic',

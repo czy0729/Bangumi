@@ -33,34 +33,36 @@ const Jobs = memo(({ navigation, styles, style, jobs }) => {
             const nameTop = cnjp(item.nameCn, item.name)
             const nameBottom = cnjp(item.name, item.nameCn)
             const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)
-            const onPress = () =>
-              appNavigate(
-                item.href,
-                navigation,
-                {
-                  _jp: item.name,
-                  _cn: item.nameCn,
-                  _image: item.cover,
-                  _type: type
-                },
-                EVENT
-              )
             return (
-              <Flex key={item.href} style={styles.item} align='start'>
-                <Cover
-                  src={item.cover}
-                  type={type}
-                  size={COVER_WIDTH}
-                  height={COVER_HEIGHT}
-                  radius
-                  shadow
-                  onPress={onPress}
-                />
-                {!index && (
-                  <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />
-                )}
-                <Flex.Item style={styles.content}>
-                  <Touchable onPress={onPress}>
+              <Touchable
+                animate
+                onPress={() => {
+                  appNavigate(
+                    item.href,
+                    navigation,
+                    {
+                      _jp: item.name,
+                      _cn: item.nameCn,
+                      _image: item.cover,
+                      _type: type
+                    },
+                    EVENT
+                  )
+                }}
+              >
+                <Flex key={item.href} style={styles.item} align='start'>
+                  <Cover
+                    src={item.cover}
+                    type={type}
+                    size={COVER_WIDTH}
+                    height={COVER_HEIGHT}
+                    radius
+                    shadow
+                  />
+                  {!index && (
+                    <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />
+                  )}
+                  <Flex.Item style={styles.content}>
                     <Flex align='start'>
                       <Flex.Item>
                         <Text size={12} bold numberOfLines={3}>
@@ -74,81 +76,82 @@ const Jobs = memo(({ navigation, styles, style, jobs }) => {
                         {nameBottom}
                       </Text>
                     )}
-                  </Touchable>
-                  <Flex style={_.mt.md}>
-                    <Touchable
-                      onPress={() =>
-                        appNavigate(
-                          item.castHref,
-                          navigation,
-                          {
-                            _name: item.cast,
-                            _image: getCoverMedium(item.castCover)
-                          },
-                          EVENT
-                        )
-                      }
-                    >
-                      <Flex>
-                        {!!item.castCover && (
-                          <Image
-                            style={_.mr.sm}
-                            size={_.r(24)}
-                            src={item.castCover}
-                            radius={radius}
-                            shadow
-                          />
-                        )}
-                        <Text size={11} bold>
-                          {item.cast}
-                          {!!item.castTag && (
-                            <Text size={8} type='sub' lineHeight={11} bold>
-                              {' '}
-                              {item.castTag}
-                            </Text>
-                          )}
-                        </Text>
-                      </Flex>
-                      {!index && <Heatmap id='人物.跳转' to='Mono' alias='人物' />}
-                    </Touchable>
-                    {!!item?.cast2?.castCover && (
+                    <Flex style={_.mt.md}>
                       <Touchable
-                        style={styles.castCover}
-                        onPress={() =>
+                        animate
+                        onPress={() => {
                           appNavigate(
-                            item?.cast2?.castHref,
+                            item.castHref,
                             navigation,
                             {
-                              _name: item?.cast2?.cast,
-                              _image: getCoverMedium(item?.cast2?.castCover)
+                              _name: item.cast,
+                              _image: getCoverMedium(item.castCover)
                             },
                             EVENT
                           )
-                        }
+                        }}
                       >
                         <Flex>
-                          <Image
-                            style={_.mr.xs}
-                            size={_.r(24)}
-                            src={item?.cast2?.castCover}
-                            radius={radius}
-                            shadow
-                          />
+                          {!!item.castCover && (
+                            <Image
+                              style={_.mr.sm}
+                              size={_.r(24)}
+                              src={item.castCover}
+                              radius={radius}
+                              shadow
+                            />
+                          )}
                           <Text size={11} bold>
-                            {item?.cast2?.cast}
-                            {!!item?.cast2?.castTag && (
+                            {item.cast}
+                            {!!item.castTag && (
                               <Text size={8} type='sub' lineHeight={11} bold>
                                 {' '}
-                                {item?.cast2?.castTag}
+                                {item.castTag}
                               </Text>
                             )}
                           </Text>
                         </Flex>
+                        {!index && <Heatmap id='人物.跳转' to='Mono' alias='人物' />}
                       </Touchable>
-                    )}
-                  </Flex>
-                </Flex.Item>
-              </Flex>
+                      {!!item?.cast2?.castCover && (
+                        <Touchable
+                          style={styles.castCover}
+                          onPress={() =>
+                            appNavigate(
+                              item?.cast2?.castHref,
+                              navigation,
+                              {
+                                _name: item?.cast2?.cast,
+                                _image: getCoverMedium(item?.cast2?.castCover)
+                              },
+                              EVENT
+                            )
+                          }
+                        >
+                          <Flex>
+                            <Image
+                              style={_.mr.xs}
+                              size={_.r(24)}
+                              src={item?.cast2?.castCover}
+                              radius={radius}
+                              shadow
+                            />
+                            <Text size={11} bold>
+                              {item?.cast2?.cast}
+                              {!!item?.cast2?.castTag && (
+                                <Text size={8} type='sub' lineHeight={11} bold>
+                                  {' '}
+                                  {item?.cast2?.castTag}
+                                </Text>
+                              )}
+                            </Text>
+                          </Flex>
+                        </Touchable>
+                      )}
+                    </Flex>
+                  </Flex.Item>
+                </Flex>
+              </Touchable>
             )
           })}
         </View>

@@ -18,6 +18,7 @@ export type NavigationPushType = RouteActions &
   RouteCatalogDetail &
   RouteCatalogs &
   RouteCharacter &
+  RouteCharacters &
   RouteFriends &
   RouteGroup &
   RouteInformation &
@@ -35,6 +36,14 @@ export type NavigationPushType = RouteActions &
   RouteWebBrowser &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteCharacters = (
+  path: 'Characters',
+  params: {
+    subjectId: SubjectId
+    name?: string
+  }
+) => any
 
 type RouteTag = (
   path: 'Tag',
@@ -56,6 +65,10 @@ type RouteMono = (
   path: 'Mono',
   params: {
     monoId: string
+    _name?: string
+    _jp?: string
+    _image?: string
+    _count?: number
   }
 ) => any
 
@@ -88,7 +101,7 @@ type RouteZone = (
 type RouteCatalogDetail = (
   path: 'CatalogDetail',
   params: {
-    catalogId: number
+    catalogId: Id
   }
 ) => any
 

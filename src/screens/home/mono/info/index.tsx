@@ -22,6 +22,7 @@ import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS, API_MONO_COVER } from '@constants'
+import { TopicId } from '@types'
 import Content from '../content'
 import Detail from '../detail'
 import Voice from '../voice'
@@ -112,7 +113,7 @@ function Info(props, { $, navigation }: Ctx) {
 
               const type = isCharacter ? 'crt' : 'prsn'
               navigation.push('Topic', {
-                topicId: `${type}/${($.monoId || '').match(/\d+/g)[0]}`
+                topicId: `${type}/${($.monoId || '').match(/\d+/g)[0]}` as TopicId
               })
             }}
           >

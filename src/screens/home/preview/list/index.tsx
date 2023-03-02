@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, Image } from '@components'
+import { ScrollView, Image, Touchable } from '@components'
 import { _ } from '@stores'
 import { showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
@@ -40,11 +40,8 @@ function List(props, { $ }: Ctx) {
     <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
       {_data.map((item, index) => (
         <View key={item} style={styles.item}>
-          <Image
-            src={item}
-            {...passProps}
-            shadow
-            headers={headers}
+          <Touchable
+            withoutFeedback
             onPress={() => {
               showImageViewer(
                 _data.map(item => ({
@@ -54,21 +51,11 @@ function List(props, { $ }: Ctx) {
                 index
               )
             }}
-          />
+          >
+            <Image src={item} {...passProps} shadow headers={headers} />
+          </Touchable>
         </View>
       ))}
-      {/* {!!_headers?.Referer && (
-        <Text
-          style={_.mt.lg}
-          size={12}
-          type='icon'
-          align='center'
-          bold
-          onPress={() => open(_headers.Referer)}
-        >
-          数据来源自 {_headers.Referer}
-        </Text>
-      )} */}
     </ScrollView>
   )
 }

@@ -124,21 +124,21 @@ export const HorizontalList = ob(
                     }
                   ]}
                 >
-                  <Cover
-                    size={w}
-                    height={_.r(height)}
-                    src={item.image}
-                    radius={isMusic ? _.radiusSm : true}
-                    shadow
-                    quality={quality}
-                    type={typeCn}
-                    onPress={() => onPress(item, typeCn)}
-                  />
                   <Touchable
-                    withoutFeedback
+                    animate
+                    scale={0.9}
                     hitSlop={HIT_SLOP}
                     onPress={() => onPress(item, typeCn)}
                   >
+                    <Cover
+                      size={w}
+                      height={_.r(height)}
+                      src={item.image}
+                      radius={isMusic ? _.radiusSm : true}
+                      shadow
+                      quality={quality}
+                      type={typeCn}
+                    />
                     <Text
                       style={_.mt.sm}
                       size={size}
@@ -148,34 +148,36 @@ export const HorizontalList = ob(
                     >
                       {title}
                     </Text>
+                    {!!desc && (
+                      <Touchable
+                        style={_.mt.xs}
+                        animate
+                        scale={0.85}
+                        onPress={() => (onSubPress || onPress)(item, typeCn)}
+                      >
+                        <Flex>
+                          {!!item.actorCover && (
+                            <Cover
+                              style={this.styles.actor}
+                              src={item.actorCover}
+                              size={16}
+                              radius
+                            />
+                          )}
+                          <Flex.Item>
+                            <Text type='sub' size={descSize} numberOfLines={2} bold>
+                              {desc}
+                            </Text>
+                          </Flex.Item>
+                        </Flex>
+                      </Touchable>
+                    )}
+                    {!!count && (
+                      <Text style={_.mt.xs} type='main' size={10} bold>
+                        +{count}
+                      </Text>
+                    )}
                   </Touchable>
-                  {!!desc && (
-                    <Touchable
-                      style={_.mt.xs}
-                      onPress={() => (onSubPress || onPress)(item, typeCn)}
-                    >
-                      <Flex>
-                        {!!item.actorCover && (
-                          <Cover
-                            style={this.styles.actor}
-                            src={item.actorCover}
-                            size={16}
-                            radius
-                          />
-                        )}
-                        <Flex.Item>
-                          <Text type='sub' size={descSize} numberOfLines={2} bold>
-                            {desc}
-                          </Text>
-                        </Flex.Item>
-                      </Flex>
-                    </Touchable>
-                  )}
-                  {!!count && (
-                    <Text style={_.mt.xs} type='main' size={10} bold>
-                      +{count}
-                    </Text>
-                  )}
                 </View>
               )
             })}

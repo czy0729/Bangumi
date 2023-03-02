@@ -27,9 +27,9 @@ export const backgroundColors = {
 }
 
 export const statusBarEventsTypes = {
-  Subject: () => {
+  Subject: (fixed: boolean) => {
     return {
-      barStyle: 'light-content',
+      barStyle: _.select(fixed ? 'dark-content' : 'light-content', 'light-content'),
       backgroundColor: 'transparent',
       action: 'onWillFocus'
     }
