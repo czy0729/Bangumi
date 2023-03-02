@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:22:12
+ * @Last Modified time: 2023-03-02 22:25:08
  */
 import dayjs from 'dayjs'
 import { WSA } from '@constants'
@@ -37,7 +37,12 @@ export function getPopoverData(
   if (login) {
     data = [userProgress[item.id] === '看过' ? '撤销' : '看过']
     if (!isSp) data.push('看到')
-    if (advance) data.push('想看', '抛弃')
+    if (advance) {
+      if (userProgress[item.id] && userProgress[item.id] !== '看过') {
+        data.unshift('撤销')
+      }
+      data.push('想看', '抛弃')
+    }
     if (canAddCalendar) data.push('添加提醒')
     data.push(discuss)
   } else {
@@ -86,13 +91,14 @@ export function getComment(eps: any[]) {
 }
 
 export function customCompare({ props, item, eps, isSp, num }: typeof DEFAULT_PROPS) {
-  const { userProgress, ...otherProps } = props
+  const { userProgress, flip, ...otherProps } = props
   return {
     props: otherProps,
     userProgress: userProgress[item?.id],
     item,
     eps: eps?.length,
     isSp,
-    num
+    num,
+    flip
   }
 }

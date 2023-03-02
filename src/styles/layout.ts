@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-19 05:05:02
+ * @Last Modified time: 2023-03-02 21:33:19
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
@@ -53,10 +53,10 @@ export const lineHeightRatio = 1.28
 
 // -------------------- 圆角 --------------------
 /** 圆角超小 */
-export const radiusXs = 4
+export const radiusXs = 6
 
 /** 圆角小 */
-export const radiusSm = 6
+export const radiusSm = 8
 
 /** 圆角中 */
 export const radiusMd = 12

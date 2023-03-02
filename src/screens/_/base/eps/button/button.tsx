@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 12:28:07
+ * @Last Modified time: 2023-03-02 22:20:47
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Popover, Button as CompButton, Menu } from '@components'
+import { Popover, Menu, Button } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { IOS, WSA } from '@constants'
+import FlipButton from '../flip-button'
 import { getType, getPopoverData, getComment, customCompare } from './utils'
 import { DEFAULT_PROPS } from './ds'
 
@@ -26,8 +27,9 @@ export default memo(
       login,
       advance,
       userProgress,
+      flip,
+      onFliped,
       onSelect
-      // onLongPress
     } = props
     const isSide = num % numbersOfLine === 0
     const type = getType(userProgress[item.id], item.status)
@@ -66,24 +68,26 @@ export default memo(
       marginRight: !_.isLandscape && !_.isPad && !WSA && isSide ? 0 : margin,
       marginBottom: 6
     }
+    const btnPassProps = {
+      style: {
+        width,
+        height: width
+      },
+      styleText: type === 'dropped' && styles.textThrough,
+      type
+    } as const
+
     return (
       <View style={containerStyle}>
-        <Popover
-          style={style}
-          // onLongPress={() => onLongPress(item)}
-          {...popoverProps}
-        >
-          <CompButton
-            type={type}
-            styleText={type === 'dropped' && styles.textThrough}
-            size='sm'
-            style={{
-              width,
-              height: width
-            }}
-          >
-            {item.sort}
-          </CompButton>
+        {flip && <View style={styles.flip} />}
+        <Popover style={style} {...popoverProps}>
+          {flip ? (
+            <FlipButton {...btnPassProps} text={item.sort} onAnimated={onFliped} />
+          ) : (
+            <Button {...btnPassProps} size='sm'>
+              {item.sort}
+            </Button>
+          )}
           {heatMap && (
             <View
               style={[

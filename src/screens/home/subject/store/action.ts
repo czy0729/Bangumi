@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 09:11:14
+ * @Last Modified time: 2023-03-02 22:13:38
  */
 import {
   calendarStore,
@@ -19,6 +19,7 @@ import {
   cnjp,
   confirm,
   copy,
+  debounce,
   feedback,
   genICSCalenderEventDate,
   getBangumiUrl,
@@ -544,14 +545,14 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 状态按钮做动画前, 需要先设置开启 */
+  /** Box 状态按钮做动画前, 需要先设置开启 */
   prepareFlip = () => {
     this.setState({
       flip: true
     })
   }
 
-  /** 状态按钮完全动画后, 需要设置关闭才能做下一次动画 */
+  /** Box 状态按钮完全动画后, 需要设置关闭才能做下一次动画 */
   afterFlip = () => {
     const { flipKey } = this.state
     this.setState({
@@ -563,6 +564,20 @@ export default class Action extends Fetch {
       })
     }, 400)
   }
+
+  /** Eps 状态按钮做动画前, 需要先设置开启 */
+  prepareEpsFlip = () => {
+    this.setState({
+      flipEps: true
+    })
+  }
+
+  /** Eps 状态按钮完全动画后, 需要设置关闭才能做下一次动画 */
+  afterFlipEps = debounce(() => {
+    this.setState({
+      flipEps: false
+    })
+  })
 
   // -------------------- action --------------------
   /** 章节菜单操作 */
@@ -676,13 +691,13 @@ export default class Action extends Fetch {
             status
           })
 
+          this.prepareEpsFlip()
+
           // 更新收视进度
           await userStore.doUpdateEpStatus({
             id: item.id,
             status
           })
-          feedback()
-
           userStore.fetchUserCollection()
           userStore.fetchUserProgress(this.subjectId)
         }
@@ -719,12 +734,12 @@ export default class Action extends Fetch {
             value = sort + 1
           }
 
+          this.prepareEpsFlip()
+
           await userStore.doUpdateSubjectWatched({
             subjectId: this.subjectId,
             sort: value
           })
-          feedback()
-
           userStore.fetchUserCollection()
           userStore.fetchUserProgress(this.subjectId)
         }

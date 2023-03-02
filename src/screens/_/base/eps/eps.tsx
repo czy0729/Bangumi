@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-31 14:21:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 04:58:07
+ * @Last Modified time: 2023-03-02 22:11:18
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -32,8 +32,9 @@ export default memo(
     subjectId,
     userProgress,
     orientation,
-    onSelect,
-    onLongPress
+    flip,
+    onFliped,
+    onSelect
   }: Props) => {
     global.rerender('Eps.Main')
 
@@ -76,8 +77,9 @@ export default memo(
         subjectId,
         userProgress,
         width,
-        onSelect,
-        onLongPress
+        flip,
+        onFliped,
+        onSelect
       }
     }, [
       advance,
@@ -87,8 +89,9 @@ export default memo(
       numbersOfLine,
       subjectId,
       userProgress,
-      onSelect,
-      onLongPress
+      flip,
+      onFliped,
+      onSelect
     ])
 
     const pages = useMemo(() => {
@@ -107,7 +110,7 @@ export default memo(
           )
       }
 
-      // SP可能会占用一格, 若eps当中存在sp, 每组要减1项避免换行
+      // SP 可能会占用一格, 若 eps 当中存在 sp, 每组要减 1 项避免换行
       const arrNum = numbersOfLine * lines - (lines <= 3 ? 0 : advance && hasSp ? 1 : 0)
       return arrGroup(_eps, arrNum)
     }, [eps, numbersOfLine, lines, advance])
@@ -151,7 +154,7 @@ export default memo(
 
     const { margin } = btnStyle
     const marginStyle = {
-      marginBottom: margin ? -margin : 0 // 抵消最后一行的marginBottom
+      marginBottom: margin ? -margin : 0 // 抵消最后一行的 marginBottom
     }
     return (
       <View style={[_style, marginStyle]} onLayout={_onLayout}>

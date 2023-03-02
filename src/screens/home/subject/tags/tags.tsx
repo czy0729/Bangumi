@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 05:48:22
+ * @Last Modified time: 2023-03-02 19:57:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,7 +51,8 @@ export default memo(
           return (
             <Touchable
               key={index}
-              style={isSelected ? [styles.item, styles.selected] : styles.item}
+              animate
+              scale={0.9}
               onPress={() => {
                 t('条目.跳转', {
                   to: 'Tag',
@@ -65,7 +66,7 @@ export default memo(
                 })
               }}
             >
-              <Flex>
+              <Flex style={isSelected ? [styles.item, styles.selected] : styles.item}>
                 <Text
                   type={_.select('desc', isSelected ? 'main' : 'desc')}
                   size={13}
@@ -94,7 +95,8 @@ export default memo(
             {animeTags.map((item: string) => (
               <Touchable
                 key={item}
-                style={styles.item}
+                animate
+                scale={0.9}
                 onPress={() => {
                   t('条目.跳转', {
                     to: 'Anime',
@@ -106,9 +108,11 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13} bold>
-                  {item}
-                </Text>
+                <View style={styles.item}>
+                  <Text size={13} bold>
+                    {item}
+                  </Text>
+                </View>
               </Touchable>
             ))}
           </>
@@ -121,7 +125,8 @@ export default memo(
             {hentaiTags.map((item: string) => (
               <Touchable
                 key={item}
-                style={styles.item}
+                animate
+                scale={0.9}
                 onPress={() => {
                   t('条目.跳转', {
                     to: 'Hentai',
@@ -133,9 +138,11 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13} bold>
-                  {item}
-                </Text>
+                <View style={styles.item}>
+                  <Text size={13} bold>
+                    {item}
+                  </Text>
+                </View>
               </Touchable>
             ))}
           </>
@@ -148,7 +155,8 @@ export default memo(
             {gameTags.map((item: string) => (
               <Touchable
                 key={item}
-                style={styles.item}
+                animate
+                scale={0.9}
                 onPress={() => {
                   t('条目.跳转', {
                     to: 'Game',
@@ -160,9 +168,11 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13} bold>
-                  {item}
-                </Text>
+                <View style={styles.item}>
+                  <Text size={13} bold>
+                    {item}
+                  </Text>
+                </View>
               </Touchable>
             ))}
           </>
@@ -175,7 +185,8 @@ export default memo(
             {mangaTags.map((item: string) => (
               <Touchable
                 key={item}
-                style={styles.item}
+                animate
+                scale={0.9}
                 onPress={() => {
                   t('条目.跳转', {
                     to: 'Manga',
@@ -187,9 +198,11 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13} bold>
-                  {item}
-                </Text>
+                <View style={styles.item}>
+                  <Text size={13} bold>
+                    {item}
+                  </Text>
+                </View>
               </Touchable>
             ))}
           </>
@@ -202,7 +215,8 @@ export default memo(
             {wenkuTags.map((item: string) => (
               <Touchable
                 key={item}
-                style={styles.item}
+                animate
+                scale={0.9}
                 onPress={() => {
                   t('条目.跳转', {
                     to: 'Wenku',
@@ -214,9 +228,11 @@ export default memo(
                   })
                 }}
               >
-                <Text size={13} bold>
-                  {item}
-                </Text>
+                <View style={styles.item}>
+                  <Text size={13} bold>
+                    {item}
+                  </Text>
+                </View>
               </Touchable>
             ))}
           </>

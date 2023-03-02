@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-12 15:58:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 04:27:07
+ * @Last Modified time: 2023-03-02 19:52:40
  */
 import { _ } from '@stores'
 
@@ -38,24 +38,25 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: -5,
     backgroundColor: _.select(_.colorIcon, _._colorDarkModeLevel2),
     borderColor: _.colorBorder,
-    borderWidth: _.hairlineWidth,
-    borderRadius: 7
+    borderWidth: _.hairlineWidth
   },
   bookLine: {
     position: 'absolute',
     zIndex: 3,
-    top: 1,
-    left: 4,
-    bottom: 1,
-    borderColor: 'rgba(0, 0, 0, 0.2)',
+    top: 0,
+    left: 6,
+    bottom: 0,
+    borderColor: 'rgba(0, 0, 0, 0.24)',
     borderWidth: _.hairlineWidth
   },
   bookMarginRight: {
     marginRight: 4
   },
   bookRadius: {
-    borderTopRightRadius: 2,
-    borderBottomRightRadius: 2
+    borderTopRightRadius: _.radiusXs,
+    borderBottomRightRadius: _.radiusXs,
+    borderTopLeftRadius: _.radiusSm,
+    borderBottomLeftRadius: _.radiusSm
   },
   game: {
     backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1),

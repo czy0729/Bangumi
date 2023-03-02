@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 09:04:29
+ * @Last Modified time: 2023-03-02 21:50:24
  */
 import { Crt, Ep, Staff, SubjectFormHTML } from '@stores/subject/types'
 import {
@@ -89,7 +89,10 @@ export const EXCLUDE_STATE = {
 
   /** Box 中按钮是否允许使用翻页动画 */
   flip: false,
-  flipKey: 0
+  flipKey: 0,
+
+  /** Eps 中按钮是否允许使用翻页动画 */
+  flipEps: false
 }
 
 /** 页面 state */

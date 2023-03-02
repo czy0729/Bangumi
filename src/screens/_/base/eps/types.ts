@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-13 08:07:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-20 09:40:07
+ * @Last Modified time: 2023-03-02 22:11:30
  */
-import { SubjectId, ViewStyle } from '@types'
+import { Fn, SubjectId, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
@@ -48,9 +48,15 @@ export type Props = {
   /** 目前的设备方向 */
   orientation?: string
 
+  /** 按钮是否在改变状态后的使用切换动画 */
+  flip?: boolean
+
+  /** 切换动画完成后回调 */
+  onFliped?: Fn
+
   /** 选择回调 */
   onSelect?: (value?: string, item?: object, subjectId?: SubjectId) => void
 
   /** @deprecated 长按回调 */
-  onLongPress?: (item?: object, subjectId?: SubjectId) => void
+  // onLongPress?: (item?: object, subjectId?: SubjectId) => void
 }

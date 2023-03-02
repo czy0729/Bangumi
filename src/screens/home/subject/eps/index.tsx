@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-07 07:13:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:31:58
+ * @Last Modified time: 2023-03-02 21:59:26
  */
 import React from 'react'
 import { Eps as CompEps } from '@_'
@@ -30,10 +30,11 @@ function Eps(props, { $, navigation }: Ctx) {
       eps={$.toEps}
       userProgress={$.userProgress}
       canPlay={showPlay}
+      flip={$.state.flipEps}
+      onFliped={$.afterFlipEps}
       onSelect={(value, item: InferArray<typeof $.toEps>) =>
         $.doEpsSelect(value, item, navigation)
       }
-      // onLongPress={(item: Item) => $.doEpsLongPress(item)}
     />
   )
 }

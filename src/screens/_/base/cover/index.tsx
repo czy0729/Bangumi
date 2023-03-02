@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 19:10:18
+ * @Last Modified time: 2023-03-02 19:52:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
-import { matchCoverUrl } from '@utils'
+import { matchCoverUrl, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 import { Props as CoverProps } from './types'
@@ -40,14 +40,14 @@ export const Cover = ob(
       const h = height || size
       return (
         <Flex
-          style={[
+          style={stl(
             styles.textOnly,
             {
               width: w,
               height: h
             },
             other.radius && styles.textOnlyRadius
-          ]}
+          )}
           justify='center'
         >
           <Text type='sub' bold onPress={other.onPress}>
@@ -95,14 +95,14 @@ export const Cover = ob(
         return (
           <View key={hashSubjectOTALoaded} style={_style}>
             <View
-              style={[
+              style={stl([
                 styles.disc,
                 _style,
                 {
                   borderRadius: w / 2
                 },
                 angleStyle
-              ]}
+              ])}
             />
             <View style={[styles.mask, _style]} />
             <Image
@@ -126,10 +126,13 @@ export const Cover = ob(
         const _style = {
           width: w,
           height: h,
-          borderRadius: _.radiusSm
+          borderTopRightRadius: _.radiusXs,
+          borderBottomRightRadius: _.radiusXs,
+          borderTopLeftRadius: _.radiusSm,
+          borderBottomLeftRadius: _.radiusSm
         }
         return (
-          <View key={hashSubjectOTALoaded} style={[_style, styles.bookMarginRight]}>
+          <View key={hashSubjectOTALoaded} style={stl(_style, styles.bookMarginRight)}>
             <View style={[styles.book, _style]} />
             <View style={[styles.mask, _style]} />
             <Image
@@ -156,7 +159,7 @@ export const Cover = ob(
         return (
           <Flex
             key={hashSubjectOTALoaded}
-            style={[styles.game, containerStyle]}
+            style={stl(styles.game, containerStyle)}
             direction='column'
             justify='center'
           >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-24 19:20:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 19:31:44
+ * @Last Modified time: 2023-03-02 19:54:23
  */
 import React from 'react'
 import { Touchable, Heatmap, Text, Flex } from '@components'
@@ -21,6 +21,8 @@ function Item({ from, data }, { $, navigation }: Ctx) {
   return (
     <Touchable
       style={styles.touch}
+      animate
+      scale={0.9}
       onPress={() => {
         t('条目.跳转', {
           to: 'Subject',

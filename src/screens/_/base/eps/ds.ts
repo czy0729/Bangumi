@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-04 03:40:36
+ * @Last Modified time: 2023-03-02 22:11:25
  */
 import { _ } from '@stores'
 import { Fn, SubjectId, ViewStyle } from '@types'
@@ -22,6 +22,7 @@ export const DEFAULT_PROPS = {
   userProgress: {} as any,
   grid: false as boolean,
   orientation: _.orientation,
-  onSelect: (() => {}) as Fn,
-  onLongPress: (() => {}) as Fn
+  flip: false as boolean,
+  onFliped: (() => {}) as Fn,
+  onSelect: (() => {}) as Fn
 }
