@@ -8,6 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   active: {
-    opacity: 0.5
+    opacity: 0.64
   }
 })

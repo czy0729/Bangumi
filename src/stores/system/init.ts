@@ -255,9 +255,15 @@ export const INIT_SETTING = {
   /** 首页收藏布局 */
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表'),
 
-  /** 首页收藏网格布局时，条目封面形状 */
+  /** 首页收藏网格布局时, 条目封面形状 */
   homeGridCoverLayout:
     MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getValue<SettingHomeGridCoverLayout>('正方形'),
+
+  /** 首页收藏网格布局时, 是否显示条目标题 */
+  homeGridTitle: true,
+
+  /** 首页收藏网格布局时, 较少章节按钮时, 是否自适应宽度 */
+  homeGridEpAutoAdjust: true,
 
   /** 首页放送数字显示 */
   homeCountView: MODEL_SETTING_HOME_COUNT_VIEW.getValue<SettingHomeCountView>('A'),

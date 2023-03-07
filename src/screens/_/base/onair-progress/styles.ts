@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   progress: {
-    marginTop: 2,
+    marginTop: _.hairlineWidth,
     borderRadius: _.radiusXs,
     backgroundColor: _.select(_.colorBg, 'rgba(255, 255, 255, 0.1)'),
     overflow: 'hidden'

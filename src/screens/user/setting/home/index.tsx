@@ -36,16 +36,18 @@ function Home({ filter }) {
     if (!shows) return null
 
     const {
+      exportICS,
       homeCountView,
+      homeEpStartAtLastWathed,
       homeFilter,
       homeGridCoverLayout,
+      homeGridEpAutoAdjust,
+      homeGridTitle,
       homeLayout,
       homeOnAir,
       homeOrigin,
       homeSortSink,
       homeSorting,
-      homeEpStartAtLastWathed,
-      exportICS,
       showGame
     } = systemStore.setting
     const homeLayoutList = MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表')
@@ -141,16 +143,71 @@ function Home({ filter }) {
             <Heatmap id='设置.切换' title='封面形状' />
           </ItemSetting>
 
+          {/* 条目下方显示标题 */}
+          <ItemSetting
+            show={shows.homeGridTitle}
+            ft={
+              <SwitchPro
+                style={styles.switch}
+                value={homeGridTitle}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '条目下方显示标题',
+                    checked: !homeGridTitle
+                  })
+
+                  systemStore.switchSetting('homeGridTitle')
+                }}
+              />
+            }
+            filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2023/png/386799/1678163227317-132cc2a7-cc59-4857-80e4-1f3514bc2b54.png',
+              '0/2023/png/386799/1678163282725-900bfed3-3d91-466e-ba92-cf62079b69bb.png'
+            ])}
+            {...TEXTS.homeGridTitle}
+          >
+            <Heatmap id='设置.切换' title='条目下方显示标题' />
+          </ItemSetting>
+
+          {/* 自动调整章节按钮大小 */}
+          <ItemSetting
+            show={shows.homeGridEpAutoAdjust}
+            ft={
+              <SwitchPro
+                style={styles.switch}
+                value={homeGridEpAutoAdjust}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '自动调整章节按钮大小',
+                    checked: !homeGridEpAutoAdjust
+                  })
+
+                  systemStore.switchSetting('homeGridEpAutoAdjust')
+                }}
+              />
+            }
+            filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2023/png/386799/1678163227317-132cc2a7-cc59-4857-80e4-1f3514bc2b54.png',
+              '0/2023/png/386799/1678163234746-1e3952a5-73cc-495d-9e6a-6480f7d60b48.png'
+            ])}
+            {...TEXTS.homeGridEpAutoAdjust}
+          >
+            <Heatmap id='设置.切换' title='自动调整章节按钮大小' />
+          </ItemSetting>
+
           {/* 列表显示最大收藏数 */}
           <ItemSetting
-            style={_.mb.md}
+            style={[_.mt.sm, _.mb.md]}
             show={shows.homeListLimit}
             ft={
               <Text size={13} bold>
-                {systemStore.advance
-                  ? '当前 300 项 (非会员 100，网页 25)'
-                  : '当前 100 项 (会员 300，网页 25)'}
+                {systemStore.advance ? '当前 300 项' : '当前 100 项'}
               </Text>
+            }
+            information={
+              systemStore.advance ? '非会员 100，网页版 25' : '会员 300，网页版 25'
             }
             filter={filter}
             {...TEXTS.homeListLimit}

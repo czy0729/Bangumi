@@ -41,6 +41,14 @@ export const TEXTS = {
     information: '开启网格布局时条目封面形状',
     search: SETTING_HOME_GRID_COVER_LAYOUT.map(item => item.label).join()
   },
+  homeGridTitle: {
+    hd: '条目下方显示标题'
+  },
+  homeGridEpAutoAdjust: {
+    hd: '自动调整章节按钮大小',
+    information:
+      '因网格模式高度有限只够放 3 排按钮\n对章节较少的条目，按钮宽度自适应尽量铺满'
+  },
   homeCountView: {
     title: '放送数字显示',
     information: '自定义显示组合\n例：4 代表看到，6 代表已放送，12 代表总集数',

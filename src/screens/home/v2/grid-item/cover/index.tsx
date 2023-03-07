@@ -5,6 +5,7 @@
  * @Last Modified time: 2022-11-21 07:40:56
  */
 import React from 'react'
+import { Touchable } from '@components'
 import { Cover as CompCover } from '@_'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -24,13 +25,8 @@ function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {
     )
 
   return (
-    <CompCover
-      size={styles.item.width}
-      height={styles.item.width * (homeGridCoverLayoutCn === '长方形' ? 1.4 : 1)}
-      src={subject?.images?.medium || ''}
-      shadow
-      radius
-      delay={false}
+    <Touchable
+      animate
       onPress={() => {
         $.selectGirdSubject(subjectId, {
           subject_id: subjectId,
@@ -38,7 +34,16 @@ function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {
           ep_status: epStatus
         })
       }}
-    />
+    >
+      <CompCover
+        size={styles.item.width}
+        height={styles.item.width * (homeGridCoverLayoutCn === '长方形' ? 1.4 : 1)}
+        src={subject?.images?.medium || ''}
+        shadow
+        radius
+        delay={false}
+      />
+    </Touchable>
   )
 }
 

@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Eps as CompEps } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { InferArray } from '@types'
 import { Ctx } from '../../types'
@@ -16,6 +16,8 @@ import { styles } from './styles'
 function Eps({ subjectId }, { $, navigation }: Ctx) {
   global.rerender('Home.GridInfo.Eps')
 
+  const { homeGridEpAutoAdjust } = systemStore.setting
+  const { flip } = $.state
   const eps = $.eps(subjectId)
   type Ep = InferArray<typeof eps>
 
@@ -26,20 +28,20 @@ function Eps({ subjectId }, { $, navigation }: Ctx) {
         numbersOfLine={
           _.isMobileLanscape
             ? 12
-            : // : _.device($.epsCount(subjectId, false) <= 12 ? 6 : 7, 8)
-              _.device(7, 8)
+            : homeGridEpAutoAdjust
+            ? _.device($.epsCount(subjectId, false) <= 18 ? 6 : 7, 8)
+            : _.device(7, 8)
         }
         lines={_.isMobileLanscape ? 1 : 3}
         login={$.isLogin}
         subjectId={subjectId}
         eps={eps}
         userProgress={$.userProgress(subjectId)}
+        flip={flip === subjectId}
+        onFliped={$.afterFlipEps}
         onSelect={(value, item: Ep) => {
           $.doEpsSelect(value, item, subjectId, navigation)
         }}
-        // onLongPress={(item: Ep) => {
-        //   $.doEpsLongPress(item, subjectId)
-        // }}
       />
     </View>
   )
