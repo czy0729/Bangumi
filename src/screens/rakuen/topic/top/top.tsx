@@ -79,40 +79,44 @@ export default memo(
           </Text>
           <Flex style={styles.groupWrap}>
             {!!group && (
-              <Touchable
-                animate
-                onPress={() => {
-                  if (isMono) {
-                    appNavigate(`${HOST}/${monoId}`, navigation, {}, event)
-                    return
-                  }
+              <Flex style={styles.groupLabel}>
+                <Touchable
+                  animate
+                  onPress={() => {
+                    if (isMono) {
+                      appNavigate(`${HOST}/${monoId}`, navigation, {}, event)
+                      return
+                    }
 
-                  appNavigate(
-                    groupHref,
-                    navigation,
-                    {
-                      _jp: group
-                    },
-                    event
-                  )
-                }}
-              >
-                <Flex style={styles.groupLabel}>
-                  <Avatar
-                    style={isEp ? _.mr.sm : _.mr.xs}
-                    size={isEp ? 40 : 20}
-                    src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
-                  />
-                  <Text size={13} numberOfLines={1}>
-                    {HTMLDecode(findSubjectCn(group))}
-                  </Text>
-                </Flex>
-              </Touchable>
+                    appNavigate(
+                      groupHref,
+                      navigation,
+                      {
+                        _jp: group
+                      },
+                      event
+                    )
+                  }}
+                >
+                  <Flex>
+                    <Avatar
+                      style={isEp ? _.mr.sm : _.mr.xs}
+                      size={isEp ? 40 : 20}
+                      src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
+                    />
+                    <Text style={styles.group} size={13} numberOfLines={1}>
+                      {HTMLDecode(findSubjectCn(group))}
+                    </Text>
+                  </Flex>
+                </Touchable>
+              </Flex>
             )}
             {!!time && (
-              <Text type='sub' size={13}>
-                {simpleTime(time)}
-              </Text>
+              <Flex.Item>
+                <Text type='sub' size={13}>
+                  {simpleTime(time)}
+                </Text>
+              </Flex.Item>
             )}
             <Heatmap right={74} id='帖子.跳转' to='Group' alias='小组' />
             <Heatmap id='帖子.跳转' to='Subject' alias='条目' transparent />

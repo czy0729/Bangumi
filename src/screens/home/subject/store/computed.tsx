@@ -650,9 +650,14 @@ export default class Computed extends State {
   /** 章节数据 */
   @computed get eps() {
     if (this.subject._loaded) {
-      return (this.subject.eps || [])
-        .slice()
-        .sort((a, b) => asc(a, b, item => item.type))
+      const eps = this.subject.eps || []
+      if (eps.length >= 1000) {
+        return [...eps, ...subjectStore.epV2(this.subject.id).list].sort((a, b) =>
+          asc(a, b, item => item.type)
+        )
+      }
+
+      return eps.slice().sort((a, b) => asc(a, b, item => item.type))
     }
     if (this.subjectFromOSS.eps?.length) return this.subjectFromOSS.eps || []
     return this.subjectFormCDN.eps || []

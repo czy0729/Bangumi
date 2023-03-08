@@ -8,7 +8,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-02-03 16:44:05
  */
-import { collectionStore, otaStore, userStore } from '@stores'
+import { collectionStore, otaStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { queue } from '@utils/fetch'
 import Action from './action'
@@ -69,8 +69,21 @@ class ScreenSubject extends Action {
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目 API 没有的网页额外数据
       () => this.fetchEpsData(), // 单集播放源
-      () => this.rendered() // 有时候没有触发成功, 强制触发
+      () => this.rendered(), // 有时候没有触发成功, 强制触发
+
+      // 对集数大于 1000 的条目, 旧 API 并不会返回大于 1000 章节的信息, 暂时到新的 API 里取
+      () => {
+        if (this.subject.eps?.length >= 1000) {
+          return subjectStore.fetchSubjectEpV2(this.subjectId)
+        }
+
+        return true
+      }
     ])
+
+    if (this.subject.eps?.length >= 1000) {
+      subjectStore.fetchSubjectEpV2(this.subjectId)
+    }
 
     // 敏感条目不再返回数据, 而旧接口 staff 也错乱, 主动请求网页的 staff 数据
     // @ts-expect-error

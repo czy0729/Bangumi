@@ -343,7 +343,7 @@ export function simpleTime(time: string = '') {
   const ymd = date('y-m-d', _time)
     .split('-')
     .filter((item, index) => (index === 0 ? item != _y : true))
-    .map(item => parseInt(item))
+    .map(item => pad(parseInt(item)))
     .join('-')
   const hi = date('H:i', _time)
   return `${ymd} ${hi}`

@@ -73,6 +73,7 @@ import {
 import {
   ApiSubjectResponse,
   CacheKey,
+  EpV2,
   Mono,
   MonoComments,
   MonoVoices,
@@ -203,6 +204,12 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
   epFormHTML(epId: EpId) {
     return computed<HTMLText>(() => {
       return this.state.epFormHTML[epId] || ''
+    }).get()
+  }
+
+  epV2(subjectId: SubjectId) {
+    return computed<EpV2>(() => {
+      return this.state.epV2[subjectId] || this.state.epV2[0]
     }).get()
   }
 
@@ -478,7 +485,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
     return false
   }
 
-  /** CDN获取条目信息 */
+  /** CDN 获取条目信息 */
   fetchSubjectFormCDN = async (subjectId: SubjectId) => {
     try {
       const { _response } = await xhrCustom({
@@ -510,6 +517,42 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
       },
       ['subjectEp', subjectId]
     )
+  }
+
+  /** 从新 API 获取集数大于 1000 的条目的章节信息 */
+  fetchSubjectEpV2 = async (subjectId: SubjectId) => {
+    try {
+      const data: any = await request(
+        `${API_HOST}/v0/episodes?subject_id=${subjectId}&type=0&limit=100&offset=1000`
+      )
+      if (Array.isArray(data?.data) && data?.data?.length) {
+        const key = 'epV2'
+        this.setState({
+          [key]: {
+            [subjectId]: {
+              list: data?.data.map(item => ({
+                airdate: item.airdate,
+                comment: item.comment,
+                desc: '',
+                duration: item.duration,
+                id: item.id,
+                name: item.name,
+                name_cn: item.name_cn,
+                sort: item.sort,
+                status: item.name || item.name_cn ? 'Air' : 'NA',
+                type: item.type,
+                url: `http://bgm.tv/ep/${item.id}`
+              })),
+              _loaded: getTimestamp()
+            }
+          }
+        })
+        this.save(key)
+        return this.epV2(subjectId)
+      }
+    } catch (ex) {}
+
+    return false
   }
 
   /** 包含条目的目录 */

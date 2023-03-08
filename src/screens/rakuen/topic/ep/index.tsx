@@ -20,7 +20,15 @@ function Ep(props, { $, navigation }: Ctx) {
   const { eps } = subjectStore.subject(subjectId)
   if (!eps?.length) return null
 
-  const _eps = eps.filter(item => item.type === 0)
+  let _eps = []
+  if (eps.length >= 1000) {
+    _eps = [...eps, ...subjectStore.epV2(subjectId).list].filter(
+      item => item.type === 0
+    )
+  } else {
+    _eps = eps.filter(item => item.type === 0)
+  }
+
   const index = _eps.findIndex(item => item.url?.includes($.topicId))
   if (index === -1) return null
 
@@ -43,10 +51,10 @@ function Ep(props, { $, navigation }: Ctx) {
   }
 
   return (
-    <Flex style={[_.container.inner, _.mr.xs]}>
+    <Flex style={styles.container}>
       <Flex.Item>
         {prev && (
-          <Touchable style={styles.item} onPress={() => onPress(prev)}>
+          <Touchable style={styles.item} animate onPress={() => onPress(prev)}>
             <Flex>
               <Iconfont
                 style={styles.left}
@@ -67,7 +75,7 @@ function Ep(props, { $, navigation }: Ctx) {
       </Flex.Item>
       <Flex.Item style={_.ml.md}>
         {next && (
-          <Touchable style={styles.item} onPress={() => onPress(next)}>
+          <Touchable style={styles.item} animate onPress={() => onPress(next)}>
             <Flex justify='end'>
               <Text size={16} bold align='right'>
                 {next.type === 1 ? 'sp' : 'ep'}

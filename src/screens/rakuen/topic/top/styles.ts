@@ -25,6 +25,9 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusXs
   },
+  group: {
+    maxWidth: _.window.contentWidth * 0.6
+  },
   userWrap: {
     height: _.r(42),
     marginTop: _.sm

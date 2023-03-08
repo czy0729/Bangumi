@@ -536,3 +536,8 @@ export type RankItem = {
   s?: number
   _loaded: Loaded
 }
+
+export type EpV2 = {
+  list: Ep[]
+  _loaded: Loaded
+}

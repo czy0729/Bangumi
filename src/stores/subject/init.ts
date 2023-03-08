@@ -236,6 +236,14 @@ const STATE = {
     0: ''
   },
 
+  /** 集数大于 1000 的条目的章节信息 */
+  epV2: {
+    0: {
+      list: [],
+      _loaded: 0
+    }
+  },
+
   /** 人物 */
   mono: {
     0: INIT_MONO
@@ -329,6 +337,7 @@ export { STATE }
 export const LOADED = {
   subjectFromOSS: false,
   subjectComments: false,
+  epV2: false,
   mono: false,
   rank: false,
   origin: false,
