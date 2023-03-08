@@ -94,7 +94,7 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 隐藏收藏管理 <Modal> */
+  /** 隐藏收藏管理 Modal */
   closeManageModal = () => {
     this.setState({
       visible: false,
@@ -102,7 +102,7 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 展开或收起 <Item> */
+  /** 展开或收起 Item */
   itemToggleExpand = (subjectId: SubjectId) => {
     t('首页.展开或收起条目', {
       subjectId
@@ -126,7 +126,7 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 置顶或取消置顶 <Item> */
+  /** 置顶或取消置顶 Item */
   itemToggleTop = (subjectId: SubjectId, isTop?: boolean) => {
     t('首页.置顶或取消置顶', {
       subjectId,
@@ -201,6 +201,8 @@ export default class Action extends Fetch {
       current: subjectId,
       grid: grid || EXCLUDE_STATE.grid
     })
+    this.fetchSubject(subjectId)
+    this.fetchUserProgress(subjectId)
     this.setStorage(NAMESPACE)
   }
 

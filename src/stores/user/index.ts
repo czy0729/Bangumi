@@ -557,7 +557,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
         if (!item.eps) return
 
         const userProgress = {
-          _loaded: 1
+          _loaded: getTimestamp()
         }
         item.eps.forEach(i => (userProgress[i.id] = i.status.cn_name))
         this.setState({
@@ -571,7 +571,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
       this.setState({
         userProgress: {
           [subjectId]: {
-            _loaded: 1
+            _loaded: getTimestamp()
           }
         }
       })

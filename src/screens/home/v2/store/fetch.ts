@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-02-27 23:36:14
  */
 import { collectionStore, subjectStore, userStore } from '@stores'
-import { getTimestamp, queue } from '@utils'
+import { getTimestamp, queue, opitimize } from '@utils'
 import { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from '@types'
 import {
   MODEL_COLLECTIONS_ORDERBY,
@@ -87,6 +87,9 @@ export default class Fetch extends Computed {
 
   /** 请求条目收视进度 */
   fetchUserProgress = (subjectId?: SubjectId) => {
+    const userProgress = this.userProgress(subjectId)
+    if (opitimize(userProgress, 60)) return userProgress
+
     return userStore.fetchUserProgress(subjectId)
   }
 

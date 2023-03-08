@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-29 20:06:04
  */
 import { NativeModules, InteractionManager } from 'react-native'
-import { DEV, IOS_IPA } from '@/config'
+import { DEV, IOS_IPA, LOG_LEVEL } from '@/config'
 import { WSA } from '@constants/device'
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import events, { EventKeys } from '@constants/events'
@@ -120,12 +120,14 @@ export function t(
   if (IOS) {
     if (!DEV) return
 
-    const eventId = events[desc]
-    log(
-      `${eventId ? '' : '找不到eventId '}🏷️  ${desc} ${
-        eventData ? JSON.stringify(eventData) : ''
-      }`
-    )
+    if (LOG_LEVEL >= 3) {
+      const eventId = events[desc]
+      log(
+        `${eventId ? '' : '找不到eventId '}🏷️  ${desc} ${
+          eventData ? JSON.stringify(eventData) : ''
+        }`
+      )
+    }
     return
   }
 
