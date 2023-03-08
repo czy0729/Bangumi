@@ -145,7 +145,7 @@ function Home({ filter }) {
 
           {/* 条目下方显示标题 */}
           <ItemSetting
-            show={shows.homeGridTitle}
+            show={shows.homeGridTitle && homeLayout !== homeLayoutList}
             ft={
               <SwitchPro
                 style={styles.switch}
@@ -172,7 +172,7 @@ function Home({ filter }) {
 
           {/* 自动调整章节按钮大小 */}
           <ItemSetting
-            show={shows.homeGridEpAutoAdjust}
+            show={shows.homeGridEpAutoAdjust && homeLayout !== homeLayoutList}
             ft={
               <SwitchPro
                 style={styles.switch}

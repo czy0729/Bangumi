@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 09:10:22
+ * @Last Modified time: 2023-03-07 19:32:29
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -48,7 +48,8 @@ import {
   SubjectTypeCn,
   SubjectTypeValue,
   UserId,
-  CollectionStatusValue
+  CollectionStatusValue,
+  CollectActions
 } from '@types'
 import subjectStore from '../subject'
 import userStore from '../user'
@@ -175,6 +176,21 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     return computed<CollectionStatusCn | ''>(() => {
       const collection = this.collection(subjectId) as any
       return collection?.status?.name || ''
+    }).get()
+  }
+
+  /** 获取指定条目收藏状态 */
+  collect(subjectId: SubjectId, type?: SubjectTypeCn) {
+    return computed<CollectActions | ''>(() => {
+      const value =
+        this.collectionStatus(subjectId) || this.userCollectionsMap[subjectId] || ''
+      if (!value || !type || type === '动画' || type === '三次元') {
+        return value
+      }
+      if (type === '书籍') return value.replace('看', '读') as CollectActions
+      if (type === '游戏') return value.replace('看', '玩') as CollectActions
+      if (type === '音乐') return value.replace('看', '听') as CollectActions
+      return value
     }).get()
   }
 

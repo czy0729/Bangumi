@@ -15,8 +15,8 @@ import fetch from '../fetch'
 import { fetchSubjectV0 } from '../fetch.v0'
 
 configure({
-  enforceActions: 'observed'
-  // useProxies: 'never'
+  enforceActions: 'observed',
+  useProxies: 'never'
 })
 
 export default class Store {

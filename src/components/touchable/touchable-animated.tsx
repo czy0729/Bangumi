@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-03 00:09:06
+ * @Last Modified time: 2023-03-07 19:18:33
  */
 import React, { useRef, useCallback } from 'react'
 import { Animated, Easing } from 'react-native'
@@ -142,8 +142,8 @@ function TouchableAnimated({
               {
                 scale: scaleRef.current
               }
-            ],
-            overflow: 'hidden'
+            ]
+            // overflow: 'hidden'
           }
         ]}
       >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:06:48
+ * @Last Modified time: 2023-03-07 18:23:22
  */
 import { Id, SubjectId } from '@types'
 
@@ -17,7 +17,8 @@ export type Props = {
 
 export type State = {
   visible: boolean
-  expand: any[]
+  expand: Id[]
+  list: any[]
 
   /** 是否正在新建目录, 目录编辑 */
   create: boolean | string

@@ -13,6 +13,7 @@ export type Paths = keyof typeof Screens
 
 /** 路由和参数约束 */
 export type NavigationPushType = RouteActions &
+  RouteAuth &
   RouteAward &
   RouteBlog &
   RouteBlogs &
@@ -37,6 +38,8 @@ export type NavigationPushType = RouteActions &
   RouteWebBrowser &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteAuth = (path: 'Auth') => any
 
 type RouteBlog = (
   path: 'Blog',

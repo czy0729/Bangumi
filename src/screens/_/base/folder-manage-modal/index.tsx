@@ -1,40 +1,37 @@
 /*
  * 目录管理弹窗
- *
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 06:22:41
+ * @Last Modified time: 2023-03-07 19:03:29
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
-import { computed } from 'mobx'
+import { Modal, Divider, Empty } from '@components'
+import { _, userStore, usersStore, discoveryStore } from '@stores'
 import {
-  Modal,
-  Touchable,
-  Flex,
-  Text,
-  Iconfont,
-  Input,
-  Divider,
-  Empty
-} from '@components'
-import TextareaItem from '@ant-design/react-native/lib/textarea-item'
-import { _, userStore, usersStore, discoveryStore, collectionStore } from '@stores'
-import { getTimestamp, setStorage, getStorage, asc, desc } from '@utils'
+  asc,
+  confirm,
+  desc,
+  feedback,
+  getStorage,
+  getTimestamp,
+  HTMLDecode,
+  info,
+  setStorage
+} from '@utils'
 import { ob } from '@utils/decorators'
 import { queue, t } from '@utils/fetch'
-import { info, feedback, confirm } from '@utils/ui'
-import { HTMLDecode } from '@utils/html'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
-import { Cover } from '../cover'
-import { Popover } from '../popover'
-import { Tag } from '../tag'
+import { Id } from '@types'
 import { IconTouchable } from '../../icon/touchable'
-import { STORAGE_KEY, WIDTH, HEIGHT, CONTROL_DS } from './ds'
+import { STORAGE_KEY } from './ds'
 import { memoStyles } from './styles'
 import { Props as FolderManageModalProps, State } from './types'
+import Catalog from './catalog'
+import Subjects from './subjects'
+import Create from './create'
 
 export { FolderManageModalProps }
 
@@ -63,15 +60,18 @@ export const FolderManageModal = ob(
       desc: '',
       edit: 0,
       content: '',
-      order: '0'
+      order: '0',
+      list: []
     }
 
-    formhash
+    formhash: string
 
-    textareaRef
+    textareaRef: any
+
+    forwardRef = ref => (this.textareaRef = ref)
 
     async componentDidMount() {
-      const expand = await getStorage(STORAGE_KEY)
+      const expand: string[] = await getStorage(STORAGE_KEY)
       if (Array.isArray(expand)) {
         this.setState({
           expand
@@ -124,9 +124,7 @@ export const FolderManageModal = ob(
       return false
     }
 
-    /**
-     * 请求目录列表
-     */
+    /** 请求目录列表 */
     fetchCatalogs = async () => {
       const data = await usersStore.fetchCatalogs(
         {
@@ -141,18 +139,36 @@ export const FolderManageModal = ob(
           isCollect: false
         })
       }
+      this.updateList()
 
       const { list } = usersStore.catalogs()
-      queue(list.map(item => () => this.fetchCatalogDetail(item.id, !loaded)))
+      queue(list.map(item => () => this.fetchCatalogDetail(item.id as string, !loaded)))
       loaded = true
 
       return true
     }
 
-    /**
-     * 请求目录详情
-     */
-    fetchCatalogDetail = async (id, refresh) => {
+    /** 缓存列表 */
+    updateList = () => {
+      const { id, defaultExpand } = this.props
+      const { list } = usersStore.catalogs()
+      this.setState({
+        list: list.slice().sort((a, b) => {
+          if (defaultExpand == a.id) return -1
+
+          const detailA = this.catalogDetail(a.id)
+          const detailB = this.catalogDetail(b.id)
+          const isInA = detailA?.list?.some(i => i.id == id)
+          const isInB = detailB?.list?.some(i => i.id == id)
+          if (isInA && isInB) return desc(String(b.time || ''), String(a.time || ''))
+          if (isInA && !isInB) return -1
+          return 1
+        })
+      })
+    }
+
+    /** 请求目录详情 */
+    fetchCatalogDetail = async (id: string, refresh: boolean) => {
       if (!refresh) {
         const data = discoveryStore.catalogDetail(id)
         const { _loaded } = data
@@ -168,18 +184,14 @@ export const FolderManageModal = ob(
       if (list && list.length) {
         const { erase } = list[0]
         const formhash = erase?.split('?gh=')[1]
-        if (formhash) {
-          this.formhash = formhash
-        }
+        if (formhash) this.formhash = formhash
       }
 
       return true
     }
 
-    /**
-     * track
-     */
-    t(value, other = {}) {
+    /** track */
+    t(value: string, other = {}) {
       const { id } = this.props
       t('其他.管理目录', {
         subjectId: id,
@@ -188,10 +200,8 @@ export const FolderManageModal = ob(
       })
     }
 
-    /**
-     * 目录展开
-     */
-    onExpand = item => {
+    /** 目录展开 */
+    onExpand = (item: { id: Id }) => {
       const { expand } = this.state
       this.setState(
         {
@@ -208,10 +218,8 @@ export const FolderManageModal = ob(
       )
     }
 
-    /**
-     * 添加/移出
-     */
-    onToggle = (item, detail, isIn) => {
+    /** 添加/移出 */
+    onToggle = (item: { id: any }, detail: { list: any[] }, isIn: boolean) => {
       if (!isIn) {
         discoveryStore.doCatalogAddRelate(
           {
@@ -220,7 +228,7 @@ export const FolderManageModal = ob(
             formhash: this.formhash || userStore.formhash
           },
           () => {
-            info('已添加')
+            info('已添加到此目录')
             feedback()
             this.fetchCatalogDetail(item.id, true)
             this.t('onToggle:in')
@@ -242,7 +250,7 @@ export const FolderManageModal = ob(
             erase: find.erase
           },
           () => {
-            info('已移出')
+            info('已移出此目录')
             feedback()
             this.fetchCatalogDetail(item.id, true)
             this.t('onToggle:out')
@@ -251,17 +259,15 @@ export const FolderManageModal = ob(
       })
     }
 
-    /**
-     * 更多菜单
-     */
-    onControl = (title, item) => {
+    /** 更多菜单 */
+    onControl = (title: string, item: { id: any; title: any }) => {
       const detail = this.catalogDetail(item.id)
       switch (title) {
         case '修改':
           this.setState({
             create: item.id,
             title: item.title || '',
-            desc: detail.content || ''
+            desc: HTMLDecode(detail.content || '').replace(/<br>/g, '')
           })
           break
 
@@ -280,7 +286,7 @@ export const FolderManageModal = ob(
                   formhash: this.formhash || userStore.formhash
                 },
                 () => {
-                  info('已删除')
+                  info('已删除此目录')
                   feedback()
                   this.fetchCatalogs()
                   this.t('onControl:delete')
@@ -295,10 +301,8 @@ export const FolderManageModal = ob(
       }
     }
 
-    /**
-     * 创建目录
-     */
-    onCreate = isNew => {
+    /** 创建目录 */
+    onCreate = (isNew: boolean) => {
       if (isNew) {
         if (!(this.formhash || userStore.formhash)) {
           info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
@@ -308,18 +312,17 @@ export const FolderManageModal = ob(
         this.setState({
           create: true
         })
-      } else {
-        this.setState({
-          create: false,
-          title: '',
-          desc: ''
-        })
+        return
       }
+
+      this.setState({
+        create: false,
+        title: '',
+        desc: ''
+      })
     }
 
-    /**
-     * 提交创建/修改目录
-     */
+    /** 提交创建/修改目录 */
     onSubmitCatalog = () => {
       if (!(this.formhash || userStore.formhash)) {
         info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
@@ -345,7 +348,7 @@ export const FolderManageModal = ob(
             desc: desc || ''
           },
           () => {
-            info('已创建')
+            info('已创建目录')
             this.fetchCatalogs()
             this.onCreate(false)
             feedback()
@@ -363,7 +366,7 @@ export const FolderManageModal = ob(
           desc: desc || ''
         },
         () => {
-          this.fetchCatalogDetail(create, true)
+          this.fetchCatalogDetail(create as string, true)
           this.onCreate(false)
           feedback()
           this.t('onSubmitCatalog:edit')
@@ -371,9 +374,7 @@ export const FolderManageModal = ob(
       )
     }
 
-    /**
-     * 条目更多菜单
-     */
+    /** 条目更多菜单 */
     onSubjectControl = (title, item, pItem) => {
       const detail = this.catalogDetail(pItem.id)
       const current = fixedOrder(item.order)
@@ -463,7 +464,7 @@ export const FolderManageModal = ob(
                 erase: item.erase
               },
               () => {
-                info('已移出')
+                info('已移出此目录')
                 feedback()
                 this.fetchCatalogDetail(pItem.id, true)
                 this.t('onSubjectControl:remove')
@@ -477,14 +478,12 @@ export const FolderManageModal = ob(
       }
     }
 
-    /**
-     * 编辑项
-     */
+    /** 编辑项 */
     onSubjectEdit = (item?) => {
       if (item) {
         this.setState({
           edit: item.id,
-          content: item.comment || '',
+          content: HTMLDecode(item.comment || '').replace(/<br>/g, ''),
           order: item.order || '0'
         })
 
@@ -513,9 +512,7 @@ export const FolderManageModal = ob(
       })
     }
 
-    /**
-     * 改变排序
-     */
+    /** 改变排序 */
     onOrder = order => {
       if (!order) {
         this.setState({
@@ -532,9 +529,7 @@ export const FolderManageModal = ob(
       })
     }
 
-    /**
-     * 直接提交顺序
-     */
+    /** 直接提交顺序 */
     onSort = (item, order, pItem) => {
       const { modify, erase } = item
       const formhash = erase?.split('?gh=')[1]
@@ -547,7 +542,7 @@ export const FolderManageModal = ob(
         {
           modify,
           formhash,
-          content: item.comment || '',
+          content: HTMLDecode(item.comment || '').replace(/<br>/g, ''),
           order: order || '0'
         },
         () => {
@@ -557,9 +552,7 @@ export const FolderManageModal = ob(
       )
     }
 
-    /**
-     * 提交
-     */
+    /** 提交 */
     onSubmit = (item, pItem) => {
       const { modify, erase } = item
       const { content, order } = this.state
@@ -586,10 +579,10 @@ export const FolderManageModal = ob(
     }
 
     catalogDetail(id) {
-      return computed(() => ({
+      return {
         ...discoveryStore.catalogDetail(id),
         id
-      })).get()
+      }
     }
 
     renderBtnCreate() {
@@ -597,7 +590,7 @@ export const FolderManageModal = ob(
       if (edit || create) return null
 
       return (
-        <View style={this.styles.btnCreate}>
+        <View style={this.styles.create}>
           <IconTouchable
             name='md-add'
             size={24}
@@ -610,84 +603,47 @@ export const FolderManageModal = ob(
 
     renderCreate() {
       const { create, title, desc } = this.state
-      if (create !== true) {
-        return null
-      }
+      if (create !== true) return null
 
       return (
-        <View style={this.styles.create}>
-          <Text bold>新建目录</Text>
-          <Input
-            style={this.styles.textareaMd}
-            defaultValue={title}
-            placeholder='输入标题'
-            showClear
-            onChangeText={text => this.onChange(text, 'title')}
-          />
-          <TextareaItem
-            style={this.styles.textareaMd}
-            value={desc}
-            placeholder='输入介绍'
-            placeholderTextColor={_.colorDisabled}
-            rows={3}
-            selectionColor={_.colorMain}
-            clear
-            onChange={text => this.onChange(text, 'desc')}
-          />
-          <View style={this.styles.btnCreateCancel}>
-            <IconTouchable
-              name='md-close'
-              size={22}
-              color={_.colorSub}
-              onPress={() => this.onCreate(false)}
-            />
-          </View>
-          <View style={this.styles.btnCreateSubmit}>
-            <IconTouchable
-              name='md-check'
-              size={22}
-              color={_.colorSub}
-              onPress={this.onSubmitCatalog}
-            />
-          </View>
-        </View>
+        <Create
+          title={title}
+          desc={desc}
+          onChange={this.onChange}
+          onCreate={this.onCreate}
+          onSubmitCatalog={this.onSubmitCatalog}
+        />
       )
     }
 
     renderList() {
-      const { create, expand } = this.state
-      const { list } = usersStore.catalogs()
-      return (
-        <ScrollView style={this.styles.scrollView} {...SCROLL_VIEW_RESET_PROPS}>
-          {create === true
-            ? this.renderCreate()
-            : list
-                .slice()
-                .sort((a, b) => {
-                  const { id, defaultExpand } = this.props
-                  if (defaultExpand == a.id) return -1
+      const { create, expand, list } = this.state
+      if (create === true) {
+        return (
+          <ScrollView style={this.styles.scrollView} {...SCROLL_VIEW_RESET_PROPS}>
+            {this.renderCreate()}
+          </ScrollView>
+        )
+      }
 
-                  const detailA = this.catalogDetail(a.id)
-                  const detailB = this.catalogDetail(b.id)
-                  const isInA = detailA?.list?.some(i => i.id == id)
-                  const isInB = detailB?.list?.some(i => i.id == id)
-                  if (isInA && isInB) {
-                    return desc(String(b.time || ''), String(a.time || ''))
-                  }
-                  if (isInA && !isInB) return -1
-                  return 1
-                })
-                .map(item => {
-                  const detail = this.catalogDetail(item.id)
-                  const showDivider = expand.includes(item.id)
-                  return (
-                    <View key={item.id}>
-                      {this.renderCatalog(item, detail)}
-                      {this.renderSubjects(item, detail)}
-                      {showDivider && <Divider style={_.mb.md} />}
-                    </View>
-                  )
-                })}
+      return (
+        <ScrollView
+          style={this.styles.scrollView}
+          contentContainerStyle={this.styles.list}
+          {...SCROLL_VIEW_RESET_PROPS}
+          scrollEnabled={!expand.length}
+        >
+          {list.map(item => {
+            const detail = this.catalogDetail(item.id)
+            const showDivider = expand.includes(item.id)
+            return (
+              <View key={item.id}>
+                {this.renderCatalog(item, detail)}
+                {this.renderSubjects(item, detail)}
+                {showDivider && <Divider style={_.mb.md} />}
+              </View>
+            )
+          })}
           {!create && !list.length && <Empty text='还没有创建过目录' />}
         </ScrollView>
       )
@@ -696,231 +652,48 @@ export const FolderManageModal = ob(
     renderCatalog(item, detail) {
       const { id } = this.props
       const { expand, create, edit, desc } = this.state
-      const isIn = detail?.list?.some(i => i.id == id)
-      const date = item.time?.split(' ')[0]?.replace('创建于:', '') || ''
       return (
-        <Flex style={this.styles.catalog}>
-          <Flex.Item>
-            {create == item.id ? (
-              <View style={_.mb.sm}>
-                <Text bold>编辑目录</Text>
-                <Input
-                  style={this.styles.textareaMd}
-                  defaultValue={item.title}
-                  placeholder='输入标题'
-                  showClear
-                  onChangeText={text => this.onChange(text, 'title')}
-                />
-                <TextareaItem
-                  style={this.styles.textareaMd}
-                  value={desc}
-                  placeholder='输入介绍'
-                  placeholderTextColor={_.colorDisabled}
-                  rows={3}
-                  selectionColor={_.colorMain}
-                  clear
-                  onChange={text => this.onChange(text, 'desc')}
-                />
-              </View>
-            ) : (
-              <Touchable onPress={() => this.onExpand(item)}>
-                <Flex>
-                  <Text bold>
-                    {item.title}{' '}
-                    <Text size={11} lineHeight={14} type='sub' bold>
-                      ({detail.list.length})
-                    </Text>
-                  </Text>
-                  <Iconfont
-                    style={_.ml.sm}
-                    name={
-                      expand.includes(item.id)
-                        ? 'md-keyboard-arrow-down'
-                        : 'md-navigate-next'
-                    }
-                    size={22}
-                    lineHeight={24}
-                  />
-                </Flex>
-                <Text style={_.mt.xs} size={11} type='sub' numberOfLines={2}>
-                  {date} / {detail.content}
-                </Text>
-              </Touchable>
-            )}
-          </Flex.Item>
-          <Flex style={this.styles.control} justify='end'>
-            {!edit && !create && (
-              <>
-                {!!id && (
-                  <IconTouchable
-                    style={_.ml.sm}
-                    name={isIn ? 'md-star' : 'md-star-outline'}
-                    size={18}
-                    color={isIn ? _.colorWarning : _.colorSub}
-                    onPress={() => this.onToggle(item, detail, isIn)}
-                  />
-                )}
-                {/** @ts-ignore */}
-                <Popover.Old
-                  style={this.styles.btnPopover}
-                  data={CONTROL_DS.root}
-                  onSelect={title => this.onControl(title, item)}
-                >
-                  <Flex style={this.styles.touch} justify='center'>
-                    <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
-                  </Flex>
-                  {/** @ts-ignore */}
-                </Popover.Old>
-              </>
-            )}
-            {item.id == create && (
-              <>
-                <View style={this.styles.btnCreateCancel}>
-                  <IconTouchable
-                    name='md-close'
-                    size={22}
-                    color={_.colorSub}
-                    onPress={() => this.onCreate(false)}
-                  />
-                </View>
-                <View style={this.styles.btnCreateSubmit}>
-                  <IconTouchable
-                    name='md-check'
-                    size={22}
-                    color={_.colorSub}
-                    onPress={this.onSubmitCatalog}
-                  />
-                </View>
-              </>
-            )}
-          </Flex>
-        </Flex>
+        <Catalog
+          id={id}
+          expand={expand}
+          create={create}
+          edit={edit}
+          desc={desc}
+          item={item}
+          detail={detail}
+          onChange={this.onChange}
+          onExpand={this.onExpand}
+          onToggle={this.onToggle}
+          onControl={this.onControl}
+          onCreate={this.onCreate}
+          onSubmitCatalog={this.onSubmitCatalog}
+        />
       )
     }
 
     renderSubjects(item, detail) {
       const { id } = this.props
       const { expand, create, edit, content, order } = this.state
-      if (!(expand.includes(item.id) || create == item.id)) return null
+      if (!(expand.includes(item.id) || create == item.id)) {
+        return null
+      }
 
       return (
-        <View style={this.styles.subjects}>
-          {detail.list.map((i, index) => {
-            const isEditing = !!edit && edit == i.id
-            const { length } = detail.list
-            let data
-            if (length <= 1) {
-              data = CONTROL_DS.single
-            } else if (index === 0) {
-              data = CONTROL_DS.top
-            } else if (index === length - 1) {
-              data = CONTROL_DS.bottom
-            } else {
-              data = CONTROL_DS.middle
-            }
-
-            const align = isEditing || i.comment ? 'start' : 'center'
-            const collection = collectionStore.userCollectionsMap[i.id]
-            const indent = collection ? '　　　' : ''
-            return (
-              <Flex style={this.styles.subject} align={align}>
-                <Cover
-                  src={i.image}
-                  size={WIDTH}
-                  height={HEIGHT}
-                  radius
-                  type={i.type === '音乐' ? i.type : undefined}
-                />
-                <Flex.Item style={this.styles.subjectContent}>
-                  <View>
-                    {!!collection && (
-                      <Tag style={this.styles.collection} value={collection} />
-                    )}
-                    <Text
-                      size={11}
-                      lineHeight={13}
-                      type={i.id == id ? 'warning' : 'desc'}
-                      bold
-                      numberOfLines={1}
-                    >
-                      {indent}
-                      {HTMLDecode(i.title)}
-                    </Text>
-                  </View>
-                  <Text
-                    style={_.mt.xs}
-                    size={10}
-                    lineHeight={12}
-                    type='sub'
-                    numberOfLines={2}
-                  >
-                    [{i.order}] {i.info}
-                  </Text>
-                  {!isEditing && !!i.comment && (
-                    <Text style={this.styles.comment} size={10}>
-                      {i.comment}
-                    </Text>
-                  )}
-                  {isEditing && (
-                    <>
-                      <TextareaItem
-                        ref={ref => (this.textareaRef = ref)}
-                        style={this.styles.textarea}
-                        value={content}
-                        placeholder='输入评价'
-                        placeholderTextColor={_.colorDisabled}
-                        rows={3}
-                        selectionColor={_.colorMain}
-                        clear
-                        onChange={this.onChange}
-                      />
-                      <Input
-                        style={this.styles.textareaMd}
-                        defaultValue={String(order == '0' ? '' : order)}
-                        keyboardType='number-pad'
-                        placeholder='输入排序 (数字越小越前)'
-                        onChangeText={this.onOrder}
-                      />
-                    </>
-                  )}
-                </Flex.Item>
-                <Flex style={this.styles.control} justify='end'>
-                  {isEditing && (
-                    <View style={this.styles.editWrap}>
-                      <IconTouchable
-                        name='md-close'
-                        size={18}
-                        color={_.colorSub}
-                        onPress={() => this.onSubjectEdit()}
-                      />
-                      <View style={this.styles.btnSubmit}>
-                        <IconTouchable
-                          name='md-check'
-                          size={18}
-                          color={_.colorSub}
-                          onPress={() => this.onSubmit(i, detail)}
-                        />
-                      </View>
-                    </View>
-                  )}
-                  {!edit && !create && (
-                    // @ts-expect-error
-                    <Popover.Old
-                      style={this.styles.btnPopover}
-                      data={data}
-                      onSelect={title => this.onSubjectControl(title, i, item)}
-                    >
-                      <Flex style={this.styles.touch} justify='center'>
-                        <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
-                      </Flex>
-                      {/** @ts-ignore */}
-                    </Popover.Old>
-                  )}
-                </Flex>
-              </Flex>
-            )
-          })}
-        </View>
+        <Subjects
+          id={id}
+          create={create}
+          edit={edit}
+          content={content}
+          order={order}
+          item={item}
+          detail={detail}
+          forwardRef={this.forwardRef}
+          onChange={this.onChange}
+          onOrder={this.onOrder}
+          onSubjectEdit={this.onSubjectEdit}
+          onSubjectControl={this.onSubjectControl}
+          onSubmit={this.onSubmit}
+        />
       )
     }
 

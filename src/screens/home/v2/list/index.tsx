@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Loading } from '@components'
+import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { SettingHomeLayout } from '@types'
@@ -19,8 +20,9 @@ export default obc(({ title = '全部' }, { $ }: Ctx) => {
 
   if (!$.collection._loaded) return <Loading />
 
+  const { homeLayout } = systemStore.setting
   const isGrid =
-    $.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
+    homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
   if (isGrid) return <Grid title={title} />
 
   const showItem = $.showItem(title)

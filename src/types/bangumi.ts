@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 04:49:53
+ * @Last Modified time: 2023-03-07 19:31:11
  */
 import { SubjectTypeValue } from '@constants/model/types'
 
@@ -134,4 +134,14 @@ export type Subject = Partial<{
 }>
 
 /** 动词 */
-export type Actions = '看' | '玩' | '听' | '读'
+// export type Actions = '看' | '玩' | '听' | '读'
+
+type Actions = '看' | '玩' | '听' | '读'
+
+/** 收藏状态动词 */
+export type CollectActions =
+  | `${Actions}过`
+  | `在${Actions}`
+  | `想${Actions}`
+  | '搁置'
+  | '抛弃'

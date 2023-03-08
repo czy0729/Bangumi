@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-02-27 22:19:54
  */
 import React from 'react'
+import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import Item from './item'
@@ -18,6 +19,7 @@ export default obc(
   ) => {
     global.rerender('Home.Item', subject.name_cn || subject.name)
 
+    const { heatMap } = systemStore.setting
     const { top, progress } = $.state
     const { fetchingSubjectId1, fetchingSubjectId2 } = progress
     return (
@@ -28,7 +30,7 @@ export default obc(
         subjectId={subjectId}
         title={title}
         epStatus={epStatus}
-        heatMap={$.heatMap}
+        heatMap={heatMap}
         expand={$.$Item(subjectId).expand}
         epsCount={$.epsCount(subjectId)}
         isTop={top.indexOf(subjectId) !== -1}

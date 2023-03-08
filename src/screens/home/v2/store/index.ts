@@ -15,7 +15,7 @@ import {
   MODEL_SETTING_INITIAL_PAGE,
   VERSION_GITHUB_RELEASE
 } from '@constants'
-import { Navigation } from '@types'
+import { Navigation, SettingInitialPage } from '@types'
 import { IOS_IPA } from '@/config'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -167,11 +167,16 @@ class ScreenHomeV2 extends Action {
 
   /** 设置应用初始页面 */
   updateInitialPage = (navigation: Navigation) => {
-    if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {
+    const { initialPage } = systemStore.setting
+    if (
+      initialPage === MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度')
+    ) {
       return this.init()
     }
 
-    if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')) {
+    if (
+      initialPage === MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('小圣杯')
+    ) {
       return navigation.push('Tinygrail')
     }
   }

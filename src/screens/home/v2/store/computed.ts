@@ -63,31 +63,6 @@ export default class Computed extends State {
     return showGame ? TABS_WITH_GAME : TABS
   }
 
-  /** 启动页 */
-  @computed get initialPage() {
-    return systemStore.setting.initialPage
-  }
-
-  /** 章节热力图 */
-  @computed get heatMap() {
-    return systemStore.setting.heatMap
-  }
-
-  /** 首页收藏布局 */
-  @computed get homeLayout() {
-    return systemStore.setting.homeLayout
-  }
-
-  /** 首页收藏排序 */
-  @computed get homeSorting() {
-    return systemStore.setting.homeSorting
-  }
-
-  /** 首页条目显示搜索源头 */
-  @computed get homeOrigin() {
-    return systemStore.setting.homeOrigin
-  }
-
   /** 自己用户 Id */
   @computed get myUserId() {
     return userStore.myUserId
@@ -200,12 +175,12 @@ export default class Computed extends State {
     return computed(() => {
       if (!list.length) return []
 
+      const { homeSorting } = systemStore.setting
       const topMap = this.getTopMap()
 
       // 网页顺序: 不需要处理
       if (
-        this.homeSorting ===
-        MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
+        homeSorting === MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
       ) {
         return list
           .slice()
@@ -346,13 +321,13 @@ export default class Computed extends State {
   eps(subjectId: SubjectId) {
     return computed(() => {
       try {
+        const { homeLayout } = systemStore.setting
         const eps = this.epsNoSp(subjectId)
         const { length } = eps
 
         // 集数超过了 1 页的显示个数
         const isGrid =
-          this.homeLayout ===
-          MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
+          homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
         if (length > (isGrid ? PAGE_LIMIT_GRID : PAGE_LIMIT_LIST)) {
           const userProgress = this.userProgress(subjectId)
           const index = eps.findIndex(item => userProgress[item.id] !== '看过')
@@ -461,9 +436,9 @@ export default class Computed extends State {
 
   /** 放送顺序 */
   @computed get sortOnAir() {
+    const { homeSorting } = systemStore.setting
     return (
-      this.homeSorting ===
-      MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('放送')
+      homeSorting === MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('放送')
     )
   }
 
