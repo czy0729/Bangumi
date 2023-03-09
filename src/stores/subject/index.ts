@@ -207,7 +207,9 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
     }).get()
   }
 
+  /** 集数大于 1000 的条目的章节信息 */
   epV2(subjectId: SubjectId) {
+    this.init('epV2')
     return computed<EpV2>(() => {
       return this.state.epV2[subjectId] || this.state.epV2[0]
     }).get()

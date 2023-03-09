@@ -260,6 +260,18 @@ export function sleep(ms: number = 800): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+const DATE_FNS = {
+  Y: (d: Date) => d.getFullYear(),
+  y: (d: Date) => (d.getFullYear() + '').slice(2),
+  m: (d: Date) => pad(DATE_FNS.n(d)),
+  d: (d: Date) => pad(DATE_FNS.j(d)),
+  H: (d: Date) => pad(d.getHours()),
+  i: (d: Date) => pad(d.getMinutes()),
+  s: (d: Date) => pad(d.getSeconds()),
+  n: (d: Date) => d.getMonth() + 1,
+  j: (d: Date) => d.getDate()
+} as const
+
 /** 简易时间戳格式化函数 */
 export function date(format?: string, timestamp?: any): string {
   // 假如第二个参数不存在, 第一个参数作为 timestamp
@@ -269,19 +281,8 @@ export function date(format?: string, timestamp?: any): string {
   }
 
   const now = timestamp ? new Date(timestamp * 1000) : new Date()
-  const f = {
-    Y: (d: Date) => d.getFullYear(),
-    y: (d: Date) => (d.getFullYear() + '').slice(2),
-    m: (d: Date) => pad(f.n(d)),
-    d: (d: Date) => pad(f.j(d)),
-    H: (d: Date) => pad(d.getHours()),
-    i: (d: Date) => pad(d.getMinutes()),
-    s: (d: Date) => pad(d.getSeconds()),
-    n: (d: Date) => d.getMonth() + 1,
-    j: (d: Date) => d.getDate()
-  }
   return format.replace(/[\\]?([a-zA-Z])/g, (t, s) =>
-    t != s ? s : f[s] ? f[s](now) : s
+    t != s ? s : DATE_FNS[s] ? DATE_FNS[s](now) : s
   )
 }
 

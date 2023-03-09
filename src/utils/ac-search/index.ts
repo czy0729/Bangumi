@@ -65,8 +65,9 @@ function initLazyac() {
     ]
       .filter(item => {
         // 过滤掉比较长的条目名字), 命中率很低
-        if (item.length >= 10 || item.length <= 1 || IGNORE_ITEMS.includes(item))
+        if (item.length >= 10 || item.length <= 1 || IGNORE_ITEMS.includes(item)) {
           return false
+        }
 
         // 带特殊符号的通常用户很少手动输入, 命中率很低
         if (/。|！|？|：|、|～|・|《|〈|（|「|&|~|:|“|!|;|·|'|\*|\?|\+/.test(item)) {

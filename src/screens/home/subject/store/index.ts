@@ -62,28 +62,20 @@ class ScreenSubject extends Action {
     // API 条目信息
     const data = await this.fetchSubject()
     queue([
-      () => this.fetchOTA(), // 装载第三方找条目数据
-      () => this.fetchThirdParty(data), // 装载第三方额外数据
+      () => this.fetchOTA(),
+      () => this.fetchThirdParty(data),
       () => this.fetchAnitabi(),
       () => this.fetchTrackComments(),
-      () => this.fetchSubjectComments(true), // 吐槽
-      () => this.fetchSubjectFormHTML(), // 条目 API 没有的网页额外数据
-      () => this.fetchEpsData(), // 单集播放源
-      () => this.rendered(), // 有时候没有触发成功, 强制触发
-
-      // 对集数大于 1000 的条目, 旧 API 并不会返回大于 1000 章节的信息, 暂时到新的 API 里取
+      () => this.fetchSubjectComments(true),
+      () => this.fetchSubjectFormHTML(),
+      () => this.fetchEpsData(),
+      () => this.rendered(),
       () => {
-        if (this.subject.eps?.length >= 1000) {
-          return subjectStore.fetchSubjectEpV2(this.subjectId)
-        }
-
-        return true
+        // 对集数大于 1000 的条目, 旧 API 并不会返回大于 1000 章节的信息, 暂时到新的 API 里取
+        if (this.subject.eps?.length < 1000) return true
+        return subjectStore.fetchSubjectEpV2(this.subjectId)
       }
     ])
-
-    if (this.subject.eps?.length >= 1000) {
-      subjectStore.fetchSubjectEpV2(this.subjectId)
-    }
 
     // 敏感条目不再返回数据, 而旧接口 staff 也错乱, 主动请求网页的 staff 数据
     // @ts-expect-error

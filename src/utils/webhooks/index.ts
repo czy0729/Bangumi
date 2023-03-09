@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 07:15:20
+ * @Last Modified time: 2023-03-09 15:04:43
  */
-import { InteractionManager } from 'react-native'
 import axios from '@utils/thirdParty/axios'
 import { DEV, MODEL_COLLECTION_STATUS } from '@constants'
 import {
@@ -12,7 +11,7 @@ import {
   SubjectType as WebHooksSubjectType,
   CollectionType as WebHooksCollectionType
 } from './types'
-import { getTimestamp } from '../utils'
+import { runAfter, getTimestamp } from '../utils'
 import { t } from '../track'
 
 /** 钩子 */
@@ -21,7 +20,7 @@ export const webhooks: WebHooksTypes = (type, data) => {
 
   try {
     // 保证这种低优先级的操作在 UI 响应之后再执行
-    InteractionManager.runAfterInteractions(async () => {
+    runAfter(async () => {
       // @ts-expect-error
       const res = await axios({
         method: 'post',

@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-11 09:37:52
  */
-
 /** 是否 null */
 export function isNull(value: any) {
   return value === undefined || value === ''

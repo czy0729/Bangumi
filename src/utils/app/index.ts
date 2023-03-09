@@ -1,6 +1,5 @@
 /*
  * 项目相关工具函数
- *
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
@@ -29,6 +28,7 @@ import {
   AnyObject,
   BangumiData,
   EventType,
+  Id,
   Navigation,
   Paths,
   SubjectId,
@@ -493,7 +493,6 @@ export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string)
 
 /**
  * 根据 Bangumi 的 url 判断路由跳转方式
- *
  * @param {*} url            链接
  * @param {*} navigation     路由对象
  * @param {*} passParams     传递的参数
@@ -555,69 +554,55 @@ export function getType(label: string, defaultType: string = 'plain') {
   return TYPE_MAP[label] || defaultType
 }
 
+const RATING_MAP = {
+  1: '不忍直视',
+  2: '很差',
+  3: '差',
+  4: '较差',
+  5: '不过不失',
+  6: '还行',
+  7: '推荐',
+  8: '力荐',
+  9: '神作',
+  10: '超神作'
+} as const
+
 /** 获取评分中文 */
-export function getRating(score: number) {
-  if (score === undefined) return false
-  if (score >= 9.5) return '超神作'
-  if (score >= 8.5) return '神作'
-  if (score >= 7.5) return '力荐'
-  if (score >= 6.5) return '推荐'
-  if (score >= 5.5) return '还行'
-  if (score >= 4.5) return '不过不失'
-  if (score >= 3.5) return '较差'
-  if (score >= 2.5) return '差'
-  if (score >= 1.5) return '很差'
-  return '不忍直视'
+export function getRating(
+  score: number
+): (typeof RATING_MAP)[keyof typeof RATING_MAP] | '' {
+  if (score === undefined) return ''
+  return RATING_MAP[Math.floor(score + 0.5)] || RATING_MAP[1]
 }
+
+const BANGUMI_URL_TEMPLATES = {
+  acfun: (id: Id) => `https://www.acfun.cn/bangumi/aa${id}`,
+  bangumi: (id: Id) => `${HOST}/subject/${id}`,
+  bilibili: (id: Id) => `https://www.bilibili.com/bangumi/media/md${id}/`,
+  iqiyi: (id: Id) => `https://www.iqiyi.com/${id}.html`,
+  letv: (id: Id) => `https://www.le.com/comic/${id}.html`,
+  mgtv: (id: Id) => `https://www.mgtv.com/h/${id}.html`,
+  netflix: (id: Id) => `https://www.netflix.com/title/${id}`,
+  nicovideo: (id: Id) => `https://ch.nicovideo.jp/${id}`,
+  pptv: (id: Id) => `http://v.pptv.com/page/${id}.html`,
+  qq: (id: Id) => `https://v.qq.com/detail/${id}.html`,
+  sohu: (id: Id) => `https://tv.sohu.com/${id}`,
+  youku: (id: Id) => `https://list.youku.com/show/id_z${id}.html`
+} as const
 
 /**
  * 获得在线播放地址
  * @param {*} item bangumiInfo 数据项
  */
-export function getBangumiUrl(item: { site?: any; id?: any; url?: any }) {
+export function getBangumiUrl(item: { site?: string; id?: Id; url?: string }): string {
   if (!item) return ''
 
-  const { site, id, url } = item
-  switch (site) {
-    case 'bangumi':
-      return url || `${HOST}/subject/${id}`
-
-    case 'acfun':
-      return url || `https://www.acfun.cn/bangumi/aa${id}`
-
-    case 'bilibili':
-      return url || `https://www.bilibili.com/bangumi/media/md${id}/`
-
-    case 'sohu':
-      return url || `https://tv.sohu.com/${id}`
-
-    case 'youku':
-      return url || `https://list.youku.com/show/id_z${id}.html`
-
-    case 'qq':
-      return url || `https://v.qq.com/detail/${id}.html`
-
-    case 'iqiyi':
-      return url || `https://www.iqiyi.com/${id}.html`
-
-    case 'letv':
-      return url || `https://www.le.com/comic/${id}.html`
-
-    case 'pptv':
-      return url || `http://v.pptv.com/page/${id}.html`
-
-    case 'mgtv':
-      return url || `https://www.mgtv.com/h/${id}.html`
-
-    case 'nicovideo':
-      return url || `https://ch.nicovideo.jp/${id}`
-
-    case 'netflix':
-      return url || `https://www.netflix.com/title/${id}`
-
-    default:
-      return ''
+  const { site, id, url } = item || {}
+  if (site && site in BANGUMI_URL_TEMPLATES) {
+    return url || BANGUMI_URL_TEMPLATES[site](id)
   }
+
+  return ''
 }
 
 /** 从 cookies 字符串中分析 cookie 值 */
@@ -641,8 +626,9 @@ export function getCoverSmall(src = '') {
     src === '' ||
     src.includes('/photo/') ||
     !src.includes(HOST_IMAGE)
-  )
+  ) {
     return src
+  }
 
   return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/s/')
 }
@@ -707,7 +693,7 @@ export function formatTime(time) {
   return `${day}d ago`
 }
 
-/** 小圣杯计算ICO等级 */
+/** 小圣杯计算 ICO 等级 */
 export function caculateICO(ico) {
   let level = 0
   let price = 10
