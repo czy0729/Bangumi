@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 17:45:33
+ * @Last Modified time: 2023-03-10 01:54:28
  */
 import axios from '@utils/thirdParty/axios'
 import { MODEL_COLLECTION_STATUS } from '@constants'
@@ -36,8 +36,18 @@ const webhook: WebHooksTypes = (type, data) => {
 }
 
 /** 钩子: 更新收藏 */
-export const webhookUserCollection = (values, subject, userInfo) => {
-  const type = 'user_collection'
+export const webhookCollection = (
+  values: {
+    status?: any
+    rating?: any
+    comment?: any
+    privacy?: any
+    tags?: string
+  },
+  subject: any,
+  userInfo: any
+) => {
+  const type = 'collection'
   webhook(type, {
     type: Number(
       MODEL_COLLECTION_STATUS.getTitle<WebHooksCollectionType>(values?.status)
@@ -77,9 +87,20 @@ export const webhookUserCollection = (values, subject, userInfo) => {
 }
 
 /** 钩子: 更新章节 */
-export const webhookEp = (values, subject, userInfo) => {
-  const type = 'user_ep'
-  const ep = (subject?.eps || []).find(item => item.id === values.id)
+export const webhookEp = (
+  values: {
+    id?: any
+    status?: any
+    batch?: boolean
+    sort?: any
+    vols?: any
+  },
+  subject: any,
+  userInfo: any
+) => {
+  const type = 'ep'
+  let ep = (subject?.eps || []).find(item => item.id === values.id)
+  if (!ep) ep = (subject?.eps || []).find(item => item.sort == values.sort)
 
   const statusUnits = {
     queue: 1,
@@ -125,6 +146,34 @@ export const webhookEp = (values, subject, userInfo) => {
   t('其他.Webhooks', {
     type,
     subjectId: Number(subject?.id || 0),
+    username: userInfo?.username || 0
+  })
+}
+
+/** 钩子: 新吐槽 */
+export const webhookSay = (
+  values: {
+    content?: any
+    url?: any
+  },
+  userInfo: any
+) => {
+  const type = 'say'
+  webhook(type, {
+    content: values.content || '新吐槽',
+    url: values.url || '',
+    user: {
+      id: userInfo?.id || 0,
+      username: userInfo?.username || '',
+      avatar: userInfo?.avatar?.large || '',
+      nickname: userInfo?.nickname || '',
+      sign: userInfo?.sign || ''
+    },
+    ts: getTimestamp()
+  })
+
+  t('其他.Webhooks', {
+    type,
     username: userInfo?.username || 0
   })
 }

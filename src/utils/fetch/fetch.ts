@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:06:13
+ * @Last Modified time: 2023-03-09 19:10:38
  */
 import { APP_ID, UA } from '@constants/constants'
 import { AnyObject } from '@types'
@@ -136,7 +136,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     } else {
       const distance = ts - LAST_FETCH_HTML[cacheKey]
       if (distance <= 2000) {
-        log(`[prevent] ⚡️ ${url} ${distance}ms`)
+        console.info(`[prevent] ${url} ${distance}ms`)
         return Promise.reject(new Error('prevent fetchHTML'))
       }
 

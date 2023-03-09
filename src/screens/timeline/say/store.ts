@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:35:50
+ * @Last Modified time: 2023-03-09 20:03:20
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
-import { sleep } from '@utils'
-import { info, feedback } from '@utils/ui'
+import { info, feedback } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { HOST, IOS } from '@constants'
+import { HOST, IOS, MODEL_TIMELINE_TYPE } from '@constants'
 import i18n from '@constants/i18n'
 import { Params } from './types'
-import { Navigation, UserId } from '@types'
+import { Navigation, TimeLineType, UserId } from '@types'
+import { webhookSay } from '@utils/webhooks'
 
 export default class ScreenSay extends store {
   params: Params
@@ -45,12 +45,16 @@ export default class ScreenSay extends store {
     })
   }
 
-  /** @deprecated 根据 noAvatarUserIds 递归请求用户头像 */
-  fetchAvatars = async () => {
-    for (const item of this.noAvatarUserIds) {
-      await userStore.fetchUsersInfo(item)
-      await sleep(80)
-    }
+  /** 刷新吐槽的时间线 */
+  fetchTimeline = () => {
+    const type = MODEL_TIMELINE_TYPE.getValue<TimeLineType>('吐槽')
+    return timelineStore.fetchTimeline(
+      {
+        scope: 'friend',
+        type
+      },
+      true
+    )
   }
 
   // -------------------- get --------------------
@@ -240,7 +244,7 @@ export default class ScreenSay extends store {
         formhash: this.formhash
       },
       // @ts-expect-error
-      responseText => {
+      async (responseText: string) => {
         let res = {}
         try {
           res = JSON.parse(responseText)
@@ -262,6 +266,20 @@ export default class ScreenSay extends store {
         feedback()
         info('吐槽成功')
         navigation.goBack()
+
+        setTimeout(async () => {
+          const data = await this.fetchTimeline()
+          const item = data?.list?.[0]
+          if (item?.clearHref) {
+            webhookSay(
+              {
+                content: item?.reply?.content,
+                url: item?.reply?.url
+              },
+              userStore.userInfo
+            )
+          }
+        }, 4000)
       }
     )
   }

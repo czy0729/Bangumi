@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 22:13:38
+ * @Last Modified time: 2023-03-10 01:49:07
  */
 import {
   calendarStore,
@@ -33,14 +33,14 @@ import {
 import { t, baiduTranslate } from '@utils/fetch'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { download, temp } from '@utils/kv'
-import { SITES, MODEL_EP_STATUS } from '@constants'
+import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
+  MODEL_EP_STATUS,
+  SITES,
   SITE_AGEFANS,
   SITE_MANHUADB,
-  SITE_RRYS,
-  SITE_WK8,
-  SITE_XUNBO
-} from '@constants/site'
+  SITE_WK8
+} from '@constants'
 import i18n from '@constants/i18n'
 import { EpStatus, Id, Navigation, RatingStatus, UserId } from '@types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
@@ -164,12 +164,6 @@ export default class Action extends Fetch {
             url = `https://anime1.me/?s=${encodeURIComponent(s2t(this.cn || this.jp))}`
             break
 
-          case '迅播动漫':
-            url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(
-              this.cn || this.jp
-            )}`
-            break
-
           case '奇奇动漫':
             url = `https://www.qiqidongman.com/vod-search-wd-${encodeURIComponent(
               this.cn || this.jp
@@ -180,12 +174,6 @@ export default class Action extends Fetch {
             url = `https://hanime1.me/search?query=${encodeURIComponent(
               this.jp || this.cn
             )}`
-            break
-
-          case '人人影视':
-            url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
-              this.cn || this.jp
-            )}&type=resource`
             break
 
           default:
@@ -580,6 +568,35 @@ export default class Action extends Fetch {
   })
 
   // -------------------- action --------------------
+  /** 管理收藏 */
+  doUpdateCollection = async (
+    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
+  ) => {
+    t('条目.管理收藏', {
+      subjectId: this.subjectId
+    })
+
+    try {
+      this.prepareFlip()
+      this.setState({
+        disabled: true
+      })
+      await collectionStore.doUpdateCollection({
+        ...values,
+        noConsole: true
+      })
+      collectionStore.fetchCollection(this.subjectId)
+      this.closeManageModal()
+      webhookCollection(values, this.subject, userStore.userInfo)
+    } catch (error) {
+      console.error(NAMESPACE, 'doUpdateCollection', error)
+    }
+
+    this.setState({
+      disabled: false
+    })
+  }
+
   /** 章节菜单操作 */
   doEpsSelect = async (
     value: string,
@@ -700,6 +717,15 @@ export default class Action extends Fetch {
           })
           userStore.fetchUserCollection()
           userStore.fetchUserProgress(this.subjectId)
+          webhookEp(
+            {
+              ...item,
+              status,
+              batch: false
+            },
+            this.subject,
+            userStore.userInfo
+          )
         }
 
         if (value === '看到') {
@@ -718,7 +744,7 @@ export default class Action extends Fetch {
             .sort((a, b) => asc(a, b, item => item.sort || 0))
             .findIndex(i => i.sort === item.sort)
 
-          let value
+          let value: number
           if (sort === -1) {
             /**
              * @issue API bug, 多季度番剧使用item.sort不适用, 若item.sort > totalEps, 适用排序的index
@@ -742,8 +768,16 @@ export default class Action extends Fetch {
           })
           userStore.fetchUserCollection()
           userStore.fetchUserProgress(this.subjectId)
+          webhookEp(
+            {
+              ...item,
+              status: 'watched',
+              batch: true
+            },
+            this.subject,
+            userStore.userInfo
+          )
         }
-
         return
       }
 
@@ -753,38 +787,7 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 管理收藏 */
-  doUpdateCollection = async (
-    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
-  ) => {
-    t('条目.管理收藏', {
-      subjectId: this.subjectId
-    })
-
-    try {
-      this.prepareFlip()
-      this.setState({
-        disabled: true
-      })
-      await collectionStore.doUpdateCollection({
-        ...values,
-        noConsole: true
-      })
-      collectionStore.fetchCollection(this.subjectId)
-      this.closeManageModal()
-    } catch (error) {
-      console.error(NAMESPACE, 'doUpdateCollection', error)
-    }
-
-    this.setState({
-      disabled: false
-    })
-  }
-
-  /**
-   * 更新书籍下一个章节
-   * @version 20220414 x18无效，待废弃，改用 doUpdateSubjectEp
-   */
+  /** 更新书籍下一个章节 */
   doUpdateNext = async (name: string | number) => {
     t('条目.更新书籍下一个章节', {
       subjectId: this.subjectId
@@ -798,38 +801,38 @@ export default class Action extends Fetch {
       vol,
       [name]: next
     }
+
+    // 20220414 x18 无效，待废弃，改用 doUpdateSubjectEp
     this.doUpdateEp({
       eps: query.chap,
       vol: query.vol
     })
   }
 
-  /**
-   * 更新书籍章节
-   * @version 20220414 x18无效，待废弃，改用doUpdateEp
-   */
+  /** 更新书籍章节 */
   doUpdateBookEp = async () => {
     t('条目.更新书籍章节', {
       subjectId: this.subjectId
     })
 
     const { chap, vol } = this.state
+
+    // 20220414 x18 无效，待废弃，改用 doUpdateEp
     this.doUpdateEp({
       eps: chap,
       vol
     })
   }
 
-  /**
-   * 输入框更新章节
-   * @version 20220414 x18无效，待废弃，改用doUpdateEp
-   */
+  /** 输入框更新章节 */
   doUpdateSubjectEp = async () => {
     t('条目.输入框更新章节', {
       subjectId: this.subjectId
     })
 
     const { watchedEps } = this.state
+
+    // 20220414 x18 无效，待废弃，改用 doUpdateEp
     this.doUpdateEp({
       eps: watchedEps
     })
@@ -852,6 +855,17 @@ export default class Action extends Fetch {
           this.fetchSubjectFormHTML()
           this.setStorage(undefined, undefined, this.namespace)
           info('更新成功')
+
+          webhookEp(
+            {
+              status: 'watched',
+              sort: eps,
+              vols: vol,
+              batch: false
+            },
+            this.subject,
+            userStore.userInfo
+          )
         }
       )
     } catch (error) {

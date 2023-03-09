@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-25 18:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 17:38:20
+ * @Last Modified time: 2023-03-09 19:52:34
  */
 /** 条目类型 1: 书籍, 2: 动画, 3: 音乐, 4: 游戏, 6: 三次元 (没有 5) */
 export type SubjectType = 1 | 2 | 3 | 4 | 6
@@ -51,11 +51,11 @@ export type User = {
 }
 
 /** 函数约束 */
-export type WebHooksTypes = WebHookUserCollection & WebHookUserEp
+export type WebHooksTypes = WebHookCollection & WebHookEp & WebHookSay
 
 /** 更新收藏 */
-export type WebHookUserCollection = (
-  type: 'user_collection',
+export type WebHookCollection = (
+  type: 'collection',
   data: {
     type: CollectionType
     rate: number
@@ -69,8 +69,8 @@ export type WebHookUserCollection = (
 ) => any
 
 /** 更新章节 */
-export type WebHookUserEp = (
-  type: 'user_ep',
+export type WebHookEp = (
+  type: 'ep',
   data: {
     type: StatusType
     batch: boolean
@@ -78,6 +78,17 @@ export type WebHookUserEp = (
     vols?: number
     ep: Ep
     subject: Subject
+    user: User
+    ts: number
+  }
+) => any
+
+/** 新吐槽 */
+export type WebHookSay = (
+  type: 'say',
+  data: {
+    content: string
+    url: string
     user: User
     ts: number
   }

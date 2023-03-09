@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 17:47:50
+ * @Last Modified time: 2023-03-10 01:46:25
  */
 import { collectionStore, userStore } from '@stores'
 import {
@@ -31,7 +31,7 @@ import {
   calendarGetEventsAsync
 } from '@utils/calendar'
 import { download, temp } from '@utils/kv'
-import { webhookEp, webhookUserCollection } from '@utils/webhooks'
+import { webhookEp, webhookCollection } from '@utils/webhooks'
 import {
   IOS,
   MODEL_COLLECTION_STATUS,
@@ -387,7 +387,7 @@ export default class Action extends Fetch {
     }
 
     this.closeManageModal()
-    webhookUserCollection(values, this.subject(values.subjectId), userStore.userInfo)
+    webhookCollection(values, this.subject(values.subjectId), userStore.userInfo)
   }
 
   /** 观看下一章节 */
@@ -541,10 +541,10 @@ export default class Action extends Fetch {
       let sort: number
 
       if (eps?.[0]?.sort < 10) {
-        // [0].sort从小于10开始的番剧都认为是非多季番, 直接使用正常sort去更新
+        // [0].sort 从小于 10 开始的番剧都认为是非多季番, 直接使用正常 sort 去更新
         sort = Math.max(item.sort - 1, 0)
       } else {
-        // 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
+        // 多季度非 1 开始的番不能直接使用 sort, 需要把 sp 去除后使用当前 item.sort 查找 index
         sort = eps.findIndex(i => i.sort === item.sort)
       }
 
