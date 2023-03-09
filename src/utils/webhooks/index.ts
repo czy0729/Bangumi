@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 15:04:43
+ * @Last Modified time: 2023-03-09 17:45:33
  */
 import axios from '@utils/thirdParty/axios'
-import { DEV, MODEL_COLLECTION_STATUS } from '@constants'
+import { MODEL_COLLECTION_STATUS } from '@constants'
+import { runAfter, getTimestamp } from '../utils'
+import { t } from '../track'
 import {
   WebHooksTypes,
   SubjectType as WebHooksSubjectType,
   CollectionType as WebHooksCollectionType
 } from './types'
-import { runAfter, getTimestamp } from '../utils'
-import { t } from '../track'
 
 /** 钩子 */
-export const webhooks: WebHooksTypes = (type, data) => {
+const webhook: WebHooksTypes = (type, data) => {
   if (!type) return false
 
   try {
@@ -35,12 +35,10 @@ export const webhooks: WebHooksTypes = (type, data) => {
   } catch (ex) {}
 }
 
-/** 钩子: [收藏] 修改用户单个收藏 */
-export const webhooksUsersCollections = (values, subject, userInfo) => {
-  if (!DEV) return
-
-  const type = 'users_collections'
-  webhooks(type, {
+/** 钩子: 更新收藏 */
+export const webhookUserCollection = (values, subject, userInfo) => {
+  const type = 'user_collection'
+  webhook(type, {
     type: Number(
       MODEL_COLLECTION_STATUS.getTitle<WebHooksCollectionType>(values?.status)
     ) as WebHooksCollectionType,
@@ -48,6 +46,59 @@ export const webhooksUsersCollections = (values, subject, userInfo) => {
     comment: values?.comment || '',
     private: !!values?.privacy,
     tags: String(values?.tags || '').split(' '),
+    subject: {
+      id: Number(subject?.id || 0),
+      image: subject?.images?.common || '',
+      name: subject?.name || '',
+      name_cn: subject?.name_cn || '',
+      type: Number(subject?.type) as WebHooksSubjectType,
+      rating: {
+        rank: subject?.rank || 0,
+        total: subject?.rating?.total || 0,
+        score: subject?.rating?.score || 0
+      },
+      eps: subject?.eps_count
+    },
+    user: {
+      id: userInfo?.id || 0,
+      username: userInfo?.username || '',
+      avatar: userInfo?.avatar?.large || '',
+      nickname: userInfo?.nickname || '',
+      sign: userInfo?.sign || ''
+    },
+    ts: getTimestamp()
+  })
+
+  t('其他.Webhooks', {
+    type,
+    subjectId: Number(subject?.id || 0),
+    username: userInfo?.username || 0
+  })
+}
+
+/** 钩子: 更新章节 */
+export const webhookEp = (values, subject, userInfo) => {
+  const type = 'user_ep'
+  const ep = (subject?.eps || []).find(item => item.id === values.id)
+
+  const statusUnits = {
+    queue: 1,
+    watched: 2,
+    drop: 3
+  } as const
+  webhook(type, {
+    type: statusUnits[values.status] || 0,
+    batch: values.batch || false,
+    eps: Number(ep?.sort || values.sort) || undefined,
+    vols: Number(values.vols) || undefined,
+    ep: {
+      id: values.id || ep?.id || 0,
+      airdate: ep?.airdate || '',
+      name: ep?.name || '',
+      name_cn: ep?.name_cn || '',
+      duration: ep?.duration || '',
+      comment: ep?.comment || 0
+    },
     subject: {
       id: Number(subject?.id || 0),
       image: subject?.images?.common || '',

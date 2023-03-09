@@ -2,12 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-02-25 18:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-26 03:28:58
+ * @Last Modified time: 2023-03-09 17:38:20
  */
-/**
- * 条目类型
- * 1: 书籍, 2: 动画, 3: 音乐, 4: 游戏, 6: 三次元, 没有 5
- * */
+/** 条目类型 1: 书籍, 2: 动画, 3: 音乐, 4: 游戏, 6: 三次元 (没有 5) */
 export type SubjectType = 1 | 2 | 3 | 4 | 6
 
 /** 评分相关 */
@@ -17,12 +14,13 @@ export type RatingType = {
   score: number
 }
 
-/**
- * 收藏状态
- * 1: 想看, 2: 看过, 3: 在看, 4: 搁置, 5: 抛弃
- * */
+/** 收藏状态 1: 想看, 2: 看过, 3: 在看, 4: 搁置, 5: 抛弃 */
 export type CollectionType = 1 | 2 | 3 | 4 | 5
 
+/** 章节状态 0: 未收藏, 1: 想看, 2: 看过, 3: 抛弃 */
+export type StatusType = 0 | 1 | 2 | 3
+
+/** 条目简略信息 */
 export type Subject = {
   id: number
   image: string
@@ -30,9 +28,20 @@ export type Subject = {
   name_cn: string
   type: SubjectType
   rating: RatingType
-  eps: number
+  eps: number | ''
 }
 
+/** 章节简略信息 (书籍、音乐、游戏没有章节信息) */
+export type Ep = {
+  id?: number
+  airdate?: string
+  name?: string
+  name_cn?: string
+  duration?: string
+  comment?: number
+}
+
+/** 操作用户简略信息 */
 export type User = {
   id: number
   username: string
@@ -41,9 +50,12 @@ export type User = {
   sign: string
 }
 
-/** [收藏] 修改用户单个收藏 */
-export type WebHooksUsersCollections = (
-  type: 'users_collections',
+/** 函数约束 */
+export type WebHooksTypes = WebHookUserCollection & WebHookUserEp
+
+/** 更新收藏 */
+export type WebHookUserCollection = (
+  type: 'user_collection',
   data: {
     type: CollectionType
     rate: number
@@ -56,4 +68,17 @@ export type WebHooksUsersCollections = (
   }
 ) => any
 
-export type WebHooksTypes = WebHooksUsersCollections
+/** 更新章节 */
+export type WebHookUserEp = (
+  type: 'user_ep',
+  data: {
+    type: StatusType
+    batch: boolean
+    eps: number
+    vols?: number
+    ep: Ep
+    subject: Subject
+    user: User
+    ts: number
+  }
+) => any

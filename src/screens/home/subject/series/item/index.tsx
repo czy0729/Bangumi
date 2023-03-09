@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-24 19:20:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:54:23
+ * @Last Modified time: 2023-03-09 15:26:06
  */
 import React from 'react'
 import { Touchable, Heatmap, Text, Flex } from '@components'
@@ -42,7 +42,7 @@ function Item({ from, data }, { $, navigation }: Ctx) {
           src={data.image || IMG_DEFAULT}
           size={COVER_WIDTH}
           height={COVER_HEIGHT}
-          radius={_.radiusXs}
+          radius={4}
           fadeDuration={0}
           noDefault
         />

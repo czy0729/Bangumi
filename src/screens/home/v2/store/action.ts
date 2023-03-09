@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 23:09:27
+ * @Last Modified time: 2023-03-09 17:47:50
  */
 import { collectionStore, userStore } from '@stores'
 import {
@@ -31,7 +31,7 @@ import {
   calendarGetEventsAsync
 } from '@utils/calendar'
 import { download, temp } from '@utils/kv'
-import { webhooksUsersCollections } from '@utils/webhooks'
+import { webhookEp, webhookUserCollection } from '@utils/webhooks'
 import {
   IOS,
   MODEL_COLLECTION_STATUS,
@@ -77,11 +77,7 @@ export default class Action extends Fetch {
     this.setStorage(NAMESPACE)
   }
 
-  /**
-   * 显示收藏管理 <Modal>
-   * @param {*} subjectId
-   * @param {*} modal 游戏没有主动请求条目数据, 需要手动传递标题
-   */
+  /** 显示收藏管理 Modal */
   showManageModal = (subjectId: SubjectId, modal?: typeof EXCLUDE_STATE.modal) => {
     t('首页.显示收藏管理', {
       subjectId
@@ -90,7 +86,7 @@ export default class Action extends Fetch {
     this.setState({
       visible: true,
       subjectId,
-      modal: modal || EXCLUDE_STATE.modal
+      modal: modal || EXCLUDE_STATE.modal // 游戏没有主动请求条目数据, 需要手动传递标题
     })
   }
 
@@ -374,6 +370,26 @@ export default class Action extends Fetch {
   })
 
   /** -------------------- action -------------------- */
+  /** 管理收藏 */
+  doUpdateCollection = async (
+    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
+  ) => {
+    t('首页.管理收藏', {
+      subjectId: values.subjectId
+    })
+
+    await collectionStore.doUpdateCollection(values)
+    feedback()
+
+    // 不是在看的话要删掉对应条目信息
+    if (values.status !== MODEL_COLLECTION_STATUS.getValue<RatingStatus>('在看')) {
+      userStore.removeCollection(values.subjectId)
+    }
+
+    this.closeManageModal()
+    webhookUserCollection(values, this.subject(values.subjectId), userStore.userInfo)
+  }
+
   /** 观看下一章节 */
   doWatchedNextEp = async (subjectId: SubjectId) => {
     const state = this.$Item(subjectId)
@@ -412,6 +428,15 @@ export default class Action extends Fetch {
     })
     userStore.fetchCollectionSingle(subjectId)
     this.fetchUserProgress(subjectId)
+    webhookEp(
+      {
+        status: 'watched',
+        id,
+        batch: false
+      },
+      this.subject(subjectId),
+      userStore.userInfo
+    )
   }
 
   /** 更新书籍下一个章节 */
@@ -429,28 +454,18 @@ export default class Action extends Fetch {
       () => {
         feedback()
         userStore.fetchCollectionSingle(subjectId)
+        webhookEp(
+          {
+            status: 'watched',
+            sort: epStatus,
+            vols: volStatus,
+            batch: false
+          },
+          this.subject(subjectId),
+          userStore.userInfo
+        )
       }
     )
-  }
-
-  /** 管理收藏 */
-  doUpdateCollection = async (
-    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
-  ) => {
-    t('首页.管理收藏', {
-      subjectId: values.subjectId
-    })
-
-    await collectionStore.doUpdateCollection(values)
-    feedback()
-
-    // 不是在看的话要删掉对应条目信息
-    if (values.status !== MODEL_COLLECTION_STATUS.getValue<RatingStatus>('在看')) {
-      userStore.removeCollection(values.subjectId)
-    }
-
-    this.closeManageModal()
-    webhooksUsersCollections(values, this.subject(values.subjectId), userStore.userInfo)
   }
 
   /** 章节菜单操作 */
@@ -502,6 +517,15 @@ export default class Action extends Fetch {
       })
       userStore.fetchCollectionSingle(subjectId)
       this.fetchUserProgress(subjectId)
+      webhookEp(
+        {
+          ...item,
+          status,
+          batch: false
+        },
+        this.subject(subjectId),
+        userStore.userInfo
+      )
     }
 
     if (value === '看到') {
@@ -532,6 +556,15 @@ export default class Action extends Fetch {
       })
       userStore.fetchCollectionSingle(subjectId)
       this.fetchUserProgress(subjectId)
+      webhookEp(
+        {
+          ...item,
+          status,
+          batch: true
+        },
+        this.subject(subjectId),
+        userStore.userInfo
+      )
     }
 
     // iOS 是本集讨论, 安卓是 (+N)...
