@@ -3,10 +3,15 @@
  * @Author: czy0729
  * @Date: 2023-02-25 17:52:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 01:50:41
+ * @Last Modified time: 2023-03-10 03:15:25
  */
 /** 类型可以到下方文件查看 */
-import { WebHookCollection, WebHookEp, WebHookSay } from '../src/utils/webhooks/types'
+import {
+  WebHookCollection,
+  WebHookEp,
+  WebHookMono,
+  WebHookSay
+} from '../src/utils/webhooks/types'
 
 /** 判断调用参数是否符合预期 */
 type Test<T extends (...args: any) => any> = {
@@ -257,9 +262,57 @@ export const ep_3: Test<WebHookEp> = {
 /** 新日志 (暂无) */
 
 /** ==================== 人物 ==================== */
-/** 收藏人物 */
+/**
+ * 收藏人物 (示例1: 现实人物)
+ *
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 收藏了人物 [佐倉綾音](https://bgm.tv/person/5745)
+ * 30秒前
+ * */
+export const mono_1: Test<WebHookMono> = {
+  type: 'mono',
+  data: {
+    mono: {
+      id: 'person/5745',
+      name: '佐倉綾音',
+      name_cn: '佐仓绫音',
+      cover: '//lain.bgm.tv/pic/crt/s/b3/1a/5745_prsn_0GjVg.jpg'
+    },
+    user: {
+      id: 456208,
+      username: 'sukaretto',
+      avatar: 'http://lain.bgm.tv/pic/user/l/000/45/62/456208.jpg?r=1677056307&hd=1',
+      nickname: '咕咕子❶',
+      sign: '✨️make bangumi great again✨️'
+    },
+    ts: 1678388949
+  }
+}
 
-/** 收藏角色 */
+/**
+ * 收藏人物 (示例2: 虚拟角色)
+ *
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 收藏了角色 [成沢稜歌](https://bgm.tv/character/39617)
+ * 30秒前
+ * */
+export const mono_2: Test<WebHookMono> = {
+  type: 'mono',
+  data: {
+    mono: {
+      id: 'character/39617',
+      name: '成沢稜歌',
+      name_cn: '成泽稜歌',
+      cover: '//lain.bgm.tv/pic/crt/s/cb/34/39617_crt_vYJUV.jpg'
+    },
+    user: {
+      id: 456208,
+      username: 'sukaretto',
+      avatar: 'http://lain.bgm.tv/pic/user/l/000/45/62/456208.jpg?r=1677056307&hd=1',
+      nickname: '咕咕子❶',
+      sign: '✨️make bangumi great again✨️'
+    },
+    ts: 1678389210
+  }
+}
 
 /** ==================== 好友 ==================== */
 /** 加为好友 */

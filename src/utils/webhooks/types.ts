@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-25 18:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 19:52:34
+ * @Last Modified time: 2023-03-10 03:15:50
  */
 /** 条目类型 1: 书籍, 2: 动画, 3: 音乐, 4: 游戏, 6: 三次元 (没有 5) */
 export type SubjectType = 1 | 2 | 3 | 4 | 6
@@ -51,7 +51,7 @@ export type User = {
 }
 
 /** 函数约束 */
-export type WebHooksTypes = WebHookCollection & WebHookEp & WebHookSay
+export type WebHooksTypes = WebHookCollection & WebHookEp & WebHookSay & WebHookMono
 
 /** 更新收藏 */
 export type WebHookCollection = (
@@ -89,6 +89,21 @@ export type WebHookSay = (
   data: {
     content: string
     url: string
+    user: User
+    ts: number
+  }
+) => any
+
+/** 收藏人物 */
+export type WebHookMono = (
+  type: 'mono',
+  data: {
+    mono: {
+      id: `${'person' | 'character'}/${number}`
+      name: string
+      name_cn: string
+      cover: string
+    }
     user: User
     ts: number
   }

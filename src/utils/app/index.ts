@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 19:53:55
+ * @Last Modified time: 2023-03-10 03:03:58
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -667,6 +667,16 @@ export function getCoverLarge(src = '') {
   }
 
   return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
+}
+
+/**
+ * //lain.bgm.tv/r/400/pic/crt/l/24/b3/5001_prsn_f0K7s.jpg =>
+ * //lain.bgm.tv/pic/crt/s/24/b3/5001_prsn_f0K7s.jpg */
+export function getMonoCoverSmall(url: string): string {
+  return url.replace(
+    /\/\/lain.bgm.tv\/r\/\d+\/pic\/crt\/(g|m|c|l)\//,
+    '//lain.bgm.tv/pic/crt/s/'
+  )
 }
 
 /** 小圣杯时间格式化 */

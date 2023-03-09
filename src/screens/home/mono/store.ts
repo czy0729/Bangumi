@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:10:39
+ * @Last Modified time: 2023-03-10 03:05:42
  */
 import { observable, computed } from 'mobx'
-import { subjectStore, tinygrailStore, systemStore } from '@stores'
+import { subjectStore, tinygrailStore, systemStore, userStore } from '@stores'
 import {
   HTMLDecode,
   cnjp,
@@ -23,6 +23,7 @@ import {
 import store from '@utils/store'
 import { fetchHTML, t, baiduTranslate } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
 import { Id, Navigation } from '@types'
 import { STATE } from './ds'
@@ -55,7 +56,7 @@ export default class ScreenMono extends store {
    * @opitimize 1h
    * */
   fetchMono = (refresh: boolean = false) => {
-    if (refresh && opitimize(this.mono, 60 * 60) && this.monoComments.list.length) {
+    if (!refresh && opitimize(this.mono, 60 * 60) && this.monoComments.list.length) {
       return true
     }
 
@@ -301,6 +302,13 @@ export default class ScreenMono extends store {
     })
     feedback()
     info('已收藏')
+    webhookMono(
+      {
+        ...this.mono,
+        id: this.monoId
+      },
+      userStore.userInfo
+    )
 
     return this.fetchMono(true)
   }

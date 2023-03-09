@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 01:54:28
+ * @Last Modified time: 2023-03-10 03:04:55
  */
 import axios from '@utils/thirdParty/axios'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { runAfter, getTimestamp } from '../utils'
+import { getMonoCoverSmall } from '../app'
 import { t } from '../track'
 import {
   WebHooksTypes,
@@ -162,6 +163,32 @@ export const webhookSay = (
   webhook(type, {
     content: values.content || '新吐槽',
     url: values.url || '',
+    user: {
+      id: userInfo?.id || 0,
+      username: userInfo?.username || '',
+      avatar: userInfo?.avatar?.large || '',
+      nickname: userInfo?.nickname || '',
+      sign: userInfo?.sign || ''
+    },
+    ts: getTimestamp()
+  })
+
+  t('其他.Webhooks', {
+    type,
+    username: userInfo?.username || 0
+  })
+}
+
+/** 钩子: 收藏人物 */
+export const webhookMono = (mono: any, userInfo: any) => {
+  const type = 'mono'
+  webhook(type, {
+    mono: {
+      id: mono.id,
+      name: mono.name,
+      name_cn: mono.nameCn,
+      cover: getMonoCoverSmall(mono.cover)
+    },
     user: {
       id: userInfo?.id || 0,
       username: userInfo?.username || '',
