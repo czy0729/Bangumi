@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-20 11:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-22 12:33:13
+ * @Last Modified time: 2023-03-10 18:49:25
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -63,6 +63,27 @@ function Katakana({ navigation, filter }) {
             {...TEXTS.origin}
           >
             <Heatmap id='设置.跳转' to='OriginSetting' alias='自定义源头' />
+          </ItemSetting>
+
+          {/* Webhook */}
+          <ItemSetting
+            arrow
+            highlight
+            filter={filter}
+            onPress={() => {
+              t('设置.跳转', {
+                title: 'Webhook',
+                to: 'Webhook'
+              })
+
+              setFalse()
+              setTimeout(() => {
+                navigation.push('Webhook')
+              }, 80)
+            }}
+            {...TEXTS.webhook}
+          >
+            <Heatmap id='设置.跳转' to='Webhook' alias='Webhook' />
           </ItemSetting>
 
           {/* 翻译引擎 */}

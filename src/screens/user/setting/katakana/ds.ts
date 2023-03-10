@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-22 12:33:45
+ * @Last Modified time: 2023-03-10 18:43:40
  */
 export const TEXTS = {
   engine: {
@@ -29,5 +29,9 @@ export const TEXTS = {
   origin: {
     hd: '源头',
     information: '给不同类型的条目，自定义通用跳转'
+  },
+  webhook: {
+    hd: 'Webhook',
+    information: '影响用户时间线的操作，允许通知外部自定义接口'
   }
 } as const

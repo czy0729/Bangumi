@@ -3,26 +3,30 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 14:23:15
+ * @Last Modified time: 2023-03-10 19:56:30
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useObserver } from 'mobx-react-lite'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
 import { styles } from './styles'
-import { Props } from './types'
+import { Props as ExpandProps } from './types'
+
+export { ExpandProps }
 
 export const Expand = ({
   style,
   moreStyle,
   ratio = 1,
+  linearGradient = true,
   onExpand: onExpandCb,
   children
-}: Props) => {
+}: ExpandProps) => {
   const aHeight = useRef(new Animated.Value(0))
   const ratioHeight = _.r(216) * ratio
 
@@ -84,16 +88,18 @@ export const Expand = ({
       </View>
       {!expand && (
         <>
-          <LinearGradient
-            style={styles.linear}
-            colors={[
-              `rgba(${_.colorPlainRaw.join()}, 0)`,
-              `rgba(${_.colorPlainRaw.join()}, 0.32)`,
-              `rgba(${_.colorPlainRaw.join()}, 0.8)`,
-              `rgba(${_.colorPlainRaw.join()}, 1)`
-            ]}
-          />
-          <View style={moreStyle ? [styles.more, moreStyle] : styles.more}>
+          {linearGradient && (
+            <LinearGradient
+              style={styles.linear}
+              colors={[
+                `rgba(${_.colorPlainRaw.join()}, 0)`,
+                `rgba(${_.colorPlainRaw.join()}, 0.32)`,
+                `rgba(${_.colorPlainRaw.join()}, 0.8)`,
+                `rgba(${_.colorPlainRaw.join()}, 1)`
+              ]}
+            />
+          )}
+          <View style={stl(styles.more, moreStyle)}>
             <Touchable onPress={onExpand}>
               <Flex justify='center'>
                 <Iconfont name='md-keyboard-arrow-down' size={_.device(24, 32)} />

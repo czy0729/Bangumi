@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 05:38:40
+ * @Last Modified time: 2023-03-10 18:52:27
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -324,6 +324,12 @@ export const INIT_SETTING = {
 
   /** 追踪用户三次元评论 ids */
   commentReal: [],
+
+  /** 是否启用 webhook */
+  webhook: false,
+
+  /** webhook 地址 */
+  webhookUrl: '',
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT

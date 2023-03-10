@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-03 00:03:43
+ * @Last Modified time: 2023-03-10 20:16:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { getSystemStoreAsync } from '@utils/async'
-import { DEV, IOS } from '@constants'
+import { IOS } from '@constants'
 import TouchableWithoutFeedback from './touchable-without-feedback'
 import TouchableNativeFeedback from './touchable-native-feedback'
 import TouchableHighlight from './touchable-highlight'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 17:06:52
+ * @Last Modified time: 2023-03-10 19:25:30
  */
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { getTimestamp } from '../utils'
@@ -13,9 +13,12 @@ import {
   getMono,
   getSubject,
   getUserInfo,
-  webhook
+  webhook,
+  logs
 } from './utils'
 import { CollectionType as WebHooksCollectionType } from './types'
+
+export { logs }
 
 /** 钩子: 更新收藏 */
 export const webhookCollection = (

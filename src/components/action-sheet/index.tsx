@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:17:54
+ * @Last Modified time: 2023-03-10 20:17:44
  */
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'
 import { useObserver } from 'mobx-react-lite'
 import { _ } from '@stores'
@@ -28,7 +28,7 @@ export const ActionSheet = ({
   onClose,
   children
 }: ActionSheetProps) => {
-  const [y] = useState(new Animated.Value(0))
+  const y = useRef(new Animated.Value(0))
   const [_show, _setShow] = useState(show)
 
   const _onShow = useCallback(() => {
@@ -40,17 +40,17 @@ export const ActionSheet = ({
     }
 
     setTimeout(() => {
-      Animated.timing(y, {
+      Animated.timing(y.current, {
         toValue: 1,
         duration: 160,
         useNativeDriver: true
       }).start()
     }, 0)
-  }, [y])
+  }, [])
   const _onClose = useCallback(() => {
     if (_show) {
       onClose()
-      Animated.timing(y, {
+      Animated.timing(y.current, {
         toValue: 0,
         duration: 160,
         useNativeDriver: true
@@ -59,7 +59,7 @@ export const ActionSheet = ({
         _setShow(false)
       }, 240)
     }
-  }, [_show, onClose, y])
+  }, [_show, onClose])
 
   useEffect(() => {
     if (show) {
@@ -87,16 +87,15 @@ export const ActionSheet = ({
     return (
       <Portal>
         <View style={styles.actionSheet}>
-          <Touchable style={styles.wrap} useRN ripple={false} onPress={onClose}>
-            <Animated.View
-              style={[
-                styles.mask,
-                {
-                  opacity: y
-                }
-              ]}
-            />
-          </Touchable>
+          <Animated.View
+            style={[
+              styles.mask,
+              {
+                opacity: y.current
+              }
+            ]}
+          />
+          <Touchable style={styles.wrap} useRN ripple={false} onPress={onClose} />
           <Animated.View
             style={[
               styles.content,
@@ -104,7 +103,7 @@ export const ActionSheet = ({
                 height: h,
                 transform: [
                   {
-                    translateY: y.interpolate({
+                    translateY: y.current.interpolate({
                       inputRange: [0, 1],
                       outputRange: [h, 0]
                     })

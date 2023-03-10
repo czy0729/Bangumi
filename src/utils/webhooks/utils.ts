@@ -2,33 +2,85 @@
  * @Author: czy0729
  * @Date: 2023-03-10 14:02:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 17:53:53
+ * @Last Modified time: 2023-03-10 20:19:51
  */
+import { observable, runInAction } from 'mobx'
 import axios from '@utils/thirdParty/axios'
-import { runAfter } from '../utils'
+import { getTimestamp, runAfter } from '../utils'
 import { removeHTMLTag } from '../html'
 import { getMonoCoverSmall, getSubjectCoverCommon } from '../app'
+import { getSystemStoreAsync } from '../async'
 import { WebHooksTypes, SubjectType as WebHooksSubjectType } from './types'
+
+export const logs = observable<{
+  label: string
+  content: string
+  ts: number
+}>([])
+
+const MAX_LENGTH = 16
 
 /** 钩子 */
 export const webhook: WebHooksTypes = (type: string, data: any) => {
   if (!type) return false
 
   try {
+    const systemStore = getSystemStoreAsync()
+    if (!systemStore.setting.webhook) return false
+
     // 保证这种低优先级的操作在 UI 响应之后再执行
     runAfter(async () => {
-      // @ts-expect-error
-      const res = await axios({
-        method: 'post',
-        url: `https://postman-echo.com/post`,
-        data: {
-          type,
-          data: data || {}
+      try {
+        const { webhookUrl } = systemStore.setting
+        const params = {
+          method: 'post',
+          url: webhookUrl || `https://postman-echo.com/post`,
+          data: {
+            type,
+            data: data || {}
+          }
         }
-      })
-      console.info('webhook:', type, JSON.stringify(res?.data?.data, null, 2))
+
+        runInAction(() => {
+          logs.unshift({
+            label: 'POST',
+            content: JSON.stringify(params, null, 2),
+            ts: getTimestamp()
+          })
+          if (logs.length > MAX_LENGTH) logs.pop()
+        })
+
+        // @ts-expect-error
+        const res = await axios(params)
+        runInAction(() => {
+          logs.unshift({
+            label: 'RESULT',
+            content: JSON.stringify(res?.data?.data, null, 2),
+            ts: getTimestamp()
+          })
+          if (logs.length > MAX_LENGTH) logs.pop()
+        })
+      } catch (error) {
+        runInAction(() => {
+          logs.unshift({
+            label: 'ERROR',
+            content: error?.message || '',
+            ts: getTimestamp()
+          })
+          if (logs.length > MAX_LENGTH) logs.pop()
+        })
+      }
     })
-  } catch (ex) {}
+  } catch (error) {
+    runInAction(() => {
+      logs.unshift({
+        label: 'ERROR',
+        content: 'unknow error',
+        ts: getTimestamp()
+      })
+      if (logs.length > MAX_LENGTH) logs.pop()
+    })
+  }
 }
 
 export function getSubject(subject: any) {
