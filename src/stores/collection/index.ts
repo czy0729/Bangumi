@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-07 19:32:29
+ * @Last Modified time: 2023-03-10 16:29:29
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -684,7 +684,7 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     tags?: string
     comment?: string
     rating?: string | number
-    privacy?: 0 | 1
+    privacy?: any // 0 | 1
     noConsole?: boolean
   }) => {
     const {

@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-20 10:08:38
+ * @Last Modified time: 2023-03-10 17:26:25
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
-// import { DEV } from '@/config'
+import { DEV } from '@/config'
 import { contextTypes } from '@constants/constants'
 import { Navigation } from '@types'
 import { urlStringify } from '../index'
@@ -51,10 +51,10 @@ const Inject = (Store, config?: Config) => {
           const key = getScreenKey(route)
           this.$ = Stores.get(key)
 
-          // if (!this.$ || DEV) {
-          if (!this.$) {
+          // DEV 也新建保证热更新能获取到最新的代码
+          if (!this.$ || DEV) {
             this.$ = new Store()
-            this.$.params = route.params || {} // 把navigation的页面参数插入store方便使用
+            this.$.params = route.params || {} // 把 navigation 的页面参数插入 store 方便使用
           }
           if (cache) Stores.add(key, this.$)
         }

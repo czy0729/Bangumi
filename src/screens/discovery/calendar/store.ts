@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 02:50:39
+ * @Last Modified time: 2023-03-10 17:48:20
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { calendarStore, subjectStore, collectionStore } from '@stores'
+import { calendarStore, subjectStore, collectionStore, uiStore } from '@stores'
 import { desc, feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
@@ -202,5 +202,6 @@ export default class ScreenCalendar extends store {
     }, 400)
 
     this.onCloseManageModal()
+    uiStore.callWebhookCollection(values)
   }
 }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-30 22:55:40
+ * @Last Modified time: 2023-03-10 17:39:19
  */
 import { observable, computed } from 'mobx'
-import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
+import { tagStore, userStore, collectionStore, subjectStore, uiStore } from '@stores'
 import { x18, feedback, info, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
@@ -382,6 +382,7 @@ export default class ScreenBrowser extends store {
     }, 400)
 
     this.onCloseManageModal()
+    uiStore.callWebhookCollection(values)
   }
 
   /** 显示收藏管理框 */

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 16:44:18
+ * @Last Modified time: 2023-03-10 17:40:43
  */
 import { observable, computed } from 'mobx'
-import { tagStore, collectionStore, subjectStore, userStore } from '@stores'
+import { tagStore, collectionStore, subjectStore, userStore, uiStore } from '@stores'
 import { info, feedback, getTimestamp, x18 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
@@ -386,8 +386,8 @@ export default class ScreenRank extends store {
     setTimeout(() => {
       collectionStore.fetchCollectionStatusQueue([subjectId])
     }, 400)
-
     this.onCloseManageModal()
+    uiStore.callWebhookCollection(values)
   }
 
   /** 显示收藏管理框 */

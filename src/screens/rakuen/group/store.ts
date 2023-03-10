@@ -3,17 +3,18 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 04:29:30
+ * @Last Modified time: 2023-03-10 14:12:25
  */
 import { observable, computed } from 'mobx'
-import { rakuenStore } from '@stores'
+import { rakuenStore, userStore } from '@stores'
 import { info, feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import { webhookGroup } from '@utils/webhooks'
 import { HOST, LIST_EMPTY } from '@constants'
-import { Params } from './types'
 import { TopicId } from '@types'
+import { Params } from './types'
 
 const NAMESPACE = 'ScreenGroup'
 
@@ -293,6 +294,13 @@ export default class ScreenGroup extends store {
     })
     feedback()
     info('已加入小组')
+    webhookGroup(
+      {
+        ...this.groupInfo,
+        id: this.groupId
+      },
+      userStore.userInfo
+    )
 
     return this.fetchGroupInfo()
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-25 18:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 03:15:50
+ * @Last Modified time: 2023-03-10 15:44:53
  */
 /** 条目类型 1: 书籍, 2: 动画, 3: 音乐, 4: 游戏, 6: 三次元 (没有 5) */
 export type SubjectType = 1 | 2 | 3 | 4 | 6
@@ -50,8 +50,21 @@ export type User = {
   sign: string
 }
 
-/** 函数约束 */
-export type WebHooksTypes = WebHookCollection & WebHookEp & WebHookSay & WebHookMono
+/** 小组简略信息 */
+export type Group = {
+  id: string
+  title: string
+  content: string
+  cover: string
+  create: string
+}
+
+/** 目录简略信息 */
+export type Catalog = {
+  id: number
+  title: string
+  content: string
+}
 
 /** 更新收藏 */
 export type WebHookCollection = (
@@ -108,3 +121,42 @@ export type WebHookMono = (
     ts: number
   }
 ) => any
+
+/** 加为好友 */
+export type WebHookFriend = (
+  type: 'friend',
+  data: {
+    friend: User
+    user: User
+    ts: number
+  }
+) => any
+
+/** 加入小组 */
+export type WebHookGroup = (
+  type: 'group',
+  data: {
+    group: Group
+    user: User
+    ts: number
+  }
+) => any
+
+/** 收藏目录 */
+export type WebHookCatalog = (
+  type: 'catalog',
+  data: {
+    catalog: Catalog
+    user: User
+    ts: number
+  }
+) => any
+
+/** 函数约束 */
+export type WebHooksTypes = WebHookCatalog &
+  WebHookCollection &
+  WebHookEp &
+  WebHookFriend &
+  WebHookGroup &
+  WebHookMono &
+  WebHookSay

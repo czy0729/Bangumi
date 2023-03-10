@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-08 05:27:33
+ * @Last Modified time: 2023-03-10 17:50:43
  */
 import { observable, computed } from 'mobx'
-import { tagStore, collectionStore, subjectStore } from '@stores'
+import { tagStore, collectionStore, subjectStore, uiStore } from '@stores'
 import { feedback, getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
@@ -309,6 +309,7 @@ export default class ScreenTag extends store {
     }, 400)
 
     this.onCloseManageModal()
+    uiStore.callWebhookCollection(values)
   }
 
   /** 显示收藏管理框 */

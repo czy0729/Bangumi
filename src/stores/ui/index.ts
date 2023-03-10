@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 03:51:40
+ * @Last Modified time: 2023-03-10 17:51:15
  */
 import { observable, computed } from 'mobx'
 import { feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
+import { webhookCollection } from '@utils/webhooks'
 import { RatingStatus, StoreConstructor } from '@types'
 import subjectStore from '../subject'
+import userStore from '../user'
 import collectionStore from '../collection'
 import { SubmitManageModalValues } from './types'
 
@@ -190,6 +192,19 @@ class UIStore extends store implements StoreConstructor<typeof state> {
 
     this.closeManageModal()
     collectionStore.fetchCollectionStatusQueue([values.subjectId])
+    this.callWebhookCollection(values)
+  }
+
+  callWebhookCollection = (values: SubmitManageModalValues) => {
+    setTimeout(async () => {
+      let subject = subjectStore.subject(values.subjectId)
+      if (!subject._loaded) await subjectStore.fetchSubject(values.subjectId)
+
+      subject = subjectStore.subject(values.subjectId)
+      if (!subject._loaded) return false
+
+      webhookCollection(values, subject, userStore.userInfo)
+    }, 0)
   }
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 02:39:00
+ * @Last Modified time: 2023-03-10 15:44:43
  */
 import { observable, computed } from 'mobx'
 import {
@@ -26,6 +26,7 @@ import {
 import store from '@utils/store'
 import { t, fetchHTML, queue } from '@utils/fetch'
 import CacheManager from '@utils/cache-manager'
+import { webhookCatalog } from '@utils/webhooks'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
@@ -321,6 +322,13 @@ export default class ScreenCatalogDetail extends store {
     })
     feedback()
     info('已收藏')
+    webhookCatalog(
+      {
+        ...this.catalogDetail,
+        id: this.catalogId
+      },
+      userStore.userInfo
+    )
 
     return this.fetchCatalogDetail(true)
   }

@@ -2,39 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 03:04:55
+ * @Last Modified time: 2023-03-10 17:06:52
  */
-import axios from '@utils/thirdParty/axios'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { runAfter, getTimestamp } from '../utils'
-import { getMonoCoverSmall } from '../app'
+import { getTimestamp } from '../utils'
 import { t } from '../track'
 import {
-  WebHooksTypes,
-  SubjectType as WebHooksSubjectType,
-  CollectionType as WebHooksCollectionType
-} from './types'
-
-/** 钩子 */
-const webhook: WebHooksTypes = (type, data) => {
-  if (!type) return false
-
-  try {
-    // 保证这种低优先级的操作在 UI 响应之后再执行
-    runAfter(async () => {
-      // @ts-expect-error
-      const res = await axios({
-        method: 'post',
-        url: `https://postman-echo.com/post`,
-        data: {
-          type,
-          data: data || {}
-        }
-      })
-      console.info(JSON.stringify(res?.data?.data, null, 2))
-    })
-  } catch (ex) {}
-}
+  getCatalog,
+  getGroup,
+  getMono,
+  getSubject,
+  getUserInfo,
+  webhook
+} from './utils'
+import { CollectionType as WebHooksCollectionType } from './types'
 
 /** 钩子: 更新收藏 */
 export const webhookCollection = (
@@ -44,39 +25,23 @@ export const webhookCollection = (
     comment?: any
     privacy?: any
     tags?: string
-  },
+  } = {},
   subject: any,
   userInfo: any
 ) => {
   const type = 'collection'
   webhook(type, {
     type: Number(
-      MODEL_COLLECTION_STATUS.getTitle<WebHooksCollectionType>(values?.status)
+      MODEL_COLLECTION_STATUS.getTitle<WebHooksCollectionType>(values.status)
     ) as WebHooksCollectionType,
-    rate: Number(values?.rating || 0),
-    comment: values?.comment || '',
-    private: !!values?.privacy,
-    tags: String(values?.tags || '').split(' '),
-    subject: {
-      id: Number(subject?.id || 0),
-      image: subject?.images?.common || '',
-      name: subject?.name || '',
-      name_cn: subject?.name_cn || '',
-      type: Number(subject?.type) as WebHooksSubjectType,
-      rating: {
-        rank: subject?.rank || 0,
-        total: subject?.rating?.total || 0,
-        score: subject?.rating?.score || 0
-      },
-      eps: subject?.eps_count
-    },
-    user: {
-      id: userInfo?.id || 0,
-      username: userInfo?.username || '',
-      avatar: userInfo?.avatar?.large || '',
-      nickname: userInfo?.nickname || '',
-      sign: userInfo?.sign || ''
-    },
+    rate: Number(values.rating || 0),
+    comment: values.comment || '',
+    private: values.privacy == 1 ? true : false,
+    tags: String(values.tags || '')
+      .split(' ')
+      .filter(item => !!item),
+    subject: getSubject(subject),
+    user: getUserInfo(userInfo),
     ts: getTimestamp()
   })
 
@@ -95,7 +60,7 @@ export const webhookEp = (
     batch?: boolean
     sort?: any
     vols?: any
-  },
+  } = {},
   subject: any,
   userInfo: any
 ) => {
@@ -121,26 +86,8 @@ export const webhookEp = (
       duration: ep?.duration || '',
       comment: ep?.comment || 0
     },
-    subject: {
-      id: Number(subject?.id || 0),
-      image: subject?.images?.common || '',
-      name: subject?.name || '',
-      name_cn: subject?.name_cn || '',
-      type: Number(subject?.type) as WebHooksSubjectType,
-      rating: {
-        rank: subject?.rank || 0,
-        total: subject?.rating?.total || 0,
-        score: subject?.rating?.score || 0
-      },
-      eps: subject?.eps_count
-    },
-    user: {
-      id: userInfo?.id || 0,
-      username: userInfo?.username || '',
-      avatar: userInfo?.avatar?.large || '',
-      nickname: userInfo?.nickname || '',
-      sign: userInfo?.sign || ''
-    },
+    subject: getSubject(subject),
+    user: getUserInfo(userInfo),
     ts: getTimestamp()
   })
 
@@ -156,20 +103,14 @@ export const webhookSay = (
   values: {
     content?: any
     url?: any
-  },
+  } = {},
   userInfo: any
 ) => {
   const type = 'say'
   webhook(type, {
     content: values.content || '新吐槽',
     url: values.url || '',
-    user: {
-      id: userInfo?.id || 0,
-      username: userInfo?.username || '',
-      avatar: userInfo?.avatar?.large || '',
-      nickname: userInfo?.nickname || '',
-      sign: userInfo?.sign || ''
-    },
+    user: getUserInfo(userInfo),
     ts: getTimestamp()
   })
 
@@ -183,24 +124,62 @@ export const webhookSay = (
 export const webhookMono = (mono: any, userInfo: any) => {
   const type = 'mono'
   webhook(type, {
-    mono: {
-      id: mono.id,
-      name: mono.name,
-      name_cn: mono.nameCn,
-      cover: getMonoCoverSmall(mono.cover)
-    },
-    user: {
-      id: userInfo?.id || 0,
-      username: userInfo?.username || '',
-      avatar: userInfo?.avatar?.large || '',
-      nickname: userInfo?.nickname || '',
-      sign: userInfo?.sign || ''
-    },
+    mono: getMono(mono),
+    user: getUserInfo(userInfo),
     ts: getTimestamp()
   })
 
   t('其他.Webhooks', {
     type,
-    username: userInfo?.username || 0
+    monoId: mono?.id,
+    username: userInfo?.username || ''
+  })
+}
+
+/** 钩子: 加为好友 */
+export const webhookFriend = (user: any, userInfo: any) => {
+  const type = 'friend'
+  webhook(type, {
+    friend: getUserInfo(user),
+    user: getUserInfo(userInfo),
+    ts: getTimestamp()
+  })
+
+  t('其他.Webhooks', {
+    type,
+    friend: user?.username || '',
+    username: userInfo?.username || ''
+  })
+}
+
+/** 钩子: 加入小组 */
+export const webhookGroup = (group: any, userInfo: any) => {
+  const type = 'group'
+  webhook(type, {
+    group: getGroup(group),
+    user: getUserInfo(userInfo),
+    ts: getTimestamp()
+  })
+
+  t('其他.Webhooks', {
+    type,
+    group: group?.id || '',
+    username: userInfo?.username || ''
+  })
+}
+
+/** 钩子: 收藏目录 */
+export const webhookCatalog = (catalog: any, userInfo: any) => {
+  const type = 'catalog'
+  webhook(type, {
+    catalog: getCatalog(catalog),
+    user: getUserInfo(userInfo),
+    ts: getTimestamp()
+  })
+
+  t('其他.Webhooks', {
+    type,
+    catalog: catalog?.id,
+    username: userInfo?.username || ''
   })
 }

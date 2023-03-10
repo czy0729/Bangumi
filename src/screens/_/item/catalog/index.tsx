@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 16:42:24
+ * @Last Modified time: 2023-03-10 14:37:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ export const ItemCatalog = obc(
     const _collect = collect || data?.collect
     const _title = HTMLDecode(title || data?.title)
     let _desc = HTMLDecode(
-      removeHTMLTag(info || content || data?.desc || oss?.info)
+      removeHTMLTag(info || content || data?.desc || oss?.info, false)
     ).replace(/\n/g, ' ')
     if (_desc === 'undefined') _desc = ''
 
@@ -110,13 +110,13 @@ export const ItemCatalog = obc(
                   {_title}
                 </Highlight>
                 {!!_desc && _desc !== _title && (
-                  <Text style={_.mt.sm} size={11} numberOfLines={2}>
+                  <Text style={_.mt.sm} size={11} numberOfLines={_collect ? 2 : 3}>
                     {_desc}
                   </Text>
                 )}
                 {!!_collect && (
                   <Text style={_.mt.xs} size={10} lineHeight={14} type='sub' bold>
-                    {_collect}人收藏
+                    {_collect} 人收藏
                   </Text>
                 )}
               </View>

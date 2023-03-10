@@ -30,6 +30,7 @@ import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { fixedRemote } from '@utils/user-setting'
+import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import { Navigation, TimeLineScope, TimeLineType } from '@types'
 import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/ds'
@@ -465,6 +466,8 @@ export default class ScreenZone extends store {
       feedback()
       info('已添加好友')
       this.fetchUsers()
+
+      webhookFriend(this.usersInfo, userStore.userInfo)
     }
   }
 

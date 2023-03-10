@@ -3,12 +3,15 @@
  * @Author: czy0729
  * @Date: 2023-02-25 17:52:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 03:15:25
+ * @Last Modified time: 2023-03-10 15:44:35
  */
 /** 类型可以到下方文件查看 */
 import {
+  WebHookCatalog,
   WebHookCollection,
   WebHookEp,
+  WebHookFriend,
+  WebHookGroup,
   WebHookMono,
   WebHookSay
 } from '../src/utils/webhooks/types'
@@ -48,7 +51,7 @@ export const say_1: Test<WebHookSay> = {
 /**
  * 更新收藏 (示例1)
  *
- * [咕咕子❶](https://bgm.tv/user/sukaretto) 看过 [异世界舅舅](https://bgm.tv/subject/339326)
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 看过 [异世界舅舅](https://bgm.tv/subject/339326) | [cover]
  * 30秒前
  * */
 export const collection_1: Test<WebHookCollection> = {
@@ -86,7 +89,7 @@ export const collection_1: Test<WebHookCollection> = {
 /**
  * 更新收藏 (示例2)
  *
- * [咕咕子❶](https://bgm.tv/user/sukaretto) 在玩 [KINGDOM HEARTS Melody of Memory](https://bgm.tv/subject/313864)
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 在玩 [KINGDOM HEARTS Melody of Memory](https://bgm.tv/subject/313864) | [cover]
  * KH系列音乐本来就足够好，底子就已经比很多其他改音游的高。...
  * 30秒前 ★★★★☆
  * */
@@ -265,7 +268,7 @@ export const ep_3: Test<WebHookEp> = {
 /**
  * 收藏人物 (示例1: 现实人物)
  *
- * [咕咕子❶](https://bgm.tv/user/sukaretto) 收藏了人物 [佐倉綾音](https://bgm.tv/person/5745)
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 收藏了人物 [佐倉綾音](https://bgm.tv/person/5745) | [cover]
  * 30秒前
  * */
 export const mono_1: Test<WebHookMono> = {
@@ -291,7 +294,7 @@ export const mono_1: Test<WebHookMono> = {
 /**
  * 收藏人物 (示例2: 虚拟角色)
  *
- * [咕咕子❶](https://bgm.tv/user/sukaretto) 收藏了角色 [成沢稜歌](https://bgm.tv/character/39617)
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 收藏了角色 [成沢稜歌](https://bgm.tv/character/39617) | [cover]
  * 30秒前
  * */
 export const mono_2: Test<WebHookMono> = {
@@ -315,15 +318,92 @@ export const mono_2: Test<WebHookMono> = {
 }
 
 /** ==================== 好友 ==================== */
-/** 加为好友 */
+/**
+ * 加为好友 (示例1)
+ *
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 将 [Magma](https://bgm.tv/user/magma) 加为了好友 | [avatar]
+ * 30秒前
+ * */
+export const friend_1: Test<WebHookFriend> = {
+  type: 'friend',
+  data: {
+    friend: {
+      id: 599014,
+      username: 'magma',
+      avatar: 'http://lain.bgm.tv/pic/user/l/000/59/90/599014.jpg?r=1671746776&hd=1',
+      nickname: 'Magma',
+      sign: ''
+    },
+    user: {
+      id: 456208,
+      username: 'sukaretto',
+      avatar: 'http://lain.bgm.tv/pic/user/l/000/45/62/456208.jpg?r=1677056307&hd=1',
+      nickname: '咕咕子❶',
+      sign: '✨️make bangumi great again✨️'
+    },
+    ts: 1678427008
+  }
+}
 
 /** ==================== 小组 ==================== */
-/** 加入小组 */
+/**
+ * 加入小组 (示例1)
+ *
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 加入了 [原神](https://bgm.tv/group/genshin) 小组 | [cover]
+ *    速溶咖啡天下第一，小组群530600378。有可能被他人无法接受的话题，包括但 ...
+ * 30秒前
+ * */
+export const group_1: Test<WebHookGroup> = {
+  type: 'group',
+  data: {
+    group: {
+      id: 'genshin',
+      title: '原神',
+      content:
+        '速溶咖啡天下第一，小组群530600378。\n有可能被他人无法接受的话题，包括但',
+      cover: '//lain.bgm.tv/pic/icon/l/000/00/46/4663.jpg?r=1661952077',
+      create: '创建于 2022-8-31 00:26'
+    },
+    user: {
+      id: 456208,
+      username: 'sukaretto',
+      avatar: 'http://lain.bgm.tv/pic/user/l/000/45/62/456208.jpg?r=1677056307&hd=1',
+      nickname: '咕咕子❶',
+      sign: '✨️make bangumi great again✨️'
+    },
+    ts: 1678428765
+  }
+}
 
 /** ==================== 维基 ==================== */
 /** 创建条目 (暂无) */
 
 /** ==================== 目录 ==================== */
-/** 创建目录 */
+/**
+ * 收藏目录 (示例1)
+ *
+ * [咕咕子❶](https://bgm.tv/user/sukaretto) 收藏了目录： [叶原店A（2009～2022年）漫画Ranking100](https://bgm.tv/group/genshin) 小组 | [cover]
+ *    来源：http://blog.livedoor.jp/geek/archives/51627650.html 8月31日で閉店したとらのあな秋葉原店A ...
+ * 30秒前
+ * */
+export const catalog_1: Test<WebHookCatalog> = {
+  type: 'catalog',
+  data: {
+    catalog: {
+      id: 40304,
+      title: '叶原店A（2009～2022年）漫画Ranking100',
+      content:
+        '来源：http://blog.livedoor.jp/geek/archives/51627650.html 8月31日で閉店したとらのあな秋葉原店A'
+    },
+    user: {
+      id: 456208,
+      username: 'sukaretto',
+      avatar: 'http://lain.bgm.tv/pic/user/l/000/45/62/456208.jpg?r=1677056307&hd=1',
+      nickname: '咕咕子❶',
+      sign: '✨️make bangumi great again✨️'
+    },
+    ts: 1678434059
+  }
+}
 
-/** 收藏目录 */
+/** 创建目录 (暂无) */
