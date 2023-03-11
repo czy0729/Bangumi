@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 03:21:09
+ * @Last Modified time: 2023-03-11 19:30:50
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -14,13 +14,28 @@ import { IOS } from '@constants/constants'
 import { Fn } from '@types'
 import { getSystemStoreAsync, s2tAsync } from '../async'
 
-/** Loading */
-export function loading(text: string = 'Loading...', time: number = 0) {
-  const toastId = Toast.loading(s2tAsync(text), time, () => {
-    if (toastId) Portal.remove(toastId)
-  })
+/**
+ * Loading 指示器
+ * @param text 内容
+ * @param time 指示器持续多少秒, 默认 0s
+ * @param delay 延迟多少毫秒后显示, 默认 1000ms
+ * @returns fn 取消函数
+ */
+export function loading(
+  text: string = 'Loading...',
+  time: number = 0,
+  delay: number = 1000
+) {
+  let toastId: number
+  let timerId = setTimeout(() => {
+    timerId = null
+    toastId = Toast.loading(s2tAsync(text), time, () => {
+      if (toastId) Portal.remove(toastId)
+    })
+  }, delay)
 
   return () => {
+    if (timerId !== null) clearTimeout(timerId)
     if (toastId) Portal.remove(toastId)
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 01:49:07
+ * @Last Modified time: 2023-03-11 19:09:52
  */
 import {
   calendarStore,
@@ -76,7 +76,7 @@ export default class Action extends Fetch {
     this.setState({
       epsReverse: !epsReverse
     })
-    this.setStorage(undefined, undefined, this.namespace)
+    this.setStorage(this.namespace)
   }
 
   /** 吐槽倒序 */
@@ -329,7 +329,7 @@ export default class Action extends Fetch {
     this.setState({
       filterEps
     })
-    this.setStorage(undefined, undefined, this.namespace)
+    this.setStorage(this.namespace)
   }
 
   /** 筛选分数 */
@@ -342,7 +342,7 @@ export default class Action extends Fetch {
     this.setState({
       filterScores: label === '全部' ? [] : label.split('-')
     })
-    this.setStorage(undefined, undefined, this.namespace)
+    this.setStorage(this.namespace)
   }
 
   /** 去用户评分页面 */
@@ -561,7 +561,7 @@ export default class Action extends Fetch {
   }
 
   /** Eps 状态按钮完全动画后, 需要设置关闭才能做下一次动画 */
-  afterFlipEps = debounce(() => {
+  afterEpsFlip = debounce(() => {
     this.setState({
       flipEps: false
     })
@@ -841,6 +841,8 @@ export default class Action extends Fetch {
   /** 章节更新统一入口 */
   doUpdateEp = async ({ eps, vol }: { eps?: any; vol?: any }) => {
     try {
+      this.prepareEpsFlip()
+
       collectionStore.doUpdateSubjectEp(
         {
           subjectId: this.subjectId,
@@ -848,13 +850,11 @@ export default class Action extends Fetch {
           watchedVols: vol
         },
         async () => {
-          feedback()
-
           userStore.fetchUserCollection()
-          userStore.fetchUserProgress(this.subjectId)
-          this.fetchSubjectFormHTML()
-          this.setStorage(undefined, undefined, this.namespace)
-          info('更新成功')
+          await userStore.fetchUserProgress(this.subjectId)
+          await this.fetchSubjectFormHTML()
+          this.setStorage(this.namespace)
+          this.afterEpsFlip()
 
           webhookEp(
             {

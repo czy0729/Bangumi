@@ -31,7 +31,7 @@ function Eps(props, { $, navigation }: Ctx) {
       userProgress={$.userProgress}
       canPlay={showPlay}
       flip={$.state.flipEps}
-      onFliped={$.afterFlipEps}
+      onFliped={$.afterEpsFlip}
       onSelect={(value, item: InferArray<typeof $.toEps>) =>
         $.doEpsSelect(value, item, navigation)
       }

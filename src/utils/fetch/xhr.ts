@@ -1,10 +1,9 @@
 /*
  * 使用 new XMLHttpRequest 的请求
- *
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:06:16
+ * @Last Modified time: 2023-03-11 19:14:21
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { Fn } from '@types'
